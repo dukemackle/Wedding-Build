@@ -13,3 +13,7 @@ This repo exists so Duke can practice the full GitHub workflow:
 ## Fun fact
 
 Octopuses have three hearts and blue blood.
+
+## Another fun fact
+
+A group of flamingos is called a "flamboyance."
