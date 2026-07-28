@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Home() {
   return (
     <main className="flex flex-1 items-center justify-center px-6 py-24">
@@ -12,9 +14,18 @@ export default function Home() {
           Budget, venues, guests, and vendors — all in one account.
         </p>
         <div className="mt-8 flex items-center justify-center gap-3">
-          <span className="rounded-full border border-hairline bg-parchment px-4 py-1.5 font-mono-numbers text-sm text-forest">
-            Scaffold live
-          </span>
+          <Link
+            href="/login"
+            className="rounded-full border border-hairline bg-parchment px-4 py-1.5 font-mono-numbers text-sm text-forest transition-colors hover:border-forest"
+          >
+            Log in
+          </Link>
+          <Link
+            href="/signup"
+            className="rounded-full bg-forest px-4 py-1.5 font-mono-numbers text-sm text-parchment transition-colors hover:bg-forest/90"
+          >
+            Sign up
+          </Link>
         </div>
       </div>
     </main>
