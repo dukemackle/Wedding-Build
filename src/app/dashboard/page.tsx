@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { signOut } from "@/lib/supabase/actions";
+import { AppNav } from "@/components/app-nav";
 import { WeddingDashboard } from "./wedding-dashboard";
 import type { Wedding } from "@/lib/supabase/types";
 
@@ -22,18 +22,7 @@ export default async function DashboardPage() {
 
   return (
     <main className="flex flex-1 flex-col items-center px-6 py-16">
-      <div className="mb-6 flex w-full max-w-2xl items-center justify-between">
-        <span className="font-mono-numbers text-sm text-ink/60">{user.email}</span>
-        <form action={signOut}>
-          <button
-            type="submit"
-            className="font-mono-numbers text-sm text-brass hover:underline"
-          >
-            Log out
-          </button>
-        </form>
-      </div>
-
+      <AppNav email={user.email ?? ""} />
       <WeddingDashboard initialWedding={wedding} />
     </main>
   );
