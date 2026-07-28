@@ -1,6 +1,8 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { signOut } from "@/lib/supabase/actions";
+import { WeddingDashboard } from "./wedding-dashboard";
+import type { Wedding } from "@/lib/supabase/types";
 
 export default async function DashboardPage() {
   const supabase = await createClient();
@@ -12,28 +14,27 @@ export default async function DashboardPage() {
     redirect("/login");
   }
 
+  const { data: wedding } = await supabase
+    .from("weddings")
+    .select("*")
+    .eq("user_id", user.id)
+    .maybeSingle<Wedding>();
+
   return (
-    <main className="flex flex-1 items-center justify-center px-6 py-24">
-      <div className="w-full max-w-md rounded-lg border border-hairline bg-card p-10 text-center shadow-sm">
-        <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
-          Signed in
-        </p>
-        <h1 className="mt-2 font-display text-3xl font-semibold text-forest">
-          Welcome
-        </h1>
-        <p className="mt-3 font-mono-numbers text-sm text-ink/80">{user.email}</p>
-        <p className="mt-6 text-sm text-ink/60">
-          This is a placeholder — the real Dashboard module comes in Step 3.
-        </p>
-        <form action={signOut} className="mt-6">
+    <main className="flex flex-1 flex-col items-center px-6 py-16">
+      <div className="mb-6 flex w-full max-w-2xl items-center justify-between">
+        <span className="font-mono-numbers text-sm text-ink/60">{user.email}</span>
+        <form action={signOut}>
           <button
             type="submit"
-            className="rounded-full border border-hairline bg-parchment px-4 py-1.5 font-mono-numbers text-sm text-forest transition-colors hover:border-forest"
+            className="font-mono-numbers text-sm text-brass hover:underline"
           >
             Log out
           </button>
         </form>
       </div>
+
+      <WeddingDashboard initialWedding={wedding} />
     </main>
   );
 }
