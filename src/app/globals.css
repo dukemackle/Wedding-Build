@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+:root {
+  --color-parchment: #f3eee2;
+  --color-card: #fbf8f1;
+  --color-hairline: #c9bfa6;
+  --color-forest: #1f3d2e;
+  --color-brass: #a9843c;
+  --color-ink: #16241c;
+}
+
+@theme inline {
+  --color-parchment: var(--color-parchment);
+  --color-card: var(--color-card);
+  --color-hairline: var(--color-hairline);
+  --color-forest: var(--color-forest);
+  --color-brass: var(--color-brass);
+  --color-ink: var(--color-ink);
+
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+  --font-mono-numbers: var(--font-mono-numbers);
+}
