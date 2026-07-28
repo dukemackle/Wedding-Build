@@ -4,12 +4,7 @@ import { signOut } from "@/lib/supabase/actions";
 import { WeddingDashboard } from "./wedding-dashboard";
 import type { Wedding } from "@/lib/supabase/types";
 
-export default async function DashboardPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ error?: string }>;
-}) {
-  const { error } = await searchParams;
+export default async function DashboardPage() {
   const supabase = await createClient();
   const {
     data: { user },
@@ -39,7 +34,7 @@ export default async function DashboardPage({
         </form>
       </div>
 
-      <WeddingDashboard initialWedding={wedding} error={error} />
+      <WeddingDashboard initialWedding={wedding} />
     </main>
   );
 }

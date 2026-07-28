@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { saveWedding } from "./actions";
 import type { Wedding } from "@/lib/supabase/types";
 import { REGIONS, SEASONS, STYLE_TIERS, VENUE_TYPES } from "@/lib/wedding-options";
@@ -32,13 +32,17 @@ const labelClass = "flex flex-col gap-1 text-sm text-ink";
 
 function WeddingForm({
   wedding,
+  onSave,
+  pending,
   onCancel,
 }: {
   wedding: Wedding | null;
+  onSave: (formData: FormData) => void;
+  pending: boolean;
   onCancel?: () => void;
 }) {
   return (
-    <form action={saveWedding} className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+    <form action={onSave} className="grid grid-cols-1 gap-4 sm:grid-cols-2">
       <label className={labelClass}>
         Partner A&apos;s name
         <input
@@ -154,9 +158,10 @@ function WeddingForm({
       <div className="col-span-full mt-2 flex items-center gap-3">
         <button
           type="submit"
-          className="rounded-md bg-forest px-4 py-2 font-medium text-parchment transition-colors hover:bg-forest/90"
+          disabled={pending}
+          className="rounded-md bg-forest px-4 py-2 font-medium text-parchment transition-colors hover:bg-forest/90 disabled:opacity-60"
         >
-          Save
+          {pending ? "Saving..." : "Save"}
         </button>
         {onCancel && (
           <button
@@ -226,12 +231,24 @@ function WeddingSummary({
 
 export function WeddingDashboard({
   initialWedding,
-  error,
 }: {
   initialWedding: Wedding | null;
-  error?: string;
 }) {
   const [isEditing, setIsEditing] = useState(!initialWedding);
+  const [error, setError] = useState<string | undefined>(undefined);
+  const [isPending, startTransition] = useTransition();
+
+  function handleSave(formData: FormData) {
+    startTransition(async () => {
+      const result = await saveWedding(formData);
+      if (result?.error) {
+        setError(result.error);
+      } else {
+        setError(undefined);
+        setIsEditing(false);
+      }
+    });
+  }
 
   return (
     <div className="w-full max-w-2xl rounded-lg border border-hairline bg-card p-10 shadow-sm">
@@ -255,6 +272,8 @@ export function WeddingDashboard({
       {isEditing ? (
         <WeddingForm
           wedding={initialWedding}
+          onSave={handleSave}
+          pending={isPending}
           onCancel={initialWedding ? () => setIsEditing(false) : undefined}
         />
       ) : (

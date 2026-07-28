@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 
-export async function saveWedding(formData: FormData) {
+export async function saveWedding(formData: FormData): Promise<{ error?: string }> {
   const supabase = await createClient();
   const {
     data: { user },
@@ -35,8 +35,9 @@ export async function saveWedding(formData: FormData) {
   );
 
   if (error) {
-    redirect(`/dashboard?error=${encodeURIComponent(error.message)}`);
+    return { error: error.message };
   }
 
   revalidatePath("/dashboard");
+  return {};
 }
