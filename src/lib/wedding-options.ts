@@ -22,6 +22,17 @@ export const VENUE_TYPES = [
   "Restaurant / Vineyard",
 ] as const;
 
+export const ATTIRE_CATEGORIES = [
+  "Wedding Dress",
+  "Bridesmaid Dress",
+  "Groom Attire",
+  "Groomsmen Attire",
+  "Ring - Her",
+  "Ring - Him",
+] as const;
+
+export const BUY_OR_RENT_OPTIONS = ["Buy", "Rent", "Buy or Rent"] as const;
+
 export const STATES = [
   "Alabama",
   "Alaska",

@@ -1,0 +1,6 @@
+<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of a diamond engagement ring">
+  <rect width="400" height="300" fill="#FBF8F1"/>
+  <circle cx="200" cy="190" r="60" fill="none" stroke="#1F3D2E" stroke-width="6"/>
+  <path d="M200 90 L225 125 L200 160 L175 125 Z" fill="#A9843C" stroke="#1F3D2E" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M182 125 H218 M190 110 L200 125 L210 110" stroke="#FBF8F1" stroke-width="2" fill="none"/>
+</svg>
