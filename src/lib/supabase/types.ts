@@ -49,3 +49,28 @@ export type VenueShortlistEntry = {
   notes: string | null;
   created_at: string;
 };
+
+export type Vendor = {
+  id: string;
+  name: string;
+  category: string | null;
+  region: string | null;
+  price_tier: string | null;
+  description: string | null;
+  contact_email: string | null;
+  created_at: string;
+};
+
+export type VendorInquiryStatus = "sent" | "responded" | "booked" | "declined";
+
+export type VendorInquiry = {
+  id: string;
+  wedding_id: string;
+  user_id: string;
+  vendor_id: string | null;
+  vendor_name: string;
+  category: string | null;
+  message: string | null;
+  sent_at: string;
+  status: VendorInquiryStatus;
+};
