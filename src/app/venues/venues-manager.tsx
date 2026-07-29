@@ -77,7 +77,13 @@ function VenueCard({ venue, isShortlisted }: { venue: Venue; isShortlisted: bool
           )}
         </div>
         <p className="text-xs uppercase tracking-wide text-ink/50">
-          {[venue.state, venue.region, venue.venue_type].filter(Boolean).join(" · ")}
+          {[
+            [venue.city, venue.state].filter(Boolean).join(", "),
+            venue.region,
+            venue.venue_type,
+          ]
+            .filter(Boolean)
+            .join(" · ")}
         </p>
         {venue.capacity && (
           <p className="mt-1 font-mono-numbers text-sm text-ink/70">
@@ -141,6 +147,7 @@ export function VenuesManager({
   const [regionFilter, setRegionFilter] = useState<string | "all">("all");
   const [typeFilter, setTypeFilter] = useState<string | "all">("all");
   const [stateFilter, setStateFilter] = useState<string | "all">("all");
+  const [cityFilter, setCityFilter] = useState<string | "all">("all");
 
   const shortlistedIds = new Set(shortlist.map((s) => s.venue_id));
   const venueById = new Map(venues.map((v) => [v.id, v]));
@@ -151,11 +158,30 @@ export function VenuesManager({
     [venues],
   );
 
+  const availableCities = useMemo(
+    () =>
+      Array.from(
+        new Set(
+          venues
+            .filter((v) => stateFilter === "all" || v.state === stateFilter)
+            .map((v) => v.city)
+            .filter((c): c is string => Boolean(c)),
+        ),
+      ).sort(),
+    [venues, stateFilter],
+  );
+
+  function handleStateFilterChange(value: string) {
+    setStateFilter(value);
+    setCityFilter("all");
+  }
+
   const filteredVenues = venues.filter(
     (v) =>
       (regionFilter === "all" || v.region === regionFilter) &&
       (typeFilter === "all" || v.venue_type === typeFilter) &&
-      (stateFilter === "all" || v.state === stateFilter),
+      (stateFilter === "all" || v.state === stateFilter) &&
+      (cityFilter === "all" || v.city === cityFilter),
   );
 
   return (
@@ -176,23 +202,44 @@ export function VenuesManager({
       )}
 
       <div className="rounded-lg border border-hairline bg-card p-6 shadow-sm">
-        <div className="mb-4">
-          <label htmlFor="state-filter" className="mb-1 block text-xs uppercase tracking-wide text-ink/50">
-            State
-          </label>
-          <select
-            id="state-filter"
-            value={stateFilter}
-            onChange={(e) => setStateFilter(e.target.value)}
-            className="w-full max-w-xs rounded-md border border-hairline bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-forest sm:w-auto"
-          >
-            <option value="all">All states</option>
-            {availableStates.map((state) => (
-              <option key={state} value={state}>
-                {state}
-              </option>
-            ))}
-          </select>
+        <div className="mb-4 flex flex-wrap gap-4">
+          <div>
+            <label htmlFor="state-filter" className="mb-1 block text-xs uppercase tracking-wide text-ink/50">
+              State
+            </label>
+            <select
+              id="state-filter"
+              value={stateFilter}
+              onChange={(e) => handleStateFilterChange(e.target.value)}
+              className="w-full max-w-xs rounded-md border border-hairline bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-forest sm:w-auto"
+            >
+              <option value="all">All states</option>
+              {availableStates.map((state) => (
+                <option key={state} value={state}>
+                  {state}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label htmlFor="city-filter" className="mb-1 block text-xs uppercase tracking-wide text-ink/50">
+              City
+            </label>
+            <select
+              id="city-filter"
+              value={cityFilter}
+              onChange={(e) => setCityFilter(e.target.value)}
+              disabled={availableCities.length === 0}
+              className="w-full max-w-xs rounded-md border border-hairline bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-forest disabled:opacity-50 sm:w-auto"
+            >
+              <option value="all">All cities</option>
+              {availableCities.map((city) => (
+                <option key={city} value={city}>
+                  {city}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
         <div className="mb-4 flex flex-wrap gap-2">
           <button
