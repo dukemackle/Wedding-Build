@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useMemo, useState, useTransition } from "react";
 import type { Venue, VenueShortlistEntry } from "@/lib/supabase/types";
 import { REGIONS, VENUE_TYPES } from "@/lib/wedding-options";
 import { toggleShortlist, updateShortlistNotes } from "./actions";
@@ -55,7 +55,7 @@ function VenueCard({ venue, isShortlisted }: { venue: Venue; isShortlisted: bool
         )}
       </div>
       <p className="text-xs uppercase tracking-wide text-ink/50">
-        {[venue.region, venue.venue_type].filter(Boolean).join(" · ")}
+        {[venue.state, venue.region, venue.venue_type].filter(Boolean).join(" · ")}
       </p>
       {venue.capacity && (
         <p className="mt-1 font-mono-numbers text-sm text-ink/70">
@@ -117,14 +117,22 @@ export function VenuesManager({
 }) {
   const [regionFilter, setRegionFilter] = useState<string | "all">("all");
   const [typeFilter, setTypeFilter] = useState<string | "all">("all");
+  const [stateFilter, setStateFilter] = useState<string | "all">("all");
 
   const shortlistedIds = new Set(shortlist.map((s) => s.venue_id));
   const venueById = new Map(venues.map((v) => [v.id, v]));
 
+  const availableStates = useMemo(
+    () =>
+      Array.from(new Set(venues.map((v) => v.state).filter((s): s is string => Boolean(s)))).sort(),
+    [venues],
+  );
+
   const filteredVenues = venues.filter(
     (v) =>
       (regionFilter === "all" || v.region === regionFilter) &&
-      (typeFilter === "all" || v.venue_type === typeFilter),
+      (typeFilter === "all" || v.venue_type === typeFilter) &&
+      (stateFilter === "all" || v.state === stateFilter),
   );
 
   return (
@@ -145,6 +153,24 @@ export function VenuesManager({
       )}
 
       <div className="rounded-lg border border-hairline bg-card p-6 shadow-sm">
+        <div className="mb-4">
+          <label htmlFor="state-filter" className="mb-1 block text-xs uppercase tracking-wide text-ink/50">
+            State
+          </label>
+          <select
+            id="state-filter"
+            value={stateFilter}
+            onChange={(e) => setStateFilter(e.target.value)}
+            className="w-full max-w-xs rounded-md border border-hairline bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-forest sm:w-auto"
+          >
+            <option value="all">All states</option>
+            {availableStates.map((state) => (
+              <option key={state} value={state}>
+                {state}
+              </option>
+            ))}
+          </select>
+        </div>
         <div className="mb-4 flex flex-wrap gap-2">
           <button
             onClick={() => setRegionFilter("all")}

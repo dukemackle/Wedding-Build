@@ -33,6 +33,7 @@ export type Venue = {
   id: string;
   name: string;
   region: string | null;
+  state: string | null;
   venue_type: string | null;
   capacity: number | null;
   price_tier: string | null;
