@@ -121,7 +121,7 @@ select * from (values
   ('Sonoma Officiants', 'Officiant', 'West Coast', 'California', 'Classic', 'Personalized, non-denominational ceremony officiating near Sonoma, in California.', 'hello@sonomaofficiant.example'),
   ('Sonoma Photography Co.', 'Photography', 'West Coast', 'California', 'Luxury', 'Documentary-style wedding photography based near Sonoma, in California.', 'hello@sonomaphotography.example'),
   ('Kailua Films', 'Videography', 'West Coast', 'Hawaii', 'Luxury', 'Cinematic highlight films and drone coverage, based near Kailua, in Hawaii.', 'hello@kailuavideography.example'),
-  ('Kailua Catering', 'Catering', 'West Coast', 'Hawaii', 'Simple', 'Farm-to-table plated dinners and family-style service near Kailua, in Hawaii.', 'hello@kailuacatering.example');
+  ('Kailua Catering', 'Catering', 'West Coast', 'Hawaii', 'Simple', 'Farm-to-table plated dinners and family-style service near Kailua, in Hawaii.', 'hello@kailuacatering.example')
 ) as seed(name, category, region, state, price_tier, description, contact_email)
 where not exists (
   select 1 from vendors where vendors.name = seed.name
