@@ -6,6 +6,7 @@ const links = [
   { href: "/budget", label: "Budget" },
   { href: "/guests", label: "Guests" },
   { href: "/venues", label: "Venues" },
+  { href: "/vendors", label: "Vendors" },
 ];
 
 export function AppNav({
