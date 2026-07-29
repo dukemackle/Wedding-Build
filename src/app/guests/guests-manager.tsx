@@ -2,7 +2,7 @@
 
 import { useRef, useState, useTransition } from "react";
 import type { Guest, GuestStatus } from "@/lib/supabase/types";
-import { addGuest, updateGuest, deleteGuest } from "./actions";
+import { addGuest, updateGuest, deleteGuest, importGuestsFromCsv } from "./actions";
 
 const STATUSES: GuestStatus[] = ["invited", "confirmed", "declined", "pending"];
 
@@ -133,6 +133,82 @@ function AddGuestForm({ onDone }: { onDone: () => void }) {
   );
 }
 
+function ImportCsvForm({ onDone }: { onDone: () => void }) {
+  const [error, setError] = useState<string | undefined>(undefined);
+  const [result, setResult] = useState<{ imported: number; skipped: number } | undefined>(
+    undefined,
+  );
+  const [isPending, startTransition] = useTransition();
+  const formRef = useRef<HTMLFormElement>(null);
+
+  function handleSubmit(formData: FormData) {
+    startTransition(async () => {
+      const response = await importGuestsFromCsv(formData);
+      if (response?.error) {
+        setError(response.error);
+        setResult(undefined);
+      } else {
+        setError(undefined);
+        setResult({ imported: response.imported ?? 0, skipped: response.skipped ?? 0 });
+        formRef.current?.reset();
+      }
+    });
+  }
+
+  return (
+    <form
+      ref={formRef}
+      action={handleSubmit}
+      className="mb-6 rounded-lg border border-hairline bg-parchment p-6"
+    >
+      <p className="text-sm text-ink">
+        Upload a CSV with columns: <code className="font-mono-numbers text-xs">name</code>{" "}
+        (required), <code className="font-mono-numbers text-xs">household</code>,{" "}
+        <code className="font-mono-numbers text-xs">plus_one</code> (yes/no),{" "}
+        <code className="font-mono-numbers text-xs">status</code> (invited/confirmed/declined/
+        pending), <code className="font-mono-numbers text-xs">meal</code>,{" "}
+        <code className="font-mono-numbers text-xs">notes</code>.{" "}
+        <a href="/guests-template.csv" download className="text-brass hover:underline">
+          Download a template
+        </a>
+        .
+      </p>
+      <input
+        type="file"
+        name="file"
+        accept=".csv,text/csv"
+        required
+        className="mt-3 block w-full text-sm text-ink file:mr-3 file:rounded-md file:border file:border-hairline file:bg-card file:px-3 file:py-1.5 file:text-sm file:text-ink hover:file:border-forest"
+      />
+      {error && <p className="mt-3 text-sm text-red-800">{error}</p>}
+      {result && (
+        <p className="mt-3 text-sm text-forest">
+          Imported {result.imported} guest{result.imported === 1 ? "" : "s"}
+          {result.skipped > 0
+            ? ` — skipped ${result.skipped} row${result.skipped === 1 ? "" : "s"} without a name.`
+            : "."}
+        </p>
+      )}
+      <div className="mt-4 flex items-center gap-3">
+        <button
+          type="submit"
+          disabled={isPending}
+          className="rounded-md bg-forest px-4 py-2 font-medium text-parchment transition-colors hover:bg-forest/90 disabled:opacity-60"
+        >
+          {isPending ? "Importing..." : "Import CSV"}
+        </button>
+        <button
+          type="button"
+          onClick={onDone}
+          className="rounded-md border border-hairline px-4 py-2 font-medium text-ink transition-colors hover:border-forest"
+        >
+          Close
+        </button>
+      </div>
+    </form>
+  );
+}
+
 function GuestRow({ guest }: { guest: Guest }) {
   const [isEditing, setIsEditing] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
@@ -231,6 +307,7 @@ function GuestRow({ guest }: { guest: Guest }) {
 export function GuestsManager({ guests }: { guests: Guest[] }) {
   const [filter, setFilter] = useState<GuestStatus | "all">("all");
   const [showAddForm, setShowAddForm] = useState(false);
+  const [showImportForm, setShowImportForm] = useState(false);
 
   const counts: Record<GuestStatus | "all", number> = {
     all: guests.length,
@@ -254,15 +331,30 @@ export function GuestsManager({ guests }: { guests: Guest[] }) {
           confirmed headcount — feeds your Budget guest count unless overridden on the
           Dashboard.
         </p>
-        <button
-          onClick={() => setShowAddForm((v) => !v)}
-          className="rounded-full bg-forest px-4 py-1.5 font-mono-numbers text-sm text-parchment transition-colors hover:bg-forest/90"
-        >
-          {showAddForm ? "Close" : "+ Add guest"}
-        </button>
+        <div className="flex flex-wrap gap-2">
+          <button
+            onClick={() => {
+              setShowAddForm((v) => !v);
+              setShowImportForm(false);
+            }}
+            className="rounded-full bg-forest px-4 py-1.5 font-mono-numbers text-sm text-parchment transition-colors hover:bg-forest/90"
+          >
+            {showAddForm ? "Close" : "+ Add guest"}
+          </button>
+          <button
+            onClick={() => {
+              setShowImportForm((v) => !v);
+              setShowAddForm(false);
+            }}
+            className="rounded-full border border-hairline bg-parchment px-4 py-1.5 font-mono-numbers text-sm text-ink transition-colors hover:border-forest"
+          >
+            {showImportForm ? "Close" : "Import CSV"}
+          </button>
+        </div>
       </div>
 
       {showAddForm && <AddGuestForm onDone={() => setShowAddForm(false)} />}
+      {showImportForm && <ImportCsvForm onDone={() => setShowImportForm(false)} />}
 
       <div className="mb-6 flex flex-wrap gap-2">
         {(["all", ...STATUSES] as const).map((status) => (
