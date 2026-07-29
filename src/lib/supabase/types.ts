@@ -35,6 +35,8 @@ export type Venue = {
   region: string | null;
   state: string | null;
   city: string | null;
+  latitude: number | null;
+  longitude: number | null;
   venue_type: string | null;
   capacity: number | null;
   price_tier: string | null;
@@ -57,6 +59,10 @@ export type Vendor = {
   name: string;
   category: string | null;
   region: string | null;
+  state: string | null;
+  city: string | null;
+  latitude: number | null;
+  longitude: number | null;
   price_tier: string | null;
   description: string | null;
   contact_email: string | null;

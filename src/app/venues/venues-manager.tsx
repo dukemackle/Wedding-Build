@@ -1,10 +1,21 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useMemo, useState, useTransition } from "react";
 import type { Venue, VenueShortlistEntry } from "@/lib/supabase/types";
 import { REGIONS, VENUE_TYPES } from "@/lib/wedding-options";
-import { toggleShortlist, updateShortlistNotes } from "./actions";
+import { updateShortlistNotes } from "./actions";
+import { ShortlistButton } from "./venue-card-shared";
+
+const VenuesMap = dynamic(() => import("./venues-map").then((m) => m.VenuesMap), {
+  ssr: false,
+  loading: () => (
+    <div className="flex h-[520px] w-full items-center justify-center rounded-md border border-hairline text-sm text-ink/50">
+      Loading map...
+    </div>
+  ),
+});
 
 const VENUE_TYPE_IMAGES: Record<string, string> = {
   "Barn / Rustic": "/venue-types/barn-rustic.svg",
@@ -15,44 +26,6 @@ const VENUE_TYPE_IMAGES: Record<string, string> = {
   "Restaurant / Vineyard": "/venue-types/restaurant-vineyard.svg",
 };
 const DEFAULT_VENUE_IMAGE = "/venue-types/historic-estate.svg";
-
-function ShortlistButton({
-  venueId,
-  isShortlisted,
-}: {
-  venueId: string;
-  isShortlisted: boolean;
-}) {
-  const [shortlisted, setShortlisted] = useState(isShortlisted);
-  const [isPending, startTransition] = useTransition();
-
-  function handleClick() {
-    const formData = new FormData();
-    formData.set("venue_id", venueId);
-    formData.set("is_shortlisted", String(shortlisted));
-
-    startTransition(async () => {
-      const result = await toggleShortlist(formData);
-      if (!result?.error) {
-        setShortlisted((v) => !v);
-      }
-    });
-  }
-
-  return (
-    <button
-      onClick={handleClick}
-      disabled={isPending}
-      className={`rounded-full border px-3 py-1 text-sm transition-colors disabled:opacity-60 ${
-        shortlisted
-          ? "border-forest bg-forest text-parchment"
-          : "border-hairline bg-parchment text-ink hover:border-forest"
-      }`}
-    >
-      {shortlisted ? "✓ Shortlisted" : "+ Shortlist"}
-    </button>
-  );
-}
 
 function VenueCard({ venue, isShortlisted }: { venue: Venue; isShortlisted: boolean }) {
   const image =
@@ -148,6 +121,7 @@ export function VenuesManager({
   const [typeFilter, setTypeFilter] = useState<string | "all">("all");
   const [stateFilter, setStateFilter] = useState<string | "all">("all");
   const [cityFilter, setCityFilter] = useState<string | "all">("all");
+  const [viewMode, setViewMode] = useState<"list" | "map">("list");
 
   const shortlistedIds = new Set(shortlist.map((s) => s.venue_id));
   const venueById = new Map(venues.map((v) => [v.id, v]));
@@ -292,12 +266,37 @@ export function VenuesManager({
           ))}
         </div>
 
+        <div className="mb-6 flex gap-2">
+          <button
+            onClick={() => setViewMode("list")}
+            className={`rounded-full border px-3 py-1 text-sm transition-colors ${
+              viewMode === "list"
+                ? "border-forest bg-forest text-parchment"
+                : "border-hairline bg-parchment text-ink hover:border-forest"
+            }`}
+          >
+            List view
+          </button>
+          <button
+            onClick={() => setViewMode("map")}
+            className={`rounded-full border px-3 py-1 text-sm transition-colors ${
+              viewMode === "map"
+                ? "border-forest bg-forest text-parchment"
+                : "border-hairline bg-parchment text-ink hover:border-forest"
+            }`}
+          >
+            Map view
+          </button>
+        </div>
+
         {filteredVenues.length === 0 ? (
           <p className="py-8 text-center text-sm text-ink/50">
             {venues.length === 0
               ? "No venues have been added yet."
               : "No venues match these filters."}
           </p>
+        ) : viewMode === "map" ? (
+          <VenuesMap venues={filteredVenues} shortlistedIds={shortlistedIds} />
         ) : (
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             {filteredVenues.map((venue) => (
