@@ -54,17 +54,25 @@ export async function sendVendorInquiry(formData: FormData): Promise<{ error?: s
     .filter(Boolean)
     .join(" & ");
 
-  const resend = getResendClient();
-  const { error: sendError } = await resend.emails.send({
-    from: INQUIRY_FROM_ADDRESS,
-    to: recipientEmail,
-    replyTo: user.email,
-    subject: `Wedding inquiry from ${coupleNames || user.email}`,
-    text: message,
-  });
+  if (!process.env.RESEND_API_KEY) {
+    return { error: "Email sending isn't configured (missing RESEND_API_KEY)." };
+  }
 
-  if (sendError) {
-    return { error: sendError.message };
+  try {
+    const resend = getResendClient();
+    const { error: sendError } = await resend.emails.send({
+      from: INQUIRY_FROM_ADDRESS,
+      to: recipientEmail,
+      replyTo: user.email,
+      subject: `Wedding inquiry from ${coupleNames || user.email}`,
+      text: message,
+    });
+
+    if (sendError) {
+      return { error: sendError.message };
+    }
+  } catch (err) {
+    return { error: err instanceof Error ? err.message : "Failed to send the email." };
   }
 
   const { error: dbError } = await supabase.from("vendor_inquiries").insert({
