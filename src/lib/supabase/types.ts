@@ -12,3 +12,24 @@ export type Wedding = {
   created_at: string;
   updated_at: string;
 };
+
+export type Venue = {
+  id: string;
+  name: string;
+  region: string | null;
+  venue_type: string | null;
+  capacity: number | null;
+  price_tier: string | null;
+  description: string | null;
+  image_url: string | null;
+  created_at: string;
+};
+
+export type VenueShortlistEntry = {
+  id: string;
+  wedding_id: string;
+  user_id: string;
+  venue_id: string;
+  notes: string | null;
+  created_at: string;
+};
