@@ -1,9 +1,19 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import dynamic from "next/dynamic";
+import { useMemo, useState, useTransition } from "react";
 import type { Vendor, VendorInquiry, VendorInquiryStatus } from "@/lib/supabase/types";
 import { REGIONS } from "@/lib/wedding-options";
 import { sendVendorInquiry, updateInquiryStatus } from "./actions";
+
+const VendorsMap = dynamic(() => import("./vendors-map").then((m) => m.VendorsMap), {
+  ssr: false,
+  loading: () => (
+    <div className="flex h-[520px] w-full items-center justify-center rounded-md border border-hairline text-sm text-ink/50">
+      Loading map...
+    </div>
+  ),
+});
 
 const STATUSES: VendorInquiryStatus[] = ["sent", "responded", "booked", "declined"];
 
@@ -97,7 +107,13 @@ function VendorCard({ vendor }: { vendor: Vendor }) {
         )}
       </div>
       <p className="text-xs uppercase tracking-wide text-ink/50">
-        {[vendor.category, vendor.region].filter(Boolean).join(" · ")}
+        {[
+          [vendor.city, vendor.state].filter(Boolean).join(", "),
+          vendor.category,
+          vendor.region,
+        ]
+          .filter(Boolean)
+          .join(" · ")}
       </p>
       {vendor.description && <p className="mt-3 text-sm text-ink/80">{vendor.description}</p>}
 
@@ -172,15 +188,44 @@ export function VendorsManager({
 }) {
   const [categoryFilter, setCategoryFilter] = useState<string | "all">("all");
   const [regionFilter, setRegionFilter] = useState<string | "all">("all");
+  const [stateFilter, setStateFilter] = useState<string | "all">("all");
+  const [cityFilter, setCityFilter] = useState<string | "all">("all");
+  const [viewMode, setViewMode] = useState<"list" | "map">("list");
 
   const categories = Array.from(
     new Set(vendors.map((v) => v.category).filter((c): c is string => Boolean(c))),
   );
 
+  const availableStates = useMemo(
+    () =>
+      Array.from(new Set(vendors.map((v) => v.state).filter((s): s is string => Boolean(s)))).sort(),
+    [vendors],
+  );
+
+  const availableCities = useMemo(
+    () =>
+      Array.from(
+        new Set(
+          vendors
+            .filter((v) => stateFilter === "all" || v.state === stateFilter)
+            .map((v) => v.city)
+            .filter((c): c is string => Boolean(c)),
+        ),
+      ).sort(),
+    [vendors, stateFilter],
+  );
+
+  function handleStateFilterChange(value: string) {
+    setStateFilter(value);
+    setCityFilter("all");
+  }
+
   const filteredVendors = vendors.filter(
     (v) =>
       (categoryFilter === "all" || v.category === categoryFilter) &&
-      (regionFilter === "all" || v.region === regionFilter),
+      (regionFilter === "all" || v.region === regionFilter) &&
+      (stateFilter === "all" || v.state === stateFilter) &&
+      (cityFilter === "all" || v.city === cityFilter),
   );
 
   return (
@@ -199,6 +244,45 @@ export function VendorsManager({
       )}
 
       <div className="rounded-lg border border-hairline bg-card p-6 shadow-sm">
+        <div className="mb-4 flex flex-wrap gap-4">
+          <div>
+            <label htmlFor="vendor-state-filter" className="mb-1 block text-xs uppercase tracking-wide text-ink/50">
+              State
+            </label>
+            <select
+              id="vendor-state-filter"
+              value={stateFilter}
+              onChange={(e) => handleStateFilterChange(e.target.value)}
+              className="w-full max-w-xs rounded-md border border-hairline bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-forest sm:w-auto"
+            >
+              <option value="all">All states</option>
+              {availableStates.map((state) => (
+                <option key={state} value={state}>
+                  {state}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label htmlFor="vendor-city-filter" className="mb-1 block text-xs uppercase tracking-wide text-ink/50">
+              City
+            </label>
+            <select
+              id="vendor-city-filter"
+              value={cityFilter}
+              onChange={(e) => setCityFilter(e.target.value)}
+              disabled={availableCities.length === 0}
+              className="w-full max-w-xs rounded-md border border-hairline bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-forest disabled:opacity-50 sm:w-auto"
+            >
+              <option value="all">All cities</option>
+              {availableCities.map((city) => (
+                <option key={city} value={city}>
+                  {city}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
         <div className="mb-4 flex flex-wrap gap-2">
           <button
             onClick={() => setCategoryFilter("all")}
@@ -250,12 +334,37 @@ export function VendorsManager({
           ))}
         </div>
 
+        <div className="mb-6 flex gap-2">
+          <button
+            onClick={() => setViewMode("list")}
+            className={`rounded-full border px-3 py-1 text-sm transition-colors ${
+              viewMode === "list"
+                ? "border-forest bg-forest text-parchment"
+                : "border-hairline bg-parchment text-ink hover:border-forest"
+            }`}
+          >
+            List view
+          </button>
+          <button
+            onClick={() => setViewMode("map")}
+            className={`rounded-full border px-3 py-1 text-sm transition-colors ${
+              viewMode === "map"
+                ? "border-forest bg-forest text-parchment"
+                : "border-hairline bg-parchment text-ink hover:border-forest"
+            }`}
+          >
+            Map view
+          </button>
+        </div>
+
         {filteredVendors.length === 0 ? (
           <p className="py-8 text-center text-sm text-ink/50">
             {vendors.length === 0
               ? "No vendors have been added yet."
               : "No vendors match these filters."}
           </p>
+        ) : viewMode === "map" ? (
+          <VendorsMap vendors={filteredVendors} />
         ) : (
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             {filteredVendors.map((vendor) => (
