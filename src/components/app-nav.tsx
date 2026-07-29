@@ -4,6 +4,7 @@ import { signOut } from "@/lib/supabase/actions";
 const links = [
   { href: "/dashboard", label: "Dashboard" },
   { href: "/budget", label: "Budget" },
+  { href: "/guests", label: "Guests" },
   { href: "/venues", label: "Venues" },
 ];
 
