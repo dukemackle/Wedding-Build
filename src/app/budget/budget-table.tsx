@@ -51,7 +51,7 @@ function BudgetRowItem({ row }: { row: BudgetRow }) {
 
   return (
     <div className="flex flex-col gap-2 border-b border-hairline py-4 last:border-b-0">
-      <div className="flex items-center justify-between gap-4">
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <p className="text-ink">{row.label}</p>
           {row.isPerGuest && (
@@ -60,7 +60,7 @@ function BudgetRowItem({ row }: { row: BudgetRow }) {
         </div>
 
         {isEditing ? (
-          <form action={handleSave} className="flex items-center gap-2">
+          <form action={handleSave} className="flex flex-wrap items-center gap-2">
             <input type="hidden" name="category" value={row.key} />
             <input
               type="number"
@@ -126,7 +126,7 @@ export function BudgetTable({
   total: number;
 }) {
   return (
-    <div className="mt-8 w-full rounded-lg border border-hairline bg-card p-8 shadow-sm">
+    <div className="mt-8 w-full rounded-lg border border-hairline bg-card p-5 sm:p-8 shadow-sm">
       <div className="mb-6 flex items-baseline justify-between border-b border-hairline pb-6">
         <span className="font-display text-2xl font-semibold text-forest">
           Estimated total

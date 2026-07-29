@@ -17,8 +17,10 @@ export function AppNav({
   maxWidthClassName?: string;
 }) {
   return (
-    <div className={`mb-6 flex w-full ${maxWidthClassName} items-center justify-between`}>
-      <nav className="flex items-center gap-4">
+    <div
+      className={`mb-6 flex w-full ${maxWidthClassName} flex-col gap-3 sm:flex-row sm:items-center sm:justify-between`}
+    >
+      <nav className="flex flex-wrap items-center gap-x-4 gap-y-2">
         {links.map((link) => (
           <Link
             key={link.href}
@@ -29,12 +31,12 @@ export function AppNav({
           </Link>
         ))}
       </nav>
-      <div className="flex items-center gap-4">
-        <span className="font-mono-numbers text-sm text-ink/60">{email}</span>
+      <div className="flex items-center justify-between gap-4 sm:justify-end">
+        <span className="truncate font-mono-numbers text-sm text-ink/60">{email}</span>
         <form action={signOut}>
           <button
             type="submit"
-            className="font-mono-numbers text-sm text-brass hover:underline"
+            className="shrink-0 font-mono-numbers text-sm text-brass hover:underline"
           >
             Log out
           </button>

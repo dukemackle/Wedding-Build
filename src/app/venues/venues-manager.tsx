@@ -198,7 +198,9 @@ export function VenuesManager({
 
         {filteredVenues.length === 0 ? (
           <p className="py-8 text-center text-sm text-ink/50">
-            No venues match these filters.
+            {venues.length === 0
+              ? "No venues have been added yet."
+              : "No venues match these filters."}
           </p>
         ) : (
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">

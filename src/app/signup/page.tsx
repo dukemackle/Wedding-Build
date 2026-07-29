@@ -10,7 +10,7 @@ export default async function SignupPage({
 
   return (
     <main className="flex flex-1 items-center justify-center px-6 py-24">
-      <div className="w-full max-w-sm rounded-lg border border-hairline bg-card p-10 shadow-sm">
+      <div className="w-full max-w-sm rounded-lg border border-hairline bg-card p-6 sm:p-10 shadow-sm">
         <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
           Get started
         </p>
