@@ -34,6 +34,7 @@ export type Venue = {
   name: string;
   region: string | null;
   state: string | null;
+  city: string | null;
   venue_type: string | null;
   capacity: number | null;
   price_tier: string | null;
