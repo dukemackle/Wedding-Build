@@ -1,0 +1,9 @@
+<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of a vineyard grape cluster">
+  <rect width="400" height="300" fill="#FBF8F1"/>
+  <line x1="0" y1="230" x2="400" y2="230" stroke="#C9BFA6" stroke-width="2"/>
+  <g fill="none" stroke="#1F3D2E" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M200 80 V115"/>
+    <path d="M200 95 C230 90 245 105 240 120"/>
+  </g>
+  <path d="M170 100 C150 105 145 130 165 135 C155 150 165 165 180 160 C178 175 195 180 200 165 C210 180 227 175 222 160 C240 165 248 148 235 137 C252 130 248 108 230 105 C232 90 210 82 200 95 C192 84 175 88 170 100 Z" fill="#A9843C"/>
+</svg>

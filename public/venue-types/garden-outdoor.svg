@@ -1,0 +1,18 @@
+<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of a garden arch">
+  <rect width="400" height="300" fill="#FBF8F1"/>
+  <line x1="0" y1="230" x2="400" y2="230" stroke="#C9BFA6" stroke-width="2"/>
+  <g fill="none" stroke="#1F3D2E" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M130 230 V140 C130 90 270 90 270 140 V230"/>
+    <path d="M130 170 C110 165 100 150 105 130"/>
+    <path d="M270 170 C290 165 300 150 295 130"/>
+    <path d="M150 200 C135 195 130 180 138 168"/>
+    <path d="M250 200 C265 195 270 180 262 168"/>
+  </g>
+  <g fill="#A9843C">
+    <circle cx="130" cy="140" r="8"/>
+    <circle cx="270" cy="140" r="8"/>
+    <circle cx="200" cy="112" r="8"/>
+    <circle cx="165" cy="118" r="6"/>
+    <circle cx="235" cy="118" r="6"/>
+  </g>
+</svg>
