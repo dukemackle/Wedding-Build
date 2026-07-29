@@ -93,3 +93,34 @@ export type RegistryItem = {
   created_at: string;
   updated_at: string;
 };
+
+export type AttireCategory =
+  | "Wedding Dress"
+  | "Bridesmaid Dress"
+  | "Groom Attire"
+  | "Groomsmen Attire"
+  | "Ring - Her"
+  | "Ring - Him";
+
+export type BuyOrRent = "Buy" | "Rent" | "Buy or Rent";
+
+export type AttireItem = {
+  id: string;
+  name: string;
+  category: AttireCategory;
+  style: string | null;
+  price_tier: string | null;
+  buy_or_rent: BuyOrRent | null;
+  price_from: number | null;
+  description: string | null;
+  created_at: string;
+};
+
+export type AttireShortlistEntry = {
+  id: string;
+  wedding_id: string;
+  user_id: string;
+  attire_item_id: string;
+  notes: string | null;
+  created_at: string;
+};

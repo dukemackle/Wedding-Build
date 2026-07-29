@@ -1,0 +1,5 @@
+<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of a wedding band">
+  <rect width="400" height="300" fill="#FBF8F1"/>
+  <circle cx="200" cy="150" r="70" fill="none" stroke="#1F3D2E" stroke-width="14"/>
+  <circle cx="200" cy="150" r="70" fill="none" stroke="#A9843C" stroke-width="3"/>
+</svg>
