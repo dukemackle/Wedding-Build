@@ -1,5 +1,6 @@
 "use server";
 
+import Papa from "papaparse";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
@@ -126,6 +127,77 @@ export async function deleteGuest(formData: FormData): Promise<{ error?: string 
   revalidatePath("/guests");
   revalidatePath("/budget");
   return {};
+}
+
+function parsePlusOne(value: string | undefined): boolean {
+  const normalized = (value ?? "").trim().toLowerCase();
+  return ["yes", "y", "true", "1"].includes(normalized);
+}
+
+function parseStatus(value: string | undefined): GuestStatus {
+  const normalized = (value ?? "").trim().toLowerCase();
+  return VALID_STATUSES.includes(normalized as GuestStatus) ? (normalized as GuestStatus) : "invited";
+}
+
+export async function importGuestsFromCsv(
+  formData: FormData,
+): Promise<{ error?: string; imported?: number; skipped?: number }> {
+  const { supabase, user, wedding } = await requireOwnWedding();
+
+  if (!wedding) {
+    return { error: "Set up your wedding on the Dashboard first." };
+  }
+
+  const file = formData.get("file") as File | null;
+  if (!file || file.size === 0) {
+    return { error: "Choose a CSV file to import." };
+  }
+
+  const text = await file.text();
+  const parsed = Papa.parse<Record<string, string>>(text, {
+    header: true,
+    skipEmptyLines: true,
+    transformHeader: (header) => header.trim().toLowerCase(),
+  });
+
+  if (parsed.errors.length > 0) {
+    return { error: `Could not read the CSV: ${parsed.errors[0].message}` };
+  }
+
+  let skipped = 0;
+  const rows = parsed.data
+    .map((row) => {
+      const name = (row.name ?? "").trim();
+      if (!name) {
+        skipped++;
+        return null;
+      }
+      return {
+        wedding_id: wedding.id,
+        user_id: user.id,
+        name,
+        household: (row.household ?? "").trim() || null,
+        plus_one: parsePlusOne(row.plus_one),
+        status: parseStatus(row.status),
+        meal: (row.meal ?? "").trim() || null,
+        notes: (row.notes ?? "").trim() || null,
+      };
+    })
+    .filter((row): row is NonNullable<typeof row> => row !== null);
+
+  if (rows.length === 0) {
+    return { error: "No valid rows found — each row needs at least a name.", skipped };
+  }
+
+  const { error } = await supabase.from("guests").insert(rows);
+
+  if (error) {
+    return { error: error.message };
+  }
+
+  revalidatePath("/guests");
+  revalidatePath("/budget");
+  return { imported: rows.length, skipped };
 }
 
 export async function addRegistryItem(formData: FormData): Promise<{ error?: string }> {
