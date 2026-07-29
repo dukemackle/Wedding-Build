@@ -4,11 +4,18 @@ import { signOut } from "@/lib/supabase/actions";
 const links = [
   { href: "/dashboard", label: "Dashboard" },
   { href: "/budget", label: "Budget" },
+  { href: "/guests", label: "Guests" },
 ];
 
-export function AppNav({ email }: { email: string }) {
+export function AppNav({
+  email,
+  maxWidthClassName = "max-w-2xl",
+}: {
+  email: string;
+  maxWidthClassName?: string;
+}) {
   return (
-    <div className="mb-6 flex w-full max-w-2xl items-center justify-between">
+    <div className={`mb-6 flex w-full ${maxWidthClassName} items-center justify-between`}>
       <nav className="flex items-center gap-4">
         {links.map((link) => (
           <Link
