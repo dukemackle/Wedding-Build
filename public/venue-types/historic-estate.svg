@@ -1,0 +1,16 @@
+<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of a columned estate facade">
+  <rect width="400" height="300" fill="#FBF8F1"/>
+  <line x1="0" y1="230" x2="400" y2="230" stroke="#C9BFA6" stroke-width="2"/>
+  <g fill="none" stroke="#1F3D2E" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M100 130 L200 80 L300 130"/>
+    <line x1="90" y1="130" x2="310" y2="130"/>
+    <line x1="105" y1="130" x2="105" y2="210"/>
+    <line x1="150" y1="130" x2="150" y2="210"/>
+    <line x1="200" y1="130" x2="200" y2="210"/>
+    <line x1="250" y1="130" x2="250" y2="210"/>
+    <line x1="295" y1="130" x2="295" y2="210"/>
+    <line x1="90" y1="210" x2="310" y2="210"/>
+    <line x1="80" y1="230" x2="320" y2="230"/>
+  </g>
+  <circle cx="200" cy="105" r="6" fill="#A9843C"/>
+</svg>

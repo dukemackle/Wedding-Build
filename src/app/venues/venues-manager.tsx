@@ -1,9 +1,20 @@
 "use client";
 
+import Image from "next/image";
 import { useMemo, useState, useTransition } from "react";
 import type { Venue, VenueShortlistEntry } from "@/lib/supabase/types";
 import { REGIONS, VENUE_TYPES } from "@/lib/wedding-options";
 import { toggleShortlist, updateShortlistNotes } from "./actions";
+
+const VENUE_TYPE_IMAGES: Record<string, string> = {
+  "Barn / Rustic": "/venue-types/barn-rustic.svg",
+  "Ballroom / Hotel": "/venue-types/ballroom-hotel.svg",
+  "Garden / Outdoor": "/venue-types/garden-outdoor.svg",
+  "Beach / Waterfront": "/venue-types/beach-waterfront.svg",
+  "Historic / Estate": "/venue-types/historic-estate.svg",
+  "Restaurant / Vineyard": "/venue-types/restaurant-vineyard.svg",
+};
+const DEFAULT_VENUE_IMAGE = "/venue-types/historic-estate.svg";
 
 function ShortlistButton({
   venueId,
@@ -44,29 +55,41 @@ function ShortlistButton({
 }
 
 function VenueCard({ venue, isShortlisted }: { venue: Venue; isShortlisted: boolean }) {
+  const image =
+    (venue.venue_type && VENUE_TYPE_IMAGES[venue.venue_type]) || DEFAULT_VENUE_IMAGE;
+
   return (
-    <div className="flex flex-col rounded-lg border border-hairline bg-parchment p-5">
-      <div className="mb-3 flex items-start justify-between gap-2">
-        <h3 className="font-display text-xl font-semibold text-forest">{venue.name}</h3>
-        {venue.price_tier && (
-          <span className="shrink-0 rounded-full border border-hairline px-2 py-0.5 text-xs text-brass">
-            {venue.price_tier}
-          </span>
-        )}
-      </div>
-      <p className="text-xs uppercase tracking-wide text-ink/50">
-        {[venue.state, venue.region, venue.venue_type].filter(Boolean).join(" · ")}
-      </p>
-      {venue.capacity && (
-        <p className="mt-1 font-mono-numbers text-sm text-ink/70">
-          Up to {venue.capacity} guests
+    <div className="flex flex-col overflow-hidden rounded-lg border border-hairline bg-parchment">
+      <Image
+        src={image}
+        alt={venue.venue_type ? `${venue.venue_type} illustration` : "Venue illustration"}
+        width={400}
+        height={300}
+        className="aspect-[4/3] w-full border-b border-hairline object-cover"
+      />
+      <div className="flex flex-1 flex-col p-5">
+        <div className="mb-3 flex items-start justify-between gap-2">
+          <h3 className="font-display text-xl font-semibold text-forest">{venue.name}</h3>
+          {venue.price_tier && (
+            <span className="shrink-0 rounded-full border border-hairline px-2 py-0.5 text-xs text-brass">
+              {venue.price_tier}
+            </span>
+          )}
+        </div>
+        <p className="text-xs uppercase tracking-wide text-ink/50">
+          {[venue.state, venue.region, venue.venue_type].filter(Boolean).join(" · ")}
         </p>
-      )}
-      {venue.description && (
-        <p className="mt-3 text-sm text-ink/80">{venue.description}</p>
-      )}
-      <div className="mt-4">
-        <ShortlistButton venueId={venue.id} isShortlisted={isShortlisted} />
+        {venue.capacity && (
+          <p className="mt-1 font-mono-numbers text-sm text-ink/70">
+            Up to {venue.capacity} guests
+          </p>
+        )}
+        {venue.description && (
+          <p className="mt-3 text-sm text-ink/80">{venue.description}</p>
+        )}
+        <div className="mt-4">
+          <ShortlistButton venueId={venue.id} isShortlisted={isShortlisted} />
+        </div>
       </div>
     </div>
   );

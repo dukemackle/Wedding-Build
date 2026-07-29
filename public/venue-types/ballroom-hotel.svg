@@ -1,0 +1,20 @@
+<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of a ballroom chandelier">
+  <rect width="400" height="300" fill="#FBF8F1"/>
+  <line x1="0" y1="230" x2="400" y2="230" stroke="#C9BFA6" stroke-width="2"/>
+  <g fill="none" stroke="#1F3D2E" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="200" y1="60" x2="200" y2="95"/>
+    <path d="M140 95 H260"/>
+    <path d="M150 95 C150 130 175 130 175 155"/>
+    <path d="M200 95 V155"/>
+    <path d="M250 95 C250 130 225 130 225 155"/>
+    <path d="M120 95 C120 145 165 140 175 175"/>
+    <path d="M280 95 C280 145 235 140 225 175"/>
+  </g>
+  <g fill="#A9843C">
+    <circle cx="175" cy="160" r="7"/>
+    <circle cx="200" cy="160" r="7"/>
+    <circle cx="225" cy="160" r="7"/>
+    <circle cx="175" cy="180" r="6"/>
+    <circle cx="225" cy="180" r="6"/>
+  </g>
+</svg>

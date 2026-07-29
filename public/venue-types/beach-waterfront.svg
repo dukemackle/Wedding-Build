@@ -1,0 +1,8 @@
+<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of a sun setting over the water">
+  <rect width="400" height="300" fill="#FBF8F1"/>
+  <circle cx="200" cy="140" r="45" fill="none" stroke="#A9843C" stroke-width="4"/>
+  <g fill="none" stroke="#1F3D2E" stroke-width="4" stroke-linecap="round">
+    <path d="M60 200 Q100 185 140 200 T220 200 T300 200 T340 200"/>
+    <path d="M60 225 Q100 210 140 225 T220 225 T300 225 T340 225"/>
+  </g>
+</svg>
