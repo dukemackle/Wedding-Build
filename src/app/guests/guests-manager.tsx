@@ -247,7 +247,7 @@ export function GuestsManager({ guests }: { guests: Guest[] }) {
   const filteredGuests = filter === "all" ? guests : guests.filter((g) => g.status === filter);
 
   return (
-    <div className="w-full rounded-lg border border-hairline bg-card p-8 shadow-sm">
+    <div className="w-full rounded-lg border border-hairline bg-card p-5 sm:p-8 shadow-sm">
       <div className="mb-6 flex flex-wrap items-center justify-between gap-4 border-b border-hairline pb-6">
         <p className="text-sm text-ink/70">
           <span className="font-mono-numbers text-2xl text-forest">{headcount}</span>{" "}

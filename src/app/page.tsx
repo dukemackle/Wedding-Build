@@ -3,7 +3,7 @@ import Link from "next/link";
 export default function Home() {
   return (
     <main className="flex flex-1 items-center justify-center px-6 py-24">
-      <div className="w-full max-w-xl rounded-lg border border-hairline bg-card p-10 text-center shadow-sm">
+      <div className="w-full max-w-xl rounded-lg border border-hairline bg-card p-6 sm:p-10 text-center shadow-sm">
         <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
           Est. 2026
         </p>

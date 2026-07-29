@@ -251,7 +251,7 @@ export function WeddingDashboard({
   }
 
   return (
-    <div className="w-full max-w-2xl rounded-lg border border-hairline bg-card p-10 shadow-sm">
+    <div className="w-full max-w-2xl rounded-lg border border-hairline bg-card p-6 sm:p-10 shadow-sm">
       {error && (
         <p className="mb-6 rounded-md border border-red-300 bg-red-50 px-3 py-2 text-sm text-red-800">
           {error}

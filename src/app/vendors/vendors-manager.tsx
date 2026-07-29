@@ -137,7 +137,7 @@ function InquiryRow({ inquiry }: { inquiry: VendorInquiry }) {
 
   return (
     <div className="border-b border-hairline py-4 last:border-b-0">
-      <div className="flex items-center justify-between gap-4">
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <p className="text-ink">{inquiry.vendor_name}</p>
           <p className="mt-1 text-xs text-ink/50">
@@ -252,7 +252,9 @@ export function VendorsManager({
 
         {filteredVendors.length === 0 ? (
           <p className="py-8 text-center text-sm text-ink/50">
-            No vendors match these filters.
+            {vendors.length === 0
+              ? "No vendors have been added yet."
+              : "No vendors match these filters."}
           </p>
         ) : (
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
