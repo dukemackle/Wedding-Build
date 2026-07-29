@@ -6,20 +6,23 @@ for real. Update this file as items are picked up or new ideas come up.
 
 ## Free to build now
 
-- [ ] **Map view for Venues** (Zillow-style): plot the ~370 seeded venues as
-      pins on a US map using Leaflet + OpenStreetMap tiles (no API key, no
-      cost). Filterable by state/city/venue type, same data we already have.
-      Needs adding approximate lat/lng per venue (derived from known
-      city/state coordinates).
-- [ ] Bump city coverage from 1 venue/city to top-5/city for the 255 cities
-      we already seeded (~1,275 placeholder venues instead of 255) — same
-      generated-content approach as the state/city seeds, no new
-      infrastructure.
-- [ ] General polish pass: tighten up Budget, Guests & RSVP, and Vendors
-      modules (edge cases, validation, empty/loading states we haven't
-      revisited since the Step 4 pass).
-- [ ] Mobile responsiveness spot-check on the new Venues filters (state/city
-      dropdowns, image cards) — added after the original mobile pass.
+- [ ] Bump city coverage from 1 venue/city (and 1 vendor/city) to top-5/city
+      for the 255 cities we already seeded — same generated-content approach
+      as the state/city seeds, no new infrastructure.
+- [ ] General polish pass: tighten up Budget and Guests & RSVP modules
+      (edge cases, validation, empty/loading states we haven't revisited
+      since the Step 4 pass).
+- [ ] Mobile responsiveness spot-check on the Venues/Vendors filters
+      (state/city dropdowns, map view, image cards) — added after the
+      original mobile pass.
+- [ ] **Public guest-facing wedding site**: a page invited guests can
+      actually visit themselves (no login) to RSVP and view the gift
+      registry, instead of the couple manually entering RSVPs on their
+      behalf. No new cost, but a real architecture addition — needs a
+      shareable link/slug per wedding (or per-guest), and public
+      read/write access scoped narrowly (RLS policies that don't expose
+      the couple's full account). Currently the Guests page and gift
+      registry are couple-only.
 
 ## Needs payment before we build it
 
@@ -50,3 +53,10 @@ for real. Update this file as items are picked up or new ideas come up.
   mobile responsiveness)
 - Venues: state field + filter (51 states/DC), city field + cascading city
   filter (255 cities), generic type-based SVG illustrations on venue cards
+- Venues + Vendors: map view (Leaflet + OpenStreetMap, free/no API key),
+  lat/lng per row with per-row jitter so co-located pins don't stack;
+  Vendors also got the same state/city fields + cascading filters as
+  Venues (useful for finding vendors near a couple's venue)
+- Guests page: couple-managed gift registry (registry links and/or a cash
+  fund note, shown alongside the guest list) — couple-only for now, see
+  the public guest-facing site item above for the guest-visible version

@@ -2,8 +2,9 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { AppNav } from "@/components/app-nav";
-import type { Guest, Wedding } from "@/lib/supabase/types";
+import type { Guest, RegistryItem, Wedding } from "@/lib/supabase/types";
 import { GuestsManager } from "./guests-manager";
+import { RegistryManager } from "./registry-manager";
 
 export default async function GuestsPage() {
   const supabase = await createClient();
@@ -54,6 +55,13 @@ export default async function GuestsPage() {
     .order("name", { ascending: true })
     .returns<Guest[]>();
 
+  const { data: registryItems } = await supabase
+    .from("registry_items")
+    .select("*")
+    .eq("wedding_id", wedding.id)
+    .order("created_at", { ascending: true })
+    .returns<RegistryItem[]>();
+
   return (
     <main className="flex flex-1 flex-col items-center px-6 py-16">
       <AppNav email={user.email ?? ""} maxWidthClassName="max-w-3xl" />
@@ -65,7 +73,10 @@ export default async function GuestsPage() {
           Guest list & RSVPs
         </h1>
 
-        <GuestsManager guests={guests ?? []} />
+        <div className="flex flex-col gap-8">
+          <GuestsManager guests={guests ?? []} />
+          <RegistryManager registryItems={registryItems ?? []} />
+        </div>
       </div>
     </main>
   );

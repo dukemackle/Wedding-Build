@@ -127,3 +127,57 @@ export async function deleteGuest(formData: FormData): Promise<{ error?: string 
   revalidatePath("/budget");
   return {};
 }
+
+export async function addRegistryItem(formData: FormData): Promise<{ error?: string }> {
+  const { supabase, user, wedding } = await requireOwnWedding();
+
+  if (!wedding) {
+    return { error: "Set up your wedding on the Dashboard first." };
+  }
+
+  const label = (formData.get("label") as string)?.trim();
+  if (!label) {
+    return { error: "Give the registry entry a name." };
+  }
+
+  const url = ((formData.get("url") as string) || "").trim() || null;
+  const notes = ((formData.get("notes") as string) || "").trim() || null;
+
+  const { error } = await supabase.from("registry_items").insert({
+    wedding_id: wedding.id,
+    user_id: user.id,
+    label,
+    url,
+    notes,
+  });
+
+  if (error) {
+    return { error: error.message };
+  }
+
+  revalidatePath("/guests");
+  return {};
+}
+
+export async function deleteRegistryItem(formData: FormData): Promise<{ error?: string }> {
+  const { supabase, wedding } = await requireOwnWedding();
+
+  if (!wedding) {
+    return { error: "Set up your wedding on the Dashboard first." };
+  }
+
+  const itemId = formData.get("id") as string;
+
+  const { error } = await supabase
+    .from("registry_items")
+    .delete()
+    .eq("id", itemId)
+    .eq("wedding_id", wedding.id);
+
+  if (error) {
+    return { error: error.message };
+  }
+
+  revalidatePath("/guests");
+  return {};
+}

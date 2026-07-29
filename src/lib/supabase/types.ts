@@ -82,3 +82,14 @@ export type VendorInquiry = {
   sent_at: string;
   status: VendorInquiryStatus;
 };
+
+export type RegistryItem = {
+  id: string;
+  wedding_id: string;
+  user_id: string;
+  label: string;
+  url: string | null;
+  notes: string | null;
+  created_at: string;
+  updated_at: string;
+};
