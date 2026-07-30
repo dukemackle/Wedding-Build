@@ -24,6 +24,39 @@ const inputClass =
   "rounded-md border border-hairline bg-parchment px-3 py-2 text-ink outline-none focus:border-forest";
 const labelClass = "flex flex-col gap-1 text-sm text-ink";
 
+function csvField(value: string) {
+  return /[",\n]/.test(value) ? `"${value.replace(/"/g, '""')}"` : value;
+}
+
+function guestsToCsv(guests: Guest[]) {
+  const headers = ["name", "household", "plus_one", "status", "meal", "notes"];
+  const rows = guests.map((guest) =>
+    [
+      guest.name,
+      guest.household ?? "",
+      guest.plus_one ? "yes" : "no",
+      guest.status,
+      guest.meal ?? "",
+      guest.notes ?? "",
+    ]
+      .map((value) => csvField(String(value)))
+      .join(","),
+  );
+  return [headers.join(","), ...rows].join("\n");
+}
+
+function downloadGuestsCsv(guests: Guest[]) {
+  const blob = new Blob([guestsToCsv(guests)], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = `guests-${new Date().toISOString().slice(0, 10)}.csv`;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+}
+
 function GuestFields({ guest }: { guest?: Guest }) {
   return (
     <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -349,6 +382,13 @@ export function GuestsManager({ guests }: { guests: Guest[] }) {
             className="rounded-full border border-hairline bg-parchment px-4 py-1.5 font-mono-numbers text-sm text-ink transition-colors hover:border-forest"
           >
             {showImportForm ? "Close" : "Import CSV"}
+          </button>
+          <button
+            onClick={() => downloadGuestsCsv(guests)}
+            disabled={guests.length === 0}
+            className="rounded-full border border-hairline bg-parchment px-4 py-1.5 font-mono-numbers text-sm text-ink transition-colors hover:border-forest disabled:opacity-50"
+          >
+            Export CSV
           </button>
         </div>
       </div>

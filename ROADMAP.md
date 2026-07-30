@@ -14,19 +14,9 @@ for real. Update this file as items are picked up or new ideas come up.
       read/write access scoped narrowly (RLS policies that don't expose
       the couple's full account). Currently the Guests page, gift
       registry, and Attire shortlist are all couple-only.
-- [ ] Dashboard "at a glance" summary: pull confirmed headcount, budget
-      spent vs. estimated, and shortlist counts (venues/vendors/attire)
-      onto the Dashboard so the couple doesn't have to click into every
-      module to see status.
-- [ ] CSV export to match the new CSV import — download the guest list
-      (and/or budget line items) as a CSV for printing or sharing with a
-      caterer/venue.
 - [ ] Bump city coverage from 1 venue/vendor per city to top-5/city for
       the 255 cities we already seeded — same generated-content approach
       as the state/city seeds, no new infrastructure.
-- [ ] Lightweight search box (by name) across Venues/Vendors/Attire, now
-      that each catalog has grown past what chip filters alone can
-      quickly narrow.
 - [ ] General polish pass: tighten up Budget and Guests & RSVP modules
       (edge cases, validation, empty/loading states we haven't revisited
       since the Step 4 pass).
@@ -76,3 +66,10 @@ for real. Update this file as items are picked up or new ideas come up.
   Dress, Bridesmaid Dress, Groom Attire, Groomsmen Attire, Ring - Her,
   Ring - Him) with category/price-tier/Buy-or-Rent filters and a
   shortlist with notes — no real purchasing yet (needs Stripe)
+- Dashboard "at a glance" summary: confirmed headcount, budget total vs.
+  categories with a real quote entered, and shortlist/inquiry counts
+  (venues, vendors, attire) with quick links into each module
+- Guests page: CSV export (download the current guest list in the same
+  format the CSV import expects)
+- Lightweight search box (by name) added to Venues, Vendors, and Attire
+  catalogs, alongside the existing chip filters
