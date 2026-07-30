@@ -6,14 +6,6 @@ for real. Update this file as items are picked up or new ideas come up.
 
 ## Free to build now
 
-- [ ] **Public guest-facing wedding site**: a page invited guests can
-      actually visit themselves (no login) to RSVP and view the gift
-      registry, instead of the couple manually entering RSVPs on their
-      behalf. No new cost, but a real architecture addition — needs a
-      shareable link/slug per wedding (or per-guest), and public
-      read/write access scoped narrowly (RLS policies that don't expose
-      the couple's full account). Currently the Guests page, gift
-      registry, and Attire shortlist are all couple-only.
 - [ ] Bump city coverage from 1 venue/vendor per city to top-5/city for
       the 255 cities we already seeded — same generated-content approach
       as the state/city seeds, no new infrastructure.
@@ -73,3 +65,12 @@ for real. Update this file as items are picked up or new ideas come up.
   format the CSV import expects)
 - Lightweight search box (by name) added to Venues, Vendors, and Attire
   catalogs, alongside the existing chip filters
+- **Public guest-facing wedding site**: the couple can turn on a
+  shareable link (`/w/your-slug`) from the Guests page with one click.
+  Invited guests visit it with no login, see the couple's names/date and
+  gift registry, and submit their own RSVP. Submissions land in a
+  separate `rsvp_submissions` table (not the real `guests` table), and
+  the couple reviews each one on the Guests page — "Add to guest list"
+  merges it in, "Dismiss" discards it. A wedding is only ever visible
+  publicly through the narrow `public_weddings` view, so nothing beyond
+  partner names/date/region and the registry is ever exposed.
