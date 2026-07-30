@@ -6,15 +6,8 @@ for real. Update this file as items are picked up or new ideas come up.
 
 ## Free to build now
 
-- [ ] Bump city coverage from 1 venue/vendor per city to top-5/city for
-      the 255 cities we already seeded — same generated-content approach
-      as the state/city seeds, no new infrastructure.
-- [ ] General polish pass: tighten up Budget and Guests & RSVP modules
-      (edge cases, validation, empty/loading states we haven't revisited
-      since the Step 4 pass).
-- [ ] Mobile responsiveness spot-check on the newer modules (Venues/
-      Vendors map view + state/city filters, Attire cards, CSV import
-      form) — added after the original mobile pass.
+Nothing queued right now — see "Already shipped" below for the latest
+batch. Add new ideas here as they come up.
 
 ## Needs payment before we build it
 
@@ -74,3 +67,12 @@ for real. Update this file as items are picked up or new ideas come up.
   merges it in, "Dismiss" discards it. A wedding is only ever visible
   publicly through the narrow `public_weddings` view, so nothing beyond
   partner names/date/region and the registry is ever exposed.
+- Bumped city coverage from 1 to 5 venues/vendors per city across all 255
+  already-seeded cities (1,020 new venues, 1,020 new vendors), cycling
+  through the venue types/vendor categories not already used in each city
+  so there's real variety to browse, not just a single placeholder result.
+- Mobile polish: added a `loading.tsx` skeleton to the Attire page (the
+  one module that was missing one), and fixed guest rows and pending-RSVP
+  rows on the Guests page wrapping guest names awkwardly on narrow
+  screens — they now stack the name/status and the action links instead
+  of squeezing them side by side.
