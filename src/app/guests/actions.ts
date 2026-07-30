@@ -4,7 +4,7 @@ import Papa from "papaparse";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import type { GuestStatus, Wedding } from "@/lib/supabase/types";
+import type { GuestStatus, RsvpSubmission, Wedding } from "@/lib/supabase/types";
 
 const VALID_STATUSES: GuestStatus[] = ["invited", "confirmed", "declined", "pending"];
 
@@ -244,6 +244,145 @@ export async function deleteRegistryItem(formData: FormData): Promise<{ error?: 
     .from("registry_items")
     .delete()
     .eq("id", itemId)
+    .eq("wedding_id", wedding.id);
+
+  if (error) {
+    return { error: error.message };
+  }
+
+  revalidatePath("/guests");
+  return {};
+}
+
+function slugify(value: string) {
+  return value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+export async function enablePublicSite(): Promise<{ error?: string; slug?: string }> {
+  const { supabase, wedding } = await requireOwnWedding();
+
+  if (!wedding) {
+    return { error: "Set up your wedding on the Dashboard first." };
+  }
+
+  if (wedding.public_slug) {
+    return { slug: wedding.public_slug };
+  }
+
+  const base =
+    slugify([wedding.partner_a_name, wedding.partner_b_name].filter(Boolean).join("-and-")) ||
+    "our-wedding";
+
+  for (let attempt = 0; attempt < 5; attempt++) {
+    const slug = `${base}-${Math.random().toString(36).slice(2, 8)}`;
+    const { error } = await supabase
+      .from("weddings")
+      .update({ public_slug: slug })
+      .eq("id", wedding.id);
+
+    if (!error) {
+      revalidatePath("/guests");
+      return { slug };
+    }
+    // A unique-constraint collision on the slug is worth retrying with a new
+    // random suffix; anything else is a real failure.
+    if (!error.message.includes("duplicate key")) {
+      return { error: error.message };
+    }
+  }
+
+  return { error: "Could not generate a unique link — try again." };
+}
+
+export async function disablePublicSite(): Promise<{ error?: string }> {
+  const { supabase, wedding } = await requireOwnWedding();
+
+  if (!wedding) {
+    return { error: "Set up your wedding on the Dashboard first." };
+  }
+
+  const { error } = await supabase
+    .from("weddings")
+    .update({ public_slug: null })
+    .eq("id", wedding.id);
+
+  if (error) {
+    return { error: error.message };
+  }
+
+  revalidatePath("/guests");
+  return {};
+}
+
+export async function approveRsvpSubmission(formData: FormData): Promise<{ error?: string }> {
+  const { supabase, user, wedding } = await requireOwnWedding();
+
+  if (!wedding) {
+    return { error: "Set up your wedding on the Dashboard first." };
+  }
+
+  const submissionId = formData.get("submission_id") as string;
+
+  const { data: submission, error: fetchError } = await supabase
+    .from("rsvp_submissions")
+    .select("*")
+    .eq("id", submissionId)
+    .eq("wedding_id", wedding.id)
+    .maybeSingle<RsvpSubmission>();
+
+  if (fetchError) {
+    return { error: fetchError.message };
+  }
+  if (!submission) {
+    return { error: "That RSVP submission no longer exists." };
+  }
+
+  const { error: insertError } = await supabase.from("guests").insert({
+    wedding_id: wedding.id,
+    user_id: user.id,
+    name: submission.guest_name,
+    household: submission.household,
+    plus_one: submission.plus_one,
+    status: submission.status,
+    meal: submission.meal,
+    notes: submission.notes,
+  });
+
+  if (insertError) {
+    return { error: insertError.message };
+  }
+
+  const { error: deleteError } = await supabase
+    .from("rsvp_submissions")
+    .delete()
+    .eq("id", submissionId)
+    .eq("wedding_id", wedding.id);
+
+  if (deleteError) {
+    return { error: deleteError.message };
+  }
+
+  revalidatePath("/guests");
+  revalidatePath("/budget");
+  return {};
+}
+
+export async function dismissRsvpSubmission(formData: FormData): Promise<{ error?: string }> {
+  const { supabase, wedding } = await requireOwnWedding();
+
+  if (!wedding) {
+    return { error: "Set up your wedding on the Dashboard first." };
+  }
+
+  const submissionId = formData.get("submission_id") as string;
+
+  const { error } = await supabase
+    .from("rsvp_submissions")
+    .delete()
+    .eq("id", submissionId)
     .eq("wedding_id", wedding.id);
 
   if (error) {

@@ -6,23 +6,15 @@ for real. Update this file as items are picked up or new ideas come up.
 
 ## Free to build now
 
-- [ ] Bump city coverage from 1 venue/city (and 1 vendor/city) to top-5/city
-      for the 255 cities we already seeded — same generated-content approach
+- [ ] Bump city coverage from 1 venue/vendor per city to top-5/city for
+      the 255 cities we already seeded — same generated-content approach
       as the state/city seeds, no new infrastructure.
 - [ ] General polish pass: tighten up Budget and Guests & RSVP modules
       (edge cases, validation, empty/loading states we haven't revisited
       since the Step 4 pass).
-- [ ] Mobile responsiveness spot-check on the Venues/Vendors filters
-      (state/city dropdowns, map view, image cards) — added after the
-      original mobile pass.
-- [ ] **Public guest-facing wedding site**: a page invited guests can
-      actually visit themselves (no login) to RSVP and view the gift
-      registry, instead of the couple manually entering RSVPs on their
-      behalf. No new cost, but a real architecture addition — needs a
-      shareable link/slug per wedding (or per-guest), and public
-      read/write access scoped narrowly (RLS policies that don't expose
-      the couple's full account). Currently the Guests page and gift
-      registry are couple-only.
+- [ ] Mobile responsiveness spot-check on the newer modules (Venues/
+      Vendors map view + state/city filters, Attire cards, CSV import
+      form) — added after the original mobile pass.
 
 ## Needs payment before we build it
 
@@ -60,3 +52,25 @@ for real. Update this file as items are picked up or new ideas come up.
 - Guests page: couple-managed gift registry (registry links and/or a cash
   fund note, shown alongside the guest list) — couple-only for now, see
   the public guest-facing site item above for the guest-visible version
+- Guests page: CSV import (papaparse-based, quoted-comma-safe) with a
+  downloadable template and imported/skipped row counts
+- Attire module: browsable catalog (48 placeholder items across Wedding
+  Dress, Bridesmaid Dress, Groom Attire, Groomsmen Attire, Ring - Her,
+  Ring - Him) with category/price-tier/Buy-or-Rent filters and a
+  shortlist with notes — no real purchasing yet (needs Stripe)
+- Dashboard "at a glance" summary: confirmed headcount, budget total vs.
+  categories with a real quote entered, and shortlist/inquiry counts
+  (venues, vendors, attire) with quick links into each module
+- Guests page: CSV export (download the current guest list in the same
+  format the CSV import expects)
+- Lightweight search box (by name) added to Venues, Vendors, and Attire
+  catalogs, alongside the existing chip filters
+- **Public guest-facing wedding site**: the couple can turn on a
+  shareable link (`/w/your-slug`) from the Guests page with one click.
+  Invited guests visit it with no login, see the couple's names/date and
+  gift registry, and submit their own RSVP. Submissions land in a
+  separate `rsvp_submissions` table (not the real `guests` table), and
+  the couple reviews each one on the Guests page — "Add to guest list"
+  merges it in, "Dismiss" discards it. A wedding is only ever visible
+  publicly through the narrow `public_weddings` view, so nothing beyond
+  partner names/date/region and the registry is ever exposed.

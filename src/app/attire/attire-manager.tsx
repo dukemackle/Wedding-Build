@@ -5,6 +5,7 @@ import { useState, useTransition } from "react";
 import type { AttireItem, AttireShortlistEntry } from "@/lib/supabase/types";
 import { ATTIRE_CATEGORIES, BUY_OR_RENT_OPTIONS, STYLE_TIERS } from "@/lib/wedding-options";
 import { toggleAttireShortlist, updateAttireShortlistNotes } from "./actions";
+import { SearchBox } from "@/components/search-box";
 
 const CATEGORY_IMAGES: Record<string, string> = {
   "Wedding Dress": "/attire-types/wedding-dress.svg",
@@ -153,6 +154,7 @@ export function AttireManager({
   const [categoryFilter, setCategoryFilter] = useState<string | "all">("all");
   const [tierFilter, setTierFilter] = useState<string | "all">("all");
   const [buyRentFilter, setBuyRentFilter] = useState<string | "all">("all");
+  const [search, setSearch] = useState("");
 
   const shortlistedIds = new Set(shortlist.map((s) => s.attire_item_id));
   const itemById = new Map(items.map((i) => [i.id, i]));
@@ -161,7 +163,8 @@ export function AttireManager({
     (i) =>
       (categoryFilter === "all" || i.category === categoryFilter) &&
       (tierFilter === "all" || i.price_tier === tierFilter) &&
-      (buyRentFilter === "all" || i.buy_or_rent === buyRentFilter),
+      (buyRentFilter === "all" || i.buy_or_rent === buyRentFilter) &&
+      i.name.toLowerCase().includes(search.trim().toLowerCase()),
   );
 
   return (
@@ -180,6 +183,9 @@ export function AttireManager({
       )}
 
       <div className="rounded-lg border border-hairline bg-card p-6 shadow-sm">
+        <div className="mb-4">
+          <SearchBox value={search} onChange={setSearch} placeholder="Search attire by name..." />
+        </div>
         <div className="mb-4 flex flex-wrap gap-2">
           <button
             onClick={() => setCategoryFilter("all")}

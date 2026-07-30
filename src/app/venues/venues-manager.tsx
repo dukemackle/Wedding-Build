@@ -7,6 +7,7 @@ import type { Venue, VenueShortlistEntry } from "@/lib/supabase/types";
 import { REGIONS, VENUE_TYPES } from "@/lib/wedding-options";
 import { updateShortlistNotes } from "./actions";
 import { ShortlistButton } from "./venue-card-shared";
+import { SearchBox } from "@/components/search-box";
 
 const VenuesMap = dynamic(() => import("./venues-map").then((m) => m.VenuesMap), {
   ssr: false,
@@ -122,6 +123,7 @@ export function VenuesManager({
   const [stateFilter, setStateFilter] = useState<string | "all">("all");
   const [cityFilter, setCityFilter] = useState<string | "all">("all");
   const [viewMode, setViewMode] = useState<"list" | "map">("list");
+  const [search, setSearch] = useState("");
 
   const shortlistedIds = new Set(shortlist.map((s) => s.venue_id));
   const venueById = new Map(venues.map((v) => [v.id, v]));
@@ -155,7 +157,8 @@ export function VenuesManager({
       (regionFilter === "all" || v.region === regionFilter) &&
       (typeFilter === "all" || v.venue_type === typeFilter) &&
       (stateFilter === "all" || v.state === stateFilter) &&
-      (cityFilter === "all" || v.city === cityFilter),
+      (cityFilter === "all" || v.city === cityFilter) &&
+      v.name.toLowerCase().includes(search.trim().toLowerCase()),
   );
 
   return (
@@ -176,6 +179,9 @@ export function VenuesManager({
       )}
 
       <div className="rounded-lg border border-hairline bg-card p-6 shadow-sm">
+        <div className="mb-4">
+          <SearchBox value={search} onChange={setSearch} placeholder="Search venues by name..." />
+        </div>
         <div className="mb-4 flex flex-wrap gap-4">
           <div>
             <label htmlFor="state-filter" className="mb-1 block text-xs uppercase tracking-wide text-ink/50">

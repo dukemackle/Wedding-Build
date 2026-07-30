@@ -1,10 +1,12 @@
 import Link from "next/link";
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { AppNav } from "@/components/app-nav";
-import type { Guest, RegistryItem, Wedding } from "@/lib/supabase/types";
+import type { Guest, RegistryItem, RsvpSubmission, Wedding } from "@/lib/supabase/types";
 import { GuestsManager } from "./guests-manager";
 import { RegistryManager } from "./registry-manager";
+import { PublicSitePanel } from "./public-site-panel";
 
 export default async function GuestsPage() {
   const supabase = await createClient();
@@ -62,6 +64,18 @@ export default async function GuestsPage() {
     .order("created_at", { ascending: true })
     .returns<RegistryItem[]>();
 
+  const { data: rsvpSubmissions } = await supabase
+    .from("rsvp_submissions")
+    .select("*")
+    .eq("wedding_id", wedding.id)
+    .order("created_at", { ascending: true })
+    .returns<RsvpSubmission[]>();
+
+  const headersList = await headers();
+  const host = headersList.get("host");
+  const protocol = host?.startsWith("localhost") ? "http" : "https";
+  const origin = host ? `${protocol}://${host}` : "";
+
   return (
     <main className="flex flex-1 flex-col items-center px-6 py-16">
       <AppNav email={user.email ?? ""} maxWidthClassName="max-w-3xl" />
@@ -74,6 +88,11 @@ export default async function GuestsPage() {
         </h1>
 
         <div className="flex flex-col gap-8">
+          <PublicSitePanel
+            publicSlug={wedding.public_slug}
+            origin={origin}
+            pendingSubmissions={rsvpSubmissions ?? []}
+          />
           <GuestsManager guests={guests ?? []} />
           <RegistryManager registryItems={registryItems ?? []} />
         </div>

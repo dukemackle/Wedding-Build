@@ -5,6 +5,7 @@ import { useMemo, useState, useTransition } from "react";
 import type { Vendor, VendorInquiry, VendorInquiryStatus } from "@/lib/supabase/types";
 import { REGIONS } from "@/lib/wedding-options";
 import { sendVendorInquiry, updateInquiryStatus } from "./actions";
+import { SearchBox } from "@/components/search-box";
 
 const VendorsMap = dynamic(() => import("./vendors-map").then((m) => m.VendorsMap), {
   ssr: false,
@@ -191,6 +192,7 @@ export function VendorsManager({
   const [stateFilter, setStateFilter] = useState<string | "all">("all");
   const [cityFilter, setCityFilter] = useState<string | "all">("all");
   const [viewMode, setViewMode] = useState<"list" | "map">("list");
+  const [search, setSearch] = useState("");
 
   const categories = Array.from(
     new Set(vendors.map((v) => v.category).filter((c): c is string => Boolean(c))),
@@ -225,7 +227,8 @@ export function VendorsManager({
       (categoryFilter === "all" || v.category === categoryFilter) &&
       (regionFilter === "all" || v.region === regionFilter) &&
       (stateFilter === "all" || v.state === stateFilter) &&
-      (cityFilter === "all" || v.city === cityFilter),
+      (cityFilter === "all" || v.city === cityFilter) &&
+      v.name.toLowerCase().includes(search.trim().toLowerCase()),
   );
 
   return (
@@ -244,6 +247,9 @@ export function VendorsManager({
       )}
 
       <div className="rounded-lg border border-hairline bg-card p-6 shadow-sm">
+        <div className="mb-4">
+          <SearchBox value={search} onChange={setSearch} placeholder="Search vendors by name..." />
+        </div>
         <div className="mb-4 flex flex-wrap gap-4">
           <div>
             <label htmlFor="vendor-state-filter" className="mb-1 block text-xs uppercase tracking-wide text-ink/50">
