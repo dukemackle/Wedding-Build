@@ -300,9 +300,9 @@ function GuestRow({ guest }: { guest: Guest }) {
   }
 
   return (
-    <div className="flex items-start justify-between gap-4 border-b border-hairline py-4 last:border-b-0">
+    <div className="flex flex-col gap-2 border-b border-hairline py-4 last:border-b-0 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
       <div>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <span className="text-ink">{guest.name}</span>
           {guest.plus_one && (
             <span className="rounded-full border border-hairline px-2 py-0.5 text-xs text-ink/60">
