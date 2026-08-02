@@ -9,6 +9,26 @@ for real. Update this file as items are picked up or new ideas come up.
 Nothing queued right now — see "Already shipped" below for the latest
 batch. Add new ideas here as they come up.
 
+## Monetization strategy
+
+Not a build item, just the plan so it's written down. The Knot and Zola
+both give couples free tools and make money on the vendor/commerce side,
+not by charging couples — we should follow the same shape:
+
+1. **Vendor lead-gen (primary, build first).** The `vendor_inquiries`
+   table already tracks every quote request sent to a vendor — that's
+   the exact mechanic The Knot charges vendors for. Once vendors are
+   real (via the Google Places item below), charge them a subscription
+   or per-lead fee to be listed / receive inquiries. Needs Stripe +
+   real vendors, in that order.
+2. **Registry affiliate commissions (secondary, later).** Zola-style: a
+   cut of gift purchases made through the registry. Bigger lift (real
+   e-commerce/affiliate integration on top of what's today just a link
+   list), worth revisiting once vendor lead-gen is proven out.
+3. **Not doing:** couple-facing subscriptions/paywalls. Free access for
+   couples is what makes the vendor side valuable in the first place —
+   charging couples would undercut the whole flywheel.
+
 ## Needs payment before we build it
 
 - [ ] **Real venues via Google Places API** — live search by
