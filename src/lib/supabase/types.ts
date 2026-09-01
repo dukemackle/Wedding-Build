@@ -39,6 +39,8 @@ export type RsvpSubmission = {
 
 export type GuestStatus = "invited" | "confirmed" | "declined" | "pending";
 
+export type GuestPriority = "must_invite" | "would_like" | "if_room";
+
 export type Guest = {
   id: string;
   wedding_id: string;
@@ -47,6 +49,7 @@ export type Guest = {
   name: string;
   plus_one: boolean;
   status: GuestStatus;
+  priority: GuestPriority;
   meal: string | null;
   notes: string | null;
   created_at: string;

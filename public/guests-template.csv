@@ -1,3 +1,3 @@
-name,household,plus_one,status,meal,notes
-Jane Smith,The Smiths,yes,confirmed,Chicken,Allergic to peanuts
-John Smith,The Smiths,no,confirmed,Vegetarian,
+name,household,plus_one,status,priority,meal,notes
+Jane Smith,The Smiths,yes,confirmed,must_invite,Chicken,Allergic to peanuts
+John Smith,The Smiths,no,confirmed,would_like,Vegetarian,

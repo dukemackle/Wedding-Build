@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState, useTransition } from "react";
-import type { Guest, GuestStatus } from "@/lib/supabase/types";
+import type { Guest, GuestPriority, GuestStatus } from "@/lib/supabase/types";
 import { addGuest, updateGuest, deleteGuest, importGuestsFromCsv } from "./actions";
 
 const STATUSES: GuestStatus[] = ["invited", "confirmed", "declined", "pending"];
@@ -20,6 +20,20 @@ const STATUS_BADGE_CLASS: Record<GuestStatus, string> = {
   pending: "border-brass/40 bg-brass/10 text-brass",
 };
 
+const PRIORITIES: GuestPriority[] = ["must_invite", "would_like", "if_room"];
+
+const PRIORITY_LABELS: Record<GuestPriority, string> = {
+  must_invite: "Must Invite",
+  would_like: "Would Like to Invite",
+  if_room: "If There's Room",
+};
+
+const PRIORITY_BADGE_CLASS: Record<GuestPriority, string> = {
+  must_invite: "border-forest/40 bg-forest/10 text-forest",
+  would_like: "border-brass/40 bg-brass/10 text-brass",
+  if_room: "border-hairline text-ink/70",
+};
+
 const inputClass =
   "rounded-md border border-hairline bg-parchment px-3 py-2 text-ink outline-none focus:border-forest";
 const labelClass = "flex flex-col gap-1 text-sm text-ink";
@@ -29,13 +43,14 @@ function csvField(value: string) {
 }
 
 function guestsToCsv(guests: Guest[]) {
-  const headers = ["name", "household", "plus_one", "status", "meal", "notes"];
+  const headers = ["name", "household", "plus_one", "status", "priority", "meal", "notes"];
   const rows = guests.map((guest) =>
     [
       guest.name,
       guest.household ?? "",
       guest.plus_one ? "yes" : "no",
       guest.status,
+      guest.priority,
       guest.meal ?? "",
       guest.notes ?? "",
     ]
@@ -84,6 +99,20 @@ function GuestFields({ guest }: { guest?: Guest }) {
           {STATUSES.map((status) => (
             <option key={status} value={status}>
               {STATUS_LABELS[status]}
+            </option>
+          ))}
+        </select>
+      </label>
+      <label className={labelClass}>
+        Invite priority
+        <select
+          name="priority"
+          defaultValue={guest?.priority ?? "must_invite"}
+          className={inputClass}
+        >
+          {PRIORITIES.map((priority) => (
+            <option key={priority} value={priority}>
+              {PRIORITY_LABELS[priority]}
             </option>
           ))}
         </select>
@@ -199,7 +228,8 @@ function ImportCsvForm({ onDone }: { onDone: () => void }) {
         (required), <code className="font-mono-numbers text-xs">household</code>,{" "}
         <code className="font-mono-numbers text-xs">plus_one</code> (yes/no),{" "}
         <code className="font-mono-numbers text-xs">status</code> (invited/confirmed/declined/
-        pending), <code className="font-mono-numbers text-xs">meal</code>,{" "}
+        pending), <code className="font-mono-numbers text-xs">priority</code> (must_invite/
+        would_like/if_room), <code className="font-mono-numbers text-xs">meal</code>,{" "}
         <code className="font-mono-numbers text-xs">notes</code>.{" "}
         <a href="/guests-template.csv" download className="text-brass hover:underline">
           Download a template
@@ -314,6 +344,11 @@ function GuestRow({ guest }: { guest: Guest }) {
           >
             {STATUS_LABELS[guest.status]}
           </span>
+          <span
+            className={`rounded-full border px-2 py-0.5 text-xs ${PRIORITY_BADGE_CLASS[guest.priority]}`}
+          >
+            {PRIORITY_LABELS[guest.priority]}
+          </span>
         </div>
         <p className="mt-1 text-xs text-ink/50">
           {[guest.household, guest.meal].filter(Boolean).join(" · ") || "—"}
@@ -337,8 +372,13 @@ function GuestRow({ guest }: { guest: Guest }) {
   );
 }
 
+function personCount(guest: Guest) {
+  return 1 + (guest.plus_one ? 1 : 0);
+}
+
 export function GuestsManager({ guests }: { guests: Guest[] }) {
   const [filter, setFilter] = useState<GuestStatus | "all">("all");
+  const [priorityFilter, setPriorityFilter] = useState<GuestPriority | "all">("all");
   const [showAddForm, setShowAddForm] = useState(false);
   const [showImportForm, setShowImportForm] = useState(false);
 
@@ -350,11 +390,38 @@ export function GuestsManager({ guests }: { guests: Guest[] }) {
     pending: guests.filter((g) => g.status === "pending").length,
   };
 
+  const priorityCounts: Record<GuestPriority | "all", number> = {
+    all: guests.length,
+    must_invite: guests.filter((g) => g.priority === "must_invite").length,
+    would_like: guests.filter((g) => g.priority === "would_like").length,
+    if_room: guests.filter((g) => g.priority === "if_room").length,
+  };
+
+  const tierPersonCounts: Record<GuestPriority, number> = {
+    must_invite: guests
+      .filter((g) => g.priority === "must_invite")
+      .reduce((sum, g) => sum + personCount(g), 0),
+    would_like: guests
+      .filter((g) => g.priority === "would_like")
+      .reduce((sum, g) => sum + personCount(g), 0),
+    if_room: guests
+      .filter((g) => g.priority === "if_room")
+      .reduce((sum, g) => sum + personCount(g), 0),
+  };
+
+  const cumulativeMustInvite = tierPersonCounts.must_invite;
+  const cumulativeWouldLike = cumulativeMustInvite + tierPersonCounts.would_like;
+  const cumulativeIfRoom = cumulativeWouldLike + tierPersonCounts.if_room;
+
   const headcount = guests
     .filter((g) => g.status === "confirmed")
     .reduce((sum, g) => sum + 1 + (g.plus_one ? 1 : 0), 0);
 
-  const filteredGuests = filter === "all" ? guests : guests.filter((g) => g.status === filter);
+  const filteredGuests = guests.filter(
+    (g) =>
+      (filter === "all" || g.status === filter) &&
+      (priorityFilter === "all" || g.priority === priorityFilter),
+  );
 
   return (
     <div className="w-full rounded-lg border border-hairline bg-card p-5 sm:p-8 shadow-sm">
@@ -395,6 +462,40 @@ export function GuestsManager({ guests }: { guests: Guest[] }) {
 
       {showAddForm && <AddGuestForm onDone={() => setShowAddForm(false)} />}
       {showImportForm && <ImportCsvForm onDone={() => setShowImportForm(false)} />}
+
+      <div className="mb-6 flex flex-wrap items-center gap-2 rounded-md border border-hairline bg-parchment px-4 py-3 text-sm text-ink/70 sm:gap-3">
+        <span>
+          <span className="font-mono-numbers text-forest">{cumulativeMustInvite}</span> Must
+          Invite
+        </span>
+        <span className="text-ink/30">&rarr;</span>
+        <span>
+          <span className="font-mono-numbers text-brass">{cumulativeWouldLike}</span> incl. Would
+          Like
+        </span>
+        <span className="text-ink/30">&rarr;</span>
+        <span>
+          <span className="font-mono-numbers text-ink">{cumulativeIfRoom}</span> incl. If There&apos;s
+          Room
+        </span>
+      </div>
+
+      <div className="mb-3 flex flex-wrap gap-2">
+        {(["all", ...PRIORITIES] as const).map((priority) => (
+          <button
+            key={priority}
+            onClick={() => setPriorityFilter(priority)}
+            className={`rounded-full border px-3 py-1 text-sm transition-colors ${
+              priorityFilter === priority
+                ? "border-forest bg-forest text-parchment"
+                : "border-hairline bg-parchment text-ink hover:border-forest"
+            }`}
+          >
+            {priority === "all" ? "All priorities" : PRIORITY_LABELS[priority]} (
+            {priorityCounts[priority]})
+          </button>
+        ))}
+      </div>
 
       <div className="mb-6 flex flex-wrap gap-2">
         {(["all", ...STATUSES] as const).map((status) => (
