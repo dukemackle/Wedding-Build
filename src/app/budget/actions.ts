@@ -111,3 +111,103 @@ export async function clearBudgetOverride(
   revalidatePath("/budget");
   return {};
 }
+
+function customItemFieldsFromForm(formData: FormData) {
+  const label = (formData.get("label") as string)?.trim();
+  if (!label) {
+    return { error: "Give the item a name." } as const;
+  }
+
+  const amountRaw = formData.get("amount") as string;
+  const amount = Number(amountRaw);
+  if (!amountRaw || Number.isNaN(amount) || amount < 0) {
+    return { error: "Enter a valid amount." } as const;
+  }
+
+  return {
+    fields: {
+      label,
+      amount,
+      purchased_from: ((formData.get("purchased_from") as string) || "").trim() || null,
+    },
+  } as const;
+}
+
+export async function addBudgetCustomItem(formData: FormData): Promise<{ error?: string }> {
+  const { supabase, user, wedding } = await requireOwnWedding();
+
+  if (!wedding) {
+    return { error: "Set up your wedding on the Dashboard first." };
+  }
+
+  const parsed = customItemFieldsFromForm(formData);
+  if ("error" in parsed) {
+    return { error: parsed.error };
+  }
+
+  const { error } = await supabase.from("budget_custom_items").insert({
+    wedding_id: wedding.id,
+    user_id: user.id,
+    ...parsed.fields,
+  });
+
+  if (error) {
+    return { error: error.message };
+  }
+
+  revalidatePath("/budget");
+  revalidatePath("/dashboard");
+  return {};
+}
+
+export async function updateBudgetCustomItem(formData: FormData): Promise<{ error?: string }> {
+  const { supabase, wedding } = await requireOwnWedding();
+
+  if (!wedding) {
+    return { error: "Set up your wedding on the Dashboard first." };
+  }
+
+  const itemId = formData.get("id") as string;
+  const parsed = customItemFieldsFromForm(formData);
+  if ("error" in parsed) {
+    return { error: parsed.error };
+  }
+
+  const { error } = await supabase
+    .from("budget_custom_items")
+    .update({ ...parsed.fields, updated_at: new Date().toISOString() })
+    .eq("id", itemId)
+    .eq("wedding_id", wedding.id);
+
+  if (error) {
+    return { error: error.message };
+  }
+
+  revalidatePath("/budget");
+  revalidatePath("/dashboard");
+  return {};
+}
+
+export async function deleteBudgetCustomItem(formData: FormData): Promise<{ error?: string }> {
+  const { supabase, wedding } = await requireOwnWedding();
+
+  if (!wedding) {
+    return { error: "Set up your wedding on the Dashboard first." };
+  }
+
+  const itemId = formData.get("id") as string;
+
+  const { error } = await supabase
+    .from("budget_custom_items")
+    .delete()
+    .eq("id", itemId)
+    .eq("wedding_id", wedding.id);
+
+  if (error) {
+    return { error: error.message };
+  }
+
+  revalidatePath("/budget");
+  revalidatePath("/dashboard");
+  return {};
+}

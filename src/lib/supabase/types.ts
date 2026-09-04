@@ -179,3 +179,14 @@ export type ItineraryEvent = {
   created_at: string;
   updated_at: string;
 };
+
+export type BudgetCustomItem = {
+  id: string;
+  wedding_id: string;
+  user_id: string;
+  label: string;
+  amount: number;
+  purchased_from: string | null;
+  created_at: string;
+  updated_at: string;
+};

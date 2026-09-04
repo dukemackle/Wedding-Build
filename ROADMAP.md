@@ -154,3 +154,12 @@ not by charging couples — we should follow the same shape:
   Each vendor also shows its inquiry status (sent/responded/booked/
   declined) if one exists. Links out to Guests for guest contacts
   rather than duplicating that list.
+- **Custom budget items**: a new "Additional items" section on the
+  Budget page where the couple can add and delete freeform line items
+  (name, amount, optional "purchased from") for costs that don't fit
+  the 12 preset categories — wedding bands, a photo booth, welcome
+  bags, whatever comes up. The 12 preset categories stay as they were
+  (driven by the region/season/style/guest-count estimate engine, not
+  simple rows, so they aren't deletable the same way), but custom
+  items count toward the grand total on both the Budget page and the
+  Dashboard summary.

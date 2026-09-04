@@ -2,13 +2,14 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { AppNav } from "@/components/app-nav";
-import type { Wedding } from "@/lib/supabase/types";
+import type { BudgetCustomItem, Wedding } from "@/lib/supabase/types";
 import {
   BUDGET_CATEGORIES,
   computeCategoryValue,
   effectiveGuestCount,
 } from "@/lib/budget-categories";
 import { BudgetTable, type BudgetRow } from "./budget-table";
+import { BudgetCustomItems } from "./budget-custom-items";
 
 type BudgetLineItemRow = {
   category: string;
@@ -152,7 +153,16 @@ export default async function BudgetPage() {
     suggestions: Array.from(new Set(suggestionsByCategory[category.key] ?? [])),
   }));
 
-  const total = rows.reduce((sum, row) => sum + (row.override ?? row.computed), 0);
+  const { data: customItems } = await supabase
+    .from("budget_custom_items")
+    .select("*")
+    .eq("wedding_id", wedding.id)
+    .order("created_at", { ascending: true })
+    .returns<BudgetCustomItem[]>();
+
+  const customItemsTotal = (customItems ?? []).reduce((sum, item) => sum + item.amount, 0);
+  const total =
+    rows.reduce((sum, row) => sum + (row.override ?? row.computed), 0) + customItemsTotal;
 
   return (
     <main className="flex flex-1 flex-col items-center px-6 py-16">
@@ -173,6 +183,7 @@ export default async function BudgetPage() {
         </p>
 
         <BudgetTable rows={rows} total={total} />
+        <BudgetCustomItems items={customItems ?? []} />
       </div>
     </main>
   );
