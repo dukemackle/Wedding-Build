@@ -109,3 +109,12 @@ not by charging couples — we should follow the same shape:
   already wired up for vendor inquiries). Tracks when each guest was last
   invited so already-invited guests are visible and safe to skip or
   re-send. Only works once the guest site (public_slug) is turned on.
+- **Wedding weekend itinerary**: a new Itinerary page where the couple
+  clicks a day on a calendar and builds a schedule for it (rehearsal
+  dinner, ceremony, reception, day-after brunch, whatever the weekend
+  needs) — title, time range, location, notes per event. The actual
+  wedding day is highlighted on the calendar. Once the guest site is
+  turned on, guests see the same calendar (read-only) on the public RSVP
+  page, so they don't need to text the couple asking what time things
+  start. RLS mirrors the registry: owner-only read/write, plus a narrow
+  public-read policy gated on the wedding having a `public_slug`.
