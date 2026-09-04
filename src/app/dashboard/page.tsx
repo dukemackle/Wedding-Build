@@ -28,6 +28,7 @@ export default async function DashboardPage() {
     const [
       { data: guests },
       { data: budgetOverrides },
+      { data: customItems },
       { count: venuesShortlisted },
       { data: vendorInquiries },
       { count: attireShortlisted },
@@ -37,6 +38,7 @@ export default async function DashboardPage() {
         .from("budget_line_items")
         .select("category, override_value")
         .eq("wedding_id", wedding.id),
+      supabase.from("budget_custom_items").select("amount").eq("wedding_id", wedding.id),
       supabase
         .from("venue_shortlist")
         .select("id", { count: "exact", head: true })
@@ -54,7 +56,7 @@ export default async function DashboardPage() {
     const overrideByCategory = new Map(
       (budgetOverrides ?? []).map((row) => [row.category, row.override_value]),
     );
-    const budgetTotal = BUDGET_CATEGORIES.reduce((sum, category) => {
+    const categoriesTotal = BUDGET_CATEGORIES.reduce((sum, category) => {
       const computed = computeCategoryValue(
         category,
         headcount,
@@ -64,6 +66,8 @@ export default async function DashboardPage() {
       );
       return sum + (overrideByCategory.get(category.key) ?? computed);
     }, 0);
+    const customItemsTotal = (customItems ?? []).reduce((sum, item) => sum + item.amount, 0);
+    const budgetTotal = categoriesTotal + customItemsTotal;
 
     const inquiries = vendorInquiries ?? [];
 
