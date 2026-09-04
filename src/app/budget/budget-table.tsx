@@ -10,6 +10,7 @@ export type BudgetRow = {
   computed: number;
   override: number | null;
   purchasedFrom: string | null;
+  paidBy: string | null;
   suggestions: string[];
 };
 
@@ -19,13 +20,20 @@ const currency = new Intl.NumberFormat("en-US", {
   maximumFractionDigits: 0,
 });
 
-function BudgetRowItem({ row }: { row: BudgetRow }) {
+function BudgetRowItem({
+  row,
+  payerSuggestions,
+}: {
+  row: BudgetRow;
+  payerSuggestions: string[];
+}) {
   const [isEditing, setIsEditing] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
   const [isPending, startTransition] = useTransition();
 
   const effectiveValue = row.override ?? row.computed;
   const datalistId = `purchased-from-${row.key}`;
+  const payerDatalistId = `paid-by-${row.key}`;
 
   function handleSave(formData: FormData) {
     startTransition(async () => {
@@ -63,6 +71,9 @@ function BudgetRowItem({ row }: { row: BudgetRow }) {
           {!isEditing && row.purchasedFrom && (
             <p className="mt-1 text-xs text-brass">Purchased from {row.purchasedFrom}</p>
           )}
+          {!isEditing && row.paidBy && (
+            <p className="mt-1 text-xs text-ink/50">Paid by {row.paidBy}</p>
+          )}
         </div>
 
         {isEditing ? (
@@ -87,6 +98,21 @@ function BudgetRowItem({ row }: { row: BudgetRow }) {
             {row.suggestions.length > 0 && (
               <datalist id={datalistId}>
                 {row.suggestions.map((suggestion) => (
+                  <option key={suggestion} value={suggestion} />
+                ))}
+              </datalist>
+            )}
+            <input
+              type="text"
+              name="paid_by"
+              list={payerSuggestions.length > 0 ? payerDatalistId : undefined}
+              placeholder="Paid by (optional)"
+              defaultValue={row.paidBy ?? ""}
+              className="w-full rounded-md border border-hairline bg-parchment px-2 py-1 text-sm text-ink outline-none focus:border-forest sm:w-56"
+            />
+            {payerSuggestions.length > 0 && (
+              <datalist id={payerDatalistId}>
+                {payerSuggestions.map((suggestion) => (
                   <option key={suggestion} value={suggestion} />
                 ))}
               </datalist>
@@ -144,9 +170,11 @@ function BudgetRowItem({ row }: { row: BudgetRow }) {
 export function BudgetTable({
   rows,
   total,
+  payerSuggestions,
 }: {
   rows: BudgetRow[];
   total: number;
+  payerSuggestions: string[];
 }) {
   return (
     <div className="mt-8 w-full rounded-lg border border-hairline bg-card p-5 sm:p-8 shadow-sm">
@@ -160,7 +188,7 @@ export function BudgetTable({
       </div>
 
       {rows.map((row) => (
-        <BudgetRowItem key={row.key} row={row} />
+        <BudgetRowItem key={row.key} row={row} payerSuggestions={payerSuggestions} />
       ))}
     </div>
   );

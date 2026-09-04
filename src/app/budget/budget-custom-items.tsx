@@ -14,7 +14,15 @@ const inputClass =
   "rounded-md border border-hairline bg-parchment px-3 py-2 text-ink outline-none focus:border-forest";
 const labelClass = "flex flex-col gap-1 text-sm text-ink";
 
-function ItemFields({ item }: { item?: BudgetCustomItem }) {
+function ItemFields({
+  item,
+  payerSuggestions,
+}: {
+  item?: BudgetCustomItem;
+  payerSuggestions: string[];
+}) {
+  const payerDatalistId = `paid-by-${item?.id ?? "new"}`;
+
   return (
     <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
       <label className={labelClass}>
@@ -38,7 +46,7 @@ function ItemFields({ item }: { item?: BudgetCustomItem }) {
           className={inputClass}
         />
       </label>
-      <label className={`${labelClass} sm:col-span-2`}>
+      <label className={labelClass}>
         Purchased from
         <input
           name="purchased_from"
@@ -47,11 +55,34 @@ function ItemFields({ item }: { item?: BudgetCustomItem }) {
           className={inputClass}
         />
       </label>
+      <label className={labelClass}>
+        Paid by
+        <input
+          name="paid_by"
+          list={payerSuggestions.length > 0 ? payerDatalistId : undefined}
+          placeholder="Optional"
+          defaultValue={item?.paid_by ?? ""}
+          className={inputClass}
+        />
+        {payerSuggestions.length > 0 && (
+          <datalist id={payerDatalistId}>
+            {payerSuggestions.map((suggestion) => (
+              <option key={suggestion} value={suggestion} />
+            ))}
+          </datalist>
+        )}
+      </label>
     </div>
   );
 }
 
-function AddItemForm({ onDone }: { onDone: () => void }) {
+function AddItemForm({
+  onDone,
+  payerSuggestions,
+}: {
+  onDone: () => void;
+  payerSuggestions: string[];
+}) {
   const [error, setError] = useState<string | undefined>(undefined);
   const [isPending, startTransition] = useTransition();
   const formRef = useRef<HTMLFormElement>(null);
@@ -75,7 +106,7 @@ function AddItemForm({ onDone }: { onDone: () => void }) {
       action={handleSubmit}
       className="mb-4 rounded-lg border border-hairline bg-parchment p-4"
     >
-      <ItemFields />
+      <ItemFields payerSuggestions={payerSuggestions} />
       {error && <p className="mt-3 text-sm text-red-800">{error}</p>}
       <div className="mt-4 flex items-center gap-3">
         <button
@@ -97,7 +128,13 @@ function AddItemForm({ onDone }: { onDone: () => void }) {
   );
 }
 
-function ItemRow({ item }: { item: BudgetCustomItem }) {
+function ItemRow({
+  item,
+  payerSuggestions,
+}: {
+  item: BudgetCustomItem;
+  payerSuggestions: string[];
+}) {
   const [isEditing, setIsEditing] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
   const [isPending, startTransition] = useTransition();
@@ -131,7 +168,7 @@ function ItemRow({ item }: { item: BudgetCustomItem }) {
       <div className="border-b border-hairline py-4 last:border-b-0">
         <form action={handleSave}>
           <input type="hidden" name="id" value={item.id} />
-          <ItemFields item={item} />
+          <ItemFields item={item} payerSuggestions={payerSuggestions} />
           {error && <p className="mt-3 text-sm text-red-800">{error}</p>}
           <div className="mt-4 flex items-center gap-3">
             <button
@@ -161,6 +198,7 @@ function ItemRow({ item }: { item: BudgetCustomItem }) {
         {item.purchased_from && (
           <p className="mt-1 text-xs text-brass">Purchased from {item.purchased_from}</p>
         )}
+        {item.paid_by && <p className="mt-1 text-xs text-ink/50">Paid by {item.paid_by}</p>}
         {error && <p className="mt-1 text-sm text-red-800">{error}</p>}
       </div>
       <div className="flex shrink-0 items-center gap-3">
@@ -180,7 +218,13 @@ function ItemRow({ item }: { item: BudgetCustomItem }) {
   );
 }
 
-export function BudgetCustomItems({ items }: { items: BudgetCustomItem[] }) {
+export function BudgetCustomItems({
+  items,
+  payerSuggestions,
+}: {
+  items: BudgetCustomItem[];
+  payerSuggestions: string[];
+}) {
   const [showAddForm, setShowAddForm] = useState(false);
   const total = items.reduce((sum, item) => sum + item.amount, 0);
 
@@ -203,14 +247,18 @@ export function BudgetCustomItems({ items }: { items: BudgetCustomItem[] }) {
         </button>
       </div>
 
-      {showAddForm && <AddItemForm onDone={() => setShowAddForm(false)} />}
+      {showAddForm && (
+        <AddItemForm onDone={() => setShowAddForm(false)} payerSuggestions={payerSuggestions} />
+      )}
 
       {items.length === 0 ? (
         <p className="py-8 text-center text-sm text-ink/50">
           No additional items yet — add your first one above.
         </p>
       ) : (
-        items.map((item) => <ItemRow key={item.id} item={item} />)
+        items.map((item) => (
+          <ItemRow key={item.id} item={item} payerSuggestions={payerSuggestions} />
+        ))
       )}
     </div>
   );
