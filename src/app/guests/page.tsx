@@ -7,6 +7,7 @@ import type { Guest, RegistryItem, RsvpSubmission, Wedding } from "@/lib/supabas
 import { GuestsManager } from "./guests-manager";
 import { RegistryManager } from "./registry-manager";
 import { PublicSitePanel } from "./public-site-panel";
+import { BulkInviteForm } from "./bulk-invite-form";
 
 export default async function GuestsPage() {
   const supabase = await createClient();
@@ -93,6 +94,7 @@ export default async function GuestsPage() {
             origin={origin}
             pendingSubmissions={rsvpSubmissions ?? []}
           />
+          <BulkInviteForm guests={guests ?? []} publicSlug={wedding.public_slug} origin={origin} />
           <GuestsManager guests={guests ?? []} />
           <RegistryManager registryItems={registryItems ?? []} />
         </div>

@@ -43,11 +43,12 @@ function csvField(value: string) {
 }
 
 function guestsToCsv(guests: Guest[]) {
-  const headers = ["name", "household", "plus_one", "status", "priority", "meal", "notes"];
+  const headers = ["name", "household", "email", "plus_one", "status", "priority", "meal", "notes"];
   const rows = guests.map((guest) =>
     [
       guest.name,
       guest.household ?? "",
+      guest.email ?? "",
       guest.plus_one ? "yes" : "no",
       guest.status,
       guest.priority,
@@ -90,6 +91,16 @@ function GuestFields({ guest }: { guest?: Guest }) {
           name="household"
           placeholder="Optional"
           defaultValue={guest?.household ?? ""}
+          className={inputClass}
+        />
+      </label>
+      <label className={labelClass}>
+        Email
+        <input
+          type="email"
+          name="email"
+          placeholder="Optional — needed to send an RSVP invite"
+          defaultValue={guest?.email ?? ""}
           className={inputClass}
         />
       </label>
@@ -226,6 +237,7 @@ function ImportCsvForm({ onDone }: { onDone: () => void }) {
       <p className="text-sm text-ink">
         Upload a CSV with columns: <code className="font-mono-numbers text-xs">name</code>{" "}
         (required), <code className="font-mono-numbers text-xs">household</code>,{" "}
+        <code className="font-mono-numbers text-xs">email</code>,{" "}
         <code className="font-mono-numbers text-xs">plus_one</code> (yes/no),{" "}
         <code className="font-mono-numbers text-xs">status</code> (invited/confirmed/declined/
         pending), <code className="font-mono-numbers text-xs">priority</code> (must_invite/
@@ -351,7 +363,7 @@ function GuestRow({ guest }: { guest: Guest }) {
           </span>
         </div>
         <p className="mt-1 text-xs text-ink/50">
-          {[guest.household, guest.meal].filter(Boolean).join(" · ") || "—"}
+          {[guest.household, guest.email, guest.meal].filter(Boolean).join(" · ") || "—"}
         </p>
         {guest.notes && <p className="mt-1 text-sm text-ink/70">{guest.notes}</p>}
         {error && <p className="mt-1 text-sm text-red-800">{error}</p>}
