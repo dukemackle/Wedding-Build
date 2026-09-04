@@ -166,7 +166,7 @@ export function VenuesManager({
       {shortlist.length > 0 && (
         <div className="rounded-lg border border-hairline bg-card p-6 shadow-sm">
           <h2 className="font-display text-2xl font-semibold text-forest">
-            Your shortlist
+            Your favorites
           </h2>
           <div className="mt-4">
             {shortlist.map((entry) => {

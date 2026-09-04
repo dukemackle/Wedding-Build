@@ -112,6 +112,15 @@ export type VendorInquiry = {
   status: VendorInquiryStatus;
 };
 
+export type VendorFavoriteEntry = {
+  id: string;
+  wedding_id: string;
+  user_id: string;
+  vendor_id: string;
+  notes: string | null;
+  created_at: string;
+};
+
 export type RegistryItem = {
   id: string;
   wedding_id: string;

@@ -2,10 +2,11 @@
 
 import dynamic from "next/dynamic";
 import { useMemo, useState, useTransition } from "react";
-import type { Vendor, VendorInquiry, VendorInquiryStatus } from "@/lib/supabase/types";
+import type { Vendor, VendorFavoriteEntry, VendorInquiry, VendorInquiryStatus } from "@/lib/supabase/types";
 import { REGIONS } from "@/lib/wedding-options";
-import { sendVendorInquiry, updateInquiryStatus } from "./actions";
+import { sendVendorInquiry, updateInquiryStatus, updateVendorFavoriteNotes } from "./actions";
 import { SearchBox } from "@/components/search-box";
+import { VendorFavoriteButton } from "./vendor-card-shared";
 
 const VendorsMap = dynamic(() => import("./vendors-map").then((m) => m.VendorsMap), {
   ssr: false,
@@ -94,7 +95,7 @@ function InquiryForm({ vendor, onDone }: { vendor: Vendor; onDone: () => void })
   );
 }
 
-function VendorCard({ vendor }: { vendor: Vendor }) {
+function VendorCard({ vendor, isFavorited }: { vendor: Vendor; isFavorited: boolean }) {
   const [showForm, setShowForm] = useState(false);
 
   return (
@@ -118,16 +119,55 @@ function VendorCard({ vendor }: { vendor: Vendor }) {
       </p>
       {vendor.description && <p className="mt-3 text-sm text-ink/80">{vendor.description}</p>}
 
-      {showForm ? (
-        <InquiryForm vendor={vendor} onDone={() => setShowForm(false)} />
-      ) : (
+      <div className="mt-4 flex flex-wrap items-center gap-2">
+        <VendorFavoriteButton vendorId={vendor.id} isFavorited={isFavorited} />
+        {!showForm && (
+          <button
+            onClick={() => setShowForm(true)}
+            className="rounded-full border border-hairline bg-card px-3 py-1 text-sm text-forest transition-colors hover:border-forest"
+          >
+            Request a quote
+          </button>
+        )}
+      </div>
+
+      {showForm && <InquiryForm vendor={vendor} onDone={() => setShowForm(false)} />}
+    </div>
+  );
+}
+
+function VendorFavoriteNotes({ entry, vendorName }: { entry: VendorFavoriteEntry; vendorName: string }) {
+  const [saved, setSaved] = useState(true);
+  const [isPending, startTransition] = useTransition();
+
+  function handleSave(formData: FormData) {
+    startTransition(async () => {
+      const result = await updateVendorFavoriteNotes(formData);
+      setSaved(!result?.error);
+    });
+  }
+
+  return (
+    <div className="border-b border-hairline py-4 last:border-b-0">
+      <p className="text-ink">{vendorName}</p>
+      <form action={handleSave} className="mt-2 flex items-start gap-3">
+        <input type="hidden" name="vendor_id" value={entry.vendor_id} />
+        <textarea
+          name="notes"
+          rows={2}
+          placeholder="Notes (pricing, availability, questions to ask)..."
+          defaultValue={entry.notes ?? ""}
+          onChange={() => setSaved(false)}
+          className="flex-1 rounded-md border border-hairline bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-forest"
+        />
         <button
-          onClick={() => setShowForm(true)}
-          className="mt-4 self-start rounded-full border border-hairline bg-card px-3 py-1 text-sm text-forest transition-colors hover:border-forest"
+          type="submit"
+          disabled={isPending}
+          className="rounded-md border border-hairline px-3 py-2 text-sm text-ink transition-colors hover:border-forest disabled:opacity-60"
         >
-          Request a quote
+          {isPending ? "Saving..." : saved ? "Saved" : "Save"}
         </button>
-      )}
+      </form>
     </div>
   );
 }
@@ -183,10 +223,15 @@ function InquiryRow({ inquiry }: { inquiry: VendorInquiry }) {
 export function VendorsManager({
   vendors,
   inquiries,
+  favorites,
 }: {
   vendors: Vendor[];
   inquiries: VendorInquiry[];
+  favorites: VendorFavoriteEntry[];
 }) {
+  const favoritedIds = new Set(favorites.map((f) => f.vendor_id));
+  const vendorById = new Map(vendors.map((v) => [v.id, v]));
+
   const [categoryFilter, setCategoryFilter] = useState<string | "all">("all");
   const [regionFilter, setRegionFilter] = useState<string | "all">("all");
   const [stateFilter, setStateFilter] = useState<string | "all">("all");
@@ -233,6 +278,21 @@ export function VendorsManager({
 
   return (
     <div className="flex flex-col gap-8">
+      {favorites.length > 0 && (
+        <div className="rounded-lg border border-hairline bg-card p-6 shadow-sm">
+          <h2 className="font-display text-2xl font-semibold text-forest">Your favorites</h2>
+          <div className="mt-4">
+            {favorites.map((entry) => {
+              const vendor = vendorById.get(entry.vendor_id);
+              if (!vendor) return null;
+              return (
+                <VendorFavoriteNotes key={entry.id} entry={entry} vendorName={vendor.name} />
+              );
+            })}
+          </div>
+        </div>
+      )}
+
       {inquiries.length > 0 && (
         <div className="rounded-lg border border-hairline bg-card p-6 shadow-sm">
           <h2 className="font-display text-2xl font-semibold text-forest">
@@ -374,7 +434,11 @@ export function VendorsManager({
         ) : (
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             {filteredVendors.map((vendor) => (
-              <VendorCard key={vendor.id} vendor={vendor} />
+              <VendorCard
+                key={vendor.id}
+                vendor={vendor}
+                isFavorited={favoritedIds.has(vendor.id)}
+              />
             ))}
           </div>
         )}

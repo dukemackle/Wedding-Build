@@ -120,3 +120,59 @@ export async function updateInquiryStatus(formData: FormData): Promise<{ error?:
   revalidatePath("/vendors");
   return {};
 }
+
+export async function toggleVendorFavorite(formData: FormData): Promise<{ error?: string }> {
+  const { supabase, user, wedding } = await requireOwnWedding();
+
+  if (!wedding) {
+    return { error: "Set up your wedding on the Dashboard first." };
+  }
+
+  const vendorId = formData.get("vendor_id") as string;
+  const isFavorited = formData.get("is_favorited") === "true";
+
+  if (isFavorited) {
+    const { error } = await supabase
+      .from("vendor_favorites")
+      .delete()
+      .eq("wedding_id", wedding.id)
+      .eq("vendor_id", vendorId);
+
+    if (error) return { error: error.message };
+  } else {
+    const { error } = await supabase.from("vendor_favorites").insert({
+      wedding_id: wedding.id,
+      user_id: user.id,
+      vendor_id: vendorId,
+    });
+
+    if (error) return { error: error.message };
+  }
+
+  revalidatePath("/vendors");
+  return {};
+}
+
+export async function updateVendorFavoriteNotes(formData: FormData): Promise<{ error?: string }> {
+  const { supabase, wedding } = await requireOwnWedding();
+
+  if (!wedding) {
+    return { error: "Set up your wedding on the Dashboard first." };
+  }
+
+  const vendorId = formData.get("vendor_id") as string;
+  const notes = (formData.get("notes") as string) ?? "";
+
+  const { error } = await supabase
+    .from("vendor_favorites")
+    .update({ notes: notes.trim() || null })
+    .eq("wedding_id", wedding.id)
+    .eq("vendor_id", vendorId);
+
+  if (error) {
+    return { error: error.message };
+  }
+
+  revalidatePath("/vendors");
+  return {};
+}

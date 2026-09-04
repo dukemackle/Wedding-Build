@@ -2,7 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { AppNav } from "@/components/app-nav";
-import type { Vendor, VendorInquiry, Wedding } from "@/lib/supabase/types";
+import type { Vendor, VendorFavoriteEntry, VendorInquiry, Wedding } from "@/lib/supabase/types";
 import { VendorsManager } from "./vendors-manager";
 
 export default async function VendorsPage() {
@@ -59,6 +59,13 @@ export default async function VendorsPage() {
     .order("sent_at", { ascending: false })
     .returns<VendorInquiry[]>();
 
+  const { data: favorites } = await supabase
+    .from("vendor_favorites")
+    .select("*")
+    .eq("wedding_id", wedding.id)
+    .order("created_at", { ascending: true })
+    .returns<VendorFavoriteEntry[]>();
+
   return (
     <main className="flex flex-1 flex-col items-center px-6 py-16">
       <AppNav email={user.email ?? ""} maxWidthClassName="max-w-4xl" />
@@ -70,7 +77,11 @@ export default async function VendorsPage() {
           Browse & request quotes
         </h1>
 
-        <VendorsManager vendors={vendors ?? []} inquiries={inquiries ?? []} />
+        <VendorsManager
+          vendors={vendors ?? []}
+          inquiries={inquiries ?? []}
+          favorites={favorites ?? []}
+        />
       </div>
     </main>
   );
