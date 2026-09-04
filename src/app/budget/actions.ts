@@ -50,6 +50,8 @@ export async function setBudgetOverride(
     return { error: "Enter a valid amount." };
   }
 
+  const purchasedFrom = ((formData.get("purchased_from") as string) || "").trim() || null;
+
   const { data: guests } = await supabase
     .from("guests")
     .select("status, plus_one")
@@ -72,6 +74,7 @@ export async function setBudgetOverride(
       label: category.label,
       base_value: computed,
       override_value: overrideValue,
+      purchased_from: purchasedFrom,
     },
     { onConflict: "wedding_id,category" },
   );

@@ -9,6 +9,7 @@ const links = [
   { href: "/venues", label: "Venues" },
   { href: "/vendors", label: "Vendors" },
   { href: "/attire", label: "Attire" },
+  { href: "/contacts", label: "Contacts" },
 ];
 
 export function AppNav({

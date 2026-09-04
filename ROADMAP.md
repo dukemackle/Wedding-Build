@@ -133,3 +133,24 @@ not by charging couples — we should follow the same shape:
   page, so they don't need to text the couple asking what time things
   start. RLS mirrors the registry: owner-only read/write, plus a narrow
   public-read policy gated on the wedding having a `public_slug`.
+- **Redesigned visual style**: true white background with soft, fixed,
+  colorful gradient shapes behind all content (emerald/gold/blush), deep
+  jewel-tone emerald + gold accent colors, cards separated purely by
+  soft shadow instead of visible borders, and a larger corner radius
+  throughout. Retheme only, driven entirely by the six shared color
+  tokens in `globals.css` — no component markup touched.
+- **Budget: attach what you actually purchased from**: each budget line
+  item (venue, catering, photography, etc.) can now have a free-text
+  "Purchased from" field alongside the actual dollar amount, so the
+  couple can record e.g. "Cedar Hollow Barn" on the venue line. The
+  input suggests names pulled from whatever the couple has already
+  favorited (venues, vendors) or booked (vendor inquiries marked
+  "Booked"), matched to the right budget category.
+- **Contacts page**: a new page consolidating everyone the couple might
+  need to reach — every favorited or inquired-with vendor (deduped,
+  with a mailto link from the catalog and an editable phone number),
+  plus any favorited venue (with an editable contact email and phone,
+  since venues don't have catalog contact info the way vendors do).
+  Each vendor also shows its inquiry status (sent/responded/booked/
+  declined) if one exists. Links out to Guests for guest contacts
+  rather than duplicating that list.

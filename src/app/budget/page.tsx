@@ -13,6 +13,18 @@ import { BudgetTable, type BudgetRow } from "./budget-table";
 type BudgetLineItemRow = {
   category: string;
   override_value: number | null;
+  purchased_from: string | null;
+};
+
+const VENDOR_CATEGORY_TO_BUDGET_KEY: Record<string, string> = {
+  Catering: "catering",
+  Photography: "photography",
+  Videography: "videography",
+  Florals: "florals",
+  Music: "music",
+  Cake: "cake",
+  Planning: "planner",
+  Transportation: "transportation",
 };
 
 export default async function BudgetPage() {
@@ -66,12 +78,63 @@ export default async function BudgetPage() {
 
   const { data: overrides } = await supabase
     .from("budget_line_items")
-    .select("category, override_value")
+    .select("category, override_value, purchased_from")
     .eq("wedding_id", wedding.id);
 
   const overrideByCategory = new Map(
-    (overrides ?? []).map((row: BudgetLineItemRow) => [row.category, row.override_value]),
+    (overrides ?? []).map((row: BudgetLineItemRow) => [row.category, row]),
   );
+
+  const [
+    { data: venueFavoriteRows },
+    { data: vendorFavoriteRows },
+    { data: bookedInquiryRows },
+    { data: attireShortlistRows },
+  ] = await Promise.all([
+    supabase.from("venue_shortlist").select("venue_id").eq("wedding_id", wedding.id),
+    supabase.from("vendor_favorites").select("vendor_id").eq("wedding_id", wedding.id),
+    supabase
+      .from("vendor_inquiries")
+      .select("vendor_id")
+      .eq("wedding_id", wedding.id)
+      .eq("status", "booked"),
+    supabase.from("attire_shortlist").select("attire_item_id").eq("wedding_id", wedding.id),
+  ]);
+
+  const venueIds = (venueFavoriteRows ?? []).map((r) => r.venue_id);
+  const { data: favoritedVenues } = venueIds.length
+    ? await supabase.from("venues").select("name").in("id", venueIds)
+    : { data: [] };
+
+  const vendorIds = Array.from(
+    new Set(
+      [...(vendorFavoriteRows ?? []), ...(bookedInquiryRows ?? [])]
+        .map((r) => r.vendor_id)
+        .filter((id): id is string => Boolean(id)),
+    ),
+  );
+  const { data: suggestedVendors } = vendorIds.length
+    ? await supabase.from("vendors").select("name, category").in("id", vendorIds)
+    : { data: [] };
+
+  const attireIds = (attireShortlistRows ?? []).map((r) => r.attire_item_id);
+  const { data: favoritedAttire } = attireIds.length
+    ? await supabase.from("attire_items").select("name").in("id", attireIds)
+    : { data: [] };
+
+  const suggestionsByCategory: Record<string, string[]> = {};
+  for (const venue of favoritedVenues ?? []) {
+    (suggestionsByCategory.venue ??= []).push(venue.name);
+  }
+  for (const item of favoritedAttire ?? []) {
+    (suggestionsByCategory.attire ??= []).push(item.name);
+  }
+  for (const vendor of suggestedVendors ?? []) {
+    const budgetKey = vendor.category ? VENDOR_CATEGORY_TO_BUDGET_KEY[vendor.category] : undefined;
+    if (budgetKey) {
+      (suggestionsByCategory[budgetKey] ??= []).push(vendor.name);
+    }
+  }
 
   const rows: BudgetRow[] = BUDGET_CATEGORIES.map((category) => ({
     key: category.key,
@@ -84,7 +147,9 @@ export default async function BudgetPage() {
       wedding.season,
       wedding.style_tier,
     ),
-    override: overrideByCategory.get(category.key) ?? null,
+    override: overrideByCategory.get(category.key)?.override_value ?? null,
+    purchasedFrom: overrideByCategory.get(category.key)?.purchased_from ?? null,
+    suggestions: Array.from(new Set(suggestionsByCategory[category.key] ?? [])),
   }));
 
   const total = rows.reduce((sum, row) => sum + (row.override ?? row.computed), 0);
