@@ -6,13 +6,8 @@ for real. Update this file as items are picked up or new ideas come up.
 
 ## Free to build now
 
-- [ ] **Bulk RSVP invite emails**: let the couple pick guests from their
-      list and have the app email each one their public RSVP link,
-      instead of the couple copy-pasting the link into individual
-      texts/emails themselves. Resend is already wired up (it sends
-      vendor inquiry emails today), so this reuses existing
-      infrastructure — no new payment needed, though deliverability
-      rides on Resend's shared sender until a real domain is verified.
+Nothing queued right now — see "Already shipped" below for the latest
+batch. Add new ideas here as they come up.
 
 ## Monetization strategy
 
@@ -108,3 +103,9 @@ not by charging couples — we should follow the same shape:
   There's Room: Z") so a couple can see how deep into the list they can
   go before hitting their venue's capacity. Supported in the CSV
   import/export and the manual add/edit form too.
+- Bulk RSVP invite emails: guests can now have an email on file, and the
+  couple can select any number of them on the Guests page and send each
+  one their public RSVP link in one batch (reuses the Resend integration
+  already wired up for vendor inquiries). Tracks when each guest was last
+  invited so already-invited guests are visible and safe to skip or
+  re-send. Only works once the guest site (public_slug) is turned on.

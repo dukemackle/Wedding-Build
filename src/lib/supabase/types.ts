@@ -47,11 +47,13 @@ export type Guest = {
   user_id: string;
   household: string | null;
   name: string;
+  email: string | null;
   plus_one: boolean;
   status: GuestStatus;
   priority: GuestPriority;
   meal: string | null;
   notes: string | null;
+  invite_sent_at: string | null;
   created_at: string;
   updated_at: string;
 };
