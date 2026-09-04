@@ -4,9 +4,10 @@ import Papa from "papaparse";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import type { GuestStatus, RsvpSubmission, Wedding } from "@/lib/supabase/types";
+import type { GuestPriority, GuestStatus, RsvpSubmission, Wedding } from "@/lib/supabase/types";
 
 const VALID_STATUSES: GuestStatus[] = ["invited", "confirmed", "declined", "pending"];
+const VALID_PRIORITIES: GuestPriority[] = ["must_invite", "would_like", "if_room"];
 
 async function requireOwnWedding() {
   const supabase = await createClient();
@@ -30,12 +31,16 @@ async function requireOwnWedding() {
 function guestFieldsFromForm(formData: FormData) {
   const name = (formData.get("name") as string)?.trim();
   const status = formData.get("status") as string;
+  const priority = (formData.get("priority") as string) || "must_invite";
 
   if (!name) {
     return { error: "Name is required." } as const;
   }
   if (!VALID_STATUSES.includes(status as GuestStatus)) {
     return { error: "Invalid status." } as const;
+  }
+  if (!VALID_PRIORITIES.includes(priority as GuestPriority)) {
+    return { error: "Invalid priority." } as const;
   }
 
   return {
@@ -44,6 +49,7 @@ function guestFieldsFromForm(formData: FormData) {
       household: ((formData.get("household") as string) || "").trim() || null,
       plus_one: formData.get("plus_one") === "on",
       status: status as GuestStatus,
+      priority: priority as GuestPriority,
       meal: ((formData.get("meal") as string) || "").trim() || null,
       notes: ((formData.get("notes") as string) || "").trim() || null,
     },
@@ -139,6 +145,15 @@ function parseStatus(value: string | undefined): GuestStatus {
   return VALID_STATUSES.includes(normalized as GuestStatus) ? (normalized as GuestStatus) : "invited";
 }
 
+function parsePriority(value: string | undefined): GuestPriority {
+  const normalized = (value ?? "").trim().toLowerCase().replace(/[\s-]+/g, "_");
+  if (VALID_PRIORITIES.includes(normalized as GuestPriority)) return normalized as GuestPriority;
+  if (normalized.startsWith("must")) return "must_invite";
+  if (normalized.startsWith("would")) return "would_like";
+  if (normalized.startsWith("if")) return "if_room";
+  return "must_invite";
+}
+
 export async function importGuestsFromCsv(
   formData: FormData,
 ): Promise<{ error?: string; imported?: number; skipped?: number }> {
@@ -179,6 +194,7 @@ export async function importGuestsFromCsv(
         household: (row.household ?? "").trim() || null,
         plus_one: parsePlusOne(row.plus_one),
         status: parseStatus(row.status),
+        priority: parsePriority(row.priority),
         meal: (row.meal ?? "").trim() || null,
         notes: (row.notes ?? "").trim() || null,
       };
