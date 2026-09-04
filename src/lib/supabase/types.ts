@@ -187,6 +187,7 @@ export type BudgetCustomItem = {
   label: string;
   amount: number;
   purchased_from: string | null;
+  paid_by: string | null;
   created_at: string;
   updated_at: string;
 };

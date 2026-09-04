@@ -11,10 +11,17 @@ import {
 import { BudgetTable, type BudgetRow } from "./budget-table";
 import { BudgetCustomItems } from "./budget-custom-items";
 
+const currency = new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "USD",
+  maximumFractionDigits: 0,
+});
+
 type BudgetLineItemRow = {
   category: string;
   override_value: number | null;
   purchased_from: string | null;
+  paid_by: string | null;
 };
 
 const VENDOR_CATEGORY_TO_BUDGET_KEY: Record<string, string> = {
@@ -79,7 +86,7 @@ export default async function BudgetPage() {
 
   const { data: overrides } = await supabase
     .from("budget_line_items")
-    .select("category, override_value, purchased_from")
+    .select("category, override_value, purchased_from, paid_by")
     .eq("wedding_id", wedding.id);
 
   const overrideByCategory = new Map(
@@ -150,6 +157,7 @@ export default async function BudgetPage() {
     ),
     override: overrideByCategory.get(category.key)?.override_value ?? null,
     purchasedFrom: overrideByCategory.get(category.key)?.purchased_from ?? null,
+    paidBy: overrideByCategory.get(category.key)?.paid_by ?? null,
     suggestions: Array.from(new Set(suggestionsByCategory[category.key] ?? [])),
   }));
 
@@ -163,6 +171,27 @@ export default async function BudgetPage() {
   const customItemsTotal = (customItems ?? []).reduce((sum, item) => sum + item.amount, 0);
   const total =
     rows.reduce((sum, row) => sum + (row.override ?? row.computed), 0) + customItemsTotal;
+
+  const payerSuggestions = Array.from(
+    new Set(
+      [
+        ...(overrides ?? []).map((row: BudgetLineItemRow) => row.paid_by),
+        ...(customItems ?? []).map((item) => item.paid_by),
+      ].filter((name): name is string => Boolean(name)),
+    ),
+  );
+
+  const payerTotals = new Map<string, number>();
+  for (const row of rows) {
+    const key = row.paidBy ?? "Unassigned";
+    payerTotals.set(key, (payerTotals.get(key) ?? 0) + (row.override ?? row.computed));
+  }
+  for (const item of customItems ?? []) {
+    const key = item.paid_by ?? "Unassigned";
+    payerTotals.set(key, (payerTotals.get(key) ?? 0) + item.amount);
+  }
+  const payerBreakdown = Array.from(payerTotals.entries()).sort((a, b) => b[1] - a[1]);
+  const hasAssignedPayer = payerBreakdown.some(([name]) => name !== "Unassigned");
 
   return (
     <main className="flex flex-1 flex-col items-center px-6 py-16">
@@ -182,8 +211,32 @@ export default async function BudgetPage() {
           Edit on any line to enter a real quote.
         </p>
 
-        <BudgetTable rows={rows} total={total} />
-        <BudgetCustomItems items={customItems ?? []} />
+        <BudgetTable rows={rows} total={total} payerSuggestions={payerSuggestions} />
+        <BudgetCustomItems items={customItems ?? []} payerSuggestions={payerSuggestions} />
+
+        {hasAssignedPayer && (
+          <div className="mt-8 w-full rounded-lg border border-hairline bg-card p-5 sm:p-8 shadow-sm">
+            <span className="font-display text-2xl font-semibold text-forest">
+              Who&apos;s paying
+            </span>
+            <p className="mt-1 text-sm text-ink/70">
+              A running subtotal for each payer, based on what&apos;s been assigned so far.
+            </p>
+            <div className="mt-4">
+              {payerBreakdown.map(([name, amount]) => (
+                <div
+                  key={name}
+                  className="flex items-center justify-between border-b border-hairline py-3 last:border-b-0"
+                >
+                  <span className={name === "Unassigned" ? "text-ink/50" : "text-ink"}>
+                    {name}
+                  </span>
+                  <span className="font-mono-numbers text-ink">{currency.format(amount)}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </main>
   );

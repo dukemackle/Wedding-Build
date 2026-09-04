@@ -163,3 +163,11 @@ not by charging couples — we should follow the same shape:
   simple rows, so they aren't deletable the same way), but custom
   items count toward the grand total on both the Budget page and the
   Dashboard summary.
+- **Budget: who paid for it**: an optional "Paid by" field on every
+  budget line — both the 12 preset categories and custom items — since
+  wedding costs are commonly split across family members (bride's
+  parents, groom's parents, the couple, etc.). Free text rather than a
+  fixed list, with autocomplete suggestions drawn from payer names
+  already entered elsewhere in the wedding's own budget. A new "Who's
+  paying" summary on the Budget page totals what each payer is
+  covering, shown once at least one item has a payer assigned.
