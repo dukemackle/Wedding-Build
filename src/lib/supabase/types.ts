@@ -153,3 +153,17 @@ export type AttireShortlistEntry = {
   notes: string | null;
   created_at: string;
 };
+
+export type ItineraryEvent = {
+  id: string;
+  wedding_id: string;
+  user_id: string;
+  event_date: string;
+  start_time: string | null;
+  end_time: string | null;
+  title: string;
+  location: string | null;
+  description: string | null;
+  created_at: string;
+  updated_at: string;
+};

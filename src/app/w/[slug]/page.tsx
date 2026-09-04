@@ -1,7 +1,8 @@
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import type { PublicWedding, RegistryItem } from "@/lib/supabase/types";
+import type { ItineraryEvent, PublicWedding, RegistryItem } from "@/lib/supabase/types";
 import { RsvpForm } from "./rsvp-form";
+import { ItineraryView } from "./itinerary-view";
 
 function formatDate(dateStr: string) {
   return new Date(`${dateStr}T00:00:00`).toLocaleDateString("en-US", {
@@ -36,9 +37,17 @@ export default async function PublicWeddingPage({
     .order("created_at", { ascending: true })
     .returns<RegistryItem[]>();
 
+  const { data: itineraryEvents } = await supabase
+    .from("itinerary_events")
+    .select("*")
+    .eq("wedding_id", wedding.id)
+    .order("event_date", { ascending: true })
+    .order("start_time", { ascending: true, nullsFirst: true })
+    .returns<ItineraryEvent[]>();
+
   return (
     <main className="flex flex-1 flex-col items-center px-6 py-16">
-      <div className="w-full max-w-2xl">
+      <div className="w-full max-w-3xl">
         <p className="text-center font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
           You&apos;re invited
         </p>
@@ -57,6 +66,17 @@ export default async function PublicWeddingPage({
           </p>
           <RsvpForm weddingId={wedding.id} />
         </div>
+
+        {itineraryEvents && itineraryEvents.length > 0 && (
+          <div className="mt-8 rounded-lg border border-hairline bg-card p-6 sm:p-10 shadow-sm">
+            <h2 className="font-display text-2xl font-semibold text-forest">
+              Weekend schedule
+            </h2>
+            <div className="mt-4">
+              <ItineraryView events={itineraryEvents} weddingDate={wedding.wedding_date} />
+            </div>
+          </div>
+        )}
 
         {registryItems && registryItems.length > 0 && (
           <div className="mt-8 rounded-lg border border-hairline bg-card p-6 sm:p-10 shadow-sm">
