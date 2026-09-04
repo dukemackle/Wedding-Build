@@ -46,6 +46,15 @@ not by charging couples — we should follow the same shape:
       report, vendor commissions. Needs a Stripe account and takes
       transaction fees — explicitly called out as a later phase in the
       original spec, not build until we're closer to launch.
+- [ ] **Add-to-cart + checkout for Attire (and eventually Venues/Vendor
+      deposits)**: real purchasing on top of the favorites/shortlist
+      couples already build. This is the "buying things" half of the
+      Stripe item above — needs a Stripe account, a decision on who
+      actually gets paid (a real seller behind each Attire item, since
+      today's catalog is placeholder data with no real business on the
+      other end), and webhook handling for order confirmation. Bigger
+      than a typical "flip a flag" payment feature; scope it properly
+      once we're ready to spend and pick real sellers/vendors.
 - [ ] **Nicer map styling via Mapbox** (optional upgrade path from the free
       Leaflet map above) — needs a Mapbox account + access token; free tier
       is generous but it's an external dependency to set up.
@@ -109,6 +118,12 @@ not by charging couples — we should follow the same shape:
   already wired up for vendor inquiries). Tracks when each guest was last
   invited so already-invited guests are visible and safe to skip or
   re-send. Only works once the guest site (public_slug) is turned on.
+- **Heart/favorites for Venues and Vendors**: hearting a venue is the
+  same mechanism it already had (renamed "shortlist" to "favorites" in
+  the UI), and Vendors got the same capability brand new — a new
+  `vendor_favorites` table (mirrors `venue_shortlist`) so a vendor can be
+  hearted for later without having sent an inquiry yet. Both show a
+  "Your favorites" section with per-item notes.
 - **Wedding weekend itinerary**: a new Itinerary page where the couple
   clicks a day on a calendar and builds a schedule for it (rehearsal
   dinner, ceremony, reception, day-after brunch, whatever the weekend
