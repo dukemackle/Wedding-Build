@@ -176,3 +176,29 @@ export async function updateVendorFavoriteNotes(formData: FormData): Promise<{ e
   revalidatePath("/vendors");
   return {};
 }
+
+export async function updateVendorFavoriteContact(
+  formData: FormData,
+): Promise<{ error?: string }> {
+  const { supabase, wedding } = await requireOwnWedding();
+
+  if (!wedding) {
+    return { error: "Set up your wedding on the Dashboard first." };
+  }
+
+  const vendorId = formData.get("vendor_id") as string;
+  const contactPhone = ((formData.get("contact_phone") as string) || "").trim() || null;
+
+  const { error } = await supabase
+    .from("vendor_favorites")
+    .update({ contact_phone: contactPhone })
+    .eq("wedding_id", wedding.id)
+    .eq("vendor_id", vendorId);
+
+  if (error) {
+    return { error: error.message };
+  }
+
+  revalidatePath("/contacts");
+  return {};
+}

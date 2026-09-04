@@ -80,6 +80,8 @@ export type VenueShortlistEntry = {
   user_id: string;
   venue_id: string;
   notes: string | null;
+  contact_email: string | null;
+  contact_phone: string | null;
   created_at: string;
 };
 
@@ -118,6 +120,7 @@ export type VendorFavoriteEntry = {
   user_id: string;
   vendor_id: string;
   notes: string | null;
+  contact_phone: string | null;
   created_at: string;
 };
 

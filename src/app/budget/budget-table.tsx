@@ -9,6 +9,8 @@ export type BudgetRow = {
   isPerGuest: boolean;
   computed: number;
   override: number | null;
+  purchasedFrom: string | null;
+  suggestions: string[];
 };
 
 const currency = new Intl.NumberFormat("en-US", {
@@ -23,6 +25,7 @@ function BudgetRowItem({ row }: { row: BudgetRow }) {
   const [isPending, startTransition] = useTransition();
 
   const effectiveValue = row.override ?? row.computed;
+  const datalistId = `purchased-from-${row.key}`;
 
   function handleSave(formData: FormData) {
     startTransition(async () => {
@@ -51,16 +54,19 @@ function BudgetRowItem({ row }: { row: BudgetRow }) {
 
   return (
     <div className="flex flex-col gap-2 border-b border-hairline py-4 last:border-b-0">
-      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
         <div>
           <p className="text-ink">{row.label}</p>
           {row.isPerGuest && (
             <p className="text-xs text-ink/50">Scales with guest count</p>
           )}
+          {!isEditing && row.purchasedFrom && (
+            <p className="mt-1 text-xs text-brass">Purchased from {row.purchasedFrom}</p>
+          )}
         </div>
 
         {isEditing ? (
-          <form action={handleSave} className="flex flex-wrap items-center gap-2">
+          <form action={handleSave} className="flex flex-col items-start gap-2 sm:items-end">
             <input type="hidden" name="category" value={row.key} />
             <input
               type="number"
@@ -70,20 +76,37 @@ function BudgetRowItem({ row }: { row: BudgetRow }) {
               autoFocus
               className="w-28 rounded-md border border-hairline bg-parchment px-2 py-1 text-right font-mono-numbers text-ink outline-none focus:border-forest"
             />
-            <button
-              type="submit"
-              disabled={isPending}
-              className="rounded-md bg-forest px-3 py-1 text-sm font-medium text-parchment transition-colors hover:bg-forest/90 disabled:opacity-60"
-            >
-              {isPending ? "..." : "Save"}
-            </button>
-            <button
-              type="button"
-              onClick={() => setIsEditing(false)}
-              className="rounded-md border border-hairline px-3 py-1 text-sm text-ink transition-colors hover:border-forest"
-            >
-              Cancel
-            </button>
+            <input
+              type="text"
+              name="purchased_from"
+              list={row.suggestions.length > 0 ? datalistId : undefined}
+              placeholder="Purchased from (optional)"
+              defaultValue={row.purchasedFrom ?? ""}
+              className="w-full rounded-md border border-hairline bg-parchment px-2 py-1 text-sm text-ink outline-none focus:border-forest sm:w-56"
+            />
+            {row.suggestions.length > 0 && (
+              <datalist id={datalistId}>
+                {row.suggestions.map((suggestion) => (
+                  <option key={suggestion} value={suggestion} />
+                ))}
+              </datalist>
+            )}
+            <div className="flex items-center gap-2">
+              <button
+                type="submit"
+                disabled={isPending}
+                className="rounded-md bg-forest px-3 py-1 text-sm font-medium text-parchment transition-colors hover:bg-forest/90 disabled:opacity-60"
+              >
+                {isPending ? "..." : "Save"}
+              </button>
+              <button
+                type="button"
+                onClick={() => setIsEditing(false)}
+                className="rounded-md border border-hairline px-3 py-1 text-sm text-ink transition-colors hover:border-forest"
+              >
+                Cancel
+              </button>
+            </div>
           </form>
         ) : (
           <div className="flex items-center gap-3">

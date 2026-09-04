@@ -81,3 +81,28 @@ export async function updateShortlistNotes(
   revalidatePath("/venues");
   return {};
 }
+
+export async function updateShortlistContact(formData: FormData): Promise<{ error?: string }> {
+  const { supabase, wedding } = await requireOwnWedding();
+
+  if (!wedding) {
+    return { error: "Set up your wedding on the Dashboard first." };
+  }
+
+  const venueId = formData.get("venue_id") as string;
+  const contactEmail = ((formData.get("contact_email") as string) || "").trim() || null;
+  const contactPhone = ((formData.get("contact_phone") as string) || "").trim() || null;
+
+  const { error } = await supabase
+    .from("venue_shortlist")
+    .update({ contact_email: contactEmail, contact_phone: contactPhone })
+    .eq("wedding_id", wedding.id)
+    .eq("venue_id", venueId);
+
+  if (error) {
+    return { error: error.message };
+  }
+
+  revalidatePath("/contacts");
+  return {};
+}
