@@ -20,6 +20,17 @@ function IconBase({ children, ...props }: { children: ReactNode } & IconProps) {
   );
 }
 
+export function ChecklistIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M9 4h6a1 1 0 0 1 1 1v1H8V5a1 1 0 0 1 1-1Z" />
+      <path d="M6 6h12a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1Z" />
+      <path d="m8.5 12.5 1.75 1.75L14.5 10" />
+      <path d="M8.5 17h4" />
+    </IconBase>
+  );
+}
+
 export function VenueIcon(props: IconProps) {
   return (
     <IconBase {...props}>

@@ -4,7 +4,8 @@ import { AppNav } from "@/components/app-nav";
 import { WeddingDashboard } from "./wedding-dashboard";
 import { HeroPhotoUpload } from "./hero-photo-upload";
 import { DashboardSummary, type DashboardSummaryData } from "./dashboard-summary";
-import type { Wedding } from "@/lib/supabase/types";
+import { ChecklistPreview } from "./checklist-preview";
+import type { ChecklistItem, Wedding } from "@/lib/supabase/types";
 import { BUDGET_CATEGORIES, computeCategoryValue, effectiveGuestCount } from "@/lib/budget-categories";
 
 export default async function DashboardPage() {
@@ -24,6 +25,7 @@ export default async function DashboardPage() {
     .maybeSingle<Wedding>();
 
   let summary: DashboardSummaryData | null = null;
+  let checklistItems: ChecklistItem[] = [];
 
   if (wedding) {
     const [
@@ -33,6 +35,7 @@ export default async function DashboardPage() {
       { count: venuesShortlisted },
       { data: vendorInquiries },
       { count: attireShortlisted },
+      { data: checklist },
     ] = await Promise.all([
       supabase.from("guests").select("status, plus_one").eq("wedding_id", wedding.id),
       supabase
@@ -49,7 +52,14 @@ export default async function DashboardPage() {
         .from("attire_shortlist")
         .select("id", { count: "exact", head: true })
         .eq("wedding_id", wedding.id),
+      supabase
+        .from("checklist_items")
+        .select("*")
+        .eq("wedding_id", wedding.id)
+        .returns<ChecklistItem[]>(),
     ]);
+
+    checklistItems = checklist ?? [];
 
     const guestRows = guests ?? [];
     const headcount = effectiveGuestCount(wedding, guestRows);
@@ -95,6 +105,7 @@ export default async function DashboardPage() {
       <AppNav email={user.email ?? ""} />
       <WeddingDashboard initialWedding={wedding} />
       {wedding && <HeroPhotoUpload photoUrl={wedding.hero_photo_url} />}
+      {wedding && <ChecklistPreview items={checklistItems} />}
       {summary && <DashboardSummary data={summary} />}
     </main>
   );

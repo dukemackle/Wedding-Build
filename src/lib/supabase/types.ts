@@ -215,3 +215,16 @@ export type BudgetCustomItem = {
   created_at: string;
   updated_at: string;
 };
+
+export type ChecklistItem = {
+  id: string;
+  wedding_id: string;
+  user_id: string;
+  title: string;
+  notes: string | null;
+  due_date: string | null;
+  completed: boolean;
+  completed_at: string | null;
+  created_at: string;
+  updated_at: string;
+};
