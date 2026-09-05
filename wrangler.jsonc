@@ -1,0 +1,18 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"main": ".open-next/worker.js",
+	"name": "wedding-ledger",
+	"compatibility_date": "2026-09-05",
+	"compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+	"assets": {
+		"directory": ".open-next/assets",
+		"binding": "ASSETS"
+	}
+	// Optional upgrades once the app is live on Cloudflare:
+	// - R2 incremental cache (persists ISR/data-cache across deploys): see
+	//   https://opennext.js.org/cloudflare/caching -- requires creating an R2
+	//   bucket first, then an `r2_buckets` entry here plus the matching
+	//   override in open-next.config.ts.
+	// - Cloudflare Images binding for next/image optimization: see
+	//   https://opennext.js.org/cloudflare/howtos/image
+}
