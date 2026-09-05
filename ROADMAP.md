@@ -176,4 +176,9 @@ not by charging couples — we should follow the same shape:
   before any results were visible. All four now hide their filter
   controls behind a single "Filters" button (showing a count badge
   when filters are active), collapsed by default. Search and the
-  list/map view toggle stay visible since they aren't filters.
+  view toggle (where present) stay visible since they aren't filters.
+- **Venues: Zillow-style map layout**: replaced the List view/Map view
+  toggle with both shown at once — a scrollable list of venue cards
+  alongside a sticky map, side by side on wider screens. On narrow
+  screens they stack with the map first, above the list. Hovering a
+  venue card highlights its pin on the map and vice versa.
