@@ -41,8 +41,22 @@ export type BudgetRow = {
   override: number | null;
   purchasedFrom: string | null;
   paidBy: string | null;
+  dueDate: string | null;
   suggestions: string[];
 };
+
+function formatDueDate(dateStr: string) {
+  return new Date(`${dateStr}T00:00:00`).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+  });
+}
+
+function isOverdue(dateStr: string) {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  return new Date(`${dateStr}T00:00:00`) < today;
+}
 
 const currency = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -108,6 +122,12 @@ function BudgetRowItem({
           {!isEditing && row.paidBy && (
             <p className="mt-1 text-xs text-ink/50">Paid by {row.paidBy}</p>
           )}
+          {!isEditing && row.dueDate && (
+            <p className={`mt-1 text-xs ${isOverdue(row.dueDate) ? "text-red-700" : "text-ink/50"}`}>
+              Due {formatDueDate(row.dueDate)}
+              {isOverdue(row.dueDate) ? " — overdue" : ""}
+            </p>
+          )}
         </div>
 
         {isEditing ? (
@@ -151,6 +171,15 @@ function BudgetRowItem({
                 ))}
               </datalist>
             )}
+            <label className="flex w-full flex-col gap-1 text-xs text-ink/70 sm:w-56 sm:items-end">
+              Due date (optional)
+              <input
+                type="date"
+                name="due_date"
+                defaultValue={row.dueDate ?? ""}
+                className="w-full rounded-md border border-hairline bg-parchment px-2 py-1 text-sm text-ink outline-none focus:border-forest sm:w-56"
+              />
+            </label>
             <div className="flex items-center gap-2">
               <button
                 type="submit"

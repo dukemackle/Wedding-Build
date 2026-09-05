@@ -137,7 +137,7 @@ export async function deleteGuest(formData: FormData): Promise<{ error?: string 
   return {};
 }
 
-function parsePlusOne(value: string | undefined): boolean {
+function parseYesNo(value: string | undefined): boolean {
   const normalized = (value ?? "").trim().toLowerCase();
   return ["yes", "y", "true", "1"].includes(normalized);
 }
@@ -195,11 +195,12 @@ export async function importGuestsFromCsv(
         name,
         household: (row.household ?? "").trim() || null,
         email: (row.email ?? "").trim() || null,
-        plus_one: parsePlusOne(row.plus_one),
+        plus_one: parseYesNo(row.plus_one),
         status: parseStatus(row.status),
         priority: parsePriority(row.priority),
         meal: (row.meal ?? "").trim() || null,
         notes: (row.notes ?? "").trim() || null,
+        thanked: parseYesNo(row.thanked),
       };
     })
     .filter((row): row is NonNullable<typeof row> => row !== null);
@@ -428,6 +429,30 @@ export async function setGuestbookVisibility(formData: FormData): Promise<{ erro
   const { error } = await supabase
     .from("guests")
     .update({ guestbook_hidden: hidden })
+    .eq("id", guestId)
+    .eq("wedding_id", wedding.id);
+
+  if (error) {
+    return { error: error.message };
+  }
+
+  revalidatePath("/guests");
+  return {};
+}
+
+export async function setGuestThanked(formData: FormData): Promise<{ error?: string }> {
+  const { supabase, wedding } = await requireOwnWedding();
+
+  if (!wedding) {
+    return { error: "Set up your wedding on the Dashboard first." };
+  }
+
+  const guestId = formData.get("guest_id") as string;
+  const thanked = formData.get("thanked") === "true";
+
+  const { error } = await supabase
+    .from("guests")
+    .update({ thanked })
     .eq("id", guestId)
     .eq("wedding_id", wedding.id);
 

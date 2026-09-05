@@ -71,3 +71,11 @@ body {
     animation: none;
   }
 }
+
+/* Printed pages (e.g. the itinerary run sheet) skip the decorative
+   gradient background -- it wastes ink and never sat right on paper. */
+@media print {
+  body {
+    background-image: none;
+  }
+}

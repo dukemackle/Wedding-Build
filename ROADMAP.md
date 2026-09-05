@@ -280,3 +280,23 @@ not by charging couples — we should follow the same shape:
   "over estimate" badge on that line, plus a small "N categories over
   estimate" note near the total — visible before the grand total
   quietly creeps past what was expected.
+- **Wedding countdown on the guest site**: the public wedding site now
+  shows "X days to go" (or "Married X days ago") right under the date,
+  matching the countdown that's shown the couple on the Dashboard —
+  extracted into one shared helper so both stay in sync.
+- **Guest list search**: Venues, Vendors, and Attire already had a name
+  search box; Guests now does too, alongside the existing status/
+  priority filters.
+- **Payment due-date tracker**: any budget line (a preset category or a
+  custom item) can now take an optional due date. A new "Upcoming
+  payments" card on the Budget page lists everything with a due date,
+  soonest first, with overdue ones flagged red — so a deposit or
+  balance doesn't get missed just because it's not the current total.
+- **Printable day-of run sheet**: a clean, print-only view of the full
+  Itinerary (every day, all events, no app chrome) reachable via a
+  "Print run sheet" link on the Itinerary page — for handing to
+  vendors or family who don't need app access.
+- **Thank-you note tracker**: each guest can be marked "Thanked" once
+  their thank-you card is sent, with a running "X of Y guests thanked"
+  count on the Guests page. Included in CSV import/export alongside
+  the other manually-editable guest fields.
