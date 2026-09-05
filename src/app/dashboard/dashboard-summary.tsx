@@ -24,12 +24,16 @@ function formatCurrency(value: number) {
 }
 
 function SummaryTile({
+  icon,
+  accent,
   label,
   value,
   detail,
   href,
   linkLabel,
 }: {
+  icon: string;
+  accent: "forest" | "brass";
   label: string;
   value: string;
   detail: string;
@@ -37,7 +41,14 @@ function SummaryTile({
   linkLabel: string;
 }) {
   return (
-    <div className="flex flex-col gap-1 rounded-md border border-hairline bg-parchment p-4">
+    <div className="flex flex-col gap-2 rounded-md border border-hairline bg-parchment p-4 transition-shadow hover:shadow-sm">
+      <div
+        className={`flex h-9 w-9 items-center justify-center rounded-full text-lg ${
+          accent === "forest" ? "bg-forest/10" : "bg-brass/10"
+        }`}
+      >
+        <span aria-hidden="true">{icon}</span>
+      </div>
       <span className="font-mono-numbers text-xs uppercase tracking-wide text-ink/50">
         {label}
       </span>
@@ -47,7 +58,7 @@ function SummaryTile({
       <span className="text-xs text-ink/60">{detail}</span>
       <Link
         href={href}
-        className="mt-2 text-xs font-medium text-brass transition-colors hover:text-forest"
+        className="mt-1 text-xs font-medium text-brass transition-colors hover:text-forest"
       >
         {linkLabel} &rarr;
       </Link>
@@ -67,6 +78,8 @@ export function DashboardSummary({ data }: { data: DashboardSummaryData }) {
 
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
         <SummaryTile
+          icon="👥"
+          accent="forest"
           label="Headcount"
           value={String(data.headcount)}
           detail={
@@ -78,6 +91,8 @@ export function DashboardSummary({ data }: { data: DashboardSummaryData }) {
           linkLabel="View guests"
         />
         <SummaryTile
+          icon="💰"
+          accent="brass"
           label="Budget"
           value={formatCurrency(data.budgetTotal)}
           detail={`${data.budgetCategoriesQuoted} of ${data.budgetCategoriesTotal} categories have a real quote`}
@@ -85,6 +100,8 @@ export function DashboardSummary({ data }: { data: DashboardSummaryData }) {
           linkLabel="View budget"
         />
         <SummaryTile
+          icon="🏰"
+          accent="forest"
           label="Venues"
           value={String(data.venuesShortlisted)}
           detail={
@@ -94,6 +111,8 @@ export function DashboardSummary({ data }: { data: DashboardSummaryData }) {
           linkLabel="View venues"
         />
         <SummaryTile
+          icon="🤝"
+          accent="brass"
           label="Vendors"
           value={String(data.vendorInquiriesSent)}
           detail={`${data.vendorInquiriesSent === 1 ? "inquiry" : "inquiries"} sent, ${data.vendorInquiriesBooked} booked`}
@@ -101,6 +120,8 @@ export function DashboardSummary({ data }: { data: DashboardSummaryData }) {
           linkLabel="View vendors"
         />
         <SummaryTile
+          icon="👗"
+          accent="forest"
           label="Attire"
           value={String(data.attireShortlisted)}
           detail={
