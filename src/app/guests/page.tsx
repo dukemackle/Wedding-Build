@@ -8,7 +8,9 @@ import { GuestsManager } from "./guests-manager";
 import { RegistryManager } from "./registry-manager";
 import { PublicSitePanel } from "./public-site-panel";
 import { BulkInviteForm } from "./bulk-invite-form";
+import { RsvpReminders } from "./rsvp-reminders";
 import { GuestbookFeed } from "./guestbook-feed";
+import { SongRequests } from "./song-requests";
 
 export default async function GuestsPage() {
   const supabase = await createClient();
@@ -96,7 +98,9 @@ export default async function GuestsPage() {
             pendingSubmissions={rsvpSubmissions ?? []}
           />
           <BulkInviteForm guests={guests ?? []} publicSlug={wedding.public_slug} origin={origin} />
+          <RsvpReminders guests={guests ?? []} publicSlug={wedding.public_slug} origin={origin} />
           <GuestbookFeed guests={guests ?? []} publicSiteOn={Boolean(wedding.public_slug)} />
+          <SongRequests guests={guests ?? []} />
           <GuestsManager guests={guests ?? []} />
           <RegistryManager registryItems={registryItems ?? []} />
         </div>

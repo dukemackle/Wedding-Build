@@ -370,6 +370,7 @@ export async function approveRsvpSubmission(formData: FormData): Promise<{ error
     notes: submission.notes,
     photo_url: submission.photo_url,
     message: submission.message,
+    song_request: submission.song_request,
   });
 
   if (insertError) {
@@ -511,6 +512,86 @@ export async function sendBulkRsvpInvites(
     await supabase
       .from("guests")
       .update({ invite_sent_at: new Date().toISOString() })
+      .in("id", sentIds);
+  }
+
+  revalidatePath("/guests");
+  return { sent, skipped, failed };
+}
+
+export async function sendRsvpReminders(
+  formData: FormData,
+): Promise<{ error?: string; sent?: number; skipped?: number; failed?: number }> {
+  const { supabase, wedding } = await requireOwnWedding();
+
+  if (!wedding) {
+    return { error: "Set up your wedding on the Dashboard first." };
+  }
+  if (!wedding.public_slug) {
+    return { error: "Turn on your guest site above before sending reminders." };
+  }
+  if (!process.env.RESEND_API_KEY) {
+    return { error: "Email sending isn't configured (missing RESEND_API_KEY)." };
+  }
+
+  const guestIds = formData.getAll("guest_id") as string[];
+  const origin = (formData.get("origin") as string) || "";
+
+  if (guestIds.length === 0) {
+    return { error: "Select at least one guest to remind." };
+  }
+
+  const { data: guests, error: fetchError } = await supabase
+    .from("guests")
+    .select("*")
+    .in("id", guestIds)
+    .eq("wedding_id", wedding.id)
+    .returns<Guest[]>();
+
+  if (fetchError) {
+    return { error: fetchError.message };
+  }
+
+  const remindable = (guests ?? []).filter((g) => g.email);
+  const skipped = guestIds.length - remindable.length;
+
+  if (remindable.length === 0) {
+    return { error: "None of the selected guests have an email on file.", skipped };
+  }
+
+  const coupleNames = [wedding.partner_a_name, wedding.partner_b_name].filter(Boolean).join(" & ");
+  const rsvpUrl = `${origin}/w/${wedding.public_slug}`;
+  const resend = getResendClient();
+
+  let sent = 0;
+  let failed = 0;
+  const sentIds: string[] = [];
+
+  for (const guest of remindable) {
+    try {
+      const { error: sendError } = await resend.emails.send({
+        from: INQUIRY_FROM_ADDRESS,
+        to: guest.email!,
+        subject: `Reminder: RSVP for ${coupleNames || "our wedding"}`,
+        text: `Hi ${guest.name},\n\nJust a friendly reminder to RSVP for ${coupleNames || "our wedding"} — we'd love to know if you can make it!\n\n${rsvpUrl}\n\nCan't wait to celebrate with you.`,
+      });
+
+      if (sendError) {
+        failed++;
+        continue;
+      }
+
+      sent++;
+      sentIds.push(guest.id);
+    } catch {
+      failed++;
+    }
+  }
+
+  if (sentIds.length > 0) {
+    await supabase
+      .from("guests")
+      .update({ last_reminded_at: new Date().toISOString() })
       .in("id", sentIds);
   }
 

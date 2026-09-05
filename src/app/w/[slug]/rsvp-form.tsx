@@ -2,6 +2,7 @@
 
 import { useRef, useState, useTransition } from "react";
 import { submitRsvp } from "./actions";
+import { MEAL_OPTIONS } from "@/lib/meal-options";
 
 const inputClass =
   "rounded-md border border-hairline bg-parchment px-3 py-2 text-ink outline-none focus:border-forest";
@@ -55,7 +56,22 @@ export function RsvpForm({ weddingId }: { weddingId: string }) {
         </label>
         <label className={labelClass}>
           Meal preference
-          <input name="meal" placeholder="Optional" className={inputClass} />
+          <select name="meal" defaultValue="" className={inputClass}>
+            <option value="">Optional — choose one</option>
+            {MEAL_OPTIONS.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label className={labelClass}>
+          Song request
+          <input
+            name="song_request"
+            placeholder="Optional — a song you'd want to hear"
+            className={inputClass}
+          />
         </label>
         <label className="flex items-center gap-2 text-sm text-ink sm:col-span-2">
           <input type="checkbox" name="plus_one" className="h-4 w-4 rounded border-hairline" />

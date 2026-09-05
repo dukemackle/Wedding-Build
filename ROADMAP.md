@@ -254,3 +254,29 @@ not by charging couples — we should follow the same shape:
   (the next few incomplete tasks) also shows on the Dashboard. No
   auto-generated timeline template for v1 — couples add their own
   tasks; that's a natural next step if it turns out to be wanted.
+- **Meal choice + confirmed meal-count summary**: the meal field on both
+  the public RSVP form and the manual guest form is now a shared preset
+  select (Chicken/Fish/Vegetarian/Vegan/Kids Meal/Other) instead of free
+  text, and the Guests page shows a running count of confirmed guests by
+  meal choice — the number the caterer actually needs.
+- **Song requests**: guests can suggest a song for the DJ/band alongside
+  their RSVP, same mechanism as the guestbook message/photo — it only
+  becomes part of the real guest record once the couple approves the
+  submission. A new "Song requests" list on the Guests page hands the
+  couple a ready-made list for their DJ or band.
+- **Seating chart**: a new Seating page where the couple creates
+  numbered tables (name + optional capacity) and assigns confirmed
+  guests to them from an "Unassigned guests" list. Each table shows how
+  many seats are filled vs. its capacity, with a warning once a table
+  goes over.
+- **RSVP reminders for stragglers**: a new "Nudge stragglers" panel on
+  the Guests page lists already-invited guests who still haven't
+  responded (status still Invited/Pending), separate from the original
+  bulk-invite list, with its own bulk "Send reminder" action (reuses the
+  same Resend integration) and its own `last_reminded_at` timestamp so
+  it doesn't get confused with the original invite.
+- **Budget overspend flags**: any budget category with a real quote
+  entered that's higher than its computed estimate now shows a red
+  "over estimate" badge on that line, plus a small "N categories over
+  estimate" note near the total — visible before the grand total
+  quietly creeps past what was expected.
