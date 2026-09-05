@@ -198,3 +198,14 @@ not by charging couples — we should follow the same shape:
   every confirmed guest (photo if they've added one via the guestbook,
   otherwise an initial-letter avatar), gated by the same public-site
   opt-in as everything else on the guest site.
+- **Couple's hero photo**: a real photo of the couple (not a
+  placeholder illustration), uploaded from the Dashboard and shown as
+  a circular portrait at the top of the public wedding site. Its own
+  owner-only Storage bucket (unlike the guestbook's, which anyone with
+  the invite link can add to) — only the couple can set or replace it.
+- **Scroll-in animations**: each section of the public wedding site
+  (hero, guest wall, RSVP, guestbook, itinerary, registry) now fades
+  and slides in the first time it scrolls into view, via a small
+  reusable `FadeInSection` component (IntersectionObserver-based,
+  respects prefers-reduced-motion). Subtle by design — a settling
+  effect, not a flashy one.

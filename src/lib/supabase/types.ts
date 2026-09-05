@@ -10,6 +10,7 @@ export type Wedding = {
   venue_type: string | null;
   guest_count_override: number | null;
   public_slug: string | null;
+  hero_photo_url: string | null;
   created_at: string;
   updated_at: string;
 };
@@ -21,6 +22,7 @@ export type PublicWedding = {
   partner_b_name: string | null;
   wedding_date: string | null;
   region: string | null;
+  hero_photo_url: string | null;
 };
 
 export type RsvpStatus = "confirmed" | "declined";
