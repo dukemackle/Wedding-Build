@@ -368,6 +368,8 @@ export async function approveRsvpSubmission(formData: FormData): Promise<{ error
     status: submission.status,
     meal: submission.meal,
     notes: submission.notes,
+    photo_url: submission.photo_url,
+    message: submission.message,
   });
 
   if (insertError) {
@@ -402,6 +404,30 @@ export async function dismissRsvpSubmission(formData: FormData): Promise<{ error
     .from("rsvp_submissions")
     .delete()
     .eq("id", submissionId)
+    .eq("wedding_id", wedding.id);
+
+  if (error) {
+    return { error: error.message };
+  }
+
+  revalidatePath("/guests");
+  return {};
+}
+
+export async function setGuestbookVisibility(formData: FormData): Promise<{ error?: string }> {
+  const { supabase, wedding } = await requireOwnWedding();
+
+  if (!wedding) {
+    return { error: "Set up your wedding on the Dashboard first." };
+  }
+
+  const guestId = formData.get("guest_id") as string;
+  const hidden = formData.get("hidden") === "true";
+
+  const { error } = await supabase
+    .from("guests")
+    .update({ guestbook_hidden: hidden })
+    .eq("id", guestId)
     .eq("wedding_id", wedding.id);
 
   if (error) {

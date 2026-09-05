@@ -182,3 +182,13 @@ not by charging couples — we should follow the same shape:
   alongside a sticky map, side by side on wider screens. On narrow
   screens they stack with the map first, above the list. Hovering a
   venue card highlights its pin on the map and vice versa.
+- **Guestbook**: guests can now attach a photo and a public well-wish
+  message when they RSVP (kept separate from the existing private
+  notes field, which only the couple sees). Photos upload to a new
+  Supabase Storage bucket. Like every other RSVP field, a photo/message
+  only becomes visible on the public site once the couple approves the
+  submission onto the real guest list — from there it shows in a new
+  "Guestbook" section on the guest site, with a per-guest "hide from
+  site" toggle on the couple's Guests page (in a dedicated Guestbook
+  feed) if something needs to come back down. Guest photos also show
+  as a small avatar next to their name on the Guests page.
