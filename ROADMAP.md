@@ -192,3 +192,9 @@ not by charging couples — we should follow the same shape:
   site" toggle on the couple's Guests page (in a dedicated Guestbook
   feed) if something needs to come back down. Guest photos also show
   as a small avatar next to their name on the Guests page.
+- **Guest wall**: a Partiful-style "N people are going" row of guest
+  avatars near the top of the public wedding site, above the RSVP
+  form, for a bit of social proof before a guest even RSVPs. Shows
+  every confirmed guest (photo if they've added one via the guestbook,
+  otherwise an initial-letter avatar), gated by the same public-site
+  opt-in as everything else on the guest site.
