@@ -61,9 +61,17 @@ export default async function ItineraryPage() {
         <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
           Itinerary
         </p>
-        <h1 className="mt-2 mb-6 font-display text-3xl font-semibold text-forest">
-          Wedding weekend schedule
-        </h1>
+        <div className="mt-2 mb-6 flex flex-wrap items-center justify-between gap-4">
+          <h1 className="font-display text-3xl font-semibold text-forest">
+            Wedding weekend schedule
+          </h1>
+          <Link
+            href="/itinerary/print"
+            className="rounded-full border border-hairline bg-parchment px-4 py-1.5 font-mono-numbers text-sm text-forest transition-colors hover:border-forest"
+          >
+            Print run sheet
+          </Link>
+        </div>
         <p className="mb-6 text-sm text-ink/70">
           Click a day to see or add events. Once your guest site is turned on, guests see this
           same schedule on the public RSVP page.

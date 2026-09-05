@@ -15,6 +15,19 @@ const inputClass =
   "rounded-md border border-hairline bg-parchment px-3 py-2 text-ink outline-none focus:border-forest";
 const labelClass = "flex flex-col gap-1 text-sm text-ink";
 
+function formatDueDate(dateStr: string) {
+  return new Date(`${dateStr}T00:00:00`).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+  });
+}
+
+function isOverdue(dateStr: string) {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  return new Date(`${dateStr}T00:00:00`) < today;
+}
+
 function ItemFields({
   item,
   payerSuggestions,
@@ -72,6 +85,15 @@ function ItemFields({
             ))}
           </datalist>
         )}
+      </label>
+      <label className={labelClass}>
+        Due date
+        <input
+          type="date"
+          name="due_date"
+          defaultValue={item?.due_date ?? ""}
+          className={inputClass}
+        />
       </label>
     </div>
   );
@@ -203,6 +225,12 @@ function ItemRow({
           <p className="mt-1 text-xs text-brass">Purchased from {item.purchased_from}</p>
         )}
         {item.paid_by && <p className="mt-1 text-xs text-ink/50">Paid by {item.paid_by}</p>}
+        {item.due_date && (
+          <p className={`mt-1 text-xs ${isOverdue(item.due_date) ? "text-red-700" : "text-ink/50"}`}>
+            Due {formatDueDate(item.due_date)}
+            {isOverdue(item.due_date) ? " — overdue" : ""}
+          </p>
+        )}
         {error && <p className="mt-1 text-sm text-red-800">{error}</p>}
       </div>
       <div className="flex shrink-0 items-center gap-3">

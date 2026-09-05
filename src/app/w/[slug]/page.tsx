@@ -9,6 +9,7 @@ import type {
   RegistryItem,
 } from "@/lib/supabase/types";
 import { FadeInSection } from "@/components/fade-in-section";
+import { daysUntilWedding } from "@/lib/countdown";
 import { RsvpForm } from "./rsvp-form";
 import { ItineraryView } from "./itinerary-view";
 import { GuestbookView } from "./guestbook-view";
@@ -90,7 +91,12 @@ export default async function PublicWeddingPage({
               {wedding.partner_a_name} &amp; {wedding.partner_b_name}
             </h1>
             {wedding.wedding_date && (
-              <p className="mt-2 text-center text-ink/70">{formatDate(wedding.wedding_date)}</p>
+              <>
+                <p className="mt-2 text-center text-ink/70">{formatDate(wedding.wedding_date)}</p>
+                <p className="mt-1 text-center font-mono-numbers text-sm text-brass">
+                  {daysUntilWedding(wedding.wedding_date)}
+                </p>
+              </>
             )}
           </div>
         </FadeInSection>

@@ -5,19 +5,7 @@ import { useState, useTransition } from "react";
 import { saveWedding } from "./actions";
 import type { Wedding } from "@/lib/supabase/types";
 import { REGIONS, SEASONS, STYLE_TIERS, VENUE_TYPES } from "@/lib/wedding-options";
-
-function daysUntil(dateStr: string) {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const target = new Date(`${dateStr}T00:00:00`);
-  const diffDays = Math.round(
-    (target.getTime() - today.getTime()) / (1000 * 60 * 60 * 24),
-  );
-
-  if (diffDays > 0) return `${diffDays} day${diffDays === 1 ? "" : "s"} to go`;
-  if (diffDays === 0) return "Today!";
-  return `Married ${Math.abs(diffDays)} day${Math.abs(diffDays) === 1 ? "" : "s"} ago`;
-}
+import { daysUntilWedding } from "@/lib/countdown";
 
 function formatDate(dateStr: string) {
   return new Date(`${dateStr}T00:00:00`).toLocaleDateString("en-US", {
@@ -210,7 +198,7 @@ function WeddingSummary({
         )}
         <div>
           <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
-            {wedding.wedding_date ? daysUntil(wedding.wedding_date) : "Date not set"}
+            {wedding.wedding_date ? daysUntilWedding(wedding.wedding_date) : "Date not set"}
           </p>
           <h1 className="mt-2 font-display text-4xl font-semibold text-forest">
             {wedding.partner_a_name} &amp; {wedding.partner_b_name}

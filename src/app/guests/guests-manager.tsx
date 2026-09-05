@@ -3,8 +3,9 @@
 import Image from "next/image";
 import { useRef, useState, useTransition } from "react";
 import type { Guest, GuestPriority, GuestStatus } from "@/lib/supabase/types";
-import { addGuest, updateGuest, deleteGuest, importGuestsFromCsv } from "./actions";
+import { addGuest, updateGuest, deleteGuest, importGuestsFromCsv, setGuestThanked } from "./actions";
 import { FilterDisclosure } from "@/components/filter-disclosure";
+import { SearchBox } from "@/components/search-box";
 import { MEAL_OPTIONS } from "@/lib/meal-options";
 
 const STATUSES: GuestStatus[] = ["invited", "confirmed", "declined", "pending"];
@@ -46,7 +47,17 @@ function csvField(value: string) {
 }
 
 function guestsToCsv(guests: Guest[]) {
-  const headers = ["name", "household", "email", "plus_one", "status", "priority", "meal", "notes"];
+  const headers = [
+    "name",
+    "household",
+    "email",
+    "plus_one",
+    "status",
+    "priority",
+    "meal",
+    "notes",
+    "thanked",
+  ];
   const rows = guests.map((guest) =>
     [
       guest.name,
@@ -57,6 +68,7 @@ function guestsToCsv(guests: Guest[]) {
       guest.priority,
       guest.meal ?? "",
       guest.notes ?? "",
+      guest.thanked ? "yes" : "no",
     ]
       .map((value) => csvField(String(value)))
       .join(","),
@@ -252,7 +264,8 @@ function ImportCsvForm({ onDone }: { onDone: () => void }) {
         <code className="font-mono-numbers text-xs">status</code> (invited/confirmed/declined/
         pending), <code className="font-mono-numbers text-xs">priority</code> (must_invite/
         would_like/if_room), <code className="font-mono-numbers text-xs">meal</code>,{" "}
-        <code className="font-mono-numbers text-xs">notes</code>.{" "}
+        <code className="font-mono-numbers text-xs">notes</code>,{" "}
+        <code className="font-mono-numbers text-xs">thanked</code> (yes/no).{" "}
         <a href="/guests-template.csv" download className="text-brass hover:underline">
           Download a template
         </a>
@@ -323,6 +336,18 @@ function GuestRow({ guest }: { guest: Guest }) {
     });
   }
 
+  function handleToggleThanked() {
+    const formData = new FormData();
+    formData.set("guest_id", guest.id);
+    formData.set("thanked", String(!guest.thanked));
+    startTransition(async () => {
+      const result = await setGuestThanked(formData);
+      if (result?.error) {
+        setError(result.error);
+      }
+    });
+  }
+
   if (isEditing) {
     return (
       <div className="border-b border-hairline py-4 last:border-b-0">
@@ -381,6 +406,11 @@ function GuestRow({ guest }: { guest: Guest }) {
             >
               {PRIORITY_LABELS[guest.priority]}
             </span>
+            {guest.thanked && (
+              <span className="rounded-full border border-forest/40 bg-forest/10 px-2 py-0.5 text-xs text-forest">
+                Thanked
+              </span>
+            )}
           </div>
           <p className="mt-1 text-xs text-ink/50">
             {[guest.household, guest.email, guest.meal].filter(Boolean).join(" · ") || "—"}
@@ -390,6 +420,13 @@ function GuestRow({ guest }: { guest: Guest }) {
         </div>
       </div>
       <div className="flex shrink-0 items-center gap-3">
+        <button
+          onClick={handleToggleThanked}
+          disabled={isPending}
+          className="text-xs text-brass hover:underline"
+        >
+          {guest.thanked ? "Mark un-thanked" : "Mark thanked"}
+        </button>
         <button onClick={() => setIsEditing(true)} className="text-xs text-brass hover:underline">
           Edit
         </button>
@@ -412,6 +449,7 @@ function personCount(guest: Guest) {
 export function GuestsManager({ guests }: { guests: Guest[] }) {
   const [filter, setFilter] = useState<GuestStatus | "all">("all");
   const [priorityFilter, setPriorityFilter] = useState<GuestPriority | "all">("all");
+  const [search, setSearch] = useState("");
   const [showAddForm, setShowAddForm] = useState(false);
   const [showImportForm, setShowImportForm] = useState(false);
 
@@ -450,6 +488,8 @@ export function GuestsManager({ guests }: { guests: Guest[] }) {
     .filter((g) => g.status === "confirmed")
     .reduce((sum, g) => sum + 1 + (g.plus_one ? 1 : 0), 0);
 
+  const thankedCount = guests.filter((g) => g.thanked).length;
+
   const confirmedGuests = guests.filter((g) => g.status === "confirmed");
   const mealCounts = new Map<string, number>();
   for (const guest of confirmedGuests) {
@@ -463,17 +503,25 @@ export function GuestsManager({ guests }: { guests: Guest[] }) {
   const filteredGuests = guests.filter(
     (g) =>
       (filter === "all" || g.status === filter) &&
-      (priorityFilter === "all" || g.priority === priorityFilter),
+      (priorityFilter === "all" || g.priority === priorityFilter) &&
+      g.name.toLowerCase().includes(search.trim().toLowerCase()),
   );
 
   return (
     <div className="w-full rounded-lg border border-hairline bg-card p-5 sm:p-8 shadow-sm">
       <div className="mb-6 flex flex-wrap items-center justify-between gap-4 border-b border-hairline pb-6">
-        <p className="text-sm text-ink/70">
-          <span className="font-mono-numbers text-2xl text-forest">{headcount}</span>{" "}
-          confirmed headcount — feeds your Budget guest count unless overridden on the
-          Dashboard.
-        </p>
+        <div>
+          <p className="text-sm text-ink/70">
+            <span className="font-mono-numbers text-2xl text-forest">{headcount}</span>{" "}
+            confirmed headcount — feeds your Budget guest count unless overridden on the
+            Dashboard.
+          </p>
+          {guests.length > 0 && (
+            <p className="mt-1 text-xs text-ink/50">
+              {thankedCount} of {guests.length} guests thanked for their gift.
+            </p>
+          )}
+        </div>
         <div className="flex flex-wrap gap-2">
           <button
             onClick={() => {
@@ -534,6 +582,10 @@ export function GuestsManager({ guests }: { guests: Guest[] }) {
           ))}
         </div>
       )}
+
+      <div className="mb-4">
+        <SearchBox value={search} onChange={setSearch} placeholder="Search guests by name..." />
+      </div>
 
       <FilterDisclosure activeCount={activeFilterCount}>
         <div className="flex flex-wrap gap-2">

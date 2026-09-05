@@ -62,6 +62,7 @@ export type Guest = {
   message: string | null;
   song_request: string | null;
   guestbook_hidden: boolean;
+  thanked: boolean;
   invite_sent_at: string | null;
   last_reminded_at: string | null;
   table_id: string | null;
@@ -216,6 +217,7 @@ export type BudgetCustomItem = {
   amount: number;
   purchased_from: string | null;
   paid_by: string | null;
+  due_date: string | null;
   created_at: string;
   updated_at: string;
 };

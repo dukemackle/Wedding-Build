@@ -12,6 +12,7 @@ import {
 import { BudgetTable, type BudgetRow } from "./budget-table";
 import { BudgetCustomItems } from "./budget-custom-items";
 import { BudgetOverview, type BudgetChartItem } from "./budget-chart";
+import { UpcomingPayments, paymentsFromRows } from "./upcoming-payments";
 
 const currency = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -24,6 +25,7 @@ type BudgetLineItemRow = {
   override_value: number | null;
   purchased_from: string | null;
   paid_by: string | null;
+  due_date: string | null;
 };
 
 const VENDOR_CATEGORY_TO_BUDGET_KEY: Record<string, string> = {
@@ -88,7 +90,7 @@ export default async function BudgetPage() {
 
   const { data: overrides } = await supabase
     .from("budget_line_items")
-    .select("category, override_value, purchased_from, paid_by")
+    .select("category, override_value, purchased_from, paid_by, due_date")
     .eq("wedding_id", wedding.id);
 
   const overrideByCategory = new Map(
@@ -160,6 +162,7 @@ export default async function BudgetPage() {
     override: overrideByCategory.get(category.key)?.override_value ?? null,
     purchasedFrom: overrideByCategory.get(category.key)?.purchased_from ?? null,
     paidBy: overrideByCategory.get(category.key)?.paid_by ?? null,
+    dueDate: overrideByCategory.get(category.key)?.due_date ?? null,
     suggestions: Array.from(new Set(suggestionsByCategory[category.key] ?? [])),
   }));
 
@@ -204,6 +207,7 @@ export default async function BudgetPage() {
     chartItems.push({ key: "custom", label: "Additional items", amount: customItemsTotal });
   }
   const categoriesQuoted = rows.filter((row) => row.override !== null).length;
+  const upcomingPayments = paymentsFromRows(rows, customItems ?? []);
 
   return (
     <main className="flex flex-1 flex-col items-center px-6 py-16">
@@ -225,6 +229,10 @@ export default async function BudgetPage() {
 
         <FadeInSection>
           <BudgetOverview items={chartItems} quoted={categoriesQuoted} total={rows.length} />
+        </FadeInSection>
+
+        <FadeInSection>
+          <UpcomingPayments payments={upcomingPayments} />
         </FadeInSection>
 
         <FadeInSection>
