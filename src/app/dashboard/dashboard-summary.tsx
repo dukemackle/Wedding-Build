@@ -1,4 +1,12 @@
 import Link from "next/link";
+import type { ComponentType } from "react";
+import {
+  HeadcountIcon,
+  BudgetIcon,
+  VenueIcon,
+  VendorsIcon,
+  AttireIcon,
+} from "@/components/icons";
 
 export type DashboardSummaryData = {
   guestsConfirmed: number;
@@ -32,7 +40,7 @@ function SummaryTile({
   href,
   linkLabel,
 }: {
-  icon: string;
+  icon: ComponentType<{ className?: string }>;
   accent: "forest" | "brass";
   label: string;
   value: string;
@@ -40,14 +48,15 @@ function SummaryTile({
   href: string;
   linkLabel: string;
 }) {
+  const Icon = icon;
   return (
     <div className="flex flex-col gap-2 rounded-md border border-hairline bg-parchment p-4 transition-shadow hover:shadow-sm">
       <div
-        className={`flex h-9 w-9 items-center justify-center rounded-full text-lg ${
+        className={`flex h-9 w-9 items-center justify-center rounded-full ${
           accent === "forest" ? "bg-forest/10" : "bg-brass/10"
         }`}
       >
-        <span aria-hidden="true">{icon}</span>
+        <Icon className={`h-5 w-5 ${accent === "forest" ? "text-forest" : "text-brass"}`} />
       </div>
       <span className="font-mono-numbers text-xs uppercase tracking-wide text-ink/50">
         {label}
@@ -78,7 +87,7 @@ export function DashboardSummary({ data }: { data: DashboardSummaryData }) {
 
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
         <SummaryTile
-          icon="👥"
+          icon={HeadcountIcon}
           accent="forest"
           label="Headcount"
           value={String(data.headcount)}
@@ -91,7 +100,7 @@ export function DashboardSummary({ data }: { data: DashboardSummaryData }) {
           linkLabel="View guests"
         />
         <SummaryTile
-          icon="💰"
+          icon={BudgetIcon}
           accent="brass"
           label="Budget"
           value={formatCurrency(data.budgetTotal)}
@@ -100,7 +109,7 @@ export function DashboardSummary({ data }: { data: DashboardSummaryData }) {
           linkLabel="View budget"
         />
         <SummaryTile
-          icon="🏰"
+          icon={VenueIcon}
           accent="forest"
           label="Venues"
           value={String(data.venuesShortlisted)}
@@ -111,7 +120,7 @@ export function DashboardSummary({ data }: { data: DashboardSummaryData }) {
           linkLabel="View venues"
         />
         <SummaryTile
-          icon="🤝"
+          icon={VendorsIcon}
           accent="brass"
           label="Vendors"
           value={String(data.vendorInquiriesSent)}
@@ -120,7 +129,7 @@ export function DashboardSummary({ data }: { data: DashboardSummaryData }) {
           linkLabel="View vendors"
         />
         <SummaryTile
-          icon="👗"
+          icon={AttireIcon}
           accent="forest"
           label="Attire"
           value={String(data.attireShortlisted)}

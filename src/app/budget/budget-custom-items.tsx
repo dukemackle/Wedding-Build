@@ -3,6 +3,7 @@
 import { useRef, useState, useTransition } from "react";
 import type { BudgetCustomItem } from "@/lib/supabase/types";
 import { addBudgetCustomItem, updateBudgetCustomItem, deleteBudgetCustomItem } from "./actions";
+import { CustomItemIcon } from "@/components/icons";
 
 const currency = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -194,8 +195,9 @@ function ItemRow({
   return (
     <div className="flex items-start justify-between gap-4 border-b border-hairline py-4 last:border-b-0">
       <div>
-        <p className="text-ink">
-          <span aria-hidden="true">🧾</span> {item.label}
+        <p className="flex items-center gap-2 text-ink">
+          <CustomItemIcon className="h-4 w-4 shrink-0 text-brass" />
+          {item.label}
         </p>
         {item.purchased_from && (
           <p className="mt-1 text-xs text-brass">Purchased from {item.purchased_from}</p>

@@ -23,23 +23,6 @@ export const BUDGET_CATEGORIES: BudgetCategory[] = [
   { key: "transportation", label: "Transportation", flatBase: 800, perGuestAmount: 0 },
 ];
 
-// A small visual touch so the budget list is easier to scan at a glance
-// rather than reading every line label.
-export const BUDGET_CATEGORY_EMOJI: Record<string, string> = {
-  venue: "🏰",
-  catering: "🍽️",
-  photography: "📸",
-  videography: "🎥",
-  florals: "💐",
-  music: "🎵",
-  attire: "👗",
-  planner: "📋",
-  stationery: "✉️",
-  favors: "🎁",
-  cake: "🎂",
-  transportation: "🚗",
-};
-
 export const REGION_MULTIPLIERS: Record<string, number> = {
   Northeast: 1.25,
   "Mid-Atlantic": 1.15,

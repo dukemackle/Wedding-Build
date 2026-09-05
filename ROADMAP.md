@@ -230,3 +230,10 @@ not by charging couples — we should follow the same shape:
   the value labeled at the tip, since a 12+ slice pie/donut is a known
   anti-pattern for this many categories — built following the dataviz
   skill's form and mark-spec guidance.
+- **Real icon system**: replaced emoji (which render inconsistently
+  across platforms and read a bit informal next to the rest of the
+  app) with a small hand-drawn inline-SVG icon set — one icon per
+  budget category, one for custom items, and one each for the
+  Dashboard's five stat tiles (headcount, budget, venues, vendors,
+  attire). Same line-icon style throughout, sized/colored via the
+  existing forest/brass tokens like every other icon-adjacent element.
