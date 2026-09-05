@@ -95,6 +95,16 @@ function ItemFields({
           className={inputClass}
         />
       </label>
+      <label className={`${labelClass} sm:col-span-2`}>
+        Notes
+        <textarea
+          name="notes"
+          rows={2}
+          placeholder="Optional"
+          defaultValue={item?.notes ?? ""}
+          className={inputClass}
+        />
+      </label>
     </div>
   );
 }
@@ -231,6 +241,7 @@ function ItemRow({
             {isOverdue(item.due_date) ? " — overdue" : ""}
           </p>
         )}
+        {item.notes && <p className="mt-1 text-sm text-ink/70">{item.notes}</p>}
         {error && <p className="mt-1 text-sm text-red-800">{error}</p>}
       </div>
       <div className="flex shrink-0 items-center gap-3">

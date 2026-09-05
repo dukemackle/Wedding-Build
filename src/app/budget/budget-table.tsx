@@ -42,6 +42,7 @@ export type BudgetRow = {
   purchasedFrom: string | null;
   paidBy: string | null;
   dueDate: string | null;
+  notes: string | null;
   suggestions: string[];
 };
 
@@ -128,6 +129,7 @@ function BudgetRowItem({
               {isOverdue(row.dueDate) ? " — overdue" : ""}
             </p>
           )}
+          {!isEditing && row.notes && <p className="mt-1 text-sm text-ink/70">{row.notes}</p>}
         </div>
 
         {isEditing ? (
@@ -180,6 +182,13 @@ function BudgetRowItem({
                 className="w-full rounded-md border border-hairline bg-parchment px-2 py-1 text-sm text-ink outline-none focus:border-forest sm:w-56"
               />
             </label>
+            <textarea
+              name="notes"
+              rows={2}
+              placeholder="Notes (optional)"
+              defaultValue={row.notes ?? ""}
+              className="w-full rounded-md border border-hairline bg-parchment px-2 py-1 text-sm text-ink outline-none focus:border-forest sm:w-56"
+            />
             <div className="flex items-center gap-2">
               <button
                 type="submit"

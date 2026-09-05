@@ -53,6 +53,7 @@ export async function setBudgetOverride(
   const purchasedFrom = ((formData.get("purchased_from") as string) || "").trim() || null;
   const paidBy = ((formData.get("paid_by") as string) || "").trim() || null;
   const dueDate = ((formData.get("due_date") as string) || "").trim() || null;
+  const notes = ((formData.get("notes") as string) || "").trim() || null;
 
   const { data: guests } = await supabase
     .from("guests")
@@ -79,6 +80,7 @@ export async function setBudgetOverride(
       purchased_from: purchasedFrom,
       paid_by: paidBy,
       due_date: dueDate,
+      notes,
     },
     { onConflict: "wedding_id,category" },
   );
@@ -135,6 +137,7 @@ function customItemFieldsFromForm(formData: FormData) {
       purchased_from: ((formData.get("purchased_from") as string) || "").trim() || null,
       paid_by: ((formData.get("paid_by") as string) || "").trim() || null,
       due_date: ((formData.get("due_date") as string) || "").trim() || null,
+      notes: ((formData.get("notes") as string) || "").trim() || null,
     },
   } as const;
 }
