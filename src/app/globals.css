@@ -53,23 +53,29 @@ body {
    references the same six semantic tokens (parchment/card/hairline/
    forest/brass/ink), so overriding them here on a wrapper class restyles
    the whole page -- cards, buttons, badges -- with zero markup changes.
-   Cards stay light so guest-submitted photos/text stay readable; the
-   bold gradient lives only on the page backdrop, applied separately via
-   .party-gradient-bg so it never leaks into card/input surfaces. */
+   A brighter green + gold than the dashboard's muted versions, on a
+   white base with soft yellow/blue/green washes fading in behind
+   everything (via .party-gradient-bg) rather than a bold saturated
+   sweep -- higher energy through scale/shape (bigger radius, chunkier
+   shadow, a pill CTA) more than through loud color. */
 .party-theme {
-  --color-parchment: #fff2e4;
+  --color-parchment: #fffdf9;
   --color-card: #ffffff;
-  --color-hairline: #f6ddc8;
-  --color-forest: #c0269b;
-  --color-brass: #f5a524;
-  --color-ink: #2b1626;
+  --color-hairline: #dbeafe;
+  --color-forest: #059669;
+  --color-brass: #f5b700;
+  --color-ink: #1b1f1c;
 
   --radius-md: 1rem;
   --radius-lg: 1.75rem;
-  --shadow-sm: 0 14px 32px -10px rgb(108 43 217 / 0.35), 0 4px 14px -4px rgb(192 38 155 / 0.25);
+  --shadow-sm: 0 14px 32px -10px rgb(5 150 105 / 0.18), 0 4px 14px -4px rgb(5 150 105 / 0.14);
 }
 
 .party-gradient-bg {
-  background-color: #6c2bd9;
-  background-image: linear-gradient(135deg, #ff7a59 0%, #ff3d95 45%, #6c2bd9 100%);
+  background-color: #fffdf9;
+  background-image:
+    radial-gradient(900px circle at 8% 0%, rgb(250 204 21 / 0.35), transparent 60%),
+    radial-gradient(960px circle at 100% 18%, rgb(59 130 246 / 0.28), transparent 55%),
+    radial-gradient(1000px circle at 50% 105%, rgb(16 185 129 / 0.3), transparent 60%);
+  background-repeat: no-repeat;
 }
