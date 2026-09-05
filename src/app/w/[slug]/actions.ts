@@ -58,6 +58,7 @@ export async function submitRsvp(formData: FormData): Promise<{ error?: string }
     notes: ((formData.get("notes") as string) || "").trim() || null,
     photo_url: photoUrl,
     message: ((formData.get("message") as string) || "").trim() || null,
+    song_request: ((formData.get("song_request") as string) || "").trim() || null,
   });
 
   if (error) {

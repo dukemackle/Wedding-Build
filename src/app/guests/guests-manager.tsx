@@ -5,6 +5,7 @@ import { useRef, useState, useTransition } from "react";
 import type { Guest, GuestPriority, GuestStatus } from "@/lib/supabase/types";
 import { addGuest, updateGuest, deleteGuest, importGuestsFromCsv } from "./actions";
 import { FilterDisclosure } from "@/components/filter-disclosure";
+import { MEAL_OPTIONS } from "@/lib/meal-options";
 
 const STATUSES: GuestStatus[] = ["invited", "confirmed", "declined", "pending"];
 
@@ -76,6 +77,10 @@ function downloadGuestsCsv(guests: Guest[]) {
 }
 
 function GuestFields({ guest }: { guest?: Guest }) {
+  const mealValue = guest?.meal ?? "";
+  const customMeal =
+    mealValue && !(MEAL_OPTIONS as readonly string[]).includes(mealValue) ? mealValue : null;
+
   return (
     <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
       <label className={labelClass}>
@@ -132,12 +137,15 @@ function GuestFields({ guest }: { guest?: Guest }) {
       </label>
       <label className={labelClass}>
         Meal
-        <input
-          name="meal"
-          placeholder="Optional"
-          defaultValue={guest?.meal ?? ""}
-          className={inputClass}
-        />
+        <select name="meal" defaultValue={mealValue} className={inputClass}>
+          <option value="">Not selected</option>
+          {customMeal && <option value={customMeal}>{customMeal}</option>}
+          {MEAL_OPTIONS.map((option) => (
+            <option key={option} value={option}>
+              {option}
+            </option>
+          ))}
+        </select>
       </label>
       <label className="flex items-center gap-2 text-sm text-ink sm:col-span-2">
         <input
@@ -442,6 +450,14 @@ export function GuestsManager({ guests }: { guests: Guest[] }) {
     .filter((g) => g.status === "confirmed")
     .reduce((sum, g) => sum + 1 + (g.plus_one ? 1 : 0), 0);
 
+  const confirmedGuests = guests.filter((g) => g.status === "confirmed");
+  const mealCounts = new Map<string, number>();
+  for (const guest of confirmedGuests) {
+    const key = guest.meal || "Not selected";
+    mealCounts.set(key, (mealCounts.get(key) ?? 0) + 1);
+  }
+  const mealBreakdown = Array.from(mealCounts.entries()).sort((a, b) => b[1] - a[1]);
+
   const activeFilterCount = [filter, priorityFilter].filter((f) => f !== "all").length;
 
   const filteredGuests = guests.filter(
@@ -506,6 +522,18 @@ export function GuestsManager({ guests }: { guests: Guest[] }) {
           Room
         </span>
       </div>
+
+      {confirmedGuests.length > 0 && (
+        <div className="mb-6 flex flex-wrap items-center gap-x-3 gap-y-2 rounded-md border border-hairline bg-parchment px-4 py-3 text-sm text-ink/70">
+          <span className="text-xs uppercase tracking-[0.15em] text-ink/40">Meal counts</span>
+          {mealBreakdown.map(([meal, count]) => (
+            <span key={meal}>
+              <span className="font-mono-numbers text-forest">{count}</span>{" "}
+              {meal === "Not selected" ? <span className="text-ink/50">Not selected</span> : meal}
+            </span>
+          ))}
+        </div>
+      )}
 
       <FilterDisclosure activeCount={activeFilterCount}>
         <div className="flex flex-wrap gap-2">

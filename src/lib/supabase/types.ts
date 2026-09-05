@@ -38,6 +38,7 @@ export type RsvpSubmission = {
   notes: string | null;
   photo_url: string | null;
   message: string | null;
+  song_request: string | null;
   created_at: string;
 };
 
@@ -59,8 +60,11 @@ export type Guest = {
   notes: string | null;
   photo_url: string | null;
   message: string | null;
+  song_request: string | null;
   guestbook_hidden: boolean;
   invite_sent_at: string | null;
+  last_reminded_at: string | null;
+  table_id: string | null;
   created_at: string;
   updated_at: string;
 };
@@ -212,6 +216,16 @@ export type BudgetCustomItem = {
   amount: number;
   purchased_from: string | null;
   paid_by: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
+export type SeatingTable = {
+  id: string;
+  wedding_id: string;
+  user_id: string;
+  name: string;
+  capacity: number | null;
   created_at: string;
   updated_at: string;
 };
