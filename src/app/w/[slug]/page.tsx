@@ -82,7 +82,7 @@ export default async function PublicWeddingPage({
 
         <GuestWall guests={confirmedGuests ?? []} />
 
-        <div className="mt-10 rounded-lg border border-hairline bg-card p-6 sm:p-10 shadow-sm">
+        <div className="mt-6 rounded-lg border border-hairline bg-card p-6 sm:p-10 shadow-sm">
           <h2 className="font-display text-2xl font-semibold text-forest">RSVP</h2>
           <p className="mt-1 text-sm text-ink/70">
             Let {wedding.partner_a_name ?? "the couple"} &amp;{" "}
@@ -92,7 +92,7 @@ export default async function PublicWeddingPage({
         </div>
 
         {guestbookEntries && guestbookEntries.length > 0 && (
-          <div className="mt-8 rounded-lg border border-hairline bg-card p-6 sm:p-10 shadow-sm">
+          <div className="mt-6 rounded-lg border border-hairline bg-card p-6 sm:p-10 shadow-sm">
             <h2 className="font-display text-2xl font-semibold text-forest">Guestbook</h2>
             <p className="mt-1 text-sm text-ink/70">Well wishes from your guests.</p>
             <div className="mt-4">
@@ -102,7 +102,7 @@ export default async function PublicWeddingPage({
         )}
 
         {itineraryEvents && itineraryEvents.length > 0 && (
-          <div className="mt-8 rounded-lg border border-hairline bg-card p-6 sm:p-10 shadow-sm">
+          <div className="mt-6 rounded-lg border border-hairline bg-card p-6 sm:p-10 shadow-sm">
             <h2 className="font-display text-2xl font-semibold text-forest">
               Weekend schedule
             </h2>
@@ -113,7 +113,7 @@ export default async function PublicWeddingPage({
         )}
 
         {registryItems && registryItems.length > 0 && (
-          <div className="mt-8 rounded-lg border border-hairline bg-card p-6 sm:p-10 shadow-sm">
+          <div className="mt-6 rounded-lg border border-hairline bg-card p-6 sm:p-10 shadow-sm">
             <h2 className="font-display text-2xl font-semibold text-forest">Gift registry</h2>
             <div className="mt-4">
               {registryItems.map((item) => (
