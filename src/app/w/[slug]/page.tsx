@@ -68,16 +68,16 @@ export default async function PublicWeddingPage({
     .returns<PublicConfirmedGuest[]>();
 
   return (
-    <main className="flex flex-1 flex-col items-center px-6 py-16">
+    <main className="party-theme party-gradient-bg flex min-h-screen flex-1 flex-col items-center px-6 py-16">
       <div className="w-full max-w-3xl">
-        <p className="text-center font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
+        <p className="text-center font-mono-numbers text-xs uppercase tracking-[0.2em] text-amber-200">
           You&apos;re invited
         </p>
-        <h1 className="mt-2 text-center font-display text-4xl font-semibold text-forest">
+        <h1 className="mt-2 text-center font-display text-5xl font-semibold text-white [text-shadow:0_2px_16px_rgb(0_0_0_/_0.25)]">
           {wedding.partner_a_name} &amp; {wedding.partner_b_name}
         </h1>
         {wedding.wedding_date && (
-          <p className="mt-2 text-center text-ink/70">{formatDate(wedding.wedding_date)}</p>
+          <p className="mt-2 text-center text-white/80">{formatDate(wedding.wedding_date)}</p>
         )}
 
         <GuestWall guests={confirmedGuests ?? []} />

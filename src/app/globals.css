@@ -46,3 +46,30 @@ body {
   background-repeat: no-repeat;
   background-attachment: fixed;
 }
+
+/* Party theme: a higher-energy restyle scoped to the public guest-facing
+   wedding site only (/w/[slug]) -- the couple's own planning tools keep
+   the calm/elegant theme above. Every component in that route already
+   references the same six semantic tokens (parchment/card/hairline/
+   forest/brass/ink), so overriding them here on a wrapper class restyles
+   the whole page -- cards, buttons, badges -- with zero markup changes.
+   Cards stay light so guest-submitted photos/text stay readable; the
+   bold gradient lives only on the page backdrop, applied separately via
+   .party-gradient-bg so it never leaks into card/input surfaces. */
+.party-theme {
+  --color-parchment: #fff2e4;
+  --color-card: #ffffff;
+  --color-hairline: #f6ddc8;
+  --color-forest: #c0269b;
+  --color-brass: #f5a524;
+  --color-ink: #2b1626;
+
+  --radius-md: 1rem;
+  --radius-lg: 1.75rem;
+  --shadow-sm: 0 14px 32px -10px rgb(108 43 217 / 0.35), 0 4px 14px -4px rgb(192 38 155 / 0.25);
+}
+
+.party-gradient-bg {
+  background-color: #6c2bd9;
+  background-image: linear-gradient(135deg, #ff7a59 0%, #ff3d95 45%, #6c2bd9 100%);
+}

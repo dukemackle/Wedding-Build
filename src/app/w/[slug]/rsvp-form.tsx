@@ -93,7 +93,7 @@ export function RsvpForm({ weddingId }: { weddingId: string }) {
       <button
         type="submit"
         disabled={isPending}
-        className="self-start rounded-md bg-forest px-4 py-2 font-medium text-parchment transition-colors hover:bg-forest/90 disabled:opacity-60"
+        className="self-start rounded-full bg-forest px-8 py-3 text-base font-semibold text-parchment shadow-sm transition-transform hover:scale-105 hover:bg-forest/90 disabled:opacity-60 disabled:hover:scale-100"
       >
         {isPending ? "Submitting..." : "Submit RSVP"}
       </button>
