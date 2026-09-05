@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState, useTransition } from "react";
 import type { RsvpSubmission } from "@/lib/supabase/types";
 import {
@@ -45,28 +46,44 @@ function SubmissionRow({ submission }: { submission: RsvpSubmission }) {
   return (
     <div className="border-b border-hairline py-4 last:border-b-0">
       <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
-        <div>
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="text-ink">{submission.guest_name}</span>
-            {submission.plus_one && (
-              <span className="rounded-full border border-hairline px-2 py-0.5 text-xs text-ink/60">
-                +1
+        <div className="flex gap-3">
+          {submission.photo_url && (
+            <Image
+              src={submission.photo_url}
+              alt={submission.guest_name}
+              width={48}
+              height={48}
+              className="h-12 w-12 shrink-0 rounded-full border border-hairline object-cover"
+            />
+          )}
+          <div>
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="text-ink">{submission.guest_name}</span>
+              {submission.plus_one && (
+                <span className="rounded-full border border-hairline px-2 py-0.5 text-xs text-ink/60">
+                  +1
+                </span>
+              )}
+              <span
+                className={`rounded-full border px-2 py-0.5 text-xs ${
+                  submission.status === "confirmed"
+                    ? "border-forest/40 bg-forest/10 text-forest"
+                    : "border-red-200 bg-red-50 text-red-700"
+                }`}
+              >
+                {submission.status === "confirmed" ? "Attending" : "Not attending"}
               </span>
+            </div>
+            <p className="mt-1 text-xs text-ink/50">
+              {[submission.household, submission.meal].filter(Boolean).join(" · ") || "—"}
+            </p>
+            {submission.notes && (
+              <p className="mt-1 text-sm text-ink/70">Private note: {submission.notes}</p>
             )}
-            <span
-              className={`rounded-full border px-2 py-0.5 text-xs ${
-                submission.status === "confirmed"
-                  ? "border-forest/40 bg-forest/10 text-forest"
-                  : "border-red-200 bg-red-50 text-red-700"
-              }`}
-            >
-              {submission.status === "confirmed" ? "Attending" : "Not attending"}
-            </span>
+            {submission.message && (
+              <p className="mt-1 text-sm text-ink/70">Message: {submission.message}</p>
+            )}
           </div>
-          <p className="mt-1 text-xs text-ink/50">
-            {[submission.household, submission.meal].filter(Boolean).join(" · ") || "—"}
-          </p>
-          {submission.notes && <p className="mt-1 text-sm text-ink/70">{submission.notes}</p>}
         </div>
         <div className="flex shrink-0 items-center gap-3">
           <button

@@ -62,12 +62,30 @@ export function RsvpForm({ weddingId }: { weddingId: string }) {
           Bringing a plus one
         </label>
         <label className={`${labelClass} sm:col-span-2`}>
-          Notes
+          Notes (private — only the couple sees this)
           <textarea
             name="notes"
             rows={2}
-            placeholder="Optional — allergies, questions, well wishes..."
+            placeholder="Optional — allergies, dietary restrictions, questions..."
             className={inputClass}
+          />
+        </label>
+        <label className={`${labelClass} sm:col-span-2`}>
+          A message for the couple (shown on this site once approved)
+          <textarea
+            name="message"
+            rows={2}
+            placeholder="Optional — well wishes, a favorite memory..."
+            className={inputClass}
+          />
+        </label>
+        <label className={`${labelClass} sm:col-span-2`}>
+          Add a photo (shown alongside your message)
+          <input
+            type="file"
+            name="photo"
+            accept="image/*"
+            className="block w-full text-sm text-ink file:mr-3 file:rounded-md file:border file:border-hairline file:bg-card file:px-3 file:py-1.5 file:text-sm file:text-ink hover:file:border-forest"
           />
         </label>
       </div>

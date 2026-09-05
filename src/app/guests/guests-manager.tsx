@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useRef, useState, useTransition } from "react";
 import type { Guest, GuestPriority, GuestStatus } from "@/lib/supabase/types";
 import { addGuest, updateGuest, deleteGuest, importGuestsFromCsv } from "./actions";
@@ -344,30 +345,41 @@ function GuestRow({ guest }: { guest: Guest }) {
 
   return (
     <div className="flex flex-col gap-2 border-b border-hairline py-4 last:border-b-0 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
-      <div>
-        <div className="flex flex-wrap items-center gap-2">
-          <span className="text-ink">{guest.name}</span>
-          {guest.plus_one && (
-            <span className="rounded-full border border-hairline px-2 py-0.5 text-xs text-ink/60">
-              +1
+      <div className="flex gap-3">
+        {guest.photo_url && (
+          <Image
+            src={guest.photo_url}
+            alt={guest.name}
+            width={36}
+            height={36}
+            className="h-9 w-9 shrink-0 rounded-full border border-hairline object-cover"
+          />
+        )}
+        <div>
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-ink">{guest.name}</span>
+            {guest.plus_one && (
+              <span className="rounded-full border border-hairline px-2 py-0.5 text-xs text-ink/60">
+                +1
+              </span>
+            )}
+            <span
+              className={`rounded-full border px-2 py-0.5 text-xs ${STATUS_BADGE_CLASS[guest.status]}`}
+            >
+              {STATUS_LABELS[guest.status]}
             </span>
-          )}
-          <span
-            className={`rounded-full border px-2 py-0.5 text-xs ${STATUS_BADGE_CLASS[guest.status]}`}
-          >
-            {STATUS_LABELS[guest.status]}
-          </span>
-          <span
-            className={`rounded-full border px-2 py-0.5 text-xs ${PRIORITY_BADGE_CLASS[guest.priority]}`}
-          >
-            {PRIORITY_LABELS[guest.priority]}
-          </span>
+            <span
+              className={`rounded-full border px-2 py-0.5 text-xs ${PRIORITY_BADGE_CLASS[guest.priority]}`}
+            >
+              {PRIORITY_LABELS[guest.priority]}
+            </span>
+          </div>
+          <p className="mt-1 text-xs text-ink/50">
+            {[guest.household, guest.email, guest.meal].filter(Boolean).join(" · ") || "—"}
+          </p>
+          {guest.notes && <p className="mt-1 text-sm text-ink/70">{guest.notes}</p>}
+          {error && <p className="mt-1 text-sm text-red-800">{error}</p>}
         </div>
-        <p className="mt-1 text-xs text-ink/50">
-          {[guest.household, guest.email, guest.meal].filter(Boolean).join(" · ") || "—"}
-        </p>
-        {guest.notes && <p className="mt-1 text-sm text-ink/70">{guest.notes}</p>}
-        {error && <p className="mt-1 text-sm text-red-800">{error}</p>}
       </div>
       <div className="flex shrink-0 items-center gap-3">
         <button onClick={() => setIsEditing(true)} className="text-xs text-brass hover:underline">

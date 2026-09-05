@@ -34,6 +34,8 @@ export type RsvpSubmission = {
   status: RsvpStatus;
   meal: string | null;
   notes: string | null;
+  photo_url: string | null;
+  message: string | null;
   created_at: string;
 };
 
@@ -53,9 +55,21 @@ export type Guest = {
   priority: GuestPriority;
   meal: string | null;
   notes: string | null;
+  photo_url: string | null;
+  message: string | null;
+  guestbook_hidden: boolean;
   invite_sent_at: string | null;
   created_at: string;
   updated_at: string;
+};
+
+export type PublicGuestbookEntry = {
+  id: string;
+  wedding_id: string;
+  name: string;
+  photo_url: string | null;
+  message: string | null;
+  created_at: string;
 };
 
 export type Venue = {
