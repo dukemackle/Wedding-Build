@@ -6,6 +6,7 @@ import { saveWedding } from "./actions";
 import type { Wedding } from "@/lib/supabase/types";
 import { REGIONS, SEASONS, STYLE_TIERS, VENUE_TYPES } from "@/lib/wedding-options";
 import { daysUntilWedding } from "@/lib/countdown";
+import { CountdownTimer } from "@/components/countdown-timer";
 
 function formatDate(dateStr: string) {
   return new Date(`${dateStr}T00:00:00`).toLocaleDateString("en-US", {
@@ -198,7 +199,14 @@ function WeddingSummary({
         )}
         <div>
           <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
-            {wedding.wedding_date ? daysUntilWedding(wedding.wedding_date) : "Date not set"}
+            {wedding.wedding_date ? (
+              <CountdownTimer
+                targetDate={wedding.wedding_date}
+                fallbackLabel={daysUntilWedding(wedding.wedding_date)}
+              />
+            ) : (
+              "Date not set"
+            )}
           </p>
           <h1 className="mt-2 font-display text-4xl font-semibold text-forest">
             {wedding.partner_a_name} &amp; {wedding.partner_b_name}
