@@ -209,3 +209,10 @@ not by charging couples — we should follow the same shape:
   reusable `FadeInSection` component (IntersectionObserver-based,
   respects prefers-reduced-motion). Subtle by design — a settling
   effect, not a flashy one.
+- **App-wide entrance animation + budget emoji**: every page in the
+  app (not just the guest site) now fades and rises in on load or
+  navigation via a shared `PageTransition` wrapper in the root layout —
+  one change, whole-app coverage. Budget page also got `FadeInSection`
+  scroll-reveal on its cards, plus a small emoji next to each of the 12
+  preset categories (🏰 Venue, 🍽️ Catering, 📸 Photography, etc.) and a
+  generic 🧾 next to custom items, so the list is easier to scan.

@@ -46,3 +46,28 @@ body {
   background-repeat: no-repeat;
   background-attachment: fixed;
 }
+
+/* Subtle whole-app entrance animation: every page fades and rises in
+   on load/navigation (see PageTransition), and individual sections can
+   opt into the same treatment on scroll via FadeInSection. Kept short
+   and gentle so it reads as polish, not a flashy transition. */
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-page-in {
+  animation: page-in 0.4s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-page-in {
+    animation: none;
+  }
+}
