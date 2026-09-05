@@ -13,7 +13,7 @@ import { FilterDisclosure } from "@/components/filter-disclosure";
 const VenuesMap = dynamic(() => import("./venues-map").then((m) => m.VenuesMap), {
   ssr: false,
   loading: () => (
-    <div className="flex h-[520px] w-full items-center justify-center rounded-md border border-hairline text-sm text-ink/50">
+    <div className="flex h-[360px] w-full items-center justify-center rounded-md border border-hairline text-sm text-ink/50 lg:h-[640px]">
       Loading map...
     </div>
   ),
@@ -29,12 +29,30 @@ const VENUE_TYPE_IMAGES: Record<string, string> = {
 };
 const DEFAULT_VENUE_IMAGE = "/venue-types/historic-estate.svg";
 
-function VenueCard({ venue, isShortlisted }: { venue: Venue; isShortlisted: boolean }) {
+function VenueCard({
+  venue,
+  isShortlisted,
+  isHighlighted,
+  onHover,
+  onLeave,
+}: {
+  venue: Venue;
+  isShortlisted: boolean;
+  isHighlighted?: boolean;
+  onHover?: () => void;
+  onLeave?: () => void;
+}) {
   const image =
     (venue.venue_type && VENUE_TYPE_IMAGES[venue.venue_type]) || DEFAULT_VENUE_IMAGE;
 
   return (
-    <div className="flex flex-col overflow-hidden rounded-lg border border-hairline bg-parchment">
+    <div
+      onMouseEnter={onHover}
+      onMouseLeave={onLeave}
+      className={`flex flex-col overflow-hidden rounded-lg border bg-parchment transition-colors ${
+        isHighlighted ? "border-brass" : "border-hairline"
+      }`}
+    >
       <Image
         src={image}
         alt={venue.venue_type ? `${venue.venue_type} illustration` : "Venue illustration"}
@@ -123,8 +141,8 @@ export function VenuesManager({
   const [typeFilter, setTypeFilter] = useState<string | "all">("all");
   const [stateFilter, setStateFilter] = useState<string | "all">("all");
   const [cityFilter, setCityFilter] = useState<string | "all">("all");
-  const [viewMode, setViewMode] = useState<"list" | "map">("list");
   const [search, setSearch] = useState("");
+  const [hoveredVenueId, setHoveredVenueId] = useState<string | null>(null);
 
   const shortlistedIds = new Set(shortlist.map((s) => s.venue_id));
   const venueById = new Map(venues.map((v) => [v.id, v]));
@@ -279,46 +297,38 @@ export function VenuesManager({
           </div>
         </FilterDisclosure>
 
-        <div className="mb-6 flex gap-2">
-          <button
-            onClick={() => setViewMode("list")}
-            className={`rounded-full border px-3 py-1 text-sm transition-colors ${
-              viewMode === "list"
-                ? "border-forest bg-forest text-parchment"
-                : "border-hairline bg-parchment text-ink hover:border-forest"
-            }`}
-          >
-            List view
-          </button>
-          <button
-            onClick={() => setViewMode("map")}
-            className={`rounded-full border px-3 py-1 text-sm transition-colors ${
-              viewMode === "map"
-                ? "border-forest bg-forest text-parchment"
-                : "border-hairline bg-parchment text-ink hover:border-forest"
-            }`}
-          >
-            Map view
-          </button>
-        </div>
-
         {filteredVenues.length === 0 ? (
           <p className="py-8 text-center text-sm text-ink/50">
             {venues.length === 0
               ? "No venues have been added yet."
               : "No venues match these filters."}
           </p>
-        ) : viewMode === "map" ? (
-          <VenuesMap venues={filteredVenues} shortlistedIds={shortlistedIds} />
         ) : (
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            {filteredVenues.map((venue) => (
-              <VenueCard
-                key={venue.id}
-                venue={venue}
-                isShortlisted={shortlistedIds.has(venue.id)}
-              />
-            ))}
+          <div className="flex flex-col gap-6 lg:flex-row">
+            <div className="order-1 lg:order-2 lg:w-1/2">
+              <div className="lg:sticky lg:top-6">
+                <VenuesMap
+                  venues={filteredVenues}
+                  shortlistedIds={shortlistedIds}
+                  hoveredVenueId={hoveredVenueId}
+                  onHoverVenue={setHoveredVenueId}
+                />
+              </div>
+            </div>
+            <div className="order-2 lg:order-1 lg:w-1/2 lg:max-h-[640px] lg:overflow-y-auto lg:pr-2">
+              <div className="grid grid-cols-1 gap-4">
+                {filteredVenues.map((venue) => (
+                  <VenueCard
+                    key={venue.id}
+                    venue={venue}
+                    isShortlisted={shortlistedIds.has(venue.id)}
+                    isHighlighted={hoveredVenueId === venue.id}
+                    onHover={() => setHoveredVenueId(venue.id)}
+                    onLeave={() => setHoveredVenueId(null)}
+                  />
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

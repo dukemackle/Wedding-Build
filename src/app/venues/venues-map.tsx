@@ -20,14 +20,32 @@ const pinIcon = L.divIcon({
   iconAnchor: [8, 8],
 });
 
+const pinIconActive = L.divIcon({
+  className: "",
+  html: `<div style="
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #A9843C;
+    border: 2px solid #1F3D2E;
+    box-shadow: 0 0 0 3px rgba(169,132,60,0.25);
+  "></div>`,
+  iconSize: [22, 22],
+  iconAnchor: [11, 11],
+});
+
 const CONTINENTAL_US_CENTER: [number, number] = [39.8, -98.6];
 
 export function VenuesMap({
   venues,
   shortlistedIds,
+  hoveredVenueId,
+  onHoverVenue,
 }: {
   venues: Venue[];
   shortlistedIds: Set<string>;
+  hoveredVenueId?: string | null;
+  onHoverVenue?: (venueId: string | null) => void;
 }) {
   const pinned = venues.filter(
     (v): v is Venue & { latitude: number; longitude: number } =>
@@ -35,7 +53,7 @@ export function VenuesMap({
   );
 
   return (
-    <div className="h-[520px] w-full overflow-hidden rounded-md border border-hairline">
+    <div className="h-[360px] w-full overflow-hidden rounded-md border border-hairline lg:h-[640px]">
       <MapContainer
         center={CONTINENTAL_US_CENTER}
         zoom={4}
@@ -47,7 +65,15 @@ export function VenuesMap({
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         {pinned.map((venue) => (
-          <Marker key={venue.id} position={[venue.latitude, venue.longitude]} icon={pinIcon}>
+          <Marker
+            key={venue.id}
+            position={[venue.latitude, venue.longitude]}
+            icon={hoveredVenueId === venue.id ? pinIconActive : pinIcon}
+            eventHandlers={{
+              mouseover: () => onHoverVenue?.(venue.id),
+              mouseout: () => onHoverVenue?.(null),
+            }}
+          >
             <Popup>
               <div className="min-w-[180px]">
                 <p className="font-semibold text-forest">{venue.name}</p>
