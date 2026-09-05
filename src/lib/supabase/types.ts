@@ -229,12 +229,17 @@ export type BudgetCustomItem = {
   updated_at: string;
 };
 
+export type TableShape = "round" | "square" | "rectangle";
+
 export type SeatingTable = {
   id: string;
   wedding_id: string;
   user_id: string;
   name: string;
   capacity: number | null;
+  shape: TableShape;
+  position_x: number;
+  position_y: number;
   created_at: string;
   updated_at: string;
 };
