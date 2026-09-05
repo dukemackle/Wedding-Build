@@ -222,3 +222,11 @@ not by charging couples — we should follow the same shape:
   above the number, plus a hover shadow lift — inspired by a Tailgrids
   "data stats" pattern, hand-adapted to our own tokens rather than
   pulling in their component/theme system.
+- **Budget: spending breakdown chart**: a new "Spending breakdown" card
+  at the top of the Budget page, above the itemized list — a progress
+  meter for "X of 12 categories have a real quote," and a sorted
+  horizontal bar chart of every category (plus custom items lumped as
+  "Additional items") from highest to lowest cost. Single-hue bars with
+  the value labeled at the tip, since a 12+ slice pie/donut is a known
+  anti-pattern for this many categories — built following the dataviz
+  skill's form and mark-spec guidance.
