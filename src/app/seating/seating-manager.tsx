@@ -467,24 +467,15 @@ export function SeatingManager({
     });
   }
 
-  if (confirmedGuests.length === 0) {
-    return (
-      <div className="w-full rounded-lg border border-hairline bg-card p-5 sm:p-8 shadow-sm">
-        <h2 className="font-display text-2xl font-semibold text-forest">Seating chart</h2>
-        <p className="mt-4 text-sm text-ink/50">
-          No confirmed guests yet — the seating chart fills in once guests RSVP as attending.
-        </p>
-      </div>
-    );
-  }
-
   return (
     <div className="w-full rounded-lg border border-hairline bg-card p-5 sm:p-8 shadow-sm">
       <div className="mb-6 flex flex-wrap items-center justify-between gap-4 border-b border-hairline pb-6">
         <div>
           <h2 className="font-display text-2xl font-semibold text-forest">Seating chart</h2>
           <p className="mt-1 text-sm text-ink/70">
-            {unassigned.length} of {confirmedGuests.length} confirmed guests still unassigned.
+            {confirmedGuests.length === 0
+              ? "No confirmed guests yet — set up your tables now and assign guests once they RSVP."
+              : `${unassigned.length} of ${confirmedGuests.length} confirmed guests still unassigned.`}{" "}
             Drag a table to move it; click one, then click a guest below to seat them.
           </p>
         </div>
