@@ -194,7 +194,9 @@ function ItemRow({
   return (
     <div className="flex items-start justify-between gap-4 border-b border-hairline py-4 last:border-b-0">
       <div>
-        <p className="text-ink">{item.label}</p>
+        <p className="text-ink">
+          <span aria-hidden="true">🧾</span> {item.label}
+        </p>
         {item.purchased_from && (
           <p className="mt-1 text-xs text-brass">Purchased from {item.purchased_from}</p>
         )}

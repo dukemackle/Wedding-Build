@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { setBudgetOverride, clearBudgetOverride } from "./actions";
+import { BUDGET_CATEGORY_EMOJI } from "@/lib/budget-categories";
 
 export type BudgetRow = {
   key: string;
@@ -64,7 +65,9 @@ function BudgetRowItem({
     <div className="flex flex-col gap-2 border-b border-hairline py-4 last:border-b-0">
       <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
         <div>
-          <p className="text-ink">{row.label}</p>
+          <p className="text-ink">
+            <span aria-hidden="true">{BUDGET_CATEGORY_EMOJI[row.key]}</span> {row.label}
+          </p>
           {row.isPerGuest && (
             <p className="text-xs text-ink/50">Scales with guest count</p>
           )}

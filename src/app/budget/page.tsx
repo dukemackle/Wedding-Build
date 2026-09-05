@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { AppNav } from "@/components/app-nav";
+import { FadeInSection } from "@/components/fade-in-section";
 import type { BudgetCustomItem, Wedding } from "@/lib/supabase/types";
 import {
   BUDGET_CATEGORIES,
@@ -211,31 +212,37 @@ export default async function BudgetPage() {
           Edit on any line to enter a real quote.
         </p>
 
-        <BudgetTable rows={rows} total={total} payerSuggestions={payerSuggestions} />
-        <BudgetCustomItems items={customItems ?? []} payerSuggestions={payerSuggestions} />
+        <FadeInSection>
+          <BudgetTable rows={rows} total={total} payerSuggestions={payerSuggestions} />
+        </FadeInSection>
+        <FadeInSection>
+          <BudgetCustomItems items={customItems ?? []} payerSuggestions={payerSuggestions} />
+        </FadeInSection>
 
         {hasAssignedPayer && (
-          <div className="mt-8 w-full rounded-lg border border-hairline bg-card p-5 sm:p-8 shadow-sm">
-            <span className="font-display text-2xl font-semibold text-forest">
-              Who&apos;s paying
-            </span>
-            <p className="mt-1 text-sm text-ink/70">
-              A running subtotal for each payer, based on what&apos;s been assigned so far.
-            </p>
-            <div className="mt-4">
-              {payerBreakdown.map(([name, amount]) => (
-                <div
-                  key={name}
-                  className="flex items-center justify-between border-b border-hairline py-3 last:border-b-0"
-                >
-                  <span className={name === "Unassigned" ? "text-ink/50" : "text-ink"}>
-                    {name}
-                  </span>
-                  <span className="font-mono-numbers text-ink">{currency.format(amount)}</span>
-                </div>
-              ))}
+          <FadeInSection>
+            <div className="mt-8 w-full rounded-lg border border-hairline bg-card p-5 sm:p-8 shadow-sm">
+              <span className="font-display text-2xl font-semibold text-forest">
+                Who&apos;s paying
+              </span>
+              <p className="mt-1 text-sm text-ink/70">
+                A running subtotal for each payer, based on what&apos;s been assigned so far.
+              </p>
+              <div className="mt-4">
+                {payerBreakdown.map(([name, amount]) => (
+                  <div
+                    key={name}
+                    className="flex items-center justify-between border-b border-hairline py-3 last:border-b-0"
+                  >
+                    <span className={name === "Unassigned" ? "text-ink/50" : "text-ink"}>
+                      {name}
+                    </span>
+                    <span className="font-mono-numbers text-ink">{currency.format(amount)}</span>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
+          </FadeInSection>
         )}
       </div>
     </main>
