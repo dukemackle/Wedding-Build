@@ -207,11 +207,6 @@ function BudgetRowItem({
                 actual
               </span>
             )}
-            {row.override !== null && row.override > row.computed && (
-              <span className="rounded-full border border-red-200 bg-red-50 px-2 py-0.5 text-xs text-red-700">
-                +{currency.format(row.override - row.computed)} over estimate
-              </span>
-            )}
             <button
               onClick={() => setIsEditing(true)}
               className="text-xs text-brass hover:underline"
@@ -244,23 +239,12 @@ export function BudgetTable({
   total: number;
   payerSuggestions: string[];
 }) {
-  const overBudgetCount = rows.filter(
-    (row) => row.override !== null && row.override > row.computed,
-  ).length;
-
   return (
     <div className="mt-8 w-full rounded-lg border border-hairline bg-card p-5 sm:p-8 shadow-sm">
       <div className="mb-6 flex items-baseline justify-between border-b border-hairline pb-6">
-        <div>
-          <span className="font-display text-2xl font-semibold text-forest">
-            Estimated total
-          </span>
-          {overBudgetCount > 0 && (
-            <p className="mt-1 text-xs text-red-700">
-              {overBudgetCount} categor{overBudgetCount === 1 ? "y" : "ies"} over estimate
-            </p>
-          )}
-        </div>
+        <span className="font-display text-2xl font-semibold text-forest">
+          Estimated total
+        </span>
         <span className="font-mono-numbers text-3xl text-forest">
           {currency.format(total)}
         </span>

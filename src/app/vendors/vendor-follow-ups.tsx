@@ -1,38 +1,26 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import type { Guest } from "@/lib/supabase/types";
-import { sendRsvpReminders } from "./actions";
+import type { VendorInquiry } from "@/lib/supabase/types";
+import { sendVendorFollowUps } from "./actions";
 
 function formatDate(dateStr: string) {
   return new Date(dateStr).toLocaleDateString("en-US", { month: "short", day: "numeric" });
 }
 
-export function RsvpReminders({
-  guests,
-  publicSlug,
-  origin,
-  rsvpDeadline,
-}: {
-  guests: Guest[];
-  publicSlug: string | null;
-  origin: string;
-  rsvpDeadline: string | null;
-}) {
-  const stragglers = guests
-    .filter(
-      (g) => g.email && g.invite_sent_at && (g.status === "invited" || g.status === "pending"),
-    )
-    .sort((a, b) => (a.invite_sent_at ?? "").localeCompare(b.invite_sent_at ?? ""));
+export function VendorFollowUps({ inquiries }: { inquiries: VendorInquiry[] }) {
+  const pending = inquiries
+    .filter((i) => i.status === "sent" && i.recipient_email)
+    .sort((a, b) => a.sent_at.localeCompare(b.sent_at));
 
-  const [selected, setSelected] = useState<Set<string>>(() => new Set(stragglers.map((g) => g.id)));
+  const [selected, setSelected] = useState<Set<string>>(() => new Set(pending.map((i) => i.id)));
   const [error, setError] = useState<string | undefined>(undefined);
   const [result, setResult] = useState<
     { sent: number; skipped: number; failed: number } | undefined
   >(undefined);
   const [isPending, startTransition] = useTransition();
 
-  if (!publicSlug || stragglers.length === 0) return null;
+  if (pending.length === 0) return null;
 
   function toggle(id: string) {
     setSelected((prev) => {
@@ -48,16 +36,15 @@ export function RsvpReminders({
 
   function handleSend() {
     if (selected.size === 0) {
-      setError("Select at least one guest to remind.");
+      setError("Select at least one inquiry to follow up on.");
       return;
     }
 
     const formData = new FormData();
-    selected.forEach((id) => formData.append("guest_id", id));
-    formData.set("origin", origin);
+    selected.forEach((id) => formData.append("inquiry_id", id));
 
     startTransition(async () => {
-      const response = await sendRsvpReminders(formData);
+      const response = await sendVendorFollowUps(formData);
       if (response?.error) {
         setError(response.error);
         setResult(undefined);
@@ -73,35 +60,36 @@ export function RsvpReminders({
   }
 
   return (
-    <div className="w-full rounded-lg border border-hairline bg-card p-5 sm:p-8 shadow-sm">
-      <h2 className="font-display text-2xl font-semibold text-forest">Nudge stragglers</h2>
+    <div className="rounded-lg border border-hairline bg-card p-6 shadow-sm">
+      <h2 className="font-display text-2xl font-semibold text-forest">Follow up on inquiries</h2>
       <p className="mt-1 text-sm text-ink/70">
-        {stragglers.length} invited guest{stragglers.length === 1 ? "" : "s"} still haven&apos;t{" "}
-        responded — send a reminder.
-        {rsvpDeadline && ` Your RSVP deadline is ${formatDate(rsvpDeadline)}.`}
+        {pending.length} inquir{pending.length === 1 ? "y" : "ies"} still awaiting a response —
+        send a follow-up.
       </p>
 
       <div className="mt-4 max-h-72 overflow-y-auto rounded-md border border-hairline">
-        {stragglers.map((guest) => (
+        {pending.map((inquiry) => (
           <label
-            key={guest.id}
+            key={inquiry.id}
             className="flex cursor-pointer items-center justify-between gap-3 border-b border-hairline px-4 py-2.5 last:border-b-0 hover:bg-parchment"
           >
             <span className="flex items-center gap-3">
               <input
                 type="checkbox"
-                checked={selected.has(guest.id)}
-                onChange={() => toggle(guest.id)}
+                checked={selected.has(inquiry.id)}
+                onChange={() => toggle(inquiry.id)}
                 className="h-4 w-4 rounded border-hairline"
               />
               <span>
-                <span className="text-ink">{guest.name}</span>{" "}
-                <span className="text-xs text-ink/50">{guest.email}</span>
+                <span className="text-ink">{inquiry.vendor_name}</span>{" "}
+                <span className="text-xs text-ink/50">{inquiry.recipient_email}</span>
               </span>
             </span>
             <span className="shrink-0 text-xs text-ink/50">
-              Invited {formatDate(guest.invite_sent_at!)}
-              {guest.last_reminded_at ? ` · reminded ${formatDate(guest.last_reminded_at)}` : ""}
+              Sent {formatDate(inquiry.sent_at)}
+              {inquiry.last_followed_up_at
+                ? ` · followed up ${formatDate(inquiry.last_followed_up_at)}`
+                : ""}
             </span>
           </label>
         ))}
@@ -110,7 +98,7 @@ export function RsvpReminders({
       {error && <p className="mt-3 text-sm text-red-800">{error}</p>}
       {result && (
         <p className="mt-3 text-sm text-forest">
-          Sent {result.sent} reminder{result.sent === 1 ? "" : "s"}
+          Sent {result.sent} follow-up{result.sent === 1 ? "" : "s"}
           {result.skipped > 0 ? ` — skipped ${result.skipped} without an email` : ""}
           {result.failed > 0 ? ` — ${result.failed} failed to send` : ""}.
         </p>
@@ -122,7 +110,7 @@ export function RsvpReminders({
           disabled={isPending || selected.size === 0}
           className="rounded-md bg-forest px-4 py-2 font-medium text-parchment transition-colors hover:bg-forest/90 disabled:opacity-60"
         >
-          {isPending ? "Sending..." : `Send reminders (${selected.size})`}
+          {isPending ? "Sending..." : `Send follow-ups (${selected.size})`}
         </button>
       </div>
     </div>

@@ -82,6 +82,7 @@ export async function sendVendorInquiry(formData: FormData): Promise<{ error?: s
     vendor_name: vendorName,
     category,
     message,
+    recipient_email: recipientEmail,
     status: "sent",
   });
 
@@ -91,6 +92,81 @@ export async function sendVendorInquiry(formData: FormData): Promise<{ error?: s
 
   revalidatePath("/vendors");
   return {};
+}
+
+export async function sendVendorFollowUps(
+  formData: FormData,
+): Promise<{ error?: string; sent?: number; skipped?: number; failed?: number }> {
+  const { supabase, user, wedding } = await requireOwnWedding();
+
+  if (!wedding) {
+    return { error: "Set up your wedding on the Dashboard first." };
+  }
+  if (!process.env.RESEND_API_KEY) {
+    return { error: "Email sending isn't configured (missing RESEND_API_KEY)." };
+  }
+
+  const inquiryIds = formData.getAll("inquiry_id") as string[];
+  if (inquiryIds.length === 0) {
+    return { error: "Select at least one inquiry to follow up on." };
+  }
+
+  const { data: inquiries, error: fetchError } = await supabase
+    .from("vendor_inquiries")
+    .select("*")
+    .in("id", inquiryIds)
+    .eq("wedding_id", wedding.id)
+    .eq("status", "sent");
+
+  if (fetchError) {
+    return { error: fetchError.message };
+  }
+
+  const followable = (inquiries ?? []).filter((i) => i.recipient_email);
+  const skipped = inquiryIds.length - followable.length;
+
+  if (followable.length === 0) {
+    return { error: "None of the selected inquiries have a recipient email on file.", skipped };
+  }
+
+  const coupleNames = [wedding.partner_a_name, wedding.partner_b_name].filter(Boolean).join(" & ");
+  const resend = getResendClient();
+
+  let sent = 0;
+  let failed = 0;
+  const sentIds: string[] = [];
+
+  for (const inquiry of followable) {
+    try {
+      const { error: sendError } = await resend.emails.send({
+        from: INQUIRY_FROM_ADDRESS,
+        to: inquiry.recipient_email!,
+        replyTo: user.email,
+        subject: `Following up: wedding inquiry from ${coupleNames || user.email}`,
+        text: `Hi ${inquiry.vendor_name},\n\nJust following up on the inquiry we sent about ${inquiry.category?.toLowerCase() ?? "our wedding"} — we'd still love to hear back about availability and pricing when you get a chance.\n\nOriginal message:\n${inquiry.message ?? ""}`,
+      });
+
+      if (sendError) {
+        failed++;
+        continue;
+      }
+
+      sent++;
+      sentIds.push(inquiry.id);
+    } catch {
+      failed++;
+    }
+  }
+
+  if (sentIds.length > 0) {
+    await supabase
+      .from("vendor_inquiries")
+      .update({ last_followed_up_at: new Date().toISOString() })
+      .in("id", sentIds);
+  }
+
+  revalidatePath("/vendors");
+  return { sent, skipped, failed };
 }
 
 export async function updateInquiryStatus(formData: FormData): Promise<{ error?: string }> {

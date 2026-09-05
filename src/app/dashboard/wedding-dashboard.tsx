@@ -62,6 +62,15 @@ function WeddingForm({
         />
       </label>
       <label className={labelClass}>
+        RSVP deadline
+        <input
+          type="date"
+          name="rsvp_deadline"
+          defaultValue={wedding?.rsvp_deadline ?? ""}
+          className={selectClass}
+        />
+      </label>
+      <label className={labelClass}>
         Guest count override
         <input
           type="number"
@@ -226,6 +235,11 @@ function WeddingSummary({
       {wedding.guest_count_override !== null && (
         <p className="mt-4 font-mono-numbers text-sm text-ink/70">
           Guest count override: {wedding.guest_count_override}
+        </p>
+      )}
+      {wedding.rsvp_deadline && (
+        <p className="mt-1 font-mono-numbers text-sm text-ink/70">
+          RSVP deadline: {formatDate(wedding.rsvp_deadline)}
         </p>
       )}
 

@@ -3,6 +3,7 @@
 import { useRef, useState, useTransition } from "react";
 import type { ItineraryEvent } from "@/lib/supabase/types";
 import { dateKey, formatFullDate, formatTime, parseDateKey, sortByTime } from "@/lib/itinerary";
+import { downloadIcs } from "@/lib/ics";
 import { ItineraryCalendar } from "@/components/itinerary-calendar";
 import { addItineraryEvent, updateItineraryEvent, deleteItineraryEvent } from "./actions";
 
@@ -181,6 +182,9 @@ function EventRow({ event }: { event: ItineraryEvent }) {
         {error && <p className="mt-1 text-sm text-red-800">{error}</p>}
       </div>
       <div className="flex shrink-0 items-center gap-3">
+        <button onClick={() => downloadIcs(event)} className="text-xs text-brass hover:underline">
+          Add to calendar
+        </button>
         <button onClick={() => setIsEditing(true)} className="text-xs text-brass hover:underline">
           Edit
         </button>

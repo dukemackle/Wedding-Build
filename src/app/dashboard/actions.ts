@@ -33,6 +33,7 @@ export async function saveWedding(formData: FormData): Promise<{ error?: string 
       guest_count_override: guestCountOverrideRaw
         ? Number(guestCountOverrideRaw)
         : null,
+      rsvp_deadline: (formData.get("rsvp_deadline") as string) || null,
       updated_at: new Date().toISOString(),
     },
     { onConflict: "user_id" },
