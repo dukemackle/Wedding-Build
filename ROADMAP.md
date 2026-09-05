@@ -244,3 +244,13 @@ not by charging couples — we should follow the same shape:
   a photo-grid layout on the public site (entries with a photo become
   a small card, text-only entries stay a compact row) and larger
   square photos on the couple's Guestbook feed.
+- **Planning checklist**: a new dedicated Checklist page (own nav
+  item) for tracking wedding-planning to-dos over time — book the
+  venue, send invitations, that kind of thing — distinct from the
+  Itinerary, which is just the wedding-weekend day-of schedule. Add,
+  edit, complete, and delete tasks with an optional due date (overdue
+  ones get a red badge); a progress bar and a collapsible "completed"
+  section keep the list from growing unbounded. A "Next up" preview
+  (the next few incomplete tasks) also shows on the Dashboard. No
+  auto-generated timeline template for v1 — couples add their own
+  tasks; that's a natural next step if it turns out to be wanted.
