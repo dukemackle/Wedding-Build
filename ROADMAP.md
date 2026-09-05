@@ -171,3 +171,9 @@ not by charging couples — we should follow the same shape:
   already entered elsewhere in the wedding's own budget. A new "Who's
   paying" summary on the Budget page totals what each payer is
   covering, shown once at least one item has a payer assigned.
+- **Collapsible filters**: Venues, Vendors, Attire, and Guests had
+  grown several stacked rows of filter chips/selects that ate up space
+  before any results were visible. All four now hide their filter
+  controls behind a single "Filters" button (showing a count badge
+  when filters are active), collapsed by default. Search and the
+  list/map view toggle stay visible since they aren't filters.

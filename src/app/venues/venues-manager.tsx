@@ -8,6 +8,7 @@ import { REGIONS, VENUE_TYPES } from "@/lib/wedding-options";
 import { updateShortlistNotes } from "./actions";
 import { ShortlistButton } from "./venue-card-shared";
 import { SearchBox } from "@/components/search-box";
+import { FilterDisclosure } from "@/components/filter-disclosure";
 
 const VenuesMap = dynamic(() => import("./venues-map").then((m) => m.VenuesMap), {
   ssr: false,
@@ -152,6 +153,10 @@ export function VenuesManager({
     setCityFilter("all");
   }
 
+  const activeFilterCount = [regionFilter, typeFilter, stateFilter, cityFilter].filter(
+    (f) => f !== "all",
+  ).length;
+
   const filteredVenues = venues.filter(
     (v) =>
       (regionFilter === "all" || v.region === regionFilter) &&
@@ -182,95 +187,97 @@ export function VenuesManager({
         <div className="mb-4">
           <SearchBox value={search} onChange={setSearch} placeholder="Search venues by name..." />
         </div>
-        <div className="mb-4 flex flex-wrap gap-4">
-          <div>
-            <label htmlFor="state-filter" className="mb-1 block text-xs uppercase tracking-wide text-ink/50">
-              State
-            </label>
-            <select
-              id="state-filter"
-              value={stateFilter}
-              onChange={(e) => handleStateFilterChange(e.target.value)}
-              className="w-full max-w-xs rounded-md border border-hairline bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-forest sm:w-auto"
-            >
-              <option value="all">All states</option>
-              {availableStates.map((state) => (
-                <option key={state} value={state}>
-                  {state}
-                </option>
-              ))}
-            </select>
+        <FilterDisclosure activeCount={activeFilterCount}>
+          <div className="flex flex-wrap gap-4">
+            <div>
+              <label htmlFor="state-filter" className="mb-1 block text-xs uppercase tracking-wide text-ink/50">
+                State
+              </label>
+              <select
+                id="state-filter"
+                value={stateFilter}
+                onChange={(e) => handleStateFilterChange(e.target.value)}
+                className="w-full max-w-xs rounded-md border border-hairline bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-forest sm:w-auto"
+              >
+                <option value="all">All states</option>
+                {availableStates.map((state) => (
+                  <option key={state} value={state}>
+                    {state}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label htmlFor="city-filter" className="mb-1 block text-xs uppercase tracking-wide text-ink/50">
+                City
+              </label>
+              <select
+                id="city-filter"
+                value={cityFilter}
+                onChange={(e) => setCityFilter(e.target.value)}
+                disabled={availableCities.length === 0}
+                className="w-full max-w-xs rounded-md border border-hairline bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-forest disabled:opacity-50 sm:w-auto"
+              >
+                <option value="all">All cities</option>
+                {availableCities.map((city) => (
+                  <option key={city} value={city}>
+                    {city}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
-          <div>
-            <label htmlFor="city-filter" className="mb-1 block text-xs uppercase tracking-wide text-ink/50">
-              City
-            </label>
-            <select
-              id="city-filter"
-              value={cityFilter}
-              onChange={(e) => setCityFilter(e.target.value)}
-              disabled={availableCities.length === 0}
-              className="w-full max-w-xs rounded-md border border-hairline bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-forest disabled:opacity-50 sm:w-auto"
-            >
-              <option value="all">All cities</option>
-              {availableCities.map((city) => (
-                <option key={city} value={city}>
-                  {city}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
-        <div className="mb-4 flex flex-wrap gap-2">
-          <button
-            onClick={() => setRegionFilter("all")}
-            className={`rounded-full border px-3 py-1 text-sm transition-colors ${
-              regionFilter === "all"
-                ? "border-forest bg-forest text-parchment"
-                : "border-hairline bg-parchment text-ink hover:border-forest"
-            }`}
-          >
-            All regions
-          </button>
-          {REGIONS.map((region) => (
+          <div className="flex flex-wrap gap-2">
             <button
-              key={region}
-              onClick={() => setRegionFilter(region)}
+              onClick={() => setRegionFilter("all")}
               className={`rounded-full border px-3 py-1 text-sm transition-colors ${
-                regionFilter === region
+                regionFilter === "all"
                   ? "border-forest bg-forest text-parchment"
                   : "border-hairline bg-parchment text-ink hover:border-forest"
               }`}
             >
-              {region}
+              All regions
             </button>
-          ))}
-        </div>
-        <div className="mb-6 flex flex-wrap gap-2">
-          <button
-            onClick={() => setTypeFilter("all")}
-            className={`rounded-full border px-3 py-1 text-sm transition-colors ${
-              typeFilter === "all"
-                ? "border-forest bg-forest text-parchment"
-                : "border-hairline bg-parchment text-ink hover:border-forest"
-            }`}
-          >
-            All venue types
-          </button>
-          {VENUE_TYPES.map((type) => (
+            {REGIONS.map((region) => (
+              <button
+                key={region}
+                onClick={() => setRegionFilter(region)}
+                className={`rounded-full border px-3 py-1 text-sm transition-colors ${
+                  regionFilter === region
+                    ? "border-forest bg-forest text-parchment"
+                    : "border-hairline bg-parchment text-ink hover:border-forest"
+                }`}
+              >
+                {region}
+              </button>
+            ))}
+          </div>
+          <div className="flex flex-wrap gap-2">
             <button
-              key={type}
-              onClick={() => setTypeFilter(type)}
+              onClick={() => setTypeFilter("all")}
               className={`rounded-full border px-3 py-1 text-sm transition-colors ${
-                typeFilter === type
+                typeFilter === "all"
                   ? "border-forest bg-forest text-parchment"
                   : "border-hairline bg-parchment text-ink hover:border-forest"
               }`}
             >
-              {type}
+              All venue types
             </button>
-          ))}
-        </div>
+            {VENUE_TYPES.map((type) => (
+              <button
+                key={type}
+                onClick={() => setTypeFilter(type)}
+                className={`rounded-full border px-3 py-1 text-sm transition-colors ${
+                  typeFilter === type
+                    ? "border-forest bg-forest text-parchment"
+                    : "border-hairline bg-parchment text-ink hover:border-forest"
+                }`}
+              >
+                {type}
+              </button>
+            ))}
+          </div>
+        </FilterDisclosure>
 
         <div className="mb-6 flex gap-2">
           <button
