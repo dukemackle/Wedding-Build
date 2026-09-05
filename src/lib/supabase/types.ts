@@ -224,6 +224,7 @@ export type BudgetCustomItem = {
   purchased_from: string | null;
   paid_by: string | null;
   due_date: string | null;
+  notes: string | null;
   created_at: string;
   updated_at: string;
 };

@@ -312,3 +312,7 @@ not by charging couples — we should follow the same shape:
   a bulk "Send follow-up" action (reuses the Resend integration) and
   its own `last_followed_up_at` timestamp — mirrors the guest RSVP
   reminder panel.
+- **Budget line notes**: every budget line (a preset category or a
+  custom item) can now take a free-text notes field, separate from
+  "purchased from"/"paid by" — for things like "still comparing two
+  photographers" that don't fit either of those.

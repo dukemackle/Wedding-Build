@@ -26,6 +26,7 @@ type BudgetLineItemRow = {
   purchased_from: string | null;
   paid_by: string | null;
   due_date: string | null;
+  notes: string | null;
 };
 
 const VENDOR_CATEGORY_TO_BUDGET_KEY: Record<string, string> = {
@@ -90,7 +91,7 @@ export default async function BudgetPage() {
 
   const { data: overrides } = await supabase
     .from("budget_line_items")
-    .select("category, override_value, purchased_from, paid_by, due_date")
+    .select("category, override_value, purchased_from, paid_by, due_date, notes")
     .eq("wedding_id", wedding.id);
 
   const overrideByCategory = new Map(
@@ -163,6 +164,7 @@ export default async function BudgetPage() {
     purchasedFrom: overrideByCategory.get(category.key)?.purchased_from ?? null,
     paidBy: overrideByCategory.get(category.key)?.paid_by ?? null,
     dueDate: overrideByCategory.get(category.key)?.due_date ?? null,
+    notes: overrideByCategory.get(category.key)?.notes ?? null,
     suggestions: Array.from(new Set(suggestionsByCategory[category.key] ?? [])),
   }));
 
