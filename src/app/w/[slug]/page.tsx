@@ -10,6 +10,7 @@ import type {
 } from "@/lib/supabase/types";
 import { FadeInSection } from "@/components/fade-in-section";
 import { daysUntilWedding } from "@/lib/countdown";
+import { CountdownTimer } from "@/components/countdown-timer";
 import { RsvpForm } from "./rsvp-form";
 import { ItineraryView } from "./itinerary-view";
 import { GuestbookView } from "./guestbook-view";
@@ -94,7 +95,10 @@ export default async function PublicWeddingPage({
               <>
                 <p className="mt-2 text-center text-ink/70">{formatDate(wedding.wedding_date)}</p>
                 <p className="mt-1 text-center font-mono-numbers text-sm text-brass">
-                  {daysUntilWedding(wedding.wedding_date)}
+                  <CountdownTimer
+                    targetDate={wedding.wedding_date}
+                    fallbackLabel={daysUntilWedding(wedding.wedding_date)}
+                  />
                 </p>
               </>
             )}
