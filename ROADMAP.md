@@ -216,3 +216,9 @@ not by charging couples — we should follow the same shape:
   scroll-reveal on its cards, plus a small emoji next to each of the 12
   preset categories (🏰 Venue, 🍽️ Catering, 📸 Photography, etc.) and a
   generic 🧾 next to custom items, so the list is easier to scan.
+- **Dashboard stat tiles**: the "At a glance" summary's five tiles
+  (headcount, budget, venues, vendors, attire) now each get a colored
+  icon badge (alternating forest/gold, matching the existing palette)
+  above the number, plus a hover shadow lift — inspired by a Tailgrids
+  "data stats" pattern, hand-adapted to our own tokens rather than
+  pulling in their component/theme system.
