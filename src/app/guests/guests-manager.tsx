@@ -3,6 +3,7 @@
 import { useRef, useState, useTransition } from "react";
 import type { Guest, GuestPriority, GuestStatus } from "@/lib/supabase/types";
 import { addGuest, updateGuest, deleteGuest, importGuestsFromCsv } from "./actions";
+import { FilterDisclosure } from "@/components/filter-disclosure";
 
 const STATUSES: GuestStatus[] = ["invited", "confirmed", "declined", "pending"];
 
@@ -429,6 +430,8 @@ export function GuestsManager({ guests }: { guests: Guest[] }) {
     .filter((g) => g.status === "confirmed")
     .reduce((sum, g) => sum + 1 + (g.plus_one ? 1 : 0), 0);
 
+  const activeFilterCount = [filter, priorityFilter].filter((f) => f !== "all").length;
+
   const filteredGuests = guests.filter(
     (g) =>
       (filter === "all" || g.status === filter) &&
@@ -492,38 +495,40 @@ export function GuestsManager({ guests }: { guests: Guest[] }) {
         </span>
       </div>
 
-      <div className="mb-3 flex flex-wrap gap-2">
-        {(["all", ...PRIORITIES] as const).map((priority) => (
-          <button
-            key={priority}
-            onClick={() => setPriorityFilter(priority)}
-            className={`rounded-full border px-3 py-1 text-sm transition-colors ${
-              priorityFilter === priority
-                ? "border-forest bg-forest text-parchment"
-                : "border-hairline bg-parchment text-ink hover:border-forest"
-            }`}
-          >
-            {priority === "all" ? "All priorities" : PRIORITY_LABELS[priority]} (
-            {priorityCounts[priority]})
-          </button>
-        ))}
-      </div>
+      <FilterDisclosure activeCount={activeFilterCount}>
+        <div className="flex flex-wrap gap-2">
+          {(["all", ...PRIORITIES] as const).map((priority) => (
+            <button
+              key={priority}
+              onClick={() => setPriorityFilter(priority)}
+              className={`rounded-full border px-3 py-1 text-sm transition-colors ${
+                priorityFilter === priority
+                  ? "border-forest bg-forest text-parchment"
+                  : "border-hairline bg-parchment text-ink hover:border-forest"
+              }`}
+            >
+              {priority === "all" ? "All priorities" : PRIORITY_LABELS[priority]} (
+              {priorityCounts[priority]})
+            </button>
+          ))}
+        </div>
 
-      <div className="mb-6 flex flex-wrap gap-2">
-        {(["all", ...STATUSES] as const).map((status) => (
-          <button
-            key={status}
-            onClick={() => setFilter(status)}
-            className={`rounded-full border px-3 py-1 text-sm transition-colors ${
-              filter === status
-                ? "border-forest bg-forest text-parchment"
-                : "border-hairline bg-parchment text-ink hover:border-forest"
-            }`}
-          >
-            {status === "all" ? "All" : STATUS_LABELS[status]} ({counts[status]})
-          </button>
-        ))}
-      </div>
+        <div className="flex flex-wrap gap-2">
+          {(["all", ...STATUSES] as const).map((status) => (
+            <button
+              key={status}
+              onClick={() => setFilter(status)}
+              className={`rounded-full border px-3 py-1 text-sm transition-colors ${
+                filter === status
+                  ? "border-forest bg-forest text-parchment"
+                  : "border-hairline bg-parchment text-ink hover:border-forest"
+              }`}
+            >
+              {status === "all" ? "All" : STATUS_LABELS[status]} ({counts[status]})
+            </button>
+          ))}
+        </div>
+      </FilterDisclosure>
 
       {filteredGuests.length === 0 ? (
         <p className="py-8 text-center text-sm text-ink/50">

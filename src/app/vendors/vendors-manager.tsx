@@ -6,6 +6,7 @@ import type { Vendor, VendorFavoriteEntry, VendorInquiry, VendorInquiryStatus } 
 import { REGIONS } from "@/lib/wedding-options";
 import { sendVendorInquiry, updateInquiryStatus, updateVendorFavoriteNotes } from "./actions";
 import { SearchBox } from "@/components/search-box";
+import { FilterDisclosure } from "@/components/filter-disclosure";
 import { VendorFavoriteButton } from "./vendor-card-shared";
 
 const VendorsMap = dynamic(() => import("./vendors-map").then((m) => m.VendorsMap), {
@@ -267,6 +268,10 @@ export function VendorsManager({
     setCityFilter("all");
   }
 
+  const activeFilterCount = [categoryFilter, regionFilter, stateFilter, cityFilter].filter(
+    (f) => f !== "all",
+  ).length;
+
   const filteredVendors = vendors.filter(
     (v) =>
       (categoryFilter === "all" || v.category === categoryFilter) &&
@@ -310,95 +315,97 @@ export function VendorsManager({
         <div className="mb-4">
           <SearchBox value={search} onChange={setSearch} placeholder="Search vendors by name..." />
         </div>
-        <div className="mb-4 flex flex-wrap gap-4">
-          <div>
-            <label htmlFor="vendor-state-filter" className="mb-1 block text-xs uppercase tracking-wide text-ink/50">
-              State
-            </label>
-            <select
-              id="vendor-state-filter"
-              value={stateFilter}
-              onChange={(e) => handleStateFilterChange(e.target.value)}
-              className="w-full max-w-xs rounded-md border border-hairline bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-forest sm:w-auto"
-            >
-              <option value="all">All states</option>
-              {availableStates.map((state) => (
-                <option key={state} value={state}>
-                  {state}
-                </option>
-              ))}
-            </select>
+        <FilterDisclosure activeCount={activeFilterCount}>
+          <div className="flex flex-wrap gap-4">
+            <div>
+              <label htmlFor="vendor-state-filter" className="mb-1 block text-xs uppercase tracking-wide text-ink/50">
+                State
+              </label>
+              <select
+                id="vendor-state-filter"
+                value={stateFilter}
+                onChange={(e) => handleStateFilterChange(e.target.value)}
+                className="w-full max-w-xs rounded-md border border-hairline bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-forest sm:w-auto"
+              >
+                <option value="all">All states</option>
+                {availableStates.map((state) => (
+                  <option key={state} value={state}>
+                    {state}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label htmlFor="vendor-city-filter" className="mb-1 block text-xs uppercase tracking-wide text-ink/50">
+                City
+              </label>
+              <select
+                id="vendor-city-filter"
+                value={cityFilter}
+                onChange={(e) => setCityFilter(e.target.value)}
+                disabled={availableCities.length === 0}
+                className="w-full max-w-xs rounded-md border border-hairline bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-forest disabled:opacity-50 sm:w-auto"
+              >
+                <option value="all">All cities</option>
+                {availableCities.map((city) => (
+                  <option key={city} value={city}>
+                    {city}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
-          <div>
-            <label htmlFor="vendor-city-filter" className="mb-1 block text-xs uppercase tracking-wide text-ink/50">
-              City
-            </label>
-            <select
-              id="vendor-city-filter"
-              value={cityFilter}
-              onChange={(e) => setCityFilter(e.target.value)}
-              disabled={availableCities.length === 0}
-              className="w-full max-w-xs rounded-md border border-hairline bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-forest disabled:opacity-50 sm:w-auto"
-            >
-              <option value="all">All cities</option>
-              {availableCities.map((city) => (
-                <option key={city} value={city}>
-                  {city}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
-        <div className="mb-4 flex flex-wrap gap-2">
-          <button
-            onClick={() => setCategoryFilter("all")}
-            className={`rounded-full border px-3 py-1 text-sm transition-colors ${
-              categoryFilter === "all"
-                ? "border-forest bg-forest text-parchment"
-                : "border-hairline bg-parchment text-ink hover:border-forest"
-            }`}
-          >
-            All categories
-          </button>
-          {categories.map((category) => (
+          <div className="flex flex-wrap gap-2">
             <button
-              key={category}
-              onClick={() => setCategoryFilter(category)}
+              onClick={() => setCategoryFilter("all")}
               className={`rounded-full border px-3 py-1 text-sm transition-colors ${
-                categoryFilter === category
+                categoryFilter === "all"
                   ? "border-forest bg-forest text-parchment"
                   : "border-hairline bg-parchment text-ink hover:border-forest"
               }`}
             >
-              {category}
+              All categories
             </button>
-          ))}
-        </div>
-        <div className="mb-6 flex flex-wrap gap-2">
-          <button
-            onClick={() => setRegionFilter("all")}
-            className={`rounded-full border px-3 py-1 text-sm transition-colors ${
-              regionFilter === "all"
-                ? "border-forest bg-forest text-parchment"
-                : "border-hairline bg-parchment text-ink hover:border-forest"
-            }`}
-          >
-            All regions
-          </button>
-          {REGIONS.map((region) => (
+            {categories.map((category) => (
+              <button
+                key={category}
+                onClick={() => setCategoryFilter(category)}
+                className={`rounded-full border px-3 py-1 text-sm transition-colors ${
+                  categoryFilter === category
+                    ? "border-forest bg-forest text-parchment"
+                    : "border-hairline bg-parchment text-ink hover:border-forest"
+                }`}
+              >
+                {category}
+              </button>
+            ))}
+          </div>
+          <div className="flex flex-wrap gap-2">
             <button
-              key={region}
-              onClick={() => setRegionFilter(region)}
+              onClick={() => setRegionFilter("all")}
               className={`rounded-full border px-3 py-1 text-sm transition-colors ${
-                regionFilter === region
+                regionFilter === "all"
                   ? "border-forest bg-forest text-parchment"
                   : "border-hairline bg-parchment text-ink hover:border-forest"
               }`}
             >
-              {region}
+              All regions
             </button>
-          ))}
-        </div>
+            {REGIONS.map((region) => (
+              <button
+                key={region}
+                onClick={() => setRegionFilter(region)}
+                className={`rounded-full border px-3 py-1 text-sm transition-colors ${
+                  regionFilter === region
+                    ? "border-forest bg-forest text-parchment"
+                    : "border-hairline bg-parchment text-ink hover:border-forest"
+                }`}
+              >
+                {region}
+              </button>
+            ))}
+          </div>
+        </FilterDisclosure>
 
         <div className="mb-6 flex gap-2">
           <button

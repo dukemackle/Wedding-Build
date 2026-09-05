@@ -6,6 +6,7 @@ import type { AttireItem, AttireShortlistEntry } from "@/lib/supabase/types";
 import { ATTIRE_CATEGORIES, BUY_OR_RENT_OPTIONS, STYLE_TIERS } from "@/lib/wedding-options";
 import { toggleAttireShortlist, updateAttireShortlistNotes } from "./actions";
 import { SearchBox } from "@/components/search-box";
+import { FilterDisclosure } from "@/components/filter-disclosure";
 
 const CATEGORY_IMAGES: Record<string, string> = {
   "Wedding Dress": "/attire-types/wedding-dress.svg",
@@ -159,6 +160,10 @@ export function AttireManager({
   const shortlistedIds = new Set(shortlist.map((s) => s.attire_item_id));
   const itemById = new Map(items.map((i) => [i.id, i]));
 
+  const activeFilterCount = [categoryFilter, tierFilter, buyRentFilter].filter(
+    (f) => f !== "all",
+  ).length;
+
   const filteredItems = items.filter(
     (i) =>
       (categoryFilter === "all" || i.category === categoryFilter) &&
@@ -186,81 +191,83 @@ export function AttireManager({
         <div className="mb-4">
           <SearchBox value={search} onChange={setSearch} placeholder="Search attire by name..." />
         </div>
-        <div className="mb-4 flex flex-wrap gap-2">
-          <button
-            onClick={() => setCategoryFilter("all")}
-            className={`rounded-full border px-3 py-1 text-sm transition-colors ${
-              categoryFilter === "all"
-                ? "border-forest bg-forest text-parchment"
-                : "border-hairline bg-parchment text-ink hover:border-forest"
-            }`}
-          >
-            All categories
-          </button>
-          {ATTIRE_CATEGORIES.map((category) => (
+        <FilterDisclosure activeCount={activeFilterCount}>
+          <div className="flex flex-wrap gap-2">
             <button
-              key={category}
-              onClick={() => setCategoryFilter(category)}
+              onClick={() => setCategoryFilter("all")}
               className={`rounded-full border px-3 py-1 text-sm transition-colors ${
-                categoryFilter === category
+                categoryFilter === "all"
                   ? "border-forest bg-forest text-parchment"
                   : "border-hairline bg-parchment text-ink hover:border-forest"
               }`}
             >
-              {category}
+              All categories
             </button>
-          ))}
-        </div>
-        <div className="mb-4 flex flex-wrap gap-2">
-          <button
-            onClick={() => setBuyRentFilter("all")}
-            className={`rounded-full border px-3 py-1 text-sm transition-colors ${
-              buyRentFilter === "all"
-                ? "border-forest bg-forest text-parchment"
-                : "border-hairline bg-parchment text-ink hover:border-forest"
-            }`}
-          >
-            Buy or rent
-          </button>
-          {BUY_OR_RENT_OPTIONS.map((option) => (
+            {ATTIRE_CATEGORIES.map((category) => (
+              <button
+                key={category}
+                onClick={() => setCategoryFilter(category)}
+                className={`rounded-full border px-3 py-1 text-sm transition-colors ${
+                  categoryFilter === category
+                    ? "border-forest bg-forest text-parchment"
+                    : "border-hairline bg-parchment text-ink hover:border-forest"
+                }`}
+              >
+                {category}
+              </button>
+            ))}
+          </div>
+          <div className="flex flex-wrap gap-2">
             <button
-              key={option}
-              onClick={() => setBuyRentFilter(option)}
+              onClick={() => setBuyRentFilter("all")}
               className={`rounded-full border px-3 py-1 text-sm transition-colors ${
-                buyRentFilter === option
+                buyRentFilter === "all"
                   ? "border-forest bg-forest text-parchment"
                   : "border-hairline bg-parchment text-ink hover:border-forest"
               }`}
             >
-              {option}
+              Buy or rent
             </button>
-          ))}
-        </div>
-        <div className="mb-6 flex flex-wrap gap-2">
-          <button
-            onClick={() => setTierFilter("all")}
-            className={`rounded-full border px-3 py-1 text-sm transition-colors ${
-              tierFilter === "all"
-                ? "border-forest bg-forest text-parchment"
-                : "border-hairline bg-parchment text-ink hover:border-forest"
-            }`}
-          >
-            All price tiers
-          </button>
-          {STYLE_TIERS.map((tier) => (
+            {BUY_OR_RENT_OPTIONS.map((option) => (
+              <button
+                key={option}
+                onClick={() => setBuyRentFilter(option)}
+                className={`rounded-full border px-3 py-1 text-sm transition-colors ${
+                  buyRentFilter === option
+                    ? "border-forest bg-forest text-parchment"
+                    : "border-hairline bg-parchment text-ink hover:border-forest"
+                }`}
+              >
+                {option}
+              </button>
+            ))}
+          </div>
+          <div className="flex flex-wrap gap-2">
             <button
-              key={tier}
-              onClick={() => setTierFilter(tier)}
+              onClick={() => setTierFilter("all")}
               className={`rounded-full border px-3 py-1 text-sm transition-colors ${
-                tierFilter === tier
+                tierFilter === "all"
                   ? "border-forest bg-forest text-parchment"
                   : "border-hairline bg-parchment text-ink hover:border-forest"
               }`}
             >
-              {tier}
+              All price tiers
             </button>
-          ))}
-        </div>
+            {STYLE_TIERS.map((tier) => (
+              <button
+                key={tier}
+                onClick={() => setTierFilter(tier)}
+                className={`rounded-full border px-3 py-1 text-sm transition-colors ${
+                  tierFilter === tier
+                    ? "border-forest bg-forest text-parchment"
+                    : "border-hairline bg-parchment text-ink hover:border-forest"
+                }`}
+              >
+                {tier}
+              </button>
+            ))}
+          </div>
+        </FilterDisclosure>
 
         {filteredItems.length === 0 ? (
           <p className="py-8 text-center text-sm text-ink/50">
