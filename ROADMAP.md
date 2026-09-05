@@ -237,3 +237,10 @@ not by charging couples — we should follow the same shape:
   Dashboard's five stat tiles (headcount, budget, venues, vendors,
   attire). Same line-icon style throughout, sized/colored via the
   existing forest/brass tokens like every other icon-adjacent element.
+- **More imagery**: the couple's hero photo (uploaded from the
+  Dashboard) now shows there too, not just on the public site — a
+  portrait next to their names on the Dashboard summary. The guestbook
+  also got a bigger, more prominent photo treatment on both sides:
+  a photo-grid layout on the public site (entries with a photo become
+  a small card, text-only entries stay a compact row) and larger
+  square photos on the couple's Guestbook feed.
