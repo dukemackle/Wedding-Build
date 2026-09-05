@@ -72,6 +72,14 @@ export type PublicGuestbookEntry = {
   created_at: string;
 };
 
+export type PublicConfirmedGuest = {
+  id: string;
+  wedding_id: string;
+  name: string;
+  photo_url: string | null;
+  created_at: string;
+};
+
 export type Venue = {
   id: string;
   name: string;

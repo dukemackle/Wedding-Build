@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import type {
   ItineraryEvent,
+  PublicConfirmedGuest,
   PublicGuestbookEntry,
   PublicWedding,
   RegistryItem,
@@ -9,6 +10,7 @@ import type {
 import { RsvpForm } from "./rsvp-form";
 import { ItineraryView } from "./itinerary-view";
 import { GuestbookView } from "./guestbook-view";
+import { GuestWall } from "./guest-wall";
 
 function formatDate(dateStr: string) {
   return new Date(`${dateStr}T00:00:00`).toLocaleDateString("en-US", {
@@ -58,6 +60,13 @@ export default async function PublicWeddingPage({
     .order("created_at", { ascending: false })
     .returns<PublicGuestbookEntry[]>();
 
+  const { data: confirmedGuests } = await supabase
+    .from("public_confirmed_guests")
+    .select("*")
+    .eq("wedding_id", wedding.id)
+    .order("created_at", { ascending: true })
+    .returns<PublicConfirmedGuest[]>();
+
   return (
     <main className="flex flex-1 flex-col items-center px-6 py-16">
       <div className="w-full max-w-3xl">
@@ -70,6 +79,8 @@ export default async function PublicWeddingPage({
         {wedding.wedding_date && (
           <p className="mt-2 text-center text-ink/70">{formatDate(wedding.wedding_date)}</p>
         )}
+
+        <GuestWall guests={confirmedGuests ?? []} />
 
         <div className="mt-10 rounded-lg border border-hairline bg-card p-6 sm:p-10 shadow-sm">
           <h2 className="font-display text-2xl font-semibold text-forest">RSVP</h2>
