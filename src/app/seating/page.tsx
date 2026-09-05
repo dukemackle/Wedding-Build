@@ -64,8 +64,8 @@ export default async function SeatingPage() {
 
   return (
     <main className="flex flex-1 flex-col items-center px-6 py-16">
-      <AppNav email={user.email ?? ""} maxWidthClassName="max-w-3xl" />
-      <div className="w-full max-w-3xl">
+      <AppNav email={user.email ?? ""} maxWidthClassName="max-w-5xl" />
+      <div className="w-full max-w-5xl">
         <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
           Seating
         </p>

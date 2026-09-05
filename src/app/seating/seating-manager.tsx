@@ -1,15 +1,48 @@
 "use client";
 
 import { useRef, useState, useTransition } from "react";
-import type { Guest, SeatingTable } from "@/lib/supabase/types";
-import { addSeatingTable, updateSeatingTable, deleteSeatingTable, assignGuestTable } from "./actions";
+import type { Guest, SeatingTable, TableShape } from "@/lib/supabase/types";
+import {
+  addSeatingTable,
+  updateSeatingTable,
+  deleteSeatingTable,
+  assignGuestTable,
+  updateTablePosition,
+} from "./actions";
 
 const inputClass =
   "rounded-md border border-hairline bg-parchment px-3 py-2 text-ink outline-none focus:border-forest";
 const labelClass = "flex flex-col gap-1 text-sm text-ink";
 
+const SHAPES: TableShape[] = ["round", "square", "rectangle"];
+const SHAPE_LABELS: Record<TableShape, string> = {
+  round: "Round",
+  square: "Square",
+  rectangle: "Rectangle",
+};
+
 function personCount(guest: Guest) {
   return 1 + (guest.plus_one ? 1 : 0);
+}
+
+function clamp(value: number, min: number, max: number) {
+  return Math.max(min, Math.min(max, value));
+}
+
+// The table's on-canvas footprint is derived from its shape + capacity
+// (no separate size field to keep in sync) -- more seats draws a bigger
+// shape, a rectangle grows mostly in width like a real banquet table.
+function tableDimensions(shape: TableShape, capacity: number | null) {
+  const seats = capacity ?? 8;
+  if (shape === "square") {
+    const side = clamp(110 + seats * 8, 110, 240);
+    return { width: side, height: side };
+  }
+  if (shape === "rectangle") {
+    return { width: clamp(160 + seats * 14, 160, 420), height: 110 };
+  }
+  const diameter = clamp(120 + seats * 8, 120, 260);
+  return { width: diameter, height: diameter };
 }
 
 function TableFields({ table }: { table?: SeatingTable }) {
@@ -35,6 +68,16 @@ function TableFields({ table }: { table?: SeatingTable }) {
           defaultValue={table?.capacity ?? ""}
           className={inputClass}
         />
+      </label>
+      <label className={labelClass}>
+        Shape
+        <select name="shape" defaultValue={table?.shape ?? "round"} className={inputClass}>
+          {SHAPES.map((shape) => (
+            <option key={shape} value={shape}>
+              {SHAPE_LABELS[shape]}
+            </option>
+          ))}
+        </select>
       </label>
     </div>
   );
@@ -83,6 +126,144 @@ function AddTableForm({ onDone }: { onDone: () => void }) {
         </button>
       </div>
     </form>
+  );
+}
+
+const CANVAS_WIDTH = 900;
+const CANVAS_HEIGHT = 520;
+
+function shapeClassName(shape: TableShape) {
+  if (shape === "round") return "rounded-full";
+  return "rounded-lg";
+}
+
+function TableNode({
+  table,
+  assignedGuests,
+  isSelected,
+  onSelect,
+  onDragEnd,
+  onUnassign,
+}: {
+  table: SeatingTable;
+  assignedGuests: Guest[];
+  isSelected: boolean;
+  onSelect: () => void;
+  onDragEnd: (x: number, y: number) => void;
+  onUnassign: (guestId: string) => void;
+}) {
+  const { width, height } = tableDimensions(table.shape, table.capacity);
+  const [pos, setPos] = useState(() => ({ x: table.position_x, y: table.position_y }));
+  const dragRef = useRef<{ startX: number; startY: number; origX: number; origY: number } | null>(
+    null,
+  );
+  const movedRef = useRef(false);
+
+  const occupied = assignedGuests.reduce((sum, g) => sum + personCount(g), 0);
+  const overCapacity = table.capacity != null && occupied > table.capacity;
+
+  function handlePointerDown(e: React.PointerEvent<HTMLDivElement>) {
+    e.stopPropagation();
+    (e.target as HTMLElement).setPointerCapture(e.pointerId);
+    movedRef.current = false;
+    dragRef.current = { startX: e.clientX, startY: e.clientY, origX: pos.x, origY: pos.y };
+  }
+
+  function handlePointerMove(e: React.PointerEvent<HTMLDivElement>) {
+    if (!dragRef.current) return;
+    const dx = e.clientX - dragRef.current.startX;
+    const dy = e.clientY - dragRef.current.startY;
+    if (Math.abs(dx) > 3 || Math.abs(dy) > 3) movedRef.current = true;
+    setPos({
+      x: clamp(dragRef.current.origX + dx, 0, CANVAS_WIDTH - width),
+      y: clamp(dragRef.current.origY + dy, 0, CANVAS_HEIGHT - height),
+    });
+  }
+
+  function handlePointerUp() {
+    if (!dragRef.current) return;
+    dragRef.current = null;
+    if (movedRef.current) {
+      onDragEnd(pos.x, pos.y);
+    } else {
+      onSelect();
+    }
+  }
+
+  return (
+    <div
+      onPointerDown={handlePointerDown}
+      onPointerMove={handlePointerMove}
+      onPointerUp={handlePointerUp}
+      style={{ position: "absolute", left: pos.x, top: pos.y, width, height }}
+      className={`flex cursor-grab select-none flex-col items-center justify-center gap-1 border-2 bg-card p-2 text-center shadow-sm active:cursor-grabbing ${shapeClassName(table.shape)} ${isSelected ? "border-forest ring-2 ring-forest/30" : "border-hairline"}`}
+    >
+      <p className="font-medium text-ink">{table.name}</p>
+      <p className={`text-xs ${overCapacity ? "text-red-700" : "text-ink/50"}`}>
+        {occupied}
+        {table.capacity != null ? ` / ${table.capacity}` : ""} seated
+      </p>
+      <div className="flex max-h-full flex-wrap items-center justify-center gap-1 overflow-y-auto px-1">
+        {assignedGuests.map((guest) => (
+          <span
+            key={guest.id}
+            className="flex items-center gap-1 rounded-full border border-hairline bg-parchment px-1.5 py-0.5 text-[11px] text-ink"
+          >
+            {guest.name}
+            <button
+              onPointerDown={(e) => e.stopPropagation()}
+              onClick={(e) => {
+                e.stopPropagation();
+                onUnassign(guest.id);
+              }}
+              className="text-ink/40 hover:text-red-700"
+              aria-label={`Unassign ${guest.name}`}
+            >
+              &times;
+            </button>
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function SeatingCanvas({
+  tables,
+  guestsByTable,
+  selectedTableId,
+  onSelect,
+  onDragEnd,
+  onUnassign,
+}: {
+  tables: SeatingTable[];
+  guestsByTable: Map<string, Guest[]>;
+  selectedTableId: string | null;
+  onSelect: (id: string | null) => void;
+  onDragEnd: (id: string, x: number, y: number) => void;
+  onUnassign: (guestId: string) => void;
+}) {
+  return (
+    <div className="w-full overflow-x-auto rounded-lg border border-hairline bg-parchment">
+      <div
+        onClick={(e) => {
+          if (e.target === e.currentTarget) onSelect(null);
+        }}
+        style={{ position: "relative", width: CANVAS_WIDTH, height: CANVAS_HEIGHT }}
+      >
+        {tables.map((table) => (
+          <TableNode
+            key={`${table.id}-${table.position_x}-${table.position_y}`}
+            table={table}
+            assignedGuests={guestsByTable.get(table.id) ?? []}
+            isSelected={table.id === selectedTableId}
+            onSelect={() => onSelect(table.id === selectedTableId ? null : table.id)}
+            onDragEnd={(x, y) => onDragEnd(table.id, x, y)}
+            onUnassign={onUnassign}
+          />
+        ))}
+      </div>
+    </div>
   );
 }
 
@@ -212,46 +393,28 @@ function TableCard({
   );
 }
 
-function UnassignedGuestRow({ guest, tables }: { guest: Guest; tables: SeatingTable[] }) {
-  const [isPending, startTransition] = useTransition();
-  const [error, setError] = useState<string | undefined>(undefined);
-
-  function handleChange(tableId: string) {
-    const formData = new FormData();
-    formData.set("guest_id", guest.id);
-    formData.set("table_id", tableId);
-    startTransition(async () => {
-      const result = await assignGuestTable(formData);
-      if (result?.error) {
-        setError(result.error);
-      }
-    });
-  }
-
+function UnassignedGuestRow({
+  guest,
+  selectedTable,
+  onAssign,
+}: {
+  guest: Guest;
+  selectedTable: SeatingTable | null;
+  onAssign: (guestId: string, tableId: string) => void;
+}) {
   return (
     <div className="flex items-center justify-between gap-3 border-b border-hairline py-3 last:border-b-0">
       <span className="text-ink">
         {guest.name}
         {guest.plus_one && <span className="ml-2 text-xs text-ink/50">+1</span>}
       </span>
-      <div className="flex items-center gap-2">
-        {error && <span className="text-xs text-red-800">{error}</span>}
-        <select
-          defaultValue=""
-          disabled={isPending || tables.length === 0}
-          onChange={(e) => handleChange(e.target.value)}
-          className="rounded-md border border-hairline bg-parchment px-2 py-1 text-sm text-ink outline-none focus:border-forest disabled:opacity-50"
-        >
-          <option value="" disabled>
-            {tables.length === 0 ? "Add a table first" : "Assign to table..."}
-          </option>
-          {tables.map((table) => (
-            <option key={table.id} value={table.id}>
-              {table.name}
-            </option>
-          ))}
-        </select>
-      </div>
+      <button
+        disabled={!selectedTable}
+        onClick={() => selectedTable && onAssign(guest.id, selectedTable.id)}
+        className="shrink-0 rounded-md border border-hairline px-3 py-1 text-sm text-ink transition-colors hover:border-forest disabled:opacity-40"
+      >
+        {selectedTable ? `Add to ${selectedTable.name}` : "Select a table above"}
+      </button>
     </div>
   );
 }
@@ -264,6 +427,8 @@ export function SeatingManager({
   confirmedGuests: Guest[];
 }) {
   const [showAddForm, setShowAddForm] = useState(false);
+  const [selectedTableId, setSelectedTableId] = useState<string | null>(null);
+  const [, startTransition] = useTransition();
 
   const guestsByTable = new Map<string, Guest[]>();
   const unassigned: Guest[] = [];
@@ -275,6 +440,31 @@ export function SeatingManager({
     } else {
       unassigned.push(guest);
     }
+  }
+
+  const selectedTable = tables.find((t) => t.id === selectedTableId) ?? null;
+
+  function handleAssign(guestId: string, tableId: string) {
+    const formData = new FormData();
+    formData.set("guest_id", guestId);
+    formData.set("table_id", tableId);
+    startTransition(async () => {
+      await assignGuestTable(formData);
+    });
+  }
+
+  function handleUnassign(guestId: string) {
+    handleAssign(guestId, "");
+  }
+
+  function handleDragEnd(tableId: string, x: number, y: number) {
+    const formData = new FormData();
+    formData.set("id", tableId);
+    formData.set("position_x", String(Math.round(x)));
+    formData.set("position_y", String(Math.round(y)));
+    startTransition(async () => {
+      await updateTablePosition(formData);
+    });
   }
 
   if (confirmedGuests.length === 0) {
@@ -295,6 +485,7 @@ export function SeatingManager({
           <h2 className="font-display text-2xl font-semibold text-forest">Seating chart</h2>
           <p className="mt-1 text-sm text-ink/70">
             {unassigned.length} of {confirmedGuests.length} confirmed guests still unassigned.
+            Drag a table to move it; click one, then click a guest below to seat them.
           </p>
         </div>
         <button
@@ -312,15 +503,26 @@ export function SeatingManager({
           No tables yet — add your first one above.
         </p>
       ) : (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          {tables.map((table) => (
-            <TableCard
-              key={table.id}
-              table={table}
-              assignedGuests={guestsByTable.get(table.id) ?? []}
-            />
-          ))}
-        </div>
+        <>
+          <SeatingCanvas
+            tables={tables}
+            guestsByTable={guestsByTable}
+            selectedTableId={selectedTableId}
+            onSelect={setSelectedTableId}
+            onDragEnd={handleDragEnd}
+            onUnassign={handleUnassign}
+          />
+
+          <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
+            {tables.map((table) => (
+              <TableCard
+                key={table.id}
+                table={table}
+                assignedGuests={guestsByTable.get(table.id) ?? []}
+              />
+            ))}
+          </div>
+        </>
       )}
 
       {unassigned.length > 0 && (
@@ -328,7 +530,12 @@ export function SeatingManager({
           <h3 className="font-display text-lg font-semibold text-forest">Unassigned guests</h3>
           <div className="mt-2">
             {unassigned.map((guest) => (
-              <UnassignedGuestRow key={guest.id} guest={guest} tables={tables} />
+              <UnassignedGuestRow
+                key={guest.id}
+                guest={guest}
+                selectedTable={selectedTable}
+                onAssign={handleAssign}
+              />
             ))}
           </div>
         </div>

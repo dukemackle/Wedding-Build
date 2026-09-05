@@ -265,10 +265,15 @@ not by charging couples — we should follow the same shape:
   submission. A new "Song requests" list on the Guests page hands the
   couple a ready-made list for their DJ or band.
 - **Seating chart**: a new Seating page where the couple creates
-  numbered tables (name + optional capacity) and assigns confirmed
-  guests to them from an "Unassigned guests" list. Each table shows how
-  many seats are filled vs. its capacity, with a warning once a table
-  goes over.
+  tables (name, optional capacity, and a shape — round/square/
+  rectangle) and assigns confirmed guests to them. A visual floor-plan
+  canvas shows every table as a shape sized by its capacity, draggable
+  into any arrangement; click a table to select it, then click
+  unassigned guests below to seat them there, with their names shown
+  right on the table so it's easy to double-check everyone's in the
+  right spot. A details list below the canvas covers full editing
+  (rename, resize, reshape, delete). Each table shows how many seats
+  are filled vs. its capacity, with a warning once it goes over.
 - **RSVP reminders for stragglers**: a new "Nudge stragglers" panel on
   the Guests page lists already-invited guests who still haven't
   responded (status still Invited/Pending), separate from the original
