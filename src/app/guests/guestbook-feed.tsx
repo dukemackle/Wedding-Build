@@ -32,12 +32,12 @@ function GuestbookEntry({ guest, publicSiteOn }: { guest: Guest; publicSiteOn: b
         <Image
           src={guest.photo_url}
           alt={guest.name}
-          width={56}
-          height={56}
-          className="h-14 w-14 shrink-0 rounded-full border border-hairline object-cover"
+          width={80}
+          height={80}
+          className="h-[72px] w-[72px] shrink-0 rounded-lg border border-hairline object-cover shadow-sm"
         />
       ) : (
-        <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full border border-hairline bg-parchment font-display text-lg text-forest">
+        <div className="flex h-[72px] w-[72px] shrink-0 items-center justify-center rounded-lg border border-hairline bg-parchment font-display text-2xl text-forest">
           {guest.name.charAt(0).toUpperCase()}
         </div>
       )}

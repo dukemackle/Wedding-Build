@@ -222,3 +222,25 @@ not by charging couples — we should follow the same shape:
   above the number, plus a hover shadow lift — inspired by a Tailgrids
   "data stats" pattern, hand-adapted to our own tokens rather than
   pulling in their component/theme system.
+- **Budget: spending breakdown chart**: a new "Spending breakdown" card
+  at the top of the Budget page, above the itemized list — a progress
+  meter for "X of 12 categories have a real quote," and a sorted
+  horizontal bar chart of every category (plus custom items lumped as
+  "Additional items") from highest to lowest cost. Single-hue bars with
+  the value labeled at the tip, since a 12+ slice pie/donut is a known
+  anti-pattern for this many categories — built following the dataviz
+  skill's form and mark-spec guidance.
+- **Real icon system**: replaced emoji (which render inconsistently
+  across platforms and read a bit informal next to the rest of the
+  app) with a small hand-drawn inline-SVG icon set — one icon per
+  budget category, one for custom items, and one each for the
+  Dashboard's five stat tiles (headcount, budget, venues, vendors,
+  attire). Same line-icon style throughout, sized/colored via the
+  existing forest/brass tokens like every other icon-adjacent element.
+- **More imagery**: the couple's hero photo (uploaded from the
+  Dashboard) now shows there too, not just on the public site — a
+  portrait next to their names on the Dashboard summary. The guestbook
+  also got a bigger, more prominent photo treatment on both sides:
+  a photo-grid layout on the public site (entries with a photo become
+  a small card, text-only entries stay a compact row) and larger
+  square photos on the couple's Guestbook feed.

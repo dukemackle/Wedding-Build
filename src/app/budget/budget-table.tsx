@@ -1,8 +1,37 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import type { ComponentType } from "react";
 import { setBudgetOverride, clearBudgetOverride } from "./actions";
-import { BUDGET_CATEGORY_EMOJI } from "@/lib/budget-categories";
+import {
+  VenueIcon,
+  CateringIcon,
+  PhotographyIcon,
+  VideographyIcon,
+  FloralsIcon,
+  MusicIcon,
+  AttireIcon,
+  PlannerIcon,
+  StationeryIcon,
+  FavorsIcon,
+  CakeIcon,
+  TransportationIcon,
+} from "@/components/icons";
+
+const CATEGORY_ICONS: Record<string, ComponentType<{ className?: string }>> = {
+  venue: VenueIcon,
+  catering: CateringIcon,
+  photography: PhotographyIcon,
+  videography: VideographyIcon,
+  florals: FloralsIcon,
+  music: MusicIcon,
+  attire: AttireIcon,
+  planner: PlannerIcon,
+  stationery: StationeryIcon,
+  favors: FavorsIcon,
+  cake: CakeIcon,
+  transportation: TransportationIcon,
+};
 
 export type BudgetRow = {
   key: string;
@@ -35,6 +64,7 @@ function BudgetRowItem({
   const effectiveValue = row.override ?? row.computed;
   const datalistId = `purchased-from-${row.key}`;
   const payerDatalistId = `paid-by-${row.key}`;
+  const Icon = CATEGORY_ICONS[row.key];
 
   function handleSave(formData: FormData) {
     startTransition(async () => {
@@ -65,8 +95,9 @@ function BudgetRowItem({
     <div className="flex flex-col gap-2 border-b border-hairline py-4 last:border-b-0">
       <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
         <div>
-          <p className="text-ink">
-            <span aria-hidden="true">{BUDGET_CATEGORY_EMOJI[row.key]}</span> {row.label}
+          <p className="flex items-center gap-2 text-ink">
+            {Icon && <Icon className="h-4 w-4 shrink-0 text-brass" />}
+            {row.label}
           </p>
           {row.isPerGuest && (
             <p className="text-xs text-ink/50">Scales with guest count</p>

@@ -11,6 +11,7 @@ import {
 } from "@/lib/budget-categories";
 import { BudgetTable, type BudgetRow } from "./budget-table";
 import { BudgetCustomItems } from "./budget-custom-items";
+import { BudgetOverview, type BudgetChartItem } from "./budget-chart";
 
 const currency = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -194,6 +195,16 @@ export default async function BudgetPage() {
   const payerBreakdown = Array.from(payerTotals.entries()).sort((a, b) => b[1] - a[1]);
   const hasAssignedPayer = payerBreakdown.some(([name]) => name !== "Unassigned");
 
+  const chartItems: BudgetChartItem[] = rows.map((row) => ({
+    key: row.key,
+    label: row.label,
+    amount: row.override ?? row.computed,
+  }));
+  if (customItemsTotal > 0) {
+    chartItems.push({ key: "custom", label: "Additional items", amount: customItemsTotal });
+  }
+  const categoriesQuoted = rows.filter((row) => row.override !== null).length;
+
   return (
     <main className="flex flex-1 flex-col items-center px-6 py-16">
       <AppNav email={user.email ?? ""} />
@@ -211,6 +222,10 @@ export default async function BudgetPage() {
           {guestCount === 1 ? "" : "s"}. Estimates are placeholders — click
           Edit on any line to enter a real quote.
         </p>
+
+        <FadeInSection>
+          <BudgetOverview items={chartItems} quoted={categoriesQuoted} total={rows.length} />
+        </FadeInSection>
 
         <FadeInSection>
           <BudgetTable rows={rows} total={total} payerSuggestions={payerSuggestions} />

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState, useTransition } from "react";
 import { saveWedding } from "./actions";
 import type { Wedding } from "@/lib/supabase/types";
@@ -197,15 +198,28 @@ function WeddingSummary({
 }) {
   return (
     <div>
-      <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
-        {wedding.wedding_date ? daysUntil(wedding.wedding_date) : "Date not set"}
-      </p>
-      <h1 className="mt-2 font-display text-4xl font-semibold text-forest">
-        {wedding.partner_a_name} &amp; {wedding.partner_b_name}
-      </h1>
-      {wedding.wedding_date && (
-        <p className="mt-1 text-ink/70">{formatDate(wedding.wedding_date)}</p>
-      )}
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+        {wedding.hero_photo_url && (
+          <Image
+            src={wedding.hero_photo_url}
+            alt={`${wedding.partner_a_name} & ${wedding.partner_b_name}`}
+            width={96}
+            height={96}
+            className="h-24 w-24 shrink-0 rounded-full border border-hairline object-cover shadow-sm"
+          />
+        )}
+        <div>
+          <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
+            {wedding.wedding_date ? daysUntil(wedding.wedding_date) : "Date not set"}
+          </p>
+          <h1 className="mt-2 font-display text-4xl font-semibold text-forest">
+            {wedding.partner_a_name} &amp; {wedding.partner_b_name}
+          </h1>
+          {wedding.wedding_date && (
+            <p className="mt-1 text-ink/70">{formatDate(wedding.wedding_date)}</p>
+          )}
+        </div>
+      </div>
 
       <div className="mt-6 grid grid-cols-2 gap-4 border-t border-hairline pt-6 sm:grid-cols-4">
         <DetailRow label="Region" value={wedding.region ?? "—"} />
