@@ -3,6 +3,7 @@
 import { useState } from "react";
 import type { ItineraryEvent } from "@/lib/supabase/types";
 import { dateKey, formatFullDate, formatTime, parseDateKey, sortByTime } from "@/lib/itinerary";
+import { downloadIcs } from "@/lib/ics";
 import { ItineraryCalendar } from "@/components/itinerary-calendar";
 
 export function ItineraryView({
@@ -51,11 +52,19 @@ export function ItineraryView({
 
               return (
                 <div key={event.id} className="border-b border-hairline py-3 last:border-b-0">
-                  <div className="flex flex-wrap items-baseline gap-2">
-                    {timeRange && (
-                      <span className="font-mono-numbers text-sm text-brass">{timeRange}</span>
-                    )}
-                    <span className="text-ink">{event.title}</span>
+                  <div className="flex flex-wrap items-baseline justify-between gap-2">
+                    <div className="flex flex-wrap items-baseline gap-2">
+                      {timeRange && (
+                        <span className="font-mono-numbers text-sm text-brass">{timeRange}</span>
+                      )}
+                      <span className="text-ink">{event.title}</span>
+                    </div>
+                    <button
+                      onClick={() => downloadIcs(event)}
+                      className="shrink-0 text-xs text-brass hover:underline"
+                    >
+                      Add to calendar
+                    </button>
                   </div>
                   {event.location && <p className="mt-1 text-xs text-ink/50">{event.location}</p>}
                   {event.description && (

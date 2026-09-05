@@ -8,6 +8,7 @@ import { sendVendorInquiry, updateInquiryStatus, updateVendorFavoriteNotes } fro
 import { SearchBox } from "@/components/search-box";
 import { FilterDisclosure } from "@/components/filter-disclosure";
 import { VendorFavoriteButton } from "./vendor-card-shared";
+import { VendorFollowUps } from "./vendor-follow-ups";
 
 const VendorsMap = dynamic(() => import("./vendors-map").then((m) => m.VendorsMap), {
   ssr: false,
@@ -297,6 +298,8 @@ export function VendorsManager({
           </div>
         </div>
       )}
+
+      <VendorFollowUps inquiries={inquiries} />
 
       {inquiries.length > 0 && (
         <div className="rounded-lg border border-hairline bg-card p-6 shadow-sm">

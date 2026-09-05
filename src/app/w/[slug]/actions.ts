@@ -53,6 +53,7 @@ export async function submitRsvp(formData: FormData): Promise<{ error?: string }
     guest_name: guestName,
     household: ((formData.get("household") as string) || "").trim() || null,
     plus_one: formData.get("plus_one") === "on",
+    plus_one_name: ((formData.get("plus_one_name") as string) || "").trim() || null,
     status: status as RsvpStatus,
     meal: ((formData.get("meal") as string) || "").trim() || null,
     notes: ((formData.get("notes") as string) || "").trim() || null,

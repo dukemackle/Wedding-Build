@@ -275,15 +275,10 @@ not by charging couples — we should follow the same shape:
   bulk-invite list, with its own bulk "Send reminder" action (reuses the
   same Resend integration) and its own `last_reminded_at` timestamp so
   it doesn't get confused with the original invite.
-- **Budget overspend flags**: any budget category with a real quote
-  entered that's higher than its computed estimate now shows a red
-  "over estimate" badge on that line, plus a small "N categories over
-  estimate" note near the total — visible before the grand total
-  quietly creeps past what was expected.
-- **Wedding countdown on the guest site**: the public wedding site now
-  shows "X days to go" (or "Married X days ago") right under the date,
-  matching the countdown that's shown the couple on the Dashboard —
-  extracted into one shared helper so both stay in sync.
+- **Wedding countdown, live-ticking**: both the Dashboard and the
+  public wedding site show a countdown right under the date that
+  updates every second (days/hours/minutes/seconds to go), falling
+  back to "Married X days ago" once the date has passed.
 - **Guest list search**: Venues, Vendors, and Attire already had a name
   search box; Guests now does too, alongside the existing status/
   priority filters.
@@ -300,3 +295,20 @@ not by charging couples — we should follow the same shape:
   their thank-you card is sent, with a running "X of Y guests thanked"
   count on the Guests page. Included in CSV import/export alongside
   the other manually-editable guest fields.
+- **RSVP deadline**: an optional deadline the couple sets on the
+  Dashboard, shown as a "Please RSVP by {date}" banner on the public
+  site above the RSVP form, and as context on the "Nudge stragglers"
+  reminder panel.
+- **Add to calendar**: every itinerary event (couple side and the
+  guest-facing public schedule) has an "Add to calendar" button that
+  downloads a standalone `.ics` file for that event — no API, just
+  client-side file generation.
+- **Plus-one name**: `plus_one` was previously just a yes/no flag; the
+  public RSVP form and the manual guest form now reveal a "Plus one's
+  name" field once the box is checked, so the couple knows who's
+  actually coming. Round-trips through CSV import/export.
+- **Vendor inquiry follow-ups**: a new "Follow up on inquiries" panel
+  on the Vendors page lists inquiries still awaiting a response, with
+  a bulk "Send follow-up" action (reuses the Resend integration) and
+  its own `last_followed_up_at` timestamp — mirrors the guest RSVP
+  reminder panel.

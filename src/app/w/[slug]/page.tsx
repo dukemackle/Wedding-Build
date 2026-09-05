@@ -116,6 +116,11 @@ export default async function PublicWeddingPage({
               Let {wedding.partner_a_name ?? "the couple"} &amp;{" "}
               {wedding.partner_b_name ?? "the couple"} know if you can make it.
             </p>
+            {wedding.rsvp_deadline && (
+              <p className="mt-3 inline-block rounded-full border border-brass/40 bg-brass/10 px-3 py-1 text-sm text-brass">
+                Please RSVP by {formatDate(wedding.rsvp_deadline)}
+              </p>
+            )}
             <RsvpForm weddingId={wedding.id} />
           </div>
         </FadeInSection>

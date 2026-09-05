@@ -11,6 +11,7 @@ export type Wedding = {
   guest_count_override: number | null;
   public_slug: string | null;
   hero_photo_url: string | null;
+  rsvp_deadline: string | null;
   created_at: string;
   updated_at: string;
 };
@@ -23,6 +24,7 @@ export type PublicWedding = {
   wedding_date: string | null;
   region: string | null;
   hero_photo_url: string | null;
+  rsvp_deadline: string | null;
 };
 
 export type RsvpStatus = "confirmed" | "declined";
@@ -33,6 +35,7 @@ export type RsvpSubmission = {
   guest_name: string;
   household: string | null;
   plus_one: boolean;
+  plus_one_name: string | null;
   status: RsvpStatus;
   meal: string | null;
   notes: string | null;
@@ -54,6 +57,7 @@ export type Guest = {
   name: string;
   email: string | null;
   plus_one: boolean;
+  plus_one_name: string | null;
   status: GuestStatus;
   priority: GuestPriority;
   meal: string | null;
@@ -139,8 +143,10 @@ export type VendorInquiry = {
   vendor_name: string;
   category: string | null;
   message: string | null;
+  recipient_email: string | null;
   sent_at: string;
   status: VendorInquiryStatus;
+  last_followed_up_at: string | null;
 };
 
 export type VendorFavoriteEntry = {

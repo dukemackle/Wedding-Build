@@ -98,7 +98,12 @@ export default async function GuestsPage() {
             pendingSubmissions={rsvpSubmissions ?? []}
           />
           <BulkInviteForm guests={guests ?? []} publicSlug={wedding.public_slug} origin={origin} />
-          <RsvpReminders guests={guests ?? []} publicSlug={wedding.public_slug} origin={origin} />
+          <RsvpReminders
+            guests={guests ?? []}
+            publicSlug={wedding.public_slug}
+            origin={origin}
+            rsvpDeadline={wedding.rsvp_deadline}
+          />
           <GuestbookFeed guests={guests ?? []} publicSiteOn={Boolean(wedding.public_slug)} />
           <SongRequests guests={guests ?? []} />
           <GuestsManager guests={guests ?? []} />

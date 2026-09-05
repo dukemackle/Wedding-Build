@@ -54,6 +54,7 @@ function guestsToCsv(guests: Guest[]) {
     "plus_one",
     "status",
     "priority",
+    "plus_one_name",
     "meal",
     "notes",
     "thanked",
@@ -66,6 +67,7 @@ function guestsToCsv(guests: Guest[]) {
       guest.plus_one ? "yes" : "no",
       guest.status,
       guest.priority,
+      guest.plus_one_name ?? "",
       guest.meal ?? "",
       guest.notes ?? "",
       guest.thanked ? "yes" : "no",
@@ -92,6 +94,7 @@ function GuestFields({ guest }: { guest?: Guest }) {
   const mealValue = guest?.meal ?? "";
   const customMeal =
     mealValue && !(MEAL_OPTIONS as readonly string[]).includes(mealValue) ? mealValue : null;
+  const [bringingPlusOne, setBringingPlusOne] = useState(guest?.plus_one ?? false);
 
   return (
     <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -163,11 +166,23 @@ function GuestFields({ guest }: { guest?: Guest }) {
         <input
           type="checkbox"
           name="plus_one"
-          defaultChecked={guest?.plus_one ?? false}
+          checked={bringingPlusOne}
+          onChange={(e) => setBringingPlusOne(e.target.checked)}
           className="h-4 w-4 rounded border-hairline"
         />
         Bringing a plus one
       </label>
+      {bringingPlusOne && (
+        <label className={`${labelClass} sm:col-span-2`}>
+          Plus one&apos;s name
+          <input
+            name="plus_one_name"
+            placeholder="Optional"
+            defaultValue={guest?.plus_one_name ?? ""}
+            className={inputClass}
+          />
+        </label>
+      )}
       <label className={`${labelClass} sm:col-span-2`}>
         Notes
         <textarea
@@ -261,6 +276,7 @@ function ImportCsvForm({ onDone }: { onDone: () => void }) {
         (required), <code className="font-mono-numbers text-xs">household</code>,{" "}
         <code className="font-mono-numbers text-xs">email</code>,{" "}
         <code className="font-mono-numbers text-xs">plus_one</code> (yes/no),{" "}
+        <code className="font-mono-numbers text-xs">plus_one_name</code>,{" "}
         <code className="font-mono-numbers text-xs">status</code> (invited/confirmed/declined/
         pending), <code className="font-mono-numbers text-xs">priority</code> (must_invite/
         would_like/if_room), <code className="font-mono-numbers text-xs">meal</code>,{" "}
@@ -393,7 +409,7 @@ function GuestRow({ guest }: { guest: Guest }) {
             <span className="text-ink">{guest.name}</span>
             {guest.plus_one && (
               <span className="rounded-full border border-hairline px-2 py-0.5 text-xs text-ink/60">
-                +1
+                +1{guest.plus_one_name ? ` ${guest.plus_one_name}` : ""}
               </span>
             )}
             <span

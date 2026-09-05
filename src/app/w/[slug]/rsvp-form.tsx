@@ -11,6 +11,7 @@ const labelClass = "flex flex-col gap-1 text-sm text-ink";
 export function RsvpForm({ weddingId }: { weddingId: string }) {
   const [error, setError] = useState<string | undefined>(undefined);
   const [submitted, setSubmitted] = useState(false);
+  const [bringingPlusOne, setBringingPlusOne] = useState(false);
   const [isPending, startTransition] = useTransition();
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -22,6 +23,7 @@ export function RsvpForm({ weddingId }: { weddingId: string }) {
       } else {
         setError(undefined);
         setSubmitted(true);
+        setBringingPlusOne(false);
         formRef.current?.reset();
       }
     });
@@ -74,9 +76,25 @@ export function RsvpForm({ weddingId }: { weddingId: string }) {
           />
         </label>
         <label className="flex items-center gap-2 text-sm text-ink sm:col-span-2">
-          <input type="checkbox" name="plus_one" className="h-4 w-4 rounded border-hairline" />
+          <input
+            type="checkbox"
+            name="plus_one"
+            checked={bringingPlusOne}
+            onChange={(e) => setBringingPlusOne(e.target.checked)}
+            className="h-4 w-4 rounded border-hairline"
+          />
           Bringing a plus one
         </label>
+        {bringingPlusOne && (
+          <label className={`${labelClass} sm:col-span-2`}>
+            Plus one&apos;s name
+            <input
+              name="plus_one_name"
+              placeholder="Optional"
+              className={inputClass}
+            />
+          </label>
+        )}
         <label className={`${labelClass} sm:col-span-2`}>
           Notes (private — only the couple sees this)
           <textarea
