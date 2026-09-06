@@ -12,6 +12,7 @@
     "cf:deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.124.0",
     "@supabase/ssr": "^0.12.4",
     "@supabase/supabase-js": "^2.111.0",
     "leaflet": "^1.9.4",

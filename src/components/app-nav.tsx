@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { signOut } from "@/lib/supabase/actions";
+import { WeddingAssistantWidget } from "@/components/wedding-assistant-widget";
 
 const links = [
   { href: "/dashboard", label: "Dashboard" },
@@ -47,6 +48,7 @@ export function AppNav({
           </button>
         </form>
       </div>
+      <WeddingAssistantWidget />
     </div>
   );
 }

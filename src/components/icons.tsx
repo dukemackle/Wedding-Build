@@ -195,3 +195,28 @@ export function VendorsIcon(props: IconProps) {
     </IconBase>
   );
 }
+
+export function ChatIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M4 5h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H9l-4 4v-4H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Z" />
+      <path d="M8 9.5h8M8 12.5h5" />
+    </IconBase>
+  );
+}
+
+export function SendIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="m4 4 16 8-16 8 4-8-4-8Z" />
+    </IconBase>
+  );
+}
+
+export function CloseIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="m6 6 12 12M18 6 6 18" />
+    </IconBase>
+  );
+}
