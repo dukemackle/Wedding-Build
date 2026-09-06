@@ -7,6 +7,7 @@ import {
   VendorsIcon,
   AttireIcon,
 } from "@/components/icons";
+import { AnimatedCounter } from "@/components/animated-counter";
 
 export type DashboardSummaryData = {
   guestsConfirmed: number;
@@ -36,6 +37,7 @@ function SummaryTile({
   accent,
   label,
   value,
+  format,
   detail,
   href,
   linkLabel,
@@ -43,7 +45,8 @@ function SummaryTile({
   icon: ComponentType<{ className?: string }>;
   accent: "forest" | "brass";
   label: string;
-  value: string;
+  value: number;
+  format?: (n: number) => string;
   detail: string;
   href: string;
   linkLabel: string;
@@ -62,7 +65,7 @@ function SummaryTile({
         {label}
       </span>
       <span className="font-mono-numbers text-2xl font-semibold text-forest">
-        {value}
+        <AnimatedCounter value={value} format={format} />
       </span>
       <span className="text-xs text-ink/60">{detail}</span>
       <Link
@@ -90,7 +93,7 @@ export function DashboardSummary({ data }: { data: DashboardSummaryData }) {
           icon={HeadcountIcon}
           accent="forest"
           label="Headcount"
-          value={String(data.headcount)}
+          value={data.headcount}
           detail={
             data.guestsTotal > 0
               ? `${data.guestsConfirmed} confirmed, ${data.guestsPending} pending, ${data.guestsDeclined} declined`
@@ -103,7 +106,8 @@ export function DashboardSummary({ data }: { data: DashboardSummaryData }) {
           icon={BudgetIcon}
           accent="brass"
           label="Budget"
-          value={formatCurrency(data.budgetTotal)}
+          value={data.budgetTotal}
+          format={formatCurrency}
           detail={`${data.budgetCategoriesQuoted} of ${data.budgetCategoriesTotal} categories have a real quote`}
           href="/budget"
           linkLabel="View budget"
@@ -112,7 +116,7 @@ export function DashboardSummary({ data }: { data: DashboardSummaryData }) {
           icon={VenueIcon}
           accent="forest"
           label="Venues"
-          value={String(data.venuesShortlisted)}
+          value={data.venuesShortlisted}
           detail={
             data.venuesShortlisted === 1 ? "venue shortlisted" : "venues shortlisted"
           }
@@ -123,7 +127,7 @@ export function DashboardSummary({ data }: { data: DashboardSummaryData }) {
           icon={VendorsIcon}
           accent="brass"
           label="Vendors"
-          value={String(data.vendorInquiriesSent)}
+          value={data.vendorInquiriesSent}
           detail={`${data.vendorInquiriesSent === 1 ? "inquiry" : "inquiries"} sent, ${data.vendorInquiriesBooked} booked`}
           href="/vendors"
           linkLabel="View vendors"
@@ -132,7 +136,7 @@ export function DashboardSummary({ data }: { data: DashboardSummaryData }) {
           icon={AttireIcon}
           accent="forest"
           label="Attire"
-          value={String(data.attireShortlisted)}
+          value={data.attireShortlisted}
           detail={
             data.attireShortlisted === 1 ? "item shortlisted" : "items shortlisted"
           }

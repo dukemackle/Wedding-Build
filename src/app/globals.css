@@ -72,6 +72,19 @@ body {
   }
 }
 
+/* Slow, subtle drift for the landing-page hero's background glow --
+   decorative only, so it's gated behind motion-safe: in markup and
+   skipped entirely under reduced motion here too. */
+@keyframes float {
+  0%,
+  100% {
+    transform: translate(-50%, 0);
+  }
+  50% {
+    transform: translate(-50%, -16px);
+  }
+}
+
 /* Printed pages (e.g. the itinerary run sheet) skip the decorative
    gradient background -- it wastes ink and never sat right on paper. */
 @media print {
