@@ -2,20 +2,29 @@
 
 import { useEffect, useRef, useState } from "react";
 
+const formatters: Record<"number" | "currency", (n: number) => string> = {
+  number: (n) => String(n),
+  currency: (n) =>
+    n.toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }),
+};
+
 // Counts up from 0 to `value` once the element scrolls into view. Renders
 // the final value immediately (no animation) when the user prefers reduced
 // motion, or before the observer has ever fired (first paint, no JS yet).
+// `format` is a named preset rather than a function prop -- a Server
+// Component parent can't hand a Client Component a function reference.
 export function AnimatedCounter({
   value,
-  format = (n) => String(n),
+  format = "number",
   durationMs = 900,
   className,
 }: {
   value: number;
-  format?: (n: number) => string;
+  format?: "number" | "currency";
   durationMs?: number;
   className?: string;
 }) {
+  const formatFn = formatters[format];
   const ref = useRef<HTMLSpanElement>(null);
   const [display, setDisplay] = useState(value);
   const [hasAnimated, setHasAnimated] = useState(false);
@@ -52,7 +61,7 @@ export function AnimatedCounter({
 
   return (
     <span ref={ref} className={className}>
-      {format(display)}
+      {formatFn(display)}
     </span>
   );
 }
