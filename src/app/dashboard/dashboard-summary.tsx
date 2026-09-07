@@ -24,14 +24,6 @@ export type DashboardSummaryData = {
   attireShortlisted: number;
 };
 
-function formatCurrency(value: number) {
-  return value.toLocaleString("en-US", {
-    style: "currency",
-    currency: "USD",
-    maximumFractionDigits: 0,
-  });
-}
-
 function SummaryTile({
   icon,
   accent,
@@ -46,7 +38,7 @@ function SummaryTile({
   accent: "forest" | "brass";
   label: string;
   value: number;
-  format?: (n: number) => string;
+  format?: "number" | "currency";
   detail: string;
   href: string;
   linkLabel: string;
@@ -107,7 +99,7 @@ export function DashboardSummary({ data }: { data: DashboardSummaryData }) {
           accent="brass"
           label="Budget"
           value={data.budgetTotal}
-          format={formatCurrency}
+          format="currency"
           detail={`${data.budgetCategoriesQuoted} of ${data.budgetCategoriesTotal} categories have a real quote`}
           href="/budget"
           linkLabel="View budget"
