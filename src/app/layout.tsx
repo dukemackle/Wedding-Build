@@ -22,7 +22,7 @@ const plexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "The Wedding Ledger",
+  title: "Wren",
   description: "Plan your wedding budget, venues, guests, and vendors in one place.",
 };
 
