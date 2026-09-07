@@ -49,7 +49,7 @@ export default function Home() {
           Est. 2026
         </p>
         <h1 className="mt-3 font-display text-6xl font-semibold text-forest sm:text-7xl">
-          The Wedding Ledger
+          Wren
         </h1>
         <p className="mt-5 max-w-md text-base text-ink/80">
           Budget, venues, guests, and vendors — all in one free account. No
