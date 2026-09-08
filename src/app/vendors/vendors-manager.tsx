@@ -4,7 +4,12 @@ import dynamic from "next/dynamic";
 import { useMemo, useState, useTransition } from "react";
 import type { Vendor, VendorFavoriteEntry, VendorInquiry, VendorInquiryStatus } from "@/lib/supabase/types";
 import { REGIONS } from "@/lib/wedding-options";
-import { sendVendorInquiry, updateInquiryStatus, updateVendorFavoriteNotes } from "./actions";
+import {
+  sendVendorInquiry,
+  updateInquiryBookedAmount,
+  updateInquiryStatus,
+  updateVendorFavoriteNotes,
+} from "./actions";
 import { SearchBox } from "@/components/search-box";
 import { FilterDisclosure } from "@/components/filter-disclosure";
 import { VendorFavoriteButton } from "./vendor-card-shared";
@@ -174,6 +179,49 @@ function VendorFavoriteNotes({ entry, vendorName }: { entry: VendorFavoriteEntry
   );
 }
 
+function BookedAmountField({ inquiry }: { inquiry: VendorInquiry }) {
+  const [isPending, startTransition] = useTransition();
+  const [saved, setSaved] = useState(true);
+  const [error, setError] = useState<string | undefined>(undefined);
+
+  function handleSubmit(formData: FormData) {
+    formData.set("inquiry_id", inquiry.id);
+    startTransition(async () => {
+      const result = await updateInquiryBookedAmount(formData);
+      if (result?.error) {
+        setError(result.error);
+      } else {
+        setError(undefined);
+        setSaved(true);
+      }
+    });
+  }
+
+  return (
+    <form action={handleSubmit} className="mt-2 flex items-center gap-2">
+      <label className="text-xs text-ink/60">Booked for</label>
+      <input
+        type="number"
+        name="booked_amount"
+        min="0"
+        step="1"
+        placeholder="$ amount"
+        defaultValue={inquiry.booked_amount ?? ""}
+        onChange={() => setSaved(false)}
+        className="w-28 rounded-md border border-hairline bg-parchment px-2 py-1 text-sm text-ink outline-none focus:border-forest"
+      />
+      <button
+        type="submit"
+        disabled={isPending}
+        className="rounded-md border border-hairline px-2 py-1 text-xs text-ink transition-colors hover:border-forest disabled:opacity-60"
+      >
+        {isPending ? "Saving..." : saved ? "Saved" : "Save"}
+      </button>
+      {error && <p className="text-xs text-red-800">{error}</p>}
+    </form>
+  );
+}
+
 function InquiryRow({ inquiry }: { inquiry: VendorInquiry }) {
   const [isPending, startTransition] = useTransition();
   const [status, setStatus] = useState(inquiry.status);
@@ -217,6 +265,7 @@ function InquiryRow({ inquiry }: { inquiry: VendorInquiry }) {
         </select>
       </div>
       {inquiry.message && <p className="mt-2 text-sm text-ink/70">{inquiry.message}</p>}
+      {status === "booked" && <BookedAmountField inquiry={inquiry} />}
       {error && <p className="mt-1 text-sm text-red-800">{error}</p>}
     </div>
   );

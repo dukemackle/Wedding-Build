@@ -58,6 +58,10 @@ export async function sendVendorInquiry(formData: FormData): Promise<{ error?: s
     return { error: "Email sending isn't configured (missing RESEND_API_KEY)." };
   }
 
+  const referralNote = wedding.referral_code
+    ? `\n\nReferral code: ${wedding.referral_code} (please mention this if you book)`
+    : "";
+
   try {
     const resend = getResendClient();
     const { error: sendError } = await resend.emails.send({
@@ -65,7 +69,7 @@ export async function sendVendorInquiry(formData: FormData): Promise<{ error?: s
       to: recipientEmail,
       replyTo: user.email,
       subject: `Wedding inquiry from ${coupleNames || user.email}`,
-      text: message,
+      text: `${message}${referralNote}`,
     });
 
     if (sendError) {
@@ -84,6 +88,7 @@ export async function sendVendorInquiry(formData: FormData): Promise<{ error?: s
     message,
     recipient_email: recipientEmail,
     status: "sent",
+    referral_code: wedding.referral_code,
   });
 
   if (dbError) {
@@ -130,6 +135,9 @@ export async function sendVendorFollowUps(
   }
 
   const coupleNames = [wedding.partner_a_name, wedding.partner_b_name].filter(Boolean).join(" & ");
+  const referralNote = wedding.referral_code
+    ? `\n\nReferral code: ${wedding.referral_code} (please mention this if you book)`
+    : "";
   const resend = getResendClient();
 
   let sent = 0;
@@ -143,7 +151,7 @@ export async function sendVendorFollowUps(
         to: inquiry.recipient_email!,
         replyTo: user.email,
         subject: `Following up: wedding inquiry from ${coupleNames || user.email}`,
-        text: `Hi ${inquiry.vendor_name},\n\nJust following up on the inquiry we sent about ${inquiry.category?.toLowerCase() ?? "our wedding"} — we'd still love to hear back about availability and pricing when you get a chance.\n\nOriginal message:\n${inquiry.message ?? ""}`,
+        text: `Hi ${inquiry.vendor_name},\n\nJust following up on the inquiry we sent about ${inquiry.category?.toLowerCase() ?? "our wedding"} — we'd still love to hear back about availability and pricing when you get a chance.\n\nOriginal message:\n${inquiry.message ?? ""}${referralNote}`,
       });
 
       if (sendError) {
@@ -186,6 +194,35 @@ export async function updateInquiryStatus(formData: FormData): Promise<{ error?:
   const { error } = await supabase
     .from("vendor_inquiries")
     .update({ status })
+    .eq("id", inquiryId)
+    .eq("wedding_id", wedding.id);
+
+  if (error) {
+    return { error: error.message };
+  }
+
+  revalidatePath("/vendors");
+  return {};
+}
+
+export async function updateInquiryBookedAmount(formData: FormData): Promise<{ error?: string }> {
+  const { supabase, wedding } = await requireOwnWedding();
+
+  if (!wedding) {
+    return { error: "Set up your wedding on the Dashboard first." };
+  }
+
+  const inquiryId = formData.get("inquiry_id") as string;
+  const amountRaw = (formData.get("booked_amount") as string)?.trim();
+  const amount = amountRaw ? Number(amountRaw) : null;
+
+  if (amountRaw && (Number.isNaN(amount) || amount === null || amount < 0)) {
+    return { error: "Enter a valid amount." };
+  }
+
+  const { error } = await supabase
+    .from("vendor_inquiries")
+    .update({ booked_amount: amount })
     .eq("id", inquiryId)
     .eq("wedding_id", wedding.id);
 

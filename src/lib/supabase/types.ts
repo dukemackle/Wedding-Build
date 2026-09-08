@@ -12,6 +12,7 @@ export type Wedding = {
   public_slug: string | null;
   hero_photo_url: string | null;
   rsvp_deadline: string | null;
+  referral_code: string | null;
   created_at: string;
   updated_at: string;
 };
@@ -147,6 +148,8 @@ export type VendorInquiry = {
   sent_at: string;
   status: VendorInquiryStatus;
   last_followed_up_at: string | null;
+  referral_code: string | null;
+  booked_amount: number | null;
 };
 
 export type VendorFavoriteEntry = {
