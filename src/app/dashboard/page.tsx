@@ -6,6 +6,7 @@ import { WeddingDashboard } from "./wedding-dashboard";
 import { HeroPhotoUpload } from "./hero-photo-upload";
 import { DashboardSummary, type DashboardSummaryData } from "./dashboard-summary";
 import { ChecklistPreview } from "./checklist-preview";
+import { ReferralCodeCard } from "./referral-code-card";
 import type { ChecklistItem, Wedding } from "@/lib/supabase/types";
 import { BUDGET_CATEGORIES, computeCategoryValue, effectiveGuestCount } from "@/lib/budget-categories";
 
@@ -105,8 +106,13 @@ export default async function DashboardPage() {
     <main className="flex flex-1 flex-col items-center px-6 py-16">
       <AppNav email={user.email ?? ""} />
       <WeddingDashboard initialWedding={wedding} />
-      {wedding && (
+      {wedding?.referral_code && (
         <FadeInSection>
+          <ReferralCodeCard code={wedding.referral_code} />
+        </FadeInSection>
+      )}
+      {wedding && (
+        <FadeInSection delayMs={40}>
           <HeroPhotoUpload photoUrl={wedding.hero_photo_url} />
         </FadeInSection>
       )}
