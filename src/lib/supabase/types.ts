@@ -105,6 +105,7 @@ export type Venue = {
   price_tier: string | null;
   description: string | null;
   image_url: string | null;
+  active: boolean;
   created_at: string;
 };
 
@@ -131,6 +132,7 @@ export type Vendor = {
   price_tier: string | null;
   description: string | null;
   contact_email: string | null;
+  active: boolean;
   created_at: string;
 };
 

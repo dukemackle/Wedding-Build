@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { signOut } from "@/lib/supabase/actions";
 import { WeddingAssistantWidget } from "@/components/wedding-assistant-widget";
 import { NavLinks } from "@/components/nav-links";
@@ -9,12 +10,20 @@ export function AppNav({
   email: string;
   maxWidthClassName?: string;
 }) {
+  const isAdmin =
+    Boolean(email) && email.toLowerCase() === process.env.ADMIN_EMAIL?.trim().toLowerCase();
+
   return (
     <div
       className={`mb-6 flex w-full ${maxWidthClassName} flex-col gap-3 sm:flex-row sm:items-center sm:justify-between`}
     >
       <NavLinks />
       <div className="flex items-center justify-between gap-4 sm:justify-end">
+        {isAdmin && (
+          <Link href="/admin" className="font-mono-numbers text-sm text-brass hover:underline">
+            Admin
+          </Link>
+        )}
         <span className="truncate font-mono-numbers text-sm text-ink/60">{email}</span>
         <form action={signOut}>
           <button
