@@ -49,6 +49,7 @@ export default async function VendorsPage() {
   const { data: vendors } = await supabase
     .from("vendors")
     .select("*")
+    .eq("active", true)
     .order("name")
     .returns<Vendor[]>();
 

@@ -49,6 +49,7 @@ export default async function VenuesPage() {
   const { data: venues } = await supabase
     .from("venues")
     .select("*")
+    .eq("active", true)
     .order("name")
     .returns<Venue[]>();
 
