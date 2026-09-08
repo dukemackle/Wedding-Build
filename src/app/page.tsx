@@ -51,6 +51,9 @@ export default function Home() {
         <h1 className="mt-3 font-display text-6xl font-semibold text-forest sm:text-7xl">
           Wren
         </h1>
+        <p className="mt-4 font-display text-2xl text-ink sm:text-3xl">
+          Build your dream wedding.
+        </p>
         <p className="mt-5 max-w-md text-base text-ink/80">
           Budget, venues, guests, and vendors — all in one free account. No
           spreadsheets, no per-vendor logins, no fee.
