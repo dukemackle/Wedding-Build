@@ -3,8 +3,10 @@ import { requireAdmin } from "@/lib/admin";
 
 const links = [
   { href: "/admin", label: "Overview" },
+  { href: "/admin/couples", label: "Couples" },
   { href: "/admin/vendors", label: "Vendors" },
   { href: "/admin/venues", label: "Venues" },
+  { href: "/admin/revenue", label: "Revenue" },
 ];
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
