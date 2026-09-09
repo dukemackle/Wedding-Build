@@ -34,6 +34,10 @@ async function requireOwnWedding() {
   return { supabase, user, wedding };
 }
 
+function normalizeRotation(value: number) {
+  return ((Math.round(value) % 360) + 360) % 360;
+}
+
 function tableFieldsFromForm(formData: FormData) {
   const name = (formData.get("name") as string)?.trim();
   if (!name) {
@@ -53,7 +57,14 @@ function tableFieldsFromForm(formData: FormData) {
   const shapeRaw = (formData.get("shape") as string) || "round";
   const shape = (VALID_SHAPES.includes(shapeRaw as TableShape) ? shapeRaw : "round") as TableShape;
 
-  return { fields: { name, capacity, shape } } as const;
+  const rotationRaw = (formData.get("rotation") as string) || "0";
+  const rotationParsed = Number(rotationRaw);
+  if (Number.isNaN(rotationParsed)) {
+    return { error: "Rotation must be a valid number." } as const;
+  }
+  const rotation = normalizeRotation(rotationParsed);
+
+  return { fields: { name, capacity, shape, rotation } } as const;
 }
 
 export async function addSeatingTable(formData: FormData): Promise<{ error?: string }> {
@@ -105,16 +116,37 @@ export async function updateTablePosition(formData: FormData): Promise<{ error?:
   }
 
   const tableId = formData.get("id") as string;
-  const positionX = Number(formData.get("position_x"));
-  const positionY = Number(formData.get("position_y"));
+  const positionXRaw = formData.get("position_x");
+  const positionYRaw = formData.get("position_y");
+  const rotationRaw = formData.get("rotation");
 
-  if (Number.isNaN(positionX) || Number.isNaN(positionY)) {
-    return { error: "Invalid position." };
+  const update: { position_x?: number; position_y?: number; rotation?: number } = {};
+
+  if (positionXRaw != null && positionYRaw != null) {
+    const positionX = Number(positionXRaw);
+    const positionY = Number(positionYRaw);
+    if (Number.isNaN(positionX) || Number.isNaN(positionY)) {
+      return { error: "Invalid position." };
+    }
+    update.position_x = positionX;
+    update.position_y = positionY;
+  }
+
+  if (rotationRaw != null) {
+    const rotation = Number(rotationRaw);
+    if (Number.isNaN(rotation)) {
+      return { error: "Invalid rotation." };
+    }
+    update.rotation = normalizeRotation(rotation);
+  }
+
+  if (Object.keys(update).length === 0) {
+    return { error: "Nothing to update." };
   }
 
   const { error } = await supabase
     .from("seating_tables")
-    .update({ position_x: positionX, position_y: positionY })
+    .update(update)
     .eq("id", tableId)
     .eq("wedding_id", wedding.id);
 

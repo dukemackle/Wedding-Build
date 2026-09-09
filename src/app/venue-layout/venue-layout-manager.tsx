@@ -164,6 +164,17 @@ function TableFields({ table }: { table?: SeatingTable }) {
           ))}
         </select>
       </label>
+      <label className={labelClass}>
+        Rotation (degrees)
+        <input
+          type="number"
+          name="rotation"
+          min={0}
+          max={359}
+          defaultValue={table?.rotation ?? 0}
+          className={inputClass}
+        />
+      </label>
     </div>
   );
 }
@@ -238,6 +249,17 @@ function ItemFields({ item }: { item?: VenueLayoutItem }) {
           className={inputClass}
         />
       </label>
+      <label className={labelClass}>
+        Rotation (degrees)
+        <input
+          type="number"
+          name="rotation"
+          min={0}
+          max={359}
+          defaultValue={item?.rotation ?? 0}
+          className={inputClass}
+        />
+      </label>
     </div>
   );
 }
@@ -293,12 +315,76 @@ function AddItemForm({ onDone, roomId }: { onDone: () => void; roomId?: string }
 const CANVAS_WIDTH = 900;
 const CANVAS_HEIGHT = 520;
 
+function normalizeRotation(value: number) {
+  return ((Math.round(value) % 360) + 360) % 360;
+}
+
+// Drag this handle around the shape's center to rotate it -- hold Shift
+// to snap to 15-degree steps. Rendered as a child of the rotated node so
+// it turns along with the shape, always sitting just above it.
+function RotateHandle({
+  containerRef,
+  onRotate,
+  onRotateEnd,
+}: {
+  containerRef: React.RefObject<HTMLDivElement | null>;
+  onRotate: (degrees: number) => void;
+  onRotateEnd: (degrees: number) => void;
+}) {
+  const centerRef = useRef<{ x: number; y: number } | null>(null);
+  const rotatingRef = useRef(false);
+  const lastRotationRef = useRef(0);
+
+  function handlePointerDown(e: React.PointerEvent<HTMLDivElement>) {
+    e.stopPropagation();
+    (e.target as HTMLElement).setPointerCapture(e.pointerId);
+    const rect = containerRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    centerRef.current = { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
+    rotatingRef.current = true;
+  }
+
+  function handlePointerMove(e: React.PointerEvent<HTMLDivElement>) {
+    if (!rotatingRef.current || !centerRef.current) return;
+    const dx = e.clientX - centerRef.current.x;
+    const dy = e.clientY - centerRef.current.y;
+    let angle = (Math.atan2(dx, -dy) * 180) / Math.PI;
+    angle = ((angle % 360) + 360) % 360;
+    if (e.shiftKey) angle = Math.round(angle / 15) * 15;
+    lastRotationRef.current = angle;
+    onRotate(angle);
+  }
+
+  function handlePointerUp() {
+    if (!rotatingRef.current) return;
+    rotatingRef.current = false;
+    onRotateEnd(normalizeRotation(lastRotationRef.current));
+  }
+
+  return (
+    <div
+      onPointerDown={handlePointerDown}
+      onPointerMove={handlePointerMove}
+      onPointerUp={handlePointerUp}
+      style={{ position: "absolute", top: -28, left: "50%", transform: "translateX(-50%)" }}
+      aria-label="Rotate"
+      className="flex h-6 w-6 cursor-grab items-center justify-center rounded-full border-2 border-forest bg-parchment text-forest shadow-sm active:cursor-grabbing"
+    >
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+        <path d="M21 12a9 9 0 1 1-3-6.7" />
+        <path d="M21 3v6h-6" />
+      </svg>
+    </div>
+  );
+}
+
 function TableNode({
   table,
   assignedGuests,
   isSelected,
   onSelect,
   onDragEnd,
+  onRotateEnd,
   onUnassign,
 }: {
   table: SeatingTable;
@@ -306,10 +392,13 @@ function TableNode({
   isSelected: boolean;
   onSelect: () => void;
   onDragEnd: (x: number, y: number) => void;
+  onRotateEnd: (rotation: number) => void;
   onUnassign: (guestId: string) => void;
 }) {
   const { width, height } = tableDimensions(table.shape, table.capacity);
   const [pos, setPos] = useState(() => ({ x: table.position_x, y: table.position_y }));
+  const [rotation, setRotation] = useState(table.rotation);
+  const containerRef = useRef<HTMLDivElement>(null);
   const dragRef = useRef<{ startX: number; startY: number; origX: number; origY: number } | null>(
     null,
   );
@@ -348,12 +437,27 @@ function TableNode({
 
   return (
     <div
+      ref={containerRef}
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
       onPointerUp={handlePointerUp}
-      style={{ position: "absolute", left: pos.x, top: pos.y, width, height }}
+      style={{
+        position: "absolute",
+        left: pos.x,
+        top: pos.y,
+        width,
+        height,
+        transform: `rotate(${rotation}deg)`,
+      }}
       className={`flex cursor-grab select-none flex-col items-center justify-center gap-1 border-2 bg-card p-2 text-center shadow-sm active:cursor-grabbing ${shapeClassName(table.shape)} ${isSelected ? "border-forest ring-2 ring-forest/30" : "border-hairline"}`}
     >
+      {isSelected && (
+        <RotateHandle
+          containerRef={containerRef}
+          onRotate={setRotation}
+          onRotateEnd={onRotateEnd}
+        />
+      )}
       <p className="font-medium text-ink">{table.name}</p>
       <p className={`text-xs ${overCapacity ? "text-red-700" : "text-ink/50"}`}>
         {occupied}
@@ -389,14 +493,18 @@ function ItemNode({
   isSelected,
   onSelect,
   onDragEnd,
+  onRotateEnd,
 }: {
   item: VenueLayoutItem;
   isSelected: boolean;
   onSelect: () => void;
   onDragEnd: (x: number, y: number) => void;
+  onRotateEnd: (rotation: number) => void;
 }) {
   const { width, height } = ITEM_TYPE_DIMENSIONS[item.item_type];
   const [pos, setPos] = useState(() => ({ x: item.position_x, y: item.position_y }));
+  const [rotation, setRotation] = useState(item.rotation);
+  const containerRef = useRef<HTMLDivElement>(null);
   const dragRef = useRef<{ startX: number; startY: number; origX: number; origY: number } | null>(
     null,
   );
@@ -432,12 +540,27 @@ function ItemNode({
 
   return (
     <div
+      ref={containerRef}
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
       onPointerUp={handlePointerUp}
-      style={{ position: "absolute", left: pos.x, top: pos.y, width, height }}
+      style={{
+        position: "absolute",
+        left: pos.x,
+        top: pos.y,
+        width,
+        height,
+        transform: `rotate(${rotation}deg)`,
+      }}
       className={`flex cursor-grab select-none flex-col items-center justify-center rounded-lg border-2 p-2 text-center text-sm shadow-sm active:cursor-grabbing ${ITEM_TYPE_COLORS[item.item_type]} ${isSelected ? "ring-2 ring-forest/40" : ""}`}
     >
+      {isSelected && (
+        <RotateHandle
+          containerRef={containerRef}
+          onRotate={setRotation}
+          onRotateEnd={onRotateEnd}
+        />
+      )}
       <p className="font-medium text-ink">{itemDisplayName(item)}</p>
       {item.label && <p className="text-xs text-ink/50">{ITEM_TYPE_LABELS[item.item_type]}</p>}
     </div>
@@ -454,6 +577,8 @@ function VenueCanvas({
   onSelectItem,
   onTableDragEnd,
   onItemDragEnd,
+  onTableRotateEnd,
+  onItemRotateEnd,
   onUnassign,
 }: {
   tables: SeatingTable[];
@@ -465,6 +590,8 @@ function VenueCanvas({
   onSelectItem: (id: string | null) => void;
   onTableDragEnd: (id: string, x: number, y: number) => void;
   onItemDragEnd: (id: string, x: number, y: number) => void;
+  onTableRotateEnd: (id: string, rotation: number) => void;
+  onItemRotateEnd: (id: string, rotation: number) => void;
   onUnassign: (guestId: string) => void;
 }) {
   return (
@@ -480,21 +607,23 @@ function VenueCanvas({
       >
         {items.map((item) => (
           <ItemNode
-            key={`${item.id}-${item.position_x}-${item.position_y}`}
+            key={`${item.id}-${item.position_x}-${item.position_y}-${item.rotation}`}
             item={item}
             isSelected={item.id === selectedItemId}
             onSelect={() => onSelectItem(item.id === selectedItemId ? null : item.id)}
             onDragEnd={(x, y) => onItemDragEnd(item.id, x, y)}
+            onRotateEnd={(rotation) => onItemRotateEnd(item.id, rotation)}
           />
         ))}
         {tables.map((table) => (
           <TableNode
-            key={`${table.id}-${table.position_x}-${table.position_y}`}
+            key={`${table.id}-${table.position_x}-${table.position_y}-${table.rotation}`}
             table={table}
             assignedGuests={guestsByTable.get(table.id) ?? []}
             isSelected={table.id === selectedTableId}
             onSelect={() => onSelectTable(table.id === selectedTableId ? null : table.id)}
             onDragEnd={(x, y) => onTableDragEnd(table.id, x, y)}
+            onRotateEnd={(rotation) => onTableRotateEnd(table.id, rotation)}
             onUnassign={onUnassign}
           />
         ))}
@@ -929,6 +1058,24 @@ export function VenueLayoutManager({
     });
   }
 
+  function handleTableRotateEnd(tableId: string, rotation: number) {
+    const formData = new FormData();
+    formData.set("id", tableId);
+    formData.set("rotation", String(rotation));
+    startTransition(async () => {
+      await updateTablePosition(formData);
+    });
+  }
+
+  function handleItemRotateEnd(itemId: string, rotation: number) {
+    const formData = new FormData();
+    formData.set("id", itemId);
+    formData.set("rotation", String(rotation));
+    startTransition(async () => {
+      await updateLayoutItemPosition(formData);
+    });
+  }
+
   const hasContent = visibleTables.length > 0 || visibleItems.length > 0;
   const canAdd = mode !== "rooms" || activeRoomId != null;
   const formRoomId = mode === "rooms" ? (activeRoomId ?? undefined) : undefined;
@@ -1012,6 +1159,8 @@ export function VenueLayoutManager({
               onSelectItem={setSelectedItemId}
               onTableDragEnd={handleTableDragEnd}
               onItemDragEnd={handleItemDragEnd}
+              onTableRotateEnd={handleTableRotateEnd}
+              onItemRotateEnd={handleItemRotateEnd}
               onUnassign={handleUnassign}
             />
           )}

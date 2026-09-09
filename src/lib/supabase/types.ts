@@ -245,6 +245,7 @@ export type SeatingTable = {
   shape: TableShape;
   position_x: number;
   position_y: number;
+  rotation: number;
   room_id: string | null;
   created_at: string;
   updated_at: string;
@@ -278,6 +279,7 @@ export type VenueLayoutItem = {
   label: string | null;
   position_x: number;
   position_y: number;
+  rotation: number;
   room_id: string | null;
   created_at: string;
   updated_at: string;
