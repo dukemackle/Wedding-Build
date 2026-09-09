@@ -249,6 +249,30 @@ export type SeatingTable = {
   updated_at: string;
 };
 
+export type LayoutItemType =
+  | "chairs"
+  | "stage"
+  | "dance_floor"
+  | "bar"
+  | "dj_booth"
+  | "buffet"
+  | "cake_table"
+  | "gift_table"
+  | "entrance"
+  | "other";
+
+export type VenueLayoutItem = {
+  id: string;
+  wedding_id: string;
+  user_id: string;
+  item_type: LayoutItemType;
+  label: string | null;
+  position_x: number;
+  position_y: number;
+  created_at: string;
+  updated_at: string;
+};
+
 export type ChecklistItem = {
   id: string;
   wedding_id: string;

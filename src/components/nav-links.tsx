@@ -11,6 +11,7 @@ const groups: { label: string; links: { href: string; label: string }[] }[] = [
       { href: "/checklist", label: "Checklist" },
       { href: "/itinerary", label: "Itinerary" },
       { href: "/seating", label: "Seating" },
+      { href: "/floor-plan", label: "Floor Plan" },
     ],
   },
   {
