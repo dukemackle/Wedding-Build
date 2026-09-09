@@ -16,6 +16,8 @@ const VALID_ITEM_TYPES: LayoutItemType[] = [
   "cake_table",
   "gift_table",
   "entrance",
+  "house",
+  "parking",
   "other",
 ];
 
@@ -45,6 +47,10 @@ async function requireOwnWedding() {
   return { supabase, user, wedding };
 }
 
+function normalizeRotation(value: number) {
+  return ((Math.round(value) % 360) + 360) % 360;
+}
+
 function itemFieldsFromForm(formData: FormData) {
   const itemTypeRaw = (formData.get("item_type") as string) || "";
   if (!VALID_ITEM_TYPES.includes(itemTypeRaw as LayoutItemType)) {
@@ -53,7 +59,14 @@ function itemFieldsFromForm(formData: FormData) {
 
   const label = ((formData.get("label") as string) || "").trim() || null;
 
-  return { fields: { item_type: itemTypeRaw as LayoutItemType, label } } as const;
+  const rotationRaw = (formData.get("rotation") as string) || "0";
+  const rotationParsed = Number(rotationRaw);
+  if (Number.isNaN(rotationParsed)) {
+    return { error: "Rotation must be a valid number." } as const;
+  }
+  const rotation = normalizeRotation(rotationParsed);
+
+  return { fields: { item_type: itemTypeRaw as LayoutItemType, label, rotation } } as const;
 }
 
 export async function addLayoutItem(formData: FormData): Promise<{ error?: string }> {
@@ -105,16 +118,37 @@ export async function updateLayoutItemPosition(formData: FormData): Promise<{ er
   }
 
   const itemId = formData.get("id") as string;
-  const positionX = Number(formData.get("position_x"));
-  const positionY = Number(formData.get("position_y"));
+  const positionXRaw = formData.get("position_x");
+  const positionYRaw = formData.get("position_y");
+  const rotationRaw = formData.get("rotation");
 
-  if (Number.isNaN(positionX) || Number.isNaN(positionY)) {
-    return { error: "Invalid position." };
+  const update: { position_x?: number; position_y?: number; rotation?: number } = {};
+
+  if (positionXRaw != null && positionYRaw != null) {
+    const positionX = Number(positionXRaw);
+    const positionY = Number(positionYRaw);
+    if (Number.isNaN(positionX) || Number.isNaN(positionY)) {
+      return { error: "Invalid position." };
+    }
+    update.position_x = positionX;
+    update.position_y = positionY;
+  }
+
+  if (rotationRaw != null) {
+    const rotation = Number(rotationRaw);
+    if (Number.isNaN(rotation)) {
+      return { error: "Invalid rotation." };
+    }
+    update.rotation = normalizeRotation(rotation);
+  }
+
+  if (Object.keys(update).length === 0) {
+    return { error: "Nothing to update." };
   }
 
   const { error } = await supabase
     .from("venue_layout_items")
-    .update({ position_x: positionX, position_y: positionY })
+    .update(update)
     .eq("id", itemId)
     .eq("wedding_id", wedding.id);
 
