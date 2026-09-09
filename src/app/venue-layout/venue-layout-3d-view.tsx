@@ -27,6 +27,48 @@ function toWorld(pixelX: number, pixelY: number): [number, number] {
   return [(pixelX - CANVAS_WIDTH / 2) / SCALE, (pixelY - CANVAS_HEIGHT / 2) / SCALE];
 }
 
+// A layout can grow taller/wider than the fixed 2D canvas as couples add
+// more tables and items, so the camera frames the actual content bounds
+// instead of a fixed area — otherwise anything placed further out just
+// falls outside the fixed default view and looks like it's missing.
+function computeBounds(tables: SeatingTable[], items: VenueLayoutItem[]) {
+  let minX = Infinity;
+  let maxX = -Infinity;
+  let minZ = Infinity;
+  let maxZ = -Infinity;
+
+  function include(pixelX: number, pixelY: number, widthPx: number, heightPx: number, margin: number) {
+    const [x, z] = toWorld(pixelX + widthPx / 2, pixelY + heightPx / 2);
+    const halfWidth = widthPx / 2 / SCALE + margin;
+    const halfDepth = heightPx / 2 / SCALE + margin;
+    minX = Math.min(minX, x - halfWidth);
+    maxX = Math.max(maxX, x + halfWidth);
+    minZ = Math.min(minZ, z - halfDepth);
+    maxZ = Math.max(maxZ, z + halfDepth);
+  }
+
+  for (const table of tables) {
+    const { width, height } = tableDimensions(table.shape, table.capacity);
+    // Chairs extend past the table itself, so pad the footprint for them.
+    include(table.position_x, table.position_y, width, height, 1.2);
+  }
+  for (const item of items) {
+    const { width, height } = ITEM_TYPE_DIMENSIONS[item.item_type];
+    include(item.position_x, item.position_y, width, height, 0.3);
+  }
+
+  if (!Number.isFinite(minX)) {
+    return { centerX: 0, centerZ: 0, spanX: 8, spanZ: 6 };
+  }
+
+  return {
+    centerX: (minX + maxX) / 2,
+    centerZ: (minZ + maxZ) / 2,
+    spanX: Math.max(maxX - minX, 4),
+    spanZ: Math.max(maxZ - minZ, 4),
+  };
+}
+
 function TableScene({ table }: { table: SeatingTable }) {
   const { width, height } = tableDimensions(table.shape, table.capacity);
   const [x, z] = toWorld(table.position_x + width / 2, table.position_y + height / 2);
@@ -148,8 +190,14 @@ export default function VenueLayout3DView({
   tables: SeatingTable[];
   items: VenueLayoutItem[];
 }) {
+  const { centerX, centerZ, spanX, spanZ } = computeBounds(tables, items);
+  // Fit both dimensions of the bounding box in view, with headroom for the
+  // camera's downward angle, then keep a sensible floor under a small layout.
+  const distance = Math.max(spanX, spanZ) * 0.85 + 8;
+  const floorSize: [number, number] = [Math.max(40, spanX + 16), Math.max(26, spanZ + 16)];
+
   return (
-    <SceneCanvas>
+    <SceneCanvas target={[centerX, 0, centerZ]} distance={distance} floorSize={floorSize}>
       {items.map((item) => (
         <ItemScene key={item.id} item={item} />
       ))}
