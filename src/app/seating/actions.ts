@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { getOrCreateDefaultRoom } from "@/lib/venue-rooms";
 import type { TableShape, Wedding } from "@/lib/supabase/types";
 
 const VALID_SHAPES: TableShape[] = ["round", "square", "rectangle"];
@@ -76,12 +77,16 @@ export async function addSeatingTable(formData: FormData): Promise<{ error?: str
   const position_x = GRID_ORIGIN + (index % CANVAS_COLUMNS) * COLUMN_SPACING;
   const position_y = GRID_ORIGIN + Math.floor(index / CANVAS_COLUMNS) * ROW_SPACING;
 
+  const requestedRoomId = ((formData.get("room_id") as string) || "").trim() || null;
+  const room_id = requestedRoomId ?? (await getOrCreateDefaultRoom(supabase, wedding.id, user.id));
+
   const { error } = await supabase.from("seating_tables").insert({
     wedding_id: wedding.id,
     user_id: user.id,
     ...parsed.fields,
     position_x,
     position_y,
+    room_id,
   });
 
   if (error) {

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { AppNav } from "@/components/app-nav";
-import type { Guest, SeatingTable, VenueLayoutItem, Wedding } from "@/lib/supabase/types";
+import type { Guest, SeatingTable, VenueLayoutItem, VenueRoom, Wedding } from "@/lib/supabase/types";
 import { VenueLayoutManager } from "./venue-layout-manager";
 
 export default async function VenueLayoutPage() {
@@ -46,7 +46,7 @@ export default async function VenueLayoutPage() {
     );
   }
 
-  const [{ data: tables }, { data: guests }, { data: items }] = await Promise.all([
+  const [{ data: tables }, { data: guests }, { data: items }, { data: rooms }] = await Promise.all([
     supabase
       .from("seating_tables")
       .select("*")
@@ -66,6 +66,12 @@ export default async function VenueLayoutPage() {
       .eq("wedding_id", wedding.id)
       .order("created_at", { ascending: true })
       .returns<VenueLayoutItem[]>(),
+    supabase
+      .from("venue_rooms")
+      .select("*")
+      .eq("wedding_id", wedding.id)
+      .order("created_at", { ascending: true })
+      .returns<VenueRoom[]>(),
   ]);
 
   return (
@@ -83,6 +89,7 @@ export default async function VenueLayoutPage() {
           tables={tables ?? []}
           confirmedGuests={guests ?? []}
           items={items ?? []}
+          rooms={rooms ?? []}
         />
       </div>
     </main>
