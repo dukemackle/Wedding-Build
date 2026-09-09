@@ -5,6 +5,8 @@ const BRASS = "#c79a2e";
 const CARD = "#ffffff";
 const INK = "#1b1f1c";
 const PARCHMENT_DARK = "#e5e0d0";
+const ASPHALT = "#4a4a48";
+const LINE = "#f3f1ea";
 
 type Vec3 = [number, number, number];
 
@@ -295,5 +297,69 @@ export function GenericBlock({ position = [0, 0, 0] }: { position?: Vec3 }) {
       <boxGeometry args={[0.8, 0.8, 0.8]} />
       <meshStandardMaterial color={PARCHMENT_DARK} />
     </mesh>
+  );
+}
+
+export function House({
+  position = [0, 0, 0],
+  width = 3.6,
+  depth = 2.8,
+}: {
+  position?: Vec3;
+  width?: number;
+  depth?: number;
+}) {
+  const wallHeight = 1.2;
+  const roofHeight = 0.7;
+  return (
+    <group position={position}>
+      <mesh position={[0, wallHeight / 2, 0]} castShadow receiveShadow>
+        <boxGeometry args={[width, wallHeight, depth]} />
+        <meshStandardMaterial color={CARD} />
+      </mesh>
+      <mesh
+        position={[0, wallHeight + roofHeight / 2, 0]}
+        rotation={[0, Math.PI / 4, 0]}
+        castShadow
+      >
+        <coneGeometry args={[Math.max(width, depth) * 0.72, roofHeight, 4]} />
+        <meshStandardMaterial color={BRASS} />
+      </mesh>
+      <mesh position={[0, wallHeight * 0.35, depth / 2 + 0.01]}>
+        <boxGeometry args={[0.5, wallHeight * 0.7, 0.02]} />
+        <meshStandardMaterial color={FOREST} />
+      </mesh>
+    </group>
+  );
+}
+
+export function ParkingArea({
+  position = [0, 0, 0],
+  width = 5.5,
+  depth = 3.2,
+}: {
+  position?: Vec3;
+  width?: number;
+  depth?: number;
+}) {
+  const spaces = 4;
+  const spaceWidth = width / spaces;
+  return (
+    <group position={position}>
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.01, 0]} receiveShadow>
+        <planeGeometry args={[width, depth]} />
+        <meshStandardMaterial color={ASPHALT} />
+      </mesh>
+      {Array.from({ length: spaces - 1 }).map((_, i) => (
+        <mesh
+          key={i}
+          rotation={[-Math.PI / 2, 0, 0]}
+          position={[-width / 2 + spaceWidth * (i + 1), 0.02, 0]}
+        >
+          <planeGeometry args={[0.04, depth * 0.8]} />
+          <meshStandardMaterial color={LINE} />
+        </mesh>
+      ))}
+    </group>
   );
 }

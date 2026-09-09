@@ -55,6 +55,8 @@ const ITEM_TYPES: LayoutItemType[] = [
   "cake_table",
   "gift_table",
   "entrance",
+  "house",
+  "parking",
   "other",
 ];
 
@@ -68,6 +70,8 @@ const ITEM_TYPE_LABELS: Record<LayoutItemType, string> = {
   cake_table: "Cake table",
   gift_table: "Gift table",
   entrance: "Entrance",
+  house: "House",
+  parking: "Parking",
   other: "Other",
 };
 
@@ -81,6 +85,8 @@ export const ITEM_TYPE_DIMENSIONS: Record<LayoutItemType, { width: number; heigh
   cake_table: { width: 100, height: 80 },
   gift_table: { width: 100, height: 80 },
   entrance: { width: 90, height: 90 },
+  house: { width: 180, height: 140 },
+  parking: { width: 260, height: 160 },
   other: { width: 120, height: 90 },
 };
 
@@ -94,6 +100,8 @@ const ITEM_TYPE_COLORS: Record<LayoutItemType, string> = {
   cake_table: "border-forest/60 bg-forest/10",
   gift_table: "border-forest/60 bg-forest/10",
   entrance: "border-ink/30 bg-ink/5",
+  house: "border-brass/60 bg-brass/10",
+  parking: "border-ink/30 bg-ink/5",
   other: "border-hairline bg-card",
 };
 

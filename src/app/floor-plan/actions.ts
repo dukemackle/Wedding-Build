@@ -16,6 +16,8 @@ const VALID_ITEM_TYPES: LayoutItemType[] = [
   "cake_table",
   "gift_table",
   "entrance",
+  "house",
+  "parking",
   "other",
 ];
 

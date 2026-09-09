@@ -269,6 +269,8 @@ export type LayoutItemType =
   | "cake_table"
   | "gift_table"
   | "entrance"
+  | "house"
+  | "parking"
   | "other";
 
 export type VenueLayoutItem = {

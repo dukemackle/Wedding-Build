@@ -13,6 +13,8 @@ import {
   CakeTable,
   GiftTable,
   EntranceArch,
+  House,
+  ParkingArea,
   GenericBlock,
 } from "@/components/three/furniture";
 import { tableDimensions, ITEM_TYPE_DIMENSIONS } from "./venue-layout-manager";
@@ -121,6 +123,12 @@ function ItemScene({ item }: { item: VenueLayoutItem }) {
       break;
     case "entrance":
       content = <EntranceArch />;
+      break;
+    case "house":
+      content = <House width={worldWidth} depth={worldDepth} />;
+      break;
+    case "parking":
+      content = <ParkingArea width={worldWidth} depth={worldDepth} />;
       break;
     default:
       content = <GenericBlock />;
