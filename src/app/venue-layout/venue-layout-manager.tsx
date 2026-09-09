@@ -172,17 +172,6 @@ function TableFields({ table }: { table?: SeatingTable }) {
           ))}
         </select>
       </label>
-      <label className={labelClass}>
-        Rotation (degrees)
-        <input
-          type="number"
-          name="rotation"
-          min={0}
-          max={359}
-          defaultValue={table?.rotation ?? 0}
-          className={inputClass}
-        />
-      </label>
     </div>
   );
 }
@@ -254,17 +243,6 @@ function ItemFields({ item }: { item?: VenueLayoutItem }) {
           name="label"
           placeholder="e.g. Bar #2"
           defaultValue={item?.label ?? ""}
-          className={inputClass}
-        />
-      </label>
-      <label className={labelClass}>
-        Rotation (degrees)
-        <input
-          type="number"
-          name="rotation"
-          min={0}
-          max={359}
-          defaultValue={item?.rotation ?? 0}
           className={inputClass}
         />
       </label>
