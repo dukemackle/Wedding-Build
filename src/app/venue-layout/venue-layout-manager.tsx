@@ -374,11 +374,17 @@ function RotateHandle({
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
       onPointerUp={handlePointerUp}
-      style={{ position: "absolute", top: -28, left: "50%", transform: "translateX(-50%)" }}
+      style={{
+        position: "absolute",
+        top: -40,
+        left: "50%",
+        transform: "translateX(-50%)",
+        touchAction: "none",
+      }}
       aria-label="Rotate"
-      className="flex h-6 w-6 cursor-grab items-center justify-center rounded-full border-2 border-forest bg-parchment text-forest shadow-sm active:cursor-grabbing"
+      className="flex h-10 w-10 cursor-grab items-center justify-center rounded-full border-2 border-forest bg-parchment text-forest shadow-sm active:cursor-grabbing"
     >
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
         <path d="M21 12a9 9 0 1 1-3-6.7" />
         <path d="M21 3v6h-6" />
       </svg>
@@ -456,6 +462,7 @@ function TableNode({
         width,
         height,
         transform: `rotate(${rotation}deg)`,
+        touchAction: "none",
       }}
       className={`flex cursor-grab select-none flex-col items-center justify-center gap-1 border-2 bg-card p-2 text-center shadow-sm active:cursor-grabbing ${shapeClassName(table.shape)} ${isSelected ? "border-forest ring-2 ring-forest/30" : "border-hairline"}`}
     >
@@ -559,6 +566,7 @@ function ItemNode({
         width,
         height,
         transform: `rotate(${rotation}deg)`,
+        touchAction: "none",
       }}
       className={`flex cursor-grab select-none flex-col items-center justify-center rounded-lg border-2 p-2 text-center text-sm shadow-sm active:cursor-grabbing ${ITEM_TYPE_COLORS[item.item_type]} ${isSelected ? "ring-2 ring-forest/40" : ""}`}
     >
