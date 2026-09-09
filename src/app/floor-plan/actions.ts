@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { getOrCreateDefaultRoom } from "@/lib/venue-rooms";
 import type { LayoutItemType, Wedding } from "@/lib/supabase/types";
 
 const VALID_ITEM_TYPES: LayoutItemType[] = [
@@ -76,12 +77,16 @@ export async function addLayoutItem(formData: FormData): Promise<{ error?: strin
   const position_x = GRID_ORIGIN + (index % CANVAS_COLUMNS) * COLUMN_SPACING;
   const position_y = GRID_ORIGIN + Math.floor(index / CANVAS_COLUMNS) * ROW_SPACING;
 
+  const requestedRoomId = ((formData.get("room_id") as string) || "").trim() || null;
+  const room_id = requestedRoomId ?? (await getOrCreateDefaultRoom(supabase, wedding.id, user.id));
+
   const { error } = await supabase.from("venue_layout_items").insert({
     wedding_id: wedding.id,
     user_id: user.id,
     ...parsed.fields,
     position_x,
     position_y,
+    room_id,
   });
 
   if (error) {

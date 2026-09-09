@@ -2,7 +2,14 @@
 
 import { useRef, useState, useTransition } from "react";
 import dynamic from "next/dynamic";
-import type { Guest, LayoutItemType, SeatingTable, TableShape, VenueLayoutItem } from "@/lib/supabase/types";
+import type {
+  Guest,
+  LayoutItemType,
+  SeatingTable,
+  TableShape,
+  VenueLayoutItem,
+  VenueRoom,
+} from "@/lib/supabase/types";
 import {
   addSeatingTable,
   updateSeatingTable,
@@ -10,6 +17,7 @@ import {
   assignGuestTable,
   updateTablePosition,
 } from "@/app/seating/actions";
+import { addRoom, deleteRoom } from "./room-actions";
 import {
   addLayoutItem,
   updateLayoutItem,
@@ -160,7 +168,7 @@ function TableFields({ table }: { table?: SeatingTable }) {
   );
 }
 
-function AddTableForm({ onDone }: { onDone: () => void }) {
+function AddTableForm({ onDone, roomId }: { onDone: () => void; roomId?: string }) {
   const [error, setError] = useState<string | undefined>(undefined);
   const [isPending, startTransition] = useTransition();
   const formRef = useRef<HTMLFormElement>(null);
@@ -185,6 +193,7 @@ function AddTableForm({ onDone }: { onDone: () => void }) {
       className="mb-6 rounded-lg border border-hairline bg-parchment p-6"
     >
       <p className="mb-3 font-medium text-ink">Add a table</p>
+      {roomId && <input type="hidden" name="room_id" value={roomId} />}
       <TableFields />
       {error && <p className="mt-3 text-sm text-red-800">{error}</p>}
       <div className="mt-4 flex items-center gap-3">
@@ -233,7 +242,7 @@ function ItemFields({ item }: { item?: VenueLayoutItem }) {
   );
 }
 
-function AddItemForm({ onDone }: { onDone: () => void }) {
+function AddItemForm({ onDone, roomId }: { onDone: () => void; roomId?: string }) {
   const [error, setError] = useState<string | undefined>(undefined);
   const [isPending, startTransition] = useTransition();
   const formRef = useRef<HTMLFormElement>(null);
@@ -258,6 +267,7 @@ function AddItemForm({ onDone }: { onDone: () => void }) {
       className="mb-6 rounded-lg border border-hairline bg-parchment p-6"
     >
       <p className="mb-3 font-medium text-ink">Add a furniture / layout item</p>
+      {roomId && <input type="hidden" name="room_id" value={roomId} />}
       <ItemFields />
       {error && <p className="mt-3 text-sm text-red-800">{error}</p>}
       <div className="mt-4 flex items-center gap-3">
@@ -719,20 +729,158 @@ function UnassignedGuestRow({
   );
 }
 
+function AddRoomForm({ onDone }: { onDone: () => void }) {
+  const [error, setError] = useState<string | undefined>(undefined);
+  const [isPending, startTransition] = useTransition();
+  const formRef = useRef<HTMLFormElement>(null);
+
+  function handleSubmit(formData: FormData) {
+    startTransition(async () => {
+      const result = await addRoom(formData);
+      if (result?.error) {
+        setError(result.error);
+      } else {
+        setError(undefined);
+        formRef.current?.reset();
+        onDone();
+      }
+    });
+  }
+
+  return (
+    <form ref={formRef} action={handleSubmit} className="flex items-center gap-2">
+      <input
+        name="name"
+        required
+        placeholder="e.g. Reception Tent"
+        className="rounded-md border border-hairline bg-parchment px-3 py-1.5 text-sm text-ink outline-none focus:border-forest"
+      />
+      <button
+        type="submit"
+        disabled={isPending}
+        className="rounded-md bg-forest px-3 py-1.5 text-sm text-parchment transition-colors hover:bg-forest/90 disabled:opacity-60"
+      >
+        {isPending ? "Adding..." : "Add"}
+      </button>
+      {error && <p className="text-sm text-red-800">{error}</p>}
+    </form>
+  );
+}
+
+function RoomTabs({
+  rooms,
+  selectedRoomId,
+  onSelect,
+}: {
+  rooms: VenueRoom[];
+  selectedRoomId: string | null;
+  onSelect: (id: string) => void;
+}) {
+  const [adding, setAdding] = useState(false);
+  const [isPending, startTransition] = useTransition();
+
+  function handleDelete(room: VenueRoom) {
+    if (!confirm(`Delete "${room.name}"? Its tables and items won't show under any room.`)) return;
+    const formData = new FormData();
+    formData.set("id", room.id);
+    startTransition(async () => {
+      await deleteRoom(formData);
+    });
+  }
+
+  return (
+    <div className="mb-4 flex flex-wrap items-center gap-2">
+      {rooms.map((room) => (
+        <div key={room.id} className="flex items-center">
+          <button
+            onClick={() => onSelect(room.id)}
+            className={`rounded-l-full border px-3 py-1.5 text-sm transition-colors ${
+              room.id === selectedRoomId
+                ? "border-forest bg-forest text-parchment"
+                : "border-hairline bg-parchment text-ink hover:border-forest"
+            }`}
+          >
+            {room.name}
+          </button>
+          <button
+            onClick={() => handleDelete(room)}
+            disabled={isPending}
+            aria-label={`Delete ${room.name}`}
+            className={`rounded-r-full border border-l-0 px-2 py-1.5 text-xs transition-colors ${
+              room.id === selectedRoomId
+                ? "border-forest bg-forest text-parchment/70 hover:text-parchment"
+                : "border-hairline bg-parchment text-ink/40 hover:text-red-700"
+            }`}
+          >
+            &times;
+          </button>
+        </div>
+      ))}
+      {adding ? (
+        <AddRoomForm onDone={() => setAdding(false)} />
+      ) : (
+        <button
+          onClick={() => setAdding(true)}
+          className="rounded-full border border-dashed border-hairline px-3 py-1.5 text-sm text-ink/60 transition-colors hover:border-forest hover:text-forest"
+        >
+          + New room
+        </button>
+      )}
+    </div>
+  );
+}
+
+const MODES = [
+  { id: "seating", label: "Seating" },
+  { id: "whole-venue", label: "Whole Venue" },
+  { id: "rooms", label: "Rooms" },
+] as const;
+
+type Mode = (typeof MODES)[number]["id"];
+
+function ModeSwitcher({ mode, onChange }: { mode: Mode; onChange: (mode: Mode) => void }) {
+  return (
+    <div className="inline-flex rounded-full border border-hairline bg-parchment p-1">
+      {MODES.map((m) => (
+        <button
+          key={m.id}
+          onClick={() => onChange(m.id)}
+          className={`rounded-full px-3 py-1 font-mono-numbers text-sm transition-colors ${
+            mode === m.id ? "bg-forest text-parchment" : "text-ink/60 hover:text-forest"
+          }`}
+        >
+          {m.label}
+        </button>
+      ))}
+    </div>
+  );
+}
+
 export function VenueLayoutManager({
   tables,
   confirmedGuests,
   items,
+  rooms,
 }: {
   tables: SeatingTable[];
   confirmedGuests: Guest[];
   items: VenueLayoutItem[];
+  rooms: VenueRoom[];
 }) {
+  const [mode, setMode] = useState<Mode>("whole-venue");
+  const [selectedRoomId, setSelectedRoomId] = useState<string | null>(rooms[0]?.id ?? null);
   const [addFormType, setAddFormType] = useState<"table" | "item" | null>(null);
   const [selectedTableId, setSelectedTableId] = useState<string | null>(null);
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
   const [view3D, setView3D] = useState(false);
   const [, startTransition] = useTransition();
+
+  const activeRoomId = selectedRoomId ?? rooms[0]?.id ?? null;
+
+  const visibleTables =
+    mode === "rooms" ? tables.filter((t) => t.room_id === activeRoomId) : tables;
+  const visibleItems =
+    mode === "seating" ? [] : mode === "rooms" ? items.filter((i) => i.room_id === activeRoomId) : items;
 
   const guestsByTable = new Map<string, Guest[]>();
   const unassigned: Guest[] = [];
@@ -781,7 +929,9 @@ export function VenueLayoutManager({
     });
   }
 
-  const hasContent = tables.length > 0 || items.length > 0;
+  const hasContent = visibleTables.length > 0 || visibleItems.length > 0;
+  const canAdd = mode !== "rooms" || activeRoomId != null;
+  const formRoomId = mode === "rooms" ? (activeRoomId ?? undefined) : undefined;
 
   return (
     <div className="w-full rounded-lg border border-hairline bg-card p-5 sm:p-8 shadow-sm">
@@ -789,13 +939,18 @@ export function VenueLayoutManager({
         <div>
           <h2 className="font-display text-2xl font-semibold text-forest">Venue layout</h2>
           <p className="mt-1 text-sm text-ink/70">
-            {confirmedGuests.length === 0
-              ? "No confirmed guests yet — set up tables and layout now, assign guests once they RSVP."
-              : `${unassigned.length} of ${confirmedGuests.length} confirmed guests still unassigned.`}{" "}
+            {mode === "seating"
+              ? confirmedGuests.length === 0
+                ? "No confirmed guests yet — set up tables now, assign guests once they RSVP."
+                : `${unassigned.length} of ${confirmedGuests.length} confirmed guests still unassigned.`
+              : mode === "rooms"
+                ? "Plan each space separately — switch rooms below."
+                : "Everything in one shared space."}{" "}
             Drag anything to move it; click a table, then click a guest below to seat them.
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-3">
+          <ModeSwitcher mode={mode} onChange={setMode} />
           {hasContent && (
             <button
               onClick={() => setView3D((v) => !v)}
@@ -806,34 +961,50 @@ export function VenueLayoutManager({
           )}
           <button
             onClick={() => setAddFormType((v) => (v === "table" ? null : "table"))}
-            className="rounded-full bg-forest px-4 py-1.5 font-mono-numbers text-sm text-parchment transition-colors hover:bg-forest/90"
+            disabled={!canAdd}
+            className="rounded-full bg-forest px-4 py-1.5 font-mono-numbers text-sm text-parchment transition-colors hover:bg-forest/90 disabled:opacity-40"
           >
             {addFormType === "table" ? "Close" : "+ Add table"}
           </button>
-          <button
-            onClick={() => setAddFormType((v) => (v === "item" ? null : "item"))}
-            className="rounded-full bg-forest px-4 py-1.5 font-mono-numbers text-sm text-parchment transition-colors hover:bg-forest/90"
-          >
-            {addFormType === "item" ? "Close" : "+ Add item"}
-          </button>
+          {mode !== "seating" && (
+            <button
+              onClick={() => setAddFormType((v) => (v === "item" ? null : "item"))}
+              disabled={!canAdd}
+              className="rounded-full bg-forest px-4 py-1.5 font-mono-numbers text-sm text-parchment transition-colors hover:bg-forest/90 disabled:opacity-40"
+            >
+              {addFormType === "item" ? "Close" : "+ Add item"}
+            </button>
+          )}
         </div>
       </div>
 
-      {addFormType === "table" && <AddTableForm onDone={() => setAddFormType(null)} />}
-      {addFormType === "item" && <AddItemForm onDone={() => setAddFormType(null)} />}
+      {mode === "rooms" && (
+        <RoomTabs rooms={rooms} selectedRoomId={activeRoomId} onSelect={setSelectedRoomId} />
+      )}
 
-      {!hasContent ? (
+      {addFormType === "table" && (
+        <AddTableForm onDone={() => setAddFormType(null)} roomId={formRoomId} />
+      )}
+      {addFormType === "item" && (
+        <AddItemForm onDone={() => setAddFormType(null)} roomId={formRoomId} />
+      )}
+
+      {mode === "rooms" && !activeRoomId ? (
         <p className="py-4 text-center text-sm text-ink/50">
-          Nothing here yet — add a table or a layout item above.
+          Create a room above to start adding tables and furniture to it.
+        </p>
+      ) : !hasContent ? (
+        <p className="py-4 text-center text-sm text-ink/50">
+          Nothing here yet — add a table{mode !== "seating" ? " or a layout item" : ""} above.
         </p>
       ) : (
         <>
           {view3D ? (
-            <VenueLayout3DView tables={tables} items={items} />
+            <VenueLayout3DView tables={visibleTables} items={visibleItems} />
           ) : (
             <VenueCanvas
-              tables={tables}
-              items={items}
+              tables={visibleTables}
+              items={visibleItems}
               guestsByTable={guestsByTable}
               selectedTableId={selectedTableId}
               selectedItemId={selectedItemId}
@@ -845,11 +1016,11 @@ export function VenueLayoutManager({
             />
           )}
 
-          {tables.length > 0 && (
+          {visibleTables.length > 0 && (
             <div className="mt-6">
               <h3 className="font-display text-lg font-semibold text-forest">Tables</h3>
               <div className="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-2">
-                {tables.map((table) => (
+                {visibleTables.map((table) => (
                   <TableCard
                     key={table.id}
                     table={table}
@@ -860,11 +1031,11 @@ export function VenueLayoutManager({
             </div>
           )}
 
-          {items.length > 0 && (
+          {visibleItems.length > 0 && (
             <div className="mt-8">
               <h3 className="font-display text-lg font-semibold text-forest">Layout items</h3>
               <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
-                {items.map((item) => (
+                {visibleItems.map((item) => (
                   <ItemCard key={item.id} item={item} />
                 ))}
               </div>
