@@ -57,12 +57,22 @@ export default async function FloorPlanPage() {
     <main className="flex flex-1 flex-col items-center px-6 py-16">
       <AppNav email={user.email ?? ""} maxWidthClassName="max-w-5xl" />
       <div className="w-full max-w-5xl">
-        <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
-          Floor plan
-        </p>
-        <h1 className="mt-2 mb-6 font-display text-3xl font-semibold text-forest">
-          Venue floor plan
-        </h1>
+        <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
+              Floor plan
+            </p>
+            <h1 className="mt-2 font-display text-3xl font-semibold text-forest">
+              Venue floor plan
+            </h1>
+          </div>
+          <Link
+            href="/seating"
+            className="rounded-full border border-hairline bg-parchment px-4 py-1.5 font-mono-numbers text-sm text-forest transition-colors hover:border-forest"
+          >
+            Seating Chart
+          </Link>
+        </div>
 
         <FloorPlanManager items={items ?? []} />
       </div>
