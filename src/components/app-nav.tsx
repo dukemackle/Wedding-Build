@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { signOut } from "@/lib/supabase/actions";
 import { WeddingAssistantWidget } from "@/components/wedding-assistant-widget";
 import { NavLinks } from "@/components/nav-links";
@@ -20,9 +19,12 @@ export function AppNav({
       <NavLinks />
       <div className="flex items-center justify-between gap-4 sm:justify-end">
         {isAdmin && (
-          <Link href="/admin" className="font-mono-numbers text-sm text-brass hover:underline">
+          <a
+            href="https://admin.wrenwed.com"
+            className="font-mono-numbers text-sm text-brass hover:underline"
+          >
             Admin
-          </Link>
+          </a>
         )}
         <span className="truncate font-mono-numbers text-sm text-ink/60">{email}</span>
         <form action={signOut}>

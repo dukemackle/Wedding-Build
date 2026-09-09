@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { FadeInSection } from "@/components/fade-in-section";
 import { AnimatedCounter } from "@/components/animated-counter";
@@ -48,8 +49,15 @@ export default function Home() {
         <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
           Est. 2026
         </p>
-        <h1 className="mt-3 font-display text-6xl font-semibold text-forest sm:text-7xl">
-          Wren
+        <h1 className="mt-3">
+          <Image
+            src="/logo/wren-wordmark.png"
+            alt="Wren Wedding Planning"
+            width={1450}
+            height={882}
+            priority
+            className="h-auto w-64 sm:w-80"
+          />
         </h1>
         <p className="mt-4 font-display text-2xl text-ink sm:text-3xl">
           Build your dream wedding.
