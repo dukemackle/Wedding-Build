@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState, useTransition } from "react";
+import dynamic from "next/dynamic";
 import type { Guest, SeatingTable, TableShape } from "@/lib/supabase/types";
 import {
   addSeatingTable,
@@ -9,6 +10,15 @@ import {
   assignGuestTable,
   updateTablePosition,
 } from "./actions";
+
+const Seating3DView = dynamic(() => import("./seating-3d-view"), {
+  ssr: false,
+  loading: () => (
+    <div className="flex h-[520px] w-full items-center justify-center rounded-lg border border-hairline bg-parchment text-sm text-ink/50">
+      Loading 3D view...
+    </div>
+  ),
+});
 
 const inputClass =
   "rounded-md border border-hairline bg-parchment px-3 py-2 text-ink outline-none focus:border-forest";
@@ -32,7 +42,7 @@ function clamp(value: number, min: number, max: number) {
 // The table's on-canvas footprint is derived from its shape + capacity
 // (no separate size field to keep in sync) -- more seats draws a bigger
 // shape, a rectangle grows mostly in width like a real banquet table.
-function tableDimensions(shape: TableShape, capacity: number | null) {
+export function tableDimensions(shape: TableShape, capacity: number | null) {
   const seats = capacity ?? 8;
   if (shape === "square") {
     const side = clamp(110 + seats * 8, 110, 240);
@@ -428,6 +438,7 @@ export function SeatingManager({
 }) {
   const [showAddForm, setShowAddForm] = useState(false);
   const [selectedTableId, setSelectedTableId] = useState<string | null>(null);
+  const [view3D, setView3D] = useState(false);
   const [, startTransition] = useTransition();
 
   const guestsByTable = new Map<string, Guest[]>();
@@ -479,12 +490,22 @@ export function SeatingManager({
             Drag a table to move it; click one, then click a guest below to seat them.
           </p>
         </div>
-        <button
-          onClick={() => setShowAddForm((v) => !v)}
-          className="rounded-full bg-forest px-4 py-1.5 font-mono-numbers text-sm text-parchment transition-colors hover:bg-forest/90"
-        >
-          {showAddForm ? "Close" : "+ Add table"}
-        </button>
+        <div className="flex items-center gap-3">
+          {tables.length > 0 && (
+            <button
+              onClick={() => setView3D((v) => !v)}
+              className="rounded-full border border-hairline bg-parchment px-4 py-1.5 font-mono-numbers text-sm text-forest transition-colors hover:border-forest"
+            >
+              {view3D ? "Back to editor" : "View in 3D"}
+            </button>
+          )}
+          <button
+            onClick={() => setShowAddForm((v) => !v)}
+            className="rounded-full bg-forest px-4 py-1.5 font-mono-numbers text-sm text-parchment transition-colors hover:bg-forest/90"
+          >
+            {showAddForm ? "Close" : "+ Add table"}
+          </button>
+        </div>
       </div>
 
       {showAddForm && <AddTableForm onDone={() => setShowAddForm(false)} />}
@@ -495,14 +516,18 @@ export function SeatingManager({
         </p>
       ) : (
         <>
-          <SeatingCanvas
-            tables={tables}
-            guestsByTable={guestsByTable}
-            selectedTableId={selectedTableId}
-            onSelect={setSelectedTableId}
-            onDragEnd={handleDragEnd}
-            onUnassign={handleUnassign}
-          />
+          {view3D ? (
+            <Seating3DView tables={tables} />
+          ) : (
+            <SeatingCanvas
+              tables={tables}
+              guestsByTable={guestsByTable}
+              selectedTableId={selectedTableId}
+              onSelect={setSelectedTableId}
+              onDragEnd={handleDragEnd}
+              onUnassign={handleUnassign}
+            />
+          )}
 
           <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
             {tables.map((table) => (

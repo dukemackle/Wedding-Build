@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState, useTransition } from "react";
+import dynamic from "next/dynamic";
 import type { LayoutItemType, VenueLayoutItem } from "@/lib/supabase/types";
 import {
   addLayoutItem,
@@ -8,6 +9,15 @@ import {
   deleteLayoutItem,
   updateLayoutItemPosition,
 } from "./actions";
+
+const FloorPlan3DView = dynamic(() => import("./floor-plan-3d-view"), {
+  ssr: false,
+  loading: () => (
+    <div className="flex h-[520px] w-full items-center justify-center rounded-lg border border-hairline bg-parchment text-sm text-ink/50">
+      Loading 3D view...
+    </div>
+  ),
+});
 
 const inputClass =
   "rounded-md border border-hairline bg-parchment px-3 py-2 text-ink outline-none focus:border-forest";
@@ -39,7 +49,7 @@ const ITEM_TYPE_LABELS: Record<LayoutItemType, string> = {
   other: "Other",
 };
 
-const ITEM_TYPE_DIMENSIONS: Record<LayoutItemType, { width: number; height: number }> = {
+export const ITEM_TYPE_DIMENSIONS: Record<LayoutItemType, { width: number; height: number }> = {
   chairs: { width: 220, height: 60 },
   stage: { width: 240, height: 100 },
   dance_floor: { width: 200, height: 200 },
@@ -324,6 +334,7 @@ function ItemCard({ item }: { item: VenueLayoutItem }) {
 export function FloorPlanManager({ items }: { items: VenueLayoutItem[] }) {
   const [showAddForm, setShowAddForm] = useState(false);
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
+  const [view3D, setView3D] = useState(false);
   const [, startTransition] = useTransition();
 
   function handleDragEnd(itemId: string, x: number, y: number) {
@@ -346,12 +357,22 @@ export function FloorPlanManager({ items }: { items: VenueLayoutItem[] }) {
             Drag an item to move it; click one to edit or delete it below.
           </p>
         </div>
-        <button
-          onClick={() => setShowAddForm((v) => !v)}
-          className="rounded-full bg-forest px-4 py-1.5 font-mono-numbers text-sm text-parchment transition-colors hover:bg-forest/90"
-        >
-          {showAddForm ? "Close" : "+ Add item"}
-        </button>
+        <div className="flex items-center gap-3">
+          {items.length > 0 && (
+            <button
+              onClick={() => setView3D((v) => !v)}
+              className="rounded-full border border-hairline bg-parchment px-4 py-1.5 font-mono-numbers text-sm text-forest transition-colors hover:border-forest"
+            >
+              {view3D ? "Back to editor" : "View in 3D"}
+            </button>
+          )}
+          <button
+            onClick={() => setShowAddForm((v) => !v)}
+            className="rounded-full bg-forest px-4 py-1.5 font-mono-numbers text-sm text-parchment transition-colors hover:bg-forest/90"
+          >
+            {showAddForm ? "Close" : "+ Add item"}
+          </button>
+        </div>
       </div>
 
       {showAddForm && <AddItemForm onDone={() => setShowAddForm(false)} />}
@@ -362,12 +383,16 @@ export function FloorPlanManager({ items }: { items: VenueLayoutItem[] }) {
         </p>
       ) : (
         <>
-          <FloorPlanCanvas
-            items={items}
-            selectedItemId={selectedItemId}
-            onSelect={setSelectedItemId}
-            onDragEnd={handleDragEnd}
-          />
+          {view3D ? (
+            <FloorPlan3DView items={items} />
+          ) : (
+            <FloorPlanCanvas
+              items={items}
+              selectedItemId={selectedItemId}
+              onSelect={setSelectedItemId}
+              onDragEnd={handleDragEnd}
+            />
+          )}
 
           <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
             {items.map((item) => (
