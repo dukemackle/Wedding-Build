@@ -10,8 +10,7 @@ const groups: { label: string; links: { href: string; label: string }[] }[] = [
     links: [
       { href: "/checklist", label: "Checklist" },
       { href: "/itinerary", label: "Itinerary" },
-      { href: "/seating", label: "Seating" },
-      { href: "/floor-plan", label: "Floor Plan" },
+      { href: "/venue-layout", label: "Venue Layout" },
     ],
   },
   {
