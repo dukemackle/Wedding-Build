@@ -88,7 +88,7 @@ export async function addSeatingTable(formData: FormData): Promise<{ error?: str
     return { error: error.message };
   }
 
-  revalidatePath("/seating");
+  revalidatePath("/venue-layout");
   return {};
 }
 
@@ -117,7 +117,7 @@ export async function updateTablePosition(formData: FormData): Promise<{ error?:
     return { error: error.message };
   }
 
-  revalidatePath("/seating");
+  revalidatePath("/venue-layout");
   return {};
 }
 
@@ -144,7 +144,7 @@ export async function updateSeatingTable(formData: FormData): Promise<{ error?: 
     return { error: error.message };
   }
 
-  revalidatePath("/seating");
+  revalidatePath("/venue-layout");
   return {};
 }
 
@@ -167,7 +167,7 @@ export async function deleteSeatingTable(formData: FormData): Promise<{ error?: 
     return { error: error.message };
   }
 
-  revalidatePath("/seating");
+  revalidatePath("/venue-layout");
   return {};
 }
 
@@ -191,6 +191,6 @@ export async function assignGuestTable(formData: FormData): Promise<{ error?: st
     return { error: error.message };
   }
 
-  revalidatePath("/seating");
+  revalidatePath("/venue-layout");
   return {};
 }

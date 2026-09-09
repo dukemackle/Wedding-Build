@@ -88,7 +88,7 @@ export async function addLayoutItem(formData: FormData): Promise<{ error?: strin
     return { error: error.message };
   }
 
-  revalidatePath("/floor-plan");
+  revalidatePath("/venue-layout");
   return {};
 }
 
@@ -117,7 +117,7 @@ export async function updateLayoutItemPosition(formData: FormData): Promise<{ er
     return { error: error.message };
   }
 
-  revalidatePath("/floor-plan");
+  revalidatePath("/venue-layout");
   return {};
 }
 
@@ -144,7 +144,7 @@ export async function updateLayoutItem(formData: FormData): Promise<{ error?: st
     return { error: error.message };
   }
 
-  revalidatePath("/floor-plan");
+  revalidatePath("/venue-layout");
   return {};
 }
 
@@ -167,6 +167,6 @@ export async function deleteLayoutItem(formData: FormData): Promise<{ error?: st
     return { error: error.message };
   }
 
-  revalidatePath("/floor-plan");
+  revalidatePath("/venue-layout");
   return {};
 }
