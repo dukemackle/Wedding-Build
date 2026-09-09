@@ -30,9 +30,12 @@ export default async function AdminLayout({ children }: { children: React.ReactN
             </Link>
           ))}
         </nav>
-        <Link href="/dashboard" className="font-mono-numbers text-sm text-brass hover:underline">
+        <a
+          href="https://wrenwed.com/dashboard"
+          className="font-mono-numbers text-sm text-brass hover:underline"
+        >
           &larr; Back to app
-        </Link>
+        </a>
       </div>
       <div className="w-full max-w-4xl">{children}</div>
     </main>
