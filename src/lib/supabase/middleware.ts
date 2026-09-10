@@ -1,6 +1,12 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
+// Kept in sync with proxy.ts's ADMIN_HOST. /dashboard isn't a real page on
+// this host and a signed-in-but-wrong-account visitor must be able to stay
+// on /login to see why -- bouncing them to /dashboard here would send them
+// straight back into the admin routing's redirect-to-/login, forever.
+const ADMIN_HOST = "admin.wrenwed.com";
+
 export async function updateSession(request: NextRequest) {
   let response = NextResponse.next({ request });
 
@@ -40,7 +46,11 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  if (user && (request.nextUrl.pathname === "/login" || request.nextUrl.pathname === "/signup")) {
+  if (
+    request.nextUrl.hostname !== ADMIN_HOST &&
+    user &&
+    (request.nextUrl.pathname === "/login" || request.nextUrl.pathname === "/signup")
+  ) {
     const url = request.nextUrl.clone();
     url.pathname = "/dashboard";
     return NextResponse.redirect(url);
