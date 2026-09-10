@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__github__pull_request_read",
+      "Bash(git fetch origin main*)",
+      "Bash(npm run lint)",
+      "Bash(npm run build)",
+      "Bash(npm run dev)",
+      "Bash(curl -s -o *)",
+      "Bash(npm run cf:build)",
+      "Bash(curl -s http*)",
+      "mcp__github__list_pull_requests",
+      "mcp__github__get_label"
+    ]
+  }
+}

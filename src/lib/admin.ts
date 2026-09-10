@@ -34,13 +34,6 @@ export async function requireAdmin() {
 
   const adminEmail = process.env.ADMIN_EMAIL?.trim().toLowerCase();
   if (!(user.email && adminEmail && user.email.toLowerCase() === adminEmail)) {
-    // TEMPORARY: show exactly what's being compared to debug a mismatch
-    // that shouldn't be happening. Remove once resolved.
-    redirect(
-      "/login?error=" +
-        encodeURIComponent(
-          `DEBUG signed in as [${user.email ?? "none"}] vs ADMIN_EMAIL [${adminEmail ?? "unset"}]`,
-        ),
-    );
+    redirect("/login?error=" + encodeURIComponent("This account doesn't have admin access."));
   }
 }
