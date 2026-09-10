@@ -1,11 +1,41 @@
+import { type EmailOtpType } from "@supabase/supabase-js";
+import { redirect } from "next/navigation";
+import { createClient } from "@/lib/supabase/server";
 import { updatePassword } from "./actions";
 
 export default async function ResetPasswordPage({
   searchParams,
 }: {
-  searchParams: Promise<{ error?: string }>;
+  searchParams: Promise<{ error?: string; token_hash?: string; type?: string; code?: string }>;
 }) {
-  const { error } = await searchParams;
+  const { error, token_hash, type, code } = await searchParams;
+
+  // The reset-password email's link isn't editable in this Supabase project
+  // without custom SMTP, so it uses Supabase's own default confirmation
+  // link -- which can land here as either a token_hash (email OTP) or a
+  // code (PKCE), depending on project config. Handle both, then redirect
+  // to the bare /reset-password so the form below renders with a plain
+  // session instead of leftover verification params in the URL.
+  if (token_hash && type) {
+    const supabase = await createClient();
+    const { error: verifyError } = await supabase.auth.verifyOtp({
+      type: type as EmailOtpType,
+      token_hash,
+    });
+    if (verifyError) {
+      redirect("/login?error=" + encodeURIComponent("That reset link is invalid or has expired."));
+    }
+    redirect("/reset-password");
+  }
+
+  if (code) {
+    const supabase = await createClient();
+    const { error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
+    if (exchangeError) {
+      redirect("/login?error=" + encodeURIComponent("That reset link is invalid or has expired."));
+    }
+    redirect("/reset-password");
+  }
 
   return (
     <main className="flex flex-1 items-center justify-center px-6 py-24">
