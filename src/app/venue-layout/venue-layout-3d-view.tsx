@@ -19,7 +19,7 @@ import {
 } from "@/components/three/furniture";
 import { tableDimensions, ITEM_TYPE_DIMENSIONS } from "./venue-layout-manager";
 
-const CANVAS_WIDTH = 900;
+const CANVAS_WIDTH = 960;
 const CANVAS_HEIGHT = 520;
 const SCALE = 45;
 

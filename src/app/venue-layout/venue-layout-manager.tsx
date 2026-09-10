@@ -298,7 +298,7 @@ function AddItemForm({ onDone, roomId }: { onDone: () => void; roomId?: string }
   );
 }
 
-const CANVAS_WIDTH = 900;
+const CANVAS_WIDTH = 960;
 const CANVAS_HEIGHT = 520;
 
 function normalizeRotation(value: number) {

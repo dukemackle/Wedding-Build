@@ -11,8 +11,8 @@ const VALID_SHAPES: TableShape[] = ["round", "square", "rectangle"];
 // New tables cascade into a grid so they don't stack on top of each
 // other before the couple drags them into place.
 const CANVAS_COLUMNS = 3;
-const COLUMN_SPACING = 280;
-const ROW_SPACING = 220;
+const COLUMN_SPACING = 300;
+const ROW_SPACING = 240;
 const GRID_ORIGIN = 60;
 
 async function requireOwnWedding() {
