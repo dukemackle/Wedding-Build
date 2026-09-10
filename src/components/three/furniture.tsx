@@ -25,16 +25,16 @@ export function Chair({
   ];
   return (
     <group position={position} rotation={rotation}>
-      <mesh position={[0, 0.45, 0]} castShadow>
+      <mesh position={[0, 0.45, 0]}>
         <boxGeometry args={[0.42, 0.07, 0.42]} />
         <meshStandardMaterial color={FOREST} />
       </mesh>
-      <mesh position={[0, 0.74, -0.18]} castShadow>
+      <mesh position={[0, 0.74, -0.18]}>
         <boxGeometry args={[0.42, 0.55, 0.07]} />
         <meshStandardMaterial color={FOREST} />
       </mesh>
       {legPositions.map(([x, z], i) => (
-        <mesh key={i} position={[x, 0.22, z]} castShadow>
+        <mesh key={i} position={[x, 0.22, z]}>
           <cylinderGeometry args={[0.025, 0.025, 0.44, 8]} />
           <meshStandardMaterial color={BRASS} />
         </mesh>
@@ -52,7 +52,7 @@ export function RoundTable({
 }) {
   return (
     <group position={position}>
-      <mesh position={[0, 0.75, 0]} castShadow receiveShadow>
+      <mesh position={[0, 0.75, 0]}>
         <cylinderGeometry args={[radius, radius, 0.06, 32]} />
         <meshStandardMaterial color={CARD} />
       </mesh>
@@ -81,7 +81,7 @@ export function RectTable({
   const legInsetZ = depth / 2 - 0.08;
   return (
     <group position={position}>
-      <mesh position={[0, 0.75, 0]} castShadow receiveShadow>
+      <mesh position={[0, 0.75, 0]}>
         <boxGeometry args={[width, 0.06, depth]} />
         <meshStandardMaterial color={CARD} />
       </mesh>
@@ -111,7 +111,7 @@ export function Stage({
 }) {
   return (
     <group position={position}>
-      <mesh position={[0, 0.2, 0]} castShadow receiveShadow>
+      <mesh position={[0, 0.2, 0]}>
         <boxGeometry args={[width, 0.4, depth]} />
         <meshStandardMaterial color={PARCHMENT_DARK} />
       </mesh>
@@ -143,9 +143,12 @@ export function DanceFloor({
       {cells.map(({ i, j, dark }, idx) => (
         <mesh
           key={idx}
-          position={[(i - (tiles - 1) / 2) * tileSize, 0.015, (j - (tiles - 1) / 2) * tileSize]}
+          position={[
+            (i - (tiles - 1) / 2) * tileSize,
+            0.015,
+            (j - (tiles - 1) / 2) * tileSize,
+          ]}
           rotation={[-Math.PI / 2, 0, 0]}
-          receiveShadow
         >
           <planeGeometry args={[tileSize * 0.96, tileSize * 0.96]} />
           <meshStandardMaterial color={dark ? INK : CARD} />
@@ -164,7 +167,7 @@ export function Bar({
 }) {
   return (
     <group position={position}>
-      <mesh position={[0, 0.5, -0.3]} castShadow receiveShadow>
+      <mesh position={[0, 0.5, -0.3]}>
         <boxGeometry args={[width, 1, 0.4]} />
         <meshStandardMaterial color={FOREST} />
       </mesh>
@@ -172,7 +175,7 @@ export function Bar({
         <boxGeometry args={[width + 0.06, 0.05, 0.46]} />
         <meshStandardMaterial color={BRASS} />
       </mesh>
-      <mesh position={[0, 0.9, -0.75]} castShadow>
+      <mesh position={[0, 0.9, -0.75]}>
         <boxGeometry args={[width * 0.9, 0.8, 0.15]} />
         <meshStandardMaterial color={PARCHMENT_DARK} />
       </mesh>
@@ -184,7 +187,7 @@ export function Bar({
       ))}
       {[-0.6, 0, 0.6].map((x, i) => (
         <group key={i} position={[x, 0, 0.5]}>
-          <mesh position={[0, 0.5, 0]} castShadow>
+          <mesh position={[0, 0.5, 0]}>
             <cylinderGeometry args={[0.15, 0.15, 0.06, 16]} />
             <meshStandardMaterial color={FOREST} />
           </mesh>
@@ -201,15 +204,15 @@ export function Bar({
 export function DjBooth({ position = [0, 0, 0] }: { position?: Vec3 }) {
   return (
     <group position={position}>
-      <mesh position={[0, 0.5, 0]} castShadow receiveShadow>
+      <mesh position={[0, 0.5, 0]}>
         <boxGeometry args={[1.2, 1, 0.6]} />
         <meshStandardMaterial color={INK} />
       </mesh>
-      <mesh position={[-0.45, 1.1, -0.15]} castShadow>
+      <mesh position={[-0.45, 1.1, -0.15]}>
         <boxGeometry args={[0.3, 0.4, 0.3]} />
         <meshStandardMaterial color={INK} />
       </mesh>
-      <mesh position={[0.45, 1.1, -0.15]} castShadow>
+      <mesh position={[0.45, 1.1, -0.15]}>
         <boxGeometry args={[0.3, 0.4, 0.3]} />
         <meshStandardMaterial color={INK} />
       </mesh>
@@ -225,15 +228,15 @@ export function CakeTable({ position = [0, 0, 0] }: { position?: Vec3 }) {
   return (
     <group position={position}>
       <RoundTable radius={0.55} />
-      <mesh position={[0, 0.86, 0]} castShadow>
+      <mesh position={[0, 0.86, 0]}>
         <cylinderGeometry args={[0.32, 0.34, 0.18, 24]} />
         <meshStandardMaterial color={CARD} />
       </mesh>
-      <mesh position={[0, 1.02, 0]} castShadow>
+      <mesh position={[0, 1.02, 0]}>
         <cylinderGeometry args={[0.22, 0.24, 0.16, 24]} />
         <meshStandardMaterial color={CARD} />
       </mesh>
-      <mesh position={[0, 1.15, 0]} castShadow>
+      <mesh position={[0, 1.15, 0]}>
         <cylinderGeometry args={[0.12, 0.14, 0.14, 24]} />
         <meshStandardMaterial color={CARD} />
       </mesh>
@@ -256,7 +259,7 @@ export function GiftTable({ position = [0, 0, 0] }: { position?: Vec3 }) {
       <RectTable width={1.3} depth={0.7} />
       {gifts.map((g, i) => (
         <group key={i} position={[g.pos[0], 0.78 + g.size / 2, g.pos[2]]}>
-          <mesh castShadow>
+          <mesh>
             <boxGeometry args={[g.size, g.size, g.size]} />
             <meshStandardMaterial color={g.color} />
           </mesh>
@@ -278,12 +281,12 @@ export function EntranceArch({ position = [0, 0, 0] }: { position?: Vec3 }) {
   return (
     <group position={position}>
       {[-0.6, 0.6].map((x, i) => (
-        <mesh key={i} position={[x, 1, 0]} castShadow>
+        <mesh key={i} position={[x, 1, 0]}>
           <boxGeometry args={[0.12, 2, 0.12]} />
           <meshStandardMaterial color={BRASS} />
         </mesh>
       ))}
-      <mesh position={[0, 2, 0]} castShadow>
+      <mesh position={[0, 2, 0]}>
         <boxGeometry args={[1.32, 0.12, 0.12]} />
         <meshStandardMaterial color={BRASS} />
       </mesh>
@@ -293,7 +296,7 @@ export function EntranceArch({ position = [0, 0, 0] }: { position?: Vec3 }) {
 
 export function GenericBlock({ position = [0, 0, 0] }: { position?: Vec3 }) {
   return (
-    <mesh position={[position[0], 0.4, position[2]]} castShadow receiveShadow>
+    <mesh position={[position[0], 0.4, position[2]]}>
       <boxGeometry args={[0.8, 0.8, 0.8]} />
       <meshStandardMaterial color={PARCHMENT_DARK} />
     </mesh>
@@ -313,14 +316,13 @@ export function House({
   const roofHeight = 0.7;
   return (
     <group position={position}>
-      <mesh position={[0, wallHeight / 2, 0]} castShadow receiveShadow>
+      <mesh position={[0, wallHeight / 2, 0]}>
         <boxGeometry args={[width, wallHeight, depth]} />
         <meshStandardMaterial color={CARD} />
       </mesh>
       <mesh
         position={[0, wallHeight + roofHeight / 2, 0]}
         rotation={[0, Math.PI / 4, 0]}
-        castShadow
       >
         <coneGeometry args={[Math.max(width, depth) * 0.72, roofHeight, 4]} />
         <meshStandardMaterial color={BRASS} />
@@ -346,7 +348,7 @@ export function ParkingArea({
   const spaceWidth = width / spaces;
   return (
     <group position={position}>
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.01, 0]} receiveShadow>
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.01, 0]}>
         <planeGeometry args={[width, depth]} />
         <meshStandardMaterial color={ASPHALT} />
       </mesh>
