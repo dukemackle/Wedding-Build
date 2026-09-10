@@ -26,7 +26,7 @@ export function SceneCanvas({
 
   return (
     <div className="h-[520px] w-full overflow-hidden rounded-lg border border-hairline bg-parchment">
-      <Canvas shadows dpr={[1, 1.5]}>
+      <Canvas dpr={[1, 1.5]}>
         <PerspectiveCamera makeDefault position={cameraPosition} fov={45} />
         <OrbitControls
           target={target}
@@ -35,13 +35,8 @@ export function SceneCanvas({
           maxDistance={Math.max(26, distance + 20)}
         />
         <ambientLight intensity={0.75} />
-        <directionalLight
-          position={[target[0] + 6, 10, target[2] + 4]}
-          intensity={1.2}
-          castShadow
-          shadow-mapSize={[1024, 1024]}
-        />
-        <mesh position={[target[0], 0, target[2]]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
+        <directionalLight position={[target[0] + 6, 10, target[2] + 4]} intensity={1.2} />
+        <mesh position={[target[0], 0, target[2]]} rotation={[-Math.PI / 2, 0, 0]}>
           <planeGeometry args={floorSize} />
           <meshStandardMaterial color="#f3f1ea" />
         </mesh>
