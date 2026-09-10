@@ -16,11 +16,12 @@ export async function isCurrentUserAdmin(): Promise<boolean> {
 // action -- the layout gate alone doesn't protect an action invoked
 // directly, so each action re-checks independently.
 //
-// A signed-out visitor goes to /login (admin.wrenwed.com has its own
-// separate session, so this is the common case there) rather than
-// /dashboard -- on the admin subdomain /dashboard isn't a real page,
-// it just bounces back to /admin, which would re-run this check and
-// redirect to /dashboard again, looping forever.
+// Every failure here goes to /login, never /dashboard -- /dashboard
+// isn't a real page on the admin subdomain, it just bounces back to
+// /admin, which would re-run this check and redirect again, looping
+// forever. /login itself never redirects a signed-in visitor away, so
+// it's a safe landing spot whether the visitor is signed out or just
+// signed in as the wrong account.
 export async function requireAdmin() {
   const supabase = await createClient();
   const {
@@ -33,6 +34,6 @@ export async function requireAdmin() {
 
   const adminEmail = process.env.ADMIN_EMAIL?.trim().toLowerCase();
   if (!(user.email && adminEmail && user.email.toLowerCase() === adminEmail)) {
-    redirect("/dashboard");
+    redirect("/login?error=" + encodeURIComponent("This account doesn't have admin access."));
   }
 }
