@@ -76,18 +76,18 @@ const ITEM_TYPE_LABELS: Record<LayoutItemType, string> = {
 };
 
 export const ITEM_TYPE_DIMENSIONS: Record<LayoutItemType, { width: number; height: number }> = {
-  chairs: { width: 220, height: 60 },
-  stage: { width: 240, height: 100 },
-  dance_floor: { width: 200, height: 200 },
-  bar: { width: 160, height: 70 },
-  dj_booth: { width: 120, height: 90 },
-  buffet: { width: 200, height: 70 },
-  cake_table: { width: 100, height: 80 },
-  gift_table: { width: 100, height: 80 },
-  entrance: { width: 90, height: 90 },
-  house: { width: 180, height: 140 },
-  parking: { width: 260, height: 160 },
-  other: { width: 120, height: 90 },
+  chairs: { width: 160, height: 50 },
+  stage: { width: 170, height: 80 },
+  dance_floor: { width: 150, height: 150 },
+  bar: { width: 130, height: 60 },
+  dj_booth: { width: 100, height: 75 },
+  buffet: { width: 150, height: 60 },
+  cake_table: { width: 85, height: 70 },
+  gift_table: { width: 85, height: 70 },
+  entrance: { width: 75, height: 75 },
+  house: { width: 140, height: 110 },
+  parking: { width: 200, height: 130 },
+  other: { width: 100, height: 75 },
 };
 
 const ITEM_TYPE_COLORS: Record<LayoutItemType, string> = {
@@ -119,13 +119,13 @@ function personCount(guest: Guest) {
 export function tableDimensions(shape: TableShape, capacity: number | null) {
   const seats = capacity ?? 8;
   if (shape === "square") {
-    const side = clamp(110 + seats * 8, 110, 240);
+    const side = clamp(90 + seats * 6, 90, 190);
     return { width: side, height: side };
   }
   if (shape === "rectangle") {
-    return { width: clamp(160 + seats * 14, 160, 420), height: 110 };
+    return { width: clamp(130 + seats * 11, 130, 340), height: 90 };
   }
-  const diameter = clamp(120 + seats * 8, 120, 260);
+  const diameter = clamp(100 + seats * 6, 100, 210);
   return { width: diameter, height: diameter };
 }
 
