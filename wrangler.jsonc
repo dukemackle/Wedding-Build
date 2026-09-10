@@ -7,6 +7,15 @@
 	"assets": {
 		"directory": ".open-next/assets",
 		"binding": "ASSETS"
+	},
+	// Plain (non-secret) runtime vars belong here, not just the dashboard --
+	// each CI deploy runs `wrangler versions upload`, which resets the
+	// Worker's vars to whatever's in this file. A dashboard-only var (like
+	// ADMIN_EMAIL was) gets silently wiped on the very next deploy since
+	// this file has no record of it. Secrets are unaffected by this and
+	// still belong in the dashboard/`wrangler secret put`, never here.
+	"vars": {
+		"ADMIN_EMAIL": "dukemackle1@gmail.com"
 	}
 	// Optional upgrades once the app is live on Cloudflare:
 	// - R2 incremental cache (persists ISR/data-cache across deploys): see
