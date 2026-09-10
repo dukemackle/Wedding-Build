@@ -22,7 +22,9 @@ export async function proxy(request: NextRequest) {
     hostname === ADMIN_HOST &&
     !pathname.startsWith("/admin") &&
     !pathname.startsWith("/login") &&
-    !pathname.startsWith("/auth")
+    !pathname.startsWith("/auth") &&
+    !pathname.startsWith("/forgot-password") &&
+    !pathname.startsWith("/reset-password")
   ) {
     const url = request.nextUrl.clone();
     url.pathname = "/admin";
