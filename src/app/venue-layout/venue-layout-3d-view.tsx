@@ -197,13 +197,33 @@ export default function VenueLayout3DView({
   const floorSize: [number, number] = [Math.max(40, spanX + 16), Math.max(26, spanZ + 16)];
 
   return (
-    <SceneCanvas target={[centerX, 0, centerZ]} distance={distance} floorSize={floorSize}>
-      {items.map((item) => (
-        <ItemScene key={item.id} item={item} />
-      ))}
-      {tables.map((table) => (
-        <TableScene key={table.id} table={table} />
-      ))}
-    </SceneCanvas>
+    <div style={{ position: "relative" }}>
+      <div
+        style={{
+          position: "absolute",
+          top: 4,
+          left: 4,
+          zIndex: 10,
+          background: "rgba(0,0,0,0.75)",
+          color: "#fff",
+          fontSize: 11,
+          fontFamily: "monospace",
+          padding: "6px 8px",
+          borderRadius: 4,
+          pointerEvents: "none",
+          whiteSpace: "pre",
+        }}
+      >
+        {`DEBUG tables=${tables.length} items=${items.length}\ncenter=(${centerX.toFixed(2)},${centerZ.toFixed(2)}) span=(${spanX.toFixed(2)},${spanZ.toFixed(2)}) dist=${distance.toFixed(2)}`}
+      </div>
+      <SceneCanvas target={[centerX, 0, centerZ]} distance={distance} floorSize={floorSize}>
+        {items.map((item) => (
+          <ItemScene key={item.id} item={item} />
+        ))}
+        {tables.map((table) => (
+          <TableScene key={table.id} table={table} />
+        ))}
+      </SceneCanvas>
+    </div>
   );
 }
