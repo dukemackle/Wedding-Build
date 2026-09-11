@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useMemo, useState, useTransition } from "react";
 import type { Wedding } from "@/lib/supabase/types";
 import { downloadCsv, toCsv } from "@/lib/csv";
@@ -232,7 +233,14 @@ export function CouplesManager({ rows }: { rows: CoupleRow[] }) {
                       aria-label={`Select ${names || "couple"}`}
                     />
                   </td>
-                  <td className="px-4 py-3 text-ink">{names || "—"}</td>
+                  <td className="px-4 py-3 text-ink">
+                    <Link
+                      href={`/admin/couples/${wedding.id}`}
+                      className="text-brass hover:underline"
+                    >
+                      {names || "—"}
+                    </Link>
+                  </td>
                   <td className="px-4 py-3 text-ink/70">{email ?? "—"}</td>
                   <td className="px-4 py-3 text-ink/70">{formatDate(wedding.wedding_date)}</td>
                   <td className="px-4 py-3 text-ink/70">{wedding.region ?? "—"}</td>
