@@ -34,6 +34,66 @@ export const REGION_MULTIPLIERS: Record<string, number> = {
   "West Coast": 1.3,
 };
 
+// Placeholder state -> region mapping so the cost model can take a state
+// as input today, ahead of real per-state data landing (see the cost
+// estimator data-collection plan). Every state currently just inherits
+// its region's multiplier above -- this is not real state-level pricing,
+// it's a stand-in that lets the estimator UI collect "state" now without
+// the formula changing shape again once real numbers replace it.
+export const STATE_TO_REGION: Record<string, keyof typeof REGION_MULTIPLIERS> = {
+  Connecticut: "Northeast",
+  Maine: "Northeast",
+  Massachusetts: "Northeast",
+  "New Hampshire": "Northeast",
+  "Rhode Island": "Northeast",
+  Vermont: "Northeast",
+  Delaware: "Mid-Atlantic",
+  "District of Columbia": "Mid-Atlantic",
+  Maryland: "Mid-Atlantic",
+  "New Jersey": "Mid-Atlantic",
+  "New York": "Mid-Atlantic",
+  Pennsylvania: "Mid-Atlantic",
+  Alabama: "Southeast",
+  Arkansas: "Southeast",
+  Florida: "Southeast",
+  Georgia: "Southeast",
+  Kentucky: "Southeast",
+  Louisiana: "Southeast",
+  Mississippi: "Southeast",
+  "North Carolina": "Southeast",
+  "South Carolina": "Southeast",
+  Tennessee: "Southeast",
+  Virginia: "Southeast",
+  "West Virginia": "Southeast",
+  Illinois: "Midwest",
+  Indiana: "Midwest",
+  Iowa: "Midwest",
+  Kansas: "Midwest",
+  Michigan: "Midwest",
+  Minnesota: "Midwest",
+  Missouri: "Midwest",
+  Nebraska: "Midwest",
+  "North Dakota": "Midwest",
+  Ohio: "Midwest",
+  "South Dakota": "Midwest",
+  Wisconsin: "Midwest",
+  Arizona: "Southwest",
+  "New Mexico": "Southwest",
+  Oklahoma: "Southwest",
+  Texas: "Southwest",
+  Colorado: "Mountain West",
+  Idaho: "Mountain West",
+  Montana: "Mountain West",
+  Nevada: "Mountain West",
+  Utah: "Mountain West",
+  Wyoming: "Mountain West",
+  Alaska: "Pacific Northwest",
+  Oregon: "Pacific Northwest",
+  Washington: "Pacific Northwest",
+  California: "West Coast",
+  Hawaii: "West Coast",
+};
+
 export const SEASON_MULTIPLIERS: Record<string, number> = {
   Winter: 0.85,
   Spring: 1.0,
@@ -45,6 +105,10 @@ export const STYLE_TIER_MULTIPLIERS: Record<string, number> = {
   Simple: 0.7,
   Classic: 1.0,
   Luxury: 1.8,
+  // Custom is a neutral baseline -- the estimator/budget UI is expected to
+  // override individual category values on top of it rather than relying
+  // on a single global multiplier.
+  Custom: 1.0,
 };
 
 export function computeCategoryValue(
@@ -53,9 +117,11 @@ export function computeCategoryValue(
   region: string | null,
   season: string | null,
   styleTier: string | null,
+  state?: string | null,
 ) {
   const base = category.flatBase + category.perGuestAmount * guestCount;
-  const regionMult = region ? (REGION_MULTIPLIERS[region] ?? 1) : 1;
+  const effectiveRegion = (state && STATE_TO_REGION[state]) || region;
+  const regionMult = effectiveRegion ? (REGION_MULTIPLIERS[effectiveRegion] ?? 1) : 1;
   const seasonMult = season ? (SEASON_MULTIPLIERS[season] ?? 1) : 1;
   const styleMult = styleTier ? (STYLE_TIER_MULTIPLIERS[styleTier] ?? 1) : 1;
   return Math.round(base * regionMult * seasonMult * styleMult);
