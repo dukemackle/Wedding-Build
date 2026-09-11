@@ -105,10 +105,6 @@ export const STYLE_TIER_MULTIPLIERS: Record<string, number> = {
   Simple: 0.7,
   Classic: 1.0,
   Luxury: 1.8,
-  // Custom is a neutral baseline -- the estimator/budget UI is expected to
-  // override individual category values on top of it rather than relying
-  // on a single global multiplier.
-  Custom: 1.0,
 };
 
 export function computeCategoryValue(
