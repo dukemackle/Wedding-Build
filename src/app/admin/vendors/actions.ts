@@ -90,6 +90,23 @@ export async function setVendorActive(formData: FormData): Promise<{ error?: str
   return {};
 }
 
+export async function bulkSetVendorActive(formData: FormData): Promise<{ error?: string }> {
+  await requireAdmin();
+
+  const ids = formData.getAll("id") as string[];
+  const active = formData.get("active") === "true";
+  if (ids.length === 0) return { error: "Select at least one vendor." };
+
+  const admin = createAdminSupabaseClient();
+  const { error } = await admin.from("vendors").update({ active }).in("id", ids);
+
+  if (error) return { error: error.message };
+
+  revalidatePath("/admin/vendors");
+  revalidatePath("/vendors");
+  return {};
+}
+
 export async function addVendorContactLog(formData: FormData): Promise<{ error?: string }> {
   await requireAdmin();
 
