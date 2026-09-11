@@ -31,7 +31,7 @@ function BudgetQuoteMeter({ quoted, total }: { quoted: number; total: number }) 
   );
 }
 
-function BudgetBarChart({ items }: { items: BudgetChartItem[] }) {
+export function BudgetBarChart({ items }: { items: BudgetChartItem[] }) {
   const sorted = [...items].sort((a, b) => b.amount - a.amount);
   const max = Math.max(...sorted.map((item) => item.amount), 1);
 
