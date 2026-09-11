@@ -86,3 +86,35 @@ export async function updateCoupleNotes(formData: FormData): Promise<{ error?: s
   revalidatePath("/admin/couples");
   return {};
 }
+
+export async function bulkAddCoupleTag(formData: FormData): Promise<{ error?: string }> {
+  await requireAdmin();
+
+  const weddingIds = formData.getAll("wedding_id") as string[];
+  const tag = ((formData.get("tag") as string) || "").trim();
+  if (weddingIds.length === 0) return { error: "Select at least one couple." };
+  if (!tag) return { error: "Enter a tag." };
+
+  const admin = createAdminSupabaseClient();
+  const { data: existing, error: fetchError } = await admin
+    .from("admin_couple_notes")
+    .select("wedding_id, tags")
+    .in("wedding_id", weddingIds)
+    .returns<{ wedding_id: string; tags: string[] }[]>();
+
+  if (fetchError) return { error: fetchError.message };
+
+  const existingTags = new Map(existing?.map((row) => [row.wedding_id, row.tags]) ?? []);
+  const now = new Date().toISOString();
+  const upserts = weddingIds.map((weddingId) => {
+    const tags = new Set(existingTags.get(weddingId) ?? []);
+    tags.add(tag);
+    return { wedding_id: weddingId, tags: Array.from(tags), updated_at: now };
+  });
+
+  const { error } = await admin.from("admin_couple_notes").upsert(upserts);
+  if (error) return { error: error.message };
+
+  revalidatePath("/admin/couples");
+  return {};
+}

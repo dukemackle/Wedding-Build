@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useMemo, useState, useTransition } from "react";
 import type { Wedding } from "@/lib/supabase/types";
 import { downloadCsv, toCsv } from "@/lib/csv";
-import { emailCouples } from "./actions";
+import { bulkAddCoupleTag, emailCouples } from "./actions";
 
 export type CoupleRow = {
   wedding: Wedding;
@@ -102,6 +102,55 @@ function ComposeForm({
   );
 }
 
+function BulkTagForm({
+  selectedIds,
+  onDone,
+}: {
+  selectedIds: string[];
+  onDone: () => void;
+}) {
+  const [error, setError] = useState<string | undefined>(undefined);
+  const [isPending, startTransition] = useTransition();
+
+  function handleSubmit(formData: FormData) {
+    for (const id of selectedIds) formData.append("wedding_id", id);
+    startTransition(async () => {
+      const result = await bulkAddCoupleTag(formData);
+      if (result?.error) setError(result.error);
+      else {
+        setError(undefined);
+        onDone();
+      }
+    });
+  }
+
+  return (
+    <div className="mb-6 rounded-lg border border-hairline bg-parchment p-6">
+      <p className="mb-3 font-medium text-ink">
+        Tag {selectedIds.length} couple{selectedIds.length === 1 ? "" : "s"}
+      </p>
+      <form action={handleSubmit} className="flex flex-wrap items-center gap-3">
+        <input name="tag" required placeholder="e.g. VIP" className={inputClass} />
+        <button
+          type="submit"
+          disabled={isPending}
+          className="rounded-md bg-forest px-4 py-2 font-medium text-parchment transition-colors hover:bg-forest/90 disabled:opacity-60"
+        >
+          {isPending ? "Adding..." : "Add tag"}
+        </button>
+        <button
+          type="button"
+          onClick={onDone}
+          className="rounded-md border border-hairline px-4 py-2 font-medium text-ink transition-colors hover:border-forest"
+        >
+          Cancel
+        </button>
+      </form>
+      {error && <p className="mt-2 text-sm text-red-800">{error}</p>}
+    </div>
+  );
+}
+
 function exportCouplesCsv(rows: CoupleRow[]) {
   const csv = toCsv(
     ["Couple", "Email", "Wedding date", "Region", "Guests", "Referral code", "Tags", "Signed up"],
@@ -122,6 +171,7 @@ function exportCouplesCsv(rows: CoupleRow[]) {
 export function CouplesManager({ rows }: { rows: CoupleRow[] }) {
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [showCompose, setShowCompose] = useState(false);
+  const [showTagForm, setShowTagForm] = useState(false);
   const [query, setQuery] = useState("");
 
   const filteredRows = useMemo(() => {
@@ -183,6 +233,14 @@ export function CouplesManager({ rows }: { rows: CoupleRow[] }) {
         </button>
         <button
           type="button"
+          onClick={() => setShowTagForm(true)}
+          disabled={selected.size === 0}
+          className="rounded-full border border-hairline px-4 py-1.5 font-mono-numbers text-sm text-ink/70 transition-colors hover:border-forest disabled:opacity-40"
+        >
+          Tag selected ({selected.size})
+        </button>
+        <button
+          type="button"
           onClick={() => exportCouplesCsv(filteredRows)}
           className="rounded-full border border-hairline px-4 py-1.5 font-mono-numbers text-sm text-ink/70 transition-colors hover:border-forest"
         >
@@ -195,6 +253,16 @@ export function CouplesManager({ rows }: { rows: CoupleRow[] }) {
           selectedIds={Array.from(selected)}
           onDone={() => {
             setShowCompose(false);
+            setSelected(new Set());
+          }}
+        />
+      )}
+
+      {showTagForm && (
+        <BulkTagForm
+          selectedIds={Array.from(selected)}
+          onDone={() => {
+            setShowTagForm(false);
             setSelected(new Set());
           }}
         />
