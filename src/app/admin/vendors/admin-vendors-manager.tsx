@@ -9,6 +9,16 @@ const inputClass =
   "rounded-md border border-hairline bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-forest";
 const labelClass = "flex flex-col gap-1 text-sm text-ink";
 
+export type VendorStats = { sent: number; booked: number; bookedAmount: number };
+
+function formatCurrency(value: number) {
+  return value.toLocaleString("en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: 0,
+  });
+}
+
 function VendorForm({
   vendor,
   onDone,
@@ -142,7 +152,7 @@ function VendorForm({
   );
 }
 
-function VendorRow({ vendor }: { vendor: Vendor }) {
+function VendorRow({ vendor, stats }: { vendor: Vendor; stats?: VendorStats }) {
   const [editing, setEditing] = useState(false);
   const [isPending, startTransition] = useTransition();
 
@@ -170,6 +180,13 @@ function VendorRow({ vendor }: { vendor: Vendor }) {
         <p className="mt-0.5 text-xs text-ink/50">
           {[vendor.category, vendor.city, vendor.state].filter(Boolean).join(" · ") || "—"}
         </p>
+        <p className="mt-0.5 font-mono-numbers text-xs text-ink/40">
+          {stats
+            ? `${stats.sent} inquir${stats.sent === 1 ? "y" : "ies"} · ${stats.booked} booked${
+                stats.bookedAmount > 0 ? ` · ${formatCurrency(stats.bookedAmount)}` : ""
+              }`
+            : "No inquiries yet"}
+        </p>
       </div>
       <div className="flex items-center gap-2">
         <button
@@ -192,7 +209,13 @@ function VendorRow({ vendor }: { vendor: Vendor }) {
   );
 }
 
-export function AdminVendorsManager({ vendors }: { vendors: Vendor[] }) {
+export function AdminVendorsManager({
+  vendors,
+  statsByVendorName = {},
+}: {
+  vendors: Vendor[];
+  statsByVendorName?: Record<string, VendorStats>;
+}) {
   const [adding, setAdding] = useState(false);
 
   return (
@@ -215,7 +238,7 @@ export function AdminVendorsManager({ vendors }: { vendors: Vendor[] }) {
         </div>
       )}
       {vendors.map((vendor) => (
-        <VendorRow key={vendor.id} vendor={vendor} />
+        <VendorRow key={vendor.id} vendor={vendor} stats={statsByVendorName[vendor.name]} />
       ))}
       {vendors.length === 0 && !adding && (
         <p className="text-sm text-ink/50">No vendors yet.</p>
