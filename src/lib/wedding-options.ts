@@ -11,11 +11,7 @@ export const REGIONS = [
 
 export const SEASONS = ["Winter", "Spring", "Summer", "Fall"] as const;
 
-// "Custom" starts every category at a neutral (1x) baseline instead of a
-// preset multiplier, for couples/estimator users who'd rather set or
-// override every category themselves than take a Simple/Classic/Luxury
-// preset.
-export const STYLE_TIERS = ["Simple", "Classic", "Luxury", "Custom"] as const;
+export const STYLE_TIERS = ["Simple", "Classic", "Luxury"] as const;
 
 export const VENUE_TYPES = [
   "Barn / Rustic",
