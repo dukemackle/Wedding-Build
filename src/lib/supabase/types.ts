@@ -299,3 +299,20 @@ export type ChecklistItem = {
   created_at: string;
   updated_at: string;
 };
+
+export type AdminCoupleNotes = {
+  wedding_id: string;
+  notes: string | null;
+  tags: string[];
+  updated_at: string;
+};
+
+export type VendorContactType = "call" | "email" | "meeting" | "note";
+
+export type VendorContactLog = {
+  id: string;
+  vendor_id: string;
+  contact_type: VendorContactType;
+  note: string;
+  created_at: string;
+};

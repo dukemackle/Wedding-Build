@@ -10,6 +10,7 @@ export type CoupleRow = {
   wedding: Wedding;
   email: string | null;
   guestCount: number;
+  tags: string[];
 };
 
 function formatDate(value: string | null) {
@@ -103,14 +104,15 @@ function ComposeForm({
 
 function exportCouplesCsv(rows: CoupleRow[]) {
   const csv = toCsv(
-    ["Couple", "Email", "Wedding date", "Region", "Guests", "Referral code", "Signed up"],
-    rows.map(({ wedding, email, guestCount }) => [
+    ["Couple", "Email", "Wedding date", "Region", "Guests", "Referral code", "Tags", "Signed up"],
+    rows.map(({ wedding, email, guestCount, tags }) => [
       [wedding.partner_a_name, wedding.partner_b_name].filter(Boolean).join(" & "),
       email ?? "",
       wedding.wedding_date ?? "",
       wedding.region ?? "",
       guestCount,
       wedding.referral_code ?? "",
+      tags.join("; "),
       wedding.created_at,
     ]),
   );
@@ -125,13 +127,14 @@ export function CouplesManager({ rows }: { rows: CoupleRow[] }) {
   const filteredRows = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!q) return rows;
-    return rows.filter(({ wedding, email }) => {
+    return rows.filter(({ wedding, email, tags }) => {
       const names = [wedding.partner_a_name, wedding.partner_b_name].filter(Boolean).join(" & ");
       return (
         names.toLowerCase().includes(q) ||
         (email ?? "").toLowerCase().includes(q) ||
         (wedding.region ?? "").toLowerCase().includes(q) ||
-        (wedding.referral_code ?? "").toLowerCase().includes(q)
+        (wedding.referral_code ?? "").toLowerCase().includes(q) ||
+        tags.some((tag) => tag.toLowerCase().includes(q))
       );
     });
   }, [rows, query]);
@@ -219,7 +222,7 @@ export function CouplesManager({ rows }: { rows: CoupleRow[] }) {
             </tr>
           </thead>
           <tbody>
-            {filteredRows.map(({ wedding, email, guestCount }) => {
+            {filteredRows.map(({ wedding, email, guestCount, tags }) => {
               const names = [wedding.partner_a_name, wedding.partner_b_name]
                 .filter(Boolean)
                 .join(" & ");
@@ -240,6 +243,18 @@ export function CouplesManager({ rows }: { rows: CoupleRow[] }) {
                     >
                       {names || "—"}
                     </Link>
+                    {tags.length > 0 && (
+                      <div className="mt-1 flex flex-wrap gap-1">
+                        {tags.map((tag) => (
+                          <span
+                            key={tag}
+                            className="rounded-full bg-forest/10 px-2 py-0.5 text-[10px] font-medium text-forest"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    )}
                   </td>
                   <td className="px-4 py-3 text-ink/70">{email ?? "—"}</td>
                   <td className="px-4 py-3 text-ink/70">{formatDate(wedding.wedding_date)}</td>

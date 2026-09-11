@@ -89,3 +89,22 @@ export async function setVendorActive(formData: FormData): Promise<{ error?: str
   revalidatePath("/vendors");
   return {};
 }
+
+export async function addVendorContactLog(formData: FormData): Promise<{ error?: string }> {
+  await requireAdmin();
+
+  const vendorId = formData.get("vendor_id") as string;
+  const contactType = (formData.get("contact_type") as string) || "note";
+  const note = str(formData, "note");
+  if (!vendorId || !note) return { error: "A note is required." };
+
+  const admin = createAdminSupabaseClient();
+  const { error } = await admin
+    .from("vendor_contact_log")
+    .insert({ vendor_id: vendorId, contact_type: contactType, note });
+
+  if (error) return { error: error.message };
+
+  revalidatePath("/admin/vendors");
+  return {};
+}

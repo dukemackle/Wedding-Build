@@ -1,5 +1,6 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/admin";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import { getResendClient, INQUIRY_FROM_ADDRESS } from "@/lib/resend";
@@ -60,4 +61,28 @@ export async function emailCouples(
   }
 
   return { sent, failed };
+}
+
+export async function updateCoupleNotes(formData: FormData): Promise<{ error?: string }> {
+  await requireAdmin();
+
+  const weddingId = formData.get("wedding_id") as string;
+  if (!weddingId) return { error: "Missing wedding id." };
+
+  const notes = ((formData.get("notes") as string) || "").trim() || null;
+  const tags = ((formData.get("tags") as string) || "")
+    .split(",")
+    .map((tag) => tag.trim())
+    .filter(Boolean);
+
+  const admin = createAdminSupabaseClient();
+  const { error } = await admin
+    .from("admin_couple_notes")
+    .upsert({ wedding_id: weddingId, notes, tags, updated_at: new Date().toISOString() });
+
+  if (error) return { error: error.message };
+
+  revalidatePath(`/admin/couples/${weddingId}`);
+  revalidatePath("/admin/couples");
+  return {};
 }
