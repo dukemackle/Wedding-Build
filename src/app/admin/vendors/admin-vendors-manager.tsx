@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useMemo, useState, useTransition } from "react";
 import type { Vendor } from "@/lib/supabase/types";
 import { REGIONS, STATES } from "@/lib/wedding-options";
+import { downloadCsv, toCsv } from "@/lib/csv";
 import { createVendor, setVendorActive, updateVendor } from "./actions";
 
 const inputClass =
@@ -209,6 +210,39 @@ function VendorRow({ vendor, stats }: { vendor: Vendor; stats?: VendorStats }) {
   );
 }
 
+function exportVendorsCsv(vendors: Vendor[], statsByVendorName: Record<string, VendorStats>) {
+  const csv = toCsv(
+    [
+      "Name",
+      "Category",
+      "Region",
+      "State",
+      "City",
+      "Contact email",
+      "Active",
+      "Inquiries",
+      "Booked",
+      "Booked amount",
+    ],
+    vendors.map((vendor) => {
+      const stats = statsByVendorName[vendor.name];
+      return [
+        vendor.name,
+        vendor.category ?? "",
+        vendor.region ?? "",
+        vendor.state ?? "",
+        vendor.city ?? "",
+        vendor.contact_email ?? "",
+        vendor.active ? "yes" : "no",
+        stats?.sent ?? 0,
+        stats?.booked ?? 0,
+        stats?.bookedAmount ?? 0,
+      ];
+    }),
+  );
+  downloadCsv("vendors.csv", csv);
+}
+
 export function AdminVendorsManager({
   vendors,
   statsByVendorName = {},
@@ -217,11 +251,36 @@ export function AdminVendorsManager({
   statsByVendorName?: Record<string, VendorStats>;
 }) {
   const [adding, setAdding] = useState(false);
+  const [query, setQuery] = useState("");
+
+  const filteredVendors = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return vendors;
+    return vendors.filter((vendor) =>
+      [vendor.name, vendor.category, vendor.region, vendor.state, vendor.city]
+        .filter(Boolean)
+        .some((field) => field!.toLowerCase().includes(q)),
+    );
+  }, [vendors, query]);
 
   return (
     <div className="w-full rounded-lg border border-hairline bg-card p-6 shadow-sm">
-      <div className="mb-4 flex items-center justify-between">
-        <p className="text-sm text-ink/60">{vendors.length} vendors</p>
+      <div className="mb-4 flex flex-wrap items-center gap-3">
+        <input
+          type="search"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Search by name, category, region..."
+          className={`${inputClass} min-w-[220px] flex-1`}
+        />
+        <p className="text-sm text-ink/60">{filteredVendors.length} vendors</p>
+        <button
+          type="button"
+          onClick={() => exportVendorsCsv(filteredVendors, statsByVendorName)}
+          className="rounded-md border border-hairline px-3 py-1.5 text-sm text-ink/70 transition-colors hover:border-forest"
+        >
+          Export CSV
+        </button>
         {!adding && (
           <button
             type="button"
@@ -237,11 +296,13 @@ export function AdminVendorsManager({
           <VendorForm onDone={() => setAdding(false)} />
         </div>
       )}
-      {vendors.map((vendor) => (
+      {filteredVendors.map((vendor) => (
         <VendorRow key={vendor.id} vendor={vendor} stats={statsByVendorName[vendor.name]} />
       ))}
-      {vendors.length === 0 && !adding && (
-        <p className="text-sm text-ink/50">No vendors yet.</p>
+      {filteredVendors.length === 0 && (
+        <p className="text-sm text-ink/50">
+          {vendors.length === 0 ? "No vendors yet." : "No vendors match that search."}
+        </p>
       )}
     </div>
   );

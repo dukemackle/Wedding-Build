@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useMemo, useState, useTransition } from "react";
 import type { Wedding } from "@/lib/supabase/types";
+import { downloadCsv, toCsv } from "@/lib/csv";
 import { emailCouples } from "./actions";
 
 export type CoupleRow = {
@@ -99,14 +100,54 @@ function ComposeForm({
   );
 }
 
+function exportCouplesCsv(rows: CoupleRow[]) {
+  const csv = toCsv(
+    ["Couple", "Email", "Wedding date", "Region", "Guests", "Referral code", "Signed up"],
+    rows.map(({ wedding, email, guestCount }) => [
+      [wedding.partner_a_name, wedding.partner_b_name].filter(Boolean).join(" & "),
+      email ?? "",
+      wedding.wedding_date ?? "",
+      wedding.region ?? "",
+      guestCount,
+      wedding.referral_code ?? "",
+      wedding.created_at,
+    ]),
+  );
+  downloadCsv("couples.csv", csv);
+}
+
 export function CouplesManager({ rows }: { rows: CoupleRow[] }) {
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [showCompose, setShowCompose] = useState(false);
+  const [query, setQuery] = useState("");
 
-  const allSelected = rows.length > 0 && selected.size === rows.length;
+  const filteredRows = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return rows;
+    return rows.filter(({ wedding, email }) => {
+      const names = [wedding.partner_a_name, wedding.partner_b_name].filter(Boolean).join(" & ");
+      return (
+        names.toLowerCase().includes(q) ||
+        (email ?? "").toLowerCase().includes(q) ||
+        (wedding.region ?? "").toLowerCase().includes(q) ||
+        (wedding.referral_code ?? "").toLowerCase().includes(q)
+      );
+    });
+  }, [rows, query]);
+
+  const allSelected = filteredRows.length > 0 && filteredRows.every((r) => selected.has(r.wedding.id));
 
   function toggleAll() {
-    setSelected(allSelected ? new Set() : new Set(rows.map((r) => r.wedding.id)));
+    setSelected((prev) => {
+      const next = new Set(prev);
+      const filteredIds = filteredRows.map((r) => r.wedding.id);
+      const allCurrentlySelected = filteredIds.every((id) => next.has(id));
+      for (const id of filteredIds) {
+        if (allCurrentlySelected) next.delete(id);
+        else next.add(id);
+      }
+      return next;
+    });
   }
 
   function toggleOne(id: string) {
@@ -120,7 +161,14 @@ export function CouplesManager({ rows }: { rows: CoupleRow[] }) {
 
   return (
     <div>
-      <div className="mb-4 flex items-center gap-3">
+      <div className="mb-4 flex flex-wrap items-center gap-3">
+        <input
+          type="search"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Search by name, email, region, referral code..."
+          className={`${inputClass} min-w-[260px] flex-1`}
+        />
         <button
           type="button"
           onClick={() => setShowCompose(true)}
@@ -128,6 +176,13 @@ export function CouplesManager({ rows }: { rows: CoupleRow[] }) {
           className="rounded-full bg-forest px-4 py-1.5 font-mono-numbers text-sm text-parchment transition-colors hover:bg-forest/90 disabled:opacity-40"
         >
           Email selected ({selected.size})
+        </button>
+        <button
+          type="button"
+          onClick={() => exportCouplesCsv(filteredRows)}
+          className="rounded-full border border-hairline px-4 py-1.5 font-mono-numbers text-sm text-ink/70 transition-colors hover:border-forest"
+        >
+          Export CSV
         </button>
       </div>
 
@@ -163,7 +218,7 @@ export function CouplesManager({ rows }: { rows: CoupleRow[] }) {
             </tr>
           </thead>
           <tbody>
-            {rows.map(({ wedding, email, guestCount }) => {
+            {filteredRows.map(({ wedding, email, guestCount }) => {
               const names = [wedding.partner_a_name, wedding.partner_b_name]
                 .filter(Boolean)
                 .join(" & ");
@@ -189,10 +244,10 @@ export function CouplesManager({ rows }: { rows: CoupleRow[] }) {
                 </tr>
               );
             })}
-            {rows.length === 0 && (
+            {filteredRows.length === 0 && (
               <tr>
                 <td className="px-4 py-6 text-center text-ink/50" colSpan={8}>
-                  No couples yet.
+                  {rows.length === 0 ? "No couples yet." : "No couples match that search."}
                 </td>
               </tr>
             )}

@@ -1,5 +1,6 @@
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import type { VendorInquiry, Wedding } from "@/lib/supabase/types";
+import { ExportCsvButton } from "@/components/admin/export-csv-button";
 import { ReferralLookup } from "./referral-lookup";
 
 function formatCurrency(value: number) {
@@ -58,7 +59,20 @@ export default async function AdminRevenuePage() {
         <StatTile label="Total booked amount" value={formatCurrency(totalBookedAmount)} />
       </div>
 
-      <div className="mt-8 w-full overflow-x-auto rounded-lg border border-hairline bg-card shadow-sm">
+      <div className="mt-8 flex justify-end">
+        <ExportCsvButton
+          filename="vendor-revenue.csv"
+          headers={["Vendor", "Inquiries", "Booked", "Booked amount"]}
+          rows={vendorRows.map(([vendorName, stats]) => [
+            vendorName,
+            stats.sent,
+            stats.booked,
+            stats.bookedAmount,
+          ])}
+        />
+      </div>
+
+      <div className="mt-4 w-full overflow-x-auto rounded-lg border border-hairline bg-card shadow-sm">
         <table className="w-full min-w-[560px] text-left text-sm">
           <thead>
             <tr className="border-b border-hairline text-xs uppercase tracking-wide text-ink/50">
