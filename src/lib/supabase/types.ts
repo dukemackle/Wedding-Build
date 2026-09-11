@@ -316,3 +316,16 @@ export type VendorContactLog = {
   note: string;
   created_at: string;
 };
+
+export type RegionalCostData = {
+  id: string;
+  state: string;
+  category_key: string;
+  simple_amount: number | null;
+  classic_amount: number | null;
+  luxury_amount: number | null;
+  per_guest: boolean;
+  source: string | null;
+  notes: string | null;
+  updated_at: string;
+};
