@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import type {
+  AdminCoupleNotes,
   BudgetCustomItem,
   ChecklistItem,
   Guest,
@@ -10,6 +11,7 @@ import type {
   VenueShortlistEntry,
   Wedding,
 } from "@/lib/supabase/types";
+import { NotesEditor } from "./notes-editor";
 
 function formatDate(value: string | null) {
   if (!value) return "—";
@@ -60,6 +62,7 @@ export default async function AdminCoupleDetailPage({
 
   const [
     { data: userData },
+    { data: adminNotes },
     { data: guests },
     { data: budgetLineItems },
     { data: budgetCustomItems },
@@ -69,6 +72,11 @@ export default async function AdminCoupleDetailPage({
     { data: checklistItems },
   ] = await Promise.all([
     admin.auth.admin.getUserById(wedding.user_id),
+    admin
+      .from("admin_couple_notes")
+      .select("*")
+      .eq("wedding_id", id)
+      .maybeSingle<AdminCoupleNotes>(),
     admin
       .from("guests")
       .select("*")
@@ -139,6 +147,14 @@ export default async function AdminCoupleDetailPage({
         <StatTile label="Checklist done" value={`${completedChecklist} / ${(checklistItems ?? []).length}`} />
         <StatTile label="Vendor inquiries" value={(vendorInquiries ?? []).length} />
       </div>
+
+      <Section title="Admin notes">
+        <NotesEditor
+          weddingId={wedding.id}
+          notes={adminNotes?.notes ?? null}
+          tags={adminNotes?.tags ?? []}
+        />
+      </Section>
 
       <Section title="Wedding details">
         <dl className="grid grid-cols-2 gap-x-6 gap-y-2 text-sm sm:grid-cols-4">

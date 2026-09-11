@@ -1,23 +1,27 @@
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import { effectiveGuestCount } from "@/lib/budget-categories";
-import type { Wedding } from "@/lib/supabase/types";
+import type { AdminCoupleNotes, Wedding } from "@/lib/supabase/types";
 import { CouplesManager, type CoupleRow } from "./couples-manager";
 
 export default async function AdminCouplesPage() {
   const admin = createAdminSupabaseClient();
 
-  const [{ data: weddings }, { data: guests }, { data: usersPage }] = await Promise.all([
-    admin
-      .from("weddings")
-      .select("*")
-      .order("created_at", { ascending: false })
-      .returns<Wedding[]>(),
-    admin
-      .from("guests")
-      .select("wedding_id, status, plus_one")
-      .returns<{ wedding_id: string; status: string; plus_one: boolean }[]>(),
-    admin.auth.admin.listUsers({ perPage: 1000 }),
-  ]);
+  const [{ data: weddings }, { data: guests }, { data: usersPage }, { data: notes }] =
+    await Promise.all([
+      admin
+        .from("weddings")
+        .select("*")
+        .order("created_at", { ascending: false })
+        .returns<Wedding[]>(),
+      admin
+        .from("guests")
+        .select("wedding_id, status, plus_one")
+        .returns<{ wedding_id: string; status: string; plus_one: boolean }[]>(),
+      admin.auth.admin.listUsers({ perPage: 1000 }),
+      admin.from("admin_couple_notes").select("wedding_id, tags").returns<
+        Pick<AdminCoupleNotes, "wedding_id" | "tags">[]
+      >(),
+    ]);
 
   const guestsByWedding = new Map<string, { status: string; plus_one: boolean }[]>();
   for (const guest of guests ?? []) {
@@ -31,10 +35,16 @@ export default async function AdminCouplesPage() {
     if (user.email) emailByUserId.set(user.id, user.email);
   }
 
+  const tagsByWeddingId = new Map<string, string[]>();
+  for (const note of notes ?? []) {
+    tagsByWeddingId.set(note.wedding_id, note.tags);
+  }
+
   const rows: CoupleRow[] = (weddings ?? []).map((wedding) => ({
     wedding,
     email: emailByUserId.get(wedding.user_id) ?? null,
     guestCount: effectiveGuestCount(wedding, guestsByWedding.get(wedding.id) ?? []),
+    tags: tagsByWeddingId.get(wedding.id) ?? [],
   }));
 
   return (

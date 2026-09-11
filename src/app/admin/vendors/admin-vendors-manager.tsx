@@ -1,10 +1,10 @@
 "use client";
 
 import { useMemo, useState, useTransition } from "react";
-import type { Vendor } from "@/lib/supabase/types";
+import type { Vendor, VendorContactLog, VendorContactType } from "@/lib/supabase/types";
 import { REGIONS, STATES } from "@/lib/wedding-options";
 import { downloadCsv, toCsv } from "@/lib/csv";
-import { createVendor, setVendorActive, updateVendor } from "./actions";
+import { addVendorContactLog, createVendor, setVendorActive, updateVendor } from "./actions";
 
 const inputClass =
   "rounded-md border border-hairline bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-forest";
@@ -19,6 +19,21 @@ function formatCurrency(value: number) {
     maximumFractionDigits: 0,
   });
 }
+
+function formatDateTime(value: string) {
+  return new Date(value).toLocaleString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+}
+
+const CONTACT_TYPE_LABELS: Record<VendorContactType, string> = {
+  call: "Call",
+  email: "Email",
+  meeting: "Meeting",
+  note: "Note",
+};
 
 function VendorForm({
   vendor,
@@ -153,8 +168,78 @@ function VendorForm({
   );
 }
 
-function VendorRow({ vendor, stats }: { vendor: Vendor; stats?: VendorStats }) {
+function ContactLog({ vendorId, logs }: { vendorId: string; logs: VendorContactLog[] }) {
+  const [error, setError] = useState<string | undefined>(undefined);
+  const [isPending, startTransition] = useTransition();
+
+  function handleSubmit(formData: FormData) {
+    formData.set("vendor_id", vendorId);
+    startTransition(async () => {
+      const result = await addVendorContactLog(formData);
+      if (result?.error) setError(result.error);
+      else setError(undefined);
+    });
+  }
+
+  return (
+    <div className="mt-3 rounded-md border border-hairline bg-parchment p-4">
+      {logs.length === 0 ? (
+        <p className="text-sm text-ink/50">No contact logged yet.</p>
+      ) : (
+        <ul className="flex flex-col gap-2">
+          {logs.map((log) => (
+            <li key={log.id} className="text-sm">
+              <span className="font-mono-numbers text-xs text-ink/50">
+                {formatDateTime(log.created_at)}
+              </span>{" "}
+              <span className="text-xs font-medium text-forest">
+                {CONTACT_TYPE_LABELS[log.contact_type]}
+              </span>
+              <p className="text-ink/80">{log.note}</p>
+            </li>
+          ))}
+        </ul>
+      )}
+      <form
+        action={handleSubmit}
+        className="mt-3 flex flex-col gap-2 border-t border-hairline pt-3 sm:flex-row sm:items-start"
+      >
+        <select name="contact_type" defaultValue="note" className={`${inputClass} sm:w-32`}>
+          <option value="note">Note</option>
+          <option value="call">Call</option>
+          <option value="email">Email</option>
+          <option value="meeting">Meeting</option>
+        </select>
+        <input
+          name="note"
+          required
+          placeholder="What happened?"
+          className={`${inputClass} flex-1`}
+        />
+        <button
+          type="submit"
+          disabled={isPending}
+          className="rounded-md bg-forest px-3 py-2 text-sm text-parchment transition-colors hover:bg-forest/90 disabled:opacity-60"
+        >
+          {isPending ? "Logging..." : "Log"}
+        </button>
+      </form>
+      {error && <p className="mt-2 text-sm text-red-800">{error}</p>}
+    </div>
+  );
+}
+
+function VendorRow({
+  vendor,
+  stats,
+  logs = [],
+}: {
+  vendor: Vendor;
+  stats?: VendorStats;
+  logs?: VendorContactLog[];
+}) {
   const [editing, setEditing] = useState(false);
+  const [showLog, setShowLog] = useState(false);
   const [isPending, startTransition] = useTransition();
 
   function toggleActive() {
@@ -175,37 +260,47 @@ function VendorRow({ vendor, stats }: { vendor: Vendor; stats?: VendorStats }) {
   }
 
   return (
-    <div className="flex flex-col gap-2 border-b border-hairline py-3 last:border-b-0 sm:flex-row sm:items-center sm:justify-between">
-      <div>
-        <p className={vendor.active ? "text-ink" : "text-ink/40 line-through"}>{vendor.name}</p>
-        <p className="mt-0.5 text-xs text-ink/50">
-          {[vendor.category, vendor.city, vendor.state].filter(Boolean).join(" · ") || "—"}
-        </p>
-        <p className="mt-0.5 font-mono-numbers text-xs text-ink/40">
-          {stats
-            ? `${stats.sent} inquir${stats.sent === 1 ? "y" : "ies"} · ${stats.booked} booked${
-                stats.bookedAmount > 0 ? ` · ${formatCurrency(stats.bookedAmount)}` : ""
-              }`
-            : "No inquiries yet"}
-        </p>
+    <div className="border-b border-hairline py-3 last:border-b-0">
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <p className={vendor.active ? "text-ink" : "text-ink/40 line-through"}>{vendor.name}</p>
+          <p className="mt-0.5 text-xs text-ink/50">
+            {[vendor.category, vendor.city, vendor.state].filter(Boolean).join(" · ") || "—"}
+          </p>
+          <p className="mt-0.5 font-mono-numbers text-xs text-ink/40">
+            {stats
+              ? `${stats.sent} inquir${stats.sent === 1 ? "y" : "ies"} · ${stats.booked} booked${
+                  stats.bookedAmount > 0 ? ` · ${formatCurrency(stats.bookedAmount)}` : ""
+                }`
+              : "No inquiries yet"}
+          </p>
+        </div>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => setShowLog((v) => !v)}
+            className="rounded-md border border-hairline px-3 py-1 text-xs text-ink hover:border-forest"
+          >
+            {showLog ? "Hide log" : `Log (${logs.length})`}
+          </button>
+          <button
+            type="button"
+            onClick={() => setEditing(true)}
+            className="rounded-md border border-hairline px-3 py-1 text-xs text-ink hover:border-forest"
+          >
+            Edit
+          </button>
+          <button
+            type="button"
+            onClick={toggleActive}
+            disabled={isPending}
+            className="rounded-md border border-hairline px-3 py-1 text-xs text-ink hover:border-forest disabled:opacity-60"
+          >
+            {vendor.active ? "Deactivate" : "Activate"}
+          </button>
+        </div>
       </div>
-      <div className="flex items-center gap-2">
-        <button
-          type="button"
-          onClick={() => setEditing(true)}
-          className="rounded-md border border-hairline px-3 py-1 text-xs text-ink hover:border-forest"
-        >
-          Edit
-        </button>
-        <button
-          type="button"
-          onClick={toggleActive}
-          disabled={isPending}
-          className="rounded-md border border-hairline px-3 py-1 text-xs text-ink hover:border-forest disabled:opacity-60"
-        >
-          {vendor.active ? "Deactivate" : "Activate"}
-        </button>
-      </div>
+      {showLog && <ContactLog vendorId={vendor.id} logs={logs} />}
     </div>
   );
 }
@@ -246,9 +341,11 @@ function exportVendorsCsv(vendors: Vendor[], statsByVendorName: Record<string, V
 export function AdminVendorsManager({
   vendors,
   statsByVendorName = {},
+  logsByVendorId = {},
 }: {
   vendors: Vendor[];
   statsByVendorName?: Record<string, VendorStats>;
+  logsByVendorId?: Record<string, VendorContactLog[]>;
 }) {
   const [adding, setAdding] = useState(false);
   const [query, setQuery] = useState("");
@@ -297,7 +394,12 @@ export function AdminVendorsManager({
         </div>
       )}
       {filteredVendors.map((vendor) => (
-        <VendorRow key={vendor.id} vendor={vendor} stats={statsByVendorName[vendor.name]} />
+        <VendorRow
+          key={vendor.id}
+          vendor={vendor}
+          stats={statsByVendorName[vendor.name]}
+          logs={logsByVendorId[vendor.id]}
+        />
       ))}
       {filteredVendors.length === 0 && (
         <p className="text-sm text-ink/50">

@@ -1,15 +1,20 @@
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
-import type { Vendor } from "@/lib/supabase/types";
+import type { Vendor, VendorContactLog } from "@/lib/supabase/types";
 import { AdminVendorsManager, type VendorStats } from "./admin-vendors-manager";
 
 export default async function AdminVendorsPage() {
   const admin = createAdminSupabaseClient();
-  const [{ data: vendors }, { data: inquiries }] = await Promise.all([
+  const [{ data: vendors }, { data: inquiries }, { data: contactLogs }] = await Promise.all([
     admin.from("vendors").select("*").order("name").returns<Vendor[]>(),
     admin
       .from("vendor_inquiries")
       .select("vendor_name, status, booked_amount")
       .returns<{ vendor_name: string; status: string; booked_amount: number | null }[]>(),
+    admin
+      .from("vendor_contact_log")
+      .select("*")
+      .order("created_at", { ascending: false })
+      .returns<VendorContactLog[]>(),
   ]);
 
   // Inquiries key on vendor_name, not vendor_id -- couples can inquire to a
@@ -30,6 +35,13 @@ export default async function AdminVendorsPage() {
     statsByVendorName.set(inquiry.vendor_name, entry);
   }
 
+  const logsByVendorId = new Map<string, VendorContactLog[]>();
+  for (const log of contactLogs ?? []) {
+    const list = logsByVendorId.get(log.vendor_id) ?? [];
+    list.push(log);
+    logsByVendorId.set(log.vendor_id, list);
+  }
+
   return (
     <div>
       <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Admin</p>
@@ -37,6 +49,7 @@ export default async function AdminVendorsPage() {
       <AdminVendorsManager
         vendors={vendors ?? []}
         statsByVendorName={Object.fromEntries(statsByVendorName)}
+        logsByVendorId={Object.fromEntries(logsByVendorId)}
       />
     </div>
   );
