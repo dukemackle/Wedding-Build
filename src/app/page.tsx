@@ -80,6 +80,12 @@ export default function Home() {
             Sign up free
           </Link>
         </div>
+        <Link
+          href="/estimate"
+          className="mt-5 text-sm text-ink/60 underline decoration-hairline underline-offset-4 hover:text-forest"
+        >
+          Not ready to sign up? Get a free cost estimate first &rarr;
+        </Link>
       </section>
 
       <FadeInSection>
