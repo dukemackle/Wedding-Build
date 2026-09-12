@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { syncBudgetLineFromBooking } from "@/lib/budget-sync";
 import type { Wedding } from "@/lib/supabase/types";
 
 async function requireOwnWedding() {
@@ -69,14 +70,31 @@ export async function setBookedVenue(formData: FormData): Promise<{ error?: stri
 
   const venueId = formData.get("venue_id") as string;
   const isCurrentlyBooked = formData.get("is_booked") === "true";
+  const newVenueId = isCurrentlyBooked ? null : venueId;
 
   const { error } = await supabase
     .from("weddings")
-    .update({ venue_id: isCurrentlyBooked ? null : venueId })
+    .update({ venue_id: newVenueId })
     .eq("id", wedding.id);
 
   if (error) {
     return { error: error.message };
+  }
+
+  if (newVenueId) {
+    const { data: venue } = await supabase
+      .from("venues")
+      .select("name")
+      .eq("id", newVenueId)
+      .maybeSingle();
+
+    if (venue) {
+      await syncBudgetLineFromBooking(supabase, wedding, {
+        categoryKey: "venue",
+        purchasedFrom: venue.name,
+        venueId: newVenueId,
+      });
+    }
   }
 
   revalidatePath("/venues");

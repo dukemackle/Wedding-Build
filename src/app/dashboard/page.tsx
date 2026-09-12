@@ -4,10 +4,11 @@ import { AppNav } from "@/components/app-nav";
 import { FadeInSection } from "@/components/fade-in-section";
 import { WeddingDashboard } from "./wedding-dashboard";
 import { HeroPhotoUpload } from "./hero-photo-upload";
+import { BookedVenueCard } from "./booked-venue-card";
 import { DashboardSummary, type DashboardSummaryData } from "./dashboard-summary";
 import { ChecklistPreview } from "./checklist-preview";
 import { ReferralCodeCard } from "./referral-code-card";
-import type { ChecklistItem, Wedding } from "@/lib/supabase/types";
+import type { ChecklistItem, Venue, Wedding } from "@/lib/supabase/types";
 import { BUDGET_CATEGORIES, computeCategoryValue, effectiveGuestCount } from "@/lib/budget-categories";
 
 export default async function DashboardPage() {
@@ -28,8 +29,18 @@ export default async function DashboardPage() {
 
   let summary: DashboardSummaryData | null = null;
   let checklistItems: ChecklistItem[] = [];
+  let bookedVenue: Venue | null = null;
 
   if (wedding) {
+    if (wedding.venue_id) {
+      const { data: venue } = await supabase
+        .from("venues")
+        .select("*")
+        .eq("id", wedding.venue_id)
+        .maybeSingle<Venue>();
+      bookedVenue = venue;
+    }
+
     const [
       { data: guests },
       { data: budgetOverrides },
@@ -106,6 +117,11 @@ export default async function DashboardPage() {
     <main className="flex flex-1 flex-col items-center px-6 py-16">
       <AppNav email={user.email ?? ""} />
       <WeddingDashboard initialWedding={wedding} />
+      {bookedVenue && (
+        <FadeInSection delayMs={20}>
+          <BookedVenueCard venue={bookedVenue} />
+        </FadeInSection>
+      )}
       {wedding?.referral_code && (
         <FadeInSection>
           <ReferralCodeCard code={wedding.referral_code} />
