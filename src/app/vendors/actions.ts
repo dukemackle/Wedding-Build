@@ -4,6 +4,8 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getResendClient, INQUIRY_FROM_ADDRESS } from "@/lib/resend";
+import { VENDOR_CATEGORY_TO_BUDGET_KEY } from "@/lib/budget-categories";
+import { syncBudgetLineFromBooking } from "@/lib/budget-sync";
 import type { VendorInquiryStatus, Wedding } from "@/lib/supabase/types";
 
 const VALID_STATUSES: VendorInquiryStatus[] = ["sent", "responded", "booked", "declined"];
@@ -201,6 +203,25 @@ export async function updateInquiryStatus(formData: FormData): Promise<{ error?:
     return { error: error.message };
   }
 
+  if (status === "booked") {
+    const { data: inquiry } = await supabase
+      .from("vendor_inquiries")
+      .select("vendor_id, vendor_name, category, booked_amount")
+      .eq("id", inquiryId)
+      .maybeSingle();
+
+    const budgetKey = inquiry?.category ? VENDOR_CATEGORY_TO_BUDGET_KEY[inquiry.category] : undefined;
+    if (inquiry && budgetKey) {
+      await syncBudgetLineFromBooking(supabase, wedding, {
+        categoryKey: budgetKey,
+        purchasedFrom: inquiry.vendor_name,
+        vendorId: inquiry.vendor_id,
+        overrideAmount: inquiry.booked_amount,
+      });
+      revalidatePath("/budget");
+    }
+  }
+
   revalidatePath("/vendors");
   return {};
 }
@@ -228,6 +249,23 @@ export async function updateInquiryBookedAmount(formData: FormData): Promise<{ e
 
   if (error) {
     return { error: error.message };
+  }
+
+  const { data: inquiry } = await supabase
+    .from("vendor_inquiries")
+    .select("vendor_id, vendor_name, category, status")
+    .eq("id", inquiryId)
+    .maybeSingle();
+
+  const budgetKey = inquiry?.category ? VENDOR_CATEGORY_TO_BUDGET_KEY[inquiry.category] : undefined;
+  if (inquiry && inquiry.status === "booked" && budgetKey && amount != null) {
+    await syncBudgetLineFromBooking(supabase, wedding, {
+      categoryKey: budgetKey,
+      purchasedFrom: inquiry.vendor_name,
+      vendorId: inquiry.vendor_id,
+      overrideAmount: amount,
+    });
+    revalidatePath("/budget");
   }
 
   revalidatePath("/vendors");
