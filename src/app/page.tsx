@@ -46,17 +46,14 @@ export default function Home() {
           aria-hidden="true"
           className="pointer-events-none absolute -top-10 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-forest/10 blur-3xl motion-safe:animate-[float_7s_ease-in-out_infinite]"
         />
-        <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
-          Est. 2026
-        </p>
-        <h1 className="mt-3">
+        <h1>
           <Image
             src="/logo/wren-logo-full.png"
             alt="Wren Wedding Planning"
             width={2000}
             height={2000}
             priority
-            className="h-auto w-56 sm:w-64"
+            className="h-auto w-80 sm:w-[26rem]"
           />
         </h1>
         <p className="mt-4 font-display text-2xl text-ink sm:text-3xl">
