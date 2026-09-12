@@ -51,12 +51,12 @@ export default function Home() {
         </p>
         <h1 className="mt-3">
           <Image
-            src="/logo/wren-wordmark.png"
+            src="/logo/wren-logo-full.png"
             alt="Wren Wedding Planning"
-            width={1450}
-            height={882}
+            width={2000}
+            height={2000}
             priority
-            className="h-auto w-64 sm:w-80"
+            className="h-auto w-56 sm:w-64"
           />
         </h1>
         <p className="mt-4 font-display text-2xl text-ink sm:text-3xl">
