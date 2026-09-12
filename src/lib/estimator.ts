@@ -16,6 +16,23 @@ export type WeddingEstimate = {
   breakdown: EstimateBreakdownItem[];
 };
 
+// Couples pick a broad region on their wedding profile, not a specific
+// state -- but the estimator wants a state so it can use real sourced
+// data where available. Defaulting to the region's representative state
+// (the same 8 states the cost-data spreadsheet was seeded with first --
+// see the README methodology) means a couple's personalized estimate is
+// likely to land on real data rather than the placeholder fallback.
+export const REGION_REPRESENTATIVE_STATE: Record<string, string> = {
+  Northeast: "Massachusetts",
+  "Mid-Atlantic": "New York",
+  Southeast: "Georgia",
+  Midwest: "Illinois",
+  Southwest: "Texas",
+  "Mountain West": "Colorado",
+  "Pacific Northwest": "Washington",
+  "West Coast": "California",
+};
+
 const TIER_COLUMN = {
   Simple: "simple_amount",
   Classic: "classic_amount",
