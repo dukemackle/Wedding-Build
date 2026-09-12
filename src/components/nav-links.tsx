@@ -56,6 +56,7 @@ export function NavLinks() {
   return (
     <nav className="flex flex-wrap items-center gap-x-5 gap-y-2">
       <PlainLink href="/dashboard" label="Dashboard" />
+      <PlainLink href="/wedding-plan" label="Wedding Plan" />
       <NavDropdown label={groups[0].label} links={groups[0].links} />
       <NavDropdown label={groups[1].label} links={groups[1].links} />
       <NavDropdown label={groups[2].label} links={groups[2].links} />
