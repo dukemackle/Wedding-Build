@@ -12,6 +12,7 @@ import {
 import { BudgetTable, type BudgetRow } from "./budget-table";
 import { BudgetCustomItems } from "./budget-custom-items";
 import { BudgetOverview, type BudgetChartItem } from "./budget-chart";
+import { BudgetTarget } from "./budget-target";
 import { UpcomingPayments, paymentsFromRows } from "./upcoming-payments";
 
 const currency = new Intl.NumberFormat("en-US", {
@@ -211,6 +212,13 @@ export default async function BudgetPage() {
   const categoriesQuoted = rows.filter((row) => row.override !== null).length;
   const upcomingPayments = paymentsFromRows(rows, customItems ?? []);
 
+  // "Actual spending" only counts categories with a real quote entered
+  // (not the auto-computed placeholder estimate) plus custom items,
+  // which are always user-entered -- so it reflects money actually
+  // committed, not guesses.
+  const actualSpending =
+    rows.reduce((sum, row) => sum + (row.override ?? 0), 0) + customItemsTotal;
+
   return (
     <main className="flex flex-1 flex-col items-center px-6 py-16">
       <AppNav email={user.email ?? ""} />
@@ -228,6 +236,10 @@ export default async function BudgetPage() {
           {guestCount === 1 ? "" : "s"}. Estimates are placeholders — click
           Edit on any line to enter a real quote.
         </p>
+
+        <FadeInSection>
+          <BudgetTarget target={wedding.budget_target} actualSpending={actualSpending} />
+        </FadeInSection>
 
         <FadeInSection>
           <BudgetOverview items={chartItems} quoted={categoriesQuoted} total={rows.length} />
