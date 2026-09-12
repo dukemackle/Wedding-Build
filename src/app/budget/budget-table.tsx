@@ -20,7 +20,7 @@ import {
   TransportationIcon,
 } from "@/components/icons";
 
-const CATEGORY_ICONS: Record<string, ComponentType<{ className?: string }>> = {
+export const CATEGORY_ICONS: Record<string, ComponentType<{ className?: string }>> = {
   venue: VenueIcon,
   catering: CateringIcon,
   bar: BarIcon,
