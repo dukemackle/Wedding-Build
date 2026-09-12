@@ -13,6 +13,7 @@ export type Wedding = {
   hero_photo_url: string | null;
   rsvp_deadline: string | null;
   referral_code: string | null;
+  budget_target: number | null;
   created_at: string;
   updated_at: string;
 };

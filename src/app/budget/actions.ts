@@ -29,6 +29,33 @@ async function requireOwnWedding() {
   return { supabase, user, wedding };
 }
 
+export async function setBudgetTarget(formData: FormData): Promise<{ error?: string }> {
+  const { supabase, wedding } = await requireOwnWedding();
+
+  if (!wedding) {
+    return { error: "Set up your wedding on the Dashboard first." };
+  }
+
+  const raw = (formData.get("budget_target") as string)?.trim();
+  const budgetTarget = raw ? Number(raw) : null;
+  if (raw && (Number.isNaN(budgetTarget) || (budgetTarget as number) < 0)) {
+    return { error: "Enter a valid amount." };
+  }
+
+  const { error } = await supabase
+    .from("weddings")
+    .update({ budget_target: budgetTarget })
+    .eq("id", wedding.id);
+
+  if (error) {
+    return { error: error.message };
+  }
+
+  revalidatePath("/budget");
+  revalidatePath("/dashboard");
+  return {};
+}
+
 export async function setBudgetOverride(
   formData: FormData,
 ): Promise<{ error?: string }> {
