@@ -144,6 +144,10 @@ function VendorForm({
           className={inputClass}
         />
       </label>
+      <label className={labelClass}>
+        Image URL
+        <input name="image_url" defaultValue={vendor?.image_url ?? ""} className={inputClass} />
+      </label>
       <label className={`${labelClass} sm:col-span-2`}>
         Description
         <textarea

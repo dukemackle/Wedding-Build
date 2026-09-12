@@ -70,7 +70,11 @@ export default async function VenuesPage() {
           Browse & shortlist venues
         </h1>
 
-        <VenuesManager venues={venues ?? []} shortlist={shortlist ?? []} />
+        <VenuesManager
+          venues={venues ?? []}
+          shortlist={shortlist ?? []}
+          bookedVenueId={wedding.venue_id}
+        />
       </div>
     </main>
   );

@@ -33,6 +33,7 @@ export async function createVendor(formData: FormData): Promise<{ error?: string
     longitude: num(formData, "longitude"),
     price_tier: str(formData, "price_tier"),
     description: str(formData, "description"),
+    image_url: str(formData, "image_url"),
     contact_email: str(formData, "contact_email"),
   });
 
@@ -63,6 +64,7 @@ export async function updateVendor(formData: FormData): Promise<{ error?: string
       longitude: num(formData, "longitude"),
       price_tier: str(formData, "price_tier"),
       description: str(formData, "description"),
+      image_url: str(formData, "image_url"),
       contact_email: str(formData, "contact_email"),
     })
     .eq("id", id);
