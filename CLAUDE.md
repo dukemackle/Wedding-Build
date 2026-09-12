@@ -8,6 +8,18 @@ an admin panel (admin.wrenwed.com) for tracking couples, vendors, venues,
 revenue, and growth. Current stage: **pre-launch, not yet monetized, no outside
 users** — the owner is still building and testing solo.
 
+**Deployment note (2026-09-12):** production deploys to Cloudflare Workers
+run through the Cloudflare dashboard's Git integration (Settings → Build),
+not a committed CI config. The Build command must be `npm run cf:build`
+(runs `opennextjs-cloudflare build`, producing `.open-next/worker.js`) —
+the dashboard default of plain `npm run build` looks fine in Settings but
+leaves that file missing, so the deploy step fails with "entry-point file
+... was not found." Hit a case where the Settings page showed the correct
+`npm run cf:build` but every actual build still ran `npm run build`
+underneath — fixed by disconnecting and reconnecting the Git repository in
+Settings (a plain Settings save wasn't enough to make it stick). If deploys
+silently fail with that error again, check this first.
+
 **Monetization: a staged roadmap, not a single decision.** The plan (agreed
 2026-09-12, expect this to get rewritten as reality teaches us more):
 
