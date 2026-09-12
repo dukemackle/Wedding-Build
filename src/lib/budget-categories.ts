@@ -16,6 +16,7 @@ export type BudgetCategory = {
 // is synced separately since venues aren't in the vendors table.
 export const VENDOR_CATEGORY_TO_BUDGET_KEY: Record<string, string> = {
   Catering: "catering",
+  Bar: "bar",
   Photography: "photography",
   Videography: "videography",
   Florals: "florals",
@@ -28,7 +29,15 @@ export const VENDOR_CATEGORY_TO_BUDGET_KEY: Record<string, string> = {
 // Placeholder national-average estimates in USD. Editable per-wedding via overrides.
 export const BUDGET_CATEGORIES: BudgetCategory[] = [
   { key: "venue", label: "Venue Rental", flatBase: 12000, perGuestAmount: 0 },
-  { key: "catering", label: "Catering & Bar", flatBase: 0, perGuestAmount: 150 },
+  // Split from a combined "Catering & Bar" category -- couples often
+  // book food and bar service as two separate vendors, and a budget
+  // category can only ever hold one linked vendor at a time, so
+  // combining them meant a second booking would silently overwrite the
+  // first. The 107/43 split mirrors the ~71%/29% ratio from the
+  // original source data (catering $6,927 vs bar $2,800 nationally,
+  // see the cost-data spreadsheet methodology).
+  { key: "catering", label: "Catering", flatBase: 0, perGuestAmount: 107 },
+  { key: "bar", label: "Bar", flatBase: 0, perGuestAmount: 43 },
   { key: "photography", label: "Photography", flatBase: 3500, perGuestAmount: 0 },
   { key: "videography", label: "Videography", flatBase: 2500, perGuestAmount: 0 },
   { key: "florals", label: "Florals & Decor", flatBase: 3000, perGuestAmount: 0 },

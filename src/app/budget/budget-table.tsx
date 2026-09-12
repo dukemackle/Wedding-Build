@@ -7,6 +7,7 @@ import { setBudgetOverride, clearBudgetOverride } from "./actions";
 import {
   VenueIcon,
   CateringIcon,
+  BarIcon,
   PhotographyIcon,
   VideographyIcon,
   FloralsIcon,
@@ -22,6 +23,7 @@ import {
 const CATEGORY_ICONS: Record<string, ComponentType<{ className?: string }>> = {
   venue: VenueIcon,
   catering: CateringIcon,
+  bar: BarIcon,
   photography: PhotographyIcon,
   videography: VideographyIcon,
   florals: FloralsIcon,

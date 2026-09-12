@@ -53,6 +53,15 @@ export function CateringIcon(props: IconProps) {
   );
 }
 
+export function BarIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M4 4h16l-7 8v7" />
+      <path d="M9 19h6" />
+    </IconBase>
+  );
+}
+
 export function PhotographyIcon(props: IconProps) {
   return (
     <IconBase {...props}>
