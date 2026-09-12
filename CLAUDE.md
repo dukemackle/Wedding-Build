@@ -48,6 +48,40 @@ users** — the owner is still building and testing solo.
     worth something to them, plus a steady trickle of organic couple
     signups. Check `/admin/vendors` and `/admin/growth` for these signals
     rather than picking a date.
+  - **Rollout plan for existing free vendors when Phase 1 actually starts**
+    (agreed 2026-09-12) — grace period + early-bird lock-in, never a
+    surprise lockout: existing vendors have no track record with an
+    unproven site, so a sudden delist right when you need goodwill would
+    cut against the adoption-first goal.
+    1. **Segment first.** Split `/admin/vendors` into vendors with real
+       (non-owner-test) `vendor_inquiries` vs. none. Lead outreach with the
+       first group — they've already gotten real value from being listed.
+    2. **Announce with a deadline and a carrot, not a threat.** Email (the
+       `contact_email` column already exists) something like "Wren is
+       moving to a paid plan starting [date]; lock in $X/month if you sign
+       up before then, $Y after." Frame joining early as a deal, not a
+       penalty.
+    3. **Grace period, no enforcement yet.** ~30-45 days, one reminder
+       partway through. Everyone stays `active` and listed the whole time
+       regardless of payment status — zero risk of an accidental delist
+       mid-campaign.
+    4. **Collect payment manually per vendor** (Stripe Payment Link + track
+       who's paid by hand — a spreadsheet or the admin notes field is
+       enough at this scale; only add a `billing_status` column later if
+       manual tracking actually becomes a burden).
+    5. **Enforce only on non-responders** at the end of the grace period —
+       flip `active = false` via the existing toggle. Anyone who paid stays
+       listed at their locked-in rate; anyone slow/negotiating gets handled
+       by hand, which is one of the advantages of staying manual this early.
+    6. **Reactivation stays open, no penalty** — a delisted vendor can pay
+       and come back anytime, no punitive re-signup.
+    - **"Locked in," not "locked in forever."** Don't promise a lifetime
+      rate — promise the early-bird rate holds for as long as Wren offers
+      this specific plan, with reasonable notice (e.g., 60 days) before any
+      change, same as any subscription service. This leaves room to raise
+      the Phase 1 price itself later, once real inquiry volume/conversion
+      data shows it's worth more than $1-5, without having made a promise
+      that can't be kept.
 - **Phase 2: featured/premium placement + paid vendor tiers.** Vendors pay to
   rank higher or stand out in `/vendors` and `/venues`, or subscribe to a
   tier with perks (analytics, priority in future per-venue recommendations).
