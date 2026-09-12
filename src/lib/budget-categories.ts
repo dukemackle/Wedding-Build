@@ -7,6 +7,24 @@ export type BudgetCategory = {
   perGuestAmount: number;
 };
 
+// Vendor catalog categories don't share spelling with budget category
+// keys (e.g. "Catering" the vendor category vs "catering" the budget
+// key) -- this maps one to the other. Shared between the Budget page
+// (suggested vendor names) and the vendor-booking budget auto-fill in
+// src/lib/budget-sync.ts. Categories with no vendor-catalog equivalent
+// (attire, stationery, favors, venue) aren't listed here; venue booking
+// is synced separately since venues aren't in the vendors table.
+export const VENDOR_CATEGORY_TO_BUDGET_KEY: Record<string, string> = {
+  Catering: "catering",
+  Photography: "photography",
+  Videography: "videography",
+  Florals: "florals",
+  Music: "music",
+  Cake: "cake",
+  Planning: "planner",
+  Transportation: "transportation",
+};
+
 // Placeholder national-average estimates in USD. Editable per-wedding via overrides.
 export const BUDGET_CATEGORIES: BudgetCategory[] = [
   { key: "venue", label: "Venue Rental", flatBase: 12000, perGuestAmount: 0 },

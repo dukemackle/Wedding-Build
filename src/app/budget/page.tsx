@@ -6,6 +6,7 @@ import { FadeInSection } from "@/components/fade-in-section";
 import type { BudgetCustomItem, Wedding } from "@/lib/supabase/types";
 import {
   BUDGET_CATEGORIES,
+  VENDOR_CATEGORY_TO_BUDGET_KEY,
   computeCategoryValue,
   effectiveGuestCount,
 } from "@/lib/budget-categories";
@@ -28,17 +29,8 @@ type BudgetLineItemRow = {
   paid_by: string | null;
   due_date: string | null;
   notes: string | null;
-};
-
-const VENDOR_CATEGORY_TO_BUDGET_KEY: Record<string, string> = {
-  Catering: "catering",
-  Photography: "photography",
-  Videography: "videography",
-  Florals: "florals",
-  Music: "music",
-  Cake: "cake",
-  Planning: "planner",
-  Transportation: "transportation",
+  vendor_id: string | null;
+  venue_id: string | null;
 };
 
 export default async function BudgetPage() {
@@ -92,11 +84,34 @@ export default async function BudgetPage() {
 
   const { data: overrides } = await supabase
     .from("budget_line_items")
-    .select("category, override_value, purchased_from, paid_by, due_date, notes")
+    .select("category, override_value, purchased_from, paid_by, due_date, notes, vendor_id, venue_id")
     .eq("wedding_id", wedding.id);
 
   const overrideByCategory = new Map(
     (overrides ?? []).map((row: BudgetLineItemRow) => [row.category, row]),
+  );
+
+  const linkedVendorIds = (overrides ?? [])
+    .map((row: BudgetLineItemRow) => row.vendor_id)
+    .filter((id): id is string => Boolean(id));
+  const linkedVenueIds = (overrides ?? [])
+    .map((row: BudgetLineItemRow) => row.venue_id)
+    .filter((id): id is string => Boolean(id));
+
+  const [{ data: linkedVendors }, { data: linkedVenues }] = await Promise.all([
+    linkedVendorIds.length
+      ? supabase.from("vendors").select("id, image_url").in("id", linkedVendorIds)
+      : Promise.resolve({ data: [] }),
+    linkedVenueIds.length
+      ? supabase.from("venues").select("id, image_url").in("id", linkedVenueIds)
+      : Promise.resolve({ data: [] }),
+  ]);
+
+  const imageByVendorId = new Map(
+    (linkedVendors ?? []).map((v: { id: string; image_url: string | null }) => [v.id, v.image_url]),
+  );
+  const imageByVenueId = new Map(
+    (linkedVenues ?? []).map((v: { id: string; image_url: string | null }) => [v.id, v.image_url]),
   );
 
   const [
@@ -150,24 +165,34 @@ export default async function BudgetPage() {
     }
   }
 
-  const rows: BudgetRow[] = BUDGET_CATEGORIES.map((category) => ({
-    key: category.key,
-    label: category.label,
-    isPerGuest: category.perGuestAmount > 0,
-    computed: computeCategoryValue(
-      category,
-      guestCount,
-      wedding.region,
-      wedding.season,
-      wedding.style_tier,
-    ),
-    override: overrideByCategory.get(category.key)?.override_value ?? null,
-    purchasedFrom: overrideByCategory.get(category.key)?.purchased_from ?? null,
-    paidBy: overrideByCategory.get(category.key)?.paid_by ?? null,
-    dueDate: overrideByCategory.get(category.key)?.due_date ?? null,
-    notes: overrideByCategory.get(category.key)?.notes ?? null,
-    suggestions: Array.from(new Set(suggestionsByCategory[category.key] ?? [])),
-  }));
+  const rows: BudgetRow[] = BUDGET_CATEGORIES.map((category) => {
+    const lineItem = overrideByCategory.get(category.key);
+    const imageUrl = lineItem?.vendor_id
+      ? (imageByVendorId.get(lineItem.vendor_id) ?? null)
+      : lineItem?.venue_id
+        ? (imageByVenueId.get(lineItem.venue_id) ?? null)
+        : null;
+
+    return {
+      key: category.key,
+      label: category.label,
+      isPerGuest: category.perGuestAmount > 0,
+      computed: computeCategoryValue(
+        category,
+        guestCount,
+        wedding.region,
+        wedding.season,
+        wedding.style_tier,
+      ),
+      override: lineItem?.override_value ?? null,
+      purchasedFrom: lineItem?.purchased_from ?? null,
+      paidBy: lineItem?.paid_by ?? null,
+      dueDate: lineItem?.due_date ?? null,
+      notes: lineItem?.notes ?? null,
+      imageUrl,
+      suggestions: Array.from(new Set(suggestionsByCategory[category.key] ?? [])),
+    };
+  });
 
   const { data: customItems } = await supabase
     .from("budget_custom_items")

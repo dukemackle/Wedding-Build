@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState, useTransition } from "react";
 import type { ComponentType } from "react";
 import { setBudgetOverride, clearBudgetOverride } from "./actions";
@@ -43,6 +44,7 @@ export type BudgetRow = {
   paidBy: string | null;
   dueDate: string | null;
   notes: string | null;
+  imageUrl: string | null;
   suggestions: string[];
 };
 
@@ -109,7 +111,17 @@ function BudgetRowItem({
   return (
     <div className="flex flex-col gap-2 border-b border-hairline py-4 last:border-b-0">
       <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
-        <div>
+        <div className="flex items-start gap-3">
+          {row.imageUrl && (
+            <Image
+              src={row.imageUrl}
+              alt=""
+              width={56}
+              height={56}
+              className="h-14 w-14 shrink-0 rounded-md border border-hairline object-cover"
+            />
+          )}
+          <div>
           <p className="flex items-center gap-2 text-ink">
             {Icon && <Icon className="h-4 w-4 shrink-0 text-brass" />}
             {row.label}
@@ -130,6 +142,7 @@ function BudgetRowItem({
             </p>
           )}
           {!isEditing && row.notes && <p className="mt-1 text-sm text-ink/70">{row.notes}</p>}
+          </div>
         </div>
 
         {isEditing ? (
