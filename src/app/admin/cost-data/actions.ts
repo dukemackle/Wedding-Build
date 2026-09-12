@@ -100,3 +100,34 @@ export async function importRegionalCostData(
   revalidatePath("/admin/cost-data");
   return { imported, skipped };
 }
+
+export async function updateRegionalCostDataRow(
+  formData: FormData,
+): Promise<{ error?: string }> {
+  await requireAdmin();
+
+  const id = formData.get("id") as string;
+  if (!id) return { error: "Missing row." };
+
+  const simple = parseAmount((formData.get("simple_amount") as string) ?? "");
+  const classic = parseAmount((formData.get("classic_amount") as string) ?? "");
+  const luxury = parseAmount((formData.get("luxury_amount") as string) ?? "");
+  const source = ((formData.get("source") as string) ?? "").trim() || null;
+
+  const admin = createAdminSupabaseClient();
+  const { error } = await admin
+    .from("regional_cost_data")
+    .update({
+      simple_amount: simple,
+      classic_amount: classic,
+      luxury_amount: luxury,
+      source,
+      updated_at: new Date().toISOString(),
+    })
+    .eq("id", id);
+
+  if (error) return { error: error.message };
+
+  revalidatePath("/admin/cost-data");
+  return {};
+}

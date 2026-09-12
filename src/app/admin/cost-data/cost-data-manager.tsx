@@ -3,7 +3,7 @@
 import { useMemo, useState, useTransition } from "react";
 import type { RegionalCostData } from "@/lib/supabase/types";
 import { downloadCsv, toCsv } from "@/lib/csv";
-import { importRegionalCostData } from "./actions";
+import { importRegionalCostData, updateRegionalCostDataRow } from "./actions";
 
 const inputClass =
   "rounded-md border border-hairline bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-forest";
@@ -14,6 +14,93 @@ function formatDate(value: string) {
     month: "short",
     day: "numeric",
   });
+}
+
+const numberInputClass =
+  "w-24 rounded-md border border-hairline bg-parchment px-2 py-1 font-mono-numbers text-sm text-ink outline-none focus:border-forest";
+
+function CostDataRow({ row }: { row: RegionalCostData }) {
+  const [simple, setSimple] = useState(row.simple_amount?.toString() ?? "");
+  const [classic, setClassic] = useState(row.classic_amount?.toString() ?? "");
+  const [luxury, setLuxury] = useState(row.luxury_amount?.toString() ?? "");
+  const [source, setSource] = useState(row.source ?? "");
+  const [updatedAt, setUpdatedAt] = useState(row.updated_at);
+  const [error, setError] = useState<string | undefined>(undefined);
+  const [isPending, startTransition] = useTransition();
+
+  const isDirty =
+    simple !== (row.simple_amount?.toString() ?? "") ||
+    classic !== (row.classic_amount?.toString() ?? "") ||
+    luxury !== (row.luxury_amount?.toString() ?? "") ||
+    source !== (row.source ?? "");
+
+  function handleSave() {
+    const formData = new FormData();
+    formData.set("id", row.id);
+    formData.set("simple_amount", simple);
+    formData.set("classic_amount", classic);
+    formData.set("luxury_amount", luxury);
+    formData.set("source", source);
+
+    startTransition(async () => {
+      const result = await updateRegionalCostDataRow(formData);
+      if (result?.error) {
+        setError(result.error);
+      } else {
+        setError(undefined);
+        setUpdatedAt(new Date().toISOString());
+      }
+    });
+  }
+
+  return (
+    <tr className="border-b border-hairline last:border-b-0">
+      <td className="px-4 py-2 text-ink">{row.state}</td>
+      <td className="px-4 py-2">
+        <input
+          value={simple}
+          onChange={(e) => setSimple(e.target.value)}
+          inputMode="decimal"
+          className={numberInputClass}
+        />
+      </td>
+      <td className="px-4 py-2">
+        <input
+          value={classic}
+          onChange={(e) => setClassic(e.target.value)}
+          inputMode="decimal"
+          className={numberInputClass}
+        />
+      </td>
+      <td className="px-4 py-2">
+        <input
+          value={luxury}
+          onChange={(e) => setLuxury(e.target.value)}
+          inputMode="decimal"
+          className={numberInputClass}
+        />
+      </td>
+      <td className="px-4 py-2">
+        <input
+          value={source}
+          onChange={(e) => setSource(e.target.value)}
+          className="w-40 rounded-md border border-hairline bg-parchment px-2 py-1 text-xs text-ink outline-none focus:border-forest"
+        />
+      </td>
+      <td className="px-4 py-2 text-xs text-ink/50">{formatDate(updatedAt)}</td>
+      <td className="px-4 py-2">
+        <button
+          type="button"
+          onClick={handleSave}
+          disabled={isPending || !isDirty}
+          className="rounded-md border border-hairline px-3 py-1 text-xs text-ink transition-colors hover:border-forest disabled:opacity-40"
+        >
+          {isPending ? "Saving..." : isDirty ? "Save" : "Saved"}
+        </button>
+        {error && <p className="mt-1 text-xs text-red-800">{error}</p>}
+      </td>
+    </tr>
+  );
 }
 
 export function CostDataBrowser({
@@ -80,7 +167,7 @@ export function CostDataBrowser({
         <p className="text-sm text-ink/50">No data imported for this category yet.</p>
       ) : (
         <div className="w-full overflow-x-auto rounded-lg border border-hairline">
-          <table className="w-full min-w-[720px] text-left text-sm">
+          <table className="w-full min-w-[820px] text-left text-sm">
             <thead>
               <tr className="border-b border-hairline text-xs uppercase tracking-wide text-ink/50">
                 <th className="px-4 py-2 font-medium">State</th>
@@ -89,31 +176,20 @@ export function CostDataBrowser({
                 <th className="px-4 py-2 font-medium">Luxury</th>
                 <th className="px-4 py-2 font-medium">Source</th>
                 <th className="px-4 py-2 font-medium">Updated</th>
+                <th className="px-4 py-2 font-medium"></th>
               </tr>
             </thead>
             <tbody>
               {filteredRows.map((row) => (
-                <tr key={row.id} className="border-b border-hairline last:border-b-0">
-                  <td className="px-4 py-2 text-ink">{row.state}</td>
-                  <td className="px-4 py-2 font-mono-numbers text-ink/70">
-                    {row.simple_amount ?? "—"}
-                  </td>
-                  <td className="px-4 py-2 font-mono-numbers text-ink/70">
-                    {row.classic_amount ?? "—"}
-                  </td>
-                  <td className="px-4 py-2 font-mono-numbers text-ink/70">
-                    {row.luxury_amount ?? "—"}
-                  </td>
-                  <td className="max-w-xs truncate px-4 py-2 text-xs text-ink/50" title={row.source ?? ""}>
-                    {row.source ?? "—"}
-                  </td>
-                  <td className="px-4 py-2 text-xs text-ink/50">{formatDate(row.updated_at)}</td>
-                </tr>
+                <CostDataRow key={row.id} row={row} />
               ))}
             </tbody>
           </table>
         </div>
       )}
+      <p className="mt-3 text-xs text-ink/50">
+        Edits here only apply once you click Save on that row — nothing changes until you do.
+      </p>
     </div>
   );
 }
