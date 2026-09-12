@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 import Image from "next/image";
+import Link from "next/link";
 import { useMemo, useState, useTransition } from "react";
 import type { Venue, VenueShortlistEntry } from "@/lib/supabase/types";
 import { REGIONS, VENUE_TYPES } from "@/lib/wedding-options";
@@ -57,16 +58,20 @@ function VenueCard({
         isBooked ? "border-brass" : isHighlighted ? "border-forest" : "border-hairline"
       }`}
     >
-      <Image
-        src={image}
-        alt={venue.venue_type ? `${venue.venue_type} illustration` : "Venue illustration"}
-        width={400}
-        height={300}
-        className="aspect-[4/3] w-full border-b border-hairline object-cover"
-      />
+      <Link href={`/venues/${venue.id}`}>
+        <Image
+          src={image}
+          alt={venue.venue_type ? `${venue.venue_type} illustration` : "Venue illustration"}
+          width={400}
+          height={300}
+          className="aspect-[4/3] w-full border-b border-hairline object-cover"
+        />
+      </Link>
       <div className="flex flex-1 flex-col p-5">
         <div className="mb-3 flex items-start justify-between gap-2">
-          <h3 className="font-display text-xl font-semibold text-forest">{venue.name}</h3>
+          <Link href={`/venues/${venue.id}`} className="hover:underline">
+            <h3 className="font-display text-xl font-semibold text-forest">{venue.name}</h3>
+          </Link>
           {venue.price_tier && (
             <span className="shrink-0 rounded-full border border-hairline px-2 py-0.5 text-xs text-brass">
               {venue.price_tier}

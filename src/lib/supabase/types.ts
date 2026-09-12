@@ -107,8 +107,26 @@ export type Venue = {
   price_tier: string | null;
   description: string | null;
   image_url: string | null;
+  contact_email: string | null;
+  contact_phone: string | null;
+  website: string | null;
   active: boolean;
   created_at: string;
+};
+
+export type VenueInquiryStatus = "sent" | "responded";
+
+export type VenueInquiry = {
+  id: string;
+  wedding_id: string;
+  user_id: string;
+  venue_id: string | null;
+  venue_name: string;
+  message: string | null;
+  recipient_email: string | null;
+  sent_at: string;
+  status: VenueInquiryStatus;
+  referral_code: string | null;
 };
 
 export type VenueShortlistEntry = {

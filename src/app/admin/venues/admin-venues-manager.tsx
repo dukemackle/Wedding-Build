@@ -100,6 +100,23 @@ function VenueForm({
         <input name="image_url" defaultValue={venue?.image_url ?? ""} className={inputClass} />
       </label>
       <label className={labelClass}>
+        Contact email
+        <input
+          name="contact_email"
+          type="email"
+          defaultValue={venue?.contact_email ?? ""}
+          className={inputClass}
+        />
+      </label>
+      <label className={labelClass}>
+        Contact phone
+        <input name="contact_phone" defaultValue={venue?.contact_phone ?? ""} className={inputClass} />
+      </label>
+      <label className={labelClass}>
+        Website
+        <input name="website" defaultValue={venue?.website ?? ""} className={inputClass} />
+      </label>
+      <label className={labelClass}>
         Latitude
         <input
           name="latitude"

@@ -6,9 +6,11 @@ import { setBookedVenue, toggleShortlist } from "./actions";
 export function ShortlistButton({
   venueId,
   isShortlisted,
+  onToggled,
 }: {
   venueId: string;
   isShortlisted: boolean;
+  onToggled?: (isShortlisted: boolean) => void;
 }) {
   const [shortlisted, setShortlisted] = useState(isShortlisted);
   const [isPending, startTransition] = useTransition();
@@ -21,7 +23,10 @@ export function ShortlistButton({
     startTransition(async () => {
       const result = await toggleShortlist(formData);
       if (!result?.error) {
-        setShortlisted((v) => !v);
+        setShortlisted((v) => {
+          onToggled?.(!v);
+          return !v;
+        });
       }
     });
   }

@@ -41,11 +41,17 @@ export function VenuesMap({
   shortlistedIds,
   hoveredVenueId,
   onHoverVenue,
+  center,
+  zoom,
+  heightClassName,
 }: {
   venues: Venue[];
   shortlistedIds: Set<string>;
   hoveredVenueId?: string | null;
   onHoverVenue?: (venueId: string | null) => void;
+  center?: [number, number];
+  zoom?: number;
+  heightClassName?: string;
 }) {
   const pinned = venues.filter(
     (v): v is Venue & { latitude: number; longitude: number } =>
@@ -53,10 +59,15 @@ export function VenuesMap({
   );
 
   return (
-    <div className="h-[360px] w-full overflow-hidden rounded-md border border-hairline lg:h-[640px]">
+    <div
+      className={
+        heightClassName ??
+        "h-[360px] w-full overflow-hidden rounded-md border border-hairline lg:h-[640px]"
+      }
+    >
       <MapContainer
-        center={CONTINENTAL_US_CENTER}
-        zoom={4}
+        center={center ?? CONTINENTAL_US_CENTER}
+        zoom={zoom ?? 4}
         scrollWheelZoom
         style={{ height: "100%", width: "100%" }}
       >
