@@ -101,6 +101,68 @@ export async function sendVendorInquiry(formData: FormData): Promise<{ error?: s
   return {};
 }
 
+// Lets a couple mark a catalog vendor booked directly from its card --
+// sending an inquiry (and therefore an email) shouldn't be a
+// precondition for recording "we already booked this vendor" when the
+// booking happened outside the app (in person, by phone, etc). Reuses
+// the existing inquiry/status system underneath so it shows up
+// alongside real inquiries and still auto-fills the budget.
+export async function markVendorBooked(formData: FormData): Promise<{ error?: string }> {
+  const { supabase, user, wedding } = await requireOwnWedding();
+
+  if (!wedding) {
+    return { error: "Set up your wedding on the Dashboard first." };
+  }
+
+  const vendorId = formData.get("vendor_id") as string;
+  const vendorName = formData.get("vendor_name") as string;
+  const category = ((formData.get("category") as string) || "").trim() || null;
+
+  if (!vendorId || !vendorName) {
+    return { error: "Missing vendor." };
+  }
+
+  const { data: existing } = await supabase
+    .from("vendor_inquiries")
+    .select("id")
+    .eq("wedding_id", wedding.id)
+    .eq("vendor_id", vendorId)
+    .order("sent_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  if (existing) {
+    const { error } = await supabase
+      .from("vendor_inquiries")
+      .update({ status: "booked" })
+      .eq("id", existing.id);
+    if (error) return { error: error.message };
+  } else {
+    const { error } = await supabase.from("vendor_inquiries").insert({
+      wedding_id: wedding.id,
+      user_id: user.id,
+      vendor_id: vendorId,
+      vendor_name: vendorName,
+      category,
+      status: "booked",
+    });
+    if (error) return { error: error.message };
+  }
+
+  const budgetKey = category ? VENDOR_CATEGORY_TO_BUDGET_KEY[category] : undefined;
+  if (budgetKey) {
+    await syncBudgetLineFromBooking(supabase, wedding, {
+      categoryKey: budgetKey,
+      purchasedFrom: vendorName,
+      vendorId,
+    });
+    revalidatePath("/budget");
+  }
+
+  revalidatePath("/vendors");
+  return {};
+}
+
 export async function sendVendorFollowUps(
   formData: FormData,
 ): Promise<{ error?: string; sent?: number; skipped?: number; failed?: number }> {
