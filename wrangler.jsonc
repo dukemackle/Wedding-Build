@@ -21,7 +21,15 @@
 	// this file has no record of it. Secrets are unaffected by this and
 	// still belong in the dashboard/`wrangler secret put`, never here.
 	"vars": {
-		"ADMIN_EMAIL": "dukemackle1@gmail.com"
+		"ADMIN_EMAIL": "dukemackle1@gmail.com",
+		// Safe to commit -- the anon key is meant to be public-facing and is
+		// protected by Supabase Row Level Security, unlike the service role
+		// key (which stays a `wrangler secret`, never here). Without these
+		// two, every request 500s: src/lib/supabase/middleware.ts runs on
+		// nearly every route and calls createServerClient() with these,
+		// non-null-asserted.
+		"NEXT_PUBLIC_SUPABASE_URL": "https://tbvkuvjxjqrauncavhgz.supabase.co",
+		"NEXT_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRidmt1dmp4anFyYXVuY2F2aGd6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUyNjg4MDAsImV4cCI6MjEwMDg0NDgwMH0.EZzq9BWfgHLTfP2HWW3QpOQPtbYwSnc4ufBkVnAy8mg"
 	}
 	// Optional upgrades once the app is live on Cloudflare:
 	// - R2 incremental cache (persists ISR/data-cache across deploys): see
