@@ -14,6 +14,7 @@ export type Wedding = {
   rsvp_deadline: string | null;
   referral_code: string | null;
   budget_target: number | null;
+  venue_id: string | null;
   created_at: string;
   updated_at: string;
 };
@@ -132,6 +133,7 @@ export type Vendor = {
   longitude: number | null;
   price_tier: string | null;
   description: string | null;
+  image_url: string | null;
   contact_email: string | null;
   active: boolean;
   created_at: string;

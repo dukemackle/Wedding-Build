@@ -6,7 +6,7 @@ import { useMemo, useState, useTransition } from "react";
 import type { Venue, VenueShortlistEntry } from "@/lib/supabase/types";
 import { REGIONS, VENUE_TYPES } from "@/lib/wedding-options";
 import { updateShortlistNotes } from "./actions";
-import { ShortlistButton } from "./venue-card-shared";
+import { BookedVenueButton, ShortlistButton } from "./venue-card-shared";
 import { SearchBox } from "@/components/search-box";
 import { FilterDisclosure } from "@/components/filter-disclosure";
 
@@ -32,25 +32,29 @@ const DEFAULT_VENUE_IMAGE = "/venue-types/historic-estate.svg";
 function VenueCard({
   venue,
   isShortlisted,
+  isBooked,
+  onBookedToggled,
   isHighlighted,
   onHover,
   onLeave,
 }: {
   venue: Venue;
   isShortlisted: boolean;
+  isBooked: boolean;
+  onBookedToggled: (bookedVenueId: string | null) => void;
   isHighlighted?: boolean;
   onHover?: () => void;
   onLeave?: () => void;
 }) {
   const image =
-    (venue.venue_type && VENUE_TYPE_IMAGES[venue.venue_type]) || DEFAULT_VENUE_IMAGE;
+    venue.image_url || (venue.venue_type && VENUE_TYPE_IMAGES[venue.venue_type]) || DEFAULT_VENUE_IMAGE;
 
   return (
     <div
       onMouseEnter={onHover}
       onMouseLeave={onLeave}
       className={`flex flex-col overflow-hidden rounded-lg border bg-parchment transition-colors ${
-        isHighlighted ? "border-brass" : "border-hairline"
+        isBooked ? "border-brass" : isHighlighted ? "border-forest" : "border-hairline"
       }`}
     >
       <Image
@@ -86,8 +90,13 @@ function VenueCard({
         {venue.description && (
           <p className="mt-3 text-sm text-ink/80">{venue.description}</p>
         )}
-        <div className="mt-4">
+        <div className="mt-4 flex flex-wrap items-center gap-2">
           <ShortlistButton venueId={venue.id} isShortlisted={isShortlisted} />
+          <BookedVenueButton
+            venueId={venue.id}
+            isBooked={isBooked}
+            onToggled={onBookedToggled}
+          />
         </div>
       </div>
     </div>
@@ -133,10 +142,13 @@ function ShortlistNotes({ entry, venueName }: { entry: VenueShortlistEntry; venu
 export function VenuesManager({
   venues,
   shortlist,
+  bookedVenueId: initialBookedVenueId,
 }: {
   venues: Venue[];
   shortlist: VenueShortlistEntry[];
+  bookedVenueId: string | null;
 }) {
+  const [bookedVenueId, setBookedVenueId] = useState(initialBookedVenueId);
   const [regionFilter, setRegionFilter] = useState<string | "all">("all");
   const [typeFilter, setTypeFilter] = useState<string | "all">("all");
   const [stateFilter, setStateFilter] = useState<string | "all">("all");
@@ -322,6 +334,8 @@ export function VenuesManager({
                     key={venue.id}
                     venue={venue}
                     isShortlisted={shortlistedIds.has(venue.id)}
+                    isBooked={bookedVenueId === venue.id}
+                    onBookedToggled={setBookedVenueId}
                     isHighlighted={hoveredVenueId === venue.id}
                     onHover={() => setHoveredVenueId(venue.id)}
                     onLeave={() => setHoveredVenueId(null)}

@@ -1,6 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import Image from "next/image";
 import { useMemo, useState, useTransition } from "react";
 import type { Vendor, VendorFavoriteEntry, VendorInquiry, VendorInquiryStatus } from "@/lib/supabase/types";
 import { REGIONS } from "@/lib/wedding-options";
@@ -106,39 +107,50 @@ function VendorCard({ vendor, isFavorited }: { vendor: Vendor; isFavorited: bool
   const [showForm, setShowForm] = useState(false);
 
   return (
-    <div className="flex flex-col rounded-lg border border-hairline bg-parchment p-5">
-      <div className="mb-2 flex items-start justify-between gap-2">
-        <h3 className="font-display text-xl font-semibold text-forest">{vendor.name}</h3>
-        {vendor.price_tier && (
-          <span className="shrink-0 rounded-full border border-hairline px-2 py-0.5 text-xs text-brass">
-            {vendor.price_tier}
-          </span>
-        )}
-      </div>
-      <p className="text-xs uppercase tracking-wide text-ink/50">
-        {[
-          [vendor.city, vendor.state].filter(Boolean).join(", "),
-          vendor.category,
-          vendor.region,
-        ]
-          .filter(Boolean)
-          .join(" · ")}
-      </p>
-      {vendor.description && <p className="mt-3 text-sm text-ink/80">{vendor.description}</p>}
+    <div className="flex flex-col overflow-hidden rounded-lg border border-hairline bg-parchment">
+      {vendor.image_url && (
+        <Image
+          src={vendor.image_url}
+          alt={vendor.name}
+          width={400}
+          height={300}
+          className="aspect-[4/3] w-full border-b border-hairline object-cover"
+        />
+      )}
+      <div className="flex flex-1 flex-col p-5">
+        <div className="mb-2 flex items-start justify-between gap-2">
+          <h3 className="font-display text-xl font-semibold text-forest">{vendor.name}</h3>
+          {vendor.price_tier && (
+            <span className="shrink-0 rounded-full border border-hairline px-2 py-0.5 text-xs text-brass">
+              {vendor.price_tier}
+            </span>
+          )}
+        </div>
+        <p className="text-xs uppercase tracking-wide text-ink/50">
+          {[
+            [vendor.city, vendor.state].filter(Boolean).join(", "),
+            vendor.category,
+            vendor.region,
+          ]
+            .filter(Boolean)
+            .join(" · ")}
+        </p>
+        {vendor.description && <p className="mt-3 text-sm text-ink/80">{vendor.description}</p>}
 
-      <div className="mt-4 flex flex-wrap items-center gap-2">
-        <VendorFavoriteButton vendorId={vendor.id} isFavorited={isFavorited} />
-        {!showForm && (
-          <button
-            onClick={() => setShowForm(true)}
-            className="rounded-full border border-hairline bg-card px-3 py-1 text-sm text-forest transition-colors hover:border-forest"
-          >
-            Request a quote
-          </button>
-        )}
-      </div>
+        <div className="mt-4 flex flex-wrap items-center gap-2">
+          <VendorFavoriteButton vendorId={vendor.id} isFavorited={isFavorited} />
+          {!showForm && (
+            <button
+              onClick={() => setShowForm(true)}
+              className="rounded-full border border-hairline bg-card px-3 py-1 text-sm text-forest transition-colors hover:border-forest"
+            >
+              Request a quote
+            </button>
+          )}
+        </div>
 
-      {showForm && <InquiryForm vendor={vendor} onDone={() => setShowForm(false)} />}
+        {showForm && <InquiryForm vendor={vendor} onDone={() => setShowForm(false)} />}
+      </div>
     </div>
   );
 }

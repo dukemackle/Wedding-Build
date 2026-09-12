@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { toggleShortlist } from "./actions";
+import { setBookedVenue, toggleShortlist } from "./actions";
 
 export function ShortlistButton({
   venueId,
@@ -40,6 +40,49 @@ export function ShortlistButton({
     >
       <span aria-hidden="true">{shortlisted ? "♥" : "♡"}</span>
       {shortlisted ? "Favorited" : "Favorite"}
+    </button>
+  );
+}
+
+// isBooked/onToggled are owned by the parent (not local state) so that
+// booking a different venue instantly un-marks the previous one across
+// every card, since weddings.venue_id can only ever point at one venue.
+export function BookedVenueButton({
+  venueId,
+  isBooked,
+  onToggled,
+}: {
+  venueId: string;
+  isBooked: boolean;
+  onToggled: (bookedVenueId: string | null) => void;
+}) {
+  const [isPending, startTransition] = useTransition();
+
+  function handleClick() {
+    const formData = new FormData();
+    formData.set("venue_id", venueId);
+    formData.set("is_booked", String(isBooked));
+
+    startTransition(async () => {
+      const result = await setBookedVenue(formData);
+      if (!result?.error) {
+        onToggled(isBooked ? null : venueId);
+      }
+    });
+  }
+
+  return (
+    <button
+      onClick={handleClick}
+      disabled={isPending}
+      aria-pressed={isBooked}
+      className={`rounded-full border px-3 py-1 text-sm transition-colors disabled:opacity-60 ${
+        isBooked
+          ? "border-brass bg-brass text-parchment"
+          : "border-hairline bg-parchment text-ink hover:border-forest"
+      }`}
+    >
+      {isBooked ? "✓ Our venue" : "Mark as our venue"}
     </button>
   );
 }

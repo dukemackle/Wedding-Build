@@ -56,6 +56,36 @@ export async function toggleShortlist(formData: FormData): Promise<{ error?: str
   return {};
 }
 
+// The venue actually booked -- distinct from the shortlist (favorites,
+// many possible). Toggling a different venue overwrites the previous
+// choice since weddings.venue_id is a single column, keeping it
+// mutually exclusive by construction.
+export async function setBookedVenue(formData: FormData): Promise<{ error?: string }> {
+  const { supabase, wedding } = await requireOwnWedding();
+
+  if (!wedding) {
+    return { error: "Set up your wedding on the Dashboard first." };
+  }
+
+  const venueId = formData.get("venue_id") as string;
+  const isCurrentlyBooked = formData.get("is_booked") === "true";
+
+  const { error } = await supabase
+    .from("weddings")
+    .update({ venue_id: isCurrentlyBooked ? null : venueId })
+    .eq("id", wedding.id);
+
+  if (error) {
+    return { error: error.message };
+  }
+
+  revalidatePath("/venues");
+  revalidatePath("/dashboard");
+  revalidatePath("/budget");
+  revalidatePath("/contacts");
+  return {};
+}
+
 export async function updateShortlistNotes(
   formData: FormData,
 ): Promise<{ error?: string }> {
