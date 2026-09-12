@@ -1,5 +1,11 @@
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
+	// "main" points at OpenNext's Cloudflare adapter output, not next build's
+	// own output -- the dashboard's Cloudflare Workers Build "Build command"
+	// must be `npm run cf:build` (which runs `opennextjs-cloudflare build`),
+	// not the default `npm run build` (plain `next build`), or this file
+	// never gets generated and the deploy step's `wrangler versions upload`
+	// fails with "entry-point file... was not found".
 	"main": ".open-next/worker.js",
 	"name": "wedding-build",
 	"compatibility_date": "2026-09-05",
