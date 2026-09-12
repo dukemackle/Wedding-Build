@@ -6,6 +6,13 @@ import { NavDropdown } from "@/components/nav-dropdown";
 
 const groups: { label: string; links: { href: string; label: string }[] }[] = [
   {
+    label: "Budget",
+    links: [
+      { href: "/budget", label: "My Budget" },
+      { href: "/budget/estimate", label: "Estimator" },
+    ],
+  },
+  {
     label: "Planning",
     links: [
       { href: "/checklist", label: "Checklist" },
@@ -50,9 +57,9 @@ export function NavLinks() {
     <nav className="flex flex-wrap items-center gap-x-5 gap-y-2">
       <PlainLink href="/dashboard" label="Dashboard" />
       <NavDropdown label={groups[0].label} links={groups[0].links} />
-      <PlainLink href="/budget" label="Budget" />
       <NavDropdown label={groups[1].label} links={groups[1].links} />
       <NavDropdown label={groups[2].label} links={groups[2].links} />
+      <NavDropdown label={groups[3].label} links={groups[3].links} />
     </nav>
   );
 }

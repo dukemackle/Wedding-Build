@@ -20,10 +20,28 @@ const DEFAULT_GUESTS = 100;
 const MIN_GUESTS = 10;
 const MAX_GUESTS = 300;
 
-export function Estimator({ regionalData }: { regionalData: RegionalCostData[] }) {
-  const [state, setState] = useState<string>("California");
-  const [guestCount, setGuestCount] = useState(DEFAULT_GUESTS);
-  const [tier, setTier] = useState<EstimatorTier>("Classic");
+export function Estimator({
+  regionalData,
+  initialState = "California",
+  initialGuestCount = DEFAULT_GUESTS,
+  initialTier = "Classic",
+  ctaHref = "/signup",
+  ctaLabel = "Start planning for free",
+  ctaTitle = "Ready to plan for real?",
+  ctaBody = "Turn this estimate into a real budget you can track, with venues, guests, and vendors all in one free account.",
+}: {
+  regionalData: RegionalCostData[];
+  initialState?: string;
+  initialGuestCount?: number;
+  initialTier?: EstimatorTier;
+  ctaHref?: string;
+  ctaLabel?: string;
+  ctaTitle?: string;
+  ctaBody?: string;
+}) {
+  const [state, setState] = useState<string>(initialState);
+  const [guestCount, setGuestCount] = useState(initialGuestCount);
+  const [tier, setTier] = useState<EstimatorTier>(initialTier);
 
   const estimate = useMemo(
     () => estimateWeddingCost(regionalData, state, guestCount, tier),
@@ -113,18 +131,13 @@ export function Estimator({ regionalData }: { regionalData: RegionalCostData[] }
       </p>
 
       <div className="mt-8 w-full rounded-lg border border-hairline bg-card p-8 text-center shadow-sm">
-        <h2 className="font-display text-2xl font-semibold text-forest">
-          Ready to plan for real?
-        </h2>
-        <p className="mt-2 text-sm text-ink/70">
-          Turn this estimate into a real budget you can track, with venues, guests, and vendors
-          all in one free account.
-        </p>
+        <h2 className="font-display text-2xl font-semibold text-forest">{ctaTitle}</h2>
+        <p className="mt-2 text-sm text-ink/70">{ctaBody}</p>
         <Link
-          href="/signup"
+          href={ctaHref}
           className="mt-6 inline-block rounded-full bg-forest px-6 py-2 font-mono-numbers text-sm text-parchment transition-colors hover:bg-forest/90"
         >
-          Start planning for free
+          {ctaLabel}
         </Link>
       </div>
     </div>
