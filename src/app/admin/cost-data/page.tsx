@@ -2,14 +2,14 @@ import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import { BUDGET_CATEGORIES } from "@/lib/budget-categories";
 import { STATES } from "@/lib/wedding-options";
 import type { RegionalCostData } from "@/lib/supabase/types";
-import { ImportForm } from "./cost-data-manager";
+import { CostDataBrowser, ImportForm } from "./cost-data-manager";
 
 export default async function AdminCostDataPage() {
   const admin = createAdminSupabaseClient();
   const { data: rows } = await admin
     .from("regional_cost_data")
-    .select("category_key, state")
-    .returns<Pick<RegionalCostData, "category_key" | "state">[]>();
+    .select("*")
+    .returns<RegionalCostData[]>();
 
   const coverageByCategory = new Map<string, Set<string>>();
   for (const row of rows ?? []) {
@@ -58,6 +58,14 @@ export default async function AdminCostDataPage() {
             </tbody>
           </table>
         </div>
+      </div>
+
+      <div className="mt-8 w-full rounded-lg border border-hairline bg-card p-6 shadow-sm">
+        <p className="mb-3 text-sm font-medium text-ink">Browse imported data</p>
+        <CostDataBrowser
+          categoryOptions={BUDGET_CATEGORIES.map((c) => ({ key: c.key, label: c.label }))}
+          rows={rows ?? []}
+        />
       </div>
 
       <div className="mt-8 w-full rounded-lg border border-hairline bg-card p-6 shadow-sm">
