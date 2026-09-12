@@ -6,6 +6,7 @@ import { useMemo, useState, useTransition } from "react";
 import type { Vendor, VendorFavoriteEntry, VendorInquiry, VendorInquiryStatus } from "@/lib/supabase/types";
 import { REGIONS } from "@/lib/wedding-options";
 import {
+  markVendorBooked,
   sendVendorInquiry,
   updateInquiryBookedAmount,
   updateInquiryStatus,
@@ -103,8 +104,32 @@ function InquiryForm({ vendor, onDone }: { vendor: Vendor; onDone: () => void })
   );
 }
 
-function VendorCard({ vendor, isFavorited }: { vendor: Vendor; isFavorited: boolean }) {
+function VendorCard({
+  vendor,
+  isFavorited,
+  isBooked: initialIsBooked,
+}: {
+  vendor: Vendor;
+  isFavorited: boolean;
+  isBooked: boolean;
+}) {
   const [showForm, setShowForm] = useState(false);
+  const [isBooked, setIsBooked] = useState(initialIsBooked);
+  const [isPending, startTransition] = useTransition();
+
+  function handleMarkBooked() {
+    const formData = new FormData();
+    formData.set("vendor_id", vendor.id);
+    formData.set("vendor_name", vendor.name);
+    formData.set("category", vendor.category ?? "");
+
+    startTransition(async () => {
+      const result = await markVendorBooked(formData);
+      if (!result?.error) {
+        setIsBooked(true);
+      }
+    });
+  }
 
   return (
     <div className="flex flex-col overflow-hidden rounded-lg border border-hairline bg-parchment">
@@ -145,6 +170,19 @@ function VendorCard({ vendor, isFavorited }: { vendor: Vendor; isFavorited: bool
               className="rounded-full border border-hairline bg-card px-3 py-1 text-sm text-forest transition-colors hover:border-forest"
             >
               Request a quote
+            </button>
+          )}
+          {isBooked ? (
+            <span className="rounded-full border border-forest/40 bg-forest/10 px-3 py-1 text-sm text-forest">
+              ✓ Booked
+            </span>
+          ) : (
+            <button
+              onClick={handleMarkBooked}
+              disabled={isPending}
+              className="rounded-full border border-hairline bg-card px-3 py-1 text-sm text-ink transition-colors hover:border-forest disabled:opacity-60"
+            >
+              {isPending ? "..." : "Mark as booked"}
             </button>
           )}
         </div>
@@ -293,6 +331,12 @@ export function VendorsManager({
   favorites: VendorFavoriteEntry[];
 }) {
   const favoritedIds = new Set(favorites.map((f) => f.vendor_id));
+  const bookedVendorIds = new Set(
+    inquiries
+      .filter((i) => i.status === "booked")
+      .map((i) => i.vendor_id)
+      .filter((id): id is string => Boolean(id)),
+  );
   const vendorById = new Map(vendors.map((v) => [v.id, v]));
 
   const [categoryFilter, setCategoryFilter] = useState<string | "all">("all");
@@ -509,6 +553,7 @@ export function VendorsManager({
                 key={vendor.id}
                 vendor={vendor}
                 isFavorited={favoritedIds.has(vendor.id)}
+                isBooked={bookedVendorIds.has(vendor.id)}
               />
             ))}
           </div>
