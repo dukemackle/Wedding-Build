@@ -9,6 +9,13 @@ const nextConfig: NextConfig = {
     // those actions' own size check.
     serverActions: {
       bodySizeLimit: "6mb",
+      // Next.js checks a Server Action POST's Origin header against the
+      // app's own host to prevent CSRF, and 403s if they don't match --
+      // seen live as "POST https://wrenwed.com/dashboard 403 (Forbidden)"
+      // on the hero photo upload. Needed because the app is served through
+      // Cloudflare on this custom domain (and its admin subdomain), not
+      // whatever host Next.js infers by default.
+      allowedOrigins: ["wrenwed.com", "admin.wrenwed.com"],
     },
   },
   images: {
