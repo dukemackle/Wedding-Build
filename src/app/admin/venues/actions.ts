@@ -35,6 +35,9 @@ export async function createVenue(formData: FormData): Promise<{ error?: string 
     price_tier: str(formData, "price_tier"),
     description: str(formData, "description"),
     image_url: str(formData, "image_url"),
+    contact_email: str(formData, "contact_email"),
+    contact_phone: str(formData, "contact_phone"),
+    website: str(formData, "website"),
   });
 
   if (error) return { error: error.message };
@@ -66,6 +69,9 @@ export async function updateVenue(formData: FormData): Promise<{ error?: string 
       price_tier: str(formData, "price_tier"),
       description: str(formData, "description"),
       image_url: str(formData, "image_url"),
+      contact_email: str(formData, "contact_email"),
+      contact_phone: str(formData, "contact_phone"),
+      website: str(formData, "website"),
     })
     .eq("id", id);
 

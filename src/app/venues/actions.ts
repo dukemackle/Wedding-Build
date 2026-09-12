@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { getResendClient, INQUIRY_FROM_ADDRESS } from "@/lib/resend";
 import { syncBudgetLineFromBooking } from "@/lib/budget-sync";
 import type { Wedding } from "@/lib/supabase/types";
 
@@ -101,6 +102,77 @@ export async function setBookedVenue(formData: FormData): Promise<{ error?: stri
   revalidatePath("/dashboard");
   revalidatePath("/budget");
   revalidatePath("/contacts");
+  return {};
+}
+
+export async function sendVenueInquiry(formData: FormData): Promise<{ error?: string }> {
+  const { supabase, user, wedding } = await requireOwnWedding();
+
+  if (!wedding) {
+    return { error: "Set up your wedding on the Dashboard first." };
+  }
+
+  const venueId = (formData.get("venue_id") as string) || null;
+  const venueName = formData.get("venue_name") as string;
+  const recipientEmail = (formData.get("recipient_email") as string)?.trim();
+  const message = (formData.get("message") as string)?.trim();
+
+  if (!venueName) {
+    return { error: "Missing venue." };
+  }
+  if (!recipientEmail) {
+    return { error: "Enter a recipient email." };
+  }
+  if (!message) {
+    return { error: "Write a message before sending." };
+  }
+
+  const coupleNames = [wedding.partner_a_name, wedding.partner_b_name]
+    .filter(Boolean)
+    .join(" & ");
+
+  if (!process.env.RESEND_API_KEY) {
+    return { error: "Email sending isn't configured (missing RESEND_API_KEY)." };
+  }
+
+  const referralNote = wedding.referral_code
+    ? `\n\nReferral code: ${wedding.referral_code} (please mention this if you book)`
+    : "";
+
+  try {
+    const resend = getResendClient();
+    const { error: sendError } = await resend.emails.send({
+      from: INQUIRY_FROM_ADDRESS,
+      to: recipientEmail,
+      replyTo: user.email,
+      subject: `Wedding inquiry from ${coupleNames || user.email}`,
+      text: `${message}${referralNote}`,
+    });
+
+    if (sendError) {
+      return { error: sendError.message };
+    }
+  } catch (err) {
+    return { error: err instanceof Error ? err.message : "Failed to send the email." };
+  }
+
+  const { error: dbError } = await supabase.from("venue_inquiries").insert({
+    wedding_id: wedding.id,
+    user_id: user.id,
+    venue_id: venueId,
+    venue_name: venueName,
+    message,
+    recipient_email: recipientEmail,
+    status: "sent",
+    referral_code: wedding.referral_code,
+  });
+
+  if (dbError) {
+    return { error: dbError.message };
+  }
+
+  revalidatePath(`/venues/${venueId}`);
+  revalidatePath("/venues");
   return {};
 }
 
