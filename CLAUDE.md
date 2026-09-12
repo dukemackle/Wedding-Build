@@ -15,17 +15,34 @@ users** — the owner is still building and testing solo.
   and vendors both. The only goal right now is adoption; no fees, no paywalls,
   nothing that adds friction to signing up or using the product. Stay here
   until there's real, organic (non-owner) usage to point at.
-- **Phase 1: light vendor lead pricing, ~$1–$5/month per vendor** (or a
-  small per-lead fee) for continuing to receive inquiries / stay listed.
-  Deliberately priced low enough that no vendor would hesitate — the goal of
-  this phase is proving vendors will pay *at all* and building the habit of
-  vendor billing, not meaningful revenue. Fully guaranteed/provable with zero
-  new infrastructure: `vendor_inquiries` already logs every lead in Wren's own
-  database, so billing against it needs no vendor cooperation or new
-  tracking — see the admin Vendors page's existing per-vendor inquiry/booked
-  counts. Start manual (direct outreach + a Stripe payment link + the
-  existing `active` toggle to unlist non-payers) before building anything
-  self-serve.
+- **Phase 1: light vendor lead pricing** for continuing to receive inquiries /
+  stay listed. The goal of this phase is proving vendors will pay *at all* and
+  building the habit of vendor billing, not meaningful revenue — so whatever
+  the number is, it should be low enough that no vendor hesitates. Fully
+  guaranteed/provable with zero new infrastructure: `vendor_inquiries` already
+  logs every lead in Wren's own database, so billing against it needs no
+  vendor cooperation or new tracking — see the admin Vendors page's existing
+  per-vendor inquiry/booked counts. Start manual (direct outreach + a Stripe
+  payment link + the existing `active` toggle to unlist non-payers) before
+  building anything self-serve — today there is zero billing code in the app
+  (`active` is a plain admin-toggled boolean, see migration `0041`), which is
+  a feature, not a gap: it means starting to charge costs no engineering work,
+  and changing the price for any vendor later (or between vendors) is just as
+  free, since nothing is hardcoded. That flexibility goes away the moment
+  billing gets automated (Phase 3) — when that's built, give each vendor a
+  stored rate (not one global constant or a single fixed Stripe Price) so
+  future price changes still don't require migrating existing subscribers.
+  - **~$1–$5/month is a placeholder, not a derived price.** Don't lock a real
+    number until there's real signal: (a) actual non-owner `vendor_inquiries`
+    volume per vendor in `/admin/vendors` — what does a typical vendor get per
+    month, (b) direct "would you pay $X" conversations with a handful of real
+    vendors before rolling a price out broadly, (c) comparables as an anchor —
+    WeddingWire/The Knot charge vendors $200–$400+/month flat, Thumbtack-style
+    marketplaces charge $15–$50+ per lead, both priced off high wedding
+    contract values ($3k+ photographer, $10k+ venue) that Wren hasn't earned
+    any track record against yet. $1–$5 only makes sense as a foot-in-the-door
+    trust/plumbing test, not as a lead-value estimate — the real price gets
+    set once (a)–(c) exist, not before.
   - **Trigger to enter Phase 1:** a real base of active vendors, each with
     enough genuine (non-owner-test) inquiries that the leads are obviously
     worth something to them, plus a steady trickle of organic couple
