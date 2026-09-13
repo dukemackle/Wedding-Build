@@ -356,7 +356,7 @@ function RotateHandle({
         position: "absolute",
         top: -40,
         left: "50%",
-        transform: "translateX(-50%)",
+        transform: "translateX(calc(-100% - 4px))",
         touchAction: "none",
       }}
       aria-label="Rotate"
@@ -370,6 +370,35 @@ function RotateHandle({
   );
 }
 
+function DeleteHandle({ onDelete }: { onDelete: () => void }) {
+  return (
+    <button
+      type="button"
+      onPointerDown={(e) => e.stopPropagation()}
+      onClick={(e) => {
+        e.stopPropagation();
+        onDelete();
+      }}
+      style={{
+        position: "absolute",
+        top: -40,
+        left: "50%",
+        transform: "translateX(4px)",
+      }}
+      aria-label="Delete"
+      className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-red-700 bg-parchment text-red-700 shadow-sm transition-colors hover:bg-red-50"
+    >
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+        <path d="M3 6h18" />
+        <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+        <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+        <path d="M10 11v6" />
+        <path d="M14 11v6" />
+      </svg>
+    </button>
+  );
+}
+
 function TableNode({
   table,
   assignedGuests,
@@ -378,12 +407,14 @@ function TableNode({
   onDragEnd,
   onRotateEnd,
   onUnassign,
+  onDelete,
 }: {
   table: SeatingTable;
   assignedGuests: Guest[];
   isSelected: boolean;
   onSelect: () => void;
   onDragEnd: (x: number, y: number) => void;
+  onDelete: () => void;
   onRotateEnd: (rotation: number) => void;
   onUnassign: (guestId: string) => void;
 }) {
@@ -445,11 +476,14 @@ function TableNode({
       className={`flex cursor-grab select-none flex-col items-center justify-center gap-1 border-2 bg-card p-2 text-center shadow-sm active:cursor-grabbing ${shapeClassName(table.shape)} ${isSelected ? "border-forest ring-2 ring-forest/30" : "border-hairline"}`}
     >
       {isSelected && (
-        <RotateHandle
-          containerRef={containerRef}
-          onRotate={setRotation}
-          onRotateEnd={onRotateEnd}
-        />
+        <>
+          <RotateHandle
+            containerRef={containerRef}
+            onRotate={setRotation}
+            onRotateEnd={onRotateEnd}
+          />
+          <DeleteHandle onDelete={onDelete} />
+        </>
       )}
       <p className="font-medium text-ink">{table.name}</p>
       <p className={`text-xs ${overCapacity ? "text-red-700" : "text-ink/50"}`}>
@@ -487,12 +521,14 @@ function ItemNode({
   onSelect,
   onDragEnd,
   onRotateEnd,
+  onDelete,
 }: {
   item: VenueLayoutItem;
   isSelected: boolean;
   onSelect: () => void;
   onDragEnd: (x: number, y: number) => void;
   onRotateEnd: (rotation: number) => void;
+  onDelete: () => void;
 }) {
   const { width, height } = ITEM_TYPE_DIMENSIONS[item.item_type];
   const [pos, setPos] = useState(() => ({ x: item.position_x, y: item.position_y }));
@@ -549,11 +585,14 @@ function ItemNode({
       className={`flex cursor-grab select-none flex-col items-center justify-center rounded-lg border-2 p-2 text-center text-sm shadow-sm active:cursor-grabbing ${ITEM_TYPE_COLORS[item.item_type]} ${isSelected ? "ring-2 ring-forest/40" : ""}`}
     >
       {isSelected && (
-        <RotateHandle
-          containerRef={containerRef}
-          onRotate={setRotation}
-          onRotateEnd={onRotateEnd}
-        />
+        <>
+          <RotateHandle
+            containerRef={containerRef}
+            onRotate={setRotation}
+            onRotateEnd={onRotateEnd}
+          />
+          <DeleteHandle onDelete={onDelete} />
+        </>
       )}
       <p className="font-medium text-ink">{itemDisplayName(item)}</p>
       {item.label && <p className="text-xs text-ink/50">{ITEM_TYPE_LABELS[item.item_type]}</p>}
@@ -574,6 +613,8 @@ function VenueCanvas({
   onTableRotateEnd,
   onItemRotateEnd,
   onUnassign,
+  onDeleteTable,
+  onDeleteItem,
 }: {
   tables: SeatingTable[];
   items: VenueLayoutItem[];
@@ -587,6 +628,8 @@ function VenueCanvas({
   onTableRotateEnd: (id: string, rotation: number) => void;
   onItemRotateEnd: (id: string, rotation: number) => void;
   onUnassign: (guestId: string) => void;
+  onDeleteTable: (table: SeatingTable) => void;
+  onDeleteItem: (item: VenueLayoutItem) => void;
 }) {
   return (
     <div className="w-full overflow-x-auto rounded-lg border border-hairline bg-parchment">
@@ -607,6 +650,7 @@ function VenueCanvas({
             onSelect={() => onSelectItem(item.id === selectedItemId ? null : item.id)}
             onDragEnd={(x, y) => onItemDragEnd(item.id, x, y)}
             onRotateEnd={(rotation) => onItemRotateEnd(item.id, rotation)}
+            onDelete={() => onDeleteItem(item)}
           />
         ))}
         {tables.map((table) => (
@@ -619,6 +663,7 @@ function VenueCanvas({
             onDragEnd={(x, y) => onTableDragEnd(table.id, x, y)}
             onRotateEnd={(rotation) => onTableRotateEnd(table.id, rotation)}
             onUnassign={onUnassign}
+            onDelete={() => onDeleteTable(table)}
           />
         ))}
       </div>
@@ -1070,6 +1115,26 @@ export function VenueLayoutManager({
     });
   }
 
+  function handleDeleteTable(table: SeatingTable) {
+    if (!confirm(`Delete "${table.name}"? Assigned guests will become unassigned.`)) return;
+    if (selectedTableId === table.id) setSelectedTableId(null);
+    const formData = new FormData();
+    formData.set("id", table.id);
+    startTransition(async () => {
+      await deleteSeatingTable(formData);
+    });
+  }
+
+  function handleDeleteItem(item: VenueLayoutItem) {
+    if (!confirm(`Delete "${itemDisplayName(item)}"?`)) return;
+    if (selectedItemId === item.id) setSelectedItemId(null);
+    const formData = new FormData();
+    formData.set("id", item.id);
+    startTransition(async () => {
+      await deleteLayoutItem(formData);
+    });
+  }
+
   const hasContent = visibleTables.length > 0 || visibleItems.length > 0;
   const canAdd = mode !== "rooms" || activeRoomId != null;
   const formRoomId = mode === "rooms" ? (activeRoomId ?? undefined) : undefined;
@@ -1156,6 +1221,8 @@ export function VenueLayoutManager({
               onTableRotateEnd={handleTableRotateEnd}
               onItemRotateEnd={handleItemRotateEnd}
               onUnassign={handleUnassign}
+              onDeleteTable={handleDeleteTable}
+              onDeleteItem={handleDeleteItem}
             />
           )}
 
