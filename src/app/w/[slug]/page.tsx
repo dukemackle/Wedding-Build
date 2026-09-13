@@ -9,6 +9,7 @@ import type {
   RegistryItem,
 } from "@/lib/supabase/types";
 import { FadeInSection } from "@/components/fade-in-section";
+import { StaggerWords } from "@/components/stagger-words";
 import { daysUntilWedding } from "@/lib/countdown";
 import { CountdownTimer } from "@/components/countdown-timer";
 import { RsvpForm } from "./rsvp-form";
@@ -88,8 +89,8 @@ export default async function PublicWeddingPage({
             <p className="mt-6 text-center font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
               You&apos;re invited
             </p>
-            <h1 className="mt-2 text-center font-display text-4xl font-semibold text-forest">
-              {wedding.partner_a_name} &amp; {wedding.partner_b_name}
+            <h1 className="mt-2 text-center font-display text-[clamp(2.25rem,9vw,5rem)] font-semibold leading-[1.05] text-forest">
+              <StaggerWords text={`${wedding.partner_a_name} & ${wedding.partner_b_name}`} />
             </h1>
             {wedding.wedding_date && (
               <>
