@@ -4,24 +4,35 @@ import { AdminVendorsManager, type VendorStats } from "./admin-vendors-manager";
 
 export default async function AdminVendorsPage() {
   const admin = createAdminSupabaseClient();
-  const [{ data: vendors }, { data: inquiries }, { data: contactLogs }] = await Promise.all([
-    admin.from("vendors").select("*").order("name").returns<Vendor[]>(),
-    admin
-      .from("vendor_inquiries")
-      .select("vendor_name, status, booked_amount")
-      .returns<{ vendor_name: string; status: string; booked_amount: number | null }[]>(),
-    admin
-      .from("vendor_contact_log")
-      .select("*")
-      .order("created_at", { ascending: false })
-      .returns<VendorContactLog[]>(),
-  ]);
+  const [{ data: vendors }, { data: inquiries }, { data: contactLogs }, { data: testWeddings }] =
+    await Promise.all([
+      admin.from("vendors").select("*").order("name").returns<Vendor[]>(),
+      admin
+        .from("vendor_inquiries")
+        .select("vendor_name, status, booked_amount, wedding_id")
+        .returns<
+          { vendor_name: string; status: string; booked_amount: number | null; wedding_id: string }[]
+        >(),
+      admin
+        .from("vendor_contact_log")
+        .select("*")
+        .order("created_at", { ascending: false })
+        .returns<VendorContactLog[]>(),
+      admin.from("weddings").select("id").eq("is_test", true).returns<{ id: string }[]>(),
+    ]);
+
+  // Excludes inquiries from weddings marked as test on the Couples admin
+  // page, so per-vendor lead counts reflect real demand -- see CLAUDE.md's
+  // Phase 1 monetization trigger, which depends on genuine, non-owner-test
+  // inquiry volume.
+  const testWeddingIds = new Set((testWeddings ?? []).map((w) => w.id));
+  const realInquiries = (inquiries ?? []).filter((i) => !testWeddingIds.has(i.wedding_id));
 
   // Inquiries key on vendor_name, not vendor_id -- couples can inquire to a
   // vendor that isn't in the managed vendors table at all, so name is the
   // only field guaranteed to line up between the two.
   const statsByVendorName = new Map<string, VendorStats>();
-  for (const inquiry of inquiries ?? []) {
+  for (const inquiry of realInquiries) {
     const entry = statsByVendorName.get(inquiry.vendor_name) ?? {
       sent: 0,
       booked: 0,
