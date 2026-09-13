@@ -23,11 +23,18 @@ export default async function AdminRevenuePage() {
     admin.from("vendor_inquiries").select("*").returns<VendorInquiry[]>(),
     admin
       .from("weddings")
-      .select("id, partner_a_name, partner_b_name, referral_code")
-      .returns<Pick<Wedding, "id" | "partner_a_name" | "partner_b_name" | "referral_code">[]>(),
+      .select("id, partner_a_name, partner_b_name, referral_code, is_test")
+      .returns<
+        Pick<Wedding, "id" | "partner_a_name" | "partner_b_name" | "referral_code" | "is_test">[]
+      >(),
   ]);
 
-  const allInquiries = inquiries ?? [];
+  // Excludes inquiries/bookings from weddings marked as test on the Couples
+  // admin page, so these dollar figures reflect real activity only -- same
+  // filtering as Growth and Vendors. The referral lookup below stays
+  // unfiltered since it's a manual search tool, not a metric.
+  const testWeddingIds = new Set((weddings ?? []).filter((w) => w.is_test).map((w) => w.id));
+  const allInquiries = (inquiries ?? []).filter((i) => !testWeddingIds.has(i.wedding_id));
   const bookedInquiries = allInquiries.filter((i) => i.status === "booked");
   const totalBookedAmount = bookedInquiries.reduce((sum, i) => sum + (i.booked_amount ?? 0), 0);
 
@@ -51,7 +58,12 @@ export default async function AdminRevenuePage() {
   return (
     <div>
       <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Admin</p>
-      <h1 className="mt-2 mb-6 font-display text-3xl font-semibold text-forest">Revenue</h1>
+      <h1 className="mt-2 mb-2 font-display text-3xl font-semibold text-forest">Revenue</h1>
+      <p className="mb-6 text-xs text-ink/50">
+        {testWeddingIds.size > 0
+          ? `Excluding ${testWeddingIds.size} couple${testWeddingIds.size === 1 ? "" : "s"} marked as test on the Couples page.`
+          : "Mark any test/owner accounts as test on the Couples page to exclude them here."}
+      </p>
 
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
         <StatTile label="Inquiries sent" value={String(allInquiries.length)} />
