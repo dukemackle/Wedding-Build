@@ -54,7 +54,7 @@ export default async function VenueDetailPage({
   const { data: wedding } = await supabase
     .from("weddings")
     .select("*")
-    .eq("user_id", user.id)
+    .or(`user_id.eq.${user.id},partner_user_id.eq.${user.id}`)
     .maybeSingle<Wedding>();
 
   const { data: shortlistEntry } = wedding

@@ -4,9 +4,9 @@ import { signup } from "./actions";
 export default async function SignupPage({
   searchParams,
 }: {
-  searchParams: Promise<{ error?: string }>;
+  searchParams: Promise<{ error?: string; next?: string }>;
 }) {
-  const { error } = await searchParams;
+  const { error, next } = await searchParams;
 
   return (
     <main className="flex flex-1 items-center justify-center px-6 py-24">
@@ -25,6 +25,7 @@ export default async function SignupPage({
         )}
 
         <form className="mt-6 flex flex-col gap-4" action={signup}>
+          {next && <input type="hidden" name="next" value={next} />}
           <label className="flex flex-col gap-1 text-sm text-ink">
             Email
             <input
@@ -54,7 +55,10 @@ export default async function SignupPage({
 
         <p className="mt-6 text-center text-sm text-ink/70">
           Already have an account?{" "}
-          <Link href="/login" className="font-medium text-brass hover:underline">
+          <Link
+            href={next ? `/login?next=${encodeURIComponent(next)}` : "/login"}
+            className="font-medium text-brass hover:underline"
+          >
             Log in
           </Link>
         </p>

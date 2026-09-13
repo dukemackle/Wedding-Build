@@ -8,6 +8,7 @@ import { BookedVenueCard } from "./booked-venue-card";
 import { DashboardSummary, type DashboardSummaryData } from "./dashboard-summary";
 import { ChecklistPreview } from "./checklist-preview";
 import { ReferralCodeCard } from "./referral-code-card";
+import { PartnerInviteCard } from "./partner-invite-card";
 import type { ChecklistItem, Venue, Wedding } from "@/lib/supabase/types";
 import { BUDGET_CATEGORIES, computeCategoryValue, effectiveGuestCount } from "@/lib/budget-categories";
 
@@ -24,7 +25,7 @@ export default async function DashboardPage() {
   const { data: wedding } = await supabase
     .from("weddings")
     .select("*")
-    .eq("user_id", user.id)
+    .or(`user_id.eq.${user.id},partner_user_id.eq.${user.id}`)
     .maybeSingle<Wedding>();
 
   let summary: DashboardSummaryData | null = null;
@@ -125,6 +126,14 @@ export default async function DashboardPage() {
       {wedding?.referral_code && (
         <FadeInSection>
           <ReferralCodeCard code={wedding.referral_code} />
+        </FadeInSection>
+      )}
+      {wedding && wedding.user_id === user.id && (
+        <FadeInSection>
+          <PartnerInviteCard
+            inviteToken={wedding.invite_token}
+            hasPartner={Boolean(wedding.partner_user_id)}
+          />
         </FadeInSection>
       )}
       {wedding && (
