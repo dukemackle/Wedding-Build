@@ -2,7 +2,7 @@
 
 import { useRef, useState, useTransition } from "react";
 import { askWeddingAssistant, type AssistantMessage } from "@/lib/ai/wedding-assistant";
-import { ChatIcon, SendIcon, CloseIcon } from "@/components/icons";
+import { WrenBirdIcon, SendIcon, CloseIcon } from "@/components/icons";
 
 export function WeddingAssistantWidget() {
   const [open, setOpen] = useState(false);
@@ -39,7 +39,10 @@ export function WeddingAssistantWidget() {
       {open && (
         <div className="flex h-[28rem] w-[22rem] max-w-[calc(100vw-2.5rem)] flex-col overflow-hidden rounded-lg border border-hairline bg-parchment shadow-lg">
           <div className="flex items-center justify-between border-b border-hairline px-4 py-3">
-            <span className="font-display text-lg text-forest">Wedding Assistant</span>
+            <span className="flex items-center gap-2 font-display text-lg text-forest">
+              <WrenBirdIcon className="h-5 w-5" />
+              Wren
+            </span>
             <button
               type="button"
               onClick={() => setOpen(false)}
@@ -53,8 +56,8 @@ export function WeddingAssistantWidget() {
           <div ref={listRef} className="flex-1 space-y-3 overflow-y-auto px-4 py-3">
             {messages.length === 0 && (
               <p className="text-sm text-ink/60">
-                Ask me anything about your wedding plans -- budgeting, guest list strategy, vendor
-                tips, timelines, or etiquette.
+                Hi, I&apos;m Wren! Ask me anything about your wedding plans -- budgeting, guest
+                list strategy, vendor tips, timelines, or etiquette.
               </p>
             )}
             {messages.map((m, i) => (
@@ -103,10 +106,10 @@ export function WeddingAssistantWidget() {
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        aria-label={open ? "Close wedding assistant" : "Open wedding assistant"}
+        aria-label={open ? "Close Wren, your wedding assistant" : "Open Wren, your wedding assistant"}
         className="flex h-12 w-12 items-center justify-center rounded-full bg-forest text-parchment shadow-lg hover:bg-forest/90"
       >
-        {open ? <CloseIcon className="h-5 w-5" /> : <ChatIcon className="h-5 w-5" />}
+        {open ? <CloseIcon className="h-5 w-5" /> : <WrenBirdIcon className="h-6 w-6" />}
       </button>
     </div>
   );
