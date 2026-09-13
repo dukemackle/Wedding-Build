@@ -53,6 +53,18 @@ export default async function SignupPage({
           </button>
         </form>
 
+        <p className="mt-4 text-center text-xs text-ink/50">
+          By signing up, you agree to our{" "}
+          <Link href="/terms" className="underline hover:text-ink">
+            Terms of Service
+          </Link>{" "}
+          and{" "}
+          <Link href="/privacy" className="underline hover:text-ink">
+            Privacy Policy
+          </Link>
+          .
+        </p>
+
         <p className="mt-6 text-center text-sm text-ink/70">
           Already have an account?{" "}
           <Link
