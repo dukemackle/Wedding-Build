@@ -12,7 +12,7 @@ export function SiteFooter() {
           <Link href="/privacy" className="transition-colors hover:text-ink">
             Privacy
           </Link>
-          <a href="mailto:legal@wrenwed.com" className="transition-colors hover:text-ink">
+          <a href="mailto:wrenwed.com@gmail.com" className="transition-colors hover:text-ink">
             Contact
           </a>
         </nav>
