@@ -105,7 +105,7 @@ function TableScene({ table }: { table: SeatingTable }) {
       <Chair
         key={i}
         position={[cx, 0, cz]}
-        rotation={[0, side === -1 ? Math.PI : 0, 0]}
+        rotation={[0, side === -1 ? 0 : Math.PI, 0]}
       />,
     );
   }
