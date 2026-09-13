@@ -43,7 +43,7 @@ function PlainLink({ href, label }: { href: string; label: string }) {
   return (
     <Link
       href={href}
-      className={`link-underline font-mono-numbers text-sm transition-colors hover:text-forest ${
+      className={`link-underline font-display text-lg transition-colors hover:text-forest ${
         isActive ? "text-forest" : "text-ink/70"
       }`}
     >
@@ -54,7 +54,7 @@ function PlainLink({ href, label }: { href: string; label: string }) {
 
 export function NavLinks() {
   return (
-    <nav className="flex flex-wrap items-center gap-x-5 gap-y-2">
+    <nav className="flex flex-wrap items-center gap-x-6 gap-y-2">
       <PlainLink href="/dashboard" label="Dashboard" />
       <PlainLink href="/wedding-plan" label="Wedding Plan" />
       <NavDropdown label={groups[0].label} links={groups[0].links} />
