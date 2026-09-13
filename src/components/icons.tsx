@@ -237,3 +237,31 @@ export function ChevronDownIcon(props: IconProps) {
     </IconBase>
   );
 }
+
+// A wren, for the assistant mascot and the Help & Feedback nav item --
+// round body, a cocked tail (the wren's signature silhouette), a small
+// beak and eye.
+export function WrenBirdIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <ellipse cx="12" cy="14" rx="6.5" ry="5.5" />
+      <circle cx="17.3" cy="9" r="2.8" />
+      <path d="M19.8 8.7 22 9.3 19.6 9.9" />
+      <path d="M17.6 8.3h.01" />
+      <path d="M7 11 2.5 3" />
+      <path d="M8.6 10.3 5.2 2.3" />
+      <path d="M9 13c2 1.5 5 1.5 7-.5" />
+      <path d="M11 19.4 9.6 22.4" />
+      <path d="M14.4 19.4 15.4 22.4" />
+    </IconBase>
+  );
+}
+
+export function FeedbackIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M4 5h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H9l-4 4v-4H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Z" />
+      <path d="m9.5 12 1.75 1.75L15 10" />
+    </IconBase>
+  );
+}

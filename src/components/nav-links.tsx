@@ -61,6 +61,7 @@ export function NavLinks() {
       <NavDropdown label={groups[1].label} links={groups[1].links} />
       <NavDropdown label={groups[2].label} links={groups[2].links} />
       <NavDropdown label={groups[3].label} links={groups[3].links} />
+      <PlainLink href="/help" label="Help" />
     </nav>
   );
 }

@@ -11,7 +11,14 @@ const MAX_TURNS = 8;
 
 export type AssistantMessage = { role: "user" | "assistant"; content: string };
 
-async function buildContext(): Promise<{ userId: string; context: string } | null> {
+type AssistantContext = {
+  supabase: Awaited<ReturnType<typeof createClient>>;
+  userId: string;
+  weddingId: string | null;
+  context: string;
+};
+
+async function buildContext(): Promise<AssistantContext | null> {
   const supabase = await createClient();
   const {
     data: { user },
@@ -25,7 +32,12 @@ async function buildContext(): Promise<{ userId: string; context: string } | nul
     .maybeSingle<Wedding>();
 
   if (!wedding) {
-    return { userId: user.id, context: "This couple hasn't set up their wedding details yet." };
+    return {
+      supabase,
+      userId: user.id,
+      weddingId: null,
+      context: "This couple hasn't set up their wedding details yet.",
+    };
   }
 
   const [{ data: guests }, { data: budgetOverrides }, { data: customItems }, { data: checklist }] =
@@ -89,7 +101,7 @@ async function buildContext(): Promise<{ userId: string; context: string } | nul
       : "Checklist: all caught up",
   ].filter((line): line is string => Boolean(line));
 
-  return { userId: user.id, context: lines.join("\n") };
+  return { supabase, userId: user.id, weddingId: wedding.id, context: lines.join("\n") };
 }
 
 export async function askWeddingAssistant(
@@ -119,6 +131,20 @@ export async function askWeddingAssistant(
     if (!text || text.type !== "text") {
       return { ok: false, error: "The assistant didn't return a response. Try again." };
     }
+
+    const question = trimmedHistory[trimmedHistory.length - 1].content;
+    const { error: logError } = await ctx.supabase.from("assistant_conversations").insert({
+      wedding_id: ctx.weddingId,
+      user_id: ctx.userId,
+      question,
+      answer: text.text,
+    });
+    if (logError) {
+      // Best-effort only -- never let a logging failure block the reply
+      // the couple is actually waiting on.
+      console.error("Failed to log assistant conversation:", logError.message);
+    }
+
     return { ok: true, reply: text.text };
   } catch (error) {
     if (error instanceof Anthropic.AuthenticationError) {

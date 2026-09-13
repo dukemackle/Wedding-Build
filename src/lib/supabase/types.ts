@@ -353,3 +353,25 @@ export type RegionalCostData = {
   notes: string | null;
   updated_at: string;
 };
+
+export type AssistantConversation = {
+  id: string;
+  wedding_id: string | null;
+  user_id: string;
+  question: string;
+  answer: string;
+  created_at: string;
+};
+
+export type FeedbackCategory = "bug" | "idea" | "other";
+export type FeedbackStatus = "new" | "read" | "resolved";
+
+export type FeedbackSubmission = {
+  id: string;
+  wedding_id: string | null;
+  user_id: string;
+  category: FeedbackCategory;
+  message: string;
+  status: FeedbackStatus;
+  created_at: string;
+};
