@@ -13,29 +13,44 @@ export default async function AdminOverviewPage() {
   const admin = createAdminSupabaseClient();
 
   const [
-    { count: weddingCount },
+    { data: weddings },
     { count: vendorCount },
     { count: venueCount },
-    { count: inquiryCount },
-    { count: bookedCount },
+    { data: inquiries },
   ] = await Promise.all([
-    admin.from("weddings").select("id", { count: "exact", head: true }),
+    admin.from("weddings").select("id, is_test").returns<{ id: string; is_test: boolean }[]>(),
     admin.from("vendors").select("id", { count: "exact", head: true }),
     admin.from("venues").select("id", { count: "exact", head: true }),
-    admin.from("vendor_inquiries").select("id", { count: "exact", head: true }),
-    admin.from("vendor_inquiries").select("id", { count: "exact", head: true }).eq("status", "booked"),
+    admin
+      .from("vendor_inquiries")
+      .select("id, wedding_id, status")
+      .returns<{ id: string; wedding_id: string; status: string }[]>(),
   ]);
+
+  // Excludes weddings marked as test on the Couples admin page -- see the
+  // same note on Growth and Vendors, which filter the same way.
+  const testWeddingIds = new Set((weddings ?? []).filter((w) => w.is_test).map((w) => w.id));
+  const realInquiries = (inquiries ?? []).filter((i) => !testWeddingIds.has(i.wedding_id));
+
+  const weddingCount = (weddings ?? []).length - testWeddingIds.size;
+  const inquiryCount = realInquiries.length;
+  const bookedCount = realInquiries.filter((i) => i.status === "booked").length;
 
   return (
     <div>
       <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Admin</p>
-      <h1 className="mt-2 mb-6 font-display text-3xl font-semibold text-forest">Overview</h1>
+      <h1 className="mt-2 mb-2 font-display text-3xl font-semibold text-forest">Overview</h1>
+      <p className="mb-6 text-xs text-ink/50">
+        {testWeddingIds.size > 0
+          ? `Excluding ${testWeddingIds.size} couple${testWeddingIds.size === 1 ? "" : "s"} marked as test on the Couples page.`
+          : "Mark any test/owner accounts as test on the Couples page to exclude them here."}
+      </p>
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
-        <StatTile label="Couples" value={weddingCount ?? 0} />
+        <StatTile label="Couples" value={weddingCount} />
         <StatTile label="Vendors" value={vendorCount ?? 0} />
         <StatTile label="Venues" value={venueCount ?? 0} />
-        <StatTile label="Inquiries sent" value={inquiryCount ?? 0} />
-        <StatTile label="Bookings confirmed" value={bookedCount ?? 0} />
+        <StatTile label="Inquiries sent" value={inquiryCount} />
+        <StatTile label="Bookings confirmed" value={bookedCount} />
       </div>
     </div>
   );
