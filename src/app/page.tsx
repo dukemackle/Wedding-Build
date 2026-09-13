@@ -66,13 +66,13 @@ export default function Home() {
         <div className="mt-8 flex items-center justify-center gap-3">
           <Link
             href="/login"
-            className="rounded-full border border-hairline bg-parchment px-4 py-1.5 font-mono-numbers text-sm text-forest transition-colors hover:border-forest"
+            className="btn-motion btn-motion-brass rounded-full border border-hairline bg-parchment px-4 py-1.5 font-mono-numbers text-sm text-forest transition-colors hover:border-forest"
           >
             Log in
           </Link>
           <Link
             href="/signup"
-            className="rounded-full bg-forest px-5 py-1.5 font-mono-numbers text-sm text-parchment transition-colors hover:bg-forest/90"
+            className="btn-motion rounded-full bg-forest px-5 py-1.5 font-mono-numbers text-sm text-parchment transition-colors hover:bg-forest/90"
           >
             Sign up free
           </Link>
