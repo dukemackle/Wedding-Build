@@ -53,11 +53,14 @@ export default async function VenueLayoutPage() {
       .eq("wedding_id", wedding.id)
       .order("created_at", { ascending: true })
       .returns<SeatingTable[]>(),
+    // Anyone not explicitly declined is seatable -- some guests show up
+    // without ever RSVPing, so restricting this to "confirmed" only left
+    // the couple unable to plan around them ahead of time.
     supabase
       .from("guests")
       .select("*")
       .eq("wedding_id", wedding.id)
-      .eq("status", "confirmed")
+      .neq("status", "declined")
       .order("name", { ascending: true })
       .returns<Guest[]>(),
     supabase
