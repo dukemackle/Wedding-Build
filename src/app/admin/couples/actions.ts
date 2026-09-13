@@ -118,3 +118,20 @@ export async function bulkAddCoupleTag(formData: FormData): Promise<{ error?: st
   revalidatePath("/admin/couples");
   return {};
 }
+
+export async function setWeddingIsTest(formData: FormData): Promise<{ error?: string }> {
+  await requireAdmin();
+
+  const weddingId = formData.get("wedding_id") as string;
+  const isTest = formData.get("is_test") === "true";
+
+  const admin = createAdminSupabaseClient();
+  const { error } = await admin.from("weddings").update({ is_test: isTest }).eq("id", weddingId);
+
+  if (error) return { error: error.message };
+
+  revalidatePath("/admin/couples");
+  revalidatePath("/admin/growth");
+  revalidatePath("/admin/vendors");
+  return {};
+}

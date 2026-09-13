@@ -62,7 +62,7 @@ export default async function AdminGrowthPage() {
   ] = await Promise.all([
     admin
       .from("weddings")
-      .select("id, user_id, partner_a_name, partner_b_name, created_at")
+      .select("id, user_id, partner_a_name, partner_b_name, created_at, is_test")
       .returns<
         {
           id: string;
@@ -70,6 +70,7 @@ export default async function AdminGrowthPage() {
           partner_a_name: string | null;
           partner_b_name: string | null;
           created_at: string;
+          is_test: boolean;
         }[]
       >(),
     admin
@@ -85,11 +86,29 @@ export default async function AdminGrowthPage() {
     admin.auth.admin.listUsers({ perPage: 1000 }),
   ]);
 
+  // Testing your own product creates weddings, guests, inquiries, etc. just
+  // like a real couple would -- excluded here so growth signal reflects
+  // actual outside usage, not the owner's own QA. Site-health/infra numbers
+  // below intentionally use the unfiltered totals instead, since that's
+  // real storage/quota usage regardless of who created it.
   const totalWeddings = weddings?.length ?? 0;
+  const testWeddingIds = new Set((weddings ?? []).filter((w) => w.is_test).map((w) => w.id));
+  const realWeddings = (weddings ?? []).filter((w) => !testWeddingIds.has(w.id));
+  const totalRealWeddings = realWeddings.length;
+  function excludeTest<T extends { wedding_id: string }>(rows: T[] | null): T[] {
+    return (rows ?? []).filter((r) => !testWeddingIds.has(r.wedding_id));
+  }
+  const realGuests = excludeTest(guests);
+  const realBudgetLineItems = excludeTest(budgetLineItems);
+  const realSeatingTables = excludeTest(seatingTables);
+  const realItineraryEvents = excludeTest(itineraryEvents);
+  const realVendorInquiries = excludeTest(vendorInquiries);
+  const realVenueShortlist = excludeTest(venueShortlist);
+  const realChecklistItems = excludeTest(checklistItems);
 
   const months = last12MonthKeys();
   const countsByMonth = new Map(months.map((m) => [m.key, 0]));
-  for (const wedding of weddings ?? []) {
+  for (const wedding of realWeddings) {
     const d = new Date(wedding.created_at);
     const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
     if (countsByMonth.has(key)) {
@@ -103,32 +122,30 @@ export default async function AdminGrowthPage() {
   }
 
   const features: FeatureRow[] = [
-    { label: "Added guests", adopted: distinctWeddingCount(guests ?? []) },
+    { label: "Added guests", adopted: distinctWeddingCount(realGuests) },
     {
       label: "Sent RSVP invites",
-      adopted: distinctWeddingCount(
-        (guests ?? []).filter((g) => g.invite_sent_at != null),
-      ),
+      adopted: distinctWeddingCount(realGuests.filter((g) => g.invite_sent_at != null)),
     },
-    { label: "Customized budget", adopted: distinctWeddingCount(budgetLineItems ?? []) },
-    { label: "Built a seating chart", adopted: distinctWeddingCount(seatingTables ?? []) },
-    { label: "Added itinerary events", adopted: distinctWeddingCount(itineraryEvents ?? []) },
-    { label: "Contacted vendors", adopted: distinctWeddingCount(vendorInquiries ?? []) },
-    { label: "Shortlisted a venue", adopted: distinctWeddingCount(venueShortlist ?? []) },
-    { label: "Built a checklist", adopted: distinctWeddingCount(checklistItems ?? []) },
+    { label: "Customized budget", adopted: distinctWeddingCount(realBudgetLineItems) },
+    { label: "Built a seating chart", adopted: distinctWeddingCount(realSeatingTables) },
+    { label: "Added itinerary events", adopted: distinctWeddingCount(realItineraryEvents) },
+    { label: "Contacted vendors", adopted: distinctWeddingCount(realVendorInquiries) },
+    { label: "Shortlisted a venue", adopted: distinctWeddingCount(realVenueShortlist) },
+    { label: "Built a checklist", adopted: distinctWeddingCount(realChecklistItems) },
   ];
 
   // A couple who's touched none of the core planning tools some days after
   // signing up is worth a nudge -- most likely to actually come back to a
   // personal check-in rather than a generic re-engagement blast.
   const activeWeddingIds = new Set([
-    ...(guests ?? []).map((r) => r.wedding_id),
-    ...(budgetLineItems ?? []).map((r) => r.wedding_id),
-    ...(seatingTables ?? []).map((r) => r.wedding_id),
-    ...(itineraryEvents ?? []).map((r) => r.wedding_id),
-    ...(vendorInquiries ?? []).map((r) => r.wedding_id),
-    ...(venueShortlist ?? []).map((r) => r.wedding_id),
-    ...(checklistItems ?? []).map((r) => r.wedding_id),
+    ...realGuests.map((r) => r.wedding_id),
+    ...realBudgetLineItems.map((r) => r.wedding_id),
+    ...realSeatingTables.map((r) => r.wedding_id),
+    ...realItineraryEvents.map((r) => r.wedding_id),
+    ...realVendorInquiries.map((r) => r.wedding_id),
+    ...realVenueShortlist.map((r) => r.wedding_id),
+    ...realChecklistItems.map((r) => r.wedding_id),
   ]);
   const emailByUserId = new Map<string, string>();
   for (const user of usersPage?.users ?? []) {
@@ -136,13 +153,14 @@ export default async function AdminGrowthPage() {
   }
   // Approximate, not exact: counts invite + follow-up sends but not every
   // resend/reminder path individually -- good enough for "are we anywhere
-  // near the free tier," not for a real audit.
+  // near the free tier," not for a real audit. Unfiltered (includes test
+  // weddings) since this tracks real Resend quota usage, not growth signal.
   const approxEmailsSent =
     (guests ?? []).filter((g) => g.invite_sent_at != null).length +
     (vendorInquiries ?? []).length;
 
   const riskCutoff = riskCutoffTimestamp(AT_RISK_DAYS);
-  const atRiskCouples = (weddings ?? [])
+  const atRiskCouples = realWeddings
     .filter(
       (w) => !activeWeddingIds.has(w.id) && new Date(w.created_at).getTime() < riskCutoff,
     )
@@ -157,7 +175,12 @@ export default async function AdminGrowthPage() {
   return (
     <div>
       <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Admin</p>
-      <h1 className="mt-2 mb-6 font-display text-3xl font-semibold text-forest">Growth</h1>
+      <h1 className="mt-2 mb-2 font-display text-3xl font-semibold text-forest">Growth</h1>
+      <p className="mb-6 text-xs text-ink/50">
+        {testWeddingIds.size > 0
+          ? `Excluding ${testWeddingIds.size} couple${testWeddingIds.size === 1 ? "" : "s"} marked as test on the Couples page.`
+          : "Mark any test/owner accounts as test on the Couples page to exclude them here."}
+      </p>
 
       <div className="w-full rounded-lg border border-hairline bg-card p-6 shadow-sm">
         <p className="text-sm font-medium text-ink">Signups by month</p>
@@ -175,7 +198,7 @@ export default async function AdminGrowthPage() {
 
       <div className="mt-8 w-full rounded-lg border border-hairline bg-card p-6 shadow-sm">
         <p className="text-sm font-medium text-ink">
-          Feature adoption <span className="text-ink/50">({totalWeddings} couples total)</span>
+          Feature adoption <span className="text-ink/50">({totalRealWeddings} couples total)</span>
         </p>
         <div className="mt-3">
           {features.map((feature) => (
@@ -183,7 +206,7 @@ export default async function AdminGrowthPage() {
               key={feature.label}
               label={feature.label}
               count={feature.adopted}
-              max={Math.max(1, totalWeddings)}
+              max={Math.max(1, totalRealWeddings)}
             />
           ))}
         </div>

@@ -15,6 +15,7 @@ export type Wedding = {
   referral_code: string | null;
   budget_target: number | null;
   venue_id: string | null;
+  is_test: boolean;
   created_at: string;
   updated_at: string;
 };

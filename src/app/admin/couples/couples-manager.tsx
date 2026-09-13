@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useMemo, useState, useTransition } from "react";
 import type { Wedding } from "@/lib/supabase/types";
 import { downloadCsv, toCsv } from "@/lib/csv";
-import { bulkAddCoupleTag, emailCouples } from "./actions";
+import { bulkAddCoupleTag, emailCouples, setWeddingIsTest } from "./actions";
 
 export type CoupleRow = {
   wedding: Wedding;
@@ -151,9 +151,47 @@ function BulkTagForm({
   );
 }
 
+function TestToggle({ weddingId, isTest }: { weddingId: string; isTest: boolean }) {
+  const [isPending, startTransition] = useTransition();
+
+  function handleClick() {
+    const formData = new FormData();
+    formData.set("wedding_id", weddingId);
+    formData.set("is_test", String(!isTest));
+    startTransition(async () => {
+      await setWeddingIsTest(formData);
+    });
+  }
+
+  return (
+    <button
+      type="button"
+      onClick={handleClick}
+      disabled={isPending}
+      className={`rounded-full border px-2 py-0.5 text-[10px] font-medium transition-colors disabled:opacity-60 ${
+        isTest
+          ? "border-brass bg-brass/10 text-brass"
+          : "border-hairline text-ink/40 hover:border-brass hover:text-brass"
+      }`}
+    >
+      {isTest ? "Test" : "Mark as test"}
+    </button>
+  );
+}
+
 function exportCouplesCsv(rows: CoupleRow[]) {
   const csv = toCsv(
-    ["Couple", "Email", "Wedding date", "Region", "Guests", "Referral code", "Tags", "Signed up"],
+    [
+      "Couple",
+      "Email",
+      "Wedding date",
+      "Region",
+      "Guests",
+      "Referral code",
+      "Tags",
+      "Test",
+      "Signed up",
+    ],
     rows.map(({ wedding, email, guestCount, tags }) => [
       [wedding.partner_a_name, wedding.partner_b_name].filter(Boolean).join(" & "),
       email ?? "",
@@ -162,6 +200,7 @@ function exportCouplesCsv(rows: CoupleRow[]) {
       guestCount,
       wedding.referral_code ?? "",
       tags.join("; "),
+      wedding.is_test ? "yes" : "",
       wedding.created_at,
     ]),
   );
@@ -173,11 +212,15 @@ export function CouplesManager({ rows }: { rows: CoupleRow[] }) {
   const [showCompose, setShowCompose] = useState(false);
   const [showTagForm, setShowTagForm] = useState(false);
   const [query, setQuery] = useState("");
+  const [hideTest, setHideTest] = useState(false);
+
+  const testCount = useMemo(() => rows.filter((r) => r.wedding.is_test).length, [rows]);
 
   const filteredRows = useMemo(() => {
     const q = query.trim().toLowerCase();
-    if (!q) return rows;
     return rows.filter(({ wedding, email, tags }) => {
+      if (hideTest && wedding.is_test) return false;
+      if (!q) return true;
       const names = [wedding.partner_a_name, wedding.partner_b_name].filter(Boolean).join(" & ");
       return (
         names.toLowerCase().includes(q) ||
@@ -187,7 +230,7 @@ export function CouplesManager({ rows }: { rows: CoupleRow[] }) {
         tags.some((tag) => tag.toLowerCase().includes(q))
       );
     });
-  }, [rows, query]);
+  }, [rows, query, hideTest]);
 
   const allSelected = filteredRows.length > 0 && filteredRows.every((r) => selected.has(r.wedding.id));
 
@@ -223,6 +266,16 @@ export function CouplesManager({ rows }: { rows: CoupleRow[] }) {
           placeholder="Search by name, email, region, referral code..."
           className={`${inputClass} min-w-[260px] flex-1`}
         />
+        {testCount > 0 && (
+          <label className="flex items-center gap-1.5 text-sm text-ink/70">
+            <input
+              type="checkbox"
+              checked={hideTest}
+              onChange={(e) => setHideTest(e.target.checked)}
+            />
+            Hide test ({testCount})
+          </label>
+        )}
         <button
           type="button"
           onClick={() => setShowCompose(true)}
@@ -311,8 +364,8 @@ export function CouplesManager({ rows }: { rows: CoupleRow[] }) {
                     >
                       {names || "—"}
                     </Link>
-                    {tags.length > 0 && (
-                      <div className="mt-1 flex flex-wrap gap-1">
+                    {(tags.length > 0 || wedding.is_test) && (
+                      <div className="mt-1 flex flex-wrap items-center gap-1">
                         {tags.map((tag) => (
                           <span
                             key={tag}
@@ -323,6 +376,9 @@ export function CouplesManager({ rows }: { rows: CoupleRow[] }) {
                         ))}
                       </div>
                     )}
+                    <div className="mt-1">
+                      <TestToggle weddingId={wedding.id} isTest={wedding.is_test} />
+                    </div>
                   </td>
                   <td className="px-4 py-3 text-ink/70">{email ?? "—"}</td>
                   <td className="px-4 py-3 text-ink/70">{formatDate(wedding.wedding_date)}</td>
