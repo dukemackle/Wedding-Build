@@ -113,6 +113,13 @@ function personCount(guest: Guest) {
   return 1 + (guest.plus_one ? 1 : 0);
 }
 
+// Seating includes anyone not explicitly declined (some guests show up
+// without RSVPing), so a not-yet-confirmed guest gets a small status hint
+// wherever their name appears -- confirmed guests show cleanly as-is.
+function guestStatusHint(guest: Guest) {
+  return guest.status === "confirmed" ? "" : ` (${guest.status})`;
+}
+
 // The table's on-canvas footprint is derived from its shape + capacity
 // (no separate size field to keep in sync) -- more seats draws a bigger
 // shape, a rectangle grows mostly in width like a real banquet table.
@@ -497,6 +504,9 @@ function TableNode({
             className="flex items-center gap-1 rounded-full border border-hairline bg-parchment px-1.5 py-0.5 text-[11px] text-ink"
           >
             {guest.name}
+            {guestStatusHint(guest) && (
+              <span className="text-ink/40">{guestStatusHint(guest)}</span>
+            )}
             <button
               onPointerDown={(e) => e.stopPropagation()}
               onClick={(e) => {
@@ -774,6 +784,9 @@ function TableCard({ table, assignedGuests }: { table: SeatingTable; assignedGue
               className="flex items-center gap-2 rounded-full border border-hairline bg-card px-3 py-1 text-sm text-ink"
             >
               {guest.name}
+              {guestStatusHint(guest) && (
+                <span className="text-xs text-ink/40">{guestStatusHint(guest)}</span>
+              )}
               {guest.plus_one && <span className="text-xs text-ink/50">+1</span>}
               <button
                 onClick={() => handleUnassign(guest.id)}
@@ -884,6 +897,9 @@ function UnassignedGuestRow({
     <div className="flex items-center justify-between gap-3 border-b border-hairline py-3 last:border-b-0">
       <span className="text-ink">
         {guest.name}
+        {guestStatusHint(guest) && (
+          <span className="ml-1 text-xs text-ink/40">{guestStatusHint(guest)}</span>
+        )}
         {guest.plus_one && <span className="ml-2 text-xs text-ink/50">+1</span>}
       </span>
       <button
@@ -1147,8 +1163,8 @@ export function VenueLayoutManager({
           <p className="mt-1 text-sm text-ink/70">
             {mode === "seating"
               ? confirmedGuests.length === 0
-                ? "No confirmed guests yet — set up tables now, assign guests once they RSVP."
-                : `${unassigned.length} of ${confirmedGuests.length} confirmed guests still unassigned.`
+                ? "No guests yet — add guests on the Guests page, then come back to seat them."
+                : `${unassigned.length} of ${confirmedGuests.length} guests still unassigned.`
               : mode === "rooms"
                 ? "Plan each space separately — switch rooms below."
                 : "Everything in one shared space."}{" "}
