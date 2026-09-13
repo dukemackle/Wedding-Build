@@ -33,7 +33,12 @@ export function AppNav({
             Admin
           </a>
         )}
-        <span className="truncate font-mono-numbers text-sm text-ink/60">{email}</span>
+        <Link
+          href="/account"
+          className="truncate font-mono-numbers text-sm text-ink/60 hover:text-forest"
+        >
+          {email}
+        </Link>
         <form action={signOut}>
           <button
             type="submit"
