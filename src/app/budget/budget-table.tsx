@@ -18,6 +18,8 @@ import {
   FavorsIcon,
   CakeIcon,
   TransportationIcon,
+  ToastIcon,
+  BuntingIcon,
 } from "@/components/icons";
 
 export const CATEGORY_ICONS: Record<string, ComponentType<{ className?: string }>> = {
@@ -34,6 +36,8 @@ export const CATEGORY_ICONS: Record<string, ComponentType<{ className?: string }
   favors: FavorsIcon,
   cake: CakeIcon,
   transportation: TransportationIcon,
+  rehearsal_dinner: ToastIcon,
+  welcome_party: BuntingIcon,
 };
 
 export type BudgetRow = {
