@@ -61,7 +61,7 @@ export default async function BudgetPage() {
             Set up your wedding first
           </h1>
           <p className="mt-4 text-ink/70">
-            The estimate depends on your date, region, season, and style —
+            The estimate depends on your date, state, season, and style —
             add those on the Dashboard first.
           </p>
           <Link
@@ -255,7 +255,7 @@ export default async function BudgetPage() {
           Estimated wedding cost
         </h1>
         <p className="mt-2 text-sm text-ink/70">
-          Based on {wedding.region ?? "your region"},{" "}
+          Based on {wedding.state ?? "your state"},{" "}
           {(wedding.season ?? "your season").toLowerCase()} season, a{" "}
           {wedding.style_tier ?? "your"} style, and {guestCount} guest
           {guestCount === 1 ? "" : "s"}. Estimates are placeholders — click

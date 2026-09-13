@@ -5,6 +5,7 @@ export type Wedding = {
   partner_b_name: string | null;
   wedding_date: string | null;
   region: string | null;
+  state: string | null;
   season: string | null;
   style_tier: string | null;
   venue_type: string | null;

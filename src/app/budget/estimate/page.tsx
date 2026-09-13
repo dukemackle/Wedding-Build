@@ -4,7 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { AppNav } from "@/components/app-nav";
 import type { RegionalCostData, Wedding } from "@/lib/supabase/types";
 import { effectiveGuestCount } from "@/lib/budget-categories";
-import { REGION_REPRESENTATIVE_STATE, type EstimatorTier } from "@/lib/estimator";
+import type { EstimatorTier } from "@/lib/estimator";
 import { STYLE_TIERS } from "@/lib/wedding-options";
 import { Estimator } from "@/app/estimate/estimator";
 
@@ -37,7 +37,7 @@ export default async function BudgetEstimatePage() {
           </h1>
           <p className="mt-4 text-ink/70">
             Add your wedding details on the Dashboard so the estimator can start from your own
-            region and guest count.
+            state and guest count.
           </p>
           <Link
             href="/dashboard"
@@ -61,7 +61,7 @@ export default async function BudgetEstimatePage() {
     .returns<RegionalCostData[]>();
 
   const guestCount = effectiveGuestCount(wedding, guests ?? []);
-  const initialState = wedding.region ? REGION_REPRESENTATIVE_STATE[wedding.region] : undefined;
+  const initialState = wedding.state ?? undefined;
   const initialTier = STYLE_TIERS.includes(wedding.style_tier as EstimatorTier)
     ? (wedding.style_tier as EstimatorTier)
     : undefined;

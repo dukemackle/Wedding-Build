@@ -185,7 +185,7 @@ function exportCouplesCsv(rows: CoupleRow[]) {
       "Couple",
       "Email",
       "Wedding date",
-      "Region",
+      "State",
       "Guests",
       "Referral code",
       "Tags",
@@ -196,7 +196,7 @@ function exportCouplesCsv(rows: CoupleRow[]) {
       [wedding.partner_a_name, wedding.partner_b_name].filter(Boolean).join(" & "),
       email ?? "",
       wedding.wedding_date ?? "",
-      wedding.region ?? "",
+      wedding.state ?? "",
       guestCount,
       wedding.referral_code ?? "",
       tags.join("; "),
@@ -225,7 +225,7 @@ export function CouplesManager({ rows }: { rows: CoupleRow[] }) {
       return (
         names.toLowerCase().includes(q) ||
         (email ?? "").toLowerCase().includes(q) ||
-        (wedding.region ?? "").toLowerCase().includes(q) ||
+        (wedding.state ?? "").toLowerCase().includes(q) ||
         (wedding.referral_code ?? "").toLowerCase().includes(q) ||
         tags.some((tag) => tag.toLowerCase().includes(q))
       );
@@ -263,7 +263,7 @@ export function CouplesManager({ rows }: { rows: CoupleRow[] }) {
           type="search"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search by name, email, region, referral code..."
+          placeholder="Search by name, email, state, referral code..."
           className={`${inputClass} min-w-[260px] flex-1`}
         />
         {testCount > 0 && (
@@ -336,7 +336,7 @@ export function CouplesManager({ rows }: { rows: CoupleRow[] }) {
               <th className="px-4 py-3 font-medium">Couple</th>
               <th className="px-4 py-3 font-medium">Email</th>
               <th className="px-4 py-3 font-medium">Wedding date</th>
-              <th className="px-4 py-3 font-medium">Region</th>
+              <th className="px-4 py-3 font-medium">State</th>
               <th className="px-4 py-3 font-medium">Guests</th>
               <th className="px-4 py-3 font-medium">Referral code</th>
               <th className="px-4 py-3 font-medium">Signed up</th>
@@ -382,7 +382,7 @@ export function CouplesManager({ rows }: { rows: CoupleRow[] }) {
                   </td>
                   <td className="px-4 py-3 text-ink/70">{email ?? "—"}</td>
                   <td className="px-4 py-3 text-ink/70">{formatDate(wedding.wedding_date)}</td>
-                  <td className="px-4 py-3 text-ink/70">{wedding.region ?? "—"}</td>
+                  <td className="px-4 py-3 text-ink/70">{wedding.state ?? "—"}</td>
                   <td className="px-4 py-3 font-mono-numbers text-ink/70">{guestCount}</td>
                   <td className="px-4 py-3 font-mono-numbers text-ink/70">
                     {wedding.referral_code ?? "—"}

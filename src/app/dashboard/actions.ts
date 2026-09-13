@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import type { Wedding } from "@/lib/supabase/types";
+import { STATE_TO_REGION } from "@/lib/budget-categories";
 
 const MAX_PHOTO_BYTES = 5 * 1024 * 1024;
 
@@ -19,6 +20,7 @@ export async function saveWedding(formData: FormData): Promise<{ error?: string 
   }
 
   const guestCountOverrideRaw = formData.get("guest_count_override") as string;
+  const state = formData.get("state") as string;
 
   const { error } = await supabase.from("weddings").upsert(
     {
@@ -26,7 +28,11 @@ export async function saveWedding(formData: FormData): Promise<{ error?: string 
       partner_a_name: formData.get("partner_a_name") as string,
       partner_b_name: formData.get("partner_b_name") as string,
       wedding_date: (formData.get("wedding_date") as string) || null,
-      region: formData.get("region") as string,
+      state,
+      // The couple only ever picks a state -- region still drives the
+      // budget-multiplier math under the hood, so it's derived here
+      // automatically instead of being its own separate question.
+      region: STATE_TO_REGION[state] ?? null,
       season: formData.get("season") as string,
       style_tier: formData.get("style_tier") as string,
       venue_type: formData.get("venue_type") as string,
