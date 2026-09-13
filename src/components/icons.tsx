@@ -245,9 +245,9 @@ export function WrenBirdIcon(props: IconProps) {
   return (
     <IconBase {...props}>
       <ellipse cx="12" cy="14" rx="6.5" ry="5.5" />
-      <circle cx="17.3" cy="9" r="2.8" />
-      <path d="M19.8 8.7 22 9.3 19.6 9.9" />
-      <path d="M17.6 8.3h.01" />
+      <circle cx="16" cy="9.5" r="3" />
+      <path d="M18.5 9.2 20.7 9.8 18.3 10.4" />
+      <path d="M16.3 8.8h.01" />
       <path d="M7 11 2.5 3" />
       <path d="M8.6 10.3 5.2 2.3" />
       <path d="M9 13c2 1.5 5 1.5 7-.5" />
