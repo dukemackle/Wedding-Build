@@ -1,7 +1,7 @@
-import Image from "next/image";
 import Link from "next/link";
 import { signOut } from "@/lib/supabase/actions";
 import { WeddingAssistantWidget } from "@/components/wedding-assistant-widget";
+import { AssistantLauncherButton } from "@/components/assistant-launcher-button";
 import { NavLinks } from "@/components/nav-links";
 
 export function AppNav({
@@ -19,9 +19,7 @@ export function AppNav({
       className={`mb-6 flex w-full ${maxWidthClassName} flex-col gap-3 sm:flex-row sm:items-center sm:justify-between`}
     >
       <div className="flex items-center gap-4">
-        <Link href="/dashboard" className="shrink-0">
-          <Image src="/icon.png" alt="Wren" width={32} height={32} className="h-8 w-8" />
-        </Link>
+        <AssistantLauncherButton />
         <NavLinks />
       </div>
       <div className="flex items-center justify-between gap-4 sm:justify-end">
