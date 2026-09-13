@@ -16,6 +16,8 @@ export type Wedding = {
   budget_target: number | null;
   venue_id: string | null;
   is_test: boolean;
+  partner_user_id: string | null;
+  invite_token: string | null;
   created_at: string;
   updated_at: string;
 };

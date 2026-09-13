@@ -60,10 +60,10 @@ async function requireOwnWedding() {
   const { data: wedding } = await supabase
     .from("weddings")
     .select("*")
-    .eq("user_id", user.id)
+    .or(`user_id.eq.${user.id},partner_user_id.eq.${user.id}`)
     .maybeSingle<Wedding>();
 
-  return { supabase, wedding };
+  return { supabase, user, wedding };
 }
 
 export async function uploadHeroPhoto(formData: FormData): Promise<{ error?: string }> {
@@ -120,6 +120,80 @@ export async function removeHeroPhoto(): Promise<{ error?: string }> {
   const { error } = await supabase
     .from("weddings")
     .update({ hero_photo_url: null })
+    .eq("id", wedding.id);
+
+  if (error) {
+    return { error: error.message };
+  }
+
+  revalidatePath("/dashboard");
+  return {};
+}
+
+// Only the wedding's creator can invite/remove a partner -- once someone
+// has accepted an invite they get full read/write on everything else, but
+// managing who else holds that access stays with whoever set the wedding
+// up, same as the delete policy on the weddings row itself.
+export async function generateInviteLink(): Promise<{ error?: string; token?: string }> {
+  const { supabase, user, wedding } = await requireOwnWedding();
+
+  if (!wedding) {
+    return { error: "Set up your wedding first." };
+  }
+  if (wedding.user_id !== user.id) {
+    return { error: "Only the wedding owner can invite a partner." };
+  }
+
+  const token = randomUUID();
+  const { error } = await supabase
+    .from("weddings")
+    .update({ invite_token: token })
+    .eq("id", wedding.id);
+
+  if (error) {
+    return { error: error.message };
+  }
+
+  revalidatePath("/dashboard");
+  return { token };
+}
+
+export async function revokeInviteLink(): Promise<{ error?: string }> {
+  const { supabase, user, wedding } = await requireOwnWedding();
+
+  if (!wedding) {
+    return { error: "Set up your wedding first." };
+  }
+  if (wedding.user_id !== user.id) {
+    return { error: "Only the wedding owner can revoke the invite link." };
+  }
+
+  const { error } = await supabase
+    .from("weddings")
+    .update({ invite_token: null })
+    .eq("id", wedding.id);
+
+  if (error) {
+    return { error: error.message };
+  }
+
+  revalidatePath("/dashboard");
+  return {};
+}
+
+export async function removePartner(): Promise<{ error?: string }> {
+  const { supabase, user, wedding } = await requireOwnWedding();
+
+  if (!wedding) {
+    return { error: "Set up your wedding first." };
+  }
+  if (wedding.user_id !== user.id) {
+    return { error: "Only the wedding owner can remove partner access." };
+  }
+
+  const { error } = await supabase
+    .from("weddings")
+    .update({ partner_user_id: null })
     .eq("id", wedding.id);
 
   if (error) {
