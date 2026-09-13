@@ -1,8 +1,9 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Cormorant, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
 import { PageTransition } from "@/components/page-transition";
 import { SiteFooter } from "@/components/site-footer";
 import { AssistantProvider } from "@/components/assistant-context";
+import { RegisterServiceWorker } from "@/components/register-service-worker";
 import "./globals.css";
 
 const cormorant = Cormorant({
@@ -26,6 +27,15 @@ const plexMono = IBM_Plex_Mono({
 export const metadata: Metadata = {
   title: "Wren",
   description: "Plan your wedding budget, venues, guests, and vendors in one place.",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "Wren",
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#0b4a3a",
 };
 
 export default function RootLayout({
@@ -43,6 +53,7 @@ export default function RootLayout({
           <PageTransition>{children}</PageTransition>
           <SiteFooter />
         </AssistantProvider>
+        <RegisterServiceWorker />
       </body>
     </html>
   );
