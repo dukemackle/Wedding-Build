@@ -43,7 +43,7 @@ function PlainLink({ href, label }: { href: string; label: string }) {
   return (
     <Link
       href={href}
-      className={`font-mono-numbers text-sm transition-colors hover:text-forest ${
+      className={`link-underline font-mono-numbers text-sm transition-colors hover:text-forest ${
         isActive ? "text-forest" : "text-ink/70"
       }`}
     >
