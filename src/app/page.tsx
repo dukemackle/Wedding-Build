@@ -79,9 +79,10 @@ export default function Home() {
         </div>
         <Link
           href="/estimate"
-          className="mt-5 text-sm text-ink/60 underline decoration-hairline underline-offset-4 hover:text-forest"
+          className="btn-motion mt-6 inline-flex items-center gap-2 rounded-full bg-brass px-6 py-2.5 font-display text-lg font-semibold text-parchment shadow-sm transition-colors hover:bg-brass/90"
         >
-          Not ready to sign up? Get a free cost estimate first &rarr;
+          <BudgetIcon className="h-5 w-5" />
+          Get your free cost estimate &rarr;
         </Link>
       </section>
 
