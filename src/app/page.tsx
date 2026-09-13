@@ -2,12 +2,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { FadeInSection } from "@/components/fade-in-section";
 import { AnimatedCounter } from "@/components/animated-counter";
-import {
-  BudgetIcon,
-  HeadcountIcon,
-  VendorsIcon,
-  ChecklistIcon,
-} from "@/components/icons";
+import { HomeEstimatorCard } from "@/components/home-estimator-card";
+import { HeadcountIcon, VendorsIcon, ChecklistIcon, BudgetIcon } from "@/components/icons";
+import { createClient } from "@/lib/supabase/server";
+import type { RegionalCostData } from "@/lib/supabase/types";
 
 const stats: { value: number; prefix?: string; suffix?: string; label: string }[] = [
   { value: 10, suffix: "+", label: "planning tools in one place" },
@@ -38,52 +36,57 @@ const features = [
   },
 ];
 
-export default function Home() {
+export default async function Home() {
+  const supabase = await createClient();
+  const { data: regionalData } = await supabase
+    .from("regional_cost_data")
+    .select("*")
+    .returns<RegionalCostData[]>();
+
   return (
     <main className="flex flex-1 flex-col items-center overflow-x-hidden px-6">
-      <section className="relative flex w-full max-w-3xl flex-col items-center py-24 text-center">
+      <section className="relative grid w-full max-w-6xl grid-cols-1 items-center gap-10 py-10 lg:grid-cols-[1fr_1.05fr] lg:gap-8 lg:py-14">
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute -top-10 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-forest/10 blur-3xl motion-safe:animate-[float_7s_ease-in-out_infinite]"
+          className="pointer-events-none absolute -top-10 left-1/4 h-72 w-72 -translate-x-1/2 rounded-full bg-forest/10 blur-3xl motion-safe:animate-[float_7s_ease-in-out_infinite]"
         />
-        <h1>
+        <div className="flex flex-col items-start text-left">
           <Image
-            src="/logo/wren-logo-full.png"
+            src="/logo/wren-logo-hero.png"
             alt="Wren Wedding Planning"
-            width={2000}
-            height={2000}
+            width={1452}
+            height={856}
             priority
-            className="h-auto w-80 sm:w-[26rem]"
+            className="h-auto w-full max-w-[34rem]"
           />
-        </h1>
-        <p className="mt-4 font-display text-2xl text-ink sm:text-3xl">
-          Build your dream wedding.
-        </p>
-        <p className="mt-5 max-w-md text-base text-ink/80">
-          Budget, venues, guests, and vendors — all in one free account. No
-          spreadsheets, no per-vendor logins, no fee.
-        </p>
-        <div className="mt-8 flex items-center justify-center gap-3">
-          <Link
-            href="/login"
-            className="btn-motion btn-motion-brass rounded-full border border-hairline bg-parchment px-4 py-1.5 font-mono-numbers text-sm text-forest transition-colors hover:border-forest"
-          >
-            Log in
-          </Link>
-          <Link
-            href="/signup"
-            className="btn-motion rounded-full bg-forest px-5 py-1.5 font-mono-numbers text-sm text-parchment transition-colors hover:bg-forest/90"
-          >
-            Sign up free
-          </Link>
+          <p className="mt-3 w-full max-w-[34rem] text-center font-display text-xl italic text-ink/70">
+            Wedding planning, made easy.
+          </p>
+          <h1 className="mt-4 font-display text-5xl font-semibold leading-[1.05] text-ink sm:text-6xl lg:text-7xl">
+            Build your <span className="text-brass italic">dream</span> wedding.
+          </h1>
+          <p className="mt-4 max-w-md text-lg text-ink/80">
+            Plan, budget, venues, guests, and celebrate — all in one free account.
+          </p>
+          <div className="mt-6 flex items-center gap-3">
+            <Link
+              href="/signup"
+              className="btn-motion rounded-full bg-forest px-6 py-2.5 font-display text-lg text-parchment transition-colors hover:bg-forest/90"
+            >
+              Sign up free
+            </Link>
+            <Link
+              href="/login"
+              className="btn-motion btn-motion-brass rounded-full border border-hairline bg-parchment px-6 py-2.5 font-display text-lg text-forest transition-colors hover:border-forest"
+            >
+              Log in
+            </Link>
+          </div>
         </div>
-        <Link
-          href="/estimate"
-          className="btn-motion mt-6 inline-flex items-center gap-2 rounded-full bg-brass px-6 py-2.5 font-display text-lg font-semibold text-parchment shadow-sm transition-colors hover:bg-brass/90"
-        >
-          <BudgetIcon className="h-5 w-5" />
-          Get your free cost estimate &rarr;
-        </Link>
+
+        <div className="w-full max-w-xl lg:justify-self-end">
+          <HomeEstimatorCard regionalData={regionalData ?? []} />
+        </div>
       </section>
 
       <FadeInSection>
