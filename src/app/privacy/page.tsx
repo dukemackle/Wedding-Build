@@ -106,13 +106,18 @@ export default function PrivacyPage() {
 
           <Section title="5. Data retention & deletion">
             <p>
-              We retain your information for as long as your account is active. You can request
-              deletion of your account and associated data at any time by contacting{" "}
+              We retain your information for as long as your account is active. You can
+              permanently delete your account and its data at any time from your{" "}
+              <Link href="/account" className="text-brass hover:underline">
+                Account page
+              </Link>
+              , or by contacting{" "}
               <a href="mailto:legal@wrenwed.com" className="text-brass hover:underline">
                 legal@wrenwed.com
-              </a>{" "}
-              — we&apos;ll delete it within a reasonable time, except where we&apos;re required to
-              retain limited records by law.
+              </a>
+              . Deleting your account removes your login immediately; if you&apos;re a wedding&apos;s
+              owner, it also deletes that wedding and everything on it, except where we&apos;re
+              required to retain limited records by law.
             </p>
           </Section>
 

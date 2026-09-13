@@ -137,8 +137,12 @@ export default function TermsPage() {
 
           <Section title="10. Termination">
             <p>
-              You can stop using the Service and delete your account at any time by contacting us.
-              We may suspend or terminate access to the Service for anyone who violates these
+              You can stop using the Service and permanently delete your account at any time from
+              your{" "}
+              <Link href="/account" className="text-brass hover:underline">
+                Account page
+              </Link>
+              . We may suspend or terminate access to the Service for anyone who violates these
               Terms.
             </p>
           </Section>
