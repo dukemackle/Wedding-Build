@@ -48,6 +48,12 @@ export const BUDGET_CATEGORIES: BudgetCategory[] = [
   { key: "favors", label: "Favors & Gifts", flatBase: 0, perGuestAmount: 8 },
   { key: "cake", label: "Cake & Desserts", flatBase: 600, perGuestAmount: 0 },
   { key: "transportation", label: "Transportation", flatBase: 800, perGuestAmount: 0 },
+  // Both scale a bit with guest count, unlike most flat-base categories
+  // above -- modern rehearsal dinners and welcome parties increasingly
+  // invite most/all out-of-town guests, not just the wedding party, so
+  // a larger wedding plausibly means a larger one of these too.
+  { key: "rehearsal_dinner", label: "Rehearsal Dinner", flatBase: 800, perGuestAmount: 15 },
+  { key: "welcome_party", label: "Welcome Party", flatBase: 600, perGuestAmount: 12 },
 ];
 
 export const REGION_MULTIPLIERS: Record<string, number> = {

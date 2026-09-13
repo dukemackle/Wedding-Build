@@ -154,6 +154,28 @@ export function CakeIcon(props: IconProps) {
   );
 }
 
+export function ToastIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M6 3c0 3 .5 5 3 5s3-2 3-5Z" />
+      <path d="M9 8v9M6.5 17h5" />
+      <path d="M15 6c0 2.5.5 4 2.5 4s2.5-1.5 2.5-4Z" />
+      <path d="M17.5 10v7M15.5 17h4" />
+    </IconBase>
+  );
+}
+
+export function BuntingIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M3 6h18" />
+      <path d="m5 6 2.5 5L10 6" />
+      <path d="m11 6 2.5 5L16 6" />
+      <path d="m17 6 2 4 2-4" />
+    </IconBase>
+  );
+}
+
 export function TransportationIcon(props: IconProps) {
   return (
     <IconBase {...props}>
