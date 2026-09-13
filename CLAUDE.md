@@ -8,6 +8,13 @@ an admin panel (admin.wrenwed.com) for tracking couples, vendors, venues,
 revenue, and growth. Current stage: **pre-launch, not yet monetized, no outside
 users** — the owner is still building and testing solo.
 
+**Workflow note (2026-09-13):** for any visual/UI change (icons,
+layout, colors, mascot art, etc.), render a preview (screenshot or
+generated image) and share it with the owner before committing/pushing
+— confirm the look first, don't ship-then-show. Text-only or
+logic-only changes (copy edits, server actions, migrations, RLS) don't
+need this.
+
 **Deployment note (2026-09-12):** production deploys to Cloudflare Workers
 run through the Cloudflare dashboard's Git integration (Settings → Build),
 not a committed CI config. The Build command must be `npm run cf:build`
