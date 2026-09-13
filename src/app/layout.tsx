@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Cormorant, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
 import { PageTransition } from "@/components/page-transition";
+import { SiteFooter } from "@/components/site-footer";
 import "./globals.css";
 
 const cormorant = Cormorant({
@@ -38,6 +39,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col bg-parchment text-ink font-body">
         <PageTransition>{children}</PageTransition>
+        <SiteFooter />
       </body>
     </html>
   );
