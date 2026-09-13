@@ -89,7 +89,7 @@ async function buildContext(): Promise<AssistantContext | null> {
     wedding.wedding_date
       ? `Wedding date: ${wedding.wedding_date}${daysToWedding !== null ? ` (${daysToWedding >= 0 ? `${daysToWedding} days away` : "already happened"})` : ""}`
       : "Wedding date: not set yet",
-    wedding.region ? `Region: ${wedding.region}` : null,
+    wedding.state ? `State: ${wedding.state}` : null,
     wedding.style_tier ? `Style: ${wedding.style_tier}` : null,
     `Guests: ${headcount} expected (${confirmedCount} confirmed, ${pendingCount} awaiting response)`,
     `Estimated total budget: about $${budgetTotal.toLocaleString()}`,

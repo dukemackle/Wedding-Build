@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useState, useTransition } from "react";
 import { saveWedding } from "./actions";
 import type { Wedding } from "@/lib/supabase/types";
-import { REGIONS, SEASONS, STYLE_TIERS, VENUE_TYPES } from "@/lib/wedding-options";
+import { STATES, SEASONS, STYLE_TIERS, VENUE_TYPES } from "@/lib/wedding-options";
 import { daysUntilWedding } from "@/lib/countdown";
 import { CountdownTimer } from "@/components/countdown-timer";
 
@@ -82,19 +82,19 @@ function WeddingForm({
         />
       </label>
       <label className={labelClass}>
-        Region
+        State
         <select
-          name="region"
+          name="state"
           required
-          defaultValue={wedding?.region ?? ""}
+          defaultValue={wedding?.state ?? ""}
           className={selectClass}
         >
           <option value="" disabled>
-            Select a region
+            Select a state
           </option>
-          {REGIONS.map((region) => (
-            <option key={region} value={region}>
-              {region}
+          {STATES.map((state) => (
+            <option key={state} value={state}>
+              {state}
             </option>
           ))}
         </select>
@@ -227,7 +227,7 @@ function WeddingSummary({
       </div>
 
       <div className="mt-6 grid grid-cols-2 gap-4 border-t border-hairline pt-6 sm:grid-cols-4">
-        <DetailRow label="Region" value={wedding.region ?? "—"} />
+        <DetailRow label="State" value={wedding.state ?? "—"} />
         <DetailRow label="Season" value={wedding.season ?? "—"} />
         <DetailRow label="Style" value={wedding.style_tier ?? "—"} />
         <DetailRow label="Venue type" value={wedding.venue_type ?? "—"} />

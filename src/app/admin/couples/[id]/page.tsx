@@ -159,8 +159,8 @@ export default async function AdminCoupleDetailPage({
       <Section title="Wedding details">
         <dl className="grid grid-cols-2 gap-x-6 gap-y-2 text-sm sm:grid-cols-4">
           <div>
-            <dt className="text-xs text-ink/50">Region</dt>
-            <dd className="text-ink">{wedding.region ?? "—"}</dd>
+            <dt className="text-xs text-ink/50">State</dt>
+            <dd className="text-ink">{wedding.state ?? "—"}</dd>
           </div>
           <div>
             <dt className="text-xs text-ink/50">Season</dt>
