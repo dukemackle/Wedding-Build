@@ -121,8 +121,13 @@ function BudgetRowItem({
   const [isPending, startTransition] = useTransition();
   const [isSendingReminder, setIsSendingReminder] = useState(false);
   const [reminderSent, setReminderSent] = useState(false);
+  const [actualInput, setActualInput] = useState(row.override != null ? String(row.override) : "");
+  const [paidInput, setPaidInput] = useState(row.paidAmount != null ? String(row.paidAmount) : "");
 
   const effectiveValue = row.override ?? row.computed ?? 0;
+  const liveActual = Number(actualInput) || effectiveValue;
+  const livePaid = Number(paidInput) || 0;
+  const paidPct = liveActual > 0 ? Math.min(100, (livePaid / liveActual) * 100) : 0;
   const datalistId = `purchased-from-${row.key}`;
   const payerDatalistId = `paid-by-${row.key}`;
   const Icon = CATEGORY_ICONS[row.key] ?? CustomItemIcon;
@@ -130,8 +135,8 @@ function BudgetRowItem({
   function handleAmountBlur(field: "override_value" | "paid_amount", value: string) {
     const formData = new FormData();
     formData.set("category", row.key);
-    formData.set("override_value", field === "override_value" ? value : String(row.override ?? ""));
-    formData.set("paid_amount", field === "paid_amount" ? value : String(row.paidAmount ?? ""));
+    formData.set("override_value", field === "override_value" ? value : actualInput);
+    formData.set("paid_amount", field === "paid_amount" ? value : paidInput);
     startTransition(async () => {
       const result = await onSaveAmounts(formData);
       setError(result?.error);
@@ -224,20 +229,10 @@ function BudgetRowItem({
             <input
               type="number"
               min={0}
-              defaultValue={row.override ?? ""}
+              value={actualInput}
               placeholder="0"
+              onChange={(e) => setActualInput(e.target.value)}
               onBlur={(e) => handleAmountBlur("override_value", e.target.value)}
-              className={numberInputClass}
-            />
-          </label>
-          <label className="flex flex-col items-end gap-1 text-xs text-ink/50">
-            Paid
-            <input
-              type="number"
-              min={0}
-              defaultValue={row.paidAmount ?? ""}
-              placeholder="0"
-              onBlur={(e) => handleAmountBlur("paid_amount", e.target.value)}
               className={numberInputClass}
             />
           </label>
@@ -269,6 +264,32 @@ function BudgetRowItem({
               <TrashIcon className="h-4 w-4" />
             </button>
           </div>
+        </div>
+      </div>
+
+      <div>
+        <div className="flex items-baseline justify-between text-xs text-ink/50">
+          <span>Paid</span>
+          <span className="font-mono-numbers">
+            {currency.format(livePaid)} of {currency.format(liveActual)}
+          </span>
+        </div>
+        <div className="mt-1.5 flex items-center gap-3">
+          <div className="h-2 flex-1 overflow-hidden rounded-full bg-forest/10">
+            <div
+              className="h-2 rounded-full bg-forest transition-[width]"
+              style={{ width: `${paidPct}%` }}
+            />
+          </div>
+          <input
+            type="number"
+            min={0}
+            value={paidInput}
+            placeholder="0"
+            onChange={(e) => setPaidInput(e.target.value)}
+            onBlur={(e) => handleAmountBlur("paid_amount", e.target.value)}
+            className={numberInputClass}
+          />
         </div>
       </div>
 
