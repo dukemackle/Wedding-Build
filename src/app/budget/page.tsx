@@ -11,7 +11,6 @@ import {
   effectiveGuestCount,
 } from "@/lib/budget-categories";
 import { BudgetTable, type BudgetRow } from "./budget-table";
-import { BudgetCustomItems } from "./budget-custom-items";
 import { BudgetOverview, type BudgetChartItem } from "./budget-chart";
 import { BudgetTarget } from "./budget-target";
 import { UpcomingPayments, paymentsFromRows } from "./upcoming-payments";
@@ -25,6 +24,7 @@ const currency = new Intl.NumberFormat("en-US", {
 type BudgetLineItemRow = {
   category: string;
   override_value: number | null;
+  paid_amount: number | null;
   purchased_from: string | null;
   paid_by: string | null;
   due_date: string | null;
@@ -84,7 +84,9 @@ export default async function BudgetPage() {
 
   const { data: overrides } = await supabase
     .from("budget_line_items")
-    .select("category, override_value, purchased_from, paid_by, due_date, notes, vendor_id, venue_id")
+    .select(
+      "category, override_value, paid_amount, purchased_from, paid_by, due_date, notes, vendor_id, venue_id",
+    )
     .eq("wedding_id", wedding.id);
 
   const overrideByCategory = new Map(
@@ -165,7 +167,14 @@ export default async function BudgetPage() {
     }
   }
 
-  const rows: BudgetRow[] = BUDGET_CATEGORIES.map((category) => {
+  const hiddenSet = new Set(wedding.hidden_budget_categories);
+  const visibleCategories = BUDGET_CATEGORIES.filter((c) => !hiddenSet.has(c.key));
+  const hiddenCategories = BUDGET_CATEGORIES.filter((c) => hiddenSet.has(c.key)).map((c) => ({
+    key: c.key,
+    label: c.label,
+  }));
+
+  const rows: BudgetRow[] = visibleCategories.map((category) => {
     const lineItem = overrideByCategory.get(category.key);
     const imageUrl = lineItem?.vendor_id
       ? (imageByVendorId.get(lineItem.vendor_id) ?? null)
@@ -185,6 +194,7 @@ export default async function BudgetPage() {
         wedding.style_tier,
       ),
       override: lineItem?.override_value ?? null,
+      paidAmount: lineItem?.paid_amount ?? null,
       purchasedFrom: lineItem?.purchased_from ?? null,
       paidBy: lineItem?.paid_by ?? null,
       dueDate: lineItem?.due_date ?? null,
@@ -201,9 +211,24 @@ export default async function BudgetPage() {
     .order("created_at", { ascending: true })
     .returns<BudgetCustomItem[]>();
 
+  const customItemRows: BudgetRow[] = (customItems ?? []).map((item) => ({
+    key: item.id,
+    label: item.label,
+    isPerGuest: false,
+    computed: null,
+    override: item.amount,
+    paidAmount: item.paid_amount,
+    purchasedFrom: item.purchased_from,
+    paidBy: item.paid_by,
+    dueDate: item.due_date,
+    notes: item.notes,
+    imageUrl: null,
+    suggestions: [],
+  }));
+
   const customItemsTotal = (customItems ?? []).reduce((sum, item) => sum + item.amount, 0);
   const total =
-    rows.reduce((sum, row) => sum + (row.override ?? row.computed), 0) + customItemsTotal;
+    rows.reduce((sum, row) => sum + (row.override ?? row.computed ?? 0), 0) + customItemsTotal;
 
   const payerSuggestions = Array.from(
     new Set(
@@ -217,7 +242,7 @@ export default async function BudgetPage() {
   const payerTotals = new Map<string, number>();
   for (const row of rows) {
     const key = row.paidBy ?? "Unassigned";
-    payerTotals.set(key, (payerTotals.get(key) ?? 0) + (row.override ?? row.computed));
+    payerTotals.set(key, (payerTotals.get(key) ?? 0) + (row.override ?? row.computed ?? 0));
   }
   for (const item of customItems ?? []) {
     const key = item.paid_by ?? "Unassigned";
@@ -229,7 +254,7 @@ export default async function BudgetPage() {
   const chartItems: BudgetChartItem[] = rows.map((row) => ({
     key: row.key,
     label: row.label,
-    amount: row.override ?? row.computed,
+    amount: row.override ?? row.computed ?? 0,
   }));
   if (customItemsTotal > 0) {
     chartItems.push({ key: "custom", label: "Additional items", amount: customItemsTotal });
@@ -258,8 +283,8 @@ export default async function BudgetPage() {
           Based on {wedding.state ?? "your state"},{" "}
           {(wedding.season ?? "your season").toLowerCase()} season, a{" "}
           {wedding.style_tier ?? "your"} style, and {guestCount} guest
-          {guestCount === 1 ? "" : "s"}. Estimates are placeholders — click
-          Edit on any line to enter a real quote.
+          {guestCount === 1 ? "" : "s"}. Estimates are placeholders — enter an
+          Actual and Paid amount on any line once you have a real number.
         </p>
 
         <FadeInSection>
@@ -275,10 +300,13 @@ export default async function BudgetPage() {
         </FadeInSection>
 
         <FadeInSection>
-          <BudgetTable rows={rows} total={total} payerSuggestions={payerSuggestions} />
-        </FadeInSection>
-        <FadeInSection>
-          <BudgetCustomItems items={customItems ?? []} payerSuggestions={payerSuggestions} />
+          <BudgetTable
+            rows={rows}
+            customItems={customItemRows}
+            hiddenCategories={hiddenCategories}
+            total={total}
+            payerSuggestions={payerSuggestions}
+          />
         </FadeInSection>
 
         {hasAssignedPayer && (
