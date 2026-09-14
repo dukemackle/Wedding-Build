@@ -194,3 +194,21 @@ body::before {
     transform: none;
   }
 }
+
+/* OS-level scrollbars auto-hide on touch/trackpad devices, so a row that
+   scrolls horizontally (e.g. itinerary day columns) can look like it just
+   cuts off with no way to see the rest. Keep a thin, always-visible bar. */
+.scroll-visible {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-hairline) transparent;
+}
+.scroll-visible::-webkit-scrollbar {
+  height: 8px;
+}
+.scroll-visible::-webkit-scrollbar-track {
+  background: transparent;
+}
+.scroll-visible::-webkit-scrollbar-thumb {
+  background-color: var(--color-hairline);
+  border-radius: 999px;
+}
