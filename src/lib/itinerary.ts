@@ -42,6 +42,20 @@ export function sortByTime(a: ItineraryEvent, b: ItineraryEvent) {
   return a.start_time.localeCompare(b.start_time);
 }
 
+export function groupEventsByDate(
+  events: ItineraryEvent[],
+): { date: string; events: ItineraryEvent[] }[] {
+  const byDate = new Map<string, ItineraryEvent[]>();
+  for (const event of events) {
+    const list = byDate.get(event.event_date) ?? [];
+    list.push(event);
+    byDate.set(event.event_date, list);
+  }
+  return Array.from(byDate.entries())
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([date, dayEvents]) => ({ date, events: dayEvents.sort(sortByTime) }));
+}
+
 export type CalendarDay = { date: Date; inMonth: boolean };
 
 export function getCalendarDays(year: number, month: number): CalendarDay[] {
