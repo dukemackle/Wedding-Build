@@ -19,7 +19,7 @@ import type { RegionalCostData } from "@/lib/supabase/types";
 const stats: { value: number; prefix?: string; suffix?: string; label: string }[] = [
   { value: 15, suffix: "+", label: "planning tools in one place" },
   { value: 0, prefix: "$", label: "cost to plan your wedding" },
-  { value: 0, suffix: "%", label: "of your data sold to third parties" },
+  { value: 50, label: "states covered" },
 ];
 
 const features = [
