@@ -73,8 +73,8 @@ export default async function ItineraryPage() {
           </Link>
         </div>
         <p className="mb-6 text-sm text-ink/70">
-          Click a day to see or add events. Once your guest site is turned on, guests see this
-          same schedule on the public RSVP page.
+          Every scheduled day shows up side by side below. Once your guest site is turned on,
+          guests see this same schedule on the public RSVP page.
         </p>
 
         <ItineraryManager events={events ?? []} weddingDate={wedding.wedding_date} />
