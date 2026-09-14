@@ -16,6 +16,15 @@ function str(formData: FormData, key: string): string | null {
   return raw || null;
 }
 
+function list(formData: FormData, key: string): string[] {
+  const raw = (formData.get(key) as string)?.trim();
+  if (!raw) return [];
+  return raw
+    .split(",")
+    .map((value) => value.trim())
+    .filter(Boolean);
+}
+
 export async function createVendor(formData: FormData): Promise<{ error?: string }> {
   await requireAdmin();
 
@@ -33,8 +42,12 @@ export async function createVendor(formData: FormData): Promise<{ error?: string
     longitude: num(formData, "longitude"),
     price_tier: str(formData, "price_tier"),
     description: str(formData, "description"),
+    about: str(formData, "about"),
+    included: str(formData, "included"),
+    amenities: list(formData, "amenities"),
     image_url: str(formData, "image_url"),
     contact_email: str(formData, "contact_email"),
+    is_sample: formData.get("is_sample") === "on",
   });
 
   if (error) return { error: error.message };
@@ -64,8 +77,12 @@ export async function updateVendor(formData: FormData): Promise<{ error?: string
       longitude: num(formData, "longitude"),
       price_tier: str(formData, "price_tier"),
       description: str(formData, "description"),
+      about: str(formData, "about"),
+      included: str(formData, "included"),
+      amenities: list(formData, "amenities"),
       image_url: str(formData, "image_url"),
       contact_email: str(formData, "contact_email"),
+      is_sample: formData.get("is_sample") === "on",
     })
     .eq("id", id);
 
@@ -106,6 +123,48 @@ export async function bulkSetVendorActive(formData: FormData): Promise<{ error?:
 
   revalidatePath("/admin/vendors");
   revalidatePath("/vendors");
+  return {};
+}
+
+export async function addVendorFaq(formData: FormData): Promise<{ error?: string }> {
+  await requireAdmin();
+
+  const vendorId = formData.get("vendor_id") as string;
+  const question = str(formData, "question");
+  const answer = str(formData, "answer");
+
+  if (!vendorId || !question || !answer) {
+    return { error: "A question and an answer are both required." };
+  }
+
+  const admin = createAdminSupabaseClient();
+  const { error } = await admin.from("vendor_faqs").insert({
+    vendor_id: vendorId,
+    question,
+    answer,
+    sort_order: num(formData, "sort_order") ?? 0,
+  });
+
+  if (error) return { error: error.message };
+
+  revalidatePath("/admin/vendors");
+  revalidatePath(`/vendors/${vendorId}`);
+  return {};
+}
+
+export async function deleteVendorFaq(formData: FormData): Promise<{ error?: string }> {
+  await requireAdmin();
+
+  const id = formData.get("id") as string;
+  const vendorId = formData.get("vendor_id") as string;
+
+  const admin = createAdminSupabaseClient();
+  const { error } = await admin.from("vendor_faqs").delete().eq("id", id);
+
+  if (error) return { error: error.message };
+
+  revalidatePath("/admin/vendors");
+  revalidatePath(`/vendors/${vendorId}`);
   return {};
 }
 

@@ -1,13 +1,20 @@
 "use client";
 
-import { useMemo, useState, useTransition } from "react";
-import type { Vendor, VendorContactLog, VendorContactType } from "@/lib/supabase/types";
+import { useMemo, useRef, useState, useTransition } from "react";
+import type {
+  Vendor,
+  VendorContactLog,
+  VendorContactType,
+  VendorFaq,
+} from "@/lib/supabase/types";
 import { REGIONS, STATES } from "@/lib/wedding-options";
 import { downloadCsv, toCsv } from "@/lib/csv";
 import {
   addVendorContactLog,
+  addVendorFaq,
   bulkSetVendorActive,
   createVendor,
+  deleteVendorFaq,
   setVendorActive,
   updateVendor,
 } from "./actions";
@@ -157,6 +164,33 @@ function VendorForm({
           className={inputClass}
         />
       </label>
+      <label className={`${labelClass} sm:col-span-2`}>
+        About <span className="text-ink/50">(longer write-up, shown on the vendor page)</span>
+        <textarea name="about" rows={4} defaultValue={vendor?.about ?? ""} className={inputClass} />
+      </label>
+      <label className={`${labelClass} sm:col-span-2`}>
+        What&apos;s included
+        <textarea
+          name="included"
+          rows={3}
+          placeholder="e.g. 8 hours of coverage, second shooter, online gallery within 6 weeks"
+          defaultValue={vendor?.included ?? ""}
+          className={inputClass}
+        />
+      </label>
+      <label className={`${labelClass} sm:col-span-2`}>
+        Services &amp; extras <span className="text-ink/50">(comma separated)</span>
+        <input
+          name="amenities"
+          placeholder="Engagement session, Drone footage, Travels nationwide"
+          defaultValue={vendor?.amenities?.join(", ") ?? ""}
+          className={inputClass}
+        />
+      </label>
+      <label className="flex items-center gap-2 text-sm text-ink sm:col-span-2">
+        <input type="checkbox" name="is_sample" defaultChecked={vendor?.is_sample ?? false} />
+        Sample / placeholder listing (not a real vendor)
+      </label>
       {error && <p className="text-sm text-red-800 sm:col-span-2">{error}</p>}
       <div className="flex gap-2 sm:col-span-2">
         <button
@@ -239,16 +273,90 @@ function ContactLog({ vendorId, logs }: { vendorId: string; logs: VendorContactL
   );
 }
 
+function VendorFaqEditor({ vendor, faqs }: { vendor: Vendor; faqs: VendorFaq[] }) {
+  const [error, setError] = useState<string | undefined>(undefined);
+  const [isPending, startTransition] = useTransition();
+  const formRef = useRef<HTMLFormElement>(null);
+
+  function handleAdd(formData: FormData) {
+    formData.set("vendor_id", vendor.id);
+    formData.set("sort_order", String(faqs.length));
+    startTransition(async () => {
+      const result = await addVendorFaq(formData);
+      if (result?.error) {
+        setError(result.error);
+      } else {
+        setError(undefined);
+        formRef.current?.reset();
+      }
+    });
+  }
+
+  function handleDelete(faqId: string) {
+    const formData = new FormData();
+    formData.set("id", faqId);
+    formData.set("vendor_id", vendor.id);
+    startTransition(async () => {
+      const result = await deleteVendorFaq(formData);
+      if (result?.error) setError(result.error);
+    });
+  }
+
+  return (
+    <div className="mt-4 border-t border-hairline pt-4">
+      <p className="text-sm text-ink">
+        FAQs <span className="text-ink/50">({faqs.length})</span>
+      </p>
+
+      {faqs.map((faq) => (
+        <div
+          key={faq.id}
+          className="mt-2 flex items-start justify-between gap-3 rounded-md border border-hairline bg-parchment p-3"
+        >
+          <div>
+            <p className="text-sm text-ink">{faq.question}</p>
+            <p className="mt-0.5 text-xs text-ink/60">{faq.answer}</p>
+          </div>
+          <button
+            type="button"
+            onClick={() => handleDelete(faq.id)}
+            disabled={isPending}
+            className="shrink-0 text-xs text-ink/50 hover:underline"
+          >
+            Remove
+          </button>
+        </div>
+      ))}
+
+      <form ref={formRef} action={handleAdd} className="mt-3 flex flex-col gap-2">
+        <input name="question" placeholder="Question" className={inputClass} />
+        <textarea name="answer" rows={2} placeholder="Answer" className={inputClass} />
+        <button
+          type="submit"
+          disabled={isPending}
+          className="self-start rounded-md border border-hairline px-3 py-1.5 text-sm text-ink hover:border-forest disabled:opacity-60"
+        >
+          {isPending ? "Adding..." : "+ Add FAQ"}
+        </button>
+      </form>
+
+      {error && <p className="mt-2 text-sm text-red-800">{error}</p>}
+    </div>
+  );
+}
+
 function VendorRow({
   vendor,
   stats,
   logs = [],
+  faqs = [],
   selected,
   onToggleSelect,
 }: {
   vendor: Vendor;
   stats?: VendorStats;
   logs?: VendorContactLog[];
+  faqs?: VendorFaq[];
   selected: boolean;
   onToggleSelect: () => void;
 }) {
@@ -269,6 +377,7 @@ function VendorRow({
     return (
       <div className="border-b border-hairline py-4 last:border-b-0">
         <VendorForm vendor={vendor} onDone={() => setEditing(false)} />
+        <VendorFaqEditor vendor={vendor} faqs={faqs} />
       </div>
     );
   }
@@ -367,10 +476,12 @@ export function AdminVendorsManager({
   vendors,
   statsByVendorName = {},
   logsByVendorId = {},
+  faqsByVendorId = {},
 }: {
   vendors: Vendor[];
   statsByVendorName?: Record<string, VendorStats>;
   logsByVendorId?: Record<string, VendorContactLog[]>;
+  faqsByVendorId?: Record<string, VendorFaq[]>;
 }) {
   const [adding, setAdding] = useState(false);
   const [query, setQuery] = useState("");
@@ -481,6 +592,7 @@ export function AdminVendorsManager({
           vendor={vendor}
           stats={statsByVendorName[vendor.name]}
           logs={logsByVendorId[vendor.id]}
+          faqs={faqsByVendorId[vendor.id]}
           selected={selected.has(vendor.id)}
           onToggleSelect={() => toggleSelect(vendor.id)}
         />

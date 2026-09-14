@@ -116,12 +116,24 @@ export type Venue = {
   capacity: number | null;
   price_tier: string | null;
   description: string | null;
+  about: string | null;
+  included: string | null;
+  amenities: string[];
   image_url: string | null;
   contact_email: string | null;
   contact_phone: string | null;
   website: string | null;
   active: boolean;
   is_sample: boolean;
+  created_at: string;
+};
+
+export type VenueFaq = {
+  id: string;
+  venue_id: string;
+  question: string;
+  answer: string;
+  sort_order: number;
   created_at: string;
 };
 
@@ -163,9 +175,22 @@ export type Vendor = {
   longitude: number | null;
   price_tier: string | null;
   description: string | null;
+  about: string | null;
+  included: string | null;
+  amenities: string[];
   image_url: string | null;
   contact_email: string | null;
   active: boolean;
+  is_sample: boolean;
+  created_at: string;
+};
+
+export type VendorFaq = {
+  id: string;
+  vendor_id: string;
+  question: string;
+  answer: string;
+  sort_order: number;
   created_at: string;
 };
 
