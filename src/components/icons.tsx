@@ -279,6 +279,26 @@ export function WrenBirdIcon(props: IconProps) {
   );
 }
 
+export function GlobeIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M3 12h18" />
+      <path d="M12 3c2.5 2.5 4 5.7 4 9s-1.5 6.5-4 9c-2.5-2.5-4-5.7-4-9s1.5-6.5 4-9Z" />
+    </IconBase>
+  );
+}
+
+export function GuestbookIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M12 6.5c-1.8-1.3-4-2-6.5-2A2 2 0 0 0 4 6.4v11.1c0 .8.9 1.3 1.6.9 1.5-.8 3.2-1.2 4.9-1.2 1 0 2 .2 3 .5" />
+      <path d="M12 6.5c1.8-1.3 4-2 6.5-2A2 2 0 0 1 20 6.4v11.1c0 .8-.9 1.3-1.6.9-1.5-.8-3.2-1.2-4.9-1.2-1 0-2 .2-3 .5" />
+      <path d="M12 6.5v13.5" />
+    </IconBase>
+  );
+}
+
 export function FeedbackIcon(props: IconProps) {
   return (
     <IconBase {...props}>

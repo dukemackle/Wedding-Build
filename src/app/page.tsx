@@ -3,7 +3,16 @@ import Link from "next/link";
 import { FadeInSection } from "@/components/fade-in-section";
 import { AnimatedCounter } from "@/components/animated-counter";
 import { HomeEstimatorCard } from "@/components/home-estimator-card";
-import { HeadcountIcon, VendorsIcon, ChecklistIcon, BudgetIcon } from "@/components/icons";
+import {
+  HeadcountIcon,
+  VendorsIcon,
+  ChecklistIcon,
+  BudgetIcon,
+  AttireIcon,
+  GuestbookIcon,
+  GlobeIcon,
+  WrenBirdIcon,
+} from "@/components/icons";
 import { createClient } from "@/lib/supabase/server";
 import type { RegionalCostData } from "@/lib/supabase/types";
 
@@ -33,6 +42,26 @@ const features = [
     icon: ChecklistIcon,
     title: "Checklist & itinerary",
     body: "A running to-do list and a printable day-of run sheet, so nothing falls through the cracks.",
+  },
+  {
+    icon: AttireIcon,
+    title: "Attire",
+    body: "Track dresses, suits, and rings — buy or rent, who's covering what, and when to order by.",
+  },
+  {
+    icon: GuestbookIcon,
+    title: "Guestbook",
+    body: "Guests can leave a photo and message right from their RSVP, turned into a keepsake digital guestbook.",
+  },
+  {
+    icon: GlobeIcon,
+    title: "Public wedding site",
+    body: "A free shareable site with your schedule and RSVP form — no separate website builder needed.",
+  },
+  {
+    icon: WrenBirdIcon,
+    title: "Ask Wren",
+    body: "A built-in assistant that can answer questions about your budget, guest list, or what to do next.",
   },
 ];
 
@@ -104,8 +133,8 @@ export default async function Home() {
         </div>
       </FadeInSection>
 
-      <div className="w-full max-w-3xl py-16">
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+      <div className="w-full max-w-5xl py-16">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {features.map((feature, i) => (
             <FadeInSection key={feature.title} delayMs={i * 100}>
               <div className="flex h-full flex-col gap-3 rounded-lg border border-hairline bg-card p-6 shadow-sm transition-shadow hover:shadow-md">

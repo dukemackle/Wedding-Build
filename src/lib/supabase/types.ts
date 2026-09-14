@@ -49,6 +49,8 @@ export type RsvpSubmission = {
   photo_url: string | null;
   message: string | null;
   song_request: string | null;
+  phone: string | null;
+  sms_opt_in: boolean;
   created_at: string;
 };
 
@@ -72,6 +74,8 @@ export type Guest = {
   photo_url: string | null;
   message: string | null;
   song_request: string | null;
+  phone: string | null;
+  sms_opt_in: boolean;
   guestbook_hidden: boolean;
   thanked: boolean;
   invite_sent_at: string | null;

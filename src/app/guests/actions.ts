@@ -375,6 +375,8 @@ export async function approveRsvpSubmission(formData: FormData): Promise<{ error
     photo_url: submission.photo_url,
     message: submission.message,
     song_request: submission.song_request,
+    phone: submission.phone,
+    sms_opt_in: submission.sms_opt_in,
   });
 
   if (insertError) {
