@@ -157,6 +157,39 @@ function parsePriority(value: string | undefined): GuestPriority {
   return "must_invite";
 }
 
+function guestRowsFromRecords(
+  records: Record<string, string>[],
+  weddingId: string,
+  userId: string,
+) {
+  let skipped = 0;
+  const rows = records
+    .map((row) => {
+      const name = (row.name ?? "").trim();
+      if (!name) {
+        skipped++;
+        return null;
+      }
+      return {
+        wedding_id: weddingId,
+        user_id: userId,
+        name,
+        household: (row.household ?? "").trim() || null,
+        email: (row.email ?? "").trim() || null,
+        plus_one: parseYesNo(row.plus_one),
+        plus_one_name: (row.plus_one_name ?? "").trim() || null,
+        status: parseStatus(row.status),
+        priority: parsePriority(row.priority),
+        meal: (row.meal ?? "").trim() || null,
+        notes: (row.notes ?? "").trim() || null,
+        thanked: parseYesNo(row.thanked),
+      };
+    })
+    .filter((row): row is NonNullable<typeof row> => row !== null);
+
+  return { rows, skipped };
+}
+
 export async function importGuestsFromCsv(
   formData: FormData,
 ): Promise<{ error?: string; imported?: number; skipped?: number }> {
@@ -182,30 +215,80 @@ export async function importGuestsFromCsv(
     return { error: `Could not read the CSV: ${parsed.errors[0].message}` };
   }
 
-  let skipped = 0;
-  const rows = parsed.data
-    .map((row) => {
-      const name = (row.name ?? "").trim();
-      if (!name) {
-        skipped++;
-        return null;
-      }
+  const { rows, skipped } = guestRowsFromRecords(parsed.data, wedding.id, user.id);
+
+  if (rows.length === 0) {
+    return { error: "No valid rows found — each row needs at least a name.", skipped };
+  }
+
+  const { error } = await supabase.from("guests").insert(rows);
+
+  if (error) {
+    return { error: error.message };
+  }
+
+  revalidatePath("/guests");
+  revalidatePath("/budget");
+  return { imported: rows.length, skipped };
+}
+
+// A publicly-link-shared Google Sheet ("Anyone with the link" access) can
+// be fetched as plain CSV via Sheets' own export endpoint -- no Google API
+// key or OAuth needed. Extracts the sheet ID (and tab gid, if the URL
+// points at a specific tab) straight from the pasted URL.
+function parseGoogleSheetUrl(url: string): { id: string; gid: string } | null {
+  const idMatch = url.match(/\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/);
+  if (!idMatch) return null;
+  const gidMatch = url.match(/[#&]gid=(\d+)/);
+  return { id: idMatch[1], gid: gidMatch?.[1] ?? "0" };
+}
+
+export async function importGuestsFromGoogleSheet(
+  formData: FormData,
+): Promise<{ error?: string; imported?: number; skipped?: number }> {
+  const { supabase, user, wedding } = await requireOwnWedding();
+
+  if (!wedding) {
+    return { error: "Set up your wedding on the Dashboard first." };
+  }
+
+  const sheetUrl = ((formData.get("sheet_url") as string) || "").trim();
+  if (!sheetUrl) {
+    return { error: "Paste a Google Sheet URL." };
+  }
+
+  const sheet = parseGoogleSheetUrl(sheetUrl);
+  if (!sheet) {
+    return { error: "That doesn't look like a Google Sheets URL." };
+  }
+
+  const exportUrl = `https://docs.google.com/spreadsheets/d/${sheet.id}/export?format=csv&gid=${sheet.gid}`;
+
+  let text: string;
+  try {
+    const response = await fetch(exportUrl);
+    if (!response.ok) {
       return {
-        wedding_id: wedding.id,
-        user_id: user.id,
-        name,
-        household: (row.household ?? "").trim() || null,
-        email: (row.email ?? "").trim() || null,
-        plus_one: parseYesNo(row.plus_one),
-        plus_one_name: (row.plus_one_name ?? "").trim() || null,
-        status: parseStatus(row.status),
-        priority: parsePriority(row.priority),
-        meal: (row.meal ?? "").trim() || null,
-        notes: (row.notes ?? "").trim() || null,
-        thanked: parseYesNo(row.thanked),
+        error:
+          "Couldn't read that sheet. Make sure its access is set to \"Anyone with the link\" and try again.",
       };
-    })
-    .filter((row): row is NonNullable<typeof row> => row !== null);
+    }
+    text = await response.text();
+  } catch {
+    return { error: "Couldn't reach that Google Sheet. Check the URL and try again." };
+  }
+
+  const parsed = Papa.parse<Record<string, string>>(text, {
+    header: true,
+    skipEmptyLines: true,
+    transformHeader: (header) => header.trim().toLowerCase(),
+  });
+
+  if (parsed.errors.length > 0) {
+    return { error: `Could not read the sheet: ${parsed.errors[0].message}` };
+  }
+
+  const { rows, skipped } = guestRowsFromRecords(parsed.data, wedding.id, user.id);
 
   if (rows.length === 0) {
     return { error: "No valid rows found — each row needs at least a name.", skipped };

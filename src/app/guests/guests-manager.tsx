@@ -3,7 +3,14 @@
 import Image from "next/image";
 import { useRef, useState, useTransition } from "react";
 import type { Guest, GuestPriority, GuestStatus } from "@/lib/supabase/types";
-import { addGuest, updateGuest, deleteGuest, importGuestsFromCsv, setGuestThanked } from "./actions";
+import {
+  addGuest,
+  updateGuest,
+  deleteGuest,
+  importGuestsFromCsv,
+  importGuestsFromGoogleSheet,
+  setGuestThanked,
+} from "./actions";
 import { FilterDisclosure } from "@/components/filter-disclosure";
 import { SearchBox } from "@/components/search-box";
 import { MEAL_OPTIONS } from "@/lib/meal-options";
@@ -243,7 +250,48 @@ function AddGuestForm({ onDone }: { onDone: () => void }) {
   );
 }
 
-function ImportCsvForm({ onDone }: { onDone: () => void }) {
+const columnHelpText = (
+  <p className="text-sm text-ink">
+    Columns: <code className="font-mono-numbers text-xs">name</code> (required),{" "}
+    <code className="font-mono-numbers text-xs">household</code>,{" "}
+    <code className="font-mono-numbers text-xs">email</code>,{" "}
+    <code className="font-mono-numbers text-xs">plus_one</code> (yes/no),{" "}
+    <code className="font-mono-numbers text-xs">plus_one_name</code>,{" "}
+    <code className="font-mono-numbers text-xs">status</code> (invited/confirmed/declined/
+    pending), <code className="font-mono-numbers text-xs">priority</code> (must_invite/
+    would_like/if_room), <code className="font-mono-numbers text-xs">meal</code>,{" "}
+    <code className="font-mono-numbers text-xs">notes</code>,{" "}
+    <code className="font-mono-numbers text-xs">thanked</code> (yes/no).{" "}
+    <a href="/guests-template.csv" download className="text-brass hover:underline">
+      Download a template
+    </a>
+    .
+  </p>
+);
+
+function ImportResultMessage({
+  error,
+  result,
+}: {
+  error: string | undefined;
+  result: { imported: number; skipped: number } | undefined;
+}) {
+  return (
+    <>
+      {error && <p className="mt-3 text-sm text-red-800">{error}</p>}
+      {result && (
+        <p className="mt-3 text-sm text-forest">
+          Imported {result.imported} guest{result.imported === 1 ? "" : "s"}
+          {result.skipped > 0
+            ? ` — skipped ${result.skipped} row${result.skipped === 1 ? "" : "s"} without a name.`
+            : "."}
+        </p>
+      )}
+    </>
+  );
+}
+
+function ImportFileTab({ onDone }: { onDone: () => void }) {
   const [error, setError] = useState<string | undefined>(undefined);
   const [result, setResult] = useState<{ imported: number; skipped: number } | undefined>(
     undefined,
@@ -266,26 +314,11 @@ function ImportCsvForm({ onDone }: { onDone: () => void }) {
   }
 
   return (
-    <form
-      ref={formRef}
-      action={handleSubmit}
-      className="mb-6 rounded-lg border border-hairline bg-parchment p-6"
-    >
-      <p className="text-sm text-ink">
-        Upload a CSV with columns: <code className="font-mono-numbers text-xs">name</code>{" "}
-        (required), <code className="font-mono-numbers text-xs">household</code>,{" "}
-        <code className="font-mono-numbers text-xs">email</code>,{" "}
-        <code className="font-mono-numbers text-xs">plus_one</code> (yes/no),{" "}
-        <code className="font-mono-numbers text-xs">plus_one_name</code>,{" "}
-        <code className="font-mono-numbers text-xs">status</code> (invited/confirmed/declined/
-        pending), <code className="font-mono-numbers text-xs">priority</code> (must_invite/
-        would_like/if_room), <code className="font-mono-numbers text-xs">meal</code>,{" "}
-        <code className="font-mono-numbers text-xs">notes</code>,{" "}
-        <code className="font-mono-numbers text-xs">thanked</code> (yes/no).{" "}
-        <a href="/guests-template.csv" download className="text-brass hover:underline">
-          Download a template
-        </a>
-        .
+    <form ref={formRef} action={handleSubmit}>
+      {columnHelpText}
+      <p className="mt-2 text-xs text-ink/50">
+        Have an Excel file? Open it and use File &rarr; Save As / Export &rarr; CSV, then upload
+        that.
       </p>
       <input
         type="file"
@@ -294,22 +327,14 @@ function ImportCsvForm({ onDone }: { onDone: () => void }) {
         required
         className="mt-3 block w-full text-sm text-ink file:mr-3 file:rounded-md file:border file:border-hairline file:bg-card file:px-3 file:py-1.5 file:text-sm file:text-ink hover:file:border-forest"
       />
-      {error && <p className="mt-3 text-sm text-red-800">{error}</p>}
-      {result && (
-        <p className="mt-3 text-sm text-forest">
-          Imported {result.imported} guest{result.imported === 1 ? "" : "s"}
-          {result.skipped > 0
-            ? ` — skipped ${result.skipped} row${result.skipped === 1 ? "" : "s"} without a name.`
-            : "."}
-        </p>
-      )}
+      <ImportResultMessage error={error} result={result} />
       <div className="mt-4 flex items-center gap-3">
         <button
           type="submit"
           disabled={isPending}
           className="rounded-md bg-forest px-4 py-2 font-medium text-parchment transition-colors hover:bg-forest/90 disabled:opacity-60"
         >
-          {isPending ? "Importing..." : "Import CSV"}
+          {isPending ? "Importing..." : "Import file"}
         </button>
         <button
           type="button"
@@ -320,6 +345,100 @@ function ImportCsvForm({ onDone }: { onDone: () => void }) {
         </button>
       </div>
     </form>
+  );
+}
+
+function ImportSheetTab({ onDone }: { onDone: () => void }) {
+  const [error, setError] = useState<string | undefined>(undefined);
+  const [result, setResult] = useState<{ imported: number; skipped: number } | undefined>(
+    undefined,
+  );
+  const [isPending, startTransition] = useTransition();
+  const formRef = useRef<HTMLFormElement>(null);
+
+  function handleSubmit(formData: FormData) {
+    startTransition(async () => {
+      const response = await importGuestsFromGoogleSheet(formData);
+      if (response?.error) {
+        setError(response.error);
+        setResult(undefined);
+      } else {
+        setError(undefined);
+        setResult({ imported: response.imported ?? 0, skipped: response.skipped ?? 0 });
+        formRef.current?.reset();
+      }
+    });
+  }
+
+  return (
+    <form ref={formRef} action={handleSubmit}>
+      {columnHelpText}
+      <label className="mt-3 flex flex-col gap-1 text-sm text-ink">
+        Google Sheet URL
+        <input
+          type="url"
+          name="sheet_url"
+          required
+          placeholder="https://docs.google.com/spreadsheets/d/..."
+          className="rounded-md border border-hairline bg-card px-3 py-2 text-ink outline-none focus:border-forest"
+        />
+      </label>
+      <p className="mt-2 text-xs text-ink/50">
+        Make sure the sheet&apos;s access is set to &quot;Anyone with the link.&quot; You can
+        switch it back to private after importing.
+      </p>
+      <ImportResultMessage error={error} result={result} />
+      <div className="mt-4 flex items-center gap-3">
+        <button
+          type="submit"
+          disabled={isPending}
+          className="rounded-md bg-forest px-4 py-2 font-medium text-parchment transition-colors hover:bg-forest/90 disabled:opacity-60"
+        >
+          {isPending ? "Importing..." : "Import guests"}
+        </button>
+        <button
+          type="button"
+          onClick={onDone}
+          className="rounded-md border border-hairline px-4 py-2 font-medium text-ink transition-colors hover:border-forest"
+        >
+          Close
+        </button>
+      </div>
+    </form>
+  );
+}
+
+function ImportGuestsForm({ onDone }: { onDone: () => void }) {
+  const [tab, setTab] = useState<"file" | "sheet">("file");
+
+  return (
+    <div className="mb-6 rounded-lg border border-hairline bg-parchment p-6">
+      <div className="mb-4 flex gap-2">
+        <button
+          type="button"
+          onClick={() => setTab("file")}
+          className={`rounded-full border px-3 py-1 text-sm transition-colors ${
+            tab === "file"
+              ? "border-forest bg-forest text-parchment"
+              : "border-hairline bg-card text-ink hover:border-forest"
+          }`}
+        >
+          Upload file
+        </button>
+        <button
+          type="button"
+          onClick={() => setTab("sheet")}
+          className={`rounded-full border px-3 py-1 text-sm transition-colors ${
+            tab === "sheet"
+              ? "border-forest bg-forest text-parchment"
+              : "border-hairline bg-card text-ink hover:border-forest"
+          }`}
+        >
+          Google Sheet link
+        </button>
+      </div>
+      {tab === "file" ? <ImportFileTab onDone={onDone} /> : <ImportSheetTab onDone={onDone} />}
+    </div>
   );
 }
 
@@ -555,7 +674,7 @@ export function GuestsManager({ guests }: { guests: Guest[] }) {
             }}
             className="rounded-full border border-hairline bg-parchment px-4 py-1.5 font-mono-numbers text-sm text-ink transition-colors hover:border-forest"
           >
-            {showImportForm ? "Close" : "Import CSV"}
+            {showImportForm ? "Close" : "Import guests"}
           </button>
           <button
             onClick={() => downloadGuestsCsv(guests)}
@@ -568,7 +687,7 @@ export function GuestsManager({ guests }: { guests: Guest[] }) {
       </div>
 
       {showAddForm && <AddGuestForm onDone={() => setShowAddForm(false)} />}
-      {showImportForm && <ImportCsvForm onDone={() => setShowImportForm(false)} />}
+      {showImportForm && <ImportGuestsForm onDone={() => setShowImportForm(false)} />}
 
       <div className="mb-6 flex flex-wrap items-center gap-2 rounded-md border border-hairline bg-parchment px-4 py-3 text-sm text-ink/70 sm:gap-3">
         <span>
