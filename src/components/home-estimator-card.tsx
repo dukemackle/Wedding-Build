@@ -98,8 +98,8 @@ export function HomeEstimatorCard({ regionalData }: { regionalData: RegionalCost
         <p className="font-mono-numbers text-sm uppercase tracking-[0.2em] text-brass">
           Estimated total
         </p>
-        <p className="mt-2 font-display text-5xl font-semibold text-forest sm:text-6xl">
-          {currency.format(estimate.total)}
+        <p className="mt-2 font-display text-4xl font-semibold text-forest sm:text-5xl">
+          {currency.format(estimate.low)} &ndash; {currency.format(estimate.high)}
         </p>
         <p className="mt-2 text-sm text-ink/60">
           {tier} style &middot; {guestCount} guests &middot; {state}

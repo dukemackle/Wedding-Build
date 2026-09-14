@@ -13,8 +13,23 @@ export type EstimateBreakdownItem = {
 
 export type WeddingEstimate = {
   total: number;
+  low: number;
+  high: number;
   breakdown: EstimateBreakdownItem[];
 };
+
+// A single number reads as a quote; this is a placeholder-driven estimate,
+// so it should look like one. The range narrows as more of the total is
+// backed by real sourced data (regional_cost_data) instead of the generic
+// multiplier model -- from +/-15% with no real data down to +/-6% when
+// every category is real. Rounded to the nearest $500 on each end so the
+// bounds themselves don't look falsely precise.
+function estimateRange(total: number, realDataRatio: number): { low: number; high: number } {
+  const variance = 0.15 - 0.09 * realDataRatio;
+  const low = Math.floor((total * (1 - variance)) / 500) * 500;
+  const high = Math.ceil((total * (1 + variance)) / 500) * 500;
+  return { low, high };
+}
 
 const TIER_COLUMN = {
   Simple: "simple_amount",
@@ -52,5 +67,9 @@ export function estimateWeddingCost(
   });
 
   const total = breakdown.reduce((sum, item) => sum + item.amount, 0);
-  return { total, breakdown };
+  const realDataRatio =
+    breakdown.filter((item) => item.isRealData).length / (breakdown.length || 1);
+  const { low, high } = estimateRange(total, realDataRatio);
+
+  return { total, low, high, breakdown };
 }
