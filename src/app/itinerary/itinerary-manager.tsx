@@ -285,7 +285,7 @@ export function ItineraryManager({
           </p>
         </div>
       ) : (
-        <div className="flex gap-4 overflow-x-auto pb-2">
+        <div className="flex items-start gap-4 overflow-x-auto pb-2">
           {days.map((day) => (
             <DayColumn
               key={day.date}
