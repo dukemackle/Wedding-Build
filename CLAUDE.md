@@ -132,6 +132,79 @@ decision to actually move is always the owner's call, never assumed. Phases
 above are a snapshot, not a contract — rewrite, reorder, or replace them
 outright as real usage teaches us more; update this file when that happens.
 
+## Competitive landscape (researched 2026-09-14)
+
+Standing instruction from the owner: know these products well, and while we
+build, proactively flag what Wren is missing, what a competitor does better,
+and where Wren can beat them. Don't wait to be asked. Treat the notes below as
+a living snapshot — correct them when research or real usage contradicts them,
+and re-research rather than trusting these details indefinitely.
+
+**The Knot / WeddingWire** (same parent, The Knot Worldwide). 300k+ US vendor
+listings — the largest directory, and the real moat. Planning tools are free
+loss-leaders; revenue is vendor advertising (~$200–400+/mo per vendor).
+Registry auto-syncs ~10 named retail partners. Strongest in small markets where
+they're the only directory with coverage.
+
+**Zola.** Registry-first, expanded into the cleanest all-in-one. Free: website,
+guest list (addresses, RSVP, meals, song requests), budget tracker with
+allocation suggestions and automatic payment reminders, checklist, vendor
+directory (smaller than The Knot's, urban-concentrated). Paid: seating chart
+(~$15), guest texting (~$80). Has "Predictive Planning" (warns you'll overspend
+based on guest count vs. budget) and an AI thank-you-note writer. Their
+**Contact Collector** is the sharpest idea in the category: a shareable link
+guests use to fill in their own mailing address and contact info, so the couple
+never chases addresses.
+
+**Joy (withjoy.com).** Best genuinely-free guest-facing package; no ad-funded
+product wrapped around it. Strong on the guest side specifically:
+Accommodations page, hotel blocks with booking links, a free concierge that
+negotiates group hotel rates, a weekend Schedule page, guest email by tag, and
+paid SMS ("Messaging Plus").
+
+**Minted.** Paper/invitations first, free website attached.
+
+**Wedding Spot.** Venue search with price estimates — the closest thing to a
+direct competitor for Wren's estimator.
+
+**Google Sheets / Excel — the real incumbent.** Most couples still run budget
+and guest list in a spreadsheet. Notably, the common advice in 2026 roundups is
+"use Zola or The Knot *plus* a spreadsheet for budget," which means every big
+platform's budget tool is weak enough that people leave it. That is Wren's
+opening.
+
+**Where Wren genuinely wins today:** the budget (regional/seasonal/style-tier
+estimates, actual-vs-paid per line, per-payer splits, due dates, hideable
+categories) is already deeper than what the big players ship, because for them
+it's a funnel, not a product. Wren also takes nothing from couples *or*
+registries — Zola's "free" is funded by a registry cut, so "actually free" is a
+claim Wren can make honestly and they can't.
+
+**Where Wren cannot win right now:** vendor/venue discovery. That's the
+marketplaces' strongest ground and their moat is 15+ years of vendor density,
+not software. With no real vendors listed, head-to-head venue search loses on
+inventory regardless of filter quality. Treat listings as a supporting feature
+for couples already using Wren, not the front door. The front door is the free
+estimator — the one thing that gets a stranger to enter real details before
+committing to anything.
+
+**Known feature gaps, roughly by value-per-effort** (re-check before acting;
+some may have shipped since this was written):
+- *Guest site is missing sections every competitor treats as essential:*
+  travel/accommodations, FAQ, dress code, directions/parking. Wren's `/w/[slug]`
+  currently has hero, RSVP, guestbook, weekend schedule, registry only.
+- *Contact Collector equivalent* — a public link where guests submit their own
+  address/contact info. Cheap for Wren: the public-page and
+  `rsvp_submissions`-style approval plumbing already exist.
+- *Guest messaging* — `src/lib/sms.ts` and guest SMS opt-in already exist but
+  only fire on itinerary changes. Competitors charge ~$80 for broadcast texting;
+  Wren could include it.
+- *AI thank-you note drafting* — Wren already has both a thank-you tracker and
+  the Ask Wren assistant; connecting them is near-free.
+- *Seating chart PDF export* — Zola charges for this.
+- *Registry retailer sync* — big integration lift, low strategic value; skip.
+- *Hotel-block concierge* — an operations business, not software; skip.
+
 When asked for business/product help (not just "implement X"), act as a blended
 expert across these lenses, weighted by current priority:
 

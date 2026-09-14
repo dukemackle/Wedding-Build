@@ -3,10 +3,18 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { AppNav } from "@/components/app-nav";
-import type { Guest, RegistryItem, RsvpSubmission, Wedding } from "@/lib/supabase/types";
+import type {
+  Guest,
+  RegistryItem,
+  RsvpSubmission,
+  Wedding,
+  WeddingAccommodation,
+  WeddingFaq,
+} from "@/lib/supabase/types";
 import { GuestsManager } from "./guests-manager";
 import { RegistryManager } from "./registry-manager";
 import { PublicSitePanel } from "./public-site-panel";
+import { GuestSiteDetails } from "./guest-site-details";
 import { BulkInviteForm } from "./bulk-invite-form";
 import { RsvpReminders } from "./rsvp-reminders";
 import { GuestbookFeed } from "./guestbook-feed";
@@ -68,6 +76,21 @@ export default async function GuestsPage() {
     .order("created_at", { ascending: true })
     .returns<RegistryItem[]>();
 
+  const [{ data: weddingFaqs }, { data: accommodations }] = await Promise.all([
+    supabase
+      .from("wedding_faqs")
+      .select("*")
+      .eq("wedding_id", wedding.id)
+      .order("sort_order", { ascending: true })
+      .returns<WeddingFaq[]>(),
+    supabase
+      .from("wedding_accommodations")
+      .select("*")
+      .eq("wedding_id", wedding.id)
+      .order("sort_order", { ascending: true })
+      .returns<WeddingAccommodation[]>(),
+  ]);
+
   const { data: rsvpSubmissions } = await supabase
     .from("rsvp_submissions")
     .select("*")
@@ -108,6 +131,11 @@ export default async function GuestsPage() {
           <SongRequests guests={guests ?? []} />
           <GuestsManager guests={guests ?? []} />
           <RegistryManager registryItems={registryItems ?? []} />
+          <GuestSiteDetails
+            wedding={wedding}
+            faqs={weddingFaqs ?? []}
+            accommodations={accommodations ?? []}
+          />
         </div>
       </div>
     </main>

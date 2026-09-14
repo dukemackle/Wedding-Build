@@ -13,6 +13,8 @@ export type Wedding = {
   public_slug: string | null;
   hero_photo_url: string | null;
   rsvp_deadline: string | null;
+  dress_code: string | null;
+  travel_notes: string | null;
   referral_code: string | null;
   budget_target: number | null;
   venue_id: string | null;
@@ -33,6 +35,30 @@ export type PublicWedding = {
   region: string | null;
   hero_photo_url: string | null;
   rsvp_deadline: string | null;
+  dress_code: string | null;
+  travel_notes: string | null;
+};
+
+export type WeddingFaq = {
+  id: string;
+  wedding_id: string;
+  user_id: string;
+  question: string;
+  answer: string;
+  sort_order: number;
+  created_at: string;
+};
+
+export type WeddingAccommodation = {
+  id: string;
+  wedding_id: string;
+  user_id: string;
+  name: string;
+  address: string | null;
+  booking_url: string | null;
+  notes: string | null;
+  sort_order: number;
+  created_at: string;
 };
 
 export type RsvpStatus = "confirmed" | "declined";
