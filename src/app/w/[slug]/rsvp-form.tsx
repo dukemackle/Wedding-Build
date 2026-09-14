@@ -75,6 +75,19 @@ export function RsvpForm({ weddingId }: { weddingId: string }) {
             className={inputClass}
           />
         </label>
+        <label className={labelClass}>
+          Phone number
+          <input
+            name="phone"
+            type="tel"
+            placeholder="Optional"
+            className={inputClass}
+          />
+        </label>
+        <label className="flex items-center gap-2 text-sm text-ink sm:col-span-2">
+          <input type="checkbox" name="sms_opt_in" className="h-4 w-4 rounded border-hairline" />
+          Text me for schedule updates
+        </label>
         <label className="flex items-center gap-2 text-sm text-ink sm:col-span-2">
           <input
             type="checkbox"
