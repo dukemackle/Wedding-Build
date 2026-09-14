@@ -22,6 +22,10 @@ export const VENUE_TYPES = [
   "Restaurant / Vineyard",
 ] as const;
 
+export const VENUE_SETTINGS = ["Indoor", "Outdoor", "Indoor & Outdoor"] as const;
+
+export const CAPACITY_FILTER_STEPS = [50, 100, 150, 200, 300] as const;
+
 export const ATTIRE_CATEGORIES = [
   "Wedding Dress",
   "Bridesmaid Dress",

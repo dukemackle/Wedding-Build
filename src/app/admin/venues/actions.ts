@@ -25,12 +25,12 @@ export async function createVenue(formData: FormData): Promise<{ error?: string 
   const admin = createAdminSupabaseClient();
   const { error } = await admin.from("venues").insert({
     name,
-    region: str(formData, "region"),
     state: str(formData, "state"),
     city: str(formData, "city"),
     latitude: num(formData, "latitude"),
     longitude: num(formData, "longitude"),
     venue_type: str(formData, "venue_type"),
+    setting: str(formData, "setting"),
     capacity: num(formData, "capacity"),
     price_tier: str(formData, "price_tier"),
     description: str(formData, "description"),
@@ -38,6 +38,7 @@ export async function createVenue(formData: FormData): Promise<{ error?: string 
     contact_email: str(formData, "contact_email"),
     contact_phone: str(formData, "contact_phone"),
     website: str(formData, "website"),
+    is_sample: formData.get("is_sample") === "on",
   });
 
   if (error) return { error: error.message };
@@ -59,12 +60,12 @@ export async function updateVenue(formData: FormData): Promise<{ error?: string 
     .from("venues")
     .update({
       name,
-      region: str(formData, "region"),
       state: str(formData, "state"),
       city: str(formData, "city"),
       latitude: num(formData, "latitude"),
       longitude: num(formData, "longitude"),
       venue_type: str(formData, "venue_type"),
+      setting: str(formData, "setting"),
       capacity: num(formData, "capacity"),
       price_tier: str(formData, "price_tier"),
       description: str(formData, "description"),
@@ -72,6 +73,7 @@ export async function updateVenue(formData: FormData): Promise<{ error?: string 
       contact_email: str(formData, "contact_email"),
       contact_phone: str(formData, "contact_phone"),
       website: str(formData, "website"),
+      is_sample: formData.get("is_sample") === "on",
     })
     .eq("id", id);
 

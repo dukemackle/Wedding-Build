@@ -5,12 +5,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState, useTransition } from "react";
 import type { Venue, VenueShortlistEntry } from "@/lib/supabase/types";
-import { REGIONS, VENUE_TYPES } from "@/lib/wedding-options";
+import { CAPACITY_FILTER_STEPS, STYLE_TIERS, VENUE_SETTINGS, VENUE_TYPES } from "@/lib/wedding-options";
 import { updateShortlistNotes } from "./actions";
 import { BookedVenueButton, ShortlistButton } from "./venue-card-shared";
 import { InquiryForm } from "./inquiry-form";
 import { SearchBox } from "@/components/search-box";
-import { FilterDisclosure } from "@/components/filter-disclosure";
+import { FilterDropdown } from "@/components/filter-dropdown";
 
 const VenuesMap = dynamic(() => import("./venues-map").then((m) => m.VenuesMap), {
   ssr: false,
@@ -83,12 +83,15 @@ function VenueCard({
         <p className="text-xs uppercase tracking-wide text-ink/50">
           {[
             [venue.city, venue.state].filter(Boolean).join(", "),
-            venue.region,
+            venue.setting,
             venue.venue_type,
           ]
             .filter(Boolean)
             .join(" · ")}
         </p>
+        {venue.is_sample && (
+          <p className="mt-1 text-[10px] uppercase tracking-wide text-ink/40">Sample listing</p>
+        )}
         {venue.capacity && (
           <p className="mt-1 font-mono-numbers text-sm text-ink/70">
             Up to {venue.capacity} guests
@@ -168,10 +171,12 @@ export function VenuesManager({
   bookedVenueId: string | null;
 }) {
   const [bookedVenueId, setBookedVenueId] = useState(initialBookedVenueId);
-  const [regionFilter, setRegionFilter] = useState<string | "all">("all");
-  const [typeFilter, setTypeFilter] = useState<string | "all">("all");
-  const [stateFilter, setStateFilter] = useState<string | "all">("all");
-  const [cityFilter, setCityFilter] = useState<string | "all">("all");
+  const [typeFilter, setTypeFilter] = useState<string>("all");
+  const [settingFilter, setSettingFilter] = useState<string>("all");
+  const [priceFilter, setPriceFilter] = useState<string>("all");
+  const [capacityFilter, setCapacityFilter] = useState<string>("all");
+  const [stateFilter, setStateFilter] = useState<string>("all");
+  const [cityFilter, setCityFilter] = useState<string>("all");
   const [search, setSearch] = useState("");
   const [hoveredVenueId, setHoveredVenueId] = useState<string | null>(null);
 
@@ -202,14 +207,21 @@ export function VenuesManager({
     setCityFilter("all");
   }
 
-  const activeFilterCount = [regionFilter, typeFilter, stateFilter, cityFilter].filter(
-    (f) => f !== "all",
-  ).length;
+  const activeFilterCount = [
+    typeFilter,
+    settingFilter,
+    priceFilter,
+    capacityFilter,
+    stateFilter,
+    cityFilter,
+  ].filter((f) => f !== "all").length;
 
   const filteredVenues = venues.filter(
     (v) =>
-      (regionFilter === "all" || v.region === regionFilter) &&
       (typeFilter === "all" || v.venue_type === typeFilter) &&
+      (settingFilter === "all" || v.setting === settingFilter) &&
+      (priceFilter === "all" || v.price_tier === priceFilter) &&
+      (capacityFilter === "all" || (v.capacity ?? 0) >= Number(capacityFilter)) &&
       (stateFilter === "all" || v.state === stateFilter) &&
       (cityFilter === "all" || v.city === cityFilter) &&
       v.name.toLowerCase().includes(search.trim().toLowerCase()),
@@ -236,97 +248,70 @@ export function VenuesManager({
         <div className="mb-4">
           <SearchBox value={search} onChange={setSearch} placeholder="Search venues by name..." />
         </div>
-        <FilterDisclosure activeCount={activeFilterCount}>
-          <div className="flex flex-wrap gap-4">
-            <div>
-              <label htmlFor="state-filter" className="mb-1 block text-xs uppercase tracking-wide text-ink/50">
-                State
-              </label>
-              <select
-                id="state-filter"
-                value={stateFilter}
-                onChange={(e) => handleStateFilterChange(e.target.value)}
-                className="w-full max-w-xs rounded-md border border-hairline bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-forest sm:w-auto"
-              >
-                <option value="all">All states</option>
-                {availableStates.map((state) => (
-                  <option key={state} value={state}>
-                    {state}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <label htmlFor="city-filter" className="mb-1 block text-xs uppercase tracking-wide text-ink/50">
-                City
-              </label>
-              <select
-                id="city-filter"
-                value={cityFilter}
-                onChange={(e) => setCityFilter(e.target.value)}
-                disabled={availableCities.length === 0}
-                className="w-full max-w-xs rounded-md border border-hairline bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-forest disabled:opacity-50 sm:w-auto"
-              >
-                <option value="all">All cities</option>
-                {availableCities.map((city) => (
-                  <option key={city} value={city}>
-                    {city}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
-          <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap items-center gap-2">
+          <FilterDropdown
+            label="State"
+            allLabel="All states"
+            value={stateFilter}
+            onChange={handleStateFilterChange}
+            options={availableStates.map((state) => ({ value: state, label: state }))}
+          />
+          <FilterDropdown
+            label="City"
+            allLabel="All cities"
+            value={cityFilter}
+            onChange={setCityFilter}
+            options={availableCities.map((city) => ({ value: city, label: city }))}
+            emptyMessage="No cities for this state"
+          />
+          <FilterDropdown
+            label="Capacity"
+            allLabel="Any size"
+            value={capacityFilter}
+            onChange={setCapacityFilter}
+            options={CAPACITY_FILTER_STEPS.map((step) => ({
+              value: String(step),
+              label: `${step}+ guests`,
+            }))}
+          />
+          <FilterDropdown
+            label="Setting"
+            allLabel="Any setting"
+            value={settingFilter}
+            onChange={setSettingFilter}
+            options={VENUE_SETTINGS.map((setting) => ({ value: setting, label: setting }))}
+          />
+          <FilterDropdown
+            label="Price"
+            allLabel="Any price"
+            value={priceFilter}
+            onChange={setPriceFilter}
+            options={STYLE_TIERS.map((tier) => ({ value: tier, label: tier }))}
+          />
+          <FilterDropdown
+            label="Venue type"
+            allLabel="All venue types"
+            value={typeFilter}
+            onChange={setTypeFilter}
+            options={VENUE_TYPES.map((type) => ({ value: type, label: type }))}
+          />
+          {activeFilterCount > 0 && (
             <button
-              onClick={() => setRegionFilter("all")}
-              className={`rounded-full border px-3 py-1 text-sm transition-colors ${
-                regionFilter === "all"
-                  ? "border-forest bg-forest text-parchment"
-                  : "border-hairline bg-parchment text-ink hover:border-forest"
-              }`}
+              type="button"
+              onClick={() => {
+                setStateFilter("all");
+                setCityFilter("all");
+                setCapacityFilter("all");
+                setSettingFilter("all");
+                setPriceFilter("all");
+                setTypeFilter("all");
+              }}
+              className="text-sm text-brass hover:underline"
             >
-              All regions
+              Clear filters ({activeFilterCount})
             </button>
-            {REGIONS.map((region) => (
-              <button
-                key={region}
-                onClick={() => setRegionFilter(region)}
-                className={`rounded-full border px-3 py-1 text-sm transition-colors ${
-                  regionFilter === region
-                    ? "border-forest bg-forest text-parchment"
-                    : "border-hairline bg-parchment text-ink hover:border-forest"
-                }`}
-              >
-                {region}
-              </button>
-            ))}
-          </div>
-          <div className="flex flex-wrap gap-2">
-            <button
-              onClick={() => setTypeFilter("all")}
-              className={`rounded-full border px-3 py-1 text-sm transition-colors ${
-                typeFilter === "all"
-                  ? "border-forest bg-forest text-parchment"
-                  : "border-hairline bg-parchment text-ink hover:border-forest"
-              }`}
-            >
-              All venue types
-            </button>
-            {VENUE_TYPES.map((type) => (
-              <button
-                key={type}
-                onClick={() => setTypeFilter(type)}
-                className={`rounded-full border px-3 py-1 text-sm transition-colors ${
-                  typeFilter === type
-                    ? "border-forest bg-forest text-parchment"
-                    : "border-hairline bg-parchment text-ink hover:border-forest"
-                }`}
-              >
-                {type}
-              </button>
-            ))}
-          </div>
-        </FilterDisclosure>
+          )}
+        </div>
 
         {filteredVenues.length === 0 ? (
           <p className="py-8 text-center text-sm text-ink/50">

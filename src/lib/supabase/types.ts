@@ -111,6 +111,7 @@ export type Venue = {
   latitude: number | null;
   longitude: number | null;
   venue_type: string | null;
+  setting: string | null;
   capacity: number | null;
   price_tier: string | null;
   description: string | null;
@@ -119,6 +120,7 @@ export type Venue = {
   contact_phone: string | null;
   website: string | null;
   active: boolean;
+  is_sample: boolean;
   created_at: string;
 };
 

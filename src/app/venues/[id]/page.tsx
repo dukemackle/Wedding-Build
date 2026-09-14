@@ -68,7 +68,7 @@ export default async function VenueDetailPage({
 
   const similarityFilters = [
     venue.venue_type ? `venue_type.eq.${venue.venue_type}` : null,
-    venue.region ? `region.eq.${venue.region}` : null,
+    venue.state ? `state.eq.${venue.state}` : null,
   ].filter((f): f is string => Boolean(f));
 
   const { data: similarVenues } = similarityFilters.length
@@ -114,12 +114,15 @@ export default async function VenueDetailPage({
               <p className="mt-1 text-sm uppercase tracking-wide text-ink/50">
                 {[
                   [venue.city, venue.state].filter(Boolean).join(", "),
-                  venue.region,
+                  venue.setting,
                   venue.venue_type,
                 ]
                   .filter(Boolean)
                   .join(" · ")}
               </p>
+              {venue.is_sample && (
+                <p className="mt-1 text-[10px] uppercase tracking-wide text-ink/40">Sample listing</p>
+              )}
               {venue.capacity && (
                 <p className="mt-2 font-mono-numbers text-sm text-ink/70">
                   Up to {venue.capacity} guests
