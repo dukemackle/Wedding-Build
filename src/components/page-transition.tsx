@@ -64,11 +64,13 @@ export function PageTransition({ children }: { children: ReactNode }) {
       className="flex flex-1 flex-col"
       style={{
         opacity: isExiting || isEntering ? 0 : 1,
-        transform: isExiting
-          ? "translateY(-10px)"
-          : isEntering
-            ? "translateY(10px)"
-            : "translateY(0)",
+        // Only set a transform while actually animating -- even
+        // translateY(0) creates a new containing block for any
+        // position:fixed descendant (like the floating assistant
+        // widget), which would otherwise anchor "fixed" to this div
+        // instead of the real viewport and stop it from sticking
+        // while scrolling.
+        transform: isExiting ? "translateY(-10px)" : isEntering ? "translateY(10px)" : undefined,
         transition: isEntering ? "none" : `opacity ${duration}ms ${EASE}, transform ${duration}ms ${EASE}`,
       }}
     >
