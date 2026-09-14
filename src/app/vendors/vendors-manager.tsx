@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import { useMemo, useState, useTransition, type KeyboardEvent } from "react";
+import { useEffect, useMemo, useRef, useState, useTransition, type KeyboardEvent } from "react";
 import type { Vendor, VendorFavoriteEntry, VendorInquiry, VendorInquiryStatus } from "@/lib/supabase/types";
 import { REGIONS } from "@/lib/wedding-options";
 import {
@@ -133,10 +133,14 @@ function VendorCard({
   vendor,
   isFavorited,
   isBooked: initialIsBooked,
+  isHighlighted,
+  cardRef,
 }: {
   vendor: Vendor;
   isFavorited: boolean;
   isBooked: boolean;
+  isHighlighted?: boolean;
+  cardRef?: (el: HTMLDivElement | null) => void;
 }) {
   const [showForm, setShowForm] = useState(false);
   const [isBooked, setIsBooked] = useState(initialIsBooked);
@@ -157,7 +161,12 @@ function VendorCard({
   }
 
   return (
-    <div className="flex flex-col overflow-hidden rounded-lg border border-hairline bg-parchment">
+    <div
+      ref={cardRef}
+      className={`flex flex-col overflow-hidden rounded-lg border bg-parchment transition-colors ${
+        isHighlighted ? "border-forest ring-2 ring-forest/30" : "border-hairline"
+      }`}
+    >
       {vendor.image_url && (
         <Image
           src={vendor.image_url}
@@ -370,6 +379,21 @@ export function VendorsManager({
   const [cityFilter, setCityFilter] = useState<string | "all">("all");
   const [viewMode, setViewMode] = useState<"list" | "map">("list");
   const [search, setSearch] = useState("");
+  const [highlightedVendorId, setHighlightedVendorId] = useState<string | null>(null);
+  const cardEls = useRef<Map<string, HTMLDivElement>>(new Map());
+
+  function handleSelectVendorFromMap(vendorId: string) {
+    setViewMode("list");
+    setHighlightedVendorId(vendorId);
+  }
+
+  useEffect(() => {
+    if (!highlightedVendorId || viewMode !== "list") return;
+    const el = cardEls.current.get(highlightedVendorId);
+    el?.scrollIntoView({ behavior: "smooth", block: "center" });
+    const timeout = setTimeout(() => setHighlightedVendorId(null), 2500);
+    return () => clearTimeout(timeout);
+  }, [highlightedVendorId, viewMode]);
 
   const categories = Array.from(
     new Set(vendors.map((v) => v.category).filter((c): c is string => Boolean(c))),
@@ -570,7 +594,7 @@ export function VendorsManager({
               : "No vendors match these filters."}
           </p>
         ) : viewMode === "map" ? (
-          <VendorsMap vendors={filteredVendors} />
+          <VendorsMap vendors={filteredVendors} onSelectVendor={handleSelectVendorFromMap} />
         ) : (
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             {filteredVendors.map((vendor) => (
@@ -579,6 +603,11 @@ export function VendorsManager({
                 vendor={vendor}
                 isFavorited={favoritedIds.has(vendor.id)}
                 isBooked={bookedVendorIds.has(vendor.id)}
+                isHighlighted={highlightedVendorId === vendor.id}
+                cardRef={(el) => {
+                  if (el) cardEls.current.set(vendor.id, el);
+                  else cardEls.current.delete(vendor.id);
+                }}
               />
             ))}
           </div>

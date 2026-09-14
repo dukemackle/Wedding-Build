@@ -2,6 +2,7 @@
 
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
+import Image from "next/image";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import type { Vendor } from "@/lib/supabase/types";
 
@@ -21,7 +22,13 @@ const pinIcon = L.divIcon({
 
 const CONTINENTAL_US_CENTER: [number, number] = [39.8, -98.6];
 
-export function VendorsMap({ vendors }: { vendors: Vendor[] }) {
+export function VendorsMap({
+  vendors,
+  onSelectVendor,
+}: {
+  vendors: Vendor[];
+  onSelectVendor?: (vendorId: string) => void;
+}) {
   const pinned = vendors.filter(
     (v): v is Vendor & { latitude: number; longitude: number } =>
       v.latitude != null && v.longitude != null,
@@ -41,23 +48,48 @@ export function VendorsMap({ vendors }: { vendors: Vendor[] }) {
         />
         {pinned.map((vendor) => (
           <Marker key={vendor.id} position={[vendor.latitude, vendor.longitude]} icon={pinIcon}>
-            <Popup>
-              <div className="min-w-[180px]">
-                <p className="font-semibold text-forest">{vendor.name}</p>
-                <p className="text-xs text-ink/60">
-                  {[vendor.city, vendor.state].filter(Boolean).join(", ")}
-                </p>
-                <p className="mt-1 text-xs text-ink/70">
-                  {[vendor.category, vendor.price_tier].filter(Boolean).join(" · ")}
-                </p>
-                {vendor.contact_email && (
-                  <a
-                    href={`mailto:${vendor.contact_email}`}
-                    className="mt-2 inline-block rounded-full border border-hairline bg-card px-3 py-1 text-xs text-forest hover:border-forest"
-                  >
-                    Email {vendor.contact_email}
-                  </a>
+            <Popup minWidth={200}>
+              <div className="w-[200px]">
+                {vendor.image_url && (
+                  <Image
+                    src={vendor.image_url}
+                    alt={vendor.name}
+                    width={200}
+                    height={125}
+                    className="aspect-[8/5] w-full rounded-md border border-hairline object-cover"
+                  />
                 )}
+                <div className="pt-2">
+                  <div className="flex items-start justify-between gap-2">
+                    <p className="font-semibold text-forest">{vendor.name}</p>
+                    {vendor.price_tier && (
+                      <span className="shrink-0 rounded-full border border-hairline px-2 py-0.5 text-[11px] text-brass">
+                        {vendor.price_tier}
+                      </span>
+                    )}
+                  </div>
+                  <p className="mt-0.5 text-xs text-ink/60">
+                    {[vendor.city, vendor.state].filter(Boolean).join(", ")}
+                  </p>
+                  <p className="mt-1 text-xs text-ink/70">{vendor.category}</p>
+                  {onSelectVendor && (
+                    <button
+                      type="button"
+                      onClick={() => onSelectVendor(vendor.id)}
+                      className="mt-1.5 text-xs font-medium text-brass hover:underline"
+                    >
+                      View details &rarr;
+                    </button>
+                  )}
+                  {vendor.contact_email && (
+                    <a
+                      href={`mailto:${vendor.contact_email}`}
+                      className="mt-2 block rounded-full border border-hairline bg-card px-3 py-1 text-center text-xs text-forest hover:border-forest"
+                    >
+                      Email {vendor.contact_email}
+                    </a>
+                  )}
+                </div>
               </div>
             </Popup>
           </Marker>
