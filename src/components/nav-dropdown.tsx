@@ -39,8 +39,10 @@ export function NavDropdown({
         type="button"
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
-        className={`link-underline flex items-center gap-1 font-display text-lg transition-colors hover:text-forest ${
-          isActive ? "text-forest" : "text-ink/70"
+        className={`flex items-center gap-1 rounded-full font-display text-lg transition-colors ${
+          isActive
+            ? "bg-forest/10 px-3 py-1 text-forest"
+            : "px-3 py-1 text-ink/70 hover:text-forest"
         }`}
       >
         {label}
