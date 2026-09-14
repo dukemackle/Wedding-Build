@@ -37,6 +37,9 @@ export type PublicWedding = {
   rsvp_deadline: string | null;
   dress_code: string | null;
   travel_notes: string | null;
+  venue_name: string | null;
+  venue_city: string | null;
+  venue_state: string | null;
 };
 
 export type WeddingFaq = {
