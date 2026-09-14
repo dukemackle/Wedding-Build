@@ -116,6 +116,7 @@ export async function sendVenueInquiry(formData: FormData): Promise<{ error?: st
   const venueName = formData.get("venue_name") as string;
   const recipientEmail = (formData.get("recipient_email") as string)?.trim();
   const message = (formData.get("message") as string)?.trim();
+  const senderPhone = ((formData.get("sender_phone") as string) || "").trim() || null;
 
   if (!venueName) {
     return { error: "Missing venue." };
@@ -138,6 +139,7 @@ export async function sendVenueInquiry(formData: FormData): Promise<{ error?: st
   const referralNote = wedding.referral_code
     ? `\n\nReferral code: ${wedding.referral_code} (please mention this if you book)`
     : "";
+  const phoneNote = senderPhone ? `\n\nPhone: ${senderPhone}` : "";
 
   try {
     const resend = getResendClient();
@@ -146,7 +148,7 @@ export async function sendVenueInquiry(formData: FormData): Promise<{ error?: st
       to: recipientEmail,
       replyTo: user.email,
       subject: `Wedding inquiry from ${coupleNames || user.email}`,
-      text: `${message}${referralNote}`,
+      text: `${message}${phoneNote}${referralNote}`,
     });
 
     if (sendError) {
@@ -163,6 +165,7 @@ export async function sendVenueInquiry(formData: FormData): Promise<{ error?: st
     venue_name: venueName,
     message,
     recipient_email: recipientEmail,
+    sender_phone: senderPhone,
     status: "sent",
     referral_code: wedding.referral_code,
   });

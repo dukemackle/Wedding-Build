@@ -41,6 +41,7 @@ export async function sendVendorInquiry(formData: FormData): Promise<{ error?: s
   const category = (formData.get("category") as string) || null;
   const recipientEmail = (formData.get("recipient_email") as string)?.trim();
   const message = (formData.get("message") as string)?.trim();
+  const senderPhone = ((formData.get("sender_phone") as string) || "").trim() || null;
 
   if (!vendorName) {
     return { error: "Missing vendor." };
@@ -63,6 +64,7 @@ export async function sendVendorInquiry(formData: FormData): Promise<{ error?: s
   const referralNote = wedding.referral_code
     ? `\n\nReferral code: ${wedding.referral_code} (please mention this if you book)`
     : "";
+  const phoneNote = senderPhone ? `\n\nPhone: ${senderPhone}` : "";
 
   try {
     const resend = getResendClient();
@@ -71,7 +73,7 @@ export async function sendVendorInquiry(formData: FormData): Promise<{ error?: s
       to: recipientEmail,
       replyTo: user.email,
       subject: `Wedding inquiry from ${coupleNames || user.email}`,
-      text: `${message}${referralNote}`,
+      text: `${message}${phoneNote}${referralNote}`,
     });
 
     if (sendError) {
@@ -89,6 +91,7 @@ export async function sendVendorInquiry(formData: FormData): Promise<{ error?: s
     category,
     message,
     recipient_email: recipientEmail,
+    sender_phone: senderPhone,
     status: "sent",
     referral_code: wedding.referral_code,
   });

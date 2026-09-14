@@ -132,6 +132,7 @@ export type VenueInquiry = {
   venue_name: string;
   message: string | null;
   recipient_email: string | null;
+  sender_phone: string | null;
   sent_at: string;
   status: VenueInquiryStatus;
   referral_code: string | null;
@@ -176,6 +177,7 @@ export type VendorInquiry = {
   category: string | null;
   message: string | null;
   recipient_email: string | null;
+  sender_phone: string | null;
   sent_at: string;
   status: VendorInquiryStatus;
   last_followed_up_at: string | null;
