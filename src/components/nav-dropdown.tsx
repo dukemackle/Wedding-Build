@@ -2,14 +2,16 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ComponentType } from "react";
 import { ChevronDownIcon } from "@/components/icons";
 
 export function NavDropdown({
   label,
+  icon: Icon,
   links,
 }: {
   label: string;
+  icon: ComponentType<{ className?: string }>;
   links: { href: string; label: string }[];
 }) {
   const [open, setOpen] = useState(false);
@@ -39,12 +41,11 @@ export function NavDropdown({
         type="button"
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
-        className={`flex items-center gap-1 rounded-full font-display text-lg transition-colors ${
-          isActive
-            ? "bg-forest/10 px-3 py-1 text-forest"
-            : "px-3 py-1 text-ink/70 hover:text-forest"
+        className={`flex items-center gap-1.5 rounded-full px-3 py-1 font-display text-lg transition-colors ${
+          isActive ? "bg-forest/10 text-forest" : "text-ink/70 hover:text-forest"
         }`}
       >
+        <Icon className={`h-4 w-4 shrink-0 ${isActive ? "text-forest" : "text-brass"}`} />
         {label}
         <ChevronDownIcon
           className={`h-4 w-4 transition-transform ${open ? "rotate-180" : ""}`}

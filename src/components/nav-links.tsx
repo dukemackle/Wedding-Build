@@ -2,11 +2,24 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import type { ComponentType } from "react";
 import { NavDropdown } from "@/components/nav-dropdown";
+import {
+  ArchIcon,
+  BudgetIcon,
+  ChecklistIcon,
+  HeadcountIcon,
+  RingsIcon,
+  VenueIcon,
+  WrenBirdIcon,
+} from "@/components/icons";
 
-const groups: { label: string; links: { href: string; label: string }[] }[] = [
+type IconType = ComponentType<{ className?: string }>;
+
+const groups: { label: string; icon: IconType; links: { href: string; label: string }[] }[] = [
   {
     label: "Budget",
+    icon: BudgetIcon,
     links: [
       { href: "/budget", label: "My Budget" },
       { href: "/budget/estimate", label: "Estimator" },
@@ -14,6 +27,7 @@ const groups: { label: string; links: { href: string; label: string }[] }[] = [
   },
   {
     label: "Venues",
+    icon: VenueIcon,
     links: [
       { href: "/venues", label: "Venues" },
       { href: "/vendors", label: "Vendors" },
@@ -22,6 +36,7 @@ const groups: { label: string; links: { href: string; label: string }[] }[] = [
   },
   {
     label: "People",
+    icon: HeadcountIcon,
     links: [
       { href: "/guests", label: "Guests" },
       { href: "/contacts", label: "Contacts" },
@@ -29,6 +44,7 @@ const groups: { label: string; links: { href: string; label: string }[] }[] = [
   },
   {
     label: "Planning",
+    icon: ChecklistIcon,
     links: [
       { href: "/checklist", label: "Checklist" },
       { href: "/itinerary", label: "Itinerary" },
@@ -37,18 +53,17 @@ const groups: { label: string; links: { href: string; label: string }[] }[] = [
   },
 ];
 
-function PlainLink({ href, label }: { href: string; label: string }) {
+function PlainLink({ href, label, icon: Icon }: { href: string; label: string; icon: IconType }) {
   const pathname = usePathname();
   const isActive = pathname.startsWith(href);
   return (
     <Link
       href={href}
-      className={`rounded-full font-display text-lg transition-colors ${
-        isActive
-          ? "bg-forest/10 px-3 py-1 text-forest"
-          : "px-3 py-1 text-ink/70 hover:text-forest"
+      className={`flex items-center gap-1.5 rounded-full px-3 py-1 font-display text-lg transition-colors ${
+        isActive ? "bg-forest/10 text-forest" : "text-ink/70 hover:text-forest"
       }`}
     >
+      <Icon className={`h-4 w-4 shrink-0 ${isActive ? "text-forest" : "text-brass"}`} />
       {label}
     </Link>
   );
@@ -57,13 +72,17 @@ function PlainLink({ href, label }: { href: string; label: string }) {
 export function NavLinks() {
   return (
     <nav className="flex flex-wrap items-center gap-x-1 gap-y-2">
-      <PlainLink href="/dashboard" label="Dashboard" />
-      <NavDropdown label={groups[0].label} links={groups[0].links} />
-      <NavDropdown label={groups[1].label} links={groups[1].links} />
-      <NavDropdown label={groups[2].label} links={groups[2].links} />
-      <NavDropdown label={groups[3].label} links={groups[3].links} />
-      <PlainLink href="/wedding-plan" label="Wedding Plan" />
-      <PlainLink href="/help" label="Help" />
+      <PlainLink href="/dashboard" label="Dashboard" icon={ArchIcon} />
+      {groups.map((group) => (
+        <NavDropdown
+          key={group.label}
+          label={group.label}
+          icon={group.icon}
+          links={group.links}
+        />
+      ))}
+      <PlainLink href="/wedding-plan" label="Wedding Plan" icon={RingsIcon} />
+      <PlainLink href="/help" label="Help" icon={WrenBirdIcon} />
     </nav>
   );
 }

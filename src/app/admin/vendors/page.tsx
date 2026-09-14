@@ -1,11 +1,16 @@
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
-import type { Vendor, VendorContactLog } from "@/lib/supabase/types";
+import type { Vendor, VendorContactLog, VendorFaq } from "@/lib/supabase/types";
 import { AdminVendorsManager, type VendorStats } from "./admin-vendors-manager";
 
 export default async function AdminVendorsPage() {
   const admin = createAdminSupabaseClient();
-  const [{ data: vendors }, { data: inquiries }, { data: contactLogs }, { data: testWeddings }] =
-    await Promise.all([
+  const [
+    { data: vendors },
+    { data: inquiries },
+    { data: contactLogs },
+    { data: testWeddings },
+    { data: faqs },
+  ] = await Promise.all([
       admin.from("vendors").select("*").order("name").returns<Vendor[]>(),
       admin
         .from("vendor_inquiries")
@@ -19,6 +24,11 @@ export default async function AdminVendorsPage() {
         .order("created_at", { ascending: false })
         .returns<VendorContactLog[]>(),
       admin.from("weddings").select("id").eq("is_test", true).returns<{ id: string }[]>(),
+      admin
+        .from("vendor_faqs")
+        .select("*")
+        .order("sort_order", { ascending: true })
+        .returns<VendorFaq[]>(),
     ]);
 
   // Excludes inquiries from weddings marked as test on the Couples admin
@@ -53,6 +63,11 @@ export default async function AdminVendorsPage() {
     logsByVendorId.set(log.vendor_id, list);
   }
 
+  const faqsByVendorId: Record<string, VendorFaq[]> = {};
+  for (const faq of faqs ?? []) {
+    (faqsByVendorId[faq.vendor_id] ??= []).push(faq);
+  }
+
   return (
     <div>
       <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Admin</p>
@@ -61,6 +76,7 @@ export default async function AdminVendorsPage() {
         vendors={vendors ?? []}
         statsByVendorName={Object.fromEntries(statsByVendorName)}
         logsByVendorId={Object.fromEntries(logsByVendorId)}
+        faqsByVendorId={faqsByVendorId}
       />
     </div>
   );

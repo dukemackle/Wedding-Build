@@ -4,7 +4,8 @@ import { notFound, redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { AppNav } from "@/components/app-nav";
 import { FadeInSection } from "@/components/fade-in-section";
-import type { Venue, VenueShortlistEntry, Wedding } from "@/lib/supabase/types";
+import type { Venue, VenueFaq, VenueShortlistEntry, Wedding } from "@/lib/supabase/types";
+import { ChevronDownIcon } from "@/components/icons";
 import { VenueDetailClient, VenueMapEmbed } from "./venue-detail-client";
 
 const VENUE_TYPE_IMAGES: Record<string, string> = {
@@ -65,6 +66,13 @@ export default async function VenueDetailPage({
         .eq("venue_id", venue.id)
         .maybeSingle<VenueShortlistEntry>()
     : { data: null };
+
+  const { data: faqs } = await supabase
+    .from("venue_faqs")
+    .select("*")
+    .eq("venue_id", venue.id)
+    .order("sort_order", { ascending: true })
+    .returns<VenueFaq[]>();
 
   const similarityFilters = [
     venue.venue_type ? `venue_type.eq.${venue.venue_type}` : null,
@@ -150,6 +158,74 @@ export default async function VenueDetailPage({
                 isBooked={wedding.venue_id === venue.id}
                 shortlistEntry={shortlistEntry ?? null}
               />
+            </div>
+          </FadeInSection>
+        )}
+
+        {(venue.about || venue.included || venue.amenities.length > 0) && (
+          <FadeInSection delayMs={60}>
+            <div className="mt-6 rounded-lg border border-hairline bg-card p-6 shadow-sm">
+              {venue.about && (
+                <>
+                  <h2 className="font-display text-xl font-semibold text-forest">
+                    About this venue
+                  </h2>
+                  <p className="mt-2 whitespace-pre-line text-ink/80">{venue.about}</p>
+                </>
+              )}
+
+              {venue.included && (
+                <div className={venue.about ? "mt-6 border-t border-hairline pt-6" : ""}>
+                  <h2 className="font-display text-xl font-semibold text-forest">
+                    What&apos;s included
+                  </h2>
+                  <p className="mt-2 whitespace-pre-line text-ink/80">{venue.included}</p>
+                </div>
+              )}
+
+              {venue.amenities.length > 0 && (
+                <div
+                  className={
+                    venue.about || venue.included ? "mt-6 border-t border-hairline pt-6" : ""
+                  }
+                >
+                  <h2 className="font-display text-xl font-semibold text-forest">Amenities</h2>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {venue.amenities.map((amenity) => (
+                      <span
+                        key={amenity}
+                        className="rounded-full border border-hairline bg-parchment px-3 py-1 text-sm text-ink"
+                      >
+                        {amenity}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </FadeInSection>
+        )}
+
+        {faqs && faqs.length > 0 && (
+          <FadeInSection delayMs={80}>
+            <div className="mt-6 rounded-lg border border-hairline bg-card p-6 shadow-sm">
+              <h2 className="font-display text-xl font-semibold text-forest">
+                Frequently asked questions
+              </h2>
+              <div className="mt-2">
+                {faqs.map((faq) => (
+                  <details
+                    key={faq.id}
+                    className="group border-b border-hairline py-3 last:border-b-0"
+                  >
+                    <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-ink marker:hidden">
+                      {faq.question}
+                      <ChevronDownIcon className="h-4 w-4 shrink-0 text-ink/40 transition-transform group-open:rotate-180" />
+                    </summary>
+                    <p className="mt-2 whitespace-pre-line text-sm text-ink/70">{faq.answer}</p>
+                  </details>
+                ))}
+              </div>
             </div>
           </FadeInSection>
         )}

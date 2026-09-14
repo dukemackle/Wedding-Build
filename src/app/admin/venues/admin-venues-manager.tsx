@@ -1,9 +1,15 @@
 "use client";
 
-import { useState, useTransition } from "react";
-import type { Venue } from "@/lib/supabase/types";
+import { useRef, useState, useTransition } from "react";
+import type { Venue, VenueFaq } from "@/lib/supabase/types";
 import { STATES, STYLE_TIERS, VENUE_SETTINGS, VENUE_TYPES } from "@/lib/wedding-options";
-import { createVenue, setVenueActive, updateVenue } from "./actions";
+import {
+  addVenueFaq,
+  createVenue,
+  deleteVenueFaq,
+  setVenueActive,
+  updateVenue,
+} from "./actions";
 
 const inputClass =
   "rounded-md border border-hairline bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-forest";
@@ -147,6 +153,29 @@ function VenueForm({
           className={inputClass}
         />
       </label>
+      <label className={`${labelClass} sm:col-span-2`}>
+        About <span className="text-ink/50">(longer write-up, shown on the venue page)</span>
+        <textarea name="about" rows={4} defaultValue={venue?.about ?? ""} className={inputClass} />
+      </label>
+      <label className={`${labelClass} sm:col-span-2`}>
+        What&apos;s included
+        <textarea
+          name="included"
+          rows={3}
+          placeholder="e.g. Two nights at the lodge, $4,000 in event rentals with setup and takedown"
+          defaultValue={venue?.included ?? ""}
+          className={inputClass}
+        />
+      </label>
+      <label className={`${labelClass} sm:col-span-2`}>
+        Amenities <span className="text-ink/50">(comma separated)</span>
+        <input
+          name="amenities"
+          placeholder="Bridal suite, On-site parking, Rain backup, Pet friendly"
+          defaultValue={venue?.amenities?.join(", ") ?? ""}
+          className={inputClass}
+        />
+      </label>
       <label className="flex items-center gap-2 text-sm text-ink sm:col-span-2">
         <input type="checkbox" name="is_sample" defaultChecked={venue?.is_sample ?? false} />
         Sample / placeholder listing (not a real vendor)
@@ -172,7 +201,79 @@ function VenueForm({
   );
 }
 
-function VenueRow({ venue }: { venue: Venue }) {
+function VenueFaqEditor({ venue, faqs }: { venue: Venue; faqs: VenueFaq[] }) {
+  const [error, setError] = useState<string | undefined>(undefined);
+  const [isPending, startTransition] = useTransition();
+  const formRef = useRef<HTMLFormElement>(null);
+
+  function handleAdd(formData: FormData) {
+    formData.set("venue_id", venue.id);
+    formData.set("sort_order", String(faqs.length));
+    startTransition(async () => {
+      const result = await addVenueFaq(formData);
+      if (result?.error) {
+        setError(result.error);
+      } else {
+        setError(undefined);
+        formRef.current?.reset();
+      }
+    });
+  }
+
+  function handleDelete(faqId: string) {
+    const formData = new FormData();
+    formData.set("id", faqId);
+    formData.set("venue_id", venue.id);
+    startTransition(async () => {
+      const result = await deleteVenueFaq(formData);
+      if (result?.error) setError(result.error);
+    });
+  }
+
+  return (
+    <div className="mt-4 border-t border-hairline pt-4">
+      <p className="text-sm text-ink">
+        FAQs <span className="text-ink/50">({faqs.length})</span>
+      </p>
+
+      {faqs.map((faq) => (
+        <div
+          key={faq.id}
+          className="mt-2 flex items-start justify-between gap-3 rounded-md border border-hairline bg-parchment p-3"
+        >
+          <div>
+            <p className="text-sm text-ink">{faq.question}</p>
+            <p className="mt-0.5 text-xs text-ink/60">{faq.answer}</p>
+          </div>
+          <button
+            type="button"
+            onClick={() => handleDelete(faq.id)}
+            disabled={isPending}
+            className="shrink-0 text-xs text-ink/50 hover:underline"
+          >
+            Remove
+          </button>
+        </div>
+      ))}
+
+      <form ref={formRef} action={handleAdd} className="mt-3 flex flex-col gap-2">
+        <input name="question" placeholder="Question" className={inputClass} />
+        <textarea name="answer" rows={2} placeholder="Answer" className={inputClass} />
+        <button
+          type="submit"
+          disabled={isPending}
+          className="self-start rounded-md border border-hairline px-3 py-1.5 text-sm text-ink hover:border-forest disabled:opacity-60"
+        >
+          {isPending ? "Adding..." : "+ Add FAQ"}
+        </button>
+      </form>
+
+      {error && <p className="mt-2 text-sm text-red-800">{error}</p>}
+    </div>
+  );
+}
+
+function VenueRow({ venue, faqs }: { venue: Venue; faqs: VenueFaq[] }) {
   const [editing, setEditing] = useState(false);
   const [isPending, startTransition] = useTransition();
 
@@ -189,6 +290,7 @@ function VenueRow({ venue }: { venue: Venue }) {
     return (
       <div className="border-b border-hairline py-4 last:border-b-0">
         <VenueForm venue={venue} onDone={() => setEditing(false)} />
+        <VenueFaqEditor venue={venue} faqs={faqs} />
       </div>
     );
   }
@@ -229,7 +331,13 @@ function VenueRow({ venue }: { venue: Venue }) {
   );
 }
 
-export function AdminVenuesManager({ venues }: { venues: Venue[] }) {
+export function AdminVenuesManager({
+  venues,
+  faqsByVenueId,
+}: {
+  venues: Venue[];
+  faqsByVenueId: Record<string, VenueFaq[]>;
+}) {
   const [adding, setAdding] = useState(false);
 
   return (
@@ -252,7 +360,7 @@ export function AdminVenuesManager({ venues }: { venues: Venue[] }) {
         </div>
       )}
       {venues.map((venue) => (
-        <VenueRow key={venue.id} venue={venue} />
+        <VenueRow key={venue.id} venue={venue} faqs={faqsByVenueId[venue.id] ?? []} />
       ))}
       {venues.length === 0 && !adding && <p className="text-sm text-ink/50">No venues yet.</p>}
     </div>

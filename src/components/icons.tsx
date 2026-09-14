@@ -369,6 +369,20 @@ export function NotesIcon(props: IconProps) {
   );
 }
 
+// A flower-topped ceremony arch -- the Dashboard is the "your wedding at
+// a glance" page, so it gets the ceremony itself rather than a generic
+// house or gauge.
+export function ArchIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M6 21V11a6 6 0 0 1 12 0v10" />
+      <path d="M4 21h16" />
+      <path d="M9 21v-6a3 3 0 0 1 6 0v6" />
+      <path d="M8.5 7.5c-.8-.9-.6-2 .4-2.4M15.5 7.5c.8-.9.6-2-.4-2.4" />
+    </IconBase>
+  );
+}
+
 export function TrashIcon(props: IconProps) {
   return (
     <IconBase {...props}>
