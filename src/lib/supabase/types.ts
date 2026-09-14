@@ -19,6 +19,7 @@ export type Wedding = {
   is_test: boolean;
   partner_user_id: string | null;
   invite_token: string | null;
+  hidden_budget_categories: string[];
   created_at: string;
   updated_at: string;
 };
@@ -259,6 +260,7 @@ export type BudgetCustomItem = {
   user_id: string;
   label: string;
   amount: number;
+  paid_amount: number | null;
   purchased_from: string | null;
   paid_by: string | null;
   due_date: string | null;

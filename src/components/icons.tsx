@@ -307,3 +307,75 @@ export function FeedbackIcon(props: IconProps) {
     </IconBase>
   );
 }
+
+export function HairMakeupIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M8 11a4 4 0 1 1 8 0c0 2.5-1 4-1 6a3 3 0 0 1-6 0c0-2-1-3.5-1-6Z" />
+      <path d="M9 8c-1-2-.5-4 1-5M15 8c1-2 .5-4-1-5" />
+      <circle cx="17" cy="17" r="2.5" />
+      <path d="m18.8 18.8 2.2 2.2" />
+    </IconBase>
+  );
+}
+
+export function RingsIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <circle cx="9" cy="14" r="5" />
+      <circle cx="15" cy="14" r="5" />
+      <path d="M9 9v-2l1.5-3h1L13 7v2" />
+    </IconBase>
+  );
+}
+
+export function OfficiantIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M12 3v7" />
+      <path d="M9 6h6" />
+      <path d="M7 21c0-4 2-6 5-6s5 2 5 6" />
+      <circle cx="12" cy="13" r="2.5" />
+    </IconBase>
+  );
+}
+
+export function GratuitiesIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M3 10 12 4l9 6" />
+      <path d="M5 10v9h14v-9" />
+      <path d="M10 19v-5a2 2 0 0 1 4 0v5" />
+    </IconBase>
+  );
+}
+
+export function BellIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M6 10a6 6 0 0 1 12 0c0 4 1.5 5.5 2 6H4c.5-.5 2-2 2-6Z" />
+      <path d="M10 19a2 2 0 0 0 4 0" />
+    </IconBase>
+  );
+}
+
+export function NotesIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M6 3h9l4 4v14a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z" />
+      <path d="M15 3v4h4" />
+      <path d="M8 12h8M8 15.5h8M8 8.5h4" />
+    </IconBase>
+  );
+}
+
+export function TrashIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M4 6h16" />
+      <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
+      <path d="M6 6l1 14a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1l1-14" />
+      <path d="M10 11v6M14 11v6" />
+    </IconBase>
+  );
+}

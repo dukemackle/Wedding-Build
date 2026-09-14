@@ -36,7 +36,7 @@ export function paymentsFromRows(
     .map((row) => ({
       key: row.key,
       label: row.label,
-      amount: row.override ?? row.computed,
+      amount: row.override ?? row.computed ?? 0,
       dueDate: row.dueDate,
     }));
 

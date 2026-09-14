@@ -4,11 +4,20 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import type { Wedding } from "@/lib/supabase/types";
+import { getResendClient, INQUIRY_FROM_ADDRESS } from "@/lib/resend";
 import {
   BUDGET_CATEGORIES,
   computeCategoryValue,
   effectiveGuestCount,
 } from "@/lib/budget-categories";
+
+function parseOptionalAmount(raw: FormDataEntryValue | null): number | null | "invalid" {
+  const trimmed = (raw as string)?.trim();
+  if (!trimmed) return null;
+  const value = Number(trimmed);
+  if (Number.isNaN(value) || value < 0) return "invalid";
+  return value;
+}
 
 async function requireOwnWedding() {
   const supabase = await createClient();
@@ -56,7 +65,12 @@ export async function setBudgetTarget(formData: FormData): Promise<{ error?: str
   return {};
 }
 
-export async function setBudgetOverride(
+// Handles the Actual and Paid quick-entry inputs (either can be set
+// independently -- a couple might know what they've paid before they've
+// settled on a final actual total) as well as the fuller purchased-from/
+// paid-by/due-date/notes fields from the notes-icon form. All fields are
+// optional except category so any single one can be saved on its own.
+export async function updateBudgetLineItem(
   formData: FormData,
 ): Promise<{ error?: string }> {
   const { supabase, user, wedding } = await requireOwnWedding();
@@ -71,10 +85,13 @@ export async function setBudgetOverride(
     return { error: "Unknown budget category." };
   }
 
-  const overrideValueRaw = formData.get("override_value") as string;
-  const overrideValue = Number(overrideValueRaw);
-  if (!overrideValueRaw || Number.isNaN(overrideValue) || overrideValue < 0) {
-    return { error: "Enter a valid amount." };
+  const overrideValue = parseOptionalAmount(formData.get("override_value"));
+  if (overrideValue === "invalid") {
+    return { error: "Enter a valid actual cost." };
+  }
+  const paidAmount = parseOptionalAmount(formData.get("paid_amount"));
+  if (paidAmount === "invalid") {
+    return { error: "Enter a valid paid amount." };
   }
 
   const purchasedFrom = ((formData.get("purchased_from") as string) || "").trim() || null;
@@ -104,6 +121,7 @@ export async function setBudgetOverride(
       label: category.label,
       base_value: computed,
       override_value: overrideValue,
+      paid_amount: paidAmount,
       purchased_from: purchasedFrom,
       paid_by: paidBy,
       due_date: dueDate,
@@ -120,9 +138,7 @@ export async function setBudgetOverride(
   return {};
 }
 
-export async function clearBudgetOverride(
-  formData: FormData,
-): Promise<{ error?: string }> {
+export async function hideBudgetCategory(formData: FormData): Promise<{ error?: string }> {
   const { supabase, wedding } = await requireOwnWedding();
 
   if (!wedding) {
@@ -130,18 +146,81 @@ export async function clearBudgetOverride(
   }
 
   const categoryKey = formData.get("category") as string;
+  const hidden = Array.from(new Set([...wedding.hidden_budget_categories, categoryKey]));
 
   const { error } = await supabase
-    .from("budget_line_items")
-    .delete()
-    .eq("wedding_id", wedding.id)
-    .eq("category", categoryKey);
+    .from("weddings")
+    .update({ hidden_budget_categories: hidden })
+    .eq("id", wedding.id);
 
   if (error) {
     return { error: error.message };
   }
 
   revalidatePath("/budget");
+  return {};
+}
+
+export async function unhideBudgetCategory(formData: FormData): Promise<{ error?: string }> {
+  const { supabase, wedding } = await requireOwnWedding();
+
+  if (!wedding) {
+    return { error: "Set up your wedding on the Dashboard first." };
+  }
+
+  const categoryKey = formData.get("category") as string;
+  const hidden = wedding.hidden_budget_categories.filter((key) => key !== categoryKey);
+
+  const { error } = await supabase
+    .from("weddings")
+    .update({ hidden_budget_categories: hidden })
+    .eq("id", wedding.id);
+
+  if (error) {
+    return { error: error.message };
+  }
+
+  revalidatePath("/budget");
+  return {};
+}
+
+export async function sendBudgetReminder(formData: FormData): Promise<{ error?: string }> {
+  const { user, wedding } = await requireOwnWedding();
+
+  if (!wedding) {
+    return { error: "Set up your wedding on the Dashboard first." };
+  }
+  if (!user.email) {
+    return { error: "No email on your account to send a reminder to." };
+  }
+  if (!process.env.RESEND_API_KEY) {
+    return { error: "Email sending isn't configured (missing RESEND_API_KEY)." };
+  }
+
+  const label = (formData.get("label") as string) || "this item";
+  const amountText = (formData.get("amount_text") as string) || "";
+  const dueDate = (formData.get("due_date") as string) || "";
+
+  const dueText = dueDate
+    ? ` It's due ${new Date(`${dueDate}T00:00:00`).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}.`
+    : "";
+
+  try {
+    const resend = getResendClient();
+    const { error: sendError } = await resend.emails.send({
+      from: INQUIRY_FROM_ADDRESS,
+      to: user.email,
+      subject: `Payment reminder: ${label}`,
+      text: `Just a reminder from Wren: ${label}${amountText ? ` (${amountText})` : ""} is still on your budget to pay.${dueText}`,
+    });
+
+    if (sendError) {
+      return { error: sendError.message };
+    }
+  } catch (err) {
+    return { error: err instanceof Error ? err.message : "Failed to send the reminder." };
+  }
+
   return {};
 }
 
@@ -157,10 +236,16 @@ function customItemFieldsFromForm(formData: FormData) {
     return { error: "Enter a valid amount." } as const;
   }
 
+  const paidAmount = parseOptionalAmount(formData.get("paid_amount"));
+  if (paidAmount === "invalid") {
+    return { error: "Enter a valid paid amount." } as const;
+  }
+
   return {
     fields: {
       label,
       amount,
+      paid_amount: paidAmount,
       purchased_from: ((formData.get("purchased_from") as string) || "").trim() || null,
       paid_by: ((formData.get("paid_by") as string) || "").trim() || null,
       due_date: ((formData.get("due_date") as string) || "").trim() || null,

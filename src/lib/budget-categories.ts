@@ -54,6 +54,10 @@ export const BUDGET_CATEGORIES: BudgetCategory[] = [
   // a larger wedding plausibly means a larger one of these too.
   { key: "rehearsal_dinner", label: "Rehearsal Dinner", flatBase: 800, perGuestAmount: 15 },
   { key: "welcome_party", label: "Welcome Party", flatBase: 600, perGuestAmount: 12 },
+  { key: "hair_makeup", label: "Hair & Makeup", flatBase: 900, perGuestAmount: 0 },
+  { key: "rings", label: "Wedding Rings", flatBase: 1500, perGuestAmount: 0 },
+  { key: "officiant", label: "Officiant", flatBase: 500, perGuestAmount: 0 },
+  { key: "gratuities", label: "Gratuities & Service Charges", flatBase: 700, perGuestAmount: 0 },
 ];
 
 export const REGION_MULTIPLIERS: Record<string, number> = {
