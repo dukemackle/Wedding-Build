@@ -16,7 +16,7 @@ export function AppNav({
 
   return (
     <>
-      <header className="sticky top-0 z-30 -mx-6 -mt-16 mb-8 w-auto border-b border-hairline bg-card/95 backdrop-blur">
+      <header className="static -mx-6 -mt-16 mb-8 w-auto border-b border-hairline bg-card/95 backdrop-blur sm:sticky sm:top-0 sm:z-30">
         <div className="mx-auto flex max-w-6xl flex-col gap-3 px-6 py-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-4">
             <AssistantLauncherButton />
