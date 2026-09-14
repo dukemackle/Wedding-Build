@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import { useMemo, useState, useTransition } from "react";
+import { useMemo, useState, useTransition, type KeyboardEvent } from "react";
 import type { Vendor, VendorFavoriteEntry, VendorInquiry, VendorInquiryStatus } from "@/lib/supabase/types";
 import { REGIONS } from "@/lib/wedding-options";
 import {
@@ -45,6 +45,16 @@ const STATUS_BADGE_CLASS: Record<VendorInquiryStatus, string> = {
 function InquiryForm({ vendor, onDone }: { vendor: Vendor; onDone: () => void }) {
   const [error, setError] = useState<string | undefined>(undefined);
   const [isPending, startTransition] = useTransition();
+  const [message, setMessage] = useState("");
+
+  const sampleMessage = `Hi ${vendor.name}, we're planning our wedding and would love to get a quote for ${vendor.category?.toLowerCase() ?? "your services"}. Could you share availability and pricing?`;
+
+  function handleMessageKeyDown(e: KeyboardEvent<HTMLTextAreaElement>) {
+    if (e.key === "Tab" && !message) {
+      e.preventDefault();
+      setMessage(sampleMessage);
+    }
+  }
 
   function handleSubmit(formData: FormData) {
     startTransition(async () => {
@@ -79,7 +89,22 @@ function InquiryForm({ vendor, onDone }: { vendor: Vendor; onDone: () => void })
           name="message"
           rows={3}
           required
-          defaultValue={`Hi ${vendor.name}, we're planning our wedding and would love to get a quote for ${vendor.category?.toLowerCase() ?? "your services"}. Could you share availability and pricing?`}
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          onKeyDown={handleMessageKeyDown}
+          placeholder={sampleMessage}
+          className="rounded-md border border-hairline bg-parchment px-3 py-2 text-ink outline-none focus:border-forest"
+        />
+        <span className="text-xs text-ink/50">
+          Press Tab to use our suggested message, or write your own.
+        </span>
+      </label>
+      <label className="flex flex-col gap-1 text-sm text-ink">
+        Phone <span className="text-ink/50">(optional)</span>
+        <input
+          type="tel"
+          name="sender_phone"
+          placeholder="So they can call or text you back"
           className="rounded-md border border-hairline bg-parchment px-3 py-2 text-ink outline-none focus:border-forest"
         />
       </label>
