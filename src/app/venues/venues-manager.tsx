@@ -8,6 +8,7 @@ import type { Venue, VenueShortlistEntry } from "@/lib/supabase/types";
 import { REGIONS, VENUE_TYPES } from "@/lib/wedding-options";
 import { updateShortlistNotes } from "./actions";
 import { BookedVenueButton, ShortlistButton } from "./venue-card-shared";
+import { InquiryForm } from "./inquiry-form";
 import { SearchBox } from "@/components/search-box";
 import { FilterDisclosure } from "@/components/filter-disclosure";
 
@@ -47,6 +48,7 @@ function VenueCard({
   onHover?: () => void;
   onLeave?: () => void;
 }) {
+  const [showInquiry, setShowInquiry] = useState(false);
   const image =
     venue.image_url || (venue.venue_type && VENUE_TYPE_IMAGES[venue.venue_type]) || DEFAULT_VENUE_IMAGE;
 
@@ -102,7 +104,19 @@ function VenueCard({
             isBooked={isBooked}
             onToggled={onBookedToggled}
           />
+          {!showInquiry && (
+            <button
+              type="button"
+              onClick={() => setShowInquiry(true)}
+              className="rounded-full border border-hairline px-3 py-1 text-sm text-ink transition-colors hover:border-forest"
+            >
+              Request a quote
+            </button>
+          )}
         </div>
+        {showInquiry && (
+          <InquiryForm venue={venue} onDone={() => setShowInquiry(false)} />
+        )}
       </div>
     </div>
   );
