@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from "react";
 import type { Venue } from "@/lib/supabase/types";
-import { REGIONS, STATES, VENUE_TYPES } from "@/lib/wedding-options";
+import { STATES, STYLE_TIERS, VENUE_SETTINGS, VENUE_TYPES } from "@/lib/wedding-options";
 import { createVenue, setVenueActive, updateVenue } from "./actions";
 
 const inputClass =
@@ -51,12 +51,12 @@ function VenueForm({
         </select>
       </label>
       <label className={labelClass}>
-        Region
-        <select name="region" defaultValue={venue?.region ?? ""} className={inputClass}>
+        Setting
+        <select name="setting" defaultValue={venue?.setting ?? ""} className={inputClass}>
           <option value="">—</option>
-          {REGIONS.map((r) => (
-            <option key={r} value={r}>
-              {r}
+          {VENUE_SETTINGS.map((s) => (
+            <option key={s} value={s}>
+              {s}
             </option>
           ))}
         </select>
@@ -88,12 +88,14 @@ function VenueForm({
       </label>
       <label className={labelClass}>
         Price tier
-        <input
-          name="price_tier"
-          placeholder="$, $$, or $$$"
-          defaultValue={venue?.price_tier ?? ""}
-          className={inputClass}
-        />
+        <select name="price_tier" defaultValue={venue?.price_tier ?? ""} className={inputClass}>
+          <option value="">—</option>
+          {STYLE_TIERS.map((t) => (
+            <option key={t} value={t}>
+              {t}
+            </option>
+          ))}
+        </select>
       </label>
       <label className={labelClass}>
         Image URL
@@ -145,6 +147,10 @@ function VenueForm({
           className={inputClass}
         />
       </label>
+      <label className="flex items-center gap-2 text-sm text-ink sm:col-span-2">
+        <input type="checkbox" name="is_sample" defaultChecked={venue?.is_sample ?? false} />
+        Sample / placeholder listing (not a real vendor)
+      </label>
       {error && <p className="text-sm text-red-800 sm:col-span-2">{error}</p>}
       <div className="flex gap-2 sm:col-span-2">
         <button
@@ -190,7 +196,14 @@ function VenueRow({ venue }: { venue: Venue }) {
   return (
     <div className="flex flex-col gap-2 border-b border-hairline py-3 last:border-b-0 sm:flex-row sm:items-center sm:justify-between">
       <div>
-        <p className={venue.active ? "text-ink" : "text-ink/40 line-through"}>{venue.name}</p>
+        <p className={venue.active ? "text-ink" : "text-ink/40 line-through"}>
+          {venue.name}
+          {venue.is_sample && (
+            <span className="ml-2 rounded-full border border-hairline px-2 py-0.5 text-[10px] uppercase tracking-wide text-ink/40">
+              Sample
+            </span>
+          )}
+        </p>
         <p className="mt-0.5 text-xs text-ink/50">
           {[venue.venue_type, venue.city, venue.state].filter(Boolean).join(" · ") || "—"}
         </p>
