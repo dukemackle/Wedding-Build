@@ -3,7 +3,11 @@
 import { useMemo, useState, useTransition } from "react";
 import type { RegionalCostData } from "@/lib/supabase/types";
 import { downloadCsv, toCsv } from "@/lib/csv";
-import { importRegionalCostData, updateRegionalCostDataRow } from "./actions";
+import {
+  importRegionalCostData,
+  recomputeCostDataFromCustomerQuotes,
+  updateRegionalCostDataRow,
+} from "./actions";
 
 const inputClass =
   "rounded-md border border-hairline bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-forest";
@@ -190,6 +194,60 @@ export function CostDataBrowser({
       <p className="mt-3 text-xs text-ink/50">
         Edits here only apply once you click Save on that row — nothing changes until you do.
       </p>
+    </div>
+  );
+}
+
+export function RecomputeFromCustomerData() {
+  const [error, setError] = useState<string | undefined>(undefined);
+  const [result, setResult] = useState<
+    { updatedCells: number; insufficientCells: number; quotesConsidered: number } | undefined
+  >(undefined);
+  const [isPending, startTransition] = useTransition();
+
+  function handleClick() {
+    startTransition(async () => {
+      const res = await recomputeCostDataFromCustomerQuotes();
+      if (res.error) {
+        setError(res.error);
+        setResult(undefined);
+      } else {
+        setError(undefined);
+        setResult({
+          updatedCells: res.updatedCells ?? 0,
+          insufficientCells: res.insufficientCells ?? 0,
+          quotesConsidered: res.quotesConsidered ?? 0,
+        });
+      }
+    });
+  }
+
+  return (
+    <div>
+      <p className="text-sm text-ink/70">
+        Recomputes real (state, category, style) cells from actual customer budget quotes &mdash;
+        never test weddings, never the computed placeholder estimate. A cell only updates once at
+        least 5 real quotes back it, and the average trims outliers once there are enough quotes
+        to do so safely. Cells without enough real quotes yet are left exactly as they are.
+      </p>
+      <button
+        type="button"
+        onClick={handleClick}
+        disabled={isPending}
+        className="mt-4 rounded-md bg-forest px-4 py-2 text-sm text-parchment transition-colors hover:bg-forest/90 disabled:opacity-60"
+      >
+        {isPending ? "Recomputing..." : "Recompute from customer data"}
+      </button>
+      {error && <p className="mt-3 text-sm text-red-800">{error}</p>}
+      {result && (
+        <p className="mt-3 text-sm text-forest">
+          Considered {result.quotesConsidered} real customer quote
+          {result.quotesConsidered === 1 ? "" : "s"}. Updated {result.updatedCells} cell
+          {result.updatedCells === 1 ? "" : "s"}
+          {result.insufficientCells > 0 &&
+            ` -- ${result.insufficientCells} cell${result.insufficientCells === 1 ? "" : "s"} had some real quotes but not enough (5+) to trust yet, so left unchanged.`}
+        </p>
+      )}
     </div>
   );
 }
