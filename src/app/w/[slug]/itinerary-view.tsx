@@ -22,7 +22,7 @@ export function ItineraryView({
       {days.map((day) => (
         <div
           key={day.date}
-          className="w-72 shrink-0 rounded-lg border border-hairline bg-card p-4 shadow-sm sm:w-80"
+          className="w-full min-w-[220px] flex-1 rounded-lg border border-hairline bg-card p-4 shadow-sm"
         >
           <div className="mb-3 border-b border-hairline pb-3">
             <p className="font-display text-lg font-semibold text-forest">
