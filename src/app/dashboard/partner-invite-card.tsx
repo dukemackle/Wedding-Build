@@ -101,7 +101,7 @@ export function PartnerInviteCard({
 
           {link ? (
             <div className="mt-4 flex flex-wrap items-center gap-3">
-              <span className="max-w-full truncate rounded-md bg-forest/10 px-4 py-2 font-mono-numbers text-sm text-forest">
+              <span className="min-w-0 flex-1 truncate rounded-md bg-forest/10 px-4 py-2 font-mono-numbers text-sm text-forest">
                 {link}
               </span>
               <button
