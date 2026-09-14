@@ -2,7 +2,7 @@ import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import { BUDGET_CATEGORIES } from "@/lib/budget-categories";
 import { STATES } from "@/lib/wedding-options";
 import type { RegionalCostData } from "@/lib/supabase/types";
-import { CostDataBrowser, ImportForm } from "./cost-data-manager";
+import { CostDataBrowser, ImportForm, RecomputeFromCustomerData } from "./cost-data-manager";
 
 export default async function AdminCostDataPage() {
   const admin = createAdminSupabaseClient();
@@ -73,6 +73,11 @@ export default async function AdminCostDataPage() {
         <ImportForm
           categoryOptions={BUDGET_CATEGORIES.map((c) => ({ key: c.key, label: c.label }))}
         />
+      </div>
+
+      <div className="mt-8 w-full rounded-lg border border-hairline bg-card p-6 shadow-sm">
+        <p className="mb-3 text-sm font-medium text-ink">Recompute from customer data</p>
+        <RecomputeFromCustomerData />
       </div>
     </div>
   );

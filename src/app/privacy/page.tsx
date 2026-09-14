@@ -10,7 +10,7 @@ export default function PrivacyPage() {
       <div className="w-full max-w-3xl">
         <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Legal</p>
         <h1 className="mt-2 font-display text-3xl font-semibold text-forest">Privacy Policy</h1>
-        <p className="mt-2 text-sm text-ink/60">Last updated: September 13, 2026</p>
+        <p className="mt-2 text-sm text-ink/60">Last updated: September 14, 2026</p>
 
         <div className="mt-8 flex flex-col gap-8 text-ink/80">
           <p>
@@ -69,6 +69,12 @@ export default function PrivacyPage() {
             <p className="mt-3">
               We don&apos;t sell your information, and we don&apos;t use it for third-party
               advertising.
+            </p>
+            <p className="mt-3">
+              We may also use aggregated, anonymized budget figures (never guest lists, messages,
+              or anything identifying) to improve the cost estimates the Service shows &mdash; for
+              example, refining what a typical wedding costs in a given state and category. This
+              never includes your name, contact info, or any way to identify you or your wedding.
             </p>
           </Section>
 
