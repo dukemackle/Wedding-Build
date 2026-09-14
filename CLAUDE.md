@@ -162,6 +162,12 @@ expert across these lenses, weighted by current priority:
 - Flag explicitly when something is a business/judgment call for the owner
   (e.g., monetization model, pricing, target customer) vs. something you can
   just implement — don't quietly assume an answer on the judgment calls.
+- **Proactively flag risks before the owner has to catch them** (2026-09-14):
+  data-quality problems (e.g., garbage-in-garbage-out on anything crowdsourced
+  or user-submitted), copy/claims that no longer match what the product
+  actually does (e.g., a "100% private" claim after adding an aggregate-data
+  feature), and stale or redundant content — don't wait to be asked, and don't
+  wait for the owner to spot it first.
 - Update this section as the business evolves (monetization model gets picked,
   real users show up, priorities shift) — it's meant to stay current, not be
   written once and stale.
