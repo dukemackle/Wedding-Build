@@ -2,8 +2,15 @@
 
 import { useMemo, useRef, useState, useTransition } from "react";
 import type { ItineraryEvent } from "@/lib/supabase/types";
-import { dateKey, formatFullDate, formatTime, groupEventsByDate } from "@/lib/itinerary";
+import {
+  dateKey,
+  formatFullDate,
+  formatTime,
+  groupEventsByDate,
+  parseDateKey,
+} from "@/lib/itinerary";
 import { downloadIcs } from "@/lib/ics";
+import { ItineraryCalendar } from "@/components/itinerary-calendar";
 import { addItineraryEvent, updateItineraryEvent, deleteItineraryEvent } from "./actions";
 
 const inputClass =
@@ -213,7 +220,7 @@ function DayColumn({
   onAdd: () => void;
 }) {
   return (
-    <div className="w-72 shrink-0 rounded-lg border border-hairline bg-card p-4 shadow-sm sm:w-80">
+    <div className="w-full min-w-[220px] flex-1 rounded-lg border border-hairline bg-card p-4 shadow-sm">
       <div className="mb-3 flex items-start justify-between gap-2 border-b border-hairline pb-3">
         <div>
           <p className="font-display text-lg font-semibold text-forest">{formatFullDate(date)}</p>
@@ -259,44 +266,57 @@ export function ItineraryManager({
   }
 
   return (
-    <div>
-      <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-        <p className="text-sm text-ink/60">
-          {days.length === 0
-            ? "No days scheduled yet."
-            : `${days.length} day${days.length === 1 ? "" : "s"} scheduled, side by side below.`}
-        </p>
-        <button
-          onClick={() => (showAddForm ? setShowAddForm(false) : openAddForm(addFormDate))}
-          className="rounded-full bg-forest px-4 py-1.5 font-mono-numbers text-sm text-parchment transition-colors hover:bg-forest/90"
-        >
-          {showAddForm ? "Close" : "+ Add event"}
-        </button>
+    <div className="grid gap-6 md:grid-cols-[280px_1fr]">
+      <div className="rounded-lg border border-hairline bg-card p-5 shadow-sm">
+        <ItineraryCalendar
+          events={events}
+          selectedDate={addFormDate}
+          onSelectDate={openAddForm}
+          initialDate={weddingDate ? parseDateKey(weddingDate) : new Date()}
+          weddingDate={weddingDate}
+        />
+        <p className="mt-3 text-xs text-ink/50">Pick a date to add an event to that day.</p>
       </div>
 
-      {showAddForm && (
-        <AddEventForm defaultDate={addFormDate} onDone={() => setShowAddForm(false)} />
-      )}
-
-      {days.length === 0 ? (
-        <div className="rounded-lg border border-hairline bg-card p-8 text-center shadow-sm">
-          <p className="text-sm text-ink/50">
-            Nothing on the schedule yet — add your first event to start building the weekend.
+      <div className="min-w-0">
+        <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+          <p className="text-sm text-ink/60">
+            {days.length === 0
+              ? "No days scheduled yet."
+              : `${days.length} day${days.length === 1 ? "" : "s"} scheduled, side by side below.`}
           </p>
+          <button
+            onClick={() => (showAddForm ? setShowAddForm(false) : openAddForm(addFormDate))}
+            className="rounded-full bg-forest px-4 py-1.5 font-mono-numbers text-sm text-parchment transition-colors hover:bg-forest/90"
+          >
+            {showAddForm ? "Close" : "+ Add event"}
+          </button>
         </div>
-      ) : (
-        <div className="flex items-start gap-4 overflow-x-auto pb-2">
-          {days.map((day) => (
-            <DayColumn
-              key={day.date}
-              date={day.date}
-              events={day.events}
-              isWeddingDay={weddingDate === day.date}
-              onAdd={() => openAddForm(day.date)}
-            />
-          ))}
-        </div>
-      )}
+
+        {showAddForm && (
+          <AddEventForm defaultDate={addFormDate} onDone={() => setShowAddForm(false)} />
+        )}
+
+        {days.length === 0 ? (
+          <div className="rounded-lg border border-hairline bg-card p-8 text-center shadow-sm">
+            <p className="text-sm text-ink/50">
+              Nothing on the schedule yet — add your first event to start building the weekend.
+            </p>
+          </div>
+        ) : (
+          <div className="flex items-start gap-4 overflow-x-auto pb-2">
+            {days.map((day) => (
+              <DayColumn
+                key={day.date}
+                date={day.date}
+                events={day.events}
+                isWeddingDay={weddingDate === day.date}
+                onAdd={() => openAddForm(day.date)}
+              />
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

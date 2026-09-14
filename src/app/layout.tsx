@@ -48,7 +48,7 @@ export default function RootLayout({
       lang="en"
       className={`${cormorant.variable} ${plexSans.variable} ${plexMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-parchment text-ink font-body">
+      <body className="min-h-full flex flex-col overflow-x-hidden bg-parchment text-ink font-body">
         <AssistantProvider>
           <PageTransition>{children}</PageTransition>
           <SiteFooter />
