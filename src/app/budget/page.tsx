@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { AppNav } from "@/components/app-nav";
 import { FadeInSection } from "@/components/fade-in-section";
-import type { BudgetCustomItem, Wedding } from "@/lib/supabase/types";
+import type { BudgetContract, BudgetCustomItem, Wedding } from "@/lib/supabase/types";
 import {
   BUDGET_CATEGORIES,
   VENDOR_CATEGORY_TO_BUDGET_KEY,
@@ -226,6 +226,25 @@ export default async function BudgetPage() {
     suggestions: [],
   }));
 
+  // Contracts are keyed the same two ways the rows are -- by category for the
+  // standard lines, by custom item id for the rest -- so one fetch covers both
+  // and each row picks up its own by its `key`.
+  const { data: contracts } = await supabase
+    .from("budget_contracts")
+    .select("*")
+    .eq("wedding_id", wedding.id)
+    .order("created_at", { ascending: true })
+    .returns<BudgetContract[]>();
+
+  const contractsByRowKey = new Map<string, BudgetContract[]>();
+  for (const contract of contracts ?? []) {
+    const key = contract.category ?? contract.custom_item_id;
+    if (!key) continue;
+    const list = contractsByRowKey.get(key) ?? [];
+    list.push(contract);
+    contractsByRowKey.set(key, list);
+  }
+
   const customItemsTotal = (customItems ?? []).reduce((sum, item) => sum + item.amount, 0);
   const total =
     rows.reduce((sum, row) => sum + (row.override ?? row.computed ?? 0), 0) + customItemsTotal;
@@ -306,6 +325,7 @@ export default async function BudgetPage() {
             hiddenCategories={hiddenCategories}
             total={total}
             payerSuggestions={payerSuggestions}
+            contractsByRowKey={Object.fromEntries(contractsByRowKey)}
           />
         </FadeInSection>
 

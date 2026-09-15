@@ -308,6 +308,21 @@ export type ItineraryEvent = {
   updated_at: string;
 };
 
+export type BudgetContract = {
+  id: string;
+  wedding_id: string;
+  user_id: string;
+  /** Set for category rows ('venue', 'catering'...); null for custom items. */
+  category: string | null;
+  /** Set for custom budget items; null for category rows. */
+  custom_item_id: string | null;
+  storage_path: string;
+  file_name: string;
+  file_size: number | null;
+  content_type: string | null;
+  created_at: string;
+};
+
 export type BudgetCustomItem = {
   id: string;
   wedding_id: string;

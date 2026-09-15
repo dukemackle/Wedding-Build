@@ -359,6 +359,15 @@ export function BellIcon(props: IconProps) {
   );
 }
 
+// A paperclip -- contracts and other files attached to a budget line.
+export function PaperclipIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M21 11.5 12.5 20a5 5 0 0 1-7-7l8-8a3.5 3.5 0 0 1 5 5l-8 8a2 2 0 0 1-3-3l7.5-7.5" />
+    </IconBase>
+  );
+}
+
 export function NotesIcon(props: IconProps) {
   return (
     <IconBase {...props}>

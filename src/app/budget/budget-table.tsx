@@ -35,8 +35,11 @@ import {
   CustomItemIcon,
   BellIcon,
   NotesIcon,
+  PaperclipIcon,
   TrashIcon,
 } from "@/components/icons";
+import type { BudgetContract } from "@/lib/supabase/types";
+import { ContractsPanel } from "./contracts-panel";
 
 export const CATEGORY_ICONS: Record<string, ComponentType<{ className?: string }>> = {
   venue: VenueIcon,
@@ -107,6 +110,8 @@ function BudgetRowItem({
   onDelete,
   deleteLabel,
   deleteConfirm,
+  contracts,
+  isCustom,
 }: {
   row: BudgetRow;
   payerSuggestions: string[];
@@ -115,8 +120,12 @@ function BudgetRowItem({
   onDelete: () => Promise<{ error?: string }>;
   deleteLabel: string;
   deleteConfirm: string;
+  contracts: BudgetContract[];
+  /** Custom items file contracts by id; category rows by their category key. */
+  isCustom: boolean;
 }) {
   const [showDetails, setShowDetails] = useState(false);
+  const [showContracts, setShowContracts] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
   const [isPending, startTransition] = useTransition();
   const [isSendingReminder, setIsSendingReminder] = useState(false);
@@ -256,6 +265,28 @@ function BudgetRowItem({
             </button>
             <button
               type="button"
+              onClick={() => setShowContracts((v) => !v)}
+              title={
+                contracts.length > 0
+                  ? `${contracts.length} contract${contracts.length === 1 ? "" : "s"}`
+                  : "Attach a contract"
+              }
+              className={`${iconButtonClass} relative ${
+                showContracts || contracts.length > 0 ? "text-forest" : ""
+              } ${showContracts ? "bg-parchment" : ""}`}
+            >
+              <PaperclipIcon className="h-4 w-4" />
+              {/* A count badge so an attached contract is visible without
+                  opening every row -- otherwise the paperclip looks identical
+                  whether or not anything is filed under it. */}
+              {contracts.length > 0 && (
+                <span className="absolute -right-0.5 -top-0.5 flex h-3.5 min-w-3.5 items-center justify-center rounded-full bg-brass px-1 font-mono-numbers text-[9px] leading-none text-white">
+                  {contracts.length}
+                </span>
+              )}
+            </button>
+            <button
+              type="button"
               onClick={handleDelete}
               disabled={isPending}
               title={deleteLabel}
@@ -295,6 +326,10 @@ function BudgetRowItem({
 
       {reminderSent && <p className="text-xs text-forest">Reminder sent to your email.</p>}
       {error && <p className="text-sm text-red-800">{error}</p>}
+
+      {showContracts && (
+        <ContractsPanel rowKey={row.key} isCustom={isCustom} contracts={contracts} />
+      )}
 
       {showDetails && (
         <form
@@ -466,12 +501,15 @@ export function BudgetTable({
   hiddenCategories,
   total,
   payerSuggestions,
+  contractsByRowKey,
 }: {
   rows: BudgetRow[];
   customItems: BudgetRow[];
   hiddenCategories: { key: string; label: string }[];
   total: number;
   payerSuggestions: string[];
+  /** Keyed by BudgetRow.key -- a category key for standard rows, an id for custom ones. */
+  contractsByRowKey: Record<string, BudgetContract[]>;
 }) {
   const [showAddForm, setShowAddForm] = useState(false);
   const [isPending, startTransition] = useTransition();
@@ -505,6 +543,8 @@ export function BudgetTable({
           }}
           deleteLabel="Remove from your budget"
           deleteConfirm={`Remove "${row.label}" from your budget? You can add it back later.`}
+          contracts={contractsByRowKey[row.key] ?? []}
+          isCustom={false}
         />
       ))}
 
@@ -533,6 +573,8 @@ export function BudgetTable({
           }}
           deleteLabel="Remove item"
           deleteConfirm={`Remove "${row.label}" from the budget?`}
+          contracts={contractsByRowKey[row.key] ?? []}
+          isCustom
         />
       ))}
 
