@@ -10,27 +10,6 @@ export type BudgetChartItem = {
   amount: number;
 };
 
-function BudgetQuoteMeter({ quoted, total }: { quoted: number; total: number }) {
-  const pct = total > 0 ? (quoted / total) * 100 : 0;
-
-  return (
-    <div>
-      <div className="flex items-baseline justify-between">
-        <span className="text-sm text-ink/70">Categories with a real quote</span>
-        <span className="font-mono-numbers text-sm text-ink">
-          {quoted} of {total}
-        </span>
-      </div>
-      <div className="mt-2 h-3 w-full overflow-hidden rounded-full bg-forest/10">
-        <div
-          className="h-3 rounded-full bg-forest transition-[width]"
-          style={{ width: `${pct}%` }}
-        />
-      </div>
-    </div>
-  );
-}
-
 export function BudgetBarChart({ items }: { items: BudgetChartItem[] }) {
   const sorted = [...items].sort((a, b) => b.amount - a.amount);
   const max = Math.max(...sorted.map((item) => item.amount), 1);
@@ -56,35 +35,6 @@ export function BudgetBarChart({ items }: { items: BudgetChartItem[] }) {
           </div>
         );
       })}
-    </div>
-  );
-}
-
-export function BudgetOverview({
-  items,
-  quoted,
-  total,
-}: {
-  items: BudgetChartItem[];
-  quoted: number;
-  total: number;
-}) {
-  return (
-    <div className="mt-6 w-full rounded-lg border border-hairline bg-card p-5 sm:p-8 shadow-sm">
-      <span className="font-display text-2xl font-semibold text-forest">
-        Spending breakdown
-      </span>
-      <p className="mt-1 text-sm text-ink/70">
-        Where your estimated budget is going, highest to lowest.
-      </p>
-
-      <div className="mt-6">
-        <BudgetQuoteMeter quoted={quoted} total={total} />
-      </div>
-
-      <div className="mt-6 border-t border-hairline pt-6">
-        <BudgetBarChart items={items} />
-      </div>
     </div>
   );
 }

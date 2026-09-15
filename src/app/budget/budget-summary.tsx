@@ -24,16 +24,46 @@ export function BudgetSummary({
   target,
   categoryCount,
   contractCount,
+  items,
+  quotedCount,
 }: {
   totalEstimate: number;
   totalActual: number;
   target: number | null;
   categoryCount: number;
   contractCount: number;
+  /** Every line's estimate, for the proportion bar. */
+  items: { key: string; label: string; amount: number }[];
+  /** Lines with a real number entered, not just an estimate. */
+  quotedCount: number;
 }) {
   const [editing, setEditing] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
   const [isPending, startTransition] = useTransition();
+
+  // Top five plus a single "everything else". The insight is that a couple of
+  // categories are most of a wedding -- five slices say that, and nineteen
+  // just rebuilds the table above it in bar form.
+  const proportion = (() => {
+    const sum = items.reduce((t, i) => t + i.amount, 0);
+    if (sum <= 0) return [];
+    const sorted = [...items].sort((a, b) => b.amount - a.amount);
+    const top = sorted.slice(0, 5);
+    const restAmount = sorted.slice(5).reduce((t, i) => t + i.amount, 0);
+    const slices = top.map((i) => ({
+      key: i.key,
+      label: i.label,
+      pct: Math.round((i.amount / sum) * 100),
+    }));
+    if (restAmount > 0) {
+      slices.push({
+        key: "__rest",
+        label: "Everything else",
+        pct: Math.round((restAmount / sum) * 100),
+      });
+    }
+    return slices.filter((s) => s.pct > 0);
+  })();
 
   const pct = target && target > 0 ? Math.min(100, (totalActual / target) * 100) : 0;
   const remaining = target != null ? target - totalActual : null;
@@ -158,6 +188,55 @@ export function BudgetSummary({
           </div>
         </div>
       </div>
+
+      {proportion.length > 0 && (
+        <div className="mt-5 border-t border-hairline pt-4">
+          <div className="flex flex-wrap items-baseline justify-between gap-2">
+            <p className="font-mono-numbers text-[10px] uppercase tracking-[0.16em] text-ink/50">
+              Where it&apos;s going
+            </p>
+            <p className="font-mono-numbers text-[11px] text-ink/55">
+              {quotedCount} of {categoryCount} {quotedCount === 1 ? "line has" : "lines have"} a
+              real number
+            </p>
+          </div>
+
+          {/* Ordered data, so the ramp is a single hue getting lighter rather
+              than five unrelated colours -- and every segment is named with
+              its share below, so nothing depends on telling the shades apart. */}
+          <div className="mt-2 flex h-2.5 overflow-hidden rounded-full bg-forest/5">
+            {proportion.map((slice, i) => (
+              <span
+                key={slice.key}
+                title={`${slice.label} — ${slice.pct}%`}
+                style={{
+                  width: `${slice.pct}%`,
+                  backgroundColor:
+                    slice.key === "__rest" ? "rgb(11 74 58 / 0.12)" : `rgb(11 74 58 / ${1 - i * 0.16})`,
+                }}
+              />
+            ))}
+          </div>
+
+          <p className="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-[11px] text-ink/60">
+            {proportion.map((slice, i) => (
+              <span key={slice.key} className="flex items-center gap-1.5">
+                <span
+                  aria-hidden="true"
+                  className="inline-block h-2 w-2 rounded-full"
+                  style={{
+                    backgroundColor:
+                      slice.key === "__rest"
+                        ? "rgb(11 74 58 / 0.12)"
+                        : `rgb(11 74 58 / ${1 - i * 0.16})`,
+                  }}
+                />
+                {slice.label} <span className="font-mono-numbers">{slice.pct}%</span>
+              </span>
+            ))}
+          </p>
+        </div>
+      )}
 
       {error && <p className="mt-3 text-sm text-red-800">{error}</p>}
     </div>
