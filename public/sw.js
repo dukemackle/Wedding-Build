@@ -1,4 +1,7 @@
-const STATIC_CACHE = "wren-static-v1";
+// Bump this whenever a precached asset's bytes change behind an unchanged URL
+// (e.g. /icon.png being redrawn) -- the activate handler deletes every cache
+// that isn't the current name, so a bump is what forces clients to refetch.
+const STATIC_CACHE = "wren-static-v2";
 const OFFLINE_URL = "/offline.html";
 
 self.addEventListener("install", (event) => {
