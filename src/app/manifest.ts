@@ -13,6 +13,11 @@ export default function manifest(): MetadataRoute.Manifest {
     display: "standalone",
     background_color: "#fafaf9",
     theme_color: "#0b4a3a",
+    // Two separate files on purpose. Android crops a maskable icon to a circle
+    // or squircle, so anything outside the centre 80% can be cut off -- the
+    // maskable variant is full-bleed parchment with the disc pulled inside
+    // that safe zone. The "any" icon keeps its transparent corners, which is
+    // what looks right everywhere a maskable crop isn't applied.
     icons: [
       {
         src: "/icon.png",
@@ -21,7 +26,7 @@ export default function manifest(): MetadataRoute.Manifest {
         purpose: "any",
       },
       {
-        src: "/icon.png",
+        src: "/icon-maskable.png",
         sizes: "512x512",
         type: "image/png",
         purpose: "maskable",
