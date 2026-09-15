@@ -11,6 +11,7 @@ import {
   importGuestsFromGoogleSheet,
   setGuestThanked,
 } from "./actions";
+import { draftThankYouNote, saveThankYouNote } from "./thank-you-actions";
 import { FilterDisclosure } from "@/components/filter-disclosure";
 import { SearchBox } from "@/components/search-box";
 import { MEAL_OPTIONS } from "@/lib/meal-options";
@@ -64,6 +65,7 @@ function guestsToCsv(guests: Guest[]) {
     "plus_one_name",
     "meal",
     "notes",
+    "gift",
     "thanked",
   ];
   const rows = guests.map((guest) =>
@@ -77,6 +79,7 @@ function guestsToCsv(guests: Guest[]) {
       guest.plus_one_name ?? "",
       guest.meal ?? "",
       guest.notes ?? "",
+      guest.gift_description ?? "",
       guest.thanked ? "yes" : "no",
     ]
       .map((value) => csvField(String(value)))
@@ -190,6 +193,15 @@ function GuestFields({ guest }: { guest?: Guest }) {
           />
         </label>
       )}
+      <label className={`${labelClass} sm:col-span-2`}>
+        Gift
+        <input
+          name="gift_description"
+          placeholder="Optional — what they gave, e.g. the blue Dutch oven"
+          defaultValue={guest?.gift_description ?? ""}
+          className={inputClass}
+        />
+      </label>
       <label className={`${labelClass} sm:col-span-2`}>
         Notes
         <textarea
@@ -442,8 +454,103 @@ function ImportGuestsForm({ onDone }: { onDone: () => void }) {
   );
 }
 
+function ThankYouPanel({ guest }: { guest: Guest }) {
+  const [note, setNote] = useState(guest.thank_you_note ?? "");
+  const [error, setError] = useState<string | undefined>(undefined);
+  const [saved, setSaved] = useState(false);
+  const [isDrafting, startDrafting] = useTransition();
+  const [isSaving, startSaving] = useTransition();
+
+  function handleDraft() {
+    const formData = new FormData();
+    formData.set("guest_id", guest.id);
+    setError(undefined);
+    startDrafting(async () => {
+      const result = await draftThankYouNote(formData);
+      if (result.error) setError(result.error);
+      else if (result.draft) {
+        setNote(result.draft);
+        setSaved(false);
+      }
+    });
+  }
+
+  function handleSave() {
+    const formData = new FormData();
+    formData.set("guest_id", guest.id);
+    formData.set("thank_you_note", note);
+    setError(undefined);
+    startSaving(async () => {
+      const result = await saveThankYouNote(formData);
+      if (result.error) setError(result.error);
+      else setSaved(true);
+    });
+  }
+
+  return (
+    <div className="mt-3 rounded-md border border-hairline bg-parchment p-3">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <p className="font-mono-numbers text-[11px] uppercase tracking-[0.18em] text-brass">
+          Thank-you note
+        </p>
+        <button
+          type="button"
+          onClick={handleDraft}
+          disabled={isDrafting}
+          className="rounded-full border border-hairline px-3 py-1 text-xs text-forest transition-colors hover:border-forest disabled:opacity-50"
+        >
+          {isDrafting ? "Drafting…" : note ? "Draft again" : "Draft with Wren"}
+        </button>
+      </div>
+
+      {guest.gift_description ? (
+        <p className="mt-2 text-xs text-ink/55">For: {guest.gift_description}</p>
+      ) : (
+        <p className="mt-2 text-xs text-ink/55">
+          Add what they gave under Edit, and Wren can draft the note.
+        </p>
+      )}
+
+      <textarea
+        value={note}
+        onChange={(e) => {
+          setNote(e.target.value);
+          setSaved(false);
+        }}
+        rows={4}
+        placeholder="Write it yourself, or let Wren start you off."
+        className="mt-2 w-full rounded-md border border-hairline bg-card px-3 py-2 text-sm text-ink outline-none transition-colors focus:border-forest"
+      />
+
+      <div className="mt-2 flex flex-wrap items-center gap-2">
+        <button
+          type="button"
+          onClick={handleSave}
+          disabled={isSaving}
+          className="rounded-full bg-forest px-4 py-1.5 font-mono-numbers text-xs text-parchment transition-colors hover:bg-forest/90 disabled:opacity-50"
+        >
+          {isSaving ? "Saving…" : "Save note"}
+        </button>
+        {note && (
+          <button
+            type="button"
+            onClick={() => navigator.clipboard.writeText(note)}
+            className="rounded-full border border-hairline px-4 py-1.5 font-mono-numbers text-xs text-ink/70 transition-colors hover:border-forest hover:text-forest"
+          >
+            Copy
+          </button>
+        )}
+        {saved && <span className="font-mono-numbers text-[11px] text-forest">Saved</span>}
+      </div>
+
+      {error && <p className="mt-2 text-sm text-red-800">{error}</p>}
+    </div>
+  );
+}
+
 function GuestRow({ guest }: { guest: Guest }) {
   const [isEditing, setIsEditing] = useState(false);
+  const [showThankYou, setShowThankYou] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
   const [isPending, startTransition] = useTransition();
 
@@ -512,7 +619,8 @@ function GuestRow({ guest }: { guest: Guest }) {
   }
 
   return (
-    <div className="flex flex-col gap-2 border-b border-hairline py-4 last:border-b-0 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
+    <div className="border-b border-hairline py-4 last:border-b-0">
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
       <div className="flex gap-3">
         {guest.photo_url && (
           <Image
@@ -550,11 +658,22 @@ function GuestRow({ guest }: { guest: Guest }) {
           <p className="mt-1 text-xs text-ink/50">
             {[guest.household, guest.email, guest.meal].filter(Boolean).join(" · ") || "—"}
           </p>
+          {guest.gift_description && (
+            <p className="mt-1 text-sm text-ink/70">
+              <span className="text-ink/45">Gift:</span> {guest.gift_description}
+            </p>
+          )}
           {guest.notes && <p className="mt-1 text-sm text-ink/70">{guest.notes}</p>}
           {error && <p className="mt-1 text-sm text-red-800">{error}</p>}
         </div>
       </div>
-      <div className="flex shrink-0 items-center gap-3">
+      <div className="flex shrink-0 flex-wrap items-center gap-3">
+        <button
+          onClick={() => setShowThankYou((open) => !open)}
+          className="text-xs text-brass hover:underline"
+        >
+          {showThankYou ? "Hide note" : "Thank-you note"}
+        </button>
         <button
           onClick={handleToggleThanked}
           disabled={isPending}
@@ -573,6 +692,9 @@ function GuestRow({ guest }: { guest: Guest }) {
           Remove
         </button>
       </div>
+      </div>
+
+      {showThankYou && <ThankYouPanel guest={guest} />}
     </div>
   );
 }

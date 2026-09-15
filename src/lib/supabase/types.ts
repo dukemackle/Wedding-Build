@@ -116,6 +116,8 @@ export type Guest = {
   country: string | null;
   guestbook_hidden: boolean;
   thanked: boolean;
+  gift_description: string | null;
+  thank_you_note: string | null;
   invite_sent_at: string | null;
   last_reminded_at: string | null;
   table_id: string | null;
