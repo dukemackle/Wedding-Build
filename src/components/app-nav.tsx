@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { signOut } from "@/lib/supabase/actions";
 import { WeddingAssistantWidget } from "@/components/wedding-assistant-widget";
-import { AssistantLauncherButton } from "@/components/assistant-launcher-button";
+import { WrenMark } from "@/components/wren-mark";
 import { NavLinks } from "@/components/nav-links";
 
 export function AppNav({
@@ -18,8 +18,11 @@ export function AppNav({
     <>
       <header className="static -mx-6 -mt-16 mb-8 w-auto border-b border-hairline bg-card/95 backdrop-blur sm:sticky sm:top-0 sm:z-30">
         <div className="mx-auto flex max-w-6xl flex-col gap-3 px-6 py-4 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex items-center gap-4">
-            <AssistantLauncherButton />
+          {/* The mark gets its own row on a phone: beside a nav that wraps to
+              six rows it would float in the middle of an empty gutter. */}
+          <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:gap-4">
+            <WrenMark />
+            <span aria-hidden className="hidden h-6 w-px shrink-0 bg-hairline sm:block" />
             <NavLinks />
           </div>
           <div className="flex items-center justify-between gap-4 sm:justify-end">
