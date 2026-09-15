@@ -132,6 +132,7 @@ function BudgetRowItem({
   const [expanded, setExpanded] = useState(defaultExpanded);
   const [showDetails, setShowDetails] = useState(false);
   const [showContracts, setShowContracts] = useState(false);
+  const [confirmingDelete, setConfirmingDelete] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
   const [isPending, startTransition] = useTransition();
   const [isSendingReminder, setIsSendingReminder] = useState(false);
@@ -172,7 +173,7 @@ function BudgetRowItem({
   }
 
   function handleDelete() {
-    if (!confirm(deleteConfirm)) return;
+    setConfirmingDelete(false);
     startTransition(async () => {
       const result = await onDelete();
       if (result?.error) setError(result.error);
@@ -360,14 +361,41 @@ function BudgetRowItem({
             </button>
             <button
               type="button"
-              onClick={handleDelete}
+              onClick={() => setConfirmingDelete((open) => !open)}
               disabled={isPending}
               title={deleteLabel}
-              className={iconButtonClass}
+              aria-expanded={confirmingDelete}
+              className={`${iconButtonClass} ${confirmingDelete ? "bg-red-50 text-red-800" : ""}`}
             >
               <TrashIcon className="h-4 w-4" />
             </button>
           </div>
+
+      {/* An in-page confirm rather than window.confirm(): the native dialog
+          looks nothing like the app and is dismissed by reflex, which is
+          exactly the accidental delete it is supposed to prevent. */}
+      {confirmingDelete && (
+        <div className="flex flex-wrap items-center gap-2 rounded-md border border-red-200 bg-red-50 px-3 py-2">
+          <p className="text-sm text-red-900">{deleteConfirm}</p>
+          <div className="ml-auto flex shrink-0 items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setConfirmingDelete(false)}
+              className="rounded-full border border-red-200 bg-card px-3 py-1 font-mono-numbers text-xs text-ink/70 transition-colors hover:border-forest hover:text-forest"
+            >
+              Keep it
+            </button>
+            <button
+              type="button"
+              onClick={handleDelete}
+              disabled={isPending}
+              className="rounded-full bg-red-800 px-3 py-1 font-mono-numbers text-xs text-parchment transition-colors hover:bg-red-900 disabled:opacity-50"
+            >
+              {isPending ? "Deleting…" : "Delete"}
+            </button>
+          </div>
+        </div>
+      )}
 
       {reminderSent && <p className="text-xs text-forest">Reminder sent to your email.</p>}
       {error && <p className="text-sm text-red-800">{error}</p>}

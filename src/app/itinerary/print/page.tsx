@@ -2,7 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import type { ItineraryEvent, Wedding } from "@/lib/supabase/types";
-import { PrintButton } from "./print-button";
+import { PrintButton } from "@/components/print-button";
 import { PrintSheet } from "./print-sheet";
 
 export default async function ItineraryPrintPage() {
