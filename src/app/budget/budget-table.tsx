@@ -37,9 +37,11 @@ import {
   NotesIcon,
   PaperclipIcon,
   TrashIcon,
+  ChevronDownIcon,
 } from "@/components/icons";
 import type { BudgetContract } from "@/lib/supabase/types";
 import { ContractsPanel } from "./contracts-panel";
+import { BudgetSummary } from "./budget-summary";
 
 export const CATEGORY_ICONS: Record<string, ComponentType<{ className?: string }>> = {
   venue: VenueIcon,
@@ -112,6 +114,7 @@ function BudgetRowItem({
   deleteConfirm,
   contracts,
   isCustom,
+  defaultExpanded,
 }: {
   row: BudgetRow;
   payerSuggestions: string[];
@@ -123,7 +126,10 @@ function BudgetRowItem({
   contracts: BudgetContract[];
   /** Custom items file contracts by id; category rows by their category key. */
   isCustom: boolean;
+  /** Seeded by the table's expand-all, which remounts rows to apply it. */
+  defaultExpanded: boolean;
 }) {
+  const [expanded, setExpanded] = useState(defaultExpanded);
   const [showDetails, setShowDetails] = useState(false);
   const [showContracts, setShowContracts] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
@@ -191,61 +197,136 @@ function BudgetRowItem({
     });
   }
 
+  // What's worth seeing without opening the row: the name, the two numbers,
+  // and whether it's paid. Everything else -- who's paying, when it's due,
+  // notes, the action buttons -- only matters once you're working on that one
+  // line, so it waits behind the chevron.
   return (
-    <div className="flex flex-col gap-3 border-b border-hairline py-4 last:border-b-0">
-      <div className="flex flex-wrap items-start justify-between gap-3">
-        <div className="flex items-start gap-3">
-          {row.imageUrl && (
-            <Image
-              src={row.imageUrl}
-              alt=""
-              width={56}
-              height={56}
-              className="h-14 w-14 shrink-0 rounded-md border border-hairline object-cover"
-            />
+    <div className="border-b border-hairline last:border-b-0">
+      <div className="px-1 py-2.5 transition-colors hover:bg-parchment/50 sm:grid sm:grid-cols-[1fr_7rem_7.5rem_11rem] sm:items-center sm:gap-4 sm:px-2">
+        <button
+          type="button"
+          onClick={() => setExpanded((v) => !v)}
+          aria-expanded={expanded}
+          className="flex w-full min-w-0 items-center gap-2 text-left"
+        >
+          <ChevronDownIcon
+            className={`h-3.5 w-3.5 shrink-0 text-ink/35 transition-transform ${
+              expanded ? "" : "-rotate-90"
+            }`}
+          />
+          <Icon className="h-4 w-4 shrink-0 text-brass" />
+          <span className="min-w-0 truncate text-ink">
+            {row.label}
+            {row.purchasedFrom && <span className="text-ink/45"> · {row.purchasedFrom}</span>}
+            {!row.purchasedFrom && row.isPerGuest && (
+              <span className="text-ink/45"> · scales with guest count</span>
+            )}
+          </span>
+          {/* Surfaced on the collapsed row so filed paperwork is visible
+              without opening all nineteen lines one at a time. */}
+          {contracts.length > 0 && (
+            <span className="flex shrink-0 items-center gap-0.5 text-forest">
+              <PaperclipIcon className="h-3.5 w-3.5" />
+              <span className="font-mono-numbers text-[10px]">{contracts.length}</span>
+            </span>
           )}
-          <div>
-            <p className="flex items-center gap-2 text-ink">
-              <Icon className="h-4 w-4 shrink-0 text-brass" />
-              {row.label}
-            </p>
-            {row.isPerGuest && <p className="text-xs text-ink/50">Scales with guest count</p>}
-            {row.purchasedFrom && (
-              <p className="mt-1 text-xs text-brass">Purchased from {row.purchasedFrom}</p>
-            )}
-            {row.paidBy && <p className="mt-1 text-xs text-ink/50">Paid by {row.paidBy}</p>}
-            {row.dueDate && (
-              <p className={`mt-1 text-xs ${isOverdue(row.dueDate) ? "text-red-700" : "text-ink/50"}`}>
-                Due {formatDueDate(row.dueDate)}
-                {isOverdue(row.dueDate) ? " — overdue" : ""}
-              </p>
-            )}
-            {row.notes && <p className="mt-1 text-sm text-ink/70">{row.notes}</p>}
-          </div>
-        </div>
+          {row.dueDate && isOverdue(row.dueDate) && (
+            <span className="shrink-0 font-mono-numbers text-[10px] uppercase tracking-wider text-red-700">
+              Overdue
+            </span>
+          )}
+        </button>
 
-        <div className="flex flex-wrap items-end gap-4">
-          {row.computed !== null && (
-            <label className="flex flex-col items-end gap-1 text-xs text-ink/50">
-              Estimate
-              <span className="font-mono-numbers text-sm text-ink/70">
-                {currency.format(row.computed)}
+        {/* sm:contents dissolves this wrapper at the breakpoint so the three
+            cells become grid items of the row above -- one stacked block on a
+            phone, aligned columns on anything wider. */}
+        <div className="mt-2 flex items-center gap-3 pl-[1.4rem] sm:contents">
+          <span className="font-mono-numbers text-sm text-ink/60 sm:text-right">
+            {row.computed !== null ? currency.format(row.computed) : "—"}
+          </span>
+          <input
+            type="number"
+            min={0}
+            value={actualInput}
+            placeholder="0"
+            aria-label={`Actual cost for ${row.label}`}
+            onChange={(e) => setActualInput(e.target.value)}
+            onBlur={(e) => handleAmountBlur("override_value", e.target.value)}
+            className={numberInputClass}
+          />
+          <span className="flex flex-1 items-center gap-2 sm:flex-none">
+            <span className="h-1.5 flex-1 overflow-hidden rounded-full bg-forest/10 sm:w-20 sm:flex-none">
+              <span
+                className="block h-1.5 rounded-full bg-forest transition-[width]"
+                style={{ width: `${paidPct}%` }}
+              />
+            </span>
+            <span className="w-14 shrink-0 text-right font-mono-numbers text-[11px] text-ink/55">
+              {livePaid <= 0
+                ? "—"
+                : paidPct >= 100
+                  ? "Paid"
+                  : `${Math.round(paidPct)}%`}
+            </span>
+          </span>
+        </div>
+      </div>
+
+      {expanded && (
+        <div className="flex flex-col gap-3 bg-parchment/40 px-1 pb-4 pt-1 sm:px-2 sm:pl-8">
+          <div className="flex flex-wrap items-start gap-3">
+            {row.imageUrl && (
+              <Image
+                src={row.imageUrl}
+                alt=""
+                width={56}
+                height={56}
+                className="h-14 w-14 shrink-0 rounded-md border border-hairline object-cover"
+              />
+            )}
+            <div className="min-w-0">
+              {row.paidBy && <p className="text-xs text-ink/60">Paid by {row.paidBy}</p>}
+              {row.dueDate && (
+                <p
+                  className={`text-xs ${isOverdue(row.dueDate) ? "text-red-700" : "text-ink/60"}`}
+                >
+                  Due {formatDueDate(row.dueDate)}
+                  {isOverdue(row.dueDate) ? " — overdue" : ""}
+                </p>
+              )}
+              {row.notes && <p className="mt-1 text-sm text-ink/70">{row.notes}</p>}
+            </div>
+          </div>
+
+          <div>
+            <div className="flex items-baseline justify-between text-xs text-ink/50">
+              <span>Paid</span>
+              <span className="font-mono-numbers">
+                {currency.format(livePaid)} of {currency.format(liveActual)}
               </span>
-            </label>
-          )}
-          <label className="flex flex-col items-end gap-1 text-xs text-ink/50">
-            Actual
-            <input
-              type="number"
-              min={0}
-              value={actualInput}
-              placeholder="0"
-              onChange={(e) => setActualInput(e.target.value)}
-              onBlur={(e) => handleAmountBlur("override_value", e.target.value)}
-              className={numberInputClass}
-            />
-          </label>
-          <div className="flex items-center gap-1 pb-1">
+            </div>
+            <div className="mt-1.5 flex items-center gap-3">
+              <div className="h-2 flex-1 overflow-hidden rounded-full bg-forest/10">
+                <div
+                  className="h-2 rounded-full bg-forest transition-[width]"
+                  style={{ width: `${paidPct}%` }}
+                />
+              </div>
+              <input
+                type="number"
+                min={0}
+                value={paidInput}
+                placeholder="0"
+                aria-label={`Amount paid for ${row.label}`}
+                onChange={(e) => setPaidInput(e.target.value)}
+                onBlur={(e) => handleAmountBlur("paid_amount", e.target.value)}
+                className={numberInputClass}
+              />
+            </div>
+          </div>
+
+          <div className="flex items-center gap-1">
             <button
               type="button"
               onClick={handleSendReminder}
@@ -271,19 +352,11 @@ function BudgetRowItem({
                   ? `${contracts.length} contract${contracts.length === 1 ? "" : "s"}`
                   : "Attach a contract"
               }
-              className={`${iconButtonClass} relative ${
-                showContracts || contracts.length > 0 ? "text-forest" : ""
-              } ${showContracts ? "bg-parchment" : ""}`}
+              className={`${iconButtonClass} ${
+                contracts.length > 0 ? "text-forest" : ""
+              } ${showContracts ? "bg-parchment text-forest" : ""}`}
             >
               <PaperclipIcon className="h-4 w-4" />
-              {/* A count badge so an attached contract is visible without
-                  opening every row -- otherwise the paperclip looks identical
-                  whether or not anything is filed under it. */}
-              {contracts.length > 0 && (
-                <span className="absolute -right-0.5 -top-0.5 flex h-3.5 min-w-3.5 items-center justify-center rounded-full bg-brass px-1 font-mono-numbers text-[9px] leading-none text-white">
-                  {contracts.length}
-                </span>
-              )}
             </button>
             <button
               type="button"
@@ -295,34 +368,6 @@ function BudgetRowItem({
               <TrashIcon className="h-4 w-4" />
             </button>
           </div>
-        </div>
-      </div>
-
-      <div>
-        <div className="flex items-baseline justify-between text-xs text-ink/50">
-          <span>Paid</span>
-          <span className="font-mono-numbers">
-            {currency.format(livePaid)} of {currency.format(liveActual)}
-          </span>
-        </div>
-        <div className="mt-1.5 flex items-center gap-3">
-          <div className="h-2 flex-1 overflow-hidden rounded-full bg-forest/10">
-            <div
-              className="h-2 rounded-full bg-forest transition-[width]"
-              style={{ width: `${paidPct}%` }}
-            />
-          </div>
-          <input
-            type="number"
-            min={0}
-            value={paidInput}
-            placeholder="0"
-            onChange={(e) => setPaidInput(e.target.value)}
-            onBlur={(e) => handleAmountBlur("paid_amount", e.target.value)}
-            className={numberInputClass}
-          />
-        </div>
-      </div>
 
       {reminderSent && <p className="text-xs text-forest">Reminder sent to your email.</p>}
       {error && <p className="text-sm text-red-800">{error}</p>}
@@ -399,6 +444,8 @@ function BudgetRowItem({
             </button>
           </div>
         </form>
+      )}
+        </div>
       )}
     </div>
   );
@@ -500,6 +547,8 @@ export function BudgetTable({
   customItems,
   hiddenCategories,
   total,
+  totalActual,
+  budgetTarget,
   payerSuggestions,
   contractsByRowKey,
 }: {
@@ -507,12 +556,27 @@ export function BudgetTable({
   customItems: BudgetRow[];
   hiddenCategories: { key: string; label: string }[];
   total: number;
+  totalActual: number;
+  budgetTarget: number | null;
   payerSuggestions: string[];
   /** Keyed by BudgetRow.key -- a category key for standard rows, an id for custom ones. */
   contractsByRowKey: Record<string, BudgetContract[]>;
 }) {
   const [showAddForm, setShowAddForm] = useState(false);
   const [isPending, startTransition] = useTransition();
+  // Bumping this key remounts every row, which resets each row's own
+  // `expanded` state -- simpler and less error-prone than lifting open/closed
+  // for twenty rows into here just to support one button.
+  const [expandKey, setExpandKey] = useState(0);
+  const [allExpanded, setAllExpanded] = useState(false);
+
+  const allRows = [...rows, ...customItems];
+  const contractCount = allRows.filter((r) => (contractsByRowKey[r.key] ?? []).length > 0).length;
+
+  function toggleAll() {
+    setAllExpanded((v) => !v);
+    setExpandKey((k) => k + 1);
+  }
 
   function handleUnhide(categoryKey: string) {
     const formData = new FormData();
@@ -523,15 +587,42 @@ export function BudgetTable({
   }
 
   return (
-    <div className="mt-8 w-full rounded-lg border border-hairline bg-card p-5 sm:p-8 shadow-sm">
-      <div className="mb-6 flex items-baseline justify-between border-b border-hairline pb-6">
-        <span className="font-display text-2xl font-semibold text-forest">Estimated total</span>
-        <span className="font-mono-numbers text-3xl text-forest">{currency.format(total)}</span>
+    <div className="mt-8 w-full overflow-hidden rounded-lg border border-hairline bg-card shadow-sm">
+      <BudgetSummary
+        totalEstimate={total}
+        totalActual={totalActual}
+        target={budgetTarget}
+        categoryCount={allRows.length}
+        contractCount={contractCount}
+      />
+
+      {/* Column labels, so the totals above are visibly the sum of what's
+          below rather than three numbers floating over a list. */}
+      <div className="hidden border-b border-hairline bg-parchment/50 py-2 sm:grid sm:px-8 sm:grid-cols-[1fr_7rem_7.5rem_11rem] sm:items-center sm:gap-4">
+        <span className="font-mono-numbers text-[10px] uppercase tracking-[0.16em] text-ink/45">
+          Category
+        </span>
+        <span className="text-right font-mono-numbers text-[10px] uppercase tracking-[0.16em] text-ink/45">
+          Estimate
+        </span>
+        <span className="text-right font-mono-numbers text-[10px] uppercase tracking-[0.16em] text-ink/45">
+          Actual
+        </span>
+        <button
+          type="button"
+          onClick={toggleAll}
+          className="justify-self-end font-mono-numbers text-[11px] text-brass hover:underline"
+        >
+          {allExpanded ? "Collapse all" : "Expand all"}
+        </button>
       </div>
+
+      <div className="px-5 sm:px-6">
 
       {rows.map((row) => (
         <BudgetRowItem
-          key={row.key}
+          key={`${row.key}-${expandKey}`}
+          defaultExpanded={allExpanded}
           row={row}
           payerSuggestions={payerSuggestions}
           onSaveAmounts={updateBudgetLineItem}
@@ -550,7 +641,8 @@ export function BudgetTable({
 
       {customItems.map((row) => (
         <BudgetRowItem
-          key={row.key}
+          key={`${row.key}-${expandKey}`}
+          defaultExpanded={allExpanded}
           row={row}
           payerSuggestions={payerSuggestions}
           onSaveAmounts={(formData) => {
@@ -578,6 +670,9 @@ export function BudgetTable({
         />
       ))}
 
+      </div>
+
+      <div className="px-5 pb-5 sm:px-6 sm:pb-6">
       {showAddForm ? (
         <AddItemForm onDone={() => setShowAddForm(false)} payerSuggestions={payerSuggestions} />
       ) : (
@@ -606,6 +701,7 @@ export function BudgetTable({
           ))}
         </div>
       )}
+      </div>
     </div>
   );
 }
