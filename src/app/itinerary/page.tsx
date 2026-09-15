@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { AppNav } from "@/components/app-nav";
 import type { ItineraryEvent, Wedding } from "@/lib/supabase/types";
 import { ItineraryManager } from "./itinerary-manager";
+import { PublishToggle } from "./publish-toggle";
 
 export default async function ItineraryPage() {
   const supabase = await createClient();
@@ -73,9 +74,14 @@ export default async function ItineraryPage() {
           </Link>
         </div>
         <p className="mb-6 text-sm text-ink/70">
-          Every scheduled day shows up side by side below. Once your guest site is turned on,
-          guests see this same schedule on the public RSVP page.
+          Every scheduled day shows up side by side below.
         </p>
+
+        <PublishToggle
+          published={wedding.itinerary_published}
+          hasEvents={(events ?? []).length > 0}
+          publicSlug={wedding.public_slug}
+        />
 
         <ItineraryManager events={events ?? []} weddingDate={wedding.wedding_date} />
       </div>

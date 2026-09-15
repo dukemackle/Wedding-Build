@@ -154,7 +154,11 @@ export async function updateItineraryEvent(formData: FormData): Promise<{ error?
       existing.end_time !== parsed.fields.end_time ||
       existing.location !== parsed.fields.location);
 
-  if (scheduleChanged) {
+  // Don't text guests about a schedule they can't see. While the itinerary is
+  // unpublished it's still working notes -- times move, events get added and
+  // dropped -- and a "Schedule update" text pointing at a page that shows
+  // nothing is worse than no text at all.
+  if (scheduleChanged && wedding.itinerary_published) {
     await notifyGuestsOfScheduleChange(supabase, wedding, parsed.fields);
   }
 
@@ -177,6 +181,36 @@ export async function deleteItineraryEvent(formData: FormData): Promise<{ error?
     .delete()
     .eq("id", id)
     .eq("wedding_id", wedding.id);
+
+  if (error) {
+    return { error: error.message };
+  }
+
+  revalidatePath("/itinerary");
+  revalidatePath("/w/[slug]", "page");
+  return {};
+}
+
+/**
+ * Publishes or unpublishes the whole weekend schedule.
+ *
+ * The flag is what the itinerary_events RLS policy checks, so this genuinely
+ * controls whether guests can read the events -- not just whether the guest
+ * page chooses to render them. Unpublishing takes them away again immediately.
+ */
+export async function setItineraryPublished(formData: FormData): Promise<{ error?: string }> {
+  const { supabase, wedding } = await requireOwnWedding();
+
+  if (!wedding) {
+    return { error: "Set up your wedding on the Dashboard first." };
+  }
+
+  const published = formData.get("published") === "true";
+
+  const { error } = await supabase
+    .from("weddings")
+    .update({ itinerary_published: published })
+    .eq("id", wedding.id);
 
   if (error) {
     return { error: error.message };
