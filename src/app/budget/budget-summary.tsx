@@ -10,6 +10,21 @@ const currency = new Intl.NumberFormat("en-US", {
 });
 
 /**
+ * Segment colours for the "where it's going" bar, validated rather than
+ * picked by eye: all four sit inside the usable lightness band, clear the
+ * chroma floor so none reads as grey, hold >= 3:1 against the card, and stay
+ * 16.7 apart in normal vision.
+ *
+ * Their worst colour-blind separation is 7.2 (deuteranopia), which is inside
+ * the band that is only acceptable alongside a second, non-colour cue. That
+ * is why each segment is separated by a visible gap and why every slice is
+ * named with its share in the key below -- the colour speeds up reading, it
+ * never carries the meaning on its own.
+ */
+const SLICE_COLORS = ["#0d8266", "#b07d0a", "#d2426b", "#3b76c4"];
+const REST_COLOR = "#c2c7c0";
+
+/**
  * The three numbers that answer "where do we stand", sitting directly above
  * the columns they summarise: total estimate over Estimate, total actual over
  * Actual, and the budget target to the right with what's left.
@@ -24,16 +39,50 @@ export function BudgetSummary({
   target,
   categoryCount,
   contractCount,
+  items,
+  quotedCount,
 }: {
   totalEstimate: number;
   totalActual: number;
   target: number | null;
   categoryCount: number;
   contractCount: number;
+  /** Every line's estimate, for the proportion bar. */
+  items: { key: string; label: string; amount: number }[];
+  /** Lines with a real number entered, not just an estimate. */
+  quotedCount: number;
 }) {
   const [editing, setEditing] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
   const [isPending, startTransition] = useTransition();
+
+  // Top four plus a single "everything else".
+  //
+  // Four, not five, because of the colours: five categorical hues could not be
+  // made distinguishable under colour-blind simulation no matter how they were
+  // chosen -- the fifth always collided with one of the others. Cutting the
+  // series is the standard fix, and the top four still carry the point, since
+  // venue and catering alone are usually half a wedding.
+  const proportion = (() => {
+    const sum = items.reduce((t, i) => t + i.amount, 0);
+    if (sum <= 0) return [];
+    const sorted = [...items].sort((a, b) => b.amount - a.amount);
+    const top = sorted.slice(0, SLICE_COLORS.length);
+    const restAmount = sorted.slice(SLICE_COLORS.length).reduce((t, i) => t + i.amount, 0);
+    const slices = top.map((i) => ({
+      key: i.key,
+      label: i.label,
+      pct: Math.round((i.amount / sum) * 100),
+    }));
+    if (restAmount > 0) {
+      slices.push({
+        key: "__rest",
+        label: "Everything else",
+        pct: Math.round((restAmount / sum) * 100),
+      });
+    }
+    return slices.filter((s) => s.pct > 0);
+  })();
 
   const pct = target && target > 0 ? Math.min(100, (totalActual / target) * 100) : 0;
   const remaining = target != null ? target - totalActual : null;
@@ -158,6 +207,53 @@ export function BudgetSummary({
           </div>
         </div>
       </div>
+
+      {proportion.length > 0 && (
+        <div className="mt-5 border-t border-hairline pt-4">
+          <div className="flex flex-wrap items-baseline justify-between gap-2">
+            <p className="font-mono-numbers text-[10px] uppercase tracking-[0.16em] text-ink/50">
+              Where it&apos;s going
+            </p>
+            <p className="font-mono-numbers text-[11px] text-ink/55">
+              {quotedCount} of {categoryCount} {quotedCount === 1 ? "line has" : "lines have"} a
+              real number
+            </p>
+          </div>
+
+          {/* The 2px gaps are the non-colour cue the palette's CVD margin
+              requires -- segment boundaries stay visible even when two fills
+              are hard to tell apart. */}
+          <div className="mt-2 flex h-3 gap-[2px]">
+            {proportion.map((slice, i) => (
+              <span
+                key={slice.key}
+                title={`${slice.label} — ${slice.pct}%`}
+                className="first:rounded-l-full last:rounded-r-full"
+                style={{
+                  width: `${slice.pct}%`,
+                  backgroundColor: slice.key === "__rest" ? REST_COLOR : SLICE_COLORS[i],
+                }}
+              />
+            ))}
+          </div>
+
+          <p className="mt-2.5 flex flex-wrap gap-x-4 gap-y-1.5 text-[12px] text-ink/70">
+            {proportion.map((slice, i) => (
+              <span key={slice.key} className="flex items-center gap-1.5">
+                <span
+                  aria-hidden="true"
+                  className="inline-block h-2.5 w-2.5 rounded-full"
+                  style={{
+                    backgroundColor: slice.key === "__rest" ? REST_COLOR : SLICE_COLORS[i],
+                  }}
+                />
+                {slice.label}
+                <span className="font-mono-numbers font-medium text-ink">{slice.pct}%</span>
+              </span>
+            ))}
+          </p>
+        </div>
+      )}
 
       {error && <p className="mt-3 text-sm text-red-800">{error}</p>}
     </div>

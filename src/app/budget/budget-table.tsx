@@ -549,6 +549,8 @@ export function BudgetTable({
   total,
   totalActual,
   budgetTarget,
+  chartItems,
+  quotedCount,
   payerSuggestions,
   contractsByRowKey,
 }: {
@@ -558,6 +560,8 @@ export function BudgetTable({
   total: number;
   totalActual: number;
   budgetTarget: number | null;
+  chartItems: { key: string; label: string; amount: number }[];
+  quotedCount: number;
   payerSuggestions: string[];
   /** Keyed by BudgetRow.key -- a category key for standard rows, an id for custom ones. */
   contractsByRowKey: Record<string, BudgetContract[]>;
@@ -594,6 +598,8 @@ export function BudgetTable({
         target={budgetTarget}
         categoryCount={allRows.length}
         contractCount={contractCount}
+        items={chartItems}
+        quotedCount={quotedCount}
       />
 
       {/* Column labels, so the totals above are visibly the sum of what's

@@ -11,7 +11,7 @@ import {
   effectiveGuestCount,
 } from "@/lib/budget-categories";
 import { BudgetTable, type BudgetRow } from "./budget-table";
-import { BudgetOverview, type BudgetChartItem } from "./budget-chart";
+import type { BudgetChartItem } from "./budget-chart";
 import { UpcomingPayments, paymentsFromRows } from "./upcoming-payments";
 
 const currency = new Intl.NumberFormat("en-US", {
@@ -306,10 +306,6 @@ export default async function BudgetPage() {
         </p>
 
         <FadeInSection>
-          <BudgetOverview items={chartItems} quoted={categoriesQuoted} total={rows.length} />
-        </FadeInSection>
-
-        <FadeInSection>
           <UpcomingPayments payments={upcomingPayments} />
         </FadeInSection>
 
@@ -321,6 +317,8 @@ export default async function BudgetPage() {
             total={total}
             totalActual={actualSpending}
             budgetTarget={wedding.budget_target}
+            chartItems={chartItems}
+            quotedCount={categoriesQuoted}
             payerSuggestions={payerSuggestions}
             contractsByRowKey={Object.fromEntries(contractsByRowKey)}
           />
