@@ -10,7 +10,7 @@ export default function PrivacyPage() {
       <div className="w-full max-w-3xl">
         <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Legal</p>
         <h1 className="mt-2 font-display text-3xl font-semibold text-forest">Privacy Policy</h1>
-        <p className="mt-2 text-sm text-ink/60">Last updated: September 14, 2026</p>
+        <p className="mt-2 text-sm text-ink/60">Last updated: September 15, 2026</p>
 
         <div className="mt-8 flex flex-col gap-8 text-ink/80">
           <p>
@@ -31,6 +31,13 @@ export default function PrivacyPage() {
                 guest list, itinerary, seating/venue layout, and checklist items.
               </li>
               <li>Any photo you upload (for example, a hero photo for your public site).</li>
+              <li>
+                Files you attach to your budget — contracts, quotes, invoices, and similar
+                documents. These often contain information about other people, such as a
+                vendor&apos;s business details or a signature on an agreement. They are stored
+                privately, are never shown on your public wedding site, and can be opened only by
+                you and a partner you&apos;ve invited.
+              </li>
               <li>Messages you send to vendors/venues through the Service.</li>
             </ul>
 
@@ -103,10 +110,16 @@ export default function PrivacyPage() {
           <Section title="4. Public visibility">
             <p>
               If you (a couple) create a public wedding site, information you choose to display
-              there — itinerary details, guestbook photos/messages, RSVP-form fields — is visible
-              to anyone with the link. Guests submitting an RSVP should know their submission goes
-              to the couple, and anything the couple chooses to feature (for example, a guestbook
-              entry) becomes visible to anyone who visits the public site.
+              there — guestbook photos/messages, RSVP-form fields, and your weekend schedule once
+              you publish it — is visible to anyone with the link. Guests submitting an RSVP
+              should know their submission goes to the couple, and anything the couple chooses to
+              feature (for example, a guestbook entry) becomes visible to anyone who visits the
+              public site.
+            </p>
+            <p className="mt-3">
+              Two things are never public: your itinerary stays private until you choose to
+              publish it, and contracts or documents you attach to your budget are never shown on
+              a wedding site at all.
             </p>
           </Section>
 
@@ -122,8 +135,9 @@ export default function PrivacyPage() {
                 wrenwed.com@gmail.com
               </a>
               . Deleting your account removes your login immediately; if you&apos;re a wedding&apos;s
-              owner, it also deletes that wedding and everything on it, except where we&apos;re
-              required to retain limited records by law.
+              owner, it also deletes that wedding and everything on it — including any photos and
+              any contracts or documents you uploaded — except where we&apos;re required to retain
+              limited records by law.
             </p>
           </Section>
 
