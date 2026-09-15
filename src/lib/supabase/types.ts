@@ -108,6 +108,12 @@ export type Guest = {
   song_request: string | null;
   phone: string | null;
   sms_opt_in: boolean;
+  address_line1: string | null;
+  address_line2: string | null;
+  city: string | null;
+  state: string | null;
+  postal_code: string | null;
+  country: string | null;
   guestbook_hidden: boolean;
   thanked: boolean;
   invite_sent_at: string | null;
@@ -115,6 +121,25 @@ export type Guest = {
   table_id: string | null;
   created_at: string;
   updated_at: string;
+};
+
+export type ContactSubmissionStatus = "pending" | "applied" | "dismissed";
+
+export type ContactSubmission = {
+  id: string;
+  wedding_id: string;
+  name: string;
+  email: string | null;
+  phone: string | null;
+  address_line1: string | null;
+  address_line2: string | null;
+  city: string | null;
+  state: string | null;
+  postal_code: string | null;
+  country: string | null;
+  note: string | null;
+  status: ContactSubmissionStatus;
+  created_at: string;
 };
 
 export type PublicGuestbookEntry = {

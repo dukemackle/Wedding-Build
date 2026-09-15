@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { AppNav } from "@/components/app-nav";
 import type {
+  ContactSubmission,
   Guest,
   RegistryItem,
   RsvpSubmission,
@@ -19,6 +20,7 @@ import { BulkInviteForm } from "./bulk-invite-form";
 import { RsvpReminders } from "./rsvp-reminders";
 import { GuestbookFeed } from "./guestbook-feed";
 import { SongRequests } from "./song-requests";
+import { ContactCollectorPanel } from "./contact-collector-panel";
 
 export default async function GuestsPage() {
   const supabase = await createClient();
@@ -103,6 +105,18 @@ export default async function GuestsPage() {
   const protocol = host?.startsWith("localhost") ? "http" : "https";
   const origin = host ? `${protocol}://${host}` : "";
 
+  const { data: contactSubmissions } = await supabase
+    .from("contact_submissions")
+    .select("*")
+    .eq("wedding_id", wedding.id)
+    .eq("status", "pending")
+    .order("created_at", { ascending: true })
+    .returns<ContactSubmission[]>();
+
+  // Street address is the field that matters for posting an invitation; a
+  // guest with a city but no street still can't be mailed anything.
+  const missingAddressCount = (guests ?? []).filter((g) => !g.address_line1).length;
+
   return (
     <main className="flex flex-1 flex-col items-center px-6 py-16">
       <AppNav email={user.email ?? ""} maxWidthClassName="max-w-3xl" />
@@ -119,6 +133,13 @@ export default async function GuestsPage() {
             publicSlug={wedding.public_slug}
             origin={origin}
             pendingSubmissions={rsvpSubmissions ?? []}
+          />
+          <ContactCollectorPanel
+            slug={wedding.public_slug}
+            origin={origin}
+            submissions={contactSubmissions ?? []}
+            guests={guests ?? []}
+            missingAddressCount={missingAddressCount}
           />
           <BulkInviteForm guests={guests ?? []} publicSlug={wedding.public_slug} origin={origin} />
           <RsvpReminders
