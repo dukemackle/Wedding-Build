@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { AppNav } from "@/components/app-nav";
 import type { Guest, SeatingTable, VenueLayoutItem, VenueRoom, Wedding } from "@/lib/supabase/types";
-import { VenueLayoutManager } from "./venue-layout-manager";
+import { VenueLayoutClient } from "./venue-layout-client";
 
 export default async function VenueLayoutPage() {
   const supabase = await createClient();
@@ -88,7 +88,7 @@ export default async function VenueLayoutPage() {
           Seating & floor plan
         </h1>
 
-        <VenueLayoutManager
+        <VenueLayoutClient
           tables={tables ?? []}
           confirmedGuests={guests ?? []}
           items={items ?? []}
