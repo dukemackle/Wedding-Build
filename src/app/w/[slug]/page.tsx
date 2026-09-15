@@ -1,5 +1,4 @@
 import { notFound } from "next/navigation";
-import Image from "next/image";
 import { createClient } from "@/lib/supabase/server";
 import type {
   ItineraryEvent,
@@ -12,13 +11,11 @@ import type {
 } from "@/lib/supabase/types";
 import { FadeInSection } from "@/components/fade-in-section";
 import { ChevronDownIcon } from "@/components/icons";
-import { StaggerWords } from "@/components/stagger-words";
-import { daysUntilWedding } from "@/lib/countdown";
-import { CountdownTimer } from "@/components/countdown-timer";
 import { RsvpForm } from "./rsvp-form";
 import { ItineraryView } from "./itinerary-view";
 import { GuestbookView } from "./guestbook-view";
 import { GuestWall } from "./guest-wall";
+import { WeddingHero } from "./wedding-hero";
 
 function formatDate(dateStr: string) {
   return new Date(`${dateStr}T00:00:00`).toLocaleDateString("en-US", {
@@ -93,36 +90,7 @@ export default async function PublicWeddingPage({
   return (
     <main className="flex flex-1 flex-col items-center px-6 py-16">
       <div className="w-full max-w-3xl">
-        <FadeInSection>
-          <div>
-            {wedding.hero_photo_url && (
-              <Image
-                src={wedding.hero_photo_url}
-                alt={`${wedding.partner_a_name} & ${wedding.partner_b_name}`}
-                width={192}
-                height={192}
-                className="mx-auto h-40 w-40 rounded-full border border-hairline object-cover shadow-sm sm:h-48 sm:w-48"
-              />
-            )}
-            <p className="mt-6 text-center font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
-              You&apos;re invited
-            </p>
-            <h1 className="mt-2 text-center font-display text-[clamp(2.25rem,9vw,5rem)] font-semibold leading-[1.05] text-forest">
-              <StaggerWords text={`${wedding.partner_a_name} & ${wedding.partner_b_name}`} />
-            </h1>
-            {wedding.wedding_date && (
-              <>
-                <p className="mt-2 text-center text-ink/70">{formatDate(wedding.wedding_date)}</p>
-                <p className="mt-1 text-center font-mono-numbers text-sm text-brass">
-                  <CountdownTimer
-                    targetDate={wedding.wedding_date}
-                    fallbackLabel={daysUntilWedding(wedding.wedding_date)}
-                  />
-                </p>
-              </>
-            )}
-          </div>
-        </FadeInSection>
+        <WeddingHero wedding={wedding} />
 
         <FadeInSection>
           <GuestWall guests={confirmedGuests ?? []} />

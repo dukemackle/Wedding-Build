@@ -212,3 +212,38 @@ body::before {
   background-color: var(--color-hairline);
   border-radius: 999px;
 }
+
+/* Guest-site hero: a slow drift across the couple's photo. Long and small
+   enough to read as depth rather than movement -- if you notice it
+   animating, it's too fast. */
+.hero-kenburns {
+  animation: hero-kenburns 24s ease-in-out infinite alternate;
+}
+@keyframes hero-kenburns {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.08);
+  }
+}
+
+.hero-scroll-cue {
+  animation: hero-bob 2.4s ease-in-out infinite;
+}
+@keyframes hero-bob {
+  0%,
+  100% {
+    transform: translate(-50%, 0);
+  }
+  50% {
+    transform: translate(-50%, 5px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-kenburns,
+  .hero-scroll-cue {
+    animation: none;
+  }
+}

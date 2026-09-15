@@ -207,16 +207,17 @@ function WeddingSummary({
           />
         )}
         <div>
-          <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
-            {wedding.wedding_date ? (
-              <CountdownTimer
-                targetDate={wedding.wedding_date}
-                fallbackLabel={daysUntilWedding(wedding.wedding_date)}
-              />
-            ) : (
-              "Date not set"
-            )}
-          </p>
+          {wedding.wedding_date ? (
+            <CountdownTimer
+              targetDate={wedding.wedding_date}
+              fallbackLabel={daysUntilWedding(wedding.wedding_date)}
+              className="justify-start"
+            />
+          ) : (
+            <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
+              Date not set
+            </p>
+          )}
           <h1 className="mt-2 font-display text-4xl font-semibold text-forest">
             {wedding.partner_a_name} &amp; {wedding.partner_b_name}
           </h1>
