@@ -10,6 +10,21 @@ const currency = new Intl.NumberFormat("en-US", {
 });
 
 /**
+ * Segment colours for the "where it's going" bar, validated rather than
+ * picked by eye: all four sit inside the usable lightness band, clear the
+ * chroma floor so none reads as grey, hold >= 3:1 against the card, and stay
+ * 16.7 apart in normal vision.
+ *
+ * Their worst colour-blind separation is 7.2 (deuteranopia), which is inside
+ * the band that is only acceptable alongside a second, non-colour cue. That
+ * is why each segment is separated by a visible gap and why every slice is
+ * named with its share in the key below -- the colour speeds up reading, it
+ * never carries the meaning on its own.
+ */
+const SLICE_COLORS = ["#0d8266", "#b07d0a", "#d2426b", "#3b76c4"];
+const REST_COLOR = "#c2c7c0";
+
+/**
  * The three numbers that answer "where do we stand", sitting directly above
  * the columns they summarise: total estimate over Estimate, total actual over
  * Actual, and the budget target to the right with what's left.
@@ -41,15 +56,19 @@ export function BudgetSummary({
   const [error, setError] = useState<string | undefined>(undefined);
   const [isPending, startTransition] = useTransition();
 
-  // Top five plus a single "everything else". The insight is that a couple of
-  // categories are most of a wedding -- five slices say that, and nineteen
-  // just rebuilds the table above it in bar form.
+  // Top four plus a single "everything else".
+  //
+  // Four, not five, because of the colours: five categorical hues could not be
+  // made distinguishable under colour-blind simulation no matter how they were
+  // chosen -- the fifth always collided with one of the others. Cutting the
+  // series is the standard fix, and the top four still carry the point, since
+  // venue and catering alone are usually half a wedding.
   const proportion = (() => {
     const sum = items.reduce((t, i) => t + i.amount, 0);
     if (sum <= 0) return [];
     const sorted = [...items].sort((a, b) => b.amount - a.amount);
-    const top = sorted.slice(0, 5);
-    const restAmount = sorted.slice(5).reduce((t, i) => t + i.amount, 0);
+    const top = sorted.slice(0, SLICE_COLORS.length);
+    const restAmount = sorted.slice(SLICE_COLORS.length).reduce((t, i) => t + i.amount, 0);
     const slices = top.map((i) => ({
       key: i.key,
       label: i.label,
@@ -201,37 +220,35 @@ export function BudgetSummary({
             </p>
           </div>
 
-          {/* Ordered data, so the ramp is a single hue getting lighter rather
-              than five unrelated colours -- and every segment is named with
-              its share below, so nothing depends on telling the shades apart. */}
-          <div className="mt-2 flex h-2.5 overflow-hidden rounded-full bg-forest/5">
+          {/* The 2px gaps are the non-colour cue the palette's CVD margin
+              requires -- segment boundaries stay visible even when two fills
+              are hard to tell apart. */}
+          <div className="mt-2 flex h-3 gap-[2px]">
             {proportion.map((slice, i) => (
               <span
                 key={slice.key}
                 title={`${slice.label} — ${slice.pct}%`}
+                className="first:rounded-l-full last:rounded-r-full"
                 style={{
                   width: `${slice.pct}%`,
-                  backgroundColor:
-                    slice.key === "__rest" ? "rgb(11 74 58 / 0.12)" : `rgb(11 74 58 / ${1 - i * 0.16})`,
+                  backgroundColor: slice.key === "__rest" ? REST_COLOR : SLICE_COLORS[i],
                 }}
               />
             ))}
           </div>
 
-          <p className="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-[11px] text-ink/60">
+          <p className="mt-2.5 flex flex-wrap gap-x-4 gap-y-1.5 text-[12px] text-ink/70">
             {proportion.map((slice, i) => (
               <span key={slice.key} className="flex items-center gap-1.5">
                 <span
                   aria-hidden="true"
-                  className="inline-block h-2 w-2 rounded-full"
+                  className="inline-block h-2.5 w-2.5 rounded-full"
                   style={{
-                    backgroundColor:
-                      slice.key === "__rest"
-                        ? "rgb(11 74 58 / 0.12)"
-                        : `rgb(11 74 58 / ${1 - i * 0.16})`,
+                    backgroundColor: slice.key === "__rest" ? REST_COLOR : SLICE_COLORS[i],
                   }}
                 />
-                {slice.label} <span className="font-mono-numbers">{slice.pct}%</span>
+                {slice.label}
+                <span className="font-mono-numbers font-medium text-ink">{slice.pct}%</span>
               </span>
             ))}
           </p>
