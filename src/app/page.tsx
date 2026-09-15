@@ -83,8 +83,8 @@ export default async function Home() {
           <Image
             src="/logo/wren-logo-hero.png"
             alt="Wren Wedding Planning"
-            width={1452}
-            height={856}
+            width={731}
+            height={512}
             priority
             className="h-auto w-full max-w-[34rem]"
           />
