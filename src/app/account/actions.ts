@@ -5,13 +5,18 @@ import { createClient } from "@/lib/supabase/server";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import type { Wedding } from "@/lib/supabase/types";
 
-const PHOTO_BUCKETS = ["guest-photos", "wedding-photos"] as const;
+// Every bucket that stores objects under a `<wedding_id>/` prefix. Deleting
+// the wedding row cascades the database records but never touches storage, so
+// anything missing from this list survives the account deletion as an
+// orphaned file. Contracts especially: signed agreements carrying names,
+// addresses, and signatures must not outlive a request to delete the account.
+const WEDDING_BUCKETS = ["guest-photos", "wedding-photos", "contracts"] as const;
 
-async function deleteWeddingPhotos(
+async function deleteWeddingFiles(
   admin: ReturnType<typeof createAdminSupabaseClient>,
   weddingId: string,
 ) {
-  for (const bucket of PHOTO_BUCKETS) {
+  for (const bucket of WEDDING_BUCKETS) {
     const { data: files } = await admin.storage.from(bucket).list(weddingId);
     if (files && files.length > 0) {
       await admin.storage.from(bucket).remove(files.map((f) => `${weddingId}/${f.name}`));
@@ -21,7 +26,7 @@ async function deleteWeddingPhotos(
 
 // Deleting your account is permanent -- it removes your login and, if
 // you're the wedding's owner, the wedding itself and everything on it
-// (guest list, budget, photos, all of it). A partner deleting their own
+// (guest list, budget, photos, contracts, all of it). A partner deleting their own
 // account instead just drops their access; the wedding stays with the
 // owner untouched.
 export async function deleteAccount(formData: FormData): Promise<{ error?: string }> {
@@ -56,7 +61,7 @@ export async function deleteAccount(formData: FormData): Promise<{ error?: strin
         };
       }
 
-      await deleteWeddingPhotos(admin, wedding.id);
+      await deleteWeddingFiles(admin, wedding.id);
 
       const { error: deleteWeddingError } = await admin
         .from("weddings")
