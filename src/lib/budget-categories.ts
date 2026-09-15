@@ -5,6 +5,17 @@ export type BudgetCategory = {
   label: string;
   flatBase: number;
   perGuestAmount: number;
+  /**
+   * Starts hidden for a new wedding (see DEFAULT_HIDDEN_CATEGORIES).
+   *
+   * Not "unimportant" -- these are the lines a large share of couples
+   * genuinely don't have. A friend officiates, parents host the rehearsal
+   * dinner, there's no planner, no second event, no favors. Showing all
+   * nineteen to someone on day one reads as a list of things they're
+   * forgetting rather than a plan, so the optional ones wait in the "not
+   * tracking" strip until they're wanted.
+   */
+  optional?: boolean;
 };
 
 // Vendor catalog categories don't share spelling with budget category
@@ -39,26 +50,34 @@ export const BUDGET_CATEGORIES: BudgetCategory[] = [
   { key: "catering", label: "Catering", flatBase: 0, perGuestAmount: 107 },
   { key: "bar", label: "Bar", flatBase: 0, perGuestAmount: 43 },
   { key: "photography", label: "Photography", flatBase: 3500, perGuestAmount: 0 },
-  { key: "videography", label: "Videography", flatBase: 2500, perGuestAmount: 0 },
+  { optional: true, key: "videography", label: "Videography", flatBase: 2500, perGuestAmount: 0 },
   { key: "florals", label: "Florals & Decor", flatBase: 3000, perGuestAmount: 0 },
   { key: "music", label: "Music / Entertainment", flatBase: 2200, perGuestAmount: 0 },
   { key: "attire", label: "Wedding Attire", flatBase: 2800, perGuestAmount: 0 },
-  { key: "planner", label: "Wedding Planner", flatBase: 2500, perGuestAmount: 0 },
+  { optional: true, key: "planner", label: "Wedding Planner", flatBase: 2500, perGuestAmount: 0 },
   { key: "stationery", label: "Invitations & Stationery", flatBase: 300, perGuestAmount: 6 },
-  { key: "favors", label: "Favors & Gifts", flatBase: 0, perGuestAmount: 8 },
+  { optional: true, key: "favors", label: "Favors & Gifts", flatBase: 0, perGuestAmount: 8 },
   { key: "cake", label: "Cake & Desserts", flatBase: 600, perGuestAmount: 0 },
-  { key: "transportation", label: "Transportation", flatBase: 800, perGuestAmount: 0 },
+  { optional: true, key: "transportation", label: "Transportation", flatBase: 800, perGuestAmount: 0 },
   // Both scale a bit with guest count, unlike most flat-base categories
   // above -- modern rehearsal dinners and welcome parties increasingly
   // invite most/all out-of-town guests, not just the wedding party, so
   // a larger wedding plausibly means a larger one of these too.
   { key: "rehearsal_dinner", label: "Rehearsal Dinner", flatBase: 800, perGuestAmount: 15 },
-  { key: "welcome_party", label: "Welcome Party", flatBase: 600, perGuestAmount: 12 },
+  { optional: true, key: "welcome_party", label: "Welcome Party", flatBase: 600, perGuestAmount: 12 },
   { key: "hair_makeup", label: "Hair & Makeup", flatBase: 900, perGuestAmount: 0 },
   { key: "rings", label: "Wedding Rings", flatBase: 1500, perGuestAmount: 0 },
-  { key: "officiant", label: "Officiant", flatBase: 500, perGuestAmount: 0 },
+  { optional: true, key: "officiant", label: "Officiant", flatBase: 500, perGuestAmount: 0 },
   { key: "gratuities", label: "Gratuities & Service Charges", flatBase: 700, perGuestAmount: 0 },
 ];
+
+/**
+ * What a brand-new wedding starts with hidden. Used as the column default in
+ * migration 0067; existing weddings keep whatever they already had.
+ */
+export const DEFAULT_HIDDEN_CATEGORIES = BUDGET_CATEGORIES.filter((c) => c.optional).map(
+  (c) => c.key,
+);
 
 export const REGION_MULTIPLIERS: Record<string, number> = {
   Northeast: 1.25,

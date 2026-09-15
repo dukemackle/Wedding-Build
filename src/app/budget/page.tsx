@@ -12,7 +12,6 @@ import {
 } from "@/lib/budget-categories";
 import { BudgetTable, type BudgetRow } from "./budget-table";
 import { BudgetOverview, type BudgetChartItem } from "./budget-chart";
-import { BudgetTarget } from "./budget-target";
 import { UpcomingPayments, paymentsFromRows } from "./upcoming-payments";
 
 const currency = new Intl.NumberFormat("en-US", {
@@ -291,7 +290,7 @@ export default async function BudgetPage() {
   return (
     <main className="flex flex-1 flex-col items-center px-6 py-16">
       <AppNav email={user.email ?? ""} />
-      <div className="w-full max-w-2xl">
+      <div className="w-full max-w-5xl">
         <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
           Budget
         </p>
@@ -307,10 +306,6 @@ export default async function BudgetPage() {
         </p>
 
         <FadeInSection>
-          <BudgetTarget target={wedding.budget_target} actualSpending={actualSpending} />
-        </FadeInSection>
-
-        <FadeInSection>
           <BudgetOverview items={chartItems} quoted={categoriesQuoted} total={rows.length} />
         </FadeInSection>
 
@@ -324,6 +319,8 @@ export default async function BudgetPage() {
             customItems={customItemRows}
             hiddenCategories={hiddenCategories}
             total={total}
+            totalActual={actualSpending}
+            budgetTarget={wedding.budget_target}
             payerSuggestions={payerSuggestions}
             contractsByRowKey={Object.fromEntries(contractsByRowKey)}
           />
