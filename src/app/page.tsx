@@ -100,13 +100,13 @@ export default async function Home() {
           <div className="mt-6 flex items-center gap-3">
             <Link
               href="/signup"
-              className="btn-motion rounded-full bg-forest px-6 py-2.5 font-display text-lg text-parchment transition-colors hover:bg-forest/90"
+              className="btn-motion rounded-full border border-transparent bg-forest px-6 pb-3 pt-2 font-display text-lg text-parchment transition-colors hover:bg-forest/90"
             >
               Sign up free
             </Link>
             <Link
               href="/login"
-              className="btn-motion btn-motion-brass rounded-full border border-hairline bg-parchment px-6 py-2.5 font-display text-lg text-forest transition-colors hover:border-forest"
+              className="btn-motion btn-motion-brass rounded-full border border-hairline bg-parchment px-6 pb-3 pt-2 font-display text-lg text-forest transition-colors hover:border-forest"
             >
               Log in
             </Link>

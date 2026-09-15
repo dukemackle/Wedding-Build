@@ -190,20 +190,23 @@ committing to anything.
 
 **Known feature gaps, roughly by value-per-effort** (re-check before acting;
 some may have shipped since this was written):
-- *Guest site is missing sections every competitor treats as essential:*
-  travel/accommodations, FAQ, dress code, directions/parking. Wren's `/w/[slug]`
-  currently has hero, RSVP, guestbook, weekend schedule, registry only.
-- *Contact Collector equivalent* — a public link where guests submit their own
-  address/contact info. Cheap for Wren: the public-page and
-  `rsvp_submissions`-style approval plumbing already exist.
 - *Guest messaging* — `src/lib/sms.ts` and guest SMS opt-in already exist but
   only fire on itinerary changes. Competitors charge ~$80 for broadcast texting;
-  Wren could include it.
-- *AI thank-you note drafting* — Wren already has both a thank-you tracker and
-  the Ask Wren assistant; connecting them is near-free.
-- *Seating chart PDF export* — Zola charges for this.
+  Wren could include it. **Flag when building:** this is the one gap on this
+  list with real recurring cost — every message is billed per segment, so a
+  broadcast to 150 guests is a genuine charge against an app with no revenue.
+  Needs a send cap and a visible count before it ships.
+- *Seating chart PDF export* — Zola charges for this. `/itinerary/print` is
+  already a working print-route pattern to copy.
 - *Registry retailer sync* — big integration lift, low strategic value; skip.
 - *Hotel-block concierge* — an operations business, not software; skip.
+
+**Shipped since this list was written** (2026-09-15) — don't re-propose these:
+guest-site travel/accommodations, dress code, directions/parking and FAQ
+sections (all on `/w/[slug]`); the Contact Collector (`/w/[slug]/contact` plus
+the approval panel on `/guests`); the gift log and AI thank-you drafting
+(`guests.gift_description` / `thank_you_note`, drafted through
+`src/app/guests/thank-you-actions.ts`).
 
 When asked for business/product help (not just "implement X"), act as a blended
 expert across these lenses, weighted by current priority:
