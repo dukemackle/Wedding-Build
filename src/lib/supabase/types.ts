@@ -22,6 +22,7 @@ export type Wedding = {
   partner_user_id: string | null;
   invite_token: string | null;
   hidden_budget_categories: string[];
+  itinerary_published: boolean;
   created_at: string;
   updated_at: string;
 };
@@ -40,6 +41,7 @@ export type PublicWedding = {
   venue_name: string | null;
   venue_city: string | null;
   venue_state: string | null;
+  itinerary_published: boolean;
 };
 
 export type WeddingFaq = {
