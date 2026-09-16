@@ -55,6 +55,7 @@ function guestFieldsFromForm(formData: FormData) {
       priority: priority as GuestPriority,
       meal: ((formData.get("meal") as string) || "").trim() || null,
       notes: ((formData.get("notes") as string) || "").trim() || null,
+      gift_description: ((formData.get("gift_description") as string) || "").trim() || null,
     },
   } as const;
 }

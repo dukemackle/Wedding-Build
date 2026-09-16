@@ -84,9 +84,14 @@ export default async function VenueLayoutPage() {
         <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
           Venue layout
         </p>
-        <h1 className="mt-2 mb-6 font-display text-3xl font-semibold text-forest">
-          Seating & floor plan
-        </h1>
+        <div className="mt-2 mb-6 flex flex-wrap items-baseline justify-between gap-3">
+          <h1 className="font-display text-3xl font-semibold text-forest">
+            Seating &amp; floor plan
+          </h1>
+          <Link href="/venue-layout/print" className="text-sm text-brass hover:underline">
+            Print seating chart &rarr;
+          </Link>
+        </div>
 
         <VenueLayoutClient
           tables={tables ?? []}

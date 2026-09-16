@@ -32,6 +32,7 @@ export function ContractsPanel({
   const [error, setError] = useState<string | undefined>(undefined);
   const [isPending, startTransition] = useTransition();
   const [opening, setOpening] = useState<string | null>(null);
+  const [confirmingDelete, setConfirmingDelete] = useState<string | null>(null);
   const fileInput = useRef<HTMLInputElement>(null);
 
   function targetFields(formData: FormData) {
@@ -51,7 +52,7 @@ export function ContractsPanel({
   }
 
   function handleDelete(contract: BudgetContract) {
-    if (!confirm(`Delete "${contract.file_name}"? This can't be undone.`)) return;
+    setConfirmingDelete(null);
     const formData = new FormData();
     formData.set("id", contract.id);
     startTransition(async () => {
@@ -110,15 +111,36 @@ export function ContractsPanel({
                     {size ? ` · ${size}` : ""}
                   </span>
                 </button>
-                <button
-                  type="button"
-                  onClick={() => handleDelete(contract)}
-                  disabled={isPending}
-                  aria-label={`Delete ${contract.file_name}`}
-                  className="rounded-md p-1.5 text-ink/40 transition-colors hover:bg-parchment hover:text-forest disabled:opacity-50"
-                >
-                  <TrashIcon className="h-4 w-4" />
-                </button>
+                {confirmingDelete === contract.id ? (
+                  <span className="flex shrink-0 items-center gap-2">
+                    <span className="text-xs text-red-900">Delete this?</span>
+                    <button
+                      type="button"
+                      onClick={() => setConfirmingDelete(null)}
+                      className="rounded-full border border-red-200 px-2.5 py-1 font-mono-numbers text-[11px] text-ink/70 transition-colors hover:border-forest hover:text-forest"
+                    >
+                      Keep
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleDelete(contract)}
+                      disabled={isPending}
+                      className="rounded-full bg-red-800 px-2.5 py-1 font-mono-numbers text-[11px] text-parchment transition-colors hover:bg-red-900 disabled:opacity-50"
+                    >
+                      Delete
+                    </button>
+                  </span>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => setConfirmingDelete(contract.id)}
+                    disabled={isPending}
+                    aria-label={`Delete ${contract.file_name}`}
+                    className="rounded-md p-1.5 text-ink/40 transition-colors hover:bg-parchment hover:text-forest disabled:opacity-50"
+                  >
+                    <TrashIcon className="h-4 w-4" />
+                  </button>
+                )}
               </li>
             );
           })}
