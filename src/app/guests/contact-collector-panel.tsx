@@ -170,6 +170,21 @@ export function ContactCollectorPanel({
         </p>
       )}
 
+      {/* A plain outbound link, deliberately not an affiliate one: Wren's
+          claim is that it takes nothing from couples, and a tracked link
+          that pays us would quietly stop that being true. */}
+      <p className="mt-4 border-t border-hairline pt-4 text-sm text-ink/60">
+        Designing the invitation itself?{" "}
+        <a
+          href="https://www.canva.com/wedding-invitations/templates/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-brass hover:underline"
+        >
+          Browse Canva&apos;s wedding templates &#8599;
+        </a>
+      </p>
+
       {submissions.length > 0 && (
         <div className="mt-6 border-t border-hairline pt-5">
           <p className="font-mono-numbers text-[11px] uppercase tracking-[0.18em] text-brass">
