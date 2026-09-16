@@ -17,38 +17,40 @@ export function AppNav({
   return (
     <>
       <header className="static -mx-6 -mt-16 mb-8 w-auto border-b border-hairline bg-card/95 backdrop-blur sm:sticky sm:top-0 sm:z-30">
-        <div className="mx-auto flex max-w-6xl flex-col gap-3 px-6 py-4 sm:flex-row sm:items-center sm:justify-between">
-          {/* The mark gets its own row on a phone: beside a nav that wraps to
-              six rows it would float in the middle of an empty gutter. */}
-          <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:gap-4">
+        {/* Two rows by design. The tabs need ~800px on their own, so beside
+            the mark and the account links they could never fit on one line
+            inside the 1152px cap -- which is what used to make them wrap
+            into three stacked rows. Giving them the full width fixes that. */}
+        <div className="mx-auto flex max-w-6xl flex-col gap-2 px-6 py-3">
+          <div className="flex items-center justify-between gap-4">
             <WrenMark />
-            <span aria-hidden className="hidden h-6 w-px shrink-0 bg-hairline sm:block" />
-            <NavLinks />
-          </div>
-          <div className="flex items-center justify-between gap-4 sm:justify-end">
-            {isAdmin && (
-              <a
-                href="https://admin.wrenwed.com"
-                className="font-mono-numbers text-sm text-brass hover:underline"
+            <div className="flex min-w-0 items-center justify-end gap-4">
+              {isAdmin && (
+                <a
+                  href="https://admin.wrenwed.com"
+                  className="shrink-0 font-mono-numbers text-sm text-brass hover:underline"
+                >
+                  Admin
+                </a>
+              )}
+              <Link
+                href="/account"
+                className="hidden min-w-0 truncate font-mono-numbers text-sm text-ink/60 hover:text-forest sm:block"
               >
-                Admin
-              </a>
-            )}
-            <Link
-              href="/account"
-              className="min-w-0 truncate font-mono-numbers text-sm text-ink/60 hover:text-forest"
-            >
-              {email}
-            </Link>
-            <form action={signOut}>
-              <button
-                type="submit"
-                className="shrink-0 font-mono-numbers text-sm text-brass hover:underline"
-              >
-                Log out
-              </button>
-            </form>
+                {email}
+              </Link>
+              <form action={signOut}>
+                <button
+                  type="submit"
+                  className="shrink-0 font-mono-numbers text-sm text-brass hover:underline"
+                >
+                  Log out
+                </button>
+              </form>
+            </div>
           </div>
+
+          <NavLinks />
         </div>
       </header>
       <WeddingAssistantWidget />
