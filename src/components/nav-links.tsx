@@ -59,7 +59,7 @@ function PlainLink({ href, label, icon: Icon }: { href: string; label: string; i
   return (
     <Link
       href={href}
-      className={`flex items-center gap-1.5 rounded-full px-3 py-1 font-display text-lg transition-colors ${
+      className={`flex shrink-0 items-center gap-1 whitespace-nowrap rounded-full px-2 py-1 font-display text-lg transition-colors ${
         isActive ? "bg-forest/10 text-forest" : "text-ink/70 hover:text-forest"
       }`}
     >
@@ -71,7 +71,11 @@ function PlainLink({ href, label, icon: Icon }: { href: string; label: string; i
 
 export function NavLinks() {
   return (
-    <nav className="flex flex-wrap items-center gap-x-1 gap-y-2">
+    // One row, always: the tabs never wrap under each other. Past the point
+    // where they stop fitting (phones) the strip scrolls sideways instead.
+    // The negative margin lets a tab's rounded highlight reach the gutter
+    // without the padding that keeps it from being clipped mid-scroll.
+    <nav className="-mx-1 flex w-full items-center gap-0.5 overflow-x-auto px-1 py-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
       <PlainLink href="/dashboard" label="Dashboard" icon={ArchIcon} />
       {groups.map((group) => (
         <NavDropdown
