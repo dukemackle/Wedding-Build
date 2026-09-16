@@ -16,7 +16,10 @@ export function AppNav({
 
   return (
     <>
-      <header className="static -mx-6 -mt-16 mb-8 w-auto border-b border-hairline bg-card/95 backdrop-blur sm:sticky sm:top-0 sm:z-30">
+      {/* Not sticky: the header scrolls away with the page. Nothing passes
+          underneath it any more, so it doesn't need the translucent fill or
+          the backdrop blur that a pinned bar does. */}
+      <header className="static -mx-6 -mt-16 mb-8 w-auto border-b border-hairline bg-card">
         {/* Two rows by design. The tabs need ~800px on their own, so beside
             the mark and the account links they could never fit on one line
             inside the 1152px cap -- which is what used to make them wrap
