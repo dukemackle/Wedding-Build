@@ -97,7 +97,10 @@ export default async function Home() {
           <p className="mt-4 max-w-md text-lg text-ink/80">
             Plan, budget, venues, guests, and celebrate — all in one free account.
           </p>
-          <div className="mt-6 flex items-center gap-3">
+          {/* Centred in the same column the logo and tagline are centred in,
+              so the block reads as one piece rather than a centred mark over
+              a left-aligned stack. */}
+          <div className="mt-6 flex w-full max-w-[34rem] items-center justify-center gap-3">
             <Link
               href="/signup"
               className="btn-motion rounded-full border border-transparent bg-forest px-6 pb-3 pt-2 font-display text-lg text-parchment transition-colors hover:bg-forest/90"

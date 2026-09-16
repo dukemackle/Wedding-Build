@@ -3,6 +3,9 @@
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/admin";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
+import { parseVenueTable } from "@/lib/venue-import";
+
+const MAX_IMPORT_ROWS = 200;
 
 function num(formData: FormData, key: string): number | null {
   const raw = (formData.get(key) as string)?.trim();
@@ -157,4 +160,51 @@ export async function deleteVenueFaq(formData: FormData): Promise<{ error?: stri
   revalidatePath("/admin/venues");
   revalidatePath(`/venues/${venueId}`);
   return {};
+}
+
+/**
+ * Bulk-inserts venues from a pasted spreadsheet.
+ *
+ * Re-parses the raw text server-side rather than trusting the preview the
+ * browser built, and refuses the whole batch if any row is invalid -- a
+ * half-applied import is worse than none, because working out which of 40
+ * venues landed is harder than pasting again.
+ */
+export async function importVenues(
+  formData: FormData,
+): Promise<{ error?: string; imported?: number }> {
+  await requireAdmin();
+
+  const text = (formData.get("table") as string) ?? "";
+  const parsed = parseVenueTable(text);
+
+  if (parsed.error) return { error: parsed.error };
+  if (parsed.rows.length === 0) return { error: "No venues found to import." };
+  if (parsed.rows.length > MAX_IMPORT_ROWS) {
+    return { error: `That's ${parsed.rows.length} rows — import at most ${MAX_IMPORT_ROWS} at a time.` };
+  }
+
+  const invalid = parsed.rows.filter((row) => row.errors.length > 0);
+  if (invalid.length > 0) {
+    return {
+      error: `${invalid.length} ${invalid.length === 1 ? "row still needs" : "rows still need"} fixing — nothing was imported.`,
+    };
+  }
+
+  const admin = createAdminSupabaseClient();
+  const { error } = await admin.from("venues").insert(
+    parsed.rows.map((row) => ({
+      ...row.values,
+      // Imports are how real venues get in. Sample data is seeded elsewhere,
+      // so defaulting this to false keeps /admin/venues honest about which
+      // listings are real -- the distinction the Phase 1 triggers rely on.
+      is_sample: false,
+    })),
+  );
+
+  if (error) return { error: error.message };
+
+  revalidatePath("/admin/venues");
+  revalidatePath("/venues");
+  return { imported: parsed.rows.length };
 }
