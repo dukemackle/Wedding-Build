@@ -2,6 +2,7 @@
 
 import { useRef, useState, useTransition } from "react";
 import type { Venue, VenueFaq } from "@/lib/supabase/types";
+import { VenueImportPanel } from "./venue-import-panel";
 import { STATES, STYLE_TIERS, VENUE_SETTINGS, VENUE_TYPES } from "@/lib/wedding-options";
 import {
   addVenueFaq,
@@ -339,21 +340,42 @@ export function AdminVenuesManager({
   faqsByVenueId: Record<string, VenueFaq[]>;
 }) {
   const [adding, setAdding] = useState(false);
+  const [importing, setImporting] = useState(false);
+  const realCount = venues.filter((v) => !v.is_sample).length;
 
   return (
     <div className="w-full rounded-lg border border-hairline bg-card p-6 shadow-sm">
-      <div className="mb-4 flex items-center justify-between">
-        <p className="text-sm text-ink/60">{venues.length} venues</p>
-        {!adding && (
-          <button
-            type="button"
-            onClick={() => setAdding(true)}
-            className="rounded-md bg-forest px-3 py-1.5 text-sm text-parchment transition-colors hover:bg-forest/90"
-          >
-            + Add venue
-          </button>
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+        <p className="text-sm text-ink/60">
+          {venues.length} venues
+          {venues.length > 0 && (
+            <span className="text-ink/45"> · {realCount} real, {venues.length - realCount} sample</span>
+          )}
+        </p>
+        {!adding && !importing && (
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setImporting(true)}
+              className="rounded-md border border-hairline px-3 py-1.5 text-sm text-forest transition-colors hover:border-forest"
+            >
+              Import from a spreadsheet
+            </button>
+            <button
+              type="button"
+              onClick={() => setAdding(true)}
+              className="rounded-md bg-forest px-3 py-1.5 text-sm text-parchment transition-colors hover:bg-forest/90"
+            >
+              + Add venue
+            </button>
+          </div>
         )}
       </div>
+      {importing && (
+        <div className="mb-4 border-b border-hairline pb-4">
+          <VenueImportPanel onDone={() => setImporting(false)} />
+        </div>
+      )}
       {adding && (
         <div className="mb-4 border-b border-hairline pb-4">
           <VenueForm onDone={() => setAdding(false)} />
