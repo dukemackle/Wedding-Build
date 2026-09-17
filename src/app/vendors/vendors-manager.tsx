@@ -294,23 +294,21 @@ export function VendorsManager({
   const [priceFilter, setPriceFilter] = useState<string | "all">("all");
   const [stateFilter, setStateFilter] = useState<string | "all">("all");
   const [cityFilter, setCityFilter] = useState<string | "all">("all");
-  const [viewMode, setViewMode] = useState<"list" | "map">("list");
   const [search, setSearch] = useState("");
   const [highlightedVendorId, setHighlightedVendorId] = useState<string | null>(null);
   const cardEls = useRef<Map<string, HTMLDivElement>>(new Map());
 
   function handleSelectVendorFromMap(vendorId: string) {
-    setViewMode("list");
     setHighlightedVendorId(vendorId);
   }
 
   useEffect(() => {
-    if (!highlightedVendorId || viewMode !== "list") return;
+    if (!highlightedVendorId) return;
     const el = cardEls.current.get(highlightedVendorId);
     el?.scrollIntoView({ behavior: "smooth", block: "center" });
     const timeout = setTimeout(() => setHighlightedVendorId(null), 2500);
     return () => clearTimeout(timeout);
-  }, [highlightedVendorId, viewMode]);
+  }, [highlightedVendorId]);
 
   const categories = Array.from(
     new Set(vendors.map((v) => v.category).filter((c): c is string => Boolean(c))),
@@ -435,52 +433,41 @@ export function VendorsManager({
           )}
         </div>
 
-        <div className="mb-6 flex gap-2">
-          <button
-            onClick={() => setViewMode("list")}
-            className={`rounded-full border px-3 py-1 text-sm transition-colors ${
-              viewMode === "list"
-                ? "border-forest bg-forest text-parchment"
-                : "border-hairline bg-parchment text-ink hover:border-forest"
-            }`}
-          >
-            List view
-          </button>
-          <button
-            onClick={() => setViewMode("map")}
-            className={`rounded-full border px-3 py-1 text-sm transition-colors ${
-              viewMode === "map"
-                ? "border-forest bg-forest text-parchment"
-                : "border-hairline bg-parchment text-ink hover:border-forest"
-            }`}
-          >
-            Map view
-          </button>
-        </div>
-
         {filteredVendors.length === 0 ? (
           <p className="py-8 text-center text-sm text-ink/50">
             {vendors.length === 0
               ? "No vendors have been added yet."
               : "No vendors match these filters."}
           </p>
-        ) : viewMode === "map" ? (
-          <VendorsMap vendors={filteredVendors} onSelectVendor={handleSelectVendorFromMap} />
         ) : (
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            {filteredVendors.map((vendor) => (
-              <VendorCard
-                key={vendor.id}
-                vendor={vendor}
-                isFavorited={favoritedIds.has(vendor.id)}
-                isBooked={bookedVendorIds.has(vendor.id)}
-                isHighlighted={highlightedVendorId === vendor.id}
-                cardRef={(el) => {
-                  if (el) cardEls.current.set(vendor.id, el);
-                  else cardEls.current.delete(vendor.id);
-                }}
-              />
-            ))}
+          <div className="flex flex-col gap-6 lg:flex-row">
+            {/* Map first in the DOM but second on screen, so a small viewport
+                gets the vendor list rather than a map it has to scroll past. */}
+            <div className="order-1 lg:order-2 lg:w-1/2">
+              <div className="lg:sticky lg:top-6">
+                <VendorsMap
+                  vendors={filteredVendors}
+                  onSelectVendor={handleSelectVendorFromMap}
+                />
+              </div>
+            </div>
+            <div className="order-2 lg:order-1 lg:max-h-[520px] lg:w-1/2 lg:overflow-y-auto lg:pr-2">
+              <div className="grid grid-cols-1 gap-4">
+                {filteredVendors.map((vendor) => (
+                  <VendorCard
+                    key={vendor.id}
+                    vendor={vendor}
+                    isFavorited={favoritedIds.has(vendor.id)}
+                    isBooked={bookedVendorIds.has(vendor.id)}
+                    isHighlighted={highlightedVendorId === vendor.id}
+                    cardRef={(el) => {
+                      if (el) cardEls.current.set(vendor.id, el);
+                      else cardEls.current.delete(vendor.id);
+                    }}
+                  />
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>
