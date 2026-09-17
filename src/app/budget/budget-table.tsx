@@ -39,6 +39,7 @@ import {
   TrashIcon,
   ChevronDownIcon,
 } from "@/components/icons";
+import { SpreadsheetLink } from "@/components/spreadsheet-link";
 import type { BudgetContract } from "@/lib/supabase/types";
 import { ContractsPanel } from "./contracts-panel";
 import { BudgetImportPanel } from "./budget-import-panel";
@@ -582,6 +583,7 @@ export function BudgetTable({
   quotedCount,
   payerSuggestions,
   contractsByRowKey,
+  spreadsheetUrl,
 }: {
   rows: BudgetRow[];
   customItems: BudgetRow[];
@@ -592,6 +594,8 @@ export function BudgetTable({
   chartItems: { key: string; label: string; amount: number }[];
   quotedCount: number;
   payerSuggestions: string[];
+  /** A Google Sheet they've imported from before, if there is one. */
+  spreadsheetUrl: string | null;
   /** Keyed by BudgetRow.key -- a category key for standard rows, an id for custom ones. */
   contractsByRowKey: Record<string, BudgetContract[]>;
 }) {
@@ -731,6 +735,12 @@ export function BudgetTable({
               Import a spreadsheet
             </button>
           )}
+        </div>
+      )}
+
+      {spreadsheetUrl && !showImport && (
+        <div className="mt-2 flex justify-end">
+          <SpreadsheetLink url={spreadsheetUrl} />
         </div>
       )}
 

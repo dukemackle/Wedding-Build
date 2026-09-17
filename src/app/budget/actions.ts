@@ -11,6 +11,12 @@ import {
   effectiveGuestCount,
 } from "@/lib/budget-categories";
 import { parseBudgetTable, type BudgetColumnMap } from "@/lib/budget-import";
+import {
+  SHEET_SHARING_ERROR,
+  googleSheetCsvUrl,
+  parseGoogleSheetUrl,
+  readTable,
+} from "@/lib/spreadsheet";
 
 function parseOptionalAmount(raw: FormDataEntryValue | null): number | null | "invalid" {
   const trimmed = (raw as string)?.trim();
@@ -310,6 +316,36 @@ export async function updateBudgetCustomItem(formData: FormData): Promise<{ erro
   return {};
 }
 
+/**
+ * Fetches a Google Sheet tab as a grid, for the importer to preview.
+ *
+ * The fetch has to happen here rather than in the browser -- Google doesn't
+ * allow a cross-origin read -- but everything after it is the same path an
+ * uploaded file takes, including being parsed again on import.
+ */
+export async function fetchBudgetSheet(
+  formData: FormData,
+): Promise<{ error?: string; table?: string[][]; url?: string }> {
+  const { wedding } = await requireOwnWedding();
+  if (!wedding) return { error: "Set up your wedding on the Dashboard first." };
+
+  const sheetUrl = ((formData.get("sheet_url") as string) || "").trim();
+  if (!sheetUrl) return { error: "Paste a Google Sheet URL." };
+
+  const sheet = parseGoogleSheetUrl(sheetUrl);
+  if (!sheet) return { error: "That doesn't look like a Google Sheets URL." };
+
+  try {
+    const response = await fetch(googleSheetCsvUrl(sheet));
+    if (!response.ok) return { error: SHEET_SHARING_ERROR };
+    const table = readTable(await response.text());
+    if (table.length === 0) return { error: "That tab looks empty." };
+    return { table, url: sheetUrl };
+  } catch {
+    return { error: "Couldn't reach that Google Sheet. Check the URL and try again." };
+  }
+}
+
 type BudgetImportResult = {
   error?: string;
   categories?: number;
@@ -453,6 +489,12 @@ export async function importBudgetRows(formData: FormData): Promise<BudgetImport
     if (error) {
       return { error: error.message };
     }
+  }
+
+  // Came from a Google Sheet: keep the link so they can reopen it from here.
+  const sheetUrl = ((formData.get("sheet_url") as string) || "").trim();
+  if (sheetUrl && parseGoogleSheetUrl(sheetUrl)) {
+    await supabase.from("weddings").update({ spreadsheet_url: sheetUrl }).eq("id", wedding.id);
   }
 
   // A category the couple isn't tracking would hide what they just imported,

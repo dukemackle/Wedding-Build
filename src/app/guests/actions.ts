@@ -2,6 +2,11 @@
 
 import { revalidatePath } from "next/cache";
 import { parseGuestTable, parseGuestText, type GuestImportParse } from "@/lib/guest-import";
+import {
+  SHEET_SHARING_ERROR,
+  googleSheetCsvUrl,
+  parseGoogleSheetUrl,
+} from "@/lib/spreadsheet";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getResendClient, INQUIRY_FROM_ADDRESS } from "@/lib/resend";
@@ -218,13 +223,6 @@ export async function importGuestRows(
   return { imported: rows.length, skipped: parsed.rows.length - rows.length };
 }
 
-function parseGoogleSheetUrl(url: string): { id: string; gid: string } | null {
-  const idMatch = url.match(/\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/);
-  if (!idMatch) return null;
-  const gidMatch = url.match(/[#&]gid=(\d+)/);
-  return { id: idMatch[1], gid: gidMatch?.[1] ?? "0" };
-}
-
 export async function importGuestsFromGoogleSheet(
   formData: FormData,
 ): Promise<{ error?: string; imported?: number }> {
@@ -237,17 +235,10 @@ export async function importGuestsFromGoogleSheet(
   const sheet = parseGoogleSheetUrl(sheetUrl);
   if (!sheet) return { error: "That doesn't look like a Google Sheets URL." };
 
-  const exportUrl = `https://docs.google.com/spreadsheets/d/${sheet.id}/export?format=csv&gid=${sheet.gid}`;
-
   let text: string;
   try {
-    const response = await fetch(exportUrl);
-    if (!response.ok) {
-      return {
-        error:
-          'Couldn\u2019t read that sheet. Its sharing has to be set to "Anyone with the link" for this to work — or download it and upload the file instead, which keeps it private.',
-      };
-    }
+    const response = await fetch(googleSheetCsvUrl(sheet));
+    if (!response.ok) return { error: SHEET_SHARING_ERROR };
     text = await response.text();
   } catch {
     return { error: "Couldn't reach that Google Sheet. Check the URL and try again." };
@@ -260,6 +251,9 @@ export async function importGuestsFromGoogleSheet(
   const rows = rowsForInsert(parsed, wedding.id, user.id);
   const { error } = await supabase.from("guests").insert(rows);
   if (error) return { error: error.message };
+
+  // Keep the link so they can get back to the sheet from inside Wren.
+  await supabase.from("weddings").update({ spreadsheet_url: sheetUrl }).eq("id", wedding.id);
 
   revalidatePath("/guests");
   revalidatePath("/budget");

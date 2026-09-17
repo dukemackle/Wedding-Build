@@ -13,7 +13,7 @@ import {
   type BudgetSingleField,
 } from "@/lib/budget-import";
 import { readTable } from "@/lib/spreadsheet";
-import { importBudgetRows } from "./actions";
+import { fetchBudgetSheet, importBudgetRows } from "./actions";
 
 type NamedSheet = { name: string; table: string[][] };
 
@@ -79,6 +79,10 @@ export function BudgetImportPanel({ onDone }: { onDone: () => void }) {
   const [derivedColumns, setDerivedColumns] = useState<string[]>([]);
   const [unknownColumns, setUnknownColumns] = useState<string[]>([]);
   const [fileName, setFileName] = useState<string | null>(null);
+  const [source, setSource] = useState<"file" | "sheet">("file");
+  const [sheetUrl, setSheetUrl] = useState("");
+  /** Set once a Sheets link has been read, and sent along on import. */
+  const [importedFrom, setImportedFrom] = useState<string | null>(null);
   const [error, setError] = useState<string | undefined>(undefined);
   const [imported, setImported] = useState<{
     categories: number;
@@ -121,6 +125,8 @@ export function BudgetImportPanel({ onDone }: { onDone: () => void }) {
     setError(undefined);
     setImported(null);
     setFileName(file.name);
+    // An upload isn't a link, so don't credit it to whatever was read before.
+    setImportedFrom(null);
     setIsReading(true);
     try {
       const isExcel = /\.xlsx?$/i.test(file.name);
@@ -156,6 +162,36 @@ export function BudgetImportPanel({ onDone }: { onDone: () => void }) {
   function chooseSheet(name: string) {
     const next = sheets.find((s) => s.name === name);
     if (next) loadSheet(next);
+  }
+
+  /**
+   * A Google Sheet arrives as one tab's CSV rather than a whole workbook --
+   * the gid in the URL says which tab -- so there's nothing to pick between.
+   */
+  function handleSheetUrl() {
+    const url = sheetUrl.trim();
+    if (!url) return;
+    setError(undefined);
+    setImported(null);
+    setIsReading(true);
+    const formData = new FormData();
+    formData.set("sheet_url", url);
+    startTransition(async () => {
+      const result = await fetchBudgetSheet(formData);
+      setIsReading(false);
+      if (result.error || !result.table) {
+        setSheets([]);
+        setSheetName(null);
+        setColumns({});
+        setImportedFrom(null);
+        setError(result.error ?? "Couldn't read that sheet.");
+        return;
+      }
+      const found: NamedSheet[] = [{ name: "Your sheet", table: result.table }];
+      setSheets(found);
+      setImportedFrom(result.url ?? url);
+      loadSheet(found[0]);
+    });
   }
 
   function setField(field: BudgetSingleField, value: string) {
@@ -201,6 +237,7 @@ export function BudgetImportPanel({ onDone }: { onDone: () => void }) {
     const formData = new FormData();
     formData.set("rows", JSON.stringify(table));
     formData.set("columns", JSON.stringify(columns));
+    if (importedFrom) formData.set("sheet_url", importedFrom);
     if (skipInvalid) formData.set("skip_invalid", "true");
     setError(undefined);
     startTransition(async () => {
@@ -260,8 +297,8 @@ export function BudgetImportPanel({ onDone }: { onDone: () => void }) {
   return (
     <div className="mb-6 rounded-lg border border-hairline bg-parchment p-6">
       <p className="text-sm text-ink">
-        Upload your budget as Excel (.xlsx), CSV, or tab-separated text. The first row should be
-        your headings.
+        Bring your budget in from Excel (.xlsx), CSV, tab-separated text, or a Google Sheet link.
+        The first row should be your headings.
       </p>
       <p className="mt-1 text-xs text-ink/60">
         Rows matching one of Wren&apos;s categories fill that line; anything else — a second
@@ -277,14 +314,71 @@ export function BudgetImportPanel({ onDone }: { onDone: () => void }) {
         Copy a heading row to start from
       </button>
 
-      <input
-        type="file"
-        accept=".csv,.tsv,.txt,.xlsx,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-        onChange={(e) => handleFile(e.target.files?.[0])}
-        className="mt-3 block w-full text-sm text-ink file:mr-3 file:rounded-md file:border file:border-hairline file:bg-card file:px-3 file:py-1.5 file:text-sm file:text-ink hover:file:border-forest"
-      />
+      <div className="mt-3 flex gap-2">
+        {(["file", "sheet"] as const).map((option) => (
+          <button
+            key={option}
+            type="button"
+            onClick={() => {
+              setSource(option);
+              setError(undefined);
+            }}
+            className={`rounded-full border px-3 py-1 text-sm transition-colors ${
+              source === option
+                ? "border-forest bg-forest text-parchment"
+                : "border-hairline bg-card text-ink hover:border-forest"
+            }`}
+          >
+            {option === "file" ? "Upload file" : "Google Sheet link"}
+          </button>
+        ))}
+      </div>
 
-      {isReading && <p className="mt-3 text-sm text-ink/60">Reading {fileName}…</p>}
+      {source === "file" ? (
+        <input
+          type="file"
+          accept=".csv,.tsv,.txt,.xlsx,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+          onChange={(e) => handleFile(e.target.files?.[0])}
+          className="mt-3 block w-full text-sm text-ink file:mr-3 file:rounded-md file:border file:border-hairline file:bg-card file:px-3 file:py-1.5 file:text-sm file:text-ink hover:file:border-forest"
+        />
+      ) : (
+        <div className="mt-3">
+          <div className="flex flex-col gap-2 sm:flex-row">
+            <input
+              type="url"
+              value={sheetUrl}
+              onChange={(e) => setSheetUrl(e.target.value)}
+              placeholder="https://docs.google.com/spreadsheets/d/..."
+              className="flex-1 rounded-md border border-hairline bg-card px-3 py-2 text-sm text-ink outline-none focus:border-forest"
+            />
+            <button
+              type="button"
+              onClick={handleSheetUrl}
+              disabled={isReading || isPending || !sheetUrl.trim()}
+              className="rounded-md border border-hairline px-4 py-2 text-sm font-medium text-forest transition-colors hover:border-forest disabled:opacity-50"
+            >
+              Read sheet
+            </button>
+          </div>
+          <p className="mt-1 text-xs text-ink/60">
+            Copy the URL from the tab you want — the address bar carries which tab you&apos;re on.
+            Wren keeps the link so you can reopen the sheet from this page.
+          </p>
+          {/* Worth saying plainly: link-importing a budget means costs and
+              vendor names are readable by anyone who has the URL. */}
+          <p className="mt-1 text-xs text-ink/60">
+            Reading a sheet this way needs its sharing set to &ldquo;Anyone with the link,&rdquo;
+            which makes your costs and vendors visible to anyone who has it. You can set it back to
+            private afterwards, or upload the file instead, which never leaves it shared.
+          </p>
+        </div>
+      )}
+
+      {isReading && (
+        <p className="mt-3 text-sm text-ink/60">
+          Reading {source === "file" ? fileName : "your sheet"}…
+        </p>
+      )}
 
       {sheets.length > 1 && (
         <label className="mt-3 flex flex-col gap-1 text-sm text-ink">

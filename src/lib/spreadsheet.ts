@@ -6,6 +6,31 @@
  * uploaded .csv, or a parsed .xlsx.
  */
 
+/**
+ * Pulls the document id and tab id out of a Google Sheets URL.
+ *
+ * The gid is the tab, and a URL copied from the address bar carries the tab
+ * the couple was looking at -- which is the one they mean, in a workbook with
+ * ten of them.
+ */
+export function parseGoogleSheetUrl(url: string): { id: string; gid: string } | null {
+  const idMatch = url.match(/\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/);
+  if (!idMatch) return null;
+  // `?` matters as much as `#` and `&`: Google's Copy link now hands out
+  // ".../edit?gid=123" with no fragment at all, and reading that as gid 0
+  // quietly imports the first tab instead of the one they were looking at.
+  const gidMatch = url.match(/[#?&]gid=(\d+)/);
+  return { id: idMatch[1], gid: gidMatch?.[1] ?? "0" };
+}
+
+/** What Google serves that tab as CSV. */
+export function googleSheetCsvUrl(sheet: { id: string; gid: string }) {
+  return `https://docs.google.com/spreadsheets/d/${sheet.id}/export?format=csv&gid=${sheet.gid}`;
+}
+
+export const SHEET_SHARING_ERROR =
+  'Couldn’t read that sheet. Its sharing has to be set to "Anyone with the link" for this to work — or download it and upload the file instead, which keeps it private.';
+
 /** Strips a heading down to letters, so "Max guests" and "max_guests" match. */
 export function normaliseHeading(value: string) {
   return value.toLowerCase().replace(/[^a-z]/g, "");

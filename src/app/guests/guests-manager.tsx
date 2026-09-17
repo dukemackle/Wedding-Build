@@ -11,6 +11,7 @@ import {
   setGuestThanked,
 } from "./actions";
 import { draftThankYouNote, saveThankYouNote } from "./thank-you-actions";
+import { SpreadsheetLink } from "@/components/spreadsheet-link";
 import { GuestImportFileTab } from "./guest-import-panel";
 import { FilterDisclosure } from "@/components/filter-disclosure";
 import { SearchBox } from "@/components/search-box";
@@ -635,7 +636,14 @@ function personCount(guest: Guest) {
   return 1 + (guest.plus_one ? 1 : 0);
 }
 
-export function GuestsManager({ guests }: { guests: Guest[] }) {
+export function GuestsManager({
+  guests,
+  spreadsheetUrl,
+}: {
+  guests: Guest[];
+  /** A Google Sheet they've imported from before, if there is one. */
+  spreadsheetUrl: string | null;
+}) {
   const [filter, setFilter] = useState<GuestStatus | "all">("all");
   const [priorityFilter, setPriorityFilter] = useState<GuestPriority | "all">("all");
   const [search, setSearch] = useState("");
@@ -746,6 +754,12 @@ export function GuestsManager({ guests }: { guests: Guest[] }) {
           </button>
         </div>
       </div>
+
+      {spreadsheetUrl && !showImportForm && (
+        <div className="mb-4 flex justify-end">
+          <SpreadsheetLink url={spreadsheetUrl} />
+        </div>
+      )}
 
       {showAddForm && <AddGuestForm onDone={() => setShowAddForm(false)} />}
       {showImportForm && <ImportGuestsForm onDone={() => setShowImportForm(false)} />}
