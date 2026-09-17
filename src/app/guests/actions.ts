@@ -1,7 +1,7 @@
 "use server";
 
-import Papa from "papaparse";
 import { revalidatePath } from "next/cache";
+import { parseGuestTable, parseGuestText, type GuestImportParse } from "@/lib/guest-import";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getResendClient, INQUIRY_FROM_ADDRESS } from "@/lib/resend";
@@ -139,104 +139,76 @@ export async function deleteGuest(formData: FormData): Promise<{ error?: string 
   return {};
 }
 
-function parseYesNo(value: string | undefined): boolean {
-  const normalized = (value ?? "").trim().toLowerCase();
-  return ["yes", "y", "true", "1"].includes(normalized);
+const MAX_IMPORT_ROWS = 1000;
+
+function rowsForInsert(parsed: GuestImportParse, weddingId: string, userId: string) {
+  return parsed.rows.map((row) => ({
+    wedding_id: weddingId,
+    user_id: userId,
+    ...row.values,
+  }));
 }
 
-function parseStatus(value: string | undefined): GuestStatus {
-  const normalized = (value ?? "").trim().toLowerCase();
-  return VALID_STATUSES.includes(normalized as GuestStatus) ? (normalized as GuestStatus) : "invited";
+/**
+ * Rejects the whole batch if any row is bad.
+ *
+ * Half a guest list is worse than none: working out which forty of a hundred
+ * and twenty landed -- and which duplicates you are about to create by trying
+ * again -- is harder than fixing the sheet and re-importing.
+ */
+function importBlocker(parsed: GuestImportParse): string | undefined {
+  if (parsed.error) return parsed.error;
+  if (parsed.rows.length === 0) return "No guests found to import.";
+  if (parsed.rows.length > MAX_IMPORT_ROWS) {
+    return `That's ${parsed.rows.length} rows — import at most ${MAX_IMPORT_ROWS} at a time.`;
+  }
+  const invalid = parsed.rows.filter((row) => row.errors.length > 0);
+  if (invalid.length > 0) {
+    return `${invalid.length} ${invalid.length === 1 ? "row still needs" : "rows still need"} fixing — nothing was imported.`;
+  }
+  return undefined;
 }
 
-function parsePriority(value: string | undefined): GuestPriority {
-  const normalized = (value ?? "").trim().toLowerCase().replace(/[\s-]+/g, "_");
-  if (VALID_PRIORITIES.includes(normalized as GuestPriority)) return normalized as GuestPriority;
-  if (normalized.startsWith("must")) return "must_invite";
-  if (normalized.startsWith("would")) return "would_like";
-  if (normalized.startsWith("if")) return "if_room";
-  return "must_invite";
-}
-
-function guestRowsFromRecords(
-  records: Record<string, string>[],
-  weddingId: string,
-  userId: string,
-) {
-  let skipped = 0;
-  const rows = records
-    .map((row) => {
-      const name = (row.name ?? "").trim();
-      if (!name) {
-        skipped++;
-        return null;
-      }
-      return {
-        wedding_id: weddingId,
-        user_id: userId,
-        name,
-        household: (row.household ?? "").trim() || null,
-        email: (row.email ?? "").trim() || null,
-        plus_one: parseYesNo(row.plus_one),
-        plus_one_name: (row.plus_one_name ?? "").trim() || null,
-        status: parseStatus(row.status),
-        priority: parsePriority(row.priority),
-        meal: (row.meal ?? "").trim() || null,
-        notes: (row.notes ?? "").trim() || null,
-        thanked: parseYesNo(row.thanked),
-      };
-    })
-    .filter((row): row is NonNullable<typeof row> => row !== null);
-
-  return { rows, skipped };
-}
-
-export async function importGuestsFromCsv(
+/**
+ * Imports a table the browser has already turned into rows.
+ *
+ * .xlsx is unzipped and parsed in the browser: the Workers runtime allows
+ * 10ms of CPU per request, which a spreadsheet parse can easily blow. That
+ * doesn't cost anything in trust -- the rows are re-validated here with the
+ * same parser the preview used, so a hand-edited payload gets no further
+ * than a pasted one.
+ */
+export async function importGuestRows(
   formData: FormData,
-): Promise<{ error?: string; imported?: number; skipped?: number }> {
+): Promise<{ error?: string; imported?: number }> {
   const { supabase, user, wedding } = await requireOwnWedding();
+  if (!wedding) return { error: "Set up your wedding on the Dashboard first." };
 
-  if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+  let table: string[][];
+  try {
+    const raw: unknown = JSON.parse((formData.get("rows") as string) || "[]");
+    if (!Array.isArray(raw)) throw new Error("not a table");
+    table = raw.map((row: unknown) =>
+      (Array.isArray(row) ? row : []).map((cell) => (cell == null ? "" : String(cell))),
+    );
+  } catch {
+    return { error: "Couldn't read that file — please try again." };
   }
 
-  const file = formData.get("file") as File | null;
-  if (!file || file.size === 0) {
-    return { error: "Choose a CSV file to import." };
-  }
+  const parsed = parseGuestTable(table);
+  const blocker = importBlocker(parsed);
+  if (blocker) return { error: blocker };
 
-  const text = await file.text();
-  const parsed = Papa.parse<Record<string, string>>(text, {
-    header: true,
-    skipEmptyLines: true,
-    transformHeader: (header) => header.trim().toLowerCase(),
-  });
-
-  if (parsed.errors.length > 0) {
-    return { error: `Could not read the CSV: ${parsed.errors[0].message}` };
-  }
-
-  const { rows, skipped } = guestRowsFromRecords(parsed.data, wedding.id, user.id);
-
-  if (rows.length === 0) {
-    return { error: "No valid rows found — each row needs at least a name.", skipped };
-  }
-
-  const { error } = await supabase.from("guests").insert(rows);
-
-  if (error) {
-    return { error: error.message };
-  }
+  const { error } = await supabase
+    .from("guests")
+    .insert(rowsForInsert(parsed, wedding.id, user.id));
+  if (error) return { error: error.message };
 
   revalidatePath("/guests");
   revalidatePath("/budget");
-  return { imported: rows.length, skipped };
+  return { imported: parsed.rows.length };
 }
 
-// A publicly-link-shared Google Sheet ("Anyone with the link" access) can
-// be fetched as plain CSV via Sheets' own export endpoint -- no Google API
-// key or OAuth needed. Extracts the sheet ID (and tab gid, if the URL
-// points at a specific tab) straight from the pasted URL.
 function parseGoogleSheetUrl(url: string): { id: string; gid: string } | null {
   const idMatch = url.match(/\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/);
   if (!idMatch) return null;
@@ -246,22 +218,15 @@ function parseGoogleSheetUrl(url: string): { id: string; gid: string } | null {
 
 export async function importGuestsFromGoogleSheet(
   formData: FormData,
-): Promise<{ error?: string; imported?: number; skipped?: number }> {
+): Promise<{ error?: string; imported?: number }> {
   const { supabase, user, wedding } = await requireOwnWedding();
-
-  if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
-  }
+  if (!wedding) return { error: "Set up your wedding on the Dashboard first." };
 
   const sheetUrl = ((formData.get("sheet_url") as string) || "").trim();
-  if (!sheetUrl) {
-    return { error: "Paste a Google Sheet URL." };
-  }
+  if (!sheetUrl) return { error: "Paste a Google Sheet URL." };
 
   const sheet = parseGoogleSheetUrl(sheetUrl);
-  if (!sheet) {
-    return { error: "That doesn't look like a Google Sheets URL." };
-  }
+  if (!sheet) return { error: "That doesn't look like a Google Sheets URL." };
 
   const exportUrl = `https://docs.google.com/spreadsheets/d/${sheet.id}/export?format=csv&gid=${sheet.gid}`;
 
@@ -271,7 +236,7 @@ export async function importGuestsFromGoogleSheet(
     if (!response.ok) {
       return {
         error:
-          "Couldn't read that sheet. Make sure its access is set to \"Anyone with the link\" and try again.",
+          'Couldn\u2019t read that sheet. Its sharing has to be set to "Anyone with the link" for this to work — or download it and upload the file instead, which keeps it private.',
       };
     }
     text = await response.text();
@@ -279,31 +244,18 @@ export async function importGuestsFromGoogleSheet(
     return { error: "Couldn't reach that Google Sheet. Check the URL and try again." };
   }
 
-  const parsed = Papa.parse<Record<string, string>>(text, {
-    header: true,
-    skipEmptyLines: true,
-    transformHeader: (header) => header.trim().toLowerCase(),
-  });
+  const parsed = parseGuestText(text);
+  const blocker = importBlocker(parsed);
+  if (blocker) return { error: blocker };
 
-  if (parsed.errors.length > 0) {
-    return { error: `Could not read the sheet: ${parsed.errors[0].message}` };
-  }
-
-  const { rows, skipped } = guestRowsFromRecords(parsed.data, wedding.id, user.id);
-
-  if (rows.length === 0) {
-    return { error: "No valid rows found — each row needs at least a name.", skipped };
-  }
-
-  const { error } = await supabase.from("guests").insert(rows);
-
-  if (error) {
-    return { error: error.message };
-  }
+  const { error } = await supabase
+    .from("guests")
+    .insert(rowsForInsert(parsed, wedding.id, user.id));
+  if (error) return { error: error.message };
 
   revalidatePath("/guests");
   revalidatePath("/budget");
-  return { imported: rows.length, skipped };
+  return { imported: parsed.rows.length };
 }
 
 export async function addRegistryItem(formData: FormData): Promise<{ error?: string }> {

@@ -7,11 +7,11 @@ import {
   addGuest,
   updateGuest,
   deleteGuest,
-  importGuestsFromCsv,
   importGuestsFromGoogleSheet,
   setGuestThanked,
 } from "./actions";
 import { draftThankYouNote, saveThankYouNote } from "./thank-you-actions";
+import { GuestImportFileTab } from "./guest-import-panel";
 import { FilterDisclosure } from "@/components/filter-disclosure";
 import { SearchBox } from "@/components/search-box";
 import { MEAL_OPTIONS } from "@/lib/meal-options";
@@ -54,38 +54,49 @@ function csvField(value: string) {
   return /[",\n]/.test(value) ? `"${value.replace(/"/g, '""')}"` : value;
 }
 
+/** One definition, so the CSV and the Excel file can't drift apart -- and so
+ *  the headings we export are ones our own importer reads back. */
+const EXPORT_COLUMNS: { header: string; value: (guest: Guest) => string }[] = [
+  { header: "Name", value: (g) => g.name },
+  { header: "Household", value: (g) => g.household ?? "" },
+  { header: "Email", value: (g) => g.email ?? "" },
+  { header: "Phone", value: (g) => g.phone ?? "" },
+  { header: "Street Address", value: (g) => g.address_line1 ?? "" },
+  { header: "Address Line 2", value: (g) => g.address_line2 ?? "" },
+  { header: "City", value: (g) => g.city ?? "" },
+  { header: "State", value: (g) => g.state ?? "" },
+  { header: "ZIP", value: (g) => g.postal_code ?? "" },
+  { header: "Country", value: (g) => g.country ?? "" },
+  { header: "Plus One", value: (g) => (g.plus_one ? "yes" : "no") },
+  { header: "Plus One Name", value: (g) => g.plus_one_name ?? "" },
+  { header: "Status", value: (g) => g.status },
+  { header: "Priority", value: (g) => g.priority },
+  { header: "Meal", value: (g) => g.meal ?? "" },
+  { header: "Notes", value: (g) => g.notes ?? "" },
+  { header: "Gift", value: (g) => g.gift_description ?? "" },
+  { header: "Thanked", value: (g) => (g.thanked ? "yes" : "no") },
+];
+
 function guestsToCsv(guests: Guest[]) {
-  const headers = [
-    "name",
-    "household",
-    "email",
-    "plus_one",
-    "status",
-    "priority",
-    "plus_one_name",
-    "meal",
-    "notes",
-    "gift",
-    "thanked",
-  ];
   const rows = guests.map((guest) =>
-    [
-      guest.name,
-      guest.household ?? "",
-      guest.email ?? "",
-      guest.plus_one ? "yes" : "no",
-      guest.status,
-      guest.priority,
-      guest.plus_one_name ?? "",
-      guest.meal ?? "",
-      guest.notes ?? "",
-      guest.gift_description ?? "",
-      guest.thanked ? "yes" : "no",
-    ]
-      .map((value) => csvField(String(value)))
-      .join(","),
+    EXPORT_COLUMNS.map((col) => csvField(col.value(guest))).join(","),
   );
-  return [headers.join(","), ...rows].join("\n");
+  return [EXPORT_COLUMNS.map((c) => c.header).join(","), ...rows].join("\n");
+}
+
+function exportFileName(extension: string) {
+  return `guests-${new Date().toISOString().slice(0, 10)}.${extension}`;
+}
+
+async function downloadGuestsXlsx(guests: Guest[]) {
+  const { default: writeXlsxFile } = await import("write-excel-file/browser");
+  const data = [
+    EXPORT_COLUMNS.map((col) => ({ value: col.header, fontWeight: "bold" as const })),
+    ...guests.map((guest) => EXPORT_COLUMNS.map((col) => ({ value: col.value(guest) }))),
+  ];
+  await writeXlsxFile(data, {
+    columns: EXPORT_COLUMNS.map((col) => ({ width: Math.max(12, col.header.length + 4) })),
+  }).toFile(exportFileName("xlsx"));
 }
 
 function downloadGuestsCsv(guests: Guest[]) {
@@ -93,7 +104,7 @@ function downloadGuestsCsv(guests: Guest[]) {
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;
-  link.download = `guests-${new Date().toISOString().slice(0, 10)}.csv`;
+  link.download = exportFileName("csv");
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
@@ -262,109 +273,28 @@ function AddGuestForm({ onDone }: { onDone: () => void }) {
   );
 }
 
-const columnHelpText = (
-  <p className="text-sm text-ink">
-    Columns: <code className="font-mono-numbers text-xs">name</code> (required),{" "}
-    <code className="font-mono-numbers text-xs">household</code>,{" "}
-    <code className="font-mono-numbers text-xs">email</code>,{" "}
-    <code className="font-mono-numbers text-xs">plus_one</code> (yes/no),{" "}
-    <code className="font-mono-numbers text-xs">plus_one_name</code>,{" "}
-    <code className="font-mono-numbers text-xs">status</code> (invited/confirmed/declined/
-    pending), <code className="font-mono-numbers text-xs">priority</code> (must_invite/
-    would_like/if_room), <code className="font-mono-numbers text-xs">meal</code>,{" "}
-    <code className="font-mono-numbers text-xs">notes</code>,{" "}
-    <code className="font-mono-numbers text-xs">thanked</code> (yes/no).{" "}
-    <a href="/guests-template.csv" download className="text-brass hover:underline">
-      Download a template
-    </a>
-    .
-  </p>
-);
-
 function ImportResultMessage({
   error,
   result,
 }: {
   error: string | undefined;
-  result: { imported: number; skipped: number } | undefined;
+  result: { imported: number } | undefined;
 }) {
   return (
     <>
       {error && <p className="mt-3 text-sm text-red-800">{error}</p>}
       {result && (
         <p className="mt-3 text-sm text-forest">
-          Imported {result.imported} guest{result.imported === 1 ? "" : "s"}
-          {result.skipped > 0
-            ? ` — skipped ${result.skipped} row${result.skipped === 1 ? "" : "s"} without a name.`
-            : "."}
+          Imported {result.imported} guest{result.imported === 1 ? "" : "s"}.
         </p>
       )}
     </>
   );
 }
 
-function ImportFileTab({ onDone }: { onDone: () => void }) {
-  const [error, setError] = useState<string | undefined>(undefined);
-  const [result, setResult] = useState<{ imported: number; skipped: number } | undefined>(
-    undefined,
-  );
-  const [isPending, startTransition] = useTransition();
-  const formRef = useRef<HTMLFormElement>(null);
-
-  function handleSubmit(formData: FormData) {
-    startTransition(async () => {
-      const response = await importGuestsFromCsv(formData);
-      if (response?.error) {
-        setError(response.error);
-        setResult(undefined);
-      } else {
-        setError(undefined);
-        setResult({ imported: response.imported ?? 0, skipped: response.skipped ?? 0 });
-        formRef.current?.reset();
-      }
-    });
-  }
-
-  return (
-    <form ref={formRef} action={handleSubmit}>
-      {columnHelpText}
-      <p className="mt-2 text-xs text-ink/50">
-        Have an Excel file? Open it and use File &rarr; Save As / Export &rarr; CSV, then upload
-        that.
-      </p>
-      <input
-        type="file"
-        name="file"
-        accept=".csv,text/csv"
-        required
-        className="mt-3 block w-full text-sm text-ink file:mr-3 file:rounded-md file:border file:border-hairline file:bg-card file:px-3 file:py-1.5 file:text-sm file:text-ink hover:file:border-forest"
-      />
-      <ImportResultMessage error={error} result={result} />
-      <div className="mt-4 flex items-center gap-3">
-        <button
-          type="submit"
-          disabled={isPending}
-          className="rounded-md bg-forest px-4 py-2 font-medium text-parchment transition-colors hover:bg-forest/90 disabled:opacity-60"
-        >
-          {isPending ? "Importing..." : "Import file"}
-        </button>
-        <button
-          type="button"
-          onClick={onDone}
-          className="rounded-md border border-hairline px-4 py-2 font-medium text-ink transition-colors hover:border-forest"
-        >
-          Close
-        </button>
-      </div>
-    </form>
-  );
-}
-
 function ImportSheetTab({ onDone }: { onDone: () => void }) {
   const [error, setError] = useState<string | undefined>(undefined);
-  const [result, setResult] = useState<{ imported: number; skipped: number } | undefined>(
-    undefined,
-  );
+  const [result, setResult] = useState<{ imported: number } | undefined>(undefined);
   const [isPending, startTransition] = useTransition();
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -376,7 +306,7 @@ function ImportSheetTab({ onDone }: { onDone: () => void }) {
         setResult(undefined);
       } else {
         setError(undefined);
-        setResult({ imported: response.imported ?? 0, skipped: response.skipped ?? 0 });
+        setResult({ imported: response.imported ?? 0 });
         formRef.current?.reset();
       }
     });
@@ -384,7 +314,9 @@ function ImportSheetTab({ onDone }: { onDone: () => void }) {
 
   return (
     <form ref={formRef} action={handleSubmit}>
-      {columnHelpText}
+      <p className="text-sm text-ink">
+        Paste a Google Sheet link. Same loose heading matching as a file upload.
+      </p>
       <label className="mt-3 flex flex-col gap-1 text-sm text-ink">
         Google Sheet URL
         <input
@@ -449,7 +381,7 @@ function ImportGuestsForm({ onDone }: { onDone: () => void }) {
           Google Sheet link
         </button>
       </div>
-      {tab === "file" ? <ImportFileTab onDone={onDone} /> : <ImportSheetTab onDone={onDone} />}
+      {tab === "file" ? <GuestImportFileTab onDone={onDone} /> : <ImportSheetTab onDone={onDone} />}
     </div>
   );
 }
@@ -797,6 +729,13 @@ export function GuestsManager({ guests }: { guests: Guest[] }) {
             className="rounded-full border border-hairline bg-parchment px-4 py-1.5 font-mono-numbers text-sm text-ink transition-colors hover:border-forest"
           >
             {showImportForm ? "Close" : "Import guests"}
+          </button>
+          <button
+            onClick={() => downloadGuestsXlsx(guests)}
+            disabled={guests.length === 0}
+            className="rounded-full border border-hairline bg-parchment px-4 py-1.5 font-mono-numbers text-sm text-ink transition-colors hover:border-forest disabled:opacity-50"
+          >
+            Export Excel
           </button>
           <button
             onClick={() => downloadGuestsCsv(guests)}
