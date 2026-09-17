@@ -52,7 +52,7 @@ export function GuestImportFileTab({ onDone }: { onDone: () => void }) {
   const [fileName, setFileName] = useState<string | null>(null);
   const [parsed, setParsed] = useState<GuestImportParse | null>(null);
   const [error, setError] = useState<string | undefined>(undefined);
-  const [imported, setImported] = useState<number | null>(null);
+  const [imported, setImported] = useState<{ count: number; skipped: number } | null>(null);
   const [isReading, setIsReading] = useState(false);
   const [isPending, startTransition] = useTransition();
 
@@ -97,11 +97,12 @@ export function GuestImportFileTab({ onDone }: { onDone: () => void }) {
     setError(undefined);
   }
 
-  function handleImport() {
+  function handleImport(skipInvalid = false) {
     const sheet = sheets.find((s) => s.name === sheetName);
     if (!sheet) return;
     const formData = new FormData();
     formData.set("rows", JSON.stringify(sheet.table));
+    if (skipInvalid) formData.set("skip_invalid", "true");
     setError(undefined);
     startTransition(async () => {
       const result = await importGuestRows(formData);
@@ -109,7 +110,7 @@ export function GuestImportFileTab({ onDone }: { onDone: () => void }) {
         setError(result.error);
         return;
       }
-      setImported(result.imported ?? 0);
+      setImported({ count: result.imported ?? 0, skipped: result.skipped ?? 0 });
       setSheets([]);
       setSheetName(null);
       setParsed(null);
@@ -123,7 +124,10 @@ export function GuestImportFileTab({ onDone }: { onDone: () => void }) {
     return (
       <div>
         <p className="text-sm text-forest">
-          Imported {imported} {imported === 1 ? "guest" : "guests"}.
+          Imported {imported.count} {imported.count === 1 ? "guest" : "guests"}
+          {imported.skipped > 0
+            ? ` — skipped ${imported.skipped} row${imported.skipped === 1 ? "" : "s"} that still needed fixing.`
+            : "."}
         </p>
         <button
           type="button"
@@ -191,6 +195,8 @@ export function GuestImportFileTab({ onDone }: { onDone: () => void }) {
         <div className="mt-4">
           <p className="font-mono-numbers text-[11px] uppercase tracking-[0.18em] text-brass">
             {parsed.rows.length} {parsed.rows.length === 1 ? "guest" : "guests"} read
+            {parsed.blankRows > 0 &&
+              ` · ${parsed.blankRows} blank row${parsed.blankRows === 1 ? "" : "s"} skipped`}
             {problems.length > 0 &&
               ` · ${problems.length} need${problems.length === 1 ? "s" : ""} fixing`}
           </p>
@@ -243,7 +249,7 @@ export function GuestImportFileTab({ onDone }: { onDone: () => void }) {
       <div className="mt-4 flex flex-wrap items-center gap-3">
         <button
           type="button"
-          onClick={handleImport}
+          onClick={() => handleImport()}
           disabled={!ready || isPending}
           className="rounded-md bg-forest px-4 py-2 font-medium text-parchment transition-colors hover:bg-forest/90 disabled:opacity-50"
         >
@@ -258,9 +264,19 @@ export function GuestImportFileTab({ onDone }: { onDone: () => void }) {
         >
           Close
         </button>
+        {problems.length > 0 && parsed && problems.length < parsed.rows.length && (
+          <button
+            type="button"
+            onClick={() => handleImport(true)}
+            disabled={isPending}
+            className="rounded-md border border-hairline px-4 py-2 font-medium text-forest transition-colors hover:border-forest disabled:opacity-50"
+          >
+            Import the {parsed.rows.length - problems.length} that are ready
+          </button>
+        )}
         {problems.length > 0 && (
           <span className="text-xs text-ink/60">
-            Fix the rows in red first — nothing imports until they all pass.
+            Fix the rows in red, or skip them — they&apos;re the only ones left out.
           </span>
         )}
       </div>
