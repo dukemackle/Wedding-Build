@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState, useTransition } from "react";
 import type { Vendor, VendorFavoriteEntry, VendorInquiry, VendorInquiryStatus } from "@/lib/supabase/types";
-import { REGIONS } from "@/lib/wedding-options";
+import { STYLE_TIERS } from "@/lib/wedding-options";
 import {
   markVendorBooked,
   updateInquiryBookedAmount,
@@ -13,7 +13,7 @@ import {
   updateVendorFavoriteNotes,
 } from "./actions";
 import { SearchBox } from "@/components/search-box";
-import { FilterDisclosure } from "@/components/filter-disclosure";
+import { FilterDropdown } from "@/components/filter-dropdown";
 import { VendorFavoriteButton } from "./vendor-card-shared";
 import { InquiryForm } from "./inquiry-form";
 import { VendorFollowUps } from "./vendor-follow-ups";
@@ -291,7 +291,7 @@ export function VendorsManager({
   const vendorById = new Map(vendors.map((v) => [v.id, v]));
 
   const [categoryFilter, setCategoryFilter] = useState<string | "all">("all");
-  const [regionFilter, setRegionFilter] = useState<string | "all">("all");
+  const [priceFilter, setPriceFilter] = useState<string | "all">("all");
   const [stateFilter, setStateFilter] = useState<string | "all">("all");
   const [cityFilter, setCityFilter] = useState<string | "all">("all");
   const [viewMode, setViewMode] = useState<"list" | "map">("list");
@@ -340,14 +340,14 @@ export function VendorsManager({
     setCityFilter("all");
   }
 
-  const activeFilterCount = [categoryFilter, regionFilter, stateFilter, cityFilter].filter(
+  const activeFilterCount = [categoryFilter, priceFilter, stateFilter, cityFilter].filter(
     (f) => f !== "all",
   ).length;
 
   const filteredVendors = vendors.filter(
     (v) =>
       (categoryFilter === "all" || v.category === categoryFilter) &&
-      (regionFilter === "all" || v.region === regionFilter) &&
+      (priceFilter === "all" || v.price_tier === priceFilter) &&
       (stateFilter === "all" || v.state === stateFilter) &&
       (cityFilter === "all" || v.city === cityFilter) &&
       v.name.toLowerCase().includes(search.trim().toLowerCase()),
@@ -389,97 +389,51 @@ export function VendorsManager({
         <div className="mb-4">
           <SearchBox value={search} onChange={setSearch} placeholder="Search vendors by name..." />
         </div>
-        <FilterDisclosure activeCount={activeFilterCount}>
-          <div className="flex flex-wrap gap-4">
-            <div>
-              <label htmlFor="vendor-state-filter" className="mb-1 block text-xs uppercase tracking-wide text-ink/50">
-                State
-              </label>
-              <select
-                id="vendor-state-filter"
-                value={stateFilter}
-                onChange={(e) => handleStateFilterChange(e.target.value)}
-                className="w-full max-w-xs rounded-md border border-hairline bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-forest sm:w-auto"
-              >
-                <option value="all">All states</option>
-                {availableStates.map((state) => (
-                  <option key={state} value={state}>
-                    {state}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <label htmlFor="vendor-city-filter" className="mb-1 block text-xs uppercase tracking-wide text-ink/50">
-                City
-              </label>
-              <select
-                id="vendor-city-filter"
-                value={cityFilter}
-                onChange={(e) => setCityFilter(e.target.value)}
-                disabled={availableCities.length === 0}
-                className="w-full max-w-xs rounded-md border border-hairline bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-forest disabled:opacity-50 sm:w-auto"
-              >
-                <option value="all">All cities</option>
-                {availableCities.map((city) => (
-                  <option key={city} value={city}>
-                    {city}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
-          <div className="flex flex-wrap gap-2">
+        <div className="mb-6 flex flex-wrap items-center gap-2">
+          <FilterDropdown
+            label="State"
+            allLabel="All states"
+            value={stateFilter}
+            onChange={handleStateFilterChange}
+            options={availableStates.map((state) => ({ value: state, label: state }))}
+          />
+          <FilterDropdown
+            label="City"
+            allLabel="All cities"
+            value={cityFilter}
+            onChange={setCityFilter}
+            options={availableCities.map((city) => ({ value: city, label: city }))}
+            emptyMessage="No cities for this state"
+          />
+          <FilterDropdown
+            label="Category"
+            allLabel="All categories"
+            value={categoryFilter}
+            onChange={setCategoryFilter}
+            options={categories.map((category) => ({ value: category, label: category }))}
+          />
+          <FilterDropdown
+            label="Price"
+            allLabel="Any price"
+            value={priceFilter}
+            onChange={setPriceFilter}
+            options={STYLE_TIERS.map((tier) => ({ value: tier, label: tier }))}
+          />
+          {activeFilterCount > 0 && (
             <button
-              onClick={() => setCategoryFilter("all")}
-              className={`rounded-full border px-3 py-1 text-sm transition-colors ${
-                categoryFilter === "all"
-                  ? "border-forest bg-forest text-parchment"
-                  : "border-hairline bg-parchment text-ink hover:border-forest"
-              }`}
+              type="button"
+              onClick={() => {
+                setStateFilter("all");
+                setCityFilter("all");
+                setCategoryFilter("all");
+                setPriceFilter("all");
+              }}
+              className="text-sm text-brass hover:underline"
             >
-              All categories
+              Clear filters ({activeFilterCount})
             </button>
-            {categories.map((category) => (
-              <button
-                key={category}
-                onClick={() => setCategoryFilter(category)}
-                className={`rounded-full border px-3 py-1 text-sm transition-colors ${
-                  categoryFilter === category
-                    ? "border-forest bg-forest text-parchment"
-                    : "border-hairline bg-parchment text-ink hover:border-forest"
-                }`}
-              >
-                {category}
-              </button>
-            ))}
-          </div>
-          <div className="flex flex-wrap gap-2">
-            <button
-              onClick={() => setRegionFilter("all")}
-              className={`rounded-full border px-3 py-1 text-sm transition-colors ${
-                regionFilter === "all"
-                  ? "border-forest bg-forest text-parchment"
-                  : "border-hairline bg-parchment text-ink hover:border-forest"
-              }`}
-            >
-              All regions
-            </button>
-            {REGIONS.map((region) => (
-              <button
-                key={region}
-                onClick={() => setRegionFilter(region)}
-                className={`rounded-full border px-3 py-1 text-sm transition-colors ${
-                  regionFilter === region
-                    ? "border-forest bg-forest text-parchment"
-                    : "border-hairline bg-parchment text-ink hover:border-forest"
-                }`}
-              >
-                {region}
-              </button>
-            ))}
-          </div>
-        </FilterDisclosure>
+          )}
+        </div>
 
         <div className="mb-6 flex gap-2">
           <button
