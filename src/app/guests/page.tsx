@@ -156,6 +156,7 @@ export default async function GuestsPage() {
             wedding={wedding}
             faqs={weddingFaqs ?? []}
             accommodations={accommodations ?? []}
+            guestSiteUrl={wedding.public_slug ? `${origin}/w/${wedding.public_slug}` : null}
           />
         </div>
       </div>
