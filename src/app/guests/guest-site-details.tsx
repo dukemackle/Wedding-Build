@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState, useTransition } from "react";
+import { ViewGuestSiteButton } from "@/components/view-guest-site-button";
 import type { Wedding, WeddingAccommodation, WeddingFaq } from "@/lib/supabase/types";
 import {
   addAccommodation,
@@ -251,10 +252,13 @@ export function GuestSiteDetails({
   wedding,
   faqs,
   accommodations,
+  guestSiteUrl,
 }: {
   wedding: Wedding;
   faqs: WeddingFaq[];
   accommodations: WeddingAccommodation[];
+  /** Null while the guest site is turned off, which hides the view button. */
+  guestSiteUrl: string | null;
 }) {
   const [tab, setTab] = useState<"details" | "stays" | "faq">("details");
 
@@ -266,7 +270,10 @@ export function GuestSiteDetails({
 
   return (
     <div className="mt-8 w-full rounded-lg border border-hairline bg-card p-6 shadow-sm">
-      <h2 className="font-display text-2xl font-semibold text-forest">Guest site details</h2>
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <h2 className="font-display text-2xl font-semibold text-forest">Guest site details</h2>
+        <ViewGuestSiteButton url={guestSiteUrl} variant="quiet" />
+      </div>
       <p className="mt-1 text-sm text-ink/70">
         The questions guests ask over and over. Anything you fill in here shows up on your guest
         site; anything you leave blank stays hidden.

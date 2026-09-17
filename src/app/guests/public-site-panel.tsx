@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState, useTransition } from "react";
+import { ViewGuestSiteButton } from "@/components/view-guest-site-button";
 import type { RsvpSubmission } from "@/lib/supabase/types";
 import {
   approveRsvpSubmission,
@@ -189,6 +190,7 @@ export function PublicSitePanel({
       {shareUrl && (
         <div className="mt-4 flex flex-wrap items-center gap-3 rounded-md border border-hairline bg-parchment px-3 py-2">
           <code className="min-w-0 flex-1 truncate text-sm text-ink">{shareUrl}</code>
+          <ViewGuestSiteButton url={shareUrl} />
           <button
             onClick={handleCopy}
             className="shrink-0 rounded-md border border-hairline bg-card px-3 py-1 text-xs text-forest transition-colors hover:border-forest"
