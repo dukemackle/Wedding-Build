@@ -23,6 +23,8 @@ export type Wedding = {
   invite_token: string | null;
   hidden_budget_categories: string[];
   itinerary_published: boolean;
+  /** A Google Sheet the couple imported from, kept so they can reopen it. */
+  spreadsheet_url: string | null;
   created_at: string;
   updated_at: string;
 };

@@ -321,6 +321,7 @@ export default async function BudgetPage() {
             quotedCount={categoriesQuoted}
             payerSuggestions={payerSuggestions}
             contractsByRowKey={Object.fromEntries(contractsByRowKey)}
+            spreadsheetUrl={wedding.spreadsheet_url}
           />
         </FadeInSection>
 

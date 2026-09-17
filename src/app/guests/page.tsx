@@ -150,7 +150,7 @@ export default async function GuestsPage() {
           />
           <GuestbookFeed guests={guests ?? []} publicSiteOn={Boolean(wedding.public_slug)} />
           <SongRequests guests={guests ?? []} />
-          <GuestsManager guests={guests ?? []} />
+          <GuestsManager guests={guests ?? []} spreadsheetUrl={wedding.spreadsheet_url} />
           <RegistryManager registryItems={registryItems ?? []} />
           <GuestSiteDetails
             wedding={wedding}
