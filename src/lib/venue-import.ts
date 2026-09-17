@@ -1,4 +1,5 @@
 import { STATES, STYLE_TIERS, VENUE_SETTINGS, VENUE_TYPES } from "@/lib/wedding-options";
+import { mapColumns, readTable } from "@/lib/spreadsheet";
 
 /**
  * Parses a pasted spreadsheet of venues into rows ready for insert.
@@ -89,62 +90,6 @@ const FIELD_ALIASES: Record<string, keyof VenueImportValues> = {
   site: "website",
 };
 
-function normaliseHeading(value: string) {
-  return value.toLowerCase().replace(/[^a-z]/g, "");
-}
-
-/**
- * A character-level reader rather than a line split, because a cell copied
- * out of a spreadsheet can legitimately contain newlines inside quotes --
- * venue descriptions routinely do.
- */
-function parseTable(text: string, delimiter: string): string[][] {
-  const rows: string[][] = [];
-  let row: string[] = [];
-  let cell = "";
-  let quoted = false;
-
-  for (let i = 0; i < text.length; i++) {
-    const ch = text[i];
-
-    if (quoted) {
-      if (ch === '"') {
-        if (text[i + 1] === '"') {
-          cell += '"';
-          i++;
-        } else {
-          quoted = false;
-        }
-      } else {
-        cell += ch;
-      }
-      continue;
-    }
-
-    if (ch === '"') {
-      quoted = true;
-    } else if (ch === delimiter) {
-      row.push(cell);
-      cell = "";
-    } else if (ch === "\n" || ch === "\r") {
-      if (ch === "\r" && text[i + 1] === "\n") i++;
-      row.push(cell);
-      cell = "";
-      rows.push(row);
-      row = [];
-    } else {
-      cell += ch;
-    }
-  }
-
-  if (cell !== "" || row.length > 0) {
-    row.push(cell);
-    rows.push(row);
-  }
-
-  return rows.filter((r) => r.some((c) => c.trim() !== ""));
-}
-
 function optionError(label: string, value: string, allowed: readonly string[]) {
   // Short lists are worth spelling out; the 50 states are not, and printing
   // them turns one bad cell into a wall of text in the preview.
@@ -161,28 +106,15 @@ function toNumber(raw: string) {
 }
 
 export function parseVenueTable(text: string): VenueImportParse {
-  const trimmed = text.trim();
-  if (!trimmed) {
-    return { rows: [], error: "Nothing pasted yet.", unknownColumns: [] };
-  }
-
-  // Tabs mean it came straight out of a spreadsheet; otherwise assume CSV.
-  const firstLine = trimmed.split(/\r?\n/, 1)[0] ?? "";
-  const delimiter = firstLine.includes("\t") ? "\t" : ",";
-
-  const table = parseTable(trimmed, delimiter);
+  const table = readTable(text);
   if (table.length === 0) {
     return { rows: [], error: "Nothing pasted yet.", unknownColumns: [] };
   }
 
-  const headings = table[0].map((h) => normaliseHeading(h));
-  const unknownColumns: string[] = [];
-  const columnField: (keyof VenueImportValues | null)[] = headings.map((h, i) => {
-    if (!h) return null;
-    const field = FIELD_ALIASES[h] ?? null;
-    if (!field) unknownColumns.push(table[0][i].trim());
-    return field;
-  });
+  const { columnField, unknownColumns } = mapColumns<keyof VenueImportValues>(
+    table[0],
+    FIELD_ALIASES,
+  );
 
   if (!columnField.includes("name")) {
     return {
