@@ -45,7 +45,31 @@ export type GuestImportParse = {
   rows: GuestImportRow[];
   error?: string;
   unknownColumns: string[];
+  /** Spacer rows passed over. Real lists are full of them. */
+  blankRows: number;
 };
+
+/**
+ * Fields that, if any is filled, mean a row is a guest someone started.
+ *
+ * Real guest lists use empty rows to separate households, and those rows are
+ * not mistakes to report -- they are formatting. But a row carrying an email
+ * or an address and no name IS a mistake, and stays an error. Unmapped
+ * columns are ignored here on purpose: a leftover dropdown in a column Wren
+ * doesn't read shouldn't make an empty row look occupied.
+ */
+const IDENTITY_FIELDS: GuestField[] = [
+  "name",
+  "first_name",
+  "last_name",
+  "email",
+  "phone",
+  "address_line1",
+  "address_line2",
+  "city",
+  "postal_code",
+  "plus_one_name",
+];
 
 /**
  * Real guest lists never use our column names, so the aliases matter more
@@ -156,7 +180,7 @@ function parseYesNo(raw: string): boolean {
 
 export function parseGuestTable(table: string[][]): GuestImportParse {
   if (table.length === 0) {
-    return { rows: [], error: "Nothing to import yet.", unknownColumns: [] };
+    return { rows: [], error: "Nothing to import yet.", unknownColumns: [], blankRows: 0 };
   }
 
   const { columnField, unknownColumns } = mapColumns<GuestField>(table[0], FIELD_ALIASES);
@@ -172,19 +196,35 @@ export function parseGuestTable(table: string[][]): GuestImportParse {
       error:
         "No name column found. The first row must be headings, with a Name column — or First Name and Last Name.",
       unknownColumns,
+      blankRows: 0,
     };
   }
 
   const body = table.slice(1);
   if (body.length === 0) {
-    return { rows: [], error: "Found headings but no guests underneath them.", unknownColumns };
+    return {
+      rows: [],
+      error: "Found headings but no guests underneath them.",
+      unknownColumns,
+      blankRows: 0,
+    };
   }
 
-  const rows = body.map((cells, index) => {
-    const cell = (field: GuestField) => {
-      const at = columnField.indexOf(field);
-      return at === -1 ? "" : (cells[at] ?? "").trim();
-    };
+  const cellOf = (cells: string[], field: GuestField) => {
+    const at = columnField.indexOf(field);
+    return at === -1 ? "" : (cells[at] ?? "").trim();
+  };
+
+  // Keep the spreadsheet's own row numbers, so a reported problem can be
+  // found in the file -- filtering first would renumber everything.
+  const numbered = body.map((cells, index) => ({ cells, line: index + 1 }));
+  const occupied = numbered.filter(({ cells }) =>
+    IDENTITY_FIELDS.some((field) => cellOf(cells, field) !== ""),
+  );
+  const blankRows = numbered.length - occupied.length;
+
+  const rows = occupied.map(({ cells, line }) => {
+    const cell = (field: GuestField) => cellOf(cells, field);
 
     const errors: string[] = [];
 
@@ -225,17 +265,17 @@ export function parseGuestTable(table: string[][]): GuestImportParse {
       gift_description: cell("gift_description") || null,
     };
 
-    return { line: index + 1, values, errors };
+    return { line, values, errors };
   });
 
-  return { rows, unknownColumns };
+  return { rows, unknownColumns, blankRows };
 }
 
 /** Convenience for CSV/TSV text, which the Google Sheet path still uses. */
 export function parseGuestText(text: string): GuestImportParse {
   const table = readTable(text);
   if (table.length === 0) {
-    return { rows: [], error: "That sheet looks empty.", unknownColumns: [] };
+    return { rows: [], error: "That sheet looks empty.", unknownColumns: [], blankRows: 0 };
   }
   return parseGuestTable(table);
 }

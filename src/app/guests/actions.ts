@@ -142,31 +142,39 @@ export async function deleteGuest(formData: FormData): Promise<{ error?: string 
 const MAX_IMPORT_ROWS = 1000;
 
 function rowsForInsert(parsed: GuestImportParse, weddingId: string, userId: string) {
-  return parsed.rows.map((row) => ({
-    wedding_id: weddingId,
-    user_id: userId,
-    ...row.values,
-  }));
+  return parsed.rows
+    .filter((row) => row.errors.length === 0)
+    .map((row) => ({
+      wedding_id: weddingId,
+      user_id: userId,
+      ...row.values,
+    }));
 }
 
 /**
- * Rejects the whole batch if any row is bad.
+ * Refuses a batch that can't be imported as asked.
  *
- * Half a guest list is worse than none: working out which forty of a hundred
- * and twenty landed -- and which duplicates you are about to create by trying
- * again -- is harder than fixing the sheet and re-importing.
+ * The default is all-or-nothing: working out which forty of a hundred and
+ * twenty landed, and which duplicates you are about to create by trying
+ * again, is harder than fixing the sheet. But on a real three-hundred-row
+ * list two bad rows shouldn't hold back the other two hundred and ninety
+ * eight, so the caller can opt into skipping them -- knowingly, having seen
+ * in the preview exactly which rows those are.
  */
-function importBlocker(parsed: GuestImportParse): string | undefined {
+function importBlocker(parsed: GuestImportParse, skipInvalid: boolean): string | undefined {
   if (parsed.error) return parsed.error;
   if (parsed.rows.length === 0) return "No guests found to import.";
   if (parsed.rows.length > MAX_IMPORT_ROWS) {
     return `That's ${parsed.rows.length} rows — import at most ${MAX_IMPORT_ROWS} at a time.`;
   }
   const invalid = parsed.rows.filter((row) => row.errors.length > 0);
-  if (invalid.length > 0) {
-    return `${invalid.length} ${invalid.length === 1 ? "row still needs" : "rows still need"} fixing — nothing was imported.`;
+  if (invalid.length === 0) return undefined;
+  if (skipInvalid) {
+    return invalid.length === parsed.rows.length
+      ? "Every row has a problem — nothing to import."
+      : undefined;
   }
-  return undefined;
+  return `${invalid.length} ${invalid.length === 1 ? "row still needs" : "rows still need"} fixing — nothing was imported.`;
 }
 
 /**
@@ -180,9 +188,11 @@ function importBlocker(parsed: GuestImportParse): string | undefined {
  */
 export async function importGuestRows(
   formData: FormData,
-): Promise<{ error?: string; imported?: number }> {
+): Promise<{ error?: string; imported?: number; skipped?: number }> {
   const { supabase, user, wedding } = await requireOwnWedding();
   if (!wedding) return { error: "Set up your wedding on the Dashboard first." };
+
+  const skipInvalid = formData.get("skip_invalid") === "true";
 
   let table: string[][];
   try {
@@ -196,17 +206,16 @@ export async function importGuestRows(
   }
 
   const parsed = parseGuestTable(table);
-  const blocker = importBlocker(parsed);
+  const blocker = importBlocker(parsed, skipInvalid);
   if (blocker) return { error: blocker };
 
-  const { error } = await supabase
-    .from("guests")
-    .insert(rowsForInsert(parsed, wedding.id, user.id));
+  const rows = rowsForInsert(parsed, wedding.id, user.id);
+  const { error } = await supabase.from("guests").insert(rows);
   if (error) return { error: error.message };
 
   revalidatePath("/guests");
   revalidatePath("/budget");
-  return { imported: parsed.rows.length };
+  return { imported: rows.length, skipped: parsed.rows.length - rows.length };
 }
 
 function parseGoogleSheetUrl(url: string): { id: string; gid: string } | null {
@@ -245,17 +254,16 @@ export async function importGuestsFromGoogleSheet(
   }
 
   const parsed = parseGuestText(text);
-  const blocker = importBlocker(parsed);
+  const blocker = importBlocker(parsed, false);
   if (blocker) return { error: blocker };
 
-  const { error } = await supabase
-    .from("guests")
-    .insert(rowsForInsert(parsed, wedding.id, user.id));
+  const rows = rowsForInsert(parsed, wedding.id, user.id);
+  const { error } = await supabase.from("guests").insert(rows);
   if (error) return { error: error.message };
 
   revalidatePath("/guests");
   revalidatePath("/budget");
-  return { imported: parsed.rows.length };
+  return { imported: rows.length };
 }
 
 export async function addRegistryItem(formData: FormData): Promise<{ error?: string }> {

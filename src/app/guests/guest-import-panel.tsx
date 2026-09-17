@@ -52,7 +52,9 @@ export function GuestImportFileTab({ onDone }: { onDone: () => void }) {
   const [fileName, setFileName] = useState<string | null>(null);
   const [parsed, setParsed] = useState<GuestImportParse | null>(null);
   const [error, setError] = useState<string | undefined>(undefined);
-  const [imported, setImported] = useState<number | null>(null);
+  const [imported, setImported] = useState<{ count: number; skipped: number } | null>(null);
+  /** Line numbers the user has struck off. Kept out of what's sent. */
+  const [removed, setRemoved] = useState<Set<number>>(new Set());
   const [isReading, setIsReading] = useState(false);
   const [isPending, startTransition] = useTransition();
 
@@ -77,6 +79,7 @@ export function GuestImportFileTab({ onDone }: { onDone: () => void }) {
       setSheets(found);
       setSheetName(best?.name ?? null);
       setParsed(best ? parseGuestTable(best.table) : null);
+      setRemoved(new Set());
     } catch {
       setSheets([]);
       setSheetName(null);
@@ -94,14 +97,33 @@ export function GuestImportFileTab({ onDone }: { onDone: () => void }) {
     if (!sheet) return;
     setSheetName(name);
     setParsed(parseGuestTable(sheet.table));
+    setRemoved(new Set());
     setError(undefined);
   }
 
-  function handleImport() {
+  function toggleRemoved(line: number) {
+    setRemoved((current) => {
+      const next = new Set(current);
+      if (next.has(line)) next.delete(line);
+      else next.add(line);
+      return next;
+    });
+    setError(undefined);
+  }
+
+  function handleImport(skipInvalid = false) {
     const sheet = sheets.find((s) => s.name === sheetName);
     if (!sheet) return;
+    // A row's line number is its index in the table, since the header is
+    // row 0 -- so dropping them is a filter on the original grid.
+    const table =
+      removed.size === 0
+        ? sheet.table
+        : sheet.table.filter((_, index) => index === 0 || !removed.has(index));
+
     const formData = new FormData();
-    formData.set("rows", JSON.stringify(sheet.table));
+    formData.set("rows", JSON.stringify(table));
+    if (skipInvalid) formData.set("skip_invalid", "true");
     setError(undefined);
     startTransition(async () => {
       const result = await importGuestRows(formData);
@@ -109,21 +131,25 @@ export function GuestImportFileTab({ onDone }: { onDone: () => void }) {
         setError(result.error);
         return;
       }
-      setImported(result.imported ?? 0);
+      setImported({ count: result.imported ?? 0, skipped: result.skipped ?? 0 });
       setSheets([]);
       setSheetName(null);
       setParsed(null);
     });
   }
 
-  const problems = parsed?.rows.filter((row) => row.errors.length > 0) ?? [];
-  const ready = Boolean(parsed && !parsed.error && parsed.rows.length > 0 && problems.length === 0);
+  const kept = parsed?.rows.filter((row) => !removed.has(row.line)) ?? [];
+  const problems = kept.filter((row) => row.errors.length > 0);
+  const ready = Boolean(parsed && !parsed.error && kept.length > 0 && problems.length === 0);
 
   if (imported !== null) {
     return (
       <div>
         <p className="text-sm text-forest">
-          Imported {imported} {imported === 1 ? "guest" : "guests"}.
+          Imported {imported.count} {imported.count === 1 ? "guest" : "guests"}
+          {imported.skipped > 0
+            ? ` — skipped ${imported.skipped} row${imported.skipped === 1 ? "" : "s"} that still needed fixing.`
+            : "."}
         </p>
         <button
           type="button"
@@ -190,7 +216,10 @@ export function GuestImportFileTab({ onDone }: { onDone: () => void }) {
       {parsed && !parsed.error && (
         <div className="mt-4">
           <p className="font-mono-numbers text-[11px] uppercase tracking-[0.18em] text-brass">
-            {parsed.rows.length} {parsed.rows.length === 1 ? "guest" : "guests"} read
+            {kept.length} {kept.length === 1 ? "guest" : "guests"} ready
+            {parsed.blankRows > 0 &&
+              ` · ${parsed.blankRows} blank row${parsed.blankRows === 1 ? "" : "s"} skipped`}
+            {removed.size > 0 && ` · ${removed.size} removed`}
             {problems.length > 0 &&
               ` · ${problems.length} need${problems.length === 1 ? "s" : ""} fixing`}
           </p>
@@ -206,13 +235,20 @@ export function GuestImportFileTab({ onDone }: { onDone: () => void }) {
             {parsed.rows.map((row) => {
               const v = row.values;
               const place = [v.city, v.state].filter(Boolean).join(", ");
+              const isRemoved = removed.has(row.line);
+              const hasProblem = row.errors.length > 0;
               return (
                 <li
                   key={row.line}
-                  className={`rounded border px-2 py-1.5 text-xs ${
-                    row.errors.length > 0 ? "border-red-200 bg-red-50" : "border-hairline bg-card"
+                  className={`flex items-start justify-between gap-3 rounded border px-2 py-1.5 text-xs ${
+                    isRemoved
+                      ? "border-hairline bg-parchment opacity-60"
+                      : hasProblem
+                        ? "border-red-200 bg-red-50"
+                        : "border-hairline bg-card"
                   }`}
                 >
+                  <span className={`min-w-0 ${isRemoved ? "line-through" : ""}`}>
                   <span className="font-mono-numbers text-ink/40">{row.line}.</span>{" "}
                   <span className="text-ink">{v.name || "(no name)"}</span>
                   {v.plus_one && (
@@ -226,11 +262,29 @@ export function GuestImportFileTab({ onDone }: { onDone: () => void }) {
                     {place ? ` · ${place}` : ""}
                     {` · ${STATUS_LABELS[v.status] ?? v.status}`}
                   </span>
-                  {row.errors.map((message) => (
-                    <span key={message} className="mt-0.5 block text-red-800">
-                      {message}
-                    </span>
-                  ))}
+                  {!isRemoved &&
+                    row.errors.map((message) => (
+                      <span key={message} className="mt-0.5 block text-red-800">
+                        {message}
+                      </span>
+                    ))}
+                  </span>
+                  {/* A row we flagged but the couple knows is junk -- let them
+                      strike it off here rather than going back to the file. */}
+                  <button
+                    type="button"
+                    onClick={() => toggleRemoved(row.line)}
+                    aria-label={
+                      isRemoved
+                        ? `Put row ${row.line} back`
+                        : `Remove row ${row.line} from this import`
+                    }
+                    className={`shrink-0 whitespace-nowrap text-[11px] underline-offset-2 hover:underline ${
+                      isRemoved ? "text-brass" : "text-ink/45 hover:text-red-800"
+                    }`}
+                  >
+                    {isRemoved ? "Undo" : "Remove"}
+                  </button>
                 </li>
               );
             })}
@@ -243,13 +297,13 @@ export function GuestImportFileTab({ onDone }: { onDone: () => void }) {
       <div className="mt-4 flex flex-wrap items-center gap-3">
         <button
           type="button"
-          onClick={handleImport}
+          onClick={() => handleImport()}
           disabled={!ready || isPending}
           className="rounded-md bg-forest px-4 py-2 font-medium text-parchment transition-colors hover:bg-forest/90 disabled:opacity-50"
         >
           {isPending
             ? "Importing…"
-            : `Import${ready && parsed ? ` ${parsed.rows.length}` : ""}`}
+            : `Import${ready ? ` ${kept.length}` : ""}`}
         </button>
         <button
           type="button"
@@ -258,9 +312,19 @@ export function GuestImportFileTab({ onDone }: { onDone: () => void }) {
         >
           Close
         </button>
+        {problems.length > 0 && problems.length < kept.length && (
+          <button
+            type="button"
+            onClick={() => handleImport(true)}
+            disabled={isPending}
+            className="rounded-md border border-hairline px-4 py-2 font-medium text-forest transition-colors hover:border-forest disabled:opacity-50"
+          >
+            Import the {kept.length - problems.length} that are ready
+          </button>
+        )}
         {problems.length > 0 && (
           <span className="text-xs text-ink/60">
-            Fix the rows in red first — nothing imports until they all pass.
+            Fix them in your sheet, remove them here, or skip them on import.
           </span>
         )}
       </div>
