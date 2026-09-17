@@ -141,11 +141,21 @@ function BudgetRowItem({
   const [reminderSent, setReminderSent] = useState(false);
   const [actualInput, setActualInput] = useState(row.override != null ? String(row.override) : "");
   const [paidInput, setPaidInput] = useState(row.paidAmount != null ? String(row.paidAmount) : "");
+  /**
+   * What was in the paid box before "Paid in full" filled it.
+   *
+   * Ticking the box on a line that's part-paid overwrites a real number the
+   * couple typed, so unticking has to give it back rather than leaving zero.
+   * Session-only: after a reload the stored figure IS the full amount, and
+   * unticking clears it, which is what the page is showing anyway.
+   */
+  const [paidBeforeFull, setPaidBeforeFull] = useState<string | null>(null);
 
   const effectiveValue = row.override ?? row.computed ?? 0;
   const liveActual = Number(actualInput) || effectiveValue;
   const livePaid = Number(paidInput) || 0;
   const paidPct = liveActual > 0 ? Math.min(100, (livePaid / liveActual) * 100) : 0;
+  const isFullyPaid = liveActual > 0 && livePaid >= liveActual;
   const datalistId = `purchased-from-${row.key}`;
   const payerDatalistId = `paid-by-${row.key}`;
   const Icon = CATEGORY_ICONS[row.key] ?? CustomItemIcon;
@@ -159,6 +169,15 @@ function BudgetRowItem({
       const result = await onSaveAmounts(formData);
       setError(result?.error);
     });
+  }
+
+  /** Fills the paid box with the line's own total, or puts back what was there. */
+  function handlePaidInFull(checked: boolean) {
+    if (liveActual <= 0) return;
+    const next = checked ? String(liveActual) : (paidBeforeFull ?? "");
+    setPaidBeforeFull(checked ? paidInput : null);
+    setPaidInput(next);
+    handleAmountBlur("paid_amount", next);
   }
 
   function handleSaveDetails(formData: FormData) {
@@ -303,8 +322,27 @@ function BudgetRowItem({
           </div>
 
           <div>
-            <div className="flex items-baseline justify-between text-xs text-ink/50">
-              <span>Paid</span>
+            <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1 text-xs text-ink/50">
+              <span className="flex items-center gap-3">
+                Paid
+                {/* Settling a line in full is the single most common thing to
+                    record here, and it's a number the row already knows --
+                    so it shouldn't need typing. */}
+                <label
+                  className={`flex items-center gap-1.5 ${
+                    liveActual > 0 ? "cursor-pointer text-ink/60" : "text-ink/30"
+                  }`}
+                >
+                  <input
+                    type="checkbox"
+                    checked={isFullyPaid}
+                    disabled={liveActual <= 0 || isPending}
+                    onChange={(e) => handlePaidInFull(e.target.checked)}
+                    className="h-3.5 w-3.5 accent-[var(--color-forest)]"
+                  />
+                  Paid in full
+                </label>
+              </span>
               <span className="font-mono-numbers">
                 {currency.format(livePaid)} of {currency.format(liveActual)}
               </span>
