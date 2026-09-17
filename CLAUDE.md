@@ -190,12 +190,19 @@ committing to anything.
 
 **Known feature gaps, roughly by value-per-effort** (re-check before acting;
 some may have shipped since this was written):
-- *Guest messaging* — `src/lib/sms.ts` and guest SMS opt-in already exist but
-  only fire on itinerary changes. Competitors charge ~$80 for broadcast texting;
-  Wren could include it. **Flag when building:** this is the one gap on this
-  list with real recurring cost — every message is billed per segment, so a
-  broadcast to 150 guests is a genuine charge against an app with no revenue.
-  Needs a send cap and a visible count before it ships.
+- *Guest messaging* — **parked by the owner 2026-09-17; don't re-propose it
+  unprompted.** `src/lib/sms.ts` and guest SMS opt-in already exist but only
+  fire on itinerary changes. Competitors charge ~$80 for broadcast texting and
+  Wren could include it, but it's the one gap on this list with a real
+  recurring cost: Twilio bills per ~160-character segment, so a 200-character
+  message to 150 guests is 300 segments — a genuine charge against an app with
+  no revenue, behind a button someone presses the night before a wedding.
+  Before it could ever ship it needs (a) confirmation that Twilio is
+  configured in production and off a trial account (trial accounts only text
+  verified numbers, so a broadcast would silently fail for nearly every
+  guest), and (b) an owner-chosen send cap plus a visible "this will send N
+  segments to M guests" confirmation. Both are the owner's calls, not
+  assumptions to make.
 - *Seating chart PDF export* — Zola charges for this. `/itinerary/print` is
   already a working print-route pattern to copy.
 - *Registry retailer sync* — big integration lift, low strategic value; skip.
