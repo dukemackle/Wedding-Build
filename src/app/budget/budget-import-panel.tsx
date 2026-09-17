@@ -6,6 +6,7 @@ import {
   BUDGET_HEADING_EXAMPLES,
   BUDGET_IMPORT_TEMPLATE,
   detectBudgetColumns,
+  isUnpricedExtra,
   parseBudgetTable,
   type BudgetColumnMap,
   type BudgetImportParse,
@@ -22,6 +23,7 @@ const FIELD_ORDER: BudgetSingleField[] = [
   "purchased_from",
   "amount",
   "paid_amount",
+  "deposit_amount",
   "due_date",
 ];
 
@@ -86,6 +88,8 @@ export function BudgetImportPanel({ onDone }: { onDone: () => void }) {
   } | null>(null);
   /** Rows the couple has struck off. Kept out of what's sent. */
   const [removed, setRemoved] = useState<Set<number>>(new Set());
+  /** Off by default -- see isUnpricedExtra. */
+  const [includeUnpriced, setIncludeUnpriced] = useState(false);
   const [isReading, setIsReading] = useState(false);
   const [isPending, startTransition] = useTransition();
 
@@ -96,6 +100,11 @@ export function BudgetImportPanel({ onDone }: { onDone: () => void }) {
   // only thing that changes it, and the React Compiler can't keep a manual
   // memo whose dependency is a grid held in state.
   const parsed: BudgetImportParse | null = sheet ? parseBudgetTable(sheet.table, columns) : null;
+
+  const unpriced = parsed?.rows.filter(isUnpricedExtra) ?? [];
+  // Struck-off rows, plus the $0 extras unless they were asked for.
+  const skippedLines = new Set(removed);
+  if (!includeUnpriced) for (const row of unpriced) skippedLines.add(row.line);
 
   function loadSheet(next: NamedSheet) {
     const detected = detectBudgetColumns(next.table);
@@ -182,11 +191,12 @@ export function BudgetImportPanel({ onDone }: { onDone: () => void }) {
 
   function handleImport(skipInvalid = false) {
     if (!sheet) return;
-    // A row's line number is its index in the grid, since the header is row 0.
+    // A row's line number is its index in the grid, since the header is row 0,
+    // so leaving one out is a filter on the original grid.
     const table =
-      removed.size === 0
+      skippedLines.size === 0
         ? sheet.table
-        : sheet.table.filter((_, index) => index === 0 || !removed.has(index));
+        : sheet.table.filter((_, index) => index === 0 || !skippedLines.has(index));
 
     const formData = new FormData();
     formData.set("rows", JSON.stringify(table));
@@ -211,10 +221,9 @@ export function BudgetImportPanel({ onDone }: { onDone: () => void }) {
     });
   }
 
-  const kept = parsed?.rows.filter((row) => !removed.has(row.line)) ?? [];
+  const kept = parsed?.rows.filter((row) => !skippedLines.has(row.line)) ?? [];
   const problems = kept.filter((row) => row.errors.length > 0);
   const categoryCount = kept.filter((row) => row.target === "category").length;
-  const noPrice = kept.filter((row) => row.errors.length === 0 && row.values.amount === null).length;
   const ready = Boolean(parsed && !parsed.error && kept.length > 0 && problems.length === 0);
 
   if (imported !== null) {
@@ -386,27 +395,44 @@ export function BudgetImportPanel({ onDone }: { onDone: () => void }) {
             {parsed.blankRows > 0 &&
               ` · ${parsed.blankRows} blank row${parsed.blankRows === 1 ? "" : "s"} skipped`}
             {removed.size > 0 && ` · ${removed.size} removed`}
+            {!includeUnpriced &&
+              unpriced.length > 0 &&
+              ` · ${unpriced.length} with no cost set aside`}
             {problems.length > 0 &&
               ` · ${problems.length} need${problems.length === 1 ? "s" : ""} fixing`}
           </p>
 
-          {noPrice > 0 && (
-            <p className="mt-1 text-xs text-ink/60">
-              {noPrice} row{noPrice === 1 ? " has" : "s have"} no cost yet — they come in at $0 so
-              you can fill them later.
-            </p>
+          {/* A budget full of $0 lines looks like the spreadsheet they were
+              trying to leave, so these wait to be asked for. */}
+          {unpriced.length > 0 && (
+            <label className="mt-2 flex cursor-pointer items-start gap-2 text-xs text-ink/70">
+              <input
+                type="checkbox"
+                checked={includeUnpriced}
+                onChange={(e) => setIncludeUnpriced(e.target.checked)}
+                className="mt-0.5 h-3.5 w-3.5 accent-[var(--color-forest)]"
+              />
+              <span>
+                Also bring in {unpriced.length} row{unpriced.length === 1 ? "" : "s"} with no cost
+                yet — {unpriced.length === 1 ? "it" : "they"} would come in at $0 for you to fill in
+                later.
+              </span>
+            </label>
           )}
 
           <ul className="mt-2 flex max-h-72 flex-col gap-1 overflow-y-auto">
             {parsed.rows.map((row) => {
               const v = row.values;
               const isRemoved = removed.has(row.line);
+              // Held back by the no-cost rule rather than by the couple.
+              const isSetAside = !isRemoved && skippedLines.has(row.line);
+              const skipped = isRemoved || isSetAside;
               const hasProblem = row.errors.length > 0;
               return (
                 <li
                   key={row.line}
                   className={`flex items-start justify-between gap-3 rounded border px-2 py-1.5 text-xs ${
-                    isRemoved
+                    skipped
                       ? "border-hairline bg-parchment opacity-60"
                       : hasProblem
                         ? "border-red-200 bg-red-50"
@@ -427,29 +453,35 @@ export function BudgetImportPanel({ onDone }: { onDone: () => void }) {
                       {v.due_date ? ` · due ${v.due_date}` : ""}
                     </span>
                     {v.notes && <span className="block text-ink/45">{v.notes}</span>}
-                    {!isRemoved &&
+                    {!skipped &&
                       row.errors.map((message) => (
                         <span key={message} className="mt-0.5 block text-red-800">
                           {message}
                         </span>
                       ))}
                   </span>
-                  {/* A row we flagged but the couple knows is junk -- let them
-                      strike it off here rather than going back to the file. */}
-                  <button
-                    type="button"
-                    onClick={() => toggleRemoved(row.line)}
-                    aria-label={
-                      isRemoved
-                        ? `Put row ${row.line} back`
-                        : `Remove row ${row.line} from this import`
-                    }
-                    className={`shrink-0 whitespace-nowrap text-[11px] underline-offset-2 hover:underline ${
-                      isRemoved ? "text-brass" : "text-ink/45 hover:text-red-800"
-                    }`}
-                  >
-                    {isRemoved ? "Undo" : "Remove"}
-                  </button>
+                  {isSetAside ? (
+                    <span className="shrink-0 whitespace-nowrap text-[11px] text-ink/40">
+                      not importing
+                    </span>
+                  ) : (
+                    /* A row we flagged but the couple knows is junk -- let them
+                       strike it off here rather than going back to the file. */
+                    <button
+                      type="button"
+                      onClick={() => toggleRemoved(row.line)}
+                      aria-label={
+                        isRemoved
+                          ? `Put row ${row.line} back`
+                          : `Remove row ${row.line} from this import`
+                      }
+                      className={`shrink-0 whitespace-nowrap text-[11px] underline-offset-2 hover:underline ${
+                        isRemoved ? "text-brass" : "text-ink/45 hover:text-red-800"
+                      }`}
+                    >
+                      {isRemoved ? "Undo" : "Remove"}
+                    </button>
+                  )}
                 </li>
               );
             })}

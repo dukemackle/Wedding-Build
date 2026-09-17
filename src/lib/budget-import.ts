@@ -16,6 +16,7 @@ export type BudgetField =
   | "purchased_from"
   | "amount"
   | "paid_amount"
+  | "deposit_amount"
   | "due_date"
   | "notes";
 
@@ -38,6 +39,7 @@ export const BUDGET_FIELD_LABELS: Record<BudgetField, string> = {
   purchased_from: "Vendor",
   amount: "Cost",
   paid_amount: "Paid so far",
+  deposit_amount: "Deposit",
   due_date: "Date paid or due",
   notes: "Notes",
 };
@@ -72,7 +74,8 @@ export const BUDGET_HEADING_EXAMPLES: Record<BudgetField, string> = {
   category: "Category, Item, Expense",
   purchased_from: "Vendor, Who, Company",
   amount: "Cost, Price, Total, Budget",
-  paid_amount: "Paid, Deposit, Amount paid",
+  paid_amount: "Paid, Paid so far, Amount paid",
+  deposit_amount: "Deposit, Retainer — counts as paid if Paid so far is blank",
   due_date: "Date paid, Payment due",
   notes: "Notes, Comments",
 };
@@ -100,9 +103,10 @@ const HEADING_ALIASES: Record<string, BudgetField> = {
   paid: "paid_amount",
   paidsofar: "paid_amount",
   amountpaid: "paid_amount",
-  deposits: "paid_amount",
-  deposit: "paid_amount",
-  retainer: "paid_amount",
+  deposits: "deposit_amount",
+  deposit: "deposit_amount",
+  retainer: "deposit_amount",
+  depositpaid: "deposit_amount",
   datepaid: "due_date",
   duedate: "due_date",
   finalpaymentdue: "due_date",
@@ -118,15 +122,11 @@ const HEADING_ALIASES: Record<string, BudgetField> = {
 /**
  * Headings that fit a field but shouldn't outrank a plainer one for it.
  *
- * A sheet with both a "Deposits" and a "Paid so far" column means the second
- * one -- so these are held back and only claim a field nothing better wanted.
- * The same sheet has both "Date Paid" and "Final payment due"; Wren's field
- * is a due date, so the one that says "due" should win it.
+ * A sheet with both "Date Paid" and "Final payment due" means the latter for
+ * Wren's due date, so the one that says "due" should win it -- and these are
+ * held back a pass to make sure it does.
  */
 const WEAK_HEADINGS = new Set([
-  "deposits",
-  "deposit",
-  "retainer",
   "total",
   "budget",
   "estimate",
@@ -458,6 +458,11 @@ export function parseBudgetTable(
 
     const cost = parseMoney(cellOf(cells, "amount"));
     const paid = parseMoney(cellOf(cells, "paid_amount"));
+    // A deposit is money that has actually left the account, so where a sheet
+    // records one and nothing under "Paid so far", it IS what's been paid.
+    // It never overrides a real paid figure -- a $1,000 refundable hold on a
+    // line already showing $6,840 paid is not a second payment.
+    const deposit = parseMoney(cellOf(cells, "deposit_amount"));
 
     const dueRaw = cellOf(cells, "due_date");
     const dueDate = parseSheetDate(dueRaw);
@@ -466,6 +471,7 @@ export function parseBudgetTable(
       ...notesOf(cells),
       cost.leftover,
       paid.leftover ? `Paid: ${paid.leftover}` : null,
+      deposit.leftover ? `Deposit: ${deposit.leftover}` : null,
       // A payment-due cell that isn't a date still says something useful --
       // labelled, since "two weeks before" on its own says nothing.
       dueRaw && !dueDate ? `Due: ${dueRaw}` : null,
@@ -486,7 +492,7 @@ export function parseBudgetTable(
         category: isFirstForCategory ? key : null,
         label,
         amount: cost.amount,
-        paid_amount: paid.amount,
+        paid_amount: paid.amount ?? deposit.amount,
         purchased_from: vendor,
         due_date: dueDate,
         notes: noteParts.length > 0 ? noteParts.join(" · ") : null,
@@ -496,6 +502,19 @@ export function parseBudgetTable(
   });
 
   return { rows, blankRows };
+}
+
+/**
+ * A row that would add a nameless $0 item.
+ *
+ * These are left out unless asked for. An unpriced row that fills a real
+ * category line is worth having -- it carries the vendor's name onto a line
+ * that already exists -- but an unpriced extra is a new row in the budget
+ * with nothing in it, and a budget full of those looks like the spreadsheet
+ * the couple was trying to leave.
+ */
+export function isUnpricedExtra(row: BudgetImportRow) {
+  return row.target === "custom" && row.values.amount === null;
 }
 
 export function parseBudgetText(text: string, map?: BudgetColumnMap): BudgetImportParse {
