@@ -648,13 +648,22 @@ export function BudgetTable({
         <span className="text-right font-mono-numbers text-[10px] uppercase tracking-[0.16em] text-ink/45">
           Actual
         </span>
-        <button
-          type="button"
-          onClick={toggleAll}
-          className="justify-self-end font-mono-numbers text-[11px] text-brass hover:underline"
-        >
-          {allExpanded ? "Collapse all" : "Expand all"}
-        </button>
+        {/* The progress bar had no label at all, so the one column that
+            answers "how much of this have we actually paid?" read as
+            decoration. Paid sits over the bar; Expand all keeps the right
+            edge, above the percentage it lines up with. */}
+        <span className="flex items-center justify-between gap-2">
+          <span className="font-mono-numbers text-[10px] uppercase tracking-[0.16em] text-ink/45">
+            Paid
+          </span>
+          <button
+            type="button"
+            onClick={toggleAll}
+            className="font-mono-numbers text-[11px] text-brass hover:underline"
+          >
+            {allExpanded ? "Collapse all" : "Expand all"}
+          </button>
+        </span>
       </div>
 
       <div className="px-5 sm:px-6">
