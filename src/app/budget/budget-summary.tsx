@@ -41,6 +41,7 @@ export function BudgetSummary({
   contractCount,
   items,
   quotedCount,
+  headerAction,
 }: {
   totalEstimate: number;
   totalActual: number;
@@ -51,6 +52,8 @@ export function BudgetSummary({
   items: { key: string; label: string; amount: number }[];
   /** Lines with a real number entered, not just an estimate. */
   quotedCount: number;
+  /** Sits under the heading, top-left of the card -- the import trigger. */
+  headerAction?: React.ReactNode;
 }) {
   const [editing, setEditing] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
@@ -112,6 +115,7 @@ export function BudgetSummary({
             {contractCount > 0 &&
               ` · ${contractCount} with ${contractCount === 1 ? "a contract" : "contracts"}`}
           </p>
+          {headerAction && <div className="mt-2.5 flex flex-wrap gap-2">{headerAction}</div>}
         </div>
 
         <div className="mt-4 flex flex-wrap items-end gap-6 sm:contents">

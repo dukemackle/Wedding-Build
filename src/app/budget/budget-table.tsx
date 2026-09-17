@@ -117,6 +117,7 @@ function BudgetRowItem({
   contracts,
   isCustom,
   defaultExpanded,
+  onEdited,
 }: {
   row: BudgetRow;
   payerSuggestions: string[];
@@ -130,6 +131,8 @@ function BudgetRowItem({
   isCustom: boolean;
   /** Seeded by the table's expand-all, which remounts rows to apply it. */
   defaultExpanded: boolean;
+  /** Hands the table something it can offer to undo. */
+  onEdited: (edit: BudgetEdit) => void;
 }) {
   const [expanded, setExpanded] = useState(defaultExpanded);
   const [showDetails, setShowDetails] = useState(false);
@@ -160,14 +163,40 @@ function BudgetRowItem({
   const payerDatalistId = `paid-by-${row.key}`;
   const Icon = CATEGORY_ICONS[row.key] ?? CustomItemIcon;
 
-  function handleAmountBlur(field: "override_value" | "paid_amount", value: string) {
+  /** Writes both amounts, whichever one the edit touched. */
+  function saveAmounts(nextActual: string, nextPaid: string) {
     const formData = new FormData();
     formData.set("category", row.key);
-    formData.set("override_value", field === "override_value" ? value : actualInput);
-    formData.set("paid_amount", field === "paid_amount" ? value : paidInput);
+    formData.set("override_value", nextActual);
+    formData.set("paid_amount", nextPaid);
+    return onSaveAmounts(formData);
+  }
+
+  function handleAmountBlur(field: "override_value" | "paid_amount", value: string) {
+    const nextActual = field === "override_value" ? value : actualInput;
+    const nextPaid = field === "paid_amount" ? value : paidInput;
+
+    // What the server last told us, which is what undo puts back -- not the
+    // local input, which is already carrying the new value by now.
+    const wasActual = row.override != null ? String(row.override) : "";
+    const wasPaid = row.paidAmount != null ? String(row.paidAmount) : "";
+    const changed = nextActual !== wasActual || nextPaid !== wasPaid;
+
     startTransition(async () => {
-      const result = await onSaveAmounts(formData);
+      const result = await saveAmounts(nextActual, nextPaid);
       setError(result?.error);
+      if (result?.error || !changed) return;
+
+      const amount = field === "override_value" ? nextActual : nextPaid;
+      const what = field === "override_value" ? "cost" : "paid";
+      onEdited({
+        label: `${row.label} ${what} set to ${amount ? currency.format(Number(amount)) : "—"}`,
+        undo: () => {
+          setActualInput(wasActual);
+          setPaidInput(wasPaid);
+          return saveAmounts(wasActual, wasPaid);
+        },
+      });
     });
   }
 
@@ -519,6 +548,13 @@ function BudgetRowItem({
   );
 }
 
+/** A change the table offers to take back, and how to take it back. */
+type BudgetEdit = {
+  /** What it was, in the couple's words -- "Venue Rental set to $19,000". */
+  label: string;
+  undo: () => Promise<{ error?: string } | void>;
+};
+
 function AddItemForm({
   onDone,
   payerSuggestions,
@@ -640,6 +676,30 @@ export function BudgetTable({
   const [showAddForm, setShowAddForm] = useState(false);
   const [showImport, setShowImport] = useState(false);
   const [isPending, startTransition] = useTransition();
+  /**
+   * The one change that can be taken back.
+   *
+   * Deliberately one step, not a stack: what people want here is to undo the
+   * amount they just fat-fingered, and a stack that survives nothing would
+   * promise more than it keeps. It lives in memory, so a reload clears it --
+   * which is honest, since by then the page shows the saved figure and there
+   * is nothing visibly to take back.
+   */
+  const [lastEdit, setLastEdit] = useState<BudgetEdit | null>(null);
+  const [isUndoing, setIsUndoing] = useState(false);
+  const [undoError, setUndoError] = useState<string | undefined>(undefined);
+
+  function handleUndo() {
+    if (!lastEdit) return;
+    setIsUndoing(true);
+    setUndoError(undefined);
+    startTransition(async () => {
+      const result = await lastEdit.undo();
+      setIsUndoing(false);
+      if (result?.error) setUndoError(result.error);
+      else setLastEdit(null);
+    });
+  }
   // Bumping this key remounts every row, which resets each row's own
   // `expanded` state -- simpler and less error-prone than lifting open/closed
   // for twenty rows into here just to support one button.
@@ -672,7 +732,56 @@ export function BudgetTable({
         contractCount={contractCount}
         items={chartItems}
         quotedCount={quotedCount}
+        headerAction={
+          <button
+            type="button"
+            onClick={() => setShowImport((v) => !v)}
+            className={`rounded-full border px-3 py-1 text-sm transition-colors ${
+              showImport
+                ? "border-forest bg-forest text-parchment"
+                : "border-hairline bg-card text-ink hover:border-forest"
+            }`}
+          >
+            {showImport ? "Close" : "Import a spreadsheet"}
+          </button>
+        }
       />
+
+      {showImport && (
+        <div className="border-b border-hairline px-5 pt-5 sm:px-6">
+          <BudgetImportPanel onDone={() => setShowImport(false)} />
+        </div>
+      )}
+
+      {/* Sticky rather than pinned to the top of the card: the edit that needs
+          undoing might be twenty rows down, and an undo you have to scroll
+          back to find is one nobody uses. */}
+      {lastEdit && (
+        <div className="sticky bottom-4 z-10 flex justify-center px-4">
+          <div className="flex items-center gap-3 rounded-full border border-hairline bg-card px-4 py-2 text-xs text-ink shadow-md">
+            <span className="truncate">{lastEdit.label}</span>
+            <button
+              type="button"
+              onClick={handleUndo}
+              disabled={isUndoing}
+              className="shrink-0 font-medium text-brass hover:underline disabled:opacity-50"
+            >
+              {isUndoing ? "Undoing…" : "Undo"}
+            </button>
+            <button
+              type="button"
+              onClick={() => setLastEdit(null)}
+              aria-label="Dismiss"
+              className="shrink-0 text-ink/40 hover:text-ink"
+            >
+              ×
+            </button>
+          </div>
+        </div>
+      )}
+      {undoError && (
+        <p className="px-5 pt-2 text-center text-xs text-red-800 sm:px-6">{undoError}</p>
+      )}
 
       {/* Column labels, so the totals above are visibly the sum of what's
           below rather than three numbers floating over a list. */}
@@ -723,6 +832,7 @@ export function BudgetTable({
           deleteConfirm={`Remove "${row.label}" from your budget? You can add it back later.`}
           contracts={contractsByRowKey[row.key] ?? []}
           isCustom={false}
+          onEdited={setLastEdit}
         />
       ))}
 
@@ -754,35 +864,25 @@ export function BudgetTable({
           deleteConfirm={`Remove "${row.label}" from the budget?`}
           contracts={contractsByRowKey[row.key] ?? []}
           isCustom
+          onEdited={setLastEdit}
         />
       ))}
 
       </div>
 
       <div className="px-5 pb-5 sm:px-6 sm:pb-6">
-      {showImport && <BudgetImportPanel onDone={() => setShowImport(false)} />}
-
+      {/* Import moved up to the card header; Add item stays down here, next to
+          the list it appends to. */}
       {showAddForm ? (
         <AddItemForm onDone={() => setShowAddForm(false)} payerSuggestions={payerSuggestions} />
       ) : (
-        <div className="mt-2 flex flex-col gap-2 sm:flex-row">
-          <button
-            type="button"
-            onClick={() => setShowAddForm(true)}
-            className="flex flex-1 items-center justify-center gap-2 rounded-md border border-dashed border-hairline py-3 text-sm text-ink/60 transition-colors hover:border-forest hover:text-forest"
-          >
-            <span className="text-lg leading-none">+</span> Add item
-          </button>
-          {!showImport && (
-            <button
-              type="button"
-              onClick={() => setShowImport(true)}
-              className="flex flex-1 items-center justify-center gap-2 rounded-md border border-dashed border-hairline py-3 text-sm text-ink/60 transition-colors hover:border-forest hover:text-forest"
-            >
-              Import a spreadsheet
-            </button>
-          )}
-        </div>
+        <button
+          type="button"
+          onClick={() => setShowAddForm(true)}
+          className="mt-2 flex w-full items-center justify-center gap-2 rounded-md border border-dashed border-hairline py-3 text-sm text-ink/60 transition-colors hover:border-forest hover:text-forest"
+        >
+          <span className="text-lg leading-none">+</span> Add item
+        </button>
       )}
 
       {spreadsheetUrl && !showImport && (
