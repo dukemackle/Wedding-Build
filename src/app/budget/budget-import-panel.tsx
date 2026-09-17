@@ -8,21 +8,21 @@ import {
   detectBudgetColumns,
   parseBudgetTable,
   type BudgetColumnMap,
-  type BudgetField,
   type BudgetImportParse,
+  type BudgetSingleField,
 } from "@/lib/budget-import";
 import { readTable } from "@/lib/spreadsheet";
 import { importBudgetRows } from "./actions";
 
 type NamedSheet = { name: string; table: string[][] };
 
-const FIELD_ORDER: BudgetField[] = [
+/** Notes is left out: it takes any number of columns, so it gets its own row. */
+const FIELD_ORDER: BudgetSingleField[] = [
   "category",
   "purchased_from",
   "amount",
   "paid_amount",
   "due_date",
-  "notes",
 ];
 
 const currency = new Intl.NumberFormat("en-US", {
@@ -149,12 +149,23 @@ export function BudgetImportPanel({ onDone }: { onDone: () => void }) {
     if (next) loadSheet(next);
   }
 
-  function setField(field: BudgetField, value: string) {
+  function setField(field: BudgetSingleField, value: string) {
     setColumns((current) => {
       const next = { ...current };
       if (value === "") delete next[field];
       else next[field] = Number(value);
       return next;
+    });
+    setError(undefined);
+  }
+
+  function toggleNoteColumn(index: number) {
+    setColumns((current) => {
+      const chosen = current.notes ?? [];
+      const notes = chosen.includes(index)
+        ? chosen.filter((at) => at !== index)
+        : [...chosen, index].sort((a, b) => a - b);
+      return { ...current, notes };
     });
     setError(undefined);
   }
@@ -320,6 +331,36 @@ export function BudgetImportPanel({ onDone }: { onDone: () => void }) {
                 </span>
               </label>
             ))}
+          </div>
+
+          {/* Notes takes as many columns as it likes: a budget sheet keeps its
+              prose spread across a Discount/Deal, a Deposits and a payment-terms
+              column, and all of it belongs on the line. */}
+          <div className="mt-3 border-t border-hairline pt-3">
+            <p className="text-sm text-ink">Keep as notes</p>
+            <div className="mt-2 flex flex-wrap gap-2">
+              {heading.map((text, index) => {
+                const checked = (columns.notes ?? []).includes(index);
+                return (
+                  <label
+                    key={index}
+                    className={`flex cursor-pointer items-center gap-1.5 rounded-full border px-3 py-1 text-xs transition-colors ${
+                      checked
+                        ? "border-forest bg-forest/5 text-forest"
+                        : "border-hairline text-ink/60 hover:border-forest"
+                    }`}
+                  >
+                    <input
+                      type="checkbox"
+                      checked={checked}
+                      onChange={() => toggleNoteColumn(index)}
+                      className="h-3 w-3 accent-[var(--color-forest)]"
+                    />
+                    {columnLetter(index)} — {text.trim() || "(no heading)"}
+                  </label>
+                );
+              })}
+            </div>
           </div>
           {derivedColumns.length > 0 && (
             <p className="mt-3 text-xs text-ink/60">

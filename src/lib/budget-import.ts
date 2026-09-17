@@ -19,8 +19,19 @@ export type BudgetField =
   | "due_date"
   | "notes";
 
-/** Which spreadsheet column index feeds each field. */
-export type BudgetColumnMap = Partial<Record<BudgetField, number>>;
+/** A single-column field, i.e. everything except notes. */
+export type BudgetSingleField = Exclude<BudgetField, "notes">;
+
+/**
+ * Which spreadsheet column feeds each field.
+ *
+ * Notes takes several, because a budget sheet keeps its prose in separate
+ * columns -- a Discount/Deal, a Deposits, a payment-terms column -- and all
+ * of it is worth keeping.
+ */
+export type BudgetColumnMap = Partial<Record<BudgetSingleField, number>> & {
+  notes?: number[];
+};
 
 export const BUDGET_FIELD_LABELS: Record<BudgetField, string> = {
   category: "Category",
@@ -91,6 +102,7 @@ const HEADING_ALIASES: Record<string, BudgetField> = {
   amountpaid: "paid_amount",
   deposits: "paid_amount",
   deposit: "paid_amount",
+  retainer: "paid_amount",
   datepaid: "due_date",
   duedate: "due_date",
   finalpaymentdue: "due_date",
@@ -102,6 +114,34 @@ const HEADING_ALIASES: Record<string, BudgetField> = {
   discount: "notes",
   discountdeal: "notes",
 };
+
+/**
+ * Headings that fit a field but shouldn't outrank a plainer one for it.
+ *
+ * A sheet with both a "Deposits" and a "Paid so far" column means the second
+ * one -- so these are held back and only claim a field nothing better wanted.
+ * The same sheet has both "Date Paid" and "Final payment due"; Wren's field
+ * is a due date, so the one that says "due" should win it.
+ */
+const WEAK_HEADINGS = new Set([
+  "deposits",
+  "deposit",
+  "retainer",
+  "total",
+  "budget",
+  "estimate",
+  "quote",
+  "actual",
+  "datepaid",
+  "item",
+  "what",
+  "expense",
+  "who",
+  "company",
+]);
+
+/** Headings that are already the word "notes", so prefixing adds nothing. */
+const PLAIN_NOTE_HEADINGS = new Set(["notes", "note", "comments", "comment"]);
 
 /**
  * Headings Wren works out for itself. Naming them means the preview can say
@@ -287,7 +327,14 @@ export function detectBudgetColumns(table: string[][]): {
   const map: BudgetColumnMap = {};
   const unknownColumns: string[] = [];
   const derivedColumns: string[] = [];
+  const noteColumns: number[] = [];
+  const weak: { index: number; field: BudgetSingleField }[] = [];
   const leftover: number[] = [];
+
+  const claim = (field: BudgetSingleField, index: number) => {
+    if (map[field] === undefined) map[field] = index;
+    else leftover.push(index);
+  };
 
   heading.forEach((raw, index) => {
     const key = normaliseHeading(raw);
@@ -301,12 +348,22 @@ export function detectBudgetColumns(table: string[][]): {
       unknownColumns.push(raw.trim());
       return;
     }
-    if (map[field] === undefined) map[field] = index;
-    else leftover.push(index);
+    if (field === "notes") {
+      noteColumns.push(index);
+      return;
+    }
+    if (WEAK_HEADINGS.has(key)) weak.push({ index, field });
+    else claim(field, index);
   });
 
-  // Duplicate headings: let the data say what they are.
-  for (const index of leftover) {
+  // Held-back headings go second, so they only take a field nothing plainer
+  // wanted -- "Deposits" never beats "Paid so far" to the paid column.
+  for (const { index, field } of weak) claim(field, index);
+
+  // Duplicate or unplaceable headings: let the data say what they are, and
+  // keep anything still homeless as a note rather than dropping it. The
+  // heading was one Wren recognises, so the cell under it says something.
+  for (const index of leftover.sort((a, b) => a - b)) {
     const cells = body.map((row) => (row[index] ?? "").trim()).filter(Boolean);
     const numeric = cells.filter(looksNumeric).length;
     const mostlyNumeric = cells.length > 0 && numeric / cells.length >= 0.6;
@@ -314,8 +371,10 @@ export function detectBudgetColumns(table: string[][]): {
     if (mostlyNumeric && map.amount === undefined) map.amount = index;
     else if (mostlyNumeric && map.paid_amount === undefined) map.paid_amount = index;
     else if (!mostlyNumeric && map.purchased_from === undefined) map.purchased_from = index;
-    else unknownColumns.push((heading[index] ?? "").trim() || `Column ${index + 1}`);
+    else noteColumns.push(index);
   }
+
+  if (noteColumns.length > 0) map.notes = noteColumns.sort((a, b) => a - b);
 
   return { map, unknownColumns, derivedColumns };
 }
@@ -344,10 +403,29 @@ export function parseBudgetTable(
     return { rows: [], error: "Found headings but no budget rows underneath them.", blankRows: 0 };
   }
 
-  const cellOf = (cells: string[], field: BudgetField) => {
+  const heading = table[0] ?? [];
+
+  const cellOf = (cells: string[], field: BudgetSingleField) => {
     const at = map[field];
     return at === undefined ? "" : (cells[at] ?? "").trim();
   };
+
+  /**
+   * Each note column's cell, named by its own heading.
+   *
+   * "Deposits: $1,000 refundable for incidentals" carries what the couple
+   * wrote; the same text without its heading reads like a stray number.
+   */
+  const notesOf = (cells: string[]) =>
+    (map.notes ?? [])
+      .map((at) => {
+        const text = (cells[at] ?? "").trim();
+        if (!text) return null;
+        const key = normaliseHeading(heading[at] ?? "");
+        const label = key && !PLAIN_NOTE_HEADINGS.has(key) ? (heading[at] ?? "").trim() : "";
+        return label ? `${label}: ${text}` : text;
+      })
+      .filter((part): part is string => Boolean(part));
 
   const numbered = body.map((cells, index) => ({ cells, line: index + 1 }));
   const occupied = numbered.filter(
@@ -358,10 +436,21 @@ export function parseBudgetTable(
   );
   const blankRows = numbered.length - occupied.length;
 
-  // One line item per category, so the first row claiming a category gets it
-  // and later ones become items -- a real sheet lists three Wedding Ring rows
-  // and all three are real.
-  const claimed = new Set<string>();
+  // One line item per category, so one row claims it and the rest become
+  // items -- a real sheet lists three Wedding Ring rows and all three are
+  // real. The row with a cost claims it where there is one: the category line
+  // is where the money shows, so a priced Wedding Dress should own "Attire"
+  // rather than an empty Alterations row that happened to come first.
+  const firstPriced = new Map<string, number>();
+  const firstAny = new Map<string, number>();
+  for (const { cells, line } of occupied) {
+    const key = budgetCategoryKeyFor(cellOf(cells, "category"));
+    if (!key) continue;
+    if (!firstAny.has(key)) firstAny.set(key, line);
+    if (!firstPriced.has(key) && parseMoney(cellOf(cells, "amount")).amount !== null) {
+      firstPriced.set(key, line);
+    }
+  }
 
   const rows: BudgetImportRow[] = occupied.map(({ cells, line }) => {
     const categoryText = cellOf(cells, "category");
@@ -374,7 +463,7 @@ export function parseBudgetTable(
     const dueDate = parseSheetDate(dueRaw);
 
     const noteParts = [
-      cellOf(cells, "notes") || null,
+      ...notesOf(cells),
       cost.leftover,
       paid.leftover ? `Paid: ${paid.leftover}` : null,
       // A payment-due cell that isn't a date still says something useful --
@@ -383,8 +472,8 @@ export function parseBudgetTable(
     ].filter((part): part is string => Boolean(part));
 
     const key = budgetCategoryKeyFor(categoryText);
-    const isFirstForCategory = key !== null && !claimed.has(key);
-    if (isFirstForCategory && key) claimed.add(key);
+    const isFirstForCategory =
+      key !== null && (firstPriced.get(key) ?? firstAny.get(key)) === line;
 
     const label = isFirstForCategory && key
       ? CATEGORY_LABELS.get(key) ?? categoryText
