@@ -41,6 +41,7 @@ import {
 } from "@/components/icons";
 import type { BudgetContract } from "@/lib/supabase/types";
 import { ContractsPanel } from "./contracts-panel";
+import { BudgetImportPanel } from "./budget-import-panel";
 import { BudgetSummary } from "./budget-summary";
 
 export const CATEGORY_ICONS: Record<string, ComponentType<{ className?: string }>> = {
@@ -595,6 +596,7 @@ export function BudgetTable({
   contractsByRowKey: Record<string, BudgetContract[]>;
 }) {
   const [showAddForm, setShowAddForm] = useState(false);
+  const [showImport, setShowImport] = useState(false);
   const [isPending, startTransition] = useTransition();
   // Bumping this key remounts every row, which resets each row's own
   // `expanded` state -- simpler and less error-prone than lifting open/closed
@@ -707,16 +709,29 @@ export function BudgetTable({
       </div>
 
       <div className="px-5 pb-5 sm:px-6 sm:pb-6">
+      {showImport && <BudgetImportPanel onDone={() => setShowImport(false)} />}
+
       {showAddForm ? (
         <AddItemForm onDone={() => setShowAddForm(false)} payerSuggestions={payerSuggestions} />
       ) : (
-        <button
-          type="button"
-          onClick={() => setShowAddForm(true)}
-          className="mt-2 flex w-full items-center gap-2 rounded-md border border-dashed border-hairline py-3 text-sm text-ink/60 transition-colors hover:border-forest hover:text-forest"
-        >
-          <span className="text-lg leading-none">+</span> Add item
-        </button>
+        <div className="mt-2 flex flex-col gap-2 sm:flex-row">
+          <button
+            type="button"
+            onClick={() => setShowAddForm(true)}
+            className="flex flex-1 items-center justify-center gap-2 rounded-md border border-dashed border-hairline py-3 text-sm text-ink/60 transition-colors hover:border-forest hover:text-forest"
+          >
+            <span className="text-lg leading-none">+</span> Add item
+          </button>
+          {!showImport && (
+            <button
+              type="button"
+              onClick={() => setShowImport(true)}
+              className="flex flex-1 items-center justify-center gap-2 rounded-md border border-dashed border-hairline py-3 text-sm text-ink/60 transition-colors hover:border-forest hover:text-forest"
+            >
+              Import a spreadsheet
+            </button>
+          )}
+        </div>
       )}
 
       {hiddenCategories.length > 0 && (

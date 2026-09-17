@@ -10,6 +10,7 @@ import {
   computeCategoryValue,
   effectiveGuestCount,
 } from "@/lib/budget-categories";
+import { parseBudgetTable, type BudgetColumnMap } from "@/lib/budget-import";
 
 function parseOptionalAmount(raw: FormDataEntryValue | null): number | null | "invalid" {
   const trimmed = (raw as string)?.trim();
@@ -307,6 +308,173 @@ export async function updateBudgetCustomItem(formData: FormData): Promise<{ erro
   revalidatePath("/budget");
   revalidatePath("/dashboard");
   return {};
+}
+
+type BudgetImportResult = {
+  error?: string;
+  categories?: number;
+  items?: number;
+  skipped?: number;
+  unhidden?: string[];
+};
+
+/**
+ * Brings a budget spreadsheet in.
+ *
+ * Takes the grid and the column mapping the browser previewed, and parses it
+ * again here: the preview is a courtesy, the decision is the server's. The
+ * first row claiming one of Wren's categories fills that category line --
+ * `budget_line_items` holds one row per category -- and everything after it,
+ * including a second photographer or a third ring, lands as its own item.
+ */
+export async function importBudgetRows(formData: FormData): Promise<BudgetImportResult> {
+  const { supabase, user, wedding } = await requireOwnWedding();
+
+  if (!wedding) {
+    return { error: "Set up your wedding on the Dashboard first." };
+  }
+
+  let table: string[][];
+  let columns: BudgetColumnMap;
+  try {
+    table = JSON.parse((formData.get("rows") as string) || "[]");
+    columns = JSON.parse((formData.get("columns") as string) || "{}");
+  } catch {
+    return { error: "Couldn't read that spreadsheet. Try uploading it again." };
+  }
+  if (!Array.isArray(table)) {
+    return { error: "Couldn't read that spreadsheet. Try uploading it again." };
+  }
+
+  const parsed = parseBudgetTable(table, columns);
+  if (parsed.error) {
+    return { error: parsed.error };
+  }
+
+  const skipInvalid = formData.get("skip_invalid") === "true";
+  const broken = parsed.rows.filter((row) => row.errors.length > 0);
+  if (broken.length > 0 && !skipInvalid) {
+    return {
+      error: `${broken.length} row${broken.length === 1 ? "" : "s"} still need fixing — fix them, remove them, or import the rest.`,
+    };
+  }
+
+  const usable = parsed.rows.filter((row) => row.errors.length === 0);
+  if (usable.length === 0) {
+    return { error: "Nothing left to import." };
+  }
+
+  const { data: guests } = await supabase
+    .from("guests")
+    .select("status, plus_one")
+    .eq("wedding_id", wedding.id);
+  const guestCount = effectiveGuestCount(wedding, guests ?? []);
+
+  const categoryRows = usable.filter((row) => row.target === "category" && row.values.category);
+  const itemRows = usable.filter((row) => row.target !== "category" || !row.values.category);
+
+  // An import shouldn't blank out details already on a line, so anything the
+  // sheet doesn't say keeps whatever was there.
+  const keys = categoryRows.map((row) => row.values.category as string);
+  const { data: existing } = keys.length
+    ? await supabase
+        .from("budget_line_items")
+        .select("category, override_value, paid_amount, purchased_from, paid_by, due_date, notes")
+        .eq("wedding_id", wedding.id)
+        .in("category", keys)
+    : { data: [] };
+  const existingByCategory = new Map(
+    (existing ?? []).map((row: { category: string }) => [row.category, row]),
+  );
+
+  if (categoryRows.length > 0) {
+    const payload = categoryRows.map((row) => {
+      const key = row.values.category as string;
+      const category = BUDGET_CATEGORIES.find((c) => c.key === key);
+      const prior = existingByCategory.get(key) as
+        | {
+            override_value: number | null;
+            paid_amount: number | null;
+            purchased_from: string | null;
+            paid_by: string | null;
+            due_date: string | null;
+            notes: string | null;
+          }
+        | undefined;
+
+      return {
+        wedding_id: wedding.id,
+        user_id: user.id,
+        category: key,
+        label: category?.label ?? row.values.label,
+        base_value: category
+          ? computeCategoryValue(
+              category,
+              guestCount,
+              wedding.region,
+              wedding.season,
+              wedding.style_tier,
+            )
+          : 0,
+        override_value: row.values.amount ?? prior?.override_value ?? null,
+        paid_amount: row.values.paid_amount ?? prior?.paid_amount ?? null,
+        purchased_from: row.values.purchased_from ?? prior?.purchased_from ?? null,
+        paid_by: prior?.paid_by ?? null,
+        due_date: row.values.due_date ?? prior?.due_date ?? null,
+        notes: row.values.notes ?? prior?.notes ?? null,
+      };
+    });
+
+    const { error } = await supabase
+      .from("budget_line_items")
+      .upsert(payload, { onConflict: "wedding_id,category" });
+    if (error) {
+      return { error: error.message };
+    }
+  }
+
+  if (itemRows.length > 0) {
+    const { error } = await supabase.from("budget_custom_items").insert(
+      itemRows.map((row) => ({
+        wedding_id: wedding.id,
+        user_id: user.id,
+        label: row.values.label,
+        // The column can't be null, and a line with no price yet is normal in
+        // a real sheet -- zero is the honest placeholder, not a reason to
+        // refuse the row.
+        amount: row.values.amount ?? 0,
+        paid_amount: row.values.paid_amount,
+        purchased_from: row.values.purchased_from,
+        paid_by: null,
+        due_date: row.values.due_date,
+        notes: row.values.notes,
+      })),
+    );
+    if (error) {
+      return { error: error.message };
+    }
+  }
+
+  // A category the couple isn't tracking would hide what they just imported,
+  // so bringing in a number for it turns the line back on.
+  const unhidden = keys.filter((key) => wedding.hidden_budget_categories.includes(key));
+  if (unhidden.length > 0) {
+    const remaining = wedding.hidden_budget_categories.filter((key) => !unhidden.includes(key));
+    await supabase
+      .from("weddings")
+      .update({ hidden_budget_categories: remaining })
+      .eq("id", wedding.id);
+  }
+
+  revalidatePath("/budget");
+  revalidatePath("/dashboard");
+
+  return {
+    categories: categoryRows.length,
+    items: itemRows.length,
+    skipped: broken.length,
+    unhidden: unhidden.map((key) => BUDGET_CATEGORIES.find((c) => c.key === key)?.label ?? key),
+  };
 }
 
 export async function deleteBudgetCustomItem(formData: FormData): Promise<{ error?: string }> {
