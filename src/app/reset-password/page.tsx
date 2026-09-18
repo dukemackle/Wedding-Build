@@ -2,6 +2,7 @@ import { type EmailOtpType } from "@supabase/supabase-js";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { updatePassword } from "./actions";
+import { RecoveryBridge } from "./recovery-bridge";
 
 export default async function ResetPasswordPage({
   searchParams,
@@ -37,6 +38,16 @@ export default async function ResetPasswordPage({
     redirect("/reset-password");
   }
 
+  // Only someone holding a recovery session can set a new password, so check
+  // for one before drawing a form. Without this the page happily takes two
+  // passwords from a visitor who followed a dead link, then fails on submit
+  // with Supabase's raw "Auth session missing!" -- which sounds like their
+  // account is broken rather than like the link is stale.
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   return (
     <main className="flex flex-1 items-center justify-center px-6 py-24">
       <div className="w-full max-w-sm rounded-lg border border-hairline bg-card p-6 sm:p-10 shadow-sm">
@@ -47,12 +58,18 @@ export default async function ResetPasswordPage({
           Reset password
         </h1>
 
-        {error && (
+        {/* The third shape a recovery session arrives in -- tokens in the URL
+            fragment -- is invisible to this server component, so a client
+            component has to look for it before we can say the link is dead. */}
+        {!user && <RecoveryBridge />}
+
+        {user && error && (
           <p className="mt-4 rounded-md border border-red-300 bg-red-50 px-3 py-2 text-sm text-red-800">
             {error}
           </p>
         )}
 
+        {user && (
         <form className="mt-6 flex flex-col gap-4" action={updatePassword}>
           <label className="flex flex-col gap-1 text-sm text-ink">
             New password
@@ -81,6 +98,7 @@ export default async function ResetPasswordPage({
             Update password
           </button>
         </form>
+        )}
       </div>
     </main>
   );
