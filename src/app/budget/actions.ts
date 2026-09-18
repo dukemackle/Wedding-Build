@@ -455,7 +455,7 @@ export async function importBudgetRows(formData: FormData): Promise<BudgetImport
         override_value: row.values.amount ?? prior?.override_value ?? null,
         paid_amount: row.values.paid_amount ?? prior?.paid_amount ?? null,
         purchased_from: row.values.purchased_from ?? prior?.purchased_from ?? null,
-        paid_by: prior?.paid_by ?? null,
+        paid_by: row.values.paid_by ?? prior?.paid_by ?? null,
         due_date: row.values.due_date ?? prior?.due_date ?? null,
         notes: row.values.notes ?? prior?.notes ?? null,
       };
@@ -481,7 +481,7 @@ export async function importBudgetRows(formData: FormData): Promise<BudgetImport
         amount: row.values.amount ?? 0,
         paid_amount: row.values.paid_amount,
         purchased_from: row.values.purchased_from,
-        paid_by: null,
+        paid_by: row.values.paid_by,
         due_date: row.values.due_date,
         notes: row.values.notes,
       })),

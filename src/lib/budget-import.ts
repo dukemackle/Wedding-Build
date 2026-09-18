@@ -17,6 +17,7 @@ export type BudgetField =
   | "amount"
   | "paid_amount"
   | "deposit_amount"
+  | "paid_by"
   | "due_date"
   | "notes";
 
@@ -40,6 +41,7 @@ export const BUDGET_FIELD_LABELS: Record<BudgetField, string> = {
   amount: "Cost",
   paid_amount: "Paid so far",
   deposit_amount: "Deposit",
+  paid_by: "Paid by",
   due_date: "Date paid or due",
   notes: "Notes",
 };
@@ -51,6 +53,7 @@ export type BudgetImportValues = {
   amount: number | null;
   paid_amount: number | null;
   purchased_from: string | null;
+  paid_by: string | null;
   due_date: string | null;
   notes: string | null;
 };
@@ -76,6 +79,7 @@ export const BUDGET_HEADING_EXAMPLES: Record<BudgetField, string> = {
   amount: "Cost, Price, Total, Budget",
   paid_amount: "Paid, Paid so far, Amount paid",
   deposit_amount: "Deposit, Retainer — counts as paid if Paid so far is blank",
+  paid_by: "Paid by, Who's paying",
   due_date: "Date paid, Payment due",
   notes: "Notes, Comments",
 };
@@ -107,8 +111,12 @@ const HEADING_ALIASES: Record<string, BudgetField> = {
   deposit: "deposit_amount",
   retainer: "deposit_amount",
   depositpaid: "deposit_amount",
+  paidby: "paid_by",
+  whospaying: "paid_by",
+  payer: "paid_by",
   datepaid: "due_date",
   duedate: "due_date",
+  datedue: "due_date",
   finalpaymentdue: "due_date",
   paymentdue: "due_date",
   due: "due_date",
@@ -481,9 +489,15 @@ export function parseBudgetTable(
     const isFirstForCategory =
       key !== null && (firstPriced.get(key) ?? firstAny.get(key)) === line;
 
+    // "Photo booth — Brick & Oak", unless the category text already names the
+    // vendor -- which it does in a file Wren exported, and re-importing that
+    // shouldn't grow "Photo booth — Brick & Oak — Brick & Oak".
+    const namesVendor = Boolean(vendor) && categoryText.includes(vendor as string);
     const label = isFirstForCategory && key
       ? CATEGORY_LABELS.get(key) ?? categoryText
-      : [categoryText, vendor].filter(Boolean).join(" — ") || vendor || categoryText;
+      : namesVendor
+        ? categoryText
+        : [categoryText, vendor].filter(Boolean).join(" — ") || vendor || categoryText;
 
     return {
       line,
@@ -494,6 +508,7 @@ export function parseBudgetTable(
         amount: cost.amount,
         paid_amount: paid.amount ?? deposit.amount,
         purchased_from: vendor,
+        paid_by: cellOf(cells, "paid_by") || null,
         due_date: dueDate,
         notes: noteParts.length > 0 ? noteParts.join(" · ") : null,
       },

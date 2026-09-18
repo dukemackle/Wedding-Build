@@ -101,6 +101,76 @@ const currency = new Intl.NumberFormat("en-US", {
   maximumFractionDigits: 0,
 });
 
+function csvField(value: string) {
+  return /[",\n]/.test(value) ? `"${value.replace(/"/g, '""')}"` : value;
+}
+
+function money(value: number | null) {
+  return value == null ? "" : String(value);
+}
+
+/**
+ * One definition, so the CSV and the Excel file can't drift apart -- and so
+ * the headings we export are ones Wren's own budget importer reads back.
+ *
+ * Estimate and Cost are both here on purpose: side by side, "what this
+ * usually runs" against "what we're actually paying" is the thing Wren's
+ * budget has that a spreadsheet doesn't, and it's what makes this worth
+ * sending to whoever is helping pay for the wedding.
+ *
+ * No totals row. It would read well and then come back in as a phantom
+ * $59,542 line item the next time someone imported the file -- and the page
+ * already shows the totals.
+ */
+const EXPORT_COLUMNS: { header: string; value: (row: BudgetRow) => string }[] = [
+  { header: "Category", value: (r) => r.label },
+  { header: "Vendor", value: (r) => r.purchasedFrom ?? "" },
+  { header: "Wren estimate", value: (r) => money(r.computed) },
+  { header: "Cost", value: (r) => money(r.override) },
+  { header: "Paid so far", value: (r) => money(r.paidAmount) },
+  {
+    header: "Still owed",
+    value: (r) => {
+      const cost = r.override ?? r.computed;
+      return cost == null ? "" : String(Math.max(0, cost - (r.paidAmount ?? 0)));
+    },
+  },
+  { header: "Paid by", value: (r) => r.paidBy ?? "" },
+  { header: "Due date", value: (r) => r.dueDate ?? "" },
+  { header: "Notes", value: (r) => r.notes ?? "" },
+];
+
+function exportFileName(extension: string) {
+  return `budget-${new Date().toISOString().slice(0, 10)}.${extension}`;
+}
+
+async function downloadBudgetXlsx(rows: BudgetRow[]) {
+  const { default: writeXlsxFile } = await import("write-excel-file/browser");
+  const data = [
+    EXPORT_COLUMNS.map((col) => ({ value: col.header, fontWeight: "bold" as const })),
+    ...rows.map((row) => EXPORT_COLUMNS.map((col) => ({ value: col.value(row) }))),
+  ];
+  await writeXlsxFile(data, {
+    columns: EXPORT_COLUMNS.map((col) => ({ width: Math.max(12, col.header.length + 4) })),
+  }).toFile(exportFileName("xlsx"));
+}
+
+function downloadBudgetCsv(rows: BudgetRow[]) {
+  const body = rows.map((row) =>
+    EXPORT_COLUMNS.map((col) => csvField(col.value(row))).join(","),
+  );
+  const csv = [EXPORT_COLUMNS.map((c) => c.header).join(","), ...body].join("\n");
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = exportFileName("csv");
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+}
+
 const numberInputClass =
   "w-24 rounded-md border border-hairline bg-parchment px-2 py-1 text-right font-mono-numbers text-sm text-ink outline-none focus:border-forest";
 const iconButtonClass =
@@ -733,17 +803,35 @@ export function BudgetTable({
         items={chartItems}
         quotedCount={quotedCount}
         headerAction={
-          <button
-            type="button"
-            onClick={() => setShowImport((v) => !v)}
-            className={`rounded-full border px-3 py-1 text-sm transition-colors ${
-              showImport
-                ? "border-forest bg-forest text-parchment"
-                : "border-hairline bg-card text-ink hover:border-forest"
-            }`}
-          >
-            {showImport ? "Close" : "Import a spreadsheet"}
-          </button>
+          <>
+            <button
+              type="button"
+              onClick={() => setShowImport((v) => !v)}
+              className={`rounded-full border px-3 py-1 text-sm transition-colors ${
+                showImport
+                  ? "border-forest bg-forest text-parchment"
+                  : "border-hairline bg-card text-ink hover:border-forest"
+              }`}
+            >
+              {showImport ? "Close" : "Import a spreadsheet"}
+            </button>
+            <button
+              type="button"
+              onClick={() => downloadBudgetXlsx(allRows)}
+              disabled={allRows.length === 0}
+              className="rounded-full border border-hairline bg-card px-3 py-1 text-sm text-ink transition-colors hover:border-forest disabled:opacity-50"
+            >
+              Export Excel
+            </button>
+            <button
+              type="button"
+              onClick={() => downloadBudgetCsv(allRows)}
+              disabled={allRows.length === 0}
+              className="rounded-full border border-hairline bg-card px-3 py-1 text-sm text-ink transition-colors hover:border-forest disabled:opacity-50"
+            >
+              Export CSV
+            </button>
+          </>
         }
       />
 
