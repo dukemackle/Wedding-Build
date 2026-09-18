@@ -24,6 +24,7 @@ const FIELD_ORDER: BudgetSingleField[] = [
   "amount",
   "paid_amount",
   "deposit_amount",
+  "paid_by",
   "due_date",
 ];
 
