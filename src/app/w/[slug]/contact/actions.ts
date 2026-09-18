@@ -30,6 +30,23 @@ export async function submitContactDetails(
   const name = clean(formData.get("name"));
   if (!name) return { error: "Please add your name." };
 
+  // Checked here as well as in the browser: `required` is a courtesy to the
+  // person filling the form, not a guarantee -- anything can post to this
+  // endpoint, and a blank email defeats the point of collecting at all.
+  const email = clean(formData.get("email"));
+  if (!email) return { error: "Please add your email." };
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return { error: "That email doesn't look right — please check it." };
+  }
+
+  const phone = clean(formData.get("phone"));
+  if (!phone) return { error: "Please add your phone number." };
+  // Deliberately loose: guests write numbers every imaginable way, and
+  // rejecting a real number over its punctuation loses the guest entirely.
+  if ((phone.match(/\d/g) ?? []).length < 7) {
+    return { error: "That phone number looks too short — please check it." };
+  }
+
   const { data: wedding } = await supabase
     .from("public_weddings")
     .select("id")
@@ -41,8 +58,8 @@ export async function submitContactDetails(
   const { error } = await supabase.from("contact_submissions").insert({
     wedding_id: wedding.id,
     name,
-    email: clean(formData.get("email")),
-    phone: clean(formData.get("phone")),
+    email,
+    phone,
     address_line1: clean(formData.get("address_line1")),
     address_line2: clean(formData.get("address_line2")),
     city: clean(formData.get("city")),

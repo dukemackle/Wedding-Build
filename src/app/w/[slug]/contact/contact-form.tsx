@@ -47,14 +47,28 @@ export function ContactForm({ slug, coupleNames }: { slug: string; coupleNames: 
         <input type="text" name="name" required autoComplete="name" className={fieldClass} />
       </label>
 
+      {/* Asked for rather than optional now, and said plainly: a form that
+          demands a phone number without explaining why reads as nosy, and a
+          guest who feels that way closes the tab. */}
+      <p className="-mt-1 text-sm text-ink/60">
+        Both are needed so we can reach you about the wedding — invitations, any change of plan,
+        and details closer to the day.
+      </p>
+
       <div className="grid gap-4 sm:grid-cols-2">
         <label className={labelClass}>
-          Email <span className="text-ink/40">(optional)</span>
-          <input type="email" name="email" autoComplete="email" className={fieldClass} />
+          Email
+          <input type="email" name="email" required autoComplete="email" className={fieldClass} />
         </label>
         <label className={labelClass}>
-          Phone <span className="text-ink/40">(optional)</span>
-          <input type="tel" name="phone" autoComplete="tel" className={fieldClass} />
+          Phone
+          <input
+            type="tel"
+            name="phone"
+            required
+            autoComplete="tel"
+            className={fieldClass}
+          />
         </label>
       </div>
 
