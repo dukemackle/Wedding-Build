@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import type { Wedding } from "@/lib/supabase/types";
+import { readUploadedContract } from "@/lib/ai/read-uploaded-contract";
 
 const BUCKET = "contracts";
 
@@ -94,23 +95,38 @@ export async function uploadContract(formData: FormData) {
     return { error: "Could not upload that file — please try again." };
   }
 
-  const { error } = await supabase.from("budget_contracts").insert({
-    wedding_id: wedding.id,
-    ...target,
-    storage_path: path,
-    file_name: file.name,
-    file_size: file.size,
-    content_type: file.type,
-  });
+  const { data: row, error } = await supabase
+    .from("budget_contracts")
+    .insert({
+      wedding_id: wedding.id,
+      ...target,
+      storage_path: path,
+      file_name: file.name,
+      file_size: file.size,
+      content_type: file.type,
+    })
+    .select("id")
+    .single<{ id: string }>();
 
-  if (error) {
+  if (error || !row) {
     // Don't leave the object orphaned in the bucket if the row didn't land --
     // it would count against storage forever with nothing referencing it.
     await supabase.storage.from(BUCKET).remove([path]);
     return { error: "Could not save that contract — please try again." };
   }
 
+  // Read it now, so a contract attached to a budget line turns up on the
+  // Checklist page already summarised with its dates found.
+  await readUploadedContract(supabase, {
+    id: row.id,
+    wedding_id: wedding.id,
+    storage_path: path,
+    file_name: file.name,
+    content_type: file.type,
+  });
+
   revalidatePath("/budget");
+  revalidatePath("/checklist");
   return { success: true };
 }
 

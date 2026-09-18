@@ -54,14 +54,13 @@ export default async function ChecklistPage() {
     .order("created_at", { ascending: true })
     .returns<ChecklistItem[]>();
 
-  // Contracts kept on this page rather than against a budget line: both
-  // target columns null (see migration 0071).
+  // Every contract, not just the ones uploaded here: one attached to a budget
+  // line is read the same way, and its dates belong on the same page as the
+  // checklist they'd become.
   const { data: contracts } = await supabase
     .from("budget_contracts")
-    .select("id, file_name, summary, summarised_at, created_at")
+    .select("id, file_name, category, summary, proposed_tasks, read_error, summarised_at, created_at")
     .eq("wedding_id", wedding.id)
-    .is("category", null)
-    .is("custom_item_id", null)
     .order("created_at", { ascending: false })
     .returns<PlanningContract[]>();
 

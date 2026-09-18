@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { Caution } from "@/components/caution";
 import type { ContractTask } from "@/lib/ai/contract-reader";
 import {
   deletePlanningContract,
@@ -12,7 +13,13 @@ import {
 export type PlanningContract = {
   id: string;
   file_name: string;
+  /** Set when it's attached to a budget line rather than uploaded here. */
+  category: string | null;
   summary: string | null;
+  /** What Wren found, waiting to be ticked. Null once they've been added. */
+  proposed_tasks: ContractTask[] | null;
+  /** Trouble reading it, or what Wren was unsure of overall. */
+  read_error: string | null;
   summarised_at: string | null;
   created_at: string;
 };
@@ -27,9 +34,20 @@ function formatDate(value: string) {
 
 function ContractRow({ contract }: { contract: PlanningContract }) {
   const [summary, setSummary] = useState(contract.summary);
-  const [tasks, setTasks] = useState<ContractTask[] | null>(null);
-  /** Which proposed tasks are ticked, by index. All start ticked. */
-  const [chosen, setChosen] = useState<Set<number>>(new Set());
+  const [tasks, setTasks] = useState<ContractTask[] | null>(contract.proposed_tasks);
+  /**
+   * Which proposed tasks are ticked. The ones Wren flagged start UNticked --
+   * a task it isn't sure about should take a deliberate act to accept, not a
+   * deliberate act to reject.
+   */
+  const [chosen, setChosen] = useState<Set<number>>(
+    () =>
+      new Set(
+        (contract.proposed_tasks ?? [])
+          .map((task, index) => (task.uncertain ? -1 : index))
+          .filter((index) => index >= 0),
+      ),
+  );
   const [added, setAdded] = useState<number | null>(null);
   const [confirmingDelete, setConfirmingDelete] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
@@ -48,7 +66,13 @@ function ContractRow({ contract }: { contract: PlanningContract }) {
       }
       setSummary(result.summary ?? null);
       setTasks(result.tasks ?? []);
-      setChosen(new Set((result.tasks ?? []).map((_, index) => index)));
+      setChosen(
+        new Set(
+          (result.tasks ?? [])
+            .map((task, index) => (task.uncertain ? -1 : index))
+            .filter((index) => index >= 0),
+        ),
+      );
     });
   }
 
@@ -67,6 +91,7 @@ function ContractRow({ contract }: { contract: PlanningContract }) {
     const formData = new FormData();
     formData.set("tasks", JSON.stringify(picked));
     formData.set("file_name", contract.file_name);
+    formData.set("contract_id", contract.id);
     setError(undefined);
     startTransition(async () => {
       const result = await saveContractTasks(formData);
@@ -92,7 +117,14 @@ function ContractRow({ contract }: { contract: PlanningContract }) {
   return (
     <div className="border-b border-hairline py-4 last:border-b-0">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <span className="min-w-0 truncate text-sm text-ink">{contract.file_name}</span>
+        <span className="min-w-0 truncate text-sm text-ink">
+          {contract.file_name}
+          {contract.category && (
+            <span className="ml-2 rounded-full bg-forest/10 px-1.5 py-0.5 text-[10px] text-forest">
+              from your budget
+            </span>
+          )}
+        </span>
         <div className="flex shrink-0 items-center gap-3">
           <button
             type="button"
@@ -100,7 +132,7 @@ function ContractRow({ contract }: { contract: PlanningContract }) {
             disabled={isPending}
             className="rounded-md border border-hairline bg-card px-3 py-1 text-xs text-forest transition-colors hover:border-forest disabled:opacity-50"
           >
-            {isPending ? "Reading…" : summary ? "Read it again" : "Summarise & find dates"}
+            {isPending ? "Reading…" : summary ? "Read it again" : "Read this contract"}
           </button>
           {confirmingDelete ? (
             <>
@@ -133,6 +165,10 @@ function ContractRow({ contract }: { contract: PlanningContract }) {
 
       {summary && (
         <p className="mt-2 whitespace-pre-line text-sm text-ink/75">{summary}</p>
+      )}
+
+      {contract.read_error && (
+        <Caution>{contract.read_error}</Caution>
       )}
 
       {tasks !== null && tasks.length === 0 && (
@@ -170,6 +206,7 @@ function ContractRow({ contract }: { contract: PlanningContract }) {
                     {task.notes && (
                       <span className="mt-0.5 block text-xs text-ink/50">{task.notes}</span>
                     )}
+                    {task.uncertain && <Caution>{task.uncertainty}</Caution>}
                   </span>
                 </label>
               </li>
@@ -215,15 +252,15 @@ export function ContractPanel({ contracts }: { contracts: PlanningContract[] }) 
     <div className="mt-8 w-full rounded-lg border border-hairline bg-card p-6 shadow-sm">
       <h2 className="font-display text-2xl font-semibold text-forest">Contracts</h2>
       <p className="mt-1 text-sm text-ink/70">
-        Keep your signed vendor contracts here, and let Wren read one for you — it writes a plain
-        summary and pulls out the dates you have to act on, ready to add to your checklist.
+        Signed vendor contracts, read for you. Wren writes a plain summary and pulls out the dates
+        you have to act on — including contracts you attached to a budget line.
       </p>
       {/* Says plainly what leaves Wren, because a contract holds full legal
           names, an address and payment details. */}
       <p className="mt-1 text-xs text-ink/55">
-        Files are stored privately and only you and your partner can open them. Reading one sends
-        that document to Anthropic&apos;s API — nothing is sent until you press the button, and
-        Wren&apos;s reading is a starting point, not legal advice.
+        Files are stored privately and only you and your partner can open them. Uploading one sends
+        that document to Anthropic&apos;s API to be read. Nothing is added to your checklist until
+        you tick it, and Wren&apos;s reading is a starting point, not legal advice.
       </p>
 
       <input
