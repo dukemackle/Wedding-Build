@@ -25,11 +25,21 @@ export type ContractTask = {
    * to be able to check Wren's reading against the page it came from.
    */
   notes: string;
+  /**
+   * Set when the model wasn't reading a plain statement -- an inferred date,
+   * an ambiguous clause, a page it could barely make out. Drives the amber
+   * caution, so uncertainty is shown rather than smoothed over.
+   */
+  uncertain: boolean;
+  /** What exactly is shaky, in the model's words. Empty when it's confident. */
+  uncertainty: string;
 };
 
 export type ContractRead = {
   summary: string;
   tasks: ContractTask[];
+  /** Set when the document itself was hard to read at all. */
+  uncertainty: string;
 };
 
 const SYSTEM = `You read wedding vendor contracts for a couple planning their wedding.
@@ -52,8 +62,20 @@ can check it. If the contract gives a relative deadline ("two weeks before the
 event") rather than a date, set due_date to null and say so in the notes --
 never calculate a date the contract did not state.
 
+Be honest about what you are unsure of, and mark it rather than smoothing it
+over. Set "uncertain": true on any task where you were not reading a plain
+statement -- an ambiguous clause, a date you worked out rather than read, a
+scan you could barely make out, terms that seem to contradict each other --
+and say what is shaky in "uncertainty". Set it false only when the contract
+says the thing outright. A confident-looking wrong date costs this couple
+money; saying "check this one" costs them nothing.
+
+Use the top-level "uncertainty" for trouble with the document as a whole --
+pages missing, text you could not read, a document that does not look like a
+contract at all. Leave it as "" when the document read cleanly.
+
 Reply with ONLY a JSON object, no prose around it:
-{"summary": "...", "tasks": [{"title": "...", "due_date": "YYYY-MM-DD" or null, "notes": "..."}]}`;
+{"summary": "...", "uncertainty": "", "tasks": [{"title": "...", "due_date": "YYYY-MM-DD" or null, "notes": "...", "uncertain": false, "uncertainty": ""}]}`;
 
 /** Trims a model-written field to something a database column can hold. */
 function clamp(value: unknown, max: number): string {
@@ -144,7 +166,7 @@ export async function readContract(
     return { error: "Wren couldn't make sense of that contract. Try a clearer copy." };
   }
 
-  const object = parsed as { summary?: unknown; tasks?: unknown };
+  const object = parsed as { summary?: unknown; tasks?: unknown; uncertainty?: unknown };
   const summary = clamp(object.summary, 4000);
   if (!summary) {
     return { error: "Wren couldn't make sense of that contract. Try a clearer copy." };
@@ -152,11 +174,25 @@ export async function readContract(
 
   const tasks = (Array.isArray(object.tasks) ? object.tasks : [])
     .map((task) => {
-      const row = task as { title?: unknown; due_date?: unknown; notes?: unknown };
+      const row = task as {
+        title?: unknown;
+        due_date?: unknown;
+        notes?: unknown;
+        uncertain?: unknown;
+        uncertainty?: unknown;
+      };
+      const due_date = parseDate(row.due_date);
+      const uncertainty = clamp(row.uncertainty, 300);
       return {
         title: clamp(row.title, 200),
-        due_date: parseDate(row.due_date),
+        due_date,
         notes: clamp(row.notes, 1000),
+        // A task with no date is uncertain whether or not the model said so:
+        // the couple still has to work out when it actually falls.
+        uncertain: row.uncertain === true || uncertainty !== "" || due_date === null,
+        uncertainty:
+          uncertainty ||
+          (due_date === null ? "The contract gives no calendar date for this one." : ""),
       };
     })
     .filter((task) => task.title !== "")
@@ -164,5 +200,5 @@ export async function readContract(
     // rather than filling someone's checklist with noise.
     .slice(0, 20);
 
-  return { read: { summary, tasks } };
+  return { read: { summary, tasks, uncertainty: clamp(object.uncertainty, 300) } };
 }

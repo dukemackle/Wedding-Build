@@ -5,7 +5,8 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import type { Wedding } from "@/lib/supabase/types";
-import { readContract, type ContractTask } from "@/lib/ai/contract-reader";
+import type { ContractTask } from "@/lib/ai/contract-reader";
+import { readUploadedContract } from "@/lib/ai/read-uploaded-contract";
 
 const BUCKET = "contracts";
 
@@ -19,11 +20,6 @@ const ALLOWED_TYPES = new Set([
 ]);
 
 const MAX_CONTRACT_BYTES = 15 * 1024 * 1024;
-
-// Longer than the 60s the budget page mints for a download, because this URL
-// isn't for the couple -- the model fetches it. Still short: it's a link to a
-// document with names, addresses and payment details behind it.
-const READ_URL_TTL_SECONDS = 300;
 
 async function requireOwnWedding() {
   const supabase = await createClient();
@@ -75,21 +71,34 @@ export async function uploadPlanningContract(formData: FormData) {
     .upload(path, file, { contentType: file.type });
   if (uploadError) return { error: "Could not upload that file — please try again." };
 
-  const { error } = await supabase.from("budget_contracts").insert({
-    wedding_id: wedding.id,
-    category: null,
-    custom_item_id: null,
-    storage_path: path,
-    file_name: file.name,
-    file_size: file.size,
-    content_type: file.type,
-  });
+  const { data: row, error } = await supabase
+    .from("budget_contracts")
+    .insert({
+      wedding_id: wedding.id,
+      category: null,
+      custom_item_id: null,
+      storage_path: path,
+      file_name: file.name,
+      file_size: file.size,
+      content_type: file.type,
+    })
+    .select("id")
+    .single<{ id: string }>();
 
-  if (error) {
+  if (error || !row) {
     // Don't leave the object orphaned in the bucket if the row didn't land.
     await supabase.storage.from(BUCKET).remove([path]);
     return { error: "Could not save that contract — please try again." };
   }
+
+  // Read it now rather than waiting to be asked. Never fails the upload.
+  await readUploadedContract(supabase, {
+    id: row.id,
+    wedding_id: wedding.id,
+    storage_path: path,
+    file_name: file.name,
+    content_type: file.type,
+  });
 
   revalidatePath("/checklist");
   return { success: true };
@@ -121,30 +130,26 @@ export async function summariseContract(
 
   if (!contract) return { error: "That contract is no longer here." };
 
-  const { data: signed, error: signError } = await supabase.storage
-    .from(BUCKET)
-    .createSignedUrl(contract.storage_path, READ_URL_TTL_SECONDS);
+  await readUploadedContract(supabase, {
+    id: contract.id,
+    wedding_id: wedding.id,
+    storage_path: contract.storage_path,
+    file_name: contract.file_name,
+    content_type: contract.content_type,
+  });
 
-  if (signError || !signed?.signedUrl) {
-    return { error: "Could not open that contract — please try again." };
+  const { data: after } = await supabase
+    .from("budget_contracts")
+    .select("summary, proposed_tasks, read_error")
+    .eq("id", contract.id)
+    .maybeSingle<{ summary: string | null; proposed_tasks: ContractTask[] | null; read_error: string | null }>();
+
+  if (!after?.summary) {
+    return { error: after?.read_error ?? "Could not read that contract." };
   }
 
-  const { error, read } = await readContract(
-    signed.signedUrl,
-    contract.file_name,
-    contract.content_type,
-  );
-  if (error || !read) return { error: error ?? "Could not read that contract." };
-
-  // Keep the summary so reopening the page doesn't re-send the document.
-  await supabase
-    .from("budget_contracts")
-    .update({ summary: read.summary, summarised_at: new Date().toISOString() })
-    .eq("id", contract.id)
-    .eq("wedding_id", wedding.id);
-
   revalidatePath("/checklist");
-  return { summary: read.summary, tasks: read.tasks };
+  return { summary: after.summary, tasks: after.proposed_tasks ?? [] };
 }
 
 /** Writes the tasks the couple ticked into the checklist. */
@@ -186,6 +191,17 @@ export async function saveContractTasks(
 
   const { error } = await supabase.from("checklist_items").insert(rows);
   if (error) return { error: error.message };
+
+  // They've been dealt with -- leaving them pending would invite adding the
+  // same deadlines twice.
+  const contractId = (formData.get("contract_id") as string)?.trim();
+  if (contractId) {
+    await supabase
+      .from("budget_contracts")
+      .update({ proposed_tasks: null })
+      .eq("id", contractId)
+      .eq("wedding_id", wedding.id);
+  }
 
   revalidatePath("/checklist");
   return { added: rows.length };
