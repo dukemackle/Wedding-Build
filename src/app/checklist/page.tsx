@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { AppNav } from "@/components/app-nav";
 import type { ChecklistItem, Wedding } from "@/lib/supabase/types";
 import { ChecklistManager } from "./checklist-manager";
+import { ContractPanel, type PlanningContract } from "./contract-panel";
 
 export default async function ChecklistPage() {
   const supabase = await createClient();
@@ -53,6 +54,17 @@ export default async function ChecklistPage() {
     .order("created_at", { ascending: true })
     .returns<ChecklistItem[]>();
 
+  // Contracts kept on this page rather than against a budget line: both
+  // target columns null (see migration 0071).
+  const { data: contracts } = await supabase
+    .from("budget_contracts")
+    .select("id, file_name, summary, summarised_at, created_at")
+    .eq("wedding_id", wedding.id)
+    .is("category", null)
+    .is("custom_item_id", null)
+    .order("created_at", { ascending: false })
+    .returns<PlanningContract[]>();
+
   return (
     <main className="flex flex-1 flex-col items-center px-6 py-16">
       <AppNav email={user.email ?? ""} maxWidthClassName="max-w-3xl" />
@@ -65,6 +77,8 @@ export default async function ChecklistPage() {
         </h1>
 
         <ChecklistManager items={items ?? []} />
+
+        <ContractPanel contracts={contracts ?? []} />
       </div>
     </main>
   );
