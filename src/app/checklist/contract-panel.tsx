@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { Caution } from "@/components/caution";
+import { DrivePickerButton } from "@/components/drive-picker";
 import type { ContractTask } from "@/lib/ai/contract-reader";
 import {
   deletePlanningContract,
@@ -270,6 +271,11 @@ export function ContractPanel({ contracts }: { contracts: PlanningContract[] }) 
         disabled={isPending}
         className="mt-3 block w-full text-sm text-ink file:mr-3 file:rounded-md file:border file:border-hairline file:bg-card file:px-3 file:py-1.5 file:text-sm file:text-ink hover:file:border-forest"
       />
+
+      {/* Signed contracts usually already live in Drive, scanned and filed. */}
+      <div className="mt-2">
+        <DrivePickerButton kind="document" onFile={handleFile} disabled={isPending} />
+      </div>
       {isPending && <p className="mt-2 text-sm text-ink/60">Working…</p>}
       {error && <p className="mt-2 text-sm text-red-800">{error}</p>}
 

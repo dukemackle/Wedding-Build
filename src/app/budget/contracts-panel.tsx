@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState, useTransition } from "react";
+import { DrivePickerButton } from "@/components/drive-picker";
 import type { BudgetContract } from "@/lib/supabase/types";
 import { TrashIcon } from "@/components/icons";
 import { uploadContract, deleteContract, getContractUrl } from "./contract-actions";
@@ -166,6 +167,16 @@ export function ContractsPanel({
         />
         {isPending ? "Uploading…" : "+ Add a file"}
       </label>
+
+      {/* A signed contract is usually already scanned and filed in Drive. */}
+      <span className="ml-2 inline-block">
+        <DrivePickerButton
+          kind="document"
+          onFile={handleUpload}
+          disabled={isPending}
+          className="rounded-full border border-hairline bg-card px-4 py-1.5 font-mono-numbers text-sm text-forest transition-colors hover:border-forest disabled:opacity-50"
+        />
+      </span>
 
       <p className="mt-2 text-[11px] text-ink/50">
         PDF, Word, or a photo — up to 15MB. Only you and your partner can open these.

@@ -12,6 +12,7 @@ import {
   type BudgetImportParse,
   type BudgetSingleField,
 } from "@/lib/budget-import";
+import { DrivePickerButton } from "@/components/drive-picker";
 import { readTable } from "@/lib/spreadsheet";
 import { fetchBudgetSheet, importBudgetRows } from "./actions";
 
@@ -336,12 +337,19 @@ export function BudgetImportPanel({ onDone }: { onDone: () => void }) {
       </div>
 
       {source === "file" ? (
-        <input
-          type="file"
-          accept=".csv,.tsv,.txt,.xlsx,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-          onChange={(e) => handleFile(e.target.files?.[0])}
-          className="mt-3 block w-full text-sm text-ink file:mr-3 file:rounded-md file:border file:border-hairline file:bg-card file:px-3 file:py-1.5 file:text-sm file:text-ink hover:file:border-forest"
-        />
+        <div className="mt-3">
+          <input
+            type="file"
+            accept=".csv,.tsv,.txt,.xlsx,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            onChange={(e) => handleFile(e.target.files?.[0])}
+            className="block w-full text-sm text-ink file:mr-3 file:rounded-md file:border file:border-hairline file:bg-card file:px-3 file:py-1.5 file:text-sm file:text-ink hover:file:border-forest"
+          />
+          {/* Reaches a private Sheet without it being shared publicly, unlike
+              the link tab -- Google grants access to this one file only. */}
+          <div className="mt-2">
+            <DrivePickerButton kind="spreadsheet" onFile={(file) => handleFile(file)} />
+          </div>
+        </div>
       ) : (
         <div className="mt-3">
           <div className="flex flex-col gap-2 sm:flex-row">

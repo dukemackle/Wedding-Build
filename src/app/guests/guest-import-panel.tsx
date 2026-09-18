@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { GUEST_IMPORT_TEMPLATE, parseGuestTable, type GuestImportParse } from "@/lib/guest-import";
+import { DrivePickerButton } from "@/components/drive-picker";
 import { readTable } from "@/lib/spreadsheet";
 import { importGuestRows } from "./actions";
 
@@ -187,6 +188,12 @@ export function GuestImportFileTab({ onDone }: { onDone: () => void }) {
         onChange={(e) => handleFile(e.target.files?.[0])}
         className="mt-3 block w-full text-sm text-ink file:mr-3 file:rounded-md file:border file:border-hairline file:bg-card file:px-3 file:py-1.5 file:text-sm file:text-ink hover:file:border-forest"
       />
+
+      {/* Reaches a private Sheet without it being shared publicly, unlike the
+          link tab -- Google grants access to this one file only. */}
+      <div className="mt-2">
+        <DrivePickerButton kind="spreadsheet" onFile={(file) => handleFile(file)} />
+      </div>
 
       {isReading && <p className="mt-3 text-sm text-ink/60">Reading {fileName}…</p>}
 
