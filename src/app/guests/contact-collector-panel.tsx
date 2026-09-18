@@ -128,7 +128,23 @@ export function ContactCollectorPanel({
   missingAddressCount: number;
 }) {
   const [copied, setCopied] = useState(false);
+  const [messageCopied, setMessageCopied] = useState(false);
   const shareUrl = slug ? `${origin}/w/${slug}/contact` : null;
+
+  /**
+   * The link with words around it, ready to paste into a group chat.
+   *
+   * The bare URL is what you send one person who already knows why. Reaching
+   * everyone means a family thread or a story, and there the link needs to
+   * explain itself -- most people won't tap an unexplained address form from
+   * someone they haven't spoken to since last Christmas.
+   *
+   * Written to be edited: names are the couple's own to add, and a message
+   * that sounds like them beats one that sounds like Wren.
+   */
+  const shareMessage = shareUrl
+    ? `We're getting married! Send us your address (and the best email and phone for you) so we can get your invitation out: ${shareUrl}`
+    : null;
 
   return (
     <div className="mt-8 w-full rounded-lg border border-hairline bg-card p-5 shadow-sm sm:p-8">
@@ -161,6 +177,30 @@ export function ContactCollectorPanel({
         <p className="mt-4 rounded-md border border-hairline bg-parchment p-3 text-sm text-ink/70">
           Turn on your guest site above to get a link you can share.
         </p>
+      )}
+
+      {shareMessage && (
+        <div className="mt-3 rounded-md border border-hairline bg-parchment p-3">
+          <div className="flex flex-wrap items-start justify-between gap-2">
+            <p className="min-w-0 flex-1 text-sm text-ink/75">{shareMessage}</p>
+            <button
+              type="button"
+              onClick={() => {
+                navigator.clipboard.writeText(shareMessage);
+                setMessageCopied(true);
+                setTimeout(() => setMessageCopied(false), 2000);
+              }}
+              className="shrink-0 rounded-full border border-hairline bg-card px-4 py-1.5 font-mono-numbers text-sm text-forest transition-colors hover:border-forest"
+            >
+              {messageCopied ? "Copied" : "Copy message"}
+            </button>
+          </div>
+          <p className="mt-2 text-xs text-ink/55">
+            Paste it into your family group chat, a story, or a text — it reaches people who
+            aren&apos;t on your list yet, which is most of the ones whose address you&apos;re
+            missing.
+          </p>
+        </div>
       )}
 
       {missingAddressCount > 0 && (
