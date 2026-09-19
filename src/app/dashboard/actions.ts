@@ -72,7 +72,26 @@ async function requireOwnWedding() {
   return { supabase, user, wedding };
 }
 
-export async function uploadHeroPhoto(formData: FormData): Promise<{ error?: string }> {
+/**
+ * Which of the two photos is being set.
+ *
+ * The hero photo is the wide banner on the public wedding site; the profile
+ * photo is the tight crop beside the couple's names on the dashboard. Same
+ * upload path, different column, and edited in different places -- each beside
+ * the thing it actually appears on.
+ */
+export type WeddingPhotoKind = "hero" | "profile";
+
+const PHOTO_COLUMN: Record<WeddingPhotoKind, "hero_photo_url" | "profile_photo_url"> = {
+  hero: "hero_photo_url",
+  profile: "profile_photo_url",
+};
+
+function photoKindFromForm(formData: FormData): WeddingPhotoKind {
+  return formData.get("kind") === "profile" ? "profile" : "hero";
+}
+
+export async function uploadWeddingPhoto(formData: FormData): Promise<{ error?: string }> {
   const { supabase, wedding } = await requireOwnWedding();
 
   if (!wedding) {
@@ -105,7 +124,7 @@ export async function uploadHeroPhoto(formData: FormData): Promise<{ error?: str
 
   const { error } = await supabase
     .from("weddings")
-    .update({ hero_photo_url: photoUrl })
+    .update({ [PHOTO_COLUMN[photoKindFromForm(formData)]]: photoUrl })
     .eq("id", wedding.id);
 
   if (error) {
@@ -113,10 +132,11 @@ export async function uploadHeroPhoto(formData: FormData): Promise<{ error?: str
   }
 
   revalidatePath("/dashboard");
+  revalidatePath("/guests");
   return {};
 }
 
-export async function removeHeroPhoto(): Promise<{ error?: string }> {
+export async function removeWeddingPhoto(formData: FormData): Promise<{ error?: string }> {
   const { supabase, wedding } = await requireOwnWedding();
 
   if (!wedding) {
@@ -125,7 +145,7 @@ export async function removeHeroPhoto(): Promise<{ error?: string }> {
 
   const { error } = await supabase
     .from("weddings")
-    .update({ hero_photo_url: null })
+    .update({ [PHOTO_COLUMN[photoKindFromForm(formData)]]: null })
     .eq("id", wedding.id);
 
   if (error) {
@@ -133,6 +153,7 @@ export async function removeHeroPhoto(): Promise<{ error?: string }> {
   }
 
   revalidatePath("/dashboard");
+  revalidatePath("/guests");
   return {};
 }
 

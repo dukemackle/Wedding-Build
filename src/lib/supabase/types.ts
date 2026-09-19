@@ -12,6 +12,8 @@ export type Wedding = {
   guest_count_override: number | null;
   public_slug: string | null;
   hero_photo_url: string | null;
+  /** Tight crop for the dashboard avatar. Falls back to hero_photo_url. */
+  profile_photo_url: string | null;
   rsvp_deadline: string | null;
   dress_code: string | null;
   travel_notes: string | null;
@@ -431,6 +433,8 @@ export type ChecklistItem = {
   due_date: string | null;
   completed: boolean;
   completed_at: string | null;
+  /** Which stage of Wren's plan this belongs to. Null for a couple's own task. */
+  phase: string | null;
   created_at: string;
   updated_at: string;
 };

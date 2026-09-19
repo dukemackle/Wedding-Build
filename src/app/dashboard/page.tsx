@@ -3,11 +3,9 @@ import { createClient } from "@/lib/supabase/server";
 import { AppNav } from "@/components/app-nav";
 import { FadeInSection } from "@/components/fade-in-section";
 import { WeddingDashboard } from "./wedding-dashboard";
-import { HeroPhotoUpload } from "./hero-photo-upload";
 import { BookedVenueCard } from "./booked-venue-card";
 import { DashboardSummary, type DashboardSummaryData } from "./dashboard-summary";
 import { ChecklistPreview } from "./checklist-preview";
-import { ReferralCodeCard } from "./referral-code-card";
 import { PartnerInviteCard } from "./partner-invite-card";
 import type { ChecklistItem, Venue, Wedding } from "@/lib/supabase/types";
 import { BUDGET_CATEGORIES, computeCategoryValue, effectiveGuestCount } from "@/lib/budget-categories";
@@ -118,16 +116,6 @@ export default async function DashboardPage() {
     <main className="flex flex-1 flex-col items-center px-6 py-16">
       <AppNav email={user.email ?? ""} />
       <WeddingDashboard initialWedding={wedding} />
-      {bookedVenue && (
-        <FadeInSection delayMs={20}>
-          <BookedVenueCard venue={bookedVenue} />
-        </FadeInSection>
-      )}
-      {wedding?.referral_code && (
-        <FadeInSection>
-          <ReferralCodeCard code={wedding.referral_code} />
-        </FadeInSection>
-      )}
       {wedding && wedding.user_id === user.id && (
         <FadeInSection>
           <PartnerInviteCard
@@ -136,19 +124,13 @@ export default async function DashboardPage() {
           />
         </FadeInSection>
       )}
-      {wedding && (
-        <FadeInSection delayMs={40}>
-          <HeroPhotoUpload photoUrl={wedding.hero_photo_url} />
-        </FadeInSection>
-      )}
-      {wedding && (
-        <FadeInSection delayMs={80}>
-          <ChecklistPreview items={checklistItems} />
-        </FadeInSection>
-      )}
       {summary && (
-        <FadeInSection delayMs={160}>
-          <DashboardSummary data={summary} />
+        <FadeInSection delayMs={60}>
+          <DashboardSummary
+            data={summary}
+            bookedVenue={bookedVenue ? <BookedVenueCard venue={bookedVenue} /> : undefined}
+            aside={<ChecklistPreview items={checklistItems} />}
+          />
         </FadeInSection>
       )}
     </main>

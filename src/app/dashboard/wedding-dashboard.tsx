@@ -7,6 +7,84 @@ import type { Wedding } from "@/lib/supabase/types";
 import { STATES, SEASONS, STYLE_TIERS, VENUE_TYPES } from "@/lib/wedding-options";
 import { daysUntilWedding } from "@/lib/countdown";
 import { CountdownTimer } from "@/components/countdown-timer";
+import { PhotoUpload } from "@/components/photo-upload";
+
+/**
+ * The couple's picture, and the only place it's set.
+ *
+ * Falls back to the guest site's banner photo so nobody who already uploaded
+ * one sees an empty circle, but a banner cropped to 96px is usually a smear --
+ * which is the reason the two are separate now. The pencil is the whole
+ * editing affordance; there is no "photo" card any more.
+ */
+function ProfileAvatar({ wedding }: { wedding: Wedding }) {
+  const [editing, setEditing] = useState(false);
+  const photo = wedding.profile_photo_url ?? wedding.hero_photo_url;
+
+  return (
+    <div className="shrink-0">
+      <div className="relative w-24">
+        {photo ? (
+          <Image
+            src={photo}
+            alt={[wedding.partner_a_name, wedding.partner_b_name].filter(Boolean).join(" & ")}
+            width={96}
+            height={96}
+            className="h-24 w-24 rounded-full border border-hairline object-cover shadow-sm"
+          />
+        ) : (
+          <div className="flex h-24 w-24 items-center justify-center rounded-full border border-hairline bg-parchment">
+            <svg
+              viewBox="0 0 64 64"
+              aria-hidden="true"
+              className="h-14 w-14 fill-forest/25"
+            >
+              <circle cx="24" cy="21" r="10" />
+              <circle cx="43" cy="24" r="8.5" />
+              <path d="M4 64c0-11 9-19 20-19s20 8 20 19Z" />
+              <path d="M33 64c1-9 8-16 17-16s14 6 14 16Z" />
+            </svg>
+          </div>
+        )}
+        <button
+          type="button"
+          onClick={() => setEditing((v) => !v)}
+          aria-label={photo ? "Change your photo" : "Add a photo"}
+          className="absolute -bottom-1 -right-1 flex h-8 w-8 items-center justify-center rounded-full border-2 border-card bg-forest text-parchment transition-colors hover:bg-forest/90"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+            className="h-3.5 w-3.5"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.8"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M12 20h9" />
+            <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
+          </svg>
+        </button>
+      </div>
+
+      {editing && (
+        <div className="mt-4 rounded-md border border-hairline bg-parchment p-3">
+          <p className="mb-2 text-xs text-ink/60">
+            A photo of the two of you. Shown here only — your guest site&apos;s banner is set on
+            the Guests page.
+          </p>
+          <PhotoUpload
+            kind="profile"
+            photoUrl={wedding.profile_photo_url}
+            confirmRemove="Remove your profile photo?"
+            onDone={() => setEditing(false)}
+          />
+        </div>
+      )}
+    </div>
+  );
+}
 
 function formatDate(dateStr: string) {
   return new Date(`${dateStr}T00:00:00`).toLocaleDateString("en-US", {
@@ -197,15 +275,7 @@ function WeddingSummary({
   return (
     <div>
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
-        {wedding.hero_photo_url && (
-          <Image
-            src={wedding.hero_photo_url}
-            alt={`${wedding.partner_a_name} & ${wedding.partner_b_name}`}
-            width={96}
-            height={96}
-            className="h-24 w-24 shrink-0 rounded-full border border-hairline object-cover shadow-sm"
-          />
-        )}
+        <ProfileAvatar wedding={wedding} />
         <div>
           {wedding.wedding_date ? (
             <CountdownTimer

@@ -14,6 +14,7 @@ import type {
 } from "@/lib/supabase/types";
 import { GuestsManager } from "./guests-manager";
 import { RegistryManager } from "./registry-manager";
+import { HeroPhotoPanel } from "./hero-photo-panel";
 import { PublicSitePanel } from "./public-site-panel";
 import { GuestSiteDetails } from "./guest-site-details";
 import { BulkInviteForm } from "./bulk-invite-form";
@@ -134,6 +135,7 @@ export default async function GuestsPage() {
             origin={origin}
             pendingSubmissions={rsvpSubmissions ?? []}
           />
+          <HeroPhotoPanel photoUrl={wedding.hero_photo_url} />
           <ContactCollectorPanel
             slug={wedding.public_slug}
             origin={origin}

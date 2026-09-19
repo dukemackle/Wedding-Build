@@ -1,0 +1,13 @@
+-- A profile photo, separate from the guest site's hero photo.
+--
+-- One image was doing two jobs it can't do at once. The hero photo is a wide
+-- banner at the top of the public wedding site; the dashboard crops the same
+-- file into a small circle beside the couple's names. A landscape shot that
+-- works beautifully as a banner is unreadable at 64px -- a field with the
+-- couple somewhere in it becomes a green smudge.
+--
+-- So the hero photo stays what it is and is edited where it appears (the guest
+-- site page), and this is the tight crop shown on the dashboard. Nullable:
+-- the dashboard falls back to the hero photo, then to a placeholder, so
+-- nobody is forced to upload twice.
+alter table weddings add column if not exists profile_photo_url text;

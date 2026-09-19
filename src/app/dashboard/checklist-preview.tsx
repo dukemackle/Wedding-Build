@@ -9,6 +9,14 @@ function formatDueDate(dateStr: string) {
   });
 }
 
+/**
+ * The next few tasks, as the right-hand column of the snapshot card.
+ *
+ * Deliberately not its own box any more: "where things stand" and "what's
+ * next" are one thought, and two stacked cards pushed the second below the
+ * fold on a laptop -- where it's useless, because the point of it is being
+ * seen without looking.
+ */
 export function ChecklistPreview({ items }: { items: ChecklistItem[] }) {
   const upcoming = items
     .filter((item) => !item.completed)
@@ -21,7 +29,7 @@ export function ChecklistPreview({ items }: { items: ChecklistItem[] }) {
     .slice(0, 4);
 
   return (
-    <div className="mt-8 w-full max-w-2xl rounded-lg border border-hairline bg-card p-6 sm:p-10 shadow-sm">
+    <div>
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <ChecklistIcon className="h-5 w-5 text-forest" />
@@ -35,7 +43,7 @@ export function ChecklistPreview({ items }: { items: ChecklistItem[] }) {
       {upcoming.length === 0 ? (
         <p className="mt-4 text-sm text-ink/50">
           {items.length === 0
-            ? "No tasks yet — add some from the Checklist page."
+            ? "No plan yet — Wren can build one for you on the Checklist page."
             : "All caught up! 🎉"}
         </p>
       ) : (
