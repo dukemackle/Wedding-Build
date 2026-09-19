@@ -31,7 +31,10 @@
 	// this file has no record of it. Secrets are unaffected by this and
 	// still belong in the dashboard/`wrangler secret put`, never here.
 	"vars": {
-		"ADMIN_EMAIL": "dukemackle1@gmail.com",
+		// Comma-separated: everyone listed here can open /admin. A list rather
+		// than one address so admin access can move between accounts without a
+		// window where neither has it -- see src/lib/admin.ts.
+		"ADMIN_EMAIL": "dukemackle1@gmail.com,wrenwed.com@gmail.com",
 		// Safe to commit -- the anon key is meant to be public-facing and is
 		// protected by Supabase Row Level Security, unlike the service role
 		// key (which stays a `wrangler secret`, never here). Without these
