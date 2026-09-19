@@ -10,7 +10,7 @@ export default function PrivacyPage() {
       <div className="w-full max-w-3xl">
         <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Legal</p>
         <h1 className="mt-2 font-display text-3xl font-semibold text-forest">Privacy Policy</h1>
-        <p className="mt-2 text-sm text-ink/60">Last updated: September 15, 2026</p>
+        <p className="mt-2 text-sm text-ink/60">Last updated: September 19, 2026</p>
 
         <div className="mt-8 flex flex-col gap-8 text-ink/80">
           <p>
@@ -39,6 +39,13 @@ export default function PrivacyPage() {
                 you and a partner you&apos;ve invited.
               </li>
               <li>Messages you send to vendors/venues through the Service.</li>
+              <li>
+                Files you choose through &ldquo;Choose from Drive.&rdquo; If you connect Google
+                Drive, Wren asks Google only for the specific file you pick in Google&apos;s own
+                picker — it cannot see, list, or open anything else in your Drive. The file is
+                downloaded in your browser and then handled exactly like a file you&apos;d
+                uploaded.
+              </li>
             </ul>
 
             <p className="mt-4 font-medium text-ink">From guests (no account required)</p>
@@ -51,6 +58,17 @@ export default function PrivacyPage() {
                 Guest-submitted RSVP data is sent to the couple whose wedding you&apos;re RSVPing
                 to; it isn&apos;t visible to the general public unless the couple chooses to
                 display it (for example, a guestbook photo/message on their public site).
+              </li>
+              <li>
+                Whatever you submit through a couple&apos;s address-collection link: your name,
+                mailing address, email address, phone number, and any note you add. This goes to
+                that couple so they can send you an invitation. It is never shown on their public
+                wedding site, and the couple reviews each submission before it joins their guest
+                list.
+              </li>
+              <li>
+                Your phone number, if a couple adds it and you opt in to text updates, is used to
+                send you schedule changes for that wedding — nothing else, and never marketing.
               </li>
             </ul>
 
@@ -77,6 +95,34 @@ export default function PrivacyPage() {
               We don&apos;t sell your information, and we don&apos;t use it for third-party
               advertising.
             </p>
+
+            <p className="mt-4 font-medium text-ink">Features that use AI</p>
+            <p className="mt-2">
+              Three parts of Wren send information to Anthropic&apos;s API to generate a response.
+              Each one runs only when you ask for it:
+            </p>
+            <ul className="mt-2 list-disc space-y-2 pl-5">
+              <li>
+                <strong className="text-ink">Reading a contract</strong> — the document you
+                uploaded or attached is sent so Wren can write a summary and pull out dates. A
+                signed vendor contract usually contains full legal names, an address, and payment
+                terms.
+              </li>
+              <li>
+                <strong className="text-ink">Drafting a thank-you note</strong> — that
+                guest&apos;s name, what they gave, and any message they left.
+              </li>
+              <li>
+                <strong className="text-ink">The planning assistant</strong> — your question,
+                plus details of your wedding (date, guest count, budget figures, checklist) so the
+                answer is about your wedding rather than weddings in general.
+              </li>
+            </ul>
+            <p className="mt-2">
+              Anthropic processes this to return a result and does not use it to train their
+              models. Wren&apos;s AI output is a starting point you review — not legal, financial,
+              or professional advice.
+            </p>
             <p className="mt-3">
               We may also use aggregated, anonymized budget figures (never guest lists, messages,
               or anything identifying) to improve the cost estimates the Service shows &mdash; for
@@ -93,10 +139,28 @@ export default function PrivacyPage() {
               </li>
               <li>
                 <strong className="text-ink">Service providers</strong> who help us run Wren,
-                under obligations to protect your data: our database/authentication/file-storage
-                provider (Supabase), our hosting provider (Cloudflare), and our email-delivery
-                provider (Resend). They process data on our behalf and don&apos;t use it for their
-                own purposes.
+                under obligations to protect your data: our
+                database/authentication/file-storage provider (Supabase), our hosting provider
+                (Cloudflare), our email-delivery provider (Resend), our text-message provider
+                (Twilio, only for guests who opted in to schedule updates), and Anthropic, which
+                powers the AI features described above. They process data on our behalf and
+                don&apos;t use it for their own purposes.
+              </li>
+              <li>
+                <strong className="text-ink">Google</strong> — only if you use &ldquo;Choose from
+                Drive.&rdquo; Wren&apos;s use of information received from Google APIs follows the{" "}
+                <a
+                  href="https://developers.google.com/terms/api-services-user-data-policy"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-brass hover:underline"
+                >
+                  Google API Services User Data Policy
+                </a>
+                , including its Limited Use requirements. We request the narrowest available
+                permission, which covers only files you personally select; we don&apos;t store
+                your Google account credentials, and we don&apos;t use Google Drive data for
+                advertising or sell it to anyone.
               </li>
               <li>
                 <strong className="text-ink">Legal requirements</strong> — we may disclose

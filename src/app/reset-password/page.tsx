@@ -48,7 +48,12 @@ export default async function ResetPasswordPage({
         {/* The third shape a recovery session arrives in -- tokens in the URL
             fragment -- is invisible to this server component, so a client
             component has to look for it before we can say the link is dead. */}
-        {!user && <RecoveryBridge />}
+        {!user && (
+          <RecoveryBridge
+            supabaseUrl={process.env.NEXT_PUBLIC_SUPABASE_URL}
+            supabaseKey={process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY}
+          />
+        )}
 
         {user && error && (
           <p className="mt-4 rounded-md border border-red-300 bg-red-50 px-3 py-2 text-sm text-red-800">

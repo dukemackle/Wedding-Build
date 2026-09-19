@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { isAdminEmail } from "@/lib/admin";
 import { signOut } from "@/lib/supabase/actions";
 import { WeddingAssistantWidget } from "@/components/wedding-assistant-widget";
 import { WrenMark } from "@/components/wren-mark";
@@ -12,8 +13,9 @@ export function AppNav({
   /** @deprecated the nav bar now uses a fixed width so it fits in one row on every page; kept optional so existing call sites don't need to change. */
   maxWidthClassName?: string;
 }) {
-  const isAdmin =
-    Boolean(email) && email.toLowerCase() === process.env.ADMIN_EMAIL?.trim().toLowerCase();
+  // Same allowlist the admin routes enforce, so the nav link and the actual
+  // access can't disagree.
+  const isAdmin = isAdminEmail(email);
 
   return (
     <>
