@@ -240,11 +240,17 @@ export function ChecklistManager({ items }: { items: ChecklistItem[] }) {
       if (b.due_date) return 1;
       return a.created_at.localeCompare(b.created_at);
     });
-  const completed = items
-    .filter((item) => item.completed)
+  // Completed plan tasks stay inside their stage, struck through, so ticking
+  // one doesn't make it disappear. Only a couple's own tasks end up in the
+  // drawer at the bottom.
+  const completedOwn = items
+    .filter((item) => item.completed && !item.phase)
     .sort((a, b) => (b.completed_at ?? "").localeCompare(a.completed_at ?? ""));
+  // The header counts everything, plan and own alike -- it's the answer to
+  // "how far through am I", which doesn't care where a task came from.
+  const completedCount = items.length - incomplete.length;
 
-  const pct = items.length > 0 ? (completed.length / items.length) * 100 : 0;
+  const pct = items.length > 0 ? (completedCount / items.length) * 100 : 0;
 
   return (
     <div className="w-full rounded-lg border border-hairline bg-card p-5 sm:p-8 shadow-sm">
@@ -255,7 +261,7 @@ export function ChecklistManager({ items }: { items: ChecklistItem[] }) {
           </span>
           <p className="mt-1 text-sm text-ink/70">
             {items.length > 0
-              ? `${completed.length} of ${items.length} tasks done`
+              ? `${completedCount} of ${items.length} tasks done`
               : "Track everything you need to do before the big day."}
           </p>
           {items.length > 0 && (
@@ -277,27 +283,27 @@ export function ChecklistManager({ items }: { items: ChecklistItem[] }) {
 
       {showAddForm && <AddItemForm onDone={() => setShowAddForm(false)} />}
 
-      {incomplete.length === 0 && completed.length === 0 ? (
+      {items.length === 0 ? (
         <BuildPlanPrompt />
       ) : incomplete.length === 0 ? (
         <p className="py-8 text-center text-sm text-ink/50">
           All done! 🎉 Everything on your checklist is complete.
         </p>
       ) : (
-        <PhasedList items={incomplete} />
+        <PhasedList items={items} />
       )}
 
-      {completed.length > 0 && (
+      {completedOwn.length > 0 && (
         <div className="mt-6 border-t border-hairline pt-4">
           <button
             onClick={() => setShowCompleted((v) => !v)}
             className="text-sm text-brass hover:underline"
           >
-            {showCompleted ? "Hide" : "Show"} completed ({completed.length})
+            {showCompleted ? "Hide" : "Show"} completed ({completedOwn.length})
           </button>
           {showCompleted && (
             <div className="mt-2">
-              {completed.map((item) => (
+              {completedOwn.map((item) => (
                 <ChecklistRow key={item.id} item={item} />
               ))}
             </div>
@@ -349,15 +355,19 @@ function BuildPlanPrompt() {
 }
 
 /**
- * The list, grouped by stage, with only the stage they're on open.
+ * The list, grouped by stage.
  *
- * Collapsing the later stages is the point rather than a nicety. Fifty tasks
- * visible at once is the thing that sends people back to a spreadsheet, and
- * the ones further down are mostly blocked anyway -- you can't book a florist
- * before you have a venue. They stay one click away, never hidden.
+ * Three states, and the difference between them is the whole design. The
+ * stage they're on is open. Stages ahead collapse to a count, because reading
+ * fifty tasks at once is what sends people back to a spreadsheet and most of
+ * those tasks are blocked anyway. Stages behind stay, collapsed and ticked,
+ * because after eight months of planning "I have finished four stages" is a
+ * very different feeling from "I have thirty-one tasks left" -- and a stage
+ * that vanished when its last task was ticked took the only evidence of
+ * progress with it.
  */
 function PhasedList({ items }: { items: ChecklistItem[] }) {
-  const [openExtra, setOpenExtra] = useState<Set<string>>(new Set());
+  const [expanded, setExpanded] = useState<Set<string>>(new Set());
 
   const byPhase = new Map<string, ChecklistItem[]>();
   for (const item of items) {
@@ -368,12 +378,16 @@ function PhasedList({ items }: { items: ChecklistItem[] }) {
   }
 
   const phases = CHECKLIST_PHASES.filter((phase) => byPhase.has(phase.key));
-  const own = byPhase.get("own") ?? [];
-  // The first stage with anything left in it is the one they're on.
-  const currentKey = phases[0]?.key;
+  const own = (byPhase.get("own") ?? []).filter((item) => !item.completed);
+
+  const remainingIn = (key: string) =>
+    (byPhase.get(key) ?? []).filter((item) => !item.completed).length;
+
+  // The stage they're on is the first with anything left in it.
+  const currentKey = phases.find((phase) => remainingIn(phase.key) > 0)?.key;
 
   function toggle(key: string) {
-    setOpenExtra((current) => {
+    setExpanded((current) => {
       const next = new Set(current);
       if (next.has(key)) next.delete(key);
       else next.add(key);
@@ -385,8 +399,19 @@ function PhasedList({ items }: { items: ChecklistItem[] }) {
     <div className="flex flex-col gap-3">
       {phases.map((phase) => {
         const phaseItems = byPhase.get(phase.key) ?? [];
+        const left = remainingIn(phase.key);
+        const done = phaseItems.length - left;
         const isCurrent = phase.key === currentKey;
-        const isOpen = isCurrent || openExtra.has(phase.key);
+        const isDone = left === 0;
+        const isOpen = isCurrent || expanded.has(phase.key);
+
+        // Done tasks sink to the bottom of their stage rather than vanishing:
+        // it keeps a mis-tap one click from undone, and shows the stage
+        // filling up as you work it.
+        const ordered = [
+          ...phaseItems.filter((item) => !item.completed),
+          ...phaseItems.filter((item) => item.completed),
+        ];
 
         return (
           <section
@@ -394,7 +419,9 @@ function PhasedList({ items }: { items: ChecklistItem[] }) {
             className={
               isCurrent
                 ? "rounded-md border border-forest/30 bg-parchment p-4"
-                : "rounded-md border border-hairline p-4"
+                : isDone
+                  ? "rounded-md border border-hairline bg-parchment/40 p-4"
+                  : "rounded-md border border-hairline p-4"
             }
           >
             <button
@@ -402,26 +429,51 @@ function PhasedList({ items }: { items: ChecklistItem[] }) {
               onClick={() => !isCurrent && toggle(phase.key)}
               className="flex w-full items-baseline justify-between gap-3 text-left"
             >
-              <span>
+              <span className="min-w-0">
                 {isCurrent && (
                   <span className="font-mono-numbers text-[10px] uppercase tracking-[0.18em] text-brass">
                     You&apos;re here
                   </span>
                 )}
-                <span className="block font-display text-xl font-semibold text-forest">
+                <span
+                  className={`flex items-baseline gap-2 font-display text-xl font-semibold ${
+                    isDone ? "text-forest/60" : "text-forest"
+                  }`}
+                >
+                  {isDone && (
+                    <svg
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                      className="h-4 w-4 shrink-0 self-center text-forest"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.4"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="m5 13 4 4L19 7" />
+                    </svg>
+                  )}
                   {phase.title}
                 </span>
               </span>
               <span className="shrink-0 font-mono-numbers text-xs text-ink/50">
-                {isCurrent ? `${phaseItems.length} left` : isOpen ? "Hide" : `${phaseItems.length}`}
+                {isCurrent ? `${left} left` : isDone ? `${done} done` : isOpen ? "Hide" : `${left}`}
               </span>
             </button>
 
+            {/* The payoff line. The plan's claim is that stages unlock each
+                other; this is where that claim gets said out loud, and it
+                stays put rather than flashing past as a toast. */}
+            {isDone && (
+              <p className="mt-1 max-w-2xl text-sm text-ink/60">{phase.doneBlurb}</p>
+            )}
+
             {isOpen && (
               <>
-                <p className="mt-1 max-w-2xl text-sm text-ink/65">{phase.blurb}</p>
+                {!isDone && <p className="mt-1 max-w-2xl text-sm text-ink/65">{phase.blurb}</p>}
                 <div className="mt-2">
-                  {phaseItems.map((item) => (
+                  {ordered.map((item) => (
                     <ChecklistRow key={item.id} item={item} />
                   ))}
                 </div>

@@ -24,6 +24,16 @@ export type ChecklistPhase = {
   title: string;
   /** Why this phase exists, in the couple's language. Shown under the title. */
   blurb: string;
+  /**
+   * What finishing it actually bought them.
+   *
+   * The plan's whole claim is that stages unlock each other, and the moment
+   * that claim pays off -- the last task of a stage getting ticked -- is
+   * exactly when it should be said out loud. Written as a permanent line on
+   * the finished stage rather than a toast, so it still reads months later
+   * when someone scrolls back through what they've done.
+   */
+  doneBlurb: string;
 };
 
 export const CHECKLIST_PHASES: ChecklistPhase[] = [
@@ -32,52 +42,70 @@ export const CHECKLIST_PHASES: ChecklistPhase[] = [
     title: "Start here",
     blurb:
       "Three decisions. Nearly everything else depends on them, so it's worth resisting the urge to look at dresses or flowers until these are settled — they're what tells you what you can afford and how big a room you need.",
+    doneBlurb:
+      "The three decisions everything else rests on. You now know roughly what you can spend and how many people you're feeding — which is what makes every choice from here answerable.",
   },
   {
     key: "venue",
     title: "Book the venue",
     blurb:
       "The single decision that fixes the most: your date, your maximum guest count, and often your caterer and tables. Almost nothing downstream can be booked until this is signed.",
+    doneBlurb:
+      "The decision everything else was waiting on. Your date and your maximum guest count are now fixed, and the vendors who need a location can finally be booked.",
   },
   {
     key: "vendors",
     title: "The people who matter most",
     blurb:
       "Photographer, food and music book up first — good ones are often gone a year out. These are also the three that couples consistently say they'd spend more on, not less.",
+    doneBlurb:
+      "The three that book up first are yours. Whatever else changes, the photographs, the food and the music are settled.",
   },
   {
     key: "look",
     title: "How it looks and feels",
     blurb:
       "Attire comes first here, not because it matters most but because alterations take two to three months and nobody plans for that.",
+    doneBlurb:
+      "The parts with long lead times are ordered. Nothing left here depends on someone else's calendar.",
   },
   {
     key: "announce",
     title: "Tell everyone",
     blurb:
       "Guests need time to book flights and hotels. Anything involving travel wants six months' notice, which means addresses need collecting before that.",
+    doneBlurb:
+      "Everyone knows, and they know in time to book flights. From here it's details and numbers rather than decisions.",
   },
   {
     key: "lock",
     title: "Lock it down",
     blurb:
       "Invitations go out, the legal paperwork gets done, and the details stop being changeable. This is the busiest stretch.",
+    doneBlurb:
+      "The invitations are out and the paperwork is done. Nothing structural can change now, which is the point.",
   },
   {
     key: "count",
     title: "The final count",
     blurb:
       "Your caterer needs a number, and everything from seating to final payment follows it. Most contracts set this deadline 7–14 days out — check yours.",
+    doneBlurb:
+      "Your caterer has a number, everyone knows where to sit, and the vendors have the timeline. The planning is finished.",
   },
   {
     key: "week",
     title: "The last week",
     blurb: "Nothing new gets decided. This is confirming what's already arranged.",
+    doneBlurb:
+      "Nothing left to decide. Go and get married.",
   },
   {
     key: "after",
     title: "Afterwards",
     blurb: "The short tail nobody warns you about.",
+    doneBlurb:
+      "That's everything. Genuinely.",
   },
 ];
 
