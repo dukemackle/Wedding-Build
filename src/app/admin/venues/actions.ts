@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/admin";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
+import { createClient } from "@/lib/supabase/server";
 import { parseVenueTable } from "@/lib/venue-import";
 
 const MAX_IMPORT_ROWS = 200;
@@ -207,4 +208,34 @@ export async function importVenues(
   revalidatePath("/admin/venues");
   revalidatePath("/venues");
   return { imported: parsed.rows.length };
+}
+
+/**
+ * Records that someone looked at a listing and it was still true.
+ *
+ * A button rather than something automatic, because "verified" has to mean a
+ * person checked. A job that stamps the date without looking produces a
+ * directory that claims freshness it doesn't have, which is worse than one
+ * that admits it's never been checked.
+ */
+export async function markVenueVerified(formData: FormData): Promise<{ error?: string }> {
+  await requireAdmin();
+
+  const id = formData.get("id") as string;
+  if (!id) return { error: "Missing venue." };
+
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const { error } = await createAdminSupabaseClient()
+    .from("venues")
+    .update({ last_verified_at: new Date().toISOString(), verified_by: user?.email ?? "admin" })
+    .eq("id", id);
+
+  if (error) return { error: error.message };
+
+  revalidatePath("/admin/venues");
+  return {};
 }

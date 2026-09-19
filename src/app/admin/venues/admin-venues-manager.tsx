@@ -1,6 +1,12 @@
 "use client";
 
 import { useRef, useState, useTransition } from "react";
+import {
+  describeLastVerified,
+  freshnessOf,
+  FRESHNESS_LABELS,
+  type Freshness,
+} from "@/lib/listing-freshness";
 import type { Venue, VenueFaq } from "@/lib/supabase/types";
 import { VenueImportPanel } from "./venue-import-panel";
 import { STATES, STYLE_TIERS, VENUE_SETTINGS, VENUE_TYPES } from "@/lib/wedding-options";
@@ -8,9 +14,36 @@ import {
   addVenueFaq,
   createVenue,
   deleteVenueFaq,
+  markVenueVerified,
   setVenueActive,
   updateVenue,
 } from "./actions";
+
+/**
+ * How long since anyone confirmed a listing is true.
+ *
+ * Silent when it's fresh. A row that's fine shouldn't carry a badge saying so
+ * -- if every listing is tagged, the tags stop being read, and the point is to
+ * make the handful that need attention findable in a long list.
+ */
+function FreshnessTag({ lastVerifiedAt }: { lastVerifiedAt: string | null }) {
+  const freshness: Freshness = freshnessOf(lastVerifiedAt);
+  if (freshness === "fresh") return null;
+
+  const tone =
+    freshness === "stale"
+      ? "border-amber-600 bg-amber-100 text-amber-900"
+      : "border-hairline bg-parchment text-ink/50";
+
+  return (
+    <span
+      title={describeLastVerified(lastVerifiedAt)}
+      className={`ml-2 rounded-full border px-2 py-0.5 text-[10px] uppercase tracking-wide ${tone}`}
+    >
+      {FRESHNESS_LABELS[freshness]}
+    </span>
+  );
+}
 
 const inputClass =
   "rounded-md border border-hairline bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-forest";
@@ -287,6 +320,14 @@ function VenueRow({ venue, faqs }: { venue: Venue; faqs: VenueFaq[] }) {
     });
   }
 
+  function markVerified() {
+    const formData = new FormData();
+    formData.set("id", venue.id);
+    startTransition(async () => {
+      await markVenueVerified(formData);
+    });
+  }
+
   if (editing) {
     return (
       <div className="border-b border-hairline py-4 last:border-b-0">
@@ -306,9 +347,11 @@ function VenueRow({ venue, faqs }: { venue: Venue; faqs: VenueFaq[] }) {
               Sample
             </span>
           )}
+          <FreshnessTag lastVerifiedAt={venue.last_verified_at} />
         </p>
         <p className="mt-0.5 text-xs text-ink/50">
           {[venue.venue_type, venue.city, venue.state].filter(Boolean).join(" · ") || "—"}
+          {venue.source && venue.source !== "manual" && ` · from ${venue.source}`}
         </p>
       </div>
       <div className="flex items-center gap-2">
@@ -318,6 +361,15 @@ function VenueRow({ venue, faqs }: { venue: Venue; faqs: VenueFaq[] }) {
           className="rounded-md border border-hairline px-3 py-1 text-xs text-ink hover:border-forest"
         >
           Edit
+        </button>
+        <button
+          type="button"
+          onClick={markVerified}
+          disabled={isPending}
+          title={describeLastVerified(venue.last_verified_at)}
+          className="rounded-md border border-hairline px-3 py-1 text-xs text-ink hover:border-forest disabled:opacity-60"
+        >
+          Still right
         </button>
         <button
           type="button"
