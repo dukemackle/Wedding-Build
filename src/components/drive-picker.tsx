@@ -129,8 +129,13 @@ export function DrivePickerButton({
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
 
-  const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
-  const apiKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY;
+  // Trimmed because these are pasted into a dashboard field by hand. A
+  // trailing space or newline rides along invisibly and Google rejects the
+  // whole request with "invalid_client" -- an error that reads like the
+  // OAuth client doesn't exist, sending you to check everything except the
+  // one character you can't see.
+  const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID?.trim();
+  const apiKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY?.trim();
 
   // Nothing to offer without credentials, and a button that always errors is
   // worse than no button.
