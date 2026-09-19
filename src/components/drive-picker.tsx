@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 /**
  * "Choose from Drive", for anywhere Wren takes a file.
@@ -127,8 +127,11 @@ export function DrivePickerButton({
   className?: string;
   label?: string;
 }) {
+  const [ready, setReady] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
+  const tokenRef = useRef<string | null>(null);
+  const clientRef = useRef<TokenClient | null>(null);
 
   // Trimmed because these are pasted into a dashboard field by hand. A
   // trailing space or newline rides along invisibly and Google rejects the
@@ -138,87 +141,145 @@ export function DrivePickerButton({
   const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID?.trim();
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY?.trim();
 
+  /**
+   * Google's scripts load on mount, not on click.
+   *
+   * Asking for a token opens a popup, and Safari only permits that when the
+   * call happens inside the click itself. Awaiting two script loads first
+   * spends the user gesture, so Safari blocks the popup silently -- no error,
+   * no window, and a button stuck on "Opening Drive…" forever. Chrome is
+   * lenient enough to hide the bug entirely, which is how it shipped.
+   *
+   * Loading ahead of time means the click handler can reach
+   * requestAccessToken with nothing awaited in between.
+   */
+  useEffect(() => {
+    if (!clientId || !apiKey) return;
+    let cancelled = false;
+
+    Promise.all([loadScript(GIS_SRC), loadScript(GAPI_SRC)])
+      .then(
+        () =>
+          new Promise<void>((resolve) => {
+            const gapi = (window as unknown as { gapi?: GapiGlobal }).gapi;
+            if (!gapi) return resolve();
+            gapi.load("picker", () => resolve());
+          }),
+      )
+      .then(() => {
+        if (!cancelled) setReady(true);
+      })
+      .catch(() => {
+        if (!cancelled) setError("Couldn't reach Google Drive.");
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [clientId, apiKey]);
+
   // Nothing to offer without credentials, and a button that always errors is
   // worse than no button.
   if (!clientId || !apiKey) return null;
 
-  async function open() {
-    setBusy(true);
-    setError(undefined);
-    try {
-      await Promise.all([loadScript(GIS_SRC), loadScript(GAPI_SRC)]);
-
-      const google = (window as unknown as { google?: GoogleGlobal }).google;
-      const gapi = (window as unknown as { gapi?: GapiGlobal }).gapi;
-      if (!google?.accounts || !gapi) throw new Error("Google didn't load");
-
-      await new Promise<void>((resolve) => gapi.load("picker", () => resolve()));
-
-      const token = await new Promise<string>((resolve, reject) => {
-        const client = google.accounts!.oauth2.initTokenClient({
-          client_id: clientId!,
-          scope: SCOPE,
-          callback: (response) => {
-            if (response.access_token) resolve(response.access_token);
-            else reject(new Error(response.error ?? "No access granted"));
-          },
-        });
-        client.requestAccessToken();
-      });
-
-      const picker = (window as unknown as { google?: GoogleGlobal }).google?.picker;
-      if (!picker) throw new Error("Picker didn't load");
-
-      const view = new picker.DocsView();
-      view.setMimeTypes(MIME_TYPES[kind]);
-
-      // The project number, which is the client id's first segment.
-      //
-      // Not optional, though it looks it. `drive.file` grants access to files
-      // the user picks *for a particular app*, and the picker can only tell
-      // Google which app that is via setAppId. Leave it out and everything
-      // looks right -- the picker opens, the files list, the pick succeeds --
-      // and then the download 404s, because the token was never granted
-      // anything. Derived rather than configured so it cannot drift from the
-      // client id it has to match.
-      const appId = clientId!.split("-")[0];
-
-      await new Promise<void>((resolve) => {
-        new picker.PickerBuilder()
-          .addView(view)
-          .setAppId(appId)
-          .setOAuthToken(token)
-          .setDeveloperKey(apiKey!)
-          .setCallback((data) => {
-            if (data.action === picker.Action.CANCEL) return resolve();
-            if (data.action !== picker.Action.PICKED) return;
-            const doc = data.docs?.[0];
-            if (!doc) return resolve();
-            fetchPicked(doc, token)
-              .then((file) => {
-                onFile(file);
-                resolve();
-              })
-              .catch((cause: Error) => {
-                // Says which failure it was. "Please try again" on a 403 sends
-                // someone to retry a thing that will never work.
-                const status = Number(cause?.message);
-                setError(
-                  status === 403 || status === 404
-                    ? "Google didn't grant access to that file. If this keeps happening, the Drive setup needs a look."
-                    : "Couldn't download that file from Drive — please try again.",
-                );
-                resolve();
-              });
-          })
-          .build()
-          .setVisible(true);
-      });
-    } catch {
-      setError("Couldn't open Google Drive — please try again, or upload the file instead.");
-    } finally {
+  function showPicker(token: string) {
+    const picker = (window as unknown as { google?: GoogleGlobal }).google?.picker;
+    if (!picker) {
       setBusy(false);
+      setError("Google Drive didn't load — please reload the page.");
+      return;
     }
+
+    const view = new picker.DocsView();
+    view.setMimeTypes(MIME_TYPES[kind]);
+
+    // The project number, which is the client id's first segment.
+    //
+    // Not optional, though it looks it. `drive.file` grants access to files
+    // the user picks *for a particular app*, and the picker can only tell
+    // Google which app that is via setAppId. Leave it out and everything
+    // looks right -- the picker opens, the files list, the pick succeeds --
+    // and then the download 404s, because the token was never granted
+    // anything. Derived rather than configured so it cannot drift from the
+    // client id it has to match.
+    const appId = clientId!.split("-")[0];
+
+    new picker.PickerBuilder()
+      .addView(view)
+      .setAppId(appId)
+      .setOAuthToken(token)
+      .setDeveloperKey(apiKey!)
+      .setCallback((data) => {
+        if (data.action === picker.Action.CANCEL) {
+          setBusy(false);
+          return;
+        }
+        if (data.action !== picker.Action.PICKED) return;
+        const doc = data.docs?.[0];
+        if (!doc) {
+          setBusy(false);
+          return;
+        }
+        fetchPicked(doc, token)
+          .then((file) => {
+            onFile(file);
+            setBusy(false);
+          })
+          .catch((cause: Error) => {
+            // Says which failure it was. "Please try again" on a 403 sends
+            // someone to retry a thing that will never work.
+            const status = Number(cause?.message);
+            setError(
+              status === 403 || status === 404
+                ? "Google didn't grant access to that file. If this keeps happening, the Drive setup needs a look."
+                : "Couldn't download that file from Drive — please try again.",
+            );
+            setBusy(false);
+          });
+      })
+      .build()
+      .setVisible(true);
+  }
+
+  function open() {
+    setError(undefined);
+    setBusy(true);
+
+    // Already authorised this session -- straight to the picker, no popup.
+    if (tokenRef.current) {
+      showPicker(tokenRef.current);
+      return;
+    }
+
+    const google = (window as unknown as { google?: GoogleGlobal }).google;
+    if (!google?.accounts) {
+      setBusy(false);
+      setError("Couldn't reach Google Drive — please reload the page.");
+      return;
+    }
+
+    if (!clientRef.current) {
+      clientRef.current = google.accounts.oauth2.initTokenClient({
+        client_id: clientId!,
+        scope: SCOPE,
+        callback: (response) => {
+          if (!response.access_token) {
+            setBusy(false);
+            setError(
+              // A blocked popup and a refused consent arrive identically here,
+              // so the message has to cover both.
+              "Google didn't grant access. If no Google window appeared, allow pop-ups for this site and try again.",
+            );
+            return;
+          }
+          tokenRef.current = response.access_token;
+          showPicker(response.access_token);
+        },
+      });
+    }
+
+    // Nothing awaited between the click and here, deliberately -- see above.
+    clientRef.current.requestAccessToken();
   }
 
   return (
@@ -226,7 +287,7 @@ export function DrivePickerButton({
       <button
         type="button"
         onClick={open}
-        disabled={disabled || busy}
+        disabled={disabled || busy || !ready}
         className={
           className ??
           "rounded-md border border-hairline bg-card px-3 py-1.5 text-sm text-ink transition-colors hover:border-forest disabled:opacity-50"
