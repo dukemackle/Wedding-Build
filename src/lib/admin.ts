@@ -2,14 +2,36 @@ import "server-only";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 
+/**
+ * The addresses allowed into the admin panel.
+ *
+ * ADMIN_EMAIL takes a comma-separated list, not just one address. A single
+ * value meant moving admin access to a different account was a cliff: change
+ * the variable and the old account loses the panel the instant the new one
+ * is meant to take over, with nothing to fall back on if that account can't
+ * sign in. A list lets both work during a handover, and the old one gets
+ * removed afterwards.
+ */
+function adminEmails(): string[] {
+  return (process.env.ADMIN_EMAIL ?? "")
+    .split(",")
+    .map((entry) => entry.trim().toLowerCase())
+    .filter(Boolean);
+}
+
+export function isAdminEmail(email: string | undefined): boolean {
+  if (!email) return false;
+  const allowed = adminEmails();
+  return allowed.length > 0 && allowed.includes(email.toLowerCase());
+}
+
 export async function isCurrentUserAdmin(): Promise<boolean> {
   const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const adminEmail = process.env.ADMIN_EMAIL?.trim().toLowerCase();
-  return Boolean(user?.email && adminEmail && user.email.toLowerCase() === adminEmail);
+  return isAdminEmail(user?.email);
 }
 
 // Call at the top of every admin page/layout and every admin server
@@ -32,8 +54,7 @@ export async function requireAdmin() {
     redirect("/login");
   }
 
-  const adminEmail = process.env.ADMIN_EMAIL?.trim().toLowerCase();
-  if (!(user.email && adminEmail && user.email.toLowerCase() === adminEmail)) {
+  if (!isAdminEmail(user.email)) {
     redirect("/login?error=" + encodeURIComponent("This account doesn't have admin access."));
   }
 }
