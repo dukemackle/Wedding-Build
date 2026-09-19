@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { EmailField } from "@/components/email-field";
 import { signup } from "./actions";
 
 export default async function SignupPage({
@@ -28,12 +29,7 @@ export default async function SignupPage({
           {next && <input type="hidden" name="next" value={next} />}
           <label className="flex flex-col gap-1 text-sm text-ink">
             Email
-            <input
-              type="email"
-              name="email"
-              required
-              className="rounded-md border border-hairline bg-parchment px-3 py-2 text-ink outline-none focus:border-forest"
-            />
+            <EmailField autoComplete="email" />
           </label>
           <label className="flex flex-col gap-1 text-sm text-ink">
             Password
