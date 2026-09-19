@@ -1,4 +1,3 @@
-import { type EmailOtpType } from "@supabase/supabase-js";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { updatePassword } from "./actions";
@@ -11,31 +10,19 @@ export default async function ResetPasswordPage({
 }) {
   const { error, token_hash, type, code } = await searchParams;
 
-  // The reset-password email's link isn't editable in this Supabase project
-  // without custom SMTP, so it uses Supabase's own default confirmation
-  // link -- which can land here as either a token_hash (email OTP) or a
-  // code (PKCE), depending on project config. Handle both, then redirect
-  // to the bare /reset-password so the form below renders with a plain
-  // session instead of leftover verification params in the URL.
-  if (token_hash && type) {
-    const supabase = await createClient();
-    const { error: verifyError } = await supabase.auth.verifyOtp({
-      type: type as EmailOtpType,
-      token_hash,
-    });
-    if (verifyError) {
-      redirect("/login?error=" + encodeURIComponent("That reset link is invalid or has expired."));
+  // Verification deliberately does NOT happen here. A Server Component
+  // cannot write cookies, so verifying on this page succeeded and then threw
+  // the session away -- the bug that made reset impossible. Links already in
+  // people's inboxes still point here, so hand them to the route handler
+  // that can do it properly.
+  if ((token_hash && type) || code) {
+    const params = new URLSearchParams({ next: "/reset-password" });
+    if (token_hash && type) {
+      params.set("token_hash", token_hash);
+      params.set("type", type);
     }
-    redirect("/reset-password");
-  }
-
-  if (code) {
-    const supabase = await createClient();
-    const { error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
-    if (exchangeError) {
-      redirect("/login?error=" + encodeURIComponent("That reset link is invalid or has expired."));
-    }
-    redirect("/reset-password");
+    if (code) params.set("code", code);
+    redirect(`/auth/confirm?${params.toString()}`);
   }
 
   // Only someone holding a recovery session can set a new password, so check
