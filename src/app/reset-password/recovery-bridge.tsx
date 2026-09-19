@@ -1,9 +1,9 @@
 "use client";
 
+import { createBrowserClient } from "@supabase/ssr";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { createClient } from "@/lib/supabase/client";
 
 /**
  * Picks up a recovery session that arrived in the URL fragment.
@@ -21,7 +21,23 @@ import { createClient } from "@/lib/supabase/client";
  * perfectly fine and fails on submit with "Auth session missing!", which tells
  * them nothing and reads like their account is broken.
  */
-export function RecoveryBridge() {
+export function RecoveryBridge({
+  supabaseUrl,
+  supabaseKey,
+}: {
+  /**
+   * Passed down rather than read from process.env here.
+   *
+   * NEXT_PUBLIC_* values are compiled into the browser bundle at build time,
+   * so a client component only sees them if they were set as BUILD variables.
+   * On this project they're set as runtime variables, which the Worker can
+   * read and a browser cannot -- this component would have received undefined
+   * and thrown. The server page reads them at request time and hands them
+   * over, which works whichever section they're configured in.
+   */
+  supabaseUrl: string | undefined;
+  supabaseKey: string | undefined;
+}) {
   const router = useRouter();
   const [expired, setExpired] = useState(false);
 
@@ -36,8 +52,11 @@ export function RecoveryBridge() {
     // one promise rather than an early return so every setState lands in a
     // callback, which is what React wants of an effect.
     const settled: Promise<{ error: { message: string } | null }> =
-      access_token && refresh_token
-        ? createClient().auth.setSession({ access_token, refresh_token })
+      access_token && refresh_token && supabaseUrl && supabaseKey
+        ? createBrowserClient(supabaseUrl, supabaseKey).auth.setSession({
+            access_token,
+            refresh_token,
+          })
         : Promise.resolve({ error: { message: "no recovery tokens in the link" } });
 
     let cancelled = false;
@@ -60,7 +79,7 @@ export function RecoveryBridge() {
     return () => {
       cancelled = true;
     };
-  }, [router]);
+  }, [router, supabaseUrl, supabaseKey]);
 
   if (!expired) {
     return <p className="mt-4 text-sm text-ink/60">Checking your link…</p>;
