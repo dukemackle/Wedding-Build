@@ -44,6 +44,7 @@ type TokenClient = { requestAccessToken: () => void };
 
 type PickerBuilder = {
   addView: (view: unknown) => PickerBuilder;
+  setAppId: (appId: string) => PickerBuilder;
   setOAuthToken: (token: string) => PickerBuilder;
   setDeveloperKey: (key: string) => PickerBuilder;
   setCallback: (cb: (data: { action: string; docs?: PickedDoc[] }) => void) => PickerBuilder;
@@ -105,7 +106,7 @@ async function fetchPicked(doc: PickedDoc, token: string): Promise<File> {
     : `https://www.googleapis.com/drive/v3/files/${doc.id}?alt=media`;
 
   const response = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
-  if (!response.ok) throw new Error(`Drive returned ${response.status}`);
+  if (!response.ok) throw new Error(String(response.status));
 
   const blob = await response.blob();
   const name = isNativeSheet ? `${doc.name}.csv` : doc.name;
@@ -171,9 +172,21 @@ export function DrivePickerButton({
       const view = new picker.DocsView();
       view.setMimeTypes(MIME_TYPES[kind]);
 
+      // The project number, which is the client id's first segment.
+      //
+      // Not optional, though it looks it. `drive.file` grants access to files
+      // the user picks *for a particular app*, and the picker can only tell
+      // Google which app that is via setAppId. Leave it out and everything
+      // looks right -- the picker opens, the files list, the pick succeeds --
+      // and then the download 404s, because the token was never granted
+      // anything. Derived rather than configured so it cannot drift from the
+      // client id it has to match.
+      const appId = clientId!.split("-")[0];
+
       await new Promise<void>((resolve) => {
         new picker.PickerBuilder()
           .addView(view)
+          .setAppId(appId)
           .setOAuthToken(token)
           .setDeveloperKey(apiKey!)
           .setCallback((data) => {
@@ -186,8 +199,15 @@ export function DrivePickerButton({
                 onFile(file);
                 resolve();
               })
-              .catch(() => {
-                setError("Couldn't download that file from Drive — please try again.");
+              .catch((cause: Error) => {
+                // Says which failure it was. "Please try again" on a 403 sends
+                // someone to retry a thing that will never work.
+                const status = Number(cause?.message);
+                setError(
+                  status === 403 || status === 404
+                    ? "Google didn't grant access to that file. If this keeps happening, the Drive setup needs a look."
+                    : "Couldn't download that file from Drive — please try again.",
+                );
                 resolve();
               });
           })
