@@ -48,7 +48,13 @@ type PickerBuilder = {
   setOAuthToken: (token: string) => PickerBuilder;
   setDeveloperKey: (key: string) => PickerBuilder;
   setCallback: (cb: (data: { action: string; docs?: PickedDoc[] }) => void) => PickerBuilder;
-  build: () => { setVisible: (visible: boolean) => void };
+  build: () => BuiltPicker;
+};
+
+type BuiltPicker = {
+  setVisible: (visible: boolean) => void;
+  /** Removes the dialog and, crucially, its full-page backdrop. */
+  dispose?: () => void;
 };
 
 type GoogleGlobal = {
@@ -204,18 +210,36 @@ export function DrivePickerButton({
     // client id it has to match.
     const appId = clientId!.split("-")[0];
 
-    new picker.PickerBuilder()
+    /**
+     * Torn down by hand on the way out.
+     *
+     * The Picker paints a full-page backdrop behind its dialog and does not
+     * always remove it when the dialog goes. Left behind, it greys the whole
+     * page and swallows clicks -- the app looks frozen, with no error and
+     * nothing to dismiss, which is worse than an outright failure because
+     * there's nothing to react to.
+     */
+    let built: BuiltPicker | null = null;
+    const close = () => {
+      built?.setVisible(false);
+      built?.dispose?.();
+      built = null;
+    };
+
+    built = new picker.PickerBuilder()
       .addView(view)
       .setAppId(appId)
       .setOAuthToken(token)
       .setDeveloperKey(apiKey!)
       .setCallback((data) => {
         if (data.action === picker.Action.CANCEL) {
+          close();
           setBusy(false);
           return;
         }
         if (data.action !== picker.Action.PICKED) return;
         const doc = data.docs?.[0];
+        close();
         if (!doc) {
           setBusy(false);
           return;
@@ -237,8 +261,9 @@ export function DrivePickerButton({
             setBusy(false);
           });
       })
-      .build()
-      .setVisible(true);
+      .build();
+
+    built.setVisible(true);
   }
 
   function open() {
