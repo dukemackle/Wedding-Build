@@ -21,8 +21,10 @@ export async function signup(formData: FormData) {
   // ignored. `next` rides along as a query param so /auth/confirm forwards
   // it (e.g. an invite link -- signup requires email confirmation, so the
   // invite-accept destination has to survive that round trip).
+  const email = ((formData.get("email") as string) || "").trim();
+
   const { data, error } = await supabase.auth.signUp({
-    email: formData.get("email") as string,
+    email,
     password: formData.get("password") as string,
     options: {
       emailRedirectTo: `https://wrenwed.com/auth/confirm?next=${encodeURIComponent(next)}`,
@@ -34,8 +36,15 @@ export async function signup(formData: FormData) {
   }
 
   if (!data.session) {
+    // Naming the address matters more than it looks. "Check your email" after
+    // a typo sends someone to an inbox that will never receive anything, and
+    // nothing on screen hints why -- they wait, then give up. Showing what we
+    // sent to makes a wrong address obvious in the one moment it's still easy
+    // to fix.
     redirect(
-      `/login?message=${encodeURIComponent("Check your email to confirm your account, then log in.")}&next=${encodeURIComponent(next)}`,
+      `/login?message=${encodeURIComponent(
+        `Check ${email} to confirm your account, then log in. Wrong address? Sign up again with the right one.`,
+      )}&next=${encodeURIComponent(next)}`,
     );
   }
 
