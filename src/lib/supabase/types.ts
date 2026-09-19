@@ -187,6 +187,13 @@ export type Venue = {
   website: string | null;
   active: boolean;
   is_sample: boolean;
+  /** Where this listing came from: manual, import, osm, google, claimed. */
+  source: string | null;
+  /** The upstream record's id, so a refresh can match it again. */
+  source_id: string | null;
+  /** When anyone last confirmed these details were true. */
+  last_verified_at: string | null;
+  verified_by: string | null;
   created_at: string;
 };
 
@@ -244,6 +251,13 @@ export type Vendor = {
   contact_email: string | null;
   active: boolean;
   is_sample: boolean;
+  /** Where this listing came from: manual, import, osm, google, claimed. */
+  source: string | null;
+  /** The upstream record's id, so a refresh can match it again. */
+  source_id: string | null;
+  /** When anyone last confirmed these details were true. */
+  last_verified_at: string | null;
+  verified_by: string | null;
   created_at: string;
 };
 
