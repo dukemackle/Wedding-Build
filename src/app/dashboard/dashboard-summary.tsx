@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { ComponentType } from "react";
+import type { ComponentType, ReactNode } from "react";
 import {
   HeadcountIcon,
   BudgetIcon,
@@ -70,9 +70,28 @@ function SummaryTile({
   );
 }
 
-export function DashboardSummary({ data }: { data: DashboardSummaryData }) {
+/**
+ * The snapshot, and whatever sits beside it.
+ *
+ * Previously three stacked cards -- counts, booked venue, next tasks -- which
+ * between them said "here is the state of your wedding" three times with three
+ * headings. One card, two columns: what's done on the left, what's next on the
+ * right. The booked venue is a line rather than a box because that's all it
+ * ever was.
+ */
+export function DashboardSummary({
+  data,
+  bookedVenue,
+  aside,
+}: {
+  data: DashboardSummaryData;
+  bookedVenue?: ReactNode;
+  aside?: ReactNode;
+}) {
   return (
-    <div className="mt-8 w-full max-w-2xl rounded-lg border border-hairline bg-card p-6 sm:p-10 shadow-sm">
+    <div className="mt-8 w-full max-w-5xl rounded-lg border border-hairline bg-card p-6 sm:p-8 shadow-sm">
+      <div className="grid gap-8 lg:grid-cols-[1.35fr_1fr]">
+        <div>
       <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
         At a glance
       </p>
@@ -135,6 +154,10 @@ export function DashboardSummary({ data }: { data: DashboardSummaryData }) {
           href="/attire"
           linkLabel="View attire"
         />
+      </div>
+          {bookedVenue}
+        </div>
+        {aside && <div className="lg:border-l lg:border-hairline lg:pl-8">{aside}</div>}
       </div>
     </div>
   );

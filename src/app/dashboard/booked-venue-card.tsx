@@ -2,35 +2,52 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Venue } from "@/lib/supabase/types";
 
+/**
+ * The booked venue, as a line inside the snapshot.
+ *
+ * It was a full card with a hero image, which gave the one thing that never
+ * changes again more room than anything that does. Booking the venue is the
+ * biggest decision of the whole process and precisely for that reason it stops
+ * needing attention the moment it's made -- a line confirming it's handled is
+ * what the couple actually wants to see.
+ */
 export function BookedVenueCard({ venue }: { venue: Venue }) {
+  const detail = [[venue.city, venue.state].filter(Boolean).join(", "), venue.venue_type]
+    .filter(Boolean)
+    .join(" · ");
+
   return (
-    <div className="mt-8 w-full max-w-2xl overflow-hidden rounded-lg border border-hairline bg-card shadow-sm">
-      {venue.image_url && (
+    <div className="mt-4 flex items-center gap-3 rounded-md border border-hairline bg-parchment p-3">
+      {venue.image_url ? (
         <Image
           src={venue.image_url}
-          alt={venue.name}
-          width={800}
-          height={450}
-          className="aspect-video w-full border-b border-hairline object-cover"
+          alt=""
+          width={120}
+          height={120}
+          className="h-11 w-11 shrink-0 rounded-md object-cover"
         />
+      ) : (
+        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-brass/10 text-brass">
+          <svg
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+            className="h-5 w-5"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.6"
+          >
+            <path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0Z" />
+            <circle cx="12" cy="10" r="3" />
+          </svg>
+        </span>
       )}
-      <div className="p-6 sm:p-10">
-        <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
-          Our venue
-        </p>
-        <h2 className="mt-2 font-display text-2xl font-semibold text-forest">{venue.name}</h2>
-        <p className="mt-1 text-sm text-ink/70">
-          {[[venue.city, venue.state].filter(Boolean).join(", "), venue.venue_type]
-            .filter(Boolean)
-            .join(" · ")}
-        </p>
-        <Link
-          href="/venues"
-          className="mt-4 inline-block text-sm text-brass hover:underline"
-        >
-          Change venue
-        </Link>
+      <div className="min-w-0 flex-1">
+        <p className="truncate text-sm font-medium text-ink">Booked — {venue.name}</p>
+        {detail && <p className="truncate text-xs text-ink/55">{detail}</p>}
       </div>
+      <Link href="/venues" className="shrink-0 text-xs text-brass hover:underline">
+        Change
+      </Link>
     </div>
   );
 }

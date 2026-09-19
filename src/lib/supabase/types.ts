@@ -12,6 +12,8 @@ export type Wedding = {
   guest_count_override: number | null;
   public_slug: string | null;
   hero_photo_url: string | null;
+  /** Tight crop for the dashboard avatar. Falls back to hero_photo_url. */
+  profile_photo_url: string | null;
   rsvp_deadline: string | null;
   dress_code: string | null;
   travel_notes: string | null;
