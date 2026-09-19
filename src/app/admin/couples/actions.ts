@@ -47,6 +47,9 @@ export async function emailCouples(
       const { error: sendError } = await resend.emails.send({
         from: INQUIRY_FROM_ADDRESS,
         to: email,
+        // Otherwise a couple replying to a message from Wren writes into a
+        // mailbox nobody reads.
+        replyTo: process.env.ADMIN_EMAIL,
         subject,
         text: `Hi ${names || "there"},\n\n${message}`,
       });
