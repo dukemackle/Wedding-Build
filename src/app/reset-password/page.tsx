@@ -1,7 +1,7 @@
-import { type EmailOtpType } from "@supabase/supabase-js";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { updatePassword } from "./actions";
+import { RecoveryBridge } from "./recovery-bridge";
 
 export default async function ResetPasswordPage({
   searchParams,
@@ -10,32 +10,30 @@ export default async function ResetPasswordPage({
 }) {
   const { error, token_hash, type, code } = await searchParams;
 
-  // The reset-password email's link isn't editable in this Supabase project
-  // without custom SMTP, so it uses Supabase's own default confirmation
-  // link -- which can land here as either a token_hash (email OTP) or a
-  // code (PKCE), depending on project config. Handle both, then redirect
-  // to the bare /reset-password so the form below renders with a plain
-  // session instead of leftover verification params in the URL.
-  if (token_hash && type) {
-    const supabase = await createClient();
-    const { error: verifyError } = await supabase.auth.verifyOtp({
-      type: type as EmailOtpType,
-      token_hash,
-    });
-    if (verifyError) {
-      redirect("/login?error=" + encodeURIComponent("That reset link is invalid or has expired."));
+  // Verification deliberately does NOT happen here. A Server Component
+  // cannot write cookies, so verifying on this page succeeded and then threw
+  // the session away -- the bug that made reset impossible. Links already in
+  // people's inboxes still point here, so hand them to the route handler
+  // that can do it properly.
+  if ((token_hash && type) || code) {
+    const params = new URLSearchParams({ next: "/reset-password" });
+    if (token_hash && type) {
+      params.set("token_hash", token_hash);
+      params.set("type", type);
     }
-    redirect("/reset-password");
+    if (code) params.set("code", code);
+    redirect(`/auth/confirm?${params.toString()}`);
   }
 
-  if (code) {
-    const supabase = await createClient();
-    const { error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
-    if (exchangeError) {
-      redirect("/login?error=" + encodeURIComponent("That reset link is invalid or has expired."));
-    }
-    redirect("/reset-password");
-  }
+  // Only someone holding a recovery session can set a new password, so check
+  // for one before drawing a form. Without this the page happily takes two
+  // passwords from a visitor who followed a dead link, then fails on submit
+  // with Supabase's raw "Auth session missing!" -- which sounds like their
+  // account is broken rather than like the link is stale.
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   return (
     <main className="flex flex-1 items-center justify-center px-6 py-24">
@@ -47,12 +45,18 @@ export default async function ResetPasswordPage({
           Reset password
         </h1>
 
-        {error && (
+        {/* The third shape a recovery session arrives in -- tokens in the URL
+            fragment -- is invisible to this server component, so a client
+            component has to look for it before we can say the link is dead. */}
+        {!user && <RecoveryBridge />}
+
+        {user && error && (
           <p className="mt-4 rounded-md border border-red-300 bg-red-50 px-3 py-2 text-sm text-red-800">
             {error}
           </p>
         )}
 
+        {user && (
         <form className="mt-6 flex flex-col gap-4" action={updatePassword}>
           <label className="flex flex-col gap-1 text-sm text-ink">
             New password
@@ -81,6 +85,7 @@ export default async function ResetPasswordPage({
             Update password
           </button>
         </form>
+        )}
       </div>
     </main>
   );

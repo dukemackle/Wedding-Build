@@ -8,13 +8,14 @@ export async function requestPasswordReset(formData: FormData) {
   const email = ((formData.get("email") as string) || "").trim();
 
   if (email) {
-    // Explicit redirectTo so Supabase's default reset-password email --
-    // which we can't customize without setting up custom SMTP -- still
-    // lands the visitor on our /reset-password page instead of the bare
-    // site root. Must also be added to Supabase's Redirect URLs allowlist
-    // (Authentication -> URL Configuration) or Supabase silently ignores it.
+    // Points at the route handler rather than straight at /reset-password:
+    // only a Route Handler can write the session cookies that turn the
+    // emailed token into a usable session. Sending people directly to the
+    // page meant the session was verified and then silently discarded.
+    // Must also be added to Supabase's Redirect URLs allowlist
+    // (Authentication -> URL Configuration) or Supabase ignores it.
     await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: "https://wrenwed.com/reset-password",
+      redirectTo: "https://wrenwed.com/auth/confirm?next=/reset-password",
     });
   }
 

@@ -510,7 +510,7 @@ export async function setGuestThanked(formData: FormData): Promise<{ error?: str
 export async function sendBulkRsvpInvites(
   formData: FormData,
 ): Promise<{ error?: string; sent?: number; skipped?: number; failed?: number }> {
-  const { supabase, wedding } = await requireOwnWedding();
+  const { supabase, user, wedding } = await requireOwnWedding();
 
   if (!wedding) {
     return { error: "Set up your wedding on the Dashboard first." };
@@ -560,6 +560,9 @@ export async function sendBulkRsvpInvites(
       const { error: sendError } = await resend.emails.send({
         from: INQUIRY_FROM_ADDRESS,
         to: guest.email!,
+        // A guest hitting reply is answering the couple, not Wren -- and
+        // nothing receives at the from address.
+        replyTo: user.email,
         subject: `You're invited — RSVP for ${coupleNames || "our wedding"}`,
         text: `Hi ${guest.name},\n\n${coupleNames || "We"} would love for you to join us! Please RSVP using the link below:\n\n${rsvpUrl}\n\nCan't wait to celebrate with you.`,
       });
@@ -590,7 +593,7 @@ export async function sendBulkRsvpInvites(
 export async function sendRsvpReminders(
   formData: FormData,
 ): Promise<{ error?: string; sent?: number; skipped?: number; failed?: number }> {
-  const { supabase, wedding } = await requireOwnWedding();
+  const { supabase, user, wedding } = await requireOwnWedding();
 
   if (!wedding) {
     return { error: "Set up your wedding on the Dashboard first." };
@@ -640,6 +643,7 @@ export async function sendRsvpReminders(
       const { error: sendError } = await resend.emails.send({
         from: INQUIRY_FROM_ADDRESS,
         to: guest.email!,
+        replyTo: user.email,
         subject: `Reminder: RSVP for ${coupleNames || "our wedding"}`,
         text: `Hi ${guest.name},\n\nJust a friendly reminder to RSVP for ${coupleNames || "our wedding"} — we'd love to know if you can make it!\n\n${rsvpUrl}\n\nCan't wait to celebrate with you.`,
       });
