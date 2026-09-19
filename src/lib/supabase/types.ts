@@ -431,6 +431,8 @@ export type ChecklistItem = {
   due_date: string | null;
   completed: boolean;
   completed_at: string | null;
+  /** Which stage of Wren's plan this belongs to. Null for a couple's own task. */
+  phase: string | null;
   created_at: string;
   updated_at: string;
 };
