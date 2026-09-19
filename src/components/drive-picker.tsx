@@ -69,9 +69,18 @@ type GoogleGlobal = {
   };
   picker?: {
     PickerBuilder: new () => PickerBuilder;
-    DocsView: new () => { setMimeTypes: (types: string) => unknown };
+    DocsView: new () => DocsView;
+    DocsViewMode: { LIST: string; GRID: string };
     Action: { PICKED: string; CANCEL: string };
   };
+};
+
+type DocsView = {
+  setMimeTypes: (types: string) => DocsView;
+  setMode: (mode: string) => DocsView;
+  setOwnedByMe: (owned: boolean) => DocsView;
+  setIncludeFolders: (include: boolean) => DocsView;
+  setLabel: (label: string) => DocsView;
 };
 
 type GapiGlobal = { load: (name: string, cb: () => void) => void };
@@ -196,8 +205,31 @@ export function DrivePickerButton({
       return;
     }
 
-    const view = new picker.DocsView();
-    view.setMimeTypes(MIME_TYPES[kind]);
+    /**
+     * A list, not a grid of empty squares.
+     *
+     * The Picker defaults to thumbnails, and Drive generates previews for
+     * very little -- a signed PDF contract almost never has one -- so the
+     * grid renders as rows of transparency checkerboard with the filename
+     * shrunk underneath it. For the files Wren asks for, contracts and
+     * spreadsheets, the name is the only thing anyone identifies them by.
+     *
+     * Folders are included so a couple who filed everything under "Wedding"
+     * can navigate rather than relying on search alone.
+     */
+    const mine = new picker.DocsView()
+      .setMimeTypes(MIME_TYPES[kind])
+      .setMode(picker.DocsViewMode.LIST)
+      .setIncludeFolders(true)
+      .setLabel("My Drive");
+
+    // Contracts often arrive shared from the vendor rather than uploaded, so
+    // they live in "Shared with me" and never show in the default view.
+    const shared = new picker.DocsView()
+      .setMimeTypes(MIME_TYPES[kind])
+      .setMode(picker.DocsViewMode.LIST)
+      .setOwnedByMe(false)
+      .setLabel("Shared with me");
 
     // The project number, which is the client id's first segment.
     //
@@ -231,7 +263,8 @@ export function DrivePickerButton({
     };
 
     built = new picker.PickerBuilder()
-      .addView(view)
+      .addView(mine)
+      .addView(shared)
       .setAppId(appId)
       .setOAuthToken(token)
       .setDeveloperKey(apiKey!)
