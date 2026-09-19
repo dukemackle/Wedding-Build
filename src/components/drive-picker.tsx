@@ -220,7 +220,11 @@ export function DrivePickerButton({
      * there's nothing to react to.
      */
     let built: BuiltPicker | null = null;
+    let stuck: ReturnType<typeof setTimeout> | null = null;
+
     const close = () => {
+      if (stuck) clearTimeout(stuck);
+      stuck = null;
       built?.setVisible(false);
       built?.dispose?.();
       built = null;
@@ -264,6 +268,26 @@ export function DrivePickerButton({
       .build();
 
     built.setVisible(true);
+
+    /**
+     * An escape hatch for a dialog that never arrives.
+     *
+     * The Picker's file list is an iframe served by Google that needs Google's
+     * own cookies to show anything. Safari's cross-site tracking prevention
+     * blocks those, so the backdrop paints, the iframe stays empty, and the
+     * page is left greyed over and swallowing clicks with nothing to dismiss.
+     * Nothing here can fix that -- it's Google's dialog and the browser is
+     * doing what it was asked to -- but being trapped behind a dead overlay
+     * is not an acceptable way to find out. So: if the dialog hasn't been
+     * interacted with, give the page back and say what happened.
+     */
+    stuck = setTimeout(() => {
+      close();
+      setBusy(false);
+      setError(
+        "Google Drive didn't open. Safari blocks it when cross-site tracking prevention is on — either turn that off for this site, or upload the file directly instead.",
+      );
+    }, 20000);
   }
 
   function open() {
