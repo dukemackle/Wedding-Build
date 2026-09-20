@@ -16,6 +16,18 @@ Simple text-only or logic-only fixes (copy edits, a stat/label swap,
 small server-action tweaks, migrations, RLS) can just be shipped directly
 — no need to check in first for those.
 
+**Desktop and mobile are separate designs (2026-09-20):** the desktop layout
+is settled and the owner likes it — treat it as the fixed reference. Mobile is
+the one that needs work, and fixing it must never come at the cost of changing
+what desktop looks like. In practice that means: make the change in a
+mobile-only breakpoint (`sm:` and up keeps the existing classes untouched),
+rather than adjusting a shared value until both are tolerable — a shrunk font
+or a tighter gap that "works on both" is a desktop regression nobody asked for.
+Where a phone genuinely needs a different arrangement, give it one (a menu
+instead of a tab strip, a stack instead of columns) rather than squeezing the
+desktop arrangement onto a 375px screen. Check every new screen at phone width
+before showing it, and say in the preview which parts are mobile-only.
+
 **Deployment note (2026-09-12):** production deploys to Cloudflare Workers
 run through the Cloudflare dashboard's Git integration (Settings → Build),
 not a committed CI config. The Build command must be `npm run cf:build`
