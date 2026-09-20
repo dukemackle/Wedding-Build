@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { MobileNav } from "@/components/mobile-nav";
 import { isAdminEmail } from "@/lib/admin";
 import { signOut } from "@/lib/supabase/actions";
 import { WeddingAssistantWidget } from "@/components/wedding-assistant-widget";
@@ -53,7 +54,14 @@ export function AppNav({
             </div>
           </div>
 
-          <NavLinks />
+          {/* The tab strip is the desktop design and stays exactly as it was.
+              A phone gets a different arrangement instead -- see MobileNav --
+              because seven tabs needing ~800px can't be made to fit 375px,
+              only made to scroll off the edge. */}
+          <div className="hidden sm:block">
+            <NavLinks />
+          </div>
+          <MobileNav />
         </div>
       </AutoHideHeader>
       <WeddingAssistantWidget />
