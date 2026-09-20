@@ -51,6 +51,9 @@ export function AppNav({
                   Log out
                 </button>
               </form>
+              {/* Sits in the row that already exists rather than claiming one
+                  of its own -- a whole line of height back on a phone. */}
+              <MobileNav />
             </div>
           </div>
 
@@ -61,7 +64,6 @@ export function AppNav({
           <div className="hidden sm:block">
             <NavLinks />
           </div>
-          <MobileNav />
         </div>
       </AutoHideHeader>
       <WeddingAssistantWidget />
