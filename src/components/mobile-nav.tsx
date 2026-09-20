@@ -13,12 +13,16 @@ import { NAV_GROUPS } from "@/components/nav-links";
  * on a 375px screen four are visible, chopped at both edges, and the rest sit
  * past the fold with nothing indicating they exist.
  *
- * A panel that slides in from the side, rather than a list that opens in the
+ * A small panel hanging from the corner, rather than a list that opens in the
  * header. The difference is not decoration: an inline list is part of the
  * document, so opening it pushes the page down, and scrolling it means
  * scrolling the page -- which on a header that hides itself on scroll fights
- * the thing you're trying to read. A fixed panel sits above the page, scrolls
- * on its own, and leaves what's underneath exactly where it was.
+ * the thing you're trying to read. A fixed panel sits above the page and
+ * leaves what's underneath exactly where it was.
+ *
+ * It is sized to its contents rather than to the screen. A full-height drawer
+ * holding fifteen short words is mostly empty space, and empty space in a menu
+ * reads as something missing.
  *
  * The trigger lives in the existing header row instead of claiming a row of
  * its own, which is a whole line of vertical space back on a small screen.
@@ -61,7 +65,7 @@ export function MobileNav() {
   const close = () => setOpen(false);
 
   const rowClass = (active: boolean) =>
-    `block rounded-md px-3 py-2 text-[15px] ${
+    `block rounded-md px-2.5 py-1.5 text-[14px] ${
       active ? "bg-forest/10 font-medium text-forest" : "text-ink/80"
     }`;
 
@@ -88,7 +92,7 @@ export function MobileNav() {
       </button>
 
       {open && (
-        <div className="fixed inset-0 z-50 flex justify-end">
+        <div className="fixed inset-0 z-50">
           {/* Tapping beside the panel closes it -- the gesture people try
               first, and the reason the panel is deliberately not full width. */}
           <button
@@ -98,33 +102,16 @@ export function MobileNav() {
             className="absolute inset-0 bg-ink/30"
           />
 
-          <div className="relative flex h-full w-[78%] max-w-[290px] flex-col border-l border-hairline bg-card shadow-lg">
-            <div className="flex items-center justify-between border-b border-hairline px-3 py-2.5">
-              <span className="font-mono-numbers text-[11px] uppercase tracking-[0.18em] text-brass">
-                Go to
-              </span>
-              <button
-                type="button"
-                onClick={close}
-                aria-label="Close menu"
-                className="flex h-7 w-7 items-center justify-center rounded-md text-ink/60"
-              >
-                <svg
-                  viewBox="0 0 24 24"
-                  aria-hidden="true"
-                  className="h-4 w-4"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.8"
-                  strokeLinecap="round"
-                >
-                  <path d="M6 6l12 12M18 6L6 18" />
-                </svg>
-              </button>
-            </div>
+          {/*
+            Sized to its contents, not to the screen.
 
-            {/* Scrolls inside itself, not with the page. */}
-            <nav className="flex-1 overflow-y-auto overscroll-contain p-2">
+            A full-height drawer is mostly empty below the last link on a tall
+            phone -- fifteen short words in a panel built for a thousand. This
+            hangs from the header like a menu, takes only the height it needs,
+            and starts scrolling only if the list ever outgrows the viewport.
+          */}
+          <div className="absolute right-2 top-2 flex max-h-[calc(100vh-1rem)] w-[200px] flex-col overflow-hidden rounded-lg border border-hairline bg-card shadow-xl">
+            <nav className="overflow-y-auto overscroll-contain p-1.5">
               <Link
                 href="/dashboard"
                 onClick={close}
@@ -135,11 +122,11 @@ export function MobileNav() {
               </Link>
 
               {NAV_GROUPS.map((group) => (
-                <div key={group.label} className="mt-1">
+                <div key={group.label}>
                   {/* A heading, not a tap target: on desktop this opens a
                       dropdown, but here its children are already listed, so
                       looking tappable would promise a step that isn't there. */}
-                  <p className="px-3 pb-0.5 pt-2 font-mono-numbers text-[10px] uppercase tracking-[0.16em] text-ink/40">
+                  <p className="px-2.5 pb-0.5 pt-1.5 font-mono-numbers text-[9px] uppercase tracking-[0.16em] text-ink/40">
                     {group.label}
                   </p>
                   {group.links.map((link) => (
@@ -155,7 +142,7 @@ export function MobileNav() {
                 </div>
               ))}
 
-              <div className="mt-2 border-t border-hairline pt-2">
+              <div className="mt-1.5 border-t border-hairline pt-1.5">
                 {EXTRA_LINKS.map((item) => {
                   const Icon = item.icon;
                   return (
