@@ -14,9 +14,11 @@ import {
   WrenBirdIcon,
 } from "@/components/icons";
 
-type IconType = ComponentType<{ className?: string }>;
+export type IconType = ComponentType<{ className?: string }>;
 
-const groups: { label: string; icon: IconType; links: { href: string; label: string }[] }[] = [
+export type NavGroup = { label: string; icon: IconType; links: { href: string; label: string }[] };
+
+export const NAV_GROUPS: NavGroup[] = [
   {
     label: "Budget",
     icon: BudgetIcon,
@@ -77,7 +79,7 @@ export function NavLinks() {
     // without the padding that keeps it from being clipped mid-scroll.
     <nav className="-mx-1 flex w-full items-center gap-0.5 overflow-x-auto px-1 py-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
       <PlainLink href="/dashboard" label="Dashboard" icon={ArchIcon} />
-      {groups.map((group) => (
+      {NAV_GROUPS.map((group) => (
         <NavDropdown
           key={group.label}
           label={group.label}
