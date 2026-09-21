@@ -355,20 +355,26 @@ function BuildPlanPrompt() {
 }
 
 /**
- * The list, grouped by stage.
+ * Everything needed to draw one stage, worked out once.
  *
- * Three states, and the difference between them is the whole design. The
- * stage they're on is open. Stages ahead collapse to a count, because reading
- * fifty tasks at once is what sends people back to a spreadsheet and most of
- * those tasks are blocked anyway. Stages behind stay, collapsed and ticked,
- * because after eight months of planning "I have finished four stages" is a
- * very different feeling from "I have thirty-one tasks left" -- and a stage
- * that vanished when its last task was ticked took the only evidence of
- * progress with it.
+ * Both arrangements below need the same facts -- how many tasks are left, is
+ * this the stage they're on, what order the rows go in -- so they're computed
+ * here rather than twice, slightly differently, in two places that then drift.
  */
-function PhasedList({ items }: { items: ChecklistItem[] }) {
-  const [expanded, setExpanded] = useState<Set<string>>(new Set());
+type StageView = {
+  key: string;
+  title: string;
+  blurb: string;
+  doneBlurb: string;
+  items: ChecklistItem[];
+  /** Incomplete first; a ticked task sinks rather than disappearing. */
+  ordered: ChecklistItem[];
+  left: number;
+  done: number;
+  isDone: boolean;
+};
 
+function buildStages(items: ChecklistItem[]): { stages: StageView[]; own: ChecklistItem[] } {
   const byPhase = new Map<string, ChecklistItem[]>();
   for (const item of items) {
     const key = item.phase ?? "own";
@@ -377,14 +383,52 @@ function PhasedList({ items }: { items: ChecklistItem[] }) {
     else byPhase.set(key, [item]);
   }
 
-  const phases = CHECKLIST_PHASES.filter((phase) => byPhase.has(phase.key));
-  const own = (byPhase.get("own") ?? []).filter((item) => !item.completed);
+  const stages = CHECKLIST_PHASES.filter((phase) => byPhase.has(phase.key)).map((phase) => {
+    const phaseItems = byPhase.get(phase.key) ?? [];
+    const left = phaseItems.filter((item) => !item.completed).length;
+    return {
+      key: phase.key,
+      title: phase.title,
+      blurb: phase.blurb,
+      doneBlurb: phase.doneBlurb,
+      items: phaseItems,
+      ordered: [
+        ...phaseItems.filter((item) => !item.completed),
+        ...phaseItems.filter((item) => item.completed),
+      ],
+      left,
+      done: phaseItems.length - left,
+      isDone: left === 0,
+    };
+  });
 
-  const remainingIn = (key: string) =>
-    (byPhase.get(key) ?? []).filter((item) => !item.completed).length;
+  return { stages, own: (byPhase.get("own") ?? []).filter((item) => !item.completed) };
+}
 
-  // The stage they're on is the first with anything left in it.
-  const currentKey = phases.find((phase) => remainingIn(phase.key) > 0)?.key;
+/**
+ * The plan, arranged for the screen it's on.
+ *
+ * A phone gets an accordion: one column, one stage open, the rest folded away,
+ * because that is all 375px can hold without becoming a scroll.
+ *
+ * A wide screen gets something a phone cannot have -- every stage of the
+ * wedding listed down the side with its progress, and the stage you're on open
+ * beside it. The whole arc and today's work visible at once. That's the
+ * difference between a desktop layout and a mobile one stretched: not more
+ * whitespace, a different shape.
+ */
+function PhasedList({ items }: { items: ChecklistItem[] }) {
+  const { stages, own } = buildStages(items);
+  const currentKey = stages.find((stage) => stage.left > 0)?.key;
+
+  // Null means "whichever stage they're on", so the detail panel follows them
+  // forward as stages complete until they deliberately click elsewhere. No
+  // effect needed to keep it in sync.
+  const [picked, setPicked] = useState<string | null>(null);
+  const [expanded, setExpanded] = useState<Set<string>>(new Set());
+
+  const activeKey = picked ?? currentKey ?? stages[0]?.key;
+  const active = stages.find((stage) => stage.key === activeKey);
 
   function toggle(key: string) {
     setExpanded((current) => {
@@ -396,105 +440,191 @@ function PhasedList({ items }: { items: ChecklistItem[] }) {
   }
 
   return (
-    <div className="flex flex-col gap-3">
-      {phases.map((phase) => {
-        const phaseItems = byPhase.get(phase.key) ?? [];
-        const left = remainingIn(phase.key);
-        const done = phaseItems.length - left;
-        const isCurrent = phase.key === currentKey;
-        const isDone = left === 0;
-        const isOpen = isCurrent || expanded.has(phase.key);
-
-        // Done tasks sink to the bottom of their stage rather than vanishing:
-        // it keeps a mis-tap one click from undone, and shows the stage
-        // filling up as you work it.
-        const ordered = [
-          ...phaseItems.filter((item) => !item.completed),
-          ...phaseItems.filter((item) => item.completed),
-        ];
-
-        return (
-          <section
-            key={phase.key}
-            className={
-              isCurrent
-                ? "rounded-md border border-forest/30 bg-parchment p-4"
-                : isDone
-                  ? "rounded-md border border-hairline bg-parchment/40 p-4"
-                  : "rounded-md border border-hairline p-4"
-            }
-          >
-            <button
-              type="button"
-              onClick={() => !isCurrent && toggle(phase.key)}
-              className="flex w-full items-baseline justify-between gap-3 text-left"
+    <>
+      {/* --- phone and tablet: accordion ------------------------------- */}
+      <div className="flex flex-col gap-3 lg:hidden">
+        {stages.map((stage) => {
+          const isCurrent = stage.key === currentKey;
+          const isOpen = isCurrent || expanded.has(stage.key);
+          return (
+            <section
+              key={stage.key}
+              className={
+                isCurrent
+                  ? "rounded-md border border-forest/30 bg-parchment p-4"
+                  : stage.isDone
+                    ? "rounded-md border border-hairline bg-parchment/40 p-4"
+                    : "rounded-md border border-hairline p-4"
+              }
             >
-              <span className="min-w-0">
-                {isCurrent && (
-                  <span className="font-mono-numbers text-[10px] uppercase tracking-[0.18em] text-brass">
-                    You&apos;re here
+              <button
+                type="button"
+                onClick={() => !isCurrent && toggle(stage.key)}
+                className="flex w-full items-baseline justify-between gap-3 text-left"
+              >
+                <span className="min-w-0">
+                  {isCurrent && (
+                    <span className="font-mono-numbers text-[10px] uppercase tracking-[0.18em] text-brass">
+                      You&apos;re here
+                    </span>
+                  )}
+                  <span
+                    className={`flex items-baseline gap-2 font-display text-xl font-semibold ${
+                      stage.isDone ? "text-forest/60" : "text-forest"
+                    }`}
+                  >
+                    {stage.isDone && <Tick />}
+                    {stage.title}
                   </span>
-                )}
+                </span>
+                <span className="shrink-0 font-mono-numbers text-xs text-ink/50">
+                  {isCurrent
+                    ? `${stage.left} left`
+                    : stage.isDone
+                      ? `${stage.done} done`
+                      : isOpen
+                        ? "Hide"
+                        : `${stage.left}`}
+                </span>
+              </button>
+
+              {stage.isDone && <p className="mt-1 text-sm text-ink/60">{stage.doneBlurb}</p>}
+
+              {isOpen && (
+                <>
+                  {!stage.isDone && <p className="mt-1 text-sm text-ink/65">{stage.blurb}</p>}
+                  <div className="mt-2">
+                    {stage.ordered.map((item) => (
+                      <ChecklistRow key={item.id} item={item} />
+                    ))}
+                  </div>
+                </>
+              )}
+            </section>
+          );
+        })}
+
+        {own.length > 0 && (
+          <section className="rounded-md border border-hairline p-4">
+            <span className="block font-display text-xl font-semibold text-forest">
+              Your own tasks
+            </span>
+            <div className="mt-2">
+              {own.map((item) => (
+                <ChecklistRow key={item.id} item={item} />
+              ))}
+            </div>
+          </section>
+        )}
+      </div>
+
+      {/* --- wide screens: the whole arc, plus the stage you're on ------ */}
+      <div className="hidden lg:grid lg:grid-cols-[250px_1fr] lg:gap-8">
+        <nav className="flex flex-col gap-0.5 border-r border-hairline pr-5">
+          {stages.map((stage) => {
+            const isActive = stage.key === activeKey;
+            return (
+              <button
+                key={stage.key}
+                type="button"
+                onClick={() => setPicked(stage.key)}
+                className={`rounded-md px-3 py-2 text-left transition-colors ${
+                  isActive ? "bg-forest/10" : "hover:bg-parchment"
+                }`}
+              >
                 <span
-                  className={`flex items-baseline gap-2 font-display text-xl font-semibold ${
-                    isDone ? "text-forest/60" : "text-forest"
+                  className={`flex items-center gap-1.5 font-display text-base ${
+                    isActive
+                      ? "font-semibold text-forest"
+                      : stage.isDone
+                        ? "text-forest/55"
+                        : "text-ink/75"
                   }`}
                 >
-                  {isDone && (
-                    <svg
-                      viewBox="0 0 24 24"
-                      aria-hidden="true"
-                      className="h-4 w-4 shrink-0 self-center text-forest"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2.4"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <path d="m5 13 4 4L19 7" />
-                    </svg>
-                  )}
-                  {phase.title}
+                  {stage.isDone && <Tick />}
+                  {stage.title}
                 </span>
-              </span>
-              <span className="shrink-0 font-mono-numbers text-xs text-ink/50">
-                {isCurrent ? `${left} left` : isDone ? `${done} done` : isOpen ? "Hide" : `${left}`}
+                <span className="mt-0.5 block font-mono-numbers text-[11px] text-ink/45">
+                  {stage.isDone
+                    ? `${stage.done} done`
+                    : stage.key === currentKey
+                      ? `${stage.left} left · you're here`
+                      : `${stage.left} to do`}
+                </span>
+              </button>
+            );
+          })}
+
+          {own.length > 0 && (
+            <button
+              type="button"
+              onClick={() => setPicked("own")}
+              className={`mt-2 rounded-md border-t border-hairline px-3 pb-2 pt-3 text-left ${
+                activeKey === "own" ? "bg-forest/10" : "hover:bg-parchment"
+              }`}
+            >
+              <span className="font-display text-base text-ink/75">Your own tasks</span>
+              <span className="mt-0.5 block font-mono-numbers text-[11px] text-ink/45">
+                {own.length} to do
               </span>
             </button>
+          )}
+        </nav>
 
-            {/* The payoff line. The plan's claim is that stages unlock each
-                other; this is where that claim gets said out loud, and it
-                stays put rather than flashing past as a toast. */}
-            {isDone && (
-              <p className="mt-1 max-w-2xl text-sm text-ink/60">{phase.doneBlurb}</p>
-            )}
+        <div className="min-w-0">
+          {activeKey === "own" ? (
+            <>
+              <h3 className="font-display text-2xl font-semibold text-forest">Your own tasks</h3>
+              <div className="mt-3">
+                {own.map((item) => (
+                  <ChecklistRow key={item.id} item={item} />
+                ))}
+              </div>
+            </>
+          ) : active ? (
+            <>
+              {active.key === currentKey && (
+                <span className="font-mono-numbers text-[10px] uppercase tracking-[0.18em] text-brass">
+                  You&apos;re here
+                </span>
+              )}
+              <h3
+                className={`flex items-center gap-2 font-display text-2xl font-semibold ${
+                  active.isDone ? "text-forest/60" : "text-forest"
+                }`}
+              >
+                {active.isDone && <Tick />}
+                {active.title}
+              </h3>
+              <p className="mt-1 max-w-2xl text-sm text-ink/65">
+                {active.isDone ? active.doneBlurb : active.blurb}
+              </p>
+              <div className="mt-3">
+                {active.ordered.map((item) => (
+                  <ChecklistRow key={item.id} item={item} />
+                ))}
+              </div>
+            </>
+          ) : null}
+        </div>
+      </div>
+    </>
+  );
+}
 
-            {isOpen && (
-              <>
-                {!isDone && <p className="mt-1 max-w-2xl text-sm text-ink/65">{phase.blurb}</p>}
-                <div className="mt-2">
-                  {ordered.map((item) => (
-                    <ChecklistRow key={item.id} item={item} />
-                  ))}
-                </div>
-              </>
-            )}
-          </section>
-        );
-      })}
-
-      {own.length > 0 && (
-        <section className="rounded-md border border-hairline p-4">
-          <span className="block font-display text-xl font-semibold text-forest">
-            Your own tasks
-          </span>
-          <div className="mt-2">
-            {own.map((item) => (
-              <ChecklistRow key={item.id} item={item} />
-            ))}
-          </div>
-        </section>
-      )}
-    </div>
+function Tick() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      className="h-4 w-4 shrink-0 self-center text-forest"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.4"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="m5 13 4 4L19 7" />
+    </svg>
   );
 }

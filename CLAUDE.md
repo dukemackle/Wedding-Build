@@ -16,17 +16,28 @@ Simple text-only or logic-only fixes (copy edits, a stat/label swap,
 small server-action tweaks, migrations, RLS) can just be shipped directly
 — no need to check in first for those.
 
-**Desktop and mobile are separate designs (2026-09-20):** the desktop layout
-is settled and the owner likes it — treat it as the fixed reference. Mobile is
-the one that needs work, and fixing it must never come at the cost of changing
-what desktop looks like. In practice that means: make the change in a
-mobile-only breakpoint (`sm:` and up keeps the existing classes untouched),
-rather than adjusting a shared value until both are tolerable — a shrunk font
-or a tighter gap that "works on both" is a desktop regression nobody asked for.
-Where a phone genuinely needs a different arrangement, give it one (a menu
-instead of a tab strip, a stack instead of columns) rather than squeezing the
-desktop arrangement onto a 375px screen. Check every new screen at phone width
-before showing it, and say in the preview which parts are mobile-only.
+**Desktop and mobile are two designs, not one that stretches (2026-09-20,
+restated 2026-09-20 — supersedes the earlier "desktop is settled" note):**
+each screen size gets an arrangement composed for it. Neither is the other's
+fallback.
+
+The failure this exists to prevent runs in both directions. Squeezing a
+desktop arrangement onto 375px gives you a seven-tab strip scrolling sideways.
+Letting desktop inherit the mobile arrangement gives you what the app has
+today: a single column of stacked full-width cards, centred on a 1440px screen
+with empty margins either side — a phone layout with more whitespace, not a
+desktop layout. A wide screen wants columns, side-by-side panels and denser
+tables; a phone wants one column and a menu.
+
+So: never adjust a shared value until both are tolerable (a shrunk font that
+"works on both" is a regression on one of them). Use breakpoints to give each
+its own arrangement, and check every new screen at both 375px and ~1440px
+before showing it, saying in the preview which parts belong to which.
+
+Container widths are currently unsystematic — eight different `max-w-*` caps
+across the app, with the nav wider than most of the content under it. Any
+desktop layout work should settle that first: a small set of named widths with
+a rule for which pages use which.
 
 **Deployment note (2026-09-12):** production deploys to Cloudflare Workers
 run through the Cloudflare dashboard's Git integration (Settings → Build),
