@@ -51,192 +51,45 @@ underneath — fixed by disconnecting and reconnecting the Git repository in
 Settings (a plain Settings save wasn't enough to make it stick). If deploys
 silently fail with that error again, check this first.
 
-**Monetization: a staged roadmap, not a single decision.** The plan (agreed
-2026-09-12, expect this to get rewritten as reality teaches us more):
+## Reference, read on demand
 
-- **Phase 0 (current, indefinite): completely free for everyone** — couples
-  and vendors both. The only goal right now is adoption; no fees, no paywalls,
-  nothing that adds friction to signing up or using the product. Stay here
-  until there's real, organic (non-owner) usage to point at.
-- **Phase 1: light vendor lead pricing** for continuing to receive inquiries /
-  stay listed. The goal of this phase is proving vendors will pay *at all* and
-  building the habit of vendor billing, not meaningful revenue — so whatever
-  the number is, it should be low enough that no vendor hesitates. Fully
-  guaranteed/provable with zero new infrastructure: `vendor_inquiries` already
-  logs every lead in Wren's own database, so billing against it needs no
-  vendor cooperation or new tracking — see the admin Vendors page's existing
-  per-vendor inquiry/booked counts. Start manual (direct outreach + a Stripe
-  payment link + the existing `active` toggle to unlist non-payers) before
-  building anything self-serve — today there is zero billing code in the app
-  (`active` is a plain admin-toggled boolean, see migration `0041`), which is
-  a feature, not a gap: it means starting to charge costs no engineering work,
-  and changing the price for any vendor later (or between vendors) is just as
-  free, since nothing is hardcoded. That flexibility goes away the moment
-  billing gets automated (Phase 3) — when that's built, give each vendor a
-  stored rate (not one global constant or a single fixed Stripe Price) so
-  future price changes still don't require migrating existing subscribers.
-  - **~$1–$5/month is a placeholder, not a derived price.** Don't lock a real
-    number until there's real signal: (a) actual non-owner `vendor_inquiries`
-    volume per vendor in `/admin/vendors` — what does a typical vendor get per
-    month, (b) direct "would you pay $X" conversations with a handful of real
-    vendors before rolling a price out broadly, (c) comparables as an anchor —
-    WeddingWire/The Knot charge vendors $200–$400+/month flat, Thumbtack-style
-    marketplaces charge $15–$50+ per lead, both priced off high wedding
-    contract values ($3k+ photographer, $10k+ venue) that Wren hasn't earned
-    any track record against yet. $1–$5 only makes sense as a foot-in-the-door
-    trust/plumbing test, not as a lead-value estimate — the real price gets
-    set once (a)–(c) exist, not before.
-  - **Trigger to enter Phase 1:** a real base of active vendors, each with
-    enough genuine (non-owner-test) inquiries that the leads are obviously
-    worth something to them, plus a steady trickle of organic couple
-    signups. Check `/admin/vendors` and `/admin/growth` for these signals
-    rather than picking a date.
-  - **Rollout plan for existing free vendors when Phase 1 actually starts**
-    (agreed 2026-09-12) — grace period + early-bird lock-in, never a
-    surprise lockout: existing vendors have no track record with an
-    unproven site, so a sudden delist right when you need goodwill would
-    cut against the adoption-first goal.
-    1. **Segment first.** Split `/admin/vendors` into vendors with real
-       (non-owner-test) `vendor_inquiries` vs. none. Lead outreach with the
-       first group — they've already gotten real value from being listed.
-    2. **Announce with a deadline and a carrot, not a threat.** Email (the
-       `contact_email` column already exists) something like "Wren is
-       moving to a paid plan starting [date]; lock in $X/month if you sign
-       up before then, $Y after." Frame joining early as a deal, not a
-       penalty.
-    3. **Grace period, no enforcement yet.** ~30-45 days, one reminder
-       partway through. Everyone stays `active` and listed the whole time
-       regardless of payment status — zero risk of an accidental delist
-       mid-campaign.
-    4. **Collect payment manually per vendor** (Stripe Payment Link + track
-       who's paid by hand — a spreadsheet or the admin notes field is
-       enough at this scale; only add a `billing_status` column later if
-       manual tracking actually becomes a burden).
-    5. **Enforce only on non-responders** at the end of the grace period —
-       flip `active = false` via the existing toggle. Anyone who paid stays
-       listed at their locked-in rate; anyone slow/negotiating gets handled
-       by hand, which is one of the advantages of staying manual this early.
-    6. **Reactivation stays open, no penalty** — a delisted vendor can pay
-       and come back anytime, no punitive re-signup.
-    - **"Locked in," not "locked in forever."** Don't promise a lifetime
-      rate — promise the early-bird rate holds for as long as Wren offers
-      this specific plan, with reasonable notice (e.g., 60 days) before any
-      change, same as any subscription service. This leaves room to raise
-      the Phase 1 price itself later, once real inquiry volume/conversion
-      data shows it's worth more than $1-5, without having made a promise
-      that can't be kept.
-- **Phase 2: featured/premium placement + paid vendor tiers.** Vendors pay to
-  rank higher or stand out in `/vendors` and `/venues`, or subscribe to a
-  tier with perks (analytics, priority in future per-venue recommendations).
-  - **Trigger:** Phase 1 shows vendors will actually pay, *and* there's real
-    vendor density per category/region (paying to be "featured" among 2
-    competitors isn't worth anything — needs enough vendors that placement
-    is contested).
-- **Phase 3: a real vendor portal** (self-serve login, their own stats,
-  self-managed billing). Automates what Phase 1–2 do manually.
-  - **Trigger:** manual vendor billing/management becomes an actual time
-    burden for the owner — this phase is about admin overhead, not revenue.
-- **Not currently planned, revisit only if the shape of the business
-  changes:** couple-facing paid tiers (cuts against the "no fee" promise
-  already on the homepage and the adoption-first goal — flag explicitly
-  before ever building this rather than assuming it fits) — third-party
-  affiliate revenue (registry/travel — real, established affiliate networks
-  already solve attribution, unlike a self-built referral code; a legitimate
-  option but not sequenced yet) — commission-on-closed-booking (would need
-  either Wren controlling payment, i.e. a real marketplace/escrow build, or
-  a formal vendor-partnership program with self-reporting; the referral-code
-  system in the app today is a weak, unenforceable version of this and
-  should not be treated as real revenue infrastructure).
+Two files hold the background that used to live here. They were moved out
+because this file is re-sent with every message and they were being paid for
+on every turn while mattering on very few. Read the relevant one when the
+conversation turns to it — don't guess from memory, and don't read both
+reflexively:
 
-**My job going forward:** when asked, or when it's clearly relevant, check the
-admin data (`/admin/growth`, `/admin/vendors`, `/admin/couples`) against the
-trigger conditions above and flag if a phase transition looks ripe — but the
-decision to actually move is always the owner's call, never assumed. Phases
-above are a snapshot, not a contract — rewrite, reorder, or replace them
-outright as real usage teaches us more; update this file when that happens.
+- **`docs/monetization.md`** — the staged pricing roadmap, phase triggers, and
+  the rollout plan for existing free vendors. Read before advising on pricing,
+  charging, revenue, or whether to move phases.
+- **`docs/competitors.md`** — The Knot, Zola, Joy and the rest; where Wren wins
+  and where it can't; the known feature gaps (including what's parked, and
+  what's already shipped so it isn't re-proposed). Read before comparing Wren
+  to anything, or proposing a feature that might already exist.
 
-## Competitive landscape (researched 2026-09-14)
+## Working efficiently (2026-09-21)
 
-Standing instruction from the owner: know these products well, and while we
-build, proactively flag what Wren is missing, what a competitor does better,
-and where Wren can beat them. Don't wait to be asked. Treat the notes below as
-a living snapshot — correct them when research or real usage contradicts them,
-and re-research rather than trusting these details indefinitely.
+The owner is on a usage budget and long sessions burn it. These are about cost
+per exchange, not about doing less:
 
-**The Knot / WeddingWire** (same parent, The Knot Worldwide). 300k+ US vendor
-listings — the largest directory, and the real moat. Planning tools are free
-loss-leaders; revenue is vendor advertising (~$200–400+/mo per vendor).
-Registry auto-syncs ~10 named retail partners. Strongest in small markets where
-they're the only directory with coverage.
-
-**Zola.** Registry-first, expanded into the cleanest all-in-one. Free: website,
-guest list (addresses, RSVP, meals, song requests), budget tracker with
-allocation suggestions and automatic payment reminders, checklist, vendor
-directory (smaller than The Knot's, urban-concentrated). Paid: seating chart
-(~$15), guest texting (~$80). Has "Predictive Planning" (warns you'll overspend
-based on guest count vs. budget) and an AI thank-you-note writer. Their
-**Contact Collector** is the sharpest idea in the category: a shareable link
-guests use to fill in their own mailing address and contact info, so the couple
-never chases addresses.
-
-**Joy (withjoy.com).** Best genuinely-free guest-facing package; no ad-funded
-product wrapped around it. Strong on the guest side specifically:
-Accommodations page, hotel blocks with booking links, a free concierge that
-negotiates group hotel rates, a weekend Schedule page, guest email by tag, and
-paid SMS ("Messaging Plus").
-
-**Minted.** Paper/invitations first, free website attached.
-
-**Wedding Spot.** Venue search with price estimates — the closest thing to a
-direct competitor for Wren's estimator.
-
-**Google Sheets / Excel — the real incumbent.** Most couples still run budget
-and guest list in a spreadsheet. Notably, the common advice in 2026 roundups is
-"use Zola or The Knot *plus* a spreadsheet for budget," which means every big
-platform's budget tool is weak enough that people leave it. That is Wren's
-opening.
-
-**Where Wren genuinely wins today:** the budget (regional/seasonal/style-tier
-estimates, actual-vs-paid per line, per-payer splits, due dates, hideable
-categories) is already deeper than what the big players ship, because for them
-it's a funnel, not a product. Wren also takes nothing from couples *or*
-registries — Zola's "free" is funded by a registry cut, so "actually free" is a
-claim Wren can make honestly and they can't.
-
-**Where Wren cannot win right now:** vendor/venue discovery. That's the
-marketplaces' strongest ground and their moat is 15+ years of vendor density,
-not software. With no real vendors listed, head-to-head venue search loses on
-inventory regardless of filter quality. Treat listings as a supporting feature
-for couples already using Wren, not the front door. The front door is the free
-estimator — the one thing that gets a stranger to enter real details before
-committing to anything.
-
-**Known feature gaps, roughly by value-per-effort** (re-check before acting;
-some may have shipped since this was written):
-- *Guest messaging* — **parked by the owner 2026-09-17; don't re-propose it
-  unprompted.** `src/lib/sms.ts` and guest SMS opt-in already exist but only
-  fire on itinerary changes. Competitors charge ~$80 for broadcast texting and
-  Wren could include it, but it's the one gap on this list with a real
-  recurring cost: Twilio bills per ~160-character segment, so a 200-character
-  message to 150 guests is 300 segments — a genuine charge against an app with
-  no revenue, behind a button someone presses the night before a wedding.
-  Before it could ever ship it needs (a) confirmation that Twilio is
-  configured in production and off a trial account (trial accounts only text
-  verified numbers, so a broadcast would silently fail for nearly every
-  guest), and (b) an owner-chosen send cap plus a visible "this will send N
-  segments to M guests" confirmation. Both are the owner's calls, not
-  assumptions to make.
-- *Seating chart PDF export* — Zola charges for this. `/itinerary/print` is
-  already a working print-route pattern to copy.
-- *Registry retailer sync* — big integration lift, low strategic value; skip.
-- *Hotel-block concierge* — an operations business, not software; skip.
-
-**Shipped since this list was written** (2026-09-15) — don't re-propose these:
-guest-site travel/accommodations, dress code, directions/parking and FAQ
-sections (all on `/w/[slug]`); the Contact Collector (`/w/[slug]/contact` plus
-the approval panel on `/guests`); the gift log and AI thank-you drafting
-(`guests.gift_description` / `thank_you_note`, drafted through
-`src/app/guests/thank-you-actions.ts`).
+- **Keep replies short.** A few sentences beats a structured brief. No tables
+  unless asked for a comparison, no restating the request back, no summarising
+  what was just built in a second form. Everything written stays in context for
+  the rest of the session and gets re-sent on every turn after it.
+- **Get the brief right before building anything visual.** Ask for a screenshot
+  of what's wrong before proposing a fix. Three design rounds cost far more
+  than one question — the mobile nav took three passes that one phone
+  screenshot would have collapsed into one.
+- **Batch related changes into one PR.** Each merge is a status check, a merge,
+  a resync and a build. Two small fixes shipped together cost roughly half of
+  two shipped separately.
+- **Don't re-read what's already in context**, and read the part of a file
+  that's needed rather than the whole thing.
+- **Suggest a fresh session when the subject changes.** Every turn re-sends the
+  whole conversation, so an unrelated task started at turn 80 carries eighty
+  turns of unrelated history. Say so plainly rather than carrying on.
+- **Keep the task list clean.** Completed items are re-sent; clear them when a
+  batch of work is done.
 
 When asked for business/product help (not just "implement X"), act as a blended
 expert across these lenses, weighted by current priority:
