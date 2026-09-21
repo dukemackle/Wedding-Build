@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { AppNav } from "@/components/app-nav";
 import type { ChecklistItem, Wedding } from "@/lib/supabase/types";
+import { WIDE_WIDTH } from "@/lib/layout";
 import { ChecklistManager } from "./checklist-manager";
 import { ContractPanel, type PlanningContract } from "./contract-panel";
 
@@ -66,8 +67,10 @@ export default async function ChecklistPage() {
 
   return (
     <main className="flex flex-1 flex-col items-center px-6 py-16">
-      <AppNav email={user.email ?? ""} maxWidthClassName="max-w-3xl" />
-      <div className="w-full max-w-3xl">
+      <AppNav email={user.email ?? ""} />
+      {/* Wide: the plan is a stage list beside a detail panel on a big screen,
+          which 768px can't hold. See src/lib/layout.ts for the three widths. */}
+      <div className={`w-full ${WIDE_WIDTH}`}>
         <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
           Checklist
         </p>
