@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef, useState, useTransition } from "react";
+import { useMemo, useRef, useState, useTransition, type CSSProperties } from "react";
 import type { ItineraryEvent } from "@/lib/supabase/types";
 import {
   dateKey,
@@ -184,12 +184,12 @@ function EventRow({ event }: { event: ItineraryEvent }) {
 
   return (
     <div className="border-b border-hairline py-3 last:border-b-0">
-      {timeRange && <p className="font-mono-numbers text-xs text-brass">{timeRange}</p>}
+      {timeRange && <p className="font-mono-numbers text-xs text-brass xl:text-[11px]">{timeRange}</p>}
       <p className="mt-0.5 text-ink">{event.title}</p>
       {event.location && <p className="mt-1 text-xs text-ink/50">{event.location}</p>}
       {event.description && <p className="mt-1 text-sm text-ink/70">{event.description}</p>}
       {error && <p className="mt-1 text-sm text-red-800">{error}</p>}
-      <div className="mt-2 flex items-center gap-3">
+      <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 xl:gap-x-2">
         <button onClick={() => downloadIcs(event)} className="text-xs text-brass hover:underline">
           Add to calendar
         </button>
@@ -220,10 +220,12 @@ function DayColumn({
   onAdd: () => void;
 }) {
   return (
-    <div className="w-full min-w-[220px] flex-1 rounded-lg border border-hairline bg-card p-4 shadow-sm">
+    <div className="w-full min-w-[240px] flex-1 rounded-lg border border-hairline bg-card p-4 shadow-sm xl:min-w-0 xl:p-3">
       <div className="mb-3 flex items-start justify-between gap-2 border-b border-hairline pb-3">
         <div>
-          <p className="font-display text-lg font-semibold text-forest">{formatFullDate(date)}</p>
+          <p className="font-display text-lg font-semibold text-forest xl:text-base">
+            {formatFullDate(date)}
+          </p>
           {isWeddingDay && (
             <span className="font-mono-numbers text-[11px] uppercase tracking-wide text-brass">
               Wedding day
@@ -266,7 +268,7 @@ export function ItineraryManager({
   }
 
   return (
-    <div className="grid gap-6 md:grid-cols-[280px_1fr]">
+    <div className="grid gap-6 md:grid-cols-[280px_1fr] xl:grid-cols-[240px_1fr]">
       <div className="rounded-lg border border-hairline bg-card p-5 shadow-sm">
         <ItineraryCalendar
           events={events}
@@ -304,7 +306,10 @@ export function ItineraryManager({
             </p>
           </div>
         ) : (
-          <div className="scroll-visible flex items-start gap-4 overflow-x-auto pb-2">
+          <div
+            className="scroll-visible flex items-start gap-4 overflow-x-auto pb-2 xl:grid xl:gap-3 xl:overflow-visible xl:[grid-template-columns:var(--day-cols)]"
+            style={{ "--day-cols": `repeat(${Math.min(days.length, 7)}, minmax(0, 1fr))` } as CSSProperties}
+          >
             {days.map((day) => (
               <DayColumn
                 key={day.date}
