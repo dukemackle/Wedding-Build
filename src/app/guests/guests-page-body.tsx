@@ -168,33 +168,34 @@ export function GuestsPageBody({
                 },
               ]}
             />
-
-            {/* Nothing to configure here — it only appears once guests have
-                left something. */}
-            <TabbedCard
-              title="From your guests"
-              tabs={[
-                {
-                  key: "guestbook",
-                  label: `Guestbook (${guestbookCount})`,
-                  hidden: guestbookCount === 0,
-                  content: (
-                    <GuestbookFeed
-                      guests={guests}
-                      publicSiteOn={Boolean(wedding.public_slug)}
-                    />
-                  ),
-                },
-                {
-                  key: "songs",
-                  label: `Song requests (${songCount})`,
-                  hidden: songCount === 0,
-                  content: <SongRequests guests={guests} />,
-                },
-              ]}
-            />
           </div>
         </div>
+
+        {/* Full width, under both columns: a wall of photos and messages
+            wants the room, and there's nothing to set up here — the card
+            only appears once guests have left something. */}
+        <TabbedCard
+          title="From your guests"
+          tabs={[
+            {
+              key: "guestbook",
+              label: `Guestbook (${guestbookCount})`,
+              hidden: guestbookCount === 0,
+              content: (
+                <GuestbookFeed
+                  guests={guests}
+                  publicSiteOn={Boolean(wedding.public_slug)}
+                />
+              ),
+            },
+            {
+              key: "songs",
+              label: `Song requests (${songCount})`,
+              hidden: songCount === 0,
+              content: <SongRequests guests={guests} />,
+            },
+          ]}
+          />
       </div>
     </div>
   );
