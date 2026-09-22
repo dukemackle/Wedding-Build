@@ -10,7 +10,16 @@ import {
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getResendClient, INQUIRY_FROM_ADDRESS } from "@/lib/resend";
-import type { Guest, GuestPriority, GuestStatus, RsvpSubmission, Wedding } from "@/lib/supabase/types";
+import type {
+  Guest,
+  GuestPriority,
+  GuestSide,
+  GuestStatus,
+  GuestType,
+  RsvpSubmission,
+  Wedding,
+} from "@/lib/supabase/types";
+import { GUEST_SIDES, GUEST_TYPES, SIDE_COLORS } from "@/lib/guest-groups";
 
 const VALID_STATUSES: GuestStatus[] = ["invited", "confirmed", "declined", "pending"];
 const VALID_PRIORITIES: GuestPriority[] = ["must_invite", "would_like", "if_room"];
@@ -32,6 +41,16 @@ async function requireOwnWedding() {
     .maybeSingle<Wedding>();
 
   return { supabase, user, wedding };
+}
+
+/**
+ * A select whose empty option means "not set" rather than an error. Side and
+ * type are both optional, and an unrecognised value is treated as unset
+ * rather than rejected -- an import shouldn't fail over a stray label.
+ */
+function optionalChoice<T extends string>(raw: FormDataEntryValue | null, allowed: T[]) {
+  const value = ((raw as string) || "").trim();
+  return allowed.includes(value as T) ? (value as T) : null;
 }
 
 function guestFieldsFromForm(formData: FormData) {
@@ -58,6 +77,8 @@ function guestFieldsFromForm(formData: FormData) {
       plus_one_name: ((formData.get("plus_one_name") as string) || "").trim() || null,
       status: status as GuestStatus,
       priority: priority as GuestPriority,
+      side: optionalChoice(formData.get("side"), GUEST_SIDES),
+      guest_type: optionalChoice(formData.get("guest_type"), GUEST_TYPES),
       meal: ((formData.get("meal") as string) || "").trim() || null,
       notes: ((formData.get("notes") as string) || "").trim() || null,
       gift_description: ((formData.get("gift_description") as string) || "").trim() || null,
@@ -210,7 +231,10 @@ export async function importGuestRows(
     return { error: "Couldn't read that file — please try again." };
   }
 
-  const parsed = parseGuestTable(table);
+  const parsed = parseGuestTable(table, {
+    a: wedding.partner_a_name,
+    b: wedding.partner_b_name,
+  });
   const blocker = importBlocker(parsed, skipInvalid);
   if (blocker) return { error: blocker };
 
@@ -244,7 +268,10 @@ export async function importGuestsFromGoogleSheet(
     return { error: "Couldn't reach that Google Sheet. Check the URL and try again." };
   }
 
-  const parsed = parseGuestText(text);
+  const parsed = parseGuestText(text, {
+    a: wedding.partner_a_name,
+    b: wedding.partner_b_name,
+  });
   const blocker = importBlocker(parsed, false);
   if (blocker) return { error: blocker };
 
@@ -258,6 +285,68 @@ export async function importGuestsFromGoogleSheet(
   revalidatePath("/guests");
   revalidatePath("/budget");
   return { imported: rows.length };
+}
+
+/**
+ * The two colours the sides are drawn in. Only values from our own palette
+ * are accepted -- these end up as inline styles on every row, so they can't
+ * be whatever arrives in the form.
+ */
+export async function setSideColors(formData: FormData): Promise<{ error?: string }> {
+  const { supabase, wedding } = await requireOwnWedding();
+
+  if (!wedding) {
+    return { error: "Set up your wedding on the Dashboard first." };
+  }
+
+  const palette = SIDE_COLORS.map((c) => c.value);
+  const sideA = (formData.get("side_a_color") as string) || "";
+  const sideB = (formData.get("side_b_color") as string) || "";
+
+  if (!palette.includes(sideA as (typeof palette)[number]) || !palette.includes(sideB as (typeof palette)[number])) {
+    return { error: "Pick a colour from the palette." };
+  }
+
+  const { error } = await supabase
+    .from("weddings")
+    .update({ side_a_color: sideA, side_b_color: sideB, updated_at: new Date().toISOString() })
+    .eq("id", wedding.id);
+
+  if (error) {
+    return { error: error.message };
+  }
+
+  revalidatePath("/guests");
+  return {};
+}
+
+/** Side or type on one guest, set straight from the row without opening Edit. */
+export async function setGuestGrouping(formData: FormData): Promise<{ error?: string }> {
+  const { supabase, wedding } = await requireOwnWedding();
+
+  if (!wedding) {
+    return { error: "Set up your wedding on the Dashboard first." };
+  }
+
+  const guestId = formData.get("guest_id") as string;
+  const patch: { side?: GuestSide | null; guest_type?: GuestType | null } = {};
+  if (formData.has("side")) patch.side = optionalChoice(formData.get("side"), GUEST_SIDES);
+  if (formData.has("guest_type")) {
+    patch.guest_type = optionalChoice(formData.get("guest_type"), GUEST_TYPES);
+  }
+
+  const { error } = await supabase
+    .from("guests")
+    .update({ ...patch, updated_at: new Date().toISOString() })
+    .eq("id", guestId)
+    .eq("wedding_id", wedding.id);
+
+  if (error) {
+    return { error: error.message };
+  }
+
+  revalidatePath("/guests");
+  return {};
 }
 
 export async function addRegistryItem(formData: FormData): Promise<{ error?: string }> {

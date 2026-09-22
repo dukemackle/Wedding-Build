@@ -2,13 +2,34 @@
 
 import Image from "next/image";
 import { useRef, useState, useTransition } from "react";
-import type { Guest, GuestPriority, GuestStatus } from "@/lib/supabase/types";
+import type {
+  Guest,
+  GuestPriority,
+  GuestSide,
+  GuestStatus,
+  GuestType,
+} from "@/lib/supabase/types";
+import {
+  GUEST_SIDES,
+  GUEST_SORT_LABELS,
+  GUEST_TYPES,
+  GUEST_TYPE_LABELS,
+  SIDE_COLORS,
+  groupGuests,
+  guestSideColor,
+  guestSideLabel,
+  sideTheme,
+  type GuestSort,
+  type SideTheme,
+} from "@/lib/guest-groups";
 import {
   addGuest,
   updateGuest,
   deleteGuest,
   importGuestsFromGoogleSheet,
+  setGuestGrouping,
   setGuestThanked,
+  setSideColors,
 } from "./actions";
 import { draftThankYouNote, saveThankYouNote } from "./thank-you-actions";
 import { SpreadsheetLink } from "@/components/spreadsheet-link";
@@ -39,6 +60,16 @@ const PRIORITY_LABELS: Record<GuestPriority, string> = {
   must_invite: "Must Invite",
   would_like: "Would Like to Invite",
   if_room: "If There's Room",
+};
+
+/**
+ * What a badge says on a row, as against in a form. "Would Like to Invite" is
+ * three words of a line that has 270 copies of itself underneath it.
+ */
+const PRIORITY_SHORT_LABELS: Record<GuestPriority, string> = {
+  must_invite: "Must",
+  would_like: "Would like",
+  if_room: "If room",
 };
 
 const PRIORITY_BADGE_CLASS: Record<GuestPriority, string> = {
@@ -72,6 +103,8 @@ const EXPORT_COLUMNS: { header: string; value: (guest: Guest) => string }[] = [
   { header: "Plus One Name", value: (g) => g.plus_one_name ?? "" },
   { header: "Status", value: (g) => g.status },
   { header: "Priority", value: (g) => g.priority },
+  { header: "Side", value: (g) => g.side ?? "" },
+  { header: "Type", value: (g) => g.guest_type ?? "" },
   { header: "Meal", value: (g) => g.meal ?? "" },
   { header: "Notes", value: (g) => g.notes ?? "" },
   { header: "Gift", value: (g) => g.gift_description ?? "" },
@@ -112,7 +145,7 @@ function downloadGuestsCsv(guests: Guest[]) {
   URL.revokeObjectURL(url);
 }
 
-function GuestFields({ guest }: { guest?: Guest }) {
+function GuestFields({ guest, theme }: { guest?: Guest; theme: SideTheme }) {
   const mealValue = guest?.meal ?? "";
   const customMeal =
     mealValue && !(MEAL_OPTIONS as readonly string[]).includes(mealValue) ? mealValue : null;
@@ -173,6 +206,28 @@ function GuestFields({ guest }: { guest?: Guest }) {
         </select>
       </label>
       <label className={labelClass}>
+        Side
+        <select name="side" defaultValue={guest?.side ?? ""} className={inputClass}>
+          <option value="">Not set</option>
+          {GUEST_SIDES.map((side) => (
+            <option key={side} value={side}>
+              {theme.labels[side]}
+            </option>
+          ))}
+        </select>
+      </label>
+      <label className={labelClass}>
+        Family or friends
+        <select name="guest_type" defaultValue={guest?.guest_type ?? ""} className={inputClass}>
+          <option value="">Not set</option>
+          {GUEST_TYPES.map((type) => (
+            <option key={type} value={type}>
+              {GUEST_TYPE_LABELS[type]}
+            </option>
+          ))}
+        </select>
+      </label>
+      <label className={labelClass}>
         Meal
         <select name="meal" defaultValue={mealValue} className={inputClass}>
           <option value="">Not selected</option>
@@ -228,7 +283,7 @@ function GuestFields({ guest }: { guest?: Guest }) {
   );
 }
 
-function AddGuestForm({ onDone }: { onDone: () => void }) {
+function AddGuestForm({ onDone, theme }: { onDone: () => void; theme: SideTheme }) {
   const [error, setError] = useState<string | undefined>(undefined);
   const [isPending, startTransition] = useTransition();
   const formRef = useRef<HTMLFormElement>(null);
@@ -252,7 +307,7 @@ function AddGuestForm({ onDone }: { onDone: () => void }) {
       action={handleSubmit}
       className="mb-6 rounded-lg border border-hairline bg-parchment p-6"
     >
-      <GuestFields />
+      <GuestFields theme={theme} />
       {error && <p className="mt-3 text-sm text-red-800">{error}</p>}
       <div className="mt-4 flex items-center gap-3">
         <button
@@ -481,7 +536,276 @@ function ThankYouPanel({ guest }: { guest: Guest }) {
   );
 }
 
-function GuestRow({ guest }: { guest: Guest }) {
+/**
+ * Everything on a guest that isn't the name, on one line.
+ *
+ * All of it truncates: the row is fixed-height by design, and the full text
+ * is one click away under Edit. A row that grows to fit its notes is how the
+ * old list got to four lines a guest.
+ */
+function guestMeta(guest: Guest) {
+  return (
+    [
+      guest.household,
+      guest.email,
+      guest.meal,
+      guest.gift_description && `Gift: ${guest.gift_description}`,
+      guest.notes,
+    ].filter(Boolean) as string[]
+  ).join(" · ");
+}
+
+/**
+ * The actions that used to sit in a four-link strip on the right of every
+ * row. At 1440px that strip was pinned to the far edge with the name at the
+ * near one and a hand's width of nothing between them -- so it folds into one
+ * button, and the row closes up behind it.
+ */
+function GuestRowMenu({
+  guest,
+  theme,
+  onEdit,
+  onThankYou,
+  showingThankYou,
+}: {
+  guest: Guest;
+  theme: SideTheme;
+  onEdit: () => void;
+  onThankYou: () => void;
+  showingThankYou: boolean;
+}) {
+  const [open, setOpen] = useState(false);
+  const [, startTransition] = useTransition();
+
+  function setGrouping(field: "side" | "guest_type", value: string) {
+    const formData = new FormData();
+    formData.set("guest_id", guest.id);
+    formData.set(field, value);
+    startTransition(async () => {
+      await setGuestGrouping(formData);
+    });
+  }
+
+  function handleDelete() {
+    if (!confirm(`Remove ${guest.name} from the guest list?`)) return;
+    const formData = new FormData();
+    formData.set("id", guest.id);
+    startTransition(async () => {
+      await deleteGuest(formData);
+    });
+  }
+
+  function handleToggleThanked() {
+    const formData = new FormData();
+    formData.set("guest_id", guest.id);
+    formData.set("thanked", String(!guest.thanked));
+    startTransition(async () => {
+      await setGuestThanked(formData);
+    });
+  }
+
+  const itemClass =
+    "block w-full rounded px-2 py-1.5 text-left text-xs text-ink transition-colors hover:bg-parchment";
+
+  return (
+    <div className="relative">
+      <button
+        type="button"
+        aria-label={`Actions for ${guest.name}`}
+        aria-expanded={open}
+        onClick={() => setOpen((v) => !v)}
+        className={`rounded-full border px-2 py-0.5 font-mono-numbers text-xs leading-5 transition-colors ${
+          open
+            ? "border-forest bg-forest text-parchment"
+            : "border-hairline text-ink/60 hover:border-forest hover:text-forest"
+        }`}
+      >
+        •••
+      </button>
+
+      {open && (
+        <>
+          {/* Clicking anywhere else closes it -- no library, no listener. */}
+          <button
+            type="button"
+            aria-hidden
+            tabIndex={-1}
+            onClick={() => setOpen(false)}
+            className="fixed inset-0 z-20 cursor-default"
+          />
+          <div className="absolute right-0 z-30 mt-1 w-52 rounded-lg border border-hairline bg-card p-2 shadow-lg">
+            <p className="px-2 pb-1 font-mono-numbers text-[10px] uppercase tracking-[0.15em] text-ink/40">
+              Side
+            </p>
+            <div className="flex items-center gap-1 px-1 pb-2">
+              {GUEST_SIDES.map((side) => (
+                <button
+                  key={side}
+                  type="button"
+                  title={theme.labels[side]}
+                  onClick={() => setGrouping("side", side)}
+                  className={`h-6 w-6 rounded-full border-2 transition-transform hover:scale-110 ${
+                    guest.side === side ? "border-ink/50" : "border-transparent"
+                  }`}
+                  style={{ backgroundColor: theme.colors[side] }}
+                />
+              ))}
+              <button
+                type="button"
+                title="No side"
+                onClick={() => setGrouping("side", "")}
+                className={`h-6 w-6 rounded-full border-2 border-dashed transition-transform hover:scale-110 ${
+                  guest.side ? "border-hairline" : "border-ink/50"
+                }`}
+              />
+            </div>
+
+            <p className="px-2 pb-1 font-mono-numbers text-[10px] uppercase tracking-[0.15em] text-ink/40">
+              Family or friends
+            </p>
+            <div className="flex flex-wrap gap-1 px-1 pb-2">
+              {GUEST_TYPES.map((type) => (
+                <button
+                  key={type}
+                  type="button"
+                  onClick={() => setGrouping("guest_type", guest.guest_type === type ? "" : type)}
+                  className={`rounded-full border px-2 py-0.5 text-[11px] transition-colors ${
+                    guest.guest_type === type
+                      ? "border-forest bg-forest text-parchment"
+                      : "border-hairline text-ink/70 hover:border-forest"
+                  }`}
+                >
+                  {GUEST_TYPE_LABELS[type]}
+                </button>
+              ))}
+            </div>
+
+            <div className="border-t border-hairline pt-1">
+              <button
+                type="button"
+                className={itemClass}
+                onClick={() => {
+                  onEdit();
+                  setOpen(false);
+                }}
+              >
+                Edit details
+              </button>
+              <button
+                type="button"
+                className={itemClass}
+                onClick={() => {
+                  onThankYou();
+                  setOpen(false);
+                }}
+              >
+                {showingThankYou ? "Hide thank-you note" : "Thank-you note"}
+              </button>
+              <button
+                type="button"
+                className={itemClass}
+                onClick={() => {
+                  handleToggleThanked();
+                  setOpen(false);
+                }}
+              >
+                {guest.thanked ? "Mark un-thanked" : "Mark thanked"}
+              </button>
+              <button
+                type="button"
+                className={`${itemClass} text-red-800`}
+                onClick={() => {
+                  handleDelete();
+                  setOpen(false);
+                }}
+              >
+                Remove from list
+              </button>
+            </div>
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
+/**
+ * The row's controls while a sorting pass is on: one click sets the value and
+ * moves you down the list. Everything else is out of the way, because the job
+ * in this mode is 270 clicks and nothing else.
+ */
+function AssignStrip({
+  guest,
+  field,
+  theme,
+  onSet,
+}: {
+  guest: Guest;
+  field: "side" | "guest_type";
+  theme: SideTheme;
+  onSet: (field: "side" | "guest_type", value: string) => void;
+}) {
+  if (field === "side") {
+    return (
+      <div className="flex shrink-0 items-center gap-1">
+        {GUEST_SIDES.map((side) => (
+          <button
+            key={side}
+            type="button"
+            title={theme.labels[side]}
+            onClick={() => onSet("side", side)}
+            // Bigger on a phone: a 20px swatch is not a thumb-sized target,
+            // and this mode is 270 taps in a row.
+            className={`h-7 w-7 rounded-full border-2 transition-transform hover:scale-110 sm:h-5 sm:w-5 ${
+              guest.side === side ? "border-ink/50" : "border-transparent"
+            }`}
+            style={{ backgroundColor: theme.colors[side] }}
+          />
+        ))}
+        <button
+          type="button"
+          title="No side"
+          onClick={() => onSet("side", "")}
+          className={`h-7 w-7 rounded-full border-2 border-dashed transition-transform hover:scale-110 sm:h-5 sm:w-5 ${
+            guest.side ? "border-hairline" : "border-ink/50"
+          }`}
+        />
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex shrink-0 flex-wrap items-center justify-end gap-1">
+      {GUEST_TYPES.map((type) => (
+        <button
+          key={type}
+          type="button"
+          onClick={() => onSet("guest_type", guest.guest_type === type ? "" : type)}
+          className={`rounded-full border px-2 py-1 text-[11px] leading-4 transition-colors sm:px-1.5 sm:py-0 sm:leading-5 ${
+            guest.guest_type === type
+              ? "border-forest bg-forest text-parchment"
+              : "border-hairline text-ink/70 hover:border-forest"
+          }`}
+        >
+          {GUEST_TYPE_LABELS[type]}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+function GuestRow({
+  guest,
+  theme,
+  assigning,
+  onAssign,
+}: {
+  guest: Guest;
+  theme: SideTheme;
+  /** Which field the sorting pass is setting, if one is on. */
+  assigning: "side" | "guest_type" | null;
+  onAssign: (guestId: string, field: "side" | "guest_type", value: string) => void;
+}) {
   const [isEditing, setIsEditing] = useState(false);
   const [showThankYou, setShowThankYou] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
@@ -499,36 +823,12 @@ function GuestRow({ guest }: { guest: Guest }) {
     });
   }
 
-  function handleDelete() {
-    if (!confirm(`Remove ${guest.name} from the guest list?`)) return;
-    startTransition(async () => {
-      const formData = new FormData();
-      formData.set("id", guest.id);
-      const result = await deleteGuest(formData);
-      if (result?.error) {
-        setError(result.error);
-      }
-    });
-  }
-
-  function handleToggleThanked() {
-    const formData = new FormData();
-    formData.set("guest_id", guest.id);
-    formData.set("thanked", String(!guest.thanked));
-    startTransition(async () => {
-      const result = await setGuestThanked(formData);
-      if (result?.error) {
-        setError(result.error);
-      }
-    });
-  }
-
   if (isEditing) {
     return (
       <div className="border-b border-hairline py-4 last:border-b-0">
         <form action={handleSave}>
           <input type="hidden" name="id" value={guest.id} />
-          <GuestFields guest={guest} />
+          <GuestFields guest={guest} theme={theme} />
           {error && <p className="mt-3 text-sm text-red-800">{error}</p>}
           <div className="mt-4 flex items-center gap-3">
             <button
@@ -551,83 +851,101 @@ function GuestRow({ guest }: { guest: Guest }) {
     );
   }
 
+  const meta = guestMeta(guest);
+
+  const badges = (
+    <>
+      {guest.plus_one && (
+        <span
+          title={guest.plus_one_name ? `Plus one: ${guest.plus_one_name}` : "Plus one"}
+          className="shrink-0 rounded-full border border-hairline px-1.5 text-[11px] leading-4 text-ink/60"
+        >
+          +1
+        </span>
+      )}
+      <span
+        className={`shrink-0 rounded-full border px-1.5 text-[11px] leading-4 ${STATUS_BADGE_CLASS[guest.status]}`}
+      >
+        {STATUS_LABELS[guest.status]}
+      </span>
+      <span
+        title={PRIORITY_LABELS[guest.priority]}
+        className={`shrink-0 rounded-full border px-1.5 text-[11px] leading-4 ${PRIORITY_BADGE_CLASS[guest.priority]}`}
+      >
+        {PRIORITY_SHORT_LABELS[guest.priority]}
+      </span>
+      {guest.thanked && (
+        <span title="Thanked" className="shrink-0 font-mono-numbers text-[11px] leading-4 text-forest">
+          ✓
+        </span>
+      )}
+    </>
+  );
+
   return (
-    <div className="border-b border-hairline py-4 last:border-b-0">
-      <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
-      <div className="flex gap-3">
+    <div className="border-b border-hairline last:border-b-0">
+      {/* One line on a wide screen, two on a phone: the meta drops under the
+          name rather than being squeezed beside it. */}
+      <div className="flex items-center gap-2 py-1.5">
+        <span
+          title={guestSideLabel(guest, theme)}
+          className="h-2.5 w-2.5 shrink-0 rounded-full"
+          style={{ backgroundColor: guestSideColor(guest, theme) }}
+        />
         {guest.photo_url && (
           <Image
             src={guest.photo_url}
             alt={guest.name}
-            width={36}
-            height={36}
-            className="h-9 w-9 shrink-0 rounded-full border border-hairline object-cover"
+            width={22}
+            height={22}
+            className="h-[22px] w-[22px] shrink-0 rounded-full border border-hairline object-cover"
           />
         )}
-        <div>
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="text-ink">{guest.name}</span>
-            {guest.plus_one && (
-              <span className="rounded-full border border-hairline px-2 py-0.5 text-xs text-ink/60">
-                +1{guest.plus_one_name ? ` ${guest.plus_one_name}` : ""}
-              </span>
-            )}
-            <span
-              className={`rounded-full border px-2 py-0.5 text-xs ${STATUS_BADGE_CLASS[guest.status]}`}
-            >
-              {STATUS_LABELS[guest.status]}
-            </span>
-            <span
-              className={`rounded-full border px-2 py-0.5 text-xs ${PRIORITY_BADGE_CLASS[guest.priority]}`}
-            >
-              {PRIORITY_LABELS[guest.priority]}
-            </span>
-            {guest.thanked && (
-              <span className="rounded-full border border-forest/40 bg-forest/10 px-2 py-0.5 text-xs text-forest">
-                Thanked
-              </span>
-            )}
+
+        <div className="min-w-0 flex-1">
+          {/* Wide: name and badges share one line and the meta sits beside
+              them. Narrow: the name gets the line to itself -- badges beside
+              a name on a 375px screen truncate it to "Aaron Bache...". */}
+          <div className="flex min-w-0 items-center gap-1.5">
+            <span className="truncate text-sm text-ink">{guest.name}</span>
+            <span className="hidden shrink-0 items-center gap-1.5 sm:flex">{badges}</span>
           </div>
-          <p className="mt-1 text-xs text-ink/50">
-            {[guest.household, guest.email, guest.meal].filter(Boolean).join(" · ") || "—"}
-          </p>
-          {guest.gift_description && (
-            <p className="mt-1 text-sm text-ink/70">
-              <span className="text-ink/45">Gift:</span> {guest.gift_description}
-            </p>
-          )}
-          {guest.notes && <p className="mt-1 text-sm text-ink/70">{guest.notes}</p>}
-          {error && <p className="mt-1 text-sm text-red-800">{error}</p>}
+          <div className="flex flex-wrap items-center gap-1.5 pt-0.5 sm:hidden">{badges}</div>
         </div>
-      </div>
-      <div className="flex shrink-0 flex-wrap items-center gap-3">
-        <button
-          onClick={() => setShowThankYou((open) => !open)}
-          className="text-xs text-brass hover:underline"
-        >
-          {showThankYou ? "Hide note" : "Thank-you note"}
-        </button>
-        <button
-          onClick={handleToggleThanked}
-          disabled={isPending}
-          className="text-xs text-brass hover:underline"
-        >
-          {guest.thanked ? "Mark un-thanked" : "Mark thanked"}
-        </button>
-        <button onClick={() => setIsEditing(true)} className="text-xs text-brass hover:underline">
-          Edit
-        </button>
-        <button
-          onClick={handleDelete}
-          disabled={isPending}
-          className="text-xs text-ink/50 hover:underline"
-        >
-          Remove
-        </button>
-      </div>
+
+        {meta && !assigning && (
+          <p className="hidden min-w-0 basis-[38%] truncate text-xs text-ink/45 lg:block">{meta}</p>
+        )}
+
+        {assigning ? (
+          <AssignStrip
+            guest={guest}
+            field={assigning}
+            theme={theme}
+            onSet={(field, value) => onAssign(guest.id, field, value)}
+          />
+        ) : (
+        <div className="flex shrink-0 items-center gap-1">
+          <button
+            type="button"
+            onClick={() => setIsEditing(true)}
+            className="rounded-full border border-transparent px-2 py-0.5 text-xs leading-5 text-brass transition-colors hover:border-hairline"
+          >
+            Edit
+          </button>
+          <GuestRowMenu
+            guest={guest}
+            theme={theme}
+            onEdit={() => setIsEditing(true)}
+            onThankYou={() => setShowThankYou((open) => !open)}
+            showingThankYou={showThankYou}
+          />
+        </div>
+        )}
       </div>
 
-      {showThankYou && <ThankYouPanel guest={guest} />}
+      {error && <p className="pb-2 text-xs text-red-800">{error}</p>}
+      {showThankYou && <div className="pb-3">{<ThankYouPanel guest={guest} />}</div>}
     </div>
   );
 }
@@ -636,19 +954,141 @@ function personCount(guest: Guest) {
   return 1 + (guest.plus_one ? 1 : 0);
 }
 
+/**
+ * The key at the top of the list: which colour means whose side, and a
+ * palette to change either one. Two colours only -- "both" is deliberately
+ * neutral, and a guest with no side set is pale grey.
+ */
+function SideColorKey({
+  theme,
+  sideACurrent,
+  sideBCurrent,
+}: {
+  theme: SideTheme;
+  sideACurrent: string;
+  sideBCurrent: string;
+}) {
+  const [editing, setEditing] = useState<GuestSide | null>(null);
+  const [, startTransition] = useTransition();
+
+  function pick(side: GuestSide, color: string) {
+    const formData = new FormData();
+    formData.set("side_a_color", side === "a" ? color : sideACurrent);
+    formData.set("side_b_color", side === "b" ? color : sideBCurrent);
+    setEditing(null);
+    startTransition(async () => {
+      await setSideColors(formData);
+    });
+  }
+
+  return (
+    <div className="relative flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-ink/60">
+      {(["a", "b"] as const).map((side) => (
+        <button
+          key={side}
+          type="button"
+          onClick={() => setEditing((open) => (open === side ? null : side))}
+          className="flex items-center gap-1.5 rounded-full border border-transparent px-1.5 py-0.5 transition-colors hover:border-hairline"
+        >
+          <span
+            className="h-2.5 w-2.5 rounded-full"
+            style={{ backgroundColor: theme.colors[side] }}
+          />
+          {theme.labels[side]}
+        </button>
+      ))}
+      <span className="flex items-center gap-1.5 px-1.5">
+        <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: theme.colors.both }} />
+        Both
+      </span>
+
+      {editing && (
+        <>
+          <button
+            type="button"
+            aria-hidden
+            tabIndex={-1}
+            onClick={() => setEditing(null)}
+            className="fixed inset-0 z-20 cursor-default"
+          />
+          <div className="absolute left-0 top-7 z-30 flex w-56 flex-wrap gap-2 rounded-lg border border-hairline bg-card p-3 shadow-lg">
+            <p className="w-full font-mono-numbers text-[10px] uppercase tracking-[0.15em] text-ink/40">
+              {theme.labels[editing]}
+            </p>
+            {SIDE_COLORS.map((color) => (
+              <button
+                key={color.value}
+                type="button"
+                title={color.name}
+                onClick={() => pick(editing, color.value)}
+                className="h-6 w-6 rounded-full border-2 border-transparent transition-transform hover:scale-110"
+                style={{ backgroundColor: color.value }}
+              />
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
 export function GuestsManager({
   guests,
   spreadsheetUrl,
+  partnerAName,
+  partnerBName,
+  sideAColor,
+  sideBColor,
 }: {
   guests: Guest[];
   /** A Google Sheet they've imported from before, if there is one. */
   spreadsheetUrl: string | null;
+  partnerAName: string | null;
+  partnerBName: string | null;
+  sideAColor: string | null;
+  sideBColor: string | null;
 }) {
   const [filter, setFilter] = useState<GuestStatus | "all">("all");
   const [priorityFilter, setPriorityFilter] = useState<GuestPriority | "all">("all");
+  const [sideFilter, setSideFilter] = useState<GuestSide | "all" | "none">("all");
+  const [typeFilter, setTypeFilter] = useState<GuestType | "all" | "none">("all");
+  const [sort, setSort] = useState<GuestSort>("name");
+  const [assigning, setAssigning] = useState<"side" | "guest_type" | null>(null);
+  // What this session has set but the server hasn't sent back yet. A sorting
+  // pass is a click a second; waiting for a round trip before the dot changes
+  // colour makes it feel broken.
+  const [overrides, setOverrides] = useState<
+    Record<string, { side?: GuestSide | null; guest_type?: GuestType | null }>
+  >({});
+  const [, startAssigning] = useTransition();
   const [search, setSearch] = useState("");
   const [showAddForm, setShowAddForm] = useState(false);
   const [showImportForm, setShowImportForm] = useState(false);
+
+  const theme = sideTheme({ partnerAName, partnerBName, sideAColor, sideBColor });
+
+  function handleAssign(guestId: string, field: "side" | "guest_type", value: string) {
+    setOverrides((current) => ({
+      ...current,
+      [guestId]: {
+        ...current[guestId],
+        [field]: (value || null) as GuestSide & GuestType & null,
+      },
+    }));
+    const formData = new FormData();
+    formData.set("guest_id", guestId);
+    formData.set(field, value);
+    startAssigning(async () => {
+      await setGuestGrouping(formData);
+    });
+  }
+
+  const guestList = guests.map((guest) =>
+    overrides[guest.id] ? { ...guest, ...overrides[guest.id] } : guest,
+  );
+
+  const unassignedSideCount = guestList.filter((g) => !g.side).length;
+  const unassignedTypeCount = guestList.filter((g) => !g.guest_type).length;
 
   const counts: Record<GuestStatus | "all", number> = {
     all: guests.length,
@@ -695,37 +1135,74 @@ export function GuestsManager({
   }
   const mealBreakdown = Array.from(mealCounts.entries()).sort((a, b) => b[1] - a[1]);
 
-  const activeFilterCount = [filter, priorityFilter].filter((f) => f !== "all").length;
+  const activeFilterCount = [filter, priorityFilter, sideFilter, typeFilter].filter(
+    (f) => f !== "all",
+  ).length;
 
-  const filteredGuests = guests.filter(
+  const filteredGuests = guestList.filter(
     (g) =>
       (filter === "all" || g.status === filter) &&
       (priorityFilter === "all" || g.priority === priorityFilter) &&
+      (sideFilter === "all" || (sideFilter === "none" ? !g.side : g.side === sideFilter)) &&
+      (typeFilter === "all" ||
+        (typeFilter === "none" ? !g.guest_type : g.guest_type === typeFilter)) &&
       g.name.toLowerCase().includes(search.trim().toLowerCase()),
   );
 
+  const groups = groupGuests(filteredGuests, sort, theme);
+
+  const pillClass = (active: boolean) =>
+    `rounded-full border px-3 py-1 text-sm transition-colors ${
+      active
+        ? "border-forest bg-forest text-parchment"
+        : "border-hairline bg-parchment text-ink hover:border-forest"
+    }`;
+
   return (
-    <div className="w-full rounded-lg border border-hairline bg-card p-5 sm:p-8 shadow-sm">
-      <div className="mb-6 flex flex-wrap items-center justify-between gap-4 border-b border-hairline pb-6">
-        <div>
-          <p className="text-sm text-ink/70">
-            <span className="font-mono-numbers text-2xl text-forest">{headcount}</span>{" "}
-            confirmed headcount — feeds your Budget guest count unless overridden on the
-            Dashboard.
-          </p>
+    <div className="flex w-full min-w-0 flex-col rounded-lg border border-hairline bg-card p-4 shadow-sm sm:p-6">
+      {/* The numbers, on one strip. Headcount, the invite ladder and the meal
+          counts used to be three stacked blocks above the list; on a phone
+          that was most of a screen before the first guest. */}
+      <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 border-b border-hairline pb-3">
+        <p className="text-sm text-ink/70">
+          <span className="font-mono-numbers text-2xl text-forest">{headcount}</span> confirmed
+          <span className="hidden text-ink/45 sm:inline"> · feeds your Budget guest count</span>
+        </p>
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-ink/60">
+          <span>
+            <span className="font-mono-numbers text-forest">{cumulativeMustInvite}</span> must
+            invite
+          </span>
+          <span className="text-ink/30">&rarr;</span>
+          <span>
+            <span className="font-mono-numbers text-brass">{cumulativeWouldLike}</span> incl. would
+            like
+          </span>
+          <span className="text-ink/30">&rarr;</span>
+          <span>
+            <span className="font-mono-numbers text-ink">{cumulativeIfRoom}</span> incl. if room
+          </span>
           {guests.length > 0 && (
-            <p className="mt-1 text-xs text-ink/50">
-              {thankedCount} of {guests.length} guests thanked for their gift.
-            </p>
+            <span className="text-ink/45">
+              · {thankedCount}/{guests.length} thanked
+            </span>
           )}
         </div>
+      </div>
+
+      <div className="flex flex-wrap items-center justify-between gap-2 py-3">
+        <SideColorKey
+          theme={theme}
+          sideACurrent={theme.colors.a}
+          sideBCurrent={theme.colors.b}
+        />
         <div className="flex flex-wrap gap-2">
           <button
             onClick={() => {
               setShowAddForm((v) => !v);
               setShowImportForm(false);
             }}
-            className="rounded-full bg-forest px-4 py-1.5 font-mono-numbers text-sm text-parchment transition-colors hover:bg-forest/90"
+            className="rounded-full bg-forest px-3 py-1 font-mono-numbers text-sm text-parchment transition-colors hover:bg-forest/90"
           >
             {showAddForm ? "Close" : "+ Add guest"}
           </button>
@@ -734,56 +1211,39 @@ export function GuestsManager({
               setShowImportForm((v) => !v);
               setShowAddForm(false);
             }}
-            className="rounded-full border border-hairline bg-parchment px-4 py-1.5 font-mono-numbers text-sm text-ink transition-colors hover:border-forest"
+            className="rounded-full border border-hairline bg-parchment px-3 py-1 font-mono-numbers text-sm text-ink transition-colors hover:border-forest"
           >
-            {showImportForm ? "Close" : "Import guests"}
+            {showImportForm ? "Close" : "Import"}
           </button>
           <button
             onClick={() => downloadGuestsXlsx(guests)}
             disabled={guests.length === 0}
-            className="rounded-full border border-hairline bg-parchment px-4 py-1.5 font-mono-numbers text-sm text-ink transition-colors hover:border-forest disabled:opacity-50"
+            className="rounded-full border border-hairline bg-parchment px-3 py-1 font-mono-numbers text-sm text-ink transition-colors hover:border-forest disabled:opacity-50"
           >
-            Export Excel
+            Excel
           </button>
           <button
             onClick={() => downloadGuestsCsv(guests)}
             disabled={guests.length === 0}
-            className="rounded-full border border-hairline bg-parchment px-4 py-1.5 font-mono-numbers text-sm text-ink transition-colors hover:border-forest disabled:opacity-50"
+            className="rounded-full border border-hairline bg-parchment px-3 py-1 font-mono-numbers text-sm text-ink transition-colors hover:border-forest disabled:opacity-50"
           >
-            Export CSV
+            CSV
           </button>
         </div>
       </div>
 
       {spreadsheetUrl && !showImportForm && (
-        <div className="mb-4 flex justify-end">
+        <div className="mb-3 flex justify-end">
           <SpreadsheetLink url={spreadsheetUrl} />
         </div>
       )}
 
-      {showAddForm && <AddGuestForm onDone={() => setShowAddForm(false)} />}
+      {showAddForm && <AddGuestForm theme={theme} onDone={() => setShowAddForm(false)} />}
       {showImportForm && <ImportGuestsForm onDone={() => setShowImportForm(false)} />}
 
-      <div className="mb-6 flex flex-wrap items-center gap-2 rounded-md border border-hairline bg-parchment px-4 py-3 text-sm text-ink/70 sm:gap-3">
-        <span>
-          <span className="font-mono-numbers text-forest">{cumulativeMustInvite}</span> Must
-          Invite
-        </span>
-        <span className="text-ink/30">&rarr;</span>
-        <span>
-          <span className="font-mono-numbers text-brass">{cumulativeWouldLike}</span> incl. Would
-          Like
-        </span>
-        <span className="text-ink/30">&rarr;</span>
-        <span>
-          <span className="font-mono-numbers text-ink">{cumulativeIfRoom}</span> incl. If There&apos;s
-          Room
-        </span>
-      </div>
-
       {confirmedGuests.length > 0 && (
-        <div className="mb-6 flex flex-wrap items-center gap-x-3 gap-y-2 rounded-md border border-hairline bg-parchment px-4 py-3 text-sm text-ink/70">
-          <span className="text-xs uppercase tracking-[0.15em] text-ink/40">Meal counts</span>
+        <div className="mb-3 flex flex-wrap items-center gap-x-3 gap-y-1 rounded-md border border-hairline bg-parchment px-3 py-2 text-xs text-ink/70">
+          <span className="uppercase tracking-[0.15em] text-ink/40">Meals</span>
           {mealBreakdown.map(([meal, count]) => (
             <span key={meal}>
               <span className="font-mono-numbers text-forest">{count}</span>{" "}
@@ -793,44 +1253,127 @@ export function GuestsManager({
         </div>
       )}
 
-      <div className="mb-4">
-        <SearchBox value={search} onChange={setSearch} placeholder="Search guests by name..." />
+      {/* A sorting pass, offered where the gap is: 270 guests arrive with no
+          side and no type, and setting them one menu at a time is the kind of
+          job nobody finishes. Here the row is a strip of buttons and nothing
+          else, and the filter beside it narrows to what's still unsorted. */}
+      <div className="mb-3 flex flex-wrap items-center gap-2 rounded-md border border-hairline bg-parchment px-3 py-2">
+        <span className="font-mono-numbers text-[11px] uppercase tracking-[0.15em] text-ink/40">
+          Sort into groups
+        </span>
+        <button
+          type="button"
+          onClick={() => setAssigning((mode) => (mode === "side" ? null : "side"))}
+          className={pillClass(assigning === "side")}
+        >
+          Sides{unassignedSideCount > 0 ? ` (${unassignedSideCount} left)` : ""}
+        </button>
+        <button
+          type="button"
+          onClick={() => setAssigning((mode) => (mode === "guest_type" ? null : "guest_type"))}
+          className={pillClass(assigning === "guest_type")}
+        >
+          Family / friends{unassignedTypeCount > 0 ? ` (${unassignedTypeCount} left)` : ""}
+        </button>
+        {assigning && (
+          <>
+            <button
+              type="button"
+              onClick={() => {
+                if (assigning === "side") setSideFilter("none");
+                else setTypeFilter("none");
+              }}
+              className="text-xs text-brass hover:underline"
+            >
+              Show only the ones left
+            </button>
+            <button
+              type="button"
+              onClick={() => setAssigning(null)}
+              className="ml-auto text-xs text-ink/50 hover:underline"
+            >
+              Done
+            </button>
+          </>
+        )}
       </div>
 
-      <FilterDisclosure activeCount={activeFilterCount}>
-        <div className="flex flex-wrap gap-2">
-          {(["all", ...PRIORITIES] as const).map((priority) => (
-            <button
-              key={priority}
-              onClick={() => setPriorityFilter(priority)}
-              className={`rounded-full border px-3 py-1 text-sm transition-colors ${
-                priorityFilter === priority
-                  ? "border-forest bg-forest text-parchment"
-                  : "border-hairline bg-parchment text-ink hover:border-forest"
-              }`}
-            >
-              {priority === "all" ? "All priorities" : PRIORITY_LABELS[priority]} (
-              {priorityCounts[priority]})
-            </button>
-          ))}
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+        <div className="min-w-0 flex-1">
+          <SearchBox value={search} onChange={setSearch} placeholder="Search guests by name..." />
         </div>
+        <label className="flex shrink-0 items-center gap-2 text-xs text-ink/60">
+          Sort
+          <select
+            value={sort}
+            onChange={(e) => setSort(e.target.value as GuestSort)}
+            className="rounded-md border border-hairline bg-parchment px-2 py-1.5 text-sm text-ink outline-none focus:border-forest"
+          >
+            {(Object.keys(GUEST_SORT_LABELS) as GuestSort[]).map((option) => (
+              <option key={option} value={option}>
+                {GUEST_SORT_LABELS[option]}
+              </option>
+            ))}
+          </select>
+        </label>
+      </div>
 
-        <div className="flex flex-wrap gap-2">
-          {(["all", ...STATUSES] as const).map((status) => (
-            <button
-              key={status}
-              onClick={() => setFilter(status)}
-              className={`rounded-full border px-3 py-1 text-sm transition-colors ${
-                filter === status
-                  ? "border-forest bg-forest text-parchment"
-                  : "border-hairline bg-parchment text-ink hover:border-forest"
-              }`}
-            >
-              {status === "all" ? "All" : STATUS_LABELS[status]} ({counts[status]})
-            </button>
-          ))}
-        </div>
-      </FilterDisclosure>
+      <div className="mt-2">
+        <FilterDisclosure activeCount={activeFilterCount}>
+          <div className="flex flex-wrap gap-2">
+            {(["all", ...GUEST_SIDES, "none"] as const).map((side) => (
+              <button
+                key={side}
+                onClick={() => setSideFilter(side)}
+                className={pillClass(sideFilter === side)}
+              >
+                {side === "all" ? "All sides" : side === "none" ? "No side set" : theme.labels[side]}
+              </button>
+            ))}
+          </div>
+
+          <div className="flex flex-wrap gap-2">
+            {(["all", ...GUEST_TYPES, "none"] as const).map((type) => (
+              <button
+                key={type}
+                onClick={() => setTypeFilter(type)}
+                className={pillClass(typeFilter === type)}
+              >
+                {type === "all"
+                  ? "Family & friends"
+                  : type === "none"
+                    ? "Not sorted yet"
+                    : GUEST_TYPE_LABELS[type]}
+              </button>
+            ))}
+          </div>
+
+          <div className="flex flex-wrap gap-2">
+            {(["all", ...PRIORITIES] as const).map((priority) => (
+              <button
+                key={priority}
+                onClick={() => setPriorityFilter(priority)}
+                className={pillClass(priorityFilter === priority)}
+              >
+                {priority === "all" ? "All priorities" : PRIORITY_LABELS[priority]} (
+                {priorityCounts[priority]})
+              </button>
+            ))}
+          </div>
+
+          <div className="flex flex-wrap gap-2">
+            {(["all", ...STATUSES] as const).map((status) => (
+              <button
+                key={status}
+                onClick={() => setFilter(status)}
+                className={pillClass(filter === status)}
+              >
+                {status === "all" ? "All" : STATUS_LABELS[status]} ({counts[status]})
+              </button>
+            ))}
+          </div>
+        </FilterDisclosure>
+      </div>
 
       {filteredGuests.length === 0 ? (
         <p className="py-8 text-center text-sm text-ink/50">
@@ -839,7 +1382,37 @@ export function GuestsManager({
             : "No guests match this filter."}
         </p>
       ) : (
-        filteredGuests.map((guest) => <GuestRow key={guest.id} guest={guest} />)
+        <div className="mt-2">
+          {groups.map((group) => (
+            <div key={group.key}>
+              {group.heading && (
+                <div className="sticky top-0 z-10 flex items-center gap-2 border-b border-hairline bg-card/95 py-1.5 backdrop-blur">
+                  {group.color && (
+                    <span
+                      className="h-2.5 w-2.5 rounded-full"
+                      style={{ backgroundColor: group.color }}
+                    />
+                  )}
+                  <span className="font-mono-numbers text-[11px] uppercase tracking-[0.15em] text-ink/50">
+                    {group.heading}
+                  </span>
+                  <span className="font-mono-numbers text-[11px] text-ink/35">
+                    {group.guests.length}
+                  </span>
+                </div>
+              )}
+              {group.guests.map((guest) => (
+                <GuestRow
+                  key={guest.id}
+                  guest={guest}
+                  theme={theme}
+                  assigning={assigning}
+                  onAssign={handleAssign}
+                />
+              ))}
+            </div>
+          ))}
+        </div>
       )}
     </div>
   );

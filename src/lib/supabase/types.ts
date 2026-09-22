@@ -27,6 +27,9 @@ export type Wedding = {
   itinerary_published: boolean;
   /** A Google Sheet the couple imported from, kept so they can reopen it. */
   spreadsheet_url: string | null;
+  /** The colour each side of the guest list is drawn in, picked by the couple. */
+  side_a_color: string | null;
+  side_b_color: string | null;
   created_at: string;
   updated_at: string;
 };
@@ -94,6 +97,11 @@ export type GuestStatus = "invited" | "confirmed" | "declined" | "pending";
 
 export type GuestPriority = "must_invite" | "would_like" | "if_room";
 
+/** Whose guest this is. Null until the couple says. See src/lib/guest-groups.ts. */
+export type GuestSide = "a" | "b" | "both";
+
+export type GuestType = "family" | "friends" | "work" | "other";
+
 export type Guest = {
   id: string;
   wedding_id: string;
@@ -105,6 +113,8 @@ export type Guest = {
   plus_one_name: string | null;
   status: GuestStatus;
   priority: GuestPriority;
+  side: GuestSide | null;
+  guest_type: GuestType | null;
   meal: string | null;
   notes: string | null;
   photo_url: string | null;

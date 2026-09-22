@@ -1,4 +1,4 @@
-import type { GuestPriority, GuestStatus } from "@/lib/supabase/types";
+import type { GuestPriority, GuestSide, GuestStatus, GuestType } from "@/lib/supabase/types";
 import { mapColumns, readTable } from "@/lib/spreadsheet";
 
 /**
@@ -25,6 +25,8 @@ export type GuestImportValues = {
   plus_one_name: string | null;
   status: GuestStatus;
   priority: GuestPriority;
+  side: GuestSide | null;
+  guest_type: GuestType | null;
   meal: string | null;
   notes: string | null;
   thanked: boolean;
@@ -133,6 +135,14 @@ const FIELD_ALIASES: Record<string, GuestField> = {
   priority: "priority",
   tier: "priority",
   invitetier: "priority",
+  side: "side",
+  sideoffamily: "side",
+  whoseside: "side",
+  type: "guest_type",
+  guesttype: "guest_type",
+  group: "guest_type",
+  category: "guest_type",
+  relationship: "guest_type",
   meal: "meal",
   mealchoice: "meal",
   entree: "meal",
@@ -173,12 +183,50 @@ function parsePriority(raw: string): GuestPriority {
   return "must_invite";
 }
 
+/**
+ * Whose guest this is. A real sheet writes this as a first name, a "bride"
+ * or "groom", or an initial, so all three are read -- and anything else is
+ * left unset rather than guessed at.
+ */
+function parseSide(raw: string, partnerA: string | null, partnerB: string | null): GuestSide | null {
+  const value = raw.trim().toLowerCase();
+  if (!value) return null;
+  if (["both", "shared", "mutual", "couple", "ours"].includes(value)) return "both";
+  const a = (partnerA ?? "").trim().toLowerCase().split(/\s+/)[0];
+  const b = (partnerB ?? "").trim().toLowerCase().split(/\s+/)[0];
+  if (a && value.startsWith(a)) return "a";
+  if (b && value.startsWith(b)) return "b";
+  if (["a", "1", "bride", "brides", "her", "hers"].includes(value)) return "a";
+  if (["b", "2", "groom", "grooms", "him", "his"].includes(value)) return "b";
+  return null;
+}
+
+function parseGuestType(raw: string): GuestType | null {
+  const value = raw.trim().toLowerCase();
+  if (!value) return null;
+  if (value.includes("fam") || value.includes("relative") || value.includes("cousin")) {
+    return "family";
+  }
+  if (value.includes("friend") || value.includes("college") || value.includes("school")) {
+    return "friends";
+  }
+  if (value.includes("work") || value.includes("colleague") || value.includes("coworker")) {
+    return "work";
+  }
+  if (value.includes("other")) return "other";
+  return null;
+}
+
 function parseYesNo(raw: string): boolean {
   const value = raw.trim().toLowerCase();
   return ["yes", "y", "true", "1", "x", "✓"].includes(value);
 }
 
-export function parseGuestTable(table: string[][]): GuestImportParse {
+export function parseGuestTable(
+  table: string[][],
+  /** The couple's own names, so a "Side" column written as a first name reads. */
+  partnerNames?: { a: string | null; b: string | null },
+): GuestImportParse {
   if (table.length === 0) {
     return { rows: [], error: "Nothing to import yet.", unknownColumns: [], blankRows: 0 };
   }
@@ -259,6 +307,8 @@ export function parseGuestTable(table: string[][]): GuestImportParse {
       plus_one_name: plusOneName || null,
       status: parseStatus(cell("status")),
       priority: parsePriority(cell("priority")),
+      side: parseSide(cell("side"), partnerNames?.a ?? null, partnerNames?.b ?? null),
+      guest_type: parseGuestType(cell("guest_type")),
       meal: cell("meal") || null,
       notes: cell("notes") || null,
       thanked: parseYesNo(cell("thanked")),
@@ -272,12 +322,15 @@ export function parseGuestTable(table: string[][]): GuestImportParse {
 }
 
 /** Convenience for CSV/TSV text, which the Google Sheet path still uses. */
-export function parseGuestText(text: string): GuestImportParse {
+export function parseGuestText(
+  text: string,
+  partnerNames?: { a: string | null; b: string | null },
+): GuestImportParse {
   const table = readTable(text);
   if (table.length === 0) {
     return { rows: [], error: "That sheet looks empty.", unknownColumns: [], blankRows: 0 };
   }
-  return parseGuestTable(table);
+  return parseGuestTable(table, partnerNames);
 }
 
 /** The heading row to hand someone starting from a blank sheet. */
@@ -294,6 +347,8 @@ export const GUEST_IMPORT_TEMPLATE = [
   "Plus One Name",
   "RSVP",
   "Tier",
+  "Side",
+  "Type",
   "Meal",
   "Notes",
 ].join("\t");
