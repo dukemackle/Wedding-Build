@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef, useState, useTransition } from "react";
+import { useMemo, useRef, useState, useTransition, type CSSProperties } from "react";
 import type { ItineraryEvent } from "@/lib/supabase/types";
 import {
   dateKey,
@@ -15,6 +15,12 @@ import { addItineraryEvent, updateItineraryEvent, deleteItineraryEvent } from ".
 
 const inputClass =
   "rounded-md border border-hairline bg-parchment px-3 py-2 text-ink outline-none focus:border-forest";
+// Wide-screen day strip: up to 7 columns side by side, each capped so a
+// two-day weekend doesn't stretch into two 640px cards.
+const MAX_COLUMNS = 7;
+const MAX_COLUMN_WIDTH = 340;
+const COLUMN_GAP = 12;
+
 const labelClass = "flex flex-col gap-1 text-sm text-ink";
 
 function EventFields({ event, defaultDate }: { event?: ItineraryEvent; defaultDate?: string }) {
@@ -184,12 +190,12 @@ function EventRow({ event }: { event: ItineraryEvent }) {
 
   return (
     <div className="border-b border-hairline py-3 last:border-b-0">
-      {timeRange && <p className="font-mono-numbers text-xs text-brass">{timeRange}</p>}
+      {timeRange && <p className="font-mono-numbers text-xs text-brass xl:text-[11px]">{timeRange}</p>}
       <p className="mt-0.5 text-ink">{event.title}</p>
       {event.location && <p className="mt-1 text-xs text-ink/50">{event.location}</p>}
       {event.description && <p className="mt-1 text-sm text-ink/70">{event.description}</p>}
       {error && <p className="mt-1 text-sm text-red-800">{error}</p>}
-      <div className="mt-2 flex items-center gap-3">
+      <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 xl:gap-x-2">
         <button onClick={() => downloadIcs(event)} className="text-xs text-brass hover:underline">
           Add to calendar
         </button>
@@ -220,10 +226,12 @@ function DayColumn({
   onAdd: () => void;
 }) {
   return (
-    <div className="w-full min-w-[220px] flex-1 rounded-lg border border-hairline bg-card p-4 shadow-sm">
+    <div className="w-full min-w-[240px] flex-1 rounded-lg border border-hairline bg-card p-4 shadow-sm xl:min-w-0 xl:p-3">
       <div className="mb-3 flex items-start justify-between gap-2 border-b border-hairline pb-3">
         <div>
-          <p className="font-display text-lg font-semibold text-forest">{formatFullDate(date)}</p>
+          <p className="font-display text-lg font-semibold text-forest xl:text-base">
+            {formatFullDate(date)}
+          </p>
           {isWeddingDay && (
             <span className="font-mono-numbers text-[11px] uppercase tracking-wide text-brass">
               Wedding day
@@ -259,6 +267,7 @@ export function ItineraryManager({
   const [addFormDate, setAddFormDate] = useState(weddingDate ?? dateKey(new Date()));
 
   const days = useMemo(() => groupEventsByDate(events), [events]);
+  const columnCount = Math.min(Math.max(days.length, 1), MAX_COLUMNS);
 
   function openAddForm(date: string) {
     setAddFormDate(date);
@@ -266,7 +275,7 @@ export function ItineraryManager({
   }
 
   return (
-    <div className="grid gap-6 md:grid-cols-[280px_1fr]">
+    <div className="grid gap-6 md:grid-cols-[280px_1fr] xl:grid-cols-[240px_1fr]">
       <div className="rounded-lg border border-hairline bg-card p-5 shadow-sm">
         <ItineraryCalendar
           events={events}
@@ -304,7 +313,15 @@ export function ItineraryManager({
             </p>
           </div>
         ) : (
-          <div className="scroll-visible flex items-start gap-4 overflow-x-auto pb-2">
+          <div
+            className="scroll-visible flex items-start gap-4 overflow-x-auto pb-2 xl:grid xl:gap-3 xl:overflow-visible xl:[grid-template-columns:var(--day-cols)] xl:[max-width:var(--day-max)]"
+            style={
+              {
+                "--day-cols": `repeat(${columnCount}, minmax(0, 1fr))`,
+                "--day-max": `${columnCount * MAX_COLUMN_WIDTH + (columnCount - 1) * COLUMN_GAP}px`,
+              } as CSSProperties
+            }
+          >
             {days.map((day) => (
               <DayColumn
                 key={day.date}

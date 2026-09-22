@@ -57,8 +57,8 @@ export default async function ItineraryPage() {
 
   return (
     <main className="flex flex-1 flex-col items-center px-6 py-16">
-      <AppNav email={user.email ?? ""} maxWidthClassName="max-w-6xl" />
-      <div className="w-full max-w-6xl">
+      <AppNav email={user.email ?? ""} maxWidthClassName="max-w-[1600px]" />
+      <div className="w-full max-w-[1600px]">
         <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
           Itinerary
         </p>

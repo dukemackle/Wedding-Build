@@ -16,6 +16,10 @@ Simple text-only or logic-only fixes (copy edits, a stat/label swap,
 small server-action tweaks, migrations, RLS) can just be shipped directly
 — no need to check in first for those.
 
+**Shipping (2026-09-22):** once the owner says the preview looks good, open
+the pull request without asking again — pushing to a branch isn't shipping,
+production deploys from `main`. The merge click stays the owner's.
+
 **Desktop and mobile are two designs, not one that stretches (2026-09-20,
 restated 2026-09-20 — supersedes the earlier "desktop is settled" note):**
 each screen size gets an arrangement composed for it. Neither is the other's
