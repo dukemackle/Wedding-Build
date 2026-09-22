@@ -24,7 +24,7 @@ export default async function VenuesPage() {
   if (!wedding) {
     return (
       <main className="flex flex-1 flex-col items-center px-6 py-16">
-        <AppNav email={user.email ?? ""} width="full" />
+        <AppNav email={user.email ?? ""} />
         <div className="w-full max-w-md rounded-lg border border-hairline bg-card p-6 sm:p-10 text-center shadow-sm">
           <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
             Venues
@@ -64,7 +64,7 @@ export default async function VenuesPage() {
     // this screen, the way it is on a listings site. The heading stays for
     // screen readers.
     <main className="flex flex-1 flex-col px-6 py-16">
-      <AppNav email={user.email ?? ""} width="full" />
+      <AppNav email={user.email ?? ""} />
       <h1 className="sr-only">Browse & shortlist venues</h1>
       <VenuesManager
         venues={venues ?? []}

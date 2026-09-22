@@ -53,7 +53,13 @@ export function AutoHideHeader({ children }: { children: ReactNode }) {
 
   return (
     <header
-      className={`sticky top-0 z-30 -mx-6 -mt-16 mb-8 w-auto border-b border-hairline bg-card/95 backdrop-blur transition-transform duration-300 motion-reduce:transition-none ${
+      // self-stretch, not w-auto: most pages centre their children with
+      // `items-center`, and a flex item in a centred column shrinks to its own
+      // content rather than filling the line. That is why the bar used to stop
+      // short of the edges everywhere except Venues and Vendors, whose main
+      // doesn't centre. Stretching makes it span the page, and -mx-6 carries it
+      // out past main's padding to the viewport edge.
+      className={`sticky top-0 z-30 -mx-6 -mt-16 mb-8 self-stretch border-b border-hairline bg-card/95 backdrop-blur transition-transform duration-300 motion-reduce:transition-none ${
         // Reduced motion keeps it pinned rather than teleporting it away.
         hidden ? "-translate-y-full motion-reduce:translate-y-0" : "translate-y-0"
       }`}

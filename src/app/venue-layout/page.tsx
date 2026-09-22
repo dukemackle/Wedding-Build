@@ -25,7 +25,7 @@ export default async function VenueLayoutPage() {
   if (!wedding) {
     return (
       <main className="flex flex-1 flex-col items-center px-6 py-16">
-        <AppNav email={user.email ?? ""} width="canvas" />
+        <AppNav email={user.email ?? ""} />
         <div className="w-full max-w-md rounded-lg border border-hairline bg-card p-6 sm:p-10 text-center shadow-sm">
           <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
             Venue layout

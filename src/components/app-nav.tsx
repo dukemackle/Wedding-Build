@@ -6,19 +6,8 @@ import { WeddingAssistantWidget } from "@/components/wedding-assistant-widget";
 import { WrenMark } from "@/components/wren-mark";
 import { NavLinks } from "@/components/nav-links";
 import { AutoHideHeader } from "@/components/auto-hide-header";
-import { navWidthClass, type PageWidth } from "@/lib/layout";
 
-export function AppNav({
-  email,
-  width = "standard",
-}: {
-  email: string;
-  /**
-   * The width of the page beneath, so the nav's edges line up with it rather
-   * than running wider than some pages and narrower than others.
-   */
-  width?: PageWidth;
-}) {
+export function AppNav({ email }: { email: string }) {
   // Same allowlist the admin routes enforce, so the nav link and the actual
   // access can't disagree.
   const isAdmin = isAdminEmail(email);
@@ -26,11 +15,15 @@ export function AppNav({
   return (
     <>
       <AutoHideHeader>
-        {/* Two rows by design. The tabs need ~800px on their own, so beside
-            the mark and the account links they could never fit on one line --
-            which is what used to make them wrap into three stacked rows.
-            Giving them a row of their own fixes that. */}
-        <div className={`mx-auto flex w-full flex-col gap-2 px-6 py-3 ${navWidthClass(width)}`}>
+        {/* Edge to edge on every page, rather than tracking the width of the
+            content beneath. Matching each page meant the bar changed width as
+            you moved between sections, and on a READING page it was too narrow
+            to hold the tab strip at all -- the last tabs clipped to
+            "Weddi...". A single full-width bar has neither problem.
+
+            Two rows by design: the tabs need ~800px on their own, so beside
+            the mark and the account links they could never fit on one line. */}
+        <div className="flex w-full flex-col gap-2 px-6 py-3">
           <div className="flex items-center justify-between gap-4">
             <WrenMark />
             <div className="flex min-w-0 items-center justify-end gap-4">

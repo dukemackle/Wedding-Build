@@ -78,14 +78,3 @@ export function pageWidthClass(width: PageWidth) {
   return PAGE_WIDTHS[width];
 }
 
-/**
- * The width the nav takes above a page of the given width.
- *
- * The same, with one floor: the tab strip needs around 800px to itself, so on
- * a READING page the bar would clip its last tabs. Those pages get a nav one
- * step wider instead -- a small overhang above a deliberately narrow column
- * reads as margin, where a half-cut "Wedding Pla..." reads as broken.
- */
-export function navWidthClass(width: PageWidth) {
-  return width === "reading" ? STANDARD_WIDTH : PAGE_WIDTHS[width];
-}

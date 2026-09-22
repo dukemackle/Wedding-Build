@@ -114,7 +114,7 @@ export default async function DashboardPage() {
 
   return (
     <main className="flex flex-1 flex-col items-center px-6 py-16">
-      <AppNav email={user.email ?? ""} width="standard" />
+      <AppNav email={user.email ?? ""} />
       <WeddingDashboard initialWedding={wedding} />
       {wedding && wedding.user_id === user.id && (
         <FadeInSection>
