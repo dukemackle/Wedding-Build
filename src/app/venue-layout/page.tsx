@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { AppNav } from "@/components/app-nav";
+import { PageShell } from "@/components/page-shell";
 import type { Guest, SeatingTable, VenueLayoutItem, VenueRoom, Wedding } from "@/lib/supabase/types";
 import { VenueLayoutClient } from "./venue-layout-client";
 
@@ -24,7 +25,7 @@ export default async function VenueLayoutPage() {
   if (!wedding) {
     return (
       <main className="flex flex-1 flex-col items-center px-6 py-16">
-        <AppNav email={user.email ?? ""} />
+        <AppNav email={user.email ?? ""} width="canvas" />
         <div className="w-full max-w-md rounded-lg border border-hairline bg-card p-6 sm:p-10 text-center shadow-sm">
           <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
             Venue layout
@@ -80,9 +81,7 @@ export default async function VenueLayoutPage() {
   return (
     // The plan is the page, so it gets the whole screen rather than a 1024px
     // column -- the canvas is what the extra width is for.
-    <main className="flex flex-1 flex-col items-center px-6 py-16">
-      <AppNav email={user.email ?? ""} />
-      <div className="w-full max-w-[1800px]">
+    <PageShell email={user.email ?? ""} width="canvas">
         <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
           Venue layout
         </p>
@@ -101,7 +100,6 @@ export default async function VenueLayoutPage() {
           items={items ?? []}
           rooms={rooms ?? []}
         />
-      </div>
-    </main>
+    </PageShell>
   );
 }

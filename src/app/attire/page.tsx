@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { AppNav } from "@/components/app-nav";
+import { PageShell } from "@/components/page-shell";
 import type { AttireItem, AttireShortlistEntry, Wedding } from "@/lib/supabase/types";
 import { AttireManager } from "./attire-manager";
 
@@ -24,7 +25,7 @@ export default async function AttirePage() {
   if (!wedding) {
     return (
       <main className="flex flex-1 flex-col items-center px-6 py-16">
-        <AppNav email={user.email ?? ""} />
+        <AppNav email={user.email ?? ""} width="standard" />
         <div className="w-full max-w-md rounded-lg border border-hairline bg-card p-6 sm:p-10 text-center shadow-sm">
           <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
             Attire
@@ -60,9 +61,7 @@ export default async function AttirePage() {
     .returns<AttireShortlistEntry[]>();
 
   return (
-    <main className="flex flex-1 flex-col items-center px-6 py-16">
-      <AppNav email={user.email ?? ""} maxWidthClassName="max-w-4xl" />
-      <div className="w-full max-w-4xl">
+    <PageShell email={user.email ?? ""} width="standard">
         <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
           Attire
         </p>
@@ -71,7 +70,6 @@ export default async function AttirePage() {
         </h1>
 
         <AttireManager items={items ?? []} shortlist={shortlist ?? []} />
-      </div>
-    </main>
+    </PageShell>
   );
 }

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { AppNav } from "@/components/app-nav";
+import { PageShell } from "@/components/page-shell";
 import type { ItineraryEvent, Wedding } from "@/lib/supabase/types";
 import { ItineraryManager } from "./itinerary-manager";
 import { PublishToggle } from "./publish-toggle";
@@ -25,7 +26,7 @@ export default async function ItineraryPage() {
   if (!wedding) {
     return (
       <main className="flex flex-1 flex-col items-center px-6 py-16">
-        <AppNav email={user.email ?? ""} />
+        <AppNav email={user.email ?? ""} width="canvas" />
         <div className="w-full max-w-md rounded-lg border border-hairline bg-card p-6 sm:p-10 text-center shadow-sm">
           <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
             Itinerary
@@ -56,9 +57,7 @@ export default async function ItineraryPage() {
     .returns<ItineraryEvent[]>();
 
   return (
-    <main className="flex flex-1 flex-col items-center px-6 py-16">
-      <AppNav email={user.email ?? ""} maxWidthClassName="max-w-[1600px]" />
-      <div className="w-full max-w-[1600px]">
+    <PageShell email={user.email ?? ""} width="canvas">
         <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
           Itinerary
         </p>
@@ -84,7 +83,6 @@ export default async function ItineraryPage() {
         />
 
         <ItineraryManager events={events ?? []} weddingDate={wedding.wedding_date} />
-      </div>
-    </main>
+    </PageShell>
   );
 }

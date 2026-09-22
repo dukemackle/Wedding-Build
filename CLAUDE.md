@@ -45,10 +45,15 @@ page with the results in a sheet dragged up from the bottom. They deliberately
 have no `max-w-*` cap, so don't "fix" them back into a centred column. The
 shared layout lives in `src/components/search-shell.tsx`.
 
-Container widths are otherwise unsystematic — eight different `max-w-*` caps
-across the app, with the nav wider than most of the content under it. Any
-desktop layout work should settle that first: a small set of named widths with
-a rule for which pages use which.
+**Page widths are a fixed scale (2026-09-22):** five names in
+`src/lib/layout.ts` — READING (2xl), STANDARD (4xl), WIDE (6xl), CANVAS
+(1600px), FULL — and a rule in that file for which pages use which. Signed-in
+pages go through `PageShell`, which takes a width name and hands the same one
+to the nav, so the bar always lines up with the content under it. The one
+exception is READING: the tab strip needs ~800px, so the nav sits at STANDARD
+above those pages rather than clipping its last tabs. Don't add a sixth width
+or hardcode a `max-w-*` on a page — that is how the previous nine caps
+happened.
 
 **Deployment note (2026-09-12):** production deploys to Cloudflare Workers
 run through the Cloudflare dashboard's Git integration (Settings → Build),

@@ -3,6 +3,7 @@ import Image from "next/image";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { AppNav } from "@/components/app-nav";
+import { PageShell } from "@/components/page-shell";
 import { FadeInSection } from "@/components/fade-in-section";
 import { BUDGET_CATEGORIES, VENDOR_CATEGORY_TO_BUDGET_KEY } from "@/lib/budget-categories";
 import { CATEGORY_ICONS } from "@/app/budget/budget-table";
@@ -108,7 +109,7 @@ export default async function WeddingPlanPage() {
   if (!wedding) {
     return (
       <main className="flex flex-1 flex-col items-center px-6 py-16">
-        <AppNav email={user.email ?? ""} />
+        <AppNav email={user.email ?? ""} width="standard" />
         <div className="w-full max-w-md rounded-lg border border-hairline bg-card p-6 sm:p-10 text-center shadow-sm">
           <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
             Wedding Plan
@@ -188,9 +189,7 @@ export default async function WeddingPlanPage() {
     : { data: null };
 
   return (
-    <main className="flex flex-1 flex-col items-center px-6 py-16">
-      <AppNav email={user.email ?? ""} maxWidthClassName="max-w-4xl" />
-      <div className="w-full max-w-4xl">
+    <PageShell email={user.email ?? ""} width="standard">
         <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
           Wedding Plan
         </p>
@@ -250,7 +249,6 @@ export default async function WeddingPlanPage() {
               ))}
           </div>
         </FadeInSection>
-      </div>
-    </main>
+    </PageShell>
   );
 }

@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { notFound, redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { AppNav } from "@/components/app-nav";
+import { PageShell } from "@/components/page-shell";
 import { FadeInSection } from "@/components/fade-in-section";
 import type { Venue, VenueFaq, VenueShortlistEntry, Wedding } from "@/lib/supabase/types";
 import { ChevronDownIcon } from "@/components/icons";
@@ -94,9 +94,7 @@ export default async function VenueDetailPage({
     venue.image_url || (venue.venue_type && VENUE_TYPE_IMAGES[venue.venue_type]) || DEFAULT_VENUE_IMAGE;
 
   return (
-    <main className="flex flex-1 flex-col items-center px-6 py-16">
-      <AppNav email={user.email ?? ""} maxWidthClassName="max-w-4xl" />
-      <div className="w-full max-w-4xl">
+    <PageShell email={user.email ?? ""} width="standard">
         <Link href="/venues" className="text-sm text-brass hover:underline">
           &larr; Back to venues
         </Link>
@@ -279,7 +277,6 @@ export default async function VenueDetailPage({
             </div>
           </FadeInSection>
         )}
-      </div>
-    </main>
+    </PageShell>
   );
 }

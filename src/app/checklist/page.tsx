@@ -26,7 +26,7 @@ export default async function ChecklistPage() {
   if (!wedding) {
     return (
       <main className="flex flex-1 flex-col items-center px-6 py-16">
-        <AppNav email={user.email ?? ""} />
+        <AppNav email={user.email ?? ""} width="wide" />
         <div className="w-full max-w-md rounded-lg border border-hairline bg-card p-6 sm:p-10 text-center shadow-sm">
           <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
             Checklist
@@ -67,7 +67,7 @@ export default async function ChecklistPage() {
 
   return (
     <main className="flex flex-1 flex-col items-center px-6 py-16">
-      <AppNav email={user.email ?? ""} />
+      <AppNav email={user.email ?? ""} width="wide" />
       {/* Wide: the plan is a stage list beside a detail panel on a big screen,
           which 768px can't hold. See src/lib/layout.ts for the three widths. */}
       <div className={`w-full ${WIDE_WIDTH}`}>

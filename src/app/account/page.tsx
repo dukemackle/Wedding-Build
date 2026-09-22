@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { AppNav } from "@/components/app-nav";
+import { PageShell } from "@/components/page-shell";
 import type { Wedding } from "@/lib/supabase/types";
 import { DeleteAccountForm } from "./delete-account-form";
 
@@ -26,9 +26,7 @@ export default async function AccountPage() {
     : null;
 
   return (
-    <main className="flex flex-1 flex-col items-center px-6 py-16">
-      <AppNav email={user.email ?? ""} />
-      <div className="w-full max-w-2xl">
+    <PageShell email={user.email ?? ""} width="reading">
         <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Account</p>
         <h1 className="mt-2 font-display text-3xl font-semibold text-forest">Your account</h1>
 
@@ -64,7 +62,6 @@ export default async function AccountPage() {
           </p>
           <DeleteAccountForm />
         </div>
-      </div>
-    </main>
+    </PageShell>
   );
 }
