@@ -80,6 +80,8 @@ export type RsvpSubmission = {
   wedding_id: string;
   guest_name: string;
   household: string | null;
+  /** Whose guest they say they are. See GuestSide, below. */
+  side: GuestSide | null;
   plus_one: boolean;
   plus_one_name: string | null;
   status: RsvpStatus;

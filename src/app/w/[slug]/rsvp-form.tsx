@@ -8,7 +8,21 @@ const inputClass =
   "rounded-md border border-hairline bg-parchment px-3 py-2 text-ink outline-none focus:border-forest";
 const labelClass = "flex flex-col gap-1 text-sm text-ink";
 
-export function RsvpForm({ weddingId }: { weddingId: string }) {
+export function RsvpForm({
+  weddingId,
+  partnerAName,
+  partnerBName,
+}: {
+  weddingId: string;
+  partnerAName: string | null;
+  partnerBName: string | null;
+}) {
+  // "John's side" reads to a guest; "Side A" doesn't. With no names set up
+  // yet the question is dropped rather than asked in the abstract.
+  const sideA = (partnerAName ?? "").trim().split(/\s+/)[0];
+  const sideB = (partnerBName ?? "").trim().split(/\s+/)[0];
+  const askSide = Boolean(sideA && sideB);
+
   const [error, setError] = useState<string | undefined>(undefined);
   const [submitted, setSubmitted] = useState(false);
   const [bringingPlusOne, setBringingPlusOne] = useState(false);
@@ -49,6 +63,17 @@ export function RsvpForm({ weddingId }: { weddingId: string }) {
           Household
           <input name="household" placeholder="Optional" className={inputClass} />
         </label>
+        {askSide && (
+          <label className={labelClass}>
+            Who are you here for?
+            <select name="side" defaultValue="" className={inputClass}>
+              <option value="">Optional — choose one</option>
+              <option value="a">{sideA}</option>
+              <option value="b">{sideB}</option>
+              <option value="both">Both of you</option>
+            </select>
+          </label>
+        )}
         <label className={labelClass}>
           Will you be attending?
           <select name="status" defaultValue="confirmed" className={inputClass}>

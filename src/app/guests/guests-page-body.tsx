@@ -101,7 +101,13 @@ export function GuestsPageBody({
                   key: "new",
                   label: `New RSVPs (${pendingRsvps.length})`,
                   hidden: !wedding.public_slug || pendingRsvps.length === 0,
-                  content: <PendingRsvps submissions={pendingRsvps} />,
+                  content: (
+                    <PendingRsvps
+                      submissions={pendingRsvps}
+                      partnerAName={wedding.partner_a_name}
+                      partnerBName={wedding.partner_b_name}
+                    />
+                  ),
                 },
                 {
                   key: "addresses",

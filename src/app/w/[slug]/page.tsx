@@ -108,7 +108,11 @@ export default async function PublicWeddingPage({
                 Please RSVP by {formatDate(wedding.rsvp_deadline)}
               </p>
             )}
-            <RsvpForm weddingId={wedding.id} />
+            <RsvpForm
+              weddingId={wedding.id}
+              partnerAName={wedding.partner_a_name}
+              partnerBName={wedding.partner_b_name}
+            />
           </div>
         </FadeInSection>
 
