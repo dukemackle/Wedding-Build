@@ -78,9 +78,11 @@ export default async function VenueLayoutPage() {
   ]);
 
   return (
+    // The plan is the page, so it gets the whole screen rather than a 1024px
+    // column -- the canvas is what the extra width is for.
     <main className="flex flex-1 flex-col items-center px-6 py-16">
-      <AppNav email={user.email ?? ""} maxWidthClassName="max-w-5xl" />
-      <div className="w-full max-w-5xl">
+      <AppNav email={user.email ?? ""} />
+      <div className="w-full max-w-[1800px]">
         <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
           Venue layout
         </p>

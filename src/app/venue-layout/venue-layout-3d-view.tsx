@@ -17,11 +17,32 @@ import {
   ParkingArea,
   GenericBlock,
 } from "@/components/three/furniture";
-import { tableDimensions, ITEM_TYPE_DIMENSIONS } from "./venue-layout-manager";
+import {
+  CANVAS_HEIGHT,
+  CANVAS_WIDTH,
+  WORLD_SCALE as SCALE,
+  itemDimensions,
+  tableDimensions,
+} from "@/lib/venue-layout-geometry";
 
-const CANVAS_WIDTH = 960;
-const CANVAS_HEIGHT = 520;
-const SCALE = 45;
+/**
+ * How each item type fills the footprint the 2D editor gives it.
+ *
+ * "stretch" items are areas -- a dance floor or a parking bay is whatever
+ * shape you draw it. "contain" items are objects with fixed proportions; a
+ * cake stretched to a long thin box would just look broken, so it scales up
+ * or down inside the footprint instead.
+ *
+ * The intrinsic size is the mesh's own width and depth in metres, which is
+ * what the scale factors are measured against.
+ */
+const ITEM_FIT: Record<string, { mode: "stretch" | "contain"; intrinsic: [number, number] }> = {
+  dj_booth: { mode: "contain", intrinsic: [1.2, 0.6] },
+  cake_table: { mode: "contain", intrinsic: [1.1, 1.1] },
+  gift_table: { mode: "contain", intrinsic: [1.3, 0.7] },
+  entrance: { mode: "contain", intrinsic: [1.32, 0.5] },
+  other: { mode: "contain", intrinsic: [0.8, 0.8] },
+};
 
 function toWorld(pixelX: number, pixelY: number): [number, number] {
   return [(pixelX - CANVAS_WIDTH / 2) / SCALE, (pixelY - CANVAS_HEIGHT / 2) / SCALE];
@@ -53,7 +74,7 @@ function computeBounds(tables: SeatingTable[], items: VenueLayoutItem[]) {
     include(table.position_x, table.position_y, width, height, 1.2);
   }
   for (const item of items) {
-    const { width, height } = ITEM_TYPE_DIMENSIONS[item.item_type];
+    const { width, height } = itemDimensions(item);
     include(item.position_x, item.position_y, width, height, 0.3);
   }
 
@@ -119,7 +140,7 @@ function TableScene({ table }: { table: SeatingTable }) {
 }
 
 function ItemScene({ item }: { item: VenueLayoutItem }) {
-  const { width, height } = ITEM_TYPE_DIMENSIONS[item.item_type];
+  const { width, height } = itemDimensions(item);
   const [x, z] = toWorld(item.position_x + width / 2, item.position_y + height / 2);
   const worldWidth = width / SCALE;
   const worldDepth = height / SCALE;
@@ -128,16 +149,26 @@ function ItemScene({ item }: { item: VenueLayoutItem }) {
   let content: React.ReactElement;
   switch (item.item_type as LayoutItemType) {
     case "chairs": {
-      const count = 5;
+      // The block's own size decides how many chairs are in it, so widening
+      // the block in the editor adds chairs instead of stretching five.
+      const spacing = 0.55;
+      const perRow = Math.max(1, Math.min(40, Math.round(worldWidth / spacing)));
+      const rows = Math.max(1, Math.min(10, Math.round(worldDepth / spacing)));
       content = (
         <>
-          {Array.from({ length: count }).map((_, i) => (
-            <Chair
-              key={i}
-              position={[(i - (count - 1) / 2) * 0.55, 0, 0]}
-              rotation={[0, Math.PI, 0]}
-            />
-          ))}
+          {Array.from({ length: rows }).map((_, row) =>
+            Array.from({ length: perRow }).map((_, col) => (
+              <Chair
+                key={`${row}-${col}`}
+                position={[
+                  (col - (perRow - 1) / 2) * spacing,
+                  0,
+                  (row - (rows - 1) / 2) * spacing,
+                ]}
+                rotation={[0, Math.PI, 0]}
+              />
+            )),
+          )}
         </>
       );
       break;
@@ -151,11 +182,11 @@ function ItemScene({ item }: { item: VenueLayoutItem }) {
     case "bar":
       content = <Bar width={worldWidth} />;
       break;
-    case "dj_booth":
-      content = <DjBooth />;
-      break;
     case "buffet":
       content = <RectTable width={worldWidth} depth={worldDepth} />;
+      break;
+    case "dj_booth":
+      content = <DjBooth />;
       break;
     case "cake_table":
       content = <CakeTable />;
@@ -176,8 +207,26 @@ function ItemScene({ item }: { item: VenueLayoutItem }) {
       content = <GenericBlock />;
   }
 
+  // Anything whose mesh is a fixed size gets scaled to the footprint the
+  // editor shows, so the two views agree on where a thing starts and ends.
+  const fit = ITEM_FIT[item.item_type];
+  let scale: [number, number, number] = [1, 1, 1];
+  if (fit) {
+    const [iw, id] = fit.intrinsic;
+    if (fit.mode === "contain") {
+      const s = Math.min(worldWidth / iw, worldDepth / id);
+      scale = [s, s, s];
+    } else {
+      scale = [worldWidth / iw, 1, worldDepth / id];
+    }
+  } else if (item.item_type === "dance_floor") {
+    // DanceFloor draws a square, so stretch it to the footprint's aspect.
+    const base = Math.min(worldWidth, worldDepth);
+    scale = [worldWidth / base, 1, worldDepth / base];
+  }
+
   return (
-    <group position={[x, 0, z]} rotation={[0, rotationRad, 0]}>
+    <group position={[x, 0, z]} rotation={[0, rotationRad, 0]} scale={scale}>
       {content}
     </group>
   );
