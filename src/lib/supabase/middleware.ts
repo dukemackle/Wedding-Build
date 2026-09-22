@@ -7,7 +7,35 @@ import { NextResponse, type NextRequest } from "next/server";
 // straight back into the admin routing's redirect-to-/login, forever.
 const ADMIN_HOST = "admin.wrenwed.com";
 
+/**
+ * Refreshes the session on every request -- and never fails the request.
+ *
+ * This runs in front of every page on the site, so anything thrown here is a
+ * bare "Internal Server Error" on the marketing pages, the guest sites and
+ * the app alike. Two things throw: `createServerClient` when the Supabase
+ * URL or key is missing from the environment (a deploy that lost its
+ * variables), and `getUser` when Supabase can't be reached (an outage, a
+ * paused project, a DNS blip). Neither is a reason for a stranger reading
+ * the front page to see a 500.
+ *
+ * So a failure here is treated as "nobody is signed in": public pages render
+ * as they do for a visitor, and the signed-in areas send you to /login,
+ * which is what an expired session does anyway.
+ */
 export async function updateSession(request: NextRequest) {
+  try {
+    return await refreshSession(request);
+  } catch {
+    if (request.nextUrl.pathname.startsWith("/dashboard")) {
+      const url = request.nextUrl.clone();
+      url.pathname = "/login";
+      return NextResponse.redirect(url);
+    }
+    return NextResponse.next({ request });
+  }
+}
+
+async function refreshSession(request: NextRequest) {
   let response = NextResponse.next({ request });
 
   const supabase = createServerClient(
