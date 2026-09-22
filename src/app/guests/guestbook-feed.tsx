@@ -78,12 +78,11 @@ export function GuestbookFeed({
   if (entries.length === 0) return null;
 
   return (
-    <div className="w-full rounded-lg border border-hairline bg-card p-5 sm:p-8 shadow-sm">
-      <h2 className="font-display text-2xl font-semibold text-forest">Guestbook</h2>
-      <p className="mt-1 text-sm text-ink/70">
+    <div>
+      <p className="text-sm text-ink/70">
         {publicSiteOn
           ? "Photos and messages guests left with their RSVP — visible on your guest site unless hidden."
-          : "Photos and messages guests left with their RSVP. Turn on your guest site above to share these."}
+          : "Photos and messages guests left with their RSVP. Turn on your guest site to share these."}
       </p>
       <div className="mt-4">
         {entries.map((guest) => (

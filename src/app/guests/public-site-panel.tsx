@@ -108,14 +108,31 @@ function SubmissionRow({ submission }: { submission: RsvpSubmission }) {
   );
 }
 
+/**
+ * RSVPs that came in from the public site and are waiting to be accepted.
+ *
+ * These live with the invitations rather than with the site settings: they're
+ * something to act on today, not something to configure once.
+ */
+export function PendingRsvps({ submissions }: { submissions: RsvpSubmission[] }) {
+  if (submissions.length === 0) return null;
+
+  return (
+    <div>
+      {submissions.map((submission) => (
+        <SubmissionRow key={submission.id} submission={submission} />
+      ))}
+    </div>
+  );
+}
+
+/** The guest site's on/off switch and its link. */
 export function PublicSitePanel({
   publicSlug,
   origin,
-  pendingSubmissions,
 }: {
   publicSlug: string | null;
   origin: string;
-  pendingSubmissions: RsvpSubmission[];
 }) {
   const [slug, setSlug] = useState(publicSlug);
   const [copied, setCopied] = useState(false);
@@ -157,20 +174,18 @@ export function PublicSitePanel({
   }
 
   return (
-    <div className="w-full rounded-lg border border-hairline bg-card p-5 sm:p-8 shadow-sm">
-      <div className="flex flex-wrap items-center justify-between gap-4">
-        <div>
-          <h2 className="font-display text-2xl font-semibold text-forest">Guest site</h2>
-          <p className="mt-1 text-sm text-ink/70">
-            A public page (no login needed) where invited guests can view your
-            registry and RSVP themselves.
-          </p>
-        </div>
+    <div className="flex flex-col gap-3 rounded-md border border-hairline bg-parchment p-4">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <p className="min-w-[14rem] flex-1 text-sm text-ink/70">
+          {slug
+            ? "Your guest site is live. Anyone with the link can view it and RSVP — no login needed."
+            : "A public page (no login needed) where invited guests can view your registry and RSVP themselves."}
+        </p>
         {slug ? (
           <button
             onClick={handleDisable}
             disabled={isPending}
-            className="rounded-full border border-hairline bg-parchment px-4 py-1.5 font-mono-numbers text-sm text-ink transition-colors hover:border-forest disabled:opacity-60"
+            className="shrink-0 rounded-full border border-hairline bg-card px-4 py-1.5 font-mono-numbers text-sm text-ink transition-colors hover:border-forest disabled:opacity-60"
           >
             Turn off
           </button>
@@ -185,33 +200,27 @@ export function PublicSitePanel({
         )}
       </div>
 
-      {error && <p className="mt-3 text-sm text-red-800">{error}</p>}
+      {error && <p className="text-sm text-red-800">{error}</p>}
 
+      {/* The link on its own line, buttons under it. This card sits in a
+          ~460px rail on a wide screen and the full page width on a phone, so
+          there is never room for all three side by side: sharing the row
+          truncates the URL to "https://wre..." either way. */}
       {shareUrl && (
-        <div className="mt-4 flex flex-wrap items-center gap-3 rounded-md border border-hairline bg-parchment px-3 py-2">
+        <div className="flex flex-col gap-2 rounded-md border border-hairline bg-card px-3 py-2">
           <code className="min-w-0 flex-1 truncate text-sm text-ink">{shareUrl}</code>
-          <ViewGuestSiteButton url={shareUrl} />
-          <button
-            onClick={handleCopy}
-            className="shrink-0 rounded-md border border-hairline bg-card px-3 py-1 text-xs text-forest transition-colors hover:border-forest"
-          >
-            {copied ? "Copied!" : "Copy link"}
-          </button>
-        </div>
-      )}
-
-      {slug && pendingSubmissions.length > 0 && (
-        <div className="mt-6 border-t border-hairline pt-6">
-          <h3 className="text-sm font-medium uppercase tracking-wide text-ink/50">
-            New RSVPs ({pendingSubmissions.length})
-          </h3>
-          <div className="mt-2">
-            {pendingSubmissions.map((submission) => (
-              <SubmissionRow key={submission.id} submission={submission} />
-            ))}
+          <div className="flex shrink-0 flex-wrap items-center gap-2">
+            <ViewGuestSiteButton url={shareUrl} />
+            <button
+              onClick={handleCopy}
+              className="shrink-0 rounded-md border border-hairline bg-card px-3 py-1 text-xs text-forest transition-colors hover:border-forest"
+            >
+              {copied ? "Copied!" : "Copy link"}
+            </button>
           </div>
         </div>
       )}
+
     </div>
   );
 }

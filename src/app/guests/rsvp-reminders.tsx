@@ -73,9 +73,8 @@ export function RsvpReminders({
   }
 
   return (
-    <div className="w-full rounded-lg border border-hairline bg-card p-5 sm:p-8 shadow-sm">
-      <h2 className="font-display text-2xl font-semibold text-forest">Nudge stragglers</h2>
-      <p className="mt-1 text-sm text-ink/70">
+    <div>
+      <p className="text-sm text-ink/70">
         {stragglers.length} invited guest{stragglers.length === 1 ? "" : "s"} still haven&apos;t{" "}
         responded — send a reminder.
         {rsvpDeadline && ` Your RSVP deadline is ${formatDate(rsvpDeadline)}.`}

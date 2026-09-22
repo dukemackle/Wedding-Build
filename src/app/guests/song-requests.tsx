@@ -6,9 +6,8 @@ export function SongRequests({ guests }: { guests: Guest[] }) {
   if (entries.length === 0) return null;
 
   return (
-    <div className="w-full rounded-lg border border-hairline bg-card p-5 sm:p-8 shadow-sm">
-      <h2 className="font-display text-2xl font-semibold text-forest">Song requests</h2>
-      <p className="mt-1 text-sm text-ink/70">
+    <div>
+      <p className="text-sm text-ink/70">
         Songs guests suggested when they RSVP&apos;d — hand this list to your DJ or band.
       </p>
       <div className="mt-4">

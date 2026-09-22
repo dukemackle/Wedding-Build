@@ -12,16 +12,7 @@ import type {
   WeddingAccommodation,
   WeddingFaq,
 } from "@/lib/supabase/types";
-import { GuestsManager } from "./guests-manager";
-import { RegistryManager } from "./registry-manager";
-import { HeroPhotoPanel } from "./hero-photo-panel";
-import { PublicSitePanel } from "./public-site-panel";
-import { GuestSiteDetails } from "./guest-site-details";
-import { BulkInviteForm } from "./bulk-invite-form";
-import { RsvpReminders } from "./rsvp-reminders";
-import { GuestbookFeed } from "./guestbook-feed";
-import { SongRequests } from "./song-requests";
-import { ContactCollectorPanel } from "./contact-collector-panel";
+import { GuestsPageBody } from "./guests-page-body";
 
 export default async function GuestsPage() {
   const supabase = await createClient();
@@ -114,54 +105,19 @@ export default async function GuestsPage() {
     .order("created_at", { ascending: true })
     .returns<ContactSubmission[]>();
 
-  // Street address is the field that matters for posting an invitation; a
-  // guest with a city but no street still can't be mailed anything.
-  const missingAddressCount = (guests ?? []).filter((g) => !g.address_line1).length;
-
   return (
-    <main className="flex flex-1 flex-col items-center px-6 py-16">
-      <AppNav email={user.email ?? ""} maxWidthClassName="max-w-3xl" />
-      <div className="w-full max-w-3xl">
-        <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
-          Guests
-        </p>
-        <h1 className="mt-2 mb-6 font-display text-3xl font-semibold text-forest">
-          Guest list & RSVPs
-        </h1>
-
-        <div className="flex flex-col gap-8">
-          <PublicSitePanel
-            publicSlug={wedding.public_slug}
-            origin={origin}
-            pendingSubmissions={rsvpSubmissions ?? []}
-          />
-          <HeroPhotoPanel photoUrl={wedding.hero_photo_url} />
-          <ContactCollectorPanel
-            slug={wedding.public_slug}
-            origin={origin}
-            submissions={contactSubmissions ?? []}
-            guests={guests ?? []}
-            missingAddressCount={missingAddressCount}
-          />
-          <BulkInviteForm guests={guests ?? []} publicSlug={wedding.public_slug} origin={origin} />
-          <RsvpReminders
-            guests={guests ?? []}
-            publicSlug={wedding.public_slug}
-            origin={origin}
-            rsvpDeadline={wedding.rsvp_deadline}
-          />
-          <GuestbookFeed guests={guests ?? []} publicSiteOn={Boolean(wedding.public_slug)} />
-          <SongRequests guests={guests ?? []} />
-          <GuestsManager guests={guests ?? []} spreadsheetUrl={wedding.spreadsheet_url} />
-          <RegistryManager registryItems={registryItems ?? []} />
-          <GuestSiteDetails
-            wedding={wedding}
-            faqs={weddingFaqs ?? []}
-            accommodations={accommodations ?? []}
-            guestSiteUrl={wedding.public_slug ? `${origin}/w/${wedding.public_slug}` : null}
-          />
-        </div>
-      </div>
+    <main className="flex flex-1 flex-col items-center px-4 py-10 sm:px-6 sm:py-16">
+      <AppNav email={user.email ?? ""} />
+      <GuestsPageBody
+        wedding={wedding}
+        guests={guests ?? []}
+        registryItems={registryItems ?? []}
+        faqs={weddingFaqs ?? []}
+        accommodations={accommodations ?? []}
+        rsvpSubmissions={rsvpSubmissions ?? []}
+        contactSubmissions={contactSubmissions ?? []}
+        origin={origin}
+      />
     </main>
   );
 }

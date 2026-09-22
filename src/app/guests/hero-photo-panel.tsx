@@ -10,9 +10,8 @@ import { PhotoUpload } from "@/components/photo-upload";
  */
 export function HeroPhotoPanel({ photoUrl }: { photoUrl: string | null }) {
   return (
-    <div className="mt-8 w-full rounded-lg border border-hairline bg-card p-5 shadow-sm sm:p-8">
-      <h2 className="font-display text-2xl font-semibold text-forest">Banner photo</h2>
-      <p className="mt-1 max-w-2xl text-sm text-ink/70">
+    <div>
+      <p className="max-w-2xl text-sm text-ink/70">
         Shown across the top of your guest site. A wide shot works best — it&apos;s cropped to a
         band, so anything important near the edges gets cut.
       </p>

@@ -147,9 +147,8 @@ export function ContactCollectorPanel({
     : null;
 
   return (
-    <div className="mt-8 w-full rounded-lg border border-hairline bg-card p-5 shadow-sm sm:p-8">
-      <h2 className="font-display text-2xl font-semibold text-forest">Collect addresses</h2>
-      <p className="mt-1 max-w-2xl text-sm text-ink/70">
+    <div>
+      <p className="max-w-2xl text-sm text-ink/70">
         Send this link instead of asking everyone individually. Guests fill in their own
         address, and you approve each one before it reaches your list.
       </p>
@@ -175,14 +174,14 @@ export function ContactCollectorPanel({
         // The link lives under the public wedding site's slug, so it can't
         // exist before that does.
         <p className="mt-4 rounded-md border border-hairline bg-parchment p-3 text-sm text-ink/70">
-          Turn on your guest site above to get a link you can share.
+          Turn on your guest site to get a link you can share.
         </p>
       )}
 
       {shareMessage && (
         <div className="mt-3 rounded-md border border-hairline bg-parchment p-3">
           <div className="flex flex-wrap items-start justify-between gap-2">
-            <p className="min-w-0 flex-1 text-sm text-ink/75">{shareMessage}</p>
+            <p className="min-w-0 flex-1 basis-full text-sm text-ink/75 sm:basis-0">{shareMessage}</p>
             <button
               type="button"
               onClick={() => {

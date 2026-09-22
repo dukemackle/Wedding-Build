@@ -131,14 +131,11 @@ export function RegistryManager({ registryItems }: { registryItems: RegistryItem
   const [showAddForm, setShowAddForm] = useState(false);
 
   return (
-    <div className="w-full rounded-lg border border-hairline bg-card p-5 sm:p-8 shadow-sm">
-      <div className="mb-6 flex flex-wrap items-center justify-between gap-4 border-b border-hairline pb-6">
-        <div>
-          <h2 className="font-display text-2xl font-semibold text-forest">Gift registry</h2>
-          <p className="mt-1 text-sm text-ink/70">
-            Registry links and cash funds you want to share with guests.
-          </p>
-        </div>
+    <div>
+      <div className="mb-5 flex flex-wrap items-center justify-between gap-4">
+        <p className="text-sm text-ink/70">
+          Registry links and cash funds you want to share with guests.
+        </p>
         <button
           onClick={() => setShowAddForm((v) => !v)}
           className="rounded-full bg-forest px-4 py-1.5 font-mono-numbers text-sm text-parchment transition-colors hover:bg-forest/90"
