@@ -2,9 +2,10 @@
 
 import { randomUUID } from "node:crypto";
 import { createClient } from "@/lib/supabase/server";
-import type { RsvpStatus } from "@/lib/supabase/types";
+import type { GuestSide, RsvpStatus } from "@/lib/supabase/types";
 
 const VALID_STATUSES: RsvpStatus[] = ["confirmed", "declined"];
+const VALID_SIDES: GuestSide[] = ["a", "b", "both"];
 const MAX_PHOTO_BYTES = 5 * 1024 * 1024;
 
 export async function submitRsvp(formData: FormData): Promise<{ error?: string }> {
@@ -52,6 +53,9 @@ export async function submitRsvp(formData: FormData): Promise<{ error?: string }
     wedding_id: weddingId,
     guest_name: guestName,
     household: ((formData.get("household") as string) || "").trim() || null,
+    side: VALID_SIDES.includes(formData.get("side") as GuestSide)
+      ? (formData.get("side") as GuestSide)
+      : null,
     plus_one: formData.get("plus_one") === "on",
     plus_one_name: ((formData.get("plus_one_name") as string) || "").trim() || null,
     status: status as RsvpStatus,

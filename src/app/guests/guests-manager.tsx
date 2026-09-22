@@ -44,7 +44,9 @@ const STATUS_LABELS: Record<GuestStatus, string> = {
   invited: "Invited",
   confirmed: "Confirmed",
   declined: "Declined",
-  pending: "Pending",
+  // "Pending" read as a stuck process rather than as what it means: nobody
+  // has heard back, and on an imported list nobody has even asked yet.
+  pending: "No reply",
 };
 
 const STATUS_BADGE_CLASS: Record<GuestStatus, string> = {
@@ -963,21 +965,44 @@ function SideColorKey({
   theme,
   sideACurrent,
   sideBCurrent,
+  onPicked,
 }: {
   theme: SideTheme;
   sideACurrent: string;
   sideBCurrent: string;
+  /** So every dot in the list repaints with the key, not just the key. */
+  onPicked: (colors: { a: string; b: string }) => void;
 }) {
-  const [editing, setEditing] = useState<GuestSide | null>(null);
+  // Only the two real sides are pickable: "both" is deliberately neutral.
+  const [editing, setEditing] = useState<"a" | "b" | null>(null);
+  const [error, setError] = useState<string | undefined>(undefined);
+  // The picked colour, shown before the server has confirmed it. Without this
+  // the swatch doesn't move until the page revalidates, which reads as a
+  // button that does nothing.
+  const [pending, setPending] = useState<{ a?: string; b?: string }>({});
   const [, startTransition] = useTransition();
 
-  function pick(side: GuestSide, color: string) {
+  const shown = {
+    a: pending.a ?? sideACurrent,
+    b: pending.b ?? sideBCurrent,
+  };
+
+  function pick(side: "a" | "b", color: string) {
+    const nextA = side === "a" ? color : shown.a;
+    const nextB = side === "b" ? color : shown.b;
     const formData = new FormData();
-    formData.set("side_a_color", side === "a" ? color : sideACurrent);
-    formData.set("side_b_color", side === "b" ? color : sideBCurrent);
+    formData.set("side_a_color", nextA);
+    formData.set("side_b_color", nextB);
+    setPending({ a: nextA, b: nextB });
+    onPicked({ a: nextA, b: nextB });
     setEditing(null);
+    setError(undefined);
     startTransition(async () => {
-      await setSideColors(formData);
+      const result = await setSideColors(formData);
+      if (result?.error) {
+        setError(result.error);
+        setPending({});
+      }
     });
   }
 
@@ -992,7 +1017,7 @@ function SideColorKey({
         >
           <span
             className="h-2.5 w-2.5 rounded-full"
-            style={{ backgroundColor: theme.colors[side] }}
+            style={{ backgroundColor: shown[side] }}
           />
           {theme.labels[side]}
         </button>
@@ -1001,6 +1026,7 @@ function SideColorKey({
         <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: theme.colors.both }} />
         Both
       </span>
+      {error && <span className="text-red-800">{error}</span>}
 
       {editing && (
         <>
@@ -1021,10 +1047,16 @@ function SideColorKey({
                 type="button"
                 title={color.name}
                 onClick={() => pick(editing, color.value)}
-                className="h-6 w-6 rounded-full border-2 border-transparent transition-transform hover:scale-110"
+                className={`h-6 w-6 rounded-full border-2 transition-transform hover:scale-110 ${
+                  shown[editing] === color.value ? "border-ink/60" : "border-transparent"
+                }`}
                 style={{ backgroundColor: color.value }}
               />
             ))}
+            <p className="w-full text-[11px] leading-4 text-ink/45">
+              Colours the dot on every guest you&apos;ve put on this side. Guests with no side
+              set stay grey.
+            </p>
           </div>
         </>
       )}
@@ -1065,7 +1097,13 @@ export function GuestsManager({
   const [showAddForm, setShowAddForm] = useState(false);
   const [showImportForm, setShowImportForm] = useState(false);
 
-  const theme = sideTheme({ partnerAName, partnerBName, sideAColor, sideBColor });
+  const [pickedColors, setPickedColors] = useState<{ a?: string; b?: string }>({});
+  const theme = sideTheme({
+    partnerAName,
+    partnerBName,
+    sideAColor: pickedColors.a ?? sideAColor,
+    sideBColor: pickedColors.b ?? sideBColor,
+  });
 
   function handleAssign(guestId: string, field: "side" | "guest_type", value: string) {
     setOverrides((current) => ({
@@ -1195,6 +1233,7 @@ export function GuestsManager({
           theme={theme}
           sideACurrent={theme.colors.a}
           sideBCurrent={theme.colors.b}
+          onPicked={(colors) => setPickedColors(colors)}
         />
         <div className="flex flex-wrap gap-2">
           <button

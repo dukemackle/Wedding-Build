@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useState, useTransition } from "react";
 import { ViewGuestSiteButton } from "@/components/view-guest-site-button";
 import type { RsvpSubmission } from "@/lib/supabase/types";
+import { sideTheme, type SideTheme } from "@/lib/guest-groups";
 import {
   approveRsvpSubmission,
   dismissRsvpSubmission,
@@ -11,7 +12,13 @@ import {
   enablePublicSite,
 } from "./actions";
 
-function SubmissionRow({ submission }: { submission: RsvpSubmission }) {
+function SubmissionRow({
+  submission,
+  theme,
+}: {
+  submission: RsvpSubmission;
+  theme: SideTheme;
+}) {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>(undefined);
   const [handled, setHandled] = useState(false);
@@ -76,7 +83,15 @@ function SubmissionRow({ submission }: { submission: RsvpSubmission }) {
               </span>
             </div>
             <p className="mt-1 text-xs text-ink/50">
-              {[submission.household, submission.meal].filter(Boolean).join(" · ") || "—"}
+              {[
+                submission.household,
+                // What they answered to "who are you here for?" -- shown so
+                // the couple can correct it before approving the row.
+                submission.side ? theme.labels[submission.side] : null,
+                submission.meal,
+              ]
+                .filter(Boolean)
+                .join(" · ") || "—"}
             </p>
             {submission.notes && (
               <p className="mt-1 text-sm text-ink/70">Private note: {submission.notes}</p>
@@ -114,13 +129,30 @@ function SubmissionRow({ submission }: { submission: RsvpSubmission }) {
  * These live with the invitations rather than with the site settings: they're
  * something to act on today, not something to configure once.
  */
-export function PendingRsvps({ submissions }: { submissions: RsvpSubmission[] }) {
+export function PendingRsvps({
+  submissions,
+  partnerAName,
+  partnerBName,
+}: {
+  submissions: RsvpSubmission[];
+  partnerAName: string | null;
+  partnerBName: string | null;
+}) {
   if (submissions.length === 0) return null;
 
   return (
     <div>
       {submissions.map((submission) => (
-        <SubmissionRow key={submission.id} submission={submission} />
+        <SubmissionRow
+          key={submission.id}
+          submission={submission}
+          theme={sideTheme({
+            partnerAName,
+            partnerBName,
+            sideAColor: null,
+            sideBColor: null,
+          })}
+        />
       ))}
     </div>
   );

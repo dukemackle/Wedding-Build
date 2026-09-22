@@ -494,6 +494,7 @@ export async function approveRsvpSubmission(formData: FormData): Promise<{ error
     user_id: user.id,
     name: submission.guest_name,
     household: submission.household,
+    side: submission.side,
     plus_one: submission.plus_one,
     plus_one_name: submission.plus_one_name,
     status: submission.status,

@@ -161,13 +161,17 @@ const VALID_STATUSES: GuestStatus[] = ["invited", "confirmed", "declined", "pend
 
 function parseStatus(raw: string): GuestStatus {
   const value = raw.trim().toLowerCase();
-  if (!value) return "invited";
+  // A blank RSVP cell -- or a sheet with no RSVP column at all -- means
+  // nobody has heard back, not that an invitation went out. Importing 270
+  // names used to mark every one of them "Invited" on arrival.
+  if (!value) return "pending";
   if (VALID_STATUSES.includes(value as GuestStatus)) return value as GuestStatus;
   // The words people actually type in an RSVP column.
   if (["yes", "y", "attending", "accepted", "coming"].includes(value)) return "confirmed";
   if (["no", "n", "declined", "regrets", "not coming"].includes(value)) return "declined";
   if (["maybe", "tbd", "waiting", "no reply"].includes(value)) return "pending";
-  return "invited";
+  if (["invited", "sent", "invite sent"].includes(value)) return "invited";
+  return "pending";
 }
 
 function parsePriority(raw: string): GuestPriority {

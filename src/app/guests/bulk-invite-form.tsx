@@ -18,6 +18,7 @@ export function BulkInviteForm({
   origin: string;
 }) {
   const invitable = guests.filter((g) => g.email);
+  const [search, setSearch] = useState("");
   const [selected, setSelected] = useState<Set<string>>(
     () => new Set(invitable.filter((g) => !g.invite_sent_at).map((g) => g.id)),
   );
@@ -26,6 +27,10 @@ export function BulkInviteForm({
     { sent: number; skipped: number; failed: number } | undefined
   >(undefined);
   const [isPending, startTransition] = useTransition();
+
+  const shown = invitable.filter((g) =>
+    g.name.toLowerCase().includes(search.trim().toLowerCase()),
+  );
 
   if (!publicSlug) {
     return (
@@ -49,7 +54,12 @@ export function BulkInviteForm({
   }
 
   function selectAll() {
-    setSelected(new Set(invitable.map((g) => g.id)));
+    setSelected(new Set(shown.map((g) => g.id)));
+  }
+
+  /** Back to the default: everyone who hasn't already had one. */
+  function selectNotYetInvited() {
+    setSelected(new Set(invitable.filter((g) => !g.invite_sent_at).map((g) => g.id)));
   }
 
   function selectNone() {
@@ -92,9 +102,12 @@ export function BulkInviteForm({
           </p>
         </div>
         {invitable.length > 0 && (
-          <div className="flex gap-3 text-xs">
+          <div className="flex flex-wrap gap-3 text-xs">
             <button onClick={selectAll} className="text-brass hover:underline">
-              Select all
+              {search ? "Select these" : "Select all"}
+            </button>
+            <button onClick={selectNotYetInvited} className="text-brass hover:underline">
+              Not yet invited
             </button>
             <button onClick={selectNone} className="text-ink/50 hover:underline">
               Select none
@@ -109,8 +122,19 @@ export function BulkInviteForm({
         </p>
       ) : (
         <>
-          <div className="mt-4 max-h-72 overflow-y-auto rounded-md border border-hairline">
-            {invitable.map((guest) => (
+          {/* A 270-name list in a 288px scroller needs a way in. */}
+          <input
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search these guests by name..."
+            className="mt-4 w-full rounded-md border border-hairline bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-forest"
+          />
+
+          <div className="mt-2 max-h-72 overflow-y-auto rounded-md border border-hairline">
+            {shown.length === 0 && (
+              <p className="px-4 py-3 text-sm text-ink/50">No guests match that.</p>
+            )}
+            {shown.map((guest) => (
               <label
                 key={guest.id}
                 className="flex cursor-pointer items-center justify-between gap-3 border-b border-hairline px-4 py-2.5 last:border-b-0 hover:bg-parchment"
