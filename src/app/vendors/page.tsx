@@ -68,22 +68,16 @@ export default async function VendorsPage() {
     .returns<VendorFavoriteEntry[]>();
 
   return (
-    <main className="flex flex-1 flex-col items-center px-6 py-16">
-      <AppNav email={user.email ?? ""} maxWidthClassName="max-w-4xl" />
-      <div className="w-full max-w-4xl">
-        <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
-          Vendors
-        </p>
-        <h1 className="mt-2 mb-6 font-display text-3xl font-semibold text-forest">
-          Browse & request quotes
-        </h1>
-
-        <VendorsManager
-          vendors={vendors ?? []}
-          inquiries={inquiries ?? []}
-          favorites={favorites ?? []}
-        />
-      </div>
+    // Full-bleed, like Venues: the filter bar is the top of this screen, and
+    // the heading stays for screen readers.
+    <main className="flex flex-1 flex-col px-6 py-16">
+      <AppNav email={user.email ?? ""} />
+      <h1 className="sr-only">Browse & request quotes</h1>
+      <VendorsManager
+        vendors={vendors ?? []}
+        inquiries={inquiries ?? []}
+        favorites={favorites ?? []}
+      />
     </main>
   );
 }

@@ -4,30 +4,53 @@ import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import Image from "next/image";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { FitToPins } from "@/components/map-fit-bounds";
 import type { Vendor } from "@/lib/supabase/types";
 
-const pinIcon = L.divIcon({
-  className: "",
-  html: `<div style="
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    background: #1F3D2E;
-    border: 2px solid #A9843C;
-    box-shadow: 0 0 0 1px rgba(0,0,0,0.2);
-  "></div>`,
-  iconSize: [16, 16],
-  iconAnchor: [8, 8],
-});
+/**
+ * Pins carry the vendor's category, matching what the card leads with, so the
+ * map reads as the listings rather than as anonymous dots.
+ */
+function categoryIcon(category: string | null) {
+  if (!category) {
+    return L.divIcon({
+      className: "",
+      html: `<div style="width:14px;height:14px;border-radius:50%;background:#1F3D2E;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.3);"></div>`,
+      iconSize: [14, 14],
+      iconAnchor: [7, 7],
+    });
+  }
+
+  // Escaped: categories are operator-entered text and go into an HTML string.
+  const label = category.replace(/[&<>"]/g, (c) =>
+    c === "&" ? "&amp;" : c === "<" ? "&lt;" : c === ">" ? "&gt;" : "&quot;",
+  );
+  const width = 22 + category.length * 6.5;
+  return L.divIcon({
+    className: "",
+    html: `<div style="
+      display:flex;align-items:center;justify-content:center;
+      height:26px;padding:0 9px;border-radius:13px;
+      background:#1F3D2E;border:2px solid #fff;
+      box-shadow:0 1px 5px rgba(0,0,0,.32);
+      color:#fff;font:700 12px ui-sans-serif,system-ui,sans-serif;
+      white-space:nowrap;
+    ">${label}</div>`,
+    iconSize: [width, 26],
+    iconAnchor: [width / 2, 13],
+  });
+}
 
 const CONTINENTAL_US_CENTER: [number, number] = [39.8, -98.6];
 
 export function VendorsMap({
   vendors,
   onSelectVendor,
+  heightClassName,
 }: {
   vendors: Vendor[];
   onSelectVendor?: (vendorId: string) => void;
+  heightClassName?: string;
 }) {
   const pinned = vendors.filter(
     (v): v is Vendor & { latitude: number; longitude: number } =>
@@ -35,7 +58,11 @@ export function VendorsMap({
   );
 
   return (
-    <div className="h-[520px] w-full overflow-hidden rounded-md border border-hairline">
+    <div
+      className={
+        heightClassName ?? "h-[520px] w-full overflow-hidden rounded-md border border-hairline"
+      }
+    >
       <MapContainer
         center={CONTINENTAL_US_CENTER}
         zoom={4}
@@ -46,8 +73,9 @@ export function VendorsMap({
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
+        <FitToPins points={pinned.map((p) => [p.latitude, p.longitude] as [number, number])} />
         {pinned.map((vendor) => (
-          <Marker key={vendor.id} position={[vendor.latitude, vendor.longitude]} icon={pinIcon}>
+          <Marker key={vendor.id} position={[vendor.latitude, vendor.longitude]} icon={categoryIcon(vendor.category)}>
             <Popup minWidth={200}>
               <div className="w-[200px]">
                 {vendor.image_url && (

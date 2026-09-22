@@ -247,3 +247,12 @@ body::before {
     animation: none;
   }
 }
+
+/* The browse screens float their search field and filter chips over the map on
+   a phone, which is exactly where Leaflet puts its zoom buttons. Push the
+   controls clear of that overlay rather than hiding them. */
+@media (max-width: 1023px) {
+  .search-shell-map .leaflet-top.leaflet-left {
+    margin-top: 7rem;
+  }
+}

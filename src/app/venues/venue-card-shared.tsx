@@ -7,10 +7,13 @@ export function ShortlistButton({
   venueId,
   isShortlisted,
   onToggled,
+  overlay = false,
 }: {
   venueId: string;
   isShortlisted: boolean;
   onToggled?: (isShortlisted: boolean) => void;
+  /** Render as a bare heart for sitting on top of a card photo. */
+  overlay?: boolean;
 }) {
   const [shortlisted, setShortlisted] = useState(isShortlisted);
   const [isPending, startTransition] = useTransition();
@@ -31,12 +34,30 @@ export function ShortlistButton({
     });
   }
 
+  const label = shortlisted ? "Remove from favorites" : "Add to favorites";
+
+  if (overlay) {
+    return (
+      <button
+        onClick={handleClick}
+        disabled={isPending}
+        aria-pressed={shortlisted}
+        aria-label={label}
+        className={`flex h-8 w-8 items-center justify-center rounded-full bg-card/90 text-base shadow-sm transition-colors disabled:opacity-60 ${
+          shortlisted ? "text-brass" : "text-forest hover:text-brass"
+        }`}
+      >
+        <span aria-hidden="true">{shortlisted ? "♥" : "♡"}</span>
+      </button>
+    );
+  }
+
   return (
     <button
       onClick={handleClick}
       disabled={isPending}
       aria-pressed={shortlisted}
-      aria-label={shortlisted ? "Remove from favorites" : "Add to favorites"}
+      aria-label={label}
       className={`flex items-center gap-1.5 rounded-full border px-3 py-1 text-sm transition-colors disabled:opacity-60 ${
         shortlisted
           ? "border-forest bg-forest text-parchment"
@@ -81,7 +102,7 @@ export function BookedVenueButton({
       onClick={handleClick}
       disabled={isPending}
       aria-pressed={isBooked}
-      className={`rounded-full border px-3 py-1 text-sm transition-colors disabled:opacity-60 ${
+      className={`w-full rounded-full border px-3 py-1.5 text-sm transition-colors disabled:opacity-60 ${
         isBooked
           ? "border-brass bg-brass text-parchment"
           : "border-hairline bg-parchment text-ink hover:border-forest"

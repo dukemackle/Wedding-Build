@@ -60,22 +60,17 @@ export default async function VenuesPage() {
     .returns<VenueShortlistEntry[]>();
 
   return (
-    <main className="flex flex-1 flex-col items-center px-6 py-16">
-      <AppNav email={user.email ?? ""} maxWidthClassName="max-w-4xl" />
-      <div className="w-full max-w-4xl">
-        <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
-          Venues
-        </p>
-        <h1 className="mt-2 mb-6 font-display text-3xl font-semibold text-forest">
-          Browse & shortlist venues
-        </h1>
-
-        <VenuesManager
-          venues={venues ?? []}
-          shortlist={shortlist ?? []}
-          bookedVenueId={wedding.venue_id}
-        />
-      </div>
+    // No width cap and no visible page heading: the filter bar is the top of
+    // this screen, the way it is on a listings site. The heading stays for
+    // screen readers.
+    <main className="flex flex-1 flex-col px-6 py-16">
+      <AppNav email={user.email ?? ""} />
+      <h1 className="sr-only">Browse & shortlist venues</h1>
+      <VenuesManager
+        venues={venues ?? []}
+        shortlist={shortlist ?? []}
+        bookedVenueId={wedding.venue_id}
+      />
     </main>
   );
 }

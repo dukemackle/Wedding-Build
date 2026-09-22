@@ -12,8 +12,8 @@ import {
   updateInquiryStatus,
   updateVendorFavoriteNotes,
 } from "./actions";
-import { SearchBox } from "@/components/search-box";
 import { FilterDropdown } from "@/components/filter-dropdown";
+import { SearchShell } from "@/components/search-shell";
 import { VendorFavoriteButton } from "./vendor-card-shared";
 import { InquiryForm } from "./inquiry-form";
 import { VendorFollowUps } from "./vendor-follow-ups";
@@ -21,7 +21,7 @@ import { VendorFollowUps } from "./vendor-follow-ups";
 const VendorsMap = dynamic(() => import("./vendors-map").then((m) => m.VendorsMap), {
   ssr: false,
   loading: () => (
-    <div className="flex h-[520px] w-full items-center justify-center rounded-md border border-hairline text-sm text-ink/50">
+    <div className="flex h-full w-full items-center justify-center bg-parchment text-sm text-ink/50">
       Loading map...
     </div>
   ),
@@ -74,64 +74,85 @@ function VendorCard({
     });
   }
 
+  // Category leads the card, the slot a property listing gives its price.
+  // Vendors carry no dollar figure, and the category is what a couple is
+  // actually scanning this list for.
+  const place = [vendor.city, vendor.state].filter(Boolean).join(", ");
+
   return (
     <div
       ref={cardRef}
-      className={`flex flex-col overflow-hidden rounded-lg border bg-parchment transition-colors ${
+      className={`flex flex-col overflow-hidden rounded-xl border bg-card transition-colors ${
         isHighlighted ? "border-forest ring-2 ring-forest/30" : "border-hairline"
       }`}
     >
-      {vendor.image_url && (
-        <Link href={`/vendors/${vendor.id}`}>
-          <Image
-            src={vendor.image_url}
-            alt={vendor.name}
-            width={400}
-            height={300}
-            className="aspect-[4/3] w-full border-b border-hairline object-cover"
-          />
-        </Link>
-      )}
-      <div className="flex flex-1 flex-col p-5">
-        <div className="mb-2 flex items-start justify-between gap-2">
-          <Link href={`/vendors/${vendor.id}`} className="hover:underline">
-            <h3 className="font-display text-xl font-semibold text-forest">{vendor.name}</h3>
+      <div className="relative">
+        {vendor.image_url ? (
+          <Link href={`/vendors/${vendor.id}`}>
+            <Image
+              src={vendor.image_url}
+              alt={vendor.name}
+              width={400}
+              height={250}
+              className="aspect-[16/10] max-h-44 w-full object-cover lg:max-h-none"
+            />
           </Link>
-          {vendor.price_tier && (
-            <span className="shrink-0 rounded-full border border-hairline px-2 py-0.5 text-xs text-brass">
-              {vendor.price_tier}
+        ) : (
+          // Vendors have no illustration fallback the way venues do, so the
+          // slot becomes a plain tinted band rather than a broken image.
+          <Link
+            href={`/vendors/${vendor.id}`}
+            className="flex aspect-[16/10] max-h-44 w-full items-center justify-center bg-forest/5 lg:max-h-none"
+          >
+            {/* A monogram rather than the category, which the card already
+                leads with two lines further down. */}
+            <span aria-hidden className="font-display text-3xl text-forest/25">
+              {vendor.name.trim().charAt(0).toUpperCase()}
             </span>
-          )}
-        </div>
-        <p className="text-xs uppercase tracking-wide text-ink/50">
-          {[[vendor.city, vendor.state].filter(Boolean).join(", "), vendor.category]
-            .filter(Boolean)
-            .join(" · ")}
-        </p>
-        {vendor.is_sample && (
-          <p className="mt-1 text-[10px] uppercase tracking-wide text-ink/40">Sample listing</p>
+          </Link>
         )}
-        {vendor.description && <p className="mt-3 text-sm text-ink/80">{vendor.description}</p>}
+        {(isBooked || vendor.is_sample) && (
+          <span className="absolute left-2 top-2 rounded-full bg-ink/80 px-2.5 py-1 text-[11px] font-semibold text-parchment">
+            {isBooked ? "Booked" : "Sample listing"}
+          </span>
+        )}
+        <div className="absolute right-2 top-2">
+          <VendorFavoriteButton vendorId={vendor.id} isFavorited={isFavorited} overlay />
+        </div>
+      </div>
+      <div className="flex flex-1 flex-col p-3">
+        <Link href={`/vendors/${vendor.id}`} className="hover:underline">
+          <p className="font-display text-lg font-semibold tracking-tight text-ink">
+            {vendor.category ?? vendor.name}
+          </p>
+        </Link>
+        {vendor.price_tier && <p className="mt-0.5 text-sm text-ink/80">{vendor.price_tier}</p>}
+        {place && <p className="mt-0.5 text-[13px] text-ink/55">{place}</p>}
+        <Link
+          href={`/vendors/${vendor.id}`}
+          className="mt-1 text-[10px] font-semibold uppercase tracking-[0.07em] text-ink/40 hover:text-brass"
+        >
+          {vendor.name}
+        </Link>
 
-        <div className="mt-4 flex flex-wrap items-center gap-2">
-          <VendorFavoriteButton vendorId={vendor.id} isFavorited={isFavorited} />
+        <div className="mt-3 flex flex-col gap-2">
           {!showForm && (
             <button
               onClick={() => setShowForm(true)}
-              className="rounded-full border border-hairline bg-card px-3 py-1 text-sm text-forest transition-colors hover:border-forest"
+              className="w-full rounded-full border border-hairline bg-card px-3 py-1.5 text-sm text-forest transition-colors hover:border-forest"
             >
               Request a quote
             </button>
           )}
           {isBooked ? (
-            <span className="rounded-full border border-forest/40 bg-forest/10 px-3 py-1 text-sm text-forest">
+            <span className="w-full rounded-full border border-forest/40 bg-forest/10 px-3 py-1.5 text-center text-sm text-forest">
               ✓ Booked
             </span>
           ) : (
             <button
               onClick={handleMarkBooked}
               disabled={isPending}
-              className="rounded-full border border-hairline bg-card px-3 py-1 text-sm text-ink transition-colors hover:border-forest disabled:opacity-60"
+              className="w-full rounded-full border border-hairline bg-card px-3 py-1.5 text-sm text-ink transition-colors hover:border-forest disabled:opacity-60"
             >
               {isPending ? "..." : "Mark as booked"}
             </button>
@@ -351,43 +372,64 @@ export function VendorsManager({
       v.name.toLowerCase().includes(search.trim().toLowerCase()),
   );
 
+  function clearFilters() {
+    setStateFilter("all");
+    setCityFilter("all");
+    setCategoryFilter("all");
+    setPriceFilter("all");
+  }
+
   return (
-    <div className="flex flex-col gap-8">
-      {favorites.length > 0 && (
-        <div className="rounded-lg border border-hairline bg-card p-6 shadow-sm">
-          <h2 className="font-display text-2xl font-semibold text-forest">Your favorites</h2>
-          <div className="mt-4">
-            {favorites.map((entry) => {
-              const vendor = vendorById.get(entry.vendor_id);
-              if (!vendor) return null;
-              return (
-                <VendorFavoriteNotes key={entry.id} entry={entry} vendorName={vendor.name} />
-              );
-            })}
-          </div>
-        </div>
-      )}
-
-      <VendorFollowUps inquiries={inquiries} />
-
-      {inquiries.length > 0 && (
-        <div className="rounded-lg border border-hairline bg-card p-6 shadow-sm">
-          <h2 className="font-display text-2xl font-semibold text-forest">
-            Your inquiries
-          </h2>
-          <div className="mt-4">
-            {inquiries.map((inquiry) => (
-              <InquiryRow key={inquiry.id} inquiry={inquiry} />
-            ))}
-          </div>
-        </div>
-      )}
-
-      <div className="rounded-lg border border-hairline bg-card p-6 shadow-sm">
-        <div className="mb-4">
-          <SearchBox value={search} onChange={setSearch} placeholder="Search vendors by name..." />
-        </div>
-        <div className="mb-6 flex flex-wrap items-center gap-2">
+    <SearchShell
+      search={{ value: search, onChange: setSearch, placeholder: "Search vendors by name..." }}
+      activeFilterCount={activeFilterCount}
+      onClearFilters={clearFilters}
+      resultCount={filteredVendors.length}
+      resultNoun="vendor"
+      views={[
+        {
+          key: "saved",
+          label: "Saved",
+          icon: "♥",
+          count: favorites.length,
+          panel:
+            favorites.length === 0 ? (
+              <p className="py-8 text-center text-sm text-ink/50">
+                Nothing saved yet. Tap the heart on a vendor to keep it here.
+              </p>
+            ) : (
+              <div>
+                {favorites.map((entry) => {
+                  const vendor = vendorById.get(entry.vendor_id);
+                  if (!vendor) return null;
+                  return (
+                    <VendorFavoriteNotes key={entry.id} entry={entry} vendorName={vendor.name} />
+                  );
+                })}
+              </div>
+            ),
+        },
+        {
+          key: "inquiries",
+          label: "Inquiries",
+          icon: "✉",
+          count: inquiries.length,
+          panel: (
+            <div>
+              <VendorFollowUps inquiries={inquiries} />
+              {inquiries.length === 0 ? (
+                <p className="py-8 text-center text-sm text-ink/50">
+                  No quotes requested yet.
+                </p>
+              ) : (
+                inquiries.map((inquiry) => <InquiryRow key={inquiry.id} inquiry={inquiry} />)
+              )}
+            </div>
+          ),
+        },
+      ]}
+      filters={
+        <>
           <FilterDropdown
             label="State"
             allLabel="All states"
@@ -417,60 +459,36 @@ export function VendorsManager({
             onChange={setPriceFilter}
             options={STYLE_TIERS.map((tier) => ({ value: tier, label: tier }))}
           />
-          {activeFilterCount > 0 && (
-            <button
-              type="button"
-              onClick={() => {
-                setStateFilter("all");
-                setCityFilter("all");
-                setCategoryFilter("all");
-                setPriceFilter("all");
-              }}
-              className="text-sm text-brass hover:underline"
-            >
-              Clear filters ({activeFilterCount})
-            </button>
-          )}
-        </div>
-
-        {filteredVendors.length === 0 ? (
-          <p className="py-8 text-center text-sm text-ink/50">
-            {vendors.length === 0
-              ? "No vendors have been added yet."
-              : "No vendors match these filters."}
-          </p>
-        ) : (
-          <div className="flex flex-col gap-6 lg:flex-row">
-            {/* Map first in the DOM but second on screen, so a small viewport
-                gets the vendor list rather than a map it has to scroll past. */}
-            <div className="order-1 lg:order-2 lg:w-1/2">
-              <div className="lg:sticky lg:top-6">
-                <VendorsMap
-                  vendors={filteredVendors}
-                  onSelectVendor={handleSelectVendorFromMap}
-                />
-              </div>
-            </div>
-            <div className="order-2 lg:order-1 lg:max-h-[520px] lg:w-1/2 lg:overflow-y-auto lg:pr-2">
-              <div className="grid grid-cols-1 gap-4">
-                {filteredVendors.map((vendor) => (
-                  <VendorCard
-                    key={vendor.id}
-                    vendor={vendor}
-                    isFavorited={favoritedIds.has(vendor.id)}
-                    isBooked={bookedVendorIds.has(vendor.id)}
-                    isHighlighted={highlightedVendorId === vendor.id}
-                    cardRef={(el) => {
-                      if (el) cardEls.current.set(vendor.id, el);
-                      else cardEls.current.delete(vendor.id);
-                    }}
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-    </div>
+        </>
+      }
+      map={
+        <VendorsMap
+          vendors={filteredVendors}
+          onSelectVendor={handleSelectVendorFromMap}
+          heightClassName="h-full w-full"
+        />
+      }
+      empty={
+        <p className="py-8 text-center text-sm text-ink/50">
+          {vendors.length === 0
+            ? "No vendors have been added yet."
+            : "No vendors match these filters."}
+        </p>
+      }
+    >
+      {filteredVendors.map((vendor) => (
+        <VendorCard
+          key={vendor.id}
+          vendor={vendor}
+          isFavorited={favoritedIds.has(vendor.id)}
+          isBooked={bookedVendorIds.has(vendor.id)}
+          isHighlighted={highlightedVendorId === vendor.id}
+          cardRef={(el) => {
+            if (el) cardEls.current.set(vendor.id, el);
+            else cardEls.current.delete(vendor.id);
+          }}
+        />
+      ))}
+    </SearchShell>
   );
 }

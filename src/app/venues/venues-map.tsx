@@ -5,6 +5,7 @@ import L from "leaflet";
 import Image from "next/image";
 import Link from "next/link";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { FitToPins } from "@/components/map-fit-bounds";
 import type { Venue } from "@/lib/supabase/types";
 import { ShortlistButton } from "./venue-card-shared";
 
@@ -18,33 +19,41 @@ const VENUE_TYPE_IMAGES: Record<string, string> = {
 };
 const DEFAULT_VENUE_IMAGE = "/venue-types/historic-estate.svg";
 
-const pinIcon = L.divIcon({
-  className: "",
-  html: `<div style="
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    background: #1F3D2E;
-    border: 2px solid #A9843C;
-    box-shadow: 0 0 0 1px rgba(0,0,0,0.2);
-  "></div>`,
-  iconSize: [16, 16],
-  iconAnchor: [8, 8],
-});
+/**
+ * Pins carry the venue's capacity, the same number the card leads with, so the
+ * map reads as the listings rather than as anonymous dots. A venue with no
+ * capacity on file falls back to a plain dot instead of an empty label.
+ */
+function capacityIcon(capacity: number | null, active: boolean, shortlisted: boolean) {
+  const background = shortlisted ? "#A9843C" : active ? "#A9843C" : "#1F3D2E";
+  const scale = active ? "transform:scale(1.12);" : "";
 
-const pinIconActive = L.divIcon({
-  className: "",
-  html: `<div style="
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    background: #A9843C;
-    border: 2px solid #1F3D2E;
-    box-shadow: 0 0 0 3px rgba(169,132,60,0.25);
-  "></div>`,
-  iconSize: [22, 22],
-  iconAnchor: [11, 11],
-});
+  if (capacity == null) {
+    return L.divIcon({
+      className: "",
+      html: `<div style="width:14px;height:14px;border-radius:50%;background:${background};border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.3);${scale}"></div>`,
+      iconSize: [14, 14],
+      iconAnchor: [7, 7],
+    });
+  }
+
+  const label = String(capacity);
+  // Roughly 7px a digit plus the padding, so the anchor lands on the middle.
+  const width = 22 + label.length * 7;
+  return L.divIcon({
+    className: "",
+    html: `<div style="
+      display:flex;align-items:center;justify-content:center;
+      height:26px;padding:0 9px;border-radius:13px;
+      background:${background};border:2px solid #fff;
+      box-shadow:0 1px 5px rgba(0,0,0,.32);
+      color:#fff;font:700 12px ui-sans-serif,system-ui,sans-serif;
+      white-space:nowrap;${scale}
+    ">${label}</div>`,
+    iconSize: [width, 26],
+    iconAnchor: [width / 2, 13],
+  });
+}
 
 const CONTINENTAL_US_CENTER: [number, number] = [39.8, -98.6];
 
@@ -73,8 +82,7 @@ export function VenuesMap({
   return (
     <div
       className={
-        heightClassName ??
-        "h-[360px] w-full overflow-hidden rounded-md border border-hairline lg:h-[640px]"
+        heightClassName ?? "h-[360px] w-full overflow-hidden rounded-md border border-hairline"
       }
     >
       <MapContainer
@@ -87,11 +95,16 @@ export function VenuesMap({
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
+        <FitToPins points={pinned.map((p) => [p.latitude, p.longitude] as [number, number])} />
         {pinned.map((venue) => (
           <Marker
             key={venue.id}
             position={[venue.latitude, venue.longitude]}
-            icon={hoveredVenueId === venue.id ? pinIconActive : pinIcon}
+            icon={capacityIcon(
+              venue.capacity,
+              hoveredVenueId === venue.id,
+              shortlistedIds.has(venue.id),
+            )}
             eventHandlers={{
               mouseover: () => onHoverVenue?.(venue.id),
               mouseout: () => onHoverVenue?.(null),
