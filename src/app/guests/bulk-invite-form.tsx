@@ -29,13 +29,10 @@ export function BulkInviteForm({
 
   if (!publicSlug) {
     return (
-      <div className="w-full rounded-lg border border-hairline bg-card p-5 sm:p-8 shadow-sm">
-        <h2 className="font-display text-2xl font-semibold text-forest">Invite guests by email</h2>
-        <p className="mt-2 text-sm text-ink/70">
-          Turn on your guest site above, then come back here to email guests their RSVP link
-          directly instead of sharing it yourself.
-        </p>
-      </div>
+      <p className="text-sm text-ink/70">
+        Turn on your guest site, then come back here to email guests their RSVP link directly
+        instead of sharing it yourself.
+      </p>
     );
   }
 
@@ -86,11 +83,10 @@ export function BulkInviteForm({
   }
 
   return (
-    <div className="w-full rounded-lg border border-hairline bg-card p-5 sm:p-8 shadow-sm">
+    <div>
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h2 className="font-display text-2xl font-semibold text-forest">Invite guests by email</h2>
-          <p className="mt-1 text-sm text-ink/70">
+          <p className="text-sm text-ink/70">
             Send guests their RSVP link directly instead of sharing it yourself.{" "}
             {invitable.length} of {guests.length} guests have an email on file.
           </p>

@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef, useState, useTransition } from "react";
-import { ViewGuestSiteButton } from "@/components/view-guest-site-button";
 import type { Wedding, WeddingAccommodation, WeddingFaq } from "@/lib/supabase/types";
 import {
   addAccommodation,
@@ -15,7 +14,7 @@ const inputClass =
   "rounded-md border border-hairline bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-forest";
 const labelClass = "flex flex-col gap-1 text-sm text-ink";
 
-function DressAndTravel({ wedding }: { wedding: Wedding }) {
+export function DressAndTravel({ wedding }: { wedding: Wedding }) {
   const [error, setError] = useState<string | undefined>(undefined);
   const [saved, setSaved] = useState(false);
   const [isPending, startTransition] = useTransition();
@@ -70,7 +69,7 @@ function DressAndTravel({ wedding }: { wedding: Wedding }) {
   );
 }
 
-function Accommodations({ items }: { items: WeddingAccommodation[] }) {
+export function Accommodations({ items }: { items: WeddingAccommodation[] }) {
   const [error, setError] = useState<string | undefined>(undefined);
   const [isPending, startTransition] = useTransition();
   const formRef = useRef<HTMLFormElement>(null);
@@ -167,7 +166,7 @@ function Accommodations({ items }: { items: WeddingAccommodation[] }) {
   );
 }
 
-function Faqs({ faqs }: { faqs: WeddingFaq[] }) {
+export function Faqs({ faqs }: { faqs: WeddingFaq[] }) {
   const [error, setError] = useState<string | undefined>(undefined);
   const [isPending, startTransition] = useTransition();
   const formRef = useRef<HTMLFormElement>(null);
@@ -244,63 +243,6 @@ function Faqs({ faqs }: { faqs: WeddingFaq[] }) {
       </form>
 
       {error && <p className="mt-2 text-sm text-red-800">{error}</p>}
-    </div>
-  );
-}
-
-export function GuestSiteDetails({
-  wedding,
-  faqs,
-  accommodations,
-  guestSiteUrl,
-}: {
-  wedding: Wedding;
-  faqs: WeddingFaq[];
-  accommodations: WeddingAccommodation[];
-  /** Null while the guest site is turned off, which hides the view button. */
-  guestSiteUrl: string | null;
-}) {
-  const [tab, setTab] = useState<"details" | "stays" | "faq">("details");
-
-  const tabs = [
-    { key: "details" as const, label: "Dress code & travel" },
-    { key: "stays" as const, label: `Places to stay (${accommodations.length})` },
-    { key: "faq" as const, label: `FAQ (${faqs.length})` },
-  ];
-
-  return (
-    <div className="mt-8 w-full rounded-lg border border-hairline bg-card p-6 shadow-sm">
-      <div className="flex flex-wrap items-start justify-between gap-3">
-        <h2 className="font-display text-2xl font-semibold text-forest">Guest site details</h2>
-        <ViewGuestSiteButton url={guestSiteUrl} variant="quiet" />
-      </div>
-      <p className="mt-1 text-sm text-ink/70">
-        The questions guests ask over and over. Anything you fill in here shows up on your guest
-        site; anything you leave blank stays hidden.
-      </p>
-
-      <div className="mt-4 flex flex-wrap gap-2">
-        {tabs.map((t) => (
-          <button
-            key={t.key}
-            type="button"
-            onClick={() => setTab(t.key)}
-            className={`rounded-full border px-3 py-1 text-sm transition-colors ${
-              tab === t.key
-                ? "border-forest bg-forest text-parchment"
-                : "border-hairline bg-parchment text-ink hover:border-forest"
-            }`}
-          >
-            {t.label}
-          </button>
-        ))}
-      </div>
-
-      <div className="mt-5">
-        {tab === "details" && <DressAndTravel wedding={wedding} />}
-        {tab === "stays" && <Accommodations items={accommodations} />}
-        {tab === "faq" && <Faqs faqs={faqs} />}
-      </div>
     </div>
   );
 }
