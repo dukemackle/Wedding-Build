@@ -51,6 +51,14 @@ underneath — fixed by disconnecting and reconnecting the Git repository in
 Settings (a plain Settings save wasn't enough to make it stick). If deploys
 silently fail with that error again, check this first.
 
+A second failure mode (2026-09-22): a build dies in `next build` with twenty
+`Module not found: Can't resolve '@vercel/turbopack-next/internal/font/google/font'`
+errors pointing at `src/app/layout.tsx`. That is `next/font/google` failing to
+fetch the woff2 files from Google at build time -- a network flake in
+Cloudflare's builder, not a code error. Retrying the build in the dashboard
+fixed it. If it starts happening often, self-host the three fonts with
+`next/font/local` so the build stops depending on Google's CDN.
+
 ## Reference, read on demand
 
 Two files hold the background that used to live here. They were moved out
