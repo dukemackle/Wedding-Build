@@ -729,7 +729,83 @@ function GuestRowMenu({
   );
 }
 
-function GuestRow({ guest, theme }: { guest: Guest; theme: SideTheme }) {
+/**
+ * The row's controls while a sorting pass is on: one click sets the value and
+ * moves you down the list. Everything else is out of the way, because the job
+ * in this mode is 270 clicks and nothing else.
+ */
+function AssignStrip({
+  guest,
+  field,
+  theme,
+  onSet,
+}: {
+  guest: Guest;
+  field: "side" | "guest_type";
+  theme: SideTheme;
+  onSet: (field: "side" | "guest_type", value: string) => void;
+}) {
+  if (field === "side") {
+    return (
+      <div className="flex shrink-0 items-center gap-1">
+        {GUEST_SIDES.map((side) => (
+          <button
+            key={side}
+            type="button"
+            title={theme.labels[side]}
+            onClick={() => onSet("side", side)}
+            // Bigger on a phone: a 20px swatch is not a thumb-sized target,
+            // and this mode is 270 taps in a row.
+            className={`h-7 w-7 rounded-full border-2 transition-transform hover:scale-110 sm:h-5 sm:w-5 ${
+              guest.side === side ? "border-ink/50" : "border-transparent"
+            }`}
+            style={{ backgroundColor: theme.colors[side] }}
+          />
+        ))}
+        <button
+          type="button"
+          title="No side"
+          onClick={() => onSet("side", "")}
+          className={`h-7 w-7 rounded-full border-2 border-dashed transition-transform hover:scale-110 sm:h-5 sm:w-5 ${
+            guest.side ? "border-hairline" : "border-ink/50"
+          }`}
+        />
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex shrink-0 flex-wrap items-center justify-end gap-1">
+      {GUEST_TYPES.map((type) => (
+        <button
+          key={type}
+          type="button"
+          onClick={() => onSet("guest_type", guest.guest_type === type ? "" : type)}
+          className={`rounded-full border px-2 py-1 text-[11px] leading-4 transition-colors sm:px-1.5 sm:py-0 sm:leading-5 ${
+            guest.guest_type === type
+              ? "border-forest bg-forest text-parchment"
+              : "border-hairline text-ink/70 hover:border-forest"
+          }`}
+        >
+          {GUEST_TYPE_LABELS[type]}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+function GuestRow({
+  guest,
+  theme,
+  assigning,
+  onAssign,
+}: {
+  guest: Guest;
+  theme: SideTheme;
+  /** Which field the sorting pass is setting, if one is on. */
+  assigning: "side" | "guest_type" | null;
+  onAssign: (guestId: string, field: "side" | "guest_type", value: string) => void;
+}) {
   const [isEditing, setIsEditing] = useState(false);
   const [showThankYou, setShowThankYou] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
@@ -837,10 +913,18 @@ function GuestRow({ guest, theme }: { guest: Guest; theme: SideTheme }) {
           <div className="flex flex-wrap items-center gap-1.5 pt-0.5 sm:hidden">{badges}</div>
         </div>
 
-        {meta && (
+        {meta && !assigning && (
           <p className="hidden min-w-0 basis-[38%] truncate text-xs text-ink/45 lg:block">{meta}</p>
         )}
 
+        {assigning ? (
+          <AssignStrip
+            guest={guest}
+            field={assigning}
+            theme={theme}
+            onSet={(field, value) => onAssign(guest.id, field, value)}
+          />
+        ) : (
         <div className="flex shrink-0 items-center gap-1">
           <button
             type="button"
@@ -857,6 +941,7 @@ function GuestRow({ guest, theme }: { guest: Guest; theme: SideTheme }) {
             showingThankYou={showThankYou}
           />
         </div>
+        )}
       </div>
 
       {error && <p className="pb-2 text-xs text-red-800">{error}</p>}
@@ -965,14 +1050,45 @@ export function GuestsManager({
 }) {
   const [filter, setFilter] = useState<GuestStatus | "all">("all");
   const [priorityFilter, setPriorityFilter] = useState<GuestPriority | "all">("all");
-  const [sideFilter, setSideFilter] = useState<GuestSide | "all">("all");
-  const [typeFilter, setTypeFilter] = useState<GuestType | "all">("all");
+  const [sideFilter, setSideFilter] = useState<GuestSide | "all" | "none">("all");
+  const [typeFilter, setTypeFilter] = useState<GuestType | "all" | "none">("all");
   const [sort, setSort] = useState<GuestSort>("name");
+  const [assigning, setAssigning] = useState<"side" | "guest_type" | null>(null);
+  // What this session has set but the server hasn't sent back yet. A sorting
+  // pass is a click a second; waiting for a round trip before the dot changes
+  // colour makes it feel broken.
+  const [overrides, setOverrides] = useState<
+    Record<string, { side?: GuestSide | null; guest_type?: GuestType | null }>
+  >({});
+  const [, startAssigning] = useTransition();
   const [search, setSearch] = useState("");
   const [showAddForm, setShowAddForm] = useState(false);
   const [showImportForm, setShowImportForm] = useState(false);
 
   const theme = sideTheme({ partnerAName, partnerBName, sideAColor, sideBColor });
+
+  function handleAssign(guestId: string, field: "side" | "guest_type", value: string) {
+    setOverrides((current) => ({
+      ...current,
+      [guestId]: {
+        ...current[guestId],
+        [field]: (value || null) as GuestSide & GuestType & null,
+      },
+    }));
+    const formData = new FormData();
+    formData.set("guest_id", guestId);
+    formData.set(field, value);
+    startAssigning(async () => {
+      await setGuestGrouping(formData);
+    });
+  }
+
+  const guestList = guests.map((guest) =>
+    overrides[guest.id] ? { ...guest, ...overrides[guest.id] } : guest,
+  );
+
+  const unassignedSideCount = guestList.filter((g) => !g.side).length;
+  const unassignedTypeCount = guestList.filter((g) => !g.guest_type).length;
 
   const counts: Record<GuestStatus | "all", number> = {
     all: guests.length,
@@ -1023,12 +1139,13 @@ export function GuestsManager({
     (f) => f !== "all",
   ).length;
 
-  const filteredGuests = guests.filter(
+  const filteredGuests = guestList.filter(
     (g) =>
       (filter === "all" || g.status === filter) &&
       (priorityFilter === "all" || g.priority === priorityFilter) &&
-      (sideFilter === "all" || g.side === sideFilter) &&
-      (typeFilter === "all" || g.guest_type === typeFilter) &&
+      (sideFilter === "all" || (sideFilter === "none" ? !g.side : g.side === sideFilter)) &&
+      (typeFilter === "all" ||
+        (typeFilter === "none" ? !g.guest_type : g.guest_type === typeFilter)) &&
       g.name.toLowerCase().includes(search.trim().toLowerCase()),
   );
 
@@ -1136,6 +1253,51 @@ export function GuestsManager({
         </div>
       )}
 
+      {/* A sorting pass, offered where the gap is: 270 guests arrive with no
+          side and no type, and setting them one menu at a time is the kind of
+          job nobody finishes. Here the row is a strip of buttons and nothing
+          else, and the filter beside it narrows to what's still unsorted. */}
+      <div className="mb-3 flex flex-wrap items-center gap-2 rounded-md border border-hairline bg-parchment px-3 py-2">
+        <span className="font-mono-numbers text-[11px] uppercase tracking-[0.15em] text-ink/40">
+          Sort into groups
+        </span>
+        <button
+          type="button"
+          onClick={() => setAssigning((mode) => (mode === "side" ? null : "side"))}
+          className={pillClass(assigning === "side")}
+        >
+          Sides{unassignedSideCount > 0 ? ` (${unassignedSideCount} left)` : ""}
+        </button>
+        <button
+          type="button"
+          onClick={() => setAssigning((mode) => (mode === "guest_type" ? null : "guest_type"))}
+          className={pillClass(assigning === "guest_type")}
+        >
+          Family / friends{unassignedTypeCount > 0 ? ` (${unassignedTypeCount} left)` : ""}
+        </button>
+        {assigning && (
+          <>
+            <button
+              type="button"
+              onClick={() => {
+                if (assigning === "side") setSideFilter("none");
+                else setTypeFilter("none");
+              }}
+              className="text-xs text-brass hover:underline"
+            >
+              Show only the ones left
+            </button>
+            <button
+              type="button"
+              onClick={() => setAssigning(null)}
+              className="ml-auto text-xs text-ink/50 hover:underline"
+            >
+              Done
+            </button>
+          </>
+        )}
+      </div>
+
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
         <div className="min-w-0 flex-1">
           <SearchBox value={search} onChange={setSearch} placeholder="Search guests by name..." />
@@ -1159,25 +1321,29 @@ export function GuestsManager({
       <div className="mt-2">
         <FilterDisclosure activeCount={activeFilterCount}>
           <div className="flex flex-wrap gap-2">
-            {(["all", ...GUEST_SIDES] as const).map((side) => (
+            {(["all", ...GUEST_SIDES, "none"] as const).map((side) => (
               <button
                 key={side}
                 onClick={() => setSideFilter(side)}
                 className={pillClass(sideFilter === side)}
               >
-                {side === "all" ? "All sides" : theme.labels[side]}
+                {side === "all" ? "All sides" : side === "none" ? "No side set" : theme.labels[side]}
               </button>
             ))}
           </div>
 
           <div className="flex flex-wrap gap-2">
-            {(["all", ...GUEST_TYPES] as const).map((type) => (
+            {(["all", ...GUEST_TYPES, "none"] as const).map((type) => (
               <button
                 key={type}
                 onClick={() => setTypeFilter(type)}
                 className={pillClass(typeFilter === type)}
               >
-                {type === "all" ? "Family & friends" : GUEST_TYPE_LABELS[type]}
+                {type === "all"
+                  ? "Family & friends"
+                  : type === "none"
+                    ? "Not sorted yet"
+                    : GUEST_TYPE_LABELS[type]}
               </button>
             ))}
           </div>
@@ -1236,7 +1402,13 @@ export function GuestsManager({
                 </div>
               )}
               {group.guests.map((guest) => (
-                <GuestRow key={guest.id} guest={guest} theme={theme} />
+                <GuestRow
+                  key={guest.id}
+                  guest={guest}
+                  theme={theme}
+                  assigning={assigning}
+                  onAssign={handleAssign}
+                />
               ))}
             </div>
           ))}
