@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { AppNav } from "@/components/app-nav";
+import { PageShell } from "@/components/page-shell";
 import type { Wedding } from "@/lib/supabase/types";
 import { ContactsManager, type VendorContact, type VenueContact } from "./contacts-manager";
 
@@ -125,9 +126,7 @@ export default async function ContactsPage() {
   }
 
   return (
-    <main className="flex flex-1 flex-col items-center px-6 py-16">
-      <AppNav email={user.email ?? ""} maxWidthClassName="max-w-3xl" />
-      <div className="w-full max-w-3xl">
+    <PageShell email={user.email ?? ""} width="standard">
         <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
           Contacts
         </p>
@@ -144,7 +143,6 @@ export default async function ContactsPage() {
         </p>
 
         <ContactsManager venues={venues} vendors={vendors} />
-      </div>
-    </main>
+    </PageShell>
   );
 }

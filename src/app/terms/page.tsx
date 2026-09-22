@@ -1,3 +1,4 @@
+import { READING_WIDTH } from "@/lib/layout";
 import Link from "next/link";
 
 export const metadata = {
@@ -7,7 +8,7 @@ export const metadata = {
 export default function TermsPage() {
   return (
     <main className="flex flex-1 flex-col items-center px-6 py-16">
-      <div className="w-full max-w-3xl">
+      <div className={`w-full ${READING_WIDTH}`}>
         <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Legal</p>
         <h1 className="mt-2 font-display text-3xl font-semibold text-forest">Terms of Service</h1>
         <p className="mt-2 text-sm text-ink/60">Last updated: September 13, 2026</p>

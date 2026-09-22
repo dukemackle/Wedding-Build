@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { AppNav } from "@/components/app-nav";
+import { PageShell } from "@/components/page-shell";
 import type { RegionalCostData, Wedding } from "@/lib/supabase/types";
 import { effectiveGuestCount } from "@/lib/budget-categories";
 import type { EstimatorTier } from "@/lib/estimator";
@@ -67,9 +68,7 @@ export default async function BudgetEstimatePage() {
     : undefined;
 
   return (
-    <main className="flex flex-1 flex-col items-center px-6 py-16">
-      <AppNav email={user.email ?? ""} />
-      <div className="w-full max-w-2xl">
+    <PageShell email={user.email ?? ""} width="reading">
         <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Budget</p>
         <h1 className="mt-2 font-display text-3xl font-semibold text-forest">Cost estimator</h1>
         <p className="mt-2 text-sm text-ink/70">
@@ -89,7 +88,6 @@ export default async function BudgetEstimatePage() {
             ctaBody="Your actual Budget page tracks real quotes and overrides per category &mdash; this estimator is just for exploring what-ifs."
           />
         </div>
-      </div>
-    </main>
+    </PageShell>
   );
 }

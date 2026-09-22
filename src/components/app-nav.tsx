@@ -7,13 +7,7 @@ import { WrenMark } from "@/components/wren-mark";
 import { NavLinks } from "@/components/nav-links";
 import { AutoHideHeader } from "@/components/auto-hide-header";
 
-export function AppNav({
-  email,
-}: {
-  email: string;
-  /** @deprecated the nav bar now uses a fixed width so it fits in one row on every page; kept optional so existing call sites don't need to change. */
-  maxWidthClassName?: string;
-}) {
+export function AppNav({ email }: { email: string }) {
   // Same allowlist the admin routes enforce, so the nav link and the actual
   // access can't disagree.
   const isAdmin = isAdminEmail(email);
@@ -21,11 +15,15 @@ export function AppNav({
   return (
     <>
       <AutoHideHeader>
-        {/* Two rows by design. The tabs need ~800px on their own, so beside
-            the mark and the account links they could never fit on one line
-            inside the 1152px cap -- which is what used to make them wrap
-            into three stacked rows. Giving them the full width fixes that. */}
-        <div className="mx-auto flex max-w-6xl flex-col gap-2 px-6 py-3">
+        {/* Edge to edge on every page, rather than tracking the width of the
+            content beneath. Matching each page meant the bar changed width as
+            you moved between sections, and on a READING page it was too narrow
+            to hold the tab strip at all -- the last tabs clipped to
+            "Weddi...". A single full-width bar has neither problem.
+
+            Two rows by design: the tabs need ~800px on their own, so beside
+            the mark and the account links they could never fit on one line. */}
+        <div className="flex w-full flex-col gap-2 px-6 py-3">
           <div className="flex items-center justify-between gap-4">
             <WrenMark />
             <div className="flex min-w-0 items-center justify-end gap-4">

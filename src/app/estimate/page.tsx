@@ -1,3 +1,4 @@
+import { READING_WIDTH } from "@/lib/layout";
 import { createClient } from "@/lib/supabase/server";
 import type { RegionalCostData } from "@/lib/supabase/types";
 import { Estimator } from "./estimator";
@@ -11,7 +12,7 @@ export default async function EstimatePage() {
 
   return (
     <main className="flex flex-1 flex-col items-center px-6 py-16">
-      <div className="w-full max-w-2xl text-center">
+      <div className={`w-full ${READING_WIDTH} text-center`}>
         <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
           Free &middot; No account needed
         </p>

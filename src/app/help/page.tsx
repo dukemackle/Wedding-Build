@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { AppNav } from "@/components/app-nav";
+import { PageShell } from "@/components/page-shell";
 import { AssistantChat } from "@/components/wedding-assistant-widget";
 import { FeedbackForm } from "./feedback-form";
 
@@ -15,9 +15,7 @@ export default async function HelpPage() {
   }
 
   return (
-    <main className="flex flex-1 flex-col items-center px-6 py-16">
-      <AppNav email={user.email ?? ""} />
-      <div className="w-full max-w-2xl">
+    <PageShell email={user.email ?? ""} width="reading">
         <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
           Help &amp; feedback
         </p>
@@ -41,7 +39,6 @@ export default async function HelpPage() {
           </p>
           <FeedbackForm />
         </div>
-      </div>
-    </main>
+    </PageShell>
   );
 }

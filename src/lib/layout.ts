@@ -17,7 +17,10 @@
  * past that the eye loses its place returning to the left margin -- which is
  * why this stays narrow even on a huge screen rather than filling it.
  *
- * Legal pages, login, signup, single-column forms.
+ * Legal pages, help, single-column forms like account and the estimate.
+ *
+ * Not the auth screens: those are a small centred card, sized like the
+ * empty-state cards rather than like a page.
  */
 export const READING_WIDTH = "max-w-2xl";
 
@@ -29,9 +32,49 @@ export const READING_WIDTH = "max-w-2xl";
 export const STANDARD_WIDTH = "max-w-4xl";
 
 /**
- * Pages whose content is genuinely wide: tables with many columns, a layout
- * canvas, or a list beside a detail panel. Matches the nav.
+ * Pages whose content is genuinely wide: tables with many columns, or a list
+ * beside a detail panel.
  *
- * Budget, guests, seating, venue layout, checklist.
+ * Budget, guests, checklist.
  */
 export const WIDE_WIDTH = "max-w-6xl";
+
+/**
+ * A tool that needs more room than the nav: a schedule seven days across, a
+ * floor plan you arrange furniture on. These are the only pages allowed past
+ * WIDE, and the nav stretches to match rather than floating above them as a
+ * short strip.
+ *
+ * Itinerary, venue layout.
+ */
+export const CANVAS_WIDTH = "max-w-[1600px]";
+
+/**
+ * No cap at all, for a page that manages its own width -- a map beside a list
+ * that reaches all four edges.
+ *
+ * Venues, vendors.
+ */
+export const FULL_WIDTH = "max-w-none";
+
+/**
+ * The widths by name, for the props that carry one around.
+ *
+ * This is the whole set. If a new page seems to want a sixth, it is worth
+ * asking whether it really differs from all five or is just a little wider
+ * than one of them -- that question is what nine ad-hoc caps came from.
+ */
+export const PAGE_WIDTHS = {
+  reading: READING_WIDTH,
+  standard: STANDARD_WIDTH,
+  wide: WIDE_WIDTH,
+  canvas: CANVAS_WIDTH,
+  full: FULL_WIDTH,
+} as const;
+
+export type PageWidth = keyof typeof PAGE_WIDTHS;
+
+export function pageWidthClass(width: PageWidth) {
+  return PAGE_WIDTHS[width];
+}
+

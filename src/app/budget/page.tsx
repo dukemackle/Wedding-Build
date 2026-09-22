@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { AppNav } from "@/components/app-nav";
+import { PageShell } from "@/components/page-shell";
 import { FadeInSection } from "@/components/fade-in-section";
 import type { BudgetContract, BudgetCustomItem, Wedding } from "@/lib/supabase/types";
 import {
@@ -288,9 +289,7 @@ export default async function BudgetPage() {
     rows.reduce((sum, row) => sum + (row.override ?? 0), 0) + customItemsTotal;
 
   return (
-    <main className="flex flex-1 flex-col items-center px-6 py-16">
-      <AppNav email={user.email ?? ""} />
-      <div className="w-full max-w-5xl">
+    <PageShell email={user.email ?? ""} width="wide">
         <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
           Budget
         </p>
@@ -350,7 +349,6 @@ export default async function BudgetPage() {
             </div>
           </FadeInSection>
         )}
-      </div>
-    </main>
+    </PageShell>
   );
 }

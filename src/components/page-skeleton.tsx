@@ -1,8 +1,15 @@
-export function PageSkeleton({
-  maxWidthClassName = "max-w-2xl",
-}: {
-  maxWidthClassName?: string;
-}) {
+import { pageWidthClass, type PageWidth } from "@/lib/layout";
+
+/**
+ * The placeholder shown while a page loads.
+ *
+ * It takes the same named width as the page it stands in for -- a skeleton at
+ * a different width than the page behind it makes the content jump sideways
+ * the moment it arrives.
+ */
+export function PageSkeleton({ width = "standard" }: { width?: PageWidth }) {
+  const maxWidthClassName = pageWidthClass(width);
+
   return (
     <main className="flex flex-1 flex-col items-center px-6 py-16">
       <div className={`mb-6 flex w-full ${maxWidthClassName} items-center justify-between`}>
