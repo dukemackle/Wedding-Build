@@ -61,9 +61,9 @@ export function GuestsPageBody({
   const songCount = guests.filter((g) => g.song_request).length;
   const pendingRsvps = rsvpSubmissions;
 
-  // Wide: the guest list is a table with a dozen columns, and the rest of the
-  // page is two columns of cards beside it on a big screen. See
-  // src/lib/layout.ts for the three widths.
+  // Wide: the list on the left, the panels that act on it on the right. The
+  // two used to be stacked, which meant scrolling past 270 guests to reach
+  // "Collect addresses". See src/lib/layout.ts for the widths.
   return (
     <div className={`w-full ${WIDE_WIDTH}`}>
       <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
@@ -73,14 +73,26 @@ export function GuestsPageBody({
         Guest list & RSVPs
       </h1>
 
-      <div className="flex flex-col gap-8">
-        {/* The reason for the page, so it goes first and gets the full
-            width: the table is the widest thing here. */}
-        <GuestsManager guests={guests} spreadsheetUrl={wedding.spreadsheet_url} />
+      <div className="flex flex-col gap-6">
+        <div className="grid gap-6 lg:grid-cols-12 lg:items-start">
+          {/* The list is the page, so on a wide screen it takes two thirds and
+              scrolls inside itself; the panels sit beside it and stay put.
+              Stacked on a phone, list first -- there is no beside. */}
+          <div className="min-w-0 lg:col-span-8">
+            <GuestsManager
+              guests={guests}
+              spreadsheetUrl={wedding.spreadsheet_url}
+              partnerAName={wedding.partner_a_name}
+              partnerBName={wedding.partner_b_name}
+              sideAColor={wedding.side_a_color}
+              sideBColor={wedding.side_b_color}
+            />
+          </div>
 
-        <div className="grid gap-8 lg:grid-cols-12 lg:items-start">
-          {/* Left, and wider: the things with work in them today. */}
-          <div className="min-w-0 lg:col-span-7">
+          {/* Sticky rather than a scroller inside the list card: the page
+              scrolls as one, and the panels ride along beside 270 guests
+              instead of waiting underneath them. */}
+          <div className="flex min-w-0 flex-col gap-6 lg:sticky lg:top-6 lg:col-span-4">
             <TabbedCard
               title="Invitations & RSVPs"
               description="Three ways to reach your guests — collect their addresses, email them the link, or chase the ones who haven't replied."
@@ -130,10 +142,8 @@ export function GuestsPageBody({
                 },
               ]}
             />
-          </div>
 
-          {/* Right: the guest site — set up once, then left alone. */}
-          <div className="flex min-w-0 flex-col gap-8 lg:col-span-5">
+            {/* The guest site — set up once, then left alone. */}
             <TabbedCard
               title="Your guest site"
               header={
