@@ -6,9 +6,12 @@ import { toggleVendorFavorite } from "./actions";
 export function VendorFavoriteButton({
   vendorId,
   isFavorited,
+  overlay = false,
 }: {
   vendorId: string;
   isFavorited: boolean;
+  /** Render as a bare heart for sitting on top of a card photo. */
+  overlay?: boolean;
 }) {
   const [favorited, setFavorited] = useState(isFavorited);
   const [isPending, startTransition] = useTransition();
@@ -26,12 +29,30 @@ export function VendorFavoriteButton({
     });
   }
 
+  const label = favorited ? "Remove from favorites" : "Add to favorites";
+
+  if (overlay) {
+    return (
+      <button
+        onClick={handleClick}
+        disabled={isPending}
+        aria-pressed={favorited}
+        aria-label={label}
+        className={`flex h-8 w-8 items-center justify-center rounded-full bg-card/90 text-base shadow-sm transition-colors disabled:opacity-60 ${
+          favorited ? "text-brass" : "text-forest hover:text-brass"
+        }`}
+      >
+        <span aria-hidden="true">{favorited ? "♥" : "♡"}</span>
+      </button>
+    );
+  }
+
   return (
     <button
       onClick={handleClick}
       disabled={isPending}
       aria-pressed={favorited}
-      aria-label={favorited ? "Remove from favorites" : "Add to favorites"}
+      aria-label={label}
       className={`flex items-center gap-1.5 rounded-full border px-3 py-1 text-sm transition-colors disabled:opacity-60 ${
         favorited
           ? "border-forest bg-forest text-parchment"

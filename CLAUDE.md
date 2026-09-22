@@ -38,7 +38,14 @@ So: never adjust a shared value until both are tolerable (a shrunk font that
 its own arrangement, and check every new screen at both 375px and ~1440px
 before showing it, saying in the preview which parts belong to which.
 
-Container widths are currently unsystematic — eight different `max-w-*` caps
+**Venues and Vendors are the exception to the width rule (2026-09-22):** both
+are full-bleed browse screens modelled on Zillow -- a filter bar across the
+top, map and results side by side on desktop, and on a phone the map as the
+page with the results in a sheet dragged up from the bottom. They deliberately
+have no `max-w-*` cap, so don't "fix" them back into a centred column. The
+shared layout lives in `src/components/search-shell.tsx`.
+
+Container widths are otherwise unsystematic — eight different `max-w-*` caps
 across the app, with the nav wider than most of the content under it. Any
 desktop layout work should settle that first: a small set of named widths with
 a rule for which pages use which.
