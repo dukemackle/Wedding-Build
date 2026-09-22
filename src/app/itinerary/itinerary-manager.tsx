@@ -15,6 +15,12 @@ import { addItineraryEvent, updateItineraryEvent, deleteItineraryEvent } from ".
 
 const inputClass =
   "rounded-md border border-hairline bg-parchment px-3 py-2 text-ink outline-none focus:border-forest";
+// Wide-screen day strip: up to 7 columns side by side, each capped so a
+// two-day weekend doesn't stretch into two 640px cards.
+const MAX_COLUMNS = 7;
+const MAX_COLUMN_WIDTH = 340;
+const COLUMN_GAP = 12;
+
 const labelClass = "flex flex-col gap-1 text-sm text-ink";
 
 function EventFields({ event, defaultDate }: { event?: ItineraryEvent; defaultDate?: string }) {
@@ -261,6 +267,7 @@ export function ItineraryManager({
   const [addFormDate, setAddFormDate] = useState(weddingDate ?? dateKey(new Date()));
 
   const days = useMemo(() => groupEventsByDate(events), [events]);
+  const columnCount = Math.min(Math.max(days.length, 1), MAX_COLUMNS);
 
   function openAddForm(date: string) {
     setAddFormDate(date);
@@ -307,8 +314,13 @@ export function ItineraryManager({
           </div>
         ) : (
           <div
-            className="scroll-visible flex items-start gap-4 overflow-x-auto pb-2 xl:grid xl:gap-3 xl:overflow-visible xl:[grid-template-columns:var(--day-cols)]"
-            style={{ "--day-cols": `repeat(${Math.min(days.length, 7)}, minmax(0, 1fr))` } as CSSProperties}
+            className="scroll-visible flex items-start gap-4 overflow-x-auto pb-2 xl:grid xl:gap-3 xl:overflow-visible xl:[grid-template-columns:var(--day-cols)] xl:[max-width:var(--day-max)]"
+            style={
+              {
+                "--day-cols": `repeat(${columnCount}, minmax(0, 1fr))`,
+                "--day-max": `${columnCount * MAX_COLUMN_WIDTH + (columnCount - 1) * COLUMN_GAP}px`,
+              } as CSSProperties
+            }
           >
             {days.map((day) => (
               <DayColumn
