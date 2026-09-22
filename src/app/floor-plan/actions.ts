@@ -51,6 +51,39 @@ function normalizeRotation(value: number) {
   return ((Math.round(value) % 360) + 360) % 360;
 }
 
+// Kept in step with MIN_ITEM_SIZE/MAX_ITEM_SIZE in the geometry module. The
+// client clamps as you drag; this is the check that actually protects the row,
+// since a form post can carry anything.
+const MIN_SIZE = 40;
+const MAX_SIZE = 900;
+
+/**
+ * Reads an optional width/height off a form.
+ *
+ * Absent means "don't touch the size"; an empty string means "clear it back to
+ * this item type's default", which is what null in the column means.
+ */
+function sizeFromForm(formData: FormData) {
+  const size: { width?: number | null; height?: number | null } = {};
+
+  for (const key of ["width", "height"] as const) {
+    const raw = formData.get(key);
+    if (raw == null) continue;
+    const text = String(raw).trim();
+    if (text === "") {
+      size[key] = null;
+      continue;
+    }
+    const value = Number(text);
+    if (!Number.isFinite(value)) {
+      return { error: "Size must be a number." } as const;
+    }
+    size[key] = Math.round(Math.max(MIN_SIZE, Math.min(MAX_SIZE, value)));
+  }
+
+  return { size } as const;
+}
+
 function itemFieldsFromForm(formData: FormData) {
   const itemTypeRaw = (formData.get("item_type") as string) || "";
   if (!VALID_ITEM_TYPES.includes(itemTypeRaw as LayoutItemType)) {
@@ -122,7 +155,13 @@ export async function updateLayoutItemPosition(formData: FormData): Promise<{ er
   const positionYRaw = formData.get("position_y");
   const rotationRaw = formData.get("rotation");
 
-  const update: { position_x?: number; position_y?: number; rotation?: number } = {};
+  const update: {
+    position_x?: number;
+    position_y?: number;
+    rotation?: number;
+    width?: number | null;
+    height?: number | null;
+  } = {};
 
   if (positionXRaw != null && positionYRaw != null) {
     const positionX = Number(positionXRaw);
@@ -141,6 +180,12 @@ export async function updateLayoutItemPosition(formData: FormData): Promise<{ er
     }
     update.rotation = normalizeRotation(rotation);
   }
+
+  const parsedSize = sizeFromForm(formData);
+  if ("error" in parsedSize) {
+    return { error: parsedSize.error };
+  }
+  Object.assign(update, parsedSize.size);
 
   if (Object.keys(update).length === 0) {
     return { error: "Nothing to update." };
@@ -173,9 +218,14 @@ export async function updateLayoutItem(formData: FormData): Promise<{ error?: st
     return { error: parsed.error };
   }
 
+  const parsedSize = sizeFromForm(formData);
+  if ("error" in parsedSize) {
+    return { error: parsedSize.error };
+  }
+
   const { error } = await supabase
     .from("venue_layout_items")
-    .update({ ...parsed.fields, updated_at: new Date().toISOString() })
+    .update({ ...parsed.fields, ...parsedSize.size, updated_at: new Date().toISOString() })
     .eq("id", itemId)
     .eq("wedding_id", wedding.id);
 

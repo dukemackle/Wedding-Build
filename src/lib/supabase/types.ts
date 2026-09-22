@@ -432,6 +432,9 @@ export type VenueLayoutItem = {
   label: string | null;
   position_x: number;
   position_y: number;
+  /** Null means "use the default footprint for this item type". */
+  width: number | null;
+  height: number | null;
   rotation: number;
   room_id: string | null;
   created_at: string;

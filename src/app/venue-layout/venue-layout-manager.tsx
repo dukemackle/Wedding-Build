@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useTransition } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import dynamic from "next/dynamic";
 import type {
   Guest,
@@ -24,6 +24,16 @@ import {
   deleteLayoutItem,
   updateLayoutItemPosition,
 } from "@/app/floor-plan/actions";
+import {
+  CANVAS_HEIGHT,
+  CANVAS_WIDTH,
+  ITEM_TYPE_DIMENSIONS,
+  MAX_ITEM_SIZE,
+  MIN_ITEM_SIZE,
+  clamp,
+  itemDimensions,
+  tableDimensions,
+} from "@/lib/venue-layout-geometry";
 
 const VenueLayout3DView = dynamic(() => import("./venue-layout-3d-view"), {
   ssr: false,
@@ -75,21 +85,6 @@ const ITEM_TYPE_LABELS: Record<LayoutItemType, string> = {
   other: "Other",
 };
 
-export const ITEM_TYPE_DIMENSIONS: Record<LayoutItemType, { width: number; height: number }> = {
-  chairs: { width: 160, height: 50 },
-  stage: { width: 170, height: 80 },
-  dance_floor: { width: 150, height: 150 },
-  bar: { width: 130, height: 60 },
-  dj_booth: { width: 100, height: 75 },
-  buffet: { width: 150, height: 60 },
-  cake_table: { width: 85, height: 70 },
-  gift_table: { width: 85, height: 70 },
-  entrance: { width: 75, height: 75 },
-  house: { width: 140, height: 110 },
-  parking: { width: 200, height: 130 },
-  other: { width: 100, height: 75 },
-};
-
 const ITEM_TYPE_COLORS: Record<LayoutItemType, string> = {
   chairs: "border-brass/60 bg-brass/10",
   stage: "border-forest/60 bg-forest/10",
@@ -105,10 +100,6 @@ const ITEM_TYPE_COLORS: Record<LayoutItemType, string> = {
   other: "border-hairline bg-card",
 };
 
-function clamp(value: number, min: number, max: number) {
-  return Math.max(min, Math.min(max, value));
-}
-
 function personCount(guest: Guest) {
   return 1 + (guest.plus_one ? 1 : 0);
 }
@@ -123,19 +114,6 @@ function guestStatusHint(guest: Guest) {
 // The table's on-canvas footprint is derived from its shape + capacity
 // (no separate size field to keep in sync) -- more seats draws a bigger
 // shape, a rectangle grows mostly in width like a real banquet table.
-export function tableDimensions(shape: TableShape, capacity: number | null) {
-  const seats = capacity ?? 8;
-  if (shape === "square") {
-    const side = clamp(90 + seats * 6, 90, 190);
-    return { width: side, height: side };
-  }
-  if (shape === "rectangle") {
-    return { width: clamp(130 + seats * 11, 130, 340), height: 90 };
-  }
-  const diameter = clamp(100 + seats * 6, 100, 210);
-  return { width: diameter, height: diameter };
-}
-
 function itemDisplayName(item: VenueLayoutItem) {
   return item.label?.trim() || ITEM_TYPE_LABELS[item.item_type];
 }
@@ -305,9 +283,6 @@ function AddItemForm({ onDone, roomId }: { onDone: () => void; roomId?: string }
   );
 }
 
-const CANVAS_WIDTH = 960;
-const CANVAS_HEIGHT = 520;
-
 function normalizeRotation(value: number) {
   return ((Math.round(value) % 360) + 360) % 360;
 }
@@ -377,6 +352,73 @@ function RotateHandle({
   );
 }
 
+/**
+ * Drag the bottom-right corner to resize. Deltas are divided by the canvas
+ * scale so a pixel of finger travel is a pixel of plan, whatever the canvas
+ * has been scaled to fit.
+ */
+function ResizeHandle({
+  width,
+  height,
+  scale,
+  onResize,
+  onResizeEnd,
+}: {
+  width: number;
+  height: number;
+  scale: number;
+  onResize: (width: number, height: number) => void;
+  onResizeEnd: (width: number, height: number) => void;
+}) {
+  const startRef = useRef<{ x: number; y: number; w: number; h: number } | null>(null);
+  const latestRef = useRef({ width, height });
+
+  function handlePointerDown(e: React.PointerEvent) {
+    e.stopPropagation();
+    (e.target as HTMLElement).setPointerCapture(e.pointerId);
+    startRef.current = { x: e.clientX, y: e.clientY, w: width, h: height };
+  }
+
+  function handlePointerMove(e: React.PointerEvent) {
+    if (!startRef.current) return;
+    e.stopPropagation();
+    const next = {
+      width: clamp(
+        Math.round(startRef.current.w + (e.clientX - startRef.current.x) / scale),
+        MIN_ITEM_SIZE,
+        MAX_ITEM_SIZE,
+      ),
+      height: clamp(
+        Math.round(startRef.current.h + (e.clientY - startRef.current.y) / scale),
+        MIN_ITEM_SIZE,
+        MAX_ITEM_SIZE,
+      ),
+    };
+    latestRef.current = next;
+    onResize(next.width, next.height);
+  }
+
+  function handlePointerUp(e: React.PointerEvent) {
+    if (!startRef.current) return;
+    e.stopPropagation();
+    startRef.current = null;
+    onResizeEnd(latestRef.current.width, latestRef.current.height);
+  }
+
+  return (
+    <span
+      onPointerDown={handlePointerDown}
+      onPointerMove={handlePointerMove}
+      onPointerUp={handlePointerUp}
+      onPointerCancel={handlePointerUp}
+      role="button"
+      aria-label="Resize"
+      style={{ touchAction: "none" }}
+      className="absolute -bottom-2 -right-2 h-5 w-5 cursor-nwse-resize rounded-sm border-2 border-forest bg-card shadow-sm"
+    />
+  );
+}
+
 function DeleteHandle({ onDelete }: { onDelete: () => void }) {
   return (
     <button
@@ -410,6 +452,7 @@ function TableNode({
   table,
   assignedGuests,
   isSelected,
+  scale,
   onSelect,
   onDragEnd,
   onRotateEnd,
@@ -419,6 +462,7 @@ function TableNode({
   table: SeatingTable;
   assignedGuests: Guest[];
   isSelected: boolean;
+  scale: number;
   onSelect: () => void;
   onDragEnd: (x: number, y: number) => void;
   onDelete: () => void;
@@ -446,8 +490,9 @@ function TableNode({
 
   function handlePointerMove(e: React.PointerEvent<HTMLDivElement>) {
     if (!dragRef.current) return;
-    const dx = e.clientX - dragRef.current.startX;
-    const dy = e.clientY - dragRef.current.startY;
+    // Screen pixels into plan units -- the canvas is scaled to fit its width.
+    const dx = (e.clientX - dragRef.current.startX) / scale;
+    const dy = (e.clientY - dragRef.current.startY) / scale;
     if (Math.abs(dx) > 3 || Math.abs(dy) > 3) movedRef.current = true;
     setPos({
       x: clamp(dragRef.current.origX + dx, 0, CANVAS_WIDTH - width),
@@ -528,19 +573,23 @@ function TableNode({
 function ItemNode({
   item,
   isSelected,
+  scale,
   onSelect,
   onDragEnd,
   onRotateEnd,
+  onResizeEnd,
   onDelete,
 }: {
   item: VenueLayoutItem;
   isSelected: boolean;
+  scale: number;
   onSelect: () => void;
   onDragEnd: (x: number, y: number) => void;
   onRotateEnd: (rotation: number) => void;
+  onResizeEnd: (width: number, height: number) => void;
   onDelete: () => void;
 }) {
-  const { width, height } = ITEM_TYPE_DIMENSIONS[item.item_type];
+  const [size, setSize] = useState(() => itemDimensions(item));
   const [pos, setPos] = useState(() => ({ x: item.position_x, y: item.position_y }));
   const [rotation, setRotation] = useState(item.rotation);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -558,12 +607,13 @@ function ItemNode({
 
   function handlePointerMove(e: React.PointerEvent<HTMLDivElement>) {
     if (!dragRef.current) return;
-    const dx = e.clientX - dragRef.current.startX;
-    const dy = e.clientY - dragRef.current.startY;
+    // Screen pixels into plan units -- the canvas is scaled to fit its width.
+    const dx = (e.clientX - dragRef.current.startX) / scale;
+    const dy = (e.clientY - dragRef.current.startY) / scale;
     if (Math.abs(dx) > 3 || Math.abs(dy) > 3) movedRef.current = true;
     setPos({
-      x: clamp(dragRef.current.origX + dx, 0, CANVAS_WIDTH - width),
-      y: clamp(dragRef.current.origY + dy, 0, CANVAS_HEIGHT - height),
+      x: clamp(dragRef.current.origX + dx, 0, CANVAS_WIDTH - size.width),
+      y: clamp(dragRef.current.origY + dy, 0, CANVAS_HEIGHT - size.height),
     });
   }
 
@@ -587,12 +637,12 @@ function ItemNode({
         position: "absolute",
         left: pos.x,
         top: pos.y,
-        width,
-        height,
+        width: size.width,
+        height: size.height,
         transform: `rotate(${rotation}deg)`,
         touchAction: "none",
       }}
-      className={`flex cursor-grab select-none flex-col items-center justify-center rounded-lg border-2 p-2 text-center text-sm shadow-sm active:cursor-grabbing ${ITEM_TYPE_COLORS[item.item_type]} ${isSelected ? "ring-2 ring-forest/40" : ""}`}
+      className={`flex cursor-grab select-none flex-col items-center justify-center overflow-hidden rounded-lg border-2 p-2 text-center text-sm shadow-sm active:cursor-grabbing ${ITEM_TYPE_COLORS[item.item_type]} ${isSelected ? "ring-2 ring-forest/40" : ""}`}
     >
       {isSelected && (
         <>
@@ -602,6 +652,13 @@ function ItemNode({
             onRotateEnd={onRotateEnd}
           />
           <DeleteHandle onDelete={onDelete} />
+          <ResizeHandle
+            width={size.width}
+            height={size.height}
+            scale={scale}
+            onResize={(width, height) => setSize({ width, height })}
+            onResizeEnd={onResizeEnd}
+          />
         </>
       )}
       <p className="font-medium text-ink">{itemDisplayName(item)}</p>
@@ -610,6 +667,14 @@ function ItemNode({
   );
 }
 
+/**
+ * The plan, scaled to fit whatever width it is given.
+ *
+ * The coordinate space is a fixed CANVAS_WIDTH x CANVAS_HEIGHT field, and the
+ * whole thing is scaled so that field fills the available width. A wide screen
+ * therefore shows the entire venue at once with no horizontal scrollbar, which
+ * is what it used to need at a fixed 960px inside a narrower card.
+ */
 function VenueCanvas({
   tables,
   items,
@@ -622,6 +687,7 @@ function VenueCanvas({
   onItemDragEnd,
   onTableRotateEnd,
   onItemRotateEnd,
+  onItemResizeEnd,
   onUnassign,
   onDeleteTable,
   onDeleteItem,
@@ -637,12 +703,38 @@ function VenueCanvas({
   onItemDragEnd: (id: string, x: number, y: number) => void;
   onTableRotateEnd: (id: string, rotation: number) => void;
   onItemRotateEnd: (id: string, rotation: number) => void;
+  onItemResizeEnd: (id: string, width: number, height: number) => void;
   onUnassign: (guestId: string) => void;
   onDeleteTable: (table: SeatingTable) => void;
   onDeleteItem: (item: VenueLayoutItem) => void;
 }) {
+  const frameRef = useRef<HTMLDivElement>(null);
+  const [scale, setScale] = useState(1);
+
+  useEffect(() => {
+    const frame = frameRef.current;
+    if (!frame) return;
+
+    function measure() {
+      const width = frame?.clientWidth ?? 0;
+      if (!width) return;
+      // Floored so a phone still gets something legible rather than a
+      // postage stamp; below the floor the frame scrolls instead.
+      setScale(clamp(width / CANVAS_WIDTH, 0.34, 1.2));
+    }
+
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(frame);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <div className="w-full overflow-x-auto rounded-lg border border-hairline bg-parchment">
+    <div
+      ref={frameRef}
+      className="w-full overflow-auto rounded-lg border border-hairline bg-parchment"
+      style={{ height: CANVAS_HEIGHT * scale }}
+    >
       <div
         onClick={(e) => {
           if (e.target === e.currentTarget) {
@@ -650,16 +742,24 @@ function VenueCanvas({
             onSelectItem(null);
           }
         }}
-        style={{ position: "relative", width: CANVAS_WIDTH, height: CANVAS_HEIGHT }}
+        style={{
+          position: "relative",
+          width: CANVAS_WIDTH,
+          height: CANVAS_HEIGHT,
+          transform: `scale(${scale})`,
+          transformOrigin: "top left",
+        }}
       >
         {items.map((item) => (
           <ItemNode
-            key={`${item.id}-${item.position_x}-${item.position_y}-${item.rotation}`}
+            key={`${item.id}-${item.position_x}-${item.position_y}-${item.rotation}-${item.width}-${item.height}`}
             item={item}
             isSelected={item.id === selectedItemId}
+            scale={scale}
             onSelect={() => onSelectItem(item.id === selectedItemId ? null : item.id)}
             onDragEnd={(x, y) => onItemDragEnd(item.id, x, y)}
             onRotateEnd={(rotation) => onItemRotateEnd(item.id, rotation)}
+            onResizeEnd={(width, height) => onItemResizeEnd(item.id, width, height)}
             onDelete={() => onDeleteItem(item)}
           />
         ))}
@@ -669,6 +769,7 @@ function VenueCanvas({
             table={table}
             assignedGuests={guestsByTable.get(table.id) ?? []}
             isSelected={table.id === selectedTableId}
+            scale={scale}
             onSelect={() => onSelectTable(table.id === selectedTableId ? null : table.id)}
             onDragEnd={(x, y) => onTableDragEnd(table.id, x, y)}
             onRotateEnd={(rotation) => onTableRotateEnd(table.id, rotation)}
@@ -681,205 +782,163 @@ function VenueCanvas({
   );
 }
 
-function TableCard({ table, assignedGuests }: { table: SeatingTable; assignedGuests: Guest[] }) {
-  const [isEditing, setIsEditing] = useState(false);
+/**
+ * Everything you can change about whatever is selected on the plan.
+ *
+ * This replaces the two lists of cards that used to sit under the canvas --
+ * one per table and one per layout item. Those got long, and editing a thing
+ * meant finding its card rather than clicking the thing itself.
+ */
+function SelectionPanel({
+  table,
+  item,
+  assignedGuests,
+  onUnassign,
+  onDeleteTable,
+  onDeleteItem,
+}: {
+  table: SeatingTable | null;
+  item: VenueLayoutItem | null;
+  assignedGuests: Guest[];
+  onUnassign: (guestId: string) => void;
+  onDeleteTable: (table: SeatingTable) => void;
+  onDeleteItem: (item: VenueLayoutItem) => void;
+}) {
   const [error, setError] = useState<string | undefined>(undefined);
   const [isPending, startTransition] = useTransition();
 
-  const occupied = assignedGuests.reduce((sum, g) => sum + personCount(g), 0);
-  const overCapacity = table.capacity != null && occupied > table.capacity;
-
-  function handleSave(formData: FormData) {
-    startTransition(async () => {
-      const result = await updateSeatingTable(formData);
-      if (result?.error) {
-        setError(result.error);
-      } else {
-        setError(undefined);
-        setIsEditing(false);
-      }
-    });
-  }
-
-  function handleDelete() {
-    if (!confirm(`Delete "${table.name}"? Assigned guests will become unassigned.`)) return;
-    startTransition(async () => {
-      const formData = new FormData();
-      formData.set("id", table.id);
-      const result = await deleteSeatingTable(formData);
-      if (result?.error) {
-        setError(result.error);
-      }
-    });
-  }
-
-  function handleUnassign(guestId: string) {
-    const formData = new FormData();
-    formData.set("guest_id", guestId);
-    formData.set("table_id", "");
-    startTransition(async () => {
-      await assignGuestTable(formData);
-    });
-  }
-
-  if (isEditing) {
+  if (!table && !item) {
     return (
-      <div className="rounded-lg border border-hairline bg-parchment p-5">
-        <form action={handleSave}>
-          <input type="hidden" name="id" value={table.id} />
-          <TableFields table={table} />
-          {error && <p className="mt-3 text-sm text-red-800">{error}</p>}
-          <div className="mt-4 flex items-center gap-3">
-            <button
-              type="submit"
-              disabled={isPending}
-              className="rounded-md bg-forest px-3 py-1.5 text-sm font-medium text-parchment transition-colors hover:bg-forest/90 disabled:opacity-60"
-            >
-              {isPending ? "Saving..." : "Save"}
-            </button>
-            <button
-              type="button"
-              onClick={() => setIsEditing(false)}
-              className="rounded-md border border-hairline px-3 py-1.5 text-sm text-ink transition-colors hover:border-forest"
-            >
-              Cancel
-            </button>
-          </div>
-        </form>
+      <div className="rounded-lg border border-dashed border-hairline bg-parchment p-5 text-sm text-ink/50">
+        <p className="font-medium text-ink/70">Nothing selected</p>
+        <p className="mt-2">
+          Click a table or an item on the plan to rename it, resize it, or delete it. Drag the
+          corner handle to resize, the top handle to rotate.
+        </p>
       </div>
     );
   }
+
+  function handleSave(formData: FormData) {
+    startTransition(async () => {
+      const result = table
+        ? await updateSeatingTable(formData)
+        : await updateLayoutItem(formData);
+      setError(result?.error);
+    });
+  }
+
+  const size = item ? itemDimensions(item) : null;
+  const defaults = item ? ITEM_TYPE_DIMENSIONS[item.item_type] : null;
 
   return (
     <div className="rounded-lg border border-hairline bg-parchment p-5">
-      <div className="flex items-start justify-between gap-3">
-        <div>
-          <p className="text-ink">{table.name}</p>
-          <p className={`mt-1 text-xs ${overCapacity ? "text-red-700" : "text-ink/50"}`}>
-            {occupied} {table.capacity != null ? `/ ${table.capacity}` : ""} seated
-            {overCapacity ? " — over capacity" : ""}
-          </p>
-        </div>
-        <div className="flex shrink-0 items-center gap-3">
-          <button onClick={() => setIsEditing(true)} className="text-xs text-brass hover:underline">
-            Edit
-          </button>
-          <button
-            onClick={handleDelete}
-            disabled={isPending}
-            className="text-xs text-ink/50 hover:underline"
-          >
-            Delete
-          </button>
-        </div>
-      </div>
-      {error && <p className="mt-2 text-sm text-red-800">{error}</p>}
-      {assignedGuests.length === 0 ? (
-        <p className="mt-3 text-sm text-ink/50">No guests assigned yet.</p>
-      ) : (
-        <div className="mt-3 flex flex-wrap gap-2">
-          {assignedGuests.map((guest) => (
-            <span
-              key={guest.id}
-              className="flex items-center gap-2 rounded-full border border-hairline bg-card px-3 py-1 text-sm text-ink"
-            >
-              {guest.name}
-              {guestStatusHint(guest) && (
-                <span className="text-xs text-ink/40">{guestStatusHint(guest)}</span>
-              )}
-              {guest.plus_one && <span className="text-xs text-ink/50">+1</span>}
-              <button
-                onClick={() => handleUnassign(guest.id)}
-                disabled={isPending}
-                className="text-xs text-ink/40 hover:text-red-700"
-                aria-label={`Unassign ${guest.name}`}
-              >
-                &times;
-              </button>
-            </span>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-}
-
-function ItemCard({ item }: { item: VenueLayoutItem }) {
-  const [isEditing, setIsEditing] = useState(false);
-  const [error, setError] = useState<string | undefined>(undefined);
-  const [isPending, startTransition] = useTransition();
-
-  function handleSave(formData: FormData) {
-    startTransition(async () => {
-      const result = await updateLayoutItem(formData);
-      if (result?.error) {
-        setError(result.error);
-      } else {
-        setError(undefined);
-        setIsEditing(false);
-      }
-    });
-  }
-
-  function handleDelete() {
-    if (!confirm(`Delete "${itemDisplayName(item)}"?`)) return;
-    startTransition(async () => {
-      const formData = new FormData();
-      formData.set("id", item.id);
-      const result = await deleteLayoutItem(formData);
-      if (result?.error) {
-        setError(result.error);
-      }
-    });
-  }
-
-  if (isEditing) {
-    return (
-      <div className="rounded-lg border border-hairline bg-parchment p-5">
-        <form action={handleSave}>
-          <input type="hidden" name="id" value={item.id} />
-          <ItemFields item={item} />
-          {error && <p className="mt-3 text-sm text-red-800">{error}</p>}
-          <div className="mt-4 flex items-center gap-3">
-            <button
-              type="submit"
-              disabled={isPending}
-              className="rounded-md bg-forest px-3 py-1.5 text-sm font-medium text-parchment transition-colors hover:bg-forest/90 disabled:opacity-60"
-            >
-              {isPending ? "Saving..." : "Save"}
-            </button>
-            <button
-              type="button"
-              onClick={() => setIsEditing(false)}
-              className="rounded-md border border-hairline px-3 py-1.5 text-sm text-ink transition-colors hover:border-forest"
-            >
-              Cancel
-            </button>
-          </div>
-        </form>
-      </div>
-    );
-  }
-
-  return (
-    <div className="flex items-center justify-between gap-3 rounded-lg border border-hairline bg-parchment p-4">
-      <div>
-        <p className="text-ink">{itemDisplayName(item)}</p>
-        <p className="mt-0.5 text-xs text-ink/50">{ITEM_TYPE_LABELS[item.item_type]}</p>
-      </div>
-      <div className="flex shrink-0 items-center gap-3">
-        <button onClick={() => setIsEditing(true)} className="text-xs text-brass hover:underline">
-          Edit
-        </button>
+      <div className="mb-4 flex items-start justify-between gap-3">
+        <h3 className="font-display text-lg font-semibold text-forest">
+          {table ? table.name : item ? itemDisplayName(item) : ""}
+        </h3>
         <button
-          onClick={handleDelete}
-          disabled={isPending}
-          className="text-xs text-ink/50 hover:underline"
+          type="button"
+          onClick={() => (table ? onDeleteTable(table) : item && onDeleteItem(item))}
+          className="shrink-0 text-sm text-red-800 hover:underline"
         >
           Delete
         </button>
       </div>
-      {error && <p className="mt-2 text-sm text-red-800">{error}</p>}
+
+      <form action={handleSave} className="flex flex-col gap-4">
+        <input type="hidden" name="id" value={table?.id ?? item?.id ?? ""} />
+        {table ? (
+          <>
+            <TableFields table={table} />
+            {/* The server reads rotation off this same form and falls back to
+                0 when it is missing, so a saved edit would quietly straighten
+                a table you had rotated. */}
+            <input type="hidden" name="rotation" value={table.rotation} />
+          </>
+        ) : (
+          item && (
+            <>
+              <ItemFields item={item} />
+              <input type="hidden" name="rotation" value={item.rotation} />
+              <div className="grid grid-cols-2 gap-3">
+                <label className={labelClass}>
+                  Width
+                  <input
+                    type="number"
+                    name="width"
+                    min={MIN_ITEM_SIZE}
+                    max={MAX_ITEM_SIZE}
+                    defaultValue={size?.width}
+                    className={inputClass}
+                  />
+                </label>
+                <label className={labelClass}>
+                  Height
+                  <input
+                    type="number"
+                    name="height"
+                    min={MIN_ITEM_SIZE}
+                    max={MAX_ITEM_SIZE}
+                    defaultValue={size?.height}
+                    className={inputClass}
+                  />
+                </label>
+              </div>
+              {defaults && (
+                <p className="-mt-1 text-xs text-ink/50">
+                  Default for this type is {defaults.width} x {defaults.height}. Dragging the
+                  corner handle on the plan changes these too.
+                </p>
+              )}
+            </>
+          )
+        )}
+
+        {error && <p className="text-sm text-red-800">{error}</p>}
+
+        <button
+          type="submit"
+          disabled={isPending}
+          className="self-start rounded-md bg-forest px-4 py-2 text-sm font-medium text-parchment transition-colors hover:bg-forest/90 disabled:opacity-60"
+        >
+          {isPending ? "Saving..." : "Save changes"}
+        </button>
+      </form>
+
+      {table && (
+        <div className="mt-5 border-t border-hairline pt-4">
+          <p className="text-sm text-ink/70">
+            {assignedGuests.reduce((sum, g) => sum + personCount(g), 0)} / {table.capacity ?? "?"}{" "}
+            seated
+          </p>
+          {assignedGuests.length === 0 ? (
+            <p className="mt-2 text-sm text-ink/50">
+              No guests yet. Pick one from the list below to seat them here.
+            </p>
+          ) : (
+            <div className="mt-2 flex flex-wrap gap-2">
+              {assignedGuests.map((guest) => (
+                <span
+                  key={guest.id}
+                  className="flex items-center gap-1.5 rounded-full border border-hairline bg-card px-3 py-1 text-sm text-ink"
+                >
+                  {guest.name}
+                  {guest.plus_one && <span className="text-xs text-ink/50">+1</span>}
+                  <button
+                    type="button"
+                    onClick={() => onUnassign(guest.id)}
+                    aria-label={`Unseat ${guest.name}`}
+                    className="text-ink/40 transition-colors hover:text-red-800"
+                  >
+                    &times;
+                  </button>
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }
@@ -1079,6 +1138,7 @@ export function VenueLayoutManager({
   }
 
   const selectedTable = tables.find((t) => t.id === selectedTableId) ?? null;
+  const selectedItem = items.find((i) => i.id === selectedItemId) ?? null;
 
   function handleAssign(guestId: string, tableId: string) {
     const formData = new FormData();
@@ -1119,6 +1179,16 @@ export function VenueLayoutManager({
     formData.set("rotation", String(rotation));
     startTransition(async () => {
       await updateTablePosition(formData);
+    });
+  }
+
+  function handleItemResizeEnd(itemId: string, width: number, height: number) {
+    const formData = new FormData();
+    formData.set("id", itemId);
+    formData.set("width", String(Math.round(width)));
+    formData.set("height", String(Math.round(height)));
+    startTransition(async () => {
+      await updateLayoutItemPosition(formData);
     });
   }
 
@@ -1224,46 +1294,46 @@ export function VenueLayoutManager({
           {view3D ? (
             <VenueLayout3DView tables={visibleTables} items={visibleItems} />
           ) : (
-            <VenueCanvas
-              tables={visibleTables}
-              items={visibleItems}
-              guestsByTable={guestsByTable}
-              selectedTableId={selectedTableId}
-              selectedItemId={selectedItemId}
-              onSelectTable={setSelectedTableId}
-              onSelectItem={setSelectedItemId}
-              onTableDragEnd={handleTableDragEnd}
-              onItemDragEnd={handleItemDragEnd}
-              onTableRotateEnd={handleTableRotateEnd}
-              onItemRotateEnd={handleItemRotateEnd}
-              onUnassign={handleUnassign}
-              onDeleteTable={handleDeleteTable}
-              onDeleteItem={handleDeleteItem}
-            />
-          )}
-
-          {visibleTables.length > 0 && (
-            <div className="mt-6">
-              <h3 className="font-display text-lg font-semibold text-forest">Tables</h3>
-              <div className="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-2">
-                {visibleTables.map((table) => (
-                  <TableCard
-                    key={table.id}
-                    table={table}
-                    assignedGuests={guestsByTable.get(table.id) ?? []}
-                  />
-                ))}
+            // Plan and properties side by side on a wide screen; stacked on a
+            // phone, where a panel beside a 375px canvas would leave neither
+            // enough room.
+            <div className="flex flex-col gap-4 xl:flex-row xl:items-start">
+              <div className="min-w-0 flex-1">
+                <VenueCanvas
+                  tables={visibleTables}
+                  items={visibleItems}
+                  guestsByTable={guestsByTable}
+                  selectedTableId={selectedTableId}
+                  selectedItemId={selectedItemId}
+                  onSelectTable={(id) => {
+                    setSelectedTableId(id);
+                    if (id) setSelectedItemId(null);
+                  }}
+                  onSelectItem={(id) => {
+                    setSelectedItemId(id);
+                    if (id) setSelectedTableId(null);
+                  }}
+                  onTableDragEnd={handleTableDragEnd}
+                  onItemDragEnd={handleItemDragEnd}
+                  onTableRotateEnd={handleTableRotateEnd}
+                  onItemRotateEnd={handleItemRotateEnd}
+                  onItemResizeEnd={handleItemResizeEnd}
+                  onUnassign={handleUnassign}
+                  onDeleteTable={handleDeleteTable}
+                  onDeleteItem={handleDeleteItem}
+                />
               </div>
-            </div>
-          )}
-
-          {visibleItems.length > 0 && (
-            <div className="mt-8">
-              <h3 className="font-display text-lg font-semibold text-forest">Layout items</h3>
-              <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
-                {visibleItems.map((item) => (
-                  <ItemCard key={item.id} item={item} />
-                ))}
+              <div className="w-full shrink-0 xl:w-80">
+                <SelectionPanel
+                  table={selectedTable}
+                  item={selectedItem}
+                  assignedGuests={
+                    selectedTable ? (guestsByTable.get(selectedTable.id) ?? []) : []
+                  }
+                  onUnassign={handleUnassign}
+                  onDeleteTable={handleDeleteTable}
+                  onDeleteItem={handleDeleteItem}
+                />
               </div>
             </div>
           )}
