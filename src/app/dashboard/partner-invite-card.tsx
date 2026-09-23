@@ -66,7 +66,7 @@ export function PartnerInviteCard({
   }
 
   return (
-    <div className="mt-8 w-full max-w-2xl rounded-lg border border-hairline bg-card p-6 shadow-sm">
+    <div className="w-full rounded-lg border border-hairline bg-card p-6 shadow-sm">
       <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
         Wedding access
       </p>

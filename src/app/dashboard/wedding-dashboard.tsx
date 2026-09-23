@@ -1,9 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useTransition } from "react";
+import Link from "next/link";
+import { useState, useTransition, type ReactNode } from "react";
 import { saveWedding } from "./actions";
-import type { Wedding } from "@/lib/supabase/types";
+import type { Venue, Wedding } from "@/lib/supabase/types";
 import { STATES, SEASONS, STYLE_TIERS, VENUE_TYPES } from "@/lib/wedding-options";
 import { daysUntilWedding } from "@/lib/countdown";
 import { CountdownTimer } from "@/components/countdown-timer";
@@ -30,7 +31,7 @@ function ProfileAvatar({ wedding }: { wedding: Wedding }) {
             alt={[wedding.partner_a_name, wedding.partner_b_name].filter(Boolean).join(" & ")}
             width={96}
             height={96}
-            className="h-24 w-24 rounded-full border border-hairline object-cover shadow-sm"
+            className="h-24 w-24 rounded-full border-2 border-white/80 object-cover shadow-md"
           />
         ) : (
           <div className="flex h-24 w-24 items-center justify-center rounded-full border border-hairline bg-parchment">
@@ -149,7 +150,7 @@ function WeddingForm({
         />
       </label>
       <label className={labelClass}>
-        Guest count override
+        Expected headcount
         <input
           type="number"
           name="guest_count_override"
@@ -254,80 +255,203 @@ function WeddingForm({
   );
 }
 
-function DetailRow({ label, value }: { label: string; value: string }) {
+
+export type HeroProgress = { done: number; total: number };
+export type HeroPhase = { title: string; done: number; total: number } | null;
+
+/** Planning progress as a ring -- the one number that says "how far along are we". */
+function ProgressRing({ done, total }: HeroProgress) {
+  const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+  const r = 34;
+  const circumference = 2 * Math.PI * r;
   return (
-    <div className="flex flex-col gap-0.5">
-      <span className="font-mono-numbers text-xs uppercase tracking-wide text-ink/50">
-        {label}
-      </span>
-      <span className="text-ink">{value}</span>
+    <div className="relative h-24 w-24 shrink-0">
+      <svg viewBox="0 0 80 80" className="h-24 w-24 -rotate-90" aria-hidden="true">
+        <circle cx="40" cy="40" r={r} fill="none" stroke="currentColor" strokeWidth="6" className="text-white/20" />
+        <circle
+          cx="40"
+          cy="40"
+          r={r}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="6"
+          strokeLinecap="round"
+          strokeDasharray={circumference}
+          strokeDashoffset={circumference * (1 - pct / 100)}
+          className="text-brass transition-[stroke-dashoffset] duration-700"
+        />
+      </svg>
+      <div className="absolute inset-0 flex flex-col items-center justify-center">
+        <span className="font-mono-numbers text-xl font-semibold text-white">{pct}%</span>
+        <span className="font-mono-numbers text-[9px] uppercase tracking-[0.2em] text-white/60">
+          planned
+        </span>
+      </div>
     </div>
   );
 }
 
-function WeddingSummary({
+function Chip({ children }: { children: ReactNode }) {
+  return (
+    <span className="rounded-full border border-white/25 bg-white/10 px-3 py-1 text-xs text-white/90 backdrop-blur-sm">
+      {children}
+    </span>
+  );
+}
+
+/**
+ * The banner across the top: who, when, how long, and how far along.
+ *
+ * The booked venue's photo is the backdrop when there is one -- it's the
+ * picture of the day itself -- then the guest-site banner, then plain forest.
+ * State, season and style used to fill a card of their own here; they're
+ * settings, touched a handful of times, so they're chips now.
+ */
+function WeddingHero({
   wedding,
+  bookedVenue,
+  progress,
+  phase,
   onEdit,
 }: {
   wedding: Wedding;
+  bookedVenue: Venue | null;
+  progress: HeroProgress;
+  phase: HeroPhase;
   onEdit: () => void;
 }) {
+  const backdrop = bookedVenue?.image_url ?? wedding.hero_photo_url;
+  const venueLine = bookedVenue
+    ? [bookedVenue.name, [bookedVenue.city, bookedVenue.state].filter(Boolean).join(", ")]
+        .filter(Boolean)
+        .join(" · ")
+    : null;
+
   return (
-    <div>
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
-        <ProfileAvatar wedding={wedding} />
-        <div>
+    <section className="relative overflow-hidden rounded-2xl bg-forest shadow-lg">
+      {backdrop ? (
+        <Image
+          src={backdrop}
+          alt=""
+          fill
+          priority
+          sizes="(min-width: 1600px) 1600px, 100vw"
+          className="object-cover"
+        />
+      ) : (
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(199,154,46,0.35),transparent_55%),radial-gradient(ellipse_at_bottom_left,rgba(255,255,255,0.08),transparent_50%)]"
+        />
+      )}
+      {/* Scrim: dark enough at the bottom-left for white type on any photo. */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/55 to-black/45 lg:bg-gradient-to-r lg:from-black/75 lg:via-black/45 lg:to-black/10"
+      />
+
+      <div className="relative flex flex-col gap-8 p-6 sm:p-10 lg:min-h-[360px] lg:flex-row lg:items-end lg:justify-between lg:p-12">
+        <div className="flex flex-col gap-5 sm:flex-row sm:items-end">
+          <ProfileAvatar wedding={wedding} />
+          <div className="min-w-0">
+            {venueLine && (
+              <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
+                {venueLine}
+              </p>
+            )}
+            <h1 className="mt-2 font-display text-4xl font-semibold leading-tight text-white sm:text-5xl lg:text-6xl">
+              {wedding.partner_a_name} &amp; {wedding.partner_b_name}
+            </h1>
+            <p className="mt-2 text-lg text-white/85">
+              {wedding.wedding_date ? formatDate(wedding.wedding_date) : "Date not set yet"}
+            </p>
+            <div className="mt-4 flex flex-wrap items-center gap-2">
+              {wedding.state && <Chip>{wedding.state}</Chip>}
+              {wedding.season && <Chip>{wedding.season}</Chip>}
+              {wedding.style_tier && <Chip>{wedding.style_tier}</Chip>}
+              {wedding.venue_type && <Chip>{wedding.venue_type}</Chip>}
+              <button
+                type="button"
+                onClick={onEdit}
+                className="rounded-full bg-white px-3 py-1 text-xs font-medium text-forest transition-colors hover:bg-parchment"
+              >
+                Edit details
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-5 rounded-xl border border-white/15 bg-black/25 p-5 backdrop-blur-md lg:min-w-[380px]">
           {wedding.wedding_date ? (
-            <CountdownTimer
-              targetDate={wedding.wedding_date}
-              fallbackLabel={daysUntilWedding(wedding.wedding_date)}
-              className="justify-start"
-            />
+            <>
+              {/* Four large units don't fit a phone's width; the small ones do. */}
+              <div className="sm:hidden">
+                <CountdownTimer
+                  targetDate={wedding.wedding_date}
+                  fallbackLabel={daysUntilWedding(wedding.wedding_date)}
+                  tone="light"
+                  className="justify-start [&>div:first-child]:pl-0"
+                />
+              </div>
+              <div className="hidden sm:block">
+                <CountdownTimer
+                  targetDate={wedding.wedding_date}
+                  fallbackLabel={daysUntilWedding(wedding.wedding_date)}
+                  tone="light"
+                  size="lg"
+                  className="justify-start [&>div:first-child]:pl-0"
+                />
+              </div>
+            </>
           ) : (
-            <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
-              Date not set
+            <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-white/70">
+              Add your date to start the countdown
             </p>
           )}
-          <h1 className="mt-2 font-display text-4xl font-semibold text-forest">
-            {wedding.partner_a_name} &amp; {wedding.partner_b_name}
-          </h1>
-          {wedding.wedding_date && (
-            <p className="mt-1 text-ink/70">{formatDate(wedding.wedding_date)}</p>
-          )}
+          <div className="flex items-center gap-4 border-t border-white/15 pt-5">
+            <ProgressRing {...progress} />
+            <div className="min-w-0">
+              <p className="font-mono-numbers text-[10px] uppercase tracking-[0.2em] text-white/60">
+                {phase ? "You're here" : progress.total > 0 ? "Plan complete" : "No plan yet"}
+              </p>
+              <p className="mt-1 font-display text-xl font-semibold text-white">
+                {phase
+                  ? phase.title
+                  : progress.total > 0
+                    ? "Everything's done"
+                    : "Let Wren build your plan"}
+              </p>
+              <p className="mt-1 text-xs text-white/70">
+                {phase
+                  ? `${phase.done} of ${phase.total} done in this stage · ${progress.done} of ${progress.total} overall`
+                  : progress.total > 0
+                    ? `${progress.total} tasks ticked off`
+                    : "A month-by-month checklist, made for your date."}
+              </p>
+              <Link
+                href={progress.total > 0 ? "/wedding-plan" : "/checklist"}
+                className="mt-2 inline-block text-xs font-medium text-brass hover:text-white"
+              >
+                {progress.total > 0 ? "See the whole plan" : "Build my plan"} &rarr;
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
-
-      <div className="mt-6 grid grid-cols-2 gap-4 border-t border-hairline pt-6 sm:grid-cols-4">
-        <DetailRow label="State" value={wedding.state ?? "—"} />
-        <DetailRow label="Season" value={wedding.season ?? "—"} />
-        <DetailRow label="Style" value={wedding.style_tier ?? "—"} />
-        <DetailRow label="Venue type" value={wedding.venue_type ?? "—"} />
-      </div>
-      {wedding.guest_count_override !== null && (
-        <p className="mt-4 font-mono-numbers text-sm text-ink/70">
-          Guest count override: {wedding.guest_count_override}
-        </p>
-      )}
-      {wedding.rsvp_deadline && (
-        <p className="mt-1 font-mono-numbers text-sm text-ink/70">
-          RSVP deadline: {formatDate(wedding.rsvp_deadline)}
-        </p>
-      )}
-
-      <button
-        onClick={onEdit}
-        className="mt-6 rounded-full border border-hairline bg-parchment px-4 py-1.5 font-mono-numbers text-sm text-forest transition-colors hover:border-forest"
-      >
-        Edit details
-      </button>
-    </div>
+    </section>
   );
 }
 
 export function WeddingDashboard({
   initialWedding,
+  bookedVenue = null,
+  progress = { done: 0, total: 0 },
+  phase = null,
 }: {
   initialWedding: Wedding | null;
+  bookedVenue?: Venue | null;
+  progress?: HeroProgress;
+  phase?: HeroPhase;
 }) {
   const [isEditing, setIsEditing] = useState(!initialWedding);
   const [error, setError] = useState<string | undefined>(undefined);
@@ -346,35 +470,49 @@ export function WeddingDashboard({
   }
 
   return (
-    <div className="w-full max-w-2xl rounded-lg border border-hairline bg-card p-6 sm:p-10 shadow-sm">
-      {error && (
-        <p className="mb-6 rounded-md border border-red-300 bg-red-50 px-3 py-2 text-sm text-red-800">
-          {error}
-        </p>
-      )}
-
-      {!initialWedding && (
-        <>
-          <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
-            Let&apos;s get started
-          </p>
-          <h1 className="mt-2 mb-6 font-display text-3xl font-semibold text-forest">
-            Tell us about your wedding
-          </h1>
-        </>
-      )}
-
-      {isEditing ? (
-        <WeddingForm
+    <div className="w-full">
+      {initialWedding && (
+        <WeddingHero
           wedding={initialWedding}
-          onSave={handleSave}
-          pending={isPending}
-          onCancel={initialWedding ? () => setIsEditing(false) : undefined}
+          bookedVenue={bookedVenue}
+          progress={progress}
+          phase={phase}
+          onEdit={() => setIsEditing(true)}
         />
-      ) : (
-        initialWedding && (
-          <WeddingSummary wedding={initialWedding} onEdit={() => setIsEditing(true)} />
-        )
+      )}
+
+      {isEditing && (
+        <div
+          className={`rounded-lg border border-hairline bg-card p-6 shadow-sm sm:p-10 ${
+            initialWedding ? "mt-6" : ""
+          }`}
+        >
+          {error && (
+            <p className="mb-6 rounded-md border border-red-300 bg-red-50 px-3 py-2 text-sm text-red-800">
+              {error}
+            </p>
+          )}
+          {initialWedding ? (
+            <h2 className="mb-6 font-display text-2xl font-semibold text-forest">
+              Wedding details
+            </h2>
+          ) : (
+            <>
+              <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
+                Let&apos;s get started
+              </p>
+              <h1 className="mt-2 mb-6 font-display text-3xl font-semibold text-forest">
+                Tell us about your wedding
+              </h1>
+            </>
+          )}
+          <WeddingForm
+            wedding={initialWedding}
+            onSave={handleSave}
+            pending={isPending}
+            onCancel={initialWedding ? () => setIsEditing(false) : undefined}
+          />
+        </div>
       )}
     </div>
   );
