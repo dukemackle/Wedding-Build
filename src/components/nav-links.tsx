@@ -61,7 +61,7 @@ function PlainLink({ href, label, icon: Icon }: { href: string; label: string; i
   return (
     <Link
       href={href}
-      className={`flex shrink-0 items-center gap-1 whitespace-nowrap rounded-full px-2 py-1 font-display text-lg transition-colors ${
+      className={`flex shrink-0 items-center gap-1 whitespace-nowrap rounded-full px-2 py-0.5 font-display text-lg transition-colors ${
         isActive ? "bg-forest/10 text-forest" : "text-ink/70 hover:text-forest"
       }`}
     >
@@ -77,7 +77,10 @@ export function NavLinks() {
     // where they stop fitting (phones) the strip scrolls sideways instead.
     // The negative margin lets a tab's rounded highlight reach the gutter
     // without the padding that keeps it from being clipped mid-scroll.
-    <nav className="-mx-1 flex w-full items-center gap-0.5 overflow-x-auto px-1 py-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+    // Centred with auto margins on the end tabs rather than justify-center,
+    // which would push the first tabs off the left edge, out of scroll reach,
+    // once the strip overflows.
+    <nav className="-mx-1 flex [&>*:first-child]:ml-auto [&>*:last-child]:mr-auto w-full items-center gap-0.5 overflow-x-auto px-1 py-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
       <PlainLink href="/dashboard" label="Dashboard" icon={ArchIcon} />
       {NAV_GROUPS.map((group) => (
         <NavDropdown
