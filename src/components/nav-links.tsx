@@ -61,7 +61,7 @@ function PlainLink({ href, label, icon: Icon }: { href: string; label: string; i
   return (
     <Link
       href={href}
-      className={`flex shrink-0 items-center gap-1 whitespace-nowrap rounded-full px-2 py-1 font-display text-lg transition-colors ${
+      className={`flex shrink-0 items-center gap-1 whitespace-nowrap rounded-full px-2 py-0.5 font-display text-lg transition-colors ${
         isActive ? "bg-forest/10 text-forest" : "text-ink/70 hover:text-forest"
       }`}
     >

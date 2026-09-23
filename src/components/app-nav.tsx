@@ -23,7 +23,7 @@ export function AppNav({ email }: { email: string }) {
 
             Two rows by design: the tabs need ~800px on their own, so beside
             the mark and the account links they could never fit on one line. */}
-        <div className="flex w-full flex-col gap-2 px-6 py-3">
+        <div className="flex w-full flex-col gap-1 px-6 py-2">
           <div className="flex items-center justify-between gap-4">
             <WrenMark />
             <div className="flex min-w-0 items-center justify-end gap-4">
