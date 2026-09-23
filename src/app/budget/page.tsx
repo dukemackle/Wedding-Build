@@ -288,8 +288,10 @@ export default async function BudgetPage() {
   const actualSpending =
     rows.reduce((sum, row) => sum + (row.override ?? 0), 0) + customItemsTotal;
 
+  const hasSidebar = upcomingPayments.length > 0 || hasAssignedPayer;
+
   return (
-    <PageShell email={user.email ?? ""} width="wide">
+    <PageShell email={user.email ?? ""} width="canvas">
         <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
           Budget
         </p>
@@ -304,11 +306,21 @@ export default async function BudgetPage() {
           Actual and Paid amount on any line once you have a real number.
         </p>
 
-        <FadeInSection>
+        {/* From 1280px the table takes the room and the two money-owed cards
+            sit beside it, rather than one above and one below a table forty
+            rows long. On a phone it stays one column in the old order. */}
+        <div
+          className={
+            hasSidebar
+              ? "xl:grid xl:grid-cols-[minmax(0,1fr)_380px] xl:grid-rows-[auto_1fr] xl:items-start xl:gap-x-8"
+              : undefined
+          }
+        >
+        <FadeInSection className="xl:col-start-2 xl:row-start-1">
           <UpcomingPayments payments={upcomingPayments} />
         </FadeInSection>
 
-        <FadeInSection>
+        <FadeInSection className="xl:col-start-1 xl:row-span-2 xl:row-start-1">
           <BudgetTable
             rows={rows}
             customItems={customItemRows}
@@ -325,7 +337,7 @@ export default async function BudgetPage() {
         </FadeInSection>
 
         {hasAssignedPayer && (
-          <FadeInSection>
+          <FadeInSection className="xl:col-start-2 xl:row-start-2">
             <div className="mt-8 w-full rounded-lg border border-hairline bg-card p-5 sm:p-8 shadow-sm">
               <span className="font-display text-2xl font-semibold text-forest">
                 Who&apos;s paying
@@ -349,6 +361,7 @@ export default async function BudgetPage() {
             </div>
           </FadeInSection>
         )}
+        </div>
     </PageShell>
   );
 }

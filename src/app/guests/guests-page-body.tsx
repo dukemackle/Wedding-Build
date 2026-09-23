@@ -7,7 +7,7 @@ import type {
   WeddingAccommodation,
   WeddingFaq,
 } from "@/lib/supabase/types";
-import { WIDE_WIDTH } from "@/lib/layout";
+import { CANVAS_WIDTH } from "@/lib/layout";
 import { GuestsManager } from "./guests-manager";
 import { RegistryManager } from "./registry-manager";
 import { HeroPhotoPanel } from "./hero-photo-panel";
@@ -61,11 +61,13 @@ export function GuestsPageBody({
   const songCount = guests.filter((g) => g.song_request).length;
   const pendingRsvps = rsvpSubmissions;
 
-  // Wide: the list on the left, the panels that act on it on the right. The
-  // two used to be stacked, which meant scrolling past 270 guests to reach
-  // "Collect addresses". See src/lib/layout.ts for the widths.
+  // Wide: the list and the two panels that act on it side by side, all three
+  // visible without scrolling. They used to be stacked -- first the whole page,
+  // then the panels in one column beside the list -- and either way the guest
+  // site sat under something 270 rows or two screens tall. See
+  // src/lib/layout.ts for the widths.
   return (
-    <div className={`w-full ${WIDE_WIDTH}`}>
+    <div className={`w-full ${CANVAS_WIDTH}`}>
       <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
         Guests
       </p>
@@ -75,10 +77,12 @@ export function GuestsPageBody({
 
       <div className="flex flex-col gap-6">
         <div className="grid gap-6 lg:grid-cols-12 lg:items-start">
-          {/* The list is the page, so on a wide screen it takes two thirds and
-              scrolls inside itself; the panels sit beside it and stay put.
-              Stacked on a phone, list first -- there is no beside. */}
-          <div className="min-w-0 lg:col-span-8">
+          {/* Three columns from 1280px: the list takes half, each panel a
+              quarter, so the guest site is on screen from the start instead of
+              under the invitations. Between 1024 and 1280 there isn't room for
+              three, so the list keeps two thirds and the panels stack beside
+              it. Stacked on a phone, list first -- there is no beside. */}
+          <div className="min-w-0 lg:col-span-8 lg:row-span-2 xl:col-span-6 xl:row-span-1">
             <GuestsManager
               guests={guests}
               spreadsheetUrl={wedding.spreadsheet_url}
@@ -89,10 +93,7 @@ export function GuestsPageBody({
             />
           </div>
 
-          {/* Sticky rather than a scroller inside the list card: the page
-              scrolls as one, and the panels ride along beside 270 guests
-              instead of waiting underneath them. */}
-          <div className="flex min-w-0 flex-col gap-6 lg:sticky lg:top-6 lg:col-span-4">
+          <div className="min-w-0 lg:col-span-4 xl:col-span-3">
             <TabbedCard
               title="Invitations & RSVPs"
               description="Three ways to reach your guests — collect their addresses, email them the link, or chase the ones who haven't replied."
@@ -148,8 +149,10 @@ export function GuestsPageBody({
                 },
               ]}
             />
+          </div>
 
-            {/* The guest site — set up once, then left alone. */}
+          {/* The guest site — set up once, then left alone. */}
+          <div className="min-w-0 lg:col-span-4 xl:col-span-3">
             <TabbedCard
               title="Your guest site"
               header={

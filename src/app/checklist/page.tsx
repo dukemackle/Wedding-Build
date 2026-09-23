@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { AppNav } from "@/components/app-nav";
 import type { ChecklistItem, Wedding } from "@/lib/supabase/types";
-import { WIDE_WIDTH } from "@/lib/layout";
+import { CANVAS_WIDTH } from "@/lib/layout";
 import { ChecklistManager } from "./checklist-manager";
 import { ContractPanel, type PlanningContract } from "./contract-panel";
 
@@ -68,9 +68,10 @@ export default async function ChecklistPage() {
   return (
     <main className="flex flex-1 flex-col items-center px-6 py-16">
       <AppNav email={user.email ?? ""} />
-      {/* Wide: the plan is a stage list beside a detail panel on a big screen,
-          which 768px can't hold. See src/lib/layout.ts for the three widths. */}
-      <div className={`w-full ${WIDE_WIDTH}`}>
+      {/* Canvas: the stage list and the stage you're on, with contracts as a
+          third column from 1280px rather than a card under the whole plan.
+          See src/lib/layout.ts for the widths. */}
+      <div className={`w-full ${CANVAS_WIDTH}`}>
         <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
           Checklist
         </p>
@@ -78,9 +79,14 @@ export default async function ChecklistPage() {
           Planning to-dos
         </h1>
 
-        <ChecklistManager items={items ?? []} />
-
-        <ContractPanel contracts={contracts ?? []} />
+        <div className="xl:grid xl:grid-cols-[minmax(0,1fr)_380px] xl:items-start xl:gap-8">
+          <div className="min-w-0">
+            <ChecklistManager items={items ?? []} />
+          </div>
+          <div className="min-w-0 xl:[&>*]:mt-0">
+            <ContractPanel contracts={contracts ?? []} />
+          </div>
+        </div>
       </div>
     </main>
   );
