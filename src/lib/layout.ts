@@ -35,7 +35,7 @@ export const STANDARD_WIDTH = "max-w-4xl";
  * Pages whose content is genuinely wide: tables with many columns, or a list
  * beside a detail panel.
  *
- * Nothing at the moment -- budget, checklist and guests all moved to CANVAS
+ * Nothing at the moment -- budget and checklist moved to CANVAS, guests to FULL,
  * once each had a second column to fill it with.
  */
 export const WIDE_WIDTH = "max-w-6xl";
@@ -46,7 +46,7 @@ export const WIDE_WIDTH = "max-w-6xl";
  * WIDE, and the nav stretches to match rather than floating above them as a
  * short strip.
  *
- * Itinerary, venue layout, and from 1280px guests, budget and checklist --
+ * Itinerary, venue layout, and from 1280px budget and checklist --
  * each composed with side columns so the extra room holds panels rather than
  * a stretched table.
  */
@@ -54,9 +54,9 @@ export const CANVAS_WIDTH = "max-w-[1600px]";
 
 /**
  * No cap at all, for a page that manages its own width -- a map beside a list
- * that reaches all four edges.
+ * that reaches all four edges, or three columns that fill any screen.
  *
- * Venues, vendors.
+ * Venues, vendors, guests.
  */
 export const FULL_WIDTH = "max-w-none";
 

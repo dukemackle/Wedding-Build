@@ -13,7 +13,7 @@ export function WrenMark() {
     <Link
       href="/dashboard"
       aria-label="Wren — go to your dashboard"
-      className="flex shrink-0 items-center gap-2"
+      className="flex shrink-0 items-center gap-2 sm:gap-3"
     >
       <Image
         src="/logo/wren-mark.png"
@@ -21,9 +21,9 @@ export function WrenMark() {
         width={176}
         height={96}
         priority
-        className="h-6 w-auto sm:h-7"
+        className="h-7 w-auto sm:h-10"
       />
-      <span className="font-display text-xl font-semibold tracking-[0.16em] text-forest sm:text-2xl">
+      <span className="font-display text-2xl font-semibold tracking-[0.16em] text-forest sm:text-3xl">
         WREN
       </span>
     </Link>
