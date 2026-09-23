@@ -7,7 +7,7 @@ import type {
   WeddingAccommodation,
   WeddingFaq,
 } from "@/lib/supabase/types";
-import { CANVAS_WIDTH } from "@/lib/layout";
+import { FULL_WIDTH } from "@/lib/layout";
 import { GuestsManager } from "./guests-manager";
 import { RegistryManager } from "./registry-manager";
 import { HeroPhotoPanel } from "./hero-photo-panel";
@@ -64,10 +64,11 @@ export function GuestsPageBody({
   // Wide: the list and the two panels that act on it side by side, all three
   // visible without scrolling. They used to be stacked -- first the whole page,
   // then the panels in one column beside the list -- and either way the guest
-  // site sat under something 270 rows or two screens tall. See
-  // src/lib/layout.ts for the widths.
+  // site sat under something 270 rows or two screens tall. Uncapped: three
+  // columns fill any screen, so the list gets the room rather than the
+  // margins. See src/lib/layout.ts for the widths.
   return (
-    <div className={`w-full ${CANVAS_WIDTH}`}>
+    <div className={`w-full ${FULL_WIDTH}`}>
       <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
         Guests
       </p>
@@ -77,12 +78,14 @@ export function GuestsPageBody({
 
       <div className="flex flex-col gap-6">
         <div className="grid gap-6 lg:grid-cols-12 lg:items-start">
-          {/* Three columns from 1280px: the list takes half, each panel a
-              quarter, so the guest site is on screen from the start instead of
-              under the invitations. Between 1024 and 1280 there isn't room for
+          {/* Three columns from 1280px: the list takes half, in the middle,
+              with invitations to its left and the guest site to its right --
+              both on screen from the start instead of stacked. Between 1024 and 1280 there isn't room for
               three, so the list keeps two thirds and the panels stack beside
-              it. Stacked on a phone, list first -- there is no beside. */}
-          <div className="min-w-0 lg:col-span-8 lg:row-span-2 xl:col-span-6 xl:row-span-1">
+              it. Stacked on a phone, list first -- there is no beside. The
+              list stays first in the markup for that; `order` moves it to the
+              middle only at xl. */}
+          <div className="min-w-0 lg:col-span-8 lg:row-span-2 xl:order-2 xl:col-span-6 xl:row-span-1">
             <GuestsManager
               guests={guests}
               spreadsheetUrl={wedding.spreadsheet_url}
@@ -93,7 +96,7 @@ export function GuestsPageBody({
             />
           </div>
 
-          <div className="min-w-0 lg:col-span-4 xl:col-span-3">
+          <div className="min-w-0 lg:col-span-4 xl:order-1 xl:col-span-3">
             <TabbedCard
               title="Invitations & RSVPs"
               description="Three ways to reach your guests — collect their addresses, email them the link, or chase the ones who haven't replied."
@@ -152,7 +155,7 @@ export function GuestsPageBody({
           </div>
 
           {/* The guest site — set up once, then left alone. */}
-          <div className="min-w-0 lg:col-span-4 xl:col-span-3">
+          <div className="min-w-0 lg:col-span-4 xl:order-3 xl:col-span-3">
             <TabbedCard
               title="Your guest site"
               header={
