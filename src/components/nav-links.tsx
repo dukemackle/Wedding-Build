@@ -77,7 +77,10 @@ export function NavLinks() {
     // where they stop fitting (phones) the strip scrolls sideways instead.
     // The negative margin lets a tab's rounded highlight reach the gutter
     // without the padding that keeps it from being clipped mid-scroll.
-    <nav className="-mx-1 flex w-full items-center gap-0.5 overflow-x-auto px-1 py-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+    // Centred with auto margins on the end tabs rather than justify-center,
+    // which would push the first tabs off the left edge, out of scroll reach,
+    // once the strip overflows.
+    <nav className="-mx-1 flex [&>*:first-child]:ml-auto [&>*:last-child]:mr-auto w-full items-center gap-0.5 overflow-x-auto px-1 py-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
       <PlainLink href="/dashboard" label="Dashboard" icon={ArchIcon} />
       {NAV_GROUPS.map((group) => (
         <NavDropdown
