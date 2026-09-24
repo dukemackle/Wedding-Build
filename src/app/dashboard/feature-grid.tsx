@@ -8,7 +8,7 @@ export type Feature = {
   title: string;
   /** Where the couple stands on it, in a few words. */
   status: string;
-  /** The picture in the box: the couple's own photo or a glimpse of their data. */
+  /** The top of the box: the couple's own photo or a glimpse of their data. */
   media: ReactNode;
 };
 
@@ -182,49 +182,57 @@ function FloorPlanDrawing() {
   );
 }
 
+/**
+ * A map with vendors pinned on it -- the Vendors page is a map beside a list,
+ * so the box shows the map. Drawn rather than a screenshot so it needs no
+ * tiles and stays crisp. Green pins are booked.
+ */
+function MapDrawing({ booked }: { booked: number }) {
+  const pins = [
+    [52, 74], [96, 62], [138, 80], [70, 118], [118, 124], [160, 110], [36, 146], [150, 154],
+  ];
+  return (
+    <svg
+      viewBox="0 0 200 180"
+      preserveAspectRatio="xMidYMid slice"
+      aria-hidden="true"
+      className="absolute inset-0 h-full w-full bg-[#eef1ea] transition-transform duration-700 group-hover:scale-105"
+    >
+      <path d="M0 128 C40 110 70 150 110 132 S170 96 200 110 V180 H0Z" className="fill-forest/10" />
+      <path d="M-5 30 C40 50 60 20 110 44 S170 60 205 40" fill="none" strokeWidth="7" className="stroke-sky-200" />
+      <g fill="none" strokeWidth="2.5" className="stroke-card">
+        <path d="M0 88 H200" />
+        <path d="M84 0 V180" />
+        <path d="M150 0 L120 180" />
+        <path d="M0 160 L200 146" />
+      </g>
+      <g fill="none" strokeWidth="1" className="stroke-hairline">
+        <path d="M0 60 H200M40 0 V180M180 0 V180" />
+      </g>
+      {pins.map(([x, y], i) => (
+        <g key={`${x}-${y}`} transform={`translate(${x} ${y})`}>
+          <path
+            d="M0 0 C-7 -9 -8 -12 -8 -15 A8 8 0 0 1 8 -15 C8 -12 7 -9 0 0Z"
+            className={i < booked ? "fill-forest" : "fill-brass"}
+          />
+          <circle cx="0" cy="-15" r="3" className="fill-card" />
+        </g>
+      ))}
+    </svg>
+  );
+}
+
 /* ---------- The ten boxes ---------- */
 
-/** Every part of Wren, in the order a wedding tends to need them. */
+/**
+ * Every part of Wren, most used first. On a wide screen the top row is
+ * Budget, Guests, Venues, Vendors, then the checklist at the far right.
+ */
 export function buildFeatures(d: FeatureData): Feature[] {
   const booked = d.vendors.filter((v) => v.status === "booked");
   const over = d.budget.target != null ? d.budget.total - d.budget.target : null;
 
   return [
-    {
-      href: "/checklist",
-      title: "Checklist",
-      status:
-        d.checklist.total > 0
-          ? `${d.checklist.done} of ${d.checklist.total} done`
-          : "Build your plan",
-      media: (
-        <Panel>
-          {d.checklist.next.length > 0 ? (
-            <>
-              <Lines
-                rows={d.checklist.next.map((t) => ({
-                  key: t.title,
-                  lead: circle,
-                  text: t.title,
-                  tail: t.due ? shortDate(t.due) : null,
-                }))}
-              />
-              <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-hairline">
-                <div
-                  className="h-full rounded-full bg-forest"
-                  style={{ width: pct(d.checklist.done, d.checklist.total) }}
-                />
-              </div>
-            </>
-          ) : (
-            <>
-              <Phrase>Month by month</Phrase>
-              <Small>A plan made for your date</Small>
-            </>
-          )}
-        </Panel>
-      ),
-    },
     {
       href: "/budget",
       title: "Budget",
@@ -314,33 +322,41 @@ export function buildFeatures(d: FeatureData): Feature[] {
       title: "Vendors",
       status:
         d.vendors.length > 0 ? `${booked.length} of ${d.vendors.length} booked` : "Find your team",
-      media: (
-        <Panel>
-          <div className="flex flex-wrap gap-1 sm:gap-1.5">
-            {d.vendors.slice(0, 9).map((v, i) => (
-              <span
-                key={v.key}
-                className={`rounded-full px-1.5 py-0.5 text-[9px] sm:px-2 sm:text-[11px] ${i >= 6 ? "hidden sm:inline" : ""} ${
-                  v.status === "booked"
-                    ? "bg-forest text-parchment"
-                    : "border border-hairline bg-card text-ink/60"
-                }`}
-              >
-                {v.label}
-              </span>
-            ))}
-          </div>
-        </Panel>
-      ),
+      media: <MapDrawing booked={booked.length} />,
     },
     {
-      href: "/attire",
-      title: "Attire",
-      status: d.attireShortlisted > 0 ? `${d.attireShortlisted} saved` : "Find the look",
-      media: d.attire?.photo ? (
-        <PhotoMedia src={d.attire.photo} label={d.attire.name} />
-      ) : (
-        <DrawingMedia src="/attire-types/wedding-dress.svg" />
+      href: "/checklist",
+      title: "Checklist",
+      status:
+        d.checklist.total > 0
+          ? `${d.checklist.done} of ${d.checklist.total} done`
+          : "Build your plan",
+      media: (
+        <Panel>
+          {d.checklist.next.length > 0 ? (
+            <>
+              <Lines
+                rows={d.checklist.next.map((t) => ({
+                  key: t.title,
+                  lead: circle,
+                  text: t.title,
+                  tail: t.due ? shortDate(t.due) : null,
+                }))}
+              />
+              <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-hairline">
+                <div
+                  className="h-full rounded-full bg-forest"
+                  style={{ width: pct(d.checklist.done, d.checklist.total) }}
+                />
+              </div>
+            </>
+          ) : (
+            <>
+              <Phrase>Month by month</Phrase>
+              <Small>A plan made for your date</Small>
+            </>
+          )}
+        </Panel>
       ),
     },
     {
@@ -364,6 +380,16 @@ export function buildFeatures(d: FeatureData): Feature[] {
             </>
           )}
         </Panel>
+      ),
+    },
+    {
+      href: "/attire",
+      title: "Attire",
+      status: d.attireShortlisted > 0 ? `${d.attireShortlisted} saved` : "Find the look",
+      media: d.attire?.photo ? (
+        <PhotoMedia src={d.attire.photo} label={d.attire.name} />
+      ) : (
+        <DrawingMedia src="/attire-types/wedding-dress.svg" />
       ),
     },
     {
@@ -411,7 +437,7 @@ export function buildFeatures(d: FeatureData): Feature[] {
   ];
 }
 
-function FeatureTile({ feature, titleOnTop }: { feature: Feature; titleOnTop: boolean }) {
+function FeatureTile({ feature }: { feature: Feature }) {
   const { href, title, status, media } = feature;
   const words = (
     <div className="px-3 py-3 sm:px-5 sm:py-4">
@@ -428,10 +454,9 @@ function FeatureTile({ feature, titleOnTop }: { feature: Feature; titleOnTop: bo
       href={href}
       className="group flex flex-col overflow-hidden rounded-2xl border border-hairline bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-brass/60 hover:shadow-xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brass"
     >
-      {titleOnTop && words}
       {/* Grows to fill the box, so a neighbour's two-line title never leaves a gap. */}
       <div
-        className={`relative min-h-28 flex-1 overflow-hidden border-hairline sm:min-h-40 ${titleOnTop ? "border-t" : "border-b"}`}
+        className="relative min-h-28 flex-1 overflow-hidden border-b border-hairline sm:min-h-40"
       >
         {media}
         <span
@@ -441,7 +466,7 @@ function FeatureTile({ feature, titleOnTop }: { feature: Feature; titleOnTop: bo
           &rarr;
         </span>
       </div>
-      {!titleOnTop && words}
+      {words}
     </Link>
   );
 }
@@ -449,27 +474,21 @@ function FeatureTile({ feature, titleOnTop }: { feature: Feature; titleOnTop: bo
 /**
  * The dashboard, below the banner: one box per part of Wren, and nothing else.
  *
- * Each box is its name set large, then a picture of what's behind it -- the
- * couple's own venue photo, their budget bar, their next tasks -- so the box
+ * Each box is a picture of what's behind it -- the couple's own venue photo,
+ * their budget bar, their next tasks -- over its name set large, so the box
  * reads as a door from across the room. Where they haven't added anything yet
  * it shows Wren's own drawing or an example, never an empty grey square.
  *
  * Two across on a phone, five on a wide screen.
  */
-export function FeatureGrid({
-  features,
-  titleOnTop = true,
-}: {
-  features: Feature[];
-  titleOnTop?: boolean;
-}) {
+export function FeatureGrid({ features }: { features: Feature[] }) {
   return (
     <nav
       aria-label="Your wedding"
       className="mt-6 grid grid-cols-2 gap-3 sm:mt-10 sm:gap-5 lg:grid-cols-5"
     >
       {features.map((feature) => (
-        <FeatureTile key={feature.href} feature={feature} titleOnTop={titleOnTop} />
+        <FeatureTile key={feature.href} feature={feature} />
       ))}
     </nav>
   );
