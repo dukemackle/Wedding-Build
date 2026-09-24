@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useTransition, type ReactNode } from "react";
+import { useState, useTransition } from "react";
 import { saveWedding } from "./actions";
 import type { Venue, Wedding } from "@/lib/supabase/types";
 import { STATES, SEASONS, STYLE_TIERS, VENUE_TYPES } from "@/lib/wedding-options";
@@ -72,8 +72,8 @@ function ProfileAvatar({ wedding }: { wedding: Wedding }) {
       {editing && (
         <div className="mt-4 rounded-md border border-hairline bg-parchment p-3">
           <p className="mb-2 text-xs text-ink/60">
-            A photo of the two of you. Shown here only — your guest site&apos;s banner is set on
-            the Guests page.
+            A photo of the two of you, shown in this circle. The background is changed with the
+            camera button in the top corner.
           </p>
           <PhotoUpload
             kind="profile"
@@ -291,21 +291,67 @@ function ProgressRing({ done, total }: HeroProgress) {
   );
 }
 
-function Chip({ children }: { children: ReactNode }) {
+/**
+ * The camera button in the banner's corner: changes the background photo.
+ *
+ * That photo is also the banner on the guest site -- one picture of the two
+ * of you across the top of both, rather than two uploads that drift apart.
+ */
+function CoverPhotoButton({ wedding }: { wedding: Wedding }) {
+  const [editing, setEditing] = useState(false);
+
   return (
-    <span className="rounded-full border border-white/25 bg-white/10 px-3 py-1 text-xs text-white/90 backdrop-blur-sm">
-      {children}
-    </span>
+    <div className="absolute right-4 top-4 z-10 flex flex-col items-end sm:right-6 sm:top-6">
+      <button
+        type="button"
+        onClick={() => setEditing((v) => !v)}
+        aria-expanded={editing}
+        className="flex items-center gap-2 rounded-full border border-white/25 bg-black/35 px-3 py-1.5 text-xs font-medium text-white backdrop-blur-sm transition-colors hover:bg-black/55"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+          className="h-4 w-4"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.8"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M4 8h3l2-3h6l2 3h3v11H4Z" />
+          <circle cx="12" cy="13" r="3.5" />
+        </svg>
+        <span className="hidden sm:inline">
+          {wedding.hero_photo_url ? "Change background" : "Add background"}
+        </span>
+      </button>
+
+      {editing && (
+        <div className="mt-2 w-[min(22rem,calc(100vw-4rem))] rounded-lg border border-hairline bg-card p-4 text-left shadow-lg">
+          <p className="mb-3 text-xs text-ink/60">
+            A wide photo works best. It&apos;s also the banner across the top of your guest site.
+          </p>
+          <PhotoUpload
+            kind="hero"
+            photoUrl={wedding.hero_photo_url}
+            shape="wide"
+            confirmRemove="Remove the background photo? It's also your guest site's banner."
+            onDone={() => setEditing(false)}
+          />
+        </div>
+      )}
+    </div>
   );
 }
 
 /**
  * The banner across the top: who, when, how long, and how far along.
  *
- * The booked venue's photo is the backdrop when there is one -- it's the
- * picture of the day itself -- then the guest-site banner, then plain forest.
- * State, season and style used to fill a card of their own here; they're
- * settings, touched a handful of times, so they're chips now.
+ * The couple's own background photo when they've set one (the same picture
+ * as the guest-site banner), then the booked venue's photo, then plain
+ * forest. State, season and style used to show here as chips; they're
+ * settings that feed estimates, not anything worth a place on the banner, so
+ * they live behind "Edit details".
  */
 function WeddingHero({
   wedding,
@@ -320,125 +366,126 @@ function WeddingHero({
   phase: HeroPhase;
   onEdit: () => void;
 }) {
-  const backdrop = bookedVenue?.image_url ?? wedding.hero_photo_url;
+  const backdrop = wedding.hero_photo_url ?? bookedVenue?.image_url;
   const venueLine = bookedVenue
     ? [bookedVenue.name, [bookedVenue.city, bookedVenue.state].filter(Boolean).join(", ")]
         .filter(Boolean)
         .join(" · ")
     : null;
 
+  // The camera button sits outside the section: the section clips to its
+  // rounded corners, and would clip the upload popover along with the photo.
   return (
-    <section className="relative overflow-hidden rounded-2xl bg-forest shadow-lg">
-      {backdrop ? (
-        <Image
-          src={backdrop}
-          alt=""
-          fill
-          priority
-          sizes="(min-width: 1600px) 1600px, 100vw"
-          className="object-cover"
-        />
-      ) : (
+    <div className="relative">
+      <CoverPhotoButton wedding={wedding} />
+      <section className="relative overflow-hidden rounded-2xl bg-forest shadow-lg">
+        {backdrop ? (
+          <Image
+            src={backdrop}
+            alt=""
+            fill
+            priority
+            sizes="(min-width: 1600px) 1600px, 100vw"
+            className="object-cover"
+          />
+        ) : (
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(199,154,46,0.35),transparent_55%),radial-gradient(ellipse_at_bottom_left,rgba(255,255,255,0.08),transparent_50%)]"
+          />
+        )}
+        {/* Scrim: dark enough at the bottom-left for white type on any photo. */}
         <div
           aria-hidden="true"
-          className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(199,154,46,0.35),transparent_55%),radial-gradient(ellipse_at_bottom_left,rgba(255,255,255,0.08),transparent_50%)]"
+          className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/55 to-black/45 lg:bg-gradient-to-r lg:from-black/75 lg:via-black/45 lg:to-black/10"
         />
-      )}
-      {/* Scrim: dark enough at the bottom-left for white type on any photo. */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/55 to-black/45 lg:bg-gradient-to-r lg:from-black/75 lg:via-black/45 lg:to-black/10"
-      />
 
-      <div className="relative flex flex-col gap-8 p-6 sm:p-10 lg:min-h-[360px] lg:flex-row lg:items-end lg:justify-between lg:p-12">
-        <div className="flex flex-col gap-5 sm:flex-row sm:items-end">
-          <ProfileAvatar wedding={wedding} />
-          <div className="min-w-0">
-            {venueLine && (
-              <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
-                {venueLine}
+        <div className="relative flex flex-col gap-8 p-6 pt-16 sm:p-10 lg:min-h-[360px] lg:flex-row lg:items-end lg:justify-between lg:p-12">
+          <div className="flex flex-col gap-5 sm:flex-row sm:items-end">
+            <ProfileAvatar wedding={wedding} />
+            <div className="min-w-0">
+              {venueLine && (
+                <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
+                  {venueLine}
+                </p>
+              )}
+              <h1 className="mt-2 font-display text-4xl font-semibold leading-tight text-white sm:text-5xl lg:text-6xl">
+                {wedding.partner_a_name} &amp; {wedding.partner_b_name}
+              </h1>
+              <p className="mt-2 text-lg text-white/85">
+                {wedding.wedding_date ? formatDate(wedding.wedding_date) : "Date not set yet"}
+              </p>
+              <div className="mt-4">
+                <button
+                  type="button"
+                  onClick={onEdit}
+                  className="rounded-full bg-white px-3 py-1 text-xs font-medium text-forest transition-colors hover:bg-parchment"
+                >
+                  Edit details
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-5 rounded-xl border border-white/15 bg-black/25 p-5 backdrop-blur-md lg:min-w-[380px]">
+            {wedding.wedding_date ? (
+              <>
+                {/* Four large units don't fit a phone's width; the small ones do. */}
+                <div className="sm:hidden">
+                  <CountdownTimer
+                    targetDate={wedding.wedding_date}
+                    fallbackLabel={daysUntilWedding(wedding.wedding_date)}
+                    tone="light"
+                    className="justify-start [&>div:first-child]:pl-0"
+                  />
+                </div>
+                <div className="hidden sm:block">
+                  <CountdownTimer
+                    targetDate={wedding.wedding_date}
+                    fallbackLabel={daysUntilWedding(wedding.wedding_date)}
+                    tone="light"
+                    size="lg"
+                    className="justify-start [&>div:first-child]:pl-0"
+                  />
+                </div>
+              </>
+            ) : (
+              <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-white/70">
+                Add your date to start the countdown
               </p>
             )}
-            <h1 className="mt-2 font-display text-4xl font-semibold leading-tight text-white sm:text-5xl lg:text-6xl">
-              {wedding.partner_a_name} &amp; {wedding.partner_b_name}
-            </h1>
-            <p className="mt-2 text-lg text-white/85">
-              {wedding.wedding_date ? formatDate(wedding.wedding_date) : "Date not set yet"}
-            </p>
-            <div className="mt-4 flex flex-wrap items-center gap-2">
-              {wedding.state && <Chip>{wedding.state}</Chip>}
-              {wedding.season && <Chip>{wedding.season}</Chip>}
-              {wedding.style_tier && <Chip>{wedding.style_tier}</Chip>}
-              {wedding.venue_type && <Chip>{wedding.venue_type}</Chip>}
-              <button
-                type="button"
-                onClick={onEdit}
-                className="rounded-full bg-white px-3 py-1 text-xs font-medium text-forest transition-colors hover:bg-parchment"
-              >
-                Edit details
-              </button>
+            <div className="flex items-center gap-4 border-t border-white/15 pt-5">
+              <ProgressRing {...progress} />
+              <div className="min-w-0">
+                <p className="font-mono-numbers text-[10px] uppercase tracking-[0.2em] text-white/60">
+                  {phase ? "You're here" : progress.total > 0 ? "Plan complete" : "No plan yet"}
+                </p>
+                <p className="mt-1 font-display text-xl font-semibold text-white">
+                  {phase
+                    ? phase.title
+                    : progress.total > 0
+                      ? "Everything's done"
+                      : "Let Wren build your plan"}
+                </p>
+                <p className="mt-1 text-xs text-white/70">
+                  {phase
+                    ? `${phase.done} of ${phase.total} done in this stage · ${progress.done} of ${progress.total} overall`
+                    : progress.total > 0
+                      ? `${progress.total} tasks ticked off`
+                      : "A month-by-month checklist, made for your date."}
+                </p>
+                <Link
+                  href="/checklist"
+                  className="mt-2 inline-block text-xs font-medium text-brass hover:text-white"
+                >
+                  {progress.total > 0 ? "See the whole plan" : "Build my plan"} &rarr;
+                </Link>
+              </div>
             </div>
           </div>
         </div>
-
-        <div className="flex flex-col gap-5 rounded-xl border border-white/15 bg-black/25 p-5 backdrop-blur-md lg:min-w-[380px]">
-          {wedding.wedding_date ? (
-            <>
-              {/* Four large units don't fit a phone's width; the small ones do. */}
-              <div className="sm:hidden">
-                <CountdownTimer
-                  targetDate={wedding.wedding_date}
-                  fallbackLabel={daysUntilWedding(wedding.wedding_date)}
-                  tone="light"
-                  className="justify-start [&>div:first-child]:pl-0"
-                />
-              </div>
-              <div className="hidden sm:block">
-                <CountdownTimer
-                  targetDate={wedding.wedding_date}
-                  fallbackLabel={daysUntilWedding(wedding.wedding_date)}
-                  tone="light"
-                  size="lg"
-                  className="justify-start [&>div:first-child]:pl-0"
-                />
-              </div>
-            </>
-          ) : (
-            <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-white/70">
-              Add your date to start the countdown
-            </p>
-          )}
-          <div className="flex items-center gap-4 border-t border-white/15 pt-5">
-            <ProgressRing {...progress} />
-            <div className="min-w-0">
-              <p className="font-mono-numbers text-[10px] uppercase tracking-[0.2em] text-white/60">
-                {phase ? "You're here" : progress.total > 0 ? "Plan complete" : "No plan yet"}
-              </p>
-              <p className="mt-1 font-display text-xl font-semibold text-white">
-                {phase
-                  ? phase.title
-                  : progress.total > 0
-                    ? "Everything's done"
-                    : "Let Wren build your plan"}
-              </p>
-              <p className="mt-1 text-xs text-white/70">
-                {phase
-                  ? `${phase.done} of ${phase.total} done in this stage · ${progress.done} of ${progress.total} overall`
-                  : progress.total > 0
-                    ? `${progress.total} tasks ticked off`
-                    : "A month-by-month checklist, made for your date."}
-              </p>
-              <Link
-                href={progress.total > 0 ? "/wedding-plan" : "/checklist"}
-                className="mt-2 inline-block text-xs font-medium text-brass hover:text-white"
-              >
-                {progress.total > 0 ? "See the whole plan" : "Build my plan"} &rarr;
-              </Link>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+      </section>
+    </div>
   );
 }
 

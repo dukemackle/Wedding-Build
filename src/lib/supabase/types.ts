@@ -551,3 +551,23 @@ export type FeedbackSubmission = {
   status: FeedbackStatus;
   created_at: string;
 };
+
+export type WeddingGalleryPhoto = {
+  id: string;
+  wedding_id: string;
+  photo_url: string;
+  sort_order: number;
+  created_at: string;
+};
+
+export type GuestPostStatus = "pending" | "approved" | "hidden";
+
+export type GuestPost = {
+  id: string;
+  wedding_id: string;
+  name: string;
+  message: string | null;
+  photo_url: string | null;
+  status: GuestPostStatus;
+  created_at: string;
+};

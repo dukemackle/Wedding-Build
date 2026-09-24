@@ -10,6 +10,7 @@ import type {
   RegistryItem,
   WeddingAccommodation,
   WeddingFaq,
+  WeddingGalleryPhoto,
 } from "@/lib/supabase/types";
 import { FadeInSection } from "@/components/fade-in-section";
 import { ChevronDownIcon } from "@/components/icons";
@@ -17,8 +18,9 @@ import { RsvpForm } from "./rsvp-form";
 import { ItineraryView } from "./itinerary-view";
 import { GuestbookView } from "./guestbook-view";
 import { GuestWall } from "./guest-wall";
+import { GalleryView } from "./gallery-view";
 import { WeddingHero } from "./wedding-hero";
-import { CANVAS_WIDTH } from "@/lib/layout";
+import { CANVAS_WIDTH, WIDE_WIDTH } from "@/lib/layout";
 
 const CARD = "rounded-lg border border-hairline bg-card p-6 sm:p-10 shadow-sm";
 
@@ -128,12 +130,31 @@ export default async function PublicWeddingPage({
     .order("created_at", { ascending: false })
     .returns<PublicGuestbookEntry[]>();
 
+  const { data: galleryPhotos } = await supabase
+    .from("wedding_gallery_photos")
+    .select("*")
+    .eq("wedding_id", wedding.id)
+    .order("sort_order", { ascending: true })
+    .returns<WeddingGalleryPhoto[]>();
+
+  const coupleNames = [wedding.partner_a_name, wedding.partner_b_name].filter(Boolean).join(" & ");
+  const shareHref = `/w/${slug}/share`;
+
   const { data: confirmedGuests } = await supabase
     .from("public_confirmed_guests")
     .select("*")
     .eq("wedding_id", wedding.id)
     .order("created_at", { ascending: true })
     .returns<PublicConfirmedGuest[]>();
+
+  const hasSidebar = Boolean(
+    (confirmedGuests && confirmedGuests.length > 0) ||
+      wedding.dress_code ||
+      wedding.travel_notes ||
+      (accommodations && accommodations.length > 0) ||
+      (weddingFaqs && weddingFaqs.length > 0) ||
+      (registryItems && registryItems.length > 0),
+  );
 
   return (
     <main className="flex flex-1 flex-col">
@@ -142,8 +163,16 @@ export default async function PublicWeddingPage({
       {/* Two arrangements. On a phone, one column in reading order. From lg
           up, the things a guest acts on (RSVP, schedule, guestbook) take the
           wide left column and the reference material sits beside them, so a
-          big screen holds two panels rather than one stretched stack. */}
-      <div className={`mx-auto w-full ${CANVAS_WIDTH} px-4 pb-16 sm:px-6 lg:grid lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] lg:items-start lg:gap-8 lg:px-10`}>
+          big screen holds two panels rather than one stretched stack. When
+          the couple hasn't filled in any reference material yet, the right
+          column would be empty, so the page centres as a single column. */}
+      <div
+        className={`mx-auto w-full px-4 pb-16 sm:px-6 lg:px-10 ${
+          hasSidebar
+            ? `${CANVAS_WIDTH} lg:grid lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] lg:items-start lg:gap-8`
+            : WIDE_WIDTH
+        }`}
+      >
         <div className="flex flex-col gap-8">
             <FadeInSection>
               <div id="rsvp" className={`${CARD} scroll-mt-6`}>
@@ -161,9 +190,21 @@ export default async function PublicWeddingPage({
                   weddingId={wedding.id}
                   partnerAName={wedding.partner_a_name}
                   partnerBName={wedding.partner_b_name}
+                  shareHref={shareHref}
                 />
               </div>
             </FadeInSection>
+
+            {galleryPhotos && galleryPhotos.length > 0 && (
+              <FadeInSection>
+                <div className={`${CARD} overflow-hidden`}>
+                  <h2 className="font-display text-2xl font-semibold text-forest">Us, so far</h2>
+                  <div className="mt-4">
+                    <GalleryView photos={galleryPhotos} alt={coupleNames} />
+                  </div>
+                </div>
+              </FadeInSection>
+            )}
 
             {itineraryEvents && itineraryEvents.length > 0 && (
               <FadeInSection>
@@ -178,21 +219,38 @@ export default async function PublicWeddingPage({
               </FadeInSection>
             )}
 
-            {guestbookEntries && guestbookEntries.length > 0 && (
-              <FadeInSection>
-                <div className={CARD}>
-                  <h2 className="font-display text-2xl font-semibold text-forest">Guestbook</h2>
-                  <p className="mt-1 text-sm text-ink/70">Well wishes from your guests.</p>
-                  <div className="mt-4">
+            {/* Always shown, even empty: it's where guests are invited to post. */}
+            <FadeInSection>
+              <div id="photo-wall" className={`${CARD} scroll-mt-6`}>
+                <div className="flex flex-wrap items-start justify-between gap-3">
+                  <div>
+                    <h2 className="font-display text-2xl font-semibold text-forest">
+                      From our guests
+                    </h2>
+                    <p className="mt-1 text-sm text-ink/70">
+                      {guestbookEntries && guestbookEntries.length > 0
+                        ? "Photos and well wishes from the people we love."
+                        : "Be the first — share a photo or a few words for the two of us."}
+                    </p>
+                  </div>
+                  <a
+                    href={shareHref}
+                    className="btn-motion shrink-0 rounded-md bg-forest px-4 py-2 text-sm font-medium text-parchment transition-colors hover:bg-forest/90"
+                  >
+                    Add a photo
+                  </a>
+                </div>
+                {guestbookEntries && guestbookEntries.length > 0 && (
+                  <div className="mt-5">
                     <GuestbookView entries={guestbookEntries} />
                   </div>
-                </div>
-              </FadeInSection>
-            )}
+                )}
+              </div>
+            </FadeInSection>
 
         </div>
 
-        <div className="mt-8 flex flex-col gap-8 lg:mt-0">
+        <div className={`mt-8 flex flex-col gap-8 ${hasSidebar ? "lg:mt-0" : ""}`}>
             <FadeInSection>
               <GuestWall guests={confirmedGuests ?? []} />
             </FadeInSection>

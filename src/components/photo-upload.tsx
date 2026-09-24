@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useRef, useState, useTransition } from "react";
 import { removeWeddingPhoto, uploadWeddingPhoto } from "@/app/dashboard/actions";
 import type { WeddingPhotoKind } from "@/app/dashboard/actions";
+import { shrinkImage } from "@/lib/shrink-image";
 
 /**
  * Upload for either of the wedding's two photos.
@@ -36,6 +37,8 @@ export function PhotoUpload({
   function handleUpload(formData: FormData) {
     formData.set("kind", kind);
     startTransition(async () => {
+      const photo = formData.get("photo") as File | null;
+      if (photo && photo.size > 0) formData.set("photo", await shrinkImage(photo));
       const result = await uploadWeddingPhoto(formData);
       if (result?.error) {
         setError(result.error);
