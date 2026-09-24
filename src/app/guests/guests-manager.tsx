@@ -885,15 +885,14 @@ function GuestRow({
   );
 
   return (
-    <div className="border-b border-hairline last:border-b-0">
+    <div
+      title={guestSideLabel(guest, theme)}
+      className="mb-1 rounded-md border-l-4 pl-2.5 pr-1 last:mb-0"
+      style={sideRowStyle(guest, theme)}
+    >
       {/* One line on a wide screen, two on a phone: the meta drops under the
           name rather than being squeezed beside it. */}
       <div className="flex items-center gap-2 py-1.5">
-        <span
-          title={guestSideLabel(guest, theme)}
-          className="h-2.5 w-2.5 shrink-0 rounded-full"
-          style={{ backgroundColor: guestSideColor(guest, theme) }}
-        />
         {guest.photo_url && (
           <Image
             src={guest.photo_url}
@@ -950,6 +949,20 @@ function GuestRow({
       {showThankYou && <div className="pb-3">{<ThankYouPanel guest={guest} />}</div>}
     </div>
   );
+}
+
+/**
+ * The whole row carries the side: a solid bar down the left edge and a faint
+ * wash of the same colour across it, so a side reads at a glance down a long
+ * list. A guest with no side gets no wash -- blank is what "not sorted yet"
+ * should look like.
+ */
+function sideRowStyle(guest: Guest, theme: SideTheme) {
+  if (!guest.side) return { borderLeftColor: "transparent" };
+  const color = guestSideColor(guest, theme);
+  // Every side colour is a 6-digit hex, so a two-digit alpha suffix gives the
+  // wash: ~12% is enough to read without fighting the badges on top of it.
+  return { borderLeftColor: color, backgroundColor: `${color}1F` };
 }
 
 function personCount(guest: Guest) {
@@ -1013,17 +1026,18 @@ function SideColorKey({
           key={side}
           type="button"
           onClick={() => setEditing((open) => (open === side ? null : side))}
-          className="flex items-center gap-1.5 rounded-full border border-transparent px-1.5 py-0.5 transition-colors hover:border-hairline"
+          title="Change this side's colour"
+          className="flex items-center gap-1.5 rounded-md border-l-4 py-1 pl-2 pr-2.5 text-ink/80 transition-colors hover:text-ink"
+          style={{ borderLeftColor: shown[side], backgroundColor: `${shown[side]}1F` }}
         >
-          <span
-            className="h-2.5 w-2.5 rounded-full"
-            style={{ backgroundColor: shown[side] }}
-          />
           {theme.labels[side]}
+          <span className="text-[10px] text-ink/45">Change ▾</span>
         </button>
       ))}
-      <span className="flex items-center gap-1.5 px-1.5">
-        <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: theme.colors.both }} />
+      <span
+        className="flex items-center rounded-md border-l-4 py-1 pl-2 pr-2.5"
+        style={{ borderLeftColor: theme.colors.both, backgroundColor: `${theme.colors.both}1F` }}
+      >
         Both
       </span>
       {error && <span className="text-red-800">{error}</span>}
@@ -1054,7 +1068,7 @@ function SideColorKey({
               />
             ))}
             <p className="w-full text-[11px] leading-4 text-ink/45">
-              Colours the dot on every guest you&apos;ve put on this side. Guests with no side
+              Highlights every guest you&apos;ve put on this side. Guests with no side
               set stay grey.
             </p>
           </div>
