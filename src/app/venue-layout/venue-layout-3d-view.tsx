@@ -22,7 +22,7 @@ import {
   CANVAS_WIDTH,
   WORLD_SCALE as SCALE,
   itemDimensions,
-  tableDimensions,
+  tableFootprint,
 } from "@/lib/venue-layout-geometry";
 
 /**
@@ -69,7 +69,7 @@ function computeBounds(tables: SeatingTable[], items: VenueLayoutItem[]) {
   }
 
   for (const table of tables) {
-    const { width, height } = tableDimensions(table.shape, table.capacity);
+    const { width, height } = tableFootprint(table);
     // Chairs extend past the table itself, so pad the footprint for them.
     include(table.position_x, table.position_y, width, height, 1.2);
   }
@@ -91,7 +91,7 @@ function computeBounds(tables: SeatingTable[], items: VenueLayoutItem[]) {
 }
 
 function TableScene({ table }: { table: SeatingTable }) {
-  const { width, height } = tableDimensions(table.shape, table.capacity);
+  const { width, height } = tableFootprint(table);
   const [x, z] = toWorld(table.position_x + width / 2, table.position_y + height / 2);
   const rotationRad = (table.rotation * Math.PI) / 180;
   const seats = Math.min(Math.max(table.capacity ?? 8, 2), 14);

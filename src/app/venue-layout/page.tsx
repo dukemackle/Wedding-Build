@@ -79,9 +79,10 @@ export default async function VenueLayoutPage() {
   ]);
 
   return (
-    // The plan is the page, so it gets the whole screen rather than a 1024px
-    // column -- the canvas is what the extra width is for.
-    <PageShell email={user.email ?? ""} width="canvas">
+    // The plan is the page and scales itself to whatever width it gets, so it
+    // takes the whole screen rather than stopping at 1600px with empty
+    // margins either side on a wide monitor.
+    <PageShell email={user.email ?? ""} width="full">
         <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
           Venue layout
         </p>

@@ -66,6 +66,17 @@ export function tableDimensions(shape: TableShape, capacity: number | null): Foo
   return { width: diameter, height: diameter };
 }
 
+/** A table's footprint: its own size once resized on the plan, else derived. */
+export function tableFootprint(
+  table: Pick<SeatingTable, "shape" | "capacity" | "width" | "height">,
+): Footprint {
+  const derived = tableDimensions(table.shape, table.capacity);
+  return {
+    width: table.width ?? derived.width,
+    height: table.height ?? derived.height,
+  };
+}
+
 /** An item's footprint: its own size when it has one, else its type's default. */
 export function itemDimensions(item: Pick<VenueLayoutItem, "item_type" | "width" | "height">): Footprint {
   const fallback = ITEM_TYPE_DIMENSIONS[item.item_type];
@@ -79,5 +90,20 @@ export function itemDimensions(item: Pick<VenueLayoutItem, "item_type" | "width"
 export function nodeDimensions(node: SeatingTable | VenueLayoutItem): Footprint {
   return "item_type" in node
     ? itemDimensions(node)
-    : tableDimensions(node.shape, node.capacity);
+    : tableFootprint(node);
+}
+
+/**
+ * Where a copy lands: just below-right of the original, but kept on the plan.
+ * Near the right or bottom edge it steps the other way instead, so a copy of
+ * something against the wall doesn't vanish off the canvas.
+ */
+export function duplicatePosition(x: number, y: number, size: Footprint) {
+  const offset = 40;
+  const step = (value: number, extent: number, limit: number) =>
+    value + offset + extent <= limit ? value + offset : Math.max(0, value - offset);
+  return {
+    position_x: Math.round(step(x, size.width, CANVAS_WIDTH)),
+    position_y: Math.round(step(y, size.height, CANVAS_HEIGHT)),
+  };
 }

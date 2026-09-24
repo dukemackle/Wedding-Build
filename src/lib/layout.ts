@@ -46,7 +46,7 @@ export const WIDE_WIDTH = "max-w-6xl";
  * WIDE, and the nav stretches to match rather than floating above them as a
  * short strip.
  *
- * Itinerary, venue layout, and from 1280px budget and checklist --
+ * Itinerary, and from 1280px budget and checklist --
  * each composed with side columns so the extra room holds panels rather than
  * a stretched table.
  */
@@ -56,7 +56,8 @@ export const CANVAS_WIDTH = "max-w-[1600px]";
  * No cap at all, for a page that manages its own width -- a map beside a list
  * that reaches all four edges, or three columns that fill any screen.
  *
- * Venues, vendors, guests, attire.
+ * Venues, vendors, guests, attire, and the venue layout -- whose plan
+ * scales itself to fit, so a cap only left empty margins beside it.
  */
 export const FULL_WIDTH = "max-w-none";
 
