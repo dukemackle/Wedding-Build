@@ -7,6 +7,7 @@ const links = [
   { href: "/admin/couples", label: "Couples" },
   { href: "/admin/vendors", label: "Vendors" },
   { href: "/admin/venues", label: "Venues" },
+  { href: "/admin/attire", label: "Attire" },
   { href: "/admin/revenue", label: "Revenue" },
   { href: "/admin/growth", label: "Growth" },
   { href: "/admin/cost-data", label: "Cost Data" },

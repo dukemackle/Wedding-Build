@@ -56,7 +56,7 @@ export const CANVAS_WIDTH = "max-w-[1600px]";
  * No cap at all, for a page that manages its own width -- a map beside a list
  * that reaches all four edges, or three columns that fill any screen.
  *
- * Venues, vendors, guests.
+ * Venues, vendors, guests, attire.
  */
 export const FULL_WIDTH = "max-w-none";
 

@@ -3,10 +3,20 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { AppNav } from "@/components/app-nav";
 import { PageShell } from "@/components/page-shell";
-import type { AttireItem, AttireShortlistEntry, Wedding } from "@/lib/supabase/types";
-import { AttireManager } from "./attire-manager";
+import type {
+  AttireItem,
+  AttirePartyMember,
+  AttireShortlistEntry,
+  Wedding,
+} from "@/lib/supabase/types";
+import { AttireBrowser } from "./attire-browser";
 
-export default async function AttirePage() {
+export default async function AttirePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ view?: string }>;
+}) {
+  const { view } = await searchParams;
   const supabase = await createClient();
   const {
     data: { user },
@@ -47,29 +57,46 @@ export default async function AttirePage() {
     );
   }
 
-  const { data: items } = await supabase
-    .from("attire_items")
-    .select("*")
-    .order("category")
-    .order("name")
-    .returns<AttireItem[]>();
+  const [{ data: items }, { data: shortlist }, { data: party }] = await Promise.all([
+    supabase
+      .from("attire_items")
+      .select("*")
+      .order("is_featured", { ascending: false })
+      .order("name")
+      .returns<AttireItem[]>(),
+    supabase
+      .from("attire_shortlist")
+      .select("*")
+      .eq("wedding_id", wedding.id)
+      .returns<AttireShortlistEntry[]>(),
+    supabase
+      .from("attire_party_members")
+      .select("*")
+      .eq("wedding_id", wedding.id)
+      .order("sort_order")
+      .order("created_at")
+      .returns<AttirePartyMember[]>(),
+  ]);
 
-  const { data: shortlist } = await supabase
-    .from("attire_shortlist")
-    .select("*")
-    .eq("wedding_id", wedding.id)
-    .returns<AttireShortlistEntry[]>();
+  const vendorIds = [...new Set((items ?? []).map((i) => i.vendor_id).filter(Boolean))] as string[];
+  const { data: vendors } = vendorIds.length
+    ? await supabase
+        .from("vendors")
+        .select("id, name")
+        .in("id", vendorIds)
+        .returns<{ id: string; name: string }[]>()
+    : { data: [] };
 
   return (
-    <PageShell email={user.email ?? ""} width="standard">
-        <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
-          Attire
-        </p>
-        <h1 className="mt-2 mb-6 font-display text-3xl font-semibold text-forest">
-          Dresses, suits & rings
-        </h1>
-
-        <AttireManager items={items ?? []} shortlist={shortlist ?? []} />
+    <PageShell email={user.email ?? ""} width="full">
+      <AttireBrowser
+        items={items ?? []}
+        shortlist={shortlist ?? []}
+        party={party ?? []}
+        vendorNames={Object.fromEntries((vendors ?? []).map((v) => [v.id, v.name]))}
+        shareToken={wedding.party_share_token}
+        initialView={view === "saved" || view === "party" ? view : "browse"}
+      />
     </PageShell>
   );
 }
