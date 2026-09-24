@@ -442,6 +442,9 @@ export type SeatingTable = {
   position_x: number;
   position_y: number;
   rotation: number;
+  /** Set once the table is resized on the plan; null derives it from shape and seats. */
+  width: number | null;
+  height: number | null;
   room_id: string | null;
   created_at: string;
   updated_at: string;

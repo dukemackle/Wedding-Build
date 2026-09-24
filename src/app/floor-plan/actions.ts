@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getOrCreateDefaultRoom } from "@/lib/venue-rooms";
+import { duplicatePosition, itemDimensions } from "@/lib/venue-layout-geometry";
 import type { LayoutItemType, VenueLayoutItem, Wedding } from "@/lib/supabase/types";
 
 const VALID_ITEM_TYPES: LayoutItemType[] = [
@@ -314,8 +315,7 @@ export async function duplicateLayoutItem(formData: FormData): Promise<{ error?:
     width: source.width,
     height: source.height,
     room_id: source.room_id,
-    position_x: source.position_x + DUPLICATE_OFFSET,
-    position_y: source.position_y + DUPLICATE_OFFSET,
+    ...duplicatePosition(source.position_x, source.position_y, itemDimensions(source)),
   });
 
   if (error) {
@@ -326,4 +326,3 @@ export async function duplicateLayoutItem(formData: FormData): Promise<{ error?:
   return {};
 }
 
-const DUPLICATE_OFFSET = 40;

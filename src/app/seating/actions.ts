@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getOrCreateDefaultRoom } from "@/lib/venue-rooms";
+import { MAX_ITEM_SIZE, MIN_ITEM_SIZE, clamp, duplicatePosition, tableFootprint } from "@/lib/venue-layout-geometry";
 import type { SeatingTable, TableShape, Wedding } from "@/lib/supabase/types";
 
 const VALID_SHAPES: TableShape[] = ["round", "square", "rectangle"];
@@ -120,7 +121,13 @@ export async function updateTablePosition(formData: FormData): Promise<{ error?:
   const positionYRaw = formData.get("position_y");
   const rotationRaw = formData.get("rotation");
 
-  const update: { position_x?: number; position_y?: number; rotation?: number } = {};
+  const update: {
+    position_x?: number;
+    position_y?: number;
+    rotation?: number;
+    width?: number | null;
+    height?: number | null;
+  } = {};
 
   if (positionXRaw != null && positionYRaw != null) {
     const positionX = Number(positionXRaw);
@@ -138,6 +145,23 @@ export async function updateTablePosition(formData: FormData): Promise<{ error?:
       return { error: "Invalid rotation." };
     }
     update.rotation = normalizeRotation(rotation);
+  }
+
+  // Absent leaves the size alone; an empty string clears it back to the
+  // footprint derived from shape and seats.
+  for (const key of ["width", "height"] as const) {
+    const raw = formData.get(key);
+    if (raw == null) continue;
+    const text = String(raw).trim();
+    if (text === "") {
+      update[key] = null;
+      continue;
+    }
+    const value = Number(text);
+    if (!Number.isFinite(value)) {
+      return { error: "Size must be a number." };
+    }
+    update[key] = Math.round(clamp(value, MIN_ITEM_SIZE, MAX_ITEM_SIZE));
   }
 
   if (Object.keys(update).length === 0) {
@@ -171,9 +195,19 @@ export async function updateSeatingTable(formData: FormData): Promise<{ error?: 
     return { error: parsed.error };
   }
 
+  // A size dragged out for one shape is wrong for another -- a round table
+  // turned rectangle would stay a square box -- so a shape change goes back to
+  // the footprint derived from the new shape.
+  const previousShape = formData.get("previous_shape");
+  const shapeChanged = previousShape != null && previousShape !== parsed.fields.shape;
+
   const { error } = await supabase
     .from("seating_tables")
-    .update({ ...parsed.fields, updated_at: new Date().toISOString() })
+    .update({
+      ...parsed.fields,
+      ...(shapeChanged ? { width: null, height: null } : {}),
+      updated_at: new Date().toISOString(),
+    })
     .eq("id", tableId)
     .eq("wedding_id", wedding.id);
 
@@ -318,9 +352,10 @@ export async function duplicateSeatingTable(formData: FormData): Promise<{ error
     capacity: source.capacity,
     shape: source.shape,
     rotation: source.rotation,
+    width: source.width,
+    height: source.height,
     room_id: source.room_id,
-    position_x: source.position_x + DUPLICATE_OFFSET,
-    position_y: source.position_y + DUPLICATE_OFFSET,
+    ...duplicatePosition(source.position_x, source.position_y, tableFootprint(source)),
   });
 
   if (error) {
@@ -330,8 +365,6 @@ export async function duplicateSeatingTable(formData: FormData): Promise<{ error
   revalidatePath("/venue-layout");
   return {};
 }
-
-const DUPLICATE_OFFSET = 40;
 
 /** "Table 4" copies to "Table 5"; anything not ending in a number gets " copy". */
 function copyName(name: string) {

@@ -37,7 +37,7 @@ import {
   MIN_ITEM_SIZE,
   clamp,
   itemDimensions,
-  tableDimensions,
+  tableFootprint,
 } from "@/lib/venue-layout-geometry";
 
 const VenueLayout3DView = dynamic(() => import("./venue-layout-3d-view"), {
@@ -292,6 +292,15 @@ function normalizeRotation(value: number) {
   return ((Math.round(value) % 360) + 360) % 360;
 }
 
+/**
+ * Text inside a shape turned past a quarter-turn would read upside down --
+ * a bar rotated 180 degrees came out as "ɹɐq" -- so the label flips back.
+ */
+function uprightLabelStyle(rotation: number): React.CSSProperties | undefined {
+  const r = normalizeRotation(rotation);
+  return r > 90 && r <= 270 ? { transform: "rotate(180deg)" } : undefined;
+}
+
 // Drag this handle around the shape's center to rotate it -- hold Shift
 // to snap to 15-degree steps. Rendered as a child of the rotated shape so
 // it turns along with it. It sits on the opposite edge from the toolbar so
@@ -299,11 +308,13 @@ function normalizeRotation(value: number) {
 function RotateHandle({
   containerRef,
   edge,
+  scale,
   onRotate,
   onRotateEnd,
 }: {
   containerRef: React.RefObject<HTMLDivElement | null>;
   edge: "top" | "bottom";
+  scale: number;
   onRotate: (degrees: number) => void;
   onRotateEnd: (degrees: number) => void;
 }) {
@@ -344,11 +355,14 @@ function RotateHandle({
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
       onPointerUp={handlePointerUp}
+      // Scaled by the inverse of the canvas scale, like the toolbar, so it is
+      // the same size on screen however far the plan has been shrunk to fit.
       style={{
         position: "absolute",
-        [edge]: -44,
+        [edge]: -(36 + 10 / scale),
         left: "50%",
-        transform: "translateX(-50%)",
+        transform: `translateX(-50%) scale(${1 / scale})`,
+        transformOrigin: `center ${edge === "top" ? "bottom" : "top"}`,
         touchAction: "none",
       }}
       aria-label="Drag to rotate"
@@ -366,18 +380,25 @@ function RotateHandle({
 /**
  * Drag the bottom-right corner to resize. Deltas are divided by the canvas
  * scale so a pixel of finger travel is a pixel of plan, whatever the canvas
- * has been scaled to fit.
+ * has been scaled to fit, and turned into the shape's own axes so a rotated
+ * shape grows the way the handle is dragged rather than sideways.
+ *
+ * `lockAspect` keeps round and square tables round and square.
  */
 function ResizeHandle({
   width,
   height,
   scale,
+  rotation,
+  lockAspect = false,
   onResize,
   onResizeEnd,
 }: {
   width: number;
   height: number;
   scale: number;
+  rotation: number;
+  lockAspect?: boolean;
   onResize: (width: number, height: number) => void;
   onResizeEnd: (width: number, height: number) => void;
 }) {
@@ -393,17 +414,19 @@ function ResizeHandle({
   function handlePointerMove(e: React.PointerEvent) {
     if (!startRef.current) return;
     e.stopPropagation();
+    const dx = (e.clientX - startRef.current.x) / scale;
+    const dy = (e.clientY - startRef.current.y) / scale;
+    const radians = (rotation * Math.PI) / 180;
+    const cos = Math.cos(radians);
+    const sin = Math.sin(radians);
+    let localX = dx * cos + dy * sin;
+    let localY = -dx * sin + dy * cos;
+    if (lockAspect) {
+      localX = localY = (localX + localY) / 2;
+    }
     const next = {
-      width: clamp(
-        Math.round(startRef.current.w + (e.clientX - startRef.current.x) / scale),
-        MIN_ITEM_SIZE,
-        MAX_ITEM_SIZE,
-      ),
-      height: clamp(
-        Math.round(startRef.current.h + (e.clientY - startRef.current.y) / scale),
-        MIN_ITEM_SIZE,
-        MAX_ITEM_SIZE,
-      ),
+      width: clamp(Math.round(startRef.current.w + localX), MIN_ITEM_SIZE, MAX_ITEM_SIZE),
+      height: clamp(Math.round(startRef.current.h + localY), MIN_ITEM_SIZE, MAX_ITEM_SIZE),
     };
     latestRef.current = next;
     onResize(next.width, next.height);
@@ -424,8 +447,16 @@ function ResizeHandle({
       onPointerCancel={handlePointerUp}
       role="button"
       aria-label="Resize"
-      style={{ touchAction: "none" }}
-      className="absolute -bottom-2.5 -right-2.5 h-6 w-6 cursor-nwse-resize rounded-sm border-2 border-forest bg-card shadow-sm"
+      title="Drag to resize"
+      style={{
+        position: "absolute",
+        right: -12,
+        bottom: -12,
+        transform: `scale(${1 / scale})`,
+        transformOrigin: "center",
+        touchAction: "none",
+      }}
+      className="z-10 h-6 w-6 cursor-nwse-resize rounded-sm border-2 border-forest bg-card shadow-sm"
     />
   );
 }
@@ -685,6 +716,7 @@ function TableNode({
   onDragEnd,
   onUnassign,
   onDropGuests,
+  onResizeEnd,
   actions,
 }: {
   table: SeatingTable;
@@ -698,9 +730,11 @@ function TableNode({
   onDragEnd: (x: number, y: number) => void;
   onUnassign: (guestId: string) => void;
   onDropGuests: (guestIds: string[]) => void;
+  onResizeEnd: (width: number, height: number) => void;
   actions: NodeActions;
 }) {
-  const { width, height } = tableDimensions(table.shape, table.capacity);
+  const [size, setSize] = useState(() => tableFootprint(table));
+  const { width, height } = size;
   const [rotation, setRotation] = useState(table.rotation);
   const [dropHover, setDropHover] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -770,13 +804,29 @@ function TableNode({
         className={`relative flex h-full w-full select-none flex-col items-center justify-center gap-1 border-2 bg-card p-2 text-center shadow-sm ${shapeClassName(table.shape)} ${ringClass}`}
       >
         {isSelected && (
-          <RotateHandle
-            containerRef={containerRef}
-            edge={toolbarBelow ? "top" : "bottom"}
-            onRotate={setRotation}
-            onRotateEnd={actions.onRotateEnd}
-          />
+          <>
+            <RotateHandle
+              containerRef={containerRef}
+              edge={toolbarBelow ? "top" : "bottom"}
+              scale={scale}
+              onRotate={setRotation}
+              onRotateEnd={actions.onRotateEnd}
+            />
+            <ResizeHandle
+              width={width}
+              height={height}
+              scale={scale}
+              rotation={rotation}
+              lockAspect={table.shape !== "rectangle"}
+              onResize={(w, h) => setSize({ width: w, height: h })}
+              onResizeEnd={onResizeEnd}
+            />
+          </>
         )}
+        <div
+          style={uprightLabelStyle(rotation)}
+          className="flex max-h-full w-full flex-col items-center justify-center gap-1 overflow-hidden"
+        >
         <p className="font-medium text-ink">{table.name}</p>
         <p
           className={`text-xs ${overCapacity ? "text-red-700" : full ? "text-forest" : "text-ink/50"}`}
@@ -806,6 +856,7 @@ function TableNode({
               </button>
             </span>
           ))}
+        </div>
         </div>
       </div>
       {isSelected && (
@@ -884,7 +935,10 @@ function ItemNode({
         style={{ transform: `rotate(${rotation}deg)` }}
         className={`relative h-full w-full select-none rounded-lg border-2 text-sm shadow-sm ${ITEM_TYPE_COLORS[item.item_type]} ${isSelected ? "ring-2 ring-forest/40" : ""}`}
       >
-        <div className="flex h-full w-full flex-col items-center justify-center overflow-hidden p-2 text-center">
+        <div
+          style={uprightLabelStyle(rotation)}
+          className="flex h-full w-full flex-col items-center justify-center overflow-hidden p-2 text-center"
+        >
           <p className="font-medium text-ink">{itemDisplayName(item)}</p>
           {item.label && (
             <p className="text-xs text-ink/50">{ITEM_TYPE_LABELS[item.item_type]}</p>
@@ -895,6 +949,7 @@ function ItemNode({
             <RotateHandle
               containerRef={containerRef}
               edge={toolbarBelow ? "top" : "bottom"}
+              scale={scale}
               onRotate={setRotation}
               onRotateEnd={actions.onRotateEnd}
             />
@@ -902,6 +957,7 @@ function ItemNode({
               width={size.width}
               height={size.height}
               scale={scale}
+              rotation={rotation}
               onResize={(width, height) => setSize({ width, height })}
               onResizeEnd={onResizeEnd}
             />
@@ -934,9 +990,22 @@ function ItemNode({
  *
  * The coordinate space is a fixed CANVAS_WIDTH x CANVAS_HEIGHT field, and the
  * whole thing is scaled so that field fills the available width. A wide screen
- * therefore shows the entire venue at once with no horizontal scrollbar, which
- * is what it used to need at a fixed 960px inside a narrower card.
+ * therefore shows the entire venue at once with no scrollbars.
+ *
+ * A CSS transform doesn't change an element's layout size, so the scaled plan
+ * sits inside a box sized to its scaled footprint. Without that box the frame
+ * still measured the plan at its full 1600x900 and scrolled both ways -- a
+ * scrollbar under a plan that already fit, and a scroll-wheel that moved the
+ * plan instead of the page.
+ *
+ * On a phone the plan stops shrinking at a legible floor and the frame pans
+ * sideways instead. Wider than that, nothing scrolls, and the frame lets
+ * handles and toolbars hang past its edge rather than clipping them -- a
+ * rotate handle on something against the top wall used to be unreachable.
  */
+// Below this the plan is too small to grab things on, so a phone pans instead.
+const MIN_CANVAS_SCALE = 0.34;
+
 function VenueCanvas({
   tables,
   items,
@@ -950,6 +1019,7 @@ function VenueCanvas({
   onTableDragEnd,
   onItemDragEnd,
   onItemResizeEnd,
+  onTableResizeEnd,
   onUnassign,
   onDropGuests,
   tableActions,
@@ -967,6 +1037,7 @@ function VenueCanvas({
   onTableDragEnd: (id: string, x: number, y: number) => void;
   onItemDragEnd: (id: string, x: number, y: number) => void;
   onItemResizeEnd: (id: string, width: number, height: number) => void;
+  onTableResizeEnd: (id: string, width: number, height: number) => void;
   onUnassign: (guestId: string) => void;
   onDropGuests: (tableId: string, guestIds: string[]) => void;
   tableActions: (table: SeatingTable) => NodeActions;
@@ -985,8 +1056,8 @@ function VenueCanvas({
       if (!width) return;
       setViewportWidth(width);
       // Floored so a phone still gets something legible rather than a
-      // postage stamp; below the floor the frame scrolls instead.
-      setScale(clamp(width / CANVAS_WIDTH, 0.34, 1.2));
+      // postage stamp; below the floor the frame pans instead.
+      setScale(clamp(width / CANVAS_WIDTH, MIN_CANVAS_SCALE, 1.2));
     }
 
     measure();
@@ -995,12 +1066,20 @@ function VenueCanvas({
     return () => observer.disconnect();
   }, []);
 
+  const pans = viewportWidth < CANVAS_WIDTH * MIN_CANVAS_SCALE;
+
   return (
     <div
       ref={frameRef}
-      className="w-full overflow-auto rounded-lg border border-hairline bg-parchment"
-      style={{ height: CANVAS_HEIGHT * scale }}
+      className={`w-full rounded-lg border border-hairline bg-parchment ${pans ? "overflow-x-auto" : ""}`}
     >
+      <div
+        style={{
+          position: "relative",
+          width: Math.floor(CANVAS_WIDTH * scale),
+          height: Math.floor(CANVAS_HEIGHT * scale),
+        }}
+      >
       <div
         onClick={(e) => {
           if (e.target === e.currentTarget) onClearSelection();
@@ -1028,7 +1107,7 @@ function VenueCanvas({
         ))}
         {tables.map((table) => (
           <TableNode
-            key={`${table.id}-${table.position_x}-${table.position_y}-${table.rotation}`}
+            key={`${table.id}-${table.position_x}-${table.position_y}-${table.rotation}-${table.width}-${table.height}-${table.shape}-${table.capacity}`}
             table={table}
             assignedGuests={guestsByTable.get(table.id) ?? []}
             isSelected={table.id === selectedTableId}
@@ -1039,9 +1118,11 @@ function VenueCanvas({
             onDragEnd={(x, y) => onTableDragEnd(table.id, x, y)}
             onUnassign={onUnassign}
             onDropGuests={(ids) => onDropGuests(table.id, ids)}
+            onResizeEnd={(width, height) => onTableResizeEnd(table.id, width, height)}
             actions={tableActions(table)}
           />
         ))}
+      </div>
       </div>
     </div>
   );
@@ -1061,6 +1142,7 @@ function SelectionPanel({
   onUnassign,
   onDeleteTable,
   onDeleteItem,
+  onResetTableSize,
 }: {
   table: SeatingTable | null;
   item: VenueLayoutItem | null;
@@ -1068,6 +1150,7 @@ function SelectionPanel({
   onUnassign: (guestId: string) => void;
   onDeleteTable: (table: SeatingTable) => void;
   onDeleteItem: (item: VenueLayoutItem) => void;
+  onResetTableSize: (table: SeatingTable) => void;
 }) {
   const [error, setError] = useState<string | undefined>(undefined);
   const [isPending, startTransition] = useTransition();
@@ -1079,6 +1162,10 @@ function SelectionPanel({
         <p className="mt-2">
           Click a table or an item on the plan for its toolbar: rename, duplicate, rotate or
           delete. Drag the round handle to rotate freely, the corner square to resize.
+          <span className="hidden sm:inline">
+            {" "}
+            Shortcuts: Delete, Ctrl/⌘+D to duplicate, Esc to deselect.
+          </span>
         </p>
       </div>
     );
@@ -1116,6 +1203,9 @@ function SelectionPanel({
         {table ? (
           <>
             <TableFields table={table} />
+            {/* Lets the server tell a shape change apart, which resets a
+                dragged-out size that only made sense for the old shape. */}
+            <input type="hidden" name="previous_shape" value={table.shape} />
             {/* The server reads rotation off this same form and falls back to
                 0 when it is missing, so a saved edit would quietly straighten
                 a table you had rotated. */}
@@ -1158,6 +1248,19 @@ function SelectionPanel({
               )}
             </>
           )
+        )}
+
+        {table && table.width != null && (
+          <p className="-mt-1 text-xs text-ink/50">
+            Resized to {table.width} x {table.height} on the plan.{" "}
+            <button
+              type="button"
+              onClick={() => onResetTableSize(table)}
+              className="text-brass hover:underline"
+            >
+              Fit to seats again
+            </button>
+          </p>
         )}
 
         {error && <p className="text-sm text-red-800">{error}</p>}
@@ -1752,6 +1855,14 @@ export function VenueLayoutManager({
     });
   }
 
+  function handleTableResizeEnd(tableId: string, width: number, height: number) {
+    send(updateTablePosition, {
+      id: tableId,
+      width: String(Math.round(width)),
+      height: String(Math.round(height)),
+    });
+  }
+
   function handleDeleteTable(table: SeatingTable) {
     if (!confirm(`Delete "${table.name}"? Assigned guests will become unassigned.`)) return;
     if (selectedTableId === table.id) setSelectedTableId(null);
@@ -1783,6 +1894,43 @@ export function VenueLayoutManager({
       onDelete: () => handleDeleteItem(item),
     };
   }
+
+  // Keyboard shortcuts for whatever is selected: Delete removes it, Ctrl/Cmd+D
+  // copies it, Escape lets go of it (and of any picked guests). Ignored while
+  // typing, so renaming a table called "Dad" doesn't delete it.
+  const shortcutsRef = useRef({ selectedTable, selectedItem, tableActions, itemActions });
+  useEffect(() => {
+    shortcutsRef.current = { selectedTable, selectedItem, tableActions, itemActions };
+  });
+  useEffect(() => {
+    function onKeyDown(e: KeyboardEvent) {
+      const target = e.target as HTMLElement | null;
+      if (target?.closest("input, textarea, select, [contenteditable='true']")) return;
+      const { selectedTable, selectedItem, tableActions, itemActions } = shortcutsRef.current;
+      const actions = selectedTable
+        ? tableActions(selectedTable)
+        : selectedItem
+          ? itemActions(selectedItem)
+          : null;
+
+      if (e.key === "Escape") {
+        setSelectedTableId(null);
+        setSelectedItemId(null);
+        setPickedGuestIds(new Set());
+        return;
+      }
+      if (!actions) return;
+      if (e.key === "Delete" || e.key === "Backspace") {
+        e.preventDefault();
+        actions.onDelete();
+      } else if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "d") {
+        e.preventDefault();
+        actions.onDuplicate();
+      }
+    }
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, []);
 
   const hasContent = visibleTables.length > 0 || visibleItems.length > 0;
   const canAdd = mode !== "rooms" || activeRoomId != null;
@@ -1878,6 +2026,7 @@ export function VenueLayoutManager({
               onTableDragEnd={handleTableDragEnd}
               onItemDragEnd={handleItemDragEnd}
               onItemResizeEnd={handleItemResizeEnd}
+              onTableResizeEnd={handleTableResizeEnd}
               onUnassign={handleUnassign}
               onDropGuests={(tableId, ids) => seat(ids, tableId)}
               tableActions={tableActions}
@@ -1893,6 +2042,9 @@ export function VenueLayoutManager({
               onUnassign={handleUnassign}
               onDeleteTable={handleDeleteTable}
               onDeleteItem={handleDeleteItem}
+              onResetTableSize={(table) =>
+                send(updateTablePosition, { id: table.id, width: "", height: "" })
+              }
             />
             {showGuests && (
               <GuestPanel
