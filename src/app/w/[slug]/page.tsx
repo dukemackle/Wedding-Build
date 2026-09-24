@@ -20,7 +20,7 @@ import { GuestbookView } from "./guestbook-view";
 import { GuestWall } from "./guest-wall";
 import { GalleryView } from "./gallery-view";
 import { WeddingHero } from "./wedding-hero";
-import { CANVAS_WIDTH } from "@/lib/layout";
+import { CANVAS_WIDTH, WIDE_WIDTH } from "@/lib/layout";
 
 const CARD = "rounded-lg border border-hairline bg-card p-6 sm:p-10 shadow-sm";
 
@@ -147,6 +147,15 @@ export default async function PublicWeddingPage({
     .order("created_at", { ascending: true })
     .returns<PublicConfirmedGuest[]>();
 
+  const hasSidebar = Boolean(
+    (confirmedGuests && confirmedGuests.length > 0) ||
+      wedding.dress_code ||
+      wedding.travel_notes ||
+      (accommodations && accommodations.length > 0) ||
+      (weddingFaqs && weddingFaqs.length > 0) ||
+      (registryItems && registryItems.length > 0),
+  );
+
   return (
     <main className="flex flex-1 flex-col">
       <WeddingHero wedding={wedding} />
@@ -154,8 +163,16 @@ export default async function PublicWeddingPage({
       {/* Two arrangements. On a phone, one column in reading order. From lg
           up, the things a guest acts on (RSVP, schedule, guestbook) take the
           wide left column and the reference material sits beside them, so a
-          big screen holds two panels rather than one stretched stack. */}
-      <div className={`mx-auto w-full ${CANVAS_WIDTH} px-4 pb-16 sm:px-6 lg:grid lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] lg:items-start lg:gap-8 lg:px-10`}>
+          big screen holds two panels rather than one stretched stack. When
+          the couple hasn't filled in any reference material yet, the right
+          column would be empty, so the page centres as a single column. */}
+      <div
+        className={`mx-auto w-full px-4 pb-16 sm:px-6 lg:px-10 ${
+          hasSidebar
+            ? `${CANVAS_WIDTH} lg:grid lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] lg:items-start lg:gap-8`
+            : WIDE_WIDTH
+        }`}
+      >
         <div className="flex flex-col gap-8">
             <FadeInSection>
               <div id="rsvp" className={`${CARD} scroll-mt-6`}>
@@ -233,7 +250,7 @@ export default async function PublicWeddingPage({
 
         </div>
 
-        <div className="mt-8 flex flex-col gap-8 lg:mt-0">
+        <div className={`mt-8 flex flex-col gap-8 ${hasSidebar ? "lg:mt-0" : ""}`}>
             <FadeInSection>
               <GuestWall guests={confirmedGuests ?? []} />
             </FadeInSection>
