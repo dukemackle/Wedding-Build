@@ -85,14 +85,14 @@ export function WeddingHero({ wedding }: { wedding: PublicWedding }) {
   // deliberate treatment on parchment rather than an empty grey band.
   if (!wedding.hero_photo_url) {
     return (
-      <header className="-mx-6 -mt-16 mb-10 bg-[radial-gradient(120%_90%_at_50%_0%,#ffffff_0%,var(--color-parchment)_60%)] px-6 pb-16 pt-24">
+      <header className="mb-10 bg-[radial-gradient(120%_90%_at_50%_0%,#ffffff_0%,var(--color-parchment)_60%)] px-6 pb-16 pt-24">
         <HeroContent wedding={wedding} tone="dark" />
       </header>
     );
   }
 
   return (
-    <header className="relative -mx-6 -mt-16 mb-10 flex h-[78vh] min-h-[520px] items-center justify-center overflow-hidden">
+    <header className="relative mb-10 flex h-[78vh] min-h-[520px] items-center justify-center overflow-hidden">
       <Image
         src={wedding.hero_photo_url}
         alt=""

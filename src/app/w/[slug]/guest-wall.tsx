@@ -10,7 +10,7 @@ export function GuestWall({ guests }: { guests: PublicConfirmedGuest[] }) {
   if (guests.length === 0) return null;
 
   return (
-    <div className="mt-8 rounded-lg border border-hairline bg-card p-6 sm:p-10 shadow-sm">
+    <div className="rounded-lg border border-hairline bg-card p-6 sm:p-10 shadow-sm">
       <h2 className="font-display text-2xl font-semibold text-forest">
         {guests.length} {guests.length === 1 ? "person is" : "people are"} going
       </h2>
