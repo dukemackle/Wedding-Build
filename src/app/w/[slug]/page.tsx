@@ -1,3 +1,5 @@
+import { cache } from "react";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import type {
@@ -28,6 +30,54 @@ function formatDate(dateStr: string) {
   });
 }
 
+// Shared by the metadata and the page so the lookup runs once per request.
+const getWedding = cache(async (slug: string) => {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("public_weddings")
+    .select("*")
+    .eq("public_slug", slug)
+    .maybeSingle<PublicWedding>();
+  return data;
+});
+
+/**
+ * What a texted or posted link unfurls into. Most guests meet the site this
+ * way, so it should read as the couple's invitation -- names, date, photo --
+ * not as a bare "Wren" link.
+ */
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const wedding = await getWedding(slug);
+  if (!wedding) return {};
+
+  const names =
+    [wedding.partner_a_name, wedding.partner_b_name].filter(Boolean).join(" & ") ||
+    "Our wedding";
+  const place = [wedding.venue_city, wedding.venue_state].filter(Boolean).join(", ");
+  const when = wedding.wedding_date ? formatDate(wedding.wedding_date) : null;
+  const title = when ? `${names} · ${when}` : names;
+  const whenWhere = [when, place].filter(Boolean).join(" in ");
+  const description = `You're invited! ${whenWhere ? `${whenWhere}. ` : ""}RSVP, see the schedule and travel details here.`;
+  const images = wedding.hero_photo_url ? [{ url: wedding.hero_photo_url }] : undefined;
+
+  return {
+    title,
+    description,
+    openGraph: { title, description, type: "website", images },
+    twitter: {
+      card: images ? "summary_large_image" : "summary",
+      title,
+      description,
+      images: images?.map((image) => image.url),
+    },
+  };
+}
+
 export default async function PublicWeddingPage({
   params,
 }: {
@@ -35,12 +85,7 @@ export default async function PublicWeddingPage({
 }) {
   const { slug } = await params;
   const supabase = await createClient();
-
-  const { data: wedding } = await supabase
-    .from("public_weddings")
-    .select("*")
-    .eq("public_slug", slug)
-    .maybeSingle<PublicWedding>();
+  const wedding = await getWedding(slug);
 
   if (!wedding) {
     notFound();
@@ -101,7 +146,7 @@ export default async function PublicWeddingPage({
       <div className={`mx-auto w-full ${CANVAS_WIDTH} px-4 pb-16 sm:px-6 lg:grid lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] lg:items-start lg:gap-8 lg:px-10`}>
         <div className="flex flex-col gap-8">
             <FadeInSection>
-              <div className={CARD}>
+              <div id="rsvp" className={`${CARD} scroll-mt-6`}>
                 <h2 className="font-display text-2xl font-semibold text-forest">RSVP</h2>
                 <p className="mt-1 text-sm text-ink/70">
                   Let {wedding.partner_a_name ?? "the couple"} &amp;{" "}

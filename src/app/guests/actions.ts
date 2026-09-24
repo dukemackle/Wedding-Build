@@ -20,6 +20,7 @@ import type {
   Wedding,
 } from "@/lib/supabase/types";
 import { GUEST_SIDES, GUEST_TYPES, SIDE_COLORS } from "@/lib/guest-groups";
+import { findGuestByName } from "@/lib/guest-match";
 
 const VALID_STATUSES: GuestStatus[] = ["invited", "confirmed", "declined", "pending"];
 const VALID_PRIORITIES: GuestPriority[] = ["must_invite", "would_like", "if_room"];
@@ -489,26 +490,57 @@ export async function approveRsvpSubmission(formData: FormData): Promise<{ error
     return { error: "That RSVP submission no longer exists." };
   }
 
-  const { error: insertError } = await supabase.from("guests").insert({
-    wedding_id: wedding.id,
-    user_id: user.id,
-    name: submission.guest_name,
-    household: submission.household,
-    side: submission.side,
+  // Someone the couple already invited updates their existing row rather
+  // than appearing on the list twice.
+  const { data: existingGuests, error: guestsError } = await supabase
+    .from("guests")
+    .select("id, name, household, side, notes")
+    .eq("wedding_id", wedding.id)
+    .returns<Pick<Guest, "id" | "name" | "household" | "side" | "notes">[]>();
+
+  if (guestsError) {
+    return { error: guestsError.message };
+  }
+
+  const match = findGuestByName(existingGuests ?? [], submission.guest_name);
+
+  const answers = {
     plus_one: submission.plus_one,
     plus_one_name: submission.plus_one_name,
     status: submission.status,
     meal: submission.meal,
-    notes: submission.notes,
     photo_url: submission.photo_url,
     message: submission.message,
     song_request: submission.song_request,
     phone: submission.phone,
     sms_opt_in: submission.sms_opt_in,
-  });
+  };
 
-  if (insertError) {
-    return { error: insertError.message };
+  const { error: saveError } = match
+    ? await supabase
+        .from("guests")
+        .update({
+          ...answers,
+          // The couple's own household and side win over what the guest typed.
+          household: match.household ?? submission.household,
+          side: match.side ?? submission.side,
+          notes:
+            [match.notes, submission.notes].filter(Boolean).join("\n\n") || null,
+        })
+        .eq("id", match.id)
+        .eq("wedding_id", wedding.id)
+    : await supabase.from("guests").insert({
+        ...answers,
+        wedding_id: wedding.id,
+        user_id: user.id,
+        name: submission.guest_name,
+        household: submission.household,
+        side: submission.side,
+        notes: submission.notes,
+      });
+
+  if (saveError) {
+    return { error: saveError.message };
   }
 
   const { error: deleteError } = await supabase

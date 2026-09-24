@@ -3,6 +3,7 @@ import type { PublicWedding } from "@/lib/supabase/types";
 import { StaggerWords } from "@/components/stagger-words";
 import { CountdownTimer } from "@/components/countdown-timer";
 import { daysUntilWedding } from "@/lib/countdown";
+import { HeroActions } from "./hero-actions";
 
 function formatDate(dateStr: string) {
   return new Date(`${dateStr}T00:00:00`).toLocaleDateString("en-US", {
@@ -76,6 +77,8 @@ function HeroContent({ wedding, tone }: { wedding: PublicWedding; tone: "light" 
           className="mt-8"
         />
       )}
+
+      <HeroActions wedding={wedding} location={location} tone={tone} />
     </div>
   );
 }

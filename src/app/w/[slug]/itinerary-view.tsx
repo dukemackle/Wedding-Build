@@ -18,11 +18,12 @@ export function ItineraryView({
   }
 
   return (
-    <div className="flex items-start gap-4 overflow-x-auto pb-2">
+    // Phones stack the days; from md up they sit side by side as columns.
+    <div className="flex flex-col gap-4 md:flex-row md:items-start md:overflow-x-auto md:pb-2">
       {days.map((day) => (
         <div
           key={day.date}
-          className="w-full min-w-[220px] flex-1 rounded-lg border border-hairline bg-card p-4 shadow-sm"
+          className="w-full rounded-lg md:min-w-[220px] md:flex-1 border border-hairline bg-card p-4 shadow-sm"
         >
           <div className="mb-3 border-b border-hairline pb-3">
             <p className="font-display text-lg font-semibold text-forest">

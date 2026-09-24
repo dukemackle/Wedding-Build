@@ -108,6 +108,7 @@ export function GuestsPageBody({
                   content: (
                     <PendingRsvps
                       submissions={pendingRsvps}
+                      guests={guests}
                       partnerAName={wedding.partner_a_name}
                       partnerBName={wedding.partner_b_name}
                     />
