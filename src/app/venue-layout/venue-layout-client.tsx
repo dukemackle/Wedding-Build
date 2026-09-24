@@ -1,7 +1,6 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import type { Guest, SeatingTable, VenueLayoutItem, VenueRoom } from "@/lib/supabase/types";
 
 /**
  * Keeps the floor-plan editor off the server entirely.
@@ -56,11 +55,8 @@ function VenueLayoutSkeleton() {
   );
 }
 
-export function VenueLayoutClient(props: {
-  tables: SeatingTable[];
-  confirmedGuests: Guest[];
-  items: VenueLayoutItem[];
-  rooms: VenueRoom[];
-}) {
+export function VenueLayoutClient(
+  props: React.ComponentProps<typeof import("./venue-layout-manager").VenueLayoutManager>,
+) {
   return <VenueLayoutManager {...props} />;
 }
