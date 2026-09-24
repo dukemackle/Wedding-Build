@@ -303,14 +303,19 @@ export async function setSideColors(formData: FormData): Promise<{ error?: strin
   const palette = SIDE_COLORS.map((c) => c.value);
   const sideA = (formData.get("side_a_color") as string) || "";
   const sideB = (formData.get("side_b_color") as string) || "";
+  const sideBoth = (formData.get("side_both_color") as string) || "";
 
-  if (!palette.includes(sideA as (typeof palette)[number]) || !palette.includes(sideB as (typeof palette)[number])) {
+  if (![sideA, sideB, sideBoth].every((c) => palette.includes(c as (typeof palette)[number]))) {
     return { error: "Pick a colour from the palette." };
   }
 
   const { error } = await supabase
     .from("weddings")
-    .update({ side_a_color: sideA, side_b_color: sideB, updated_at: new Date().toISOString() })
+    .update({
+      side_a_color: sideA,
+      side_b_color: sideB,
+      side_both_color: sideBoth,
+      updated_at: new Date().toISOString() })
     .eq("id", wedding.id);
 
   if (error) {

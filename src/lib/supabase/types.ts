@@ -31,6 +31,7 @@ export type Wedding = {
   /** The colour each side of the guest list is drawn in, picked by the couple. */
   side_a_color: string | null;
   side_b_color: string | null;
+  side_both_color: string | null;
   created_at: string;
   updated_at: string;
 };
