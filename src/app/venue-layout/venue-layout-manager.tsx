@@ -296,6 +296,21 @@ function normalizeRotation(value: number) {
  * Text inside a shape turned past a quarter-turn would read upside down --
  * a bar rotated 180 degrees came out as "ɹɐq" -- so the label flips back.
  */
+/**
+ * Which edge of the shape the rotate handle sits on. It is a child of the
+ * rotated shape, so on something turned past a quarter-turn its "bottom" ends
+ * up on top -- right under the toolbar, where a grab for the handle hit
+ * Duplicate instead. Flipping it keeps it on the far side from the toolbar.
+ *
+ * Read from the saved rotation, not the live one, so the handle doesn't jump
+ * to the other edge halfway through a drag.
+ */
+function rotateHandleEdge(toolbarBelow: boolean, savedRotation: number): "top" | "bottom" {
+  const r = normalizeRotation(savedRotation);
+  const flipped = r > 90 && r <= 270;
+  return toolbarBelow !== flipped ? "top" : "bottom";
+}
+
 function uprightLabelStyle(rotation: number): React.CSSProperties | undefined {
   const r = normalizeRotation(rotation);
   return r > 90 && r <= 270 ? { transform: "rotate(180deg)" } : undefined;
@@ -807,7 +822,7 @@ function TableNode({
           <>
             <RotateHandle
               containerRef={containerRef}
-              edge={toolbarBelow ? "top" : "bottom"}
+              edge={rotateHandleEdge(toolbarBelow, table.rotation)}
               scale={scale}
               onRotate={setRotation}
               onRotateEnd={actions.onRotateEnd}
@@ -948,7 +963,7 @@ function ItemNode({
           <>
             <RotateHandle
               containerRef={containerRef}
-              edge={toolbarBelow ? "top" : "bottom"}
+              edge={rotateHandleEdge(toolbarBelow, item.rotation)}
               scale={scale}
               onRotate={setRotation}
               onRotateEnd={actions.onRotateEnd}
