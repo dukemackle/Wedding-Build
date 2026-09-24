@@ -885,15 +885,14 @@ function GuestRow({
   );
 
   return (
-    <div className="border-b border-hairline last:border-b-0">
+    <div
+      title={guestSideLabel(guest, theme)}
+      className="mb-1 rounded-md border-l-4 pl-2.5 pr-1 last:mb-0"
+      style={sideRowStyle(guest, theme)}
+    >
       {/* One line on a wide screen, two on a phone: the meta drops under the
           name rather than being squeezed beside it. */}
       <div className="flex items-center gap-2 py-1.5">
-        <span
-          title={guestSideLabel(guest, theme)}
-          className="h-2.5 w-2.5 shrink-0 rounded-full"
-          style={{ backgroundColor: guestSideColor(guest, theme) }}
-        />
         {guest.photo_url && (
           <Image
             src={guest.photo_url}
@@ -952,49 +951,60 @@ function GuestRow({
   );
 }
 
+/**
+ * The whole row carries the side: a solid bar down the left edge and a faint
+ * wash of the same colour across it, so a side reads at a glance down a long
+ * list. A guest with no side gets no wash -- blank is what "not sorted yet"
+ * should look like.
+ */
+function sideRowStyle(guest: Guest, theme: SideTheme) {
+  if (!guest.side) return { borderLeftColor: "transparent" };
+  const color = guestSideColor(guest, theme);
+  // Every side colour is a 6-digit hex, so a two-digit alpha suffix gives the
+  // wash: ~12% is enough to read without fighting the badges on top of it.
+  return { borderLeftColor: color, backgroundColor: `${color}1F` };
+}
+
 function personCount(guest: Guest) {
   return 1 + (guest.plus_one ? 1 : 0);
 }
 
 /**
  * The key at the top of the list: which colour means whose side, and a
- * palette to change either one. Two colours only -- "both" is deliberately
- * neutral, and a guest with no side set is pale grey.
+ * palette to change any of the three. A guest with no side set stays plain.
  */
 function SideColorKey({
   theme,
-  sideACurrent,
-  sideBCurrent,
+  current,
   onPicked,
 }: {
   theme: SideTheme;
-  sideACurrent: string;
-  sideBCurrent: string;
-  /** So every dot in the list repaints with the key, not just the key. */
-  onPicked: (colors: { a: string; b: string }) => void;
+  current: Record<GuestSide, string>;
+  /** So every row in the list repaints with the key, not just the key. */
+  onPicked: (colors: Record<GuestSide, string>) => void;
 }) {
-  // Only the two real sides are pickable: "both" is deliberately neutral.
-  const [editing, setEditing] = useState<"a" | "b" | null>(null);
+  const [editing, setEditing] = useState<GuestSide | null>(null);
   const [error, setError] = useState<string | undefined>(undefined);
   // The picked colour, shown before the server has confirmed it. Without this
   // the swatch doesn't move until the page revalidates, which reads as a
   // button that does nothing.
-  const [pending, setPending] = useState<{ a?: string; b?: string }>({});
+  const [pending, setPending] = useState<Partial<Record<GuestSide, string>>>({});
   const [, startTransition] = useTransition();
 
-  const shown = {
-    a: pending.a ?? sideACurrent,
-    b: pending.b ?? sideBCurrent,
+  const shown: Record<GuestSide, string> = {
+    a: pending.a ?? current.a,
+    b: pending.b ?? current.b,
+    both: pending.both ?? current.both,
   };
 
-  function pick(side: "a" | "b", color: string) {
-    const nextA = side === "a" ? color : shown.a;
-    const nextB = side === "b" ? color : shown.b;
+  function pick(side: GuestSide, color: string) {
+    const next = { ...shown, [side]: color };
     const formData = new FormData();
-    formData.set("side_a_color", nextA);
-    formData.set("side_b_color", nextB);
-    setPending({ a: nextA, b: nextB });
-    onPicked({ a: nextA, b: nextB });
+    formData.set("side_a_color", next.a);
+    formData.set("side_b_color", next.b);
+    formData.set("side_both_color", next.both);
+    setPending(next);
+    onPicked(next);
     setEditing(null);
     setError(undefined);
     startTransition(async () => {
@@ -1008,24 +1018,19 @@ function SideColorKey({
 
   return (
     <div className="relative flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-ink/60">
-      {(["a", "b"] as const).map((side) => (
+      {GUEST_SIDES.map((side) => (
         <button
           key={side}
           type="button"
           onClick={() => setEditing((open) => (open === side ? null : side))}
-          className="flex items-center gap-1.5 rounded-full border border-transparent px-1.5 py-0.5 transition-colors hover:border-hairline"
+          title="Change this side's colour"
+          className="flex items-center gap-1.5 rounded-md border-l-4 py-1 pl-2 pr-2.5 text-ink/80 transition-colors hover:text-ink"
+          style={{ borderLeftColor: shown[side], backgroundColor: `${shown[side]}1F` }}
         >
-          <span
-            className="h-2.5 w-2.5 rounded-full"
-            style={{ backgroundColor: shown[side] }}
-          />
           {theme.labels[side]}
+          <span className="text-[10px] text-ink/45">Change ▾</span>
         </button>
       ))}
-      <span className="flex items-center gap-1.5 px-1.5">
-        <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: theme.colors.both }} />
-        Both
-      </span>
       {error && <span className="text-red-800">{error}</span>}
 
       {editing && (
@@ -1054,8 +1059,8 @@ function SideColorKey({
               />
             ))}
             <p className="w-full text-[11px] leading-4 text-ink/45">
-              Colours the dot on every guest you&apos;ve put on this side. Guests with no side
-              set stay grey.
+              Highlights every guest you&apos;ve put on this side. Guests with no side
+              set stay plain.
             </p>
           </div>
         </>
@@ -1071,6 +1076,7 @@ export function GuestsManager({
   partnerBName,
   sideAColor,
   sideBColor,
+  sideBothColor,
 }: {
   guests: Guest[];
   /** A Google Sheet they've imported from before, if there is one. */
@@ -1079,6 +1085,7 @@ export function GuestsManager({
   partnerBName: string | null;
   sideAColor: string | null;
   sideBColor: string | null;
+  sideBothColor: string | null;
 }) {
   const [filter, setFilter] = useState<GuestStatus | "all">("all");
   const [priorityFilter, setPriorityFilter] = useState<GuestPriority | "all">("all");
@@ -1097,12 +1104,13 @@ export function GuestsManager({
   const [showAddForm, setShowAddForm] = useState(false);
   const [showImportForm, setShowImportForm] = useState(false);
 
-  const [pickedColors, setPickedColors] = useState<{ a?: string; b?: string }>({});
+  const [pickedColors, setPickedColors] = useState<{ a?: string; b?: string; both?: string }>({});
   const theme = sideTheme({
     partnerAName,
     partnerBName,
     sideAColor: pickedColors.a ?? sideAColor,
     sideBColor: pickedColors.b ?? sideBColor,
+    sideBothColor: pickedColors.both ?? sideBothColor,
   });
 
   function handleAssign(guestId: string, field: "side" | "guest_type", value: string) {
@@ -1231,8 +1239,7 @@ export function GuestsManager({
       <div className="flex flex-wrap items-center justify-between gap-2 py-3">
         <SideColorKey
           theme={theme}
-          sideACurrent={theme.colors.a}
-          sideBCurrent={theme.colors.b}
+          current={theme.colors}
           onPicked={(colors) => setPickedColors(colors)}
         />
         <div className="flex flex-wrap gap-2">

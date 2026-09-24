@@ -108,6 +108,7 @@ export function GuestsPageBody({
               partnerBName={wedding.partner_b_name}
               sideAColor={wedding.side_a_color}
               sideBColor={wedding.side_b_color}
+              sideBothColor={wedding.side_both_color}
             />
           </div>
 
