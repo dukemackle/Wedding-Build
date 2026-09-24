@@ -1,26 +1,5 @@
 import { BUDGET_CATEGORIES, VENDOR_CATEGORY_TO_BUDGET_KEY } from "@/lib/budget-categories";
-import { CHECKLIST_PHASES } from "@/lib/checklist-template";
-import type { ChecklistItem, VendorInquiryStatus } from "@/lib/supabase/types";
-
-export type DashboardSummaryData = {
-  guestsConfirmed: number;
-  guestsPending: number;
-  guestsDeclined: number;
-  guestsTotal: number;
-  /** The number the budget is planned around -- the override if one is set. */
-  headcount: number;
-  headcountIsOverride: boolean;
-  /** Visible categories plus custom items, the same total the Budget page shows. */
-  budgetTotal: number;
-  budgetTarget: number | null;
-  budgetPaid: number;
-  budgetCategoriesQuoted: number;
-  budgetCategoriesTotal: number;
-  venuesShortlisted: number;
-  attireShortlisted: number;
-  tasksDone: number;
-  tasksTotal: number;
-};
+import type { VendorInquiryStatus } from "@/lib/supabase/types";
 
 export type VendorStatus = "booked" | "talking" | "quoted" | "shortlisted" | "open";
 
@@ -129,19 +108,4 @@ export function buildVendorTracker({
     }
     return { key, label, status: "open", detail: null, href };
   });
-}
-
-/** Wren's plan stage the couple is in: the first one with anything left to do. */
-export function currentPhase(items: ChecklistItem[]) {
-  for (const phase of CHECKLIST_PHASES) {
-    const inPhase = items.filter((item) => item.phase === phase.key);
-    if (inPhase.some((item) => !item.completed)) {
-      return {
-        title: phase.title,
-        done: inPhase.filter((item) => item.completed).length,
-        total: inPhase.length,
-      };
-    }
-  }
-  return null;
 }

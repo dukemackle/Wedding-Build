@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useEffect, useRef, useState, useTransition } from "react";
 import { saveWedding } from "./actions";
 import type { Venue, Wedding } from "@/lib/supabase/types";
@@ -255,42 +254,6 @@ function WeddingForm({
   );
 }
 
-
-export type HeroProgress = { done: number; total: number };
-export type HeroPhase = { title: string; done: number; total: number } | null;
-
-/** Planning progress as a ring -- the one number that says "how far along are we". */
-function ProgressRing({ done, total }: HeroProgress) {
-  const pct = total > 0 ? Math.round((done / total) * 100) : 0;
-  const r = 34;
-  const circumference = 2 * Math.PI * r;
-  return (
-    <div className="relative h-24 w-24 shrink-0">
-      <svg viewBox="0 0 80 80" className="h-24 w-24 -rotate-90" aria-hidden="true">
-        <circle cx="40" cy="40" r={r} fill="none" stroke="currentColor" strokeWidth="6" className="text-white/20" />
-        <circle
-          cx="40"
-          cy="40"
-          r={r}
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="6"
-          strokeLinecap="round"
-          strokeDasharray={circumference}
-          strokeDashoffset={circumference * (1 - pct / 100)}
-          className="text-brass transition-[stroke-dashoffset] duration-700"
-        />
-      </svg>
-      <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <span className="font-mono-numbers text-xl font-semibold text-white">{pct}%</span>
-        <span className="font-mono-numbers text-[9px] uppercase tracking-[0.2em] text-white/60">
-          planned
-        </span>
-      </div>
-    </div>
-  );
-}
-
 /**
  * The camera button in the banner's corner: changes the background photo.
  *
@@ -363,7 +326,7 @@ function CoverPhotoButton({ wedding }: { wedding: Wedding }) {
 }
 
 /**
- * The banner across the top: who, when, how long, and how far along.
+ * The banner across the top: who, when, and how long to go.
  *
  * The couple's own background photo when they've set one (the same picture
  * as the guest-site banner), then the booked venue's photo, then plain
@@ -374,14 +337,10 @@ function CoverPhotoButton({ wedding }: { wedding: Wedding }) {
 function WeddingHero({
   wedding,
   bookedVenue,
-  progress,
-  phase,
   onEdit,
 }: {
   wedding: Wedding;
   bookedVenue: Venue | null;
-  progress: HeroProgress;
-  phase: HeroPhase;
   onEdit: () => void;
 }) {
   const backdrop = wedding.hero_photo_url ?? bookedVenue?.image_url;
@@ -418,7 +377,7 @@ function WeddingHero({
           className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/55 to-black/45 lg:bg-gradient-to-r lg:from-black/75 lg:via-black/45 lg:to-black/10"
         />
 
-        <div className="relative flex flex-col gap-8 p-6 pt-16 sm:p-10 lg:min-h-[360px] lg:flex-row lg:items-end lg:justify-between lg:p-12">
+        <div className="relative flex flex-col gap-8 p-6 pt-16 sm:p-10 lg:min-h-[320px] lg:flex-row lg:items-end lg:justify-between lg:p-12">
           <div className="flex flex-col gap-5 sm:flex-row sm:items-end">
             <ProfileAvatar wedding={wedding} />
             <div className="min-w-0">
@@ -472,34 +431,6 @@ function WeddingHero({
                 Add your date to start the countdown
               </p>
             )}
-            <div className="flex items-center gap-4 border-t border-white/15 pt-5">
-              <ProgressRing {...progress} />
-              <div className="min-w-0">
-                <p className="font-mono-numbers text-[10px] uppercase tracking-[0.2em] text-white/60">
-                  {phase ? "You're here" : progress.total > 0 ? "Plan complete" : "No plan yet"}
-                </p>
-                <p className="mt-1 font-display text-xl font-semibold text-white">
-                  {phase
-                    ? phase.title
-                    : progress.total > 0
-                      ? "Everything's done"
-                      : "Let Wren build your plan"}
-                </p>
-                <p className="mt-1 text-xs text-white/70">
-                  {phase
-                    ? `${phase.done} of ${phase.total} done in this stage · ${progress.done} of ${progress.total} overall`
-                    : progress.total > 0
-                      ? `${progress.total} tasks ticked off`
-                      : "A month-by-month checklist, made for your date."}
-                </p>
-                <Link
-                  href="/checklist"
-                  className="mt-2 inline-block text-xs font-medium text-brass hover:text-white"
-                >
-                  {progress.total > 0 ? "See the whole plan" : "Build my plan"} &rarr;
-                </Link>
-              </div>
-            </div>
           </div>
         </div>
       </section>
@@ -510,13 +441,9 @@ function WeddingHero({
 export function WeddingDashboard({
   initialWedding,
   bookedVenue = null,
-  progress = { done: 0, total: 0 },
-  phase = null,
 }: {
   initialWedding: Wedding | null;
   bookedVenue?: Venue | null;
-  progress?: HeroProgress;
-  phase?: HeroPhase;
 }) {
   const [isEditing, setIsEditing] = useState(!initialWedding);
   const [error, setError] = useState<string | undefined>(undefined);
@@ -540,8 +467,6 @@ export function WeddingDashboard({
         <WeddingHero
           wedding={initialWedding}
           bookedVenue={bookedVenue}
-          progress={progress}
-          phase={phase}
           onEdit={() => setIsEditing(true)}
         />
       )}

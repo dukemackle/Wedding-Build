@@ -402,3 +402,37 @@ export function TrashIcon(props: IconProps) {
     </IconBase>
   );
 }
+
+// A page-a-day calendar -- the itinerary.
+export function CalendarIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M4 6a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1Z" />
+      <path d="M4 10h16M8 3v4M16 3v4" />
+      <path d="M8 14h2M12 14h2M8 17.5h2" />
+    </IconBase>
+  );
+}
+
+// Round tables on a floor plan -- the venue layout.
+export function FloorPlanIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M3 4h18v16H3Z" />
+      <circle cx="8.5" cy="9.5" r="2" />
+      <circle cx="15.5" cy="9.5" r="2" />
+      <path d="M7 16h10" />
+    </IconBase>
+  );
+}
+
+// A calculator -- the estimator.
+export function CalculatorIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M6 3h12a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z" />
+      <path d="M8 7h8v3H8Z" />
+      <path d="M8.5 14h.01M12 14h.01M15.5 14h.01M8.5 17.5h.01M12 17.5h.01M15.5 17.5h.01" />
+    </IconBase>
+  );
+}
