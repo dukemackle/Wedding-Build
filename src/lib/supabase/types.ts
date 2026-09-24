@@ -11,6 +11,7 @@ export type Wedding = {
   venue_type: string | null;
   guest_count_override: number | null;
   public_slug: string | null;
+  party_share_token: string | null;
   hero_photo_url: string | null;
   /** Tight crop for the dashboard avatar. Falls back to hero_photo_url. */
   profile_photo_url: string | null;
@@ -341,6 +342,37 @@ export type AttireItem = {
   buy_or_rent: BuyOrRent | null;
   price_from: number | null;
   description: string | null;
+  designer: string | null;
+  image_urls: string[];
+  retailer_url: string | null;
+  vendor_id: string | null;
+  buy_price: number | null;
+  rent_price: number | null;
+  silhouette: string | null;
+  neckline: string | null;
+  sleeves: string | null;
+  length: string | null;
+  colors: string[];
+  fabric: string | null;
+  size_range: string | null;
+  badge: string | null;
+  is_featured: boolean;
+  is_active: boolean;
+  created_at: string;
+};
+
+export type AttirePartyMember = {
+  id: string;
+  wedding_id: string;
+  user_id: string;
+  name: string;
+  role: string | null;
+  attire_item_id: string | null;
+  color: string | null;
+  size: string | null;
+  status: string;
+  notes: string | null;
+  sort_order: number;
   created_at: string;
 };
 
