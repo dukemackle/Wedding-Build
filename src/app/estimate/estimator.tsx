@@ -1,11 +1,24 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useTransition } from "react";
 import type { RegionalCostData } from "@/lib/supabase/types";
 import { estimateWeddingCost, type EstimatorTier } from "@/lib/estimator";
 import { STATES, STYLE_TIERS } from "@/lib/wedding-options";
 import { BudgetBarChart } from "@/app/budget/budget-chart";
+import { applyEstimateToWedding } from "@/app/budget/actions";
+
+/**
+ * What the couple's Budget is priced from right now, so the Estimator can
+ * tell them what "Apply" would change. Only passed on the signed-in page.
+ */
+export type SavedBudgetSettings = {
+  state: string | null;
+  tier: string | null;
+  guestCount: number;
+  season: string | null;
+  target: number | null;
+};
 
 const currency = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -30,6 +43,7 @@ export function Estimator({
   ctaTitle = "Ready to plan for real?",
   ctaBody = "Turn this estimate into a real budget you can track, with venues, guests, and vendors all in one free account.",
   split = false,
+  saved,
 }: {
   regionalData: RegionalCostData[];
   initialState?: string;
@@ -45,14 +59,18 @@ export function Estimator({
    * stretched stack. Off for the public page, which sits in a narrow column.
    */
   split?: boolean;
+  /** Turns the closing card into "Apply to my budget". */
+  saved?: SavedBudgetSettings;
 }) {
   const [state, setState] = useState<string>(initialState);
   const [guestCount, setGuestCount] = useState(initialGuestCount);
   const [tier, setTier] = useState<EstimatorTier>(initialTier);
 
   const estimate = useMemo(
-    () => estimateWeddingCost(regionalData, state, guestCount, tier),
-    [regionalData, state, guestCount, tier],
+    // With the couple's season, so the figure matches what their Budget
+    // shows once applied.
+    () => estimateWeddingCost(regionalData, state, guestCount, tier, { season: saved?.season }),
+    [regionalData, state, guestCount, tier, saved?.season],
   );
 
   const realDataCount = estimate.breakdown.filter((item) => item.isRealData).length;
@@ -152,16 +170,27 @@ export function Estimator({
           for {state}; the rest use a regional estimate until more data is added.
         </p>
 
-        <div className="mt-8 w-full rounded-lg border border-hairline bg-card p-8 text-center shadow-sm">
-          <h2 className="font-display text-2xl font-semibold text-forest">{ctaTitle}</h2>
-          <p className="mt-2 text-sm text-ink/70">{ctaBody}</p>
-          <Link
-            href={ctaHref}
-            className="mt-6 inline-block rounded-full bg-forest px-6 py-2 font-mono-numbers text-sm text-parchment transition-colors hover:bg-forest/90"
-          >
-            {ctaLabel}
-          </Link>
-        </div>
+        {saved ? (
+          <ApplyCard
+            saved={saved}
+            state={state}
+            tier={tier}
+            guestCount={guestCount}
+            total={estimate.total}
+            backHref={ctaHref}
+          />
+        ) : (
+          <div className="mt-8 w-full rounded-lg border border-hairline bg-card p-8 text-center shadow-sm">
+            <h2 className="font-display text-2xl font-semibold text-forest">{ctaTitle}</h2>
+            <p className="mt-2 text-sm text-ink/70">{ctaBody}</p>
+            <Link
+              href={ctaHref}
+              className="mt-6 inline-block rounded-full bg-forest px-6 py-2 font-mono-numbers text-sm text-parchment transition-colors hover:bg-forest/90"
+            >
+              {ctaLabel}
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -183,6 +212,117 @@ function BudgetOverview({
       <div className="mt-6">
         <BudgetBarChart items={breakdown} />
       </div>
+    </div>
+  );
+}
+
+/**
+ * Saves what's on screen as the settings the Budget is priced from. Only the
+ * lines without a real number move; the copy says so, because "apply" on a
+ * budget otherwise sounds like it could overwrite quotes.
+ */
+function ApplyCard({
+  saved,
+  state,
+  tier,
+  guestCount,
+  total,
+  backHref,
+}: {
+  saved: SavedBudgetSettings;
+  state: string;
+  tier: EstimatorTier;
+  guestCount: number;
+  total: number;
+  backHref: string;
+}) {
+  const [setTarget, setSetTarget] = useState(false);
+  const [error, setError] = useState<string | undefined>(undefined);
+  const [appliedKey, setAppliedKey] = useState<string | null>(null);
+  const [isPending, startTransition] = useTransition();
+
+  // Rounded like a number a couple would actually write down.
+  const suggestedTarget = Math.round(total / 500) * 500;
+  const guestsChanged = guestCount !== saved.guestCount;
+  const settingsChanged = state !== saved.state || tier !== saved.tier || guestsChanged;
+  const key = `${state}|${tier}|${guestCount}|${setTarget}`;
+  const justApplied = appliedKey === key;
+  const canApply = !justApplied && (settingsChanged || (setTarget && suggestedTarget !== saved.target));
+
+  function handleApply() {
+    const formData = new FormData();
+    formData.set("state", state);
+    formData.set("style_tier", tier);
+    if (guestsChanged) formData.set("guest_count", String(guestCount));
+    if (setTarget) formData.set("budget_target", String(suggestedTarget));
+    startTransition(async () => {
+      const result = await applyEstimateToWedding(formData);
+      if (result?.error) {
+        setError(result.error);
+      } else {
+        setError(undefined);
+        setAppliedKey(key);
+      }
+    });
+  }
+
+  return (
+    <div className="mt-8 w-full rounded-lg border border-hairline bg-card p-6 shadow-sm sm:p-8">
+      <h2 className="font-display text-2xl font-semibold text-forest">Use this for my budget</h2>
+      <p className="mt-2 text-sm text-ink/70">
+        Every Budget line you haven&apos;t entered a real number for is priced from these
+        settings. Apply them and those lines will match this breakdown. Lines with a quote stay
+        exactly as they are.
+      </p>
+
+      <p className="mt-4 font-mono-numbers text-xs text-ink/60">
+        {settingsChanged ? (
+          <>
+            Now: {saved.tier ?? "No style"} &middot; {saved.guestCount} guests &middot;{" "}
+            {saved.state ?? "no state"} &rarr;{" "}
+            <span className="text-forest">
+              {tier} &middot; {guestCount} guests &middot; {state}
+            </span>
+          </>
+        ) : (
+          <>These are already your budget&apos;s settings.</>
+        )}
+      </p>
+
+      <label className="mt-4 flex items-start gap-2 text-sm text-ink">
+        <input
+          type="checkbox"
+          checked={setTarget}
+          onChange={(e) => setSetTarget(e.target.checked)}
+          className="mt-1 accent-forest"
+        />
+        <span>
+          Also set my budget target to{" "}
+          <span className="font-mono-numbers text-forest">{currency.format(suggestedTarget)}</span>
+          {saved.target != null && (
+            <span className="text-ink/55"> (now {currency.format(saved.target)})</span>
+          )}
+        </span>
+      </label>
+
+      <div className="mt-6 flex flex-wrap items-center gap-4">
+        <button
+          type="button"
+          onClick={handleApply}
+          disabled={!canApply || isPending}
+          className="rounded-full bg-forest px-6 py-2 font-mono-numbers text-sm text-parchment transition-colors hover:bg-forest/90 disabled:opacity-40"
+        >
+          {isPending ? "Applying…" : "Apply to my budget"}
+        </button>
+        <Link href={backHref} className="font-mono-numbers text-sm text-brass hover:underline">
+          Back to my Budget
+        </Link>
+      </div>
+
+      {justApplied && (
+        <p className="mt-3 text-sm text-forest">Applied. Your Budget and Dashboard now use these.</p>
+      )}
+      {error && <p className="mt-3 text-sm text-red-800">{error}</p>}
     </div>
   );
 }

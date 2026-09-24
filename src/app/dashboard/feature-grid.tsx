@@ -426,10 +426,13 @@ export function buildFeatures(d: FeatureData): Feature[] {
     {
       href: "/budget/estimate",
       title: "Estimator",
-      status: "See typical costs",
+      status: "Try what-ifs",
+      // A benchmark, not a second total: it ignores the couple's quotes, so
+      // say so rather than let it sit beside the Budget box looking like a
+      // competing number.
       media: (
         <Panel>
-          <Small>Typical for a wedding like yours</Small>
+          <Small>Typical, before your quotes</Small>
           <Big>{usd(d.budget.typical)}</Big>
         </Panel>
       ),

@@ -10,11 +10,13 @@ import type {
   AttireItem,
   ChecklistItem,
   ItineraryEvent,
+  RegionalCostData,
   Venue,
   VendorInquiryStatus,
   Wedding,
 } from "@/lib/supabase/types";
-import { BUDGET_CATEGORIES, computeCategoryValue, effectiveGuestCount } from "@/lib/budget-categories";
+import { BUDGET_CATEGORIES, effectiveGuestCount } from "@/lib/budget-categories";
+import { weddingCategoryEstimates } from "@/lib/estimator";
 
 /**
  * The first screen after signing in: the couple's banner, and then one box
@@ -64,6 +66,7 @@ export default async function DashboardPage() {
     { data: checklist },
     { data: itineraryEvents },
     { count: layoutItems },
+    { data: regionalData },
   ] = await Promise.all([
     supabase.from("guests").select("status, plus_one").eq("wedding_id", wedding.id),
     supabase
@@ -104,6 +107,11 @@ export default async function DashboardPage() {
       .from("venue_layout_items")
       .select("id", { count: "exact", head: true })
       .eq("wedding_id", wedding.id),
+    supabase
+      .from("regional_cost_data")
+      .select("*")
+      .eq("state", wedding.state ?? "")
+      .returns<RegionalCostData[]>(),
   ]);
 
   // A photo for the Venues and Attire boxes: the booked venue, else the most
@@ -138,16 +146,11 @@ export default async function DashboardPage() {
   const hidden = new Set(wedding.hidden_budget_categories);
   const visibleCategories = BUDGET_CATEGORIES.filter((c) => !hidden.has(c.key));
   const lineByCategory = new Map((lineItems ?? []).map((row) => [row.category, row]));
+  const estimates = weddingCategoryEstimates(regionalData ?? [], wedding, headcount);
   let categoriesTotal = 0;
   let typical = 0;
   for (const category of visibleCategories) {
-    const computed = computeCategoryValue(
-      category,
-      headcount,
-      wedding.region,
-      wedding.season,
-      wedding.style_tier,
-    );
+    const computed = estimates.get(category.key) ?? 0;
     typical += computed;
     categoriesTotal += lineByCategory.get(category.key)?.override_value ?? computed;
   }

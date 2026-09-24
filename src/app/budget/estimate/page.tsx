@@ -73,8 +73,9 @@ export default async function BudgetEstimatePage() {
         <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Budget</p>
         <h1 className="mt-2 font-display text-3xl font-semibold text-forest">Cost estimator</h1>
         <p className={`mt-2 ${READING_WIDTH} text-sm text-ink/70`}>
-          Play with state, style, and guest count to see how the cost changes. This is separate
-          from your saved Budget above &mdash; nothing here affects your real numbers.
+          Play with state, style, and guest count to see how the cost changes. Nothing changes on
+          your Budget until you press Apply &mdash; and even then, only the lines you haven&apos;t
+          entered a real number for.
         </p>
 
         <div className="mt-8">
@@ -85,9 +86,13 @@ export default async function BudgetEstimatePage() {
             initialTier={initialTier}
             split
             ctaHref="/budget"
-            ctaLabel="Back to my Budget"
-            ctaTitle="Comparing to your real budget?"
-            ctaBody="Your actual Budget page tracks real quotes and overrides per category &mdash; this estimator is just for exploring what-ifs."
+            saved={{
+              state: wedding.state,
+              tier: wedding.style_tier,
+              guestCount,
+              season: wedding.season,
+              target: wedding.budget_target,
+            }}
           />
         </div>
     </PageShell>

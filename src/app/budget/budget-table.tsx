@@ -797,6 +797,7 @@ export function BudgetTable({
       <BudgetSummary
         totalEstimate={total}
         totalActual={totalActual}
+        totalPaid={allRows.reduce((sum, r) => sum + (r.paidAmount ?? 0), 0)}
         target={budgetTarget}
         categoryCount={allRows.length}
         contractCount={contractCount}
@@ -881,7 +882,7 @@ export function BudgetTable({
           Estimate
         </span>
         <span className="text-right font-mono-numbers text-[10px] uppercase tracking-[0.16em] text-ink/45">
-          Actual
+          Quoted
         </span>
         {/* The progress bar had no label at all, so the one column that
             answers "how much of this have we actually paid?" read as
