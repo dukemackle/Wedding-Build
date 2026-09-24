@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { AppNav } from "@/components/app-nav";
 import { PageShell } from "@/components/page-shell";
+import { READING_WIDTH } from "@/lib/layout";
 import type { RegionalCostData, Wedding } from "@/lib/supabase/types";
 import { effectiveGuestCount } from "@/lib/budget-categories";
 import type { EstimatorTier } from "@/lib/estimator";
@@ -68,10 +69,10 @@ export default async function BudgetEstimatePage() {
     : undefined;
 
   return (
-    <PageShell email={user.email ?? ""} width="reading">
+    <PageShell email={user.email ?? ""} width="canvas">
         <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Budget</p>
         <h1 className="mt-2 font-display text-3xl font-semibold text-forest">Cost estimator</h1>
-        <p className="mt-2 text-sm text-ink/70">
+        <p className={`mt-2 ${READING_WIDTH} text-sm text-ink/70`}>
           Play with state, style, and guest count to see how the cost changes. This is separate
           from your saved Budget above &mdash; nothing here affects your real numbers.
         </p>
@@ -82,6 +83,7 @@ export default async function BudgetEstimatePage() {
             initialState={initialState}
             initialGuestCount={guestCount > 0 ? guestCount : undefined}
             initialTier={initialTier}
+            split
             ctaHref="/budget"
             ctaLabel="Back to my Budget"
             ctaTitle="Comparing to your real budget?"
