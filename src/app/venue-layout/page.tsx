@@ -99,6 +99,12 @@ export default async function VenueLayoutPage() {
           confirmedGuests={guests ?? []}
           items={items ?? []}
           rooms={rooms ?? []}
+          sides={{
+            partnerAName: wedding.partner_a_name,
+            partnerBName: wedding.partner_b_name,
+            sideAColor: wedding.side_a_color,
+            sideBColor: wedding.side_b_color,
+          }}
         />
     </PageShell>
   );

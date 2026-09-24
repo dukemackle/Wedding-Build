@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getOrCreateDefaultRoom } from "@/lib/venue-rooms";
-import type { TableShape, Wedding } from "@/lib/supabase/types";
+import type { SeatingTable, TableShape, Wedding } from "@/lib/supabase/types";
 
 const VALID_SHAPES: TableShape[] = ["round", "square", "rectangle"];
 
@@ -230,4 +230,111 @@ export async function assignGuestTable(formData: FormData): Promise<{ error?: st
 
   revalidatePath("/venue-layout");
   return {};
+}
+
+/**
+ * Seats several guests at one table in a single write -- a whole household
+ * dragged onto a table, or a handful tapped on a phone. An empty table_id
+ * unseats them all.
+ */
+export async function assignGuestsTable(formData: FormData): Promise<{ error?: string }> {
+  const { supabase, wedding } = await requireOwnWedding();
+
+  if (!wedding) {
+    return { error: "Set up your wedding on the Dashboard first." };
+  }
+
+  const guestIds = formData.getAll("guest_id").map(String).filter(Boolean);
+  const tableId = ((formData.get("table_id") as string) || "").trim() || null;
+  if (guestIds.length === 0) {
+    return { error: "Pick at least one guest." };
+  }
+
+  const { error } = await supabase
+    .from("guests")
+    .update({ table_id: tableId })
+    .in("id", guestIds)
+    .eq("wedding_id", wedding.id);
+
+  if (error) {
+    return { error: error.message };
+  }
+
+  revalidatePath("/venue-layout");
+  return {};
+}
+
+export async function renameSeatingTable(formData: FormData): Promise<{ error?: string }> {
+  const { supabase, wedding } = await requireOwnWedding();
+
+  if (!wedding) {
+    return { error: "Set up your wedding on the Dashboard first." };
+  }
+
+  const tableId = formData.get("id") as string;
+  const name = ((formData.get("name") as string) || "").trim();
+  if (!name) {
+    return { error: "Give the table a name." };
+  }
+
+  const { error } = await supabase
+    .from("seating_tables")
+    .update({ name, updated_at: new Date().toISOString() })
+    .eq("id", tableId)
+    .eq("wedding_id", wedding.id);
+
+  if (error) {
+    return { error: error.message };
+  }
+
+  revalidatePath("/venue-layout");
+  return {};
+}
+
+/** A copy of the table just below-right of it -- without its guests. */
+export async function duplicateSeatingTable(formData: FormData): Promise<{ error?: string }> {
+  const { supabase, user, wedding } = await requireOwnWedding();
+
+  if (!wedding) {
+    return { error: "Set up your wedding on the Dashboard first." };
+  }
+
+  const tableId = formData.get("id") as string;
+  const { data: source } = await supabase
+    .from("seating_tables")
+    .select("*")
+    .eq("id", tableId)
+    .eq("wedding_id", wedding.id)
+    .maybeSingle<SeatingTable>();
+
+  if (!source) {
+    return { error: "That table no longer exists." };
+  }
+
+  const { error } = await supabase.from("seating_tables").insert({
+    wedding_id: wedding.id,
+    user_id: user.id,
+    name: copyName(source.name),
+    capacity: source.capacity,
+    shape: source.shape,
+    rotation: source.rotation,
+    room_id: source.room_id,
+    position_x: source.position_x + DUPLICATE_OFFSET,
+    position_y: source.position_y + DUPLICATE_OFFSET,
+  });
+
+  if (error) {
+    return { error: error.message };
+  }
+
+  revalidatePath("/venue-layout");
+  return {};
+}
+
+const DUPLICATE_OFFSET = 40;
+
+/** "Table 4" copies to "Table 5"; anything not ending in a number gets " copy". */
+function copyName(name: string) {
+  const match = name.match(/^(.*?)(\d+)$/);
+  return match ? `${match[1]}${Number(match[2]) + 1}` : `${name} copy`;
 }
