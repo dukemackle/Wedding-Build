@@ -1,11 +1,13 @@
 import type {
   ContactSubmission,
   Guest,
+  GuestPost,
   RegistryItem,
   RsvpSubmission,
   Wedding,
   WeddingAccommodation,
   WeddingFaq,
+  WeddingGalleryPhoto,
 } from "@/lib/supabase/types";
 import { FULL_WIDTH } from "@/lib/layout";
 import { GuestsManager } from "./guests-manager";
@@ -19,6 +21,9 @@ import { GuestbookFeed } from "./guestbook-feed";
 import { SongRequests } from "./song-requests";
 import { ContactCollectorPanel } from "./contact-collector-panel";
 import { TabbedCard } from "./card";
+import { GalleryPanel } from "./gallery-panel";
+import { GuestPostsFeed } from "./guest-posts-feed";
+import { PhotoWallQr } from "./photo-wall-qr";
 
 /**
  * Everything on the guests page below the nav.
@@ -36,6 +41,10 @@ export function GuestsPageBody({
   rsvpSubmissions,
   contactSubmissions,
   origin,
+  galleryPhotos = [],
+  guestPosts = [],
+  shareUrl = null,
+  shareQrSvg = null,
 }: {
   wedding: Wedding;
   guests: Guest[];
@@ -45,6 +54,11 @@ export function GuestsPageBody({
   rsvpSubmissions: RsvpSubmission[];
   contactSubmissions: ContactSubmission[];
   origin: string;
+  galleryPhotos?: WeddingGalleryPhoto[];
+  guestPosts?: GuestPost[];
+  /** The photo wall's posting page, when the guest site is on. */
+  shareUrl?: string | null;
+  shareQrSvg?: string | null;
 }) {
   // Street address is the field that matters for posting an invitation; a
   // guest with a city but no street still can't be mailed anything.
@@ -58,6 +72,7 @@ export function GuestsPageBody({
     (g) => g.email && g.invite_sent_at && (g.status === "invited" || g.status === "pending"),
   ).length;
   const guestbookCount = guests.filter((g) => g.photo_url || g.message).length;
+  const pendingPostCount = guestPosts.filter((p) => p.status === "pending").length;
   const songCount = guests.filter((g) => g.song_request).length;
   const pendingRsvps = rsvpSubmissions;
 
@@ -164,9 +179,16 @@ export function GuestsPageBody({
               description="Everything guests see on your public page."
               tabs={[
                 {
-                  key: "banner",
-                  label: "Banner",
-                  content: <HeroPhotoPanel photoUrl={wedding.hero_photo_url} />,
+                  key: "photos",
+                  label: `Photos (${galleryPhotos.length})`,
+                  content: (
+                    <div className="flex flex-col gap-8">
+                      <HeroPhotoPanel photoUrl={wedding.hero_photo_url} />
+                      <div className="border-t border-hairline pt-6">
+                        <GalleryPanel photos={galleryPhotos} />
+                      </div>
+                    </div>
+                  ),
                 },
                 {
                   key: "details",
@@ -194,14 +216,23 @@ export function GuestsPageBody({
         </div>
 
         {/* Full width, under both columns: a wall of photos and messages
-            wants the room, and there's nothing to set up here — the card
-            only appears once guests have left something. */}
+            wants the room. Once the guest site is on, the table QR code keeps
+            it on the page; before that it only appears once guests have left
+            something. */}
         <TabbedCard
           title="From your guests"
           tabs={[
             {
+              key: "wall",
+              label: pendingPostCount > 0
+                ? `Photo wall (${pendingPostCount} to review)`
+                : `Photo wall (${guestPosts.length})`,
+              hidden: guestPosts.length === 0,
+              content: <GuestPostsFeed posts={guestPosts} />,
+            },
+            {
               key: "guestbook",
-              label: `Guestbook (${guestbookCount})`,
+              label: `RSVP messages (${guestbookCount})`,
               hidden: guestbookCount === 0,
               content: (
                 <GuestbookFeed
@@ -215,6 +246,13 @@ export function GuestsPageBody({
               label: `Song requests (${songCount})`,
               hidden: songCount === 0,
               content: <SongRequests guests={guests} />,
+            },
+            {
+              key: "qr",
+              label: "Table QR code",
+              hidden: !shareUrl || !shareQrSvg,
+              content:
+                shareUrl && shareQrSvg ? <PhotoWallQr svg={shareQrSvg} shareUrl={shareUrl} /> : null,
             },
           ]}
           />

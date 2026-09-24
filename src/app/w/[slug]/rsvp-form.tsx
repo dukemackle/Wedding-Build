@@ -2,6 +2,7 @@
 
 import { useRef, useState, useTransition } from "react";
 import { submitRsvp } from "./actions";
+import { shrinkImage } from "@/lib/shrink-image";
 import { MEAL_OPTIONS } from "@/lib/meal-options";
 
 const inputClass =
@@ -12,10 +13,13 @@ export function RsvpForm({
   weddingId,
   partnerAName,
   partnerBName,
+  shareHref,
 }: {
   weddingId: string;
   partnerAName: string | null;
   partnerBName: string | null;
+  /** The photo-wall posting page, offered once the RSVP is in. */
+  shareHref?: string;
 }) {
   // "John's side" reads to a guest; "Side A" doesn't. With no names set up
   // yet the question is dropped rather than asked in the abstract.
@@ -31,6 +35,8 @@ export function RsvpForm({
 
   function handleSubmit(formData: FormData) {
     startTransition(async () => {
+      const photo = formData.get("photo") as File | null;
+      if (photo && photo.size > 0) formData.set("photo", await shrinkImage(photo));
       const result = await submitRsvp(formData);
       if (result?.error) {
         setError(result.error);
@@ -45,9 +51,14 @@ export function RsvpForm({
 
   if (submitted) {
     return (
-      <p className="mt-6 rounded-md border border-forest/40 bg-forest/10 px-4 py-3 text-forest">
-        Thanks — your RSVP has been sent!
-      </p>
+      <div className="mt-6 rounded-md border border-forest/40 bg-forest/10 px-4 py-3 text-forest">
+        <p>Thanks — your RSVP has been sent!</p>
+        {shareHref && (
+          <a href={shareHref} className="mt-1 inline-block text-sm font-medium text-brass hover:underline">
+            Add another photo to the wall &rarr;
+          </a>
+        )}
+      </div>
     );
   }
 
