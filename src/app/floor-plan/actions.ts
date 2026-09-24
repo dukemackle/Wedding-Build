@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getOrCreateDefaultRoom } from "@/lib/venue-rooms";
-import type { LayoutItemType, Wedding } from "@/lib/supabase/types";
+import type { LayoutItemType, VenueLayoutItem, Wedding } from "@/lib/supabase/types";
 
 const VALID_ITEM_TYPES: LayoutItemType[] = [
   "chairs",
@@ -259,3 +259,71 @@ export async function deleteLayoutItem(formData: FormData): Promise<{ error?: st
   revalidatePath("/venue-layout");
   return {};
 }
+
+/** Sets just the label -- an empty one falls back to the type's name. */
+export async function renameLayoutItem(formData: FormData): Promise<{ error?: string }> {
+  const { supabase, wedding } = await requireOwnWedding();
+
+  if (!wedding) {
+    return { error: "Set up your wedding on the Dashboard first." };
+  }
+
+  const itemId = formData.get("id") as string;
+  const label = ((formData.get("label") as string) || "").trim() || null;
+
+  const { error } = await supabase
+    .from("venue_layout_items")
+    .update({ label, updated_at: new Date().toISOString() })
+    .eq("id", itemId)
+    .eq("wedding_id", wedding.id);
+
+  if (error) {
+    return { error: error.message };
+  }
+
+  revalidatePath("/venue-layout");
+  return {};
+}
+
+/** A copy of the item just below-right of it, same size and rotation. */
+export async function duplicateLayoutItem(formData: FormData): Promise<{ error?: string }> {
+  const { supabase, user, wedding } = await requireOwnWedding();
+
+  if (!wedding) {
+    return { error: "Set up your wedding on the Dashboard first." };
+  }
+
+  const itemId = formData.get("id") as string;
+  const { data: source } = await supabase
+    .from("venue_layout_items")
+    .select("*")
+    .eq("id", itemId)
+    .eq("wedding_id", wedding.id)
+    .maybeSingle<VenueLayoutItem>();
+
+  if (!source) {
+    return { error: "That item no longer exists." };
+  }
+
+  const { error } = await supabase.from("venue_layout_items").insert({
+    wedding_id: wedding.id,
+    user_id: user.id,
+    item_type: source.item_type,
+    label: source.label,
+    rotation: source.rotation,
+    width: source.width,
+    height: source.height,
+    room_id: source.room_id,
+    position_x: source.position_x + DUPLICATE_OFFSET,
+    position_y: source.position_y + DUPLICATE_OFFSET,
+  });
+
+  if (error) {
+    return { error: error.message };
+  }
+
+  revalidatePath("/venue-layout");
+  return {};
+}
+
+const DUPLICATE_OFFSET = 40;
