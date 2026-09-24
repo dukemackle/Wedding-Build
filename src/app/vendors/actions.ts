@@ -415,6 +415,6 @@ export async function updateVendorFavoriteContact(
     return { error: error.message };
   }
 
-  revalidatePath("/contacts");
+  revalidatePath("/bookings");
   return {};
 }

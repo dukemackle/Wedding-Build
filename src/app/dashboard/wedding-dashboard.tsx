@@ -429,7 +429,7 @@ function WeddingHero({
                     : "A month-by-month checklist, made for your date."}
               </p>
               <Link
-                href={progress.total > 0 ? "/wedding-plan" : "/checklist"}
+                href="/checklist"
                 className="mt-2 inline-block text-xs font-medium text-brass hover:text-white"
               >
                 {progress.total > 0 ? "See the whole plan" : "Build my plan"} &rarr;

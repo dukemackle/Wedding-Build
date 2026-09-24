@@ -7,7 +7,6 @@ import { NavDropdown } from "@/components/nav-dropdown";
 import {
   ArchIcon,
   BudgetIcon,
-  ChecklistIcon,
   HeadcountIcon,
   RingsIcon,
   VenueIcon,
@@ -17,8 +16,17 @@ import {
 export type IconType = ComponentType<{ className?: string }>;
 
 export type NavGroup = { label: string; icon: IconType; links: { href: string; label: string }[] };
+export type NavLinkItem = { href: string; label: string; icon: IconType };
 
-export const NAV_GROUPS: NavGroup[] = [
+/** A dropdown, or a single tab when a section has only one page. */
+export type NavItem = NavGroup | NavLinkItem;
+
+export function isNavGroup(item: NavItem): item is NavGroup {
+  return "links" in item;
+}
+
+/** Everything between Dashboard and Help, in tab order. */
+export const NAV_ITEMS: NavItem[] = [
   {
     label: "Budget",
     icon: BudgetIcon,
@@ -36,21 +44,15 @@ export const NAV_GROUPS: NavGroup[] = [
       { href: "/attire", label: "Attire" },
     ],
   },
+  { href: "/guests", label: "Guests", icon: HeadcountIcon },
   {
-    label: "People",
-    icon: HeadcountIcon,
-    links: [
-      { href: "/guests", label: "Guests" },
-      { href: "/contacts", label: "Contacts" },
-    ],
-  },
-  {
-    label: "Planning",
-    icon: ChecklistIcon,
+    label: "Wedding Plan",
+    icon: RingsIcon,
     links: [
       { href: "/checklist", label: "Checklist" },
       { href: "/itinerary", label: "Itinerary" },
       { href: "/venue-layout", label: "Venue Layout" },
+      { href: "/bookings", label: "Bookings" },
     ],
   },
 ];
@@ -82,15 +84,13 @@ export function NavLinks() {
     // once the strip overflows.
     <nav className="-mx-1 flex [&>*:first-child]:ml-auto [&>*:last-child]:mr-auto w-full items-center gap-0.5 overflow-x-auto px-1 py-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
       <PlainLink href="/dashboard" label="Dashboard" icon={ArchIcon} />
-      {NAV_GROUPS.map((group) => (
-        <NavDropdown
-          key={group.label}
-          label={group.label}
-          icon={group.icon}
-          links={group.links}
-        />
-      ))}
-      <PlainLink href="/wedding-plan" label="Wedding Plan" icon={RingsIcon} />
+      {NAV_ITEMS.map((item) =>
+        isNavGroup(item) ? (
+          <NavDropdown key={item.label} label={item.label} icon={item.icon} links={item.links} />
+        ) : (
+          <PlainLink key={item.href} href={item.href} label={item.label} icon={item.icon} />
+        ),
+      )}
       <PlainLink href="/help" label="Help" icon={WrenBirdIcon} />
     </nav>
   );

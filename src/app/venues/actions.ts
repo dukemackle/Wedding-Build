@@ -101,7 +101,7 @@ export async function setBookedVenue(formData: FormData): Promise<{ error?: stri
   revalidatePath("/venues");
   revalidatePath("/dashboard");
   revalidatePath("/budget");
-  revalidatePath("/contacts");
+  revalidatePath("/bookings");
   return {};
 }
 
@@ -226,6 +226,6 @@ export async function updateShortlistContact(formData: FormData): Promise<{ erro
     return { error: error.message };
   }
 
-  revalidatePath("/contacts");
+  revalidatePath("/bookings");
   return {};
 }

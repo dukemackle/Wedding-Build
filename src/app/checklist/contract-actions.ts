@@ -101,6 +101,7 @@ export async function uploadPlanningContract(formData: FormData) {
   });
 
   revalidatePath("/checklist");
+  revalidatePath("/bookings");
   return { success: true };
 }
 
@@ -149,6 +150,7 @@ export async function summariseContract(
   }
 
   revalidatePath("/checklist");
+  revalidatePath("/bookings");
   return { summary: after.summary, tasks: after.proposed_tasks ?? [] };
 }
 
@@ -204,6 +206,7 @@ export async function saveContractTasks(
   }
 
   revalidatePath("/checklist");
+  revalidatePath("/bookings");
   return { added: rows.length };
 }
 
@@ -233,5 +236,6 @@ export async function deletePlanningContract(formData: FormData) {
   if (error) return { error: error.message };
 
   revalidatePath("/checklist");
+  revalidatePath("/bookings");
   return { success: true };
 }

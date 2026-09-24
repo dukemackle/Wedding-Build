@@ -3,13 +3,13 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { ArchIcon, RingsIcon, WrenBirdIcon } from "@/components/icons";
-import { NAV_GROUPS } from "@/components/nav-links";
+import { ArchIcon, WrenBirdIcon } from "@/components/icons";
+import { NAV_ITEMS, isNavGroup } from "@/components/nav-links";
 
 /**
  * The navigation, for a phone.
  *
- * Replaces the desktop tab strip below 640px. Seven tabs need roughly 800px;
+ * Replaces the desktop tab strip below 640px. Six tabs need roughly 750px;
  * on a 375px screen four are visible, chopped at both edges, and the rest sit
  * past the fold with nothing indicating they exist.
  *
@@ -30,10 +30,7 @@ import { NAV_GROUPS } from "@/components/nav-links";
  * Desktop is untouched -- everything here renders under `sm:hidden`.
  */
 
-const EXTRA_LINKS = [
-  { href: "/wedding-plan", label: "Wedding Plan", icon: RingsIcon },
-  { href: "/help", label: "Help", icon: WrenBirdIcon },
-];
+const EXTRA_LINKS = [{ href: "/help", label: "Help", icon: WrenBirdIcon }];
 
 export function MobileNav() {
   const pathname = usePathname();
@@ -121,26 +118,42 @@ export function MobileNav() {
                 Dashboard
               </Link>
 
-              {NAV_GROUPS.map((group) => (
-                <div key={group.label}>
-                  {/* A heading, not a tap target: on desktop this opens a
-                      dropdown, but here its children are already listed, so
-                      looking tappable would promise a step that isn't there. */}
-                  <p className="px-2.5 pb-0.5 pt-1.5 font-mono-numbers text-[9px] uppercase tracking-[0.16em] text-ink/40">
-                    {group.label}
-                  </p>
-                  {group.links.map((link) => (
+              {NAV_ITEMS.map((item) => {
+                if (!isNavGroup(item)) {
+                  const Icon = item.icon;
+                  return (
                     <Link
-                      key={link.href}
-                      href={link.href}
+                      key={item.href}
+                      href={item.href}
                       onClick={close}
-                      className={rowClass(pathname.startsWith(link.href))}
+                      className={`${rowClass(pathname.startsWith(item.href))} flex items-center gap-2`}
                     >
-                      {link.label}
+                      <Icon className="h-4 w-4 shrink-0 text-brass" />
+                      {item.label}
                     </Link>
-                  ))}
-                </div>
-              ))}
+                  );
+                }
+                return (
+                  <div key={item.label}>
+                    {/* A heading, not a tap target: on desktop this opens a
+                        dropdown, but here its children are already listed, so
+                        looking tappable would promise a step that isn't there. */}
+                    <p className="px-2.5 pb-0.5 pt-1.5 font-mono-numbers text-[9px] uppercase tracking-[0.16em] text-ink/40">
+                      {item.label}
+                    </p>
+                    {item.links.map((link) => (
+                      <Link
+                        key={link.href}
+                        href={link.href}
+                        onClick={close}
+                        className={rowClass(pathname.startsWith(link.href))}
+                      >
+                        {link.label}
+                      </Link>
+                    ))}
+                  </div>
+                );
+              })}
 
               <div className="mt-1.5 border-t border-hairline pt-1.5">
                 {EXTRA_LINKS.map((item) => {
