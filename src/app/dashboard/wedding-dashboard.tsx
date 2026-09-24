@@ -377,7 +377,7 @@ function WeddingHero({
           className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/55 to-black/45 lg:bg-gradient-to-r lg:from-black/75 lg:via-black/45 lg:to-black/10"
         />
 
-        <div className="relative flex flex-col gap-8 p-6 pt-16 sm:p-10 lg:min-h-[320px] lg:flex-row lg:items-end lg:justify-between lg:p-12">
+        <div className="relative flex flex-col gap-8 p-6 pt-16 sm:p-10 lg:flex-row lg:items-end lg:justify-between lg:px-10 lg:py-6">
           <div className="flex flex-col gap-5 sm:flex-row sm:items-end">
             <ProfileAvatar wedding={wedding} />
             <div className="min-w-0">
@@ -392,7 +392,7 @@ function WeddingHero({
               <p className="mt-2 text-lg text-white/85">
                 {wedding.wedding_date ? formatDate(wedding.wedding_date) : "Date not set yet"}
               </p>
-              <div className="mt-4">
+              <div className="mt-4 lg:mt-3">
                 <button
                   type="button"
                   onClick={onEdit}
@@ -404,7 +404,7 @@ function WeddingHero({
             </div>
           </div>
 
-          <div className="flex flex-col gap-5 rounded-xl border border-white/15 bg-black/25 p-5 backdrop-blur-md lg:min-w-[380px]">
+          <div className="flex flex-col gap-5 rounded-xl border border-white/15 bg-black/25 p-5 backdrop-blur-md lg:min-w-[380px] lg:py-4">
             {wedding.wedding_date ? (
               <>
                 {/* Four large units don't fit a phone's width; the small ones do. */}

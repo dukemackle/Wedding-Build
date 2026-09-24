@@ -485,7 +485,7 @@ export function FeatureGrid({ features }: { features: Feature[] }) {
   return (
     <nav
       aria-label="Your wedding"
-      className="mt-6 grid grid-cols-2 gap-3 sm:mt-10 sm:gap-5 lg:grid-cols-5"
+      className="mt-6 grid grid-cols-2 gap-3 sm:mt-10 sm:gap-5 lg:mt-5 lg:grid-cols-5"
     >
       {features.map((feature) => (
         <FeatureTile key={feature.href} feature={feature} />
