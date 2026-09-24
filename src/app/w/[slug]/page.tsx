@@ -10,6 +10,7 @@ import type {
   RegistryItem,
   WeddingAccommodation,
   WeddingFaq,
+  WeddingGalleryPhoto,
 } from "@/lib/supabase/types";
 import { FadeInSection } from "@/components/fade-in-section";
 import { ChevronDownIcon } from "@/components/icons";
@@ -17,6 +18,7 @@ import { RsvpForm } from "./rsvp-form";
 import { ItineraryView } from "./itinerary-view";
 import { GuestbookView } from "./guestbook-view";
 import { GuestWall } from "./guest-wall";
+import { GalleryView } from "./gallery-view";
 import { WeddingHero } from "./wedding-hero";
 import { CANVAS_WIDTH } from "@/lib/layout";
 
@@ -128,6 +130,16 @@ export default async function PublicWeddingPage({
     .order("created_at", { ascending: false })
     .returns<PublicGuestbookEntry[]>();
 
+  const { data: galleryPhotos } = await supabase
+    .from("wedding_gallery_photos")
+    .select("*")
+    .eq("wedding_id", wedding.id)
+    .order("sort_order", { ascending: true })
+    .returns<WeddingGalleryPhoto[]>();
+
+  const coupleNames = [wedding.partner_a_name, wedding.partner_b_name].filter(Boolean).join(" & ");
+  const shareHref = `/w/${slug}/share`;
+
   const { data: confirmedGuests } = await supabase
     .from("public_confirmed_guests")
     .select("*")
@@ -161,9 +173,21 @@ export default async function PublicWeddingPage({
                   weddingId={wedding.id}
                   partnerAName={wedding.partner_a_name}
                   partnerBName={wedding.partner_b_name}
+                  shareHref={shareHref}
                 />
               </div>
             </FadeInSection>
+
+            {galleryPhotos && galleryPhotos.length > 0 && (
+              <FadeInSection>
+                <div className={`${CARD} overflow-hidden`}>
+                  <h2 className="font-display text-2xl font-semibold text-forest">Us, so far</h2>
+                  <div className="mt-4">
+                    <GalleryView photos={galleryPhotos} alt={coupleNames} />
+                  </div>
+                </div>
+              </FadeInSection>
+            )}
 
             {itineraryEvents && itineraryEvents.length > 0 && (
               <FadeInSection>
@@ -178,17 +202,34 @@ export default async function PublicWeddingPage({
               </FadeInSection>
             )}
 
-            {guestbookEntries && guestbookEntries.length > 0 && (
-              <FadeInSection>
-                <div className={CARD}>
-                  <h2 className="font-display text-2xl font-semibold text-forest">Guestbook</h2>
-                  <p className="mt-1 text-sm text-ink/70">Well wishes from your guests.</p>
-                  <div className="mt-4">
+            {/* Always shown, even empty: it's where guests are invited to post. */}
+            <FadeInSection>
+              <div id="photo-wall" className={`${CARD} scroll-mt-6`}>
+                <div className="flex flex-wrap items-start justify-between gap-3">
+                  <div>
+                    <h2 className="font-display text-2xl font-semibold text-forest">
+                      From our guests
+                    </h2>
+                    <p className="mt-1 text-sm text-ink/70">
+                      {guestbookEntries && guestbookEntries.length > 0
+                        ? "Photos and well wishes from the people we love."
+                        : "Be the first — share a photo or a few words for the two of us."}
+                    </p>
+                  </div>
+                  <a
+                    href={shareHref}
+                    className="btn-motion shrink-0 rounded-md bg-forest px-4 py-2 text-sm font-medium text-parchment transition-colors hover:bg-forest/90"
+                  >
+                    Add a photo
+                  </a>
+                </div>
+                {guestbookEntries && guestbookEntries.length > 0 && (
+                  <div className="mt-5">
                     <GuestbookView entries={guestbookEntries} />
                   </div>
-                </div>
-              </FadeInSection>
-            )}
+                )}
+              </div>
+            </FadeInSection>
 
         </div>
 

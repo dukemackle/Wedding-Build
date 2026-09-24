@@ -85,4 +85,6 @@ guest-site travel/accommodations, dress code, directions/parking and FAQ
 sections (all on `/w/[slug]`); the Contact Collector (`/w/[slug]/contact` plus
 the approval panel on `/guests`); the gift log and AI thank-you drafting
 (`guests.gift_description` / `thank_you_note`, drafted through
-`src/app/guests/thank-you-actions.ts`).
+`src/app/guests/thank-you-actions.ts`); the couple's photo gallery on the
+guest site, and the moderated guest photo wall with a printable table-card QR
+code (`/w/[slug]/share`, `guest_posts`, `/guests/table-card`).
