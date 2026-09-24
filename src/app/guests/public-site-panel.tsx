@@ -3,7 +3,8 @@
 import Image from "next/image";
 import { useState, useTransition } from "react";
 import { ViewGuestSiteButton } from "@/components/view-guest-site-button";
-import type { RsvpSubmission } from "@/lib/supabase/types";
+import type { Guest, RsvpSubmission } from "@/lib/supabase/types";
+import { findGuestByName } from "@/lib/guest-match";
 import { sideTheme, type SideTheme } from "@/lib/guest-groups";
 import {
   approveRsvpSubmission,
@@ -15,9 +16,12 @@ import {
 function SubmissionRow({
   submission,
   theme,
+  matchedName,
 }: {
   submission: RsvpSubmission;
   theme: SideTheme;
+  // The guest already on the list this RSVP will update, if any.
+  matchedName: string | null;
 }) {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>(undefined);
@@ -81,6 +85,11 @@ function SubmissionRow({
               >
                 {submission.status === "confirmed" ? "Attending" : "Not attending"}
               </span>
+              {matchedName && (
+                <span className="rounded-full border border-brass/40 bg-brass/10 px-2 py-0.5 text-xs text-brass">
+                  On your list
+                </span>
+              )}
             </div>
             <p className="mt-1 text-xs text-ink/50">
               {[
@@ -107,7 +116,7 @@ function SubmissionRow({
             disabled={isPending}
             className="text-xs text-brass hover:underline disabled:opacity-60"
           >
-            Add to guest list
+            {matchedName ? `Update ${matchedName}` : "Add to guest list"}
           </button>
           <button
             onClick={handleDismiss}
@@ -131,10 +140,12 @@ function SubmissionRow({
  */
 export function PendingRsvps({
   submissions,
+  guests,
   partnerAName,
   partnerBName,
 }: {
   submissions: RsvpSubmission[];
+  guests: Pick<Guest, "name">[];
   partnerAName: string | null;
   partnerBName: string | null;
 }) {
@@ -146,6 +157,7 @@ export function PendingRsvps({
         <SubmissionRow
           key={submission.id}
           submission={submission}
+          matchedName={findGuestByName(guests, submission.guest_name)?.name ?? null}
           theme={sideTheme({
             partnerAName,
             partnerBName,
