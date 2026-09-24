@@ -7,9 +7,11 @@ import type { Wedding } from "@/lib/supabase/types";
 import { getResendClient, INQUIRY_FROM_ADDRESS } from "@/lib/resend";
 import {
   BUDGET_CATEGORIES,
+  STATE_TO_REGION,
   computeCategoryValue,
   effectiveGuestCount,
 } from "@/lib/budget-categories";
+import { STATES, STYLE_TIERS } from "@/lib/wedding-options";
 import { parseBudgetTable, type BudgetColumnMap } from "@/lib/budget-import";
 import {
   SHEET_SHARING_ERROR,
@@ -68,6 +70,58 @@ export async function setBudgetTarget(formData: FormData): Promise<{ error?: str
   }
 
   revalidatePath("/budget");
+  revalidatePath("/dashboard");
+  return {};
+}
+
+// "Apply to my budget" on the Estimator. Saves the state, style and guest
+// count the couple settled on to their wedding, which is what every
+// unquoted Budget line is priced from -- so those lines become the numbers
+// the Estimator showed. Lines with a real number are untouched. The target
+// is only replaced when they tick the box for it.
+export async function applyEstimateToWedding(formData: FormData): Promise<{ error?: string }> {
+  const { supabase, wedding } = await requireOwnWedding();
+
+  if (!wedding) {
+    return { error: "Set up your wedding on the Dashboard first." };
+  }
+
+  const state = (formData.get("state") as string) ?? "";
+  const styleTier = (formData.get("style_tier") as string) ?? "";
+  if (!(STATES as readonly string[]).includes(state) || !(STYLE_TIERS as readonly string[]).includes(styleTier)) {
+    return { error: "Pick a state and style first." };
+  }
+
+  const update: Partial<Wedding> = {
+    state,
+    region: STATE_TO_REGION[state] ?? null,
+    style_tier: styleTier,
+    updated_at: new Date().toISOString(),
+  };
+
+  // Only sent when the slider moved -- an untouched slider shouldn't pin
+  // a headcount that currently follows the guest list's RSVPs.
+  const guestRaw = (formData.get("guest_count") as string)?.trim();
+  if (guestRaw) {
+    const guests = Number(guestRaw);
+    if (!Number.isInteger(guests) || guests < 1) return { error: "Enter a valid guest count." };
+    update.guest_count_override = guests;
+  }
+
+  const targetRaw = (formData.get("budget_target") as string)?.trim();
+  if (targetRaw) {
+    const target = Number(targetRaw);
+    if (Number.isNaN(target) || target < 0) return { error: "Enter a valid amount." };
+    update.budget_target = target;
+  }
+
+  const { error } = await supabase.from("weddings").update(update).eq("id", wedding.id);
+  if (error) {
+    return { error: error.message };
+  }
+
+  revalidatePath("/budget");
+  revalidatePath("/budget/estimate");
   revalidatePath("/dashboard");
   return {};
 }

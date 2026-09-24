@@ -4,11 +4,11 @@ import { createClient } from "@/lib/supabase/server";
 import { AppNav } from "@/components/app-nav";
 import { PageShell } from "@/components/page-shell";
 import { FadeInSection } from "@/components/fade-in-section";
-import type { BudgetContract, BudgetCustomItem, Wedding } from "@/lib/supabase/types";
+import type { BudgetContract, BudgetCustomItem, RegionalCostData, Wedding } from "@/lib/supabase/types";
+import { weddingCategoryEstimates } from "@/lib/estimator";
 import {
   BUDGET_CATEGORIES,
   VENDOR_CATEGORY_TO_BUDGET_KEY,
-  computeCategoryValue,
   effectiveGuestCount,
 } from "@/lib/budget-categories";
 import { BudgetTable, type BudgetRow } from "./budget-table";
@@ -174,6 +174,13 @@ export default async function BudgetPage() {
     label: c.label,
   }));
 
+  const { data: regionalData } = await supabase
+    .from("regional_cost_data")
+    .select("*")
+    .eq("state", wedding.state ?? "")
+    .returns<RegionalCostData[]>();
+  const estimates = weddingCategoryEstimates(regionalData ?? [], wedding, guestCount);
+
   const rows: BudgetRow[] = visibleCategories.map((category) => {
     const lineItem = overrideByCategory.get(category.key);
     const imageUrl = lineItem?.vendor_id
@@ -186,13 +193,7 @@ export default async function BudgetPage() {
       key: category.key,
       label: category.label,
       isPerGuest: category.perGuestAmount > 0,
-      computed: computeCategoryValue(
-        category,
-        guestCount,
-        wedding.region,
-        wedding.season,
-        wedding.style_tier,
-      ),
+      computed: estimates.get(category.key) ?? 0,
       override: lineItem?.override_value ?? null,
       paidAmount: lineItem?.paid_amount ?? null,
       purchasedFrom: lineItem?.purchased_from ?? null,

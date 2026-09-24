@@ -25,9 +25,16 @@ const SLICE_COLORS = ["#0d8266", "#b07d0a", "#d2426b", "#3b76c4"];
 const REST_COLOR = "#c2c7c0";
 
 /**
- * The three numbers that answer "where do we stand", sitting directly above
- * the columns they summarise: total estimate over Estimate, total actual over
- * Actual, and the budget target to the right with what's left.
+ * The numbers that answer "where do we stand", sitting directly above the
+ * columns they summarise: the projected total (real numbers where entered,
+ * Wren's estimate everywhere else), what's been quoted so far with what's
+ * been paid under it, and the budget target to the right.
+ *
+ * Over/left is measured against the projection, not the quotes. The quotes
+ * alone leave out every line that has no number yet, so they read as "under
+ * budget" right up until the last vendor is booked -- and the Dashboard
+ * already compares the projection, so measuring anything else here made the
+ * two pages give different "over" figures for the same wedding.
  *
  * The target is edited here rather than in a card of its own -- showing the
  * same number in two places invites them to disagree, and this is where
@@ -36,6 +43,7 @@ const REST_COLOR = "#c2c7c0";
 export function BudgetSummary({
   totalEstimate,
   totalActual,
+  totalPaid,
   target,
   categoryCount,
   contractCount,
@@ -44,7 +52,9 @@ export function BudgetSummary({
   headerAction,
 }: {
   totalEstimate: number;
+  /** Lines with a real number entered, plus custom items. */
   totalActual: number;
+  totalPaid: number;
   target: number | null;
   categoryCount: number;
   contractCount: number;
@@ -87,8 +97,8 @@ export function BudgetSummary({
     return slices.filter((s) => s.pct > 0);
   })();
 
-  const pct = target && target > 0 ? Math.min(100, (totalActual / target) * 100) : 0;
-  const remaining = target != null ? target - totalActual : null;
+  const pct = target && target > 0 ? Math.min(100, (totalEstimate / target) * 100) : 0;
+  const remaining = target != null ? target - totalEstimate : null;
   const isOver = remaining != null && remaining < 0;
 
   function handleSubmit(formData: FormData) {
@@ -118,27 +128,32 @@ export function BudgetSummary({
           {headerAction && <div className="mt-2.5 flex flex-wrap gap-2">{headerAction}</div>}
         </div>
 
-        <div className="mt-4 flex flex-wrap items-end gap-6 sm:contents">
+        <div className="mt-4 flex flex-wrap items-start gap-6 sm:contents">
           {/* Widths match the row grid below so each total lands over its column. */}
           <div className="sm:text-right">
             <p className="font-mono-numbers text-[10px] uppercase tracking-[0.16em] text-ink/50">
-              Total estimate
-            </p>
-            <p className="mt-1 font-mono-numbers text-xl text-forest sm:text-2xl">
-              {currency.format(totalEstimate)}
-            </p>
-          </div>
-
-          <div className="sm:text-right">
-            <p className="font-mono-numbers text-[10px] uppercase tracking-[0.16em] text-ink/50">
-              Total actual
+              Projected
             </p>
             <p
               className={`mt-1 font-mono-numbers text-xl sm:text-2xl ${
                 isOver ? "text-brass" : "text-forest"
               }`}
             >
+              {currency.format(totalEstimate)}
+            </p>
+          </div>
+
+          <div className="relative sm:text-right">
+            <p className="font-mono-numbers text-[10px] uppercase tracking-[0.16em] text-ink/50">
+              Quoted so far
+            </p>
+            <p className="mt-1 font-mono-numbers text-xl text-forest sm:text-2xl">
               {currency.format(totalActual)}
+            </p>
+            {/* Hangs below on wide screens so the three big numbers keep a
+                shared baseline. */}
+            <p className="mt-0.5 font-mono-numbers text-[11px] text-ink/55 sm:absolute sm:right-0 sm:top-full sm:whitespace-nowrap">
+              {currency.format(totalPaid)} paid
             </p>
           </div>
 
@@ -203,8 +218,8 @@ export function BudgetSummary({
                 >
                   {isOver
                     ? `${currency.format(Math.abs(remaining))} over`
-                    : `${currency.format(remaining ?? 0)} left`}
-                  {target > 0 && ` · ${Math.round((totalActual / target) * 100)}% used`}
+                    : `${currency.format(remaining ?? 0)} under`}
+                  {target > 0 && ` · ${Math.round((totalEstimate / target) * 100)}%`}
                 </p>
               </>
             )}

@@ -3,8 +3,9 @@
 import "server-only";
 import Anthropic from "@anthropic-ai/sdk";
 import { createClient } from "@/lib/supabase/server";
-import type { ChecklistItem, Wedding } from "@/lib/supabase/types";
-import { BUDGET_CATEGORIES, computeCategoryValue, effectiveGuestCount } from "@/lib/budget-categories";
+import type { ChecklistItem, RegionalCostData, Wedding } from "@/lib/supabase/types";
+import { BUDGET_CATEGORIES, effectiveGuestCount } from "@/lib/budget-categories";
+import { weddingCategoryEstimates } from "@/lib/estimator";
 
 const MODEL = "claude-haiku-4-5";
 const MAX_TURNS = 8;
@@ -40,8 +41,13 @@ async function buildContext(): Promise<AssistantContext | null> {
     };
   }
 
-  const [{ data: guests }, { data: budgetOverrides }, { data: customItems }, { data: checklist }] =
-    await Promise.all([
+  const [
+    { data: guests },
+    { data: budgetOverrides },
+    { data: customItems },
+    { data: checklist },
+    { data: regionalData },
+  ] = await Promise.all([
       supabase.from("guests").select("status, plus_one").eq("wedding_id", wedding.id),
       supabase
         .from("budget_line_items")
@@ -53,6 +59,11 @@ async function buildContext(): Promise<AssistantContext | null> {
         .select("*")
         .eq("wedding_id", wedding.id)
         .returns<ChecklistItem[]>(),
+      supabase
+        .from("regional_cost_data")
+        .select("*")
+        .eq("state", wedding.state ?? "")
+        .returns<RegionalCostData[]>(),
     ]);
 
   const guestRows = guests ?? [];
@@ -63,14 +74,11 @@ async function buildContext(): Promise<AssistantContext | null> {
   const overrideByCategory = new Map(
     (budgetOverrides ?? []).map((row) => [row.category, row.override_value]),
   );
-  const categoriesTotal = BUDGET_CATEGORIES.reduce((sum, category) => {
-    const computed = computeCategoryValue(
-      category,
-      headcount,
-      wedding.region,
-      wedding.season,
-      wedding.style_tier,
-    );
+  // Same arithmetic as the Budget page: hidden categories don't count.
+  const hidden = new Set(wedding.hidden_budget_categories);
+  const estimates = weddingCategoryEstimates(regionalData ?? [], wedding, headcount);
+  const categoriesTotal = BUDGET_CATEGORIES.filter((c) => !hidden.has(c.key)).reduce((sum, category) => {
+    const computed = estimates.get(category.key) ?? 0;
     return sum + (overrideByCategory.get(category.key) ?? computed);
   }, 0);
   const customTotal = (customItems ?? []).reduce((sum, item) => sum + item.amount, 0);
