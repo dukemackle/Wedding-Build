@@ -1,0 +1,13 @@
+"use client";
+
+export function PrintButton() {
+  return (
+    <button
+      type="button"
+      onClick={() => window.print()}
+      className="rounded-md bg-forest px-4 py-2 text-sm font-medium text-parchment transition-colors hover:bg-forest/90"
+    >
+      Print
+    </button>
+  );
+}

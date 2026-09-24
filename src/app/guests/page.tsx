@@ -6,13 +6,16 @@ import { AppNav } from "@/components/app-nav";
 import type {
   ContactSubmission,
   Guest,
+  GuestPost,
   RegistryItem,
   RsvpSubmission,
   Wedding,
   WeddingAccommodation,
   WeddingFaq,
+  WeddingGalleryPhoto,
 } from "@/lib/supabase/types";
 import { GuestsPageBody } from "./guests-page-body";
+import { qrSvg } from "@/lib/qr";
 
 export default async function GuestsPage() {
   const supabase = await createClient();
@@ -97,6 +100,24 @@ export default async function GuestsPage() {
   const protocol = host?.startsWith("localhost") ? "http" : "https";
   const origin = host ? `${protocol}://${host}` : "";
 
+  const [{ data: galleryPhotos }, { data: guestPosts }] = await Promise.all([
+    supabase
+      .from("wedding_gallery_photos")
+      .select("*")
+      .eq("wedding_id", wedding.id)
+      .order("sort_order", { ascending: true })
+      .returns<WeddingGalleryPhoto[]>(),
+    supabase
+      .from("guest_posts")
+      .select("*")
+      .eq("wedding_id", wedding.id)
+      .order("created_at", { ascending: false })
+      .returns<GuestPost[]>(),
+  ]);
+
+  const shareUrl = wedding.public_slug ? `${origin}/w/${wedding.public_slug}/share` : null;
+  const shareQrSvg = shareUrl ? await qrSvg(shareUrl) : null;
+
   const { data: contactSubmissions } = await supabase
     .from("contact_submissions")
     .select("*")
@@ -117,6 +138,10 @@ export default async function GuestsPage() {
         rsvpSubmissions={rsvpSubmissions ?? []}
         contactSubmissions={contactSubmissions ?? []}
         origin={origin}
+        galleryPhotos={galleryPhotos ?? []}
+        guestPosts={guestPosts ?? []}
+        shareUrl={shareUrl}
+        shareQrSvg={shareQrSvg}
       />
     </main>
   );
