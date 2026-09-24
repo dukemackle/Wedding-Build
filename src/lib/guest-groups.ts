@@ -14,9 +14,9 @@ export const GUEST_TYPE_LABELS: Record<GuestType, string> = {
 /**
  * The colours a side can be drawn in.
  *
- * Eight, not a colour wheel: the dot has to read at 8px against parchment,
- * and a free picker is how you end up with a pale yellow nobody can see. All
- * eight are dark enough to carry white text if a badge ever needs it.
+ * Nine, not a colour wheel: the side bar has to read against parchment,
+ * and a free picker is how you end up with a pale yellow nobody can see. The
+ * dark ones can carry white text; Stone is the neutral default for "Both".
  */
 export const SIDE_COLORS = [
   { name: "Forest", value: "#3F6B57" },
@@ -27,10 +27,13 @@ export const SIDE_COLORS = [
   { name: "Teal", value: "#2F6E70" },
   { name: "Olive", value: "#6B7233" },
   { name: "Slate", value: "#4A5560" },
+  { name: "Stone", value: "#8C8677" },
 ] as const;
 
 export const DEFAULT_SIDE_A_COLOR = SIDE_COLORS[0].value;
 export const DEFAULT_SIDE_B_COLOR = SIDE_COLORS[1].value;
+/** Neutral by default: "both" is the absence of a side rather than one more. */
+export const DEFAULT_SIDE_BOTH_COLOR = SIDE_COLORS[8].value;
 
 /** A guest with no side gets a dot too -- hollow, so the row still lines up. */
 export const UNASSIGNED_COLOR = "#C9C3B6";
@@ -57,11 +60,13 @@ export function sideTheme({
   partnerBName,
   sideAColor,
   sideBColor,
+  sideBothColor = null,
 }: {
   partnerAName: string | null;
   partnerBName: string | null;
   sideAColor: string | null;
   sideBColor: string | null;
+  sideBothColor?: string | null;
 }): SideTheme {
   const a = firstName(partnerAName, "Side A");
   const b = firstName(partnerBName, "Side B");
@@ -74,9 +79,7 @@ export function sideTheme({
     colors: {
       a: sideAColor || DEFAULT_SIDE_A_COLOR,
       b: sideBColor || DEFAULT_SIDE_B_COLOR,
-      // Neutral on purpose: a third colour competes with the two that mean
-      // something, and "both" is the absence of a side rather than one more.
-      both: "#8C8677",
+      both: sideBothColor || DEFAULT_SIDE_BOTH_COLOR,
     },
   };
 }
