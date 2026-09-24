@@ -3,22 +3,15 @@ import { createClient } from "@/lib/supabase/server";
 import { PageShell } from "@/components/page-shell";
 import { FadeInSection } from "@/components/fade-in-section";
 import { WeddingDashboard } from "./wedding-dashboard";
-import { StatStrip, BudgetPanel, RsvpPanel } from "./dashboard-summary";
-import { ThisWeek } from "./this-week";
-import { VendorTracker } from "./vendor-tracker";
+import { FeatureGrid, buildFeatures } from "./feature-grid";
 import { PartnerInviteCard } from "./partner-invite-card";
-import { buildVendorTracker, currentPhase, type DashboardSummaryData } from "./dashboard-data";
+import { buildVendorTracker } from "./dashboard-data";
 import type { ChecklistItem, Venue, VendorInquiryStatus, Wedding } from "@/lib/supabase/types";
 import { BUDGET_CATEGORIES, computeCategoryValue, effectiveGuestCount } from "@/lib/budget-categories";
 
 /**
- * The first screen after signing in, and so the one that has to answer "where
- * are we, and what do we do next" without a click.
- *
- * Desktop is a banner and then two columns -- the work (this week's tasks,
- * the bookings) on the left, the numbers (budget, RSVPs) in a rail on the
- * right. A phone gets the same pieces as one column, tasks first, with the
- * longer panels folded.
+ * The first screen after signing in: the couple's banner, and then one box
+ * for each part of Wren. Nothing else -- it's a front door, not a report.
  */
 export default async function DashboardPage() {
   const supabase = await createClient();
@@ -66,9 +59,9 @@ export default async function DashboardPage() {
     supabase.from("guests").select("status, plus_one").eq("wedding_id", wedding.id),
     supabase
       .from("budget_line_items")
-      .select("category, override_value, paid_amount, vendor_id, venue_id, purchased_from")
+      .select("category, override_value, vendor_id, venue_id, purchased_from")
       .eq("wedding_id", wedding.id),
-    supabase.from("budget_custom_items").select("amount, paid_amount").eq("wedding_id", wedding.id),
+    supabase.from("budget_custom_items").select("amount").eq("wedding_id", wedding.id),
     supabase
       .from("venue_shortlist")
       .select("id", { count: "exact", head: true })
@@ -110,80 +103,46 @@ export default async function DashboardPage() {
     return sum + (lineByCategory.get(category.key)?.override_value ?? computed);
   }, 0);
   const customTotal = (customItems ?? []).reduce((sum, item) => sum + item.amount, 0);
-  const paid =
-    visibleCategories.reduce(
-      (sum, c) => sum + (lineByCategory.get(c.key)?.paid_amount ?? 0),
-      0,
-    ) + (customItems ?? []).reduce((sum, item) => sum + (item.paid_amount ?? 0), 0);
-
-  const summary: DashboardSummaryData = {
-    guestsConfirmed: guestRows.filter((g) => g.status === "confirmed").length,
-    guestsPending: guestRows.filter((g) => g.status === "invited" || g.status === "pending")
-      .length,
-    guestsDeclined: guestRows.filter((g) => g.status === "declined").length,
-    guestsTotal: guestRows.length,
-    headcount,
-    headcountIsOverride: wedding.guest_count_override != null,
-    budgetTotal: categoriesTotal + customTotal,
-    budgetTarget: wedding.budget_target,
-    budgetPaid: paid,
-    budgetCategoriesQuoted: visibleCategories.filter(
-      (c) => lineByCategory.get(c.key)?.override_value != null,
-    ).length,
-    budgetCategoriesTotal: visibleCategories.length,
-    venuesShortlisted: venuesShortlisted ?? 0,
-    attireShortlisted: attireShortlisted ?? 0,
-    tasksDone: checklistItems.filter((item) => item.completed).length,
-    tasksTotal: checklistItems.length,
-  };
 
   const vendors = buildVendorTracker({
     hiddenCategories: wedding.hidden_budget_categories,
     lineItems: lineItems ?? [],
     inquiries: vendorInquiries ?? [],
     bookedVenueName: bookedVenue?.name ?? null,
-    venuesShortlisted: summary.venuesShortlisted,
+    venuesShortlisted: venuesShortlisted ?? 0,
+  });
+
+  const features = buildFeatures({
+    tasksDone: checklistItems.filter((item) => item.completed).length,
+    tasksTotal: checklistItems.length,
+    budgetTotal: categoriesTotal + customTotal,
+    budgetTarget: wedding.budget_target,
+    guestsTotal: guestRows.length,
+    guestsConfirmed: guestRows.filter((g) => g.status === "confirmed").length,
+    venuesShortlisted: venuesShortlisted ?? 0,
+    vendorsBooked: vendors.filter((v) => v.status === "booked").length,
+    vendorsTracked: vendors.length,
+    attireShortlisted: attireShortlisted ?? 0,
   });
 
   return (
     <PageShell email={user.email ?? ""} width="canvas">
-      <WeddingDashboard
-        initialWedding={wedding}
-        bookedVenue={bookedVenue}
-        progress={{ done: summary.tasksDone, total: summary.tasksTotal }}
-        phase={currentPhase(checklistItems)}
-      />
+      <WeddingDashboard initialWedding={wedding} bookedVenue={bookedVenue} />
 
       <FadeInSection delayMs={40}>
-        <StatStrip data={summary} vendors={vendors} />
+        <FeatureGrid features={features} />
       </FadeInSection>
 
-      <div className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1fr)_360px] xl:grid-cols-[minmax(0,1fr)_400px]">
-        <div className="flex min-w-0 flex-col gap-6">
-          <FadeInSection delayMs={60}>
-            <ThisWeek items={checklistItems} />
-          </FadeInSection>
-          <FadeInSection delayMs={80}>
-            <VendorTracker rows={vendors} />
-          </FadeInSection>
-        </div>
-        <aside className="flex min-w-0 flex-col gap-6">
-          <FadeInSection delayMs={80}>
-            <BudgetPanel data={summary} />
-          </FadeInSection>
-          <FadeInSection delayMs={100}>
-            <RsvpPanel data={summary} rsvpDeadline={wedding.rsvp_deadline} />
-          </FadeInSection>
-          {wedding.user_id === user.id && (
-            <FadeInSection delayMs={120}>
-              <PartnerInviteCard
-                inviteToken={wedding.invite_token}
-                hasPartner={Boolean(wedding.partner_user_id)}
-              />
-            </FadeInSection>
-          )}
-        </aside>
-      </div>
+      {wedding.user_id === user.id && (
+        <FadeInSection delayMs={80}>
+          <div className="mt-10 lg:mx-auto lg:w-2/5">
+            <PartnerInviteCard
+              inviteToken={wedding.invite_token}
+              hasPartner={Boolean(wedding.partner_user_id)}
+            />
+          </div>
+        </FadeInSection>
+      )}
     </PageShell>
   );
 }
