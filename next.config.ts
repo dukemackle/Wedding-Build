@@ -1,6 +1,14 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Contacts and the old Wedding Plan page were merged into Bookings.
+  // Temporary redirects, so browsers don't cache them if either path is reused.
+  async redirects() {
+    return [
+      { source: "/contacts", destination: "/bookings", permanent: false },
+      { source: "/wedding-plan", destination: "/bookings", permanent: false },
+    ];
+  },
   experimental: {
     // Server Actions default to a 1MB request body limit -- too small for
     // the 5MB photo uploads on the dashboard hero photo and guestbook

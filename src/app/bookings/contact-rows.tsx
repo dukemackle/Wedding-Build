@@ -59,7 +59,7 @@ function ContactLinks({ email, phone }: { email: string | null; phone: string | 
   );
 }
 
-function VendorRow({ contact }: { contact: VendorContact }) {
+export function VendorRow({ contact }: { contact: VendorContact }) {
   const [saved, setSaved] = useState(true);
   const [isPending, startTransition] = useTransition();
 
@@ -115,7 +115,7 @@ function VendorRow({ contact }: { contact: VendorContact }) {
   );
 }
 
-function VenueRow({ contact }: { contact: VenueContact }) {
+export function VenueRow({ contact }: { contact: VenueContact }) {
   const [saved, setSaved] = useState(true);
   const [isPending, startTransition] = useTransition();
 
@@ -133,7 +133,7 @@ function VenueRow({ contact }: { contact: VenueContact }) {
       {contact.notes && <p className="mt-1 text-sm text-ink/70">{contact.notes}</p>}
       <form
         action={handleSave}
-        className="mt-2 flex flex-col gap-2 sm:flex-row sm:items-center"
+        className="mt-2 flex flex-col gap-2"
       >
         <input type="hidden" name="venue_id" value={contact.id} />
         <input
@@ -160,48 +160,6 @@ function VenueRow({ contact }: { contact: VenueContact }) {
           {isPending ? "Saving..." : saved ? "Saved" : "Save"}
         </button>
       </form>
-    </div>
-  );
-}
-
-export function ContactsManager({
-  venues,
-  vendors,
-}: {
-  venues: VenueContact[];
-  vendors: VendorContact[];
-}) {
-  return (
-    <div className="flex flex-col gap-8">
-      <div className="rounded-lg border border-hairline bg-card p-6 shadow-sm">
-        <h2 className="font-display text-2xl font-semibold text-forest">Venue</h2>
-        {venues.length === 0 ? (
-          <p className="mt-4 py-4 text-center text-sm text-ink/50">
-            Favorite a venue to add it here.
-          </p>
-        ) : (
-          <div className="mt-4">
-            {venues.map((venue) => (
-              <VenueRow key={venue.id} contact={venue} />
-            ))}
-          </div>
-        )}
-      </div>
-
-      <div className="rounded-lg border border-hairline bg-card p-6 shadow-sm">
-        <h2 className="font-display text-2xl font-semibold text-forest">Vendors</h2>
-        {vendors.length === 0 ? (
-          <p className="mt-4 py-4 text-center text-sm text-ink/50">
-            Favorite a vendor or send an inquiry to add them here.
-          </p>
-        ) : (
-          <div className="mt-4">
-            {vendors.map((vendor) => (
-              <VendorRow key={vendor.id} contact={vendor} />
-            ))}
-          </div>
-        )}
-      </div>
     </div>
   );
 }

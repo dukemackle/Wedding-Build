@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import type { Wedding } from "@/lib/supabase/types";
 import { readUploadedContract } from "@/lib/ai/read-uploaded-contract";
+import { BUDGET_CATEGORIES } from "@/lib/budget-categories";
 
 const BUCKET = "contracts";
 
@@ -127,6 +128,7 @@ export async function uploadContract(formData: FormData) {
 
   revalidatePath("/budget");
   revalidatePath("/checklist");
+  revalidatePath("/bookings");
   return { success: true };
 }
 
@@ -161,6 +163,45 @@ export async function deleteContract(formData: FormData) {
   await supabase.storage.from(BUCKET).remove([contract.storage_path]);
 
   revalidatePath("/budget");
+  revalidatePath("/checklist");
+  revalidatePath("/bookings");
+  return { success: true };
+}
+
+/**
+ * Gives an unfiled contract (one uploaded on the Checklist, which has no
+ * category) a category, so it moves onto that vendor's card on Bookings and
+ * onto the same line of the budget.
+ *
+ * Only ever files a contract that is still unfiled: one already on a budget
+ * line is left where the couple put it.
+ */
+export async function fileContract(formData: FormData) {
+  const { supabase, wedding } = await requireOwnWedding();
+  if (!wedding) return { error: "Set up your wedding first." };
+
+  const id = (formData.get("id") as string)?.trim();
+  const category = (formData.get("category") as string)?.trim();
+  if (!id) return { error: "Missing contract." };
+  if (!category || !BUDGET_CATEGORIES.some((c) => c.key === category)) {
+    return { error: "Choose what this contract is for." };
+  }
+
+  const { data, error } = await supabase
+    .from("budget_contracts")
+    .update({ category })
+    .eq("id", id)
+    .eq("wedding_id", wedding.id)
+    .is("category", null)
+    .is("custom_item_id", null)
+    .select("id");
+
+  if (error) return { error: "Could not file that contract — please try again." };
+  if (!data?.length) return { error: "That contract has already been filed." };
+
+  revalidatePath("/budget");
+  revalidatePath("/checklist");
+  revalidatePath("/bookings");
   return { success: true };
 }
 

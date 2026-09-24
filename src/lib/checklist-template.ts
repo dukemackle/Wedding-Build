@@ -394,7 +394,7 @@ export const CHECKLIST_TEMPLATE: ChecklistTemplateTask[] = [
     phase: "count",
     title: "Send the timeline to every vendor",
     weeksBefore: 2,
-    href: "/contacts",
+    href: "/bookings",
     essential: true,
   },
   {
@@ -410,7 +410,7 @@ export const CHECKLIST_TEMPLATE: ChecklistTemplateTask[] = [
     phase: "week",
     title: "Confirm arrival times with every vendor",
     weeksBefore: 1,
-    href: "/contacts",
+    href: "/bookings",
     essential: true,
   },
   {
