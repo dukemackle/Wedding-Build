@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useTransition } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import { saveWedding } from "./actions";
 import type { Venue, Wedding } from "@/lib/supabase/types";
 import { STATES, SEASONS, STYLE_TIERS, VENUE_TYPES } from "@/lib/wedding-options";
@@ -299,9 +299,27 @@ function ProgressRing({ done, total }: HeroProgress) {
  */
 function CoverPhotoButton({ wedding }: { wedding: Wedding }) {
   const [editing, setEditing] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  // A click anywhere outside the button and popover closes it, as does Escape.
+  useEffect(() => {
+    if (!editing) return;
+    function onPointerDown(e: PointerEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) setEditing(false);
+    }
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") setEditing(false);
+    }
+    document.addEventListener("pointerdown", onPointerDown);
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("pointerdown", onPointerDown);
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [editing]);
 
   return (
-    <div className="absolute right-4 top-4 z-10 flex flex-col items-end sm:right-6 sm:top-6">
+    <div ref={ref} className="absolute right-4 top-4 z-10 flex flex-col items-end sm:right-6 sm:top-6">
       <button
         type="button"
         onClick={() => setEditing((v) => !v)}
