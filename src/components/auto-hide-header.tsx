@@ -63,7 +63,7 @@ export function AutoHideHeader({ children }: { children: ReactNode }) {
       // Mostly see-through with a heavy blur, so the page's parchment and its
       // green/brass washes carry on up under the bar instead of stopping at a
       // white slab. The blur keeps the tabs legible over whatever scrolls by.
-      className={`sticky top-0 z-30 -mx-6 -mt-16 mb-8 self-stretch border-b border-hairline/50 bg-parchment/40 backdrop-blur-xl backdrop-saturate-150 transition-transform duration-300 motion-reduce:transition-none ${
+      className={`sticky top-0 z-30 -mx-6 -mt-16 mb-4 self-stretch border-b border-hairline/50 bg-parchment/40 backdrop-blur-xl backdrop-saturate-150 transition-transform duration-300 motion-reduce:transition-none ${
         // Reduced motion keeps it pinned rather than teleporting it away.
         hidden ? "-translate-y-full motion-reduce:translate-y-0" : "translate-y-0"
       }`}

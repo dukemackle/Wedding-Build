@@ -63,11 +63,11 @@ function PlainLink({ href, label, icon: Icon }: { href: string; label: string; i
   return (
     <Link
       href={href}
-      className={`flex shrink-0 items-center gap-1 whitespace-nowrap rounded-full px-2 py-0.5 font-display text-lg transition-colors ${
+      className={`flex shrink-0 items-center gap-1 whitespace-nowrap rounded-full px-2 py-0.5 font-display text-lg transition-colors xl:text-xl ${
         isActive ? "bg-forest/10 text-forest" : "text-ink/70 hover:text-forest"
       }`}
     >
-      <Icon className={`h-4 w-4 shrink-0 ${isActive ? "text-forest" : "text-brass"}`} />
+      <Icon className={`h-4 w-4 shrink-0 xl:h-5 xl:w-5 ${isActive ? "text-forest" : "text-brass"}`} />
       {label}
     </Link>
   );

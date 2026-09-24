@@ -386,7 +386,7 @@ function WeddingHero({
                   {venueLine}
                 </p>
               )}
-              <h1 className="mt-2 font-display text-4xl font-semibold leading-tight text-white sm:text-5xl">
+              <h1 className="mt-2 font-display text-4xl font-semibold leading-tight text-white sm:text-5xl lg:text-6xl">
                 {wedding.partner_a_name} &amp; {wedding.partner_b_name}
               </h1>
               <p className="mt-2 text-lg text-white/85">
