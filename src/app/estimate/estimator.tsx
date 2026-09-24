@@ -29,6 +29,7 @@ export function Estimator({
   ctaLabel = "Start planning for free",
   ctaTitle = "Ready to plan for real?",
   ctaBody = "Turn this estimate into a real budget you can track, with venues, guests, and vendors all in one free account.",
+  split = false,
 }: {
   regionalData: RegionalCostData[];
   initialState?: string;
@@ -38,6 +39,12 @@ export function Estimator({
   ctaLabel?: string;
   ctaTitle?: string;
   ctaBody?: string;
+  /**
+   * From 1024px, put the controls and total in a sticky column on the left and
+   * the breakdown beside them, so a wide page holds two panels rather than one
+   * stretched stack. Off for the public page, which sits in a narrow column.
+   */
+  split?: boolean;
 }) {
   const [state, setState] = useState<string>(initialState);
   const [guestCount, setGuestCount] = useState(initialGuestCount);
@@ -51,94 +58,110 @@ export function Estimator({
   const realDataCount = estimate.breakdown.filter((item) => item.isRealData).length;
 
   return (
-    <div className="w-full">
-      <div className="w-full rounded-lg border border-hairline bg-card p-6 shadow-sm sm:p-8">
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-          <label className="flex flex-col gap-1 text-sm text-ink">
-            State
-            <select
-              value={state}
-              onChange={(e) => setState(e.target.value)}
-              className={inputClass}
+    <div
+      className={
+        split
+          ? "w-full lg:grid lg:grid-cols-[400px_minmax(0,1fr)] lg:items-start lg:gap-8"
+          : "w-full"
+      }
+    >
+      <div className={split ? "lg:sticky lg:top-8" : undefined}>
+        <div className="w-full rounded-lg border border-hairline bg-card p-6 shadow-sm sm:p-8">
+          <div
+            className={`grid grid-cols-1 gap-5 sm:grid-cols-2 ${split ? "lg:grid-cols-1" : ""}`}
+          >
+            <label className="flex flex-col gap-1 text-sm text-ink">
+              State
+              <select
+                value={state}
+                onChange={(e) => setState(e.target.value)}
+                className={inputClass}
+              >
+                {STATES.map((s) => (
+                  <option key={s} value={s}>
+                    {s}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <div className="flex flex-col gap-1 text-sm text-ink">
+              Style
+              <div className="flex gap-2">
+                {STYLE_TIERS.map((t) => (
+                  <button
+                    key={t}
+                    type="button"
+                    onClick={() => setTier(t)}
+                    className={`flex-1 rounded-md border px-3 py-2 text-sm transition-colors ${
+                      tier === t
+                        ? "border-forest bg-forest text-parchment"
+                        : "border-hairline bg-parchment text-ink hover:border-forest"
+                    }`}
+                  >
+                    {t}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div
+              className={`flex flex-col gap-1 text-sm text-ink sm:col-span-2 ${split ? "lg:col-span-1" : ""}`}
             >
-              {STATES.map((s) => (
-                <option key={s} value={s}>
-                  {s}
-                </option>
-              ))}
-            </select>
-          </label>
-
-          <div className="flex flex-col gap-1 text-sm text-ink">
-            Style
-            <div className="flex gap-2">
-              {STYLE_TIERS.map((t) => (
-                <button
-                  key={t}
-                  type="button"
-                  onClick={() => setTier(t)}
-                  className={`flex-1 rounded-md border px-3 py-2 text-sm transition-colors ${
-                    tier === t
-                      ? "border-forest bg-forest text-parchment"
-                      : "border-hairline bg-parchment text-ink hover:border-forest"
-                  }`}
-                >
-                  {t}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-1 text-sm text-ink sm:col-span-2">
-            <div className="flex items-baseline justify-between">
-              <span>Guest count</span>
-              <span className="font-mono-numbers text-forest">{guestCount}</span>
-            </div>
-            <input
-              type="range"
-              min={MIN_GUESTS}
-              max={MAX_GUESTS}
-              step={5}
-              value={guestCount}
-              onChange={(e) => setGuestCount(Number(e.target.value))}
-              className="w-full accent-forest"
-            />
-            <div className="flex justify-between text-xs text-ink/50">
-              <span>{MIN_GUESTS}</span>
-              <span>{MAX_GUESTS}+</span>
+              <div className="flex items-baseline justify-between">
+                <span>Guest count</span>
+                <span className="font-mono-numbers text-forest">{guestCount}</span>
+              </div>
+              <input
+                type="range"
+                min={MIN_GUESTS}
+                max={MAX_GUESTS}
+                step={5}
+                value={guestCount}
+                onChange={(e) => setGuestCount(Number(e.target.value))}
+                className="w-full accent-forest"
+              />
+              <div className="flex justify-between text-xs text-ink/50">
+                <span>{MIN_GUESTS}</span>
+                <span>{MAX_GUESTS}+</span>
+              </div>
             </div>
           </div>
         </div>
+
+        <div className="mt-6 w-full rounded-lg border border-hairline bg-card p-6 text-center shadow-sm sm:p-10">
+          <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
+            Estimated total
+          </p>
+          <p
+            className={`mt-2 font-display text-4xl font-semibold text-forest sm:text-5xl ${split ? "lg:text-4xl" : ""}`}
+          >
+            {currency.format(estimate.low)} &ndash; {currency.format(estimate.high)}
+          </p>
+          <p className="mt-2 text-sm text-ink/60">
+            {tier} style &middot; {guestCount} guests &middot; {state}
+          </p>
+        </div>
       </div>
 
-      <div className="mt-6 w-full rounded-lg border border-hairline bg-card p-6 text-center shadow-sm sm:p-10">
-        <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
-          Estimated total
-        </p>
-        <p className="mt-2 font-display text-4xl font-semibold text-forest sm:text-5xl">
-          {currency.format(estimate.low)} &ndash; {currency.format(estimate.high)}
-        </p>
-        <p className="mt-2 text-sm text-ink/60">
-          {tier} style &middot; {guestCount} guests &middot; {state}
-        </p>
-      </div>
+      <div>
+        <BudgetOverview breakdown={estimate.breakdown} split={split} />
 
-      <BudgetOverview breakdown={estimate.breakdown} />
+        <p className="mt-4 text-center text-xs text-ink/50">
+          {realDataCount} of {estimate.breakdown.length} categories use real, sourced pricing data
+          for {state}; the rest use a regional estimate until more data is added.
+        </p>
 
-      <p className="mt-4 text-center text-xs text-ink/50">
-        {realDataCount} of {estimate.breakdown.length} categories use real, sourced pricing data
-        for {state}; the rest use a regional estimate until more data is added.
-      </p>
-
-      <div className="mt-8 w-full rounded-lg border border-hairline bg-card p-8 text-center shadow-sm">
-        <h2 className="font-display text-2xl font-semibold text-forest">{ctaTitle}</h2>
-        <p className="mt-2 text-sm text-ink/70">{ctaBody}</p>
-        <Link
-          href={ctaHref}
-          className="mt-6 inline-block rounded-full bg-forest px-6 py-2 font-mono-numbers text-sm text-parchment transition-colors hover:bg-forest/90"
-        >
-          {ctaLabel}
-        </Link>
+        <div className="mt-8 w-full rounded-lg border border-hairline bg-card p-8 text-center shadow-sm">
+          <h2 className="font-display text-2xl font-semibold text-forest">{ctaTitle}</h2>
+          <p className="mt-2 text-sm text-ink/70">{ctaBody}</p>
+          <Link
+            href={ctaHref}
+            className="mt-6 inline-block rounded-full bg-forest px-6 py-2 font-mono-numbers text-sm text-parchment transition-colors hover:bg-forest/90"
+          >
+            {ctaLabel}
+          </Link>
+        </div>
       </div>
     </div>
   );
@@ -146,11 +169,15 @@ export function Estimator({
 
 function BudgetOverview({
   breakdown,
+  split,
 }: {
   breakdown: { key: string; label: string; amount: number }[];
+  split: boolean;
 }) {
   return (
-    <div className="mt-6 w-full rounded-lg border border-hairline bg-card p-5 shadow-sm sm:p-8">
+    <div
+      className={`mt-6 w-full rounded-lg border border-hairline bg-card p-5 shadow-sm sm:p-8 ${split ? "lg:mt-0" : ""}`}
+    >
       <span className="font-display text-2xl font-semibold text-forest">Cost breakdown</span>
       <p className="mt-1 text-sm text-ink/70">Where this estimate goes, highest to lowest.</p>
       <div className="mt-6">
