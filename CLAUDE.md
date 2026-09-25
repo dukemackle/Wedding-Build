@@ -76,15 +76,18 @@ fixed it. If it starts happening often, self-host the three fonts with
 
 ## Reference, read on demand
 
-Two files hold the background that used to live here. They were moved out
+Three files hold the background that used to live here. They were moved out
 because this file is re-sent with every message and they were being paid for
 on every turn while mattering on very few. Read the relevant one when the
-conversation turns to it — don't guess from memory, and don't read both
+conversation turns to it — don't guess from memory, and don't read them all
 reflexively:
 
 - **`docs/monetization.md`** — the staged pricing roadmap, phase triggers, and
   the rollout plan for existing free vendors. Read before advising on pricing,
   charging, revenue, or whether to move phases.
+- **`docs/disaster-recovery.md`** — accounts inventory, backups (nightly
+  `.github/workflows/backup.yml`) and restore steps, incident playbooks. Read
+  when something breaks, or before changing accounts, keys, or data storage.
 - **`docs/competitors.md`** — The Knot, Zola, Joy and the rest; where Wren wins
   and where it can't; the known feature gaps (including what's parked, and
   what's already shipped so it isn't re-proposed). Read before comparing Wren

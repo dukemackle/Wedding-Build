@@ -202,7 +202,8 @@ export default function PrivacyPage() {
               . Deleting your account removes your login immediately; if you&apos;re a wedding&apos;s
               owner, it also deletes that wedding and everything on it — including any photos and
               any contracts or documents you uploaded — except where we&apos;re required to retain
-              limited records by law.
+              limited records by law. We keep encrypted backups so we can recover from an outage;
+              deleted data drops out of those automatically within 30 days.
             </p>
           </Section>
 

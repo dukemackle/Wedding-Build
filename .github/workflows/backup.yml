@@ -1,0 +1,92 @@
+# Nightly encrypted backup of the production database, plus a weekly copy of
+# every uploaded file. See docs/disaster-recovery.md for setup and restore.
+#
+# Does nothing until these repository secrets exist (Settings -> Secrets and
+# variables -> Actions):
+#   SUPABASE_DB_URL            Session pooler connection string (port 5432).
+#                              Not the "direct connection" one -- that host is
+#                              IPv6-only and GitHub's runners can't reach it.
+#   BACKUP_PASSPHRASE          Encrypts the backup. Keep it in your password
+#                              manager: without it the backups can't be opened.
+#   SUPABASE_SERVICE_ROLE_KEY  Only for the weekly file backup.
+name: Backup
+
+on:
+  schedule:
+    - cron: "17 7 * * *" # database, daily ~3am US Eastern
+    - cron: "43 7 * * 0" # database + uploaded files, Sundays
+  workflow_dispatch:
+    inputs:
+      include_files:
+        description: "Also back up uploaded files (photos, contracts)"
+        type: boolean
+        default: false
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+      BACKUP_PASSPHRASE: ${{ secrets.BACKUP_PASSPHRASE }}
+      INCLUDE_FILES: ${{ github.event.schedule == '43 7 * * 0' || inputs.include_files == true }}
+    steps:
+      - name: Check secrets are set
+        run: |
+          if [ -z "$SUPABASE_DB_URL" ] || [ -z "$BACKUP_PASSPHRASE" ]; then
+            echo "::error::SUPABASE_DB_URL and BACKUP_PASSPHRASE secrets are required. See docs/disaster-recovery.md."
+            exit 1
+          fi
+
+      - uses: actions/checkout@v4
+
+      # pg_dump must be at least the server's major version; 17 covers
+      # Supabase's 15 and 17.
+      - name: Install pg_dump 17
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq postgresql-common
+          sudo /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh -y
+          sudo apt-get install -y -qq postgresql-client-17
+
+      # public = all app tables. auth.users/identities keep everyone's login
+      # and the user ids every app row points at. storage.objects is the
+      # index of uploaded files (the files themselves come from the step below).
+      - name: Dump database
+        run: |
+          mkdir -p out
+          PG=/usr/lib/postgresql/17/bin/pg_dump
+          $PG "$SUPABASE_DB_URL" --schema=public --no-owner --file=out/public.sql
+          $PG "$SUPABASE_DB_URL" --data-only --no-owner \
+            --table=auth.users --table=auth.identities \
+            --table=storage.buckets --table=storage.objects \
+            --file=out/auth-and-storage-index.sql
+          ls -lh out
+
+      - name: Download uploaded files
+        if: env.INCLUDE_FILES == 'true'
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: https://tbvkuvjxjqrauncavhgz.supabase.co
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          npm ci --ignore-scripts --no-audit --no-fund
+          node scripts/backup-storage.mjs
+
+      - name: Encrypt
+        run: |
+          name="wren-backup-$(date -u +%Y-%m-%d)"
+          [ "$INCLUDE_FILES" = "true" ] && name="$name-with-files"
+          tar -czf backup.tar.gz -C out .
+          gpg --batch --yes --symmetric --cipher-algo AES256 \
+            --passphrase "$BACKUP_PASSPHRASE" -o "$name.tar.gz.gpg" backup.tar.gz
+          rm -rf out backup.tar.gz
+          echo "BACKUP_NAME=$name" >> "$GITHUB_ENV"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.BACKUP_NAME }}
+          path: ${{ env.BACKUP_NAME }}.tar.gz.gpg
+          # GitHub deletes each copy after 30 days, so there are always about
+          # a month of daily database copies and four weekly file copies.
+          retention-days: 30
+          compression-level: 0
