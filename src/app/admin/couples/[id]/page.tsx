@@ -70,6 +70,14 @@ export default async function AdminCoupleDetailPage({
     { data: vendorInquiries },
     { data: venueShortlist },
     { data: checklistItems },
+    { data: venueInquiries },
+    { data: contracts },
+    { data: rsvps },
+    { data: guestPosts },
+    { count: galleryCount },
+    { count: registryCount },
+    { count: partyCount },
+    { count: layoutCount },
   ] = await Promise.all([
     admin.auth.admin.getUserById(wedding.user_id),
     admin
@@ -115,6 +123,41 @@ export default async function AdminCoupleDetailPage({
       .select("*")
       .eq("wedding_id", id)
       .returns<ChecklistItem[]>(),
+    admin
+      .from("venue_inquiries")
+      .select("id, venue_name, status, sent_at")
+      .eq("wedding_id", id)
+      .order("sent_at", { ascending: false })
+      .returns<{ id: string; venue_name: string; status: string; sent_at: string }[]>(),
+    admin
+      .from("budget_contracts")
+      .select("id, category, file_name, created_at")
+      .eq("wedding_id", id)
+      .order("created_at", { ascending: false })
+      .returns<{ id: string; category: string | null; file_name: string; created_at: string }[]>(),
+    admin
+      .from("rsvp_submissions")
+      .select("status")
+      .eq("wedding_id", id)
+      .returns<{ status: string }[]>(),
+    admin
+      .from("guest_posts")
+      .select("status")
+      .eq("wedding_id", id)
+      .returns<{ status: string }[]>(),
+    admin
+      .from("wedding_gallery_photos")
+      .select("id", { count: "exact", head: true })
+      .eq("wedding_id", id),
+    admin.from("registry_items").select("id", { count: "exact", head: true }).eq("wedding_id", id),
+    admin
+      .from("attire_party_members")
+      .select("id", { count: "exact", head: true })
+      .eq("wedding_id", id),
+    admin
+      .from("venue_layout_items")
+      .select("id", { count: "exact", head: true })
+      .eq("wedding_id", id),
   ]);
 
   const names = [wedding.partner_a_name, wedding.partner_b_name].filter(Boolean).join(" & ");
@@ -123,6 +166,10 @@ export default async function AdminCoupleDetailPage({
     (budgetLineItems ?? []).reduce((sum, row) => sum + (row.override_value ?? 0), 0) +
     (budgetCustomItems ?? []).reduce((sum, item) => sum + item.amount, 0);
   const completedChecklist = (checklistItems ?? []).filter((c) => c.completed).length;
+  const bookedVendors = (vendorInquiries ?? []).filter((i) => i.status === "booked");
+  const rsvpYes = (rsvps ?? []).filter((r) => r.status === "confirmed").length;
+  const postsByStatus = (status: string) =>
+    (guestPosts ?? []).filter((p) => p.status === status).length;
 
   return (
     <div>
@@ -175,6 +222,24 @@ export default async function AdminCoupleDetailPage({
             <dd className="text-ink">{wedding.venue_type ?? "—"}</dd>
           </div>
           <div>
+            <dt className="text-xs text-ink/50">Partner joined</dt>
+            <dd className="text-ink">{wedding.partner_user_id ? "Yes" : "No"}</dd>
+          </div>
+          <div>
+            <dt className="text-xs text-ink/50">Budget target</dt>
+            <dd className="text-ink">
+              {wedding.budget_target != null ? formatCurrency(wedding.budget_target) : "—"}
+            </dd>
+          </div>
+          <div>
+            <dt className="text-xs text-ink/50">Wedding party</dt>
+            <dd className="text-ink">{partyCount ?? 0}</dd>
+          </div>
+          <div>
+            <dt className="text-xs text-ink/50">Venue layout items</dt>
+            <dd className="text-ink">{layoutCount ?? 0}</dd>
+          </div>
+          <div>
             <dt className="text-xs text-ink/50">Referral code</dt>
             <dd className="font-mono-numbers text-ink">{wedding.referral_code ?? "—"}</dd>
           </div>
@@ -194,6 +259,76 @@ export default async function AdminCoupleDetailPage({
                 "—"
               )}
             </dd>
+          </div>
+        </dl>
+      </Section>
+
+      <Section title="Bookings">
+        <dl className="grid grid-cols-2 gap-x-6 gap-y-2 text-sm sm:grid-cols-3">
+          <div>
+            <dt className="text-xs text-ink/50">Vendors booked</dt>
+            <dd className="text-ink">
+              {bookedVendors.length}
+              {bookedVendors.length > 0 &&
+                ` · ${formatCurrency(bookedVendors.reduce((sum, i) => sum + (i.booked_amount ?? 0), 0))}`}
+            </dd>
+          </div>
+          <div>
+            <dt className="text-xs text-ink/50">Venue on file</dt>
+            <dd className="text-ink">{wedding.venue_id ? "Yes" : "No"}</dd>
+          </div>
+          <div>
+            <dt className="text-xs text-ink/50">Contracts uploaded</dt>
+            <dd className="text-ink">{(contracts ?? []).length}</dd>
+          </div>
+        </dl>
+        {(contracts ?? []).length > 0 && (
+          <ul className="mt-4 flex flex-col gap-1 text-sm">
+            {(contracts ?? []).map((c) => (
+              <li key={c.id} className="flex items-baseline gap-3">
+                <span className="w-24 shrink-0 font-mono-numbers text-xs text-ink/50">
+                  {formatDate(c.created_at)}
+                </span>
+                <span className="text-ink">{c.file_name}</span>
+                {c.category && <span className="text-xs text-ink/50">· {c.category}</span>}
+              </li>
+            ))}
+          </ul>
+        )}
+      </Section>
+
+      <Section title="Guest site">
+        <dl className="grid grid-cols-2 gap-x-6 gap-y-2 text-sm sm:grid-cols-3">
+          <div>
+            <dt className="text-xs text-ink/50">Published</dt>
+            <dd className="text-ink">{wedding.public_slug ? "Yes" : "No"}</dd>
+          </div>
+          <div>
+            <dt className="text-xs text-ink/50">Itinerary public</dt>
+            <dd className="text-ink">{wedding.itinerary_published ? "Yes" : "No"}</dd>
+          </div>
+          <div>
+            <dt className="text-xs text-ink/50">Site RSVPs</dt>
+            <dd className="text-ink">
+              {(rsvps ?? []).length === 0
+                ? "0"
+                : `${rsvpYes} yes · ${(rsvps ?? []).length - rsvpYes} no`}
+            </dd>
+          </div>
+          <div>
+            <dt className="text-xs text-ink/50">Gallery photos</dt>
+            <dd className="text-ink">{galleryCount ?? 0}</dd>
+          </div>
+          <div>
+            <dt className="text-xs text-ink/50">Photo-wall posts</dt>
+            <dd className="text-ink">
+              {postsByStatus("approved")} shown · {postsByStatus("pending")} pending ·{" "}
+              {postsByStatus("hidden")} hidden
+            </dd>
+          </div>
+          <div>
+            <dt className="text-xs text-ink/50">Registry links</dt>
+            <dd className="text-ink">{registryCount ?? 0}</dd>
           </div>
         </dl>
       </Section>
@@ -283,14 +418,21 @@ export default async function AdminCoupleDetailPage({
         )}
       </Section>
 
-      <Section title={`Venue shortlist (${(venueShortlist ?? []).length})`}>
-        {(venueShortlist ?? []).length === 0 ? (
-          <p className="text-sm text-ink/50">No venues shortlisted yet.</p>
+      <Section title={`Venues (${(venueShortlist ?? []).length} shortlisted · ${(venueInquiries ?? []).length} contacted)`}>
+        {(venueInquiries ?? []).length === 0 ? (
+          <p className="text-sm text-ink/50">No venues contacted yet.</p>
         ) : (
-          <p className="text-sm text-ink/70">
-            {(venueShortlist ?? []).length} venue{(venueShortlist ?? []).length === 1 ? "" : "s"}{" "}
-            shortlisted.
-          </p>
+          <ul className="flex flex-col gap-2 text-sm">
+            {(venueInquiries ?? []).map((inquiry) => (
+              <li key={inquiry.id} className="flex items-baseline gap-3">
+                <span className="w-24 shrink-0 font-mono-numbers text-xs text-ink/50">
+                  {formatDate(inquiry.sent_at)}
+                </span>
+                <span className="text-ink">{inquiry.venue_name}</span>
+                <span className="text-xs text-ink/50">· {inquiry.status}</span>
+              </li>
+            ))}
+          </ul>
         )}
       </Section>
     </div>

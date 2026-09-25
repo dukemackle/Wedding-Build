@@ -12,6 +12,7 @@ const links = [
   { href: "/admin/growth", label: "Growth" },
   { href: "/admin/cost-data", label: "Cost Data" },
   { href: "/admin/feedback", label: "Feedback" },
+  { href: "/admin/photo-wall", label: "Photo wall" },
 ];
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
