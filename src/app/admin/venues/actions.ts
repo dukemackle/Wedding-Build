@@ -8,6 +8,21 @@ import { parseVenueTable } from "@/lib/venue-import";
 
 const MAX_IMPORT_ROWS = 200;
 
+// The key a pasted row is de-duplicated on: its website, minus the parts that
+// vary between two copies of the same address. Rows without a website get no
+// key, so they can't collide -- the unique index only covers keyed rows.
+function importSourceId(website: string | null): string | null {
+  if (!website) return null;
+  return (
+    website
+      .toLowerCase()
+      .replace(/^https?:\/\//, "")
+      .replace(/^www\./, "")
+      .replace(/[?#].*$/, "")
+      .replace(/\/+$/, "") || null
+  );
+}
+
 function num(formData: FormData, key: string): number | null {
   const raw = (formData.get(key) as string)?.trim();
   if (!raw) return null;
@@ -200,10 +215,20 @@ export async function importVenues(
       // so defaulting this to false keeps /admin/venues honest about which
       // listings are real -- the distinction the Phase 1 triggers rely on.
       is_sample: false,
+      // Recorded now because it can't be recovered later: which rows were
+      // pasted in rather than entered or claimed, and from which site. Left
+      // unverified until someone actually checks the listing.
+      source: "import",
+      source_id: importSourceId(row.values.website),
     })),
   );
 
-  if (error) return { error: error.message };
+  if (error) {
+    if (error.code === "23505") {
+      return { error: "One of these venues is already imported (same website) — nothing was imported." };
+    }
+    return { error: error.message };
+  }
 
   revalidatePath("/admin/venues");
   revalidatePath("/venues");
