@@ -1,17 +1,20 @@
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
+import { fetchAll } from "@/lib/supabase/fetch-all";
 import type { Vendor, VendorContactLog, VendorFaq } from "@/lib/supabase/types";
 import { AdminVendorsManager, type VendorStats } from "./admin-vendors-manager";
 
 export default async function AdminVendorsPage() {
   const admin = createAdminSupabaseClient();
   const [
-    { data: vendors },
+    vendors,
     { data: inquiries },
     { data: contactLogs },
     { data: testWeddings },
     { data: faqs },
   ] = await Promise.all([
-      admin.from("vendors").select("*").order("name").returns<Vendor[]>(),
+      fetchAll<Vendor>((from, to) =>
+        admin.from("vendors").select("*").order("name").order("id").range(from, to).returns<Vendor[]>(),
+      ),
       admin
         .from("vendor_inquiries")
         .select("vendor_name, status, booked_amount, wedding_id")
@@ -73,7 +76,7 @@ export default async function AdminVendorsPage() {
       <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Admin</p>
       <h1 className="mt-2 mb-6 font-display text-3xl font-semibold text-forest">Vendors</h1>
       <AdminVendorsManager
-        vendors={vendors ?? []}
+        vendors={vendors}
         statsByVendorName={Object.fromEntries(statsByVendorName)}
         logsByVendorId={Object.fromEntries(logsByVendorId)}
         faqsByVendorId={faqsByVendorId}

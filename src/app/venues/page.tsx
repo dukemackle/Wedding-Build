@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { fetchAll } from "@/lib/supabase/fetch-all";
 import { AppNav } from "@/components/app-nav";
 import type { Venue, VenueShortlistEntry, Wedding } from "@/lib/supabase/types";
 import { VenuesManager } from "./venues-manager";
@@ -46,12 +47,16 @@ export default async function VenuesPage() {
     );
   }
 
-  const { data: venues } = await supabase
-    .from("venues")
-    .select("*")
-    .eq("active", true)
-    .order("name")
-    .returns<Venue[]>();
+  const venues = await fetchAll<Venue>((from, to) =>
+    supabase
+      .from("venues")
+      .select("*")
+      .eq("active", true)
+      .order("name")
+      .order("id")
+      .range(from, to)
+      .returns<Venue[]>(),
+  );
 
   const { data: shortlist } = await supabase
     .from("venue_shortlist")
@@ -67,7 +72,7 @@ export default async function VenuesPage() {
       <AppNav email={user.email ?? ""} />
       <h1 className="sr-only">Browse & shortlist venues</h1>
       <VenuesManager
-        venues={venues ?? []}
+        venues={venues}
         shortlist={shortlist ?? []}
         bookedVenueId={wedding.venue_id}
       />
