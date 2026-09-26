@@ -57,6 +57,7 @@ const BLURBS: Record<string, string> = {
   "/itinerary": "A printable run sheet for the day, hour by hour.",
   "/venue-layout": "Drag tables into your room and seat everyone.",
   "/site": "A free wedding website with your schedule and RSVP form.",
+  "/guestbook": "Guests leave a photo and a note with their RSVP — a keepsake for after.",
   "/ask": "An assistant that knows your budget and guest list.",
 };
 
@@ -81,17 +82,32 @@ function landingFeatures(): Feature[] {
       ),
     },
     {
+      href: "/guestbook",
+      title: "Guestbook",
+      status: "From every RSVP",
+      media: (
+        <Panel>
+          <span className="font-display text-base italic leading-snug text-forest sm:text-lg">
+            &ldquo;So happy for you both — save us a dance!&rdquo;
+          </span>
+          <Small>— Aunt May</Small>
+        </Panel>
+      ),
+    },
+    {
       href: "/ask",
       title: "Ask Wren",
       status: "Built-in helper",
       media: (
         <Panel>
+          <div className="mx-auto flex w-full max-w-sm flex-col gap-2 sm:gap-2.5">
           <span className="w-fit max-w-[90%] rounded-2xl rounded-bl-sm bg-card px-3 py-1.5 text-[11px] text-ink/80 shadow-sm sm:text-sm">
             What should we book next?
           </span>
           <span className="ml-auto w-fit max-w-[90%] rounded-2xl rounded-br-sm bg-forest px-3 py-1.5 text-[11px] text-parchment sm:text-sm">
             Your florist — they book up 9 months out.
           </span>
+          </div>
         </Panel>
       ),
     },
@@ -106,12 +122,21 @@ function landingFeatures(): Feature[] {
 /**
  * The dashboard's own tiles, filled with a sample couple. Two across on a
  * phone, five on a wide screen -- the same grid a couple gets after signing up.
+ *
+ * Eleven tiles don't divide into either, so Ask Wren, last, runs the full
+ * width of the grid instead of sitting alone in a row with a gap beside it.
  */
 export function LandingFeatures() {
+  const features = landingFeatures();
   return (
     <div className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-5">
-      {landingFeatures().map((feature) => (
-        <FeatureTile key={feature.title} feature={feature} />
+      {features.map((feature, i) => (
+        <div
+          key={feature.title}
+          className={`grid ${i === features.length - 1 ? "col-span-2 lg:col-span-5" : ""}`}
+        >
+          <FeatureTile feature={feature} />
+        </div>
       ))}
     </div>
   );
