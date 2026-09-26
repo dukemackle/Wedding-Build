@@ -58,11 +58,21 @@ export default async function AdminGrowthPage() {
     { data: vendorInquiries },
     { data: venueShortlist },
     { data: checklistItems },
+    { data: venueInquiries },
+    { data: contracts },
+    { data: rsvps },
+    { data: guestPosts },
+    { data: galleryPhotos },
+    { data: layoutItems },
+    { data: partyMembers },
+    { data: registryItems },
     { data: usersPage },
   ] = await Promise.all([
     admin
       .from("weddings")
-      .select("id, user_id, partner_a_name, partner_b_name, created_at, is_test")
+      .select(
+        "id, user_id, partner_a_name, partner_b_name, created_at, is_test, partner_user_id, public_slug, itinerary_published",
+      )
       .returns<
         {
           id: string;
@@ -71,18 +81,31 @@ export default async function AdminGrowthPage() {
           partner_b_name: string | null;
           created_at: string;
           is_test: boolean;
+          partner_user_id: string | null;
+          public_slug: string | null;
+          itinerary_published: boolean;
         }[]
       >(),
     admin
       .from("guests")
-      .select("wedding_id, invite_sent_at")
-      .returns<{ wedding_id: string; invite_sent_at: string | null }[]>(),
+      .select("wedding_id, invite_sent_at, gift_description")
+      .returns<
+        { wedding_id: string; invite_sent_at: string | null; gift_description: string | null }[]
+      >(),
     admin.from("budget_line_items").select("wedding_id").returns<{ wedding_id: string }[]>(),
     admin.from("seating_tables").select("wedding_id").returns<{ wedding_id: string }[]>(),
     admin.from("itinerary_events").select("wedding_id").returns<{ wedding_id: string }[]>(),
     admin.from("vendor_inquiries").select("wedding_id").returns<{ wedding_id: string }[]>(),
     admin.from("venue_shortlist").select("wedding_id").returns<{ wedding_id: string }[]>(),
     admin.from("checklist_items").select("wedding_id").returns<{ wedding_id: string }[]>(),
+    admin.from("venue_inquiries").select("wedding_id").returns<{ wedding_id: string }[]>(),
+    admin.from("budget_contracts").select("wedding_id").returns<{ wedding_id: string }[]>(),
+    admin.from("rsvp_submissions").select("wedding_id").returns<{ wedding_id: string }[]>(),
+    admin.from("guest_posts").select("wedding_id").returns<{ wedding_id: string }[]>(),
+    admin.from("wedding_gallery_photos").select("wedding_id").returns<{ wedding_id: string }[]>(),
+    admin.from("venue_layout_items").select("wedding_id").returns<{ wedding_id: string }[]>(),
+    admin.from("attire_party_members").select("wedding_id").returns<{ wedding_id: string }[]>(),
+    admin.from("registry_items").select("wedding_id").returns<{ wedding_id: string }[]>(),
     admin.auth.admin.listUsers({ perPage: 1000 }),
   ]);
 
@@ -105,6 +128,14 @@ export default async function AdminGrowthPage() {
   const realVendorInquiries = excludeTest(vendorInquiries);
   const realVenueShortlist = excludeTest(venueShortlist);
   const realChecklistItems = excludeTest(checklistItems);
+  const realVenueInquiries = excludeTest(venueInquiries);
+  const realContracts = excludeTest(contracts);
+  const realRsvps = excludeTest(rsvps);
+  const realGuestPosts = excludeTest(guestPosts);
+  const realGalleryPhotos = excludeTest(galleryPhotos);
+  const realLayoutItems = excludeTest(layoutItems);
+  const realPartyMembers = excludeTest(partyMembers);
+  const realRegistryItems = excludeTest(registryItems);
 
   const months = last12MonthKeys();
   const countsByMonth = new Map(months.map((m) => [m.key, 0]));
@@ -121,18 +152,64 @@ export default async function AdminGrowthPage() {
     return new Set(rows.map((r) => r.wedding_id)).size;
   }
 
-  const features: FeatureRow[] = [
-    { label: "Added guests", adopted: distinctWeddingCount(realGuests) },
+  // Grouped the way the app's nav is, so a gap reads as "nobody uses the
+  // guest site" rather than one bar among nineteen.
+  const featureGroups: { title: string; features: FeatureRow[] }[] = [
     {
-      label: "Sent RSVP invites",
-      adopted: distinctWeddingCount(realGuests.filter((g) => g.invite_sent_at != null)),
+      title: "Planning",
+      features: [
+        { label: "Customized budget", adopted: distinctWeddingCount(realBudgetLineItems) },
+        { label: "Uploaded a contract", adopted: distinctWeddingCount(realContracts) },
+        { label: "Built a checklist", adopted: distinctWeddingCount(realChecklistItems) },
+        { label: "Added itinerary events", adopted: distinctWeddingCount(realItineraryEvents) },
+        {
+          label: "Invited a partner",
+          adopted: realWeddings.filter((w) => w.partner_user_id != null).length,
+        },
+      ],
     },
-    { label: "Customized budget", adopted: distinctWeddingCount(realBudgetLineItems) },
-    { label: "Built a seating chart", adopted: distinctWeddingCount(realSeatingTables) },
-    { label: "Added itinerary events", adopted: distinctWeddingCount(realItineraryEvents) },
-    { label: "Contacted vendors", adopted: distinctWeddingCount(realVendorInquiries) },
-    { label: "Shortlisted a venue", adopted: distinctWeddingCount(realVenueShortlist) },
-    { label: "Built a checklist", adopted: distinctWeddingCount(realChecklistItems) },
+    {
+      title: "Guests",
+      features: [
+        { label: "Added guests", adopted: distinctWeddingCount(realGuests) },
+        {
+          label: "Sent RSVP invites",
+          adopted: distinctWeddingCount(realGuests.filter((g) => g.invite_sent_at != null)),
+        },
+        {
+          label: "Logged a gift",
+          adopted: distinctWeddingCount(realGuests.filter((g) => g.gift_description != null)),
+        },
+        { label: "Built a seating chart", adopted: distinctWeddingCount(realSeatingTables) },
+        { label: "Laid out the venue", adopted: distinctWeddingCount(realLayoutItems) },
+      ],
+    },
+    {
+      title: "Guest site",
+      features: [
+        {
+          label: "Published a site",
+          adopted: realWeddings.filter((w) => w.public_slug != null).length,
+        },
+        {
+          label: "Published itinerary",
+          adopted: realWeddings.filter((w) => w.itinerary_published).length,
+        },
+        { label: "Got a site RSVP", adopted: distinctWeddingCount(realRsvps) },
+        { label: "Added gallery photos", adopted: distinctWeddingCount(realGalleryPhotos) },
+        { label: "Got photo-wall posts", adopted: distinctWeddingCount(realGuestPosts) },
+        { label: "Added registry links", adopted: distinctWeddingCount(realRegistryItems) },
+      ],
+    },
+    {
+      title: "Vendors & venues",
+      features: [
+        { label: "Shortlisted a venue", adopted: distinctWeddingCount(realVenueShortlist) },
+        { label: "Contacted a venue", adopted: distinctWeddingCount(realVenueInquiries) },
+        { label: "Contacted vendors", adopted: distinctWeddingCount(realVendorInquiries) },
+        { label: "Added wedding party", adopted: distinctWeddingCount(realPartyMembers) },
+      ],
+    },
   ];
 
   // A couple who's touched none of the core planning tools some days after
@@ -146,6 +223,11 @@ export default async function AdminGrowthPage() {
     ...realVendorInquiries.map((r) => r.wedding_id),
     ...realVenueShortlist.map((r) => r.wedding_id),
     ...realChecklistItems.map((r) => r.wedding_id),
+    ...realVenueInquiries.map((r) => r.wedding_id),
+    ...realContracts.map((r) => r.wedding_id),
+    ...realLayoutItems.map((r) => r.wedding_id),
+    ...realPartyMembers.map((r) => r.wedding_id),
+    ...realRegistryItems.map((r) => r.wedding_id),
   ]);
   const emailByUserId = new Map<string, string>();
   for (const user of usersPage?.users ?? []) {
@@ -157,7 +239,8 @@ export default async function AdminGrowthPage() {
   // weddings) since this tracks real Resend quota usage, not growth signal.
   const approxEmailsSent =
     (guests ?? []).filter((g) => g.invite_sent_at != null).length +
-    (vendorInquiries ?? []).length;
+    (vendorInquiries ?? []).length +
+    (venueInquiries ?? []).length;
 
   const riskCutoff = riskCutoffTimestamp(AT_RISK_DAYS);
   const atRiskCouples = realWeddings
@@ -200,14 +283,21 @@ export default async function AdminGrowthPage() {
         <p className="text-sm font-medium text-ink">
           Feature adoption <span className="text-ink/50">({totalRealWeddings} couples total)</span>
         </p>
-        <div className="mt-3">
-          {features.map((feature) => (
-            <Bar
-              key={feature.label}
-              label={feature.label}
-              count={feature.adopted}
-              max={Math.max(1, totalRealWeddings)}
-            />
+        <div className="mt-3 grid grid-cols-1 gap-x-10 gap-y-4 lg:grid-cols-2">
+          {featureGroups.map((group) => (
+            <div key={group.title}>
+              <p className="mb-1 font-mono-numbers text-xs uppercase tracking-wide text-ink/50">
+                {group.title}
+              </p>
+              {group.features.map((feature) => (
+                <Bar
+                  key={feature.label}
+                  label={feature.label}
+                  count={feature.adopted}
+                  max={Math.max(1, totalRealWeddings)}
+                />
+              ))}
+            </div>
           ))}
         </div>
       </div>
@@ -302,7 +392,7 @@ export default async function AdminGrowthPage() {
             <p className="text-sm font-medium text-ink">Resend</p>
             <p className="mt-1 text-xs text-ink/60">Free tier: 100/day, 3,000/month</p>
             <p className="mt-1 font-mono-numbers text-xs text-ink/70">
-              ~{approxEmailsSent} sent (invites + vendor inquiries, lifetime)
+              ~{approxEmailsSent} sent (invites + vendor &amp; venue inquiries, lifetime)
             </p>
             <a
               href="https://resend.com/emails"
