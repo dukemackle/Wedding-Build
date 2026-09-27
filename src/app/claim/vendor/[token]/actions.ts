@@ -70,12 +70,13 @@ export async function submitVendorClaim(
   const adminEmail = process.env.ADMIN_EMAIL?.split(",")[0]?.trim();
   if (adminEmail && process.env.RESEND_API_KEY) {
     try {
+      const isNew = vendor.source === "self-listed";
       await getResendClient().emails.send({
         from: INQUIRY_FROM_ADDRESS,
         to: adminEmail,
         replyTo: value.submitter.email,
-        subject: `${value.details.name} updated its listing`,
-        text: `${value.submitter.name} (${value.submitter.email}) submitted changes for ${value.details.name}.\n\nReview them at https://admin.wrenwed.com/admin/vendors/claims`,
+        subject: isNew ? `New vendor listing: ${value.details.name}` : `${value.details.name} updated its listing`,
+        text: `${value.submitter.name} (${value.submitter.email}) submitted ${isNew ? "a new listing" : "changes"} for ${value.details.name}.\n\nReview them at https://admin.wrenwed.com/admin/vendors/claims`,
       });
     } catch {
       // It's in the queue either way.

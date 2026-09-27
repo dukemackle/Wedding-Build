@@ -43,6 +43,11 @@ export const PREFERRED_VENDOR_CATEGORIES = [
   "Other",
 ] as const;
 
+/** What a vendor lists under -- the preferred-vendor categories minus the two that aren't vendors. */
+export const VENDOR_LISTING_CATEGORIES = PREFERRED_VENDOR_CATEGORIES.filter(
+  (c) => c !== "Lodging" && c !== "Other",
+);
+
 export const SERVICE_LEVELS = {
   space_only: "Just the space",
   some_services: "Some services",

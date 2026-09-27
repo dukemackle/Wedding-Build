@@ -35,7 +35,14 @@ export function VendorSubmissionReview({ submission, vendor }: { submission: Ven
     <div className="rounded-lg border border-hairline bg-card p-5 shadow-sm sm:p-6">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <h2 className="font-display text-xl font-semibold text-forest">{vendor.name}</h2>
+          <h2 className="font-display text-xl font-semibold text-forest">
+            {vendor.name}
+            {vendor.source === "self-listed" && (
+              <span className="ml-2 rounded-full bg-brass/15 px-2 py-0.5 align-middle font-body text-xs font-medium text-brass">
+                New listing
+              </span>
+            )}
+          </h2>
           <p className="mt-1 text-sm text-ink/60">
             {vendor.category && `${vendor.category} · `}From {submission.submitter_name}
             {submission.submitter_role && `, ${submission.submitter_role}`} ·{" "}

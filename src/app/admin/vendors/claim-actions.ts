@@ -7,6 +7,7 @@ import type { VendorSubmission } from "@/lib/supabase/types";
 import { getResendClient, INQUIRY_FROM_ADDRESS } from "@/lib/resend";
 import { newClaimToken } from "@/lib/venue-claim-server";
 import { ensureVendorClaimLink, VENDOR_CLAIM_BASE_URL } from "@/lib/vendor-claim-server";
+import { townPin } from "@/lib/listing-pin";
 
 // The vendor side of ../venues/claim-actions.ts.
 
@@ -37,11 +38,27 @@ export async function approveVendorSubmission(submissionId: string): Promise<{ e
     .maybeSingle<VendorSubmission>();
   if (!submission) return { error: "That submission has already been reviewed." };
 
+  const { data: live } = await admin
+    .from("vendors")
+    .select("latitude, city, state, source")
+    .eq("id", submission.vendor_id)
+    .maybeSingle<{ latitude: number | null; city: string | null; state: string | null; source: string | null }>();
+  const d = submission.details;
+  // A vendor that listed itself goes live on its first approval. Any other
+  // vendor keeps whatever active state the admin gave it.
+  const isNew = live?.source === "self-listed";
+  // Vendors have no street address, so the map pin follows the town: borrowed
+  // from another listing there when the town changes or there's no pin yet.
+  const moved = d.city !== live?.city || d.state !== live?.state;
+  const pin = moved || live?.latitude == null ? await townPin(d.city, d.state) : null;
+
   const now = new Date().toISOString();
   const { error: vendorError } = await admin
     .from("vendors")
     .update({
       ...submission.details,
+      ...(pin ?? {}),
+      ...(isNew ? { active: true } : {}),
       photo_urls: submission.photo_urls,
       image_url: submission.photo_urls[0] ?? null,
       source: "claimed",
@@ -67,8 +84,10 @@ export async function approveVendorSubmission(submissionId: string): Promise<{ e
         from: INQUIRY_FROM_ADDRESS,
         to: submission.submitter_email,
         replyTo: process.env.ADMIN_EMAIL?.split(",")[0]?.trim(),
-        subject: `${submission.details.name} is updated on Wren`,
-        text: `Hi ${submission.submitter_name},\n\nYour changes to ${submission.details.name} are now live on Wren. You can use the same link any time to make more.\n\nThanks,\nWren`,
+        subject: isNew ? `${d.name} is live on Wren` : `${d.name} is updated on Wren`,
+        text: isNew
+          ? `Hi ${submission.submitter_name},\n\n${d.name} is now listed on Wren, where couples can find you and send you inquiries. Use the same link any time to make changes, or ask for it again at https://wrenwed.com/list/edit\n\nThanks,\nWren`
+          : `Hi ${submission.submitter_name},\n\nYour changes to ${d.name} are now live on Wren. You can use the same link any time to make more.\n\nThanks,\nWren`,
       });
     } catch {
       // The listing is live either way.
