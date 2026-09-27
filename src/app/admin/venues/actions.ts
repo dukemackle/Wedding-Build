@@ -4,24 +4,10 @@ import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/admin";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import { createClient } from "@/lib/supabase/server";
-import { parseVenueTable } from "@/lib/venue-import";
+import { VENUE_BATCHES } from "@/lib/venue-batches";
+import { importSourceId, parseVenueTable, type VenueImportValues } from "@/lib/venue-import";
 
 const MAX_IMPORT_ROWS = 200;
-
-// The key a pasted row is de-duplicated on: its website, minus the parts that
-// vary between two copies of the same address. Rows without a website get no
-// key, so they can't collide -- the unique index only covers keyed rows.
-function importSourceId(website: string | null): string | null {
-  if (!website) return null;
-  return (
-    website
-      .toLowerCase()
-      .replace(/^https?:\/\//, "")
-      .replace(/^www\./, "")
-      .replace(/[?#].*$/, "")
-      .replace(/\/+$/, "") || null
-  );
-}
 
 function num(formData: FormData, key: string): number | null {
   const raw = (formData.get(key) as string)?.trim();
@@ -207,28 +193,8 @@ export async function importVenues(
     };
   }
 
-  const admin = createAdminSupabaseClient();
-  const { error } = await admin.from("venues").insert(
-    parsed.rows.map((row) => ({
-      ...row.values,
-      // Imports are how real venues get in. Sample data is seeded elsewhere,
-      // so defaulting this to false keeps /admin/venues honest about which
-      // listings are real -- the distinction the Phase 1 triggers rely on.
-      is_sample: false,
-      // Recorded now because it can't be recovered later: which rows were
-      // pasted in rather than entered or claimed, and from which site. Left
-      // unverified until someone actually checks the listing.
-      source: "import",
-      source_id: importSourceId(row.values.website),
-    })),
-  );
-
-  if (error) {
-    if (error.code === "23505") {
-      return { error: "One of these venues is already imported (same website) — nothing was imported." };
-    }
-    return { error: error.message };
-  }
+  const error = await insertImportedVenues(parsed.rows.map((row) => row.values));
+  if (error) return { error };
 
   revalidatePath("/admin/venues");
   revalidatePath("/venues");
@@ -323,4 +289,68 @@ export async function bulkDeleteVenues(formData: FormData): Promise<{ error?: st
   revalidatePath("/admin/venues");
   revalidatePath("/venues");
   return {};
+}
+
+// Shared by the paste import and the bundled batches, so both stamp the same
+// provenance on what they insert.
+async function insertImportedVenues(rows: VenueImportValues[]): Promise<string | null> {
+  const admin = createAdminSupabaseClient();
+  const { error } = await admin.from("venues").insert(
+    rows.map((values) => ({
+      ...values,
+      // Imports are how real venues get in. Sample data is seeded elsewhere,
+      // so defaulting this to false keeps /admin/venues honest about which
+      // listings are real -- the distinction the Phase 1 triggers rely on.
+      is_sample: false,
+      // Recorded now because it can't be recovered later: which rows were
+      // pasted in rather than entered or claimed, and from which site. Left
+      // unverified until someone actually checks the listing.
+      source: "import",
+      source_id: importSourceId(values.website),
+    })),
+  );
+
+  if (!error) return null;
+  if (error.code === "23505") {
+    return "One of these venues is already imported (same website) — nothing was imported.";
+  }
+  return error.message;
+}
+
+/** Bundled batch rows whose website isn't in the database yet. */
+export async function pendingBundledVenues(): Promise<VenueImportValues[]> {
+  await requireAdmin();
+
+  const rows = VENUE_BATCHES.flatMap((batch) => parseVenueTable(batch.tsv).rows)
+    .filter((row) => row.errors.length === 0)
+    .map((row) => row.values);
+  const ids = rows.map((values) => importSourceId(values.website)).filter((id): id is string => !!id);
+  if (ids.length === 0) return rows;
+
+  // Matched on source_id across every source, so a venue that has since been
+  // claimed or re-sourced still counts as present.
+  const { data } = await createAdminSupabaseClient()
+    .from("venues")
+    .select("source_id")
+    .in("source_id", ids)
+    .returns<{ source_id: string }[]>();
+  const present = new Set((data ?? []).map((row) => row.source_id));
+  return rows.filter((values) => {
+    const id = importSourceId(values.website);
+    return !id || !present.has(id);
+  });
+}
+
+export async function addBundledVenues(): Promise<{ error?: string; imported?: number }> {
+  await requireAdmin();
+
+  const rows = await pendingBundledVenues();
+  if (rows.length === 0) return { imported: 0 };
+
+  const error = await insertImportedVenues(rows);
+  if (error) return { error };
+
+  revalidatePath("/admin/venues");
+  revalidatePath("/venues");
+  return { imported: rows.length };
 }
