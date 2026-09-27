@@ -829,23 +829,27 @@ export function PreviewGrid({ items }: { items: PreviewItem[] }) {
     };
   }, [openId]);
 
+  const tileButton = (item: PreviewItem) => (
+    <button
+      key={item.id}
+      type="button"
+      onClick={() => setOpenId(item.id)}
+      aria-label={`Preview ${item.title}`}
+      className="grid rounded-2xl text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brass"
+    >
+      {item.tile}
+    </button>
+  );
+
   return (
     <>
-      <div className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-5">
-        {items.map((item, i) => (
-          <button
-            key={item.id}
-            type="button"
-            onClick={() => setOpenId(item.id)}
-            aria-label={`Preview ${item.title}`}
-            className={`grid rounded-2xl text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brass ${
-              i === items.length - 1 ? "col-span-2 lg:col-span-5" : ""
-            }`}
-          >
-            {item.tile}
-          </button>
-        ))}
+      {/* Every row the same height, so no tile is taller than its neighbours
+          because of a longer blurb. The full-width last tile sits outside
+          the grid so it keeps its own height. */}
+      <div className="grid auto-rows-fr grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-5">
+        {items.slice(0, -1).map(tileButton)}
       </div>
+      {items.length > 0 && <div className="mt-3 grid sm:mt-5">{tileButton(items[items.length - 1])}</div>}
 
       {/* Portalled to <body>: the grid sits inside a fade-in whose transform
           would otherwise pin this "fixed" overlay to the grid, not the screen. */}
