@@ -97,7 +97,7 @@ function landingFeatures(): Feature[] {
           <span className="w-fit max-w-[90%] rounded-2xl rounded-bl-sm bg-card px-3 py-1.5 text-[11px] text-ink/80 shadow-sm sm:text-sm">
             What should we book next?
           </span>
-          <span className="ml-auto w-fit max-w-[90%] rounded-2xl rounded-br-sm bg-forest px-3 py-1.5 text-[11px] text-parchment sm:text-sm">
+          <span className="ml-auto w-fit max-w-[90%] rounded-2xl rounded-br-sm bg-wren px-3 py-1.5 text-[11px] text-ink sm:text-sm">
             Your florist — they book up 9 months out.
           </span>
           </div>

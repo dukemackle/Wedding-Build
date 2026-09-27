@@ -111,7 +111,7 @@ export function SubmissionReview({ submission, venue }: { submission: VenueSubmi
                 {/* eslint-disable-next-line @next/next/no-img-element -- storage URLs under review */}
                 <img src={url} alt="" className="aspect-square w-full rounded border border-hairline object-cover" />
                 {!livePhotos.has(url) && (
-                  <span className="absolute left-1 top-1 rounded bg-brass px-1 text-[9px] uppercase text-white">New</span>
+                  <span className="absolute left-1 top-1 rounded bg-brass px-1 text-[9px] uppercase text-ink">New</span>
                 )}
                 {i === 0 && (
                   <span className="absolute bottom-1 left-1 rounded bg-forest px-1 text-[9px] uppercase text-white">Cover</span>

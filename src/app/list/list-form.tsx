@@ -107,7 +107,7 @@ export function ListForm() {
 
         <section className={`${step === 1 ? "" : "hidden md:block"} rounded-lg border border-hairline bg-card p-5 shadow-sm sm:p-7`}>
           <h2 className="font-display text-2xl font-semibold text-forest">What do you do?</h2>
-          <p className="mt-1 text-sm text-ink/60">This decides where you show up on Wren.</p>
+          <p className="mt-1 text-sm text-ink/60">This decides where you show up on You Do, I Do.</p>
           <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
             <button
               type="button"
@@ -165,7 +165,7 @@ export function ListForm() {
           )}
 
           <p className="mt-5 text-xs text-ink/55">
-            Already on Wren? Use{" "}
+            Already on You Do, I Do? Use{" "}
             <Link href="/list/edit" className="font-medium text-brass hover:underline">
               Edit my listing
             </Link>{" "}

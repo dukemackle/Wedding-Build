@@ -25,17 +25,17 @@ const plexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Wren",
+  title: "You Do, I Do",
   description: "Plan your wedding budget, venues, guests, and vendors in one place.",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "Wren",
+    title: "You Do, I Do",
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0b4a3a",
+  themeColor: "#14203d",
 };
 
 export default function RootLayout({

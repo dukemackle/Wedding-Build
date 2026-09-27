@@ -1,18 +1,24 @@
 @import "tailwindcss";
 
-/* White design: a true white base with soft, colorful gradient shapes
-   fixed behind everything, deep jewel emerald + gold accents, and cards
+/* White design: a warm white base with a soft yellow glow fixed behind
+   everything, navy + Sunshine yellow accents (the You Do, I Do logo), and cards
    that separate from the page purely by shadow (no more visible
    borders). Every component already references these same semantic
    names (parchment/card/hairline/forest/brass/ink), so retheming here
    restyles the whole app without touching component markup. */
 :root {
-  --color-parchment: #fafaf9;
+  --color-parchment: #fcfbf7;
   --color-card: #ffffff;
-  --color-hairline: #e5e7e3;
-  --color-forest: #0b4a3a;
-  --color-brass: #c79a2e;
-  --color-ink: #1b1f1c;
+  --color-hairline: #ece8df;
+  --color-forest: #14203d;
+  --color-brass: #e0a100;
+  --color-ink: #14203d;
+  /* Wren, the AI assistant, has its own light blue so the helper reads as a
+     character apart from the white-and-gold site. Fill + navy text, a pale
+     tint for its panels, and a deeper blue for links (4.8:1 on white). */
+  --color-wren: #00bffe;
+  --color-wren-soft: #e6f8ff;
+  --color-wren-deep: #0077a8;
 }
 
 @theme inline {
@@ -22,6 +28,9 @@
   --color-forest: var(--color-forest);
   --color-brass: var(--color-brass);
   --color-ink: var(--color-ink);
+  --color-wren: var(--color-wren);
+  --color-wren-soft: var(--color-wren-soft);
+  --color-wren-deep: var(--color-wren-deep);
 
   --font-display: var(--font-display);
   --font-body: var(--font-body);
@@ -29,22 +38,57 @@
 
   --radius-md: 0.625rem;
   --radius-lg: 1rem;
-  --shadow-sm: 0 4px 16px -2px rgb(11 74 58 / 0.08), 0 2px 6px -2px rgb(11 74 58 / 0.06);
+  --shadow-sm: 0 4px 16px -2px rgb(20 32 61 / 0.08), 0 2px 6px -2px rgb(20 32 61 / 0.06);
 }
 
-/* Soft fixed gradient shapes behind all content -- emerald top-left,
-   gold top-right, a blush glow lower-center. Large blur radii and low
-   opacity keep them a background detail, never competing with content
-   or hurting text contrast (cards are opaque white with their own
-   shadow, so they read clearly on top regardless of what's behind them). */
-body {
-  background-color: var(--color-parchment);
+/* The Sunshine yellow is too light to read as small text on white (2.3:1),
+   so text-brass uses a deeper gold (4.7:1) while fills, borders and pins
+   keep the bright one. Unlayered, so it beats Tailwind's utilities layer. */
+.text-brass {
+  color: #9a6b00;
+}
+
+/* Colours blend rather than sit side by side: solid fills get a gentle
+   gradient within their own family (navy, gold, Wren's blue). Opacity
+   variants like bg-brass/15 are separate classes and stay flat. */
+.bg-forest {
+  background-image: linear-gradient(135deg, #14203d, #2b3f78);
+}
+.bg-brass {
+  background-image: linear-gradient(90deg, #e0a100, #ffd301);
+}
+.bg-wren {
+  background-image: linear-gradient(135deg, #00bffe, #5ae4ff);
+}
+
+/* Soft yellow glows fixed behind all content, slowly brightening and fading.
+   Large blur radii and low opacity keep them a background detail, never
+   competing with content or hurting text contrast (cards are opaque white
+   with their own shadow). Sits on html so body::before stays the grain. */
+html::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
   background-image:
-    radial-gradient(640px circle at 6% 8%, rgb(11 74 58 / 0.12), transparent 60%),
-    radial-gradient(720px circle at 96% 12%, rgb(199 154 46 / 0.14), transparent 55%),
-    radial-gradient(820px circle at 50% 105%, rgb(199 111 130 / 0.08), transparent 60%);
-  background-repeat: no-repeat;
-  background-attachment: fixed;
+    radial-gradient(720px circle at 8% 10%, rgb(255 198 41 / 0.16), transparent 60%),
+    radial-gradient(760px circle at 94% 14%, rgb(255 210 63 / 0.22), transparent 55%),
+    radial-gradient(820px circle at 50% 105%, rgb(242 169 0 / 0.12), transparent 60%);
+  animation: wash 9s ease-in-out infinite alternate;
+}
+
+@keyframes wash {
+  from { opacity: 0.35; transform: scale(1); }
+  to { opacity: 1; transform: scale(1.05); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html::before { animation: none; opacity: 0.8; }
+}
+
+html {
+  background-color: var(--color-parchment);
 }
 
 /* Subtle whole-app entrance animation: every page fades and rises in
@@ -88,8 +132,8 @@ body {
 /* Printed pages (e.g. the itinerary run sheet) skip the decorative
    gradient background -- it wastes ink and never sat right on paper. */
 @media print {
-  body {
-    background-image: none;
+  html::before {
+    display: none;
   }
 }
 

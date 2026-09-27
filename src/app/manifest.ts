@@ -6,13 +6,13 @@ import type { MetadataRoute } from "next";
 // in every page's <head>, no extra wiring needed.
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Wren",
-    short_name: "Wren",
+    name: "You Do, I Do",
+    short_name: "You Do, I Do",
     description: "Plan your wedding budget, venues, guests, and vendors in one place.",
     start_url: "/dashboard",
     display: "standalone",
     background_color: "#fafaf9",
-    theme_color: "#0b4a3a",
+    theme_color: "#14203d",
     // Two separate files on purpose. Android crops a maskable icon to a circle
     // or squircle, so anything outside the centre 80% can be cut off -- the
     // maskable variant is full-bleed parchment with the disc pulled inside

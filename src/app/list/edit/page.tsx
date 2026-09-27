@@ -1,7 +1,7 @@
 import { EditLinkForm } from "./edit-link-form";
 
 export const metadata = {
-  title: "Edit my listing — Wren",
+  title: "Edit my listing — You Do, I Do",
 };
 
 export default function EditMyListingPage() {

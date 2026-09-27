@@ -8,7 +8,7 @@ import { WIDE_WIDTH } from "@/lib/layout";
 import { ClaimForm } from "./claim-form";
 
 export const metadata = {
-  title: "Update your listing — Wren",
+  title: "Update your listing — You Do, I Do",
   // A private link: keep it out of search results even if it gets shared.
   robots: { index: false, follow: false },
 };
@@ -27,7 +27,7 @@ export default async function ClaimPage({ params }: { params: Promise<{ token: s
             we&apos;ll send you a new one.
           </p>
           <Link href="/" className="mt-6 inline-block text-sm text-brass hover:underline">
-            Go to Wren &rarr;
+            Go to You Do, I Do &rarr;
           </Link>
         </div>
       </main>
@@ -117,7 +117,7 @@ export default async function ClaimPage({ params }: { params: Promise<{ token: s
     <main className="flex flex-1 flex-col items-center px-4 py-10 sm:px-6 sm:py-14">
       <div className={`w-full ${WIDE_WIDTH}`}>
         <Link href="/" className="font-display text-xl font-semibold text-forest">
-          Wren
+          You Do, I Do
         </Link>
         <p className="mt-8 font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
           {isNew ? "Your new listing" : "Your listing"}
@@ -132,7 +132,7 @@ export default async function ClaimPage({ params }: { params: Promise<{ token: s
             </>
           ) : (
             <>
-              Couples planning weddings on Wren can already find {venue.name}. Check the details
+              Couples planning weddings on You Do, I Do can already find {venue.name}. Check the details
               below, fix anything that&apos;s wrong, and add your photos and preferred vendors.
               We review every change before it goes live.
             </>
