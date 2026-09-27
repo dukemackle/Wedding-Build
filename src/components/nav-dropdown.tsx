@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { createPortal } from "react-dom";
 import { useEffect, useRef, useState, type ComponentType } from "react";
 import { ChevronDownIcon } from "@/components/icons";
+import { isActiveLink } from "@/lib/nav";
 
 const PANEL_WIDTH = 192; // w-48
 
@@ -109,7 +110,7 @@ export function NavDropdown({
                 href={link.href}
                 onClick={() => setOpen(false)}
                 className={`block px-3 py-2 font-display text-base transition-colors hover:bg-parchment ${
-                  pathname.startsWith(link.href) ? "text-forest" : "text-ink/80"
+                  isActiveLink(pathname, link.href, links) ? "text-forest" : "text-ink/80"
                 }`}
               >
                 {link.label}

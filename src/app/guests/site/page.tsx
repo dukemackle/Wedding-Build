@@ -12,7 +12,6 @@ import type {
   SiteBlock,
 } from "@/lib/supabase/types";
 import { blockKey, parseSiteDesign, type SectionId } from "@/lib/site-design";
-import { GuestsSubTabs } from "../sub-tabs";
 import { PublicSitePanel } from "../public-site-panel";
 import { HeroPhotoPanel } from "../hero-photo-panel";
 import { GalleryPanel } from "../gallery-panel";
@@ -241,10 +240,7 @@ export default async function GuestSitePage() {
   return (
     <main className="flex flex-1 flex-col items-center px-6 pt-16 pb-16">
       <AppNav email={user.email ?? ""} />
-      <div className="-mx-6 -mt-8 w-[calc(100%+3rem)] border-b border-hairline bg-card px-6 lg:px-8">
-        <GuestsSubTabs active="/guests/site" />
-      </div>
-      <div className="w-full">
+      <div className="-mx-6 -mt-8 w-[calc(100%+3rem)] border-t border-hairline px-6">
         <SiteEditor
           draft={draft}
           published={published}
