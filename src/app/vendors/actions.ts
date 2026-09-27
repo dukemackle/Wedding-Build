@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getResendClient, INQUIRY_FROM_ADDRESS } from "@/lib/resend";
+import { inquiryFooter, inquirySubject } from "@/lib/inquiry-footer";
 import { VENDOR_CATEGORY_TO_BUDGET_KEY } from "@/lib/budget-categories";
 import { syncBudgetLineFromBooking } from "@/lib/budget-sync";
 import type { VendorInquiryStatus, Wedding } from "@/lib/supabase/types";
@@ -72,8 +73,8 @@ export async function sendVendorInquiry(formData: FormData): Promise<{ error?: s
       from: INQUIRY_FROM_ADDRESS,
       to: recipientEmail,
       replyTo: user.email,
-      subject: `Wedding inquiry from ${coupleNames || user.email}`,
-      text: `${message}${phoneNote}${referralNote}`,
+      subject: inquirySubject(coupleNames || user.email || "a couple"),
+      text: `${message}${phoneNote}${referralNote}${inquiryFooter(vendorName)}`,
     });
 
     if (sendError) {
@@ -217,8 +218,8 @@ export async function sendVendorFollowUps(
         from: INQUIRY_FROM_ADDRESS,
         to: inquiry.recipient_email!,
         replyTo: user.email,
-        subject: `Following up: wedding inquiry from ${coupleNames || user.email}`,
-        text: `Hi ${inquiry.vendor_name},\n\nJust following up on the inquiry we sent about ${inquiry.category?.toLowerCase() ?? "our wedding"} — we'd still love to hear back about availability and pricing when you get a chance.\n\nOriginal message:\n${inquiry.message ?? ""}${referralNote}`,
+        subject: inquirySubject(coupleNames || user.email || "a couple", true),
+        text: `Hi ${inquiry.vendor_name},\n\nJust following up on the inquiry we sent about ${inquiry.category?.toLowerCase() ?? "our wedding"} — we'd still love to hear back about availability and pricing when you get a chance.\n\nOriginal message:\n${inquiry.message ?? ""}${referralNote}${inquiryFooter(inquiry.vendor_name)}`,
       });
 
       if (sendError) {
