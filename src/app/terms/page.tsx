@@ -11,7 +11,7 @@ export default function TermsPage() {
       <div className={`w-full ${READING_WIDTH}`}>
         <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Legal</p>
         <h1 className="mt-2 font-display text-3xl font-semibold text-forest">Terms of Service</h1>
-        <p className="mt-2 text-sm text-ink/60">Last updated: September 13, 2026</p>
+        <p className="mt-2 text-sm text-ink/60">Last updated: September 27, 2026</p>
 
         <div className="mt-8 flex flex-col gap-8 text-ink/80">
           <p>
@@ -105,6 +105,14 @@ export default function TermsPage() {
               and them. Budget estimates and cost data shown in the Service are informational
               only, based on general/regional averages, and aren&apos;t a quote, guarantee, or
               substitute for getting your own pricing from vendors.
+            </p>
+            <p className="mt-3">
+              If you list or claim a business on Wren, you confirm you&apos;re authorized to
+              represent it and that you own, or have permission to share, every photo and detail
+              you submit. You grant Wren a non-exclusive, royalty-free license to display that
+              listing content publicly in the Service — on your listing page, in search results
+              and maps, and in previews shown to couples — until you ask us to remove it. We
+              review submissions before they go live and may edit or decline them.
             </p>
           </Section>
 

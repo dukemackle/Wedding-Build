@@ -2,6 +2,7 @@
 
 import type { ListingRead } from "@/lib/ai/listing-reader";
 import { useState, useTransition } from "react";
+import { LegalNotice } from "@/components/legal-notice";
 import { createClient } from "@/lib/supabase/client";
 import {
   PREFERRED_VENDOR_CATEGORIES,
@@ -572,6 +573,7 @@ export function ClaimForm({ token, initial }: { token: string; initial: ClaimSub
         >
           {isPending ? "Sending…" : "Send for review"}
         </button>
+        <LegalNotice action="sending this for review" />
       </div>
 
       {/* Desktop only: what couples will see, updating as they type. A phone
