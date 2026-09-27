@@ -442,7 +442,11 @@ export function buildFeatures(d: FeatureData): Feature[] {
   ];
 }
 
-export function FeatureTile({ feature }: { feature: Feature }) {
+/**
+ * `asBox` drops the link, for a tile something else makes clickable -- the
+ * landing page opens a preview instead of navigating.
+ */
+export function FeatureTile({ feature, asBox = false }: { feature: Feature; asBox?: boolean }) {
   const { href, title, status, media, blurb } = feature;
   const words = (
     <div className="px-3 py-3 sm:px-5 sm:py-4">
@@ -457,11 +461,10 @@ export function FeatureTile({ feature }: { feature: Feature }) {
       )}
     </div>
   );
-  return (
-    <Link
-      href={href}
-      className="group flex flex-col overflow-hidden rounded-2xl border border-hairline bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-brass/60 hover:shadow-xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brass"
-    >
+  const className =
+    "group flex flex-col overflow-hidden rounded-2xl border border-hairline bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-brass/60 hover:shadow-xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brass";
+  const inner = (
+    <>
       {/* Grows to fill the box, so a neighbour's two-line title never leaves a gap. */}
       <div
         className="relative min-h-28 flex-1 overflow-hidden border-b border-hairline sm:min-h-40"
@@ -475,6 +478,13 @@ export function FeatureTile({ feature }: { feature: Feature }) {
         </span>
       </div>
       {words}
+    </>
+  );
+  return asBox ? (
+    <div className={className}>{inner}</div>
+  ) : (
+    <Link href={href} className={className}>
+      {inner}
     </Link>
   );
 }
