@@ -109,4 +109,18 @@ Houston Botanic Garden	Houston	Texas	29.68429	-95.26502	Garden / Outdoor	Indoor 
 McGovern Centennial Gardens	Houston	Texas	29.72113	-95.38739	Garden / Outdoor	Indoor & Outdoor	300	Eight-acre garden in Hermann Park with a modern glass pavilion and an outdoor Celebration Garden seating 300 for a ceremony.	FacilityRentals@hermannpark.org	(713) 524-5876	https://hermannpark.org
 `,
   },
+  {
+    name: "Brenham, Round Top, Waco and Bryan–College Station",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Rockin' Star Ranch	Brenham	Texas	30.24123	-96.30468	Barn / Rustic	Indoor & Outdoor		Nearly 150 acres of ponds, woods and pasture with cabins on site and horse rides and skeet shooting for guests.	info@rockinstarbrenham.com	(800) 778-3196	https://www.rockinstarbrenham.com
+Liesel Farm	Round Top	Texas			Barn / Rustic	Indoor & Outdoor		Farmhouse venue in Round Top with a cathedral-style ceremony space, a banquet hall, an outdoor bar and four guest houses.	info@lieselfarm.com		https://lieselfarm.com
+STORIES Venue & Bistro	Waco	Texas	31.55438	-97.13444	Historic / Estate	Indoor & Outdoor		Historic downtown Waco building with original hardwoods, four floors of event space including a rooftop terrace, and in-house dining.	stories@anthemwaco.com	(254) 307-0447	https://anthemstories.com
+The Palladium	Waco	Texas	31.55505	-97.13385	Historic / Estate	Indoor	300	Former 1895 department store in downtown Waco with a 7,000 sq ft hall, a stage and a caterer's kitchen.	TheWacoPalladium@gmail.com	(254) 716-7252	https://wacopalladium.com
+The County Line	Abbott	Texas			Barn / Rustic			Events venue just off I-35 near West, about 20 minutes north of Waco, hosting weddings and live music.	booking@countylineevents.com	(254) 405-5529	https://www.countylineevents.com
+Gathering Oaks Retreat	Crawford	Texas	31.59614	-97.34174	Garden / Outdoor	Outdoor		Secluded 30-acre retreat west of Waco with an oak grove, covered pavilion and 20 bedrooms booked with the wedding.	info@gatheringoaksretreat.com	(254) 307-1819	https://www.gatheringoaksretreat.com
+The Barn BCS	Bryan	Texas			Barn / Rustic	Indoor		Modern all-white barn with wood ceilings and lots of natural light, 15 minutes from downtown Bryan and College Station.	thebarnbcs@gmail.com	(979) 200-9912	https://www.thebarnbcs.com
+Peach Creek Ranch	College Station	Texas	30.49509	-96.29753	Barn / Rustic	Indoor & Outdoor		Ranch venue with a Great Room, courtyard and ceremony grounds, cottages for guests and 24- or 48-hour wedding packages.		(979) 574-1325	https://www.peachcreekranch.com
+Astin Mansion	Bryan	Texas	30.67419	-96.37739	Historic / Estate	Indoor & Outdoor		1920 mansion on the National Register of Historic Places, with gardens and indoor and outdoor ceremony spots.	astinmansion@gmail.com	(979) 822-9999	https://www.astinmansion.com
+`,
+  },
 ];
