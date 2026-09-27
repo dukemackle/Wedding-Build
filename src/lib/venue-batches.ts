@@ -80,4 +80,19 @@ Mayan Dude Ranch	Bandera	Texas	29.72050	-99.08797	Barn / Rustic	Indoor & Outdoor
 River Yurt Village	Bandera	Texas			Garden / Outdoor	Indoor & Outdoor	175	Glamping site on 21 acres by the Medina River: a covered pavilion, an optional air-conditioned hall, and yurts sleeping 40 in the package.	riveryurtvillagemanagement@gmail.com	(726) 238-8188	https://riveryurtvillage.com
 `,
   },
+  {
+    name: "Dallas and Fort Worth",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+The Nest at Ruth Farms	Ponder	Texas			Barn / Rustic	Indoor & Outdoor	240	Chapel and all-white barn on a 37-acre estate with two ponds; the barn has 44-foot ceilings and brass chandeliers.		(940) 293-5991	https://thenestatruthfarms.com
+The French Farmhouse	Collinsville	Texas	33.50277	-97.00029	Barn / Rustic	Indoor & Outdoor		Family-run, French-styled venue on 56 acres with a chapel, reception hall, covered pavilion and one event a day.	info@thefrenchfarmhousevenue.com	(940) 765-3303	https://thefrenchfarmhousevenue.com
+Willow Woods Barn + Studio	Mansfield	Texas	32.53890	-97.17017	Barn / Rustic	Indoor & Outdoor	125	Wooded property outside Mansfield with ceremonies under willows by a pond and a bright white barn for the reception.	willowwoodsbarn@gmail.com	(817) 612-4302	https://mansfieldweddingvenue.com
+Knotting Hill Place	Little Elm	Texas	33.15134	-96.97274	Historic / Estate	Indoor & Outdoor	300	Old-world-style estate on Lake Lewisville with a 17,000 sq ft indoor space under 55-foot ceilings and an event lawn.	info@knottinghillplace.com	(469) 444-7844	https://www.knottinghillplace.com
+Diamond H3 Ranch	Weatherford	Texas	32.70397	-97.88809	Barn / Rustic	Indoor & Outdoor		Climate-controlled cedar barn and open-air hilltop chapel on a 100-acre Parker County ranch.		(817) 565-6250	https://www.diamondh3ranch.com
+Dove Ridge Vineyard	Weatherford	Texas	32.84638	-97.65808	Restaurant / Vineyard	Indoor & Outdoor		Hilltop vineyard with several ceremony sites, a covered patio and a reception room with near floor-to-ceiling windows.	info@doveridgevineyard.com	(817) 444-8172	https://www.doveridgevineyard.com
+The Adolphus	Dallas	Texas	32.77966	-96.80040	Ballroom / Hotel	Indoor	400	Historic downtown Dallas hotel with a 19th-floor ballroom and a Grand Ballroom seating up to 350.	hello@adolphus.com	(214) 742-8200	https://www.adolphus.com
+Dallas Arboretum	Dallas	Texas	32.82169	-96.71624	Garden / Outdoor	Indoor & Outdoor		Botanical garden with 18 ceremony spots and four reception sites among the gardens.		(214) 515-6615	https://www.dallasarboretum.org
+Fort Worth Botanic Garden	Fort Worth	Texas	32.73828	-97.36369	Garden / Outdoor	Indoor & Outdoor		Over 100 acres of gardens, including a Japanese garden and rose gardens, with ceremony and reception sites of many sizes.	events@fwbg.org	(817) 463-4150	https://fwbg.org
+BRIK Venue	Fort Worth	Texas	32.73954	-97.32340	Historic / Estate	Indoor & Outdoor		Industrial space near downtown Fort Worth with exposed brick, century-old floors, a courtyard and separate ceremony and reception rooms.	hello@brikvenue.com	(817) 406-2745	https://www.brikvenue.com
+`,
+  },
 ];
