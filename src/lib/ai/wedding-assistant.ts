@@ -3,13 +3,27 @@
 import "server-only";
 import Anthropic from "@anthropic-ai/sdk";
 import { createClient } from "@/lib/supabase/server";
-import type { ChecklistItem, RegionalCostData, Wedding } from "@/lib/supabase/types";
+import type {
+  ChecklistItem,
+  RegionalCostData,
+  VendorInquiry,
+  Wedding,
+  WeddingPreferences,
+} from "@/lib/supabase/types";
 import { BUDGET_CATEGORIES, effectiveGuestCount } from "@/lib/budget-categories";
 import { weddingCategoryEstimates } from "@/lib/estimator";
 import { buildAssistantTools, type Proposal, type ProposalKind, type ToolContext } from "@/lib/ai/assistant-tools";
 import { applyProposal } from "@/lib/ai/assistant-apply";
+import { PLANNING_QUESTIONS, profileLines } from "@/lib/ai/planning-profile";
 
 const MODEL = "claude-haiku-4-5";
+/**
+ * "Build our plan" is a whole-wedding job -- weighing trade-offs across the
+ * checklist, calendar and budget -- so it gets the stronger model and more
+ * room. Plans are rare, so the extra cost per call stays small.
+ */
+const PLAN_MODEL = "claude-sonnet-5";
+const PLAN_MAX_ITERATIONS = 12;
 const MAX_TURNS = 8;
 /** Model calls per message: lookups, then proposals, then the reply. */
 const MAX_ITERATIONS = 6;
@@ -19,6 +33,8 @@ const MAX_ITERATIONS = 6;
  */
 const MAX_MESSAGES_PER_DAY = 30;
 const MAX_MESSAGE_CHARS = 2000;
+/** Open tasks listed by name in the context; the rest are counted. */
+const MAX_TASKS_IN_CONTEXT = 40;
 
 export type ProposalStatus = "pending" | "applied" | "skipped";
 
@@ -66,6 +82,9 @@ async function buildContext(): Promise<AssistantContext | null> {
     { data: customItems },
     { data: checklist },
     { data: regionalData },
+    { data: preferences },
+    { data: inquiries },
+    { data: venue },
   ] = await Promise.all([
       supabase.from("guests").select("status, plus_one").eq("wedding_id", wedding.id),
       supabase
@@ -83,6 +102,24 @@ async function buildContext(): Promise<AssistantContext | null> {
         .select("*")
         .eq("state", wedding.state ?? "")
         .returns<RegionalCostData[]>(),
+      supabase
+        .from("wedding_preferences")
+        .select("answers, skipped")
+        .eq("wedding_id", wedding.id)
+        .maybeSingle<Pick<WeddingPreferences, "answers" | "skipped">>(),
+      supabase
+        .from("vendor_inquiries")
+        .select("vendor_name, category, status, booked_amount")
+        .eq("wedding_id", wedding.id)
+        .neq("status", "declined")
+        .returns<Pick<VendorInquiry, "vendor_name" | "category" | "status" | "booked_amount">[]>(),
+      wedding.venue_id
+        ? supabase
+            .from("venues")
+            .select("name, city, state, capacity")
+            .eq("id", wedding.venue_id)
+            .maybeSingle<{ name: string; city: string | null; state: string | null; capacity: number | null }>()
+        : Promise.resolve({ data: null }),
     ]);
 
   const guestRows = guests ?? [];
@@ -103,13 +140,31 @@ async function buildContext(): Promise<AssistantContext | null> {
   const customTotal = (customItems ?? []).reduce((sum, item) => sum + item.amount, 0);
   const budgetTotal = categoriesTotal + customTotal;
 
-  const incompleteTasks = (checklist ?? []).filter((item) => !item.completed);
+  const today = new Date().toISOString().slice(0, 10);
+  // Soonest first; undated tasks last.
+  const incompleteTasks = (checklist ?? [])
+    .filter((item) => !item.completed)
+    .sort((a, b) => (a.due_date ?? "9999").localeCompare(b.due_date ?? "9999"));
+  const doneCount = (checklist ?? []).length - incompleteTasks.length;
+  const taskLine = (t: ChecklistItem) =>
+    `- ${t.title}${t.due_date ? ` (due ${t.due_date}${t.due_date < today ? ", overdue" : ""})` : ""}`;
 
   const daysToWedding = wedding.wedding_date
     ? Math.ceil((new Date(`${wedding.wedding_date}T00:00:00`).getTime() - Date.now()) / 86_400_000)
     : null;
 
   const names = [wedding.partner_a_name, wedding.partner_b_name].filter(Boolean).join(" & ") || "the couple";
+
+  const booked = (inquiries ?? []).filter((i) => i.status === "booked");
+  const talking = (inquiries ?? []).filter((i) => i.status !== "booked");
+  const vendorLabel = (i: { vendor_name: string; category: string | null }) =>
+    i.category ? `${i.vendor_name} (${i.category})` : i.vendor_name;
+
+  const profile = { answers: preferences?.answers ?? {}, skipped: preferences?.skipped ?? [] };
+  const learned = profileLines(profile);
+  const unanswered = PLANNING_QUESTIONS.filter(
+    (q) => !profile.answers[q.id]?.length && !profile.skipped.includes(q.id),
+  );
 
   const lines = [
     `Couple: ${names}`,
@@ -118,15 +173,37 @@ async function buildContext(): Promise<AssistantContext | null> {
       : "Wedding date: not set yet",
     wedding.state ? `State: ${wedding.state}` : null,
     wedding.style_tier ? `Style: ${wedding.style_tier}` : null,
+    wedding.venue_type ? `Venue type: ${wedding.venue_type}` : null,
+    venue
+      ? `Venue: ${venue.name}${venue.city ? `, ${venue.city}` : ""}${venue.capacity ? ` (holds ${venue.capacity})` : ""}`
+      : "Venue: not chosen yet",
     `Guests: ${headcount} expected (${confirmedCount} confirmed, ${pendingCount} awaiting response)`,
-    `Estimated total budget: about $${budgetTotal.toLocaleString()}`,
-    incompleteTasks.length > 0
-      ? `Open checklist items (${incompleteTasks.length}): ${incompleteTasks
-          .slice(0, 8)
-          .map((t) => t.title)
+    wedding.rsvp_deadline ? `RSVP deadline: ${wedding.rsvp_deadline}` : null,
+    wedding.dress_code ? `Dress code: ${wedding.dress_code}` : null,
+    wedding.budget_target
+      ? `Budget target: $${wedding.budget_target.toLocaleString()} (current estimate about $${budgetTotal.toLocaleString()})`
+      : `Budget target: not set (current estimate about $${budgetTotal.toLocaleString()})`,
+    booked.length
+      ? `Booked vendors: ${booked
+          .map((i) => `${vendorLabel(i)}${i.booked_amount ? ` $${i.booked_amount.toLocaleString()}` : ""}`)
           .join(", ")}`
+      : "Booked vendors: none yet",
+    talking.length ? `Vendors contacted, not booked: ${talking.map(vendorLabel).join(", ")}` : null,
+    "",
+    learned.length ? "What they've told you about their wedding:" : "They haven't done the planning interview yet.",
+    ...learned,
+    unanswered.length && learned.length
+      ? `(Not answered yet: ${unanswered.map((q) => q.label.toLowerCase()).join(", ")})`
+      : null,
+    "",
+    incompleteTasks.length > 0
+      ? `Open checklist (${incompleteTasks.length} open, ${doneCount} done):`
       : "Checklist: all caught up",
-  ].filter((line): line is string => Boolean(line));
+    ...incompleteTasks.slice(0, MAX_TASKS_IN_CONTEXT).map(taskLine),
+    incompleteTasks.length > MAX_TASKS_IN_CONTEXT
+      ? `- ...and ${incompleteTasks.length - MAX_TASKS_IN_CONTEXT} more (use list_tasks)`
+      : null,
+  ].filter((line): line is string => line !== null);
 
   const budgetPlanned = new Map(
     BUDGET_CATEGORIES.map((c) => [c.key, overrideByCategory.get(c.key) ?? estimates.get(c.key) ?? 0]),
@@ -149,7 +226,17 @@ function historyText(m: AssistantMessage) {
   return `${content}\n\n[Changes offered for confirmation:\n${cards.join("\n")}]`;
 }
 
-function systemPrompt(context: string, canAct: boolean) {
+const PLAN_INSTRUCTIONS = `
+
+The couple pressed "Build our plan". Act as their planner and draft it now:
+1. Call list_tasks and list_budget first. They already have Wren's standard checklist -- don't re-add anything it covers, even in different words.
+2. Propose the tasks that checklist is missing for *this* wedding, dated working back from the wedding date: things their answers call for (ceremony and cultural traditions, must-haves, guest-list sensitivities, their top priorities -- the vendors they care most about book earliest). Put a one-line reason in each task's notes.
+3. Propose new due dates for existing open tasks only where their date makes the standard timing unrealistic, or where something is overdue and blocking.
+4. If the wedding date is set, propose a realistic day-of timeline as itinerary events, shaped by their ceremony type and vibe.
+5. In your reply, give a short budget split: how you'd divide their target (or current estimate if no target) across the main categories, weighted toward their priorities and away from where they'd save. This is advice only -- there's no tool for it, so don't say it's been saved.
+Keep the reply itself brief: two or three sentences on the shape of the plan and the first thing to do this week, then the budget split. The cards carry the detail.`;
+
+function systemPrompt(context: string, canAct: boolean, plan = false) {
   const today = new Date().toISOString().slice(0, 10);
   const acting = canAct
     ? `
@@ -162,9 +249,11 @@ You can also make changes for them, using the tools:
 - You can't delete anything. If they ask, tell them to do it on the page.
 - Seating: keep households and plus-ones together, don't exceed a table's capacity, and follow any "keep apart" / "sit near" wishes they give. Only seat confirmed or invited guests unless told otherwise.
 - Timelines: build realistic day-of schedules with buffers (hair & makeup starts 4-5 hours before the ceremony, photos, travel between locations, cocktail hour ~1 hour, dinner, toasts, first dance, send-off). Use the wedding date unless told otherwise.
-- Vendor emails and messages: just write them in your reply; there's no tool for sending.`
+- Vendor emails and messages: just write them in your reply; there's no tool for sending.${plan ? PLAN_INSTRUCTIONS : ""}`
     : "";
-  return `You are Wren, a friendly, concise wedding-planning assistant inside the You Do, I Do app. Help this couple with planning questions -- budgeting advice, guest list strategy, vendor tips, timeline suggestions, etiquette, etc. Use the details below when relevant, but don't recite them back unprompted. Keep answers short and practical (a few sentences, or a short list). If asked something outside wedding planning, gently redirect.${acting}
+  return `You are Wren, an experienced wedding planner inside the You Do, I Do app. Help this couple with planning questions -- budgeting advice, guest list strategy, vendor tips, timeline suggestions, etiquette, etc. Use the details below when relevant, but don't recite them back unprompted. Keep answers short and practical (a few sentences, or a short list). If asked something outside wedding planning, gently redirect.
+
+Plan like a planner who knows them: weigh advice by their priorities, vibe, budget comfort and who's paying (family money comes with opinions), and respect any guest-list sensitivities. If an answer genuinely depends on something you don't know, ask one short question rather than guessing -- but don't quiz them when you can give a good answer already.${acting}
 
 Today is ${today}.
 
@@ -176,7 +265,10 @@ type AssistantResult =
   | { ok: true; reply: string; proposals: Proposal[] }
   | { ok: false; error: string };
 
-export async function askWeddingAssistant(history: AssistantMessage[]): Promise<AssistantResult> {
+export async function askWeddingAssistant(
+  history: AssistantMessage[],
+  options: { plan?: boolean } = {},
+): Promise<AssistantResult> {
   const ctx = await buildContext();
   if (!ctx) {
     return { ok: false, error: "You need to be logged in to use the assistant." };
@@ -203,15 +295,17 @@ export async function askWeddingAssistant(history: AssistantMessage[]): Promise<
     };
   }
 
+  // A plan needs the wedding set up, since it's built from the checklist.
+  const plan = Boolean(options.plan && ctx.tools);
   const client = new Anthropic();
   const proposals: Proposal[] = [];
 
   try {
     const finalMessage = await client.beta.messages.toolRunner({
-      model: MODEL,
-      max_tokens: 4096,
-      max_iterations: MAX_ITERATIONS,
-      system: systemPrompt(ctx.context, ctx.tools !== null),
+      model: plan ? PLAN_MODEL : MODEL,
+      max_tokens: plan ? 8192 : 4096,
+      max_iterations: plan ? PLAN_MAX_ITERATIONS : MAX_ITERATIONS,
+      system: systemPrompt(ctx.context, ctx.tools !== null, plan),
       tools: ctx.tools ? buildAssistantTools(ctx.tools, proposals) : [],
       messages: trimmedHistory.map((m) => ({ role: m.role, content: historyText(m) })),
     });

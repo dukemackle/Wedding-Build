@@ -690,3 +690,11 @@ export type SiteBlock = {
   created_at: string;
   updated_at: string;
 };
+
+export type WeddingPreferences = {
+  wedding_id: string;
+  /** Keyed by question id from src/lib/ai/planning-profile.ts. */
+  answers: Record<string, string[]>;
+  skipped: string[];
+  updated_at: string;
+};
