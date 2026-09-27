@@ -741,7 +741,7 @@ function AskDemo() {
             <span className="ml-auto max-w-[85%] rounded-2xl rounded-br-sm bg-card px-3 py-1.5 text-sm text-ink/80 shadow-sm">
               {c.q}
             </span>
-            <span className="max-w-[85%] rounded-2xl rounded-bl-sm bg-forest px-3 py-1.5 text-sm text-parchment">
+            <span className="max-w-[85%] rounded-2xl rounded-bl-sm bg-wren px-3 py-1.5 text-sm text-ink">
               {c.a}
             </span>
           </div>
@@ -753,7 +753,7 @@ function AskDemo() {
             key={c.q}
             type="button"
             onClick={() => setChat((h) => [...h, c])}
-            className="rounded-full border border-hairline bg-card px-3 py-1.5 text-sm text-forest hover:border-brass"
+            className="rounded-full border border-hairline bg-card px-3 py-1.5 text-sm text-wren-deep hover:border-wren"
           >
             {c.q}
           </button>

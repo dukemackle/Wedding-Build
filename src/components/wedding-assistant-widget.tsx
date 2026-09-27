@@ -47,7 +47,7 @@ function ProposalCard({
         ))}
       </ul>
       {hidden > 0 && (
-        <button type="button" onClick={() => setExpanded(true)} className="mt-1 text-xs text-forest underline">
+        <button type="button" onClick={() => setExpanded(true)} className="mt-1 text-xs text-wren-deep underline">
           +{hidden} more
         </button>
       )}
@@ -59,7 +59,7 @@ function ProposalCard({
               type="button"
               onClick={onConfirm}
               disabled={busy}
-              className="rounded-md bg-forest px-3 py-1 text-xs font-medium text-parchment disabled:opacity-40"
+              className="rounded-md bg-wren px-3 py-1 text-xs font-medium text-ink disabled:opacity-40"
             >
               {busy ? "Saving..." : "Confirm"}
             </button>
@@ -163,8 +163,8 @@ export function AssistantChat({
 
   return (
     <div className="flex h-full min-h-0 flex-1 flex-col">
-      <div className="flex items-center justify-between border-b border-hairline px-4 py-3">
-        <span className="flex items-center gap-2 font-display text-lg text-forest">
+      <div className="flex items-center justify-between border-b border-hairline bg-wren-soft px-4 py-3">
+        <span className="flex items-center gap-2 font-display text-lg text-wren-deep">
           <WrenBirdIcon className="h-5 w-5" />
           Wren
         </span>
@@ -208,7 +208,7 @@ export function AssistantChat({
                 className={`max-w-[85%] whitespace-pre-wrap rounded-lg px-3 py-2 text-sm ${
                   m.role === "user"
                     ? "ml-auto bg-forest text-parchment"
-                    : "mr-auto bg-white text-ink border border-hairline"
+                    : "mr-auto border border-wren/30 bg-wren-soft text-ink"
                 }`}
               >
                 {m.content}
@@ -228,7 +228,7 @@ export function AssistantChat({
                   type="button"
                   onClick={() => confirm(pending)}
                   disabled={pending.some((p) => applying.has(p.id))}
-                  className="text-xs font-medium text-forest underline disabled:opacity-40"
+                  className="text-xs font-medium text-wren-deep underline disabled:opacity-40"
                 >
                   Confirm all {pending.length}
                 </button>
@@ -252,14 +252,14 @@ export function AssistantChat({
           }}
           rows={1}
           placeholder="Ask or tell Wren..."
-          className="min-h-9 flex-1 resize-none rounded-md border border-hairline bg-parchment px-3 py-2 text-sm text-ink focus:outline-none focus:ring-1 focus:ring-forest"
+          className="min-h-9 flex-1 resize-none rounded-md border border-hairline bg-parchment px-3 py-2 text-sm text-ink focus:outline-none focus:ring-1 focus:ring-wren"
         />
         <button
           type="button"
           onClick={send}
           disabled={isPending || !input.trim()}
           aria-label="Send message"
-          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-forest text-parchment disabled:opacity-40"
+          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-wren text-ink disabled:opacity-40"
         >
           <SendIcon className="h-4 w-4" />
         </button>
@@ -295,7 +295,7 @@ export function WeddingAssistantWidget() {
         type="button"
         onClick={() => setOpen(!open)}
         aria-label={open ? "Close Wren, your wedding assistant" : "Open Wren, your wedding assistant"}
-        className="flex h-12 w-12 items-center justify-center rounded-full bg-forest text-parchment shadow-lg hover:bg-forest/90"
+        className="flex h-12 w-12 items-center justify-center rounded-full bg-wren text-ink shadow-lg hover:bg-wren/90"
       >
         {open ? <CloseIcon className="h-5 w-5" /> : <WrenBirdIcon className="h-6 w-6" />}
       </button>

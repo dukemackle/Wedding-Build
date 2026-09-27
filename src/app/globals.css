@@ -13,6 +13,12 @@
   --color-forest: #14203d;
   --color-brass: #e0a100;
   --color-ink: #14203d;
+  /* Wren, the AI assistant, has its own light blue so the helper reads as a
+     character apart from the white-and-gold site. Fill + navy text, a pale
+     tint for its panels, and a deeper blue for links (4.8:1 on white). */
+  --color-wren: #00bffe;
+  --color-wren-soft: #e6f8ff;
+  --color-wren-deep: #0077a8;
 }
 
 @theme inline {
@@ -22,6 +28,9 @@
   --color-forest: var(--color-forest);
   --color-brass: var(--color-brass);
   --color-ink: var(--color-ink);
+  --color-wren: var(--color-wren);
+  --color-wren-soft: var(--color-wren-soft);
+  --color-wren-deep: var(--color-wren-deep);
 
   --font-display: var(--font-display);
   --font-body: var(--font-body);
@@ -37,6 +46,19 @@
    keep the bright one. Unlayered, so it beats Tailwind's utilities layer. */
 .text-brass {
   color: #9a6b00;
+}
+
+/* Colours blend rather than sit side by side: solid fills get a gentle
+   gradient within their own family (navy, gold, Wren's blue). Opacity
+   variants like bg-brass/15 are separate classes and stay flat. */
+.bg-forest {
+  background-image: linear-gradient(135deg, #14203d, #2b3f78);
+}
+.bg-brass {
+  background-image: linear-gradient(90deg, #e0a100, #ffd301);
+}
+.bg-wren {
+  background-image: linear-gradient(135deg, #00bffe, #5ae4ff);
 }
 
 /* Soft yellow glows fixed behind all content, slowly brightening and fading.
