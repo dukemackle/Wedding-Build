@@ -121,7 +121,7 @@ export function VenueDetailClient({
         <button
           type="button"
           onClick={() => setShowInquiry(true)}
-          className="mt-4 rounded-md border border-hairline px-4 py-2 text-sm text-ink transition-colors hover:border-forest"
+          className="mt-4 w-full rounded-md bg-forest px-4 py-2.5 text-sm font-medium text-parchment transition-colors hover:bg-forest/90"
         >
           Request info
         </button>
