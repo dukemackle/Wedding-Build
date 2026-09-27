@@ -4,6 +4,23 @@ A running list of what's left, split by whether it costs money. Nothing in
 the "needs payment" section gets built until we're ready to spend and launch
 for real. Update this file as items are picked up or new ideas come up.
 
+## Owner to-do: protect the business
+
+Setup steps from `docs/disaster-recovery.md` (Part 1 has the detail). Not
+code -- these are account settings only the owner can change.
+
+- [x] Add `SUPABASE_DB_URL` secret on GitHub
+- [ ] Make the GitHub repo private (Settings → General → Danger Zone)
+- [ ] Pick a password manager (Bitwarden free, or Google Password Manager)
+- [ ] Turn on 2-step verification for `wrenwed.com@gmail.com`, then
+  `dukemackle1@gmail.com`, and save the backup codes
+- [ ] Add `BACKUP_PASSPHRASE` and `SUPABASE_SERVICE_ROLE_KEY` secrets on GitHub
+- [ ] Merge the backup PR, run the Backup workflow once, and do a practice restore
+- [ ] 2-step verification on GitHub, Supabase, Cloudflare, Resend, Anthropic,
+  the domain registrar and the bank
+- [ ] Domain: auto-renew on, transfer lock on
+- [ ] Protect `main` on GitHub, set up UptimeRobot alerts
+
 ## Free to build now
 
 Nothing queued right now — see "Already shipped" below for the latest
