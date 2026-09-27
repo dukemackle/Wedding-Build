@@ -18,6 +18,7 @@ import {
   type SiteTheme,
 } from "@/lib/site-design";
 import { publishSiteDesign, saveSiteDraft } from "./actions";
+import { BirdCheer } from "@/components/bird-cheer";
 import { MotionTab, PanelLabel, SectionsTab, StyleTab, type ChecklistItem, type SectionInfo } from "./editor-tabs";
 
 type Device = "desktop" | "phone";
@@ -82,6 +83,8 @@ export function SiteEditor({
   const [saveState, setSaveState] = useState<"idle" | "saving" | "error">("idle");
   const [error, setError] = useState<string | null>(null);
   const [isPublishing, startPublish] = useTransition();
+  // Counts publishes, to key the reveal sweep and the bird so each replays.
+  const [launches, setLaunches] = useState(0);
   const frameRef = useRef<HTMLIFrameElement>(null);
   const saveTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const rootRef = useRef<HTMLDivElement>(null);
@@ -199,6 +202,8 @@ export function SiteEditor({
         setError(null);
         setSaveState("idle");
         setPublished(design);
+        setLaunches((n) => n + 1);
+        post(REPLAY_MESSAGE);
       }
     });
   }
@@ -328,6 +333,12 @@ export function SiteEditor({
 
       {/* The preview. */}
       <section aria-label="Preview" className="relative flex min-w-0 flex-1 flex-col bg-[#eef0ec]">
+        {launches > 0 && (
+          <div key={launches} aria-hidden="true" className="pointer-events-none absolute inset-0 z-10 overflow-hidden">
+            <div className="wren-reveal h-full w-full bg-gradient-to-r from-transparent via-white/70 to-transparent" />
+          </div>
+        )}
+        {launches > 0 && <BirdCheer key={launches} message="Your site is live!" />}
         {isDesktop ? (
           <div className="flex h-[60px] shrink-0 items-center gap-3 px-6">
             {deviceToggle}
