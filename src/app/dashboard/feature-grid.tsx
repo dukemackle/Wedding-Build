@@ -10,6 +10,8 @@ export type Feature = {
   status: string;
   /** The top of the box: the couple's own photo or a glimpse of their data. */
   media: ReactNode;
+  /** One line on what the part does -- the landing page, for visitors who haven't used it. */
+  blurb?: string;
 };
 
 export type FeatureData = {
@@ -83,7 +85,7 @@ function DrawingMedia({ src }: { src: string }) {
   );
 }
 
-function Panel({ children }: { children: ReactNode }) {
+export function Panel({ children }: { children: ReactNode }) {
   return (
     <div className="absolute inset-0 flex flex-col justify-center gap-2 bg-parchment px-3 sm:gap-2.5 sm:px-5">
       {children}
@@ -91,7 +93,7 @@ function Panel({ children }: { children: ReactNode }) {
   );
 }
 
-function Big({ children }: { children: ReactNode }) {
+export function Big({ children }: { children: ReactNode }) {
   return (
     <span className="font-mono-numbers text-lg font-semibold text-forest sm:text-2xl">
       {children}
@@ -100,7 +102,7 @@ function Big({ children }: { children: ReactNode }) {
 }
 
 /** A few words in place of a number, for a box with nothing in it yet. */
-function Phrase({ children }: { children: ReactNode }) {
+export function Phrase({ children }: { children: ReactNode }) {
   return (
     <span className="font-display text-xl font-semibold leading-tight text-forest sm:text-2xl">
       {children}
@@ -108,7 +110,7 @@ function Phrase({ children }: { children: ReactNode }) {
   );
 }
 
-function Small({ children }: { children: ReactNode }) {
+export function Small({ children }: { children: ReactNode }) {
   return <span className="font-mono-numbers text-[9px] text-ink/50 sm:text-[10px]">{children}</span>;
 }
 
@@ -440,8 +442,12 @@ export function buildFeatures(d: FeatureData): Feature[] {
   ];
 }
 
-function FeatureTile({ feature }: { feature: Feature }) {
-  const { href, title, status, media } = feature;
+/**
+ * `asBox` drops the link, for a tile something else makes clickable -- the
+ * landing page opens a preview instead of navigating.
+ */
+export function FeatureTile({ feature, asBox = false }: { feature: Feature; asBox?: boolean }) {
+  const { href, title, status, media, blurb } = feature;
   const words = (
     <div className="px-3 py-3 sm:px-5 sm:py-4">
       <h2 className="font-display text-[1.6rem] font-bold leading-none text-forest sm:text-[2.35rem]">
@@ -450,13 +456,15 @@ function FeatureTile({ feature }: { feature: Feature }) {
       <p className="mt-2 truncate font-mono-numbers text-[11px] tracking-wide text-ink/55 sm:text-xs sm:text-brass">
         {status}
       </p>
+      {blurb && (
+        <p className="mt-2 line-clamp-3 text-[11px] leading-snug text-ink/70 sm:text-sm">{blurb}</p>
+      )}
     </div>
   );
-  return (
-    <Link
-      href={href}
-      className="group flex flex-col overflow-hidden rounded-2xl border border-hairline bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-brass/60 hover:shadow-xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brass"
-    >
+  const className =
+    "group flex flex-col overflow-hidden rounded-2xl border border-hairline bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-brass/60 hover:shadow-xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brass";
+  const inner = (
+    <>
       {/* Grows to fill the box, so a neighbour's two-line title never leaves a gap. */}
       <div
         className="relative min-h-28 flex-1 overflow-hidden border-b border-hairline sm:min-h-40"
@@ -470,6 +478,13 @@ function FeatureTile({ feature }: { feature: Feature }) {
         </span>
       </div>
       {words}
+    </>
+  );
+  return asBox ? (
+    <div className={className}>{inner}</div>
+  ) : (
+    <Link href={href} className={className}>
+      {inner}
     </Link>
   );
 }

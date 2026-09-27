@@ -3,16 +3,8 @@ import Link from "next/link";
 import { FadeInSection } from "@/components/fade-in-section";
 import { AnimatedCounter } from "@/components/animated-counter";
 import { HomeEstimatorCard } from "@/components/home-estimator-card";
-import {
-  HeadcountIcon,
-  VendorsIcon,
-  ChecklistIcon,
-  BudgetIcon,
-  AttireIcon,
-  GuestbookIcon,
-  GlobeIcon,
-  WrenBirdIcon,
-} from "@/components/icons";
+import { LandingFeatures } from "@/components/landing/landing-features";
+import { WIDE_WIDTH } from "@/lib/layout";
 import { createClient } from "@/lib/supabase/server";
 import type { RegionalCostData } from "@/lib/supabase/types";
 
@@ -20,49 +12,6 @@ const stats: { value: number; prefix?: string; suffix?: string; label: string }[
   { value: 15, suffix: "+", label: "planning tools in one place" },
   { value: 0, prefix: "$", label: "cost to plan your wedding" },
   { value: 50, label: "states covered" },
-];
-
-const features = [
-  {
-    icon: BudgetIcon,
-    title: "Budget",
-    body: "Real regional cost estimates that adjust to your guest count, season, and style — then track every dollar against them.",
-  },
-  {
-    icon: HeadcountIcon,
-    title: "Guests & seating",
-    body: "RSVPs, meal choices, plus-ones, and a drag-and-drop seating chart, all synced to one guest list.",
-  },
-  {
-    icon: VendorsIcon,
-    title: "Venues & vendors",
-    body: "Shortlist venues, send inquiries, and keep every vendor conversation and quote in one place.",
-  },
-  {
-    icon: ChecklistIcon,
-    title: "Checklist & itinerary",
-    body: "A running to-do list and a printable day-of run sheet, so nothing falls through the cracks.",
-  },
-  {
-    icon: AttireIcon,
-    title: "Attire",
-    body: "Track dresses, suits, and rings — buy or rent, who's covering what, and when to order by.",
-  },
-  {
-    icon: GuestbookIcon,
-    title: "Guestbook",
-    body: "Guests can leave a photo and message right from their RSVP, turned into a keepsake digital guestbook.",
-  },
-  {
-    icon: GlobeIcon,
-    title: "Public wedding site",
-    body: "A free shareable site with your schedule and RSVP form — no separate website builder needed.",
-  },
-  {
-    icon: WrenBirdIcon,
-    title: "Ask Wren",
-    body: "A built-in assistant that can answer questions about your budget, guest list, or what to do next.",
-  },
 ];
 
 export default async function Home() {
@@ -136,22 +85,10 @@ export default async function Home() {
         </div>
       </FadeInSection>
 
-      <div className="w-full max-w-5xl py-16">
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {features.map((feature, i) => (
-            <FadeInSection key={feature.title} delayMs={i * 100}>
-              <div className="flex h-full flex-col gap-3 rounded-lg border border-hairline bg-card p-6 shadow-sm transition-shadow hover:shadow-md">
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-forest/10">
-                  <feature.icon className="h-5 w-5 text-forest" />
-                </div>
-                <h3 className="font-display text-xl font-semibold text-forest">
-                  {feature.title}
-                </h3>
-                <p className="text-sm text-ink/70">{feature.body}</p>
-              </div>
-            </FadeInSection>
-          ))}
-        </div>
+      <div className={`w-full ${WIDE_WIDTH} py-16`}>
+        <FadeInSection>
+          <LandingFeatures />
+        </FadeInSection>
       </div>
 
       <FadeInSection>

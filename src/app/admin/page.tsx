@@ -17,6 +17,8 @@ export default async function AdminOverviewPage() {
     { count: vendorCount },
     { count: venueCount },
     { data: inquiries },
+    { data: venueInquiries },
+    { data: pendingPosts },
   ] = await Promise.all([
     admin.from("weddings").select("id, is_test").returns<{ id: string; is_test: boolean }[]>(),
     admin.from("vendors").select("id", { count: "exact", head: true }),
@@ -25,6 +27,15 @@ export default async function AdminOverviewPage() {
       .from("vendor_inquiries")
       .select("id, wedding_id, status")
       .returns<{ id: string; wedding_id: string; status: string }[]>(),
+    admin
+      .from("venue_inquiries")
+      .select("id, wedding_id")
+      .returns<{ id: string; wedding_id: string }[]>(),
+    admin
+      .from("guest_posts")
+      .select("id, wedding_id")
+      .eq("status", "pending")
+      .returns<{ id: string; wedding_id: string }[]>(),
   ]);
 
   // Excludes weddings marked as test on the Couples admin page -- see the
@@ -33,7 +44,11 @@ export default async function AdminOverviewPage() {
   const realInquiries = (inquiries ?? []).filter((i) => !testWeddingIds.has(i.wedding_id));
 
   const weddingCount = (weddings ?? []).length - testWeddingIds.size;
+  const realVenueInquiries = (venueInquiries ?? []).filter((i) => !testWeddingIds.has(i.wedding_id));
   const inquiryCount = realInquiries.length;
+  const venueInquiryCount = realVenueInquiries.length;
+  // Unfiltered: a post waiting on a test wedding still needs a look.
+  const pendingPostCount = (pendingPosts ?? []).length;
   const bookedCount = realInquiries.filter((i) => i.status === "booked").length;
 
   return (
@@ -49,8 +64,10 @@ export default async function AdminOverviewPage() {
         <StatTile label="Couples" value={weddingCount} />
         <StatTile label="Vendors" value={vendorCount ?? 0} />
         <StatTile label="Venues" value={venueCount ?? 0} />
-        <StatTile label="Inquiries sent" value={inquiryCount} />
-        <StatTile label="Bookings confirmed" value={bookedCount} />
+        <StatTile label="Vendor inquiries" value={inquiryCount} />
+        <StatTile label="Vendor bookings" value={bookedCount} />
+        <StatTile label="Venue inquiries" value={venueInquiryCount} />
+        <StatTile label="Photo-wall posts awaiting couples" value={pendingPostCount} />
       </div>
     </div>
   );

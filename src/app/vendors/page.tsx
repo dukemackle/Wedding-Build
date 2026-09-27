@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { fetchAll } from "@/lib/supabase/fetch-all";
 import { AppNav } from "@/components/app-nav";
 import type { Vendor, VendorFavoriteEntry, VendorInquiry, Wedding } from "@/lib/supabase/types";
 import { VendorsManager } from "./vendors-manager";
@@ -46,12 +47,16 @@ export default async function VendorsPage() {
     );
   }
 
-  const { data: vendors } = await supabase
-    .from("vendors")
-    .select("*")
-    .eq("active", true)
-    .order("name")
-    .returns<Vendor[]>();
+  const vendors = await fetchAll<Vendor>((from, to) =>
+    supabase
+      .from("vendors")
+      .select("*")
+      .eq("active", true)
+      .order("name")
+      .order("id")
+      .range(from, to)
+      .returns<Vendor[]>(),
+  );
 
   const { data: inquiries } = await supabase
     .from("vendor_inquiries")
@@ -74,7 +79,7 @@ export default async function VendorsPage() {
       <AppNav email={user.email ?? ""} />
       <h1 className="sr-only">Browse & request quotes</h1>
       <VendorsManager
-        vendors={vendors ?? []}
+        vendors={vendors}
         inquiries={inquiries ?? []}
         favorites={favorites ?? []}
       />
