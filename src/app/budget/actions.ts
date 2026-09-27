@@ -272,7 +272,7 @@ export async function sendBudgetReminder(formData: FormData): Promise<{ error?: 
       from: INQUIRY_FROM_ADDRESS,
       to: user.email,
       subject: `Payment reminder: ${label}`,
-      text: `Just a reminder from Wren: ${label}${amountText ? ` (${amountText})` : ""} is still on your budget to pay.${dueText}`,
+      text: `Just a reminder from You Do, I Do: ${label}${amountText ? ` (${amountText})` : ""} is still on your budget to pay.${dueText}`,
     });
 
     if (sendError) {

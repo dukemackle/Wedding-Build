@@ -1,18 +1,24 @@
 @import "tailwindcss";
 
-/* White design: a true white base with soft, colorful gradient shapes
-   fixed behind everything, deep jewel emerald + gold accents, and cards
+/* White design: a warm white base with a soft yellow glow fixed behind
+   everything, navy + Sunshine yellow accents (the You Do, I Do logo), and cards
    that separate from the page purely by shadow (no more visible
    borders). Every component already references these same semantic
    names (parchment/card/hairline/forest/brass/ink), so retheming here
    restyles the whole app without touching component markup. */
 :root {
-  --color-parchment: #fafaf9;
+  --color-parchment: #fcfbf7;
   --color-card: #ffffff;
-  --color-hairline: #e5e7e3;
-  --color-forest: #0b4a3a;
-  --color-brass: #c79a2e;
-  --color-ink: #1b1f1c;
+  --color-hairline: #ece8df;
+  --color-forest: #14203d;
+  --color-brass: #e0a100;
+  --color-ink: #14203d;
+  /* Wren, the AI assistant, has its own light blue so the helper reads as a
+     character apart from the white-and-gold site. Fill + navy text, a pale
+     tint for its panels, and a deeper blue for links (4.8:1 on white). */
+  --color-wren: #00bffe;
+  --color-wren-soft: #e6f8ff;
+  --color-wren-deep: #0077a8;
 }
 
 @theme inline {
@@ -22,6 +28,9 @@
   --color-forest: var(--color-forest);
   --color-brass: var(--color-brass);
   --color-ink: var(--color-ink);
+  --color-wren: var(--color-wren);
+  --color-wren-soft: var(--color-wren-soft);
+  --color-wren-deep: var(--color-wren-deep);
 
   --font-display: var(--font-display);
   --font-body: var(--font-body);
@@ -29,22 +38,57 @@
 
   --radius-md: 0.625rem;
   --radius-lg: 1rem;
-  --shadow-sm: 0 4px 16px -2px rgb(11 74 58 / 0.08), 0 2px 6px -2px rgb(11 74 58 / 0.06);
+  --shadow-sm: 0 4px 16px -2px rgb(20 32 61 / 0.08), 0 2px 6px -2px rgb(20 32 61 / 0.06);
 }
 
-/* Soft fixed gradient shapes behind all content -- emerald top-left,
-   gold top-right, a blush glow lower-center. Large blur radii and low
-   opacity keep them a background detail, never competing with content
-   or hurting text contrast (cards are opaque white with their own
-   shadow, so they read clearly on top regardless of what's behind them). */
-body {
-  background-color: var(--color-parchment);
+/* The Sunshine yellow is too light to read as small text on white (2.3:1),
+   so text-brass uses a deeper gold (4.7:1) while fills, borders and pins
+   keep the bright one. Unlayered, so it beats Tailwind's utilities layer. */
+.text-brass {
+  color: #9a6b00;
+}
+
+/* Colours blend rather than sit side by side: solid fills get a gentle
+   gradient within their own family (navy, gold, Wren's blue). Opacity
+   variants like bg-brass/15 are separate classes and stay flat. */
+.bg-forest {
+  background-image: linear-gradient(135deg, #14203d, #2b3f78);
+}
+.bg-brass {
+  background-image: linear-gradient(90deg, #e0a100, #ffd301);
+}
+.bg-wren {
+  background-image: linear-gradient(135deg, #00bffe, #5ae4ff);
+}
+
+/* Soft yellow glows fixed behind all content, slowly brightening and fading.
+   Large blur radii and low opacity keep them a background detail, never
+   competing with content or hurting text contrast (cards are opaque white
+   with their own shadow). Sits on html so body::before stays the grain. */
+html::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
   background-image:
-    radial-gradient(640px circle at 6% 8%, rgb(11 74 58 / 0.12), transparent 60%),
-    radial-gradient(720px circle at 96% 12%, rgb(199 154 46 / 0.14), transparent 55%),
-    radial-gradient(820px circle at 50% 105%, rgb(199 111 130 / 0.08), transparent 60%);
-  background-repeat: no-repeat;
-  background-attachment: fixed;
+    radial-gradient(720px circle at 8% 10%, rgb(255 198 41 / 0.16), transparent 60%),
+    radial-gradient(760px circle at 94% 14%, rgb(255 210 63 / 0.22), transparent 55%),
+    radial-gradient(820px circle at 50% 105%, rgb(242 169 0 / 0.12), transparent 60%);
+  animation: wash 9s ease-in-out infinite alternate;
+}
+
+@keyframes wash {
+  from { opacity: 0.35; transform: scale(1); }
+  to { opacity: 1; transform: scale(1.05); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html::before { animation: none; opacity: 0.8; }
+}
+
+html {
+  background-color: var(--color-parchment);
 }
 
 /* Subtle whole-app entrance animation: every page fades and rises in
@@ -88,8 +132,8 @@ body {
 /* Printed pages (e.g. the itinerary run sheet) skip the decorative
    gradient background -- it wastes ink and never sat right on paper. */
 @media print {
-  body {
-    background-image: none;
+  html::before {
+    display: none;
   }
 }
 
@@ -403,4 +447,200 @@ body:has(.guest-site) .site-footer {
   .guest-site .site-hero-photo {
     animation: none !important;
   }
+}
+
+/* The Wren chat bird (WrenChatBirdIcon, driven by AnimatedWrenBird). Origins
+   are in the icon's 24x24 viewBox units. Each one-shot animation is a class
+   the component adds to the wrapper and removes when it's done; the thinking
+   bob loops for as long as a reply is pending. */
+.wren-bird,
+.wren-tail-a,
+.wren-tail-b,
+.wren-wing,
+.wren-head,
+.wren-eye {
+  transform-box: view-box;
+}
+.wren-bird { transform-origin: 12px 22px; }
+.wren-tail-a { transform-origin: 8.6px 11.6px; }
+.wren-tail-b { transform-origin: 7.9px 12.3px; }
+.wren-wing { transform-origin: 8px 13px; }
+.wren-head { transform-origin: 15px 12px; transition: transform 0.25s; }
+.wren-eye { transform-origin: 17.5px 9.1px; }
+
+.wren-snip .wren-tail-a { animation: wren-snip-a 0.9s ease-in-out; }
+.wren-snip .wren-tail-b { animation: wren-snip-b 0.9s ease-in-out; }
+.wren-flap .wren-wing { animation: wren-flap 0.7s ease-in-out; }
+.wren-flap .wren-bird { animation: wren-hop-small 0.7s ease-out; }
+.wren-hop .wren-bird { animation: wren-hop 1s ease-out; }
+.wren-blink .wren-eye { animation: wren-blink 0.18s; }
+.wren-tilt:hover .wren-head { transform: rotate(-12deg); }
+.wren-think .wren-head { animation: wren-bob 0.6s ease-in-out infinite; }
+
+@keyframes wren-snip-a {
+  0%, 100% { transform: rotate(0); }
+  20%, 60% { transform: rotate(-14deg); }
+  40%, 80% { transform: rotate(6deg); }
+}
+@keyframes wren-snip-b {
+  0%, 100% { transform: rotate(0); }
+  20%, 60% { transform: rotate(12deg); }
+  40%, 80% { transform: rotate(-6deg); }
+}
+@keyframes wren-flap {
+  0%, 100% { transform: rotate(0); }
+  15%, 55% { transform: rotate(-55deg) scaleY(1.3); }
+  35%, 75% { transform: rotate(8deg); }
+}
+@keyframes wren-hop-small {
+  0%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-3px); }
+}
+@keyframes wren-hop {
+  0%, 30%, 60%, 100% { transform: translateY(0); }
+  15% { transform: translateY(-4px); }
+  45% { transform: translateY(-2.5px); }
+}
+@keyframes wren-blink {
+  50% { transform: scaleY(0.1); }
+}
+@keyframes wren-bob {
+  0%, 100% { transform: rotate(0); }
+  50% { transform: rotate(14deg) translateY(0.6px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wren-bird,
+  .wren-bird * {
+    animation: none !important;
+    transition: none !important;
+  }
+  .wren-tilt:hover .wren-head { transform: none; }
+}
+
+/* Bird moments around the app (src/components/wren-moments.tsx). */
+.wren-idle .wren-bird { animation: wren-perch 3s ease-in-out infinite; }
+.wren-idle .wren-head { animation: wren-look 6s ease-in-out infinite; }
+.wren-walk { animation: wren-walk 2.4s linear infinite; }
+.wren-walk .wren-bird { animation: wren-hop-small 0.4s ease-out infinite; }
+.wren-cheer { animation: wren-cheer 2.6s ease-out forwards; }
+.wren-cheer .wren-wing { animation: wren-flap 0.7s 0.2s 2; }
+
+.wren-cheer-long { animation-duration: 3.6s; }
+.wren-wave .wren-wing { animation: wren-wave 0.45s 0.3s 4 ease-in-out; }
+
+@keyframes wren-wave {
+  0%, 100% { transform: rotate(-70deg) scaleY(1.3); }
+  50% { transform: rotate(-35deg) scaleY(1.3); }
+}
+@keyframes wren-perch {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-1.2px); }
+}
+@keyframes wren-look {
+  0%, 40%, 100% { transform: rotate(0); }
+  50%, 70% { transform: rotate(-14deg); }
+}
+@keyframes wren-walk {
+  from { left: -0.5rem; }
+  to { left: calc(100% - 2rem); }
+}
+/* Tailwind's -translate-x-1/2 centres the toast via the separate
+   `translate` property, so these transforms stack on top of it. */
+@keyframes wren-cheer {
+  0% { opacity: 0; transform: translateY(12px); }
+  12%, 80% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-4px); }
+}
+@keyframes wren-fade {
+  0%, 100% { opacity: 0; }
+  12%, 80% { opacity: 1; }
+}
+
+/* Checklist: the box pops, the tick draws, the title is struck through. */
+.wren-check-pop { animation: wren-pop 0.3s; }
+.wren-tick-draw { stroke-dasharray: 24; stroke-dashoffset: 24; animation: wren-draw 0.3s 0.05s forwards; }
+.wren-strike {
+  background: linear-gradient(currentColor, currentColor) no-repeat 0 55% / 0 1.5px;
+  animation: wren-strike 0.35s 0.15s forwards;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+@keyframes wren-pop { 50% { transform: scale(1.25); } }
+@keyframes wren-draw { to { stroke-dashoffset: 0; } }
+@keyframes wren-strike { to { background-size: 100% 1.5px; } }
+
+/* Budget: bars grow in from the left when the page opens, and the total
+   bar shakes once after it fills if you're over. */
+.wren-grow { transform-origin: left; animation: wren-grow 1s cubic-bezier(0.2, 0.7, 0.3, 1); }
+@keyframes wren-grow { from { transform: scaleX(0); } }
+.wren-shake { animation: wren-shake 0.5s 1.1s; }
+@keyframes wren-shake {
+  20%, 60% { transform: translateX(-4px); }
+  40%, 80% { transform: translateX(4px); }
+}
+
+/* Seating: a guest bounces into the seat they were dropped on. */
+.wren-settle { animation: wren-settle 0.45s cubic-bezier(0.3, 1.6, 0.5, 1); }
+@keyframes wren-settle {
+  0% { transform: scale(1.35) translateY(-8px); }
+  60% { transform: scale(0.92); }
+  100% { transform: scale(1); }
+}
+
+/* Dashboard: the RSVP "yes" count pops when it's gone up since last visit. */
+.wren-bump { animation: wren-bump 0.6s 0.5s cubic-bezier(0.3, 1.6, 0.5, 1); }
+@keyframes wren-bump {
+  0%, 100% { transform: scale(1); }
+  40% { transform: scale(1.6); }
+}
+.wren-float-up { animation: wren-float-up 3.2s 0.5s ease-out both; }
+@keyframes wren-float-up {
+  0% { opacity: 0; transform: translateY(6px); }
+  15%, 75% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-6px); }
+}
+
+/* Guest site editor: a sheen sweeps across the preview on publish. */
+.wren-reveal { animation: wren-reveal 1.1s ease-in-out forwards; }
+@keyframes wren-reveal {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(100%); }
+}
+
+/* Chat: the send button pulses once when the chat opens. */
+.wren-pulse { animation: wren-pulse 1.2s 0.5s ease-out; }
+@keyframes wren-pulse {
+  0% { box-shadow: 0 0 0 0 rgb(0 191 254 / 0.55); }
+  100% { box-shadow: 0 0 0 12px rgb(0 191 254 / 0); }
+}
+
+/* Countdown: a digit flips over when it changes. */
+.wren-flip { animation: wren-flip 0.5s ease-in-out; }
+@keyframes wren-flip {
+  0%, 100% { transform: rotateX(0); }
+  50% { transform: rotateX(-90deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wren-walk,
+  .wren-check-pop,
+  .wren-tick-draw,
+  .wren-strike,
+  .wren-grow,
+  .wren-shake,
+  .wren-settle,
+  .wren-flip,
+  .wren-bump,
+  .wren-reveal,
+  .wren-pulse {
+    animation: none !important;
+  }
+  .wren-tick-draw { stroke-dashoffset: 0; }
+  .wren-strike { background-size: 100% 1.5px; }
+  /* Still shown, then gone -- just without the rise. */
+  .wren-cheer { animation: wren-fade 2.6s forwards !important; }
+  .wren-cheer-long { animation-duration: 3.6s !important; }
+  .wren-float-up { animation: wren-fade 3.2s 0.5s both !important; }
+  .wren-reveal { display: none; }
 }

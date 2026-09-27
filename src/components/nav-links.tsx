@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { ComponentType } from "react";
 import { NavDropdown } from "@/components/nav-dropdown";
+export { isActiveLink } from "@/lib/nav";
 import {
   ArchIcon,
   BudgetIcon,
@@ -25,6 +26,7 @@ export function isNavGroup(item: NavItem): item is NavGroup {
   return "links" in item;
 }
 
+
 /** Everything between Dashboard and Help, in tab order. */
 export const NAV_ITEMS: NavItem[] = [
   {
@@ -44,7 +46,14 @@ export const NAV_ITEMS: NavItem[] = [
       { href: "/attire", label: "Attire" },
     ],
   },
-  { href: "/guests", label: "Guests", icon: HeadcountIcon },
+  {
+    label: "Guests",
+    icon: HeadcountIcon,
+    links: [
+      { href: "/guests", label: "Guest list" },
+      { href: "/guests/site", label: "Guest site" },
+    ],
+  },
   {
     label: "Wedding Plan",
     icon: RingsIcon,

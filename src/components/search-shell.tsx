@@ -226,7 +226,7 @@ function ViewPill({
       aria-label={`${label} (${count})`}
       className={`flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border px-3 py-1.5 text-sm shadow-md transition-colors lg:order-last lg:shadow-none ${
         active
-          ? "border-brass bg-brass text-card"
+          ? "border-brass bg-brass text-ink"
           : "border-brass/50 bg-card text-brass hover:border-brass"
       }`}
     >

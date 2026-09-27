@@ -282,7 +282,7 @@ export function ClaimForm({ token, initial }: { token: string; initial: ClaimSub
           </div>
         </Section>
 
-        <Section title="Contact" hint="Where couples' inquiries through Wren are sent.">
+        <Section title="Contact" hint="Where couples' inquiries through You Do, I Do are sent.">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <Field label="Email">
               <input type="email" value={details.contact_email ?? ""} onChange={(e) => set("contact_email", e.target.value || null)} className={inputClass} />

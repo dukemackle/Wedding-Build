@@ -23,7 +23,7 @@ export function EditLinkForm() {
   if (sent) {
     return (
       <div className="mt-6 rounded-md border border-hairline bg-parchment px-4 py-3 text-sm text-ink">
-        If {email} is on a Wren listing, the link is on its way. Nothing arrived? Check spam, or write to{" "}
+        If {email} is on a You Do, I Do listing, the link is on its way. Nothing arrived? Check spam, or write to{" "}
         <a href="mailto:hello@wrenwed.com" className="font-medium text-brass hover:underline">
           hello@wrenwed.com
         </a>{" "}

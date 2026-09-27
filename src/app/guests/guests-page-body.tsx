@@ -8,7 +8,6 @@ import type {
 import { FULL_WIDTH } from "@/lib/layout";
 import { GuestsManager } from "./guests-manager";
 import { PendingRsvps } from "./public-site-panel";
-import { GuestsSubTabs } from "./sub-tabs";
 import { BulkInviteForm } from "./bulk-invite-form";
 import { RsvpReminders } from "./rsvp-reminders";
 import { GuestbookFeed } from "./guestbook-feed";
@@ -69,9 +68,6 @@ export function GuestsPageBody({
   // margins. See src/lib/layout.ts for the widths.
   return (
     <div className={`w-full ${FULL_WIDTH}`}>
-      <div className="mb-6 border-b border-hairline">
-        <GuestsSubTabs active="/guests" />
-      </div>
       <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
         Guests
       </p>

@@ -723,6 +723,7 @@ type NodeActions = {
 function TableNode({
   table,
   assignedGuests,
+  justSeated,
   isSelected,
   seatingArmed,
   scale,
@@ -736,6 +737,8 @@ function TableNode({
 }: {
   table: SeatingTable;
   assignedGuests: Guest[];
+  /** Guests seated a moment ago, who bounce into place. */
+  justSeated: Set<string>;
   isSelected: boolean;
   /** Guests are picked in the side panel, so a tap seats them here. */
   seatingArmed: boolean;
@@ -853,7 +856,9 @@ function TableNode({
           {assignedGuests.map((guest) => (
             <span
               key={guest.id}
-              className="flex items-center gap-1 rounded-full border border-hairline bg-parchment px-1.5 py-0.5 text-[11px] text-ink"
+              className={`flex items-center gap-1 rounded-full border border-hairline bg-parchment px-1.5 py-0.5 text-[11px] text-ink ${
+                justSeated.has(guest.id) ? "wren-settle" : ""
+              }`}
             >
               {guest.name}
               {guest.plus_one && <span className="text-ink/40">+1</span>}
@@ -1025,6 +1030,7 @@ function VenueCanvas({
   tables,
   items,
   guestsByTable,
+  justSeated,
   selectedTableId,
   selectedItemId,
   seatingArmed,
@@ -1043,6 +1049,7 @@ function VenueCanvas({
   tables: SeatingTable[];
   items: VenueLayoutItem[];
   guestsByTable: Map<string, Guest[]>;
+  justSeated: Set<string>;
   selectedTableId: string | null;
   selectedItemId: string | null;
   seatingArmed: boolean;
@@ -1125,6 +1132,7 @@ function VenueCanvas({
             key={`${table.id}-${table.position_x}-${table.position_y}-${table.rotation}-${table.width}-${table.height}-${table.shape}-${table.capacity}`}
             table={table}
             assignedGuests={guestsByTable.get(table.id) ?? []}
+            justSeated={justSeated}
             isSelected={table.id === selectedTableId}
             seatingArmed={seatingArmed}
             scale={scale}
@@ -1759,6 +1767,7 @@ export function VenueLayoutManager({
   const [selectedTableId, setSelectedTableId] = useState<string | null>(null);
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
   const [pickedGuestIds, setPickedGuestIds] = useState<Set<string>>(() => new Set());
+  const [justSeated, setJustSeated] = useState<Set<string>>(() => new Set());
   const [view3D, setView3D] = useState(false);
   const [, startTransition] = useTransition();
 
@@ -1804,6 +1813,10 @@ export function VenueLayoutManager({
       await assignGuestsTable(formData);
     });
     setPickedGuestIds(new Set());
+    if (tableId) {
+      setJustSeated(new Set(guestIds));
+      setTimeout(() => setJustSeated(new Set()), 600);
+    }
   }
 
   function handleUnassign(guestId: string) {
@@ -2029,6 +2042,7 @@ export function VenueLayoutManager({
               tables={visibleTables}
               items={visibleItems}
               guestsByTable={guestsByTable}
+              justSeated={justSeated}
               selectedTableId={selectedTableId}
               selectedItemId={selectedItemId}
               seatingArmed={seatingArmed}

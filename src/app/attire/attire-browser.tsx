@@ -8,6 +8,7 @@ import { toggleAttireShortlist, updateAttireShortlistNotes, updatePartyMember } 
 import { AttireCard, AttireImage, ColorDots, HeartButton, PricePills } from "./attire-card";
 import { AttireQuickView } from "./attire-quick-view";
 import { PartyBoard } from "./party-board";
+import { WrenChatBirdIcon } from "@/components/icons";
 
 type Category = (typeof ATTIRE_CATEGORIES)[number];
 type View = "browse" | "saved" | "party";
@@ -702,6 +703,9 @@ export function AttireBrowser({
         <div className="px-4 py-6 sm:px-8 lg:px-10 lg:py-8">
           {savedItems.length === 0 ? (
             <div className="rounded-xl border border-dashed border-hairline bg-card p-12 text-center">
+              <span className="wren-idle mb-2 inline-flex">
+                <WrenChatBirdIcon className="h-16 w-16" />
+              </span>
               <p className="font-display text-2xl text-forest">Nothing saved yet</p>
               <p className="mt-2 text-sm text-ink/60">Tap the heart on anything you like and it lands here.</p>
               <button

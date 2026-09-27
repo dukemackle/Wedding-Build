@@ -431,7 +431,7 @@ function VenuesDemo() {
                 aria-label={`Shortlist ${v.name}`}
                 className={`absolute right-2 top-2 flex h-8 w-8 items-center justify-center rounded-full border text-base ${
                   saved.has(v.name)
-                    ? "border-brass bg-brass text-card"
+                    ? "border-brass bg-brass text-ink"
                     : "border-hairline bg-card text-ink/50"
                 }`}
               >
@@ -741,7 +741,7 @@ function AskDemo() {
             <span className="ml-auto max-w-[85%] rounded-2xl rounded-br-sm bg-card px-3 py-1.5 text-sm text-ink/80 shadow-sm">
               {c.q}
             </span>
-            <span className="max-w-[85%] rounded-2xl rounded-bl-sm bg-forest px-3 py-1.5 text-sm text-parchment">
+            <span className="max-w-[85%] rounded-2xl rounded-bl-sm bg-wren px-3 py-1.5 text-sm text-ink">
               {c.a}
             </span>
           </div>
@@ -753,7 +753,7 @@ function AskDemo() {
             key={c.q}
             type="button"
             onClick={() => setChat((h) => [...h, c])}
-            className="rounded-full border border-hairline bg-card px-3 py-1.5 text-sm text-forest hover:border-brass"
+            className="rounded-full border border-hairline bg-card px-3 py-1.5 text-sm text-wren-deep hover:border-wren"
           >
             {c.q}
           </button>

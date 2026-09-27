@@ -2,7 +2,7 @@ import { READING_WIDTH } from "@/lib/layout";
 import Link from "next/link";
 
 export const metadata = {
-  title: "Privacy Policy — Wren",
+  title: "Privacy Policy — You Do, I Do",
 };
 
 export default function PrivacyPage() {
@@ -15,7 +15,7 @@ export default function PrivacyPage() {
 
         <div className="mt-8 flex flex-col gap-8 text-ink/80">
           <p>
-            This Privacy Policy explains what information Wren collects, how we use it, and the
+            This Privacy Policy explains what information You Do, I Do collects, how we use it, and the
             choices you have. It applies to the couple-facing app at wrenwed.com and to any public
             wedding site created through it.
           </p>
@@ -42,7 +42,7 @@ export default function PrivacyPage() {
               <li>Messages you send to vendors/venues through the Service.</li>
               <li>
                 Files you choose through &ldquo;Choose from Drive.&rdquo; If you connect Google
-                Drive, Wren asks Google only for the specific file you pick in Google&apos;s own
+                Drive, You Do, I Do asks Google only for the specific file you pick in Google&apos;s own
                 picker — it cannot see, list, or open anything else in your Drive. The file is
                 downloaded in your browser and then handled exactly like a file you&apos;d
                 uploaded.
@@ -112,13 +112,13 @@ export default function PrivacyPage() {
 
             <p className="mt-4 font-medium text-ink">Features that use AI</p>
             <p className="mt-2">
-              Three parts of Wren send information to Anthropic&apos;s API to generate a response.
+              Three parts of You Do, I Do send information to Anthropic&apos;s API to generate a response.
               Each one runs only when you ask for it:
             </p>
             <ul className="mt-2 list-disc space-y-2 pl-5">
               <li>
                 <strong className="text-ink">Reading a contract</strong> — the document you
-                uploaded or attached is sent so Wren can write a summary and pull out dates. A
+                uploaded or attached is sent so You Do, I Do can write a summary and pull out dates. A
                 signed vendor contract usually contains full legal names, an address, and payment
                 terms.
               </li>
@@ -134,7 +134,7 @@ export default function PrivacyPage() {
             </ul>
             <p className="mt-2">
               Anthropic processes this to return a result and does not use it to train their
-              models. Wren&apos;s AI output is a starting point you review — not legal, financial,
+              models. You Do, I Do&apos;s AI output is a starting point you review — not legal, financial,
               or professional advice.
             </p>
             <p className="mt-3">
@@ -152,7 +152,7 @@ export default function PrivacyPage() {
                 vendor inquiry, the message and your reply-to email are shared with that vendor.
               </li>
               <li>
-                <strong className="text-ink">Service providers</strong> who help us run Wren,
+                <strong className="text-ink">Service providers</strong> who help us run You Do, I Do,
                 under obligations to protect your data: our
                 database/authentication/file-storage provider (Supabase), our hosting provider
                 (Cloudflare), our email-delivery provider (Resend), our text-message provider
@@ -162,7 +162,7 @@ export default function PrivacyPage() {
               </li>
               <li>
                 <strong className="text-ink">Google</strong> — only if you use &ldquo;Choose from
-                Drive.&rdquo; Wren&apos;s use of information received from Google APIs follows the{" "}
+                Drive.&rdquo; You Do, I Do&apos;s use of information received from Google APIs follows the{" "}
                 <a
                   href="https://developers.google.com/terms/api-services-user-data-policy"
                   target="_blank"
@@ -179,7 +179,7 @@ export default function PrivacyPage() {
               <li>
                 <strong className="text-ink">Legal requirements</strong> — we may disclose
                 information if required by law, or to protect the rights, safety, or property of
-                Wren or others.
+                You Do, I Do or others.
               </li>
             </ul>
             <p className="mt-3">We don&apos;t otherwise share your personal information with third parties.</p>
@@ -232,7 +232,7 @@ export default function PrivacyPage() {
 
           <Section title="7. Children's privacy">
             <p>
-              Wren isn&apos;t directed at children, and we don&apos;t knowingly collect personal
+              You Do, I Do isn&apos;t directed at children, and we don&apos;t knowingly collect personal
               information from children under 13. If you believe a child has provided us
               information, contact us and we&apos;ll delete it.
             </p>

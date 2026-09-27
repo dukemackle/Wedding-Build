@@ -40,12 +40,15 @@ function Unit({
   tone,
   pad,
   size,
+  flip = true,
 }: {
   value: number;
   label: string;
   tone: keyof typeof TONE;
   pad: boolean;
   size: "sm" | "lg";
+  /** Flip the number over when it changes (off for seconds -- too busy). */
+  flip?: boolean;
 }) {
   const t = TONE[tone];
   return (
@@ -55,8 +58,10 @@ function Unit({
         aria-hidden="true"
       />
       {/* tabular-nums keeps the row from twitching sideways every second */}
+      {/* Keyed on the value so each change remounts it and replays the flip. */}
       <p
-        className={`font-mono-numbers tabular-nums leading-none ${t.number} ${
+        key={flip ? value : undefined}
+        className={`font-mono-numbers tabular-nums leading-none ${flip ? "wren-flip" : ""} ${t.number} ${
           size === "lg" ? "text-3xl sm:text-4xl" : "text-2xl sm:text-3xl"
         }`}
       >
@@ -123,7 +128,7 @@ export function CountdownTimer({
       <Unit value={parts.days} label="Days" tone={tone} pad={false} size={size} />
       <Unit value={parts.hours} label="Hours" tone={tone} pad size={size} />
       <Unit value={parts.minutes} label="Minutes" tone={tone} pad size={size} />
-      <Unit value={parts.seconds} label="Seconds" tone={tone} pad size={size} />
+      <Unit value={parts.seconds} label="Seconds" tone={tone} pad size={size} flip={false} />
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { BrandRings } from "@/components/brand-rings";
 import Link from "next/link";
 
 /**
@@ -12,19 +12,12 @@ export function WrenMark() {
   return (
     <Link
       href="/dashboard"
-      aria-label="Wren — go to your dashboard"
+      aria-label="You Do, I Do — go to your dashboard"
       className="flex shrink-0 items-center gap-2 sm:gap-3"
     >
-      <Image
-        src="/logo/wren-mark.png"
-        alt=""
-        width={176}
-        height={96}
-        priority
-        className="h-7 w-auto sm:h-10"
-      />
-      <span className="font-display text-2xl font-semibold tracking-[0.16em] text-forest sm:text-3xl">
-        WREN
+      <BrandRings className="h-8 w-auto sm:h-10" />
+      <span className="font-display text-2xl font-semibold text-ink sm:text-3xl">
+        You do, <span className="italic text-[#d99a00]">I do</span>
       </span>
     </Link>
   );

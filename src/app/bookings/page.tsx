@@ -364,7 +364,7 @@ export default async function BookingsPage() {
                 <Link href="/budget" className="text-brass hover:underline">
                   budget
                 </Link>{" "}
-                and they&apos;ll show up here, whether you found them on Wren or not.
+                and they&apos;ll show up here, whether you found them on You Do, I Do or not.
               </p>
             </div>
           ) : (

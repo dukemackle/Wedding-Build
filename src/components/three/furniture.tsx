@@ -1,7 +1,7 @@
 "use client";
 
-const FOREST = "#0b4a3a";
-const BRASS = "#c79a2e";
+const FOREST = "#14203d";
+const BRASS = "#e0a100";
 const CARD = "#ffffff";
 const INK = "#1b1f1c";
 const PARCHMENT_DARK = "#e5e0d0";

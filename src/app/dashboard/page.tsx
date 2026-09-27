@@ -5,6 +5,7 @@ import { FadeInSection } from "@/components/fade-in-section";
 import { WeddingDashboard } from "./wedding-dashboard";
 import { FeatureGrid, buildFeatures } from "./feature-grid";
 import { PartnerInviteCard } from "./partner-invite-card";
+import { WelcomeBird } from "./welcome-bird";
 import { buildVendorTracker } from "./dashboard-data";
 import type {
   AttireItem,
@@ -209,11 +210,13 @@ export default async function DashboardPage() {
     attireShortlisted: attireShortlist?.length ?? 0,
     itinerary: shownDay.slice(0, 3).map((e) => ({ time: e.start_time, title: e.title })),
     layoutItems: layoutItems ?? 0,
+    weddingId: wedding.id,
   });
 
   return (
     <PageShell email={user.email ?? ""} width="canvas">
       <WeddingDashboard initialWedding={wedding} bookedVenue={bookedVenue} />
+      <WelcomeBird userId={user.id} createdAt={user.created_at} />
 
       <FadeInSection delayMs={40}>
         <FeatureGrid features={features} />

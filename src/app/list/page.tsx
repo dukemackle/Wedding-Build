@@ -3,8 +3,8 @@ import { STANDARD_WIDTH } from "@/lib/layout";
 import { ListForm } from "./list-form";
 
 export const metadata = {
-  title: "List your business — Wren",
-  description: "Venues and wedding vendors: get listed on Wren, free.",
+  title: "List your business — You Do, I Do",
+  description: "Venues and wedding vendors: get listed on You Do, I Do, free.",
 };
 
 export default function ListYourBusinessPage() {
@@ -13,7 +13,7 @@ export default function ListYourBusinessPage() {
       <div className={`w-full ${STANDARD_WIDTH}`}>
         <ListForm />
         <p className="mt-8 text-center text-sm text-ink/60">
-          Already on Wren?{" "}
+          Already on You Do, I Do?{" "}
           <Link href="/list/edit" className="font-medium text-brass hover:underline">
             Edit my listing
           </Link>

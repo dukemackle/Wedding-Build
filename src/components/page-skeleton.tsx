@@ -1,4 +1,5 @@
 import { pageWidthClass, type PageWidth } from "@/lib/layout";
+import { BirdLoader } from "@/components/wren-moments";
 
 /**
  * The placeholder shown while a page loads.
@@ -7,7 +8,14 @@ import { pageWidthClass, type PageWidth } from "@/lib/layout";
  * a different width than the page behind it makes the content jump sideways
  * the moment it arrives.
  */
-export function PageSkeleton({ width = "standard" }: { width?: PageWidth }) {
+export function PageSkeleton({
+  width = "standard",
+  label = "Loading...",
+}: {
+  width?: PageWidth;
+  /** What the hopping bird says it's doing, e.g. "Finding venues...". */
+  label?: string;
+}) {
   const maxWidthClassName = pageWidthClass(width);
 
   return (
@@ -20,11 +28,7 @@ export function PageSkeleton({ width = "standard" }: { width?: PageWidth }) {
         <div className="h-3 w-20 animate-pulse rounded bg-hairline/40" />
         <div className="mt-2 mb-6 h-8 w-64 animate-pulse rounded bg-hairline/40" />
         <div className="rounded-lg border border-hairline bg-card p-5 sm:p-8 shadow-sm">
-          <div className="space-y-4">
-            <div className="h-4 w-full animate-pulse rounded bg-hairline/30" />
-            <div className="h-4 w-5/6 animate-pulse rounded bg-hairline/30" />
-            <div className="h-4 w-2/3 animate-pulse rounded bg-hairline/30" />
-          </div>
+          <BirdLoader label={label} />
         </div>
       </div>
     </main>

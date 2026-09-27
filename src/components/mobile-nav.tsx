@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ArchIcon, WrenBirdIcon } from "@/components/icons";
-import { NAV_ITEMS, isNavGroup } from "@/components/nav-links";
+import { NAV_ITEMS, isActiveLink, isNavGroup } from "@/components/nav-links";
 
 /**
  * The navigation, for a phone.
@@ -146,7 +146,7 @@ export function MobileNav() {
                         key={link.href}
                         href={link.href}
                         onClick={close}
-                        className={rowClass(pathname.startsWith(link.href))}
+                        className={rowClass(isActiveLink(pathname, link.href, item.links))}
                       >
                         {link.label}
                       </Link>

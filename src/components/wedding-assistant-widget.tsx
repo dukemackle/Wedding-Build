@@ -9,7 +9,8 @@ import {
   type ProposalStatus,
 } from "@/lib/ai/wedding-assistant";
 import type { Proposal } from "@/lib/ai/assistant-tools";
-import { WrenChatBirdIcon, SendIcon, CloseIcon, ExpandIcon, CollapseIcon } from "@/components/icons";
+import { SendIcon, CloseIcon, ExpandIcon, CollapseIcon } from "@/components/icons";
+import { AnimatedWrenBird } from "@/components/animated-wren-bird";
 import { useAssistant } from "@/components/assistant-context";
 import { InterviewQuestion } from "@/components/planning-interview";
 import { loadPlanningProfile, savePlanningAnswer } from "@/lib/ai/planning-actions";
@@ -50,7 +51,7 @@ function ProposalCard({
         ))}
       </ul>
       {hidden > 0 && (
-        <button type="button" onClick={() => setExpanded(true)} className="mt-1 text-xs text-forest underline">
+        <button type="button" onClick={() => setExpanded(true)} className="mt-1 text-xs text-wren-deep underline">
           +{hidden} more
         </button>
       )}
@@ -62,7 +63,7 @@ function ProposalCard({
               type="button"
               onClick={onConfirm}
               disabled={busy}
-              className="rounded-md bg-forest px-3 py-1 text-xs font-medium text-parchment disabled:opacity-40"
+              className="rounded-md bg-wren px-3 py-1 text-xs font-medium text-ink disabled:opacity-40"
             >
               {busy ? "Saving..." : "Confirm"}
             </button>
@@ -224,9 +225,9 @@ export function AssistantChat({
 
   return (
     <div className="flex h-full min-h-0 flex-1 flex-col">
-      <div className="flex items-center justify-between border-b border-hairline px-4 py-3">
-        <span className="flex items-center gap-2 font-display text-lg text-forest">
-          <WrenChatBirdIcon className="h-5 w-5" />
+      <div className="flex items-center justify-between border-b border-hairline bg-wren-soft px-4 py-3">
+        <span className="flex items-center gap-2 font-display text-lg text-wren-deep">
+          <AnimatedWrenBird className="h-5 w-5" thinking={isPending} />
           Wren
         </span>
         <div className="flex items-center gap-3">
@@ -262,7 +263,7 @@ export function AssistantChat({
           </p>
         )}
         {messages.length === 0 && !interviewing && remaining && (
-          <div className="rounded-lg border border-forest/30 bg-white px-3 py-2.5 text-sm">
+          <div className="rounded-lg border border-wren/40 bg-white px-3 py-2.5 text-sm">
             <p className="text-ink">
               {answeredCount === 0
                 ? "Want me to plan like I know you? Ten quick questions -- about two minutes -- and I'll remember the answers."
@@ -274,7 +275,7 @@ export function AssistantChat({
                 setInterviewing(true);
                 scrollDown();
               }}
-              className="mt-2 rounded-md bg-forest px-3 py-1 text-xs font-medium text-parchment"
+              className="mt-2 rounded-md bg-wren px-3 py-1 text-xs font-medium text-ink"
             >
               {answeredCount === 0 ? "Let's do it" : "Continue"}
             </button>
@@ -282,7 +283,7 @@ export function AssistantChat({
         )}
         {interviewLog.map((entry, i) => (
           <div key={`q${i}`} className="space-y-2">
-            <div className="mr-auto max-w-[85%] rounded-lg border border-hairline bg-white px-3 py-2 text-sm text-ink">
+            <div className="mr-auto max-w-[85%] rounded-lg border border-wren/30 bg-wren-soft px-3 py-2 text-sm text-ink">
               {entry.question}
             </div>
             <div className="ml-auto w-fit max-w-[85%] rounded-lg bg-forest px-3 py-2 text-sm text-parchment">
@@ -307,14 +308,14 @@ export function AssistantChat({
           />
         )}
         {interviewLog.length > 0 && !interviewing && messages.length === 0 && (
-          <div className="mr-auto max-w-[85%] rounded-lg border border-hairline bg-white px-3 py-2 text-sm text-ink">
+          <div className="mr-auto max-w-[85%] rounded-lg border border-wren/30 bg-wren-soft px-3 py-2 text-sm text-ink">
             {remaining
               ? "No problem -- I've saved what you told me. We can finish any time."
               : "That's everything -- thank you! I'll keep all of this in mind. Want me to turn it into a plan?"}
           </div>
         )}
         {messages.length === 0 && !interviewing && !remaining && answeredCount > 0 && (
-          <div className="rounded-lg border border-forest/30 bg-white px-3 py-2.5 text-sm">
+          <div className="rounded-lg border border-wren/40 bg-white px-3 py-2.5 text-sm">
             <p className="text-ink">
               I&apos;ll fill the gaps in your checklist, draft your day-of timeline and suggest how to
               split the budget. You confirm each change.
@@ -323,7 +324,7 @@ export function AssistantChat({
               type="button"
               onClick={() => send("Build our plan", { plan: true })}
               disabled={isPending}
-              className="mt-2 rounded-md bg-forest px-3 py-1 text-xs font-medium text-parchment disabled:opacity-40"
+              className="mt-2 rounded-md bg-wren px-3 py-1 text-xs font-medium text-ink disabled:opacity-40"
             >
               Build our plan
             </button>
@@ -337,7 +338,7 @@ export function AssistantChat({
                 className={`max-w-[85%] whitespace-pre-wrap rounded-lg px-3 py-2 text-sm ${
                   m.role === "user"
                     ? "ml-auto bg-forest text-parchment"
-                    : "mr-auto bg-white text-ink border border-hairline"
+                    : "mr-auto border border-wren/30 bg-wren-soft text-ink"
                 }`}
               >
                 {m.content}
@@ -357,7 +358,7 @@ export function AssistantChat({
                   type="button"
                   onClick={() => confirm(pending)}
                   disabled={pending.some((p) => applying.has(p.id))}
-                  className="text-xs font-medium text-forest underline disabled:opacity-40"
+                  className="text-xs font-medium text-wren-deep underline disabled:opacity-40"
                 >
                   Confirm all {pending.length}
                 </button>
@@ -387,14 +388,14 @@ export function AssistantChat({
           }}
           rows={1}
           placeholder={current ? "Or type your own answer..." : "Ask or tell Wren..."}
-          className="min-h-9 flex-1 resize-none rounded-md border border-hairline bg-parchment px-3 py-2 text-sm text-ink focus:outline-none focus:ring-1 focus:ring-forest"
+          className="min-h-9 flex-1 resize-none rounded-md border border-hairline bg-parchment px-3 py-2 text-sm text-ink focus:outline-none focus:ring-1 focus:ring-wren"
         />
         <button
           type="button"
           onClick={() => send()}
           disabled={isPending || !input.trim()}
           aria-label="Send message"
-          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-forest text-parchment disabled:opacity-40"
+          className="wren-pulse flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-wren text-ink disabled:opacity-40"
         >
           <SendIcon className="h-4 w-4" />
         </button>
@@ -430,9 +431,9 @@ export function WeddingAssistantWidget() {
         type="button"
         onClick={() => setOpen(!open)}
         aria-label={open ? "Close Wren, your wedding assistant" : "Open Wren, your wedding assistant"}
-        className="flex h-12 w-12 items-center justify-center rounded-full bg-forest text-parchment shadow-lg hover:bg-forest/90"
+        className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-wren bg-card text-ink shadow-lg hover:bg-wren-soft"
       >
-        {open ? <CloseIcon className="h-5 w-5" /> : <WrenChatBirdIcon className="h-6 w-6" />}
+        {open ? <CloseIcon className="h-5 w-5" /> : <AnimatedWrenBird className="h-6 w-6" hopOnce />}
       </button>
     </div>
   );

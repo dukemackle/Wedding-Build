@@ -30,7 +30,7 @@ export function InterviewQuestion({
   const multi = question.max > 1;
   return (
     <div className="space-y-2">
-      <div className="mr-auto max-w-[85%] rounded-lg border border-hairline bg-white px-3 py-2 text-sm text-ink">
+      <div className="mr-auto max-w-[85%] rounded-lg border border-wren/30 bg-wren-soft px-3 py-2 text-sm text-ink">
         <p className="mb-0.5 text-[11px] font-medium uppercase tracking-wide text-ink/45">
           Question {index} of {total}
         </p>
@@ -50,8 +50,8 @@ export function InterviewQuestion({
                 aria-pressed={on}
                 className={`rounded-full border px-3 py-1 text-xs transition-colors disabled:opacity-40 ${
                   on
-                    ? "border-forest bg-forest text-parchment"
-                    : "border-forest/30 bg-white text-forest hover:border-forest"
+                    ? "border-wren bg-wren text-ink"
+                    : "border-wren/40 bg-white text-wren-deep hover:border-wren"
                 }`}
               >
                 {option}
@@ -66,7 +66,7 @@ export function InterviewQuestion({
             type="button"
             onClick={onNext}
             disabled={busy || picked.length === 0}
-            className="rounded-md bg-forest px-3 py-1 font-medium text-parchment disabled:opacity-40"
+            className="rounded-md bg-wren px-3 py-1 font-medium text-ink disabled:opacity-40"
           >
             {busy ? "Saving..." : "Next"}
           </button>

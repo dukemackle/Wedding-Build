@@ -105,7 +105,7 @@ async function notifyGuestsOfScheduleChange(
   const details = [timeRange, event.location].filter(Boolean).join(" @ ");
   const coupleNames = [wedding.partner_a_name, wedding.partner_b_name].filter(Boolean).join(" & ");
 
-  const body = `Schedule update for ${coupleNames || "the wedding"}: "${event.title}" is now ${formatFullDate(event.event_date)}${details ? `, ${details}` : ""}.\n\nPlanning your own wedding? Try Wren free: wrenwed.com`;
+  const body = `Schedule update for ${coupleNames || "the wedding"}: "${event.title}" is now ${formatFullDate(event.event_date)}${details ? `, ${details}` : ""}.\n\nPlanning your own wedding? Try You Do, I Do free: wrenwed.com`;
 
   for (const guest of guests) {
     if (!guest.phone) continue;

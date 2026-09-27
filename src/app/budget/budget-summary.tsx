@@ -203,9 +203,11 @@ export function BudgetSummary({
 
             {target != null && !editing && (
               <>
-                <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-forest/10">
+                <div
+                  className={`mt-2 h-1.5 overflow-hidden rounded-full bg-forest/10 ${isOver ? "wren-shake" : ""}`}
+                >
                   <div
-                    className={`h-1.5 rounded-full transition-[width] ${
+                    className={`wren-grow h-1.5 rounded-full transition-[width] ${
                       isOver ? "bg-brass" : "bg-forest"
                     }`}
                     style={{ width: `${isOver ? 100 : pct}%` }}
@@ -242,7 +244,7 @@ export function BudgetSummary({
           {/* The 2px gaps are the non-colour cue the palette's CVD margin
               requires -- segment boundaries stay visible even when two fills
               are hard to tell apart. */}
-          <div className="mt-2 flex h-3 gap-[2px]">
+          <div className="wren-grow mt-2 flex h-3 gap-[2px]">
             {proportion.map((slice, i) => (
               <span
                 key={slice.key}

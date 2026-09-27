@@ -17,4 +17,4 @@ export function getResendClient() {
  * replyTo of the couple, which is where a reply belongs anyway -- a guest
  * answering a wedding invitation is writing to the couple, not to Wren.
  */
-export const INQUIRY_FROM_ADDRESS = "Wren <hello@wrenwed.com>";
+export const INQUIRY_FROM_ADDRESS = "You Do, I Do <hello@wrenwed.com>";

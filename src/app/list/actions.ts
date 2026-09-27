@@ -78,7 +78,7 @@ export async function startListing(
     .limit(1);
   if ((existing ?? []).length > 0) {
     return {
-      error: `${name} is already on Wren. Use "Edit my listing" to update it -- if we don't have your email on file, reply to any Wren email or write to hello@wrenwed.com and we'll send you the link.`,
+      error: `${name} is already on You Do, I Do. Use "Edit my listing" to update it -- if we don't have your email on file, reply to any You Do, I Do email or write to hello@wrenwed.com and we'll send you the link.`,
     };
   }
 
@@ -107,8 +107,8 @@ export async function startListing(
       await getResendClient().emails.send({
         from: INQUIRY_FROM_ADDRESS,
         to: email,
-        subject: `Your ${name} listing on Wren`,
-        text: `Hi ${submitterName},\n\nHere's the private link to finish your ${name} listing on Wren:\n\n${url}\n\nIt's the only way into your listing, so keep it to yourself. Once you send your details, we'll review them and email you when you're live. Use the same link any time you want to make changes.\n\nThanks,\nWren`,
+        subject: `Your ${name} listing on You Do, I Do`,
+        text: `Hi ${submitterName},\n\nHere's the private link to finish your ${name} listing on You Do, I Do:\n\n${url}\n\nIt's the only way into your listing, so keep it to yourself. Once you send your details, we'll review them and email you when you're live. Use the same link any time you want to make changes.\n\nThanks,\nYou Do, I Do`,
       });
     } catch {
       // Nothing to do.
@@ -171,8 +171,8 @@ export async function requestEditLinks(rawEmail: string): Promise<{ error?: stri
       await getResendClient().emails.send({
         from: INQUIRY_FROM_ADDRESS,
         to: email,
-        subject: links.length === 1 ? "Your Wren listing link" : "Your Wren listing links",
-        text: `Here's the private link to update your listing on Wren:\n\n${links.join("\n\n")}\n\nWe review changes before they go live. If you didn't ask for this, you can ignore it -- nothing changes unless someone uses the link.\n\nThanks,\nWren`,
+        subject: links.length === 1 ? "Your You Do, I Do listing link" : "Your You Do, I Do listing links",
+        text: `Here's the private link to update your listing on You Do, I Do:\n\n${links.join("\n\n")}\n\nWe review changes before they go live. If you didn't ask for this, you can ignore it -- nothing changes unless someone uses the link.\n\nThanks,\nYou Do, I Do`,
       });
     } catch {
       return { error: "Couldn't send the email just now -- please try again." };
