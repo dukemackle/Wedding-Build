@@ -29,6 +29,10 @@ export type Wedding = {
   invite_token: string | null;
   hidden_budget_categories: string[];
   itinerary_published: boolean;
+  /** The published guest site design; parse with parseSiteDesign. */
+  site_design: unknown;
+  /** What the guest site editor is working on; Publish copies it to site_design. */
+  site_design_draft: unknown;
   /** A Google Sheet the couple imported from, kept so they can reopen it. */
   spreadsheet_url: string | null;
   /** The colour each side of the guest list is drawn in, picked by the couple. */
@@ -54,6 +58,7 @@ export type PublicWedding = {
   venue_city: string | null;
   venue_state: string | null;
   itinerary_published: boolean;
+  site_design: unknown;
 };
 
 export type WeddingFaq = {

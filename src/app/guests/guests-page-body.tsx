@@ -2,26 +2,19 @@ import type {
   ContactSubmission,
   Guest,
   GuestPost,
-  RegistryItem,
   RsvpSubmission,
   Wedding,
-  WeddingAccommodation,
-  WeddingFaq,
-  WeddingGalleryPhoto,
 } from "@/lib/supabase/types";
 import { FULL_WIDTH } from "@/lib/layout";
 import { GuestsManager } from "./guests-manager";
-import { RegistryManager } from "./registry-manager";
-import { HeroPhotoPanel } from "./hero-photo-panel";
-import { PendingRsvps, PublicSitePanel } from "./public-site-panel";
-import { Accommodations, DressAndTravel, Faqs } from "./guest-site-details";
+import { PendingRsvps } from "./public-site-panel";
+import { GuestsSubTabs } from "./sub-tabs";
 import { BulkInviteForm } from "./bulk-invite-form";
 import { RsvpReminders } from "./rsvp-reminders";
 import { GuestbookFeed } from "./guestbook-feed";
 import { SongRequests } from "./song-requests";
 import { ContactCollectorPanel } from "./contact-collector-panel";
 import { TabbedCard } from "./card";
-import { GalleryPanel } from "./gallery-panel";
 import { GuestPostsFeed } from "./guest-posts-feed";
 import { PhotoWallQr } from "./photo-wall-qr";
 
@@ -35,26 +28,18 @@ import { PhotoWallQr } from "./photo-wall-qr";
 export function GuestsPageBody({
   wedding,
   guests,
-  registryItems,
-  faqs,
-  accommodations,
   rsvpSubmissions,
   contactSubmissions,
   origin,
-  galleryPhotos = [],
   guestPosts = [],
   shareUrl = null,
   shareQrSvg = null,
 }: {
   wedding: Wedding;
   guests: Guest[];
-  registryItems: RegistryItem[];
-  faqs: WeddingFaq[];
-  accommodations: WeddingAccommodation[];
   rsvpSubmissions: RsvpSubmission[];
   contactSubmissions: ContactSubmission[];
   origin: string;
-  galleryPhotos?: WeddingGalleryPhoto[];
   guestPosts?: GuestPost[];
   /** The photo wall's posting page, when the guest site is on. */
   shareUrl?: string | null;
@@ -84,6 +69,9 @@ export function GuestsPageBody({
   // margins. See src/lib/layout.ts for the widths.
   return (
     <div className={`w-full ${FULL_WIDTH}`}>
+      <div className="mb-6 border-b border-hairline">
+        <GuestsSubTabs active="/guests" />
+      </div>
       <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
         Guests
       </p>
@@ -93,14 +81,11 @@ export function GuestsPageBody({
 
       <div className="flex flex-col gap-6">
         <div className="grid gap-6 lg:grid-cols-12 lg:items-start">
-          {/* Three columns from 1280px: the list takes half, in the middle,
-              with invitations to its left and the guest site to its right --
-              both on screen from the start instead of stacked. Between 1024 and 1280 there isn't room for
-              three, so the list keeps two thirds and the panels stack beside
-              it. Stacked on a phone, list first -- there is no beside. The
-              list stays first in the markup for that; `order` moves it to the
-              middle only at xl. */}
-          <div className="min-w-0 lg:col-span-8 lg:row-span-2 xl:order-2 xl:col-span-6 xl:row-span-1">
+          {/* Two columns from 1024px: the list takes two thirds (three
+              quarters from 1280px) with invitations beside it, both on screen
+              from the start. Stacked on a phone, list first -- there is no
+              beside. The guest site has its own tab, Guests › Guest site. */}
+          <div className="min-w-0 lg:col-span-8 xl:col-span-9">
             <GuestsManager
               guests={guests}
               spreadsheetUrl={wedding.spreadsheet_url}
@@ -112,7 +97,7 @@ export function GuestsPageBody({
             />
           </div>
 
-          <div className="min-w-0 lg:col-span-4 xl:order-1 xl:col-span-3">
+          <div className="min-w-0 lg:col-span-4 xl:col-span-3">
             <TabbedCard
               title="Invitations & RSVPs"
               description="Three ways to reach your guests — collect their addresses, email them the link, or chase the ones who haven't replied."
@@ -171,50 +156,6 @@ export function GuestsPageBody({
             />
           </div>
 
-          {/* The guest site — set up once, then left alone. */}
-          <div className="min-w-0 lg:col-span-4 xl:order-3 xl:col-span-3">
-            <TabbedCard
-              title="Your guest site"
-              header={
-                <PublicSitePanel publicSlug={wedding.public_slug} origin={origin} />
-              }
-              description="Everything guests see on your public page."
-              tabs={[
-                {
-                  key: "photos",
-                  label: `Photos (${galleryPhotos.length})`,
-                  content: (
-                    <div className="flex flex-col gap-8">
-                      <HeroPhotoPanel photoUrl={wedding.hero_photo_url} />
-                      <div className="border-t border-hairline pt-6">
-                        <GalleryPanel photos={galleryPhotos} />
-                      </div>
-                    </div>
-                  ),
-                },
-                {
-                  key: "details",
-                  label: "Details",
-                  content: <DressAndTravel wedding={wedding} />,
-                },
-                {
-                  key: "stays",
-                  label: `Stays (${accommodations.length})`,
-                  content: <Accommodations items={accommodations} />,
-                },
-                {
-                  key: "faq",
-                  label: `FAQ (${faqs.length})`,
-                  content: <Faqs faqs={faqs} />,
-                },
-                {
-                  key: "registry",
-                  label: "Registry",
-                  content: <RegistryManager registryItems={registryItems} />,
-                },
-              ]}
-            />
-          </div>
         </div>
 
         {/* Full width, under both columns: a wall of photos and messages

@@ -53,7 +53,7 @@ function HeroContent({ wedding, tone }: { wedding: PublicWedding; tone: "light" 
       </p>
 
       <h1
-        className={`mt-3 font-display text-[clamp(2.75rem,8vw,5.5rem)] font-medium leading-[1.02] ${
+        className={`mt-3 font-display text-[clamp(2.75rem,8vw,5.5rem)] font-medium leading-[1.02] [font-style:var(--site-name-style,normal)] [font-weight:var(--site-name-weight,500)] ${
           tone === "light" ? "text-white [text-shadow:0_2px_24px_rgba(0,0,0,0.28)]" : "text-forest"
         }`}
       >
@@ -88,7 +88,7 @@ export function WeddingHero({ wedding }: { wedding: PublicWedding }) {
   // deliberate treatment on parchment rather than an empty grey band.
   if (!wedding.hero_photo_url) {
     return (
-      <header className="mb-10 bg-[radial-gradient(120%_90%_at_50%_0%,#ffffff_0%,var(--color-parchment)_60%)] px-6 pb-16 pt-24">
+      <header className="mb-10 bg-[radial-gradient(120%_90%_at_50%_0%,var(--color-card)_0%,var(--color-parchment)_60%)] px-6 pb-16 pt-24">
         <HeroContent wedding={wedding} tone="dark" />
       </header>
     );
@@ -106,8 +106,10 @@ export function WeddingHero({ wedding }: { wedding: PublicWedding }) {
       />
       {/* Scrim: the photo is the couple's, so it can be anything -- this
           keeps the names legible over a bright sky or a dark forest alike. */}
+      {/* The scrim is the theme's darker colour, never its ink: on a dark
+          theme the ink is cream, and a cream scrim would wash the names out. */}
       <div
-        className="absolute inset-0 bg-gradient-to-b from-forest/30 via-forest/10 to-forest/80"
+        className="absolute inset-0 bg-gradient-to-b from-[color-mix(in_srgb,var(--site-scrim,var(--color-forest))_30%,transparent)] via-[color-mix(in_srgb,var(--site-scrim,var(--color-forest))_10%,transparent)] to-[color-mix(in_srgb,var(--site-scrim,var(--color-forest))_80%,transparent)]"
         aria-hidden="true"
       />
       <div className="relative">

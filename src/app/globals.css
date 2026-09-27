@@ -256,3 +256,27 @@ body::before {
     margin-top: 7rem;
   }
 }
+
+/* The guest site, in the couple's theme (src/components/guest-site-theme.tsx
+   sets the variables). Most of it follows from overriding the semantic colour
+   names; these rules cover the places where one app colour plays two roles on
+   the guest site. `forest` is both heading ink and button fill in the app,
+   but a theme's headings are its ink and its buttons are its accent. */
+.guest-site .bg-forest {
+  background-color: var(--site-accent);
+}
+.guest-site .bg-forest.text-parchment,
+.guest-site .bg-forest .text-parchment {
+  color: var(--site-on-accent);
+}
+.guest-site .hover\:bg-forest\/90:hover {
+  background-color: color-mix(in srgb, var(--site-accent) 88%, var(--color-ink));
+}
+.guest-site a.rounded-md,
+.guest-site button.rounded-md {
+  border-radius: var(--site-radius);
+}
+/* The guest site has a footer of its own, in its theme. */
+body:has(.guest-site) .site-footer {
+  display: none;
+}
