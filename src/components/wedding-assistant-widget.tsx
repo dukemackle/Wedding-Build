@@ -9,7 +9,7 @@ import {
   type ProposalStatus,
 } from "@/lib/ai/wedding-assistant";
 import type { Proposal } from "@/lib/ai/assistant-tools";
-import { WrenBirdIcon, SendIcon, CloseIcon } from "@/components/icons";
+import { WrenBirdIcon, SendIcon, CloseIcon, ExpandIcon, CollapseIcon } from "@/components/icons";
 import { useAssistant } from "@/components/assistant-context";
 
 type Card = Proposal & { status: ProposalStatus };
@@ -83,7 +83,15 @@ function ProposalCard({
 // The actual chat UI -- shared between the floating widget (below) and
 // the always-open embed on the Help page, so there's a real place to
 // type a question even without hunting for the corner bubble.
-export function AssistantChat({ onClose }: { onClose?: () => void }) {
+export function AssistantChat({
+  onClose,
+  expanded,
+  onToggleExpand,
+}: {
+  onClose?: () => void;
+  expanded?: boolean;
+  onToggleExpand?: () => void;
+}) {
   const [messages, setMessages] = useState<AssistantMessage[]>([]);
   const [input, setInput] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -160,16 +168,28 @@ export function AssistantChat({ onClose }: { onClose?: () => void }) {
           <WrenBirdIcon className="h-5 w-5" />
           Wren
         </span>
-        {onClose && (
-          <button
-            type="button"
-            onClick={onClose}
-            aria-label="Close assistant"
-            className="text-ink/60 hover:text-ink"
-          >
-            <CloseIcon className="h-4 w-4" />
-          </button>
-        )}
+        <div className="flex items-center gap-3">
+          {onToggleExpand && (
+            <button
+              type="button"
+              onClick={onToggleExpand}
+              aria-label={expanded ? "Shrink assistant" : "Expand assistant"}
+              className="text-ink/60 hover:text-ink"
+            >
+              {expanded ? <CollapseIcon className="h-4 w-4" /> : <ExpandIcon className="h-4 w-4" />}
+            </button>
+          )}
+          {onClose && (
+            <button
+              type="button"
+              onClick={onClose}
+              aria-label="Close assistant"
+              className="text-ink/60 hover:text-ink"
+            >
+              <CloseIcon className="h-4 w-4" />
+            </button>
+          )}
+        </div>
       </div>
 
       <div ref={listRef} className="flex-1 space-y-3 overflow-y-auto px-4 py-3">
@@ -250,12 +270,24 @@ export function AssistantChat({ onClose }: { onClose?: () => void }) {
 
 export function WeddingAssistantWidget() {
   const { open, setOpen } = useAssistant();
+  const [expanded, setExpanded] = useState(false);
+
+  // Expanded is two different things: on a phone the chat takes the whole
+  // screen (there's no room for a bigger floating box), on desktop the panel
+  // grows in place so the page stays visible beside it.
+  const panelSize = expanded
+    ? "fixed inset-0 z-50 rounded-none sm:static sm:inset-auto sm:h-[min(44rem,calc(100vh-7rem))] sm:w-[34rem] sm:rounded-lg"
+    : "h-[28rem] w-[22rem] max-w-[calc(100vw-2.5rem)] rounded-lg";
 
   return (
     <div className="fixed bottom-5 right-5 z-50 flex flex-col items-end gap-3">
       {open && (
-        <div className="flex h-[28rem] w-[22rem] max-w-[calc(100vw-2.5rem)] flex-col overflow-hidden rounded-lg border border-hairline bg-parchment shadow-lg">
-          <AssistantChat onClose={() => setOpen(false)} />
+        <div className={`flex flex-col overflow-hidden border border-hairline bg-parchment shadow-lg ${panelSize}`}>
+          <AssistantChat
+            onClose={() => setOpen(false)}
+            expanded={expanded}
+            onToggleExpand={() => setExpanded(!expanded)}
+          />
         </div>
       )}
 
