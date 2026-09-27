@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useRef, useState, type ReactNode } from "react";
+import { useRef, useState, useTransition, type ReactNode } from "react";
+import { createSiteBlock, deleteSiteBlock } from "./block-actions";
 import { ChevronDownIcon } from "@/components/icons";
 import {
   FONT_PAIRINGS,
@@ -14,11 +15,16 @@ import {
   resolveDesign,
   themeById,
   type HeroLayoutId,
-  type SectionId,
+  blockIdOf,
+  blockKey,
+  sectionColumn,
+  type SectionKey,
   type SiteDesign,
 } from "@/lib/site-design";
 
 export type SectionInfo = {
+  /** For custom blocks; built-in sections use their fixed name. */
+  name?: string;
   status: string;
   /** Something the couple should fix before sharing, shown in amber. */
   warn?: boolean;
@@ -32,8 +38,7 @@ export type ChecklistItem = { label: string; done: boolean; href?: string; actio
 
 type Change = (patch: Partial<SiteDesign>) => void;
 
-const NAMES = Object.fromEntries(SITE_SECTIONS.map((x) => [x.id, x.name])) as Record<SectionId, string>;
-const COLUMN = Object.fromEntries(SITE_SECTIONS.map((x) => [x.id, x.column])) as Record<SectionId, string>;
+const NAMES = Object.fromEntries(SITE_SECTIONS.map((x) => [x.id, x.name])) as Record<string, string>;
 
 export function PanelLabel({ children }: { children: ReactNode }) {
   return (
@@ -184,22 +189,57 @@ export function SectionsTab({
   design: SiteDesign;
   onChange: Change;
   sitePanel: ReactNode;
-  info: Record<SectionId, SectionInfo>;
+  info: Partial<Record<SectionKey, SectionInfo>>;
   checklist: ChecklistItem[];
 }) {
-  const [open, setOpen] = useState<SectionId | null>(null);
-  const sections = design.sections;
+  const [open, setOpen] = useState<SectionKey | null>(null);
+  const [adding, startAdding] = useTransition();
+  const [blockError, setBlockError] = useState<string | null>(null);
+  // A block deleted elsewhere (or one just added, before the page refreshes
+  // with its details) has no row info; it's left off the list.
+  const sections = design.sections.filter((x) => info[x.id]);
+
+  function add(kind: "photo" | "story" | "quote") {
+    setBlockError(null);
+    startAdding(async () => {
+      const result = await createSiteBlock(kind).catch(() => ({ error: "Couldn't add it — check your connection.", block: undefined }));
+      if (result.error || !result.block) {
+        setBlockError(result.error ?? "Couldn't add it.");
+        return;
+      }
+      // New blocks go first, where they're easy to find; drag to move them.
+      const key = blockKey(result.block.id);
+      onChange({ sections: [{ id: key, hidden: false }, ...design.sections] });
+      setOpen(key);
+    });
+  }
+
+  function remove(key: SectionKey) {
+    const id = blockIdOf(key);
+    if (!id || !confirm("Delete this section? Its words and photo will be gone.")) return;
+    startAdding(async () => {
+      const result = await deleteSiteBlock(id).catch(() => ({ error: "Couldn't delete it — check your connection." }));
+      if (result.error) {
+        setBlockError(result.error);
+        return;
+      }
+      onChange({ sections: design.sections.filter((x) => x.id !== key) });
+    });
+  }
 
   function move(from: number, to: number) {
     if (to < 0 || to >= sections.length || from === to) return;
-    const next = [...sections];
-    const [item] = next.splice(from, 1);
-    next.splice(to, 0, item);
+    // Positions are in the visible list; map them back onto the full one.
+    const fromKey = sections[from].id;
+    const toKey = sections[to].id;
+    const next = design.sections.filter((x) => x.id !== fromKey);
+    const at = next.findIndex((x) => x.id === toKey) + (to > from ? 1 : 0);
+    next.splice(at, 0, design.sections.find((x) => x.id === fromKey)!);
     onChange({ sections: next });
   }
 
-  function toggle(id: SectionId) {
-    onChange({ sections: sections.map((x) => (x.id === id ? { ...x, hidden: !x.hidden } : x)) });
+  function toggle(id: SectionKey) {
+    onChange({ sections: design.sections.map((x) => (x.id === id ? { ...x, hidden: !x.hidden } : x)) });
   }
 
   return (
@@ -215,10 +255,13 @@ export function SectionsTab({
         </p>
         <SortableList
           ids={sections.map((x) => x.id)}
+          names={Object.fromEntries(sections.map((x) => [x.id, info[x.id]?.name ?? NAMES[x.id]]))}
           onMove={move}
           renderRow={(id, handle) => {
             const section = sections.find((x) => x.id === id)!;
-            const row = info[id];
+            const row = info[id]!;
+            const name = row.name ?? NAMES[id];
+            const isBlock = blockIdOf(id) !== null;
             const shown = !section.hidden;
             const expandable = Boolean(row.editor || row.link);
             return (
@@ -232,10 +275,10 @@ export function SectionsTab({
                     className={`flex min-w-0 flex-1 items-center gap-2 text-left ${expandable ? "" : "cursor-default"}`}
                   >
                     <span className="min-w-0 flex-1">
-                      <span className={`block text-[15px] font-medium ${shown ? "text-ink" : "text-ink/45"}`}>
-                        {NAMES[id]}
+                      <span className={`block truncate text-[15px] font-medium ${shown ? "text-ink" : "text-ink/45"}`}>
+                        {name}
                         <span className="ml-2 text-[11px] font-normal text-ink/40">
-                          {COLUMN[id] === "main" ? "Main" : "Side"}
+                          {sectionColumn(id) === "main" ? "Main" : "Side"}
                         </span>
                       </span>
                       <span
@@ -252,7 +295,7 @@ export function SectionsTab({
                       />
                     )}
                   </button>
-                  <Switch on={shown} label={`Show ${NAMES[id]}`} onToggle={() => toggle(id)} />
+                  <Switch on={shown} label={`Show ${name}`} onToggle={() => toggle(id)} />
                 </div>
                 {open === id && expandable && (
                   <div className="border-t border-hairline px-4 pb-5 pt-4">
@@ -262,12 +305,50 @@ export function SectionsTab({
                       </Link>
                     )}
                     {row.editor}
+                    {isBlock && (
+                      <button
+                        type="button"
+                        onClick={() => remove(id)}
+                        disabled={adding}
+                        className="mt-4 text-sm text-red-700 underline disabled:opacity-60"
+                      >
+                        Delete this section
+                      </button>
+                    )}
                   </div>
                 )}
               </div>
             );
           }}
         />
+      </div>
+
+      <div className="flex flex-col gap-2.5">
+        <PanelLabel>Add a section</PanelLabel>
+        <div className="grid grid-cols-3 gap-2">
+          {(
+            [
+              ["story", "Story", "A few paragraphs"],
+              ["photo", "Photo", "One big picture"],
+              ["quote", "Quote", "A line you love"],
+            ] as const
+          ).map(([kind, label, help]) => (
+            <button
+              key={kind}
+              type="button"
+              onClick={() => add(kind)}
+              disabled={adding}
+              className="flex flex-col items-start rounded-xl border border-dashed border-ink/30 bg-card px-3 py-2.5 text-left hover:border-forest disabled:opacity-60"
+            >
+              <span className="text-sm font-medium text-ink">+ {label}</span>
+              <span className="text-[11px] text-ink/60">{help}</span>
+            </button>
+          ))}
+        </div>
+        {blockError && <p className="text-sm text-red-700">{blockError}</p>}
+        <p className="text-[13px] leading-normal text-ink/60">
+          Guests see a new section once it has something in it and you publish.
+        </p>
       </div>
     </>
   );
@@ -346,13 +427,16 @@ function SortableList({
   ids,
   onMove,
   renderRow,
+  names,
 }: {
-  ids: SectionId[];
+  ids: SectionKey[];
   onMove: (from: number, to: number) => void;
-  renderRow: (id: SectionId, handle: ReactNode) => ReactNode;
+  renderRow: (id: SectionKey, handle: ReactNode) => ReactNode;
+  /** Labels for the handles' screen-reader names. */
+  names: Partial<Record<SectionKey, string>>;
 }) {
-  const rowRefs = useRef(new Map<SectionId, HTMLLIElement>());
-  const [dragging, setDragging] = useState<{ id: SectionId; offset: number } | null>(null);
+  const rowRefs = useRef(new Map<SectionKey, HTMLLIElement>());
+  const [dragging, setDragging] = useState<{ id: SectionKey; offset: number } | null>(null);
   const start = useRef({ y: 0, index: 0 });
 
   function targetIndex(clientY: number, from: number) {
@@ -376,7 +460,7 @@ function SortableList({
         const handle = (
           <button
             type="button"
-            aria-label={`Move ${NAMES[id]} (use arrow keys)`}
+            aria-label={`Move ${names[id] ?? "section"} (use arrow keys)`}
             className="flex h-10 w-7 shrink-0 cursor-grab touch-none items-center justify-center rounded-md text-ink/40 hover:text-ink active:cursor-grabbing"
             onKeyDown={(e) => {
               if (e.key === "ArrowUp") {

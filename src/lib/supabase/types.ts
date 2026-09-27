@@ -677,3 +677,16 @@ export type GuestPost = {
   status: GuestPostStatus;
   created_at: string;
 };
+
+/** A photo, story or quote the couple added to their guest site. */
+export type SiteBlock = {
+  id: string;
+  wedding_id: string;
+  kind: "photo" | "story" | "quote";
+  heading: string | null;
+  body: string | null;
+  attribution: string | null;
+  photo_url: string | null;
+  created_at: string;
+  updated_at: string;
+};

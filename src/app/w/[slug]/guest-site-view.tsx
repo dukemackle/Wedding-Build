@@ -8,6 +8,7 @@ import type {
   WeddingAccommodation,
   WeddingFaq,
   WeddingGalleryPhoto,
+  SiteBlock,
 } from "@/lib/supabase/types";
 import { ChevronDownIcon } from "@/components/icons";
 import { RsvpForm } from "./rsvp-form";
@@ -17,7 +18,8 @@ import { GuestWall } from "./guest-wall";
 import { GalleryView } from "./gallery-view";
 import { WeddingHero } from "./wedding-hero";
 import type { ReactNode } from "react";
-import type { SectionId } from "@/lib/site-design";
+import { blockKey, type SectionKey } from "@/lib/site-design";
+import { SiteBlockView, blockHasContent } from "./site-block";
 import { SectionLayout } from "./section-layout";
 import { Replayable, SiteMotion } from "@/components/site-motion";
 
@@ -99,7 +101,14 @@ export async function loadGuestSiteContent(supabase: Supabase, wedding: PublicWe
     .order("created_at", { ascending: true })
     .returns<PublicConfirmedGuest[]>();
 
+  const { data: blocks } = await supabase
+    .from("site_blocks")
+    .select("*")
+    .eq("wedding_id", wedding.id)
+    .returns<SiteBlock[]>();
+
   return {
+    blocks: blocks ?? [],
     registryItems: registryItems ?? [],
     itineraryEvents: itineraryEvents ?? [],
     weddingFaqs: weddingFaqs ?? [],
@@ -125,6 +134,7 @@ export function GuestSiteView({
     guestbookEntries,
     galleryPhotos,
     confirmedGuests,
+    blocks,
   } = content;
   const coupleNames = [wedding.partner_a_name, wedding.partner_b_name].filter(Boolean).join(" & ");
   const shareHref = `/w/${wedding.public_slug}/share`;
@@ -135,7 +145,8 @@ export function GuestSiteView({
 
   // Every section the couple can reorder or hide, or null when there's
   // nothing in it yet -- an empty section is left off whatever the design says.
-  const sections: Record<SectionId, ReactNode> = {
+  const sections: Partial<Record<SectionKey, ReactNode>> = {
+    ...Object.fromEntries(blocks.filter(blockHasContent).map((b) => [blockKey(b.id), <SiteBlockView key={b.id} block={b} />])),
     rsvp: (
       <div id="rsvp" className={`${CARD} scroll-mt-6`}>
         <h2 className="font-display text-2xl font-semibold text-forest">RSVP</h2>

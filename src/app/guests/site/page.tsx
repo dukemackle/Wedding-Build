@@ -9,8 +9,9 @@ import type {
   WeddingAccommodation,
   WeddingFaq,
   WeddingGalleryPhoto,
+  SiteBlock,
 } from "@/lib/supabase/types";
-import { parseSiteDesign, type SectionId } from "@/lib/site-design";
+import { blockKey, parseSiteDesign, type SectionId } from "@/lib/site-design";
 import { GuestsSubTabs } from "../sub-tabs";
 import { PublicSitePanel } from "../public-site-panel";
 import { HeroPhotoPanel } from "../hero-photo-panel";
@@ -19,6 +20,7 @@ import { Accommodations, DressAndTravel, Faqs } from "../guest-site-details";
 import { RegistryManager } from "../registry-manager";
 import { SiteEditor } from "./site-editor";
 import type { ChecklistItem, SectionInfo } from "./editor-tabs";
+import { BlockEditor } from "./block-editor";
 
 /**
  * Guests › Guest site: the editor for the page guests see.
@@ -89,6 +91,13 @@ export default async function GuestSitePage() {
       .returns<RegistryItem[]>(),
   ]);
 
+  const { data: blocks } = await supabase
+    .from("site_blocks")
+    .select("*")
+    .eq("wedding_id", wedding.id)
+    .order("created_at", { ascending: true })
+    .returns<SiteBlock[]>();
+
   // Counts for the Sections tab's status lines. Head-only: just the numbers.
   const [{ count: eventCount }, { count: confirmedCount }, { count: postCount }] = await Promise.all([
     supabase.from("itinerary_events").select("id", { count: "exact", head: true }).eq("wedding_id", wedding.id),
@@ -120,6 +129,7 @@ export default async function GuestSitePage() {
       faqs,
       accommodations,
       registryItems,
+      blocks,
     ]),
   );
 
@@ -196,6 +206,25 @@ export default async function GuestSitePage() {
     },
   };
 
+  // Custom blocks, keyed as they appear in the design's section list.
+  const blockInfo = Object.fromEntries(
+    (blocks ?? []).map((b) => {
+      const kind = { story: "Story", photo: "Photo", quote: "Quote" }[b.kind];
+      const filled = b.kind === "photo" ? Boolean(b.photo_url) : Boolean(b.body);
+      const info: SectionInfo = {
+        name: b.heading && b.kind !== "quote" ? `${kind}: ${b.heading}` : kind,
+        status: !filled
+          ? "Empty — hidden until you fill it in"
+          : b.kind === "photo"
+            ? b.heading ?? "Photo added"
+            : `“${b.body!.slice(0, 60)}${b.body!.length > 60 ? "…" : ""}”`,
+        warn: !filled,
+        editor: <BlockEditor block={b} />,
+      };
+      return [blockKey(b.id), info];
+    }),
+  );
+
   const checklist: ChecklistItem[] = [
     { label: "Turn on your guest site", done: Boolean(wedding.public_slug) },
     { label: "Add a banner photo", done: Boolean(wedding.hero_photo_url) },
@@ -223,7 +252,7 @@ export default async function GuestSitePage() {
           origin={origin}
           contentKey={contentKey}
           sitePanel={<PublicSitePanel publicSlug={wedding.public_slug} origin={origin} />}
-          sectionInfo={sectionInfo}
+          sectionInfo={{ ...sectionInfo, ...blockInfo }}
           checklist={checklist}
           hasPhoto={Boolean(wedding.hero_photo_url)}
         />

@@ -68,6 +68,7 @@ since there's no story content to show yet.
    tab (all 8 themes and the accents), and `/w/[slug]` rendered from `site_design`.
 2. The Style tab (fonts and hero layouts) plus the Sections tab (reorder, hide, checklist).
 3. The Motion tab.
-4. Custom blocks (photo, story, quote).
+4. Custom blocks (photo, story, quote). Stored in `site_blocks` (migration 0088); each sits in
+   the design's section list as a `block:<id>` entry, in the main column on a computer.
 
 Open judgment call (for the owner, not urgent): whether premium themes later become a paid tier.

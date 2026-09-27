@@ -13,7 +13,7 @@ import {
   fontsHref,
   resolveDesign,
   sameDesign,
-  type SectionId,
+  type SectionKey,
   type SiteDesign,
   type SiteTheme,
 } from "@/lib/site-design";
@@ -67,7 +67,7 @@ export function SiteEditor({
   /** The site's on/off switch and link. */
   sitePanel: ReactNode;
   /** Each section's status line, and its content editor where it has one. */
-  sectionInfo: Record<SectionId, SectionInfo>;
+  sectionInfo: Partial<Record<SectionKey, SectionInfo>>;
   /** The "before you share" list. */
   checklist: ChecklistItem[];
   /** Hero layouts only show with a banner photo; the Style tab says so. */
