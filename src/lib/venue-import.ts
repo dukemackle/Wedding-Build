@@ -105,6 +105,21 @@ function toNumber(raw: string) {
   return Number.isFinite(n) ? n : NaN;
 }
 
+// The key a pasted row is de-duplicated on: its website, minus the parts that
+// vary between two copies of the same address. Rows without a website get no
+// key, so they can't collide -- the unique index only covers keyed rows.
+export function importSourceId(website: string | null): string | null {
+  if (!website) return null;
+  return (
+    website
+      .toLowerCase()
+      .replace(/^https?:\/\//, "")
+      .replace(/^www\./, "")
+      .replace(/[?#].*$/, "")
+      .replace(/\/+$/, "") || null
+  );
+}
+
 export function parseVenueTable(text: string): VenueImportParse {
   const table = readTable(text);
   if (table.length === 0) {
