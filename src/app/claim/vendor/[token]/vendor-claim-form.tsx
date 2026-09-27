@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { LegalNotice } from "@/components/legal-notice";
 import { createClient } from "@/lib/supabase/client";
 import { STATES, STYLE_TIERS, VENDOR_PRICE_UNITS } from "@/lib/wedding-options";
 import { MAX_CLAIM_PHOTOS, type ClaimFaq } from "@/lib/venue-claim";
@@ -299,6 +300,7 @@ export function VendorClaimForm({
         >
           {isPending ? "Sending…" : "Send for review"}
         </button>
+        <LegalNotice action="sending this for review" />
       </div>
 
       <aside className="hidden lg:sticky lg:top-8 lg:block">

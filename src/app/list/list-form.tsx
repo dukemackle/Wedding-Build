@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { LegalNotice } from "@/components/legal-notice";
 import { STATES, VENDOR_LISTING_CATEGORIES } from "@/lib/wedding-options";
 import { startListing, type NewListing } from "./actions";
 
@@ -256,6 +257,7 @@ export function ListForm() {
               )}
             </button>
           </div>
+          <LegalNotice action="continuing" className="mt-3" />
           {!stepOneDone && (
             <p className="mt-2 hidden text-xs text-ink/55 md:block">Choose what you do above first.</p>
           )}

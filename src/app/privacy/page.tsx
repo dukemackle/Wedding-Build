@@ -11,7 +11,7 @@ export default function PrivacyPage() {
       <div className={`w-full ${READING_WIDTH}`}>
         <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Legal</p>
         <h1 className="mt-2 font-display text-3xl font-semibold text-forest">Privacy Policy</h1>
-        <p className="mt-2 text-sm text-ink/60">Last updated: September 19, 2026</p>
+        <p className="mt-2 text-sm text-ink/60">Last updated: September 27, 2026</p>
 
         <div className="mt-8 flex flex-col gap-8 text-ink/80">
           <p>
@@ -70,6 +70,19 @@ export default function PrivacyPage() {
               <li>
                 Your phone number, if a couple adds it and you opt in to text updates, is used to
                 send you schedule changes for that wedding — nothing else, and never marketing.
+              </li>
+            </ul>
+
+            <p className="mt-4 font-medium text-ink">From vendors and venues</p>
+            <ul className="mt-2 list-disc space-y-2 pl-5">
+              <li>
+                When you list or claim a business: your name and email address, used to review the
+                submission and contact you about it. These aren&apos;t shown on your public
+                listing.
+              </li>
+              <li>
+                The business details and photos you submit, which become public on your listing
+                once we approve them.
               </li>
             </ul>
 
