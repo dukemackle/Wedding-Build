@@ -2,9 +2,8 @@
 
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import { getResendClient, INQUIRY_FROM_ADDRESS } from "@/lib/resend";
-import { STATES } from "@/lib/wedding-options";
+import { STATES, VENDOR_LISTING_CATEGORIES } from "@/lib/wedding-options";
 import { clean, EMAIL } from "@/lib/venue-claim";
-import { VENDOR_LISTING_CATEGORIES } from "@/lib/vendor-claim";
 import { ensureClaimLink } from "@/lib/venue-claim-server";
 import { ensureVendorClaimLink } from "@/lib/vendor-claim-server";
 

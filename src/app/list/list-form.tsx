@@ -3,8 +3,7 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { STATES } from "@/lib/wedding-options";
-import { VENDOR_LISTING_CATEGORIES } from "@/lib/vendor-claim";
+import { STATES, VENDOR_LISTING_CATEGORIES } from "@/lib/wedding-options";
 import { startListing, type NewListing } from "./actions";
 
 const inputClass =

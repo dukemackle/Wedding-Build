@@ -3,19 +3,33 @@
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/admin";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
-import type { Vendor, VendorSubmission } from "@/lib/supabase/types";
+import type { VendorSubmission } from "@/lib/supabase/types";
 import { getResendClient, INQUIRY_FROM_ADDRESS } from "@/lib/resend";
+import { newClaimToken } from "@/lib/venue-claim-server";
+import { ensureVendorClaimLink, VENDOR_CLAIM_BASE_URL } from "@/lib/vendor-claim-server";
 import { townPin } from "@/lib/listing-pin";
 
-/**
- * Publishes a vendor's submission: overwrites the listing with what they sent
- * and marks it claimed and verified. A vendor that listed itself goes live;
- * any other keeps whatever active state the admin gave it.
- */
+// The vendor side of ../venues/claim-actions.ts.
+
+export async function getVendorClaimLink(vendorId: string): Promise<{ error?: string; url?: string }> {
+  await requireAdmin();
+  const url = await ensureVendorClaimLink(vendorId);
+  return url ? { url } : { error: "Couldn't create a link -- try again." };
+}
+
+export async function regenerateVendorClaimLink(vendorId: string): Promise<{ error?: string; url?: string }> {
+  await requireAdmin();
+  const token = newClaimToken();
+  const { error } = await createAdminSupabaseClient()
+    .from("vendor_claim_links")
+    .upsert({ vendor_id: vendorId, token, created_at: new Date().toISOString() });
+  if (error) return { error: error.message };
+  return { url: VENDOR_CLAIM_BASE_URL + token };
+}
+
 export async function approveVendorSubmission(submissionId: string): Promise<{ error?: string }> {
   await requireAdmin();
   const admin = createAdminSupabaseClient();
-
   const { data: submission } = await admin
     .from("vendor_submissions")
     .select("*")
@@ -28,34 +42,41 @@ export async function approveVendorSubmission(submissionId: string): Promise<{ e
     .from("vendors")
     .select("latitude, city, state, source")
     .eq("id", submission.vendor_id)
-    .maybeSingle<Pick<Vendor, "latitude" | "city" | "state" | "source">>();
+    .maybeSingle<{ latitude: number | null; city: string | null; state: string | null; source: string | null }>();
   const d = submission.details;
+  // A vendor that listed itself goes live on its first approval. Any other
+  // vendor keeps whatever active state the admin gave it.
   const isNew = live?.source === "self-listed";
-
   // Vendors have no street address, so the map pin follows the town: borrowed
   // from another listing there when the town changes or there's no pin yet.
   const moved = d.city !== live?.city || d.state !== live?.state;
   const pin = moved || live?.latitude == null ? await townPin(d.city, d.state) : null;
 
   const now = new Date().toISOString();
-  const { error } = await admin
+  const { error: vendorError } = await admin
     .from("vendors")
     .update({
-      ...d,
+      ...submission.details,
       ...(pin ?? {}),
-      image_url: submission.photo_url,
       ...(isNew ? { active: true } : {}),
+      photo_urls: submission.photo_urls,
+      image_url: submission.photo_urls[0] ?? null,
       source: "claimed",
       last_verified_at: now,
       verified_by: `vendor: ${submission.submitter_email}`,
     })
     .eq("id", submission.vendor_id);
-  if (error) return { error: error.message };
+  if (vendorError) return { error: vendorError.message };
 
-  await admin
-    .from("vendor_submissions")
-    .update({ status: "approved", reviewed_at: now })
-    .eq("id", submissionId);
+  await admin.from("vendor_faqs").delete().eq("vendor_id", submission.vendor_id);
+  if (submission.faqs.length > 0) {
+    const { error } = await admin.from("vendor_faqs").insert(
+      submission.faqs.map((f, i) => ({ vendor_id: submission.vendor_id, question: f.question, answer: f.answer, sort_order: i })),
+    );
+    if (error) return { error: error.message };
+  }
+
+  await admin.from("vendor_submissions").update({ status: "approved", reviewed_at: now }).eq("id", submissionId);
 
   if (process.env.RESEND_API_KEY) {
     try {
@@ -82,8 +103,7 @@ export async function approveVendorSubmission(submissionId: string): Promise<{ e
 
 export async function rejectVendorSubmission(submissionId: string): Promise<{ error?: string }> {
   await requireAdmin();
-  const admin = createAdminSupabaseClient();
-  const { error } = await admin
+  const { error } = await createAdminSupabaseClient()
     .from("vendor_submissions")
     .update({ status: "rejected", reviewed_at: new Date().toISOString() })
     .eq("id", submissionId)
