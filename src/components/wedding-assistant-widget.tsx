@@ -188,12 +188,12 @@ export function AssistantChat({
     if (changed) router.refresh();
   }
 
-  function send() {
-    const text = input.trim();
+  function send(overrideText?: string, options?: { plan?: boolean }) {
+    const text = (overrideText ?? input).trim();
     if (!text || isPending) return;
 
     // Mid-interview, typing is answering in their own words.
-    if (current) {
+    if (current && !overrideText) {
       setInput("");
       answer([...picked, text]);
       return;
@@ -201,11 +201,11 @@ export function AssistantChat({
 
     const nextMessages: AssistantMessage[] = [...messages, { role: "user", content: text }];
     setMessages(nextMessages);
-    setInput("");
+    if (!overrideText) setInput("");
     setError(null);
 
     startTransition(async () => {
-      const result = await askWeddingAssistant(nextMessages);
+      const result = await askWeddingAssistant(nextMessages, options);
       if (result.ok) {
         setMessages([
           ...nextMessages,
@@ -310,7 +310,23 @@ export function AssistantChat({
           <div className="mr-auto max-w-[85%] rounded-lg border border-hairline bg-white px-3 py-2 text-sm text-ink">
             {remaining
               ? "No problem -- I've saved what you told me. We can finish any time."
-              : "That's everything -- thank you! I'll keep all of this in mind. Ask me anything, or try \u201cwhat should we book first?\u201d"}
+              : "That's everything -- thank you! I'll keep all of this in mind. Want me to turn it into a plan?"}
+          </div>
+        )}
+        {messages.length === 0 && !interviewing && !remaining && answeredCount > 0 && (
+          <div className="rounded-lg border border-forest/30 bg-white px-3 py-2.5 text-sm">
+            <p className="text-ink">
+              I&apos;ll fill the gaps in your checklist, draft your day-of timeline and suggest how to
+              split the budget. You confirm each change.
+            </p>
+            <button
+              type="button"
+              onClick={() => send("Build our plan", { plan: true })}
+              disabled={isPending}
+              className="mt-2 rounded-md bg-forest px-3 py-1 text-xs font-medium text-parchment disabled:opacity-40"
+            >
+              Build our plan
+            </button>
           </div>
         )}
         {messages.map((m, i) => {
@@ -349,7 +365,13 @@ export function AssistantChat({
             </div>
           );
         })}
-        {isPending && <div className="mr-auto text-sm text-ink/50">Thinking...</div>}
+        {isPending && (
+          <div className="mr-auto text-sm text-ink/50">
+            {messages[messages.length - 1]?.content === "Build our plan"
+              ? "Building your plan -- this takes a minute..."
+              : "Thinking..."}
+          </div>
+        )}
         {error && <div className="mr-auto text-sm text-brass">{error}</div>}
       </div>
 
@@ -369,7 +391,7 @@ export function AssistantChat({
         />
         <button
           type="button"
-          onClick={send}
+          onClick={() => send()}
           disabled={isPending || !input.trim()}
           aria-label="Send message"
           className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-forest text-parchment disabled:opacity-40"

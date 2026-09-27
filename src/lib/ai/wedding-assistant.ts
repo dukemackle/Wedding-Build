@@ -17,6 +17,13 @@ import { applyProposal } from "@/lib/ai/assistant-apply";
 import { PLANNING_QUESTIONS, profileLines } from "@/lib/ai/planning-profile";
 
 const MODEL = "claude-haiku-4-5";
+/**
+ * "Build our plan" is a whole-wedding job -- weighing trade-offs across the
+ * checklist, calendar and budget -- so it gets the stronger model and more
+ * room. Plans are rare, so the extra cost per call stays small.
+ */
+const PLAN_MODEL = "claude-sonnet-5";
+const PLAN_MAX_ITERATIONS = 12;
 const MAX_TURNS = 8;
 /** Model calls per message: lookups, then proposals, then the reply. */
 const MAX_ITERATIONS = 6;
@@ -219,7 +226,17 @@ function historyText(m: AssistantMessage) {
   return `${content}\n\n[Changes offered for confirmation:\n${cards.join("\n")}]`;
 }
 
-function systemPrompt(context: string, canAct: boolean) {
+const PLAN_INSTRUCTIONS = `
+
+The couple pressed "Build our plan". Act as their planner and draft it now:
+1. Call list_tasks and list_budget first. They already have Wren's standard checklist -- don't re-add anything it covers, even in different words.
+2. Propose the tasks that checklist is missing for *this* wedding, dated working back from the wedding date: things their answers call for (ceremony and cultural traditions, must-haves, guest-list sensitivities, their top priorities -- the vendors they care most about book earliest). Put a one-line reason in each task's notes.
+3. Propose new due dates for existing open tasks only where their date makes the standard timing unrealistic, or where something is overdue and blocking.
+4. If the wedding date is set, propose a realistic day-of timeline as itinerary events, shaped by their ceremony type and vibe.
+5. In your reply, give a short budget split: how you'd divide their target (or current estimate if no target) across the main categories, weighted toward their priorities and away from where they'd save. This is advice only -- there's no tool for it, so don't say it's been saved.
+Keep the reply itself brief: two or three sentences on the shape of the plan and the first thing to do this week, then the budget split. The cards carry the detail.`;
+
+function systemPrompt(context: string, canAct: boolean, plan = false) {
   const today = new Date().toISOString().slice(0, 10);
   const acting = canAct
     ? `
@@ -232,7 +249,7 @@ You can also make changes for them, using the tools:
 - You can't delete anything. If they ask, tell them to do it on the page.
 - Seating: keep households and plus-ones together, don't exceed a table's capacity, and follow any "keep apart" / "sit near" wishes they give. Only seat confirmed or invited guests unless told otherwise.
 - Timelines: build realistic day-of schedules with buffers (hair & makeup starts 4-5 hours before the ceremony, photos, travel between locations, cocktail hour ~1 hour, dinner, toasts, first dance, send-off). Use the wedding date unless told otherwise.
-- Vendor emails and messages: just write them in your reply; there's no tool for sending.`
+- Vendor emails and messages: just write them in your reply; there's no tool for sending.${plan ? PLAN_INSTRUCTIONS : ""}`
     : "";
   return `You are Wren, an experienced wedding planner inside the Wren app. Help this couple with planning questions -- budgeting advice, guest list strategy, vendor tips, timeline suggestions, etiquette, etc. Use the details below when relevant, but don't recite them back unprompted. Keep answers short and practical (a few sentences, or a short list). If asked something outside wedding planning, gently redirect.
 
@@ -248,7 +265,10 @@ type AssistantResult =
   | { ok: true; reply: string; proposals: Proposal[] }
   | { ok: false; error: string };
 
-export async function askWeddingAssistant(history: AssistantMessage[]): Promise<AssistantResult> {
+export async function askWeddingAssistant(
+  history: AssistantMessage[],
+  options: { plan?: boolean } = {},
+): Promise<AssistantResult> {
   const ctx = await buildContext();
   if (!ctx) {
     return { ok: false, error: "You need to be logged in to use the assistant." };
@@ -275,15 +295,17 @@ export async function askWeddingAssistant(history: AssistantMessage[]): Promise<
     };
   }
 
+  // A plan needs the wedding set up, since it's built from the checklist.
+  const plan = Boolean(options.plan && ctx.tools);
   const client = new Anthropic();
   const proposals: Proposal[] = [];
 
   try {
     const finalMessage = await client.beta.messages.toolRunner({
-      model: MODEL,
-      max_tokens: 4096,
-      max_iterations: MAX_ITERATIONS,
-      system: systemPrompt(ctx.context, ctx.tools !== null),
+      model: plan ? PLAN_MODEL : MODEL,
+      max_tokens: plan ? 8192 : 4096,
+      max_iterations: plan ? PLAN_MAX_ITERATIONS : MAX_ITERATIONS,
+      system: systemPrompt(ctx.context, ctx.tools !== null, plan),
       tools: ctx.tools ? buildAssistantTools(ctx.tools, proposals) : [],
       messages: trimmedHistory.map((m) => ({ role: m.role, content: historyText(m) })),
     });
