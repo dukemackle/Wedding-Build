@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { Vendor, VendorFaq, Wedding } from "@/lib/supabase/types";
+import { VENDOR_PRICE_UNITS } from "@/lib/wedding-options";
 import { ChevronDownIcon } from "@/components/icons";
 import { PhotoGallery } from "@/components/photo-gallery";
 import { VendorDetailClient } from "./vendor-detail-client";
@@ -73,7 +74,14 @@ const card = "rounded-lg border border-hairline bg-card p-6 shadow-sm";
 
 export function VendorListing({ data }: { data: VendorListingData }) {
   const { vendor, wedding, isFavorited, faqs, similarVendors } = data;
-  const photos = vendor.image_url ? [vendor.image_url] : [];
+  // Cover first, no repeats.
+  const photos = [...new Set([vendor.image_url, ...vendor.photo_urls].filter((u): u is string => Boolean(u)))];
+  const links = [
+    ["Website", vendor.website],
+    ["Instagram", vendor.instagram_url],
+    ["Facebook", vendor.facebook_url],
+    ["Pinterest", vendor.pinterest_url],
+  ].filter((l): l is [string, string] => Boolean(l[1]));
 
   return (
     <div>
@@ -92,12 +100,47 @@ export function VendorListing({ data }: { data: VendorListingData }) {
           <p className="mt-1 text-sm uppercase tracking-wide text-ink/50">
             {[[vendor.city, vendor.state].filter(Boolean).join(", "), vendor.category].filter(Boolean).join(" · ")}
           </p>
+          {vendor.service_area && <p className="mt-1 text-sm text-ink/60">Serves {vendor.service_area}</p>}
           {vendor.is_sample && <p className="mt-1 text-[10px] uppercase tracking-wide text-ink/40">Sample listing</p>}
+          {vendor.source === "claimed" && vendor.last_verified_at && (
+            <p className="mt-1 text-xs text-forest/80">
+              ✓ Details confirmed by the vendor,{" "}
+              {new Date(vendor.last_verified_at).toLocaleDateString("en-US", { month: "long", year: "numeric" })}
+            </p>
+          )}
           {vendor.description && <p className="mt-4 text-ink/80">{vendor.description}</p>}
+          {links.length > 0 && (
+            <div className="mt-4 flex flex-wrap gap-2">
+              {links.map(([label, href]) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer nofollow"
+                  className="rounded-full border border-hairline px-3 py-1 text-sm text-ink transition-colors hover:border-forest"
+                >
+                  {label} ↗
+                </a>
+              ))}
+            </div>
+          )}
         </div>
 
         <aside className="lg:col-start-2 lg:row-span-2 lg:row-start-1">
           <div className="lg:sticky lg:top-16">
+            {vendor.price_from != null && (
+              <div className="mb-3 rounded-lg border border-hairline bg-card px-5 py-4 shadow-sm">
+                <p className="font-display text-2xl font-semibold text-forest">
+                  From ${vendor.price_from.toLocaleString()}
+                  {vendor.price_unit && (
+                    <span className="ml-1 font-body text-base font-normal text-ink/60">
+                      {VENDOR_PRICE_UNITS[vendor.price_unit]}
+                    </span>
+                  )}
+                </p>
+                {vendor.price_note && <p className="text-sm text-ink/60">{vendor.price_note}</p>}
+              </div>
+            )}
             {wedding ? (
               <VendorDetailClient vendor={vendor} isFavorited={isFavorited} />
             ) : (

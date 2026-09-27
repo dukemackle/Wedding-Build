@@ -1,6 +1,9 @@
 "use client";
 
+import Link from "next/link";
 import { useMemo, useRef, useState, useTransition } from "react";
+import { ClaimLinkPanel } from "../claim-link-panel";
+import { getVendorClaimLink, regenerateVendorClaimLink } from "./claim-actions";
 import type {
   Vendor,
   VendorContactLog,
@@ -362,6 +365,7 @@ function VendorRow({
 }) {
   const [editing, setEditing] = useState(false);
   const [showLog, setShowLog] = useState(false);
+  const [showingClaim, setShowingClaim] = useState(false);
   const [isPending, startTransition] = useTransition();
 
   function toggleActive() {
@@ -410,6 +414,15 @@ function VendorRow({
           </div>
         </div>
         <div className="flex items-center gap-2">
+          {!vendor.is_sample && (
+            <button
+              type="button"
+              onClick={() => setShowingClaim((v) => !v)}
+              className="rounded-md border border-hairline px-3 py-1 text-xs text-ink hover:border-forest"
+            >
+              Claim link
+            </button>
+          )}
           <button
             type="button"
             onClick={() => setShowLog((v) => !v)}
@@ -434,6 +447,14 @@ function VendorRow({
           </button>
         </div>
       </div>
+      {showingClaim && (
+        <ClaimLinkPanel
+          target={{ name: vendor.name, city: vendor.city, contactEmail: vendor.contact_email, kind: "vendor" }}
+          getLink={() => getVendorClaimLink(vendor.id)}
+          newLink={() => regenerateVendorClaimLink(vendor.id)}
+          onClose={() => setShowingClaim(false)}
+        />
+      )}
       {showLog && <ContactLog vendorId={vendor.id} logs={logs} />}
     </div>
   );
@@ -477,11 +498,13 @@ export function AdminVendorsManager({
   statsByVendorName = {},
   logsByVendorId = {},
   faqsByVendorId = {},
+  pendingClaims = 0,
 }: {
   vendors: Vendor[];
   statsByVendorName?: Record<string, VendorStats>;
   logsByVendorId?: Record<string, VendorContactLog[]>;
   faqsByVendorId?: Record<string, VendorFaq[]>;
+  pendingClaims?: number;
 }) {
   const [adding, setAdding] = useState(false);
   const [query, setQuery] = useState("");
@@ -524,6 +547,17 @@ export function AdminVendorsManager({
 
   return (
     <div className="w-full rounded-lg border border-hairline bg-card p-6 shadow-sm">
+      {pendingClaims > 0 && (
+        <Link
+          href="/admin/vendors/claims"
+          className="mb-4 flex items-center justify-between rounded-md border border-brass/40 bg-brass/10 px-4 py-3 text-sm text-ink hover:border-brass"
+        >
+          <span>
+            {pendingClaims} {pendingClaims === 1 ? "vendor has" : "vendors have"} sent changes to review
+          </span>
+          <span className="text-brass">Review &rarr;</span>
+        </Link>
+      )}
       <div className="mb-4 flex flex-wrap items-center gap-3">
         <input
           type="search"

@@ -11,6 +11,7 @@ export default async function AdminVendorsPage() {
     { data: contactLogs },
     { data: testWeddings },
     { data: faqs },
+    { count: pendingClaims },
   ] = await Promise.all([
       fetchAll<Vendor>((from, to) =>
         admin.from("vendors").select("*").order("name").order("id").range(from, to).returns<Vendor[]>(),
@@ -32,6 +33,7 @@ export default async function AdminVendorsPage() {
         .select("*")
         .order("sort_order", { ascending: true })
         .returns<VendorFaq[]>(),
+      admin.from("vendor_submissions").select("id", { count: "exact", head: true }).eq("status", "pending"),
     ]);
 
   // Excludes inquiries from weddings marked as test on the Couples admin
@@ -80,6 +82,7 @@ export default async function AdminVendorsPage() {
         statsByVendorName={Object.fromEntries(statsByVendorName)}
         logsByVendorId={Object.fromEntries(logsByVendorId)}
         faqsByVendorId={faqsByVendorId}
+        pendingClaims={pendingClaims ?? 0}
       />
     </div>
   );

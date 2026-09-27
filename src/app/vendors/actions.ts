@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getResendClient, INQUIRY_FROM_ADDRESS } from "@/lib/resend";
 import { inquiryFooter, inquirySubject } from "@/lib/inquiry-footer";
+import { ensureVendorClaimLink } from "@/lib/vendor-claim-server";
 import { VENDOR_CATEGORY_TO_BUDGET_KEY } from "@/lib/budget-categories";
 import { syncBudgetLineFromBooking } from "@/lib/budget-sync";
 import type { VendorInquiryStatus, Wedding } from "@/lib/supabase/types";
@@ -67,6 +68,17 @@ export async function sendVendorInquiry(formData: FormData): Promise<{ error?: s
     : "";
   const phoneNote = senderPhone ? `\n\nPhone: ${senderPhone}` : "";
 
+  // Only real listings get a claim link; a sample vendor has no one to claim it.
+  let claimUrl: string | null = null;
+  if (vendorId) {
+    const { data: listed } = await supabase
+      .from("vendors")
+      .select("is_sample")
+      .eq("id", vendorId)
+      .maybeSingle<{ is_sample: boolean }>();
+    if (listed && !listed.is_sample) claimUrl = await ensureVendorClaimLink(vendorId);
+  }
+
   try {
     const resend = getResendClient();
     const { error: sendError } = await resend.emails.send({
@@ -74,7 +86,7 @@ export async function sendVendorInquiry(formData: FormData): Promise<{ error?: s
       to: recipientEmail,
       replyTo: user.email,
       subject: inquirySubject(coupleNames || user.email || "a couple"),
-      text: `${message}${phoneNote}${referralNote}${inquiryFooter(vendorName)}`,
+      text: `${message}${phoneNote}${referralNote}${inquiryFooter(vendorName, claimUrl)}`,
     });
 
     if (sendError) {
