@@ -5,18 +5,22 @@ import { DESIGN_MESSAGE, READY_MESSAGE } from "@/components/guest-site-theme";
 import {
   THEMES,
   contrast,
+  fontsHref,
   resolveDesign,
   sameDesign,
+  type SectionId,
   type SiteDesign,
   type SiteTheme,
 } from "@/lib/site-design";
 import { publishSiteDesign, saveSiteDraft } from "./actions";
+import { PanelLabel, SectionsTab, StyleTab, type ChecklistItem, type SectionInfo } from "./editor-tabs";
 
 type Device = "desktop" | "phone";
-type Tab = "theme" | "sections";
+type Tab = "theme" | "style" | "sections";
 
 const TABS: { key: Tab; label: string }[] = [
   { key: "theme", label: "Theme" },
+  { key: "style", label: "Style" },
   { key: "sections", label: "Sections" },
 ];
 
@@ -43,7 +47,10 @@ export function SiteEditor({
   publicSlug,
   origin,
   contentKey,
-  sectionsPanel,
+  sitePanel,
+  sectionInfo,
+  checklist,
+  hasPhoto,
 }: {
   draft: SiteDesign;
   published: SiteDesign;
@@ -51,8 +58,14 @@ export function SiteEditor({
   origin: string;
   /** Changes whenever the site's content does, so the preview reloads to show it. */
   contentKey: string;
-  /** The content editors -- photos, details, stays, FAQ, registry. */
-  sectionsPanel: ReactNode;
+  /** The site's on/off switch and link. */
+  sitePanel: ReactNode;
+  /** Each section's status line, and its content editor where it has one. */
+  sectionInfo: Record<SectionId, SectionInfo>;
+  /** The "before you share" list. */
+  checklist: ChecklistItem[];
+  /** Hero layouts only show with a banner photo; the Style tab says so. */
+  hasPhoto: boolean;
 }) {
   const [design, setDesign] = useState(initialDraft);
   const [published, setPublished] = useState(initialPublished);
@@ -225,7 +238,19 @@ export function SiteEditor({
 
   const panelBody = (
     <div className="flex flex-col gap-6 px-5 pb-8 pt-5 lg:px-6">
-      {tab === "theme" ? <ThemeTab design={design} onChange={change} /> : sectionsPanel}
+      {tab === "theme" ? (
+        <ThemeTab design={design} onChange={change} />
+      ) : tab === "style" ? (
+        <StyleTab design={design} onChange={change} hasPhoto={hasPhoto} />
+      ) : (
+        <SectionsTab
+          design={design}
+          onChange={change}
+          sitePanel={sitePanel}
+          info={sectionInfo}
+          checklist={checklist}
+        />
+      )}
     </div>
   );
 
@@ -258,6 +283,9 @@ export function SiteEditor({
   );
 
   return (
+    <>
+    {/* The theme cards and font samples are drawn in the real faces. */}
+    <link rel="stylesheet" href={fontsHref(THEMES)} precedence="default" />
     <div
       ref={rootRef}
       // Breaks out of the page's side and bottom padding: the preview reaches
@@ -345,6 +373,7 @@ export function SiteEditor({
         </BottomSheet>
       )}
     </div>
+    </>
   );
 }
 
@@ -435,12 +464,6 @@ function ThemeTab({
         </p>
       </div>
     </>
-  );
-}
-
-function PanelLabel({ children }: { children: ReactNode }) {
-  return (
-    <p className="text-xs font-semibold uppercase tracking-[0.08em] text-ink/60">{children}</p>
   );
 }
 

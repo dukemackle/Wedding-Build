@@ -56,6 +56,13 @@ The exact values are in `THEMES` in the mockup's `Main.dc.html`.
 - Existing section content is already stored by `0063_guest_site_sections.sql` and so on. That
   content stays where it is; only presentation moves into the jsonb.
 
+## Section order on a computer (decided 2026-09-27)
+The desktop site keeps two columns: what guests act on (RSVP, photos, the weekend,
+photo wall) in the wide main column, reference material (who's coming, travel & stays,
+FAQ, registry) in the sidebar. The couple's order applies within each column; a phone
+shows one column in the full order. "Our story" waits for custom blocks (phase 4),
+since there's no story content to show yet.
+
 ## Build phases
 1. The `/guests/site` sub-tab and editor shell with live preview, the draft/publish flow, the Theme
    tab (all 8 themes and the accents), and `/w/[slug]` rendered from `site_design`.

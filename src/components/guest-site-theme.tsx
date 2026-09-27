@@ -1,13 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useState, type CSSProperties, type ReactNode } from "react";
 import {
   THEMES,
   designCssVars,
   fontsHref,
+  DEFAULT_SITE_DESIGN,
   parseSiteDesign,
-  themeById,
+  resolveDesign,
   type SiteDesign,
 } from "@/lib/site-design";
 
@@ -15,6 +16,17 @@ import {
 export const DESIGN_MESSAGE = "wren:site-design";
 /** What the preview frame sends up once it can receive a design. */
 export const READY_MESSAGE = "wren:preview-ready";
+
+const DesignContext = createContext<SiteDesign>(DEFAULT_SITE_DESIGN);
+
+/**
+ * The design in force: the published one on the live site, the draft (as it
+ * changes) in the editor's preview. For the parts of the page whose markup,
+ * not just colour, depends on it -- the hero layout, section order.
+ */
+export function useSiteDesign() {
+  return useContext(DesignContext);
+}
 
 /**
  * Wraps the guest site in a couple's theme.
@@ -68,14 +80,14 @@ export function GuestSiteTheme({
           up front so switching theme doesn't flash a fallback face. */}
       <link
         rel="stylesheet"
-        href={fontsHref(preview ? THEMES : [themeById(design.theme)])}
+        href={fontsHref(preview ? THEMES : [resolveDesign(design).theme])}
         precedence="default"
       />
       <div
         className="guest-site flex flex-1 flex-col bg-parchment font-body text-ink"
         style={designCssVars(design) as CSSProperties}
       >
-        {children}
+        <DesignContext.Provider value={design}>{children}</DesignContext.Provider>
         <footer className="mt-auto flex flex-wrap items-center justify-center gap-x-4 gap-y-1 px-6 py-6 text-xs text-ink/50">
           <Link href="/" className="hover:text-ink">
             Made with Wren

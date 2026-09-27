@@ -181,15 +181,81 @@ const THEME_IDS = THEMES.map((t) => t.id) as [ThemeId, ...ThemeId[]];
 
 const HEX = /^#[0-9a-f]{6}$/i;
 
+/** Font pairings on the Style tab. "theme" keeps the theme's own pair. */
+export const FONT_PAIRINGS = [
+  { id: "theme", label: "Theme default", display: null, body: null },
+  { id: "cg", label: "Cormorant · Karla", display: "'Cormorant Garamond', serif", body: "'Karla', sans-serif" },
+  { id: "pj", label: "Playfair · Jost", display: "'Playfair Display', serif", body: "'Jost', sans-serif" },
+  { id: "bj", label: "Bodoni · Jost", display: "'Bodoni Moda', serif", body: "'Jost', sans-serif" },
+  { id: "fw", label: "Fraunces · Work Sans", display: "'Fraunces', serif", body: "'Work Sans', sans-serif" },
+  { id: "dk", label: "DM Serif · Jost", display: "'DM Serif Display', serif", body: "'Jost', sans-serif" },
+] as const;
+
+export type FontPairingId = (typeof FONT_PAIRINGS)[number]["id"];
+
+export const HERO_LAYOUTS = [
+  { id: "full", label: "Full photo", help: "Your photo across the top, with a card over it" },
+  { id: "split", label: "Side by side", help: "Photo on one side, your names on the other" },
+  { id: "framed", label: "Framed", help: "An arched photo above your names" },
+] as const;
+
+export type HeroLayoutId = (typeof HERO_LAYOUTS)[number]["id"];
+
+/**
+ * The parts of the guest site a couple can reorder and hide. `column` is
+ * where each sits on a computer: the things guests act on in the wide main
+ * column, reference material in the sidebar. Order is kept within a column
+ * there; on a phone the page is one column in the full order.
+ */
+export const SITE_SECTIONS = [
+  { id: "rsvp", name: "RSVP", column: "main" },
+  { id: "photos", name: "Photos", column: "main" },
+  { id: "weekend", name: "The weekend", column: "main" },
+  { id: "wall", name: "Photo wall", column: "main" },
+  { id: "guests", name: "Who's coming", column: "side" },
+  { id: "travel", name: "Travel & stays", column: "side" },
+  { id: "faq", name: "FAQ", column: "side" },
+  { id: "registry", name: "Registry", column: "side" },
+] as const;
+
+export type SectionId = (typeof SITE_SECTIONS)[number]["id"];
+
+const SECTION_IDS = SITE_SECTIONS.map((x) => x.id) as [SectionId, ...SectionId[]];
+
+const DEFAULT_SECTIONS = SITE_SECTIONS.map((x) => ({ id: x.id, hidden: false }));
+
+/**
+ * Whatever order was saved, made whole: unknown ids and repeats dropped, and
+ * any section added to Wren since appended, visible, so a new section never
+ * silently goes missing from an older design.
+ */
+function completeSections(saved: { id: SectionId; hidden: boolean }[]) {
+  const seen = new Set<SectionId>();
+  const kept = saved.filter((x) => !seen.has(x.id) && seen.add(x.id));
+  return [...kept, ...DEFAULT_SECTIONS.filter((x) => !seen.has(x.id))];
+}
+
 export const siteDesignSchema = z.object({
   theme: z.enum(THEME_IDS).catch(DEFAULT_THEME_ID),
   /** null means the theme's first swatch. */
   accent: z.string().regex(HEX).nullable().catch(null),
+  fonts: z.enum(FONT_PAIRINGS.map((f) => f.id) as [FontPairingId, ...FontPairingId[]]).catch("theme"),
+  hero: z.enum(HERO_LAYOUTS.map((h) => h.id) as [HeroLayoutId, ...HeroLayoutId[]]).catch("full"),
+  sections: z
+    .array(z.object({ id: z.enum(SECTION_IDS), hidden: z.boolean().catch(false) }).nullable().catch(null))
+    .transform((list) => completeSections(list.filter((x) => x !== null)))
+    .catch(DEFAULT_SECTIONS),
 });
 
 export type SiteDesign = z.infer<typeof siteDesignSchema>;
 
-export const DEFAULT_SITE_DESIGN: SiteDesign = { theme: DEFAULT_THEME_ID, accent: null };
+export const DEFAULT_SITE_DESIGN: SiteDesign = {
+  theme: DEFAULT_THEME_ID,
+  accent: null,
+  fonts: "theme",
+  hero: "full",
+  sections: DEFAULT_SECTIONS,
+};
 
 /** Whatever is in the column -- null, an old shape, junk -- as a usable design. */
 export function parseSiteDesign(value: unknown): SiteDesign {
@@ -198,7 +264,7 @@ export function parseSiteDesign(value: unknown): SiteDesign {
 }
 
 export function sameDesign(a: SiteDesign, b: SiteDesign) {
-  return a.theme === b.theme && (a.accent ?? null) === (b.accent ?? null);
+  return JSON.stringify(a) === JSON.stringify(b);
 }
 
 export function themeById(id: string): SiteTheme {
@@ -230,7 +296,10 @@ export type ResolvedDesign = {
 };
 
 export function resolveDesign(design: SiteDesign): ResolvedDesign {
-  const theme = themeById(design.theme);
+  const base = themeById(design.theme);
+  const pairing = FONT_PAIRINGS.find((f) => f.id === design.fonts);
+  const theme: SiteTheme =
+    pairing?.display && pairing.body ? { ...base, display: pairing.display, body: pairing.body } : base;
   const accent = design.accent ?? theme.swatches[0];
   const onAccent =
     contrast(theme.buttonInk, accent) >= 4.5
