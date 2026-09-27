@@ -1,51 +1,36 @@
 "use client";
 
-import Link from "next/link";
 import { useRef, useState, useTransition } from "react";
-import {
-  describeLastVerified,
-  freshnessOf,
-  FRESHNESS_LABELS,
-  type Freshness,
-} from "@/lib/listing-freshness";
 import type { Venue, VenueFaq } from "@/lib/supabase/types";
 import { VenueImportPanel } from "./venue-import-panel";
 import { ClaimLinkPanel } from "./claim-link-panel";
 import { STATES, STYLE_TIERS, VENUE_SETTINGS, VENUE_TYPES } from "@/lib/wedding-options";
+import { FilterBar, StatusChips } from "../_listing/listing-toolbar";
+import {
+  BulkBar,
+  buttonClass,
+  Checkbox,
+  Completeness,
+  LastChecked,
+  Pagination,
+  RowMenu,
+  StatusPill,
+  Thumb,
+  type MenuItem,
+} from "../_listing/listing-ui";
+import { listingQueryString, type ListingParams, type ListingStatus } from "../_listing/params";
+import { VENUE_STATUSES } from "./listing-config";
 import {
   addVenueFaq,
+  bulkDeleteVenues,
+  bulkMarkVenuesVerified,
+  bulkSetVenueActive,
   createVenue,
   deleteVenueFaq,
   markVenueVerified,
   setVenueActive,
   updateVenue,
 } from "./actions";
-
-/**
- * How long since anyone confirmed a listing is true.
- *
- * Silent when it's fresh. A row that's fine shouldn't carry a badge saying so
- * -- if every listing is tagged, the tags stop being read, and the point is to
- * make the handful that need attention findable in a long list.
- */
-function FreshnessTag({ lastVerifiedAt }: { lastVerifiedAt: string | null }) {
-  const freshness: Freshness = freshnessOf(lastVerifiedAt);
-  if (freshness === "fresh") return null;
-
-  const tone =
-    freshness === "stale"
-      ? "border-amber-600 bg-amber-100 text-amber-900"
-      : "border-hairline bg-parchment text-ink/50";
-
-  return (
-    <span
-      title={describeLastVerified(lastVerifiedAt)}
-      className={`ml-2 rounded-full border px-2 py-0.5 text-[10px] uppercase tracking-wide ${tone}`}
-    >
-      {FRESHNESS_LABELS[freshness]}
-    </span>
-  );
-}
 
 const inputClass =
   "rounded-md border border-hairline bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-forest";
@@ -309,9 +294,35 @@ function VenueFaqEditor({ venue, faqs }: { venue: Venue; faqs: VenueFaq[] }) {
   );
 }
 
-function VenueRow({ venue, faqs }: { venue: Venue; faqs: VenueFaq[] }) {
-  const [editing, setEditing] = useState(false);
-  const [showingClaim, setShowingClaim] = useState(false);
+/** What a couple needs from a listing. Mirrors VENUE_LISTING.incompleteFilter. */
+function venueChecks(venue: Venue): [string, boolean][] {
+  return [
+    ["photo", !!venue.image_url],
+    ["description", !!(venue.description || venue.about)],
+    ["capacity", venue.capacity != null],
+    ["price", !!(venue.price_from || venue.price_tier)],
+    ["contact", !!(venue.contact_email || venue.contact_phone || venue.website)],
+  ];
+}
+
+// Desktop columns: select, photo, venue, type, source, complete, checked, inquiries, status, actions.
+const GRID =
+  "lg:grid lg:grid-cols-[20px_48px_minmax(0,2fr)_minmax(0,1fr)_72px_84px_minmax(0,150px)_80px_64px_112px] lg:items-center lg:gap-3";
+
+function VenueRow({
+  venue,
+  faqs,
+  inquiries,
+  selected,
+  onToggleSelect,
+}: {
+  venue: Venue;
+  faqs: VenueFaq[];
+  inquiries: number;
+  selected: boolean;
+  onToggleSelect: () => void;
+}) {
+  const [panel, setPanel] = useState<"edit" | "claim" | null>(null);
   const [isPending, startTransition] = useTransition();
 
   function toggleActive() {
@@ -331,140 +342,240 @@ function VenueRow({ venue, faqs }: { venue: Venue; faqs: VenueFaq[] }) {
     });
   }
 
-  if (editing) {
-    return (
-      <div className="border-b border-hairline py-4 last:border-b-0">
-        <VenueForm venue={venue} onDone={() => setEditing(false)} />
-        <VenueFaqEditor venue={venue} faqs={faqs} />
-      </div>
-    );
-  }
+  const menu: MenuItem[] = [
+    { label: "Still right", onSelect: markVerified, disabled: isPending },
+    { label: venue.active ? "Hide" : "Make live", onSelect: toggleActive, disabled: isPending },
+    ...(venue.is_sample ? [] : [{ label: "Claim link", onSelect: () => setPanel("claim") }]),
+    { label: "View listing", onSelect: () => window.open(`https://wrenwed.com/venues/${venue.id}`, "_blank") },
+  ];
+  const place = [venue.city, venue.state].filter(Boolean).join(", ") || "—";
 
   return (
-    <div className="border-b border-hairline py-3 last:border-b-0">
-    <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-      <div>
-        <p className={venue.active ? "text-ink" : "text-ink/40 line-through"}>
-          {venue.name}
-          {venue.is_sample && (
-            <span className="ml-2 rounded-full border border-hairline px-2 py-0.5 text-[10px] uppercase tracking-wide text-ink/40">
-              Sample
-            </span>
-          )}
-          <FreshnessTag lastVerifiedAt={venue.last_verified_at} />
-        </p>
-        <p className="mt-0.5 text-xs text-ink/50">
-          {[venue.venue_type, venue.city, venue.state].filter(Boolean).join(" · ") || "—"}
-          {venue.source && venue.source !== "manual" && ` · from ${venue.source}`}
-        </p>
-      </div>
-      <div className="flex flex-wrap items-center gap-2">
-        {!venue.is_sample && (
-          <button
-            type="button"
-            onClick={() => setShowingClaim((v) => !v)}
-            className="rounded-md border border-hairline px-3 py-1 text-xs text-ink hover:border-forest"
-          >
-            Claim link
+    <div className={`border-b border-hairline last:border-b-0 ${selected ? "bg-forest/[0.03]" : ""}`}>
+      {/* Desktop: one table row. */}
+      <div className={`hidden px-3 py-2 text-sm ${GRID}`}>
+        <Checkbox checked={selected} onChange={onToggleSelect} label={`Select ${venue.name}`} />
+        <Thumb src={venue.image_url} />
+        <div className="min-w-0">
+          <p className="truncate font-medium text-ink">
+            {venue.name}
+            {venue.is_sample && <span className="ml-2 text-[11px] font-normal uppercase text-ink/40">Sample</span>}
+          </p>
+          <p className="truncate text-xs text-ink/50">
+            {place}
+            {venue.source === "claimed" && <span className="text-forest"> · Claimed</span>}
+          </p>
+        </div>
+        <span className="truncate text-ink/80">{venue.venue_type ?? "—"}</span>
+        <span className="text-xs text-ink/50">{venue.source ?? "seed"}</span>
+        <Completeness checks={venueChecks(venue)} />
+        <span className="truncate text-xs">
+          <LastChecked at={venue.last_verified_at} short />
+        </span>
+        <span className="font-mono-numbers text-ink/80">{inquiries}</span>
+        <StatusPill active={venue.active} />
+        <div className="flex justify-end gap-1.5">
+          <button type="button" onClick={() => setPanel(panel === "edit" ? null : "edit")} className={buttonClass}>
+            Edit
           </button>
-        )}
-        <button
-          type="button"
-          onClick={() => setEditing(true)}
-          className="rounded-md border border-hairline px-3 py-1 text-xs text-ink hover:border-forest"
-        >
-          Edit
-        </button>
-        <button
-          type="button"
-          onClick={markVerified}
-          disabled={isPending}
-          title={describeLastVerified(venue.last_verified_at)}
-          className="rounded-md border border-hairline px-3 py-1 text-xs text-ink hover:border-forest disabled:opacity-60"
-        >
-          Still right
-        </button>
-        <button
-          type="button"
-          onClick={toggleActive}
-          disabled={isPending}
-          className="rounded-md border border-hairline px-3 py-1 text-xs text-ink hover:border-forest disabled:opacity-60"
-        >
-          {venue.active ? "Deactivate" : "Activate"}
-        </button>
+          <RowMenu items={menu} />
+        </div>
       </div>
-    </div>
-    {showingClaim && <ClaimLinkPanel venue={venue} onClose={() => setShowingClaim(false)} />}
+
+      {/* Phone: a card. */}
+      <div className="flex items-start gap-3 p-3 lg:hidden">
+        <Checkbox checked={selected} onChange={onToggleSelect} label={`Select ${venue.name}`} className="mt-1" />
+        <Thumb src={venue.image_url} />
+        <button type="button" onClick={() => setPanel(panel === "edit" ? null : "edit")} className="min-w-0 flex-1 text-left">
+          <span className="flex items-start justify-between gap-2">
+            <span className="truncate font-medium text-ink">{venue.name}</span>
+            <StatusPill active={venue.active} />
+          </span>
+          <span className="block truncate text-xs text-ink/50">
+            {[venue.venue_type, place].filter(Boolean).join(" · ")}
+          </span>
+          <span className="mt-1 flex items-center gap-2 overflow-hidden whitespace-nowrap text-xs">
+            <Completeness checks={venueChecks(venue)} />
+            <LastChecked at={venue.last_verified_at} short />
+          </span>
+        </button>
+        <RowMenu items={menu} />
+      </div>
+
+      {panel === "edit" && (
+        <div className="border-t border-hairline bg-parchment/60 p-4">
+          <VenueForm venue={venue} onDone={() => setPanel(null)} />
+          <VenueFaqEditor venue={venue} faqs={faqs} />
+        </div>
+      )}
+      {panel === "claim" && (
+        <div className="px-3 pb-3">
+          <ClaimLinkPanel venue={venue} onClose={() => setPanel(null)} />
+        </div>
+      )}
     </div>
   );
 }
 
 export function AdminVenuesManager({
+  heading,
+  notice,
   venues,
+  total,
+  params,
+  statusCounts,
   faqsByVenueId,
-  pendingClaims,
+  inquiriesByVenueId,
 }: {
+  heading: React.ReactNode;
+  notice?: React.ReactNode;
   venues: Venue[];
+  total: number;
+  params: ListingParams;
+  statusCounts: Record<ListingStatus, number>;
   faqsByVenueId: Record<string, VenueFaq[]>;
-  pendingClaims: number;
+  inquiriesByVenueId: Record<string, number>;
 }) {
   const [adding, setAdding] = useState(false);
   const [importing, setImporting] = useState(false);
-  const realCount = venues.filter((v) => !v.is_sample).length;
+  const [selected, setSelected] = useState<Set<string>>(new Set());
+  const [bulkPending, startBulk] = useTransition();
+  const [bulkError, setBulkError] = useState<string | undefined>(undefined);
+
+  // A selection belongs to the page it was made on.
+  const pageKey = venues.map((v) => v.id).join();
+  const [selectionKey, setSelectionKey] = useState(pageKey);
+  if (selectionKey !== pageKey) {
+    setSelectionKey(pageKey);
+    setSelected(new Set());
+  }
+
+  function toggle(id: string) {
+    setSelected((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  }
+
+  const allSelected = venues.length > 0 && venues.every((v) => selected.has(v.id));
+
+  function runBulk(action: (formData: FormData) => Promise<{ error?: string }>, extra?: Record<string, string>) {
+    const formData = new FormData();
+    for (const id of selected) formData.append("id", id);
+    for (const [key, value] of Object.entries(extra ?? {})) formData.set(key, value);
+    startBulk(async () => {
+      const result = await action(formData);
+      if (result?.error) setBulkError(result.error);
+      else {
+        setBulkError(undefined);
+        setSelected(new Set());
+      }
+    });
+  }
+
+  function bulkDelete() {
+    const n = selected.size;
+    if (!window.confirm(`Delete ${n} venue${n === 1 ? "" : "s"} for good? Hiding them can be undone; this can't.`)) return;
+    runBulk(bulkDeleteVenues);
+  }
 
   return (
-    <div className="w-full rounded-lg border border-hairline bg-card p-6 shadow-sm">
-      {pendingClaims > 0 && (
-        <Link
-          href="/admin/venues/claims"
-          className="mb-4 flex items-center justify-between rounded-md border border-brass/40 bg-brass/10 px-4 py-3 text-sm text-ink hover:border-brass"
+    <div>
+      <div className="mb-5 flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
+        <div>{heading}</div>
+        <div className="flex flex-wrap gap-2">
+        <a href={`/admin/venues/export${listingQueryString(params, { page: 1 })}`} className={`${buttonClass} hidden lg:inline-block`}>
+          Export CSV
+        </a>
+        <button type="button" onClick={() => setImporting((v) => !v)} className={buttonClass}>
+          Import from a spreadsheet
+        </button>
+        <button
+          type="button"
+          onClick={() => setAdding((v) => !v)}
+          className="rounded-md bg-forest px-3 py-1.5 text-sm text-parchment transition-colors hover:bg-forest/90"
         >
-          <span>
-            {pendingClaims} {pendingClaims === 1 ? "venue has" : "venues have"} sent changes to review
-          </span>
-          <span className="text-brass">Review &rarr;</span>
-        </Link>
+          + Add venue
+        </button>
+        </div>
+      </div>
+
+      {notice}
+
+      {(importing || adding) && (
+        <div className="mb-4 rounded-lg border border-hairline bg-card p-5 shadow-sm">
+          {importing && <VenueImportPanel onDone={() => setImporting(false)} />}
+          {adding && <VenueForm onDone={() => setAdding(false)} />}
+        </div>
       )}
-      <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-        <p className="text-sm text-ink/60">
-          {venues.length} venues
-          {venues.length > 0 && (
-            <span className="text-ink/45"> · {realCount} real, {venues.length - realCount} sample</span>
-          )}
-        </p>
-        {!adding && !importing && (
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={() => setImporting(true)}
-              className="rounded-md border border-hairline px-3 py-1.5 text-sm text-forest transition-colors hover:border-forest"
-            >
-              Import from a spreadsheet
-            </button>
-            <button
-              type="button"
-              onClick={() => setAdding(true)}
-              className="rounded-md bg-forest px-3 py-1.5 text-sm text-parchment transition-colors hover:bg-forest/90"
-            >
-              + Add venue
-            </button>
+
+      <StatusChips params={params} statuses={VENUE_STATUSES} counts={statusCounts} />
+
+      <div className="rounded-lg border border-hairline bg-card shadow-sm">
+        <FilterBar
+          params={params}
+          statuses={VENUE_STATUSES}
+          counts={statusCounts}
+          kindLabel="Type"
+          kindOptions={VENUE_TYPES}
+          states={STATES}
+        />
+
+        {selected.size > 0 && (
+          <BulkBar
+            count={selected.size}
+            noun="venue"
+            pending={bulkPending}
+            error={bulkError}
+            onClear={() => setSelected(new Set())}
+            actions={[
+              { label: "Make live", onSelect: () => runBulk(bulkSetVenueActive, { active: "true" }) },
+              { label: "Hide", onSelect: () => runBulk(bulkSetVenueActive, { active: "false" }) },
+              { label: "Mark still right", onSelect: () => runBulk(bulkMarkVenuesVerified) },
+              { label: "Delete", onSelect: bulkDelete, danger: true },
+            ]}
+          />
+        )}
+
+        {venues.length > 0 && (
+          <div
+            className={`hidden border-b border-hairline px-3 py-2 font-mono-numbers text-[11px] uppercase tracking-wide text-ink/50 ${GRID}`}
+          >
+            <Checkbox
+              checked={allSelected}
+              onChange={() => setSelected(allSelected ? new Set() : new Set(venues.map((v) => v.id)))}
+              label="Select all on this page"
+            />
+            <span />
+            <span>Venue</span>
+            <span>Type</span>
+            <span>Source</span>
+            <span>Complete</span>
+            <span>Last checked</span>
+            <span>Inquiries</span>
+            <span>Status</span>
+            <span />
           </div>
         )}
+
+        {venues.map((venue) => (
+          <VenueRow
+            key={venue.id}
+            venue={venue}
+            faqs={faqsByVenueId[venue.id] ?? []}
+            inquiries={inquiriesByVenueId[venue.id] ?? 0}
+            selected={selected.has(venue.id)}
+            onToggleSelect={() => toggle(venue.id)}
+          />
+        ))}
+        {venues.length === 0 && (
+          <p className="px-4 py-10 text-center text-sm text-ink/50">No venues match these filters.</p>
+        )}
+
+        <Pagination params={params} total={total} noun="venue" />
       </div>
-      {importing && (
-        <div className="mb-4 border-b border-hairline pb-4">
-          <VenueImportPanel onDone={() => setImporting(false)} />
-        </div>
-      )}
-      {adding && (
-        <div className="mb-4 border-b border-hairline pb-4">
-          <VenueForm onDone={() => setAdding(false)} />
-        </div>
-      )}
-      {venues.map((venue) => (
-        <VenueRow key={venue.id} venue={venue} faqs={faqsByVenueId[venue.id] ?? []} />
-      ))}
-      {venues.length === 0 && !adding && <p className="text-sm text-ink/50">No venues yet.</p>}
     </div>
   );
 }
