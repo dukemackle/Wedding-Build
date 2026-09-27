@@ -1,7 +1,12 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState, useTransition, type ReactNode } from "react";
-import { DESIGN_MESSAGE, READY_MESSAGE } from "@/components/guest-site-theme";
+import {
+  CONFETTI_MESSAGE,
+  DESIGN_MESSAGE,
+  READY_MESSAGE,
+  REPLAY_MESSAGE,
+} from "@/components/guest-site-theme";
 import {
   THEMES,
   contrast,
@@ -13,14 +18,15 @@ import {
   type SiteTheme,
 } from "@/lib/site-design";
 import { publishSiteDesign, saveSiteDraft } from "./actions";
-import { PanelLabel, SectionsTab, StyleTab, type ChecklistItem, type SectionInfo } from "./editor-tabs";
+import { MotionTab, PanelLabel, SectionsTab, StyleTab, type ChecklistItem, type SectionInfo } from "./editor-tabs";
 
 type Device = "desktop" | "phone";
-type Tab = "theme" | "style" | "sections";
+type Tab = "theme" | "style" | "motion" | "sections";
 
 const TABS: { key: Tab; label: string }[] = [
   { key: "theme", label: "Theme" },
   { key: "style", label: "Style" },
+  { key: "motion", label: "Motion" },
   { key: "sections", label: "Sections" },
 ];
 
@@ -154,10 +160,16 @@ export function SiteEditor({
     frameRef.current?.contentWindow?.location.reload();
   }, [contentKey]);
 
+  const post = useCallback((type: string) => {
+    frameRef.current?.contentWindow?.postMessage({ type }, window.location.origin);
+  }, []);
+
   function change(patch: Partial<SiteDesign>) {
     const next = { ...design, ...patch };
     setDesign(next);
     sendDesign(next);
+    // A motion change plays straight away, so the couple sees what it does.
+    if (patch.motion) post(REPLAY_MESSAGE);
     setError(null);
     setSaveState("saving");
     clearTimeout(saveTimer.current);
@@ -240,6 +252,13 @@ export function SiteEditor({
     <div className="flex flex-col gap-6 px-5 pb-8 pt-5 lg:px-6">
       {tab === "theme" ? (
         <ThemeTab design={design} onChange={change} />
+      ) : tab === "motion" ? (
+        <MotionTab
+          design={design}
+          onChange={change}
+          onReplay={() => post(REPLAY_MESSAGE)}
+          onTryConfetti={() => post(CONFETTI_MESSAGE)}
+        />
       ) : tab === "style" ? (
         <StyleTab design={design} onChange={change} hasPhoto={hasPhoto} />
       ) : (
@@ -312,6 +331,17 @@ export function SiteEditor({
         {isDesktop ? (
           <div className="flex h-[60px] shrink-0 items-center gap-3 px-6">
             {deviceToggle}
+            <button
+              type="button"
+              onClick={() => post(REPLAY_MESSAGE)}
+              className="flex h-10 items-center gap-1.5 rounded-lg border border-hairline bg-card px-3.5 text-[13px] text-ink hover:border-ink/30"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M4 12a8 8 0 1 0 2.3-5.6" />
+                <path d="M4 4v4h4" />
+              </svg>
+              Replay motion
+            </button>
             <div className="flex-1" />
             <span className={`text-[13px] ${error ? "text-red-700" : "text-ink/60"}`} role="status">
               {status}

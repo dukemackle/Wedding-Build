@@ -235,6 +235,51 @@ function completeSections(saved: { id: SectionId; hidden: boolean }[]) {
   return [...kept, ...DEFAULT_SECTIONS.filter((x) => !seen.has(x.id))];
 }
 
+export const OPENINGS = [
+  { id: "none", label: "Straight in", help: "The page is simply there." },
+  { id: "envelope", label: "Envelope opens", help: "An envelope with your initials unseals first." },
+  { id: "write", label: "Names write in", help: "Your names appear as if handwritten." },
+  { id: "reveal", label: "Photo reveal", help: "Your photo opens out from the centre." },
+] as const;
+
+const motionSchema = z.object({
+  opening: z.enum(["none", "envelope", "write", "reveal"]).catch("none"),
+  scroll: z.enum(["none", "fade", "slide", "zoom"]).catch("fade"),
+  photo: z.enum(["still", "zoom"]).catch("zoom"),
+  petals: z.boolean().catch(false),
+  ticking: z.boolean().catch(true),
+  confetti: z.boolean().catch(false),
+  speed: z.enum(["slow", "normal", "fast"]).catch("normal"),
+});
+
+export type Motion = z.infer<typeof motionSchema>;
+
+/**
+ * The Motion tab's "Overall" choices. Each fills in every setting; changing
+ * one afterwards makes it "Custom" -- worked out by comparing, not stored, so
+ * it can never disagree with the settings. Subtle is what the site did
+ * before there was a Motion tab.
+ */
+export const MOTION_PRESETS = {
+  none: { opening: "none", scroll: "none", photo: "still", petals: false, ticking: false, confetti: false, speed: "normal" },
+  subtle: { opening: "none", scroll: "fade", photo: "zoom", petals: false, ticking: true, confetti: false, speed: "normal" },
+  lively: { opening: "envelope", scroll: "zoom", photo: "zoom", petals: true, ticking: true, confetti: true, speed: "normal" },
+} as const satisfies Record<string, Motion>;
+
+export type MotionPreset = keyof typeof MOTION_PRESETS | "custom";
+
+export function motionPreset(motion: Motion): MotionPreset {
+  const match = (Object.keys(MOTION_PRESETS) as (keyof typeof MOTION_PRESETS)[]).find((key) =>
+    (Object.keys(motion) as (keyof Motion)[]).every(
+      (k) => k === "speed" || motion[k] === MOTION_PRESETS[key][k],
+    ),
+  );
+  return match ?? "custom";
+}
+
+/** Multiplies every duration. */
+export const MOTION_SPEED = { slow: 1.5, normal: 1, fast: 0.6 } as const;
+
 export const siteDesignSchema = z.object({
   theme: z.enum(THEME_IDS).catch(DEFAULT_THEME_ID),
   /** null means the theme's first swatch. */
@@ -245,6 +290,7 @@ export const siteDesignSchema = z.object({
     .array(z.object({ id: z.enum(SECTION_IDS), hidden: z.boolean().catch(false) }).nullable().catch(null))
     .transform((list) => completeSections(list.filter((x) => x !== null)))
     .catch(DEFAULT_SECTIONS),
+  motion: motionSchema.catch(MOTION_PRESETS.subtle),
 });
 
 export type SiteDesign = z.infer<typeof siteDesignSchema>;
@@ -255,6 +301,7 @@ export const DEFAULT_SITE_DESIGN: SiteDesign = {
   fonts: "theme",
   hero: "full",
   sections: DEFAULT_SECTIONS,
+  motion: MOTION_PRESETS.subtle,
 };
 
 /** Whatever is in the column -- null, an old shape, junk -- as a usable design. */
@@ -340,6 +387,7 @@ export function designCssVars(design: SiteDesign): Record<string, string> {
     "--site-name-weight": String(theme.nameWeight),
     // Native controls -- checkboxes, select menus, scrollbars -- in the theme's light or dark.
     "--site-scheme": luminance(theme.bg) < 0.2 ? "dark" : "light",
+    "--motion-speed": String(MOTION_SPEED[design.motion.speed]),
   };
 }
 

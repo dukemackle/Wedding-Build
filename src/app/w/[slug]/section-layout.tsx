@@ -1,7 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { FadeInSection } from "@/components/fade-in-section";
+import { SiteReveal } from "@/components/site-motion";
 import { useSiteDesign } from "@/components/guest-site-theme";
 import { CANVAS_WIDTH, WIDE_WIDTH } from "@/lib/layout";
 import { SITE_SECTIONS, type SectionId } from "@/lib/site-design";
@@ -36,7 +36,7 @@ export function SectionLayout({ sections }: { sections: Record<SectionId, ReactN
   const render = (list: typeof shown) =>
     list.map((x) => (
       <div key={x.id} style={{ order: x.index }}>
-        <FadeInSection>{sections[x.id]}</FadeInSection>
+        <SiteReveal>{sections[x.id]}</SiteReveal>
       </div>
     ));
 

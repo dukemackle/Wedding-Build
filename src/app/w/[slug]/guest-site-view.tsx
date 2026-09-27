@@ -19,6 +19,7 @@ import { WeddingHero } from "./wedding-hero";
 import type { ReactNode } from "react";
 import type { SectionId } from "@/lib/site-design";
 import { SectionLayout } from "./section-layout";
+import { Replayable, SiteMotion } from "@/components/site-motion";
 
 /**
  * The guest site itself, below any theme.
@@ -127,6 +128,10 @@ export function GuestSiteView({
   } = content;
   const coupleNames = [wedding.partner_a_name, wedding.partner_b_name].filter(Boolean).join(" & ");
   const shareHref = `/w/${wedding.public_slug}/share`;
+  const initials = [wedding.partner_a_name, wedding.partner_b_name]
+    .map((name) => name?.trim()?.[0]?.toUpperCase())
+    .filter(Boolean)
+    .join(" & ");
 
   // Every section the couple can reorder or hide, or null when there's
   // nothing in it yet -- an empty section is left off whatever the design says.
@@ -306,8 +311,11 @@ export function GuestSiteView({
 
   return (
     <main className="flex flex-1 flex-col">
-      <WeddingHero wedding={wedding} />
-      <SectionLayout sections={sections} />
+      <Replayable>
+        <SiteMotion initials={initials} />
+        <WeddingHero wedding={wedding} />
+        <SectionLayout sections={sections} />
+      </Replayable>
     </main>
   );
 }
