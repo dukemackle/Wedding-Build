@@ -17,7 +17,7 @@ Destination markets come first. They have a manageable number of venues, and
 couples from anywhere in the country search them, so depth is reachable and
 reaches people who live elsewhere.
 
-1. Austin / Hill Country — top up the first 24 (#220) to ~75
+1. Austin / Hill Country — 68 after batch 2; done unless gaps show up
 2. Nashville
 3. Charleston
 4. Savannah
@@ -65,3 +65,4 @@ maintain their own listings.
 | Batch | Venues | Date |
 |---|---|---|
 | Austin / Hill Country | 24 | 2026-09-26 |
+| Austin / Hill Country, batch 2 (Fredericksburg, Bastrop, Liberty Hill, Lake Travis) | 44 | 2026-09-27 |
