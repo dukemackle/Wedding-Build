@@ -39,14 +39,22 @@ export const PREFERRED_VENDOR_CATEGORIES = [
   "Hair & Makeup",
   "Rentals",
   "Officiant",
+  "Stationery & Invitations",
+  "Decor & Lighting",
+  "Photo Booth",
+  "Bridal & Formalwear",
+  "Desserts",
   "Lodging",
   "Other",
 ] as const;
 
-/** What a vendor lists under -- the preferred-vendor categories minus the two that aren't vendors. */
-export const VENDOR_LISTING_CATEGORIES = PREFERRED_VENDOR_CATEGORIES.filter(
-  (c) => c !== "Lodging" && c !== "Other",
-);
+/**
+ * What a vendor lists under -- the preferred-vendor categories minus Lodging,
+ * which isn't a wedding vendor. "Other" stays: the vendor says what they do,
+ * the admin sees it at review, and a type that keeps coming up earns its own
+ * category rather than being created by whoever typed it first.
+ */
+export const VENDOR_LISTING_CATEGORIES = PREFERRED_VENDOR_CATEGORIES.filter((c) => c !== "Lodging");
 
 export const SERVICE_LEVELS = {
   space_only: "Just the space",
@@ -108,6 +116,12 @@ export const SUGGESTED_VENDOR_QUESTIONS: Record<string, readonly string[]> = {
   Cake: ["Do you offer tastings?", "Do you deliver and set up?", "Can you do dietary-friendly cakes?"],
   Planning: ["Do you offer day-of coordination only?", "How many weddings do you take a year?", "When should we book you?"],
   Transportation: ["How many passengers per vehicle?", "Is there a minimum booking time?"],
+  "Hair & Makeup": ["Do you offer a trial?", "Do you come to us on the day?", "How many people can you get ready?"],
+  "Stationery & Invitations": ["How long does printing take?", "Do you do day-of signs and menus?", "Can we see a proof first?"],
+  "Decor & Lighting": ["Do you handle setup and teardown?", "Is there a delivery fee?", "Can we see the pieces in person?"],
+  "Photo Booth": ["How many hours are included?", "Do guests get prints?", "Are props and an attendant included?"],
+  "Bridal & Formalwear": ["How far ahead should we order?", "Are alterations included?", "Do you rent as well as sell?"],
+  Desserts: ["Do you offer tastings?", "Do you deliver and set up?", "Can you do dietary-friendly options?"],
   default: ["How far ahead should we book?", "What deposit is required?", "Do you travel, and is there a fee?"],
 };
 

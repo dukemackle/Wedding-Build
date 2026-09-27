@@ -1,5 +1,6 @@
 "use client";
 
+import type { ListingRead } from "@/lib/ai/listing-reader";
 import { useState, useTransition } from "react";
 import { createClient } from "@/lib/supabase/client";
 import {
@@ -22,7 +23,8 @@ import {
   type ClaimSpace,
   type ClaimSubmission,
 } from "@/lib/venue-claim";
-import { createClaimPhotoUploads, submitVenueClaim } from "./actions";
+import { createClaimPhotoUploads, submitVenueClaim, createImportUpload, readListingSource } from "./actions";
+import { ImportPanel, mergeDraft, mergeFaqs } from "../import-panel";
 import { Field, inputClass, labelClass, PhotoGridEditor, Section, Select, YesNo } from "../form-parts";
 
 const emptySpace: ClaimSpace = { name: "", description: null, capacity: null, setting: null, photo_url: null };
@@ -97,6 +99,21 @@ export function ClaimForm({ token, initial }: { token: string; initial: ClaimSub
   const setSpace = (index: number, patch: Partial<ClaimSpace>) =>
     setSpaces((all) => all.map((sp, j) => (j === index ? { ...sp, ...patch } : sp)));
 
+  // "Fill this in for me": only empty boxes are filled, so nothing typed is lost.
+  function applyDraft(read: ListingRead) {
+    const { amenities, ...rest } = read.details;
+    const merged = mergeDraft(details, rest);
+    const answered = mergeFaqs(faqs, read.faqs);
+    let filled = merged.filled + answered.filled;
+    setDetails(merged.details);
+    setFaqs(answered.faqs);
+    if (Array.isArray(amenities) && !amenitiesText.trim()) {
+      setAmenitiesText(amenities.join(", "));
+      filled += 1;
+    }
+    return filled;
+  }
+
   function submit(e: React.FormEvent) {
     e.preventDefault();
     setErrors([]);
@@ -141,6 +158,15 @@ export function ClaimForm({ token, initial }: { token: string; initial: ClaimSub
   return (
     <form onSubmit={submit} className="mt-8 lg:grid lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start lg:gap-10">
       <div className="flex flex-col gap-6">
+        <ImportPanel
+          token={token}
+          bucket="venue-photos"
+          defaultWebsite={details.website}
+          questions={faqs.filter((f) => !f.answer.trim()).map((f) => f.question)}
+          createUpload={createImportUpload}
+          readSource={readListingSource}
+          onRead={applyDraft}
+        />
         <Section title="The basics">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <Field label="Venue name" className="sm:col-span-2">
@@ -299,6 +325,15 @@ export function ClaimForm({ token, initial }: { token: string; initial: ClaimSub
                 onChange={(e) => set("included", e.target.value || null)}
                 className={inputClass}
                 placeholder="Tables and chairs, bridal suite, day-of coordinator…"
+              />
+            </Field>
+            <Field label="Anything else couples should know?">
+              <textarea
+                rows={3}
+                value={details.good_to_know ?? ""}
+                onChange={(e) => set("good_to_know", e.target.value || null)}
+                className={inputClass}
+                placeholder="How far ahead you book up, deposit, travel fees, anything else"
               />
             </Field>
             <Field label="Amenities (separate with commas)">

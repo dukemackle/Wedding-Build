@@ -187,6 +187,13 @@ export function VendorListing({ data }: { data: VendorListingData }) {
             </div>
           )}
 
+          {vendor.good_to_know && (
+            <div className={card}>
+              <h2 className="font-display text-xl font-semibold text-forest">Good to know</h2>
+              <p className="mt-2 whitespace-pre-line text-ink/80">{vendor.good_to_know}</p>
+            </div>
+          )}
+
           {faqs.length > 0 && (
             <div className={card}>
               <h2 className="font-display text-xl font-semibold text-forest">Frequently asked questions</h2>

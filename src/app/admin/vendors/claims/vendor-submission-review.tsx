@@ -51,6 +51,12 @@ export function VendorSubmissionReview({ submission, vendor }: { submission: Ven
             </a>{" "}
             · {new Date(submission.created_at).toLocaleDateString()}
           </p>
+          {vendor.category === "Other" && vendor.category_note && (
+            <p className="mt-1 text-xs text-brass">
+              Listed under Other as &ldquo;{vendor.category_note}&rdquo; — change its category on the Vendors page
+              if one fits.
+            </p>
+          )}
           {vendor.contact_email && submission.submitter_email.split("@")[1] !== vendor.contact_email.split("@")[1] && (
             <p className="mt-1 text-xs text-brass">
               Their email domain doesn&apos;t match the vendor&apos;s ({vendor.contact_email}) — worth checking before

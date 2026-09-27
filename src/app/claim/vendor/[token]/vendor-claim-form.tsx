@@ -1,5 +1,6 @@
 "use client";
 
+import type { ListingRead } from "@/lib/ai/listing-reader";
 import { useState, useTransition } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { STATES, STYLE_TIERS, VENDOR_PRICE_UNITS } from "@/lib/wedding-options";
@@ -7,7 +8,8 @@ import { MAX_CLAIM_PHOTOS, type ClaimFaq } from "@/lib/venue-claim";
 import type { VendorClaimDetails, VendorClaimSubmission } from "@/lib/vendor-claim";
 import type { VendorPriceUnit } from "@/lib/supabase/types";
 import { Field, inputClass, labelClass, PhotoGridEditor, Section, Select } from "../../form-parts";
-import { createVendorClaimPhotoUploads, submitVendorClaim } from "./actions";
+import { createVendorClaimPhotoUploads, submitVendorClaim, createImportUpload, readListingSource } from "./actions";
+import { ImportPanel, mergeDraft, mergeFaqs } from "../../import-panel";
 
 // The vendor counterpart of the venue claim form (../../[token]/claim-form.tsx):
 // fewer sections, since a vendor has no spaces or preferred-vendor list, and
@@ -66,6 +68,21 @@ export function VendorClaimForm({
     setPhotos((p) => [...p, ...added]);
   }
 
+  // "Fill this in for me": only empty boxes are filled, so nothing typed is lost.
+  function applyDraft(read: ListingRead) {
+    const { amenities, ...rest } = read.details;
+    const merged = mergeDraft(details, rest);
+    const answered = mergeFaqs(faqs, read.faqs);
+    let filled = merged.filled + answered.filled;
+    setDetails(merged.details);
+    setFaqs(answered.faqs);
+    if (Array.isArray(amenities) && !amenitiesText.trim()) {
+      setAmenitiesText(amenities.join(", "));
+      filled += 1;
+    }
+    return filled;
+  }
+
   function submit(e: React.FormEvent) {
     e.preventDefault();
     setErrors([]);
@@ -103,6 +120,15 @@ export function VendorClaimForm({
   return (
     <form onSubmit={submit} className="mt-8 lg:grid lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start lg:gap-10">
       <div className="flex flex-col gap-6">
+        <ImportPanel
+          token={token}
+          bucket="vendor-photos"
+          defaultWebsite={details.website}
+          questions={faqs.filter((f) => !f.answer.trim()).map((f) => f.question)}
+          createUpload={createImportUpload}
+          readSource={readListingSource}
+          onRead={applyDraft}
+        />
         <Section title="The basics">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <Field label="Business name" className="sm:col-span-2">
@@ -207,6 +233,15 @@ export function VendorClaimForm({
             </Field>
             <Field label="What's included">
               <textarea rows={3} value={details.included ?? ""} onChange={(e) => set("included", e.target.value || null)} className={inputClass} />
+            </Field>
+            <Field label="Anything else couples should know?">
+              <textarea
+                rows={3}
+                value={details.good_to_know ?? ""}
+                onChange={(e) => set("good_to_know", e.target.value || null)}
+                className={inputClass}
+                placeholder="How far ahead you book up, deposit, travel fees, anything else"
+              />
             </Field>
             <Field label="Services & extras (separate with commas)">
               <input value={amenitiesText} onChange={(e) => setAmenitiesText(e.target.value)} className={inputClass} />

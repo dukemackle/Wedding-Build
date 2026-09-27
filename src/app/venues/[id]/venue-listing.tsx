@@ -242,6 +242,13 @@ export function VenueListing({ data }: { data: VenueListingData }) {
             </div>
           )}
 
+          {venue.good_to_know && (
+            <div className={card}>
+              <h2 className="font-display text-xl font-semibold text-forest">Good to know</h2>
+              <p className="mt-2 whitespace-pre-line text-ink/80">{venue.good_to_know}</p>
+            </div>
+          )}
+
           <VenueSpaces spaces={spaces} />
 
           {preferredByCategory.size > 0 && (
