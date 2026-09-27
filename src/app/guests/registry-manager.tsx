@@ -3,6 +3,7 @@
 import { useRef, useState, useTransition } from "react";
 import type { RegistryItem } from "@/lib/supabase/types";
 import { addRegistryItem, deleteRegistryItem } from "./actions";
+import { BirdEmptyState } from "@/components/wren-moments";
 
 const inputClass =
   "rounded-md border border-hairline bg-parchment px-3 py-2 text-ink outline-none focus:border-forest";
@@ -147,9 +148,9 @@ export function RegistryManager({ registryItems }: { registryItems: RegistryItem
       {showAddForm && <AddRegistryItemForm onDone={() => setShowAddForm(false)} />}
 
       {registryItems.length === 0 ? (
-        <p className="py-8 text-center text-sm text-ink/50">
-          No registry entries yet — add your first one above.
-        </p>
+        <BirdEmptyState>
+          <p className="text-sm text-ink/60">No registry entries yet. Add your first one above.</p>
+        </BirdEmptyState>
       ) : (
         registryItems.map((item) => <RegistryItemRow key={item.id} item={item} />)
       )}

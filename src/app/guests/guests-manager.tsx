@@ -37,6 +37,7 @@ import { GuestImportFileTab } from "./guest-import-panel";
 import { FilterDisclosure } from "@/components/filter-disclosure";
 import { SearchBox } from "@/components/search-box";
 import { MEAL_OPTIONS } from "@/lib/meal-options";
+import { BirdEmptyState } from "@/components/wren-moments";
 
 const STATUSES: GuestStatus[] = ["invited", "confirmed", "declined", "pending"];
 
@@ -1422,11 +1423,13 @@ export function GuestsManager({
       </div>
 
       {filteredGuests.length === 0 ? (
-        <p className="py-8 text-center text-sm text-ink/50">
-          {guests.length === 0
-            ? "No guests yet — add your first one above."
-            : "No guests match this filter."}
-        </p>
+        guests.length === 0 ? (
+          <BirdEmptyState>
+            <p className="text-sm text-ink/60">No guests yet. Add your first one above.</p>
+          </BirdEmptyState>
+        ) : (
+          <p className="py-8 text-center text-sm text-ink/50">No guests match this filter.</p>
+        )
       ) : (
         <div className="mt-2">
           {groups.map((group) => (

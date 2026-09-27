@@ -25,7 +25,7 @@ export function BudgetBarChart({ items }: { items: BudgetChartItem[] }) {
             </span>
             <div className="h-5 flex-1 rounded-sm bg-forest/10">
               <div
-                className="h-5 rounded-r-[4px] bg-forest transition-[width]"
+                className="wren-grow h-5 rounded-r-[4px] bg-forest transition-[width]"
                 style={{ width: `${widthPct}%` }}
               />
             </div>
