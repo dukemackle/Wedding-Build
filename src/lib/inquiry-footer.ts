@@ -15,14 +15,14 @@ export function inquiryFooter(listingName: string, claimUrl?: string | null): st
     "",
     "",
     "--",
-    `This couple found ${listingName} on Wren (wrenwed.com), a wedding-planning app. Reply to this email to reach them directly.`,
+    `This couple found ${listingName} on You Do, I Do (wrenwed.com), a wedding-planning app. Reply to this email to reach them directly.`,
   ];
   if (claimUrl) {
-    lines.push("", `Is ${listingName}'s listing on Wren up to date? Check it and add your photos (free): ${claimUrl}`);
+    lines.push("", `Is ${listingName}'s listing on You Do, I Do up to date? Check it and add your photos (free): ${claimUrl}`);
   }
   return lines.join("\n");
 }
 
 export function inquirySubject(from: string, followUp = false): string {
-  return `${followUp ? "Following up: wedding" : "Wedding"} inquiry from ${from} (via Wren)`;
+  return `${followUp ? "Following up: wedding" : "Wedding"} inquiry from ${from} (via You Do, I Do)`;
 }

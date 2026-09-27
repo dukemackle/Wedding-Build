@@ -2,7 +2,7 @@ import { READING_WIDTH } from "@/lib/layout";
 import Link from "next/link";
 
 export const metadata = {
-  title: "Terms of Service — Wren",
+  title: "Terms of Service — You Do, I Do",
 };
 
 export default function TermsPage() {
@@ -15,7 +15,7 @@ export default function TermsPage() {
 
         <div className="mt-8 flex flex-col gap-8 text-ink/80">
           <p>
-            Wren (&quot;Wren,&quot; &quot;we,&quot; &quot;us,&quot; or &quot;our&quot;) provides a
+            You Do, I Do (&quot;You Do, I Do,&quot; &quot;we,&quot; &quot;us,&quot; or &quot;our&quot;) provides a
             wedding-planning platform, including guest list, budget, seating and venue layout,
             itinerary, checklist, and vendor/venue discovery tools (the &quot;Service&quot;).
             These Terms of Service (&quot;Terms&quot;) govern your access to and use of the
@@ -28,7 +28,7 @@ export default function TermsPage() {
             <ul className="list-disc space-y-2 pl-5">
               <li>
                 <strong className="text-ink">Account holders</strong> — couples (and any partner
-                they invite) who create a Wren account to plan a wedding.
+                they invite) who create a You Do, I Do account to plan a wedding.
               </li>
               <li>
                 <strong className="text-ink">Guests</strong> — anyone who submits an RSVP,
@@ -44,7 +44,7 @@ export default function TermsPage() {
 
           <Section title="2. The Service is currently free">
             <p>
-              Wren is currently provided free of charge, with no fees for couples or vendors. We
+              You Do, I Do is currently provided free of charge, with no fees for couples or vendors. We
               may introduce paid features or pricing in the future; if we do, we&apos;ll give you
               reasonable advance notice before any change that affects you, and continuing to use
               a paid feature after that notice takes effect means you accept the new pricing.
@@ -62,9 +62,9 @@ export default function TermsPage() {
 
           <Section title="4. Your content">
             <p>
-              You retain ownership of the content you submit to Wren — guest list details, budget
+              You retain ownership of the content you submit to You Do, I Do — guest list details, budget
               information, photos, messages, itinerary details, and anything else you upload or
-              enter (your &quot;Content&quot;). By submitting Content, you grant Wren a limited
+              enter (your &quot;Content&quot;). By submitting Content, you grant You Do, I Do a limited
               license to host, store, and display it as necessary to operate the Service — for
               example, showing a guest&apos;s RSVP photo on your public wedding site, or a
               guest&apos;s song request to the couple.
@@ -95,10 +95,10 @@ export default function TermsPage() {
 
           <Section title="6. Vendors and venues">
             <p>
-              Wren lets you discover and message wedding vendors and venues, including ones in our
+              You Do, I Do lets you discover and message wedding vendors and venues, including ones in our
               catalog and any you contact directly.{" "}
               <strong className="text-ink">
-                Wren doesn&apos;t vet, endorse, or guarantee the quality, availability, pricing, or
+                You Do, I Do doesn&apos;t vet, endorse, or guarantee the quality, availability, pricing, or
                 conduct of any vendor or venue
               </strong>
               — any agreement, payment, or dispute between you and a vendor/venue is between you
@@ -107,9 +107,9 @@ export default function TermsPage() {
               substitute for getting your own pricing from vendors.
             </p>
             <p className="mt-3">
-              If you list or claim a business on Wren, you confirm you&apos;re authorized to
+              If you list or claim a business on You Do, I Do, you confirm you&apos;re authorized to
               represent it and that you own, or have permission to share, every photo and detail
-              you submit. You grant Wren a non-exclusive, royalty-free license to display that
+              you submit. You grant You Do, I Do a non-exclusive, royalty-free license to display that
               listing content publicly in the Service — on your listing page, in search results
               and maps, and in previews shown to couples — until you ask us to remove it. We
               review submissions before they go live and may edit or decline them.
@@ -120,7 +120,7 @@ export default function TermsPage() {
             <p>
               Any referral code shown in your account is for informal tracking only. It
               doesn&apos;t create a binding commission, discount, or payment obligation between
-              you, Wren, and any vendor unless separately and explicitly agreed in writing.
+              you, You Do, I Do, and any vendor unless separately and explicitly agreed in writing.
             </p>
           </Section>
 
@@ -135,7 +135,7 @@ export default function TermsPage() {
 
           <Section title="9. Limitation of liability">
             <p>
-              To the fullest extent permitted by law, Wren isn&apos;t liable for any indirect,
+              To the fullest extent permitted by law, You Do, I Do isn&apos;t liable for any indirect,
               incidental, special, consequential, or punitive damages, or for any loss of data,
               revenue, or goodwill, arising from your use of the Service — including any dispute
               with a vendor or venue, or reliance on budget estimates. Our total liability for any
@@ -166,7 +166,7 @@ export default function TermsPage() {
 
           <Section title="12. Governing law">
             <p>
-              These Terms are governed by the laws of [STATE — to be finalized once Wren&apos;s
+              These Terms are governed by the laws of [STATE — to be finalized once You Do, I Do&apos;s
               business entity and home state are established], without regard to
               conflict-of-laws principles.
             </p>

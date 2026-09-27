@@ -266,7 +266,7 @@ export function VenueListing({ data }: { data: VenueListingData }) {
                         <li key={v.id}>
                           {v.vendor_id ? (
                             <Link href={`/vendors/${v.vendor_id}`} className="text-ink hover:text-brass">
-                              {v.name} <span className="text-xs text-brass">on Wren</span>
+                              {v.name} <span className="text-xs text-brass">on You Do, I Do</span>
                             </Link>
                           ) : v.website ? (
                             <a

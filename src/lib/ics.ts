@@ -37,7 +37,7 @@ function utcStamp() {
 }
 
 export function icsForEvent(event: ItineraryEvent): string {
-  const lines = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Wren//EN", "BEGIN:VEVENT"];
+  const lines = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//You Do I Do//EN", "BEGIN:VEVENT"];
   lines.push(`UID:${event.id}@wren`);
   lines.push(`DTSTAMP:${utcStamp()}`);
 

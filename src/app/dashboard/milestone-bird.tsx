@@ -44,7 +44,7 @@ export function MilestoneBird({ weddingDate }: { weddingDate: string }) {
     const reduced = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
-    const colours = ["#c79a2e", "#0b4a3a", "#55acee", "#e0526b"];
+    const colours = ["#e0a100", "#14203d", "#55acee", "#e0526b"];
     const pieces = reduced
       ? []
       : Array.from({ length: 60 }, (_, i) => ({

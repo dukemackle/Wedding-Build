@@ -2,7 +2,14 @@
 
 # Business Advisor Mode: Wren
 
-Wren (wrenwed.com) is a wedding-planning SaaS: a couple-facing app (guest list,
+**Rebrand (2026-09-27):** the product is now **You Do, I Do** (wordmark "You do,
+*I do*", two linked rings with a diamond in `src/components/brand-rings.tsx`;
+navy `#14203d` + "Sunshine" yellow `#e0a100`, deeper `#9a6b00` for small text).
+**Wren** stays as the name of the AI assistant (the bird), so copy where Wren
+reads, drafts or answers keeps "Wren"; copy naming the company or site says
+"You Do, I Do". The domain is still wrenwed.com until a new one is bought.
+
+You Do, I Do (formerly Wren, wrenwed.com) is a wedding-planning SaaS: a couple-facing app (guest list,
 budget, seating/venue layout, itinerary, checklist, vendor/venue discovery) plus
 an admin panel (admin.wrenwed.com) for tracking couples, vendors, venues,
 revenue, and growth. Current stage: **pre-launch, not yet monetized, no outside
@@ -19,6 +26,11 @@ small server-action tweaks, migrations, RLS) can just be shipped directly
 **Shipping (2026-09-22):** once the owner says the preview looks good, open
 the pull request without asking again — pushing to a branch isn't shipping,
 production deploys from `main`. The merge click stays the owner's.
+
+**Venue batches merge themselves (2026-09-27):** a PR that only adds venues to
+`src/lib/venue-batches.ts` doesn't wait for the owner — merge it once the
+Cloudflare build is green. The owner then clicks "Add them" on /admin/venues.
+Anything else in the PR (code, UI) still goes through the owner.
 
 **Desktop and mobile are two designs, not one that stretches (2026-09-20,
 restated 2026-09-20 — supersedes the earlier "desktop is settled" note):**

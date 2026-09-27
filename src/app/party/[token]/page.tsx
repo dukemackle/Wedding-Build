@@ -44,7 +44,7 @@ async function loadParty(token: string): Promise<SharedParty | null> {
 }
 
 export const metadata: Metadata = {
-  title: "Wedding party looks · Wren",
+  title: "Wedding party looks · You Do, I Do",
   // A private link: keep it out of search results.
   robots: { index: false, follow: false },
 };
@@ -164,7 +164,7 @@ export default async function SharedPartyPage({ params }: { params: Promise<{ to
           </ul>
         )}
         <p className="mt-12 text-center text-xs text-ink/40">
-          Planned with <Link href="/" className="underline">Wren</Link>
+          Planned with <Link href="/" className="underline">You Do, I Do</Link>
         </p>
       </div>
     </main>

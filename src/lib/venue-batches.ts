@@ -95,4 +95,32 @@ Fort Worth Botanic Garden	Fort Worth	Texas	32.73828	-97.36369	Garden / Outdoor	I
 BRIK Venue	Fort Worth	Texas	32.73954	-97.32340	Historic / Estate	Indoor & Outdoor		Industrial space near downtown Fort Worth with exposed brick, century-old floors, a courtyard and separate ceremony and reception rooms.	hello@brikvenue.com	(817) 406-2745	https://www.brikvenue.com
 `,
   },
+  {
+    name: "Houston and Galveston",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+The Tremont House	Galveston	Texas	29.30632	-94.79417	Ballroom / Hotel	Indoor	800	Hotel in Galveston's historic Strand district with eight event rooms, a ballroom in the historic Davidson building and a rooftop bar.	info@thetremonthouse.com	(409) 763-0300	https://www.thetremonthouse.com
+The Blue Magnolia	Magnolia	Texas	30.22107	-95.52593	Garden / Outdoor	Indoor & Outdoor		All-weather venue opened in 2025 with a ceremony hall whose windows open outdoors, a cocktail lounge and a reception hall under one roof.		(936) 499-7870	https://thebluemagnoliatx.com
+The Meekermark	Magnolia	Texas	30.26093	-95.69589	Barn / Rustic	Indoor & Outdoor	200	Open-air chapel and a reconstructed historic barn, built by a family of wedding photographers north of Houston.		(281) 565-4285	https://www.meekermark.com
+Sandlewood Manor	Tomball	Texas	30.08592	-95.69043	Historic / Estate	Indoor & Outdoor		27-acre estate with a manor house, chapel, 10,000 sq ft ballroom, pecan orchard, century oak and a pond with a pier.	events@sandlewoodmanor.com	(281) 466-9487	https://www.sandlewoodmanor.com
+Balmorhea	Magnolia	Texas	30.14479	-95.66768	Garden / Outdoor	Indoor & Outdoor	340	Mission-style venue on 32 acres with a chapel, a ballroom seating 320, pondside ceremony sites and a bridal cottage.	info@balmorheaevents.com	(281) 356-2305	https://www.balmorheaevents.com
+Briscoe Manor	Richmond	Texas	29.64072	-95.81197	Barn / Rustic	Indoor & Outdoor		Private 50-acre estate southwest of Houston with a chapel, a barn banquet hall and outdoor ceremony grounds.	contact@briscoemanor.com	(281) 238-4700	https://www.briscoemanor.com
+Agave Estates	Katy	Texas			Garden / Outdoor	Indoor & Outdoor		All-inclusive, one-event-a-day venue with fountains and a tropical feel; catering, bar, DJ and coordinator are in the package.	info@agaveestates.com	(281) 395-5070	https://www.agaveestates.com
+Houston Botanic Garden	Houston	Texas	29.68429	-95.26502	Garden / Outdoor	Indoor & Outdoor		Botanic garden with two climate-controlled event tents and outdoor sites including the Woodland Glade, which seats 200.	info@hbg.org	(713) 715-9675	https://hbg.org
+McGovern Centennial Gardens	Houston	Texas	29.72113	-95.38739	Garden / Outdoor	Indoor & Outdoor	300	Eight-acre garden in Hermann Park with a modern glass pavilion and an outdoor Celebration Garden seating 300 for a ceremony.	FacilityRentals@hermannpark.org	(713) 524-5876	https://hermannpark.org
+`,
+  },
+  {
+    name: "Brenham, Round Top, Waco and Bryan–College Station",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Rockin' Star Ranch	Brenham	Texas	30.24123	-96.30468	Barn / Rustic	Indoor & Outdoor		Nearly 150 acres of ponds, woods and pasture with cabins on site and horse rides and skeet shooting for guests.	info@rockinstarbrenham.com	(800) 778-3196	https://www.rockinstarbrenham.com
+Liesel Farm	Round Top	Texas			Barn / Rustic	Indoor & Outdoor		Farmhouse venue in Round Top with a cathedral-style ceremony space, a banquet hall, an outdoor bar and four guest houses.	info@lieselfarm.com		https://lieselfarm.com
+STORIES Venue & Bistro	Waco	Texas	31.55438	-97.13444	Historic / Estate	Indoor & Outdoor		Historic downtown Waco building with original hardwoods, four floors of event space including a rooftop terrace, and in-house dining.	stories@anthemwaco.com	(254) 307-0447	https://anthemstories.com
+The Palladium	Waco	Texas	31.55505	-97.13385	Historic / Estate	Indoor	300	Former 1895 department store in downtown Waco with a 7,000 sq ft hall, a stage and a caterer's kitchen.	TheWacoPalladium@gmail.com	(254) 716-7252	https://wacopalladium.com
+The County Line	Abbott	Texas			Barn / Rustic			Events venue just off I-35 near West, about 20 minutes north of Waco, hosting weddings and live music.	booking@countylineevents.com	(254) 405-5529	https://www.countylineevents.com
+Gathering Oaks Retreat	Crawford	Texas	31.59614	-97.34174	Garden / Outdoor	Outdoor		Secluded 30-acre retreat west of Waco with an oak grove, covered pavilion and 20 bedrooms booked with the wedding.	info@gatheringoaksretreat.com	(254) 307-1819	https://www.gatheringoaksretreat.com
+The Barn BCS	Bryan	Texas			Barn / Rustic	Indoor		Modern all-white barn with wood ceilings and lots of natural light, 15 minutes from downtown Bryan and College Station.	thebarnbcs@gmail.com	(979) 200-9912	https://www.thebarnbcs.com
+Peach Creek Ranch	College Station	Texas	30.49509	-96.29753	Barn / Rustic	Indoor & Outdoor		Ranch venue with a Great Room, courtyard and ceremony grounds, cottages for guests and 24- or 48-hour wedding packages.		(979) 574-1325	https://www.peachcreekranch.com
+Astin Mansion	Bryan	Texas	30.67419	-96.37739	Historic / Estate	Indoor & Outdoor		1920 mansion on the National Register of Historic Places, with gardens and indoor and outdoor ceremony spots.	astinmansion@gmail.com	(979) 822-9999	https://www.astinmansion.com
+`,
+  },
 ];

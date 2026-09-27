@@ -274,7 +274,7 @@ export const CHECKLIST_TEMPLATE: ChecklistTemplateTask[] = [
     phase: "announce",
     title: "Collect everyone's mailing address",
     notes:
-      "Share Wren's address link instead of texting fifty people individually — they fill in their own.",
+      "Share your address link instead of texting fifty people individually — they fill in their own.",
     weeksBefore: 28,
     href: "/guests",
     essential: true,

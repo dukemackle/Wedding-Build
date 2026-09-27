@@ -53,7 +53,7 @@ function systemPrompt(kind: "venue" | "vendor", fields: ListingFields, questions
     return `- "${key}" (${shape}): ${hint}`;
   });
 
-  return `You fill in a wedding ${kind}'s listing on Wren, a wedding-planning site, from the
+  return `You fill in a wedding ${kind}'s listing on You Do, I Do, a wedding-planning site, from the
 ${kind}'s own material: their website or a brochure / pricing guide.
 
 Fields, all optional:
