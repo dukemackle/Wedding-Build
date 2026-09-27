@@ -1,4 +1,4 @@
-/** The two linked rings with the diamond. Colours follow the theme tokens. */
+/** The two linked rings with the diamond, in the fixed logo blues. */
 export function BrandRings({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 160 124" className={className} aria-hidden="true">
@@ -16,9 +16,9 @@ export function BrandRings({ className }: { className?: string }) {
           <circle cx="58" cy="80" r="38" fill="none" stroke="black" strokeWidth="17" clipPath="url(#ydid-top)" />
         </mask>
       </defs>
-      <circle cx="58" cy="80" r="38" fill="none" strokeWidth="11" stroke="var(--color-forest)" mask="url(#ydid-a)" />
-      <circle cx="102" cy="80" r="38" fill="none" strokeWidth="11" stroke="var(--color-brass)" mask="url(#ydid-b)" />
-      <path d="M102 3 Q105 13 114 17 Q105 21 102 31 Q99 21 90 17 Q99 13 102 3Z" fill="var(--color-brass)" />
+      <circle cx="58" cy="80" r="38" fill="none" strokeWidth="11" stroke="#123a8a" mask="url(#ydid-a)" />
+      <circle cx="102" cy="80" r="38" fill="none" strokeWidth="11" stroke="#2f86d8" mask="url(#ydid-b)" />
+      <path d="M102 3 Q105 13 114 17 Q105 21 102 31 Q99 21 90 17 Q99 13 102 3Z" fill="#2f86d8" />
     </svg>
   );
 }

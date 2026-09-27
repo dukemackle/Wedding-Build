@@ -16,8 +16,8 @@ export function WrenMark() {
       className="flex shrink-0 items-center gap-2 sm:gap-3"
     >
       <BrandRings className="h-8 w-auto sm:h-10" />
-      <span className="font-display text-2xl font-semibold text-forest sm:text-3xl">
-        You do, <span className="italic text-brass">I do</span>
+      <span className="font-display text-2xl font-semibold text-[#123a8a] sm:text-3xl">
+        You do, <span className="italic text-[#2f86d8]">I do</span>
       </span>
     </Link>
   );
