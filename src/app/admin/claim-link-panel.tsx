@@ -19,11 +19,11 @@ export type ClaimLinkTarget = {
 
 function emailFor(target: ClaimLinkTarget, url: string) {
   const extras = target.kind === "venue" ? "photos and preferred vendors" : "photos and pricing";
-  return `Subject: ${target.name} on Wren
+  return `Subject: ${target.name} on You Do, I Do
 
 Hi,
 
-I'm building Wren (wrenwed.com), a wedding-planning app for couples. ${target.name} is already listed for couples planning weddings${target.city ? ` around ${target.city}` : ""}, using the details on your website.
+I'm building You Do, I Do (wrenwed.com), a wedding-planning app for couples. ${target.name} is already listed for couples planning weddings${target.city ? ` around ${target.city}` : ""}, using the details on your website.
 
 This private link lets you check those details, fix anything that's wrong, and add your own ${extras}. It's free, there's no account to set up, and nothing changes on your listing until we've reviewed it:
 
@@ -33,7 +33,7 @@ If you'd rather not be listed, just reply and I'll take it down.
 
 Thanks,
 [Your name]
-Wren · [your business mailing address]`;
+You Do, I Do · [your business mailing address]`;
 }
 
 function CopyButton({ text, label }: { text: string; label: string }) {

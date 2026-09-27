@@ -39,7 +39,7 @@ export default async function Home() {
             You do the dreaming. We do the planning.
           </p>
           <h1 className="mt-4 font-display text-5xl font-semibold leading-[1.05] text-ink sm:text-6xl lg:text-7xl">
-            Build your <span className="text-brass italic">dream</span> wedding.
+            Build your <span className="italic text-[#d99a00]">dream</span> wedding.
           </h1>
           <p className="mt-4 max-w-md text-lg text-ink/80">
             Plan, budget, venues, guests, and celebrate — all in one free account.

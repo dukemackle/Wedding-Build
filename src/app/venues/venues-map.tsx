@@ -25,7 +25,7 @@ const DEFAULT_VENUE_IMAGE = "/venue-types/historic-estate.svg";
  * capacity on file falls back to a plain dot instead of an empty label.
  */
 function capacityIcon(capacity: number | null, active: boolean, shortlisted: boolean) {
-  const background = shortlisted ? "#A9843C" : active ? "#A9843C" : "#1F3D2E";
+  const background = shortlisted ? "#E0A100" : active ? "#E0A100" : "#14203D";
   const scale = active ? "transform:scale(1.12);" : "";
 
   if (capacity == null) {

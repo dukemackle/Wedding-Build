@@ -104,7 +104,7 @@ export function BookedVenueButton({
       aria-pressed={isBooked}
       className={`w-full rounded-full border px-3 py-1.5 text-sm transition-colors disabled:opacity-60 ${
         isBooked
-          ? "border-brass bg-brass text-parchment"
+          ? "border-brass bg-brass text-ink"
           : "border-hairline bg-parchment text-ink hover:border-forest"
       }`}
     >

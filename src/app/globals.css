@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
-/* White design: a true white base with soft, colorful gradient shapes
-   fixed behind everything, deep jewel emerald + gold accents, and cards
+/* White design: a warm white base with a soft yellow glow fixed behind
+   everything, navy + Sunshine yellow accents (the You Do, I Do logo), and cards
    that separate from the page purely by shadow (no more visible
    borders). Every component already references these same semantic
    names (parchment/card/hairline/forest/brass/ink), so retheming here
@@ -32,16 +32,17 @@
   --shadow-sm: 0 4px 16px -2px rgb(20 32 61 / 0.08), 0 2px 6px -2px rgb(20 32 61 / 0.06);
 }
 
-/* Soft fixed gradient shapes behind all content -- emerald top-left,
-   gold top-right, a blush glow lower-center. Large blur radii and low
-   opacity keep them a background detail, never competing with content
-   or hurting text contrast (cards are opaque white with their own
-   shadow, so they read clearly on top regardless of what's behind them). */
-body {
-  background-color: var(--color-parchment);
+/* The Sunshine yellow is too light to read as small text on white (2.3:1),
+   so text-brass uses a deeper gold (4.7:1) while fills, borders and pins
+   keep the bright one. Unlayered, so it beats Tailwind's utilities layer. */
+.text-brass {
+  color: #9a6b00;
 }
 
-/* Soft blue wash fixed behind everything, slowly brightening and fading. */
+/* Soft yellow glows fixed behind all content, slowly brightening and fading.
+   Large blur radii and low opacity keep them a background detail, never
+   competing with content or hurting text contrast (cards are opaque white
+   with their own shadow). Sits on html so body::before stays the grain. */
 html::before {
   content: "";
   position: fixed;
@@ -64,9 +65,6 @@ html::before {
   html::before { animation: none; opacity: 0.8; }
 }
 
-body {
-  background-color: transparent;
-}
 html {
   background-color: var(--color-parchment);
 }
@@ -112,8 +110,8 @@ html {
 /* Printed pages (e.g. the itinerary run sheet) skip the decorative
    gradient background -- it wastes ink and never sat right on paper. */
 @media print {
-  body {
-    background-image: none;
+  html::before {
+    display: none;
   }
 }
 

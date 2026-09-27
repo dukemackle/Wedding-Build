@@ -35,7 +35,7 @@ export default async function HelpPage() {
           <h2 className="font-display text-xl font-semibold text-forest">Send feedback</h2>
           <p className="mt-1 text-sm text-ink/70">
             Found a bug, or have an idea for something that would make planning easier? This goes
-            straight to the team building Wren.
+            straight to the team building You Do, I Do.
           </p>
           <FeedbackForm />
         </div>

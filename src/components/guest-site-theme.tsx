@@ -113,7 +113,7 @@ export function GuestSiteTheme({
         </DesignContext.Provider>
         <footer className="mt-auto flex flex-wrap items-center justify-center gap-x-4 gap-y-1 px-6 py-6 text-xs text-ink/50">
           <Link href="/" className="hover:text-ink">
-            Made with Wren
+            Made with You Do, I Do
           </Link>
           <Link href="/terms" className="hover:text-ink">
             Terms

@@ -431,7 +431,7 @@ function VenuesDemo() {
                 aria-label={`Shortlist ${v.name}`}
                 className={`absolute right-2 top-2 flex h-8 w-8 items-center justify-center rounded-full border text-base ${
                   saved.has(v.name)
-                    ? "border-brass bg-brass text-card"
+                    ? "border-brass bg-brass text-ink"
                     : "border-hairline bg-card text-ink/50"
                 }`}
               >

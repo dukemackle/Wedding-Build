@@ -15,7 +15,7 @@ function categoryIcon(category: string | null) {
   if (!category) {
     return L.divIcon({
       className: "",
-      html: `<div style="width:14px;height:14px;border-radius:50%;background:#1F3D2E;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.3);"></div>`,
+      html: `<div style="width:14px;height:14px;border-radius:50%;background:#14203D;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.3);"></div>`,
       iconSize: [14, 14],
       iconAnchor: [7, 7],
     });
@@ -31,7 +31,7 @@ function categoryIcon(category: string | null) {
     html: `<div style="
       display:flex;align-items:center;justify-content:center;
       height:26px;padding:0 9px;border-radius:13px;
-      background:#1F3D2E;border:2px solid #fff;
+      background:#14203D;border:2px solid #fff;
       box-shadow:0 1px 5px rgba(0,0,0,.32);
       color:#fff;font:700 12px ui-sans-serif,system-ui,sans-serif;
       white-space:nowrap;

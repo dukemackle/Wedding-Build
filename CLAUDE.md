@@ -2,7 +2,14 @@
 
 # Business Advisor Mode: Wren
 
-Wren (wrenwed.com) is a wedding-planning SaaS: a couple-facing app (guest list,
+**Rebrand (2026-09-27):** the product is now **You Do, I Do** (wordmark "You do,
+*I do*", two linked rings with a diamond in `src/components/brand-rings.tsx`;
+navy `#14203d` + "Sunshine" yellow `#e0a100`, deeper `#9a6b00` for small text).
+**Wren** stays as the name of the AI assistant (the bird), so copy where Wren
+reads, drafts or answers keeps "Wren"; copy naming the company or site says
+"You Do, I Do". The domain is still wrenwed.com until a new one is bought.
+
+You Do, I Do (formerly Wren, wrenwed.com) is a wedding-planning SaaS: a couple-facing app (guest list,
 budget, seating/venue layout, itinerary, checklist, vendor/venue discovery) plus
 an admin panel (admin.wrenwed.com) for tracking couples, vendors, venues,
 revenue, and growth. Current stage: **pre-launch, not yet monetized, no outside

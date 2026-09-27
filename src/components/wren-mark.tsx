@@ -12,7 +12,7 @@ export function WrenMark() {
   return (
     <Link
       href="/dashboard"
-      aria-label="Wren — go to your dashboard"
+      aria-label="You Do, I Do — go to your dashboard"
       className="flex shrink-0 items-center gap-2 sm:gap-3"
     >
       <BrandRings className="h-8 w-auto sm:h-10" />

@@ -74,7 +74,7 @@ function ItemForm({
       <Field label="Retailer link" hint="Where 'Shop' sends the couple. Affiliate links go here.">
         <input name="retailer_url" type="url" defaultValue={item?.retailer_url ?? ""} className={input} />
       </Field>
-      <Field label="Listed by vendor" hint="A boutique on Wren's vendor side. 'Book a fitting' links to them.">
+      <Field label="Listed by vendor" hint="A boutique on the vendor side. 'Book a fitting' links to them.">
         <select name="vendor_id" defaultValue={item?.vendor_id ?? ""} className={input}>
           <option value="">None</option>
           {vendors.map((v) => (

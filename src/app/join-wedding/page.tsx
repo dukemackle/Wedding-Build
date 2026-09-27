@@ -48,7 +48,7 @@ export default async function JoinWeddingPage({
     const next = `/join-wedding?token=${token}`;
     return (
       <InviteMessage
-        title={`Join ${coupleNames || "this wedding"} on Wren`}
+        title={`Join ${coupleNames || "this wedding"} on You Do, I Do`}
         description="Log in or create an account to accept this invite."
       >
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
@@ -91,7 +91,7 @@ export default async function JoinWeddingPage({
 
   return (
     <InviteMessage
-      title={`Join ${coupleNames || "this wedding"} on Wren`}
+      title={`Join ${coupleNames || "this wedding"} on You Do, I Do`}
       description="Accepting gives you full access to the guest list, budget, seating, and everything else on this wedding."
     >
       <AcceptInviteForm token={token} />
@@ -112,7 +112,7 @@ function InviteMessage({
     <main className="flex flex-1 items-center justify-center px-6 py-24">
       <div className="w-full max-w-sm rounded-lg border border-hairline bg-card p-6 sm:p-10 text-center shadow-sm">
         <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
-          Wren invite
+          You Do, I Do invite
         </p>
         <h1 className="mt-2 font-display text-2xl font-semibold text-forest">{title}</h1>
         {description && <p className="mt-4 text-ink/70">{description}</p>}
