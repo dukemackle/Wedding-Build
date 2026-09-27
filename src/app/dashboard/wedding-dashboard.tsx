@@ -7,6 +7,7 @@ import type { Venue, Wedding } from "@/lib/supabase/types";
 import { STATES, SEASONS, STYLE_TIERS, VENUE_TYPES } from "@/lib/wedding-options";
 import { daysUntilWedding } from "@/lib/countdown";
 import { CountdownTimer } from "@/components/countdown-timer";
+import { MilestoneBird } from "./milestone-bird";
 import { PhotoUpload } from "@/components/photo-upload";
 
 /**
@@ -407,6 +408,7 @@ function WeddingHero({
           <div className="flex flex-col gap-5 rounded-xl border border-white/15 bg-black/25 p-5 backdrop-blur-md lg:min-w-[380px] lg:py-4">
             {wedding.wedding_date ? (
               <>
+                <MilestoneBird weddingDate={wedding.wedding_date} />
                 {/* Four large units don't fit a phone's width; the small ones do. */}
                 <div className="sm:hidden">
                   <CountdownTimer

@@ -473,3 +473,90 @@ body:has(.guest-site) .site-footer {
   }
   .wren-tilt:hover .wren-head { transform: none; }
 }
+
+/* Bird moments around the app (src/components/wren-moments.tsx). */
+.wren-idle .wren-bird { animation: wren-perch 3s ease-in-out infinite; }
+.wren-idle .wren-head { animation: wren-look 6s ease-in-out infinite; }
+.wren-walk { animation: wren-walk 2.4s linear infinite; }
+.wren-walk .wren-bird { animation: wren-hop-small 0.4s ease-out infinite; }
+.wren-cheer { animation: wren-cheer 2.6s ease-out forwards; }
+.wren-cheer .wren-wing { animation: wren-flap 0.7s 0.2s 2; }
+
+@keyframes wren-perch {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-1.2px); }
+}
+@keyframes wren-look {
+  0%, 40%, 100% { transform: rotate(0); }
+  50%, 70% { transform: rotate(-14deg); }
+}
+@keyframes wren-walk {
+  from { left: -0.5rem; }
+  to { left: calc(100% - 2rem); }
+}
+/* Tailwind's -translate-x-1/2 centres the toast via the separate
+   `translate` property, so these transforms stack on top of it. */
+@keyframes wren-cheer {
+  0% { opacity: 0; transform: translateY(12px); }
+  12%, 80% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-4px); }
+}
+@keyframes wren-fade {
+  0%, 100% { opacity: 0; }
+  12%, 80% { opacity: 1; }
+}
+
+/* Checklist: the box pops, the tick draws, the title is struck through. */
+.wren-check-pop { animation: wren-pop 0.3s; }
+.wren-tick-draw { stroke-dasharray: 24; stroke-dashoffset: 24; animation: wren-draw 0.3s 0.05s forwards; }
+.wren-strike {
+  background: linear-gradient(currentColor, currentColor) no-repeat 0 55% / 0 1.5px;
+  animation: wren-strike 0.35s 0.15s forwards;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+@keyframes wren-pop { 50% { transform: scale(1.25); } }
+@keyframes wren-draw { to { stroke-dashoffset: 0; } }
+@keyframes wren-strike { to { background-size: 100% 1.5px; } }
+
+/* Budget: bars grow in from the left when the page opens, and the total
+   bar shakes once after it fills if you're over. */
+.wren-grow { transform-origin: left; animation: wren-grow 1s cubic-bezier(0.2, 0.7, 0.3, 1); }
+@keyframes wren-grow { from { transform: scaleX(0); } }
+.wren-shake { animation: wren-shake 0.5s 1.1s; }
+@keyframes wren-shake {
+  20%, 60% { transform: translateX(-4px); }
+  40%, 80% { transform: translateX(4px); }
+}
+
+/* Seating: a guest bounces into the seat they were dropped on. */
+.wren-settle { animation: wren-settle 0.45s cubic-bezier(0.3, 1.6, 0.5, 1); }
+@keyframes wren-settle {
+  0% { transform: scale(1.35) translateY(-8px); }
+  60% { transform: scale(0.92); }
+  100% { transform: scale(1); }
+}
+
+/* Countdown: a digit flips over when it changes. */
+.wren-flip { animation: wren-flip 0.5s ease-in-out; }
+@keyframes wren-flip {
+  0%, 100% { transform: rotateX(0); }
+  50% { transform: rotateX(-90deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wren-walk,
+  .wren-check-pop,
+  .wren-tick-draw,
+  .wren-strike,
+  .wren-grow,
+  .wren-shake,
+  .wren-settle,
+  .wren-flip {
+    animation: none !important;
+  }
+  .wren-tick-draw { stroke-dashoffset: 0; }
+  .wren-strike { background-size: 100% 1.5px; }
+  /* Still shown, then gone -- just without the rise. */
+  .wren-cheer { animation: wren-fade 2.6s forwards !important; }
+}

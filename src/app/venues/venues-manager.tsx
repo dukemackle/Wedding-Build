@@ -11,6 +11,7 @@ import { BookedVenueButton, ShortlistButton } from "./venue-card-shared";
 import { InquiryForm } from "./inquiry-form";
 import { FilterDropdown } from "@/components/filter-dropdown";
 import { SearchShell } from "@/components/search-shell";
+import { BirdEmptyState } from "@/components/wren-moments";
 
 const VenuesMap = dynamic(() => import("./venues-map").then((m) => m.VenuesMap), {
   ssr: false,
@@ -248,9 +249,9 @@ export function VenuesManager({
           count: shortlist.length,
           panel:
             shortlist.length === 0 ? (
-              <p className="py-8 text-center text-sm text-ink/50">
-                Nothing saved yet. Tap the heart on a venue to keep it here.
-              </p>
+              <BirdEmptyState>
+                <p className="text-sm text-ink/60">Nothing saved yet. Tap the heart on a venue to keep it here.</p>
+              </BirdEmptyState>
             ) : (
               <div>
                 {shortlist.map((entry) => {
