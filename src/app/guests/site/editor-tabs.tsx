@@ -6,6 +6,10 @@ import { ChevronDownIcon } from "@/components/icons";
 import {
   FONT_PAIRINGS,
   HERO_LAYOUTS,
+  MOTION_PRESETS,
+  OPENINGS,
+  motionPreset,
+  type Motion,
   SITE_SECTIONS,
   resolveDesign,
   themeById,
@@ -428,5 +432,172 @@ function SortableList({
         );
       })}
     </ul>
+  );
+}
+
+function Pills<T extends string>({
+  options,
+  value,
+  onPick,
+  label,
+}: {
+  options: readonly (readonly [T, string])[];
+  value: T | null;
+  onPick: (v: T) => void;
+  label: string;
+}) {
+  return (
+    <div role="group" aria-label={label} className="flex flex-wrap gap-2">
+      {options.map(([v, text]) => (
+        <button
+          key={v}
+          type="button"
+          aria-pressed={value === v}
+          onClick={() => onPick(v)}
+          className={`h-10 flex-1 whitespace-nowrap rounded-full px-3 text-sm ${
+            value === v ? "bg-forest font-semibold text-parchment" : "border border-hairline bg-card text-ink hover:border-ink/30"
+          }`}
+        >
+          {text}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+const EXTRAS = [
+  { key: "petals", label: "Falling petals", help: "Drift down over the page" },
+  { key: "ticking", label: "Live countdown", help: "Ticks down to the second" },
+  { key: "confetti", label: "Confetti on RSVP", help: "A burst when a guest says yes" },
+] as const;
+
+export function MotionTab({
+  design,
+  onChange,
+  onReplay,
+  onTryConfetti,
+}: {
+  design: SiteDesign;
+  onChange: Change;
+  onReplay: () => void;
+  onTryConfetti: () => void;
+}) {
+  const motion = design.motion;
+  const preset = motionPreset(motion);
+  const set = (patch: Partial<Motion>) => onChange({ motion: { ...motion, ...patch } });
+
+  return (
+    <>
+      <div className="flex flex-col gap-2.5">
+        <div className="flex items-baseline justify-between gap-3">
+          <PanelLabel>Overall</PanelLabel>
+          <span className="text-xs text-ink/60">
+            {preset === "custom" ? "Custom" : "Pick one, then fine-tune below"}
+          </span>
+        </div>
+        <Pills
+          label="Overall motion"
+          options={[
+            ["none", "None"],
+            ["subtle", "Subtle"],
+            ["lively", "Lively"],
+          ]}
+          value={preset === "custom" ? null : preset}
+          onPick={(p) => onChange({ motion: { ...MOTION_PRESETS[p], speed: motion.speed } })}
+        />
+      </div>
+
+      <div className="flex flex-col gap-2.5">
+        <PanelLabel>When the page opens</PanelLabel>
+        {OPENINGS.map((o) => {
+          const selected = motion.opening === o.id;
+          return (
+            <button
+              key={o.id}
+              type="button"
+              aria-pressed={selected}
+              onClick={() => set({ opening: o.id })}
+              className={`rounded-xl bg-card px-4 py-3 text-left ${selected ? SELECTED : UNSELECTED}`}
+            >
+              <span className="block text-[15px] font-medium text-ink">{o.label}</span>
+              <span className="block text-xs text-ink/60">{o.help}</span>
+            </button>
+          );
+        })}
+      </div>
+
+      <div className="flex flex-col gap-2.5">
+        <PanelLabel>As guests scroll</PanelLabel>
+        <Pills
+          label="As guests scroll"
+          options={[
+            ["none", "None"],
+            ["fade", "Fade up"],
+            ["slide", "Slide in"],
+            ["zoom", "Zoom"],
+          ]}
+          value={motion.scroll}
+          onPick={(v) => set({ scroll: v })}
+        />
+      </div>
+
+      <div className="flex flex-col gap-2.5">
+        <PanelLabel>Main photo</PanelLabel>
+        <Pills
+          label="Main photo"
+          options={[
+            ["still", "Still"],
+            ["zoom", "Slow zoom"],
+          ]}
+          value={motion.photo}
+          onPick={(v) => set({ photo: v })}
+        />
+      </div>
+
+      <div className="flex flex-col gap-1">
+        <PanelLabel>Extras</PanelLabel>
+        {EXTRAS.map((x) => (
+          <div key={x.key} className="flex items-center gap-3 border-b border-hairline py-3 last:border-b-0">
+            <span className="min-w-0 flex-1">
+              <span className="block text-[15px] text-ink">{x.label}</span>
+              <span className="block text-xs text-ink/60">
+                {x.help}
+                {x.key === "confetti" && motion.confetti && (
+                  <>
+                    {" · "}
+                    <button type="button" onClick={onTryConfetti} className="text-forest underline">
+                      Try it
+                    </button>
+                  </>
+                )}
+              </span>
+            </span>
+            <Switch on={motion[x.key]} label={x.label} onToggle={() => set({ [x.key]: !motion[x.key] })} />
+          </div>
+        ))}
+      </div>
+
+      <div className="flex flex-col gap-2.5">
+        <PanelLabel>Speed</PanelLabel>
+        <Pills
+          label="Speed"
+          options={[
+            ["slow", "Slow"],
+            ["normal", "Normal"],
+            ["fast", "Fast"],
+          ]}
+          value={motion.speed}
+          onPick={(v) => set({ speed: v })}
+        />
+      </div>
+
+      <p className="text-[13px] leading-normal text-ink/60">
+        Guests who&apos;ve asked their phone or computer for less motion always get the still
+        version.{" "}
+        <button type="button" onClick={onReplay} className="text-forest underline">
+          Replay in the preview
+        </button>
+      </p>
+    </>
   );
 }

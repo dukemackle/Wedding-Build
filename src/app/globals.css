@@ -280,3 +280,127 @@ body::before {
 body:has(.guest-site) .site-footer {
   display: none;
 }
+
+/* Guest site motion (Motion tab). The wrapper carries the choices as data
+   attributes and --motion-speed multiplies every duration. Reduced motion
+   gets the still version of everything, at the end of this block. */
+.guest-site .hero-kenburns {
+  animation-duration: calc(24s * var(--motion-speed, 1));
+}
+.guest-site[data-photo="still"] .hero-kenburns {
+  animation: none;
+}
+
+/* As guests scroll: sections start hidden and SiteReveal marks each one
+   shown as it enters the screen. */
+.guest-site .site-reveal {
+  transition:
+    opacity calc(0.8s * var(--motion-speed, 1)) cubic-bezier(0.22, 1, 0.36, 1),
+    transform calc(0.8s * var(--motion-speed, 1)) cubic-bezier(0.22, 1, 0.36, 1);
+}
+.guest-site[data-scroll="fade"] .site-reveal:not([data-shown]) {
+  opacity: 0;
+  transform: translateY(32px);
+}
+.guest-site[data-scroll="slide"] .site-reveal:not([data-shown]) {
+  opacity: 0;
+  transform: translateX(-48px);
+}
+.guest-site[data-scroll="zoom"] .site-reveal:not([data-shown]) {
+  opacity: 0;
+  transform: scale(0.92);
+}
+
+/* When the page opens. */
+@keyframes site-write {
+  from {
+    clip-path: inset(-10% 100% -10% 0);
+  }
+  to {
+    clip-path: inset(-10% -5% -10% 0);
+  }
+}
+.guest-site[data-opening="write"] .site-names {
+  animation: site-write calc(1.8s * var(--motion-speed, 1)) cubic-bezier(0.45, 0, 0.2, 1)
+    calc(0.3s * var(--motion-speed, 1)) both;
+}
+@keyframes site-reveal {
+  from {
+    clip-path: inset(50% 50% 50% 50%);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+.guest-site[data-opening="reveal"] .site-hero-photo {
+  animation: site-reveal calc(1.4s * var(--motion-speed, 1)) cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes site-flap {
+  from {
+    transform: rotateX(0deg);
+  }
+  to {
+    transform: rotateX(180deg);
+  }
+}
+@keyframes site-overlay-out {
+  from {
+    opacity: 1;
+    visibility: visible;
+  }
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+.site-envelope {
+  animation: site-overlay-out calc(0.6s * var(--motion-speed, 1)) ease calc(1.3s * var(--motion-speed, 1)) both;
+}
+.site-envelope-flap {
+  animation: site-flap calc(0.8s * var(--motion-speed, 1)) cubic-bezier(0.45, 0, 0.2, 1)
+    calc(0.3s * var(--motion-speed, 1)) both;
+}
+
+/* Extras. */
+@keyframes site-petal-fall {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -20px, 0) rotate(0deg);
+  }
+  10% {
+    opacity: 0.85;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(40px, 100vh, 0) rotate(300deg);
+  }
+}
+.site-petal {
+  animation: site-petal-fall linear infinite both;
+}
+@keyframes site-confetti {
+  0% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(var(--dx), var(--dy), 0) rotate(var(--spin));
+  }
+}
+.site-confetti {
+  animation: site-confetti 1.6s cubic-bezier(0.2, 0.7, 0.3, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .guest-site[data-scroll] .site-reveal,
+  .guest-site[data-scroll] .site-reveal:not([data-shown]) {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .guest-site .site-names,
+  .guest-site .site-hero-photo {
+    animation: none !important;
+  }
+}

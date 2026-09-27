@@ -82,23 +82,29 @@ export function CountdownTimer({
   className,
   tone = "dark",
   size = "sm",
+  live = true,
 }: {
   targetDate: string;
   fallbackLabel: string;
   className?: string;
   tone?: keyof typeof TONE;
   size?: "sm" | "lg";
+  /** false: just the fallback label ("120 days to go"), no ticking clock. */
+  live?: boolean;
 }) {
-  const [parts, setParts] = useState<Parts | null>(null);
+  const [ticked, setParts] = useState<Parts | null>(null);
 
   useEffect(() => {
+    if (!live) return;
     function tick() {
       setParts(remainingParts(targetDate));
     }
     tick();
     const interval = setInterval(tick, 1000);
     return () => clearInterval(interval);
-  }, [targetDate]);
+  }, [targetDate, live]);
+
+  const parts = live ? ticked : null;
 
   // Before the first tick, and after the wedding has passed, there are no
   // units to count -- show the plain label instead of four zeroes.

@@ -7,6 +7,7 @@ import { CountdownTimer } from "@/components/countdown-timer";
 import { daysUntilWedding } from "@/lib/countdown";
 import { HeroActions } from "./hero-actions";
 import { useSiteDesign } from "@/components/guest-site-theme";
+import { motionPreset } from "@/lib/site-design";
 
 function formatDate(dateStr: string) {
   return new Date(`${dateStr}T00:00:00`).toLocaleDateString("en-US", {
@@ -42,6 +43,10 @@ function HeroContent({ wedding, tone }: { wedding: PublicWedding; tone: "light" 
   const location = [wedding.venue_name, wedding.venue_city, wedding.venue_state]
     .filter(Boolean)
     .join(", ");
+  const { motion } = useSiteDesign();
+  // The gentle word-by-word rise is the "Straight in" default; the other
+  // openings bring the names in their own way, and "None" means none.
+  const stagger = motion.opening === "none" && motionPreset(motion) !== "none";
 
   return (
     <div className="w-full px-6 text-center">
@@ -56,11 +61,11 @@ function HeroContent({ wedding, tone }: { wedding: PublicWedding; tone: "light" 
       </p>
 
       <h1
-        className={`mt-3 font-display text-[clamp(2.75rem,8vw,5.5rem)] font-medium leading-[1.02] [font-style:var(--site-name-style,normal)] [font-weight:var(--site-name-weight,500)] ${
+        className={`site-names mt-3 font-display text-[clamp(2.75rem,8vw,5.5rem)] font-medium leading-[1.02] [font-style:var(--site-name-style,normal)] [font-weight:var(--site-name-weight,500)] ${
           tone === "light" ? "text-white [text-shadow:0_2px_24px_rgba(0,0,0,0.28)]" : "text-forest"
         }`}
       >
-        <StaggerWords text={names} />
+        {stagger ? <StaggerWords text={names} /> : names}
       </h1>
 
       {(wedding.wedding_date || location) && (
@@ -78,6 +83,7 @@ function HeroContent({ wedding, tone }: { wedding: PublicWedding; tone: "light" 
           tone={tone}
           size="lg"
           className="mt-8"
+          live={motion.ticking}
         />
       )}
 
@@ -114,7 +120,7 @@ export function WeddingHero({ wedding }: { wedding: PublicWedding }) {
     // Side by side from lg; on a phone, the photo first and the names under it.
     return (
       <header className="mb-10 grid lg:min-h-[78vh] lg:grid-cols-2">
-        <div className="relative h-[46vh] min-h-[300px] overflow-hidden bg-[var(--site-photo)] lg:h-auto">
+        <div className="site-hero-photo relative h-[46vh] min-h-[300px] overflow-hidden bg-[var(--site-photo)] lg:h-auto">
           <Image src={photo} alt="" fill priority sizes="(min-width: 1024px) 50vw, 100vw" className="hero-kenburns object-cover" />
         </div>
         <div className="flex items-center justify-center py-14 lg:py-20">
@@ -128,7 +134,7 @@ export function WeddingHero({ wedding }: { wedding: PublicWedding }) {
     return (
       <header className="mb-10 flex flex-col items-center px-6 pb-12 pt-14 lg:pt-20">
         <div className="rounded-[200px_200px_8px_8px] border border-[var(--site-accent)] p-2.5">
-          <div className="relative h-[340px] w-[250px] overflow-hidden rounded-[190px_190px_4px_4px] bg-[var(--site-photo)] sm:h-[420px] sm:w-[310px]">
+          <div className="site-hero-photo relative h-[340px] w-[250px] overflow-hidden rounded-[190px_190px_4px_4px] bg-[var(--site-photo)] sm:h-[420px] sm:w-[310px]">
             <Image src={photo} alt="" fill priority sizes="310px" className="hero-kenburns object-cover" />
           </div>
         </div>
@@ -143,7 +149,7 @@ export function WeddingHero({ wedding }: { wedding: PublicWedding }) {
   // overlaps its lower edge.
   return (
     <header className="mb-10 flex flex-col items-center">
-      <div className="relative h-[52vh] min-h-[320px] w-full overflow-hidden bg-[var(--site-photo)] lg:h-[62vh]">
+      <div className="site-hero-photo relative h-[52vh] min-h-[320px] w-full overflow-hidden bg-[var(--site-photo)] lg:h-[62vh]">
         <Image src={photo} alt="" fill priority sizes="100vw" className="hero-kenburns object-cover" />
       </div>
       <div className={`relative -mt-24 w-[calc(100%-2rem)] max-w-2xl bg-card py-10 shadow-sm sm:py-12 ${CARD_RADIUS}`}>

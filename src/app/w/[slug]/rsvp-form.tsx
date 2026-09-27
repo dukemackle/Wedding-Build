@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState, useTransition } from "react";
+import { RSVP_YES_EVENT } from "@/components/site-motion";
 import { submitRsvp } from "./actions";
 import { shrinkImage } from "@/lib/shrink-image";
 import { MEAL_OPTIONS } from "@/lib/meal-options";
@@ -44,6 +45,8 @@ export function RsvpForm({
         setError(result.error);
       } else {
         setError(undefined);
+        // Confetti, if the couple turned it on (Motion tab).
+        if (attending) window.dispatchEvent(new Event(RSVP_YES_EVENT));
         setSubmitted(true);
         setBringingPlusOne(false);
         setAttending(true);

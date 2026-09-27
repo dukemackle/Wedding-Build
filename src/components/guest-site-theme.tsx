@@ -14,10 +14,17 @@ import {
 
 /** What the editor sends into its preview frame whenever the draft changes. */
 export const DESIGN_MESSAGE = "wren:site-design";
+/** "Replay motion": play every entrance again from the top. */
+export const REPLAY_MESSAGE = "wren:replay";
+/** The Motion tab's "Try it" for confetti, which needs an RSVP to fire otherwise. */
+export const CONFETTI_MESSAGE = "wren:confetti";
+/** Must match RSVP_YES_EVENT in site-motion.tsx (not imported: that file imports this one). */
+const RSVP_YES_EVENT = "wren:rsvp-yes";
 /** What the preview frame sends up once it can receive a design. */
 export const READY_MESSAGE = "wren:preview-ready";
 
 const DesignContext = createContext<SiteDesign>(DEFAULT_SITE_DESIGN);
+const ReplayContext = createContext(0);
 
 /**
  * The design in force: the published one on the live site, the draft (as it
@@ -26,6 +33,11 @@ const DesignContext = createContext<SiteDesign>(DEFAULT_SITE_DESIGN);
  */
 export function useSiteDesign() {
   return useContext(DesignContext);
+}
+
+/** Goes up by one each time the editor asks to replay the motion. */
+export function useReplay() {
+  return useContext(ReplayContext);
 }
 
 /**
@@ -47,12 +59,18 @@ export function GuestSiteTheme({
   children: ReactNode;
 }) {
   const [design, setDesign] = useState(initial);
+  const [replay, setReplay] = useState(0);
 
   useEffect(() => {
     if (!preview) return;
     function onMessage(event: MessageEvent) {
       if (event.origin !== window.location.origin) return;
       if (event.data?.type === DESIGN_MESSAGE) setDesign(parseSiteDesign(event.data.design));
+      if (event.data?.type === REPLAY_MESSAGE) {
+        window.scrollTo(0, 0);
+        setReplay((r) => r + 1);
+      }
+      if (event.data?.type === CONFETTI_MESSAGE) window.dispatchEvent(new Event(RSVP_YES_EVENT));
     }
     function block(event: Event) {
       const target = event.target as Element | null;
@@ -86,8 +104,13 @@ export function GuestSiteTheme({
       <div
         className="guest-site flex flex-1 flex-col bg-parchment font-body text-ink"
         style={designCssVars(design) as CSSProperties}
+        data-scroll={design.motion.scroll}
+        data-photo={design.motion.photo}
+        data-opening={design.motion.opening}
       >
-        <DesignContext.Provider value={design}>{children}</DesignContext.Provider>
+        <DesignContext.Provider value={design}>
+          <ReplayContext.Provider value={replay}>{children}</ReplayContext.Provider>
+        </DesignContext.Provider>
         <footer className="mt-auto flex flex-wrap items-center justify-center gap-x-4 gap-y-1 px-6 py-6 text-xs text-ink/50">
           <Link href="/" className="hover:text-ink">
             Made with Wren
