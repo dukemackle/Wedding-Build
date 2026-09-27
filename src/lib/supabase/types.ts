@@ -202,6 +202,8 @@ export type Venue = {
   description: string | null;
   about: string | null;
   included: string | null;
+  /** "Anything else couples should know?" -- written by the business. */
+  good_to_know: string | null;
   amenities: string[];
   image_url: string | null;
   contact_email: string | null;
@@ -345,6 +347,8 @@ export type Vendor = {
   description: string | null;
   about: string | null;
   included: string | null;
+  /** "Anything else couples should know?" -- written by the business. */
+  good_to_know: string | null;
   amenities: string[];
   image_url: string | null;
   contact_email: string | null;
@@ -359,6 +363,8 @@ export type Vendor = {
   instagram_url: string | null;
   facebook_url: string | null;
   pinterest_url: string | null;
+  /** What a vendor listed under "Other" says it does. Admin-only. */
+  category_note: string | null;
   active: boolean;
   is_sample: boolean;
   /** Where this listing came from: manual, import, osm, google, claimed. */

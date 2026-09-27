@@ -10,6 +10,8 @@ import { ensureVendorClaimLink } from "@/lib/vendor-claim-server";
 export type NewListing = {
   kind: "venue" | "vendor";
   category: string | null;
+  /** What they do, when none of the categories fit ("Other"). */
+  categoryNote: string;
   name: string;
   city: string;
   state: string;
@@ -39,6 +41,7 @@ export async function startListing(
   const state = clean(input.state);
   const address = clean(input.address);
   const category = clean(input.category);
+  const categoryNote = clean(input.categoryNote);
   const submitterName = clean(input.submitterName);
   const email = clean(input.email).toLowerCase();
 
@@ -46,6 +49,9 @@ export async function startListing(
   if (!kind) errors.push("Choose whether you're a venue or a vendor.");
   if (kind === "vendor" && !(VENDOR_LISTING_CATEGORIES as readonly string[]).includes(category)) {
     errors.push("Pick what kind of vendor you are.");
+  }
+  if (kind === "vendor" && category === "Other" && (!categoryNote || categoryNote.length > 80)) {
+    errors.push("Tell us in a few words what you do.");
   }
   if (!name) errors.push("Your business needs a name.");
   if (name.length > 120) errors.push("That business name is too long.");
@@ -84,7 +90,9 @@ export async function startListing(
     active: false,
     is_sample: false,
     source: "self-listed",
-    ...(kind === "venue" ? { address: address || null } : { category }),
+    ...(kind === "venue"
+      ? { address: address || null }
+      : { category, category_note: category === "Other" ? categoryNote : null }),
   };
   const { data: created, error } = await admin.from(table).insert(row).select("id").single<{ id: string }>();
   if (error || !created) return { error: "Couldn't start your listing -- please try again." };

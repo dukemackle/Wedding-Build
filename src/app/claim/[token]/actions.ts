@@ -1,6 +1,8 @@
 "use server";
 
 import { randomUUID } from "crypto";
+import { importPrefix, MAX_IMPORT_BYTES, readForListing, type ListingRead } from "@/lib/ai/listing-reader";
+import { VENUE_READ_FIELDS } from "@/lib/ai/listing-read-fields";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import { getResendClient, INQUIRY_FROM_ADDRESS } from "@/lib/resend";
 import { venueForClaimToken } from "@/lib/venue-claim-server";
@@ -129,4 +131,37 @@ export async function submitVenueClaim(
   }
 
   return {};
+}
+
+/** A signed upload URL for a pricing guide or brochure PDF, for "Fill this in for me". */
+export async function createImportUpload(
+  token: string,
+  file: { type: string; size: number },
+): Promise<{ error?: string; upload?: { path: string; token: string } }> {
+  const venue = await venueForClaimToken(token);
+  if (!venue) return { error: "This link is no longer valid." };
+  if (file.type !== "application/pdf") return { error: "Upload a PDF -- or use your website instead." };
+  if (file.size > MAX_IMPORT_BYTES) return { error: "That PDF is over 20MB. Try a smaller copy, or use your website." };
+  const path = `${importPrefix(venue.id)}${randomUUID()}.pdf`;
+  const { data, error } = await createAdminSupabaseClient().storage.from(BUCKET).createSignedUploadUrl(path);
+  if (error || !data) return { error: "Couldn't start the upload -- please try again." };
+  return { upload: { path, token: data.token } };
+}
+
+/** Drafts the listing from their website or an uploaded PDF. Fills nothing itself -- the form merges it. */
+export async function readListingSource(
+  token: string,
+  source: { pdfPath: string; fileName: string } | { websiteUrl: string },
+  questions: string[],
+): Promise<{ error?: string; read?: ListingRead }> {
+  const venue = await venueForClaimToken(token);
+  if (!venue) return { error: "This link is no longer valid." };
+  return readForListing({
+    kind: "venue",
+    listingId: venue.id,
+    bucket: BUCKET,
+    fields: VENUE_READ_FIELDS,
+    questions,
+    source,
+  });
 }

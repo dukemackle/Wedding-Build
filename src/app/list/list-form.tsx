@@ -29,6 +29,7 @@ export function ListForm() {
   const [form, setForm] = useState<NewListing>({
     kind: "vendor",
     category: null,
+    categoryNote: "",
     name: "",
     city: "",
     state: "",
@@ -40,7 +41,9 @@ export function ListForm() {
   const [kindChosen, setKindChosen] = useState(false);
   const set = <K extends keyof NewListing>(key: K, value: NewListing[K]) => setForm((f) => ({ ...f, [key]: value }));
 
-  const stepOneDone = kindChosen && (form.kind === "venue" || Boolean(form.category));
+  const stepOneDone =
+    kindChosen &&
+    (form.kind === "venue" || (Boolean(form.category) && (form.category !== "Other" || Boolean(form.categoryNote.trim()))));
 
   function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -141,6 +144,22 @@ export function ListForm() {
                   </button>
                 ))}
               </div>
+              {form.category === "Other" && (
+                <label className={`${labelClass} mt-4`}>
+                  What do you do?
+                  <input
+                    value={form.categoryNote}
+                    onChange={(e) => set("categoryNote", e.target.value)}
+                    className={inputClass}
+                    maxLength={80}
+                    placeholder="Calligraphy, fireworks, dog handler…"
+                    autoFocus
+                  />
+                  <span className="text-xs text-ink/55">
+                    You&apos;ll be listed under Other for now. If we add a category that fits, we&apos;ll move you.
+                  </span>
+                </label>
+              )}
             </div>
           )}
 

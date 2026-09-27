@@ -20,6 +20,7 @@ export type VendorClaimDetails = {
   description: string | null;
   about: string | null;
   included: string | null;
+  good_to_know: string | null;
   amenities: string[];
   contact_email: string | null;
   contact_phone: string | null;
@@ -48,6 +49,7 @@ export const VENDOR_CLAIM_FIELD_LABELS: Record<keyof VendorClaimDetails, string>
   description: "Short description",
   about: "About",
   included: "What's included",
+  good_to_know: "Good to know",
   amenities: "Services & extras",
   contact_email: "Email",
   contact_phone: "Phone",
@@ -65,6 +67,7 @@ const LIMITS: Partial<Record<keyof VendorClaimDetails, number>> = {
   description: 200,
   about: 3000,
   included: 2000,
+  good_to_know: 2000,
   contact_email: 200,
   contact_phone: 40,
 };
@@ -82,6 +85,7 @@ export function vendorDetailsFrom(vendor: Vendor): VendorClaimDetails {
     description: vendor.description,
     about: vendor.about,
     included: vendor.included,
+    good_to_know: vendor.good_to_know,
     amenities: vendor.amenities,
     contact_email: vendor.contact_email,
     contact_phone: vendor.contact_phone,
@@ -148,6 +152,7 @@ export function validateVendorClaim(input: VendorClaimSubmission): {
     description: text("description"),
     about: text("about"),
     included: text("included"),
+    good_to_know: text("good_to_know"),
     amenities: (Array.isArray(d.amenities) ? d.amenities : []).map(clean).filter(Boolean).slice(0, 30),
     contact_email: email,
     contact_phone: text("contact_phone"),

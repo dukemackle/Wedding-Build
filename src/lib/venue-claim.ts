@@ -42,6 +42,7 @@ export type ClaimDetails = {
   description: string | null;
   about: string | null;
   included: string | null;
+  good_to_know: string | null;
   amenities: string[];
   contact_email: string | null;
   contact_phone: string | null;
@@ -93,6 +94,7 @@ export const CLAIM_FIELD_LABELS: Record<keyof ClaimDetails, string> = {
   description: "Short description",
   about: "About",
   included: "What's included",
+  good_to_know: "Good to know",
   amenities: "Amenities",
   contact_email: "Email",
   contact_phone: "Phone",
@@ -116,6 +118,7 @@ const LIMITS: Partial<Record<keyof ClaimDetails, number>> = {
   description: 200,
   about: 3000,
   included: 2000,
+  good_to_know: 2000,
   contact_email: 200,
   contact_phone: 40,
   website: 300,
@@ -139,6 +142,7 @@ export function detailsFromVenue(venue: Venue): ClaimDetails {
     description: venue.description,
     about: venue.about,
     included: venue.included,
+    good_to_know: venue.good_to_know,
     amenities: venue.amenities,
     contact_email: venue.contact_email,
     contact_phone: venue.contact_phone,
@@ -248,6 +252,7 @@ export function validateClaim(input: ClaimSubmission): { value: ClaimSubmission;
     description: text("description"),
     about: text("about"),
     included: text("included"),
+    good_to_know: text("good_to_know"),
     amenities,
     contact_email: email,
     contact_phone: text("contact_phone"),
