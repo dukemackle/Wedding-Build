@@ -252,6 +252,22 @@ export function CloseIcon(props: IconProps) {
   );
 }
 
+export function ExpandIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7" />
+    </IconBase>
+  );
+}
+
+export function CollapseIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M20 10h-6V4M4 14h6v6M14 10l7-7M10 14l-7 7" />
+    </IconBase>
+  );
+}
+
 export function ChevronDownIcon(props: IconProps) {
   return (
     <IconBase {...props}>
