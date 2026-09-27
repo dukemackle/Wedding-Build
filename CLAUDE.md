@@ -89,6 +89,8 @@ reflexively:
   and where it can't; the known feature gaps (including what's parked, and
   what's already shipped so it isn't re-proposed). Read before comparing Wren
   to anything, or proposing a feature that might already exist.
+- **`docs/venue-coverage.md`** — the city order and rules for venue import
+  batches. Read before gathering venues for a new city.
 - **`docs/legal.md`** — terms/privacy/consent coverage and what future features
   trigger (marketing email opt-in, EU users, SMS, analytics, billing). Read
   before shipping a new form that collects details, or any of those triggers.
