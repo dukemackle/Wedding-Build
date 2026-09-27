@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import { fetchAll } from "@/lib/supabase/fetch-all";
 import type { Vendor, VendorContactLog, VendorFaq } from "@/lib/supabase/types";
@@ -11,6 +12,7 @@ export default async function AdminVendorsPage() {
     { data: contactLogs },
     { data: testWeddings },
     { data: faqs },
+    { count: pendingClaims },
   ] = await Promise.all([
       fetchAll<Vendor>((from, to) =>
         admin.from("vendors").select("*").order("name").order("id").range(from, to).returns<Vendor[]>(),
@@ -32,6 +34,7 @@ export default async function AdminVendorsPage() {
         .select("*")
         .order("sort_order", { ascending: true })
         .returns<VendorFaq[]>(),
+      admin.from("vendor_submissions").select("id", { count: "exact", head: true }).eq("status", "pending"),
     ]);
 
   // Excludes inquiries from weddings marked as test on the Couples admin
@@ -75,6 +78,17 @@ export default async function AdminVendorsPage() {
     <div>
       <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Admin</p>
       <h1 className="mt-2 mb-6 font-display text-3xl font-semibold text-forest">Vendors</h1>
+      {(pendingClaims ?? 0) > 0 && (
+        <Link
+          href="/admin/vendors/claims"
+          className="mb-4 flex items-center justify-between rounded-md border border-brass/40 bg-brass/10 px-4 py-3 text-sm text-ink hover:border-brass"
+        >
+          <span>
+            {pendingClaims} vendor {pendingClaims === 1 ? "listing" : "listings"} waiting for review
+          </span>
+          <span className="text-brass">Review &rarr;</span>
+        </Link>
+      )}
       <AdminVendorsManager
         vendors={vendors}
         statsByVendorName={Object.fromEntries(statsByVendorName)}

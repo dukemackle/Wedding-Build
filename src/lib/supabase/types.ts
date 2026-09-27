@@ -1,4 +1,5 @@
 import type { ClaimDetails, ClaimFaq, ClaimPreferredVendor, ClaimSpace } from "@/lib/venue-claim";
+import type { VendorClaimDetails } from "@/lib/vendor-claim";
 
 export type Wedding = {
   id: string;
@@ -336,6 +337,19 @@ export type Vendor = {
   last_verified_at: string | null;
   verified_by: string | null;
   created_at: string;
+};
+
+export type VendorSubmission = {
+  id: string;
+  vendor_id: string;
+  status: VenueSubmissionStatus;
+  submitter_name: string;
+  submitter_email: string;
+  submitter_role: string | null;
+  details: VendorClaimDetails;
+  photo_url: string | null;
+  created_at: string;
+  reviewed_at: string | null;
 };
 
 export type VendorFaq = {

@@ -70,6 +70,12 @@ export default async function SignupPage({
             Log in
           </Link>
         </p>
+        <p className="mt-2 text-center text-sm text-ink/70">
+          Venue or vendor?{" "}
+          <Link href="/list" className="font-medium text-brass hover:underline">
+            List your business
+          </Link>
+        </p>
       </div>
     </main>
   );

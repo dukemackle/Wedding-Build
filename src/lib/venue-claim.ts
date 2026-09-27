@@ -153,9 +153,9 @@ export function detailsFromVenue(venue: Venue): ClaimDetails {
   };
 }
 
-const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+export const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-function clean(value: unknown): string {
+export function clean(value: unknown): string {
   return typeof value === "string" ? value.trim() : "";
 }
 
