@@ -3,10 +3,16 @@
 import { useState, useTransition } from "react";
 import type { Venue, VenueSubmission } from "@/lib/supabase/types";
 import { CLAIM_FIELD_LABELS, detailsFromVenue, type ClaimDetails } from "@/lib/venue-claim";
+import { SERVICE_LEVELS, VENDOR_POLICIES } from "@/lib/wedding-options";
 import { approveSubmission, rejectSubmission } from "../claim-actions";
 
-function show(value: ClaimDetails[keyof ClaimDetails]): string {
+function show(key: keyof ClaimDetails, value: ClaimDetails[keyof ClaimDetails]): string {
+  if (value === null || value === undefined || value === "") return "";
+  if (key === "service_level") return SERVICE_LEVELS[value as keyof typeof SERVICE_LEVELS] ?? String(value);
+  if (key === "vendor_policy") return VENDOR_POLICIES[value as keyof typeof VENDOR_POLICIES] ?? String(value);
+  if (key === "price_from") return `$${Number(value).toLocaleString()}`;
   if (Array.isArray(value)) return value.join(", ");
+  if (typeof value === "boolean") return value ? "Yes" : "No";
   if (value === null || value === undefined || value === "") return "";
   return String(value);
 }
@@ -17,7 +23,7 @@ export function SubmissionReview({ submission, venue }: { submission: VenueSubmi
 
   const current = detailsFromVenue(venue);
   const keys = Object.keys(CLAIM_FIELD_LABELS) as (keyof ClaimDetails)[];
-  const changed = keys.filter((k) => show(current[k]) !== show(submission.details[k]));
+  const changed = keys.filter((k) => show(k, current[k]) !== show(k, submission.details[k]));
   const livePhotos = new Set([...venue.photo_urls, venue.image_url].filter(Boolean));
 
   function act(action: (id: string) => Promise<{ error?: string }>) {
@@ -79,15 +85,15 @@ export function SubmissionReview({ submission, venue }: { submission: VenueSubmi
             {changed.map((k) => (
               <div key={k} className="grid grid-cols-1 gap-1 py-2 text-sm sm:grid-cols-[140px_1fr_1fr] sm:gap-4">
                 <span className="text-ink/55">{CLAIM_FIELD_LABELS[k]}</span>
-                <span className="text-ink/45 line-through decoration-ink/25">{show(current[k]) || "—"}</span>
-                <span className="whitespace-pre-line text-ink">{show(submission.details[k]) || "— (cleared)"}</span>
+                <span className="text-ink/45 line-through decoration-ink/25">{show(k, current[k]) || "—"}</span>
+                <span className="whitespace-pre-line text-ink">{show(k, submission.details[k]) || "— (cleared)"}</span>
               </div>
             ))}
           </div>
         )}
       </div>
 
-      <div className="mt-5 grid grid-cols-1 gap-6 lg:grid-cols-3">
+      <div className="mt-5 grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
         <div>
           <p className="text-xs font-medium uppercase tracking-wide text-ink/50">
             Photos ({submission.photo_urls.length})
@@ -127,6 +133,30 @@ export function SubmissionReview({ submission, venue }: { submission: VenueSubmi
           </ul>
         </div>
         <div>
+          <p className="text-xs font-medium uppercase tracking-wide text-ink/50">
+            Event spaces ({(submission.spaces ?? []).length})
+          </p>
+          <ul className="mt-2 space-y-2 text-sm">
+            {(submission.spaces ?? []).map((sp, i) => (
+              <li key={i} className="flex gap-2">
+                {sp.photo_url && (
+                  // eslint-disable-next-line @next/next/no-img-element -- storage URLs under review
+                  <img src={sp.photo_url} alt="" className="h-10 w-12 shrink-0 rounded border border-hairline object-cover" />
+                )}
+                <div>
+                  <p className="text-ink">
+                    {sp.name}
+                    <span className="text-ink/45">
+                      {[sp.setting, sp.capacity && `${sp.capacity} guests`].filter(Boolean).map((x) => ` · ${x}`)}
+                    </span>
+                  </p>
+                  {sp.description && <p className="text-ink/60">{sp.description}</p>}
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div>
           <p className="text-xs font-medium uppercase tracking-wide text-ink/50">FAQs ({submission.faqs.length})</p>
           <ul className="mt-2 space-y-2 text-sm">
             {submission.faqs.map((f, i) => (
@@ -139,7 +169,7 @@ export function SubmissionReview({ submission, venue }: { submission: VenueSubmi
         </div>
       </div>
       <p className="mt-5 text-xs text-ink/45">
-        Approving replaces the listing&apos;s details, photos, FAQs and preferred vendors with these, and marks it
+        Approving replaces the listing&apos;s details, photos, spaces, FAQs and preferred vendors with these, and marks it
         confirmed by the venue.
       </p>
     </div>

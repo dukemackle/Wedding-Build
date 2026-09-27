@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
-import type { VenueFaq, VenuePreferredVendor, VenueSubmission } from "@/lib/supabase/types";
+import type { VenueFaq, VenuePreferredVendor, VenueSpace, VenueSubmission } from "@/lib/supabase/types";
+import { SUGGESTED_VENUE_QUESTIONS } from "@/lib/wedding-options";
 import { detailsFromVenue } from "@/lib/venue-claim";
 import { venueForClaimToken } from "@/lib/venue-claim-server";
 import { WIDE_WIDTH } from "@/lib/layout";
@@ -34,7 +35,7 @@ export default async function ClaimPage({ params }: { params: Promise<{ token: s
   }
 
   const admin = createAdminSupabaseClient();
-  const [{ data: pending }, { data: faqs }, { data: preferred }] = await Promise.all([
+  const [{ data: pending }, { data: faqs }, { data: preferred }, { data: spaces }] = await Promise.all([
     admin
       .from("venue_submissions")
       .select("*")
@@ -53,7 +54,22 @@ export default async function ClaimPage({ params }: { params: Promise<{ token: s
       .eq("venue_id", venue.id)
       .order("sort_order")
       .returns<VenuePreferredVendor[]>(),
+    admin
+      .from("venue_spaces")
+      .select("*")
+      .eq("venue_id", venue.id)
+      .order("sort_order")
+      .returns<VenueSpace[]>(),
   ]);
+
+  // The questions couples ask most, waiting for an answer. Any the venue
+  // already answers aren't repeated; unanswered ones are dropped on submit.
+  const liveFaqs = (faqs ?? []).map((f) => ({ question: f.question, answer: f.answer }));
+  const asked = new Set(liveFaqs.map((f) => f.question.toLowerCase()));
+  const suggested = SUGGESTED_VENUE_QUESTIONS.filter((q) => !asked.has(q.toLowerCase())).map((question) => ({
+    question,
+    answer: "",
+  }));
 
   // Coming back to the link before we've reviewed: start from what they
   // already sent, not from the live listing, so nothing they typed is lost.
@@ -62,6 +78,7 @@ export default async function ClaimPage({ params }: { params: Promise<{ token: s
         details: pending.details,
         faqs: pending.faqs,
         preferredVendors: pending.preferred_vendors,
+        spaces: pending.spaces ?? [],
         photoUrls: pending.photo_urls,
         submitter: {
           name: pending.submitter_name,
@@ -72,7 +89,14 @@ export default async function ClaimPage({ params }: { params: Promise<{ token: s
       }
     : {
         details: detailsFromVenue(venue),
-        faqs: (faqs ?? []).map((f) => ({ question: f.question, answer: f.answer })),
+        faqs: [...liveFaqs, ...suggested],
+        spaces: (spaces ?? []).map((sp) => ({
+          name: sp.name,
+          description: sp.description,
+          capacity: sp.capacity,
+          setting: sp.setting,
+          photo_url: sp.photo_url,
+        })),
         preferredVendors: (preferred ?? []).map((v) => ({
           category: v.category,
           name: v.name,

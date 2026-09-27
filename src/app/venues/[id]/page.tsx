@@ -9,10 +9,12 @@ import type {
   VenueFaq,
   VenuePreferredVendor,
   VenueShortlistEntry,
+  VenueSpace,
   Wedding,
 } from "@/lib/supabase/types";
 import { ChevronDownIcon } from "@/components/icons";
 import { VenueDetailClient, VenueMapEmbed } from "./venue-detail-client";
+import { VenueGoodToKnow, VenueKeyFacts, VenueSpaces } from "./listing-sections";
 
 const VENUE_TYPE_IMAGES: Record<string, string> = {
   "Barn / Rustic": "/venue-types/barn-rustic.svg",
@@ -28,7 +30,7 @@ function directionsHref(venue: Venue): string {
   if (venue.latitude != null && venue.longitude != null) {
     return `https://www.google.com/maps/search/?api=1&query=${venue.latitude},${venue.longitude}`;
   }
-  const query = [venue.name, venue.city, venue.state].filter(Boolean).join(", ");
+  const query = [venue.name, venue.address, venue.city, venue.state].filter(Boolean).join(", ");
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
 }
 
@@ -86,6 +88,13 @@ export default async function VenueDetailPage({
     .eq("venue_id", venue.id)
     .order("sort_order", { ascending: true })
     .returns<VenuePreferredVendor[]>();
+
+  const { data: spaces } = await supabase
+    .from("venue_spaces")
+    .select("*")
+    .eq("venue_id", venue.id)
+    .order("sort_order", { ascending: true })
+    .returns<VenueSpace[]>();
 
   // Grouped by category in the order the venue listed them.
   const preferredByCategory = new Map<string, VenuePreferredVendor[]>();
@@ -159,12 +168,9 @@ export default async function VenueDetailPage({
                   })}
                 </p>
               )}
-              {venue.capacity && (
-                <p className="mt-2 font-mono-numbers text-sm text-ink/70">
-                  Up to {venue.capacity} guests
-                </p>
-              )}
+              {venue.address && <p className="mt-1 text-sm text-ink/60">{venue.address}</p>}
               {venue.description && <p className="mt-4 text-ink/80">{venue.description}</p>}
+              <VenueKeyFacts venue={venue} />
               <a
                 href={directionsHref(venue)}
                 target="_blank"
@@ -252,6 +258,10 @@ export default async function VenueDetailPage({
           </FadeInSection>
         )}
 
+        <FadeInSection delayMs={65}>
+          <VenueSpaces spaces={spaces ?? []} />
+        </FadeInSection>
+
         {preferredByCategory.size > 0 && (
           <FadeInSection delayMs={70}>
             <div className="mt-6 rounded-lg border border-hairline bg-card p-6 shadow-sm">
@@ -286,6 +296,10 @@ export default async function VenueDetailPage({
             </div>
           </FadeInSection>
         )}
+
+        <FadeInSection delayMs={75}>
+          <VenueGoodToKnow venue={venue} />
+        </FadeInSection>
 
         {faqs && faqs.length > 0 && (
           <FadeInSection delayMs={80}>

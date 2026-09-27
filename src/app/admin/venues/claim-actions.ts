@@ -14,6 +14,29 @@ export async function getClaimLink(venueId: string): Promise<{ error?: string; u
   return url ? { url } : { error: "Couldn't create a link -- try again." };
 }
 
+/**
+ * Street address to map coordinates, via the US Census geocoder: free, no key,
+ * and public-domain output, so there's nothing to attribute or pay for. US
+ * addresses only, which is every venue today. Null when there's no match --
+ * the listing just keeps whatever pin it had.
+ */
+async function geocode(address: string): Promise<{ latitude: number; longitude: number } | null> {
+  try {
+    const url =
+      "https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?" +
+      new URLSearchParams({ address, benchmark: "Public_AR_Current", format: "json" });
+    const res = await fetch(url, { signal: AbortSignal.timeout(8000) });
+    if (!res.ok) return null;
+    const body = (await res.json()) as {
+      result?: { addressMatches?: { coordinates: { x: number; y: number } }[] };
+    };
+    const match = body.result?.addressMatches?.[0];
+    return match ? { latitude: match.coordinates.y, longitude: match.coordinates.x } : null;
+  } catch {
+    return null;
+  }
+}
+
 /** Replaces the link, so the old one stops working -- for a link sent to the wrong person. */
 export async function regenerateClaimLink(venueId: string): Promise<{ error?: string; url?: string }> {
   await requireAdmin();
@@ -43,10 +66,26 @@ export async function approveSubmission(submissionId: string): Promise<{ error?:
   if (!submission) return { error: "That submission has already been reviewed." };
 
   const now = new Date().toISOString();
+
+  // A new or changed street address moves the map pin. Only when the address
+  // actually changed, so approving an unrelated edit never shifts a pin that
+  // was placed by hand.
+  const { data: live } = await admin
+    .from("venues")
+    .select("address")
+    .eq("id", submission.venue_id)
+    .maybeSingle<{ address: string | null }>();
+  const d = submission.details;
+  const pin =
+    d.address && d.address !== live?.address
+      ? await geocode([d.address, d.city, d.state].filter(Boolean).join(", "))
+      : null;
+
   const { error: venueError } = await admin
     .from("venues")
     .update({
       ...submission.details,
+      ...(pin ?? {}),
       photo_urls: submission.photo_urls,
       image_url: submission.photo_urls[0] ?? null,
       source: "claimed",
@@ -91,6 +130,14 @@ export async function approveSubmission(submissionId: string): Promise<{ error?:
         vendor_id: vendorIdByName.get(v.name.trim().toLowerCase()) ?? null,
         sort_order: i,
       })),
+    );
+    if (error) return { error: error.message };
+  }
+
+  await admin.from("venue_spaces").delete().eq("venue_id", submission.venue_id);
+  if ((submission.spaces ?? []).length > 0) {
+    const { error } = await admin.from("venue_spaces").insert(
+      submission.spaces.map((sp, i) => ({ venue_id: submission.venue_id, ...sp, sort_order: i })),
     );
     if (error) return { error: error.message };
   }

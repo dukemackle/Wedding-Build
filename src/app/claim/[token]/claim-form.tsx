@@ -4,17 +4,22 @@ import { useRef, useState, useTransition } from "react";
 import { createClient } from "@/lib/supabase/client";
 import {
   PREFERRED_VENDOR_CATEGORIES,
+  SERVICE_LEVEL_HINTS,
+  SERVICE_LEVELS,
   STATES,
   STYLE_TIERS,
   VENUE_SETTINGS,
+  VENDOR_POLICIES,
   VENUE_TYPES,
 } from "@/lib/wedding-options";
+import type { ServiceLevel, VendorPolicy } from "@/lib/supabase/types";
 import {
   CLAIM_PHOTO_TYPES,
   MAX_CLAIM_PHOTOS,
   type ClaimDetails,
   type ClaimFaq,
   type ClaimPreferredVendor,
+  type ClaimSpace,
   type ClaimSubmission,
 } from "@/lib/venue-claim";
 import { createClaimPhotoUploads, submitVenueClaim } from "./actions";
@@ -41,6 +46,22 @@ function Field({ label, children, className = "" }: { label: string; children: R
     </label>
   );
 }
+
+function YesNo({ value, onChange }: { value: boolean | null; onChange: (value: boolean | null) => void }) {
+  return (
+    <select
+      value={value === null ? "" : value ? "yes" : "no"}
+      onChange={(e) => onChange(e.target.value === "" ? null : e.target.value === "yes")}
+      className={inputClass}
+    >
+      <option value="">Not saying</option>
+      <option value="yes">Yes</option>
+      <option value="no">No</option>
+    </select>
+  );
+}
+
+const emptySpace: ClaimSpace = { name: "", description: null, capacity: null, setting: null, photo_url: null };
 
 function Select({
   value,
@@ -73,6 +94,8 @@ export function ClaimForm({ token, initial }: { token: string; initial: ClaimSub
     initial.preferredVendors.length > 0 ? initial.preferredVendors : [{ category: "", name: "", website: null }],
   );
   const [faqs, setFaqs] = useState<ClaimFaq[]>(initial.faqs);
+  const [spaces, setSpaces] = useState<ClaimSpace[]>(initial.spaces);
+  const [spaceUploading, setSpaceUploading] = useState<number | null>(null);
   const [submitter, setSubmitter] = useState(initial.submitter);
 
   const [uploading, setUploading] = useState(0);
@@ -85,6 +108,29 @@ export function ClaimForm({ token, initial }: { token: string; initial: ClaimSub
   const set = <K extends keyof ClaimDetails>(key: K, value: ClaimDetails[K]) =>
     setDetails((d) => ({ ...d, [key]: value }));
 
+  // Straight from the browser to storage, through URLs the server signs for
+  // this link only. Returns the public URLs of the ones that made it.
+  async function upload(files: File[]): Promise<string[]> {
+    const result = await createClaimPhotoUploads(
+      token,
+      files.map((f) => ({ type: f.type, size: f.size })),
+    );
+    if (result.error || !result.uploads) {
+      setPhotoError(result.error ?? "Couldn't upload those photos.");
+      return [];
+    }
+    const supabase = createClient();
+    const added: string[] = [];
+    for (const [i, u] of result.uploads.entries()) {
+      const { error } = await supabase.storage
+        .from("venue-photos")
+        .uploadToSignedUrl(u.path, u.token, files[i], { contentType: files[i].type });
+      if (error) setPhotoError("Some photos didn't upload -- try adding them again.");
+      else added.push(u.publicUrl);
+    }
+    return added;
+  }
+
   async function addPhotos(files: FileList | null) {
     if (!files || files.length === 0) return;
     setPhotoError(null);
@@ -94,28 +140,23 @@ export function ClaimForm({ token, initial }: { token: string; initial: ClaimSub
       return;
     }
     setUploading(chosen.length);
-    const result = await createClaimPhotoUploads(
-      token,
-      chosen.map((f) => ({ type: f.type, size: f.size })),
-    );
-    if (result.error || !result.uploads) {
-      setPhotoError(result.error ?? "Couldn't upload those photos.");
-      setUploading(0);
-      return;
-    }
-    const supabase = createClient();
-    const added: string[] = [];
-    for (const [i, upload] of result.uploads.entries()) {
-      const { error } = await supabase.storage
-        .from("venue-photos")
-        .uploadToSignedUrl(upload.path, upload.token, chosen[i], { contentType: chosen[i].type });
-      if (error) setPhotoError("Some photos didn't upload -- try adding them again.");
-      else added.push(upload.publicUrl);
-      setUploading((n) => n - 1);
-    }
+    const added = await upload(chosen);
+    setUploading(0);
     setPhotos((p) => [...p, ...added]);
     if (fileInput.current) fileInput.current.value = "";
   }
+
+  async function addSpacePhoto(index: number, file: File | undefined) {
+    if (!file) return;
+    setPhotoError(null);
+    setSpaceUploading(index);
+    const [url] = await upload([file]);
+    setSpaceUploading(null);
+    if (url) setSpaces((all) => all.map((sp, j) => (j === index ? { ...sp, photo_url: url } : sp)));
+  }
+
+  const setSpace = (index: number, patch: Partial<ClaimSpace>) =>
+    setSpaces((all) => all.map((sp, j) => (j === index ? { ...sp, ...patch } : sp)));
 
   function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -128,6 +169,7 @@ export function ClaimForm({ token, initial }: { token: string; initial: ClaimSub
         },
         faqs,
         preferredVendors: vendors,
+        spaces,
         photoUrls: photos,
         submitter,
       });
@@ -155,6 +197,7 @@ export function ClaimForm({ token, initial }: { token: string; initial: ClaimSub
   const cover = photos[0];
   const location = [details.city, details.state].filter(Boolean).join(", ");
   const namedVendors = vendors.filter((v) => v.name.trim());
+  const answered = faqs.filter((f) => f.answer.trim()).length;
 
   return (
     <form onSubmit={submit} className="mt-8 lg:grid lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start lg:gap-10">
@@ -163,6 +206,14 @@ export function ClaimForm({ token, initial }: { token: string; initial: ClaimSub
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <Field label="Venue name" className="sm:col-span-2">
               <input value={details.name} onChange={(e) => set("name", e.target.value)} className={inputClass} required />
+            </Field>
+            <Field label="Street address" className="sm:col-span-2">
+              <input
+                value={details.address ?? ""}
+                onChange={(e) => set("address", e.target.value || null)}
+                className={inputClass}
+                placeholder="12300 Huber Road"
+              />
             </Field>
             <Field label="Town">
               <input value={details.city ?? ""} onChange={(e) => set("city", e.target.value || null)} className={inputClass} />
@@ -176,7 +227,7 @@ export function ClaimForm({ token, initial }: { token: string; initial: ClaimSub
             <Field label="Setting">
               <Select value={details.setting} onChange={(v) => set("setting", v)} options={VENUE_SETTINGS} placeholder="Choose…" />
             </Field>
-            <Field label="Max guests">
+            <Field label="Seated guests (max)">
               <input
                 type="number"
                 min={1}
@@ -185,6 +236,79 @@ export function ClaimForm({ token, initial }: { token: string; initial: ClaimSub
                 onChange={(e) => set("capacity", e.target.value ? Number(e.target.value) : null)}
                 className={inputClass}
               />
+            </Field>
+            <Field label="Standing guests (max)">
+              <input
+                type="number"
+                min={1}
+                inputMode="numeric"
+                value={details.capacity_standing ?? ""}
+                onChange={(e) => set("capacity_standing", e.target.value ? Number(e.target.value) : null)}
+                className={inputClass}
+              />
+            </Field>
+          </div>
+        </Section>
+
+        <Section title="Pricing and what's provided" hint="The first two things couples ask. A starting price is enough -- it doesn't need to be a quote.">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+            <Field label="Starting price">
+              <div className="relative">
+                <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-ink/45">$</span>
+                <input
+                  type="number"
+                  min={0}
+                  inputMode="numeric"
+                  value={details.price_from ?? ""}
+                  onChange={(e) => set("price_from", e.target.value ? Number(e.target.value) : null)}
+                  className={`${inputClass} pl-6`}
+                />
+              </div>
+            </Field>
+            <Field label="That price covers" className="sm:col-span-2">
+              <input
+                value={details.price_note ?? ""}
+                onChange={(e) => set("price_note", e.target.value || null)}
+                className={inputClass}
+                placeholder="Full wedding, Saturday · Ceremony only · Weekend buyout"
+              />
+            </Field>
+          </div>
+          <p className={`${labelClass} mt-5`}>What does the venue provide?</p>
+          <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
+            {(Object.keys(SERVICE_LEVELS) as ServiceLevel[]).map((level) => (
+              <label
+                key={level}
+                className={`cursor-pointer rounded-md border px-3 py-2.5 text-sm transition-colors ${
+                  details.service_level === level ? "border-forest bg-forest/5" : "border-hairline hover:border-forest/40"
+                }`}
+              >
+                <input
+                  type="radio"
+                  name="service_level"
+                  checked={details.service_level === level}
+                  onChange={() => set("service_level", level)}
+                  className="sr-only"
+                />
+                <span className="block font-medium text-ink">{SERVICE_LEVELS[level]}</span>
+                <span className="mt-0.5 block text-xs text-ink/55">{SERVICE_LEVEL_HINTS[level]}</span>
+              </label>
+            ))}
+          </div>
+          <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <Field label="Outside vendors">
+              <select
+                value={details.vendor_policy ?? ""}
+                onChange={(e) => set("vendor_policy", (e.target.value || null) as VendorPolicy | null)}
+                className={inputClass}
+              >
+                <option value="">Choose…</option>
+                {(Object.keys(VENDOR_POLICIES) as VendorPolicy[]).map((p) => (
+                  <option key={p} value={p}>
+                    {VENDOR_POLICIES[p]}
+                  </option>
+                ))}
+              </select>
             </Field>
             <Field label="Price level">
               <Select value={details.price_tier} onChange={(v) => set("price_tier", v)} options={STYLE_TIERS} placeholder="Choose…" />
@@ -202,6 +326,15 @@ export function ClaimForm({ token, initial }: { token: string; initial: ClaimSub
             </Field>
             <Field label="Website" className="sm:col-span-2">
               <input value={details.website ?? ""} onChange={(e) => set("website", e.target.value || null)} className={inputClass} placeholder="yourvenue.com" />
+            </Field>
+            <Field label="Instagram">
+              <input value={details.instagram_url ?? ""} onChange={(e) => set("instagram_url", e.target.value || null)} className={inputClass} placeholder="instagram.com/yourvenue" />
+            </Field>
+            <Field label="Facebook">
+              <input value={details.facebook_url ?? ""} onChange={(e) => set("facebook_url", e.target.value || null)} className={inputClass} placeholder="facebook.com/yourvenue" />
+            </Field>
+            <Field label="Pinterest">
+              <input value={details.pinterest_url ?? ""} onChange={(e) => set("pinterest_url", e.target.value || null)} className={inputClass} placeholder="pinterest.com/yourvenue" />
             </Field>
           </div>
         </Section>
@@ -295,6 +428,102 @@ export function ClaimForm({ token, initial }: { token: string; initial: ClaimSub
         </Section>
 
         <Section
+          title="Event spaces"
+          hint="Optional. Each ceremony or reception spot on the property -- the barn, the chapel, the oak grove."
+        >
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            {spaces.map((sp, i) => (
+              <div key={i} className="flex flex-col gap-3 rounded-md border border-hairline p-3">
+                <div className="flex gap-3">
+                  <label className="relative flex h-20 w-24 shrink-0 cursor-pointer items-center justify-center overflow-hidden rounded border border-dashed border-forest/40 text-center text-xs text-forest hover:border-forest">
+                    {sp.photo_url ? (
+                      // eslint-disable-next-line @next/next/no-img-element -- just-uploaded storage URLs
+                      <img src={sp.photo_url} alt="" className="h-full w-full object-cover" />
+                    ) : spaceUploading === i ? (
+                      "Uploading…"
+                    ) : (
+                      "+ Photo"
+                    )}
+                    <input
+                      type="file"
+                      accept={CLAIM_PHOTO_TYPES.join(",")}
+                      className="sr-only"
+                      onChange={(e) => addSpacePhoto(i, e.target.files?.[0])}
+                    />
+                  </label>
+                  <div className="flex min-w-0 flex-1 flex-col gap-2">
+                    <input
+                      value={sp.name}
+                      onChange={(e) => setSpace(i, { name: e.target.value })}
+                      className={inputClass}
+                      placeholder="Space name"
+                      aria-label="Space name"
+                    />
+                    <div className="grid grid-cols-2 gap-2">
+                      <Select value={sp.setting} onChange={(v) => setSpace(i, { setting: v })} options={VENUE_SETTINGS} placeholder="Setting" />
+                      <input
+                        type="number"
+                        min={1}
+                        inputMode="numeric"
+                        value={sp.capacity ?? ""}
+                        onChange={(e) => setSpace(i, { capacity: e.target.value ? Number(e.target.value) : null })}
+                        className={inputClass}
+                        placeholder="Guests"
+                        aria-label="Space capacity"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <textarea
+                  rows={2}
+                  value={sp.description ?? ""}
+                  onChange={(e) => setSpace(i, { description: e.target.value || null })}
+                  className={inputClass}
+                  placeholder="What it's used for, what makes it special"
+                  aria-label="Space description"
+                />
+                <button type="button" onClick={() => setSpaces((all) => all.filter((_, j) => j !== i))} className="self-end text-sm text-ink/45 hover:text-ink">
+                  Remove
+                </button>
+              </div>
+            ))}
+          </div>
+          <button type="button" onClick={() => setSpaces((all) => [...all, { ...emptySpace }])} className="mt-3 text-sm text-brass hover:underline">
+            + Add a space
+          </button>
+        </Section>
+
+        <Section title="Practical details" hint="Optional, but these settle a lot of back-and-forth emails.">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <Field label="On-site lodging sleeps">
+              <input
+                type="number"
+                min={0}
+                inputMode="numeric"
+                value={details.lodging_sleeps ?? ""}
+                onChange={(e) => set("lodging_sleeps", e.target.value ? Number(e.target.value) : null)}
+                className={inputClass}
+                placeholder="0 if none"
+              />
+            </Field>
+            <Field label="Parking">
+              <input
+                value={details.parking ?? ""}
+                onChange={(e) => set("parking", e.target.value || null)}
+                className={inputClass}
+                placeholder="120 spaces on site · Shuttle from town"
+              />
+            </Field>
+            <Field label="Wheelchair accessible">
+              <YesNo value={details.wheelchair_accessible} onChange={(v) => set("wheelchair_accessible", v)} />
+            </Field>
+            <Field label="Pets allowed">
+              <YesNo value={details.pets_allowed} onChange={(v) => set("pets_allowed", v)} />
+            </Field>
+          </div>
+        </Section>
+
+        <Section
           title="Preferred vendors"
           hint="The caterers, photographers, florists and others you recommend. Couples see these on your listing, with a link to each."
         >
@@ -341,7 +570,7 @@ export function ClaimForm({ token, initial }: { token: string; initial: ClaimSub
           </button>
         </Section>
 
-        <Section title="Questions couples ask" hint="Optional. Deposits, curfews, outside alcohol, rain plans…">
+        <Section title="Questions couples ask" hint="We've started you off with the ones couples ask most. Answer any you like -- blank ones are skipped.">
           <div className="flex flex-col gap-4">
             {faqs.map((f, i) => (
               <div key={i} className="flex flex-col gap-2 border-b border-hairline pb-4 last:border-b-0">
@@ -357,7 +586,7 @@ export function ClaimForm({ token, initial }: { token: string; initial: ClaimSub
                   value={f.answer}
                   onChange={(e) => setFaqs((all) => all.map((x, j) => (j === i ? { ...x, answer: e.target.value } : x)))}
                   className={inputClass}
-                  placeholder="Answer"
+                  placeholder="Your answer (leave blank to skip)"
                   aria-label="Answer"
                 />
                 <button type="button" onClick={() => setFaqs((all) => all.filter((_, j) => j !== i))} className="self-end text-sm text-ink/45 hover:text-ink">
@@ -438,7 +667,19 @@ export function ClaimForm({ token, initial }: { token: string; initial: ClaimSub
             <p className="mt-0.5 text-xs uppercase tracking-wide text-ink/50">
               {[location, details.setting, details.venue_type].filter(Boolean).join(" · ")}
             </p>
-            {details.capacity && <p className="mt-2 font-mono-numbers text-sm text-ink/70">Up to {details.capacity} guests</p>}
+            {(details.capacity || details.price_from) && (
+              <p className="mt-2 font-mono-numbers text-sm text-ink/70">
+                {[
+                  details.capacity && `Up to ${details.capacity} seated`,
+                  details.price_from != null && `From $${details.price_from.toLocaleString()}`,
+                ]
+                  .filter(Boolean)
+                  .join(" · ")}
+              </p>
+            )}
+            {details.service_level && (
+              <p className="mt-1 text-xs text-ink/55">{SERVICE_LEVELS[details.service_level]}</p>
+            )}
             {details.description && <p className="mt-2 text-sm text-ink/75">{details.description}</p>}
             {namedVendors.length > 0 && (
               <div className="mt-4 border-t border-hairline pt-3">
@@ -457,8 +698,9 @@ export function ClaimForm({ token, initial }: { token: string; initial: ClaimSub
           </div>
         </div>
         <p className="mt-3 text-xs text-ink/45">
-          {photos.length} {photos.length === 1 ? "photo" : "photos"} · {faqs.length}{" "}
-          {faqs.length === 1 ? "question" : "questions"}
+          {photos.length} {photos.length === 1 ? "photo" : "photos"} · {spaces.length}{" "}
+          {spaces.length === 1 ? "space" : "spaces"} · {answered} answered{" "}
+          {answered === 1 ? "question" : "questions"}
         </p>
       </aside>
     </form>

@@ -39,7 +39,9 @@ export async function createClaimPhotoUploads(
   const venue = await venueForClaimToken(token);
   if (!venue) return { error: "This link is no longer valid." };
 
-  if (files.length > MAX_CLAIM_PHOTOS) return { error: `Add at most ${MAX_CLAIM_PHOTOS} photos.` };
+  // Per request, not per listing: gallery and space photos are uploaded
+  // separately, and the submission itself caps how many are kept.
+  if (files.length > MAX_CLAIM_PHOTOS) return { error: `Add at most ${MAX_CLAIM_PHOTOS} photos at a time.` };
   for (const file of files) {
     if (!(CLAIM_PHOTO_TYPES as readonly string[]).includes(file.type)) {
       return { error: "Photos need to be JPEG, PNG or WebP." };
@@ -76,8 +78,19 @@ export async function submitVenueClaim(
   // listing at an arbitrary image on the internet.
   const admin = createAdminSupabaseClient();
   const ownPrefix = admin.storage.from(BUCKET).getPublicUrl(`claims/${venue.id}/`).data.publicUrl;
-  const existing = new Set([...(venue.photo_urls ?? []), venue.image_url].filter(Boolean));
-  if (value.photoUrls.some((url) => !url.startsWith(ownPrefix) && !existing.has(url))) {
+  const { data: liveSpaces } = await admin
+    .from("venue_spaces")
+    .select("photo_url")
+    .eq("venue_id", venue.id)
+    .returns<{ photo_url: string | null }[]>();
+  const existing = new Set(
+    [...(venue.photo_urls ?? []), venue.image_url, ...(liveSpaces ?? []).map((sp) => sp.photo_url)].filter(Boolean),
+  );
+  const submittedPhotos = [
+    ...value.photoUrls,
+    ...value.spaces.map((sp) => sp.photo_url).filter((u): u is string => Boolean(u)),
+  ];
+  if (submittedPhotos.some((url) => !url.startsWith(ownPrefix) && !existing.has(url))) {
     errors.push("One of the photos didn't upload properly -- remove it and add it again.");
   }
 
@@ -94,6 +107,7 @@ export async function submitVenueClaim(
     details: value.details,
     faqs: value.faqs,
     preferred_vendors: value.preferredVendors,
+    spaces: value.spaces,
     photo_urls: value.photoUrls,
   });
   if (error) return { error: "Couldn't save your changes -- please try again." };
