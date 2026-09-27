@@ -462,7 +462,7 @@ export function FeatureTile({ feature, asBox = false }: { feature: Feature; asBo
     </div>
   );
   const className =
-    "group flex flex-col overflow-hidden rounded-2xl border border-hairline bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-brass/60 hover:shadow-xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brass";
+    "group flex h-full flex-col overflow-hidden rounded-2xl border border-hairline bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-brass/60 hover:shadow-xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brass";
   const inner = (
     <>
       {/* Grows to fill the box, so a neighbour's two-line title never leaves a gap. */}
@@ -503,7 +503,7 @@ export function FeatureGrid({ features }: { features: Feature[] }) {
   return (
     <nav
       aria-label="Your wedding"
-      className="mt-6 grid grid-cols-2 gap-3 sm:mt-10 sm:gap-5 lg:mt-5 lg:grid-cols-5"
+      className="mt-6 grid auto-rows-fr grid-cols-2 gap-3 sm:mt-10 sm:gap-5 lg:mt-5 lg:grid-cols-5"
     >
       {features.map((feature) => (
         <FeatureTile key={feature.href} feature={feature} />
