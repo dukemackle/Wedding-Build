@@ -20,6 +20,11 @@ small server-action tweaks, migrations, RLS) can just be shipped directly
 the pull request without asking again — pushing to a branch isn't shipping,
 production deploys from `main`. The merge click stays the owner's.
 
+**Venue batches merge themselves (2026-09-27):** a PR that only adds venues to
+`src/lib/venue-batches.ts` doesn't wait for the owner — merge it once the
+Cloudflare build is green. The owner then clicks "Add them" on /admin/venues.
+Anything else in the PR (code, UI) still goes through the owner.
+
 **Desktop and mobile are two designs, not one that stretches (2026-09-20,
 restated 2026-09-20 — supersedes the earlier "desktop is settled" note):**
 each screen size gets an arrangement composed for it. Neither is the other's
