@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import type { VendorTrackerRow } from "./dashboard-data";
+import { RsvpYesCount } from "./rsvp-count";
 
 export type Feature = {
   href: string;
@@ -25,6 +26,8 @@ export type FeatureData = {
     categories: number;
   };
   guests: { total: number; confirmed: number; pending: number; declined: number };
+  /** Remembers the RSVP count per wedding so a new "yes" can bump it. Absent on the landing sample. */
+  weddingId?: string;
   venue: { photo: string | null; name: string; booked: boolean } | null;
   venuesShortlisted: number;
   vendors: VendorTrackerRow[];
@@ -296,7 +299,8 @@ export function buildFeatures(d: FeatureData): Feature[] {
           </div>
           <div className="flex gap-3">
             <Small>
-              <span className="text-forest">■</span> {d.guests.confirmed} yes
+              <span className="text-forest">■</span>{" "}
+              <RsvpYesCount count={d.guests.confirmed} seenKey={d.weddingId} />
             </Small>
             <Small>
               <span className="text-brass">■</span> {d.guests.pending} waiting
