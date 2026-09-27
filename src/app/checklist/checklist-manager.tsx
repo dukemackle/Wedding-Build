@@ -1,6 +1,8 @@
 "use client";
 
-import { useRef, useState, useTransition } from "react";
+import { useOptimistic, useRef, useState, useTransition } from "react";
+import { BirdCheer } from "@/components/bird-cheer";
+import { BirdEmptyState } from "@/components/wren-moments";
 import { CHECKLIST_PHASES } from "@/lib/checklist-template";
 import type { ChecklistItem } from "@/lib/supabase/types";
 import {
@@ -110,12 +112,18 @@ function ChecklistRow({ item }: { item: ChecklistItem }) {
   const [isEditing, setIsEditing] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
   const [isPending, startTransition] = useTransition();
+  // Ticks show the moment you click, not after the server round trip, and
+  // only a tick you just made animates (not every done row on page load).
+  const [completed, setOptimisticCompleted] = useOptimistic(item.completed);
+  const [justTicked, setJustTicked] = useState(false);
 
   function handleToggle() {
     const formData = new FormData();
     formData.set("id", item.id);
     formData.set("completed", String(!item.completed));
+    setJustTicked(!item.completed);
     startTransition(async () => {
+      setOptimisticCompleted(!item.completed);
       const result = await toggleChecklistItem(formData);
       if (result?.error) setError(result.error);
     });
@@ -144,7 +152,7 @@ function ChecklistRow({ item }: { item: ChecklistItem }) {
     });
   }
 
-  const overdue = !item.completed && item.due_date && isOverdue(item.due_date);
+  const overdue = !completed && item.due_date && isOverdue(item.due_date);
 
   if (isEditing) {
     return (
@@ -178,22 +186,33 @@ function ChecklistRow({ item }: { item: ChecklistItem }) {
       <button
         onClick={handleToggle}
         disabled={isPending}
-        aria-label={item.completed ? "Mark as not done" : "Mark as done"}
+        aria-label={completed ? "Mark as not done" : "Mark as done"}
         className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border transition-colors ${
-          item.completed
+          completed && justTicked ? "wren-check-pop " : ""
+        }${
+          completed
             ? "border-forest bg-forest text-parchment"
             : "border-hairline hover:border-forest"
         }`}
       >
-        {item.completed && (
+        {completed && (
           <svg viewBox="0 0 24 24" className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth={3}>
-            <path d="m5 13 4 4L19 7" strokeLinecap="round" strokeLinejoin="round" />
+            <path
+              d="m5 13 4 4L19 7"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className={justTicked ? "wren-tick-draw" : undefined}
+            />
           </svg>
         )}
       </button>
       <div className="flex-1">
         <div className="flex flex-wrap items-center gap-2">
-          <span className={item.completed ? "text-ink/50 line-through" : "text-ink"}>
+          <span
+            className={
+              completed ? (justTicked ? "wren-strike text-ink/50" : "text-ink/50 line-through") : "text-ink"
+            }
+          >
             {item.title}
           </span>
           {item.due_date && (
@@ -286,9 +305,9 @@ export function ChecklistManager({ items }: { items: ChecklistItem[] }) {
       {items.length === 0 ? (
         <BuildPlanPrompt />
       ) : incomplete.length === 0 ? (
-        <p className="py-8 text-center text-sm text-ink/50">
-          All done! 🎉 Everything on your checklist is complete.
-        </p>
+        <BirdEmptyState>
+          <p className="text-sm text-ink/60">All done! Everything on your checklist is complete.</p>
+        </BirdEmptyState>
       ) : (
         <PhasedList items={items} />
       )}
@@ -427,6 +446,18 @@ function PhasedList({ items }: { items: ChecklistItem[] }) {
   const [picked, setPicked] = useState<string | null>(null);
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
 
+  // A stage that just went from "some left" to done gets the bird. Compared
+  // against the last render (not in an effect) so it fires exactly once.
+  const doneKeys = stages.filter((stage) => stage.isDone).map((stage) => stage.key).join(",");
+  const [prevDoneKeys, setPrevDoneKeys] = useState(doneKeys);
+  const [cheer, setCheer] = useState<{ id: number; message: string } | null>(null);
+  if (doneKeys !== prevDoneKeys) {
+    const before = new Set(prevDoneKeys.split(","));
+    const finished = stages.find((stage) => stage.isDone && !before.has(stage.key));
+    setPrevDoneKeys(doneKeys);
+    if (finished) setCheer({ id: (cheer?.id ?? 0) + 1, message: `${finished.title}: done!` });
+  }
+
   const activeKey = picked ?? currentKey ?? stages[0]?.key;
   const active = stages.find((stage) => stage.key === activeKey);
 
@@ -441,6 +472,8 @@ function PhasedList({ items }: { items: ChecklistItem[] }) {
 
   return (
     <>
+      {cheer && <BirdCheer key={cheer.id} message={cheer.message} />}
+
       {/* --- phone and tablet: accordion ------------------------------- */}
       <div className="flex flex-col gap-3 lg:hidden">
         {stages.map((stage) => {

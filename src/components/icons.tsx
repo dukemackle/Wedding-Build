@@ -295,6 +295,40 @@ export function WrenBirdIcon(props: IconProps) {
   );
 }
 
+// The assistant's chat avatar -- a filled, full-colour version of the wren
+// (blue, cream belly, orange beak, a two-feather V tail) for the chat header
+// and the floating chat button. The nav keeps the outline WrenBirdIcon so it
+// matches the other nav icons.
+export function WrenChatBirdIcon(props: IconProps) {
+  // The wren-* class names are hooks for the animations in globals.css
+  // (AnimatedWrenBird drives them); without them the bird is just static.
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" className="h-5 w-5" {...props}>
+      <g className="wren-bird">
+        <path className="wren-tail-a" d="M7.6 11.8 4.4 3.5q.8-1.1 1.9-.4l4.1 7.9z" fill="#3b88c3" />
+        <path className="wren-tail-b" d="M6.7 12.9 1.7 5.9q.3-1.2 1.4-.8l5.8 6.1z" fill="#2f78ad" />
+        <ellipse cx="11" cy="14.5" rx="7" ry="5.3" fill="#55acee" />
+        <g className="wren-head">
+          <circle cx="16.6" cy="9.8" r="3.6" fill="#55acee" />
+          <path d="M19.9 9.1 23 10l-3.1.9z" fill="#f4900c" />
+          <g className="wren-eye">
+            <circle cx="17.5" cy="9.1" r=".75" fill="#1b1f1c" />
+            <circle cx="17.75" cy="8.85" r=".25" fill="#fff" />
+          </g>
+        </g>
+        <path d="M9 18.6q5 1.2 8.3-2.4 1.2-1.6 1-3.6-3 4-9.3 6z" fill="#dff1fc" />
+        <path className="wren-wing" d="M7.5 13.2q3.4-3.6 8.2-1.2-2.2 4.2-8.2 1.2z" fill="#3b88c3" />
+        <path
+          d="M10.5 19.5 9.6 22M13.8 19.4l.8 2.6"
+          stroke="#f4900c"
+          strokeWidth={1.1}
+          strokeLinecap="round"
+        />
+      </g>
+    </svg>
+  );
+}
+
 export function GlobeIcon(props: IconProps) {
   return (
     <IconBase {...props}>

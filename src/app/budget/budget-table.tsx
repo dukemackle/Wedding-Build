@@ -379,7 +379,7 @@ function BudgetRowItem({
           <span className="flex flex-1 items-center gap-2 sm:flex-none">
             <span className="h-1.5 flex-1 overflow-hidden rounded-full bg-forest/10 sm:w-20 sm:flex-none">
               <span
-                className="block h-1.5 rounded-full bg-forest transition-[width]"
+                className="wren-grow block h-1.5 rounded-full bg-forest transition-[width]"
                 style={{ width: `${paidPct}%` }}
               />
             </span>
@@ -449,7 +449,7 @@ function BudgetRowItem({
             <div className="mt-1.5 flex items-center gap-3">
               <div className="h-2 flex-1 overflow-hidden rounded-full bg-forest/10">
                 <div
-                  className="h-2 rounded-full bg-forest transition-[width]"
+                  className="wren-grow h-2 rounded-full bg-forest transition-[width]"
                   style={{ width: `${paidPct}%` }}
                 />
               </div>

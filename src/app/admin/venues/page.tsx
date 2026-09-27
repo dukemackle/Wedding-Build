@@ -3,7 +3,9 @@ import type { Venue, VenueFaq } from "@/lib/supabase/types";
 import Link from "next/link";
 import { countAddedThisWeek, fetchListingPage, fetchTestWeddingIds } from "../_listing/query";
 import { parseListingParams } from "../_listing/params";
+import { pendingBundledVenues } from "./actions";
 import { AdminVenuesManager } from "./admin-venues-manager";
+import { BundledVenuesBanner } from "./bundled-venues-banner";
 import { VENUE_LISTING } from "./listing-config";
 
 export default async function AdminVenuesPage({
@@ -14,12 +16,13 @@ export default async function AdminVenuesPage({
   const params = parseListingParams(await searchParams);
   const admin = createAdminSupabaseClient();
 
-  const [{ rows: venues, total, statusCounts }, { count: pendingClaims }, addedThisWeek, testWeddingIds] =
+  const [{ rows: venues, total, statusCounts }, { count: pendingClaims }, addedThisWeek, testWeddingIds, bundled] =
     await Promise.all([
       fetchListingPage<Venue>(VENUE_LISTING, params),
       admin.from("venue_submissions").select("id", { count: "exact", head: true }).eq("status", "pending"),
       countAddedThisWeek("venues"),
       fetchTestWeddingIds(),
+      pendingBundledVenues(),
     ]);
 
   // FAQs and inquiry counts for the rows on screen only.
@@ -56,7 +59,12 @@ export default async function AdminVenuesPage({
     </>
   );
 
-  const notice = (pendingClaims ?? 0) > 0 && (
+  // Most-represented towns first, so the line reads as where the batch is.
+  const townCounts = new Map<string, number>();
+  for (const venue of bundled) if (venue.city) townCounts.set(venue.city, (townCounts.get(venue.city) ?? 0) + 1);
+  const towns = [...townCounts.entries()].sort((a, b) => b[1] - a[1]).map(([town]) => town);
+
+  const claimsNotice = (pendingClaims ?? 0) > 0 && (
     <Link
       href="/admin/venues/claims"
       className="mb-4 flex items-center justify-between rounded-md border border-brass/40 bg-brass/10 px-4 py-3 text-sm text-ink hover:border-brass"
@@ -66,6 +74,13 @@ export default async function AdminVenuesPage({
       </span>
       <span className="text-brass">Review &rarr;</span>
     </Link>
+  );
+
+  const notice = (
+    <>
+      {bundled.length > 0 && <BundledVenuesBanner count={bundled.length} towns={towns} />}
+      {claimsNotice}
+    </>
   );
 
   return (

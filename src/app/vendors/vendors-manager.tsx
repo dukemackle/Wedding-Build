@@ -17,6 +17,7 @@ import { SearchShell } from "@/components/search-shell";
 import { VendorFavoriteButton } from "./vendor-card-shared";
 import { InquiryForm } from "./inquiry-form";
 import { VendorFollowUps } from "./vendor-follow-ups";
+import { BirdEmptyState } from "@/components/wren-moments";
 
 const VendorsMap = dynamic(() => import("./vendors-map").then((m) => m.VendorsMap), {
   ssr: false,
@@ -394,9 +395,9 @@ export function VendorsManager({
           count: favorites.length,
           panel:
             favorites.length === 0 ? (
-              <p className="py-8 text-center text-sm text-ink/50">
-                Nothing saved yet. Tap the heart on a vendor to keep it here.
-              </p>
+              <BirdEmptyState>
+                <p className="text-sm text-ink/60">Nothing saved yet. Tap the heart on a vendor to keep it here.</p>
+              </BirdEmptyState>
             ) : (
               <div>
                 {favorites.map((entry) => {

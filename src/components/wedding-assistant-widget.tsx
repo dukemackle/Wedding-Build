@@ -9,7 +9,8 @@ import {
   type ProposalStatus,
 } from "@/lib/ai/wedding-assistant";
 import type { Proposal } from "@/lib/ai/assistant-tools";
-import { WrenBirdIcon, SendIcon, CloseIcon, ExpandIcon, CollapseIcon } from "@/components/icons";
+import { SendIcon, CloseIcon, ExpandIcon, CollapseIcon } from "@/components/icons";
+import { AnimatedWrenBird } from "@/components/animated-wren-bird";
 import { useAssistant } from "@/components/assistant-context";
 
 type Card = Proposal & { status: ProposalStatus };
@@ -165,7 +166,7 @@ export function AssistantChat({
     <div className="flex h-full min-h-0 flex-1 flex-col">
       <div className="flex items-center justify-between border-b border-hairline bg-wren-soft px-4 py-3">
         <span className="flex items-center gap-2 font-display text-lg text-wren-deep">
-          <WrenBirdIcon className="h-5 w-5" />
+          <AnimatedWrenBird className="h-5 w-5" thinking={isPending} />
           Wren
         </span>
         <div className="flex items-center gap-3">
@@ -295,9 +296,9 @@ export function WeddingAssistantWidget() {
         type="button"
         onClick={() => setOpen(!open)}
         aria-label={open ? "Close Wren, your wedding assistant" : "Open Wren, your wedding assistant"}
-        className="flex h-12 w-12 items-center justify-center rounded-full bg-wren text-ink shadow-lg hover:bg-wren/90"
+        className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-wren bg-card text-ink shadow-lg hover:bg-wren-soft"
       >
-        {open ? <CloseIcon className="h-5 w-5" /> : <WrenBirdIcon className="h-6 w-6" />}
+        {open ? <CloseIcon className="h-5 w-5" /> : <AnimatedWrenBird className="h-6 w-6" hopOnce />}
       </button>
     </div>
   );

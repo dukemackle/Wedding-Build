@@ -12,6 +12,7 @@ import {
 import { downloadIcs } from "@/lib/ics";
 import { ItineraryCalendar } from "@/components/itinerary-calendar";
 import { addItineraryEvent, updateItineraryEvent, deleteItineraryEvent } from "./actions";
+import { BirdEmptyState } from "@/components/wren-moments";
 
 const inputClass =
   "rounded-md border border-hairline bg-parchment px-3 py-2 text-ink outline-none focus:border-forest";
@@ -307,10 +308,12 @@ export function ItineraryManager({
         )}
 
         {days.length === 0 ? (
-          <div className="rounded-lg border border-hairline bg-card p-8 text-center shadow-sm">
-            <p className="text-sm text-ink/50">
-              Nothing on the schedule yet — add your first event to start building the weekend.
-            </p>
+          <div className="rounded-lg border border-hairline bg-card p-8 shadow-sm">
+            <BirdEmptyState className="">
+              <p className="text-sm text-ink/60">
+                Nothing on the schedule yet. Add your first event to start building the weekend.
+              </p>
+            </BirdEmptyState>
           </div>
         ) : (
           <div
