@@ -1,0 +1,36 @@
+import { requireAdmin } from "@/lib/admin";
+import { toCsv } from "@/lib/csv";
+import type { Vendor } from "@/lib/supabase/types";
+import { parseListingParams } from "../../_listing/params";
+import { fetchAllListings } from "../../_listing/query";
+import { VENDOR_LISTING } from "../listing-config";
+
+/** Every vendor matching the list's current filters, as a spreadsheet. */
+export async function GET(request: Request) {
+  await requireAdmin();
+
+  const params = parseListingParams(Object.fromEntries(new URL(request.url).searchParams));
+  const vendors = await fetchAllListings<Vendor>(VENDOR_LISTING, params);
+
+  const csv = toCsv(
+    ["Name", "Category", "City", "State", "Price tier", "Email", "Source", "Live", "Last checked"],
+    vendors.map((v) => [
+      v.name,
+      v.category ?? "",
+      v.city ?? "",
+      v.state ?? "",
+      v.price_tier ?? "",
+      v.contact_email ?? "",
+      v.source ?? "",
+      v.active ? "yes" : "no",
+      v.last_verified_at?.slice(0, 10) ?? "never",
+    ]),
+  );
+
+  return new Response(csv, {
+    headers: {
+      "Content-Type": "text/csv; charset=utf-8",
+      "Content-Disposition": 'attachment; filename="vendors.csv"',
+    },
+  });
+}
