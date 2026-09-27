@@ -7,12 +7,12 @@
    names (parchment/card/hairline/forest/brass/ink), so retheming here
    restyles the whole app without touching component markup. */
 :root {
-  --color-parchment: #fafaf9;
+  --color-parchment: #fbfaf8;
   --color-card: #ffffff;
-  --color-hairline: #e5e7e3;
-  --color-forest: #0b4a3a;
-  --color-brass: #c79a2e;
-  --color-ink: #1b1f1c;
+  --color-hairline: #e3e8ef;
+  --color-forest: #123a8a;
+  --color-brass: #2f86d8;
+  --color-ink: #14203d;
 }
 
 @theme inline {
@@ -29,7 +29,7 @@
 
   --radius-md: 0.625rem;
   --radius-lg: 1rem;
-  --shadow-sm: 0 4px 16px -2px rgb(11 74 58 / 0.08), 0 2px 6px -2px rgb(11 74 58 / 0.06);
+  --shadow-sm: 0 4px 16px -2px rgb(18 58 138 / 0.08), 0 2px 6px -2px rgb(18 58 138 / 0.06);
 }
 
 /* Soft fixed gradient shapes behind all content -- emerald top-left,
@@ -39,12 +39,36 @@
    shadow, so they read clearly on top regardless of what's behind them). */
 body {
   background-color: var(--color-parchment);
+}
+
+/* Soft blue wash fixed behind everything, slowly brightening and fading. */
+html::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
   background-image:
-    radial-gradient(640px circle at 6% 8%, rgb(11 74 58 / 0.12), transparent 60%),
-    radial-gradient(720px circle at 96% 12%, rgb(199 154 46 / 0.14), transparent 55%),
-    radial-gradient(820px circle at 50% 105%, rgb(199 111 130 / 0.08), transparent 60%);
-  background-repeat: no-repeat;
-  background-attachment: fixed;
+    radial-gradient(720px circle at 8% 10%, rgb(18 58 138 / 0.10), transparent 60%),
+    radial-gradient(760px circle at 94% 14%, rgb(47 134 216 / 0.16), transparent 55%),
+    radial-gradient(820px circle at 50% 105%, rgb(120 180 235 / 0.14), transparent 60%);
+  animation: wash 9s ease-in-out infinite alternate;
+}
+
+@keyframes wash {
+  from { opacity: 0.35; transform: scale(1); }
+  to { opacity: 1; transform: scale(1.05); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html::before { animation: none; opacity: 0.8; }
+}
+
+body {
+  background-color: transparent;
+}
+html {
+  background-color: var(--color-parchment);
 }
 
 /* Subtle whole-app entrance animation: every page fades and rises in

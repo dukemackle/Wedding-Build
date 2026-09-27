@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { BrandRings } from "@/components/brand-rings";
 import Link from "next/link";
 import { FadeInSection } from "@/components/fade-in-section";
 import { AnimatedCounter } from "@/components/animated-counter";
@@ -29,16 +29,14 @@ export default async function Home() {
           className="pointer-events-none absolute -top-10 left-1/4 h-72 w-72 -translate-x-1/2 rounded-full bg-forest/10 blur-3xl motion-safe:animate-[float_7s_ease-in-out_infinite]"
         />
         <div className="flex flex-col items-start text-left">
-          <Image
-            src="/logo/wren-logo-hero.png"
-            alt="Wren Wedding Planning"
-            width={731}
-            height={512}
-            priority
-            className="h-auto w-full max-w-[34rem]"
-          />
-          <p className="mt-3 w-full max-w-[34rem] text-center font-display text-xl italic text-ink/70">
-            Wedding planning, made easy.
+          <div className="flex w-full max-w-[34rem] flex-col items-center">
+            <BrandRings className="h-auto w-44 sm:w-56" />
+            <p className="mt-2 font-display text-5xl font-semibold text-forest sm:text-6xl">
+              You do, <span className="italic text-brass">I do</span>
+            </p>
+          </div>
+          <p className="mt-4 w-full max-w-[34rem] text-center font-display text-xl italic text-ink/70">
+            You do the dreaming. We do the planning.
           </p>
           <h1 className="mt-4 font-display text-5xl font-semibold leading-[1.05] text-ink sm:text-6xl lg:text-7xl">
             Build your <span className="text-brass italic">dream</span> wedding.
