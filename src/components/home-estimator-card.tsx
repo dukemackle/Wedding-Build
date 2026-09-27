@@ -122,7 +122,7 @@ export function HomeEstimatorCard({ regionalData }: { regionalData: RegionalCost
 
       <Link
         href="/estimate"
-        className="btn-motion mt-8 block w-full rounded-full bg-brass px-4 py-3.5 text-center font-display text-xl font-semibold text-parchment shadow-sm transition-colors hover:bg-brass/90"
+        className="btn-motion mt-8 block w-full rounded-full bg-brass px-4 py-3.5 text-center font-display text-xl font-semibold text-ink shadow-sm transition-colors hover:bg-brass/90"
       >
         See full breakdown &rarr;
       </Link>

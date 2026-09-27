@@ -7,11 +7,11 @@
    names (parchment/card/hairline/forest/brass/ink), so retheming here
    restyles the whole app without touching component markup. */
 :root {
-  --color-parchment: #fbfaf8;
+  --color-parchment: #fcfbf7;
   --color-card: #ffffff;
-  --color-hairline: #e3e8ef;
-  --color-forest: #123a8a;
-  --color-brass: #2f86d8;
+  --color-hairline: #ece8df;
+  --color-forest: #14203d;
+  --color-brass: #e0a100;
   --color-ink: #14203d;
 }
 
@@ -29,7 +29,7 @@
 
   --radius-md: 0.625rem;
   --radius-lg: 1rem;
-  --shadow-sm: 0 4px 16px -2px rgb(18 58 138 / 0.08), 0 2px 6px -2px rgb(18 58 138 / 0.06);
+  --shadow-sm: 0 4px 16px -2px rgb(20 32 61 / 0.08), 0 2px 6px -2px rgb(20 32 61 / 0.06);
 }
 
 /* Soft fixed gradient shapes behind all content -- emerald top-left,
@@ -49,9 +49,9 @@ html::before {
   z-index: -1;
   pointer-events: none;
   background-image:
-    radial-gradient(720px circle at 8% 10%, rgb(18 58 138 / 0.10), transparent 60%),
-    radial-gradient(760px circle at 94% 14%, rgb(47 134 216 / 0.16), transparent 55%),
-    radial-gradient(820px circle at 50% 105%, rgb(120 180 235 / 0.14), transparent 60%);
+    radial-gradient(720px circle at 8% 10%, rgb(255 198 41 / 0.16), transparent 60%),
+    radial-gradient(760px circle at 94% 14%, rgb(255 210 63 / 0.22), transparent 55%),
+    radial-gradient(820px circle at 50% 105%, rgb(242 169 0 / 0.12), transparent 60%);
   animation: wash 9s ease-in-out infinite alternate;
 }
 
