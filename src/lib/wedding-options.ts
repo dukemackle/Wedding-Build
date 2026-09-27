@@ -70,6 +70,42 @@ export const SUGGESTED_VENUE_QUESTIONS = [
   "What deposit is required to book?",
 ] as const;
 
+export const VENDOR_PRICE_UNITS = {
+  event: "per event",
+  guest: "per guest",
+  hour: "per hour",
+  package: "per package",
+} as const;
+
+// The questions couples ask each kind of vendor first, offered pre-filled on
+// the vendor's claim form. Categories not listed get the general set.
+export const SUGGESTED_VENDOR_QUESTIONS: Record<string, readonly string[]> = {
+  Photography: [
+    "How soon do we get our photos?",
+    "Do you bring a second shooter?",
+    "How many hours of coverage are included?",
+    "Do you travel, and is there a fee?",
+  ],
+  Videography: [
+    "How long is the finished film?",
+    "When do we get the video?",
+    "Do you film the full ceremony and speeches?",
+  ],
+  Catering: [
+    "Do you offer tastings?",
+    "Can you handle dietary restrictions?",
+    "Are staff, plates and linens included?",
+    "Is there a minimum guest count?",
+  ],
+  Bar: ["Are you licensed and insured?", "Can we supply our own alcohol?", "How many bartenders per guest?"],
+  Florals: ["Is there a minimum spend?", "Do you handle setup and teardown?", "Can we reuse ceremony flowers at the reception?"],
+  Music: ["Do you take song requests?", "Do you provide the sound system and microphones?", "How long do you play?"],
+  Cake: ["Do you offer tastings?", "Do you deliver and set up?", "Can you do dietary-friendly cakes?"],
+  Planning: ["Do you offer day-of coordination only?", "How many weddings do you take a year?", "When should we book you?"],
+  Transportation: ["How many passengers per vehicle?", "Is there a minimum booking time?"],
+  default: ["How far ahead should we book?", "What deposit is required?", "Do you travel, and is there a fee?"],
+};
+
 export const CAPACITY_FILTER_STEPS = [50, 100, 150, 200, 300] as const;
 
 export const ATTIRE_CATEGORIES = [

@@ -8,6 +8,8 @@ import type {
   VendorFaq,
 } from "@/lib/supabase/types";
 import { REGIONS, STATES } from "@/lib/wedding-options";
+import { ClaimLinkPanel } from "../claim-link-panel";
+import { getVendorClaimLink, regenerateVendorClaimLink } from "./claim-actions";
 import { FilterBar, StatusChips } from "../_listing/listing-toolbar";
 import {
   BulkBar,
@@ -367,7 +369,7 @@ function vendorChecks(vendor: Vendor): [string, boolean][] {
     ["photo", !!vendor.image_url],
     ["description", !!(vendor.description || vendor.about)],
     ["category", !!vendor.category],
-    ["price", !!vendor.price_tier],
+    ["price", !!(vendor.price_tier || vendor.price_from)],
     ["email", !!vendor.contact_email],
   ];
 }
@@ -393,7 +395,7 @@ function VendorRow({
   selected: boolean;
   onToggleSelect: () => void;
 }) {
-  const [panel, setPanel] = useState<"edit" | "log" | null>(null);
+  const [panel, setPanel] = useState<"edit" | "log" | "claim" | null>(null);
   const [isPending, startTransition] = useTransition();
 
   function toggleActive() {
@@ -417,6 +419,7 @@ function VendorRow({
     { label: "Still right", onSelect: markVerified, disabled: isPending },
     { label: vendor.active ? "Hide" : "Make live", onSelect: toggleActive, disabled: isPending },
     { label: `Contact log (${logs.length})`, onSelect: () => setPanel("log") },
+    ...(vendor.is_sample ? [] : [{ label: "Claim link", onSelect: () => setPanel("claim") }]),
     { label: "View listing", onSelect: () => window.open(`https://wrenwed.com/vendors/${vendor.id}`, "_blank") },
   ];
   const place = [vendor.city, vendor.state].filter(Boolean).join(", ") || "—";
@@ -486,6 +489,16 @@ function VendorRow({
           <VendorFaqEditor vendor={vendor} faqs={faqs} />
         </div>
       )}
+      {panel === "claim" && (
+        <div className="px-3 pb-3">
+          <ClaimLinkPanel
+            target={{ name: vendor.name, city: vendor.city, contactEmail: vendor.contact_email, kind: "vendor" }}
+            getLink={() => getVendorClaimLink(vendor.id)}
+            newLink={() => regenerateVendorClaimLink(vendor.id)}
+            onClose={() => setPanel(null)}
+          />
+        </div>
+      )}
       {panel === "log" && (
         <div className="px-3 pb-3">
           <ContactLog vendorId={vendor.id} logs={logs} />
@@ -500,6 +513,7 @@ function VendorRow({
 
 export function AdminVendorsManager({
   heading,
+  notice,
   vendors,
   total,
   params,
@@ -511,6 +525,7 @@ export function AdminVendorsManager({
   faqsByVendorId,
 }: {
   heading: React.ReactNode;
+  notice?: React.ReactNode;
   vendors: Vendor[];
   total: number;
   params: ListingParams;
@@ -582,6 +597,8 @@ export function AdminVendorsManager({
         </button>
         </div>
       </div>
+
+      {notice}
 
       {adding && (
         <div className="mb-4 rounded-lg border border-hairline bg-card p-5 shadow-sm">

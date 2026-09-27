@@ -16,23 +16,22 @@ export function VendorDetailClient({
 
   return (
     <div className="rounded-lg border border-hairline bg-card p-6 shadow-sm">
-      <div className="flex flex-wrap items-center gap-2">
-        <VendorFavoriteButton vendorId={vendor.id} isFavorited={isFavorited} />
-        {!showInquiry && (
-          <button
-            type="button"
-            onClick={() => setShowInquiry(true)}
-            className="rounded-full border border-hairline bg-parchment px-3 py-1 text-sm text-forest transition-colors hover:border-forest"
-          >
-            Request a quote
-          </button>
-        )}
-      </div>
+      <VendorFavoriteButton vendorId={vendor.id} isFavorited={isFavorited} />
+      {!showInquiry && (
+        <button
+          type="button"
+          onClick={() => setShowInquiry(true)}
+          className="mt-4 w-full rounded-md bg-forest px-4 py-2.5 text-sm font-medium text-parchment transition-colors hover:bg-forest/90"
+        >
+          Request a quote
+        </button>
+      )}
 
-      {vendor.contact_email && !showInquiry && (
-        <p className="mt-4 border-t border-hairline pt-4 text-sm text-ink/80">
-          {vendor.contact_email}
-        </p>
+      {(vendor.contact_phone || vendor.contact_email) && !showInquiry && (
+        <div className="mt-4 flex flex-col gap-1 border-t border-hairline pt-4 text-sm text-ink/80">
+          {vendor.contact_phone && <p>{vendor.contact_phone}</p>}
+          {vendor.contact_email && <p>{vendor.contact_email}</p>}
+        </div>
       )}
 
       {showInquiry && <InquiryForm vendor={vendor} onDone={() => setShowInquiry(false)} />}

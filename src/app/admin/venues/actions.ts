@@ -309,7 +309,7 @@ export async function bulkMarkVenuesVerified(formData: FormData): Promise<{ erro
 /**
  * Deletes for good. Shortlists, FAQs, spaces and claim links go with the venue;
  * a wedding that booked it, and past inquiries, keep their row but lose the link
- * (see the foreign keys in migrations 0051-0084). Hiding is the reversible option.
+ * (see the foreign keys in migrations 0051-0085). Hiding is the reversible option.
  */
 export async function bulkDeleteVenues(formData: FormData): Promise<{ error?: string }> {
   await requireAdmin();

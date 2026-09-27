@@ -10,14 +10,14 @@ import { SERVICE_LEVEL_HINTS, SERVICE_LEVELS, VENDOR_POLICIES } from "@/lib/wedd
 
 const card = "mt-6 rounded-lg border border-hairline bg-card p-6 shadow-sm";
 
-/** Price, what's provided, vendor policy, capacity: the facts couples shortlist on. */
+/**
+ * What's provided, capacity, vendor policy: the facts couples shortlist on.
+ * Price isn't here -- it leads the action box beside it, and saying it twice
+ * in one glance reads as a mistake.
+ */
 export function VenueKeyFacts({ venue }: { venue: Venue }) {
-  const facts = [
-    venue.price_from != null && {
-      label: "Starting at",
-      value: `$${venue.price_from.toLocaleString()}`,
-      note: venue.price_note,
-    },
+  type Fact = { label: string; value: string; note: string | null };
+  const facts: (Fact | false | null | 0 | undefined)[] = [
     venue.service_level && {
       label: "What's provided",
       value: SERVICE_LEVELS[venue.service_level],
@@ -31,12 +31,13 @@ export function VenueKeyFacts({ venue }: { venue: Venue }) {
       note: null,
     },
     venue.vendor_policy && { label: "Outside vendors", value: VENDOR_POLICIES[venue.vendor_policy], note: null },
-  ].filter((f): f is { label: string; value: string; note: string | null } => Boolean(f));
+  ];
+  const shown = facts.filter((f): f is Fact => Boolean(f));
 
-  if (facts.length === 0) return null;
+  if (shown.length === 0) return null;
   return (
-    <dl className="mt-5 grid grid-cols-2 gap-x-6 gap-y-4 border-t border-hairline pt-5 sm:grid-cols-4">
-      {facts.map((f) => (
+    <dl className="mt-5 grid grid-cols-2 gap-x-6 gap-y-4 border-t border-hairline pt-5 sm:grid-cols-3">
+      {shown.map((f) => (
         <div key={f.label}>
           <dt className="text-xs uppercase tracking-wide text-ink/50">{f.label}</dt>
           <dd className="mt-0.5 font-medium text-ink">{f.value}</dd>

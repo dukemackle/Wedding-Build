@@ -3,7 +3,8 @@
 import { useRef, useState, useTransition } from "react";
 import type { Venue, VenueFaq } from "@/lib/supabase/types";
 import { VenueImportPanel } from "./venue-import-panel";
-import { ClaimLinkPanel } from "./claim-link-panel";
+import { ClaimLinkPanel } from "../claim-link-panel";
+import { getClaimLink, regenerateClaimLink } from "./claim-actions";
 import { STATES, STYLE_TIERS, VENUE_SETTINGS, VENUE_TYPES } from "@/lib/wedding-options";
 import { FilterBar, StatusChips } from "../_listing/listing-toolbar";
 import {
@@ -410,7 +411,12 @@ function VenueRow({
       )}
       {panel === "claim" && (
         <div className="px-3 pb-3">
-          <ClaimLinkPanel venue={venue} onClose={() => setPanel(null)} />
+          <ClaimLinkPanel
+            target={{ name: venue.name, city: venue.city, contactEmail: venue.contact_email, kind: "venue" }}
+            getLink={() => getClaimLink(venue.id)}
+            newLink={() => regenerateClaimLink(venue.id)}
+            onClose={() => setPanel(null)}
+          />
         </div>
       )}
     </div>

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import type { Vendor, VendorContactLog, VendorFaq } from "@/lib/supabase/types";
 import { countAddedThisWeek, fetchDistinct, fetchListingPage, fetchTestWeddingIds } from "../_listing/query";
@@ -13,12 +14,13 @@ export default async function AdminVendorsPage({
   const params = parseListingParams(await searchParams);
   const admin = createAdminSupabaseClient();
 
-  const [{ rows: vendors, total, statusCounts }, categories, addedThisWeek, testWeddingIds] =
+  const [{ rows: vendors, total, statusCounts }, categories, addedThisWeek, testWeddingIds, { count: pendingClaims }] =
     await Promise.all([
       fetchListingPage<Vendor>(VENDOR_LISTING, params),
       fetchDistinct("vendors", "category"),
       countAddedThisWeek("vendors"),
       fetchTestWeddingIds(),
+      admin.from("vendor_submissions").select("id", { count: "exact", head: true }).eq("status", "pending"),
     ]);
 
   // Everything below is for the rows on screen only.
@@ -86,10 +88,23 @@ export default async function AdminVendorsPage({
     </>
   );
 
+  const notice = (pendingClaims ?? 0) > 0 && (
+    <Link
+      href="/admin/vendors/claims"
+      className="mb-4 flex items-center justify-between rounded-md border border-brass/40 bg-brass/10 px-4 py-3 text-sm text-ink hover:border-brass"
+    >
+      <span>
+        {pendingClaims} {pendingClaims === 1 ? "vendor has" : "vendors have"} sent changes to review
+      </span>
+      <span className="text-brass">Review &rarr;</span>
+    </Link>
+  );
+
   return (
     <div>
       <AdminVendorsManager
         heading={heading}
+        notice={notice}
         vendors={vendors}
         total={total}
         params={params}

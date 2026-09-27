@@ -6,9 +6,12 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { pageWidthClass, type PageWidth } from "@/lib/layout";
 
+/** Claim submissions waiting for review, per list. */
+export type PendingClaims = { venues: number; vendors: number };
+
 type NavLink = { href: string; label: string; badge?: number; soon?: boolean };
 
-function groups(pendingClaims: number): { title?: string; links: NavLink[] }[] {
+function groups(claims: PendingClaims): { title?: string; links: NavLink[] }[] {
   return [
     {
       links: [
@@ -21,7 +24,8 @@ function groups(pendingClaims: number): { title?: string; links: NavLink[] }[] {
       links: [
         { href: "/admin/venues", label: "Venues" },
         { href: "/admin/vendors", label: "Vendors" },
-        { href: "/admin/venues/claims", label: "Claims", badge: pendingClaims },
+        { href: "/admin/venues/claims", label: "Venue claims", badge: claims.venues },
+        { href: "/admin/vendors/claims", label: "Vendor claims", badge: claims.vendors },
       ],
     },
     {
@@ -59,7 +63,7 @@ function activeHref(pathname: string, links: NavLink[]) {
     .sort((a, b) => b.href.length - a.href.length)[0]?.href;
 }
 
-function NavList({ pendingClaims, onNavigate }: { pendingClaims: number; onNavigate?: () => void }) {
+function NavList({ pendingClaims, onNavigate }: { pendingClaims: PendingClaims; onNavigate?: () => void }) {
   const pathname = usePathname();
   const all = groups(pendingClaims);
   const active = activeHref(pathname, all.flatMap((g) => g.links));
@@ -131,7 +135,7 @@ const backToApp = (
  * a phone. Grouped rather than one long strip, because the panel keeps growing
  * and a strip of eleven links wraps into a paragraph.
  */
-export function AdminNav({ pendingClaims }: { pendingClaims: number }) {
+export function AdminNav({ pendingClaims }: { pendingClaims: PendingClaims }) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -155,7 +159,7 @@ export function AdminNav({ pendingClaims }: { pendingClaims: number }) {
             className="relative rounded-md border border-hairline px-3 py-1.5 text-sm text-ink"
           >
             {open ? "Close" : "Menu"}
-            {!open && pendingClaims > 0 && (
+            {!open && pendingClaims.venues + pendingClaims.vendors > 0 && (
               <span className="absolute -top-1.5 -right-1.5 h-3 w-3 rounded-full bg-brass" />
             )}
           </button>

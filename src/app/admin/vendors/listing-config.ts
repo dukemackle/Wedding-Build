@@ -14,9 +14,9 @@ export const VENDOR_LISTING = {
   table: "vendors",
   kindColumn: "category",
   // Missing any of the five things vendorChecks() in admin-vendors-manager.tsx
-  // counts: photo, description, category, price tier, email.
+  // counts: photo, description, category, price, email.
   incompleteFilter:
     "image_url.is.null,and(description.is.null,about.is.null),category.is.null," +
-    "price_tier.is.null,contact_email.is.null",
+    "and(price_tier.is.null,price_from.is.null),contact_email.is.null",
   statuses: VENDOR_STATUSES,
 } as const;
