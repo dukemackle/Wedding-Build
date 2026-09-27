@@ -10,7 +10,8 @@ import {
 } from "@/lib/listing-freshness";
 import type { Venue, VenueFaq } from "@/lib/supabase/types";
 import { VenueImportPanel } from "./venue-import-panel";
-import { ClaimLinkPanel } from "./claim-link-panel";
+import { ClaimLinkPanel } from "../claim-link-panel";
+import { getClaimLink, regenerateClaimLink } from "./claim-actions";
 import { STATES, STYLE_TIERS, VENUE_SETTINGS, VENUE_TYPES } from "@/lib/wedding-options";
 import {
   addVenueFaq,
@@ -394,7 +395,14 @@ function VenueRow({ venue, faqs }: { venue: Venue; faqs: VenueFaq[] }) {
         </button>
       </div>
     </div>
-    {showingClaim && <ClaimLinkPanel venue={venue} onClose={() => setShowingClaim(false)} />}
+    {showingClaim && (
+      <ClaimLinkPanel
+        target={{ name: venue.name, city: venue.city, contactEmail: venue.contact_email, kind: "venue" }}
+        getLink={() => getClaimLink(venue.id)}
+        newLink={() => regenerateClaimLink(venue.id)}
+        onClose={() => setShowingClaim(false)}
+      />
+    )}
     </div>
   );
 }

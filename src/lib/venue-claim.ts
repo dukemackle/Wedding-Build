@@ -153,9 +153,9 @@ export function detailsFromVenue(venue: Venue): ClaimDetails {
   };
 }
 
-const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+export const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-function clean(value: unknown): string {
+export function clean(value: unknown): string {
   return typeof value === "string" ? value.trim() : "";
 }
 
@@ -165,7 +165,7 @@ export function normaliseWebsite(raw: string): string | null {
   return /^https?:\/\//i.test(value) ? value : `https://${value}`;
 }
 
-function isUrl(value: string) {
+export function isUrl(value: string) {
   try {
     const url = new URL(value);
     return url.protocol === "https:" || url.protocol === "http:";
