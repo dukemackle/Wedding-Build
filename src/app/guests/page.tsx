@@ -7,12 +7,8 @@ import type {
   ContactSubmission,
   Guest,
   GuestPost,
-  RegistryItem,
   RsvpSubmission,
   Wedding,
-  WeddingAccommodation,
-  WeddingFaq,
-  WeddingGalleryPhoto,
 } from "@/lib/supabase/types";
 import { GuestsPageBody } from "./guests-page-body";
 import { qrSvg } from "@/lib/qr";
@@ -66,28 +62,6 @@ export default async function GuestsPage() {
     .order("name", { ascending: true })
     .returns<Guest[]>();
 
-  const { data: registryItems } = await supabase
-    .from("registry_items")
-    .select("*")
-    .eq("wedding_id", wedding.id)
-    .order("created_at", { ascending: true })
-    .returns<RegistryItem[]>();
-
-  const [{ data: weddingFaqs }, { data: accommodations }] = await Promise.all([
-    supabase
-      .from("wedding_faqs")
-      .select("*")
-      .eq("wedding_id", wedding.id)
-      .order("sort_order", { ascending: true })
-      .returns<WeddingFaq[]>(),
-    supabase
-      .from("wedding_accommodations")
-      .select("*")
-      .eq("wedding_id", wedding.id)
-      .order("sort_order", { ascending: true })
-      .returns<WeddingAccommodation[]>(),
-  ]);
-
   const { data: rsvpSubmissions } = await supabase
     .from("rsvp_submissions")
     .select("*")
@@ -100,20 +74,12 @@ export default async function GuestsPage() {
   const protocol = host?.startsWith("localhost") ? "http" : "https";
   const origin = host ? `${protocol}://${host}` : "";
 
-  const [{ data: galleryPhotos }, { data: guestPosts }] = await Promise.all([
-    supabase
-      .from("wedding_gallery_photos")
-      .select("*")
-      .eq("wedding_id", wedding.id)
-      .order("sort_order", { ascending: true })
-      .returns<WeddingGalleryPhoto[]>(),
-    supabase
-      .from("guest_posts")
-      .select("*")
-      .eq("wedding_id", wedding.id)
-      .order("created_at", { ascending: false })
-      .returns<GuestPost[]>(),
-  ]);
+  const { data: guestPosts } = await supabase
+    .from("guest_posts")
+    .select("*")
+    .eq("wedding_id", wedding.id)
+    .order("created_at", { ascending: false })
+    .returns<GuestPost[]>();
 
   const shareUrl = wedding.public_slug ? `${origin}/w/${wedding.public_slug}/share` : null;
   const shareQrSvg = shareUrl ? await qrSvg(shareUrl) : null;
@@ -132,13 +98,9 @@ export default async function GuestsPage() {
       <GuestsPageBody
         wedding={wedding}
         guests={guests ?? []}
-        registryItems={registryItems ?? []}
-        faqs={weddingFaqs ?? []}
-        accommodations={accommodations ?? []}
         rsvpSubmissions={rsvpSubmissions ?? []}
         contactSubmissions={contactSubmissions ?? []}
         origin={origin}
-        galleryPhotos={galleryPhotos ?? []}
         guestPosts={guestPosts ?? []}
         shareUrl={shareUrl}
         shareQrSvg={shareQrSvg}
