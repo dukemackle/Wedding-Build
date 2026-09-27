@@ -4,12 +4,7 @@ import type { ReactNode } from "react";
 import { SiteReveal } from "@/components/site-motion";
 import { useSiteDesign } from "@/components/guest-site-theme";
 import { CANVAS_WIDTH, WIDE_WIDTH } from "@/lib/layout";
-import { SITE_SECTIONS, type SectionId } from "@/lib/site-design";
-
-const COLUMN = Object.fromEntries(SITE_SECTIONS.map((x) => [x.id, x.column])) as Record<
-  SectionId,
-  "main" | "side"
->;
+import { sectionColumn, type SectionKey } from "@/lib/site-design";
 
 /**
  * The guest site's sections, in the couple's order.
@@ -24,13 +19,13 @@ const COLUMN = Object.fromEntries(SITE_SECTIONS.map((x) => [x.id, x.column])) as
  * `display: contents`, so their children join one flex column and `order`
  * puts them in sequence across both.
  */
-export function SectionLayout({ sections }: { sections: Record<SectionId, ReactNode> }) {
+export function SectionLayout({ sections }: { sections: Partial<Record<SectionKey, ReactNode>> }) {
   const design = useSiteDesign();
   const shown = design.sections
     .map((x, index) => ({ ...x, index }))
     .filter((x) => !x.hidden && sections[x.id] != null);
-  const main = shown.filter((x) => COLUMN[x.id] === "main");
-  const side = shown.filter((x) => COLUMN[x.id] === "side");
+  const main = shown.filter((x) => sectionColumn(x.id) === "main");
+  const side = shown.filter((x) => sectionColumn(x.id) === "side");
   const hasSidebar = side.length > 0;
 
   const render = (list: typeof shown) =>

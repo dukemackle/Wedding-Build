@@ -222,15 +222,40 @@ export type SectionId = (typeof SITE_SECTIONS)[number]["id"];
 
 const SECTION_IDS = SITE_SECTIONS.map((x) => x.id) as [SectionId, ...SectionId[]];
 
-const DEFAULT_SECTIONS = SITE_SECTIONS.map((x) => ({ id: x.id, hidden: false }));
+/** A custom block (site_blocks row) in the section list: "block:<uuid>". */
+export type BlockKey = `block:${string}`;
+
+/** Anything that can sit in the section list: a built-in section or a block. */
+export type SectionKey = SectionId | BlockKey;
+
+export const blockKey = (id: string): BlockKey => `block:${id}`;
+
+export function blockIdOf(key: SectionKey): string | null {
+  return key.startsWith("block:") ? key.slice("block:".length) : null;
+}
+
+/** Blocks are content to read, so on a computer they sit in the main column. */
+export function sectionColumn(key: SectionKey): "main" | "side" {
+  return SITE_SECTIONS.find((x) => x.id === key)?.column ?? "main";
+}
+
+const BLOCK_KEY = /^block:[0-9a-f-]{36}$/;
+
+const sectionKeySchema = z.union([
+  z.enum(SECTION_IDS),
+  z.string().regex(BLOCK_KEY).transform((k) => k as BlockKey),
+]);
+
+const DEFAULT_SECTIONS = SITE_SECTIONS.map((x) => ({ id: x.id as SectionKey, hidden: false }));
 
 /**
  * Whatever order was saved, made whole: unknown ids and repeats dropped, and
- * any section added to Wren since appended, visible, so a new section never
- * silently goes missing from an older design.
+ * any built-in section added to Wren since appended, visible, so a new section
+ * never silently goes missing from an older design. Blocks are kept as saved;
+ * one whose row has been deleted is simply skipped when the page renders.
  */
-function completeSections(saved: { id: SectionId; hidden: boolean }[]) {
-  const seen = new Set<SectionId>();
+function completeSections(saved: { id: SectionKey; hidden: boolean }[]) {
+  const seen = new Set<SectionKey>();
   const kept = saved.filter((x) => !seen.has(x.id) && seen.add(x.id));
   return [...kept, ...DEFAULT_SECTIONS.filter((x) => !seen.has(x.id))];
 }
@@ -287,7 +312,7 @@ export const siteDesignSchema = z.object({
   fonts: z.enum(FONT_PAIRINGS.map((f) => f.id) as [FontPairingId, ...FontPairingId[]]).catch("theme"),
   hero: z.enum(HERO_LAYOUTS.map((h) => h.id) as [HeroLayoutId, ...HeroLayoutId[]]).catch("full"),
   sections: z
-    .array(z.object({ id: z.enum(SECTION_IDS), hidden: z.boolean().catch(false) }).nullable().catch(null))
+    .array(z.object({ id: sectionKeySchema, hidden: z.boolean().catch(false) }).nullable().catch(null))
     .transform((list) => completeSections(list.filter((x) => x !== null)))
     .catch(DEFAULT_SECTIONS),
   motion: motionSchema.catch(MOTION_PRESETS.subtle),
