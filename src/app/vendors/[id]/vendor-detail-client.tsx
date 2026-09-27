@@ -27,10 +27,11 @@ export function VendorDetailClient({
         </button>
       )}
 
-      {vendor.contact_email && !showInquiry && (
-        <p className="mt-4 border-t border-hairline pt-4 text-sm text-ink/80">
-          {vendor.contact_email}
-        </p>
+      {(vendor.contact_phone || vendor.contact_email) && !showInquiry && (
+        <div className="mt-4 flex flex-col gap-1 border-t border-hairline pt-4 text-sm text-ink/80">
+          {vendor.contact_phone && <p>{vendor.contact_phone}</p>}
+          {vendor.contact_email && <p>{vendor.contact_email}</p>}
+        </div>
       )}
 
       {showInquiry && <InquiryForm vendor={vendor} onDone={() => setShowInquiry(false)} />}

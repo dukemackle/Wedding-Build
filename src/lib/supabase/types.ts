@@ -1,4 +1,5 @@
 import type { ClaimDetails, ClaimFaq, ClaimPreferredVendor, ClaimSpace } from "@/lib/venue-claim";
+import type { VendorClaimDetails } from "@/lib/vendor-claim";
 
 export type Wedding = {
   id: string;
@@ -310,6 +311,22 @@ export type VenueShortlistEntry = {
   created_at: string;
 };
 
+export type VendorPriceUnit = "event" | "guest" | "hour" | "package";
+
+export type VendorSubmission = {
+  id: string;
+  vendor_id: string;
+  status: VenueSubmissionStatus;
+  submitter_name: string;
+  submitter_email: string;
+  submitter_role: string | null;
+  details: VendorClaimDetails;
+  faqs: ClaimFaq[];
+  photo_urls: string[];
+  created_at: string;
+  reviewed_at: string | null;
+};
+
 export type Vendor = {
   id: string;
   name: string;
@@ -326,6 +343,17 @@ export type Vendor = {
   amenities: string[];
   image_url: string | null;
   contact_email: string | null;
+  /** Gallery photos, cover first. `image_url` mirrors the cover. */
+  photo_urls: string[];
+  contact_phone: string | null;
+  website: string | null;
+  service_area: string | null;
+  price_from: number | null;
+  price_unit: VendorPriceUnit | null;
+  price_note: string | null;
+  instagram_url: string | null;
+  facebook_url: string | null;
+  pinterest_url: string | null;
   active: boolean;
   is_sample: boolean;
   /** Where this listing came from: manual, import, osm, google, claimed. */

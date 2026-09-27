@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef, useState, useTransition } from "react";
+import { useRef, useState, useTransition } from "react";
 import type {
   Vendor,
   VendorContactLog,
@@ -8,11 +8,29 @@ import type {
   VendorFaq,
 } from "@/lib/supabase/types";
 import { REGIONS, STATES } from "@/lib/wedding-options";
-import { downloadCsv, toCsv } from "@/lib/csv";
+import { ClaimLinkPanel } from "../claim-link-panel";
+import { getVendorClaimLink, regenerateVendorClaimLink } from "./claim-actions";
+import { FilterBar, StatusChips } from "../_listing/listing-toolbar";
+import {
+  BulkBar,
+  buttonClass,
+  Checkbox,
+  Completeness,
+  LastChecked,
+  Pagination,
+  RowMenu,
+  StatusPill,
+  Thumb,
+  type MenuItem,
+} from "../_listing/listing-ui";
+import { listingQueryString, type ListingParams, type ListingStatus } from "../_listing/params";
+import { VENDOR_STATUSES } from "./listing-config";
 import {
   addVendorContactLog,
   addVendorFaq,
+  bulkDeleteVendors,
   bulkSetVendorActive,
+  markVendorsVerified,
   createVendor,
   deleteVendorFaq,
   setVendorActive,
@@ -345,23 +363,39 @@ function VendorFaqEditor({ vendor, faqs }: { vendor: Vendor; faqs: VendorFaq[] }
   );
 }
 
+/** What a couple needs from a listing. Mirrors VENDOR_LISTING.incompleteFilter. */
+function vendorChecks(vendor: Vendor): [string, boolean][] {
+  return [
+    ["photo", !!vendor.image_url],
+    ["description", !!(vendor.description || vendor.about)],
+    ["category", !!vendor.category],
+    ["price", !!(vendor.price_tier || vendor.price_from)],
+    ["email", !!vendor.contact_email],
+  ];
+}
+
+// Desktop columns: select, photo, vendor, category, price, source, complete, checked, inquiries, saves, status, actions.
+const GRID =
+  "lg:grid lg:grid-cols-[20px_48px_minmax(0,2fr)_minmax(0,1fr)_48px_72px_84px_minmax(0,150px)_112px_48px_64px_112px] lg:items-center lg:gap-3";
+
 function VendorRow({
   vendor,
   stats,
-  logs = [],
-  faqs = [],
+  saves,
+  logs,
+  faqs,
   selected,
   onToggleSelect,
 }: {
   vendor: Vendor;
   stats?: VendorStats;
-  logs?: VendorContactLog[];
-  faqs?: VendorFaq[];
+  saves: number;
+  logs: VendorContactLog[];
+  faqs: VendorFaq[];
   selected: boolean;
   onToggleSelect: () => void;
 }) {
-  const [editing, setEditing] = useState(false);
-  const [showLog, setShowLog] = useState(false);
+  const [panel, setPanel] = useState<"edit" | "log" | "claim" | null>(null);
   const [isPending, startTransition] = useTransition();
 
   function toggleActive() {
@@ -373,133 +407,149 @@ function VendorRow({
     });
   }
 
-  if (editing) {
-    return (
-      <div className="border-b border-hairline py-4 last:border-b-0">
-        <VendorForm vendor={vendor} onDone={() => setEditing(false)} />
-        <VendorFaqEditor vendor={vendor} faqs={faqs} />
-      </div>
-    );
+  function markVerified() {
+    const formData = new FormData();
+    formData.set("id", vendor.id);
+    startTransition(async () => {
+      await markVendorsVerified(formData);
+    });
   }
 
+  const menu: MenuItem[] = [
+    { label: "Still right", onSelect: markVerified, disabled: isPending },
+    { label: vendor.active ? "Hide" : "Make live", onSelect: toggleActive, disabled: isPending },
+    { label: `Contact log (${logs.length})`, onSelect: () => setPanel("log") },
+    ...(vendor.is_sample ? [] : [{ label: "Claim link", onSelect: () => setPanel("claim") }]),
+    { label: "View listing", onSelect: () => window.open(`https://wrenwed.com/vendors/${vendor.id}`, "_blank") },
+  ];
+  const place = [vendor.city, vendor.state].filter(Boolean).join(", ") || "—";
+  const inquiryText = stats ? `${stats.sent} · ${stats.booked} booked` : "0";
+  const inquiryTitle =
+    stats && stats.bookedAmount > 0 ? `${inquiryText}, ${formatCurrency(stats.bookedAmount)}` : inquiryText;
+
   return (
-    <div className="border-b border-hairline py-3 last:border-b-0">
-      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex items-start gap-3">
-          <input
-            type="checkbox"
-            checked={selected}
-            onChange={onToggleSelect}
-            aria-label={`Select ${vendor.name}`}
-            className="mt-1"
-          />
-          <div>
-            <p className={vendor.active ? "text-ink" : "text-ink/40 line-through"}>
-              {vendor.name}
-            </p>
-            <p className="mt-0.5 text-xs text-ink/50">
-              {[vendor.category, vendor.city, vendor.state].filter(Boolean).join(" · ") || "—"}
-            </p>
-            <p className="mt-0.5 font-mono-numbers text-xs text-ink/40">
-              {stats
-                ? `${stats.sent} inquir${stats.sent === 1 ? "y" : "ies"} · ${stats.booked} booked${
-                    stats.bookedAmount > 0 ? ` · ${formatCurrency(stats.bookedAmount)}` : ""
-                  }`
-                : "No inquiries yet"}
-            </p>
-          </div>
+    <div className={`border-b border-hairline last:border-b-0 ${selected ? "bg-forest/[0.03]" : ""}`}>
+      {/* Desktop: one table row. */}
+      <div className={`hidden px-3 py-2 text-sm ${GRID}`}>
+        <Checkbox checked={selected} onChange={onToggleSelect} label={`Select ${vendor.name}`} />
+        <Thumb src={vendor.image_url} />
+        <div className="min-w-0">
+          <p className="truncate font-medium text-ink">
+            {vendor.name}
+            {vendor.is_sample && <span className="ml-2 text-[11px] font-normal uppercase text-ink/40">Sample</span>}
+          </p>
+          <p className="truncate text-xs text-ink/50">
+            {place}
+            {vendor.source === "claimed" && <span className="text-forest"> · Claimed</span>}
+          </p>
         </div>
-        <div className="flex items-center gap-2">
-          <button
-            type="button"
-            onClick={() => setShowLog((v) => !v)}
-            className="rounded-md border border-hairline px-3 py-1 text-xs text-ink hover:border-forest"
-          >
-            {showLog ? "Hide log" : `Log (${logs.length})`}
-          </button>
-          <button
-            type="button"
-            onClick={() => setEditing(true)}
-            className="rounded-md border border-hairline px-3 py-1 text-xs text-ink hover:border-forest"
-          >
+        <span className="truncate text-ink/80">{vendor.category ?? "—"}</span>
+        <span className="font-mono-numbers text-ink/80">{vendor.price_tier ?? "—"}</span>
+        <span className="text-xs text-ink/50">{vendor.source ?? "seed"}</span>
+        <Completeness checks={vendorChecks(vendor)} />
+        <span className="truncate text-xs">
+          <LastChecked at={vendor.last_verified_at} short />
+        </span>
+        <span title={inquiryTitle} className="truncate font-mono-numbers text-xs text-ink/80">
+          {inquiryText}
+        </span>
+        <span className="font-mono-numbers text-ink/80">{saves}</span>
+        <StatusPill active={vendor.active} />
+        <div className="flex justify-end gap-1.5">
+          <button type="button" onClick={() => setPanel(panel === "edit" ? null : "edit")} className={buttonClass}>
             Edit
           </button>
-          <button
-            type="button"
-            onClick={toggleActive}
-            disabled={isPending}
-            className="rounded-md border border-hairline px-3 py-1 text-xs text-ink hover:border-forest disabled:opacity-60"
-          >
-            {vendor.active ? "Deactivate" : "Activate"}
-          </button>
+          <RowMenu items={menu} />
         </div>
       </div>
-      {showLog && <ContactLog vendorId={vendor.id} logs={logs} />}
+
+      {/* Phone: a card. */}
+      <div className="flex items-start gap-3 p-3 lg:hidden">
+        <Checkbox checked={selected} onChange={onToggleSelect} label={`Select ${vendor.name}`} className="mt-1" />
+        <Thumb src={vendor.image_url} />
+        <button type="button" onClick={() => setPanel(panel === "edit" ? null : "edit")} className="min-w-0 flex-1 text-left">
+          <span className="flex items-start justify-between gap-2">
+            <span className="truncate font-medium text-ink">{vendor.name}</span>
+            <StatusPill active={vendor.active} />
+          </span>
+          <span className="block truncate text-xs text-ink/50">
+            {[vendor.category, vendor.price_tier, place].filter(Boolean).join(" · ")}
+          </span>
+          <span className="mt-1 flex items-center gap-2 overflow-hidden whitespace-nowrap text-xs">
+            <Completeness checks={vendorChecks(vendor)} />
+            <LastChecked at={vendor.last_verified_at} short />
+          </span>
+        </button>
+        <RowMenu items={menu} />
+      </div>
+
+      {panel === "edit" && (
+        <div className="border-t border-hairline bg-parchment/60 p-4">
+          <VendorForm vendor={vendor} onDone={() => setPanel(null)} />
+          <VendorFaqEditor vendor={vendor} faqs={faqs} />
+        </div>
+      )}
+      {panel === "claim" && (
+        <div className="px-3 pb-3">
+          <ClaimLinkPanel
+            target={{ name: vendor.name, city: vendor.city, contactEmail: vendor.contact_email, kind: "vendor" }}
+            getLink={() => getVendorClaimLink(vendor.id)}
+            newLink={() => regenerateVendorClaimLink(vendor.id)}
+            onClose={() => setPanel(null)}
+          />
+        </div>
+      )}
+      {panel === "log" && (
+        <div className="px-3 pb-3">
+          <ContactLog vendorId={vendor.id} logs={logs} />
+          <button type="button" onClick={() => setPanel(null)} className="mt-2 text-xs text-ink/60 hover:underline">
+            Close log
+          </button>
+        </div>
+      )}
     </div>
   );
 }
 
-function exportVendorsCsv(vendors: Vendor[], statsByVendorName: Record<string, VendorStats>) {
-  const csv = toCsv(
-    [
-      "Name",
-      "Category",
-      "Region",
-      "State",
-      "City",
-      "Contact email",
-      "Active",
-      "Inquiries",
-      "Booked",
-      "Booked amount",
-    ],
-    vendors.map((vendor) => {
-      const stats = statsByVendorName[vendor.name];
-      return [
-        vendor.name,
-        vendor.category ?? "",
-        vendor.region ?? "",
-        vendor.state ?? "",
-        vendor.city ?? "",
-        vendor.contact_email ?? "",
-        vendor.active ? "yes" : "no",
-        stats?.sent ?? 0,
-        stats?.booked ?? 0,
-        stats?.bookedAmount ?? 0,
-      ];
-    }),
-  );
-  downloadCsv("vendors.csv", csv);
-}
-
 export function AdminVendorsManager({
+  heading,
+  notice,
   vendors,
-  statsByVendorName = {},
-  logsByVendorId = {},
-  faqsByVendorId = {},
+  total,
+  params,
+  statusCounts,
+  categories,
+  statsByVendorName,
+  savesByVendorId,
+  logsByVendorId,
+  faqsByVendorId,
 }: {
+  heading: React.ReactNode;
+  notice?: React.ReactNode;
   vendors: Vendor[];
-  statsByVendorName?: Record<string, VendorStats>;
-  logsByVendorId?: Record<string, VendorContactLog[]>;
-  faqsByVendorId?: Record<string, VendorFaq[]>;
+  total: number;
+  params: ListingParams;
+  statusCounts: Record<ListingStatus, number>;
+  categories: string[];
+  statsByVendorName: Record<string, VendorStats>;
+  savesByVendorId: Record<string, number>;
+  logsByVendorId: Record<string, VendorContactLog[]>;
+  faqsByVendorId: Record<string, VendorFaq[]>;
 }) {
   const [adding, setAdding] = useState(false);
-  const [query, setQuery] = useState("");
   const [selected, setSelected] = useState<Set<string>>(new Set());
-  const [bulkPending, startBulkTransition] = useTransition();
+  const [bulkPending, startBulk] = useTransition();
   const [bulkError, setBulkError] = useState<string | undefined>(undefined);
 
-  const filteredVendors = useMemo(() => {
-    const q = query.trim().toLowerCase();
-    if (!q) return vendors;
-    return vendors.filter((vendor) =>
-      [vendor.name, vendor.category, vendor.region, vendor.state, vendor.city]
-        .filter(Boolean)
-        .some((field) => field!.toLowerCase().includes(q)),
-    );
-  }, [vendors, query]);
+  // A selection belongs to the page it was made on.
+  const pageKey = vendors.map((v) => v.id).join();
+  const [selectionKey, setSelectionKey] = useState(pageKey);
+  if (selectionKey !== pageKey) {
+    setSelectionKey(pageKey);
+    setSelected(new Set());
+  }
 
-  function toggleSelect(id: string) {
+  function toggle(id: string) {
     setSelected((prev) => {
       const next = new Set(prev);
       if (next.has(id)) next.delete(id);
@@ -508,12 +558,14 @@ export function AdminVendorsManager({
     });
   }
 
-  function bulkSetActive(active: boolean) {
+  const allSelected = vendors.length > 0 && vendors.every((v) => selected.has(v.id));
+
+  function runBulk(action: (formData: FormData) => Promise<{ error?: string }>, extra?: Record<string, string>) {
     const formData = new FormData();
     for (const id of selected) formData.append("id", id);
-    formData.set("active", String(active));
-    startBulkTransition(async () => {
-      const result = await bulkSetVendorActive(formData);
+    for (const [key, value] of Object.entries(extra ?? {})) formData.set(key, value);
+    startBulk(async () => {
+      const result = await action(formData);
       if (result?.error) setBulkError(result.error);
       else {
         setBulkError(undefined);
@@ -522,86 +574,107 @@ export function AdminVendorsManager({
     });
   }
 
+  function bulkDelete() {
+    const n = selected.size;
+    if (!window.confirm(`Delete ${n} vendor${n === 1 ? "" : "s"} for good? Hiding them can be undone; this can't.`)) return;
+    runBulk(bulkDeleteVendors);
+  }
+
   return (
-    <div className="w-full rounded-lg border border-hairline bg-card p-6 shadow-sm">
-      <div className="mb-4 flex flex-wrap items-center gap-3">
-        <input
-          type="search"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search by name, category, region..."
-          className={`${inputClass} min-w-[220px] flex-1`}
-        />
-        <p className="text-sm text-ink/60">{filteredVendors.length} vendors</p>
+    <div>
+      <div className="mb-5 flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
+        <div>{heading}</div>
+        <div className="flex flex-wrap gap-2">
+        <a href={`/admin/vendors/export${listingQueryString(params, { page: 1 })}`} className={`${buttonClass} hidden lg:inline-block`}>
+          Export CSV
+        </a>
         <button
           type="button"
-          onClick={() => exportVendorsCsv(filteredVendors, statsByVendorName)}
-          className="rounded-md border border-hairline px-3 py-1.5 text-sm text-ink/70 transition-colors hover:border-forest"
+          onClick={() => setAdding((v) => !v)}
+          className="rounded-md bg-forest px-3 py-1.5 text-sm text-parchment transition-colors hover:bg-forest/90"
         >
-          Export CSV
+          + Add vendor
         </button>
-        {!adding && (
-          <button
-            type="button"
-            onClick={() => setAdding(true)}
-            className="rounded-md bg-forest px-3 py-1.5 text-sm text-parchment transition-colors hover:bg-forest/90"
-          >
-            + Add vendor
-          </button>
-        )}
-      </div>
-      {selected.size > 0 && (
-        <div className="mb-4 flex flex-wrap items-center gap-3 rounded-md border border-hairline bg-parchment px-4 py-2">
-          <p className="text-sm text-ink">
-            {selected.size} vendor{selected.size === 1 ? "" : "s"} selected
-          </p>
-          <button
-            type="button"
-            onClick={() => bulkSetActive(true)}
-            disabled={bulkPending}
-            className="rounded-md border border-hairline px-3 py-1 text-xs text-ink hover:border-forest disabled:opacity-60"
-          >
-            Activate
-          </button>
-          <button
-            type="button"
-            onClick={() => bulkSetActive(false)}
-            disabled={bulkPending}
-            className="rounded-md border border-hairline px-3 py-1 text-xs text-ink hover:border-forest disabled:opacity-60"
-          >
-            Deactivate
-          </button>
-          <button
-            type="button"
-            onClick={() => setSelected(new Set())}
-            className="text-xs text-ink/60 hover:underline"
-          >
-            Clear
-          </button>
-          {bulkError && <p className="text-xs text-red-800">{bulkError}</p>}
         </div>
-      )}
+      </div>
+
+      {notice}
+
       {adding && (
-        <div className="mb-4 border-b border-hairline pb-4">
+        <div className="mb-4 rounded-lg border border-hairline bg-card p-5 shadow-sm">
           <VendorForm onDone={() => setAdding(false)} />
         </div>
       )}
-      {filteredVendors.map((vendor) => (
-        <VendorRow
-          key={vendor.id}
-          vendor={vendor}
-          stats={statsByVendorName[vendor.name]}
-          logs={logsByVendorId[vendor.id]}
-          faqs={faqsByVendorId[vendor.id]}
-          selected={selected.has(vendor.id)}
-          onToggleSelect={() => toggleSelect(vendor.id)}
+
+      <StatusChips params={params} statuses={VENDOR_STATUSES} counts={statusCounts} />
+
+      <div className="rounded-lg border border-hairline bg-card shadow-sm">
+        <FilterBar
+          params={params}
+          statuses={VENDOR_STATUSES}
+          counts={statusCounts}
+          kindLabel="Category"
+          kindOptions={categories}
+          states={STATES}
         />
-      ))}
-      {filteredVendors.length === 0 && (
-        <p className="text-sm text-ink/50">
-          {vendors.length === 0 ? "No vendors yet." : "No vendors match that search."}
-        </p>
-      )}
+
+        {selected.size > 0 && (
+          <BulkBar
+            count={selected.size}
+            noun="vendor"
+            pending={bulkPending}
+            error={bulkError}
+            onClear={() => setSelected(new Set())}
+            actions={[
+              { label: "Make live", onSelect: () => runBulk(bulkSetVendorActive, { active: "true" }) },
+              { label: "Hide", onSelect: () => runBulk(bulkSetVendorActive, { active: "false" }) },
+              { label: "Mark still right", onSelect: () => runBulk(markVendorsVerified) },
+              { label: "Delete", onSelect: bulkDelete, danger: true },
+            ]}
+          />
+        )}
+
+        {vendors.length > 0 && (
+          <div
+            className={`hidden border-b border-hairline px-3 py-2 font-mono-numbers text-[11px] uppercase tracking-wide text-ink/50 ${GRID}`}
+          >
+            <Checkbox
+              checked={allSelected}
+              onChange={() => setSelected(allSelected ? new Set() : new Set(vendors.map((v) => v.id)))}
+              label="Select all on this page"
+            />
+            <span />
+            <span>Vendor</span>
+            <span>Category</span>
+            <span>Price</span>
+            <span>Source</span>
+            <span>Complete</span>
+            <span>Last checked</span>
+            <span>Inquiries</span>
+            <span>Saves</span>
+            <span>Status</span>
+            <span />
+          </div>
+        )}
+
+        {vendors.map((vendor) => (
+          <VendorRow
+            key={vendor.id}
+            vendor={vendor}
+            stats={statsByVendorName[vendor.name]}
+            saves={savesByVendorId[vendor.id] ?? 0}
+            logs={logsByVendorId[vendor.id] ?? []}
+            faqs={faqsByVendorId[vendor.id] ?? []}
+            selected={selected.has(vendor.id)}
+            onToggleSelect={() => toggle(vendor.id)}
+          />
+        ))}
+        {vendors.length === 0 && (
+          <p className="px-4 py-10 text-center text-sm text-ink/50">No vendors match these filters.</p>
+        )}
+
+        <Pagination params={params} total={total} noun="vendor" />
+      </div>
     </div>
   );
 }

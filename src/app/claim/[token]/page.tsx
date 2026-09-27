@@ -103,8 +103,15 @@ export default async function ClaimPage({ params }: { params: Promise<{ token: s
           website: v.website,
         })),
         photoUrls: venue.photo_urls.length > 0 ? venue.photo_urls : venue.image_url ? [venue.image_url] : [],
-        submitter: { name: "", email: "", role: null, represents: false },
+        // A venue that just listed itself gave us its email a minute ago.
+        submitter: {
+          name: "",
+          email: venue.source === "self-listed" ? (venue.contact_email ?? "") : "",
+          role: null,
+          represents: false,
+        },
       };
+  const isNew = venue.source === "self-listed";
 
   return (
     <main className="flex flex-1 flex-col items-center px-4 py-10 sm:px-6 sm:py-14">
@@ -113,13 +120,23 @@ export default async function ClaimPage({ params }: { params: Promise<{ token: s
           Wren
         </Link>
         <p className="mt-8 font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
-          Your listing
+          {isNew ? "Your new listing" : "Your listing"}
         </p>
         <h1 className="mt-2 font-display text-3xl font-semibold text-forest">{venue.name}</h1>
         <p className="mt-2 max-w-2xl text-ink/70">
-          Couples planning weddings on Wren can already find {venue.name}. Check the details
-          below, fix anything that&apos;s wrong, and add your photos and preferred vendors.
-          We review every change before it goes live.
+          {isNew ? (
+            <>
+              Add your photos, capacity, prices and the details couples filter by, then send it
+              to us. We review every listing and email you when it&apos;s live. We&apos;ve emailed
+              you this link too, so you can finish later.
+            </>
+          ) : (
+            <>
+              Couples planning weddings on Wren can already find {venue.name}. Check the details
+              below, fix anything that&apos;s wrong, and add your photos and preferred vendors.
+              We review every change before it goes live.
+            </>
+          )}
         </p>
         {pending && (
           <p className="mt-4 max-w-2xl rounded-md border border-brass/40 bg-brass/10 px-4 py-3 text-sm text-ink/80">

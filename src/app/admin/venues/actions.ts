@@ -264,3 +264,63 @@ export async function markVenueVerified(formData: FormData): Promise<{ error?: s
   revalidatePath("/admin/venues");
   return {};
 }
+
+// The three bulk actions on the admin list. Each takes the selected ids as
+// repeated `id` fields.
+
+export async function bulkSetVenueActive(formData: FormData): Promise<{ error?: string }> {
+  await requireAdmin();
+
+  const ids = formData.getAll("id") as string[];
+  if (ids.length === 0) return { error: "Select at least one venue." };
+
+  const { error } = await createAdminSupabaseClient()
+    .from("venues")
+    .update({ active: formData.get("active") === "true" })
+    .in("id", ids);
+  if (error) return { error: error.message };
+
+  revalidatePath("/admin/venues");
+  revalidatePath("/venues");
+  return {};
+}
+
+export async function bulkMarkVenuesVerified(formData: FormData): Promise<{ error?: string }> {
+  await requireAdmin();
+
+  const ids = formData.getAll("id") as string[];
+  if (ids.length === 0) return { error: "Select at least one venue." };
+
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const { error } = await createAdminSupabaseClient()
+    .from("venues")
+    .update({ last_verified_at: new Date().toISOString(), verified_by: user?.email ?? "admin" })
+    .in("id", ids);
+  if (error) return { error: error.message };
+
+  revalidatePath("/admin/venues");
+  return {};
+}
+
+/**
+ * Deletes for good. Shortlists, FAQs, spaces and claim links go with the venue;
+ * a wedding that booked it, and past inquiries, keep their row but lose the link
+ * (see the foreign keys in migrations 0051-0085). Hiding is the reversible option.
+ */
+export async function bulkDeleteVenues(formData: FormData): Promise<{ error?: string }> {
+  await requireAdmin();
+
+  const ids = formData.getAll("id") as string[];
+  if (ids.length === 0) return { error: "Select at least one venue." };
+
+  const { error } = await createAdminSupabaseClient().from("venues").delete().in("id", ids);
+  if (error) return { error: error.message };
+
+  revalidatePath("/admin/venues");
+  revalidatePath("/venues");
+  return {};
+}

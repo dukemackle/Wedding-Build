@@ -1,49 +1,22 @@
-import Image from "next/image";
-import Link from "next/link";
 import { requireAdmin } from "@/lib/admin";
-
-const links = [
-  { href: "/admin", label: "Overview" },
-  { href: "/admin/couples", label: "Couples" },
-  { href: "/admin/vendors", label: "Vendors" },
-  { href: "/admin/venues", label: "Venues" },
-  { href: "/admin/attire", label: "Attire" },
-  { href: "/admin/revenue", label: "Revenue" },
-  { href: "/admin/growth", label: "Growth" },
-  { href: "/admin/cost-data", label: "Cost Data" },
-  { href: "/admin/feedback", label: "Feedback" },
-  { href: "/admin/photo-wall", label: "Photo wall" },
-];
+import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
+import { AdminContent, AdminNav } from "./admin-nav";
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   await requireAdmin();
 
+  const admin = createAdminSupabaseClient();
+  const [{ count: venueClaims }, { count: vendorClaims }] = await Promise.all([
+    admin.from("venue_submissions").select("id", { count: "exact", head: true }).eq("status", "pending"),
+    admin.from("vendor_submissions").select("id", { count: "exact", head: true }).eq("status", "pending"),
+  ]);
+
   return (
-    <main className="flex flex-1 flex-col items-center px-6 py-16">
-      <div className="mb-6 flex w-full max-w-4xl flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <nav className="flex flex-wrap items-center gap-x-4 gap-y-2">
-          <Image src="/icon.png" alt="Wren" width={28} height={28} className="h-7 w-7 shrink-0" />
-          <span className="rounded-full bg-brass/10 px-2 py-0.5 font-mono-numbers text-xs uppercase tracking-wide text-brass">
-            Admin
-          </span>
-          {links.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="font-mono-numbers text-sm text-ink/70 transition-colors hover:text-forest"
-            >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
-        <a
-          href="https://wrenwed.com/dashboard"
-          className="font-mono-numbers text-sm text-brass hover:underline"
-        >
-          &larr; Back to app
-        </a>
-      </div>
-      <div className="w-full max-w-4xl">{children}</div>
-    </main>
+    <div className="flex w-full flex-1 flex-col lg:flex-row">
+      <AdminNav pendingClaims={{ venues: venueClaims ?? 0, vendors: vendorClaims ?? 0 }} />
+      <main className="min-w-0 flex-1 px-4 py-6 lg:px-8 lg:py-10">
+        <AdminContent>{children}</AdminContent>
+      </main>
+    </div>
   );
 }

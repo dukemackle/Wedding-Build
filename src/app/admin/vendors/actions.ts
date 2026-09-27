@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/admin";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
+import { createClient } from "@/lib/supabase/server";
 
 function num(formData: FormData, key: string): number | null {
   const raw = (formData.get(key) as string)?.trim();
@@ -184,5 +185,46 @@ export async function addVendorContactLog(formData: FormData): Promise<{ error?:
   if (error) return { error: error.message };
 
   revalidatePath("/admin/vendors");
+  return {};
+}
+
+/** "Still right" for one or many vendors -- a person looked and the details hold. */
+export async function markVendorsVerified(formData: FormData): Promise<{ error?: string }> {
+  await requireAdmin();
+
+  const ids = formData.getAll("id") as string[];
+  if (ids.length === 0) return { error: "Select at least one vendor." };
+
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const { error } = await createAdminSupabaseClient()
+    .from("vendors")
+    .update({ last_verified_at: new Date().toISOString(), verified_by: user?.email ?? "admin" })
+    .in("id", ids);
+  if (error) return { error: error.message };
+
+  revalidatePath("/admin/vendors");
+  return {};
+}
+
+/**
+ * Deletes for good. Favorites, FAQs and the contact log go with the vendor;
+ * budget lines, attire and a venue's preferred-vendor entries keep their row but
+ * lose the link. Hiding is the reversible option.
+ */
+export async function bulkDeleteVendors(formData: FormData): Promise<{ error?: string }> {
+  await requireAdmin();
+
+  const ids = formData.getAll("id") as string[];
+  if (ids.length === 0) return { error: "Select at least one vendor." };
+
+  const { error } = await createAdminSupabaseClient().from("vendors").delete().in("id", ids);
+  if (error) return { error: error.message };
+
+  revalidatePath("/admin/vendors");
+  revalidatePath("/vendors");
   return {};
 }
