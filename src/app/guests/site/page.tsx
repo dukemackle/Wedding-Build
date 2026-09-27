@@ -1,10 +1,8 @@
 import Link from "next/link";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import type { ReactNode } from "react";
 import { createClient } from "@/lib/supabase/server";
 import { AppNav } from "@/components/app-nav";
-import { ChevronDownIcon } from "@/components/icons";
 import type {
   RegistryItem,
   Wedding,
@@ -12,7 +10,7 @@ import type {
   WeddingFaq,
   WeddingGalleryPhoto,
 } from "@/lib/supabase/types";
-import { parseSiteDesign } from "@/lib/site-design";
+import { parseSiteDesign, type SectionId } from "@/lib/site-design";
 import { GuestsSubTabs } from "../sub-tabs";
 import { PublicSitePanel } from "../public-site-panel";
 import { HeroPhotoPanel } from "../hero-photo-panel";
@@ -20,6 +18,7 @@ import { GalleryPanel } from "../gallery-panel";
 import { Accommodations, DressAndTravel, Faqs } from "../guest-site-details";
 import { RegistryManager } from "../registry-manager";
 import { SiteEditor } from "./site-editor";
+import type { ChecklistItem, SectionInfo } from "./editor-tabs";
 
 /**
  * Guests › Guest site: the editor for the page guests see.
@@ -90,6 +89,17 @@ export default async function GuestSitePage() {
       .returns<RegistryItem[]>(),
   ]);
 
+  // Counts for the Sections tab's status lines. Head-only: just the numbers.
+  const [{ count: eventCount }, { count: confirmedCount }, { count: postCount }] = await Promise.all([
+    supabase.from("itinerary_events").select("id", { count: "exact", head: true }).eq("wedding_id", wedding.id),
+    supabase
+      .from("guests")
+      .select("id", { count: "exact", head: true })
+      .eq("wedding_id", wedding.id)
+      .eq("status", "confirmed"),
+    supabase.from("guest_posts").select("id", { count: "exact", head: true }).eq("wedding_id", wedding.id),
+  ]);
+
   const headersList = await headers();
   const host = headersList.get("host");
   const protocol = host?.startsWith("localhost") ? "http" : "https";
@@ -113,36 +123,91 @@ export default async function GuestSitePage() {
     ]),
   );
 
-  const sectionsPanel = (
-    <div className="flex flex-col gap-5">
-      <PublicSitePanel publicSlug={wedding.public_slug} origin={origin} />
-      <div className="flex flex-col">
-        <Section title="Photos" status={`${galleryPhotos?.length ?? 0} in the gallery`}>
-          <div className="flex flex-col gap-8">
-            <HeroPhotoPanel photoUrl={wedding.hero_photo_url} />
-            <div className="border-t border-hairline pt-6">
-              <GalleryPanel photos={galleryPhotos ?? []} />
-            </div>
+  const photoCount = galleryPhotos?.length ?? 0;
+  const stayCount = accommodations?.length ?? 0;
+  const faqCount = faqs?.length ?? 0;
+  const registryCount = registryItems?.length ?? 0;
+  const events = eventCount ?? 0;
+  const hidden = " — hidden until you add one";
+
+  const sectionInfo: Record<SectionId, SectionInfo> = {
+    rsvp: wedding.rsvp_deadline
+      ? { status: `Replies by ${formatDate(wedding.rsvp_deadline)}` }
+      : {
+          status: "Deadline not set",
+          warn: true,
+          link: { href: "/dashboard", label: "Set an RSVP deadline on the Dashboard" },
+        },
+    photos: {
+      status: [
+        wedding.hero_photo_url ? "Banner photo" : "No banner photo",
+        photoCount ? `${photoCount} in the gallery` : "no gallery yet",
+      ].join(" · "),
+      warn: !wedding.hero_photo_url,
+      editor: (
+        <div className="flex flex-col gap-8">
+          <HeroPhotoPanel photoUrl={wedding.hero_photo_url} />
+          <div className="border-t border-hairline pt-6">
+            <GalleryPanel photos={galleryPhotos ?? []} />
           </div>
-        </Section>
-        <Section
-          title="Dress code & travel"
-          status={wedding.dress_code || wedding.travel_notes ? "Filled in" : "Not filled in yet"}
-        >
+        </div>
+      ),
+    },
+    weekend: {
+      status: !events
+        ? `Nothing scheduled${hidden.replace("one", "an event")}`
+        : wedding.itinerary_published
+          ? `${events} event${events === 1 ? "" : "s"}, from your itinerary`
+          : `${events} event${events === 1 ? "" : "s"}, not published yet`,
+      warn: events > 0 && !wedding.itinerary_published,
+      link: { href: "/itinerary", label: "Edit and publish your itinerary" },
+    },
+    wall: {
+      status: postCount ? `${postCount} post${postCount === 1 ? "" : "s"} from guests` : "Guests can share photos and notes",
+    },
+    guests: {
+      status: confirmedCount
+        ? `${confirmedCount} confirmed guest${confirmedCount === 1 ? "" : "s"}`
+        : "Appears once guests say yes",
+    },
+    travel: {
+      status: stayCount
+        ? `${stayCount} place${stayCount === 1 ? "" : "s"} to stay`
+        : wedding.dress_code || wedding.travel_notes
+          ? "No hotels yet"
+          : `Not filled in${hidden.replace("one", "details")}`,
+      warn: stayCount === 0,
+      editor: (
+        <div className="flex flex-col gap-8">
           <DressAndTravel wedding={wedding} />
-        </Section>
-        <Section title="Where to stay" status={countLabel(accommodations?.length ?? 0, "place")}>
-          <Accommodations items={accommodations ?? []} />
-        </Section>
-        <Section title="FAQ" status={countLabel(faqs?.length ?? 0, "question")}>
-          <Faqs faqs={faqs ?? []} />
-        </Section>
-        <Section title="Registry" status={countLabel(registryItems?.length ?? 0, "link")}>
-          <RegistryManager registryItems={registryItems ?? []} />
-        </Section>
-      </div>
-    </div>
-  );
+          <div className="border-t border-hairline pt-6">
+            <Accommodations items={accommodations ?? []} />
+          </div>
+        </div>
+      ),
+    },
+    faq: {
+      status: faqCount ? `${faqCount} question${faqCount === 1 ? "" : "s"}` : `No questions${hidden}`,
+      editor: <Faqs faqs={faqs ?? []} />,
+    },
+    registry: {
+      status: registryCount ? `${registryCount} link${registryCount === 1 ? "" : "s"}` : `No links${hidden}`,
+      editor: <RegistryManager registryItems={registryItems ?? []} />,
+    },
+  };
+
+  const checklist: ChecklistItem[] = [
+    { label: "Turn on your guest site", done: Boolean(wedding.public_slug) },
+    { label: "Add a banner photo", done: Boolean(wedding.hero_photo_url) },
+    { label: "Set an RSVP deadline", done: Boolean(wedding.rsvp_deadline), href: "/dashboard", action: "Dashboard" },
+    { label: "Add somewhere to stay", done: stayCount > 0 },
+    {
+      label: "Publish your weekend schedule",
+      done: events > 0 && wedding.itinerary_published,
+      href: "/itinerary",
+      action: "Itinerary",
+    },
+  ];
 
   return (
     <main className="flex flex-1 flex-col items-center px-6 pt-16 pb-16">
@@ -157,31 +222,18 @@ export default async function GuestSitePage() {
           publicSlug={wedding.public_slug}
           origin={origin}
           contentKey={contentKey}
-          sectionsPanel={sectionsPanel}
+          sitePanel={<PublicSitePanel publicSlug={wedding.public_slug} origin={origin} />}
+          sectionInfo={sectionInfo}
+          checklist={checklist}
+          hasPhoto={Boolean(wedding.hero_photo_url)}
         />
       </div>
     </main>
   );
 }
 
-function countLabel(n: number, noun: string) {
-  return n === 0 ? "None yet" : `${n} ${noun}${n === 1 ? "" : "s"}`;
-}
-
-/** One piece of the site's content, folded away until it's opened. */
-function Section({ title, status, children }: { title: string; status: string; children: ReactNode }) {
-  return (
-    <details className="group border-b border-hairline last:border-b-0">
-      <summary className="flex cursor-pointer list-none items-center gap-3 py-3.5 marker:hidden">
-        <span className="min-w-0 flex-1">
-          <span className="block text-[15px] font-medium text-ink">{title}</span>
-          <span className="block text-xs text-ink/60">{status}</span>
-        </span>
-        <ChevronDownIcon className="h-4 w-4 shrink-0 text-ink/40 transition-transform group-open:rotate-180" />
-      </summary>
-      <div className="pb-6 pt-1">{children}</div>
-    </details>
-  );
+function formatDate(dateStr: string) {
+  return new Date(`${dateStr}T00:00:00`).toLocaleDateString("en-US", { month: "long", day: "numeric" });
 }
 
 // FNV-1a: enough to notice a change, not a security boundary.
