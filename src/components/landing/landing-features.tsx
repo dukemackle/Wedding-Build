@@ -7,6 +7,7 @@ import {
   type Feature,
   type FeatureData,
 } from "@/app/dashboard/feature-grid";
+import { PreviewGrid, type PreviewItem } from "./feature-previews";
 
 /**
  * A made-up couple a few months into planning, so the landing page shows the
@@ -37,14 +38,6 @@ const SAMPLE: FeatureData = {
   attireShortlisted: 0,
   itinerary: [],
   layoutItems: 0,
-};
-
-/** Tiles with a demo further down open it; the rest go to sign-up. */
-const DEMO_LINK: Record<string, string> = {
-  "/budget": "#see-it-budget",
-  "/guests": "#see-it-rsvp",
-  "/checklist": "#see-it-checklist",
-  "/venue-layout": "#see-it-seating",
 };
 
 const BLURBS: Record<string, string> = {
@@ -114,30 +107,20 @@ function landingFeatures(): Feature[] {
   );
   return kept.map((f) => ({
     ...f,
-    href: DEMO_LINK[f.href] ?? "/signup",
     blurb: BLURBS[f.href],
   }));
 }
 
 /**
- * The dashboard's own tiles, filled with a sample couple. Two across on a
- * phone, five on a wide screen -- the same grid a couple gets after signing up.
- *
- * Eleven tiles don't divide into either, so Ask Wren, last, runs the full
- * width of the grid instead of sitting alone in a row with a gap beside it.
+ * The dashboard's own tiles, filled with a sample couple -- the same grid a
+ * couple gets after signing up. Each opens a preview of that feature.
  */
 export function LandingFeatures() {
-  const features = landingFeatures();
-  return (
-    <div className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-5">
-      {features.map((feature, i) => (
-        <div
-          key={feature.title}
-          className={`grid ${i === features.length - 1 ? "col-span-2 lg:col-span-5" : ""}`}
-        >
-          <FeatureTile feature={feature} />
-        </div>
-      ))}
-    </div>
-  );
+  const items: PreviewItem[] = landingFeatures().map((feature) => ({
+    id: feature.href.slice(1),
+    title: feature.title,
+    blurb: feature.blurb,
+    tile: <FeatureTile feature={feature} asBox />,
+  }));
+  return <PreviewGrid items={items} />;
 }

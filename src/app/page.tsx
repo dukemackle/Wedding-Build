@@ -4,7 +4,6 @@ import { FadeInSection } from "@/components/fade-in-section";
 import { AnimatedCounter } from "@/components/animated-counter";
 import { HomeEstimatorCard } from "@/components/home-estimator-card";
 import { LandingFeatures } from "@/components/landing/landing-features";
-import { FeatureDemos } from "@/components/landing/feature-demos";
 import { WIDE_WIDTH } from "@/lib/layout";
 import { createClient } from "@/lib/supabase/server";
 import type { RegionalCostData } from "@/lib/supabase/types";
@@ -90,10 +89,6 @@ export default async function Home() {
         <FadeInSection>
           <LandingFeatures />
         </FadeInSection>
-      </div>
-
-      <div className={`w-full ${WIDE_WIDTH} pb-20`}>
-        <FeatureDemos />
       </div>
 
       <FadeInSection>
