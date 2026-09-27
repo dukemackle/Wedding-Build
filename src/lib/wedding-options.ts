@@ -24,6 +24,25 @@ export const VENUE_TYPES = [
 
 export const VENUE_SETTINGS = ["Indoor", "Outdoor", "Indoor & Outdoor"] as const;
 
+// What a venue's preferred-vendor list is grouped by. The first nine match the
+// vendor catalog's categories, so a listed vendor can be matched to Wren.
+export const PREFERRED_VENDOR_CATEGORIES = [
+  "Catering",
+  "Bar",
+  "Photography",
+  "Videography",
+  "Florals",
+  "Music",
+  "Cake",
+  "Planning",
+  "Transportation",
+  "Hair & Makeup",
+  "Rentals",
+  "Officiant",
+  "Lodging",
+  "Other",
+] as const;
+
 export const CAPACITY_FILTER_STEPS = [50, 100, 150, 200, 300] as const;
 
 export const ATTIRE_CATEGORIES = [

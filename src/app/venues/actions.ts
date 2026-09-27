@@ -4,6 +4,8 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getResendClient, INQUIRY_FROM_ADDRESS } from "@/lib/resend";
+import { inquiryFooter, inquirySubject } from "@/lib/inquiry-footer";
+import { ensureClaimLink } from "@/lib/venue-claim-server";
 import { syncBudgetLineFromBooking } from "@/lib/budget-sync";
 import type { Wedding } from "@/lib/supabase/types";
 
@@ -141,14 +143,25 @@ export async function sendVenueInquiry(formData: FormData): Promise<{ error?: st
     : "";
   const phoneNote = senderPhone ? `\n\nPhone: ${senderPhone}` : "";
 
+  // Only real listings get a claim link; a sample venue has no one to claim it.
+  let claimUrl: string | null = null;
+  if (venueId) {
+    const { data: listed } = await supabase
+      .from("venues")
+      .select("is_sample")
+      .eq("id", venueId)
+      .maybeSingle<{ is_sample: boolean }>();
+    if (listed && !listed.is_sample) claimUrl = await ensureClaimLink(venueId);
+  }
+
   try {
     const resend = getResendClient();
     const { error: sendError } = await resend.emails.send({
       from: INQUIRY_FROM_ADDRESS,
       to: recipientEmail,
       replyTo: user.email,
-      subject: `Wedding inquiry from ${coupleNames || user.email}`,
-      text: `${message}${phoneNote}${referralNote}`,
+      subject: inquirySubject(coupleNames || user.email || "a couple"),
+      text: `${message}${phoneNote}${referralNote}${inquiryFooter(venueName, claimUrl)}`,
     });
 
     if (sendError) {

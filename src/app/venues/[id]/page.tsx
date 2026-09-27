@@ -4,7 +4,13 @@ import { notFound, redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { PageShell } from "@/components/page-shell";
 import { FadeInSection } from "@/components/fade-in-section";
-import type { Venue, VenueFaq, VenueShortlistEntry, Wedding } from "@/lib/supabase/types";
+import type {
+  Venue,
+  VenueFaq,
+  VenuePreferredVendor,
+  VenueShortlistEntry,
+  Wedding,
+} from "@/lib/supabase/types";
 import { ChevronDownIcon } from "@/components/icons";
 import { VenueDetailClient, VenueMapEmbed } from "./venue-detail-client";
 
@@ -74,6 +80,21 @@ export default async function VenueDetailPage({
     .order("sort_order", { ascending: true })
     .returns<VenueFaq[]>();
 
+  const { data: preferredVendors } = await supabase
+    .from("venue_preferred_vendors")
+    .select("*")
+    .eq("venue_id", venue.id)
+    .order("sort_order", { ascending: true })
+    .returns<VenuePreferredVendor[]>();
+
+  // Grouped by category in the order the venue listed them.
+  const preferredByCategory = new Map<string, VenuePreferredVendor[]>();
+  for (const v of preferredVendors ?? []) {
+    preferredByCategory.set(v.category, [...(preferredByCategory.get(v.category) ?? []), v]);
+  }
+
+  const galleryPhotos = venue.photo_urls.slice(1);
+
   const similarityFilters = [
     venue.venue_type ? `venue_type.eq.${venue.venue_type}` : null,
     venue.state ? `state.eq.${venue.state}` : null,
@@ -129,6 +150,15 @@ export default async function VenueDetailPage({
               {venue.is_sample && (
                 <p className="mt-1 text-[10px] uppercase tracking-wide text-ink/40">Sample listing</p>
               )}
+              {venue.source === "claimed" && venue.last_verified_at && (
+                <p className="mt-1 text-xs text-forest/80">
+                  ✓ Details confirmed by the venue,{" "}
+                  {new Date(venue.last_verified_at).toLocaleDateString("en-US", {
+                    month: "long",
+                    year: "numeric",
+                  })}
+                </p>
+              )}
               {venue.capacity && (
                 <p className="mt-2 font-mono-numbers text-sm text-ink/70">
                   Up to {venue.capacity} guests
@@ -146,6 +176,24 @@ export default async function VenueDetailPage({
             </div>
           </div>
         </FadeInSection>
+
+        {galleryPhotos.length > 0 && (
+          <FadeInSection delayMs={20}>
+            <div className="mt-3 grid grid-cols-3 gap-2 sm:grid-cols-4 lg:grid-cols-6">
+              {galleryPhotos.map((url, i) => (
+                <a key={url} href={url} target="_blank" rel="noreferrer" className="block overflow-hidden rounded-md border border-hairline">
+                  <Image
+                    src={url}
+                    alt={`${venue.name} photo ${i + 2}`}
+                    width={240}
+                    height={180}
+                    className="aspect-[4/3] w-full object-cover transition-transform hover:scale-105"
+                  />
+                </a>
+              ))}
+            </div>
+          </FadeInSection>
+        )}
 
         {wedding && (
           <FadeInSection delayMs={40}>
@@ -200,6 +248,41 @@ export default async function VenueDetailPage({
                   </div>
                 </div>
               )}
+            </div>
+          </FadeInSection>
+        )}
+
+        {preferredByCategory.size > 0 && (
+          <FadeInSection delayMs={70}>
+            <div className="mt-6 rounded-lg border border-hairline bg-card p-6 shadow-sm">
+              <h2 className="font-display text-xl font-semibold text-forest">Preferred vendors</h2>
+              <p className="mt-1 text-sm text-ink/60">
+                Vendors {venue.name} recommends and knows its way around the property.
+              </p>
+              <div className="mt-4 grid grid-cols-1 gap-x-8 gap-y-4 sm:grid-cols-2">
+                {[...preferredByCategory].map(([category, list]) => (
+                  <div key={category}>
+                    <p className="text-xs font-medium uppercase tracking-wide text-ink/50">{category}</p>
+                    <ul className="mt-1 space-y-1">
+                      {list.map((v) => (
+                        <li key={v.id}>
+                          {v.vendor_id ? (
+                            <Link href={`/vendors/${v.vendor_id}`} className="text-ink hover:text-brass">
+                              {v.name} <span className="text-xs text-brass">on Wren</span>
+                            </Link>
+                          ) : v.website ? (
+                            <a href={v.website} target="_blank" rel="noopener noreferrer nofollow" className="text-ink hover:text-brass">
+                              {v.name} <span className="text-ink/40">↗</span>
+                            </a>
+                          ) : (
+                            <span className="text-ink">{v.name}</span>
+                          )}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
             </div>
           </FadeInSection>
         )}

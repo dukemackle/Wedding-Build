@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRef, useState, useTransition } from "react";
 import {
   describeLastVerified,
@@ -9,6 +10,7 @@ import {
 } from "@/lib/listing-freshness";
 import type { Venue, VenueFaq } from "@/lib/supabase/types";
 import { VenueImportPanel } from "./venue-import-panel";
+import { ClaimLinkPanel } from "./claim-link-panel";
 import { STATES, STYLE_TIERS, VENUE_SETTINGS, VENUE_TYPES } from "@/lib/wedding-options";
 import {
   addVenueFaq,
@@ -309,6 +311,7 @@ function VenueFaqEditor({ venue, faqs }: { venue: Venue; faqs: VenueFaq[] }) {
 
 function VenueRow({ venue, faqs }: { venue: Venue; faqs: VenueFaq[] }) {
   const [editing, setEditing] = useState(false);
+  const [showingClaim, setShowingClaim] = useState(false);
   const [isPending, startTransition] = useTransition();
 
   function toggleActive() {
@@ -338,7 +341,8 @@ function VenueRow({ venue, faqs }: { venue: Venue; faqs: VenueFaq[] }) {
   }
 
   return (
-    <div className="flex flex-col gap-2 border-b border-hairline py-3 last:border-b-0 sm:flex-row sm:items-center sm:justify-between">
+    <div className="border-b border-hairline py-3 last:border-b-0">
+    <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
       <div>
         <p className={venue.active ? "text-ink" : "text-ink/40 line-through"}>
           {venue.name}
@@ -354,7 +358,16 @@ function VenueRow({ venue, faqs }: { venue: Venue; faqs: VenueFaq[] }) {
           {venue.source && venue.source !== "manual" && ` · from ${venue.source}`}
         </p>
       </div>
-      <div className="flex items-center gap-2">
+      <div className="flex flex-wrap items-center gap-2">
+        {!venue.is_sample && (
+          <button
+            type="button"
+            onClick={() => setShowingClaim((v) => !v)}
+            className="rounded-md border border-hairline px-3 py-1 text-xs text-ink hover:border-forest"
+          >
+            Claim link
+          </button>
+        )}
         <button
           type="button"
           onClick={() => setEditing(true)}
@@ -381,15 +394,19 @@ function VenueRow({ venue, faqs }: { venue: Venue; faqs: VenueFaq[] }) {
         </button>
       </div>
     </div>
+    {showingClaim && <ClaimLinkPanel venue={venue} onClose={() => setShowingClaim(false)} />}
+    </div>
   );
 }
 
 export function AdminVenuesManager({
   venues,
   faqsByVenueId,
+  pendingClaims,
 }: {
   venues: Venue[];
   faqsByVenueId: Record<string, VenueFaq[]>;
+  pendingClaims: number;
 }) {
   const [adding, setAdding] = useState(false);
   const [importing, setImporting] = useState(false);
@@ -397,6 +414,17 @@ export function AdminVenuesManager({
 
   return (
     <div className="w-full rounded-lg border border-hairline bg-card p-6 shadow-sm">
+      {pendingClaims > 0 && (
+        <Link
+          href="/admin/venues/claims"
+          className="mb-4 flex items-center justify-between rounded-md border border-brass/40 bg-brass/10 px-4 py-3 text-sm text-ink hover:border-brass"
+        >
+          <span>
+            {pendingClaims} {pendingClaims === 1 ? "venue has" : "venues have"} sent changes to review
+          </span>
+          <span className="text-brass">Review &rarr;</span>
+        </Link>
+      )}
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
         <p className="text-sm text-ink/60">
           {venues.length} venues

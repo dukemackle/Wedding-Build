@@ -1,3 +1,5 @@
+import type { ClaimDetails, ClaimFaq, ClaimPreferredVendor } from "@/lib/venue-claim";
+
 export type Wedding = {
   id: string;
   user_id: string;
@@ -199,6 +201,8 @@ export type Venue = {
   contact_email: string | null;
   contact_phone: string | null;
   website: string | null;
+  /** Gallery photos, cover first. `image_url` mirrors the cover. */
+  photo_urls: string[];
   active: boolean;
   is_sample: boolean;
   /** Where this listing came from: manual, import, osm, google, claimed. */
@@ -209,6 +213,35 @@ export type Venue = {
   last_verified_at: string | null;
   verified_by: string | null;
   created_at: string;
+};
+
+export type VenuePreferredVendor = {
+  id: string;
+  venue_id: string;
+  category: string;
+  name: string;
+  website: string | null;
+  /** Set when the vendor is also listed on Wren. */
+  vendor_id: string | null;
+  sort_order: number;
+  created_at: string;
+};
+
+export type VenueSubmissionStatus = "pending" | "approved" | "rejected";
+
+export type VenueSubmission = {
+  id: string;
+  venue_id: string;
+  status: VenueSubmissionStatus;
+  submitter_name: string;
+  submitter_email: string;
+  submitter_role: string | null;
+  details: ClaimDetails;
+  faqs: ClaimFaq[];
+  preferred_vendors: ClaimPreferredVendor[];
+  photo_urls: string[];
+  created_at: string;
+  reviewed_at: string | null;
 };
 
 export type VenueFaq = {
