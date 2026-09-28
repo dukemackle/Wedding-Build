@@ -243,4 +243,18 @@ Wild Roots	Lockhart	Texas	29.81746	-97.55606	Garden / Outdoor	Indoor & Outdoor	2
 Luna Gardens	Lockhart	Texas	29.89851	-97.65232	Garden / Outdoor	Outdoor		Venue-only open-air garden with lawns and pond views, five minutes from downtown Lockhart.		(512) 546-7733	https://www.lunagardenstx.com
 `,
   },
+  {
+    name: "More San Antonio: downtown, Helotes and Castroville",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+McNay Art Museum	San Antonio	Texas	29.48505	-98.45917	Historic / Estate	Indoor & Outdoor	250	Texas's first modern art museum, in a Spanish Colonial Revival mansion on 23 acres; receptions seat up to 250, and an approved caterer and a planner are required.	rentals@mcnayart.org	(210) 824-5368	https://www.mcnayart.org/weddings/
+Ivy Hall	San Antonio	Texas			Garden / Outdoor	Indoor & Outdoor		Southtown garden venue in a converted 1950s gas station and mechanic shop, with a banquet hall, a screened porch and on-site catering.			http://ivyhallevents.com
+Rio Plaza	San Antonio	Texas	29.42435	-98.49042	Historic / Estate	Indoor & Outdoor		Stone-fronted downtown venue steps from the River Walk, with several rooms, rooftop spaces over the skyline and private elevator access.	amanda@rioplaza.net	210-223-9141	https://www.rioplaza.net
+Hotel Valencia Riverwalk	San Antonio	Texas	29.4264	-98.49205	Ballroom / Hotel	Indoor & Outdoor	160	Spanish-style boutique hotel on the River Walk with an open-air courtyard for 120 and indoor spaces for up to 160.	weddingsa@valenciagroup.com	210.220.3081	https://www.hotelvalencia-riverwalk.com
+Kimpton Santo	San Antonio	Texas	29.42031	-98.48825	Ballroom / Hotel	Indoor & Outdoor		Hotel between downtown and Southtown with historic suites and an interior courtyard under live oaks.		(210) 222-1000	https://santohotelsanantonioriverwalk.com
+Sagrado Vineyard	San Antonio	Texas	29.73621	-98.49755	Restaurant / Vineyard	Indoor & Outdoor		Vineyard north of the city with a chapel, a reception hall with full kitchen, dressing suites and a bed and breakfast overlooking the vines.		(210) 219-9054	https://www.sagradovineyard.com
+Scenic Springs	Helotes	Texas	29.6208	-98.6852	Historic / Estate	Indoor & Outdoor	225	Historic family estate with park-style gardens, a brook, century oaks and a beamed ballroom.		866-966-3009	https://www.wedgewoodweddings.com/scenicsprings
+Hofmann Ranch	Castroville	Texas			Barn / Rustic	Indoor & Outdoor	300	A 370-acre working ranch with longhorns, a ballroom with double oak staircases, a pavilion and an outdoor fireplace lookout, 25 minutes from San Antonio.		866-966-3009	https://www.wedgewoodweddings.com/hofmannranch
+Hillside Texas	Castroville	Texas	29.34831	-98.89821	Ballroom / Hotel	Indoor & Outdoor	200	French-country boutique hotel with 38 rooms on a 13-acre hillside above the Medina River valley, with a ballroom and a terrace for sunset ceremonies.		830-538-3200	https://www.hillsidetexas.com
+`,
+  },
 ];
