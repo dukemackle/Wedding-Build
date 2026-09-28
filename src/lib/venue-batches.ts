@@ -229,4 +229,18 @@ French Country Farms	Wichita Falls	Texas	33.91873	-98.57284	Barn / Rustic	Indoor
 Venue 79	Wichita Falls	Texas	33.83372	-98.52125	Ballroom / Hotel	Indoor		A 6,000 sq ft modern event hall south of Wichita Falls.		(940) 782-7720	https://www.venue79.com
 `,
   },
+  {
+    name: "Austin outskirts: Lake Travis, Georgetown, Round Rock, Bastrop and Lockhart",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Lakeway Resort and Spa	Lakeway	Texas	30.37363	-97.98762	Ballroom / Hotel	Indoor & Outdoor	300	Lake Travis resort whose Vistas Ballroom seats 300 under vaulted ceilings with floor-to-ceiling lake views, plus two smaller ballrooms.	sales@lakewayresortandspa.com	(512) 261-6600	https://www.lakewayresortandspa.com
+Villa Antonia	Jonestown	Texas	30.46731	-97.95256	Historic / Estate	Indoor & Outdoor		Italian-style villa near Lake Travis with several ceremony and reception spaces and bridal and groom suites.		(512) 689-2157	https://www.villaantonia.com
+Garey House	Georgetown	Texas	30.59517	-97.7882	Historic / Estate	Indoor & Outdoor		Former private estate in the city's Garey Park, with a pond, waterfall and oak-shaded grounds, run by Georgetown Parks and Recreation.	gareyhouse@georgetowntexas.gov	512-930-6801	https://gareyhouse.georgetown.org
+Angel Springs Event Center	Georgetown	Texas	30.62627	-97.83888	Garden / Outdoor	Indoor & Outdoor	200	Hill Country venue with an oak-canopied entrance, outdoor ceremony space and a high-ceilinged ballroom seating 200, plus lodging.	info@angelspringsevents.com	(512) 957-9994	https://www.angelspringsevents.com
+The Texas Hall	Round Rock	Texas	30.5368	-97.74526	Barn / Rustic	Indoor & Outdoor	120	Barn-style hall on five acres near Brushy Creek, with an oak-shaded ceremony site, a pool and gazebo, a guesthouse and DIY-to-full-service packages.	texashallevents@gmail.com	512.947.3812	https://www.thetexashall.com
+Angel Mountain Events	Bastrop	Texas	30.1432	-97.25706	Garden / Outdoor	Indoor & Outdoor	125	Hilltop venue with a candlelit chapel and indoor reception hall, rebuilt by its owners after the Bastrop wildfires.	info@angelmountainevents.com	(512) 695-0932	https://angelmountainevents.com
+Comanche Country Ranch	Lockhart	Texas	29.81837	-97.70366	Barn / Rustic	Indoor & Outdoor		A 130-acre ranch with an Old West town of a chapel, saloon and bunkhouse, and a 3,500 sq ft climate-controlled pavilion for receptions.		512.541.0979	https://comanchecountryranch.com
+Wild Roots	Lockhart	Texas	29.81746	-97.55606	Garden / Outdoor	Indoor & Outdoor	200	Wooded venue with several ceremony sites, a 2,500 sq ft indoor hall seating 200, and glamping and tiny homes for 28 overnight guests.	info@wildrootslockhart.com	(512) 893-7400	https://www.wildrootslockhart.com
+Luna Gardens	Lockhart	Texas	29.89851	-97.65232	Garden / Outdoor	Outdoor		Venue-only open-air garden with lawns and pond views, five minutes from downtown Lockhart.		(512) 546-7733	https://www.lunagardenstx.com
+`,
+  },
 ];
