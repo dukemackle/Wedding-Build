@@ -325,4 +325,66 @@ D.H. Lescombes Winery & Bistro	Albuquerque	New Mexico			Restaurant / Vineyard	In
 Desert Harbor Retreat	Sandia Park	New Mexico			Garden / Outdoor	Outdoor		Thirty-four off-grid high-desert acres for private elopements and micro-weddings, with a single casita.	anchor@desertharbor.org	505-252-0558	https://www.desertharborretreat.com
 `,
   },
+  {
+    name: "Santa Fe, Taos and Northern New Mexico",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+El Rey Court	Santa Fe	New Mexico			Ballroom / Hotel	Indoor & Outdoor		Adobe motor court from 1936 on old Route 66, with 86 rooms, five acres of gardens and several ceremony and reception spaces.	info@elreycourt.com	505-982-1931	https://www.elreycourt.com
+Eldorado Hotel & Spa	Santa Fe	New Mexico			Ballroom / Hotel	Indoor		Downtown hotel with 219 rooms, within walking distance of the Plaza, with meeting and wedding spaces.		505-988-4455	https://www.eldoradohotel.com
+Hotel St. Francis	Santa Fe	New Mexico			Ballroom / Hotel	Indoor		Historic boutique hotel in downtown Santa Fe that hosts weddings and meetings.		505-983-5700	https://www.hotelstfrancis.com
+La Posada de Santa Fe	Santa Fe	New Mexico			Ballroom / Hotel	Indoor & Outdoor		Resort a few blocks from the Plaza with several reception and ceremony venues, including the historic Staab House.		505-986-0000	https://www.laposadadesantafe.com
+La Fonda on the Plaza	Santa Fe	New Mexico			Ballroom / Hotel	Indoor		Hotel on the historic Santa Fe Plaza with on-site catering and room blocks for wedding guests.		505-982-5511	https://www.lafondasantafe.com
+Inn of the Turquoise Bear	Santa Fe	New Mexico			Historic / Estate	Indoor & Outdoor		Bed and breakfast in a once-private historic estate near downtown, suited to elopements and small weddings.		505-983-0798	https://www.turquoisebear.com
+Santa Fe Botanical Garden	Santa Fe	New Mexico			Garden / Outdoor	Outdoor		Botanical garden on Museum Hill, available for private rentals.		505-471-9103	https://www.santafebotanicalgarden.org
+Bishop's Lodge	Santa Fe	New Mexico			Ballroom / Hotel	Indoor & Outdoor		Auberge resort in the foothills north of town, bordering national forest, with guest rooms, casitas and a bunkhouse.		505-390-2323	https://auberge.com/bishops-lodge/
+El Rancho de las Golondrinas	Santa Fe	New Mexico			Historic / Estate	Indoor & Outdoor		Living history museum south of Santa Fe, with buildings dating to the 1700s, rented for weddings and celebrations.		(505) 471-2261	https://www.golondrinas.org
+Blame Her Ranch	Ribera	New Mexico			Barn / Rustic	Indoor & Outdoor	250	Ranch at 7,000 feet, under an hour from Santa Fe, with four event spaces and overnight lodging for up to 66.	BlameHerManager@gmail.com	575-577-6269	https://www.blameherranch.com
+Leaping Deer Ranch	Las Vegas	New Mexico			Garden / Outdoor	Indoor & Outdoor	120	Mountain ranch stay and wellness centre near Las Vegas, NM, with an outdoor ceremony site and an event hall for up to 120.	colin@leapingdeerranch.com	(505) 595-7244	https://www.leapingdeerranch.com
+Log River Ranch	Chama	New Mexico			Barn / Rustic	Indoor & Outdoor		Family-owned ranch on the Rio Chama, hosting weddings since 2019, with log cabins for overnight guests.	info@logriverranch.com	(575) 209-4410	https://logriverranch.com
+El Monte Sagrado	Taos	New Mexico			Ballroom / Hotel	Indoor & Outdoor		Luxury wellness resort in Taos that hosts weddings and meetings.		855-846-8267	https://www.elmontesagrado.com
+Sagebrush Inn & Suites	Taos	New Mexico			Ballroom / Hotel	Indoor & Outdoor		Taos hotel with indoor and outdoor wedding venues, a cantina and live music.	info@sagebrushinn.com	575-758-2254	https://www.sagebrushinn.com
+Historic Taos Inn	Taos	New Mexico			Historic / Estate	Indoor & Outdoor		Historic adobe inn with several courtyards and on-site dining, hosting intimate weddings.	hello@taosinn.com	(575) 758-2233	https://www.taosinn.com
+`,
+  },
+  {
+    name: "Northwest Arkansas and Eureka Springs",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Stone Chapel at MattLane Farm	Fayetteville	Arkansas			Garden / Outdoor	Indoor & Outdoor		Stone chapel on landscaped farm grounds 15 minutes from downtown Fayetteville.	mattlanefarm@gmail.com	(479) 871-0789	https://stonechapelnwa.com
+Botanical Garden of the Ozarks	Fayetteville	Arkansas			Garden / Outdoor	Indoor & Outdoor		Botanical garden with themed gardens and a butterfly house, rented for weddings and events.	info@bgozarks.org	(479) 750-2620	https://www.bgozarks.org
+Inn at Carnall Hall	Fayetteville	Arkansas			Ballroom / Hotel	Indoor		Inn on the University of Arkansas campus with more than 3,000 sq ft of event space.		479-582-0400	https://www.innatcarnallhall.com
+The Ravington	Centerton	Arkansas			Historic / Estate	Indoor		Intimate venue in a 1909 building with 18-foot ceilings, exposed brick and reclaimed wood floors.		479-903-3518	https://theravington.com
+Kindred North	Centerton	Arkansas			Barn / Rustic	Indoor & Outdoor	300	A 5,200 sq ft climate-controlled ceremony and reception hall, plus a tree-lined outdoor ceremony site for 300.	booking@kindrednorth.com		https://www.kindrednorth.com
+Osage House	Cave Springs	Arkansas			Garden / Outdoor	Indoor & Outdoor		Two venues, The Hall + Chapel and The Reserve, each with suites for both partners.	info@osagehouse.com	479-257-7888	https://www.osagehouse.com
+The Ballroom at I Street	Bentonville	Arkansas			Ballroom / Hotel	Indoor		Ballroom in central Bentonville with a bridal party house in a renovated 1930s home.	events@theballroomatistreet.com		https://www.theballroomatistreet.com
+Record	Bentonville	Arkansas			Ballroom / Hotel	Indoor & Outdoor	1000	Downtown event space with exposed brick and several halls, the largest holding up to 1,000.			https://www.recorddowntown.com
+The Apollo on Emma	Springdale	Arkansas			Historic / Estate	Indoor		Former theatre in historic downtown Springdale, now a wedding and event space.	theapolloonemma@gmail.com		https://theapolloonemma.com
+Sassafras Springs Vineyard	Springdale	Arkansas			Restaurant / Vineyard	Indoor & Outdoor	250	Winery near Fayetteville with chapel ruins, a stables hall seating 250 for a ceremony, and on-site lodging.	info@sassafrasspringsvineyard.com	479-419-4999	https://www.sassafrasspringsvineyard.com
+Thorncrown Chapel	Eureka Springs	Arkansas			Historic / Estate	Indoor		Glass-and-timber chapel in the Ozark woods, 48 feet tall with 425 windows, hosting weddings since 1980.	felicia@thorncrownweddings.com		https://www.thorncrown.com
+1886 Crescent Hotel & Spa	Eureka Springs	Arkansas			Ballroom / Hotel	Indoor & Outdoor		Historic hotel on 15 acres with five indoor and outdoor wedding venues, 72 rooms and four cottages.			https://crescenthotelwedding.com
+Basin Park Hotel	Eureka Springs	Arkansas			Ballroom / Hotel	Indoor & Outdoor	100	Downtown hotel with a ballroom and a rooftop Crow's Nest; ceremony-and-reception packages for up to 100.	sales@basinpark.com	(855) 700-9434	https://basinparkhotelweddings.com
+`,
+  },
+  {
+    name: "Little Rock, Hot Springs and Central Arkansas",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+The Castle on Stagecoach	Little Rock	Arkansas			Historic / Estate	Indoor & Outdoor		Castle-style venue with intimate indoor rooms and expansive grounds for outdoor events.		501-960-0658	https://www.thecastleonstagecoach.com
+Wildwood Park for the Arts	Little Rock	Arkansas			Garden / Outdoor	Indoor & Outdoor		Park in west Little Rock with a theatre, pavilion, gazebo, lawn and arboretum to rent.			https://www.wildwoodpark.org
+Rusty Tractor Vineyards	Little Rock	Arkansas			Restaurant / Vineyard	Indoor & Outdoor	300	Vineyard with the Sunset Lodge event space overlooking the vines and a restored 100-year-old dairy barn.	info@rtvwine.com		https://www.rustytractorvineyards.com
+Pine Haven Venue	Little Rock	Arkansas			Garden / Outdoor	Indoor & Outdoor		Modern venue in the pine forest with a chapel, garden ceremony area and patios.	hello@pinehavenvenue.com	501-559-5959	https://www.pinehavenvenue.com
+The Capital Hotel	Little Rock	Arkansas			Ballroom / Hotel	Indoor		Gilded Age hotel downtown that has hosted Little Rock's events for over a century.	info@capitalhotel.com	(501) 374-7474	https://www.capitalhotel.com
+The Arlington Resort Hotel & Spa	Hot Springs	Arkansas			Ballroom / Hotel	Indoor		Historic resort hotel with a thermal bathhouse, hosting weddings and celebrations.	info@arlingtonhotel.com	(501) 623-7771	https://www.arlingtonhotel.com
+Garvan Woodland Gardens	Hot Springs	Arkansas			Garden / Outdoor	Indoor & Outdoor	200	University of Arkansas botanical garden on 210 acres, with Anthony Chapel for up to 200 and several garden sites.	GWGweds@uark.edu	501-262-9608	https://www.garvangardens.org
+The Pines	Conway	Arkansas			Barn / Rustic	Indoor & Outdoor		Renovated horse farm with a barn, stables, courtyard, pond and overnight suites.	thepinesconway@gmail.com	501-380-0035	https://www.thepinesconway.com
+Bella Terra Estate	Cabot	Arkansas			Barn / Rustic	Indoor & Outdoor		Ten acres of pastureland with an outdoor ceremony site and two guest cabins.		501-231-1727	https://www.bellaterraestate.com
+`,
+  },
+  {
+    name: "Baton Rouge and Acadiana",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+River Terrace at the Shaw Center for the Arts	Baton Rouge	Louisiana			Beach / Waterfront	Indoor & Outdoor	300	Glass-enclosed room and terrace overlooking the Mississippi, for 300 seated or 400 standing.	info@shawcenter.org	225-346-5001	https://www.shawcenter.org
+Oak Lodge	Baton Rouge	Louisiana			Ballroom / Hotel	Indoor		Reception venue with three event spaces in a New Orleans style.	mary@oaklodgeonline.com	225-291-6257	https://oakparcevents.com
+Parc 73	Prairieville	Louisiana			Ballroom / Hotel	Indoor		Reception venue with several event spaces, run alongside its sister venue Oak Lodge.	mary@parc73.com	225-744-3344	https://www.parc73.com
+Cajun Mansion	Youngsville	Louisiana			Historic / Estate	Indoor & Outdoor	200	All-inclusive venue near Lafayette, from micro weddings of 20-45 to celebrations of 200.	info@cajunmansion.com	337-223-4722	https://cajunmansion.com
+Rip Van Winkle Gardens	New Iberia	Louisiana			Garden / Outdoor	Indoor & Outdoor		Gardens on Jefferson Island with a renovated reception hall, the Orangerie and Acadian-style guest cottages.	rvw.1073@gmail.com	(337) 359-8525	https://www.ripvanwinklegardens.com
+`,
+  },
 ];
