@@ -4,26 +4,28 @@
  * gold to pale sunshine yellow (right ring, bottom-right). The left ring passes
  * over at the top crossing and under at the bottom, each tuck shaded, and the
  * diamond's point sits in a notch cut into the top of the right ring. The
- * diamond is in the Wren bird's blues.
+ * diamond is in the Wren bird's blues. Both palettes flow slowly through their
+ * shades (`ydid-flow-*` in globals.css); the stop colours here are the still
+ * frame shown when motion is reduced.
  */
 export function BrandRings({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 160 125" className={className} aria-hidden="true">
       <defs>
         <linearGradient id="ydid-grad-a" gradientUnits="userSpaceOnUse" x1="92" y1="30" x2="12" y2="120">
-          <stop offset="0" stopColor="#efb000" />
-          <stop offset="0.55" stopColor="#c98a00" />
-          <stop offset="1" stopColor="#8f5d00" />
+          <stop offset="0" stopColor="#efb000" className="ydid-flow-gold" style={{ animationDelay: "-4s" }} />
+          <stop offset="0.55" stopColor="#c98a00" className="ydid-flow-gold" style={{ animationDelay: "-6s" }} />
+          <stop offset="1" stopColor="#8f5d00" className="ydid-flow-gold" style={{ animationDelay: "-8s" }} />
         </linearGradient>
         <linearGradient id="ydid-grad-b" gradientUnits="userSpaceOnUse" x1="72" y1="32" x2="150" y2="120">
-          <stop offset="0" stopColor="#efb000" />
-          <stop offset="0.5" stopColor="#ffcc2e" />
-          <stop offset="1" stopColor="#ffe278" />
+          <stop offset="0" stopColor="#efb000" className="ydid-flow-gold" style={{ animationDelay: "-4s" }} />
+          <stop offset="0.5" stopColor="#ffcc2e" className="ydid-flow-gold" style={{ animationDelay: "-2s" }} />
+          <stop offset="1" stopColor="#ffe278" className="ydid-flow-gold" style={{ animationDelay: "0s" }} />
         </linearGradient>
         <linearGradient id="ydid-grad-d" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#8fd0f5" />
-          <stop offset="0.5" stopColor="#3b88c3" />
-          <stop offset="1" stopColor="#2f78ad" />
+          <stop offset="0" stopColor="#8fd0f5" className="ydid-flow-blue" style={{ animationDelay: "-3s" }} />
+          <stop offset="0.5" stopColor="#3b88c3" className="ydid-flow-blue" style={{ animationDelay: "-1.5s" }} />
+          <stop offset="1" stopColor="#2f78ad" className="ydid-flow-blue" style={{ animationDelay: "0s" }} />
         </linearGradient>
         <filter id="ydid-blur" x="-20%" y="-20%" width="140%" height="140%">
           <feGaussianBlur stdDeviation="2.4" />
