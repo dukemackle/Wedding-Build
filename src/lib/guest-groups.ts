@@ -14,26 +14,28 @@ export const GUEST_TYPE_LABELS: Record<GuestType, string> = {
 /**
  * The colours a side can be drawn in.
  *
- * Nine, not a colour wheel: the side bar has to read against parchment,
- * and a free picker is how you end up with a pale yellow nobody can see. The
- * dark ones can carry white text; Stone is the neutral default for "Both".
+ * Four, on purpose: blue and yellow for the two of you, green for "Both",
+ * and red kept spare as a flag -- move a side to red when it needs a look
+ * (the guests still waiting on an RSVP, say). Blue and yellow come from the
+ * brand palette; the yellow is a fill only, never text.
  */
 export const SIDE_COLORS = [
-  { name: "Forest", value: "#3F6B57" },
-  { name: "Brass", value: "#B0762F" },
-  { name: "Plum", value: "#7A3F62" },
-  { name: "Navy", value: "#2F4A7A" },
-  { name: "Rust", value: "#A9512F" },
-  { name: "Teal", value: "#2F6E70" },
-  { name: "Olive", value: "#6B7233" },
-  { name: "Slate", value: "#4A5560" },
-  { name: "Stone", value: "#8C8677" },
+  { name: "Blue", value: "#2243B6" },
+  { name: "Yellow", value: "#FFD301" },
+  { name: "Green", value: "#2E9E5B" },
+  { name: "Red", value: "#D63B3B" },
 ] as const;
+
+const PALETTE: readonly string[] = SIDE_COLORS.map((c) => c.value);
 
 export const DEFAULT_SIDE_A_COLOR = SIDE_COLORS[0].value;
 export const DEFAULT_SIDE_B_COLOR = SIDE_COLORS[1].value;
-/** Neutral by default: "both" is the absence of a side rather than one more. */
-export const DEFAULT_SIDE_BOTH_COLOR = SIDE_COLORS[8].value;
+export const DEFAULT_SIDE_BOTH_COLOR = SIDE_COLORS[2].value;
+
+/** A colour saved from the old nine-colour palette falls back to the default. */
+function inPalette(color: string | null, fallback: string) {
+  return color && PALETTE.includes(color) ? color : fallback;
+}
 
 /** A guest with no side gets a dot too -- hollow, so the row still lines up. */
 export const UNASSIGNED_COLOR = "#C9C3B6";
@@ -77,9 +79,9 @@ export function sideTheme({
       both: "Both",
     },
     colors: {
-      a: sideAColor || DEFAULT_SIDE_A_COLOR,
-      b: sideBColor || DEFAULT_SIDE_B_COLOR,
-      both: sideBothColor || DEFAULT_SIDE_BOTH_COLOR,
+      a: inPalette(sideAColor, DEFAULT_SIDE_A_COLOR),
+      b: inPalette(sideBColor, DEFAULT_SIDE_B_COLOR),
+      both: inPalette(sideBothColor, DEFAULT_SIDE_BOTH_COLOR),
     },
   };
 }
