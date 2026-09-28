@@ -49,10 +49,14 @@ don't wait to be asked. Boxes and blurbs come from `buildFeatures` in
 the pull request without asking again — pushing to a branch isn't shipping,
 production deploys from `main`. The merge click stays the owner's.
 
-**Venue batches merge themselves (2026-09-27):** a PR that only adds venues to
-`src/lib/venue-batches.ts` doesn't wait for the owner — merge it once the
-Cloudflare build is green. The owner then clicks "Add them" on /admin/venues.
-Anything else in the PR (code, UI) still goes through the owner.
+**Venue and vendor batches merge themselves (2026-09-27, vendors 2026-09-28):**
+a PR that only adds rows to `src/lib/venue-batches.ts` or
+`src/lib/vendor-batches.ts` doesn't wait for the owner — merge it once the
+Cloudflare build is green. The owner then clicks "Add them" on /admin/venues
+or /admin/vendors. Anything else in the PR (code, UI) still goes through the
+owner. Vendors go deep before wide: finish every category in Austin before
+the next metro (first wave done 2026-09-28: photography, planning, catering,
+florals, music; next: hair & makeup, videography, cake, officiant, rentals).
 
 **Desktop and mobile are two designs, not one that stretches (2026-09-20,
 restated 2026-09-20 — supersedes the earlier "desktop is settled" note):**
