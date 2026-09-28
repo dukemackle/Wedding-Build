@@ -746,7 +746,7 @@ const QUESTIONS = [
   },
   {
     q: "Are we over budget?",
-    a: "You're $1,600 under your $40,000 target, with catering still to be quoted.",
+    a: "You're $8,800 under your $40,000 target on real numbers — $1,600 under once catering and the other open lines come in at their estimates.",
   },
   {
     q: "Who hasn't RSVP'd?",
