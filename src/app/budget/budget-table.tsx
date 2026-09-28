@@ -172,7 +172,7 @@ function downloadBudgetCsv(rows: BudgetRow[]) {
 }
 
 const numberInputClass =
-  "w-24 rounded-md border border-hairline bg-parchment px-2 py-1 text-right font-mono-numbers text-sm text-ink outline-none focus:border-forest";
+  "w-24 rounded-md border border-hairline bg-parchment px-2 py-1 text-right font-mono-numbers text-sm text-ink outline-none focus:border-forest lg:w-28 lg:py-1.5 lg:text-base 2xl:w-32";
 const iconButtonClass =
   "rounded-md p-1.5 text-ink/40 transition-colors hover:bg-parchment hover:text-forest";
 
@@ -324,7 +324,7 @@ function BudgetRowItem({
   // line, so it waits behind the chevron.
   return (
     <div className="border-b border-hairline last:border-b-0">
-      <div className="px-1 py-2.5 transition-colors hover:bg-parchment/50 sm:grid sm:grid-cols-[1fr_7rem_7.5rem_11rem] sm:items-center sm:gap-4 sm:px-2">
+      <div className="px-1 py-2.5 transition-colors lg:py-3 hover:bg-parchment/50 sm:grid sm:grid-cols-[1fr_7rem_7.5rem_11rem] lg:grid-cols-[minmax(0,1fr)_8.5rem_9rem_13rem] lg:gap-5 2xl:grid-cols-[minmax(0,1fr)_10rem_11rem_18rem] 2xl:gap-8 sm:items-center sm:gap-4 sm:px-2">
         <button
           type="button"
           onClick={() => setExpanded((v) => !v)}
@@ -336,8 +336,8 @@ function BudgetRowItem({
               expanded ? "" : "-rotate-90"
             }`}
           />
-          <Icon className="h-4 w-4 shrink-0 text-brass" />
-          <span className="min-w-0 truncate text-ink">
+          <Icon className="h-4 w-4 shrink-0 text-brass lg:h-5 lg:w-5" />
+          <span className="min-w-0 truncate text-ink lg:text-[17px]">
             {row.label}
             {row.purchasedFrom && <span className="text-ink/45"> · {row.purchasedFrom}</span>}
             {!row.purchasedFrom && row.isPerGuest && (
@@ -363,7 +363,7 @@ function BudgetRowItem({
             cells become grid items of the row above -- one stacked block on a
             phone, aligned columns on anything wider. */}
         <div className="mt-2 flex items-center gap-3 pl-[1.4rem] sm:contents">
-          <span className="font-mono-numbers text-sm text-ink/60 sm:text-right">
+          <span className="font-mono-numbers text-sm text-ink/60 sm:text-right lg:text-base">
             {row.computed !== null ? currency.format(row.computed) : "—"}
           </span>
           <input
@@ -377,13 +377,13 @@ function BudgetRowItem({
             className={`${numberInputClass} sm:justify-self-end`}
           />
           <span className="flex flex-1 items-center gap-2 sm:flex-none">
-            <span className="h-1.5 flex-1 overflow-hidden rounded-full bg-forest/10 sm:w-20 sm:flex-none">
+            <span className="h-1.5 flex-1 overflow-hidden rounded-full bg-forest/10 sm:w-20 sm:flex-none lg:h-2 lg:flex-1">
               <span
-                className="wren-grow block h-1.5 rounded-full bg-forest transition-[width]"
+                className="wren-grow block h-1.5 rounded-full bg-forest transition-[width] lg:h-2"
                 style={{ width: `${paidPct}%` }}
               />
             </span>
-            <span className="w-14 shrink-0 text-right font-mono-numbers text-[11px] text-ink/55">
+            <span className="w-14 shrink-0 text-right font-mono-numbers text-[11px] text-ink/55 lg:text-[13px]">
               {livePaid <= 0
                 ? "—"
                 : paidPct >= 100
@@ -874,15 +874,15 @@ export function BudgetTable({
 
       {/* Column labels, so the totals above are visibly the sum of what's
           below rather than three numbers floating over a list. */}
-      <div className="hidden border-b border-hairline bg-parchment/50 py-2 sm:grid sm:px-8 sm:grid-cols-[1fr_7rem_7.5rem_11rem] sm:items-center sm:gap-4">
-        <span className="font-mono-numbers text-[10px] uppercase tracking-[0.16em] text-ink/45">
+      <div className="hidden border-b border-hairline bg-parchment/50 py-2 sm:grid sm:px-8 sm:grid-cols-[1fr_7rem_7.5rem_11rem] lg:grid-cols-[minmax(0,1fr)_8.5rem_9rem_13rem] lg:gap-5 2xl:grid-cols-[minmax(0,1fr)_10rem_11rem_18rem] 2xl:gap-8 sm:items-center sm:gap-4">
+        <span className="font-mono-numbers text-[10px] uppercase tracking-[0.16em] text-ink/45 lg:text-[11px]">
           Category
         </span>
-        <span className="text-right font-mono-numbers text-[10px] uppercase tracking-[0.16em] text-ink/45">
+        <span className="text-right font-mono-numbers text-[10px] uppercase tracking-[0.16em] text-ink/45 lg:text-[11px]">
           Estimate
         </span>
         {/* pr-2 matches the input's padding, so the label ends where the number does. */}
-        <span className="pr-2 text-right font-mono-numbers text-[10px] uppercase tracking-[0.16em] text-ink/45">
+        <span className="pr-2 text-right font-mono-numbers text-[10px] uppercase tracking-[0.16em] text-ink/45 lg:text-[11px]">
           Actual
         </span>
         {/* The progress bar had no label at all, so the one column that
@@ -890,13 +890,13 @@ export function BudgetTable({
             decoration. Paid sits over the bar; Expand all keeps the right
             edge, above the percentage it lines up with. */}
         <span className="flex items-center justify-between gap-2">
-          <span className="font-mono-numbers text-[10px] uppercase tracking-[0.16em] text-ink/45">
+          <span className="font-mono-numbers text-[10px] uppercase tracking-[0.16em] text-ink/45 lg:text-[11px]">
             Paid
           </span>
           <button
             type="button"
             onClick={toggleAll}
-            className="font-mono-numbers text-[11px] text-brass hover:underline"
+            className="font-mono-numbers text-[11px] text-brass hover:underline lg:text-xs"
           >
             {allExpanded ? "Collapse all" : "Expand all"}
           </button>

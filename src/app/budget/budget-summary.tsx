@@ -120,9 +120,9 @@ export function BudgetSummary({
     <div className="border-b border-hairline bg-gradient-to-b from-parchment/60 to-card px-5 py-5 sm:px-8 sm:py-6">
       {/* Same track widths and gap as the rows below, so each total sits
           exactly over the column it sums. If one changes, change both. */}
-      <div className="sm:grid sm:grid-cols-[1fr_7rem_7.5rem_11rem] sm:items-end sm:gap-4">
+      <div className="sm:grid sm:grid-cols-[1fr_7rem_7.5rem_11rem] lg:grid-cols-[minmax(0,1fr)_8.5rem_9rem_13rem] lg:gap-5 2xl:grid-cols-[minmax(0,1fr)_10rem_11rem_18rem] 2xl:gap-8 sm:items-end sm:gap-4">
         <div>
-          <h2 className="font-display text-2xl font-semibold text-forest">Your budget</h2>
+          <h2 className="font-display text-2xl font-semibold text-forest lg:text-3xl">Your budget</h2>
           <p className="mt-0.5 text-sm text-ink/60">
             {categoryCount} {categoryCount === 1 ? "category" : "categories"}
             {contractCount > 0 &&
@@ -134,11 +134,11 @@ export function BudgetSummary({
         <div className="mt-4 flex flex-wrap items-start gap-6 sm:contents">
           {/* Widths match the row grid below so each total lands over its column. */}
           <div className="sm:text-right">
-            <p className="font-mono-numbers text-[10px] uppercase tracking-[0.16em] text-ink/50">
+            <p className="font-mono-numbers text-[10px] uppercase tracking-[0.16em] text-ink/50 lg:text-[11px]">
               Projected
             </p>
             <p
-              className={`mt-1 font-mono-numbers text-xl sm:text-2xl ${
+              className={`mt-1 font-mono-numbers text-xl sm:text-2xl lg:text-[1.9rem] 2xl:text-4xl ${
                 projectedRemaining != null && projectedRemaining < 0 ? "text-brass" : "text-forest"
               }`}
             >
@@ -147,21 +147,21 @@ export function BudgetSummary({
           </div>
 
           <div className="relative sm:text-right">
-            <p className="font-mono-numbers text-[10px] uppercase tracking-[0.16em] text-ink/50">
+            <p className="font-mono-numbers text-[10px] uppercase tracking-[0.16em] text-ink/50 lg:text-[11px]">
               Actual so far
             </p>
-            <p className="mt-1 font-mono-numbers text-xl text-forest sm:text-2xl">
+            <p className="mt-1 font-mono-numbers text-xl text-forest sm:text-2xl lg:text-[1.9rem] 2xl:text-4xl">
               {currency.format(totalActual)}
             </p>
             {/* Hangs below on wide screens so the three big numbers keep a
                 shared baseline. */}
-            <p className="mt-0.5 font-mono-numbers text-[11px] text-ink/55 sm:absolute sm:right-0 sm:top-full sm:whitespace-nowrap">
+            <p className="mt-0.5 font-mono-numbers text-[11px] text-ink/55 sm:absolute lg:text-xs sm:right-0 sm:top-full sm:whitespace-nowrap">
               {currency.format(totalPaid)} paid
             </p>
           </div>
 
           <div className="min-w-[11rem] flex-1 border-t border-hairline pt-3 sm:flex-none sm:border-l sm:border-t-0 sm:pl-4 sm:pt-0">
-            <p className="font-mono-numbers text-[10px] uppercase tracking-[0.16em] text-ink/50">
+            <p className="font-mono-numbers text-[10px] uppercase tracking-[0.16em] text-ink/50 lg:text-[11px]">
               Budget
             </p>
 
@@ -198,7 +198,7 @@ export function BudgetSummary({
                 type="button"
                 onClick={() => setEditing(true)}
                 title="Change your budget"
-                className="mt-1 block font-mono-numbers text-xl text-forest underline-offset-4 hover:underline sm:text-2xl"
+                className="mt-1 block font-mono-numbers text-xl text-forest underline-offset-4 hover:underline sm:text-2xl lg:text-[1.9rem] 2xl:text-4xl"
               >
                 {currency.format(target)}
               </button>
@@ -207,17 +207,17 @@ export function BudgetSummary({
             {target != null && !editing && (
               <>
                 <div
-                  className={`mt-2 h-1.5 overflow-hidden rounded-full bg-forest/10 ${isOver ? "wren-shake" : ""}`}
+                  className={`mt-2 h-1.5 overflow-hidden rounded-full bg-forest/10 lg:h-2 ${isOver ? "wren-shake" : ""}`}
                 >
                   <div
-                    className={`wren-grow h-1.5 rounded-full transition-[width] ${
+                    className={`wren-grow h-1.5 rounded-full transition-[width] lg:h-2 ${
                       isOver ? "bg-brass" : "bg-forest"
                     }`}
                     style={{ width: `${isOver ? 100 : pct}%` }}
                   />
                 </div>
                 <p
-                  className={`mt-1.5 font-mono-numbers text-[11px] ${
+                  className={`mt-1.5 font-mono-numbers text-[11px] lg:text-xs ${
                     isOver ? "text-brass" : "text-ink/60"
                   }`}
                 >
@@ -227,7 +227,7 @@ export function BudgetSummary({
                   {target > 0 && ` · ${Math.round((totalActual / target) * 100)}%`}
                 </p>
                 {showProjection && (
-                  <p className="mt-0.5 font-mono-numbers text-[11px] text-ink/50">
+                  <p className="mt-0.5 font-mono-numbers text-[11px] text-ink/50 lg:text-xs">
                     {projectedRemaining < 0
                       ? `${currency.format(Math.abs(projectedRemaining))} over`
                       : `${currency.format(projectedRemaining)} under`}{" "}
@@ -255,7 +255,7 @@ export function BudgetSummary({
           {/* The 2px gaps are the non-colour cue the palette's CVD margin
               requires -- segment boundaries stay visible even when two fills
               are hard to tell apart. */}
-          <div className="wren-grow mt-2 flex h-3 gap-[2px]">
+          <div className="wren-grow mt-2 flex h-3 gap-[2px] lg:h-4">
             {proportion.map((slice, i) => (
               <span
                 key={slice.key}
@@ -269,7 +269,7 @@ export function BudgetSummary({
             ))}
           </div>
 
-          <p className="mt-2.5 flex flex-wrap gap-x-4 gap-y-1.5 text-[12px] text-ink/70">
+          <p className="mt-2.5 flex flex-wrap gap-x-4 gap-y-1.5 text-[12px] text-ink/70 lg:text-[13px]">
             {proportion.map((slice, i) => (
               <span key={slice.key} className="flex items-center gap-1.5">
                 <span
