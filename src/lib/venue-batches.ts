@@ -653,4 +653,64 @@ Pawleys Plantation	Pawleys Island	South Carolina			Ballroom / Hotel	Indoor & Out
 Hopsewee	Georgetown	South Carolina			Historic / Estate	Indoor & Outdoor		18th-century river plantation with ceremonies under live oaks on the North Santee and a tearoom cottage for receptions.	mail@hopsewee.com	(843) 546-7891	https://www.hopsewee.com
 `,
   },
+  {
+    name: "Asheville and the North Carolina mountains",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Biltmore	Asheville	North Carolina			Historic / Estate	Indoor & Outdoor		America's largest home and its historic gardens, with eight ceremony and reception settings across the estate.		800.411.3812	https://www.biltmore.com/weddings/
+Claxton Farm	Weaverville	North Carolina			Barn / Rustic	Indoor & Outdoor		Family farm north of Asheville hosting mountain farm weddings.	events@claxtonfarm.net	(828) 658-1390	https://www.claxtonfarm.com
+The North Carolina Arboretum	Asheville	North Carolina			Garden / Outdoor	Indoor & Outdoor		Public garden in the Blue Ridge with ceremony sites such as the Heritage Garden, a fountain for cocktail hour and an event lawn.	events@ncarboretum.org	(828) 412-8568	https://ncarboretum.org/weddings-rentals/private-events/
+Asheville Botanical Garden	Asheville	North Carolina			Garden / Outdoor	Outdoor	30	Small garden next to UNC Asheville that allows simple ceremony-only weddings of up to 30, at the gazebo, bridges or Sunshine Meadow.	events@ashevillebotanicalgarden.org	828-252-5190	https://ashevillebotanicalgarden.org/weddings-at-the-gardens/
+Highland Brewing	Asheville	North Carolina			Restaurant / Vineyard	Indoor & Outdoor		Asheville's original craft brewery, with a tri-level event centre and rooftop facing the Blue Ridge and a Barrel Room for under 80.		(828) 299-3370	https://highlandbrewing.com/private-events/
+Serenity Ridge	Mill Spring	North Carolina			Garden / Outdoor	Outdoor		Twenty-five acres with Blue Ridge views near Lake Lure and Tryon, with a ceremony lawn, open-air reception pavilion and lodging for 36.	events@serenityridgenc.com		https://www.serenityridgenc.com
+Castle Ladyhawke	Tuckasegee	North Carolina			Historic / Estate	Indoor & Outdoor	125	Castle-style venue at Bear Lake Reserve with a multi-level outdoor terrace and in-house catering.	info@castleladyhawke.com	(828) 341-6511	https://castleladyhawke.com
+Hawkesdene	Andrews	North Carolina			Historic / Estate	Indoor & Outdoor	125	Private estate in the Smokies with cottages, an open-air pavilion, covered bridge, alpaca stable and a reception gallery.	info@hawkesdene.com	828-321-6027	https://hawkesdene.com/wedding/
+Chetola Resort	Blowing Rock	North Carolina			Ballroom / Hotel	Indoor & Outdoor		Seventy-five-acre resort in Blowing Rock with lakeside ceremonies and in-house catering.	guestservices@chetola.com	828.295.5500	https://www.chetola.com/north-carolina-wedding-venues
+Leatherwood Mountains	Ferguson	North Carolina			Barn / Rustic	Outdoor		Mountain resort of cabins and an on-site restaurant, with a creekside ceremony meadow beside an 1842 homestead.	info@leatherwoodmountains.com	336-973-5044	https://leatherwoodmountains.com/weddings-groups/
+`,
+  },
+  {
+    name: "Charlotte and the Triad",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+The Duke Mansion	Charlotte	North Carolina			Historic / Estate	Indoor & Outdoor		Historic inn in Myers Park with a ceremony lawn and garden terrace, taking at most 25 weddings a year.	frontdesk@dukemansion.org	704-714-4400	https://www.dukemansion.org/weddings/
+The Ballantyne	Charlotte	North Carolina			Ballroom / Hotel	Indoor & Outdoor		Resort hotel in south Charlotte with two ballrooms, a rose garden and event lawns.		(704) 248-4020	https://www.theballantynehotel.com/weddings
+Alexander Homestead	Charlotte	North Carolina			Historic / Estate	Indoor & Outdoor	220	Queen Anne Victorian on eight acres of gardens, with a ballroom and a garden ceremony site.		866-966-3009	https://www.wedgewoodweddings.com/venues/alexander-homestead
+Pleasant Grove Farm	Charlotte	North Carolina			Barn / Rustic	Indoor & Outdoor		Women-owned venue on 20 acres in northwest Charlotte with a historic home and barn.		(704) 703-1774	https://www.pleasantgrovefarmvenue.com
+Separk Mansion	Gastonia	North Carolina			Historic / Estate	Indoor & Outdoor	200	1919 Italian Renaissance Revival mansion on the National Register, with a ballroom, veranda and formal gardens.		866-966-3009	https://www.wedgewoodweddings.com/venues/separk-mansion
+Reynolda	Winston-Salem	North Carolina			Historic / Estate	Outdoor		The R.J. Reynolds estate, with ceremonies in its historic gardens and photography on the museum grounds.	gardens@reynolda.org	336.758.5593	https://reynolda.org/about/weddings/
+Graylyn Estate	Winston-Salem	North Carolina			Historic / Estate	Indoor & Outdoor		1930s Norman-style estate owned by Wake Forest University, run as a hotel and conference centre.		336-758-2425	https://www.graylyn.com
+Proximity Hotel	Greensboro	North Carolina			Ballroom / Hotel	Indoor & Outdoor	200	Eco-minded boutique hotel hosting weddings for 20 to 200.	sales@qwrh.com	336-478-9123	https://www.proximityhotel.com/weddings/
+JH Adams Inn	High Point	North Carolina			Historic / Estate	Indoor	125	Historic inn on North Main Street with event space in the main inn and next-door Elizabeth House for up to 125.		336-882-3267	https://jhadamsinn.com/events/
+Childress Vineyards	Lexington	North Carolina			Restaurant / Vineyard	Indoor & Outdoor		Yadkin Valley winery with private event spaces and a micro-wedding package for 8 to 30.		336.236.9463	https://childressvineyards.com/private-events/
+Shelton Vineyards	Dobson	North Carolina			Restaurant / Vineyard	Indoor & Outdoor		Yadkin Valley winery with private events catered from its Harvest Grill and tours and tastings for guests.	info@sheltonvineyards.com	336.366.4724	https://www.sheltonvineyards.com/private-corporate-events/
+`,
+  },
+  {
+    name: "Raleigh, Durham, Chapel Hill and Pinehurst",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+The Umstead Hotel and Spa	Cary	North Carolina			Ballroom / Hotel	Indoor & Outdoor		Luxury hotel with wooded grounds, a lakeside terrace, a lawn and a ballroom.	sales@theumstead.com	(919) 447-4000	https://www.theumstead.com/weddings
+Washington Duke Inn	Durham	North Carolina			Ballroom / Hotel	Indoor & Outdoor	600	Hotel on the Duke campus whose Presidents Ballroom opens onto a terrace and seats 400, with 600 for a ceremony.		919.490.0999	https://www.washingtondukeinn.com/weddings-and-occasions/durham-wedding-venues
+Sarah P. Duke Gardens	Durham	North Carolina			Garden / Outdoor	Outdoor		Fifty-five-acre public garden at Duke University that rents out ceremony sites.	gardens@duke.edu	919-684-3698	https://gardens.duke.edu/weddings/
+Merrimon-Wynne House	Raleigh	North Carolina			Historic / Estate	Indoor & Outdoor		1876 mansion on Blount Street, restored in 2014, with an outdoor ceremony site and chandeliered main house.		919.906.1026	https://www.merrimonwynne.com/weddings
+The Historic Wakefield Barn	Wake Forest	North Carolina			Barn / Rustic	Indoor & Outdoor		Preserved historic barn north of Raleigh for weddings and elopements.	thehistoricwakefieldbarn@gmail.com		https://www.historicwakefieldbarn.com
+The Carolina Inn	Chapel Hill	North Carolina			Ballroom / Hotel	Indoor & Outdoor		UNC's hotel since 1924, with courtyards, ballrooms and a black-and-white dance floor.	info@carolinainn.com	919.933.2001	https://www.carolinainn.com
+Fearrington Village	Pittsboro	North Carolina			Garden / Outdoor	Indoor & Outdoor		Country village and inn between Chapel Hill and Pittsboro with garden ceremonies and historic reception rooms.	weddings@fearrington.com		https://fearrington.com/pages/weddings
+Haw River Ballroom	Saxapahaw	North Carolina			Historic / Estate	Indoor		Ballroom in a restored mill on the Haw River.	karina@hawriverballroom.com		https://www.hawriverballroomweddings.com
+Pinehurst Resort	Pinehurst	North Carolina			Ballroom / Hotel	Indoor & Outdoor		Golf resort whose venues include the 1901 Carolina Hotel, the Holly Inn and Lake Pinehurst.		855-235-8507	https://www.pinehurst.com/weddings/
+`,
+  },
+  {
+    name: "Wilmington and the Outer Banks",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Airlie Gardens	Wilmington	North Carolina			Garden / Outdoor	Outdoor	300	Former private garden near Wrightsville Beach with live oaks and formal gardens, for up to 300.	airlieinfo@nhcgov.com	910-798-7700	https://airliegardens.org/weddings/
+Bellamy Mansion Museum	Wilmington	North Carolina			Historic / Estate	Indoor & Outdoor	50	Antebellum house museum downtown, rented for private events of up to 50.		910.251.3700	https://www.bellamymansion.org/private-events.html
+Brooklyn Arts Center	Wilmington	North Carolina			Historic / Estate	Indoor & Outdoor	250	Former church with stained glass and two-storey windows for 250, plus The Annex for 140 and a walled garden.		(910) 859-4615	https://www.brooklynartsnc.com
+Thalian Hall	Wilmington	North Carolina			Historic / Estate	Indoor	150	1858 theatre and city hall whose second-floor assembly room hosts private functions for 50 to 150.		910.632.2285	https://www.thalianhall.org/our-venues
+Shell Island Resort	Wrightsville Beach	North Carolina			Beach / Waterfront	Indoor & Outdoor		Oceanfront resort with beach ceremonies and Wrightsville Beach's only ocean-view ballroom.		910-344-0888	https://www.shellisland.com/beachside-weddings/
+Bald Head Island Club	Bald Head Island	North Carolina			Beach / Waterfront	Indoor & Outdoor	100	Private club whose Ocean Terrace has a white archway for ceremonies and seats 100.		910 457 7300	https://www.bhiclub.net/web/pages/weddings
+Elizabethan Gardens	Manteo	North Carolina			Garden / Outdoor	Indoor & Outdoor	400	Gardens in Fort Raleigh National Historic Site, from a sunken garden for 50 to the Great Lawn for 400.	info@elizabethangardens.org	(252) 473-3234	https://www.elizabethangardens.org/wedding-event-locations/
+108 Budleigh	Manteo	North Carolina			Historic / Estate	Indoor		Downtown Manteo ballroom a block from the waterfront, with vaulted ceilings and stained glass.	info@108Budleigh.com	(252) 305-7399	https://108budleigh.com
+Currituck Beach Lighthouse	Corolla	North Carolina			Beach / Waterfront	Outdoor	150	Historic lighthouse grounds for ceremonies of up to 150; no receptions.		(252) 453-4939	https://obcinc.org/obx-wedding-venues/
+The Sanderling Resort	Duck	North Carolina			Beach / Waterfront	Indoor & Outdoor		Oceanfront resort with private beaches, a lawn, a 2025 Sunset Ballroom and a loft in its historic lifesaving station.	info@thesanderling.com	855.412.7866	https://www.thesanderling.com/weddings/
+`,
+  },
 ];
