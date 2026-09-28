@@ -19,6 +19,8 @@ export type FeatureData = {
   checklist: { done: number; total: number; next: { title: string; due: string | null }[] };
   budget: {
     total: number;
+    /** Real numbers only (overrides plus custom items), no estimates. */
+    actual: number;
     target: number | null;
     paid: number;
     quoted: number;
@@ -239,7 +241,9 @@ function MapDrawing({ booked }: { booked: number }) {
  */
 export function buildFeatures(d: FeatureData): Feature[] {
   const booked = d.vendors.filter((v) => v.status === "booked");
-  const over = d.budget.target != null ? d.budget.total - d.budget.target : null;
+  // Over/under against the real numbers, as on the Budget page -- the big
+  // figure above it is still the projection, estimates included.
+  const over = d.budget.target != null ? d.budget.actual - d.budget.target : null;
 
   return [
     {
