@@ -498,4 +498,60 @@ Alley Station	Montgomery	Alabama			Historic / Estate	Indoor & Outdoor		Downtown 
 Venue 901	Montgomery	Alabama			Ballroom / Hotel	Indoor & Outdoor	100	Modern venue with a 5,000 sq ft walled courtyard, for events under 100 guests.	venue901@gmail.com	334-649-4804	https://venue901mgm.com
 `,
   },
+  {
+    name: "Nashville, Franklin and Middle Tennessee",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Riverwood Mansion	Nashville	Tennessee			Historic / Estate	Indoor & Outdoor	300	Greek Revival mansion with marble fireplaces, chandeliers and year-round gardens under old magnolias.	events@riverwoodmansion.com	(615) 228-8892	https://www.riverwoodmansion.com
+Cheekwood Estate & Gardens	Nashville	Tennessee			Garden / Outdoor	Indoor & Outdoor	350	Historic estate and botanical garden with eleven event spaces, from small garden rooms to the mansion and Swan Lawn.		615-354-6377	https://www.cheekwood.org
+Belle Meade Historic Site & Winery	Nashville	Tennessee			Historic / Estate	Indoor & Outdoor	200	Boxwood-garden ceremonies in front of a Greek Revival mansion, with receptions in a climate-controlled brick Carriage House.	info@visitbellemeade.com	615-356-0501	https://visitbellemeade.com
+Clementine Hall	Nashville	Tennessee			Historic / Estate	Indoor & Outdoor	300	Rebuilt 1889 hall with two event rooms and a walled New Orleans-style courtyard; seats 200 for dinner.	heythere@dragonpark.co	(615) 800-3635	https://www.clementinehall.com
+Scarritt Bennett Center	Nashville	Tennessee			Historic / Estate	Indoor & Outdoor		Gothic stone campus near Music Row with wedding packages for ceremonies and receptions.	sales@scarrittbennett.org	(615) 340-7500	https://www.scarrittbennett.org
+The Bell Tower	Nashville	Tennessee			Historic / Estate	Indoor		Former downtown church with vaulted ceilings, exposed beams, tall windows and a whiskey tasting room.		615.369.6474	https://www.thebelltower.com
+Estelle	Nashville	Tennessee			Historic / Estate	Indoor & Outdoor	95	Small-wedding venue in East Nashville: a garden under a magnolia, dinner in a historic home, then dancing in the Carriage House.	sales@infinityhospitality.net	615.369.6474	https://www.estellenashville.com
+Loveless Events	Nashville	Tennessee			Barn / Rustic	Indoor & Outdoor	200	The Loveless Barn and Harpeth Room beside the Loveless Cafe on Highway 100, with a lawn and courtyard.		615.724.7991	https://lovelessevents.com
+Drakewood Farm	Goodlettsville	Tennessee			Historic / Estate	Indoor & Outdoor	200	Forty acres 15 minutes from downtown Nashville with an 1850s mansion, stone cottage, three barns and a 4,000 sq ft reception pavilion.	drakewoodfarm@gmail.com	(615) 513-7273	https://www.drakewoodfarm.com
+Ravenswood Mansion	Brentwood	Tennessee			Historic / Estate	Indoor & Outdoor	300	1825 mansion on 400 acres of parkland, booked one event a day, with a stone patio seating 250.		615-946-0389	https://www.ravenswoodmansion.com
+Cedarmont Farm	Franklin	Tennessee			Barn / Rustic	Indoor & Outdoor		Forty acres with an 1815 home, an event barn, a pond and a pool, plus a bridal house.		615-682-1815	https://www.cedarmontfarm.com
+The Harpeth	Franklin	Tennessee			Ballroom / Hotel	Indoor & Outdoor		Downtown Franklin hotel with a courtyard and grand staircase for ceremonies and the Riverside Ballroom for receptions.	info@harpethhotel.com	615-206-7510	https://harpethhotel.com
+Graystone Quarry	Franklin	Tennessee			Garden / Outdoor	Indoor & Outdoor		Limestone-and-timber event spaces with slide-away glass walls on 160 acres of streams, ponds and quarry cliffs.	info@graystonequarry.com		https://www.graystonequarry.com
+Mint Springs Farm	Nolensville	Tennessee			Barn / Rustic	Indoor & Outdoor		All-inclusive venue in the rolling hills of Williamson County, half an hour from Nashville.	info@mintspringsfarmtn.com	615-212-5529	https://mintspringsfarmtn.com
+The Barn at Sycamore Farms	Arrington	Tennessee			Barn / Rustic	Indoor & Outdoor		Climate-controlled cedar barn with verandas, plus ceremony sites on a pond island and under a 100-year-old sycamore.		(615) 395-8266	https://www.sycamorefarmsevents.com
+Cedar Springs at Bone Hollow	Lebanon	Tennessee			Barn / Rustic	Indoor & Outdoor		Farm east of Nashville with a meadow ceremony site, a climate-controlled historic barn and two restored cabins to stay in.	events@cedarspringstn.com	(615) 444-5993	https://cedarspringstn.com
+The Estate at Cherokee Dock	Lebanon	Tennessee			Historic / Estate	Indoor & Outdoor		Fifteen lakefront acres on Old Hickory Lake with several event spaces, including The Conservatory.		615.369.6474	https://cherokeedock.com
+The Adalea	Chapmansboro	Tennessee			Historic / Estate	Indoor & Outdoor		Historic house on 143 acres northwest of Nashville with several outdoor ceremony sites, including one by a koi pond.	info@theadalea.com	(615) 685-3303	https://www.theadalea.com
+Cascata Springs	Lewisburg	Tennessee			Garden / Outdoor	Indoor & Outdoor		Italian-style villa with a waterfall, flower gardens, a wooded ceremony site and a covered event space over a three-acre lake, plus on-site lodging.		931-993-6477	https://www.cascatasprings.com
+`,
+  },
+  {
+    name: "Chattanooga and Signal Mountain",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+The Read House	Chattanooga	Tennessee			Ballroom / Hotel	Indoor & Outdoor	400	Historic downtown hotel with the mirrored Silver Ballroom for up to 400, smaller rooms and a formal fountain garden.		(423) 266-4121	https://www.readhousehotel.com
+The Hotel Chalet	Chattanooga	Tennessee			Ballroom / Hotel	Indoor & Outdoor	176	Hotel at the Chattanooga Choo Choo terminal with a ballroom and outdoor spaces; seats 176 for dinner.	events@thehotelchalet.com	423.266.5000	https://thehotelchalet.com
+Common House Chattanooga	Chattanooga	Tennessee			Historic / Estate	Indoor & Outdoor		Social club in the 1920s YMCA with Ruby Hall for receptions, a garden for ceremonies and guest rooms facing Lookout Mountain.	chattanooga.events@commonhouse.com		https://www.commonhouse.com/chattanooga
+Skyline Loft at Ruby Falls	Chattanooga	Tennessee			Ballroom / Hotel	Indoor	104	Event loft in the Ruby Falls castle on Lookout Mountain, looking over the Tennessee River; seats 104, or 250 standing.		(423) 821-2544	https://www.rubyfalls.com/discover/event-venue/
+McCoy Farm & Gardens	Signal Mountain	Tennessee			Garden / Outdoor	Indoor & Outdoor	200	Thirty-eight acres with a stone manor house, formal gardens, woodland and a pavilion, 15 minutes from downtown.	weddings@mccoywalden.org	423-598-1658	https://mccoyfarmandgardens.com
+Mountain Oaks Manor	Ooltewah	Tennessee			Historic / Estate	Indoor		Manor with tea rooms and event spaces suited to small weddings.		423-561-9454	https://www.mountainoaksmanor.com
+Howe Farms	Georgetown	Tennessee			Barn / Rustic	Indoor & Outdoor		Three hundred and fifty acres north of Chattanooga with seven separate venues, including a vineyard hall, apple barn and hilltop chapel.		423.380.1001	https://howefarmstn.com
+`,
+  },
+  {
+    name: "Knoxville and the Smokies",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Museum of Appalachia	Clinton	Tennessee			Historic / Estate	Indoor & Outdoor	200	Sixty-acre pioneer village north of Knoxville with a 19th-century log chapel, barn-side fields and a barn-style hall seating 200.	bookings@museumofappalachia.org	(865) 494-7680	https://www.museumofappalachia.org
+Mabry-Hazen House	Knoxville	Tennessee			Historic / Estate	Indoor & Outdoor		House museum built by 1858 on a hill above downtown, renting its grounds for private events and weddings.	director@mabryhazen.com	(865) 522-8661	https://www.mabryhazen.com
+Dara's Garden	Knoxville	Tennessee			Garden / Outdoor	Outdoor		Twenty acres of gardens in South Knoxville with an old quarry and a historic house; small-wedding packages for 60 or fewer.		865-609-3272	https://www.darasgarden.com
+Ijams Nature Center	Knoxville	Tennessee			Garden / Outdoor	Indoor & Outdoor		Nature centre in South Knoxville with secluded indoor and outdoor wedding sites.		865-577-4717	https://www.ijams.org/weddings-rentals
+The Mill & Mine	Knoxville	Tennessee			Historic / Estate	Indoor		Music hall in the Old City that hosts private events.	info@themillandmine.com		https://themillandmine.com
+The Pavilion at Hunter Valley Farm	Knoxville	Tennessee			Beach / Waterfront	Outdoor		Lakeside pavilion in west Knoxville for ceremonies and receptions.		865-315-4571	https://www.huntervalleyfarmtn.com
+RT Lodge	Maryville	Tennessee			Ballroom / Hotel	Indoor & Outdoor	200	Lodge booked whole for a wedding weekend, with guest rooms, dining rooms and a Sperry tent for receptions.	weddings@rtlodge.com	(865) 981-9800	https://www.rtlodge.com
+The Lake at Willow Oaks	Maryville	Tennessee			Barn / Rustic	Indoor & Outdoor		Post-and-beam granary, private lake and mountain views across 150 acres, with a covered veranda.	willowoaksvenue@gmail.com	865-233-7050	https://www.willowoaksvenue.com
+Blackberry Farm	Walland	Tennessee			Ballroom / Hotel	Indoor & Outdoor	140	Luxury farm resort in the Smokies foothills with ceremonies facing the mountains and receptions in Bramble Hall; packages sleep up to 140.	groupsales@blackberryfarm.com		https://www.blackberryweddings.com
+Dancing Bear Lodge	Townsend	Tennessee			Garden / Outdoor	Indoor & Outdoor	200	Lodge and bistro with a gazebo lawn, open-air pavilion, event centre and fireside dining room.		(865) 448-6000	https://dancingbearlodge.com
+Tremont Lodge & Resort	Townsend	Tennessee			Ballroom / Hotel	Indoor & Outdoor	120	Stone-and-timber mountain lodge with a ceremony lawn, patio and the Spruce Room for receptions.	venue@tremontevents.com	(865) 390-2986	https://tremontevents.com
+Country Manor Acres	Townsend	Tennessee			Barn / Rustic	Indoor & Outdoor	500	Several mountain-view ceremony sites and the Appalachian Party Barn, with lodging on site.		865.448.9652	https://www.countrymanoracres.com
+Historic Seaton Springs Farm	Sevierville	Tennessee			Barn / Rustic	Indoor & Outdoor		1880s farm near Dollywood with a chapel, lakeside and gazebo sites, a cantilever barn and a restored farmhouse.	info@seatonspringsfarm.com	(865) 446-2662	https://www.seatonspringsfarm.com
+Honeysuckle Hills	Pigeon Forge	Tennessee			Barn / Rustic	Indoor	30	Pine-walled chapel in the loft of a barn, for up to 30 guests.	regina@honeysucklehills.com	865-368-5569	https://honeysucklehills.com
+Chapel in the Hollow	Seymour	Tennessee			Garden / Outdoor	Outdoor	35	Private woodland chapel by a creek in the Smokies foothills, for up to 35 guests.	chapelinthehollow@gmail.com	865-696-5348	https://chapelinthehollow.com
+`,
+  },
 ];
