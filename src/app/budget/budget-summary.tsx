@@ -30,11 +30,11 @@ const REST_COLOR = "#c2c7c0";
  * Wren's estimate everywhere else), what's been quoted so far with what's
  * been paid under it, and the budget target to the right.
  *
- * Over/left is measured against the projection, not the quotes. The quotes
- * alone leave out every line that has no number yet, so they read as "under
- * budget" right up until the last vendor is booked -- and the Dashboard
- * already compares the projection, so measuring anything else here made the
- * two pages give different "over" figures for the same wedding.
+ * Over/left leads with the real numbers (what's actually been entered), since
+ * that's the figure a couple trusts. The projection -- real numbers plus
+ * Wren's estimate for every line still blank -- sits under it, because the
+ * real numbers alone leave out every line with no number yet and would read
+ * as "under budget" right up until the last vendor is booked.
  *
  * The target is edited here rather than in a card of its own -- showing the
  * same number in two places invites them to disagree, and this is where
@@ -97,9 +97,12 @@ export function BudgetSummary({
     return slices.filter((s) => s.pct > 0);
   })();
 
-  const pct = target && target > 0 ? Math.min(100, (totalEstimate / target) * 100) : 0;
-  const remaining = target != null ? target - totalEstimate : null;
+  const pct = target && target > 0 ? Math.min(100, (totalActual / target) * 100) : 0;
+  const remaining = target != null ? target - totalActual : null;
   const isOver = remaining != null && remaining < 0;
+  // The projection only differs when some lines are still on Wren's estimate.
+  const projectedRemaining = target != null ? target - totalEstimate : null;
+  const showProjection = projectedRemaining != null && totalEstimate !== totalActual;
 
   function handleSubmit(formData: FormData) {
     startTransition(async () => {
@@ -136,7 +139,7 @@ export function BudgetSummary({
             </p>
             <p
               className={`mt-1 font-mono-numbers text-xl sm:text-2xl ${
-                isOver ? "text-brass" : "text-forest"
+                projectedRemaining != null && projectedRemaining < 0 ? "text-brass" : "text-forest"
               }`}
             >
               {currency.format(totalEstimate)}
@@ -145,7 +148,7 @@ export function BudgetSummary({
 
           <div className="relative sm:text-right">
             <p className="font-mono-numbers text-[10px] uppercase tracking-[0.16em] text-ink/50">
-              Quoted so far
+              Actual so far
             </p>
             <p className="mt-1 font-mono-numbers text-xl text-forest sm:text-2xl">
               {currency.format(totalActual)}
@@ -221,8 +224,16 @@ export function BudgetSummary({
                   {isOver
                     ? `${currency.format(Math.abs(remaining))} over`
                     : `${currency.format(remaining ?? 0)} under`}
-                  {target > 0 && ` · ${Math.round((totalEstimate / target) * 100)}%`}
+                  {target > 0 && ` · ${Math.round((totalActual / target) * 100)}%`}
                 </p>
+                {showProjection && (
+                  <p className="mt-0.5 font-mono-numbers text-[11px] text-ink/50">
+                    {projectedRemaining < 0
+                      ? `${currency.format(Math.abs(projectedRemaining))} over`
+                      : `${currency.format(projectedRemaining)} under`}{" "}
+                    with estimates
+                  </p>
+                )}
               </>
             )}
           </div>
