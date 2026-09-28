@@ -135,4 +135,20 @@ The Livery Venue	Brownsville	Texas	25.90360	-97.49802	Ballroom / Hotel	Indoor & 
 Casa De Soles Event Center	San Benito	Texas			Garden / Outdoor	Indoor & Outdoor		Rio Grande Valley venue with courtyard, pavilion and garden ceremony sites plus indoor space.		(956) 639-0160	https://www.casadesoleseventcenter.com
 `,
   },
+  {
+    name: "Tyler, Longview and East Texas",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Sunset Oaks	Tyler	Texas	32.41571	-95.39676	Garden / Outdoor	Indoor & Outdoor	175	Venue with a chapel and a reception hall whose roll-up glass doors open it to the outdoors; all-inclusive packages, micro weddings and elopements.	info@sunsetoaksvenue.com	(903) 730-5047	https://sunsetoaksvenue.com
+The Villa	Tyler	Texas	32.39941	-95.38146	Historic / Estate	Indoor & Outdoor		Villa-style venue north of Tyler with indoor ceremony and reception halls, landscaped grounds and all-inclusive packages.	bookings@thevillatyler.com	903-597-0002	https://www.thevillatyler.com
+The Claremore	Tyler	Texas			Historic / Estate	Indoor	185	Light-filled modern minimalist venue in central Tyler, opened in 2021 by two photographers, with a sliding divider wall and all-inclusive packages.	hello@theclaremore.com	903-258-8412	https://theclaremore.com
+Cedars of Lebanon	Tyler	Texas	32.28656	-95.28952	Ballroom / Hotel	Indoor & Outdoor	200	Ballroom with a stage on eight acres with a small lake; couples may bring their own caterer.	cedarsoftyler@gmail.com	(903) 561-3646	https://thecedarstyler.com
+Kalico Creek	Tyler	Texas	32.20937	-95.30362	Barn / Rustic	Indoor & Outdoor	200	Farmhouse venue in a 55-acre forest three miles from Loop 49, for indoor or outdoor ceremonies.		(903) 969-0803	https://www.kalicocreek.com
+The Venue at Orchard Farms	Troup	Texas	32.10263	-95.14353	Barn / Rustic	Indoor & Outdoor	200	Meadows, a six-acre lake and an open-air chapel, with a heated and cooled reception barn and a kitchen open to caterers or do-it-yourselfers.		(903) 842-5052	https://thevenueatorchardfarms.com
+Dove Hollow Estate	Longview	Texas			Barn / Rustic	Indoor & Outdoor		Family-run venue in the East Texas woods with an all-black chapel, indoor and outdoor reception spaces and on-site lodging.	admin@dovehollowestate.com	903-239-1867	https://dovehollowestate.com
+Wylde Acres	Longview	Texas	32.53200	-94.69195	Garden / Outdoor	Indoor & Outdoor		Pine lodge on 16 wooded acres with a 3,000 sq ft wrap-around porch, a fishing pond and seven bedrooms sleeping 18; elopements to all-inclusive.		(903) 738-9328	https://wyldeacres.com
+The Chateau of Longview	Longview	Texas	32.58079	-94.73822	Historic / Estate	Indoor & Outdoor	200	Venue with a wedding barn, a main house sleeping 14 and a bunk house sleeping six.	Bethany.thechateaulgv@gmail.com	903-237-8310	https://www.thechateaulgv.com
+The Hendo Ranch	Henderson	Texas	32.04318	-94.90642	Barn / Rustic	Indoor & Outdoor		Ranch of about 240 acres booked by the night or weekend, with five cabins sleeping 36, a pool and room for the rehearsal dinner and farewell brunch on site.		(214) 206-4280	https://thehendoranch.com
+The Fredonia Hotel	Nacogdoches	Texas	31.60444	-94.65364	Ballroom / Hotel	Indoor	1000	Downtown hotel dating from 1955, with 20,000 sq ft of event space and in-house catering.	info@thefredonia.com	(936) 564-1234	https://www.thefredonia.com
+`,
+  },
 ];
