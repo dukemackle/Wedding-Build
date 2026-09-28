@@ -97,4 +97,42 @@ Table Manners	Rentals	Austin	Texas	Austin and Central Texas	Tabletop rentals: ch
 Loot Rentals	Rentals	Austin	Texas	Austin, Dallas–Fort Worth, Houston and San Antonio	Vintage and design-forward furniture rentals and event styling.		(512) 464-1184	https://lootrentals.com	
 `,
   },
+  {
+    name: "Austin: photo booths, transport, stationery, bridal, desserts, decor and bar",
+    tsv: `Name	Category	City	State	Service area	Description	Email	Phone	Website	Instagram
+Oh Happy Day Booth	Photo Booth	Austin	Texas	Austin, San Antonio, San Marcos, Dallas, Houston and College Station	Sleek, modern photo booths with custom prints and digital sharing.	hello@ohhappydaybooth.com	512-774-4975	https://www.ohhappydaybooth.com	https://www.instagram.com/ohhappydaybooth/
+Pixster Photo Booths	Photo Booth	Austin	Texas	Austin, Houston, Dallas, San Antonio and beyond	Award-winning photo booth company with several booth styles and custom packages.	smile@pixsteraustin.com	1-888-668-5524	https://www.pixsteraustin.com	https://www.instagram.com/pixsterphotobooth/
+Say Cheese Photo Booths	Photo Booth	Austin	Texas	Austin and Central Texas	Photo booth rentals in more than a dozen styles.	events@saycheesephotobooths.com	512-643-7766	https://www.saycheesephotobooths.com	https://www.instagram.com/saycheese.photobooths/
+Around Austin	Transportation	Austin	Texas	Austin	Group transportation and guest shuttle coordination for events.			https://www.around-austin.com	
+ETI Limo & Charter	Transportation	San Antonio	Texas	Texas, including Austin	Charter buses, minibuses and limousines for moving wedding guests; has an Austin office.	info@etilimo.com	(512) 452-5466	https://etilimo.com	https://www.instagram.com/eti_limo/
+Lux Limo	Transportation	Austin	Texas	Austin and surrounding areas	Chauffeured luxury cars and limousines for weddings and airport runs.	info@theluxlimo.com	512-215-4971	https://theluxlimo.com	https://www.instagram.com/lux.limo.atx/
+4 Leaf Limo	Transportation	Austin	Texas	Austin, Georgetown and Hutto	Locally owned black-car service running since 2011.	info@4leaflimo.com	(512) 633-0004	https://www.4leaflimo.com	https://www.instagram.com/4leaflimoatx/
+ATX Classic Cars	Transportation	Dripping Springs	Texas	Central Texas	Vintage car rentals for the getaway, photos and arrivals.		512-970-9566	https://www.atxclassiccars.com	https://www.instagram.com/atxclassiccars/
+Uptown Valet & Transportation	Transportation	Austin	Texas	Greater Austin	Valet parking and guest transportation for weddings and events.	reservations@uptownvalet.com	512-394-6210	https://www.uptownvalet.com	https://www.instagram.com/uptownvalet/
+Flourish Creative Studio	Stationery & Invitations	Austin	Texas	Greater Austin	Custom wedding stationery and signage, with over 200 display pieces to rent.			https://flourish-creative-studio.com	https://www.instagram.com/flourish.creative.studio/
+Peach Paper & Design	Stationery & Invitations	Austin	Texas	Austin and nationwide	Custom wedding invitations, day-of paper and signage.			https://www.peachpaperdesign.com	https://www.instagram.com/peachpapertx/
+The Inviting Pear	Stationery & Invitations	Austin	Texas	Austin and nationwide	Design studio making custom luxury invitations and day-of stationery.	info@theinvitingpear.com	512-203-4062	https://www.theinvitingpear.com	https://www.instagram.com/the_inviting_pear/
+Alexia Gavela Bridal	Bridal & Formalwear	Austin	Texas	Austin	Bridal boutique with its own custom gowns and designer collections, plus alterations.		512-419-7818	https://www.alexiagavela.com	
+Sorek	Bridal & Formalwear	Austin	Texas	Austin	East 6th Street barbershop and custom menswear, with wedding packages for suits and grooming.	info@sorek.co	(512) 877-7563	https://sorek.com	https://www.instagram.com/sorektx/
+Blue Bridal Boutique	Bridal & Formalwear	Austin	Texas	Austin	Women-owned bridal salon with established and up-and-coming designers and a body-positive approach; by appointment.		512-441-7700	https://www.bluebridalaustin.com	https://www.instagram.com/bluebridalaustin/
+Blush Bridal Lounge	Bridal & Formalwear	Austin	Texas	Austin	Bridal boutique with designer gowns, plus-size collections and accessories.	info@blushbridallounge.com	(512) 407-9236	https://www.blushbridallounge.com	https://www.instagram.com/blushbridallounge/
+Melange Bridal	Bridal & Formalwear	Austin	Texas	Austin	Bridal salon carrying gowns from well-known international designers.	info@melangebridal.com	512-345-8780	https://www.melangebridal.com	https://www.instagram.com/melangebridalatx/
+Unbridaled	Bridal & Formalwear	Austin	Texas	Austin, Houston and New Orleans	Made-to-order gowns from independent ateliers and established labels.	austin@unbridaled.com	(512) 444-2743	https://www.unbridaled.com	https://www.instagram.com/unbridaled/
+Caketini Bar & Co	Desserts	Austin	Texas	Austin	Interactive dessert bars with layered cake cups, plus wedding cakes and shot bars.	caketinibar.co@gmail.com	512-422-8269	https://www.caketinibar.com	https://www.instagram.com/caketinibar.co/
+Dolce Social Club	Desserts	Austin	Texas	Austin	Italian dessert stations like cannoli bars, tiramisu and Italian sodas.	info@dolcesocialclub.com		https://www.dolcesocialclub.com	
+The Cupcake Bar	Desserts	Austin	Texas	Austin	Interactive dessert catering and cupcake bars, running since 2007.			https://www.thecupcakebar.com	
+Polkadots Bakery	Desserts	Austin	Texas	Austin	Hand-iced cupcakes, cookies and decorated cakes for weddings.	info@polkadotscupcakefactory.com	512-476-3687	https://www.polkadotscupcakefactory.com	https://www.instagram.com/polkadotsatx/
+Sweet Treets Bakery	Cake	Austin	Texas	Central Texas	Woman-owned custom cake shop making wedding cakes and desserts.		(512) 892-2233	https://www.sweettreetsbakery.com	https://www.instagram.com/sweettreetsbakery/
+Altared Weddings & Events	Decor & Lighting	Austin	Texas	Austin	Event lighting, draping, décor installations and photo booths, with sound and DJ services too.	info@altaredweddings.com	(512) 255-6788	https://altaredweddings.com	https://www.instagram.com/altared_weddings/
+Neon Moon ATX	Decor & Lighting	Austin	Texas	Austin	Budget-friendly rentals of string lights, dance floors, arches, bars and photo booths.			https://www.neonmoon.online	
+Unique Design & Events	Decor & Lighting	Pflugerville	Texas	Austin	Ceiling and tent draping and custom décor for weddings since 2008.	info@uniquedesignandevents.com	512-522-5924	https://uniquedesignandevents.com	https://www.instagram.com/uniquedesignandevents/
+ILIOS Production Design	Decor & Lighting	Austin	Texas	Austin	Lighting design and production for weddings, concerts and corporate events since 2003.			https://iliosproductions.com	
+Brighter Side Event Lighting	Decor & Lighting	Austin	Texas	Austin	Uplighting, festoon string lights, monograms and pin spotting for weddings.			https://brightersideeventlighting.com	
+Hill Country Events	Bar	Cedar Park	Texas	Central Texas	Bartending service since 1998 with house-made cocktails and margaritas.		512-259-1755	https://www.hillcountryeventsllc.com	
+Night Owl Events	Bar	Burnet	Texas	The Hill Country	Wedding bartending, plus custom cakes.	lauren@nightowleventstx.com	512-565-9359	https://www.nightowleventstx.com	
+Drink to Remember	Bar	Austin	Texas	Austin, Dripping Springs, Fredericksburg and the Hill Country	Mobile bar with TABC-certified bartenders and craft cocktails.	info@dtrbartending.com	(512) 484-5128	https://www.dtrbartending.com	https://www.instagram.com/dtrbartending/
+Bea's Mobile Bartending	Bar	Austin	Texas	Austin, Kyle, Buda and San Marcos	Mobile bartending plus table and chair rentals.	beasmobilebartending@gmail.com	(512) 850-1328	https://www.beasmobilebartending.com	
+Bar La Maison	Bar	Round Rock	Texas	Austin	Mobile bar and signature cocktails for weddings.	hello@barlamaisontx.com	(512) 297-7790	https://barlamaisontx.com	https://www.instagram.com/barlamaisonatx/
+`,
+  },
 ];
