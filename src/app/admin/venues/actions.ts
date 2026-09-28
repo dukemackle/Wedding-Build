@@ -5,7 +5,7 @@ import { requireAdmin } from "@/lib/admin";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import { createClient } from "@/lib/supabase/server";
 import { VENUE_BATCHES } from "@/lib/venue-batches";
-import { pinForTown } from "@/lib/listing-pin";
+import { isPinned, pinUnpinned, townKey, TOWNS_PER_CALL, withTownPins } from "@/lib/import-pins";
 import { importSourceId, parseVenueTable, type VenueImportValues } from "@/lib/venue-import";
 
 const MAX_IMPORT_ROWS = 200;
@@ -319,66 +319,6 @@ async function insertImportedVenues(rows: VenueImportValues[]): Promise<string |
   return error.message;
 }
 
-type Unpinned = { city: string | null; state: string | null; latitude: number | null; longitude: number | null };
-
-/**
- * Fills blank coordinates with the town's pin, looking each town up once. A
- * venue without coordinates is missing from the /venues map entirely, and
- * finding them by hand was the slowest part of researching a batch.
- */
-async function withTownPins<T extends Unpinned>(rows: T[]): Promise<T[]> {
-  const pins = new Map<string, Promise<Awaited<ReturnType<typeof pinForTown>>>>();
-  return Promise.all(
-    rows.map(async (row) => {
-      if (isPinned(row)) return row;
-      const key = townKey(row);
-      if (!pins.has(key)) pins.set(key, pinForTown(row.city, row.state));
-      const pin = await pins.get(key);
-      return pin ? { ...row, ...pin } : row;
-    }),
-  );
-}
-
-const isPinned = (row: Unpinned) => row.latitude != null && row.longitude != null;
-const townKey = (row: Unpinned) => `${row.city ?? ""}|${row.state ?? ""}`.toLowerCase();
-
-/**
- * How many towns one "Add them" click looks up. Cloudflare allows a Worker 50
- * outbound requests per invocation, and each town can take four (two Census
- * layers, then two table lookups) -- 42 towns in one go blew the limit. The
- * banner calls again until everything is in.
- */
-const TOWNS_PER_CALL = 6;
-
-/**
- * Gives venues already in the database a town pin if they were added without
- * one, a few towns at a time (see TOWNS_PER_CALL), one update per town.
- */
-async function pinUnpinnedVenues(maxTowns: number): Promise<void> {
-  if (maxTowns <= 0) return;
-  const admin = createAdminSupabaseClient();
-  const { data } = await admin
-    .from("venues")
-    .select("id, city, state, latitude, longitude")
-    .or("latitude.is.null,longitude.is.null")
-    .returns<(Unpinned & { id: string })[]>();
-  const towns = new Map<string, { city: string | null; state: string | null; ids: string[] }>();
-  for (const row of data ?? []) {
-    const key = townKey(row);
-    if (!towns.has(key)) {
-      if (towns.size >= maxTowns) continue;
-      towns.set(key, { city: row.city, state: row.state, ids: [] });
-    }
-    towns.get(key)!.ids.push(row.id);
-  }
-  await Promise.all(
-    [...towns.values()].map(async (town) => {
-      const pin = await pinForTown(town.city, town.state);
-      if (pin) await admin.from("venues").update(pin).in("id", town.ids);
-    }),
-  );
-}
-
 /** Bundled batch rows whose website isn't in the database yet. */
 export async function pendingBundledVenues(): Promise<VenueImportValues[]> {
   await requireAdmin();
@@ -430,7 +370,7 @@ export async function addBundledVenues(): Promise<{ error?: string; imported?: n
   if (remaining === 0) {
     // Catches up venues from earlier batches that went in without a pin, with
     // whatever lookups this call has left.
-    await pinUnpinnedVenues(TOWNS_PER_CALL - towns.size);
+    await pinUnpinned("venues", TOWNS_PER_CALL - towns.size);
     revalidatePath("/admin/venues");
     revalidatePath("/venues");
   }

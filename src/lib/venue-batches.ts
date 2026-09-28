@@ -554,4 +554,60 @@ Honeysuckle Hills	Pigeon Forge	Tennessee			Barn / Rustic	Indoor	30	Pine-walled c
 Chapel in the Hollow	Seymour	Tennessee			Garden / Outdoor	Outdoor	35	Private woodland chapel by a creek in the Smokies foothills, for up to 35 guests.	chapelinthehollow@gmail.com	865-696-5348	https://chapelinthehollow.com
 `,
   },
+  {
+    name: "Atlanta and around",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Callanwolde Fine Arts Center	Atlanta	Georgia			Historic / Estate	Indoor & Outdoor		27,000 sq ft Tudor Revival mansion on a 12-acre Druid Hills estate, with terraces, a fountain and lawns.	info@callanwolde.org	(404) 872-5338	https://callanwolde.org
+Rhodes Hall	Atlanta	Georgia			Historic / Estate	Indoor & Outdoor	150	The "Castle on Peachtree", a stone mansion inspired by the German Rhineland; seats 100 for dinner or 150 for a cocktail reception.		404-885-7800	https://rhodeshall.org
+Swan House Gardens at Atlanta History Center	Atlanta	Georgia			Historic / Estate	Indoor & Outdoor	300	Gardens of the 1928 Swan House on the History Center's Buckhead campus, which also has a ballroom and terraces.	PrivateEvents@atlantahistorycenter.com	404-814-4090	https://www.atlantahistorycenter.com/private-events/
+Atlanta Botanical Garden	Atlanta	Georgia			Garden / Outdoor	Indoor & Outdoor		Midtown garden with ceremonies in the Rose Garden or Japanese Garden and receptions in Day Hall.	specialevents@atlantabg.org	404-591-1585	https://www.atlantabg.org
+Ventanas	Atlanta	Georgia			Ballroom / Hotel	Indoor & Outdoor	550	About 10,000 sq ft downtown over two levels, with floor-to-ceiling skyline windows, a terrace and a rooftop helipad.	ventanasatlanta@lvmgt.com	(404) 766-3867	https://www.ventanasatlanta.com
+The Stanley House	Marietta	Georgia			Historic / Estate	Indoor & Outdoor	120	1895 Victorian mansion and inn four blocks from Marietta Square, with all-inclusive weddings.	info@thestanleyhouse.com	770-426-1881	https://www.thestanleyhouse.com
+Carl House	Auburn	Georgia			Historic / Estate	Indoor & Outdoor	280	All-inclusive venue: a white-columned home on four acres of gardens, with a 4,000 sq ft ballroom seating 135 (280 buffet).	info@carlhouse.com	(770) 586-0095	https://www.carlhouse.com
+Chateau Elan	Braselton	Georgia			Restaurant / Vineyard	Indoor & Outdoor		Winery resort on 3,500 acres northeast of Atlanta, with over a dozen spaces including ballrooms, vineyards and a glass-topped atrium.	sales@chateauelan.com	(678) 425-0900	https://www.chateauelan.com
+The Inn at Serenbe	Chattahoochee Hills	Georgia			Garden / Outdoor	Indoor & Outdoor		Inn in the Serenbe community south of Atlanta, with outdoor sites among hills and woods, the Oak Ballroom, and rooms and homes sleeping up to 174.	events@serenbeinn.com		https://www.serenbe.com
+Dunaway Gardens	Newnan	Georgia			Garden / Outdoor	Indoor & Outdoor		350-acre retreat with century-old gardens, a restored amphitheatre and 85 rooms, treehouses and cottages.	info@dunawaygardens.com	(770) 400-5860	https://www.dunawaygardens.com
+Foxhall Resort	Douglasville	Georgia			Garden / Outdoor	Indoor & Outdoor		1,100-acre resort 25 minutes from Atlanta, with ceremony sites among the pines, the Stables, and clay shooting and ATV rides for guests.	sales@foxhallresort.com	(770) 489-4380	https://www.foxhallresortweddings.com
+The Tate House	Tate	Georgia			Historic / Estate	Indoor & Outdoor	180	Pink marble mansion north of Atlanta with garden ceremonies and ballroom receptions.	events@tatehouse.com	770-735-3122	https://www.tatehouse.com
+Barnsley Resort	Adairsville	Georgia			Historic / Estate	Indoor & Outdoor		Resort around the ruins of a 19th-century manor house, with gardens, and cottages and an inn for guests.		770-773-7480	https://www.barnsleyresort.com
+`,
+  },
+  {
+    name: "Savannah and the Golden Isles",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+The Mackey House	Savannah	Georgia			Historic / Estate	Indoor & Outdoor	200	Colonial-style family estate on 150 private lakeside acres minutes from downtown.		912-234-7404	https://www.mackeyhouse.com
+Red Gate Farms	Savannah	Georgia			Barn / Rustic	Indoor & Outdoor		Farm with a renovated red barn and meadow, and the Grainery, a former storehouse with retractable walls and an outdoor amphitheatre.	venueinfo@redgatefarms.com	912-581-4745	https://www.redgatefarms.com
+Ships of the Sea Maritime Museum	Savannah	Georgia			Garden / Outdoor	Indoor & Outdoor		Greek Revival William Scarbrough House, with the largest private gardens in the historic district, a block from City Market.	info@shipsofthesea.org	912-232-1511	https://www.shipsofthesea.org
+Forsyth Park Inn	Savannah	Georgia			Historic / Estate	Outdoor	45	Victorian bed and breakfast on Forsyth Park, with small ceremonies in its courtyard garden (25 guests June to September).	InnKeeper@ForsythParkInn.com	(912) 233-6800	https://www.forsythparkinn.com
+Davenport House Museum	Savannah	Georgia			Garden / Outdoor	Outdoor		1820s house museum whose walled courtyard garden, with an arbour for vows, is rented for private weddings.	info@davenporthousemuseum.org	(912) 236-8097	https://www.davenporthousemuseum.org
+Perry Lane Hotel	Savannah	Georgia			Ballroom / Hotel	Indoor & Outdoor		Downtown hotel with a glass-enclosed rooftop ballroom, a terrace and a rooftop lawn.		912-415-9000	https://www.perrylanehotel.com
+Hotel Bardo	Savannah	Georgia			Ballroom / Hotel	Indoor & Outdoor		Hotel on Forsyth Park, formerly the Mansion on Forsyth Park, with ballrooms and a courtyard.	hello@staybardo.com	912-238-5158	https://www.staybardo.com
+Jekyll Island Club Resort	Jekyll Island	Georgia			Ballroom / Hotel	Indoor & Outdoor		Gilded Age club hotel with oceanfront and riverside sites and three historic island cottages for events.		912-319-4348	https://www.jekyllclub.com
+The King and Prince Resort	St. Simons Island	Georgia			Beach / Waterfront	Indoor & Outdoor		Oceanfront resort with a ballroom and outdoor reception sites.		(912) 638-3631	https://www.kingandprince.com
+Sea Island	Sea Island	Georgia			Beach / Waterfront	Indoor & Outdoor		Resort with a heart-pine chapel and ballroom at The Cloister, oak-shaded lawns at The Lodge and Rainbow Island on the Black Banks River.		844-633-5416	https://www.seaisland.com
+`,
+  },
+  {
+    name: "North Georgia mountains and wine country",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Montaluce Winery	Dahlonega	Georgia			Restaurant / Vineyard	Indoor & Outdoor		Tuscan-style winery and restaurant with villas on site.	info@montaluce.com	706-867-4060	https://www.montaluce.com
+Kaya Vineyard & Winery	Dahlonega	Georgia			Restaurant / Vineyard	Indoor & Outdoor	200	Winery with cottages; packages include eight hours of venue time, vendors, photography and catering.	info@kayavineyards.com	706-219-3514	https://www.kayavineyards.com
+Wimpy Farms	Dahlonega	Georgia			Barn / Rustic	Indoor & Outdoor	200	Farm of over 100 acres at the foot of the mountains, with its original barn for 50 and Legacy Hall for 200.	nicole@wimpyfarm.com	706-864-6074	https://www.wimpyfarms.com
+Tiger Mountain Vineyards	Tiger	Georgia			Restaurant / Vineyard	Indoor & Outdoor	150	Sixty-acre estate winery in the Blue Ridge Mountains.	events@tigerwine.com	(706) 782-4777	https://www.tigerwine.com
+The Falls at Blue Ridge	Ellijay	Georgia			Garden / Outdoor	Indoor & Outdoor	300	Venue among waterfalls, creeks and a lake, with a ballroom with retractable glass walls, a courtyard for 300 and a pavilion for 100.	info@thefallsatblueridge.com	(877) 743-2557	https://thefallsatblueridge.com
+Brasstown Valley Resort	Young Harris	Georgia			Ballroom / Hotel	Indoor & Outdoor	250	Mountain resort with a Waterfall Lawn and Sunset Terrace for ceremonies, an open-air pavilion, a ballroom seating 250 and stables for 70.	scarey@brasstownvalley.com	706-379-4764	https://brasstownvalley.com
+Glen-Ella Springs Inn	Clarkesville	Georgia			Historic / Estate	Indoor & Outdoor	150	Country inn usually booked whole for weekend weddings; its 16 rooms sleep about 36.	info@glenella.com	706-754-7295	https://glenella.com
+Lake Rabun Hotel	Lakemont	Georgia			Historic / Estate	Indoor & Outdoor	100	Historic lake hotel and restaurant, with the Forest Lodge, opened in 2020 in private woods, for larger weddings.	lakerabunhotel@yahoo.com	(706) 782-4946	https://www.lakerabunhotel.com
+`,
+  },
+  {
+    name: "Athens, Madison, Macon and Augusta",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+State Botanical Garden of Georgia	Athens	Georgia			Garden / Outdoor	Indoor & Outdoor		The University of Georgia's botanical garden, which rents out its gardens and indoor spaces for events.	sbgrent@uga.edu	706-542-1244	https://botgarden.uga.edu
+The James Madison Inn	Madison	Georgia			Ballroom / Hotel	Indoor & Outdoor		Downtown inn whose Variety Works, a restored 1870s building, hosts weddings, plus a 3,400 sq ft conference centre.		(706) 342-7040	https://www.jamesmadisoninn.com
+Hay House	Macon	Georgia			Historic / Estate	Indoor	100	Georgia Trust mansion that seats 75 or holds 100 standing; it has no air conditioning.		(478) 742-8155	https://hayhouse.org
+The Partridge Inn	Augusta	Georgia			Ballroom / Hotel	Indoor & Outdoor		Historic hotel with 143 rooms, event rooms, and a free guest shuttle within three miles.	thepartridgeinn@northph.com	706-737-8888	https://www.partridgeinn.com
+Sacred Heart Cultural Center	Augusta	Georgia			Historic / Estate	Indoor & Outdoor	275	Former church with a 7,000 sq ft Great Hall seating 275 and a courtyard garden.	denise@sacredheartaugusta.org	706-826-4700	https://sacredheartaugusta.org
+`,
+  },
 ];
