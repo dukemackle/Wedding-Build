@@ -8,14 +8,30 @@ import { addBundledVenues } from "./actions";
 export function BundledVenuesBanner({ count, towns }: { count: number; towns: string[] }) {
   const [error, setError] = useState<string | undefined>(undefined);
   const [imported, setImported] = useState<number | null>(null);
+  const [progress, setProgress] = useState(0);
   const [isPending, startTransition] = useTransition();
 
   function handleAdd() {
     setError(undefined);
     startTransition(async () => {
-      const result = await addBundledVenues();
-      if (result.error) setError(result.error);
-      else setImported(result.imported ?? 0);
+      // Each call adds a few towns' worth (Cloudflare caps the lookups one
+      // request can make), so keep calling until nothing is left.
+      let total = 0;
+      for (;;) {
+        const result = await addBundledVenues();
+        if (result.error) {
+          setError(total > 0 ? `Added ${total}, then: ${result.error}` : result.error);
+          return;
+        }
+        total += result.imported ?? 0;
+        setProgress(total);
+        if (!result.remaining) break;
+        if (!result.imported) {
+          setError(`Added ${total}, but the rest wouldn't go in. Reload and try again.`);
+          return;
+        }
+      }
+      setImported(total);
     });
   }
 
@@ -45,7 +61,7 @@ export function BundledVenuesBanner({ count, towns }: { count: number; towns: st
           disabled={isPending}
           className="shrink-0 self-start rounded-md bg-forest px-3 py-1.5 text-sm text-parchment transition-colors hover:bg-forest/90 disabled:opacity-60 sm:self-auto"
         >
-          {isPending ? "Adding…" : "Add them"}
+          {isPending ? `Adding… ${progress} of ${count}` : "Add them"}
         </button>
       </div>
       {error && <p className="mt-2 text-xs text-red-800">{error}</p>}

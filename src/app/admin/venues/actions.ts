@@ -330,8 +330,8 @@ async function withTownPins<T extends Unpinned>(rows: T[]): Promise<T[]> {
   const pins = new Map<string, Promise<Awaited<ReturnType<typeof pinForTown>>>>();
   return Promise.all(
     rows.map(async (row) => {
-      if (row.latitude != null && row.longitude != null) return row;
-      const key = `${row.city ?? ""}|${row.state ?? ""}`.toLowerCase();
+      if (isPinned(row)) return row;
+      const key = townKey(row);
       if (!pins.has(key)) pins.set(key, pinForTown(row.city, row.state));
       const pin = await pins.get(key);
       return pin ? { ...row, ...pin } : row;
@@ -339,19 +339,43 @@ async function withTownPins<T extends Unpinned>(rows: T[]): Promise<T[]> {
   );
 }
 
-/** Gives venues already in the database a town pin if they were added without one. */
-async function pinUnpinnedVenues(): Promise<void> {
+const isPinned = (row: Unpinned) => row.latitude != null && row.longitude != null;
+const townKey = (row: Unpinned) => `${row.city ?? ""}|${row.state ?? ""}`.toLowerCase();
+
+/**
+ * How many towns one "Add them" click looks up. Cloudflare allows a Worker 50
+ * outbound requests per invocation, and each town can take four (two Census
+ * layers, then two table lookups) -- 42 towns in one go blew the limit. The
+ * banner calls again until everything is in.
+ */
+const TOWNS_PER_CALL = 6;
+
+/**
+ * Gives venues already in the database a town pin if they were added without
+ * one, a few towns at a time (see TOWNS_PER_CALL), one update per town.
+ */
+async function pinUnpinnedVenues(maxTowns: number): Promise<void> {
+  if (maxTowns <= 0) return;
   const admin = createAdminSupabaseClient();
   const { data } = await admin
     .from("venues")
     .select("id, city, state, latitude, longitude")
     .or("latitude.is.null,longitude.is.null")
     .returns<(Unpinned & { id: string })[]>();
-  const pinned = (await withTownPins(data ?? [])).filter((row) => row.latitude != null && row.longitude != null);
+  const towns = new Map<string, { city: string | null; state: string | null; ids: string[] }>();
+  for (const row of data ?? []) {
+    const key = townKey(row);
+    if (!towns.has(key)) {
+      if (towns.size >= maxTowns) continue;
+      towns.set(key, { city: row.city, state: row.state, ids: [] });
+    }
+    towns.get(key)!.ids.push(row.id);
+  }
   await Promise.all(
-    pinned.map((row) =>
-      admin.from("venues").update({ latitude: row.latitude, longitude: row.longitude }).eq("id", row.id),
-    ),
+    [...towns.values()].map(async (town) => {
+      const pin = await pinForTown(town.city, town.state);
+      if (pin) await admin.from("venues").update(pin).in("id", town.ids);
+    }),
   );
 }
 
@@ -379,18 +403,36 @@ export async function pendingBundledVenues(): Promise<VenueImportValues[]> {
   });
 }
 
-export async function addBundledVenues(): Promise<{ error?: string; imported?: number }> {
+/**
+ * Adds the pending bundled venues from up to TOWNS_PER_CALL towns that need a
+ * pin looked up. `remaining` tells the banner to call again.
+ */
+export async function addBundledVenues(): Promise<{ error?: string; imported?: number; remaining?: number }> {
   await requireAdmin();
 
   const rows = await pendingBundledVenues();
-  if (rows.length === 0) return { imported: 0 };
+  if (rows.length === 0) return { imported: 0, remaining: 0 };
 
-  const error = await insertImportedVenues(rows);
+  const towns = new Set<string>();
+  const batch = rows.filter((row) => {
+    if (isPinned(row)) return true;
+    const key = townKey(row);
+    if (towns.has(key)) return true;
+    if (towns.size >= TOWNS_PER_CALL) return false;
+    towns.add(key);
+    return true;
+  });
+
+  const error = await insertImportedVenues(batch);
   if (error) return { error };
-  // Catches up venues from earlier batches that went in without a pin.
-  await pinUnpinnedVenues();
 
-  revalidatePath("/admin/venues");
-  revalidatePath("/venues");
-  return { imported: rows.length };
+  const remaining = rows.length - batch.length;
+  if (remaining === 0) {
+    // Catches up venues from earlier batches that went in without a pin, with
+    // whatever lookups this call has left.
+    await pinUnpinnedVenues(TOWNS_PER_CALL - towns.size);
+    revalidatePath("/admin/venues");
+    revalidatePath("/venues");
+  }
+  return { imported: batch.length, remaining };
 }
