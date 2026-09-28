@@ -374,7 +374,7 @@ function BudgetRowItem({
             aria-label={`Actual cost for ${row.label}`}
             onChange={(e) => setActualInput(e.target.value)}
             onBlur={(e) => handleAmountBlur("override_value", e.target.value)}
-            className={numberInputClass}
+            className={`${numberInputClass} sm:text-right`}
           />
           <span className="flex flex-1 items-center gap-2 sm:flex-none">
             <span className="h-1.5 flex-1 overflow-hidden rounded-full bg-forest/10 sm:w-20 sm:flex-none">
@@ -882,7 +882,7 @@ export function BudgetTable({
           Estimate
         </span>
         <span className="text-right font-mono-numbers text-[10px] uppercase tracking-[0.16em] text-ink/45">
-          Quoted
+          Actual
         </span>
         {/* The progress bar had no label at all, so the one column that
             answers "how much of this have we actually paid?" read as

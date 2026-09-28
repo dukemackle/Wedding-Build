@@ -150,9 +150,12 @@ export default async function DashboardPage() {
   const lineByCategory = new Map((lineItems ?? []).map((row) => [row.category, row]));
   const estimates = weddingCategoryEstimates(regionalData ?? [], wedding, headcount);
   let categoriesTotal = 0;
+  let categoriesActual = 0;
   for (const category of visibleCategories) {
     const computed = estimates.get(category.key) ?? 0;
-    categoriesTotal += lineByCategory.get(category.key)?.override_value ?? computed;
+    const override = lineByCategory.get(category.key)?.override_value;
+    categoriesTotal += override ?? computed;
+    categoriesActual += override ?? 0;
   }
   const paid =
     visibleCategories.reduce((sum, c) => sum + (lineByCategory.get(c.key)?.paid_amount ?? 0), 0) +
@@ -185,6 +188,7 @@ export default async function DashboardPage() {
     },
     budget: {
       total: categoriesTotal + customTotal,
+      actual: categoriesActual + customTotal,
       target: wedding.budget_target,
       paid,
       quoted: visibleCategories.filter((c) => lineByCategory.get(c.key)?.override_value != null)

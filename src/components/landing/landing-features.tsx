@@ -15,7 +15,7 @@ const SAMPLE: FeatureData = {
       { title: "Taste cakes", due: "2027-02-20" },
     ],
   },
-  budget: { total: 38400, target: 40000, paid: 12600, quoted: 8, categories: 14 },
+  budget: { total: 38400, actual: 31200, target: 40000, paid: 12600, quoted: 8, categories: 14 },
   guests: { total: 142, confirmed: 88, pending: 46, declined: 8 },
   venue: null,
   venuesShortlisted: 3,
