@@ -189,7 +189,7 @@ export type PublicConfirmedGuest = {
 
 export type Venue = {
   id: string;
-  /** URL segment, set by a trigger on insert (0090). Never follows a rename. */
+  /** URL segment, set by a trigger on insert (0091). Never follows a rename. */
   slug: string;
   name: string;
   region: string | null;
@@ -338,7 +338,7 @@ export type VendorSubmission = {
 
 export type Vendor = {
   id: string;
-  /** URL segment, set by a trigger on insert (0090). Never follows a rename. */
+  /** URL segment, set by a trigger on insert (0091). Never follows a rename. */
   slug: string;
   name: string;
   category: string | null;

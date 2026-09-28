@@ -51,7 +51,7 @@ export async function loadVenueListing(
   userId: string | null,
   idOrSlug: string,
 ): Promise<VenueListingData | null> {
-  // Logged out, the anon role can only read the public columns (0090).
+  // Logged out, the anon role can only read the public columns (0091).
   const columns = userId ? "*" : PUBLIC_VENUE_COLUMNS;
   const { data: venue } = await supabase
     .from("venues")

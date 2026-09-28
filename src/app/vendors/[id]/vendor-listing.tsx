@@ -29,7 +29,7 @@ export async function loadVendorListing(
   userId: string | null,
   idOrSlug: string,
 ): Promise<VendorListingData | null> {
-  // Logged out, the anon role can only read the public columns (0090).
+  // Logged out, the anon role can only read the public columns (0091).
   const columns = userId ? "*" : PUBLIC_VENDOR_COLUMNS;
   const { data: vendor } = await supabase
     .from("vendors")

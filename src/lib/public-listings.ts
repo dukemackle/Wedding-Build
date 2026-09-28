@@ -3,7 +3,7 @@
  *
  * A logged-out visitor can browse and open every active listing; saving,
  * booking and contacting still need an account. Supabase only lets the anon
- * role read the columns below (migration 0090), so a logged-out query has to
+ * role read the columns below (migration 0091), so a logged-out query has to
  * name them: `select("*")` would be refused. Contact email and phone are left
  * out on purpose -- inquiries go through the product.
  */

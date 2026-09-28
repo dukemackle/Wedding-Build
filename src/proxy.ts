@@ -37,7 +37,7 @@ async function listingSlugRedirect(request: NextRequest): Promise<NextResponse |
     url.pathname = `/${table}/${slug}`;
     return NextResponse.redirect(url, 308);
   } catch {
-    // Supabase unreachable, or 0090 not applied yet: the page still renders
+    // Supabase unreachable, or 0091 not applied yet: the page still renders
     // the listing by uuid.
     return null;
   }
