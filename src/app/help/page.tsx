@@ -29,7 +29,7 @@ export default async function HelpPage() {
         </div>
         <p className="mt-2 text-xs text-ink/50">
           Wren&apos;s also just a click away from the bird icon in the bottom-right corner of any
-          page. The name? <WrenMotto />.
+          page. <WrenMotto />
         </p>
 
         <div className="mt-6 rounded-lg border border-hairline bg-card p-6 shadow-sm">

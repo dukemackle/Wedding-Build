@@ -884,7 +884,7 @@ export function PreviewGrid({ items }: { items: PreviewItem[] }) {
                   )}
                   {openId === "ask" && (
                     <p className="mt-1 text-sm text-ink/60">
-                      Why &ldquo;Wren&rdquo;? <WrenMotto />.
+                      <WrenMotto />
                     </p>
                   )}
                 </div>
