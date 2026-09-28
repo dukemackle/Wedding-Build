@@ -3,6 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import { PageShell } from "@/components/page-shell";
 import { AssistantChat } from "@/components/wedding-assistant-widget";
 import { FeedbackForm } from "./feedback-form";
+import { WrenMotto } from "@/components/wren-motto";
 
 export default async function HelpPage() {
   const supabase = await createClient();
@@ -28,7 +29,7 @@ export default async function HelpPage() {
         </div>
         <p className="mt-2 text-xs text-ink/50">
           Wren&apos;s also just a click away from the bird icon in the bottom-right corner of any
-          page.
+          page. <WrenMotto />
         </p>
 
         <div className="mt-6 rounded-lg border border-hairline bg-card p-6 shadow-sm">

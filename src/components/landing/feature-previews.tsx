@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import type { ReactNode } from "react";
 import { createPortal } from "react-dom";
+import { WrenMotto } from "@/components/wren-motto";
 import { AskWrenTile } from "@/app/dashboard/ask-wren-tile";
 import { THEMES } from "@/lib/site-design";
 
@@ -928,6 +929,11 @@ export function PreviewGrid({ items }: { items: PreviewItem[] }) {
                   </h2>
                   {open.blurb && (
                     <p className="mt-1 text-sm text-ink/60">{open.blurb}</p>
+                  )}
+                  {openId === "ask" && (
+                    <p className="mt-1 text-sm text-ink/60">
+                      <WrenMotto />
+                    </p>
                   )}
                 </div>
                 <button

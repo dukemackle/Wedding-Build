@@ -11,6 +11,7 @@ import {
 import type { Proposal } from "@/lib/ai/assistant-tools";
 import { SendIcon, CloseIcon, ExpandIcon, CollapseIcon } from "@/components/icons";
 import { AnimatedWrenBird } from "@/components/animated-wren-bird";
+import { WrenMotto } from "@/components/wren-motto";
 import { useAssistant } from "@/components/assistant-context";
 import { InterviewQuestion } from "@/components/planning-interview";
 import { loadPlanningProfile, savePlanningAnswer } from "@/lib/ai/planning-actions";
@@ -229,6 +230,7 @@ export function AssistantChat({
         <span className="flex items-center gap-2 font-display text-lg text-wren-deep">
           <AnimatedWrenBird className="h-5 w-5" thinking={isPending} />
           Wren
+          <WrenMotto className="hidden font-sans text-xs text-ink/60 min-[360px]:inline" />
         </span>
         <div className="flex items-center gap-3">
           {onToggleExpand && (
