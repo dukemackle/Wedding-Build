@@ -2,7 +2,7 @@ import { READING_WIDTH } from "@/lib/layout";
 import Link from "next/link";
 
 export const metadata = {
-  title: "Privacy Policy — You Do, I Do",
+  title: "Privacy Policy",
 };
 
 export default function PrivacyPage() {

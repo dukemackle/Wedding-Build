@@ -12,6 +12,8 @@ import { InquiryForm } from "./inquiry-form";
 import { FilterDropdown } from "@/components/filter-dropdown";
 import { SearchShell } from "@/components/search-shell";
 import { BirdEmptyState } from "@/components/wren-moments";
+import { SignupCardButton, SignupHeart } from "@/components/public-nav";
+import { venueHref } from "@/lib/public-listings";
 
 const VenuesMap = dynamic(() => import("./venues-map").then((m) => m.VenuesMap), {
   ssr: false,
@@ -40,8 +42,10 @@ function VenueCard({
   isHighlighted,
   onHover,
   onLeave,
+  signedIn,
 }: {
   venue: Venue;
+  signedIn: boolean;
   isShortlisted: boolean;
   isBooked: boolean;
   onBookedToggled: (bookedVenueId: string | null) => void;
@@ -69,7 +73,7 @@ function VenueCard({
       }`}
     >
       <div className="relative">
-        <Link href={`/venues/${venue.id}`}>
+        <Link href={venueHref(venue)}>
           <Image
             src={image}
             alt={venue.venue_type ? `${venue.venue_type} illustration` : "Venue illustration"}
@@ -84,37 +88,47 @@ function VenueCard({
           </span>
         )}
         <div className="absolute right-2 top-2">
-          <ShortlistButton venueId={venue.id} isShortlisted={isShortlisted} overlay />
+          {signedIn ? (
+            <ShortlistButton venueId={venue.id} isShortlisted={isShortlisted} overlay />
+          ) : (
+            <SignupHeart next={venueHref(venue)} />
+          )}
         </div>
       </div>
       <div className="flex flex-1 flex-col p-3">
-        <Link href={`/venues/${venue.id}`} className="hover:underline">
+        <Link href={venueHref(venue)} className="hover:underline">
           <p className="font-mono-numbers text-lg font-bold tracking-tight text-ink">{lead}</p>
         </Link>
         {facts && <p className="mt-0.5 text-sm text-ink/80">{facts}</p>}
         {place && <p className="mt-0.5 text-[13px] text-ink/55">{place}</p>}
         <Link
-          href={`/venues/${venue.id}`}
+          href={venueHref(venue)}
           className="mt-1 text-[10px] font-semibold uppercase tracking-[0.07em] text-ink/40 hover:text-brass"
         >
           {venue.name}
         </Link>
-        <div className="mt-3 flex flex-col gap-2">
-          <BookedVenueButton
-            venueId={venue.id}
-            isBooked={isBooked}
-            onToggled={onBookedToggled}
-          />
-          {!showInquiry && (
-            <button
-              type="button"
-              onClick={() => setShowInquiry(true)}
-              className="w-full rounded-full border border-hairline px-3 py-1.5 text-sm text-ink transition-colors hover:border-forest"
-            >
-              Request a quote
-            </button>
-          )}
-        </div>
+        {!signedIn ? (
+          <div className="mt-3 flex flex-col gap-2">
+            <SignupCardButton next={venueHref(venue)} />
+          </div>
+        ) : (
+          <div className="mt-3 flex flex-col gap-2">
+            <BookedVenueButton
+              venueId={venue.id}
+              isBooked={isBooked}
+              onToggled={onBookedToggled}
+            />
+            {!showInquiry && (
+              <button
+                type="button"
+                onClick={() => setShowInquiry(true)}
+                className="w-full rounded-full border border-hairline px-3 py-1.5 text-sm text-ink transition-colors hover:border-forest"
+              >
+                Request a quote
+              </button>
+            )}
+          </div>
+        )}
         {showInquiry && (
           <InquiryForm venue={venue} onDone={() => setShowInquiry(false)} />
         )}
@@ -163,10 +177,13 @@ export function VenuesManager({
   venues,
   shortlist,
   bookedVenueId: initialBookedVenueId,
+  signedIn = true,
 }: {
   venues: Venue[];
   shortlist: VenueShortlistEntry[];
   bookedVenueId: string | null;
+  /** False on the public page: no Saved view, and card actions link to signup. */
+  signedIn?: boolean;
 }) {
   const [bookedVenueId, setBookedVenueId] = useState(initialBookedVenueId);
   const [typeFilter, setTypeFilter] = useState<string>("all");
@@ -241,7 +258,7 @@ export function VenuesManager({
       onClearFilters={clearFilters}
       resultCount={filteredVenues.length}
       resultNoun="venue"
-      views={[
+      views={!signedIn ? [] : [
         {
           key: "saved",
           label: "Saved",
@@ -320,6 +337,7 @@ export function VenuesManager({
           hoveredVenueId={hoveredVenueId}
           onHoverVenue={setHoveredVenueId}
           heightClassName="h-full w-full"
+          signedIn={signedIn}
         />
       }
       empty={
@@ -340,6 +358,7 @@ export function VenuesManager({
           isHighlighted={hoveredVenueId === venue.id}
           onHover={() => setHoveredVenueId(venue.id)}
           onLeave={() => setHoveredVenueId(null)}
+          signedIn={signedIn}
         />
       ))}
     </SearchShell>

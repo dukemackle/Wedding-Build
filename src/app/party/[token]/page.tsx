@@ -44,7 +44,7 @@ async function loadParty(token: string): Promise<SharedParty | null> {
 }
 
 export const metadata: Metadata = {
-  title: "Wedding party looks · You Do, I Do",
+  title: "Wedding party looks",
   // A private link: keep it out of search results.
   robots: { index: false, follow: false },
 };

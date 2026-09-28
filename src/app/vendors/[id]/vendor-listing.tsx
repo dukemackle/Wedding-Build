@@ -4,6 +4,8 @@ import type { Vendor, VendorFaq, Wedding } from "@/lib/supabase/types";
 import { VENDOR_PRICE_UNITS } from "@/lib/wedding-options";
 import { ChevronDownIcon } from "@/components/icons";
 import { PhotoGallery } from "@/components/photo-gallery";
+import { SignupPrompt } from "@/components/public-nav";
+import { PUBLIC_VENDOR_COLUMNS, isUuid, vendorHref, verifiedLabel } from "@/lib/public-listings";
 import { VendorDetailClient } from "./vendor-detail-client";
 
 /**
@@ -14,6 +16,8 @@ import { VendorDetailClient } from "./vendor-detail-client";
 
 export type VendorListingData = {
   vendor: Vendor;
+  /** False for a logged-out visitor: no contact details, a signup prompt. */
+  signedIn: boolean;
   wedding: Wedding | null;
   isFavorited: boolean;
   faqs: VendorFaq[];
@@ -22,28 +26,32 @@ export type VendorListingData = {
 
 export async function loadVendorListing(
   supabase: SupabaseClient,
-  userId: string,
-  id: string,
+  userId: string | null,
+  idOrSlug: string,
 ): Promise<VendorListingData | null> {
+  // Logged out, the anon role can only read the public columns (0091).
+  const columns = userId ? "*" : PUBLIC_VENDOR_COLUMNS;
   const { data: vendor } = await supabase
     .from("vendors")
-    .select("*")
-    .eq("id", id)
+    .select(columns)
+    .eq(isUuid(idOrSlug) ? "id" : "slug", idOrSlug)
     .eq("active", true)
     .maybeSingle<Vendor>();
   if (!vendor) return null;
 
   const [{ data: wedding }, { data: faqs }, { data: similarVendors }] = await Promise.all([
-    supabase
-      .from("weddings")
-      .select("*")
-      .or(`user_id.eq.${userId},partner_user_id.eq.${userId}`)
-      .maybeSingle<Wedding>(),
+    userId
+      ? supabase
+          .from("weddings")
+          .select("*")
+          .or(`user_id.eq.${userId},partner_user_id.eq.${userId}`)
+          .maybeSingle<Wedding>()
+      : Promise.resolve({ data: null }),
     supabase.from("vendor_faqs").select("*").eq("vendor_id", vendor.id).order("sort_order").returns<VendorFaq[]>(),
     vendor.category
       ? supabase
           .from("vendors")
-          .select("*")
+          .select(columns)
           .eq("active", true)
           .eq("category", vendor.category)
           .neq("id", vendor.id)
@@ -63,6 +71,7 @@ export async function loadVendorListing(
 
   return {
     vendor,
+    signedIn: Boolean(userId),
     wedding: wedding ?? null,
     isFavorited: Boolean(favorite),
     faqs: faqs ?? [],
@@ -73,7 +82,7 @@ export async function loadVendorListing(
 const card = "rounded-lg border border-hairline bg-card p-6 shadow-sm";
 
 export function VendorListing({ data }: { data: VendorListingData }) {
-  const { vendor, wedding, isFavorited, faqs, similarVendors } = data;
+  const { vendor, signedIn, wedding, isFavorited, faqs, similarVendors } = data;
   // Cover first, no repeats.
   const photos = [...new Set([vendor.image_url, ...vendor.photo_urls].filter((u): u is string => Boolean(u)))];
   const links = [
@@ -102,11 +111,8 @@ export function VendorListing({ data }: { data: VendorListingData }) {
           </p>
           {vendor.service_area && <p className="mt-1 text-sm text-ink/60">Serves {vendor.service_area}</p>}
           {vendor.is_sample && <p className="mt-1 text-[10px] uppercase tracking-wide text-ink/40">Sample listing</p>}
-          {vendor.source === "claimed" && vendor.last_verified_at && (
-            <p className="mt-1 text-xs text-forest/80">
-              ✓ Details confirmed by the vendor,{" "}
-              {new Date(vendor.last_verified_at).toLocaleDateString("en-US", { month: "long", year: "numeric" })}
-            </p>
+          {verifiedLabel(vendor, "vendor") && (
+            <p className="mt-1 text-xs text-forest/80">✓ {verifiedLabel(vendor, "vendor")}</p>
           )}
           {vendor.description && <p className="mt-4 text-ink/80">{vendor.description}</p>}
           {links.length > 0 && (
@@ -141,7 +147,9 @@ export function VendorListing({ data }: { data: VendorListingData }) {
                 {vendor.price_note && <p className="text-sm text-ink/60">{vendor.price_note}</p>}
               </div>
             )}
-            {wedding ? (
+            {!signedIn ? (
+              <SignupPrompt noun="vendor" next={vendorHref(vendor)} />
+            ) : wedding ? (
               <VendorDetailClient vendor={vendor} isFavorited={isFavorited} />
             ) : (
               <div className={`${card} text-sm text-ink/70`}>
@@ -220,7 +228,7 @@ export function VendorListing({ data }: { data: VendorListingData }) {
                 {similarVendors.map((v) => (
                   <Link
                     key={v.id}
-                    href={`/vendors/${v.id}`}
+                    href={vendorHref(v)}
                     className="rounded-lg border border-hairline bg-card p-4 transition-colors hover:border-forest"
                   >
                     <p className="font-display text-sm font-semibold text-forest">{v.name}</p>

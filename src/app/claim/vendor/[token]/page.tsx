@@ -8,7 +8,7 @@ import { WIDE_WIDTH } from "@/lib/layout";
 import { VendorClaimForm } from "./vendor-claim-form";
 
 export const metadata = {
-  title: "Update your listing — You Do, I Do",
+  title: "Update your listing",
   robots: { index: false, follow: false },
 };
 

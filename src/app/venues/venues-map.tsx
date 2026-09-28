@@ -8,6 +8,7 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { FitToPins } from "@/components/map-fit-bounds";
 import type { Venue } from "@/lib/supabase/types";
 import { ShortlistButton } from "./venue-card-shared";
+import { venueHref } from "@/lib/public-listings";
 
 const VENUE_TYPE_IMAGES: Record<string, string> = {
   "Barn / Rustic": "/venue-types/barn-rustic.svg",
@@ -65,6 +66,7 @@ export function VenuesMap({
   center,
   zoom,
   heightClassName,
+  signedIn = true,
 }: {
   venues: Venue[];
   shortlistedIds: Set<string>;
@@ -73,6 +75,8 @@ export function VenuesMap({
   center?: [number, number];
   zoom?: number;
   heightClassName?: string;
+  /** False for a logged-out visitor: the popup has no save button. */
+  signedIn?: boolean;
 }) {
   const pinned = venues.filter(
     (v): v is Venue & { latitude: number; longitude: number } =>
@@ -112,7 +116,7 @@ export function VenuesMap({
           >
             <Popup minWidth={200}>
               <div className="w-[200px]">
-                <Link href={`/venues/${venue.id}`} className="block">
+                <Link href={venueHref(venue)} className="block">
                   <Image
                     src={
                       venue.image_url ||
@@ -150,12 +154,14 @@ export function VenuesMap({
                     <p className="mt-1.5 text-xs font-medium text-brass">View details &rarr;</p>
                   </div>
                 </Link>
-                <div className="pb-1 pt-2">
-                  <ShortlistButton
-                    venueId={venue.id}
-                    isShortlisted={shortlistedIds.has(venue.id)}
-                  />
-                </div>
+                {signedIn && (
+                  <div className="pb-1 pt-2">
+                    <ShortlistButton
+                      venueId={venue.id}
+                      isShortlisted={shortlistedIds.has(venue.id)}
+                    />
+                  </div>
+                )}
               </div>
             </Popup>
           </Marker>
