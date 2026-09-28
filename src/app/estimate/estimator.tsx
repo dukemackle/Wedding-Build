@@ -232,7 +232,6 @@ export function Estimator({
               body={ctaBody}
               href={ctaHref}
               label={ctaLabel}
-              row={split}
               className={`mt-8 ${split ? "lg:mt-6" : ""}`}
             />
           </>

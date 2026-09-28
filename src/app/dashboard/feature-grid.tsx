@@ -21,7 +21,6 @@ export type FeatureData = {
     total: number;
     target: number | null;
     paid: number;
-    typical: number;
     quoted: number;
     categories: number;
   };
@@ -35,6 +34,8 @@ export type FeatureData = {
   attireShortlisted: number;
   itinerary: { time: string | null; title: string }[];
   layoutItems: number;
+  /** The guest site: the couple's names and date as it shows them, and whether it's published. */
+  site: { names: string; date: string | null; live: boolean };
 };
 
 const usd = (n: number) =>
@@ -42,6 +43,9 @@ const usd = (n: number) =>
 
 const shortDate = (iso: string) =>
   new Date(`${iso}T00:00:00`).toLocaleDateString("en-US", { month: "short", day: "numeric" });
+
+const longDate = (iso: string) =>
+  new Date(`${iso}T00:00:00`).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
 
 function clockTime(time: string) {
   const [h, m] = time.split(":").map(Number);
@@ -430,16 +434,17 @@ export function buildFeatures(d: FeatureData): Feature[] {
       media: <FloorPlanDrawing />,
     },
     {
-      href: "/budget/estimate",
-      title: "Estimator",
-      status: "Try what-ifs",
-      // A benchmark, not a second total: it ignores the couple's quotes, so
-      // say so rather than let it sit beside the Budget box looking like a
-      // competing number.
+      href: "/guests/site",
+      title: "Wedding site",
+      status: d.site.live ? "Live for guests" : "Design yours",
+      // The top of their own site: names, date, and the RSVP button guests see.
       media: (
         <Panel>
-          <Small>Typical, before your quotes</Small>
-          <Big>{usd(d.budget.typical)}</Big>
+          <Phrase>{d.site.names}</Phrase>
+          <Small>{d.site.date ? `${longDate(d.site.date)} · RSVP online` : "Your date, schedule and RSVP"}</Small>
+          <span className="w-fit rounded-full bg-forest px-3 py-1 font-mono-numbers text-[9px] text-parchment sm:text-[10px]">
+            RSVP
+          </span>
         </Panel>
       ),
     },
@@ -466,7 +471,7 @@ export function FeatureTile({ feature, asBox = false }: { feature: Feature; asBo
     </div>
   );
   const className =
-    "group flex h-full flex-col overflow-hidden rounded-2xl border border-hairline bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-brass/60 hover:shadow-xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brass";
+    "group relative flex h-full flex-col overflow-hidden rounded-2xl border border-hairline bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-brass hover:shadow-[0_14px_40px_-12px_rgba(224,161,0,0.55)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brass";
   const inner = (
     <>
       {/* Grows to fill the box, so a neighbour's two-line title never leaves a gap. */}
@@ -482,6 +487,11 @@ export function FeatureTile({ feature, asBox = false }: { feature: Feature; asBo
         </span>
       </div>
       {words}
+      {/* A band of gold light that sweeps across the box on hover. */}
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-y-0 -left-1/2 w-1/2 -translate-x-full -skew-x-12 bg-gradient-to-r from-transparent via-[#ffe45c]/35 to-transparent opacity-0 transition-[transform,opacity] duration-700 ease-out group-hover:translate-x-[400%] group-hover:opacity-100 motion-reduce:hidden"
+      />
     </>
   );
   return asBox ? (
@@ -503,15 +513,16 @@ export function FeatureTile({ feature, asBox = false }: { feature: Feature; asBo
  *
  * Two across on a phone, five on a wide screen.
  */
-export function FeatureGrid({ features }: { features: Feature[] }) {
+export function FeatureGrid({ features, tail }: { features: Feature[]; tail?: ReactNode }) {
   return (
-    <nav
-      aria-label="Your wedding"
-      className="mt-6 grid auto-rows-fr grid-cols-2 gap-3 sm:mt-10 sm:gap-5 lg:mt-5 lg:grid-cols-5"
-    >
-      {features.map((feature) => (
-        <FeatureTile key={feature.href} feature={feature} />
-      ))}
-    </nav>
+    <div className="mt-6 flex flex-col gap-3 sm:mt-10 sm:gap-5 lg:mt-5">
+      <nav aria-label="Your wedding" className="grid auto-rows-fr grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-5">
+        {features.map((feature) => (
+          <FeatureTile key={feature.href} feature={feature} />
+        ))}
+      </nav>
+      {/* A full-width strip below the boxes (Ask Wren), spaced like one of them. */}
+      {tail}
+    </div>
   );
 }
