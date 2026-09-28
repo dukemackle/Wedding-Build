@@ -6,6 +6,8 @@ import { useEffect, useRef, useState } from "react";
 import type { ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { WrenMotto } from "@/components/wren-motto";
+import { AskWrenTile } from "@/app/dashboard/ask-wren-tile";
+import { THEMES } from "@/lib/site-design";
 
 /*
  * A small working preview of each part of Wren, on sample data, opened from
@@ -618,95 +620,119 @@ function ItineraryDemo() {
   );
 }
 
-/* ---------- Wedding site ---------- */
+/* ---------- Bookings ---------- */
 
-function SiteDemo() {
-  const [rsvped, setRsvped] = useState(false);
+const BOOKINGS = [
+  { who: "Juniper Barn", what: "Venue", contract: "Signed", paid: "Deposit paid" },
+  { who: "Lena Ortiz Photo", what: "Photographer", contract: "Signed", paid: "Deposit paid" },
+  { who: "Fig & Salt Catering", what: "Catering", contract: "Waiting on it", paid: "Nothing paid" },
+];
+
+function BookingsDemo() {
+  const [signed, setSigned] = useState(false);
   return (
-    <div className="overflow-hidden rounded-xl border border-hairline bg-parchment">
-      <div className="border-b border-hairline bg-card px-3 py-1.5 font-mono-numbers text-[10px] text-ink/45">
-        wrenwed.com/juniper-and-sam
-      </div>
-      <div className="flex flex-col items-center gap-2 px-6 py-8 text-center">
-        <p className="font-mono-numbers text-[10px] uppercase tracking-[0.25em] text-brass">
-          June 12, 2027 · Bend, Oregon
-        </p>
-        <p className="font-display text-4xl text-forest">Juniper &amp; Sam</p>
-        <div className="mt-3 grid w-full max-w-sm grid-cols-3 gap-2 text-center">
-          {[
-            ["4pm", "Ceremony"],
-            ["5pm", "Cocktails"],
-            ["6pm", "Dinner"],
-          ].map(([t, l]) => (
-            <div
-              key={l}
-              className="rounded-lg border border-hairline bg-card py-2"
-            >
-              <p className="font-mono-numbers text-xs text-brass">{t}</p>
-              <p className="text-xs text-ink/75">{l}</p>
+    <ul className="flex flex-col divide-y divide-hairline rounded-xl border border-hairline bg-parchment">
+      {BOOKINGS.map((b, i) => {
+        const done = b.contract === "Signed" || (i === 2 && signed);
+        return (
+          <li key={b.who} className="flex flex-wrap items-center gap-x-4 gap-y-1 px-4 py-3">
+            <div className="min-w-0 flex-1">
+              <p className="text-sm font-medium text-forest">{b.who}</p>
+              <p className="font-mono-numbers text-[10px] text-ink/50">{b.what}</p>
             </div>
-          ))}
-        </div>
-        <button
-          type="button"
-          onClick={() => setRsvped(true)}
-          className="mt-4 rounded-full bg-forest px-6 py-2 font-display text-lg text-parchment hover:bg-forest/90"
-        >
-          {rsvped ? "See you there! ✓" : "RSVP"}
-        </button>
-      </div>
-    </div>
+            <span
+              className={`rounded-full px-2.5 py-0.5 font-mono-numbers text-[10px] ${done ? "bg-forest text-parchment" : "bg-brass/15 text-[#9a6b00]"}`}
+            >
+              {done ? "Contract signed ✓" : "Contract: waiting"}
+            </span>
+            {i === 2 && !signed && (
+              <button
+                type="button"
+                onClick={() => setSigned(true)}
+                className="rounded-full border border-hairline bg-card px-3 py-1 text-xs text-forest hover:border-brass"
+              >
+                Upload contract
+              </button>
+            )}
+          </li>
+        );
+      })}
+    </ul>
   );
 }
 
-/* ---------- Guestbook ---------- */
+/* ---------- Wedding site ---------- */
 
-function GuestbookDemo() {
-  const [notes, setNotes] = useState([
-    { from: "Aunt May", text: "So happy for you both — save us a dance!" },
-    { from: "Priya", text: "Can't wait to celebrate. Bringing tissues." },
-  ]);
-  const [text, setText] = useState("");
+// Four of the site editor's real themes, from soft to bold.
+const DEMO_THEMES = ["garden", "blush", "terracotta", "midnight"].map(
+  (id) => THEMES.find((t) => t.id === id) ?? THEMES[0],
+);
+
+function SiteDemo() {
+  const [themeId, setThemeId] = useState(DEMO_THEMES[0].id);
+  const [rsvped, setRsvped] = useState(false);
+  const t = DEMO_THEMES.find((x) => x.id === themeId) ?? DEMO_THEMES[0];
+  const accent = t.swatches[0];
   return (
     <div className="flex flex-col gap-4">
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-        {notes.map((n, i) => (
-          <figure
-            key={`${n.from}-${notes.length - i}`}
-            className={`rounded-xl border border-hairline bg-parchment p-4 ${i % 2 ? "sm:rotate-1" : "sm:-rotate-1"}`}
+      <div className="flex flex-wrap items-center gap-2">
+        <span className="font-mono-numbers text-[10px] uppercase tracking-[0.2em] text-ink/50">Theme</span>
+        {DEMO_THEMES.map((x) => (
+          <button
+            key={x.id}
+            type="button"
+            onClick={() => setThemeId(x.id)}
+            aria-pressed={x.id === themeId}
+            className={`flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs transition-colors ${x.id === themeId ? "border-brass bg-brass/10 text-forest" : "border-hairline bg-card text-ink/70 hover:border-brass"}`}
           >
-            <blockquote className="font-display text-lg italic leading-snug text-forest">
-              &ldquo;{n.text}&rdquo;
-            </blockquote>
-            <figcaption className="mt-2 font-mono-numbers text-[10px] text-ink/50">
-              — {n.from}
-            </figcaption>
-          </figure>
+            <span className="h-3 w-3 rounded-full" style={{ background: x.swatches[0] }} />
+            {x.name}
+          </button>
         ))}
       </div>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          if (!text.trim()) return;
-          setNotes((n) => [{ from: "You", text: text.trim() }, ...n]);
-          setText("");
-        }}
-        className="flex gap-2"
-      >
-        <input
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          placeholder="Leave a note…"
-          aria-label="Leave a note"
-          className="min-w-0 flex-1 rounded-full border border-hairline bg-card px-4 py-2 text-sm"
-        />
-        <button
-          type="submit"
-          className="rounded-full bg-forest px-4 py-2 text-sm text-parchment hover:bg-forest/90"
+      <div className="overflow-hidden rounded-xl border border-hairline">
+        <div className="border-b border-hairline bg-card px-3 py-1.5 font-mono-numbers text-[10px] text-ink/45">
+          wrenwed.com/w/juniper-and-sam
+        </div>
+        <div
+          className="flex flex-col items-center gap-2 px-6 py-8 text-center transition-colors duration-500"
+          style={{ background: t.bg, color: t.ink, fontFamily: t.body }}
         >
-          Sign
-        </button>
-      </form>
+          <p className="font-mono-numbers text-[10px] uppercase tracking-[0.25em]" style={{ color: t.muted }}>
+            June 12, 2027 · Bend, Oregon
+          </p>
+          <p
+            className="text-4xl"
+            style={{ fontFamily: t.display, fontStyle: t.italicNames ? "italic" : "normal", fontWeight: t.nameWeight }}
+          >
+            Juniper &amp; Sam
+          </p>
+          <div className="mt-3 grid w-full max-w-sm grid-cols-3 gap-2 text-center">
+            {[
+              ["4pm", "Ceremony"],
+              ["5pm", "Cocktails"],
+              ["6pm", "Dinner"],
+            ].map(([time, label]) => (
+              <div key={label} className="py-2" style={{ background: t.surface, borderRadius: t.radius }}>
+                <p className="font-mono-numbers text-xs" style={{ color: accent }}>{time}</p>
+                <p className="text-xs" style={{ color: t.muted }}>{label}</p>
+              </div>
+            ))}
+          </div>
+          <button
+            type="button"
+            onClick={() => setRsvped(true)}
+            className="mt-4 px-6 py-2 text-lg"
+            style={{ background: accent, color: t.buttonInk, borderRadius: t.radius, fontFamily: t.display }}
+          >
+            {rsvped ? "See you there! ✓" : "RSVP"}
+          </button>
+        </div>
+      </div>
+      <p className="text-xs text-ink/50">
+        Eight themes, your own colours and fonts, and sections for travel, FAQs,
+        your registry, photos and a guest photo wall.
+      </p>
     </div>
   );
 }
@@ -726,10 +752,16 @@ const QUESTIONS = [
     q: "Who hasn't RSVP'd?",
     a: "46 guests are still waiting — mostly Sam's side. Want a reminder list?",
   },
+  {
+    q: "Add a florist task to our checklist",
+    a: "I'll add \u201cBook your florist\u201d, due November 1. Go ahead?",
+    action: "Added to your checklist ✓",
+  },
 ];
 
 function AskDemo() {
-  const [chat, setChat] = useState<{ q: string; a: string }[]>([]);
+  const [chat, setChat] = useState<(typeof QUESTIONS)[number][]>([]);
+  const [confirmed, setConfirmed] = useState(false);
   const asked = new Set(chat.map((c) => c.q));
   return (
     <div className="flex flex-col gap-4">
@@ -745,6 +777,18 @@ function AskDemo() {
             <span className="max-w-[85%] rounded-2xl rounded-bl-sm bg-wren px-3 py-1.5 text-sm text-ink">
               {c.a}
             </span>
+            {"action" in c &&
+              (confirmed ? (
+                <span className="font-mono-numbers text-xs text-wren-deep">{c.action}</span>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => setConfirmed(true)}
+                  className="w-fit rounded-full bg-forest px-4 py-1.5 text-xs text-parchment hover:bg-forest/90"
+                >
+                  Yes, add it
+                </button>
+              ))}
           </div>
         ))}
       </div>
@@ -761,8 +805,8 @@ function AskDemo() {
         ))}
       </div>
       <p className="text-xs text-ink/50">
-        Sample answers. In your account Wren reads your own budget and guest
-        list.
+        Sample answers. In your account Wren reads your own budget, guests and
+        checklist, and asks before it changes anything.
       </p>
     </div>
   );
@@ -788,12 +832,15 @@ const PREVIEWS: Record<string, { heading: string; Demo: () => ReactNode }> = {
     heading: "Seat your guests by dragging them to a table",
     Demo: SeatingDemo,
   },
-  site: { heading: "Your own wedding website, free", Demo: SiteDemo },
-  guestbook: {
-    heading: "Notes from your guests, kept for after",
-    Demo: GuestbookDemo,
-  },
-  ask: { heading: "Ask Wren anything about your plans", Demo: AskDemo },
+  bookings: { heading: "Every booking, with its contract", Demo: BookingsDemo },
+  "guests/site": { heading: "Your own wedding website, free", Demo: SiteDemo },
+  ask: { heading: "Ask Wren, or have Wren do it", Demo: AskDemo },
+};
+
+const ASK_ITEM = {
+  id: "ask",
+  title: "Ask Wren",
+  blurb: "An assistant that knows your budget, guests and checklist.",
 };
 
 export type PreviewItem = {
@@ -805,8 +852,8 @@ export type PreviewItem = {
 
 /**
  * The feature tiles, each a button that opens a preview of that feature.
- * Two across on a phone, five on a wide screen; the last tile runs the full
- * width because eleven divides into neither.
+ * Two across on a phone, five on a wide screen, then the Ask Wren strip
+ * across the full width, as on the dashboard.
  *
  * The preview is a centred dialog on a wide screen and a sheet up from the
  * bottom on a phone.
@@ -814,7 +861,7 @@ export type PreviewItem = {
 export function PreviewGrid({ items }: { items: PreviewItem[] }) {
   const [openId, setOpenId] = useState<string | null>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
-  const open = items.find((i) => i.id === openId);
+  const open = openId === "ask" ? ASK_ITEM : items.find((i) => i.id === openId);
   const preview = openId ? PREVIEWS[openId] : null;
 
   useEffect(() => {
@@ -845,12 +892,13 @@ export function PreviewGrid({ items }: { items: PreviewItem[] }) {
   return (
     <>
       {/* Every row the same height, so no tile is taller than its neighbours
-          because of a longer blurb. The full-width last tile sits outside
-          the grid so it keeps its own height. */}
+          because of a longer blurb. */}
       <div className="grid auto-rows-fr grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-5">
-        {items.slice(0, -1).map(tileButton)}
+        {items.map(tileButton)}
       </div>
-      {items.length > 0 && <div className="mt-3 grid sm:mt-5">{tileButton(items[items.length - 1])}</div>}
+      <div className="mt-3 sm:mt-5">
+        <AskWrenTile onClick={() => setOpenId("ask")} />
+      </div>
 
       {/* Portalled to <body>: the grid sits inside a fade-in whose transform
           would otherwise pin this "fixed" overlay to the grid, not the screen. */}

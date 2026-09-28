@@ -3,6 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import { PageShell } from "@/components/page-shell";
 import { FadeInSection } from "@/components/fade-in-section";
 import { WeddingDashboard } from "./wedding-dashboard";
+import { AskWrenTile } from "./ask-wren-tile";
 import { FeatureGrid, buildFeatures } from "./feature-grid";
 import { PartnerInviteCard } from "./partner-invite-card";
 import { WelcomeBird } from "./welcome-bird";
@@ -149,10 +150,8 @@ export default async function DashboardPage() {
   const lineByCategory = new Map((lineItems ?? []).map((row) => [row.category, row]));
   const estimates = weddingCategoryEstimates(regionalData ?? [], wedding, headcount);
   let categoriesTotal = 0;
-  let typical = 0;
   for (const category of visibleCategories) {
     const computed = estimates.get(category.key) ?? 0;
-    typical += computed;
     categoriesTotal += lineByCategory.get(category.key)?.override_value ?? computed;
   }
   const paid =
@@ -188,7 +187,6 @@ export default async function DashboardPage() {
       total: categoriesTotal + customTotal,
       target: wedding.budget_target,
       paid,
-      typical,
       quoted: visibleCategories.filter((c) => lineByCategory.get(c.key)?.override_value != null)
         .length,
       categories: visibleCategories.length,
@@ -211,6 +209,11 @@ export default async function DashboardPage() {
     itinerary: shownDay.slice(0, 3).map((e) => ({ time: e.start_time, title: e.title })),
     layoutItems: layoutItems ?? 0,
     weddingId: wedding.id,
+    site: {
+      names: [wedding.partner_a_name, wedding.partner_b_name].filter(Boolean).join(" & ") || "Your names",
+      date: wedding.wedding_date,
+      live: Boolean(wedding.public_slug),
+    },
   });
 
   return (
@@ -219,7 +222,7 @@ export default async function DashboardPage() {
       <WelcomeBird userId={user.id} createdAt={user.created_at} />
 
       <FadeInSection delayMs={40}>
-        <FeatureGrid features={features} />
+        <FeatureGrid features={features} tail={<AskWrenTile />} />
       </FadeInSection>
 
       {wedding.user_id === user.id && (

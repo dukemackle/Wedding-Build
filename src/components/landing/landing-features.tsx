@@ -1,12 +1,4 @@
-import {
-  FeatureTile,
-  Panel,
-  Phrase,
-  Small,
-  buildFeatures,
-  type Feature,
-  type FeatureData,
-} from "@/app/dashboard/feature-grid";
+import { FeatureTile, buildFeatures, type FeatureData } from "@/app/dashboard/feature-grid";
 import { PreviewGrid, type PreviewItem } from "./feature-previews";
 
 /**
@@ -23,7 +15,7 @@ const SAMPLE: FeatureData = {
       { title: "Taste cakes", due: "2027-02-20" },
     ],
   },
-  budget: { total: 38400, target: 40000, paid: 12600, typical: 41200, quoted: 8, categories: 14 },
+  budget: { total: 38400, target: 40000, paid: 12600, quoted: 8, categories: 14 },
   guests: { total: 142, confirmed: 88, pending: 46, declined: 8 },
   venue: null,
   venuesShortlisted: 3,
@@ -38,6 +30,7 @@ const SAMPLE: FeatureData = {
   attireShortlisted: 0,
   itinerary: [],
   layoutItems: 0,
+  site: { names: "Juniper & Sam", date: "2027-06-12", live: true },
 };
 
 const BLURBS: Record<string, string> = {
@@ -46,81 +39,28 @@ const BLURBS: Record<string, string> = {
   "/venues": "Browse on a map, shortlist, and send inquiries.",
   "/vendors": "Every vendor conversation and quote in one place.",
   "/checklist": "A month-by-month plan built around your date.",
+  "/bookings": "Everyone you book, with their contract and contact details.",
   "/attire": "Dresses, suits and rings — buy or rent, and when to order.",
   "/itinerary": "A printable run sheet for the day, hour by hour.",
   "/venue-layout": "Drag tables into your room and seat everyone.",
-  "/site": "A free wedding website with your schedule and RSVP form.",
-  "/guestbook": "Guests leave a photo and a note with their RSVP — a keepsake for after.",
-  "/ask": "An assistant that knows your budget and guest list.",
+  "/guests/site": "A free wedding website in your own style, with RSVPs built in.",
 };
 
-function landingFeatures(): Feature[] {
-  const all = buildFeatures(SAMPLE);
-  // Bookings and the estimator are dashboard shortcuts; a visitor is better
-  // served by the two parts they'd otherwise not know exist.
-  const kept = all.filter((f) => f.href !== "/bookings" && f.href !== "/budget/estimate");
-  kept.push(
-    {
-      href: "/site",
-      title: "Wedding site",
-      status: "Free, shareable",
-      media: (
-        <Panel>
-          <Phrase>Juniper &amp; Sam</Phrase>
-          <Small>June 12, 2027 · RSVP by May 1</Small>
-          <span className="w-fit rounded-full bg-forest px-3 py-1 font-mono-numbers text-[9px] text-parchment sm:text-[10px]">
-            RSVP
-          </span>
-        </Panel>
-      ),
-    },
-    {
-      href: "/guestbook",
-      title: "Guestbook",
-      status: "From every RSVP",
-      media: (
-        <Panel>
-          <span className="font-display text-base italic leading-snug text-forest sm:text-lg">
-            &ldquo;So happy for you both — save us a dance!&rdquo;
-          </span>
-          <Small>— Aunt May</Small>
-        </Panel>
-      ),
-    },
-    {
-      href: "/ask",
-      title: "Ask Wren",
-      status: "Built-in helper",
-      media: (
-        <Panel>
-          <div className="mx-auto flex w-full max-w-sm flex-col gap-2 sm:gap-2.5">
-          <span className="w-fit max-w-[90%] rounded-2xl rounded-bl-sm bg-card px-3 py-1.5 text-[11px] text-ink/80 shadow-sm sm:text-sm">
-            What should we book next?
-          </span>
-          <span className="ml-auto w-fit max-w-[90%] rounded-2xl rounded-br-sm bg-wren px-3 py-1.5 text-[11px] text-ink sm:text-sm">
-            Your florist — they book up 9 months out.
-          </span>
-          </div>
-        </Panel>
-      ),
-    },
-  );
-  return kept.map((f) => ({
-    ...f,
-    blurb: BLURBS[f.href],
-  }));
-}
-
 /**
- * The dashboard's own tiles, filled with a sample couple -- the same grid a
- * couple gets after signing up. Each opens a preview of that feature.
+ * The dashboard's own boxes, in the dashboard's order, filled with a sample
+ * couple -- the same grid a couple gets after signing up, with a line under
+ * each for visitors. Each opens a preview of that feature, and the Ask Wren
+ * strip below them opens a sample chat.
  */
 export function LandingFeatures() {
-  const items: PreviewItem[] = landingFeatures().map((feature) => ({
-    id: feature.href.slice(1),
-    title: feature.title,
-    blurb: feature.blurb,
-    tile: <FeatureTile feature={feature} asBox />,
-  }));
+  const items: PreviewItem[] = buildFeatures(SAMPLE).map((feature) => {
+    const withBlurb = { ...feature, blurb: BLURBS[feature.href] };
+    return {
+      id: feature.href.slice(1),
+      title: feature.title,
+      blurb: withBlurb.blurb,
+      tile: <FeatureTile feature={withBlurb} asBox />,
+    };
+  });
   return <PreviewGrid items={items} />;
 }
