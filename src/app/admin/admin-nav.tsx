@@ -16,6 +16,7 @@ function groups(claims: PendingClaims): { title?: string; links: NavLink[] }[] {
     {
       links: [
         { href: "/admin", label: "Overview" },
+        { href: "/admin/ask", label: "Ask Wren" },
         { href: "/admin/notifications", label: "Notifications", soon: true },
       ],
     },
@@ -180,6 +181,7 @@ export function AdminNav({ pendingClaims }: { pendingClaims: PendingClaims }) {
 const WIDTH_BY_PATH: Record<string, PageWidth> = {
   "/admin/venues": "canvas",
   "/admin/vendors": "canvas",
+  "/admin/ask": "wide",
 };
 
 export function AdminContent({ children }: { children: React.ReactNode }) {
