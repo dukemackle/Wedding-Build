@@ -120,7 +120,7 @@ export function BudgetSummary({
     <div className="border-b border-hairline bg-gradient-to-b from-parchment/60 to-card px-5 py-5 sm:px-8 sm:py-6">
       {/* Same track widths and gap as the rows below, so each total sits
           exactly over the column it sums. If one changes, change both. */}
-      <div className="sm:grid sm:grid-cols-[1fr_7rem_7.5rem_11rem] lg:grid-cols-[minmax(0,1fr)_8.5rem_9rem_13rem] lg:gap-5 2xl:grid-cols-[minmax(0,1fr)_10rem_11rem_18rem] 2xl:gap-8 sm:items-end sm:gap-4">
+      <div className="sm:grid sm:grid-cols-[1fr_7rem_7.5rem_11rem] lg:grid-cols-[minmax(0,1fr)_7rem_7.5rem_9.5rem] lg:gap-5 2xl:grid-cols-[minmax(0,1fr)_9.5rem_9.5rem_12rem] 2xl:gap-8 sm:items-end sm:gap-4">
         <div>
           <h2 className="font-display text-2xl font-semibold text-forest lg:text-3xl">Your budget</h2>
           <p className="mt-0.5 text-sm text-ink/60">
@@ -138,9 +138,7 @@ export function BudgetSummary({
               Projected
             </p>
             <p
-              className={`mt-1 font-mono-numbers text-xl sm:text-2xl lg:text-[1.9rem] 2xl:text-4xl ${
-                projectedRemaining != null && projectedRemaining < 0 ? "text-brass" : "text-forest"
-              }`}
+              className="mt-1 font-mono-numbers text-xl text-wren-deep sm:text-2xl lg:text-[1.65rem] 2xl:text-[2.1rem]"
             >
               {currency.format(totalEstimate)}
             </p>
@@ -150,7 +148,7 @@ export function BudgetSummary({
             <p className="font-mono-numbers text-[10px] uppercase tracking-[0.16em] text-ink/50 lg:text-[11px]">
               Actual so far
             </p>
-            <p className="mt-1 font-mono-numbers text-xl text-forest sm:text-2xl lg:text-[1.9rem] 2xl:text-4xl">
+            <p className="mt-1 font-mono-numbers text-xl text-brass sm:text-2xl lg:text-[1.65rem] 2xl:text-[2.1rem]">
               {currency.format(totalActual)}
             </p>
             {/* Hangs below on wide screens so the three big numbers keep a
@@ -160,7 +158,7 @@ export function BudgetSummary({
             </p>
           </div>
 
-          <div className="min-w-[11rem] flex-1 border-t border-hairline pt-3 sm:flex-none sm:border-l sm:border-t-0 sm:pl-4 sm:pt-0">
+          <div className="min-w-[11rem] flex-1 border-t lg:min-w-0 border-hairline pt-3 sm:flex-none sm:border-l sm:border-t-0 sm:pl-4 sm:pt-0">
             <p className="font-mono-numbers text-[10px] uppercase tracking-[0.16em] text-ink/50 lg:text-[11px]">
               Budget
             </p>
@@ -198,7 +196,7 @@ export function BudgetSummary({
                 type="button"
                 onClick={() => setEditing(true)}
                 title="Change your budget"
-                className="mt-1 block font-mono-numbers text-xl text-forest underline-offset-4 hover:underline sm:text-2xl lg:text-[1.9rem] 2xl:text-4xl"
+                className="mt-1 block font-mono-numbers text-xl text-forest underline-offset-4 hover:underline sm:text-2xl lg:text-[1.65rem] 2xl:text-[2.1rem]"
               >
                 {currency.format(target)}
               </button>
