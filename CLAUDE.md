@@ -9,6 +9,14 @@ navy `#14203d` + "Sunshine" yellow `#e0a100`, deeper `#9a6b00` for small text).
 reads, drafts or answers keeps "Wren"; copy naming the company or site says
 "You Do, I Do". The domain is still wrenwed.com until a new one is bought.
 
+**Colour palette (2026-09-28): use these for every new or changed colour.**
+Lemon `#FFF12F`, Gold `#FFD301`, Royal blue `#2243B6`, Sky `#00BFFE`, Aqua
+`#5AE4FF`. When a change needs shades (e.g. tiers, bar charts), draw them from
+these, or mix between them, rather than inventing new hexes. Existing
+navy/Sunshine screens stay as they are until they're touched. Contrast: the two
+yellows, Sky and Aqua are too light for white text or for small text on white.
+Put navy or Royal-blue text on them, and use them as fills, never as body text.
+
 You Do, I Do (formerly Wren, wrenwed.com) is a wedding-planning SaaS: a couple-facing app (guest list,
 budget, seating/venue layout, itinerary, checklist, vendor/venue discovery) plus
 an admin panel (admin.wrenwed.com) for tracking couples, vendors, venues,

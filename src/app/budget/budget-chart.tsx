@@ -10,6 +10,10 @@ export type BudgetChartItem = {
   amount: number;
 };
 
+/** Palette Aqua for the largest bar, darkening to Royal blue for the smallest. */
+const LIGHTEST_BAR = "#5AE4FF";
+const DARKEST_BAR = "#2243B6";
+
 export function BudgetBarChart({ items }: { items: BudgetChartItem[] }) {
   const sorted = [...items].sort((a, b) => b.amount - a.amount);
   const max = Math.max(...sorted.map((item) => item.amount), 1);
@@ -25,8 +29,12 @@ export function BudgetBarChart({ items }: { items: BudgetChartItem[] }) {
             </span>
             <div className="h-5 flex-1 rounded-sm bg-forest/10">
               <div
-                className="wren-grow h-5 rounded-r-[4px] bg-forest transition-[width]"
-                style={{ width: `${widthPct}%` }}
+                className="wren-grow h-5 rounded-r-[4px] transition-[width,background-color]"
+                style={{
+                  width: `${widthPct}%`,
+                  // Bigger bar, lighter blue.
+                  backgroundColor: `color-mix(in oklab, ${LIGHTEST_BAR} ${Math.round(widthPct)}%, ${DARKEST_BAR})`,
+                }}
               />
             </div>
             <span className="w-16 shrink-0 text-right font-mono-numbers text-xs text-ink sm:w-20">
