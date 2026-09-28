@@ -135,4 +135,68 @@ Bea's Mobile Bartending	Bar	Austin	Texas	Austin, Kyle, Buda and San Marcos	Mobil
 Bar La Maison	Bar	Round Rock	Texas	Austin	Mobile bar and signature cocktails for weddings.	hello@barlamaisontx.com	(512) 297-7790	https://barlamaisontx.com	https://www.instagram.com/barlamaisonatx/
 `,
   },
+  {
+    name: "San Antonio, New Braunfels and Boerne: first batch",
+    tsv: `Name	Category	City	State	Service area	Description	Email	Phone	Website	Instagram
+ADC Catering Group	Catering	San Antonio	Texas	San Antonio	Full-service caterer, formerly Absolutely Delicious, producing custom menus for weddings and private events.		210-342-2321	https://adccateringgroup.com	https://www.instagram.com/absolutelydeliciouscatering/
+Got It Covered Events	Catering	San Antonio	Texas	San Antonio	Catering with linens and service included, aiming for a polished event without the high price.			https://gotitcoveredsa.com	
+Anne Marie's Catering & Event Center	Catering	San Antonio	Texas	San Antonio	Catering, planning and décor, plus its own event venue.	info@annemaries.com	(210) 545-2249	https://annemaries.com	https://www.instagram.com/annemarieseventcenter/
+PG Special Events	Catering	San Antonio	Texas	San Antonio and surrounding areas	Custom-menu catering focused on fresh ingredients.		(210) 843-7229	https://pgspecialevents.com	https://www.instagram.com/pgspecialeventscatering/
+True Flavors Catering	Catering	San Antonio	Texas	San Antonio	Caterer offering event rentals too, building each menu with the couple.	info@trueflavors.com	(210) 226-3670	https://www.trueflavors.com	https://www.instagram.com/trueflavorssa/
+Heavenly Gourmet	Catering	San Antonio	Texas	San Antonio and Helotes	Wedding and event catering.	info@heavenlyg.com	210-496-9090	https://www.heavenlyg.com	https://www.instagram.com/heavenlygourmetcatering/
+Texas Prime Catering	Catering	San Antonio	Texas	San Antonio	Gourmet on-site catering and mobile bar rentals.	txprimecatering@gmail.com		https://www.texasprimecatering.com	
+Mana Sabroso	Catering	San Antonio	Texas	San Antonio and Austin	Wedding catering cooked fresh on site at the venue.	eventorder@manasabroso.com	(210) 931-4572	https://manasabroso.com	
+Smoke in the Hills BBQ	Catering	Boerne	Texas	San Antonio and the Hill Country	Award-winning Hill Country barbecue catering, smoked low and slow.	kelly@smokeinthehillsbbq.com	830-230-5500	https://smokeinthehillsbbq.com	https://www.instagram.com/smokeinthehillsbbq/
+Scarlet Rose Weddings + Events	Planning	San Antonio	Texas	San Antonio, Austin and across Texas	Wedding planning and design, plus a rental collection.			https://scarletroseevents.com	https://www.instagram.com/scarletroseevents/
+All In The Details Events	Planning	San Antonio	Texas	San Antonio	Wedding and event planners.		(210) 865-6150	https://allinthedetails.events	https://www.instagram.com/allinthedetailsevents/
+Weddings by Diana Boucher	Planning	San Antonio	Texas	San Antonio	Luxury wedding planning with over 30 years of experience.		(210) 854-8721	https://weddingsbydianaboucher.com	https://www.instagram.com/weddingsbydianaboucher/
+Elite Event Planning	Planning	San Antonio	Texas	San Antonio	High-touch wedding planning, wedding management and event design.		210-426-1998	https://elite-eventplanning.com	https://www.instagram.com/eliteeventplanningsatx/
+Lila Lane Events	Planning	New Braunfels	Texas	Central Texas, including San Antonio and Austin	Wedding planning and design based in New Braunfels.			https://lilalaneevents.com	https://www.instagram.com/lilalaneevents/
+JC Events	Planning	San Antonio	Texas	San Antonio	Wedding and event planner Jennifer Craft.	jennifer@jcraftevents.com	210-643-7133	https://eventsbyjennifercraft.com	https://www.instagram.com/jcraftevents/
+Sweet Gardenia Weddings	Planning	San Antonio	Texas	San Antonio, Boerne, New Braunfels and the Hill Country	Award-winning boutique wedding planning and coordination.	stephanie@sweetgardeniaweddings.com	(210) 954-5780	https://www.mysanantoniowedding.org	https://www.instagram.com/sanantonioweddingplanner/
+My Forever by Nikki	Planning	San Antonio	Texas	San Antonio and surrounding cities	Award-winning wedding planning and coordination.	myforeverbynikki@gmail.com	210-326-7694	https://www.myforeverbynikki.com	https://www.instagram.com/myforeverbynikki/
+The Perfect Day	Planning	New Braunfels	Texas	New Braunfels, San Antonio, Austin and Canyon Lake	Wedding planning and design team.	info@theperfectdaynb.com	(830) 632-5162	https://www.theperfectdaynb.com	https://www.instagram.com/theperfectdaynb/
+Jessica Chole Photography	Photography	San Antonio	Texas	San Antonio, Austin and the Hill Country	Romantic, timeless wedding photography with over 400 weddings shot.			https://jessicachole.com	https://www.instagram.com/jessicacholephotography/
+Gricelda's Photography	Photography	San Antonio	Texas	San Antonio	Timeless, elegant wedding and engagement photography.	info@griceldasphotography.com		https://griceldasphotography.com	https://www.instagram.com/griceldasphotography/
+Allison Jeffers Wedding Photography	Photography	San Antonio	Texas	San Antonio, Fredericksburg and the Hill Country	Award-winning wedding photographer with a joyful, timeless style.	info@allisonjeffers.com		https://allisonjeffers.com	https://www.instagram.com/allisonjeffersphotography/
+Under the Sun Photography	Photography	San Antonio	Texas	San Antonio, Austin and New Braunfels	Wedding photographer with ten years of experience.			https://underthesunphotography.com	https://www.instagram.com/underthesunphotos/
+Dos Kiwis Studio	Photography	San Antonio	Texas	San Antonio	Award-winning pair of fine-art wedding and portrait photographers.	dane@doskiwis.com	210-735-5555	https://www.doskiwis.com	https://www.instagram.com/doskiwis/
+Limelight Photo & Video	Photography	San Antonio	Texas	San Antonio, New Braunfels and Austin	Wedding photography and video from one studio.	events@limelightsanantonio.com	210-842-6620	https://www.limelightsanantonio.com	
+WalstonPhoto	Photography	Cibolo	Texas	San Antonio and Boerne	Photography team shooting candid, documentary-style weddings.	royce@walstonphoto.com	210-827-0784	https://www.walstonphoto.com	https://www.instagram.com/walstonphoto_tx/
+Gillian Menzie Photography	Photography	San Antonio	Texas	San Antonio	Fine-art wedding and portrait photographer.			https://gillianmenzie.com	https://www.instagram.com/gillian_menzie_photography/
+Evember Floral & Event Design	Florals	San Antonio	Texas	San Antonio and the Hill Country	Timeless wedding florals.		210-952-2825	https://evember.com	https://www.instagram.com/evemberfloral/
+Wolf Weddings	Florals	San Antonio	Texas	San Antonio and the Hill Country	Wedding florals and décor, plus planning.	wolfweddings@gmail.com	210-269-7996	https://wolfweddings.com	https://www.instagram.com/wolfweddings/
+Belle Fleur	Florals	San Antonio	Texas	San Antonio	Wedding and event florist.	bellefleursatx@gmail.com	210-454-7818	http://www.bellefleurtx.com	
+San Antonio Floral Designs	Florals	San Antonio	Texas	San Antonio	Wedding and event florals.			https://www.sanantoniofloraldesigns.com	https://www.instagram.com/sanantoniofloraldesigns/
+Platinum DJ Entertainment	Music	San Antonio	Texas	San Antonio	Wedding and event DJs.	brandon@platinumdjentertainment.com	210-831-2007	https://platinumdjentertainment.com	https://www.instagram.com/platinumdj_sa/
+At Last Entertainment & Events	Music	San Antonio	Texas	San Antonio	Wedding DJs and entertainment, plus planning and coordination.	info@atlastent.com		https://atlastent.com	https://www.instagram.com/atlastentertainmentandevents/
+Power Sounds Event Entertainment	Music	San Antonio	Texas	San Antonio, Austin, Boerne and New Braunfels	Wedding DJs.		(210) 365-0052	https://www.powersoundsdj.com	https://www.instagram.com/powersoundsdj/
+Gaines Entertainment	Music	San Antonio	Texas	San Antonio and Austin	High-energy DJs, hybrid live musicians and photo booths.	info@gainesentservices.com	(210) 995-3626	https://www.gainesentservices.com	https://www.instagram.com/gainesentertainment/
+Mariachi Los Galleros de San Antonio	Music	San Antonio	Texas	San Antonio	Mariachi band for ceremonies, receptions and serenades.		210-884-8909	https://losgalleros.net	https://www.instagram.com/gallerosdesanantonio/
+Northern Lights DJ Services	Music	San Antonio	Texas	San Antonio	Wedding DJs with live sax, lighting and day-of coordination add-ons.	admin@northernlightsdjservices.com	(210) 701-1505	https://www.northernlightsdjservices.com	https://www.instagram.com/northern_lights_dj/
+Four Star Entertainment	Music	San Antonio	Texas	San Antonio	Wedding and event DJ company.	fourstardj@hotmail.com	210-326-0649	https://fourstardjevents.com	https://www.instagram.com/four_star_entertainment/
+Allegretto Music	Music	San Antonio	Texas	San Antonio and Austin	Ceremony musicians: string quartet, violin, harp and cello ensembles.	mail@allegrettomusic.com	210-854-7884	https://www.allegrettomusic.com	
+Cello Vida	Music	San Antonio	Texas	San Antonio	Wedding string musicians, from solo cello to string quartet.	info@cellovida.com	(210) 400-7472	https://www.cellovida.com	https://www.instagram.com/sanantonioweddingmusicians/
+Mark Thomas Films	Videography	Seguin	Texas	San Antonio, Boerne and the Hill Country	Story-driven wedding videography and photography.	mark@markthomasfilms.com	830-743-2151	https://www.markthomasfilms.com	https://www.instagram.com/markthomasfilms/
+The Veil Artistry	Hair & Makeup	San Antonio	Texas	San Antonio	Bridal hair and makeup.	info@theveilartistry.com		https://theveilartistry.com	https://www.instagram.com/veilartistry_/
+Braid N'Hairpins	Hair & Makeup	San Antonio	Texas	San Antonio, Austin and the Hill Country	Bridal hair and makeup team.	roneeaguilar@braidnhairpins.com	210-852-9795	https://www.braidnhairpins.com	https://www.instagram.com/bnhmakeupandhair/
+Cakes by Cathy Young	Cake	San Antonio	Texas	San Antonio	Custom wedding cakes.	hello@cakesbycathyyoung.com		https://www.cakesbycathyyoung.com	https://www.instagram.com/cakesbycathyyoung/
+Cake & More Bake Shop	Cake	San Antonio	Texas	San Antonio	Custom wedding cakes and desserts.	cynthia@sacakes.com	(210) 494-3959	https://cakesandmorebakery.com	https://www.instagram.com/cakesandmorebakeshop/
+2tarts Bakery	Cake	New Braunfels	Texas	New Braunfels	Downtown New Braunfels bakery and café making wedding cakes.		(830) 387-4606	https://2tarts.com	https://www.instagram.com/2tartsbakery/
+Betty Jane's Bakeshoppe	Cake	San Antonio	Texas	San Antonio	Custom bakery known for luxury wedding cakes and groom's cakes.		210-492-1952	https://www.bettyjanesbakeshoppe.com	https://www.instagram.com/bettyjanes/
+Asukar	Desserts	San Antonio	Texas	San Antonio	Specialty cakes and sweets.	hello@myasukar.com	210-764-9614	https://www.asukar.com	https://www.instagram.com/myasukar/
+Reunion Coffee Cart	Desserts	San Antonio	Texas	San Antonio, New Braunfels, Boerne and the Hill Country	Mobile espresso cart with baristas for weddings.			https://reunioncoffeecart.com	
+Moonstruck Weddings	Officiant	San Antonio	Texas	San Antonio and the Hill Country	Non-denominational minister, Reverend Garner, for weddings and vow renewals.	revgarner@moonstruckweddings.com	210-241-9315	https://moonstruckweddings.com	
+A Wedding Priest on Call	Officiant	San Antonio	Texas	San Antonio and Central Texas	Catholic priest who officiates weddings.	aweddingpriestoncall@gmail.com	210-452-7627	https://www.aweddingpriestoncall.com	https://www.instagram.com/aweddingpriestoncall/
+It's A Wonderful Life Weddings	Officiant	San Antonio	Texas	San Antonio and Austin	Award-winning officiant Pastor David, known for imaginative, personal ceremonies.	pastordavidbarger@gmail.com	210-712-5458	https://www.itsawonderfullifeweddings.com	
+DPC Event Services	Rentals	San Antonio	Texas	San Antonio	Rental company with over 22 event services, from furniture to entertainment.		210-479-5541	https://dpceventservices.com	https://www.instagram.com/dpcevents/
+CRU Vintage Rentals	Rentals	Boerne	Texas	Boerne, San Antonio and Austin	Vintage furniture and décor rentals.			https://www.crurentals.com	
+Great Event Rentals	Rentals	San Antonio	Texas	San Antonio	Tents, lighting, furniture and décor rentals with full-service setup.		(210) 340-2007	https://greateventrentals.com	
+Absolute Rentals	Rentals	San Antonio	Texas	San Antonio, Central and South Texas	Wedding rentals serving San Antonio and the Hill Country.		(210) 696-5376	https://www.absoluterentalssa.com	https://www.instagram.com/absoluterentalssa/
+MBP Photo Booth	Photo Booth	San Antonio	Texas	San Antonio and Austin	Photo booth rentals with social sharing and instant prints.	info@mbpphotoboothco.com	210-307-6111	https://www.mbpphotoboothco.com	https://www.instagram.com/mbpphotobooth/
+Alpha-Lit San Antonio	Decor & Lighting	San Antonio	Texas	San Antonio	Light-up marquee letter and number rentals.	sanantonio@alphalitletters.com		https://alphalitsanantonio.com	
+Unique Event Services	Bar	San Antonio	Texas	San Antonio	Bartending, rentals and coordination packages for weddings.	shelly@uniqueeventservices.com	210-294-4510	https://www.uniqueeventservices.com	https://www.instagram.com/uniqueeventservices/
+Team One Luxury	Transportation	New Braunfels	Texas	San Antonio, New Braunfels and the Hill Country	Wedding transportation and charters, plus planning.	events@teamoneluxury.com	830-237-2038	https://www.teamoneluxury.com	https://www.instagram.com/teamoneluxuryevents/
+`,
+  },
 ];
