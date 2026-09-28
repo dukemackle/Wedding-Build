@@ -31,6 +31,19 @@ Simple text-only or logic-only fixes (copy edits, a stat/label swap,
 small server-action tweaks, migrations, RLS) can just be shipped directly
 — no need to check in first for those.
 
+**Colour roles (2026-09-28):** blue (`--color-wren`, #00bffe) belongs to Wren,
+the assistant, and a few Wren-adjacent spots; gold (`--color-brass` and the
+`gold-*` classes in globals.css) is You Do, I Do's own and marks what matters
+most on a page. Highlight and animate the important moments in those colours,
+but keep it to one or two per page — if everything shines, nothing does.
+
+**Keep the landing previews current, unasked (2026-09-28):** the landing page
+shows the dashboard's own boxes (same order) and each opens a demo in
+`src/components/landing/feature-previews.tsx`. Whenever a PR adds or changes a
+couple-facing feature, update the matching demo and blurb in the same PR —
+don't wait to be asked. Boxes and blurbs come from `buildFeatures` in
+`src/app/dashboard/feature-grid.tsx` plus `BLURBS` in `landing-features.tsx`.
+
 **Shipping (2026-09-22):** once the owner says the preview looks good, open
 the pull request without asking again — pushing to a branch isn't shipping,
 production deploys from `main`. The merge click stays the owner's.

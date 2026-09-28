@@ -4,20 +4,21 @@ import { AnimatedWrenBird } from "@/components/animated-wren-bird";
 import { useAssistant } from "@/components/assistant-context";
 
 /**
- * Wren's box on the dashboard: a full-width strip above the planning boxes
- * rather than an eleventh tile, so the five-across grid stays even. It is the
+ * Wren's box: a full-width strip below the planning boxes rather than an
+ * eleventh tile, so the five-across grid stays even. It is the
  * one box in Wren's AI blue on navy -- the assistant, not a part of the plan --
- * and opens the chat in place instead of navigating.
+ * and opens the chat in place instead of navigating. The landing page passes
+ * `onClick` to open its sample-chat preview, since a visitor has no chat.
  *
  * On a phone it's a single row (bird, name, arrow); on a wide screen the
  * sample exchange fills the middle.
  */
-export function AskWrenTile() {
+export function AskWrenTile({ onClick }: { onClick?: () => void }) {
   const { setOpen } = useAssistant();
   return (
     <button
       type="button"
-      onClick={() => setOpen(true)}
+      onClick={onClick ?? (() => setOpen(true))}
       aria-label="Ask Wren, your wedding assistant"
       className="group relative flex w-full items-center gap-4 overflow-hidden rounded-2xl border border-wren/40 bg-forest px-4 py-4 text-left shadow-[0_0_40px_-12px_rgba(0,191,254,0.7)] transition-all duration-300 hover:-translate-y-1 hover:border-wren hover:shadow-[0_0_56px_-8px_rgba(0,191,254,0.85)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-wren sm:gap-6 sm:px-7 sm:py-6"
     >
