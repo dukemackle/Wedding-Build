@@ -90,11 +90,10 @@ export default async function Home() {
       </div>
 
       <FadeInSection>
-        {/* The page's one gold moment: a slowly flowing gold border, the rings
-            large and faint behind, and a button with a shine across it. */}
+        {/* The page's one gold moment: a slowly flowing gold border, a few
+            twinkles, and a button with a shine across it. */}
         <div className="gold-flow-border mb-24 w-full max-w-3xl rounded-3xl p-[2px] shadow-[0_24px_60px_-24px_rgba(224,161,0,0.7)]">
           <div className="relative overflow-hidden rounded-[calc(1.5rem-2px)] bg-gradient-to-b from-white via-white to-[#fff8e1] px-6 py-12 text-center sm:px-12 sm:py-14">
-            <BrandRings className="pointer-events-none absolute -bottom-10 -right-12 w-64 opacity-[0.12] sm:w-80" />
             <div className="pointer-events-none absolute -bottom-24 left-1/2 h-48 w-96 -translate-x-1/2 rounded-full bg-[#ffe45c]/40 blur-3xl" />
             <span aria-hidden="true" className="gold-twinkle absolute left-[12%] top-8 text-lg text-brass">✦</span>
             <span aria-hidden="true" className="gold-twinkle absolute bottom-10 right-[14%] text-sm text-brass [animation-delay:0.8s]">✦</span>
