@@ -194,4 +194,21 @@ Stoney Ridge Villa	Azle	Texas	32.82771	-97.60191	Historic / Estate	Indoor & Outd
 Hotel Vin	Grapevine	Texas	32.93283	-97.07694	Ballroom / Hotel	Indoor & Outdoor		Hotel at the edge of Grapevine's historic Main Street with a ballroom, a rooftop terrace, in-house catering and rooms for guests.			https://www.hotelvin.com
 `,
   },
+  {
+    name: "More Houston: The Woodlands, Lake Conroe and Galveston",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Château St Cyr	Montgomery	Texas	30.40822	-95.78549	Historic / Estate	Indoor & Outdoor		A 13,000 sq ft estate on 18 acres in the Montgomery countryside, with 11 bedrooms sleeping up to 40 guests and two kitchens for caterers.	events@waverlymanor.com		https://www.thewaverlycollection.com/chateau-st-cyr
+Waverly Manor	New Waverly	Texas			Garden / Outdoor	Indoor & Outdoor		A 7,500 sq ft event hall holding 300 indoors, with a lakeside gazebo for ceremonies, plus a manor house sleeping 19; sister venue to Château St Cyr.	events@waverlymanor.com		https://www.thewaverlycollection.com/waverly-manor
+Villa de Lago	Montgomery	Texas	30.3946	-95.65422	Beach / Waterfront	Indoor & Outdoor		Intimate venue on the Lake Conroe shoreline with overnight space for up to 26 guests.	events@waverlymanor.com		https://www.thewaverlycollection.com/villa-de-lago
+Olde Dobbin Station	Montgomery	Texas			Historic / Estate	Indoor & Outdoor		Family-run venue near Lake Conroe built from buildings dating to the late 1800s and early 1900s, with full-service or DIY packages.	info@oldedobbinstation.com	(936) 828-0790	https://www.oldedobbinstation.com
+The Woodlands Resort	The Woodlands	Texas	30.14857	-95.47379	Ballroom / Hotel	Indoor & Outdoor		Resort in the Piney Woods with lakeside lawns, ballrooms and terraces, and wedding packages.		281.364.6301	https://www.woodlandsresort.com
+The Houstonian Hotel, Club & Spa	Houston	Texas	29.76699	-95.45756	Ballroom / Hotel	Indoor & Outdoor		Wooded 27-acre resort near Memorial Park with indoor and outdoor venues and an on-site spa.	reservations@houstonian.com	(713) 680-2626	https://www.houstonian.com
+The Post Oak Hotel	Houston	Texas	29.75153	-95.45615	Ballroom / Hotel	Indoor		Uptown luxury hotel with wedding and private-dining venues and several restaurants on site.		346.227.5000	https://www.thepostoak.com
+Hotel Granduca	Houston	Texas	29.75805	-95.45761	Ballroom / Hotel	Indoor & Outdoor		Uptown Park hotel with large rooms and suites and a wedding and events team.		(713) 418-1000	https://www.granducahouston.com
+Hotel ZaZa Museum District	Houston	Texas			Ballroom / Hotel	Indoor & Outdoor		Museum District hotel with wedding packages, in-house catering and room blocks for guests.			https://www.hotelzaza.com/houston-museum-district
+Hotel ICON	Houston	Texas	29.76285	-95.36034	Ballroom / Hotel	Indoor	250	Downtown hotel in the 1911 Union National Bank building; its Aventine Ballroom seats 250 for a ceremony or 150 for a reception.	contact@hotelicon.com	(713) 224-4266	https://www.hotelicon.com
+Grand Galvez	Galveston	Texas	29.29196	-94.7858	Ballroom / Hotel	Indoor & Outdoor		Oceanfront hotel on the Seawall dating from 1911, with historic ballrooms.	info@grandgalvez.com	409-765-7721	https://www.grandgalvez.com
+Moody Gardens	Galveston	Texas	29.27464	-94.85241	Garden / Outdoor	Indoor & Outdoor		Island resort with a hotel, pyramid attractions and gardens, hosting weddings across its venues.		(409) 683-4000	https://www.moodygardens.org
+`,
+  },
 ];
