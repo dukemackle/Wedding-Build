@@ -176,4 +176,22 @@ Hacienda Sol y Luna	El Paso	Texas	31.68269	-106.14129	Garden / Outdoor	Indoor & 
 Marfa Spirit Co.	Marfa	Texas	30.30976	-104.02413	Restaurant / Vineyard	Indoor		Distillery and tasting room in the historic Godbold feed mill, hosting weddings and private dinners.		(432) 426-6651	https://www.themarfaspirit.com
 `,
   },
+  {
+    name: "More Dallas–Fort Worth: Aubrey, McKinney, Grapevine and Kaufman",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Brighton Abbey	Aubrey	Texas	33.23712	-96.97474	Historic / Estate	Indoor & Outdoor		European-style estate on five acres with a glass chapel in the gardens, a chandeliered reception hall and an event lawn; sister venue to Knotting Hill Place.		469.444.7848	https://www.brightonabbey.com
+Rustic Grace Estate	Van Alstyne	Texas	33.42195	-96.62058	Barn / Rustic	Indoor & Outdoor		Vintage-style country estate just north of McKinney.		972-737-3259	https://www.rusticgraceestate.com
+Stone Crest Venue	New Hope	Texas	33.21039	-96.56595	Barn / Rustic	Indoor & Outdoor		Rustic-industrial hall on 20 hilltop acres near McKinney, with an open vendor policy, BYOB and an outdoor fire pit.	info@stonecrestvenue.com	972.544.6848	https://www.stonecrestvenue.com
+The Emerson	Kaufman	Texas	32.63084	-96.32133	Garden / Outdoor	Indoor & Outdoor		Sixteen acres southeast of Dallas with a little white chapel designed by Leanne Ford, plus in-house bar service and day-of coordination.	loveclub@emersonvenue.com	214.534.5882	https://www.emersonvenue.com
+The Filter Building	Dallas	Texas	32.8191	-96.73264	Historic / Estate	Indoor & Outdoor		Historic building on the shore of White Rock Lake, run by a nonprofit whose rental income funds community rowing programs.			https://www.thefilterbuilding.com
+Hickory Street Annex	Dallas	Texas			Historic / Estate	Indoor & Outdoor		Century-old industrial buildings around a courtyard near downtown, with a bright warehouse hall under a pitched wood ceiling.	michelle@hickorystreetannex.com		https://hickorystreetannex.com
+Rosewood Mansion on Turtle Creek	Dallas	Texas	32.80338	-96.80679	Ballroom / Hotel	Indoor & Outdoor		Luxury hotel built around a 1920s mansion, with a promenade and pavilion among its event spaces.	themansion@rosewoodhotels.com	214 559 2100	https://www.rosewoodhotels.com/en/mansion-on-turtle-creek-dallas
+The Joule	Dallas	Texas	32.78077	-96.79829	Ballroom / Hotel	Indoor		Downtown hotel in a restored neo-Gothic landmark, with a wedding and catering team.		214.748.1300	https://www.thejouledallas.com
+Hotel Crescent Court	Dallas	Texas	32.79389	-96.8043	Ballroom / Hotel	Indoor & Outdoor		Uptown hotel with 226 rooms and suites and about 19,000 sq ft of event space.		214.871.3200	https://www.crescentcourt.com
+The Ashton Hotel	Fort Worth	Texas	32.75376	-97.33071	Ballroom / Hotel	Indoor		Downtown boutique hotel in a 1915 building on Main Street, part of Historic Hotels of America.	info-ashton@theashtonhotel.com	(817) 332-0100	https://www.theashtonhotel.com
+Hotel Drover	Fort Worth	Texas	32.78589	-97.34501	Ballroom / Hotel	Indoor & Outdoor		Hotel on Mule Alley in the Fort Worth Stockyards, with private dining rooms and a backyard for special occasions.	hello@hoteldrover.com	817-755-5557	https://www.hoteldrover.com
+Stoney Ridge Villa	Azle	Texas	32.82771	-97.60191	Historic / Estate	Indoor & Outdoor		Family-owned, Mediterranean-style hilltop villa northwest of Fort Worth with views of the downtown skyline.	info@stoneyridgevilla.com	(682) 730-6176	https://www.stoneyridgevilla.com
+Hotel Vin	Grapevine	Texas	32.93283	-97.07694	Ballroom / Hotel	Indoor & Outdoor		Hotel at the edge of Grapevine's historic Main Street with a ballroom, a rooftop terrace, in-house catering and rooms for guests.			https://www.hotelvin.com
+`,
+  },
 ];
