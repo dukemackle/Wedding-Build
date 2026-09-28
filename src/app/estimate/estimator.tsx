@@ -30,16 +30,6 @@ const currency = new Intl.NumberFormat("en-US", {
 const inputClass =
   "rounded-md border border-hairline bg-parchment px-3 py-2 text-ink outline-none focus:border-forest";
 
-/**
- * A palette blue per style, lightest for Simple. Aqua and Sky are too light
- * for white text, so their selected state takes navy text instead.
- */
-const TIER_SHADE: Record<EstimatorTier, { fill: string; text: string }> = {
-  Simple: { fill: "#5AE4FF", text: "#14203d" },
-  Classic: { fill: "#00BFFE", text: "#14203d" },
-  Luxury: { fill: "#2243B6", text: "#fff" },
-};
-
 const DEFAULT_GUESTS = 100;
 const MIN_GUESTS = 10;
 const MAX_GUESTS = 300;
@@ -127,20 +117,11 @@ export function Estimator({
                     type="button"
                     onClick={() => setTier(t)}
                     aria-pressed={tier === t}
-                    className="flex-1 rounded-md border px-3 py-2 text-sm transition-colors"
-                    style={
+                    className={`flex-1 rounded-md border px-3 py-2 text-sm transition-colors ${
                       tier === t
-                        ? {
-                            backgroundColor: TIER_SHADE[t].fill,
-                            borderColor: TIER_SHADE[t].fill,
-                            color: TIER_SHADE[t].text,
-                          }
-                        : {
-                            backgroundColor: `color-mix(in oklab, ${TIER_SHADE[t].fill} 12%, white)`,
-                            borderColor: TIER_SHADE[t].fill,
-                            color: "#14203d",
-                          }
-                    }
+                        ? "border-forest bg-forest text-parchment"
+                        : "border-hairline bg-parchment text-ink hover:border-forest"
+                    }`}
                   >
                     {t}
                   </button>
