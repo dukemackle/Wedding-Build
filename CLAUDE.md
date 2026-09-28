@@ -32,9 +32,10 @@ small server-action tweaks, migrations, RLS) can just be shipped directly
 — no need to check in first for those.
 
 **Colour roles (2026-09-28):** blue (`--color-wren`, #00bffe) belongs to Wren,
-the assistant, and a few Wren-adjacent spots; gold (`--color-brass` and the
-`gold-*` classes in globals.css) is You Do, I Do's own and marks what matters
-most on a page. Highlight and animate the important moments in those colours,
+the assistant, and a few Wren-adjacent spots, and sits on navy. Gold
+(`--color-brass` and the `gold-*` classes in globals.css) is You Do, I Do's
+own, marks what matters most on a page, and sits on white — gold highlights
+go on white or cream, not navy. Highlight and animate the important moments in those colours,
 but keep it to one or two per page — if everything shines, nothing does.
 
 **Keep the landing previews current, unasked (2026-09-28):** the landing page

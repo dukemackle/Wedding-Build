@@ -93,25 +93,25 @@ export default async function Home() {
         {/* The page's one gold moment: a slowly flowing gold border, the rings
             large and faint behind, and a button with a shine across it. */}
         <div className="gold-flow-border mb-24 w-full max-w-3xl rounded-3xl p-[2px] shadow-[0_24px_60px_-24px_rgba(224,161,0,0.7)]">
-          <div className="relative overflow-hidden rounded-[calc(1.5rem-2px)] bg-forest px-6 py-12 text-center sm:px-12 sm:py-14">
-            <BrandRings className="pointer-events-none absolute -bottom-10 -right-12 w-64 opacity-[0.08] sm:w-80" />
-            <div className="pointer-events-none absolute -bottom-24 left-1/2 h-48 w-96 -translate-x-1/2 rounded-full bg-brass/25 blur-3xl" />
-            <span aria-hidden="true" className="gold-twinkle absolute left-[12%] top-8 text-lg text-[#ffe45c]">✦</span>
-            <span aria-hidden="true" className="gold-twinkle absolute bottom-10 right-[14%] text-sm text-[#ffe45c] [animation-delay:0.8s]">✦</span>
-            <span aria-hidden="true" className="gold-twinkle absolute left-[22%] bottom-8 text-xs text-[#ffe45c] [animation-delay:1.6s]">✦</span>
+          <div className="relative overflow-hidden rounded-[calc(1.5rem-2px)] bg-gradient-to-b from-white via-white to-[#fff8e1] px-6 py-12 text-center sm:px-12 sm:py-14">
+            <BrandRings className="pointer-events-none absolute -bottom-10 -right-12 w-64 opacity-[0.12] sm:w-80" />
+            <div className="pointer-events-none absolute -bottom-24 left-1/2 h-48 w-96 -translate-x-1/2 rounded-full bg-[#ffe45c]/40 blur-3xl" />
+            <span aria-hidden="true" className="gold-twinkle absolute left-[12%] top-8 text-lg text-brass">✦</span>
+            <span aria-hidden="true" className="gold-twinkle absolute bottom-10 right-[14%] text-sm text-brass [animation-delay:0.8s]">✦</span>
+            <span aria-hidden="true" className="gold-twinkle absolute left-[22%] bottom-8 text-xs text-brass [animation-delay:1.6s]">✦</span>
             <div className="relative">
-              <p className="font-mono-numbers text-[11px] uppercase tracking-[0.3em] text-[#ffc629]">
+              <p className="font-mono-numbers text-[11px] uppercase tracking-[0.3em] text-[#9a6b00]">
                 Free for couples
               </p>
-              <h2 className="mt-3 font-display text-3xl font-semibold text-white text-balance sm:text-5xl">
+              <h2 className="mt-3 font-display text-3xl font-semibold text-forest text-balance sm:text-5xl">
                 Ready to start planning?
               </h2>
-              <p className="mx-auto mt-3 max-w-md text-sm text-parchment/75 sm:text-base">
+              <p className="mx-auto mt-3 max-w-md text-sm text-ink/70 sm:text-base">
                 Create your account in under a minute — no credit card, ever.
               </p>
               <Link
                 href="/signup"
-                className="gold-shine relative mt-8 inline-flex overflow-hidden rounded-full bg-gradient-to-r from-[#c98a00] via-[#f2b400] to-[#ffc629] px-9 py-3.5 font-mono-numbers text-sm font-semibold uppercase tracking-[0.15em] text-forest shadow-[0_0_30px_-4px_rgba(242,180,0,0.7)] transition-transform duration-300 hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brass"
+                className="gold-shine relative mt-8 inline-flex overflow-hidden rounded-full bg-gradient-to-r from-[#c98a00] via-[#f2b400] to-[#ffc629] px-9 py-3.5 font-mono-numbers text-sm font-semibold uppercase tracking-[0.15em] text-forest shadow-[0_8px_30px_-6px_rgba(224,161,0,0.6)] transition-transform duration-300 hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brass"
               >
                 Sign up free
               </Link>
