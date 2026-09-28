@@ -226,24 +226,25 @@ export function Estimator({
               {realDataCount} of {estimate.breakdown.length} categories use real, sourced pricing
               data for {state}; the rest use a regional estimate until more data is added.
             </p>
-            {/* The page's one call to action, so it's a filled band rather
-                than another white card, with the homepage's hero button. */}
+            {/* The page's one call to action, so it's a gold band rather than
+                another white card, with the homepage's hero button in white.
+                Gold is too light for white text, so the words are navy. */}
             <div
               className={`mt-8 w-full rounded-lg p-8 text-center shadow-sm sm:p-10 ${
                 split ? "lg:mt-6 lg:flex lg:items-center lg:justify-between lg:gap-8 lg:text-left" : ""
               }`}
-              style={{ background: "linear-gradient(135deg, #14203d 0%, #2243B6 100%)" }}
+              style={{ background: "linear-gradient(135deg, #FFF12F 0%, #FFD301 100%)" }}
             >
               <div>
-                <h2 className="font-display text-3xl font-semibold text-white">{ctaTitle}</h2>
-                <p className="mt-2 max-w-md text-sm text-white/80 lg:max-w-none">{ctaBody}</p>
+                <h2 className="font-display text-3xl font-semibold text-[#14203d]">{ctaTitle}</h2>
+                <p className="mt-2 max-w-md text-sm text-[#14203d]/80 lg:max-w-none">{ctaBody}</p>
               </div>
               <Link
                 href={ctaHref}
-                className={`btn-motion mt-6 inline-block shrink-0 rounded-full px-7 pb-3 pt-2 font-display text-lg font-semibold ${
+                className={`btn-motion mt-6 inline-block shrink-0 rounded-full px-7 pb-3 pt-2 font-display text-lg font-semibold shadow-md ${
                   split ? "lg:mt-0" : ""
                 }`}
-                style={{ backgroundColor: "#FFD301", color: "#14203d" }}
+                style={{ backgroundColor: "#fff", color: "#14203d" }}
               >
                 {ctaLabel}
               </Link>
