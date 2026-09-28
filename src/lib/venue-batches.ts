@@ -387,4 +387,57 @@ Cajun Mansion	Youngsville	Louisiana			Historic / Estate	Indoor & Outdoor	200	All
 Rip Van Winkle Gardens	New Iberia	Louisiana			Garden / Outdoor	Indoor & Outdoor		Gardens on Jefferson Island with a renovated reception hall, the Orangerie and Acadian-style guest cottages.	rvw.1073@gmail.com	(337) 359-8525	https://www.ripvanwinklegardens.com
 `,
   },
+  {
+    name: "New Orleans",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Race + Religious	New Orleans	Louisiana			Historic / Estate	Indoor & Outdoor		Three-building property in the Lower Garden District with whimsical indoor rooms and brick courtyards full of greenery.	info@raceandreligious.com	(504) 523-0890	https://www.raceandreligious.com
+Broussard's	New Orleans	Louisiana			Restaurant / Vineyard	Indoor & Outdoor	650	French Quarter restaurant open since 1920 with a courtyard; weddings from 50 in the Josephine Room to 650 when combined with the Hermann-Grima House next door.		504-581-3866	https://www.broussards.com
+Arnaud's	New Orleans	Louisiana			Restaurant / Vineyard	Indoor	220	French Quarter restaurant spread over 11 historic buildings and 17 dining rooms, including the art deco Count's Room for 220 seated.	sales@arnauds.com	504-523-5433	https://www.arnaudsrestaurant.com
+Antoine's	New Orleans	Louisiana			Restaurant / Vineyard	Indoor	300	New Orleans' oldest restaurant, open since 1840, with private rooms for 2 to 300; the Large Annex seats 220.		(504) 581-4422	https://antoines.com
+Commander's Palace	New Orleans	Louisiana			Restaurant / Vineyard	Indoor	350	Garden District restaurant with private rooms for up to 96 and full buyouts seating 350.	info@commanderspalace.com	(504) 899-8221	https://www.commanderspalace.com
+The Court of Two Sisters	New Orleans	Louisiana			Restaurant / Vineyard	Indoor & Outdoor	500	French Quarter restaurant with the neighbourhood's largest courtyard, hosting ceremonies and receptions of up to 500.	Court2si@courtoftwosisters.com	(504) 522-7261	https://www.courtoftwosisters.com
+Hotel Monteleone	New Orleans	Louisiana			Ballroom / Hotel	Indoor	325	Family-owned French Quarter hotel since 1886 with over 27,000 sq ft of event space; weddings of up to 325.		504-523-3341	https://www.hotelmonteleone.com
+Bourbon Orleans Hotel	New Orleans	Louisiana			Ballroom / Hotel	Indoor & Outdoor	250	French Quarter hotel whose Orleans Ballroom, once part of the 1800s Orleans Theatre, seats 175 or 250 for a reception, with a balcony facing St. Louis Cathedral.		(855) 771-5214	https://www.bourbonorleans.com
+The Windsor Court	New Orleans	Louisiana			Ballroom / Hotel	Indoor & Outdoor		Downtown luxury hotel with eight wedding spaces, from a grand ballroom to intimate salons, and a courtyard send-off.	weddings@thewindsorcourt.com	(504) 523-6000	https://thewindsorcourt.com
+Royal Sonesta New Orleans	New Orleans	Louisiana			Ballroom / Hotel	Indoor & Outdoor	450	Bourbon Street hotel with a Grand Ballroom for receptions of up to 450 and a courtyard.	rsnosales@sonesta.com	(504) 586-0300	https://www.sonesta.com/royal-sonesta/la/new-orleans/royal-sonesta-new-orleans
+The Columns	New Orleans	Louisiana			Historic / Estate	Indoor & Outdoor	350	St. Charles Avenue hotel in a historic mansion, with a patio and porch for full buyouts of up to 350.	events@thecolumns.com	504-899-9308	https://thecolumns.com
+The Chloe	New Orleans	Louisiana			Historic / Estate	Indoor & Outdoor	225	Fourteen-room boutique hotel in an Uptown mansion, booked for full-weekend wedding buyouts, with receptions of up to 225 standing.	info@thechloenola.com	(504) 541-5500	https://thechloenola.com
+Degas House	New Orleans	Louisiana			Historic / Estate	Indoor & Outdoor		Esplanade Avenue home of the painter Edgar Degas, now a bed and breakfast with a courtyard shaded by oaks and palms.	events@degashouse.com	(504) 821-5009	https://www.degashouse.com
+The Elms Mansion	New Orleans	Louisiana			Historic / Estate	Indoor & Outdoor		Italianate mansion on St. Charles Avenue in the Garden District, hosting weddings in its rooms and gardens since 1969.	info@elmsmansion.com	504-895-9200	https://www.elmsmansion.com
+Marigny Opera House	New Orleans	Louisiana			Historic / Estate	Indoor		Former church in the Marigny that now runs as a non-profit arts venue; wedding fees support local artists.	info@marignyoperahouse.org	504-948-9998	https://marignyoperahouse.org
+Generations Hall	New Orleans	Louisiana			Historic / Estate	Indoor	2000	Restored 1820s sugar refinery in the Warehouse District with three event spaces, several bars and outside catering allowed at no extra charge.	tsana@generationshall.com	(504) 568-1700	https://generationshall.com
+Pitot House	New Orleans	Louisiana			Historic / Estate	Outdoor	150	Historic Creole house on Bayou St. John with a 10,000 sq ft meadow for ceremonies and receptions of up to 150.	events@louisianalandmarks.org	(504) 482-0312	https://www.pitothouse.org
+New Orleans Pharmacy Museum	New Orleans	Louisiana			Historic / Estate	Indoor & Outdoor		The 1823 French Quarter apothecary of America's first licensed pharmacist, now a museum with a tropical courtyard for ceremonies and receptions.	pharmacymuseum@gmail.com	504-490-6263	https://pharmacymuseum.org
+New Orleans Museum of Art	New Orleans	Louisiana			Garden / Outdoor	Indoor & Outdoor	1200	City Park museum whose Great Hall, Coleman Courtyard and Besthoff Sculpture Garden host weddings; the Great Hall holds 1,200 standing.	events@noma.org	504-658-4100	https://noma.org
+New Orleans City Park	New Orleans	Louisiana			Garden / Outdoor	Indoor & Outdoor		Nine wedding sites across 1,300 acres, including the Peristyle, the Pavilion of the Two Sisters and the Arbor Room in the Botanical Garden.		504-488-2896	https://neworleanscitypark.org
+Ogden Museum of Southern Art	New Orleans	Louisiana			Historic / Estate	Indoor & Outdoor	700	Warehouse District museum with Goldring Hall for receptions of up to 700, a rooftop terrace and a historic library hall for 300.	events@ogdenmuseum.org	504-539-9600	https://ogdenmuseum.org
+`,
+  },
+  {
+    name: "Northshore and Acadiana",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Southern Hotel	Covington	Louisiana			Ballroom / Hotel	Indoor & Outdoor		Century-old hotel in downtown Covington with courtyards, ballrooms and in-house catering.	guestservices@southernhotel.com	844-866-1907	https://www.southernhotel.com
+Warehouse 535	Lafayette	Louisiana			Historic / Estate	Indoor & Outdoor		Converted warehouse in the heart of Lafayette with three event rooms and an outdoor space.	denise@warehouse535.com		https://warehouse535.com
+Maison Madeleine	Breaux Bridge	Louisiana			Historic / Estate	Indoor & Outdoor	200	1840s Creole cottage on the National Register, in gardens on Lake Martin; weddings of up to 200.	grace@maisonmadeleine.com	337-332-4555	https://www.maisonmadeleine.com
+`,
+  },
+  {
+    name: "Mississippi Gulf Coast",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+The White House Hotel	Biloxi	Mississippi			Ballroom / Hotel	Indoor & Outdoor		Historic hotel on Beach Boulevard with a ballroom and a terrace looking over the Mississippi Sound.	info@whitehousebiloxi.com		https://www.whitehousebiloxi.com
+Ohr-O'Keefe Museum of Art	Biloxi	Mississippi			Garden / Outdoor	Indoor & Outdoor		Museum campus of Frank Gehry-designed buildings among old live oaks, rented for weddings.	rentals@georgeohr.org	228-374-5547	https://georgeohr.org
+Mississippi Aquarium	Gulfport	Mississippi			Beach / Waterfront	Indoor & Outdoor		Aquarium on a 5.8-acre campus with a 360-degree tunnel, indoor and outdoor exhibits and in-house catering.	events@msaquarium.org	(228) 241-1300	https://www.msaquarium.org
+Gulf Hills Hotel + Resort	Ocean Springs	Mississippi			Beach / Waterfront	Indoor & Outdoor		Ocean Springs' only waterfront hotel, on the bayou since 1927.	guestservices@raintravelcollection.com	(228) 875-4211	https://www.gulfhillshotel.com
+Walter Anderson Museum of Art	Ocean Springs	Mississippi			Historic / Estate	Indoor & Outdoor		Museum of the Gulf Coast painter's work, with galleries open to guests and an 1800s art cottage for smaller gatherings.		228-872-3164	https://www.walterandersonmuseum.org
+`,
+  },
+  {
+    name: "Mobile and Bellingrath",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Bragg-Mitchell Mansion	Mobile	Alabama			Historic / Estate	Indoor & Outdoor		1855 mansion rented with its first floor, patio and grounds for ceremonies and receptions.		251-471-6364	https://braggmitchellmansion.com
+Historic Oakleigh	Mobile	Alabama			Historic / Estate	Outdoor	100	1830s Greek Revival house on three acres of grounds, with a cottage used as a bridal suite; weddings of up to 100.	events@historicoakleigh.org	251-432-1281	https://www.historicoakleigh.com
+Fort Condé Inn	Mobile	Alabama			Historic / Estate	Indoor & Outdoor		Boutique hotel made of early-1800s homes in a private downtown enclave under a canopy of oaks.	info@fortcondeinn.com	(251) 405-5040	https://www.fortcondeinn.com
+Bellingrath Gardens and Home	Theodore	Alabama			Garden / Outdoor	Indoor & Outdoor	80	Sixty-five acres of gardens around the Bellingrath estate, with ceremonies and receptions all year and the Magnolia Room for 80 indoors.		251-459-8868	https://bellingrath.org
+`,
+  },
 ];
