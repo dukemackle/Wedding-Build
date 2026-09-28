@@ -17,7 +17,7 @@
  * past that the eye loses its place returning to the left margin -- which is
  * why this stays narrow even on a huge screen rather than filling it.
  *
- * Legal pages, help, single-column forms like account and the estimate.
+ * Legal pages, help, single-column forms like account.
  *
  * Not the auth screens: those are a small centred card, sized like the
  * empty-state cards rather than like a page.
@@ -35,8 +35,9 @@ export const STANDARD_WIDTH = "max-w-4xl";
  * Pages whose content is genuinely wide: tables with many columns, or a list
  * beside a detail panel.
  *
- * Nothing at the moment -- budget and checklist moved to CANVAS, guests to FULL,
- * once each had a second column to fill it with.
+ * The public estimate: controls in a column beside the breakdown. (Budget and
+ * checklist moved on to CANVAS, guests to FULL, once each had a second column
+ * to fill it with.)
  */
 export const WIDE_WIDTH = "max-w-6xl";
 
@@ -81,4 +82,3 @@ export type PageWidth = keyof typeof PAGE_WIDTHS;
 export function pageWidthClass(width: PageWidth) {
   return PAGE_WIDTHS[width];
 }
-

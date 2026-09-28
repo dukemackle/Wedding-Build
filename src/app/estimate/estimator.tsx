@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState, useTransition } from "react";
+import { useMemo, useState, useTransition, type ReactNode } from "react";
 import type { RegionalCostData } from "@/lib/supabase/types";
 import { estimateWeddingCost, type EstimatorTier } from "@/lib/estimator";
 import { STATES, STYLE_TIERS } from "@/lib/wedding-options";
@@ -29,6 +29,13 @@ const currency = new Intl.NumberFormat("en-US", {
 const inputClass =
   "rounded-md border border-hairline bg-parchment px-3 py-2 text-ink outline-none focus:border-forest";
 
+/** A blue per style, lightest for Simple, deepening to the brand navy. */
+const TIER_SHADE: Record<EstimatorTier, string> = {
+  Simple: "#4f70b5",
+  Classic: "#2d4680",
+  Luxury: "#14203d",
+};
+
 const DEFAULT_GUESTS = 100;
 const MIN_GUESTS = 10;
 const MAX_GUESTS = 300;
@@ -43,6 +50,7 @@ export function Estimator({
   ctaTitle = "Ready to plan for real?",
   ctaBody = "Turn this estimate into a real budget you can track, with venues, guests, and vendors all in one free account.",
   split = false,
+  intro,
   saved,
 }: {
   regionalData: RegionalCostData[];
@@ -56,9 +64,11 @@ export function Estimator({
   /**
    * From 1024px, put the controls and total in a sticky column on the left and
    * the breakdown beside them, so a wide page holds two panels rather than one
-   * stretched stack. Off for the public page, which sits in a narrow column.
+   * stretched stack.
    */
   split?: boolean;
+  /** The page heading, placed at the top of the left column when split. */
+  intro?: ReactNode;
   /** Turns the closing card into "Apply to my budget". */
   saved?: SavedBudgetSettings;
 }) {
@@ -83,7 +93,10 @@ export function Estimator({
           : "w-full"
       }
     >
-      <div className={split ? "lg:sticky lg:top-8" : undefined}>
+      {/* Sticky only on screens tall enough to show the whole column; on a
+          short laptop the total at its bottom would otherwise be cut off. */}
+      <div className={split ? "lg:top-8 lg:[@media(min-height:820px)]:sticky" : undefined}>
+        {intro && <div className="mb-10 lg:mb-6">{intro}</div>}
         <div className="w-full rounded-lg border border-hairline bg-card p-6 shadow-sm sm:p-8">
           <div
             className={`grid grid-cols-1 gap-5 sm:grid-cols-2 ${split ? "lg:grid-cols-1" : ""}`}
@@ -111,11 +124,17 @@ export function Estimator({
                     key={t}
                     type="button"
                     onClick={() => setTier(t)}
-                    className={`flex-1 rounded-md border px-3 py-2 text-sm transition-colors ${
+                    aria-pressed={tier === t}
+                    className="flex-1 rounded-md border px-3 py-2 text-sm transition-colors"
+                    style={
                       tier === t
-                        ? "border-forest bg-forest text-parchment"
-                        : "border-hairline bg-parchment text-ink hover:border-forest"
-                    }`}
+                        ? { backgroundColor: TIER_SHADE[t], borderColor: TIER_SHADE[t], color: "#fff" }
+                        : {
+                            backgroundColor: `color-mix(in oklab, ${TIER_SHADE[t]} 8%, white)`,
+                            borderColor: `color-mix(in oklab, ${TIER_SHADE[t]} 35%, white)`,
+                            color: TIER_SHADE[t],
+                          }
+                    }
                   >
                     {t}
                   </button>
@@ -165,30 +184,54 @@ export function Estimator({
       <div>
         <BudgetOverview breakdown={estimate.breakdown} split={split} />
 
-        <p className="mt-4 text-center text-xs text-ink/50">
-          {realDataCount} of {estimate.breakdown.length} categories use real, sourced pricing data
-          for {state}; the rest use a regional estimate until more data is added.
-        </p>
-
         {saved ? (
-          <ApplyCard
-            saved={saved}
-            state={state}
-            tier={tier}
-            guestCount={guestCount}
-            total={estimate.total}
-            backHref={ctaHref}
-          />
+          <>
+            <p className="mt-4 text-center text-xs text-ink/50">
+              {realDataCount} of {estimate.breakdown.length} categories use real, sourced pricing
+              data for {state}; the rest use a regional estimate until more data is added.
+            </p>
+            <ApplyCard
+              saved={saved}
+              state={state}
+              tier={tier}
+              guestCount={guestCount}
+              total={estimate.total}
+              backHref={ctaHref}
+            />
+          </>
         ) : (
-          <div className="mt-8 w-full rounded-lg border border-hairline bg-card p-8 text-center shadow-sm">
-            <h2 className="font-display text-2xl font-semibold text-forest">{ctaTitle}</h2>
-            <p className="mt-2 text-sm text-ink/70">{ctaBody}</p>
-            <Link
-              href={ctaHref}
-              className="mt-6 inline-block rounded-full bg-forest px-6 py-2 font-mono-numbers text-sm text-parchment transition-colors hover:bg-forest/90"
+          // Side by side on a wide page; the note is a card there because a
+          // lone line of grey text under a wide chart reads as a footnote.
+          <div className={split ? "lg:mt-6 lg:grid lg:grid-cols-2 lg:gap-6" : undefined}>
+            <p
+              className={`mt-4 text-center text-xs text-ink/50 ${
+                split
+                  ? "lg:mt-0 lg:rounded-lg lg:border lg:border-hairline lg:bg-card lg:p-8 lg:text-left lg:text-sm lg:text-ink/70 lg:shadow-sm"
+                  : ""
+              }`}
             >
-              {ctaLabel}
-            </Link>
+              {split && (
+                <span className="mb-2 hidden font-display text-2xl font-semibold text-forest lg:block">
+                  Where the numbers come from
+                </span>
+              )}
+              {realDataCount} of {estimate.breakdown.length} categories use real, sourced pricing
+              data for {state}; the rest use a regional estimate until more data is added.
+            </p>
+            <div
+              className={`mt-8 w-full rounded-lg border border-hairline bg-card p-8 text-center shadow-sm ${
+                split ? "lg:mt-0 lg:text-left" : ""
+              }`}
+            >
+              <h2 className="font-display text-2xl font-semibold text-forest">{ctaTitle}</h2>
+              <p className="mt-2 text-sm text-ink/70">{ctaBody}</p>
+              <Link
+                href={ctaHref}
+                className="mt-6 inline-block rounded-full bg-forest px-6 py-2 font-mono-numbers text-sm text-parchment transition-colors hover:bg-forest/90"
+              >
+                {ctaLabel}
+              </Link>
+            </div>
           </div>
         )}
       </div>
