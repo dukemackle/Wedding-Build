@@ -644,3 +644,25 @@ body:has(.guest-site) .site-footer {
   .wren-float-up { animation: wren-fade 3.2s 0.5s both !important; }
   .wren-reveal { display: none; }
 }
+
+/* Brand rings: each gradient stop cycles through the palette, staggered by
+   its place along the sweep, so the shades travel across the rings and down
+   the diamond. */
+.ydid-flow-gold { animation: ydid-flow-gold 8s ease-in-out infinite; }
+.ydid-flow-blue { animation: ydid-flow-blue 6s ease-in-out infinite; }
+@keyframes ydid-flow-gold {
+  0%, 100% { stop-color: #8f5d00; }
+  30% { stop-color: #efb000; }
+  55% { stop-color: #ffe278; }
+  80% { stop-color: #efb000; }
+}
+@keyframes ydid-flow-blue {
+  0%, 100% { stop-color: #2f78ad; }
+  25% { stop-color: #3b88c3; }
+  50% { stop-color: #8fd0f5; }
+  75% { stop-color: #00bffe; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ydid-flow-gold,
+  .ydid-flow-blue { animation: none; }
+}
