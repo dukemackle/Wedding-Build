@@ -261,4 +261,68 @@ Hofmann Ranch	Castroville	Texas			Barn / Rustic	Indoor & Outdoor	300	A 370-acre 
 Hillside Texas	Castroville	Texas	29.34831	-98.89821	Ballroom / Hotel	Indoor & Outdoor	200	French-country boutique hotel with 38 rooms on a 13-acre hillside above the Medina River valley, with a ballroom and a terrace for sunset ceremonies.		830-538-3200	https://www.hillsidetexas.com
 `,
   },
+  {
+    name: "Oklahoma City, Edmond and Guthrie",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Harn Homestead	Oklahoma City	Oklahoma			Historic / Estate	Indoor & Outdoor		Historic homestead museum on North Lincoln Boulevard that rents its grounds for weddings and offers photography packages.	diane@harnhomestead.com	405-235-4058	https://www.harnhomestead.com
+The Barn at The Woods	Edmond	Oklahoma			Barn / Rustic	Indoor & Outdoor		Forty acres with a 115-year-old barn, a farmhouse, a cottage and on-site guest rooms.	info@barnatthewoods.com	405-609-7715	https://www.barnatthewoods.com
+The Westwood	Guthrie	Oklahoma			Barn / Rustic	Indoor & Outdoor	325	Contemporary barn built in 2023, with an indoor ceremony space and a lakeside site overlooking Lake Juanita.	info@westwoodbarn.com	405-260-8944	https://www.westwoodbarn.com
+Timber Valley Ranch	Edmond	Oklahoma			Barn / Rustic	Indoor & Outdoor		Wooded valley north of Edmond with rock bluffs, a wooden bridge and a modern black event building.	timbervalleyranch@gmail.com	(405) 655-5306	https://www.thetimbervalleyranch.com
+The Bower	Edmond	Oklahoma			Historic / Estate	Indoor & Outdoor	450	European-inspired private estate with a ballroom, gardens and lodging for 18, booked as all-inclusive weekend packages.	info@thebowervenue.com		https://www.thebowervenue.com
+Willowbrook Reserve at The Springs	Edmond	Oklahoma			Garden / Outdoor	Indoor & Outdoor	320	Wooded venue with a climate-controlled chapel and both indoor and outdoor ceremony options.	edmond@thespringsevents.com	(405) 757-5352	https://springsvenue.com/edmond/
+Aurora Grove at The Springs	Blanchard	Oklahoma			Garden / Outdoor	Indoor & Outdoor	320	Outdoor ceremony site with a stone bridge, plus an indoor chapel and reception hall south of Norman.	norman@thespringsevents.com	(405) 206-2341	https://springsvenue.com/norman/
+The Manor	Edmond	Oklahoma			Historic / Estate	Indoor & Outdoor	300	Estate built in 1938 on a 100-acre ranch in Deer Creek, with barns, guest houses and event halls.		(405) 340-1701	https://themanorok.com
+The McGranahan Barn	Yukon	Oklahoma			Barn / Rustic	Indoor & Outdoor	300	Timber-frame barn with a patio and open grounds west of Oklahoma City.		405-698-2276	https://www.mcgranahanbarn.com
+Skirvin Hilton	Oklahoma City	Oklahoma			Ballroom / Hotel	Indoor		Downtown hotel open since 1911, with 18,500 sq ft of event space.		405-702-8547	https://www.skirvinhilton.com
+Boathouse Vows	Oklahoma City	Oklahoma			Beach / Waterfront	Indoor & Outdoor		Four Boathouse District buildings on the Oklahoma River, including the Devon Boathouse and the Chesapeake Finish Line Tower.			https://www.riversportokc.org/private-events/weddings/
+`,
+  },
+  {
+    name: "Tulsa and Green Country",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Dresser Mansion	Tulsa	Oklahoma			Historic / Estate	Indoor	225	Historic mansion where the whole house, including a billiards room and full catering kitchen, is open to the couple on the day.	info@dressermansion.com	(918) 585-5157	https://www.dressermansion.com
+Spain Ranch	Jenks	Oklahoma			Barn / Rustic	Indoor & Outdoor	250	Forty-four acres with the White Barn, a 4,800 sq ft post-and-beam barn, and the Black Barn chapel for 100.			https://www.spainranch.com
+The Venue at Woodbridge Ranch	Broken Arrow	Oklahoma			Barn / Rustic	Indoor & Outdoor	365	Owner-operated country venue opened in 2024, with modern amenities.	venue.ranch@gmail.com	(918) 231-0282	https://www.thevenueatwb.com
+The Silo Event Center	Tulsa	Oklahoma			Barn / Rustic	Indoor & Outdoor		All-inclusive venue with a ballroom, outdoor ceremony spaces and an on-site restaurant, Copper Dome.		(918) 447-2724	https://siloeventcenter.com
+Willow Creek Mansion	Broken Arrow	Oklahoma			Historic / Estate	Indoor & Outdoor	125	Mansion built in 1904 that opened as an event centre in 2017, with a climate-controlled Grand Ballroom and oak-shaded ceremony grounds.	info@willowcreekmansion.com	918-258-0400	https://www.willowcreekmansion.com
+T-Rise Ranch	Terlton	Oklahoma			Barn / Rustic	Indoor & Outdoor		Family-owned 30 acres west of Tulsa with a reception barn, woodland chapel and farmhouse lodging.		(918) 240-9438	https://www.talitharisevenue.com
+The Mayo Hotel	Tulsa	Oklahoma			Ballroom / Hotel	Indoor & Outdoor		Downtown hotel from 1925 with the Crystal Ballroom, a Grand Hall and a penthouse rooftop lounge.	sales@themayohotel.com	918-582-6296	https://www.themayohotel.com
+Harwelden Mansion	Tulsa	Oklahoma			Historic / Estate	Indoor & Outdoor		1923 English Tudor mansion on the National Register, on a city block overlooking the Arkansas River, now also a bed and breakfast.	info@harwelden.com	918-960-0714	https://www.harwelden.com
+Tulsa Botanic Garden	Tulsa	Oklahoma			Garden / Outdoor	Outdoor		Botanic garden in the Osage Hills, eight miles northwest of downtown Tulsa.		918-289-0330	https://www.tulsabotanic.org
+POSTOAK Lodge & Retreat	Tulsa	Oklahoma			Garden / Outdoor	Indoor & Outdoor		Retreat centre on Tulsa's north side with on-site lodging and a zipline canopy tour.		918-425-2112	https://www.postoaklodge.com
+Bright Morning Farm	Sand Springs	Oklahoma			Garden / Outdoor	Outdoor		Farm that has hosted weddings, reunions and concerts for more than 20 years.	info@brightmorningfarm.com		https://www.brightmorningfarm.com
+`,
+  },
+  {
+    name: "Shreveport–Bossier",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Sainte Terre	Benton	Louisiana			Barn / Rustic	Indoor & Outdoor		All-inclusive wedding venue north of Bossier City.	events@sainteterre.com	(318) 936-9544	https://www.sainteterre.com
+Venue de LaChute	Shreveport	Louisiana			Historic / Estate	Indoor & Outdoor		1920s mansion on the Red River with oak-shaded lawns and a carriage-house reception space.	venuedelachute@gmail.com	318-572-2475	https://www.venuedelachute.com
+Silver Lake Ballroom	Shreveport	Louisiana			Ballroom / Hotel	Indoor		14,000 sq ft across four rooms on the first floor of the historic Hunter Building downtown.		318-426-3066	https://www.silverlakeballroom.com
+North Market Venue	Shreveport	Louisiana			Ballroom / Hotel	Indoor	150	Vintage-style hall two blocks north of downtown, with in-house planning, decorating and florals.		(318) 425-4437	https://www.northmarketvenue.com
+Riverwalk Event Venue at Shreveport Aquarium	Shreveport	Louisiana			Beach / Waterfront	Indoor & Outdoor		Red River event space with views of the Texas Street Bridge light shows.			https://www.shreveportaquariumevents.com
+American Rose Center	Shreveport	Louisiana			Garden / Outdoor	Indoor & Outdoor		The American Rose Society's gardens, with outdoor ceremony sites, a chapel and an event center.	eventcoordinator@rose.org	318-938-5402	https://rose.org/venue/
+The Barn at Leone Farm	Grand Cane	Louisiana			Barn / Rustic	Indoor & Outdoor		Rustic barn with a full kitchen, bar and several gathering areas south of Shreveport.	thebarnatleonefarm@gmail.com	(318) 871-0662	https://www.thebarnatthefarm.com
+Los Paloma Event Center	Benton	Louisiana			Garden / Outdoor	Indoor & Outdoor		Sporting-clays range with an event center that hosts weddings and banquets.		318-465-7507	https://lospaloma.com
+`,
+  },
+  {
+    name: "Albuquerque and Corrales",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Los Poblanos	Los Ranchos de Albuquerque	New Mexico			Historic / Estate	Indoor & Outdoor		Historic inn and organic farm with lavender fields, on-site dining and a spa.		(855) 486-1380	https://lospoblanos.com
+Hotel Andaluz	Albuquerque	New Mexico			Ballroom / Hotel	Indoor	200	Historic downtown hotel with eight wedding spaces, including the Barcelona Ballroom and a room opening onto a rooftop terrace.		(505) 242-9090	https://www.hotelandaluz.com
+Hotel Albuquerque at Old Town	Albuquerque	New Mexico			Ballroom / Hotel	Indoor & Outdoor	300	Old Town hotel with a 14,000 sq ft ballroom, the San Isidro chapel for 150 and an 18th-century hacienda event space.		505-843-6300	https://www.hotelabq.com
+Hotel Chaco	Albuquerque	New Mexico			Ballroom / Hotel	Indoor & Outdoor		AAA Four Diamond hotel with a fifth-floor rooftop and contemporary Native American art throughout.		1-855-997-8208	https://www.hotelchaco.com
+Albuquerque Garden Center	Albuquerque	New Mexico			Garden / Outdoor	Indoor & Outdoor		Nonprofit garden center with demonstration gardens and a Japanese pavilion for ceremonies.	info@abqgardencenter.org	505-296-6020	https://www.albuquerquegardencenter.org
+Casas de Suenos Old Town Historic Inn	Albuquerque	New Mexico			Historic / Estate	Indoor & Outdoor	160	1938 inn on the National Register, with a garden gazebo, a 4,800 sq ft reception hall and 21 casitas.	reservations@casasdesuenos.com	(505) 767-1000	https://www.casasdesuenos.com
+El Pinto	Albuquerque	New Mexico			Restaurant / Vineyard	Indoor & Outdoor		New Mexican restaurant open since 1962, with patios for weddings and private events.	elpinto@elpinto.com	(505) 898-1771	https://www.elpinto.com
+Old Town Farm	Albuquerque	New Mexico			Garden / Outdoor	Indoor & Outdoor		Twelve-acre farm with gardens, pastures and a big red barn, known for green weddings.	linda@oldtownfarm.com	(505) 764-9116	https://oldtownfarm.com
+Hotel Parq Central	Albuquerque	New Mexico			Ballroom / Hotel	Indoor & Outdoor	150	Locally owned restored hotel in Huning Highlands with a rooftop lounge looking over downtown and the mountains.	info@hotelparqcentral.com	(505) 242-0040	https://www.hotelparqcentral.com
+Nature Pointe	Tijeras	New Mexico			Garden / Outdoor	Indoor & Outdoor		Venue in the Sandia Mountain foothills, with tables, linens, décor and an event coordinator included.	info@naturepointeweddings.com	(505) 286-4971	https://naturepointeweddings.com
+The Event Center at Sandia Golf Club	Albuquerque	New Mexico			Ballroom / Hotel	Indoor & Outdoor	500	5,000 sq ft of indoor event space and a patio with mountain views on a championship golf course.		505-798-3990	https://www.sandiagolf.com/venue/
+Casa Perea Art Space	Corrales	New Mexico			Historic / Estate	Indoor & Outdoor		5,600 sq ft historic adobe with a 62-foot wooden dance floor, on a landscaped acre with a wisteria pergola.	casapereaartspace@gmail.com	(505) 503-7636	https://www.casapereaartspace.com
+D.H. Lescombes Winery & Bistro	Albuquerque	New Mexico			Restaurant / Vineyard	Indoor		Old Town winery bistro that hosts private tastings, weddings and group events.			https://www.lescombeswinery.com/eventspaceabq/
+Desert Harbor Retreat	Sandia Park	New Mexico			Garden / Outdoor	Outdoor		Thirty-four off-grid high-desert acres for private elopements and micro-weddings, with a single casita.	anchor@desertharbor.org	505-252-0558	https://www.desertharborretreat.com
+`,
+  },
 ];
