@@ -151,4 +151,17 @@ The Hendo Ranch	Henderson	Texas	32.04318	-94.90642	Barn / Rustic	Indoor & Outdoo
 The Fredonia Hotel	Nacogdoches	Texas	31.60444	-94.65364	Ballroom / Hotel	Indoor	1000	Downtown hotel dating from 1955, with 20,000 sq ft of event space and in-house catering.	info@thefredonia.com	(936) 564-1234	https://www.thefredonia.com
 `,
   },
+  {
+    name: "Lubbock, Amarillo and the Permian Basin",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Cotton Court Hotel	Lubbock	Texas	33.58454	-101.85280	Ballroom / Hotel	Indoor & Outdoor		Downtown boutique hotel with indoor and outdoor event spaces, in-house catering and rooms for guests.		806.758.5800	https://www.cottoncourthotel.com
+Eberley Brooks Events	Lubbock	Texas	33.53429	-102.00746	Barn / Rustic	Indoor & Outdoor	400	Locally owned venue in west Lubbock with a barn for up to 400, the Salle De David for up to 200, a great room for 50 and a chapel.		806-777-0422	https://eberleybrooks.com
+Autumn Oaks Event Center	Ropesville	Texas	33.44715	-102.04228	Garden / Outdoor	Indoor & Outdoor	400	Reception hall with a landscaped courtyard, wrap-around porch, pergola and covered fireplace patio, southwest of Lubbock.	info@autumnoakslubbock.com	806.370.7482	https://www.autumnoakslubbock.com
+Cornerstone Ranch	Amarillo	Texas			Barn / Rustic	Indoor & Outdoor	500	Family-owned, climate-controlled venue with indoor and outdoor ceremony sites and no room flip between ceremony and reception.	cornerstoneranchamarillo@gmail.com	(806) 681-4319	https://www.cornerstoneranchevents.com
+Starlight Canyon	Amarillo	Texas	35.06367	-101.81111	Historic / Estate	Outdoor		Bed and breakfast on six acres in upper Palo Duro Canyon, eleven miles south of Amarillo, with four cabins and a lodge built by the Civilian Conservation Corps in 1933.	slc@starlightcanyon.com	(806) 622-2382	https://www.starlightcanyon.com
+The Resplendent Garden	Amarillo	Texas	35.09499	-101.80828	Garden / Outdoor	Outdoor		Landscaped private garden between Amarillo and Canyon, run by a local landscaping family.	s.nistler@me.com	(806) 622-3135	https://www.resplendentgarden.com
+Knotting Hill	Amarillo	Texas	35.04661	-102.04106	Garden / Outdoor	Indoor & Outdoor	200	Hilltop venue between Amarillo and Canyon overlooking a lake canyon, with a pergola ceremony site, courtyard and indoor hall.	havenranch@yahoo.com	806-678-6707	https://www.knottinghillevents.com
+Lantana Acres	Odessa	Texas	31.90130	-102.39960	Barn / Rustic	Indoor & Outdoor		Farm venue with an outdoor Garden Haus barn, a courtyard with a silo and pond, a ballroom and a banquet hall.	info@lantanaacres.com	432.360.3061	https://www.lantanaacres.com
+`,
+  },
 ];
