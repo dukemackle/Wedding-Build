@@ -440,4 +440,62 @@ Fort Condé Inn	Mobile	Alabama			Historic / Estate	Indoor & Outdoor		Boutique ho
 Bellingrath Gardens and Home	Theodore	Alabama			Garden / Outdoor	Indoor & Outdoor	80	Sixty-five acres of gardens around the Bellingrath estate, with ceremonies and receptions all year and the Magnolia Room for 80 indoors.		251-459-8868	https://bellingrath.org
 `,
   },
+  {
+    name: "Memphis",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Woodruff-Fontaine House	Memphis	Tennessee			Historic / Estate	Indoor & Outdoor	150	1871 Victorian mansion museum hosting weddings in its carriage house and garden, with a photo session inside the house.	contact@woodruff-fontaine.org	901-526-1469	https://www.woodruff-fontaine.org
+Memphis Brooks Museum of Art	Memphis	Tennessee			Historic / Estate	Indoor	250	Art museum in Overton Park with a rotunda, galleries and an auditorium seating 250.		901-544-6200	https://www.brooksmuseum.org
+Loflin Yard	Memphis	Tennessee			Garden / Outdoor	Indoor & Outdoor		Two acres downtown with patios, a waterway, covered decks and three bars, handling catering and details in house.	info@loflinyard.com	901-453-4777	https://www.loflinyard.com
+Metal Museum	Memphis	Tennessee			Garden / Outdoor	Indoor & Outdoor		Museum on a bluff over the Mississippi, with a gazebo made of historic castings for sunset ceremonies.	info@metalmuseum.org	901-774-6380	https://www.metalmuseum.org
+The Guest House at Graceland	Memphis	Tennessee			Ballroom / Hotel	Indoor & Outdoor	1000	Hotel at Graceland with the Chapel in the Woods for up to 100 and a ballroom for up to 1,000.		901-473-6005	https://guesthousegraceland.com
+Shelby Farms Park	Memphis	Tennessee			Garden / Outdoor	Indoor & Outdoor		Large city park with lakes, a garden pavilion, a ballroom and an on-site catering kitchen.	info@shelbyfarmspark.org	(901) 723-0147	https://www.shelbyfarmspark.org
+`,
+  },
+  {
+    name: "Jackson, Hattiesburg and Oxford",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Fairview Inn	Jackson	Mississippi			Historic / Estate	Indoor & Outdoor		Historic boutique hotel framed by two century-old magnolias, hosting weddings for over twenty years.		601-948-3429	https://fairviewinn.com
+Duling Hall	Jackson	Mississippi			Historic / Estate	Indoor & Outdoor	500	Former 1928 elementary school in Fondren, now a music and event hall seating about 250 or 500 standing.		(601) 292-7121	https://dulinghall.com
+The Mill at MSU	Starkville	Mississippi			Historic / Estate	Indoor	1000	Restored 1902 mill at Mississippi State with exposed beams, original brick and space for up to 1,000.			https://www.devalumni.msstate.edu/millatmsu
+The Lyric Oxford	Oxford	Mississippi			Historic / Estate	Indoor		Restored former theatre steps from the Oxford Square, with a two-level hall, built-in bars and in-house sound and lighting.	info@thelyricoxford.com	(662) 234-5333	https://thelyricoxford.com
+The Jefferson	Oxford	Mississippi			Ballroom / Hotel	Indoor & Outdoor	1500	Venue five miles from the Square with a column-free Grand Hall and other rooms overlooking an eight-acre lake.	info@thejeffersonoxford.com	662-550-3065	https://thejeffersonoxford.com
+The Lodge at Live Strive Farms	Oxford	Mississippi			Barn / Rustic	Indoor & Outdoor	286	Glass chapel and reception hall on 170 acres of countryside, with overnight lodging for 10.		(662) 444-8141	https://thelodgems.com
+The Simmons House	Water Valley	Mississippi			Historic / Estate	Indoor & Outdoor		Restored 1871 Greek Revival home and inn about 20 miles from Oxford.	hello@thesimmonshouse.com	(662) 714-4006	https://www.thesimmonshouse.com
+The Crawford House & Gardens	Hattiesburg	Mississippi			Historic / Estate	Indoor & Outdoor		Historic house and gardens in downtown Hattiesburg.	info@thecrawfordhouseandgardens.com	(228) 669-3835	https://www.thecrawfordhouseandgardens.com
+The White Rose at Waterloo Farms	Hattiesburg	Mississippi			Barn / Rustic	Indoor & Outdoor	250	Early-1940s farm in the countryside outside town, with a rustic barn, gardens and lodging.	waterloofarms73@gmail.com	(601) 270-1709	https://www.waterloofarms.com
+Bridlewood Event Venue	Hattiesburg	Mississippi			Barn / Rustic	Indoor & Outdoor	300	Restored barns and oak-shaded ceremony sites, with a sister venue in Madison and on-site lodging.	info@bridlewoodeventvenue.com		https://bridlewoodeventvenue.com
+The Bottling Company	Hattiesburg	Mississippi			Historic / Estate	Indoor	1000	Renovated 1915 bottling plant in the downtown historic district, 12,780 sq ft for up to 1,000.		(601) 577-8683	https://www.thebottlingcompanyhattiesburg.com
+The Bezerra Downtown	Hattiesburg	Mississippi			Ballroom / Hotel	Indoor		Wedding and event venue opened in 2023 in downtown Hattiesburg.		(601) 255-3900	https://thebezerradowntown.com
+The Venue at Sycamore Oaks	Hattiesburg	Mississippi			Ballroom / Hotel	Indoor	180	Indoor venue with two halls and all-inclusive packages; ceremonies for 180 seated.	admin@venueatsycamoreoaks.com	(601) 337-2584	https://www.venueatsycamoreoaks.com
+`,
+  },
+  {
+    name: "Birmingham and Tuscaloosa",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Iron City	Birmingham	Alabama			Historic / Estate	Indoor		Restored 1929 building that runs as a music venue, with a sunken dance floor, a mezzanine and in-house catering.	events@ironcitybham.com		https://ironcitybham.com
+Kress BHM	Birmingham	Alabama			Historic / Estate	Indoor & Outdoor		The 1937 Kress Building downtown, with a rooftop and a ballroom to rent.	info@locallinkbham.com	205-314-0522	https://www.kressbhm.com
+Avondale Brewing Co.	Birmingham	Alabama			Historic / Estate	Indoor	140	Event space above the brewery with exposed brick and beams; 90 seated or 140 part-standing.		205-936-8861	https://www.avondalebrewing.com
+Vulcan Park and Museum	Birmingham	Alabama			Garden / Outdoor	Indoor & Outdoor		Park around the giant iron statue of Vulcan, with an observation tower over the city.		205-933-1409	https://visitvulcan.com
+Gabrella Manor	Birmingham	Alabama			Historic / Estate	Indoor & Outdoor	200	Historic venue with flagstone ceremony aisles for up to 200 and small packages for up to 35.	office@gabrellamanor.com	205-833-9754	https://www.gabrellamanor.com
+Grand Bohemian Hotel Mountain Brook	Mountain Brook	Alabama			Ballroom / Hotel	Indoor & Outdoor		Art-filled hotel with a courtyard, an indoor backup space and a rooftop.	GBMB_Sales@pivothotelgroup.com	(205) 414-0505	https://www.grandbohemianmountainbrook.com
+Aldridge Gardens	Hoover	Alabama			Garden / Outdoor	Indoor & Outdoor		Thirty acres of gardens around a six-acre lake, with several garden ceremony sites.	info@aldridgegardens.com	205-739-6558	https://aldridgegardens.com
+Camelot Manor	Westover	Alabama			Garden / Outdoor	Indoor & Outdoor	225	1880 home with grounds and a pavilion for up to 225, southeast of Birmingham.		205-222-1329	https://www.camelotmanor.net
+Southern House & Garden	Knoxville	Alabama			Barn / Rustic	Indoor & Outdoor	250	All-inclusive venue between Birmingham and Tuscaloosa with a barn, a vintage chapel for 250 and English gardens.	info@southernhouseandgarden.com	(205) 345-5767	https://www.southernhouseandgarden.com
+The Stables at Cypress Creek	Tuscaloosa	Alabama			Historic / Estate	Indoor & Outdoor	120	Equestrian estate on 17 acres with four ceremony sites, for micro weddings and weddings of up to 120.		205-650-1552	https://www.thestablesatcypresscreek.com
+Historic Tuscaloosa	Tuscaloosa	Alabama			Historic / Estate	Indoor & Outdoor		Preservation society renting the Jemison-Van de Graaff Mansion, the Battle-Friedman House and the Old Tavern.	info@historictuscaloosa.org	205-758-2238	https://www.historictuscaloosa.org
+`,
+  },
+  {
+    name: "Huntsville and Montgomery",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Burritt on the Mountain	Huntsville	Alabama			Historic / Estate	Indoor & Outdoor		Mountaintop museum with a 1930s mansion, a gazebo, a historic church and views over Huntsville.		(256) 536-2882	https://burrittonthemountain.com
+Huntsville Botanical Garden	Huntsville	Alabama			Garden / Outdoor	Indoor & Outdoor	350	Garden with the lakeside Isenberg Grand Hall seating 350, a carriage house and an arbor.	rentals@hsvbg.org	256-830-4447	https://hsvbg.org
+Huntsville Museum of Art	Huntsville	Alabama			Historic / Estate	Indoor		Art museum in Big Spring Park renting its galleries and rooms for weddings and receptions.		256-535-4350	https://hsvmuseum.org
+Stovehouse	Huntsville	Alabama			Historic / Estate	Indoor & Outdoor	650	Converted stove factory with food, music and several halls from 20 to 650.			https://www.stovehouse.com
+Meadow Creek Farm	Huntsville	Alabama			Barn / Rustic	Indoor & Outdoor	250	Barn venue on six acres with seating for 250.	info@meadowcreekfarmweddings.com	(256) 859-5373	https://www.meadowcreekfarmweddings.com
+The 1616 House	Montgomery	Alabama			Historic / Estate	Indoor & Outdoor		Restored historic house in Montgomery with a carriage house.	events@the1616house.com	334-216-7585	https://www.the1616house.com
+Alley Station	Montgomery	Alabama			Historic / Estate	Indoor & Outdoor		Downtown venue with a ballroom, a rooftop terrace and a brick-walled warehouse.	info@alleystation.com	334-239-7014	https://www.alleystation.com
+Venue 901	Montgomery	Alabama			Ballroom / Hotel	Indoor & Outdoor	100	Modern venue with a 5,000 sq ft walled courtyard, for events under 100 guests.	venue901@gmail.com	334-649-4804	https://venue901mgm.com
+`,
+  },
 ];
