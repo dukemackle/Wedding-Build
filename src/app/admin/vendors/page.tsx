@@ -2,7 +2,9 @@ import Link from "next/link";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import type { Vendor, VendorContactLog, VendorFaq } from "@/lib/supabase/types";
 import { countAddedThisWeek, fetchDistinct, fetchListingPage, fetchTestWeddingIds } from "../_listing/query";
+import { BundledBanner } from "../_listing/bundled-banner";
 import { parseListingParams } from "../_listing/params";
+import { addBundledVendors, pendingBundledVendors } from "./actions";
 import { AdminVendorsManager, type VendorStats } from "./admin-vendors-manager";
 import { VENDOR_LISTING } from "./listing-config";
 
@@ -14,13 +16,14 @@ export default async function AdminVendorsPage({
   const params = parseListingParams(await searchParams);
   const admin = createAdminSupabaseClient();
 
-  const [{ rows: vendors, total, statusCounts }, categories, addedThisWeek, testWeddingIds, { count: pendingClaims }] =
+  const [{ rows: vendors, total, statusCounts }, categories, addedThisWeek, testWeddingIds, { count: pendingClaims }, bundled] =
     await Promise.all([
       fetchListingPage<Vendor>(VENDOR_LISTING, params),
       fetchDistinct("vendors", "category"),
       countAddedThisWeek("vendors"),
       fetchTestWeddingIds(),
       admin.from("vendor_submissions").select("id", { count: "exact", head: true }).eq("status", "pending"),
+      pendingBundledVendors(),
     ]);
 
   // Everything below is for the rows on screen only.
@@ -88,7 +91,14 @@ export default async function AdminVendorsPage({
     </>
   );
 
-  const notice = (pendingClaims ?? 0) > 0 && (
+  // Most-represented categories first, so the line reads as what the batch is.
+  const categoryCounts = new Map<string, number>();
+  for (const row of bundled) categoryCounts.set(row.category, (categoryCounts.get(row.category) ?? 0) + 1);
+  const bundledCategories = [...categoryCounts.entries()]
+    .sort((a, b) => b[1] - a[1])
+    .map(([category, n]) => `${category} (${n})`);
+
+  const claimsNotice = (pendingClaims ?? 0) > 0 && (
     <Link
       href="/admin/vendors/claims"
       className="mb-4 flex items-center justify-between rounded-md border border-brass/40 bg-brass/10 px-4 py-3 text-sm text-ink hover:border-brass"
@@ -98,6 +108,21 @@ export default async function AdminVendorsPage({
       </span>
       <span className="text-brass">Review &rarr;</span>
     </Link>
+  );
+
+  const notice = (
+    <>
+      {bundled.length > 0 && (
+        <BundledBanner
+          count={bundled.length}
+          summary={bundledCategories}
+          noun="vendor"
+          livePath="/vendors"
+          add={addBundledVendors}
+        />
+      )}
+      {claimsNotice}
+    </>
   );
 
   return (

@@ -4,6 +4,10 @@ import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/admin";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import { createClient } from "@/lib/supabase/server";
+import { isPinned, pinUnpinned, townKey, TOWNS_PER_CALL, withTownPins } from "@/lib/import-pins";
+import { VENDOR_BATCHES } from "@/lib/vendor-batches";
+import { parseVendorTable, type VendorImportValues } from "@/lib/vendor-import";
+import { importSourceId } from "@/lib/venue-import";
 
 function num(formData: FormData, key: string): number | null {
   const raw = (formData.get(key) as string)?.trim();
@@ -227,4 +231,77 @@ export async function bulkDeleteVendors(formData: FormData): Promise<{ error?: s
   revalidatePath("/admin/vendors");
   revalidatePath("/vendors");
   return {};
+}
+
+/** Bundled batch rows (src/lib/vendor-batches.ts) whose website isn't in the database yet. */
+export async function pendingBundledVendors(): Promise<VendorImportValues[]> {
+  await requireAdmin();
+
+  const rows = VENDOR_BATCHES.flatMap((batch) => parseVendorTable(batch.tsv).rows)
+    .filter((row) => row.errors.length === 0)
+    .map((row) => row.values);
+  const ids = rows.map((values) => importSourceId(values.website)).filter((id): id is string => !!id);
+  if (ids.length === 0) return rows;
+
+  // Matched on source_id across every source, so a vendor that has since
+  // claimed its listing still counts as present.
+  const { data } = await createAdminSupabaseClient()
+    .from("vendors")
+    .select("source_id")
+    .in("source_id", ids)
+    .returns<{ source_id: string }[]>();
+  const present = new Set((data ?? []).map((row) => row.source_id));
+  return rows.filter((values) => {
+    const id = importSourceId(values.website);
+    return !id || !present.has(id);
+  });
+}
+
+/**
+ * Adds the pending bundled vendors from up to TOWNS_PER_CALL towns that need
+ * a pin looked up. `remaining` tells the banner to call again.
+ */
+export async function addBundledVendors(): Promise<{ error?: string; imported?: number; remaining?: number }> {
+  await requireAdmin();
+
+  const rows = await pendingBundledVendors();
+  if (rows.length === 0) return { imported: 0, remaining: 0 };
+
+  const towns = new Set<string>();
+  const batch = rows.filter((row) => {
+    if (isPinned(row)) return true;
+    const key = townKey(row);
+    if (towns.has(key)) return true;
+    if (towns.size >= TOWNS_PER_CALL) return false;
+    towns.add(key);
+    return true;
+  });
+
+  const pinned = await withTownPins(batch, (row) => row.name);
+  const { error } = await createAdminSupabaseClient()
+    .from("vendors")
+    .insert(
+      pinned.map((values) => ({
+        ...values,
+        is_sample: false,
+        source: "import",
+        source_id: importSourceId(values.website),
+      })),
+    );
+  if (error) {
+    return {
+      error:
+        error.code === "23505"
+          ? "One of these vendors is already listed (same website) — nothing was added."
+          : error.message,
+    };
+  }
+
+  const remaining = rows.length - batch.length;
+  if (remaining === 0) {
+    await pinUnpinned("vendors", TOWNS_PER_CALL - towns.size, true);
+    revalidatePath("/admin/vendors");
+    revalidatePath("/vendors");
+  }
+  return { imported: batch.length, remaining };
 }

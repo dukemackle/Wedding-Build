@@ -2,10 +2,10 @@ import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import type { Venue, VenueFaq } from "@/lib/supabase/types";
 import Link from "next/link";
 import { countAddedThisWeek, fetchListingPage, fetchTestWeddingIds } from "../_listing/query";
+import { BundledBanner } from "../_listing/bundled-banner";
 import { parseListingParams } from "../_listing/params";
-import { pendingBundledVenues } from "./actions";
+import { addBundledVenues, pendingBundledVenues } from "./actions";
 import { AdminVenuesManager } from "./admin-venues-manager";
-import { BundledVenuesBanner } from "./bundled-venues-banner";
 import { VENUE_LISTING } from "./listing-config";
 
 export default async function AdminVenuesPage({
@@ -78,7 +78,9 @@ export default async function AdminVenuesPage({
 
   const notice = (
     <>
-      {bundled.length > 0 && <BundledVenuesBanner count={bundled.length} towns={towns} />}
+      {bundled.length > 0 && (
+        <BundledBanner count={bundled.length} summary={towns} noun="venue" livePath="/venues" add={addBundledVenues} />
+      )}
       {claimsNotice}
     </>
   );

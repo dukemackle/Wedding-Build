@@ -1,11 +1,24 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { addBundledVenues } from "./actions";
 
-// Offers the venue batches shipped with the app (src/lib/venue-batches.ts)
-// that aren't in the database yet, so a new batch is one click, not a paste.
-export function BundledVenuesBanner({ count, towns }: { count: number; towns: string[] }) {
+// Offers the batches shipped with the app (src/lib/venue-batches.ts and
+// vendor-batches.ts) that aren't in the database yet, so a new batch is one
+// click, not a paste.
+export function BundledBanner({
+  count,
+  summary,
+  noun,
+  livePath,
+  add,
+}: {
+  count: number;
+  /** What the batch is, most-represented first: towns, or categories. */
+  summary: string[];
+  noun: "venue" | "vendor";
+  livePath: string;
+  add: () => Promise<{ error?: string; imported?: number; remaining?: number }>;
+}) {
   const [error, setError] = useState<string | undefined>(undefined);
   const [imported, setImported] = useState<number | null>(null);
   const [progress, setProgress] = useState(0);
@@ -18,7 +31,7 @@ export function BundledVenuesBanner({ count, towns }: { count: number; towns: st
       // request can make), so keep calling until nothing is left.
       let total = 0;
       for (;;) {
-        const result = await addBundledVenues();
+        const result = await add();
         if (result.error) {
           setError(total > 0 ? `Added ${total}, then: ${result.error}` : result.error);
           return;
@@ -38,7 +51,7 @@ export function BundledVenuesBanner({ count, towns }: { count: number; towns: st
   if (imported !== null) {
     return (
       <p className="mb-4 rounded-md border border-hairline bg-parchment px-4 py-3 text-sm text-forest">
-        Added {imported} {imported === 1 ? "venue" : "venues"}. They&apos;re live on /venues now.
+        Added {imported} {imported === 1 ? noun : `${noun}s`}. They&apos;re live on {livePath} now.
       </p>
     );
   }
@@ -48,11 +61,11 @@ export function BundledVenuesBanner({ count, towns }: { count: number; towns: st
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <p>
-            {count} new {count === 1 ? "venue is" : "venues are"} ready to add
+            {count} new {count === 1 ? `${noun} is` : `${noun}s are`} ready to add
           </p>
           <p className="mt-0.5 text-xs text-ink/55">
-            {towns.slice(0, 6).join(", ")}
-            {towns.length > 6 && ` and ${towns.length - 6} more`}
+            {summary.slice(0, 6).join(", ")}
+            {summary.length > 6 && ` and ${summary.length - 6} more`}
           </p>
         </div>
         <button
