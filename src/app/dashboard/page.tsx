@@ -3,6 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import { PageShell } from "@/components/page-shell";
 import { FadeInSection } from "@/components/fade-in-section";
 import { WeddingDashboard } from "./wedding-dashboard";
+import { AskWrenTile } from "./ask-wren-tile";
 import { FeatureGrid, buildFeatures } from "./feature-grid";
 import { PartnerInviteCard } from "./partner-invite-card";
 import { WelcomeBird } from "./welcome-bird";
@@ -219,7 +220,7 @@ export default async function DashboardPage() {
       <WelcomeBird userId={user.id} createdAt={user.created_at} />
 
       <FadeInSection delayMs={40}>
-        <FeatureGrid features={features} />
+        <FeatureGrid features={features} lead={<AskWrenTile />} />
       </FadeInSection>
 
       {wedding.user_id === user.id && (

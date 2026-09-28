@@ -503,15 +503,16 @@ export function FeatureTile({ feature, asBox = false }: { feature: Feature; asBo
  *
  * Two across on a phone, five on a wide screen.
  */
-export function FeatureGrid({ features }: { features: Feature[] }) {
+export function FeatureGrid({ features, lead }: { features: Feature[]; lead?: ReactNode }) {
   return (
-    <nav
-      aria-label="Your wedding"
-      className="mt-6 grid auto-rows-fr grid-cols-2 gap-3 sm:mt-10 sm:gap-5 lg:mt-5 lg:grid-cols-5"
-    >
-      {features.map((feature) => (
-        <FeatureTile key={feature.href} feature={feature} />
-      ))}
-    </nav>
+    <div className="mt-6 flex flex-col gap-3 sm:mt-10 sm:gap-5 lg:mt-5">
+      {/* A full-width strip above the boxes (Ask Wren), spaced like one of them. */}
+      {lead}
+      <nav aria-label="Your wedding" className="grid auto-rows-fr grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-5">
+        {features.map((feature) => (
+          <FeatureTile key={feature.href} feature={feature} />
+        ))}
+      </nav>
+    </div>
   );
 }
