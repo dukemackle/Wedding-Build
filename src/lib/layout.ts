@@ -82,3 +82,4 @@ export type PageWidth = keyof typeof PAGE_WIDTHS;
 export function pageWidthClass(width: PageWidth) {
   return PAGE_WIDTHS[width];
 }
+

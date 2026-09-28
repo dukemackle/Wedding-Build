@@ -10,8 +10,9 @@ export type BudgetChartItem = {
   amount: number;
 };
 
-/** The shade the largest bar gets; smaller bars darken towards navy. */
-const LIGHTEST_BAR = "#7d97cf";
+/** Palette Aqua for the largest bar, darkening to Royal blue for the smallest. */
+const LIGHTEST_BAR = "#5AE4FF";
+const DARKEST_BAR = "#2243B6";
 
 export function BudgetBarChart({ items }: { items: BudgetChartItem[] }) {
   const sorted = [...items].sort((a, b) => b.amount - a.amount);
@@ -32,7 +33,7 @@ export function BudgetBarChart({ items }: { items: BudgetChartItem[] }) {
                 style={{
                   width: `${widthPct}%`,
                   // Bigger bar, lighter blue.
-                  backgroundColor: `color-mix(in oklab, ${LIGHTEST_BAR} ${Math.round(widthPct)}%, var(--color-forest))`,
+                  backgroundColor: `color-mix(in oklab, ${LIGHTEST_BAR} ${Math.round(widthPct)}%, ${DARKEST_BAR})`,
                 }}
               />
             </div>

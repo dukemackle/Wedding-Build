@@ -29,11 +29,14 @@ const currency = new Intl.NumberFormat("en-US", {
 const inputClass =
   "rounded-md border border-hairline bg-parchment px-3 py-2 text-ink outline-none focus:border-forest";
 
-/** A blue per style, lightest for Simple, deepening to the brand navy. */
-const TIER_SHADE: Record<EstimatorTier, string> = {
-  Simple: "#4f70b5",
-  Classic: "#2d4680",
-  Luxury: "#14203d",
+/**
+ * A palette blue per style, lightest for Simple. Aqua and Sky are too light
+ * for white text, so their selected state takes navy text instead.
+ */
+const TIER_SHADE: Record<EstimatorTier, { fill: string; text: string }> = {
+  Simple: { fill: "#5AE4FF", text: "#14203d" },
+  Classic: { fill: "#00BFFE", text: "#14203d" },
+  Luxury: { fill: "#2243B6", text: "#fff" },
 };
 
 const DEFAULT_GUESTS = 100;
@@ -128,11 +131,15 @@ export function Estimator({
                     className="flex-1 rounded-md border px-3 py-2 text-sm transition-colors"
                     style={
                       tier === t
-                        ? { backgroundColor: TIER_SHADE[t], borderColor: TIER_SHADE[t], color: "#fff" }
+                        ? {
+                            backgroundColor: TIER_SHADE[t].fill,
+                            borderColor: TIER_SHADE[t].fill,
+                            color: TIER_SHADE[t].text,
+                          }
                         : {
-                            backgroundColor: `color-mix(in oklab, ${TIER_SHADE[t]} 8%, white)`,
-                            borderColor: `color-mix(in oklab, ${TIER_SHADE[t]} 35%, white)`,
-                            color: TIER_SHADE[t],
+                            backgroundColor: `color-mix(in oklab, ${TIER_SHADE[t].fill} 12%, white)`,
+                            borderColor: TIER_SHADE[t].fill,
+                            color: "#14203d",
                           }
                     }
                   >
