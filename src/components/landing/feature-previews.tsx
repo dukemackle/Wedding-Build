@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import type { ReactNode } from "react";
 import { createPortal } from "react-dom";
+import { WrenMotto } from "@/components/wren-motto";
 
 /*
  * A small working preview of each part of Wren, on sample data, opened from
@@ -880,6 +881,11 @@ export function PreviewGrid({ items }: { items: PreviewItem[] }) {
                   </h2>
                   {open.blurb && (
                     <p className="mt-1 text-sm text-ink/60">{open.blurb}</p>
+                  )}
+                  {openId === "ask" && (
+                    <p className="mt-1 text-sm text-ink/60">
+                      Why &ldquo;Wren&rdquo;? <WrenMotto />.
+                    </p>
                   )}
                 </div>
                 <button
