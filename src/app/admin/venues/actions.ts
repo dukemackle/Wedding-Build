@@ -5,6 +5,7 @@ import { requireAdmin } from "@/lib/admin";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import { createClient } from "@/lib/supabase/server";
 import { VENUE_BATCHES } from "@/lib/venue-batches";
+import { pinForTown } from "@/lib/listing-pin";
 import { importSourceId, parseVenueTable, type VenueImportValues } from "@/lib/venue-import";
 
 const MAX_IMPORT_ROWS = 200;
@@ -295,8 +296,9 @@ export async function bulkDeleteVenues(formData: FormData): Promise<{ error?: st
 // provenance on what they insert.
 async function insertImportedVenues(rows: VenueImportValues[]): Promise<string | null> {
   const admin = createAdminSupabaseClient();
+  const pinned = await withTownPins(rows);
   const { error } = await admin.from("venues").insert(
-    rows.map((values) => ({
+    pinned.map((values) => ({
       ...values,
       // Imports are how real venues get in. Sample data is seeded elsewhere,
       // so defaulting this to false keeps /admin/venues honest about which
@@ -315,6 +317,42 @@ async function insertImportedVenues(rows: VenueImportValues[]): Promise<string |
     return "One of these venues is already imported (same website) — nothing was imported.";
   }
   return error.message;
+}
+
+type Unpinned = { city: string | null; state: string | null; latitude: number | null; longitude: number | null };
+
+/**
+ * Fills blank coordinates with the town's pin, looking each town up once. A
+ * venue without coordinates is missing from the /venues map entirely, and
+ * finding them by hand was the slowest part of researching a batch.
+ */
+async function withTownPins<T extends Unpinned>(rows: T[]): Promise<T[]> {
+  const pins = new Map<string, Promise<Awaited<ReturnType<typeof pinForTown>>>>();
+  return Promise.all(
+    rows.map(async (row) => {
+      if (row.latitude != null && row.longitude != null) return row;
+      const key = `${row.city ?? ""}|${row.state ?? ""}`.toLowerCase();
+      if (!pins.has(key)) pins.set(key, pinForTown(row.city, row.state));
+      const pin = await pins.get(key);
+      return pin ? { ...row, ...pin } : row;
+    }),
+  );
+}
+
+/** Gives venues already in the database a town pin if they were added without one. */
+async function pinUnpinnedVenues(): Promise<void> {
+  const admin = createAdminSupabaseClient();
+  const { data } = await admin
+    .from("venues")
+    .select("id, city, state, latitude, longitude")
+    .or("latitude.is.null,longitude.is.null")
+    .returns<(Unpinned & { id: string })[]>();
+  const pinned = (await withTownPins(data ?? [])).filter((row) => row.latitude != null && row.longitude != null);
+  await Promise.all(
+    pinned.map((row) =>
+      admin.from("venues").update({ latitude: row.latitude, longitude: row.longitude }).eq("id", row.id),
+    ),
+  );
 }
 
 /** Bundled batch rows whose website isn't in the database yet. */
@@ -349,6 +387,8 @@ export async function addBundledVenues(): Promise<{ error?: string; imported?: n
 
   const error = await insertImportedVenues(rows);
   if (error) return { error };
+  // Catches up venues from earlier batches that went in without a pin.
+  await pinUnpinnedVenues();
 
   revalidatePath("/admin/venues");
   revalidatePath("/venues");
