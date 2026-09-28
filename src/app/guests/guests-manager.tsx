@@ -1045,7 +1045,7 @@ function SideColorKey({
             onClick={() => setEditing(null)}
             className="fixed inset-0 z-20 cursor-default"
           />
-          <div className="absolute left-0 top-7 z-30 flex w-56 flex-wrap gap-2 rounded-lg border border-hairline bg-card p-3 shadow-lg">
+          <div className="absolute left-0 top-7 z-30 flex w-48 flex-wrap gap-2 rounded-lg border border-hairline bg-card p-3 shadow-lg">
             <p className="w-full font-mono-numbers text-[10px] uppercase tracking-[0.15em] text-ink/40">
               {theme.labels[editing]}
             </p>
@@ -1062,8 +1062,8 @@ function SideColorKey({
               />
             ))}
             <p className="w-full text-[11px] leading-4 text-ink/45">
-              Highlights every guest you&apos;ve put on this side. Guests with no side
-              set stay plain.
+              Highlights every guest you&apos;ve put on this side. Red is spare, for
+              flagging a side that needs a look.
             </p>
           </div>
         </>
