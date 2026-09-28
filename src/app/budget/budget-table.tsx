@@ -172,7 +172,9 @@ function downloadBudgetCsv(rows: BudgetRow[]) {
 }
 
 const numberInputClass =
-  "w-24 rounded-md border border-hairline bg-parchment px-2 py-1 text-right font-mono-numbers text-sm text-ink outline-none focus:border-forest";
+  "w-24 rounded-md border border-hairline bg-parchment px-2 py-1 text-right font-mono-numbers text-sm text-ink outline-none focus:border-forest lg:w-28 lg:py-1.5 lg:text-base 2xl:w-32";
+/** The row's paid box, a step narrower so the paid-in-full tick fits beside it. */
+const paidInputClass = numberInputClass.replace("lg:w-28", "lg:w-24").replace("2xl:w-32", "2xl:w-28");
 const iconButtonClass =
   "rounded-md p-1.5 text-ink/40 transition-colors hover:bg-parchment hover:text-forest";
 
@@ -279,6 +281,73 @@ function BudgetRowItem({
     handleAmountBlur("paid_amount", next);
   }
 
+  /**
+   * The line's four actions. Rendered in the open panel on phones and tablets,
+   * and straight on the row from lg up, where the category column has room to
+   * spare -- so the common jobs don't sit behind the chevron. From the row,
+   * each one also opens the line, since what it reveals lives in the panel.
+   */
+  function renderActions(fromRow: boolean) {
+    return (
+      <>
+        <button
+          type="button"
+          onClick={() => {
+            if (fromRow) setExpanded(true);
+            handleSendReminder();
+          }}
+          disabled={isSendingReminder}
+          title="Send a payment reminder to yourself"
+          className={`${iconButtonClass} ${reminderSent ? "text-forest" : ""}`}
+        >
+          <BellIcon className="h-4 w-4" />
+        </button>
+        <button
+          type="button"
+          onClick={() => {
+            if (fromRow) setExpanded(true);
+            setShowDetails((v) => (fromRow && !expanded ? true : !v));
+          }}
+          title="Notes and payment details"
+          className={`${iconButtonClass} ${showDetails ? "bg-parchment text-forest" : ""}`}
+        >
+          <NotesIcon className="h-4 w-4" />
+        </button>
+        <button
+          type="button"
+          onClick={() => {
+            if (fromRow) setExpanded(true);
+            setShowContracts((v) => (fromRow && !expanded ? true : !v));
+          }}
+          title={
+            contracts.length > 0
+              ? `${contracts.length} contract${contracts.length === 1 ? "" : "s"}`
+              : "Attach a contract"
+          }
+          className={`${iconButtonClass} ${
+            contracts.length > 0 ? "text-forest" : ""
+          } ${showContracts ? "bg-parchment text-forest" : ""}`}
+        >
+          <PaperclipIcon className="h-4 w-4" />
+        </button>
+        <button
+          type="button"
+          onClick={() => {
+            if (fromRow) setExpanded(true);
+            setConfirmingDelete((open) => (fromRow && !expanded ? true : !open));
+          }}
+          disabled={isPending}
+          title={deleteLabel}
+          aria-expanded={confirmingDelete}
+          className={`${iconButtonClass} ${confirmingDelete ? "bg-red-50 text-red-800" : ""}`}
+        >
+          <TrashIcon className="h-4 w-4" />
+        </button>
+
+      </>
+    );
+  }
+
   function handleSaveDetails(formData: FormData) {
     formData.set("category", row.key);
     startTransition(async () => {
@@ -324,20 +393,21 @@ function BudgetRowItem({
   // line, so it waits behind the chevron.
   return (
     <div className="border-b border-hairline last:border-b-0">
-      <div className="px-1 py-2.5 transition-colors hover:bg-parchment/50 sm:grid sm:grid-cols-[1fr_7rem_7.5rem_11rem] sm:items-center sm:gap-4 sm:px-2">
+      <div className="px-1 py-2.5 transition-colors lg:py-3 hover:bg-parchment/50 sm:grid sm:grid-cols-[1fr_7rem_7.5rem_11rem] lg:grid-cols-[minmax(0,1fr)_7rem_7.5rem_9.5rem] lg:gap-5 2xl:grid-cols-[minmax(0,1fr)_9.5rem_9.5rem_12rem] 2xl:gap-8 sm:items-center sm:gap-4 sm:px-2">
+        <div className="flex min-w-0 items-center gap-2">
         <button
           type="button"
           onClick={() => setExpanded((v) => !v)}
           aria-expanded={expanded}
-          className="flex w-full min-w-0 items-center gap-2 text-left"
+          className="flex min-w-0 flex-1 items-center gap-2 text-left"
         >
           <ChevronDownIcon
             className={`h-3.5 w-3.5 shrink-0 text-ink/35 transition-transform ${
               expanded ? "" : "-rotate-90"
             }`}
           />
-          <Icon className="h-4 w-4 shrink-0 text-brass" />
-          <span className="min-w-0 truncate text-ink">
+          <Icon className="h-4 w-4 shrink-0 text-brass lg:h-5 lg:w-5" />
+          <span className="min-w-0 truncate text-ink lg:text-[17px]">
             {row.label}
             {row.purchasedFrom && <span className="text-ink/45"> · {row.purchasedFrom}</span>}
             {!row.purchasedFrom && row.isPerGuest && (
@@ -358,12 +428,16 @@ function BudgetRowItem({
             </span>
           )}
         </button>
+        <span className="hidden shrink-0 items-center text-ink/30 lg:flex [&>button]:p-1">
+          {renderActions(true)}
+        </span>
+        </div>
 
         {/* sm:contents dissolves this wrapper at the breakpoint so the three
             cells become grid items of the row above -- one stacked block on a
             phone, aligned columns on anything wider. */}
         <div className="mt-2 flex items-center gap-3 pl-[1.4rem] sm:contents">
-          <span className="font-mono-numbers text-sm text-ink/60 sm:text-right">
+          <span className="font-mono-numbers text-sm text-ink/60 sm:text-right lg:text-base">
             {row.computed !== null ? currency.format(row.computed) : "—"}
           </span>
           <input
@@ -376,20 +450,58 @@ function BudgetRowItem({
             onBlur={(e) => handleAmountBlur("override_value", e.target.value)}
             className={`${numberInputClass} sm:justify-self-end`}
           />
-          <span className="flex flex-1 items-center gap-2 sm:flex-none">
-            <span className="h-1.5 flex-1 overflow-hidden rounded-full bg-forest/10 sm:w-20 sm:flex-none">
+          <span className="flex flex-1 items-center gap-2 sm:flex-none lg:hidden">
+            <span className="h-1.5 flex-1 overflow-hidden rounded-full bg-forest/10 sm:w-20 sm:flex-none lg:h-2 lg:flex-1">
               <span
-                className="wren-grow block h-1.5 rounded-full bg-forest transition-[width]"
+                className="wren-grow block h-1.5 rounded-full bg-forest transition-[width] lg:h-2"
                 style={{ width: `${paidPct}%` }}
               />
             </span>
-            <span className="w-14 shrink-0 text-right font-mono-numbers text-[11px] text-ink/55">
+            <span className="w-14 shrink-0 text-right font-mono-numbers text-[11px] text-ink/55 lg:text-[13px]">
               {livePaid <= 0
                 ? "—"
                 : paidPct >= 100
                   ? "Paid"
                   : `${Math.round(paidPct)}%`}
             </span>
+          </span>
+          {/* From lg the paid amount is typed on the row itself, with its
+              progress drawn as a line under the box, and settling in full is
+              one click -- the two things done most often on this column. */}
+          <span className="hidden items-center gap-2 lg:flex">
+            <span className="relative">
+              <input
+                type="number"
+                min={0}
+                value={paidInput}
+                placeholder="0"
+                aria-label={`Amount paid for ${row.label}`}
+                onChange={(e) => setPaidInput(e.target.value)}
+                onBlur={(e) => handleAmountBlur("paid_amount", e.target.value)}
+                className={paidInputClass}
+              />
+              <span className="absolute inset-x-1.5 bottom-0 h-[3px] overflow-hidden rounded-full bg-forest/10">
+                <span
+                  className="block h-full rounded-full bg-forest transition-[width]"
+                  style={{ width: `${paidPct}%` }}
+                />
+              </span>
+            </span>
+            <button
+              type="button"
+              onClick={() => handlePaidInFull(!isFullyPaid)}
+              disabled={liveActual <= 0 || isPending}
+              aria-pressed={isFullyPaid}
+              title={isFullyPaid ? "Paid in full -- click to undo" : "Mark paid in full"}
+              aria-label={`Paid in full for ${row.label}`}
+              className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full border text-sm transition-colors disabled:opacity-40 ${
+                isFullyPaid
+                  ? "border-forest bg-forest text-parchment"
+                  : "border-hairline text-ink/30 hover:border-forest hover:text-forest"
+              }`}
+            >
+              ✓
+            </button>
           </span>
         </div>
       </div>
@@ -420,7 +532,7 @@ function BudgetRowItem({
             </div>
           </div>
 
-          <div>
+          <div className="lg:hidden">
             <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1 text-xs text-ink/50">
               <span className="flex items-center gap-3">
                 Paid
@@ -466,49 +578,7 @@ function BudgetRowItem({
             </div>
           </div>
 
-          <div className="flex items-center gap-1">
-            <button
-              type="button"
-              onClick={handleSendReminder}
-              disabled={isSendingReminder}
-              title="Send a payment reminder to yourself"
-              className={`${iconButtonClass} ${reminderSent ? "text-forest" : ""}`}
-            >
-              <BellIcon className="h-4 w-4" />
-            </button>
-            <button
-              type="button"
-              onClick={() => setShowDetails((v) => !v)}
-              title="Notes and payment details"
-              className={`${iconButtonClass} ${showDetails ? "bg-parchment text-forest" : ""}`}
-            >
-              <NotesIcon className="h-4 w-4" />
-            </button>
-            <button
-              type="button"
-              onClick={() => setShowContracts((v) => !v)}
-              title={
-                contracts.length > 0
-                  ? `${contracts.length} contract${contracts.length === 1 ? "" : "s"}`
-                  : "Attach a contract"
-              }
-              className={`${iconButtonClass} ${
-                contracts.length > 0 ? "text-forest" : ""
-              } ${showContracts ? "bg-parchment text-forest" : ""}`}
-            >
-              <PaperclipIcon className="h-4 w-4" />
-            </button>
-            <button
-              type="button"
-              onClick={() => setConfirmingDelete((open) => !open)}
-              disabled={isPending}
-              title={deleteLabel}
-              aria-expanded={confirmingDelete}
-              className={`${iconButtonClass} ${confirmingDelete ? "bg-red-50 text-red-800" : ""}`}
-            >
-              <TrashIcon className="h-4 w-4" />
-            </button>
-          </div>
+          <div className="flex items-center gap-1 lg:hidden">{renderActions(false)}</div>
 
       {/* An in-page confirm rather than window.confirm(): the native dialog
           looks nothing like the app and is dismissed by reflex, which is
@@ -874,15 +944,15 @@ export function BudgetTable({
 
       {/* Column labels, so the totals above are visibly the sum of what's
           below rather than three numbers floating over a list. */}
-      <div className="hidden border-b border-hairline bg-parchment/50 py-2 sm:grid sm:px-8 sm:grid-cols-[1fr_7rem_7.5rem_11rem] sm:items-center sm:gap-4">
-        <span className="font-mono-numbers text-[10px] uppercase tracking-[0.16em] text-ink/45">
+      <div className="hidden border-b border-hairline bg-parchment/50 py-2 sm:grid sm:px-8 sm:grid-cols-[1fr_7rem_7.5rem_11rem] lg:grid-cols-[minmax(0,1fr)_7rem_7.5rem_9.5rem] lg:gap-5 2xl:grid-cols-[minmax(0,1fr)_9.5rem_9.5rem_12rem] 2xl:gap-8 sm:items-center sm:gap-4">
+        <span className="font-mono-numbers text-[10px] uppercase tracking-[0.16em] text-ink/45 lg:text-[11px]">
           Category
         </span>
-        <span className="text-right font-mono-numbers text-[10px] uppercase tracking-[0.16em] text-ink/45">
+        <span className="text-right font-mono-numbers text-[10px] uppercase tracking-[0.16em] text-ink/45 lg:text-[11px]">
           Estimate
         </span>
         {/* pr-2 matches the input's padding, so the label ends where the number does. */}
-        <span className="pr-2 text-right font-mono-numbers text-[10px] uppercase tracking-[0.16em] text-ink/45">
+        <span className="pr-2 text-right font-mono-numbers text-[10px] uppercase tracking-[0.16em] text-ink/45 lg:text-[11px]">
           Actual
         </span>
         {/* The progress bar had no label at all, so the one column that
@@ -890,13 +960,13 @@ export function BudgetTable({
             decoration. Paid sits over the bar; Expand all keeps the right
             edge, above the percentage it lines up with. */}
         <span className="flex items-center justify-between gap-2">
-          <span className="font-mono-numbers text-[10px] uppercase tracking-[0.16em] text-ink/45">
+          <span className="font-mono-numbers text-[10px] uppercase tracking-[0.16em] text-ink/45 lg:text-[11px]">
             Paid
           </span>
           <button
             type="button"
             onClick={toggleAll}
-            className="font-mono-numbers text-[11px] text-brass hover:underline"
+            className="font-mono-numbers text-[11px] text-brass hover:underline lg:text-xs"
           >
             {allExpanded ? "Collapse all" : "Expand all"}
           </button>

@@ -71,7 +71,7 @@ function BudgetDemo() {
         <span className="font-display text-xl text-forest">
           Estimated total
         </span>
-        <span className="font-mono-numbers text-2xl font-semibold text-forest">
+        <span className="font-mono-numbers text-2xl font-semibold text-wren-deep">
           {usd(total)}
         </span>
       </div>
