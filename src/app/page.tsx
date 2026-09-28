@@ -2,6 +2,7 @@ import { BrandRings } from "@/components/brand-rings";
 import Link from "next/link";
 import { FadeInSection } from "@/components/fade-in-section";
 import { AnimatedCounter } from "@/components/animated-counter";
+import { CtaCard } from "@/components/cta-card";
 import { HomeEstimatorCard } from "@/components/home-estimator-card";
 import { LandingFeatures } from "@/components/landing/landing-features";
 import { WIDE_WIDTH } from "@/lib/layout";
@@ -90,20 +91,13 @@ export default async function Home() {
       </div>
 
       <FadeInSection>
-        <div className="mb-24 w-full max-w-3xl rounded-lg border border-hairline bg-card p-10 text-center shadow-sm">
-          <h2 className="font-display text-2xl font-semibold text-forest">
-            Ready to start planning?
-          </h2>
-          <p className="mt-2 text-sm text-ink/70">
-            Create your account in under a minute — no credit card, ever.
-          </p>
-          <Link
-            href="/signup"
-            className="mt-6 inline-block rounded-full bg-forest px-6 py-2 font-mono-numbers text-sm text-parchment transition-colors hover:bg-forest/90"
-          >
-            Sign up free
-          </Link>
-        </div>
+        <CtaCard
+          title="Ready to start planning?"
+          body="Create your account in under a minute — no credit card, ever."
+          href="/signup"
+          label="Sign up free"
+          className="mb-24 max-w-3xl"
+        />
       </FadeInSection>
     </main>
   );

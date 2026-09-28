@@ -7,6 +7,7 @@ import { estimateWeddingCost, type EstimatorTier } from "@/lib/estimator";
 import { STATES, STYLE_TIERS } from "@/lib/wedding-options";
 import { BudgetBarChart } from "@/app/budget/budget-chart";
 import { applyEstimateToWedding } from "@/app/budget/actions";
+import { CtaCard } from "@/components/cta-card";
 
 /**
  * What the couple's Budget is priced from right now, so the Estimator can
@@ -226,29 +227,14 @@ export function Estimator({
               {realDataCount} of {estimate.breakdown.length} categories use real, sourced pricing
               data for {state}; the rest use a regional estimate until more data is added.
             </p>
-            {/* The page's one call to action, so it's a gold band rather than
-                another white card, with the homepage's hero button in white.
-                Gold is too light for white text, so the words are navy. */}
-            <div
-              className={`mt-8 w-full rounded-lg p-8 text-center shadow-sm sm:p-10 ${
-                split ? "lg:mt-6 lg:flex lg:items-center lg:justify-between lg:gap-8 lg:text-left" : ""
-              }`}
-              style={{ background: "linear-gradient(135deg, #FFF12F 0%, #FFD301 100%)" }}
-            >
-              <div>
-                <h2 className="font-display text-3xl font-semibold text-[#14203d]">{ctaTitle}</h2>
-                <p className="mt-2 max-w-md text-sm text-[#14203d]/80 lg:max-w-none">{ctaBody}</p>
-              </div>
-              <Link
-                href={ctaHref}
-                className={`btn-motion mt-6 inline-block shrink-0 rounded-full px-7 pb-3 pt-2 font-display text-lg font-semibold shadow-md ${
-                  split ? "lg:mt-0" : ""
-                }`}
-                style={{ backgroundColor: "#fff", color: "#14203d" }}
-              >
-                {ctaLabel}
-              </Link>
-            </div>
+            <CtaCard
+              title={ctaTitle}
+              body={ctaBody}
+              href={ctaHref}
+              label={ctaLabel}
+              row={split}
+              className={`mt-8 ${split ? "lg:mt-6" : ""}`}
+            />
           </>
         )}
       </div>
