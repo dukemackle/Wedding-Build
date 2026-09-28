@@ -266,18 +266,19 @@ function ChecklistDemo() {
 
 /* ---------- RSVP ---------- */
 
-type Reply = { name: string; coming: boolean; meal: string };
+type Reply = { name: string; coming: boolean; meal: string; address: boolean };
 
 function RsvpDemo() {
   const [replies, setReplies] = useState<Reply[]>([
-    { name: "Priya S.", coming: true, meal: "Salmon" },
-    { name: "Marcus T.", coming: false, meal: "" },
+    { name: "Priya S.", coming: true, meal: "Salmon", address: true },
+    { name: "Marcus T.", coming: false, meal: "", address: false },
   ]);
   const [name, setName] = useState("");
   const [coming, setComing] = useState(true);
   const [meal, setMeal] = useState("Chicken");
 
   const yes = replies.filter((r) => r.coming).length;
+  const noAddress = replies.filter((r) => !r.address).length;
 
   return (
     <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
@@ -287,7 +288,7 @@ function RsvpDemo() {
           e.preventDefault();
           if (!name.trim()) return;
           setReplies((r) => [
-            { name: name.trim(), coming, meal: coming ? meal : "" },
+            { name: name.trim(), coming, meal: coming ? meal : "", address: false },
             ...r,
           ]);
           setName("");
@@ -363,14 +364,24 @@ function RsvpDemo() {
               className="flex items-center justify-between py-2 text-sm"
             >
               <span className="text-ink/85">{r.name}</span>
-              <span
-                className={`font-mono-numbers text-xs ${r.coming ? "text-forest" : "text-ink/45"}`}
-              >
-                {r.coming ? `Yes · ${r.meal}` : "Can't make it"}
+              <span className="flex items-center gap-3">
+                <span className={`text-xs ${r.address ? "text-ink/45" : "text-red-700/80"}`}>
+                  {r.address ? "✓ Address" : "No address"}
+                </span>
+                <span
+                  className={`font-mono-numbers text-xs ${r.coming ? "text-forest" : "text-ink/45"}`}
+                >
+                  {r.coming ? `Yes · ${r.meal}` : "Can't make it"}
+                </span>
               </span>
             </li>
           ))}
         </ul>
+        {noAddress > 0 && (
+          <p className="text-xs text-ink/50">
+            {noAddress} still missing an address — one click filters to just them.
+          </p>
+        )}
       </div>
     </div>
   );
