@@ -164,4 +164,16 @@ Knotting Hill	Amarillo	Texas	35.04661	-102.04106	Garden / Outdoor	Indoor & Outdo
 Lantana Acres	Odessa	Texas	31.90130	-102.39960	Barn / Rustic	Indoor & Outdoor		Farm venue with an outdoor Garden Haus barn, a courtyard with a silo and pond, a ballroom and a banquet hall.	info@lantanaacres.com	432.360.3061	https://www.lantanaacres.com
 `,
   },
+  {
+    name: "El Paso and Marfa",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+The Plaza Hotel Pioneer Park	El Paso	Texas	31.75871	-106.48885	Ballroom / Hotel	Indoor & Outdoor		Downtown hotel that opened in the 1930s, with a ballroom and a rooftop for weddings and an in-house event team.		(915) 440-7666	https://www.plazahotelelpaso.com
+Hotel Paso Del Norte	El Paso	Texas	31.75779	-106.48913	Ballroom / Hotel	Indoor		Downtown landmark hotel with 32,000 sq ft of event space, including a crystal-chandelier ballroom and the Pancho Villa Ballroom for up to 100.		(915) 534-3000	https://www.hotelpdn.com
+Main Room Event Center	El Paso	Texas	31.75765	-106.48130	Historic / Estate	Indoor		Event venue in a 1915 building in the downtown historic district, with venue-only and all-inclusive packages.	mainroomevents@gmail.com	(915) 777-2525	https://mainroomevents.com
+Grace Gardens Event Center	El Paso	Texas	31.90147	-106.62529	Garden / Outdoor	Indoor & Outdoor		Upper Valley venue with four ballrooms, four ceremony sites including a pavilion on a pond island, and an in-house pastry chef.		915-877-2745	https://www.elpasogracegardens.com
+The Copper Fountain	El Paso	Texas	31.84246	-106.58017	Ballroom / Hotel	Indoor		A 2,600 sq ft indoor event space on Doniphan Drive with a private room and bar, and table, chair and dinnerware rentals.		(915) 313-4844	https://copperfountainvenue.com
+Hacienda Sol y Luna	El Paso	Texas	31.68269	-106.14129	Garden / Outdoor	Indoor & Outdoor		Hacienda-style venue in El Paso's Lower Valley with catering and custom packages; Spanish spoken, tours by appointment.	HaciendaSolyLunaep@gmail.com	(915) 990-6912	https://www.solylunahacienda.com
+Marfa Spirit Co.	Marfa	Texas	30.30976	-104.02413	Restaurant / Vineyard	Indoor		Distillery and tasting room in the historic Godbold feed mill, hosting weddings and private dinners.		(432) 426-6651	https://www.themarfaspirit.com
+`,
+  },
 ];
