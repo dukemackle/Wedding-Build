@@ -666,3 +666,38 @@ body:has(.guest-site) .site-footer {
   .ydid-flow-gold,
   .ydid-flow-blue { animation: none; }
 }
+
+/* Gold, for the moments that are You Do, I Do's own (Wren's are blue): a
+   border whose gold flows slowly round, a shine that sweeps across a button
+   every few seconds, and small twinkling stars. */
+@keyframes gold-flow {
+  to { background-position: 200% 0; }
+}
+.gold-flow-border {
+  background: linear-gradient(110deg, #9a6b00, #e0a100, #ffe45c, #e0a100, #9a6b00);
+  background-size: 200% 100%;
+  animation: gold-flow 6s linear infinite;
+}
+@keyframes gold-shine {
+  0%, 60% { transform: translateX(-120%); }
+  100% { transform: translateX(120%); }
+}
+.gold-shine::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 35%, rgba(255, 255, 255, 0.7) 50%, transparent 65%);
+  transform: translateX(-120%);
+  animation: gold-shine 3.5s ease-in-out infinite;
+}
+@keyframes gold-twinkle {
+  0%, 100% { opacity: 0.2; transform: scale(0.7); }
+  50% { opacity: 1; transform: scale(1); }
+}
+.gold-twinkle {
+  animation: gold-twinkle 2.4s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .gold-flow-border, .gold-twinkle { animation: none; }
+  .gold-shine::after { display: none; }
+}
