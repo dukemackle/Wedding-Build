@@ -123,4 +123,16 @@ Peach Creek Ranch	College Station	Texas	30.49509	-96.29753	Barn / Rustic	Indoor 
 Astin Mansion	Bryan	Texas	30.67419	-96.37739	Historic / Estate	Indoor & Outdoor		1920 mansion on the National Register of Historic Places, with gardens and indoor and outdoor ceremony spots.	astinmansion@gmail.com	(979) 822-9999	https://www.astinmansion.com
 `,
   },
+  {
+    name: "Coastal Bend, South Padre and the Rio Grande Valley",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Art Center of Corpus Christi	Corpus Christi	Texas	27.79201	-97.39255	Beach / Waterfront	Indoor		Arts centre on the Corpus Christi bayfront with several event rooms and views over the bay, for parties from 5 to 500.	info@artcentercc.org	(361) 884-6406	https://www.artcentercc.org
+The Courtyard at Gaslight Square	Corpus Christi	Texas	27.78216	-97.39874	Historic / Estate	Indoor & Outdoor		Courtyard under a big light-strung oak with two indoor rooms, run by a catering company that also plans the day.	office@diamondpointcatering.com	(361) 884-1399	https://www.thecourtyardatgaslight.com
+The Ranch at San Patricio	Mathis	Texas			Barn / Rustic	Indoor & Outdoor	300	Two wedding venues with chapels, indoor halls and a pond on a ranch between Corpus Christi and Mathis, plus a guest house.		(361) 816-7337	https://ranchatsanpatricio.com
+The Lighthouse Inn at Aransas Bay	Rockport	Texas	28.06021	-97.03439	Beach / Waterfront	Indoor & Outdoor		Bayfront inn with a gazebo for small ceremonies by the water and two indoor rooms for up to 40 guests each.	info@lighthousetexas.com	(361) 790-8439	https://www.lighthousetexas.com
+Isla Grand Beach Resort	South Padre Island	Texas	26.08832	-97.16421	Beach / Waterfront	Indoor & Outdoor		Beachfront resort on South Padre Island with about 10,000 sq ft of event space, from the beach to the ballroom.	reservations@islagrand.com	(800) 292-7704	https://www.islagrand.com
+The Livery Venue	Brownsville	Texas	25.90360	-97.49802	Ballroom / Hotel	Indoor & Outdoor	500	Event centre in Brownsville with indoor and outdoor spaces for up to 500, serving the Rio Grande Valley and South Padre.	liveryat10th@gmail.com	(956) 243-5570	https://www.theliveryvenue.com
+Casa De Soles Event Center	San Benito	Texas			Garden / Outdoor	Indoor & Outdoor		Rio Grande Valley venue with courtyard, pavilion and garden ceremony sites plus indoor space.		(956) 639-0160	https://www.casadesoleseventcenter.com
+`,
+  },
 ];
