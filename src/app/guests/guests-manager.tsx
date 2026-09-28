@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useRef, useState, useTransition } from "react";
+import { useRef, useState, useTransition, type CSSProperties, type ReactNode } from "react";
 import type {
   Guest,
   GuestPriority,
@@ -30,6 +30,8 @@ import {
   setGuestGrouping,
   setGuestThanked,
   setSideColors,
+  updateGuestsFields,
+  deleteGuests,
 } from "./actions";
 import { draftThankYouNote, saveThankYouNote } from "./thank-you-actions";
 import { SpreadsheetLink } from "@/components/spreadsheet-link";
@@ -1070,6 +1072,392 @@ function SideColorKey({
   );
 }
 
+function GuestTableGroup({
+  heading,
+  color,
+  count,
+  children,
+}: {
+  heading: string | null;
+  color?: string;
+  count: number;
+  children: ReactNode;
+}) {
+  return (
+    <>
+      {heading && (
+        <tr className="border-b border-hairline bg-parchment/60">
+          <td colSpan={TABLE_COLUMNS} className="px-3 py-1.5">
+            <span className="flex items-center gap-2">
+              {color && <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: color }} />}
+              <span className="font-mono-numbers text-[11px] uppercase tracking-[0.15em] text-ink/50">
+                {heading}
+              </span>
+              <span className="font-mono-numbers text-[11px] text-ink/35">{count}</span>
+            </span>
+          </td>
+        </tr>
+      )}
+      {children}
+    </>
+  );
+}
+
+type ListField = "side" | "guest_type" | "status" | "priority";
+
+/** A guest's address, as the one short thing a table cell has room for. */
+function addressSummary(guest: Guest) {
+  if (!guest.address_line1) return null;
+  return [guest.city, guest.state].filter(Boolean).join(", ") || guest.address_line1;
+}
+
+/** Names that differ only by case or spacing -- the usual double import. */
+function nameKey(name: string) {
+  return name.trim().toLowerCase().replace(/\s+/g, " ");
+}
+
+/**
+ * A badge that is also the control. On a wide screen every list-level field
+ * is set where it's shown, so sorting 270 guests is a column of clicks
+ * rather than 270 trips into Edit.
+ */
+function CellSelect({
+  label,
+  value,
+  options,
+  className,
+  style,
+  onChange,
+}: {
+  label: string;
+  value: string;
+  options: { value: string; label: string }[];
+  className: string;
+  style?: CSSProperties;
+  onChange: (value: string) => void;
+}) {
+  return (
+    <select
+      aria-label={label}
+      title={`${label} — click to change`}
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+      style={style}
+      className={`max-w-full cursor-pointer appearance-none truncate rounded-full border px-2 py-0.5 text-[11px] leading-4 outline-none transition-colors hover:border-forest focus:border-forest ${className}`}
+    >
+      {options.map((option) => (
+        <option key={option.value} value={option.value}>
+          {option.label}
+        </option>
+      ))}
+    </select>
+  );
+}
+
+function sideOptions(theme: SideTheme) {
+  return [
+    { value: "", label: "No side" },
+    ...GUEST_SIDES.map((side) => ({ value: side, label: theme.labels[side] })),
+  ];
+}
+
+const TYPE_OPTIONS = [
+  { value: "", label: "Not sorted" },
+  ...GUEST_TYPES.map((type) => ({ value: type, label: GUEST_TYPE_LABELS[type] })),
+];
+
+const PRIORITY_OPTIONS = PRIORITIES.map((p) => ({ value: p, label: PRIORITY_SHORT_LABELS[p] }));
+const STATUS_OPTIONS = STATUSES.map((s) => ({ value: s, label: STATUS_LABELS[s] }));
+
+const TABLE_COLUMNS = 10;
+
+function GuestTableRow({
+  guest,
+  theme,
+  selected,
+  duplicate,
+  onToggle,
+  onSet,
+}: {
+  guest: Guest;
+  theme: SideTheme;
+  selected: boolean;
+  duplicate: boolean;
+  onToggle: () => void;
+  onSet: (field: ListField, value: string) => void;
+}) {
+  const [isEditing, setIsEditing] = useState(false);
+  const [showThankYou, setShowThankYou] = useState(false);
+  const [error, setError] = useState<string | undefined>(undefined);
+  const [isPending, startTransition] = useTransition();
+
+  function handleSave(formData: FormData) {
+    startTransition(async () => {
+      const result = await updateGuest(formData);
+      if (result?.error) {
+        setError(result.error);
+      } else {
+        setError(undefined);
+        setIsEditing(false);
+      }
+    });
+  }
+
+  const sideColor = guest.side ? guestSideColor(guest, theme) : null;
+  const address = addressSummary(guest);
+  const secondary = [guest.household, guest.meal, guest.notes].filter(Boolean).join(" · ");
+  const cell = "px-2 py-1.5 align-middle";
+
+  return (
+    <>
+      <tr
+        className={`border-b border-hairline/70 transition-colors ${
+          selected ? "bg-forest/5" : "hover:bg-parchment/70"
+        }`}
+      >
+        <td className="w-8 border-l-4 py-1.5 pl-2" style={{ borderLeftColor: sideColor ?? "transparent" }}>
+          <input
+            type="checkbox"
+            aria-label={`Select ${guest.name}`}
+            checked={selected}
+            onChange={onToggle}
+            className="h-3.5 w-3.5 rounded border-hairline accent-forest"
+          />
+        </td>
+        <td className={`${cell} max-w-0`}>
+          <div className="flex min-w-0 items-center gap-1.5">
+            {guest.photo_url && (
+              <Image
+                src={guest.photo_url}
+                alt={guest.name}
+                width={20}
+                height={20}
+                className="h-5 w-5 shrink-0 rounded-full border border-hairline object-cover"
+              />
+            )}
+            <span className="truncate text-sm text-ink">{guest.name}</span>
+            {guest.thanked && (
+              <span title="Thanked" className="shrink-0 text-[11px] text-forest">
+                ✓
+              </span>
+            )}
+          </div>
+          {/* The duplicate flag rides the second line so the name keeps the first. */}
+          {(duplicate || secondary) && (
+            <p className="truncate text-[11px] leading-4 text-ink/45">
+              {duplicate && (
+                <span title="Another guest has the same name" className="text-red-700">
+                  Possible duplicate{secondary ? " · " : ""}
+                </span>
+              )}
+              {secondary}
+            </p>
+          )}
+        </td>
+        <td className={cell}>
+          <CellSelect
+            label="Side"
+            value={guest.side ?? ""}
+            options={sideOptions(theme)}
+            onChange={(v) => onSet("side", v)}
+            className={sideColor ? "border-transparent text-ink/80" : "border-dashed border-hairline text-ink/40"}
+            style={sideColor ? { backgroundColor: `${sideColor}33` } : undefined}
+          />
+        </td>
+        <td className={cell}>
+          <CellSelect
+            label="Family or friends"
+            value={guest.guest_type ?? ""}
+            options={TYPE_OPTIONS}
+            onChange={(v) => onSet("guest_type", v)}
+            className={
+              guest.guest_type
+                ? "border-hairline bg-card text-ink/80"
+                : "border-dashed border-hairline bg-card text-ink/40"
+            }
+          />
+        </td>
+        <td className={cell}>
+          <CellSelect
+            label="Invite priority"
+            value={guest.priority}
+            options={PRIORITY_OPTIONS}
+            onChange={(v) => onSet("priority", v)}
+            className={PRIORITY_BADGE_CLASS[guest.priority]}
+          />
+        </td>
+        <td className={cell}>
+          <CellSelect
+            label="RSVP"
+            value={guest.status}
+            options={STATUS_OPTIONS}
+            onChange={(v) => onSet("status", v)}
+            className={STATUS_BADGE_CLASS[guest.status]}
+          />
+        </td>
+        <td className={`${cell} max-w-0`}>
+          {address ? (
+            <span
+              title={[guest.address_line1, guest.address_line2, guest.city, guest.state, guest.postal_code]
+                .filter(Boolean)
+                .join(", ")}
+              className="block truncate text-xs text-ink/70"
+            >
+              <span className="text-forest">✓</span> {address}
+            </span>
+          ) : (
+            <span className="text-xs text-red-700/80">Missing</span>
+          )}
+        </td>
+        <td className={cell}>
+          {guest.email || guest.phone ? (
+            <span className="flex gap-1.5 text-xs">
+              {guest.email && (
+                <span title={guest.email} className="text-forest">
+                  ✉
+                </span>
+              )}
+              {guest.phone && (
+                <span title={guest.phone} className="text-forest">
+                  ☎
+                </span>
+              )}
+            </span>
+          ) : (
+            <span title="No email or phone" className="text-xs text-ink/30">
+              —
+            </span>
+          )}
+        </td>
+        <td className={`${cell} text-center`}>
+          {guest.plus_one ? (
+            <span
+              title={guest.plus_one_name ? `Plus one: ${guest.plus_one_name}` : "Plus one"}
+              className="font-mono-numbers text-xs text-ink/70"
+            >
+              +1
+            </span>
+          ) : (
+            <span className="text-xs text-ink/25">—</span>
+          )}
+        </td>
+        <td className={`${cell} pr-1`}>
+          <div className="flex items-center justify-end gap-1">
+            <button
+              type="button"
+              onClick={() => setIsEditing((v) => !v)}
+              className="rounded-full border border-transparent px-2 py-0.5 text-xs leading-5 text-brass transition-colors hover:border-hairline"
+            >
+              {isEditing ? "Close" : "Edit"}
+            </button>
+            <GuestRowMenu
+              guest={guest}
+              theme={theme}
+              onEdit={() => setIsEditing(true)}
+              onThankYou={() => setShowThankYou((open) => !open)}
+              showingThankYou={showThankYou}
+            />
+          </div>
+        </td>
+      </tr>
+      {(isEditing || showThankYou) && (
+        <tr className="border-b border-hairline">
+          <td colSpan={TABLE_COLUMNS} className="bg-parchment/50 px-4 py-4">
+            {isEditing && (
+              <form action={handleSave}>
+                <input type="hidden" name="id" value={guest.id} />
+                <GuestFields guest={guest} theme={theme} />
+                {error && <p className="mt-3 text-sm text-red-800">{error}</p>}
+                <div className="mt-4 flex items-center gap-3">
+                  <button
+                    type="submit"
+                    disabled={isPending}
+                    className="rounded-md bg-forest px-4 py-2 text-sm font-medium text-parchment transition-colors hover:bg-forest/90 disabled:opacity-60"
+                  >
+                    {isPending ? "Saving..." : "Save"}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setIsEditing(false)}
+                    className="rounded-md border border-hairline px-4 py-2 text-sm text-ink transition-colors hover:border-forest"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            )}
+            {showThankYou && <ThankYouPanel guest={guest} />}
+          </td>
+        </tr>
+      )}
+    </>
+  );
+}
+
+/** What a checked set of rows can have done to it in one go. */
+function BulkBar({
+  count,
+  theme,
+  onSet,
+  onDelete,
+  onClear,
+}: {
+  count: number;
+  theme: SideTheme;
+  onSet: (field: ListField, value: string) => void;
+  onDelete: () => void;
+  onClear: () => void;
+}) {
+  const selectClass =
+    "rounded-full border border-parchment/30 bg-forest px-2 py-0.5 text-xs text-parchment outline-none hover:border-parchment/70";
+
+  function bulkSelect(field: ListField, label: string, options: { value: string; label: string }[]) {
+    return (
+      <select
+        aria-label={`Set ${label}`}
+        value="__"
+        onChange={(e) => onSet(field, e.target.value)}
+        className={selectClass}
+      >
+        <option value="__" disabled>
+          {label} ▾
+        </option>
+        {options.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
+    );
+  }
+
+  return (
+    <div className="sticky top-0 z-20 mb-2 flex flex-wrap items-center gap-2 rounded-md bg-forest px-3 py-2 text-parchment shadow-sm">
+      <span className="font-mono-numbers text-sm">{count} selected</span>
+      <span className="text-parchment/40">·</span>
+      <span className="text-xs text-parchment/70">Set</span>
+      {bulkSelect("side", "Side", sideOptions(theme))}
+      {bulkSelect("guest_type", "Group", TYPE_OPTIONS)}
+      {bulkSelect("priority", "Priority", PRIORITY_OPTIONS)}
+      {bulkSelect("status", "RSVP", STATUS_OPTIONS)}
+      <button
+        type="button"
+        onClick={onDelete}
+        className="rounded-full border border-parchment/30 px-2 py-0.5 text-xs text-parchment transition-colors hover:border-red-300 hover:text-red-200"
+      >
+        Remove
+      </button>
+      <button
+        type="button"
+        onClick={onClear}
+        className="ml-auto text-xs text-parchment/70 hover:underline"
+      >
+        Clear
+      </button>
+    </div>
+  );
+}
+
 export function GuestsManager({
   guests,
   spreadsheetUrl,
@@ -1098,8 +1486,21 @@ export function GuestsManager({
   // pass is a click a second; waiting for a round trip before the dot changes
   // colour makes it feel broken.
   const [overrides, setOverrides] = useState<
-    Record<string, { side?: GuestSide | null; guest_type?: GuestType | null }>
+    Record<
+      string,
+      {
+        side?: GuestSide | null;
+        guest_type?: GuestType | null;
+        status?: GuestStatus;
+        priority?: GuestPriority;
+      }
+    >
   >({});
+  const [removed, setRemoved] = useState<Set<string>>(new Set());
+  const [selected, setSelected] = useState<Set<string>>(new Set());
+  const [missingAddressOnly, setMissingAddressOnly] = useState(false);
+  const [duplicatesOnly, setDuplicatesOnly] = useState(false);
+  const [actionError, setActionError] = useState<string | undefined>(undefined);
   const [, startAssigning] = useTransition();
   const [search, setSearch] = useState("");
   const [showAddForm, setShowAddForm] = useState(false);
@@ -1130,9 +1531,55 @@ export function GuestsManager({
     });
   }
 
-  const guestList = guests.map((guest) =>
-    overrides[guest.id] ? { ...guest, ...overrides[guest.id] } : guest,
-  );
+  /** Inline cells and the bulk bar: shown at once, saved behind it. */
+  function handleSetFields(guestIds: string[], field: ListField, value: string) {
+    if (guestIds.length === 0) return;
+    const parsed = field === "side" || field === "guest_type" ? value || null : value;
+    setOverrides((current) => {
+      const next = { ...current };
+      for (const id of guestIds) next[id] = { ...next[id], [field]: parsed };
+      return next;
+    });
+    const formData = new FormData();
+    for (const id of guestIds) formData.append("guest_id", id);
+    formData.set(field, value);
+    setActionError(undefined);
+    startAssigning(async () => {
+      const result = await updateGuestsFields(formData);
+      if (result?.error) setActionError(result.error);
+    });
+  }
+
+  function handleBulkDelete() {
+    const ids = [...selected];
+    if (ids.length === 0) return;
+    if (!confirm(`Remove ${ids.length} guest${ids.length === 1 ? "" : "s"} from the list?`)) return;
+    setRemoved((current) => new Set([...current, ...ids]));
+    setSelected(new Set());
+    const formData = new FormData();
+    for (const id of ids) formData.append("guest_id", id);
+    setActionError(undefined);
+    startAssigning(async () => {
+      const result = await deleteGuests(formData);
+      if (result?.error) {
+        setActionError(result.error);
+        setRemoved(new Set());
+      }
+    });
+  }
+
+  const guestList = guests
+    .filter((guest) => !removed.has(guest.id))
+    .map((guest) => (overrides[guest.id] ? { ...guest, ...overrides[guest.id] } : guest));
+
+  const nameCounts = new Map<string, number>();
+  for (const guest of guestList) {
+    const key = nameKey(guest.name);
+    nameCounts.set(key, (nameCounts.get(key) ?? 0) + 1);
+  }
+  const isDuplicate = (guest: Guest) => (nameCounts.get(nameKey(guest.name)) ?? 0) > 1;
+  const duplicateCount = guestList.filter(isDuplicate).length;
+  const missingAddressCount = guestList.filter((g) => !g.address_line1).length;
 
   const unassignedSideCount = guestList.filter((g) => !g.side).length;
   const unassignedTypeCount = guestList.filter((g) => !g.guest_type).length;
@@ -1193,8 +1640,44 @@ export function GuestsManager({
       (sideFilter === "all" || (sideFilter === "none" ? !g.side : g.side === sideFilter)) &&
       (typeFilter === "all" ||
         (typeFilter === "none" ? !g.guest_type : g.guest_type === typeFilter)) &&
+      (!missingAddressOnly || !g.address_line1) &&
+      (!duplicatesOnly || isDuplicate(g)) &&
       g.name.toLowerCase().includes(search.trim().toLowerCase()),
   );
+
+  const visibleIds = filteredGuests.map((g) => g.id);
+  const allVisibleSelected = visibleIds.length > 0 && visibleIds.every((id) => selected.has(id));
+
+  function toggleSelected(id: string) {
+    setSelected((current) => {
+      const next = new Set(current);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  }
+
+  function toggleAllVisible() {
+    setSelected((current) => {
+      const next = new Set(current);
+      for (const id of visibleIds) {
+        if (allVisibleSelected) next.delete(id);
+        else next.add(id);
+      }
+      return next;
+    });
+  }
+
+  // Thank-yous are a post-wedding job; "0/271 thanked" before a single gift
+  // has arrived is a number with nothing to say yet.
+  const showThanked = thankedCount > 0 || guests.some((g) => g.gift_description);
+
+  const quickChipClass = (active: boolean) =>
+    `rounded-full border px-3 py-1 text-xs transition-colors ${
+      active
+        ? "border-forest bg-forest text-parchment"
+        : "border-hairline bg-parchment text-ink/80 hover:border-forest"
+    }`;
 
   const groups = groupGuests(filteredGuests, sort, theme);
 
@@ -1229,7 +1712,7 @@ export function GuestsManager({
           <span>
             <span className="font-mono-numbers text-ink">{cumulativeIfRoom}</span> incl. if room
           </span>
-          {guests.length > 0 && (
+          {showThanked && (
             <span className="text-ink/45">
               · {thankedCount}/{guests.length} thanked
             </span>
@@ -1304,7 +1787,9 @@ export function GuestsManager({
           side and no type, and setting them one menu at a time is the kind of
           job nobody finishes. Here the row is a strip of buttons and nothing
           else, and the filter beside it narrows to what's still unsorted. */}
-      <div className="mb-3 flex flex-wrap items-center gap-2 rounded-md border border-hairline bg-parchment px-3 py-2">
+      {/* Only where there's no table: on a wide screen every row's Side and
+          Group cells are the sorting pass. */}
+      <div className="mb-3 flex flex-wrap items-center gap-2 rounded-md border border-hairline bg-parchment px-3 py-2 xl:hidden">
         <span className="font-mono-numbers text-[11px] uppercase tracking-[0.15em] text-ink/40">
           Sort into groups
         </span>
@@ -1363,6 +1848,42 @@ export function GuestsManager({
             ))}
           </select>
         </label>
+      </div>
+
+      <div className="mt-2 flex flex-wrap items-center gap-2">
+        <span className="font-mono-numbers text-[11px] uppercase tracking-[0.15em] text-ink/40">
+          Show
+        </span>
+        <button
+          type="button"
+          onClick={() => setFilter((f) => (f === "pending" ? "all" : "pending"))}
+          className={quickChipClass(filter === "pending")}
+        >
+          No reply ({counts.pending})
+        </button>
+        <button
+          type="button"
+          onClick={() => setMissingAddressOnly((v) => !v)}
+          className={quickChipClass(missingAddressOnly)}
+        >
+          Missing address ({missingAddressCount})
+        </button>
+        <button
+          type="button"
+          onClick={() => setSideFilter((f) => (f === "none" ? "all" : "none"))}
+          className={quickChipClass(sideFilter === "none")}
+        >
+          No side ({unassignedSideCount})
+        </button>
+        {duplicateCount > 0 && (
+          <button
+            type="button"
+            onClick={() => setDuplicatesOnly((v) => !v)}
+            className={`${quickChipClass(duplicatesOnly)} ${duplicatesOnly ? "" : "border-red-200 text-red-700"}`}
+          >
+            Possible duplicates ({duplicateCount})
+          </button>
+        )}
       </div>
 
       <div className="mt-2">
@@ -1431,7 +1952,84 @@ export function GuestsManager({
           <p className="py-8 text-center text-sm text-ink/50">No guests match this filter.</p>
         )
       ) : (
-        <div className="mt-2">
+        <>
+        {actionError && <p className="mt-2 text-sm text-red-800">{actionError}</p>}
+
+        {/* Wide screens: a real table. Every list-level field is a column you
+            can set in place, and checked rows take bulk changes. */}
+        <div className="mt-3 hidden xl:block">
+          {selected.size > 0 && (
+            <BulkBar
+              count={selected.size}
+              theme={theme}
+              onSet={(field, value) => handleSetFields([...selected], field, value)}
+              onDelete={handleBulkDelete}
+              onClear={() => setSelected(new Set())}
+            />
+          )}
+          <table className="w-full table-fixed border-collapse text-left">
+            <colgroup>
+              <col className="w-8" />
+              <col />
+              <col className="w-[7.5rem]" />
+              <col className="w-[6.5rem]" />
+              <col className="w-[6rem]" />
+              <col className="w-[6rem]" />
+              <col className="w-[9rem]" />
+              <col className="w-[3.5rem]" />
+              <col className="w-8" />
+              <col className="w-[5rem]" />
+            </colgroup>
+            <thead>
+              <tr className="border-b border-hairline font-mono-numbers text-[10px] uppercase tracking-[0.15em] text-ink/45">
+                <th className="py-2 pl-3">
+                  <input
+                    type="checkbox"
+                    aria-label="Select all shown"
+                    checked={allVisibleSelected}
+                    onChange={toggleAllVisible}
+                    className="h-3.5 w-3.5 rounded border-hairline accent-forest"
+                  />
+                </th>
+                <th className="px-2 py-2 font-normal">
+                  Name <span className="normal-case tracking-normal text-ink/35">({filteredGuests.length})</span>
+                </th>
+                <th className="px-2 py-2 font-normal">Side</th>
+                <th className="px-2 py-2 font-normal">Group</th>
+                <th className="px-2 py-2 font-normal">Priority</th>
+                <th className="px-2 py-2 font-normal">RSVP</th>
+                <th className="px-2 py-2 font-normal">Address</th>
+                <th className="px-2 py-2 font-normal" title="Email / phone">Reach</th>
+                <th className="px-2 py-2 text-center font-normal">+1</th>
+                <th className="px-2 py-2" />
+              </tr>
+            </thead>
+            <tbody>
+              {groups.map((group) => (
+                <GuestTableGroup
+                  key={group.key}
+                  heading={group.heading}
+                  color={group.color}
+                  count={group.guests.length}
+                >
+                  {group.guests.map((guest) => (
+                    <GuestTableRow
+                      key={guest.id}
+                      guest={guest}
+                      theme={theme}
+                      selected={selected.has(guest.id)}
+                      duplicate={isDuplicate(guest)}
+                      onToggle={() => toggleSelected(guest.id)}
+                      onSet={(field, value) => handleSetFields([guest.id], field, value)}
+                    />
+                  ))}
+                </GuestTableGroup>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <div className="mt-2 xl:hidden">
           {groups.map((group) => (
             <div key={group.key}>
               {group.heading && (
@@ -1462,6 +2060,7 @@ export function GuestsManager({
             </div>
           ))}
         </div>
+        </>
       )}
     </div>
   );

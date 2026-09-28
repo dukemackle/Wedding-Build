@@ -93,7 +93,9 @@ export function GuestsPageBody({
             />
           </div>
 
-          <div className="min-w-0 lg:col-span-4 xl:col-span-3">
+          {/* Sticky, so it stays beside the list as you scroll 270 rows
+              rather than ending halfway down and leaving a column of nothing. */}
+          <div className="min-w-0 lg:sticky lg:top-4 lg:col-span-4 lg:max-h-[calc(100vh-2rem)] lg:overflow-y-auto xl:col-span-3">
             <TabbedCard
               title="Invitations & RSVPs"
               description="Three ways to reach your guests — collect their addresses, email them the link, or chase the ones who haven't replied."

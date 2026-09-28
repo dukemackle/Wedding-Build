@@ -355,6 +355,82 @@ export async function setGuestGrouping(formData: FormData): Promise<{ error?: st
   return {};
 }
 
+/**
+ * One field set on many guests at once -- the table's inline cells (one id)
+ * and its bulk bar (every checked row) both come through here. Only the four
+ * list-level fields; anything else is still the Edit form's job.
+ */
+export async function updateGuestsFields(formData: FormData): Promise<{ error?: string }> {
+  const { supabase, wedding } = await requireOwnWedding();
+
+  if (!wedding) {
+    return { error: "Set up your wedding on the Dashboard first." };
+  }
+
+  const guestIds = formData.getAll("guest_id").map(String).filter(Boolean);
+  if (guestIds.length === 0) return {};
+
+  const patch: {
+    side?: GuestSide | null;
+    guest_type?: GuestType | null;
+    status?: GuestStatus;
+    priority?: GuestPriority;
+  } = {};
+  if (formData.has("side")) patch.side = optionalChoice(formData.get("side"), GUEST_SIDES);
+  if (formData.has("guest_type")) {
+    patch.guest_type = optionalChoice(formData.get("guest_type"), GUEST_TYPES);
+  }
+  if (formData.has("status")) {
+    const status = formData.get("status") as GuestStatus;
+    if (!VALID_STATUSES.includes(status)) return { error: "Invalid status." };
+    patch.status = status;
+  }
+  if (formData.has("priority")) {
+    const priority = formData.get("priority") as GuestPriority;
+    if (!VALID_PRIORITIES.includes(priority)) return { error: "Invalid priority." };
+    patch.priority = priority;
+  }
+
+  const { error } = await supabase
+    .from("guests")
+    .update({ ...patch, updated_at: new Date().toISOString() })
+    .in("id", guestIds)
+    .eq("wedding_id", wedding.id);
+
+  if (error) {
+    return { error: error.message };
+  }
+
+  revalidatePath("/guests");
+  revalidatePath("/budget");
+  return {};
+}
+
+export async function deleteGuests(formData: FormData): Promise<{ error?: string }> {
+  const { supabase, wedding } = await requireOwnWedding();
+
+  if (!wedding) {
+    return { error: "Set up your wedding on the Dashboard first." };
+  }
+
+  const guestIds = formData.getAll("guest_id").map(String).filter(Boolean);
+  if (guestIds.length === 0) return {};
+
+  const { error } = await supabase
+    .from("guests")
+    .delete()
+    .in("id", guestIds)
+    .eq("wedding_id", wedding.id);
+
+  if (error) {
+    return { error: error.message };
+  }
+
+  revalidatePath("/guests");
+  revalidatePath("/budget");
+  return {};
+}
+
 export async function addRegistryItem(formData: FormData): Promise<{ error?: string }> {
   const { supabase, user, wedding } = await requireOwnWedding();
 
