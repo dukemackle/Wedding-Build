@@ -7,6 +7,7 @@ import { estimateWeddingCost, type EstimatorTier } from "@/lib/estimator";
 import { STATES, STYLE_TIERS } from "@/lib/wedding-options";
 import { BudgetBarChart } from "@/app/budget/budget-chart";
 import { applyEstimateToWedding } from "@/app/budget/actions";
+import { CtaCard } from "@/components/cta-card";
 
 /**
  * What the couple's Budget is priced from right now, so the Estimator can
@@ -96,9 +97,7 @@ export function Estimator({
           : "w-full"
       }
     >
-      {/* Sticky only on screens tall enough to show the whole column; on a
-          short laptop the total at its bottom would otherwise be cut off. */}
-      <div className={split ? "lg:top-8 lg:[@media(min-height:820px)]:sticky" : undefined}>
+      <div>
         {intro && <div className="mb-10 lg:mb-6">{intro}</div>}
         <div className="w-full rounded-lg border border-hairline bg-card p-6 shadow-sm sm:p-8">
           <div
@@ -186,6 +185,20 @@ export function Estimator({
             {tier} style &middot; {guestCount} guests &middot; {state}
           </p>
         </div>
+
+        {/* On a wide page the note sits under the total it explains; on a
+            phone it stays as a line under the chart. */}
+        {split && !saved && (
+          <div className="mt-6 hidden rounded-lg border border-hairline bg-card p-8 shadow-sm lg:block">
+            <h2 className="font-display text-2xl font-semibold text-forest">
+              Where the numbers come from
+            </h2>
+            <p className="mt-2 text-sm text-ink/70">
+              {realDataCount} of {estimate.breakdown.length} categories use real, sourced pricing
+              data for {state}; the rest use a regional estimate until more data is added.
+            </p>
+          </div>
+        )}
       </div>
 
       <div>
@@ -207,39 +220,21 @@ export function Estimator({
             />
           </>
         ) : (
-          // Side by side on a wide page; the note is a card there because a
-          // lone line of grey text under a wide chart reads as a footnote.
-          <div className={split ? "lg:mt-6 lg:grid lg:grid-cols-2 lg:gap-6" : undefined}>
+          <>
             <p
-              className={`mt-4 text-center text-xs text-ink/50 ${
-                split
-                  ? "lg:mt-0 lg:rounded-lg lg:border lg:border-hairline lg:bg-card lg:p-8 lg:text-left lg:text-sm lg:text-ink/70 lg:shadow-sm"
-                  : ""
-              }`}
+              className={`mt-4 text-center text-xs text-ink/50 ${split ? "lg:hidden" : ""}`}
             >
-              {split && (
-                <span className="mb-2 hidden font-display text-2xl font-semibold text-forest lg:block">
-                  Where the numbers come from
-                </span>
-              )}
               {realDataCount} of {estimate.breakdown.length} categories use real, sourced pricing
               data for {state}; the rest use a regional estimate until more data is added.
             </p>
-            <div
-              className={`mt-8 w-full rounded-lg border border-hairline bg-card p-8 text-center shadow-sm ${
-                split ? "lg:mt-0 lg:text-left" : ""
-              }`}
-            >
-              <h2 className="font-display text-2xl font-semibold text-forest">{ctaTitle}</h2>
-              <p className="mt-2 text-sm text-ink/70">{ctaBody}</p>
-              <Link
-                href={ctaHref}
-                className="mt-6 inline-block rounded-full bg-forest px-6 py-2 font-mono-numbers text-sm text-parchment transition-colors hover:bg-forest/90"
-              >
-                {ctaLabel}
-              </Link>
-            </div>
-          </div>
+            <CtaCard
+              title={ctaTitle}
+              body={ctaBody}
+              href={ctaHref}
+              label={ctaLabel}
+              className={`mt-8 ${split ? "lg:mt-6" : ""}`}
+            />
+          </>
         )}
       </div>
     </div>
