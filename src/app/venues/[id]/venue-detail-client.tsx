@@ -19,9 +19,11 @@ const VenuesMap = dynamic(() => import("../venues-map").then((m) => m.VenuesMap)
 export function VenueMapEmbed({
   venue,
   isShortlisted,
+  signedIn,
 }: {
   venue: Venue & { latitude: number; longitude: number };
   isShortlisted: boolean;
+  signedIn: boolean;
 }) {
   return (
     <VenuesMap
@@ -29,6 +31,7 @@ export function VenueMapEmbed({
       shortlistedIds={isShortlisted ? new Set([venue.id]) : new Set()}
       center={[venue.latitude, venue.longitude]}
       zoom={12}
+      signedIn={signedIn}
       heightClassName="h-[280px] w-full overflow-hidden rounded-md border border-hairline"
     />
   );

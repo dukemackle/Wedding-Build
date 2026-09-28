@@ -51,7 +51,8 @@ export async function generateMetadata({
   const images = wedding.hero_photo_url ? [{ url: wedding.hero_photo_url }] : undefined;
 
   return {
-    title,
+    // The couple's own page: their names, not ours, in the tab.
+    title: { absolute: title },
     description,
     openGraph: { title, description, type: "website", images },
     twitter: {

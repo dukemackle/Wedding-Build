@@ -18,6 +18,8 @@ import { VendorFavoriteButton } from "./vendor-card-shared";
 import { InquiryForm } from "./inquiry-form";
 import { VendorFollowUps } from "./vendor-follow-ups";
 import { BirdEmptyState } from "@/components/wren-moments";
+import { SignupCardButton, SignupHeart } from "@/components/public-nav";
+import { vendorHref } from "@/lib/public-listings";
 
 const VendorsMap = dynamic(() => import("./vendors-map").then((m) => m.VendorsMap), {
   ssr: false,
@@ -50,8 +52,10 @@ function VendorCard({
   isBooked: initialIsBooked,
   isHighlighted,
   cardRef,
+  signedIn,
 }: {
   vendor: Vendor;
+  signedIn: boolean;
   isFavorited: boolean;
   isBooked: boolean;
   isHighlighted?: boolean;
@@ -89,7 +93,7 @@ function VendorCard({
     >
       <div className="relative">
         {vendor.image_url ? (
-          <Link href={`/vendors/${vendor.id}`}>
+          <Link href={vendorHref(vendor)}>
             <Image
               src={vendor.image_url}
               alt={vendor.name}
@@ -102,7 +106,7 @@ function VendorCard({
           // Vendors have no illustration fallback the way venues do, so the
           // slot becomes a plain tinted band rather than a broken image.
           <Link
-            href={`/vendors/${vendor.id}`}
+            href={vendorHref(vendor)}
             className="flex aspect-[16/10] max-h-44 w-full items-center justify-center bg-forest/5 lg:max-h-none"
           >
             {/* A monogram rather than the category, which the card already
@@ -118,11 +122,15 @@ function VendorCard({
           </span>
         )}
         <div className="absolute right-2 top-2">
-          <VendorFavoriteButton vendorId={vendor.id} isFavorited={isFavorited} overlay />
+          {signedIn ? (
+            <VendorFavoriteButton vendorId={vendor.id} isFavorited={isFavorited} overlay />
+          ) : (
+            <SignupHeart next={vendorHref(vendor)} />
+          )}
         </div>
       </div>
       <div className="flex flex-1 flex-col p-3">
-        <Link href={`/vendors/${vendor.id}`} className="hover:underline">
+        <Link href={vendorHref(vendor)} className="hover:underline">
           <p className="font-display text-lg font-semibold tracking-tight text-ink">
             {vendor.category ?? vendor.name}
           </p>
@@ -130,36 +138,42 @@ function VendorCard({
         {vendor.price_tier && <p className="mt-0.5 text-sm text-ink/80">{vendor.price_tier}</p>}
         {place && <p className="mt-0.5 text-[13px] text-ink/55">{place}</p>}
         <Link
-          href={`/vendors/${vendor.id}`}
+          href={vendorHref(vendor)}
           className="mt-1 text-[10px] font-semibold uppercase tracking-[0.07em] text-ink/40 hover:text-brass"
         >
           {vendor.name}
         </Link>
 
-        <div className="mt-3 flex flex-col gap-2">
-          {!showForm && (
-            <button
-              onClick={() => setShowForm(true)}
-              className="w-full rounded-full border border-hairline bg-card px-3 py-1.5 text-sm text-forest transition-colors hover:border-forest"
-            >
-              Request a quote
-            </button>
-          )}
-          {isBooked ? (
-            <span className="w-full rounded-full border border-forest/40 bg-forest/10 px-3 py-1.5 text-center text-sm text-forest">
-              ✓ Booked
-            </span>
-          ) : (
-            <button
-              onClick={handleMarkBooked}
-              disabled={isPending}
-              className="w-full rounded-full border border-hairline bg-card px-3 py-1.5 text-sm text-ink transition-colors hover:border-forest disabled:opacity-60"
-            >
-              {isPending ? "..." : "Mark as booked"}
-            </button>
-          )}
-        </div>
+        {!signedIn ? (
+          <div className="mt-3 flex flex-col gap-2">
+            <SignupCardButton next={vendorHref(vendor)} />
+          </div>
+        ) : (
+          <div className="mt-3 flex flex-col gap-2">
+            {!showForm && (
+              <button
+                onClick={() => setShowForm(true)}
+                className="w-full rounded-full border border-hairline bg-card px-3 py-1.5 text-sm text-forest transition-colors hover:border-forest"
+              >
+                Request a quote
+              </button>
+            )}
+            {isBooked ? (
+              <span className="w-full rounded-full border border-forest/40 bg-forest/10 px-3 py-1.5 text-center text-sm text-forest">
+                ✓ Booked
+              </span>
+            ) : (
+              <button
+                onClick={handleMarkBooked}
+                disabled={isPending}
+                className="w-full rounded-full border border-hairline bg-card px-3 py-1.5 text-sm text-ink transition-colors hover:border-forest disabled:opacity-60"
+              >
+                {isPending ? "..." : "Mark as booked"}
+              </button>
+            )}
+          </div>
 
+        )}
         {showForm && <InquiryForm vendor={vendor} onDone={() => setShowForm(false)} />}
       </div>
     </div>
@@ -298,10 +312,13 @@ export function VendorsManager({
   vendors,
   inquiries,
   favorites,
+  signedIn = true,
 }: {
   vendors: Vendor[];
   inquiries: VendorInquiry[];
   favorites: VendorFavoriteEntry[];
+  /** False on the public page: no Saved / Inquiries views, and card actions link to signup. */
+  signedIn?: boolean;
 }) {
   const favoritedIds = new Set(favorites.map((f) => f.vendor_id));
   const bookedVendorIds = new Set(
@@ -387,7 +404,7 @@ export function VendorsManager({
       onClearFilters={clearFilters}
       resultCount={filteredVendors.length}
       resultNoun="vendor"
-      views={[
+      views={!signedIn ? [] : [
         {
           key: "saved",
           label: "Saved",
@@ -484,6 +501,7 @@ export function VendorsManager({
           isFavorited={favoritedIds.has(vendor.id)}
           isBooked={bookedVendorIds.has(vendor.id)}
           isHighlighted={highlightedVendorId === vendor.id}
+          signedIn={signedIn}
           cardRef={(el) => {
             if (el) cardEls.current.set(vendor.id, el);
             else cardEls.current.delete(vendor.id);

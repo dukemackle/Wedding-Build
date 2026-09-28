@@ -3,7 +3,7 @@ import { STANDARD_WIDTH } from "@/lib/layout";
 import { ListForm } from "./list-form";
 
 export const metadata = {
-  title: "List your business — You Do, I Do",
+  title: "List your business",
   description: "Venues and wedding vendors: get listed on You Do, I Do, free.",
 };
 

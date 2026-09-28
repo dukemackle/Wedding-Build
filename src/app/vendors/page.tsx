@@ -1,10 +1,32 @@
+import type { Metadata } from "next";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { fetchAll } from "@/lib/supabase/fetch-all";
 import { AppNav } from "@/components/app-nav";
+import { PublicNav } from "@/components/public-nav";
+import { PUBLIC_VENDOR_COLUMNS } from "@/lib/public-listings";
 import type { Vendor, VendorFavoriteEntry, VendorInquiry, Wedding } from "@/lib/supabase/types";
 import { VendorsManager } from "./vendors-manager";
+
+export const metadata: Metadata = {
+  title: "Wedding vendors",
+  description:
+    "Find wedding photographers, caterers, florists, DJs and more near you, on a map. Details checked and dated, so you know what's current.",
+  alternates: { canonical: "/vendors" },
+};
+
+function loadVendors(supabase: Awaited<ReturnType<typeof createClient>>, columns: string) {
+  return fetchAll<Vendor>((from, to) =>
+    supabase
+      .from("vendors")
+      .select(columns)
+      .eq("active", true)
+      .order("name")
+      .order("id")
+      .range(from, to)
+      .returns<Vendor[]>(),
+  );
+}
 
 export default async function VendorsPage() {
   const supabase = await createClient();
@@ -12,8 +34,17 @@ export default async function VendorsPage() {
     data: { user },
   } = await supabase.auth.getUser();
 
+  // Logged out: the same browse screen, public columns only, and the save /
+  // quote buttons turn into signup links.
   if (!user) {
-    redirect("/login");
+    const vendors = await loadVendors(supabase, PUBLIC_VENDOR_COLUMNS);
+    return (
+      <main className="flex flex-1 flex-col px-6 py-16">
+        <PublicNav next="/vendors" />
+        <h1 className="sr-only">Wedding vendors</h1>
+        <VendorsManager vendors={vendors} inquiries={[]} favorites={[]} signedIn={false} />
+      </main>
+    );
   }
 
   const { data: wedding } = await supabase
@@ -47,16 +78,7 @@ export default async function VendorsPage() {
     );
   }
 
-  const vendors = await fetchAll<Vendor>((from, to) =>
-    supabase
-      .from("vendors")
-      .select("*")
-      .eq("active", true)
-      .order("name")
-      .order("id")
-      .range(from, to)
-      .returns<Vendor[]>(),
-  );
+  const vendors = await loadVendors(supabase, "*");
 
   const { data: inquiries } = await supabase
     .from("vendor_inquiries")

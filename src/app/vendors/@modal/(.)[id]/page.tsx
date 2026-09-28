@@ -1,4 +1,4 @@
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { ListingModal } from "@/components/listing-modal";
 import { loadVendorListing, VendorListing } from "../../[id]/vendor-listing";
@@ -12,9 +12,7 @@ export default async function VendorModalPage({ params }: { params: Promise<{ id
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  if (!user) redirect("/login");
-
-  const data = await loadVendorListing(supabase, user.id, id);
+  const data = await loadVendorListing(supabase, user?.id ?? null, id);
   if (!data) notFound();
 
   return (

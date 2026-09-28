@@ -12,6 +12,8 @@ import type {
 import { SERVICE_LEVELS } from "@/lib/wedding-options";
 import { ChevronDownIcon } from "@/components/icons";
 import { PhotoGallery } from "@/components/photo-gallery";
+import { SignupPrompt } from "@/components/public-nav";
+import { PUBLIC_VENUE_COLUMNS, isUuid, vendorHref, venueHref, verifiedLabel } from "@/lib/public-listings";
 import { VenueDetailClient, VenueMapEmbed } from "./venue-detail-client";
 import { VenueGoodToKnow, VenueKeyFacts, VenueSpaces } from "./listing-sections";
 
@@ -34,6 +36,8 @@ const DEFAULT_VENUE_IMAGE = "/venue-types/historic-estate.svg";
 
 export type VenueListingData = {
   venue: Venue;
+  /** False for a logged-out visitor: no contact details, a signup prompt. */
+  signedIn: boolean;
   wedding: Wedding | null;
   shortlistEntry: VenueShortlistEntry | null;
   faqs: VenueFaq[];
@@ -44,13 +48,15 @@ export type VenueListingData = {
 
 export async function loadVenueListing(
   supabase: SupabaseClient,
-  userId: string,
-  id: string,
+  userId: string | null,
+  idOrSlug: string,
 ): Promise<VenueListingData | null> {
+  // Logged out, the anon role can only read the public columns (0090).
+  const columns = userId ? "*" : PUBLIC_VENUE_COLUMNS;
   const { data: venue } = await supabase
     .from("venues")
-    .select("*")
-    .eq("id", id)
+    .select(columns)
+    .eq(isUuid(idOrSlug) ? "id" : "slug", idOrSlug)
     .eq("active", true)
     .maybeSingle<Venue>();
   if (!venue) return null;
@@ -62,11 +68,13 @@ export async function loadVenueListing(
 
   const [{ data: wedding }, { data: faqs }, { data: spaces }, { data: preferredVendors }, { data: similarVenues }] =
     await Promise.all([
-      supabase
-        .from("weddings")
-        .select("*")
-        .or(`user_id.eq.${userId},partner_user_id.eq.${userId}`)
-        .maybeSingle<Wedding>(),
+      userId
+        ? supabase
+            .from("weddings")
+            .select("*")
+            .or(`user_id.eq.${userId},partner_user_id.eq.${userId}`)
+            .maybeSingle<Wedding>()
+        : Promise.resolve({ data: null }),
       supabase.from("venue_faqs").select("*").eq("venue_id", venue.id).order("sort_order").returns<VenueFaq[]>(),
       supabase.from("venue_spaces").select("*").eq("venue_id", venue.id).order("sort_order").returns<VenueSpace[]>(),
       supabase
@@ -78,7 +86,7 @@ export async function loadVenueListing(
       similarityFilters.length
         ? supabase
             .from("venues")
-            .select("*")
+            .select(columns)
             .eq("active", true)
             .eq("is_sample", false)
             .neq("id", venue.id)
@@ -99,6 +107,7 @@ export async function loadVenueListing(
 
   return {
     venue,
+    signedIn: Boolean(userId),
     wedding: wedding ?? null,
     shortlistEntry: shortlistEntry ?? null,
     faqs: faqs ?? [],
@@ -126,7 +135,7 @@ function photosOf(venue: Venue): string[] {
 const card = "rounded-lg border border-hairline bg-card p-6 shadow-sm";
 
 export function VenueListing({ data }: { data: VenueListingData }) {
-  const { venue, wedding, shortlistEntry, faqs, spaces, preferredVendors, similarVenues } = data;
+  const { venue, signedIn, wedding, shortlistEntry, faqs, spaces, preferredVendors, similarVenues } = data;
 
   const preferredByCategory = new Map<string, VenuePreferredVendor[]>();
   for (const v of preferredVendors) {
@@ -157,11 +166,8 @@ export function VenueListing({ data }: { data: VenueListingData }) {
           </p>
           {venue.address && <p className="mt-1 text-sm text-ink/60">{venue.address}</p>}
           {venue.is_sample && <p className="mt-1 text-[10px] uppercase tracking-wide text-ink/40">Sample listing</p>}
-          {venue.source === "claimed" && venue.last_verified_at && (
-            <p className="mt-1 text-xs text-forest/80">
-              ✓ Details confirmed by the venue,{" "}
-              {new Date(venue.last_verified_at).toLocaleDateString("en-US", { month: "long", year: "numeric" })}
-            </p>
+          {verifiedLabel(venue, "venue") && (
+            <p className="mt-1 text-xs text-forest/80">✓ {verifiedLabel(venue, "venue")}</p>
           )}
           {venue.description && <p className="mt-4 text-ink/80">{venue.description}</p>}
           <VenueKeyFacts venue={venue} />
@@ -191,7 +197,9 @@ export function VenueListing({ data }: { data: VenueListingData }) {
                 </p>
               </div>
             )}
-            {wedding ? (
+            {!signedIn ? (
+              <SignupPrompt noun="venue" next={venueHref(venue)} website={venue.website} />
+            ) : wedding ? (
               <VenueDetailClient
                 venue={venue}
                 isShortlisted={Boolean(shortlistEntry)}
@@ -265,7 +273,7 @@ export function VenueListing({ data }: { data: VenueListingData }) {
                       {list.map((v) => (
                         <li key={v.id}>
                           {v.vendor_id ? (
-                            <Link href={`/vendors/${v.vendor_id}`} className="text-ink hover:text-brass">
+                            <Link href={vendorHref({ id: v.vendor_id })} className="text-ink hover:text-brass">
                               {v.name} <span className="text-xs text-brass">on You Do, I Do</span>
                             </Link>
                           ) : v.website ? (
@@ -312,6 +320,7 @@ export function VenueListing({ data }: { data: VenueListingData }) {
             <VenueMapEmbed
               venue={venue as Venue & { latitude: number; longitude: number }}
               isShortlisted={Boolean(shortlistEntry)}
+              signedIn={signedIn}
             />
           )}
 
@@ -322,7 +331,7 @@ export function VenueListing({ data }: { data: VenueListingData }) {
                 {similarVenues.map((v) => (
                   <Link
                     key={v.id}
-                    href={`/venues/${v.id}`}
+                    href={venueHref(v)}
                     className="flex flex-col overflow-hidden rounded-lg border border-hairline bg-card transition-colors hover:border-forest"
                   >
                     <Image

@@ -8,7 +8,7 @@ import { WIDE_WIDTH } from "@/lib/layout";
 import { ClaimForm } from "./claim-form";
 
 export const metadata = {
-  title: "Update your listing — You Do, I Do",
+  title: "Update your listing",
   // A private link: keep it out of search results even if it gets shared.
   robots: { index: false, follow: false },
 };

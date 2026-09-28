@@ -1,10 +1,32 @@
+import type { Metadata } from "next";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { fetchAll } from "@/lib/supabase/fetch-all";
 import { AppNav } from "@/components/app-nav";
+import { PublicNav } from "@/components/public-nav";
+import { PUBLIC_VENUE_COLUMNS } from "@/lib/public-listings";
 import type { Venue, VenueShortlistEntry, Wedding } from "@/lib/supabase/types";
 import { VenuesManager } from "./venues-manager";
+
+export const metadata: Metadata = {
+  title: "Wedding venues",
+  description:
+    "Browse wedding venues by state, city, capacity, setting and price, on a map. Details checked and dated, so you know what's current.",
+  alternates: { canonical: "/venues" },
+};
+
+function loadVenues(supabase: Awaited<ReturnType<typeof createClient>>, columns: string) {
+  return fetchAll<Venue>((from, to) =>
+    supabase
+      .from("venues")
+      .select(columns)
+      .eq("active", true)
+      .order("name")
+      .order("id")
+      .range(from, to)
+      .returns<Venue[]>(),
+  );
+}
 
 export default async function VenuesPage() {
   const supabase = await createClient();
@@ -12,8 +34,17 @@ export default async function VenuesPage() {
     data: { user },
   } = await supabase.auth.getUser();
 
+  // Logged out: the same browse screen, public columns only, and the save /
+  // contact buttons turn into signup links.
   if (!user) {
-    redirect("/login");
+    const venues = await loadVenues(supabase, PUBLIC_VENUE_COLUMNS);
+    return (
+      <main className="flex flex-1 flex-col px-6 py-16">
+        <PublicNav next="/venues" />
+        <h1 className="sr-only">Wedding venues</h1>
+        <VenuesManager venues={venues} shortlist={[]} bookedVenueId={null} signedIn={false} />
+      </main>
+    );
   }
 
   const { data: wedding } = await supabase
@@ -47,16 +78,7 @@ export default async function VenuesPage() {
     );
   }
 
-  const venues = await fetchAll<Venue>((from, to) =>
-    supabase
-      .from("venues")
-      .select("*")
-      .eq("active", true)
-      .order("name")
-      .order("id")
-      .range(from, to)
-      .returns<Venue[]>(),
-  );
+  const venues = await loadVenues(supabase, "*");
 
   const { data: shortlist } = await supabase
     .from("venue_shortlist")

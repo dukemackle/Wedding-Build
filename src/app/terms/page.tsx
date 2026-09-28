@@ -2,7 +2,7 @@ import { READING_WIDTH } from "@/lib/layout";
 import Link from "next/link";
 
 export const metadata = {
-  title: "Terms of Service — You Do, I Do",
+  title: "Terms of Service",
 };
 
 export default function TermsPage() {

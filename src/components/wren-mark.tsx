@@ -8,11 +8,11 @@ import Link from "next/link";
  * logo: the real mark stacks the bird above the wordmark, which is far too
  * tall for a nav bar. `priority` because it is above the fold on every page.
  */
-export function WrenMark() {
+export function WrenMark({ href = "/dashboard" }: { href?: string }) {
   return (
     <Link
-      href="/dashboard"
-      aria-label="You Do, I Do — go to your dashboard"
+      href={href}
+      aria-label={href === "/dashboard" ? "You Do, I Do — go to your dashboard" : "You Do, I Do — home"}
       className="flex shrink-0 items-center gap-2 sm:gap-3"
     >
       <BrandRings className="h-8 w-auto sm:h-10" />

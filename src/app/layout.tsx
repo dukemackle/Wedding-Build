@@ -5,6 +5,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { AssistantProvider } from "@/components/assistant-context";
 import { RegisterServiceWorker } from "@/components/register-service-worker";
 import "./globals.css";
+import { SITE_URL } from "@/lib/public-listings";
 
 const cormorant = Cormorant({
   variable: "--font-display",
@@ -25,7 +26,10 @@ const plexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "You Do, I Do",
+  // Resolves relative canonical and share-image URLs on every page.
+  metadataBase: new URL(SITE_URL),
+  title: { default: "You Do, I Do", template: "%s | You Do, I Do" },
+  openGraph: { siteName: "You Do, I Do", locale: "en_US" },
   description: "Plan your wedding budget, venues, guests, and vendors in one place.",
   appleWebApp: {
     capable: true,
