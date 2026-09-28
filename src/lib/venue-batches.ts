@@ -211,4 +211,22 @@ Grand Galvez	Galveston	Texas	29.29196	-94.7858	Ballroom / Hotel	Indoor & Outdoor
 Moody Gardens	Galveston	Texas	29.27464	-94.85241	Garden / Outdoor	Indoor & Outdoor		Island resort with a hotel, pyramid attractions and gardens, hosting weddings across its venues.		(409) 683-4000	https://www.moodygardens.org
 `,
   },
+  {
+    name: "Temple, Belton, Salado, Abilene, San Angelo and Wichita Falls",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Cathedral Oaks Event Center	Belton	Texas	31.06478	-97.44663	Historic / Estate	Indoor & Outdoor		A 6,800 sq ft event centre with limestone and hardwood finishes on six oak-covered acres between Temple and Belton, plus the smaller Magnolia House.		254.939.6257	https://www.cathedral-oaks.com
+Hidden Creek at StoneHaus	Belton	Texas	31.11376	-97.53265	Garden / Outdoor	Indoor & Outdoor		Family-owned property on five acres of live oaks with a creek and three ceremony sites, offering all-inclusive, micro-wedding and venue-only packages.		(254) 541-7741	https://www.hiddencreekatstonehaus.com
+Rustic Acres Event Center	Belton	Texas	30.97903	-97.49419	Barn / Rustic	Indoor & Outdoor	350	Twenty-two acres between Belton and Salado with 5,500 sq ft of indoor space.	rusticacreseventcenter@gmail.com	254-791-9010	https://www.rusticacreseventcenter.com
+La Rio Mansion	Belton	Texas			Historic / Estate	Indoor & Outdoor		Spanish-style venue with archways and gardens set among fields and oaks, built for open-air weddings.	weddings@lariomansion.com	(254) 833-7670	https://www.lariomansion.com
+Stagecoach Inn	Salado	Texas	30.94273	-97.53741	Ballroom / Hotel	Indoor & Outdoor	175	Historic inn among heritage oaks with a ballroom for 175, an oak-shaded ceremony field, a pool pavilion and rooms for guests.	hello@stagecoachsalado.com	(254) 947-5111	https://www.stagecoachsalado.com
+The Grace Museum	Abilene	Texas	32.44953	-99.73436	Historic / Estate	Indoor & Outdoor	400	Downtown museum with six rental spaces, including a historic ballroom for 200, a courtyard for 280 and a rooftop terrace for 150.	events@thegracemuseum.org	325.673.4587	https://thegracemuseum.org/rent-the-grace/
+The Warehouse	Abilene	Texas	32.45199	-99.73142	Historic / Estate	Indoor		Historic downtown building with exposed brick, balcony seating, a built-in bar and room for a band.		325-670-0061	http://www.warehouseonwalnut.com
+Sabrina Cedars	Abilene	Texas	32.32328	-99.88966	Barn / Rustic	Indoor & Outdoor		Two-storey white barn set below a hillside southwest of Abilene.	info@sabrinacedars.com	(325) 338-4327	https://www.sabrinacedars.com
+Vista Cielo Rosa	Christoval	Texas	31.20487	-100.49884	Garden / Outdoor	Indoor & Outdoor		Hilltop venue on 21 acres south of San Angelo, with air-conditioned indoor space, landscaped lawns and a bridal suite.	kelley@vistacielorosa.com	(325) 271-2405	https://www.vistacielorosa.com
+Stars on the Concho	San Angelo	Texas	31.596	-100.62903	Barn / Rustic	Indoor & Outdoor	350	Former horse ranch on the Concho River 15 miles north of San Angelo, with a main hall barn, covered space for 350 and an outdoor dance floor.		(325) 465-0491	https://starsontheconcho.com
+Daisy Place at Wichita River Retreat	Wichita Falls	Texas	33.89762	-98.61253	Garden / Outdoor	Outdoor	300	Sixteen wooded acres by the Wichita River with a covered pavilion seating up to 300 and a house sleeping 10.	wichitariverretreat@gmail.com	940-704-6550	https://www.wichitariverretreat.com
+French Country Farms	Wichita Falls	Texas	33.91873	-98.57284	Barn / Rustic	Indoor & Outdoor		Wedding barn on 20 acres just outside Wichita Falls, with indoor and outdoor ceremony spaces.	info@frenchcountryfarms.com	940-235-2528	https://www.frenchcountryfarms.com
+Venue 79	Wichita Falls	Texas	33.83372	-98.52125	Ballroom / Hotel	Indoor		A 6,000 sq ft modern event hall south of Wichita Falls.		(940) 782-7720	https://www.venue79.com
+`,
+  },
 ];
