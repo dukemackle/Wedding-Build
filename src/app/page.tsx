@@ -30,7 +30,7 @@ export default async function Home() {
         />
         <div className="flex flex-col items-start text-left">
           <div className="flex w-full max-w-[34rem] flex-col items-center">
-            <BrandRings className="h-auto w-44 sm:w-56" />
+            <BrandRings className="h-auto w-full max-w-88 sm:max-w-112" />
             <p className="mt-2 font-display text-5xl font-semibold text-ink sm:text-6xl">
               You do, <span className="italic text-[#d99a00]">I do</span>
             </p>
