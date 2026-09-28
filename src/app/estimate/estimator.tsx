@@ -96,9 +96,7 @@ export function Estimator({
           : "w-full"
       }
     >
-      {/* Sticky only on screens tall enough to show the whole column; on a
-          short laptop the total at its bottom would otherwise be cut off. */}
-      <div className={split ? "lg:top-8 lg:[@media(min-height:820px)]:sticky" : undefined}>
+      <div>
         {intro && <div className="mb-10 lg:mb-6">{intro}</div>}
         <div className="w-full rounded-lg border border-hairline bg-card p-6 shadow-sm sm:p-8">
           <div
@@ -186,6 +184,20 @@ export function Estimator({
             {tier} style &middot; {guestCount} guests &middot; {state}
           </p>
         </div>
+
+        {/* On a wide page the note sits under the total it explains; on a
+            phone it stays as a line under the chart. */}
+        {split && !saved && (
+          <div className="mt-6 hidden rounded-lg border border-hairline bg-card p-8 shadow-sm lg:block">
+            <h2 className="font-display text-2xl font-semibold text-forest">
+              Where the numbers come from
+            </h2>
+            <p className="mt-2 text-sm text-ink/70">
+              {realDataCount} of {estimate.breakdown.length} categories use real, sourced pricing
+              data for {state}; the rest use a regional estimate until more data is added.
+            </p>
+          </div>
+        )}
       </div>
 
       <div>
@@ -207,39 +219,36 @@ export function Estimator({
             />
           </>
         ) : (
-          // Side by side on a wide page; the note is a card there because a
-          // lone line of grey text under a wide chart reads as a footnote.
-          <div className={split ? "lg:mt-6 lg:grid lg:grid-cols-2 lg:gap-6" : undefined}>
+          <>
             <p
-              className={`mt-4 text-center text-xs text-ink/50 ${
-                split
-                  ? "lg:mt-0 lg:rounded-lg lg:border lg:border-hairline lg:bg-card lg:p-8 lg:text-left lg:text-sm lg:text-ink/70 lg:shadow-sm"
-                  : ""
-              }`}
+              className={`mt-4 text-center text-xs text-ink/50 ${split ? "lg:hidden" : ""}`}
             >
-              {split && (
-                <span className="mb-2 hidden font-display text-2xl font-semibold text-forest lg:block">
-                  Where the numbers come from
-                </span>
-              )}
               {realDataCount} of {estimate.breakdown.length} categories use real, sourced pricing
               data for {state}; the rest use a regional estimate until more data is added.
             </p>
+            {/* The page's one call to action, so it's a filled band rather
+                than another white card, with the homepage's hero button. */}
             <div
-              className={`mt-8 w-full rounded-lg border border-hairline bg-card p-8 text-center shadow-sm ${
-                split ? "lg:mt-0 lg:text-left" : ""
+              className={`mt-8 w-full rounded-lg p-8 text-center shadow-sm sm:p-10 ${
+                split ? "lg:mt-6 lg:flex lg:items-center lg:justify-between lg:gap-8 lg:text-left" : ""
               }`}
+              style={{ background: "linear-gradient(135deg, #14203d 0%, #2243B6 100%)" }}
             >
-              <h2 className="font-display text-2xl font-semibold text-forest">{ctaTitle}</h2>
-              <p className="mt-2 text-sm text-ink/70">{ctaBody}</p>
+              <div>
+                <h2 className="font-display text-3xl font-semibold text-white">{ctaTitle}</h2>
+                <p className="mt-2 max-w-md text-sm text-white/80 lg:max-w-none">{ctaBody}</p>
+              </div>
               <Link
                 href={ctaHref}
-                className="mt-6 inline-block rounded-full bg-forest px-6 py-2 font-mono-numbers text-sm text-parchment transition-colors hover:bg-forest/90"
+                className={`btn-motion mt-6 inline-block shrink-0 rounded-full px-7 pb-3 pt-2 font-display text-lg font-semibold ${
+                  split ? "lg:mt-0" : ""
+                }`}
+                style={{ backgroundColor: "#FFD301", color: "#14203d" }}
               >
                 {ctaLabel}
               </Link>
             </div>
-          </div>
+          </>
         )}
       </div>
     </div>
