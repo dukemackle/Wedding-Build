@@ -3,7 +3,8 @@
  * colour flows as one sweep from deep gold (left ring, bottom-left) through
  * gold to pale sunshine yellow (right ring, bottom-right). The left ring passes
  * over at the top crossing and under at the bottom, each tuck shaded, and the
- * diamond's point sits in a notch cut into the top of the right ring.
+ * diamond's point sits in a notch cut into the top of the right ring. The
+ * diamond is in the Wren bird's blues.
  */
 export function BrandRings({ className }: { className?: string }) {
   return (
@@ -20,8 +21,9 @@ export function BrandRings({ className }: { className?: string }) {
           <stop offset="1" stopColor="#ffe278" />
         </linearGradient>
         <linearGradient id="ydid-grad-d" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#ffc21a" />
-          <stop offset="1" stopColor="#eba600" />
+          <stop offset="0" stopColor="#8fd0f5" />
+          <stop offset="0.5" stopColor="#3b88c3" />
+          <stop offset="1" stopColor="#2f78ad" />
         </linearGradient>
         <filter id="ydid-blur" x="-20%" y="-20%" width="140%" height="140%">
           <feGaussianBlur stdDeviation="2.4" />
