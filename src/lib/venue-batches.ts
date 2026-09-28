@@ -610,4 +610,47 @@ The Partridge Inn	Augusta	Georgia			Ballroom / Hotel	Indoor & Outdoor		Historic 
 Sacred Heart Cultural Center	Augusta	Georgia			Historic / Estate	Indoor & Outdoor	275	Former church with a 7,000 sq ft Great Hall seating 275 and a courtyard garden.	denise@sacredheartaugusta.org	706-826-4700	https://sacredheartaugusta.org
 `,
   },
+  {
+    name: "Charleston and the islands",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Magnolia Plantation and Gardens	Charleston	South Carolina			Garden / Outdoor	Indoor & Outdoor	250	Ceremonies beneath live oaks beside the Ashley River, with receptions at the Carriage House (150 with a dance floor, 250 without).	info@magnoliaplantation.com	(843) 571-1266	https://www.magnoliaplantation.com
+Boone Hall Plantation	Mount Pleasant	South Carolina			Historic / Estate	Indoor & Outdoor		The waterfront Cotton Dock, plus a front lawn, a patio and a back lawn over the tidal marshes.	nataliek@boonehallplantation.com	843-884-4371	https://www.boonehallplantation.com
+Wentworth Mansion	Charleston	South Carolina			Historic / Estate	Indoor & Outdoor		Mansion hotel with 21 rooms, a lawn with magnolia and live oak, and the Tiffany-glassed Grand Mansion Suite for vows.	wm-concierge@charminginns.com	843-853-1886	https://wentworthmansion.com
+The Cedar Room	Charleston	South Carolina			Historic / Estate	Indoor		Private event space in the 1881 Cigar Factory in downtown Charleston.		(843) 793-4103	https://www.thecedarroom.com
+High Cotton	Charleston	South Carolina			Restaurant / Vineyard	Indoor	150	East Bay Street restaurant with exposed brick and heart pine floors; seats 100 or 150 for a reception.	kneighbours@hallmanagementgroup.com	(843) 724-3815	https://www.highcottoncharleston.com
+Live Oak Charleston	Charleston	South Carolina			Ballroom / Hotel	Indoor & Outdoor		Historic District hotel with more than 5,000 sq ft of event space.		843-718-2327	https://www.liveoakhotelcharleston.com
+The Dewberry	Charleston	South Carolina			Ballroom / Hotel	Indoor & Outdoor	200	Hotel with a ballroom under a brass palmetto chandelier, an ivy-covered walled garden and eighth-floor rooftop rooms.	concierge@dewberryhotels.com	843-558-8000	https://thedewberrycharleston.com
+Hotel Bennett	Charleston	South Carolina			Ballroom / Hotel	Indoor & Outdoor		Peninsula hotel with a ballroom and a rooftop space over the city.		843-203-0922	https://www.hotelbennett.com
+Zero George	Charleston	South Carolina			Historic / Estate	Indoor & Outdoor		Five restored 1804 residences and carriage houses around a private courtyard on East Bay.		843-817-7900	https://www.zerogeorge.com
+Charleston Harbor Resort & Marina	Mount Pleasant	South Carolina			Beach / Waterfront	Indoor & Outdoor	350	Waterfront resort and marina across the harbour from downtown, with event spaces for up to 350.		(843) 856-0028	https://www.charlestonharborresort.com
+Kiawah Island Golf Resort	Kiawah Island	South Carolina			Beach / Waterfront	Indoor & Outdoor		Beach resort 21 miles from Charleston whose planners can run a week of events around the wedding.		(800) 654-2924	https://www.kiawahresort.com
+Wild Dunes Resort	Isle of Palms	South Carolina			Beach / Waterfront	Indoor & Outdoor		Oceanfront resort with beach ceremonies and indoor receptions.		866-359-5593	https://www.wilddunes.com
+`,
+  },
+  {
+    name: "Beaufort, Bluffton and Hilton Head",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Hewitt Oaks	Bluffton	South Carolina			Garden / Outdoor	Indoor & Outdoor	350	All-inclusive venue under live oaks that holds one wedding a day, with a 10-bedroom bed and breakfast for the wedding party.	hello@hewittoaks.com	843-284-6686	https://www.hewittoaks.com
+Kirks Mansion	Bluffton	South Carolina			Historic / Estate	Indoor & Outdoor		Historic estate and boutique hotel on 12 acres under moss-draped live oaks.	rosehillmansionsc@gmail.com	854-257-7090	https://www.kirksmansion.com
+The Grove at Stoney Creek	Bluffton	South Carolina			Garden / Outdoor	Indoor & Outdoor		Ranch-style event venue among old live oaks.	info@thegroveatstoneycreek.com	(854) 345-0716	https://www.thegroveatstoneycreek.com
+Heyward House	Bluffton	South Carolina			Historic / Estate	Outdoor		Historic house museum in Old Town Bluffton near the May River, with grounds rented for weddings.	Nicki@HistoricBluffton.org	843-757-6293	https://www.heywardhouse.org
+Anchorage 1770	Beaufort	South Carolina			Historic / Estate	Indoor & Outdoor		Waterfront boutique hotel in historic Beaufort, with porches and a fourth-floor rooftop.		843-525-1770	https://anchorage1770.com
+Rhett House Inn	Beaufort	South Carolina			Historic / Estate	Indoor & Outdoor		1820s inn among live oaks in downtown Beaufort, for small weddings and events.	info@rhetthouseinn.com	(843) 524-9030	https://rhetthouseinn.com
+The Sea Pines Resort	Hilton Head Island	South Carolina			Beach / Waterfront	Indoor & Outdoor		Island resort with in-house catering and the Champions Ballroom at Harbour Town.		(866) 561-8802	https://www.seapines.com
+`,
+  },
+  {
+    name: "Upstate, Midlands and the Grand Strand",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Hotel Domestique	Travelers Rest	South Carolina			Ballroom / Hotel	Indoor & Outdoor	300	Countryside hotel at the foot of the Blue Ridge, with ceremonies for 300 on its helipad and receptions in the fountain courtyard.	events@hoteldomestique.com		https://www.hoteldomestique.com
+The Oaks	Anderson	South Carolina			Historic / Estate	Indoor & Outdoor	375	European-style estate on 200 acres 30 miles from Greenville, with a pine-beamed hall and a 30-foot glass wall.	theoaksweddingvenue@gmail.com	(864) 293-3606	https://theoaksweddingvenue.com
+Greenbrier Farms	Easley	South Carolina			Barn / Rustic	Indoor & Outdoor		All-inclusive working farm a short drive from downtown Greenville.		(864) 855-9782	https://www.greenbrierfarms.com
+Riverbanks Zoo & Garden	Columbia	South Carolina			Garden / Outdoor	Indoor & Outdoor	500	Zoo and botanical garden with wedding sites for 15 up to 500 guests.	planyourevent@riverbanks.org	803-602-0900	https://www.riverbanks.org
+1208 Washington Place	Columbia	South Carolina			Historic / Estate	Indoor		1924 bank building near the State House, with its original vaults, marble library and two ballrooms.	sales@columbiaconvention.com	(803) 318-3910	https://1208washingtonplace.com
+Historic Columbia	Columbia	South Carolina			Historic / Estate	Outdoor		Gardens of the Hampton-Preston Mansion, Robert Mills Carriage House and Woodrow Wilson Family Home, rented for weddings.		(803) 252-7742	https://www.historiccolumbia.org
+The Willcox	Aiken	South Carolina			Ballroom / Hotel	Indoor & Outdoor		Historic hotel, restaurant and spa in downtown Aiken.	info@thewillcox.com	803-648-1898	https://www.thewillcox.com
+Pawleys Plantation	Pawleys Island	South Carolina			Ballroom / Hotel	Indoor & Outdoor	360	Golf club whose Plantation Ballroom seats 360 over the 18th green and a saltwater marsh.		843-237-6083	https://www.pawleysplantation.com
+Hopsewee	Georgetown	South Carolina			Historic / Estate	Indoor & Outdoor		18th-century river plantation with ceremonies under live oaks on the North Santee and a tearoom cottage for receptions.	mail@hopsewee.com	(843) 546-7891	https://www.hopsewee.com
+`,
+  },
 ];
