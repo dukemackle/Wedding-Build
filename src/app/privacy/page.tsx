@@ -11,7 +11,7 @@ export default function PrivacyPage() {
       <div className={`w-full ${READING_WIDTH}`}>
         <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Legal</p>
         <h1 className="mt-2 font-display text-3xl font-semibold text-forest">Privacy Policy</h1>
-        <p className="mt-2 text-sm text-ink/60">Last updated: September 27, 2026</p>
+        <p className="mt-2 text-sm text-ink/60">Last updated: September 28, 2026</p>
 
         <div className="mt-8 flex flex-col gap-8 text-ink/80">
           <p>
@@ -132,6 +132,12 @@ export default function PrivacyPage() {
                 answer is about your wedding rather than weddings in general.
               </li>
             </ul>
+            <p className="mt-2">
+              We also use the same API for our own admin work, such as summarising feedback or checking
+              listings. That can include your names, wedding details (date, location, budget, guest
+              count) and feedback you&apos;ve sent us, but never your guests&apos; names, contact details, or
+              messages you send vendors.
+            </p>
             <p className="mt-2">
               Anthropic processes this to return a result and does not use it to train their
               models. You Do, I Do&apos;s AI output is a starting point you review — not legal, financial,
