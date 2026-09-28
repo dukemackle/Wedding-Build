@@ -51,7 +51,7 @@ export default async function Home() {
           <div className="mt-6 flex w-full max-w-[34rem] items-center justify-center gap-3">
             <Link
               href="/signup"
-              className="btn-motion rounded-full border border-transparent bg-forest px-6 pb-3 pt-2 font-display text-lg text-parchment transition-colors hover:bg-forest/90"
+              className="gold-shine relative overflow-hidden rounded-full bg-gradient-to-r from-[#FFD301] via-[#FFF12F] to-[#FFD301] px-6 pb-3 pt-2 font-display text-lg font-semibold text-forest shadow-[0_8px_30px_-6px_rgba(255,211,1,0.85)] ring-1 ring-[#FFD301] transition-transform duration-300 hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brass"
             >
               Sign up free
             </Link>
