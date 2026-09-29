@@ -363,4 +363,42 @@ Elizabeth Scott Bridal	Bridal & Formalwear	Burleson	Texas	Dallas–Fort Worth	Co
 Bridal Boutique Lewisville	Bridal & Formalwear	Lewisville	Texas	Dallas–Fort Worth	Family-owned bridal salon, one of the largest in the Dallas area.	info@bridalboutiquelewisville.com		https://www.bridalboutiquelewisville.com	https://www.instagram.com/bblewisville/
 `,
   },
+  {
+    name: "Houston: photography, planning, catering, florals and music",
+    tsv: `Name	Category	City	State	Service area	Description	Email	Phone	Website	Instagram
+B. Alvarado Photography	Photography	Houston	Texas	Houston, Katy and Spring	Affordable wedding photography with full-day coverage and custom packages.			https://www.balvaradophotography.com	https://www.instagram.com/balvaradophotography/
+Eric & Jenn Photography	Photography	Houston	Texas	Houston and surrounding areas	Husband-and-wife team photographing romantic weddings for over ten years.			https://ericandjennphotography.com	https://www.instagram.com/ericandjenn/
+Joanna Krueger Photography	Photography	Houston	Texas	Houston	Husband-and-wife team focused on a relaxed, stress-free wedding day and timeless photos.			https://joannakrueger.com	https://www.instagram.com/joannakrueger/
+Julie & Daniel Photography	Photography	Houston	Texas	Houston, The Woodlands and Sugar Land	Wedding photographers blending real moments with gentle, artful direction.	julieanddanielpv@gmail.com		https://julieanddanielphoto.com	https://www.instagram.com/julieanddanielphoto/
+Belle Events	Planning	Houston	Texas	Houston	Full-service luxury wedding planning, by appointment.	info@belleevents.com	832-282-0693	https://www.belleevents.com	https://www.instagram.com/belleevents/
+Two Be Wed	Planning	Houston	Texas	Houston and destination weddings	Luxury wedding planning and design, from day-of coordination to full service.		713-572-3030	https://www.twobewed.com	https://www.instagram.com/twobewed/
+Water to Wine Events	Planning	Houston	Texas	Houston and Galveston	Full-service planning and design, plus day-of coordination.	info@watertowineevents.com	713-291-9480	https://watertowineevents.com	https://www.instagram.com/watertowineevents/
+Houston Soirée	Planning	Houston	Texas	Houston and Austin	Planning and design studio offering full service and design-led coordination.	christine@houstonsoiree.com	512-755-0179	https://houstonsoiree.com	https://www.instagram.com/houston_soiree/
+Vow and Voyage	Planning	Houston	Texas	Houston and destination weddings	Wedding and honeymoon planner focused on culturally rich celebrations.	ashley@vowandvoyage.com	945-699-1012	https://vowandvoyage.com	https://www.instagram.com/vowandvoyage/
+J Low Events	Planning	The Woodlands	Texas	The Woodlands and greater Houston	Boutique wedding planning studio.	info@jlowevents.com		https://www.jlowevents.com	https://www.instagram.com/jlowevents/
+Brey & Co.	Planning	Houston	Texas	Houston	Wedding planning and in-house florals, with all-inclusive packages.	michelle@breyandco.com	281-451-2053	https://www.breyandco.com	https://www.instagram.com/breyandco/
+Bailey Connor Catering	Catering	Houston	Texas	Houston and Galveston	Wedding catering with fresh food and full service.		713-903-7377	https://www.baileyconnor.com	https://www.instagram.com/baileyconnorcatering/
+Cafe Natalie Catering	Catering	Houston	Texas	Houston	Luxury full-service wedding catering.			https://cafenataliecatering.com	https://www.instagram.com/cafenatalie/
+City View Catering	Catering	Houston	Texas	Houston	Full-service caterer for weddings and events.		(713) 223-9191	https://www.cityviewcatering.com	https://www.instagram.com/cityviewcatering/
+The Heights Catering	Catering	Houston	Texas	Houston	Full-service wedding catering with locally sourced produce.	theheightscatering@gmail.com	832-444-9933	https://www.theheightscatering.com	https://www.instagram.com/theheightscatering/
+The Hometown Chef	Catering	Humble	Texas	Houston and surrounding areas	Chef-owned caterer for weddings and private events.		832-304-1433	https://thehometownchef.com	https://www.instagram.com/thehometownchefcateringco/
+Southern Standard Hospitality	Catering	Houston	Texas	Houston	Catering company in the Energy Corridor serving weddings across greater Houston.	info@southernstandardhouston.com	(713) 570-6713	https://www.southernstandardhouston.com	https://www.instagram.com/southernstandardcatering/
+Wicked Whisk Catering	Catering	The Woodlands	Texas	The Woodlands, Conroe and Houston	Wedding and event caterer north of Houston.	sales@wickedwhiskcatering.com	(713) 897-8272	https://www.wickedwhiskcatering.com	https://www.instagram.com/wickedwhiskcateringhtx/
+Beyond Bloems	Florals	Houston	Texas	Houston and Magnolia	Luxury floral design and event production for weddings.	info@beyondbloems.com		https://www.beyondbloems.com	https://www.instagram.com/beyondbloems/
+Blush Floral Co.	Florals	Houston	Texas	Houston	Luxury floral design studio for weddings, by appointment.	flowers@blushfloralco.com		https://blushfloralco.com	https://www.instagram.com/blushfloralco_/
+Boyd's Blossoms	Florals	Baytown	Texas	Baytown, Houston and Anahuac	Local florist that also does wedding flowers.	boydsblossoms@gmail.com	(281) 422-3400	https://www.boydsblossoms.com	https://www.instagram.com/boyds_blossoms/
+Bramble and Bee Floral Design	Florals	Tomball	Texas	Tomball and northwest Houston	Wedding florals inspired by English gardens and Texas wildflowers.		346-808-3008	https://www.brambleandbee.com	
+Florelle Floristry Studio	Florals	Houston	Texas	Houston	Natural, abundant wedding flowers using local and American-grown blooms.			https://www.florellefloristry.com	
+Freedom Floral	Florals	Houston	Texas	Houston	Garden-style florist in Spring Branch.		(713) 637-4477	https://www.freedomfloral.com	https://www.instagram.com/freedomfloraltx/
+Maxit Flower Design	Florals	Houston	Texas	Houston	Award-winning wedding florals and installations.	maria@maxitflowerdesign.com	(713) 240-0531	https://www.maxitflowerdesign.com	https://www.instagram.com/maxitflowerdesign/
+EVENT by OVA	Florals	Houston	Texas	Houston, Katy and destination weddings	Luxury floral studio for weddings.	info@eventbyova.com	(832) 856-7450	https://www.eventbyova.com	https://www.instagram.com/eventbyova/
+Tin Cup Flower Co.	Florals	Galveston	Texas	Galveston County and surrounding areas	Artistic wedding florals for Galveston weddings.	hello@tincupflowerco.com		https://www.tincupflowerco.com	https://www.instagram.com/tincupflowerco/
+Petals & Twist Designs	Florals	Houston	Texas	Houston and Katy	Wedding floral design.	petalsandtwistdesigns@gmail.com		https://www.petalsandtwistdesigns.com	https://www.instagram.com/petalsandtwist_designs/
+The Mockingbirds Band	Music	Houston	Texas	Houston	Customisable wedding band with unlimited song requests.	booking@themockingbirdsband.com	713-516-1545	https://www.themockingbirdsband.com	https://www.instagram.com/themockingbirdsband/
+Fine Arts Strings	Music	Houston	Texas	Houston	String musicians for ceremonies and receptions, from classical to contemporary.	john@fineartsstrings.com	713-468-0788	https://www.fineartsstrings.com	https://www.instagram.com/fineartsstrings/
+Danny B DJ Company	Music	Houston	Texas	Houston and surrounding areas	Wedding DJ and MC with photo booth and dance lighting.	info@dannybdj.com	713-922-7648	https://www.dannybdj.us	https://www.instagram.com/dannyb1717/
+Enloe Entertainment	Music	Houston	Texas	Greater Houston	Wedding DJ and event entertainment.	admin@enloeentertainment.com	(281) 432-9136	https://www.enloeentertainment.com	https://www.instagram.com/enloeentertainment/
+AMP Events and Lighting	Music	Houston	Texas	Houston and surrounding areas	Wedding DJ, MC and lighting company.	contact@ampevents.net	713-530-1830	https://www.ampevents.net	https://www.instagram.com/ampevents_htx/
+`,
+  },
 ];
