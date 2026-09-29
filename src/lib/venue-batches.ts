@@ -958,4 +958,66 @@ The Settlers Inn	Hawley	Pennsylvania			Historic / Estate	Indoor & Outdoor		Pocon
 Stroudsmoor Country Inn	Stroudsburg	Pennsylvania			Ballroom / Hotel	Indoor & Outdoor		Pocono inn with several private event spaces, each with its own ceremony and reception sites.		(570) 421-6431	https://www.stroudsmoorweddings.com
 `,
   },
+  {
+    name: "North Jersey and the Hudson waterfront",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Liberty House	Jersey City	New Jersey			Beach / Waterfront	Indoor & Outdoor	325	Liberty State Park venue facing the Statue of Liberty and the Manhattan skyline, with a ballroom for 325 and ceremony gardens.		201-761-0025	https://bylandmark.com/venues/liberty-house
+Hudson House	Jersey City	New Jersey			Beach / Waterfront	Indoor & Outdoor	400	Waterfront venue in Port Liberté across the Hudson from Manhattan, with a rooftop space for after-parties.		201-761-0025	https://bylandmark.com/venues/hudson-house
+Pleasantdale Chateau	West Orange	New Jersey	40.78576	-74.26506	Historic / Estate	Indoor & Outdoor		Chateau-style estate hosting indoor and outdoor weddings, known for its kitchen.	info@pleasantdale.com	(973) 731-5600	https://www.pleasantdale.com
+The Estate at Florentine Gardens	River Vale	New Jersey	41.0142	-74.00677	Garden / Outdoor	Indoor & Outdoor		Bergen County estate that hosts one wedding at a time, with a grand ballroom, year-round gardens and in-house catering.		201-666-0444	https://www.florentinegardens.com
+Perona Farms	Andover	New Jersey			Barn / Rustic	Indoor & Outdoor	275	Family-run since 1917 on a former dairy farm, with a 1930s barn and two other halls, the largest for 275.	info@peronafarms.com	973.729.6161	https://www.peronafarms.com
+Crystal Springs Resort	Hamburg	New Jersey			Ballroom / Hotel	Indoor & Outdoor		Sussex County resort with garden and cliffside ceremony sites and ballrooms and pavilions across two hotels.		(855) 891-2117	https://www.crystalgolfresort.com
+Rock Island Lake Club	Sparta	New Jersey	41.05228	-74.62791	Beach / Waterfront	Indoor & Outdoor		Lakeside venue hosting one wedding a day, with indoor or outdoor ceremonies, a cocktail deck and in-house catering.	info@rockislandlakeclub.com	973.512.3995	https://www.rockislandlakeclub.com
+`,
+  },
+  {
+    name: "Somerset Hills, Hunterdon and Princeton",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+The Bernards Inn	Bernardsville	New Jersey			Historic / Estate	Indoor		Boutique hotel in the Somerset Hills with over a century of history, hosting wedding receptions.		908.766.0002	https://www.bernardsinn.com
+Stone House at Stirling Ridge	Warren	New Jersey	40.63459	-74.51904	Garden / Outdoor	Indoor & Outdoor		Stone-and-glass venue inspired by Frank Lloyd Wright, with a ballroom, a lodge and Watchung Mountain views; an on-site farm supplies the kitchen.		(908) 754-1222	https://bylandmark.com/our-venues/venue-showcase-stone-house/
+The Ryland Inn	Whitehouse Station	New Jersey	40.58411	-74.76999	Historic / Estate	Indoor & Outdoor	240	Estate dating from 1796 with a ballroom for 240, a coach house for 200, gardens and on-site cottages.		201-761-0025	https://bylandmark.com/venues/ryland-inn
+Farmhouse	Hampton	New Jersey			Barn / Rustic	Indoor & Outdoor	265	340-year-old estate with a ballroom for 265, The Silo for 170, and a barn reconstructed on site from Pennsylvania.		201-761-0025	https://bylandmark.com/venues/farmhouse
+Olde Mill Inn	Basking Ridge	New Jersey			Ballroom / Hotel	Indoor		Inn offering ballroom weddings and smaller ones in its Grain House.		908-221-1100	https://www.oldemillinn.com
+Fiddler's Elbow Country Club	Bedminster	New Jersey			Historic / Estate	Indoor & Outdoor		English manor clubhouse and grounds on land once given over to peach orchards.		(908) 439-2123	https://www.fiddlerselbow.com
+Five Birds Farm	Ringoes	New Jersey			Barn / Rustic	Indoor & Outdoor	250	Family-run Hunterdon farm with a restored barn, cottages and flower fields, and a working train station guests can ride to from Flemington.	events@fivebirdsfarm.com	908-905-0042	https://www.fivebirdsfarm.com
+Born to Run Farm	Glen Gardner	New Jersey			Garden / Outdoor	Outdoor		Family-owned outdoor wedding venue on a Hunterdon County farm.	Joseph@borntorunfarm.com	973-349-0129	https://www.borntorunfarm.com
+Park Château Estate & Gardens	East Brunswick	New Jersey	40.42625	-74.41824	Historic / Estate	Indoor & Outdoor	400	French château-style venue on 15 acres, halfway between Manhattan and Philadelphia, with a ballroom, chapel and gardens.		732-238-4200	https://parkchateau.com
+Morven Museum & Garden	Princeton	New Jersey			Historic / Estate			National Historic Landmark and New Jersey's first governor's mansion, rented for weddings.	info@morven.org	609-924-8144	https://www.morven.org
+Nassau Inn	Princeton	New Jersey			Ballroom / Hotel	Indoor		Inn on Palmer Square, hosting weddings in its ballroom since 1937.		(609) 921-7500	https://www.nassauinn.com
+The Ashford Estate	Allentown	New Jersey			Historic / Estate	Indoor & Outdoor		Thirty acres among preserved farmland with a barn chapel, carriage house, ballroom and a floating gazebo.		609-208-0404	https://weddingsofdistinctionnj.com/venues/the-ashford-estate/
+`,
+  },
+  {
+    name: "The Jersey Shore and Long Beach Island",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Windows on the Water	Sea Bright	New Jersey			Beach / Waterfront	Indoor & Outdoor		Oceanfront venue with ceremonies and cocktail hour on the beach and receptions in the ballroom.	mike@njwindowsonthewater.com	(732) 842-8463	https://www.windowsonthewater.com
+Molly Pitcher Inn	Red Bank	New Jersey			Beach / Waterfront	Indoor & Outdoor		Inn with cocktails on a Navesink River promenade and a water-view ballroom.		(732) 747-2500	https://www.themollypitcher.com
+Wave Resort	Long Branch	New Jersey			Ballroom / Hotel	Indoor & Outdoor		Oceanfront hotel whose High Crest event space has over 7,000 sq ft indoors and out.	sales@waveresort.com	(732) 612-9283	https://www.waveresort.com
+The English Manor	Ocean	New Jersey	40.25441	-74.03194	Historic / Estate	Indoor & Outdoor		Manor that hosts one wedding at a time, with garden or ballroom ceremonies.	info@theenglishmanor.com	732-776-8558	https://theenglishmanor.com
+The Berkeley Oceanfront Hotel	Asbury Park	New Jersey			Ballroom / Hotel	Indoor & Outdoor		Oceanfront hotel with ballrooms, the chandeliered Palm Court and a rooftop lookout.			https://www.berkeleyhotelnj.com
+The Asbury	Asbury Park	New Jersey			Ballroom / Hotel	Indoor & Outdoor		Rock 'n' roll-themed hotel with a terrace and rooftop, and a bowling alley next door.		732-774-7100	https://www.theasburyhotel.com
+The Mill Lakeside Manor	Spring Lake Heights	New Jersey			Beach / Waterfront	Indoor & Outdoor		Hosts one wedding at a time, with lakeside ceremonies outdoors or behind floor-to-ceiling windows, and a ballroom.		732-449-1800	https://themilllakesidemanor.com
+The Shore Club	Spring Lake	New Jersey			Ballroom / Hotel	Indoor		Three event rooms and a 60-room hotel on site.		732-449-3666	https://www.theshoreclubnj.com
+Clarks Landing Yacht Club	Point Pleasant	New Jersey			Beach / Waterfront	Indoor		Waterfront venue hosting one wedding at a time, with a glass-enclosed ceremony space and all-inclusive packages.		732-899-5559	https://clarkslandingweddings.com
+Bonnet Island Estate	Manahawkin	New Jersey			Beach / Waterfront	Indoor & Outdoor		Private island estate on the way to Long Beach Island, with a boathouse chapel, ballroom and twelve guest suites.		(609) 494-9100	https://weddingsofdistinctionnj.com/venues/bonnet-island-estate/
+Mallard Island Estate	Manahawkin	New Jersey			Beach / Waterfront	Indoor & Outdoor	250	Barnegat Bay estate surrounded by water, with a boathouse chapel, a ballroom for 250 and ten suites.		(609) 494-9100	https://weddingsofdistinctionnj.com/venues/mallard-island-estate/
+The Mainland	Manahawkin	New Jersey			Ballroom / Hotel	Indoor & Outdoor		Event space at the Holiday Inn with a terrace room and grounds.	events@themainlandnj.com	609-481-6115	https://weddingsofdistinctionnj.com/venues/the-mainland/
+Hotel LBI	Ship Bottom	New Jersey			Ballroom / Hotel	Indoor & Outdoor		Long Beach Island hotel styled on early-1900s grand hotels, with a rooftop bar.		609-467-8000	https://hotellbi.com
+`,
+  },
+  {
+    name: "Cape May and South Jersey",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Congress Hall	Cape May	New Jersey			Ballroom / Hotel	Indoor & Outdoor		America's first seaside resort, from 1816, with a grand ballroom and lawn.		(888) 944-1816	https://www.caperesorts.com/congress-hall
+The Southern Mansion	Cape May	New Jersey			Historic / Estate	Indoor & Outdoor		Restored Victorian mansion from about 1860 with a ballroom and an acre and a half of gardens.	frontdesk@southernmansion.com	609-884-7171	https://www.southernmansion.com
+Willow Creek Winery	Cape May	New Jersey			Restaurant / Vineyard	Indoor & Outdoor	350	Vineyard with garden settings, cottages for overnight guests and a life-size Alice in Wonderland chessboard.	info@willowcreekwinerycapemay.com	609.770.8782	https://www.willowcreekwinerycapemay.com
+ICONA Avalon	Avalon	New Jersey			Beach / Waterfront	Indoor & Outdoor		Beachfront resort among the dunes, with beach ceremonies and a ballroom.			https://iconaweddings.com
+ICONA Diamond Beach	Diamond Beach	New Jersey			Beach / Waterfront	Indoor & Outdoor	300	Resort on a private beach with tented beach ceremonies and a third-floor ballroom for up to 300.			https://iconaweddings.com
+The Reeds at Shelter Haven	Stone Harbor	New Jersey			Beach / Waterfront			Waterfront hotel in Stone Harbor hosting weddings.		609-368-0100	https://reedsatshelterhaven.com
+Deauville Inn	Strathmere	New Jersey			Beach / Waterfront	Indoor & Outdoor		Waterfront inn with a dining room, a sunset deck and beach ceremony sites.		(609) 263-2080	https://www.deauvilleinn.com
+The Mansion on Main Street	Voorhees	New Jersey	39.84857	-74.95284	Ballroom / Hotel	Indoor & Outdoor	350	Three ballrooms, an indoor ceremony pavilion and French gardens with waterfalls, 20 minutes from Philadelphia.	info@mansiononmainstreet.com	856-751-1717	https://www.mansiononmainstreet.com
+The Merion	Cinnaminson	New Jersey	40.00016	-74.99163	Ballroom / Hotel	Indoor & Outdoor		South Jersey hall with four ballrooms and a garden for ceremonies, open for over 60 years.		(856) 829-2111	https://www.themerion.com
+Valenzano Winery	Shamong	New Jersey	39.78489	-74.71726	Restaurant / Vineyard	Indoor & Outdoor		Winery with the Winemaker's Ballroom and an outdoor pavilion, catered by Summit Catering.		(609) 268-6731	https://www.valenzanowine.com
+`,
+  },
 ];
