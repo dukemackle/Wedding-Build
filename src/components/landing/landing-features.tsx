@@ -40,7 +40,7 @@ const BLURBS: Record<string, string> = {
   "/vendors": "Every vendor conversation and quote in one place.",
   "/checklist": "A month-by-month plan built around your date.",
   "/bookings": "Everyone you book, with their contract and contact details.",
-  "/attire": "Dresses, suits and rings — buy or rent, and when to order.",
+  "/attire": "Dresses, suits and rings — save favorites, then buy or rent.",
   "/itinerary": "A printable run sheet for the day, hour by hour.",
   "/venue-layout": "Drag tables into your room and seat everyone.",
   "/guests/site": "A free wedding website in your own style, with RSVPs built in.",

@@ -7,7 +7,18 @@ import type { ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { WrenMotto } from "@/components/wren-motto";
 import { AskWrenTile } from "@/app/dashboard/ask-wren-tile";
-import { THEMES } from "@/lib/site-design";
+import { THEMES, fontsHref } from "@/lib/site-design";
+import { CHECKLIST_PHASES, CHECKLIST_TEMPLATE } from "@/lib/checklist-template";
+import {
+  BarIcon,
+  CakeIcon,
+  CateringIcon,
+  FloralsIcon,
+  MusicIcon,
+  PaperclipIcon,
+  PhotographyIcon,
+  VenueIcon,
+} from "@/components/icons";
 
 /*
  * A small working preview of each part of Wren, on sample data, opened from
@@ -22,104 +33,299 @@ const usd = (n: number) =>
     maximumFractionDigits: 0,
   });
 
+/*
+ * Each demo below is a small copy of its real page, laid out the way that
+ * page is: the wide arrangement from md up (the dialog is ~1000px there), the
+ * phone arrangement below it. `Bleed` lets a demo run edge to edge in the
+ * dialog, as the real pages run edge to edge in the app.
+ */
+function Bleed({ children }: { children: ReactNode }) {
+  return <div className="-mx-5 -my-6 sm:-mx-8">{children}</div>;
+}
+
+const eyebrow =
+  "font-mono-numbers text-[10px] uppercase tracking-[0.16em] text-ink/50";
+
 /* ---------- Budget ---------- */
 
 // Example costs: per head for the parts that scale with the guest count,
 // flat for the rest. Round numbers, labelled as an example on screen.
-const BUDGET_LINES = [
-  { label: "Catering", perGuest: 85 },
-  { label: "Bar", perGuest: 30 },
-  { label: "Rentals", perGuest: 18 },
-  { label: "Venue", flat: 9000 },
-  { label: "Photography", flat: 4200 },
-  { label: "Flowers", flat: 2800 },
-  { label: "Music", flat: 2200 },
+const BUDGET_LINES: {
+  key: string;
+  label: string;
+  Icon: (p: { className?: string }) => ReactNode;
+  perGuest?: number;
+  flat?: number;
+  actual?: number;
+  paid?: number;
+}[] = [
+  { key: "venue", label: "Venue", Icon: VenueIcon, flat: 9000, actual: 9500, paid: 3000 },
+  { key: "catering", label: "Catering", Icon: CateringIcon, perGuest: 85 },
+  { key: "bar", label: "Bar", Icon: BarIcon, perGuest: 30 },
+  { key: "photo", label: "Photography", Icon: PhotographyIcon, flat: 4200, actual: 4000, paid: 4000 },
+  { key: "florals", label: "Florals", Icon: FloralsIcon, flat: 2800 },
+  { key: "music", label: "Music", Icon: MusicIcon, flat: 2200, actual: 1800 },
+  { key: "cake", label: "Cake", Icon: CakeIcon, perGuest: 6 },
 ];
+
+const BUDGET_TARGET = 40000;
+// Same colours as the real "Where it's going" bar (budget-summary.tsx).
+const SLICE_COLORS = ["#0d8266", "#b07d0a", "#d2426b", "#3b76c4"];
+const REST_COLOR = "#c2c7c0";
+const BUDGET_COLS =
+  "md:grid md:grid-cols-[minmax(0,1fr)_6rem_6.5rem_8.5rem] md:items-center md:gap-4";
 
 function BudgetDemo() {
   const [guests, setGuests] = useState(120);
-  const lines = BUDGET_LINES.map((l) => ({
-    label: l.label,
-    amount: l.flat ?? (l.perGuest ?? 0) * guests,
-  }));
-  const total = lines.reduce((s, l) => s + l.amount, 0);
-  const max = Math.max(...lines.map((l) => l.amount));
+  const [actual, setActual] = useState<Record<string, number | undefined>>(
+    Object.fromEntries(BUDGET_LINES.map((l) => [l.key, l.actual])),
+  );
+  const [paid, setPaid] = useState<Record<string, number>>(
+    Object.fromEntries(BUDGET_LINES.map((l) => [l.key, l.paid ?? 0])),
+  );
+
+  const rows = BUDGET_LINES.map((l) => {
+    const estimate = l.perGuest ? l.perGuest * guests : (l.flat ?? 0);
+    const a = actual[l.key];
+    const amount = a ?? estimate;
+    const p = paid[l.key] ?? 0;
+    const pct = a ? Math.min(100, (p / a) * 100) : 0;
+    return { ...l, estimate, a, amount, p, pct };
+  });
+  const projected = rows.reduce((s, r) => s + r.amount, 0);
+  const actualSoFar = rows.reduce((s, r) => s + (r.a ?? 0), 0);
+  const paidSoFar = rows.reduce((s, r) => s + r.p, 0);
+  const remaining = BUDGET_TARGET - actualSoFar;
+  const quoted = rows.filter((r) => r.a).length;
+
+  const sorted = [...rows].sort((x, y) => y.amount - x.amount);
+  const slices = [
+    ...sorted.slice(0, 4).map((r, i) => ({
+      key: r.key,
+      label: r.label,
+      color: SLICE_COLORS[i],
+      pct: Math.round((r.amount / projected) * 100),
+    })),
+    {
+      key: "rest",
+      label: "Everything else",
+      color: REST_COLOR,
+      pct: Math.round(
+        (sorted.slice(4).reduce((s, r) => s + r.amount, 0) / projected) * 100,
+      ),
+    },
+  ];
 
   return (
-    <div className="flex flex-col gap-5">
-      <div>
-        <div className="flex items-baseline justify-between">
-          <label htmlFor="demo-guests" className="text-sm text-ink/70">
-            Guests
-          </label>
-          <span className="font-mono-numbers text-lg font-semibold text-forest">
-            {guests}
-          </span>
-        </div>
-        <input
-          id="demo-guests"
-          type="range"
-          min={40}
-          max={250}
-          step={5}
-          value={guests}
-          onChange={(e) => setGuests(Number(e.target.value))}
-          className="mt-2 w-full accent-forest"
-        />
-      </div>
-      <div className="flex items-baseline justify-between border-y border-hairline py-3">
-        <span className="font-display text-xl text-forest">
-          Estimated total
-        </span>
-        <span className="font-mono-numbers text-2xl font-semibold text-wren-deep">
-          {usd(total)}
-        </span>
-      </div>
-      <ul className="flex flex-col gap-2.5">
-        {lines.map((l) => (
-          <li
-            key={l.label}
-            className="grid grid-cols-[6.5rem_1fr_4.5rem] items-center gap-3 text-sm"
-          >
-            <span className="text-ink/80">{l.label}</span>
-            <span className="h-1.5 overflow-hidden rounded-full bg-hairline">
-              <span
-                className="block h-full rounded-full bg-brass/80 transition-[width] duration-300"
-                style={{ width: `${(l.amount / max) * 100}%` }}
+    <Bleed>
+      <div className="border-b border-hairline bg-gradient-to-b from-parchment/60 to-card px-5 py-5 sm:px-8">
+        <div className={BUDGET_COLS.replace("md:items-center", "md:items-end")}>
+          <div>
+            <p className="font-display text-2xl font-semibold text-forest">
+              Your budget
+            </p>
+            <label className="mt-2 flex items-center gap-3 text-sm text-ink/70">
+              <span className="shrink-0">Guests</span>
+              <input
+                type="range"
+                min={40}
+                max={250}
+                step={5}
+                value={guests}
+                onChange={(e) => setGuests(Number(e.target.value))}
+                className="w-full max-w-48 accent-[var(--color-forest)]"
               />
-            </span>
-            <span className="text-right font-mono-numbers text-xs text-ink/70">
-              {usd(l.amount)}
-            </span>
-          </li>
+              <span className="font-mono-numbers font-semibold text-forest">
+                {guests}
+              </span>
+            </label>
+          </div>
+          <div className="mt-4 flex flex-wrap gap-6 md:contents">
+            <div className="md:text-right">
+              <p className={eyebrow}>Projected</p>
+              <p className="mt-1 font-mono-numbers text-xl text-wren-deep md:text-2xl">
+                {usd(projected)}
+              </p>
+            </div>
+            <div className="md:text-right">
+              <p className={eyebrow}>Actual so far</p>
+              <p className="mt-1 font-mono-numbers text-xl text-brass md:text-2xl">
+                {usd(actualSoFar)}
+              </p>
+              <p className="font-mono-numbers text-[11px] text-ink/55">
+                {usd(paidSoFar)} paid
+              </p>
+            </div>
+            <div className="min-w-[9rem] flex-1 md:border-l md:border-hairline md:pl-4">
+              <p className={eyebrow}>Budget</p>
+              <p className="mt-1 font-mono-numbers text-xl text-forest md:text-2xl">
+                {usd(BUDGET_TARGET)}
+              </p>
+              <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-forest/10">
+                <div
+                  className={`h-1.5 rounded-full transition-[width] ${remaining < 0 ? "bg-brass" : "bg-forest"}`}
+                  style={{
+                    width: `${Math.min(100, (actualSoFar / BUDGET_TARGET) * 100)}%`,
+                  }}
+                />
+              </div>
+              <p className="mt-1 font-mono-numbers text-[11px] text-ink/60">
+                {usd(Math.abs(remaining))} {remaining < 0 ? "over" : "under"}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-5 border-t border-hairline pt-4">
+          <div className="flex flex-wrap items-baseline justify-between gap-2">
+            <p className={eyebrow}>Where it&apos;s going</p>
+            <p className="font-mono-numbers text-[11px] text-ink/55">
+              {quoted} of {rows.length} lines have a real number
+            </p>
+          </div>
+          <div className="mt-2 flex h-3 gap-[2px]">
+            {slices.map((s) => (
+              <span
+                key={s.key}
+                className="transition-[width] first:rounded-l-full last:rounded-r-full"
+                style={{ width: `${s.pct}%`, backgroundColor: s.color }}
+              />
+            ))}
+          </div>
+          <p className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-[12px] text-ink/70">
+            {slices.map((s) => (
+              <span key={s.key} className="flex items-center gap-1.5">
+                <span
+                  className="inline-block h-2.5 w-2.5 rounded-full"
+                  style={{ backgroundColor: s.color }}
+                />
+                {s.label}
+                <span className="font-mono-numbers font-medium text-ink">
+                  {s.pct}%
+                </span>
+              </span>
+            ))}
+          </p>
+        </div>
+      </div>
+
+      <div
+        className={`hidden border-b border-hairline bg-parchment/50 px-8 py-2 ${BUDGET_COLS}`}
+      >
+        <span className={eyebrow}>Category</span>
+        <span className={`${eyebrow} text-right`}>Estimate</span>
+        <span className={`${eyebrow} pr-2 text-right`}>Actual</span>
+        <span className={eyebrow}>Paid</span>
+      </div>
+
+      <div className="px-5 sm:px-6">
+        {rows.map((r) => (
+          <div
+            key={r.key}
+            className={`border-b border-hairline px-1 py-2.5 last:border-b-0 md:px-2 ${BUDGET_COLS}`}
+          >
+            <div className="flex min-w-0 items-center gap-2">
+              <r.Icon className="h-4 w-4 shrink-0 text-brass" />
+              <span className="min-w-0 truncate text-ink">
+                {r.label}
+                {r.perGuest && (
+                  <span className="text-ink/45"> · scales with guest count</span>
+                )}
+              </span>
+            </div>
+            <div className="mt-2 flex items-center gap-3 pl-6 md:contents">
+              <span className="font-mono-numbers text-sm text-ink/60 md:text-right">
+                {usd(r.estimate)}
+              </span>
+              <input
+                type="number"
+                min={0}
+                value={r.a ?? ""}
+                placeholder="0"
+                aria-label={`Actual cost for ${r.label}`}
+                onChange={(e) =>
+                  setActual((s) => ({
+                    ...s,
+                    [r.key]: e.target.value ? Number(e.target.value) : undefined,
+                  }))
+                }
+                className="w-24 rounded-md border border-hairline bg-parchment px-2 py-1 text-right font-mono-numbers text-sm text-ink outline-none focus:border-forest md:justify-self-end"
+              />
+              <span className="flex flex-1 items-center gap-2 md:flex-none">
+                <span className="h-1.5 flex-1 overflow-hidden rounded-full bg-forest/10">
+                  <span
+                    className="block h-1.5 rounded-full bg-forest transition-[width]"
+                    style={{ width: `${r.pct}%` }}
+                  />
+                </span>
+                <span className="w-9 shrink-0 text-right font-mono-numbers text-[11px] text-ink/55">
+                  {r.p <= 0 ? "—" : r.pct >= 100 ? "Paid" : `${Math.round(r.pct)}%`}
+                </span>
+                <button
+                  type="button"
+                  disabled={!r.a}
+                  aria-pressed={r.pct >= 100}
+                  aria-label={`Paid in full for ${r.label}`}
+                  onClick={() =>
+                    setPaid((s) => ({ ...s, [r.key]: r.pct >= 100 ? 0 : (r.a ?? 0) }))
+                  }
+                  className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full border text-sm transition-colors disabled:opacity-40 ${
+                    r.pct >= 100
+                      ? "border-forest bg-forest text-parchment"
+                      : "border-hairline text-ink/30 hover:border-forest hover:text-forest"
+                  }`}
+                >
+                  ✓
+                </button>
+              </span>
+            </div>
+          </div>
         ))}
-      </ul>
-      <p className="text-xs text-ink/50">
-        Example numbers. Your account uses real costs for your state, season and
-        style.
-      </p>
-    </div>
+        <p className="py-3 text-xs text-ink/50">
+          Example numbers. Your account starts from real costs for your state,
+          season and style.
+        </p>
+      </div>
+    </Bleed>
   );
 }
 
 /* ---------- Seating ---------- */
 
-const SEAT_GUESTS = [
-  "Aunt May",
-  "Uncle Joe",
-  "Priya",
-  "Marcus",
-  "Grandma Rose",
-  "Lena",
+type SideKey = "a" | "b" | "both";
+const SIDE_COLORS: Record<SideKey, string> = {
+  a: "#2243B6",
+  b: "#e0a100",
+  both: "#00BFFE",
+};
+
+const SEAT_GUESTS: { name: string; side: SideKey; plusOne?: boolean }[] = [
+  { name: "Aunt May", side: "a" },
+  { name: "Uncle Joe", side: "a", plusOne: true },
+  { name: "Priya S.", side: "b" },
+  { name: "Marcus T.", side: "b" },
+  { name: "Grandma Rose", side: "a" },
+  { name: "Lena O.", side: "both" },
+  { name: "Theo R.", side: "b" },
 ];
-const TABLES = ["Table 1", "Table 2"];
+
+const SEAT_TABLES = [
+  { id: "head", name: "Head table", round: false, cap: 6, x: 30, y: 6, w: 40, h: 16 },
+  { id: "t1", name: "Table 1", round: true, cap: 8, x: 6, y: 34, w: 21, h: 0 },
+  { id: "t2", name: "Table 2", round: true, cap: 8, x: 73, y: 34, w: 21, h: 0 },
+  { id: "t3", name: "Table 3", round: true, cap: 8, x: 6, y: 68, w: 21, h: 0 },
+  { id: "t4", name: "Table 4", round: true, cap: 8, x: 73, y: 68, w: 21, h: 0 },
+];
 
 function SeatingDemo() {
-  // Guest -> table index, or absent while unseated.
-  const [seats, setSeats] = useState<Record<string, number>>({ Priya: 1 });
+  const [seats, setSeats] = useState<Record<string, string>>({
+    "Priya S.": "t2",
+    "Lena O.": "head",
+  });
   const [picked, setPicked] = useState<string | null>(null);
 
-  const seat = (name: string, table: number | null) => {
+  const seat = (name: string, table: string | null) => {
+    if (!name) return;
     setSeats((s) => {
       const next = { ...s };
       if (table == null) delete next[name];
@@ -129,24 +335,7 @@ function SeatingDemo() {
     setPicked(null);
   };
 
-  const chip = (name: string) => (
-    <button
-      key={name}
-      type="button"
-      draggable
-      onDragStart={(e) => e.dataTransfer.setData("text/plain", name)}
-      onClick={() => setPicked(picked === name ? null : name)}
-      className={`cursor-grab rounded-full border px-3 py-1 text-sm transition-colors ${
-        picked === name
-          ? "border-forest bg-forest text-parchment"
-          : "border-hairline bg-card text-ink/80 hover:border-forest"
-      }`}
-    >
-      {name}
-    </button>
-  );
-
-  const dropProps = (table: number | null) => ({
+  const dropProps = (table: string) => ({
     onDragOver: (e: React.DragEvent) => e.preventDefault(),
     onDrop: (e: React.DragEvent) => {
       e.preventDefault();
@@ -155,232 +344,525 @@ function SeatingDemo() {
     onClick: () => picked && seat(picked, table),
   });
 
-  const unseated = SEAT_GUESTS.filter((g) => seats[g] == null);
+  const unseated = SEAT_GUESTS.filter((g) => !seats[g.name]);
 
   return (
-    <div className="flex flex-col gap-5">
-      <div
-        {...dropProps(null)}
-        className="min-h-14 rounded-xl border border-dashed border-hairline p-3"
-      >
-        <p className="mb-2 font-mono-numbers text-[10px] uppercase tracking-[0.2em] text-ink/50">
-          Not seated · {unseated.length}
+    <Bleed>
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-hairline px-5 py-3 sm:px-8">
+        <p className="text-sm text-ink/70">
+          {unseated.length} of {SEAT_GUESTS.length} guests still unassigned.
         </p>
-        <div className="flex flex-wrap gap-2">{unseated.map(chip)}</div>
-      </div>
-      <div className="grid grid-cols-2 gap-3 sm:gap-4">
-        {TABLES.map((t, i) => {
-          const here = SEAT_GUESTS.filter((g) => seats[g] === i);
-          return (
-            <div
-              key={t}
-              {...dropProps(i)}
-              className={`mx-auto flex aspect-square w-full max-w-60 flex-col items-center justify-center gap-1.5 rounded-full border-2 p-3 sm:gap-2 sm:p-6 text-center transition-colors ${
-                picked
-                  ? "border-brass bg-brass/5"
-                  : "border-forest/40 bg-parchment"
-              }`}
-            >
-              <span className="font-display text-lg text-forest">{t}</span>
-              <div className="flex flex-wrap justify-center gap-1.5">
-                {here.map(chip)}
-              </div>
-              <span className="font-mono-numbers text-[10px] text-ink/50">
-                {here.length} of 8 seats
+        <div className="flex items-center gap-2">
+          <div className="inline-flex rounded-full border border-hairline bg-parchment p-1">
+            {["Seating", "Whole Venue", "Rooms"].map((m, i) => (
+              <span
+                key={m}
+                className={`rounded-full px-3 py-1 font-mono-numbers text-xs ${
+                  i === 0 ? "bg-forest text-parchment" : "text-ink/60"
+                }`}
+              >
+                {m}
               </span>
-            </div>
-          );
-        })}
+            ))}
+          </div>
+          <span className="hidden rounded-full bg-forest px-3 py-1.5 font-mono-numbers text-xs text-parchment sm:inline">
+            + Add table
+          </span>
+        </div>
       </div>
-      <p className="text-xs text-ink/50">
-        Drag a guest to a table — or tap a guest, then tap a table.
-      </p>
-    </div>
+
+      <div className="flex flex-col gap-4 p-4 sm:px-8 md:flex-row md:items-start">
+        {/* The plan: tables where they stand in the room. */}
+        <div className="relative aspect-[4/3] min-w-0 flex-1 rounded-lg border border-hairline bg-parchment">
+          <div className="absolute left-[34%] top-[40%] flex h-[22%] w-[32%] items-center justify-center rounded-md border-2 border-dashed border-forest/25 font-mono-numbers text-[10px] uppercase tracking-[0.15em] text-ink/40">
+            Dance floor
+          </div>
+          {SEAT_TABLES.map((t) => {
+            const here = SEAT_GUESTS.filter((g) => seats[g.name] === t.id);
+            return (
+              <div
+                key={t.id}
+                {...dropProps(t.id)}
+                style={{
+                  left: `${t.x}%`,
+                  top: `${t.y}%`,
+                  width: `${t.w}%`,
+                  ...(t.round ? { aspectRatio: "1" } : { height: `${t.h}%` }),
+                }}
+                className={`absolute flex flex-col items-center justify-center gap-0.5 overflow-hidden border-2 bg-card p-1 text-center shadow-sm transition-colors ${
+                  t.round ? "rounded-full" : "rounded-lg"
+                } ${picked ? "cursor-copy border-brass" : "border-forest/30"}`}
+              >
+                <p className="text-[11px] font-medium leading-tight text-ink md:text-xs">
+                  {t.name}
+                </p>
+                <p className="font-mono-numbers text-[9px] text-ink/50 md:text-[10px]">
+                  {here.length}/{t.cap}
+                  <span className="hidden md:inline"> seated</span>
+                </p>
+                <div className="hidden flex-wrap justify-center gap-0.5 md:flex">
+                  {here.slice(0, 2).map((g) => (
+                    <span
+                      key={g.name}
+                      className="rounded-full border border-hairline bg-parchment px-1.5 text-[10px] text-ink"
+                    >
+                      {g.name.split(" ")[0]}
+                    </span>
+                  ))}
+                  {here.length > 2 && (
+                    <span className="text-[10px] text-ink/50">+{here.length - 2}</span>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Guests to seat: beside the plan on a wide screen, under it on a phone. */}
+        <div className="w-full shrink-0 rounded-lg border border-hairline bg-parchment md:w-60">
+          <div className="flex items-baseline justify-between gap-2 border-b border-hairline px-4 py-3">
+            <p className="font-display text-lg font-semibold text-forest">
+              Guests to seat
+            </p>
+            <span className="font-mono-numbers text-xs text-ink/50">
+              {unseated.length}
+            </span>
+          </div>
+          {unseated.length === 0 ? (
+            <p className="p-4 text-sm text-ink/60">Everyone has a seat.</p>
+          ) : (
+            unseated.map((g) => (
+              <button
+                key={g.name}
+                type="button"
+                draggable
+                onDragStart={(e) => e.dataTransfer.setData("text/plain", g.name)}
+                onClick={() => setPicked(picked === g.name ? null : g.name)}
+                className={`flex w-full cursor-grab items-center gap-2 border-b border-hairline px-4 py-2 text-left last:border-b-0 ${
+                  picked === g.name ? "bg-forest/10" : "hover:bg-card"
+                }`}
+              >
+                <span
+                  className="h-2 w-2 shrink-0 rounded-full"
+                  style={{ background: SIDE_COLORS[g.side] }}
+                />
+                <span className="truncate text-sm text-ink">{g.name}</span>
+                {g.plusOne && <span className="text-xs text-ink/50">+1</span>}
+              </button>
+            ))
+          )}
+          <p className="border-t border-hairline px-4 py-2 text-xs text-ink/50">
+            Drag a guest onto a table, or tap a guest and then a table.
+          </p>
+        </div>
+      </div>
+    </Bleed>
   );
 }
 
 /* ---------- Checklist ---------- */
 
-const TASKS = [
-  { title: "Set a budget", when: "12 months out" },
-  { title: "Book your venue", when: "12 months out" },
-  { title: "Book your photographer", when: "10 months out" },
-  { title: "Send save-the-dates", when: "8 months out" },
-  { title: "Order invitations", when: "4 months out" },
-  { title: "Final headcount to caterer", when: "2 weeks out" },
-];
+// The real stages and tasks, from the same template a new plan is built from,
+// dated back from a sample wedding.
+const DEMO_WEDDING = new Date("2027-06-12T00:00:00");
+const DEMO_STAGES = CHECKLIST_PHASES.slice(0, 4).map((phase) => ({
+  ...phase,
+  tasks: CHECKLIST_TEMPLATE.filter((t) => t.phase === phase.key)
+    .slice(0, 4)
+    .map((t) => ({
+      title: t.title,
+      due: new Date(
+        DEMO_WEDDING.getTime() - t.weeksBefore * 7 * 86400000,
+      ).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }),
+    })),
+}));
 
 function ChecklistDemo() {
-  const [done, setDone] = useState<Set<number>>(new Set([0]));
-  const toggle = (i: number) =>
-    setDone((d) => {
-      const next = new Set(d);
-      if (next.has(i)) next.delete(i);
-      else next.add(i);
+  const [done, setDone] = useState<Set<string>>(
+    () =>
+      new Set([
+        ...DEMO_STAGES[0].tasks.map((t) => t.title),
+        DEMO_STAGES[1].tasks[0].title,
+      ]),
+  );
+  const [picked, setPicked] = useState<string | null>(null);
+  const [openStages, setOpenStages] = useState<Set<string>>(new Set());
+
+  const stages = DEMO_STAGES.map((s) => {
+    const d = s.tasks.filter((t) => done.has(t.title)).length;
+    return { ...s, done: d, left: s.tasks.length - d, isDone: d === s.tasks.length };
+  });
+  const currentKey = stages.find((s) => s.left > 0)?.key;
+  const activeKey = picked ?? currentKey ?? stages[0].key;
+  const active = stages.find((s) => s.key === activeKey)!;
+  const total = stages.reduce((n, s) => n + s.tasks.length, 0);
+  const doneCount = stages.reduce((n, s) => n + s.done, 0);
+
+  const toggle = (title: string) =>
+    setDone((s) => {
+      const next = new Set(s);
+      if (next.has(title)) next.delete(title);
+      else next.add(title);
       return next;
     });
-  const pct = Math.round((done.size / TASKS.length) * 100);
+
+  const row = (t: { title: string; due: string }) => {
+    const on = done.has(t.title);
+    return (
+      <div
+        key={t.title}
+        className="flex items-start gap-3 border-b border-hairline py-3 last:border-b-0"
+      >
+        <button
+          type="button"
+          onClick={() => toggle(t.title)}
+          aria-label={on ? "Mark as not done" : "Mark as done"}
+          className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border transition-colors ${
+            on ? "border-forest bg-forest text-parchment" : "border-hairline hover:border-forest"
+          }`}
+        >
+          {on && <Tick className="h-3 w-3" />}
+        </button>
+        <div className="flex min-w-0 flex-1 flex-wrap items-center gap-2">
+          <span className={on ? "text-ink/50 line-through" : "text-ink"}>
+            {t.title}
+          </span>
+          <span className="rounded-full border border-hairline px-2 py-0.5 text-xs text-ink/60">
+            Due {t.due}
+          </span>
+        </div>
+      </div>
+    );
+  };
+
+  const hereTag = (
+    <span className="font-mono-numbers text-[10px] uppercase tracking-[0.18em] text-brass">
+      You&apos;re here
+    </span>
+  );
 
   return (
-    <div className="flex flex-col gap-4">
-      <div className="flex items-baseline justify-between">
-        <span className="font-display text-xl text-forest">
-          {done.size} of {TASKS.length} done
+    <div>
+      <div className="flex flex-wrap items-end justify-between gap-3 border-b border-hairline pb-4">
+        <div>
+          <p className="font-display text-2xl font-semibold text-forest">Your plan</p>
+          <p className="mt-1 text-sm text-ink/70">
+            {doneCount} of {total} tasks done
+          </p>
+          <div className="mt-2 h-2 w-48 overflow-hidden rounded-full bg-forest/10">
+            <div
+              className="h-2 rounded-full bg-forest transition-[width]"
+              style={{ width: `${(doneCount / total) * 100}%` }}
+            />
+          </div>
+        </div>
+        <span className="rounded-full bg-forest px-4 py-1.5 font-mono-numbers text-sm text-parchment">
+          + Add task
         </span>
-        <span className="font-mono-numbers text-sm text-brass">{pct}%</span>
       </div>
-      <div className="h-2 overflow-hidden rounded-full bg-hairline">
-        <div
-          className="h-full rounded-full bg-forest transition-[width] duration-300"
-          style={{ width: `${pct}%` }}
-        />
-      </div>
-      <ul className="flex flex-col divide-y divide-hairline">
-        {TASKS.map((t, i) => (
-          <li key={t.title}>
-            <label className="flex cursor-pointer items-center gap-3 py-2.5">
-              <input
-                type="checkbox"
-                checked={done.has(i)}
-                onChange={() => toggle(i)}
-                className="h-4 w-4 accent-forest"
-              />
-              <span
-                className={`flex-1 text-sm ${done.has(i) ? "text-ink/40 line-through" : "text-ink/85"}`}
+
+      {/* Phone: the stages as an accordion, the one you're on open. */}
+      <div className="mt-4 flex flex-col gap-3 md:hidden">
+        {stages.map((s) => {
+          const isCurrent = s.key === currentKey;
+          const isOpen = isCurrent || openStages.has(s.key);
+          return (
+            <section
+              key={s.key}
+              className={`rounded-md border p-4 ${
+                isCurrent
+                  ? "border-forest/30 bg-parchment"
+                  : s.isDone
+                    ? "border-hairline bg-parchment/40"
+                    : "border-hairline"
+              }`}
+            >
+              <button
+                type="button"
+                onClick={() =>
+                  !isCurrent &&
+                  setOpenStages((o) => {
+                    const next = new Set(o);
+                    if (next.has(s.key)) next.delete(s.key);
+                    else next.add(s.key);
+                    return next;
+                  })
+                }
+                className="flex w-full items-baseline justify-between gap-3 text-left"
               >
-                {t.title}
+                <span className="min-w-0">
+                  {isCurrent && hereTag}
+                  <span
+                    className={`flex items-baseline gap-2 font-display text-xl font-semibold ${s.isDone ? "text-forest/60" : "text-forest"}`}
+                  >
+                    {s.isDone && <Tick className="h-4 w-4 self-center" />}
+                    {s.title}
+                  </span>
+                </span>
+                <span className="shrink-0 font-mono-numbers text-xs text-ink/50">
+                  {isCurrent ? `${s.left} left` : s.isDone ? `${s.done} done` : s.left}
+                </span>
+              </button>
+              {isOpen && <div className="mt-2">{s.tasks.map(row)}</div>}
+            </section>
+          );
+        })}
+      </div>
+
+      {/* Wide: the whole arc down the side, the stage you're on beside it. */}
+      <div className="mt-5 hidden md:grid md:grid-cols-[220px_1fr] md:gap-8">
+        <nav className="flex flex-col gap-0.5 border-r border-hairline pr-5">
+          {stages.map((s) => (
+            <button
+              key={s.key}
+              type="button"
+              onClick={() => setPicked(s.key)}
+              className={`rounded-md px-3 py-2 text-left transition-colors ${
+                s.key === activeKey ? "bg-forest/10" : "hover:bg-parchment"
+              }`}
+            >
+              <span
+                className={`flex items-center gap-1.5 font-display text-base ${
+                  s.key === activeKey
+                    ? "font-semibold text-forest"
+                    : s.isDone
+                      ? "text-forest/55"
+                      : "text-ink/75"
+                }`}
+              >
+                {s.isDone && <Tick className="h-4 w-4" />}
+                {s.title}
               </span>
-              <span className="font-mono-numbers text-[10px] text-ink/45">
-                {t.when}
+              <span className="mt-0.5 block font-mono-numbers text-[11px] text-ink/45">
+                {s.isDone
+                  ? `${s.done} done`
+                  : s.key === currentKey
+                    ? `${s.left} left · you're here`
+                    : `${s.left} to do`}
               </span>
-            </label>
-          </li>
-        ))}
-      </ul>
-      <p className="text-xs text-ink/50">
-        Your real checklist is built around your wedding date.
-      </p>
+            </button>
+          ))}
+        </nav>
+        <div className="min-w-0">
+          {active.key === currentKey && hereTag}
+          <p
+            className={`flex items-center gap-2 font-display text-2xl font-semibold ${active.isDone ? "text-forest/60" : "text-forest"}`}
+          >
+            {active.isDone && <Tick className="h-5 w-5" />}
+            {active.title}
+          </p>
+          <p className="mt-1 text-sm text-ink/65">
+            {active.isDone ? active.doneBlurb : active.blurb}
+          </p>
+          <div className="mt-3">{active.tasks.map(row)}</div>
+        </div>
+      </div>
     </div>
   );
 }
 
-/* ---------- RSVP ---------- */
+function Tick({ className = "" }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      className={`shrink-0 ${className}`}
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="m5 13 4 4L19 7" />
+    </svg>
+  );
+}
 
-type Reply = { name: string; coming: boolean; meal: string; address: boolean };
+/* ---------- Guests ---------- */
+
+type DemoStatus = "confirmed" | "pending" | "declined" | "invited";
+const STATUS_LABEL: Record<DemoStatus, string> = {
+  confirmed: "Confirmed",
+  pending: "No reply",
+  declined: "Declined",
+  invited: "Invited",
+};
+const STATUS_BADGE: Record<DemoStatus, string> = {
+  invited: "border-hairline text-ink/70",
+  confirmed: "border-forest/40 bg-forest/10 text-forest",
+  declined: "border-red-200 bg-red-50 text-red-700",
+  pending: "border-brass/40 bg-brass/10 text-brass",
+};
+
+const DEMO_GUESTS: {
+  name: string;
+  side: SideKey;
+  group: string;
+  status: DemoStatus;
+  address?: string;
+}[] = [
+  { name: "Aunt May", side: "a", group: "Family", status: "confirmed", address: "Bend, OR" },
+  { name: "Grandma Rose", side: "a", group: "Family", status: "confirmed", address: "Salem, OR" },
+  { name: "Uncle Joe", side: "a", group: "Family", status: "pending", address: "Boise, ID" },
+  { name: "Priya S.", side: "b", group: "Friends", status: "pending", address: "Austin, TX" },
+  { name: "Marcus T.", side: "b", group: "Friends", status: "pending" },
+  { name: "Lena O.", side: "both", group: "Friends", status: "confirmed", address: "Portland, OR" },
+  { name: "Theo R.", side: "b", group: "Work", status: "declined" },
+];
+
+const INCOMING = [
+  { name: "Priya S.", reply: "Joyfully accepts", meal: "Salmon", status: "confirmed" as const },
+  { name: "Uncle Joe", reply: "Joyfully accepts", meal: "Chicken", status: "confirmed" as const },
+];
 
 function RsvpDemo() {
-  const [replies, setReplies] = useState<Reply[]>([
-    { name: "Priya S.", coming: true, meal: "Salmon", address: true },
-    { name: "Marcus T.", coming: false, meal: "", address: false },
-  ]);
-  const [name, setName] = useState("");
-  const [coming, setComing] = useState(true);
-  const [meal, setMeal] = useState("Chicken");
+  const [status, setStatus] = useState<Record<string, DemoStatus>>(
+    Object.fromEntries(DEMO_GUESTS.map((g) => [g.name, g.status])),
+  );
+  const [filter, setFilter] = useState<"none" | "pending" | "address">("none");
+  const incoming = INCOMING.filter((r) => status[r.name] === "pending");
 
-  const yes = replies.filter((r) => r.coming).length;
-  const noAddress = replies.filter((r) => !r.address).length;
+  const shown = DEMO_GUESTS.filter((g) =>
+    filter === "pending"
+      ? status[g.name] === "pending"
+      : filter === "address"
+        ? !g.address
+        : true,
+  );
+  const confirmed = DEMO_GUESTS.filter((g) => status[g.name] === "confirmed").length;
+  const pending = DEMO_GUESTS.filter((g) => status[g.name] === "pending").length;
+  const noAddress = DEMO_GUESTS.filter((g) => !g.address).length;
+
+  const chip = (key: typeof filter, label: string) => (
+    <button
+      type="button"
+      onClick={() => setFilter((f) => (f === key ? "none" : key))}
+      className={`rounded-full border px-3 py-1 text-xs transition-colors ${
+        filter === key
+          ? "border-forest bg-forest text-parchment"
+          : "border-hairline bg-parchment text-ink/80 hover:border-forest"
+      }`}
+    >
+      {label}
+    </button>
+  );
+  const badge = (s: DemoStatus) => (
+    <span className={`rounded-full border px-2 py-0.5 text-xs ${STATUS_BADGE[s]}`}>
+      {STATUS_LABEL[s]}
+    </span>
+  );
 
   return (
-    <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-      {/* What a guest sees on the wedding site. */}
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          if (!name.trim()) return;
-          setReplies((r) => [
-            { name: name.trim(), coming, meal: coming ? meal : "", address: false },
-            ...r,
-          ]);
-          setName("");
-        }}
-        className="flex flex-col gap-3 rounded-xl border border-hairline bg-parchment p-4"
-      >
-        <p className="font-mono-numbers text-[10px] uppercase tracking-[0.2em] text-ink/50">
-          Your guest sees
-        </p>
-        <p className="font-display text-xl text-forest">
-          Juniper &amp; Sam · June 12
-        </p>
-        <input
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="Your name"
-          aria-label="Your name"
-          className="rounded-lg border border-hairline bg-card px-3 py-2 text-sm"
-        />
-        <div className="flex gap-2">
-          {[true, false].map((v) => (
-            <button
-              key={String(v)}
-              type="button"
-              onClick={() => setComing(v)}
-              className={`flex-1 rounded-full border px-3 py-1.5 text-sm ${
-                coming === v
-                  ? "border-forest bg-forest text-parchment"
-                  : "border-hairline bg-card text-ink/70"
-              }`}
-            >
-              {v ? "Joyfully accept" : "Regretfully decline"}
-            </button>
-          ))}
+    <div className="grid gap-4 md:grid-cols-[minmax(0,1fr)_260px] md:items-start">
+      <div className="min-w-0 rounded-lg border border-hairline bg-card p-4 shadow-sm">
+        <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-hairline pb-3">
+          <p className="text-sm text-ink/70">
+            <span className="font-mono-numbers text-2xl text-forest">{confirmed}</span>{" "}
+            confirmed
+            <span className="hidden text-ink/45 sm:inline"> · feeds your Budget guest count</span>
+          </p>
+          <div className="flex gap-2">
+            <span className="rounded-full bg-forest px-3 py-1 font-mono-numbers text-xs text-parchment">
+              + Add guest
+            </span>
+            <span className="rounded-full border border-hairline bg-parchment px-3 py-1 font-mono-numbers text-xs text-ink">
+              Import
+            </span>
+          </div>
         </div>
-        {coming && (
-          <select
-            value={meal}
-            onChange={(e) => setMeal(e.target.value)}
-            aria-label="Meal"
-            className="rounded-lg border border-hairline bg-card px-3 py-2 text-sm"
-          >
-            <option>Chicken</option>
-            <option>Salmon</option>
-            <option>Vegetarian</option>
-          </select>
-        )}
-        <button
-          type="submit"
-          className="rounded-full bg-forest px-4 py-2 font-display text-parchment hover:bg-forest/90"
-        >
-          Send RSVP
-        </button>
-      </form>
+        <div className="mt-3 flex flex-wrap items-center gap-2">
+          <span className={eyebrow}>Show</span>
+          {chip("pending", `No reply (${pending})`)}
+          {chip("address", `Missing address (${noAddress})`)}
+        </div>
 
-      {/* What the couple sees update. */}
-      <div className="flex flex-col gap-3">
-        <p className="font-mono-numbers text-[10px] uppercase tracking-[0.2em] text-ink/50">
-          You see
-        </p>
-        <div className="flex items-baseline gap-2">
-          <span className="font-mono-numbers text-2xl font-semibold text-forest">
-            {yes}
-          </span>
-          <span className="text-sm text-ink/60">
-            coming of {replies.length} replied
-          </span>
-        </div>
-        <ul className="flex flex-col divide-y divide-hairline">
-          {replies.map((r, i) => (
+        {/* Wide: the table, one column per field. */}
+        <table className="mt-3 hidden w-full table-fixed border-collapse text-left md:table">
+          <thead>
+            <tr className="border-b border-hairline font-mono-numbers text-[10px] uppercase tracking-[0.15em] text-ink/45">
+              <th className="w-3" />
+              <th className="px-2 py-2 font-normal">Name</th>
+              <th className="w-20 px-2 py-2 font-normal">Group</th>
+              <th className="w-28 px-2 py-2 font-normal">RSVP</th>
+              <th className="w-28 px-2 py-2 font-normal">Address</th>
+            </tr>
+          </thead>
+          <tbody>
+            {shown.map((g) => (
+              <tr key={g.name} className="border-b border-hairline/70">
+                <td className="border-l-4" style={{ borderLeftColor: SIDE_COLORS[g.side] }} />
+                <td className="truncate px-2 py-2 text-sm text-ink">{g.name}</td>
+                <td className="px-2 py-2 text-xs text-ink/70">{g.group}</td>
+                <td className="px-2 py-2">{badge(status[g.name])}</td>
+                <td className="truncate px-2 py-2 text-xs">
+                  {g.address ? (
+                    <span className="text-ink/70">
+                      <span className="text-forest">✓</span> {g.address}
+                    </span>
+                  ) : (
+                    <span className="text-red-700/80">Missing</span>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+        {/* Phone: one row per guest, the side as a dot. */}
+        <ul className="mt-2 md:hidden">
+          {shown.map((g) => (
             <li
-              key={`${r.name}-${replies.length - i}`}
-              className="flex items-center justify-between py-2 text-sm"
+              key={g.name}
+              className="flex items-center justify-between gap-3 border-b border-hairline py-2.5 last:border-b-0"
             >
-              <span className="text-ink/85">{r.name}</span>
-              <span className="flex items-center gap-3">
-                <span className={`text-xs ${r.address ? "text-ink/45" : "text-red-700/80"}`}>
-                  {r.address ? "✓ Address" : "No address"}
-                </span>
+              <span className="flex min-w-0 items-center gap-2">
                 <span
-                  className={`font-mono-numbers text-xs ${r.coming ? "text-forest" : "text-ink/45"}`}
-                >
-                  {r.coming ? `Yes · ${r.meal}` : "Can't make it"}
-                </span>
+                  className="h-2.5 w-2.5 shrink-0 rounded-full"
+                  style={{ background: SIDE_COLORS[g.side] }}
+                />
+                <span className="truncate text-sm text-ink">{g.name}</span>
+                {!g.address && <span className="text-[11px] text-red-700/80">No address</span>}
               </span>
+              {badge(status[g.name])}
             </li>
           ))}
         </ul>
-        {noAddress > 0 && (
-          <p className="text-xs text-ink/50">
-            {noAddress} still missing an address — one click filters to just them.
+      </div>
+
+      <div className="rounded-lg border border-hairline bg-card p-4 shadow-sm">
+        <p className="font-display text-xl font-semibold text-forest">
+          Invitations &amp; RSVPs
+        </p>
+        <div className="mt-2 flex flex-wrap gap-1.5 text-xs">
+          <span className="rounded-full bg-forest px-2.5 py-1 text-parchment">
+            New RSVPs ({incoming.length})
+          </span>
+          <span className="rounded-full border border-hairline px-2.5 py-1 text-ink/60">
+            Collect addresses
+          </span>
+        </div>
+        {incoming.length === 0 ? (
+          <p className="mt-4 text-sm text-ink/60">
+            All caught up. Replies from your wedding site land here first.
           </p>
+        ) : (
+          <ul className="mt-3 flex flex-col gap-2">
+            {incoming.map((r) => (
+              <li key={r.name} className="rounded-md border border-hairline bg-parchment p-3">
+                <p className="text-sm font-medium text-ink">{r.name}</p>
+                <p className="text-xs text-ink/60">
+                  {r.reply} · {r.meal}
+                </p>
+                <button
+                  type="button"
+                  onClick={() => setStatus((s) => ({ ...s, [r.name]: r.status }))}
+                  className="mt-2 rounded-full bg-forest px-3 py-1 text-xs text-parchment hover:bg-forest/90"
+                >
+                  Add to list
+                </button>
+              </li>
+            ))}
+          </ul>
         )}
       </div>
     </div>
@@ -694,222 +1176,591 @@ function VendorsDemo() {
 
 /* ---------- Attire ---------- */
 
-const ATTIRE = [
-  {
-    name: "Wedding dress",
-    src: "/attire-types/wedding-dress.svg",
-    orderBy: "8 months out",
-  },
-  {
-    name: "Suit",
-    src: "/attire-types/groom-attire.svg",
-    orderBy: "4 months out",
-  },
-  { name: "Rings", src: "/attire-types/ring-her.svg", orderBy: "3 months out" },
+const ATTIRE_CATS = [
+  { key: "dress", label: "Wedding Dresses", art: "/attire-types/wedding-dress.svg" },
+  { key: "maids", label: "Bridesmaids", art: "/attire-types/bridesmaid-dress.svg" },
+  { key: "suit", label: "Suits & Tuxedos", art: "/attire-types/groom-attire.svg" },
+  { key: "groomsmen", label: "Groomsmen", art: "/attire-types/groomsmen-attire.svg" },
+  { key: "her", label: "Her Ring", art: "/attire-types/ring-her.svg" },
+  { key: "him", label: "His Ring", art: "/attire-types/ring-him.svg" },
+];
+
+const ATTIRE_ITEMS = [
+  { id: "a1", cat: "dress", name: "Juniper A-line", maker: "Maison Lark · A-line", buy: 1800, rent: 450, colors: ["#fbf8f1", "#f3e6d8"], badge: "New" },
+  { id: "a2", cat: "suit", name: "Navy slim suit", maker: "Harbor Tailors · Slim fit", buy: 650, rent: 160, colors: ["#14203d", "#3a3a3a"] },
+  { id: "a3", cat: "maids", name: "Chiffon wrap dress", maker: "Wildflower · Wrap", buy: 180, rent: 60, colors: ["#2243B6", "#00BFFE", "#FFD301"] },
+  { id: "a4", cat: "her", name: "Oval solitaire", maker: "Aurum · 14k gold", buy: 2400, colors: ["#FFD301", "#e5e4e2"] },
+  { id: "a5", cat: "dress", name: "Linden sheath", maker: "Maison Lark · Sheath", buy: 1200, colors: ["#fbf8f1"] },
+  { id: "a6", cat: "groomsmen", name: "Grey three-piece", maker: "Harbor Tailors · Classic", buy: 420, rent: 110, colors: ["#8a8f98", "#14203d"] },
+  { id: "a7", cat: "him", name: "Brushed band", maker: "Aurum · Tungsten", buy: 380, colors: ["#8a8f98", "#FFD301"] },
+  { id: "a8", cat: "suit", name: "Ivory dinner jacket", maker: "Harbor Tailors · Tux", buy: 790, rent: 190, colors: ["#fbf8f1", "#14203d"], badge: "Popular" },
 ];
 
 function AttireDemo() {
-  const [rent, setRent] = useState<Record<string, boolean>>({ Suit: true });
+  const [cat, setCat] = useState<string | null>(null);
+  const [saved, setSaved] = useState<Set<string>>(new Set(["a1"]));
+  const [view, setView] = useState<"browse" | "saved">("browse");
+  const shown = ATTIRE_ITEMS.filter((i) =>
+    view === "saved" ? saved.has(i.id) : !cat || i.cat === cat,
+  );
+  const art = (c: string) => ATTIRE_CATS.find((x) => x.key === c)!.art;
+  const toggle = (id: string) =>
+    setSaved((s) => {
+      const next = new Set(s);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+
   return (
-    <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-      {ATTIRE.map((a) => (
-        <div
-          key={a.name}
-          className="flex flex-col items-center gap-3 rounded-xl border border-hairline bg-card p-4"
-        >
-          <div className="relative h-24 w-full">
-            <Image
-              src={a.src}
-              alt=""
-              fill
-              sizes="200px"
-              className="object-contain"
-            />
-          </div>
-          <p className="font-display text-lg text-forest">{a.name}</p>
-          <div className="flex rounded-full border border-hairline p-0.5 text-xs">
-            {["Buy", "Rent"].map((opt) => {
-              const on = (opt === "Rent") === !!rent[a.name];
-              return (
-                <button
-                  key={opt}
-                  type="button"
-                  onClick={() =>
-                    setRent((r) => ({ ...r, [a.name]: opt === "Rent" }))
-                  }
-                  className={`rounded-full px-3 py-1 ${on ? "bg-forest text-parchment" : "text-ink/60"}`}
-                >
-                  {opt}
-                </button>
-              );
-            })}
-          </div>
-          <p className="font-mono-numbers text-[10px] text-brass">
-            {rent[a.name] ? "Reserve" : "Order"} by {a.orderBy}
-          </p>
+    <Bleed>
+      <div className="flex flex-col gap-3 border-b border-hairline bg-gradient-to-r from-[#f3efe6] to-[#f8f6f1] px-5 py-4 sm:px-8 md:flex-row md:items-center md:justify-between">
+        <p className="max-w-md text-sm text-ink/70">
+          Gowns, suits, the whole party and the rings. Save what you love and
+          dress the party from one board.
+        </p>
+        <div className="flex rounded-full border border-hairline bg-card p-1 shadow-sm">
+          {(
+            [
+              ["browse", "Browse"],
+              ["saved", "Saved"],
+            ] as const
+          ).map(([key, label]) => (
+            <button
+              key={key}
+              type="button"
+              onClick={() => setView(key)}
+              className={`flex flex-1 items-center justify-center gap-1.5 rounded-full px-4 py-1.5 text-sm md:flex-none ${
+                view === key ? "bg-forest font-medium text-parchment" : "text-ink/70 hover:text-forest"
+              }`}
+            >
+              {label}
+              {key === "saved" && saved.size > 0 && (
+                <span className="rounded-full bg-brass/20 px-1.5 font-mono-numbers text-[11px]">
+                  {saved.size}
+                </span>
+              )}
+            </button>
+          ))}
+          <span className="flex flex-1 items-center justify-center px-4 py-1.5 text-sm text-ink/40 md:flex-none">
+            Party board
+          </span>
         </div>
-      ))}
-    </div>
+      </div>
+
+      {view === "browse" && (
+        <div className="flex gap-4 overflow-x-auto px-5 pt-4 [scrollbar-width:none] sm:px-8 md:justify-center md:gap-6">
+          {ATTIRE_CATS.map((c) => (
+            <button
+              key={c.key}
+              type="button"
+              onClick={() => setCat(cat === c.key ? null : c.key)}
+              className="flex w-[72px] shrink-0 flex-col items-center text-center md:w-[92px]"
+            >
+              <span
+                className={`relative block h-16 w-16 overflow-hidden rounded-full border-2 bg-[#f1ece2] md:h-20 md:w-20 ${
+                  cat === c.key ? "border-forest" : "border-transparent"
+                }`}
+              >
+                <Image src={c.art} alt="" fill sizes="80px" className="object-contain p-2" />
+              </span>
+              <span
+                className={`mt-1.5 text-[10px] font-medium uppercase leading-tight tracking-[0.12em] ${
+                  cat === c.key ? "text-forest" : "text-ink/60"
+                }`}
+              >
+                {c.label}
+              </span>
+            </button>
+          ))}
+        </div>
+      )}
+
+      <div className="grid grid-cols-2 gap-x-3 gap-y-5 px-5 py-5 sm:px-8 md:grid-cols-4 md:gap-x-5">
+        {shown.length === 0 && (
+          <p className="col-span-full py-8 text-center text-sm text-ink/60">
+            Tap the heart on anything you like and it lands here.
+          </p>
+        )}
+        {shown.map((i) => (
+          <article key={i.id} className="min-w-0">
+            <div className="relative aspect-[3/4] overflow-hidden rounded-md bg-[#f1ece2]">
+              <Image src={art(i.cat)} alt="" fill sizes="200px" className="object-cover" />
+              {i.badge && (
+                <span className="absolute left-2 top-2 rounded bg-card/90 px-2 py-1 font-mono-numbers text-[10px] uppercase tracking-[0.14em] text-ink">
+                  {i.badge}
+                </span>
+              )}
+              <button
+                type="button"
+                onClick={() => toggle(i.id)}
+                aria-pressed={saved.has(i.id)}
+                aria-label={saved.has(i.id) ? "Remove from saved" : "Save"}
+                className={`absolute right-2 top-2 grid h-8 w-8 place-items-center rounded-full shadow-sm ${
+                  saved.has(i.id) ? "bg-forest text-parchment" : "bg-card/95 text-forest"
+                }`}
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  className="h-4 w-4"
+                  fill={saved.has(i.id) ? "currentColor" : "none"}
+                  stroke="currentColor"
+                  strokeWidth={1.8}
+                >
+                  <path
+                    d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
+            </div>
+            <p className="mt-2 truncate text-sm font-medium text-ink">{i.name}</p>
+            <p className="truncate text-xs text-ink/55">{i.maker}</p>
+            <div className="mt-1.5 flex flex-wrap gap-1.5 font-mono-numbers text-[11px] text-ink/80">
+              <span className="rounded-full border border-hairline px-2 py-0.5">
+                Buy {usd(i.buy)}
+              </span>
+              {i.rent && (
+                <span className="hidden rounded-full border border-hairline px-2 py-0.5 sm:inline">
+                  Rent {usd(i.rent)}
+                </span>
+              )}
+            </div>
+            <div className="mt-1.5 flex gap-1">
+              {i.colors.map((c) => (
+                <span
+                  key={c}
+                  className="h-3 w-3 rounded-full border border-ink/15"
+                  style={{ background: c }}
+                />
+              ))}
+            </div>
+          </article>
+        ))}
+      </div>
+    </Bleed>
   );
 }
 
 /* ---------- Itinerary ---------- */
 
-const DAY = [
-  { time: "10am", title: "Hair & makeup", who: "Bridal party" },
-  { time: "2pm", title: "First look & photos", who: "Couple, photographer" },
-  { time: "4pm", title: "Ceremony", who: "Everyone" },
-  { time: "5pm", title: "Cocktail hour", who: "Guests" },
-  { time: "6pm", title: "Dinner & toasts", who: "Everyone" },
-  { time: "8pm", title: "First dance", who: "Couple, DJ" },
+const DAYS = [
+  {
+    date: 11,
+    label: "Friday, June 11",
+    events: [
+      { time: "5:00 – 6:00 PM", title: "Rehearsal", where: "Juniper Barn" },
+      { time: "6:30 PM", title: "Rehearsal dinner", where: "The Honey Pot" },
+    ],
+  },
+  {
+    date: 12,
+    label: "Saturday, June 12",
+    wedding: true,
+    events: [
+      { time: "10:00 AM", title: "Hair & makeup", where: "Bridal suite" },
+      { time: "2:00 PM", title: "First look & photos", where: "The orchard" },
+      { time: "4:00 – 4:30 PM", title: "Ceremony", where: "Juniper Barn lawn" },
+      { time: "6:00 PM", title: "Dinner & toasts", where: "The barn" },
+    ],
+  },
+  {
+    date: 13,
+    label: "Sunday, June 13",
+    events: [{ time: "10:30 AM", title: "Farewell brunch", where: "Harbor House" }],
+  },
 ];
 
 function ItineraryDemo() {
-  const [open, setOpen] = useState(2);
+  const [picked, setPicked] = useState(12);
+  // June 2027 starts on a Tuesday.
+  const cells = [
+    ...Array.from({ length: 2 }, () => null),
+    ...Array.from({ length: 30 }, (_, i) => i + 1),
+  ];
   return (
-    <ol className="relative flex flex-col border-l border-hairline pl-5">
-      {DAY.map((e, i) => (
-        <li key={e.title} className="relative py-2">
-          <span
-            className={`absolute -left-[1.6rem] top-4 h-3 w-3 rounded-full border-2 ${
-              i === open ? "border-brass bg-brass" : "border-forest/40 bg-card"
-            }`}
-          />
-          <button
-            type="button"
-            onClick={() => setOpen(i)}
-            className="flex w-full items-baseline gap-4 text-left"
-          >
-            <span className="w-12 shrink-0 font-mono-numbers text-xs text-brass">
-              {e.time}
-            </span>
-            <span className="text-sm text-ink/85">{e.title}</span>
-          </button>
-          {i === open && (
-            <p className="ml-16 mt-1 font-mono-numbers text-[10px] text-ink/50">
-              Who: {e.who}
-            </p>
-          )}
-        </li>
-      ))}
-    </ol>
+    <div className="grid gap-5 md:grid-cols-[210px_1fr]">
+      <div className="hidden rounded-lg border border-hairline bg-card p-4 shadow-sm md:block">
+        <p className="font-display text-lg font-semibold text-forest">June 2027</p>
+        <div className="mt-2 grid grid-cols-7 gap-y-1 text-center font-mono-numbers text-[10px] text-ink/40">
+          {["S", "M", "T", "W", "T", "F", "S"].map((d, i) => (
+            <span key={i}>{d}</span>
+          ))}
+        </div>
+        <div className="mt-1 grid grid-cols-7 gap-y-1 text-center font-mono-numbers text-xs">
+          {cells.map((d, i) => {
+            const has = DAYS.some((x) => x.date === d);
+            return d == null ? (
+              <span key={i} />
+            ) : (
+              <button
+                key={i}
+                type="button"
+                onClick={() => has && setPicked(d)}
+                className={`relative mx-auto flex h-7 w-7 items-center justify-center rounded-full ${
+                  d === picked
+                    ? "bg-forest text-parchment"
+                    : d === 12
+                      ? "ring-1 ring-brass text-ink"
+                      : "text-ink/70"
+                }`}
+              >
+                {d}
+                {has && d !== picked && (
+                  <span className="absolute bottom-0.5 h-1 w-1 rounded-full bg-brass" />
+                )}
+              </button>
+            );
+          })}
+        </div>
+        <p className="mt-3 text-xs text-ink/50">Pick a date to add an event to that day.</p>
+      </div>
+
+      <div className="min-w-0">
+        <div className="mb-3 flex items-center justify-between gap-3">
+          <p className="text-sm text-ink/60">3 days scheduled, side by side below.</p>
+          <span className="shrink-0 whitespace-nowrap rounded-full bg-forest px-4 py-1.5 font-mono-numbers text-sm text-parchment">
+            + Add event
+          </span>
+        </div>
+        {/* Wide: the days as columns. Phone: the same columns, swiped. */}
+        <div className="-mx-5 flex snap-x gap-3 overflow-x-auto px-5 pb-2 sm:-mx-8 sm:px-8 md:mx-0 md:grid md:grid-cols-3 md:overflow-visible md:px-0">
+          {DAYS.map((day) => (
+            <div
+              key={day.date}
+              onClick={() => setPicked(day.date)}
+              className={`w-[78%] shrink-0 snap-start rounded-lg border bg-card p-3 shadow-sm transition-colors md:w-auto ${
+                picked === day.date ? "border-forest/50" : "border-hairline"
+              }`}
+            >
+              <div className="mb-2 border-b border-hairline pb-2">
+                <p className="font-display text-base font-semibold text-forest">
+                  {day.label}
+                </p>
+                {day.wedding && (
+                  <span className="font-mono-numbers text-[11px] uppercase tracking-wide text-brass">
+                    Wedding day
+                  </span>
+                )}
+              </div>
+              {day.events.map((e) => (
+                <div key={e.title} className="border-b border-hairline py-2.5 last:border-b-0">
+                  <p className="font-mono-numbers text-[11px] text-brass">{e.time}</p>
+                  <p className="mt-0.5 text-sm text-ink">{e.title}</p>
+                  <p className="mt-0.5 text-xs text-ink/50">{e.where}</p>
+                  <p className="mt-1 text-xs text-brass">Add to calendar</p>
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
   );
 }
 
 /* ---------- Bookings ---------- */
 
-const BOOKINGS = [
-  { who: "Juniper Barn", what: "Venue", contract: "Signed", paid: "Deposit paid" },
-  { who: "Lena Ortiz Photo", what: "Photographer", contract: "Signed", paid: "Deposit paid" },
-  { who: "Fig & Salt Catering", what: "Catering", contract: "Waiting on it", paid: "Nothing paid" },
+const BOOKED = [
+  {
+    key: "venue",
+    label: "Venue",
+    Icon: VenueIcon,
+    name: "Juniper Barn",
+    meta: "Bend, OR · $9,500",
+    contact: "events@juniperbarn.com",
+    contract: "juniper-barn-agreement.pdf",
+  },
+  {
+    key: "photo",
+    label: "Photography",
+    Icon: PhotographyIcon,
+    name: "Lena Ortiz Photo",
+    meta: "$4,000",
+    contact: "(541) 555-0142",
+    contract: "ortiz-photo-contract.pdf",
+  },
+  {
+    key: "catering",
+    label: "Catering",
+    Icon: CateringIcon,
+    name: "Fig & Salt Catering",
+    meta: "$10,200",
+    contact: "hello@figandsalt.com",
+    contract: null,
+  },
+];
+
+const STILL_NEED = [
+  { label: "Florals", Icon: FloralsIcon },
+  { label: "Music", Icon: MusicIcon },
+  { label: "Cake", Icon: CakeIcon },
 ];
 
 function BookingsDemo() {
-  const [signed, setSigned] = useState(false);
+  const [uploaded, setUploaded] = useState<Set<string>>(new Set());
+  const section = "rounded-lg border border-hairline bg-card p-4 shadow-sm";
   return (
-    <ul className="flex flex-col divide-y divide-hairline rounded-xl border border-hairline bg-parchment">
-      {BOOKINGS.map((b, i) => {
-        const done = b.contract === "Signed" || (i === 2 && signed);
-        return (
-          <li key={b.who} className="flex flex-wrap items-center gap-x-4 gap-y-1 px-4 py-3">
-            <div className="min-w-0 flex-1">
-              <p className="text-sm font-medium text-forest">{b.who}</p>
-              <p className="font-mono-numbers text-[10px] text-ink/50">{b.what}</p>
+    <div>
+      <p className="text-sm text-ink/70">
+        Who you&apos;ve booked, who you&apos;re still talking to, and every contract.{" "}
+        <span className="font-mono-numbers text-ink">3 of 6 booked</span>
+      </p>
+      <div className="mt-4 grid gap-5 md:grid-cols-[minmax(0,1fr)_230px] md:items-start">
+        <section>
+          <p className="font-display text-2xl font-semibold text-forest">Booked</p>
+          <div className="mt-3 grid gap-3 sm:grid-cols-2">
+            {BOOKED.map((b) => {
+              const file = b.contract ?? (uploaded.has(b.key) ? "fig-and-salt-quote.pdf" : null);
+              return (
+                <div
+                  key={b.key}
+                  className="flex flex-col rounded-lg border border-forest/30 bg-card p-4 shadow-sm"
+                >
+                  <p className="flex items-center gap-1.5 text-xs uppercase tracking-wide text-ink/50">
+                    <b.Icon className="h-3.5 w-3.5 text-brass" />
+                    {b.label}
+                  </p>
+                  <p className="mt-1 font-display text-xl font-semibold text-forest">{b.name}</p>
+                  <p className="mt-0.5 text-sm text-ink/60">{b.meta}</p>
+                  <p className="mt-1.5 text-sm text-brass">{b.contact}</p>
+                  <div className="mt-3">
+                    {file ? (
+                      <div className="flex items-center gap-2 rounded-md border border-hairline px-3 py-2">
+                        <PaperclipIcon className="h-4 w-4 shrink-0 text-forest" />
+                        <span className="min-w-0 flex-1">
+                          <span className="block truncate text-sm text-forest">{file}</span>
+                          <span className="block font-mono-numbers text-[11px] text-ink/50">
+                            {b.contract ? "Read by Wren · 3 dates added" : "Just uploaded"}
+                          </span>
+                        </span>
+                      </div>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={() => setUploaded((s) => new Set(s).add(b.key))}
+                        className="w-full rounded-full border border-dashed border-hairline py-2 text-sm text-ink/70 hover:border-forest hover:text-forest"
+                      >
+                        + Upload contract
+                      </button>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+        <aside className="flex flex-col gap-4">
+          <section className={section}>
+            <p className="font-mono-numbers text-[11px] uppercase tracking-[0.18em] text-ink/50">
+              Still need
+            </p>
+            <ul className="mt-2">
+              {STILL_NEED.map((n) => (
+                <li
+                  key={n.label}
+                  className="flex items-center justify-between gap-2 border-b border-hairline py-2 text-sm last:border-b-0"
+                >
+                  <span className="flex items-center gap-1.5 text-ink/80">
+                    <n.Icon className="h-3.5 w-3.5 text-ink/40" />
+                    {n.label}
+                  </span>
+                  <span className="text-xs text-brass">Browse &rarr;</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+          <section className={section}>
+            <p className="font-mono-numbers text-[11px] uppercase tracking-[0.18em] text-ink/50">
+              Still talking to
+            </p>
+            <div className="mt-2 flex flex-col">
+              {[
+                ["Wildflower Co.", "Florals · quote requested"],
+                ["DJ Marlowe", "Music · replied"],
+              ].map(([name, note]) => (
+                <div key={name} className="border-b border-hairline py-2 last:border-b-0">
+                  <p className="text-sm text-ink">{name}</p>
+                  <p className="text-xs text-ink/50">{note}</p>
+                </div>
+              ))}
             </div>
-            <span
-              className={`rounded-full px-2.5 py-0.5 font-mono-numbers text-[10px] ${done ? "bg-forest text-parchment" : "bg-brass/15 text-[#9a6b00]"}`}
-            >
-              {done ? "Contract signed ✓" : "Contract: waiting"}
-            </span>
-            {i === 2 && !signed && (
-              <button
-                type="button"
-                onClick={() => setSigned(true)}
-                className="rounded-full border border-hairline bg-card px-3 py-1 text-xs text-forest hover:border-brass"
-              >
-                Upload contract
-              </button>
-            )}
-          </li>
-        );
-      })}
-    </ul>
+          </section>
+        </aside>
+      </div>
+    </div>
   );
 }
 
 /* ---------- Wedding site ---------- */
 
-// Four of the site editor's real themes, from soft to bold.
 const DEMO_THEMES = ["garden", "blush", "terracotta", "midnight"].map(
   (id) => THEMES.find((t) => t.id === id) ?? THEMES[0],
 );
 
 function SiteDemo() {
   const [themeId, setThemeId] = useState(DEMO_THEMES[0].id);
+  const [accentIdx, setAccentIdx] = useState(0);
+  const [device, setDevice] = useState<"desktop" | "phone">("desktop");
   const [rsvped, setRsvped] = useState(false);
   const t = DEMO_THEMES.find((x) => x.id === themeId) ?? DEMO_THEMES[0];
-  const accent = t.swatches[0];
-  return (
+  const accent = t.swatches[accentIdx] ?? t.swatches[0];
+  const phone = device === "phone";
+
+  const panel = (
     <div className="flex flex-col gap-4">
-      <div className="flex flex-wrap items-center gap-2">
-        <span className="font-mono-numbers text-[10px] uppercase tracking-[0.2em] text-ink/50">Theme</span>
+      <div className="flex items-center gap-2">
+        <p className="font-display text-2xl font-semibold text-forest">Your guest site</p>
+        <span className="rounded-full bg-forest/10 px-2 py-0.5 text-xs font-semibold text-forest">
+          Live
+        </span>
+      </div>
+      <div className="flex gap-1 rounded-lg bg-ink/[0.05] p-1">
+        {["Theme", "Style", "Motion", "Sections"].map((label, i) => (
+          <span
+            key={label}
+            className={`flex h-8 flex-1 items-center justify-center rounded-md text-xs ${
+              i === 0 ? "bg-card font-semibold text-forest shadow-sm" : "text-ink/60"
+            }`}
+          >
+            {label}
+          </span>
+        ))}
+      </div>
+      <p className={eyebrow}>Theme</p>
+      <div className="grid grid-cols-2 gap-2.5">
         {DEMO_THEMES.map((x) => (
           <button
             key={x.id}
             type="button"
-            onClick={() => setThemeId(x.id)}
+            onClick={() => {
+              setThemeId(x.id);
+              setAccentIdx(0);
+            }}
             aria-pressed={x.id === themeId}
-            className={`flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs transition-colors ${x.id === themeId ? "border-brass bg-brass/10 text-forest" : "border-hairline bg-card text-ink/70 hover:border-brass"}`}
+            className={`overflow-hidden rounded-xl bg-card text-left ${
+              x.id === themeId ? "ring-2 ring-forest" : "ring-1 ring-hairline"
+            }`}
           >
-            <span className="h-3 w-3 rounded-full" style={{ background: x.swatches[0] }} />
-            {x.name}
+            <span
+              className="flex h-14 flex-col items-center justify-center gap-1.5"
+              style={{ background: x.bg, color: x.ink }}
+            >
+              <span className="text-lg leading-none" style={{ fontFamily: x.display }}>
+                Aa
+              </span>
+              <span className="flex gap-1">
+                <span className="h-2.5 w-2.5 rounded-full" style={{ background: x.swatches[0] }} />
+                <span className="h-2.5 w-2.5 rounded-full" style={{ background: x.ink }} />
+              </span>
+            </span>
+            <span className="block px-2.5 py-1.5 text-xs font-medium text-ink">{x.name}</span>
           </button>
         ))}
       </div>
-      <div className="overflow-hidden rounded-xl border border-hairline">
-        <div className="border-b border-hairline bg-card px-3 py-1.5 font-mono-numbers text-[10px] text-ink/45">
-          wrenwed.com/w/juniper-and-sam
-        </div>
-        <div
-          className="flex flex-col items-center gap-2 px-6 py-8 text-center transition-colors duration-500"
-          style={{ background: t.bg, color: t.ink, fontFamily: t.body }}
-        >
-          <p className="font-mono-numbers text-[10px] uppercase tracking-[0.25em]" style={{ color: t.muted }}>
-            June 12, 2027 · Bend, Oregon
-          </p>
-          <p
-            className="text-4xl"
-            style={{ fontFamily: t.display, fontStyle: t.italicNames ? "italic" : "normal", fontWeight: t.nameWeight }}
-          >
-            Juniper &amp; Sam
-          </p>
-          <div className="mt-3 grid w-full max-w-sm grid-cols-3 gap-2 text-center">
-            {[
-              ["4pm", "Ceremony"],
-              ["5pm", "Cocktails"],
-              ["6pm", "Dinner"],
-            ].map(([time, label]) => (
-              <div key={label} className="py-2" style={{ background: t.surface, borderRadius: t.radius }}>
-                <p className="font-mono-numbers text-xs" style={{ color: accent }}>{time}</p>
-                <p className="text-xs" style={{ color: t.muted }}>{label}</p>
-              </div>
-            ))}
-          </div>
+      <p className={eyebrow}>Accent colour</p>
+      <div className="flex flex-wrap gap-2">
+        {t.swatches.map((hex, i) => (
           <button
+            key={hex}
             type="button"
-            onClick={() => setRsvped(true)}
-            className="mt-4 px-6 py-2 text-lg"
-            style={{ background: accent, color: t.buttonInk, borderRadius: t.radius, fontFamily: t.display }}
+            onClick={() => setAccentIdx(i)}
+            aria-label={`Accent ${i + 1}`}
+            className={`flex h-9 w-9 items-center justify-center rounded-full bg-card ${
+              i === accentIdx ? "ring-2 ring-forest" : "ring-1 ring-hairline"
+            }`}
           >
-            {rsvped ? "See you there! ✓" : "RSVP"}
+            <span className="h-6 w-6 rounded-full" style={{ background: hex }} />
           </button>
-        </div>
+        ))}
       </div>
-      <p className="text-xs text-ink/50">
-        Eight themes, your own colours and fonts, and sections for travel, FAQs,
-        your registry, photos and a guest photo wall.
-      </p>
     </div>
+  );
+
+  return (
+    <Bleed>
+      <link rel="stylesheet" href={fontsHref(DEMO_THEMES)} precedence="default" />
+      <div className="flex flex-col-reverse md:flex-row">
+        <aside className="border-t border-hairline bg-card px-5 py-5 sm:px-8 md:w-[300px] md:shrink-0 md:border-r md:border-t-0 md:px-5">
+          {panel}
+        </aside>
+        <section className="flex min-w-0 flex-1 flex-col bg-[#eef0ec]">
+          <div className="flex items-center gap-2 px-4 py-3">
+            <div className="flex gap-1 rounded-lg border border-hairline bg-card p-1">
+              {(
+                [
+                  ["desktop", "Computer"],
+                  ["phone", "Phone"],
+                ] as const
+              ).map(([key, label]) => (
+                <button
+                  key={key}
+                  type="button"
+                  aria-pressed={device === key}
+                  onClick={() => setDevice(key)}
+                  className={`h-7 rounded-md px-3 text-xs ${
+                    device === key ? "bg-forest text-parchment" : "text-ink/70"
+                  }`}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+            <div className="flex-1" />
+            <span className="hidden text-xs text-ink/60 sm:inline">All changes saved</span>
+          </div>
+          <div className="flex flex-1 items-start justify-center px-4 pb-5">
+            <div
+              className={`w-full overflow-hidden border border-hairline bg-card shadow-md transition-[max-width] duration-300 ${
+                phone ? "max-w-[250px] rounded-[1.6rem]" : "max-w-none rounded-lg"
+              }`}
+            >
+              <div className="border-b border-hairline px-3 py-1.5 text-center font-mono-numbers text-[10px] text-ink/45">
+                wrenwed.com/w/juniper-and-sam
+              </div>
+              <div
+                className={`flex flex-col items-center gap-2 text-center transition-colors duration-500 ${phone ? "px-4 py-8" : "px-6 py-10"}`}
+                style={{ background: t.bg, color: t.ink, fontFamily: t.body }}
+              >
+                <p className="font-mono-numbers text-[10px] uppercase tracking-[0.25em]" style={{ color: t.muted }}>
+                  June 12, 2027 · Bend, Oregon
+                </p>
+                <p
+                  className={phone ? "text-3xl" : "text-5xl"}
+                  style={{
+                    fontFamily: t.display,
+                    fontStyle: t.italicNames ? "italic" : "normal",
+                    fontWeight: t.nameWeight,
+                  }}
+                >
+                  Juniper &amp; Sam
+                </p>
+                <div className={`mt-3 grid w-full max-w-sm gap-2 ${phone ? "grid-cols-1" : "grid-cols-3"}`}>
+                  {[
+                    ["4pm", "Ceremony"],
+                    ["5pm", "Cocktails"],
+                    ["6pm", "Dinner"],
+                  ].map(([time, label]) => (
+                    <div key={label} className="py-2" style={{ background: t.surface, borderRadius: t.radius }}>
+                      <p className="font-mono-numbers text-xs" style={{ color: accent }}>{time}</p>
+                      <p className="text-xs" style={{ color: t.muted }}>{label}</p>
+                    </div>
+                  ))}
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setRsvped(true)}
+                  className="mt-4 px-6 py-2 text-lg"
+                  style={{ background: accent, color: t.buttonInk, borderRadius: t.radius, fontFamily: t.display }}
+                >
+                  {rsvped ? "See you there! ✓" : "RSVP"}
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </Bleed>
   );
 }
 
@@ -990,11 +1841,7 @@ function AskDemo() {
 
 /* ---------- The grid and the pop-up ---------- */
 
-/** `wide` gives the dialog room for a side-by-side screen, not a card. */
-const PREVIEWS: Record<
-  string,
-  { heading: string; Demo: () => ReactNode; wide?: boolean }
-> = {
+const PREVIEWS: Record<string, { heading: string; Demo: () => ReactNode }> = {
   budget: {
     heading: "Watch the budget move with your guest list",
     Demo: BudgetDemo,
@@ -1006,15 +1853,13 @@ const PREVIEWS: Record<
   venues: {
     heading: "Shortlist the places you love",
     Demo: VenuesDemo,
-    wide: true,
   },
   vendors: {
     heading: "Reach every vendor from one list",
     Demo: VendorsDemo,
-    wide: true,
   },
   checklist: { heading: "Always know what's next", Demo: ChecklistDemo },
-  attire: { heading: "Buy or rent, and know when to order", Demo: AttireDemo },
+  attire: { heading: "Save what you love, then buy or rent", Demo: AttireDemo },
   itinerary: { heading: "The whole day, hour by hour", Demo: ItineraryDemo },
   "venue-layout": {
     heading: "Seat your guests by dragging them to a table",
@@ -1103,7 +1948,7 @@ export function PreviewGrid({ items }: { items: PreviewItem[] }) {
               aria-modal="true"
               aria-labelledby="preview-title"
               className={`relative flex max-h-[90dvh] w-full flex-col overflow-hidden rounded-t-3xl bg-card shadow-2xl sm:rounded-3xl ${
-                preview.wide ? "sm:max-w-5xl" : "sm:max-w-3xl"
+                openId === "ask" ? "sm:max-w-3xl" : "sm:max-w-5xl"
               }`}
             >
               <div className="flex items-start justify-between gap-4 border-b border-hairline px-5 pb-4 pt-5 sm:px-8 sm:pt-7">
