@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useState, useTransition } from "react";
 import type { ComponentType } from "react";
 import {
@@ -37,7 +36,6 @@ import {
   NotesIcon,
   PaperclipIcon,
   TrashIcon,
-  ChevronDownIcon,
 } from "@/components/icons";
 import { SpreadsheetLink } from "@/components/spreadsheet-link";
 import type { BudgetContract } from "@/lib/supabase/types";
@@ -81,13 +79,6 @@ export type BudgetRow = {
   imageUrl: string | null;
   suggestions: string[];
 };
-
-function formatDueDate(dateStr: string) {
-  return new Date(`${dateStr}T00:00:00`).toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-  });
-}
 
 function isOverdue(dateStr: string) {
   const today = new Date();
@@ -172,7 +163,7 @@ function downloadBudgetCsv(rows: BudgetRow[]) {
 }
 
 const numberInputClass =
-  "w-24 rounded-md border border-hairline bg-parchment px-2 py-1 text-right font-mono-numbers text-sm text-ink outline-none focus:border-forest lg:w-28 lg:py-1.5 lg:text-base 2xl:w-32";
+  "w-20 sm:w-24 rounded-md border border-hairline bg-parchment px-2 py-1 text-right font-mono-numbers text-sm text-ink outline-none focus:border-forest lg:w-28 lg:py-1.5 lg:text-base 2xl:w-32";
 /** The row's paid box, a step narrower so the paid-in-full tick fits beside it. */
 const paidInputClass = numberInputClass.replace("lg:w-28", "lg:w-24").replace("2xl:w-32", "2xl:w-28");
 const iconButtonClass =
@@ -203,7 +194,6 @@ function BudgetRowItem({
   /** Hands the table something it can offer to undo. */
   onEdited: (edit: BudgetEdit) => void;
 }) {
-  const [expanded, setExpanded] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
   const [showContracts, setShowContracts] = useState(false);
   const [confirmingDelete, setConfirmingDelete] = useState(false);
@@ -279,10 +269,9 @@ function BudgetRowItem({
   }
 
   /**
-   * The line's four actions. Rendered in the open panel on phones and tablets,
-   * and straight on the row from lg up, where the category column has room to
-   * spare. On lg the row has no open/closed state at all: what an action
-   * reveals shows under the row on its own and goes away when it's done.
+   * The line's four actions, straight on the row. There is no open/closed
+   * state: what an action reveals shows under the row on its own and goes
+   * away when it's done.
    */
   function renderActions() {
     return (
@@ -380,28 +369,16 @@ function BudgetRowItem({
     });
   }
 
-  // What's worth seeing without opening the row: the name, the two numbers,
-  // and whether it's paid. Everything else -- who's paying, when it's due,
-  // notes, the action buttons -- only matters once you're working on that one
-  // line, so on phones and tablets it waits behind a tap on the name. From lg
-  // everything is already on the row, so there is nothing to open.
+  // Everything is on the row itself -- name, both numbers, the paid box and
+  // the actions -- so there is nothing to open. Who's paying, when it's due
+  // and notes live in the notes form.
   const actionOpen = showDetails || showContracts || confirmingDelete || reminderSent || !!error;
 
   return (
     <div className="border-b border-hairline last:border-b-0">
       <div className="px-1 py-2.5 transition-colors lg:py-3 hover:bg-parchment/50 sm:grid sm:grid-cols-[1fr_7rem_7.5rem_11rem] lg:grid-cols-[minmax(0,1fr)_7rem_7.5rem_9.5rem] lg:gap-5 2xl:grid-cols-[minmax(0,1fr)_9.5rem_9.5rem_12rem] 2xl:gap-8 sm:items-center sm:gap-4 sm:px-2">
         <div className="flex min-w-0 items-center gap-2">
-        <button
-          type="button"
-          onClick={() => setExpanded((v) => !v)}
-          aria-expanded={expanded}
-          className="flex min-w-0 flex-1 items-center gap-2 text-left lg:pointer-events-none"
-        >
-          <ChevronDownIcon
-            className={`h-3.5 w-3.5 shrink-0 text-ink/35 transition-transform lg:hidden ${
-              expanded ? "" : "-rotate-90"
-            }`}
-          />
+        <div className="flex min-w-0 flex-1 items-center gap-2">
           <Icon className="h-4 w-4 shrink-0 text-brass lg:h-5 lg:w-5" />
           <span className="min-w-0 truncate text-ink lg:text-[17px]">
             {row.label}
@@ -423,8 +400,8 @@ function BudgetRowItem({
               Overdue
             </span>
           )}
-        </button>
-        <span className="hidden shrink-0 items-center text-ink/30 lg:flex [&>button]:p-1">
+        </div>
+        <span className="flex shrink-0 items-center text-ink/30 [&>button]:p-1">
           {renderActions()}
         </span>
         </div>
@@ -432,8 +409,8 @@ function BudgetRowItem({
         {/* sm:contents dissolves this wrapper at the breakpoint so the three
             cells become grid items of the row above -- one stacked block on a
             phone, aligned columns on anything wider. */}
-        <div className="mt-2 flex items-center gap-3 pl-[1.4rem] sm:contents">
-          <span className="font-mono-numbers text-sm text-ink/60 sm:text-right lg:text-base">
+        <div className="mt-2 flex items-center gap-2 sm:contents">
+          <span className="flex-1 font-mono-numbers text-sm text-ink/60 sm:text-right lg:text-base">
             {row.computed !== null ? currency.format(row.computed) : "—"}
           </span>
           <input
@@ -446,25 +423,10 @@ function BudgetRowItem({
             onBlur={(e) => handleAmountBlur("override_value", e.target.value)}
             className={`${numberInputClass} sm:justify-self-end`}
           />
-          <span className="flex flex-1 items-center gap-2 sm:flex-none lg:hidden">
-            <span className="h-1.5 flex-1 overflow-hidden rounded-full bg-forest/10 sm:w-20 sm:flex-none lg:h-2 lg:flex-1">
-              <span
-                className="wren-grow block h-1.5 rounded-full bg-forest transition-[width] lg:h-2"
-                style={{ width: `${paidPct}%` }}
-              />
-            </span>
-            <span className="w-14 shrink-0 text-right font-mono-numbers text-[11px] text-ink/55 lg:text-[13px]">
-              {livePaid <= 0
-                ? "—"
-                : paidPct >= 100
-                  ? "Paid"
-                  : `${Math.round(paidPct)}%`}
-            </span>
-          </span>
-          {/* From lg the paid amount is typed on the row itself, with its
-              progress drawn as a line under the box, and settling in full is
-              one click -- the two things done most often on this column. */}
-          <span className="hidden items-center gap-2 lg:flex">
+          {/* The paid amount is typed on the row itself, with its progress
+              drawn as a line under the box, and settling in full is one
+              click -- the two things done most often on this column. */}
+          <span className="flex items-center gap-2">
             <span className="relative">
               <input
                 type="number"
@@ -502,84 +464,8 @@ function BudgetRowItem({
         </div>
       </div>
 
-      {(expanded || actionOpen) && (
-        <div
-          className={`flex flex-col gap-3 bg-parchment/40 px-1 pb-4 pt-1 sm:px-2 sm:pl-8 ${
-            actionOpen ? "" : "lg:hidden"
-          }`}
-        >
-          <div className="flex flex-wrap items-start gap-3">
-            {row.imageUrl && (
-              <Image
-                src={row.imageUrl}
-                alt=""
-                width={56}
-                height={56}
-                className="h-14 w-14 shrink-0 rounded-md border border-hairline object-cover"
-              />
-            )}
-            <div className="min-w-0">
-              {row.paidBy && <p className="text-xs text-ink/60">Paid by {row.paidBy}</p>}
-              {row.dueDate && (
-                <p
-                  className={`text-xs ${isOverdue(row.dueDate) ? "text-red-700" : "text-ink/60"}`}
-                >
-                  Due {formatDueDate(row.dueDate)}
-                  {isOverdue(row.dueDate) ? " — overdue" : ""}
-                </p>
-              )}
-              {row.notes && <p className="mt-1 text-sm text-ink/70">{row.notes}</p>}
-            </div>
-          </div>
-
-          <div className="lg:hidden">
-            <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1 text-xs text-ink/50">
-              <span className="flex items-center gap-3">
-                Paid
-                {/* Settling a line in full is the single most common thing to
-                    record here, and it's a number the row already knows --
-                    so it shouldn't need typing. */}
-                <label
-                  className={`flex items-center gap-1.5 ${
-                    liveActual > 0 ? "cursor-pointer text-ink/60" : "text-ink/30"
-                  }`}
-                >
-                  <input
-                    type="checkbox"
-                    checked={isFullyPaid}
-                    disabled={liveActual <= 0 || isPending}
-                    onChange={(e) => handlePaidInFull(e.target.checked)}
-                    className="h-3.5 w-3.5 accent-[var(--color-forest)]"
-                  />
-                  Paid in full
-                </label>
-              </span>
-              <span className="font-mono-numbers">
-                {currency.format(livePaid)} of {currency.format(liveActual)}
-              </span>
-            </div>
-            <div className="mt-1.5 flex items-center gap-3">
-              <div className="h-2 flex-1 overflow-hidden rounded-full bg-forest/10">
-                <div
-                  className="wren-grow h-2 rounded-full bg-forest transition-[width]"
-                  style={{ width: `${paidPct}%` }}
-                />
-              </div>
-              <input
-                type="number"
-                min={0}
-                value={paidInput}
-                placeholder="0"
-                aria-label={`Amount paid for ${row.label}`}
-                onChange={(e) => setPaidInput(e.target.value)}
-                onBlur={(e) => handleAmountBlur("paid_amount", e.target.value)}
-                className={numberInputClass}
-              />
-            </div>
-          </div>
-
-          <div className="flex items-center gap-1 lg:hidden">{renderActions()}</div>
-
+      {actionOpen && (
+        <div className="flex flex-col gap-3 bg-parchment/40 px-1 pb-4 pt-1 sm:px-2 sm:pl-8">
       {/* An in-page confirm rather than window.confirm(): the native dialog
           looks nothing like the app and is dismissed by reflex, which is
           exactly the accidental delete it is supposed to prevent. */}
