@@ -430,4 +430,49 @@ La Reve Bridal Couture	Bridal & Formalwear	Pearland	Texas	Houston	Bridal shop so
 Impression Bridal	Bridal & Formalwear	Houston	Texas	Houston	Bridal shop near the Galleria with designer gowns at a range of prices, open since 2011.	galleria@impressionbridalstore.com	(713) 623-4696	https://www.impressionbridalstore.com	https://www.instagram.com/impressionbridalstores/
 `,
   },
+  {
+    name: "Dallas–Fort Worth: photo booths, transport, stationery, desserts, decor and bar",
+    tsv: `Name	Category	City	State	Service area	Description	Email	Phone	Website	Instagram
+Big Time Selfies	Photo Booth	Arlington	Texas	Dallas–Fort Worth	Family-run photo booth rental with 360, glam and open-air booths for weddings.	info@bigtimeselfies.com	817-557-7449	https://bigtimeselfies.com	https://www.instagram.com/bigtimeselfies/
+Little Camper Photo Booth	Photo Booth	Dallas	Texas	Dallas–Fort Worth and North Texas	Restored vintage camper photo booths, plus open-air booths and a phone-booth audio guestbook.	LittleCamperPhotoBooth@gmail.com	214-290-4811	https://littlecamperphotobooth.com	https://www.instagram.com/littlecamperphotobooth/
+Booth & Blooms	Photo Booth	Dallas	Texas	Dallas–Fort Worth	Photo booth rentals paired with flower-wall backdrops for weddings and parties.	info@boothandblooms.com		https://www.boothandblooms.com	
+DFW Royal Limos	Transportation	Dallas	Texas	Dallas–Fort Worth	Limousine and car service for weddings, parties and airport runs.	dfwlimoscarservice@gmail.com	469-777-2823	https://dfwroyallimos.com	https://www.instagram.com/dfw_royal_limo/
+Black Clover Party Buses	Transportation	Dallas	Texas	Dallas, Addison, Fort Worth and Rowlett	Party buses and a Sprinter limo with custom lighting, for moving the wedding party and guests.	blackcloverpartybuses@gmail.com	469-258-2819	https://www.blackcloverpartybuses.com	https://www.instagram.com/blackcloverpartybuses/
+Stamped Paper Co.	Stationery & Invitations	Dallas	Texas		Boutique studio designing wedding invitations, custom monograms and day-of paper.	hello@stampedpaperco.com	214-810-5828	https://www.stampedpaperco.com	https://www.instagram.com/stampedpaperco/
+Pretty Post Calligraphy	Stationery & Invitations	Fort Worth	Texas	Dallas, Fort Worth and beyond	Calligraphy, custom invitations and hand-painted signage for weddings.	prettypostcalligraphy@gmail.com	817-437-5179	https://www.prettypostcalligraphy.com	https://www.instagram.com/prettypostcalligraphy/
+Amy Sue Designs	Stationery & Invitations	Dallas	Texas		Calligrapher doing envelope addressing, signage and live on-site calligraphy at events.	amy@amysuedesigns.com	214-516-2018	https://www.amysuedesigns.com	https://www.instagram.com/amysuedesigns/
+Pink Petunia Baking Co.	Desserts	Fort Worth	Texas		Custom dessert tables, cookies and treats for weddings from a Sugar Rush–winning baker.	hello@pinkpetuniabakingco.com	469-525-0352	https://www.pinkpetuniabakingco.com	
+Nana Puddin' Perfection	Desserts	Fort Worth	Texas	Dallas–Fort Worth	Handmade banana pudding and specialty desserts, catered for weddings and events.	nanapuddinperfection@gmail.com	469-340-3751	https://www.nanapuddinperfection.com	https://www.instagram.com/nana_puddin_perfection/
+Barnett Sweets & Co.	Desserts	Krum	Texas	Dallas–Fort Worth	Wedding cakes, mini cupcakes and dessert spreads from a North Texas bakery.	barnettsweetsco@gmail.com	940-600-9889	https://barnettsweetsco.com	https://www.instagram.com/barnettsweetsco/
+Yum Cake Crumbs	Desserts	Frisco	Texas		Custom cakes and dessert displays for weddings and celebrations.			https://yumcakecrumbs.com	https://www.instagram.com/yumcakecrumbs/
+Petite Sweets Bakery	Cake	Flower Mound	Texas		Scratch-made wedding cakes plus dessert tables of cookies, cupcakes and macarons.			https://petitesweetsbylaura.com	https://www.instagram.com/petite_sweets_laura/
+Divine Decor of Dallas	Decor & Lighting	Dallas	Texas		Ceremony and reception decor, draping, linens and lighting.	divinedecorofdallas@gmail.com	972-510-3036	https://www.divinedecorofdallas.com	
+Dixie Does Vintage	Decor & Lighting	Dallas	Texas	Dallas–Fort Worth	Vintage and one-of-a-kind decor rentals for styling a wedding.		214-202-4513	https://dixiedoesvintage.com	https://www.instagram.com/dixiedoesvintage/
+Allora Mae Mobile Bar	Bar	Fort Worth	Texas	Dallas–Fort Worth	Mobile bar and bartenders serving craft cocktails at weddings.	erika@alloramae.com	817-823-0013	https://www.alloramae.com	
+DFW Bartending	Bar	Arlington	Texas	North Texas and Waco	Bartenders, mobile bar rental and champagne towers for weddings.	info@dfwbartending.com	817-460-7280	https://www.dfwbartending.com	https://www.instagram.com/dfwbartending/
+Bar Voyage	Bar	Colleyville	Texas	Dallas–Fort Worth	Mobile bar service with signature cocktails; you supply the alcohol.	mobilebar@bar-voyage.com	254-730-0715	https://barvoyagemobilebar.com	
+`,
+  },
+  {
+    name: "Houston: photo booths, stationery, desserts, decor and bar",
+    tsv: `Name	Category	City	State	Service area	Description	Email	Phone	Website	Instagram
+Foto Fête HTX	Photo Booth	Houston	Texas	Greater Houston	Mirror photo booth for weddings and galas, with printed keepsakes.			https://www.fotofetehtx.com	https://www.instagram.com/fotofetehtx/
+Photobooth Houston	Photo Booth	Pasadena	Texas	Greater Houston	Print, digital, mirror and beauty-filter photo booths for weddings.	info@photoboothhouston.com	346-315-0909	https://www.photoboothhouston.com	https://www.instagram.com/photobooth_houston/
+Picture Perfect Duo	Photo Booth	Houston	Texas	Houston and surrounding areas	Photo booth rental for weddings, with custom backdrops and prints.	ppdhtx@gmail.com		https://www.pictureperfectduo.com	https://www.instagram.com/pictureperfectduophotobooth/
+Paper Tie Affair	Stationery & Invitations	Houston	Texas		Design studio making custom and semi-custom wedding invitations and day-of stationery.	hello@papertieaffair.com	832-248-7076	https://www.papertieaffair.com	https://www.instagram.com/papertieaffair_/
+DGZ Invitations and More	Stationery & Invitations	Bellaire	Texas	Houston	Invitation shop printing wedding invitations, save the dates, menus, programs and napkins.	dgzinvitations@gmail.com	713-823-3808	https://www.dgzinvitations.com	https://www.instagram.com/dgzinvitationsandmore/
+Alchemy Bake Lab	Desserts	Katy	Texas	Houston	Mini-dessert bars and custom cakes, with dozens of bite-size treats to choose from.	info@alchemybakelab.com		https://www.alchemybakelab.com	https://www.instagram.com/alchemybakelab/
+Buttercream Houston	Desserts	Houston	Texas		Handmade macarons and macaron towers, plus classic wedding cakes.	contact.buttercream@gmail.com	832-907-7549	https://www.buttercreamhouston.com	https://www.instagram.com/buttercreamhouston/
+Flour Gals Bakery	Desserts	Cypress	Texas	Cypress, Tomball, Magnolia, Katy and The Woodlands	Home bakery making custom cookies, cupcakes and buttercream cakes.	flourgalsbakery@gmail.com		https://www.flourgalsbakery.com	https://www.instagram.com/flourgalsbakery/
+Sweet Extravagance	Desserts	Missouri City	Texas		Sculpted and themed cakes and sweet treats, including for weddings.	orders@sweetextravagance.com	(713) 705-4414	https://sweetextravagance.com	https://www.instagram.com/sweetextravagance/
+Holiday Hill Events & Decor	Decor & Lighting	Pearland	Texas		Event design firm doing florals, draping, lighting, tablescapes and signage.	info@holidayhillevents.com	866-646-5432	https://www.holidayhillevents.com	https://www.instagram.com/holidayhillevents/
+Bright Star Productions	Decor & Lighting	Houston	Texas		Production company handling wedding lighting, sound and video for over three decades.		713-529-2757	https://brightstarproductions.com	https://www.instagram.com/brightstarproductions/
+Matchless Mobile Bar	Bar	Houston	Texas	Greater Houston	Mobile bartending with custom cocktail menus; you supply the alcohol.	kyle@matchlessmobilebar.com	(713) 364-8182	https://www.matchlessmobilebar.com	
+The Curated Pour	Bar	Houston	Texas		Mobile tap bar and bartenders for weddings.	TheCuratedPour@gmail.com	(832) 732-5531	https://www.curatedpourhtx.com	https://www.instagram.com/curatedpourhtx/
+The Buzz Stoppe Social	Bar	Houston	Texas		Mobile bartending and bar rentals for weddings.	thebuzzstoppesocial@gmail.com		https://www.thebuzzstoppe.com	https://www.instagram.com/thebuzzstoppesocial/
+Space City Sips	Bar	Houston	Texas	Greater Houston	Mobile bartending with cocktails and mocktails, using alcohol you provide.		936-320-2978	https://www.spacecitysipshtx.com	https://www.instagram.com/spacecitysipshtx/
+The Traveling Spirit	Bar	Houston	Texas		Mobile bar run by a chef turned bartender, serving creative cocktails since 2018.	Cheers@travelingspiritbar.com	832-271-8327	https://travelingspiritbar.com	https://www.instagram.com/travelingspiritbar/
+Bartending2U	Bar	Houston	Texas		Bartending and alcohol catering for weddings and events.	info@bartending2u.com	(713) 489-4960	https://bartending2u.com	https://www.instagram.com/bartending2u/
+`,
+  },
 ];
