@@ -873,4 +873,49 @@ Lakeview Golf Resort	Morgantown	West Virginia			Ballroom / Hotel	Indoor & Outdoo
 Bavarian Inn	Shepherdstown	West Virginia			Ballroom / Hotel	Indoor & Outdoor		Inn above the Potomac with wedding packages.	booking@bavarianinnwv.com	304-876-2551	https://www.bavarianinnwv.com/weddings/
 `,
   },
+  {
+    name: "Baltimore, Annapolis and the Eastern Shore",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+American Visionary Art Museum	Baltimore	Maryland			Historic / Estate	Indoor & Outdoor	400	Inner Harbor museum whose Jim Rouse Visionary Center seats 400 for dinner, with a sculpture barn and garden.	rentals@avam.org		https://www.avam.org/rentals/weddings/jim-rouse-visionary-center
+The Maryland Zoo	Baltimore	Maryland			Garden / Outdoor	Indoor & Outdoor		Zoo in Druid Hill Park with historic settings and elopements or receptions by the penguin habitat.	rentals@marylandzoo.org	410-396-7102	https://www.marylandzoo.org/groups-and-parties/weddings/
+Cylburn Arboretum	Baltimore	Maryland			Garden / Outdoor	Indoor & Outdoor		City arboretum with a historic mansion, rented through Baltimore City.	garden.events@baltimorecity.gov	410-396-4860	https://cylburn.org/rent/
+Gramercy Mansion	Stevenson	Maryland			Historic / Estate	Indoor & Outdoor	150	Bed and breakfast with gardens and trails, an atrium seating 150 and a carriage house for 75.			https://www.gramercymansion.com/weddings-events
+Elkridge Furnace Inn	Elkridge	Maryland			Historic / Estate	Indoor & Outdoor	250	1810 manor house of nine rooms with 1800s European mantels; tables and chairs for 250 included.			https://www.elkridgefurnaceinn.com/weddings
+William Paca House & Garden	Annapolis	Maryland			Historic / Estate	Indoor & Outdoor		Colonial house and garden in the historic district, run by Historic Annapolis.	info@annapolis.org	410.267.7619	https://www.annapolis.org/support/venue-rental/
+Historic London Town & Gardens	Edgewater	Maryland			Garden / Outdoor	Indoor & Outdoor		Anne Arundel's original county seat: 23 acres of gardens and historic buildings on the water.			https://historiclondontown.org/rentals/weddings/
+Herrington on the Bay	North Beach	Maryland			Beach / Waterfront	Indoor & Outdoor		Chesapeake Bay venue with a lawn, the Chesapeake Ballroom and the Harbourview Ballroom for 60 to 100.	info@herringtononthebay.com	410-741-5101	https://www.herringtononthebay.com/weddings
+Inn at Perry Cabin	St. Michaels	Maryland			Beach / Waterfront	Indoor & Outdoor		Waterfront inn on the Miles River.	Concierge@innatperrycabin.com	410.745.2200	https://www.innatperrycabin.com/weddings-events/
+`,
+  },
+  {
+    name: "Frederick and the Washington suburbs",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Catoctin Hall	Myersville	Maryland			Barn / Rustic	Indoor & Outdoor		Event venue and grounds in the Catoctin foothills west of Frederick.	events@musketridge.com		https://www.catoctinhall.com/venue
+Linganore Winecellars	Mt. Airy	Maryland			Restaurant / Vineyard	Indoor & Outdoor		Family winery east of Frederick hosting weddings.	info@linganorewines.com	(301) 831-5889	https://www.linganorewines.com
+Brookside Gardens	Wheaton	Maryland			Garden / Outdoor	Indoor & Outdoor		Public garden run by Montgomery Parks, one of its event centres for weddings.		(301) 495-2595	https://montgomeryparks.org/event-center/
+`,
+  },
+  {
+    name: "Washington, DC",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Anderson House	Washington	District of Columbia			Historic / Estate	Indoor	130	Society of the Cincinnati's mansion with a private ballroom and marble staircase, for up to 130.	events@societyofthecincinnati.org	202.785.2040	https://www.societyofthecincinnati.org/weddings/
+The Mayflower Hotel	Washington	District of Columbia			Ballroom / Hotel	Indoor		Historic downtown hotel with a grand State Ballroom.		(202) 347-3000	https://www.themayflowerhotel.com/weddings/
+The Hay-Adams	Washington	District of Columbia			Ballroom / Hotel	Indoor & Outdoor		Hotel across Lafayette Square from the White House, for rehearsal dinner through post-wedding brunch.	sales@hayadams.com	202.638.6600	https://www.hayadams.com/weddings/
+Willard InterContinental	Washington	District of Columbia			Ballroom / Hotel	Indoor		Historic hotel on Pennsylvania Avenue with ceremonies, receptions, teas and brunches.		888 424 6835	https://washington.intercontinental.com/willard-weddings/
+National Museum of Women in the Arts	Washington	District of Columbia			Historic / Estate	Indoor	200	1908 former Masonic Temple with a chandeliered ballroom and a performance hall for 200.	specialeventsinquiry@nmwa.org	202-783-5000	https://nmwa.org/host-event/
+Arts Club of Washington	Washington	District of Columbia			Historic / Estate	Indoor & Outdoor	200	James Monroe's former home with parlors for 60, a gallery for 100 and a patio for 200.		202-331-7282	https://artsclubofwashington.org/weddings-and-receptions/
+President Woodrow Wilson House	Washington	District of Columbia			Historic / Estate	Indoor & Outdoor		Wilson's Embassy Row home, rented for weddings and other occasions.			https://woodrowwilsonhouse.org
+U.S. National Arboretum	Washington	District of Columbia			Garden / Outdoor	Indoor & Outdoor		Arboretum whose events are booked through the Friends of the National Arboretum.	info@fona.org	202-544-8733	https://www.fona.org/rentals/
+The LINE DC	Washington	District of Columbia			Ballroom / Hotel	Indoor		Adams Morgan hotel whose ballroom holds over 500 or splits into three rooms.	info@thelinehotel.com	(202) 588-0525	https://www.thelinehotel.com/dc/weddings/
+District Winery	Washington	District of Columbia			Restaurant / Vineyard	Indoor & Outdoor		Urban winery with a riverfront covered terrace and a ballroom.			https://www.districtwinery.com/weddings/
+`,
+  },
+  {
+    name: "Delaware",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Winterthur Museum, Garden & Library	Winterthur	Delaware			Garden / Outdoor	Indoor & Outdoor		Du Pont estate of nearly 1,000 acres with a 60-acre garden and indoor sites.		302-888-4681	https://www.winterthur.org/weddings-and-events/
+Hagley Museum and Library	Wilmington	Delaware			Historic / Estate	Indoor & Outdoor	200	Original du Pont powder works with three event facilities, from 20 guests indoors to 200 outdoors.	askhagley@hagley.org	302-658-2400	https://www.hagley.org/weddings-hagley
+Hotel Rodney	Lewes	Delaware			Ballroom / Hotel	Indoor		Boutique hotel in downtown Lewes that hosts weddings and receptions.	info@hotelrodneydelaware.com	(302) 645-6466	https://www.hotelrodneydelaware.com
+`,
+  },
 ];
