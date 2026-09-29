@@ -188,7 +188,6 @@ function BudgetRowItem({
   deleteConfirm,
   contracts,
   isCustom,
-  defaultExpanded,
   onEdited,
 }: {
   row: BudgetRow;
@@ -201,12 +200,10 @@ function BudgetRowItem({
   contracts: BudgetContract[];
   /** Custom items file contracts by id; category rows by their category key. */
   isCustom: boolean;
-  /** Seeded by the table's expand-all, which remounts rows to apply it. */
-  defaultExpanded: boolean;
   /** Hands the table something it can offer to undo. */
   onEdited: (edit: BudgetEdit) => void;
 }) {
-  const [expanded, setExpanded] = useState(defaultExpanded);
+  const [expanded, setExpanded] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
   const [showContracts, setShowContracts] = useState(false);
   const [confirmingDelete, setConfirmingDelete] = useState(false);
@@ -284,16 +281,15 @@ function BudgetRowItem({
   /**
    * The line's four actions. Rendered in the open panel on phones and tablets,
    * and straight on the row from lg up, where the category column has room to
-   * spare -- so the common jobs don't sit behind the chevron. From the row,
-   * each one also opens the line, since what it reveals lives in the panel.
+   * spare. On lg the row has no open/closed state at all: what an action
+   * reveals shows under the row on its own and goes away when it's done.
    */
-  function renderActions(fromRow: boolean) {
+  function renderActions() {
     return (
       <>
         <button
           type="button"
           onClick={() => {
-            if (fromRow) setExpanded(true);
             handleSendReminder();
           }}
           disabled={isSendingReminder}
@@ -305,8 +301,7 @@ function BudgetRowItem({
         <button
           type="button"
           onClick={() => {
-            if (fromRow) setExpanded(true);
-            setShowDetails((v) => (fromRow && !expanded ? true : !v));
+            setShowDetails((v) => !v);
           }}
           title="Notes and payment details"
           className={`${iconButtonClass} ${showDetails ? "bg-parchment text-forest" : ""}`}
@@ -316,8 +311,7 @@ function BudgetRowItem({
         <button
           type="button"
           onClick={() => {
-            if (fromRow) setExpanded(true);
-            setShowContracts((v) => (fromRow && !expanded ? true : !v));
+            setShowContracts((v) => !v);
           }}
           title={
             contracts.length > 0
@@ -333,8 +327,7 @@ function BudgetRowItem({
         <button
           type="button"
           onClick={() => {
-            if (fromRow) setExpanded(true);
-            setConfirmingDelete((open) => (fromRow && !expanded ? true : !open));
+            setConfirmingDelete((open) => !open);
           }}
           disabled={isPending}
           title={deleteLabel}
@@ -390,7 +383,10 @@ function BudgetRowItem({
   // What's worth seeing without opening the row: the name, the two numbers,
   // and whether it's paid. Everything else -- who's paying, when it's due,
   // notes, the action buttons -- only matters once you're working on that one
-  // line, so it waits behind the chevron.
+  // line, so on phones and tablets it waits behind a tap on the name. From lg
+  // everything is already on the row, so there is nothing to open.
+  const actionOpen = showDetails || showContracts || confirmingDelete || reminderSent || !!error;
+
   return (
     <div className="border-b border-hairline last:border-b-0">
       <div className="px-1 py-2.5 transition-colors lg:py-3 hover:bg-parchment/50 sm:grid sm:grid-cols-[1fr_7rem_7.5rem_11rem] lg:grid-cols-[minmax(0,1fr)_7rem_7.5rem_9.5rem] lg:gap-5 2xl:grid-cols-[minmax(0,1fr)_9.5rem_9.5rem_12rem] 2xl:gap-8 sm:items-center sm:gap-4 sm:px-2">
@@ -399,10 +395,10 @@ function BudgetRowItem({
           type="button"
           onClick={() => setExpanded((v) => !v)}
           aria-expanded={expanded}
-          className="flex min-w-0 flex-1 items-center gap-2 text-left"
+          className="flex min-w-0 flex-1 items-center gap-2 text-left lg:pointer-events-none"
         >
           <ChevronDownIcon
-            className={`h-3.5 w-3.5 shrink-0 text-ink/35 transition-transform ${
+            className={`h-3.5 w-3.5 shrink-0 text-ink/35 transition-transform lg:hidden ${
               expanded ? "" : "-rotate-90"
             }`}
           />
@@ -429,7 +425,7 @@ function BudgetRowItem({
           )}
         </button>
         <span className="hidden shrink-0 items-center text-ink/30 lg:flex [&>button]:p-1">
-          {renderActions(true)}
+          {renderActions()}
         </span>
         </div>
 
@@ -506,8 +502,12 @@ function BudgetRowItem({
         </div>
       </div>
 
-      {expanded && (
-        <div className="flex flex-col gap-3 bg-parchment/40 px-1 pb-4 pt-1 sm:px-2 sm:pl-8">
+      {(expanded || actionOpen) && (
+        <div
+          className={`flex flex-col gap-3 bg-parchment/40 px-1 pb-4 pt-1 sm:px-2 sm:pl-8 ${
+            actionOpen ? "" : "lg:hidden"
+          }`}
+        >
           <div className="flex flex-wrap items-start gap-3">
             {row.imageUrl && (
               <Image
@@ -578,7 +578,7 @@ function BudgetRowItem({
             </div>
           </div>
 
-          <div className="flex items-center gap-1 lg:hidden">{renderActions(false)}</div>
+          <div className="flex items-center gap-1 lg:hidden">{renderActions()}</div>
 
       {/* An in-page confirm rather than window.confirm(): the native dialog
           looks nothing like the app and is dismissed by reflex, which is
@@ -840,19 +840,8 @@ export function BudgetTable({
       else setLastEdit(null);
     });
   }
-  // Bumping this key remounts every row, which resets each row's own
-  // `expanded` state -- simpler and less error-prone than lifting open/closed
-  // for twenty rows into here just to support one button.
-  const [expandKey, setExpandKey] = useState(0);
-  const [allExpanded, setAllExpanded] = useState(false);
-
   const allRows = [...rows, ...customItems];
   const contractCount = allRows.filter((r) => (contractsByRowKey[r.key] ?? []).length > 0).length;
-
-  function toggleAll() {
-    setAllExpanded((v) => !v);
-    setExpandKey((k) => k + 1);
-  }
 
   function handleUnhide(categoryKey: string) {
     const formData = new FormData();
@@ -957,19 +946,9 @@ export function BudgetTable({
         </span>
         {/* The progress bar had no label at all, so the one column that
             answers "how much of this have we actually paid?" read as
-            decoration. Paid sits over the bar; Expand all keeps the right
-            edge, above the percentage it lines up with. */}
-        <span className="flex items-center justify-between gap-2">
-          <span className="font-mono-numbers text-[10px] uppercase tracking-[0.16em] text-ink/45 lg:text-[11px]">
-            Paid
-          </span>
-          <button
-            type="button"
-            onClick={toggleAll}
-            className="font-mono-numbers text-[11px] text-brass hover:underline lg:text-xs"
-          >
-            {allExpanded ? "Collapse all" : "Expand all"}
-          </button>
+            decoration. */}
+        <span className="font-mono-numbers text-[10px] uppercase tracking-[0.16em] text-ink/45 lg:text-[11px]">
+          Paid
         </span>
       </div>
 
@@ -977,8 +956,7 @@ export function BudgetTable({
 
       {rows.map((row) => (
         <BudgetRowItem
-          key={`${row.key}-${expandKey}`}
-          defaultExpanded={allExpanded}
+          key={row.key}
           row={row}
           payerSuggestions={payerSuggestions}
           onSaveAmounts={updateBudgetLineItem}
@@ -998,8 +976,7 @@ export function BudgetTable({
 
       {customItems.map((row) => (
         <BudgetRowItem
-          key={`${row.key}-${expandKey}`}
-          defaultExpanded={allExpanded}
+          key={row.key}
           row={row}
           payerSuggestions={payerSuggestions}
           onSaveAmounts={(formData) => {
