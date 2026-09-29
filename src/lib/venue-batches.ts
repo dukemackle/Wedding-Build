@@ -713,4 +713,59 @@ Currituck Beach Lighthouse	Corolla	North Carolina			Beach / Waterfront	Outdoor	1
 The Sanderling Resort	Duck	North Carolina			Beach / Waterfront	Indoor & Outdoor		Oceanfront resort with private beaches, a lawn, a 2025 Sunset Ballroom and a loft in its historic lifesaving station.	info@thesanderling.com	855.412.7866	https://www.thesanderling.com/weddings/
 `,
   },
+  {
+    name: "Richmond and the James River",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Maymont	Richmond	Virginia			Historic / Estate	Indoor & Outdoor		Victorian estate and public park with a mansion and gardens, rented for weddings.	info@maymont.org	804-525-9000	https://maymont.org/host-your-event/
+Lewis Ginter Botanical Garden	Richmond	Virginia			Garden / Outdoor	Indoor & Outdoor		Botanical garden north of downtown with ceremony and reception sites, and semi-private elopements for under 25.		804.262.9887	https://www.lewisginter.org/visit/facility-rental/weddings/
+Main Street Station	Richmond	Virginia			Historic / Estate	Indoor		Working downtown train station whose glass-walled Shed holds over 3,000, alongside the historic Headhouse.		804-646-3800	https://mainstreetstationrichmond.com
+Mankin Mansion	Richmond	Virginia			Historic / Estate	Indoor & Outdoor		Brick mansion on the city's east side with a lawn ceremony site and patio.	info@mankinmansion.com	804-737-7773	https://www.mankinmansion.com/weddings
+Hanover Tavern	Hanover	Virginia			Historic / Estate	Indoor & Outdoor	150	Historic tavern north of Richmond with wedding packages for up to 40, 100 or 150 and a patio with a fire pit.		(804) 537-5050	https://hanovertavern.org/weddings/
+The Estate at River Run	Maidens	Virginia			Historic / Estate	Indoor & Outdoor		Georgian Revival mansion of 22,000 sq ft on 62 acres over the James River, reserved for one wedding at a time.	hello@theestateatriverrun.com	804.887.0171	https://www.theestateatriverrun.com/weddings
+Berkeley Plantation	Charles City	Virginia			Historic / Estate	Indoor & Outdoor		James River plantation whose 18th-century mansion takes ceremonies and receptions for up to 50, with larger events on the grounds.	info@berkeleyplantation.com	(804) 829-6018	https://berkeleyplantation.com/weddings/
+`,
+  },
+  {
+    name: "Charlottesville, the Blue Ridge and the Shenandoah Valley",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Boar's Head Resort	Charlottesville	Virginia			Ballroom / Hotel	Indoor & Outdoor		University of Virginia resort on 600 acres with spaces for the wedding and the whole weekend.		(434) 296-2181	https://www.boarsheadresort.com/wedding
+The Clifton	Charlottesville	Virginia			Historic / Estate	Indoor & Outdoor		Historic country inn outside Charlottesville offering wedding weekends.	reception@the-clifton.com		https://www.the-clifton.com/weddings
+Pippin Hill Farm & Vineyards	North Garden	Virginia			Restaurant / Vineyard	Indoor & Outdoor	200	Vineyard with two ceremony lawns and The Granary for 200, plus a room for 70.		434-202-8063	https://www.pippinhillfarm.com/pippin-hill-weddings-events/
+Veritas Vineyards & Winery	Afton	Virginia			Restaurant / Vineyard	Indoor & Outdoor		Blue Ridge winery hosting weddings, with an 1836 farmhouse for lodging and events of up to 50.	events@veritaswines.com	(540) 456-8000	https://veritaswines.com/weddings
+King Family Vineyards	Crozet	Virginia			Restaurant / Vineyard	Indoor & Outdoor		Family winery west of Charlottesville with Blue Ridge views.		(434) 823-7800	https://kingfamilyvineyards.com/vineyard-wedding/
+Montfair Resort Farm	Crozet	Virginia			Garden / Outdoor	Outdoor		Outdoor mountain venue on 129 acres with a spring-fed lake and cottage lodging for up to 54.	montfair@montfairresortfarm.com	(434) 823-5202	https://montfairresortfarm.com/weddings/
+Oak Ridge Estate	Arrington	Virginia			Historic / Estate	Indoor & Outdoor		Circa-1802 estate on 4,800 acres of Blue Ridge farmland, with historic buildings and a one-mile horse track.	info@oakridgeestate.com	434-409-8592	https://www.oakridgeestate.com
+Early Mountain Vineyards	Madison	Virginia			Restaurant / Vineyard	Indoor & Outdoor	200	Wine-country venue whose hall seats 200, with an outdoor ceremony arbor and mountain views.	cheers@earlymountain.com	540.948.9005	https://www.earlymountain.com/weddings
+Wintergreen Resort	Wintergreen	Virginia			Ballroom / Hotel	Indoor & Outdoor		Mountain resort with ceremonies on the Blue Ridge Overlook and receptions in the Commonwealth Ballroom.		(434) 325-8139	https://www.wintergreenresort.com/weddings/
+Hotel Madison	Harrisonburg	Virginia			Ballroom / Hotel	Indoor		Downtown hotel with the Shenandoah Ballroom and smaller rooms for cocktails and luncheons.	info@hotelmadison.com	(540) 564-0200	https://www.hotelmadison.com/weddings-shenandoah-valley
+The Hotel Roanoke	Roanoke	Virginia			Ballroom / Hotel	Indoor & Outdoor		Tudor-style hotel of more than 140 years with garden ceremonies and ballroom receptions.		540-853-8264	https://www.hotelroanoke.com/virginia_weddings/
+`,
+  },
+  {
+    name: "Northern Virginia hunt and wine country",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Salamander Middleburg	Middleburg	Virginia			Ballroom / Hotel	Indoor & Outdoor	300	Resort with 168 rooms, a Grand Ballroom for 250, a terrace, a culinary garden and an equestrian centre.		540-326-4000	https://salamanderresort.com/gatherings/weddings/overview
+Goodstone Inn	Middleburg	Virginia			Historic / Estate	Indoor & Outdoor		Country inn with cottages and suites and indoor and outdoor wedding sites.	chobbs@goodstone.com	540-687-3333	https://www.goodstone.com/wedding
+Airlie	Warrenton	Virginia			Ballroom / Hotel	Indoor & Outdoor		Hotel and conference centre on 300 acres of countryside near Washington DC.	sales@airlie.com	(540) 347-1300	https://www.airlie.com/wedding-venues-in-warrenton-va
+Stone Tower Winery	Leesburg	Virginia			Restaurant / Vineyard	Indoor & Outdoor		Hilltop winery with an indoor ceremony room, a chandeliered ballroom and a barrel room for cocktail hour.	info@stonetowerwinery.com	(703) 777-2797	https://www.stonetowerwinery.com/occasions/weddings/
+Shadow Creek	Purcellville	Virginia			Barn / Rustic	Indoor & Outdoor	300	Equestrian barn on 200 acres in Loudoun wine and horse country, for up to 300.	info@weddingsatshadowcreek.com	540-454-8115	https://weddingsatshadowcreek.com
+Breaux Vineyards	Purcellville	Virginia			Restaurant / Vineyard	Indoor & Outdoor	150	Winery up the Short Hill Mountain whose Grand Acadia Room seats 150, with a fireside room for 40.	events@breauxvineyards.com	540-668-6299	https://www.breauxvineyards.com/view/wedding/
+Bluemont Vineyard	Bluemont	Virginia			Restaurant / Vineyard	Indoor & Outdoor	200	Mountainside winery whose Stable seats 200, with a stone cottage among the vines.	cheers@bluemontvineyard.com	540-554-8439	https://www.bluemontvineyard.com/celebrate-your-love
+Rixey Manor	Rixeyville	Virginia			Historic / Estate	Indoor & Outdoor		1801 manor on 30 acres hosting one wedding a weekend, with a rooftop, ballroom and lodging for 14.	info@rixeymanor.com	(540) 212-4545	https://www.rixeymanor.com
+Great Marsh Estate	Bealeton	Virginia			Historic / Estate	Indoor & Outdoor	200	Georgian manor and restored mid-1800s stables, booked exclusively for weddings of up to 200.	info@greatmarshestate.com	540.783.4584	https://www.greatmarshestate.com
+Morais Vineyards & Winery	Bealeton	Virginia			Restaurant / Vineyard	Indoor & Outdoor		Fauquier County winery hosting weddings and events.	hello@moraisvineyards.com	540-326-6336	https://moraisvineyards.com
+Chateau O'Brien	Markham	Virginia			Restaurant / Vineyard	Indoor & Outdoor	80	Hillside winery renting for four-hour weddings of up to 80; guests must be 21 or older.	howard@chateauobrien.com	540-364-6441	https://chateauobrien.com/weddings-2/
+The Winery at Bull Run	Centreville	Virginia			Restaurant / Vineyard	Outdoor	200	Winery beside Manassas battlefield with a porch ceremony site and the Hillwoods Ruins for up to 200.			https://wineryatbullrun.com/weddings-fairfax-county-virginia/
+`,
+  },
+  {
+    name: "Williamsburg, Norfolk and the Chesapeake",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Kingsmill Resort	Williamsburg	Virginia			Ballroom / Hotel	Indoor & Outdoor	300	James River resort whose Grand Ballroom takes 300 and Burwell Ballroom 150.		757.253.8237	https://kingsmill.com/weddings/
+The Williamsburg Winery	Williamsburg	Virginia			Restaurant / Vineyard	Indoor & Outdoor	200	Winery on 200 acres of vines and woods whose Wessex Hall seats 200, with the 28-room Wedmore Place hotel.	weddings@wmbgwine.com	(757) 884-2603	https://williamsburgwinery.com/weddings
+Chrysler Museum of Art	Norfolk	Virginia			Historic / Estate	Indoor		Art museum downtown renting its galleries and Glass Studio for weddings.	events@chrysler.org	757-333-6299	https://chrysler.org/weddings-rentals/
+Hermitage Museum & Gardens	Norfolk	Virginia			Garden / Outdoor	Indoor & Outdoor		Arts-and-crafts house museum with waterfront gardens on the Lafayette River.			https://thehermitagemuseum.org/venuerentals/weddings/
+The Tides Inn	Irvington	Virginia			Beach / Waterfront	Indoor & Outdoor		Chesapeake Bay resort on the Northern Neck with wedding packages and waterfront venues.	sales@tidesinn.com	(804) 438-4416	https://tidesinn.com/irvington-va-hotel-event-venues/weddings/
+`,
+  },
 ];
