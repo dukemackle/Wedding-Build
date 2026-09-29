@@ -282,4 +282,48 @@ Wed in Fred	Planning	Fredericksburg	Texas	Fredericksburg and the Hill Country	Fr
 VEGAs DJ Services	Music	San Antonio	Texas	San Antonio, Austin and Central Texas	Wedding DJs and bilingual MCs since 2011, with lighting, photo booths and coordination.	info@vegasdjservices.com	210-527-7840	https://www.vegasdjservices.com	
 `,
   },
+  {
+    name: "Dallas–Fort Worth: photography, planning, catering, florals and music",
+    tsv: `Name	Category	City	State	Service area	Description	Email	Phone	Website	Instagram
+CN Catering	Catering	Dallas	Texas	Dallas–Fort Worth	Full-service caterer known for custom menus and polished presentation.	info@cncatering.com	214-821-2514	https://cncatering.com	https://www.instagram.com/cncatering/
+Culinary Art Catering	Catering	Dallas	Texas	Dallas, Plano, Frisco, Addison and North Texas	Chef-owned caterer of more than twenty years doing upscale wedding menus.	info@culinaryartcatering.com		https://culinaryartcatering.com	https://www.instagram.com/culinaryart1/
+Low Country Quisine	Catering	Addison	Texas	Dallas–Fort Worth	Lowcountry-style cooking with custom wedding menus, plus African dishes on request.	info@lowcountryquisine.com	(972) 386-4555	https://www.lowcountryquisine.com	https://www.instagram.com/lowcountryquisine/
+360 Catering & Events	Catering	Fort Worth	Texas	Fort Worth, Dallas and the Metroplex	Plated dinners, buffets and hors d'oeuvres with serving staff and licensed bartenders.	info@360cateringandevents.com	(817) 714-8996	https://www.360cateringandevents.com	https://www.instagram.com/360cateringandevents/
+Ferah Catering & Events	Catering	Carrollton	Texas	Dallas–Fort Worth	Custom wedding menus with halal options and bar service.	hi@ferahcatering.com	214-431-4753	https://www.ferahcatering.com	https://www.instagram.com/ferahcatering/
+Chef P-Dubs Catering	Catering	Dallas	Texas	Dallas–Fort Worth	Chef-led wedding catering with curated menus, in business since 2018.			https://www.pdubbzcatering.com	https://www.instagram.com/_chefpdubb_/
+Beto's Mexican Restaurant and Catering	Catering	Grand Prairie	Texas	Dallas–Fort Worth	Family-owned Mexican restaurant since 1993 that caters fajita and Tex-Mex spreads.		(972) 660-1289	https://www.eatatbetos.com	https://www.instagram.com/ilovebetos/
+Bay Productions	Photography	McKinney	Texas	Dallas–Fort Worth and worldwide	Husband-and-wife photography and film team.	brittanybayproductions@gmail.com	972-533-6901	https://www.brittanybayproductions.com	https://www.instagram.com/bay_productions/
+Brandi Allyse Photography	Photography	Dallas	Texas	Dallas, Fort Worth, Frisco, Plano and Austin	Wedding photographer covering North Texas.			https://brandiallyse.com	https://www.instagram.com/brandiallysephoto/
+Rafael Serrano Photography	Photography	Dallas	Texas	Dallas–Fort Worth	Cinematic wedding and quinceañera photography with guided posing.	info@rafaelserranophotography.com	214-761-6160	https://www.rafaelserranophotography.com	https://www.instagram.com/rserranophoto/
+Monica Salazar Photography	Photography	Dallas	Texas	Dallas, Fort Worth and Austin	Wedding, engagement and bridal photography since 2009, with photo booth rental too.	monicasalazarphoto@gmail.com	972-746-3557	https://www.monica-salazar.com	https://www.instagram.com/monicasalazarphotography/
+Cowtown Clicks	Photography	Fort Worth	Texas	Fort Worth and Dallas	Wedding photography company with over twenty years' experience.		817-614-0592	https://www.cowtownclicks.com	https://www.instagram.com/cowtownclicks/
+Marissa Merrill Photography	Photography	Fort Worth	Texas	Fort Worth and beyond	Wedding and engagement photographer.	marissamerrillphotography@gmail.com		https://marissamerrillphotography.com	https://www.instagram.com/marissamerrillphotography/
+Meagan Nelson Photography	Photography	Fort Worth	Texas	Fort Worth and beyond	Award-winning wedding and family photographer.	hello@meagannelson.com	817-454-8330	http://meagannelson.com	https://www.instagram.com/meagannelsonphoto/
+Moch Snyder Photography	Photography	Fort Worth	Texas	Fort Worth and destination weddings	Award-winning wedding and engagement photographer.	hello@mochsnyder.com		https://www.mochsnyder.com	https://www.instagram.com/mochiesnyder/
+Sheltons Photography	Photography	Fort Worth	Texas	Fort Worth and Dallas	Wedding and engagement photography studio.	spencer@sheltonsphotography.com		https://www.sheltonsphotography.com	https://www.instagram.com/sheltonsphotography/
+Blushington Blooms	Florals	Fort Worth	Texas	Dallas–Fort Worth	Award-winning wedding floral team: bouquets, centerpieces and ceremony flowers.	info@blushingtonblooms.com		https://www.blushingtonblooms.com	https://www.instagram.com/blushingtonblooms/
+Boujee Bloom	Florals	Aubrey	Texas	Dallas–Fort Worth	Luxury wedding florals and bouquets.	hello@boujee-bloom.com	(469) 715-1600	https://www.boujee-bloom.com	https://www.instagram.com/boujeebloomfloral/
+Haute Floral	Florals	Dallas	Texas	Dallas–Fort Worth	Full-service floral and event design studio.	info@hautefloral.com		https://www.hautefloral.com	https://www.instagram.com/hautefloral/
+Vivienne & Vine Floral Design	Florals	Fort Worth	Texas	Fort Worth and Dallas	Wedding florist and designer.	vivienneandvine@gmail.com	682-234-9621	https://www.vivienneandvine.com	https://www.instagram.com/vivienneandvine/
+Luxe Petals	Florals	Dallas	Texas	Dallas–Fort Worth	Wedding florals, plus reception linens.		(817) 805-2098	https://www.luxepetals.com	
+Flower Shack Blooms	Florals	Dallas	Texas	Dallas–Fort Worth, Austin, Houston and San Antonio	Wedding florist travelling across Texas.		(817) 800-0603	https://flowershackblooms.com	https://www.instagram.com/flowershackblooms/
+FLORA	Florals	Dallas	Texas	Dallas	Luxury floral design for weddings and galas.			https://www.floratx.com	https://www.instagram.com/floratx_/
+Camellia Farm Flora	Florals	Fort Worth	Texas	Fort Worth	Downtown florist studio that also does wedding flowers.	tammie@camelliafarmflora.com	(817) 386-2466	https://camelliafarmflora.com	https://www.instagram.com/camelliafarmflora/
+Flowers To Go	Florals	Fort Worth	Texas	Fort Worth	Downtown floral studio doing custom wedding work, with in-person consultations.			https://flowerstogofw.com	https://www.instagram.com/flowerstogofw/
+Justine's Flowers	Florals	Fort Worth	Texas	Fort Worth and Dallas	Award-winning floral studio making one-of-a-kind wedding flowers.		817-821-8589	https://www.justinesflowers.com	https://www.instagram.com/justinesflowers/
+DJ Dan Quinn	Music	Dallas	Texas	Dallas, Fort Worth and destination weddings	High-energy wedding DJ.		833-266-5372	https://dqbentertainment.com	https://www.instagram.com/djdanquinn/
+DNA Premium Event Services	Music	Grand Prairie	Texas	Dallas–Fort Worth	Bilingual English–Spanish DJs and MCs for multicultural weddings, one wedding per DJ per day.		(469) 259-7239	https://dnaeventservices.com	https://www.instagram.com/dnaeventservices/
+LeForce Entertainment	Music	Dallas	Texas	Dallas–Fort Worth	Wedding DJ group.	hello@leforcedj.com	214-302-8564	https://www.leforceentertainment.com	
+Dallas String Quartet	Music	Dallas	Texas	Dallas and nationwide	String ensemble playing classical and contemporary music on traditional and electric strings.	booking@dallasstringquartet.com	(214) 288-2440	https://www.dallasstringquartet.com	https://www.instagram.com/dallasstringquartet/
+Lottie & Co. Events	Planning	Dallas	Texas	Dallas and destination weddings	Design-led full-service wedding planning.	lottieandcoevents@outlook.com	214-223-3866	https://lottieandcoevents.com	https://www.instagram.com/lottieandcoevents/
+Incorporate Joi	Planning	Dallas	Texas	Dallas and worldwide	Luxury wedding and event planning firm.			https://www.incorporatejoi.com	https://www.instagram.com/incorporatejoi/
+S&B Events	Planning	Plano	Texas	Dallas and destination weddings	Luxury full-service wedding planning.	michelle.peska@stunningandbrilliantevents.com	704-308-6779	https://www.dallasstunningandbrilliantevents.com	https://www.instagram.com/stunningandbrilliantevents/
+Shamica & Co.	Planning	Dallas	Texas	Dallas	Wedding planning, design, coordination and elopements.	hello@shamicaandco.com	(214) 449-1198	https://shamicaandco.com	https://www.instagram.com/shamicaandco/
+Significant Events of Texas	Planning	Dallas	Texas	Dallas and Fort Worth	Full, partial and day-of planning and design.	info@significanteventsoftexas.com		https://significanteventsoftexas.com	https://www.instagram.com/significanteventsoftexas/
+CM Promotions	Planning	Dallas	Texas	Dallas–Fort Worth	Planners focused on systems and a stress-free wedding day.			https://cmpromotions.co	https://www.instagram.com/cm.promotions/
+Mrs. Planner	Planning	Dallas	Texas	Dallas, Austin and Denver	Wedding planning team with offices in Dallas, Austin and Denver.	hello@mrsplanner.com	682-472-8667	https://mrsplanner.com	https://www.instagram.com/ashlee_mrsplanner/
+Fête Fort Worth	Planning	Fort Worth	Texas	Fort Worth, Texas and beyond	Luxury wedding planning.	larissa@fetefw.com		https://www.fetefw.com	https://www.instagram.com/fete.fw/
+Integrity Events & Design	Planning	Fort Worth	Texas	Fort Worth	Wedding planners with a modern style.	hey@integrityeventsdesign.com		https://integrityeventsdesign.com	https://www.instagram.com/integrityevents.design/
+`,
+  },
 ];
