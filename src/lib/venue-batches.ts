@@ -768,4 +768,62 @@ Hermitage Museum & Gardens	Norfolk	Virginia			Garden / Outdoor	Indoor & Outdoor	
 The Tides Inn	Irvington	Virginia			Beach / Waterfront	Indoor & Outdoor		Chesapeake Bay resort on the Northern Neck with wedding packages and waterfront venues.	sales@tidesinn.com	(804) 438-4416	https://tidesinn.com/irvington-va-hotel-event-venues/weddings/
 `,
   },
+  {
+    name: "Orlando and Central Florida",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+The Alfond Inn	Winter Park	Florida			Ballroom / Hotel	Indoor & Outdoor		Boutique hotel off Park Avenue with garden ceremonies, a conservatory and the Park Avenue Ballroom.		(407) 645-6611	https://thealfondinn.com/meetings-events/weddings
+Harry P. Leu Gardens	Orlando	Florida			Garden / Outdoor	Indoor & Outdoor		Botanical garden near downtown with wedding packages through approved caterers.		407.246.2620	https://www.leugardens.org/Events/Weddings
+Maitland Art & History Museums	Maitland	Florida			Historic / Estate	Indoor & Outdoor		Museum campus centred on a 1930s artists' colony, rented for weddings.	events@artandhistory.org	407-539-2181	https://artandhistory.org/host-an-event/weddings/
+Bok Tower Gardens	Lake Wales	Florida			Garden / Outdoor	Indoor & Outdoor		National Historic Landmark garden around the 1929 marble and coquina Singing Tower; receptions seat up to 80.		(863) 734-1225	https://boktowergardens.org/weddings/
+Club Lake	Apopka	Florida			Garden / Outdoor	Outdoor	200	Outdoor venue north of Orlando for 50 to 200 guests, with ceremony and reception seating included.			https://clublakevenue.com/weddings-and-events/
+Bella Collina	Montverde	Florida			Ballroom / Hotel	Indoor & Outdoor		Tuscan-style club and resort in the hills west of Orlando.		407-469-4001	https://www.bellacollina.com/weddings-events/events
+The Howey Mansion	Howey-in-the-Hills	Florida			Historic / Estate	Indoor & Outdoor		Historic mansion in Lake County offering wedding tours.		407.906.4918	https://www.thehoweymansion.com/wedding-tours.html
+`,
+  },
+  {
+    name: "Tampa Bay, Sarasota and Southwest Florida",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Armature Works	Tampa	Florida			Historic / Estate	Indoor & Outdoor	550	Restored riverfront streetcar warehouse with three wedding venues, the largest for 150 to 550.	info@armatureworks.com		https://www.armatureworks.com/wedding-venues-tampa/
+The Don CeSar	St. Pete Beach	Florida			Ballroom / Hotel	Indoor & Outdoor		The 1920s 'Pink Palace' beach hotel on the Gulf.	info@doncesar.com	(844) 338-1501	https://www.doncesar.com
+The Birchwood	St. Petersburg	Florida			Ballroom / Hotel	Indoor		Boutique hotel in a 1924 building on Beach Drive with a fourth-floor Grand Ballroom.		727.896.1080	https://thebirchwood.com
+The Ringling	Sarasota	Florida			Historic / Estate	Outdoor	400	Ringling estate on Sarasota Bay; Ca' d'Zan is an outdoor-only venue, and packages run up to 400 guests.			https://www.ringling.org/about-ringling/venue-rentals/weddings/
+Marie Selby Botanical Gardens	Sarasota	Florida			Garden / Outdoor	Indoor & Outdoor		Forty-five acres of bayfront gardens downtown with indoor and outdoor event spaces.	info@selby.org	941.366.5731	https://selby.org
+Edison and Ford Winter Estates	Fort Myers	Florida			Historic / Estate	Outdoor		The winter homes of Thomas Edison and Henry Ford, with ceremony packages on a palm-shaded lawn facing the sunset.		239-335-3689	https://www.edisonfordwinterestates.org/private-rentals/wedding-ceremonies/
+Luminary Hotel & Co.	Fort Myers	Florida			Ballroom / Hotel	Indoor & Outdoor		Downtown riverfront hotel whose Caloosa Ballroom holds up to 2,300.		(833) 918-1512	https://www.luminaryhotel.com/gather/weddings-celebrations/
+South Seas	Captiva Island	Florida			Beach / Waterfront	Indoor & Outdoor		Island resort at the north end of Captiva with beach wedding venues.	info@southseas.com		https://www.southseas.com/gather/weddings/
+'Tween Waters Island Resort	Captiva	Florida			Beach / Waterfront	Indoor & Outdoor		Resort between the Gulf and Pine Island Sound with five wedding venues.		239-472-5161	https://tween-waters.com/wedding-venues/
+`,
+  },
+  {
+    name: "Miami, Palm Beach and the Keys",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Vizcaya Museum and Gardens	Miami	Florida			Historic / Estate	Indoor & Outdoor	300	Bayfront villa with exclusive use of its courtyard, terraces and gardens in the evening, for up to 300.	facility.rentals@vizcaya.org	305-856-8189	https://vizcaya.org/visit-2/wedding-events/
+Deering Estate	Miami	Florida			Historic / Estate	Indoor & Outdoor		Historic estate on 450 acres along Biscayne Bay, run by Miami-Dade Parks.		305-235-1668	https://deeringestate.org/venue-rentals/miami-wedding-venues/
+Villa Woodbine	Miami	Florida			Historic / Estate	Indoor & Outdoor		Old Miami mansion in Coconut Grove rented for weddings and events.		305-858-6660	https://www.villa-woodbine.com
+Ancient Spanish Monastery	North Miami Beach	Florida			Historic / Estate	Indoor & Outdoor		Medieval Spanish cloister rebuilt in Florida, now an active church that hosts weddings.			https://www.spanishmonastery.com
+The Biltmore Hotel	Coral Gables	Florida			Ballroom / Hotel	Indoor & Outdoor		1926 landmark hotel with garden, ballroom and open-air ceremony sites.		305 445 1926	https://biltmorehotel.com/coral-gables-event-venues/wedding/
+Fairchild Tropical Botanic Garden	Coral Gables	Florida			Garden / Outdoor	Indoor & Outdoor	250	Tropical garden open since 1938, with sites from a courtyard for 60 to the Tropical Arboretum for 250.	weddings@fairchildgarden.org	877-723-3933	https://fairchildgarden.org/garden-wedding-miami/
+Bonnet House	Fort Lauderdale	Florida			Historic / Estate	Indoor & Outdoor		Historic house on 35 acres between the ocean and the Intracoastal.		(954) 703-2608	https://www.bonnethouse.org/weddings/
+Morikami Museum and Japanese Gardens	Delray Beach	Florida			Garden / Outdoor	Outdoor	150	Japanese gardens with five ceremony sites for up to 35 and a tented area for groups over 150.	morikami@pbc.gov	561-495-0233	https://morikami.org/weddings-ceremonies/
+The Breakers	Palm Beach	Florida			Ballroom / Hotel	Indoor & Outdoor		Oceanfront Italian Renaissance-style resort hotel.	reservations@thebreakers.com		https://www.thebreakers.com/events/weddings-celebrations/
+Casa Marina Key West	Key West	Florida			Beach / Waterfront	Indoor & Outdoor		1920 oceanfront hotel with the original Flagler Ballroom, a Grand Ballroom and an oceanfront lawn.	EYWCM_Key_West_Weddings@hilton.com	305.293.6217	https://casamarinaresort.com/weddings/
+Hawks Cay Resort	Duck Key	Florida			Beach / Waterfront	Indoor & Outdoor		Middle Keys resort with a wedding team to coordinate venues, menus and guest rooms.		305-743-7000	https://www.hawkscay.com/weddings/
+Cheeca Lodge & Spa	Islamorada	Florida			Beach / Waterfront	Indoor & Outdoor	750	Oceanfront resort with the Upper Keys' largest ballroom, for up to 750, and a smaller ballroom for 130.		(305) 664-4651	https://www.cheeca.com/weddings
+`,
+  },
+  {
+    name: "St. Augustine, North Florida and the Panhandle",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Lightner Museum	St. Augustine	Florida			Historic / Estate	Indoor	225	Museum in the former Hotel Alcazar with wedding packages for 40 to 225.	info@lightnerweddings.com	904-217-0077	https://weddings.lightnermuseum.org
+The Treasury on the Plaza	St. Augustine	Florida			Historic / Estate	Indoor		Downtown venue on the Plaza, run by the same team as Lightner Museum weddings.	info@thetreasurycollection.com	904-217-0077	https://treasuryontheplaza.com
+Villa Zorayda Museum	St. Augustine	Florida			Historic / Estate	Indoor	10	1883 Gilded Age home downtown, rented for elopements of up to 10.	info@villazorayda.com	904-829-9887	https://villazorayda.com/st-augustine-elopement-wedding-ceremony/
+Ponte Vedra Inn & Club	Ponte Vedra Beach	Florida			Beach / Waterfront	Indoor & Outdoor		Oceanfront resort with beach weddings and over 300 rooms for guests.	innwedding@pvresorts.com	(904) 273-7700	https://www.pontevedra.com/weddings
+Goodwood Museum & Gardens	Tallahassee	Florida			Historic / Estate	Indoor & Outdoor	200	Plantation house on 21 acres of oaks and heirloom gardens, with a Carriage House for receptions of 200.	jabixler@goodwoodmuseum.org	850-877-4202	https://www.goodwoodmuseum.org/weddings/
+Hotel Duval	Tallahassee	Florida			Ballroom / Hotel	Indoor	250	Downtown hotel whose Horizon Grand Ballroom takes 250.	info@hotelduval.com	850-224-6000	https://www.hotelduval.com/wedding-venues-tallahasse
+WaterColor Inn & Resort	Santa Rosa Beach	Florida			Beach / Waterfront	Indoor & Outdoor	200	30A resort with beach venues and a BoatHouse on Western Lake for up to 200.	WaterColorWedding@stjoe.com	(850) 534-5017	https://www.watercolorresort.com/groups/weddings
+Rosemary Beach	Rosemary Beach	Florida			Beach / Waterfront	Indoor & Outdoor		30A beach town with wedding venues and help with preparations.		(866) 348-8952	https://rosemarybeach.com/weddings/
+Hotel Effie	Miramar Beach	Florida			Ballroom / Hotel	Indoor & Outdoor		Hotel at Sandestin near Destin hosting beach and destination weddings.		850-351-3000	https://www.hoteleffie.com/weddings
+Henderson Beach Resort	Destin	Florida			Beach / Waterfront	Indoor & Outdoor	175	Resort beside Henderson Beach State Park with a Grand Lawn for 175 and the Destin and Crystal ballrooms.	reservations@hendersonbeachresort.com	(855) 741-2777	https://www.hendersonbeachresort.com/gather/weddings/
+`,
+  },
 ];
