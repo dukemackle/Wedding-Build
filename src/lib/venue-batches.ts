@@ -826,4 +826,51 @@ Hotel Effie	Miramar Beach	Florida			Ballroom / Hotel	Indoor & Outdoor		Hotel at 
 Henderson Beach Resort	Destin	Florida			Beach / Waterfront	Indoor & Outdoor	175	Resort beside Henderson Beach State Park with a Grand Lawn for 175 and the Destin and Crystal ballrooms.	reservations@hendersonbeachresort.com	(855) 741-2777	https://www.hendersonbeachresort.com/gather/weddings/
 `,
   },
+  {
+    name: "Louisville and Northern Kentucky",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+The Brown Hotel	Louisville	Kentucky			Ballroom / Hotel	Indoor		Downtown hotel that has hosted Louisville's events since 1923.	awilliams@brownhotel.com	888-888-5252	https://www.brownhotel.com/louisville-weddings
+The Henry Clay	Louisville	Kentucky			Historic / Estate	Indoor		Historic downtown building with chandeliered ballrooms and other event spaces.		(502) 676-3032	https://thehenryclay.com
+Conrad-Caldwell House Museum	Louisville	Kentucky			Historic / Estate	Indoor & Outdoor		1893 Arthur Loomis mansion in Old Louisville, known as Louisville's Castle.			https://www.conradcaldwell.org/weddings
+Historic Locust Grove	Louisville	Kentucky			Historic / Estate	Indoor & Outdoor		Historic site minutes from downtown with indoor and outdoor spaces for ceremonies and receptions.	marketing@locustgrove.org	(502) 897-9845	https://locustgrove.org/rent/
+The Olmsted	Louisville	Kentucky			Historic / Estate	Indoor & Outdoor		1920s building on the 80-acre campus of the former Masonic Widows and Orphans Home, for ceremonies and receptions.			https://www.theolmsted.com
+Oxmoor Farm	Louisville	Kentucky			Historic / Estate	Indoor & Outdoor		Bullitt family farm dating from 1787, rented for private events.	events@oxmoorbourbon.com		https://oxmoorfarm.org/rental/
+Hurstbourne Country Club	Louisville	Kentucky			Ballroom / Hotel	Indoor & Outdoor		East End country club hosting weddings and events.		502-420-1754	https://www.hurstbournecc.com/Events-Weddings
+Angel's Envy Distillery	Louisville	Kentucky			Restaurant / Vineyard	Indoor		Downtown distillery with a private event space and buyouts for 10 to 400, popular for rehearsal dinners and welcome parties.			https://www.angelsenvy.com/us/en/host-your-event/
+Yew Dell Botanical Gardens	Crestwood	Kentucky			Garden / Outdoor	Indoor & Outdoor		Botanical garden east of Louisville with wedding, ceremony and private event rentals.			https://yewdellgardens.org/weddings-private-events/
+Hermitage Farm	Goshen	Kentucky			Barn / Rustic	Indoor & Outdoor		Working horse farm northeast of Louisville.	hermitagefarm@theindigoroad.com	502.398.9289	https://www.hermitagefarm.com/private-events/weddings/
+Bernheim Forest and Arboretum	Clermont	Kentucky			Garden / Outdoor	Indoor & Outdoor		Arboretum and forest south of Louisville with a hilltop event centre and outdoor wedding sites.	rentals@bernheim.org		https://bernheim.org/visit/rentals/
+Hotel Covington	Covington	Kentucky			Ballroom / Hotel	Indoor		Boutique hotel across the river from Cincinnati with its own wedding and events team.	guestservices@hotelcovington.com	859-905-6600	https://hotelcovington.com/weddingeventsteam/
+Newport Syndicate	Newport	Kentucky			Ballroom / Hotel	Indoor		Event venue across from Cincinnati with reception rooms for weddings of all sizes.			https://www.newportsyndicate.com/weddings
+`,
+  },
+  {
+    name: "Lexington, the Bluegrass and Bowling Green",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+The Kentucky Castle	Versailles	Kentucky			Historic / Estate	Indoor & Outdoor		Castle hotel in horse country with a ballroom, greenhouse, rooftop and east terrace.		(859) 256-0322	https://www.thekentuckycastle.com/weddings
+Ashland, the Henry Clay Estate	Lexington	Kentucky			Historic / Estate	Indoor & Outdoor		Henry Clay's estate, rented for private events and weddings.		(859) 266-8581	https://henryclay.org/events/private-events-weddings/
+Spindletop Hall	Lexington	Kentucky			Historic / Estate	Indoor & Outdoor		University of Kentucky's historic mansion and club, with indoor and outdoor ceremony and reception spaces.		859.255.2777	https://www.spindletophall.org
+The Campbell House	Lexington	Kentucky			Ballroom / Hotel	Indoor		Hotel whose Bluegrass Ballroom covers 3,600 sq ft, with buffet and plated packages.		859.255.4281	https://www.thecampbellhouse.com/weddings/
+Talon Winery	Lexington	Kentucky			Restaurant / Vineyard	Indoor & Outdoor	250	Winery with an indoor-outdoor hall for 200 to 250 facing its pond and vineyard.		859-971-3214	https://www.talonwine.com/weddings/
+Castle & Key Distillery	Frankfort	Kentucky			Historic / Estate	Indoor & Outdoor	300	Restored historic distillery with a sunken garden for ceremonies of 150 and indoor receptions for up to 300.		502.395.9070	https://castleandkey.com/pages/weddings
+Shaker Village of Pleasant Hill	Harrodsburg	Kentucky			Historic / Estate	Indoor & Outdoor		Restored Shaker village on 3,000 acres, with a tobacco barn, the 1820 Meeting House and on-site lodging.			https://shakervillageky.org/weddings/
+Warrenwood Manor	Danville	Kentucky			Historic / Estate	Indoor & Outdoor	50	Historic house with a small-wedding package for up to 50.			https://warrenwoodmanor.com/weddings
+Elk Creek Vineyards	Owenton	Kentucky			Restaurant / Vineyard	Indoor & Outdoor		Winery between Louisville, Lexington and Cincinnati hosting weddings.	info@ecvwinery.com		https://www.elkcreekvineyards.com
+Lost River Cave	Bowling Green	Kentucky			Garden / Outdoor	Indoor & Outdoor	300	Cave and nature park whose Cave Club, in one of the largest cave entrances in the US, holds 300.	rentals@lostrivercave.org	270.393.0077	https://www.lostrivercave.org/weddings-rentals/
+`,
+  },
+  {
+    name: "West Virginia",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+The Greenbrier	White Sulphur Springs	West Virginia			Ballroom / Hotel	Indoor & Outdoor		Historic mountain resort hotel.		(844) 837-2466	https://www.greenbrier.com/gather/weddings/
+General Lewis Inn	Lewisburg	West Virginia			Historic / Estate	Indoor & Outdoor		Historic inn offering venues and catering for weddings.			https://www.generallewisinn.com/weddings-events
+The Resort at Glade Springs	Daniels	West Virginia			Ballroom / Hotel	Indoor & Outdoor	300	Southern West Virginia resort with venues for up to 300 and on-site lodging and spa.		304-763-0892	https://www.gladesprings.com/weddings/
+Oglebay	Wheeling	West Virginia			Garden / Outdoor	Indoor & Outdoor	150	Park resort with lodge, cabins and cottages, and an outdoor ceremony setting for 150.		304-243-4062	https://oglebay.com/groups/weddings/
+Stonewall Resort	Roanoke	West Virginia			Beach / Waterfront	Indoor & Outdoor		Lakeside resort with a lodge, cottages and lake houses for guests.	hello@stonewallresort.com	304-269-7400	https://www.stonewallresort.com/weddings/
+Adaland Mansion	Philippi	West Virginia			Historic / Estate	Indoor & Outdoor		Historic mansion with buffets served in the formal dining room and guests seated in an open-air pavilion.	adaland1@adaland.org	304-457-1587	https://adaland.org/plan-your-event/weddings/
+Canaan Valley Resort	Davis	West Virginia			Ballroom / Hotel	Indoor & Outdoor		State park resort in the Allegheny highlands hosting groups and weddings.	group@canaanresort.com	304-866-4121	https://www.canaanresort.com/resort/groups-weddings
+Lakeview Golf Resort	Morgantown	West Virginia			Ballroom / Hotel	Indoor & Outdoor		Golf resort with on-site rooms for wedding guests.		304-594-1111	https://www.lakeviewresort.com/weddings
+Bavarian Inn	Shepherdstown	West Virginia			Ballroom / Hotel	Indoor & Outdoor		Inn above the Potomac with wedding packages.	booking@bavarianinnwv.com	304-876-2551	https://www.bavarianinnwv.com/weddings/
+`,
+  },
 ];
