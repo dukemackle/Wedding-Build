@@ -918,4 +918,44 @@ Hagley Museum and Library	Wilmington	Delaware			Historic / Estate	Indoor & Outdo
 Hotel Rodney	Lewes	Delaware			Ballroom / Hotel	Indoor		Boutique hotel in downtown Lewes that hosts weddings and receptions.	info@hotelrodneydelaware.com	(302) 645-6466	https://www.hotelrodneydelaware.com
 `,
   },
+  {
+    name: "Philadelphia, the Main Line and Bucks County",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Morris Arboretum & Gardens	Philadelphia	Pennsylvania			Garden / Outdoor	Indoor & Outdoor	175	Ninety-two acres in Chestnut Hill with five ceremony sites; receptions for up to 175, or 155 with a dance floor.	rentals@morrisarboretum.org	215.247.5777	https://www.morrisarboretum.org/plan-event/weddings
+The Barnes Foundation	Philadelphia	Pennsylvania			Historic / Estate	Indoor & Outdoor		Art museum on the Parkway with event spaces including a garden pavilion for receptions of 70.	info@barnesfoundation.org	215.278.7000	https://www.barnesfoundation.org/host-an-event
+Pennsylvania Academy of the Fine Arts	Philadelphia	Pennsylvania			Historic / Estate	Indoor		Historic art academy and museum on North Broad Street, rented for weddings and events.	events@pafa.org	215-972-2049	https://www.pafa.org/about/event-rentals
+The Franklin Institute	Philadelphia	Pennsylvania			Historic / Estate	Indoor		Science museum on the Parkway hosting weddings with Seravezza Catering.	guestservices@fi.edu	215.448.1200	https://fi.edu/en/plan-an-event
+Awbury Arboretum	Philadelphia	Pennsylvania			Garden / Outdoor	Indoor & Outdoor		Germantown arboretum with a historic house and farm, rented through Peachtree Catering.	portico@peachtreecatering.com	215-849-2855	https://awbury.org/venue-rentals/
+Front & Palmer	Philadelphia	Pennsylvania			Historic / Estate	Indoor		Fishtown event venue seating 220 for dinner and dancing, or 325 for cocktails.			https://frontandpalmer.com
+Joseph Ambler Inn	North Wales	Pennsylvania			Historic / Estate	Indoor & Outdoor	200	Country inn with banquet rooms for 200, a farmhouse and overnight rooms for guests.		215-362-7500	https://josephamblerinn.com/weddings/
+Normandy Farm	Blue Bell	Pennsylvania			Barn / Rustic	Indoor & Outdoor		Historic farm hotel with a grand ballroom, silos for dancing and on-site rooms.			https://www.normandyfarm.com/wedding-venue-blue-bell-pa
+Inn at Barley Sheaf	Holicong	Pennsylvania			Historic / Estate	Indoor & Outdoor	300	Bucks County estate hosting one wedding at a time, with catering included, for up to 300.	Info@BarleySheaf.com	215.794.5104	https://www.barleysheaf.com/weddings/
+Crossing Vineyards and Winery	Washington Crossing	Pennsylvania			Restaurant / Vineyard	Indoor & Outdoor	200	Bucks County winery with winery weddings for 25 to 75 and a tented vista for 75 to 200.			https://www.crossingvineyards.com/winery-weddings
+`,
+  },
+  {
+    name: "Lancaster, Hershey and Gettysburg",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Cork Factory Hotel	Lancaster	Pennsylvania			Ballroom / Hotel	Indoor		Hotel in a converted cork factory with adaptable event spaces.	info@corkfactoryhotel.com	717.735.2075	https://www.corkfactoryhotel.com/weddings
+Excelsior	Lancaster	Pennsylvania			Historic / Estate	Indoor		Downtown venue with the Empire Room and Grande Salon, above catacombs where beer was brewed from 1852.	kelly@excelsiorlancaster.com		https://www.excelsiorlancaster.com/weddings
+Historic Rock Ford	Lancaster	Pennsylvania			Historic / Estate	Indoor & Outdoor		National Register property on 33 wooded acres, rented for weddings.	info@historicrockford.org	717-392-7223	https://www.historicrockford.org/weddings-rentals-1
+The Barn at Silverstone	Lancaster	Pennsylvania			Barn / Rustic	Indoor & Outdoor	200	Estate with a barn hall for up to 200, a bridal mansion and a courtyard.			https://www.thebarnatsilverstone.com
+The Hotel Hershey	Hershey	Pennsylvania			Ballroom / Hotel	Indoor & Outdoor	250	1933 hotel with garden ceremonies, the Starlight Terrace Ballroom and receptions for up to 250.		717-534-8830	https://www.thehotelhershey.com/celebrations/weddings.php
+Hotel Gettysburg	Gettysburg	Pennsylvania			Ballroom / Hotel	Indoor		Historic hotel on Lincoln Square.	info@hotelgettysburg.com	717-337-2000	https://hotelgettysburg.com/weddings/
+`,
+  },
+  {
+    name: "Pittsburgh, the Laurel Highlands and the Poconos",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Phipps Conservatory and Botanical Gardens	Pittsburgh	Pennsylvania			Garden / Outdoor	Indoor & Outdoor		Victorian glasshouse and gardens in Schenley Park.		412-622-6914	https://www.phipps.conservatory.org/plan-your-event/weddings/
+Carnegie Museums of Pittsburgh	Pittsburgh	Pennsylvania			Historic / Estate	Indoor		Art and natural history museums in Oakland, plus receptions at the Andy Warhol Museum.	NSSpecialEventSales@carnegiemuseums.org	412-622-3131	https://carnegiemuseums.org/plan-your-event/weddings-at-the-museums/
+Mansions on Fifth	Pittsburgh	Pennsylvania			Historic / Estate	Indoor & Outdoor		Historic Fifth Avenue estate hotel in Shadyside for ceremony and reception on site.	events@mansionsonfifth.com	412.381.5105	https://www.mansionsonfifth.com/weddings.php
+The Priory Hotel	Pittsburgh	Pennsylvania			Ballroom / Hotel	Indoor & Outdoor	350	North Side hotel with the Grand Hall ballroom for 350 seated and a courtyard.	info@thepriory.com	(412) 231-3338	https://www.thepriory.com/special-events.php
+The Barn at Fallingwater	Mill Run	Pennsylvania			Barn / Rustic	Indoor & Outdoor		Barn on the Fallingwater grounds in the Laurel Highlands, rented for weddings.		724-329-8501	https://fallingwater.org/visit/events/weddings/
+Skytop Lodge	Skytop	Pennsylvania			Ballroom / Hotel	Indoor & Outdoor		Pocono mountain resort with the Evergreen Ballroom and wedding packages including a night at the lodge.		(570) 595-8939	https://www.skytop.com/group-events/weddings-venues/
+The Pines at Woodloch	Hawley	Pennsylvania			Ballroom / Hotel	Indoor & Outdoor	45	Pocono resort hosting intimate weddings of 15 to 45 and elopements.		570.685.8000	https://www.woodloch.com/celebrate-weddings/
+The Settlers Inn	Hawley	Pennsylvania			Historic / Estate	Indoor & Outdoor		Pocono inn with a garden for dining and dancing.			https://www.thesettlersinn.com/wedding-venues-poconos-pa
+Stroudsmoor Country Inn	Stroudsburg	Pennsylvania			Ballroom / Hotel	Indoor & Outdoor		Pocono inn with several private event spaces, each with its own ceremony and reception sites.		(570) 421-6431	https://www.stroudsmoorweddings.com
+`,
+  },
 ];
