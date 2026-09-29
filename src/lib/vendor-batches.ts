@@ -244,4 +244,42 @@ SATX Limousine & Party Bus	Transportation	San Antonio	Texas	San Antonio	Limousin
 ETI Limousine & Charter	Transportation	San Antonio	Texas	Across Texas	Charter buses, sprinter vans and SUVs for guest shuttles and the wedding party.	info@etilimo.com	210-599-9999	https://etilimo.com	https://www.instagram.com/eti_limo/
 `,
   },
+  {
+    name: "San Antonio, New Braunfels and Boerne: third batch",
+    tsv: `Name	Category	City	State	Service area	Description	Email	Phone	Website	Instagram
+LokeyFilms	Videography	Boerne	Texas	San Antonio, Boerne, New Braunfels and the Hill Country	Cinematic wedding films, with photography available too.	lokeyfilms.co@gmail.com	318-537-6780	https://www.lokeyfilms.com	https://www.instagram.com/lokey_films/
+MobilBoheme Wedding Films	Videography	New Braunfels	Texas	Central Texas and beyond	Affordable wedding videography from a New Braunfels team.	info@mobilboheme.com	(512) 753-9135	https://www.mobilboheme.com	https://www.instagram.com/mobilboheme/
+Dear Juliets Photography	Photography	San Antonio	Texas	San Antonio and the Hill Country	Husband-and-wife photographers with true-to-life colour and an editorial touch.	dearjulietsphotography@gmail.com	210-508-6925	https://www.dearjulietsphotography.com	https://www.instagram.com/dearjulietsphotography/
+Jessie Schultz Photography	Photography	San Antonio	Texas	San Antonio, Austin, New Braunfels and across Texas	Husband-and-wife team shooting documentary-style weddings with editorial portraits, since 2015.			https://jessieschultzphotography.com	https://www.instagram.com/jessie.schultz/
+Sarah Thompson Photography	Photography	San Antonio	Texas	San Antonio	Timeless, candid wedding photography with a relaxed, low-stress approach on the day.			https://sarahthompsonphotos.com	https://www.instagram.com/sarahthompsonphotos/
+dannyROD Photography	Photography	New Braunfels	Texas	New Braunfels, San Antonio, Gruene and the Hill Country	Modern documentary wedding photography, working since 2007.			https://www.dannyrod.com	https://www.instagram.com/dannyrodphotography/
+Straughan Photography	Photography	San Antonio	Texas	San Antonio and across Texas	Classic, candid wedding photography from a master-certified photographer.		(210) 445-9837	https://sanantonioweddingphotography.com	https://www.instagram.com/straughan_photography/
+Virginia Ann Photography	Photography	San Antonio	Texas	San Antonio	Husband-and-wife team shooting weddings on both film and digital.	virginia@virginiaann.com	210-387-4514	https://www.virginiaann.com	https://www.instagram.com/virginiaannphotography/
+Anthony Gauna Photography	Photography	San Antonio	Texas	San Antonio	Artistic documentary photography for laid-back, non-traditional couples.	anthony@anthonygaunaphoto.com	210-819-5971	https://anthonygaunaphoto.com	https://www.instagram.com/_anthonygauna/
+Bluefire Photography	Photography	San Antonio	Texas	San Antonio	Natural, timeless wedding photography with relaxed posing help.		210.878.9001	https://www.bluefirephoto.com	https://www.instagram.com/bluefirephoto/
+Eyeronic Love	Photography	San Antonio	Texas	San Antonio, New Braunfels, Boerne, Gruene and Austin	Fun, film-loving wedding photographer.			https://eyeroniclove.com	
+Prim + Powder	Hair & Makeup	San Antonio	Texas	San Antonio, the Hill Country and South Texas	Wedding hair and makeup team for brides and bridal parties.	prim.powder@gmail.com		https://primandpowder.com	https://www.instagram.com/primandpowder/
+Maven and Co Salon	Hair & Makeup	San Antonio	Texas	San Antonio	Salon offering airbrush makeup and hair for weddings, in-salon or on location.	makeupmavensa@gmail.com	210-279-3035	https://www.makeupmavensa.com	https://www.instagram.com/makeupmavenandcompany/
+Southern Tease	Hair & Makeup	New Braunfels	Texas	New Braunfels and the Hill Country	On-location bridal hair and airbrush makeup.	weddings@southerntease.com	(830) 359-8667	https://www.southerntease.com	https://www.instagram.com/southern.tease/
+Aly Am Paperie	Stationery & Invitations	San Antonio	Texas	San Antonio	Custom wedding invitation suites, by appointment at the studio.	art@alyampaperie.com	210-375-8400	https://alyampaperie.com	https://www.instagram.com/alyampaperie/
+CalliRosa	Stationery & Invitations	San Antonio	Texas	San Antonio	Calligraphy and custom stationery: invitations, place cards, signs and seating charts, plus live calligraphy at events.	hello@callirosa.com		https://callirosa.com	https://www.instagram.com/callirosa/
+Molly Ward Creative	Stationery & Invitations	Kyle	Texas	Austin, San Antonio and between	Calligraphy and stationery design: invitations, signs, place cards and live lettering.	hello@mollywardcreative.com		https://mollywardcreative.com	https://www.instagram.com/mollywardcreative/
+Bella Bride Boutique	Bridal & Formalwear	San Antonio	Texas	San Antonio	Bridal shop in Stone Oak with designer wedding dresses and personal styling.	info@bellabrideboutique.com		https://www.bellabrideboutique.com	https://www.instagram.com/bellabrideboutique/
+Olivia Grace Bridal	Bridal & Formalwear	San Antonio	Texas	San Antonio	Olmos Park bridal shop carrying gowns in sizes 0–28.		(210) 876-5366	https://oliviagracebridalshop.com	https://www.instagram.com/oliviagracebridal/
+Bridal Galleria of Texas	Bridal & Formalwear	San Antonio	Texas	San Antonio	Locally owned, size-inclusive bridal boutique in Monte Vista.		(210) 342-5752	https://www.bridalgalleriaoftexas.com	https://www.instagram.com/bridalgalleriaoftexas/
+IDoTheDressIDo	Bridal & Formalwear	San Antonio	Texas	San Antonio	Off-the-rack wedding dresses under $1,500 in sizes 0–30, open since 2005.	idothedressido@gmail.com	(210) 592-6433	https://www.idothedressido.com	https://www.instagram.com/idothedressido/
+Luxe Redux Bridal	Bridal & Formalwear	San Antonio	Texas	San Antonio	Off-the-rack designer wedding dresses at a steep discount.			https://luxereduxbridal.com	https://www.instagram.com/luxereduxbridal/
+Rex Formal Wear	Bridal & Formalwear	San Antonio	Texas	San Antonio	Tuxedo and suit rental for grooms and groomsmen, with several San Antonio stores.		(210) 236-7669	https://rexformalwear.com	https://www.instagram.com/rexformalwear/
+EdenPark Floral	Florals	Boerne	Texas	Boerne and the Hill Country	Wedding florist designing bouquets and ceremony and reception flowers.	hello@edenparkfloral.com	830.388.8500	https://edenparkfloral.com	https://www.instagram.com/edenpark_floral/
+Spice of Life Catering	Catering	San Antonio	Texas	San Antonio	Full-service caterer handling weddings from intimate to very large, with delivery, setup and cleanup.		210-366-1220	https://spiceoflifesa.com	https://www.instagram.com/spiceoflifesa/
+Tacos al Carbón Cabrón	Catering	San Antonio	Texas	San Antonio	Taco catering with fresh tortillas and salsas made daily.	info@tacosalcarboncabron.com	210-907-2068	https://tacosalcarboncabron.com/catering/	https://www.instagram.com/tacosalcarboncabronsa/
+Sunny's	Catering	Boerne	Texas	Boerne and San Antonio	Brunch and cocktail restaurant that caters events from its Boerne and La Cantera kitchens.		(830) 266-0498	https://www.sunnysbrunch.com	https://www.instagram.com/sunnysbrunch/
+Pennies Candy Bar	Desserts	San Antonio	Texas	San Antonio	Candy and treat buffet tables styled for weddings.		(210) 379-0634	https://penniescandybar.com	https://www.instagram.com/penniescandybar_sa/
+The Flawless Table & Co	Rentals	San Antonio	Texas	San Antonio, New Braunfels, Schertz and Cibolo	Statement arches, backdrops, bars and other one-of-a-kind rental pieces.			https://www.theflawlesstableco.com	https://www.instagram.com/theflawlesstableco/
+Atlas Weddings & Co.	Planning	San Antonio	Texas	San Antonio	Wedding planner with a romantic, elevated style.			https://atlasweddingsandco.com	https://www.instagram.com/atlasweddingsandco/
+Bloom in Grace Event Planning	Planning	San Antonio	Texas	San Antonio	Wedding planning, design and coordination.		210-371-9188	https://www.bloomingraceevents.com	
+Wed in Fred	Planning	Fredericksburg	Texas	Fredericksburg and the Hill Country	Fredericksburg wedding planners offering all-inclusive packages.		830-992-5074	https://www.wedinfred.com	https://www.instagram.com/wedinfred/
+VEGAs DJ Services	Music	San Antonio	Texas	San Antonio, Austin and Central Texas	Wedding DJs and bilingual MCs since 2011, with lighting, photo booths and coordination.	info@vegasdjservices.com	210-527-7840	https://www.vegasdjservices.com	
+`,
+  },
 ];
