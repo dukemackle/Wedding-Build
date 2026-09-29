@@ -475,4 +475,16 @@ The Traveling Spirit	Bar	Houston	Texas		Mobile bar run by a chef turned bartende
 Bartending2U	Bar	Houston	Texas		Bartending and alcohol catering for weddings and events.	info@bartending2u.com	(713) 489-4960	https://bartending2u.com	https://www.instagram.com/bartending2u/
 `,
   },
+  {
+    name: "Hill Country: Fredericksburg, Kerrville, Wimberley and Marble Falls",
+    tsv: `Name	Category	City	State	Service area	Description	Email	Phone	Website	Instagram
+Gabe Rene	Photography	Kerrville	Texas	Texas Hill Country and San Antonio	Wedding photography and film across the Hill Country.		210-802-6055	https://gaberene.com	https://www.instagram.com/gaberenephoto/
+Kari Creative Photography	Photography	Fredericksburg	Texas	Hill Country, Austin and destination weddings	Wedding photographer covering Fredericksburg, Dripping Springs, Austin and further afield.	karicreativephotography@gmail.com		https://karicreativephotography.com	https://www.instagram.com/karicreativephotography/
+Jenna Petty Photography	Photography	Marble Falls	Texas	Highland Lakes and the Hill Country	Wedding and portrait photographer based in Marble Falls.			https://www.jennapetty.com	https://www.instagram.com/jennapetty/
+Phosphene's Imagery & Artistry	Photography	Wimberley	Texas		Wedding photographer based in Wimberley.	phosphenesia@outlook.com	(903) 818-3291	https://www.phosphenesia.com	https://www.instagram.com/phosphenesia/
+Windmill Meadow Farm	Florals	Fredericksburg	Texas	Fredericksburg	Family flower farm growing local cut flowers and supplying them for weddings and events.	info@windmillmeadowfarm.com	830-992-8411	https://www.windmillmeadowfarm.com	https://www.instagram.com/windmillmeadowfarm/
+Fredericksburg Decor	Decor & Lighting	Fredericksburg	Texas		Freelance event decorator styling weddings and parties.	cgomezevents@gmail.com	830-307-0882	https://fbgdecor.com	
+Texas Balloon Co	Decor & Lighting	Kerrville	Texas	Kerrville and Fredericksburg	Balloon installations and event styling for weddings.	texasballoonco@gmail.com		https://www.texasballoonco.com	https://www.instagram.com/texasballoonco/
+`,
+  },
 ];
