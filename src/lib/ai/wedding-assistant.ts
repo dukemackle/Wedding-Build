@@ -15,6 +15,7 @@ import { weddingCategoryEstimates } from "@/lib/estimator";
 import { buildAssistantTools, type Proposal, type ProposalKind, type ToolContext } from "@/lib/ai/assistant-tools";
 import { applyProposal } from "@/lib/ai/assistant-apply";
 import { PLANNING_QUESTIONS, profileLines } from "@/lib/ai/planning-profile";
+import { SITE_URL } from "@/lib/public-listings";
 
 const MODEL = "claude-haiku-4-5";
 /**
@@ -305,6 +306,9 @@ export async function askWeddingAssistant(
       model: plan ? PLAN_MODEL : MODEL,
       max_tokens: plan ? 8192 : 4096,
       max_iterations: plan ? PLAN_MAX_ITERATIONS : MAX_ITERATIONS,
+      // Each message is several model calls resending the same instructions,
+      // tools and wedding context; caching bills repeats at a tenth of the price.
+      cache_control: { type: "ephemeral" },
       system: systemPrompt(ctx.context, ctx.tools !== null, plan),
       tools: ctx.tools ? buildAssistantTools(ctx.tools, proposals) : [],
       messages: trimmedHistory.map((m) => ({ role: m.role, content: historyText(m) })),
@@ -347,6 +351,26 @@ export async function askWeddingAssistant(
     console.error("Assistant request failed:", error);
     return { ok: false, error: "Something went wrong reaching the assistant." };
   }
+}
+
+/**
+ * A prompt the couple can paste into their own AI (ChatGPT, Claude, ...):
+ * Wren's advice instructions plus the same plan summary Wren sees. Guests
+ * appear only as counts, so no guest names or contact details leave the app.
+ * No model call, so it costs nothing and isn't capped.
+ */
+export async function exportWeddingForAI(): Promise<{ ok: true; text: string } | { ok: false; error: string }> {
+  const ctx = await buildContext();
+  if (!ctx) return { ok: false, error: "You need to be logged in." };
+  const today = new Date().toISOString().slice(0, 10);
+  // Outside the app, "inside the You Do, I Do app" would be untrue.
+  const instructions = systemPrompt(ctx.context, false).replace(" inside the You Do, I Do app", "");
+  const text = `${instructions}
+
+(This is a snapshot of our plan as of ${today}, exported from You Do, I Do -- ${SITE_URL}. If we mention changes since then, trust what we say over this summary.)
+
+Please introduce yourself in one line as our wedding planner, then ask what we'd like help with first.`;
+  return { ok: true, text };
 }
 
 /** Applies one card the couple confirmed. No model call, so it isn't capped. */

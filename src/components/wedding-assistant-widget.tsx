@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import {
   applyAssistantProposal,
   askWeddingAssistant,
+  exportWeddingForAI,
   type AssistantMessage,
   type ProposalStatus,
 } from "@/lib/ai/wedding-assistant";
@@ -13,6 +14,7 @@ import { SendIcon, CloseIcon, ExpandIcon, CollapseIcon } from "@/components/icon
 import { AnimatedWrenBird } from "@/components/animated-wren-bird";
 import { WrenMotto } from "@/components/wren-motto";
 import { useAssistant } from "@/components/assistant-context";
+import { ExportForAI } from "@/components/export-for-ai";
 import { InterviewQuestion } from "@/components/planning-interview";
 import { loadPlanningProfile, savePlanningAnswer } from "@/lib/ai/planning-actions";
 import { PLANNING_QUESTIONS, nextQuestion, type PlanningProfile } from "@/lib/ai/planning-profile";
@@ -283,6 +285,7 @@ export function AssistantChat({
             </button>
           </div>
         )}
+        {messages.length === 0 && !interviewing && <ExportForAI load={exportWeddingForAI} />}
         {interviewLog.map((entry, i) => (
           <div key={`q${i}`} className="space-y-2">
             <div className="mr-auto max-w-[85%] rounded-lg border border-wren/30 bg-wren-soft px-3 py-2 text-sm text-ink">

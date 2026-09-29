@@ -88,6 +88,8 @@ export async function askAdminAssistant(history: AdminAssistantMessage[]): Promi
       model: MODEL,
       max_tokens: 4096,
       max_iterations: MAX_ITERATIONS,
+      // Same prefix resent on every lookup; cached repeats cost a tenth.
+      cache_control: { type: "ephemeral" },
       system: systemPrompt(),
       tools: buildAdminTools({ admin, testWeddingIds: (testWeddings ?? []).map((w) => w.id), lookups }),
       messages: trimmed.map((m) => ({ role: m.role, content: m.content.slice(0, MAX_MESSAGE_CHARS) || "(no text)" })),
