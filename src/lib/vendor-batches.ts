@@ -516,4 +516,24 @@ Man and Bride	Music	College Station	Texas	Texas	Wedding DJ with 500+ weddings be
 All Things New	Music	College Station	Texas	College Station, Houston and Austin	Live wedding band and DJ service playing country, rock, pop, jazz and more, with custom song requests.	allthingsnewweddings@gmail.com	979-492-9711	https://allthingsnewentertainment.com	
 `,
   },
+  {
+    name: "Waco, Bryan–College Station and Brenham: hair and makeup, videography, cake, rentals, bar and decor",
+    tsv: `Name	Category	City	State	Service area	Description	Email	Phone	Website	Instagram
+Diana Marie Makeup Artistry	Hair & Makeup	Waco	Texas	Central Texas, Dallas and Austin	Waco bridal hair and makeup artist with more than a decade of wedding work.		254-415-5834	https://www.dianamariemakeupartistry.com	https://www.instagram.com/dianamariemakeupartistry/
+Angela Karr Hair and Makeup	Hair & Makeup	Waco	Texas	Texas	On-location bridal hair and soft-glam makeup from a licensed esthetician with 20+ years in beauty.	info@angelakarr.com	(254) 640-0411	https://angelakarr.com	https://www.instagram.com/angelakarr.hair.makeup/
+Naturally Flawless	Hair & Makeup	College Station	Texas	College Station and surrounding areas	Hair and makeup salon doing wedding styling in the studio or on location, for any size bridal party.			https://naturallyflawlessbeauty.com	https://www.instagram.com/naturallyflawless/
+Skin HRS	Hair & Makeup	College Station	Texas	Texas and destination weddings	Bridal hair and makeup team offering previews before the day and travel for weddings.	info@skinhrs.com		https://www.skinhrs.com	https://www.instagram.com/skinhrs/
+The Wedding Filmery	Videography	Waco	Texas	Texas and destination weddings	Custom, story-driven wedding films.	ben@theweddingfilmery.com		https://theweddingfilmery.com	
+Alex Harper Films	Videography	Waco	Texas	Texas and beyond	Documentary-style wedding films that favour candid, unposed moments.	alex@alexharperfilms.com	(254) 227-7681	https://alexharperfilms.com	https://www.instagram.com/alexharperfilms/
+MoMa Cakes	Cake	College Station	Texas	College Station and surrounding areas	Wedding cake designer also making cupcakes, cake pops, decorated cookies and dessert tables.	momacakes16@gmail.com	(979) 402-6386	https://www.momacakes.com	https://www.instagram.com/momacakes_monica/
+S.O.S. Cotton Candy	Desserts	Waco	Texas	Waco and Central Texas	Fresh-spun cotton candy served at weddings and events.			https://www.soscottoncandy.com	https://www.instagram.com/soscottoncandy/
+Epic Party Productions	Rentals	Waco	Texas	Waco, Temple, Killeen, Round Rock and Bryan–College Station	Tents, tables, chairs, linens, china and lighting, with layout, setup and teardown.		979-209-0549	https://epicpartywaco.net	https://www.instagram.com/detailspartyrental/
+254 Party Rentals	Rentals	Waco	Texas	Waco and Central Texas	Family-run rental company offering tables, chairs, linens, tents and photo booths.		(254) 300-1450	https://254partyrentals.com	https://www.instagram.com/254partyrentals/
+Ellie Bar Co.	Bar	Waco	Texas	Waco, Temple, Belton, Salado, Georgetown and Austin	Mobile bar service with signature cocktails and mocktails for weddings.			https://www.elliebarco.com	
+StarLight Bar & Event Services	Bar	College Station	Texas	Bryan–College Station	Mobile bar and event services for weddings.	starlightbarandevents@gmail.com	(979) 255-4286	https://www.starlightbarandevents.com	https://www.instagram.com/starlightbarandevents/
+Sage Roots Cocktail Company	Bar	College Station	Texas	Bryan–College Station	Mobile bar service and event staffing for weddings.	sagerootsevents@gmail.com	(979) 492-8124	https://www.sagerootscocktail.com	https://www.instagram.com/sagerootscocktail/
+Waco Balloon Co	Decor & Lighting	Hewitt	Texas	Waco area	Balloon arches, garlands and columns for weddings and parties.		(254) 780-8065	https://www.wacoballoonco.com	
+Loaded Sound	Decor & Lighting	Waco	Texas	Waco and Central Texas	Event production covering lighting, sound, LED video walls and live streaming.	info@loadedsound.com	254-300-3796	https://www.loadedsound.com	
+`,
+  },
 ];
