@@ -768,4 +768,194 @@ Hermitage Museum & Gardens	Norfolk	Virginia			Garden / Outdoor	Indoor & Outdoor	
 The Tides Inn	Irvington	Virginia			Beach / Waterfront	Indoor & Outdoor		Chesapeake Bay resort on the Northern Neck with wedding packages and waterfront venues.	sales@tidesinn.com	(804) 438-4416	https://tidesinn.com/irvington-va-hotel-event-venues/weddings/
 `,
   },
+  {
+    name: "Orlando and Central Florida",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+The Alfond Inn	Winter Park	Florida			Ballroom / Hotel	Indoor & Outdoor		Boutique hotel off Park Avenue with garden ceremonies, a conservatory and the Park Avenue Ballroom.		(407) 645-6611	https://thealfondinn.com/meetings-events/weddings
+Harry P. Leu Gardens	Orlando	Florida			Garden / Outdoor	Indoor & Outdoor		Botanical garden near downtown with wedding packages through approved caterers.		407.246.2620	https://www.leugardens.org/Events/Weddings
+Maitland Art & History Museums	Maitland	Florida			Historic / Estate	Indoor & Outdoor		Museum campus centred on a 1930s artists' colony, rented for weddings.	events@artandhistory.org	407-539-2181	https://artandhistory.org/host-an-event/weddings/
+Bok Tower Gardens	Lake Wales	Florida			Garden / Outdoor	Indoor & Outdoor		National Historic Landmark garden around the 1929 marble and coquina Singing Tower; receptions seat up to 80.		(863) 734-1225	https://boktowergardens.org/weddings/
+Club Lake	Apopka	Florida			Garden / Outdoor	Outdoor	200	Outdoor venue north of Orlando for 50 to 200 guests, with ceremony and reception seating included.			https://clublakevenue.com/weddings-and-events/
+Bella Collina	Montverde	Florida			Ballroom / Hotel	Indoor & Outdoor		Tuscan-style club and resort in the hills west of Orlando.		407-469-4001	https://www.bellacollina.com/weddings-events/events
+The Howey Mansion	Howey-in-the-Hills	Florida			Historic / Estate	Indoor & Outdoor		Historic mansion in Lake County offering wedding tours.		407.906.4918	https://www.thehoweymansion.com/wedding-tours.html
+`,
+  },
+  {
+    name: "Tampa Bay, Sarasota and Southwest Florida",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Armature Works	Tampa	Florida			Historic / Estate	Indoor & Outdoor	550	Restored riverfront streetcar warehouse with three wedding venues, the largest for 150 to 550.	info@armatureworks.com		https://www.armatureworks.com/wedding-venues-tampa/
+The Don CeSar	St. Pete Beach	Florida			Ballroom / Hotel	Indoor & Outdoor		The 1920s 'Pink Palace' beach hotel on the Gulf.	info@doncesar.com	(844) 338-1501	https://www.doncesar.com
+The Birchwood	St. Petersburg	Florida			Ballroom / Hotel	Indoor		Boutique hotel in a 1924 building on Beach Drive with a fourth-floor Grand Ballroom.		727.896.1080	https://thebirchwood.com
+The Ringling	Sarasota	Florida			Historic / Estate	Outdoor	400	Ringling estate on Sarasota Bay; Ca' d'Zan is an outdoor-only venue, and packages run up to 400 guests.			https://www.ringling.org/about-ringling/venue-rentals/weddings/
+Marie Selby Botanical Gardens	Sarasota	Florida			Garden / Outdoor	Indoor & Outdoor		Forty-five acres of bayfront gardens downtown with indoor and outdoor event spaces.	info@selby.org	941.366.5731	https://selby.org
+Edison and Ford Winter Estates	Fort Myers	Florida			Historic / Estate	Outdoor		The winter homes of Thomas Edison and Henry Ford, with ceremony packages on a palm-shaded lawn facing the sunset.		239-335-3689	https://www.edisonfordwinterestates.org/private-rentals/wedding-ceremonies/
+Luminary Hotel & Co.	Fort Myers	Florida			Ballroom / Hotel	Indoor & Outdoor		Downtown riverfront hotel whose Caloosa Ballroom holds up to 2,300.		(833) 918-1512	https://www.luminaryhotel.com/gather/weddings-celebrations/
+South Seas	Captiva Island	Florida			Beach / Waterfront	Indoor & Outdoor		Island resort at the north end of Captiva with beach wedding venues.	info@southseas.com		https://www.southseas.com/gather/weddings/
+'Tween Waters Island Resort	Captiva	Florida			Beach / Waterfront	Indoor & Outdoor		Resort between the Gulf and Pine Island Sound with five wedding venues.		239-472-5161	https://tween-waters.com/wedding-venues/
+`,
+  },
+  {
+    name: "Miami, Palm Beach and the Keys",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Vizcaya Museum and Gardens	Miami	Florida			Historic / Estate	Indoor & Outdoor	300	Bayfront villa with exclusive use of its courtyard, terraces and gardens in the evening, for up to 300.	facility.rentals@vizcaya.org	305-856-8189	https://vizcaya.org/visit-2/wedding-events/
+Deering Estate	Miami	Florida			Historic / Estate	Indoor & Outdoor		Historic estate on 450 acres along Biscayne Bay, run by Miami-Dade Parks.		305-235-1668	https://deeringestate.org/venue-rentals/miami-wedding-venues/
+Villa Woodbine	Miami	Florida			Historic / Estate	Indoor & Outdoor		Old Miami mansion in Coconut Grove rented for weddings and events.		305-858-6660	https://www.villa-woodbine.com
+Ancient Spanish Monastery	North Miami Beach	Florida			Historic / Estate	Indoor & Outdoor		Medieval Spanish cloister rebuilt in Florida, now an active church that hosts weddings.			https://www.spanishmonastery.com
+The Biltmore Hotel	Coral Gables	Florida			Ballroom / Hotel	Indoor & Outdoor		1926 landmark hotel with garden, ballroom and open-air ceremony sites.		305 445 1926	https://biltmorehotel.com/coral-gables-event-venues/wedding/
+Fairchild Tropical Botanic Garden	Coral Gables	Florida			Garden / Outdoor	Indoor & Outdoor	250	Tropical garden open since 1938, with sites from a courtyard for 60 to the Tropical Arboretum for 250.	weddings@fairchildgarden.org	877-723-3933	https://fairchildgarden.org/garden-wedding-miami/
+Bonnet House	Fort Lauderdale	Florida			Historic / Estate	Indoor & Outdoor		Historic house on 35 acres between the ocean and the Intracoastal.		(954) 703-2608	https://www.bonnethouse.org/weddings/
+Morikami Museum and Japanese Gardens	Delray Beach	Florida			Garden / Outdoor	Outdoor	150	Japanese gardens with five ceremony sites for up to 35 and a tented area for groups over 150.	morikami@pbc.gov	561-495-0233	https://morikami.org/weddings-ceremonies/
+The Breakers	Palm Beach	Florida			Ballroom / Hotel	Indoor & Outdoor		Oceanfront Italian Renaissance-style resort hotel.	reservations@thebreakers.com		https://www.thebreakers.com/events/weddings-celebrations/
+Casa Marina Key West	Key West	Florida			Beach / Waterfront	Indoor & Outdoor		1920 oceanfront hotel with the original Flagler Ballroom, a Grand Ballroom and an oceanfront lawn.	EYWCM_Key_West_Weddings@hilton.com	305.293.6217	https://casamarinaresort.com/weddings/
+Hawks Cay Resort	Duck Key	Florida			Beach / Waterfront	Indoor & Outdoor		Middle Keys resort with a wedding team to coordinate venues, menus and guest rooms.		305-743-7000	https://www.hawkscay.com/weddings/
+Cheeca Lodge & Spa	Islamorada	Florida			Beach / Waterfront	Indoor & Outdoor	750	Oceanfront resort with the Upper Keys' largest ballroom, for up to 750, and a smaller ballroom for 130.		(305) 664-4651	https://www.cheeca.com/weddings
+`,
+  },
+  {
+    name: "St. Augustine, North Florida and the Panhandle",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Lightner Museum	St. Augustine	Florida			Historic / Estate	Indoor	225	Museum in the former Hotel Alcazar with wedding packages for 40 to 225.	info@lightnerweddings.com	904-217-0077	https://weddings.lightnermuseum.org
+The Treasury on the Plaza	St. Augustine	Florida			Historic / Estate	Indoor		Downtown venue on the Plaza, run by the same team as Lightner Museum weddings.	info@thetreasurycollection.com	904-217-0077	https://treasuryontheplaza.com
+Villa Zorayda Museum	St. Augustine	Florida			Historic / Estate	Indoor	10	1883 Gilded Age home downtown, rented for elopements of up to 10.	info@villazorayda.com	904-829-9887	https://villazorayda.com/st-augustine-elopement-wedding-ceremony/
+Ponte Vedra Inn & Club	Ponte Vedra Beach	Florida			Beach / Waterfront	Indoor & Outdoor		Oceanfront resort with beach weddings and over 300 rooms for guests.	innwedding@pvresorts.com	(904) 273-7700	https://www.pontevedra.com/weddings
+Goodwood Museum & Gardens	Tallahassee	Florida			Historic / Estate	Indoor & Outdoor	200	Plantation house on 21 acres of oaks and heirloom gardens, with a Carriage House for receptions of 200.	jabixler@goodwoodmuseum.org	850-877-4202	https://www.goodwoodmuseum.org/weddings/
+Hotel Duval	Tallahassee	Florida			Ballroom / Hotel	Indoor	250	Downtown hotel whose Horizon Grand Ballroom takes 250.	info@hotelduval.com	850-224-6000	https://www.hotelduval.com/wedding-venues-tallahasse
+WaterColor Inn & Resort	Santa Rosa Beach	Florida			Beach / Waterfront	Indoor & Outdoor	200	30A resort with beach venues and a BoatHouse on Western Lake for up to 200.	WaterColorWedding@stjoe.com	(850) 534-5017	https://www.watercolorresort.com/groups/weddings
+Rosemary Beach	Rosemary Beach	Florida			Beach / Waterfront	Indoor & Outdoor		30A beach town with wedding venues and help with preparations.		(866) 348-8952	https://rosemarybeach.com/weddings/
+Hotel Effie	Miramar Beach	Florida			Ballroom / Hotel	Indoor & Outdoor		Hotel at Sandestin near Destin hosting beach and destination weddings.		850-351-3000	https://www.hoteleffie.com/weddings
+Henderson Beach Resort	Destin	Florida			Beach / Waterfront	Indoor & Outdoor	175	Resort beside Henderson Beach State Park with a Grand Lawn for 175 and the Destin and Crystal ballrooms.	reservations@hendersonbeachresort.com	(855) 741-2777	https://www.hendersonbeachresort.com/gather/weddings/
+`,
+  },
+  {
+    name: "Louisville and Northern Kentucky",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+The Brown Hotel	Louisville	Kentucky			Ballroom / Hotel	Indoor		Downtown hotel that has hosted Louisville's events since 1923.	awilliams@brownhotel.com	888-888-5252	https://www.brownhotel.com/louisville-weddings
+The Henry Clay	Louisville	Kentucky			Historic / Estate	Indoor		Historic downtown building with chandeliered ballrooms and other event spaces.		(502) 676-3032	https://thehenryclay.com
+Conrad-Caldwell House Museum	Louisville	Kentucky			Historic / Estate	Indoor & Outdoor		1893 Arthur Loomis mansion in Old Louisville, known as Louisville's Castle.			https://www.conradcaldwell.org/weddings
+Historic Locust Grove	Louisville	Kentucky			Historic / Estate	Indoor & Outdoor		Historic site minutes from downtown with indoor and outdoor spaces for ceremonies and receptions.	marketing@locustgrove.org	(502) 897-9845	https://locustgrove.org/rent/
+The Olmsted	Louisville	Kentucky			Historic / Estate	Indoor & Outdoor		1920s building on the 80-acre campus of the former Masonic Widows and Orphans Home, for ceremonies and receptions.			https://www.theolmsted.com
+Oxmoor Farm	Louisville	Kentucky			Historic / Estate	Indoor & Outdoor		Bullitt family farm dating from 1787, rented for private events.	events@oxmoorbourbon.com		https://oxmoorfarm.org/rental/
+Hurstbourne Country Club	Louisville	Kentucky			Ballroom / Hotel	Indoor & Outdoor		East End country club hosting weddings and events.		502-420-1754	https://www.hurstbournecc.com/Events-Weddings
+Angel's Envy Distillery	Louisville	Kentucky			Restaurant / Vineyard	Indoor		Downtown distillery with a private event space and buyouts for 10 to 400, popular for rehearsal dinners and welcome parties.			https://www.angelsenvy.com/us/en/host-your-event/
+Yew Dell Botanical Gardens	Crestwood	Kentucky			Garden / Outdoor	Indoor & Outdoor		Botanical garden east of Louisville with wedding, ceremony and private event rentals.			https://yewdellgardens.org/weddings-private-events/
+Hermitage Farm	Goshen	Kentucky			Barn / Rustic	Indoor & Outdoor		Working horse farm northeast of Louisville.	hermitagefarm@theindigoroad.com	502.398.9289	https://www.hermitagefarm.com/private-events/weddings/
+Bernheim Forest and Arboretum	Clermont	Kentucky			Garden / Outdoor	Indoor & Outdoor		Arboretum and forest south of Louisville with a hilltop event centre and outdoor wedding sites.	rentals@bernheim.org		https://bernheim.org/visit/rentals/
+Hotel Covington	Covington	Kentucky			Ballroom / Hotel	Indoor		Boutique hotel across the river from Cincinnati with its own wedding and events team.	guestservices@hotelcovington.com	859-905-6600	https://hotelcovington.com/weddingeventsteam/
+Newport Syndicate	Newport	Kentucky			Ballroom / Hotel	Indoor		Event venue across from Cincinnati with reception rooms for weddings of all sizes.			https://www.newportsyndicate.com/weddings
+`,
+  },
+  {
+    name: "Lexington, the Bluegrass and Bowling Green",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+The Kentucky Castle	Versailles	Kentucky			Historic / Estate	Indoor & Outdoor		Castle hotel in horse country with a ballroom, greenhouse, rooftop and east terrace.		(859) 256-0322	https://www.thekentuckycastle.com/weddings
+Ashland, the Henry Clay Estate	Lexington	Kentucky			Historic / Estate	Indoor & Outdoor		Henry Clay's estate, rented for private events and weddings.		(859) 266-8581	https://henryclay.org/events/private-events-weddings/
+Spindletop Hall	Lexington	Kentucky			Historic / Estate	Indoor & Outdoor		University of Kentucky's historic mansion and club, with indoor and outdoor ceremony and reception spaces.		859.255.2777	https://www.spindletophall.org
+The Campbell House	Lexington	Kentucky			Ballroom / Hotel	Indoor		Hotel whose Bluegrass Ballroom covers 3,600 sq ft, with buffet and plated packages.		859.255.4281	https://www.thecampbellhouse.com/weddings/
+Talon Winery	Lexington	Kentucky			Restaurant / Vineyard	Indoor & Outdoor	250	Winery with an indoor-outdoor hall for 200 to 250 facing its pond and vineyard.		859-971-3214	https://www.talonwine.com/weddings/
+Castle & Key Distillery	Frankfort	Kentucky			Historic / Estate	Indoor & Outdoor	300	Restored historic distillery with a sunken garden for ceremonies of 150 and indoor receptions for up to 300.		502.395.9070	https://castleandkey.com/pages/weddings
+Shaker Village of Pleasant Hill	Harrodsburg	Kentucky			Historic / Estate	Indoor & Outdoor		Restored Shaker village on 3,000 acres, with a tobacco barn, the 1820 Meeting House and on-site lodging.			https://shakervillageky.org/weddings/
+Warrenwood Manor	Danville	Kentucky			Historic / Estate	Indoor & Outdoor	50	Historic house with a small-wedding package for up to 50.			https://warrenwoodmanor.com/weddings
+Elk Creek Vineyards	Owenton	Kentucky			Restaurant / Vineyard	Indoor & Outdoor		Winery between Louisville, Lexington and Cincinnati hosting weddings.	info@ecvwinery.com		https://www.elkcreekvineyards.com
+Lost River Cave	Bowling Green	Kentucky			Garden / Outdoor	Indoor & Outdoor	300	Cave and nature park whose Cave Club, in one of the largest cave entrances in the US, holds 300.	rentals@lostrivercave.org	270.393.0077	https://www.lostrivercave.org/weddings-rentals/
+`,
+  },
+  {
+    name: "West Virginia",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+The Greenbrier	White Sulphur Springs	West Virginia			Ballroom / Hotel	Indoor & Outdoor		Historic mountain resort hotel.		(844) 837-2466	https://www.greenbrier.com/gather/weddings/
+General Lewis Inn	Lewisburg	West Virginia			Historic / Estate	Indoor & Outdoor		Historic inn offering venues and catering for weddings.			https://www.generallewisinn.com/weddings-events
+The Resort at Glade Springs	Daniels	West Virginia			Ballroom / Hotel	Indoor & Outdoor	300	Southern West Virginia resort with venues for up to 300 and on-site lodging and spa.		304-763-0892	https://www.gladesprings.com/weddings/
+Oglebay	Wheeling	West Virginia			Garden / Outdoor	Indoor & Outdoor	150	Park resort with lodge, cabins and cottages, and an outdoor ceremony setting for 150.		304-243-4062	https://oglebay.com/groups/weddings/
+Stonewall Resort	Roanoke	West Virginia			Beach / Waterfront	Indoor & Outdoor		Lakeside resort with a lodge, cottages and lake houses for guests.	hello@stonewallresort.com	304-269-7400	https://www.stonewallresort.com/weddings/
+Adaland Mansion	Philippi	West Virginia			Historic / Estate	Indoor & Outdoor		Historic mansion with buffets served in the formal dining room and guests seated in an open-air pavilion.	adaland1@adaland.org	304-457-1587	https://adaland.org/plan-your-event/weddings/
+Canaan Valley Resort	Davis	West Virginia			Ballroom / Hotel	Indoor & Outdoor		State park resort in the Allegheny highlands hosting groups and weddings.	group@canaanresort.com	304-866-4121	https://www.canaanresort.com/resort/groups-weddings
+Lakeview Golf Resort	Morgantown	West Virginia			Ballroom / Hotel	Indoor & Outdoor		Golf resort with on-site rooms for wedding guests.		304-594-1111	https://www.lakeviewresort.com/weddings
+Bavarian Inn	Shepherdstown	West Virginia			Ballroom / Hotel	Indoor & Outdoor		Inn above the Potomac with wedding packages.	booking@bavarianinnwv.com	304-876-2551	https://www.bavarianinnwv.com/weddings/
+`,
+  },
+  {
+    name: "Baltimore, Annapolis and the Eastern Shore",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+American Visionary Art Museum	Baltimore	Maryland			Historic / Estate	Indoor & Outdoor	400	Inner Harbor museum whose Jim Rouse Visionary Center seats 400 for dinner, with a sculpture barn and garden.	rentals@avam.org		https://www.avam.org/rentals/weddings/jim-rouse-visionary-center
+The Maryland Zoo	Baltimore	Maryland			Garden / Outdoor	Indoor & Outdoor		Zoo in Druid Hill Park with historic settings and elopements or receptions by the penguin habitat.	rentals@marylandzoo.org	410-396-7102	https://www.marylandzoo.org/groups-and-parties/weddings/
+Cylburn Arboretum	Baltimore	Maryland			Garden / Outdoor	Indoor & Outdoor		City arboretum with a historic mansion, rented through Baltimore City.	garden.events@baltimorecity.gov	410-396-4860	https://cylburn.org/rent/
+Gramercy Mansion	Stevenson	Maryland			Historic / Estate	Indoor & Outdoor	150	Bed and breakfast with gardens and trails, an atrium seating 150 and a carriage house for 75.			https://www.gramercymansion.com/weddings-events
+Elkridge Furnace Inn	Elkridge	Maryland			Historic / Estate	Indoor & Outdoor	250	1810 manor house of nine rooms with 1800s European mantels; tables and chairs for 250 included.			https://www.elkridgefurnaceinn.com/weddings
+William Paca House & Garden	Annapolis	Maryland			Historic / Estate	Indoor & Outdoor		Colonial house and garden in the historic district, run by Historic Annapolis.	info@annapolis.org	410.267.7619	https://www.annapolis.org/support/venue-rental/
+Historic London Town & Gardens	Edgewater	Maryland			Garden / Outdoor	Indoor & Outdoor		Anne Arundel's original county seat: 23 acres of gardens and historic buildings on the water.			https://historiclondontown.org/rentals/weddings/
+Herrington on the Bay	North Beach	Maryland			Beach / Waterfront	Indoor & Outdoor		Chesapeake Bay venue with a lawn, the Chesapeake Ballroom and the Harbourview Ballroom for 60 to 100.	info@herringtononthebay.com	410-741-5101	https://www.herringtononthebay.com/weddings
+Inn at Perry Cabin	St. Michaels	Maryland			Beach / Waterfront	Indoor & Outdoor		Waterfront inn on the Miles River.	Concierge@innatperrycabin.com	410.745.2200	https://www.innatperrycabin.com/weddings-events/
+`,
+  },
+  {
+    name: "Frederick and the Washington suburbs",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Catoctin Hall	Myersville	Maryland			Barn / Rustic	Indoor & Outdoor		Event venue and grounds in the Catoctin foothills west of Frederick.	events@musketridge.com		https://www.catoctinhall.com/venue
+Linganore Winecellars	Mt. Airy	Maryland			Restaurant / Vineyard	Indoor & Outdoor		Family winery east of Frederick hosting weddings.	info@linganorewines.com	(301) 831-5889	https://www.linganorewines.com
+Brookside Gardens	Wheaton	Maryland			Garden / Outdoor	Indoor & Outdoor		Public garden run by Montgomery Parks, one of its event centres for weddings.		(301) 495-2595	https://montgomeryparks.org/event-center/
+`,
+  },
+  {
+    name: "Washington, DC",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Anderson House	Washington	District of Columbia			Historic / Estate	Indoor	130	Society of the Cincinnati's mansion with a private ballroom and marble staircase, for up to 130.	events@societyofthecincinnati.org	202.785.2040	https://www.societyofthecincinnati.org/weddings/
+The Mayflower Hotel	Washington	District of Columbia			Ballroom / Hotel	Indoor		Historic downtown hotel with a grand State Ballroom.		(202) 347-3000	https://www.themayflowerhotel.com/weddings/
+The Hay-Adams	Washington	District of Columbia			Ballroom / Hotel	Indoor & Outdoor		Hotel across Lafayette Square from the White House, for rehearsal dinner through post-wedding brunch.	sales@hayadams.com	202.638.6600	https://www.hayadams.com/weddings/
+Willard InterContinental	Washington	District of Columbia			Ballroom / Hotel	Indoor		Historic hotel on Pennsylvania Avenue with ceremonies, receptions, teas and brunches.		888 424 6835	https://washington.intercontinental.com/willard-weddings/
+National Museum of Women in the Arts	Washington	District of Columbia			Historic / Estate	Indoor	200	1908 former Masonic Temple with a chandeliered ballroom and a performance hall for 200.	specialeventsinquiry@nmwa.org	202-783-5000	https://nmwa.org/host-event/
+Arts Club of Washington	Washington	District of Columbia			Historic / Estate	Indoor & Outdoor	200	James Monroe's former home with parlors for 60, a gallery for 100 and a patio for 200.		202-331-7282	https://artsclubofwashington.org/weddings-and-receptions/
+President Woodrow Wilson House	Washington	District of Columbia			Historic / Estate	Indoor & Outdoor		Wilson's Embassy Row home, rented for weddings and other occasions.			https://woodrowwilsonhouse.org
+U.S. National Arboretum	Washington	District of Columbia			Garden / Outdoor	Indoor & Outdoor		Arboretum whose events are booked through the Friends of the National Arboretum.	info@fona.org	202-544-8733	https://www.fona.org/rentals/
+The LINE DC	Washington	District of Columbia			Ballroom / Hotel	Indoor		Adams Morgan hotel whose ballroom holds over 500 or splits into three rooms.	info@thelinehotel.com	(202) 588-0525	https://www.thelinehotel.com/dc/weddings/
+District Winery	Washington	District of Columbia			Restaurant / Vineyard	Indoor & Outdoor		Urban winery with a riverfront covered terrace and a ballroom.			https://www.districtwinery.com/weddings/
+`,
+  },
+  {
+    name: "Delaware",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Winterthur Museum, Garden & Library	Winterthur	Delaware			Garden / Outdoor	Indoor & Outdoor		Du Pont estate of nearly 1,000 acres with a 60-acre garden and indoor sites.		302-888-4681	https://www.winterthur.org/weddings-and-events/
+Hagley Museum and Library	Wilmington	Delaware			Historic / Estate	Indoor & Outdoor	200	Original du Pont powder works with three event facilities, from 20 guests indoors to 200 outdoors.	askhagley@hagley.org	302-658-2400	https://www.hagley.org/weddings-hagley
+Hotel Rodney	Lewes	Delaware			Ballroom / Hotel	Indoor		Boutique hotel in downtown Lewes that hosts weddings and receptions.	info@hotelrodneydelaware.com	(302) 645-6466	https://www.hotelrodneydelaware.com
+`,
+  },
+  {
+    name: "Philadelphia, the Main Line and Bucks County",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Morris Arboretum & Gardens	Philadelphia	Pennsylvania			Garden / Outdoor	Indoor & Outdoor	175	Ninety-two acres in Chestnut Hill with five ceremony sites; receptions for up to 175, or 155 with a dance floor.	rentals@morrisarboretum.org	215.247.5777	https://www.morrisarboretum.org/plan-event/weddings
+The Barnes Foundation	Philadelphia	Pennsylvania			Historic / Estate	Indoor & Outdoor		Art museum on the Parkway with event spaces including a garden pavilion for receptions of 70.	info@barnesfoundation.org	215.278.7000	https://www.barnesfoundation.org/host-an-event
+Pennsylvania Academy of the Fine Arts	Philadelphia	Pennsylvania			Historic / Estate	Indoor		Historic art academy and museum on North Broad Street, rented for weddings and events.	events@pafa.org	215-972-2049	https://www.pafa.org/about/event-rentals
+The Franklin Institute	Philadelphia	Pennsylvania			Historic / Estate	Indoor		Science museum on the Parkway hosting weddings with Seravezza Catering.	guestservices@fi.edu	215.448.1200	https://fi.edu/en/plan-an-event
+Awbury Arboretum	Philadelphia	Pennsylvania			Garden / Outdoor	Indoor & Outdoor		Germantown arboretum with a historic house and farm, rented through Peachtree Catering.	portico@peachtreecatering.com	215-849-2855	https://awbury.org/venue-rentals/
+Front & Palmer	Philadelphia	Pennsylvania			Historic / Estate	Indoor		Fishtown event venue seating 220 for dinner and dancing, or 325 for cocktails.			https://frontandpalmer.com
+Joseph Ambler Inn	North Wales	Pennsylvania			Historic / Estate	Indoor & Outdoor	200	Country inn with banquet rooms for 200, a farmhouse and overnight rooms for guests.		215-362-7500	https://josephamblerinn.com/weddings/
+Normandy Farm	Blue Bell	Pennsylvania			Barn / Rustic	Indoor & Outdoor		Historic farm hotel with a grand ballroom, silos for dancing and on-site rooms.			https://www.normandyfarm.com/wedding-venue-blue-bell-pa
+Inn at Barley Sheaf	Holicong	Pennsylvania			Historic / Estate	Indoor & Outdoor	300	Bucks County estate hosting one wedding at a time, with catering included, for up to 300.	Info@BarleySheaf.com	215.794.5104	https://www.barleysheaf.com/weddings/
+Crossing Vineyards and Winery	Washington Crossing	Pennsylvania			Restaurant / Vineyard	Indoor & Outdoor	200	Bucks County winery with winery weddings for 25 to 75 and a tented vista for 75 to 200.			https://www.crossingvineyards.com/winery-weddings
+`,
+  },
+  {
+    name: "Lancaster, Hershey and Gettysburg",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Cork Factory Hotel	Lancaster	Pennsylvania			Ballroom / Hotel	Indoor		Hotel in a converted cork factory with adaptable event spaces.	info@corkfactoryhotel.com	717.735.2075	https://www.corkfactoryhotel.com/weddings
+Excelsior	Lancaster	Pennsylvania			Historic / Estate	Indoor		Downtown venue with the Empire Room and Grande Salon, above catacombs where beer was brewed from 1852.	kelly@excelsiorlancaster.com		https://www.excelsiorlancaster.com/weddings
+Historic Rock Ford	Lancaster	Pennsylvania			Historic / Estate	Indoor & Outdoor		National Register property on 33 wooded acres, rented for weddings.	info@historicrockford.org	717-392-7223	https://www.historicrockford.org/weddings-rentals-1
+The Barn at Silverstone	Lancaster	Pennsylvania			Barn / Rustic	Indoor & Outdoor	200	Estate with a barn hall for up to 200, a bridal mansion and a courtyard.			https://www.thebarnatsilverstone.com
+The Hotel Hershey	Hershey	Pennsylvania			Ballroom / Hotel	Indoor & Outdoor	250	1933 hotel with garden ceremonies, the Starlight Terrace Ballroom and receptions for up to 250.		717-534-8830	https://www.thehotelhershey.com/celebrations/weddings.php
+Hotel Gettysburg	Gettysburg	Pennsylvania			Ballroom / Hotel	Indoor		Historic hotel on Lincoln Square.	info@hotelgettysburg.com	717-337-2000	https://hotelgettysburg.com/weddings/
+`,
+  },
+  {
+    name: "Pittsburgh, the Laurel Highlands and the Poconos",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Phipps Conservatory and Botanical Gardens	Pittsburgh	Pennsylvania			Garden / Outdoor	Indoor & Outdoor		Victorian glasshouse and gardens in Schenley Park.		412-622-6914	https://www.phipps.conservatory.org/plan-your-event/weddings/
+Carnegie Museums of Pittsburgh	Pittsburgh	Pennsylvania			Historic / Estate	Indoor		Art and natural history museums in Oakland, plus receptions at the Andy Warhol Museum.	NSSpecialEventSales@carnegiemuseums.org	412-622-3131	https://carnegiemuseums.org/plan-your-event/weddings-at-the-museums/
+Mansions on Fifth	Pittsburgh	Pennsylvania			Historic / Estate	Indoor & Outdoor		Historic Fifth Avenue estate hotel in Shadyside for ceremony and reception on site.	events@mansionsonfifth.com	412.381.5105	https://www.mansionsonfifth.com/weddings.php
+The Priory Hotel	Pittsburgh	Pennsylvania			Ballroom / Hotel	Indoor & Outdoor	350	North Side hotel with the Grand Hall ballroom for 350 seated and a courtyard.	info@thepriory.com	(412) 231-3338	https://www.thepriory.com/special-events.php
+The Barn at Fallingwater	Mill Run	Pennsylvania			Barn / Rustic	Indoor & Outdoor		Barn on the Fallingwater grounds in the Laurel Highlands, rented for weddings.		724-329-8501	https://fallingwater.org/visit/events/weddings/
+Skytop Lodge	Skytop	Pennsylvania			Ballroom / Hotel	Indoor & Outdoor		Pocono mountain resort with the Evergreen Ballroom and wedding packages including a night at the lodge.		(570) 595-8939	https://www.skytop.com/group-events/weddings-venues/
+The Pines at Woodloch	Hawley	Pennsylvania			Ballroom / Hotel	Indoor & Outdoor	45	Pocono resort hosting intimate weddings of 15 to 45 and elopements.		570.685.8000	https://www.woodloch.com/celebrate-weddings/
+The Settlers Inn	Hawley	Pennsylvania			Historic / Estate	Indoor & Outdoor		Pocono inn with a garden for dining and dancing.			https://www.thesettlersinn.com/wedding-venues-poconos-pa
+Stroudsmoor Country Inn	Stroudsburg	Pennsylvania			Ballroom / Hotel	Indoor & Outdoor		Pocono inn with several private event spaces, each with its own ceremony and reception sites.		(570) 421-6431	https://www.stroudsmoorweddings.com
+`,
+  },
 ];
