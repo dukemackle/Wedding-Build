@@ -1070,4 +1070,55 @@ The Sagamore	Bolton Landing	New York			Ballroom / Hotel	Indoor & Outdoor		Lake G
 Mirror Lake Inn	Lake Placid	New York			Ballroom / Hotel	Indoor & Outdoor		Four-diamond Adirondack inn on Mirror Lake.	info@mirrorlakeinn.com	(518) 523-2544	https://www.mirrorlakeinn.com
 `,
   },
+  {
+    name: "Connecticut",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Saltwater Farm Vineyard	Stonington	Connecticut			Restaurant / Vineyard	Indoor & Outdoor		Vineyard on old coastal farmland and a WWII-era private airfield outside Stonington village.	jmaloney@saltwaterfarmvineyard.com	(860) 415-9072	https://www.saltwaterfarmvineyard.com
+Jonathan Edwards Winery	North Stonington	Connecticut	41.46492	-71.87428	Restaurant / Vineyard	Indoor & Outdoor		Hilltop winery among 20 acres of vines and old stone walls, with a micro-wedding package for small guest lists.	tori@jedwardswinery.com	(860) 535-0202	https://jedwardswinery.com
+Mystic Seaport Museum	Mystic	Connecticut			Beach / Waterfront	Indoor & Outdoor	200	Nineteen-acre maritime museum on the Mystic River; the waterfront Boat Shed at Siegel Point holds 200 and the Meeting House 120.	info@mysticseaport.org	860-572-0711	https://mysticseaport.org
+Wadsworth Mansion at Long Hill	Middletown	Connecticut	41.54016	-72.67709	Historic / Estate	Indoor & Outdoor		Early-1900s country estate on 103 acres, with Beaux Arts ballrooms and a terrace looking out over the grounds.		860-347-1064	https://www.wadsworthmansion.com
+The Inn at Longshore	Westport	Connecticut	41.1146	-73.3586	Beach / Waterfront	Indoor & Outdoor	300	Historic inn whose lawn runs down to Long Island Sound, seating 300, with fourteen guest rooms upstairs.	info@innatlongshore.com	203-226-3316	https://www.innatlongshore.com
+Mayflower Inn & Spa	Washington	Connecticut	41.62758	-73.30823	Ballroom / Hotel	Indoor & Outdoor	150	Litchfield Hills inn on 58 acres with 35 rooms; receptions for up to 150 in the boxwood-hedged Shakespeare Garden.		(866) 217-0869	https://auberge.com/mayflower
+Winvian Farm	Morris	Connecticut	41.69505	-73.20084	Historic / Estate	Indoor & Outdoor		A 113-acre Litchfield Hills resort with 18 cottages for guests, hosting full-size and petite weddings.	info@winvian.com	860-567-9600	https://www.winvian.com
+Lord Thompson Manor	Thompson	Connecticut	41.96381	-71.86938	Historic / Estate	Indoor & Outdoor		1918 manor on 42 Olmsted-designed acres, booked by the weekend with all 13 rooms and every meal from rehearsal dinner to farewell brunch.	mail@lordthompsonmanor.com	(860) 923-3886	https://lordthompsonmanor.com
+`,
+  },
+  {
+    name: "Newport and Rhode Island",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Rosecliff	Newport	Rhode Island			Historic / Estate	Indoor & Outdoor	160	1902 Gilded Age mansion run by the Preservation Society, with Newport's largest private ballroom (160 for dinner and dancing) and oceanfront lawns.		401-847-1000	https://www.newportmansions.org
+Castle Hill Inn	Newport	Rhode Island			Beach / Waterfront	Indoor & Outdoor		Forty acres at the mouth of Narragansett Bay with half a mile of coastline, garden ceremonies, a sailcloth-tent reception and 33 rooms.		(401) 849-3800	https://www.castlehillinn.com
+Belle Mer	Newport	Rhode Island			Beach / Waterfront	Indoor & Outdoor	500	Seven acres of lawn on Narragansett Bay seating 500 for dinner and dancing, with the smaller Water Salon for intimate ceremonies.			https://longwoodvenues.com/venues/newport-oceanfront-event-venue/
+Newport Vineyards	Middletown	Rhode Island	41.52949	-71.27327	Restaurant / Vineyard	Indoor & Outdoor		Fifty-acre vineyard minutes from downtown Newport, with meadow ceremonies among the vines and an awninged terrace if it rains.		401-848-5161	https://newportvineyards.com
+Glen Manor House	Portsmouth	Rhode Island	41.55925	-71.23965	Historic / Estate	Indoor & Outdoor		1920s manor house built for the Taylor family's Glen Farm estate, with a ballroom and grounds for ceremonies.	glenmanor@morins.com	(401) 683-4177	https://glenmanorhouse.com
+Blithewold	Bristol	Rhode Island	41.6545	-71.2649	Garden / Outdoor	Indoor & Outdoor		Bayside garden estate: ceremonies in the North Garden, cocktails in the mansion and dinner in a 40' x 100' tent on the ten-acre Great Lawn.		(401) 253-2707	https://www.blithewold.org
+Linden Place	Bristol	Rhode Island	41.67067	-71.27658	Historic / Estate	Indoor & Outdoor		Historic mansion with a grand ballroom and a sculpture-filled rose garden for outdoor ceremonies.	info@lindenplace.org	(401) 253-0390	https://www.lindenplace.org
+Ocean House	Westerly	Rhode Island			Ballroom / Hotel	Indoor & Outdoor		Forbes Five-Star resort above the Atlantic in Watch Hill, with 49 rooms and weekend-long weddings.		401-584-7000	https://www.oceanhouseri.com
+`,
+  },
+  {
+    name: "Boston, the North Shore, Worcester County and the Berkshires",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Boston Harbor Hotel	Boston	Massachusetts			Ballroom / Hotel	Indoor	250	Hotel on Rowes Wharf whose ballroom, with 19-foot ceilings and harbor windows on three sides, holds 250.		617-439-7000	https://www.bostonharborhotel.com
+The Great House on the Crane Estate	Ipswich	Massachusetts			Historic / Estate	Indoor & Outdoor		1920s Stuart-style mansion at Castle Hill, with ceremonies on the Grand Allée above Crane Beach and dinner in a sailcloth tent on the terrace.	castlehill@thetrustees.org	978-356-4351	https://thetrustees.org/content/great-house-castle-hill-venue-rental/
+Long Hill	Beverly	Massachusetts			Garden / Outdoor	Indoor & Outdoor		1920s brick house built by the Sedgwick family, set in a public garden laid out as a series of garden rooms.		617-542-7696	https://thetrustees.org/content/long-hill-venue-rental/
+deCordova Sculpture Park and Museum	Lincoln	Massachusetts	42.42837	-71.31245	Garden / Outdoor	Indoor & Outdoor		Sculpture park above Flint's Pond: ceremonies on the Sculpture Terrace, cocktails in Dewey Family Hall and dinner in a sailcloth tent.		617-542-7696	https://thetrustees.org/content/decordova-venue-rental/
+Willowdale Estate	Topsfield	Massachusetts			Historic / Estate	Indoor & Outdoor		Early-1900s Craftsman and Tudor Revival stone mansion in a 720-acre state forest on the Ipswich River, with in-house catering.	info@willowdaleestate.com	978-887-8211	https://www.willowdaleestate.com
+The Barn at Gibbet Hill	Groton	Massachusetts			Barn / Rustic	Indoor & Outdoor	240	Renovated barn at the foot of Gibbet Hill, just off Groton's Main Street, holding up to 240 with a dance floor.	barn@gibbethill.com	(978) 448-3233	https://www.barnatgibbethill.com
+New England Botanic Garden at Tower Hill	Boylston	Massachusetts	42.35673	-71.72968	Garden / Outdoor	Indoor & Outdoor		Botanic garden with ceremonies in the Secret Garden or Limonaia and in-season receptions in the glass Orangerie; elopements for up to 30.	info@nebg.org	508-869-6111	https://nebg.org
+The Red Lion Inn	Stockbridge	Massachusetts	42.28238	-73.31273	Historic / Estate	Indoor & Outdoor		Historic village inn with antique-filled private rooms, a flower-filled courtyard and a florist on the main floor.	info@redlioninn.com	(413) 298-5545	https://www.redlioninn.com
+Hancock Shaker Village	Pittsfield	Massachusetts			Barn / Rustic	Indoor & Outdoor	270	Twenty Shaker buildings on 750 acres, with an event tent for 270, heirloom gardens for ceremonies and a timber-frame hall for 75.	kjacobson@hancockshakervillage.org	413-443-0188	https://hancockshakervillage.org
+`,
+  },
+  {
+    name: "Cape Cod and the Islands",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Chatham Bars Inn	Chatham	Massachusetts			Beach / Waterfront	Indoor & Outdoor		Oceanfront resort with over 200 rooms, ceremonies on its private beach and receptions under a sailcloth tent.	welcome@chathambarsinn.com	508-945-0096	https://www.chathambarsinn.com
+Wequassett Resort and Golf Club	Harwich	Massachusetts	41.72046	-69.99924	Beach / Waterfront	Indoor & Outdoor		Resort on Pleasant Bay with waterfront ceremonies, garden receptions and cottages for the whole wedding weekend.	info@wequassett.com	(508) 432-5400	https://wequassett.com
+Wychmere Beach Club	Harwich Port	Massachusetts			Beach / Waterfront	Indoor & Outdoor		Beach club between Wychmere Harbor and Nantucket Sound, with the indoor-outdoor Dune and the Ocean Room.		(508) 432-1000	https://wychmere.com
+Ocean Edge Resort & Golf Club	Brewster	Massachusetts			Ballroom / Hotel	Indoor & Outdoor		Resort with a century-old mansion, a grand ballroom and ceremonies on the beach, the lawn or by the pool.		508-896-9000	https://www.oceanedgeweddings.com
+Harbor View Hotel	Edgartown	Massachusetts			Ballroom / Hotel	Indoor & Outdoor		Martha's Vineyard hotel from 1891 overlooking Edgartown Harbor, with receptions on the Great Lawn and in the Edgartown Ballroom.		508-431-8495	https://harborviewhotel.com
+White Elephant	Nantucket	Massachusetts			Beach / Waterfront	Indoor & Outdoor	300	Hotel on Nantucket Harbor with ceremonies on the Harborview Lawn; the whole property can be booked for weddings up to 300.	inquiries@whiteelephantnantucket.com	800-445-6574	https://www.whiteelephantnantucket.com
+`,
+  },
 ];
