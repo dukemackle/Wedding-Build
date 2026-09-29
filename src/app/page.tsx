@@ -36,8 +36,11 @@ export default async function Home() {
               You do, <span className="italic text-[#d99a00]">I do</span>
             </p>
           </div>
+          <p className="mt-4 w-full max-w-[34rem] text-center font-display text-xl italic text-ink/70">
+            An easier way to get to &ldquo;I&nbsp;do.&rdquo;
+          </p>
           <h1 className="mt-4 font-display text-5xl font-semibold leading-[1.05] text-ink sm:text-6xl lg:text-7xl">
-            Making everything before &ldquo;I&nbsp;do&rdquo; a whole lot <span className="italic text-[#d99a00]">easier</span>.
+            Plan your <span className="italic text-[#d99a00]">dream</span> wedding.
           </h1>
           <p className="mt-4 max-w-md text-lg text-ink/80">
             Everything you need to plan your wedding, all in one place.
