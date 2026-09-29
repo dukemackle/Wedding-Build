@@ -43,7 +43,7 @@ export default async function Home() {
             Plan your <span className="italic text-[#d99a00]">dream</span> wedding.
           </h1>
           <p className="mt-4 max-w-md text-lg text-ink/80">
-            Everything you need to plan your wedding, all in one place.
+            Everything you need, all in one place.
           </p>
           {/* Centred in the same column the logo and tagline are centred in,
               so the block reads as one piece rather than a centred mark over
