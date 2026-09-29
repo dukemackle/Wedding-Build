@@ -487,4 +487,53 @@ Fredericksburg Decor	Decor & Lighting	Fredericksburg	Texas		Freelance event deco
 Texas Balloon Co	Decor & Lighting	Kerrville	Texas	Kerrville and Fredericksburg	Balloon installations and event styling for weddings.	texasballoonco@gmail.com		https://www.texasballoonco.com	https://www.instagram.com/texasballoonco/
 `,
   },
+  {
+    name: "Waco, Bryan–College Station and Brenham: photography, planning, catering, florals and music",
+    tsv: `Name	Category	City	State	Service area	Description	Email	Phone	Website	Instagram
+The Philgreens	Photography	Waco	Texas	Waco and worldwide	Husband-and-wife wedding photographers based in Waco who travel for weddings anywhere.	hello@thephilgreens.com	913-832-9919	https://thephilgreens.com	https://www.instagram.com/thephilgreens/
+Figley Photography	Photography	Waco	Texas	Waco and Central Texas	Wedding and portrait photography with a storytelling approach, with video available too.	chris@figleyphoto.com	254-447-1530	https://www.figleyphoto.com	
+Breanne Johnson Photography	Photography	Waco	Texas	Waco and Central Texas	Wedding, family and event photographer serving Waco and the surrounding area.	hello@breannejohnsonphoto.com	254-327-1400	https://www.breannejohnsonphoto.com	https://www.instagram.com/breannejohnsonphotography/
+Ally Joe Photography	Photography	College Station	Texas	Bryan–College Station	Natural-light wedding photography focused on honest, emotional moments.	hello@allyjoephotography.com		https://allyjoephotography.com	https://www.instagram.com/allyjoephotography/
+Baileyrose Photography	Photography	College Station	Texas	College Station and Georgetown	Wedding and portrait photographer covering everything from bridals and details to the reception.			https://www.baileyrosephotography.com	https://www.instagram.com/baileyrosephotography/
+Kathlyn Dragna Photography	Photography	Brenham	Texas	Central Texas and destination weddings	Brenham-based photographer shooting weddings between Houston and Austin, and destination weddings in Italy.		979-830-3952	https://www.dragnaphoto.com	https://www.instagram.com/dragnaphoto/
+Perfectly Planned	Planning	Bryan	Texas	Texas and beyond	Family-owned planning company offering everything from full planning to custom coordination packages.	info@perfectlyplannedtx.com	979-255-0762	https://www.perfectlyplannedtx.com	
+Uniquely Set Event Management	Planning	College Station	Texas	Texas	Wedding planning and coordination, with decor and rentals from the same team.	contact@uniquelyset.com		https://www.uniquelyset.com	https://www.instagram.com/uniquelysetevents/
+Alice Allen Events	Planning	Waco	Texas	Waco and across Texas	Full-service wedding planning and wedding-day management with an elevated, guest-focused style.	hello@aliceallenevents.com	254-366-9045	https://www.aliceallenevents.com	https://www.instagram.com/aliceallenevents/
+Planning on Forever	Planning	Waco	Texas	Waco and surrounding areas	Wedding planning and coordination around Waco, willing to travel.	baileyanyan@planningonforever.com	903-229-7642	https://planningonforever.com	
+Eddie Ray's Smokehouse	Catering	Waco	Texas	Waco area	Barbecue and smokehouse catering for weddings and events around Waco.		(254) 829-2930	https://eddierayssmokehouse.com	
+Helberg Barbecue	Catering	Woodway	Texas	Waco area	Texas Monthly Top 50 barbecue joint offering custom wedding catering packages.	thehelbergs@helbergranch.com	254-294-9995	https://www.helbergbarbecue.com	https://www.instagram.com/helbergbarbecue/
+Royers Round Top Cafe	Catering	Round Top	Texas	Round Top	Round Top's well-known cafe, which caters weddings and helps with planning the rest of the event.	catering@royerscafe.com	979-249-3611	https://www.royerscafe.com	https://www.instagram.com/royersroundtopcafe/
+Unforgettable Floral	Florals	College Station	Texas	College Station, Houston, Austin and beyond	Garden-inspired wedding florals from a studio working since 2008.	bobbi@unforgettablefloral.com	979-599-2427	https://www.unforgettablefloral.com	https://www.instagram.com/unforgettablefloral/
+Filled with Grace Florals	Florals	College Station	Texas	Bryan–College Station	Boutique wedding and event florist designing bold, full arrangements.	filledwithgraceflorals@gmail.com	(979) 229-2796	https://filledwithgraceflorals.com	https://www.instagram.com/filledwithgraceflorals/
+Blossom Floral Designs	Florals	College Station	Texas	Bryan–College Station	Wedding florist designing ceremony and reception flowers.	blossomfloralco@gmail.com	979-985-3200	https://www.blossomfloraldesigns.com	https://www.instagram.com/blossomfloralco/
+Brenham Wildflowers Florist	Florals	Brenham	Texas	Brenham	Brenham flower shop doing wedding bouquets and ceremony flowers.		(979) 251-7000	https://www.brenhamwildflowers.com	https://www.instagram.com/brenhamwildflowersflorist/
+Laurel + Finch	Florals	Hewitt	Texas	Waco, Central Texas and beyond	Wedding and event floral design from a home studio just south of Waco.	lauren@laurelandfinch.com	254-640-0583	https://www.laurelandfinch.com	https://www.instagram.com/laurelandfinch/
+Rosetree Floral Design	Florals	Waco	Texas	Waco	Wedding and event florals built around garden roses, peonies and other seasonal blooms, designing since 1983.		254-754-5995	https://www.rosetreewaco.com	https://www.instagram.com/rosetreewaco/
+Wolfe Florist	Florals	Waco	Texas	Waco	Family florist run by the fifth and sixth generations, doing wedding flowers in Waco.		254-752-3351	https://www.wolfe-florist-waco.com	https://www.instagram.com/wolfeflorist/
+Wall of Sound Productions	Music	Waco	Texas	Waco and Central Texas	Wedding DJ company that also runs photo booths.		254-285-8707	https://www.wosproductions.com	https://www.instagram.com/wallofsoundprodj/
+DJ Franco Events	Music	College Station	Texas	Within about 100 miles of College Station, including Austin and Houston	Wedding DJs with photo booths, uplighting and videography add-ons.		979-219-8940	https://djfrancoevents.com	https://www.instagram.com/djfrancoevents/
+Man and Bride	Music	College Station	Texas	Texas	Wedding DJ with 500+ weddings behind him, known for clean music and full dance floors.	info@manandbride.com	979-353-1763	https://www.manandbride.com	https://www.instagram.com/manandbride/
+All Things New	Music	College Station	Texas	College Station, Houston and Austin	Live wedding band and DJ service playing country, rock, pop, jazz and more, with custom song requests.	allthingsnewweddings@gmail.com	979-492-9711	https://allthingsnewentertainment.com	
+`,
+  },
+  {
+    name: "Waco, Bryan–College Station and Brenham: hair and makeup, videography, cake, rentals, bar and decor",
+    tsv: `Name	Category	City	State	Service area	Description	Email	Phone	Website	Instagram
+Diana Marie Makeup Artistry	Hair & Makeup	Waco	Texas	Central Texas, Dallas and Austin	Waco bridal hair and makeup artist with more than a decade of wedding work.		254-415-5834	https://www.dianamariemakeupartistry.com	https://www.instagram.com/dianamariemakeupartistry/
+Angela Karr Hair and Makeup	Hair & Makeup	Waco	Texas	Texas	On-location bridal hair and soft-glam makeup from a licensed esthetician with 20+ years in beauty.	info@angelakarr.com	(254) 640-0411	https://angelakarr.com	https://www.instagram.com/angelakarr.hair.makeup/
+Naturally Flawless	Hair & Makeup	College Station	Texas	College Station and surrounding areas	Hair and makeup salon doing wedding styling in the studio or on location, for any size bridal party.			https://naturallyflawlessbeauty.com	https://www.instagram.com/naturallyflawless/
+Skin HRS	Hair & Makeup	College Station	Texas	Texas and destination weddings	Bridal hair and makeup team offering previews before the day and travel for weddings.	info@skinhrs.com		https://www.skinhrs.com	https://www.instagram.com/skinhrs/
+The Wedding Filmery	Videography	Waco	Texas	Texas and destination weddings	Custom, story-driven wedding films.	ben@theweddingfilmery.com		https://theweddingfilmery.com	
+Alex Harper Films	Videography	Waco	Texas	Texas and beyond	Documentary-style wedding films that favour candid, unposed moments.	alex@alexharperfilms.com	(254) 227-7681	https://alexharperfilms.com	https://www.instagram.com/alexharperfilms/
+MoMa Cakes	Cake	College Station	Texas	College Station and surrounding areas	Wedding cake designer also making cupcakes, cake pops, decorated cookies and dessert tables.	momacakes16@gmail.com	(979) 402-6386	https://www.momacakes.com	https://www.instagram.com/momacakes_monica/
+S.O.S. Cotton Candy	Desserts	Waco	Texas	Waco and Central Texas	Fresh-spun cotton candy served at weddings and events.			https://www.soscottoncandy.com	https://www.instagram.com/soscottoncandy/
+Epic Party Productions	Rentals	Waco	Texas	Waco, Temple, Killeen, Round Rock and Bryan–College Station	Tents, tables, chairs, linens, china and lighting, with layout, setup and teardown.		979-209-0549	https://epicpartywaco.net	https://www.instagram.com/detailspartyrental/
+254 Party Rentals	Rentals	Waco	Texas	Waco and Central Texas	Family-run rental company offering tables, chairs, linens, tents and photo booths.		(254) 300-1450	https://254partyrentals.com	https://www.instagram.com/254partyrentals/
+Ellie Bar Co.	Bar	Waco	Texas	Waco, Temple, Belton, Salado, Georgetown and Austin	Mobile bar service with signature cocktails and mocktails for weddings.			https://www.elliebarco.com	
+StarLight Bar & Event Services	Bar	College Station	Texas	Bryan–College Station	Mobile bar and event services for weddings.	starlightbarandevents@gmail.com	(979) 255-4286	https://www.starlightbarandevents.com	https://www.instagram.com/starlightbarandevents/
+Sage Roots Cocktail Company	Bar	College Station	Texas	Bryan–College Station	Mobile bar service and event staffing for weddings.	sagerootsevents@gmail.com	(979) 492-8124	https://www.sagerootscocktail.com	https://www.instagram.com/sagerootscocktail/
+Waco Balloon Co	Decor & Lighting	Hewitt	Texas	Waco area	Balloon arches, garlands and columns for weddings and parties.		(254) 780-8065	https://www.wacoballoonco.com	
+Loaded Sound	Decor & Lighting	Waco	Texas	Waco and Central Texas	Event production covering lighting, sound, LED video walls and live streaming.	info@loadedsound.com	254-300-3796	https://www.loadedsound.com	
+`,
+  },
 ];
