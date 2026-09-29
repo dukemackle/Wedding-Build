@@ -387,143 +387,308 @@ function RsvpDemo() {
   );
 }
 
-/* ---------- Venues ---------- */
+/* ---------- Venues and Vendors: the map-and-results browser ---------- */
 
-const VENUES = [
-  {
-    name: "Juniper Barn",
-    kind: "Barn",
-    src: "/venue-types/barn-rustic.svg",
-    guests: 180,
-    price: 9000,
-  },
-  {
-    name: "Harbor House",
-    kind: "Waterfront",
-    src: "/venue-types/beach-waterfront.svg",
-    guests: 140,
-    price: 12500,
-  },
-  {
-    name: "The Linden Estate",
-    kind: "Historic estate",
-    src: "/venue-types/historic-estate.svg",
-    guests: 220,
-    price: 16000,
-  },
-];
+/*
+ * A small copy of the real Venues/Vendors screen (search-shell.tsx): a filter
+ * bar on top, the map and the results side by side on a wide screen, and on a
+ * phone the map as the page with the results in a sheet over its lower half.
+ * The map is drawn, not Leaflet, so opening a demo pulls no tiles.
+ */
 
-function VenuesDemo() {
-  const [saved, setSaved] = useState<Set<string>>(new Set());
-  const toggle = (name: string) =>
-    setSaved((s) => {
-      const next = new Set(s);
-      if (next.has(name)) next.delete(name);
-      else next.add(name);
-      return next;
-    });
+type Pin = { id: string; x: number; y: number; label: string };
+
+function MockMap({
+  pins,
+  active,
+  onPin,
+}: {
+  pins: Pin[];
+  active: string | null;
+  onPin: (id: string | null) => void;
+}) {
   return (
-    <div className="flex flex-col gap-4">
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-        {VENUES.map((v) => (
-          <div
-            key={v.name}
-            className="overflow-hidden rounded-xl border border-hairline bg-card"
-          >
-            <div className="relative h-24 bg-parchment">
-              <Image
-                src={v.src}
-                alt=""
-                fill
-                sizes="240px"
-                className="object-contain p-2"
-              />
-              <button
-                type="button"
-                onClick={() => toggle(v.name)}
-                aria-pressed={saved.has(v.name)}
-                aria-label={`Shortlist ${v.name}`}
-                className={`absolute right-2 top-2 flex h-8 w-8 items-center justify-center rounded-full border text-base ${
-                  saved.has(v.name)
-                    ? "border-brass bg-brass text-ink"
-                    : "border-hairline bg-card text-ink/50"
-                }`}
-              >
-                ♥
-              </button>
-            </div>
-            <div className="p-3">
-              <p className="font-display text-lg leading-tight text-forest">
-                {v.name}
-              </p>
-              <p className="mt-1 font-mono-numbers text-[10px] text-ink/55">
-                {v.kind} · up to {v.guests} · from {usd(v.price)}
-              </p>
-            </div>
-          </div>
-        ))}
-      </div>
-      <p className="text-sm text-ink/70">
-        <span className="font-mono-numbers font-semibold text-forest">
-          {saved.size}
-        </span>{" "}
-        shortlisted
-        {saved.size > 0 &&
-          " — in your account you'd compare them side by side and send inquiries."}
-      </p>
+    <div className="absolute inset-0 overflow-hidden bg-[#eef3f6]">
+      <svg
+        viewBox="0 0 400 300"
+        preserveAspectRatio="xMidYMid slice"
+        className="absolute inset-0 h-full w-full"
+        aria-hidden
+      >
+        <path d="M-10 210 C 80 180, 140 250, 230 215 S 360 170, 420 200 L 420 320 L -10 320 Z" fill="#d6ecf5" />
+        <path d="M-10 210 C 80 180, 140 250, 230 215 S 360 170, 420 200" fill="none" stroke="#b9dfee" strokeWidth="3" />
+        <rect x="40" y="40" width="70" height="50" rx="8" fill="#e3eedf" />
+        <rect x="270" y="70" width="90" height="60" rx="10" fill="#e3eedf" />
+        <g stroke="#fff" strokeWidth="7" fill="none">
+          <path d="M0 120 H400" />
+          <path d="M150 0 V300" />
+          <path d="M0 40 L400 160" />
+        </g>
+        <g stroke="#fff" strokeWidth="3" fill="none">
+          <path d="M0 70 H400" />
+          <path d="M240 0 V300" />
+          <path d="M80 0 V300" />
+          <path d="M320 0 V210" />
+          <path d="M0 170 H400" />
+        </g>
+      </svg>
+      {pins.map((p) => (
+        <button
+          key={p.id}
+          type="button"
+          onMouseEnter={() => onPin(p.id)}
+          onMouseLeave={() => onPin(null)}
+          onFocus={() => onPin(p.id)}
+          onBlur={() => onPin(null)}
+          aria-label={p.label}
+          style={{ left: `${p.x}%`, top: `${p.y}%` }}
+          className={`absolute -translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded-full border-2 border-white px-2 py-0.5 text-[11px] font-bold shadow-md transition-transform ${
+            active === p.id
+              ? "z-10 scale-110 bg-brass text-forest"
+              : "bg-forest text-white"
+          }`}
+        >
+          {p.label}
+        </button>
+      ))}
     </div>
   );
 }
 
-/* ---------- Vendors ---------- */
+function MockBrowser({
+  search,
+  filters,
+  count,
+  noun,
+  pins,
+  active,
+  onActive,
+  children,
+}: {
+  search: string;
+  filters: ReactNode;
+  count: number;
+  noun: string;
+  pins: Pin[];
+  active: string | null;
+  onActive: (id: string | null) => void;
+  children: ReactNode;
+}) {
+  const results = (
+    <>
+      <p className="px-3 pt-2 text-center font-display text-base font-semibold text-forest md:border-b md:border-hairline md:py-2 md:text-left">
+        {count} {noun}
+        {count === 1 ? "" : "s"}
+      </p>
+      <div className="grid grid-cols-2 gap-2 p-3">{children}</div>
+    </>
+  );
+  return (
+    <div className="-mx-5 -my-6 flex flex-col sm:-mx-8">
+      <div className="flex flex-wrap items-center gap-2 border-b border-hairline bg-card px-4 py-2.5">
+        <div className="min-w-0 flex-1 rounded-full border border-hairline px-4 py-1.5 text-sm text-ink/45 md:max-w-56">
+          {search}
+        </div>
+        <div className="flex gap-2 overflow-x-auto [scrollbar-width:none]">
+          {filters}
+        </div>
+      </div>
+      {/* Phone: the map is the page, results in a sheet over its lower half.
+          Wide: map left, results right, each its own column. */}
+      <div className="relative h-[26rem] md:flex md:h-[24rem]">
+        <div className="absolute inset-0 md:relative md:w-[55%] md:shrink-0">
+          <MockMap pins={pins} active={active} onPin={onActive} />
+        </div>
+        <div className="absolute inset-x-0 bottom-0 flex h-[58%] flex-col rounded-t-2xl border-t border-hairline bg-card shadow-[0_-6px_24px_rgb(20_32_61/0.18)] md:static md:h-auto md:flex-1 md:rounded-none md:border-l md:border-t-0 md:shadow-none">
+          <div className="mx-auto mt-2 h-1.5 w-10 shrink-0 rounded-full bg-hairline md:hidden" />
+          <div className="min-h-0 flex-1 overflow-y-auto">{results}</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function FilterPill({
+  on,
+  onClick,
+  children,
+}: {
+  on: boolean;
+  onClick: () => void;
+  children: ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-pressed={on}
+      className={`shrink-0 whitespace-nowrap rounded-full border px-3 py-1 text-sm transition-colors ${
+        on
+          ? "border-forest bg-forest text-parchment"
+          : "border-hairline bg-card text-ink/70 hover:border-forest"
+      }`}
+    >
+      {children}
+    </button>
+  );
+}
+
+const VENUES = [
+  { id: "juniper", name: "Juniper Barn", kind: "Barn", setting: "Indoor & outdoor", src: "/venue-types/barn-rustic.svg", guests: 180, price: 9000, x: 22, y: 30 },
+  { id: "harbor", name: "Harbor House", kind: "Waterfront", setting: "Outdoor", src: "/venue-types/beach-waterfront.svg", guests: 140, price: 12500, x: 62, y: 68 },
+  { id: "linden", name: "The Linden Estate", kind: "Historic estate", setting: "Indoor", src: "/venue-types/historic-estate.svg", guests: 220, price: 16000, x: 78, y: 32 },
+  { id: "rosewood", name: "Rosewood Garden", kind: "Garden", setting: "Outdoor", src: "/venue-types/garden-outdoor.svg", guests: 120, price: 7500, x: 40, y: 50 },
+  { id: "grand", name: "The Grand Hotel", kind: "Ballroom", setting: "Indoor", src: "/venue-types/ballroom-hotel.svg", guests: 300, price: 21000, x: 52, y: 18 },
+  { id: "vine", name: "Cedar Vine Winery", kind: "Vineyard", setting: "Indoor & outdoor", src: "/venue-types/restaurant-vineyard.svg", guests: 160, price: 11000, x: 12, y: 60 },
+];
+
+function VenuesDemo() {
+  const [saved, setSaved] = useState<Set<string>>(new Set());
+  const [min, setMin] = useState(0);
+  const [active, setActive] = useState<string | null>(null);
+  const shown = VENUES.filter((v) => v.guests >= min);
+  const toggle = (id: string) =>
+    setSaved((s) => {
+      const next = new Set(s);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  return (
+    <MockBrowser
+      search="Austin, TX"
+      count={shown.length}
+      noun="venue"
+      active={active}
+      onActive={setActive}
+      pins={shown.map((v) => ({ id: v.id, x: v.x, y: v.y, label: `${v.guests}` }))}
+      filters={
+        <>
+          {[0, 150, 200].map((n) => (
+            <FilterPill key={n} on={min === n} onClick={() => setMin(n)}>
+              {n === 0 ? "Any size" : `${n}+ guests`}
+            </FilterPill>
+          ))}
+          <span className="shrink-0 self-center whitespace-nowrap rounded-full bg-brass/15 px-3 py-1 text-sm text-forest">
+            ♥ {saved.size} saved
+          </span>
+        </>
+      }
+    >
+      {shown.map((v) => (
+        <div
+          key={v.id}
+          onMouseEnter={() => setActive(v.id)}
+          onMouseLeave={() => setActive(null)}
+          className={`overflow-hidden rounded-xl border bg-card transition-colors ${
+            active === v.id ? "border-forest" : "border-hairline"
+          }`}
+        >
+          <div className="relative aspect-[16/9] bg-parchment">
+            <Image src={v.src} alt="" fill sizes="220px" className="object-cover" />
+            <button
+              type="button"
+              onClick={() => toggle(v.id)}
+              aria-pressed={saved.has(v.id)}
+              aria-label={`Shortlist ${v.name}`}
+              className={`absolute right-2 top-2 flex h-7 w-7 items-center justify-center rounded-full border text-sm ${
+                saved.has(v.id)
+                  ? "border-brass bg-brass text-forest"
+                  : "border-hairline bg-card text-ink/50"
+              }`}
+            >
+              ♥
+            </button>
+          </div>
+          <div className="p-2.5">
+            <p className="font-mono-numbers text-base font-bold tracking-tight text-ink">
+              {v.guests} guests
+            </p>
+            <p className="text-xs text-ink/75">
+              {v.kind} · {v.setting}
+            </p>
+            <p className="text-xs text-ink/55">from {usd(v.price)}</p>
+            <p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.07em] text-ink/40">
+              {v.name}
+            </p>
+          </div>
+        </div>
+      ))}
+    </MockBrowser>
+  );
+}
+
+const VENDOR_KINDS = ["Photography", "Florals", "Catering", "Music"];
 
 const VENDORS = [
-  { name: "Fern & Field Photo", kind: "Photographer" },
-  { name: "Wildflower Co.", kind: "Florist" },
-  { name: "The Honey Pot", kind: "Catering" },
-  { name: "DJ Marlowe", kind: "Music" },
+  { id: "fern", name: "Fern & Field Photo", kind: "Photography", note: "Film and digital · 8 hr packages", x: 30, y: 28 },
+  { id: "lumen", name: "Lumen Studio", kind: "Photography", note: "Documentary style · second shooter", x: 70, y: 55 },
+  { id: "wild", name: "Wildflower Co.", kind: "Florals", note: "Seasonal, locally grown", x: 45, y: 62 },
+  { id: "honey", name: "The Honey Pot", kind: "Catering", note: "Family-style and buffet", x: 60, y: 22 },
+  { id: "marlowe", name: "DJ Marlowe", kind: "Music", note: "DJ and ceremony sound", x: 18, y: 50 },
+  { id: "strings", name: "Bluebonnet Strings", kind: "Music", note: "Quartet for the ceremony", x: 82, y: 38 },
 ];
 
 function VendorsDemo() {
-  const [sent, setSent] = useState<Set<string>>(
-    new Set(["Fern & Field Photo"]),
-  );
+  const [kind, setKind] = useState<string | null>(null);
+  const [sent, setSent] = useState<Set<string>>(new Set(["fern"]));
+  const [active, setActive] = useState<string | null>(null);
+  const shown = VENDORS.filter((v) => !kind || v.kind === kind);
   return (
-    <div className="flex flex-col gap-4">
-      <ul className="flex flex-col divide-y divide-hairline">
-        {VENDORS.map((v) => {
-          const done = sent.has(v.name);
-          return (
-            <li
-              key={v.name}
-              className="flex items-center justify-between gap-3 py-3"
+    <MockBrowser
+      search="Austin, TX"
+      count={shown.length}
+      noun="vendor"
+      active={active}
+      onActive={setActive}
+      pins={shown.map((v) => ({ id: v.id, x: v.x, y: v.y, label: v.kind }))}
+      filters={
+        <>
+          <FilterPill on={kind === null} onClick={() => setKind(null)}>
+            All
+          </FilterPill>
+          {VENDOR_KINDS.map((k) => (
+            <FilterPill key={k} on={kind === k} onClick={() => setKind(k)}>
+              {k}
+            </FilterPill>
+          ))}
+        </>
+      }
+    >
+      {shown.map((v) => {
+        const done = sent.has(v.id);
+        return (
+          <div
+            key={v.id}
+            onMouseEnter={() => setActive(v.id)}
+            onMouseLeave={() => setActive(null)}
+            className={`flex flex-col rounded-xl border bg-card p-3 transition-colors ${
+              active === v.id ? "border-forest" : "border-hairline"
+            }`}
+          >
+            <p className="text-[10px] font-semibold uppercase tracking-[0.07em] text-brass">
+              {v.kind}
+            </p>
+            <p className="mt-0.5 font-display text-base font-semibold leading-tight text-forest">
+              {v.name}
+            </p>
+            <p className="mt-0.5 text-xs text-ink/60">{v.note}</p>
+            <button
+              type="button"
+              disabled={done}
+              onClick={() => setSent((s) => new Set(s).add(v.id))}
+              className={`mt-2.5 w-full rounded-full border px-3 py-1.5 text-xs ${
+                done
+                  ? "border-forest/30 bg-forest/10 text-forest"
+                  : "border-hairline text-ink hover:border-forest"
+              }`}
             >
-              <div className="min-w-0">
-                <p className="truncate text-sm text-ink/85">{v.name}</p>
-                <p className="font-mono-numbers text-[10px] text-ink/50">
-                  {v.kind}
-                </p>
-              </div>
-              <button
-                type="button"
-                disabled={done}
-                onClick={() => setSent((s) => new Set(s).add(v.name))}
-                className={`shrink-0 rounded-full border px-3 py-1.5 text-xs ${
-                  done
-                    ? "border-forest/30 bg-forest/10 text-forest"
-                    : "border-forest bg-forest text-parchment hover:bg-forest/90"
-                }`}
-              >
-                {done ? "Inquiry sent ✓" : "Send inquiry"}
-              </button>
-            </li>
-          );
-        })}
-      </ul>
-      <p className="text-xs text-ink/50">
-        Replies and quotes land on the same page, next to each vendor.
-      </p>
-    </div>
+              {done ? "Inquiry sent ✓" : "Request a quote"}
+            </button>
+          </div>
+        );
+      })}
+    </MockBrowser>
   );
 }
 
@@ -825,7 +990,11 @@ function AskDemo() {
 
 /* ---------- The grid and the pop-up ---------- */
 
-const PREVIEWS: Record<string, { heading: string; Demo: () => ReactNode }> = {
+/** `wide` gives the dialog room for a side-by-side screen, not a card. */
+const PREVIEWS: Record<
+  string,
+  { heading: string; Demo: () => ReactNode; wide?: boolean }
+> = {
   budget: {
     heading: "Watch the budget move with your guest list",
     Demo: BudgetDemo,
@@ -834,8 +1003,16 @@ const PREVIEWS: Record<string, { heading: string; Demo: () => ReactNode }> = {
     heading: "Guests reply online, your list updates itself",
     Demo: RsvpDemo,
   },
-  venues: { heading: "Shortlist the places you love", Demo: VenuesDemo },
-  vendors: { heading: "Reach every vendor from one list", Demo: VendorsDemo },
+  venues: {
+    heading: "Shortlist the places you love",
+    Demo: VenuesDemo,
+    wide: true,
+  },
+  vendors: {
+    heading: "Reach every vendor from one list",
+    Demo: VendorsDemo,
+    wide: true,
+  },
   checklist: { heading: "Always know what's next", Demo: ChecklistDemo },
   attire: { heading: "Buy or rent, and know when to order", Demo: AttireDemo },
   itinerary: { heading: "The whole day, hour by hour", Demo: ItineraryDemo },
@@ -925,7 +1102,9 @@ export function PreviewGrid({ items }: { items: PreviewItem[] }) {
               role="dialog"
               aria-modal="true"
               aria-labelledby="preview-title"
-              className="relative flex max-h-[90dvh] w-full flex-col overflow-hidden rounded-t-3xl bg-card shadow-2xl sm:max-w-3xl sm:rounded-3xl"
+              className={`relative flex max-h-[90dvh] w-full flex-col overflow-hidden rounded-t-3xl bg-card shadow-2xl sm:rounded-3xl ${
+                preview.wide ? "sm:max-w-5xl" : "sm:max-w-3xl"
+              }`}
             >
               <div className="flex items-start justify-between gap-4 border-b border-hairline px-5 pb-4 pt-5 sm:px-8 sm:pt-7">
                 <div>
