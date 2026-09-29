@@ -1155,4 +1155,34 @@ Cliff House Maine	Cape Neddick	Maine			Beach / Waterfront	Indoor & Outdoor		Clif
 Hidden Pond	Kennebunkport	Maine			Barn / Rustic	Indoor & Outdoor		Birch-forest resort with a ceremony garden, an Event Barn with a wall of windows and full buyouts of its 56 rooms.	info@hiddenpondmaine.com	888-967-9050	https://www.hiddenpondmaine.com
 `,
   },
+  {
+    name: "Manhattan, the Bronx and Westchester",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Lotte New York Palace	New York	New York			Ballroom / Hotel	Indoor & Outdoor		Midtown hotel in the landmark Villard Mansion, with the chandeliered Villard Ballroom, the Madison Avenue Courtyard and suites for weddings up to 50.	balongi@lottenypalace.com	212-888-7000	https://www.LNYPweddings.com
+Tavern on the Green	New York	New York			Restaurant / Vineyard	Indoor & Outdoor		Landmark restaurant inside Central Park at West 67th Street, hosting ceremonies and receptions.	events@tavernonthegreen.com	212-877-8684	https://www.tavernonthegreen.com
+The Skylark	New York	New York			Restaurant / Vineyard	Indoor & Outdoor	150	Midtown rooftop lounge seating 80 for a ceremony and dinner, or up to 150 for a cocktail-style reception.	info@theskylarknyc.com	212-257-4577	https://www.theskylarknyc.com
+Wave Hill	Bronx	New York	40.89788	-73.91127	Garden / Outdoor	Indoor & Outdoor	180	Public garden above the Hudson with evening ceremonies at the Pergola, a tented terrace at Wave Hill House and seating for 180 in the Mark Twain Room.	abigail.parsons@wavehill.org	718-549-3200	https://www.wavehill.org
+Mansion on Broadway	White Plains	New York			Historic / Estate	Indoor		Historic mansion with a grand foyer staircase, hosting one event at a time with its own in-house catering.	events@mansiononbroadway.com	914-949-6900	https://mansiononbroadway.com
+`,
+  },
+  {
+    name: "Chicago and the western suburbs",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Galleria Marchetti	Chicago	Illinois			Garden / Outdoor	Indoor & Outdoor	375	Italian-inspired venue with a courtyard, a tented Pavilion ballroom seating 375 and the glass-roofed La Pergola for 150.	info@galleriamarchetti.com	312-563-0495	https://www.galleriamarchetti.com
+Morgan's on Fulton	Chicago	Illinois			Restaurant / Vineyard	Indoor & Outdoor	200	All-inclusive West Loop venue with in-house catering, its own furniture and a four-season rooftop terrace; up to 200, or 150 seated.	events@morgansonfulton.com		https://www.morgansonfulton.com
+Salvage One	Chicago	Illinois			Barn / Rustic	Indoor & Outdoor	250	Architectural salvage warehouse with a wisteria courtyard for 200-250 and an indoor ceremony space of church pews and chandeliers.	events@salvageone.com	312-733-0098	https://salvageone.com
+Cantigny Park	Wheaton	Illinois			Garden / Outdoor	Indoor & Outdoor		The McCormick estate's gardens and water features, with receptions at Le Jardin, Tribune Hall or Woodside Pavilion.	weddings@cantigny.org	630-260-8145	https://cantigny.org
+`,
+  },
+  {
+    name: "Michigan and Wisconsin",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Grand Hotel	Mackinac Island	Michigan			Ballroom / Hotel	Indoor & Outdoor		Island hotel reached by ferry and horse-drawn carriage, with vows exchanged on what it bills as the world's longest porch.	reservations@grandhotel.com	906-847-3331	https://www.grandhotel.com
+Black Star Farms	Suttons Bay	Michigan			Restaurant / Vineyard	Indoor & Outdoor	175	Leelanau winery estate with an inn, trails and an equestrian centre; seats 175 indoors, more with a tent.	events@blackstarfarms.com	231-944-1258	https://blackstarfarms.com
+Castle Farms	Charlevoix	Michigan			Historic / Estate	Indoor & Outdoor	300	Stone castle with courtyard ceremonies and the chandeliered King's Great Hall over the gardens and Reflection Pond; up to 300.	info@castlefarms.com	(231) 237-0884	https://castlefarms.com
+The Pfister Hotel	Milwaukee	Wisconsin			Ballroom / Hotel	Indoor		Historic downtown hotel with newly renovated ballrooms for weddings large and small.		(414) 273-8222	https://www.thepfisterhotel.com
+Hotel Metro	Milwaukee	Wisconsin			Ballroom / Hotel	Indoor	75	Boutique hotel with a ballroom and attached atrium for ceremonies and receptions up to 75.	info@hotelmetro.com	414-272-1937	https://www.hotelmetro.com
+Lake Lawn Resort	Delavan	Wisconsin			Beach / Waterfront	Indoor & Outdoor		Lakefront resort dating from 1878 near Lake Geneva, with two lakeside ceremony sites and beamed indoor rooms.	contact@lakelawnresort.com	262-728-7950	https://www.lakelawnresort.com
+`,
+  },
 ];
