@@ -1121,4 +1121,38 @@ Harbor View Hotel	Edgartown	Massachusetts			Ballroom / Hotel	Indoor & Outdoor		M
 White Elephant	Nantucket	Massachusetts			Beach / Waterfront	Indoor & Outdoor	300	Hotel on Nantucket Harbor with ceremonies on the Harborview Lawn; the whole property can be booked for weddings up to 300.	inquiries@whiteelephantnantucket.com	800-445-6574	https://www.whiteelephantnantucket.com
 `,
   },
+  {
+    name: "Vermont",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Woodstock Inn & Resort	Woodstock	Vermont			Ballroom / Hotel	Indoor & Outdoor	225	Village resort shaped by Laurance Rockefeller, with ceremony and reception spaces for 2 to 225 guests.		800-448-7900	https://www.woodstockinn.com
+Trapp Family Lodge	Stowe	Vermont			Ballroom / Hotel	Indoor & Outdoor	250	Resort on 2,600 acres above Stowe with a lawn ceremony site, a seasonal tent for 100-250 and the fireplace Mozart Room for about 80 in winter.		800-826-7000	https://www.vontrappresort.com
+Hildene	Manchester	Vermont			Historic / Estate	Indoor & Outdoor		The Lincoln family's 412-acre estate, with a Georgian Revival mansion, a sprawling lawn and a formal garden from 1908.	celebrations@hildene.org	(802) 227-7443	https://hildene.org
+Basin Harbor	Vergennes	Vermont			Beach / Waterfront	Indoor & Outdoor	300	Lake Champlain resort with tented weddings for 300 or more on the waterfront or airstrip, and inn rooms, cottages and houses for guests.	stay@basinharbor.com	802-475-2311	https://www.basinharbor.com
+Riverside Farm	Pittsfield	Vermont	43.77248	-72.81315	Barn / Rustic	Indoor & Outdoor	500	Three restored barns with cottages, cabins and stables on more than 700 acres, hosting up to 500.	events@riversidefarm.com	802-746-8822	https://riversidefarmweddings.com
+The Essex Resort & Spa	Essex	Vermont	44.50705	-73.07891	Ballroom / Hotel	Indoor & Outdoor	240	Resort outside Burlington with indoor rooms and outdoor spaces for elopements up to weekend-long weddings; the largest room seats about 240.		802-878-1100	https://www.essexresort.com
+Sugarbush Resort	Warren	Vermont	44.14508	-72.87839	Ballroom / Hotel	Indoor & Outdoor		Mad River Valley ski resort with mountaintop ceremonies, reception venues and its own lodging for guests.			https://www.sugarbush.com/weddings/home
+Jay Peak Resort	Jay	Vermont	44.93275	-72.49381	Barn / Rustic	Indoor & Outdoor	250	Mountain resort near the Canadian border with a post-and-beam Clubhouse Barn seating 180, a pond arbor and a summit reached by tram; receptions for 50 to 250.	weddings@jaypeakresort.com	802-327-2181	https://jaypeakresort.com
+`,
+  },
+  {
+    name: "New Hampshire",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Mountain View Grand	Whitefield	New Hampshire			Ballroom / Hotel	Indoor & Outdoor		White Mountains resort dating from 1865 on 1,700 acres, with the domed Crystal Ballroom and a Presidential Ballroom.	info@mountainviewgrand.com	603-837-0032	https://www.mountainviewgrand.com
+Wentworth by the Sea	New Castle	New Hampshire	43.06335	-70.7266	Ballroom / Hotel	Indoor & Outdoor		Grand seaside hotel outside Portsmouth, with garden ceremonies, two ballrooms and poolside lobster bakes for the wedding weekend.		603-422-7322	https://www.opalcollection.com/wentworth/
+Castle in the Clouds	Moultonborough	New Hampshire	43.7172	-71.31365	Historic / Estate	Indoor & Outdoor		1914 Arts and Crafts mansion high above Lake Winnipesaukee, with a Carriage House terrace and room for a tented reception.		(603) 476-5900	https://www.castleintheclouds.org
+Pickering House Inn	Wolfeboro	New Hampshire			Barn / Rustic	Indoor & Outdoor		Ten-room inn in downtown Wolfeboro with a restored 1800s barn and patios, a stroll from the Winnipesaukee waterfront.	stay@pickeringhousewolfeboro.com	603-569-6948	https://www.pickeringhousewolfeboro.com
+Mill Falls at the Lake	Meredith	New Hampshire			Beach / Waterfront	Indoor & Outdoor		Lakeside resort with the Church Landing waterfront on Meredith Bay, the Winnipesaukee Ballroom and a rooftop terrace at Chase House.		844-745-2931	https://www.millfalls.com
+Flag Hill Distillery & Winery	Lee	New Hampshire	43.08328	-71.02789	Restaurant / Vineyard	Indoor & Outdoor	300	Vineyard and distillery with vine-side ceremonies, a tent for up to 300, a post-and-beam barn for cooler months and in-house catering.	events@flaghill.com	(603) 659-2949	https://www.flaghill.com
+`,
+  },
+  {
+    name: "Maine",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Black Point Inn	Scarborough	Maine	43.53429	-70.31686	Beach / Waterfront	Indoor & Outdoor	70	Inn on Prouts Neck with ocean on three sides; ceremonies on the West Lawn and Point weddings for 40-70 guests.	events@blackpointinn.com	(207) 883-2500	https://www.blackpointinn.com
+Inn by the Sea	Cape Elizabeth	Maine	43.56775	-70.22798	Beach / Waterfront	Indoor & Outdoor	175	Inn a boardwalk away from Crescent Beach, with a lawn and gardens and a sailcloth tent seating 175.		207-799-3134	https://innbythesea.com
+Harraseeket Inn	Freeport	Maine			Ballroom / Hotel	Indoor	175	Freeport inn with courtyard ceremonies, the Casco Bay Ballroom for up to 175 and 94 rooms for guests.			https://www.harraseeketinn.com
+Cliff House Maine	Cape Neddick	Maine			Beach / Waterfront	Indoor & Outdoor		Clifftop resort between Ogunquit and York with the North Point Lawn for ceremonies and an oceanview Atlantic Ballroom.		855-210-6901	https://www.cliffhousemaine.com
+Hidden Pond	Kennebunkport	Maine			Barn / Rustic	Indoor & Outdoor		Birch-forest resort with a ceremony garden, an Event Barn with a wall of windows and full buyouts of its 56 rooms.	info@hiddenpondmaine.com	888-967-9050	https://www.hiddenpondmaine.com
+`,
+  },
 ];
