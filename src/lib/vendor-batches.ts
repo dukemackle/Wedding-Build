@@ -401,4 +401,33 @@ Enloe Entertainment	Music	Houston	Texas	Greater Houston	Wedding DJ and event ent
 AMP Events and Lighting	Music	Houston	Texas	Houston and surrounding areas	Wedding DJ, MC and lighting company.	contact@ampevents.net	713-530-1830	https://www.ampevents.net	https://www.instagram.com/ampevents_htx/
 `,
   },
+  {
+    name: "Houston: hair and makeup, videography, cake, officiants, rentals and bridal",
+    tsv: `Name	Category	City	State	Service area	Description	Email	Phone	Website	Instagram
+Misty Rockwell Artistry Team	Hair & Makeup	Houston	Texas	Greater Houston and beyond	Experienced wedding makeup and hair team.	info@mistyrockwell.com	346-298-3167	https://mistyrockwell.com	https://www.instagram.com/mistyrockwellmakeup/
+Butter Artistry	Hair & Makeup	Houston	Texas	Houston, Austin and San Antonio	On-location wedding makeup and hair team.	cheers@butterartistry.com		https://www.butterartistry.com	https://www.instagram.com/butterartistry/
+Hart My Style	Hair & Makeup	Houston	Texas	Houston, The Woodlands and Sugar Land	On-location airbrush makeup and hair for weddings.		832-244-5386	https://hartmystyle.com	https://www.instagram.com/hartmystyle/
+31 Films	Videography	Houston	Texas	Houston and destination weddings	Wedding and destination wedding films.	hello@31films.com	281-259-1220	https://www.31films.com	https://www.instagram.com/31films/
+EVOKE Photography & Video	Videography	Houston	Texas	Houston, Sugar Land and Spring	Wedding film and photo team with more than 6,000 weddings behind it.	info@evokephoto.com	713-349-9508	https://www.evokephotoandvideo.com	https://www.instagram.com/evokephotoandvideo/
+Quiroz Productions	Videography	Houston	Texas	Houston, The Woodlands and Sugar Land	Cinematic wedding films built around real moments.			https://www.quirozproductions.com	https://www.instagram.com/quirozproductions/
+Bavarian Cakery	Cake	Houston	Texas	Houston and Cypress	Bespoke wedding cakes, made for more than twenty years.		281-469-3116	https://www.bavariancakery.com	https://www.instagram.com/bavariancakeryhouston/
+Le Swan Bakery	Cake	Houston	Texas	Houston	Luxury cake studio in the Energy Corridor making bespoke wedding cakes and cookies.	hello@leswanbakery.com	832-238-5550	https://www.leswanbakery.com	https://www.instagram.com/leswanbakery/
+Pastel Boutique HTX	Cake	Houston	Texas	Houston and Tomball	Custom cake bakery since 2016, making wedding cakes to order.	ideas.pastel@gmail.com	(832) 282-4773	https://pastelboutiquehtx.com	https://www.instagram.com/pastelboutiquehtx/
+Roland's Swiss Pastry & Bakery	Cake	Houston	Texas	Houston	Award-winning Swiss bakery that makes custom wedding cakes.	orders@rolandsswissbakery.com	713-785-4294	https://www.rolandsswissbakery.com	https://www.instagram.com/rolandsswissbakery/
+Sweetland Cakery	Cake	Houston	Texas	Houston	Handcrafted wedding cakes and cookies made to order.	info@sweetlandcakery.com	(281) 609-4050	https://sweetlandcakery.com	https://www.instagram.com/sweetlandcakeryhouston/
+The Village Bakery	Cake	Houston	Texas	Houston	Rice Village bakery making custom wedding cakes and pastries.	info@tvbhouston.com	713-524-5264	https://thevillagebakeryhouston.com	
+Who Made the Cake!	Cake	Houston	Texas	Houston	Award-winning cake studio known for sugar flowers and sculpted cakes.	info@whomadethecake.com	713-522-4787	https://www.whomadethecake.com	https://www.instagram.com/whomadethecakehouston/
+Supreme Kakes	Cake	Houston	Texas	Greater Houston	Custom wedding cakes made with all-natural ingredients.	supremekakes@gmail.com	(281) 496-1000	https://www.supremekakes.com	https://www.instagram.com/supremekakes/
+Houston Pocket Vows	Officiant	Houston	Texas	Greater Houston	Officiants who are former Texas judges, from Heights office signings to full ceremonies; se habla español.	milenabbrandao@gmail.com		https://houstonpocketvows.com	
+Sensational Ceremonies	Officiant	Houston	Texas	Houston metro and the coast	Personalised ceremonies at a location of the couple's choosing.	brian@sensationalceremonies.com		https://sensationalceremonies.com	
+Any Occasion Tents & Events	Rentals	Houston	Texas	Houston	Tents, tables, chairs and linens.	info@anyoccasionhouston.com	713-662-9724	https://www.anyoccasionhouston.com	https://www.instagram.com/anyoccasiontentsevents/
+Big Heart Event Rentals	Rentals	Houston	Texas	Houston	Tables, chairs, arches, chuppahs, farm tables and dance floors.			https://www.bighearteventrentals.com	
+Diamond Events Rentals	Rentals	Cypress	Texas	Houston, Cypress and Katy	Tables, chairs, tents and marquee letters.	info@diamondeventsrentals.com	(346) 426-8286	https://www.diamondeventsrentals.com	https://www.instagram.com/diamonder_llc/
+EB Inc Events	Rentals	Humble	Texas	Houston	Linens, décor and tents for weddings.	info@ebincevents.com	(281) 812-9587	https://www.ebincevents.com	
+Houston Tents & Events	Rentals	Houston	Texas	Houston	Tents, lounge furniture, tables, chairs, linens and lighting.	info@houstontentsevents.com	713-346-2012	https://www.houstontents.com	https://www.instagram.com/houstontentsevents/
+Whittington Bridal	Bridal & Formalwear	Kingwood	Texas	Houston	Wedding dress shop.	contact@whittingtonbridal.com		https://whittingtonbridal.com	https://www.instagram.com/whittingtonbridal/
+La Reve Bridal Couture	Bridal & Formalwear	Pearland	Texas	Houston	Bridal shop south of Houston.	info@larevebridalcouture.com	281-201-8145	https://www.larevebridalcouture.com	https://www.instagram.com/larevebridalcouture/
+Impression Bridal	Bridal & Formalwear	Houston	Texas	Houston	Bridal shop near the Galleria with designer gowns at a range of prices, open since 2011.	galleria@impressionbridalstore.com	(713) 623-4696	https://www.impressionbridalstore.com	https://www.instagram.com/impressionbridalstores/
+`,
+  },
 ];
