@@ -1020,4 +1020,54 @@ The Merion	Cinnaminson	New Jersey	40.00016	-74.99163	Ballroom / Hotel	Indoor & O
 Valenzano Winery	Shamong	New Jersey	39.78489	-74.71726	Restaurant / Vineyard	Indoor & Outdoor		Winery with the Winemaker's Ballroom and an outdoor pavilion, catered by Summit Catering.		(609) 268-6731	https://www.valenzanowine.com
 `,
   },
+  {
+    name: "Hudson Valley",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Mohonk Mountain House	New Paltz	New York			Historic / Estate	Indoor & Outdoor	130	Victorian resort on a glacial lake in the Shawangunks, with garden ceremonies and a Victorian parlour; weddings from 40 to 130 guests.		(845) 256-2053	https://www.mohonk.com/weddings
+Hutton Brickyards	Kingston	New York			Beach / Waterfront	Indoor & Outdoor		Former brickyard on 100 Hudson riverfront acres that supplied the Empire State Building, with riverside ceremonies and on-site lodging.		(845) 514-4853	https://www.huttonbrickyards.com
+Glenmere Mansion	Chester	New York			Historic / Estate	Indoor & Outdoor		Gilded Age estate hotel on 150 acres with 15 rooms and a barn in the meadow for larger receptions; the whole estate can be booked.	information@glenmeremansion.com	845.469.1900	https://www.glenmeremansion.com
+Troutbeck	Amenia	New York			Historic / Estate	Indoor & Outdoor		250-acre estate hotel on the Webutuck River with river cottages for guests.		(845) 789-1555	https://www.troutbeck.com
+Lyndhurst Mansion	Tarrytown	New York			Historic / Estate	Indoor & Outdoor		1838 Gothic Revival mansion and gardens above the Hudson.	lyndhurst@savingplaces.org	914-631-4481	https://www.lyndhurst.org
+Beekman Arms & Delamater Inn	Rhinebeck	New York			Ballroom / Hotel	Indoor		Inn in continuous operation since 1766, with event rooms in the village of Rhinebeck.		(845) 876-7077	https://www.beekmandelamaterinn.com
+Rokeby	Red Hook	New York			Historic / Estate	Outdoor		400-acre Hudson River estate built in 1815 and still owned by the family, with views of the Catskills.			https://www.eventsatrokeby.com
+Wildflower Farms	Gardiner	New York			Garden / Outdoor	Indoor & Outdoor		140-acre resort with meadow and woodland ceremonies facing the Shawangunk Ridge.		855.472.3188	https://auberge.com/wildflower-farms/
+`,
+  },
+  {
+    name: "Long Island and the Hamptons",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+OHEKA Castle	Huntington	New York			Historic / Estate	Indoor & Outdoor		1919 mansion with a grand ballroom and formal gardens; its first bride married there that year.	reservations@oheka.com	631-659-1400	https://www.oheka.com
+Old Westbury Gardens	Old Westbury	New York			Garden / Outdoor	Indoor & Outdoor		Early-1900s country estate with preserved gardens and period rooms, rented for private events.	info@oldwestburygardens.org	(516) 333-0048	https://www.oldwestburygardens.org
+Planting Fields	Oyster Bay	New York			Garden / Outdoor	Indoor & Outdoor		109-acre historic estate with a main house and gardens.	info@plantingfields.org	(516) 922-9210	https://www.plantingfields.org
+Wölffer Estate Vineyard	Sagaponack	New York			Restaurant / Vineyard	Indoor & Outdoor		55-acre Hamptons vineyard with indoor and outdoor event spaces.		631-537-5106	https://www.wolffer.com
+East Wind Long Island	Wading River	New York			Ballroom / Hotel	Indoor & Outdoor		North Fork catering estate on 26 acres with several ballrooms and a vineyard setting.		631.929.6585	https://www.eastwindlongisland.com
+The Vineyards at Aquebogue	Aquebogue	New York			Restaurant / Vineyard	Indoor & Outdoor		North Fork estate with a garden ceremony site, vine-covered patio and ballroom; exclusive use and no site fee.		631-722-3200	https://www.vineyardsataquebogue.com
+Gurney's Montauk	Montauk	New York			Beach / Waterfront	Indoor & Outdoor		Oceanfront resort where every room faces the Atlantic.			https://www.gurneysresorts.com
+Montauk Yacht Club	Montauk	New York			Beach / Waterfront	Indoor & Outdoor		Sixteen-acre marina resort on Star Island with a great lawn, ballroom and 106 rooms.		631.668.3100	https://www.montaukyachtclub.com
+`,
+  },
+  {
+    name: "Brooklyn",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Greenpoint Loft	Brooklyn	New York	40.72875	-73.95916	Historic / Estate	Indoor & Outdoor		Restored pre-war warehouse with a timber-beamed loft and a rooftop facing the Manhattan skyline.		1-718-310-3040	https://www.greenpointloft.com
+26 Bridge	Brooklyn	New York	40.70389	-73.98469	Historic / Estate	Indoor	250	Former DUMBO metal factory with brick walls and skylights; 250 seated.		1-718-310-3040	https://www.26bridge.com
+Wythe Hotel	Brooklyn	New York	40.72208	-73.95778	Ballroom / Hotel	Indoor & Outdoor		Williamsburg hotel in a 1901 factory, with industrial event spaces and rooftop access.	info@wythehotel.com	718-460-8000	https://www.wythehotel.com
+Brooklyn Winery	Brooklyn	New York	40.71722	-73.95513	Restaurant / Vineyard	Indoor	300	Williamsburg urban winery hosting weddings of up to 300, with food and drink included.			https://www.bkwinery.com
+Brooklyn Botanic Garden	Brooklyn	New York	40.66927	-73.9622	Garden / Outdoor	Indoor & Outdoor		Botanic garden offering weddings and ceremony-only packages.			https://www.bbg.org
+`,
+  },
+  {
+    name: "Finger Lakes, Adirondacks and Cooperstown",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Belhurst Castle	Geneva	New York			Historic / Estate	Indoor & Outdoor		Seneca Lake castle and two other hotels, with no venue fee.		(315) 781-0201	https://www.belhurst.com
+Ventosa Vineyards	Geneva	New York			Restaurant / Vineyard	Indoor & Outdoor		Seneca Lake winery with a ceremony pavilion, ballroom and vineyard views.	info@ventosavineyards.com	(315) 719-0000	https://www.ventosavineyards.com
+Glenora Wine Cellars	Dundee	New York			Restaurant / Vineyard	Indoor & Outdoor		The first winery on Seneca Lake, with vineyard ceremonies and guest rooms.		1-800-243-5513	https://www.glenora.com
+Once Finger Lakes	Penn Yan	New York			Restaurant / Vineyard	Indoor & Outdoor	150	Seneca Lake tasting room with a lakeview deck, lawn and a tent for 150.	info@oncefingerlakes.com	(315) 694-7197	https://www.oncefingerlakes.com
+Inns of Aurora	Aurora	New York			Historic / Estate	Indoor & Outdoor	200	Seven restored historic houses on 350 acres by Cayuga Lake, with a lakeside tent for 200.		315.364.8888	https://www.innsofaurora.com
+The Sherwood Inn	Skaneateles	New York			Historic / Estate	Indoor & Outdoor		Inn from 1807 on Skaneateles Lake with indoor and outdoor event spaces.	jcarter@thesherwoodinn.com	315-685-3405	https://sherwoodinns.com
+The Otesaga Resort Hotel	Cooperstown	New York			Ballroom / Hotel	Indoor & Outdoor		Historic resort on Otsego Lake with lakeside ceremony and reception spaces.	OtesagaHotel@Otesaga.com	(607) 544-2550	https://www.otesaga.com
+The Sagamore	Bolton Landing	New York			Ballroom / Hotel	Indoor & Outdoor		Lake George island resort with over 140 years of history and lake and mountain views.		866.384.1944	https://www.opalcollection.com/sagamore/
+Mirror Lake Inn	Lake Placid	New York			Ballroom / Hotel	Indoor & Outdoor		Four-diamond Adirondack inn on Mirror Lake.	info@mirrorlakeinn.com	(518) 523-2544	https://www.mirrorlakeinn.com
+`,
+  },
 ];
