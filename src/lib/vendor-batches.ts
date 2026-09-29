@@ -536,4 +536,33 @@ Waco Balloon Co	Decor & Lighting	Hewitt	Texas	Waco area	Balloon arches, garlands
 Loaded Sound	Decor & Lighting	Waco	Texas	Waco and Central Texas	Event production covering lighting, sound, LED video walls and live streaming.	info@loadedsound.com	254-300-3796	https://www.loadedsound.com	
 `,
   },
+  {
+    name: "Corpus Christi, South Padre and the Rio Grande Valley: photography, planning, catering, florals and music",
+    tsv: `Name	Category	City	State	Service area	Description	Email	Phone	Website	Instagram
+Brooke Carter Photography	Photography	Corpus Christi	Texas	Corpus Christi and beyond	Wedding and portrait photographer for joyful, relaxed couples.	brookecarterphotography@gmail.com		https://brookecarterphotography.com	https://www.instagram.com/brookecarterphoto/
+Padre Ryan Photo + Video	Photography	Corpus Christi	Texas	Corpus Christi and the Coastal Bend	Wedding photography and video from one team, including beach weddings on the islands.		361-945-0082	https://www.padreryanphoto.com	https://www.instagram.com/padreryan/
+Jay Caballero Photography	Photography	McAllen	Texas	McAllen, Mission, Edinburg and the Rio Grande Valley	Artistic, timeless wedding photography across the Valley.		(956) 756-0318	https://www.jaycaballero.com	https://www.instagram.com/jaycaballerophotographer/
+Bee Beautiful Photography	Photography	McAllen	Texas	Rio Grande Valley	Storytelling wedding photography for small to large weddings, edited true to colour.	beebeautifulphoto@gmail.com	(956) 215-7045	https://beebeautifulphoto.com	https://www.instagram.com/beebeautifulstudios/
+Anahi Weddings	Photography	McAllen	Texas	Rio Grande Valley and destination weddings	Fine-art and documentary wedding photography based in McAllen.			https://www.anahiweddings.com	https://www.instagram.com/anahiweddings/
+Jesse Garcia Photography	Photography	McAllen	Texas	McAllen and the Rio Grande Valley	Wedding photography that blends fine-art portraiture with a fashion-editorial look.	jessegarciaphotography@yahoo.com	956-904-7415	https://www.jessegarciaphotography.com	
+Zavala Photography RGV	Photography	McAllen	Texas	Rio Grande Valley	Wedding photography team working across the Valley.			https://zavalaphotographyrgv.com	
+South Texas Photo and Video	Videography	McAllen	Texas	Rio Grande Valley	Wedding films and event coverage from a South Texas videography and photography team.		956-263-9133	https://www.southtexasphotovideo.com	
+Better Together Planning	Planning	Corpus Christi	Texas	Corpus Christi, Port Aransas, Rockport and South Texas	Full-service planning and wedding management, with design and logistics handled end to end.			https://bettertogetherplanning.com	https://www.instagram.com/bettertogetherplanning/
+Port A Beach Weddings	Planning	Port Aransas	Texas	Port Aransas and the Coastal Bend	Beach wedding planning and officiating, with ceremonies and receptions arranged together.	robyn@portabeachweddings.com	361-945-5907	https://www.portabeachweddings.com	https://www.instagram.com/portabeachweddings/
+South Padre Beach Ceremony	Planning	South Padre Island	Texas	South Padre Island	Beach wedding planner who packages officiants, photography, rentals, flowers and cake.	s.p.i.weddings@hotmail.com	956-996-6500	https://www.southpadrebeachceremony.com	https://www.instagram.com/southpadrebeachceremony/
+Kelian Fowler Wedding Planning	Planning	McAllen	Texas	McAllen, Edinburg, Mission, Weslaco, Harlingen and South Padre	Wedding planning for classic, timeless celebrations across South Texas.			https://www.kfweddingplanning.com	https://www.instagram.com/kfweddingplanning/
+Diamond Point Catering	Catering	Corpus Christi	Texas	Corpus Christi and the Coastal Bend	Catering and event production for weddings from 50 to 500 guests.		361-884-1399	https://www.diamondpointcatering.com	https://www.instagram.com/diamondpointcatering/
+Marco & Co. Catering	Catering	Corpus Christi	Texas	Corpus Christi, Port Aransas, Rockport, Kingsville and Victoria	On-site catering for destination weddings and private events around the Coastal Bend.	marcocaters@yahoo.com	(361) 904-0506	https://marcocaters.com	https://www.instagram.com/marcocaters/
+Bernard's Catering Company	Catering	Corpus Christi	Texas	Greater Corpus Christi	Home-style catering serving Corpus Christi since 1998.	bernardscateringcc@gmail.com	361-215-1927	https://www.bernardscateringcc.com	
+CC Turnkey Events	Catering	Corpus Christi	Texas	South Texas	Hospitality group offering custom catering, event planning and design, and equipment rentals.	events@ccturnkey.com		https://www.ccturnkey.com	https://www.instagram.com/ccturnkeyevents/
+City Café & Catering	Catering	McAllen	Texas	McAllen to Brownsville and South Padre Island	Wedding catering from a McAllen café, covering the whole Valley.		(956) 682-8737	https://www.citycafeandcatering.com	https://www.instagram.com/citycafe_and_catering/
+Wild Veggie Bouquet	Florals	Corpus Christi	Texas	Corpus Christi and the Coastal Bend	Floral design studio for luxury wedding flowers and custom installations.		(361) 219-3887	https://wildveggiebouquet.com	https://www.instagram.com/wildveggiebouquet/
+Rose Soiree	Florals	Corpus Christi	Texas	Corpus Christi	Corpus Christi florist doing wedding and event flowers.	rosesoireecc@gmail.com	(361) 334-0050	https://rosesoireecctx.com	https://www.instagram.com/rosesoireecctx/
+Ambiance Flowers & Rentals	Florals	McAllen	Texas	McAllen and the Rio Grande Valley	Wedding florals, decor rentals and planning help from one McAllen studio.	mcallen.ambiance@gmail.com	(956) 731-9370	https://www.ambiancemcallen.com	https://www.instagram.com/ambiance.flowersrentals/
+Oralia Flowers & Gifts	Florals	McAllen	Texas	McAllen	McAllen florist offering wedding consultations and ceremony and reception flowers.		(956) 800-5309	https://www.oraliaflowersandgifts.com	
+Flowers by Selena	Florals	Harlingen	Texas	Harlingen	Harlingen florist doing wedding flowers by consultation.	flowersbyselena@yahoo.com	(956) 412-4110	https://www.flowersbyselenatx.com	
+Five Star Entertainment	Music	Corpus Christi	Texas	Corpus Christi	Wedding DJs, with bands and soloists also available.		361-947-7827	https://www.fivestarent.net	
+RGV DJ	Music	McAllen	Texas	McAllen and the Rio Grande Valley	Wedding and event DJ service based in McAllen.		956-905-8297	https://rgvdj.com	https://www.instagram.com/rgvdj/
+`,
+  },
 ];
