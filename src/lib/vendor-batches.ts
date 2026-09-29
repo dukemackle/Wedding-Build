@@ -326,4 +326,41 @@ Fête Fort Worth	Planning	Fort Worth	Texas	Fort Worth, Texas and beyond	Luxury w
 Integrity Events & Design	Planning	Fort Worth	Texas	Fort Worth	Wedding planners with a modern style.	hey@integrityeventsdesign.com		https://integrityeventsdesign.com	https://www.instagram.com/integrityevents.design/
 `,
   },
+  {
+    name: "Dallas–Fort Worth: hair and makeup, videography, cake, officiants, rentals and bridal",
+    tsv: `Name	Category	City	State	Service area	Description	Email	Phone	Website	Instagram
+Lashes & Lace	Hair & Makeup	Dallas	Texas	Dallas–Fort Worth	On-location wedding hair and makeup team for brides and bridal parties.	lashesandlacemuah@gmail.com	512-757-7045	https://www.lashesandlace.com	https://www.instagram.com/lashesandlacemuah/
+Paige Anderson Makeup and Hair	Hair & Makeup	Dallas	Texas	Dallas–Fort Worth	Makeup and hair artist with over sixteen years' experience, travelling to the venue, hotel or home.	paige@paigeanderson.com	(214) 448-6438	https://www.paigeanderson.com	https://www.instagram.com/paigemakeupartist/
+The Styling Stewardess	Hair & Makeup	Dallas	Texas	Dallas and destination weddings worldwide	Travelling hair and makeup team focused on destination weddings.			https://www.thestylingstewardess.com	https://www.instagram.com/thestylingstewardess/
+The Glam Beauty Lab	Hair & Makeup	Dallas	Texas	Dallas–Fort Worth	Award-winning hair and makeup team known for bold, glamorous looks.			https://theglambeautylab.com	https://www.instagram.com/theglambeautylab/
+Candlelight Films	Videography	Dallas	Texas	Dallas and destination weddings	Husband-and-wife studio making story-driven wedding films.	contact@candlelightfilms.com	214-725-1075	https://candlelightfilms.com	https://www.instagram.com/candlelightfilms/
+Daniel K. Films	Videography	Dallas	Texas	Dallas–Fort Worth and beyond	Award-winning videographer with more than 300 weddings filmed across North Texas.		(972) 439-2924	https://danielkfilms.com	https://www.instagram.com/danielkfilms/
+Knox Park Films	Videography	Dallas	Texas	Texas and destination weddings	Boutique studio documenting weddings across Texas and further afield.	info@knoxparkfilms.com	(469) 569-1480	https://knoxparkfilms.com	https://www.instagram.com/knoxparkfilms/
+When It Clicks	Videography	Dallas	Texas	Texas	Wedding videography team making intentional, unconventional films.			https://whenitclicks.com	https://www.instagram.com/whenitclicks/
+Topher Films	Videography	Dallas	Texas	Dallas and across the US	Dallas wedding film team with crew around the country.			https://www.topherfilms.com	https://www.instagram.com/topher.films/
+The Cinematic Wedding	Videography	Dallas	Texas	Dallas–Fort Worth and worldwide	Wedding films telling each couple's story, at home and abroad.	love@thecinematicwedding.com		https://www.thecinematicwedding.com	https://www.instagram.com/thecinematicwedding/
+Butterfly Cakery	Cake	Plano	Texas	Plano and Dallas	Custom cakes and cupcakes made to order.	info@butterflycakery.com	469-661-8992	https://www.butterflycakery.com	https://www.instagram.com/butterflycakery/
+Cakes'n Pearls	Cake	Roanoke	Texas	Dallas–Fort Worth	Custom wedding and groom's cakes with intricate designs.	cakesnpearls@gmail.com	972-302-7656	https://www.cakesnpearls.com	https://www.instagram.com/cakesnpearls/
+Creme de la Creme Cake Company	Cake	Fort Worth	Texas	Fort Worth	Wedding cake shop in the historic Handley district of east Fort Worth.	info@cremedelacremecakecompany.com	817-492-8888	https://www.cremedelacremecakecompany.com	https://www.instagram.com/cremedelacremecakecompany/
+Delicious Cakes	Cake	Addison	Texas	Dallas	Bakery of more than thirty years making wedding cakes.	order@deliciouscakes.com	(972) 233-2133	https://www.deliciouscakes.com	https://www.instagram.com/deliciouscakesdfw/
+The London Baker	Cake	Lewisville	Texas	Dallas–Fort Worth	Luxury cake shop run by an award-winning wedding cake designer.	thelondonbakertx@gmail.com	972-410-0064	https://www.thelondonbaker.com	https://www.instagram.com/thelondonbaker/
+That's The Cake Bakery	Cake	Arlington	Texas	Dallas–Fort Worth	Specialty bakery and cafe making custom wedding cakes.	hello@thatsthecake.com	(817) 617-2599	https://www.thatsthecake.com	https://www.instagram.com/thatsthecake/
+Uncle Willie's Pies	Cake	Dallas	Texas	Dallas–Fort Worth	Family-owned Southern-style bakeshop since 1996 making custom wedding cakes, by appointment.	hello@unclewilliespies.com	(214) 363-4907	https://www.unclewilliespies.com	
+Sugarbelle Cake Shoppe	Cake	Northlake	Texas	Dallas–Fort Worth	Made-from-scratch custom wedding cake studio.	hello@sugarbellecakeshoppe.com	940-500-0704	https://www.sugarbellecakeshoppe.com	https://www.instagram.com/sugarbelle_cakeshoppe/
+Cake-Aholics Bakery	Cake	Arlington	Texas	Dallas–Fort Worth	Wedding and groom's cakes.	cakeaholicsbakery@gmail.com	817-980-4542	https://www.cake-aholics.com	https://www.instagram.com/cake_aholics_bakery/
+Dallas Wedding Officiants	Officiant	Irving	Texas	Dallas–Fort Worth	Chapel, courthouse-style and on-location ceremonies, including elopements and same-day weddings.	hello@dallasweddingofficiants.com	972-672-1858	https://www.dallasweddingofficiants.com	https://www.instagram.com/dallasweddingofficiants/
+Love Notes Weddings	Officiant	Dallas	Texas	Dallas–Fort Worth	Non-denominational ministers officiating religious and non-religious ceremonies since 1990.	marty@lovenotesweddings.com		https://lovenotesweddings.com	
+The Magic Inside	Officiant	Dallas	Texas	Dallas and beyond	Spiritual officiant writing personalised ceremonies around each couple's beliefs.	themagicinsideofme@gmail.com		https://themagicinside.love	https://www.instagram.com/the.magic.inside.me/
+TLC Event Rentals	Rentals	Dallas	Texas	Dallas–Fort Worth	Tents, tables, chairs and linens for weddings.		(214) 502-8424	https://tlceventrentals.com	https://www.instagram.com/tlceventrentalsdfw/
+ELY Party Rentals	Rentals	Dallas	Texas	Dallas–Fort Worth	Event rentals for private and commercial events.	elyprdfw@yahoo.com	214-235-0707	https://www.elypartyrentals.com	https://www.instagram.com/elyprdfw/
+Dallas Event Rentals	Rentals	Dallas	Texas	Dallas	Tents, tables, chairs, linens and lighting for weddings.		214-484-2489	https://dallas-partyrentals.com	https://www.instagram.com/dallaseventrentals/
+Lone Star Tents & Events	Rentals	Waxahachie	Texas	Waxahachie, Ennis, Dallas and Fort Worth	Tent and party rentals.		(972) 872-8774	https://www.lonestarrents.com	
+A Plus Celebrations	Rentals	Fort Worth	Texas	Fort Worth and surrounding areas	Tents, tables, chairs, linens and décor.	info@apluscelebration.com	817-518-8982	https://apluscelebration.com	https://www.instagram.com/apluscelebration/
+Elegant Creations	Rentals	Fort Worth	Texas	Fort Worth	Linen, chair-cover and uplight rentals.		817-333-4727	http://www.fortworthchaircoverrentals.com	
+Bliss Bridal Salon	Bridal & Formalwear	Fort Worth	Texas	Fort Worth	Bridal salon with private suites and a large selection of gowns.	appointment@blissfw.com	817-332-4696	http://www.blissfw.com	https://www.instagram.com/blissbridal/
+Circle Park Bridal	Bridal & Formalwear	Dallas	Texas	Dallas–Fort Worth	Bridal shop with sample sizes from 8 to 32.	info@circleparkbridal.com		https://www.circleparkbridal.com	https://www.instagram.com/circleparkbridal/
+Elizabeth Scott Bridal	Bridal & Formalwear	Burleson	Texas	Dallas–Fort Worth	Couture and designer gowns with personal styling.	info@elizabethscottbridal.com		https://elizabethscottbridal.com	https://www.instagram.com/elizabethscottbridal/
+Bridal Boutique Lewisville	Bridal & Formalwear	Lewisville	Texas	Dallas–Fort Worth	Family-owned bridal salon, one of the largest in the Dallas area.	info@bridalboutiquelewisville.com		https://www.bridalboutiquelewisville.com	https://www.instagram.com/bblewisville/
+`,
+  },
 ];
