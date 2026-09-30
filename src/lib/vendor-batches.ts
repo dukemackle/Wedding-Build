@@ -651,4 +651,40 @@ El Paso Photobooth Company	Photo Booth	El Paso	Texas	El Paso, Las Cruces and up 
 EP 360 Pics	Photo Booth	El Paso	Texas	El Paso	360-degree photo booth rentals for weddings and other events.		(915) 280-7263	https://ep360pics.com	https://www.instagram.com/ep360pics/
 `,
   },
+  {
+    name: "Lubbock and Amarillo: photography, planning, catering, florals and music",
+    tsv: `Name	Category	City	State	Service area	Description	Email	Phone	Website	Instagram
+Studio J Photography	Photography	Lubbock	Texas	Lubbock and West Texas	Downtown Lubbock studio offering wedding photography with hands-on artistic direction for couples.		(806) 292-5088	https://www.studioj.photo	https://www.instagram.com/studio_j.photo/
+Kristin Bednarz Photography	Photography	Lubbock	Texas	Lubbock and West Texas	Documentary-style wedding photographer who focuses on candid, unposed moments.	kristinbednarz@me.com	(806) 789-2673	https://www.kristinbednarz.com	https://www.instagram.com/kbedz/
+Haley D. Photography	Photography	Lubbock	Texas	Lubbock, West Texas and destinations	Lubbock photographer capturing authentic wedding moments across West Texas, and available to travel.	haleydphoto@gmail.com		https://haleydphoto.com	https://www.instagram.com/haleydphotography/
+MacTaylor Creative	Photography	Lubbock	Texas	West and North Texas	Documentary wedding photography with an editorial eye and a western feel, plus invitation design.			https://macaleetaylor.com	https://www.instagram.com/mactaylorcreative/
+The Savannah Creative	Photography	Lubbock	Texas	Lubbock and West Texas	Lubbock wedding and engagement photographer who focuses on quiet, in-between moments.			http://thesavannahcreative.com	https://www.instagram.com/thesavannahcreative/
+R&R Wedding Co.	Planning	Lubbock	Texas	Lubbock and Texas	Wedding planning and coordination offered as full-service, planning-season support or final-weeks day-of coordination.	hello@rrweddingco.com	(806) 282-4288	https://www.rrweddingco.com	https://www.instagram.com/rrweddingco/
+Sonnet Weddings & Events	Planning	Lubbock	Texas	Lubbock and West Texas	Planner and florist offering foam-free, eco-minded wedding florals with optional coordination or full planning.			https://sonnetwedding.com	https://www.instagram.com/sonnetweddings/
+PJ's Catering from the Heart	Catering	Lubbock	Texas	Lubbock, Tahoka and surrounding areas	Lubbock caterer with over 15 years of experience serving weddings and receptions at venues and private homes.	mtangeley@gmail.com	(806) 438-7995	https://www.cateringfromtheheart.com	https://www.instagram.com/pjs.cateringfromtheheart/
+Honeychild Catering Solutions	Catering	Lubbock	Texas	Lubbock	Full-service caterer for weddings and events, with buffet and dinner-party menus.	honeychildllc@live.com	(806) 747-7100	https://honeychildcatering.com	
+Coleman Catering	Catering	Lubbock	Texas	Lubbock and surrounding areas	Caterer serving small to full-service events with options from drop-off buffets to formal service.	colemancatering@colemancateringlbk.com	(806) 805-2144	https://colemancateringlbk.com	https://www.instagram.com/colemancateringlbk/
+Box of Rain Floral	Florals	Lubbock	Texas	Lubbock	Lubbock florist with a shop on 98th Street that designs wedding flowers alongside daily arrangements.	bethboxofrain@gmail.com	(806) 783-9221	https://boxofrainfloral.net	
+Lavene Joy Floral	Florals	Lubbock	Texas	Lubbock	Local florist offering wedding flowers and delivery across Lubbock.	lavenejoyfloral@gmail.com	(806) 786-1976	https://lavenejoyfloral.com	
+Grayce Floral	Florals	Lubbock	Texas	Lubbock	Luxury florist making bridal bouquets, ceremony flowers, centerpieces and custom installations.		(806) 797-9714	https://www.graycefloral.com	https://www.instagram.com/grayce_floral/
+Executive DJs	Music	Lubbock	Texas	Lubbock	Wedding and event DJ service that tailors music and lighting to each couple.		(806) 773-5185	https://executivedjs.pro	https://www.instagram.com/executivedjs.pro/
+Delta Jamma DJs	Music	Lubbock	Texas	Lubbock and West Texas	Wedding DJs with over 15 years of experience, professional lighting and high-energy sets.	deltajammaparty@gmail.com	(806) 416-9303	https://deltajamma.com	https://www.instagram.com/deltajamma/
+DJ Zapata LBK	Music	Lubbock	Texas	Lubbock and West Texas	DJ for weddings, quinceañeras and school events across Lubbock and West Texas.	DJZapataLBK@gmail.com	(806) 928-6033	https://www.djzapatalbk.com	
+Mariachi Cariño	Music	Lubbock	Texas	Lubbock	Mariachi group performing at Lubbock weddings from ceremony through reception.		(806) 781-6257	https://www.mariachicarino.com	
+Camera Chicks Photography	Photography	Amarillo	Texas	Amarillo and the Texas Panhandle	Amarillo wedding photography business run by a photographer who started shooting as a teenager.	camerachicksphotography@gmail.com	(806) 679-5208	https://www.camerachicksphotography.com	https://www.instagram.com/camerachicksphotography/
+Brit Nicole Photography	Photography	Amarillo	Texas	Amarillo and destinations	Amarillo photographer for weddings, elopements and families who also serves clients worldwide.	brittney@britnicolephotography.com	(806) 681-2011	https://britnicolephotography.com	https://www.instagram.com/britnicolephotography/
+Amarillo's Photos	Photography	Amarillo	Texas	Amarillo and Texas	Wedding and commercial photography studio covering many photo specialties.		(806) 606-0072	https://www.amarillosphotos.com	https://www.instagram.com/amarillosphotos/
+Sacred Heart Weddings	Planning	Canyon	Texas	Amarillo and the Texas Panhandle	Catholic-minded planner offering full, partial and day-of wedding planning and design.	sacredheartweddings@gmail.com	(806) 476-8764	https://www.sacred-heart-weddings.com	https://www.instagram.com/zelieandlace/
+Two Knives Catering	Catering	Amarillo	Texas	Amarillo and the Texas Panhandle	Full-service caterer with over 20 years of experience for weddings and large gatherings.	kristi@twoknivescatering.com	(806) 674-5245	https://twoknivescatering.com	https://www.instagram.com/two.knives.catering/
+The Drunken Oyster	Catering	Amarillo	Texas	Amarillo	Restaurant catering with custom wedding menus featuring seafood, steak and Cajun dishes.		(806) 418-6668	https://drunkenoysteramarillo.com	https://www.instagram.com/thedrunkenoysterama/
+Desperados Catering	Catering	Amarillo	Texas	Amarillo and the Texas Panhandle	Caterer offering BBQ, buffet and china-service options for events from small to very large.		(806) 372-3030	https://www.desperadoscatering.com	
+Joe's Catering	Catering	Amarillo	Texas	Amarillo and the Texas Panhandle	Restaurant-group caterer that helps plan receptions and offers menu tastings and equipment rental.			https://joescateringama.com	
+Fleurish Designs	Florals	Amarillo	Texas	Texas Panhandle and destinations	Wedding florist with over 20 years of experience making bouquets, installations and event flowers.		(806) 584-8149	https://www.fleurishweddings.com	https://www.instagram.com/fleurish_designs_florist/
+What In Carnations	Florals	Amarillo	Texas	Amarillo	Amarillo florist creating custom arrangements and wedding flowers.	hello@whatincarnations.com	(806) 350-7887	https://www.whatincarnations.com	https://www.instagram.com/what_in_carnations/
+Meadow Floral Studio	Florals	Amarillo	Texas	Amarillo and beyond	Studio making natural, fine-art-inspired wedding florals.		(806) 220-7779	https://www.meadowfloralstudio.com	https://www.instagram.com/meadowbymckenzie/
+Scott's Flowers	Florals	Amarillo	Texas	Amarillo	Amarillo florist offering custom wedding packages with bouquets, centerpieces and consultations.		(806) 376-4679	https://scottsflowersamarillo.com	
+Bomb City DJ	Music	Amarillo	Texas	Amarillo and the Texas Panhandle	Amarillo DJ for weddings, quinceañeras, parties and karaoke.		(806) 681-4734	https://bombcitydj.com	https://www.instagram.com/bombcitydj/
+DJ Entertainment Amarillo	Music	Amarillo	Texas	Amarillo	Wedding DJ service run by a DJ with more than 40 years of experience.		(806) 433-5541	https://www.amarilloweddingdj.com	https://www.instagram.com/djentertainmentamarillo/
+`,
+  },
 ];
