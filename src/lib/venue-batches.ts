@@ -1221,4 +1221,16 @@ The Barn at Mount Liberty	Nashville	Indiana			Barn / Rustic	Indoor & Outdoor		Re
 The Old Barn at Brown County	Nashville	Indiana			Barn / Rustic	Indoor & Outdoor		Restored barn in the Brown County hills that hosts one event at a time, with exclusive use from Friday setup through Sunday morning.	OldBarnAtBrownCounty@gmail.com	(812) 720-4079	https://www.theoldbarnatbrowncounty.com
 `,
   },
+  {
+    name: "Des Moines, Omaha and Wichita",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Salisbury House & Gardens	Des Moines	Iowa			Historic / Estate	Indoor & Outdoor		Landmark 1920s mansion inspired by King's House in Salisbury, England, with 16th-century English oak woodwork, offered for weddings.	contactus@salisburyhouse.org	(515) 274-1777	https://www.salisburyhouse.org
+Des Moines Heritage Center	Des Moines	Iowa			Historic / Estate	Indoor & Outdoor		Restored former train depot in the historic East Village with an event center and a historic depot space for weddings.	sarah@desmoinesheritagetrust.org	515.943.0641	https://www.desmoinesheritagecenter.org
+Greater Des Moines Botanical Garden	Des Moines	Iowa			Garden / Outdoor	Indoor & Outdoor		Downtown botanical garden offering ceremonies beneath its glass dome conservatory or among the seasonal outdoor gardens.			https://dmbotanicalgarden.com
+Joslyn Castle & Gardens	Omaha	Nebraska			Historic / Estate	Indoor & Outdoor		Scottish Baronial mansion on 5.5 acres of grounds, rented for weddings and private events.	info@joslyncastle.com	(402) 595-2199	https://www.joslyncastle.com
+The Palazzo Wedding and Event Venue	Omaha	Nebraska			Ballroom / Hotel	Indoor & Outdoor	400	Classic ballroom with high ceilings, chandeliers and gold-and-white decor, plus outdoor green space for ceremonies.	events@omahapalazzo.com	402-933-9186	https://www.omahapalazzo.com
+Kansas Aviation Museum	Wichita	Kansas			Historic / Estate	Indoor		Museum in Wichita's original 1935 municipal airport terminal, rented for private events against a backdrop of aircraft.	info@kansasaviationmuseum.org	(316) 683-9242	https://www.kansasaviationmuseum.org
+The Hudson	Wichita	Kansas			Historic / Estate	Indoor & Outdoor		Industrial-chic downtown event venue in the Commerce Street arts district, with an outdoor patio.		316.600.7930	https://thehudsonict.com
+`,
+  },
 ];
