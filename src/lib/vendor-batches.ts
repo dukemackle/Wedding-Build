@@ -625,4 +625,30 @@ Mariachi Alegre	Music	El Paso	Texas	El Paso and Las Cruces	El Paso mariachi grou
 Mariachi Frontera	Music	El Paso	Texas	El Paso	Mariachi band playing since 1995, from nine-piece ensembles to intimate serenades, for weddings and events.	info@mariachifrontera.com	915-820-6272	https://www.mariachifrontera.com	https://www.instagram.com/mariachifrontera/
 `,
   },
+  {
+    name: "El Paso: hair and makeup, videography, cake, officiants, rentals, bridal and photo booths",
+    tsv: `Name	Category	City	State	Service area	Description	Email	Phone	Website	Instagram
+Eleven Sixteen Beauty Studio	Hair & Makeup	El Paso	Texas	El Paso	Downtown beauty studio with a bridal room, offering wedding hair, makeup and nails plus everyday salon services.		915-307-4025	https://elevensixteenep.com	https://www.instagram.com/elevensixteenep/
+Tousled Beauty Studio	Hair & Makeup	El Paso	Texas	El Paso	Salon offering hair and makeup for brides and bridal parties, with online booking.	info@gettousled.com	(915) 667-0525	https://gettousled.com	
+Elyse Simons Beauty	Hair & Makeup	El Paso	Texas	El Paso and Las Cruces	Freelance makeup artist doing bridal, wedding-party, family and groom makeup, with trials.	elyse@elysesimons.com	610-360-0501	https://www.elysesimons.com	https://www.instagram.com/elysesimonsbeauty/
+Foliage Salon Spa	Hair & Makeup	El Paso	Texas	El Paso and within 20 miles	Salon and day spa with bridal packages covering updo and makeup trials plus wedding-day styling, in the salon or on location.	FoliageSalonSpa@aol.com	915-842-9901	https://foliagesalonspa.com	https://www.instagram.com/foliagesalonspa/
+Ivan Espinosa Films	Videography	El Paso	Texas	El Paso and surrounding areas	Cinematic wedding films by an El Paso videographer who also shoots photography.			https://www.ivanespinosafilms.com	https://www.instagram.com/films_ivan/
+RaVisuals	Videography	El Paso	Texas	El Paso and destination weddings	Photo and video production company with 15-plus years of experience, offering wedding videography and photography.			https://ravisuals.com	
+The Photo Element Photographers and Video	Videography	El Paso	Texas	El Paso and Las Cruces	Wedding and quinceañera video and photography, from highlight reels to full feature films, with hourly and combined packages.		(915) 861-6265	https://thephotoelement.com	
+Eminence Photo and Video	Videography	El Paso	Texas	El Paso and Las Cruces	Wedding photography and videography studio with 15 years of experience that also rents photo and 360 booths.		915-487-7663	https://www.eminencephotoart.com	
+Chantilly Cakes	Cake	El Paso	Texas	El Paso	Women-owned custom cake studio open since 2013, making wedding and celebration cakes by appointment with online ordering for quick pickup.	info@weddingcakeselpaso.com	915-502-4500	https://www.weddingcakeselpaso.com	https://www.instagram.com/chantillyep/
+Manjar Sweets	Cake	El Paso	Texas	El Paso	Small-batch bakery making custom wedding cakes, macarons, cupcakes and alfajores by hand.		(915) 875-0059	https://manjarsweets.com	https://www.instagram.com/manjarsweets/
+Moonlight Wedding Service	Officiant	El Paso	Texas	El Paso	Officiant Ricardo Macias performs non-denominational wedding ceremonies, reserving dates on contract and deposit.		(915) 203-0335	https://www.moonlightweddingservice.com	
+El Paso Nuptials	Officiant	El Paso	Texas	El Paso and southern New Mexico	Mobile ministers offering wedding, vow renewal, same-sex and quinceañera ceremonies in English or Spanish.		(915) 875-1150	https://elpasonuptials.com	https://www.instagram.com/elpasonuptials/
+El Chuco Chapel 915	Officiant	El Paso	Texas	El Paso, Las Cruces and White Sands	Historic Sunset Heights chapel and officiants for intimate weddings and elopements, with same-day service and offsite ceremonies in English or Spanish.	ElChucoChapel915@gmail.com	915-525-5645	https://www.elpasoweddings915.com	https://www.instagram.com/elchucochapel915/
+El Paso Fiesta Tent & Party Rental	Rentals	El Paso	Texas	El Paso	High-peak tents, canopies, tables, chairs, linens and lighting with delivery, setup and teardown for weddings and other events.	hello@epfiesta.com	(915) 268-3997	https://epfiesta.com	https://www.instagram.com/epfiesta/
+Primo Party Rentals	Rentals	El Paso	Texas	El Paso	Locally owned rental company with tables, chairs, tents, dance floors and audio gear for weddings and quinceañeras, with upfront pricing.	info@rentwithprimo.com	(915) 201-0744	https://www.rentwithprimo.com	https://www.instagram.com/rentwithprimo/
+Ella Blu	Bridal & Formalwear	El Paso	Texas	El Paso	West-side bridal boutique with designer and plus-size gowns, mother-of-the-bride dresses and accessories, by appointment.	info@ellablubridal.com	(915) 881-9999	https://www.ellablubridal.com	https://www.instagram.com/ellabluep/
+Bridal Novias Boutique	Bridal & Formalwear	El Paso	Texas	El Paso	Bridal shop for wedding gowns, plus-size dresses, mother-of-the-bride attire and quinceañera dresses, walk-ins welcome.	info@bridalnoviasboutique.com	(915) 775-1910	https://bridalnoviasboutique.com	https://www.instagram.com/bridalnovias/
+Bridal Quince by Elodia	Bridal & Formalwear	El Paso	Texas	El Paso	Boutique for wedding gowns, bridesmaid dresses and quinceañera dresses on Lee Trevino Drive.	info@bridalquincebyelodia.com	(915) 303-5175	https://bridalquincebyelodia.com	https://www.instagram.com/bridalquincebyelodia/
+Funboxx Photo Booths	Photo Booth	El Paso	Texas	El Paso	Photo booth rentals including 360, selfie stations, glam and GIF booths, with many backdrop options.	hello@funboxx.net	915-240-7632	https://www.funboxx.net	https://www.instagram.com/funboxxpb/
+El Paso Photobooth Company	Photo Booth	El Paso	Texas	El Paso, Las Cruces and up to 250 miles	Mirror, selfie and 360 photo booth rentals in business since 2009, with attendants and prints.		(915) 740-4479	https://elpasophotoboothcompany.com	
+EP 360 Pics	Photo Booth	El Paso	Texas	El Paso	360-degree photo booth rentals for weddings and other events.		(915) 280-7263	https://ep360pics.com	https://www.instagram.com/ep360pics/
+`,
+  },
 ];
