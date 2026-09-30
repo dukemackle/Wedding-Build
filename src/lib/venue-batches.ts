@@ -1202,4 +1202,23 @@ Monastery Event Center	Cincinnati	Ohio			Historic / Estate	Indoor & Outdoor		Res
 Rhinegeist Brewery	Cincinnati	Ohio			Restaurant / Vineyard	Indoor & Outdoor	250	Over-the-Rhine brewery with a clubhouse, taproom and rooftop, plus a dedicated coordinator for each event.		513-381-1367	https://www.rhinegeist.com
 `,
   },
+  {
+    name: "Missouri and Indiana",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+The Barnett on Washington	St. Louis	Missouri			Historic / Estate	Indoor & Outdoor	180	Restored 1921 Mission-style building in the Grand Center arts district, listed on the National Register of Historic Places, with on-site catering.		(314) 252-0702	https://barnettonwashington.com
+612North	St. Louis	Missouri			Historic / Estate	Indoor		Event venue with three spaces (VUE, ARC and KOR) in the 1882 Cutlery Building in Laclede's Landing, with in-house catering.	events@612north.com		https://www.612north.com
+Lemp Mansion	St. Louis	Missouri			Historic / Estate	Indoor		Historic Lemp family brewery-baron mansion in south St. Louis that also runs as a restaurant and inn, with wedding and banquet facilities.		314-664-8024	https://www.lempmansion.com
+Piper Palm House	St. Louis	Missouri			Garden / Outdoor	Indoor & Outdoor		Historic greenhouse conservatory in Tower Grove Park that hosts weddings and private events.	info@towergrovepark.org	(314) 771-2679	https://www.towergrovepark.org
+Weston Red Barn Farm	Weston	Missouri			Barn / Rustic	Indoor & Outdoor		Working 19th-century farmstead north of Kansas City with two wedding barns, the Red Barn and the Timber Barn, and more than 20 years of weddings.	info@westonredbarnfarm.com	(816) 386-5437	https://www.westonredbarnfarm.com
+Union Station Kansas City	Kansas City	Missouri			Historic / Estate	Indoor & Outdoor		Historic downtown station with a Grand Hall, Grand Plaza and several other rental spaces for weddings.		(816) 460-2000	https://www.unionstation.org
+Tinker House Events	Indianapolis	Indiana			Historic / Estate	Indoor		1915 landmark building on the Monon Trail with an industrial-loft look of exposed brick and timber beams.			https://www.tinkerhouseevents.com
+Historic Saint Joseph Hall	Indianapolis	Indiana			Historic / Estate	Indoor & Outdoor		Event center run by North Street Events on East North Street, with flexible indoor and outdoor spaces for weddings and parties.	Will@northstevents.com	463-206-2127	http://www.northstevents.com
+Black Iris Estate	Carmel	Indiana			Historic / Estate	Indoor & Outdoor		Thirteen-acre estate near Indianapolis with a Southern-style mansion, gardens and the Willow Chapel, with catering by Thomas Caterers.		463-223-4556	https://www.blackirisestate.com
+Ritz Charles	Carmel	Indiana			Ballroom / Hotel	Indoor & Outdoor		Event company operating since 1985 with a chapel, ballrooms and a garden pavilion for weddings.		(317) 846-9158	https://www.ritzcharles.com
+Embassy Theatre	Fort Wayne	Indiana			Historic / Estate	Indoor		Downtown Fort Wayne theatre that rents its spaces for weddings and social events.	info@fwembassytheatre.org	260.424.6287	https://fwembassytheatre.org
+The Inn at Irwin Gardens	Columbus	Indiana			Historic / Estate	Indoor & Outdoor		Historic bed-and-breakfast on Fifth Street that rents out its grounds and rooms for weddings and private events.		812-376-3663	https://www.irwingardens.com
+The Barn at Mount Liberty	Nashville	Indiana			Barn / Rustic	Indoor & Outdoor		Restored, temperature-controlled barn on 110 acres in Brown County, with a historic cabin and a stables space.	info@mountlibertyfarms.com	(812) 994-0034	https://www.thebarnatmountliberty.com
+The Old Barn at Brown County	Nashville	Indiana			Barn / Rustic	Indoor & Outdoor		Restored barn in the Brown County hills that hosts one event at a time, with exclusive use from Friday setup through Sunday morning.	OldBarnAtBrownCounty@gmail.com	(812) 720-4079	https://www.theoldbarnatbrowncounty.com
+`,
+  },
 ];
