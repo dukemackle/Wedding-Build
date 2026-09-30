@@ -697,4 +697,12 @@ Rex's Party Rentals	Rentals	Lubbock	Texas	Lubbock and surrounding communities	Fa
 Lubbock Event Rentals	Rentals	Lubbock	Texas	West Texas and eastern New Mexico	Event rental company with tents, tables, chairs, linens, lighting, staging and dance floors, plus bar service, with delivery and setup.	info@lubbockeventrentals.com	(806) 641-1740	https://lubbockeventrentals.com	
 `,
   },
+  {
+    name: "Killeen, Harker Heights and Temple: cake and florals",
+    tsv: `Name	Category	City	State	Service area	Description	Email	Phone	Website	Instagram
+Lily's Cakes	Cake	Harker Heights	Texas	Killeen, Temple and Central Texas	Bakery at 360 W Central Texas Expy specialising in custom wedding cakes and designs that are meant to taste as good as they look.	Lily@Lilyscakes.com	(254) 319-3555	https://www.lilyscakes.com	
+Crystal's Bake Shoppe	Cake	Temple	Texas	Temple and Central Texas	Temple custom bakery making cakes, cookies, cupcakes and sweet treats, with a custom quote request for special orders.	crystals_bakeshoppe@yahoo.com		https://www.crystalsbakeshoppe.com	https://www.instagram.com/crystals_bakeshoppe_/
+Christell's Flowers	Florals	Killeen	Texas	Killeen and Central Texas	Killeen florist since 1959 offering wedding flower packages, bridal bouquets, centrepieces and ceremony decor, with one-on-one consultations.			https://christellsflowers.com	https://www.instagram.com/christells_flowers/
+`,
+  },
 ];

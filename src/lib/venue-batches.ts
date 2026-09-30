@@ -1282,4 +1282,15 @@ Stein Eriksen Lodge Deer Valley	Park City	Utah			Ballroom / Hotel	Indoor & Outdo
 Deer Valley Resort	Park City	Utah			Ballroom / Hotel	Indoor & Outdoor	300	Ski resort with on-mountain wedding venues: Empire Canyon Lodge, Silver Lake Lodge and Cushing's Cabin (summer only), plus Orion Meadow for ceremonies.			https://www.deervalley.com/weddings
 `,
   },
+  {
+    name: "Boise, Sun Valley and Bozeman",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Hotel Renegade	Boise	Idaho			Ballroom / Hotel	Indoor		Downtown Boise hotel at 1110 W Grove St with the Overland Ballroom, a rooftop ballroom on the eighth floor with mountain and skyline views.		208.776.1110	https://hotelrenegade.com
+Boise Brewing	Boise	Idaho			Restaurant / Vineyard	Indoor		Community-owned brewery and restaurant at 521 W Broad St that takes private event reservations in its expanded taproom and dining space.	info@boisebrewing.com	(208) 342-7655	https://www.boisebrewing.com
+Sun Valley Resort	Sun Valley	Idaho			Ballroom / Hotel	Indoor & Outdoor		Mountain resort at 1 Sun Valley Rd with eight wedding venues, from the Trail Creek Pavilion and Trail Creek Cabin to River Run Lodge, the Roundhouse and the Limelight Ballroom.	weddings@sunvalley.com	(208) 622-2047	https://www.sunvalley.com/weddings
+Gallatin River Hideaway	Bozeman	Montana			Garden / Outdoor	Outdoor	300	Two outdoor venues along the Gallatin River at 135 Hideaway Dr: the tree-lined Creekside Venue (up to 200) and the Bridal Veil Venue meadow (up to 300), with on-site cabins.	grhideaway@gmail.com	406-209-1199	https://www.gallatinriverhideaway.com
+Heritage Ranch	Bozeman	Montana			Barn / Rustic	Indoor & Outdoor		45-acre ranch about ten minutes from Bozeman with a lodge, a converted-stable luxury barn, a cabin and glamping tents, with views of the Bridger, Spanish Peaks and Tobacco Root ranges.		425-210-1763	https://heritageranchmt.com
+Hardscrabble Ranch	Bozeman	Montana			Barn / Rustic	Indoor & Outdoor	200	78-acre mountain guest ranch outside Bozeman on Brackett Creek with event space for 200-plus and lodging for up to 54 guests on site.			https://www.hardscrabbleranch.com
+`,
+  },
 ];
