@@ -1273,4 +1273,13 @@ Peppermill Resort Spa Casino	Reno	Nevada			Ballroom / Hotel	Indoor		Reno resort 
 Edgewood Tahoe Resort	Stateline	Nevada			Ballroom / Hotel	Indoor & Outdoor		Lakefront resort at Stateline with the North Lawn, the 17th green and the Willow Ballroom with a heated deck; it does not host elopements.		888-881-8659	https://www.edgewoodtahoe.com/weddings
 `,
   },
+  {
+    name: "Salt Lake City and Park City",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+This Is The Place Heritage Park	Salt Lake City	Utah			Historic / Estate	Indoor & Outdoor		Living-history park at 2601 E Sunnyside Ave with a dozen-plus wedding spaces, including Pine Valley Chapel and the Garden Place, against Wasatch Mountain views.	cservice@thisistheplace.org	801-924-7507	https://www.thisistheplace.org/weddings
+Natural History Museum of Utah	Salt Lake City	Utah			Historic / Estate	Indoor & Outdoor	450	Museum at 301 Wakara Way in the foothills above Salt Lake City, with the Canyon, Canyon Terrace and Swaner Forum for receptions.		801-581-6927	https://nhmu.utah.edu/weddings
+Stein Eriksen Lodge Deer Valley	Park City	Utah			Ballroom / Hotel	Indoor & Outdoor		Mountain lodge at 7700 Stein Way with the Stein Ballroom, Olympic Ballroom, Flagstaff Room and the Flagstaff Mountain Deck.		(435) 649-3700	https://www.steinlodge.com/weddings
+Deer Valley Resort	Park City	Utah			Ballroom / Hotel	Indoor & Outdoor	300	Ski resort with on-mountain wedding venues: Empire Canyon Lodge, Silver Lake Lodge and Cushing's Cabin (summer only), plus Orion Meadow for ceremonies.			https://www.deervalley.com/weddings
+`,
+  },
 ];
