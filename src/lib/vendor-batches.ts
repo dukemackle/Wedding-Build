@@ -719,4 +719,14 @@ Bouncing Off the Walls Party Rentals	Rentals	Harker Heights	Texas	Harker Heights
 Dream Events	Rentals	Killeen	Texas	Killeen, Temple, Salado, Waco and Austin	Decor and rental company with linens, dishes, tents, tables, chairs, dance floors and arches, plus wedding planning.		254-307-0680	https://dreameventstx.com/	https://www.instagram.com/dreameventsTX
 `,
   },
+  {
+    name: "Austin: more officiants",
+    tsv: `Name	Category	City	State	Service area	Description	Email	Phone	Website	Instagram
+Christel Stuart - Wedding Officiant	Officiant	Austin	Texas	Austin	Custom, story-driven wedding ceremonies from elopements to large weddings, with a minimal-dialogue option and LGBTQ+ friendly service.		512-623-9754	https://www.reverendchristel.com	https://www.instagram.com/revchristel/
+Ceremonies for Life	Officiant	Austin	Texas	Austin and the Hill Country	Officiant Rev. Benae Colbért performs traditional and LGBTQ+ weddings and vow renewals, with over 21 years of experience.	revbenae@gmail.com	512.461.6336	https://www.ceremoniesforlife.org	https://www.instagram.com/revbenae/
+Officiant Girl	Officiant	Austin	Texas	Austin	Modern minister who helps couples shape personalised ceremonies and vows.	amina@officiantgirl.com		https://www.officiantgirl.com	https://www.instagram.com/officiantgirl/
+I Pronounce You	Officiant	Austin	Texas	Austin, the Hill Country, Dripping Springs, Round Rock, Georgetown, Belton and Waco	Officiant with 30-plus years of experience for wedding and commitment ceremonies and vow renewals, plus a premarital coaching program.		512-658-9744	https://ipronounceyou.today	https://www.instagram.com/ipronounceyou.today/
+Your Modern Ritual	Officiant	Austin	Texas	Austin and the Texas Hill Country	Secular, nondenominational, interfaith and LGBTQ+ wedding ceremonies and vow renewals, plus baby blessings and celebrations of life.			https://www.yourmodernritual.com	
+`,
+  },
 ];
