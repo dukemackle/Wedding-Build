@@ -1185,4 +1185,21 @@ Hotel Metro	Milwaukee	Wisconsin			Ballroom / Hotel	Indoor	75	Boutique hotel with
 Lake Lawn Resort	Delavan	Wisconsin			Beach / Waterfront	Indoor & Outdoor		Lakefront resort dating from 1878 near Lake Geneva, with two lakeside ceremony sites and beamed indoor rooms.	contact@lakelawnresort.com	262-728-7950	https://www.lakelawnresort.com
 `,
   },
+  {
+    name: "Minnesota and Ohio",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Semple Mansion	Minneapolis	Minnesota			Historic / Estate	Indoor		Turn-of-the-century mansion in the Whittier neighborhood, home to a third-floor ballroom billed as the state's largest original residential one.	katherine@semplemansion.com	612-290-4448	https://www.semplemansion.com
+Nicollet Island Pavilion	Minneapolis	Minnesota			Historic / Estate	Indoor & Outdoor	525	Restored 1893 boiler-works hall with exposed brick, riverfront views of the bridges and skyline, and an adjoining tent.		(612) 253-0255	https://www.mintahoe.com/venues/nicollet-island-pavilion/
+Landmark Center	Saint Paul	Minnesota			Historic / Estate	Indoor		Historic downtown Saint Paul federal courthouse building whose glass-roofed Musser Cortile atrium hosts receptions.	hilari@landmarkcenter.org	651-292-3293	https://www.landmarkcenter.org
+Water Street Inn	Stillwater	Minnesota			Ballroom / Hotel	Indoor & Outdoor		Victorian-era riverfront hotel with on-site catering and all-inclusive wedding and micro-wedding packages.	Info@waterstreetinn.us	651-439-6000	https://waterstreetinn.us
+Glensheen	Duluth	Minnesota			Historic / Estate	Indoor & Outdoor	60	Lakeside historic mansion estate on Lake Superior that now focuses on intimate weddings.		(218) 726-8932	https://glensheen.d.umn.edu
+Bluefin Bay Family of Resorts	Tofte	Minnesota			Beach / Waterfront	Indoor & Outdoor	75	North Shore resort offering a lakeside ballroom and beach patio for small weddings on Lake Superior.	info@bluefinbay.com	218-663-7296	https://www.bluefinbay.com
+Cleveland Botanical Garden	Cleveland	Ohio			Garden / Outdoor	Indoor & Outdoor	220	Formal gardens and glasshouse in University Circle with Japanese and Sunken Garden ceremony sites and only one wedding hosted at a time.	hscotese@holdenfg.org	216.707.2846	https://holdenfg.org/cleveland-botanical-garden
+Cleveland History Center	Cleveland	Ohio			Historic / Estate	Indoor & Outdoor		Seven-acre University Circle campus with a courtyard garden, gallery banquet space and a vintage-car rotunda.		(216) 721-5722	https://www.wrhs.org/plan-visit/places-to-visit/cleveland-history-center
+Franklin Park Conservatory and Botanical Gardens	Columbus	Ohio			Garden / Outdoor	Indoor & Outdoor		Columbus botanical garden with a glass Palm House, the Veridian hall and celebration garden, and the Wells Barn.		614-715-8100	https://www.fpconservatory.org
+Columbus Museum of Art	Columbus	Ohio			Historic / Estate	Indoor & Outdoor	200	Downtown art museum offering a pavilion, ceremony court and sculpture garden with a dedicated event manager.		614.715.8532	https://www.columbusmuseum.org
+Monastery Event Center	Cincinnati	Ohio			Historic / Estate	Indoor & Outdoor		Restored 1873 chapel and monastery in Mt. Adams with a guest house, used for weddings and corporate events.			https://monasteryeventcenter.com
+Rhinegeist Brewery	Cincinnati	Ohio			Restaurant / Vineyard	Indoor & Outdoor	250	Over-the-Rhine brewery with a clubhouse, taproom and rooftop, plus a dedicated coordinator for each event.		513-381-1367	https://www.rhinegeist.com
+`,
+  },
 ];

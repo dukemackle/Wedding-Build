@@ -604,4 +604,25 @@ All Valley Limousine	Transportation	McAllen	Texas	Rio Grande Valley	Limousines, 
 RM Luxury Coaches	Transportation	San Juan	Texas	Rio Grande Valley	Locally owned limousine and party bus company for weddings and celebrations.	info@rmluxuryrentals.co	(956) 588-5391	https://rmluxuryrentals.co	https://www.instagram.com/rm_luxury_coaches/
 `,
   },
+  {
+    name: "El Paso: photography, planning, catering, florals and music",
+    tsv: `Name	Category	City	State	Service area	Description	Email	Phone	Website	Instagram
+Veronica Cook Photography	Photography	El Paso	Texas	El Paso, the Southwest and Mexico	Bilingual El Paso wedding and portrait photographer with a warm, classic style who will also travel.			https://veronicacook.com	https://www.instagram.com/veronica.cook.photography/
+Stage Photo Art	Photography	El Paso	Texas		Photography and videography studio that captures weddings and events with an artistic, emotive style.			https://www.stagephotoart.com	https://www.instagram.com/stagephotoart/
+Treadwell Photography	Photography	El Paso	Texas	El Paso and Las Cruces	Wedding, engagement and portrait photographer serving El Paso and Las Cruces, with creative, modern and romantic coverage.	treadwellphotography@yahoo.com	915-731-0394	https://www.chrisindatreadwell.com	https://www.instagram.com/treadwellphotographyllc/
+Photo by Jess	Photography	El Paso	Texas	El Paso, Las Cruces and far west Texas	Emotive, hands-on wedding photographer who guides couples through posing and documents the real moments.			https://www.photobyjess.com	https://www.instagram.com/photobyjess_/
+Three Sisters El Paso Wedding & Event Planners	Planning	El Paso	Texas	El Paso and destination	Boutique planning agency founded in 2016 that handles wedding planning, management and design.		(915) 258-6258	https://www.threesistersep.com	https://www.instagram.com/threesistersep/
+Event Creators	Planning	El Paso	Texas	El Paso and Mexico destinations	El Paso wedding planner who also specializes in luxury destination weddings in Mexico, including multicultural celebrations.			https://www.eventcreators.org	https://www.instagram.com/eventcreators_bymarilualeman/
+Luna Designs LLC	Planning	Las Cruces	New Mexico	Las Cruces, El Paso and New Mexico	Las Cruces wedding planning and coordination company that also travels to Albuquerque, Santa Fe and southern Colorado.	hello@lunadesignsevents.com		https://www.lunadesignsevents.com	https://www.instagram.com/lunadesignsllc/
+Diamond Catering	Catering	El Paso	Texas	El Paso and southern New Mexico	Locally owned full-service caterer offering formal, buffet and sit-down packages for weddings and other events.		(915) 849-1180	https://diamondcateringelpaso.com	https://www.instagram.com/diamondcateringelpaso/
+Las Muñequitas Catering	Catering	El Paso	Texas	El Paso and surrounding areas	Family-run Mexican caterer making dishes from scratch, with taco and fajita bars for weddings and quinceañeras.		(915) 490-5236	https://lasmunequitascatering.com	https://www.instagram.com/las_munequitas_catering/
+The Culinary Studio	Catering	El Paso	Texas	El Paso	Custom caterer with charcuterie boards, a food truck and an on-site event space for small receptions.	info@theculinarystudioep.com	(915) 282-5172	https://theculinarystudioep.com	https://www.instagram.com/culinarystudioep/
+Wine & Blooms El Paso Florist	Florals	El Paso	Texas	El Paso and surrounding communities	Neighbourhood florist that designs custom wedding and event flowers alongside daily arrangements.	wineandblooms@gmail.com	(915) 335-4293	https://wineandbloomsflowershopelpasotx.com	https://www.instagram.com/wineandbloomsflowershop/
+Blossom Flowers and Sweets	Florals	El Paso	Texas	El Paso and surrounding communities	Florist that specializes in wedding flowers and offers consultations for engaged couples.	blossomflowersandsweets@gmail.com	(915) 307-3145	https://blossomflowersandsweets.com	https://www.instagram.com/blossomflowersandsweets/
+Angie's Floral Design & Gifts	Florals	El Paso	Texas	El Paso	Florist offering bridal and attendant bouquets, ceremony and reception flowers, and wedding consultations.		(915) 779-0880	https://www.angiesfloral.com	https://www.instagram.com/angiesfloraldesign/
+NC DJ Productions	Music	El Paso	Texas	El Paso	DJ plus sound, lighting and staging from a team with 20-plus years of event experience.	contact@ncdjproductions.com	915-504-0437	https://ncdjproductions.com	https://www.instagram.com/ncdj_productions/
+Mariachi Alegre	Music	El Paso	Texas	El Paso and Las Cruces	El Paso mariachi group performing since the mid-1990s for weddings, serenades and other celebrations.	mariachialegre@yahoo.com	(915) 204-8050	https://www.mariachialegre.com	https://www.instagram.com/mariachialegre/
+Mariachi Frontera	Music	El Paso	Texas	El Paso	Mariachi band playing since 1995, from nine-piece ensembles to intimate serenades, for weddings and events.	info@mariachifrontera.com	915-820-6272	https://www.mariachifrontera.com	https://www.instagram.com/mariachifrontera/
+`,
+  },
 ];
