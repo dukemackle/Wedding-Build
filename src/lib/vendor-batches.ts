@@ -687,4 +687,14 @@ Bomb City DJ	Music	Amarillo	Texas	Amarillo and the Texas Panhandle	Amarillo DJ f
 DJ Entertainment Amarillo	Music	Amarillo	Texas	Amarillo	Wedding DJ service run by a DJ with more than 40 years of experience.		(806) 433-5541	https://www.amarilloweddingdj.com	https://www.instagram.com/djentertainmentamarillo/
 `,
   },
+  {
+    name: "Lubbock and Amarillo: videography, cake and rentals",
+    tsv: `Name	Category	City	State	Service area	Description	Email	Phone	Website	Instagram
+Nomad Video Productions	Videography	Lubbock	Texas	Lubbock and West Texas	Lubbock videography company making wedding films, from a single shooter with highlight coverage to a two-person cinematic team.		806.790.5469	https://nomadvp.com	
+Belmar Bakery	Cake	Amarillo	Texas	Amarillo and the Texas Panhandle	Family bakery open since 1965 that makes wedding and custom cakes from scratch, with a consultation and tasting.		806-355-0141	https://www.belmarbakery.com	
+The Cake Company of Canyon	Cake	Canyon	Texas	Canyon, Amarillo and the Texas Panhandle	Custom cake bakery since 1999 making wedding cakes, cookies and cupcakes.	cakecompany@sbcglobal.net	806.655.8700	https://www.canyoncakeninjas.com	https://www.instagram.com/canyoncakeninjas/
+Rex's Party Rentals	Rentals	Lubbock	Texas	Lubbock and surrounding communities	Family-owned rental company with tents, tables, chairs, linens, wedding arches, dance floors and sound systems, bookable online.	info@rexspartyrentals.com	806-341-9828	https://www.rexspartyrentals.com	
+Lubbock Event Rentals	Rentals	Lubbock	Texas	West Texas and eastern New Mexico	Event rental company with tents, tables, chairs, linens, lighting, staging and dance floors, plus bar service, with delivery and setup.	info@lubbockeventrentals.com	(806) 641-1740	https://lubbockeventrentals.com	
+`,
+  },
 ];

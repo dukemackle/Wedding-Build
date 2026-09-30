@@ -1250,4 +1250,13 @@ Taharaa Mountain Lodge and Twin Owls Steakhouse	Estes Park	Colorado			Ballroom /
 Betty Ford Alpine Gardens	Vail	Colorado			Garden / Outdoor	Outdoor	50	Nonprofit botanical garden near Vail Village whose open-air Rooftop Terrace looks out to the Gore Range, available for ceremonies, receptions and elopements in summer and early fall.	connect@BettyFordAlpineGardens.org	(970) 476-0103	https://bettyfordalpinegardens.org
 `,
   },
+  {
+    name: "Las Vegas, Reno and Lake Tahoe",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Red Rock Resort	Las Vegas	Nevada			Ballroom / Hotel	Indoor & Outdoor		Casino resort at 11011 W Charleston Blvd with wedding spaces that include terraces with Strip and canyon views, poolside settings and private ballrooms.	RRSales@Stationcasinos.com	702.797.7016	https://redrockresort.com
+Wynn Las Vegas	Las Vegas	Nevada			Ballroom / Hotel	Indoor & Outdoor	120	Resort at 3131 Las Vegas Blvd with the Lilac and Lavender salons, the outdoor Primrose Courtyard and ballrooms for larger groups.		(702) 770-7400	https://www.wynnlasvegas.com/weddings
+Peppermill Resort Spa Casino	Reno	Nevada			Ballroom / Hotel	Indoor		Reno resort at 2707 S Virginia St with wedding chapels and the two-story Skyline Wedding Suite looking out to the Sierra.		775.689.7244	https://www.peppermillreno.com/events/weddings/
+Edgewood Tahoe Resort	Stateline	Nevada			Ballroom / Hotel	Indoor & Outdoor		Lakefront resort at Stateline with the North Lawn, the 17th green and the Willow Ballroom with a heated deck; it does not host elopements.		888-881-8659	https://www.edgewoodtahoe.com/weddings
+`,
+  },
 ];
