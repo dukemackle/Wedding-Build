@@ -667,53 +667,54 @@ body:has(.guest-site) .site-footer {
   .ydid-flow-blue { animation: none; }
 }
 
-/* Brand rings genie: the diamond becomes the Wren bird and back every 6.5s.
+/* Brand rings genie: every 10s the diamond becomes the Wren bird and back
+   (about 7s of still diamond, then ~3s of bird).
    The resting styles hide the bird, so when the one-shot (`.ydid-once`) ends or
    motion is reduced only the diamond is left. */
 .ydid-bird-in,.ydid-wisp,.ydid-spark,.ydid-wing-open{opacity:0}
 .ydid-gem,.ydid-bird-in,.ydid-spark{transform-box:fill-box}
-.ydid-gem{transform-origin:50% 100%;animation:ydid-gem 6.5s ease-in-out infinite}
-.ydid-bird-in{transform-origin:50% 100%;animation:ydid-bird 6.5s ease-in-out infinite}
-.ydid-tail{transform-box:fill-box;transform-origin:100% 100%;animation:ydid-tail 6.5s ease-in-out infinite}
-.ydid-wisp{stroke-dasharray:1;animation:ydid-wisp 6.5s ease-in-out infinite}
-.ydid-spark{transform-origin:50% 50%;animation:ydid-spark 6.5s ease-out infinite}
+.ydid-gem{transform-origin:50% 100%;animation:ydid-gem 10s ease-in-out infinite}
+.ydid-bird-in{transform-origin:50% 100%;animation:ydid-bird 10s ease-in-out infinite}
+.ydid-tail{transform-box:fill-box;transform-origin:100% 100%;animation:ydid-tail 10s ease-in-out infinite}
+.ydid-wisp{stroke-dasharray:1;animation:ydid-wisp 10s ease-in-out infinite}
+.ydid-spark{transform-origin:50% 50%;animation:ydid-spark 10s ease-out infinite}
 @keyframes ydid-gem{
- 0%,52%{transform:none;opacity:1}
- 60%{transform:rotate(200deg) scale(.15,.5) skewX(20deg);opacity:0}
- 90%{transform:scale(0);opacity:0}
- 96%{transform:scale(1.15);opacity:1}
+ 0%,68.8%{transform:none;opacity:1}
+ 74%{transform:rotate(200deg) scale(.15,.5) skewX(20deg);opacity:0}
+ 93.5%{transform:scale(0);opacity:0}
+ 97.4%{transform:scale(1.15);opacity:1}
  100%{transform:none;opacity:1}}
 @keyframes ydid-bird{
- 0%,57%{transform:translateY(0) scale(.05,.3) skewX(-35deg);opacity:0}
- 64%{transform:translateY(-2px) scale(1.12,.92) skewX(6deg);opacity:1}
- 68%{transform:scale(.96,1.05);opacity:1}
- 71%,74%{transform:none;opacity:1}
- 76%{transform:translateY(-3px)}
- 79%,84%{transform:none;opacity:1}
- 91%{transform:translateY(0) scale(.05,.35) skewX(35deg);opacity:0}
+ 0%,72.05%{transform:translateY(0) scale(.05,.3) skewX(-35deg);opacity:0}
+ 76.6%{transform:translateY(-2px) scale(1.12,.92) skewX(6deg);opacity:1}
+ 79.2%{transform:scale(.96,1.05);opacity:1}
+ 81.15%,83.1%{transform:none;opacity:1}
+ 84.4%{transform:translateY(-3px)}
+ 86.35%,89.6%{transform:none;opacity:1}
+ 94.15%{transform:translateY(0) scale(.05,.35) skewX(35deg);opacity:0}
  100%{transform:scale(.05,.3);opacity:0}}
 .ydid-wing-fold,.ydid-wing-open{transform-box:view-box;transform-origin:14.2px 11.6px}
-.ydid-wing-fold{animation:ydid-fold 6.5s linear infinite}.ydid-wing-open{opacity:0;animation:ydid-open 6.5s linear infinite}
-@keyframes ydid-open{0%,62%{opacity:0;transform:scale(.35) rotate(25deg)}62.6%{opacity:0;transform:scale(.35) rotate(25deg)}63.5%{opacity:1;transform:scale(1) rotate(0deg)}64.4%{opacity:0;transform:scale(.35) rotate(25deg)}65.6%{opacity:0;transform:scale(.35) rotate(25deg)}66.5%{opacity:1;transform:scale(1) rotate(0deg)}67.4%{opacity:0;transform:scale(.35) rotate(25deg)}68.6%{opacity:0;transform:scale(.35) rotate(25deg)}69.5%{opacity:1;transform:scale(0.7) rotate(9deg)}70.4%{opacity:0;transform:scale(.35) rotate(25deg)}74.6%{opacity:0;transform:scale(.35) rotate(25deg)}75.5%{opacity:1;transform:scale(1) rotate(0deg)}76.4%{opacity:0;transform:scale(.35) rotate(25deg)}76.6%{opacity:0;transform:scale(.35) rotate(25deg)}77.5%{opacity:1;transform:scale(0.7) rotate(9deg)}78.4%{opacity:0;transform:scale(.35) rotate(25deg)}85.6%{opacity:0;transform:scale(.35) rotate(25deg)}86.5%{opacity:1;transform:scale(1) rotate(0deg)}87.4%{opacity:0;transform:scale(.35) rotate(25deg)}88.6%{opacity:0;transform:scale(.35) rotate(25deg)}89.5%{opacity:1;transform:scale(0.7) rotate(9deg)}90.4%{opacity:0;transform:scale(.35) rotate(25deg)}92%,100%{opacity:0;transform:scale(.35)}}
-@keyframes ydid-fold{0%,62%{opacity:1;transform:none}62.6%{opacity:1;transform:none}63.5%{opacity:0;transform:scaleY(.6)}64.4%{opacity:1;transform:scaleY(1.08)}65.6%{opacity:1;transform:none}66.5%{opacity:0;transform:scaleY(.6)}67.4%{opacity:1;transform:scaleY(1.08)}68.6%{opacity:1;transform:none}69.5%{opacity:0;transform:scaleY(.6)}70.4%{opacity:1;transform:scaleY(1.08)}74.6%{opacity:1;transform:none}75.5%{opacity:0;transform:scaleY(.6)}76.4%{opacity:1;transform:scaleY(1.08)}76.6%{opacity:1;transform:none}77.5%{opacity:0;transform:scaleY(.6)}78.4%{opacity:1;transform:scaleY(1.08)}85.6%{opacity:1;transform:none}86.5%{opacity:0;transform:scaleY(.6)}87.4%{opacity:1;transform:scaleY(1.08)}88.6%{opacity:1;transform:none}89.5%{opacity:0;transform:scaleY(.6)}90.4%{opacity:1;transform:scaleY(1.08)}92%,100%{opacity:1;transform:none}}
-@keyframes ydid-tail{0%,78%{transform:none}80%{transform:rotate(-14deg)}82%{transform:rotate(5deg)}84%,100%{transform:none}}
+.ydid-wing-fold{animation:ydid-fold 10s linear infinite}.ydid-wing-open{opacity:0;animation:ydid-open 10s linear infinite}
+@keyframes ydid-open{0%,75.3%{opacity:0;transform:scale(.35) rotate(25deg)}75.69%{opacity:0;transform:scale(.35) rotate(25deg)}76.28%{opacity:1;transform:scale(1) rotate(0deg)}76.86%{opacity:0;transform:scale(.35) rotate(25deg)}77.64%{opacity:0;transform:scale(.35) rotate(25deg)}78.22%{opacity:1;transform:scale(1) rotate(0deg)}78.81%{opacity:0;transform:scale(.35) rotate(25deg)}79.59%{opacity:0;transform:scale(.35) rotate(25deg)}80.17%{opacity:1;transform:scale(0.7) rotate(9deg)}80.76%{opacity:0;transform:scale(.35) rotate(25deg)}83.49%{opacity:0;transform:scale(.35) rotate(25deg)}84.07%{opacity:1;transform:scale(1) rotate(0deg)}84.66%{opacity:0;transform:scale(.35) rotate(25deg)}84.79%{opacity:0;transform:scale(.35) rotate(25deg)}85.38%{opacity:1;transform:scale(0.7) rotate(9deg)}85.96%{opacity:0;transform:scale(.35) rotate(25deg)}90.64%{opacity:0;transform:scale(.35) rotate(25deg)}91.22%{opacity:1;transform:scale(1) rotate(0deg)}91.81%{opacity:0;transform:scale(.35) rotate(25deg)}92.59%{opacity:0;transform:scale(.35) rotate(25deg)}93.17%{opacity:1;transform:scale(0.7) rotate(9deg)}93.76%{opacity:0;transform:scale(.35) rotate(25deg)}94.8%,100%{opacity:0;transform:scale(.35)}}
+@keyframes ydid-fold{0%,75.3%{opacity:1;transform:none}75.69%{opacity:1;transform:none}76.28%{opacity:0;transform:scaleY(.6)}76.86%{opacity:1;transform:scaleY(1.08)}77.64%{opacity:1;transform:none}78.22%{opacity:0;transform:scaleY(.6)}78.81%{opacity:1;transform:scaleY(1.08)}79.59%{opacity:1;transform:none}80.17%{opacity:0;transform:scaleY(.6)}80.76%{opacity:1;transform:scaleY(1.08)}83.49%{opacity:1;transform:none}84.07%{opacity:0;transform:scaleY(.6)}84.66%{opacity:1;transform:scaleY(1.08)}84.79%{opacity:1;transform:none}85.38%{opacity:0;transform:scaleY(.6)}85.96%{opacity:1;transform:scaleY(1.08)}90.64%{opacity:1;transform:none}91.22%{opacity:0;transform:scaleY(.6)}91.81%{opacity:1;transform:scaleY(1.08)}92.59%{opacity:1;transform:none}93.17%{opacity:0;transform:scaleY(.6)}93.76%{opacity:1;transform:scaleY(1.08)}94.8%,100%{opacity:1;transform:none}}
+@keyframes ydid-tail{0%,85.7%{transform:none}87%{transform:rotate(-14deg)}88.3%{transform:rotate(5deg)}89.6%,100%{transform:none}}
 @keyframes ydid-wisp{
- 0%,53%{stroke-dashoffset:1;opacity:0}
- 55%{opacity:.9}
- 62%{stroke-dashoffset:0;opacity:.8}
- 67%{stroke-dashoffset:-1;opacity:0}
- 84%{stroke-dashoffset:-1;opacity:0}
- 85%{stroke-dashoffset:-1;opacity:.8}
- 91%{stroke-dashoffset:0;opacity:.6}
- 95%,100%{stroke-dashoffset:1;opacity:0}}
+ 0%,69.45%{stroke-dashoffset:1;opacity:0}
+ 70.75%{opacity:.9}
+ 75.3%{stroke-dashoffset:0;opacity:.8}
+ 78.55%{stroke-dashoffset:-1;opacity:0}
+ 89.6%{stroke-dashoffset:-1;opacity:0}
+ 90.25%{stroke-dashoffset:-1;opacity:.8}
+ 94.15%{stroke-dashoffset:0;opacity:.6}
+ 96.75%,100%{stroke-dashoffset:1;opacity:0}}
 @keyframes ydid-spark{
- 0%,60%{transform:scale(.3);opacity:0}
- 62%{opacity:1}
- 70%{transform:scale(1.5);opacity:0}
- 93%{transform:scale(.3);opacity:0}
- 95%{opacity:1}
+ 0%,74%{transform:scale(.3);opacity:0}
+ 75.3%{opacity:1}
+ 80.5%{transform:scale(1.5);opacity:0}
+ 95.45%{transform:scale(.3);opacity:0}
+ 96.75%{opacity:1}
  100%{transform:scale(1.4);opacity:0}}
-.ydid-once :is(.ydid-gem,.ydid-bird-in,.ydid-tail,.ydid-wisp,.ydid-spark,.ydid-wing-fold,.ydid-wing-open){animation-iteration-count:1;animation-delay:-1.9s}
+.ydid-once :is(.ydid-gem,.ydid-bird-in,.ydid-tail,.ydid-wisp,.ydid-spark,.ydid-wing-fold,.ydid-wing-open){animation-iteration-count:1;animation-delay:-5.4s}
 @media (prefers-reduced-motion: reduce){
   :is(.ydid-gem,.ydid-bird-in,.ydid-tail,.ydid-wisp,.ydid-spark,.ydid-wing-fold,.ydid-wing-open){animation:none}
 }

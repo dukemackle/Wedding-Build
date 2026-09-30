@@ -8,7 +8,7 @@
  * shades (`ydid-flow-*` in globals.css); the stop colours here are the still
  * frame shown when motion is reduced.
  *
- * Every 6.5s the diamond turns into the Wren bird and back, like a genie from
+ * Every 10s the diamond turns into the Wren bird and back, like a genie from
  * a lamp. `genie="loop"` keeps doing it (the landing hero); the default
  * "once" plays it a single time after load, so the nav logo on every page
  * doesn't keep pulling the eye while couples work.
