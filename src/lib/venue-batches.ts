@@ -1251,6 +1251,20 @@ Betty Ford Alpine Gardens	Vail	Colorado			Garden / Outdoor	Outdoor	50	Nonprofit 
 `,
   },
   {
+    name: "Phoenix, Scottsdale, Tucson and Sedona",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+The Phoenician	Scottsdale	Arizona			Ballroom / Hotel			Resort at the base of Camelback Mountain, 6000 E Camelback Rd, with multiple wedding venues, dining, a spa and golf.		(480) 941-8200	https://www.thephoenician.com
+Mountain Shadows Resort Scottsdale	Paradise Valley	Arizona			Ballroom / Hotel	Outdoor		Paradise Valley resort with wedding spaces that include the Mountain Shadows Lawn, the Camelback Overlook and a rooftop deck.		855.485.1417	https://www.mountainshadows.com
+Hermosa Inn	Paradise Valley	Arizona			Ballroom / Hotel			Boutique hideaway with 43 casitas, landscaped gardens, Camelback Mountain views and a restaurant, offering weddings and celebrations.		800-241-1210	https://azhideawaycollection.com/hermosa-inn/
+The Boulders Resort & Spa	Carefree	Arizona			Ballroom / Hotel			Waldorf Astoria resort at 34631 N Tom Darlington Dr with unique wedding venues, two golf courses and a large spa.		480-488-9009	https://www.theboulders.com
+Desert Botanical Garden	Phoenix	Arizona			Garden / Outdoor			Phoenix garden with desert landscapes for weddings and private events, with on-site venue planners, approved caterers and free guest parking.		(480) 941-1225	https://www.dbg.org
+Arizona Biltmore	Phoenix	Arizona			Ballroom / Hotel			Frank Lloyd Wright-inspired resort at 2400 E Missouri Ave with indoor and outdoor event spaces and a dedicated wedding planning team.		602-955-6600	https://www.arizonabiltmore.com
+Arizona Inn	Tucson	Arizona			Ballroom / Hotel	Indoor & Outdoor	200	Historic Tucson inn with ceremonies under open skies followed by receptions in elegant interiors, for weddings of 30 to 200 guests.		520-325-1541	https://www.arizonainn.com
+L'Auberge de Sedona	Sedona	Arizona			Ballroom / Hotel			Sedona resort on L'Auberge Lane with creekside cottages, cliffside rooms and a five-bedroom private home, hosting weddings and gatherings.	info@lauberge.com	855-905-5745	https://www.lauberge.com
+Enchantment Resort	Sedona	Arizona			Ballroom / Hotel			Resort in Boynton Canyon with private casitas and suites, hosting weddings and gatherings on site.		(928) 282-2900	https://www.enchantmentresort.com
+`,
+  },
+  {
     name: "Las Vegas, Reno and Lake Tahoe",
     tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
 Red Rock Resort	Las Vegas	Nevada			Ballroom / Hotel	Indoor & Outdoor		Casino resort at 11011 W Charleston Blvd with wedding spaces that include terraces with Strip and canyon views, poolside settings and private ballrooms.	RRSales@Stationcasinos.com	702.797.7016	https://redrockresort.com
