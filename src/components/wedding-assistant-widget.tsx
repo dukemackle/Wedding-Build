@@ -16,6 +16,7 @@ import { useAssistant } from "@/components/assistant-context";
 import { InterviewQuestion } from "@/components/planning-interview";
 import { loadPlanningProfile, savePlanningAnswer } from "@/lib/ai/planning-actions";
 import { PLANNING_QUESTIONS, nextQuestion, type PlanningProfile } from "@/lib/ai/planning-profile";
+import { useHideOnScrollDown } from "@/lib/use-hide-on-scroll";
 
 type Card = Proposal & { status: ProposalStatus };
 
@@ -408,6 +409,7 @@ export function AssistantChat({
 
 export function WeddingAssistantWidget() {
   const { open, setOpen } = useAssistant();
+  const tucked = useHideOnScrollDown();
   const [expanded, setExpanded] = useState(false);
 
   // Expanded is two different things: on a phone the chat takes the whole
@@ -418,7 +420,14 @@ export function WeddingAssistantWidget() {
     : "h-[28rem] w-[22rem] max-w-[calc(100vw-2.5rem)] rounded-lg";
 
   return (
-    <div className="fixed bottom-5 right-5 z-50 flex flex-col items-end gap-3">
+    <div
+      // On a phone the closed button slides off while scrolling down, the way
+      // the nav does -- at 375px it otherwise sits on top of whatever the
+      // page has in its bottom-right corner. Never while the chat is open.
+      className={`fixed bottom-5 right-5 z-50 flex flex-col items-end gap-3 transition-transform duration-300 motion-reduce:transition-none ${
+        tucked && !open ? "translate-y-24 motion-reduce:translate-y-0 sm:translate-y-0" : "translate-y-0"
+      }`}
+    >
       {open && (
         <div className={`flex flex-col overflow-hidden border border-hairline bg-parchment shadow-lg ${panelSize}`}>
           <AssistantChat

@@ -152,8 +152,9 @@ export function SearchShell({
     <div
       ref={rootRef}
       // Breaks out of the page's horizontal padding and eats its bottom
-      // padding, so the map reaches all four edges.
-      className="relative -mx-6 -mb-16 -mt-8 flex flex-col"
+      // padding, so the map reaches all four edges. -mt-4 only cancels the
+      // header's mb-4; any more tucks the filter bar under the header.
+      className="relative -mx-6 -mb-16 -mt-4 flex flex-col"
       style={availableHeight ? { height: availableHeight } : undefined}
     >
       {/* Controls. A floating overlay on a phone, a solid bar on desktop --

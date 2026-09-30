@@ -253,7 +253,12 @@ export function buildFeatures(d: FeatureData): Feature[] {
       media: (
         <Panel>
           <div className="flex items-baseline justify-between gap-2">
-            <Big>{usd(d.budget.total)}</Big>
+            {/* Labelled, because before any quotes are in it's Wren's
+                estimate, and bare it reads as the couple's own budget. */}
+            <span className="flex items-baseline gap-1.5">
+              <Big>{usd(d.budget.total)}</Big>
+              <Small>projected</Small>
+            </span>
             {d.budget.target != null && (
               <span className="hidden sm:inline">
                 <Small>target {usd(d.budget.target)}</Small>

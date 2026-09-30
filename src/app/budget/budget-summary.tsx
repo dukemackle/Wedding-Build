@@ -164,15 +164,15 @@ export function BudgetSummary({
             </p>
 
             {editing || target == null ? (
-              <form action={handleSubmit} className="mt-1 flex items-center gap-2">
+              <form action={handleSubmit} className="mt-1 flex flex-wrap items-center gap-2">
                 <input
                   type="number"
                   name="budget_target"
                   min={0}
                   defaultValue={target ?? ""}
-                  placeholder="Set a budget"
+                  placeholder="Amount"
                   autoFocus={editing}
-                  className="w-32 rounded-md border border-hairline bg-parchment px-2 py-1 font-mono-numbers text-ink outline-none focus:border-forest"
+                  className="w-32 min-w-0 rounded-md border border-hairline bg-parchment px-2 py-1 font-mono-numbers text-ink outline-none focus:border-forest sm:w-full"
                 />
                 <button
                   type="submit"

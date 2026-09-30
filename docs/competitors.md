@@ -75,8 +75,6 @@ some may have shipped since this was written):
   guest), and (b) an owner-chosen send cap plus a visible "this will send N
   segments to M guests" confirmation. Both are the owner's calls, not
   assumptions to make.
-- *Seating chart PDF export* — Zola charges for this. `/itinerary/print` is
-  already a working print-route pattern to copy.
 - *Registry retailer sync* — big integration lift, low strategic value; skip.
 - *Hotel-block concierge* — an operations business, not software; skip.
 
@@ -87,4 +85,6 @@ the approval panel on `/guests`); the gift log and AI thank-you drafting
 (`guests.gift_description` / `thank_you_note`, drafted through
 `src/app/guests/thank-you-actions.ts`); the couple's photo gallery on the
 guest site, and the moderated guest photo wall with a printable table-card QR
-code (`/w/[slug]/share`, `guest_posts`, `/guests/table-card`).
+code (`/w/[slug]/share`, `guest_posts`, `/guests/table-card`); the printable
+seating chart (`/venue-layout/print`, the "Print seating chart" link on Venue
+Layout).

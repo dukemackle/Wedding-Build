@@ -93,7 +93,7 @@ export default async function GuestsPage() {
     .returns<ContactSubmission[]>();
 
   return (
-    <main className="flex flex-1 flex-col items-center px-4 py-10 sm:px-6 sm:py-16">
+    <main className="flex flex-1 flex-col items-center px-6 py-16">
       <AppNav email={user.email ?? ""} />
       <GuestsPageBody
         wedding={wedding}
