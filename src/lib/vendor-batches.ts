@@ -705,4 +705,18 @@ Crystal's Bake Shoppe	Cake	Temple	Texas	Temple and Central Texas	Temple custom b
 Christell's Flowers	Florals	Killeen	Texas	Killeen and Central Texas	Killeen florist since 1959 offering wedding flower packages, bridal bouquets, centrepieces and ceremony decor, with one-on-one consultations.			https://christellsflowers.com	https://www.instagram.com/christells_flowers/
 `,
   },
+  {
+    name: "Killeen, Harker Heights, Temple and Salado: photography, hair and makeup, catering, music and rentals",
+    tsv: `Name	Category	City	State	Service area	Description	Email	Phone	Website	Instagram
+Katja Jones Photography	Photography	Killeen	Texas	Killeen, Fort Cavazos, Harker Heights, Copperas Cove, Belton, Temple and Salado	Killeen portrait photographer who also shoots weddings and elopements, alongside maternity, newborn, family and military homecoming sessions.			https://www.katjajonesphotographyllc.com/	
+Jen Lyon Photography	Photography	Killeen	Texas	Killeen, Fort Hood, Austin and Waco	Killeen portrait photographer with a laid-back, unposed style who photographs weddings and engagements.			https://jenlyonphotography.com/	
+Oakheart Photography	Photography	Salado	Texas	Salado, Killeen, Harker Heights and Central Texas	Salado studio offering wedding photography hourly, with an engagement or bridal session included.			https://www.oakheartphotography.com/	
+My Canvas Portraits	Hair & Makeup	Killeen	Texas	Killeen, Temple, Belton, Harker Heights and Copperas Cove	Killeen studio offering airbrush and bridal makeup artistry, on location or in studio, alongside its photography.	mycanvasportraits@gmail.com	(254) 350-3929	https://www.mycanvasportraits.com/	
+Over the Plate Catering	Catering	Temple	Texas	Temple, Killeen and Central Texas	Temple caterer run from a renovated 1925 home kitchen, serving weddings, corporate luncheons and military events, with cooking classes too.	overtheplatecatering@gmail.com	254-630-3757	https://www.overtheplatecatering.com/	https://www.instagram.com/overtheplateclasses
+Good Times Productions	Music	Temple	Texas	Temple and Central Texas	Wedding DJ service covering ceremony, cocktail hour and reception, with lighting, photobooths and optional live saxophone.	patricktrahan@goodtimesproductions.org	(254) 913-2388	https://www.goodtimesproductions.org	
+Mr. Party Events Rental ATX	Rentals	Killeen	Texas	Killeen, Temple, Harker Heights and Copperas Cove	Family-run rental company with tents, tables, chairs and wedding rental packages.		(737) 781-0686	https://www.mrpartyeventsrentalatx.com/	
+Bouncing Off the Walls Party Rentals	Rentals	Harker Heights	Texas	Harker Heights, Temple and Central Texas	Party rental company with tables, chairs and tents, bookable online, plus bounce houses and concession machines.	bouncingoffthewallsrentals@gmail.com	512-887-8819	https://bouncingoffthewallsrentals.com/	
+Dream Events	Rentals	Killeen	Texas	Killeen, Temple, Salado, Waco and Austin	Decor and rental company with linens, dishes, tents, tables, chairs, dance floors and arches, plus wedding planning.		254-307-0680	https://dreameventstx.com/	https://www.instagram.com/dreameventsTX
+`,
+  },
 ];
