@@ -1233,4 +1233,21 @@ Kansas Aviation Museum	Wichita	Kansas			Historic / Estate	Indoor		Museum in Wich
 The Hudson	Wichita	Kansas			Historic / Estate	Indoor & Outdoor		Industrial-chic downtown event venue in the Commerce Street arts district, with an outdoor patio.		316.600.7930	https://thehudsonict.com
 `,
   },
+  {
+    name: "Denver, Boulder, Colorado Springs and the Colorado mountains",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Mile High Station	Denver	Colorado			Historic / Estate	Indoor & Outdoor		Restored industrial building just west of downtown with exposed brick and steel beams, a patio and in-house sound and TV systems.	mhs@pouringiton.com	(720) 946-7721	https://www.milehighstation.com
+The Oxford Hotel	Denver	Colorado			Ballroom / Hotel	Indoor		Denver's 1891 LoDo hotel with a ballroom and smaller event rooms, catering through its Urban Farmer restaurant, and on-site guest rooms.		(833) 524-0368	https://www.theoxfordhotel.com
+Denver Botanic Gardens	Denver	Colorado			Garden / Outdoor	Indoor & Outdoor		Botanical garden that takes private events and weddings at its York Street site near Cheesman Park and at Chatfield Farms in Littleton.		(720) 865-3500	https://www.botanicgardens.org
+The Colorado Chautauqua	Boulder	Colorado			Historic / Estate	Indoor & Outdoor		National Historic Landmark at the foot of the Flatirons, with historic cottages, lodge spaces, a dining hall and event catering for weddings.		(303) 442-3282	https://www.chautauqua.com
+Boulder Dushanbe Teahouse	Boulder	Colorado			Restaurant / Vineyard	Indoor & Outdoor		Tea house and restaurant on Boulder Creek that books the teahouse, creekside patio and tea garden for weddings and private events.	info@boulderteahouse.com	(303) 442-4993	https://boulderteahouse.com
+Garden of the Gods Resort & Club	Colorado Springs	Colorado			Ballroom / Hotel	Indoor & Outdoor		Mesa-top resort facing Garden of the Gods Park, with event space, terraces and red-rock and Pikes Peak views, plus lodge rooms, cottages and casitas.		(719) 632-5541	https://www.gardenofthegodsresort.com
+The Mining Exchange Hotel	Colorado Springs	Colorado			Ballroom / Hotel	Indoor & Outdoor		Boutique hotel in a 1902 downtown building with two ballrooms, an outdoor terrace and in-house catering for weddings.		(719) 323-2000	https://www.miningexchangehotel.com
+The Broadmoor	Colorado Springs	Colorado			Ballroom / Hotel	Indoor & Outdoor	1000	Historic luxury resort, open since 1918, with chapels, lodges, ballrooms and mountain terraces, plus the Cloud Camp mountaintop setting.		(844) 602-3343	https://www.broadmoor.com
+The Stanley Hotel	Estes Park	Colorado			Historic / Estate	Indoor & Outdoor	1000	Historic mountain hotel with several wedding spaces, including the Long Peak Lawn with Rocky Mountain views and the glass-walled Pavilion beside a private pond.	sales@stanleyhotel.com	(970) 577-4000	https://www.stanleyhotel.com
+Black Canyon Inn	Estes Park	Colorado			Barn / Rustic	Indoor & Outdoor	200	Mountain lodging property with two wedding venues, The Boulders and The Homestead, offering indoor and outdoor ceremony spots plus catering and bar service.		(970) 652-8544	https://www.blackcanyoninn.com
+Taharaa Mountain Lodge and Twin Owls Steakhouse	Estes Park	Colorado			Ballroom / Hotel	Indoor & Outdoor		Small mountain lodge with a steakhouse, set at the foot of Lily Mountain with ceremony sites overlooking the Estes Valley.		(970) 577-0027	https://www.taharaa.com
+Betty Ford Alpine Gardens	Vail	Colorado			Garden / Outdoor	Outdoor	50	Nonprofit botanical garden near Vail Village whose open-air Rooftop Terrace looks out to the Gore Range, available for ceremonies, receptions and elopements in summer and early fall.	connect@BettyFordAlpineGardens.org	(970) 476-0103	https://bettyfordalpinegardens.org
+`,
+  },
 ];
