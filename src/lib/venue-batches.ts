@@ -1293,4 +1293,19 @@ Heritage Ranch	Bozeman	Montana			Barn / Rustic	Indoor & Outdoor		45-acre ranch a
 Hardscrabble Ranch	Bozeman	Montana			Barn / Rustic	Indoor & Outdoor	200	78-acre mountain guest ranch outside Bozeman on Brackett Creek with event space for 200-plus and lodging for up to 54 guests on site.			https://www.hardscrabbleranch.com
 `,
   },
+  {
+    name: "Jackson Hole, Cheyenne, Bend, Hood River and Portland",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Jackson Hole Mountain Resort	Teton Village	Wyoming			Ballroom / Hotel	Indoor & Outdoor	400	Ski resort offering mountain wedding venues including Rendezvous Lodge at 9,095 feet (reached by gondola), Piste Private Dining and Trapper's at Solitude Station with a lawn and outdoor fireplaces.		307-733-2292	https://www.jacksonhole.com/weddings
+Spring Creek Ranch	Jackson	Wyoming			Barn / Rustic	Indoor & Outdoor	300	Ranch resort at 1600 N East Butte Rd with the outdoor Sagebrush Vista (Teton views), the Sagebrush Ballroom, the Sage Overlook stables area and villas for small dinners.		(307) 733-8833	https://www.springcreekranch.com/weddings
+Wyoming Hereford Ranch	Cheyenne	Wyoming			Barn / Rustic	Indoor & Outdoor		Historic working ranch at 1114 Hereford Ranch Rd, established in 1883, offering ranch-style weddings and events.		(307) 634-1905	https://www.wyomingherefordranch.com
+Cheyenne Botanic Gardens	Cheyenne	Wyoming			Garden / Outdoor	Indoor & Outdoor	300	Garden at 710 S Lions Park Dr with ceremony spaces from the Lily Pond and Conservatory to the Peace Garden, the Glade and the Cottonwood Grove, plus Orangerie and Solar Patio receptions.		307.637.6458	https://www.botanic.org/reserve/weddings/
+Historic Governors' Mansion	Cheyenne	Wyoming			Historic / Estate	Indoor & Outdoor	24	State historic site at 300 E 21st St where only the Carriage House (with side lawns) is rentable, for small weddings, showers and parties; the mansion itself is not available.		307-777-7878	https://wyoparks.wyo.gov/index.php/activities-amenities-historic-gov/events-weddings-historic-governors-mansion
+Tetherow	Bend	Oregon			Ballroom / Hotel	Indoor & Outdoor		Golf resort at 61240 Skyline Ranch Rd with the Event Pavilion, the divisible Newberry-Zaal Ballroom and an outdoor ceremony lawn overlooking the Cascades, plus on-site lodging.		(844) 431-9701	https://www.tetherow.com/weddings
+Juniper Preserve	Bend	Oregon			Ballroom / Hotel	Indoor & Outdoor	150	Golf and wellness resort at 65600 Pronghorn Club Dr that hosts one wedding per day, with the Chanterelle Ballroom, Overlook Room, Lava Cave and an island pavilion.	guest.services@juniperpreserve.com	866.320.5024	https://juniperpreserve.com/weddings
+Hood River Hotel	Hood River	Oregon			Ballroom / Hotel	Indoor	120	Downtown hotel at 102 Oak St with a renovated 2,500 sq ft ballroom, the Emerald Room for intimate events and full-hotel buyout packages.	sales@hoodriverhotel.com	(541) 386-1900	https://www.hoodriverhotel.com/weddings
+The Evergreen	Portland	Oregon			Historic / Estate	Indoor	200	Restored 1908 building at 618 SE Alder St, woman-owned since 2016, with one main event space plus the Voysey speakeasy room for up to 65.	info@theevergreenpdx.com	503-476-1811	https://www.theevergreenpdx.com
+Lan Su Chinese Garden	Portland	Oregon			Garden / Outdoor	Indoor & Outdoor	250	Chinese garden at 239 NW Everett St rentable after public hours, with the garden (bridged lake, pavilions) and a two-floor teahouse.		503-228-8131	https://lansugarden.org/private-events/weddings/
+`,
+  },
 ];
