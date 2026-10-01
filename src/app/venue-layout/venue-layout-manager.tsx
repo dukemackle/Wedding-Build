@@ -17,6 +17,7 @@ import {
   assignGuestsTable,
   duplicateSeatingTable,
   renameSeatingTable,
+  splitPlusOne,
   updateTablePosition,
 } from "@/app/seating/actions";
 import { addRoom, deleteRoom } from "./room-actions";
@@ -1163,6 +1164,7 @@ function SelectionPanel({
   item,
   assignedGuests,
   onUnassign,
+  onSplitPlusOne,
   onDeleteTable,
   onDeleteItem,
   onResetTableSize,
@@ -1171,6 +1173,7 @@ function SelectionPanel({
   item: VenueLayoutItem | null;
   assignedGuests: Guest[];
   onUnassign: (guestId: string) => void;
+  onSplitPlusOne: (guestId: string) => void;
   onDeleteTable: (table: SeatingTable) => void;
   onDeleteItem: (item: VenueLayoutItem) => void;
   onResetTableSize: (table: SeatingTable) => void;
@@ -1308,14 +1311,33 @@ function SelectionPanel({
               No guests yet. Drag names here from the guest list, or tick a few and tap this table.
             </p>
           ) : (
-            <div className="mt-2 flex flex-wrap gap-2">
+            // One row per guest rather than chips, so each guest's notes
+            // ("keep away from Tom's table") sit right where seating
+            // decisions are made, and a +1 can be split off to sit elsewhere.
+            <ul className="mt-2 divide-y divide-hairline rounded-md border border-hairline bg-card">
               {assignedGuests.map((guest) => (
-                <span
-                  key={guest.id}
-                  className="flex items-center gap-1.5 rounded-full border border-hairline bg-card px-3 py-1 text-sm text-ink"
-                >
-                  {guest.name}
-                  {guest.plus_one && <span className="text-xs text-ink/50">+1</span>}
+                <li key={guest.id} className="flex items-start gap-2 px-3 py-2">
+                  <div className="min-w-0 flex-1">
+                    <p className="text-sm text-ink">
+                      {guest.name}
+                      {guest.plus_one && (
+                        <span className="text-xs text-ink/50">
+                          {" "}
+                          +1{guest.plus_one_name ? ` ${guest.plus_one_name}` : ""}
+                        </span>
+                      )}
+                    </p>
+                    <GuestNote guest={guest} />
+                    {guest.plus_one && (
+                      <button
+                        type="button"
+                        onClick={() => onSplitPlusOne(guest.id)}
+                        className="mt-0.5 text-xs text-brass hover:underline"
+                      >
+                        Seat {guest.plus_one_name || "their +1"} separately
+                      </button>
+                    )}
+                  </div>
                   <button
                     type="button"
                     onClick={() => onUnassign(guest.id)}
@@ -1324,9 +1346,9 @@ function SelectionPanel({
                   >
                     &times;
                   </button>
-                </span>
+                </li>
               ))}
-            </div>
+            </ul>
           )}
         </div>
       )}
@@ -1543,13 +1565,18 @@ function GuestPanel({
                           className="h-2 w-2 shrink-0 rounded-full"
                           style={{ background: guestSideColor(guest, theme) }}
                         />
-                        <span className="truncate text-sm text-ink">{guest.name}</span>
-                        {guest.plus_one && <span className="text-xs text-ink/50">+1</span>}
-                        {guestStatusHint(guest) && (
-                          <span className="truncate text-xs text-ink/40">
-                            {guestStatusHint(guest)}
+                        <span className="min-w-0">
+                          <span className="flex items-center gap-2">
+                            <span className="truncate text-sm text-ink">{guest.name}</span>
+                            {guest.plus_one && <span className="text-xs text-ink/50">+1</span>}
+                            {guestStatusHint(guest) && (
+                              <span className="truncate text-xs text-ink/40">
+                                {guestStatusHint(guest)}
+                              </span>
+                            )}
                           </span>
-                        )}
+                          <GuestNote guest={guest} />
+                        </span>
                       </button>
                     </div>
                   );
@@ -1564,6 +1591,59 @@ function GuestPanel({
           {peopleLabel(unseatedPeople)} still need a seat
         </p>
       )}
+    </div>
+  );
+}
+
+/**
+ * A guest's private notes from the Guests page, shown wherever they're being
+ * seated -- that's where "mom and dad's new wife can't share a table" has to
+ * be remembered. The seating editor is couple-only, so this never reaches a
+ * guest; the printed cards and the guest site leave notes out.
+ */
+function GuestNote({ guest }: { guest: Guest }) {
+  const note = guest.notes?.trim();
+  if (!note) return null;
+  return (
+    <span className="mt-0.5 block line-clamp-2 text-xs italic text-ink/60" title={note}>
+      {note}
+    </span>
+  );
+}
+
+/** Guests who declined after they'd been seated, so their seats are free again. */
+function DeclinedNotice({
+  guests,
+  tables,
+  onClear,
+}: {
+  guests: Pick<Guest, "id" | "name" | "table_id">[];
+  tables: SeatingTable[];
+  onClear: () => void;
+}) {
+  const tableName = new Map(tables.map((t) => [t.id, t.name]));
+  return (
+    <div className="mb-4 flex flex-col gap-2 rounded-lg border border-brass/40 bg-parchment px-4 py-3 text-sm text-ink sm:flex-row sm:items-center sm:justify-between">
+      <p>
+        <span className="font-medium">
+          {guests.length === 1 ? "1 seated guest has" : `${guests.length} seated guests have`}{" "}
+          since declined:
+        </span>{" "}
+        {guests
+          .map((g) => {
+            const table = g.table_id ? tableName.get(g.table_id) : undefined;
+            return table ? `${g.name} (${table})` : g.name;
+          })
+          .join(", ")}
+        . Their seats are free again.
+      </p>
+      <button
+        type="button"
+        onClick={onClear}
+        className="shrink-0 self-start rounded-full border border-hairline bg-card px-3 py-1 text-sm text-forest transition-colors hover:border-forest sm:self-auto"
+      >
+        Got it, clear them
+      </button>
     </div>
   );
 }
@@ -1754,12 +1834,14 @@ export function VenueLayoutManager({
   items,
   rooms,
   sides,
+  declinedSeated,
 }: {
   tables: SeatingTable[];
   confirmedGuests: Guest[];
   items: VenueLayoutItem[];
   rooms: VenueRoom[];
   sides: Parameters<typeof sideTheme>[0];
+  declinedSeated: Pick<Guest, "id" | "name" | "table_id">[];
 }) {
   const [mode, setMode] = useState<Mode>("whole-venue");
   const [selectedRoomId, setSelectedRoomId] = useState<string | null>(rooms[0]?.id ?? null);
@@ -2014,6 +2096,21 @@ export function VenueLayoutManager({
         <RoomTabs rooms={rooms} selectedRoomId={activeRoomId} onSelect={setSelectedRoomId} />
       )}
 
+      {declinedSeated.length > 0 && (
+        <DeclinedNotice
+          guests={declinedSeated}
+          tables={tables}
+          onClear={() => {
+            const formData = new FormData();
+            for (const g of declinedSeated) formData.append("guest_id", g.id);
+            formData.set("table_id", "");
+            startTransition(async () => {
+              await assignGuestsTable(formData);
+            });
+          }}
+        />
+      )}
+
       {addFormType === "table" && (
         <AddTableForm onDone={() => setAddFormType(null)} roomId={formRoomId} />
       )}
@@ -2069,6 +2166,7 @@ export function VenueLayoutManager({
               item={selectedItem}
               assignedGuests={selectedTable ? (guestsByTable.get(selectedTable.id) ?? []) : []}
               onUnassign={handleUnassign}
+              onSplitPlusOne={(guestId) => send(splitPlusOne, { guest_id: guestId })}
               onDeleteTable={handleDeleteTable}
               onDeleteItem={handleDeleteItem}
               onResetTableSize={(table) =>

@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getOrCreateDefaultRoom } from "@/lib/venue-rooms";
 import { MAX_ITEM_SIZE, MIN_ITEM_SIZE, clamp, duplicatePosition, tableFootprint } from "@/lib/venue-layout-geometry";
-import type { SeatingTable, TableShape, Wedding } from "@/lib/supabase/types";
+import type { Guest, SeatingTable, TableShape, Wedding } from "@/lib/supabase/types";
 
 const VALID_SHAPES: TableShape[] = ["round", "square", "rectangle"];
 
@@ -370,4 +370,59 @@ export async function duplicateSeatingTable(formData: FormData): Promise<{ error
 function copyName(name: string) {
   const match = name.match(/^(.*?)(\d+)$/);
   return match ? `${match[1]}${Number(match[2]) + 1}` : `${name} copy`;
+}
+
+/**
+ * Turns a guest's +1 into a guest of their own, so the two can sit at
+ * different tables -- a couple who split up after RSVPing together, or a
+ * date who'd rather sit with friends. The new guest starts unseated, keeps
+ * the RSVP status, side and type, and leaves the household behind; the
+ * headcount doesn't change, it just moves from one row to two.
+ */
+export async function splitPlusOne(formData: FormData): Promise<{ error?: string }> {
+  const { supabase, user, wedding } = await requireOwnWedding();
+
+  if (!wedding) {
+    return { error: "Set up your wedding on the Dashboard first." };
+  }
+
+  const guestId = formData.get("guest_id") as string;
+  const { data: guest } = await supabase
+    .from("guests")
+    .select("*")
+    .eq("id", guestId)
+    .eq("wedding_id", wedding.id)
+    .maybeSingle<Guest>();
+
+  if (!guest || !guest.plus_one) {
+    return { error: "That guest doesn't have a +1 to split off." };
+  }
+
+  const { error: insertError } = await supabase.from("guests").insert({
+    wedding_id: wedding.id,
+    user_id: user.id,
+    name: guest.plus_one_name?.trim() || `${guest.name}'s guest`,
+    status: guest.status,
+    priority: guest.priority,
+    side: guest.side,
+    guest_type: guest.guest_type,
+  });
+
+  if (insertError) {
+    return { error: insertError.message };
+  }
+
+  const { error } = await supabase
+    .from("guests")
+    .update({ plus_one: false, plus_one_name: null })
+    .eq("id", guest.id)
+    .eq("wedding_id", wedding.id);
+
+  if (error) {
+    return { error: error.message };
+  }
+
+  revalidatePath("/venue-layout");
+  revalidatePath("/guests");
+  return {};
 }
