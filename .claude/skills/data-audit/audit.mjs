@@ -2,7 +2,8 @@
 // Data audit for venues and vendors. See SKILL.md next to this file.
 //
 //   node .claude/skills/data-audit/audit.mjs [--venues venues.csv] [--vendors vendors.csv]
-//        [--out report.md] [--json findings.json] [--no-web] [--stale-days 180]
+//        [--out report.md] [--json findings.json] [--fixes data-audit-fixes.json]
+//        [--no-web] [--stale-days 180]
 //
 // With no CSVs it audits the bundled batches in src/lib/*-batches.ts, which
 // have no photo, price or "last checked" columns, so those checks are skipped.
@@ -94,8 +95,12 @@ const label = (r) => `${r.Name}${r.City ? ` (${r.City}${r.State ? `, ${r.State}`
 const has = (rows, col) => rows.length > 0 && col in rows[0];
 
 const findings = []; // { kind, check, severity, name, detail, origin, website }
-const add = (kind, check, severity, r, detail) =>
+// Rows with a high or medium finding, so the fixes file never marks them checked.
+const flagged = new Set();
+const add = (kind, check, severity, r, detail) => {
   findings.push({ kind, check, severity, name: label(r), detail, origin: r.origin, website: r.Website ?? "" });
+  if (severity === "high" || severity === "medium") flagged.add(r.origin);
+};
 
 // ---------- offline checks ----------
 
@@ -120,6 +125,7 @@ for (const { kind, rows, fromDb } of sets) {
       const sig = list.map((r) => r.origin).sort().join("|");
       if (reported.has(sig)) continue;
       reported.add(sig);
+      if (by !== "phone") list.forEach((r) => flagged.add(r.origin));
       add(kind, by === "phone" ? "shared phone" : "duplicate", by === "phone" ? "low" : "high", list[0], `Same ${by} (${k.split("|")[0]}): ${list.map((r) => `${label(r)} [${r.origin}]`).join("; ")}`);
     }
   }
@@ -187,6 +193,8 @@ function snippet(text, re) {
   return `"…${text.slice(i, m.index + m[0].length + 60).replace(/\s+/g, " ").trim()}…"`;
 }
 
+// Each site's result, shared by every row on that site (sister venues).
+const siteOk = new Map(); // `${kind}|${host}` -> true when it loaded cleanly
 if (!flag("no-web")) {
   const seen = new Set();
   const jobs = [];
@@ -217,7 +225,8 @@ if (!flag("no-web")) {
       const parked = PARKED.find((re) => re.test(res.text));
       if (parked) { add(kind, "site parked", "high", r, `Looks parked/expired: ${snippet(res.text, parked)}`); continue; }
       const closed = CLOSED.find((re) => re.test(res.text));
-      if (closed) add(kind, "maybe closed", "high", r, `Site says ${snippet(res.text, closed)}`);
+      if (closed) { add(kind, "maybe closed", "high", r, `Site says ${snippet(res.text, closed)}`); continue; }
+      if (!to || from === to) siteOk.set(`${kind}|${host(r.Website)}`, true);
     }
   };
   process.stderr.write(`Checking ${jobs.length} websites…\n`);
@@ -248,5 +257,29 @@ for (const kind of ["venue", "vendor"]) {
 
 if (opt("out")) writeFileSync(opt("out"), md);
 else process.stdout.write(md);
+// The file /admin/venues and /admin/vendors apply ("Apply a data audit").
+// `verify` is every row whose site loaded cleanly and that has no high or
+// medium finding. `update` and `hide` start empty: they're filled in by hand
+// once a flagged row is confirmed (SKILL.md step 3). `review` is the list to
+// work through and is ignored by the admin page.
+if (opt("fixes")) {
+  if (flag("no-web")) process.stderr.write("--fixes needs the website checks; nothing marked checked.\n");
+  const ref = (r, fromDb) => (fromDb && r.ID ? { id: r.ID, name: label(r) } : { sourceId: sourceId(r.Website), name: label(r) });
+  const file = { kind: "data-audit-fixes", generatedAt: new Date().toISOString(), source };
+  for (const { kind, rows, fromDb } of sets) {
+    const verify = [];
+    for (const r of rows) {
+      if (!r.Website || flagged.has(r.origin) || (fromDb && r.Live === "no")) continue;
+      if (fromDb ? !r.ID : !sourceId(r.Website)) continue;
+      if (siteOk.get(`${kind}|${host(r.Website)}`)) verify.push(ref(r, fromDb));
+    }
+    const byOrigin = new Map(rows.map((r) => [r.origin, r]));
+    const review = findings
+      .filter((f) => f.kind === kind && f.severity !== "low")
+      .map((f) => ({ ...ref(byOrigin.get(f.origin), fromDb), check: f.check, detail: f.detail }));
+    file[`${kind}s`] = { verify, update: [], hide: [], review };
+  }
+  writeFileSync(opt("fixes"), JSON.stringify(file, null, 2));
+}
 if (opt("json")) writeFileSync(opt("json"), JSON.stringify(findings, null, 2));
 process.stderr.write(`Done: ${findings.length} findings.\n`);

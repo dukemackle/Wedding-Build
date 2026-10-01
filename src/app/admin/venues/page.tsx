@@ -2,6 +2,7 @@ import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import type { Venue, VenueFaq } from "@/lib/supabase/types";
 import Link from "next/link";
 import { countAddedThisWeek, fetchListingPage, fetchTestWeddingIds } from "../_listing/query";
+import { AuditPanel } from "../_listing/audit-panel";
 import { BundledBanner } from "../_listing/bundled-banner";
 import { parseListingParams } from "../_listing/params";
 import { addBundledVenues, pendingBundledVenues } from "./actions";
@@ -82,6 +83,7 @@ export default async function AdminVenuesPage({
         <BundledBanner count={bundled.length} summary={towns} noun="venue" livePath="/venues" add={addBundledVenues} />
       )}
       {claimsNotice}
+      <AuditPanel table="venues" noun="venue" />
     </>
   );
 
