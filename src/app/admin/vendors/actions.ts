@@ -238,8 +238,8 @@ export async function pendingBundledVendors(): Promise<VendorImportValues[]> {
 }
 
 /**
- * Adds the pending bundled vendors from up to TOWNS_PER_CALL towns that need
- * a pin looked up. `remaining` tells the banner to call again.
+ * Adds the pending bundled vendors, as many as one call's pin lookups allow,
+ * then moves listed ones onto their addresses. `remaining` tells the banner to call again.
  */
 export async function addBundledVendors(): Promise<BundledResult> {
   await requireAdmin();

@@ -13,6 +13,8 @@ export type VenueImportValues = {
   name: string;
   state: string | null;
   city: string | null;
+  /** Street line only ("604 Brazos St"); city and state are their own columns. */
+  address: string | null;
   latitude: number | null;
   longitude: number | null;
   venue_type: string | null;
@@ -57,6 +59,9 @@ const FIELD_ALIASES: Record<string, keyof VenueImportValues> = {
   state: "state",
   city: "city",
   town: "city",
+  address: "address",
+  street: "address",
+  streetaddress: "address",
   latitude: "latitude",
   lat: "latitude",
   longitude: "longitude",
@@ -211,6 +216,7 @@ export function parseVenueTable(text: string): VenueImportParse {
       name,
       state: option("state", "State", STATES),
       city: cell("city") || null,
+      address: cell("address") || null,
       latitude,
       longitude,
       venue_type: option("venue_type", "Venue type", VENUE_TYPES),
@@ -239,6 +245,7 @@ export function parseVenueTable(text: string): VenueImportParse {
 /** The heading row to hand someone starting from a blank sheet. */
 export const VENUE_IMPORT_TEMPLATE = [
   "Name",
+  "Address",
   "City",
   "State",
   "Venue type",

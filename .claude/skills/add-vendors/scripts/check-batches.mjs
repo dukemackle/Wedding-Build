@@ -12,7 +12,9 @@ const options = readFileSync("src/lib/wedding-options.ts", "utf8");
 const catBlock = options.match(/PREFERRED_VENDOR_CATEGORIES = \[([\s\S]*?)\]/)[1];
 const categories = [...catBlock.matchAll(/"([^"]+)"/g)].map((m) => m[1]).filter((c) => c !== "Lodging");
 
-const HEADER = "Name\tCategory\tCity\tState\tService area\tDescription\tEmail\tPhone\tWebsite\tInstagram";
+// New batches carry Address after Category; batches from before it don't.
+const HEADER = "Name\tCategory\tAddress\tCity\tState\tService area\tDescription\tEmail\tPhone\tWebsite\tInstagram";
+const OLD_HEADER = HEADER.replace("\tAddress", "");
 const siteKey = (w) =>
   w.toLowerCase().replace(/^https?:\/\//, "").replace(/^www\./, "").replace(/[?#].*$/, "").replace(/\/+$/, "");
 
@@ -26,13 +28,19 @@ const batches = [...src.matchAll(/name: "([^"]+)",\s*tsv: `([\s\S]*?)`/g)];
 for (const [, batchName, tsv] of batches) {
   const area = batchName.split(":")[0].trim();
   const lines = tsv.split("\n").filter((l) => l.trim() !== "");
-  if (lines[0] !== HEADER) problems.push(`${batchName}: header row differs from the standard columns`);
+  const hasAddress = lines[0] === HEADER;
+  if (!hasAddress && lines[0] !== OLD_HEADER) problems.push(`${batchName}: header row differs from the standard columns`);
+  const width = hasAddress ? 11 : 10;
   for (const line of lines.slice(1)) {
     const cols = line.split("\t");
-    const [name, category, city, state, , description, email, , website, instagram] = cols;
+    const [name, category, address, city, state, , description, email, , website, instagram] = hasAddress
+      ? cols
+      : [cols[0], cols[1], undefined, ...cols.slice(2)];
     const where = `${batchName} → ${name || "(no name)"}`;
-    if (cols.length > 12) problems.push(`${where}: ${cols.length} columns (a stray tab?)`);
-    if (cols.length < 10 && cols.length !== 12) problems.push(`${where}: only ${cols.length} columns (should be 10)`);
+    if (cols.length > width + 2) problems.push(`${where}: ${cols.length} columns (a stray tab?)`);
+    if (cols.length < width) problems.push(`${where}: only ${cols.length} columns (should be ${width})`);
+    if (address && /\b(p\.?\s*o\.?\s*box|post office box)\b/i.test(address)) problems.push(`${where}: Address is a PO Box`);
+    if (address && /\b\d{5}\s*$/.test(address)) problems.push(`${where}: Address includes the ZIP -- street line only`);
     if (!name) problems.push(`${where}: no name`);
     if (!categories.includes(category)) problems.push(`${where}: category "${category}" isn't one we list`);
     if (!city || !state) warnings.push(`${where}: missing city or state`);

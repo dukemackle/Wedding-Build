@@ -3,11 +3,12 @@
 // one for sources and what was left out). /admin/vendors offers to add any
 // rows not yet in the database: add a batch here, merge, and click "Add them".
 //
-// Columns: Name, Category (one of VENDOR_LISTING_CATEGORIES), City, State,
-// Service area, Description, Email, Phone, Website, Instagram. Latitude and
-// Longitude can be added but needn't be: vendors are pinned near their town's
-// centre. Write descriptions in our own words, never copy reviews, and leave
-// out a vendor with no working site. Aim for 40-60 vendors per PR.
+// Columns: Name, Category (one of VENDOR_LISTING_CATEGORIES), Address, City,
+// State, Service area, Description, Email, Phone, Website, Instagram. Address
+// is the street line of a studio or shop, geocoded on import; vendors who work
+// from home leave it blank and are pinned near their town's centre. Write
+// descriptions in our own words, never copy reviews, and leave out a vendor
+// with no working site. Aim for 40-60 vendors per PR.
 
 export type VendorBatch = { name: string; tsv: string };
 

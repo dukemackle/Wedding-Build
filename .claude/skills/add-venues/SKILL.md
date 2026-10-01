@@ -35,15 +35,25 @@ Start a new batch with this heading row (tab-separated, the same table the
 admin import panel accepts):
 
 ```
-Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
 ```
 
-- **City / State**: the town the venue is actually in, not the nearest big
-  city; State spelled out ("North Carolina", "District of Columbia"). City
-  is required: venues without a pin are placed at their town's centre.
-- **Latitude / Longitude**: optional. Fill them only when the site or its
-  map embed gives them; don't spend research time on them. Both or neither,
-  five decimal places, longitude negative.
+- **Address**: required research, because it's what puts the venue in the
+  right place on the map. The street line only ("12300 Huber Rd"), where
+  the wedding happens, from the venue's own contact/directions page or
+  footer, else its Google listing. No town, state or ZIP (those are their
+  own columns), never a PO Box or a separate booking office, never guessed.
+  The import geocodes it and pins the venue there; a venue with no address
+  sits at its town's centre, which on a map of a metro is simply wrong. If
+  you truly can't find one, leave it blank and list the venue in the PR body.
+- **City / State**: the town in the venue's postal address, so the address
+  lookup matches (a Driftwood venue with a Dripping Springs address is
+  Dripping Springs); State spelled out ("North Carolina", "District of
+  Columbia").
+- **Latitude / Longitude**: optional fallback for when the address doesn't
+  geocode (rural ranch roads sometimes don't). Fill them only from the
+  site's own map embed, never estimated. Both or neither, five decimal
+  places, longitude negative.
 - **Venue type**: exactly one of `Barn / Rustic`, `Ballroom / Hotel`,
   `Garden / Outdoor`, `Beach / Waterfront`, `Historic / Estate`,
   `Restaurant / Vineyard`. **Setting**: `Indoor`, `Outdoor` or
@@ -80,8 +90,9 @@ This runs every batch through the real importer and fails on anything
 outside their state (or swapped), and missing City/State/Website. Fix every
 ERROR. Warnings (no Setting, a capacity under 20 or over 1000) aren't
 blockers, but re-check each one against the site and say in the PR body if
-it's right. The last line reports what share of all venues carry a capacity,
-price tier and pin -- quote it in the PR body so coverage can be tracked.
+it's right. Every venue in your batch should have an address (a "no Address" warning
+on one of yours needs a reason in the PR body). The last line reports what
+share of all venues carry a capacity, price tier, street address and pin -- quote it in the PR body so coverage can be tracked.
 
 Then `npm run lint` if node_modules is installed.
 

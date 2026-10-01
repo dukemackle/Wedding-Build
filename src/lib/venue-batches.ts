@@ -3,9 +3,10 @@
 // add any rows not yet in the database, so a new batch needs no pasting: add
 // it here, merge, and click "Add them".
 //
-// Each is the same tab-separated table the import panel accepts. Latitude and
-// Longitude can be left blank: the import pins those venues to their town's
-// centre, so don't spend research time on coordinates. Aim for 40-60 venues
+// Each is the same tab-separated table the import panel accepts. Give every
+// venue an Address (street line only): the import geocodes it and pins the
+// venue there. Without one it sits at its town's centre. Latitude and
+// Longitude are only a fallback for addresses that don't geocode. Aim for 40-60 venues
 // across several regions per PR -- each PR costs a build and a merge
 // whatever its size.
 
