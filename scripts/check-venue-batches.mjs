@@ -103,6 +103,7 @@ let total = 0;
 let withCapacity = 0;
 let withTier = 0;
 let withPin = 0;
+let withAddress = 0;
 
 for (const batch of VENUE_BATCHES) {
   const parsed = parseVenueTable(batch.tsv);
@@ -114,6 +115,14 @@ for (const batch of VENUE_BATCHES) {
   }
   if (parsed.unknownColumns.length) {
     errors.push(`${batch.name}: unrecognised columns ${parsed.unknownColumns.join(", ")} -- they'd be dropped`);
+  }
+
+  // The address is what puts a venue on the map where it actually is; without
+  // the column every row falls back to its town's centre. A warning, not an
+  // error, until the batches from before the column have theirs filled in.
+  const hasAddressColumn = batch.tsv.trim().split("\n")[0].split("\t").some((h) => h.trim().toLowerCase() === "address");
+  if (!hasAddressColumn) {
+    warnings.push(`${batch.name}: no Address column -- every venue would sit at its town's centre`);
   }
 
   // A row with more cells than headings has a stray tab in it, which shifts
@@ -135,6 +144,18 @@ for (const batch of VENUE_BATCHES) {
     if (!v.city) errors.push(`${where(row)}: no City -- it can't be pinned or filtered`);
     if (!v.state) errors.push(`${where(row)}: no State`);
     if (!v.website) errors.push(`${where(row)}: no Website -- it can't be de-duplicated and will import again`);
+    if (v.address) {
+      withAddress++;
+      if (/\b(p\.?\s*o\.?\s*box|post office box)\b/i.test(v.address)) {
+        errors.push(`${where(row)}: Address "${v.address}" is a PO Box -- use where the venue actually is`);
+      } else if (!/\d/.test(v.address)) {
+        warnings.push(`${where(row)}: Address "${v.address}" has no street number -- check it's a street address`);
+      } else if (/\b\d{5}\b\s*$/.test(v.address) || (v.city && v.address.toLowerCase().includes(`, ${v.city.toLowerCase()}`))) {
+        errors.push(`${where(row)}: Address "${v.address}" includes the town or ZIP -- street line only, City and State are their own columns`);
+      }
+    } else if (hasAddressColumn) {
+      warnings.push(`${where(row)}: no Address -- it will sit at its town's centre, not where it is`);
+    }
     if (!v.venue_type) warnings.push(`${where(row)}: no Venue type, so it drops out of the type filter`);
     if (!v.setting) warnings.push(`${where(row)}: no Setting`);
 
@@ -179,7 +200,7 @@ for (const e of errors) console.log(`ERROR  ${e}`);
 const pct = (n) => `${total ? Math.round((n / total) * 100) : 0}%`;
 console.log(
   `\n${VENUE_BATCHES.length} batches, ${total} venues. Capacity on ${pct(withCapacity)}, ` +
-    `price tier on ${pct(withTier)}, pinned on ${pct(withPin)}. ` +
+    `price tier on ${pct(withTier)}, street address on ${pct(withAddress)}, typed pin on ${pct(withPin)}. ` +
     `${errors.length} errors, ${warnings.length} warnings.`,
 );
 process.exit(errors.length ? 1 : 0);

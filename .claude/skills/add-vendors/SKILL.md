@@ -46,7 +46,7 @@ than be padded with weak listings.
 Tab-separated, one vendor per line, header exactly:
 
 ```
-Name	Category	City	State	Service area	Description	Email	Phone	Website	Instagram
+Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
 ```
 
 - **Category:** must be one of `VENDOR_LISTING_CATEGORIES` in
@@ -64,7 +64,14 @@ Name	Category	City	State	Service area	Description	Email	Phone	Website	Instagram
   an email, and leave it blank rather than use a contact form URL.
   Instagram must be a full `https://www.instagram.com/handle/` URL.
 - **Website:** `https://`, homepage unless a wedding-specific page is better.
-- Leave out Latitude/Longitude; vendors get pinned to their town's centre.
+- **Address:** the street line only ("604 Brazos St, Suite 200"), of a studio,
+  shop, showroom, bakery or office the vendor publishes on their own site or
+  Google listing. The import looks it up and pins the vendor there. Many
+  photographers, planners and DJs work from home and publish none: leave it
+  blank and they're placed near their town's centre. Never a PO Box, never a
+  home address found elsewhere, never guessed. If the address's postal town
+  differs from City, use the postal town as City so the lookup matches.
+- Leave out Latitude/Longitude; the address is what places a vendor.
 
 Add the rows as **one new entry at the end of `VENDOR_BATCHES`**. Name it
 `"<Area>: <categories>"`, using exactly the same area prefix as that metro's

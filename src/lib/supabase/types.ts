@@ -345,6 +345,8 @@ export type Vendor = {
   region: string | null;
   state: string | null;
   city: string | null;
+  /** Street line of a studio or shop; null for home-based vendors. */
+  address: string | null;
   latitude: number | null;
   longitude: number | null;
   price_tier: string | null;

@@ -303,8 +303,8 @@ export async function pendingBundledVenues(): Promise<VenueImportValues[]> {
 }
 
 /**
- * Adds the pending bundled venues from up to TOWNS_PER_CALL towns that need a
- * pin looked up. `remaining` tells the banner to call again.
+ * Adds the pending bundled venues, as many as one call's pin lookups allow,
+ * then moves listed ones onto their addresses. `remaining` tells the banner to call again.
  */
 export async function addBundledVenues(): Promise<BundledResult> {
   await requireAdmin();

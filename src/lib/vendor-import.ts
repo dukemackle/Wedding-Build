@@ -13,6 +13,8 @@ export type VendorImportValues = {
   category: string;
   state: string | null;
   city: string | null;
+  /** Street line of a studio or shop couples can visit; blank for home-based vendors. */
+  address: string | null;
   service_area: string | null;
   latitude: number | null;
   longitude: number | null;
@@ -46,6 +48,9 @@ const FIELD_ALIASES: Record<string, keyof VendorImportValues> = {
   state: "state",
   city: "city",
   town: "city",
+  address: "address",
+  street: "address",
+  streetaddress: "address",
   servicearea: "service_area",
   serves: "service_area",
   latitude: "latitude",
@@ -119,6 +124,7 @@ export function parseVendorTable(text: string): VendorImportParse {
       category: category ?? "",
       state,
       city: cell("city") || null,
+      address: cell("address") || null,
       service_area: cell("service_area") || null,
       latitude: coordinate(cell("latitude"), "Latitude", 90, errors),
       longitude: coordinate(cell("longitude"), "Longitude", 180, errors),

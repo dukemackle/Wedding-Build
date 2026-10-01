@@ -9,7 +9,7 @@ import { addBundledVendorRows, addBundledVenueRows } from "@/lib/bundled-import"
 //   curl -X POST https://wrenwed.com/api/import-batches \
 //     -H "Authorization: Bearer $BATCH_IMPORT_SECRET"
 //
-// Like the button, each call adds a few towns' worth (Cloudflare caps the pin
+// Like the button, each call adds or re-pins a few listings (Cloudflare caps the pin
 // lookups one request can make), so call again until `done` is true.
 
 /** Constant-time compare, so the secret can't be guessed a character at a time. */

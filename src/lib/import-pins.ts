@@ -1,22 +1,33 @@
 import "server-only";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
-import { pinForTown } from "@/lib/listing-pin";
+import { geocode, pinForTown } from "@/lib/listing-pin";
 
 // Town pins for imported listings, shared by the venue and vendor batches.
 
-export type Unpinned = { city: string | null; state: string | null; latitude: number | null; longitude: number | null };
+export type Unpinned = {
+  city: string | null;
+  state: string | null;
+  address: string | null;
+  latitude: number | null;
+  longitude: number | null;
+};
 type Pin = { latitude: number; longitude: number };
 
 export const isPinned = (row: Unpinned) => row.latitude != null && row.longitude != null;
 export const townKey = (row: Unpinned) => `${row.city ?? ""}|${row.state ?? ""}`.toLowerCase();
 
 /**
- * How many towns one "Add them" click looks up. Cloudflare allows a Worker 50
- * outbound requests per invocation, and each town can take four (two Census
- * layers, then two table lookups) -- 42 towns in one go blew the limit. The
- * banner calls again until everything is in.
+ * Outbound lookups one "Add them" call may spend. Cloudflare allows a Worker
+ * 50 outbound requests per invocation and Supabase reads and writes count
+ * too -- 42 towns in one go blew the limit. The banner (and the batch
+ * routine) calls again until everything is in.
  */
-export const TOWNS_PER_CALL = 6;
+export const LOOKUPS_PER_CALL = 36;
+/** A town pin can take four requests: two Census layers, then two table lookups. */
+export const TOWN_COST = 4;
+
+/** The one-line address the Census geocoder is given. */
+export const fullAddress = (row: Unpinned) => [row.address, row.city, row.state].filter(Boolean).join(", ");
 
 /**
  * Nudges a town-centre pin up to ~3km in a direction picked from `seed`.
@@ -36,22 +47,28 @@ export function spreadPin(pin: Pin, seed: string): Pin {
 }
 
 /**
- * Fills blank coordinates with the town's pin, looking each town up once. A
- * listing without coordinates is missing from the map entirely, and finding
- * them by hand was the slowest part of researching a batch. `spread` gives
- * each row its own point near the centre (see spreadPin), keyed on `seedOf`.
+ * Where each row goes on the map, best source first:
+ *   1. its street address, geocoded -- the only pin that is the actual place;
+ *   2. coordinates typed into the batch, when the address didn't match;
+ *   3. its town's centre (nudged per row with `seedOf`, see spreadPin), so a
+ *      listing with neither is at least in the right town.
+ * Each address and each town is looked up once.
  */
-export async function withTownPins<T extends Unpinned>(
-  rows: T[],
-  seedOf?: (row: T) => string,
-): Promise<T[]> {
-  const pins = new Map<string, Promise<Pin | null>>();
+export async function withPins<T extends Unpinned>(rows: T[], seedOf?: (row: T) => string): Promise<T[]> {
+  const towns = new Map<string, Promise<Pin | null>>();
+  const townPinFor = (row: T) => {
+    const key = townKey(row);
+    if (!towns.has(key)) towns.set(key, pinForTown(row.city, row.state));
+    return towns.get(key)!;
+  };
   return Promise.all(
     rows.map(async (row) => {
+      if (row.address) {
+        const hit = await geocode(fullAddress(row));
+        if (hit) return { ...row, ...hit };
+      }
       if (isPinned(row)) return row;
-      const key = townKey(row);
-      if (!pins.has(key)) pins.set(key, pinForTown(row.city, row.state));
-      const pin = await pins.get(key);
+      const pin = await townPinFor(row);
       if (!pin) return row;
       return { ...row, ...(seedOf ? spreadPin(pin, seedOf(row)) : pin) };
     }),
@@ -59,9 +76,82 @@ export async function withTownPins<T extends Unpinned>(
 }
 
 /**
+ * Lookups `row` could cost, given the towns already counted: one for its
+ * address, plus a town pin if it might fall back to one.
+ */
+export function lookupCost(row: Unpinned, countedTowns: Set<string>): number {
+  let cost = row.address ? 1 : 0;
+  if (!isPinned(row) && !countedTowns.has(townKey(row))) {
+    countedTowns.add(townKey(row));
+    cost += TOWN_COST;
+  }
+  return cost;
+}
+
+/** As many of `rows` as fit in `budget` lookups, in order, and what they cost. */
+export function withinBudget<T extends Unpinned>(rows: T[], budget: number): { batch: T[]; spent: number } {
+  const counted = new Set<string>();
+  const batch: T[] = [];
+  let spent = 0;
+  for (const row of rows) {
+    const trial = new Set(counted);
+    const cost = lookupCost(row, trial);
+    if (spent + cost > budget) break;
+    spent += cost;
+    for (const key of trial) counted.add(key);
+    batch.push(row);
+  }
+  return { batch, spent };
+}
+
+/**
+ * Listings already in the database that were added before their batch row
+ * had an address: geocodes the address and moves the pin there. Matched on
+ * the website key; only rows whose address is still blank, so an address a
+ * business entered itself (a claimed listing) is never overwritten. A row
+ * whose address doesn't geocode still gets the address saved, so it isn't
+ * retried every call, and the batch's typed coordinates if it has them.
+ * Each row is two requests (lookup, update). Returns how many are left, or
+ * the first database error, so a failing update can't loop the caller forever.
+ */
+export async function pinFromAddresses<T extends Unpinned & { source_id: string }>(
+  table: "venues" | "vendors",
+  rows: T[],
+  budget: number,
+): Promise<{ remaining: number; spent: number; error?: string }> {
+  const withAddress = rows.filter((row) => row.address);
+  if (withAddress.length === 0) return { remaining: 0, spent: 0 };
+  const admin = createAdminSupabaseClient();
+  const { data, error } = await admin
+    .from(table)
+    .select("id, source_id")
+    .is("address", null)
+    .in("source_id", withAddress.map((row) => row.source_id))
+    .returns<{ id: string; source_id: string }[]>();
+  // 42703: vendors.address (migration 0092) isn't applied yet. Skip rather than fail the import.
+  if (error) return error.code === "42703" ? { remaining: 0, spent: 0 } : { remaining: 0, spent: 0, error: error.message };
+  const idOf = new Map((data ?? []).map((row) => [row.source_id, row.id]));
+  const todo = withAddress.filter((row) => idOf.has(row.source_id));
+  const now = todo.slice(0, Math.max(0, Math.floor(budget / 2)));
+  const errors = await Promise.all(
+    now.map(async (row) => {
+      const hit = await geocode(fullAddress(row));
+      const pin = hit ?? (isPinned(row) ? { latitude: row.latitude, longitude: row.longitude } : {});
+      const { error } = await admin
+        .from(table)
+        .update({ address: row.address, city: row.city, ...pin })
+        .eq("id", idOf.get(row.source_id)!);
+      return error?.message;
+    }),
+  );
+  const failed = errors.find(Boolean);
+  const spent = now.length * 2;
+  return failed ? { remaining: 0, spent, error: failed } : { remaining: todo.length - now.length, spent };
+}
+/**
  * Gives listings already in the database a town pin if they were added
  * without one, up to `maxTowns` towns. Venues share one update per town;
- * vendors (`spread`) get one each, keyed on their name like withTownPins.
+ * vendors (`spread`) get one each, keyed on their name like withPins.
  */
 export async function pinUnpinned(table: "venues" | "vendors", maxTowns: number, spread = false): Promise<void> {
   if (maxTowns <= 0) return;
