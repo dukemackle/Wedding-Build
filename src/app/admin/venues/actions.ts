@@ -4,9 +4,13 @@ import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/admin";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import { createClient } from "@/lib/supabase/server";
-import { VENUE_BATCHES } from "@/lib/venue-batches";
-import { isPinned, pinUnpinned, townKey, TOWNS_PER_CALL, withTownPins } from "@/lib/import-pins";
-import { importSourceId, parseVenueTable, type VenueImportValues } from "@/lib/venue-import";
+import {
+  addBundledVenueRows,
+  insertImportedVenues,
+  pendingBundledVenueRows,
+  type BundledResult,
+} from "@/lib/bundled-import";
+import { parseVenueTable, type VenueImportValues } from "@/lib/venue-import";
 
 const MAX_IMPORT_ROWS = 200;
 
@@ -292,87 +296,17 @@ export async function bulkDeleteVenues(formData: FormData): Promise<{ error?: st
   return {};
 }
 
-// Shared by the paste import and the bundled batches, so both stamp the same
-// provenance on what they insert.
-async function insertImportedVenues(rows: VenueImportValues[]): Promise<string | null> {
-  const admin = createAdminSupabaseClient();
-  const pinned = await withTownPins(rows);
-  const { error } = await admin.from("venues").insert(
-    pinned.map((values) => ({
-      ...values,
-      // Imports are how real venues get in. Sample data is seeded elsewhere,
-      // so defaulting this to false keeps /admin/venues honest about which
-      // listings are real -- the distinction the Phase 1 triggers rely on.
-      is_sample: false,
-      // Recorded now because it can't be recovered later: which rows were
-      // pasted in rather than entered or claimed, and from which site. Left
-      // unverified until someone actually checks the listing.
-      source: "import",
-      source_id: importSourceId(values.website),
-    })),
-  );
-
-  if (!error) return null;
-  if (error.code === "23505") {
-    return "One of these venues is already imported (same website) — nothing was imported.";
-  }
-  return error.message;
-}
-
 /** Bundled batch rows whose website isn't in the database yet. */
 export async function pendingBundledVenues(): Promise<VenueImportValues[]> {
   await requireAdmin();
-
-  const rows = VENUE_BATCHES.flatMap((batch) => parseVenueTable(batch.tsv).rows)
-    .filter((row) => row.errors.length === 0)
-    .map((row) => row.values);
-  const ids = rows.map((values) => importSourceId(values.website)).filter((id): id is string => !!id);
-  if (ids.length === 0) return rows;
-
-  // Matched on source_id across every source, so a venue that has since been
-  // claimed or re-sourced still counts as present.
-  const { data } = await createAdminSupabaseClient()
-    .from("venues")
-    .select("source_id")
-    .in("source_id", ids)
-    .returns<{ source_id: string }[]>();
-  const present = new Set((data ?? []).map((row) => row.source_id));
-  return rows.filter((values) => {
-    const id = importSourceId(values.website);
-    return !id || !present.has(id);
-  });
+  return pendingBundledVenueRows();
 }
 
 /**
  * Adds the pending bundled venues from up to TOWNS_PER_CALL towns that need a
  * pin looked up. `remaining` tells the banner to call again.
  */
-export async function addBundledVenues(): Promise<{ error?: string; imported?: number; remaining?: number }> {
+export async function addBundledVenues(): Promise<BundledResult> {
   await requireAdmin();
-
-  const rows = await pendingBundledVenues();
-  if (rows.length === 0) return { imported: 0, remaining: 0 };
-
-  const towns = new Set<string>();
-  const batch = rows.filter((row) => {
-    if (isPinned(row)) return true;
-    const key = townKey(row);
-    if (towns.has(key)) return true;
-    if (towns.size >= TOWNS_PER_CALL) return false;
-    towns.add(key);
-    return true;
-  });
-
-  const error = await insertImportedVenues(batch);
-  if (error) return { error };
-
-  const remaining = rows.length - batch.length;
-  if (remaining === 0) {
-    // Catches up venues from earlier batches that went in without a pin, with
-    // whatever lookups this call has left.
-    await pinUnpinned("venues", TOWNS_PER_CALL - towns.size);
-    revalidatePath("/admin/venues");
-    revalidatePath("/venues");
-  }
-  return { imported: batch.length, remaining };
+  return addBundledVenueRows();
 }
