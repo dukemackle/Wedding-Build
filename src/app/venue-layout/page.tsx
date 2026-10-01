@@ -47,7 +47,13 @@ export default async function VenueLayoutPage() {
     );
   }
 
-  const [{ data: tables }, { data: guests }, { data: items }, { data: rooms }] = await Promise.all([
+  const [
+    { data: tables },
+    { data: guests },
+    { data: items },
+    { data: rooms },
+    { data: declinedSeated },
+  ] = await Promise.all([
     supabase
       .from("seating_tables")
       .select("*")
@@ -76,6 +82,17 @@ export default async function VenueLayoutPage() {
       .eq("wedding_id", wedding.id)
       .order("created_at", { ascending: true })
       .returns<VenueRoom[]>(),
+    // Guests who declined after being given a seat. They drop out of the
+    // chart above, which quietly frees their seat -- this lets the editor
+    // say so instead.
+    supabase
+      .from("guests")
+      .select("id, name, table_id")
+      .eq("wedding_id", wedding.id)
+      .eq("status", "declined")
+      .not("table_id", "is", null)
+      .order("name", { ascending: true })
+      .returns<Pick<Guest, "id" | "name" | "table_id">[]>(),
   ]);
 
   return (
@@ -100,6 +117,7 @@ export default async function VenueLayoutPage() {
           confirmedGuests={guests ?? []}
           items={items ?? []}
           rooms={rooms ?? []}
+          declinedSeated={declinedSeated ?? []}
           sides={{
             partnerAName: wedding.partner_a_name,
             partnerBName: wedding.partner_b_name,
