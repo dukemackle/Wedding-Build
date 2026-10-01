@@ -52,8 +52,9 @@ production deploys from `main`. The merge click stays the owner's.
 **Venue and vendor batches merge themselves (2026-09-27, vendors 2026-09-28):**
 a PR that only adds rows to `src/lib/venue-batches.ts` or
 `src/lib/vendor-batches.ts` doesn't wait for the owner — merge it once the
-Cloudflare build is green. The owner then clicks "Add them" on /admin/venues
-or /admin/vendors. Anything else in the PR (code, UI) still goes through the
+Cloudflare build is green. The "Venue & vendor batches" routine then adds
+them itself by POSTing to `/api/import-batches` with `BATCH_IMPORT_SECRET`
+(2026-10-01); "Add them" on /admin/venues or /admin/vendors does the same by hand. Anything else in the PR (code, UI) still goes through the
 owner. How to research, write and check a vendor batch lives in the
 `/add-vendors` skill (`.claude/skills/add-vendors/`).
 
