@@ -1328,4 +1328,13 @@ Hotel del Coronado	Coronado	California			Ballroom / Hotel	Indoor & Outdoor		Hist
 The Lodge at Torrey Pines	La Jolla	California			Ballroom / Hotel	Indoor & Outdoor		Resort at 11480 N Torrey Pines Rd with several wedding venues and wedding collections, quoted through its inquiry form.		(858) 453-4420	https://www.lodgetorreypines.com/weddings
 `,
   },
+  {
+    name: "Los Angeles area: first batch",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Descanso Gardens	La Cañada Flintridge	California			Garden / Outdoor	Outdoor		Botanical garden at 1418 Descanso Dr offering weddings in the Rose Garden, Boddy House and other garden spots, with exclusive on-site catering through Flora Events.	visitorcenter@descansogardens.org	818-949-4291	https://www.descansogardens.org/events/weddings/
+Hummingbird Nest Ranch	Simi Valley	California			Historic / Estate	Indoor & Outdoor		Estate at 2940 Kuehner Dr in the Santa Susana Mountains with a Spanish villa, olive groves, fountains, lawns and vineyards, and 14 on-site guest accommodations.	erica@hbnest.com	805-579-8000	https://www.hummingbirdnestranch.com/
+Calamigos Ranch Resort & Spa	Malibu	California			Ballroom / Hotel	Indoor & Outdoor		400-acre resort at 327 S Latigo Canyon Rd in the Santa Monica Mountains with gardens, oak groves, bungalows and a spa; weddings are booked through its events site.		(818) 575-4400	https://www.calamigosranch.com/
+Greystone Mansion	Beverly Hills	California			Historic / Estate	Indoor & Outdoor		Historic Doheny Greystone Estate at 905 Loma Vista Dr, run by Friends of Greystone; the mansion opens only for special events including weddings.	friends@greystonemansion.org	(310) 285-1000	https://greystonemansion.org/
+`,
+  },
 ];
