@@ -1320,4 +1320,12 @@ Kiana Lodge	Poulsbo	Washington			Garden / Outdoor	Indoor & Outdoor		Waterfront l
 Stoller Family Estate	Dayton	Oregon			Restaurant / Vineyard	Indoor & Outdoor	150	Experience Center at 16161 NE McDougall Rd overlooking a 225-acre vineyard, with a main room for up to 150, outdoor space and three guest houses; on-site catering and a planner are required.	events@stollerwinegroup.com	(503) 864-3404	https://www.stollerfamilyestate.com
 `,
   },
+  {
+    name: "San Diego and La Jolla",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Paradise Point Resort & Spa	San Diego	California			Ballroom / Hotel	Indoor & Outdoor		44-acre island resort at 1404 Vacation Rd on Mission Bay with waterfront gardens, lagoons and bayfront lawns, and over 60,000 sq ft of indoor and outdoor event space.		858-274-4630	https://www.paradisepoint.com/san-diego-weddings/
+Hotel del Coronado	Coronado	California			Ballroom / Hotel	Indoor & Outdoor		Historic beachfront resort at 1500 Orange Ave with the Crown Room ballroom, Windsor Lawn, private Del Beach and Victorian spaces.		1-619-435-6611	https://hoteldel.com/gather/weddings/
+The Lodge at Torrey Pines	La Jolla	California			Ballroom / Hotel	Indoor & Outdoor		Resort at 11480 N Torrey Pines Rd with several wedding venues and wedding collections, quoted through its inquiry form.		(858) 453-4420	https://www.lodgetorreypines.com/weddings
+`,
+  },
 ];
