@@ -92,25 +92,10 @@ changes width as you navigate and is never too narrow for the tab strip. Don't
 add a sixth width or hardcode a `max-w-*` on a page — that is how the previous
 nine caps happened.
 
-**Deployment note (2026-09-12):** production deploys to Cloudflare Workers
-run through the Cloudflare dashboard's Git integration (Settings → Build),
-not a committed CI config. The Build command must be `npm run cf:build`
-(runs `opennextjs-cloudflare build`, producing `.open-next/worker.js`) —
-the dashboard default of plain `npm run build` looks fine in Settings but
-leaves that file missing, so the deploy step fails with "entry-point file
-... was not found." Hit a case where the Settings page showed the correct
-`npm run cf:build` but every actual build still ran `npm run build`
-underneath — fixed by disconnecting and reconnecting the Git repository in
-Settings (a plain Settings save wasn't enough to make it stick). If deploys
-silently fail with that error again, check this first.
-
-A second failure mode (2026-09-22): a build dies in `next build` with twenty
-`Module not found: Can't resolve '@vercel/turbopack-next/internal/font/google/font'`
-errors pointing at `src/app/layout.tsx`. That is `next/font/google` failing to
-fetch the woff2 files from Google at build time -- a network flake in
-Cloudflare's builder, not a code error. Retrying the build in the dashboard
-fixed it. If it starts happening often, self-host the three fonts with
-`next/font/local` so the build stops depending on Google's CDN.
+**Deployment (2026-09-12):** production deploys to Cloudflare Workers via the
+dashboard's Git integration; the Build command must be `npm run cf:build`. When
+a Cloudflare build fails, use the `/deploy-doctor` skill — it holds the known
+fixes.
 
 ## Reference, read on demand
 
