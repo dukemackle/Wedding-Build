@@ -139,7 +139,7 @@ export async function approveSubmission(submissionId: string): Promise<{ error?:
         replyTo: process.env.ADMIN_EMAIL?.split(",")[0]?.trim(),
         subject: isNew ? `${submission.details.name} is live on You Do, I Do` : `${submission.details.name} is updated on You Do, I Do`,
         text: isNew
-          ? `Hi ${submission.submitter_name},\n\n${submission.details.name} is now listed on You Do, I Do, where couples can find it and send you inquiries. Use the same link any time to make changes, or ask for it again at https://wrenwed.com/list/edit\n\nThanks,\nYou Do, I Do`
+          ? `Hi ${submission.submitter_name},\n\n${submission.details.name} is now listed on You Do, I Do, where couples can find it and send you inquiries. Use the same link any time to make changes, or ask for it again at https://youdoido.com/list/edit\n\nThanks,\nYou Do, I Do`
           : `Hi ${submission.submitter_name},\n\nYour changes to ${submission.details.name} are now live on You Do, I Do. You can use the same link any time to make more.\n\nThanks,\nYou Do, I Do`,
       });
     } catch {

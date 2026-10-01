@@ -3,7 +3,7 @@
 import { useState, useTransition } from "react";
 import { generateInviteLink, revokeInviteLink, removePartner } from "./actions";
 
-const SITE_URL = "https://wrenwed.com";
+const SITE_URL = "https://youdoido.com";
 
 export function PartnerInviteCard({
   inviteToken,

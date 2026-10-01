@@ -10,7 +10,7 @@ export default async function LoginPage({
   const { error, message, next } = await searchParams;
   // The admin panel signs in here too, and everything outside /admin
   // redirects away on that host -- so no business links there.
-  const isAdminHost = (await headers()).get("host") === "admin.wrenwed.com";
+  const isAdminHost = (await headers()).get("host") === "admin.youdoido.com";
 
   return (
     <main className="flex flex-1 flex-col items-center justify-center gap-4 px-4 py-10 sm:px-6 sm:py-24 md:flex-row md:items-start md:gap-7">

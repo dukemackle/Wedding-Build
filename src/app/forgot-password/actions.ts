@@ -15,7 +15,7 @@ export async function requestPasswordReset(formData: FormData) {
     // Must also be added to Supabase's Redirect URLs allowlist
     // (Authentication -> URL Configuration) or Supabase ignores it.
     await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: "https://wrenwed.com/auth/confirm?next=/reset-password",
+      redirectTo: "https://youdoido.com/auth/confirm?next=/reset-password",
     });
   }
 

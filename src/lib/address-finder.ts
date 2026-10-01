@@ -66,7 +66,7 @@ function get(url: string) {
   return fetch(url, {
     signal: AbortSignal.timeout(8000),
     redirect: "manual",
-    headers: { "user-agent": "Mozilla/5.0 (compatible; YouDoIDoBot/1.0; +https://wrenwed.com)" },
+    headers: { "user-agent": "Mozilla/5.0 (compatible; YouDoIDoBot/1.0; +https://youdoido.com)" },
   });
 }
 

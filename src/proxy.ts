@@ -5,9 +5,18 @@ import { updateSession } from "@/lib/supabase/middleware";
 // site never serves /admin, and the admin panel only responds on its own
 // subdomain. Cookies aren't shared across subdomains (no explicit cookie
 // domain is set), so this is access separation, not shared auth -- signing
-// in happens independently on admin.wrenwed.com.
-const PUBLIC_HOSTS = ["wrenwed.com", "www.wrenwed.com"];
-const ADMIN_HOST = "admin.wrenwed.com";
+// in happens independently on admin.youdoido.com.
+const PUBLIC_HOSTS = ["youdoido.com", "www.youdoido.com"];
+const ADMIN_HOST = "admin.youdoido.com";
+
+// The old domain. Links already out in the world (sent emails, claim links,
+// bookmarks, search results) land here and are sent on to the same path on
+// youdoido.com, permanently.
+const OLD_HOSTS: Record<string, string> = {
+  "wrenwed.com": "youdoido.com",
+  "www.wrenwed.com": "youdoido.com",
+  "admin.wrenwed.com": ADMIN_HOST,
+};
 
 // Listings moved from /venues/<uuid> to /venues/<slug>. The page can't send a
 // real 308 itself -- /venues streams behind a loading state, so a redirect
@@ -45,6 +54,15 @@ async function listingSlugRedirect(request: NextRequest): Promise<NextResponse |
 
 export async function proxy(request: NextRequest) {
   const { hostname, pathname } = request.nextUrl;
+
+  const newHost = OLD_HOSTS[hostname];
+  if (newHost) {
+    const url = request.nextUrl.clone();
+    url.protocol = "https:";
+    url.hostname = newHost;
+    url.port = "";
+    return NextResponse.redirect(url, 301);
+  }
 
   if (PUBLIC_HOSTS.includes(hostname) && pathname.startsWith("/admin")) {
     const url = request.nextUrl.clone();

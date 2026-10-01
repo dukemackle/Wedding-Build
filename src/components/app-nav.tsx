@@ -29,7 +29,7 @@ export function AppNav({ email }: { email: string }) {
             <div className="flex min-w-0 items-center justify-end gap-4">
               {isAdmin && (
                 <a
-                  href="https://admin.wrenwed.com"
+                  href="https://admin.youdoido.com"
                   className="shrink-0 font-mono-numbers text-sm xl:text-base text-brass hover:underline"
                 >
                   Admin

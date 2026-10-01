@@ -1716,7 +1716,7 @@ function SiteDemo() {
               }`}
             >
               <div className="border-b border-hairline px-3 py-1.5 text-center font-mono-numbers text-[10px] text-ink/45">
-                wrenwed.com/w/juniper-and-sam
+                youdoido.com/w/juniper-and-sam
               </div>
               <div
                 className={`flex flex-col items-center gap-2 text-center transition-colors duration-500 ${phone ? "px-4 py-8" : "px-6 py-10"}`}

@@ -5,7 +5,7 @@ import { NextResponse, type NextRequest } from "next/server";
 // this host and a signed-in-but-wrong-account visitor must be able to stay
 // on /login to see why -- bouncing them to /dashboard here would send them
 // straight back into the admin routing's redirect-to-/login, forever.
-const ADMIN_HOST = "admin.wrenwed.com";
+const ADMIN_HOST = "admin.youdoido.com";
 
 /**
  * Refreshes the session on every request -- and never fails the request.

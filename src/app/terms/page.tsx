@@ -19,7 +19,7 @@ export default function TermsPage() {
             wedding-planning platform, including guest list, budget, seating and venue layout,
             itinerary, checklist, and vendor/venue discovery tools (the &quot;Service&quot;).
             These Terms of Service (&quot;Terms&quot;) govern your access to and use of the
-            Service, including the couple-facing app at wrenwed.com and any public wedding site
+            Service, including the couple-facing app at youdoido.com and any public wedding site
             created through it. By creating an account, or by submitting an RSVP, message, or
             other content through a public wedding site, you agree to these Terms.
           </p>
@@ -175,8 +175,8 @@ export default function TermsPage() {
           <Section title="13. Contact">
             <p>
               Questions about these Terms? Contact us at{" "}
-              <a href="mailto:wrenwed.com@gmail.com" className="text-brass hover:underline">
-                wrenwed.com@gmail.com
+              <a href="mailto:hello@youdoido.com" className="text-brass hover:underline">
+                hello@youdoido.com
               </a>
               .
             </p>
