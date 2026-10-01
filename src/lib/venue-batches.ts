@@ -1308,4 +1308,16 @@ The Evergreen	Portland	Oregon			Historic / Estate	Indoor	200	Restored 1908 build
 Lan Su Chinese Garden	Portland	Oregon			Garden / Outdoor	Indoor & Outdoor	250	Chinese garden at 239 NW Everett St rentable after public hours, with the garden (bridged lake, pavilions) and a two-floor teahouse.		503-228-8131	https://lansugarden.org/private-events/weddings/
 `,
   },
+  {
+    name: "Seattle, Woodinville, Snoqualmie, Blaine, Poulsbo and the Willamette Valley",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Columbia Tower Club	Seattle	Washington			Ballroom / Hotel	Indoor		Private club on the 75th floor of Columbia Tower at 701 5th Ave, hosting weddings for non-members with in-house catering, bar options and a dance floor.		206-622-2010	https://www.invitedclubs.com/clubs/columbia-tower-club/host/weddings
+Smith Tower	Seattle	Washington			Historic / Estate	Indoor & Outdoor	70	Historic Art Deco tower at 506 2nd Ave where weddings take over the 35th-floor Observatory, with an open-air deck and views of Elliott Bay.		206.624.0414	https://smithtower.com/weddings/
+Willows Lodge	Woodinville	Washington			Ballroom / Hotel	Indoor & Outdoor		Wine-country lodge at 14580 NE 145th St on five acres of gardens by the Sammamish River, with the Sammamish Ballroom, a patio and a Garden Gazebo, plus on-site lodging.		425-424-3900	https://willowslodge.com/washington-state-weddings
+Salish Lodge & Spa	Snoqualmie	Washington			Ballroom / Hotel	Indoor & Outdoor	100	Lodge at 6501 Railroad Ave SE perched above Snoqualmie Falls, with a Hidden Terrace ceremony space, a ballroom and packages for 24 to 100 guests.		(425) 888-2556	https://www.salishlodge.com/wedding
+Semiahmoo Resort, Golf & Spa	Blaine	Washington			Ballroom / Hotel	Indoor & Outdoor		Waterfront resort at 9565 Semiahmoo Pkwy near the Canadian border that hosts weddings and takes proposal requests through its site.		855-917-3767	https://semiahmoo.com/
+Kiana Lodge	Poulsbo	Washington			Garden / Outdoor	Indoor & Outdoor		Waterfront lodge at 14976 NE Sandy Hook Rd with a main lodge, gardens and shoreline settings for weddings and private events.	Info@kianalodge.com	1-866-738-4307	https://kianalodge.com
+Stoller Family Estate	Dayton	Oregon			Restaurant / Vineyard	Indoor & Outdoor	150	Experience Center at 16161 NE McDougall Rd overlooking a 225-acre vineyard, with a main room for up to 150, outdoor space and three guest houses; on-site catering and a planner are required.	events@stollerwinegroup.com	(503) 864-3404	https://www.stollerfamilyestate.com
+`,
+  },
 ];
