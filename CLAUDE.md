@@ -54,9 +54,8 @@ a PR that only adds rows to `src/lib/venue-batches.ts` or
 `src/lib/vendor-batches.ts` doesn't wait for the owner — merge it once the
 Cloudflare build is green. The owner then clicks "Add them" on /admin/venues
 or /admin/vendors. Anything else in the PR (code, UI) still goes through the
-owner. Vendors go deep before wide: finish every category in Austin before
-the next metro (first wave done 2026-09-28: photography, planning, catering,
-florals, music; next: hair & makeup, videography, cake, officiant, rentals).
+owner. How to research, write and check a vendor batch lives in the
+`/add-vendors` skill (`.claude/skills/add-vendors/`).
 
 **Desktop and mobile are two designs, not one that stretches (2026-09-20,
 restated 2026-09-20 — supersedes the earlier "desktop is settled" note):**
