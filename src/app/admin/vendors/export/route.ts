@@ -13,7 +13,7 @@ export async function GET(request: Request) {
   const vendors = await fetchAllListings<Vendor>(VENDOR_LISTING, params);
 
   const csv = toCsv(
-    ["Name", "Category", "City", "State", "Price tier", "Email", "Source", "Live", "Last checked"],
+    ["Name", "Category", "City", "State", "Price tier", "Email", "Source", "Live", "Last checked", "Phone", "Website", "Price from", "Photos"],
     vendors.map((v) => [
       v.name,
       v.category ?? "",
@@ -24,6 +24,10 @@ export async function GET(request: Request) {
       v.source ?? "",
       v.active ? "yes" : "no",
       v.last_verified_at?.slice(0, 10) ?? "never",
+      v.contact_phone ?? "",
+      v.website ?? "",
+      v.price_from ?? "",
+      v.photo_urls?.length || (v.image_url ? 1 : 0),
     ]),
   );
 
