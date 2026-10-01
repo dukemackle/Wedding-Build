@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { pageWidthClass, type PageWidth } from "@/lib/layout";
+import { AdminSearch } from "./admin-search";
 
 /** Claim submissions waiting for review, per list. */
 export type PendingClaims = { venues: number; vendors: number };
@@ -54,6 +55,14 @@ function groups(claims: PendingClaims): { title?: string; links: NavLink[] }[] {
       ],
     },
   ];
+}
+
+// Every built page, for the search box's "Pages" group.
+function searchablePages(claims: PendingClaims) {
+  return groups(claims)
+    .flatMap((g) => g.links)
+    .filter((l) => !l.soon)
+    .map((l) => ({ href: l.href, title: l.label }));
 }
 
 // The most specific link that contains the current path, so the Claims page
@@ -142,8 +151,11 @@ export function AdminNav({ pendingClaims }: { pendingClaims: PendingClaims }) {
   return (
     <>
       <aside className="sticky top-0 hidden h-screen w-56 shrink-0 flex-col overflow-y-auto border-r border-hairline bg-card px-3 py-5 lg:flex">
-        <div className="mb-6 px-2">
+        <div className="mb-4 px-2">
           <Brand />
+        </div>
+        <div className="mb-5">
+          <AdminSearch pages={searchablePages(pendingClaims)} />
         </div>
         <NavList pendingClaims={pendingClaims} />
         <div className="mt-auto px-2 pt-6">{backToApp}</div>
@@ -164,6 +176,9 @@ export function AdminNav({ pendingClaims }: { pendingClaims: PendingClaims }) {
               <span className="absolute -top-1.5 -right-1.5 h-3 w-3 rounded-full bg-brass" />
             )}
           </button>
+        </div>
+        <div className="px-4 pb-3">
+          <AdminSearch pages={searchablePages(pendingClaims)} onNavigate={() => setOpen(false)} />
         </div>
         {open && (
           <div className="max-h-[calc(100vh-57px)] overflow-y-auto border-t border-hairline px-3 py-4">
