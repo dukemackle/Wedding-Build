@@ -11,6 +11,9 @@ import { addBundledVendorRows, addBundledVenueRows } from "@/lib/bundled-import"
 //
 // Like the button, each call adds or re-pins a few listings (Cloudflare caps the pin
 // lookups one request can make), so call again until `done` is true.
+// `remaining` is what's left in the current table and `found` how many
+// listings were moved onto a street address: a call that imports nothing is
+// still progress while `remaining` falls.
 
 /** Constant-time compare, so the secret can't be guessed a character at a time. */
 function matches(given: string, expected: string): boolean {
@@ -36,10 +39,22 @@ export async function POST(request: Request) {
   const venues = await addBundledVenueRows();
   if (venues.error) return Response.json({ table: "venues", ...venues }, { status: 500 });
   if (venues.remaining || venues.imported) {
-    return Response.json({ table: "venues", imported: venues.imported, done: false });
+    return Response.json({
+      table: "venues",
+      imported: venues.imported,
+      found: venues.found,
+      remaining: venues.remaining,
+      done: false,
+    });
   }
 
   const vendors = await addBundledVendorRows();
   if (vendors.error) return Response.json({ table: "vendors", ...vendors }, { status: 500 });
-  return Response.json({ table: "vendors", imported: vendors.imported, done: !vendors.remaining && !vendors.imported });
+  return Response.json({
+    table: "vendors",
+    imported: vendors.imported,
+    found: vendors.found,
+    remaining: vendors.remaining,
+    done: !vendors.remaining && !vendors.imported,
+  });
 }

@@ -15,7 +15,11 @@ import { importSourceId, parseVenueTable, type VenueImportValues } from "@/lib/v
 // this lives outside the "use server" action files, where every export is
 // callable from the browser.
 
-export type BundledResult = { error?: string; imported?: number; remaining?: number };
+/**
+ * `found`: listings moved onto a street address this call, so a caller can
+ * see progress on calls that import nothing new.
+ */
+export type BundledResult = { error?: string; imported?: number; remaining?: number; found?: number };
 
 // Shared by the paste import and the bundled batches, so both stamp the same
 // provenance on what they insert.
@@ -111,15 +115,17 @@ export async function addBundledVenueRows(): Promise<BundledResult> {
   }
 
   let remaining = rows.length - batch.length;
+  let found = 0;
   if (remaining === 0) {
     const moved = await pinFromAddresses("venues", keyed(bundledVenueRows()), LOOKUPS_PER_CALL - spent);
     if (moved.error) return { error: moved.error };
     remaining = moved.remaining;
     if (remaining === 0) {
       // Then listings whose batch row has no address: read it off their own site.
-      const found = await findAddresses("venues", LOOKUPS_PER_CALL - spent - moved.spent);
-      if (found.error) return { error: found.error };
-      remaining = found.remaining;
+      const finder = await findAddresses("venues", LOOKUPS_PER_CALL - spent - moved.spent);
+      if (finder.error) return { error: finder.error };
+      remaining = finder.remaining;
+      found = finder.found;
     }
     if (remaining === 0) {
       // Catches up venues from earlier batches that went in without a pin,
@@ -129,7 +135,7 @@ export async function addBundledVenueRows(): Promise<BundledResult> {
     revalidatePath("/admin/venues");
     revalidatePath("/venues");
   }
-  return { imported: batch.length, remaining };
+  return { imported: batch.length, remaining, found };
 }
 
 /** As addBundledVenueRows, for vendors. */
@@ -164,15 +170,17 @@ export async function addBundledVendorRows(): Promise<BundledResult> {
   }
 
   let remaining = rows.length - batch.length;
+  let found = 0;
   if (remaining === 0) {
     const moved = await pinFromAddresses("vendors", keyed(bundledVendorRows()), LOOKUPS_PER_CALL - spent);
     if (moved.error) return { error: moved.error };
     remaining = moved.remaining;
     if (remaining === 0) {
       // Then listings whose batch row has no address: read it off their own site.
-      const found = await findAddresses("vendors", LOOKUPS_PER_CALL - spent - moved.spent);
-      if (found.error) return { error: found.error };
-      remaining = found.remaining;
+      const finder = await findAddresses("vendors", LOOKUPS_PER_CALL - spent - moved.spent);
+      if (finder.error) return { error: finder.error };
+      remaining = finder.remaining;
+      found = finder.found;
     }
     if (remaining === 0) {
       await pinUnpinned("vendors", Math.floor((LOOKUPS_PER_CALL - spent) / TOWN_COST), true);
@@ -180,5 +188,5 @@ export async function addBundledVendorRows(): Promise<BundledResult> {
     revalidatePath("/admin/vendors");
     revalidatePath("/vendors");
   }
-  return { imported: batch.length, remaining };
+  return { imported: batch.length, remaining, found };
 }
