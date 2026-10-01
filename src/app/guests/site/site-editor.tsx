@@ -377,7 +377,7 @@ export function SiteEditor({
           device={device}
           fill={!isDesktop && device === "phone"}
           frameRef={frameRef}
-          address={publicSlug ? `wrenwed.com/w/${publicSlug}` : "Preview — your site is off"}
+          address={publicSlug ? `youdoido.com/w/${publicSlug}` : "Preview — your site is off"}
           bottomInset={isDesktop ? 0 : SHEET_PEEK_PX}
         />
       </section>

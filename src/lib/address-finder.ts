@@ -38,7 +38,7 @@ async function fetchPage(url: string): Promise<string | null> {
     const res = await fetch(url, {
       signal: AbortSignal.timeout(8000),
       redirect: "follow",
-      headers: { "user-agent": "Mozilla/5.0 (compatible; YouDoIDoBot/1.0; +https://wrenwed.com)" },
+      headers: { "user-agent": "Mozilla/5.0 (compatible; YouDoIDoBot/1.0; +https://youdoido.com)" },
     });
     if (!res.ok || !(res.headers.get("content-type") ?? "").includes("html")) return null;
     // Footers sit at the end, but a page past a couple of MB is not a venue site.

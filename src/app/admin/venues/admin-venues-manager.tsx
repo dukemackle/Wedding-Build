@@ -347,7 +347,7 @@ function VenueRow({
     { label: "Still right", onSelect: markVerified, disabled: isPending },
     { label: venue.active ? "Hide" : "Make live", onSelect: toggleActive, disabled: isPending },
     ...(venue.is_sample ? [] : [{ label: "Claim link", onSelect: () => setPanel("claim") }]),
-    { label: "View listing", onSelect: () => window.open(`https://wrenwed.com/venues/${venue.id}`, "_blank") },
+    { label: "View listing", onSelect: () => window.open(`https://youdoido.com/venues/${venue.id}`, "_blank") },
   ];
   const place = [venue.city, venue.state].filter(Boolean).join(", ") || "—";
 

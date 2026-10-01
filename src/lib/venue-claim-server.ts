@@ -28,9 +28,9 @@ export async function venueForClaimToken(token: string): Promise<Venue | null> {
 }
 
 // The claim page lives on the couple-facing domain, not the admin one: the
-// venue has no admin access, and admin.wrenwed.com redirects everything
+// venue has no admin access, and admin.youdoido.com redirects everything
 // outside /admin.
-export const CLAIM_BASE_URL = "https://wrenwed.com/claim/";
+export const CLAIM_BASE_URL = "https://youdoido.com/claim/";
 
 export function newClaimToken() {
   return randomBytes(24).toString("base64url");

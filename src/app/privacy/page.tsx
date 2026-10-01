@@ -16,7 +16,7 @@ export default function PrivacyPage() {
         <div className="mt-8 flex flex-col gap-8 text-ink/80">
           <p>
             This Privacy Policy explains what information You Do, I Do collects, how we use it, and the
-            choices you have. It applies to the couple-facing app at wrenwed.com and to any public
+            choices you have. It applies to the couple-facing app at youdoido.com and to any public
             wedding site created through it.
           </p>
 

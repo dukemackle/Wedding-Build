@@ -9,7 +9,7 @@
  */
 
 /** Where the site lives. One place to change when the new domain arrives. */
-export const SITE_URL = "https://wrenwed.com";
+export const SITE_URL = "https://youdoido.com";
 
 export const PUBLIC_VENUE_COLUMNS =
   "id, slug, name, region, state, city, latitude, longitude, venue_type, setting, capacity, price_tier, description, about, included, good_to_know, amenities, image_url, website, photo_urls, address, price_from, price_note, service_level, vendor_policy, capacity_standing, lodging_sleeps, parking, wheelchair_accessible, pets_allowed, instagram_url, facebook_url, pinterest_url, active, is_sample, source, last_verified_at, created_at";

@@ -123,7 +123,7 @@ export async function submitVenueClaim(
         to: adminEmail,
         replyTo: value.submitter.email,
         subject: `${value.details.name} updated its listing`,
-        text: `${value.submitter.name} (${value.submitter.email}) submitted changes for ${value.details.name}.\n\nReview them at https://admin.wrenwed.com/admin/venues/claims`,
+        text: `${value.submitter.name} (${value.submitter.email}) submitted changes for ${value.details.name}.\n\nReview them at https://admin.youdoido.com/admin/venues/claims`,
       });
     } catch {
       // Nothing to do -- it's in the queue either way.

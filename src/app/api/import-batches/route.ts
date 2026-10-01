@@ -6,7 +6,7 @@ import { addBundledVendorRows, addBundledVenueRows } from "@/lib/bundled-import"
 // (BATCH_IMPORT_SECRET, set in Cloudflare and in the routine's environment)
 // rather than an admin login, which the routine doesn't have.
 //
-//   curl -X POST https://wrenwed.com/api/import-batches \
+//   curl -X POST https://youdoido.com/api/import-batches \
 //     -H "Authorization: Bearer $BATCH_IMPORT_SECRET"
 //
 // Like the button, each call adds or re-pins a few listings (Cloudflare caps the pin

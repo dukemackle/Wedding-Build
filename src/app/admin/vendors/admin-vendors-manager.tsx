@@ -420,7 +420,7 @@ function VendorRow({
     { label: vendor.active ? "Hide" : "Make live", onSelect: toggleActive, disabled: isPending },
     { label: `Contact log (${logs.length})`, onSelect: () => setPanel("log") },
     ...(vendor.is_sample ? [] : [{ label: "Claim link", onSelect: () => setPanel("claim") }]),
-    { label: "View listing", onSelect: () => window.open(`https://wrenwed.com/vendors/${vendor.id}`, "_blank") },
+    { label: "View listing", onSelect: () => window.open(`https://youdoido.com/vendors/${vendor.id}`, "_blank") },
   ];
   const place = [vendor.city, vendor.state].filter(Boolean).join(", ") || "—";
   const inquiryText = stats ? `${stats.sent} · ${stats.booked} booked` : "0";
