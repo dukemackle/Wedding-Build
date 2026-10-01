@@ -729,4 +729,15 @@ I Pronounce You	Officiant	Austin	Texas	Austin, the Hill Country, Dripping Spring
 Your Modern Ritual	Officiant	Austin	Texas	Austin and the Texas Hill Country	Secular, nondenominational, interfaith and LGBTQ+ wedding ceremonies and vow renewals, plus baby blessings and celebrations of life.			https://www.yourmodernritual.com	
 `,
   },
+  {
+    name: "Austin: bar, photo booths and stationery",
+    tsv: `Name	Category	City	State	Service area	Description	Email	Phone	Website	Instagram
+Silvercloud Trailer Events	Bar	Austin	Texas	Austin area	Airstream mobile bar rentals with TABC-certified bartenders, signature cocktails and optional photo booth add-ons.		512-705-3813	https://www.silvercloudtrailerevents.com	https://www.instagram.com/silvercloudtrailerevents/
+Austin Photo Booths	Photo Booth	Round Rock	Texas	Austin, Round Rock, Georgetown, Cedar Park, Lakeway and the Hill Country	Photo booth rentals for weddings, including digital, 360-degree and custom-backdrop setups.	info@austinphotobooths.com	512-520-0900	https://austinphotobooths.com	https://www.instagram.com/austinphotobooths/
+Happy Hours Photo Booths	Photo Booth	Austin	Texas	Austin and surrounding areas	Photo and 360 video booth rentals with custom digital overlays, props and instant sharing.		(512) 829-3116	https://happyhoursphotobooths.com	
+Photo Booth of Austin	Photo Booth	Austin	Texas	Austin and Central Texas	Photo booth rentals with an operator included: 360, mirror and classic booths, custom backdrops and props, plus optional DJ service.		512-713-0401	https://photoboothofaustin.com	https://www.instagram.com/austinphotoboothrental/
+Eventive Designs	Stationery & Invitations	Austin	Texas	Austin, the Hill Country and shipped worldwide	Custom invitation suites, save-the-dates and day-of signage, from a studio that also plans weddings.	hello@eventivedesignsatx.com		https://eventivedesignsatx.com	https://www.instagram.com/eventivedesignsatx/
+Cojo Moxon Design	Stationery & Invitations	Austin	Texas	Austin, the Hill Country and nationwide	Luxury custom invitations and wedding-day paper with venue illustrations, calligraphy and letterpress or foil printing.			https://www.cojomoxondesign.com	https://www.instagram.com/cojomoxon/
+`,
+  },
 ];
