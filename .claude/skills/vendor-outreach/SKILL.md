@@ -23,7 +23,7 @@ the database.
 3. **Get the list from the owner.** Ask for a metro and categories, or names.
    For each vendor you need the name, category, city, `slug`, `contact_email`,
    and the claim link. The owner copies the link from /admin/vendors ("claim link").
-   It's `https://wrenwed.com/claim/vendor/<token>`, made by
+   It's `https://youdoido.com/claim/vendor/<token>`, made by
    `ensureVendorClaimLink` in `src/lib/vendor-claim-server.ts`. Never invent a
    token. If a link is missing, leave `[CLAIM LINK]` in the draft. Venues work
    the same way through /admin/venues and `/claim/<token>`.
@@ -100,7 +100,7 @@ your photos; you just let us show them on your listing".
 Write as the owner, in first person, not as Wren the assistant. Wren is the
 in-app bird, and the company is You Do, I Do. Keep it under about 120 words, in
 plain text with no images, and with two links at most: their public listing
-(`https://wrenwed.com/vendors/<slug>`, public without sign-in) and the claim URL. Address the
+(`https://youdoido.com/vendors/<slug>`, public without sign-in) and the claim URL. Address the
 business by name and mention one specific thing about their listing.
 
 ```
@@ -119,7 +119,7 @@ links, and choose where couples' inquiries go:
 Not interested? Reply "no thanks" and I won't email again.
 
 {owner name}
-You Do, I Do · wrenwed.com
+You Do, I Do · youdoido.com
 [MAILING ADDRESS]
 ```
 

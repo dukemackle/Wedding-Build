@@ -6,7 +6,7 @@ import { newClaimToken } from "@/lib/venue-claim-server";
 // Vendor claim links: the same scheme as venues (see venue-claim-server.ts),
 // under /claim/vendor/ so the two kinds of token can never be mistaken for
 // each other.
-export const VENDOR_CLAIM_BASE_URL = "https://wrenwed.com/claim/vendor/";
+export const VENDOR_CLAIM_BASE_URL = "https://youdoido.com/claim/vendor/";
 
 export async function vendorForClaimToken(token: string): Promise<Vendor | null> {
   if (!/^[A-Za-z0-9_-]{20,100}$/.test(token)) return null;

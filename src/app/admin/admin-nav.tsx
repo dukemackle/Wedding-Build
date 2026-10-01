@@ -135,7 +135,7 @@ function Brand() {
 }
 
 const backToApp = (
-  <a href="https://wrenwed.com/dashboard" className="font-mono-numbers text-sm text-brass hover:underline">
+  <a href="https://youdoido.com/dashboard" className="font-mono-numbers text-sm text-brass hover:underline">
     &larr; Back to app
   </a>
 );

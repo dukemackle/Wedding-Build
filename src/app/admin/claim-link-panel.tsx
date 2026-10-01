@@ -23,7 +23,7 @@ function emailFor(target: ClaimLinkTarget, url: string) {
 
 Hi,
 
-I'm building You Do, I Do (wrenwed.com), a wedding-planning app for couples. ${target.name} is already listed for couples planning weddings${target.city ? ` around ${target.city}` : ""}, using the details on your website.
+I'm building You Do, I Do (youdoido.com), a wedding-planning app for couples. ${target.name} is already listed for couples planning weddings${target.city ? ` around ${target.city}` : ""}, using the details on your website.
 
 This private link lets you check those details, fix anything that's wrong, and add your own ${extras}. It's free, there's no account to set up, and nothing changes on your listing until we've reviewed it:
 

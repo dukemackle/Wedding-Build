@@ -27,7 +27,7 @@ export async function signup(formData: FormData) {
     email,
     password: formData.get("password") as string,
     options: {
-      emailRedirectTo: `https://wrenwed.com/auth/confirm?next=${encodeURIComponent(next)}`,
+      emailRedirectTo: `https://youdoido.com/auth/confirm?next=${encodeURIComponent(next)}`,
     },
   });
 

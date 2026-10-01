@@ -78,7 +78,7 @@ export async function startListing(
     .limit(1);
   if ((existing ?? []).length > 0) {
     return {
-      error: `${name} is already on You Do, I Do. Use "Edit my listing" to update it -- if we don't have your email on file, reply to any You Do, I Do email or write to hello@wrenwed.com and we'll send you the link.`,
+      error: `${name} is already on You Do, I Do. Use "Edit my listing" to update it -- if we don't have your email on file, reply to any You Do, I Do email or write to hello@youdoido.com and we'll send you the link.`,
     };
   }
 

@@ -16,7 +16,7 @@ export default function PrivacyPage() {
         <div className="mt-8 flex flex-col gap-8 text-ink/80">
           <p>
             This Privacy Policy explains what information You Do, I Do collects, how we use it, and the
-            choices you have. It applies to the couple-facing app at wrenwed.com and to any public
+            choices you have. It applies to the couple-facing app at youdoido.com and to any public
             wedding site created through it.
           </p>
 
@@ -215,8 +215,8 @@ export default function PrivacyPage() {
                 Account page
               </Link>
               , or by contacting{" "}
-              <a href="mailto:wrenwed.com@gmail.com" className="text-brass hover:underline">
-                wrenwed.com@gmail.com
+              <a href="mailto:privacy@youdoido.com" className="text-brass hover:underline">
+                privacy@youdoido.com
               </a>
               . Deleting your account removes your login immediately; if you&apos;re a wedding&apos;s
               owner, it also deletes that wedding and everything on it — including any photos and
@@ -229,8 +229,8 @@ export default function PrivacyPage() {
             <p>
               Depending on where you live, you may have rights to access, correct, or delete your
               personal information, or to object to certain uses. Contact us at{" "}
-              <a href="mailto:wrenwed.com@gmail.com" className="text-brass hover:underline">
-                wrenwed.com@gmail.com
+              <a href="mailto:privacy@youdoido.com" className="text-brass hover:underline">
+                privacy@youdoido.com
               </a>{" "}
               to exercise these rights, and we&apos;ll respond as required by applicable law.
             </p>
@@ -262,8 +262,8 @@ export default function PrivacyPage() {
           <Section title="10. Contact">
             <p>
               Questions about this Privacy Policy or your data? Contact us at{" "}
-              <a href="mailto:wrenwed.com@gmail.com" className="text-brass hover:underline">
-                wrenwed.com@gmail.com
+              <a href="mailto:privacy@youdoido.com" className="text-brass hover:underline">
+                privacy@youdoido.com
               </a>
               .
             </p>

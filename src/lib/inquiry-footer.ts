@@ -15,7 +15,7 @@ export function inquiryFooter(listingName: string, claimUrl?: string | null): st
     "",
     "",
     "--",
-    `This couple found ${listingName} on You Do, I Do (wrenwed.com), a wedding-planning app. Reply to this email to reach them directly.`,
+    `This couple found ${listingName} on You Do, I Do (youdoido.com), a wedding-planning app. Reply to this email to reach them directly.`,
   ];
   if (claimUrl) {
     lines.push("", `Is ${listingName}'s listing on You Do, I Do up to date? Check it and add your photos (free): ${claimUrl}`);

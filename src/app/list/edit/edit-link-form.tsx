@@ -24,8 +24,8 @@ export function EditLinkForm() {
     return (
       <div className="mt-6 rounded-md border border-hairline bg-parchment px-4 py-3 text-sm text-ink">
         If {email} is on a You Do, I Do listing, the link is on its way. Nothing arrived? Check spam, or write to{" "}
-        <a href="mailto:hello@wrenwed.com" className="font-medium text-brass hover:underline">
-          hello@wrenwed.com
+        <a href="mailto:hello@youdoido.com" className="font-medium text-brass hover:underline">
+          hello@youdoido.com
         </a>{" "}
         from your business email and we&apos;ll sort it out.
       </div>

@@ -78,7 +78,7 @@ export async function submitVendorClaim(
         to: adminEmail,
         replyTo: value.submitter.email,
         subject: isNew ? `New vendor listing: ${value.details.name}` : `${value.details.name} updated its listing`,
-        text: `${value.submitter.name} (${value.submitter.email}) submitted ${isNew ? "a new listing" : "changes"} for ${value.details.name}.\n\nReview them at https://admin.wrenwed.com/admin/vendors/claims`,
+        text: `${value.submitter.name} (${value.submitter.email}) submitted ${isNew ? "a new listing" : "changes"} for ${value.details.name}.\n\nReview them at https://admin.youdoido.com/admin/vendors/claims`,
       });
     } catch {
       // It's in the queue either way.
