@@ -74,7 +74,7 @@ whether it works. Push on the places real weddings get messy:
 - **Sharing:** partner edits, what a vendor or guest sees, privacy of family
   notes ("dad's wife — keep away from mom" must never reach a guest page).
 - **Scale and edge:** 0 items, 1 item, 300 items, long names, emoji, a
-  undo-able mistake (deleting the wrong guest), an empty field.
+  mistake that needs undoing (deleting the wrong guest), an empty field.
 - **Phone in hand:** can it be done one-handed at 375px, on a slow
   connection, the morning of?
 
