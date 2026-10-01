@@ -51,6 +51,8 @@ export async function townPin(city: string | null, state: string | null): Promis
 
 // Census state codes, keyed by full name and postal abbreviation.
 const STATE_FIPS: Record<string, string> = {};
+/** Postal abbreviation by full state name, as listings store it ("Texas" -> "TX"). */
+export const STATE_ABBR: Record<string, string> = {};
 for (const [fips, name, abbr] of [
   ["01", "Alabama", "AL"], ["02", "Alaska", "AK"], ["04", "Arizona", "AZ"], ["05", "Arkansas", "AR"],
   ["06", "California", "CA"], ["08", "Colorado", "CO"], ["09", "Connecticut", "CT"], ["10", "Delaware", "DE"],
@@ -68,6 +70,7 @@ for (const [fips, name, abbr] of [
 ]) {
   STATE_FIPS[name.toLowerCase()] = fips;
   STATE_FIPS[abbr.toLowerCase()] = fips;
+  STATE_ABBR[name] = abbr;
 }
 
 /**

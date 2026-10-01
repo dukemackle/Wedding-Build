@@ -2,6 +2,7 @@ import "server-only";
 
 import { revalidatePath } from "next/cache";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
+import { findAddresses } from "@/lib/address-finder";
 import { LOOKUPS_PER_CALL, pinFromAddresses, pinUnpinned, TOWN_COST, withinBudget, withPins } from "@/lib/import-pins";
 import { VENDOR_BATCHES } from "@/lib/vendor-batches";
 import { parseVendorTable, type VendorImportValues } from "@/lib/vendor-import";
@@ -115,6 +116,12 @@ export async function addBundledVenueRows(): Promise<BundledResult> {
     if (moved.error) return { error: moved.error };
     remaining = moved.remaining;
     if (remaining === 0) {
+      // Then listings whose batch row has no address: read it off their own site.
+      const found = await findAddresses("venues", LOOKUPS_PER_CALL - spent - moved.spent);
+      if (found.error) return { error: found.error };
+      remaining = found.remaining;
+    }
+    if (remaining === 0) {
       // Catches up venues from earlier batches that went in without a pin,
       // with whatever lookups this call has left.
       await pinUnpinned("venues", Math.floor((LOOKUPS_PER_CALL - spent) / TOWN_COST));
@@ -136,8 +143,11 @@ export async function addBundledVendorRows(): Promise<BundledResult> {
     const { error } = await createAdminSupabaseClient()
       .from("vendors")
       .insert(
-        pinned.map((values) => ({
+        // A blank address is left out rather than sent as null, so vendor
+        // batches keep importing on a database without migration 0092.
+        pinned.map(({ address, ...values }) => ({
           ...values,
+          ...(address ? { address } : {}),
           is_sample: false,
           source: "import",
           source_id: importSourceId(values.website),
@@ -158,6 +168,12 @@ export async function addBundledVendorRows(): Promise<BundledResult> {
     const moved = await pinFromAddresses("vendors", keyed(bundledVendorRows()), LOOKUPS_PER_CALL - spent);
     if (moved.error) return { error: moved.error };
     remaining = moved.remaining;
+    if (remaining === 0) {
+      // Then listings whose batch row has no address: read it off their own site.
+      const found = await findAddresses("vendors", LOOKUPS_PER_CALL - spent - moved.spent);
+      if (found.error) return { error: found.error };
+      remaining = found.remaining;
+    }
     if (remaining === 0) {
       await pinUnpinned("vendors", Math.floor((LOOKUPS_PER_CALL - spent) / TOWN_COST), true);
     }

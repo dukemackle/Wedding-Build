@@ -118,9 +118,9 @@ export async function pinFromAddresses<T extends Unpinned & { source_id: string 
   table: "venues" | "vendors",
   rows: T[],
   budget: number,
-): Promise<{ remaining: number; error?: string }> {
+): Promise<{ remaining: number; spent: number; error?: string }> {
   const withAddress = rows.filter((row) => row.address);
-  if (withAddress.length === 0) return { remaining: 0 };
+  if (withAddress.length === 0) return { remaining: 0, spent: 0 };
   const admin = createAdminSupabaseClient();
   const { data, error } = await admin
     .from(table)
@@ -128,7 +128,8 @@ export async function pinFromAddresses<T extends Unpinned & { source_id: string 
     .is("address", null)
     .in("source_id", withAddress.map((row) => row.source_id))
     .returns<{ id: string; source_id: string }[]>();
-  if (error) return { remaining: 0, error: error.message };
+  // 42703: vendors.address (migration 0092) isn't applied yet. Skip rather than fail the import.
+  if (error) return error.code === "42703" ? { remaining: 0, spent: 0 } : { remaining: 0, spent: 0, error: error.message };
   const idOf = new Map((data ?? []).map((row) => [row.source_id, row.id]));
   const todo = withAddress.filter((row) => idOf.has(row.source_id));
   const now = todo.slice(0, Math.max(0, Math.floor(budget / 2)));
@@ -144,7 +145,8 @@ export async function pinFromAddresses<T extends Unpinned & { source_id: string 
     }),
   );
   const failed = errors.find(Boolean);
-  return failed ? { remaining: 0, error: failed } : { remaining: todo.length - now.length };
+  const spent = now.length * 2;
+  return failed ? { remaining: 0, spent, error: failed } : { remaining: todo.length - now.length, spent };
 }
 /**
  * Gives listings already in the database a town pin if they were added
