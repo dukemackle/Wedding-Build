@@ -175,8 +175,8 @@ export default function TermsPage() {
           <Section title="13. Contact">
             <p>
               Questions about these Terms? Contact us at{" "}
-              <a href="mailto:wrenwed.com@gmail.com" className="text-brass hover:underline">
-                wrenwed.com@gmail.com
+              <a href="mailto:hello@youdoido.com" className="text-brass hover:underline">
+                hello@youdoido.com
               </a>
               .
             </p>
