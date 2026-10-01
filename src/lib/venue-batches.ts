@@ -1337,4 +1337,11 @@ Calamigos Ranch Resort & Spa	Malibu	California			Ballroom / Hotel	Indoor & Outdo
 Greystone Mansion	Beverly Hills	California			Historic / Estate	Indoor & Outdoor		Historic Doheny Greystone Estate at 905 Loma Vista Dr, run by Friends of Greystone; the mansion opens only for special events including weddings.	friends@greystonemansion.org	(310) 285-1000	https://greystonemansion.org/
 `,
   },
+  {
+    name: "Santa Ynez wine country",
+    tsv: `Name	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Description	Email	Phone	Website
+Gainey Vineyard	Santa Ynez	California			Restaurant / Vineyard	Indoor & Outdoor	500	Working vineyard at 3950 E Highway 246 with a courtyard, vineyard-view lawn, terrace and an 1891 barn for ceremonies and receptions.		805.688.0558	https://gaineyvineyard.com/private-events
+Grimm's Bluff	Santa Ynez	California			Restaurant / Vineyard	Indoor & Outdoor		Vineyard event venue in Happy Canyon with a newly opened event space, taking wedding enquiries by phone, email or its contact form.	Info@grimmsbluff.com	(805) 691-9065	https://www.grimmsbluff.com/events
+`,
+  },
 ];
