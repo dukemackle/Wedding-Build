@@ -6,10 +6,15 @@ import { geocode, STATE_ABBR } from "@/lib/listing-pin";
 // listing's own website, so the map pin is the actual place rather than its
 // town's centre. Runs from the batch import (the scheduled routine calls it
 // until done), a few listings per call: each can take four outbound requests
-// (home page, contact page, geocode, update) against Cloudflare's 50.
+// (home page, contact page, geocode, update, plus redirects) against
+// Cloudflare's 50.
 
-/** Requests one listing can cost. */
-export const FIND_COST = 4;
+/**
+ * Requests one listing can cost: each redirect a page fetch follows counts
+ * as its own request (http -> https -> www is common), so home and contact
+ * page are allowed two each, plus the geocode and the update.
+ */
+export const FIND_COST = 6;
 /** A found address must geocode within this of the listing's current pin (its town). */
 const MAX_KM = 40;
 
