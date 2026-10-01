@@ -8,6 +8,7 @@
       "Bash(npm run dev)",
       "Bash(curl -s -o *)",
       "Bash(npm run cf:build)",
+      "Bash(node scripts/weekly-review.mjs)",
       "Bash(curl -s http*)",
       "mcp__github__list_pull_requests",
       "mcp__github__get_label"
