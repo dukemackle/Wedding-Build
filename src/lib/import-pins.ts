@@ -151,8 +151,11 @@ export async function pinFromAddresses<T extends Unpinned & { source_id: string 
 /**
  * Gives listings already in the database a town pin if they were added
  * without one, up to `maxTowns` towns. Venues share one update per town;
- * vendors (`spread`) get one each, keyed on their name like withPins.
+ * vendors (`spread`) get one each, keyed on their name like withPins, so at
+ * most SPREAD_UPDATES of them per call -- each update is a subrequest too.
  */
+const SPREAD_UPDATES = 6;
+
 export async function pinUnpinned(table: "venues" | "vendors", maxTowns: number, spread = false): Promise<void> {
   if (maxTowns <= 0) return;
   const admin = createAdminSupabaseClient();
@@ -162,13 +165,16 @@ export async function pinUnpinned(table: "venues" | "vendors", maxTowns: number,
     .or("latitude.is.null,longitude.is.null")
     .returns<(Unpinned & { id: string; name: string })[]>();
   const towns = new Map<string, { city: string | null; state: string | null; rows: { id: string; name: string }[] }>();
+  let rowsTaken = 0;
   for (const row of data ?? []) {
+    if (spread && rowsTaken >= SPREAD_UPDATES) break;
     const key = townKey(row);
     if (!towns.has(key)) {
       if (towns.size >= maxTowns) continue;
       towns.set(key, { city: row.city, state: row.state, rows: [] });
     }
     towns.get(key)!.rows.push({ id: row.id, name: row.name });
+    rowsTaken++;
   }
   await Promise.all(
     [...towns.values()].map(async (town) => {

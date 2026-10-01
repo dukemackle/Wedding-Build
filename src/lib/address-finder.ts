@@ -10,11 +10,16 @@ import { geocode, STATE_ABBR } from "@/lib/listing-pin";
 // Cloudflare's 50.
 
 /**
- * Requests one listing can cost: each redirect a page fetch follows counts
- * as its own request (http -> https -> www is common), so home and contact
- * page are allowed two each, plus the geocode and the update.
+ * Requests one listing can cost: home and contact page at two each (one
+ * redirect, see fetchPage), plus the geocode and the update.
  */
 export const FIND_COST = 6;
+/**
+ * Most lookups one call spends on the finder. The import endpoint runs the
+ * venue steps and then the vendor steps in the same Worker invocation, each
+ * with its own database reads, so the finder keeps well inside the 50.
+ */
+export const FINDER_BUDGET = 24;
 /** A found address must geocode within this of the listing's current pin (its town). */
 const MAX_KM = 40;
 
@@ -38,19 +43,31 @@ function kmBetween(a: { latitude: number; longitude: number }, b: { latitude: nu
   return 12742 * Math.asin(Math.sqrt(h));
 }
 
+/**
+ * The page at `url`, following at most one redirect by hand: Cloudflare counts
+ * every hop as a subrequest, and `redirect: "follow"` would take as many as a
+ * site cares to send (one vendor chain blew the per-call cap). Two requests,
+ * never more.
+ */
 async function fetchPage(url: string): Promise<string | null> {
   try {
-    const res = await fetch(url, {
-      signal: AbortSignal.timeout(8000),
-      redirect: "follow",
-      headers: { "user-agent": "Mozilla/5.0 (compatible; YouDoIDoBot/1.0; +https://youdoido.com)" },
-    });
+    let res = await get(url);
+    const next = res.headers.get("location");
+    if (res.status >= 300 && res.status < 400 && next) res = await get(new URL(next, url).href);
     if (!res.ok || !(res.headers.get("content-type") ?? "").includes("html")) return null;
     // Footers sit at the end, but a page past a couple of MB is not a venue site.
     return (await res.text()).slice(0, 2_000_000);
   } catch {
     return null;
   }
+}
+
+function get(url: string) {
+  return fetch(url, {
+    signal: AbortSignal.timeout(8000),
+    redirect: "manual",
+    headers: { "user-agent": "Mozilla/5.0 (compatible; YouDoIDoBot/1.0; +https://youdoido.com)" },
+  });
 }
 
 /** schema.org PostalAddress in the page's JSON-LD -- the most reliable source when a site has it. */
@@ -180,7 +197,7 @@ export async function findAddresses(
   table: "venues" | "vendors",
   budget: number,
 ): Promise<{ remaining: number; found: number; error?: string }> {
-  const take = Math.floor(budget / FIND_COST);
+  const take = Math.floor(Math.min(budget, FINDER_BUDGET) / FIND_COST);
   const admin = createAdminSupabaseClient();
   const { data, count, error } = await admin
     .from(table)
