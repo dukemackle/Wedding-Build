@@ -241,7 +241,6 @@ Shake Rattle & Roll Mobile Bar	Bar	San Antonio	Texas	Austin to Corpus Christi	Mo
 B.A.R. Bevys Are Ready	Bar	San Antonio	Texas	San Antonio and Central Texas	Mobile bartending with styled bars for weddings.	events@bevysareready.com		https://bevysareready.com	https://www.instagram.com/bevysareready/
 Bluebonnet Bartending	Bar	San Antonio	Texas	San Antonio	TABC-certified mobile bartenders and custom cocktails, in business since 2008.		210-993-0058	https://www.bluebonnetbartending.com	https://www.instagram.com/bluebonnetbartenders/
 SATX Limousine & Party Bus	Transportation	San Antonio	Texas	San Antonio	Limousines and party buses for the wedding party.	satxlimousine@yahoo.com	(210) 610-1051	https://www.satxlimousine.com	
-ETI Limousine & Charter	Transportation	San Antonio	Texas	Across Texas	Charter buses, sprinter vans and SUVs for guest shuttles and the wedding party.	info@etilimo.com	210-599-9999	https://etilimo.com	https://www.instagram.com/eti_limo/
 `,
   },
   {

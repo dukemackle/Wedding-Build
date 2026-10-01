@@ -2,6 +2,7 @@ import Link from "next/link";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import type { Vendor, VendorContactLog, VendorFaq } from "@/lib/supabase/types";
 import { countAddedThisWeek, fetchDistinct, fetchListingPage, fetchTestWeddingIds } from "../_listing/query";
+import { AuditPanel } from "../_listing/audit-panel";
 import { BundledBanner } from "../_listing/bundled-banner";
 import { parseListingParams } from "../_listing/params";
 import { addBundledVendors, pendingBundledVendors } from "./actions";
@@ -122,6 +123,7 @@ export default async function AdminVendorsPage({
         />
       )}
       {claimsNotice}
+      <AuditPanel table="vendors" noun="vendor" />
     </>
   );
 

@@ -6,8 +6,9 @@ description: Sweep existing venues and vendors for stale or dead websites, dupli
 # /data-audit
 
 A couple who drives to a venue that closed last year stops trusting the
-product, so this hunts for listings that are confidently wrong. It reports and
-proposes fixes; it never edits the database. Arguments, if any, narrow the run
+product, so this hunts for listings that are confidently wrong. It reports, and
+writes a fixes file the owner applies on /admin; it never edits the database
+itself (the sessions have no database key, on purpose). Arguments, if any, narrow the run
 ("vendors", "Austin", "photography").
 
 ## 1. Get the data
@@ -28,7 +29,8 @@ The container has no Supabase keys, so the live rows come from the owner:
 ```
 node .claude/skills/data-audit/audit.mjs \
   [--venues venues.csv] [--vendors vendors.csv] \
-  --out <scratchpad>/data-audit.md --json <scratchpad>/data-audit.json
+  --out <scratchpad>/data-audit.md --json <scratchpad>/data-audit.json \
+  --fixes <scratchpad>/data-audit-fixes.json
 ```
 
 `--no-web` skips the website checks (offline, seconds); otherwise it loads
@@ -63,6 +65,21 @@ The script's signals are leads, not verdicts. For every **site down**,
    so), **renamed/moved** (give the new name or URL), **alive** (false alarm),
    or **unsure** (say what's missing). Link the evidence.
 
+Then edit the fixes file (it's JSON; `review` lists the flagged rows):
+
+- **alive / blocked site that loads in a browser:** move the ref into `verify`.
+  Retry blocked sites with curl and a browser user agent; a page with the
+  business's own title counts, a challenge page doesn't.
+- **moved / renamed:** add to `update` with `"set": {"website": "<new url>"}`
+  and a `reason`. Only `website`, `contact_email` and `contact_phone` can be
+  set; the admin page refuses anything else. An updated row is marked
+  checked too.
+- **closed / duplicate DB row:** add to `hide` with a `reason`.
+- **unsure:** leave it in `review`. It stays unchecked for the owner.
+
+Never move a row into `verify` you haven't confirmed: "Last checked" on
+/admin must mean something looked.
+
 For **duplicates**, read both rows and say which to keep (the claimed one,
 then the one with more photos/details) and whether they're truly the same
 business or sister venues that need distinct websites.
@@ -73,19 +90,21 @@ are counts and lists, not research.
 ## 4. Report
 
 Write the report as `data-audit-<date>.md` in the scratchpad and send it to the
-owner, top to bottom: confirmed closures, duplicates, renamed/moved, dead
+owner along with `data-audit-fixes.json`. Tell them to open /admin/venues and
+/admin/vendors, click **Apply a data audit**, upload the file, check the
+preview and click Apply (each page applies its own half). The report runs top to bottom: confirmed closures, duplicates, renamed/moved, dead
 sites still unsure, then the counts of thin and stale listings (top 15 each,
 grouped by metro if that helps them pick a weekend's work). Keep the chat
 reply to a few lines plus the file.
 
 ## 5. Fixes: who does what
 
-- **Closed or duplicate rows in the database:** the owner hides them on
-  /admin (Live off). Don't recommend deleting: a hard delete cascades away any
-  couple's venue shortlist, and the batch importer would offer the row again
-  since its website is no longer present.
-- **Renamed / new website / mark verified:** the owner edits the row on
-  /admin, which also stamps "Last checked".
+- **Database rows:** through the fixes file. Hiding sets Live off; it never
+  deletes (a delete cascades away couples' shortlists, and the importer would
+  offer the row again). Rows are matched by `id` (CSV run, from the export's
+  ID column) or the importer's `sourceId` (batch run); batch rows not yet
+  added are skipped. Checked rows are stamped "data audit (applied by
+  <owner>)" so they're told apart from the owner's own checks.
 - **Batch files:** a closed or duplicate row can be removed, and a moved URL
   updated, in `src/lib/*-batches.ts`. That's not an add-rows-only PR, so it
   goes to the owner like any other change rather than merging itself.

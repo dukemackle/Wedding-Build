@@ -13,7 +13,7 @@ export async function GET(request: Request) {
   const vendors = await fetchAllListings<Vendor>(VENDOR_LISTING, params);
 
   const csv = toCsv(
-    ["Name", "Category", "City", "State", "Price tier", "Email", "Source", "Live", "Last checked", "Phone", "Website", "Price from", "Photos"],
+    ["Name", "Category", "City", "State", "Price tier", "Email", "Source", "Live", "Last checked", "Phone", "Website", "Price from", "Photos", "ID"],
     vendors.map((v) => [
       v.name,
       v.category ?? "",
@@ -28,6 +28,8 @@ export async function GET(request: Request) {
       v.website ?? "",
       v.price_from ?? "",
       v.photo_urls?.length || (v.image_url ? 1 : 0),
+      // Lets /data-audit point its fixes file at the exact row.
+      v.id,
     ]),
   );
 
