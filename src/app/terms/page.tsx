@@ -11,7 +11,7 @@ export default function TermsPage() {
       <div className={`w-full ${READING_WIDTH}`}>
         <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Legal</p>
         <h1 className="mt-2 font-display text-3xl font-semibold text-forest">Terms of Service</h1>
-        <p className="mt-2 text-sm text-ink/60">Last updated: September 27, 2026</p>
+        <p className="mt-2 text-sm text-ink/60">Last updated: October 2, 2026</p>
 
         <div className="mt-8 flex flex-col gap-8 text-ink/80">
           <p>
@@ -27,8 +27,8 @@ export default function TermsPage() {
           <Section title="1. Who these Terms cover">
             <ul className="list-disc space-y-2 pl-5">
               <li>
-                <strong className="text-ink">Account holders</strong> — couples (and any partner
-                they invite) who create a You Do, I Do account to plan a wedding.
+                <strong className="text-ink">Account holders</strong> — couples (and anyone
+                they invite to help plan) who create a You Do, I Do account to plan a wedding.
               </li>
               <li>
                 <strong className="text-ink">Guests</strong> — anyone who submits an RSVP,
@@ -54,8 +54,9 @@ export default function TermsPage() {
           <Section title="3. Accounts">
             <p>
               You&apos;re responsible for keeping your login credentials confidential and for all
-              activity under your account. If you invite a partner to share access to your
-              wedding, you&apos;re both responsible for how that shared access is used. Notify us
+              activity under your account. If you invite others to plan your wedding with
+              you, you&apos;re responsible for choosing who gets access and what they can do, and
+              each person is responsible for how they use it. Notify us
               right away if you believe your account has been compromised.
             </p>
           </Section>

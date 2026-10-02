@@ -71,7 +71,7 @@ export default async function AdminGrowthPage() {
     admin
       .from("weddings")
       .select(
-        "id, user_id, partner_a_name, partner_b_name, created_at, is_test, partner_user_id, public_slug, itinerary_published",
+        "id, user_id, partner_a_name, partner_b_name, created_at, is_test, member_ids, public_slug, itinerary_published",
       )
       .returns<
         {
@@ -81,7 +81,7 @@ export default async function AdminGrowthPage() {
           partner_b_name: string | null;
           created_at: string;
           is_test: boolean;
-          partner_user_id: string | null;
+          member_ids: string[];
           public_slug: string | null;
           itinerary_published: boolean;
         }[]
@@ -163,8 +163,8 @@ export default async function AdminGrowthPage() {
         { label: "Built a checklist", adopted: distinctWeddingCount(realChecklistItems) },
         { label: "Added itinerary events", adopted: distinctWeddingCount(realItineraryEvents) },
         {
-          label: "Invited a partner",
-          adopted: realWeddings.filter((w) => w.partner_user_id != null).length,
+          label: "Invited someone to plan",
+          adopted: realWeddings.filter((w) => w.member_ids.length > 0).length,
         },
       ],
     },

@@ -16,7 +16,7 @@ async function currentWedding() {
   const { data: wedding } = await supabase
     .from("weddings")
     .select("id")
-    .or(`user_id.eq.${user.id},partner_user_id.eq.${user.id}`)
+    .or(`user_id.eq.${user.id},member_ids.cs.{${user.id}}`)
     .maybeSingle<{ id: string }>();
   return wedding ? { supabase, weddingId: wedding.id } : null;
 }
