@@ -1,6 +1,36 @@
 import type { VenueBatch } from "@/lib/venue-batches";
 
 // Florida venue batches. Every row's State is "Florida". Add new batches at the end.
-const batches: VenueBatch[] = [];
+const batches: VenueBatch[] = [
+  {
+    name: "Miami, Orlando and Tampa Bay",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+The Cooper Estate	14201 SW 248th St	Homestead	Florida			Historic / Estate	Indoor & Outdoor			Century-old oolite limestone house and barn on a working native-plant nursery in the Redland, with live oaks, fish ponds and a sunken grotto.	info@thecooperestate.com	(305) 904-9032	https://thecooperestate.com/weddings/
+Miami Beach Botanical Garden	2000 Convention Center Dr	Miami Beach	Florida			Garden / Outdoor	Indoor & Outdoor			Three acres of tropical garden beside the convention centre, with palms, orchids and cycads around its event spaces.	growwithus@mbgarden.org	(305) 673-7256	https://www.mbgarden.org/private-events
+Schnebly Redland's Winery	30205 SW 217th Ave	Homestead	Florida			Restaurant / Vineyard	Outdoor			Tropical-fruit winery on thirty acres with a waterfall courtyard for ceremonies and thatched tiki huts for receptions.	info@schneblywinery.com	(305) 242-1224	https://www.schneblywinery.com/weddings-private-events
+Coral Gables Country Club	990 Alhambra Circle	Coral Gables	Florida			Ballroom / Hotel	Indoor & Outdoor	600		Club built in 1922 by Coral Gables founder George Merrick beside the Granada golf course, with a ballroom for 600 and an outdoor Granada Garden.	events@coralgablescountryclub.com	(305) 722-8783	https://www.coralgablescountryclub.com/venue
+Pinecrest Gardens	11000 Red Rd	Pinecrest	Florida			Garden / Outdoor	Indoor & Outdoor			Village-run botanical garden with the indoor Cypress Hall, outdoor lawns and a 500-seat open-air amphitheatre, the Banyan Bowl.	info@pinecrestgardens.org	(305) 669-6990	https://www.pinecrestgardens.org/Venue-Rental
+Hotel Colonnade Coral Gables	180 Aragon Ave	Coral Gables	Florida			Ballroom / Hotel	Indoor & Outdoor			Coral Gables hotel with a rotunda under a 60-foot dome, a Galleria hall and a rooftop terrace.		(305) 441-2600	https://hotelcolonnade.com/gather/weddings/
+Coral Gables Woman's Club	1001 E Ponce de Leon Blvd	Coral Gables	Florida			Historic / Estate	Indoor	240		Clubhouse of a women's club over 100 years old, with two wood-beamed ballrooms, one with limestone walls and two fireplaces.	rentals@coralgableswomansclub.com	(305) 448-7080	https://coralgableswomansclub.org/venue/
+The Betsy Hotel	1440 Ocean Dr	Miami Beach	Florida			Beach / Waterfront	Indoor & Outdoor			Boutique hotel on Ocean Drive with a rooftop Skyline Deck, an oceanfront deck and a subterranean bar for wedding events.		(305) 531-6100	https://www.thebetsyhotel.com/gather/weddings
+Casa Feliz	656 N Park Ave	Winter Park	Florida			Historic / Estate	Indoor & Outdoor	120		1933 James Gamble Rogers II house museum on Park Avenue, moved to save it from demolition, with courtyards, a library and a garden room.		(407) 628-0230	https://www.casafelizvenue.com/casafelizwedding
+Paradise Cove	13245 Lake Bryan Dr	Orlando	Florida			Beach / Waterfront	Outdoor			Secluded spot on the shore of Lake Bryan near Lake Buena Vista with a white-sand beach, a tiki bar and a lit pavilion.	info@paradisecoveorlando.com	(407) 239-6939	https://paradisecoveorlando.com/ceremony-reception/
+Lake Mary Events Center	260 N Country Club Rd	Lake Mary	Florida			Ballroom / Hotel	Indoor & Outdoor	240	Simple	City-run events centre on West Crystal Lake with a rotunda, a lakeside ceremony lawn under live oaks and a ballroom for 240.		(407) 585-1490	https://www.lakemaryeventscenter.com/101/Weddings
+Historic Venue 1902	301 W 7th St	Sanford	Florida			Historic / Estate	Indoor & Outdoor	175		Sanford's former grammar school, restored with a grand ballroom, a library and ceremony spaces.		(407) 986-8600	https://www.venue1902.com/
+Gaylord Palms Resort & Convention Center	6000 W Osceola Pkwy	Kissimmee	Florida			Ballroom / Hotel	Indoor & Outdoor			Convention resort with 1,718 rooms, a wedding pavilion, a fort-themed reception space and an outdoor Mangrove Lawn.		(407) 586-0000	https://www.marriott.com/en-us/hotels/mcogp-gaylord-palms-resort-and-convention-center/events/
+Heller Hall at Winter Garden Heritage Foundation	21 E Plant St	Winter Garden	Florida			Historic / Estate	Indoor & Outdoor	70		Chandeliered hall with an adjoining pergola on the West Orange Trail in downtown Winter Garden's historic district.	hellerhall@wghf.org	(407) 656-3244	https://www.wghf.org/facility-rentals/
+Orlando Museum of Art	2416 N Mills Ave	Orlando	Florida			Historic / Estate	Indoor & Outdoor	200		Art museum in Loch Haven Park with a skylit marble grand gallery, a rotunda and an open-air sculpture plaza.	facilityrentals@omart.org	(407) 896-4231	https://omart.org/facility_rentals/weddings/
+The Mennello Museum of American Art	900 E Princeton St	Orlando	Florida			Garden / Outdoor	Indoor & Outdoor		Simple	Small art museum beside Lake Formosa whose sculpture garden hosts ceremonies, with a porch and gallery for smaller groups.	noelia.veras@orlando.gov	(407) 246-4278	https://www.mennellomuseum.org/Rentals/Rentals
+Sunken Gardens	1825 4th St N	St. Petersburg	Florida			Garden / Outdoor	Indoor & Outdoor	200	Classic	Sunken botanical garden that has hosted weddings since 1935, with a north lawn, an oak pavilion and an indoor Garden Room.		(727) 551-3106	https://sunkengardens.org/weddings/
+Fenway Hotel	453 Edgewater Dr	Dunedin	Florida			Ballroom / Hotel	Indoor & Outdoor	360		Dunedin hotel in a building that housed a radio station in 1925, with eight event rooms and a front lawn for 360.		(727) 683-5999	https://www.fenwayhotel.com/wedding-events/weddings/
+Safety Harbor Resort and Spa	105 N Bayshore Dr	Safety Harbor	Florida			Ballroom / Hotel	Indoor & Outdoor			Waterfront spa resort built over natural mineral springs, with the chandeliered Four Springs Ballroom.		(888) 237-8772	https://www.safetyharborspa.com/wedding-facilities-venues
+Opal Sands	430 S Gulfview Blvd	Clearwater Beach	Florida			Beach / Waterfront	Indoor & Outdoor			Clearwater Beach resort with its own event lawn for 250, sharing ballrooms with sister hotel Opal Sol.		(727) 450-0380	https://www.opalcollection.com/opal-sands/gather/weddings/
+Tampa Bay History Center	801 Water St	Tampa	Florida			Historic / Estate	Indoor & Outdoor	300		History museum on the downtown Tampa waterfront with an atrium, an event hall for 300 and an upper terrace.		(813) 229-5529	https://tampabayhistorycenter.org/private-events-tampa-bay-history-center/
+Oxford Exchange	420 W Kennedy Blvd	Tampa	Florida			Restaurant / Vineyard	Indoor			1891 building reworked as a bookshop and restaurant, with a glass-roofed conservatory, an atrium and a library for weddings.		(813) 253-0222	https://oxfordexchange.com/pages/weddings
+The Vinoy Resort & Golf Club	501 5th Ave NE	St. Petersburg	Florida			Ballroom / Hotel	Indoor & Outdoor	400		Waterfront hotel in downtown St. Petersburg open since 1925, with ballrooms and lawns for weddings of up to 400.	vinoy.info@thevinoy.com	(727) 894-1000	https://thevinoy.com/weddings/
+Le Méridien Tampa, The Courthouse	601 N Florida Ave	Tampa	Florida			Historic / Estate	Indoor & Outdoor			Hotel in Tampa's former federal courthouse with a Courthouse Ballroom and an outdoor terrace overlooking downtown.		(813) 221-9555	https://www.marriott.com/en-us/hotels/tpamd-le-meridien-tampa-the-courthouse/events/
+`,
+  },
+];
 
 export default batches;
