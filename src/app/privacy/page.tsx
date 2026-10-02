@@ -11,7 +11,7 @@ export default function PrivacyPage() {
       <div className={`w-full ${READING_WIDTH}`}>
         <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Legal</p>
         <h1 className="mt-2 font-display text-3xl font-semibold text-forest">Privacy Policy</h1>
-        <p className="mt-2 text-sm text-ink/60">Last updated: September 28, 2026</p>
+        <p className="mt-2 text-sm text-ink/60">Last updated: October 2, 2026</p>
 
         <div className="mt-8 flex flex-col gap-8 text-ink/80">
           <p>
@@ -40,6 +40,13 @@ export default function PrivacyPage() {
                 you and a partner you&apos;ve invited.
               </li>
               <li>Messages you send to vendors/venues through the Service.</li>
+              <li>
+                Your conversations with Wren, the planning assistant: the questions you ask and
+                Wren&apos;s answers. We keep them with your account so we can see where Wren falls
+                short and what couples ask most often, and use the common themes, never your own
+                words or anyone&apos;s name, to improve the app and write help content. They&apos;re
+                deleted with your account.
+              </li>
               <li>
                 Files you choose through &ldquo;Choose from Drive.&rdquo; If you connect Google
                 Drive, You Do, I Do asks Google only for the specific file you pick in Google&apos;s own
@@ -135,8 +142,9 @@ export default function PrivacyPage() {
             <p className="mt-2">
               We also use the same API for our own admin work, such as summarising feedback or checking
               listings. That can include your names, wedding details (date, location, budget, guest
-              count) and feedback you&apos;ve sent us, but never your guests&apos; names, contact details, or
-              messages you send vendors.
+              count), feedback you&apos;ve sent us, and questions you&apos;ve asked Wren (which may
+              mention anyone you named in them), but never your guest list, guests&apos; contact
+              details, or messages you send vendors.
             </p>
             <p className="mt-2">
               Anthropic processes this to return a result and does not use it to train their

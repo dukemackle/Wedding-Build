@@ -2,6 +2,7 @@
 
 import { useTransition } from "react";
 import { setFeedbackStatus } from "./actions";
+import { ChatThemes } from "./chat-themes";
 import type { AssistantConversation, FeedbackStatus, FeedbackSubmission } from "@/lib/supabase/types";
 
 function formatDate(value: string) {
@@ -94,6 +95,8 @@ export function AdminFeedbackManager({
           </div>
         )}
       </section>
+
+      <ChatThemes />
 
       <section>
         <h2 className="font-display text-xl font-semibold text-forest">
