@@ -1,6 +1,34 @@
 import type { VenueBatch } from "@/lib/venue-batches";
 
 // Mississippi venue batches. Every row's State is "Mississippi". Add new batches at the end.
-const batches: VenueBatch[] = [];
+const batches: VenueBatch[] = [
+  {
+    name: "Jackson and the Gulf Coast",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+The Faulkner	518 E Capitol St	Jackson	Mississippi			Historic / Estate	Indoor & Outdoor	300		Downtown building with three event spaces across its floors, including a rooftop terrace, and an open list of caterers.	events@thefaulkner.com	(601) 566-1939	https://thefaulkner.com/weddings/
+Mississippi Museum of Art	380 South Lamar Street	Jackson	Mississippi			Garden / Outdoor	Indoor & Outdoor			Downtown art museum with an outdoor art garden and galleries guests can tour during the event, plus in-house bar service.	gwilks@msmuseumart.org	(601) 965-9928	https://www.msmuseumart.org/venue-rental/
+Two Mississippi Museums	222 North St	Jackson	Mississippi			Historic / Estate	Indoor & Outdoor			The joined state history and civil rights museums, with nine rentable spaces from an auditorium and history hall to an outdoor plaza.	rayoung@mdah.ms.gov	(601) 576-6778	https://www.mdah.ms.gov/event-rentals/two-mississippi-museums
+The Cedars	4145 Old Canton Road	Jackson	Mississippi			Historic / Estate	Indoor & Outdoor			Historic Fondren house on grounds shaded by cedar and magnolia trees, rented out by the Fondren Renaissance Foundation for weddings and receptions.	doug@fondren.org	(601) 622-6555	https://www.fondren.org/the-cedars
+The Westin Jackson	407 South Congress Street	Jackson	Mississippi			Ballroom / Hotel	Indoor	400		Downtown hotel whose Jackson Grand Ballroom seats 400 for dinner, with guest rooms for the wedding party upstairs.			https://www.marriott.com/en-us/hotels/janwi-the-westin-jackson/events/
+Country Club of Jackson	345 St. Andrews Dr	Jackson	Mississippi			Ballroom / Hotel	Indoor			Private golf and racquet club in north Jackson with its own events team planning weddings and receptions in the clubhouse.		(601) 956-1411	https://www.ccjackson.com/weddings-and-events
+Reunion Golf & Country Club	150 Greensward Drive	Madison	Mississippi			Ballroom / Hotel	Indoor & Outdoor			Clubhouse in Madison's Reunion community offering ballroom receptions, open-air ceremonies and in-house catering.	catering@reunionms.com	(601) 605-8784	https://www.reunionms.com/weddings
+The Velveteen		Madison	Mississippi			Ballroom / Hotel	Indoor & Outdoor			Venue of more than 7,500 sq ft in the Lost Rabbit neighbourhood, with a bridal suite and an outdoor mezzanine looking over the water.			https://www.velveteenvenue.com
+The Raymond Venue	228 Raymond Square	Raymond	Mississippi			Historic / Estate	Indoor & Outdoor	250	Classic	Building on Raymond's historic town square with a reception hall, outdoor ceremony space, courtyard and optional in-house planning, flowers and bar.	theraymondvenue@gmail.com	(601) 526-9022	https://www.theraymondvenue.com
+Sheraton Flowood The Refuge Hotel & Conference Center	2200 Refuge Boulevard	Flowood	Mississippi			Ballroom / Hotel	Indoor & Outdoor			Conference hotel with 11 event rooms including a Grand Ballroom, plus an outdoor lawn for ceremonies and on-site catering.		(601) 936-4550	https://www.marriott.com/en-us/hotels/jansi-sheraton-flowood-the-refuge-hotel-and-conference-center/events/
+The Vault Venue	202 North College Street	Brandon	Mississippi			Historic / Estate	Indoor & Outdoor	300		Former 1973 Central Bank of Mississippi headquarters in downtown Brandon, renovated in 2017, keeping its vault doors and adding a balcony and courtyard.	events@thevaultvenue.com	(601) 260-9277	https://www.thevaultvenue.com
+The Lodge at Cypress Point	314 Clark Creek Road	Brandon	Mississippi			Barn / Rustic	Indoor & Outdoor			Resort lodge with a lakeside chapel of salvaged church pews seating 120, a banquet hall behind the lodge and overnight rooms and cabins.		(601) 829-1101	https://cypresspointms.com/venues/
+100 Men Hall	303 Union St	Bay St. Louis	Mississippi			Historic / Estate	Indoor			Hall dedicated in 1923 by an African American benevolent society and later a Chitlin' Circuit stop, now a music and event venue.	100menhall@gmail.com	(228) 231-1920	https://100menhall.com/pages/rent-the-hall
+Oak Crest Mansion Inn	5267 Menge Avenue	Pass Christian	Mississippi			Historic / Estate	Indoor & Outdoor			Mansion built in 1920 with a grand staircase, chapel, gazebo, pergola and gardens under live oaks, plus rooms for overnight guests.	info@oakcrestmansion.com	(228) 452-5677	https://www.oakcrestmansion.com/weddings
+Richburg Hall	1316 30th Avenue	Gulfport	Mississippi			Ballroom / Hotel	Indoor	350		Multi-room hall of 10,000 sq ft seating 350, with an in-house chef and smaller rooms for groups from 20.			https://www.richburghall.com
+Mary C. O'Keefe Cultural Arts Center	1600 Government St	Ocean Springs	Mississippi			Historic / Estate	Indoor & Outdoor			Former 1927 school building turned arts centre, with a theatre, galleries, a courtyard and an oak-shaded front lawn used for weddings.	themaryc@oceansprings-ms.gov	(228) 875-6732	https://www.themaryc.art/rentals
+Centennial Plaza Resort	200 E Beach Blvd	Gulfport	Mississippi			Beach / Waterfront	Indoor & Outdoor			Restored 2,400 sq ft chapel with a stage and bridal suite inside a 48-acre beachfront resort on the Mississippi Sound.	info@cpgulfport.com	(228) 206-7880	https://www.centennialplazams.com/celebrate/celebrate
+The Markham Hotel	2301 14th Street	Gulfport	Mississippi			Ballroom / Hotel	Indoor & Outdoor			Restored 1920s downtown hotel with the 2,350 sq ft Crystal Ballroom, a rooftop bar looking over the harbour and in-house catering.	info@markhamhotelms.com	(228) 777-2600	https://www.markhamhotelms.com/wedding-events
+Gulfport Event Center		Gulfport	Mississippi			Historic / Estate	Indoor & Outdoor			Restored former downtown Gulfport library run by Coast Transit, with a main room, oak-shaded front lawn and tram bridge.	kmorgan@coasttransit.com	(228) 224-8207	https://coasttransit.com/gulfport-transit-center/
+Courtyard Gulfport Beachfront	1600 East Beach Blvd	Gulfport	Mississippi			Beach / Waterfront	Indoor & Outdoor	300		Beachfront hotel offering ceremonies on the sand or under the oaks and a Coastal Ballroom for receptions.		(228) 864-4310	https://www.marriott.com/en-us/hotels/gptcy-courtyard-gulfport-beachfront/events/
+The Roost Ocean Springs	604 Porter Avenue	Ocean Springs	Mississippi			Ballroom / Hotel	Indoor & Outdoor			Boutique hotel that hosts weddings as two-night whole-property buyouts, with porches for gathering and food from its Maringouin restaurant.	roost@raintravelcollection.com	(228) 285-7989	https://www.roostoceansprings.com/events-and-celebrations
+The Grand Sofia	1785 Beach Blvd	Biloxi	Mississippi			Beach / Waterfront	Indoor & Outdoor	300		Beachfront hall of 10,000 sq ft with coffered ceilings, two preparation suites and direct access to the sand.	info@thegrandsofia.com	(228) 295-7126	https://www.thegrandsofia.com
+`,
+  },
+];
 
 export default batches;
