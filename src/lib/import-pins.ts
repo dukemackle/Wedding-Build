@@ -26,6 +26,14 @@ export const LOOKUPS_PER_CALL = 36;
 /** A town pin can take four requests: two Census layers, then two table lookups. */
 export const TOWN_COST = 4;
 
+/**
+ * What's left of LOOKUPS_PER_CALL in this call. One is passed through every
+ * step of an import -- both tables, database reads and writes included -- and
+ * each step spends from it, so steps can't each assume the whole allowance.
+ */
+export type Budget = { left: number };
+export const newBudget = (): Budget => ({ left: LOOKUPS_PER_CALL });
+
 /** The one-line address the Census geocoder is given. */
 export const fullAddress = (row: Unpinned) => [row.address, row.city, row.state].filter(Boolean).join(", ");
 
@@ -111,17 +119,19 @@ export function withinBudget<T extends Unpinned>(rows: T[], budget: number): { b
  * business entered itself (a claimed listing) is never overwritten. A row
  * whose address doesn't geocode still gets the address saved, so it isn't
  * retried every call, and the batch's typed coordinates if it has them.
- * Each row is two requests (lookup, update). Returns how many are left, or
- * the first database error, so a failing update can't loop the caller forever.
+ * Each row is two requests (lookup, update), spent from `budget`. Returns how
+ * many are left, or the first database error, so a failing update can't loop
+ * the caller forever.
  */
 export async function pinFromAddresses<T extends Unpinned & { source_id: string }>(
   table: "venues" | "vendors",
   rows: T[],
-  budget: number,
-): Promise<{ remaining: number; spent: number; error?: string }> {
+  budget: Budget,
+): Promise<{ remaining: number; error?: string }> {
   const withAddress = rows.filter((row) => row.address);
-  if (withAddress.length === 0) return { remaining: 0, spent: 0 };
+  if (withAddress.length === 0) return { remaining: 0 };
   const admin = createAdminSupabaseClient();
+  budget.left -= 1;
   const { data, error } = await admin
     .from(table)
     .select("id, source_id")
@@ -129,10 +139,11 @@ export async function pinFromAddresses<T extends Unpinned & { source_id: string 
     .in("source_id", withAddress.map((row) => row.source_id))
     .returns<{ id: string; source_id: string }[]>();
   // 42703: vendors.address (migration 0092) isn't applied yet. Skip rather than fail the import.
-  if (error) return error.code === "42703" ? { remaining: 0, spent: 0 } : { remaining: 0, spent: 0, error: error.message };
+  if (error) return error.code === "42703" ? { remaining: 0 } : { remaining: 0, error: error.message };
   const idOf = new Map((data ?? []).map((row) => [row.source_id, row.id]));
   const todo = withAddress.filter((row) => idOf.has(row.source_id));
-  const now = todo.slice(0, Math.max(0, Math.floor(budget / 2)));
+  const now = todo.slice(0, Math.max(0, Math.floor(budget.left / 2)));
+  budget.left -= now.length * 2;
   const errors = await Promise.all(
     now.map(async (row) => {
       const hit = await geocode(fullAddress(row));
@@ -145,36 +156,35 @@ export async function pinFromAddresses<T extends Unpinned & { source_id: string 
     }),
   );
   const failed = errors.find(Boolean);
-  const spent = now.length * 2;
-  return failed ? { remaining: 0, spent, error: failed } : { remaining: todo.length - now.length, spent };
+  return failed ? { remaining: 0, error: failed } : { remaining: todo.length - now.length };
 }
 /**
  * Gives listings already in the database a town pin if they were added
- * without one, up to `maxTowns` towns. Venues share one update per town;
- * vendors (`spread`) get one each, keyed on their name like withPins, so at
- * most SPREAD_UPDATES of them per call -- each update is a subrequest too.
+ * without one, as far as `budget` goes. Venues share one update per town;
+ * vendors (`spread`) get one each, keyed on their name like withPins. A town
+ * that won't pin is tried again next call, so this always runs last, on
+ * whatever the call has left.
  */
-const SPREAD_UPDATES = 6;
-
-export async function pinUnpinned(table: "venues" | "vendors", maxTowns: number, spread = false): Promise<void> {
-  if (maxTowns <= 0) return;
+export async function pinUnpinned(table: "venues" | "vendors", budget: Budget, spread = false): Promise<void> {
+  if (budget.left < 1 + TOWN_COST + 1) return;
   const admin = createAdminSupabaseClient();
+  budget.left -= 1;
   const { data } = await admin
     .from(table)
     .select("id, name, city, state, latitude, longitude")
     .or("latitude.is.null,longitude.is.null")
     .returns<(Unpinned & { id: string; name: string })[]>();
   const towns = new Map<string, { city: string | null; state: string | null; rows: { id: string; name: string }[] }>();
-  let rowsTaken = 0;
   for (const row of data ?? []) {
-    if (spread && rowsTaken >= SPREAD_UPDATES) break;
     const key = townKey(row);
-    if (!towns.has(key)) {
-      if (towns.size >= maxTowns) continue;
-      towns.set(key, { city: row.city, state: row.state, rows: [] });
-    }
-    towns.get(key)!.rows.push({ id: row.id, name: row.name });
-    rowsTaken++;
+    const town = towns.get(key);
+    // A new town is its lookup plus an update; another vendor in a town
+    // already taken is one more update, and another venue costs nothing.
+    const cost = town ? (spread ? 1 : 0) : TOWN_COST + 1;
+    if (cost > budget.left) continue;
+    budget.left -= cost;
+    if (town) town.rows.push({ id: row.id, name: row.name });
+    else towns.set(key, { city: row.city, state: row.state, rows: [{ id: row.id, name: row.name }] });
   }
   await Promise.all(
     [...towns.values()].map(async (town) => {
