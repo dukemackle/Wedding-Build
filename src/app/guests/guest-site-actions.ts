@@ -2,29 +2,8 @@
 
 import { randomUUID } from "node:crypto";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
-import type { Wedding } from "@/lib/supabase/types";
 import { MAX_GALLERY_PHOTOS } from "@/lib/guest-site";
-
-async function requireOwnWedding() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect("/login");
-  }
-
-  const { data: wedding } = await supabase
-    .from("weddings")
-    .select("*")
-    .or(`user_id.eq.${user.id},member_ids.cs.{${user.id}}`)
-    .maybeSingle<Wedding>();
-
-  return { supabase, user, wedding };
-}
+import { requireEditableWedding } from "@/lib/wedding-access";
 
 function str(formData: FormData, key: string): string | null {
   const raw = (formData.get(key) as string)?.trim();
@@ -40,10 +19,10 @@ function revalidateGuestSite(slug: string | null) {
 }
 
 export async function updateGuestSiteDetails(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, wedding } = await requireOwnWedding();
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const { error } = await supabase
@@ -63,10 +42,10 @@ export async function updateGuestSiteDetails(formData: FormData): Promise<{ erro
 }
 
 export async function addWeddingFaq(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, user, wedding } = await requireOwnWedding();
+  const { supabase, user, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const question = str(formData, "question");
@@ -92,10 +71,10 @@ export async function addWeddingFaq(formData: FormData): Promise<{ error?: strin
 }
 
 export async function deleteWeddingFaq(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, wedding } = await requireOwnWedding();
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const { error } = await supabase
@@ -113,10 +92,10 @@ export async function deleteWeddingFaq(formData: FormData): Promise<{ error?: st
 }
 
 export async function addAccommodation(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, user, wedding } = await requireOwnWedding();
+  const { supabase, user, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const name = str(formData, "name");
@@ -143,10 +122,10 @@ export async function addAccommodation(formData: FormData): Promise<{ error?: st
 }
 
 export async function deleteAccommodation(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, wedding } = await requireOwnWedding();
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const { error } = await supabase
@@ -177,10 +156,10 @@ const MAX_PHOTO_BYTES = 5 * 1024 * 1024;
  * of us" and becomes a camera roll guests scroll past to reach the RSVP.
  */
 export async function addGalleryPhotos(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, wedding } = await requireOwnWedding();
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const photos = (formData.getAll("photos") as File[]).filter((p) => p && p.size > 0);
@@ -236,10 +215,10 @@ export async function addGalleryPhotos(formData: FormData): Promise<{ error?: st
 }
 
 export async function removeGalleryPhoto(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, wedding } = await requireOwnWedding();
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const { error } = await supabase
@@ -261,10 +240,10 @@ export async function removeGalleryPhoto(formData: FormData): Promise<{ error?: 
 // ---------------------------------------------------------------------------
 
 export async function setGuestPostStatus(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, wedding } = await requireOwnWedding();
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const status = formData.get("status") as string;
@@ -287,10 +266,10 @@ export async function setGuestPostStatus(formData: FormData): Promise<{ error?: 
 }
 
 export async function deleteGuestPost(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, wedding } = await requireOwnWedding();
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const { error } = await supabase

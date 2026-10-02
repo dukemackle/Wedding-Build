@@ -7,8 +7,6 @@ import {
   googleSheetCsvUrl,
   parseGoogleSheetUrl,
 } from "@/lib/spreadsheet";
-import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
 import { getResendClient, INQUIRY_FROM_ADDRESS } from "@/lib/resend";
 import type {
   Guest,
@@ -17,32 +15,14 @@ import type {
   GuestStatus,
   GuestType,
   RsvpSubmission,
-  Wedding,
 } from "@/lib/supabase/types";
 import { GUEST_SIDES, GUEST_TYPES, SIDE_COLORS } from "@/lib/guest-groups";
 import { findGuestByName } from "@/lib/guest-match";
+import { requireEditableWedding } from "@/lib/wedding-access";
+import { withNotes } from "@/lib/guest-notes";
 
 const VALID_STATUSES: GuestStatus[] = ["invited", "confirmed", "declined", "pending"];
 const VALID_PRIORITIES: GuestPriority[] = ["must_invite", "would_like", "if_room"];
-
-async function requireOwnWedding() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect("/login");
-  }
-
-  const { data: wedding } = await supabase
-    .from("weddings")
-    .select("*")
-    .or(`user_id.eq.${user.id},member_ids.cs.{${user.id}}`)
-    .maybeSingle<Wedding>();
-
-  return { supabase, user, wedding };
-}
 
 /**
  * A select whose empty option means "not set" rather than an error. Side and
@@ -88,10 +68,10 @@ function guestFieldsFromForm(formData: FormData) {
 }
 
 export async function addGuest(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, user, wedding } = await requireOwnWedding();
+  const { supabase, user, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const parsed = guestFieldsFromForm(formData);
@@ -115,10 +95,10 @@ export async function addGuest(formData: FormData): Promise<{ error?: string }> 
 }
 
 export async function updateGuest(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, wedding } = await requireOwnWedding();
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const guestId = formData.get("id") as string;
@@ -143,10 +123,10 @@ export async function updateGuest(formData: FormData): Promise<{ error?: string 
 }
 
 export async function deleteGuest(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, wedding } = await requireOwnWedding();
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const guestId = formData.get("id") as string;
@@ -216,8 +196,8 @@ function importBlocker(parsed: GuestImportParse, skipInvalid: boolean): string |
 export async function importGuestRows(
   formData: FormData,
 ): Promise<{ error?: string; imported?: number; skipped?: number }> {
-  const { supabase, user, wedding } = await requireOwnWedding();
-  if (!wedding) return { error: "Set up your wedding on the Dashboard first." };
+  const { supabase, user, wedding, noWedding } = await requireEditableWedding();
+  if (!wedding) return { error: noWedding };
 
   const skipInvalid = formData.get("skip_invalid") === "true";
 
@@ -251,8 +231,8 @@ export async function importGuestRows(
 export async function importGuestsFromGoogleSheet(
   formData: FormData,
 ): Promise<{ error?: string; imported?: number }> {
-  const { supabase, user, wedding } = await requireOwnWedding();
-  if (!wedding) return { error: "Set up your wedding on the Dashboard first." };
+  const { supabase, user, wedding, noWedding } = await requireEditableWedding();
+  if (!wedding) return { error: noWedding };
 
   const sheetUrl = ((formData.get("sheet_url") as string) || "").trim();
   if (!sheetUrl) return { error: "Paste a Google Sheet URL." };
@@ -294,10 +274,10 @@ export async function importGuestsFromGoogleSheet(
  * be whatever arrives in the form.
  */
 export async function setSideColors(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, wedding } = await requireOwnWedding();
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const palette = SIDE_COLORS.map((c) => c.value);
@@ -328,10 +308,10 @@ export async function setSideColors(formData: FormData): Promise<{ error?: strin
 
 /** Side or type on one guest, set straight from the row without opening Edit. */
 export async function setGuestGrouping(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, wedding } = await requireOwnWedding();
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const guestId = formData.get("guest_id") as string;
@@ -361,10 +341,10 @@ export async function setGuestGrouping(formData: FormData): Promise<{ error?: st
  * list-level fields; anything else is still the Edit form's job.
  */
 export async function updateGuestsFields(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, wedding } = await requireOwnWedding();
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const guestIds = formData.getAll("guest_id").map(String).filter(Boolean);
@@ -407,10 +387,10 @@ export async function updateGuestsFields(formData: FormData): Promise<{ error?: 
 }
 
 export async function deleteGuests(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, wedding } = await requireOwnWedding();
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const guestIds = formData.getAll("guest_id").map(String).filter(Boolean);
@@ -432,10 +412,10 @@ export async function deleteGuests(formData: FormData): Promise<{ error?: string
 }
 
 export async function addRegistryItem(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, user, wedding } = await requireOwnWedding();
+  const { supabase, user, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const label = (formData.get("label") as string)?.trim();
@@ -463,10 +443,10 @@ export async function addRegistryItem(formData: FormData): Promise<{ error?: str
 }
 
 export async function deleteRegistryItem(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, wedding } = await requireOwnWedding();
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const itemId = formData.get("id") as string;
@@ -493,10 +473,10 @@ function slugify(value: string) {
 }
 
 export async function enablePublicSite(): Promise<{ error?: string; slug?: string }> {
-  const { supabase, wedding } = await requireOwnWedding();
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   if (wedding.public_slug) {
@@ -529,10 +509,10 @@ export async function enablePublicSite(): Promise<{ error?: string; slug?: strin
 }
 
 export async function disablePublicSite(): Promise<{ error?: string }> {
-  const { supabase, wedding } = await requireOwnWedding();
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const { error } = await supabase
@@ -549,10 +529,10 @@ export async function disablePublicSite(): Promise<{ error?: string }> {
 }
 
 export async function approveRsvpSubmission(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, user, wedding } = await requireOwnWedding();
+  const { supabase, user, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const submissionId = formData.get("submission_id") as string;
@@ -575,15 +555,15 @@ export async function approveRsvpSubmission(formData: FormData): Promise<{ error
   // than appearing on the list twice.
   const { data: existingGuests, error: guestsError } = await supabase
     .from("guests")
-    .select("id, name, household, side, notes")
+    .select("id, name, household, side, guest_notes(notes)")
     .eq("wedding_id", wedding.id)
-    .returns<Pick<Guest, "id" | "name" | "household" | "side" | "notes">[]>();
+    .returns<(Pick<Guest, "id" | "name" | "household" | "side"> & { guest_notes: { notes: string | null } | null })[]>();
 
   if (guestsError) {
     return { error: guestsError.message };
   }
 
-  const match = findGuestByName(existingGuests ?? [], submission.guest_name);
+  const match = findGuestByName((existingGuests ?? []).map(withNotes), submission.guest_name);
 
   const answers = {
     plus_one: submission.plus_one,
@@ -640,10 +620,10 @@ export async function approveRsvpSubmission(formData: FormData): Promise<{ error
 }
 
 export async function dismissRsvpSubmission(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, wedding } = await requireOwnWedding();
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const submissionId = formData.get("submission_id") as string;
@@ -663,10 +643,10 @@ export async function dismissRsvpSubmission(formData: FormData): Promise<{ error
 }
 
 export async function setGuestbookVisibility(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, wedding } = await requireOwnWedding();
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const guestId = formData.get("guest_id") as string;
@@ -687,10 +667,10 @@ export async function setGuestbookVisibility(formData: FormData): Promise<{ erro
 }
 
 export async function setGuestThanked(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, wedding } = await requireOwnWedding();
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const guestId = formData.get("guest_id") as string;
@@ -713,10 +693,10 @@ export async function setGuestThanked(formData: FormData): Promise<{ error?: str
 export async function sendBulkRsvpInvites(
   formData: FormData,
 ): Promise<{ error?: string; sent?: number; skipped?: number; failed?: number }> {
-  const { supabase, user, wedding } = await requireOwnWedding();
+  const { supabase, user, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
   if (!wedding.public_slug) {
     return { error: "Turn on your guest site above before sending invites." };
@@ -796,10 +776,10 @@ export async function sendBulkRsvpInvites(
 export async function sendRsvpReminders(
   formData: FormData,
 ): Promise<{ error?: string; sent?: number; skipped?: number; failed?: number }> {
-  const { supabase, user, wedding } = await requireOwnWedding();
+  const { supabase, user, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
   if (!wedding.public_slug) {
     return { error: "Turn on your guest site above before sending reminders." };

@@ -1,8 +1,6 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
 import type { Wedding } from "@/lib/supabase/types";
 import { getResendClient, INQUIRY_FROM_ADDRESS } from "@/lib/resend";
 import {
@@ -19,6 +17,7 @@ import {
   parseGoogleSheetUrl,
   readTable,
 } from "@/lib/spreadsheet";
+import { requireEditableWedding } from "@/lib/wedding-access";
 
 function parseOptionalAmount(raw: FormDataEntryValue | null): number | null | "invalid" {
   const trimmed = (raw as string)?.trim();
@@ -28,30 +27,11 @@ function parseOptionalAmount(raw: FormDataEntryValue | null): number | null | "i
   return value;
 }
 
-async function requireOwnWedding() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect("/login");
-  }
-
-  const { data: wedding } = await supabase
-    .from("weddings")
-    .select("*")
-    .or(`user_id.eq.${user.id},member_ids.cs.{${user.id}}`)
-    .maybeSingle<Wedding>();
-
-  return { supabase, user, wedding };
-}
-
 export async function setBudgetTarget(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, wedding } = await requireOwnWedding();
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const raw = (formData.get("budget_target") as string)?.trim();
@@ -80,10 +60,10 @@ export async function setBudgetTarget(formData: FormData): Promise<{ error?: str
 // the Estimator showed. Lines with a real number are untouched. The target
 // is only replaced when they tick the box for it.
 export async function applyEstimateToWedding(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, wedding } = await requireOwnWedding();
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const state = (formData.get("state") as string) ?? "";
@@ -134,10 +114,10 @@ export async function applyEstimateToWedding(formData: FormData): Promise<{ erro
 export async function updateBudgetLineItem(
   formData: FormData,
 ): Promise<{ error?: string }> {
-  const { supabase, user, wedding } = await requireOwnWedding();
+  const { supabase, user, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const categoryKey = formData.get("category") as string;
@@ -200,10 +180,10 @@ export async function updateBudgetLineItem(
 }
 
 export async function hideBudgetCategory(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, wedding } = await requireOwnWedding();
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const categoryKey = formData.get("category") as string;
@@ -223,10 +203,10 @@ export async function hideBudgetCategory(formData: FormData): Promise<{ error?: 
 }
 
 export async function unhideBudgetCategory(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, wedding } = await requireOwnWedding();
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const categoryKey = formData.get("category") as string;
@@ -246,10 +226,10 @@ export async function unhideBudgetCategory(formData: FormData): Promise<{ error?
 }
 
 export async function sendBudgetReminder(formData: FormData): Promise<{ error?: string }> {
-  const { user, wedding } = await requireOwnWedding();
+  const { user, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
   if (!user.email) {
     return { error: "No email on your account to send a reminder to." };
@@ -316,10 +296,10 @@ function customItemFieldsFromForm(formData: FormData) {
 }
 
 export async function addBudgetCustomItem(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, user, wedding } = await requireOwnWedding();
+  const { supabase, user, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const parsed = customItemFieldsFromForm(formData);
@@ -343,10 +323,10 @@ export async function addBudgetCustomItem(formData: FormData): Promise<{ error?:
 }
 
 export async function updateBudgetCustomItem(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, wedding } = await requireOwnWedding();
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const itemId = formData.get("id") as string;
@@ -380,8 +360,8 @@ export async function updateBudgetCustomItem(formData: FormData): Promise<{ erro
 export async function fetchBudgetSheet(
   formData: FormData,
 ): Promise<{ error?: string; table?: string[][]; url?: string }> {
-  const { wedding } = await requireOwnWedding();
-  if (!wedding) return { error: "Set up your wedding on the Dashboard first." };
+  const { wedding, noWedding } = await requireEditableWedding();
+  if (!wedding) return { error: noWedding };
 
   const sheetUrl = ((formData.get("sheet_url") as string) || "").trim();
   if (!sheetUrl) return { error: "Paste a Google Sheet URL." };
@@ -418,10 +398,10 @@ type BudgetImportResult = {
  * including a second photographer or a third ring, lands as its own item.
  */
 export async function importBudgetRows(formData: FormData): Promise<BudgetImportResult> {
-  const { supabase, user, wedding } = await requireOwnWedding();
+  const { supabase, user, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   let table: string[][];
@@ -574,10 +554,10 @@ export async function importBudgetRows(formData: FormData): Promise<BudgetImport
 }
 
 export async function deleteBudgetCustomItem(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, wedding } = await requireOwnWedding();
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const itemId = formData.get("id") as string;

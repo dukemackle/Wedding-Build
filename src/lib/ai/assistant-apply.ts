@@ -7,6 +7,7 @@ import { addBudgetCustomItem, updateBudgetCustomItem, updateBudgetLineItem } fro
 import { addItineraryEvent } from "@/app/itinerary/actions";
 import { assignGuestsTable } from "@/app/seating/actions";
 import { PROPOSAL_SCHEMAS, type ProposalInput, type ProposalKind } from "@/lib/ai/assistant-tools";
+import { GUEST_WITH_NOTES, withNotes } from "@/lib/guest-notes";
 
 /**
  * Applies a change the couple confirmed in the chat.
@@ -85,10 +86,11 @@ export async function applyProposal(
       const i = parsed.data as ProposalInput<"update_guest">;
       const { data: g } = await supabase
         .from("guests")
-        .select("*")
+        .select(GUEST_WITH_NOTES)
         .eq("id", i.guest_id)
         .eq("wedding_id", weddingId)
-        .maybeSingle<Guest>();
+        .maybeSingle<Guest>()
+        .then((r) => ({ ...r, data: r.data && withNotes(r.data) }));
       if (!g) return { error: "That guest no longer exists." };
       return updateGuest(
         form({

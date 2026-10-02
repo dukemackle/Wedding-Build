@@ -5,6 +5,7 @@ import { AppNav } from "@/components/app-nav";
 import { PageShell } from "@/components/page-shell";
 import type { Guest, SeatingTable, VenueLayoutItem, VenueRoom, Wedding } from "@/lib/supabase/types";
 import { VenueLayoutClient } from "./venue-layout-client";
+import { GUEST_WITH_NOTES, withNotes } from "@/lib/guest-notes";
 
 export default async function VenueLayoutPage() {
   const supabase = await createClient();
@@ -65,7 +66,7 @@ export default async function VenueLayoutPage() {
     // the couple unable to plan around them ahead of time.
     supabase
       .from("guests")
-      .select("*")
+      .select(GUEST_WITH_NOTES)
       .eq("wedding_id", wedding.id)
       .neq("status", "declined")
       .order("name", { ascending: true })
@@ -114,7 +115,7 @@ export default async function VenueLayoutPage() {
 
         <VenueLayoutClient
           tables={tables ?? []}
-          confirmedGuests={guests ?? []}
+          confirmedGuests={guests?.map(withNotes) ?? []}
           items={items ?? []}
           rooms={rooms ?? []}
           declinedSeated={declinedSeated ?? []}

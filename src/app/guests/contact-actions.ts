@@ -1,28 +1,8 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
-import type { ContactSubmission, Wedding } from "@/lib/supabase/types";
-
-async function requireOwnWedding() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect("/login");
-  }
-
-  const { data: wedding } = await supabase
-    .from("weddings")
-    .select("*")
-    .or(`user_id.eq.${user.id},member_ids.cs.{${user.id}}`)
-    .maybeSingle<Wedding>();
-
-  return { supabase, user, wedding };
-}
+import type { ContactSubmission } from "@/lib/supabase/types";
+import { requireEditableWedding } from "@/lib/wedding-access";
 
 const ADDRESS_FIELDS = [
   "email",
@@ -61,8 +41,8 @@ function filledFields(submission: ContactSubmission) {
 export async function applyContactSubmission(
   formData: FormData,
 ): Promise<{ error?: string }> {
-  const { supabase, user, wedding } = await requireOwnWedding();
-  if (!wedding) return { error: "Set up your wedding first." };
+  const { supabase, user, wedding, noWedding } = await requireEditableWedding();
+  if (!wedding) return { error: noWedding };
 
   const id = (formData.get("id") as string)?.trim();
   const guestId = (formData.get("guest_id") as string)?.trim() || null;
@@ -111,8 +91,8 @@ export async function applyContactSubmission(
 export async function dismissContactSubmission(
   formData: FormData,
 ): Promise<{ error?: string }> {
-  const { supabase, wedding } = await requireOwnWedding();
-  if (!wedding) return { error: "Set up your wedding first." };
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
+  if (!wedding) return { error: noWedding };
 
   const id = (formData.get("id") as string)?.trim();
   if (!id) return { error: "Missing submission." };

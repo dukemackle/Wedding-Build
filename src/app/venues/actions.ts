@@ -1,38 +1,17 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
 import { getResendClient, INQUIRY_FROM_ADDRESS } from "@/lib/resend";
 import { inquiryFooter, inquirySubject } from "@/lib/inquiry-footer";
 import { ensureClaimLink } from "@/lib/venue-claim-server";
 import { syncBudgetLineFromBooking } from "@/lib/budget-sync";
-import type { Wedding } from "@/lib/supabase/types";
-
-async function requireOwnWedding() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect("/login");
-  }
-
-  const { data: wedding } = await supabase
-    .from("weddings")
-    .select("*")
-    .or(`user_id.eq.${user.id},member_ids.cs.{${user.id}}`)
-    .maybeSingle<Wedding>();
-
-  return { supabase, user, wedding };
-}
+import { requireEditableWedding } from "@/lib/wedding-access";
 
 export async function toggleShortlist(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, user, wedding } = await requireOwnWedding();
+  const { supabase, user, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const venueId = formData.get("venue_id") as string;
@@ -65,10 +44,10 @@ export async function toggleShortlist(formData: FormData): Promise<{ error?: str
 // choice since weddings.venue_id is a single column, keeping it
 // mutually exclusive by construction.
 export async function setBookedVenue(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, wedding } = await requireOwnWedding();
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const venueId = formData.get("venue_id") as string;
@@ -108,10 +87,10 @@ export async function setBookedVenue(formData: FormData): Promise<{ error?: stri
 }
 
 export async function sendVenueInquiry(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, user, wedding } = await requireOwnWedding();
+  const { supabase, user, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const venueId = (formData.get("venue_id") as string) || null;
@@ -195,10 +174,10 @@ export async function sendVenueInquiry(formData: FormData): Promise<{ error?: st
 export async function updateShortlistNotes(
   formData: FormData,
 ): Promise<{ error?: string }> {
-  const { supabase, wedding } = await requireOwnWedding();
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const venueId = formData.get("venue_id") as string;
@@ -219,10 +198,10 @@ export async function updateShortlistNotes(
 }
 
 export async function updateShortlistContact(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, wedding } = await requireOwnWedding();
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const venueId = formData.get("venue_id") as string;

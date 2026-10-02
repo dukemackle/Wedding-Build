@@ -2,21 +2,18 @@
 
 import { randomUUID } from "node:crypto";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
-import type { Wedding, WeddingInvite, WeddingRole } from "@/lib/supabase/types";
+import type { WeddingInvite, WeddingRole } from "@/lib/supabase/types";
 import { STATE_TO_REGION } from "@/lib/budget-categories";
+import { requireEditableWedding, VIEW_ONLY_ERROR } from "@/lib/wedding-access";
 
 const MAX_PHOTO_BYTES = 5 * 1024 * 1024;
 
 export async function saveWedding(formData: FormData): Promise<{ error?: string }> {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const { supabase, user, wedding: existing, noWedding } = await requireEditableWedding();
 
-  if (!user) {
-    redirect("/login");
+  // A view-only member has a wedding but can't change it.
+  if (!existing && noWedding === VIEW_ONLY_ERROR) {
+    return { error: noWedding };
   }
 
   const guestCountOverrideRaw = formData.get("guest_count_override") as string;
@@ -44,12 +41,6 @@ export async function saveWedding(formData: FormData): Promise<{ error?: string 
   // Someone invited onto a wedding edits that wedding, not a new one of their
   // own -- an upsert keyed on their user_id would quietly create a second
   // wedding for them.
-  const { data: existing } = await supabase
-    .from("weddings")
-    .select("id")
-    .or(`user_id.eq.${user.id},member_ids.cs.{${user.id}}`)
-    .maybeSingle<{ id: string }>();
-
   const { error } = existing
     ? await supabase.from("weddings").update(details).eq("id", existing.id)
     : await supabase
@@ -57,30 +48,14 @@ export async function saveWedding(formData: FormData): Promise<{ error?: string 
         .upsert({ user_id: user.id, ...details }, { onConflict: "user_id" });
 
   if (error) {
-    return { error: error.message };
+    // Raw Postgres text ("new row violates row-level security policy...")
+    // means nothing to a couple; keep it in the logs.
+    console.error("saveWedding failed", error);
+    return { error: "We couldn't save your wedding details. Please try again in a moment." };
   }
 
   revalidatePath("/dashboard");
   return {};
-}
-
-async function requireOwnWedding() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect("/login");
-  }
-
-  const { data: wedding } = await supabase
-    .from("weddings")
-    .select("*")
-    .or(`user_id.eq.${user.id},member_ids.cs.{${user.id}}`)
-    .maybeSingle<Wedding>();
-
-  return { supabase, user, wedding };
 }
 
 /**
@@ -103,10 +78,10 @@ function photoKindFromForm(formData: FormData): WeddingPhotoKind {
 }
 
 export async function uploadWeddingPhoto(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, wedding } = await requireOwnWedding();
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding first." };
+    return { error: noWedding };
   }
 
   const photo = formData.get("photo") as File | null;
@@ -148,10 +123,10 @@ export async function uploadWeddingPhoto(formData: FormData): Promise<{ error?: 
 }
 
 export async function removeWeddingPhoto(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, wedding } = await requireOwnWedding();
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding first." };
+    return { error: noWedding };
   }
 
   const { error } = await supabase
@@ -174,9 +149,9 @@ export async function removeWeddingPhoto(formData: FormData): Promise<{ error?: 
 // the weddings row itself. RLS on wedding_members/wedding_invites enforces
 // the same rule; the checks here are for a readable error.
 async function requireWeddingOwner() {
-  const { supabase, user, wedding } = await requireOwnWedding();
+  const { supabase, user, wedding, noWedding } = await requireEditableWedding();
   if (!wedding) {
-    return { error: "Set up your wedding first." } as const;
+    return { error: noWedding } as const;
   }
   if (wedding.user_id !== user.id) {
     return { error: "Only the wedding owner can change who's planning." } as const;

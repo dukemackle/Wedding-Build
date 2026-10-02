@@ -2,27 +2,11 @@
 
 import { randomUUID } from "node:crypto";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
-import type { SiteBlock, Wedding } from "@/lib/supabase/types";
+import type { SiteBlock } from "@/lib/supabase/types";
+import { requireEditableWedding } from "@/lib/wedding-access";
 
 const MAX_PHOTO_BYTES = 5 * 1024 * 1024;
 const KINDS = ["photo", "story", "quote"] as const;
-
-async function requireOwnWedding() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) redirect("/login");
-
-  const { data: wedding } = await supabase
-    .from("weddings")
-    .select("*")
-    .or(`user_id.eq.${user.id},member_ids.cs.{${user.id}}`)
-    .maybeSingle<Wedding>();
-  return { supabase, wedding };
-}
 
 function revalidate(slug: string | null) {
   revalidatePath("/guests/site");
@@ -40,8 +24,8 @@ function text(formData: FormData, key: string, max: number) {
  */
 export async function createSiteBlock(kind: string): Promise<{ error?: string; block?: SiteBlock }> {
   if (!KINDS.includes(kind as (typeof KINDS)[number])) return { error: "Unknown kind of section." };
-  const { supabase, wedding } = await requireOwnWedding();
-  if (!wedding) return { error: "Set up your wedding on the Dashboard first." };
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
+  if (!wedding) return { error: noWedding };
 
   const { data, error } = await supabase
     .from("site_blocks")
@@ -56,8 +40,8 @@ export async function createSiteBlock(kind: string): Promise<{ error?: string; b
 
 /** Saves a block's words, and its photo when one is chosen. */
 export async function updateSiteBlock(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, wedding } = await requireOwnWedding();
-  if (!wedding) return { error: "Set up your wedding on the Dashboard first." };
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
+  if (!wedding) return { error: noWedding };
   const id = formData.get("id") as string;
 
   const patch: Partial<SiteBlock> = {
@@ -96,8 +80,8 @@ export async function updateSiteBlock(formData: FormData): Promise<{ error?: str
  * left in the published design is skipped when the page renders.
  */
 export async function deleteSiteBlock(id: string): Promise<{ error?: string }> {
-  const { supabase, wedding } = await requireOwnWedding();
-  if (!wedding) return { error: "Set up your wedding on the Dashboard first." };
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
+  if (!wedding) return { error: noWedding };
 
   const { error } = await supabase.from("site_blocks").delete().eq("id", id).eq("wedding_id", wedding.id);
   if (error) return { error: error.message };

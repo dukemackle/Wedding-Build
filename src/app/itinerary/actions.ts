@@ -1,30 +1,11 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import type { Wedding } from "@/lib/supabase/types";
 import { sendSms } from "@/lib/sms";
 import { formatFullDate, formatTime } from "@/lib/itinerary";
-
-async function requireOwnWedding() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect("/login");
-  }
-
-  const { data: wedding } = await supabase
-    .from("weddings")
-    .select("*")
-    .or(`user_id.eq.${user.id},member_ids.cs.{${user.id}}`)
-    .maybeSingle<Wedding>();
-
-  return { supabase, user, wedding };
-}
+import { requireEditableWedding } from "@/lib/wedding-access";
 
 function eventFieldsFromForm(formData: FormData) {
   const title = (formData.get("title") as string)?.trim();
@@ -50,10 +31,10 @@ function eventFieldsFromForm(formData: FormData) {
 }
 
 export async function addItineraryEvent(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, user, wedding } = await requireOwnWedding();
+  const { supabase, user, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const parsed = eventFieldsFromForm(formData);
@@ -118,10 +99,10 @@ async function notifyGuestsOfScheduleChange(
 }
 
 export async function updateItineraryEvent(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, wedding } = await requireOwnWedding();
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const id = formData.get("id") as string;
@@ -168,10 +149,10 @@ export async function updateItineraryEvent(formData: FormData): Promise<{ error?
 }
 
 export async function deleteItineraryEvent(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, wedding } = await requireOwnWedding();
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const id = formData.get("id") as string;
@@ -199,10 +180,10 @@ export async function deleteItineraryEvent(formData: FormData): Promise<{ error?
  * page chooses to render them. Unpublishing takes them away again immediately.
  */
 export async function setItineraryPublished(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, wedding } = await requireOwnWedding();
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const published = formData.get("published") === "true";

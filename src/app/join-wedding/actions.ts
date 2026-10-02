@@ -38,6 +38,17 @@ export async function acceptWeddingInvite(formData: FormData): Promise<{ error?:
   }
 
   const admin = createAdminSupabaseClient();
+  if (blocker === "replace") {
+    // The empty wedding they started before the invite came; see inviteBlocker.
+    const { error } = await admin
+      .from("weddings")
+      .delete()
+      .eq("user_id", user.id)
+      .eq("member_ids", "{}");
+    if (error) {
+      return { error: "Couldn't clear the wedding you started. Please try again." };
+    }
+  }
   if (blocker !== "already") {
     const { error } = await admin
       .from("wedding_members")
