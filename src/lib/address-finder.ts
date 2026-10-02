@@ -1,5 +1,6 @@
 import "server-only";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
+import type { Budget } from "@/lib/import-pins";
 import { geocode, STATE_ABBR } from "@/lib/listing-pin";
 
 // Finds the street address of listings that were added without one, from the
@@ -188,16 +189,17 @@ async function lookUp(row: Candidate): Promise<{ address: string; latitude: numb
 }
 
 /**
- * Looks up up to `budget / FIND_COST` listings with no address, from their
+ * Looks up as many listings with no address as `budget` allows, from their
  * own websites. Each is stamped `address_checked_at` whether or not one was
  * found, so a site without an address isn't fetched again every call.
  * Returns how many are still to check.
  */
 export async function findAddresses(
   table: "venues" | "vendors",
-  budget: number,
+  budget: Budget,
 ): Promise<{ remaining: number; found: number; error?: string }> {
-  const take = Math.floor(Math.min(budget, FINDER_BUDGET) / FIND_COST);
+  budget.left -= 1;
+  const take = Math.max(0, Math.floor(Math.min(budget.left, FINDER_BUDGET) / FIND_COST));
   const admin = createAdminSupabaseClient();
   const { data, count, error } = await admin
     .from(table)
@@ -213,7 +215,8 @@ export async function findAddresses(
   if (error) return error.code === "42703" ? { remaining: 0, found: 0 } : { remaining: 0, found: 0, error: error.message };
   if (take === 0) return { remaining: count ?? 0, found: 0 };
 
-  const rows = (data ?? []).map((row) => ({ ...row, latitude: Number(row.latitude), longitude: Number(row.longitude) }));
+  const rows = (data ?? []).slice(0, take).map((row) => ({ ...row, latitude: Number(row.latitude), longitude: Number(row.longitude) }));
+  budget.left -= rows.length * FIND_COST;
   const results = await Promise.all(
     rows.map(async (row) => {
       const hit = await lookUp(row);

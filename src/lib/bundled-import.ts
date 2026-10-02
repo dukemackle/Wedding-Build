@@ -3,7 +3,7 @@ import "server-only";
 import { revalidatePath } from "next/cache";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import { findAddresses } from "@/lib/address-finder";
-import { LOOKUPS_PER_CALL, pinFromAddresses, pinUnpinned, TOWN_COST, withinBudget, withPins } from "@/lib/import-pins";
+import { type Budget, newBudget, pinFromAddresses, pinUnpinned, withinBudget, withPins } from "@/lib/import-pins";
 import { VENDOR_BATCHES } from "@/lib/vendor-batches";
 import { parseVendorTable, type VendorImportValues } from "@/lib/vendor-import";
 import { VENUE_BATCHES } from "@/lib/venue-batches";
@@ -101,15 +101,19 @@ export async function pendingBundledVendorRows(): Promise<VendorImportValues[]> 
 }
 
 /**
- * Adds the pending bundled venues, as many as LOOKUPS_PER_CALL pin lookups
- * allow (Cloudflare caps the requests one call can make). Once all are in,
- * moves listed venues whose batch row has since gained an address onto it.
- * `remaining` tells the caller to call again.
+ * Adds the pending bundled venues, as many as `budget` allows (Cloudflare caps
+ * the requests one call can make, database reads and writes included). Once
+ * all are in, moves listed venues whose batch row has since gained an address
+ * onto it. `remaining` tells the caller to call again. `catchUp: false` leaves
+ * the town-pin catch-up to the caller, which runs it once both tables are done.
  */
-export async function addBundledVenueRows(): Promise<BundledResult> {
+export async function addBundledVenueRows(budget: Budget = newBudget(), catchUp = true): Promise<BundledResult> {
+  budget.left -= 1;
   const rows = await pendingBundledVenueRows();
-  const { batch, spent } = withinBudget(rows, LOOKUPS_PER_CALL);
+  // One request is kept back for the insert.
+  const { batch, spent } = withinBudget(rows, budget.left - 1);
   if (batch.length > 0) {
+    budget.left -= spent + 1;
     const error = await insertImportedVenues(batch);
     if (error) return { error };
   }
@@ -117,21 +121,19 @@ export async function addBundledVenueRows(): Promise<BundledResult> {
   let remaining = rows.length - batch.length;
   let found = 0;
   if (remaining === 0) {
-    const moved = await pinFromAddresses("venues", keyed(bundledVenueRows()), LOOKUPS_PER_CALL - spent);
+    const moved = await pinFromAddresses("venues", keyed(bundledVenueRows()), budget);
     if (moved.error) return { error: moved.error };
     remaining = moved.remaining;
     if (remaining === 0) {
       // Then listings whose batch row has no address: read it off their own site.
-      const finder = await findAddresses("venues", LOOKUPS_PER_CALL - spent - moved.spent);
+      const finder = await findAddresses("venues", budget);
       if (finder.error) return { error: finder.error };
       remaining = finder.remaining;
       found = finder.found;
     }
-    if (remaining === 0) {
-      // Catches up venues from earlier batches that went in without a pin,
-      // with whatever lookups this call has left.
-      await pinUnpinned("venues", Math.floor((LOOKUPS_PER_CALL - spent) / TOWN_COST));
-    }
+    // Catches up venues from earlier batches that went in without a pin,
+    // with whatever this call has left.
+    if (remaining === 0 && catchUp) await pinUnpinned("venues", budget);
     revalidatePath("/admin/venues");
     revalidatePath("/venues");
   }
@@ -139,10 +141,12 @@ export async function addBundledVenueRows(): Promise<BundledResult> {
 }
 
 /** As addBundledVenueRows, for vendors. */
-export async function addBundledVendorRows(): Promise<BundledResult> {
+export async function addBundledVendorRows(budget: Budget = newBudget(), catchUp = true): Promise<BundledResult> {
+  budget.left -= 1;
   const rows = await pendingBundledVendorRows();
-  const { batch, spent } = withinBudget(rows, LOOKUPS_PER_CALL);
+  const { batch, spent } = withinBudget(rows, budget.left - 1);
   if (batch.length > 0) {
+    budget.left -= spent + 1;
     // Vendors without a studio address share their town's pin, so each is
     // nudged apart (spreadPin) to stay clickable.
     const pinned = await withPins(batch, (row) => row.name);
@@ -172,19 +176,17 @@ export async function addBundledVendorRows(): Promise<BundledResult> {
   let remaining = rows.length - batch.length;
   let found = 0;
   if (remaining === 0) {
-    const moved = await pinFromAddresses("vendors", keyed(bundledVendorRows()), LOOKUPS_PER_CALL - spent);
+    const moved = await pinFromAddresses("vendors", keyed(bundledVendorRows()), budget);
     if (moved.error) return { error: moved.error };
     remaining = moved.remaining;
     if (remaining === 0) {
       // Then listings whose batch row has no address: read it off their own site.
-      const finder = await findAddresses("vendors", LOOKUPS_PER_CALL - spent - moved.spent);
+      const finder = await findAddresses("vendors", budget);
       if (finder.error) return { error: finder.error };
       remaining = finder.remaining;
       found = finder.found;
     }
-    if (remaining === 0) {
-      await pinUnpinned("vendors", Math.floor((LOOKUPS_PER_CALL - spent) / TOWN_COST), true);
-    }
+    if (remaining === 0 && catchUp) await pinUnpinned("vendors", budget, true);
     revalidatePath("/admin/vendors");
     revalidatePath("/vendors");
   }

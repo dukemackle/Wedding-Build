@@ -1,4 +1,5 @@
 import { addBundledVendorRows, addBundledVenueRows } from "@/lib/bundled-import";
+import { newBudget, pinUnpinned } from "@/lib/import-pins";
 
 // The "Add them" button on /admin/venues and /admin/vendors, for the scheduled
 // batch routine: once a batch PR is merged and deployed, it POSTs here so the
@@ -34,9 +35,11 @@ export async function POST(request: Request) {
     return Response.json({ error: "Unauthorized." }, { status: 401 });
   }
 
-  // Venues first, then vendors: one table's chunk per call keeps each request
-  // inside the lookup cap.
-  const venues = await addBundledVenueRows();
+  // Venues first, then vendors, spending from one budget: both run in the same
+  // Worker invocation, so each assuming the whole allowance went over
+  // Cloudflare's cap. The town-pin catch-up goes last, on what's left.
+  const budget = newBudget();
+  const venues = await addBundledVenueRows(budget, false);
   if (venues.error) return Response.json({ table: "venues", ...venues }, { status: 500 });
   if (venues.remaining || venues.imported) {
     return Response.json({
@@ -48,8 +51,15 @@ export async function POST(request: Request) {
     });
   }
 
-  const vendors = await addBundledVendorRows();
+  const vendors = await addBundledVendorRows(budget, false);
   if (vendors.error) return Response.json({ table: "vendors", ...vendors }, { status: 500 });
+  if (!vendors.remaining && !vendors.imported) {
+    // Split, so a venue town that never pins can't starve the vendors' turn.
+    const venueShare = { left: Math.floor(budget.left / 2) };
+    budget.left -= venueShare.left;
+    await pinUnpinned("venues", venueShare);
+    await pinUnpinned("vendors", budget, true);
+  }
   return Response.json({
     table: "vendors",
     imported: vendors.imported,
