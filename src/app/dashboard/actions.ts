@@ -8,6 +8,16 @@ import { requireEditableWedding, VIEW_ONLY_ERROR } from "@/lib/wedding-access";
 
 const MAX_PHOTO_BYTES = 5 * 1024 * 1024;
 
+/** Meteorological seasons, matching the SEASONS picker. */
+function seasonOf(date: string) {
+  const month = Number(date.slice(5, 7));
+  if (!month) return null;
+  if (month <= 2 || month === 12) return "Winter";
+  if (month <= 5) return "Spring";
+  if (month <= 8) return "Summer";
+  return "Fall";
+}
+
 export async function saveWedding(formData: FormData): Promise<{ error?: string }> {
   const { supabase, user, wedding: existing, noWedding } = await requireEditableWedding();
 
@@ -18,17 +28,30 @@ export async function saveWedding(formData: FormData): Promise<{ error?: string 
 
   const guestCountOverrideRaw = formData.get("guest_count_override") as string;
   const state = formData.get("state") as string;
+  const weddingDate = (formData.get("wedding_date") as string) || null;
+
+  // A typo'd year (2026 for 2027) would show "Married N days ago". Allow
+  // yesterday for time zones, and an unchanged date so a wedding that has
+  // happened can still be edited afterwards.
+  if (weddingDate && weddingDate !== existing?.wedding_date) {
+    const yesterday = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
+    if (weddingDate < yesterday) {
+      return { error: "That wedding date is in the past. Check the year?" };
+    }
+  }
 
   const details = {
     partner_a_name: formData.get("partner_a_name") as string,
     partner_b_name: formData.get("partner_b_name") as string,
-    wedding_date: (formData.get("wedding_date") as string) || null,
+    wedding_date: weddingDate,
     state,
     // The couple only ever picks a state -- region still drives the
     // budget-multiplier math under the hood, so it's derived here
     // automatically instead of being its own separate question.
     region: STATE_TO_REGION[state] ?? null,
-    season: formData.get("season") as string,
+    // The date decides the season once there is one, so the two can't
+    // disagree; the picker only matters while the date is still open.
+    season: (weddingDate && seasonOf(weddingDate)) || (formData.get("season") as string),
     style_tier: formData.get("style_tier") as string,
     venue_type: formData.get("venue_type") as string,
     guest_count_override: guestCountOverrideRaw
