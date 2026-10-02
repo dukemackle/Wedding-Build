@@ -1,3 +1,6 @@
+// Closed to new batches (2026-10-02): add them to the state's file in
+// src/lib/batches/vendors/ instead, so parallel batch PRs don't collide.
+//
 // Vendor batches researched from each vendor's own website, starting from the
 // preferred-vendor lists Austin venues publish (see the commit that added each
 // one for sources and what was left out). /admin/vendors offers to add any

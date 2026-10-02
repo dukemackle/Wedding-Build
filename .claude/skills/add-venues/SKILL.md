@@ -1,23 +1,26 @@
 ---
 name: add-venues
-description: Research and add a batch of wedding venues to src/lib/venue-batches.ts, checking capacity, price tier and location data, then open and merge the PR once the build is green. Use when asked to add venues, a venue batch, or a new region or metro to the venue catalog.
+description: Research and add a batch of wedding venues to the per-state files in src/lib/batches/venues/, checking capacity, price tier and location data, then open and merge the PR once the build is green. Use when asked to add venues, a venue batch, or a new region or metro to the venue catalog.
 argument-hint: "[region or metro, e.g. 'Sacramento and Napa']"
 ---
 
 # Add a venue batch
 
-Adds one PR of venues to `src/lib/venue-batches.ts`. The owner then clicks
-"Add them" on /admin/venues. A PR that only adds rows to that file merges
+Adds one PR of venues to the state files in `src/lib/batches/venues/` (e.g.
+`ohio.ts`; the older `src/lib/venue-batches.ts` is closed to new batches). The
+owner then clicks "Add them" on /admin/venues. A PR that only adds rows to batch files merges
 itself once the Cloudflare build is green (CLAUDE.md); anything else in the PR
 goes to the owner first.
 
 ## 1. Pick the region
 
-Use the argument if one was given. Otherwise read the batch names
-(`grep -n 'name:' src/lib/venue-batches.ts`) and take the next uncovered metro
-next to what's there. Aim for **40-60 venues per PR**, across several nearby
+Use the argument if one was given. Otherwise run `npm run coverage` and take
+the state furthest from its target (the plan's metros and targets are in
+`scripts/coverage-plan.mjs`). Each batch goes at the end of its state's file,
+and every row's State must match that file; a PR covering several states adds
+one batch to each state's file. Aim for **40-60 venues per PR**, across several nearby
 towns if one metro runs short: every PR costs a build and a merge whatever its
-size. Before researching, grep the file for each candidate's domain so you
+size. Before researching, grep `src/lib/` for each candidate's domain so you
 don't redo a venue that's already in.
 
 ## 2. Research each venue from its own website
@@ -101,7 +104,7 @@ Then `npm run lint` if node_modules is installed.
 One commit: `Add <region> venue batch`, body listing anything left out and
 why (closed, no site, no longer hosts weddings). Push, open the PR, and once
 the Cloudflare build check is green, merge it -- this PR only touches
-`venue-batches.ts`, so it doesn't wait for the owner. If the build fails with
+batch files, so it doesn't wait for the owner. If the build fails with
 the Google font errors from CLAUDE.md, that's a flake: say so rather than
 changing code. Tell the owner in one line it's merged and to click "Add them"
 on /admin/venues.

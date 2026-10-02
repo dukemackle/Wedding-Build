@@ -10,7 +10,8 @@
     "check:venues": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/check-venue-batches.mjs",
     "cf:build": "opennextjs-cloudflare build",
     "cf:preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
-    "cf:deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy"
+    "cf:deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "coverage": "node scripts/coverage.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.124.0",

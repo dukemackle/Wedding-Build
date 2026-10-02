@@ -48,7 +48,7 @@ Garbage in, garbage out. Flag before the verdict:
 - Inquiries concentrated in one or two weddings → probably one couple (or the
   owner) testing, not demand.
 - Many vendor rows but few listed/non-sample → seeded catalogue, not vendors
-  who chose to be there. Seeded batches (`src/lib/vendor-batches.ts`) count
+  who chose to be there. Seeded batches (`src/lib/vendor-batches.ts`, `src/lib/batches/vendors/`) count
   as supply for density, but not as vendors who'd notice a bill.
 
 ## 4. Judge the current phase's trigger

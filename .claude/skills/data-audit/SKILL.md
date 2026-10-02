@@ -19,7 +19,8 @@ The container has no Supabase keys, so the live rows come from the owner:
   /admin/vendors (with no filters set, so every row comes through). These carry
   photos, prices, "Live" and "Last checked", so every check runs.
 - **If they'd rather not:** run on the bundled batch files
-  (`src/lib/venue-batches.ts`, `src/lib/vendor-batches.ts`). That covers
+  (`src/lib/venue-batches.ts`, `src/lib/vendor-batches.ts` and the per-state
+  files in `src/lib/batches/`). That covers
   websites, duplicates, contacts and closures for everything imported from a
   batch, but not photos, prices, staleness, or rows added by hand or claimed.
   Say which one the report is based on.

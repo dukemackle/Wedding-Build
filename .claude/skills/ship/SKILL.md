@@ -17,7 +17,8 @@ git status --short
 ```
 
 Uncommitted work counts too. If the diff only adds rows to
-`src/lib/venue-batches.ts` or `src/lib/vendor-batches.ts`, it's a batch PR:
+the per-state batch files in `src/lib/batches/` (or the older
+`src/lib/venue-batches.ts` / `vendor-batches.ts`), it's a batch PR:
 skip steps 3–4 (still run step 2), and after opening the PR merge it yourself
 once the Cloudflare build is green.
 

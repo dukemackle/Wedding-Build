@@ -29,8 +29,8 @@ the database.
    the same way through /admin/venues and `/claim/<token>`.
 4. **Note what's thin on each listing.** Look for no photos, no `about`, no
    price, no website or Instagram, or a stale `last_verified_at`. Ask the owner
-   for the row, or read it from `src/lib/vendor-batches.ts` if it came from a
-   batch. Name one or two gaps in the email. That makes it personal, and it's
+   for the row, or read it from `src/lib/vendor-batches.ts` or `src/lib/batches/vendors/` if it
+   came from a batch. Name one or two gaps in the email. That makes it personal, and it's
    the honest reason to write.
 
 ## Who not to email
