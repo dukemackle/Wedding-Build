@@ -1,41 +1,21 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
 import { getResendClient, INQUIRY_FROM_ADDRESS } from "@/lib/resend";
 import { inquiryFooter, inquirySubject } from "@/lib/inquiry-footer";
 import { ensureVendorClaimLink } from "@/lib/vendor-claim-server";
 import { VENDOR_CATEGORY_TO_BUDGET_KEY } from "@/lib/budget-categories";
 import { syncBudgetLineFromBooking } from "@/lib/budget-sync";
-import type { VendorInquiryStatus, Wedding } from "@/lib/supabase/types";
+import type { VendorInquiryStatus } from "@/lib/supabase/types";
+import { requireEditableWedding } from "@/lib/wedding-access";
 
 const VALID_STATUSES: VendorInquiryStatus[] = ["sent", "responded", "booked", "declined"];
 
-async function requireOwnWedding() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect("/login");
-  }
-
-  const { data: wedding } = await supabase
-    .from("weddings")
-    .select("*")
-    .or(`user_id.eq.${user.id},member_ids.cs.{${user.id}}`)
-    .maybeSingle<Wedding>();
-
-  return { supabase, user, wedding };
-}
-
 export async function sendVendorInquiry(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, user, wedding } = await requireOwnWedding();
+  const { supabase, user, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const vendorId = (formData.get("vendor_id") as string) || null;
@@ -124,10 +104,10 @@ export async function sendVendorInquiry(formData: FormData): Promise<{ error?: s
 // the existing inquiry/status system underneath so it shows up
 // alongside real inquiries and still auto-fills the budget.
 export async function markVendorBooked(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, user, wedding } = await requireOwnWedding();
+  const { supabase, user, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const vendorId = formData.get("vendor_id") as string;
@@ -182,10 +162,10 @@ export async function markVendorBooked(formData: FormData): Promise<{ error?: st
 export async function sendVendorFollowUps(
   formData: FormData,
 ): Promise<{ error?: string; sent?: number; skipped?: number; failed?: number }> {
-  const { supabase, user, wedding } = await requireOwnWedding();
+  const { supabase, user, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
   if (!process.env.RESEND_API_KEY) {
     return { error: "Email sending isn't configured (missing RESEND_API_KEY)." };
@@ -258,10 +238,10 @@ export async function sendVendorFollowUps(
 }
 
 export async function updateInquiryStatus(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, wedding } = await requireOwnWedding();
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const inquiryId = formData.get("inquiry_id") as string;
@@ -305,10 +285,10 @@ export async function updateInquiryStatus(formData: FormData): Promise<{ error?:
 }
 
 export async function updateInquiryBookedAmount(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, wedding } = await requireOwnWedding();
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const inquiryId = formData.get("inquiry_id") as string;
@@ -351,10 +331,10 @@ export async function updateInquiryBookedAmount(formData: FormData): Promise<{ e
 }
 
 export async function toggleVendorFavorite(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, user, wedding } = await requireOwnWedding();
+  const { supabase, user, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const vendorId = formData.get("vendor_id") as string;
@@ -383,10 +363,10 @@ export async function toggleVendorFavorite(formData: FormData): Promise<{ error?
 }
 
 export async function updateVendorFavoriteNotes(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, wedding } = await requireOwnWedding();
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const vendorId = formData.get("vendor_id") as string;
@@ -409,10 +389,10 @@ export async function updateVendorFavoriteNotes(formData: FormData): Promise<{ e
 export async function updateVendorFavoriteContact(
   formData: FormData,
 ): Promise<{ error?: string }> {
-  const { supabase, wedding } = await requireOwnWedding();
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const vendorId = formData.get("vendor_id") as string;

@@ -99,6 +99,12 @@ export default async function JoinWeddingPage({
       title={`Join ${coupleNames || "this wedding"} on You Do, I Do`}
       description={ROLE_PROMISE[invite.role]}
     >
+      {blocker === "replace" && (
+        <p className="mt-4 text-sm text-ink/70">
+          You&apos;ve already started a wedding on this account. It has no guests yet, so
+          accepting deletes it and moves you onto this one.
+        </p>
+      )}
       <AcceptInviteForm token={token} />
     </InviteMessage>
   );

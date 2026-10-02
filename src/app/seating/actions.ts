@@ -1,11 +1,10 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
 import { getOrCreateDefaultRoom } from "@/lib/venue-rooms";
 import { MAX_ITEM_SIZE, MIN_ITEM_SIZE, clamp, duplicatePosition, tableFootprint } from "@/lib/venue-layout-geometry";
-import type { Guest, SeatingTable, TableShape, Wedding } from "@/lib/supabase/types";
+import type { Guest, SeatingTable, TableShape } from "@/lib/supabase/types";
+import { requireEditableWedding } from "@/lib/wedding-access";
 
 const VALID_SHAPES: TableShape[] = ["round", "square", "rectangle"];
 
@@ -15,25 +14,6 @@ const CANVAS_COLUMNS = 3;
 const COLUMN_SPACING = 300;
 const ROW_SPACING = 240;
 const GRID_ORIGIN = 60;
-
-async function requireOwnWedding() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect("/login");
-  }
-
-  const { data: wedding } = await supabase
-    .from("weddings")
-    .select("*")
-    .or(`user_id.eq.${user.id},member_ids.cs.{${user.id}}`)
-    .maybeSingle<Wedding>();
-
-  return { supabase, user, wedding };
-}
 
 function normalizeRotation(value: number) {
   return ((Math.round(value) % 360) + 360) % 360;
@@ -69,10 +49,10 @@ function tableFieldsFromForm(formData: FormData) {
 }
 
 export async function addSeatingTable(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, user, wedding } = await requireOwnWedding();
+  const { supabase, user, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const parsed = tableFieldsFromForm(formData);
@@ -110,10 +90,10 @@ export async function addSeatingTable(formData: FormData): Promise<{ error?: str
 }
 
 export async function updateTablePosition(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, wedding } = await requireOwnWedding();
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const tableId = formData.get("id") as string;
@@ -183,10 +163,10 @@ export async function updateTablePosition(formData: FormData): Promise<{ error?:
 }
 
 export async function updateSeatingTable(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, wedding } = await requireOwnWedding();
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const tableId = formData.get("id") as string;
@@ -220,10 +200,10 @@ export async function updateSeatingTable(formData: FormData): Promise<{ error?: 
 }
 
 export async function deleteSeatingTable(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, wedding } = await requireOwnWedding();
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const tableId = formData.get("id") as string;
@@ -243,10 +223,10 @@ export async function deleteSeatingTable(formData: FormData): Promise<{ error?: 
 }
 
 export async function assignGuestTable(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, wedding } = await requireOwnWedding();
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const guestId = formData.get("guest_id") as string;
@@ -272,10 +252,10 @@ export async function assignGuestTable(formData: FormData): Promise<{ error?: st
  * unseats them all.
  */
 export async function assignGuestsTable(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, wedding } = await requireOwnWedding();
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const guestIds = formData.getAll("guest_id").map(String).filter(Boolean);
@@ -299,10 +279,10 @@ export async function assignGuestsTable(formData: FormData): Promise<{ error?: s
 }
 
 export async function renameSeatingTable(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, wedding } = await requireOwnWedding();
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const tableId = formData.get("id") as string;
@@ -327,10 +307,10 @@ export async function renameSeatingTable(formData: FormData): Promise<{ error?: 
 
 /** A copy of the table just below-right of it -- without its guests. */
 export async function duplicateSeatingTable(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, user, wedding } = await requireOwnWedding();
+  const { supabase, user, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const tableId = formData.get("id") as string;
@@ -380,10 +360,10 @@ function copyName(name: string) {
  * headcount doesn't change, it just moves from one row to two.
  */
 export async function splitPlusOne(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, user, wedding } = await requireOwnWedding();
+  const { supabase, user, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const guestId = formData.get("guest_id") as string;

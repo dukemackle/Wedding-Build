@@ -12,6 +12,7 @@ import type {
 } from "@/lib/supabase/types";
 import { GuestsPageBody } from "./guests-page-body";
 import { qrSvg } from "@/lib/qr";
+import { GUEST_WITH_NOTES, withNotes } from "@/lib/guest-notes";
 
 export default async function GuestsPage() {
   const supabase = await createClient();
@@ -54,13 +55,14 @@ export default async function GuestsPage() {
     );
   }
 
-  const { data: guests } = await supabase
+  const { data: guestRows } = await supabase
     .from("guests")
-    .select("*")
+    .select(GUEST_WITH_NOTES)
     .eq("wedding_id", wedding.id)
     .order("household", { ascending: true, nullsFirst: false })
     .order("name", { ascending: true })
     .returns<Guest[]>();
+  const guests = guestRows?.map(withNotes) ?? null;
 
   const { data: rsvpSubmissions } = await supabase
     .from("rsvp_submissions")

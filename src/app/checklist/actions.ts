@@ -1,29 +1,8 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 import { buildPlan } from "@/lib/checklist-template";
-import { createClient } from "@/lib/supabase/server";
-import type { Wedding } from "@/lib/supabase/types";
-
-async function requireOwnWedding() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect("/login");
-  }
-
-  const { data: wedding } = await supabase
-    .from("weddings")
-    .select("*")
-    .or(`user_id.eq.${user.id},member_ids.cs.{${user.id}}`)
-    .maybeSingle<Wedding>();
-
-  return { supabase, user, wedding };
-}
+import { requireEditableWedding } from "@/lib/wedding-access";
 
 function checklistFieldsFromForm(formData: FormData) {
   const title = (formData.get("title") as string)?.trim();
@@ -41,10 +20,10 @@ function checklistFieldsFromForm(formData: FormData) {
 }
 
 export async function addChecklistItem(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, user, wedding } = await requireOwnWedding();
+  const { supabase, user, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const parsed = checklistFieldsFromForm(formData);
@@ -68,10 +47,10 @@ export async function addChecklistItem(formData: FormData): Promise<{ error?: st
 }
 
 export async function updateChecklistItem(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, wedding } = await requireOwnWedding();
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const itemId = formData.get("id") as string;
@@ -96,10 +75,10 @@ export async function updateChecklistItem(formData: FormData): Promise<{ error?:
 }
 
 export async function toggleChecklistItem(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, wedding } = await requireOwnWedding();
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const itemId = formData.get("id") as string;
@@ -125,10 +104,10 @@ export async function toggleChecklistItem(formData: FormData): Promise<{ error?:
 }
 
 export async function deleteChecklistItem(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, wedding } = await requireOwnWedding();
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const itemId = formData.get("id") as string;
@@ -157,10 +136,10 @@ export async function deleteChecklistItem(formData: FormData): Promise<{ error?:
  * list is the only state where this can't destroy anything.
  */
 export async function buildWeddingPlan(): Promise<{ error?: string; added?: number }> {
-  const { supabase, user, wedding } = await requireOwnWedding();
+  const { supabase, user, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const { count, error: countError } = await supabase

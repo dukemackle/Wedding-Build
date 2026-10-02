@@ -1,34 +1,13 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
-import type { Wedding } from "@/lib/supabase/types";
-
-async function requireOwnWedding() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect("/login");
-  }
-
-  const { data: wedding } = await supabase
-    .from("weddings")
-    .select("*")
-    .or(`user_id.eq.${user.id},member_ids.cs.{${user.id}}`)
-    .maybeSingle<Wedding>();
-
-  return { supabase, user, wedding };
-}
+import { requireEditableWedding } from "@/lib/wedding-access";
 
 export async function addRoom(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, user, wedding } = await requireOwnWedding();
+  const { supabase, user, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const name = ((formData.get("name") as string) || "").trim();
@@ -51,10 +30,10 @@ export async function addRoom(formData: FormData): Promise<{ error?: string }> {
 }
 
 export async function renameRoom(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, wedding } = await requireOwnWedding();
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const roomId = formData.get("id") as string;
@@ -78,10 +57,10 @@ export async function renameRoom(formData: FormData): Promise<{ error?: string }
 }
 
 export async function deleteRoom(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, wedding } = await requireOwnWedding();
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const roomId = formData.get("id") as string;

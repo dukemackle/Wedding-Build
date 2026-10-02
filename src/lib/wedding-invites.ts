@@ -29,21 +29,36 @@ export async function resolveInvite(token: string): Promise<ResolvedInvite | nul
  * Why this user can't take up the invite, or null if they can. One account
  * plans one wedding: every page finds "my wedding" by owner-or-member, so a
  * second wedding on the same account would leave them seeing neither.
+ *
+ * "replace" is the partner who signed up and started their own wedding
+ * before the invite arrived. If that wedding has no guests and nobody else
+ * on it, accepting deletes it rather than sending them off to make a new
+ * account; anything with real work in it stays "other".
  */
 export async function inviteBlocker(
   wedding: Wedding,
   userId: string,
-): Promise<"own" | "already" | "other" | null> {
+): Promise<"own" | "already" | "other" | "replace" | null> {
   if (wedding.user_id === userId) return "own";
   if (wedding.member_ids.includes(userId)) return "already";
 
   const admin = createAdminSupabaseClient();
-  const { count } = await admin
+  const { data: current } = await admin
     .from("weddings")
-    .select("id", { count: "exact", head: true })
-    .or(`user_id.eq.${userId},member_ids.cs.{${userId}}`);
+    .select("id, user_id, member_ids")
+    .or(`user_id.eq.${userId},member_ids.cs.{${userId}}`)
+    .limit(1)
+    .maybeSingle<Pick<Wedding, "id" | "user_id" | "member_ids">>();
 
-  return count ? "other" : null;
+  if (!current) return null;
+  if (current.user_id !== userId || current.member_ids.length > 0) return "other";
+
+  const { count: guests, error } = await admin
+    .from("guests")
+    .select("id", { count: "exact", head: true })
+    .eq("wedding_id", current.id);
+
+  return error || guests ? "other" : "replace";
 }
 
 export const ROLE_PROMISE: Record<WeddingRole, string> = {

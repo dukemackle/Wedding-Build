@@ -1,11 +1,10 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
 import { getOrCreateDefaultRoom } from "@/lib/venue-rooms";
 import { duplicatePosition, itemDimensions } from "@/lib/venue-layout-geometry";
-import type { LayoutItemType, VenueLayoutItem, Wedding } from "@/lib/supabase/types";
+import type { LayoutItemType, VenueLayoutItem } from "@/lib/supabase/types";
+import { requireEditableWedding } from "@/lib/wedding-access";
 
 const VALID_ITEM_TYPES: LayoutItemType[] = [
   "chairs",
@@ -28,25 +27,6 @@ const CANVAS_COLUMNS = 3;
 const COLUMN_SPACING = 300;
 const ROW_SPACING = 240;
 const GRID_ORIGIN = 60;
-
-async function requireOwnWedding() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect("/login");
-  }
-
-  const { data: wedding } = await supabase
-    .from("weddings")
-    .select("*")
-    .or(`user_id.eq.${user.id},member_ids.cs.{${user.id}}`)
-    .maybeSingle<Wedding>();
-
-  return { supabase, user, wedding };
-}
 
 function normalizeRotation(value: number) {
   return ((Math.round(value) % 360) + 360) % 360;
@@ -104,10 +84,10 @@ function itemFieldsFromForm(formData: FormData) {
 }
 
 export async function addLayoutItem(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, user, wedding } = await requireOwnWedding();
+  const { supabase, user, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const parsed = itemFieldsFromForm(formData);
@@ -145,10 +125,10 @@ export async function addLayoutItem(formData: FormData): Promise<{ error?: strin
 }
 
 export async function updateLayoutItemPosition(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, wedding } = await requireOwnWedding();
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const itemId = formData.get("id") as string;
@@ -207,10 +187,10 @@ export async function updateLayoutItemPosition(formData: FormData): Promise<{ er
 }
 
 export async function updateLayoutItem(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, wedding } = await requireOwnWedding();
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const itemId = formData.get("id") as string;
@@ -239,10 +219,10 @@ export async function updateLayoutItem(formData: FormData): Promise<{ error?: st
 }
 
 export async function deleteLayoutItem(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, wedding } = await requireOwnWedding();
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const itemId = formData.get("id") as string;
@@ -263,10 +243,10 @@ export async function deleteLayoutItem(formData: FormData): Promise<{ error?: st
 
 /** Sets just the label -- an empty one falls back to the type's name. */
 export async function renameLayoutItem(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, wedding } = await requireOwnWedding();
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const itemId = formData.get("id") as string;
@@ -288,10 +268,10 @@ export async function renameLayoutItem(formData: FormData): Promise<{ error?: st
 
 /** A copy of the item just below-right of it, same size and rotation. */
 export async function duplicateLayoutItem(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, user, wedding } = await requireOwnWedding();
+  const { supabase, user, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const itemId = formData.get("id") as string;

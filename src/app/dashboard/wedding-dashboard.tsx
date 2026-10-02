@@ -468,7 +468,13 @@ export function WeddingDashboard({
 
   function handleSave(formData: FormData) {
     startTransition(async () => {
-      const result = await saveWedding(formData);
+      let result: Awaited<ReturnType<typeof saveWedding>>;
+      try {
+        result = await saveWedding(formData);
+      } catch {
+        setError("We couldn't save your wedding details. Please try again in a moment.");
+        return;
+      }
       if (result?.error) {
         setError(result.error);
       } else {

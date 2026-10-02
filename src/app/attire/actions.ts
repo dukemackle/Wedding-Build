@@ -1,34 +1,13 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
-import type { Wedding } from "@/lib/supabase/types";
-
-async function requireOwnWedding() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect("/login");
-  }
-
-  const { data: wedding } = await supabase
-    .from("weddings")
-    .select("*")
-    .or(`user_id.eq.${user.id},member_ids.cs.{${user.id}}`)
-    .maybeSingle<Wedding>();
-
-  return { supabase, user, wedding };
-}
+import { requireEditableWedding } from "@/lib/wedding-access";
 
 export async function toggleAttireShortlist(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, user, wedding } = await requireOwnWedding();
+  const { supabase, user, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const attireItemId = formData.get("attire_item_id") as string;
@@ -59,10 +38,10 @@ export async function toggleAttireShortlist(formData: FormData): Promise<{ error
 export async function updateAttireShortlistNotes(
   formData: FormData,
 ): Promise<{ error?: string }> {
-  const { supabase, wedding } = await requireOwnWedding();
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
-    return { error: "Set up your wedding on the Dashboard first." };
+    return { error: noWedding };
   }
 
   const attireItemId = formData.get("attire_item_id") as string;
@@ -88,8 +67,8 @@ function text(formData: FormData, key: string): string | null {
 }
 
 export async function addPartyMember(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, user, wedding } = await requireOwnWedding();
-  if (!wedding) return { error: "Set up your wedding on the Dashboard first." };
+  const { supabase, user, wedding, noWedding } = await requireEditableWedding();
+  if (!wedding) return { error: noWedding };
 
   const name = text(formData, "name");
   if (!name) return { error: "Add a name." };
@@ -115,8 +94,8 @@ export async function addPartyMember(formData: FormData): Promise<{ error?: stri
 
 /** Saves whichever of the member's fields the form carries. */
 export async function updatePartyMember(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, wedding } = await requireOwnWedding();
-  if (!wedding) return { error: "Set up your wedding on the Dashboard first." };
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
+  if (!wedding) return { error: noWedding };
 
   const id = formData.get("id") as string;
   const patch: Record<string, string | null> = {};
@@ -138,8 +117,8 @@ export async function updatePartyMember(formData: FormData): Promise<{ error?: s
 }
 
 export async function removePartyMember(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, wedding } = await requireOwnWedding();
-  if (!wedding) return { error: "Set up your wedding on the Dashboard first." };
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
+  if (!wedding) return { error: noWedding };
 
   const { error } = await supabase
     .from("attire_party_members")
@@ -157,8 +136,8 @@ export async function removePartyMember(formData: FormData): Promise<{ error?: s
  * a new link, so an old one that was forwarded too widely stops working.
  */
 export async function setPartySharing(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, wedding } = await requireOwnWedding();
-  if (!wedding) return { error: "Set up your wedding on the Dashboard first." };
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
+  if (!wedding) return { error: noWedding };
 
   const enable = formData.get("enable") === "true";
   const { error } = await supabase

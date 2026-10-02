@@ -2,11 +2,9 @@
 
 import { randomUUID } from "crypto";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
-import type { Wedding } from "@/lib/supabase/types";
 import type { ContractTask } from "@/lib/ai/contract-reader";
 import { readUploadedContract } from "@/lib/ai/read-uploaded-contract";
+import { requireEditableWedding } from "@/lib/wedding-access";
 
 const BUCKET = "contracts";
 
@@ -21,25 +19,6 @@ const ALLOWED_TYPES = new Set([
 
 const MAX_CONTRACT_BYTES = 15 * 1024 * 1024;
 
-async function requireOwnWedding() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect("/login");
-  }
-
-  const { data: wedding } = await supabase
-    .from("weddings")
-    .select("*")
-    .or(`user_id.eq.${user.id},member_ids.cs.{${user.id}}`)
-    .maybeSingle<Wedding>();
-
-  return { supabase, user, wedding };
-}
-
 /**
  * A contract kept on the Checklist page rather than against a budget line.
  *
@@ -49,8 +28,8 @@ async function requireOwnWedding() {
  * it exists yet.
  */
 export async function uploadPlanningContract(formData: FormData) {
-  const { supabase, wedding } = await requireOwnWedding();
-  if (!wedding) return { error: "Set up your wedding on the Dashboard first." };
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
+  if (!wedding) return { error: noWedding };
 
   const file = formData.get("file") as File | null;
   if (!file || file.size === 0) return { error: "Choose a file to upload." };
@@ -116,8 +95,8 @@ export async function uploadPlanningContract(formData: FormData) {
 export async function summariseContract(
   formData: FormData,
 ): Promise<{ error?: string; summary?: string; tasks?: ContractTask[] }> {
-  const { supabase, wedding } = await requireOwnWedding();
-  if (!wedding) return { error: "Set up your wedding on the Dashboard first." };
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
+  if (!wedding) return { error: noWedding };
 
   const contractId = (formData.get("contract_id") as string)?.trim();
   if (!contractId) return { error: "Which contract?" };
@@ -158,8 +137,8 @@ export async function summariseContract(
 export async function saveContractTasks(
   formData: FormData,
 ): Promise<{ error?: string; added?: number }> {
-  const { supabase, user, wedding } = await requireOwnWedding();
-  if (!wedding) return { error: "Set up your wedding on the Dashboard first." };
+  const { supabase, user, wedding, noWedding } = await requireEditableWedding();
+  if (!wedding) return { error: noWedding };
 
   let tasks: ContractTask[];
   try {
@@ -211,8 +190,8 @@ export async function saveContractTasks(
 }
 
 export async function deletePlanningContract(formData: FormData) {
-  const { supabase, wedding } = await requireOwnWedding();
-  if (!wedding) return { error: "Set up your wedding on the Dashboard first." };
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
+  if (!wedding) return { error: noWedding };
 
   const contractId = (formData.get("contract_id") as string)?.trim();
   if (!contractId) return { error: "Which contract?" };

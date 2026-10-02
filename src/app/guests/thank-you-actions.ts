@@ -3,31 +3,11 @@
 import "server-only";
 import Anthropic from "@anthropic-ai/sdk";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
-import type { Guest, Wedding } from "@/lib/supabase/types";
+import type { Guest } from "@/lib/supabase/types";
+import { requireEditableWedding } from "@/lib/wedding-access";
 
 const MODEL = "claude-haiku-4-5";
 const MAX_NOTE = 2000;
-
-async function requireOwnWedding() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect("/login");
-  }
-
-  const { data: wedding } = await supabase
-    .from("weddings")
-    .select("*")
-    .or(`user_id.eq.${user.id},member_ids.cs.{${user.id}}`)
-    .maybeSingle<Wedding>();
-
-  return { supabase, wedding };
-}
 
 /**
  * Drafts a thank-you note for one guest's gift.
@@ -39,8 +19,8 @@ async function requireOwnWedding() {
 export async function draftThankYouNote(
   formData: FormData,
 ): Promise<{ draft?: string; error?: string }> {
-  const { supabase, wedding } = await requireOwnWedding();
-  if (!wedding) return { error: "Set up your wedding on the Dashboard first." };
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
+  if (!wedding) return { error: noWedding };
 
   const guestId = (formData.get("guest_id") as string)?.trim();
   if (!guestId) return { error: "Missing guest." };
@@ -113,8 +93,8 @@ Rules:
 export async function saveThankYouNote(
   formData: FormData,
 ): Promise<{ error?: string }> {
-  const { supabase, wedding } = await requireOwnWedding();
-  if (!wedding) return { error: "Set up your wedding on the Dashboard first." };
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
+  if (!wedding) return { error: noWedding };
 
   const guestId = (formData.get("guest_id") as string)?.trim();
   if (!guestId) return { error: "Missing guest." };

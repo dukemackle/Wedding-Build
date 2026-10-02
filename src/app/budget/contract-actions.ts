@@ -2,11 +2,9 @@
 
 import { randomUUID } from "crypto";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
-import type { Wedding } from "@/lib/supabase/types";
 import { readUploadedContract } from "@/lib/ai/read-uploaded-contract";
 import { BUDGET_CATEGORIES } from "@/lib/budget-categories";
+import { requireEditableWedding } from "@/lib/wedding-access";
 
 const BUCKET = "contracts";
 
@@ -31,25 +29,6 @@ const MAX_CONTRACT_BYTES = 15 * 1024 * 1024;
 // left in browser history stops working almost immediately.
 const SIGNED_URL_TTL_SECONDS = 60;
 
-async function requireOwnWedding() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect("/login");
-  }
-
-  const { data: wedding } = await supabase
-    .from("weddings")
-    .select("*")
-    .or(`user_id.eq.${user.id},member_ids.cs.{${user.id}}`)
-    .maybeSingle<Wedding>();
-
-  return { supabase, user, wedding };
-}
-
 /**
  * The budget page's two row kinds are addressed differently: a category row by
  * its category key, a custom row by its budget_custom_items id. The form sends
@@ -66,8 +45,8 @@ function resolveTarget(formData: FormData) {
 }
 
 export async function uploadContract(formData: FormData) {
-  const { supabase, wedding } = await requireOwnWedding();
-  if (!wedding) return { error: "Set up your wedding first." };
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
+  if (!wedding) return { error: noWedding };
 
   const target = resolveTarget(formData);
   if (!target) return { error: "Could not tell which budget item this belongs to." };
@@ -133,8 +112,8 @@ export async function uploadContract(formData: FormData) {
 }
 
 export async function deleteContract(formData: FormData) {
-  const { supabase, wedding } = await requireOwnWedding();
-  if (!wedding) return { error: "Set up your wedding first." };
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
+  if (!wedding) return { error: noWedding };
 
   const id = (formData.get("id") as string)?.trim();
   if (!id) return { error: "Missing contract." };
@@ -177,8 +156,8 @@ export async function deleteContract(formData: FormData) {
  * line is left where the couple put it.
  */
 export async function fileContract(formData: FormData) {
-  const { supabase, wedding } = await requireOwnWedding();
-  if (!wedding) return { error: "Set up your wedding first." };
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
+  if (!wedding) return { error: noWedding };
 
   const id = (formData.get("id") as string)?.trim();
   const category = (formData.get("category") as string)?.trim();
@@ -213,8 +192,8 @@ export async function fileContract(formData: FormData) {
  * of the click rather than relying on a link handed out earlier.
  */
 export async function getContractUrl(formData: FormData) {
-  const { supabase, wedding } = await requireOwnWedding();
-  if (!wedding) return { error: "Set up your wedding first." };
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
+  if (!wedding) return { error: noWedding };
 
   const id = (formData.get("id") as string)?.trim();
   if (!id) return { error: "Missing contract." };
