@@ -23,7 +23,7 @@ const nextConfig: NextConfig = {
       // on the hero photo upload. Needed because the app is served through
       // Cloudflare on this custom domain (and its admin subdomain), not
       // whatever host Next.js infers by default.
-      allowedOrigins: ["youdoido.com", "admin.youdoido.com", "wrenwed.com", "admin.wrenwed.com"],
+      allowedOrigins: ["youdoido.com", "admin.youdoido.com"],
     },
   },
   images: {
