@@ -62,6 +62,12 @@ Bizzy B Bakery	Cake	1501 SE Walton Blvd, Suite 101	Bentonville	Arkansas		A Bento
 Striegler Films	Videography		Fayetteville	Arkansas	Northwest Arkansas, Little Rock and Central Arkansas	A Fayetteville wedding film studio working with several cameras and dedicated audio to make cinematic films across Arkansas.			https://strieglerfilms.com/	
 `,
   },
+  {
+    name: "Northwest Arkansas: videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Solari Films	Videography		Bentonville	Arkansas	Arkansas, destinations and worldwide	Wedding film studio led by Brandon Buccheri since 2014, making emotional, story-led films and booked in more than 30 states and abroad.	brandon@solarifilms.com		https://www.solarifilms.com/	https://www.instagram.com/solarifilms/
+`,
+  },
 ];
 
 export default batches;

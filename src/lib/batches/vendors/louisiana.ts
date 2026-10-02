@@ -65,6 +65,13 @@ Eye Wander Photo	Videography	7964 Goodwood Blvd	Baton Rouge	Louisiana	New Orlean
 SB James Photography	Videography		Baton Rouge	Louisiana	Baton Rouge, New Orleans, Lafayette and the southern Gulf states	Baton Rouge wedding videographer and photographer Suzette James, with film packages from six hours and a highlight reel, plus photo booths.	sbjamesphotography@gmail.com	(225) 588-5591	https://www.sbjamesphotography.com/videography	https://www.instagram.com/sbjamesphotography/
 `,
   },
+  {
+    name: "Baton Rouge: hair and makeup and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Faces by Leah	Hair & Makeup	16285-A Highland Rd, Room 104	Baton Rouge	Louisiana		Baton Rouge makeup studio run by a 20-year beauty educator, offering on-location bridal hair and makeup alongside microblading and brow work.	leah@facesbyleah.com	(225) 218-7474	https://facesbyleah.com/	https://www.instagram.com/facesbyleah/
+Elysium Trail	Videography		Baton Rouge	Louisiana		Baton Rouge wedding filmmaker who trained as a wedding planner too, offering story-led films with toasts, interviews and drone footage.	nick@elysiumtrail.com		https://elysiumtrail.com/	https://www.instagram.com/nsavides/
+`,
+  },
 ];
 
 export default batches;
