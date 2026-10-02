@@ -4,9 +4,9 @@ import { revalidatePath } from "next/cache";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import { findAddresses } from "@/lib/address-finder";
 import { type Budget, newBudget, pinFromAddresses, pinUnpinned, withinBudget, withPins } from "@/lib/import-pins";
-import { VENDOR_BATCHES } from "@/lib/vendor-batches";
+import { ALL_VENDOR_BATCHES } from "@/lib/batches/vendors";
+import { ALL_VENUE_BATCHES } from "@/lib/batches/venues";
 import { parseVendorTable, type VendorImportValues } from "@/lib/vendor-import";
-import { VENUE_BATCHES } from "@/lib/venue-batches";
 import { importSourceId, parseVenueTable, type VenueImportValues } from "@/lib/venue-import";
 
 // The bundled-batch import, shared by the "Add them" banner on /admin (behind
@@ -70,19 +70,19 @@ async function notYetListed<T extends { website: string | null }>(table: "venues
   });
 }
 
-/** Bundled batch rows (src/lib/venue-batches.ts) whose website isn't in the database yet. */
+/** Bundled batch rows (src/lib/venue-batches.ts and src/lib/batches/venues/) whose website isn't in the database yet. */
 export async function pendingBundledVenueRows(): Promise<VenueImportValues[]> {
   return notYetListed("venues", bundledVenueRows());
 }
 
 function bundledVenueRows(): VenueImportValues[] {
-  return VENUE_BATCHES.flatMap((batch) => parseVenueTable(batch.tsv).rows)
+  return ALL_VENUE_BATCHES.flatMap((batch) => parseVenueTable(batch.tsv).rows)
     .filter((row) => row.errors.length === 0)
     .map((row) => row.values);
 }
 
 function bundledVendorRows(): VendorImportValues[] {
-  return VENDOR_BATCHES.flatMap((batch) => parseVendorTable(batch.tsv).rows)
+  return ALL_VENDOR_BATCHES.flatMap((batch) => parseVendorTable(batch.tsv).rows)
     .filter((row) => row.errors.length === 0)
     .map((row) => row.values);
 }
@@ -95,7 +95,7 @@ function keyed<T extends { website: string | null }>(rows: T[]): (T & { source_i
   });
 }
 
-/** Bundled batch rows (src/lib/vendor-batches.ts) whose website isn't in the database yet. */
+/** Bundled batch rows (src/lib/vendor-batches.ts and src/lib/batches/vendors/) whose website isn't in the database yet. */
 export async function pendingBundledVendorRows(): Promise<VendorImportValues[]> {
   return notYetListed("vendors", bundledVendorRows());
 }

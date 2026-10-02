@@ -1,12 +1,23 @@
 #!/usr/bin/env node
-// Checks src/lib/vendor-batches.ts before a vendor PR goes up, and prints
+// Checks every vendor batch (src/lib/vendor-batches.ts and the per-state files
+// in src/lib/batches/vendors/) before a vendor PR goes up, and prints
 // coverage so the next batch can be picked. Run from the repo root:
 //   node .claude/skills/add-vendors/scripts/check-batches.mjs
 // Exits 1 on any problem that would make /admin/vendors skip or reject a row.
 
-import { readFileSync } from "node:fs";
+import { readFileSync, readdirSync } from "node:fs";
 
-const src = readFileSync("src/lib/vendor-batches.ts", "utf8");
+const STATE_DIR = "src/lib/batches/vendors";
+// [source text, the state its file is for (null for the older shared file)]
+const sources = [
+  [readFileSync("src/lib/vendor-batches.ts", "utf8"), null],
+  ...readdirSync(STATE_DIR)
+    .filter((f) => f.endsWith(".ts") && f !== "index.ts")
+    .map((f) => {
+      const text = readFileSync(`${STATE_DIR}/${f}`, "utf8");
+      return [text, text.match(/Every row's State is "([^"]+)"/)[1]];
+    }),
+];
 const options = readFileSync("src/lib/wedding-options.ts", "utf8");
 
 const catBlock = options.match(/PREFERRED_VENDOR_CATEGORIES = \[([\s\S]*?)\]/)[1];
@@ -24,8 +35,10 @@ const seenSites = new Map();
 const seenNames = new Map();
 const coverage = new Map(); // area -> Map(category -> count)
 
-const batches = [...src.matchAll(/name: "([^"]+)",\s*tsv: `([\s\S]*?)`/g)];
-for (const [, batchName, tsv] of batches) {
+const batches = sources.flatMap(([src, fileState]) =>
+  [...src.matchAll(/name: "([^"]+)",\s*tsv: `([\s\S]*?)`/g)].map(([, batchName, tsv]) => [batchName, tsv, fileState]),
+);
+for (const [batchName, tsv, fileState] of batches) {
   const area = batchName.split(":")[0].trim();
   const lines = tsv.split("\n").filter((l) => l.trim() !== "");
   const hasAddress = lines[0] === HEADER;
@@ -44,6 +57,7 @@ for (const [, batchName, tsv] of batches) {
     if (!name) problems.push(`${where}: no name`);
     if (!categories.includes(category)) problems.push(`${where}: category "${category}" isn't one we list`);
     if (!city || !state) warnings.push(`${where}: missing city or state`);
+    if (fileState && state && state !== fileState) problems.push(`${where}: State is ${state} but the batch is in ${fileState}'s file`);
     if (!website) problems.push(`${where}: no website (leave out vendors without a working site)`);
     if (!description) warnings.push(`${where}: no description`);
     else if (description.length > 200) warnings.push(`${where}: description is ${description.length} chars (keep it to one sentence)`);

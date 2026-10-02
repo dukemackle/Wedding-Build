@@ -1,3 +1,6 @@
+// Closed to new batches (2026-10-02): add them to the state's file in
+// src/lib/batches/venues/ instead, so parallel batch PRs don't collide.
+//
 // Venue batches researched from each venue's own website (see the commit that
 // added each one for sources and what was left out). /admin/venues offers to
 // add any rows not yet in the database, so a new batch needs no pasting: add

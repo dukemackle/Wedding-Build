@@ -1,11 +1,13 @@
 ---
 name: add-vendors
-description: Research and add a batch of real wedding vendors to src/lib/vendor-batches.ts, check it, and open the self-merging PR. Use when the owner says /add-vendors, "add vendors", "next vendor batch", names a metro or category to fill, or pastes a list of vendors to add.
+description: Research and add a batch of real wedding vendors to the per-state files in src/lib/batches/vendors/, check it, and open the self-merging PR. Use when the owner says /add-vendors, "add vendors", "next vendor batch", names a metro or category to fill, or pastes a list of vendors to add.
 ---
 
 # Add a vendor batch
 
-Vendors reach the app in two steps: a PR adds rows to `src/lib/vendor-batches.ts`,
+Vendors reach the app in two steps: a PR adds rows to a state's file in
+`src/lib/batches/vendors/` (e.g. `ohio.ts`; the older `src/lib/vendor-batches.ts`
+is closed to new batches),
 then the owner clicks "Add them" on /admin/vendors, which inserts any row whose
 website isn't already in the database. This skill does the first step.
 
@@ -14,11 +16,13 @@ website isn't already in the database. This skill does the first step.
 Arguments may name a metro, a category, or both (`/add-vendors Houston`), or the
 owner may paste names or a list. Otherwise, choose for them:
 
-1. Run `node .claude/skills/add-vendors/scripts/check-batches.mjs`. It prints
-   each area's count per category and what's missing.
-2. **Go deep before wide.** Fill the metro with the most missing categories
-   before starting a new metro. Any category with fewer than 3 vendors in a metro
-   counts as missing.
+1. Run `npm run coverage` for the 50-state picture, then `npm run coverage --
+   <State>` for what a state's metros still need. The metros and targets are
+   in `scripts/coverage-plan.mjs`.
+2. **Wide before deep** until every state meets pass 1 (its first metro has 3
+   in each core category): take the state furthest from it. After that, fill
+   each state's other metros. Any category with fewer than 3 vendors in a
+   metro counts as missing.
 3. Say in one line which metro and categories you're doing, then go ahead. Only
    ask if the owner's request is ambiguous.
 
@@ -73,10 +77,13 @@ Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	In
   differs from City, use the postal town as City so the lookup matches.
 - Leave out Latitude/Longitude; the address is what places a vendor.
 
-Add the rows as **one new entry at the end of `VENDOR_BATCHES`**. Name it
-`"<Area>: <categories>"`, using exactly the same area prefix as that metro's
-earlier batches (e.g. `Dallas–Fort Worth: ...`). The coverage report groups by
-that prefix.
+Add the rows as **one new entry at the end of the state's file** in
+`src/lib/batches/vendors/`. Every row's State must be that file's state (the
+checker fails otherwise); a metro that crosses a state line splits into one
+batch per state. Name it `"<Metro>: <categories>"`, with the metro written
+exactly as in `scripts/coverage-plan.mjs` (e.g. `Columbus: ...`), or as that
+metro's earlier batches did for Texas. The coverage report counts by that
+prefix.
 
 ## 4. Check
 
@@ -92,7 +99,7 @@ src/lib/vendor-batches.ts`.
 
 This PR merges itself (CLAUDE.md: venue and vendor batches), so no preview is needed.
 
-1. Commit just `src/lib/vendor-batches.ts`: `Add <area> vendor batch (<n> vendors)`.
+1. Commit just the state file(s): `Add <area> vendor batch (<n> vendors)`.
 2. Push and open the PR. The body should cover the counts per category, the
    sources used, and what was left out and why.
 3. Subscribe to the PR. Once the Cloudflare build is green, merge it. If the
@@ -100,5 +107,5 @@ This PR merges itself (CLAUDE.md: venue and vendor batches), so no preview is ne
 4. Tell the owner in two lines: merged, and to click **"Add them"** on
    /admin/vendors. Name the categories that are still thin in that metro.
 
-If the PR touches anything besides `vendor-batches.ts`, it's no longer
-self-merging. Hand it to the owner.
+If the PR touches anything besides the batch files in `src/lib/batches/`,
+it's no longer self-merging. Hand it to the owner.

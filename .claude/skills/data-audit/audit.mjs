@@ -5,12 +5,13 @@
 //        [--out report.md] [--json findings.json] [--fixes data-audit-fixes.json]
 //        [--no-web] [--stale-days 180]
 //
-// With no CSVs it audits the bundled batches in src/lib/*-batches.ts, which
+// With no CSVs it audits the bundled batches (src/lib/*-batches.ts and the
+// per-state files in src/lib/batches/), which
 // have no photo, price or "last checked" columns, so those checks are skipped.
 // The CSVs are the exports from /admin/venues and /admin/vendors (Export
 // button), which carry every column the audit reads.
 
-import { readFileSync, writeFileSync } from "node:fs";
+import { readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { basename, resolve } from "node:path";
 
 const args = process.argv.slice(2);
@@ -73,8 +74,15 @@ if (venuesCsv || vendorsCsv) {
   if (venuesCsv) sets.push({ kind: "venue", rows: loadCsv(venuesCsv), fromDb: true });
   if (vendorsCsv) sets.push({ kind: "vendor", rows: loadCsv(vendorsCsv), fromDb: true });
 } else {
-  sets.push({ kind: "venue", rows: loadBatches("src/lib/venue-batches.ts"), fromDb: false });
-  sets.push({ kind: "vendor", rows: loadBatches("src/lib/vendor-batches.ts"), fromDb: false });
+  // The older shared file plus one file per state under src/lib/batches/.
+  const batchFiles = (kind) => [
+    `src/lib/${kind}-batches.ts`,
+    ...readdirSync(resolve(ROOT, `src/lib/batches/${kind}s`))
+      .filter((f) => f.endsWith(".ts") && f !== "index.ts")
+      .map((f) => `src/lib/batches/${kind}s/${f}`),
+  ];
+  sets.push({ kind: "venue", rows: batchFiles("venue").flatMap(loadBatches), fromDb: false });
+  sets.push({ kind: "vendor", rows: batchFiles("vendor").flatMap(loadBatches), fromDb: false });
 }
 
 // ---------- helpers ----------

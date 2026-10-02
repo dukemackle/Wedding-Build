@@ -50,13 +50,20 @@ the pull request without asking again — pushing to a branch isn't shipping,
 production deploys from `main`. The merge click stays the owner's.
 
 **Venue and vendor batches merge themselves (2026-09-27, vendors 2026-09-28):**
-a PR that only adds rows to `src/lib/venue-batches.ts` or
-`src/lib/vendor-batches.ts` doesn't wait for the owner — merge it once the
+a PR that only adds rows to the per-state batch files in `src/lib/batches/`
+(or the older `src/lib/venue-batches.ts` / `vendor-batches.ts`) doesn't wait for the owner — merge it once the
 Cloudflare build is green. The "Venue & vendor batches" routine then adds
 them itself by POSTing to `/api/import-batches` with `BATCH_IMPORT_SECRET`
 (2026-10-01); "Add them" on /admin/venues or /admin/vendors does the same by hand. Anything else in the PR (code, UI) still goes through the
 owner. How to research, write and check a vendor batch lives in the
 `/add-vendors` skill (`.claude/skills/add-vendors/`).
+
+**50-state coverage (2026-10-02):** no marketing until every state has listings.
+New batches go only in `src/lib/batches/venues/<state>.ts` or
+`src/lib/batches/vendors/<state>.ts`, one file per state, so several batch PRs
+can run at once without conflicts; the two older files are closed. The plan
+(metros per state and targets) is `scripts/coverage-plan.mjs`; `npm run
+coverage` shows what's left. Name vendor batches after the plan's metro.
 
 **Desktop and mobile are two designs, not one that stretches (2026-09-20,
 restated 2026-09-20 — supersedes the earlier "desktop is settled" note):**

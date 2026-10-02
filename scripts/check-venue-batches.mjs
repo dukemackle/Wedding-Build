@@ -1,4 +1,5 @@
-// Checks src/lib/venue-batches.ts before it ships. Run with:
+// Checks every venue batch (src/lib/venue-batches.ts and the per-state files
+// in src/lib/batches/venues/) before it ships. Run with:
 //
 //   npm run check:venues
 //
@@ -29,7 +30,12 @@ register(
     `),
 );
 
-const { VENUE_BATCHES } = await import("../src/lib/venue-batches.ts");
+const { ALL_VENUE_BATCHES, VENUE_BATCHES_BY_STATE } = await import("../src/lib/batches/venues/index.ts");
+
+// Batches in a state's own file must hold only that state's venues.
+const fileState = new Map(
+  Object.entries(VENUE_BATCHES_BY_STATE).flatMap(([state, batches]) => batches.map((b) => [b, state])),
+);
 const { parseVenueTable, importSourceId } = await import("../src/lib/venue-import.ts");
 
 // Rough [south, north, west, east] per state, padded half a degree so a venue
@@ -105,7 +111,7 @@ let withTier = 0;
 let withPin = 0;
 let withAddress = 0;
 
-for (const batch of VENUE_BATCHES) {
+for (const batch of ALL_VENUE_BATCHES) {
   const parsed = parseVenueTable(batch.tsv);
   const where = (row) => `${batch.name}, row ${row.line} (${row.values.name || "no name"})`;
 
@@ -143,6 +149,10 @@ for (const batch of VENUE_BATCHES) {
 
     if (!v.city) errors.push(`${where(row)}: no City -- it can't be pinned or filtered`);
     if (!v.state) errors.push(`${where(row)}: no State`);
+    const ownState = fileState.get(batch);
+    if (ownState && v.state && v.state !== ownState) {
+      errors.push(`${where(row)}: State is ${v.state} but the batch is in ${ownState}'s file -- move it to that state's file`);
+    }
     if (!v.website) errors.push(`${where(row)}: no Website -- it can't be de-duplicated and will import again`);
     if (v.address) {
       withAddress++;
@@ -199,7 +209,7 @@ for (const w of warnings) console.log(`warn   ${w}`);
 for (const e of errors) console.log(`ERROR  ${e}`);
 const pct = (n) => `${total ? Math.round((n / total) * 100) : 0}%`;
 console.log(
-  `\n${VENUE_BATCHES.length} batches, ${total} venues. Capacity on ${pct(withCapacity)}, ` +
+  `\n${ALL_VENUE_BATCHES.length} batches, ${total} venues. Capacity on ${pct(withCapacity)}, ` +
     `price tier on ${pct(withTier)}, street address on ${pct(withAddress)}, typed pin on ${pct(withPin)}. ` +
     `${errors.length} errors, ${warnings.length} warnings.`,
 );
