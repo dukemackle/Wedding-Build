@@ -1345,4 +1345,20 @@ Gainey Vineyard	Santa Ynez	California			Restaurant / Vineyard	Indoor & Outdoor	5
 Grimm's Bluff	Santa Ynez	California			Restaurant / Vineyard	Indoor & Outdoor		Vineyard event venue in Happy Canyon with a newly opened event space, taking wedding enquiries by phone, email or its contact form.	Info@grimmsbluff.com	(805) 691-9065	https://www.grimmsbluff.com/events
 `,
   },
+  {
+    name: "Napa, Sonoma and the San Francisco Bay Area",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Paradise Ridge Winery	4555 Thomas Lake Harris Drive	Santa Rosa	California			Restaurant / Vineyard	Indoor & Outdoor	250		Winery with several indoor and outdoor ceremony and reception spaces, including a terrace, veranda and two private rooms, plus on-site farmstay lodging for the wedding party.	events@prwinery.com	(707) 528-9463	https://www.prwinery.com/
+Mountain House Estate	38000 CA-128	Cloverdale	California			Garden / Outdoor		250		Gated 40-acre private estate in Sonoma County that runs all-inclusive weddings with in-house catering, aimed at 100 to 250 guests and toured by appointment.		(707) 385-5252	https://mountainhouseestate.com/
+Kohl Mansion	2750 Adeline Drive	Burlingame	California			Historic / Estate	Indoor & Outdoor			Century-old mansion with views of San Francisco Bay, offering a lawn for ceremonies, a rose garden for portraits and a terrace for cocktail hour.		650.762.1137	https://www.kohlmansion.com/
+Filoli Historic House & Garden	86 Cañada Road	Woodside	California			Historic / Estate	Indoor & Outdoor		Luxury	Early 20th-century estate with formal gardens, a redwood grove, a mansion ballroom and a full-estate buyout option, plus smaller elopement packages.	guestservices@filoli.org	650.421.7332	https://filoli.org/private-events/weddings/
+V. Sattui Winery	1111 White Lane	St. Helena	California			Restaurant / Vineyard	Indoor & Outdoor			Napa Valley winery with gardens, terraces, a stone tower and an underground aging cellar for weddings, with on-site catering and an events team.	weddings@vsattui.com	(707) 963-7774	https://vsattui.com/
+Meritage Resort and Spa	875 Bordeaux Way	Napa	California			Ballroom / Hotel	Indoor & Outdoor			Napa resort offering more than ten wedding settings, including a vineyard venue, lawns, rooftop areas, a wine cave and ballrooms, with 467 guest rooms on site.		(866) 370-6272	https://www.meritageresort.com/gather/napa-weddings/
+Annadel Estate Winery	125 Cristo Lane	Santa Rosa	California			Restaurant / Vineyard	Indoor & Outdoor			33-acre Santa Rosa winery hosting full weddings as well as micro weddings and elopements, with tours by appointment.	info@annadelestatewinery.com	707-584-6816	https://www.annadelestatewinery.com/
+Charles Krug Winery	2800 Main Street	St. Helena	California			Historic / Estate	Indoor & Outdoor	800		Napa Valley's oldest winery, with an 1881 Carriage House, a Redwood Cellar, a guest house and a Great Lawn that seats up to 800.		800.682.5784	https://charleskrug.com/visit/wedding-celebrations
+Wente Vineyards	5050 Arroyo Road	Livermore	California			Restaurant / Vineyard	Indoor & Outdoor	700		Family-run Livermore Valley winery dating to 1883, with a vineyard lawn, an event center with terrace and wine caves, and all-inclusive packages with in-house catering.		925-456-2300	https://wentevineyards.com/
+The Mountain Winery	14831 Pierce Road	Saratoga	California			Restaurant / Vineyard	Outdoor	400		Santa Cruz Mountains winery and concert amphitheater that also hosts weddings and elopements, with customised packages for up to 400 guests.		(408) 741-2822	https://www.mountainwinery.com/weddings
+Santa Barbara Historical Museum	136 East De la Guerra	Santa Barbara	California			Historic / Estate	Outdoor			Museum in the historic downtown district whose courtyards are rented out for weddings and private events.		805.966.1601	https://www.sbhistorical.org/
+`,
+  },
 ];
