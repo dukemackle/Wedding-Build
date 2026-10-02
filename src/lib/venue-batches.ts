@@ -1361,4 +1361,19 @@ The Mountain Winery	14831 Pierce Road	Saratoga	California			Restaurant / Vineyar
 Santa Barbara Historical Museum	136 East De la Guerra	Santa Barbara	California			Historic / Estate	Outdoor			Museum in the historic downtown district whose courtyards are rented out for weddings and private events.		805.966.1601	https://www.sbhistorical.org/
 `,
   },
+  {
+    name: "Sacramento, Placer County, Lodi and the Gold Country",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Viaggio Estate & Winery	100 E Taddei Rd	Acampo	California			Restaurant / Vineyard	Indoor & Outdoor			Tuscan-styled winery estate with vineyards and walnut orchards along the Mokelumne River, with indoor and outdoor event spaces in Lodi wine country.		(209) 333-0484	https://www.viaggiowinery.com/weddings/
+Vizcaya Sacramento	2019 21st St	Sacramento	California			Historic / Estate	Indoor & Outdoor	240		Landmark 1889 Midtown mansion with a bed and breakfast, a stained-glass pavilion ballroom, courtyards and landscaped gardens.	frontdesk@vizcayasacramento.com	(916) 594-9285	https://vizcayasacramento.com/
+The Barn at Amador Cellars	11093 Shenandoah Rd	Plymouth	California			Barn / Rustic	Indoor & Outdoor	140	Simple	Rustic barn with a large lawn set among vineyards in Amador County, with a bridal suite and a caterer's kitchen.	info@amadorcellars.com	(209) 245-6150	https://www.amadorcellars.com/the-barn-amador-cellars
+The Ridge Golf & Events Center	2020 Golf Course Rd	Auburn	California			Garden / Outdoor	Indoor & Outdoor	350		Golf course clubhouse in the Auburn foothills with a ballroom, a patio, and ceremony sites under a century-old blue oak or on a grassy overlook.		(530) 888-7888	https://www.ridgegc.com/
+Lake Natoma Inn	702 Gold Lake Dr	Folsom	California			Ballroom / Hotel	Indoor & Outdoor	250		Folsom hotel with three indoor ballrooms, a garden patio and a gazebo ceremony site with fountains.	weddings@lakenatomainn.com	(916) 351-1500	https://www.lakenatomainn.com/weddings
+Rancho Victoria Weddings & Events	16870 Greilich Rd	Plymouth	California			Restaurant / Vineyard	Outdoor	300	Classic	Family-run vineyard estate on a 640-acre Gold Country ranch with a terrace lawn, century-old oaks, a cottage and a groom's quarters; all events are outdoors.			https://www.ranchovictoriaweddingsandevents.com/
+Sequoia Mansion	643 Bee St	Placerville	California			Historic / Estate	Indoor & Outdoor	200		Victorian mansion begun in the 1850s and enlarged in 1889, with a wraparound porch, stained glass and a ceremony patio beside a large sequoia.		(866) 966-3009	https://www.wedgewoodweddings.com/venues/sequoia-mansion
+Winchester Vista	3030 Legends Dr	Meadow Vista	California			Garden / Outdoor	Indoor & Outdoor	150		Country club venue in the Sierra foothills with a hilltop ceremony lawn with valley views, a windowed ballroom and a heated patio.		(866) 966-3009	https://www.wedgewoodweddings.com/venues/winchester-vista
+Sterling Hotel	1300 H St	Sacramento	California			Historic / Estate	Indoor & Outdoor	200		1894 Victorian hotel near the State Capitol with a stained-glass entry dome, an indoor chapel, a cellar bar, a cocktail patio and guest rooms.		(866) 966-3009	https://www.wedgewoodweddings.com/venues/sterling-hotel
+Evergreen Springs	8290 Elk Grove Blvd	Elk Grove	California			Garden / Outdoor	Indoor & Outdoor	220		Brick-walled industrial ballroom with waterfall gardens, a waterfall ceremony arbor and protected blue oaks south of Sacramento.		(866) 966-3009	https://www.wedgewoodweddings.com/venues/evergreen-springs
+`,
+  },
 ];
