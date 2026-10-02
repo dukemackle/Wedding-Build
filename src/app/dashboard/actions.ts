@@ -4,7 +4,7 @@ import { randomUUID } from "node:crypto";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import type { Wedding } from "@/lib/supabase/types";
+import type { Wedding, WeddingInvite, WeddingRole } from "@/lib/supabase/types";
 import { STATE_TO_REGION } from "@/lib/budget-categories";
 
 const MAX_PHOTO_BYTES = 5 * 1024 * 1024;
@@ -22,28 +22,39 @@ export async function saveWedding(formData: FormData): Promise<{ error?: string 
   const guestCountOverrideRaw = formData.get("guest_count_override") as string;
   const state = formData.get("state") as string;
 
-  const { error } = await supabase.from("weddings").upsert(
-    {
-      user_id: user.id,
-      partner_a_name: formData.get("partner_a_name") as string,
-      partner_b_name: formData.get("partner_b_name") as string,
-      wedding_date: (formData.get("wedding_date") as string) || null,
-      state,
-      // The couple only ever picks a state -- region still drives the
-      // budget-multiplier math under the hood, so it's derived here
-      // automatically instead of being its own separate question.
-      region: STATE_TO_REGION[state] ?? null,
-      season: formData.get("season") as string,
-      style_tier: formData.get("style_tier") as string,
-      venue_type: formData.get("venue_type") as string,
-      guest_count_override: guestCountOverrideRaw
-        ? Number(guestCountOverrideRaw)
-        : null,
-      rsvp_deadline: (formData.get("rsvp_deadline") as string) || null,
-      updated_at: new Date().toISOString(),
-    },
-    { onConflict: "user_id" },
-  );
+  const details = {
+    partner_a_name: formData.get("partner_a_name") as string,
+    partner_b_name: formData.get("partner_b_name") as string,
+    wedding_date: (formData.get("wedding_date") as string) || null,
+    state,
+    // The couple only ever picks a state -- region still drives the
+    // budget-multiplier math under the hood, so it's derived here
+    // automatically instead of being its own separate question.
+    region: STATE_TO_REGION[state] ?? null,
+    season: formData.get("season") as string,
+    style_tier: formData.get("style_tier") as string,
+    venue_type: formData.get("venue_type") as string,
+    guest_count_override: guestCountOverrideRaw
+      ? Number(guestCountOverrideRaw)
+      : null,
+    rsvp_deadline: (formData.get("rsvp_deadline") as string) || null,
+    updated_at: new Date().toISOString(),
+  };
+
+  // Someone invited onto a wedding edits that wedding, not a new one of their
+  // own -- an upsert keyed on their user_id would quietly create a second
+  // wedding for them.
+  const { data: existing } = await supabase
+    .from("weddings")
+    .select("id")
+    .or(`user_id.eq.${user.id},member_ids.cs.{${user.id}}`)
+    .maybeSingle<{ id: string }>();
+
+  const { error } = existing
+    ? await supabase.from("weddings").update(details).eq("id", existing.id)
+    : await supabase
+        .from("weddings")
+        .upsert({ user_id: user.id, ...details }, { onConflict: "user_id" });
 
   if (error) {
     return { error: error.message };
@@ -66,7 +77,7 @@ async function requireOwnWedding() {
   const { data: wedding } = await supabase
     .from("weddings")
     .select("*")
-    .or(`user_id.eq.${user.id},partner_user_id.eq.${user.id}`)
+    .or(`user_id.eq.${user.id},member_ids.cs.{${user.id}}`)
     .maybeSingle<Wedding>();
 
   return { supabase, user, wedding };
@@ -157,48 +168,55 @@ export async function removeWeddingPhoto(formData: FormData): Promise<{ error?: 
   return {};
 }
 
-// Only the wedding's creator can invite/remove a partner -- once someone
-// has accepted an invite they get full read/write on everything else, but
-// managing who else holds that access stays with whoever set the wedding
-// up, same as the delete policy on the weddings row itself.
-export async function generateInviteLink(): Promise<{ error?: string; token?: string }> {
+// Only the wedding's creator decides who else is on it -- editors get full
+// read/write on everything else, but inviting, changing roles and removing
+// people stays with whoever set the wedding up, same as the delete policy on
+// the weddings row itself. RLS on wedding_members/wedding_invites enforces
+// the same rule; the checks here are for a readable error.
+async function requireWeddingOwner() {
   const { supabase, user, wedding } = await requireOwnWedding();
-
   if (!wedding) {
-    return { error: "Set up your wedding first." };
+    return { error: "Set up your wedding first." } as const;
   }
   if (wedding.user_id !== user.id) {
-    return { error: "Only the wedding owner can invite a partner." };
+    return { error: "Only the wedding owner can change who's planning." } as const;
   }
+  return { supabase, wedding } as const;
+}
 
-  const token = randomUUID();
-  const { error } = await supabase
-    .from("weddings")
-    .update({ invite_token: token })
-    .eq("id", wedding.id);
+function parseRole(role: string): WeddingRole {
+  return role === "view" ? "view" : "edit";
+}
+
+export async function createPlanningInvite(
+  role: string,
+): Promise<{ error?: string; invite?: WeddingInvite }> {
+  const owner = await requireWeddingOwner();
+  if ("error" in owner) return { error: owner.error };
+
+  const { data, error } = await owner.supabase
+    .from("wedding_invites")
+    .insert({ wedding_id: owner.wedding.id, role: parseRole(role) })
+    .select("*")
+    .single<WeddingInvite>();
 
   if (error) {
     return { error: error.message };
   }
 
   revalidatePath("/dashboard");
-  return { token };
+  return { invite: data };
 }
 
-export async function revokeInviteLink(): Promise<{ error?: string }> {
-  const { supabase, user, wedding } = await requireOwnWedding();
+export async function cancelPlanningInvite(token: string): Promise<{ error?: string }> {
+  const owner = await requireWeddingOwner();
+  if ("error" in owner) return { error: owner.error };
 
-  if (!wedding) {
-    return { error: "Set up your wedding first." };
-  }
-  if (wedding.user_id !== user.id) {
-    return { error: "Only the wedding owner can revoke the invite link." };
-  }
-
-  const { error } = await supabase
-    .from("weddings")
-    .update({ invite_token: null })
-    .eq("id", wedding.id);
+  const { error } = await owner.supabase
+    .from("wedding_invites")
+    .delete()
+    .eq("token", token)
+    .eq("wedding_id", owner.wedding.id);
 
   if (error) {
     return { error: error.message };
@@ -208,20 +226,33 @@ export async function revokeInviteLink(): Promise<{ error?: string }> {
   return {};
 }
 
-export async function removePartner(): Promise<{ error?: string }> {
-  const { supabase, user, wedding } = await requireOwnWedding();
+export async function setPlannerRole(userId: string, role: string): Promise<{ error?: string }> {
+  const owner = await requireWeddingOwner();
+  if ("error" in owner) return { error: owner.error };
 
-  if (!wedding) {
-    return { error: "Set up your wedding first." };
-  }
-  if (wedding.user_id !== user.id) {
-    return { error: "Only the wedding owner can remove partner access." };
+  const { error } = await owner.supabase
+    .from("wedding_members")
+    .update({ role: parseRole(role) })
+    .eq("wedding_id", owner.wedding.id)
+    .eq("user_id", userId);
+
+  if (error) {
+    return { error: error.message };
   }
 
-  const { error } = await supabase
-    .from("weddings")
-    .update({ partner_user_id: null })
-    .eq("id", wedding.id);
+  revalidatePath("/dashboard");
+  return {};
+}
+
+export async function removePlanner(userId: string): Promise<{ error?: string }> {
+  const owner = await requireWeddingOwner();
+  if ("error" in owner) return { error: owner.error };
+
+  const { error } = await owner.supabase
+    .from("wedding_members")
+    .delete()
+    .eq("wedding_id", owner.wedding.id)
+    .eq("user_id", userId);
 
   if (error) {
     return { error: error.message };

@@ -17,7 +17,7 @@ export default async function AccountPage() {
   const { data: wedding } = await supabase
     .from("weddings")
     .select("*")
-    .or(`user_id.eq.${user.id},partner_user_id.eq.${user.id}`)
+    .or(`user_id.eq.${user.id},member_ids.cs.{${user.id}}`)
     .maybeSingle<Wedding>();
 
   const isOwner = wedding?.user_id === user.id;

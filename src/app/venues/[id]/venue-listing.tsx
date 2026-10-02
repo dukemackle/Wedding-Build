@@ -72,7 +72,7 @@ export async function loadVenueListing(
         ? supabase
             .from("weddings")
             .select("*")
-            .or(`user_id.eq.${userId},partner_user_id.eq.${userId}`)
+            .or(`user_id.eq.${userId},member_ids.cs.{${userId}}`)
             .maybeSingle<Wedding>()
         : Promise.resolve({ data: null }),
       supabase.from("venue_faqs").select("*").eq("venue_id", venue.id).order("sort_order").returns<VenueFaq[]>(),

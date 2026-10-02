@@ -44,7 +44,7 @@ export async function loadVendorListing(
       ? supabase
           .from("weddings")
           .select("*")
-          .or(`user_id.eq.${userId},partner_user_id.eq.${userId}`)
+          .or(`user_id.eq.${userId},member_ids.cs.{${userId}}`)
           .maybeSingle<Wedding>()
       : Promise.resolve({ data: null }),
     supabase.from("vendor_faqs").select("*").eq("vendor_id", vendor.id).order("sort_order").returns<VendorFaq[]>(),

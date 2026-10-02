@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState, useTransition } from "react";
+import { useEffect, useRef, useState, useTransition, type ReactNode } from "react";
 import { saveWedding } from "./actions";
 import type { Venue, Wedding } from "@/lib/supabase/types";
 import { STATES, SEASONS, STYLE_TIERS, VENUE_TYPES } from "@/lib/wedding-options";
@@ -18,7 +18,7 @@ import { PhotoUpload } from "@/components/photo-upload";
  * which is the reason the two are separate now. The pencil is the whole
  * editing affordance; there is no "photo" card any more.
  */
-function ProfileAvatar({ wedding }: { wedding: Wedding }) {
+function ProfileAvatar({ wedding, canEdit }: { wedding: Wedding; canEdit: boolean }) {
   const [editing, setEditing] = useState(false);
   const photo = wedding.profile_photo_url ?? wedding.hero_photo_url;
 
@@ -47,26 +47,28 @@ function ProfileAvatar({ wedding }: { wedding: Wedding }) {
             </svg>
           </div>
         )}
-        <button
-          type="button"
-          onClick={() => setEditing((v) => !v)}
-          aria-label={photo ? "Change your photo" : "Add a photo"}
-          className="absolute -bottom-1 -right-1 flex h-8 w-8 items-center justify-center rounded-full border-2 border-card bg-forest text-parchment transition-colors hover:bg-forest/90"
-        >
-          <svg
-            viewBox="0 0 24 24"
-            aria-hidden="true"
-            className="h-3.5 w-3.5"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.8"
-            strokeLinecap="round"
-            strokeLinejoin="round"
+        {canEdit && (
+          <button
+            type="button"
+            onClick={() => setEditing((v) => !v)}
+            aria-label={photo ? "Change your photo" : "Add a photo"}
+            className="absolute -bottom-1 -right-1 flex h-8 w-8 items-center justify-center rounded-full border-2 border-card bg-forest text-parchment transition-colors hover:bg-forest/90"
           >
-            <path d="M12 20h9" />
-            <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
-          </svg>
-        </button>
+            <svg
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+              className="h-3.5 w-3.5"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M12 20h9" />
+              <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
+            </svg>
+          </button>
+        )}
       </div>
 
       {editing && (
@@ -339,10 +341,14 @@ function WeddingHero({
   wedding,
   bookedVenue,
   onEdit,
+  canEdit,
+  actions,
 }: {
   wedding: Wedding;
   bookedVenue: Venue | null;
   onEdit: () => void;
+  canEdit: boolean;
+  actions?: ReactNode;
 }) {
   const backdrop = wedding.hero_photo_url ?? bookedVenue?.image_url;
   const venueLine = bookedVenue
@@ -355,7 +361,7 @@ function WeddingHero({
   // rounded corners, and would clip the upload popover along with the photo.
   return (
     <div className="relative">
-      <CoverPhotoButton wedding={wedding} />
+      {canEdit && <CoverPhotoButton wedding={wedding} />}
       <section className="relative overflow-hidden rounded-2xl bg-forest shadow-lg">
         {backdrop ? (
           <Image
@@ -380,7 +386,7 @@ function WeddingHero({
 
         <div className="relative flex flex-col gap-8 p-6 pt-16 sm:p-10 lg:flex-row lg:items-end lg:justify-between lg:px-10 lg:py-6">
           <div className="flex flex-col gap-5 sm:flex-row sm:items-end">
-            <ProfileAvatar wedding={wedding} />
+            <ProfileAvatar wedding={wedding} canEdit={canEdit} />
             <div className="min-w-0">
               {venueLine && (
                 <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
@@ -393,14 +399,17 @@ function WeddingHero({
               <p className="mt-2 text-lg text-white/85">
                 {wedding.wedding_date ? formatDate(wedding.wedding_date) : "Date not set yet"}
               </p>
-              <div className="mt-4 lg:mt-3">
-                <button
-                  type="button"
-                  onClick={onEdit}
-                  className="rounded-full bg-white px-3 py-1 text-xs font-medium text-forest transition-colors hover:bg-parchment"
-                >
-                  Edit details
-                </button>
+              <div className="mt-4 flex flex-wrap items-center gap-2 lg:mt-3">
+                {canEdit && (
+                  <button
+                    type="button"
+                    onClick={onEdit}
+                    className="rounded-full bg-white px-3 py-1 text-xs font-medium text-forest transition-colors hover:bg-parchment"
+                  >
+                    Edit details
+                  </button>
+                )}
+                {actions}
               </div>
             </div>
           </div>
@@ -443,9 +452,15 @@ function WeddingHero({
 export function WeddingDashboard({
   initialWedding,
   bookedVenue = null,
+  canEdit = true,
+  heroActions,
 }: {
   initialWedding: Wedding | null;
   bookedVenue?: Venue | null;
+  /** False for someone invited with view-only access. */
+  canEdit?: boolean;
+  /** Extra pills beside "Edit details" -- the "Invite to plan" button. */
+  heroActions?: ReactNode;
 }) {
   const [isEditing, setIsEditing] = useState(!initialWedding);
   const [error, setError] = useState<string | undefined>(undefined);
@@ -470,6 +485,8 @@ export function WeddingDashboard({
           wedding={initialWedding}
           bookedVenue={bookedVenue}
           onEdit={() => setIsEditing(true)}
+          canEdit={canEdit}
+          actions={heroActions}
         />
       )}
 

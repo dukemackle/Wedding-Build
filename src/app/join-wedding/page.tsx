@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
-import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
-import type { Wedding } from "@/lib/supabase/types";
+import { inviteBlocker, resolveInvite, ROLE_PROMISE } from "@/lib/wedding-invites";
 import { AcceptInviteForm } from "./accept-form";
 
 export default async function JoinWeddingPage({
@@ -14,29 +13,23 @@ export default async function JoinWeddingPage({
   if (!token) {
     return (
       <InviteMessage title="Missing invite link">
-        This link is incomplete. Ask your partner to resend it from their Dashboard.
+        This link is incomplete. Ask whoever sent it to copy it again from their Dashboard.
       </InviteMessage>
     );
   }
 
-  // Not a member of this wedding yet, so this has to bypass RLS -- same
-  // reasoning as the accept action.
-  const admin = createAdminSupabaseClient();
-  const { data: wedding } = await admin
-    .from("weddings")
-    .select("*")
-    .eq("invite_token", token)
-    .maybeSingle<Wedding>();
+  const invite = await resolveInvite(token);
 
-  if (!wedding) {
+  if (!invite) {
     return (
       <InviteMessage title="Invite link not valid">
-        This invite link has expired, been revoked, or was already used. Ask your partner for a
-        fresh one from their Dashboard.
+        This invite link was cancelled or has already been used. Ask whoever sent it for a fresh
+        one from their Dashboard.
       </InviteMessage>
     );
   }
 
+  const { wedding } = invite;
   const coupleNames = [wedding.partner_a_name, wedding.partner_b_name].filter(Boolean).join(" & ");
 
   const supabase = await createClient();
@@ -69,7 +62,9 @@ export default async function JoinWeddingPage({
     );
   }
 
-  if (wedding.user_id === user.id) {
+  const blocker = await inviteBlocker(wedding, user.id);
+
+  if (blocker === "own") {
     return (
       <InviteMessage title="This is your own wedding">
         You&apos;re already the owner of this wedding -- there&apos;s nothing to accept.
@@ -80,11 +75,21 @@ export default async function JoinWeddingPage({
     );
   }
 
-  if (wedding.partner_user_id && wedding.partner_user_id !== user.id) {
+  if (blocker === "already") {
     return (
-      <InviteMessage title="Invite already used">
-        This invite link has already been accepted. Ask the owner for a fresh one if you still
-        need access.
+      <InviteMessage title="You're already planning this wedding">
+        <Link href="/dashboard" className="mt-4 block font-medium text-brass hover:underline">
+          Go to Dashboard
+        </Link>
+      </InviteMessage>
+    );
+  }
+
+  if (blocker === "other") {
+    return (
+      <InviteMessage title="This account has its own wedding">
+        {user.email} is already planning a different wedding. Log out and accept this invite with
+        another email.
       </InviteMessage>
     );
   }
@@ -92,7 +97,7 @@ export default async function JoinWeddingPage({
   return (
     <InviteMessage
       title={`Join ${coupleNames || "this wedding"} on You Do, I Do`}
-      description="Accepting gives you full access to the guest list, budget, seating, and everything else on this wedding."
+      description={ROLE_PROMISE[invite.role]}
     >
       <AcceptInviteForm token={token} />
     </InviteMessage>

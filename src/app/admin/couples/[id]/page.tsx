@@ -222,8 +222,8 @@ export default async function AdminCoupleDetailPage({
             <dd className="text-ink">{wedding.venue_type ?? "—"}</dd>
           </div>
           <div>
-            <dt className="text-xs text-ink/50">Partner joined</dt>
-            <dd className="text-ink">{wedding.partner_user_id ? "Yes" : "No"}</dd>
+            <dt className="text-xs text-ink/50">Also planning</dt>
+            <dd className="text-ink">{wedding.member_ids.length || "No one"}</dd>
           </div>
           <div>
             <dt className="text-xs text-ink/50">Budget target</dt>

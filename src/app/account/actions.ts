@@ -47,37 +47,29 @@ export async function deleteAccount(formData: FormData): Promise<{ error?: strin
   const { data: wedding } = await supabase
     .from("weddings")
     .select("*")
-    .or(`user_id.eq.${user.id},partner_user_id.eq.${user.id}`)
+    .or(`user_id.eq.${user.id},member_ids.cs.{${user.id}}`)
     .maybeSingle<Wedding>();
 
   const admin = createAdminSupabaseClient();
 
-  if (wedding) {
-    if (wedding.user_id === user.id) {
-      if (wedding.partner_user_id) {
-        return {
-          error:
-            "Remove your partner's access first (Dashboard -> Wedding access) -- deleting your account would delete the wedding for them too.",
-        };
-      }
+  // Someone else's wedding they were invited onto just loses them: their
+  // wedding_members row goes with the auth user (on delete cascade).
+  if (wedding && wedding.user_id === user.id) {
+    if (wedding.member_ids.length > 0) {
+      return {
+        error:
+          "Remove everyone else first (Dashboard -> Invite to plan) -- deleting your account would delete the wedding for them too.",
+      };
+    }
 
-      await deleteWeddingFiles(admin, wedding.id);
+    await deleteWeddingFiles(admin, wedding.id);
 
-      const { error: deleteWeddingError } = await admin
-        .from("weddings")
-        .delete()
-        .eq("id", wedding.id);
-      if (deleteWeddingError) {
-        return { error: deleteWeddingError.message };
-      }
-    } else {
-      const { error: clearPartnerError } = await admin
-        .from("weddings")
-        .update({ partner_user_id: null })
-        .eq("id", wedding.id);
-      if (clearPartnerError) {
-        return { error: clearPartnerError.message };
-      }
+    const { error: deleteWeddingError } = await admin
+      .from("weddings")
+      .delete()
+      .eq("id", wedding.id);
+    if (deleteWeddingError) {
+      return { error: deleteWeddingError.message };
     }
   }
 

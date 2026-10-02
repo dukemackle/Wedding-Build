@@ -19,7 +19,7 @@ export default async function VenueLayoutPage() {
   const { data: wedding } = await supabase
     .from("weddings")
     .select("*")
-    .or(`user_id.eq.${user.id},partner_user_id.eq.${user.id}`)
+    .or(`user_id.eq.${user.id},member_ids.cs.{${user.id}}`)
     .maybeSingle<Wedding>();
 
   if (!wedding) {

@@ -5,7 +5,8 @@ import { FadeInSection } from "@/components/fade-in-section";
 import { WeddingDashboard } from "./wedding-dashboard";
 import { AskWrenTile } from "./ask-wren-tile";
 import { FeatureGrid, buildFeatures } from "./feature-grid";
-import { PartnerInviteCard } from "./partner-invite-card";
+import { InviteToPlan } from "./invite-to-plan";
+import { loadPlanners } from "./planners";
 import { WelcomeBird } from "./welcome-bird";
 import { buildVendorTracker } from "./dashboard-data";
 import type {
@@ -37,7 +38,7 @@ export default async function DashboardPage() {
   const { data: wedding } = await supabase
     .from("weddings")
     .select("*")
-    .or(`user_id.eq.${user.id},partner_user_id.eq.${user.id}`)
+    .or(`user_id.eq.${user.id},member_ids.cs.{${user.id}}`)
     .maybeSingle<Wedding>();
 
   if (!wedding) {
@@ -220,25 +221,21 @@ export default async function DashboardPage() {
     },
   });
 
+  const planners = await loadPlanners(supabase, wedding, user.id);
+
   return (
     <PageShell email={user.email ?? ""} width="canvas">
-      <WeddingDashboard initialWedding={wedding} bookedVenue={bookedVenue} />
+      <WeddingDashboard
+        initialWedding={wedding}
+        bookedVenue={bookedVenue}
+        canEdit={planners.myRole !== "view"}
+        heroActions={<InviteToPlan data={planners} currentUserId={user.id} />}
+      />
       <WelcomeBird userId={user.id} createdAt={user.created_at} />
 
       <FadeInSection delayMs={40}>
         <FeatureGrid features={features} tail={<AskWrenTile />} />
       </FadeInSection>
-
-      {wedding.user_id === user.id && (
-        <FadeInSection delayMs={80}>
-          <div className="mt-10 lg:mx-auto lg:w-2/5">
-            <PartnerInviteCard
-              inviteToken={wedding.invite_token}
-              hasPartner={Boolean(wedding.partner_user_id)}
-            />
-          </div>
-        </FadeInSection>
-      )}
     </PageShell>
   );
 }

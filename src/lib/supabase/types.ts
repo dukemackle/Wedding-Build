@@ -25,8 +25,8 @@ export type Wedding = {
   budget_target: number | null;
   venue_id: string | null;
   is_test: boolean;
-  partner_user_id: string | null;
-  invite_token: string | null;
+  /** Everyone besides the owner who can open this wedding -- kept in step with wedding_members by a trigger. */
+  member_ids: string[];
   hidden_budget_categories: string[];
   itinerary_published: boolean;
   /** The published guest site design; parse with parseSiteDesign. */
@@ -703,4 +703,21 @@ export type WeddingPreferences = {
   answers: Record<string, string[]>;
   skipped: string[];
   updated_at: string;
+};
+
+/** 'edit' can change anything on the wedding; 'view' can see it all but change nothing. */
+export type WeddingRole = "edit" | "view";
+
+export type WeddingMember = {
+  wedding_id: string;
+  user_id: string;
+  role: WeddingRole;
+  created_at: string;
+};
+
+export type WeddingInvite = {
+  token: string;
+  wedding_id: string;
+  role: WeddingRole;
+  created_at: string;
 };

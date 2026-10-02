@@ -11,7 +11,7 @@ export default function PrivacyPage() {
       <div className={`w-full ${READING_WIDTH}`}>
         <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Legal</p>
         <h1 className="mt-2 font-display text-3xl font-semibold text-forest">Privacy Policy</h1>
-        <p className="mt-2 text-sm text-ink/60">Last updated: September 28, 2026</p>
+        <p className="mt-2 text-sm text-ink/60">Last updated: October 2, 2026</p>
 
         <div className="mt-8 flex flex-col gap-8 text-ink/80">
           <p>
@@ -37,7 +37,7 @@ export default function PrivacyPage() {
                 documents. These often contain information about other people, such as a
                 vendor&apos;s business details or a signature on an agreement. They are stored
                 privately, are never shown on your public wedding site, and can be opened only by
-                you and a partner you&apos;ve invited.
+                you and the people you&apos;ve invited to plan your wedding.
               </li>
               <li>Messages you send to vendors/venues through the Service.</li>
               <li>
@@ -153,6 +153,11 @@ export default function PrivacyPage() {
 
           <Section title="3. Who we share information with">
             <ul className="list-disc space-y-2 pl-5">
+              <li>
+                <strong className="text-ink">People you invite to plan</strong> — everyone on a
+                wedding can see its details and the email address of everyone else on it. People
+                with view-only access can see but not change anything.
+              </li>
               <li>
                 <strong className="text-ink">Vendors/venues you contact</strong> — if you send a
                 vendor inquiry, the message and your reply-to email are shared with that vendor.
