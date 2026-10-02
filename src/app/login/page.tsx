@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { PendingSubmit } from "@/components/pending-submit";
 import { headers } from "next/headers";
 import { login } from "./actions";
 
@@ -59,12 +60,12 @@ export default async function LoginPage({
           >
             Forgot password?
           </Link>
-          <button
-            type="submit"
-            className="mt-2 rounded-md bg-forest px-4 py-2 font-medium text-parchment transition-colors hover:bg-forest/90"
+          <PendingSubmit
+            pendingText="Logging in..."
+            className="mt-2 rounded-md bg-forest px-4 py-2 font-medium text-parchment transition-colors hover:bg-forest/90 disabled:opacity-60"
           >
             Log in
-          </button>
+          </PendingSubmit>
         </form>
 
         <p className="mt-6 text-center text-sm text-ink/70">

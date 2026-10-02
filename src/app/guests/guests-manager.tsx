@@ -290,19 +290,30 @@ function GuestFields({ guest, theme }: { guest?: Guest; theme: SideTheme }) {
 
 function AddGuestForm({ onDone, theme }: { onDone: () => void; theme: SideTheme }) {
   const [error, setError] = useState<string | undefined>(undefined);
+  const [added, setAdded] = useState<string | undefined>(undefined);
   const [isPending, startTransition] = useTransition();
   const formRef = useRef<HTMLFormElement>(null);
 
+  // Guests come in households, so the form stays open after each add with
+  // household and side kept -- four Okafors is four names, not four forms.
   function handleSubmit(formData: FormData) {
     startTransition(async () => {
       const result = await addGuest(formData);
       if (result?.error) {
         setError(result.error);
-      } else {
-        setError(undefined);
-        formRef.current?.reset();
-        onDone();
+        setAdded(undefined);
+        return;
       }
+      setError(undefined);
+      setAdded((formData.get("name") as string)?.trim());
+      const form = formRef.current;
+      if (!form) return;
+      form.reset();
+      for (const field of ["household", "side"]) {
+        const input = form.elements.namedItem(field) as HTMLInputElement | HTMLSelectElement | null;
+        if (input) input.value = (formData.get(field) as string) ?? "";
+      }
+      (form.elements.namedItem("name") as HTMLInputElement | null)?.focus();
     });
   }
 
@@ -314,6 +325,9 @@ function AddGuestForm({ onDone, theme }: { onDone: () => void; theme: SideTheme 
     >
       <GuestFields theme={theme} />
       {error && <p className="mt-3 text-sm text-red-800">{error}</p>}
+      {added && !error && (
+        <p className="mt-3 text-sm text-forest">Added {added}. Add the next one, or close when you&apos;re done.</p>
+      )}
       <div className="mt-4 flex items-center gap-3">
         <button
           type="submit"
@@ -327,7 +341,7 @@ function AddGuestForm({ onDone, theme }: { onDone: () => void; theme: SideTheme 
           onClick={onDone}
           className="rounded-md border border-hairline px-4 py-2 font-medium text-ink transition-colors hover:border-forest"
         >
-          Cancel
+          {added ? "Done" : "Cancel"}
         </button>
       </div>
     </form>
@@ -1626,6 +1640,9 @@ export function GuestsManager({
   for (const guest of confirmedGuests) {
     const key = guest.meal || "Not selected";
     mealCounts.set(key, (mealCounts.get(key) ?? 0) + 1);
+    // A +1's meal isn't asked separately; count them so the tally adds up
+    // to the headcount the caterer gets.
+    if (guest.plus_one) mealCounts.set("Plus-ones", (mealCounts.get("Plus-ones") ?? 0) + 1);
   }
   const mealBreakdown = Array.from(mealCounts.entries()).sort((a, b) => b[1] - a[1]);
 

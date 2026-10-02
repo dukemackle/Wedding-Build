@@ -1892,7 +1892,10 @@ export function VenueLayoutManager({
     formData.set("table_id", tableId ?? "");
     startTransition(async () => {
       applySeating({ ids: guestIds, tableId });
-      await assignGuestsTable(formData);
+      const result = await assignGuestsTable(formData);
+      // The optimistic move snaps back on its own; say why, or it looks
+      // like the tap didn't register.
+      if (result?.error) window.alert(`That seat didn't save. ${result.error}`);
     });
     setPickedGuestIds(new Set());
     if (tableId) {

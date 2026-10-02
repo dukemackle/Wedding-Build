@@ -34,7 +34,7 @@ export type GuestImportValues = {
 };
 
 /** Fields a column can map to, including the two that merge into `name`. */
-type GuestField = keyof GuestImportValues | "first_name" | "last_name";
+type GuestField = keyof GuestImportValues | "first_name" | "last_name" | "dietary";
 
 export type GuestImportRow = {
   /** 1-based row number as the person counts them, header excluded. */
@@ -150,6 +150,14 @@ const FIELD_ALIASES: Record<string, GuestField> = {
   notes: "notes",
   note: "notes",
   comments: "notes",
+  // No dietary field of its own; it's folded into notes so it isn't dropped.
+  dietary: "dietary",
+  diet: "dietary",
+  dietaryrestrictions: "dietary",
+  dietaryneeds: "dietary",
+  allergies: "dietary",
+  allergy: "dietary",
+  foodallergies: "dietary",
   thanked: "thanked",
   thankyousent: "thanked",
   gift: "gift_description",
@@ -286,6 +294,15 @@ export function parseGuestTable(
     const name = whole || [cell("first_name"), cell("last_name")].filter(Boolean).join(" ");
     if (!name) errors.push("Name is required");
 
+    // "The Garcias (4)" would import as one person and undercount the
+    // headcount by three.
+    const party = name.match(/\((\d+)\)\s*$/);
+    if (party && Number(party[1]) > 1) {
+      errors.push(
+        `Looks like ${party[1]} people in one row -- give each their own row with the same Household`,
+      );
+    }
+
     const email = cell("email");
     if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       errors.push(`Email "${email}" doesn't look like an address`);
@@ -314,7 +331,9 @@ export function parseGuestTable(
       side: parseSide(cell("side"), partnerNames?.a ?? null, partnerNames?.b ?? null),
       guest_type: parseGuestType(cell("guest_type")),
       meal: cell("meal") || null,
-      notes: cell("notes") || null,
+      notes:
+        [cell("notes"), cell("dietary") && `Dietary: ${cell("dietary")}`].filter(Boolean).join(" · ") ||
+        null,
       thanked: parseYesNo(cell("thanked")),
       gift_description: cell("gift_description") || null,
     };

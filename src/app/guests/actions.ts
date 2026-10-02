@@ -17,7 +17,7 @@ import type {
   RsvpSubmission,
 } from "@/lib/supabase/types";
 import { GUEST_SIDES, GUEST_TYPES, SIDE_COLORS } from "@/lib/guest-groups";
-import { findGuestByName } from "@/lib/guest-match";
+import { findGuestByName, normalizeGuestName } from "@/lib/guest-match";
 import { requireEditableWedding } from "@/lib/wedding-access";
 import { withNotes } from "@/lib/guest-notes";
 
@@ -77,6 +77,19 @@ export async function addGuest(formData: FormData): Promise<{ error?: string }> 
   const parsed = guestFieldsFromForm(formData);
   if ("error" in parsed) {
     return { error: parsed.error };
+  }
+
+  // Catch the same person typed twice. Two real guests can share a name,
+  // so the message says how to add the second one rather than refusing it.
+  const { data: sameName } = await supabase
+    .from("guests")
+    .select("name")
+    .eq("wedding_id", wedding.id)
+    .ilike("name", parsed.fields.name.replace(/[\\%_]/g, "\\$&"));
+  if (sameName?.some((g) => normalizeGuestName(g.name) === normalizeGuestName(parsed.fields.name))) {
+    return {
+      error: `${parsed.fields.name} is already on your list. If this is someone else with the same name, add a middle initial or a note in brackets, like "${parsed.fields.name} (cousin)".`,
+    };
   }
 
   const { error } = await supabase.from("guests").insert({

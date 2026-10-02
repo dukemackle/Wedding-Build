@@ -378,6 +378,19 @@ export async function splitPlusOne(formData: FormData): Promise<{ error?: string
     return { error: "That guest doesn't have a +1 to split off." };
   }
 
+  // Clear the +1 first, then add them as their own guest, putting the +1
+  // back if that fails -- the other order could leave the same person
+  // counted twice.
+  const { error } = await supabase
+    .from("guests")
+    .update({ plus_one: false, plus_one_name: null })
+    .eq("id", guest.id)
+    .eq("wedding_id", wedding.id);
+
+  if (error) {
+    return { error: error.message };
+  }
+
   const { error: insertError } = await supabase.from("guests").insert({
     wedding_id: wedding.id,
     user_id: user.id,
@@ -389,17 +402,12 @@ export async function splitPlusOne(formData: FormData): Promise<{ error?: string
   });
 
   if (insertError) {
+    await supabase
+      .from("guests")
+      .update({ plus_one: guest.plus_one, plus_one_name: guest.plus_one_name })
+      .eq("id", guest.id)
+      .eq("wedding_id", wedding.id);
     return { error: insertError.message };
-  }
-
-  const { error } = await supabase
-    .from("guests")
-    .update({ plus_one: false, plus_one_name: null })
-    .eq("id", guest.id)
-    .eq("wedding_id", wedding.id);
-
-  if (error) {
-    return { error: error.message };
   }
 
   revalidatePath("/venue-layout");

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { PendingSubmit } from "@/components/pending-submit";
 import { EmailField } from "@/components/email-field";
 import { signup } from "./actions";
 
@@ -41,12 +42,12 @@ export default async function SignupPage({
               className="rounded-md border border-hairline bg-parchment px-3 py-2 text-ink outline-none focus:border-forest"
             />
           </label>
-          <button
-            type="submit"
-            className="mt-2 rounded-md bg-forest px-4 py-2 font-medium text-parchment transition-colors hover:bg-forest/90"
+          <PendingSubmit
+            pendingText="Creating account..."
+            className="mt-2 rounded-md bg-forest px-4 py-2 font-medium text-parchment transition-colors hover:bg-forest/90 disabled:opacity-60"
           >
             Sign up
-          </button>
+          </PendingSubmit>
         </form>
 
         <p className="mt-4 text-center text-xs text-ink/50">
