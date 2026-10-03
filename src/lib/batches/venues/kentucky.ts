@@ -16,6 +16,18 @@ The Carrick House	312 N Limestone	Lexington	Kentucky			Historic / Estate	Indoor	
 Rotherwood Events	3565 Paris Rd	Winchester	Kentucky			Historic / Estate	Indoor & Outdoor			1887 Victorian estate east of Lexington with a restored mansion, a Grand Carriage Hall barn for receptions and outdoor ceremony sites.	info@rotherwoodevents.com	(859) 513-3498	https://www.rotherwoodevents.com/
 The Manchester Reserve	903 Manchester St	Lexington	Kentucky			Historic / Estate	Indoor			Exposed-brick hall with large windows and chandeliers on Manchester Street in Lexington's Distillery District.			https://www.themanchesterreserve.com/`,
   },
+  {
+    name: "Louisville and Lexington: third batch",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Mellwood Art Center	1860 Mellwood Ave	Louisville	Kentucky			Ballroom / Hotel	Indoor & Outdoor	650	Classic	Former 1904 Fischer meat-packing plant turned artists' studio complex, with five event rooms led by the 12,500-square-foot Van Gogh Ballroom and its courtyard.		(502) 895-3650	https://www.mellwoodartcenter.com/events-portal/
+Kentucky Derby Museum	704 Central Ave	Louisville	Kentucky			Historic / Estate	Indoor & Outdoor	350		Racing museum at the gates of Churchill Downs, with a domed Great Hall, a glass-doored Oaks Garden Terrace and a second-floor gallery whose balcony overlooks the track.		(502) 637-1111	https://www.derbymuseum.org/rent/weddings
+Waterfront Botanical Gardens	1435 Frankfort Ave	Louisville	Kentucky			Garden / Outdoor	Indoor & Outdoor	220		Riverside botanical garden between Frankfort Avenue and River Road, with a glass-walled education centre, patios over Beargrass Creek, a water wall and plazas for tented receptions.			https://waterfrontgardens.org/rentals/
+Harper Hall	177 N Upper St	Lexington	Kentucky			Ballroom / Hotel	Indoor	295	Simple	Two-storey downtown hall a block from Gratz Park, with an open first floor for ceremonies and an open second floor for receptions.	info@HarperHallLex.com	(859) 492-1473	https://www.harperhalllex.com/
+Clerestory at Greyline	101 W Loudon Ave	Lexington	Kentucky			Ballroom / Hotel	Indoor	350	Classic	Event hall of 6,000 square feet inside Greyline Station, a former bus depot ringed by walls of original windows and deemed historically significant in 2011.	lauren@shellyfortune.com	(859) 334-0135	https://www.theclerestory.com/
+Holly Hill Events at Fasig-Tipton	2400 Newtown Pike	Lexington	Kentucky			Barn / Rustic	Indoor & Outdoor	300		Event spaces on the grounds of the Fasig-Tipton Thoroughbred auction company, including a fieldstone-and-plank Seattle Slew hall, a barn-sided Kentucky Room opening onto a paddock and outdoor pavilions.	events@hollyhillinn.com	(859) 685-0330	https://www.hollyhilleventsky.com/venues
+The Gillespie	421 W Market St	Louisville	Kentucky			Ballroom / Hotel	Indoor	400		Former downtown bank turned 24,000-square-foot ballroom with marble walls and floors, 40-foot painted ceilings, a chandeliered mezzanine and the original vault-era gates and mail chute.	info@thegillespie.com	(502) 584-8080	https://www.thegillespie.com/grandballroom
+Heartland of Versailles	1470 Clifton Rd	Versailles	Kentucky			Historic / Estate	Indoor & Outdoor	220		Victorian house from around 1886 on 30 wooded acres west of Versailles, listed on the National Register in 2018, with tented lawn receptions, patios and dressing rooms.	laura@heartlandofversailles.com	(859) 396-1505	https://heartlandofversailles.com/`,
+  },
 ];
 
 export default batches;
