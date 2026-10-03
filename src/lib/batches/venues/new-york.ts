@@ -1,6 +1,31 @@
 import type { VenueBatch } from "@/lib/venue-batches";
 
 // New York venue batches. Every row's State is "New York". Add new batches at the end.
-const batches: VenueBatch[] = [];
+const batches: VenueBatch[] = [
+  {
+    name: "Hudson Valley",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Hasbrouck House	3805 Main Street	Stone Ridge	New York			Historic / Estate	Indoor & Outdoor	150		A mansion turned boutique hotel on 55 acres of gardens and trails, with a great lawn for tented receptions.	hello@hasbrouckhouseny.com	845-687-0736	https://www.hasbrouckhouseny.com/private-events
+The Garrison	2015 US 9	Garrison	New York			Ballroom / Hotel	Indoor & Outdoor	200		A 300-acre Hudson Highlands property with golf, an eight-room inn and minimalist indoor event spaces looking across the river to the Catskills.		845-424-3604	https://thegarrison.com/weddings/
+Wilderstein Historic Site	330 Morton Road	Rhinebeck	New York			Historic / Estate	Outdoor	200		A riverside historic mansion on 40 landscaped acres, with receptions on the east lawn facing the Hudson and the Esopus Lighthouse.	wilderstein@wilderstein.org	845-876-4818	https://wilderstein.org/weddings/
+Millbrook Winery	26 Wing Road	Millbrook	New York			Restaurant / Vineyard	Indoor & Outdoor	120	Simple	A 130-acre Dutchess County winery with a 1940s barn loft for dinners and ceremony sites among the vines and ponds; spring weddings only.	millbrookwinery@millwine.com	845-677-8383	https://www.millbrookwine.com/weddings-site-rentals/
+The Kaaterskill	424 High Falls Road Ext	Catskill	New York			Barn / Rustic	Indoor & Outdoor	150		A 40-acre Catskills estate whose wedding barn overlooks a pond, rented for the weekend with a farmhouse and pond house sleeping ten.	kaaterskillreservations@gmail.com	917-225-2635	https://www.thekaaterskill.com/weddings
+Falkirk Estate		Central Valley	New York			Ballroom / Hotel	Indoor & Outdoor	300	Classic	An Orange County estate and country club with a licensed glatt kosher kitchen, running one event at a time.		845-928-8060	https://falkirkestate.com/weddings/
+The Roundhouse	2 East Main Street	Beacon	New York			Historic / Estate	Indoor & Outdoor	200		A Beacon hotel and restaurant on Fishkill Creek, with receptions in a room overlooking the waterfall.	info@roundhousebeacon.com	845-765-8369	https://www.roundhousebeacon.com/weddings/
+Diamond Mills Hotel	25 South Partition Street	Saugerties	New York			Ballroom / Hotel	Indoor & Outdoor	350		A Saugerties hotel above the Esopus Creek falls, with a ballroom and terrace for receptions and a riverside boathouse nearby.	events@diamondmillshotel.com	845-247-0700	https://www.diamondmillshotel.com/weddings-events
+Locust Grove Historic Site	2683 South Road	Poughkeepsie	New York			Historic / Estate	Indoor & Outdoor	150		The former Samuel Morse estate on 200 acres, with receptions in the West Gallery and ceremonies on the mansion or garden lawns.	weddings@lgny.org	845-454-4500	https://www.lgny.org/rentals
+Bedford Post Inn	954 Old Post Rd	Bedford	New York			Restaurant / Vineyard	Indoor & Outdoor	100		A Relais and Chateaux inn on 20 acres in northern Westchester, with a lawn ceremony, courtyard cocktails and dinner in the farmhouse.		914-234-7800	https://www.bedfordpostinn.com/weddings/
+Brotherhood Winery	100 Brotherhood Plaza Dr	Washingtonville	New York			Restaurant / Vineyard	Indoor & Outdoor	220		A winery founded in 1839 whose Grand Salon is a 19th-century stone building with beamed ceilings, beside a cobblestone fountain patio and old hand-dug cellars.	Donny.Nap@brotherhood-winery.com	845-496-3661	https://brotherhood-winery.com/grand-salon
+INNESS	10 Bank Street	Accord	New York			Barn / Rustic	Indoor & Outdoor	160		A 220-acre Ulster County resort with golf and a spa, whose 4,000 sq ft event barn in Dutch pegged-timber style opens onto a lawn facing the Catskills.	events@inness.co	845-377-0030	https://www.inness.co/events
+Full Moon Resort	1 Valley View Road	Big Indian	New York			Barn / Rustic	Indoor & Outdoor			A 100-acre Catskills resort of meadows, forest and streams, with a wedding pavilion, a barn and on-site lodging.	info@fullmoonresort.com	845-254-5117	https://www.fmrweddings.com/
+Tarrytown House Estate	49 East Sunnyside Lane	Tarrytown	New York			Historic / Estate	Indoor & Outdoor	400		A 26-acre Hudson River estate of two mansions and a carriage house, with a ballroom, a glass-walled Winter Palace and a sculpture garden for ceremonies.		914-591-8200	https://www.tarrytownhouseestate.com/weddings
+Wylder Windham	19 NY-296	Windham	New York			Ballroom / Hotel	Indoor & Outdoor	300		A 20-acre Catskills resort on the Batavia Kill, dating to 1880, with a lawn ceremony site facing Windham Mountain and lodges for smaller dinners.	salesww@wylderhotels.com	518-734-4510	https://wylderhotels.com/windham/weddings/
+The Chapel Restoration	45 Market Street	Cold Spring	New York			Historic / Estate	Indoor	99		A historic riverside chapel by the Cold Spring train station, lit by triple windows, used for ceremonies and small gatherings.		845-265-5537	https://chapelrestoration.org/weddings-and-private-gatherings/
+Glynwood	362 Glynwood Rd	Cold Spring	New York			Garden / Outdoor	Outdoor	250		A 250-acre regenerative working farm in the Hudson Highlands, with tented receptions and three historic guest houses sleeping 44.	info@glynwood.org	845-265-3338	https://www.glynwoodevents.org/
+Senate Garage	4 N Front St	Kingston	New York			Historic / Estate	Indoor & Outdoor	220		A 9,000 sq ft raw open event space in Kingston, with a vintage lounge and outdoor grounds used from May to October.	Info@senategarage.com	845-802-5900	https://www.senategarage.com/weddings/
+Cedar Lakes Estate	1 Team USA Way	Port Jervis	New York			Garden / Outdoor	Indoor & Outdoor			A 500-acre Orange County estate with lakes, camp-style cabins and a glass-ceilinged dining hall, booked privately for wedding weekends.		845-533-3328	https://www.cedarlakesestate.com/weddings
+Lambs Hill		Beacon	New York			Garden / Outdoor	Outdoor	50		A private mountainside property on Fishkill Ridge above Beacon, booked for one microwedding or elopement at a time with views over the Hudson Highlands.		845-765-2900	https://www.lambshill.com/`,
+  },
+];
 
 export default batches;
