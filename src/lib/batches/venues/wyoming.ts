@@ -20,6 +20,14 @@ Prairie Sky Venue	1120 Highway 50	Gillette	Wyoming			Barn / Rustic	Indoor & Outd
 TA Ranch	28623 Old Highway 87	Buffalo	Wyoming			Barn / Rustic	Indoor & Outdoor			A family-owned ranch working since 1880 with restored 150-year-old buildings, several event spaces and on-site lodging in the Homestead.	info@taranch.us	307-684-5833	https://www.taranchweddings.com
 `,
   },
+  {
+    name: "More Jackson Hole and Wyoming venues",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Brush Creek Ranch		Saratoga	Wyoming			Barn / Rustic	Indoor & Outdoor			A 30,000-acre working ranch resort with a 1934 cowboy chapel, a lodge and spa and creekside dining spots, hosting multi-day all-inclusive weddings.	reservations@brushcreekranch.com	307-327-5284	https://www.brushcreekranch.com/group-retreats/weddings
+Diamond Cross Ranch	24000 N Gun Barrel Flats Rd	Jackson	Wyoming			Barn / Rustic	Outdoor			A historic family ranch founded in 1912 beside Grand Teton National Park, with a big red barn for receptions, open pasture and unobstructed views of the Tetons.	weddings@diamondcrossranch.com	307-543-2015	https://www.diamondcrosswedding.com/
+The Barn at Heiner Ranch	2752 Thayne Bedford Rd	Thayne	Wyoming			Barn / Rustic	Indoor & Outdoor	100		A 1928 dairy barn in Star Valley, restored with a loft reception space, a former milking parlour for cocktails and a hillside ceremony site reached by horse-drawn wagon.		435-213-7746	https://heinerranch.com/
+`,
+  },
 ];
 
 export default batches;
