@@ -29,6 +29,13 @@ Reed Shepherd Films	Videography		Des Moines	Iowa	Iowa, and travels widely	Des Mo
 5 Point Visuals	Videography		Des Moines	Iowa	Iowa	Des Moines filmmaker-photographer who keeps wedding days low-key and unposed, also offering photo booth rental.			https://5pointvisuals.com/	https://www.instagram.com/kyle_starcevich/
 `,
   },
+  {
+    name: "Des Moines: hair and makeup and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Jene Beauty	Hair & Makeup	815 Office Park Rd, Suite 9	West Des Moines	Iowa	Des Moines metro	West Des Moines esthetician and makeup artist offering bridal makeup, lash services and lessons from a studio suite, with on-site work for wedding parties.	jenebeautyinfo@gmail.com	515-867-3430	https://www.jenebeauty.com/	https://www.instagram.com/jenebeauty__/
+Feilmeier Films	Videography		Des Moines	Iowa	Des Moines, the Midwest and beyond	Des Moines filmmaker covering weddings alongside lifestyle, travel and commercial work, shooting around Iowa, the wider Midwest and farther afield.			https://www.feilmeierfilms.com/weddings	https://www.instagram.com/feilmeierfilms/
+`,
+  },
 ];
 
 export default batches;

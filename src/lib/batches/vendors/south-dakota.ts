@@ -33,6 +33,12 @@ Oh My Cupcakes!	Cake	5015 S Western Ave	Sioux Falls	South Dakota		Sioux Falls ba
 Anthony Begley Productions	Videography		Sioux Falls	South Dakota	The Midwest and beyond	Sioux Falls filmmaker making cinematic wedding and elopement films that lean on natural, unposed moments.			https://anthonybegley.com/	https://www.instagram.com/anthonybegleyproductions/
 `,
   },
+  {
+    name: "Sioux Falls: hair and makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Bombshell Beauty Makeup Studio	Hair & Makeup	1501 S Lake Ave	Sioux Falls	South Dakota	Sioux Falls	Central Sioux Falls makeup studio offering all-inclusive bridal makeup with airbrush application, lessons, and on-location work within the city.	jodi@bombshellbeautysf.com	605-759-2419	https://www.bombshellbeautysf.com/	https://www.instagram.com/bombshellbeautysf/
+`,
+  },
 ];
 
 export default batches;
