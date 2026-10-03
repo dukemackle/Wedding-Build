@@ -26,6 +26,16 @@ The Garden at Elm Bank	900 Washington Street	Wellesley	Massachusetts			Garden / 
 Duxbury Bay Maritime School	457 Washington St	Duxbury	Massachusetts			Beach / Waterfront	Indoor & Outdoor	160		Sailing school on Duxbury Bay whose hall has hardwood floors and large windows over the water, with indoor and outdoor spaces for ceremony and reception.		(781) 934-7555	https://www.dbms.org/weddings
 Glen Magna Farms	29 Ingersoll Street	Danvers	Massachusetts			Garden / Outdoor	Indoor & Outdoor	200		Historic mansion and gardens run by the Danvers Historical Society, with receptions for up to 200 in a clear-sided sailcloth tent.	info@glenmagnafarms.org	978-774-9165	https://glenmagnafarms.org/weddings/`,
   },
+  {
+    name: "Massachusetts: Berkshires, Pioneer Valley, Boston and South Coast",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+The Mount	2 Plunkett St	Lenox	Massachusetts			Historic / Estate	Outdoor			Edith Wharton's Berkshires estate on nearly 50 acres, with ceremonies in its French and Italian formal gardens and cocktails on a terrace facing the hills.	info@edithwharton.org	413-551-5106	https://edithwharton.org/weddings/
+Log Cabin	500 Easthampton Rd	Holyoke	Massachusetts			Ballroom / Hotel	Indoor & Outdoor	400		Pioneer Valley banquet complex looking out to Mt. Tom, with the Log Cabin, Upper Vista and Delaney House ballrooms and hotel suites on site.		413-535-5077	https://www.logcabin-delaney.com/weddings
+Longfellow's Wayside Inn	72 Wayside Inn Rd	Sudbury	Massachusetts			Historic / Estate	Indoor & Outdoor	200		Inn dating from 1716 on more than 100 acres with nine historic buildings, a chapel, a grist mill and a seasonal event tent.	functions@wayside.org	978-443-1776	https://www.wayside.org/weddings
+State Room	60 State St	Boston	Massachusetts			Ballroom / Hotel	Indoor	560		Event floors at the top of a downtown Boston tower, with windows giving 270-degree views over the harbour and city.			https://longwoodvenues.com/venues/boston-event-venue-2/
+White's of Westport	66 State Rd	Westport	Massachusetts			Ballroom / Hotel	Indoor			South Coast function hall in Westport, running since 1955, with several function rooms for weddings of different sizes.	whites@lafrancehospitality.com	508-675-7185	https://www.whitesofwestport.com/
+Sea Crest Beach Resort	350 Quaker Rd	North Falmouth	Massachusetts			Beach / Waterfront	Indoor & Outdoor	250		Cape Cod resort on Old Silver Beach and Buzzards Bay, with two ballrooms, an oceanfront courtyard and beach ceremonies.		508-540-9400	https://www.seacrestbeachresort.com/weddings`,
+  },
 ];
 
 export default batches;

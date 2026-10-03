@@ -30,6 +30,13 @@ Reed Shepherd Films	Videography		Des Moines	Iowa	Iowa, and travels widely	Des Mo
 `,
   },
   {
+    name: "Des Moines: hair and makeup and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Jene Beauty	Hair & Makeup	815 Office Park Rd, Suite 9	West Des Moines	Iowa	Des Moines metro	West Des Moines esthetician and makeup artist offering bridal makeup, lash services and lessons from a studio suite, with on-site work for wedding parties.	jenebeautyinfo@gmail.com	515-867-3430	https://www.jenebeauty.com/	https://www.instagram.com/jenebeauty__/
+Feilmeier Films	Videography		Des Moines	Iowa	Des Moines, the Midwest and beyond	Des Moines filmmaker covering weddings alongside lifestyle, travel and commercial work, shooting around Iowa, the wider Midwest and farther afield.			https://www.feilmeierfilms.com/weddings	https://www.instagram.com/feilmeierfilms/
+`,
+  },
+  {
     name: "Cedar Rapids: photography, planning, florals, music, catering, hair and makeup, cakes and videography",
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
 Rock Tai Photography	Photography		Cedar Rapids	Iowa	Cedar Rapids and Iowa City	A Cedar Rapids photographer and videographer covering weddings, engagements and wedding films, travelling beyond 20 miles for a fee.	rocktaiphotography@gmail.com		https://rocktaiphotography.com/	https://www.instagram.com/rocktaiphoto/

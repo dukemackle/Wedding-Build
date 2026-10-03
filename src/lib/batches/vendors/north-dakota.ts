@@ -29,6 +29,13 @@ Karied Away Video	Videography		Fargo	North Dakota	North Dakota, Minnesota and So
 Eclipse Multimedia & Video	Videography		Fargo	North Dakota		Fargo video company with years of wedding experience, offering tiered ceremony packages with multiple cameras, plus reception coverage.	amy@eclipsemulti.com	(701) 200-9552	https://www.eclipsemulti.com/	
 `,
   },
+  {
+    name: "Fargo: catering and cakes",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+457 Cake	Cake		Fargo	North Dakota	Fargo-Moorhead and surrounding area	Fargo cake decorator making custom cakes, cupcakes and treats for weddings and other events, with delivery around Fargo-Moorhead.	jamie@457cake.com	(701) 552-2469	https://457cake.com/	https://www.instagram.com/457cake/
+Spitfire Bar & Grill	Catering	1660 13th Ave E	West Fargo	North Dakota	Fargo-Moorhead	West Fargo wood-fired and smoked BBQ restaurant whose catering team also serves weddings and rehearsal dinners around Fargo-Moorhead.		701-478-8667	https://spitfirebarandgrill.com/catering/west-fargo-catering/	
+`,
+  },
 ];
 
 export default batches;

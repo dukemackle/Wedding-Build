@@ -85,6 +85,11 @@ Candeo Films	Videography		Asheville	North Carolina	Asheville, Houston and beyond
 Katherine Denise Films	Videography		Asheville	North Carolina	Asheville, Highlands, Charleston and 30A	Asheville filmmaker crafting bespoke, artistic wedding films for mountain and Southeast coast celebrations, with a decade of experience.	hello@katherinedenisefilms.com		https://www.katherinedenisefilms.com/	https://www.instagram.com/katherinedenisefilms/
 Brian Kennedy Productions	Videography	56 South Lexington Avenue	Asheville	North Carolina	Western North Carolina, the Carolinas, Virginia and East Tennessee	Asheville wedding videographer Brian Kennedy films relaxed, cinematic highlight videos for mountain weddings across the Southeast.	brian@briankennedyproductions.com	828-713-1224	https://briankennedyproductions.com/	https://www.instagram.com/briankennedyproductions/`,
   },
+  {
+    name: "Charlotte: catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Best Impressions Caterers	Catering	2600 Youngblood Street	Charlotte	North Carolina		Charlotte caterer in business since 1989, offering plated courses, buffets and chef stations with event directors handling the planning.		(704) 333-9779	https://www.bestimpressionscaterers.com/wedding-receptions	https://www.instagram.com/bestimpressionscaterers/`,
+  },
 ];
 
 export default batches;

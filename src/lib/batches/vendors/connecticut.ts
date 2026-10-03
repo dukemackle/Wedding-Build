@@ -55,6 +55,12 @@ Soho Hair Group & Spa	Hair & Makeup	916 Whalley Avenue	New Haven	Connecticut	New
 Creative Concepts by Lisa	Planning		Wallingford	Connecticut	Connecticut, Massachusetts, New England and beyond	Wallingford planner running weddings since 2008, offering full planning, day-of coordination and officiant services, with a dress consignment shop.		475-441-7123	https://creativeconceptsbylisact.com/	https://www.instagram.com/ccblct/
 Cate Barry Photography	Photography		Hamden	Connecticut	Connecticut, with travel beyond two hours from Hamden for a fee	Hamden photographer shooting candid, documentary-style weddings, with a welcoming approach for LGBTQ+ couples and the camera-shy.	cate@catebarryphotography.com		https://catebarryphotography.com/	https://www.instagram.com/catebarryphotography/`,
   },
+  {
+    name: "New Haven: photography and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Stephanie Anestis Photography	Photography		Guilford	Connecticut	Guilford, New Haven County, Connecticut and beyond	Candid, unobtrusive wedding photography from a Guilford photographer who takes a small number of weddings each year, alongside family sessions.	stephanie.anestis@gmail.com	203-676-4402	https://stephanieanestis.com/connecticut-wedding-photography/	
+Perfektion Studios	Videography	105 Sanford Street	Hamden	Connecticut	Connecticut and South Florida	Hamden studio offering wedding cinematography from $900 as well as wedding and portrait photography, filming couples across Connecticut.	info@perfektionstudios.com	203-915-2152	https://www.perfektionstudios.com/	`,
+  },
 ];
 
 export default batches;

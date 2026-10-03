@@ -27,6 +27,11 @@ The Cakeroom Bakery	Cake	2006 18th St NW	Washington	District of Columbia		Adams 
 DC Elite Image	Hair & Makeup		Washington	District of Columbia	Within 10 miles of DC; travel fee beyond	DC hair and makeup team led by Teresa Foss Del Rosso, specialising in multicultural hair, textured curls and all skin tones for weddings.			https://dceliteimage.com/	https://www.instagram.com/dceliteimage/
 Conceptual Beauty	Hair & Makeup		Washington	District of Columbia	On-site at hotels, venues and studios	DC hair and makeup team offering on-site bridal styling with a consultative approach and gentle, natural-looking enhancement.	info@conceptualbeauty.com	202-420-8112	https://www.conceptualbeauty.com/	https://www.instagram.com/conceptualbeauty/`,
   },
+  {
+    name: "Washington: videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Love in Color Films	Videography		Washington	District of Columbia	Washington DC, Maryland, Northern Virginia, Boston and New England	Wedding film studio started in 2016 by Julian Spessard, making candid, cinematic films with packages published openly on its site.	info@loveincolorfilms.com		https://www.loveincolorfilms.com/	https://www.instagram.com/loveincolorfilms/`,
+  },
 ];
 
 export default batches;
