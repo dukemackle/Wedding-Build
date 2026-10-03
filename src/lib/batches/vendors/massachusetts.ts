@@ -61,6 +61,12 @@ Tolay Productions	Videography		Edgartown	Massachusetts	Martha's Vineyard and New
 Paolina Beauty	Hair & Makeup		Nantucket	Massachusetts	Nantucket	Nantucket makeup artist bringing bridal makeup to the bride on the island, for timeless looks on the wedding morning without leaving home.	makeupbypaolina@gmail.com	508.901.3606	https://www.paolinabeauty.com/	https://www.instagram.com/_paolina_beauty_/
 Bellezza Salon Medspa	Hair & Makeup	221 Main Street	Falmouth	Massachusetts	Upper Cape, including Falmouth, Woods Hole, Mashpee and Bourne	Falmouth salon and medspa doing bridal hair and makeup in the salon or on location, with styling meant to hold up in coastal humidity.	info@spabellezza.com	(508) 299-8300	https://spabellezza.com/bridal-events/	https://www.instagram.com/bellezzasalonmedspa/`,
   },
+  {
+    name: "Cape Cod: music and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Digital Imaging of Cape Cod	Videography		West Barnstable	Massachusetts	Cape Cod	West Barnstable video studio filming Cape Cod weddings since 1995, with FAA-certified drone pilots for aerial and time-lapse footage.	capecodvideo@gmail.com	508-420-9090	https://www.capecodvideo.com/	
+The Dukes	Music		Vineyard Haven	Massachusetts	Martha's Vineyard, Nantucket, Cape Cod, Boston and beyond	Vineyard Haven band covering island and Cape weddings, from a jazz quartet or acoustic guitarist at cocktails to a horn trio for the ceremony.	info@dukesband.com	316-737-4203	https://dukesband.com/weddings/	https://www.instagram.com/thedukesmv/`,
+  },
 ];
 
 export default batches;

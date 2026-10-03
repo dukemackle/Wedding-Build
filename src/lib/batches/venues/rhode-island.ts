@@ -15,6 +15,14 @@ Weekapaug Inn	25 Spray Rock Rd	Westerly	Rhode Island			Beach / Waterfront	Indoor
 Spring House Hotel	52 Spring St	Block Island	Rhode Island			Ballroom / Hotel	Indoor & Outdoor			Ocean-view Block Island hotel a ferry ride from the mainland, with lawn ceremonies, a seaside veranda, dining room and parlour for dancing.		401-466-5844	https://springhouseblockisland.com/weddings-events/
 The Bohlin	20 Commercial Wharf	Newport	Rhode Island			Beach / Waterfront	Indoor & Outdoor			Marina venue at the Newport Yachting Center with a dockside terrace and a Sperry sailcloth tent among moored yachts.	info@bohlinnewport.com	401-314-2019	https://bohlinnewport.com`,
   },
+  {
+    name: "Rhode Island: Providence, Bristol and South County",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Kirkbrae Country Club	197 Old River Rd	Lincoln	Rhode Island			Ballroom / Hotel	Indoor & Outdoor	380		Blackstone Valley golf club with a par-72 course, renovated ballrooms, a tented patio and a seasonal bridal garden overlooking the valley.		401-333-1300	https://www.kirkbrae.com/
+Galilee Beach Club	220 Sand Hill Cove Rd	Narragansett	Rhode Island			Beach / Waterfront	Indoor & Outdoor	150		Family-owned beach club at the Port of Galilee on the southern tip of Narragansett, with about 250 feet of sand where ceremonies can be held.		401-789-9675	https://www.galileebeachclub.com/
+Herreshoff Marine Museum	1 Burnside St	Bristol	Rhode Island			Beach / Waterfront	Indoor & Outdoor	300		Boatbuilding museum on Narragansett Bay in Bristol, with receptions in the Hall of Boats or a large waterfront tent and ceremonies on the pier or lawn.	events@herreshoff.org	401-396-5844	https://herreshoff.org/weddings/
+Providence Public Library	150 Empire St	Providence	Rhode Island			Historic / Estate	Indoor			Downtown Providence library with a marble staircase, galleries and reading rooms that can be booked for a wedding ceremony or catered reception.		401-455-8072	https://www.provlib.org/visit-us/reserve-rent-facilities/`,
+  },
 ];
 
 export default batches;
