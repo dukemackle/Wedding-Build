@@ -22,6 +22,15 @@ Eye Lens Visuals	Videography		Dunbar	West Virginia	West Virginia, Kentucky, Ohio
 Coordinated Chaos Co	Planning		Charleston	West Virginia		Planning team led by Taylor Kiser offering day-of coordination for already-planned weddings and full planning with design guidance.	team@coordinatedchaosco.com	(681) 234-4845	https://www.coordinatedchaosco.com/	https://www.instagram.com/coordinatedchaosco_/
 Simple Moments Event Designs	Planning		Charleston	West Virginia	West Virginia and destination weddings	Charleston planning duo Stephanie and David offering custom coordination packages, from a few details to full planning and venue décor.	simplemomentswv@gmail.com	(304) 419-4757	https://simplemomentswv.com/	https://www.instagram.com/simplemomentswv/`,
   },
+  {
+    name: "Charleston: florals, catering and hair & makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Good Sun Florals	Florals		Charleston	West Virginia	Charleston area; travels for events	Charleston-area floral studio led by a West Virginia artist, creating sustainable wedding flowers and running classes and subscriptions.			https://goodsunflorals.com/	
+Styles Salon	Hair & Makeup	519 C Street	South Charleston	West Virginia		South Charleston salon doing bridal hair and wedding-party styling, with colour, extensions and blowouts for the rest of the year.		(304) 746-4650	https://stylessalonwv.com/	
+Shuckers Catering Services	Catering	70 Olde Main Plaza	St. Albans	West Virginia	St. Albans, Charleston, South Charleston, Nitro, Winfield, Hurricane and beyond	St. Albans seafood and Italian restaurant catering wedding receptions with fresh seafood, comfort classics and custom menus.		(304) 722-1500	https://eatatshuckers.com/shuckers-catering-services/	https://www.instagram.com/eatatshuckers/
+L & R Custom Catering	Catering	3380 Teays Valley Road	Hurricane	West Virginia	Putnam, Cabell and Kanawha Counties	Teays Valley barbecue kitchen catering wedding receptions and family celebrations with smoked meats and custom menus.	landrbbq@gmail.com	(304) 757-0707	https://lrcustomcatering.com/	
+Art's Flower and Gift Shop	Florals	1227 Ohio Ave.	Dunbar	West Virginia	Dunbar, Charleston, Kanawha City, South Charleston, Nitro, St. Albans, Cross Lanes, Hurricane, Scott Depot	Third-generation Dunbar flower shop open since 1963, arranging wedding and event flowers alongside everyday bouquets and gifts.		(304) 768-1237	https://artsflowershop.com/dunbar-florist-flower-delivery/wedding-flowers/	`,
+  },
 ];
 
 export default batches;
