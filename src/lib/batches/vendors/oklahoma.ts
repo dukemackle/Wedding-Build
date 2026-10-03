@@ -68,6 +68,13 @@ PenWeddings	Videography		Tulsa	Oklahoma	Destination weddings worldwide	A Tulsa h
 JJones Films	Videography		Tulsa	Oklahoma	Oklahoma and travel	A Tulsa videographer with 60-plus weddings filmed, offering highlight films and mini-documentaries, paired with Red River Photo + Video Co.			https://jjonesfilm.com/	https://www.instagram.com/jjones_films/
 `,
   },
+  {
+    name: "Oklahoma City: hair and makeup and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Brushed	Hair & Makeup	918 N Hudson	Oklahoma City	Oklahoma	Oklahoma City and beyond	Midtown salon and makeup studio whose team of stylists and makeup artists does bridal hair and makeup for parties of any size, in studio or on location.	brushedokc@gmail.com		https://www.brushedokc.com/	https://www.instagram.com/brushedokc/
+Oklahoma Media	Videography		Oklahoma City	Oklahoma	Oklahoma and destination weddings	Oklahoma City filmmaker making cinematic wedding films and photos, with brand video work alongside and travel to destination weddings.	justin@oklahomamedia.org	(405) 613-8270	https://www.oklahomamedia.org/oklahoma-wedding-film-photo	https://www.instagram.com/oklahoma.media/
+`,
+  },
 ];
 
 export default batches;
