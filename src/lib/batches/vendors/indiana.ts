@@ -60,6 +60,17 @@ The Beauty Atelier	Hair & Makeup		Fort Wayne	Indiana	Fort Wayne, Indianapolis an
 Beautiful Memories	Hair & Makeup		Fort Wayne	Indiana	Indiana and destinations worldwide	On-location team of stylists offering bridal hair, airbrush or traditional makeup and nails at your home or venue.	hayleyfiche@gmail.com		https://www.beautifulmemories.us/	https://www.instagram.com/beautifulmemories.inc/
 Erin Nay Makeup Artistry	Hair & Makeup		Fort Wayne	Indiana	Fort Wayne and surrounding areas	On-site bridal makeup artist for brides and wedding parties, offering a free 15-minute phone consult before booking.	erin@erinnay.com		https://www.erinnay.com/	https://www.instagram.com/erinnaymakeupartistry/`,
   },
+  {
+    name: "Fort Wayne: planning and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Four-Thirty Events	Planning		Fort Wayne	Indiana	Fort Wayne and the Midwest	Planner founded in 2020 by Kelly, whose team offers full, partial and wedding-day management and also runs The Fairfield venue.	kelly@fourthirtyevents.com		https://www.fourthirtyevents.com/	https://www.instagram.com/four_thirty_events/
+bella&fern event planning	Planning		Fort Wayne	Indiana	Fort Wayne and destinations worldwide	Fort Wayne planning firm offering full custom planning, partial planning and day-of services, each with an associate on the day.			https://www.bella-fern.com/	https://www.instagram.com/bella_fern_events/
+Day 1 Wedding Coordinating	Planning		Fort Wayne	Indiana	Fort Wayne, Indianapolis and Northwest Indiana	Mother-daughter-founded team of 20 coordinators specialising in day-of coordination and partial planning for couples who plan their own.	day1wc@gmail.com		https://www.day1wc.com/	https://www.instagram.com/day1wc/
+Kingdom Film Co.	Videography		Fort Wayne	Indiana	Fort Wayne and surrounding area	Fort Wayne filmmaker with a visual communications degree making true-to-life cinematic wedding films in 4K with drone footage.	evan@kingdomfilmco.com	(260) 415-3287	https://www.kingdomfilmco.com/	https://www.instagram.com/kingdomfilmco/
+Daze Filmography	Videography		Fort Wayne	Indiana		Downtown Fort Wayne film and photo duo offering wedding and engagement film packages, with a background in music and audio work.			https://www.dazefilmography.com/	https://www.instagram.com/dazefilmography/
+Logan Hoffman Film & Photo	Videography		Fort Wayne	Indiana	The Midwest and beyond	Fort Wayne videographer making wedding films that catch the small personal moments alongside the big ones, plus photo work.			https://www.lhfilmphoto.com/	https://www.instagram.com/loganhoffmanfilmphoto/
+Film By Abbie	Videography		Fort Wayne	Indiana	Fort Wayne and travel	Fort Wayne photographer and videographer making candid, emotion-led wedding films, with photo and film packages available together.	filmbyabbie@gmail.com		https://www.abbieschumm.com/	https://www.instagram.com/filmbyabbie_/`,
+  },
 ];
 
 export default batches;

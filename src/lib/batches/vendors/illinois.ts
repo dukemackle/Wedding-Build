@@ -61,6 +61,14 @@ Violet & Lavender	Hair & Makeup	901 Clocktower Dr #18	Springfield	Illinois	Sprin
 Missy's Sweet Shoppe	Cake	113 S Sangamon St	Lincoln	Illinois	Central Illinois	Lincoln bake shop run by Missy Gaither since 2007, making custom wedding cakes, cupcakes and cookies from its downtown storefront.		309-825-5291	https://missyssweetshoppe.com/	
 Crumble Creations	Cake		Springfield	Illinois	Springfield and surrounding areas	Made-to-order Springfield baker of custom wedding cakes, offering couples a multi-flavour tasting before they settle on a design.	laresacrumb@gmail.com	217-284-2397	https://crumblecreationsllc.com/services/wedding-cakes/	`,
   },
+  {
+    name: "Springfield: music and catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Conn's Catering & Events	Catering	835 S Second St	Springfield	Illinois		Family-owned Springfield caterer since 1948, offering full-service wedding menus with setup and teardown and vegan or gluten-free options.	info@connshg.com	217-523-4466	https://www.connshg.com/conns-catering/	
+Bloom Hospitality & Catering	Catering		Springfield	Illinois		Majority female-owned off-site caterer in Springfield serving modern American menus for weddings, from starters and stations to entrées.	info@bloomcaters.com	217-825-0836	https://bloomcaters.com/	https://www.instagram.com/bloom.caters/
+BCA Weddings + Events	Music		Springfield	Illinois	Within 80 miles of Springfield, with travel beyond	Springfield wedding DJ and MC company that also brings photo booths, uplighting and ceremony sound, and names your DJ before you sign.	brandon.austin214@gmail.com		https://bcaweddingsandevents.com/	https://www.instagram.com/bcaweddingsandevents/
+Radio Pro DJs	Music		Springfield	Illinois	Springfield region	Springfield DJ company staffed by local radio personalities, offering wedding DJs with uplighting, monograms, cold sparks and dancing-on-a-cloud effects.	lynchrpdjs@gmail.com	217-717-9192	https://www.radioprodjs.com/	https://www.instagram.com/radioprodjs/`,
+  },
 ];
 
 export default batches;
