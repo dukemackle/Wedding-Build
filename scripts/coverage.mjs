@@ -52,8 +52,18 @@ const report = Object.entries(METROS).map(([state, metros]) => {
   return { state, venueHave, venueTarget, venueNeed, metroGaps, vendorNeed, pass1 };
 });
 
-const asked = process.argv.slice(2).join(" ");
-const picked = asked ? report.filter((r) => asked.toLowerCase().includes(r.state.toLowerCase())) : [];
+// Longest names first, each removed once matched, so "West Virginia" doesn't
+// also pick Virginia and "Arkansas" doesn't pick Kansas.
+let asked = process.argv.slice(2).join(" ").toLowerCase();
+const picked = [];
+for (const r of [...report].sort((a, b) => b.state.length - a.state.length)) {
+  const name = r.state.toLowerCase();
+  if (asked.includes(name)) {
+    picked.push(r);
+    asked = asked.replace(name, " ");
+  }
+}
+picked.sort((a, b) => a.state.localeCompare(b.state));
 
 if (picked.length) {
   for (const r of picked) {
