@@ -131,16 +131,26 @@ export async function pinFromAddresses<T extends Unpinned & { source_id: string 
   const withAddress = rows.filter((row) => row.address);
   if (withAddress.length === 0) return { remaining: 0 };
   const admin = createAdminSupabaseClient();
-  budget.left -= 1;
-  const { data, error } = await admin
-    .from(table)
-    .select("id, source_id")
-    .is("address", null)
-    .in("source_id", withAddress.map((row) => row.source_id))
-    .returns<{ id: string; source_id: string }[]>();
-  // 42703: vendors.address (migration 0092) isn't applied yet. Skip rather than fail the import.
-  if (error) return error.code === "42703" ? { remaining: 0 } : { remaining: 0, error: error.message };
-  const idOf = new Map((data ?? []).map((row) => [row.source_id, row.id]));
+  // Pages through the listings still without an address rather than asking
+  // about the batch's ids: every batch website in the URL made it too long,
+  // and the 400 ("Bad Request") stopped every import call once venues were in.
+  const idOf = new Map<string, string>();
+  for (let from = 0; ; ) {
+    budget.left -= 1;
+    const { data, error } = await admin
+      .from(table)
+      .select("id, source_id")
+      .is("address", null)
+      .not("source_id", "is", null)
+      .order("id")
+      .range(from, from + 999)
+      .returns<{ id: string; source_id: string }[]>();
+    // 42703: vendors.address (migration 0092) isn't applied yet. Skip rather than fail the import.
+    if (error) return error.code === "42703" ? { remaining: 0 } : { remaining: 0, error: error.message };
+    if (!data?.length) break;
+    for (const row of data) idOf.set(row.source_id, row.id);
+    from += data.length;
+  }
   const todo = withAddress.filter((row) => idOf.has(row.source_id));
   const now = todo.slice(0, Math.max(0, Math.floor(budget.left / 2)));
   budget.left -= now.length * 2;
