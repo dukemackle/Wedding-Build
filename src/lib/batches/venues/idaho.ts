@@ -22,6 +22,15 @@ The White Barn at Happy Valley		Nampa	Idaho			Barn / Rustic	Indoor	225	Classic	R
 The Avery Hotel & Brasserie	1010 W Main St	Boise	Idaho			Ballroom / Hotel	Indoor			Locally owned boutique hotel in a historic downtown Boise building with a neighbourhood brasserie.	info@theaveryboise.com	208-990-1010	https://theaveryboise.com
 `,
   },
+  {
+    name: "More Treasure Valley and North Idaho venues",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Sandstone Vineyards	1888 E Rodeo Ln	Kuna	Idaho			Garden / Outdoor	Indoor & Outdoor			A five-acre vineyard-home property with koi ponds, fountains, a pool, a vine-covered arbor to the ceremony lawn and a lit reception barn, looking toward the Boise foothills.	info@sandstonevineyards.com	(208) 900-8966	https://sandstonevineyards.com/
+Settlers Creek	5803 W Riverview Dr	Coeur d'Alene	Idaho			Barn / Rustic	Indoor & Outdoor			A homestead-style property on the Spokane River side of Coeur d'Alene with several lawn amphitheatres, a vineyard trellis, a pond, a silo and a commercial kitchen on site.	info@settlerscreek.com	208-929-2507	https://settlerscreek.com/weddings
+Cider Mountain	1808 Cider Rd	Athol	Idaho			Barn / Rustic	Indoor & Outdoor	200		A 160-acre North Idaho property with a lodge, three guest cabins, a covered bar and several ceremony spots, set up for private weekend weddings near Farragut State Park.	info@cidermountain.com		https://cidermountain.com/
+High Desert Station	6780 Willis Rd	Star	Idaho			Barn / Rustic	Indoor & Outdoor	1000		A rustic ranch-style event centre in the hills outside Star with a saloon banquet hall, a smaller ranch house with patio and a covered equestrian arena.	info@hmmeats.com	208-467-0999	https://highdesertstation.com/event-spaces
+`,
+  },
 ];
 
 export default batches;
