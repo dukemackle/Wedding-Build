@@ -36,6 +36,30 @@ The Axmanns	Videography		Wichita	Kansas	Wichita and Austin, Texas	A Wichita husb
 Blushed Beauty Co.	Hair & Makeup	128 N Oliver Ave	Wichita	Kansas	Wichita	A Wichita team of independent artists and stylists offering bridal hair and makeup, led by a cosmetologist licensed since 2011.	info@blushedbeautyco.com	316-683-7350	https://www.blushedbeautyco.com/	https://www.instagram.com/blushedbeautyco.ict/
 `,
   },
+  {
+    name: "Lawrence and Topeka: photography, planning, florals, music, catering, hair and makeup, cakes and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Emily Henry Photography	Photography		Lawrence	Kansas	Lawrence and northeast Kansas	A husband-and-wife Lawrence team shooting documentary-style weddings, who also offer wedding videography and nonprofit work.			https://www.emilyhenryphotography.com/	
+Amanda & Camera	Photography		Lawrence	Kansas	Lawrence, Kansas	A Lawrence photographer who covers proposals, engagements and weddings, taking bookings for 2026 and 2027.			https://www.amandaandcamera.com/	https://www.instagram.com/amandaandcamera/
+Worth a 1000 Words Studios	Photography	2632 SE Ohio Ave	Topeka	Kansas	Topeka	A Topeka portrait studio in its own building at 27th and Ohio, offering wedding photography packages alongside portrait sessions.		785-271-7000	https://www.wortha1000wordstopeka.com/	
+Love In Lawrence	Planning		Lawrence	Kansas	Lawrence and surrounding areas	A Lawrence planning and styling business led by Stacie Alldritt, offering planning from day-of coordination to full service.	stacie@loveinlawrence.com		https://www.loveinlawrence.com/	
+Along Came Abby	Planning		Topeka	Kansas	Topeka, Kansas City, Lawrence and Manhattan	A Topeka event planning company working since 2013 on weddings, galas and destination celebrations, with a sister decor rental firm.	info@alongcameabby.com		https://www.alongcameabby.com/	https://www.instagram.com/along_came_abby/
+Chinell's Floral and Event Design	Florals	917 N Kansas Ave	Topeka	Kansas	Topeka and northeast Kansas	A Topeka floral and event styling studio making custom flowers for weddings, from romantic garden looks to modern designs.	Ariel@Chinells.com		https://www.chinells.com/	https://www.instagram.com/chinellseventdesign/
+Bittersweet Floral and Design	Florals		Lawrence	Kansas	Lawrence, Eudora, Baldwin, Tonganoxie and De Soto	A Lawrence flower studio doing design-forward, seasonal arrangements, with a dedicated weddings page and local delivery.	bittersweetfloral@sunflower.com	785-843-5954	https://www.bittersweet-floral.com/	https://www.instagram.com/bittersweet.floral/
+Blooms on Boswell	Florals	1300 SW Boswell	Topeka	Kansas	Topeka and surrounding areas	A Topeka flower shop offering wedding flowers and event florals alongside everyday arrangements and delivery.	bloomsonboswell@gmail.com	785-272-2749	https://bloomsonboswell.com/	https://www.instagram.com/bloomsonboswell/
+Musical Knights	Music		Topeka	Kansas	Northeast Kansas	A Topeka DJ and MC duo with over 25 years in the business who bring two DJs to every wedding to coordinate with other vendors.		785-357-8585	https://musicalknights.com/	
+Sound Origin Productions	Music		Topeka	Kansas	Topeka, Manhattan, Lawrence and surrounding area	A Topeka DJ and lighting company for weddings and dances that also rents out a separate photo booth service.	djako@soundoriginproductions.com	785-289-2919	https://www.soundoriginproductions.com/	
+Evan Williams Catering	Catering	700 California	Lawrence	Kansas	Kansas City, Lawrence and Topeka	A Lawrence boutique caterer producing customised menus for weddings, social and corporate events in the Kansas City to Topeka corridor.		785-843-8530	https://evanwilliamscatering.com/	https://www.instagram.com/evanwilliamscatering/
+Bon Bon	Catering	804 Pennsylvania St	Lawrence	Kansas	Lawrence and the region	A Lawrence caterer with a seasonal, chef-driven wedding menu covering plated, family-style and cocktail hour service, plus rehearsal dinners.		785-856-2275	https://www.bonbonlawrence.com/	https://www.instagram.com/bonbonlawrence/
+2 Chefs Catering	Catering	2518 SW 17th Street	Topeka	Kansas	Topeka	A family-run Topeka caterer, led by Ryan and Tricia Peterson, serving handmade menus for weddings, corporate events and parties.	2Chefs@TopekaCatering.com	785-408-1210	https://www.topekacatering.com/	https://www.instagram.com/2_chefs785/
+The Hive Salon	Hair & Makeup	3009 W 6th Street	Lawrence	Kansas	Lawrence, Topeka, Baldwin, Ottawa and Kansas City	A Lawrence salon with a wedding team offering in-salon and on-site bridal hair and makeup, including a non-gendered styling policy.	info@thehivelawrence.com	785-424-7024	https://www.thehivelawrence.com/	https://www.instagram.com/thehivesalon_lfk/
+Cooper Cake Co.	Cake		Lawrence	Kansas	Lawrence, Kansas City and Topeka	A Lawrence cake decorator making wedding cakes, cookies, cupcakes, cakesicles and macarons for weddings and bridal showers.			https://www.coopercake.co/	https://www.instagram.com/coopercakeco/
+Confectionary Disasters LLC	Cake		Topeka	Kansas	Topeka	A Topeka custom cake baker and pastry-school graduate making tiered wedding cakes, groom's cakes and chocolate fountains.	confectionarydisasters@gmail.com	785-408-4016	https://www.confectionarydisasters.com/	
+MMM Cupcakes	Cake		Topeka	Kansas	Topeka	A Topeka cupcake bakery started in 2014 that makes wedding cupcakes and specialty cakes in a range of flavours.		785-845-1338	https://topekacupcakes.com/	https://www.instagram.com/mmmcupcakes24/
+Films by Brooke	Videography		Lawrence	Kansas	Lawrence, travelling nationwide	A Lawrence videographer making quiet, observational wedding and lifestyle films, with limited wedding dates for 2026.			https://filmsbybrooke.com/	https://www.instagram.com/films.by.brooke/
+Jacob Gill Wedding Videography	Videography		Topeka	Kansas	Topeka and across Kansas	A Topeka wedding filmmaker with an easygoing, camera-light approach who works alongside photographers across Kansas.			https://jacobgillweddingvideo.com/	https://www.instagram.com/jacobgillweddingvideography/
+`,
+  },
 ];
 
 export default batches;
