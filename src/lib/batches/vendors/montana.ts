@@ -30,6 +30,14 @@ Eterna Films	Videography		Bozeman	Montana	Bozeman and Big Sky region, with desti
 Peak Productions	Videography		Bozeman	Montana	Montana, available for worldwide travel	Bozeman videographer making cinematic wedding films for Montana destination weddings.	brian@peakproductionsmt.com		https://www.peakproductionsmt.com/	
 `,
   },
+  {
+    name: "Bozeman: music and cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Party People Montana	Music	3508 Laramie Dr, Suite 2-B	Bozeman	Montana	Bozeman, Big Sky, Paradise Valley, Belgrade, Helena and West Yellowstone	Wedding DJs and MCs with photo booths, uplighting, monogram projection and a planning app, covering ceremony through reception.		(406) 414-9777	https://partypeoplemt.com/weddings	https://www.instagram.com/partypeoplemt/
+DJ Titan Productions	Music		Bozeman	Montana	Southwest Montana	Owner-run wedding DJ and emcee service using flat-rate pricing, wireless mics and dance-floor lighting, working one-to-one with couples.			https://www.djtitanproductions.com/weddings/	
+Cupcake Mountain Cupcakery	Cake	218 North 7th Avenue	Bozeman	Montana	Bozeman and surrounding community	Family-run cupcake bakery making wedding cakes from cupcake tiers and custom wedding cupcakes, with fifteen flavours baked daily.		(406) 577-2787	https://bozemancupcakery.com/	https://www.instagram.com/cupcakemountain/
+`,
+  },
 ];
 
 export default batches;

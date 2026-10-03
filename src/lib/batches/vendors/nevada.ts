@@ -30,6 +30,42 @@ Gateway Visuals	Videography		Las Vegas	Nevada	Las Vegas, California and destinat
 Lomax Studios	Videography		Las Vegas	Nevada	Las Vegas and beyond	Studio combining wedding film and photography under one creative director, with a coordinated team and cinematic, natural direction.			https://lomaxstudios.com	https://www.instagram.com/lomax_wedding_films/
 `,
   },
+  {
+    name: "Reno and Lake Tahoe: photography, planning, florals, music, catering, hair and makeup, cake and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+GOT Photography	Photography	2250 Plumas St	Reno	Nevada	Reno, Lake Tahoe, Carson City and Northern Nevada	Reno photographer with over a decade shooting weddings and elopements, who also offers an audio guestbook.		775-303-8364	https://gotphotography.net/	
+Photography by Monique	Photography		Reno	Nevada	Lake Tahoe region and beyond	Husband-and-wife documentary team who have covered more than 500 Lake Tahoe weddings, with drone video add-ons.	monique@photographybymonique.com	775.762.8828	https://tahoeweddingphotojournalism.com/	https://www.instagram.com/tahoeweddingphotography/
+High Desert Lens	Photography		Reno	Nevada	Reno and Tahoe	Reno and Tahoe photographer covering weddings, elopements, proposals and couples sessions with an emphasis on candid moments.			https://highdesertlensphotography.com/	https://www.instagram.com/highdesertlensphotography/
+Reno Tahoe Enchanted Events	Planning		Reno	Nevada	Lake Tahoe region and Washoe Valley	Planner raised in South Lake Tahoe who handles consultation, vendor coordination and day-of management for Tahoe weddings.	RenoTahoeEnchantedEvents@gmail.com	530-318-7904	https://www.renotahoeenchantedevents.com/	https://www.instagram.com/renotahoeenchantedevents/
+Reno By Design	Planning		Reno	Nevada	Reno, Lake Tahoe, Gardnerville and Northern California	Wedding planner offering full-service planning, partial planning and day-of coordination across Northern Nevada and Northern California.	lindsay.congdon@renobydesign.net	707-951-4740	https://renobydesign.net/	https://www.instagram.com/renobydesignweddings/
+Elite Elegance Events	Planning		Reno	Nevada	Reno, Sparks, Carson City and Lake Tahoe	Wedding planning and event management company where the owner limits her client load to keep each celebration personal.			https://eliteelegancenv.com/	https://www.instagram.com/elite_elegance_nv/
+Helianthus Floral Design	Florals		Reno	Nevada	Reno and Tahoe	Floral design studio making organic, nature-inspired wedding and event arrangements, with a decade of experience.	camryn@helianthusfloraldesign.com	775-357-9173	https://www.helianthusfloraldesign.com/	https://www.instagram.com/helianthusfloral/
+Holly Fleur	Florals		Reno	Nevada	Northern Nevada and Lake Tahoe	Full-service floral design company creating custom wedding and event arrangements with personal service from the owner.	holly@hollyfleur.com	775-297-5850	https://www.hollyfleur.com/	https://www.instagram.com/hollyfleur.floraldesign/
+A Floral Affair	Florals		Gardnerville	Nevada	Lake Tahoe, Reno, Carson City and Gardnerville	Studio-based wedding florist working without minimums and fully customising designs, led by floral director Kelly Bride.	Afloralaffair.kjs@gmail.com	775-881-8051	https://www.afloralaffairkjs.com/	https://www.instagram.com/afloral_kjs/
+Fast Times	Music		Reno	Nevada	Lake Tahoe, Reno, Sacramento and destination events	Eighties cover band active since 1999, playing around 80 shows a year including weddings at Tahoe-area venues.	fasttimesrocks@gmail.com	775-391-0510	https://fasttimesrocks.com/lake-tahoe-wedding-band/	https://www.instagram.com/fasttimesrocks/
+SwingBeat Entertainment	Music		Reno	Nevada	Reno, Lake Tahoe and Northern Nevada	Live wedding music from ceremony harpists to fourteen-piece dance bands, led by Justin and The SwingBeats.			https://www.theswingbeats.com/reno-lake-tahoe-wedding-bands	https://www.instagram.com/theswingbeats/
+Leep Entertainment	Music		Reno	Nevada	Reno	Entertainment agency supplying live bands, mobile DJs and specialty acts for weddings, running since the early 1990s.			https://www.leepentertainment.com	
+Poi Boy Catering	Catering	155 Glendale Ave #16	Sparks	Nevada	Reno, Sparks and the Tahoe region	Family-run caterer since 2008 with a twelve-person uniformed staff, specialising in weddings plus corporate and private events.	denise@poiboycatering.com	775-851-4709	https://poiboycatering.com/	
+Cherry Bomb Catering	Catering	4826 Longley Ln	Reno	Nevada	Northern Nevada and the Sierra Nevada region	Reno caterer offering customised wedding menus that accommodate dietary needs and allergies, with chef dinners also available.	info@cherrybombcatering.com	(775) 287-4121	https://www.cherrybombreno.com/	https://www.instagram.com/cherribc/
+Fig Tree Catering	Catering	7450 W 4th St	Reno	Nevada	Northern Nevada	Chef-led Reno caterer open since 2000 with customisable menus, dietary options and event coordination for weddings.		775-770-1110	https://www.figtreecatering.com/	https://www.instagram.com/figtreecateringco/
+TheCraftCollective	Hair & Makeup	457 Casazza Dr	Reno	Nevada	Reno, Tahoe and Northern Nevada, travelling to the venue	Bridal hair and makeup studio whose artists work with a range of skin tones and hair textures and offer trials.	alishamgarcia@craftcollectivereno.com		https://www.craftcollectivereno.com/bridal	https://www.instagram.com/thecraftcollective_reno/
+MUAH Artistry by Erika Lua	Hair & Makeup		Reno	Nevada	Nevada and California, including Reno and Lake Tahoe	On-location makeup and hair artist with more than ten years in bridal, film and special-occasion work.			https://www.muahartistry.com/	
+ME Beauty	Hair & Makeup		Reno	Nevada	Reno and Tahoe, available to travel	Hair and makeup duo, Mandy Corbett and Emmy DeLong, styling brides and wedding parties on location.	mandyscorbett@gmail.com		https://www.mebeauty.me/	
+Paris Custom Cakes	Cake		Reno	Nevada	Reno, Sparks, Lake Tahoe and surrounding areas	Custom cake maker focused on wedding and themed cakes, with free delivery across most of Reno and Sparks.		775-544-4114	https://www.pariscustomcakes.com/	https://www.instagram.com/pariscustomcakes/
+Dream Cakes	Cake	6300 Mae Anne Ave Suite 4	Reno	Nevada	Reno, Sparks and surrounding areas	Reno bakery baking made-to-order custom cakes, including wedding cakes, with a design-a-cake request service.			https://www.dreamcakesnv.com/	https://www.instagram.com/dreamcakes.nv/
+Delicious Designs	Cake	5390 Riggins Ct Ste B	Reno	Nevada	Reno area	Made-from-scratch custom cake bakery run by baker Leigh Anne Page, with delivery and setup at the venue, by appointment.		775-409-3397	https://www.deliciousdesignsreno.com/	https://www.instagram.com/deliciousdesignsreno/
+Big Vic Media	Videography		Reno	Nevada	Lake Tahoe, Reno and destinations	Reno wedding videographer making cinematic, emotion-led films with unobtrusive filming and careful editing.	bookingbigvicmedia@gmail.com		https://www.bigvicmedia.com/weddings	https://www.instagram.com/bigvicmedia_weddings/
+Alpine Media Weddings	Videography		Reno	Nevada	Reno and Tahoe region	Wedding film studio founded by Jordan Drew in 2018, making cinematic, adventure-minded films for elopements and large weddings.	jordan.alpinemedia@gmail.com	(925) 212-3206	https://www.alpinemediaweddings.com/	https://www.instagram.com/alpinemediaweddings/
+Adventure Wedding Films	Videography		Reno	Nevada	Worldwide, including Lake Tahoe	Reno videographer making wedding and elopement films, with an adventure session included in every package and drone coverage.	info@adventureweddingfilms.com		https://www.adventureweddingfilms.com/	https://www.instagram.com/adventureweddingfilms/
+`,
+  },
+  {
+    name: "Las Vegas: music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Knight Sounds Entertainment	Music		Las Vegas	Nevada	Las Vegas and surrounding venues	Wedding DJ and MC company operating since 1986, with bilingual English and Spanish hosts, photo booths and lighting.			https://knightsoundslv.com/	https://www.instagram.com/knightsoundslv/
+Sight & Sound Events	Music	5615 S Cameron St Suite 1	Las Vegas	Nevada	Las Vegas and surrounding region	Las Vegas event production and entertainment company providing DJ services for weddings as well as corporate events.	Events@SightNSound.com	702-365-9526	https://www.sightnsound.com/	https://www.instagram.com/sightnsoundevents/
+`,
+  },
 ];
 
 export default batches;
