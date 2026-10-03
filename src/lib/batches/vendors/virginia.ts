@@ -84,6 +84,11 @@ Iron & Ivy Films	Videography		Charlottesville	Virginia	Virginia, East Coast and 
 Film & Flourish	Videography		Charlottesville	Virginia	Virginia, DC, North Carolina and beyond	Charlottesville videographer Andrew Gilford filming weddings, elopements and adventure sessions since 2017.			https://filmandflourish.com/	https://www.instagram.com/filmandflourish/
 Sydney Koerber Films	Videography		Charlottesville	Virginia	Worldwide	Husband-and-wife film team from Charlottesville taking a subtle, collaborative approach to refined weddings.			https://www.sydneykoerberfilms.com/	https://www.instagram.com/sydneykoerberfilms/`,
   },
+  {
+    name: "Charlottesville: hair & makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+A More Beautiful You	Hair & Makeup		Charlottesville	Virginia	Central Virginia	Charlottesville team bringing on-location bridal hair and airbrush makeup to wedding parties across central Virginia for over a decade.	ambyservices@gmail.com	(434) 326-2705	https://www.amorebeautifulyouva.com/	https://www.instagram.com/amorebeautifulyouva/`,
+  },
 ];
 
 export default batches;

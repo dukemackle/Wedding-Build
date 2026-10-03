@@ -85,6 +85,11 @@ The Village Bake Shoppe	Cake	417 Center St	Lewiston	New York		From-scratch baker
 Black Horse Videography	Videography		Buffalo	New York	Western New York and beyond	Buffalo wedding film team run by Alyssa and Alex, with drone footage offered in most packages and travel across Western New York.			https://blackhorsevideography.com/	https://www.instagram.com/blackhorsevideography/
 Nightfox Films	Videography		Jamestown	New York	Buffalo, Chautauqua Lake, Ellicottville, Erie PA and beyond	Jamestown duo filming weddings on Super 8, vintage camcorders and 4K, alone or blended into mixed-media films, with 100 travel miles included.	hello@nightfoxfilms.com		https://nightfoxfilms.com/	https://www.instagram.com/nightfox.films/`,
   },
+  {
+    name: "Hudson Valley: planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Idyllwild Event Design	Planning		Red Hook	New York	Hudson Valley, Catskills and Western Berkshires	Art-forward wedding planning, design and floral studio based in Red Hook and the Catskills, known for painterly, design-led celebrations.	HelloThere@IdyllwildEventDesign.com		https://idyllwildeventdesign.com/	https://www.instagram.com/idyllwild.events/`,
+  },
 ];
 
 export default batches;

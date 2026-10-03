@@ -18,6 +18,14 @@ The 1812 Farm	1297 Bristol Road	Bristol	Maine			Barn / Rustic	Indoor & Outdoor	1
 Wells Reserve at Laudholm	342 Laudholm Farm Rd	Wells	Maine			Historic / Estate	Indoor & Outdoor	250	Classic	Historic saltwater farm on a 2,250-acre reserve with a barn, a farmhouse with a wrap-around porch, trails and a walk to the beach.	tracy@laudholm.org	207-646-1555	https://wellsreserve.org/visit/facilities/wedding-venue
 Gilsland Farm (Maine Audubon)	20 Gilsland Farm Road	Falmouth	Maine			Garden / Outdoor	Outdoor	150		Wildlife sanctuary with a tented apple orchard and open field, and the L.L.Bean Great Room as an indoor backup for smaller groups.	rentals@maineaudubon.org	207.781.2330	https://maineaudubon.org/rentals-special-events/`,
   },
+  {
+    name: "Maine: Bar Harbor, Kennebunkport and the lakes",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Granite Ridge Estate & Barn		Norway	Maine			Barn / Rustic	Indoor & Outdoor	233	Luxury	Timber-frame barn and estate lodge on 200 private acres atop a 1,000-foot hill in the western foothills, with a cliff cabin and 1820s farmhouse for guests.		207-747-1212	https://www.graniteridgeestate.com/
+Sebasco Harbor Resort	29 Kenyon Rd	Sebasco Estates	Maine			Beach / Waterfront	Indoor & Outdoor			Harbourside resort of about 450 acres on the Phippsburg peninsula, with a lighthouse, sea cottages, golf course and on-site lodging.	sebascofrontdesk@girihotels.com	866-389-2072	https://www.sebasco.com/weddings/
+Bar Harbor Inn	1 Newport Dr	Bar Harbor	Maine			Beach / Waterfront	Indoor & Outdoor	125		Inn dating from 1887 on Frenchman Bay in downtown Bar Harbor, with ceremonies on the shore lawn and receptions in ocean-view rooms near Acadia.	reservations@barharborinn.com	844-814-1668	https://barharborinn.com/weddings/
+The Colony Hotel	140 Ocean Ave	Kennebunkport	Maine			Ballroom / Hotel	Indoor & Outdoor			Family-run 1914 oceanfront hotel in Kennebunkport with a seaside lawn, ocean porch, heated pool and private beach access.		207-967-3331	https://colonymaine.com/weddings/`,
+  },
 ];
 
 export default batches;

@@ -39,6 +39,14 @@ The VUE	310 West Shepard Avenue	Hamden	Connecticut			Ballroom / Hotel	Indoor & O
 Cascade Fine Catering	480 Sherman Ave	Hamden	Connecticut			Ballroom / Hotel	Indoor			Hamden banquet house with a chandeliered ballroom and a separate, more rustic Garden Room, catering every event in-house.	info@cascade-banquets.com	203-907-0595	https://www.cascade-banquets.com/
 Bill Miller's Castle	834 E Main St	Branford	Connecticut			Historic / Estate	Indoor & Outdoor			Castle-style building in Branford with fireplaces and antique decor, plus a barn-style room and both indoor and outdoor ceremony spots.	info@BillMillersCastle.com	(203) 488-4583	https://www.billmillerscastle.com/`,
   },
+  {
+    name: "Connecticut: river valley, Litchfield and Fairfield County",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Saint Clements Castle & Marina	1931 Portland-Cobalt Rd	Portland	Connecticut			Historic / Estate	Indoor & Outdoor			Stone castle above the Connecticut River in Portland, with ballrooms in the castle and a separate waterfront ballroom at its marina.		860-342-0593	https://www.saintclementscastle.com/weddings/
+The Waters Edge at Giovanni's	2748 Boston Post Rd	Darien	Connecticut			Beach / Waterfront	Indoor & Outdoor	450		Family-owned since 1987, a Long Island Sound banquet house in Darien with four event suites, the largest seating up to 450.	sales@watersedgeatgiovannis.com	203-325-9979	https://www.watersedgeatgiovannis.com/weddings/
+The Litchfield Inn	432 Bantam Rd	Litchfield	Connecticut			Ballroom / Hotel	Indoor & Outdoor	150		Family-run colonial-style inn on ten acres in the Litchfield Hills, with a garden-view ballroom, tented lawns and 32 guest rooms.	sales@litchfieldinnct.com	860-567-4503	https://litchfieldinnct.com/weddings/
+Old Lyme Inn	85 Lyme St	Old Lyme	Connecticut			Historic / Estate	Indoor & Outdoor			Thirteen-room inn in the Old Lyme arts district near the shoreline, hosting weddings since the 1970s, with dining rooms and a jazz club.	guestservices@oldlymeinn.com	860-434-2600	https://www.oldlymeinn.com/1/`,
+  },
 ];
 
 export default batches;

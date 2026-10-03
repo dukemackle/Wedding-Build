@@ -52,6 +52,16 @@ Sweeter Side Bakeshop	Cake	107 Mountain Rd, Suite E	Pasadena	Maryland		Pasadena 
 Rivion Wedding Films	Videography		Crofton	Maryland	Maryland, Washington DC and Virginia	Crofton-based wedding film studio focused on affordable packages that still capture the sights, sounds and feel of the day.		(443) 429-1028	https://rivionweddings.com/	https://www.instagram.com/rivionweddingfilms/
 Mixing Maryland	Music		Annapolis	Maryland	Maryland, Washington DC and Northern Virginia	Full-time wedding DJs known for live mixing and packed dance floors, with dozens of Annapolis and Eastern Shore venues on their books.		(443) 603-9150	https://www.mixingmaryland.com/	https://www.instagram.com/mixingmarylanddjs/`,
   },
+  {
+    name: "Baltimore: planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Jennifer Rose Events & Weddings	Planning		Baltimore	Maryland	DMV area; travels to other states and abroad	Baltimore planning studio founded in 2016 offering full, partial and month-of planning, with a 3-D floor-plan tool for seating layouts.	jenn@jenniferroseevents.com	(443) 878-6633	https://www.jenniferroseevents.com/	https://www.instagram.com/jenniferroseeventsandweddings/`,
+  },
+  {
+    name: "Annapolis: hair & makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Limin' Hair Studio	Hair & Makeup		Annapolis	Maryland	Within 20 miles of the Annapolis studio without travel fee	Annapolis hair studio open since 2014, styling brides and wedding parties on location, with trial runs held at the studio.	info@liminhairstudio.com		https://www.liminhairstudio.com/	https://www.instagram.com/liminhairstudio/`,
+  },
 ];
 
 export default batches;

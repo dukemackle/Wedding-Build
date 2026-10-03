@@ -23,6 +23,14 @@ Stuhr Museum of the Prairie Pioneer	3133 W US Hwy 34	Grand Island	Nebraska			His
 `,
   },
   {
+    name: "Palmyra, York and Hastings",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Glacial Till Vineyard & Winery	344 S 2nd Rd	Palmyra	Nebraska			Restaurant / Vineyard	Indoor & Outdoor	260		Vineyard and cider winery southeast of Lincoln with a ceremony lawn and pavilion, a main hall, two barrel rooms and bridal prep space.	lisa@glacialtillvineyard.com	(402) 610-3068	https://www.glacialtillvineyard.com/vineyard-wedding-venue/
+Wessels Living History Farm	5520 S Lincoln Ave	York	Nebraska			Historic / Estate	Indoor & Outdoor	120		Restored 1920s farmstead off Interstate 80 with a post-and-beam barn, a 1905 church sanctuary, a furnished farmhouse and open lawns for ceremonies.	wesselsfarm@gmail.com	(402) 710-0682	https://livinghistoryfarm.org/eventsonthefarm/
+Colonial Gardens Event Center	3002 N Baltimore Ave	Hastings	Nebraska			Garden / Outdoor	Indoor & Outdoor	200	Simple	Twelve-acre property northwest of Hastings with a climate-controlled event centre, a main residence, two ponds, a three-hole golf course and lawns for ceremonies.		(402) 469-0888	https://colonialgardensne.com/
+`,
+  },
+  {
     name: "Omaha metro, Lincoln area, Nebraska City, Kearney and Superior",
     tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
 Venues at the Granary	7401 Main Street	Ralston	Nebraska			Historic / Estate	Indoor & Outdoor	300		Early 20th-century granary building in Ralston converted into event rooms with exposed brick and aged hardwood, plus a 14,000 sq ft heated outdoor green.	events@atthegranary.com	402-943-8387	https://atthegranary.com/
