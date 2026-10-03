@@ -217,6 +217,10 @@ export type Venue = {
   /** "Starting at", whole dollars, and what that price covers. */
   price_from: number | null;
   price_note: string | null;
+  /** What `price_from` is: rental, package, per_person, minimum, or ask (no price shown). */
+  price_basis: PriceBasis | null;
+  /** The other prices beside the starting one ("Saturday", "Weekend buyout"). */
+  price_options: PriceOption[];
   service_level: ServiceLevel | null;
   vendor_policy: VendorPolicy | null;
   capacity_standing: number | null;
@@ -227,6 +231,12 @@ export type Venue = {
   instagram_url: string | null;
   facebook_url: string | null;
   pinterest_url: string | null;
+  tiktok_url: string | null;
+  youtube_url: string | null;
+  /** One reviews page: Google, The Knot or WeddingWire. */
+  reviews_url: string | null;
+  /** Picked from INCLUDED_OPTIONS; `included` is the free-text rest. */
+  included_items: string[];
   active: boolean;
   is_sample: boolean;
   /** Where this listing came from: manual, import, osm, google, claimed. */
@@ -240,6 +250,8 @@ export type Venue = {
 };
 
 export type ServiceLevel = "space_only" | "some_services" | "all_inclusive";
+export type PriceBasis = "rental" | "package" | "per_person" | "minimum" | "ask";
+export type PriceOption = { label: string; amount: number };
 export type VendorPolicy = "any" | "preferred" | "required";
 
 export type VenueSpace = {

@@ -1,5 +1,5 @@
 import "server-only";
-import { SERVICE_LEVELS, STATES, STYLE_TIERS, VENDOR_POLICIES, VENDOR_PRICE_UNITS, VENUE_SETTINGS, VENUE_TYPES } from "@/lib/wedding-options";
+import { AMENITY_OPTIONS, INCLUDED_OPTIONS, PRICE_BASES, SERVICE_LEVELS, STATES, STYLE_TIERS, VENDOR_POLICIES, VENDOR_PRICE_UNITS, VENUE_SETTINGS, VENUE_TYPES } from "@/lib/wedding-options";
 import type { ListingFields } from "@/lib/ai/listing-reader";
 
 // What "Fill this in for me" may fill on each form, with the limits the
@@ -43,6 +43,20 @@ export const VENUE_READ_FIELDS: ListingFields = {
     spec: { type: "enum", options: Object.keys(VENDOR_POLICIES) },
     hint: `${Object.entries(VENDOR_POLICIES).map(([k, v]) => `${k} = ${v}`).join("; ")}`,
   },
+  price_basis: {
+    spec: { type: "enum", options: Object.keys(PRICE_BASES) },
+    hint: `what price_from is: ${Object.entries(PRICE_BASES).map(([k, v]) => `${k} = ${v}`).join("; ")}. Only if stated`,
+  },
+  included_items: {
+    spec: { type: "list" },
+    hint: `what the rental includes, using these exact names where they fit: ${INCLUDED_OPTIONS.join(", ")}`,
+  },
+  amenities: {
+    spec: { type: "list" },
+    hint: `the venue's amenities, using these exact names where they fit: ${AMENITY_OPTIONS.join(", ")}`,
+  },
+  tiktok_url: { spec: { type: "url" }, hint: "full TikTok URL" },
+  youtube_url: { spec: { type: "url" }, hint: "full YouTube channel URL" },
   lodging_sleeps: { spec: { type: "int", max: 1000 }, hint: "how many guests on-site lodging sleeps" },
   parking: { spec: { type: "text", max: 200 }, hint: "parking arrangements" },
   wheelchair_accessible: { spec: { type: "bool" }, hint: "only if stated" },

@@ -5,7 +5,11 @@ import { useState, useTransition } from "react";
 import { LegalNotice } from "@/components/legal-notice";
 import { createClient } from "@/lib/supabase/client";
 import {
+  AMENITY_OPTIONS,
+  INCLUDED_OPTIONS,
   PREFERRED_VENDOR_CATEGORIES,
+  PRICE_BASES,
+  PRICE_BASIS_HINTS,
   SERVICE_LEVEL_HINTS,
   SERVICE_LEVELS,
   STATES,
@@ -14,25 +18,46 @@ import {
   VENDOR_POLICIES,
   VENUE_TYPES,
 } from "@/lib/wedding-options";
-import type { ServiceLevel, VendorPolicy } from "@/lib/supabase/types";
+import type { PriceBasis, ServiceLevel, VendorPolicy } from "@/lib/supabase/types";
+import { priceHeadline } from "@/lib/venue-pricing";
 import {
   CLAIM_PHOTO_TYPES,
   MAX_CLAIM_PHOTOS,
+  MAX_PRICE_OPTIONS,
   type ClaimDetails,
   type ClaimFaq,
   type ClaimPreferredVendor,
   type ClaimSpace,
   type ClaimSubmission,
 } from "@/lib/venue-claim";
-import { createClaimPhotoUploads, submitVenueClaim, createImportUpload, readListingSource } from "./actions";
+import { createClaimPhotoUploads, submitVenueClaim, createImportUpload, readListingSource, writeListingText } from "./actions";
 import { ImportPanel, mergeDraft, mergeFaqs } from "../import-panel";
-import { Field, inputClass, labelClass, PhotoGridEditor, Section, Select, YesNo } from "../form-parts";
+import { ChipPicker, Field, inputClass, labelClass, PhotoGridEditor, Section, Select, WriteHelper, YesNo } from "../form-parts";
 
 const emptySpace: ClaimSpace = { name: "", description: null, capacity: null, setting: null, photo_url: null };
 
+// One tap adds a row already named, so most venues only type the number.
+const PRICE_SUGGESTIONS = ["Saturday", "Friday", "Sunday", "Weekday", "Weekend buyout", "Extra day", "Off-season"];
+
+const SOCIALS = [
+  ["instagram_url", "Instagram"],
+  ["tiktok_url", "TikTok"],
+  ["facebook_url", "Facebook"],
+  ["pinterest_url", "Pinterest"],
+  ["youtube_url", "YouTube"],
+] as const;
+
+const PRICE_COVERS_PLACEHOLDER: Record<PriceBasis, string> = {
+  rental: "Saturday, 10 hours, up to 150 guests",
+  package: "Ceremony + reception, food and bar for 100",
+  per_person: "Dinner, bar and cake; 75-guest minimum",
+  minimum: "Food and drink, Saturday evening",
+  ask: "",
+};
+
 export function ClaimForm({ token, initial }: { token: string; initial: ClaimSubmission }) {
   const [details, setDetails] = useState<ClaimDetails>(initial.details);
-  const [amenitiesText, setAmenitiesText] = useState(initial.details.amenities.join(", "));
+  const [writeNotes, setWriteNotes] = useState("");
   const [photos, setPhotos] = useState<string[]>(initial.photoUrls);
   const [vendors, setVendors] = useState<ClaimPreferredVendor[]>(
     initial.preferredVendors.length > 0 ? initial.preferredVendors : [{ category: "", name: "", website: null }],
@@ -102,28 +127,46 @@ export function ClaimForm({ token, initial }: { token: string; initial: ClaimSub
 
   // "Fill this in for me": only empty boxes are filled, so nothing typed is lost.
   function applyDraft(read: ListingRead) {
-    const { amenities, ...rest } = read.details;
-    const merged = mergeDraft(details, rest);
+    const merged = mergeDraft(details, read.details);
     const answered = mergeFaqs(faqs, read.faqs);
-    let filled = merged.filled + answered.filled;
     setDetails(merged.details);
     setFaqs(answered.faqs);
-    if (Array.isArray(amenities) && !amenitiesText.trim()) {
-      setAmenitiesText(amenities.join(", "));
-      filled += 1;
-    }
-    return filled;
+    return merged.filled + answered.filled;
   }
+
+  // What the writer is told besides their own words: only what's on the form.
+  const writeFor = (field: "description" | "about") => () =>
+    writeListingText(
+      token,
+      field,
+      {
+        name: details.name,
+        town: [details.city, details.state].filter(Boolean).join(", "),
+        type: details.venue_type,
+        setting: details.setting,
+        "seated guests": details.capacity,
+        "standing guests": details.capacity_standing,
+        provided: details.service_level && SERVICE_LEVELS[details.service_level],
+        included: details.included_items.join(", "),
+        amenities: details.amenities.join(", "),
+        "event spaces": spaces.map((sp) => sp.name).filter(Boolean).join(", "),
+        "current one-liner": field === "about" ? details.description : null,
+      },
+      writeNotes,
+    );
+
+  const setOption = (index: number, patch: Partial<{ label: string; amount: number | null }>) =>
+    set(
+      "price_options",
+      details.price_options.map((o, j) => (j === index ? { ...o, ...patch } : o)),
+    );
 
   function submit(e: React.FormEvent) {
     e.preventDefault();
     setErrors([]);
     startTransition(async () => {
       const result = await submitVenueClaim(token, {
-        details: {
-          ...details,
-          amenities: amenitiesText.split(",").map((a) => a.trim()).filter(Boolean),
-        },
+        details,
         faqs,
         preferredVendors: vendors,
         spaces,
@@ -155,6 +198,7 @@ export function ClaimForm({ token, initial }: { token: string; initial: ClaimSub
   const location = [details.city, details.state].filter(Boolean).join(", ");
   const namedVendors = vendors.filter((v) => v.name.trim());
   const answered = faqs.filter((f) => f.answer.trim()).length;
+  const price = priceHeadline(details);
 
   return (
     <form onSubmit={submit} className="mt-8 lg:grid lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start lg:gap-10">
@@ -216,31 +260,122 @@ export function ClaimForm({ token, initial }: { token: string; initial: ClaimSub
           </div>
         </Section>
 
-        <Section title="Pricing and what's provided" hint="The first two things couples ask. A starting price is enough -- it doesn't need to be a quote.">
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-            <Field label="Starting price">
-              <div className="relative">
-                <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-ink/45">$</span>
-                <input
-                  type="number"
-                  min={0}
-                  inputMode="numeric"
-                  value={details.price_from ?? ""}
-                  onChange={(e) => set("price_from", e.target.value ? Number(e.target.value) : null)}
-                  className={`${inputClass} pl-6`}
-                />
-              </div>
-            </Field>
-            <Field label="That price covers" className="sm:col-span-2">
-              <input
-                value={details.price_note ?? ""}
-                onChange={(e) => set("price_note", e.target.value || null)}
-                className={inputClass}
-                placeholder="Full wedding, Saturday · Ceremony only · Weekend buyout"
-              />
-            </Field>
+        <Section
+          title="Pricing and what's provided"
+          hint="Cost is the first thing couples ask. A starting point is enough -- it's not a quote, and it saves you emails from couples who aren't a fit."
+        >
+          <p className={labelClass}>How does your pricing work?</p>
+          <div className="flex flex-wrap gap-2">
+            {(Object.keys(PRICE_BASES) as PriceBasis[]).map((basis) => (
+              <button
+                key={basis}
+                type="button"
+                aria-pressed={details.price_basis === basis}
+                onClick={() => set("price_basis", details.price_basis === basis ? null : basis)}
+                className={`rounded-full border px-3.5 py-1.5 text-sm transition-colors ${
+                  details.price_basis === basis
+                    ? "border-forest bg-forest text-parchment"
+                    : "border-hairline bg-card text-ink hover:border-forest/50"
+                }`}
+              >
+                {PRICE_BASES[basis]}
+              </button>
+            ))}
           </div>
-          <p className={`${labelClass} mt-5`}>What does the venue provide?</p>
+          {details.price_basis === "ask" ? (
+            <p className="mt-4 rounded-md bg-parchment px-3 py-2.5 text-sm text-ink/70">
+              Your listing will say <span className="font-medium text-ink">Ask for pricing</span>, and couples can
+              send you an inquiry. You can add a price any time.
+            </p>
+          ) : (
+            <>
+              <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
+                <Field label={details.price_basis ? PRICE_BASIS_HINTS[details.price_basis] : "Starting price"}>
+                  <div className="relative">
+                    <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-ink/45">$</span>
+                    <input
+                      type="number"
+                      min={0}
+                      inputMode="numeric"
+                      value={details.price_from ?? ""}
+                      onChange={(e) => set("price_from", e.target.value ? Number(e.target.value) : null)}
+                      className={`${inputClass} pl-6`}
+                    />
+                  </div>
+                </Field>
+                <Field label="That price covers" className="sm:col-span-2">
+                  <input
+                    value={details.price_note ?? ""}
+                    onChange={(e) => set("price_note", e.target.value || null)}
+                    className={inputClass}
+                    placeholder={PRICE_COVERS_PLACEHOLDER[details.price_basis ?? "rental"]}
+                  />
+                </Field>
+              </div>
+
+              <p className={`${labelClass} mt-5`}>Other prices (optional)</p>
+              <p className="-mt-0.5 mb-2 text-xs text-ink/55">Different days, a weekend buyout, an extra day -- whatever couples ask about.</p>
+              {details.price_options.length > 0 && (
+                <div className="mb-3 flex flex-col gap-2">
+                  {details.price_options.map((o, i) => (
+                    <div key={i} className="grid grid-cols-[minmax(0,1fr)_104px_auto] items-center gap-2 sm:grid-cols-[minmax(0,1fr)_160px_auto]">
+                      <input
+                        value={o.label}
+                        onChange={(e) => setOption(i, { label: e.target.value })}
+                        className={inputClass}
+                        placeholder="Friday or Sunday"
+                        aria-label="What this price is for"
+                      />
+                      <div className="relative">
+                        <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-ink/45">$</span>
+                        <input
+                          type="number"
+                          min={0}
+                          inputMode="numeric"
+                          value={o.amount ?? ""}
+                          onChange={(e) => setOption(i, { amount: e.target.value ? Number(e.target.value) : null })}
+                          className={`${inputClass} pl-6`}
+                          aria-label={`Price for ${o.label || "this option"}`}
+                        />
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => set("price_options", details.price_options.filter((_, j) => j !== i))}
+                        className="px-1 text-sm text-ink/45 hover:text-ink"
+                        aria-label="Remove price"
+                      >
+                        <span aria-hidden className="text-lg leading-none sm:hidden">×</span>
+                        <span className="hidden sm:inline">Remove</span>
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+              {details.price_options.length < MAX_PRICE_OPTIONS && (
+                <div className="flex flex-wrap gap-2">
+                  {PRICE_SUGGESTIONS.filter((label) => !details.price_options.some((o) => o.label === label)).map((label) => (
+                    <button
+                      key={label}
+                      type="button"
+                      onClick={() => set("price_options", [...details.price_options, { label, amount: null }])}
+                      className="rounded-full border border-dashed border-forest/40 px-3 py-1 text-sm text-forest hover:border-forest"
+                    >
+                      + {label}
+                    </button>
+                  ))}
+                  <button
+                    type="button"
+                    onClick={() => set("price_options", [...details.price_options, { label: "", amount: null }])}
+                    className="rounded-full border border-dashed border-forest/40 px-3 py-1 text-sm text-forest hover:border-forest"
+                  >
+                    + Other
+                  </button>
+                </div>
+              )}
+            </>
+          )}
+
+          <p className={`${labelClass} mt-6`}>What does the venue provide?</p>
           <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
             {(Object.keys(SERVICE_LEVELS) as ServiceLevel[]).map((level) => (
               <label
@@ -261,6 +396,18 @@ export function ClaimForm({ token, initial }: { token: string; initial: ClaimSub
               </label>
             ))}
           </div>
+
+          <p className={`${labelClass} mt-6`}>What&apos;s included? Tap all that apply</p>
+          <ChipPicker options={INCLUDED_OPTIONS} value={details.included_items} onChange={(v) => set("included_items", v)} />
+          <Field label="Anything else included?" className="mt-4">
+            <input
+              value={details.included ?? ""}
+              onChange={(e) => set("included", e.target.value || null)}
+              className={inputClass}
+              placeholder="Two hours of rehearsal time, golf cart shuttles…"
+            />
+          </Field>
+
           <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
             <Field label="Outside vendors">
               <select
@@ -282,7 +429,7 @@ export function ClaimForm({ token, initial }: { token: string; initial: ClaimSub
           </div>
         </Section>
 
-        <Section title="Contact" hint="Where couples' inquiries through You Do, I Do are sent.">
+        <Section title="Contact" hint="Where couples' inquiries through You Do, I Do are sent. For social media, your @handle is fine.">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <Field label="Email">
               <input type="email" value={details.contact_email ?? ""} onChange={(e) => set("contact_email", e.target.value || null)} className={inputClass} />
@@ -293,58 +440,72 @@ export function ClaimForm({ token, initial }: { token: string; initial: ClaimSub
             <Field label="Website" className="sm:col-span-2">
               <input value={details.website ?? ""} onChange={(e) => set("website", e.target.value || null)} className={inputClass} placeholder="yourvenue.com" />
             </Field>
-            <Field label="Instagram">
-              <input value={details.instagram_url ?? ""} onChange={(e) => set("instagram_url", e.target.value || null)} className={inputClass} placeholder="instagram.com/yourvenue" />
-            </Field>
-            <Field label="Facebook">
-              <input value={details.facebook_url ?? ""} onChange={(e) => set("facebook_url", e.target.value || null)} className={inputClass} placeholder="facebook.com/yourvenue" />
-            </Field>
-            <Field label="Pinterest">
-              <input value={details.pinterest_url ?? ""} onChange={(e) => set("pinterest_url", e.target.value || null)} className={inputClass} placeholder="pinterest.com/yourvenue" />
+            {SOCIALS.map(([key, label]) => (
+              <Field key={key} label={label}>
+                <input
+                  value={details[key] ?? ""}
+                  onChange={(e) => set(key, e.target.value || null)}
+                  className={inputClass}
+                  placeholder="@yourvenue or a link"
+                />
+              </Field>
+            ))}
+            <Field label="Reviews page" className="sm:col-span-2">
+              <input
+                value={details.reviews_url ?? ""}
+                onChange={(e) => set("reviews_url", e.target.value || null)}
+                className={inputClass}
+                placeholder="Your Google, The Knot or WeddingWire reviews link"
+              />
             </Field>
           </div>
         </Section>
 
-        <Section title="Describe your venue">
+        <Section title="Describe your venue" hint="Short on time? Tap ✨ and Wren drafts it from a few words.">
           <div className="flex flex-col gap-4">
-            <Field label="One-line description">
-              <input
-                value={details.description ?? ""}
-                onChange={(e) => set("description", e.target.value || null)}
-                maxLength={200}
-                className={inputClass}
-                placeholder="What a couple should know at a glance"
+            <div>
+              <Field label="One-line description">
+                <input
+                  value={details.description ?? ""}
+                  onChange={(e) => set("description", e.target.value || null)}
+                  maxLength={200}
+                  className={inputClass}
+                  placeholder="What a couple should know at a glance"
+                />
+              </Field>
+              <WriteHelper
+                noun="venue"
+                notes={writeNotes}
+                setNotes={setWriteNotes}
+                write={writeFor("description")}
+                onUse={(text) => set("description", text)}
               />
-            </Field>
-            <Field label="About">
-              <textarea rows={5} value={details.about ?? ""} onChange={(e) => set("about", e.target.value || null)} className={inputClass} />
-            </Field>
-            <Field label="What's included">
-              <textarea
-                rows={3}
-                value={details.included ?? ""}
-                onChange={(e) => set("included", e.target.value || null)}
-                className={inputClass}
-                placeholder="Tables and chairs, bridal suite, day-of coordinator…"
+            </div>
+            <div>
+              <Field label="About">
+                <textarea rows={5} value={details.about ?? ""} onChange={(e) => set("about", e.target.value || null)} className={inputClass} />
+              </Field>
+              <WriteHelper
+                noun="venue"
+                notes={writeNotes}
+                setNotes={setWriteNotes}
+                write={writeFor("about")}
+                onUse={(text) => set("about", text)}
               />
-            </Field>
+            </div>
             <Field label="Anything else couples should know?">
               <textarea
                 rows={3}
                 value={details.good_to_know ?? ""}
                 onChange={(e) => set("good_to_know", e.target.value || null)}
                 className={inputClass}
-                placeholder="How far ahead you book up, deposit, travel fees, anything else"
+                placeholder="How far ahead you book up, deposit, noise curfew, anything else"
               />
             </Field>
-            <Field label="Amenities (separate with commas)">
-              <input
-                value={amenitiesText}
-                onChange={(e) => setAmenitiesText(e.target.value)}
-                className={inputClass}
-                placeholder="On-site lodging, Climate-controlled, Wheelchair accessible"
-              />
-            </Field>
+            <div>
+              <p className={labelClass}>Amenities -- tap all that apply</p>
+              <ChipPicker options={AMENITY_OPTIONS} value={details.amenities} onChange={(v) => set("amenities", v)} />
+            </div>
           </div>
         </Section>
 
@@ -595,11 +756,11 @@ export function ClaimForm({ token, initial }: { token: string; initial: ClaimSub
             <p className="mt-0.5 text-xs uppercase tracking-wide text-ink/50">
               {[location, details.setting, details.venue_type].filter(Boolean).join(" · ")}
             </p>
-            {(details.capacity || details.price_from) && (
+            {(details.capacity || price) && (
               <p className="mt-2 font-mono-numbers text-sm text-ink/70">
                 {[
                   details.capacity && `Up to ${details.capacity} seated`,
-                  details.price_from != null && `From $${details.price_from.toLocaleString()}`,
+                  price,
                 ]
                   .filter(Boolean)
                   .join(" · ")}

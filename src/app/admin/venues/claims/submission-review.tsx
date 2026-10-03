@@ -3,14 +3,18 @@
 import { useState, useTransition } from "react";
 import type { Venue, VenueSubmission } from "@/lib/supabase/types";
 import { CLAIM_FIELD_LABELS, detailsFromVenue, type ClaimDetails } from "@/lib/venue-claim";
-import { SERVICE_LEVELS, VENDOR_POLICIES } from "@/lib/wedding-options";
+import { PRICE_BASES, SERVICE_LEVELS, VENDOR_POLICIES } from "@/lib/wedding-options";
 import { approveSubmission, rejectSubmission } from "../claim-actions";
 
 function show(key: keyof ClaimDetails, value: ClaimDetails[keyof ClaimDetails]): string {
   if (value === null || value === undefined || value === "") return "";
   if (key === "service_level") return SERVICE_LEVELS[value as keyof typeof SERVICE_LEVELS] ?? String(value);
   if (key === "vendor_policy") return VENDOR_POLICIES[value as keyof typeof VENDOR_POLICIES] ?? String(value);
+  if (key === "price_basis") return PRICE_BASES[value as keyof typeof PRICE_BASES] ?? String(value);
   if (key === "price_from") return `$${Number(value).toLocaleString()}`;
+  if (key === "price_options" && Array.isArray(value)) {
+    return (value as { label: string; amount: number }[]).map((o) => `${o.label} $${o.amount.toLocaleString()}`).join(" · ");
+  }
   if (Array.isArray(value)) return value.join(", ");
   if (typeof value === "boolean") return value ? "Yes" : "No";
   if (value === null || value === undefined || value === "") return "";

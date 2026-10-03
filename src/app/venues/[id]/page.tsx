@@ -72,7 +72,7 @@ function venueJsonLd({ venue, faqs }: VenueListingData) {
     amenityFeature: venue.amenities.length
       ? venue.amenities.map((name) => ({ "@type": "LocationFeatureSpecification", name, value: true }))
       : undefined,
-    sameAs: [venue.website, venue.instagram_url, venue.facebook_url, venue.pinterest_url].filter(Boolean),
+    sameAs: [venue.website, venue.instagram_url, venue.facebook_url, venue.pinterest_url, venue.tiktok_url, venue.youtube_url].filter(Boolean),
   };
   return [business, ...faqJsonLd(faqs)];
 }
