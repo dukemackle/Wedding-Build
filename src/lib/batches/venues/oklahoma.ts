@@ -23,6 +23,13 @@ Blose Barn and Garden	301 S Richland Rd	Yukon	Oklahoma			Barn / Rustic	Indoor & 
 The Warehouse at West Main		Collinsville	Oklahoma			Ballroom / Hotel	Indoor	200	Simple	Four-thousand-square-foot converted warehouse in downtown Collinsville with exposed brick, wooden rafters, steel beams and two dressing rooms.			https://westmaineventcenter.com
 `,
   },
+  {
+    name: "Stillwater and Muskogee",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+The Range	1819 N Range Road	Stillwater	Oklahoma			Garden / Outdoor	Indoor & Outdoor	300		White-brick event hall outside Stillwater with a fireplace main hall, bridal and groom suites, a pond-side ceremony space and a relocated covered bridge at the entrance.		(405) 385-9312	https://www.therangeok.com/
+Eight Ten Ranch	800 N Country Club Rd	Muskogee	Oklahoma			Barn / Rustic	Indoor & Outdoor	250	Simple	Modern farmhouse barn on eighteen acres with an all-white reception hall, floor-to-ceiling windows and a cedar-arbor ceremony site beside a pond.		(918) 616-9864	https://www.eighttenranch.com/weddings
+`,
+  },
 ];
 
 export default batches;
