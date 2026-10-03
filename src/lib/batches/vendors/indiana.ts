@@ -23,6 +23,18 @@ The Cake Bake Shop	Cake	6515 Carrollton Ave	Indianapolis	Indiana		Broad Ripple c
 Tangled Up Bridal	Hair & Makeup		Indianapolis	Indiana	Greater Indianapolis	On-site bridal hair and makeup team run as a sister business to an established salon, with clear pricing and stylist-matched scheduling.	Tangledupbridal@gmail.com	317-439-8131	https://www.tangledupbridal.com/	https://www.instagram.com/tangledupbridal/
 Something Blue Stylists	Hair & Makeup		Indianapolis	Indiana	Indiana and west Michigan	On-location bridal hair and makeup team led by a stylist working since 2007, with airbrush makeup at no extra charge and touch-up kits included.			https://somethingbluestylists.com/	https://www.instagram.com/somethingbluestylists/`,
   },
+  {
+    name: "Indianapolis: videography, photography, planning, florals and hair and makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+6th Day Films	Videography		Indianapolis	Indiana	Indianapolis, the Midwest and destinations	Husband-and-wife film team crafting relaxed, story-led wedding films shaped by a pre-wedding consultation with each couple.	jared@6thdayfilms.com	317-342-1138	https://www.6thdayfilms.com/	https://www.instagram.com/6thdayfilms/
+Time Walk Wedding Video	Videography		Indianapolis	Indiana	All of Indiana	Husband-and-wife videographers filming unobtrusively, with packages that can add drone footage, guest messages and couple interviews.	TimeWalkVideo@gmail.com	765-414-6076	https://www.timewalkvideo.com/	https://www.instagram.com/timewalkvideo/
+Orange Float Weddings	Videography		Bloomington	Indiana	Indiana, the Midwest and destinations	Bloomington team filming and photographing weddings in-house, with no outsourcing, for couples across Indiana and beyond.			https://www.orangefloatweddings.com/	https://www.instagram.com/orangefloatweddings/
+Sheema Q Makeup Artistry	Hair & Makeup		Indianapolis	Indiana	Indianapolis, Bloomington, Carmel, Fishers, Greenwood, Chicago and surrounding areas	Bridal makeup artist specialising in South Asian bridal glam for Indian, Pakistani and fusion weddings, alongside classic soft looks.	sheema@sheemaqmakeupartistry.com	317-762-4443	https://sheemaqmakeupartistry.com/	https://www.instagram.com/sheemaqmakeupartistry/
+Thoughtfully Designed Co.	Planning		Indianapolis	Indiana	Indianapolis and surrounding areas	Full planning, design and day-of coordination firm with its own in-house florist and design team handling décor and set-up.			https://www.thoughtfullydesignedco.com/	https://www.instagram.com/thoughtfullydesignedco/
+Satin & Stems	Florals		Indianapolis	Indiana	Indiana and destination weddings across the US	Owner-led studio pairing bespoke wedding florals with full-service planning, designing each celebration around the couple's personalities.	elizabeth@satinandstems.com		https://satinandstems.com/	https://www.instagram.com/elizabeth_satinandstems/
+The Moments Between Us	Photography		Indianapolis	Indiana	Indianapolis, Chicago and the Midwest	Black woman-owned studio shooting dreamy, romantic and editorial wedding images, welcoming diverse and LGBTQ+ couples across the Midwest.			https://themomentsbetweenus.com/	
+Curious Courtney's Photography	Photography		Indianapolis	Indiana	Indianapolis and nationwide	Husband-and-wife photographers blending documentary and fine-art styles, with a focus on intimate weddings and elopements.	curiouscourtneysphotography@gmail.com		https://curiouscourtneysphotography.com/	https://www.instagram.com/curiouscourtneysphotography/`,
+  },
 ];
 
 export default batches;

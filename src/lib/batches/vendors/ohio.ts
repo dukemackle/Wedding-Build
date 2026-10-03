@@ -24,6 +24,21 @@ Cameron Mitchell Premier Events	Catering	7619 Huntington Park Dr.	Columbus	Ohio	
 Bosc + Brie	Catering	7625 North High Street	Columbus	Ohio		North Columbus caterer with in-house planners, linens and cake cutting included, and a bring-your-own-alcohol option that helps trim bar costs.		614.985.2215	https://www.boscandbrie.com/	https://www.instagram.com/bosc_and_brie/
 Fire & Knife	Catering		Columbus	Ohio	Homes, workplaces and venues across Ohio	Columbus caterer specialising in weddings with refined global menus served as a buffet or plated dinner, with a dedicated catering sales contact.	info@fireandknife.com	614.758.3659	https://www.fireandknife.com/	`,
   },
+  {
+    name: "Columbus: hair and makeup, cake and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Hertty's Bakeshop	Cake	100 E Campus View Blvd Suite #250	Columbus	Ohio	Columbus, with delivery required for wedding cakes	Family-run cake design studio in north Columbus making custom tiered wedding cakes by consultation appointment, with sugar flowers and fine detailing.	info@herttysbakeshop.com	614-373-7699	https://www.herttysbakeshop.com/	
+Lavender and Honey Wedding Cakes	Cake		Columbus	Ohio	Columbus	Boutique Columbus bakery making scratch-baked custom wedding cakes and desserts, with tasting boxes couples can sample at home.	info@lavenderandhoneyweddingcakes.com	(614) 547-9851	https://www.lavenderandhoneyweddingcakes.com/	
+Our CupCakery	Cake	54 S. High St.	Dublin	Ohio		Family-owned bakery in Historic Dublin offering classic tiered wedding cakes alongside cupcake displays, with a dedicated wedding request process.	Laura@ourcupcakery.com	614-659-1555	https://www.ourcupcakery.com/	
+Sweet & Shiny	Cake		Columbus	Ohio		Columbus custom cake maker producing wedding cakes and decorative display cakes, with a wedding gallery and an online bakery shop.	elaine@sweetandshiny.com	614-680-9195	https://www.sweetandshiny.com/	https://www.instagram.com/sweetandshiny_columbus/
+Columbus Wedding Videos	Videography		Columbus	Ohio	Central Ohio	Long-running Central Ohio video team filming since 2008, offering unobtrusive full-length documentary edits alongside shorter cinematic films.	info@columbusweddingvideos.com	614.725.0169	https://columbusweddingvideos.com/	https://www.instagram.com/columbusweddingvideos/
+Hey Films	Videography		Columbus	Ohio	Columbus, Dublin, Westerville, New Albany and Central Ohio	Columbus wedding film studio with hourly packages from a short three-hour shoot to two-videographer full days, and two-week delivery.			https://heyfilms.com/	https://www.instagram.com/heyfilmsweddings/
+Cinemachine Studios	Videography		Columbus	Ohio	Columbus area	Columbus video team making cinematic wedding films that lean on deliberate camera movement, angles and lighting to tell each couple's day.	info@cinemachinestudios.com		https://www.cinemachinestudios.com/	
+The Lovely Artistry Collective	Hair & Makeup		Columbus	Ohio	Ohio and nationwide, travelling worldwide	Bridal hair and makeup team founded in 2011 for classic, timeless looks, with more than 3,000 brides styled and travel for destination weddings.			https://thelovelyartistrycollective.com/	https://www.instagram.com/thelovelyartistrycollective/
+Lauren Wolff Hair Design	Hair & Makeup	1500 West 3rd Ave	Columbus	Ohio	Columbus area	Licensed cosmetologist creating long-lasting bridal hairstyles from a Grandview-area studio, alongside editorial styling and hair education.	hello@laurenwolffhairdesign.com		https://www.laurenwolffhairdesign.com/	https://www.instagram.com/lo.wolff_hairdesign/
+Makeup with Anna K	Hair & Makeup		Columbus	Ohio	Columbus and destination weddings	Bridal makeup artist using luxury brands, with bridal party packages and a VIP option that pairs a two-hour facial with wedding makeup.	makeupwithannak@gmail.com		https://www.makeupwithannak.com/	https://www.instagram.com/makeup.with.annak/
+Carly Jo Makeup	Hair & Makeup		Columbus	Ohio	Central Ohio	Bridal makeup artist focused on intimate weddings and elopements, aiming for a polished look that still feels like the bride herself.			https://www.carlyjomakeup.com/	https://www.instagram.com/carlyjomakeup/`,
+  },
 ];
 
 export default batches;

@@ -65,6 +65,17 @@ Jennifer Lynch Bridal Artistry	Hair & Makeup		St. Louis	Missouri	St. Louis city 
 Your Beauty Ball	Hair & Makeup		St. Louis	Missouri	St. Louis and travel	On-site bridal hair and makeup, including airbrush and HD, from Shannon Hagerty, a licensed esthetics instructor with a cosmetics-brand background.			https://www.yourbeautyball.com/	https://www.instagram.com/yourbeautyball/
 Looks By Lisa & Co	Hair & Makeup		St. Louis	Missouri	St. Louis area	Bridal beauty team of 18 stylists covering makeup, hair and grooming, with complimentary phone consultations before booking.			https://www.looksbylisa.com/	https://www.instagram.com/looksbylisastl/`,
   },
+  {
+    name: "St. Louis: cake and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Caked by Cherish	Cake		St. Louis	Missouri	St. Louis area	Custom wedding cakes and cupcakes designed as one-off pieces, with a free tasting box included with orders and baking classes on offer.	sweet@cakedbycherish.com	314-673-5111	https://www.cakedbycherish.com/	https://www.instagram.com/cakedbycherish/
+Made. by Lia	Cake	610 Rue St Francois	Florissant	Missouri		Florissant craft bakery making from-scratch wedding cakes and sweets, with several gluten-free and vegan options.	info@madebylia.com	314-551-2383	https://www.madebylia.com/	https://www.instagram.com/madebylia/
+Cake by Jade	Cake		St. Louis	Missouri		Custom wedding cakes from a competition-winning cake designer known for matching intricate designs closely to each couple's brief.			https://www.cakebyjade.com/	https://www.instagram.com/cake_by_jade/
+A2B Wedding Films	Videography		St. Louis	Missouri	St. Louis and beyond	Husband-and-wife film team with production backgrounds, mixing cinematic storytelling with a documentary approach across the full day.	bethany@a2bweddings.com		https://www.a2bweddings.com/	https://www.instagram.com/a2bweddings_stl/
+Tori Danielle Weddings	Videography		St. Louis	Missouri	St. Louis and beyond	Wedding videographer making handcrafted, timeless films and highlight reels that favour real emotion over passing trends.	tori@toridanielleweddings.com		https://toridanielleweddings.com/	https://www.instagram.com/toridanielleweddings/
+BREE Visuals	Videography		St. Louis	Missouri	St. Louis, Kansas City, Chicago, Peoria and beyond	Wedding film studio shooting cinematic and documentary-style highlight films, with wedding photography also available.			https://www.breevisuals.com/weddingfilms	
+Erhart Productions	Videography		Gerald	Missouri	St. Louis, Columbia, Jefferson City, Hermann, St. Charles and nearby	Story-driven wedding films from filmmaker Casey, with professional audio, drone footage and a balance of light direction and candid moments.	erhartproductions@gmail.com		https://erhartproductions.com/	https://www.instagram.com/erhart.productions/`,
+  },
 ];
 
 export default batches;
