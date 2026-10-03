@@ -26,6 +26,17 @@ Senate Garage	4 N Front St	Kingston	New York			Historic / Estate	Indoor & Outdoo
 Cedar Lakes Estate	1 Team USA Way	Port Jervis	New York			Garden / Outdoor	Indoor & Outdoor			A 500-acre Orange County estate with lakes, camp-style cabins and a glass-ceilinged dining hall, booked privately for wedding weekends.		845-533-3328	https://www.cedarlakesestate.com/weddings
 Lambs Hill		Beacon	New York			Garden / Outdoor	Outdoor	50		A private mountainside property on Fishkill Ridge above Beacon, booked for one microwedding or elopement at a time with views over the Hudson Highlands.		845-765-2900	https://www.lambshill.com/`,
   },
+  {
+    name: "Buffalo and western New York",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Becker Farms	3724 Quaker Road	Gasport	New York			Barn / Rustic	Indoor & Outdoor	250		A 375-acre Niagara County farm with vineyard, orchard and on-site brewery, two open-walled pavilions, ten cabins and an 1830s farmhouse for guests.	customerservice.beckerfarms@gmail.com	716-772-2211	https://www.beckerfarms.com/weddings
+Buffalo and Erie County Botanical Gardens	2655 South Park Avenue	Buffalo	New York			Garden / Outdoor	Indoor & Outdoor	120		A 20,000-square-foot historic glass conservatory with domes nearly 70 feet high, plus a courtyard looking onto the Palm Dome.		716-827-1584	https://www.buffalogardens.com/weddings
+Freedom Run Winery	5138 Lower Mountain Road	Lockport	New York			Restaurant / Vineyard	Indoor & Outdoor	300		Winery of nearly 100 acres on the Niagara Escarpment, with a barn and manor house built in 1826 from Erie Canal stone, a barrel room and an apple orchard.	yourspecialday@freedomrunwinery.com	(716) 433-4136	https://www.freedomrunwinery.com/weddings-and-events
+Kin Loch Farmstead	4299 Ridge Road	Lockport	New York			Barn / Rustic	Indoor & Outdoor			A 30-acre private farm with a modern barn, a woodland ceremony area and more than 3,000 lavender plants, geared to smaller weddings.			https://www.kinlochfarmstead.com/
+Buffalo History Museum	1 Museum Court	Buffalo	New York			Historic / Estate	Indoor & Outdoor	120	Simple	The building left from the 1901 Pan-American Exposition, with a two-storey atrium, a ten-column marble portico, park terraces and a Japanese garden.		(716) 873-9644	https://buffalohistory.org/rentals/
+Samuel's Grande Manor	8750 Main Street	Williamsville	New York			Ballroom / Hotel	Indoor & Outdoor			Banquet manor with several chandeliered halls, formal gardens with three fountains and a fire bowl, and a gazebo for ceremonies.	info@samuelsgrandemanor.com	(716) 634-8425	https://www.samuelsgrandemanor.com/
+Holiday Valley Resort	6557 Holiday Valley Road	Ellicottville	New York			Ballroom / Hotel	Indoor & Outdoor			Ski resort in the hills south of Buffalo with cathedral-ceilinged lodges, outdoor ceremony sites, a spa and on-site lodging.	weddings@holidayvalley.com	716-699-3968	https://www.holidayvalley.com/weddings/`,
+  },
 ];
 
 export default batches;
