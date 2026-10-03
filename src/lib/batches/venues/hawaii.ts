@@ -1,6 +1,32 @@
 import type { VenueBatch } from "@/lib/venue-batches";
 
 // Hawaii venue batches. Every row's State is "Hawaii". Add new batches at the end.
-const batches: VenueBatch[] = [];
+const batches: VenueBatch[] = [
+  {
+    name: "Oahu",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Paliku Gardens at Kualoa Ranch	49-560 Kamehameha Hwy	Kaneohe	Hawaii			Garden / Outdoor	Outdoor		Classic	Garden lawn on a working windward ranch at the foot of Kanehoalani ridge, looking out to Kaneohe Bay and Mokolii Island, with on-site ranch catering.	weddings@kualoa.com	808-237-7321	https://www.kualoa.com/weddings
+Lanikuhonua		Kapolei	Hawaii			Historic / Estate	Outdoor			Former Campbell family estate at Ko Olina run as a Hawaiian cultural nonprofit, with a broad grass lawn running down to a private beach cove.	lanikuhonua@jamescampbell.com		https://www.lanikuhonua.com/private-events
+Waimea Valley	59-864 Kamehameha Hwy	Haleiwa	Hawaii			Garden / Outdoor	Outdoor			North Shore botanical valley with palm-ringed meadows for receptions and a waterfall ceremony site, plus a cooled wedding suite.	info@waimeavalley.net	808-638-7766	https://www.waimeavalley.net/weddings
+Loulu Palm		Haleiwa	Hawaii			Beach / Waterfront	Outdoor	150	Classic	Beachfront North Shore farm estate with a vintage Hawaiian house, lush lawn and lanai facing an offshore reef and the mountains behind.	aloha@loulupalm.com	800-880-7256	https://loulupalm.com/
+Sunset Ranch Hawaii	59-777 Pupukea Rd	Haleiwa	Hawaii			Barn / Rustic	Indoor & Outdoor			Thirty-acre Pupukea horse ranch with ocean and mountain views, orchards, botanical gardens and a stable that hosts indoor receptions.	admin@sunsetranchhawaii.com	808-638-8333	https://www.sunsetranchhawaii.com/
+Byodo-In Temple	47-200 Kahekili Hwy	Kaneohe	Hawaii			Historic / Estate	Outdoor		Simple	Japanese-style Buddhist temple set against the Koolau cliffs in the Valley of the Temples, hired by the hour for ceremonies.		808-239-9844	https://byodo-in.com/events/
+Haiku Gardens	46-336 Haiku Rd	Kaneohe	Hawaii			Garden / Outdoor	Indoor & Outdoor		Simple	Windward garden estate under the Koolau range with an open-air chapel, pond-side grounds and an on-site restaurant for receptions.	weddings@haikugardens.com	808-247-0605	https://www.haikugardens.com/wedding-packages
+53 By The Sea	53 Ahui St	Honolulu	Hawaii			Restaurant / Vineyard	Indoor & Outdoor	150		Kakaako waterfront restaurant with a grand staircase, private rooms and a sunset lanai looking across to Waikiki and Diamond Head.		808-536-5353	https://www.53bythesea.com/events/
+Koolau Ballrooms & Conference Center	45-550 Kionaole Rd	Kaneohe	Hawaii			Ballroom / Hotel	Indoor & Outdoor	750		Hillside event centre with glass-walled ballrooms and a lanai looking straight onto the fluted Koolau cliffs.		808-954-7000	https://www.koolauballrooms.com/
+Sea Life Park Hawaii	41-202 Kalanianaole Hwy	Waimanalo	Hawaii			Beach / Waterfront	Indoor & Outdoor	600		Marine park at Makapuu Point with a seaside chapel, ocean-view gardens, a large meadow and a lanai overlooking the dolphin lagoon.	slp.info@sealifeparkhawaii.com		https://www.sealifeparkhawaii.com/groups/weddings/
+Alohilani Resort Waikiki Beach	2490 Kalakaua Ave	Honolulu	Hawaii			Ballroom / Hotel	Indoor	1000		Twin-tower Waikiki beachfront resort with a divisible ballroom and several smaller event rooms for receptions of varied sizes.		808-922-1233	https://www.alohilaniresort.com/meetings-events/weddings/
+Halekulani	2199 Kalia Rd	Honolulu	Hawaii			Ballroom / Hotel	Indoor & Outdoor			Long-established Waikiki beachfront hotel with oceanfront event spaces facing Diamond Head and a long-tenured banquet team.	info@halekulani.com	808-923-2311	https://www.halekulani.com/weddings/
+The Kahala Hotel & Resort	5000 Kahala Ave	Honolulu	Hawaii			Ballroom / Hotel	Indoor & Outdoor			Beachfront resort beyond Diamond Head with a plumeria grove, oceanfront lawns and two ballrooms for receptions.		808-369-9480	https://www.kahalaresort.com/Romance-Weddings
+The Royal Hawaiian	2259 Kalakaua Ave	Honolulu	Hawaii			Ballroom / Hotel	Indoor & Outdoor			Pink 1927 Waikiki landmark hotel with an ocean lawn on the sand, a central garden, a historic coconut grove and the Monarch Room.	sh.hnlcr.cateringsalesinquiry@marriott.com	808-931-8888	https://www.royal-hawaiian.com/wedding/
+Aulani, a Disney Resort & Spa	92-1185 Aliinui Dr	Kapolei	Hawaii			Ballroom / Hotel	Indoor & Outdoor	180		Ko Olina lagoon-front resort with ocean-point and lawn ceremony sites and a beamed ballroom, planned through Disney's wedding team.			https://www.disneyweddings.com/hawaii/
+The Ritz-Carlton Oahu, Turtle Bay	57-091 Kamehameha Hwy	Kahuku	Hawaii			Beach / Waterfront	Indoor & Outdoor	600		North Shore resort on a point with ocean on three sides, offering six beach and lawn sites including a ranch-side lawn, plus an ocean-view ballroom.		808-293-6000	https://www.ritzcarlton.com/en/hotels/hnlkz-the-ritz-carlton-oahu-turtle-bay/weddings/
+Four Seasons Resort Oahu at Ko Olina	92-1001 Olani St	Kapolei	Hawaii			Ballroom / Hotel	Indoor & Outdoor			West-shore Ko Olina resort with a wedding chapel, oceanfront lawns and a large ballroom beside a calm swimming lagoon.			https://www.fourseasons.com/oahu/weddings/
+Iolani Palace		Honolulu	Hawaii			Historic / Estate	Indoor & Outdoor	1000		Eleven-acre downtown grounds of the former Hawaiian royal palace, where the historic Barracks hall and its lawn host receptions.	events@iolanipalace.org	808-522-0822	https://www.iolanipalace.org/events/venue-planning-rentals/
+Hilton Hawaiian Village Waikiki Beach Resort	2005 Kalia Rd	Honolulu	Hawaii			Ballroom / Hotel	Indoor & Outdoor			Sprawling Waikiki resort with two chapels, one above a waterfall garden and one facing the lagoon, plus several ballrooms and a garden green.		808-949-4321	https://hiltonhawaiianvillage.com/gather/weddings/wedding-venues/
+Prince Waikiki	100 Holomoana St	Honolulu	Hawaii			Ballroom / Hotel	Indoor			Waikiki-edge hotel whose Lani Lea Chapel sits on the 33rd floor with open views across the Pacific.		855-277-3123	https://www.princewaikiki.com/gather/wedding/
+OUTRIGGER Reef Waikiki Beach Resort	2169 Kalia Rd	Honolulu	Hawaii			Ballroom / Hotel	Indoor & Outdoor	500		Beachfront Waikiki hotel with an oceanfront chapel, open-air courtyard, terrace and ballroom for receptions.	beachfront.groupsales@outrigger.com	808-921-9734	https://www.outrigger.com/hawaii/oahu/outrigger-reef-waikiki-beach-resort/weddings`,
+  },
+];
 
 export default batches;
