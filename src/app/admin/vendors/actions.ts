@@ -234,7 +234,9 @@ export async function bulkDeleteVendors(formData: FormData): Promise<{ error?: s
 /** Bundled batch rows (src/lib/vendor-batches.ts) whose website isn't in the database yet. */
 export async function pendingBundledVendors(): Promise<VendorImportValues[]> {
   await requireAdmin();
-  return pendingBundledVendorRows();
+  // A failed lookup hides the banner rather than taking the page down; "Add
+  // them" reports the error itself.
+  return pendingBundledVendorRows().catch(() => []);
 }
 
 /**

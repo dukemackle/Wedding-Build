@@ -299,7 +299,9 @@ export async function bulkDeleteVenues(formData: FormData): Promise<{ error?: st
 /** Bundled batch rows whose website isn't in the database yet. */
 export async function pendingBundledVenues(): Promise<VenueImportValues[]> {
   await requireAdmin();
-  return pendingBundledVenueRows();
+  // A failed lookup hides the banner rather than taking the page down; "Add
+  // them" reports the error itself.
+  return pendingBundledVenueRows().catch(() => []);
 }
 
 /**
