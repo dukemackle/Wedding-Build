@@ -62,6 +62,12 @@ export default async function Home() {
               Log in
             </Link>
           </div>
+          <p className="mt-4 w-full max-w-[34rem] text-center text-sm text-ink/70">
+            Venue or vendor?{" "}
+            <Link href="/list" className="font-medium text-brass hover:underline">
+              List your business free &rarr;
+            </Link>
+          </p>
         </div>
 
         <div className="w-full max-w-xl lg:justify-self-end">
