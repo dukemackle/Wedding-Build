@@ -1,6 +1,34 @@
 import type { VendorBatch } from "@/lib/vendor-batches";
 
 // North Dakota vendor batches. Every row's State is "North Dakota". Add new batches at the end.
-const batches: VendorBatch[] = [];
+const batches: VendorBatch[] = [
+  {
+    name: "Fargo: photography, planning, florals, music, catering, hair and makeup, cakes and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Abby Anderson Photography	Photography		Fargo	North Dakota	Fargo, ND and Moorhead, MN	Fargo wedding and portrait photographer with a classic, light-led style aimed at couples who want timeless rather than trendy images.			https://abbyanderson.com/	https://www.instagram.com/abbyanders/
+Chelsea Joy Photography	Photography		Fargo	North Dakota		Fargo wedding photographer who works with couples who want a personal day rather than a standard wedding template, in a bright, colour-true style.	chelseajoyphoto@gmail.com		https://chelseajoyphoto.com/	https://www.instagram.com/chelseajoyphotography/
+Willow + Rose Photo	Photography		Fargo	North Dakota	North Dakota and Minnesota	Fargo photographer covering weddings alongside portraits, families and milestones, with a storytelling approach to the day.			https://willowandrosephoto.com/	https://www.instagram.com/willowandrose.photo/
+Gather Event Planning	Planning		Fargo	North Dakota		Fargo planner offering full-service, partial planning and day-of coordination so couples can be guests at their own wedding.			https://www.plantogather.com/	https://www.instagram.com/plantogather/
+Breathe and Relax Events	Planning		Fargo	North Dakota		Fargo wedding planner, designer and day-of coordinator, taking on anything from a single day of coordination to full planning.			https://breatheandrelaxevents.com/	https://www.instagram.com/breatheandrelaxevents/
+Say Less Events Co.	Planning		Fargo	North Dakota		Two Fargo coordinators who step in to settle final details and run the wedding day itself, for couples who have planned the rest.	saylesseventsco@gmail.com		https://www.saylesseventsco.com/	https://www.instagram.com/saylesseventsco/
+Love Always Floral	Florals	1120 Northern Pacific Ave	Fargo	North Dakota	Fargo and beyond	Fargo studio founded in 2016 making airy, garden-style wedding flowers and installations, working by appointment.	fargo@lovealwaysfloral.com	(701) 205-8710	https://lovealwaysfloral.com/pages/weddings	https://www.instagram.com/lovealwaysfloral/
+Shotwell Floral & Greenhouse	Florals	4000 40th St S	Fargo	North Dakota	Fargo, Moorhead, Dilworth, Horace, Oxbow, Hickson and West Fargo	Long-running Fargo florist and greenhouse that also designs wedding and event flowers alongside its everyday deliveries.		(701) 356-9377	https://www.shotwellflorist.com/services/weddings/	https://www.instagram.com/shotwell_floral/
+Classic Floral	Florals	29 Sheyenne St	West Fargo	North Dakota	Fargo, West Fargo, Horace, Harwood and Moorhead	West Fargo flower shop offering customisable wedding packages with bouquets and centrepieces made by hand.		701-281-0767	https://westfargoflowers.com/pages/wedding-page	https://www.instagram.com/classicfloralwf/
+Powerplay DJ	Music	4151 38th St S Ste C	Fargo	North Dakota	Fargo-Moorhead, Bismarck and across North Dakota, South Dakota and Minnesota	Fargo DJ company with a second base in Bismarck, also supplying karaoke, photo booths and casino nights for wedding receptions.			https://www.powerplaydj.com/	https://www.instagram.com/powerplaydj/
+Midnight Express DJs	Music		Fargo	North Dakota	North Dakota, western Minnesota and into Montana	Family-run wedding DJ service going since 1980, quoting plain pricing with no hidden fees and covering Fargo-Moorhead.	tylerexpressdj@gmail.com	(701) 773-6805	https://mexpressdjs.com/	https://www.instagram.com/midnightexpressdj/
+GO DJ Eventz	Music		Fargo	North Dakota	North Dakota, South Dakota and Minnesota	Fargo DJ with more than fifteen years behind the decks, supplying sound systems for weddings, corporate events and private parties.	godjeventz@gmail.com	701-999-2098	https://www.godjeventz.com/	
+Brew Catering & Events	Catering	635 2nd Ave N	Fargo	North Dakota	Fargo, Moorhead, Wahpeton and surrounding area	Chef-led Fargo caterer with custom menus, specialty buffets and event planning help for weddings among its event types.	events@brewcatering.com	701-369-0333	https://www.brewcatering.com/	https://www.instagram.com/brewcatering/
+Savory Catering	Catering	3803 13th Ave S	Fargo	North Dakota	Fargo-Moorhead and beyond	Catering arm of a Fargo hotel, making familiar dishes with extra depth of flavour and custom menus for weddings and other events.	sales@savoryfargo.com	701-277-7353	https://www.savorycateringfargo.com/	https://www.instagram.com/savorycateringfargo/
+Artistry Fargo	Hair & Makeup	705 13th Ave E	West Fargo	North Dakota		West Fargo bridal hair and airbrush makeup team that sends two or more stylists at no extra charge, in salon or on location.		701-353-8073	https://artistryfargo.com/weddings	https://www.instagram.com/artistryfargo/
+Artistry by Kimberly	Hair & Makeup		Fargo	North Dakota	Fargo-Moorhead, travelling through the Midwest and beyond	Fargo makeup artist for brides who want refined, editorial looks that photograph naturally and last through a long wedding day.			https://www.artistrybykimberly.com/	https://www.instagram.com/artistrybykimberly/
+Cassandra L. Hair Studio	Hair & Makeup		West Fargo	North Dakota		West Fargo master cosmetologist doing bridal and special-event hair and makeup, either in the studio or on location.			https://cassandralhairstudio.com/bridal-hair-and-makeup/	https://www.instagram.com/hairbycassl/
+Nichole's Fine Pastry & Café	Cake	13 8th St S	Fargo	North Dakota	Fargo-Moorhead, with limited out-of-town delivery	Downtown Fargo bakery and restaurant of over twenty years making custom wedding cakes with European baking traditions.		(701) 232-6430	https://nicholesfinepastry.com/bakery/wedding-events/	https://www.instagram.com/nicholesfinepastry/
+Tartan Rose Bakery	Cake		Fargo	North Dakota		Fargo bakery, formerly Love in the Oven, baking custom wedding cakes and desserts from scratch in small batches since 2010.	hello@tartanrosebakery.com		https://www.tartanrosebakery.com/	
+Meadowlark Films	Videography		Fargo	North Dakota	Fargo, Minnesota and destination weddings	Fargo wedding film team, founded in 2019, making documentary-style heirloom films built around candid, emotional moments.			https://www.meadowlarkfilms.com/	
+Karied Away Video	Videography		Fargo	North Dakota	North Dakota, Minnesota and South Dakota	Fargo wedding videographer offering storytelling films with attention to small details, from highlight reels to full ceremonies.	hello@kariedawayvideo.com		https://kariedawayvideo.com/	https://www.instagram.com/kariedawayvideo/
+Eclipse Multimedia & Video	Videography		Fargo	North Dakota		Fargo video company with years of wedding experience, offering tiered ceremony packages with multiple cameras, plus reception coverage.	amy@eclipsemulti.com	(701) 200-9552	https://www.eclipsemulti.com/	
+`,
+  },
+];
 
 export default batches;

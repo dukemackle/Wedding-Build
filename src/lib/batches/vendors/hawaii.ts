@@ -58,6 +58,15 @@ Stephan Boeker Films	Videography		Makawao	Hawaii	Maui, Hawaii Island and destina
 Gaucho Visual	Videography		Wailuku	Hawaii	Maui	Two Argentinian cinematographers filming Maui weddings and elopements in an unobtrusive, fly-on-the-wall style.			https://www.gauchovisual.com	https://www.instagram.com/gauchovisual/
 Hi Focused	Videography		Wailuku	Hawaii	Maui	Maui-born Jordan Nagasako's studio has filmed weddings for 15 years, adding licensed drone footage and now photography.	jordan@hifocused.com	808-281-1530	https://hifocused.com	https://www.instagram.com/hifocused/`,
   },
+  {
+    name: "Maui: florals, hair and makeup, and cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Bella Bloom Maui	Florals	161 Wailea Ike Pl, #D101	Wailea	Hawaii	Maui	Wailea Town Center flower boutique designing wedding bouquets, ceremony arches, centrepieces and installations, set up on the day by its own team.	bellabloommaui@gmail.com	808.875.1919	https://bellabloommaui.com	https://www.instagram.com/bellabloommaui/
+Fernhouse	Florals		Haiku	Hawaii	Maui, the neighbour islands and the West Coast	Woman-owned Maui floral studio growing its own flowers, designing bespoke wedding florals with full install and breakdown across the islands.			https://fernhousemaui.com	https://www.instagram.com/fernhouseflowers/
+Bridal by Jen	Hair & Makeup		Wailuku	Hawaii	Maui	Wailuku-based artist doing bridal hair and makeup for Maui elopements and weddings, with experience at weddings from Montauk to Maui.	jencmakeupartist@gmail.com	714-350-7853	https://bridalbyjen.com	https://www.instagram.com/bridal.by.jen/
+Makeup and Talent Hawaii	Hair & Makeup		Kihei	Hawaii		Kihei team led by makeup artist and cosmetics designer Kymberly Marr, offering bridal makeup and hair alongside editorial and fashion work.		(808) 283-2779	https://makeupandtalenthawaii.com	https://www.instagram.com/makeupandtalenthawaii/
+Cake Fanatics	Cake		Lahaina	Hawaii	Maui	Maui custom cake studio led by artist EmmaLee, making wedding cakes and dessert buffets for over 14 years, with tastings by appointment.	emmscakes@gmail.com	(808) 214-7767	https://cakefanaticsmaui.com	https://www.instagram.com/cakefanatics/`,
+  },
 ];
 
 export default batches;
