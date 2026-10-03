@@ -19,6 +19,23 @@ Lexi Lee Hair	Hair & Makeup	1921 Silvernail Rd	Pewaukee	Wisconsin	Greater Milwau
 Wide Eyed Bride	Hair & Makeup		Milwaukee	Wisconsin	Milwaukee and Chicago areas	Agency of on-location hair and makeup artists, most based in Milwaukee, with backgrounds in fashion and commercial work.			https://wideeyedbride.com	https://www.instagram.com/wideeyedbrides/
 `,
   },
+  {
+    name: "Milwaukee: photography, catering, cakes and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Bailey Bryn Photography	Photography		Milwaukee	Wisconsin	Southeast Wisconsin, Lake Geneva, Madison and Chicago	Milwaukee photographer with a calm, candid style and warm editing, delivering a preview gallery within 48 hours of the wedding.	hello@baileybrynphotography.com		https://baileybrynphotography.com/	https://www.instagram.com/baileybrynphotography/
+Ari Rosenthal Photography	Photography		Milwaukee	Wisconsin	Milwaukee, southeastern Wisconsin and Chicago	Milwaukee studio with a team of photographers and a long record of wedding awards, also offering videography and album design.		414-967-0540	https://arirosenthalphotography.com/	https://www.instagram.com/arirosenthalphotography/
+One Shot Scott Photography	Photography		Milwaukee	Wisconsin	Milwaukee, Chicago and Lake Geneva, plus destination weddings	Milwaukee photographer who aims for laughing, relaxed couples over stiff poses, covering weddings, elopements and family sessions.			https://oneshotscottphotography.com/	https://www.instagram.com/oneshotscottphotography/
+Hello Darling Films	Videography		Milwaukee	Wisconsin	Milwaukee, Chicago, Madison, Green Bay and Door County	Wedding film team creating cinematic, natural-feeling films, covering Wisconsin and Chicago as well as destination weddings.			https://www.hellodarlingfilms.com/	https://www.instagram.com/hellodarlingfilms/
+Wilk Media	Videography		Milwaukee	Wisconsin	Milwaukee, Chicagoland and New York City	Milwaukee-area wedding videographer working across the city, Chicagoland and New York, with a portfolio of full wedding films from a range of venues.	jack@wilkmedia.com		https://wilkmedia.com/	https://www.instagram.com/wilk.films/
+Ruach Collective	Videography		Milwaukee	Wisconsin	Milwaukee and beyond	Milwaukee filmmaker and photographer DJ Olson, making story-driven wedding films alongside work for brands and churches.	djo@ruachcollective.com		https://www.ruachcollective.com/	https://www.instagram.com/ruach_collective/
+Emerald City Catering	Catering	3555 S 13th St	Milwaukee	Wisconsin	Milwaukee area	Family-owned Milwaukee caterer for weddings and events of any size, with menus shaped around the couple's style and budget.	info@emeraldcitycatering.com	414-672-3434	https://emeraldcitycatering.com/	
+Antigua Catering & Events	Catering	6207 W National Ave	West Allis	Wisconsin	Milwaukee area	West Allis caterer from the Antigua Latin Inspired Kitchen team, building wedding menus around Latin and Caribbean dishes such as ceviche and paella.	catering@antiguamilwaukee.com	414-321-5775	https://www.antiguacatering.com/	
+Slo' Motion BBQ	Catering	N64W22648 Main St	Sussex	Wisconsin	Southeast Wisconsin	Sussex barbecue caterer slow-smoking meats and making sides from scratch for weddings, corporate events and private parties.	orders@slomotionbbq.com	262-822-1402	https://slomotionbbq.com/	https://www.instagram.com/slomotionbbq/
+Aggie's Bakery & Cake Shop	Cake	7328 W Greenfield Ave	West Allis	Wisconsin	Milwaukee and Waukesha counties	Family bakery open since 1977, making tiered wedding cakes with its own buttercream recipe and delivering across metro Milwaukee.		414-482-1288	https://www.aggiesbakery.com/	
+Simma's Bakery	Cake	817 N 68th St	Wauwatosa	Wisconsin	Milwaukee area	Wauwatosa bakery open since 1982, offering wedding cakes from understated to elaborate and known for its award-winning cheesecake.	info@simmasbakery.com	414-257-0998	https://simmasbakery.com/	https://www.instagram.com/simmas_bakery/
+Greige Patisserie	Cake	408 W Florida St, Suite 104	Milwaukee	Wisconsin	Milwaukee	French-style patisserie and cafe in Walker's Point whose pastry chef Jessica Reinhardtsen also makes wedding cakes and custom desserts.	info@greigemke.com		https://www.greigemke.com/	https://www.instagram.com/greigemke/
+`,
+  },
 ];
 
 export default batches;
