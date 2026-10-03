@@ -75,7 +75,9 @@ export default async function ClaimPage({ params }: { params: Promise<{ token: s
   // already sent, not from the live listing, so nothing they typed is lost.
   const initial = pending
     ? {
-        details: pending.details,
+        // A submission sent before a field existed has no value for it, so
+        // those fall back to the live listing.
+        details: { ...detailsFromVenue(venue), ...pending.details },
         faqs: pending.faqs,
         preferredVendors: pending.preferred_vendors,
         spaces: pending.spaces ?? [],

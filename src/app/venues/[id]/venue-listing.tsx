@@ -16,6 +16,7 @@ import { SignupPrompt } from "@/components/public-nav";
 import { PUBLIC_VENUE_COLUMNS, isUuid, vendorHref, venueHref, verifiedLabel } from "@/lib/public-listings";
 import { VenueDetailClient, VenueMapEmbed } from "./venue-detail-client";
 import { VenueGoodToKnow, VenueKeyFacts, VenueSpaces } from "./listing-sections";
+import { priceHeadline, priceOptionAmount } from "@/lib/venue-pricing";
 
 /**
  * One venue's listing: everything below the nav on /venues/[id], and the same
@@ -141,6 +142,11 @@ export function VenueListing({ data }: { data: VenueListingData }) {
   for (const v of preferredVendors) {
     preferredByCategory.set(v.category, [...(preferredByCategory.get(v.category) ?? []), v]);
   }
+  // Rows from before 0097 have none of these, so default them.
+  const price = priceHeadline({ price_from: venue.price_from, price_basis: venue.price_basis ?? null });
+  const priceOptions = venue.price_basis === "ask" ? [] : (venue.price_options ?? []);
+  const includedItems = venue.included_items ?? [];
+  const hasIncluded = includedItems.length > 0 || Boolean(venue.included);
 
   return (
     <div>
@@ -183,18 +189,24 @@ export function VenueListing({ data }: { data: VenueListingData }) {
 
         <aside className="lg:col-start-2 lg:row-span-2 lg:row-start-1">
           <div className="lg:sticky lg:top-16">
-            {(venue.price_from != null || venue.service_level) && (
+            {(price || venue.service_level) && (
               <div className="mb-3 rounded-lg border border-hairline bg-card px-5 py-4 shadow-sm">
-                {venue.price_from != null ? (
-                  <p className="font-display text-2xl font-semibold text-forest">
-                    From ${venue.price_from.toLocaleString()}
-                  </p>
-                ) : null}
+                {price && <p className="font-display text-2xl font-semibold text-forest">{price}</p>}
                 <p className="text-sm text-ink/60">
                   {[venue.price_note, venue.service_level && SERVICE_LEVELS[venue.service_level]]
                     .filter(Boolean)
                     .join(" · ")}
                 </p>
+                {priceOptions.length > 0 && (
+                  <dl className="mt-3 border-t border-hairline pt-2 text-sm">
+                    {priceOptions.map((o) => (
+                      <div key={o.label} className="flex justify-between gap-4 py-1">
+                        <dt className="text-ink/70">{o.label}</dt>
+                        <dd className="font-mono-numbers text-ink">{priceOptionAmount(o, venue.price_basis)}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                )}
               </div>
             )}
             {!signedIn ? (
@@ -218,7 +230,7 @@ export function VenueListing({ data }: { data: VenueListingData }) {
         </aside>
 
         <div className="flex min-w-0 flex-col gap-6 lg:col-start-1 lg:row-start-2">
-          {(venue.about || venue.included || venue.amenities.length > 0) && (
+          {(venue.about || hasIncluded || venue.amenities.length > 0) && (
             <div className={card}>
               {venue.about && (
                 <>
@@ -226,14 +238,24 @@ export function VenueListing({ data }: { data: VenueListingData }) {
                   <p className="mt-2 whitespace-pre-line text-ink/80">{venue.about}</p>
                 </>
               )}
-              {venue.included && (
+              {hasIncluded && (
                 <div className={venue.about ? "mt-6 border-t border-hairline pt-6" : ""}>
                   <h2 className="font-display text-xl font-semibold text-forest">What&apos;s included</h2>
-                  <p className="mt-2 whitespace-pre-line text-ink/80">{venue.included}</p>
+                  {includedItems.length > 0 && (
+                    <ul className="mt-3 grid grid-cols-1 gap-x-6 gap-y-1.5 text-sm text-ink sm:grid-cols-2">
+                      {includedItems.map((item) => (
+                        <li key={item} className="flex items-center gap-2">
+                          <span aria-hidden className="text-forest">✓</span>
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                  {venue.included && <p className="mt-2 whitespace-pre-line text-ink/80">{venue.included}</p>}
                 </div>
               )}
               {venue.amenities.length > 0 && (
-                <div className={venue.about || venue.included ? "mt-6 border-t border-hairline pt-6" : ""}>
+                <div className={venue.about || hasIncluded ? "mt-6 border-t border-hairline pt-6" : ""}>
                   <h2 className="font-display text-xl font-semibold text-forest">Amenities</h2>
                   <div className="mt-3 flex flex-wrap gap-2">
                     {venue.amenities.map((amenity) => (

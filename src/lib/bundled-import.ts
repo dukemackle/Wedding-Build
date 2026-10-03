@@ -48,39 +48,47 @@ export async function insertImportedVenues(rows: VenueImportValues[]): Promise<s
   return error.message;
 }
 
-// Websites per lookup. The ids travel in the request URL, and all ~1,000 at
-// once made it too long: the lookup failed, every batch row looked new, and
-// the insert then hit the first one already listed.
-const LOOKUP_CHUNK = 100;
+// Listings read per request: Supabase's default cap on rows returned.
+const LOOKUP_PAGE = 1000;
 
 /**
  * Rows whose website isn't in `table` yet. Rows with no website are dropped:
  * nothing would mark them as added, so every call would insert them again.
- * Each chunk looked up is charged to `budget` when one is given.
+ * Each page read is charged to `budget` when one is given.
  */
 async function notYetListed<T extends { website: string | null }>(
   table: "venues" | "vendors",
   rows: T[],
   budget?: Budget,
 ): Promise<T[]> {
-  const ids = [...new Set(rows.map((values) => importSourceId(values.website)).filter((id): id is string => !!id))];
-  if (ids.length === 0) return [];
+  if (!rows.some((values) => importSourceId(values.website))) return [];
 
+  // Reads every listed website rather than asking about the batch's: the
+  // batch ids went in the URL, all at once made it too long, and asking in
+  // chunks of 100 spent the whole per-call budget (LOOKUPS_PER_CALL) before
+  // anything was inserted. A few pages of listings cost a few requests.
   // Across every source, so a listing that has since been claimed or
   // re-sourced still counts as present.
   const admin = createAdminSupabaseClient();
   const present = new Set<string>();
-  for (let i = 0; i < ids.length; i += LOOKUP_CHUNK) {
+  let total = Infinity;
+  for (let from = 0; from < total; ) {
     if (budget) budget.left -= 1;
-    const { data, error } = await admin
+    const { data, error, count } = await admin
       .from(table)
-      .select("source_id")
-      .in("source_id", ids.slice(i, i + LOOKUP_CHUNK))
+      .select("source_id", from === 0 ? { count: "exact" } : undefined)
+      .not("source_id", "is", null)
+      .order("id")
+      .range(from, from + LOOKUP_PAGE - 1)
       .returns<{ source_id: string }[]>();
     // Treating a failed lookup as "nothing listed" is what made every row
     // look new, so stop instead.
     if (error) throw new Error(`Couldn't check which ${table} are already listed: ${error.message}`);
-    for (const row of data ?? []) present.add(row.source_id);
+    if (from === 0) total = count ?? 0;
+    // Steps by what came back, so a lower row cap on the project can't skip any.
+    if (!data?.length) break;
+    for (const row of data) present.add(row.source_id);
+    from += data.length;
   }
 
   // Also drops a website repeated across batches, so one insert can't collide

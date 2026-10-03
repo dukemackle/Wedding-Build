@@ -94,6 +94,9 @@ export function VenueGoodToKnow({ venue }: { venue: Venue }) {
     ["Instagram", venue.instagram_url],
     ["Facebook", venue.facebook_url],
     ["Pinterest", venue.pinterest_url],
+    ["TikTok", venue.tiktok_url],
+    ["YouTube", venue.youtube_url],
+    ["Reviews", venue.reviews_url],
   ].filter((l): l is [string, string] => Boolean(l[1]));
 
   if (rows.length === 0 && links.length === 0) return null;

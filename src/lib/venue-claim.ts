@@ -1,5 +1,6 @@
 import {
   PREFERRED_VENDOR_CATEGORIES,
+  PRICE_BASES,
   SERVICE_LEVELS,
   STATES,
   STYLE_TIERS,
@@ -7,7 +8,7 @@ import {
   VENUE_SETTINGS,
   VENUE_TYPES,
 } from "@/lib/wedding-options";
-import type { ServiceLevel, Venue, VendorPolicy } from "@/lib/supabase/types";
+import type { PriceBasis, PriceOption, ServiceLevel, Venue, VendorPolicy } from "@/lib/supabase/types";
 
 /**
  * What a venue can submit through its claim link, and the checks on it.
@@ -23,6 +24,7 @@ export const CLAIM_PHOTO_TYPES = ["image/jpeg", "image/png", "image/webp"] as co
 const MAX_PREFERRED_VENDORS = 40;
 const MAX_FAQS = 20;
 const MAX_SPACES = 12;
+export const MAX_PRICE_OPTIONS = 8;
 
 /** The venue columns a venue may change. Everything else stays admin-only. */
 export type ClaimDetails = {
@@ -37,11 +39,15 @@ export type ClaimDetails = {
   price_tier: string | null;
   price_from: number | null;
   price_note: string | null;
+  price_basis: PriceBasis | null;
+  /** Amount is null only while a row is half-filled on the form; never stored so. */
+  price_options: { label: string; amount: number | null }[];
   service_level: ServiceLevel | null;
   vendor_policy: VendorPolicy | null;
   description: string | null;
   about: string | null;
   included: string | null;
+  included_items: string[];
   good_to_know: string | null;
   amenities: string[];
   contact_email: string | null;
@@ -54,6 +60,9 @@ export type ClaimDetails = {
   instagram_url: string | null;
   facebook_url: string | null;
   pinterest_url: string | null;
+  tiktok_url: string | null;
+  youtube_url: string | null;
+  reviews_url: string | null;
 };
 
 export type ClaimSpace = {
@@ -89,11 +98,14 @@ export const CLAIM_FIELD_LABELS: Record<keyof ClaimDetails, string> = {
   price_tier: "Price level",
   price_from: "Starting price",
   price_note: "Price covers",
+  price_basis: "Pricing",
+  price_options: "Other prices",
   service_level: "What's provided",
   vendor_policy: "Vendor policy",
   description: "Short description",
   about: "About",
-  included: "What's included",
+  included: "Anything else included",
+  included_items: "What's included",
   good_to_know: "Good to know",
   amenities: "Amenities",
   contact_email: "Email",
@@ -106,6 +118,9 @@ export const CLAIM_FIELD_LABELS: Record<keyof ClaimDetails, string> = {
   instagram_url: "Instagram",
   facebook_url: "Facebook",
   pinterest_url: "Pinterest",
+  tiktok_url: "TikTok",
+  youtube_url: "YouTube",
+  reviews_url: "Reviews page",
 };
 
 // Generous, but bounded: the listing page has to hold whatever gets approved.
@@ -137,11 +152,14 @@ export function detailsFromVenue(venue: Venue): ClaimDetails {
     price_tier: venue.price_tier,
     price_from: venue.price_from,
     price_note: venue.price_note,
+    price_basis: venue.price_basis,
+    price_options: venue.price_options ?? [],
     service_level: venue.service_level,
     vendor_policy: venue.vendor_policy,
     description: venue.description,
     about: venue.about,
     included: venue.included,
+    included_items: venue.included_items ?? [],
     good_to_know: venue.good_to_know,
     amenities: venue.amenities,
     contact_email: venue.contact_email,
@@ -154,6 +172,9 @@ export function detailsFromVenue(venue: Venue): ClaimDetails {
     instagram_url: venue.instagram_url,
     facebook_url: venue.facebook_url,
     pinterest_url: venue.pinterest_url,
+    tiktok_url: venue.tiktok_url,
+    youtube_url: venue.youtube_url,
+    reviews_url: venue.reviews_url,
   };
 }
 
@@ -167,6 +188,27 @@ export function normaliseWebsite(raw: string): string | null {
   const value = raw.trim();
   if (!value) return null;
   return /^https?:\/\//i.test(value) ? value : `https://${value}`;
+}
+
+const SOCIAL_HOSTS = {
+  instagram_url: "https://www.instagram.com/",
+  facebook_url: "https://www.facebook.com/",
+  pinterest_url: "https://www.pinterest.com/",
+  tiktok_url: "https://www.tiktok.com/@",
+  youtube_url: "https://www.youtube.com/@",
+} as const;
+
+/**
+ * Turns "@thebarn", "thebarn" or "instagram.com/thebarn" into a full link.
+ * Business owners know their handle far better than their profile URL.
+ */
+export function socialUrl(network: keyof typeof SOCIAL_HOSTS, raw: string): string | null {
+  const value = raw.trim();
+  if (!value) return null;
+  if (/^@?[\w.-]+$/.test(value) && !/\.(com|net|org|co)$/i.test(value)) {
+    return SOCIAL_HOSTS[network] + value.replace(/^@/, "");
+  }
+  return normaliseWebsite(value);
 }
 
 export function isUrl(value: string) {
@@ -219,6 +261,12 @@ export function validateClaim(input: ClaimSubmission): { value: ClaimSubmission;
     return url;
   };
 
+  const social = (key: keyof typeof SOCIAL_HOSTS) => {
+    const url = socialUrl(key, clean(d[key]));
+    if (url && !isUrl(url)) errors.push(`The ${CLAIM_FIELD_LABELS[key]} link doesn't look like a web address.`);
+    return url;
+  };
+
   const capacity = whole(d.capacity, "Seated capacity", 10000);
   const capacityStanding = whole(d.capacity_standing, "Standing capacity", 10000);
   const priceFrom = whole(d.price_from, "Starting price", 10_000_000);
@@ -230,10 +278,25 @@ export function validateClaim(input: ClaimSubmission): { value: ClaimSubmission;
   const website = normaliseWebsite(clean(d.website));
   if (website && !isUrl(website)) errors.push("The website doesn't look like a web address.");
 
-  const amenities = (Array.isArray(d.amenities) ? d.amenities : [])
-    .map(clean)
-    .filter(Boolean)
-    .slice(0, 30);
+  const tags = (raw: unknown) =>
+    [...new Set((Array.isArray(raw) ? raw : []).map(clean).filter(Boolean))].map((t) => t.slice(0, 60)).slice(0, 30);
+  const amenities = tags(d.amenities);
+  const includedItems = tags(d.included_items);
+
+  const priceBasis = option("price_basis", Object.keys(PRICE_BASES)) as PriceBasis | null;
+  const priceOptions: PriceOption[] = [];
+  for (const o of Array.isArray(d.price_options) ? d.price_options : []) {
+    const label = clean(o?.label);
+    const amount = whole(o?.amount, "Each price", 10_000_000);
+    if (!label && amount === null) continue;
+    if (!label) errors.push("Each extra price needs a name, like “Saturday” or “Extra day”.");
+    else if (label.length > 40) errors.push(`“${label.slice(0, 20)}…” is too long a price name.`);
+    if (amount === null) errors.push(`Add a price for ${label || "each extra price"}.`);
+    if (label && amount !== null) priceOptions.push({ label, amount });
+  }
+  if (priceOptions.length > MAX_PRICE_OPTIONS) errors.push(`Keep it to ${MAX_PRICE_OPTIONS} extra prices.`);
+  // "Ask us" means no number goes on the listing, whatever was typed before.
+  const askOnly = priceBasis === "ask";
 
   const details: ClaimDetails = {
     name: name ?? "",
@@ -245,13 +308,16 @@ export function validateClaim(input: ClaimSubmission): { value: ClaimSubmission;
     capacity,
     capacity_standing: capacityStanding,
     price_tier: option("price_tier", STYLE_TIERS),
-    price_from: priceFrom,
+    price_from: askOnly ? null : priceFrom,
     price_note: text("price_note"),
+    price_basis: priceBasis,
+    price_options: askOnly ? [] : priceOptions,
     service_level: option("service_level", Object.keys(SERVICE_LEVELS)) as ServiceLevel | null,
     vendor_policy: option("vendor_policy", Object.keys(VENDOR_POLICIES)) as VendorPolicy | null,
     description: text("description"),
     about: text("about"),
     included: text("included"),
+    included_items: includedItems,
     good_to_know: text("good_to_know"),
     amenities,
     contact_email: email,
@@ -261,9 +327,12 @@ export function validateClaim(input: ClaimSubmission): { value: ClaimSubmission;
     parking: text("parking"),
     wheelchair_accessible: yesNo(d.wheelchair_accessible),
     pets_allowed: yesNo(d.pets_allowed),
-    instagram_url: link("instagram_url"),
-    facebook_url: link("facebook_url"),
-    pinterest_url: link("pinterest_url"),
+    instagram_url: social("instagram_url"),
+    facebook_url: social("facebook_url"),
+    pinterest_url: social("pinterest_url"),
+    tiktok_url: social("tiktok_url"),
+    youtube_url: social("youtube_url"),
+    reviews_url: link("reviews_url"),
   };
 
   const faqs = (Array.isArray(input.faqs) ? input.faqs : [])

@@ -32,6 +32,11 @@ Conceptual Beauty	Hair & Makeup		Washington	District of Columbia	On-site at hote
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
 Love in Color Films	Videography		Washington	District of Columbia	Washington DC, Maryland, Northern Virginia, Boston and New England	Wedding film studio started in 2016 by Julian Spessard, making candid, cinematic films with packages published openly on its site.	info@loveincolorfilms.com		https://www.loveincolorfilms.com/	https://www.instagram.com/loveincolorfilms/`,
   },
+  {
+    name: "Washington: hair & makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Cole Stevens Salon	Hair & Makeup	1247 E Street SE	Washington	District of Columbia		Capitol Hill hair salon offering bridal styling with trial sessions, on-site getting-ready services and hair for the whole wedding party.	csinfo@colestevenssalon.com	(301) 345-0033	https://www.colestevenssalon.com/bridal-services-request/	https://www.instagram.com/colestevenssalon/`,
+  },
 ];
 
 export default batches;
