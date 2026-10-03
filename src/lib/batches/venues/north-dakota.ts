@@ -22,6 +22,16 @@ South 40 Events		Bismarck	North Dakota			Barn / Rustic	Indoor & Outdoor			Former
 Prairie Meadows Events	3835 Highway 3	Dawson	North Dakota			Barn / Rustic	Indoor & Outdoor	511		Family farm on 30 acres between Bismarck and Jamestown with a barn, vintage chapel, farmhouse, wedding pavilion and camping for guests.	Prairiemeadowsevents@gmail.com	701-316-0216	https://www.pmevenue.com/
 `,
   },
+  {
+    name: "Fargo, Grand Forks, Hatton and Ayr",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Jasper Hotel	215 Broadway N	Fargo	North Dakota			Ballroom / Hotel	Indoor			Boutique downtown Fargo hotel whose event spaces have views over the city and host weddings, rehearsals and day-after brunches.	info@jasperfargo.com	(701) 532-2150	https://jasperfargo.com/spaces/weddings/
+Plains Art Museum	704 1st Ave N	Fargo	North Dakota			Historic / Estate	Indoor	150		Art museum in downtown Fargo where the timber-beamed Landfield Atrium seats up to 150 for receptions among the galleries.		701-551-6100	https://plainsart.org/facility-rentals/
+Naastad Acres	14969 16th Street NE	Hatton	North Dakota			Barn / Rustic	Indoor & Outdoor	450		Wedding-focused farm built around a little red barn, with a pergola courtyard, a bull pen event space and on-site rooms for up to 35 guests.		701-317-8221	https://www.naastadacreshatton.com/weddingsevents
+Lone Oak Farm Event Venue	14641 28th Street SE	Ayr	North Dakota			Barn / Rustic	Indoor & Outdoor	350		Forty-acre Red River Valley farmstead with a 30-foot-ceilinged barn grand hall, a tiered stone amphitheatre for ceremonies and over a mile of walking paths.	loneoakfarmvenue@gmail.com	701-639-0055	https://www.loneoakfarmvenue.com/the-venue
+Alerus Center	1200 South 42nd Street	Grand Forks	North Dakota			Ballroom / Hotel	Indoor	600		Large Grand Forks events centre whose ballroom can be divided into a junior, single or entire ballroom, taking weddings from 50 to over 600 guests.		701-792-1200	https://www.aleruscenter.com/
+`,
+  },
 ];
 
 export default batches;

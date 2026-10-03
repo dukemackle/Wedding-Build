@@ -25,6 +25,13 @@ The Farmhouse Barn	21305 Harp Rd	Sturgis	South Dakota			Barn / Rustic	Indoor & O
 Silver Spur Ranch	10078 Wagon Wheel Trl	Belle Fourche	South Dakota			Barn / Rustic	Indoor & Outdoor	325		A 20-acre ranch venue in the northern Black Hills with a climate-controlled Grand Hall, outdoor ceremony area and honeymoon suite.		(605) 858-1853	https://www.silverspursd.com/weddings
 `,
   },
+  {
+    name: "Rapid City and Spearfish",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Hay Camp Brewing Co.	601 Kansas City Street	Rapid City	South Dakota			Restaurant / Vineyard	Indoor	120		Downtown Rapid City craft brewery with a 3,000 sq ft event hall under an art-deco roof, seating 120 for dinner and 250 standing.	haycampbrewing@gmail.com	(605) 718-1167	https://www.haycampbrewing.com/event-booking
+The Barn at Aspen Acres	11011 Kellem Lane	Spearfish	South Dakota			Barn / Rustic	Indoor & Outdoor	400	Classic	White-walled 2019 barn with chandeliers on an aspen-lined Spearfish property with Black Hills views, plus a social hall and A-frame cabins for lodging.	events@blackhillsbarn.com	(605) 545-2624	https://www.blackhillsbarn.com/thebarn
+`,
+  },
 ];
 
 export default batches;
