@@ -26,7 +26,7 @@ Revive Salon & Spa	Hair & Makeup		Bozeman	Montana		Bozeman salon offering bridal
 Elle's Belles Bakery	Cake	2968 N 27th Ave, Unit A	Bozeman	Montana	Bozeman area, with nationwide shipping	Bozeman bakery making custom wedding cakes, cookies, cupcakes and desserts by hand since 2003.			https://www.ellesbelles.com/	https://www.instagram.com/ellesbellesbakery/
 Sweet and Tarte	Cake		Bozeman	Montana	Bozeman, the Gallatin Valley and beyond	Bakery specialising in modern wedding cakes, plus macarons, cupcakes and dessert shooters.	kaitlyn@sweetandtarte.com	406-219-7082	https://sweetandtarte.com/	https://www.instagram.com/sweetand_tarte/
 Taylor Mountain Films	Videography		Bozeman	Montana	Montana, willing to travel	Two-person Bozeman team filming weddings and elopements, with photo and video packages.		(207) 778-1714	https://www.taylormtnfilms.com/	https://www.instagram.com/taylormtnfilms/
-Eterna Films	Videography		Bozeman	Montana	Bozeman and Big Sky region, with destination weddings	Bozeman wedding videographers with over a decade of experience filming storytelling-style wedding films.			http://eternafilms.com/	https://www.instagram.com/eternafilms/
+Eterna Films	Videography		Bozeman	Montana	Bozeman and Big Sky region, with destination weddings	Bozeman wedding videographers with over a decade of experience filming storytelling-style wedding films.			https://eternafilms.com/	https://www.instagram.com/eternafilms/
 Peak Productions	Videography		Bozeman	Montana	Montana, available for worldwide travel	Bozeman videographer making cinematic wedding films for Montana destination weddings.	brian@peakproductionsmt.com		https://www.peakproductionsmt.com/	
 `,
   },
