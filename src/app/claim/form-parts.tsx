@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState, useTransition } from "react";
 import { MAX_CLAIM_PHOTOS, CLAIM_PHOTO_TYPES } from "@/lib/venue-claim";
 
 // The pieces the venue and vendor claim forms are both built from.
@@ -138,5 +138,164 @@ export function PhotoGridEditor({
         }}
       />
     </>
+  );
+}
+
+
+/**
+ * Tap-to-pick tags with an "add another" box: faster than typing a comma list,
+ * and couples get the same names across venues to compare. Anything the
+ * business adds itself shows as a removable chip after the standard ones.
+ */
+export function ChipPicker({
+  options,
+  value,
+  onChange,
+  addLabel = "+ Add another",
+}: {
+  options: readonly string[];
+  value: string[];
+  onChange: (value: string[]) => void;
+  addLabel?: string;
+}) {
+  const [adding, setAdding] = useState(false);
+  const [draft, setDraft] = useState("");
+  const lower = new Set(value.map((v) => v.toLowerCase()));
+  const extras = value.filter((v) => !options.some((o) => o.toLowerCase() === v.toLowerCase()));
+  const toggle = (item: string) =>
+    onChange(lower.has(item.toLowerCase()) ? value.filter((v) => v.toLowerCase() !== item.toLowerCase()) : [...value, item]);
+  const add = () => {
+    const item = draft.trim().slice(0, 60);
+    if (item && !lower.has(item.toLowerCase())) onChange([...value, item]);
+    setDraft("");
+    setAdding(false);
+  };
+  const chip = "rounded-full border px-3 py-1.5 text-sm transition-colors";
+  return (
+    <div className="flex flex-wrap gap-2">
+      {[...options, ...extras].map((item) => {
+        const on = lower.has(item.toLowerCase());
+        return (
+          <button
+            key={item}
+            type="button"
+            aria-pressed={on}
+            onClick={() => toggle(item)}
+            className={`${chip} ${on ? "border-forest bg-forest text-parchment" : "border-hairline bg-card text-ink hover:border-forest/50"}`}
+          >
+            {on && <span aria-hidden className="mr-1">✓</span>}
+            {item}
+          </button>
+        );
+      })}
+      {adding ? (
+        <input
+          autoFocus
+          value={draft}
+          onChange={(e) => setDraft(e.target.value)}
+          onBlur={add}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              add();
+            } else if (e.key === "Escape") {
+              setDraft("");
+              setAdding(false);
+            }
+          }}
+          className={`${chip} w-44 border-forest bg-card text-ink focus:outline-none`}
+          placeholder="Type, then Enter"
+          aria-label="Add your own"
+        />
+      ) : (
+        <button type="button" onClick={() => setAdding(true)} className={`${chip} border-dashed border-forest/40 text-forest hover:border-forest`}>
+          {addLabel}
+        </button>
+      )}
+    </div>
+  );
+}
+
+/**
+ * "Help me write this": they jot a few words, Wren drafts the text, and they
+ * use it, ask for another, or ignore it. Nothing lands in the box unasked.
+ */
+export function WriteHelper({
+  notes,
+  setNotes,
+  write,
+  onUse,
+  noun,
+}: {
+  notes: string;
+  setNotes: (notes: string) => void;
+  write: () => Promise<{ error?: string; text?: string }>;
+  onUse: (text: string) => void;
+  noun: string;
+}) {
+  const [open, setOpen] = useState(false);
+  const [draft, setDraft] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [isPending, startTransition] = useTransition();
+
+  const run = () => {
+    setError(null);
+    startTransition(async () => {
+      const result = await write();
+      if (result.error) setError(result.error);
+      else setDraft(result.text ?? null);
+    });
+  };
+
+  if (!open) {
+    return (
+      <button type="button" onClick={() => setOpen(true)} className="mt-1.5 text-sm font-medium text-brass hover:underline">
+        ✨ Help me write this
+      </button>
+    );
+  }
+  return (
+    <div className="mt-2 rounded-md border border-brass/40 bg-brass/5 p-3">
+      <label className="block text-sm text-ink/80">
+        What makes your {noun} special? A few words is plenty.
+        <textarea
+          rows={2}
+          value={notes}
+          onChange={(e) => setNotes(e.target.value)}
+          className={`${inputClass} mt-1.5`}
+          placeholder="Ocean views, 200 guests, outdoor ceremony lawn, modern"
+        />
+      </label>
+      {draft && (
+        <div className="mt-3 rounded-md border border-hairline bg-card p-3 text-sm whitespace-pre-line text-ink">{draft}</div>
+      )}
+      {error && <p className="mt-2 text-sm text-red-700">{error}</p>}
+      <div className="mt-3 flex flex-wrap items-center gap-3 text-sm">
+        {draft && (
+          <button
+            type="button"
+            onClick={() => {
+              onUse(draft);
+              setDraft(null);
+              setOpen(false);
+            }}
+            className="rounded-md bg-forest px-3 py-1.5 font-medium text-parchment hover:bg-forest/90"
+          >
+            Use this
+          </button>
+        )}
+        <button
+          type="button"
+          onClick={run}
+          disabled={isPending}
+          className={draft ? "text-brass hover:underline disabled:opacity-50" : "rounded-md bg-forest px-3 py-1.5 font-medium text-parchment hover:bg-forest/90 disabled:opacity-60"}
+        >
+          {isPending ? "Writing…" : draft ? "Try again" : "Write it for me"}
+        </button>
+        <button type="button" onClick={() => setOpen(false)} className="text-ink/50 hover:text-ink">
+          Close
+        </button>
+      </div>
+    </div>
   );
 }

@@ -2,6 +2,7 @@
 
 import { randomUUID } from "crypto";
 import { importPrefix, MAX_IMPORT_BYTES, readForListing, type ListingRead } from "@/lib/ai/listing-reader";
+import { writeListingCopy, type WriteField } from "@/lib/ai/listing-writer";
 import { VENUE_READ_FIELDS } from "@/lib/ai/listing-read-fields";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import { getResendClient, INQUIRY_FROM_ADDRESS } from "@/lib/resend";
@@ -164,4 +165,17 @@ export async function readListingSource(
     questions,
     source,
   });
+}
+
+/** "Help me write this" on the one-liner and About. Returns a draft; the form puts it in the box. */
+export async function writeListingText(
+  token: string,
+  field: WriteField,
+  facts: Record<string, string | number | null>,
+  notes: string,
+): Promise<{ error?: string; text?: string }> {
+  const venue = await venueForClaimToken(token);
+  if (!venue) return { error: "This link is no longer valid." };
+  if (field !== "description" && field !== "about") return { error: "Couldn't write that." };
+  return writeListingCopy({ listingId: venue.id, field, facts, notes: String(notes ?? "") });
 }

@@ -68,6 +68,63 @@ export const SERVICE_LEVEL_HINTS = {
   all_inclusive: "Catering, bar and most vendors are handled by the venue.",
 } as const;
 
+// How a venue's starting price works. "ask" shows no number at all, for
+// venues that would rather not publish one.
+export const PRICE_BASES = {
+  rental: "Venue rental",
+  package: "Packages",
+  per_person: "Per person",
+  minimum: "Food & drink minimum",
+  ask: "Ask us",
+} as const;
+
+export const PRICE_BASIS_HINTS = {
+  rental: "The space itself, starting at",
+  package: "Packages starting at",
+  per_person: "Per guest, starting at",
+  minimum: "A minimum spend, starting at",
+  ask: "We'll share pricing when couples get in touch",
+} as const;
+
+/** The tap-to-pick choices on a venue's claim form. Venues can add their own. */
+export const INCLUDED_OPTIONS = [
+  "Tables",
+  "Chairs",
+  "Linens",
+  "Catering",
+  "Bar service",
+  "Setup & cleanup",
+  "Day-of coordinator",
+  "Event staff",
+  "Security",
+  "Getting-ready suites",
+  "AV & sound",
+  "Lighting",
+  "Decor",
+  "Ceremony arch",
+  "Dance floor",
+  "Cake cutting",
+] as const;
+
+export const AMENITY_OPTIONS = [
+  "Bridal suite",
+  "Groom's suite",
+  "On-site lodging",
+  "Indoor ceremony",
+  "Outdoor ceremony",
+  "Rain backup plan",
+  "Climate-controlled",
+  "Wheelchair accessible",
+  "On-site parking",
+  "Valet",
+  "Wi-Fi",
+  "Pet friendly",
+  "Fire pit",
+  "Late-night allowed",
+  "Kitchen for caterers",
+  "Restrooms on site",
+] as const;
+
 export const VENDOR_POLICIES = {
   any: "Bring any vendors",
   preferred: "Preferred list, outside vendors welcome",

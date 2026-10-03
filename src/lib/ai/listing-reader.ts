@@ -118,7 +118,12 @@ function coerce(spec: FieldSpec, raw: unknown): string | number | boolean | stri
  * Counts this read against the listing's daily allowance, before it runs, so
  * a failed read still counts -- a failure is still a paid call.
  */
-export async function takeReadAllowance(kind: "venue" | "vendor", listingId: string): Promise<boolean> {
+export async function takeReadAllowance(
+  kind: "venue" | "vendor",
+  listingId: string,
+  purpose: "read" | "write" = "read",
+  perDay: number = MAX_READS_PER_DAY,
+): Promise<boolean> {
   const admin = createAdminSupabaseClient();
   const since = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
   const { count } = await admin
@@ -126,9 +131,10 @@ export async function takeReadAllowance(kind: "venue" | "vendor", listingId: str
     .select("id", { count: "exact", head: true })
     .eq("listing_kind", kind)
     .eq("listing_id", listingId)
+    .eq("purpose", purpose)
     .gte("created_at", since);
-  if ((count ?? 0) >= MAX_READS_PER_DAY) return false;
-  const { error } = await admin.from("listing_reads").insert({ listing_kind: kind, listing_id: listingId });
+  if ((count ?? 0) >= perDay) return false;
+  const { error } = await admin.from("listing_reads").insert({ listing_kind: kind, listing_id: listingId, purpose });
   return !error;
 }
 
