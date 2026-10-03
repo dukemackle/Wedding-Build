@@ -34,6 +34,35 @@ AZ Film Company	Videography		Phoenix	Arizona	Arizona and out-of-state destinatio
 Heartcraft Wedding Films	Videography		Phoenix	Arizona	Phoenix and across Arizona	Phoenix studio founded by Nick Gaiski, making cinematic, heirloom-style wedding films with an unobtrusive presence and limited yearly bookings.	contact@heartcraftweddingfilms.com	480-415-8288	https://heartcraftweddingfilms.com/	https://www.instagram.com/heartcraftweddingfilms/
 `,
   },
+  {
+    name: "Tucson: photography, planning, florals, music, catering, hair and makeup, cake and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Lucy B. Photography	Photography		Tucson	Arizona	Tucson, Phoenix, Sedona, Grand Canyon, Utah and Southern California	Tucson photographer for elopements and intimate weddings, with adventure-style, multi-location coverage across desert and mountain settings.	hello@lucybouman.com		https://www.lucybouman.com/	https://www.instagram.com/lucybphotography/
+Melissa Holland Photography	Photography		Tucson	Arizona	Tucson and all of Southern Arizona	Tucson photographer with a fine-art, documentary approach to weddings and engagement sessions across Southern Arizona.			https://www.mhollandphotography.com/	https://www.instagram.com/mhollandphoto/
+Anita McLeod Photography	Photography		Tucson	Arizona	Tucson and Arizona	Documentary-style wedding and elopement photographer working between Tucson and Willcox, with more than 200 weddings since 2014.			https://anitamcleodphotography.com/	https://www.instagram.com/anitamcleodphotography/
+Jane Castle Events	Planning		Tucson	Arizona	Tucson and all of Arizona	Tucson planner offering full planning, month-of or day-of coordination and a la carte support for weddings, running since 2014.	hello@janecastleevents.com	520-222-6551	https://www.janecastleevents.com/	
+Paloma Events	Planning		Tucson	Arizona	Tucson, Arizona and destination weddings	Tucson planning and design studio that takes on about ten weddings a year and avoids back-to-back weekends.			https://palomaeventsco.com/	https://www.instagram.com/palomaevents/
+Celebrations by Design	Planning		Tucson	Arizona	Tucson, Arizona	Small Tucson event design company offering day-of coordination, planning and handcrafted design for weddings and other celebrations.	cbdweddingsaz@gmail.com	520-405-1400	https://www.celebrationsbydesignaz.com/	
+In Full Bloom	Florals		Tucson	Arizona		Tucson floral studio that works only on weddings, helping couples choose blooms that fit their personal style.	tanya@infullbloomweddings.com	520-498-0505	https://www.infullbloomweddings.com/	https://www.instagram.com/infullbloomfloralstudio/
+Thistle	Florals		Tucson	Arizona	Tucson	Women-owned Tucson flower shop on East 22nd Street making textural, romantic seasonal florals for weddings and events.	info@thistletucson.com	520-812-2687	https://www.thistletucson.com/	
+Alexis Grace Florals	Florals		Tucson	Arizona	Tucson and Southern Arizona	Tucson wedding florist offering bouquets, corsages and ceremony arch additions with a colourful, romantic style.			https://www.alexisgraceflorals.com/	
+Mariachi Tucson	Music		Tucson	Arizona	Tucson	Tucson mariachi group for weddings, quinceaneras and other celebrations, with online booking and a weekly restaurant residency.	mariachitucson@aol.com	520-339-4630	https://www.mariachitucson.com/	
+Mariachi Alegre de Tucson	Music		Tucson	Arizona	Tucson and Southern Arizona	Four-piece traditional mariachi band playing ceremonies, cocktail hours, rehearsal dinners and receptions in Southern Arizona.		520-981-3459	https://mariachialegredetucsonaz.com/	
+Classy Events 520	Music		Tucson	Arizona	Southern Arizona	Tucson wedding DJ service that also supplies photo booths, cold spark fountains, up-lighting and party buses.		520-260-5085	https://www.tucsondeejay.com/	
+Atlas Catering & Events	Catering		Tucson	Arizona	Southern Arizona	Chef-driven Tucson caterer with scratch-made menus and bar service, and the house caterer for the Historic Bates Mansion.	orders@atlascateringtucson.com	520-909-3979	https://www.atlascateringtucson.com/weddings	https://www.instagram.com/atlascateringevents/
+Salsa Verde Catering	Catering	3894 N Oracle Rd	Tucson	Arizona	Tucson	Family-owned Tucson Mexican caterer making fresh dishes from scratch for weddings and family celebrations of any size.		520-771-8607	https://www.salsaverdemx.com/catering	https://www.instagram.com/salsaverdemx/
+Creative Catering	Catering		Tucson	Arizona	Tucson and surrounding areas	Family-run Tucson off-premise caterer in business for over 36 years, handling weddings with full event and vendor coordination.	info@tucsoncreativecatering.com	520-690-0146	https://tucsoncreativecatering.com/	https://www.instagram.com/creativecateringtucson/
+The Powder Room	Hair & Makeup		Tucson	Arizona	Tucson	On-location Tucson team of bridal hair and makeup artists, with a preferred-vendor list and online enquiry for booking.		520-487-6561	https://www.powderroomartistry.com/	
+Mery's Beauty	Hair & Makeup		Tucson	Arizona	Tucson	Tucson hair and makeup artist offering personalised bridal looks that aim to enhance natural features and photograph well.			https://www.merysbeauty.com/	https://www.instagram.com/meribelastudio/
+Heather Van Houten Makeup & Hair	Hair & Makeup		Tucson	Arizona	Tucson and Arizona	Tucson team of hair and makeup artists for weddings, including South Asian bridal styling, boudoir and special events.			https://www.hvhartists.com/	
+Ambrosia Cakes	Cake		Tucson	Arizona	Tucson and surrounding areas	Tucson wedding cakery making custom cakes and dessert tables, with attention to both flavour and design.	annie@ambrosiacakestucson.com	520-390-9319	https://ambrosiacakestucson.com/	https://www.instagram.com/ambrosiacakestucson/
+Dolce Pastello	Cake	120 S Avenida del Convento	Tucson	Arizona	Tucson	Award-winning Tucson cake shop known for tres leches cakes, making pasteles for weddings and other celebrations.	dolcepastello2011@gmail.com	520-207-6765	https://www.dolcepastello.com/	https://www.instagram.com/dolcepastellocakes/
+Jamie-Cakes Bakery Boutique	Cake	314 S Convent Ave	Tucson	Arizona	Tucson area	By-appointment Tucson cake boutique specialising in custom wedding cakes, with gourmet cupcakes and desserts on the side.		520-548-1946	https://www.jamie-cakes.com/	https://www.instagram.com/jamiecakesarizona/
+Jen Sawyer Video	Videography		Tucson	Arizona	Arizona	Tucson filmmaker making cinematic wedding films that focus on real moments, with recent work at Tubac and Tohono Chul.			https://jensawyervideo.com/	https://www.instagram.com/jensawyervideocreator/
+Artifact Video Productions	Videography		Tucson	Arizona		Tucson video and photo production company covering weddings alongside commercial work.	artifactvideo@gmail.com		https://www.artifactvideo.com/	https://www.instagram.com/artifact_video/
+Black Sheep Filmworks	Videography		Tucson	Arizona		Tucson videographer making modern wedding films, also working on corporate video.	stepheny@blacksheepfilmworks.com		https://blacksheepfilmworks.com/	
+`,
+  },
 ];
 
 export default batches;
