@@ -1,6 +1,31 @@
 import type { VenueBatch } from "@/lib/venue-batches";
 
 // Pennsylvania venue batches. Every row's State is "Pennsylvania". Add new batches at the end.
-const batches: VenueBatch[] = [];
+const batches: VenueBatch[] = [
+  {
+    name: "Pittsburgh and western Pennsylvania",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Pittsburgh Botanic Garden	799 Pinkerton Run Road	Pittsburgh	Pennsylvania			Garden / Outdoor	Indoor & Outdoor	220		Sixty-five acres of display gardens and woodland with a restored 1870s barn event centre, a lotus pond and a dogwood meadow gazebo.	events@pittsburghbotanicgarden.org	412-444-4464	https://pittsburghbotanicgarden.org/weddings/
+Irons Mill Farmstead Weddings	252 Greenfield Rd	New Wilmington	Pennsylvania			Barn / Rustic	Indoor & Outdoor			Two-storey wedding barn with an outdoor ceremony site on a 150-acre family farm park in Lawrence County, booking April to December.	natalie@ironsmill.com	724-900-9169	https://www.ironsmillfarmsteadweddings.com
+Heinz History Center	1212 Smallman Street	Pittsburgh	Pennsylvania			Historic / Estate	Indoor		Classic	Pennsylvania's largest history museum, in a former ice warehouse on the edge of the Strip District, with in-house coordination and exhibit access for guests.	info@heinzhistorycenter.org	(412) 454-6000	https://www.heinzhistorycenter.org/about/event-rentals/weddings/
+Armstrong Farms		Saxonburg	Pennsylvania			Barn / Rustic	Indoor & Outdoor	250	Classic	Two restored barns on a 200-year-old Butler County family estate, booked as a weekend package with overnight lodging for the wedding party.			https://www.armstrongfarms.com/
+Linden Hall	432 Linden Hall Road	Dawson	Pennsylvania			Historic / Estate	Indoor & Outdoor	300		English Tudor mansion and gardens on a 785-acre Laurel Highlands estate with a golf course, a wedding tent and a 74-room lodge.		724-529-7543	https://lindenhallpa.com/weddings/
+Bella Terra Vineyards	121 Sunny Lane	Hunker	Pennsylvania			Restaurant / Vineyard	Indoor & Outdoor	300		Westmoreland County winery with vineyard, a lake and old shade trees, hosting receptions in its air-conditioned main building.	info@bellaterravineyards.com	724-635-3658	https://www.bellaterravineyards.com/weddings
+The Barn at Maple Falls		Rockwood	Pennsylvania			Barn / Rustic	Indoor & Outdoor	350		Two-storey barn with a tented patio on 380 acres in Somerset County, with ceremonies by a covered bridge and stone waterfall and a farmhouse for the couple.	thebarnatmaplefalls@gmail.com	(814) 233-9232	https://thebarnatmaplefalls.com/
+The Woods at Eisler Farms	531 Dick Road	Butler	Pennsylvania			Garden / Outdoor	Outdoor	200		Wooded Butler County site with a 200-guest tent, fire pit and string lights, with decor, catering and a beverage package included.		(724) 355-4599	https://www.thewoodswedding.com/
+The Frick Pittsburgh	7227 Reynolds St.	Pittsburgh	Pennsylvania			Historic / Estate	Indoor & Outdoor			Henry Clay Frick's Point Breeze estate with the Gilded Age Clayton house, gardens, a greenhouse, café and car and carriage museum.	events@thefrickpittsburgh.org	412-371-0600	https://www.thefrickpittsburgh.org/rentals
+National Aviary	700 Arch Street	Pittsburgh	Pennsylvania			Garden / Outdoor	Indoor			North Side bird zoo where receptions take place among free-flying birds in its indoor habitats.		412-258-9463	https://www.aviary.org/plan-your-event/weddings/
+The Edgewood Club	1 Pennwood Avenue	Pittsburgh	Pennsylvania			Historic / Estate	Indoor & Outdoor			Members' club founded in 1904 in Edgewood Borough, with a club living room for ceremonies, a ballroom, pool and lawns, and limited non-member dates.	info@edgewoodclub.com	412.731.3443	https://www.edgewoodclub.com/weddings-edgewood-club-pittsburgh
+Penn Brewery	800 Vinial Street	Pittsburgh	Pennsylvania			Restaurant / Vineyard	Indoor & Outdoor	120		Historic North Side brewery with a German-style beer hall, a loft room with skyline views, a cobblestone biergarten and old lagering caves.			https://www.pennbrew.com/spaces
+Lingrow Farm	188 Forks Church Road	Leechburg	Pennsylvania			Barn / Rustic	Indoor & Outdoor	220	Classic	Forty-acre Armstrong County farm with a waterside ceremony site, a banquet barn and on-site lodging.	info@lingrowfarm.com	412.214.7880	https://www.lingrowfarm.com/weddingdetails
+Greystone Fields	4085 Sandy Hill Road	Gibsonia	Pennsylvania			Garden / Outdoor	Indoor & Outdoor	225		All-inclusive venue on 21 acres north of Pittsburgh with gazebos, pergolas and water features, holding one event per weekend.	greystonefields@gmail.com	(412) 848-4458	https://greystonefields.com/
+Kimpton Hotel Monaco Pittsburgh	620 William Penn Place	Pittsburgh	Pennsylvania			Ballroom / Hotel	Indoor & Outdoor			Downtown hotel in the 1903 Beaux Arts James H. Reed building, with a rooftop biergarten and in-house wedding specialists.	sales@monaco-pittsburgh.com	(412) 471-1170	https://www.monaco-pittsburgh.com/weddings/pittsburgh-wedding-packages/
+Kamin Science Center	1 Allegheny Ave	Pittsburgh	Pennsylvania			Historic / Estate	Indoor			Riverfront science museum on the North Shore (formerly Carnegie Science Center) with exhibit halls available for receptions.		412.237.3431	https://kaminsciencecenter.org/celebrate/weddings/
+Cavallo Fields	5021 Pleasant Unity Road	Latrobe	Pennsylvania			Barn / Rustic	Indoor & Outdoor		Classic	Renovated horse and carriage barn and 1860s farmhouse on 10 acres surrounded by 80 acres of Westmoreland County farmland.	hello@cavallofields.com	724-424-2332	https://www.cavallofields.com/barn-weddings
+The Barn at Madison	304 Madison Heights Road	Madison	Pennsylvania			Barn / Rustic	Indoor & Outdoor	150		Barn built in 1799 and converted for weddings in Westmoreland County, with grounds for the ceremony and overnight accommodation.	thebarnatmadison@gmail.com	(724) 675-6124	https://thebarnatmadison.com/
+Bramblewood	55 Loffert Road	McDonald	Pennsylvania			Barn / Rustic	Indoor & Outdoor	275	Classic	Open-span barn with a 30-foot arched wooden ceiling and a lakeside ceremony site with wooden pews, in Washington County near the airport.	info@bramblewoodweddings.com	724-350-0976	https://www.bramblewoodweddings.com/
+Freedom Farms	434 Overbrook Road	Valencia	Pennsylvania			Barn / Rustic	Indoor & Outdoor			Family-owned working farm in Butler County hosting weddings for over a decade, with farm-to-fork catering on site.	events@freedomfarmspa.com	724-586-5551	https://www.freedomfarmsweddings.com/`,
+  },
+];
 
 export default batches;
