@@ -28,6 +28,13 @@ Bagoy's Florist & Home	Florals	8250 Homer Dr	Anchorage	Alaska		Anchorage florist
 Wild Blossom Design	Florals		Anchorage	Alaska	Anchorage and surrounding areas	South Anchorage home-studio florist with 25 years' experience, now focused on wedding and event design and drawing on its own cutting garden.	jkennedy@wildblossomdesign.com	(907) 242-5843	https://wildblossomdesign.com/	https://www.instagram.com/wild.blossom.design/
 Gardenwild Floral Design	Florals		Anchorage	Alaska	South-central Alaska including Talkeetna, Wasilla, Girdwood, Seward and Cooper Landing	Garden-inspired wedding flowers from an Anchorage grower and designer, using seasonal blooms that are locally grown wherever possible.	gretalewanski@gmail.com	907-300-5008	https://www.gardenwildfloral.com/wedding-flowers-alaska	https://www.instagram.com/gardenwildfloraldesign/`,
   },
+  {
+    name: "Anchorage: cake and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Vow & Velvet Co.	Cake		Anchorage	Alaska		Anchorage wedding cake studio designing from four signature collections, each tailored to the couple's palette, florals and venue.	vowandvelvetco@gmail.com		https://vowandvelvetco.com/	https://www.instagram.com/vowandvelvetco/
+Lauren Roberts	Videography		Anchorage	Alaska		Anchorage filmmaker and photographer making editorial wedding films that weave personal archive footage in alongside the day itself.	hello@laurenroberts.com		https://laurenroberts.com/wedding-films	https://www.instagram.com/thatlaurengurl/
+Wild & Beloved	Videography		Anchorage	Alaska	Alaska	Anchorage duo Trevor and Tyler filming weddings and elopements across Alaska, from Hatcher Pass to Girdwood, with photography as well.			https://www.thewildandbeloved.com/	https://www.instagram.com/thewildandbeloved/`,
+  },
 ];
 
 export default batches;
