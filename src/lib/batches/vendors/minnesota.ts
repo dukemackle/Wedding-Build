@@ -58,6 +58,12 @@ Jasper Meddock Productions	Videography		Duluth	Minnesota	Duluth and surrounding 
 Infinite Film Production	Videography		Duluth	Minnesota	Within about 200 miles of Duluth	Husband-and-wife team filming since 2018 with multi-camera 4K coverage and a licensed drone pilot, offering highlight reels and full ceremony films.		218-393-7651	https://infinitefilmproduction.com/	https://www.instagram.com/infinitefilmproduction/
 `,
   },
+  {
+    name: "Duluth: cakes",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Johnson's Bakery	Cake	2230 West Third Street	Duluth	Minnesota	Duluth and Superior	Family bakery in Duluth's Lincoln Park with Scandinavian roots, offering tiered wedding cakes from 25 to 220 servings.	hello@johnsonsbakery.com	(218) 727-1889	https://www.johnsonsbakery.com/	https://www.instagram.com/johnsonsbakerydlh/
+`,
+  },
 ];
 
 export default batches;

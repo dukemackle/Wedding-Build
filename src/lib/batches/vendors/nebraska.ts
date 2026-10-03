@@ -59,6 +59,12 @@ Bill Griepenstroh	Videography		Lincoln	Nebraska	Lincoln, Omaha and destination w
 NVAR Studios	Videography	1200 N St, Suite 524	Lincoln	Nebraska	Lincoln	Lincoln video and photo studio filming documentary-style weddings with a highlight film plus a longer feature, handled by the same team that shoots the photos.		(402) 610-4480	https://www.nvarstudios.com/lincoln-wedding-videographer	https://www.instagram.com/nvarstudios/
 `,
   },
+  {
+    name: "Lincoln: planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Only Once Co.	Planning		Lincoln	Nebraska	Lincoln, with travel outside Lincoln available	Lincoln planner with a conference and vendor-side background, offering full, partial and month-of coordination at published package prices.	shianne@onlyonceco.com	(307) 921-0822	https://www.onlyonceco.com/	https://www.instagram.com/OnlyOnceCo.Events/
+`,
+  },
 ];
 
 export default batches;

@@ -60,6 +60,16 @@ Films by Brooke	Videography		Lawrence	Kansas	Lawrence, travelling nationwide	A L
 Jacob Gill Wedding Videography	Videography		Topeka	Kansas	Topeka and across Kansas	A Topeka wedding filmmaker with an easygoing, camera-light approach who works alongside photographers across Kansas.			https://jacobgillweddingvideo.com/	https://www.instagram.com/jacobgillweddingvideography/
 `,
   },
+  {
+    name: "Lawrence and Topeka: planning, music, hair and makeup and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Be Seen! Event Planning	Planning		Lawrence	Kansas		Lawrence event planning boutique offering full planning, partial planning, day-of coordination and micro weddings, plus event design.	leila@beseeneventplanning.com	(785) 979-7190	https://beseeneventplanning.com/	https://www.instagram.com/beseenevents/
+Erin Wood Harpist	Music		Lawrence	Kansas	Kansas and Missouri	Lawrence harpist playing wedding ceremony preludes, processionals and recessionals, with duo or trio options and a free consultation.	kansasharpist@gmail.com		https://www.erinwoodharpist.com/weddings	https://www.instagram.com/kansasharpist/
+Salon Pearl	Hair & Makeup	123 W 8th St	Lawrence	Kansas		Downtown Lawrence salon on West 8th Street offering formal updos and bridal makeup alongside cuts, colour and smoothing treatments.		(785) 856-0314	https://salonpearl.co/	https://www.instagram.com/salonpearl/
+Obsidian Salon	Hair & Makeup	5020 Bob Billings Parkway	Lawrence	Kansas		West Lawrence studio focused on wedding hair, makeup and advanced colour, with Fridays and Saturdays kept for wedding appointments.	obsidiansalonlawrence@gmail.com	(785) 766-4431	https://obsidiansalonlawrence.com/	
+DayFilm Productions	Videography		Topeka	Kansas		Topeka wedding videographer and Washburn film graduate offering three packages from a short film to a two-camera film with trailer.	peter@dayfilmproductions.com		https://dayfilmproductions.com/	
+`,
+  },
 ];
 
 export default batches;
