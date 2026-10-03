@@ -231,16 +231,23 @@ export function VenuesManager({
     cityFilter,
   ].filter((f) => f !== "all").length;
 
-  const filteredVenues = venues.filter(
-    (v) =>
-      (typeFilter === "all" || v.venue_type === typeFilter) &&
-      (settingFilter === "all" || v.setting === settingFilter) &&
-      (priceFilter === "all" || v.price_tier === priceFilter) &&
-      (capacityFilter === "all" || (v.capacity ?? 0) >= Number(capacityFilter)) &&
-      (stateFilter === "all" || v.state === stateFilter) &&
-      (cityFilter === "all" || v.city === cityFilter) &&
-      v.name.toLowerCase().includes(search.trim().toLowerCase()),
-  );
+  // Most listings don't have a price tier or capacity yet, so a blank one
+  // isn't a mismatch: those venues stay in, after the confirmed matches,
+  // rather than vanishing from the price and capacity filters.
+  const unknownForFilters = (v: Venue) =>
+    (priceFilter !== "all" && !v.price_tier) || (capacityFilter !== "all" && v.capacity == null);
+  const filteredVenues = venues
+    .filter(
+      (v) =>
+        (typeFilter === "all" || v.venue_type === typeFilter) &&
+        (settingFilter === "all" || v.setting === settingFilter) &&
+        (priceFilter === "all" || !v.price_tier || v.price_tier === priceFilter) &&
+        (capacityFilter === "all" || v.capacity == null || v.capacity >= Number(capacityFilter)) &&
+        (stateFilter === "all" || v.state === stateFilter) &&
+        (cityFilter === "all" || v.city === cityFilter) &&
+        v.name.toLowerCase().includes(search.trim().toLowerCase()),
+    )
+    .sort((a, b) => Number(unknownForFilters(a)) - Number(unknownForFilters(b)));
 
   function clearFilters() {
     setStateFilter("all");

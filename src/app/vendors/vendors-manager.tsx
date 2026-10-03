@@ -381,14 +381,21 @@ export function VendorsManager({
     (f) => f !== "all",
   ).length;
 
-  const filteredVendors = vendors.filter(
-    (v) =>
-      (categoryFilter === "all" || v.category === categoryFilter) &&
-      (priceFilter === "all" || v.price_tier === priceFilter) &&
-      (stateFilter === "all" || v.state === stateFilter) &&
-      (cityFilter === "all" || v.city === cityFilter) &&
-      v.name.toLowerCase().includes(search.trim().toLowerCase()),
-  );
+  // Few vendors have a price tier yet, so a blank one isn't a mismatch: those
+  // vendors stay in, after the confirmed matches, rather than vanishing.
+  const filteredVendors = vendors
+    .filter(
+      (v) =>
+        (categoryFilter === "all" || v.category === categoryFilter) &&
+        (priceFilter === "all" || !v.price_tier || v.price_tier === priceFilter) &&
+        (stateFilter === "all" || v.state === stateFilter) &&
+        (cityFilter === "all" || v.city === cityFilter) &&
+        v.name.toLowerCase().includes(search.trim().toLowerCase()),
+    )
+    .sort(
+      (a, b) =>
+        Number(priceFilter !== "all" && !a.price_tier) - Number(priceFilter !== "all" && !b.price_tier),
+    );
 
   function clearFilters() {
     setStateFilter("all");
