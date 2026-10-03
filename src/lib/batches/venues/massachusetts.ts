@@ -1,6 +1,31 @@
 import type { VenueBatch } from "@/lib/venue-batches";
 
 // Massachusetts venue batches. Every row's State is "Massachusetts". Add new batches at the end.
-const batches: VenueBatch[] = [];
+const batches: VenueBatch[] = [
+  {
+    name: "Cape Cod, the Islands and the Boston shores",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Heritage Museums & Gardens	67 Grove Street	Sandwich	Massachusetts			Garden / Outdoor	Indoor & Outdoor			Public gardens in Sandwich with rhododendron and hydrangea collections, nature trails and museums holding a historic carousel and a car collection.	info@heritagemuseums.org	508-888-3300	https://heritagemuseumsandgardens.org/
+Highfield Hall & Gardens	56 Highfield Drive	Falmouth	Massachusetts			Historic / Estate	Indoor & Outdoor			Restored Falmouth estate and arts centre with gardens and walking trails, bordered by protected conservation forest.	info@highfieldhall.org	(508) 495-1878	https://highfieldhallandgardens.org/
+The Coonamessett	311 Gifford Street	Falmouth	Massachusetts			Ballroom / Hotel	Indoor & Outdoor	300		Falmouth inn on Jones Pond with a 300-guest ballroom, smaller hall and garden rooms, and a deck over the water for ceremonies.	stay@thecoonamessett.com	(508) 548-2300	https://www.larkhotels.com/massachusetts/cape-cod/falmouth/the-coonamessett/weddings
+Winnetu Oceanside Resort	31 Dunes Rd	Edgartown	Massachusetts			Beach / Waterfront	Indoor & Outdoor			Martha's Vineyard resort at South Beach with lawn ceremonies, an ocean-view deck, tented or indoor receptions and one- to four-bedroom suites on site.	events@winnetu.com	508.310.1733	https://www.winnetu.com/weddings
+The Wauwinet	120 Wauwinet Road	Nantucket	Massachusetts			Beach / Waterfront	Indoor & Outdoor			Nantucket inn first opened in 1875, with an oceanfront lawn, two private beaches and its own restaurant.	reservations@wauwinet.com	508-228-0145	https://www.wauwinet.com/weddings
+Lambert's Cove Inn	90 Manaquayak Road	West Tisbury	Massachusetts			Historic / Estate	Indoor & Outdoor			Inn on a former farm in rural up-island Martha's Vineyard, with gardens, its own restaurant and access to Lambert's Cove Beach.		508-422-8051	https://www.lambertscoveinn.com/marthas-vineyard-hotel-weddings
+The Red Inn	15 Commercial St	Provincetown	Massachusetts			Restaurant / Vineyard	Indoor & Outdoor			Waterfront inn and restaurant in Provincetown, looking over the harbour and Cape Cod Bay towards the Long Point lighthouse.		(508) 487-7334	https://theredinn.com/special-events/
+Dan'l Webster Inn & Spa	149 Main Street	Sandwich	Massachusetts			Historic / Estate	Indoor			Colonial-style inn in the centre of Sandwich, Cape Cod's oldest town, with 48 rooms and suites, a conservatory dining room and a spa.	info@danlwebsterinn.com	(508) 888-3622	https://danlwebsterinn.com/weddings/
+The Club at New Seabury	95 Shore Drive West	Mashpee	Massachusetts			Beach / Waterfront	Indoor & Outdoor			Golf and beach club on Nantucket Sound offering a beachfront tent at the Popponesset Inn or a ballroom with a deck over the golf course.		508-539-8322	https://www.newseabury.com/web/pages/weddings
+Whaling Museum & Roofwalk	15 Broad Street	Nantucket	Massachusetts			Historic / Estate	Indoor & Outdoor	120		Nantucket Historical Association museum with a whale skeleton in the main hall, an 1847 brick candle factory and a rooftop deck over the harbour.		508-228-1894	https://nha.org/visit/private-events/venue-options/whaling-museum/
+Tupper Manor	295 Hale Street	Beverly	Massachusetts			Historic / Estate	Indoor & Outdoor	190		Georgian mansion on ten oceanfront acres at Endicott College, with a conservatory, fountain lawns and the 91-room Wylie Inn next door.		978-867-1800	https://www.tuppermanor.com/
+Hammond Castle Museum	80 Hesperus Avenue	Gloucester	Massachusetts			Historic / Estate	Indoor & Outdoor			Medieval-style stone castle and museum on the Gloucester shore, used for elopements, small celebrations and larger weddings.		(978) 283-2080	https://hammondcastle.org/weddings/
+Turner Hill	3 Manor House Lane	Ipswich	Massachusetts			Historic / Estate	Indoor & Outdoor			Golf club on about 350 acres built around a 1903 mansion, with a separate ballroom and overnight rooms in The Butler's House.		(978) 356-7070	https://www.turnerhill.com/
+Danversport	161 Elliott Street	Danvers	Massachusetts			Beach / Waterfront	Indoor & Outdoor			Large waterfront function hall beside a marina in Danvers, with a ballroom and a ceremony area facing the water.		978.774.8622	https://www.danversport.com/
+Granite Links Golf Club	100 Quarry Hills Drive	Quincy	Massachusetts			Ballroom / Hotel	Indoor & Outdoor			Hilltop golf club in Quincy with several ballrooms, a pavilion tent, pergola and balconies looking across the course to the Boston skyline.		617-689-1900	https://www.granitelinks.com/weddings
+Hotel 1620 Plymouth Harbor	180 Water St	Plymouth	Massachusetts			Ballroom / Hotel	Indoor & Outdoor			Plymouth harbourfront hotel with over 15,000 square feet of event space, waterfront ceremonies and guest rooms on site.	Tomanderson@hotel1620.com	(508) 747-4900	https://www.hotel1620.com/weddings
+Misselwood	407 Hale Street	Beverly	Massachusetts			Historic / Estate	Indoor & Outdoor			Oceanfront estate owned by Endicott College, pairing a historic mansion with tented receptions on the grounds.	misselwoodevents@endicott.edu	978-232-2128	https://misselwood.endicott.edu/
+The Garden at Elm Bank	900 Washington Street	Wellesley	Massachusetts			Garden / Outdoor	Indoor & Outdoor			Massachusetts Horticultural Society's 36-acre garden with twelve display gardens, open lawns for tents and indoor rooms in the Hunnewell Building.	functions@masshort.org	617-933-4921	https://www.masshort.org/weddings-events/weddings
+Duxbury Bay Maritime School	457 Washington St	Duxbury	Massachusetts			Beach / Waterfront	Indoor & Outdoor	160		Sailing school on Duxbury Bay whose hall has hardwood floors and large windows over the water, with indoor and outdoor spaces for ceremony and reception.		(781) 934-7555	https://www.dbms.org/weddings
+Glen Magna Farms	29 Ingersoll Street	Danvers	Massachusetts			Garden / Outdoor	Indoor & Outdoor	200		Historic mansion and gardens run by the Danvers Historical Society, with receptions for up to 200 in a clear-sided sailcloth tent.	info@glenmagnafarms.org	978-774-9165	https://glenmagnafarms.org/weddings/`,
+  },
+];
 
 export default batches;
