@@ -17,6 +17,14 @@ Purity Spring Resort		Madison	New Hampshire			Beach / Waterfront	Indoor & Outdoo
 Van Horn Estate	31 Manor Dr	Holderness	New Hampshire			Historic / Estate	Indoor & Outdoor	140		Historic estate on 10 acres above Squam Lake, with the 140-guest Mirador event space and inn rooms for a full wedding weekend.	info@manorongoldenpond.com	603-968-3348	https://www.vanhornestate.com/wedding-and-events
 Ashworth by the Sea	295 Ocean Boulevard	Hampton	New Hampshire			Ballroom / Hotel	Indoor			Oceanfront hotel on Hampton Beach with four function rooms, including the Rose Room, and more than a century of hosting weddings.	frontdesk@ashworthbythesea.com	603-926-6762	https://www.ashworthhotel.com/weddings`,
   },
+  {
+    name: "New Hampshire: mountains, lakes and Monadnock",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Eagle Mountain House	179 Carter Notch Rd	Jackson	New Hampshire			Ballroom / Hotel	Indoor & Outdoor			White Mountains hotel with a nine-hole golf course, long veranda and renovated carriage house, holding ceremonies on a tee box facing the peaks.		603-383-9111	https://www.eaglemt.com/weddings
+The Inn at Pleasant Lake	853 Pleasant St	New London	New Hampshire			Beach / Waterfront	Indoor & Outdoor	200		Lakefront country inn with roots in 1790, a private beach and views across Pleasant Lake to Mount Kearsarge in the Sunapee region.	events@innatpleasantlake.com	800-626-4907	https://www.innatpleasantlake.com/weddings
+Three Chimneys Inn	17 Newmarket Rd	Durham	New Hampshire			Historic / Estate	Indoor & Outdoor	200		Seacoast inn built around a 1649 homestead and a 1795 carriage house, with 23 guest rooms, gardens, arbours and a reflection pool.		603-868-7800	https://www.threechimneysinn.com/weddings
+Woodbound Inn	247 Woodbound Rd	Rindge	New Hampshire			Ballroom / Hotel	Indoor & Outdoor	200	Simple	Monadnock-region inn on Contoocook Lake with a ballroom, a playbarn, a private beach and lakeside cabins for guests.		603-532-8341	https://www.woodbound.com/weddings`,
+  },
 ];
 
 export default batches;
