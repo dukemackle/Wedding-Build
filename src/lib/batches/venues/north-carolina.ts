@@ -25,6 +25,11 @@ Twisty Maple		Fletcher	North Carolina			Garden / Outdoor	Outdoor	100	Luxury	Vall
 JuneBug Retro Resort	355 Clarks Chapel Road	Weaverville	North Carolina			Garden / Outdoor	Outdoor	150		Creekside property north of Asheville where vows are said under walnut trees beside Flat Creek, with a treehouse for tiny ceremonies and restored vintage campers for guests to stay in.	junebugretroresort@gmail.com		https://www.junebugretroresort.com/wedding-asheville-nc
 Nuvole TwentyTwo	220 E. Trade Street, Suite 2200	Charlotte	North Carolina			Ballroom / Hotel	Indoor & Outdoor			Twenty-second-floor rooftop lounge in uptown Charlotte with indoor and open-air seating over the skyline, offering inclusive wedding packages with catering, bar and a wedding-night hotel stay.	gm@nuvole22.com	(980) 960-9800	https://www.nuvole22.com/weddings-proposals`,
   },
+  {
+    name: "Chapel Hill venue",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Rock Quarry Farm	1700 NC Highway 54 West	Chapel Hill	North Carolina			Barn / Rustic	Indoor & Outdoor			Working farm on an 1890s homestead with a farmhouse, open-air barn, cabin and outbuildings, offering ceremony sites at an arbor, gazebo or cabin porch.	rockquarryfarm@gmail.com		https://www.rockquarryfarm.com/`,
+  },
 ];
 
 export default batches;
