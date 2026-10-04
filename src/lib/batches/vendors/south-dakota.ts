@@ -39,6 +39,12 @@ Anthony Begley Productions	Videography		Sioux Falls	South Dakota	The Midwest and
 Bombshell Beauty Makeup Studio	Hair & Makeup	1501 S Lake Ave	Sioux Falls	South Dakota	Sioux Falls	Central Sioux Falls makeup studio offering all-inclusive bridal makeup with airbrush application, lessons, and on-location work within the city.		605-759-2419	https://www.bombshellbeautysf.com/	https://www.instagram.com/bombshellbeautysf/
 `,
   },
+  {
+    name: "Sioux Falls: cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+The Cake Lady	Cake	2225 W 50th St	Sioux Falls	South Dakota		Family wedding-cake bakery working from three generations of recipes, with design consultations, tastings, delivery and set-up.	anna@thecakeladysf.com	(605) 370-1909	https://www.thecakeladysf.com/weddings-cakes	https://www.instagram.com/cakeladysf/
+Blush Bakery by Kate	Cake		Sioux Falls	South Dakota		Boutique home bakery baking elegant scratch-made wedding cakes and mini desserts, with consultations for engaged couples.	kate@blushbakerybykate.com		https://www.blushbakerybykate.com/	https://www.instagram.com/blushbakerybykate/`,
+  },
 ];
 
 export default batches;
