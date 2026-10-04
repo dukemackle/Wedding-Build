@@ -1,10 +1,13 @@
 import { addBundledVendorRows, addBundledVenueRows } from "@/lib/bundled-import";
 import { findAddresses } from "@/lib/address-finder";
+import { refuseBatchCaller } from "@/lib/batch-secret";
 import { newBudget, pinUnpinned } from "@/lib/import-pins";
 
-// The "Add them" button on /admin/venues and /admin/vendors, for the scheduled
-// batch routine: once a batch PR is merged and deployed, it POSTs here so the
-// new listings go live without the owner clicking. Guarded by a shared secret
+// The "Add them" button on /admin/venues and /admin/vendors, for a caller
+// with no admin login. The batch routine used to POST here; it now runs
+// scripts/import-batches.mjs, which does this work off-Worker and writes
+// through /api/batch-sync, because a few listings per call against Workers
+// Free's CPU limit kept failing with error 1102. Kept as a fallback. Guarded by a shared secret
 // (BATCH_IMPORT_SECRET, set in Cloudflare and in the routine's environment)
 // rather than an admin login, which the routine doesn't have.
 //
@@ -17,24 +20,9 @@ import { newBudget, pinUnpinned } from "@/lib/import-pins";
 // listings were moved onto a street address: a call that imports nothing is
 // still progress while `remaining` falls.
 
-/** Constant-time compare, so the secret can't be guessed a character at a time. */
-function matches(given: string, expected: string): boolean {
-  if (given.length !== expected.length) return false;
-  let diff = 0;
-  for (let i = 0; i < given.length; i++) diff |= given.charCodeAt(i) ^ expected.charCodeAt(i);
-  return diff === 0;
-}
-
 export async function POST(request: Request) {
-  const secret = process.env.BATCH_IMPORT_SECRET;
-  // Unset means switched off, not open to anyone.
-  if (!secret || secret.length < 32) {
-    return Response.json({ error: "Batch import isn't switched on." }, { status: 503 });
-  }
-  const given = request.headers.get("authorization")?.replace(/^Bearer\s+/i, "") ?? "";
-  if (!matches(given, secret)) {
-    return Response.json({ error: "Unauthorized." }, { status: 401 });
-  }
+  const refused = refuseBatchCaller(request);
+  if (refused) return refused;
 
   // New listings first, venues then vendors, spending from one budget: both
   // run in the same Worker invocation, so each assuming the whole allowance

@@ -77,9 +77,10 @@ for (const [fips, name, abbr] of [
  * A town's centre from the Census's own list of places (TIGERweb, 2020
  * census): incorporated towns first, then unincorporated ones like Driftwood.
  * Same terms as the geocoder above -- free, no key, public domain. Null for a
- * town the Census doesn't list (e.g. Oatmeal, TX).
+ * town the Census doesn't list (e.g. Oatmeal, TX). Exported for
+ * scripts/import-batches.mjs.
  */
-async function censusPlacePin(city: string, state: string): Promise<Pin | null> {
+export async function censusPlacePin(city: string, state: string): Promise<Pin | null> {
   const fips = STATE_FIPS[state.trim().toLowerCase()];
   if (!fips) return null;
   const where = `BASENAME='${city.trim().replace(/'/g, "''")}' AND STATE='${fips}'`;
