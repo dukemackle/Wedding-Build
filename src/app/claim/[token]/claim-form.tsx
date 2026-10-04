@@ -1,7 +1,7 @@
 "use client";
 
 import type { ListingRead } from "@/lib/ai/listing-reader";
-import { useState, useTransition } from "react";
+import { useRef, useState, useTransition } from "react";
 import { LegalNotice } from "@/components/legal-notice";
 import { createClient } from "@/lib/supabase/client";
 import {
@@ -33,6 +33,7 @@ import {
 import { createClaimPhotoUploads, submitVenueClaim, createImportUpload, readListingSource, writeListingText } from "./actions";
 import { ImportPanel, mergeDraft, mergeFaqs } from "../import-panel";
 import { ChipPicker, Field, inputClass, labelClass, PhotoGridEditor, Section, Select, WriteHelper, YesNo } from "../form-parts";
+import { StepNav, StepRail, type Step } from "../steps";
 
 const emptySpace: ClaimSpace = { name: "", description: null, capacity: null, setting: null, photo_url: null };
 
@@ -72,6 +73,9 @@ export function ClaimForm({ token, initial }: { token: string; initial: ClaimSub
   const [errors, setErrors] = useState<string[]>([]);
   const [done, setDone] = useState(false);
   const [isPending, startTransition] = useTransition();
+  const [step, setStep] = useState(0);
+  const stepRefs = useRef<(HTMLFieldSetElement | null)[]>([]);
+  const formRef = useRef<HTMLFormElement>(null);
 
   const set = <K extends keyof ClaimDetails>(key: K, value: ClaimDetails[K]) =>
     setDetails((d) => ({ ...d, [key]: value }));
@@ -161,8 +165,26 @@ export function ClaimForm({ token, initial }: { token: string; initial: ClaimSub
       details.price_options.map((o, j) => (j === index ? { ...o, ...patch } : o)),
     );
 
+  function goTo(i: number) {
+    setStep(i);
+    formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  // Next checks only this step's required boxes; the rail lets them jump
+  // anywhere, so submit re-checks every step and opens the first one short.
+  function next() {
+    if (stepRefs.current[step]?.reportValidity() === false) return;
+    goTo(step + 1);
+  }
+
   function submit(e: React.FormEvent) {
     e.preventDefault();
+    const invalid = stepRefs.current.findIndex((el) => el && !el.checkValidity());
+    if (invalid >= 0) {
+      setStep(invalid);
+      requestAnimationFrame(() => stepRefs.current[invalid]?.reportValidity());
+      return;
+    }
     setErrors([]);
     startTransition(async () => {
       const result = await submitVenueClaim(token, {
@@ -200,541 +222,607 @@ export function ClaimForm({ token, initial }: { token: string; initial: ClaimSub
   const answered = faqs.filter((f) => f.answer.trim()).length;
   const price = priceHeadline(details);
 
+  const steps: Step[] = [
+    { title: "The basics", done: Boolean(details.name && details.city && details.state && details.venue_type && details.capacity) },
+    { title: "Pricing", done: details.price_basis !== null },
+    { title: "Photos and spaces", done: photos.length > 0 },
+    { title: "Description and contact", done: Boolean(details.description && (details.contact_email || details.contact_phone)) },
+    { title: "Details couples ask", done: answered > 0 || namedVendors.length > 0, optional: true },
+    { title: "Send it", done: Boolean(submitter.name && submitter.email && submitter.represents) },
+  ];
+
   return (
-    <form onSubmit={submit} className="mt-8 lg:grid lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start lg:gap-10">
-      <div className="flex flex-col gap-6">
-        <ImportPanel
-          token={token}
-          bucket="venue-photos"
-          defaultWebsite={details.website}
-          questions={faqs.filter((f) => !f.answer.trim()).map((f) => f.question)}
-          createUpload={createImportUpload}
-          readSource={readListingSource}
-          onRead={applyDraft}
-        />
-        <Section title="The basics">
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <Field label="Venue name" className="sm:col-span-2">
-              <input value={details.name} onChange={(e) => set("name", e.target.value)} className={inputClass} required />
-            </Field>
-            <Field label="Street address" className="sm:col-span-2">
-              <input
-                value={details.address ?? ""}
-                onChange={(e) => set("address", e.target.value || null)}
-                className={inputClass}
-                placeholder="12300 Huber Road"
-              />
-            </Field>
-            <Field label="Town">
-              <input value={details.city ?? ""} onChange={(e) => set("city", e.target.value || null)} className={inputClass} />
-            </Field>
-            <Field label="State">
-              <Select value={details.state} onChange={(v) => set("state", v)} options={STATES} placeholder="Choose…" />
-            </Field>
-            <Field label="Venue type">
-              <Select value={details.venue_type} onChange={(v) => set("venue_type", v)} options={VENUE_TYPES} placeholder="Choose…" />
-            </Field>
-            <Field label="Setting">
-              <Select value={details.setting} onChange={(v) => set("setting", v)} options={VENUE_SETTINGS} placeholder="Choose…" />
-            </Field>
-            <Field label="Seated guests (max)">
-              <input
-                type="number"
-                min={1}
-                inputMode="numeric"
-                value={details.capacity ?? ""}
-                onChange={(e) => set("capacity", e.target.value ? Number(e.target.value) : null)}
-                className={inputClass}
-              />
-            </Field>
-            <Field label="Standing guests (max)">
-              <input
-                type="number"
-                min={1}
-                inputMode="numeric"
-                value={details.capacity_standing ?? ""}
-                onChange={(e) => set("capacity_standing", e.target.value ? Number(e.target.value) : null)}
-                className={inputClass}
-              />
-            </Field>
-          </div>
-        </Section>
+    <form ref={formRef} onSubmit={submit} noValidate className="mt-8 scroll-mt-4 lg:grid lg:grid-cols-[190px_minmax(0,1fr)_300px] lg:items-start lg:gap-10">
+      <StepRail steps={steps} current={step} onPick={goTo} />
 
-        <Section
-          title="Pricing and what's provided"
-          hint="Cost is the first thing couples ask. A starting point is enough -- it's not a quote, and it saves you emails from couples who aren't a fit."
+      <div className="flex min-w-0 flex-col gap-6">
+        <fieldset
+          ref={(el) => {
+            stepRefs.current[0] = el;
+          }}
+          className={step === 0 ? "flex min-w-0 flex-col gap-6" : "hidden"}
         >
-          <p className={labelClass}>How does your pricing work?</p>
-          <div className="flex flex-wrap gap-2">
-            {(Object.keys(PRICE_BASES) as PriceBasis[]).map((basis) => (
-              <button
-                key={basis}
-                type="button"
-                aria-pressed={details.price_basis === basis}
-                onClick={() => set("price_basis", details.price_basis === basis ? null : basis)}
-                className={`rounded-full border px-3.5 py-1.5 text-sm transition-colors ${
-                  details.price_basis === basis
-                    ? "border-forest bg-forest text-parchment"
-                    : "border-hairline bg-card text-ink hover:border-forest/50"
-                }`}
-              >
-                {PRICE_BASES[basis]}
-              </button>
-            ))}
-          </div>
-          {details.price_basis === "ask" ? (
-            <p className="mt-4 rounded-md bg-parchment px-3 py-2.5 text-sm text-ink/70">
-              Your listing will say <span className="font-medium text-ink">Ask for pricing</span>, and couples can
-              send you an inquiry. You can add a price any time.
-            </p>
-          ) : (
-            <>
-              <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
-                <Field label={details.price_basis ? PRICE_BASIS_HINTS[details.price_basis] : "Starting price"}>
-                  <div className="relative">
-                    <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-ink/45">$</span>
-                    <input
-                      type="number"
-                      min={0}
-                      inputMode="numeric"
-                      value={details.price_from ?? ""}
-                      onChange={(e) => set("price_from", e.target.value ? Number(e.target.value) : null)}
-                      className={`${inputClass} pl-6`}
-                    />
-                  </div>
-                </Field>
-                <Field label="That price covers" className="sm:col-span-2">
-                  <input
-                    value={details.price_note ?? ""}
-                    onChange={(e) => set("price_note", e.target.value || null)}
-                    className={inputClass}
-                    placeholder={PRICE_COVERS_PLACEHOLDER[details.price_basis ?? "rental"]}
-                  />
-                </Field>
-              </div>
-
-              <p className={`${labelClass} mt-5`}>Other prices (optional)</p>
-              <p className="-mt-0.5 mb-2 text-xs text-ink/55">Different days, a weekend buyout, an extra day -- whatever couples ask about.</p>
-              {details.price_options.length > 0 && (
-                <div className="mb-3 flex flex-col gap-2">
-                  {details.price_options.map((o, i) => (
-                    <div key={i} className="grid grid-cols-[minmax(0,1fr)_104px_auto] items-center gap-2 sm:grid-cols-[minmax(0,1fr)_160px_auto]">
-                      <input
-                        value={o.label}
-                        onChange={(e) => setOption(i, { label: e.target.value })}
-                        className={inputClass}
-                        placeholder="Friday or Sunday"
-                        aria-label="What this price is for"
-                      />
-                      <div className="relative">
-                        <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-ink/45">$</span>
-                        <input
-                          type="number"
-                          min={0}
-                          inputMode="numeric"
-                          value={o.amount ?? ""}
-                          onChange={(e) => setOption(i, { amount: e.target.value ? Number(e.target.value) : null })}
-                          className={`${inputClass} pl-6`}
-                          aria-label={`Price for ${o.label || "this option"}`}
-                        />
-                      </div>
-                      <button
-                        type="button"
-                        onClick={() => set("price_options", details.price_options.filter((_, j) => j !== i))}
-                        className="px-1 text-sm text-ink/45 hover:text-ink"
-                        aria-label="Remove price"
-                      >
-                        <span aria-hidden className="text-lg leading-none sm:hidden">×</span>
-                        <span className="hidden sm:inline">Remove</span>
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              )}
-              {details.price_options.length < MAX_PRICE_OPTIONS && (
-                <div className="flex flex-wrap gap-2">
-                  {PRICE_SUGGESTIONS.filter((label) => !details.price_options.some((o) => o.label === label)).map((label) => (
-                    <button
-                      key={label}
-                      type="button"
-                      onClick={() => set("price_options", [...details.price_options, { label, amount: null }])}
-                      className="rounded-full border border-dashed border-forest/40 px-3 py-1 text-sm text-forest hover:border-forest"
-                    >
-                      + {label}
-                    </button>
-                  ))}
-                  <button
-                    type="button"
-                    onClick={() => set("price_options", [...details.price_options, { label: "", amount: null }])}
-                    className="rounded-full border border-dashed border-forest/40 px-3 py-1 text-sm text-forest hover:border-forest"
-                  >
-                    + Other
-                  </button>
-                </div>
-              )}
-            </>
-          )}
-
-          <p className={`${labelClass} mt-6`}>What does the venue provide?</p>
-          <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
-            {(Object.keys(SERVICE_LEVELS) as ServiceLevel[]).map((level) => (
-              <label
-                key={level}
-                className={`cursor-pointer rounded-md border px-3 py-2.5 text-sm transition-colors ${
-                  details.service_level === level ? "border-forest bg-forest/5" : "border-hairline hover:border-forest/40"
-                }`}
-              >
+          <ImportPanel
+            token={token}
+            bucket="venue-photos"
+            defaultWebsite={details.website}
+            questions={faqs.filter((f) => !f.answer.trim()).map((f) => f.question)}
+            createUpload={createImportUpload}
+            readSource={readListingSource}
+            onRead={applyDraft}
+          />
+          <Section title="The basics">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <Field label="Venue name" className="sm:col-span-2">
+                <input value={details.name} onChange={(e) => set("name", e.target.value)} className={inputClass} required />
+              </Field>
+              <Field label="Street address" className="sm:col-span-2">
                 <input
-                  type="radio"
-                  name="service_level"
-                  checked={details.service_level === level}
-                  onChange={() => set("service_level", level)}
-                  className="sr-only"
-                />
-                <span className="block font-medium text-ink">{SERVICE_LEVELS[level]}</span>
-                <span className="mt-0.5 block text-xs text-ink/55">{SERVICE_LEVEL_HINTS[level]}</span>
-              </label>
-            ))}
-          </div>
-
-          <p className={`${labelClass} mt-6`}>What&apos;s included? Tap all that apply</p>
-          <ChipPicker options={INCLUDED_OPTIONS} value={details.included_items} onChange={(v) => set("included_items", v)} />
-          <Field label="Anything else included?" className="mt-4">
-            <input
-              value={details.included ?? ""}
-              onChange={(e) => set("included", e.target.value || null)}
-              className={inputClass}
-              placeholder="Two hours of rehearsal time, golf cart shuttles…"
-            />
-          </Field>
-
-          <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <Field label="Outside vendors">
-              <select
-                value={details.vendor_policy ?? ""}
-                onChange={(e) => set("vendor_policy", (e.target.value || null) as VendorPolicy | null)}
-                className={inputClass}
-              >
-                <option value="">Choose…</option>
-                {(Object.keys(VENDOR_POLICIES) as VendorPolicy[]).map((p) => (
-                  <option key={p} value={p}>
-                    {VENDOR_POLICIES[p]}
-                  </option>
-                ))}
-              </select>
-            </Field>
-            <Field label="Price level">
-              <Select value={details.price_tier} onChange={(v) => set("price_tier", v)} options={STYLE_TIERS} placeholder="Choose…" />
-            </Field>
-          </div>
-        </Section>
-
-        <Section title="Contact" hint="Where couples' inquiries through You Do, I Do are sent. For social media, your @handle is fine.">
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <Field label="Email">
-              <input type="email" value={details.contact_email ?? ""} onChange={(e) => set("contact_email", e.target.value || null)} className={inputClass} />
-            </Field>
-            <Field label="Phone">
-              <input type="tel" value={details.contact_phone ?? ""} onChange={(e) => set("contact_phone", e.target.value || null)} className={inputClass} />
-            </Field>
-            <Field label="Website" className="sm:col-span-2">
-              <input value={details.website ?? ""} onChange={(e) => set("website", e.target.value || null)} className={inputClass} placeholder="yourvenue.com" />
-            </Field>
-            {SOCIALS.map(([key, label]) => (
-              <Field key={key} label={label}>
-                <input
-                  value={details[key] ?? ""}
-                  onChange={(e) => set(key, e.target.value || null)}
+                  value={details.address ?? ""}
+                  onChange={(e) => set("address", e.target.value || null)}
                   className={inputClass}
-                  placeholder="@yourvenue or a link"
+                  placeholder="12300 Huber Road"
                 />
               </Field>
-            ))}
-            <Field label="Reviews page" className="sm:col-span-2">
-              <input
-                value={details.reviews_url ?? ""}
-                onChange={(e) => set("reviews_url", e.target.value || null)}
-                className={inputClass}
-                placeholder="Your Google, The Knot or WeddingWire reviews link"
-              />
-            </Field>
-          </div>
-        </Section>
-
-        <Section title="Describe your venue" hint="Short on time? Tap ✨ and Wren drafts it from a few words.">
-          <div className="flex flex-col gap-4">
-            <div>
-              <Field label="One-line description">
+              <Field label="Town">
+                <input value={details.city ?? ""} onChange={(e) => set("city", e.target.value || null)} className={inputClass} />
+              </Field>
+              <Field label="State">
+                <Select value={details.state} onChange={(v) => set("state", v)} options={STATES} placeholder="Choose…" />
+              </Field>
+              <Field label="Venue type">
+                <Select value={details.venue_type} onChange={(v) => set("venue_type", v)} options={VENUE_TYPES} placeholder="Choose…" />
+              </Field>
+              <Field label="Setting">
+                <Select value={details.setting} onChange={(v) => set("setting", v)} options={VENUE_SETTINGS} placeholder="Choose…" />
+              </Field>
+              <Field label="Seated guests (max)">
                 <input
-                  value={details.description ?? ""}
-                  onChange={(e) => set("description", e.target.value || null)}
-                  maxLength={200}
+                  type="number"
+                  min={1}
+                  inputMode="numeric"
+                  value={details.capacity ?? ""}
+                  onChange={(e) => set("capacity", e.target.value ? Number(e.target.value) : null)}
                   className={inputClass}
-                  placeholder="What a couple should know at a glance"
                 />
               </Field>
-              <WriteHelper
-                noun="venue"
-                notes={writeNotes}
-                setNotes={setWriteNotes}
-                write={writeFor("description")}
-                onUse={(text) => set("description", text)}
-              />
-            </div>
-            <div>
-              <Field label="About">
-                <textarea rows={5} value={details.about ?? ""} onChange={(e) => set("about", e.target.value || null)} className={inputClass} />
+              <Field label="Standing guests (max)">
+                <input
+                  type="number"
+                  min={1}
+                  inputMode="numeric"
+                  value={details.capacity_standing ?? ""}
+                  onChange={(e) => set("capacity_standing", e.target.value ? Number(e.target.value) : null)}
+                  className={inputClass}
+                />
               </Field>
-              <WriteHelper
-                noun="venue"
-                notes={writeNotes}
-                setNotes={setWriteNotes}
-                write={writeFor("about")}
-                onUse={(text) => set("about", text)}
-              />
             </div>
-            <Field label="Anything else couples should know?">
-              <textarea
-                rows={3}
-                value={details.good_to_know ?? ""}
-                onChange={(e) => set("good_to_know", e.target.value || null)}
-                className={inputClass}
-                placeholder="How far ahead you book up, deposit, noise curfew, anything else"
-              />
-            </Field>
-            <div>
-              <p className={labelClass}>Amenities -- tap all that apply</p>
-              <ChipPicker options={AMENITY_OPTIONS} value={details.amenities} onChange={(v) => set("amenities", v)} />
-            </div>
-          </div>
-        </Section>
+          </Section>
+          <StepNav current={step} steps={steps} onBack={() => goTo(step - 1)} onNext={next} />
+        </fieldset>
 
-        <Section title="Photos" hint={`Up to ${MAX_CLAIM_PHOTOS}. The first one is the cover couples see in search.`}>
-          <PhotoGridEditor photos={photos} setPhotos={setPhotos} uploading={uploading} onAddFiles={addPhotos} />
-          {photoError && <p className="mt-3 text-sm text-red-700">{photoError}</p>}
-          <p className="mt-3 text-xs text-ink/50">Only upload photos you own or have permission to use.</p>
-        </Section>
-
-        <Section
-          title="Event spaces"
-          hint="Optional. Each ceremony or reception spot on the property -- the barn, the chapel, the oak grove."
+        <fieldset
+          ref={(el) => {
+            stepRefs.current[1] = el;
+          }}
+          className={step === 1 ? "flex min-w-0 flex-col gap-6" : "hidden"}
         >
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            {spaces.map((sp, i) => (
-              <div key={i} className="flex flex-col gap-3 rounded-md border border-hairline p-3">
-                <div className="flex gap-3">
-                  <label className="relative flex h-20 w-24 shrink-0 cursor-pointer items-center justify-center overflow-hidden rounded border border-dashed border-forest/40 text-center text-xs text-forest hover:border-forest">
-                    {sp.photo_url ? (
-                      // eslint-disable-next-line @next/next/no-img-element -- just-uploaded storage URLs
-                      <img src={sp.photo_url} alt="" className="h-full w-full object-cover" />
-                    ) : spaceUploading === i ? (
-                      "Uploading…"
-                    ) : (
-                      "+ Photo"
-                    )}
-                    <input
-                      type="file"
-                      accept={CLAIM_PHOTO_TYPES.join(",")}
-                      className="sr-only"
-                      onChange={(e) => addSpacePhoto(i, e.target.files?.[0])}
-                    />
-                  </label>
-                  <div className="flex min-w-0 flex-1 flex-col gap-2">
-                    <input
-                      value={sp.name}
-                      onChange={(e) => setSpace(i, { name: e.target.value })}
-                      className={inputClass}
-                      placeholder="Space name"
-                      aria-label="Space name"
-                    />
-                    <div className="grid grid-cols-2 gap-2">
-                      <Select value={sp.setting} onChange={(v) => setSpace(i, { setting: v })} options={VENUE_SETTINGS} placeholder="Setting" />
+          <Section
+            title="Pricing and what's provided"
+            hint="Cost is the first thing couples ask. A starting point is enough -- it's not a quote, and it saves you emails from couples who aren't a fit."
+          >
+            <p className={labelClass}>How does your pricing work?</p>
+            <div className="flex flex-wrap gap-2">
+              {(Object.keys(PRICE_BASES) as PriceBasis[]).map((basis) => (
+                <button
+                  key={basis}
+                  type="button"
+                  aria-pressed={details.price_basis === basis}
+                  onClick={() => set("price_basis", details.price_basis === basis ? null : basis)}
+                  className={`rounded-full border px-3.5 py-1.5 text-sm transition-colors ${
+                    details.price_basis === basis
+                      ? "border-forest bg-forest text-parchment"
+                      : "border-hairline bg-card text-ink hover:border-forest/50"
+                  }`}
+                >
+                  {PRICE_BASES[basis]}
+                </button>
+              ))}
+            </div>
+            {details.price_basis === "ask" ? (
+              <p className="mt-4 rounded-md bg-parchment px-3 py-2.5 text-sm text-ink/70">
+                Your listing will say <span className="font-medium text-ink">Ask for pricing</span>, and couples can
+                send you an inquiry. You can add a price any time.
+              </p>
+            ) : (
+              <>
+                <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
+                  <Field label={details.price_basis ? PRICE_BASIS_HINTS[details.price_basis] : "Starting price"}>
+                    <div className="relative">
+                      <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-ink/45">$</span>
                       <input
                         type="number"
-                        min={1}
+                        min={0}
                         inputMode="numeric"
-                        value={sp.capacity ?? ""}
-                        onChange={(e) => setSpace(i, { capacity: e.target.value ? Number(e.target.value) : null })}
-                        className={inputClass}
-                        placeholder="Guests"
-                        aria-label="Space capacity"
+                        value={details.price_from ?? ""}
+                        onChange={(e) => set("price_from", e.target.value ? Number(e.target.value) : null)}
+                        className={`${inputClass} pl-6`}
                       />
                     </div>
-                  </div>
+                  </Field>
+                  <Field label="That price covers" className="sm:col-span-2">
+                    <input
+                      value={details.price_note ?? ""}
+                      onChange={(e) => set("price_note", e.target.value || null)}
+                      className={inputClass}
+                      placeholder={PRICE_COVERS_PLACEHOLDER[details.price_basis ?? "rental"]}
+                    />
+                  </Field>
                 </div>
-                <textarea
-                  rows={2}
-                  value={sp.description ?? ""}
-                  onChange={(e) => setSpace(i, { description: e.target.value || null })}
-                  className={inputClass}
-                  placeholder="What it's used for, what makes it special"
-                  aria-label="Space description"
-                />
-                <button type="button" onClick={() => setSpaces((all) => all.filter((_, j) => j !== i))} className="self-end text-sm text-ink/45 hover:text-ink">
-                  Remove
-                </button>
-              </div>
-            ))}
-          </div>
-          <button type="button" onClick={() => setSpaces((all) => [...all, { ...emptySpace }])} className="mt-3 text-sm text-brass hover:underline">
-            + Add a space
-          </button>
-        </Section>
 
-        <Section title="Practical details" hint="Optional, but these settle a lot of back-and-forth emails.">
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <Field label="On-site lodging sleeps">
-              <input
-                type="number"
-                min={0}
-                inputMode="numeric"
-                value={details.lodging_sleeps ?? ""}
-                onChange={(e) => set("lodging_sleeps", e.target.value ? Number(e.target.value) : null)}
-                className={inputClass}
-                placeholder="0 if none"
-              />
-            </Field>
-            <Field label="Parking">
-              <input
-                value={details.parking ?? ""}
-                onChange={(e) => set("parking", e.target.value || null)}
-                className={inputClass}
-                placeholder="120 spaces on site · Shuttle from town"
-              />
-            </Field>
-            <Field label="Wheelchair accessible">
-              <YesNo value={details.wheelchair_accessible} onChange={(v) => set("wheelchair_accessible", v)} />
-            </Field>
-            <Field label="Pets allowed">
-              <YesNo value={details.pets_allowed} onChange={(v) => set("pets_allowed", v)} />
-            </Field>
-          </div>
-        </Section>
+                <p className={`${labelClass} mt-5`}>Other prices (optional)</p>
+                <p className="-mt-0.5 mb-2 text-xs text-ink/55">Different days, a weekend buyout, an extra day -- whatever couples ask about.</p>
+                {details.price_options.length > 0 && (
+                  <div className="mb-3 flex flex-col gap-2">
+                    {details.price_options.map((o, i) => (
+                      <div key={i} className="grid grid-cols-[minmax(0,1fr)_104px_auto] items-center gap-2 sm:grid-cols-[minmax(0,1fr)_160px_auto]">
+                        <input
+                          value={o.label}
+                          onChange={(e) => setOption(i, { label: e.target.value })}
+                          className={inputClass}
+                          placeholder="Friday or Sunday"
+                          aria-label="What this price is for"
+                        />
+                        <div className="relative">
+                          <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-ink/45">$</span>
+                          <input
+                            type="number"
+                            min={0}
+                            inputMode="numeric"
+                            value={o.amount ?? ""}
+                            onChange={(e) => setOption(i, { amount: e.target.value ? Number(e.target.value) : null })}
+                            className={`${inputClass} pl-6`}
+                            aria-label={`Price for ${o.label || "this option"}`}
+                          />
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => set("price_options", details.price_options.filter((_, j) => j !== i))}
+                          className="px-1 text-sm text-ink/45 hover:text-ink"
+                          aria-label="Remove price"
+                        >
+                          <span aria-hidden className="text-lg leading-none sm:hidden">×</span>
+                          <span className="hidden sm:inline">Remove</span>
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                {details.price_options.length < MAX_PRICE_OPTIONS && (
+                  <div className="flex flex-wrap gap-2">
+                    {PRICE_SUGGESTIONS.filter((label) => !details.price_options.some((o) => o.label === label)).map((label) => (
+                      <button
+                        key={label}
+                        type="button"
+                        onClick={() => set("price_options", [...details.price_options, { label, amount: null }])}
+                        className="rounded-full border border-dashed border-forest/40 px-3 py-1 text-sm text-forest hover:border-forest"
+                      >
+                        + {label}
+                      </button>
+                    ))}
+                    <button
+                      type="button"
+                      onClick={() => set("price_options", [...details.price_options, { label: "", amount: null }])}
+                      className="rounded-full border border-dashed border-forest/40 px-3 py-1 text-sm text-forest hover:border-forest"
+                    >
+                      + Other
+                    </button>
+                  </div>
+                )}
+              </>
+            )}
 
-        <Section
-          title="Preferred vendors"
-          hint="The caterers, photographers, florists and others you recommend. Couples see these on your listing, with a link to each."
-        >
-          <div className="flex flex-col gap-3">
-            {vendors.map((v, i) => (
-              <div key={i} className="grid grid-cols-1 gap-2 rounded-md border border-hairline p-3 sm:grid-cols-[160px_1fr_1fr_auto] sm:items-center sm:border-0 sm:p-0">
-                <Select
-                  value={v.category || null}
-                  onChange={(c) => setVendors((all) => all.map((x, j) => (j === i ? { ...x, category: c ?? "" } : x)))}
-                  options={PREFERRED_VENDOR_CATEGORIES}
-                  placeholder="Category"
-                />
-                <input
-                  value={v.name}
-                  onChange={(e) => setVendors((all) => all.map((x, j) => (j === i ? { ...x, name: e.target.value } : x)))}
-                  className={inputClass}
-                  placeholder="Business name"
-                  aria-label="Vendor name"
-                />
-                <input
-                  value={v.website ?? ""}
-                  onChange={(e) => setVendors((all) => all.map((x, j) => (j === i ? { ...x, website: e.target.value || null } : x)))}
-                  className={inputClass}
-                  placeholder="Website"
-                  aria-label="Vendor website"
-                />
-                <button
-                  type="button"
-                  onClick={() => setVendors((all) => all.filter((_, j) => j !== i))}
-                  className="justify-self-end px-2 text-sm text-ink/45 hover:text-ink"
-                  aria-label="Remove vendor"
+            <p className={`${labelClass} mt-6`}>What does the venue provide?</p>
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
+              {(Object.keys(SERVICE_LEVELS) as ServiceLevel[]).map((level) => (
+                <label
+                  key={level}
+                  className={`cursor-pointer rounded-md border px-3 py-2.5 text-sm transition-colors ${
+                    details.service_level === level ? "border-forest bg-forest/5" : "border-hairline hover:border-forest/40"
+                  }`}
                 >
-                  Remove
-                </button>
-              </div>
-            ))}
-          </div>
-          <button
-            type="button"
-            onClick={() => setVendors((all) => [...all, { category: "", name: "", website: null }])}
-            className="mt-3 text-sm text-brass hover:underline"
-          >
-            + Add a vendor
-          </button>
-        </Section>
+                  <input
+                    type="radio"
+                    name="service_level"
+                    checked={details.service_level === level}
+                    onChange={() => set("service_level", level)}
+                    className="sr-only"
+                  />
+                  <span className="block font-medium text-ink">{SERVICE_LEVELS[level]}</span>
+                  <span className="mt-0.5 block text-xs text-ink/55">{SERVICE_LEVEL_HINTS[level]}</span>
+                </label>
+              ))}
+            </div>
 
-        <Section title="Questions couples ask" hint="We've started you off with the ones couples ask most. Answer any you like -- blank ones are skipped.">
-          <div className="flex flex-col gap-4">
-            {faqs.map((f, i) => (
-              <div key={i} className="flex flex-col gap-2 border-b border-hairline pb-4 last:border-b-0">
-                <input
-                  value={f.question}
-                  onChange={(e) => setFaqs((all) => all.map((x, j) => (j === i ? { ...x, question: e.target.value } : x)))}
-                  className={inputClass}
-                  placeholder="Question"
-                  aria-label="Question"
-                />
-                <textarea
-                  rows={2}
-                  value={f.answer}
-                  onChange={(e) => setFaqs((all) => all.map((x, j) => (j === i ? { ...x, answer: e.target.value } : x)))}
-                  className={inputClass}
-                  placeholder="Your answer (leave blank to skip)"
-                  aria-label="Answer"
-                />
-                <button type="button" onClick={() => setFaqs((all) => all.filter((_, j) => j !== i))} className="self-end text-sm text-ink/45 hover:text-ink">
-                  Remove
-                </button>
-              </div>
-            ))}
-          </div>
-          <button type="button" onClick={() => setFaqs((all) => [...all, { question: "", answer: "" }])} className="mt-3 text-sm text-brass hover:underline">
-            + Add a question
-          </button>
-        </Section>
-
-        <Section title="About you" hint="So we can confirm the changes and let you know when they're live. Not shown on the listing.">
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <Field label="Your name">
-              <input value={submitter.name} onChange={(e) => setSubmitter((s) => ({ ...s, name: e.target.value }))} className={inputClass} required />
-            </Field>
-            <Field label="Your email">
-              <input type="email" value={submitter.email} onChange={(e) => setSubmitter((s) => ({ ...s, email: e.target.value }))} className={inputClass} required />
-            </Field>
-            <Field label="Your role" className="sm:col-span-2">
+            <p className={`${labelClass} mt-6`}>What&apos;s included? Tap all that apply</p>
+            <ChipPicker options={INCLUDED_OPTIONS} value={details.included_items} onChange={(v) => set("included_items", v)} />
+            <Field label="Anything else included?" className="mt-4">
               <input
-                value={submitter.role ?? ""}
-                onChange={(e) => setSubmitter((s) => ({ ...s, role: e.target.value || null }))}
+                value={details.included ?? ""}
+                onChange={(e) => set("included", e.target.value || null)}
                 className={inputClass}
-                placeholder="Owner, events manager…"
+                placeholder="Two hours of rehearsal time, golf cart shuttles…"
               />
             </Field>
-          </div>
-          <label className="mt-4 flex items-start gap-3 text-sm text-ink/80">
-            <input
-              type="checkbox"
-              checked={submitter.represents}
-              onChange={(e) => setSubmitter((s) => ({ ...s, represents: e.target.checked }))}
-              className="mt-0.5 h-4 w-4 accent-forest"
-            />
-            I work for or own {details.name || "this venue"} and can make changes to its listing.
-          </label>
-        </Section>
 
-        {errors.length > 0 && (
-          <div className="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
-            <p className="font-medium">A few things to fix first:</p>
-            <ul className="mt-1 list-disc pl-5">
-              {errors.map((e) => (
-                <li key={e}>{e}</li>
-              ))}
-            </ul>
-          </div>
-        )}
+            <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <Field label="Outside vendors">
+                <select
+                  value={details.vendor_policy ?? ""}
+                  onChange={(e) => set("vendor_policy", (e.target.value || null) as VendorPolicy | null)}
+                  className={inputClass}
+                >
+                  <option value="">Choose…</option>
+                  {(Object.keys(VENDOR_POLICIES) as VendorPolicy[]).map((p) => (
+                    <option key={p} value={p}>
+                      {VENDOR_POLICIES[p]}
+                    </option>
+                  ))}
+                </select>
+              </Field>
+              <Field label="Price level">
+                <Select value={details.price_tier} onChange={(v) => set("price_tier", v)} options={STYLE_TIERS} placeholder="Choose…" />
+              </Field>
+            </div>
+          </Section>
+          <StepNav current={step} steps={steps} onBack={() => goTo(step - 1)} onNext={next} />
+        </fieldset>
 
-        <button
-          type="submit"
-          disabled={isPending || uploading > 0}
-          className="w-full rounded-md bg-forest px-5 py-3 font-medium text-parchment transition-colors hover:bg-forest/90 disabled:opacity-60 sm:w-auto sm:self-start"
+        <fieldset
+          ref={(el) => {
+            stepRefs.current[2] = el;
+          }}
+          className={step === 2 ? "flex min-w-0 flex-col gap-6" : "hidden"}
         >
-          {isPending ? "Sending…" : "Send for review"}
-        </button>
-        <LegalNotice action="sending this for review" />
+          <Section title="Photos" hint={`Up to ${MAX_CLAIM_PHOTOS}. The first one is the cover couples see in search.`}>
+            <PhotoGridEditor photos={photos} setPhotos={setPhotos} uploading={uploading} onAddFiles={addPhotos} />
+            {photoError && <p className="mt-3 text-sm text-red-700">{photoError}</p>}
+            <p className="mt-3 text-xs text-ink/50">Only upload photos you own or have permission to use.</p>
+          </Section>
+
+          <Section
+            title="Event spaces"
+            hint="Optional. Each ceremony or reception spot on the property -- the barn, the chapel, the oak grove."
+          >
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+              {spaces.map((sp, i) => (
+                <div key={i} className="flex flex-col gap-3 rounded-md border border-hairline p-3">
+                  <div className="flex gap-3">
+                    <label className="relative flex h-20 w-24 shrink-0 cursor-pointer items-center justify-center overflow-hidden rounded border border-dashed border-forest/40 text-center text-xs text-forest hover:border-forest">
+                      {sp.photo_url ? (
+                        // eslint-disable-next-line @next/next/no-img-element -- just-uploaded storage URLs
+                        <img src={sp.photo_url} alt="" className="h-full w-full object-cover" />
+                      ) : spaceUploading === i ? (
+                        "Uploading…"
+                      ) : (
+                        "+ Photo"
+                      )}
+                      <input
+                        type="file"
+                        accept={CLAIM_PHOTO_TYPES.join(",")}
+                        className="sr-only"
+                        onChange={(e) => addSpacePhoto(i, e.target.files?.[0])}
+                      />
+                    </label>
+                    <div className="flex min-w-0 flex-1 flex-col gap-2">
+                      <input
+                        value={sp.name}
+                        onChange={(e) => setSpace(i, { name: e.target.value })}
+                        className={inputClass}
+                        placeholder="Space name"
+                        aria-label="Space name"
+                      />
+                      <div className="grid grid-cols-2 gap-2">
+                        <Select value={sp.setting} onChange={(v) => setSpace(i, { setting: v })} options={VENUE_SETTINGS} placeholder="Setting" />
+                        <input
+                          type="number"
+                          min={1}
+                          inputMode="numeric"
+                          value={sp.capacity ?? ""}
+                          onChange={(e) => setSpace(i, { capacity: e.target.value ? Number(e.target.value) : null })}
+                          className={inputClass}
+                          placeholder="Guests"
+                          aria-label="Space capacity"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <textarea
+                    rows={2}
+                    value={sp.description ?? ""}
+                    onChange={(e) => setSpace(i, { description: e.target.value || null })}
+                    className={inputClass}
+                    placeholder="What it's used for, what makes it special"
+                    aria-label="Space description"
+                  />
+                  <button type="button" onClick={() => setSpaces((all) => all.filter((_, j) => j !== i))} className="self-end text-sm text-ink/45 hover:text-ink">
+                    Remove
+                  </button>
+                </div>
+              ))}
+            </div>
+            <button type="button" onClick={() => setSpaces((all) => [...all, { ...emptySpace }])} className="mt-3 text-sm text-brass hover:underline">
+              + Add a space
+            </button>
+          </Section>
+          <StepNav current={step} steps={steps} onBack={() => goTo(step - 1)} onNext={next} />
+        </fieldset>
+
+        <fieldset
+          ref={(el) => {
+            stepRefs.current[3] = el;
+          }}
+          className={step === 3 ? "flex min-w-0 flex-col gap-6" : "hidden"}
+        >
+          <Section title="Describe your venue" hint="Short on time? Tap ✨ and Wren drafts it from a few words.">
+            <div className="flex flex-col gap-4">
+              <div>
+                <Field label="One-line description">
+                  <input
+                    value={details.description ?? ""}
+                    onChange={(e) => set("description", e.target.value || null)}
+                    maxLength={200}
+                    className={inputClass}
+                    placeholder="What a couple should know at a glance"
+                  />
+                </Field>
+                <WriteHelper
+                  noun="venue"
+                  notes={writeNotes}
+                  setNotes={setWriteNotes}
+                  write={writeFor("description")}
+                  onUse={(text) => set("description", text)}
+                />
+              </div>
+              <div>
+                <Field label="About">
+                  <textarea rows={5} value={details.about ?? ""} onChange={(e) => set("about", e.target.value || null)} className={inputClass} />
+                </Field>
+                <WriteHelper
+                  noun="venue"
+                  notes={writeNotes}
+                  setNotes={setWriteNotes}
+                  write={writeFor("about")}
+                  onUse={(text) => set("about", text)}
+                />
+              </div>
+              <Field label="Anything else couples should know?">
+                <textarea
+                  rows={3}
+                  value={details.good_to_know ?? ""}
+                  onChange={(e) => set("good_to_know", e.target.value || null)}
+                  className={inputClass}
+                  placeholder="How far ahead you book up, deposit, noise curfew, anything else"
+                />
+              </Field>
+              <div>
+                <p className={labelClass}>Amenities -- tap all that apply</p>
+                <ChipPicker options={AMENITY_OPTIONS} value={details.amenities} onChange={(v) => set("amenities", v)} />
+              </div>
+            </div>
+          </Section>
+
+          <Section title="Contact" hint="Where couples' inquiries through You Do, I Do are sent. For social media, your @handle is fine.">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <Field label="Email">
+                <input type="email" value={details.contact_email ?? ""} onChange={(e) => set("contact_email", e.target.value || null)} className={inputClass} />
+              </Field>
+              <Field label="Phone">
+                <input type="tel" value={details.contact_phone ?? ""} onChange={(e) => set("contact_phone", e.target.value || null)} className={inputClass} />
+              </Field>
+              <Field label="Website" className="sm:col-span-2">
+                <input value={details.website ?? ""} onChange={(e) => set("website", e.target.value || null)} className={inputClass} placeholder="yourvenue.com" />
+              </Field>
+              {SOCIALS.map(([key, label]) => (
+                <Field key={key} label={label}>
+                  <input
+                    value={details[key] ?? ""}
+                    onChange={(e) => set(key, e.target.value || null)}
+                    className={inputClass}
+                    placeholder="@yourvenue or a link"
+                  />
+                </Field>
+              ))}
+              <Field label="Reviews page" className="sm:col-span-2">
+                <input
+                  value={details.reviews_url ?? ""}
+                  onChange={(e) => set("reviews_url", e.target.value || null)}
+                  className={inputClass}
+                  placeholder="Your Google, The Knot or WeddingWire reviews link"
+                />
+              </Field>
+            </div>
+          </Section>
+          <StepNav current={step} steps={steps} onBack={() => goTo(step - 1)} onNext={next} />
+        </fieldset>
+
+        <fieldset
+          ref={(el) => {
+            stepRefs.current[4] = el;
+          }}
+          className={step === 4 ? "flex min-w-0 flex-col gap-6" : "hidden"}
+        >
+          <Section title="Practical details" hint="Optional, but these settle a lot of back-and-forth emails.">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <Field label="On-site lodging sleeps">
+                <input
+                  type="number"
+                  min={0}
+                  inputMode="numeric"
+                  value={details.lodging_sleeps ?? ""}
+                  onChange={(e) => set("lodging_sleeps", e.target.value ? Number(e.target.value) : null)}
+                  className={inputClass}
+                  placeholder="0 if none"
+                />
+              </Field>
+              <Field label="Parking">
+                <input
+                  value={details.parking ?? ""}
+                  onChange={(e) => set("parking", e.target.value || null)}
+                  className={inputClass}
+                  placeholder="120 spaces on site · Shuttle from town"
+                />
+              </Field>
+              <Field label="Wheelchair accessible">
+                <YesNo value={details.wheelchair_accessible} onChange={(v) => set("wheelchair_accessible", v)} />
+              </Field>
+              <Field label="Pets allowed">
+                <YesNo value={details.pets_allowed} onChange={(v) => set("pets_allowed", v)} />
+              </Field>
+            </div>
+          </Section>
+
+          <Section
+            title="Preferred vendors"
+            hint="The caterers, photographers, florists and others you recommend. Couples see these on your listing, with a link to each."
+          >
+            <div className="flex flex-col gap-3">
+              {vendors.map((v, i) => (
+                <div key={i} className="grid grid-cols-1 gap-2 rounded-md border border-hairline p-3 sm:grid-cols-[160px_1fr_1fr_auto] sm:items-center sm:border-0 sm:p-0">
+                  <Select
+                    value={v.category || null}
+                    onChange={(c) => setVendors((all) => all.map((x, j) => (j === i ? { ...x, category: c ?? "" } : x)))}
+                    options={PREFERRED_VENDOR_CATEGORIES}
+                    placeholder="Category"
+                  />
+                  <input
+                    value={v.name}
+                    onChange={(e) => setVendors((all) => all.map((x, j) => (j === i ? { ...x, name: e.target.value } : x)))}
+                    className={inputClass}
+                    placeholder="Business name"
+                    aria-label="Vendor name"
+                  />
+                  <input
+                    value={v.website ?? ""}
+                    onChange={(e) => setVendors((all) => all.map((x, j) => (j === i ? { ...x, website: e.target.value || null } : x)))}
+                    className={inputClass}
+                    placeholder="Website"
+                    aria-label="Vendor website"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setVendors((all) => all.filter((_, j) => j !== i))}
+                    className="justify-self-end px-2 text-sm text-ink/45 hover:text-ink"
+                    aria-label="Remove vendor"
+                  >
+                    Remove
+                  </button>
+                </div>
+              ))}
+            </div>
+            <button
+              type="button"
+              onClick={() => setVendors((all) => [...all, { category: "", name: "", website: null }])}
+              className="mt-3 text-sm text-brass hover:underline"
+            >
+              + Add a vendor
+            </button>
+          </Section>
+
+          <Section title="Questions couples ask" hint="We've started you off with the ones couples ask most. Answer any you like -- blank ones are skipped.">
+            <div className="flex flex-col gap-4">
+              {faqs.map((f, i) => (
+                <div key={i} className="flex flex-col gap-2 border-b border-hairline pb-4 last:border-b-0">
+                  <input
+                    value={f.question}
+                    onChange={(e) => setFaqs((all) => all.map((x, j) => (j === i ? { ...x, question: e.target.value } : x)))}
+                    className={inputClass}
+                    placeholder="Question"
+                    aria-label="Question"
+                  />
+                  <textarea
+                    rows={2}
+                    value={f.answer}
+                    onChange={(e) => setFaqs((all) => all.map((x, j) => (j === i ? { ...x, answer: e.target.value } : x)))}
+                    className={inputClass}
+                    placeholder="Your answer (leave blank to skip)"
+                    aria-label="Answer"
+                  />
+                  <button type="button" onClick={() => setFaqs((all) => all.filter((_, j) => j !== i))} className="self-end text-sm text-ink/45 hover:text-ink">
+                    Remove
+                  </button>
+                </div>
+              ))}
+            </div>
+            <button type="button" onClick={() => setFaqs((all) => [...all, { question: "", answer: "" }])} className="mt-3 text-sm text-brass hover:underline">
+              + Add a question
+            </button>
+          </Section>
+          <StepNav current={step} steps={steps} onBack={() => goTo(step - 1)} onNext={next} />
+        </fieldset>
+
+        <fieldset
+          ref={(el) => {
+            stepRefs.current[5] = el;
+          }}
+          className={step === 5 ? "flex min-w-0 flex-col gap-6" : "hidden"}
+        >
+          <Section title="About you" hint="So we can confirm the changes and let you know when they're live. Not shown on the listing.">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <Field label="Your name">
+                <input value={submitter.name} onChange={(e) => setSubmitter((s) => ({ ...s, name: e.target.value }))} className={inputClass} required />
+              </Field>
+              <Field label="Your email">
+                <input type="email" value={submitter.email} onChange={(e) => setSubmitter((s) => ({ ...s, email: e.target.value }))} className={inputClass} required />
+              </Field>
+              <Field label="Your role" className="sm:col-span-2">
+                <input
+                  value={submitter.role ?? ""}
+                  onChange={(e) => setSubmitter((s) => ({ ...s, role: e.target.value || null }))}
+                  className={inputClass}
+                  placeholder="Owner, events manager…"
+                />
+              </Field>
+            </div>
+            <label className="mt-4 flex items-start gap-3 text-sm text-ink/80">
+              <input
+                type="checkbox"
+                checked={submitter.represents}
+                onChange={(e) => setSubmitter((s) => ({ ...s, represents: e.target.checked }))}
+                className="mt-0.5 h-4 w-4 accent-forest"
+              />
+              I work for or own {details.name || "this venue"} and can make changes to its listing.
+            </label>
+          </Section>
+
+          {errors.length > 0 && (
+            <div className="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
+              <p className="font-medium">A few things to fix first:</p>
+              <ul className="mt-1 list-disc pl-5">
+                {errors.map((e) => (
+                  <li key={e}>{e}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+          <StepNav
+            current={step}
+            steps={steps}
+            onBack={() => goTo(step - 1)}
+            onNext={next}
+            finish={
+              <button
+                type="submit"
+                disabled={isPending || uploading > 0}
+                className="w-full rounded-md bg-forest px-5 py-3 font-medium text-parchment transition-colors hover:bg-forest/90 disabled:opacity-60 sm:w-auto"
+              >
+                {isPending ? "Sending…" : "Send for review"}
+              </button>
+            }
+          />
+          <LegalNotice action="sending this for review" />
+        </fieldset>
+
       </div>
 
       {/* Desktop only: what couples will see, updating as they type. A phone
