@@ -8,7 +8,7 @@
 // src/lib/vendor-batches.ts and src/lib/batches/), not the live database.
 
 import { readdirSync, readFileSync } from "node:fs";
-import { CORE_CATEGORIES, METROS, MIN_VENUES, PER_CATEGORY, VENUES_PER_METRO } from "./coverage-plan.mjs";
+import { AREA_ALIASES, CORE_CATEGORIES, METROS, MIN_VENUES, PER_CATEGORY, VENUES_PER_METRO } from "./coverage-plan.mjs";
 
 function rows(kind) {
   const files = [
@@ -22,7 +22,8 @@ function rows(kind) {
     for (const [, name, tsv] of readFileSync(file, "utf8").matchAll(/name:\s*"([^"]+)",\s*tsv:\s*`([^`]*)`/g)) {
       const [header, ...lines] = tsv.split("\n").filter((l) => l.trim());
       const cols = header.split("\t");
-      const area = name.split(":")[0].trim();
+      const short = name.split(":")[0].trim();
+      const area = AREA_ALIASES[short] ?? short;
       for (const line of lines) {
         const cells = line.split("\t");
         const get = (c) => (cells[cols.indexOf(c)] ?? "").trim();
