@@ -55,7 +55,7 @@ Mixing Maryland	Music		Annapolis	Maryland	Maryland, Washington DC and Northern V
   {
     name: "Baltimore: planning",
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
-Jennifer Rose Events & Weddings	Planning		Baltimore	Maryland	DMV area; travels to other states and abroad	Baltimore planning studio founded in 2016 offering full, partial and month-of planning, with a 3-D floor-plan tool for seating layouts.	jenn@jenniferroseevents.com	(443) 878-6633	https://www.jenniferroseevents.com/	https://www.instagram.com/jenniferroseeventsandweddings/`,
+Jennifer Rose Events & Weddings	Planning		Baltimore	Maryland	DMV area; travels to other states and abroad	Baltimore planning studio founded in 2016 offering full, partial and month-of planning, with a 3-D floor-plan tool for seating layouts.		(443) 878-6633	https://www.jenniferroseevents.com/	https://www.instagram.com/jenniferroseeventsandweddings/`,
   },
   {
     name: "Annapolis: hair & makeup",

@@ -15,7 +15,7 @@ Music Box Supper Club	1148 Main Avenue	Cleveland	Ohio			Restaurant / Vineyard	In
 Glidden House	1901 Ford Drive	Cleveland	Ohio			Historic / Estate	Indoor & Outdoor	150		1910 French Gothic mansion in University Circle with 60 guest rooms, a garden gazebo and the Juniper Room for receptions.	info@gliddenhouse.com	(216) 231-8900	https://www.gliddenhouse.com/weddings
 The Bell Event Centre	444 Reading Rd	Cincinnati	Ohio			Historic / Estate	Indoor & Outdoor	300		Former church with stained glass, vaulted ceilings and a cobblestone courtyard, with in-house catering and a day-of coordinator.		513.852.2787	https://belleventcentre.com/events/weddings/
 Krohn Conservatory	1501 Eden Park Drive	Cincinnati	Ohio			Garden / Outdoor	Indoor	150	Simple	1933 art deco glasshouse in Eden Park with palm, fern, desert and orchid houses for ceremonies and receptions.		513.221.2610	https://www.premierparkevents.com/venues/
-Gorman Heritage Farm	10052 Reading Rd.	Evendale	Ohio			Barn / Rustic	Outdoor			Working farm museum with a West Lawn ceremony site, open pavilion and marquee tents, and caterer of your choice.		513.563.6663	https://gormanfarm.org/dream-wedding/`,
+Gorman Heritage Farm	10052 Reading Rd.	Evendale	Ohio			Barn / Rustic	Outdoor			Working farm museum with a West Lawn ceremony site, open pavilion and marquee tents, and caterer of your choice.			https://gormanfarm.org/dream-wedding/`,
   },
   {
     name: "Columbus, Cleveland, Akron and Cincinnati: second batch",
