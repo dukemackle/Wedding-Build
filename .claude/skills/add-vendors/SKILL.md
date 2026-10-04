@@ -95,6 +95,19 @@ Fix every ✗ problem. Read the ! warnings and fix any that come from the new
 batch; warnings about older batches can stay. Then run `npx eslint
 src/lib/vendor-batches.ts`.
 
+Then verify the new rows against the businesses' own sites:
+
+```
+npm run verify:batches
+```
+
+Every FAIL blocks the PR. The fix is never to argue with the checker: blank a
+phone or email the site doesn't show, correct a name to how the site writes
+it, and drop (or replace) a row whose site is dead, parked or blocks automated
+visits unless you can confirm it by hand some other way. Read each warning
+(possible closure, city not on the site) against the site; say in the PR body
+why any that remain are fine. Quote the summary line in the PR body.
+
 ## 5. Ship
 
 This PR merges itself (CLAUDE.md: venue and vendor batches), so no preview is needed.
