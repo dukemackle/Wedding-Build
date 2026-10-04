@@ -38,8 +38,13 @@ export function AuditPanel({ table, noun }: { table: "venues" | "vendors"; noun:
     if (!json) return;
     setError(undefined);
     startTransition(async () => {
-      const result = await applyAudit(table, json);
-      if (result.error) return setError(result.error);
+      // A Worker invocation may make only 50 subrequests, and a whole state's
+      // audit needs more, so the file goes up a few hundred rows at a time.
+      // Each part is a complete file of its own; re-running one is harmless.
+      for (const part of auditParts(json, table)) {
+        const result = await applyAudit(table, part);
+        if (result.error) return setError(result.error);
+      }
       setDone(true);
     });
   }
@@ -155,4 +160,25 @@ export function AuditPanel({ table, noun }: { table: "venues" | "vendors"; noun:
       {error && <p className="mt-2 text-xs text-red-800">{error}</p>}
     </div>
   );
+}
+
+const PART_SIZE = 300;
+
+// Splits one table's half of a fixes file into smaller fixes files, hides
+// first so a row hidden in one part is never re-checked in an earlier one.
+function auditParts(json: string, table: "venues" | "vendors"): string[] {
+  const file = JSON.parse(json) as Record<string, unknown>;
+  const section = (file[table] ?? {}) as { verify?: unknown[]; update?: unknown[]; hide?: unknown[] };
+  const items = [
+    ...(section.hide ?? []).map((ref) => ["hide", ref] as const),
+    ...(section.update ?? []).map((ref) => ["update", ref] as const),
+    ...(section.verify ?? []).map((ref) => ["verify", ref] as const),
+  ];
+  const parts: string[] = [];
+  for (let i = 0; i < items.length; i += PART_SIZE) {
+    const part: Record<string, unknown[]> = { hide: [], update: [], verify: [] };
+    for (const [kind, ref] of items.slice(i, i + PART_SIZE)) part[kind].push(ref);
+    parts.push(JSON.stringify({ kind: file.kind, [table]: part }));
+  }
+  return parts.length ? parts : [json];
 }
