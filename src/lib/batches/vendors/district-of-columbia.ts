@@ -37,6 +37,11 @@ Love in Color Films	Videography		Washington	District of Columbia	Washington DC, 
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
 Cole Stevens Salon	Hair & Makeup	1247 E Street SE	Washington	District of Columbia		Capitol Hill hair salon offering bridal styling with trial sessions, on-site getting-ready services and hair for the whole wedding party.	csinfo@colestevenssalon.com	(301) 345-0033	https://www.colestevenssalon.com/bridal-services-request/	https://www.instagram.com/colestevenssalon/`,
   },
+  {
+    name: "Washington: music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Kennedy String Quartet	Music		Washington	District of Columbia	Washington DC region	DC string quartet founded in 2015 playing ceremonies and cocktail hours from a repertoire of more than 700 classical and pop songs.	gavon@kennedyquartet.com	(443) 247-8370	https://www.kennedyquartet.com/	`,
+  },
 ];
 
 export default batches;
