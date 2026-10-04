@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { buildPlan } from "@/lib/checklist-template";
+import { seedStandardPlan } from "@/lib/seed-plan";
 import { requireEditableWedding } from "@/lib/wedding-access";
 
 function checklistFieldsFromForm(formData: FormData) {
@@ -142,41 +142,13 @@ export async function buildWeddingPlan(): Promise<{ error?: string; added?: numb
     return { error: noWedding };
   }
 
-  const { count, error: countError } = await supabase
-    .from("checklist_items")
-    .select("id", { count: "exact", head: true })
-    .eq("wedding_id", wedding.id);
-
-  if (countError) {
-    return { error: countError.message };
-  }
-  if ((count ?? 0) > 0) {
-    return { error: "You already have tasks — clear them first if you want to start over." };
-  }
-
-  const planned = buildPlan({
-    weddingDate: wedding.wedding_date,
-    venueBooked: Boolean(wedding.venue_id),
-    budgetSet: Boolean(wedding.budget_target),
-    sitePublished: Boolean(wedding.public_slug),
-  });
-
-  const { error } = await supabase.from("checklist_items").insert(
-    planned.map((task) => ({
-      wedding_id: wedding.id,
-      user_id: user.id,
-      title: task.title,
-      notes: task.notes,
-      due_date: task.due_date,
-      phase: task.phase,
-    })),
-  );
-
-  if (error) {
-    return { error: error.message };
+  // Pressed by hand, so it runs even if the plan was added before and cleared.
+  const result = await seedStandardPlan(supabase, wedding, user.id, { force: true });
+  if (result.error) {
+    return { error: result.error };
   }
 
   revalidatePath("/checklist");
   revalidatePath("/dashboard");
-  return { added: planned.length };
+  return { added: result.added };
 }

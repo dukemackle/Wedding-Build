@@ -67,10 +67,16 @@ export const PLANNING_QUESTIONS: PlanningQuestion[] = [
   },
   {
     id: "guest_list",
-    question: "Anything tricky about the guest list? Pick any that apply.",
-    options: ["Divorced parents", "People to keep apart", "Kids or no kids", "Plus-one pressure", "Nothing tricky"],
+    question: "Any family dynamics we should plan around? Pick any that apply.",
+    options: [
+      "Divorced or separated parents",
+      "Some guests are best seated apart",
+      "Kids or no kids",
+      "Plus-one questions",
+      "Nothing to plan around",
+    ],
     max: 5,
-    label: "Guest-list sensitivities",
+    label: "Family dynamics to plan around",
   },
   {
     id: "planning_style",

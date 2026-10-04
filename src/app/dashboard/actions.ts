@@ -5,6 +5,8 @@ import { revalidatePath } from "next/cache";
 import type { WeddingInvite, WeddingRole } from "@/lib/supabase/types";
 import { STATE_TO_REGION } from "@/lib/budget-categories";
 import { requireEditableWedding, VIEW_ONLY_ERROR } from "@/lib/wedding-access";
+import { seedStandardPlan } from "@/lib/seed-plan";
+import type { Wedding } from "@/lib/supabase/types";
 
 const MAX_PHOTO_BYTES = 5 * 1024 * 1024;
 
@@ -64,17 +66,28 @@ export async function saveWedding(formData: FormData): Promise<{ error?: string 
   // Someone invited onto a wedding edits that wedding, not a new one of their
   // own -- an upsert keyed on their user_id would quietly create a second
   // wedding for them.
-  const { error } = existing
-    ? await supabase.from("weddings").update(details).eq("id", existing.id)
+  const { data: saved, error } = existing
+    ? await supabase.from("weddings").update(details).eq("id", existing.id).select().maybeSingle<Wedding>()
     : await supabase
         .from("weddings")
-        .upsert({ user_id: user.id, ...details }, { onConflict: "user_id" });
+        .upsert({ user_id: user.id, ...details }, { onConflict: "user_id" })
+        .select()
+        .maybeSingle<Wedding>();
 
   if (error) {
     // Raw Postgres text ("new row violates row-level security policy...")
     // means nothing to a couple; keep it in the logs.
     console.error("saveWedding failed", error);
     return { error: "We couldn't save your wedding details. Please try again in a moment." };
+  }
+
+  // The date is what the standard checklist counts back from, so it arrives
+  // with the date. A failure here shouldn't undo a good save; the checklist
+  // page tries again.
+  if (saved?.wedding_date && !saved.plan_seeded_at) {
+    const seeded = await seedStandardPlan(supabase, saved, user.id);
+    if (seeded.error) console.error("seedStandardPlan failed", seeded.error);
+    revalidatePath("/checklist");
   }
 
   revalidatePath("/dashboard");

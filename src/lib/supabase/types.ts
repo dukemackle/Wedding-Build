@@ -39,6 +39,8 @@ export type Wedding = {
   side_a_color: string | null;
   side_b_color: string | null;
   side_both_color: string | null;
+  /** When Wren's standard checklist was added; null until then. */
+  plan_seeded_at: string | null;
   created_at: string;
   updated_at: string;
 };

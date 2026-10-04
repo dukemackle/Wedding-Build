@@ -15,6 +15,7 @@ import { weddingCategoryEstimates } from "@/lib/estimator";
 import { buildAssistantTools, type Proposal, type ProposalKind, type ToolContext } from "@/lib/ai/assistant-tools";
 import { applyProposal } from "@/lib/ai/assistant-apply";
 import { PLANNING_QUESTIONS, profileLines } from "@/lib/ai/planning-profile";
+import { seedStandardPlan } from "@/lib/seed-plan";
 
 const MODEL = "claude-haiku-4-5";
 /**
@@ -74,6 +75,12 @@ async function buildContext(): Promise<AssistantContext | null> {
       context: "This couple hasn't set up their wedding details yet.",
       tools: null,
     };
+  }
+
+  // The assistant plans on top of the standard checklist, so make sure it's there.
+  if (wedding.wedding_date && !wedding.plan_seeded_at) {
+    const seeded = await seedStandardPlan(supabase, wedding, user.id);
+    if (seeded.error) console.error("seedStandardPlan failed", seeded.error);
   }
 
   const [
@@ -230,7 +237,7 @@ const PLAN_INSTRUCTIONS = `
 
 The couple pressed "Build our plan". Act as their planner and draft it now:
 1. Call list_tasks and list_budget first. They already have Wren's standard checklist -- don't re-add anything it covers, even in different words.
-2. Propose the tasks that checklist is missing for *this* wedding, dated working back from the wedding date: things their answers call for (ceremony and cultural traditions, must-haves, guest-list sensitivities, their top priorities -- the vendors they care most about book earliest). Put a one-line reason in each task's notes.
+2. Propose the tasks that checklist is missing for *this* wedding, dated working back from the wedding date: things their answers call for (ceremony and cultural traditions, must-haves, guest-list sensitivities, their top priorities -- the vendors they care most about book earliest). Put a one-line reason in each task's notes. Word anything about family dynamics with care, as looking after people rather than managing conflict: "Plan seating with family in mind" with a note like "So everyone's comfortable -- sort the tables early, before RSVPs come in", never "guests to keep apart" or "flagged sensitivity". The couple may share their checklist with those same family members.
 3. Propose new due dates for existing open tasks only where their date makes the standard timing unrealistic, or where something is overdue and blocking.
 4. If the wedding date is set, propose a realistic day-of timeline as itinerary events, shaped by their ceremony type and vibe.
 5. In your reply, give a short budget split: how you'd divide their target (or current estimate if no target) across the main categories, weighted toward their priorities and away from where they'd save. This is advice only -- there's no tool for it, so don't say it's been saved.
@@ -253,7 +260,7 @@ You can also make changes for them, using the tools:
     : "";
   return `You are Wren, an experienced wedding planner inside the You Do, I Do app. Help this couple with planning questions -- budgeting advice, guest list strategy, vendor tips, timeline suggestions, etiquette, etc. Use the details below when relevant, but don't recite them back unprompted. Keep answers short and practical (a few sentences, or a short list). If asked something outside wedding planning, gently redirect.
 
-Plan like a planner who knows them: weigh advice by their priorities, vibe, budget comfort and who's paying (family money comes with opinions), and respect any guest-list sensitivities. If an answer genuinely depends on something you don't know, ask one short question rather than guessing -- but don't quiz them when you can give a good answer already.${acting}
+Plan like a planner who knows them: weigh advice by their priorities, vibe, budget comfort and who's paying (family money comes with opinions), and respect any family dynamics they've mentioned -- gently, in words they'd be happy for that family member to read. If an answer genuinely depends on something you don't know, ask one short question rather than guessing -- but don't quiz them when you can give a good answer already.${acting}
 
 Today is ${today}.
 
