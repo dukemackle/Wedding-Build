@@ -1,6 +1,6 @@
 ---
 name: add-venues
-description: Research and add a batch of wedding venues to the per-state files in src/lib/batches/venues/, checking capacity, price tier and location data, then open and merge the PR once the build is green. Use when asked to add venues, a venue batch, or a new region or metro to the venue catalog.
+description: Research and add a batch of wedding venues to the per-state files in src/lib/batches/venues/, checking capacity, starting price and location data, then open and merge the PR once the build is green. Use when asked to add venues, a venue batch, or a new region or metro to the venue catalog.
 argument-hint: "[region or metro, e.g. 'Sacramento and Napa']"
 ---
 
@@ -38,8 +38,10 @@ Start a new batch with this heading row (tab-separated, the same table the
 admin import panel accepts):
 
 ```
-Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Included items	Amenities	Description	Email	Phone	Website
 ```
+
+Older batches have a `Price tier` column instead; leave those as they are.
 
 - **Address**: required research, because it's what puts the venue in the
   right place on the map. The street line only ("12300 Huber Rd"), where
@@ -65,16 +67,25 @@ Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tie
   whole number. If it gives seated and standing, use seated; if several
   spaces, the largest single space or the total it says it can host at once,
   whichever the site states. Blank if the site doesn't say -- never guess.
-- **Price tier**: `Simple`, `Classic` or `Luxury`, only when the site
-  publishes pricing (rental fee, packages or a starting price). Blank when it
-  doesn't -- "Contact us for pricing" is blank, and so is "it looks
-  expensive". Provisional bands, for a peak Saturday:
-  - Venue-only rental: under $6,000 Simple, $6,000-$15,000 Classic, over
-    $15,000 Luxury.
-  - All-inclusive per guest: under $100 Simple, $100-$200 Classic, over $200
-    Luxury.
-  - A minimum spend counts as the rental fee.
-  Say in the PR body which venues got a tier and from what figure.
+- **Price from / Price basis**: the lowest published price for a peak
+  Saturday wedding, as a plain number (`18000`, `95`), and how it's charged:
+  `rental` (the space alone), `package` (space plus extras such as lodging,
+  setup or a catering credit), `per person` (all-inclusive per guest) or
+  `minimum` (a food-and-drink minimum). Both blank when the site doesn't
+  publish a price -- "Contact us for pricing" is blank, and so is "it looks
+  expensive". Never write a tier: the app works out Simple / Classic /
+  Luxury from these two, scaled for the region (`venuePriceTier` in
+  `src/lib/venue-pricing.ts`), so the tier always matches the price couples
+  see. Say in the PR body which venues got a price and from which page.
+- **Included items**: comma-separated, from the site's own list of what the
+  price covers, using these words where they fit: Tables, Chairs, Linens,
+  Catering, Bar service, Setup & cleanup, Day-of coordinator, Event staff,
+  Security, Getting-ready suites, AV & sound, Lighting, Decor, Ceremony arch,
+  Dance floor, Cake cutting. **Amenities**: comma-separated, e.g. `On-site
+  lodging` when guests or the couple can stay there, `Bridal suite`,
+  `Rain backup plan`. Both blank when the site doesn't say. This is what
+  makes two prices comparable: $18,000 with lodging for two nights is not
+  $18,000 for the room alone.
 - **Email / Phone / Website**: from the site. Website is the de-dupe key, so
   use the venue's own wedding page or home page, `https://`, no tracking
   query string. A venue inside a hotel chain gets that property's URL, not
@@ -95,7 +106,7 @@ ERROR. Warnings (no Setting, a capacity under 20 or over 1000) aren't
 blockers, but re-check each one against the site and say in the PR body if
 it's right. Every venue in your batch should have an address (a "no Address" warning
 on one of yours needs a reason in the PR body). The last line reports what
-share of all venues carry a capacity, price tier, street address and pin -- quote it in the PR body so coverage can be tracked.
+share of all venues carry a capacity, starting price, street address and pin -- quote it in the PR body so coverage can be tracked.
 
 Then `npm run lint` if node_modules is installed.
 

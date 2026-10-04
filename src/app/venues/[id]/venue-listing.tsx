@@ -16,7 +16,7 @@ import { SignupPrompt } from "@/components/public-nav";
 import { PUBLIC_VENUE_COLUMNS, isUuid, vendorHref, venueHref, verifiedLabel } from "@/lib/public-listings";
 import { VenueDetailClient, VenueMapEmbed } from "./venue-detail-client";
 import { VenueGoodToKnow, VenueKeyFacts, VenueSpaces } from "./listing-sections";
-import { priceHeadline, priceOptionAmount } from "@/lib/venue-pricing";
+import { priceHeadline, priceOptionAmount, withPriceTier } from "@/lib/venue-pricing";
 
 /**
  * One venue's listing: everything below the nav on /venues/[id], and the same
@@ -107,14 +107,14 @@ export async function loadVenueListing(
     : { data: null };
 
   return {
-    venue,
+    venue: withPriceTier(venue),
     signedIn: Boolean(userId),
     wedding: wedding ?? null,
     shortlistEntry: shortlistEntry ?? null,
     faqs: faqs ?? [],
     spaces: spaces ?? [],
     preferredVendors: preferredVendors ?? [],
-    similarVenues: similarVenues ?? [],
+    similarVenues: (similarVenues ?? []).map(withPriceTier),
   };
 }
 

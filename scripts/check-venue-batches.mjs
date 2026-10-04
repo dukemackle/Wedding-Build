@@ -108,6 +108,7 @@ const seenName = new Map();
 let total = 0;
 let withCapacity = 0;
 let withTier = 0;
+let withPrice = 0;
 let withPin = 0;
 let withAddress = 0;
 
@@ -202,6 +203,7 @@ for (const batch of ALL_VENUE_BATCHES) {
       }
     }
     if (v.price_tier) withTier++;
+    if (v.price_from !== null) withPrice++;
   }
 }
 
@@ -210,7 +212,7 @@ for (const e of errors) console.log(`ERROR  ${e}`);
 const pct = (n) => `${total ? Math.round((n / total) * 100) : 0}%`;
 console.log(
   `\n${ALL_VENUE_BATCHES.length} batches, ${total} venues. Capacity on ${pct(withCapacity)}, ` +
-    `price tier on ${pct(withTier)}, street address on ${pct(withAddress)}, typed pin on ${pct(withPin)}. ` +
+    `starting price on ${pct(withPrice)}, hand-set tier on ${pct(withTier)}, street address on ${pct(withAddress)}, typed pin on ${pct(withPin)}. ` +
     `${errors.length} errors, ${warnings.length} warnings.`,
 );
 process.exit(errors.length ? 1 : 0);

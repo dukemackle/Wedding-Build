@@ -6,6 +6,7 @@ import { AppNav } from "@/components/app-nav";
 import { PublicNav } from "@/components/public-nav";
 import { PUBLIC_VENUE_COLUMNS } from "@/lib/public-listings";
 import type { Venue, VenueShortlistEntry, Wedding } from "@/lib/supabase/types";
+import { withPriceTier } from "@/lib/venue-pricing";
 import { VenuesManager } from "./venues-manager";
 
 export const metadata: Metadata = {
@@ -15,8 +16,8 @@ export const metadata: Metadata = {
   alternates: { canonical: "/venues" },
 };
 
-function loadVenues(supabase: Awaited<ReturnType<typeof createClient>>, columns: string) {
-  return fetchAll<Venue>((from, to) =>
+async function loadVenues(supabase: Awaited<ReturnType<typeof createClient>>, columns: string) {
+  const venues = await fetchAll<Venue>((from, to) =>
     supabase
       .from("venues")
       .select(columns)
@@ -26,6 +27,7 @@ function loadVenues(supabase: Awaited<ReturnType<typeof createClient>>, columns:
       .range(from, to)
       .returns<Venue[]>(),
   );
+  return venues.map(withPriceTier);
 }
 
 export default async function VenuesPage() {
