@@ -53,8 +53,11 @@ production deploys from `main`. The merge click stays the owner's.
 a PR that only adds rows to the per-state batch files in `src/lib/batches/`
 (or the older `src/lib/venue-batches.ts` / `vendor-batches.ts`) doesn't wait for the owner — merge it once the
 Cloudflare build is green. The "Venue & vendor batches" routine then adds
-them itself by POSTing to `/api/import-batches` with `BATCH_IMPORT_SECRET`
-(2026-10-01); "Add them" on /admin/venues or /admin/vendors does the same by hand. Anything else in the PR (code, UI) still goes through the
+them itself with `npm run import:batches` (2026-10-04): the script parses,
+geocodes and reads websites on the routine's machine and only writes through
+`/api/batch-sync` (`BATCH_IMPORT_SECRET`), because doing that work in the
+Worker ran Workers Free past 10 ms CPU per request (error 1102). "Add them" on
+/admin/venues or /admin/vendors does the same by hand, a few at a time. Anything else in the PR (code, UI) still goes through the
 owner. How to research, write and check a vendor batch lives in the
 `/add-vendors` skill (`.claude/skills/add-vendors/`).
 

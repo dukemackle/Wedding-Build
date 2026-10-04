@@ -25,7 +25,7 @@ export const FINDER_BUDGET = 24;
 const MAX_KM = 40;
 
 type Found = { street: string; city: string | null; zip: string | null };
-type Candidate = {
+export type Candidate = {
   id: string;
   website: string;
   city: string | null;
@@ -190,7 +190,11 @@ function contactLink(html: string, base: string): string | null {
   return null;
 }
 
-async function lookUp(row: Candidate): Promise<{ address: string; latitude: number; longitude: number } | null> {
+/**
+ * One listing's street address and pin, read off its own website, or null.
+ * Exported for scripts/import-batches.mjs, which runs it off-Worker.
+ */
+export async function lookUpAddress(row: Candidate): Promise<{ address: string; latitude: number; longitude: number } | null> {
   if (!row.state) return null;
   const home = await fetchPage(row.website);
   if (!home) return null;
@@ -244,7 +248,7 @@ export async function findAddresses(
   budget.left -= rows.length * FIND_COST;
   const results = await Promise.all(
     rows.map(async (row) => {
-      const hit = await lookUp(row);
+      const hit = await lookUpAddress(row);
       const { error } = await admin
         .from(table)
         .update({ ...(hit ?? {}), address_checked_at: new Date().toISOString() })

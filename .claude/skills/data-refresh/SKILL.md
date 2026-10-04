@@ -14,7 +14,7 @@ cadence on its own schedule.
 Ground rules for every run:
 - **Sessions have no database key.** Anything that writes to the live tables
   produces a file or a list of clicks for the owner, or goes through an
-  endpoint that already exists for that (`/api/import-batches`). Never invent
+  route that already exists for that (`npm run import:batches`). Never invent
   numbers, photos or prices; leave a gap and list it instead.
 - **Code and doc changes go in one PR per run**, not one per item, and go to
   the owner for the merge like any other change. Batch-file-only PRs still
