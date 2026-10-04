@@ -81,8 +81,10 @@ if (venuesCsv || vendorsCsv) {
       .filter((f) => f.endsWith(".ts") && f !== "index.ts")
       .map((f) => `src/lib/batches/${kind}s/${f}`),
   ];
-  sets.push({ kind: "venue", rows: batchFiles("venue").flatMap(loadBatches), fromDb: false });
-  sets.push({ kind: "vendor", rows: batchFiles("vendor").flatMap(loadBatches), fromDb: false });
+  // --only venue|vendor narrows a batch run to one side.
+  for (const kind of ["venue", "vendor"]) {
+    if (!opt("only") || opt("only") === kind) sets.push({ kind, rows: batchFiles(kind).flatMap(loadBatches), fromDb: false });
+  }
 }
 
 // ---------- helpers ----------
