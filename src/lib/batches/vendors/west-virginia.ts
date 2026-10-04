@@ -31,6 +31,12 @@ Shuckers Catering Services	Catering	70 Olde Main Plaza	St. Albans	West Virginia	
 L & R Custom Catering	Catering	3380 Teays Valley Road	Hurricane	West Virginia	Putnam, Cabell and Kanawha Counties	Teays Valley barbecue kitchen catering wedding receptions and family celebrations with smoked meats and custom menus.	landrbbq@gmail.com	(304) 757-0707	https://lrcustomcatering.com/	
 Art's Flower and Gift Shop	Florals	1227 Ohio Ave.	Dunbar	West Virginia	Dunbar, Charleston, Kanawha City, South Charleston, Nitro, St. Albans, Cross Lanes, Hurricane, Scott Depot	Third-generation Dunbar flower shop open since 1963, arranging wedding and event flowers alongside everyday bouquets and gifts.		(304) 768-1237	https://artsflowershop.com/dunbar-florist-flower-delivery/wedding-flowers/	`,
   },
+  {
+    name: "Charleston: planning and hair & makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Spa Bliss	Hair & Makeup	1210 Smith Street	Charleston	West Virginia		Downtown Aveda salon and spa doing HD airbrush bridal makeup and special-occasion updos, with service at your location available.	info@spabliss.com	(304) 720-1005	https://spabliss.com/services/makeup-application/	https://www.instagram.com/spablisswv/
+Enchanted Events	Planning		Hurricane	West Virginia	Based in Hurricane; travels for weddings	Hurricane planning team led by a certified planner, offering tiered packages from day-of coordination to full planning, with an online couple portal.	get.started@enchantedevents.info	(304) 483-8235	https://www.enchantedevents.info/	https://www.instagram.com/enchantedeventswv/`,
+  },
 ];
 
 export default batches;
