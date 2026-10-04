@@ -107,16 +107,26 @@ export async function pendingBundledVenueRows(budget?: Budget): Promise<VenueImp
   return notYetListed("venues", bundledVenueRows(), budget);
 }
 
+// Parsed once per Worker isolate rather than twice per table on every call.
+// The batch files are bundled into the deploy, so they can't change while it
+// runs, and parsing all of them (~5,000 rows) is 30-80 ms of CPU each time:
+// against the Workers plan's per-call CPU limit, repeating it made import
+// calls fail with Cloudflare error 1102.
+let venueRows: VenueImportValues[] | undefined;
+let vendorRows: VendorImportValues[] | undefined;
+
 function bundledVenueRows(): VenueImportValues[] {
-  return ALL_VENUE_BATCHES.flatMap((batch) => parseVenueTable(batch.tsv).rows)
+  venueRows ??= ALL_VENUE_BATCHES.flatMap((batch) => parseVenueTable(batch.tsv).rows)
     .filter((row) => row.errors.length === 0)
     .map((row) => row.values);
+  return venueRows;
 }
 
 function bundledVendorRows(): VendorImportValues[] {
-  return ALL_VENDOR_BATCHES.flatMap((batch) => parseVendorTable(batch.tsv).rows)
+  vendorRows ??= ALL_VENDOR_BATCHES.flatMap((batch) => parseVendorTable(batch.tsv).rows)
     .filter((row) => row.errors.length === 0)
     .map((row) => row.values);
+  return vendorRows;
 }
 
 /** Batch rows keyed by website, for matching to listings already in the database. */
