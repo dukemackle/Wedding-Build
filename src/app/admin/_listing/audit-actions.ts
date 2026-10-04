@@ -163,9 +163,20 @@ export async function applyAudit(table: Table, json: string): Promise<{ error?: 
     const { error } = await admin.from(table).update({ active: false }).in("id", part);
     if (error) return { error: error.message };
   }
+  // One request per distinct change, not per row: a Worker invocation may make
+  // only 50 subrequests, and an audit that blanks 50 emails would hit it.
+  const groups = new Map<string, { set: Record<string, string | null>; ids: string[] }>();
   for (const u of resolved.updates) {
-    const { error } = await admin.from(table).update(u.set).eq("id", u.id);
-    if (error) return { error: `${u.name}: ${error.message}` };
+    const key = JSON.stringify(Object.entries(u.set).sort());
+    const group = groups.get(key) ?? { set: u.set, ids: [] };
+    group.ids.push(u.id);
+    groups.set(key, group);
+  }
+  for (const { set, ids } of groups.values()) {
+    for (const part of chunks(ids)) {
+      const { error } = await admin.from(table).update(set).in("id", part);
+      if (error) return { error: error.message };
+    }
   }
   const now = new Date().toISOString();
   for (const part of chunks(resolved.verifyIds)) {

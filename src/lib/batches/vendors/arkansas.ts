@@ -65,7 +65,7 @@ Striegler Films	Videography		Fayetteville	Arkansas	Northwest Arkansas, Little Ro
   {
     name: "Northwest Arkansas: videography",
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
-Solari Films	Videography		Bentonville	Arkansas	Arkansas, destinations and worldwide	Wedding film studio led by Brandon Buccheri since 2014, making emotional, story-led films and booked in more than 30 states and abroad.	brandon@solarifilms.com		https://www.solarifilms.com/	https://www.instagram.com/solarifilms/
+Solari Films	Videography		Bentonville	Arkansas	Arkansas, destinations and worldwide	Wedding film studio led by Brandon Buccheri since 2014, making emotional, story-led films and booked in more than 30 states and abroad.			https://www.solarifilms.com/	https://www.instagram.com/solarifilms/
 `,
   },
 ];

@@ -5,7 +5,7 @@ const batches: VenueBatch[] = [
   {
     name: "Omaha, Lincoln, Kearney and Grand Island",
     tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
-A Venue on the Ridge	20033 Elkhorn Ridge Drive	Elkhorn	Nebraska			Ballroom / Hotel	Indoor & Outdoor	300	Simple	Family-run Elkhorn hall with a chandelier-lit ballroom, a bricked outdoor ceremony patio overlooking the ridge, and its own catering and decor team.	sales@avenueontheridge.com	402-213-8303	https://www.avenueontheridge.com/
+A Venue on the Ridge	20033 Elkhorn Ridge Drive	Elkhorn	Nebraska			Ballroom / Hotel	Indoor & Outdoor	300	Simple	Family-run Elkhorn hall with a chandelier-lit ballroom, a bricked outdoor ceremony patio overlooking the ridge, and its own catering and decor team.		402-213-8303	https://www.avenueontheridge.com/
 The Steppe Center	11730 Peel Circle	La Vista	Nebraska			Ballroom / Hotel	Indoor	400	Simple	Family-owned banquet hall a few minutes off I-80 in La Vista, with the Birmingham Ballroom, a large service kitchen and a free choice of caterer.	ryan@steppecenter.com	(402) 669-2304	https://www.steppecenter.com/
 The Arbor	14040 Arbor Street	Omaha	Nebraska			Garden / Outdoor	Indoor & Outdoor			West Omaha venue run by two sisters, pairing a garden for micro-weddings with an indoor hall that holds parties of up to 300.	info@thearboromaha.com	402-884-2269	https://www.thearboromaha.com/
 The Durham Museum	801 S 10th Street	Omaha	Nebraska			Historic / Estate	Indoor			History museum housed in Omaha's Art Deco former Union Station railway terminal, rented out for weddings and receptions.	info@durhammuseum.org	(402) 444-5071	https://durhammuseum.org/museum-rentals/
