@@ -1,4 +1,5 @@
 import { addBundledVendorRows, addBundledVenueRows } from "@/lib/bundled-import";
+import { findAddresses } from "@/lib/address-finder";
 import { newBudget, pinUnpinned } from "@/lib/import-pins";
 
 // The "Add them" button on /admin/venues and /admin/vendors, for the scheduled
@@ -35,36 +36,39 @@ export async function POST(request: Request) {
     return Response.json({ error: "Unauthorized." }, { status: 401 });
   }
 
-  // Venues first, then vendors, spending from one budget: both run in the same
-  // Worker invocation, so each assuming the whole allowance went over
-  // Cloudflare's cap. The town-pin catch-up goes last, on what's left.
+  // New listings first, venues then vendors, spending from one budget: both
+  // run in the same Worker invocation, so each assuming the whole allowance
+  // went over Cloudflare's cap. Reading addresses off listings' own websites
+  // is slow (a few per call, over a thousand to go), so it comes after both,
+  // and a newly merged vendor batch never waits behind it. The town-pin
+  // catch-up goes last, on what's left.
   const budget = newBudget();
-  const venues = await addBundledVenueRows(budget, false);
+  const venues = await addBundledVenueRows(budget, false, false);
   if (venues.error) return Response.json({ table: "venues", ...venues }, { status: 500 });
   if (venues.remaining || venues.imported) {
-    return Response.json({
-      table: "venues",
-      imported: venues.imported,
-      found: venues.found,
-      remaining: venues.remaining,
-      done: false,
-    });
+    return Response.json({ table: "venues", imported: venues.imported, found: 0, remaining: venues.remaining, done: false });
   }
 
-  const vendors = await addBundledVendorRows(budget, false);
+  const vendors = await addBundledVendorRows(budget, false, false);
   if (vendors.error) return Response.json({ table: "vendors", ...vendors }, { status: 500 });
-  if (!vendors.remaining && !vendors.imported) {
-    // Split, so a venue town that never pins can't starve the vendors' turn.
-    const venueShare = { left: Math.floor(budget.left / 2) };
-    budget.left -= venueShare.left;
-    await pinUnpinned("venues", venueShare);
-    await pinUnpinned("vendors", budget, true);
+  if (vendors.remaining || vendors.imported) {
+    return Response.json({ table: "vendors", imported: vendors.imported, found: 0, remaining: vendors.remaining, done: false });
   }
-  return Response.json({
-    table: "vendors",
-    imported: vendors.imported,
-    found: vendors.found,
-    remaining: vendors.remaining,
-    done: !vendors.remaining && !vendors.imported,
-  });
+
+  let found = 0;
+  for (const table of ["venues", "vendors"] as const) {
+    const finder = await findAddresses(table, budget);
+    if (finder.error) return Response.json({ table, error: finder.error }, { status: 500 });
+    found += finder.found;
+    if (finder.remaining) {
+      return Response.json({ table, imported: 0, found, remaining: finder.remaining, done: false });
+    }
+  }
+
+  // Split, so a venue town that never pins can't starve the vendors' turn.
+  const venueShare = { left: Math.floor(budget.left / 2) };
+  budget.left -= venueShare.left;
+  await pinUnpinned("venues", venueShare);
+  await pinUnpinned("vendors", budget, true);
+  return Response.json({ table: "vendors", imported: 0, found, remaining: 0, done: true });
 }

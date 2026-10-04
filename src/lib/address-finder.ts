@@ -56,11 +56,36 @@ async function fetchPage(url: string): Promise<string | null> {
     const next = res.headers.get("location");
     if (res.status >= 300 && res.status < 400 && next) res = await get(new URL(next, url).href);
     if (!res.ok || !(res.headers.get("content-type") ?? "").includes("html")) return null;
-    // Footers sit at the end, but a page past a couple of MB is not a venue site.
-    return (await res.text()).slice(0, 2_000_000);
+    return await readCapped(res);
   } catch {
     return null;
   }
+}
+
+/**
+ * Most of a page that is read. Reading and regex-scanning 2 MB pages ran the
+ * Worker past its CPU limit (Cloudflare error 1102), which failed the whole
+ * import call and stopped the batch routine. Footers sit at the end, but a
+ * venue's home page is rarely past this; a longer one just isn't searched to
+ * the bottom.
+ */
+const MAX_PAGE_BYTES = 300_000;
+
+/** The body up to MAX_PAGE_BYTES, without downloading the rest. */
+async function readCapped(res: Response): Promise<string> {
+  if (!res.body) return "";
+  const reader = res.body.getReader();
+  const decoder = new TextDecoder();
+  let text = "";
+  let bytes = 0;
+  while (bytes < MAX_PAGE_BYTES) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    bytes += value.byteLength;
+    text += decoder.decode(value, { stream: true });
+  }
+  await reader.cancel().catch(() => {});
+  return text.slice(0, MAX_PAGE_BYTES);
 }
 
 function get(url: string) {

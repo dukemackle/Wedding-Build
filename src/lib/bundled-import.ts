@@ -137,9 +137,14 @@ export async function pendingBundledVendorRows(budget?: Budget): Promise<VendorI
  * the requests one call can make, database reads and writes included). Once
  * all are in, moves listed venues whose batch row has since gained an address
  * onto it. `remaining` tells the caller to call again. `catchUp: false` leaves
- * the town-pin catch-up to the caller, which runs it once both tables are done.
+ * the town-pin catch-up to the caller, which runs it once both tables are done;
+ * `find: false` likewise leaves reading addresses off listings' own websites.
  */
-export async function addBundledVenueRows(budget: Budget = newBudget(), catchUp = true): Promise<BundledResult> {
+export async function addBundledVenueRows(
+  budget: Budget = newBudget(),
+  catchUp = true,
+  find = true,
+): Promise<BundledResult> {
   let rows: VenueImportValues[];
   try {
     rows = await pendingBundledVenueRows(budget);
@@ -160,7 +165,7 @@ export async function addBundledVenueRows(budget: Budget = newBudget(), catchUp 
     const moved = await pinFromAddresses("venues", keyed(bundledVenueRows()), budget);
     if (moved.error) return { error: moved.error };
     remaining = moved.remaining;
-    if (remaining === 0) {
+    if (remaining === 0 && find) {
       // Then listings whose batch row has no address: read it off their own site.
       const finder = await findAddresses("venues", budget);
       if (finder.error) return { error: finder.error };
@@ -177,7 +182,11 @@ export async function addBundledVenueRows(budget: Budget = newBudget(), catchUp 
 }
 
 /** As addBundledVenueRows, for vendors. */
-export async function addBundledVendorRows(budget: Budget = newBudget(), catchUp = true): Promise<BundledResult> {
+export async function addBundledVendorRows(
+  budget: Budget = newBudget(),
+  catchUp = true,
+  find = true,
+): Promise<BundledResult> {
   let rows: VendorImportValues[];
   try {
     rows = await pendingBundledVendorRows(budget);
@@ -219,7 +228,7 @@ export async function addBundledVendorRows(budget: Budget = newBudget(), catchUp
     const moved = await pinFromAddresses("vendors", keyed(bundledVendorRows()), budget);
     if (moved.error) return { error: moved.error };
     remaining = moved.remaining;
-    if (remaining === 0) {
+    if (remaining === 0 && find) {
       // Then listings whose batch row has no address: read it off their own site.
       const finder = await findAddresses("vendors", budget);
       if (finder.error) return { error: finder.error };
