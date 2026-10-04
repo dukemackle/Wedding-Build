@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { AppNav } from "@/components/app-nav";
 import type { ChecklistItem, Wedding } from "@/lib/supabase/types";
 import { CANVAS_WIDTH } from "@/lib/layout";
+import { seedStandardPlan } from "@/lib/seed-plan";
 import { ChecklistManager } from "./checklist-manager";
 import { ContractPanel, type PlanningContract } from "./contract-panel";
 
@@ -46,6 +47,13 @@ export default async function ChecklistPage() {
         </div>
       </main>
     );
+  }
+
+  // Weddings whose date was set before the standard checklist arrived on its
+  // own get it here, once.
+  if (wedding.wedding_date && !wedding.plan_seeded_at) {
+    const seeded = await seedStandardPlan(supabase, wedding, user.id);
+    if (seeded.error) console.error("seedStandardPlan failed", seeded.error);
   }
 
   const { data: items } = await supabase
