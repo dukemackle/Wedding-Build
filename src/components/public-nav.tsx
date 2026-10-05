@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { TrackedContactLink } from "@/components/tracked-contact-link";
 import { WrenMark } from "@/components/wren-mark";
 import { AutoHideHeader } from "@/components/auto-hide-header";
 
@@ -45,10 +46,13 @@ export function SignupPrompt({
   noun,
   next,
   website,
+  listingId,
 }: {
   noun: "venue" | "vendor";
   next: string;
   website?: string | null;
+  /** Counts a click on the website as a lead for this listing. */
+  listingId?: string;
 }) {
   const q = `?next=${encodeURIComponent(next)}`;
   return (
@@ -73,9 +77,21 @@ export function SignupPrompt({
       </p>
       {website && (
         <div className="mt-4 border-t border-hairline pt-4 text-sm">
-          <a href={website} target="_blank" rel="noopener noreferrer nofollow" className="break-all text-brass hover:underline">
-            {website}
-          </a>
+          {listingId ? (
+            <TrackedContactLink
+              listingType={noun}
+              listingId={listingId}
+              kind="website"
+              href={website}
+              className="break-all text-brass hover:underline"
+            >
+              {website}
+            </TrackedContactLink>
+          ) : (
+            <a href={website} target="_blank" rel="noopener noreferrer nofollow" className="break-all text-brass hover:underline">
+              {website}
+            </a>
+          )}
         </div>
       )}
     </div>

@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { getResendClient, INQUIRY_FROM_ADDRESS, isUndeliverable, UNDELIVERABLE_MESSAGE } from "@/lib/resend";
+import { leadCounts } from "@/lib/listing-leads";
 import { inquiryFooter, inquirySubject } from "@/lib/inquiry-footer";
 import { ensureClaimLink } from "@/lib/venue-claim-server";
 import { syncBudgetLineFromBooking } from "@/lib/budget-sync";
@@ -95,8 +96,21 @@ export async function sendVenueInquiry(formData: FormData): Promise<{ error?: st
 
   const venueId = (formData.get("venue_id") as string) || null;
   const venueName = formData.get("venue_name") as string;
-  const recipientEmail = (formData.get("recipient_email") as string)?.trim();
+  let recipientEmail = (formData.get("recipient_email") as string)?.trim();
   const message = (formData.get("message") as string)?.trim();
+
+  // A listing's own address is used as stored: couples never see or type it,
+  // so the inquiry goes through the app and can't be pointed elsewhere.
+  let listing: { is_sample: boolean; contact_email: string | null } | null = null;
+  if (venueId) {
+    const { data } = await supabase
+      .from("venues")
+      .select("is_sample, contact_email")
+      .eq("id", venueId)
+      .maybeSingle<{ is_sample: boolean; contact_email: string | null }>();
+    listing = data;
+    if (listing?.contact_email) recipientEmail = listing.contact_email;
+  }
   const senderPhone = ((formData.get("sender_phone") as string) || "").trim() || null;
 
   if (!venueName) {
@@ -126,15 +140,7 @@ export async function sendVenueInquiry(formData: FormData): Promise<{ error?: st
   const phoneNote = senderPhone ? `\n\nPhone: ${senderPhone}` : "";
 
   // Only real listings get a claim link; a sample venue has no one to claim it.
-  let claimUrl: string | null = null;
-  if (venueId) {
-    const { data: listed } = await supabase
-      .from("venues")
-      .select("is_sample")
-      .eq("id", venueId)
-      .maybeSingle<{ is_sample: boolean }>();
-    if (listed && !listed.is_sample) claimUrl = await ensureClaimLink(venueId);
-  }
+  const claimUrl = venueId && listing && !listing.is_sample ? await ensureClaimLink(venueId) : null;
 
   // Log first so an email never goes out unrecorded (see vendors/actions.ts).
   const { data: logged, error: dbError } = await supabase
@@ -157,6 +163,9 @@ export async function sendVenueInquiry(formData: FormData): Promise<{ error?: st
     return { error: dbError?.message ?? "Couldn't save the inquiry." };
   }
 
+  // Includes the row just logged. Counting is never worth failing an inquiry over.
+  const couplesSoFar = venueId ? await leadCounts("venue", venueId).then((c) => c.inquiries, () => 0) : 0;
+
   let sendFailure: string | null = null;
   try {
     const resend = getResendClient();
@@ -165,7 +174,7 @@ export async function sendVenueInquiry(formData: FormData): Promise<{ error?: st
       to: recipientEmail,
       replyTo: user.email,
       subject: inquirySubject(coupleNames || user.email || "a couple"),
-      text: `${message}${phoneNote}${referralNote}${inquiryFooter(venueName, claimUrl)}`,
+      text: `${message}${phoneNote}${referralNote}${inquiryFooter(venueName, claimUrl, couplesSoFar)}`,
     });
     if (sendError) sendFailure = sendError.message;
   } catch (err) {

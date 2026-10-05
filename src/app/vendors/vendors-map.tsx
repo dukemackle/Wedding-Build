@@ -109,14 +109,6 @@ export function VendorsMap({
                       View details &rarr;
                     </button>
                   )}
-                  {vendor.contact_email && (
-                    <a
-                      href={`mailto:${vendor.contact_email}`}
-                      className="mt-2 block rounded-full border border-hairline bg-card px-3 py-1 text-center text-xs text-forest hover:border-forest"
-                    >
-                      Email {vendor.contact_email}
-                    </a>
-                  )}
                 </div>
               </div>
             </Popup>

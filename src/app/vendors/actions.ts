@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { getResendClient, INQUIRY_FROM_ADDRESS, isUndeliverable, UNDELIVERABLE_MESSAGE } from "@/lib/resend";
+import { leadCounts } from "@/lib/listing-leads";
 import { inquiryFooter, inquirySubject } from "@/lib/inquiry-footer";
 import { ensureVendorClaimLink } from "@/lib/vendor-claim-server";
 import { VENDOR_CATEGORY_TO_BUDGET_KEY } from "@/lib/budget-categories";
@@ -21,8 +22,21 @@ export async function sendVendorInquiry(formData: FormData): Promise<{ error?: s
   const vendorId = (formData.get("vendor_id") as string) || null;
   const vendorName = formData.get("vendor_name") as string;
   const category = (formData.get("category") as string) || null;
-  const recipientEmail = (formData.get("recipient_email") as string)?.trim();
+  let recipientEmail = (formData.get("recipient_email") as string)?.trim();
   const message = (formData.get("message") as string)?.trim();
+
+  // A listing's own address is used as stored: couples never see or type it,
+  // so the inquiry goes through the app and can't be pointed elsewhere.
+  let listing: { is_sample: boolean; contact_email: string | null } | null = null;
+  if (vendorId) {
+    const { data } = await supabase
+      .from("vendors")
+      .select("is_sample, contact_email")
+      .eq("id", vendorId)
+      .maybeSingle<{ is_sample: boolean; contact_email: string | null }>();
+    listing = data;
+    if (listing?.contact_email) recipientEmail = listing.contact_email;
+  }
   const senderPhone = ((formData.get("sender_phone") as string) || "").trim() || null;
 
   if (!vendorName) {
@@ -52,15 +66,7 @@ export async function sendVendorInquiry(formData: FormData): Promise<{ error?: s
   const phoneNote = senderPhone ? `\n\nPhone: ${senderPhone}` : "";
 
   // Only real listings get a claim link; a sample vendor has no one to claim it.
-  let claimUrl: string | null = null;
-  if (vendorId) {
-    const { data: listed } = await supabase
-      .from("vendors")
-      .select("is_sample")
-      .eq("id", vendorId)
-      .maybeSingle<{ is_sample: boolean }>();
-    if (listed && !listed.is_sample) claimUrl = await ensureVendorClaimLink(vendorId);
-  }
+  const claimUrl = vendorId && listing && !listing.is_sample ? await ensureVendorClaimLink(vendorId) : null;
 
   // Log the inquiry before sending, so an email never goes out unrecorded:
   // the per-listing lead count is what we'll show vendors. If the send then
@@ -86,6 +92,9 @@ export async function sendVendorInquiry(formData: FormData): Promise<{ error?: s
     return { error: dbError?.message ?? "Couldn't save the inquiry." };
   }
 
+  // Includes the row just logged. Counting is never worth failing an inquiry over.
+  const couplesSoFar = vendorId ? await leadCounts("vendor", vendorId).then((c) => c.inquiries, () => 0) : 0;
+
   let sendFailure: string | null = null;
   try {
     const resend = getResendClient();
@@ -94,7 +103,7 @@ export async function sendVendorInquiry(formData: FormData): Promise<{ error?: s
       to: recipientEmail,
       replyTo: user.email,
       subject: inquirySubject(coupleNames || user.email || "a couple"),
-      text: `${message}${phoneNote}${referralNote}${inquiryFooter(vendorName, claimUrl)}`,
+      text: `${message}${phoneNote}${referralNote}${inquiryFooter(vendorName, claimUrl, couplesSoFar)}`,
     });
     if (sendError) sendFailure = sendError.message;
   } catch (err) {

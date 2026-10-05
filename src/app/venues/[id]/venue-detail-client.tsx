@@ -6,6 +6,7 @@ import type { Venue, VenueShortlistEntry } from "@/lib/supabase/types";
 import { updateShortlistNotes } from "../actions";
 import { BookedVenueButton, ShortlistButton } from "../venue-card-shared";
 import { InquiryForm } from "../inquiry-form";
+import { TrackedContactLink, telHref } from "@/components/tracked-contact-link";
 
 const VenuesMap = dynamic(() => import("../venues-map").then((m) => m.VenuesMap), {
   ssr: false,
@@ -104,18 +105,29 @@ export function VenueDetailClient({
         <ShortlistNotesField venueId={venue.id} notes={shortlistEntry?.notes ?? null} />
       )}
 
-      {(venue.contact_email || venue.contact_phone || venue.website) && (
+      {(venue.contact_phone || venue.website) && (
         <div className="mt-4 flex flex-col gap-1 border-t border-hairline pt-4 text-sm text-ink/80">
-          {venue.contact_phone && <p>{venue.contact_phone}</p>}
+          {venue.contact_phone && (
+            <TrackedContactLink
+              listingType="venue"
+              listingId={venue.id}
+              kind="phone"
+              href={telHref(venue.contact_phone)}
+              className="hover:underline"
+            >
+              {venue.contact_phone}
+            </TrackedContactLink>
+          )}
           {venue.website && (
-            <a
+            <TrackedContactLink
+              listingType="venue"
+              listingId={venue.id}
+              kind="website"
               href={venue.website}
-              target="_blank"
-              rel="noreferrer"
               className="text-brass hover:underline"
             >
               {venue.website}
-            </a>
+            </TrackedContactLink>
           )}
         </div>
       )}

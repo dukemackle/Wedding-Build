@@ -55,14 +55,19 @@ Done:
   save and reload the stored layout instead of silently looking saved.
 - RSVP form: spam trap, length caps on every field, and the couple gets an
   email when a new RSVP is waiting on /guests.
+- Contact goes through the app: listing emails are hidden (inquiries are
+  sent to the stored address server-side); phone, website and social taps
+  are counted in `listing_contact_clicks`.
+- Vendors see their leads: a gold callout on both claim pages, and a running
+  "That's N couples..." line in inquiry emails (`src/lib/listing-leads.ts`).
+- "Something wrong with this listing?" on every real listing feeds
+  /admin/listing-health, which also lists listings whose email bounces.
+- `audit.mjs` staleness default now 30 days, matching `listing-freshness.ts`.
 
 Open, in order:
-1. Vendors can't see their leads. Show the count in claim emails and on the
-   claim page. Direct email/phone/website on listings let couples go around
-   the app, so those contacts aren't counted.
-2. No "report a problem" on listings; `listing-freshness.ts` (30 days) and
-   `audit.mjs` (180 days) disagree; the audit runs only by hand; bounce data
-   (`email_bounces`) and `inbox_messages` aren't shown anywhere in admin.
+1. The data audit runs only by hand; `inbox_messages` isn't shown in admin.
+2. Vendor replies to inquiries skip the app (reply-to is the couple), so
+   there's no response-rate data yet.
 3. No scheduled email to couples at all: no payment due-date or checklist
    reminders (no cron in `wrangler.jsonc`).
 4. Guests get no RSVP confirmation and can't change an RSVP; a name typo on
