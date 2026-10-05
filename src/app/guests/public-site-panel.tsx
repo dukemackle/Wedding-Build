@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { ViewGuestSiteButton } from "@/components/view-guest-site-button";
 import type { Guest, RsvpSubmission } from "@/lib/supabase/types";
@@ -170,22 +171,17 @@ export function PendingRsvps({
   );
 }
 
-/** The guest site's on/off switch and its link. */
-export function PublicSitePanel({
-  publicSlug,
-  origin,
-}: {
-  publicSlug: string | null;
-  origin: string;
-}) {
-  const [slug, setSlug] = useState(publicSlug);
-  const [copied, setCopied] = useState(false);
+/**
+ * The guest site's on/off state, shared by the switch beside the editor's
+ * title and the panel with the link, so flipping either updates both.
+ */
+export function useGuestSite(initialSlug: string | null) {
+  const router = useRouter();
+  const [slug, setSlug] = useState(initialSlug);
   const [error, setError] = useState<string | undefined>(undefined);
   const [isPending, startTransition] = useTransition();
 
-  const shareUrl = slug ? `${origin}/w/${slug}` : null;
-
-  function handleEnable() {
+  function enable() {
     startTransition(async () => {
       const result = await enablePublicSite();
       if (result?.error) {
@@ -193,11 +189,13 @@ export function PublicSitePanel({
       } else {
         setError(undefined);
         setSlug(result.slug ?? null);
+        // The "before you share" list ticks off "Turn on your guest site".
+        router.refresh();
       }
     });
   }
 
-  function handleDisable() {
+  function disable() {
     if (!confirm("Turn off the guest site? The link will stop working.")) return;
     startTransition(async () => {
       const result = await disablePublicSite();
@@ -206,9 +204,55 @@ export function PublicSitePanel({
       } else {
         setError(undefined);
         setSlug(null);
+        router.refresh();
       }
     });
   }
+
+  return { slug, error, isPending, enable, disable };
+}
+
+export type GuestSite = ReturnType<typeof useGuestSite>;
+
+/** A real on/off switch, so the site's state is something you can flip where you see it. */
+export function SiteSwitch({ site }: { site: GuestSite }) {
+  const on = Boolean(site.slug);
+  return (
+    <button
+      type="button"
+      role="switch"
+      aria-checked={on}
+      aria-label="Guest site"
+      onClick={on ? site.disable : site.enable}
+      disabled={site.isPending}
+      title={on ? "Your site is live — click to turn it off" : "Turn on your guest site"}
+      className={`flex h-8 shrink-0 items-center gap-2 rounded-full border pl-1 pr-3 text-xs font-semibold transition-colors disabled:opacity-60 ${
+        on
+          ? "border-forest/30 bg-forest/10 text-forest hover:bg-forest/15"
+          : "border-forest bg-card text-forest hover:bg-forest/5"
+      }`}
+    >
+      <span
+        aria-hidden="true"
+        className={`relative h-6 w-10 rounded-full transition-colors ${on ? "bg-forest" : "bg-ink/20"}`}
+      >
+        <span
+          className={`absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition-[left] ${
+            on ? "left-[18px]" : "left-0.5"
+          }`}
+        />
+      </span>
+      {site.isPending ? (on ? "Turning off…" : "Turning on…") : on ? "Live" : "Turn on"}
+    </button>
+  );
+}
+
+/** The guest site's on/off switch and its link. */
+export function PublicSitePanel({ site, origin }: { site: GuestSite; origin: string }) {
+  const { slug, error, isPending } = site;
+  const [copied, setCopied] = useState(false);
+
+  const shareUrl = slug ? `${origin}/w/${slug}` : null;
 
   async function handleCopy() {
     if (!shareUrl) return;
@@ -227,7 +271,7 @@ export function PublicSitePanel({
         </p>
         {slug ? (
           <button
-            onClick={handleDisable}
+            onClick={site.disable}
             disabled={isPending}
             className="shrink-0 rounded-full border border-hairline bg-card px-4 py-1.5 font-mono-numbers text-sm text-ink transition-colors hover:border-forest disabled:opacity-60"
           >
@@ -235,7 +279,7 @@ export function PublicSitePanel({
           </button>
         ) : (
           <button
-            onClick={handleEnable}
+            onClick={site.enable}
             disabled={isPending}
             className="rounded-full bg-forest px-4 py-1.5 font-mono-numbers text-sm text-parchment transition-colors hover:bg-forest/90 disabled:opacity-60"
           >

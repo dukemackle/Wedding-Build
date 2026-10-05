@@ -12,7 +12,6 @@ import type {
   SiteBlock,
 } from "@/lib/supabase/types";
 import { blockKey, parseSiteDesign, type SectionId } from "@/lib/site-design";
-import { PublicSitePanel } from "../public-site-panel";
 import { HeroPhotoPanel } from "../hero-photo-panel";
 import { GalleryPanel } from "../gallery-panel";
 import { Accommodations, DressAndTravel, Faqs } from "../guest-site-details";
@@ -247,7 +246,6 @@ export default async function GuestSitePage() {
           publicSlug={wedding.public_slug}
           origin={origin}
           contentKey={contentKey}
-          sitePanel={<PublicSitePanel publicSlug={wedding.public_slug} origin={origin} />}
           sectionInfo={{ ...sectionInfo, ...blockInfo }}
           checklist={checklist}
           hasPhoto={Boolean(wedding.hero_photo_url)}
