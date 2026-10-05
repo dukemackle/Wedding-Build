@@ -63,7 +63,8 @@ owner. How to research, write and check a vendor batch lives in the
 
 **50-state coverage (2026-10-02):** no marketing until every state has listings.
 New batches go only in `src/lib/batches/venues/<state>.ts` or
-`src/lib/batches/vendors/<state>.ts`, one file per state, so several batch PRs
+`src/lib/batches/vendors/<state>.ts`, one file per state (businesses left out
+go in `src/lib/batches/skipped/<state>.tsv`, which counts as a batch file), so several batch PRs
 can run at once without conflicts; the two older files are closed. The plan
 (metros per state and targets) is `scripts/coverage-plan.mjs`; `npm run
 coverage` shows what's left. Name vendor batches after the plan's metro.

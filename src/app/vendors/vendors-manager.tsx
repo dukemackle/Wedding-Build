@@ -19,7 +19,7 @@ import { InquiryForm } from "./inquiry-form";
 import { VendorFollowUps } from "./vendor-follow-ups";
 import { BirdEmptyState } from "@/components/wren-moments";
 import { SignupCardButton, SignupHeart } from "@/components/public-nav";
-import { vendorHref } from "@/lib/public-listings";
+import { isBasicListing, vendorHref } from "@/lib/public-listings";
 
 const VendorsMap = dynamic(() => import("./vendors-map").then((m) => m.VendorsMap), {
   ssr: false,
@@ -143,6 +143,11 @@ function VendorCard({
         >
           {vendor.name}
         </Link>
+        {isBasicListing(vendor) && (
+          <span className="mt-1.5 self-start rounded-full border border-hairline px-2 py-0.5 text-[11px] text-ink/60">
+            Basic listing · from Instagram
+          </span>
+        )}
 
         {!signedIn ? (
           <div className="mt-3 flex flex-col gap-2">

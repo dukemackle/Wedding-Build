@@ -29,6 +29,7 @@ function groups(claims: PendingClaims): { title?: string; links: NavLink[] }[] {
         { href: "/admin/vendors", label: "Vendors", keywords: "listings import batches export audit photographers florists caterers" },
         { href: "/admin/venues/claims", label: "Venue claims", keywords: "submissions approve review", badge: claims.venues },
         { href: "/admin/vendors/claims", label: "Vendor claims", keywords: "submissions approve review", badge: claims.vendors },
+        { href: "/admin/leads", label: "Unlisted bookings", keywords: "couples booked unlisted purchased from missing businesses research" },
         { href: "/admin/listing-health", label: "Listing health", keywords: "reports wrong closed bounces accuracy problems", badge: claims.reports },
       ],
     },
