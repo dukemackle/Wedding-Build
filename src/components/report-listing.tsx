@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 import { reportListing } from "@/lib/listing-report-actions";
 import { REPORT_REASONS } from "@/lib/listing-report-reasons";
+import { LegalNotice } from "@/components/legal-notice";
 
 const inputClass =
   "rounded-md border border-hairline bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-forest";
@@ -61,6 +62,7 @@ export function ReportListing({ listingType, listingId }: { listingType: "venue"
         <input type="email" name="reporter_email" maxLength={200} className={inputClass} />
       </label>
       {error && <p className="text-sm text-red-800">{error}</p>}
+      <LegalNotice action="sending a report" />
       <div className="flex items-center gap-3">
         <button
           type="submit"
