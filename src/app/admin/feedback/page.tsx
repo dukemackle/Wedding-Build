@@ -22,6 +22,19 @@ export default async function AdminFeedbackPage() {
       .returns<Pick<Wedding, "id" | "partner_a_name" | "partner_b_name">[]>(),
   ]);
 
+  // Venue and vendor feedback names the listing it came from.
+  const venueIds = [...new Set((feedback ?? []).map((f) => f.venue_id).filter((id): id is string => Boolean(id)))];
+  const vendorIds = [...new Set((feedback ?? []).map((f) => f.vendor_id).filter((id): id is string => Boolean(id)))];
+  const [{ data: venues }, { data: vendors }] = await Promise.all([
+    venueIds.length
+      ? admin.from("venues").select("id, name").in("id", venueIds).returns<{ id: string; name: string }[]>()
+      : Promise.resolve({ data: [] as { id: string; name: string }[] }),
+    vendorIds.length
+      ? admin.from("vendors").select("id, name").in("id", vendorIds).returns<{ id: string; name: string }[]>()
+      : Promise.resolve({ data: [] as { id: string; name: string }[] }),
+  ]);
+  const listingNameById = Object.fromEntries([...(venues ?? []), ...(vendors ?? [])].map((l) => [l.id, l.name]));
+
   const coupleNameByWeddingId = Object.fromEntries(
     (weddings ?? []).map((w) => [
       w.id,
@@ -36,6 +49,7 @@ export default async function AdminFeedbackPage() {
       <AdminFeedbackManager
         feedback={feedback ?? []}
         coupleNameByWeddingId={coupleNameByWeddingId}
+        listingNameById={listingNameById}
         conversations={conversations ?? []}
       />
     </div>

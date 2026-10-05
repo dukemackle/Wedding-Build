@@ -3,6 +3,7 @@
 import type { ListingRead } from "@/lib/ai/listing-reader";
 import { useRef, useState, useTransition } from "react";
 import { LegalNotice } from "@/components/legal-notice";
+import { ClaimDone } from "../claim-done";
 import { createClient } from "@/lib/supabase/client";
 import {
   AMENITY_OPTIONS,
@@ -205,14 +206,18 @@ export function ClaimForm({ token, initial }: { token: string; initial: ClaimSub
   }
 
   if (done) {
+    const answeredFaqs = faqs.filter((f) => f.answer.trim()).length;
     return (
-      <div className="mt-8 max-w-2xl rounded-lg border border-hairline bg-card p-8 shadow-sm">
-        <h2 className="font-display text-2xl font-semibold text-forest">Thanks — we&apos;ve got it</h2>
-        <p className="mt-3 text-ink/70">
-          We&apos;ll review your changes and email {submitter.email} once they&apos;re live. You can come
-          back to this link any time to make more changes.
-        </p>
-      </div>
+      <ClaimDone
+        kind="venue"
+        token={token}
+        email={submitter.email}
+        summary={[
+          `${photos.length} ${photos.length === 1 ? "photo" : "photos"} sent`,
+          `${answeredFaqs} of ${faqs.length} couple questions answered`,
+          ...(spaces.length > 0 ? [`${spaces.length} ${spaces.length === 1 ? "space" : "spaces"} described`] : []),
+        ]}
+      />
     );
   }
 
