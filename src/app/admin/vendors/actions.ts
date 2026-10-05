@@ -50,6 +50,8 @@ export async function createVendor(formData: FormData): Promise<{ error?: string
     amenities: list(formData, "amenities"),
     image_url: str(formData, "image_url"),
     contact_email: str(formData, "contact_email"),
+    contact_phone: str(formData, "contact_phone"),
+    website: str(formData, "website"),
     is_sample: formData.get("is_sample") === "on",
   });
 
@@ -85,6 +87,8 @@ export async function updateVendor(formData: FormData): Promise<{ error?: string
       amenities: list(formData, "amenities"),
       image_url: str(formData, "image_url"),
       contact_email: str(formData, "contact_email"),
+      contact_phone: str(formData, "contact_phone"),
+      website: str(formData, "website"),
       is_sample: formData.get("is_sample") === "on",
     })
     .eq("id", id);

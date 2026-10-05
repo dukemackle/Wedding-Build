@@ -60,6 +60,24 @@ export function LastChecked({ at, short = false }: { at: string | null; short?: 
   return <span className={tone}>{short ? text.replace(/^checked /, "") : text}</span>;
 }
 
+/** "tween-waters.com ↗ · 239-472-5161": the site opens in a new tab, so a row can be checked without leaving the list. */
+export function ContactLine({ website, phone }: { website: string | null; phone: string | null }) {
+  const href = website && (/^https?:\/\//i.test(website) ? website : `https://${website}`);
+  const domain = href?.replace(/^https?:\/\/(www\.)?/i, "").replace(/\/.*$/, "");
+  return (
+    <p className="truncate text-xs">
+      {href ? (
+        <a href={href} target="_blank" rel="noreferrer" className="text-brass hover:underline" title={website ?? undefined}>
+          {domain} ↗
+        </a>
+      ) : (
+        <span className="text-red-800">no website</span>
+      )}
+      {phone && <span className="text-ink/50"> · {phone}</span>}
+    </p>
+  );
+}
+
 export function StatusPill({ active }: { active: boolean }) {
   return (
     <span
