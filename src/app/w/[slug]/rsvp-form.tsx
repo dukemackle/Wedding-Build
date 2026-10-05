@@ -72,6 +72,15 @@ export function RsvpForm({
   return (
     <form ref={formRef} action={handleSubmit} className="mt-6 flex flex-col gap-4">
       <input type="hidden" name="wedding_id" value={weddingId} />
+      {/* Spam trap: invisible to people, so only bots fill it in. */}
+      <input
+        type="text"
+        name="website"
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+        className="absolute left-[-9999px] h-px w-px opacity-0"
+      />
       {/* The one question every guest answers comes first; the rest only
           appears once it applies, so a "no" is two fields, not twelve. */}
       <label className={labelClass}>

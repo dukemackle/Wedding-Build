@@ -3,6 +3,7 @@ import type { Venue, VenueSpace } from "@/lib/supabase/types";
 import { ConfirmedMark } from "@/components/confirmed-badge";
 import { confirmedByOwner } from "@/lib/public-listings";
 import { SERVICE_LEVEL_HINTS, SERVICE_LEVELS, VENDOR_POLICIES } from "@/lib/wedding-options";
+import { TrackedContactLink } from "@/components/tracked-contact-link";
 
 /**
  * The parts of a venue listing that only exist once a venue has filled in its
@@ -128,15 +129,16 @@ export function VenueGoodToKnow({ venue }: { venue: Venue }) {
       {links.length > 0 && (
         <div className="mt-4 flex flex-wrap gap-2">
           {links.map(([label, href]) => (
-            <a
+            <TrackedContactLink
               key={label}
+              listingType="venue"
+              listingId={venue.id}
+              kind={label === "Website" ? "website" : "social"}
               href={href}
-              target="_blank"
-              rel="noopener noreferrer nofollow"
               className="rounded-full border border-hairline px-3 py-1 text-sm text-ink transition-colors hover:border-forest"
             >
               {label} ↗
-            </a>
+            </TrackedContactLink>
           ))}
         </div>
       )}

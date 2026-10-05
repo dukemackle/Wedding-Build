@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { getResendClient, INQUIRY_FROM_ADDRESS, isUndeliverable, UNDELIVERABLE_MESSAGE } from "@/lib/resend";
+import { leadCounts } from "@/lib/listing-leads";
 import { inquiryFooter, inquirySubject } from "@/lib/inquiry-footer";
 import { ensureVendorClaimLink } from "@/lib/vendor-claim-server";
 import { VENDOR_CATEGORY_TO_BUDGET_KEY } from "@/lib/budget-categories";
@@ -21,8 +22,21 @@ export async function sendVendorInquiry(formData: FormData): Promise<{ error?: s
   const vendorId = (formData.get("vendor_id") as string) || null;
   const vendorName = formData.get("vendor_name") as string;
   const category = (formData.get("category") as string) || null;
-  const recipientEmail = (formData.get("recipient_email") as string)?.trim();
+  let recipientEmail = (formData.get("recipient_email") as string)?.trim();
   const message = (formData.get("message") as string)?.trim();
+
+  // A listing's own address is used as stored: couples never see or type it,
+  // so the inquiry goes through the app and can't be pointed elsewhere.
+  let listing: { is_sample: boolean; contact_email: string | null } | null = null;
+  if (vendorId) {
+    const { data } = await supabase
+      .from("vendors")
+      .select("is_sample, contact_email")
+      .eq("id", vendorId)
+      .maybeSingle<{ is_sample: boolean; contact_email: string | null }>();
+    listing = data;
+    if (listing?.contact_email) recipientEmail = listing.contact_email;
+  }
   const senderPhone = ((formData.get("sender_phone") as string) || "").trim() || null;
 
   if (!vendorName) {
@@ -52,16 +66,36 @@ export async function sendVendorInquiry(formData: FormData): Promise<{ error?: s
   const phoneNote = senderPhone ? `\n\nPhone: ${senderPhone}` : "";
 
   // Only real listings get a claim link; a sample vendor has no one to claim it.
-  let claimUrl: string | null = null;
-  if (vendorId) {
-    const { data: listed } = await supabase
-      .from("vendors")
-      .select("is_sample")
-      .eq("id", vendorId)
-      .maybeSingle<{ is_sample: boolean }>();
-    if (listed && !listed.is_sample) claimUrl = await ensureVendorClaimLink(vendorId);
+  const claimUrl = vendorId && listing && !listing.is_sample ? await ensureVendorClaimLink(vendorId) : null;
+
+  // Log the inquiry before sending, so an email never goes out unrecorded:
+  // the per-listing lead count is what we'll show vendors. If the send then
+  // fails, the row is removed again.
+  const { data: logged, error: dbError } = await supabase
+    .from("vendor_inquiries")
+    .insert({
+      wedding_id: wedding.id,
+      user_id: user.id,
+      vendor_id: vendorId,
+      vendor_name: vendorName,
+      category,
+      message,
+      recipient_email: recipientEmail,
+      sender_phone: senderPhone,
+      status: "sent",
+      referral_code: wedding.referral_code,
+    })
+    .select("id")
+    .single<{ id: string }>();
+
+  if (dbError || !logged) {
+    return { error: dbError?.message ?? "Couldn't save the inquiry." };
   }
 
+  // Includes the row just logged. Counting is never worth failing an inquiry over.
+  const couplesSoFar = vendorId ? await leadCounts("vendor", vendorId).then((c) => c.inquiries, () => 0) : 0;
+
+  let sendFailure: string | null = null;
   try {
     const resend = getResendClient();
     const { error: sendError } = await resend.emails.send({
@@ -69,31 +103,16 @@ export async function sendVendorInquiry(formData: FormData): Promise<{ error?: s
       to: recipientEmail,
       replyTo: user.email,
       subject: inquirySubject(coupleNames || user.email || "a couple"),
-      text: `${message}${phoneNote}${referralNote}${inquiryFooter(vendorName, claimUrl)}`,
+      text: `${message}${phoneNote}${referralNote}${inquiryFooter(vendorName, claimUrl, couplesSoFar)}`,
     });
-
-    if (sendError) {
-      return { error: sendError.message };
-    }
+    if (sendError) sendFailure = sendError.message;
   } catch (err) {
-    return { error: err instanceof Error ? err.message : "Failed to send the email." };
+    sendFailure = err instanceof Error ? err.message : "Failed to send the email.";
   }
 
-  const { error: dbError } = await supabase.from("vendor_inquiries").insert({
-    wedding_id: wedding.id,
-    user_id: user.id,
-    vendor_id: vendorId,
-    vendor_name: vendorName,
-    category,
-    message,
-    recipient_email: recipientEmail,
-    sender_phone: senderPhone,
-    status: "sent",
-    referral_code: wedding.referral_code,
-  });
-
-  if (dbError) {
-    return { error: dbError.message };
+  if (sendFailure) {
+    await supabase.from("vendor_inquiries").delete().eq("id", logged.id);
+    return { error: sendFailure };
   }
 
   revalidatePath("/vendors");
@@ -207,14 +226,29 @@ export async function sendVendorFollowUps(
   let failed = 0;
   const sentIds: string[] = [];
 
+  // Follow-ups carry the claim link too, for real (non-sample) listings.
+  const listingIds = [...new Set(followable.map((i) => i.vendor_id).filter((id): id is string => !!id))];
+  const claimable = new Set<string>();
+  if (listingIds.length > 0) {
+    const { data: listed } = await supabase
+      .from("vendors")
+      .select("id, is_sample")
+      .in("id", listingIds);
+    for (const v of listed ?? []) if (!v.is_sample) claimable.add(v.id);
+  }
+
   for (const inquiry of followable) {
     try {
+      const claimUrl =
+        inquiry.vendor_id && claimable.has(inquiry.vendor_id)
+          ? await ensureVendorClaimLink(inquiry.vendor_id)
+          : null;
       const { error: sendError } = await resend.emails.send({
         from: INQUIRY_FROM_ADDRESS,
         to: inquiry.recipient_email!,
         replyTo: user.email,
         subject: inquirySubject(coupleNames || user.email || "a couple", true),
-        text: `Hi ${inquiry.vendor_name},\n\nJust following up on the inquiry we sent about ${inquiry.category?.toLowerCase() ?? "our wedding"} — we'd still love to hear back about availability and pricing when you get a chance.\n\nOriginal message:\n${inquiry.message ?? ""}${referralNote}${inquiryFooter(inquiry.vendor_name)}`,
+        text: `Hi ${inquiry.vendor_name},\n\nJust following up on the inquiry we sent about ${inquiry.category?.toLowerCase() ?? "our wedding"} — we'd still love to hear back about availability and pricing when you get a chance.\n\nOriginal message:\n${inquiry.message ?? ""}${referralNote}${inquiryFooter(inquiry.vendor_name, claimUrl)}`,
       });
 
       if (sendError) {

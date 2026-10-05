@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { TrackedContactLink } from "@/components/tracked-contact-link";
+import { ReportListing } from "@/components/report-listing";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { Vendor, VendorFaq, Wedding } from "@/lib/supabase/types";
 import { VENDOR_PRICE_UNITS } from "@/lib/wedding-options";
@@ -123,19 +125,21 @@ export function VendorListing({ data }: { data: VendorListingData }) {
               </Link>
             </p>
           )}
+          {!vendor.is_sample && <ReportListing listingType="vendor" listingId={vendor.id} />}
           {vendor.description && <p className="mt-4 text-ink/80">{vendor.description}</p>}
           {links.length > 0 && (
             <div className="mt-4 flex flex-wrap gap-2">
               {links.map(([label, href]) => (
-                <a
+                <TrackedContactLink
                   key={label}
+                  listingType="vendor"
+                  listingId={vendor.id}
+                  kind={label === "Website" ? "website" : "social"}
                   href={href}
-                  target="_blank"
-                  rel="noopener noreferrer nofollow"
                   className="rounded-full border border-hairline px-3 py-1 text-sm text-ink transition-colors hover:border-forest"
                 >
                   {label} ↗
-                </a>
+                </TrackedContactLink>
               ))}
             </div>
           )}

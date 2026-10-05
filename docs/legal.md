@@ -24,6 +24,10 @@ legal questions to the owner rather than deciding them.
   AI-sent reply signs as Wren, You Do, I Do's assistant (California's bot
   disclosure law; honest anyway).
 
+- **Listing reports and contact taps (2026-10-05):** the "Something wrong
+  with this listing?" form shows `LegalNotice`; Privacy §1 covers the
+  optional reporter email and the anonymous tap counts on listing links.
+
 Rule: any new form that sends Wren a person's details gets `LegalNotice`
 next to its submit button, and the Privacy Policy's "Information we collect"
 gets a line for it. Bump the "Last updated" date on any policy change.
