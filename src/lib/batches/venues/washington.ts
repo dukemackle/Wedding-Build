@@ -23,7 +23,7 @@ Bloedel Reserve	7571 NE Dolphin Drive	Bainbridge Island	Washington			Garden / Ou
 Hotel Murano	1320 Broadway	Tacoma	Washington			Ballroom / Hotel	Indoor	500		Downtown Tacoma hotel built around a glass-art collection, a walk from the museums and the Chihuly Bridge of Glass.	info@hotelmuranotacoma.com	(253) 238-8000	https://www.hotelmuranotacoma.com/meetings-events/weddings/
 Tacoma's Landmark	47 St. Helens Ave	Tacoma	Washington			Historic / Estate	Indoor			Historic Stadium District building with ten ballrooms, including the Temple Theatre and a rooftop ballroom over Commencement Bay.	Sales@TacomasLandmark.com	253-272-2042	https://tacomaslandmark.com/weddings/
 Tin Can Alley Tacoma	2620 East G St	Tacoma	Washington			Historic / Estate	Indoor	250		Woman-owned venue in a converted early-1900s tin can factory in the Dome District, mixing industrial bones with a ballroom finish.	info@pjhummel.com		https://www.tincanalleytacoma.com/
-Thornewood Castle		Lakewood	Washington			Historic / Estate	Indoor & Outdoor			Tudor Gothic manor on American Lake with Olmsted Brothers gardens, 16th-century stained glass, a private dock and overnight rooms.	info@thornewoodcastle.com	253-584-4393	https://www.thornewoodcastle.com/`,
+Thornewood Castle	8601 N Thorne Ln SW	Lakewood	Washington			Historic / Estate	Indoor & Outdoor			Tudor Gothic manor on American Lake with Olmsted Brothers gardens, 16th-century stained glass, a private dock and overnight rooms.	info@thornewoodcastle.com	253-584-4393	https://www.thornewoodcastle.com/`,
   },
   {
     name: "Spokane",

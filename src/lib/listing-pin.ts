@@ -77,15 +77,28 @@ for (const [fips, name, abbr] of [
  * A town's centre from the Census's own list of places (TIGERweb, 2020
  * census): incorporated towns first, then unincorporated ones like Driftwood.
  * Same terms as the geocoder above -- free, no key, public domain. Null for a
- * town the Census doesn't list (e.g. Oatmeal, TX). Exported for
- * scripts/import-batches.mjs.
+ * town the Census doesn't list (e.g. Oatmeal, TX).
+ *
+ * `thorough` also tries New England-style towns, which the Census files as
+ * county subdivisions (Stratham NH, Guilford CT), and merged city-counties
+ * filed under their long name (Augusta is "Augusta-Richmond County"). Off by
+ * default: each layer is another outbound request, and the in-app import has
+ * Cloudflare's 50 to stay inside. scripts/import-batches.mjs turns it on.
  */
-export async function censusPlacePin(city: string, state: string): Promise<Pin | null> {
+export async function censusPlacePin(city: string, state: string, thorough = false): Promise<Pin | null> {
   const fips = STATE_FIPS[state.trim().toLowerCase()];
   if (!fips) return null;
-  const where = `BASENAME='${city.trim().replace(/'/g, "''")}' AND STATE='${fips}'`;
-  // Layer 25 is incorporated places, 26 census-designated places.
-  for (const layer of [25, 26]) {
+  const name = city.trim().replace(/'/g, "''");
+  const exact = `BASENAME='${name}' AND STATE='${fips}'`;
+  // Layer 25 is incorporated places, 26 census-designated places, 22 county
+  // subdivisions; a consolidated city is an incorporated place named
+  // "<city>-<county> ...".
+  const tries: [number, string][] = [
+    [25, exact],
+    [26, exact],
+    ...(thorough ? ([[22, exact], [25, `BASENAME LIKE '${name}-%' AND STATE='${fips}'`]] as [number, string][]) : []),
+  ];
+  for (const [layer, where] of tries) {
     try {
       const url =
         `https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Places_CouSub_ConCity_SubMCD/MapServer/${layer}/query?` +

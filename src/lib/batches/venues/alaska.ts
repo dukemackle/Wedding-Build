@@ -25,7 +25,7 @@ Arctic Valley Alpenglow Lodge	18800 Arctic Valley Rd	Anchorage	Alaska			Barn / R
 Alaska Aviation Museum	4721 Aircraft Dr	Anchorage	Alaska			Historic / Estate	Indoor & Outdoor	200	Simple	Aviation museum on Lake Hood seaplane base with vintage aircraft hangars, a control tower and a 737 jet to hire, and lakeshore ceremonies.		907-248-5325	https://alaskaairmuseum.org/event-rentals/
 Pike's Waterfront Lodge	1850 Hoselton Rd	Fairbanks	Alaska			Beach / Waterfront	Indoor & Outdoor	160		Fairbanks hotel on the Chena River with a tented lawn for summer receptions and the Binkley Room ballroom for indoor weddings.	info@pikeslodge.com	907-456-4515	https://pikeslodge.com/meetings-events/
 Land's End Resort	4786 Homer Spit Rd	Homer	Alaska			Beach / Waterfront	Indoor & Outdoor	200		Hotel at the tip of the Homer Spit on Kachemak Bay, with waterfront event space, bridal suites and beach houses for guests.		907-235-0410	https://www.lands-end-resort.com/weddings/
-Stillpoint Lodge		Halibut Cove	Alaska			Beach / Waterfront	Indoor & Outdoor			Boat- or floatplane-access lodge with private cabins across Kachemak Bay from Homer, hosting small weddings for groups up to about 28 overnight guests.		907-531-5764	https://stillpointlodge.com/alaska-events`,
+Stillpoint Lodge	46877 Stillpoint Trail	Halibut Cove	Alaska			Beach / Waterfront	Indoor & Outdoor			Boat- or floatplane-access lodge with private cabins across Kachemak Bay from Homer, hosting small weddings for groups up to about 28 overnight guests.		907-531-5764	https://stillpointlodge.com/alaska-events`,
   },
 ];
 
