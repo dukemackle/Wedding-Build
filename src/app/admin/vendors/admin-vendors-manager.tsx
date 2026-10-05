@@ -641,7 +641,7 @@ export function AdminVendorsManager({
             actions={[
               { label: "Make live", onSelect: () => runBulk(bulkSetVendorActive, { active: "true" }) },
               { label: "Hide", onSelect: () => runBulk(bulkSetVendorActive, { active: "false" }) },
-              { label: "Mark still right", onSelect: () => runBulk(markVendorsVerified) },
+              { label: "Mark as checked", onSelect: () => runBulk(markVendorsVerified) },
               { label: "Delete", onSelect: bulkDelete, danger: true },
             ]}
           />

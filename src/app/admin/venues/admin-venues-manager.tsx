@@ -544,7 +544,7 @@ export function AdminVenuesManager({
             actions={[
               { label: "Make live", onSelect: () => runBulk(bulkSetVenueActive, { active: "true" }) },
               { label: "Hide", onSelect: () => runBulk(bulkSetVenueActive, { active: "false" }) },
-              { label: "Mark still right", onSelect: () => runBulk(bulkMarkVenuesVerified) },
+              { label: "Mark as checked", onSelect: () => runBulk(bulkMarkVenuesVerified) },
               { label: "Delete", onSelect: bulkDelete, danger: true },
             ]}
           />
