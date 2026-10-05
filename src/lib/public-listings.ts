@@ -21,6 +21,15 @@ export const PUBLIC_VENDOR_COLUMNS =
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
+/**
+ * A vendor we listed from its Instagram alone, with no website to check its
+ * details against. Labelled "Basic listing" so couples know to confirm the
+ * details themselves; a vendor that lists or claims itself isn't one.
+ */
+export function isBasicListing(v: { website: string | null; instagram_url: string | null; source: string | null }): boolean {
+  return !v.website && Boolean(v.instagram_url) && v.source === "import";
+}
+
 /** A listing URL segment is either an old uuid link or a slug. */
 export function isUuid(value: string): boolean {
   return UUID.test(value);
