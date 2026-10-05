@@ -1,5 +1,7 @@
 import Image from "next/image";
 import type { Venue, VenueSpace } from "@/lib/supabase/types";
+import { ConfirmedMark } from "@/components/confirmed-badge";
+import { confirmedByOwner } from "@/lib/public-listings";
 import { SERVICE_LEVEL_HINTS, SERVICE_LEVELS, VENDOR_POLICIES } from "@/lib/wedding-options";
 
 /**
@@ -16,12 +18,13 @@ const card = "mt-6 rounded-lg border border-hairline bg-card p-6 shadow-sm";
  * in one glance reads as a mistake.
  */
 export function VenueKeyFacts({ venue }: { venue: Venue }) {
-  type Fact = { label: string; value: string; note: string | null };
+  type Fact = { label: string; value: string; note: string | null; confirmed: boolean };
   const facts: (Fact | false | null | 0 | undefined)[] = [
     venue.service_level && {
       label: "What's provided",
       value: SERVICE_LEVELS[venue.service_level],
       note: SERVICE_LEVEL_HINTS[venue.service_level],
+      confirmed: confirmedByOwner(venue, "service_level"),
     },
     (venue.capacity || venue.capacity_standing) && {
       label: "Guests",
@@ -29,8 +32,14 @@ export function VenueKeyFacts({ venue }: { venue: Venue }) {
         .filter(Boolean)
         .join(" · "),
       note: null,
+      confirmed: confirmedByOwner(venue, "capacity", "capacity_standing"),
     },
-    venue.vendor_policy && { label: "Outside vendors", value: VENDOR_POLICIES[venue.vendor_policy], note: null },
+    venue.vendor_policy && {
+      label: "Outside vendors",
+      value: VENDOR_POLICIES[venue.vendor_policy],
+      note: null,
+      confirmed: confirmedByOwner(venue, "vendor_policy"),
+    },
   ];
   const shown = facts.filter((f): f is Fact => Boolean(f));
 
@@ -40,7 +49,10 @@ export function VenueKeyFacts({ venue }: { venue: Venue }) {
       {shown.map((f) => (
         <div key={f.label}>
           <dt className="text-xs uppercase tracking-wide text-ink/50">{f.label}</dt>
-          <dd className="mt-0.5 font-medium text-ink">{f.value}</dd>
+          <dd className="mt-0.5 font-medium text-ink">
+            {f.value}
+            {f.confirmed && <ConfirmedMark />}
+          </dd>
           {f.note && <dd className="mt-0.5 text-xs text-ink/55">{f.note}</dd>}
         </div>
       ))}

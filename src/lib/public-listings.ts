@@ -1,3 +1,5 @@
+import type { FieldSources } from "@/lib/field-sources";
+
 /**
  * Venue and vendor listings as the public -- and search engines -- see them.
  *
@@ -12,7 +14,7 @@
 export const SITE_URL = "https://youdoido.com";
 
 export const PUBLIC_VENUE_COLUMNS =
-  "id, slug, name, region, state, city, latitude, longitude, venue_type, setting, capacity, price_tier, description, about, included, good_to_know, amenities, image_url, website, photo_urls, address, price_from, price_note, service_level, vendor_policy, capacity_standing, lodging_sleeps, parking, wheelchair_accessible, pets_allowed, instagram_url, facebook_url, pinterest_url, tiktok_url, youtube_url, reviews_url, price_basis, price_options, included_items, active, is_sample, source, last_verified_at, created_at";
+  "id, slug, name, region, state, city, latitude, longitude, venue_type, setting, capacity, price_tier, description, about, included, good_to_know, amenities, image_url, website, photo_urls, address, price_from, price_note, service_level, vendor_policy, capacity_standing, lodging_sleeps, parking, wheelchair_accessible, pets_allowed, instagram_url, facebook_url, pinterest_url, tiktok_url, youtube_url, reviews_url, price_basis, price_options, included_items, active, is_sample, source, last_verified_at, field_sources, created_at";
 
 export const PUBLIC_VENDOR_COLUMNS =
   "id, slug, name, category, region, state, city, latitude, longitude, price_tier, description, about, included, good_to_know, amenities, image_url, photo_urls, website, service_area, price_from, price_unit, price_note, instagram_url, facebook_url, pinterest_url, active, is_sample, source, last_verified_at, created_at";
@@ -56,6 +58,14 @@ export function verifiedLabel(
   if (!listing.last_verified_at) return null;
   const when = new Date(listing.last_verified_at).toLocaleDateString("en-US", { month: "long", year: "numeric" });
   return listing.source === "claimed" ? `Details confirmed by the ${noun}, ${when}` : `Details verified ${when}`;
+}
+
+/** Whether the business itself confirmed this field through its claim link. */
+export function confirmedByOwner(listing: { field_sources?: FieldSources }, ...keys: string[]): boolean {
+  return keys.some((key) => {
+    const by = listing.field_sources?.[key]?.by;
+    return by === "venue" || by === "vendor";
+  });
 }
 
 /** A short plain-text description for search results and link previews. */
