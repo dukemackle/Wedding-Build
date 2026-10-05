@@ -8,7 +8,7 @@ import { pageWidthClass, type PageWidth } from "@/lib/layout";
 import { AdminSearch } from "./admin-search";
 
 /** Claim submissions waiting for review, per list. */
-export type PendingClaims = { venues: number; vendors: number };
+export type PendingClaims = { venues: number; vendors: number; reports: number };
 
 // `keywords` are other words the search box should find the page by.
 type NavLink = { href: string; label: string; badge?: number; soon?: boolean; keywords?: string };
@@ -29,6 +29,7 @@ function groups(claims: PendingClaims): { title?: string; links: NavLink[] }[] {
         { href: "/admin/vendors", label: "Vendors", keywords: "listings import batches export audit photographers florists caterers" },
         { href: "/admin/venues/claims", label: "Venue claims", keywords: "submissions approve review", badge: claims.venues },
         { href: "/admin/vendors/claims", label: "Vendor claims", keywords: "submissions approve review", badge: claims.vendors },
+        { href: "/admin/listing-health", label: "Listing health", keywords: "reports wrong closed bounces accuracy problems", badge: claims.reports },
       ],
     },
     {

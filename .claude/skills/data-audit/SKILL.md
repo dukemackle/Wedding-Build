@@ -36,7 +36,7 @@ node .claude/skills/data-audit/audit.mjs \
 
 `--no-web` skips the website checks (offline, seconds); otherwise it loads
 every site, eight at a time, about 2-3 minutes for ~1,500 rows — run it in the
-background. `--stale-days` defaults to 180. Rows with Live = no are skipped
+background. `--stale-days` defaults to 30, the app's contact-details cadence in `src/lib/listing-freshness.ts`. Rows with Live = no are skipped
 except in duplicate checks.
 
 What it flags, highest stakes first:
