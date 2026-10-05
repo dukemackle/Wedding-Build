@@ -6,61 +6,45 @@ for real. Update this file as items are picked up or new ideas come up.
 
 ## Free to build now
 
-Nothing queued right now — see "Already shipped" below for the latest
-batch. Add new ideas here as they come up.
+- [ ] **Listings in every state** (no marketing until this is done): West
+      Virginia is the one state still short of the first pass; the full
+      plan still wants roughly 1,200 venues and 1,500 vendors. `npm run
+      coverage` shows what's left per state; the plan lives in
+      `scripts/coverage-plan.mjs`, and `/add-venues` / `/add-vendors` add
+      batches.
 
-## Monetization strategy
+Add new ideas here as they come up.
 
-Not a build item, just the plan so it's written down. The Knot and Zola
-both give couples free tools and make money on the vendor/commerce side,
-not by charging couples — we should follow the same shape:
+## Monetization
 
-1. **Vendor lead-gen (primary, build first).** The `vendor_inquiries`
-   table already tracks every quote request sent to a vendor — that's
-   the exact mechanic The Knot charges vendors for. Once vendors are
-   real (via the Google Places item below), charge them a subscription
-   or per-lead fee to be listed / receive inquiries. Needs Stripe +
-   real vendors, in that order.
-2. **Registry affiliate commissions (secondary, later).** Zola-style: a
-   cut of gift purchases made through the registry. Bigger lift (real
-   e-commerce/affiliate integration on top of what's today just a link
-   list), worth revisiting once vendor lead-gen is proven out.
-3. **Not doing:** couple-facing subscriptions/paywalls. Free access for
-   couples is what makes the vendor side valuable in the first place —
-   charging couples would undercut the whole flywheel.
+The staged pricing plan (free now, light vendor lead pricing later) lives
+in `docs/monetization.md`. Couples stay free; money comes from the vendor
+side.
 
 ## Needs payment before we build it
 
-- [ ] **Real venues via Google Places API** — live search by
-      city/address, real names/addresses, and a real `website` link per
-      venue. Requires a Google Cloud project with billing enabled and the
-      Places API turned on (usage-based cost past a small free credit).
-      Recommended over Yelp because Google's Place Details actually returns
-      the business's own website; Yelp mostly links back to the Yelp page.
-  - Architecture note: this sits *alongside* the placeholder `venues` table,
-    not a replacement — shortlisting a live result needs different storage
-    (place ID, live address/website) than our fictional seed rows.
-- [ ] **Real per-venue photos** — only possible once venues are real (via
-      the Places API above); Place Details includes photo references.
-- [ ] **Stripe integration** (from the original build brief): paid cost
-      report, vendor commissions. Needs a Stripe account and takes
-      transaction fees — explicitly called out as a later phase in the
-      original spec, not build until we're closer to launch.
-- [ ] **Add-to-cart + checkout for Attire (and eventually Venues/Vendor
-      deposits)**: real purchasing on top of the favorites/shortlist
-      couples already build. This is the "buying things" half of the
-      Stripe item above — needs a Stripe account, a decision on who
-      actually gets paid (a real seller behind each Attire item, since
-      today's catalog is placeholder data with no real business on the
-      other end), and webhook handling for order confirmation. Bigger
-      than a typical "flip a flag" payment feature; scope it properly
-      once we're ready to spend and pick real sellers/vendors.
-- [ ] **Nicer map styling via Mapbox** (optional upgrade path from the free
-      Leaflet map above) — needs a Mapbox account + access token; free tier
-      is generous but it's an external dependency to set up.
-- [ ] Custom production domain (currently on the default Vercel domain).
+- [ ] **Live venue search via Google Places API**: search by city/address
+      beyond our researched listings, plus real per-venue photos (Place
+      Details includes photo references). Needs a Google Cloud project with
+      billing and the Places API turned on (usage-based past a small free
+      credit). Would sit alongside the `venues` table rather than replace
+      it, since a live result needs different storage (place ID, live
+      address/website).
+- [ ] **Stripe integration**: vendor billing (see `docs/monetization.md`)
+      and any paid features. Needs a Stripe account and takes transaction
+      fees; not before there's real usage.
+- [ ] **Add-to-cart + checkout for Attire (and eventually venue/vendor
+      deposits)**: real purchasing on top of the favorites couples already
+      build. Needs Stripe, a real seller behind each Attire item (today's
+      catalog is placeholder data) and webhook handling for order
+      confirmation. Scope it properly once we're ready to spend.
+- [ ] **Nicer map styling via Mapbox** (optional upgrade from the free
+      Leaflet map): needs a Mapbox account and access token.
 
 ## Already shipped
+
+- Custom domain: youdoido.com (bought 2026-10-01), on Cloudflare Workers;
+  wrenwed.com redirects to it.
 
 - Scaffold, Supabase auth + schema, all 5 modules (Dashboard, Budget,
   Guests & RSVP, Venues, Vendors), Step 4 polish (loading/empty states,
