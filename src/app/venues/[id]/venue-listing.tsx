@@ -13,7 +13,15 @@ import { SERVICE_LEVELS } from "@/lib/wedding-options";
 import { ChevronDownIcon } from "@/components/icons";
 import { PhotoGallery } from "@/components/photo-gallery";
 import { SignupPrompt } from "@/components/public-nav";
-import { PUBLIC_VENUE_COLUMNS, isUuid, vendorHref, venueHref, verifiedLabel } from "@/lib/public-listings";
+import { ConfirmedChip, ConfirmedMark } from "@/components/confirmed-badge";
+import {
+  PUBLIC_VENUE_COLUMNS,
+  confirmedByOwner,
+  isUuid,
+  vendorHref,
+  venueHref,
+  verifiedLabel,
+} from "@/lib/public-listings";
 import { VenueDetailClient, VenueMapEmbed } from "./venue-detail-client";
 import { VenueGoodToKnow, VenueKeyFacts, VenueSpaces } from "./listing-sections";
 import { priceHeadline, priceOptionAmount } from "@/lib/venue-pricing";
@@ -172,9 +180,12 @@ export function VenueListing({ data }: { data: VenueListingData }) {
           </p>
           {venue.address && <p className="mt-1 text-sm text-ink/60">{venue.address}</p>}
           {venue.is_sample && <p className="mt-1 text-[10px] uppercase tracking-wide text-ink/40">Sample listing</p>}
-          {verifiedLabel(venue, "venue") && (
-            <p className="mt-1 text-xs text-forest/80">✓ {verifiedLabel(venue, "venue")}</p>
-          )}
+          {verifiedLabel(venue, "venue") &&
+            (venue.source === "claimed" ? (
+              <ConfirmedChip label={verifiedLabel(venue, "venue")!} className="mt-2" />
+            ) : (
+              <p className="mt-1 text-xs text-forest/80">✓ {verifiedLabel(venue, "venue")}</p>
+            ))}
           {venue.description && <p className="mt-4 text-ink/80">{venue.description}</p>}
           <VenueKeyFacts venue={venue} />
           <a
@@ -191,7 +202,12 @@ export function VenueListing({ data }: { data: VenueListingData }) {
           <div className="lg:sticky lg:top-16">
             {(price || venue.service_level) && (
               <div className="mb-3 rounded-lg border border-hairline bg-card px-5 py-4 shadow-sm">
-                {price && <p className="font-display text-2xl font-semibold text-forest">{price}</p>}
+                {price && (
+                  <p className="font-display text-2xl font-semibold text-forest">
+                    {price}
+                    {confirmedByOwner(venue, "price_from") && <ConfirmedMark />}
+                  </p>
+                )}
                 <p className="text-sm text-ink/60">
                   {[venue.price_note, venue.service_level && SERVICE_LEVELS[venue.service_level]]
                     .filter(Boolean)

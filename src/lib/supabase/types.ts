@@ -1,4 +1,5 @@
 import type { ClaimDetails, ClaimFaq, ClaimPreferredVendor, ClaimSpace } from "@/lib/venue-claim";
+import type { FieldSources } from "@/lib/field-sources";
 import type { VendorClaimDetails } from "@/lib/vendor-claim";
 
 export type Wedding = {
@@ -248,6 +249,8 @@ export type Venue = {
   /** When anyone last confirmed these details were true. */
   last_verified_at: string | null;
   verified_by: string | null;
+  /** Who vouches for each field, and when (0099). Not in every select. */
+  field_sources?: FieldSources;
   created_at: string;
 };
 
