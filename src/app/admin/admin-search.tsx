@@ -48,7 +48,15 @@ export function AdminSearch({ pages, onNavigate }: { pages: SearchHit[]; onNavig
   }, [q]);
 
   const term = q.trim().toLowerCase();
-  const pageHits = term ? pages.filter((p) => p.title.toLowerCase().includes(term)) : [];
+  // Every word has to appear in the page's name or keywords, so "vendor
+  // import" finds Vendors and "referrals" finds Revenue.
+  const words = term.split(/\s+/).filter(Boolean);
+  const pageHits = words.length
+    ? pages.filter((p) => {
+        const hay = `${p.title} ${p.keywords ?? ""}`.toLowerCase();
+        return words.every((w) => hay.includes(w));
+      })
+    : [];
   const groups = [
     ...(pageHits.length ? [{ label: "Pages", hits: pageHits }] : []),
     ...(term.length >= 2 ? results : []),

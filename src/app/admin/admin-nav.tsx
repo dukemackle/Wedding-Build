@@ -10,48 +10,49 @@ import { AdminSearch } from "./admin-search";
 /** Claim submissions waiting for review, per list. */
 export type PendingClaims = { venues: number; vendors: number };
 
-type NavLink = { href: string; label: string; badge?: number; soon?: boolean };
+// `keywords` are other words the search box should find the page by.
+type NavLink = { href: string; label: string; badge?: number; soon?: boolean; keywords?: string };
 
 function groups(claims: PendingClaims): { title?: string; links: NavLink[] }[] {
   return [
     {
       links: [
-        { href: "/admin", label: "Overview" },
-        { href: "/admin/ask", label: "Ask Wren" },
+        { href: "/admin", label: "Overview", keywords: "home dashboard stats summary" },
+        { href: "/admin/ask", label: "Ask Wren", keywords: "ai assistant question chat" },
         { href: "/admin/notifications", label: "Notifications", soon: true },
       ],
     },
     {
       title: "Marketplace",
       links: [
-        { href: "/admin/venues", label: "Venues" },
-        { href: "/admin/vendors", label: "Vendors" },
-        { href: "/admin/venues/claims", label: "Venue claims", badge: claims.venues },
-        { href: "/admin/vendors/claims", label: "Vendor claims", badge: claims.vendors },
+        { href: "/admin/venues", label: "Venues", keywords: "listings import batches export audit map" },
+        { href: "/admin/vendors", label: "Vendors", keywords: "listings import batches export audit photographers florists caterers" },
+        { href: "/admin/venues/claims", label: "Venue claims", keywords: "submissions approve review", badge: claims.venues },
+        { href: "/admin/vendors/claims", label: "Vendor claims", keywords: "submissions approve review", badge: claims.vendors },
       ],
     },
     {
       title: "Customers",
       links: [
-        { href: "/admin/couples", label: "Couples" },
-        { href: "/admin/feedback", label: "Feedback" },
-        { href: "/admin/photo-wall", label: "Photo wall" },
+        { href: "/admin/couples", label: "Couples", keywords: "users accounts weddings signups customers" },
+        { href: "/admin/feedback", label: "Feedback", keywords: "help bugs messages chat themes" },
+        { href: "/admin/photo-wall", label: "Photo wall", keywords: "photos gallery images uploads" },
       ],
     },
     {
       title: "Business",
       links: [
-        { href: "/admin/revenue", label: "Revenue" },
+        { href: "/admin/revenue", label: "Revenue", keywords: "money referrals payments income" },
         { href: "/admin/finance", label: "Finance", soon: true },
-        { href: "/admin/growth", label: "Growth" },
+        { href: "/admin/growth", label: "Growth", keywords: "signups funnel coverage states" },
         { href: "/admin/analytics", label: "Analytics", soon: true },
       ],
     },
     {
       title: "Content",
       links: [
-        { href: "/admin/attire", label: "Attire" },
-        { href: "/admin/cost-data", label: "Cost data" },
+        { href: "/admin/attire", label: "Attire", keywords: "dresses suits rings catalog" },
+        { href: "/admin/cost-data", label: "Cost data", keywords: "budget estimator prices regional csv" },
       ],
     },
   ];
@@ -62,7 +63,7 @@ function searchablePages(claims: PendingClaims) {
   return groups(claims)
     .flatMap((g) => g.links)
     .filter((l) => !l.soon)
-    .map((l) => ({ href: l.href, title: l.label }));
+    .map((l) => ({ href: l.href, title: l.label, keywords: l.keywords }));
 }
 
 // The most specific link that contains the current path, so the Claims page
@@ -154,11 +155,9 @@ export function AdminNav({ pendingClaims }: { pendingClaims: PendingClaims }) {
         <div className="mb-4 px-2">
           <Brand />
         </div>
-        <div className="mb-5">
-          <AdminSearch pages={searchablePages(pendingClaims)} />
-        </div>
+        <AdminSearch pages={searchablePages(pendingClaims)} />
+        <div className="mt-2.5 mb-5 px-2">{backToApp}</div>
         <NavList pendingClaims={pendingClaims} />
-        <div className="mt-auto px-2 pt-6">{backToApp}</div>
       </aside>
 
       <div className="sticky top-0 z-30 border-b border-hairline bg-card lg:hidden">
@@ -179,11 +178,11 @@ export function AdminNav({ pendingClaims }: { pendingClaims: PendingClaims }) {
         </div>
         <div className="px-4 pb-3">
           <AdminSearch pages={searchablePages(pendingClaims)} onNavigate={() => setOpen(false)} />
+          <div className="mt-2 px-1">{backToApp}</div>
         </div>
         {open && (
           <div className="max-h-[calc(100vh-57px)] overflow-y-auto border-t border-hairline px-3 py-4">
             <NavList pendingClaims={pendingClaims} onNavigate={() => setOpen(false)} />
-            <div className="mt-6 px-2">{backToApp}</div>
           </div>
         )}
       </div>
