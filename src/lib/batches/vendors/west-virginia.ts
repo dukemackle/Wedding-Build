@@ -81,6 +81,25 @@ Kellen's Kitchen	Catering		Lewisburg	West Virginia	Lewisburg, White Sulphur Spri
 Blackwell's Catering	Catering	830 Jefferson Street South	Lewisburg	West Virginia	Lewisburg area, delivery available	Lewisburg chef-owned caterer providing custom menus for plated weddings and fundraisers, with pickup, delivery and event space hire.		304-645-6159	https://www.blackwellscatering.com/	https://www.instagram.com/blackwellsgbc/
 Maple Hill Entertainment	Music		Ronceverte	West Virginia	Greenbrier Valley	Ronceverte DJ and announcing service covering weddings, proms, school dances and parties across the Greenbrier Valley.	maplehillentertainment@yahoo.com	304-647-4231	https://www.maplehillentertainment.com/	`,
   },
+  {
+    name: "Charleston: hair & makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Oasis Spa & Hair Salon	Hair & Makeup	33 RHL Blvd	Charleston	West Virginia		Full-service Charleston salon and day spa offering bridal and event hair styling alongside spa-day packages for the wedding party.	oasisspawv@gmail.com	304-747-6116	https://oasisspacharleston.com/	https://www.instagram.com/oasis.spa.wv/`,
+  },
+  {
+    name: "Morgantown: hair & makeup, photography and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Tonique's Trilogy	Hair & Makeup	725 Fairmont Rd, Suite 103	Morgantown	West Virginia		Morgantown salon offering wedding hair and makeup, with bookings handled by phone, text or email.		(304) 212-5558	https://toniquestrilogy.com/	
+Kristin Hurley Photography	Photography		Morgantown	West Virginia	Morgantown and across West Virginia	Morgantown fine art wedding photographer focused on authentic, emotional images from West Virginia ceremonies and receptions.			https://www.kristinhurleyphotography.com/	https://www.instagram.com/kristinhurleyphotography/
+Image Studios & Entertainment	Videography		Morgantown	West Virginia	Morgantown and surrounding regions	Morgantown studio with nearly two decades behind it, offering wedding video and photography plus DJ and MC services in package deals.			https://imagestudiosandentertainment.com/	`,
+  },
+  {
+    name: "New River Gorge: music, cake and planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Purpose Entertainment	Music	210 Dorcas Ave	Beckley	West Virginia	Southern West Virginia and western Virginia, including Beckley, Fayetteville, Oak Hill and Summersville	Beckley wedding DJ company led by a DJ with nearly two decades of experience, tailoring music to traditional or unexpected celebrations.	naybz@purposedjs.com	304-894-4003	https://purposedjs.com/	
+Posh Manna Cake Art	Cake		Oak Hill	West Virginia	Southern West Virginia	Luxury cake and dessert studio making European-style wedding cakes, macarons and pastries, with consultations and tastings.		(304) 673-2592	https://www.poshmanna.com/	https://www.instagram.com/poshmannacakeart/
+Gillespie's Events and Florals	Planning		White Sulphur Springs	West Virginia	Southern West Virginia and Virginia	Southern West Virginia events company covering wedding planning, florals, event rentals and design and production.	sales@gillespies.events	304-536-1881	https://gillespies.events/	`,
+  },
 ];
 
 export default batches;
