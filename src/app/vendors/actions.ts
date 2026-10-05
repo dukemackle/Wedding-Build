@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { getResendClient, INQUIRY_FROM_ADDRESS } from "@/lib/resend";
+import { getResendClient, INQUIRY_FROM_ADDRESS, isUndeliverable, UNDELIVERABLE_MESSAGE } from "@/lib/resend";
 import { inquiryFooter, inquirySubject } from "@/lib/inquiry-footer";
 import { ensureVendorClaimLink } from "@/lib/vendor-claim-server";
 import { VENDOR_CATEGORY_TO_BUDGET_KEY } from "@/lib/budget-categories";
@@ -41,6 +41,9 @@ export async function sendVendorInquiry(formData: FormData): Promise<{ error?: s
 
   if (!process.env.RESEND_API_KEY) {
     return { error: "Email sending isn't configured (missing RESEND_API_KEY)." };
+  }
+  if (await isUndeliverable(recipientEmail)) {
+    return { error: UNDELIVERABLE_MESSAGE };
   }
 
   const referralNote = wedding.referral_code

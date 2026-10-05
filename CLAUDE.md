@@ -122,6 +122,9 @@ reflexively:
   and where it can't; the known feature gaps (including what's parked, and
   what's already shipped so it isn't re-proposed). Read before comparing Wren
   to anything, or proposing a feature that might already exist.
+- **`docs/email-playbook.md`** — how inbound mail is received, sorted and
+  answered, the owner's policy answers, and the automation roadmap. Read before
+  touching email sending/receiving or drafting replies.
 - **`docs/legal.md`** — terms/privacy/consent coverage and what future features
   trigger (marketing email opt-in, EU users, SMS, analytics, billing). Read
   before shipping a new form that collects details, or any of those triggers.
