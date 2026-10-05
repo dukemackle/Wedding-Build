@@ -1,6 +1,7 @@
 import "server-only";
 
 import { revalidatePath } from "next/cache";
+import { restamp } from "@/lib/field-sources";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import { findAddresses } from "@/lib/address-finder";
 import { type Budget, newBudget, pinFromAddresses, pinUnpinned, withinBudget, withPins } from "@/lib/import-pins";
@@ -38,6 +39,7 @@ export async function insertImportedVenues(rows: VenueImportValues[]): Promise<s
       // unverified until someone actually checks the listing.
       source: "import",
       source_id: importSourceId(values.website),
+      field_sources: restamp(null, values, "batch"),
     })),
   );
 
@@ -220,6 +222,7 @@ export async function addBundledVendorRows(
           is_sample: false,
           source: "import",
           source_id: importSourceId(values.website),
+          field_sources: restamp(null, { ...values, address }, "batch"),
         })),
       );
     if (error) {
