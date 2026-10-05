@@ -554,12 +554,15 @@ export function AdminVendorsManager({
   const [bulkPending, startBulk] = useTransition();
   const [bulkError, setBulkError] = useState<string | undefined>(undefined);
 
-  // A selection belongs to the page it was made on.
+  // A selection belongs to the page it was made on: when the rows change
+  // (a new page, or an action moved some out of this tab), keep the ticks on
+  // the rows still shown and drop the rest.
   const pageKey = vendors.map((v) => v.id).join();
   const [selectionKey, setSelectionKey] = useState(pageKey);
   if (selectionKey !== pageKey) {
     setSelectionKey(pageKey);
-    setSelected(new Set());
+    const onPage = new Set(vendors.map((v) => v.id));
+    setSelected((prev) => new Set([...prev].filter((id) => onPage.has(id))));
   }
 
   function toggle(id: string) {
@@ -579,10 +582,12 @@ export function AdminVendorsManager({
     for (const [key, value] of Object.entries(extra ?? {})) formData.set(key, value);
     startBulk(async () => {
       const result = await action(formData);
+      // Ticks stay after an action, so "Make live" then "Mark as checked"
+      // works on the same rows. Only Delete clears them.
       if (result?.error) setBulkError(result.error);
       else {
         setBulkError(undefined);
-        setSelected(new Set());
+        if (action === bulkDeleteVendors) setSelected(new Set());
       }
     });
   }
