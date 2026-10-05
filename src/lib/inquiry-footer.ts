@@ -20,6 +20,8 @@ export function inquiryFooter(listingName: string, claimUrl?: string | null): st
   if (claimUrl) {
     lines.push("", `Is ${listingName}'s listing on You Do, I Do up to date? Check it and add your photos (free): ${claimUrl}`);
   }
+  // Every business we list gets a way out in the first email we send it.
+  lines.push(`Want this listing changed or taken down? Email hello@youdoido.com.`);
   return lines.join("\n");
 }
 
