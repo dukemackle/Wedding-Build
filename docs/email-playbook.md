@@ -5,33 +5,33 @@ answered from the policies below or turned into a one-tap draft. Anything an AI
 replies with comes from **this file**, so a judgment call gets made once here
 instead of 200 times in an inbox.
 
-Status (2026-10-05): **Stage 1 built.** Mail to @youdoido.com is received,
-kept in `inbox_messages`, and forwarded to the owner. Bounces and spam
+Status (2026-10-05): **Stage 1 built.** Mail to @youdoido.com is received by
+Google Workspace (hello@ and privacy@ are aliases). Bounces and spam
 complaints land in `email_bounces`, and couples are told before writing to a
 dead address. Nothing is answered automatically yet.
 
 ## Owner setup (one time, about 15 minutes)
 
-Do these before merging the Stage 1 PR, or the new footer line points to
-an inbox that nothing receives yet.
+**Google Workspace receives the domain's mail (2026-10-05).** Its MX records
+own youdoido.com, so Resend does **not** receive mail there. Never add
+Resend's receiving MX to the root domain: it would cut off Gmail. Resend
+only sends.
 
-1. **Resend → Domains → youdoido.com → enable Receiving.** Add the MX record
-   it shows in Cloudflare DNS. If Cloudflare Email Routing is on for the
-   domain, turn it off first, because a domain can have only one set of MX
-   records.
-2. **Resend → Webhooks → Add** `https://youdoido.com/api/resend-webhook`. Tick
-   `email.received`, `email.bounced`, `email.complained` and
-   `email.suppressed`. Copy its signing secret (`whsec_…`).
+1. **Workspace → Users → your user → Alternate emails:** add `hello@` and
+   `privacy@` as aliases (free, so no extra seats). Anything sent to them
+   lands in your Workspace inbox.
+2. **Resend → Webhooks → Add** `https://youdoido.com/api/resend-webhook`.
+   Tick `email.bounced`, `email.complained` and `email.suppressed`, then
+   copy the signing secret (`whsec_…`).
 3. **Cloudflare → Workers → Settings → Variables:** add `RESEND_WEBHOOK_SECRET`
-   (as a secret). `ADMIN_EMAIL` is already set; its first address gets the
-   forwards.
+   as a secret.
 4. Run migration `0099_email_inbox.sql` in Supabase.
-5. Test it: send an email to hello@youdoido.com from a personal address. It
-   should arrive in your inbox and show up as a row in `inbox_messages`.
+5. Test it: email hello@youdoido.com from a personal address and check
+   that it reaches Workspace.
 
-Every address at the domain is received (hello@, privacy@, listings@ …), so
-new ones need no setup. The privacy page already points people to
-privacy@.
+The webhook's `email.received` branch (to `inbox_messages`) is left in
+place for a subdomain, if receiving ever moves to Resend. For Stage 2, the
+triage reads the Workspace inbox through the Gmail API instead.
 
 ## What arrives, and what happens to it
 
@@ -126,9 +126,10 @@ replies come to the same inbox.
 
 ## Roadmap
 
-1. **Stage 1 (built):** receive, keep, forward; bounce tracking.
-2. **Stage 2 (before the 50-state outreach push):** a triage routine labels
-   new `inbox_messages` (Haiku, a fraction of a cent each) and writes drafts.
+1. **Stage 1 (built):** Workspace receives mail; bounce tracking.
+2. **Stage 2 (before the 50-state outreach push):** a triage routine reads
+   new Workspace mail (Gmail API, a service account with domain-wide
+   delegation), labels it (Haiku, a fraction of a cent each) and writes drafts.
    A `/admin/inbox` page lists them with Send / Edit / Archive. A daily 8am
    digest says how many emails need the owner.
 3. **Stage 3 (after a few weeks of drafts):** graduate categories to Auto by

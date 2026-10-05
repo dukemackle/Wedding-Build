@@ -15,8 +15,8 @@ legal questions to the owner rather than deciding them.
 - **Guests:** the guest site footer (`guest-site-theme.tsx`) links Terms and
   Privacy. Guests have no account; their data goes to the couple.
 - Site-wide footer links Terms and Privacy.
-- **Inbound email (2026-10-05):** mail to @youdoido.com is kept in
-  `inbox_messages`, and bounces/complaints in `email_bounces`; Privacy §1
+- **Inbound email (2026-10-05):** mail to @youdoido.com lands in Google
+  Workspace, and bounces/complaints are kept in `email_bounces`; Privacy §1
   ("When you email us") covers both. Every inquiry footer offers
   "changed or taken down? Email hello@youdoido.com".
 - **Before AI reads inbound mail** (the triage in `docs/email-playbook.md`):
