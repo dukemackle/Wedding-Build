@@ -39,8 +39,8 @@ The Arboretum at Flagstaff	4001 S Woody Mountain Rd	Flagstaff	Arizona			Garden /
 The Event Center at Sam Hill Warehouse	232 N Granite St	Prescott	Arizona			Historic / Estate	Indoor & Outdoor			Restored 1903 hardware warehouse with brick-walled rooms, railroad freight doors, a patio and a restored 1893 railway bridge over Granite Creek.		928-515-1381	https://www.samhillwarehouse.com/
 The Venue on Cortez	105 W Carleton St	Prescott	Arizona			Garden / Outdoor	Indoor & Outdoor			Former Prescott Wedding Chapel near downtown with indoor and outdoor ceremony spaces and a private two-bedroom residence for guest lodging.	info@thevenueoncortez.com	928.533.4421	https://www.thevenueoncortez.com/
 The Wilde Resort and Spa	2250 W State Rte 89A	Sedona	Arizona			Ballroom / Hotel	Indoor & Outdoor			Boutique Sedona resort with about 6,000 sq ft of indoor and outdoor event space, including rooftop and fire-pit areas.		928-203-4111	https://thewilderesort.com/
-Sanctuary Camelback Mountain		Paradise Valley	Arizona			Ballroom / Hotel	Indoor & Outdoor	200		Mountainside resort on 53 acres with a wedding lawn, a glass-enclosed ballroom, terraces and landscaped grounds.		1-844-390-4754	https://www.sanctuaryaz.com/weddings
-Viola's Weddings & Events (The Gardens at Viola's)		Flagstaff	Arizona			Garden / Outdoor	Outdoor			Garden wedding site in southwest Flagstaff beside a flower garden, with a second ponderosa-pine venue, Serendipity, in west Flagstaff.	planner@flagstaffweddingvenue.com	928-853-0399	https://www.flagstaffweddingvenue.com/
+Sanctuary Camelback Mountain	5700 East McDonald Drive	Paradise Valley	Arizona			Ballroom / Hotel	Indoor & Outdoor	200		Mountainside resort on 53 acres with a wedding lawn, a glass-enclosed ballroom, terraces and landscaped grounds.		1-844-390-4754	https://www.sanctuaryaz.com/weddings
+Viola's Weddings & Events (The Gardens at Viola's)	610 S State Route 89A	Flagstaff	Arizona			Garden / Outdoor	Outdoor			Garden wedding site in southwest Flagstaff beside a flower garden, with a second ponderosa-pine venue, Serendipity, in west Flagstaff.	planner@flagstaffweddingvenue.com	928-853-0399	https://www.flagstaffweddingvenue.com/
 `,
   },
 ];
