@@ -32,6 +32,12 @@ hosts weddings. Write descriptions in our own words, one sentence, what makes
 the place itself (acreage, buildings, era, water, lodging) -- never copied
 marketing copy or reviews, and no superlatives we can't stand behind.
 
+Every real business found and left out goes on a line in
+`src/lib/batches/skipped/<state>.tsv`, with its reason and best link (format
+and reasons in that folder's README). That's how we count what exists but
+isn't listed, and who to invite to /list later. Skip duplicates and
+businesses left out only because the metro was already full.
+
 ## 3. The row
 
 Start a new batch with this heading row (tab-separated, the same table the
@@ -114,7 +120,7 @@ why any that remain are fine. Quote the summary line in the PR body.
 
 ## 5. Ship
 
-One commit: `Add <region> venue batch`, body listing anything left out and
+One commit (the state file and its skipped file): `Add <region> venue batch`, body listing anything left out and
 why (closed, no site, no longer hosts weddings). Push, open the PR, and once
 the Cloudflare build check is green, merge it -- this PR only touches
 batch files, so it doesn't wait for the owner. If the build fails with

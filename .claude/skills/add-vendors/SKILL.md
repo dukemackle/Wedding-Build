@@ -42,6 +42,11 @@ than be padded with weak listings.
 - **Mix:** within a category, cover a range of styles and price points, and
   cultural specialties where they exist (South Asian, Mexican/Latino,
   Vietnamese, Jewish, etc.). Don't list only the top luxury names.
+- **Record what you leave out.** Every real business found and left out goes on a line in
+`src/lib/batches/skipped/<state>.tsv`, with its reason and best link (format
+and reasons in that folder's README). That's how we count what exists but
+isn't listed, and who to invite to /list later. Skip duplicates and
+businesses left out only because the metro was already full.
 - **If the owner pastes a list,** still visit each site. Fill the missing
   columns, fix wrong ones, and report any you dropped and why.
 
@@ -112,7 +117,7 @@ why any that remain are fine. Quote the summary line in the PR body.
 
 This PR merges itself (CLAUDE.md: venue and vendor batches), so no preview is needed.
 
-1. Commit just the state file(s): `Add <area> vendor batch (<n> vendors)`.
+1. Commit just the state file(s) and their skipped files: `Add <area> vendor batch (<n> vendors)`.
 2. Push and open the PR. The body should cover the counts per category, the
    sources used, and what was left out and why.
 3. Subscribe to the PR. Once the Cloudflare build is green, merge it. If the
