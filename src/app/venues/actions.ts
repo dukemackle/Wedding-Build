@@ -136,6 +136,28 @@ export async function sendVenueInquiry(formData: FormData): Promise<{ error?: st
     if (listed && !listed.is_sample) claimUrl = await ensureClaimLink(venueId);
   }
 
+  // Log first so an email never goes out unrecorded (see vendors/actions.ts).
+  const { data: logged, error: dbError } = await supabase
+    .from("venue_inquiries")
+    .insert({
+      wedding_id: wedding.id,
+      user_id: user.id,
+      venue_id: venueId,
+      venue_name: venueName,
+      message,
+      recipient_email: recipientEmail,
+      sender_phone: senderPhone,
+      status: "sent",
+      referral_code: wedding.referral_code,
+    })
+    .select("id")
+    .single<{ id: string }>();
+
+  if (dbError || !logged) {
+    return { error: dbError?.message ?? "Couldn't save the inquiry." };
+  }
+
+  let sendFailure: string | null = null;
   try {
     const resend = getResendClient();
     const { error: sendError } = await resend.emails.send({
@@ -145,28 +167,14 @@ export async function sendVenueInquiry(formData: FormData): Promise<{ error?: st
       subject: inquirySubject(coupleNames || user.email || "a couple"),
       text: `${message}${phoneNote}${referralNote}${inquiryFooter(venueName, claimUrl)}`,
     });
-
-    if (sendError) {
-      return { error: sendError.message };
-    }
+    if (sendError) sendFailure = sendError.message;
   } catch (err) {
-    return { error: err instanceof Error ? err.message : "Failed to send the email." };
+    sendFailure = err instanceof Error ? err.message : "Failed to send the email.";
   }
 
-  const { error: dbError } = await supabase.from("venue_inquiries").insert({
-    wedding_id: wedding.id,
-    user_id: user.id,
-    venue_id: venueId,
-    venue_name: venueName,
-    message,
-    recipient_email: recipientEmail,
-    sender_phone: senderPhone,
-    status: "sent",
-    referral_code: wedding.referral_code,
-  });
-
-  if (dbError) {
-    return { error: dbError.message };
+  if (sendFailure) {
+    await supabase.from("venue_inquiries").delete().eq("id", logged.id);
+    return { error: sendFailure };
   }
 
   revalidatePath(`/venues/${venueId}`);

@@ -44,3 +44,27 @@ Coverage is the marketplace. "50 states with listings" means 50 states with
 "No issues and no inaccuracies" is the goal, not a guarantee. Listing data
 comes from the public web and goes stale on its own. What we can promise is
 that errors are caught by a check, not by a couple.
+
+## Status (2026-10-05 audit)
+
+Done:
+- Inquiries (vendor and venue) are logged before the email is sent, so none
+  goes out unrecorded; a failed send removes the row.
+- Vendor follow-up emails carry the claim link, like first inquiries do.
+- Venue-layout edits (move, resize, rotate, rename, delete) report a failed
+  save and reload the stored layout instead of silently looking saved.
+- RSVP form: spam trap, length caps on every field, and the couple gets an
+  email when a new RSVP is waiting on /guests.
+
+Open, in order:
+1. Vendors can't see their leads. Show the count in claim emails and on the
+   claim page. Direct email/phone/website on listings let couples go around
+   the app, so those contacts aren't counted.
+2. No "report a problem" on listings; `listing-freshness.ts` (30 days) and
+   `audit.mjs` (180 days) disagree; the audit runs only by hand; bounce data
+   (`email_bounces`) and `inbox_messages` aren't shown anywhere in admin.
+3. No scheduled email to couples at all: no payment due-date or checklist
+   reminders (no cron in `wrangler.jsonc`).
+4. Guests get no RSVP confirmation and can't change an RSVP; a name typo on
+   approval creates a duplicate guest.
+5. Guest deletes are permanent (no undo, no soft delete).
