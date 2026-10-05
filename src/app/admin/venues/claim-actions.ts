@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/admin";
+import { restamp, type FieldSources } from "@/lib/field-sources";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import type { Vendor, VenueSubmission } from "@/lib/supabase/types";
 import { getResendClient, INQUIRY_FROM_ADDRESS } from "@/lib/resend";
@@ -50,9 +51,9 @@ export async function approveSubmission(submissionId: string): Promise<{ error?:
   // was placed by hand.
   const { data: live } = await admin
     .from("venues")
-    .select("address, latitude, source")
+    .select("address, latitude, source, field_sources")
     .eq("id", submission.venue_id)
-    .maybeSingle<{ address: string | null; latitude: number | null; source: string | null }>();
+    .maybeSingle<{ address: string | null; latitude: number | null; source: string | null; field_sources: FieldSources }>();
   const d = submission.details;
   // A listing with no pin at all (a venue that listed itself without an
   // address the geocoder knows) borrows its town's, so it still shows on the map.
@@ -75,6 +76,8 @@ export async function approveSubmission(submissionId: string): Promise<{ error?:
       source: "claimed",
       last_verified_at: now,
       verified_by: `venue: ${submission.submitter_email}`,
+      // Every field the venue sent, changed or not: it looked at each and kept it.
+      field_sources: restamp(live ?? null, { ...submission.details, photo_urls: submission.photo_urls }, "venue"),
     })
     .eq("id", submission.venue_id);
   if (venueError) return { error: venueError.message };

@@ -1,4 +1,5 @@
 import "server-only";
+import { restamp, type FieldSources } from "@/lib/field-sources";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import type { Budget } from "@/lib/import-pins";
 import { geocode, STATE_ABBR } from "@/lib/listing-pin";
@@ -32,6 +33,7 @@ export type Candidate = {
   state: string | null;
   latitude: number;
   longitude: number;
+  field_sources?: FieldSources | null;
 };
 
 function kmBetween(a: { latitude: number; longitude: number }, b: { latitude: number; longitude: number }) {
@@ -232,7 +234,7 @@ export async function findAddresses(
   const admin = createAdminSupabaseClient();
   const { data, count, error } = await admin
     .from(table)
-    .select("id, website, city, state, latitude, longitude", { count: "exact" })
+    .select("id, website, city, state, latitude, longitude, field_sources", { count: "exact" })
     .is("address", null)
     .is("address_checked_at", null)
     .not("website", "is", null)
@@ -251,7 +253,11 @@ export async function findAddresses(
       const hit = await lookUpAddress(row);
       const { error } = await admin
         .from(table)
-        .update({ ...(hit ?? {}), address_checked_at: new Date().toISOString() })
+        .update({
+          ...(hit ?? {}),
+          ...(hit ? { field_sources: restamp(row, hit, "website", { changedOnly: true }) } : {}),
+          address_checked_at: new Date().toISOString(),
+        })
         .eq("id", row.id);
       return { hit: !!hit, error: error?.message };
     }),
