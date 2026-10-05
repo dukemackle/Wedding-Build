@@ -19,6 +19,7 @@ import {
 } from "@/lib/site-design";
 import { publishSiteDesign, saveSiteDraft } from "./actions";
 import { BirdCheer } from "@/components/bird-cheer";
+import { PublicSitePanel, SiteSwitch, useGuestSite } from "../public-site-panel";
 import { MotionTab, PanelLabel, SectionsTab, StyleTab, type ChecklistItem, type SectionInfo } from "./editor-tabs";
 
 type Device = "desktop" | "phone";
@@ -51,10 +52,9 @@ const LG = "(min-width: 1024px)";
 export function SiteEditor({
   draft: initialDraft,
   published: initialPublished,
-  publicSlug,
+  publicSlug: initialSlug,
   origin,
   contentKey,
-  sitePanel,
   sectionInfo,
   checklist,
   hasPhoto,
@@ -65,8 +65,6 @@ export function SiteEditor({
   origin: string;
   /** Changes whenever the site's content does, so the preview reloads to show it. */
   contentKey: string;
-  /** The site's on/off switch and link. */
-  sitePanel: ReactNode;
   /** Each section's status line, and its content editor where it has one. */
   sectionInfo: Partial<Record<SectionKey, SectionInfo>>;
   /** The "before you share" list. */
@@ -74,6 +72,8 @@ export function SiteEditor({
   /** Hero layouts only show with a banner photo; the Style tab says so. */
   hasPhoto: boolean;
 }) {
+  const site = useGuestSite(initialSlug);
+  const publicSlug = site.slug;
   const [design, setDesign] = useState(initialDraft);
   const [published, setPublished] = useState(initialPublished);
   const [tab, setTab] = useState<Tab>("theme");
@@ -270,7 +270,7 @@ export function SiteEditor({
         <SectionsTab
           design={design}
           onChange={change}
-          sitePanel={sitePanel}
+          sitePanel={<PublicSitePanel site={site} origin={origin} />}
           info={sectionInfo}
           checklist={checklist}
         />
@@ -323,7 +323,7 @@ export function SiteEditor({
           <div className="flex flex-col gap-3.5 border-b border-hairline px-6 pb-4 pt-5">
             <div className="flex items-center gap-2.5">
               <h1 className="font-display text-3xl font-semibold text-forest">Your guest site</h1>
-              <LiveBadge live={Boolean(publicSlug)} />
+              <SiteSwitch site={site} />
             </div>
             {tabStrip}
           </div>
@@ -389,7 +389,7 @@ export function SiteEditor({
             <div className="min-w-0 flex-1">
               <div className="flex items-center gap-2">
                 <h1 className="whitespace-nowrap font-display text-xl font-semibold text-forest">Guest site</h1>
-                <LiveBadge live={Boolean(publicSlug)} />
+                <SiteSwitch site={site} />
               </div>
               <p
                 className={`truncate text-xs ${error ? "text-red-700" : "text-ink/60"}`}
@@ -415,14 +415,6 @@ export function SiteEditor({
       )}
     </div>
     </>
-  );
-}
-
-function LiveBadge({ live }: { live: boolean }) {
-  return live ? (
-    <span className="rounded-full bg-forest/10 px-2 py-0.5 text-xs font-semibold text-forest">Live</span>
-  ) : (
-    <span className="rounded-full bg-ink/[0.06] px-2 py-0.5 text-xs font-semibold text-ink/60">Off</span>
   );
 }
 
