@@ -1,7 +1,16 @@
 "use client";
 
 import Image from "next/image";
-import { useRef, useState, useTransition, type CSSProperties, type ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+  useTransition,
+  type CSSProperties,
+  type ReactNode,
+} from "react";
 import type {
   Guest,
   GuestPriority,
@@ -25,7 +34,6 @@ import {
 import {
   addGuest,
   updateGuest,
-  deleteGuest,
   importGuestsFromGoogleSheet,
   setGuestGrouping,
   setGuestThanked,
@@ -580,6 +588,15 @@ function guestMeta(guest: Guest) {
  * near one and a hand's width of nothing between them -- so it folds into one
  * button, and the row closes up behind it.
  */
+/**
+ * Removing guests, with a few seconds to take it back. Rows disappear at once,
+ * but the delete only reaches the server once the undo window closes (or the
+ * list unmounts), so "Undo" is a real undo, not a re-insert that loses notes.
+ */
+const RemoveGuestsContext = createContext<(ids: string[], label: string) => void>(() => {});
+
+const UNDO_MS = 6000;
+
 function GuestRowMenu({
   guest,
   theme,
@@ -605,13 +622,9 @@ function GuestRowMenu({
     });
   }
 
+  const removeGuests = useContext(RemoveGuestsContext);
   function handleDelete() {
-    if (!confirm(`Remove ${guest.name} from the guest list?`)) return;
-    const formData = new FormData();
-    formData.set("id", guest.id);
-    startTransition(async () => {
-      await deleteGuest(formData);
-    });
+    removeGuests([guest.id], guest.name);
   }
 
   function handleToggleThanked() {
@@ -1564,22 +1577,68 @@ export function GuestsManager({
     });
   }
 
-  function handleBulkDelete() {
-    const ids = [...selected];
-    if (ids.length === 0) return;
-    if (!confirm(`Remove ${ids.length} guest${ids.length === 1 ? "" : "s"} from the list?`)) return;
-    setRemoved((current) => new Set([...current, ...ids]));
-    setSelected(new Set());
+  const [pendingRemoval, setPendingRemoval] = useState<{ ids: string[]; label: string } | null>(null);
+  const pendingRef = useRef<{ ids: string[]; timer: ReturnType<typeof setTimeout> } | null>(null);
+
+  function restore(ids: string[]) {
+    setRemoved((current) => new Set([...current].filter((id) => !ids.includes(id))));
+  }
+
+  function commitRemoval(ids: string[]) {
     const formData = new FormData();
     for (const id of ids) formData.append("guest_id", id);
-    setActionError(undefined);
     startAssigning(async () => {
       const result = await deleteGuests(formData);
       if (result?.error) {
-        setActionError(result.error);
-        setRemoved(new Set());
+        setActionError(`Those guests weren't removed. ${result.error}`);
+        restore(ids);
       }
     });
+  }
+
+  function removeGuests(ids: string[], label: string) {
+    if (ids.length === 0) return;
+    // A second removal settles the first; only the latest can be undone.
+    if (pendingRef.current) {
+      clearTimeout(pendingRef.current.timer);
+      commitRemoval(pendingRef.current.ids);
+    }
+    setActionError(undefined);
+    setRemoved((current) => new Set([...current, ...ids]));
+    setPendingRemoval({ ids, label });
+    const timer = setTimeout(() => {
+      pendingRef.current = null;
+      setPendingRemoval(null);
+      commitRemoval(ids);
+    }, UNDO_MS);
+    pendingRef.current = { ids, timer };
+  }
+
+  function undoRemoval() {
+    if (!pendingRef.current) return;
+    clearTimeout(pendingRef.current.timer);
+    restore(pendingRef.current.ids);
+    pendingRef.current = null;
+    setPendingRemoval(null);
+  }
+
+  // Leaving the page inside the undo window still removes them.
+  useEffect(
+    () => () => {
+      if (!pendingRef.current) return;
+      clearTimeout(pendingRef.current.timer);
+      const formData = new FormData();
+      for (const id of pendingRef.current.ids) formData.append("guest_id", id);
+      void deleteGuests(formData);
+    },
+    [],
+  );
+
+  function handleBulkDelete() {
+    const ids = [...selected];
+    if (ids.length === 0) return;
+    setSelected(new Set());
+    removeGuests(ids, `${ids.length} guest${ids.length === 1 ? "" : "s"}`);
   }
 
   const guestList = guests
@@ -1706,6 +1765,7 @@ export function GuestsManager({
     }`;
 
   return (
+    <RemoveGuestsContext.Provider value={removeGuests}>
     <div className="flex w-full min-w-0 flex-col rounded-lg border border-hairline bg-card p-4 shadow-sm sm:p-6">
       {/* The numbers, on one strip. Headcount, the invite ladder and the meal
           counts used to be three stacked blocks above the list; on a phone
@@ -2079,6 +2139,18 @@ export function GuestsManager({
         </div>
         </>
       )}
+      {pendingRemoval && (
+        <div
+          role="status"
+          className="fixed inset-x-4 bottom-6 z-50 mx-auto flex max-w-md items-center justify-between gap-4 rounded-full bg-forest px-5 py-3 text-sm text-parchment shadow-lg"
+        >
+          <span className="truncate">Removed {pendingRemoval.label}</span>
+          <button type="button" onClick={undoRemoval} className="shrink-0 font-semibold underline underline-offset-2">
+            Undo
+          </button>
+        </div>
+      )}
     </div>
+    </RemoveGuestsContext.Provider>
   );
 }

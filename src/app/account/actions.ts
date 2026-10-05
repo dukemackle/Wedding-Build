@@ -81,3 +81,17 @@ export async function deleteAccount(formData: FormData): Promise<{ error?: strin
   await supabase.auth.signOut();
   redirect("/");
 }
+
+/** The Monday email (payments and checklist items coming up). Each planner chooses for themselves. */
+export async function setWeeklyDigest(enabled: boolean): Promise<{ error?: string }> {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { error: "Please log in again." };
+
+  const { error } = await supabase
+    .from("email_preferences")
+    .upsert({ user_id: user.id, weekly_digest: enabled, updated_at: new Date().toISOString() });
+  return error ? { error: error.message } : {};
+}

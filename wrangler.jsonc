@@ -1,12 +1,12 @@
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
-	// "main" points at OpenNext's Cloudflare adapter output, not next build's
-	// own output -- the dashboard's Cloudflare Workers Build "Build command"
+	// "main" is custom-worker.ts, which wraps OpenNext's Cloudflare adapter
+	// output (.open-next/worker.js) to add the cron -- the dashboard's Cloudflare Workers Build "Build command"
 	// must be `npm run cf:build` (which runs `opennextjs-cloudflare build`),
 	// not the default `npm run build` (plain `next build`), or this file
 	// never gets generated and the deploy step's `wrangler versions upload`
 	// fails with "entry-point file... was not found".
-	"main": ".open-next/worker.js",
+	"main": "custom-worker.ts",
 	"name": "wedding-build",
 	"compatibility_date": "2026-09-05",
 	"compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
@@ -21,6 +21,11 @@
 	// a CPU/memory cutoff surfaces as a Cloudflare 1102 page with nothing in
 	// the app's own logs, because the request is killed rather than throwing.
 	// Free plan covers 200K events/day, sampling beyond that.
+	// Hourly on Mondays, 13:00-22:00 UTC (morning to afternoon across US time
+	// zones): custom-worker.ts sends the weekly digest via /api/reminders.
+	"triggers": {
+		"crons": ["0 13-22 * * 1"]
+	},
 	"observability": {
 		"enabled": true
 	},

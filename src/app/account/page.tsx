@@ -3,6 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import { PageShell } from "@/components/page-shell";
 import type { Wedding } from "@/lib/supabase/types";
 import { DeleteAccountForm } from "./delete-account-form";
+import { DigestToggle } from "./digest-toggle";
 
 export default async function AccountPage() {
   const supabase = await createClient();
@@ -19,6 +20,12 @@ export default async function AccountPage() {
     .select("*")
     .or(`user_id.eq.${user.id},member_ids.cs.{${user.id}}`)
     .maybeSingle<Wedding>();
+
+  const { data: prefs } = await supabase
+    .from("email_preferences")
+    .select("weekly_digest")
+    .eq("user_id", user.id)
+    .maybeSingle<{ weekly_digest: boolean }>();
 
   const isOwner = wedding?.user_id === user.id;
   const coupleNames = wedding
@@ -50,6 +57,15 @@ export default async function AccountPage() {
             )}
           </dl>
         </div>
+
+        {wedding && (
+          <div id="emails" className="mt-6 rounded-lg border border-hairline bg-card p-6 shadow-sm">
+            <h2 className="font-display text-xl font-semibold text-forest">Emails</h2>
+            <div className="mt-3">
+              <DigestToggle initial={prefs?.weekly_digest ?? true} />
+            </div>
+          </div>
+        )}
 
         <div className="mt-8 rounded-lg border border-red-300 bg-red-50 p-6">
           <h2 className="font-display text-xl font-semibold text-red-900">Delete account</h2>

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { ViewGuestSiteButton } from "@/components/view-guest-site-button";
 import type { Guest, RsvpSubmission } from "@/lib/supabase/types";
-import { findGuestByName } from "@/lib/guest-match";
+import { findCloseGuests, findGuestByName } from "@/lib/guest-match";
 import { sideTheme, type SideTheme } from "@/lib/guest-groups";
 import {
   approveRsvpSubmission,
@@ -18,19 +18,24 @@ function SubmissionRow({
   submission,
   theme,
   matchedName,
+  closeGuests,
 }: {
   submission: RsvpSubmission;
   theme: SideTheme;
   // The guest already on the list this RSVP will update, if any.
   matchedName: string | null;
+  // Near-misses when there's no exact match: likely the same person with a typo.
+  closeGuests: { id: string; name: string }[];
 }) {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>(undefined);
   const [handled, setHandled] = useState(false);
 
-  function handleApprove() {
+  function handleApprove(choice?: { guestId?: string; asNew?: boolean }) {
     const formData = new FormData();
     formData.set("submission_id", submission.id);
+    if (choice?.guestId) formData.set("guest_id", choice.guestId);
+    if (choice?.asNew) formData.set("as_new", "1");
     startTransition(async () => {
       const result = await approveRsvpSubmission(formData);
       if (result?.error) {
@@ -112,13 +117,15 @@ function SubmissionRow({
           </div>
         </div>
         <div className="flex shrink-0 items-center gap-3">
-          <button
-            onClick={handleApprove}
-            disabled={isPending}
-            className="text-xs text-brass hover:underline disabled:opacity-60"
-          >
-            {matchedName ? `Update ${matchedName}` : "Add to guest list"}
-          </button>
+          {closeGuests.length === 0 && (
+            <button
+              onClick={() => handleApprove()}
+              disabled={isPending}
+              className="text-xs text-brass hover:underline disabled:opacity-60"
+            >
+              {matchedName ? `Update ${matchedName}` : "Add to guest list"}
+            </button>
+          )}
           <button
             onClick={handleDismiss}
             disabled={isPending}
@@ -128,6 +135,30 @@ function SubmissionRow({
           </button>
         </div>
       </div>
+      {closeGuests.length > 0 && (
+        <div className="mt-3 rounded-md border border-brass/40 bg-brass/10 px-3 py-2 text-sm">
+          <p className="text-ink/80">Is this someone already on your list?</p>
+          <div className="mt-2 flex flex-wrap gap-2">
+            {closeGuests.map((g) => (
+              <button
+                key={g.id}
+                onClick={() => handleApprove({ guestId: g.id })}
+                disabled={isPending}
+                className="rounded-full border border-hairline bg-card px-3 py-1 text-xs text-ink hover:border-forest disabled:opacity-60"
+              >
+                Yes, update {g.name}
+              </button>
+            ))}
+            <button
+              onClick={() => handleApprove({ asNew: true })}
+              disabled={isPending}
+              className="rounded-full px-3 py-1 text-xs text-ink/60 hover:text-ink hover:underline disabled:opacity-60"
+            >
+              No, add as a new guest
+            </button>
+          </div>
+        </div>
+      )}
       {error && <p className="mt-1 text-sm text-red-800">{error}</p>}
     </div>
   );
@@ -146,7 +177,7 @@ export function PendingRsvps({
   partnerBName,
 }: {
   submissions: RsvpSubmission[];
-  guests: Pick<Guest, "name">[];
+  guests: Pick<Guest, "id" | "name">[];
   partnerAName: string | null;
   partnerBName: string | null;
 }) {
@@ -159,6 +190,7 @@ export function PendingRsvps({
           key={submission.id}
           submission={submission}
           matchedName={findGuestByName(guests, submission.guest_name)?.name ?? null}
+          closeGuests={findCloseGuests(guests, submission.guest_name)}
           theme={sideTheme({
             partnerAName,
             partnerBName,

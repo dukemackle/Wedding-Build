@@ -63,13 +63,19 @@ Done:
 - "Something wrong with this listing?" on every real listing feeds
   /admin/listing-health, which also lists listings whose email bounces.
 - `audit.mjs` staleness default now 30 days, matching `listing-freshness.ts`.
+- Monday planning email: payments due/overdue (paid-off lines excluded;
+  estimate-only lines quoted without an amount) and checklist items in the
+  next two weeks. Cron in `custom-worker.ts` -> `/api/reminders`; opt-out on
+  /account; `reminder_digests` stops double sends.
+- Budget "Upcoming payments" no longer lists paid-off lines as overdue.
+- RSVP approval offers "Is this someone already on your list?" for near-miss
+  names instead of silently adding a duplicate.
+- Removing guests has a 6-second Undo; a failed delete brings them back with
+  an error.
 
 Open, in order:
 1. The data audit runs only by hand; `inbox_messages` isn't shown in admin.
 2. Vendor replies to inquiries skip the app (reply-to is the couple), so
    there's no response-rate data yet.
-3. No scheduled email to couples at all: no payment due-date or checklist
-   reminders (no cron in `wrangler.jsonc`).
-4. Guests get no RSVP confirmation and can't change an RSVP; a name typo on
-   approval creates a duplicate guest.
-5. Guest deletes are permanent (no undo, no soft delete).
+3. Guests get no RSVP confirmation email (the form collects no guest email;
+   adding one is a legal/privacy change). Resubmitting does update their row.

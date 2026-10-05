@@ -28,6 +28,11 @@ legal questions to the owner rather than deciding them.
   with this listing?" form shows `LegalNotice`; Privacy §1 covers the
   optional reporter email and the anonymous tap counts on listing links.
 
+- **Monday planning email (2026-10-05):** transactional (their own wedding's
+  due dates), sent to the wedding's planners, with a one-click way off on
+  /account#emails. Not marketing; don't add promotions to it without the
+  marketing opt-in below.
+
 Rule: any new form that sends Wren a person's details gets `LegalNotice`
 next to its submit button, and the Privacy Policy's "Information we collect"
 gets a line for it. Bump the "Last updated" date on any policy change.

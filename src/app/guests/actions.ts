@@ -576,7 +576,19 @@ export async function approveRsvpSubmission(formData: FormData): Promise<{ error
     return { error: guestsError.message };
   }
 
-  const match = findGuestByName((existingGuests ?? []).map(withNotes), submission.guest_name);
+  // The couple can pick the guest ("did you mean…") or insist on a new row;
+  // otherwise only an exact name match updates an existing guest.
+  const candidates = (existingGuests ?? []).map(withNotes);
+  const chosenId = (formData.get("guest_id") as string) || null;
+  const asNew = formData.get("as_new") === "1";
+  const match = asNew
+    ? null
+    : chosenId
+      ? (candidates.find((g) => g.id === chosenId) ?? null)
+      : findGuestByName(candidates, submission.guest_name);
+  if (chosenId && !match) {
+    return { error: "That guest is no longer on your list." };
+  }
 
   const answers = {
     plus_one: submission.plus_one,

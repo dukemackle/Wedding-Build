@@ -27,27 +27,30 @@ export type UpcomingPayment = {
   dueDate: string;
 };
 
+/** What's left to pay on a line, or null when it's settled (nothing to remind about). */
+export function amountOwed(total: number, paid: number | null): number | null {
+  const owed = total - (paid ?? 0);
+  return owed > 0.005 ? owed : null;
+}
+
 export function paymentsFromRows(
   rows: BudgetRow[],
-  customItems: { label: string; amount: number; due_date: string | null }[],
+  customItems: { label: string; amount: number; due_date: string | null; paid_amount?: number | null }[],
 ): UpcomingPayment[] {
-  const fromCategories = rows
-    .filter((row): row is BudgetRow & { dueDate: string } => Boolean(row.dueDate))
-    .map((row) => ({
-      key: row.key,
-      label: row.label,
-      amount: row.override ?? row.computed ?? 0,
-      dueDate: row.dueDate,
-    }));
+  // A paid-off line drops out: showing it as "Overdue" would be wrong.
+  const fromCategories = rows.flatMap((row) => {
+    const owed = amountOwed(row.override ?? row.computed ?? 0, row.paidAmount);
+    return row.dueDate && owed !== null
+      ? [{ key: row.key, label: row.label, amount: owed, dueDate: row.dueDate }]
+      : [];
+  });
 
-  const fromCustom = customItems
-    .filter((item): item is typeof item & { due_date: string } => Boolean(item.due_date))
-    .map((item, index) => ({
-      key: `custom-${index}`,
-      label: item.label,
-      amount: item.amount,
-      dueDate: item.due_date,
-    }));
+  const fromCustom = customItems.flatMap((item, index) => {
+    const owed = amountOwed(item.amount, item.paid_amount ?? null);
+    return item.due_date && owed !== null
+      ? [{ key: `custom-${index}`, label: item.label, amount: owed, dueDate: item.due_date }]
+      : [];
+  });
 
   return [...fromCategories, ...fromCustom].sort((a, b) => a.dueDate.localeCompare(b.dueDate));
 }
@@ -59,7 +62,7 @@ export function UpcomingPayments({ payments }: { payments: UpcomingPayment[] }) 
     <div className="mt-8 w-full rounded-lg border border-hairline bg-card p-5 sm:p-8 shadow-sm">
       <span className="font-display text-2xl font-semibold text-forest">Upcoming payments</span>
       <p className="mt-1 text-sm text-ink/70">
-        Deposits and balances you&apos;ve given a due date, soonest first.
+        What&apos;s still owed on anything you&apos;ve given a due date, soonest first.
       </p>
       <div className="mt-4">
         {payments.map((payment) => (
