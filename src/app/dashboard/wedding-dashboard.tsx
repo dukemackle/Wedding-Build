@@ -2,15 +2,21 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState, useTransition, type ReactNode } from "react";
-import { addDashboardPhoto, removeDashboardPhoto, saveWedding } from "./actions";
+import {
+  addDashboardPhoto,
+  removeDashboardPhoto,
+  saveWedding,
+  setDashboardPhotoFocus,
+} from "./actions";
 import type { Venue, Wedding } from "@/lib/supabase/types";
 import { STATES, SEASONS, STYLE_TIERS, VENUE_TYPES } from "@/lib/wedding-options";
 import { daysUntilWedding } from "@/lib/countdown";
 import { CountdownTimer } from "@/components/countdown-timer";
 import { MilestoneBird } from "./milestone-bird";
 import { shrinkImage } from "@/lib/shrink-image";
-import { MAX_DASHBOARD_PHOTOS } from "@/lib/dashboard-photos";
+import { MAX_DASHBOARD_PHOTOS, focusPosition, type PhotoFocus } from "@/lib/dashboard-photos";
 import { PhotoBackdrop } from "./photo-backdrop";
+import { PhotoFocusPicker } from "./photo-focus-picker";
 
 function formatDate(dateStr: string) {
   return new Date(`${dateStr}T00:00:00`).toLocaleDateString("en-US", {
@@ -193,6 +199,11 @@ function PhotosButton({ wedding }: { wedding: Wedding }) {
   const inputRef = useRef<HTMLInputElement>(null);
   const photos = wedding.dashboard_photo_urls ?? [];
   const room = MAX_DASHBOARD_PHOTOS - photos.length;
+  // The photo whose focus point is being set, and the points as tapped --
+  // kept here so the dot moves at once rather than after the save.
+  const [selected, setSelected] = useState<string | null>(null);
+  const [focus, setFocus] = useState<PhotoFocus>(wedding.dashboard_photo_focus ?? {});
+  const editing = selected && photos.includes(selected) ? selected : null;
 
   // A click anywhere outside the button and popover closes it, as does Escape.
   useEffect(() => {
@@ -226,6 +237,15 @@ function PhotosButton({ wedding }: { wedding: Wedding }) {
         setError(undefined);
       }
       if (inputRef.current) inputRef.current.value = "";
+    });
+  }
+
+  function handleFocus(url: string, x: number, y: number) {
+    const point: [number, number] = [Math.round(x), Math.round(y)];
+    setFocus((f) => ({ ...f, [url]: point }));
+    startTransition(async () => {
+      const result = await setDashboardPhotoFocus(url, point[0], point[1]);
+      setError(result?.error);
     });
   }
 
@@ -275,13 +295,24 @@ function PhotosButton({ wedding }: { wedding: Wedding }) {
             <ul className="mt-3 grid grid-cols-4 gap-2">
               {photos.map((url) => (
                 <li key={url} className="group relative aspect-square">
-                  <Image
-                    src={url}
-                    alt=""
-                    fill
-                    sizes="96px"
-                    className="rounded-md border border-hairline object-cover"
-                  />
+                  <button
+                    type="button"
+                    onClick={() => setSelected(editing === url ? null : url)}
+                    aria-pressed={editing === url}
+                    aria-label="Choose what stays in view"
+                    className={`absolute inset-0 overflow-hidden rounded-md border ${
+                      editing === url ? "border-[#2243B6] ring-2 ring-[#2243B6]" : "border-hairline"
+                    }`}
+                  >
+                    <Image
+                      src={url}
+                      alt=""
+                      fill
+                      sizes="96px"
+                      className="object-cover"
+                      style={{ objectPosition: focusPosition(focus, url) }}
+                    />
+                  </button>
                   <button
                     type="button"
                     onClick={() => handleRemove(url)}
@@ -294,6 +325,18 @@ function PhotosButton({ wedding }: { wedding: Wedding }) {
                 </li>
               ))}
             </ul>
+          )}
+
+          {editing ? (
+            <PhotoFocusPicker
+              url={editing}
+              point={focus[editing] ?? [50, 50]}
+              onPick={(x, y) => handleFocus(editing, x, y)}
+            />
+          ) : (
+            photos.length > 0 && (
+              <p className="mt-2 text-xs text-ink/50">Tap a photo to choose what stays in view.</p>
+            )
           )}
 
           <div className="mt-3 flex items-center gap-3">
@@ -358,7 +401,7 @@ function WeddingHero({
 
   return (
     <>
-      <PhotoBackdrop photos={photos} />
+      <PhotoBackdrop photos={photos} focus={wedding.dashboard_photo_focus} />
       <section
         className={
           onPhoto

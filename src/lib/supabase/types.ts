@@ -21,6 +21,8 @@ export type Wedding = {
   profile_photo_url: string | null;
   /** Photos shown behind the dashboard, in order. Up to eight. */
   dashboard_photo_urls: string[];
+  /** Where to centre each dashboard photo: {url: [x%, y%]}. */
+  dashboard_photo_focus: Record<string, [number, number]>;
   rsvp_deadline: string | null;
   dress_code: string | null;
   travel_notes: string | null;
