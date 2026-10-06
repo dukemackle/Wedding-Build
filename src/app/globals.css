@@ -321,6 +321,13 @@ body::before {
   border-radius: var(--site-radius);
 }
 /* The guest site has a footer of its own, in its theme. */
+/* The dashboard's photo backdrop sits behind the page at a negative z-index,
+   which paints beneath body's own background -- so on that page body lets
+   the photos through (html keeps the cream for everywhere else). */
+body:has(.dashboard-backdrop) {
+  background: transparent;
+}
+
 body:has(.guest-site) .site-footer {
   display: none;
 }
