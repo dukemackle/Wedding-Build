@@ -61,6 +61,29 @@ Cate Barry Photography	Photography		Hamden	Connecticut	Connecticut, with travel 
 Stephanie Anestis Photography	Photography		Guilford	Connecticut	Guilford, New Haven County, Connecticut and beyond	Candid, unobtrusive wedding photography from a Guilford photographer who takes a small number of weddings each year, alongside family sessions.	stephanie.anestis@gmail.com	203-676-4402	https://stephanieanestis.com/connecticut-wedding-photography/	
 Perfektion Studios	Videography	105 Sanford Street	Hamden	Connecticut	Connecticut and South Florida	Hamden studio offering wedding cinematography from $900 as well as wedding and portrait photography, filming couples across Connecticut.	info@perfektionstudios.com	203-915-2152	https://www.perfektionstudios.com/	`,
   },
+  {
+    name: "Mystic: photography, planning, florals, music, catering, hair and makeup, cake and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Anna Sawin Photography	Photography		Stonington	Connecticut	Mystic, Stonington and Watch Hill	Stonington wedding photographer working the Mystic and Watch Hill coast, with her own guide to the area's venues and vendors.		860-608-4872	https://www.annasawin.com/	https://www.instagram.com/annasawinphoto/
+Maggie Conley Photography	Photography		Stonington	Connecticut		Stonington-based photographer on Saltwater Farm Vineyard's preferred list, covering weddings along the southeastern Connecticut shore.			https://maggieconleyphotography.com/	https://www.instagram.com/mcphoto363/
+Jen Strunk Events	Planning		Stonington	Connecticut	Guilford, CT to Newport, RI	Coastal planner whose team lives in southeastern Connecticut and focuses on Stonington, Mystic, Westerly and Watch Hill weddings.	jen@jenstrunk.com		https://jenstrunk.com/	https://www.instagram.com/jenstrunkevents/
+Daydream Events	Planning		Stonington	Connecticut	New England	Stonington event and wedding planner offering customisable packages for both large celebrations and intimate gatherings.			https://www.daydreamevents.org/	https://www.instagram.com/daydream_evnts/
+Jubilee Events	Planning		Old Lyme	Connecticut		Old Lyme planning studio that shapes its process around each couple's communication style, timeline and level of experience.			https://eventjubilee.com/	https://www.instagram.com/ajubileeevent/
+Verdant Floral Studio	Florals		Stonington	Connecticut		Full-service floral studio working from Stonington and Manhattan, handling consultation, site planning and wedding design.	norma@verdantfloral.com	860-535-9845	https://verdantfloral.com/	https://www.instagram.com/verdantfloral/
+Mar Floral	Florals	875 Boston Post Rd	Old Saybrook	Connecticut		Shoreline flower shop run by a certified floral designer who trained in Boston, doing wedding work from Old Saybrook.		860-388-4670	https://marfloral.com/	https://www.instagram.com/marfloral/
+Atlantic Coast Entertainment	Music	524 Long Hill Rd	Groton	Connecticut	Connecticut, Rhode Island and Massachusetts	Groton wedding DJ company that also offers uplighting, photo booths and photo and video coverage as add-ons.		860-448-3548	https://www.atlanticcoastentertainment.com/	
+A Thyme to Cook	Catering		North Stonington	Connecticut		North Stonington caterer on the preferred lists at Saltwater Farm Vineyard and the Florence Griswold Museum, with artisanal food styling.			https://www.athymetocook.com/	https://www.instagram.com/athymetocook/
+85th Day Catering	Catering		Mystic	Connecticut		Catering arm of Mystic's Oyster Club group, serving receptions and rehearsal dinners at your venue or at Stone Acres Farm.	info@oysterclubct.com	860-415-9266	https://www.oysterclubct.com/catering	https://www.instagram.com/oysterclubct/
+Le Spa	Hair & Makeup	23 Clara Dr, Suite 105	Mystic	Connecticut		Mystic day spa with a bridal hair and makeup team, plus lashes, brows and skincare for the run-up to the wedding.	ashley@lespamystic.com	860-800-9192	https://www.lespamystic.com/	https://www.instagram.com/lespamystic/
+Beauty by Mineko	Hair & Makeup		Mystic	Connecticut	Connecticut and New England	Mystic bridal makeup artist and skincare specialist who travels on location across Connecticut and New England.	nikki@beautybymineko.com	860-917-4775	https://www.minekobeauty.com/	https://www.instagram.com/beautybymineko/
+Zest Fresh Pastry	Cake	22 Bayview Ave, 1A	Stonington	Connecticut		Pastry shop in Stonington's Velvet Mill making custom wedding cakes and desserts, from first tasting through delivery.	zest@zestfreshpastry.com	860-381-0771	https://www.zestfreshpastry.com/	
+Henry Loves Hazel	Videography		Mystic	Connecticut		Mystic wedding film studio making relaxed, story-led films for modern couples on the New England coast.	howdy@henryloveshazel.com	860-460-1169	https://www.henryloveshazel.com/	https://www.instagram.com/henryloveshazel/`,
+  },
+  {
+    name: "New Haven: videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Mermaid's Reel	Videography		North Haven	Connecticut	Connecticut and New England	Husband-and-wife photo and video team from North Haven filming weddings across Connecticut and the wider New England.	info@mermaidsreel.com		https://www.mermaidsreel.com/	https://www.instagram.com/mermaidsreel/`,
+  },
 ];
 
 export default batches;
