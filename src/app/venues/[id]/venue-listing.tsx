@@ -13,6 +13,7 @@ import { SERVICE_LEVELS } from "@/lib/wedding-options";
 import { ChevronDownIcon } from "@/components/icons";
 import { PhotoGallery } from "@/components/photo-gallery";
 import { SignupPrompt } from "@/components/public-nav";
+import { ReportListing } from "@/components/report-listing";
 import { ConfirmedChip, ConfirmedMark } from "@/components/confirmed-badge";
 import {
   PUBLIC_VENUE_COLUMNS,
@@ -186,6 +187,11 @@ export function VenueListing({ data }: { data: VenueListingData }) {
             ) : (
               <p className="mt-1 text-xs text-forest/80">✓ {verifiedLabel(venue, "venue")}</p>
             ))}
+          {!venue.is_sample && (
+            <div>
+              <ReportListing listingType="venue" listingId={venue.id} />
+            </div>
+          )}
           {venue.description && <p className="mt-4 text-ink/80">{venue.description}</p>}
           <VenueKeyFacts venue={venue} />
           <a
@@ -226,7 +232,7 @@ export function VenueListing({ data }: { data: VenueListingData }) {
               </div>
             )}
             {!signedIn ? (
-              <SignupPrompt noun="venue" next={venueHref(venue)} website={venue.website} />
+              <SignupPrompt noun="venue" next={venueHref(venue)} website={venue.website} listingId={venue.id} />
             ) : wedding ? (
               <VenueDetailClient
                 venue={venue}
