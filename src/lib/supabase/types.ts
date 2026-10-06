@@ -277,6 +277,8 @@ export type VenuePreferredVendor = {
   category: string;
   name: string;
   website: string | null;
+  /** True when couples must book from the venue's list, not just may. */
+  required: boolean;
   /** Set when the vendor is also listed on Wren. */
   vendor_id: string | null;
   sort_order: number;

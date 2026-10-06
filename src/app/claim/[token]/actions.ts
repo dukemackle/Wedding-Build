@@ -4,6 +4,7 @@ import { randomUUID } from "crypto";
 import { importPrefix, MAX_IMPORT_BYTES, readForListing, type ListingRead } from "@/lib/ai/listing-reader";
 import { writeListingCopy, type WriteField } from "@/lib/ai/listing-writer";
 import { VENUE_READ_FIELDS } from "@/lib/ai/listing-read-fields";
+import { PREFERRED_VENDOR_CATEGORIES } from "@/lib/wedding-options";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import { getResendClient, INQUIRY_FROM_ADDRESS } from "@/lib/resend";
 import { venueForClaimToken } from "@/lib/venue-claim-server";
@@ -163,6 +164,7 @@ export async function readListingSource(
     bucket: BUCKET,
     fields: VENUE_READ_FIELDS,
     questions,
+    vendorCategories: PREFERRED_VENDOR_CATEGORIES,
     source,
   });
 }

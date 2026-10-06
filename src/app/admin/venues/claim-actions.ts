@@ -114,6 +114,7 @@ export async function approveSubmission(submissionId: string): Promise<{ error?:
         category: v.category,
         name: v.name,
         website: v.website,
+        required: v.required === true,
         vendor_id: vendorIdByName.get(v.name.trim().toLowerCase()) ?? null,
         sort_order: i,
       })),
