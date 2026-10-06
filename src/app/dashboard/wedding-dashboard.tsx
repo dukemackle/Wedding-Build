@@ -195,6 +195,8 @@ function PhotosButton({ wedding }: { wedding: Wedding }) {
   const [open, setOpen] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
   const [isPending, startTransition] = useTransition();
+  // "3 of 12" while a batch goes up, one at a time.
+  const [progress, setProgress] = useState<{ done: number; total: number } | null>(null);
   const ref = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const photos = wedding.dashboard_photo_urls ?? [];
@@ -226,7 +228,8 @@ function PhotosButton({ wedding }: { wedding: Wedding }) {
     const picked = Array.from(files ?? []).slice(0, room);
     if (picked.length === 0) return;
     startTransition(async () => {
-      for (const file of picked) {
+      for (const [i, file] of picked.entries()) {
+        setProgress({ done: i + 1, total: picked.length });
         const formData = new FormData();
         formData.set("photo", await shrinkImage(file));
         const result = await addDashboardPhoto(formData);
@@ -236,6 +239,7 @@ function PhotosButton({ wedding }: { wedding: Wedding }) {
         }
         setError(undefined);
       }
+      setProgress(null);
       if (inputRef.current) inputRef.current.value = "";
     });
   }
@@ -292,7 +296,7 @@ function PhotosButton({ wedding }: { wedding: Wedding }) {
           </p>
 
           {photos.length > 0 && (
-            <ul className="mt-3 grid grid-cols-4 gap-2">
+            <ul className="-mx-1 mt-3 grid max-h-[min(18rem,40vh)] grid-cols-4 gap-2 overflow-y-auto px-1 pt-1.5">
               {photos.map((url) => (
                 <li key={url} className="group relative aspect-square">
                   <button
@@ -345,7 +349,7 @@ function PhotosButton({ wedding }: { wedding: Wedding }) {
                 room > 0 && !isPending ? "cursor-pointer hover:bg-forest/90" : "opacity-60"
               }`}
             >
-              {isPending ? "Uploading…" : "Choose photos"}
+              {progress ? `Uploading ${progress.done} of ${progress.total}…` : isPending ? "Saving…" : "Choose photos"}
               <input
                 ref={inputRef}
                 type="file"
@@ -427,7 +431,7 @@ function WeddingHero({
         >
           <div className="min-w-0 [text-shadow:0_2px_18px_rgba(0,0,0,0.35)]">
             {venueLine && (
-              <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
+              <p className="font-mono-numbers text-xs font-medium uppercase tracking-[0.2em] text-white/90 [text-shadow:0_1px_3px_rgba(0,0,0,0.6)]">
                 {venueLine}
               </p>
             )}

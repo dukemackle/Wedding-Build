@@ -1,5 +1,9 @@
-/** How many photos can take turns behind the dashboard. */
-export const MAX_DASHBOARD_PHOTOS = 8;
+/**
+ * How many photos can take turns behind the dashboard. The backdrop only
+ * loads the photo showing and the one after it, so a full set costs nothing
+ * extra on page load.
+ */
+export const MAX_DASHBOARD_PHOTOS = 25;
 
 /** Focus point per photo URL, as [x, y] percentages. */
 export type PhotoFocus = Record<string, [number, number]>;

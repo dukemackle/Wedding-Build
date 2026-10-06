@@ -125,14 +125,23 @@ export function Small({ children }: { children: ReactNode }) {
 
 type Line = { key: string; lead: ReactNode; text: string; tail?: string | null };
 
-/** A short list, the third line hidden on a phone where the box is small. */
-function Lines({ rows }: { rows: Line[] }) {
+/**
+ * A short list, the third line hidden on a phone where the box is small.
+ * `wrap` gives each line room for two rows of text instead of cutting it
+ * off, and shows two lines rather than three to make the room.
+ */
+function Lines({ rows, wrap = false }: { rows: Line[]; wrap?: boolean }) {
   return (
     <>
-      {rows.map((row, i) => (
-        <div key={row.key} className={`flex items-center gap-2 ${i === 2 ? "hidden sm:flex" : ""}`}>
+      {(wrap ? rows.slice(0, 2) : rows).map((row, i) => (
+        <div
+          key={row.key}
+          className={`flex gap-2 ${wrap ? "items-start [&>span:first-child]:mt-0.5" : "items-center"} ${i === 2 ? "hidden sm:flex" : ""}`}
+        >
           {row.lead}
-          <span className="min-w-0 flex-1 truncate text-[11px] text-ink/80 sm:text-sm">
+          <span
+            className={`min-w-0 flex-1 text-[11px] text-ink/80 sm:text-sm ${wrap ? "line-clamp-2 leading-snug" : "truncate"}`}
+          >
             {row.text}
           </span>
           {row.tail && (
@@ -241,9 +250,17 @@ function MapDrawing({ booked }: { booked: number }) {
  */
 export function buildFeatures(d: FeatureData): Feature[] {
   const booked = d.vendors.filter((v) => v.status === "booked");
-  // Over/under against the real numbers, as on the Budget page -- the big
-  // figure above it is still the projection, estimates included.
-  const over = d.budget.target != null ? d.budget.actual - d.budget.target : null;
+  // Over/under the target by the projection, estimates included -- the same
+  // figure shown big above it. Against real numbers alone, a couple with no
+  // quotes yet read as "$60,000 under", which said nothing.
+  const target = d.budget.target;
+  const over = target != null ? d.budget.total - target : null;
+  const overLabel =
+    target == null || over == null
+      ? null
+      : over > 0
+        ? `${usd(over)} over ${usd(target)}`
+        : `${usd(-over)} under ${usd(target)}`;
 
   return [
     {
@@ -252,13 +269,9 @@ export function buildFeatures(d: FeatureData): Feature[] {
       status: `${d.budget.quoted} of ${d.budget.categories} quoted`,
       media: (
         <Panel>
-          <div className="flex items-baseline justify-between gap-2">
+          <div className="flex items-baseline gap-2">
             <Big>{usd(d.budget.total)}</Big>
-            {d.budget.target != null && (
-              <span className="hidden sm:inline">
-                <Small>target {usd(d.budget.target)}</Small>
-              </span>
-            )}
+            <Small>estimated</Small>
           </div>
           {/* Paid in green over the whole estimate; the tick is the target. */}
           <div className="relative h-1.5 rounded-full bg-brass/70">
@@ -279,11 +292,11 @@ export function buildFeatures(d: FeatureData): Feature[] {
                 <span className="text-forest">■</span> Paid {usd(d.budget.paid)}
               </Small>
             </span>
-            {over != null && (
+            {overLabel && (
               <span
-                className={`font-mono-numbers text-[9px] sm:text-[10px] ${over > 0 ? "text-brass" : "text-forest"}`}
+                className={`font-mono-numbers text-[9px] sm:text-[10px] ${(over ?? 0) > 0 ? "text-brass" : "text-forest"}`}
               >
-                {over > 0 ? `${usd(over)} over` : `${usd(-over)} under`}
+                {overLabel}
               </span>
             )}
           </div>
@@ -294,7 +307,12 @@ export function buildFeatures(d: FeatureData): Feature[] {
       href: "/guests",
       title: "Guests",
       status: d.guests.total > 0 ? `${d.guests.confirmed} coming` : "Start your list",
-      media: (
+      media: d.guests.total === 0 ? (
+        <Panel>
+          <Phrase>Add your first guests</Phrase>
+          <Small>Names, RSVPs and plus-ones in one list</Small>
+        </Panel>
+      ) : (
         <Panel>
           <div className="flex items-baseline gap-2">
             <Big>{d.guests.total}</Big>
@@ -350,6 +368,7 @@ export function buildFeatures(d: FeatureData): Feature[] {
           {d.checklist.next.length > 0 ? (
             <>
               <Lines
+                wrap
                 rows={d.checklist.next.map((t) => ({
                   key: t.title,
                   lead: circle,

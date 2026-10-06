@@ -16,7 +16,9 @@ const noSubscribe = () => () => {};
  * Portalled to <body>: the page fades in through a transform, and a fixed
  * element inside a transformed parent is fixed to that parent, not the screen.
  * Sits behind the page at the same z-index as the yellow glow on <html>, and
- * later in the document, so it covers the glow. Under
+ * later in the document, so it covers the glow. Only the photo showing and
+ * the next one are mounted, so a set of hundreds loads two images, and each
+ * visit starts somewhere new so the later photos get their turn. Under
  * reduced motion the photos still change, just without the fade or drift.
  */
 export function PhotoBackdrop({ photos, focus }: { photos: string[]; focus?: PhotoFocus }) {
@@ -27,22 +29,28 @@ export function PhotoBackdrop({ photos, focus }: { photos: string[]; focus?: Pho
     () => true,
     () => false,
   );
-  const [index, setIndex] = useState(0);
+  // Where this visit starts in the set; picked once on the client.
+  const [start] = useState(() => (photos.length > 1 ? Math.floor(Math.random() * photos.length) : 0));
+  const [step, setStep] = useState(0);
 
   useEffect(() => {
     if (photos.length < 2) return;
     const timer = setInterval(() => {
-      if (!document.hidden) setIndex((i) => (i + 1) % photos.length);
+      if (!document.hidden) setStep((i) => i + 1);
     }, SECONDS_PER_PHOTO * 1000);
     return () => clearInterval(timer);
   }, [photos.length]);
 
   if (!mounted || photos.length === 0) return null;
-  const shown = index % photos.length;
+  const shown = (start + step) % photos.length;
+  const next = (shown + 1) % photos.length;
+  // The photo going out stays mounted through its fade.
+  const previous = step > 0 ? (shown - 1 + photos.length) % photos.length : -1;
+  const mountedIndexes = new Set([shown, next, previous]);
 
   return createPortal(
     <div aria-hidden="true" className="dashboard-backdrop pointer-events-none fixed inset-0 z-[-1] overflow-hidden bg-forest">
-      {photos.map((src, i) => (
+      {photos.map((src, i) => mountedIndexes.has(i) && (
         <div
           key={src}
           className={`absolute inset-0 motion-safe:transition-opacity motion-safe:duration-[1500ms] ${
@@ -53,7 +61,7 @@ export function PhotoBackdrop({ photos, focus }: { photos: string[]; focus?: Pho
             src={src}
             alt=""
             fill
-            priority={i === 0}
+            priority={i === shown && step === 0}
             sizes="100vw"
             className="hero-kenburns object-cover"
             // Crop around the couple's chosen spot, and zoom in towards it.
