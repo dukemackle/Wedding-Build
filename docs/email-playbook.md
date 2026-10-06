@@ -135,9 +135,11 @@ No vendor or venue is emailed until every box is ticked. Checked 2026-10-05:
 - [ ] **Postal address for the outreach footer.** CAN-SPAM requires one in
       commercial email. A PO box or virtual mailbox is fine; a home address
       works but will be public. _Owner's call._
-- [ ] **Opt-out in every outreach email**: "Reply 'remove' or 'no thanks'
-      and we won't email again", plus a note on the listing so it sticks.
-      Add both to the `vendor-outreach` skill.
+- [x] **Opt-out in every outreach email.** The `vendor-outreach` skill
+      includes "Reply 'no thanks'…" and skips anyone in `outreach_opt_outs`
+      (migration 0103) or `email_bounces`. To record a "no thanks", run this
+      in Supabase:
+      `insert into outreach_opt_outs (email, business_name) values ('…', '…');`
 - [ ] **Data check on the first metro**: run `/data-audit` on it so nobody
       is emailed about a listing with the wrong price, photos or town.
 - [ ] **Dry run**: send the outreach email to yourself, then click the claim
