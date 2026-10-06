@@ -27,6 +27,21 @@ Holly Hill Events at Fasig-Tipton	2400 Newtown Pike	Lexington	Kentucky			Barn / 
 The Gillespie	421 W Market St	Louisville	Kentucky			Ballroom / Hotel	Indoor	400		Former downtown bank turned 24,000-square-foot ballroom with marble walls and floors, 40-foot painted ceilings, a chandeliered mezzanine and the original vault-era gates and mail chute.	info@thegillespie.com	(502) 584-8080	https://www.thegillespie.com/grandballroom
 Heartland of Versailles	1470 Clifton Rd	Versailles	Kentucky			Historic / Estate	Indoor & Outdoor	220		Victorian house from around 1886 on 30 wooded acres west of Versailles, listed on the National Register in 2018, with tented lawn receptions, patios and dressing rooms.	laura@heartlandofversailles.com	(859) 396-1505	https://heartlandofversailles.com/`,
   },
+  {
+    name: "Bowling Green, Owensboro and central Kentucky: fourth batch",
+    tsv: `Name	City	State	Website
+Terrapin Hill Farm	Harrodsburg	Kentucky	https://www.terrapinhillfarm.com/
+South Union Shaker Village	Auburn	Kentucky	https://southunionshakervillage.com/weddings-events-at-susv/
+Green Turtle Bay Resort & Marina	Grand Rivers	Kentucky	https://www.greenturtlebay.com/celebrations
+Queenslake	Georgetown	Kentucky	https://queenslake.com/
+Chenault Vineyards	Richmond	Kentucky	https://www.chenaultvineyards.com/
+Lynwood Estate	Richmond	Kentucky	https://www.lynwoodestate.com/
+The Whitestone Barn	Bowling Green	Kentucky	https://www.thewhitestonebarn.com/
+The Barn at Twin Creeks	Auburn	Kentucky	https://www.thebarnattwincreeks.com/
+Naimoli Estate	Hopkinsville	Kentucky	https://www.naimoliestate.com/
+Windridge Country Club	Owensboro	Kentucky	https://www.windridgecc.com/
+Shelby Hills Farm	Shelbyville	Kentucky	https://www.shelbyhillsfarm.com/`,
+  },
 ];
 
 export default batches;
