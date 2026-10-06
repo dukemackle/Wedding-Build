@@ -65,8 +65,9 @@ const TABLES = {
     columns: ["id", "vendor_id", "status", "submitter_role", "created_at", "reviewed_at"],
   },
   feedback_submissions: {
-    about: "Feedback couples send from the app. category: bug | idea | other. status: new | read | resolved.",
-    columns: ["id", "wedding_id", "category", "message", "status", "created_at"],
+    about:
+      "Feedback from couples (the /help form) and from venues and vendors (asked after they send their claim-page listing). source: couple | venue | vendor. category: bug | idea | other. rating: 1-5 ease of the claim form, venue/vendor only. status: new | read | resolved.",
+    columns: ["id", "wedding_id", "source", "venue_id", "vendor_id", "rating", "category", "message", "status", "created_at"],
   },
 } as const;
 

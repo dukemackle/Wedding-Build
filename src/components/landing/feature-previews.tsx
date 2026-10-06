@@ -8,6 +8,7 @@ import { createPortal } from "react-dom";
 import { WrenMotto } from "@/components/wren-motto";
 import { AskWrenTile } from "@/app/dashboard/ask-wren-tile";
 import { THEMES, fontsHref } from "@/lib/site-design";
+import { ConfirmedChip } from "@/components/confirmed-badge";
 import { CHECKLIST_PHASES, CHECKLIST_TEMPLATE } from "@/lib/checklist-template";
 import {
   BarIcon,
@@ -1016,9 +1017,9 @@ function FilterPill({
 }
 
 const VENUES = [
-  { id: "juniper", name: "Juniper Barn", kind: "Barn", setting: "Indoor & outdoor", src: "/venue-types/barn-rustic.svg", guests: 180, price: 9000, x: 22, y: 30 },
+  { id: "juniper", confirmed: true, name: "Juniper Barn", kind: "Barn", setting: "Indoor & outdoor", src: "/venue-types/barn-rustic.svg", guests: 180, price: 9000, x: 22, y: 30 },
   { id: "harbor", name: "Harbor House", kind: "Waterfront", setting: "Outdoor", src: "/venue-types/beach-waterfront.svg", guests: 140, price: 12500, x: 62, y: 68 },
-  { id: "linden", name: "The Linden Estate", kind: "Historic estate", setting: "Indoor", src: "/venue-types/historic-estate.svg", guests: 220, price: 16000, x: 78, y: 32 },
+  { id: "linden", confirmed: true, name: "The Linden Estate", kind: "Historic estate", setting: "Indoor", src: "/venue-types/historic-estate.svg", guests: 220, price: 16000, x: 78, y: 32 },
   { id: "rosewood", name: "Rosewood Garden", kind: "Garden", setting: "Outdoor", src: "/venue-types/garden-outdoor.svg", guests: 120, price: 7500, x: 40, y: 50 },
   { id: "grand", name: "The Grand Hotel", kind: "Ballroom", setting: "Indoor", src: "/venue-types/ballroom-hotel.svg", guests: 300, price: 21000, x: 52, y: 18 },
   { id: "vine", name: "Cedar Vine Winery", kind: "Vineyard", setting: "Indoor & outdoor", src: "/venue-types/restaurant-vineyard.svg", guests: 160, price: 11000, x: 12, y: 60 },
@@ -1068,6 +1069,7 @@ function VenuesDemo() {
         >
           <div className="relative aspect-[16/9] bg-parchment">
             <Image src={v.src} alt="" fill sizes="220px" className="object-cover" />
+            {"confirmed" in v && <ConfirmedChip className="absolute left-2 top-2" />}
             <button
               type="button"
               onClick={() => toggle(v.id)}

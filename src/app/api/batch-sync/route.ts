@@ -1,7 +1,8 @@
 import { revalidatePath } from "next/cache";
 import { refuseBatchCaller } from "@/lib/batch-secret";
+import { restamp, type FieldSources } from "@/lib/field-sources";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
-import { importSourceId } from "@/lib/venue-import";
+import { rowSourceId } from "@/lib/venue-import";
 
 // The database end of scripts/import-batches.mjs, which the batch routine
 // runs. The script does the heavy part on the routine's own machine --
@@ -81,7 +82,8 @@ export async function POST(request: Request) {
         // by website so the same row is never added twice.
         is_sample: false,
         source: "import",
-        source_id: importSourceId(typeof row.website === "string" ? row.website : null),
+        source_id: rowSourceId(row),
+        field_sources: restamp(null, row, "batch"),
       })),
     );
     if (error) {
@@ -96,11 +98,33 @@ export async function POST(request: Request) {
     if (!Array.isArray(updates) || updates.length === 0 || updates.length > MAX_UPDATES) {
       return Response.json({ error: `updates must hold 1-${MAX_UPDATES} changes.` }, { status: 400 });
     }
+    // An address arriving with address_checked_at was read off the listing's
+    // own website; one without it was moved over from its batch row.
+    const addressed = updates.filter((u: Record<string, unknown>) => typeof u.id === "string" && "address" in u);
+    const current = new Map<string, Record<string, unknown> & { field_sources: FieldSources }>();
+    if (addressed.length > 0) {
+      const { data } = await admin
+        .from(table)
+        .select("id, address, city, field_sources")
+        .in("id", addressed.map((u: Record<string, unknown>) => u.id as string));
+      for (const row of data ?? []) current.set(row.id, row);
+    }
     const errors = await Promise.all(
       updates.map(async (update: Record<string, unknown>) => {
         if (typeof update.id !== "string") return "Each update needs an id.";
-        const values = Object.fromEntries(UPDATABLE.filter((key) => key in update).map((key) => [key, update[key]]));
+        const values: Record<string, unknown> = Object.fromEntries(
+          UPDATABLE.filter((key) => key in update).map((key) => [key, update[key]]),
+        );
         if (Object.keys(values).length === 0) return null;
+        if ("address" in values) {
+          const { address, city } = values;
+          values.field_sources = restamp(
+            current.get(update.id) ?? null,
+            { address, ...("city" in values ? { city } : {}) },
+            "address_checked_at" in values ? "website" : "batch",
+            { changedOnly: true },
+          );
+        }
         const { error } = await admin.from(table).update(values).eq("id", update.id);
         return error?.message ?? null;
       }),

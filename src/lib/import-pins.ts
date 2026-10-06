@@ -1,4 +1,5 @@
 import "server-only";
+import { restamp, type FieldSources } from "@/lib/field-sources";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import { geocode, pinForTown } from "@/lib/listing-pin";
 
@@ -135,20 +136,24 @@ export async function pinFromAddresses<T extends Unpinned & { source_id: string 
   // about the batch's ids: every batch website in the URL made it too long,
   // and the 400 ("Bad Request") stopped every import call once venues were in.
   const idOf = new Map<string, string>();
+  const sourcesOf = new Map<string, FieldSources>();
   for (let from = 0; ; ) {
     budget.left -= 1;
     const { data, error } = await admin
       .from(table)
-      .select("id, source_id")
+      .select("id, source_id, field_sources")
       .is("address", null)
       .not("source_id", "is", null)
       .order("id")
       .range(from, from + 999)
-      .returns<{ id: string; source_id: string }[]>();
+      .returns<{ id: string; source_id: string; field_sources: FieldSources | null }[]>();
     // 42703: vendors.address (migration 0092) isn't applied yet. Skip rather than fail the import.
     if (error) return error.code === "42703" ? { remaining: 0 } : { remaining: 0, error: error.message };
     if (!data?.length) break;
-    for (const row of data) idOf.set(row.source_id, row.id);
+    for (const row of data) {
+      idOf.set(row.source_id, row.id);
+      sourcesOf.set(row.source_id, row.field_sources ?? {});
+    }
     from += data.length;
   }
   const todo = withAddress.filter((row) => idOf.has(row.source_id));
@@ -160,7 +165,16 @@ export async function pinFromAddresses<T extends Unpinned & { source_id: string 
       const pin = hit ?? (isPinned(row) ? { latitude: row.latitude, longitude: row.longitude } : {});
       const { error } = await admin
         .from(table)
-        .update({ address: row.address, city: row.city, ...pin })
+        .update({
+          address: row.address,
+          city: row.city,
+          ...pin,
+          field_sources: restamp(
+            { field_sources: sourcesOf.get(row.source_id) },
+            { address: row.address, city: row.city },
+            "batch",
+          ),
+        })
         .eq("id", idOf.get(row.source_id)!);
       return error?.message;
     }),

@@ -35,16 +35,21 @@ export function InquiryForm({ vendor, onDone }: { vendor: Vendor; onDone: () => 
       <input type="hidden" name="vendor_id" value={vendor.id} />
       <input type="hidden" name="vendor_name" value={vendor.name} />
       <input type="hidden" name="category" value={vendor.category ?? ""} />
-      <label className="flex flex-col gap-1 text-sm text-ink">
-        Send to
-        <input
-          type="email"
-          name="recipient_email"
-          required
-          defaultValue={vendor.contact_email ?? ""}
-          className="rounded-md border border-hairline bg-parchment px-3 py-2 text-ink outline-none focus:border-forest"
-        />
-      </label>
+      {vendor.contact_email ? (
+        <p className="text-sm text-ink/70">
+          Goes to {vendor.name}. Their reply comes straight to your email.
+        </p>
+      ) : (
+        <label className="flex flex-col gap-1 text-sm text-ink">
+          Send to
+          <input
+            type="email"
+            name="recipient_email"
+            required
+            className="rounded-md border border-hairline bg-parchment px-3 py-2 text-ink outline-none focus:border-forest"
+          />
+        </label>
+      )}
       <label className="flex flex-col gap-1 text-sm text-ink">
         Message
         <textarea

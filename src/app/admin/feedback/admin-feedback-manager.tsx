@@ -50,13 +50,22 @@ function StatusSelect({ feedbackId, status }: { feedbackId: string; status: Feed
   );
 }
 
+function fromLabel(item: FeedbackSubmission, coupleNameByWeddingId: Record<string, string>, listingNameById: Record<string, string>) {
+  const listingId = item.venue_id ?? item.vendor_id;
+  if (item.source === "venue") return `Venue · ${listingId ? listingNameById[listingId] ?? "Removed listing" : "Removed listing"}`;
+  if (item.source === "vendor") return `Vendor · ${listingId ? listingNameById[listingId] ?? "Removed listing" : "Removed listing"}`;
+  return item.wedding_id ? coupleNameByWeddingId[item.wedding_id] ?? "Unknown couple" : "No wedding yet";
+}
+
 export function AdminFeedbackManager({
   feedback,
   coupleNameByWeddingId,
+  listingNameById,
   conversations,
 }: {
   feedback: FeedbackSubmission[];
   coupleNameByWeddingId: Record<string, string>;
+  listingNameById: Record<string, string>;
   conversations: AssistantConversation[];
 }) {
   return (
@@ -79,8 +88,11 @@ export function AdminFeedbackManager({
                       {CATEGORY_LABEL[item.category]}
                     </span>
                     <span className="text-xs text-ink/50">
-                      {item.wedding_id ? coupleNameByWeddingId[item.wedding_id] ?? "Unknown couple" : "No wedding yet"}
+                      {fromLabel(item, coupleNameByWeddingId, listingNameById)}
                     </span>
+                    {item.rating !== null && (
+                      <span className="font-mono-numbers text-xs text-ink/50">Ease {item.rating}/5</span>
+                    )}
                   </div>
                   <div className="flex items-center gap-3">
                     <span className="font-mono-numbers text-xs text-ink/40">

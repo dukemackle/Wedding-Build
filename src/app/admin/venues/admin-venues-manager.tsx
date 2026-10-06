@@ -12,6 +12,7 @@ import {
   buttonClass,
   Checkbox,
   Completeness,
+  ContactLine,
   LastChecked,
   Pagination,
   RowMenu,
@@ -366,6 +367,7 @@ function VenueRow({
             {place}
             {venue.source === "claimed" && <span className="text-forest"> · Claimed</span>}
           </p>
+          <ContactLine website={venue.website} phone={venue.contact_phone} />
         </div>
         <span className="truncate text-ink/80">{venue.venue_type ?? "—"}</span>
         <span className="text-xs text-ink/50">{venue.source ?? "seed"}</span>
@@ -387,19 +389,22 @@ function VenueRow({
       <div className="flex items-start gap-3 p-3 lg:hidden">
         <Checkbox checked={selected} onChange={onToggleSelect} label={`Select ${venue.name}`} className="mt-1" />
         <Thumb src={venue.image_url} />
-        <button type="button" onClick={() => setPanel(panel === "edit" ? null : "edit")} className="min-w-0 flex-1 text-left">
-          <span className="flex items-start justify-between gap-2">
-            <span className="truncate font-medium text-ink">{venue.name}</span>
-            <StatusPill active={venue.active} />
-          </span>
-          <span className="block truncate text-xs text-ink/50">
-            {[venue.venue_type, place].filter(Boolean).join(" · ")}
-          </span>
-          <span className="mt-1 flex items-center gap-2 overflow-hidden whitespace-nowrap text-xs">
-            <Completeness checks={venueChecks(venue)} />
-            <LastChecked at={venue.last_verified_at} short />
-          </span>
-        </button>
+        <div className="min-w-0 flex-1">
+          <button type="button" onClick={() => setPanel(panel === "edit" ? null : "edit")} className="block w-full text-left">
+            <span className="flex items-start justify-between gap-2">
+              <span className="truncate font-medium text-ink">{venue.name}</span>
+              <StatusPill active={venue.active} />
+            </span>
+            <span className="block truncate text-xs text-ink/50">
+              {[venue.venue_type, place].filter(Boolean).join(" · ")}
+            </span>
+            <span className="mt-1 flex items-center gap-2 overflow-hidden whitespace-nowrap text-xs">
+              <Completeness checks={venueChecks(venue)} />
+              <LastChecked at={venue.last_verified_at} short />
+            </span>
+          </button>
+          <ContactLine website={venue.website} phone={venue.contact_phone} />
+        </div>
         <RowMenu items={menu} />
       </div>
 
@@ -448,12 +453,15 @@ export function AdminVenuesManager({
   const [bulkPending, startBulk] = useTransition();
   const [bulkError, setBulkError] = useState<string | undefined>(undefined);
 
-  // A selection belongs to the page it was made on.
+  // A selection belongs to the page it was made on: when the rows change
+  // (a new page, or an action moved some out of this tab), keep the ticks on
+  // the rows still shown and drop the rest.
   const pageKey = venues.map((v) => v.id).join();
   const [selectionKey, setSelectionKey] = useState(pageKey);
   if (selectionKey !== pageKey) {
     setSelectionKey(pageKey);
-    setSelected(new Set());
+    const onPage = new Set(venues.map((v) => v.id));
+    setSelected((prev) => new Set([...prev].filter((id) => onPage.has(id))));
   }
 
   function toggle(id: string) {
@@ -473,10 +481,12 @@ export function AdminVenuesManager({
     for (const [key, value] of Object.entries(extra ?? {})) formData.set(key, value);
     startBulk(async () => {
       const result = await action(formData);
+      // Ticks stay after an action, so "Make live" then "Mark as checked"
+      // works on the same rows. Only Delete clears them.
       if (result?.error) setBulkError(result.error);
       else {
         setBulkError(undefined);
-        setSelected(new Set());
+        if (action === bulkDeleteVenues) setSelected(new Set());
       }
     });
   }
@@ -539,7 +549,7 @@ export function AdminVenuesManager({
             actions={[
               { label: "Make live", onSelect: () => runBulk(bulkSetVenueActive, { active: "true" }) },
               { label: "Hide", onSelect: () => runBulk(bulkSetVenueActive, { active: "false" }) },
-              { label: "Mark still right", onSelect: () => runBulk(bulkMarkVenuesVerified) },
+              { label: "Mark as checked", onSelect: () => runBulk(bulkMarkVenuesVerified) },
               { label: "Delete", onSelect: bulkDelete, danger: true },
             ]}
           />

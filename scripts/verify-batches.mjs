@@ -9,7 +9,7 @@
 // The format checkers (check:venues, add-vendors' check-batches) prove a row
 // will import. This proves it is true: the website loads, isn't a parked or
 // for-sale domain, names the business, and carries the phone and email we
-// list. A field the site doesn't show is a failure -- the fix is to blank it
+// list, and for venues the capacity. A field the site doesn't show is a failure -- the fix is to blank it
 // or source it properly, because a blank field is better than a wrong one.
 // Sites that block automated visits fail too: confirm by hand and replace the
 // row, or drop it. Exits 1 on any failure; warnings are worth a look.
@@ -47,7 +47,7 @@ function rowsOf(source, file) {
   return rows;
 }
 
-const keyOf = (r) => `${r.Name}|${r.Website}`.toLowerCase();
+const keyOf = (r) => `${r.Name}|${r.Website || r.Instagram}`.toLowerCase();
 
 function baseSource(path) {
   try {
@@ -146,7 +146,7 @@ async function siteText(website, need) {
   if (!home.error && home.status < 400) texts.push(home.text, home.html);
   let all = texts.join(" ");
   if (need(all)) {
-    for (const path of ["/contact", "/contact-us", "/contact/", "/about"]) {
+    for (const path of ["/contact", "/contact-us", "/contact/", "/about", "/weddings", "/events", "/faq"]) {
       const p = await fetchPage(origin + path);
       if (!p.error && p.status < 400) all += ` ${p.text} ${p.html}`;
       if (!need(all)) break;
@@ -194,6 +194,14 @@ function phoneFound(phone, text) {
 
 const emailFound = (email, text) => text.toLowerCase().includes(email.toLowerCase());
 
+// "300", "1,200" or "1200" as a number of its own, not inside a longer one.
+function capacityFound(capacity, text) {
+  const n = capacity.replace(/\D/g, "");
+  if (!n) return false;
+  const pattern = n.length > 3 ? `${n.slice(0, -3)},?${n.slice(-3)}` : n;
+  return new RegExp(`(?<![\\d,.])${pattern}(?![\\d,]|\\.\\d)`).test(text);
+}
+
 const PARKED =
   /domain (?:is|may be) for sale|buy this domain|this domain is parked|parked free|domain has expired|hugedomains|sedo domain parking|website is (?:currently )?unavailable|account (?:has been )?suspended/i;
 const CLOSED =
@@ -204,12 +212,17 @@ const CLOSED =
 async function verify(r) {
   const fails = [];
   const warns = [];
+  // A vendor listed from Instagram alone (a Basic listing). Instagram blocks
+  // automated visits, so the bar in the add-vendors skill is checked by hand.
+  if (!r.Website && r.Instagram)
+    return { fails, warns: ["Instagram only: confirm by hand it's active, shows weddings, and names its town, phone and email"] };
   if (!r.Website) return { fails: ["no website, so nothing to verify against"], warns };
 
   const need = (all) =>
     !nameFound(r.Name, all) ||
     (r.Phone && !phoneFound(r.Phone, all)) ||
-    (r.Email && !emailFound(r.Email, all));
+    (r.Email && !emailFound(r.Email, all)) ||
+    (r.Capacity && !capacityFound(r.Capacity, all));
   const { first, all = "", html = "" } = await siteText(r.Website, need);
 
   if (first.error) return { fails: [`website didn't load (${first.error})`], warns };
@@ -225,6 +238,8 @@ async function verify(r) {
   if (r.Phone && !phoneFound(r.Phone, all)) fails.push(`phone ${r.Phone} isn't on the site; blank it or fix it`);
   if (r.Email && !emailFound(r.Email, all) && !/__cf_email__|email-protection/.test(html))
     fails.push(`email ${r.Email} isn't on the site; blank it or fix it`);
+  if (r.Capacity && !capacityFound(r.Capacity, all))
+    fails.push(`capacity ${r.Capacity} isn't on the site; blank it or fix it`);
   const closed = all.match(CLOSED);
   if (closed) warns.push(`site says "${closed[0]}"; check the business is still open`);
 

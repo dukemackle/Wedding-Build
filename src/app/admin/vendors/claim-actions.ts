@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/admin";
+import { restamp, type FieldSources } from "@/lib/field-sources";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import type { VendorSubmission } from "@/lib/supabase/types";
 import { getResendClient, INQUIRY_FROM_ADDRESS } from "@/lib/resend";
@@ -40,9 +41,15 @@ export async function approveVendorSubmission(submissionId: string): Promise<{ e
 
   const { data: live } = await admin
     .from("vendors")
-    .select("latitude, city, state, source")
+    .select("latitude, city, state, source, field_sources")
     .eq("id", submission.vendor_id)
-    .maybeSingle<{ latitude: number | null; city: string | null; state: string | null; source: string | null }>();
+    .maybeSingle<{
+      latitude: number | null;
+      city: string | null;
+      state: string | null;
+      source: string | null;
+      field_sources: FieldSources;
+    }>();
   const d = submission.details;
   // A vendor that listed itself goes live on its first approval. Any other
   // vendor keeps whatever active state the admin gave it.
@@ -64,6 +71,8 @@ export async function approveVendorSubmission(submissionId: string): Promise<{ e
       source: "claimed",
       last_verified_at: now,
       verified_by: `vendor: ${submission.submitter_email}`,
+      // Every field the vendor sent, changed or not: it looked at each and kept it.
+      field_sources: restamp(live ?? null, { ...submission.details, photo_urls: submission.photo_urls }, "vendor"),
     })
     .eq("id", submission.vendor_id);
   if (vendorError) return { error: vendorError.message };

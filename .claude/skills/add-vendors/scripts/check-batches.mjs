@@ -58,15 +58,17 @@ for (const [batchName, tsv, fileState] of batches) {
     if (!categories.includes(category)) problems.push(`${where}: category "${category}" isn't one we list`);
     if (!city || !state) warnings.push(`${where}: missing city or state`);
     if (fileState && state && state !== fileState) problems.push(`${where}: State is ${state} but the batch is in ${fileState}'s file`);
-    if (!website) problems.push(`${where}: no website (leave out vendors without a working site)`);
+    if (!website && !instagram) problems.push(`${where}: no website or Instagram (leave it out and record it as skipped)`);
+    else if (!website && !email) problems.push(`${where}: Instagram-only rows need the email from the profile (quotes and edit links go to it)`);
+    else if (!website) warnings.push(`${where}: Instagram only, so it lists as a Basic listing; confirm by hand it meets the bar in SKILL.md`);
     if (!description) warnings.push(`${where}: no description`);
     else if (description.length > 200) warnings.push(`${where}: description is ${description.length} chars (keep it to one sentence)`);
     if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) problems.push(`${where}: email "${email}" doesn't look like an address`);
     if (website && !/^https?:\/\//.test(website)) problems.push(`${where}: website should start with https://`);
     if (instagram && !/^https:\/\/(www\.)?instagram\.com\//.test(instagram)) problems.push(`${where}: Instagram should be a full instagram.com URL`);
 
-    if (website) {
-      const key = siteKey(website);
+    if (website || instagram) {
+      const key = siteKey(website || instagram);
       if (seenSites.has(key)) warnings.push(`${where}: same website as ${seenSites.get(key)} — only the first is added`);
       else seenSites.set(key, where);
     }

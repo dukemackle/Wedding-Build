@@ -15,6 +15,18 @@ legal questions to the owner rather than deciding them.
 - **Guests:** the guest site footer (`guest-site-theme.tsx`) links Terms and
   Privacy. Guests have no account; their data goes to the couple.
 - Site-wide footer links Terms and Privacy.
+- **Inbound email (2026-10-05):** mail to @youdoido.com lands in Google
+  Workspace, and bounces/complaints are kept in `email_bounces`; Privacy §1
+  ("When you email us") covers both. Every inquiry footer offers
+  "changed or taken down? Email hello@youdoido.com".
+- **Before AI reads inbound mail** (the triage in `docs/email-playbook.md`):
+  Privacy §1/§3 must say an AI provider processes support email, and every
+  AI-sent reply signs as Wren, You Do, I Do's assistant (California's bot
+  disclosure law; honest anyway).
+
+- **Listing reports and contact taps (2026-10-05):** the "Something wrong
+  with this listing?" form shows `LegalNotice`; Privacy §1 covers the
+  optional reporter email and the anonymous tap counts on listing links.
 
 Rule: any new form that sends Wren a person's details gets `LegalNotice`
 next to its submit button, and the Privacy Policy's "Information we collect"

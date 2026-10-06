@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/admin";
+import { restamp } from "@/lib/field-sources";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import { createClient } from "@/lib/supabase/server";
 import { addBundledVendorRows, pendingBundledVendorRows, type BundledResult } from "@/lib/bundled-import";
@@ -35,7 +36,7 @@ export async function createVendor(formData: FormData): Promise<{ error?: string
   if (!name) return { error: "Name is required." };
 
   const admin = createAdminSupabaseClient();
-  const { error } = await admin.from("vendors").insert({
+  const values = {
     name,
     category: str(formData, "category"),
     region: str(formData, "region"),
@@ -50,8 +51,11 @@ export async function createVendor(formData: FormData): Promise<{ error?: string
     amenities: list(formData, "amenities"),
     image_url: str(formData, "image_url"),
     contact_email: str(formData, "contact_email"),
+    contact_phone: str(formData, "contact_phone"),
+    website: str(formData, "website"),
     is_sample: formData.get("is_sample") === "on",
-  });
+  };
+  const { error } = await admin.from("vendors").insert({ ...values, field_sources: restamp(null, values, "admin") });
 
   if (error) return { error: error.message };
 
@@ -67,26 +71,31 @@ export async function updateVendor(formData: FormData): Promise<{ error?: string
   const name = str(formData, "name");
   if (!id || !name) return { error: "Name is required." };
 
+  const values = {
+    name,
+    category: str(formData, "category"),
+    region: str(formData, "region"),
+    state: str(formData, "state"),
+    city: str(formData, "city"),
+    latitude: num(formData, "latitude"),
+    longitude: num(formData, "longitude"),
+    price_tier: str(formData, "price_tier"),
+    description: str(formData, "description"),
+    about: str(formData, "about"),
+    included: str(formData, "included"),
+    amenities: list(formData, "amenities"),
+    image_url: str(formData, "image_url"),
+    contact_email: str(formData, "contact_email"),
+    contact_phone: str(formData, "contact_phone"),
+    website: str(formData, "website"),
+    is_sample: formData.get("is_sample") === "on",
+  };
   const admin = createAdminSupabaseClient();
+  const { data: current } = await admin.from("vendors").select("*").eq("id", id).maybeSingle();
   const { error } = await admin
     .from("vendors")
-    .update({
-      name,
-      category: str(formData, "category"),
-      region: str(formData, "region"),
-      state: str(formData, "state"),
-      city: str(formData, "city"),
-      latitude: num(formData, "latitude"),
-      longitude: num(formData, "longitude"),
-      price_tier: str(formData, "price_tier"),
-      description: str(formData, "description"),
-      about: str(formData, "about"),
-      included: str(formData, "included"),
-      amenities: list(formData, "amenities"),
-      image_url: str(formData, "image_url"),
-      contact_email: str(formData, "contact_email"),
-      is_sample: formData.get("is_sample") === "on",
-    })
+    // Only the fields this save changed are stamped as the admin's.
+    .update({ ...values, field_sources: restamp(current, values, "admin", { changedOnly: true }) })
     .eq("id", id);
 
   if (error) return { error: error.message };

@@ -16,6 +16,7 @@ import {
   buttonClass,
   Checkbox,
   Completeness,
+  ContactLine,
   LastChecked,
   Pagination,
   RowMenu,
@@ -168,6 +169,14 @@ function VendorForm({
           defaultValue={vendor?.contact_email ?? ""}
           className={inputClass}
         />
+      </label>
+      <label className={labelClass}>
+        Contact phone
+        <input name="contact_phone" defaultValue={vendor?.contact_phone ?? ""} className={inputClass} />
+      </label>
+      <label className={labelClass}>
+        Website
+        <input name="website" defaultValue={vendor?.website ?? ""} className={inputClass} />
       </label>
       <label className={labelClass}>
         Image URL
@@ -442,6 +451,7 @@ function VendorRow({
             {place}
             {vendor.source === "claimed" && <span className="text-forest"> · Claimed</span>}
           </p>
+          <ContactLine website={vendor.website} phone={vendor.contact_phone} />
         </div>
         <span className="truncate text-ink/80">{vendor.category ?? "—"}</span>
         <span className="font-mono-numbers text-ink/80">{vendor.price_tier ?? "—"}</span>
@@ -467,19 +477,22 @@ function VendorRow({
       <div className="flex items-start gap-3 p-3 lg:hidden">
         <Checkbox checked={selected} onChange={onToggleSelect} label={`Select ${vendor.name}`} className="mt-1" />
         <Thumb src={vendor.image_url} />
-        <button type="button" onClick={() => setPanel(panel === "edit" ? null : "edit")} className="min-w-0 flex-1 text-left">
-          <span className="flex items-start justify-between gap-2">
-            <span className="truncate font-medium text-ink">{vendor.name}</span>
-            <StatusPill active={vendor.active} />
-          </span>
-          <span className="block truncate text-xs text-ink/50">
-            {[vendor.category, vendor.price_tier, place].filter(Boolean).join(" · ")}
-          </span>
-          <span className="mt-1 flex items-center gap-2 overflow-hidden whitespace-nowrap text-xs">
-            <Completeness checks={vendorChecks(vendor)} />
-            <LastChecked at={vendor.last_verified_at} short />
-          </span>
-        </button>
+        <div className="min-w-0 flex-1">
+          <button type="button" onClick={() => setPanel(panel === "edit" ? null : "edit")} className="block w-full text-left">
+            <span className="flex items-start justify-between gap-2">
+              <span className="truncate font-medium text-ink">{vendor.name}</span>
+              <StatusPill active={vendor.active} />
+            </span>
+            <span className="block truncate text-xs text-ink/50">
+              {[vendor.category, vendor.price_tier, place].filter(Boolean).join(" · ")}
+            </span>
+            <span className="mt-1 flex items-center gap-2 overflow-hidden whitespace-nowrap text-xs">
+              <Completeness checks={vendorChecks(vendor)} />
+              <LastChecked at={vendor.last_verified_at} short />
+            </span>
+          </button>
+          <ContactLine website={vendor.website} phone={vendor.contact_phone} />
+        </div>
         <RowMenu items={menu} />
       </div>
 
@@ -541,12 +554,15 @@ export function AdminVendorsManager({
   const [bulkPending, startBulk] = useTransition();
   const [bulkError, setBulkError] = useState<string | undefined>(undefined);
 
-  // A selection belongs to the page it was made on.
+  // A selection belongs to the page it was made on: when the rows change
+  // (a new page, or an action moved some out of this tab), keep the ticks on
+  // the rows still shown and drop the rest.
   const pageKey = vendors.map((v) => v.id).join();
   const [selectionKey, setSelectionKey] = useState(pageKey);
   if (selectionKey !== pageKey) {
     setSelectionKey(pageKey);
-    setSelected(new Set());
+    const onPage = new Set(vendors.map((v) => v.id));
+    setSelected((prev) => new Set([...prev].filter((id) => onPage.has(id))));
   }
 
   function toggle(id: string) {
@@ -566,10 +582,12 @@ export function AdminVendorsManager({
     for (const [key, value] of Object.entries(extra ?? {})) formData.set(key, value);
     startBulk(async () => {
       const result = await action(formData);
+      // Ticks stay after an action, so "Make live" then "Mark as checked"
+      // works on the same rows. Only Delete clears them.
       if (result?.error) setBulkError(result.error);
       else {
         setBulkError(undefined);
-        setSelected(new Set());
+        if (action === bulkDeleteVendors) setSelected(new Set());
       }
     });
   }
@@ -628,7 +646,7 @@ export function AdminVendorsManager({
             actions={[
               { label: "Make live", onSelect: () => runBulk(bulkSetVendorActive, { active: "true" }) },
               { label: "Hide", onSelect: () => runBulk(bulkSetVendorActive, { active: "false" }) },
-              { label: "Mark still right", onSelect: () => runBulk(markVendorsVerified) },
+              { label: "Mark as checked", onSelect: () => runBulk(markVendorsVerified) },
               { label: "Delete", onSelect: bulkDelete, danger: true },
             ]}
           />
