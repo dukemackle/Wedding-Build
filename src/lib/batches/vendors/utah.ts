@@ -98,6 +98,26 @@ Big Shot Photo Group	Photo Booth		Park City	Utah	Park City, Salt Lake City, Ogde
 Snow Country Limousine	Transportation		Park City	Utah	Park City, Deer Valley and wider Utah	Park City chauffeured transport with SUVs, vans and coaches for wedding parties and guest shuttles between Deer Valley hotels and venues.	info@snowcountrylimo.com	(435) 714-0159	https://snowcountrylimo.com	https://www.instagram.com/snowcountrylimo/
 `,
   },
+  {
+    name: "St. George: photography, planning, florals, music, catering, hair and makeup, rentals, officiant and bridal",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Sweetly Photography	Photography		St. George	Utah	Southern Utah and Zion National Park	Southern Utah photographer covering weddings, engagements and bridals, with Zion and the red rock country as regular backdrops.	Shannon@sweetlyphotography.com		https://sweetlyphotography.com	https://www.instagram.com/sweetlyphotography/
+Sarah Lindsay Photography	Photography		St. George	Utah	Southern Utah	St. George photographer shooting wedding days, bridals and couples sessions, alongside family and portrait work across Southern Utah.	sarahlindsayphoto@gmail.com		https://sarahlindsayphoto.com	https://www.instagram.com/sarahlindsayphotography/
+Gideon Photography	Photography		St. George	Utah	Southern Utah and destination weddings	Zion-based wedding photographer whose portfolio runs from temple and red rock weddings to Sikh and Indian celebrations and destinations abroad.			https://www.gideonphoto.com	https://www.instagram.com/gideonphoto/
+Desert Fling	Planning		St. George	Utah	Southern Utah	St. George planning team offering full-service packages with two lead planners on the day, plus its own decor rentals and an ice cream cart.	desert.fling@gmail.com	435-229-4656	https://www.desertfling.com	https://www.instagram.com/desert.fling/
+Desert Rose Floral	Florals	801 S. Bluff Street # B40	St. George	Utah	St. George and Southern Utah	Florist on Bluff Street serving Southern Utah since 1992, making wedding bouquets, ceremony flowers and party pieces as well as everyday arrangements.	desertrosefloral@gmail.com	435-628-3030	https://www.desertrosefloral.com	https://www.instagram.com/desertrosefloral/
+Bloomers Flowers & Decor	Florals	1386 E 100 S #D	St. George	Utah		Boutique St. George flower shop designing wedding flowers and event decor alongside its everyday arrangements and plant nights.	hello@bybloomers.com	435-652-0870	https://bybloomers.com	https://www.instagram.com/bybloomers/
+Jocelyn's Floral	Florals		St. George	Utah	St. George, Hurricane, Washington and Zion National Park; travels further	Wedding and event florist for Southern Utah and Nevada, with galleries of Zion and Snow Canyon weddings and bouquets, flower crowns and backdrops.	jocelynsfloraldesign@gmail.com	435-531-0393	https://www.jocelynsfloraldesign.com	https://www.instagram.com/jocelynsfloral/
+Festival Sounds	Music		St. George	Utah	St. George and Cedar City	Southern Utah mobile DJ company with over 20 years of wedding and event sound, offering song lists and planning forms for couples.		435-319-0872	https://festivalsounds.com	https://www.instagram.com/festivalsoundsutah/
+STG Sound	Music		St. George	Utah	Southern Utah and Mesquite, Nevada	Husband-and-wife DJ service in St. George with budget wedding packages, wireless microphones for ceremonies and a wide music library.	rcrdspnnr@hotmail.com	909-343-3622	https://www.stgsound.com	
+Katering Koncepts	Catering	1495 S. Blackridge Dr. Suite A-210	St. George	Utah	St. George and Southern Utah	St. George caterer handling wedding, corporate and private events, with its own event rentals and sample menus to build from.		435-574-0059	https://kateringkoncepts.com	https://www.instagram.com/kateringkoncepts/
+Wild Cactus Weddings	Hair & Makeup		St. George	Utah	Zion and Southern Utah	Bridal hair and makeup by Sarah Kunzler, a stylist with over ten years of experience doing wedding looks around Zion and Southern Utah.	sarah.kunzler@gmail.com		https://www.wildcactusweddings.com	
+Legacy Events & Rentals	Rentals		St. George	Utah	St. George, Southern Utah, Zion and Las Vegas	Southern Utah rental company supplying tables, chairs, linens, tents, lighting and decor for weddings, with help planning the layout.		435-251-7050	https://legacyeventrentals.com	https://www.instagram.com/legacyeventrentals/
+St. George Party Rentals	Rentals	424 S. Commerce Street #14	Hurricane	Utah	St. George and Southern Utah	Hurricane-based rental shop for tents, canopies, tables and party equipment, with guides for planning outdoor weddings.		435-688-7368	https://stgeorgepartyrentals.com	https://www.instagram.com/stgeorgepartyrentals/
+Zion Wedding Officiant	Officiant		St. George	Utah	Zion National Park and surrounding areas	Officiant Michael "Mikey" Foley, based in St. George, marrying couples in Zion National Park and the surrounding Southern Utah area.	stgweddings@gmail.com	435-669-9133	https://www.zionweddingofficiant.com	
+Bell Tower Bridal	Bridal & Formalwear		St. George	Utah		St. George bridal shop selling wedding gowns by appointment, with separate contemporary and modest collections in fitted, A-line and ballgown cuts.		435-272-3334	https://www.belltowerbridal.com	
+`,
+  },
 ];
 
 export default batches;
