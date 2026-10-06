@@ -38,6 +38,31 @@ DJ Titan Productions	Music		Bozeman	Montana	Southwest Montana	Owner-run wedding 
 Cupcake Mountain Cupcakery	Cake	218 North 7th Avenue	Bozeman	Montana	Bozeman and surrounding community	Family-run cupcake bakery making wedding cakes from cupcake tiers and custom wedding cupcakes, with fifteen flavours baked daily.		(406) 577-2787	https://bozemancupcakery.com/	https://www.instagram.com/cupcakemountain/
 `,
   },
+  {
+    name: "Missoula: photography, planning, florals, catering and cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Carin Rene Photo	Photography		Missoula	Montana	Western Montana	Missoula wedding photographer, formerly a physician assistant, capturing days as they unfold without stiff posing across western Montana.	carin@carinrene.com	(406) 201-5148	https://carinrene.com/	https://www.instagram.com/carinrenephoto/
+Renske Photo	Photography		Missoula	Montana	Western Montana and beyond	Fine art wedding photographer based in Missoula, mixing documentary coverage with editorial touches for weddings across western Montana.			https://renskephoto.com/	https://www.instagram.com/renskephoto/
+Events by Autumn	Planning		Stevensville	Montana	Missoula, Flathead, Whitefish, Bitterroot, Glacier, Bozeman and Big Sky	Bitterroot Valley planner offering fine art wedding planning and design, pairing couples with vendors to suit their style and budget.	Hello@EventsbyAutumn.com	(406) 880-0592	https://www.eventsbyautumn.com/	https://www.instagram.com/eventsbyautumn/
+Habitat Events	Planning		Missoula	Montana	Missoula, Philipsburg, Big Sky, Bozeman, Whitefish and Flathead Lake	Planning and production studio offering wedding coordination, floral design and a rental collection for weddings across western Montana.			https://www.habitatevents.com/	https://www.instagram.com/habitatevents/
+Agile Goat Flower Farm & Design Studio	Florals		Missoula	Montana		Flower farm and design studio just outside Missoula, growing its own seasonal blooms for nature-inspired wedding florals, by appointment.	agilegoatflowerfarm@gmail.com	(406) 544-7118	https://www.agilegoatflowerfarm.com/	https://www.instagram.com/agilegoatflowerfarm/
+Earth Within Flowers	Florals		Missoula	Montana		Missoula flower shop focused on sustainable floristry, offering full wedding florals, dried wedding flowers, a la carte pieces and workshops.		(406) 240-1367	https://earthwithin.com/	https://www.instagram.com/earthwithinflowers/
+Riversong Gourmet	Catering	101 North Johnson Street	Missoula	Montana		Missoula wedding and event caterer cooking with regeneratively grown ingredients, which also runs a tiny event space for small gatherings.	riversonggourmet@gmail.com	(406) 240-0914	https://www.riversonggourmet.net/	https://www.instagram.com/riversonggourmet/
+Bernice's Bakery	Cake		Missoula	Montana		Missoula bakery and cafe making wedding cakes and cupcakes alongside everyday cakes, pies, pastries and a breakfast and lunch menu.		406-728-1358	https://bernicesbakerymt.com/	https://www.instagram.com/bernicesbakerymt/
+`,
+  },
+  {
+    name: "Whitefish: photography, florals, catering, music and cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Thewmatt Photography	Photography		Whitefish	Montana	Montana and destination weddings	Whitefish photographer Matt Wetzler shooting destination weddings in an editorial, unposed style, alongside portrait and motorsport work.	matt@thewphoto.com		https://www.thewmattphotography.com/	https://www.instagram.com/thewmatt/
+Mum's Weddings	Florals	520 2nd Street East	Whitefish	Montana		Family-owned florist in downtown Whitefish designing wedding flowers, with a rental catalogue of decor to go alongside the arrangements.	hello@mumsflowers.net	406.862.2757	https://www.mumsflowers.net/	https://www.instagram.com/mumsweddings/
+Flathead Farmworks	Florals		Kalispell	Montana		Urban flower farm in downtown Kalispell growing seasonal cut flowers and designing florals for weddings and events around the Flathead.			https://www.flatheadfarmworks.com/	https://www.instagram.com/flatheadfarmworks/
+Forage Catering	Catering		Whitefish	Montana		Flathead Valley caterer voted Best Chef in Whitefish in 2022 and 2023, cooking for weddings, private dinner parties and special events.	forage406@gmail.com	(406) 871-1711	https://www.foragecatering406.com/	
+Big Mountain DJs	Music		Whitefish	Montana	Kalispell, Whitefish, Glacier Park and greater Montana	Wedding and event DJ company run by Flathead Valley DJ Nick Ferrington, who has played over 300 weddings, with photobooths available.	info@bigmountaindjs.com	(406) 270-5710	https://www.bigmountaindjs.com/	https://www.instagram.com/bigmountaindjs/
+The Cake Girl	Cake		Whitefish	Montana		Whitefish bakery making custom wedding and elopement cakes, many gluten-free, vegan or dairy-free, plus allergen-friendly desserts.	thecakegirlwhitefish@gmail.com		https://www.thecakegirlwhitefish.com/	https://www.instagram.com/thecakegirlwhitefish/
+Brulee Bake House	Cake		Kalispell	Montana		Kalispell cake studio baking one-of-a-kind wedding cakes from scratch with no templates, plus custom cakes for birthdays and graduations.	Info@bruleebakehouse.com		https://www.bruleebakehouse.com/	https://www.instagram.com/thebruleebakehouse/
+`,
+  },
 ];
 
 export default batches;
