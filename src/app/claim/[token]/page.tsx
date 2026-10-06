@@ -105,6 +105,7 @@ export default async function ClaimPage({ params }: { params: Promise<{ token: s
           category: v.category,
           name: v.name,
           website: v.website,
+          required: v.required,
         })),
         photoUrls: venue.photo_urls.length > 0 ? venue.photo_urls : venue.image_url ? [venue.image_url] : [],
         // A venue that just listed itself gave us its email a minute ago.

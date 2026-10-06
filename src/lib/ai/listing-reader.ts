@@ -36,9 +36,21 @@ export type ListingFields = Record<string, { spec: FieldSpec; hint: string }>;
 export type ListingRead = {
   details: Record<string, string | number | boolean | string[]>;
   faqs: { question: string; answer: string }[];
+  /** A venue's preferred / required vendor list. Empty for vendors and when none is published. */
+  vendors: ReadVendor[];
 };
 
-function systemPrompt(kind: "venue" | "vendor", fields: ListingFields, questions: string[]) {
+export type ReadVendor = { category: string; name: string; website: string | null; required: boolean };
+
+/** Most venue lists are 10-30 names; the claim form takes 40. */
+const MAX_READ_VENDORS = 40;
+
+function systemPrompt(
+  kind: "venue" | "vendor",
+  fields: ListingFields,
+  questions: string[],
+  vendorCategories: readonly string[] | undefined,
+) {
   const lines = Object.entries(fields).map(([key, { spec, hint }]) => {
     const shape =
       spec.type === "enum"
@@ -68,9 +80,18 @@ Rules:
 ${questions.length > 0 ? `- "faqs": answer any of these the material answers, word the answer from the material:
 ${questions.map((q) => `  ${JSON.stringify(q)}`).join("\n")}
   You may add up to 4 other questions couples would ask that the material clearly answers.` : `- "faqs": up to 6 questions couples would ask that the material clearly answers.`}
-
+${vendorCategories ? `- "vendors": the venue's own list of preferred, recommended, approved or exclusive
+  vendors, if it publishes one (often a "Preferred vendors" page or a page of
+  the pricing guide -- fetch that page if the site links to it). For each:
+  "category" (one of ${vendorCategories.map((c) => JSON.stringify(c)).join(", ")}),
+  "name" (the business name as written), "website" (only if the material gives
+  it, else null), and "required" (true only if the material says couples must
+  book that category from the list -- "exclusive", "required", "must use",
+  "in-house only"; false for recommended or preferred). Only businesses the
+  venue itself names. Leave it empty if there is no such list.
+` : ""}
 Reply with ONLY a JSON object, no prose around it:
-{"details": {"field": value, ...}, "faqs": [{"question": "...", "answer": "..."}]}
+{"details": {"field": value, ...}, "faqs": [{"question": "...", "answer": "..."}]${vendorCategories ? `, "vendors": [{"category": "...", "name": "...", "website": null, "required": false}]` : ""}}
 If the material isn't about a wedding ${kind} at all, reply {"details": {}, "faqs": []}.`;
 }
 
@@ -142,11 +163,14 @@ export async function readListing({
   kind,
   fields,
   questions,
+  vendorCategories,
   source,
 }: {
   kind: "venue" | "vendor";
   fields: ListingFields;
   questions: string[];
+  /** Set for venues: also read their preferred-vendor list into these categories. */
+  vendorCategories?: readonly string[];
   source: { pdfUrl: string; fileName: string } | { websiteUrl: string };
 }): Promise<{ error?: string; read?: ListingRead }> {
   if (!process.env.ANTHROPIC_API_KEY) {
@@ -174,7 +198,7 @@ export async function readListing({
       output_config: { effort: "low" },
       betas: ["server-side-fallback-2026-07-01"],
       fallbacks: "default",
-      system: systemPrompt(kind, fields, questions),
+      system: systemPrompt(kind, fields, questions, vendorCategories),
       tools:
         "websiteUrl" in source
           ? [{ type: "web_fetch_20260209", name: "web_fetch", max_uses: 5, max_content_tokens: 40000 }]
@@ -200,7 +224,7 @@ export async function readListing({
   const end = text.lastIndexOf("}");
   if (start === -1 || end <= start) return { error: "Couldn't find your details in that. Try the other option." };
 
-  let parsed: { details?: unknown; faqs?: unknown };
+  let parsed: { details?: unknown; faqs?: unknown; vendors?: unknown };
   try {
     parsed = JSON.parse(text.slice(start, end + 1));
   } catch {
@@ -228,10 +252,27 @@ export async function readListing({
     .filter((f) => f.question && f.answer)
     .slice(0, 12);
 
-  if (Object.keys(details).length === 0 && faqs.length === 0) {
+  const vendors: ReadVendor[] = [];
+  if (vendorCategories) {
+    const seen = new Set<string>();
+    for (const v of Array.isArray(parsed.vendors) ? parsed.vendors : []) {
+      const row = v as { category?: unknown; name?: unknown; website?: unknown; required?: unknown };
+      const name = typeof row.name === "string" ? row.name.trim().slice(0, 120) : "";
+      const key = name.toLowerCase();
+      if (!name || seen.has(key)) continue;
+      seen.add(key);
+      const category =
+        typeof row.category === "string" && vendorCategories.includes(row.category) ? row.category : "Other";
+      const website = coerce({ type: "url" }, row.website);
+      vendors.push({ category, name, website: typeof website === "string" ? website : null, required: row.required === true });
+      if (vendors.length >= MAX_READ_VENDORS) break;
+    }
+  }
+
+  if (Object.keys(details).length === 0 && faqs.length === 0 && vendors.length === 0) {
     return { error: "Couldn't find your details in that. Try the other option, or fill the form in by hand." };
   }
-  return { read: { details, faqs } };
+  return { read: { details, faqs, vendors } };
 }
 
 /** Where a listing's uploaded pricing guides go, inside its photo bucket. */
@@ -252,6 +293,7 @@ export async function readForListing({
   bucket,
   fields,
   questions,
+  vendorCategories,
   source,
 }: {
   kind: "venue" | "vendor";
@@ -259,6 +301,7 @@ export async function readForListing({
   bucket: string;
   fields: ListingFields;
   questions: unknown;
+  vendorCategories?: readonly string[];
   source: { pdfPath: string; fileName: string } | { websiteUrl: string };
 }): Promise<{ error?: string; read?: ListingRead }> {
   let resolved: { pdfUrl: string; fileName: string } | { websiteUrl: string };
@@ -295,5 +338,5 @@ export async function readForListing({
     .filter(Boolean)
     .slice(0, 20);
 
-  return readListing({ kind, fields, questions: qs, source: resolved });
+  return readListing({ kind, fields, questions: qs, vendorCategories, source: resolved });
 }

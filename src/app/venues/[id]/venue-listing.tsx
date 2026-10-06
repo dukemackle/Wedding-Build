@@ -147,10 +147,10 @@ const card = "rounded-lg border border-hairline bg-card p-6 shadow-sm";
 export function VenueListing({ data }: { data: VenueListingData }) {
   const { venue, signedIn, wedding, shortlistEntry, faqs, spaces, preferredVendors, similarVenues } = data;
 
-  const preferredByCategory = new Map<string, VenuePreferredVendor[]>();
-  for (const v of preferredVendors) {
-    preferredByCategory.set(v.category, [...(preferredByCategory.get(v.category) ?? []), v]);
-  }
+  // "Must book from these" and "we recommend these" change a couple's budget
+  // very differently, so they're shown apart, required first.
+  const requiredVendors = preferredVendors.filter((v) => v.required);
+  const recommendedVendors = preferredVendors.filter((v) => !v.required);
   // Rows from before 0097 have none of these, so default them.
   const price = priceHeadline({ price_from: venue.price_from, price_basis: venue.price_basis ?? null });
   const priceOptions = venue.price_basis === "ask" ? [] : (venue.price_options ?? []);
@@ -303,41 +303,23 @@ export function VenueListing({ data }: { data: VenueListingData }) {
 
           <VenueSpaces spaces={spaces} />
 
-          {preferredByCategory.size > 0 && (
+          {requiredVendors.length > 0 && (
+            <div className={card}>
+              <h2 className="font-display text-xl font-semibold text-forest">Required vendors</h2>
+              <p className="mt-1 text-sm text-ink/60">
+                For these, {venue.name} asks couples to book from its list. Check prices with them early.
+              </p>
+              <VendorsByCategory vendors={requiredVendors} />
+            </div>
+          )}
+
+          {recommendedVendors.length > 0 && (
             <div className={card}>
               <h2 className="font-display text-xl font-semibold text-forest">Preferred vendors</h2>
               <p className="mt-1 text-sm text-ink/60">
                 Vendors {venue.name} recommends and who know their way around the property.
               </p>
-              <div className="mt-4 grid grid-cols-1 gap-x-8 gap-y-4 sm:grid-cols-2">
-                {[...preferredByCategory].map(([category, list]) => (
-                  <div key={category}>
-                    <p className="text-xs font-medium uppercase tracking-wide text-ink/50">{category}</p>
-                    <ul className="mt-1 space-y-1">
-                      {list.map((v) => (
-                        <li key={v.id}>
-                          {v.vendor_id ? (
-                            <Link href={vendorHref({ id: v.vendor_id })} className="text-ink hover:text-brass">
-                              {v.name} <span className="text-xs text-brass">on You Do, I Do</span>
-                            </Link>
-                          ) : v.website ? (
-                            <a
-                              href={v.website}
-                              target="_blank"
-                              rel="noopener noreferrer nofollow"
-                              className="text-ink hover:text-brass"
-                            >
-                              {v.name} <span className="text-ink/40">↗</span>
-                            </a>
-                          ) : (
-                            <span className="text-ink">{v.name}</span>
-                          )}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </div>
+              <VendorsByCategory vendors={recommendedVendors} />
             </div>
           )}
 
@@ -396,6 +378,37 @@ export function VenueListing({ data }: { data: VenueListingData }) {
           )}
         </div>
       </div>
+    </div>
+  );
+}
+
+function VendorsByCategory({ vendors }: { vendors: VenuePreferredVendor[] }) {
+  const byCategory = new Map<string, VenuePreferredVendor[]>();
+  for (const v of vendors) byCategory.set(v.category, [...(byCategory.get(v.category) ?? []), v]);
+  return (
+    <div className="mt-4 grid grid-cols-1 gap-x-8 gap-y-4 sm:grid-cols-2">
+      {[...byCategory].map(([category, list]) => (
+        <div key={category}>
+          <p className="text-xs font-medium uppercase tracking-wide text-ink/50">{category}</p>
+          <ul className="mt-1 space-y-1">
+            {list.map((v) => (
+              <li key={v.id}>
+                {v.vendor_id ? (
+                  <Link href={vendorHref({ id: v.vendor_id })} className="text-ink hover:text-brass">
+                    {v.name} <span className="text-xs text-brass">on You Do, I Do</span>
+                  </Link>
+                ) : v.website ? (
+                  <a href={v.website} target="_blank" rel="noopener noreferrer nofollow" className="text-ink hover:text-brass">
+                    {v.name} <span className="text-ink/40">↗</span>
+                  </a>
+                ) : (
+                  <span className="text-ink">{v.name}</span>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
     </div>
   );
 }

@@ -25,6 +25,7 @@ import {
   CLAIM_PHOTO_TYPES,
   MAX_CLAIM_PHOTOS,
   MAX_PRICE_OPTIONS,
+  MAX_PREFERRED_VENDORS,
   type ClaimDetails,
   type ClaimFaq,
   type ClaimPreferredVendor,
@@ -32,7 +33,7 @@ import {
   type ClaimSubmission,
 } from "@/lib/venue-claim";
 import { createClaimPhotoUploads, submitVenueClaim, createImportUpload, readListingSource, writeListingText } from "./actions";
-import { ImportPanel, mergeDraft, mergeFaqs } from "../import-panel";
+import { ImportPanel, mergeDraft, mergeFaqs, mergeVendors } from "../import-panel";
 import { ChipPicker, Field, inputClass, labelClass, PhotoGridEditor, Section, Select, WriteHelper, YesNo } from "../form-parts";
 import { StepNav, StepRail, type Step } from "../steps";
 
@@ -62,7 +63,7 @@ export function ClaimForm({ token, initial }: { token: string; initial: ClaimSub
   const [writeNotes, setWriteNotes] = useState("");
   const [photos, setPhotos] = useState<string[]>(initial.photoUrls);
   const [vendors, setVendors] = useState<ClaimPreferredVendor[]>(
-    initial.preferredVendors.length > 0 ? initial.preferredVendors : [{ category: "", name: "", website: null }],
+    initial.preferredVendors.length > 0 ? initial.preferredVendors : [{ category: "", name: "", website: null, required: false }],
   );
   const [faqs, setFaqs] = useState<ClaimFaq[]>(initial.faqs);
   const [spaces, setSpaces] = useState<ClaimSpace[]>(initial.spaces);
@@ -134,9 +135,11 @@ export function ClaimForm({ token, initial }: { token: string; initial: ClaimSub
   function applyDraft(read: ListingRead) {
     const merged = mergeDraft(details, read.details);
     const answered = mergeFaqs(faqs, read.faqs);
+    const listed = mergeVendors(vendors, read.vendors, MAX_PREFERRED_VENDORS);
     setDetails(merged.details);
     setFaqs(answered.faqs);
-    return merged.filled + answered.filled;
+    setVendors(listed.vendors);
+    return merged.filled + answered.filled + listed.filled;
   }
 
   // What the writer is told besides their own words: only what's on the form.
@@ -689,11 +692,11 @@ export function ClaimForm({ token, initial }: { token: string; initial: ClaimSub
 
           <Section
             title="Preferred vendors"
-            hint="The caterers, photographers, florists and others you recommend. Couples see these on your listing, with a link to each."
+            hint="The caterers, photographers, florists and others you work with. Tick “Required” when couples must book that one from your list -- they see required and recommended vendors separately."
           >
             <div className="flex flex-col gap-3">
               {vendors.map((v, i) => (
-                <div key={i} className="grid grid-cols-1 gap-2 rounded-md border border-hairline p-3 sm:grid-cols-[160px_1fr_1fr_auto] sm:items-center sm:border-0 sm:p-0">
+                <div key={i} className="grid grid-cols-1 gap-2 rounded-md border border-hairline p-3 sm:grid-cols-[160px_minmax(0,1fr)_minmax(0,1fr)_auto_auto] sm:items-center sm:border-0 sm:p-0">
                   <Select
                     value={v.category || null}
                     onChange={(c) => setVendors((all) => all.map((x, j) => (j === i ? { ...x, category: c ?? "" } : x)))}
@@ -714,6 +717,15 @@ export function ClaimForm({ token, initial }: { token: string; initial: ClaimSub
                     placeholder="Website"
                     aria-label="Vendor website"
                   />
+                  <label className="flex items-center gap-1.5 text-sm text-ink/70">
+                    <input
+                      type="checkbox"
+                      checked={v.required === true}
+                      onChange={(e) => setVendors((all) => all.map((x, j) => (j === i ? { ...x, required: e.target.checked } : x)))}
+                      className="accent-brass"
+                    />
+                    Required
+                  </label>
                   <button
                     type="button"
                     onClick={() => setVendors((all) => all.filter((_, j) => j !== i))}
@@ -727,7 +739,7 @@ export function ClaimForm({ token, initial }: { token: string; initial: ClaimSub
             </div>
             <button
               type="button"
-              onClick={() => setVendors((all) => [...all, { category: "", name: "", website: null }])}
+              onClick={() => setVendors((all) => [...all, { category: "", name: "", website: null, required: false }])}
               className="mt-3 text-sm text-brass hover:underline"
             >
               + Add a vendor
