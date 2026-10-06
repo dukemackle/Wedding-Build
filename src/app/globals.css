@@ -308,6 +308,15 @@ body::before {
    but a theme's headings are its ink and its buttons are its accent. */
 .guest-site .bg-forest {
   background-color: var(--site-accent);
+  /* The app's navy gradient would paint over the couple's accent. */
+  background-image: none;
+}
+.guest-site .bg-brass {
+  background-image: none;
+}
+/* The app deepens text-brass to a fixed gold; on the guest site it's the accent. */
+.guest-site .text-brass {
+  color: var(--color-brass);
 }
 .guest-site .bg-forest.text-parchment,
 .guest-site .bg-forest .text-parchment {
@@ -464,6 +473,32 @@ body:has(.guest-site) .site-footer {
   animation: site-confetti 1.6s cubic-bezier(0.2, 0.7, 0.3, 1) forwards;
 }
 
+/* The monogram (site-ornament.tsx): lines draw in, letters and leaves fade
+   up after them. "None" motion shows it finished. */
+@keyframes orn-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes orn-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.guest-site:not([data-scroll="none"]) .orn-draw {
+  stroke-dasharray: 1;
+  animation: orn-draw calc(1.6s * var(--motion-speed, 1)) cubic-bezier(0.45, 0, 0.2, 1) both;
+}
+.guest-site:not([data-scroll="none"]) .orn-fade {
+  animation: orn-fade calc(0.9s * var(--motion-speed, 1)) ease calc(0.5s * var(--motion-speed, 1)) both;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .guest-site[data-scroll] .site-reveal,
   .guest-site[data-scroll] .site-reveal:not([data-shown]) {
@@ -472,7 +507,9 @@ body:has(.guest-site) .site-footer {
     transition: none;
   }
   .guest-site .site-names,
-  .guest-site .site-hero-photo {
+  .guest-site .site-hero-photo,
+  .guest-site .orn-draw,
+  .guest-site .orn-fade {
     animation: none !important;
   }
 }
