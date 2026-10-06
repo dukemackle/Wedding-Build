@@ -7,7 +7,17 @@ import type { ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { WrenMotto } from "@/components/wren-motto";
 import { AskWrenTile } from "@/app/dashboard/ask-wren-tile";
-import { THEMES, fontsHref } from "@/lib/site-design";
+import {
+  DEFAULT_SITE_DESIGN,
+  PALETTES,
+  THEMES,
+  fontsHref,
+  paletteColors,
+  resolveDesign,
+  type OrnamentId,
+  type ThemeId,
+} from "@/lib/site-design";
+import { SiteOrnament } from "@/components/site-ornament";
 import { ConfirmedChip } from "@/components/confirmed-badge";
 import { CHECKLIST_PHASES, CHECKLIST_TEMPLATE } from "@/lib/checklist-template";
 import {
@@ -1600,13 +1610,30 @@ const DEMO_THEMES = ["garden", "blush", "terracotta", "midnight"].map(
   (id) => THEMES.find((t) => t.id === id) ?? THEMES[0],
 );
 
+const DEMO_PALETTES = ["eucalyptus", "blush", "french-blue", "midnight-navy", "terracotta"].map(
+  (id) => PALETTES.find((p) => p.id === id) ?? PALETTES[0],
+);
+
+const DEMO_ORNAMENTS: { id: OrnamentId; label: string }[] = [
+  { id: "laurel", label: "Laurel" },
+  { id: "crest", label: "Crest" },
+  { id: "seal", label: "Wax seal" },
+  { id: "none", label: "None" },
+];
+
 function SiteDemo() {
-  const [themeId, setThemeId] = useState(DEMO_THEMES[0].id);
-  const [accentIdx, setAccentIdx] = useState(0);
+  const [themeId, setThemeId] = useState<ThemeId>(DEMO_THEMES[0].id);
+  const [paletteId, setPaletteId] = useState<string | null>(null);
+  const [ornament, setOrnament] = useState<OrnamentId>("laurel");
   const [device, setDevice] = useState<"desktop" | "phone">("desktop");
   const [rsvped, setRsvped] = useState(false);
-  const t = DEMO_THEMES.find((x) => x.id === themeId) ?? DEMO_THEMES[0];
-  const accent = t.swatches[accentIdx] ?? t.swatches[0];
+  const palette = DEMO_PALETTES.find((p) => p.id === paletteId);
+  // The real resolver, so the demo mixes cards and muted text the way the site does.
+  const { theme: t, accent, onAccent, heading } = resolveDesign({
+    ...DEFAULT_SITE_DESIGN,
+    theme: themeId,
+    ...(palette ? paletteColors(palette) : {}),
+  });
   const phone = device === "phone";
 
   const panel = (
@@ -1637,7 +1664,7 @@ function SiteDemo() {
             type="button"
             onClick={() => {
               setThemeId(x.id);
-              setAccentIdx(0);
+              setPaletteId(null);
             }}
             aria-pressed={x.id === themeId}
             className={`overflow-hidden rounded-xl bg-card text-left ${
@@ -1660,19 +1687,42 @@ function SiteDemo() {
           </button>
         ))}
       </div>
-      <p className={eyebrow}>Accent colour</p>
+      <p className={eyebrow}>Colour palette</p>
       <div className="flex flex-wrap gap-2">
-        {t.swatches.map((hex, i) => (
+        {DEMO_PALETTES.map((p) => (
           <button
-            key={hex}
+            key={p.id}
             type="button"
-            onClick={() => setAccentIdx(i)}
-            aria-label={`Accent ${i + 1}`}
+            onClick={() => setPaletteId(p.id === paletteId ? null : p.id)}
+            aria-label={p.name}
+            aria-pressed={p.id === paletteId}
+            title={p.name}
             className={`flex h-9 w-9 items-center justify-center rounded-full bg-card ${
-              i === accentIdx ? "ring-2 ring-forest" : "ring-1 ring-hairline"
+              p.id === paletteId ? "ring-2 ring-forest" : "ring-1 ring-hairline"
             }`}
           >
-            <span className="h-6 w-6 rounded-full" style={{ background: hex }} />
+            <span
+              className="flex h-6 w-6 items-center justify-center rounded-full"
+              style={{ background: p.bg, boxShadow: "inset 0 0 0 1px rgb(0 0 0 / 0.08)" }}
+            >
+              <span className="h-2.5 w-2.5 rounded-full" style={{ background: p.accent }} />
+            </span>
+          </button>
+        ))}
+      </div>
+      <p className={eyebrow}>Monogram</p>
+      <div className="flex flex-wrap gap-1.5">
+        {DEMO_ORNAMENTS.map((o) => (
+          <button
+            key={o.id}
+            type="button"
+            onClick={() => setOrnament(o.id)}
+            aria-pressed={o.id === ornament}
+            className={`h-8 rounded-full px-3 text-xs ${
+              o.id === ornament ? "bg-forest text-parchment" : "bg-card text-ink/70 ring-1 ring-hairline"
+            }`}
+          >
+            {o.label}
           </button>
         ))}
       </div>
@@ -1722,8 +1772,18 @@ function SiteDemo() {
               </div>
               <div
                 className={`flex flex-col items-center gap-2 text-center transition-colors duration-500 ${phone ? "px-4 py-8" : "px-6 py-10"}`}
-                style={{ background: t.bg, color: t.ink, fontFamily: t.body }}
+                style={
+                  {
+                    background: t.bg,
+                    color: t.ink,
+                    fontFamily: t.body,
+                    "--site-accent": accent,
+                    "--site-on-accent": onAccent,
+                    "--font-display": t.display,
+                  } as React.CSSProperties
+                }
               >
+                <SiteOrnament kind={ornament} first="Juniper" second="Sam" />
                 <p className="font-mono-numbers text-[10px] uppercase tracking-[0.25em]" style={{ color: t.muted }}>
                   June 12, 2027 · Bend, Oregon
                 </p>
@@ -1733,6 +1793,7 @@ function SiteDemo() {
                     fontFamily: t.display,
                     fontStyle: t.italicNames ? "italic" : "normal",
                     fontWeight: t.nameWeight,
+                    color: heading,
                   }}
                 >
                   Juniper &amp; Sam
@@ -1753,7 +1814,7 @@ function SiteDemo() {
                   type="button"
                   onClick={() => setRsvped(true)}
                   className="mt-4 px-6 py-2 text-lg"
-                  style={{ background: accent, color: t.buttonInk, borderRadius: t.radius, fontFamily: t.display }}
+                  style={{ background: accent, color: onAccent, borderRadius: t.radius, fontFamily: t.display }}
                 >
                   {rsvped ? "See you there! ✓" : "RSVP"}
                 </button>
