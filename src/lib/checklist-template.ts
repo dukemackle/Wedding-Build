@@ -160,7 +160,7 @@ export const CHECKLIST_TEMPLATE: ChecklistTemplateTask[] = [
     phase: "foundation",
     title: "Talk about the kind of wedding you actually want",
     notes:
-      "Big or small, formal or relaxed, near or far. Worth saying out loud before anyone's parents have opinions.",
+      "Big or small, formal or relaxed, near or far. Worth getting on the same page early — it shapes every choice after this.",
     weeksBefore: 52,
   },
 
