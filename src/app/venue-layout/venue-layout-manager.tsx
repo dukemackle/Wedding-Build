@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useOptimistic, useRef, useState, useTransition } from "react";
 import dynamic from "next/dynamic";
+import { useRouter } from "next/navigation";
 import type {
   Guest,
   LayoutItemType,
@@ -1852,6 +1853,7 @@ export function VenueLayoutManager({
   const [justSeated, setJustSeated] = useState<Set<string>>(() => new Set());
   const [view3D, setView3D] = useState(false);
   const [, startTransition] = useTransition();
+  const router = useRouter();
 
   // Seating shows at once rather than after the server round trip, so
   // clearing a household into a table feels like moving cards, not saving a form.
@@ -1940,7 +1942,13 @@ export function VenueLayoutManager({
     const formData = new FormData();
     for (const [key, value] of Object.entries(fields)) formData.set(key, value);
     startTransition(async () => {
-      await action(formData);
+      const result = (await action(formData)) as { error?: string } | undefined;
+      // The canvas already shows the change, so a failed save has to say so
+      // and put the layout back to what's actually stored.
+      if (result?.error) {
+        window.alert(`That change didn't save. ${result.error}`);
+        router.refresh();
+      }
     });
   }
 

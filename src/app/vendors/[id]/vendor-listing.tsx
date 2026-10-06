@@ -1,11 +1,13 @@
 import Link from "next/link";
+import { TrackedContactLink } from "@/components/tracked-contact-link";
+import { ReportListing } from "@/components/report-listing";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { Vendor, VendorFaq, Wedding } from "@/lib/supabase/types";
 import { VENDOR_PRICE_UNITS } from "@/lib/wedding-options";
 import { ChevronDownIcon } from "@/components/icons";
 import { PhotoGallery } from "@/components/photo-gallery";
 import { SignupPrompt } from "@/components/public-nav";
-import { PUBLIC_VENDOR_COLUMNS, isUuid, vendorHref, verifiedLabel } from "@/lib/public-listings";
+import { PUBLIC_VENDOR_COLUMNS, isBasicListing, isUuid, vendorHref, verifiedLabel } from "@/lib/public-listings";
 import { VendorDetailClient } from "./vendor-detail-client";
 
 /**
@@ -114,19 +116,30 @@ export function VendorListing({ data }: { data: VendorListingData }) {
           {verifiedLabel(vendor, "vendor") && (
             <p className="mt-1 text-xs text-forest/80">✓ {verifiedLabel(vendor, "vendor")}</p>
           )}
+          {isBasicListing(vendor) && (
+            <p className="mt-3 rounded-lg bg-forest/5 p-3 text-sm text-ink/80">
+              We found this business on Instagram, but it has no website for us to check details against. Ask about
+              dates, pricing and what&apos;s included before you book.{" "}
+              <Link href="/list/edit" className="underline hover:text-forest">
+                Is this your business? Add your details
+              </Link>
+            </p>
+          )}
+          {!vendor.is_sample && <ReportListing listingType="vendor" listingId={vendor.id} />}
           {vendor.description && <p className="mt-4 text-ink/80">{vendor.description}</p>}
           {links.length > 0 && (
             <div className="mt-4 flex flex-wrap gap-2">
               {links.map(([label, href]) => (
-                <a
+                <TrackedContactLink
                   key={label}
+                  listingType="vendor"
+                  listingId={vendor.id}
+                  kind={label === "Website" ? "website" : "social"}
                   href={href}
-                  target="_blank"
-                  rel="noopener noreferrer nofollow"
                   className="rounded-full border border-hairline px-3 py-1 text-sm text-ink transition-colors hover:border-forest"
                 >
                   {label} ↗
-                </a>
+                </TrackedContactLink>
               ))}
             </div>
           )}

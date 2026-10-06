@@ -7,7 +7,7 @@
 // Counts rows in the batch files (src/lib/venue-batches.ts,
 // src/lib/vendor-batches.ts and src/lib/batches/), not the live database.
 
-import { readdirSync, readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { AREA_ALIASES, CORE_CATEGORIES, METROS, MIN_VENUES, PER_CATEGORY, VENUES_PER_METRO } from "./coverage-plan.mjs";
 
 function rows(kind) {
@@ -34,7 +34,40 @@ function rows(kind) {
   return out;
 }
 
+// Businesses research found but left out (src/lib/batches/skipped/README.md).
+function skipped() {
+  const dir = "src/lib/batches/skipped";
+  if (!existsSync(dir)) return [];
+  return readdirSync(dir)
+    .filter((f) => f.endsWith(".tsv"))
+    .flatMap((f) => {
+      const [header, ...lines] = readFileSync(`${dir}/${f}`, "utf8").split("\n").filter((l) => l.trim());
+      const cols = header.split("\t");
+      return lines.map((line) => {
+        const cells = line.split("\t");
+        const get = (c) => (cells[cols.indexOf(c)] ?? "").trim();
+        return { kind: get("Kind"), state: get("State"), reason: get("Reason") };
+      });
+    });
+}
+
+function skippedLine(list) {
+  if (!list.length) return null;
+  const counts = {};
+  for (const s of list) counts[s.reason] = (counts[s.reason] ?? 0) + 1;
+  const reasons = Object.entries(counts)
+    .sort((a, b) => b[1] - a[1])
+    .map(([r, n]) => `${r} ${n}`)
+    .join(", ");
+  const kinds = ["Venue", "Vendor"].map((k) => {
+    const n = list.filter((s) => s.kind === k).length;
+    return `${n} ${k.toLowerCase()}${n === 1 ? "" : "s"}`;
+  });
+  return `Skipped: ${kinds.join(", ")} (${reasons})`;
+}
+
 const venues = rows("venue");
+const left = skipped();
 const vendors = rows("vendor");
 
 const report = Object.entries(METROS).map(([state, metros]) => {
@@ -73,6 +106,8 @@ if (picked.length) {
       const gaps = m.missing.map(([c, n]) => `${c} ${n}`).join(", ");
       console.log(`  ${m.metro}: ${m.have} vendors${gaps ? `; still needs ${gaps}` : "; core categories filled"}`);
     }
+    const line = skippedLine(left.filter((s) => s.state === r.state));
+    if (line) console.log(`  ${line}`);
   }
 } else {
   const sorted = [...report].sort((a, b) => a.pass1 - b.pass1 || b.venueNeed + b.vendorNeed - (a.venueNeed + a.vendorNeed));
@@ -87,4 +122,10 @@ if (picked.length) {
     `\n${report.filter((r) => r.pass1).length}/${report.length} states meet pass 1. ` +
       `Still to add for the full plan: ${sum("venueNeed")} venues, ${sum("vendorNeed")} vendors.`,
   );
+  const line = skippedLine(left);
+  if (line) {
+    const listed = venues.length + vendors.length;
+    const pct = Math.round((100 * left.length) / (listed + left.length));
+    console.log(`${line}; ${pct}% of the businesses research has found.`);
+  }
 }

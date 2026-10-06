@@ -2,7 +2,7 @@ import { revalidatePath } from "next/cache";
 import { refuseBatchCaller } from "@/lib/batch-secret";
 import { restamp, type FieldSources } from "@/lib/field-sources";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
-import { importSourceId } from "@/lib/venue-import";
+import { rowSourceId } from "@/lib/venue-import";
 
 // The database end of scripts/import-batches.mjs, which the batch routine
 // runs. The script does the heavy part on the routine's own machine --
@@ -82,7 +82,7 @@ export async function POST(request: Request) {
         // by website so the same row is never added twice.
         is_sample: false,
         source: "import",
-        source_id: importSourceId(typeof row.website === "string" ? row.website : null),
+        source_id: rowSourceId(row),
         field_sources: restamp(null, row, "batch"),
       })),
     );

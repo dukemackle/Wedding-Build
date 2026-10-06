@@ -63,7 +63,8 @@ owner. How to research, write and check a vendor batch lives in the
 
 **50-state coverage (2026-10-02):** no marketing until every state has listings.
 New batches go only in `src/lib/batches/venues/<state>.ts` or
-`src/lib/batches/vendors/<state>.ts`, one file per state, so several batch PRs
+`src/lib/batches/vendors/<state>.ts`, one file per state (businesses left out
+go in `src/lib/batches/skipped/<state>.tsv`, which counts as a batch file), so several batch PRs
 can run at once without conflicts; the two older files are closed. The plan
 (metros per state and targets) is `scripts/coverage-plan.mjs`; `npm run
 coverage` shows what's left. Name vendor batches after the plan's metro.
@@ -122,6 +123,13 @@ reflexively:
   and where it can't; the known feature gaps (including what's parked, and
   what's already shipped so it isn't re-proposed). Read before comparing Wren
   to anything, or proposing a feature that might already exist.
+- **`docs/email-playbook.md`** — how inbound mail is received, sorted and
+  answered, the owner's policy answers, and the automation roadmap. Read before
+  touching email sending/receiving or drafting replies.
+- **`docs/retention.md`** — what would make couples, venues and vendors leave
+  (data safety, guest-site reliability, listing accuracy, leads through the
+  app) and the status of each. Read before prioritising work or touching
+  those areas.
 - **`docs/legal.md`** — terms/privacy/consent coverage and what future features
   trigger (marketing email opt-in, EU users, SMS, analytics, billing). Read
   before shipping a new form that collects details, or any of those triggers.

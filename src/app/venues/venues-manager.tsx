@@ -14,6 +14,7 @@ import { SearchShell } from "@/components/search-shell";
 import { BirdEmptyState } from "@/components/wren-moments";
 import { SignupCardButton, SignupHeart } from "@/components/public-nav";
 import { venueHref } from "@/lib/public-listings";
+import { ConfirmedChip } from "@/components/confirmed-badge";
 
 const VenuesMap = dynamic(() => import("./venues-map").then((m) => m.VenuesMap), {
   ssr: false,
@@ -82,10 +83,12 @@ function VenueCard({
             className="aspect-[16/10] max-h-44 w-full object-cover lg:max-h-none"
           />
         </Link>
-        {(isBooked || venue.is_sample) && (
+        {isBooked || venue.is_sample ? (
           <span className="absolute left-2 top-2 rounded-full bg-ink/80 px-2.5 py-1 text-[11px] font-semibold text-parchment">
             {isBooked ? "Booked venue" : "Sample listing"}
           </span>
+        ) : (
+          venue.source === "claimed" && <ConfirmedChip className="absolute left-2 top-2" />
         )}
         <div className="absolute right-2 top-2">
           {signedIn ? (

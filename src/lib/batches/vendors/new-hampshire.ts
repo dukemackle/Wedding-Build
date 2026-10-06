@@ -30,6 +30,22 @@ Seacoast DJ	Music		Hampton	New Hampshire	New Hampshire and Massachusetts Seacoas
 Robert Ortiz Photography	Videography		Portsmouth	New Hampshire	New England and destination weddings	Portsmouth studio with 20 years in weddings, pairing documentary black-and-white and colour photography with a wedding video team.	robcam@ttlc.net		https://www.robertortizphotography.com/	https://www.instagram.com/robertortizweddingphotography/
 Cameron & Co. Events	Planning		Newmarket	New Hampshire	New Hampshire seacoast and southern Maine	Seacoast planning studio offering full planning, coordination and design, aiming for weddings that feel natural rather than overproduced.			https://cameronandcoevents.com/	`,
   },
+  {
+    name: "White Mountains: photography, videography, catering, cake, hair and makeup and florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+In Bloom Photography	Photography	2760 Main Street	North Conway	New Hampshire	North Conway and the Mount Washington Valley	Main Street North Conway studio photographing weddings alongside maternity, newborn and portrait work for valley couples.	info@inbloomphotographynh.com		https://www.inbloomphotographynh.com/	https://www.instagram.com/inbloomphotographynh/
+Grace LeBlanc Photography	Photography		North Conway	New Hampshire	New England and beyond	North Conway photographer focused on intimate weddings, with a guided process and quick delivery of printed artwork over image dumps.			https://www.graceleblancphotography.com	https://www.instagram.com/graceleblancphotography/
+Meg Simone Films	Videography		Intervale	New Hampshire	New England and beyond	Valley-based wedding filmmaker making documentary-style films that centre on the real connections between a couple, family and friends.	Meg@MegSimone.com	603-986-6234	https://megsimone.com/	https://www.instagram.com/megsimone.films/
+Ashley Ann Films	Videography		Lincoln	New Hampshire	New Hampshire and destination weddings	Lincoln wedding filmmaker making cinematic, documentary-style films with a nostalgic feel, travelling wherever a couple marries.			https://www.ashleyannfilms.com/	https://www.instagram.com/ashleyannfilms/
+Brian Coffey Catering	Catering		Bartlett	New Hampshire	North Conway and the Mount Washington Valley	Bartlett chef with over 30 years of experience offering custom menus and full-service catering for weddings and private dinners.	brian@briancoffeycatering.com	603-730-2267	https://briancoffeycatering.com/	https://www.instagram.com/chefcoffey/
+Autumn Nomad	Catering		Jackson	New Hampshire	Jackson, North Conway, Bretton Woods and across New England	Jackson event caterer pairing curated menus with handcrafted cocktails, custom cakes and event design for mountain weddings.			https://autumnnomad.com/	https://www.instagram.com/autumnnomad/
+Autumn Nomad Cakes & Cafe	Cake	18 Black Mountain Road	Jackson	New Hampshire	Mount Washington Valley	Jackson cake studio making artistic, handmade, custom-designed wedding cakes, with a cafe serving house-made lunches next door.		603-383-8227	https://www.autumnnomadcafe.com/	https://www.instagram.com/autumnnomad/
+Painting With Sugar	Cake		Lancaster	New Hampshire	White Mountain region, Lakes region and New Hampshire	Lancaster bakery making custom wedding cakes, decorated cookies, French macarons and cupcakes for northern New Hampshire couples.		860-608-8044	https://www.paintingwithsugar.com/	https://www.instagram.com/paintingwithsugar/
+Divinity Salon	Hair & Makeup	23 Seavey Street	North Conway	New Hampshire	North Conway and surrounding area	North Conway salon offering bridal hair and makeup with trial runs, in the salon or travelling to the wedding location.	divinitysalon2012@gmail.com	603-356-8585	https://www.divinitysalonnh.com/wedding	https://www.instagram.com/divinitysalonnh/
+Marissa Ann Artistry	Hair & Makeup		Conway	New Hampshire	North Conway and the Mount Washington Valley	Licensed cosmetologist doing hair and makeup design for weddings, from natural looks to full glamour, in Conway or on location.			https://www.marissaannartistry.com/	https://www.instagram.com/marissaannartistry/
+Cherry Blossom Floral Design	Florals	240 Union Street	Littleton	New Hampshire	Littleton, Bethlehem, Franconia and the White Mountain region	Littleton florist open since 2006, making fresh, modern wedding and event flowers with delivery across the north country.		603-444-1015	https://www.cherryblossomfloral.com/	https://www.instagram.com/cherryblossomfloral.design/
+`,
+  },
 ];
 
 export default batches;

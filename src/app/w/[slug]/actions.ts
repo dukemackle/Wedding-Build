@@ -2,6 +2,9 @@
 
 import { randomUUID } from "node:crypto";
 import { createClient } from "@/lib/supabase/server";
+import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
+import { getResendClient, INQUIRY_FROM_ADDRESS } from "@/lib/resend";
+import { SITE_URL } from "@/lib/public-listings";
 import type { GuestSide, RsvpStatus } from "@/lib/supabase/types";
 
 const VALID_STATUSES: RsvpStatus[] = ["confirmed", "declined"];
@@ -40,9 +43,49 @@ async function uploadGuestPhoto(
   return { photoUrl: supabase.storage.from("guest-photos").getPublicUrl(path).data.publicUrl };
 }
 
+/** Trimmed text field, capped so an anonymous form can't store a novel. */
+function field(formData: FormData, key: string, max: number): string | null {
+  const value = ((formData.get(key) as string) || "").trim();
+  return value ? value.slice(0, max) : null;
+}
+
+/**
+ * Tells the couple an RSVP is waiting, so it doesn't sit unseen on /guests.
+ * Best effort: the RSVP is already saved, so a failed email never fails it.
+ */
+async function notifyCoupleOfRsvp(weddingId: string, guestName: string, status: RsvpStatus) {
+  try {
+    if (!process.env.RESEND_API_KEY) return;
+    const admin = createAdminSupabaseClient();
+    const { data: wedding } = await admin
+      .from("weddings")
+      .select("user_id")
+      .eq("id", weddingId)
+      .maybeSingle<{ user_id: string }>();
+    if (!wedding) return;
+    const { data: owner } = await admin.auth.admin.getUserById(wedding.user_id);
+    const to = owner?.user?.email;
+    if (!to) return;
+    const answer = status === "confirmed" ? "is coming" : "can't make it";
+    await getResendClient().emails.send({
+      from: INQUIRY_FROM_ADDRESS,
+      to,
+      subject: `New RSVP: ${guestName} ${answer}`,
+      text: `${guestName} just RSVPed on your wedding website: ${answer}.\n\nIt's waiting for you to approve on your guest list, which also matches it to the right guest:\n${SITE_URL}/guests\n\nYou Do, I Do`,
+    });
+  } catch {
+    // Never let a notification problem reach the guest.
+  }
+}
+
 export async function submitRsvp(formData: FormData): Promise<{ error?: string }> {
+  // Hidden from people, filled in by bots: pretend it worked and store nothing.
+  if (((formData.get("website") as string) || "").trim()) {
+    return {};
+  }
+
   const weddingId = formData.get("wedding_id") as string;
-  const guestName = (formData.get("guest_name") as string)?.trim();
+  const guestName = field(formData, "guest_name", 120);
   const status = formData.get("status") as string;
 
   if (!weddingId) {
@@ -66,19 +109,19 @@ export async function submitRsvp(formData: FormData): Promise<{ error?: string }
   const { error } = await supabase.from("rsvp_submissions").insert({
     wedding_id: weddingId,
     guest_name: guestName,
-    household: ((formData.get("household") as string) || "").trim() || null,
+    household: field(formData, "household", 120),
     side: VALID_SIDES.includes(formData.get("side") as GuestSide)
       ? (formData.get("side") as GuestSide)
       : null,
     plus_one: formData.get("plus_one") === "on",
-    plus_one_name: ((formData.get("plus_one_name") as string) || "").trim() || null,
+    plus_one_name: field(formData, "plus_one_name", 120),
     status: status as RsvpStatus,
-    meal: ((formData.get("meal") as string) || "").trim() || null,
-    notes: ((formData.get("notes") as string) || "").trim() || null,
+    meal: field(formData, "meal", 80),
+    notes: field(formData, "notes", 1000),
     photo_url: photoUrl,
-    message: ((formData.get("message") as string) || "").trim() || null,
-    song_request: ((formData.get("song_request") as string) || "").trim() || null,
-    phone: ((formData.get("phone") as string) || "").trim() || null,
+    message: field(formData, "message", 1000),
+    song_request: field(formData, "song_request", 200),
+    phone: field(formData, "phone", 30),
     sms_opt_in: formData.get("sms_opt_in") === "on",
   });
 
@@ -86,6 +129,7 @@ export async function submitRsvp(formData: FormData): Promise<{ error?: string }
     return { error: "Could not submit your RSVP — please try again." };
   }
 
+  await notifyCoupleOfRsvp(weddingId, guestName, status as RsvpStatus);
   return {};
 }
 

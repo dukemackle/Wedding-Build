@@ -84,21 +84,40 @@ Maple Hill Entertainment	Music		Ronceverte	West Virginia	Greenbrier Valley	Ronce
   {
     name: "Charleston: hair & makeup",
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
-Oasis Spa & Hair Salon	Hair & Makeup	33 RHL Blvd	Charleston	West Virginia		Full-service Charleston salon and day spa offering bridal and event hair styling alongside spa-day packages for the wedding party.	oasisspawv@gmail.com	304-747-6116	https://oasisspacharleston.com/	https://www.instagram.com/oasis.spa.wv/`,
+Oasis Spa	Hair & Makeup	33 RHL Blvd	South Charleston	West Virginia		South Charleston day spa and salon offering bridal styling and a bride-to-be package alongside lashes, brows, nails and facials.	oasisspawv@gmail.com	304-747-6116	https://oasisspacharleston.com/	https://www.instagram.com/oasis.spa.wv/`,
   },
   {
-    name: "Morgantown: hair & makeup, photography and videography",
+    name: "Morgantown: photography, florals, hair & makeup, cake and videography",
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
-Tonique's Trilogy	Hair & Makeup	725 Fairmont Rd, Suite 103	Morgantown	West Virginia		Morgantown salon offering wedding hair and makeup, with bookings handled by phone, text or email.		(304) 212-5558	https://toniquestrilogy.com/	
-Kristin Hurley Photography	Photography		Morgantown	West Virginia	Morgantown and across West Virginia	Morgantown fine art wedding photographer focused on authentic, emotional images from West Virginia ceremonies and receptions.			https://www.kristinhurleyphotography.com/	https://www.instagram.com/kristinhurleyphotography/
-Image Studios & Entertainment	Videography		Morgantown	West Virginia	Morgantown and surrounding regions	Morgantown studio with nearly two decades behind it, offering wedding video and photography plus DJ and MC services in package deals.			https://imagestudiosandentertainment.com/	`,
+Kristin Hurley Photography	Photography		Morgantown	West Virginia		Morgantown fine art wedding photographer known for natural, emotional coverage of weddings across West Virginia and nearby Pennsylvania.			https://www.kristinhurleyphotography.com/	
+Beverly Hills Florist	Florals	1269 Fairmont Rd	Morgantown	West Virginia		Morgantown flower shop on Fairmont Road that handles wedding flowers by consultation, alongside everyday arrangements and local delivery.	morgantownflowershop@gmail.com	304-983-2899	https://www.morgantownflowershop.com/	
+Tuscan Sun Spa and Salon	Hair & Makeup	401 Boyers Ave	Morgantown	West Virginia		Spa and salon on Boyers Avenue with bridal updos, bridal party styling and spa packages for the wedding party before the big day.		304-296-1325	https://tuscanspaandsalon.com/salon/bridal/	https://www.instagram.com/tuscansunspa/
+The Cupcakerie	Cake	3200 Collins Ferry Road	Morgantown	West Virginia		Morgantown cupcake café and bakery off Collins Ferry Road that also caters weddings and private events with made-to-order menus.	orders@thecupcakerie.com	304-212-5464	https://thecupcakerie.com/	
+Image Studios & Entertainment	Videography		Morgantown	West Virginia		Morgantown studio offering wedding videography packages alongside photography and DJ services, travelling further for a mileage fee.	ljlenhart@imagestudiosllc.com	304-216-2064	https://imagestudiosandentertainment.com/	
+GeeCee Media	Videography		Morgantown	West Virginia		Morgantown wedding film company producing cinematic wedding videos and photography, and travelling beyond West Virginia for couples.		304-644-2848	https://www.geeceemedia.com/	`,
   },
   {
-    name: "New River Gorge: music, cake and planning",
+    name: "New River Gorge: planning, music, hair & makeup, cake and videography",
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
-Purpose Entertainment	Music	210 Dorcas Ave	Beckley	West Virginia	Southern West Virginia and western Virginia, including Beckley, Fayetteville, Oak Hill and Summersville	Beckley wedding DJ company led by a DJ with nearly two decades of experience, tailoring music to traditional or unexpected celebrations.	naybz@purposedjs.com	304-894-4003	https://purposedjs.com/	
-Posh Manna Cake Art	Cake		Oak Hill	West Virginia	Southern West Virginia	Luxury cake and dessert studio making European-style wedding cakes, macarons and pastries, with consultations and tastings.		(304) 673-2592	https://www.poshmanna.com/	https://www.instagram.com/poshmannacakeart/
-Gillespie's Events and Florals	Planning		White Sulphur Springs	West Virginia	Southern West Virginia and Virginia	Southern West Virginia events company covering wedding planning, florals, event rentals and design and production.	sales@gillespies.events	304-536-1881	https://gillespies.events/	`,
+Gillespie's	Planning	377 Main Street West	White Sulphur Springs	West Virginia		Greenbrier Valley event company offering personalised event planning, sailcloth tents, décor rentals and wedding florals.	sales@gillespies.events		https://gillespies.events/	
+West Virginia Elopement Collective	Planning		Fayetteville	West Virginia	New River Gorge, Dolly Sods, Spruce Knob and Blackwater Falls	Weekday elopement planners running all-inclusive days at the New River Gorge and other WV spots, with photo, film and an officiant.			https://westvirginiaelopements.com/	https://www.instagram.com/wvelopementcollective/
+Weddings By Leah	Planning		Oak Hill	West Virginia		Oak Hill planner who takes on wedding and event planning by appointment for couples around Fayette County and the New River Gorge.		304-640-0224	https://weddingsbyleah.wixsite.com/leahcoats	
+Purpose Entertainment	Music		Beckley	West Virginia	Beckley, Fayetteville, Oak Hill, Lewisburg, Summersville and southern West Virginia	Beckley DJ and MC company covering weddings across southern West Virginia, with lighting and a planning-led approach to the reception.	naybz@purposedjs.com	304-894-4003	https://purposedjs.com/	
+Branded Beauty Salon	Hair & Makeup	921 Court St N	Lewisburg	West Virginia		Lewisburg salon with bridal and special-event hair and makeup services alongside colour, extensions, nails and everyday styling.			https://josiepatterson.glossgenius.com/	https://www.instagram.com/brandedbyjosie/
+The Studio	Hair & Makeup	348 Webster Street	Lewisburg	West Virginia		Full-service Lewisburg hair and nail salon offering bridal consultations and special-occasion makeup through online booking.			https://square.site/book/SBY34FD55GACG/the-studio-lewisburg-wv	
+Fruits of Labor	Cake	161 Main Street	Rainelle	West Virginia		Rainelle café, bakery and culinary training centre making custom wedding cakes for couples who book its full wedding catering.	jordan@fruitsoflaborinc.com	304-438-7425	https://www.fruitsoflaborinc.com/	
+Kenzie's Kakes & Coffee	Cake		Beaver	West Virginia		Raleigh County bakery and coffee shop making custom cakes, including wedding and bridal shower cakes, plus cupcakes and cheesecake.			https://www.kenzieskakes.com/	
+White Heaven Co	Videography		Nitro	West Virginia	New River Gorge, Fayetteville and the East Coast	Nitro-based photo and film team that regularly shoots New River Gorge weddings, delivering 4K and 6K cinematic wedding films.	booking@whiteheaven.co		https://whiteheaven.co/productions/weddings/locations/fayetteville-wv	`,
+  },
+  {
+    name: "Morgantown: hair & makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Tonique's Trilogy	Hair & Makeup	725 Fairmont Rd, Suite 103	Morgantown	West Virginia		Morgantown salon offering wedding hair and makeup, with bookings handled by phone, text or email.		(304) 212-5558	https://toniquestrilogy.com/	`,
+  },
+  {
+    name: "New River Gorge: cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Posh Manna Cake Art	Cake		Oak Hill	West Virginia	Southern West Virginia	Luxury cake and dessert studio making European-style wedding cakes, macarons and pastries, with consultations and tastings.		(304) 673-2592	https://www.poshmanna.com/	https://www.instagram.com/poshmannacakeart/`,
   },
 ];
 

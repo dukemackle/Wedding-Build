@@ -11,7 +11,7 @@ export default function PrivacyPage() {
       <div className={`w-full ${READING_WIDTH}`}>
         <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Legal</p>
         <h1 className="mt-2 font-display text-3xl font-semibold text-forest">Privacy Policy</h1>
-        <p className="mt-2 text-sm text-ink/60">Last updated: October 2, 2026</p>
+        <p className="mt-2 text-sm text-ink/60">Last updated: October 5, 2026</p>
 
         <div className="mt-8 flex flex-col gap-8 text-ink/80">
           <p>
@@ -93,11 +93,30 @@ export default function PrivacyPage() {
               </li>
             </ul>
 
+            <p className="mt-4 font-medium text-ink">From anyone reporting a listing</p>
+            <ul className="mt-2 list-disc space-y-2 pl-5">
+              <li>
+                What you tell us through &ldquo;Something wrong with this listing?&rdquo;, and your
+                email address if you choose to give it. We use it only to fix the listing and, if
+                you gave your email, to ask you about the report. It isn&apos;t shared with the
+                business or shown publicly.
+              </li>
+            </ul>
+
             <p className="mt-4 font-medium text-ink">Automatically</p>
             <p className="mt-2">
               Basic technical information needed to operate the Service, such as an authentication
               session cookie set by our infrastructure provider. We don&apos;t use third-party
-              advertising trackers.
+              advertising trackers. When someone taps a listing&apos;s phone number, website or social
+              link, we count the tap against that listing, with no personal details attached, so we
+              can tell the business how many couples found it here.
+            </p>
+
+            <p className="mt-4 font-medium text-ink">When you email us</p>
+            <p className="mt-2">
+              Your email address and the message, kept so we can answer you and see earlier
+              conversations. We also note when an address can&apos;t receive our mail, so we stop
+              sending to it.
             </p>
           </Section>
 
