@@ -46,6 +46,38 @@ Marissa Ann Artistry	Hair & Makeup		Conway	New Hampshire	North Conway and the Mo
 Cherry Blossom Floral Design	Florals	240 Union Street	Littleton	New Hampshire	Littleton, Bethlehem, Franconia and the White Mountain region	Littleton florist open since 2006, making fresh, modern wedding and event flowers with delivery across the north country.		603-444-1015	https://www.cherryblossomfloral.com/	https://www.instagram.com/cherryblossomfloral.design/
 `,
   },
+  {
+    name: "Manchester: photography, planning, florals, music, catering, hair and makeup, cake and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Mike Indi Photography	Photography		Manchester	New Hampshire	New England	Manchester wedding and elopement photographer working with couples across New Hampshire and the rest of New England.	mike@mikeindiphotography.com		https://www.mikeindiphotography.com/	https://www.instagram.com/mike_indi_photography/
+Haley J Photography	Photography		Manchester	New Hampshire	Coastal New England, southern Maine, New Hampshire, Vermont, Massachusetts, Rhode Island and Connecticut	Manchester-based wedding photographer working throughout New England, with wedding collections published from $4,000.			https://www.haleyjphotography.com/	https://www.instagram.com/haleyj_photography/
+A Photographic Memory	Photography	250 Commercial St, Suite 2010	Manchester	New Hampshire	New England, Florida and destinations	Manchester studio with over 30 years in weddings, sending photo and video teams to New England and destination celebrations.	studio@apmphotoandvideo.com	888-436-8648	https://www.apmnh.com/	https://www.instagram.com/apmnhphoto/
+Inked Events	Planning		Salem	New Hampshire	New Hampshire, the Lakes Region, Massachusetts and New England	Salem-based certified planner offering full planning and wedding management, and the Currier Museum's exclusive wedding planning partner.			https://inked-events.com/	https://www.instagram.com/inkedevents/
+Two Hearts Connect Wedding Planner	Planning		Concord	New Hampshire	Concord, Manchester and surrounding New Hampshire	Concord planner offering start-to-finish planning, vendor referrals and day-of coordination for couples across central and southern New Hampshire.		603-724-3729	https://twoheartsconnectnh.com/	
+Blissful Beginnings	Planning		Bedford	New Hampshire	New Hampshire, Maine, Vermont and New England	Bedford planner and designer with two decades of experience, specialising in tented and offsite weddings and multi-event wedding weekends.	melanie@blissfulbeginnings.com	603-490-1514	https://www.blissfulbeginnings.com/	
+Manchester Flower Studio	Florals	34 Hanover St	Manchester	New Hampshire		Downtown Manchester flower shop designing bridal bouquets, centrepieces, arches and cake flowers, with wedding consultations by appointment.		603-206-5959	https://www.manchesterflowerstudio.com/wedding-flowers	
+Paisley Floral Design Studio	Florals		Manchester	New Hampshire	Manchester and surrounding towns	Private Manchester floral studio that began as a wedding design business and still creates wedding and event flowers alongside everyday work.	paisleyfloraldesign@gmail.com		https://www.paisleyfloraldesign.com/	
+DJ Greg Sowa	Music		Manchester	New Hampshire	Manchester, Concord, Nashua, Portsmouth and northern Massachusetts	Manchester DJ focused on personalised wedding and mitzvah entertainment at venues across southern New Hampshire and northern Massachusetts.		603-685-4229	http://www.djgregsowa.com/	
+DJ Steve Neff Entertainment	Music		Concord	New Hampshire	All of New Hampshire	Concord DJ with over 20 years of experience, bringing sound, lighting and MC hosting to weddings throughout New Hampshire.	info@djsteveneff.com	603-227-6942	https://djsteveneff.com/	
+DJ Chillin McMillin	Music		Nashua	New Hampshire	New Hampshire, Massachusetts, Vermont and Maine	Greater Nashua wedding and corporate DJ with more than 25 years of experience and three Best DJ of Greater Nashua wins.			https://chillinmcmillin.com/	https://www.instagram.com/dj_chillin_mcmillin/
+Great Events Catering	Catering	831 Union Ave, Unit 9	Laconia	New Hampshire	New Hampshire	Off-premise caterer from the Fratello's and Homestead restaurant group, providing full-service wedding catering anywhere in New Hampshire.	info@greateventsnh.com	603-581-9022	https://www.greateventsnh.com/	https://www.instagram.com/greateventscateringnh/
+Celebrations Catering	Catering		Nashua	New Hampshire		Nashua caterer of more than 25 years offering plated, buffet and family-style wedding menus, plus barbecue for casual receptions.		603-782-8022	https://celebrationsmenu.com/	https://www.instagram.com/celebrationsnh/
+Baked Cafe and Bakery	Catering	249 Sheep Davis Road	Concord	New Hampshire		Concord café and bakery providing farm-to-table wedding catering, with menus built separately from its café around local ingredients.		603-856-8871	https://www.bakeddowntown.com/catering	
+Michael Thomas Salon	Hair & Makeup	590 Second St	Manchester	New Hampshire		Manchester salon offering bridal hair, blow-outs and makeup in the salon or on location, with trials and prices listed online.	keri@michaelthomassalon.net	603-622-1717	https://www.michaelthomassalon.net/bridal-services	
+The Hair Company	Hair & Makeup	383 E Dunstable Rd	Nashua	New Hampshire		Nashua salon offering bridal updos, makeup trials and wedding-party hair and makeup, with per-service prices posted online.		603-809-4479	https://www.thehaircompany.com/bridal/	https://www.instagram.com/thehaircompanyofnashua/
+Bearded Baking Co	Cake	819 Union St	Manchester	New Hampshire	Manchester and New England	Manchester bakery making tiered wedding cakes from a published minimum, with tastings held at its second shop in Hampton.	beardedbakingco@gmail.com	603-647-7150	https://www.beardedbaking.com/wedding	https://www.instagram.com/beardedbakingco/
+Jacques Fine European Pastries	Cake	128 Main Street	Suncook	New Hampshire		Suncook Village pastry shop baking wedding cakes for decades, with collections running from classic tiers to sugar-flower and themed designs.	jacquespastries@icloud.com	603-485-4035	https://jacquespastries.com/	
+Fisher Video Productions	Videography	722 East Industrial Park Dr, Unit 7	Manchester	New Hampshire	New Hampshire	Manchester video team filming weddings and editing them in-house into a blend of cinematic and documentary-style films.		603-672-0110	https://fishervideoproductions.com/	https://www.instagram.com/fishervideo/
+NH Images	Videography		Nashua	New Hampshire	New England and destination weddings	Nashua photo and video team making cinematic wedding films and photographs, travelling across New England and further afield.	info@nhimages.com	603-566-7911	https://nhimages.com/	https://www.instagram.com/nhimagesphotography/
+Precious Moments Wedding Films	Videography		Hudson	New Hampshire	Massachusetts, New Hampshire, Rhode Island and Maine	Long-established wedding film studio with thousands of weddings behind it, offering customisable HD film packages across New England.	pmvideo@mac.com	603-886-0212	https://www.preciousmomentsweddingfilms.com/	https://www.instagram.com/pmwfilms/
+`,
+  },
+  {
+    name: "White Mountains: cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Henny B Cakes	Cake		Littleton	New Hampshire	New Hampshire and Vermont	Littleton home bakery run by a White Mountains cake designer, creating custom wedding cakes for couples in New Hampshire and Vermont.	henny@hennybcakes.com		https://hennybcakes.com/	
+`,
+  },
 ];
 
 export default batches;
