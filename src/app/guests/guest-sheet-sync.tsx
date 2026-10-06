@@ -66,6 +66,7 @@ export function GuestSheetSync({
       changes={changes}
       canEdit={canEdit}
       noun={{ one: "guest", many: "guests" }}
+      description="Edit your guests in either place — changes go both ways when you sync, and RSVPs show up in the sheet."
       newSheetTitle={names.length === 2 ? `${names[0]} & ${names[1]} — guest list` : "Our guest list"}
       tabTitle="Guests"
       readGrid={(grid) => readGuestSheet(grid, partners)}

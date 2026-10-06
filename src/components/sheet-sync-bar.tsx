@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 import type { SheetLinkKind, SheetSyncSummary } from "@/lib/supabase/types";
 import type { SheetLinkView, SiteChanges } from "@/lib/sheet-link-server";
-import { buildSheetWrites, type SheetLayout, type SheetRow, type SyncConflict } from "@/lib/sheet-sync";
+import type { SheetSyncResult } from "@/lib/sheet-sync-server";
+import { buildSheetWrites, type SheetLayout, type SheetRow } from "@/lib/sheet-sync";
 import {
   addTab,
   cachedToken,
@@ -20,18 +21,7 @@ import {
 import { confirmSheetWrite, linkSheet, unlinkSheet } from "@/lib/sheet-link-actions";
 import { DrivePickerButton, type PickedDoc } from "@/components/drive-picker";
 
-export type SyncActionResult = {
-  error?: string;
-  decision?: { conflicts: SyncConflict[]; missing: { id: string; name: string }[] };
-  summary?: SheetSyncSummary;
-  write?: {
-    token: string;
-    matches: { line: number; id: string }[];
-    appendIds: string[];
-    deletedLines: number[];
-    final: Record<string, Record<string, string>>;
-  };
-};
+export type SyncActionResult = SheetSyncResult;
 
 type Stage = "idle" | "reading" | "applying" | "writing";
 
@@ -98,6 +88,7 @@ export function SheetSyncBar({
   changes,
   canEdit,
   noun,
+  description,
   newSheetTitle,
   tabTitle,
   createInWorkbook = false,
@@ -111,6 +102,8 @@ export function SheetSyncBar({
   changes: SiteChanges | null;
   canEdit: boolean;
   noun: { one: string; many: string };
+  /** The not-yet-linked card's one line on what linking does. */
+  description: string;
   newSheetTitle: string;
   tabTitle: string;
   /** Budget: a picked workbook gets a new tab rather than its own tab read. */
@@ -330,9 +323,7 @@ export function SheetSyncBar({
             <SheetIcon className="mt-0.5 h-4 w-4 shrink-0 text-forest" />
             <div>
               <p className="text-sm font-medium text-forest">Keep a Google Sheet in sync</p>
-              <p className="text-xs text-ink/60">
-                Edit your {noun.many} in either place — changes go both ways when you sync, and RSVPs show up in the sheet.
-              </p>
+              <p className="text-xs text-ink/60">{description}</p>
             </div>
           </div>
           <div className="flex flex-wrap items-center gap-2 sm:shrink-0">

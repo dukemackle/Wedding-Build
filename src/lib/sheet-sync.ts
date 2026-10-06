@@ -102,6 +102,7 @@ export function planSync({
   hasIdColumn,
   normalizeName,
   blankValues = {},
+  locked,
 }: {
   fields: string[];
   sheetRows: SheetRow[];
@@ -123,6 +124,12 @@ export function planSync({
    * written anything, not a disagreement with the site.
    */
   blankValues?: Record<string, string>;
+  /**
+   * Rows the sheet can't fully change: fields it may not edit (a budget
+   * category's name), and whether it may delete the row. A locked field is
+   * written back from the site; an undeletable row is put back.
+   */
+  locked?: (id: string) => { fields?: string[]; undeletable?: boolean } | undefined;
 }): SyncPlan {
   const siteById = new Map(siteRows.map((row) => [row.id, row]));
   const used = new Set<string>();
@@ -205,10 +212,15 @@ export function planSync({
     const changes: SyncValues = {};
     let siteNewer = false;
 
+    const fixed = locked?.(site.id)?.fields ?? [];
     for (const field of fields) {
       const sheet = row.values[field] ?? "";
       const ours = site.values[field] ?? "";
       if (sheet === ours) continue;
+      if (fixed.includes(field)) {
+        siteNewer = true;
+        continue;
+      }
 
       const base = before[field];
       let take: "sheet" | "site" | "conflict";
@@ -240,7 +252,7 @@ export function planSync({
   // Pass 4: site rows no sheet row claimed.
   for (const site of siteRows) {
     if (used.has(site.id)) continue;
-    if (snapshot[site.id]) {
+    if (snapshot[site.id] && !locked?.(site.id)?.undeletable) {
       plan.missingFromSheet.push({ id: site.id, name: site.name });
       if (deleteOnSite.has(site.id)) {
         plan.deleteOnSite.push(site.id);
@@ -335,7 +347,8 @@ export function buildSheetWrites({
 
   // New rows go under the last row of the grid, not under the last guest:
   // a total or a note at the bottom of the sheet shouldn't be overwritten.
-  let next = grid.length;
+  // An empty sheet still has its heading row, written above.
+  let next = Math.max(grid.length, 1);
   for (const id of appendIds) {
     const values = finalValues.get(id);
     if (!values) continue;
