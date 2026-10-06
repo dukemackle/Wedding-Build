@@ -54,6 +54,8 @@ export type VenueListingData = {
   spaces: VenueSpace[];
   preferredVendors: VenuePreferredVendor[];
   similarVenues: Venue[];
+  /** The claim form's preview: nothing that reports, tracks or links away, FAQs open. */
+  preview?: boolean;
 };
 
 export async function loadVenueListing(
@@ -145,7 +147,7 @@ function photosOf(venue: Venue): string[] {
 const card = "rounded-lg border border-hairline bg-card p-6 shadow-sm";
 
 export function VenueListing({ data }: { data: VenueListingData }) {
-  const { venue, signedIn, wedding, shortlistEntry, faqs, spaces, preferredVendors, similarVenues } = data;
+  const { venue, signedIn, wedding, shortlistEntry, faqs, spaces, preferredVendors, similarVenues, preview } = data;
 
   // "Must book from these" and "we recommend these" change a couple's budget
   // very differently, so they're shown apart, required first.
@@ -187,7 +189,7 @@ export function VenueListing({ data }: { data: VenueListingData }) {
             ) : (
               <p className="mt-1 text-xs text-forest/80">✓ {verifiedLabel(venue, "venue")}</p>
             ))}
-          {!venue.is_sample && (
+          {!venue.is_sample && !preview && (
             <div>
               <ReportListing listingType="venue" listingId={venue.id} />
             </div>
@@ -330,7 +332,7 @@ export function VenueListing({ data }: { data: VenueListingData }) {
               <h2 className="font-display text-xl font-semibold text-forest">Frequently asked questions</h2>
               <div className="mt-2">
                 {faqs.map((faq) => (
-                  <details key={faq.id} className="group border-b border-hairline py-3 last:border-b-0">
+                  <details key={faq.id} open={preview} className="group border-b border-hairline py-3 last:border-b-0">
                     <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-ink marker:hidden">
                       {faq.question}
                       <ChevronDownIcon className="h-4 w-4 shrink-0 text-ink/40 transition-transform group-open:rotate-180" />
@@ -350,7 +352,7 @@ export function VenueListing({ data }: { data: VenueListingData }) {
             />
           )}
 
-          {similarVenues.length > 0 && (
+          {similarVenues.length > 0 && !preview && (
             <div>
               <h2 className="font-display text-xl font-semibold text-forest">More venues like this</h2>
               <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
