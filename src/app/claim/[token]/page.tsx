@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { LeadsCallout } from "@/components/leads-callout";
+import { leadCounts } from "@/lib/listing-leads";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import type { VenueFaq, VenuePreferredVendor, VenueSpace, VenueSubmission } from "@/lib/supabase/types";
 import { SUGGESTED_VENUE_QUESTIONS } from "@/lib/wedding-options";
@@ -115,6 +117,8 @@ export default async function ClaimPage({ params }: { params: Promise<{ token: s
       };
   const isNew = venue.source === "self-listed";
 
+  const leads = await leadCounts("venue", venue.id);
+
   return (
     <main className="flex flex-1 flex-col items-center px-4 py-10 sm:px-6 sm:py-14">
       <div className={`w-full ${WIDE_WIDTH}`}>
@@ -140,6 +144,7 @@ export default async function ClaimPage({ params }: { params: Promise<{ token: s
             </>
           )}
         </p>
+        <LeadsCallout counts={leads} />
         {pending && (
           <p className="mt-4 max-w-2xl rounded-md border border-brass/40 bg-brass/10 px-4 py-3 text-sm text-ink/80">
             Your earlier changes are waiting for review. Anything you submit now replaces them.

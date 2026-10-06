@@ -38,16 +38,21 @@ export function InquiryForm({ venue, onDone }: { venue: Venue; onDone: () => voi
     >
       <input type="hidden" name="venue_id" value={venue.id} />
       <input type="hidden" name="venue_name" value={venue.name} />
-      <label className="flex flex-col gap-1 text-sm text-ink">
-        Send to
-        <input
-          type="email"
-          name="recipient_email"
-          required
-          defaultValue={venue.contact_email ?? ""}
-          className="rounded-md border border-hairline bg-parchment px-3 py-2 text-ink outline-none focus:border-forest"
-        />
-      </label>
+      {venue.contact_email ? (
+        <p className="text-sm text-ink/70">
+          Goes to {venue.name}. Their reply comes straight to your email.
+        </p>
+      ) : (
+        <label className="flex flex-col gap-1 text-sm text-ink">
+          Send to
+          <input
+            type="email"
+            name="recipient_email"
+            required
+            className="rounded-md border border-hairline bg-parchment px-3 py-2 text-ink outline-none focus:border-forest"
+          />
+        </label>
+      )}
       <label className="flex flex-col gap-1 text-sm text-ink">
         Message
         <textarea

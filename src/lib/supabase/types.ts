@@ -1,4 +1,5 @@
 import type { ClaimDetails, ClaimFaq, ClaimPreferredVendor, ClaimSpace } from "@/lib/venue-claim";
+import type { FieldSources } from "@/lib/field-sources";
 import type { VendorClaimDetails } from "@/lib/vendor-claim";
 
 export type Wedding = {
@@ -248,6 +249,8 @@ export type Venue = {
   /** When anyone last confirmed these details were true. */
   last_verified_at: string | null;
   verified_by: string | null;
+  /** Who vouches for each field, and when (0099). Not in every select. */
+  field_sources?: FieldSources;
   created_at: string;
 };
 
@@ -668,10 +671,18 @@ export type AssistantConversation = {
 export type FeedbackCategory = "bug" | "idea" | "other";
 export type FeedbackStatus = "new" | "read" | "resolved";
 
+export type FeedbackSource = "couple" | "venue" | "vendor";
+
 export type FeedbackSubmission = {
   id: string;
   wedding_id: string | null;
-  user_id: string;
+  /** Null for venue and vendor feedback, which comes in through a claim link. */
+  user_id: string | null;
+  source: FeedbackSource;
+  venue_id: string | null;
+  vendor_id: string | null;
+  /** "How easy was this to fill out?", 1-5, from the claim page. */
+  rating: number | null;
   category: FeedbackCategory;
   message: string;
   status: FeedbackStatus;

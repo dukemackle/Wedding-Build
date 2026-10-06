@@ -8,7 +8,7 @@ import { type Budget, newBudget, pinFromAddresses, pinUnpinned, withinBudget, wi
 import { ALL_VENDOR_BATCHES } from "@/lib/batches/vendors";
 import { ALL_VENUE_BATCHES } from "@/lib/batches/venues";
 import { parseVendorTable, type VendorImportValues } from "@/lib/vendor-import";
-import { importSourceId, parseVenueTable, type VenueImportValues } from "@/lib/venue-import";
+import { parseVenueTable, rowSourceId, type VenueImportValues } from "@/lib/venue-import";
 
 // The bundled-batch import, shared by the "Add them" banner on /admin (behind
 // requireAdmin) and /api/import-batches (behind BATCH_IMPORT_SECRET, for the
@@ -38,7 +38,7 @@ export async function insertImportedVenues(rows: VenueImportValues[]): Promise<s
       // pasted in rather than entered or claimed, and from which site. Left
       // unverified until someone actually checks the listing.
       source: "import",
-      source_id: importSourceId(values.website),
+      source_id: rowSourceId(values),
       field_sources: restamp(null, values, "batch"),
     })),
   );
@@ -54,7 +54,7 @@ export async function insertImportedVenues(rows: VenueImportValues[]): Promise<s
 const LOOKUP_PAGE = 1000;
 
 /**
- * Rows whose website isn't in `table` yet. Rows with no website are dropped:
+ * Rows whose website isn't in `table` yet. Rows with no key (a website, or a vendor's Instagram) are dropped:
  * nothing would mark them as added, so every call would insert them again.
  * Each page read is charged to `budget` when one is given.
  */
@@ -63,7 +63,7 @@ async function notYetListed<T extends { website: string | null }>(
   rows: T[],
   budget?: Budget,
 ): Promise<T[]> {
-  if (!rows.some((values) => importSourceId(values.website))) return [];
+  if (!rows.some((values) => rowSourceId(values))) return [];
 
   // Reads every listed website rather than asking about the batch's: the
   // batch ids went in the URL, all at once made it too long, and asking in
@@ -97,7 +97,7 @@ async function notYetListed<T extends { website: string | null }>(
   // with itself.
   const queued = new Set<string>();
   return rows.filter((values) => {
-    const id = importSourceId(values.website);
+    const id = rowSourceId(values);
     if (!id || present.has(id) || queued.has(id)) return false;
     queued.add(id);
     return true;
@@ -134,7 +134,7 @@ function bundledVendorRows(): VendorImportValues[] {
 /** Batch rows keyed by website, for matching to listings already in the database. */
 function keyed<T extends { website: string | null }>(rows: T[]): (T & { source_id: string })[] {
   return rows.flatMap((row) => {
-    const source_id = importSourceId(row.website);
+    const source_id = rowSourceId(row);
     return source_id ? [{ ...row, source_id }] : [];
   });
 }
@@ -221,7 +221,7 @@ export async function addBundledVendorRows(
           ...(address ? { address } : {}),
           is_sample: false,
           source: "import",
-          source_id: importSourceId(values.website),
+          source_id: rowSourceId(values),
           field_sources: restamp(null, { ...values, address }, "batch"),
         })),
       );

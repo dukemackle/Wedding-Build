@@ -20,7 +20,8 @@ const opt = (name) => {
   return i === -1 ? undefined : args[i + 1];
 };
 const flag = (name) => args.includes(`--${name}`);
-const STALE_DAYS = Number(opt("stale-days") ?? 180);
+// 30 days matches the app's contact-details cadence (src/lib/listing-freshness.ts).
+const STALE_DAYS = Number(opt("stale-days") ?? 30);
 const ROOT = resolve(import.meta.dirname, "../../..");
 
 // ---------- loading ----------
