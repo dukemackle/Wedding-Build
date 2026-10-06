@@ -1,10 +1,9 @@
 /**
- * A backstop, not a limit couples should ever meet: they can add as many
- * photos as they like, but one runaway upload loop shouldn't fill storage.
- * The backdrop only ever loads the photo showing and the one after it, so a
- * big set costs nothing on page load.
+ * How many photos can take turns behind the dashboard. The backdrop only
+ * loads the photo showing and the one after it, so a full set costs nothing
+ * extra on page load.
  */
-export const MAX_DASHBOARD_PHOTOS = 500;
+export const MAX_DASHBOARD_PHOTOS = 25;
 
 /** Focus point per photo URL, as [x, y] percentages. */
 export type PhotoFocus = Record<string, [number, number]>;

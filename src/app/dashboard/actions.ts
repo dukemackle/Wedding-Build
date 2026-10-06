@@ -193,7 +193,7 @@ export async function addDashboardPhoto(formData: FormData): Promise<{ error?: s
 
   const current = wedding.dashboard_photo_urls ?? [];
   if (current.length >= MAX_DASHBOARD_PHOTOS) {
-    return { error: `That's ${MAX_DASHBOARD_PHOTOS} photos — remove a few to add more.` };
+    return { error: `You can show up to ${MAX_DASHBOARD_PHOTOS} photos. Remove one to add another.` };
   }
 
   const photo = formData.get("photo") as File | null;

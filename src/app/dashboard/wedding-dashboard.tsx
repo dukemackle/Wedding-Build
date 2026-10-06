@@ -288,8 +288,8 @@ function PhotosButton({ wedding }: { wedding: Wedding }) {
       {open && (
         <div className="absolute left-0 top-full z-20 mt-2 w-[min(24rem,calc(100vw-3rem))] rounded-lg border border-hairline bg-card p-4 text-left shadow-lg">
           <p className="text-xs text-ink/60">
-            Photos of the two of you, shown behind your dashboard one at a time. Add as many as
-            you like.
+            Photos of the two of you, shown behind your dashboard one at a time. Up to{" "}
+            {MAX_DASHBOARD_PHOTOS}.
             {photos.length === 0 && wedding.hero_photo_url && (
               <> Until you add some, it shows your guest site banner.</>
             )}
@@ -361,7 +361,7 @@ function PhotosButton({ wedding }: { wedding: Wedding }) {
               />
             </label>
             <span className="text-xs text-ink/50">
-              {photos.length > 0 && `${photos.length} photo${photos.length === 1 ? "" : "s"}`}
+              {room > 0 ? `${room} more` : "That's the most it holds"}
             </span>
           </div>
           {error && <p className="mt-2 text-sm text-red-800">{error}</p>}
@@ -431,7 +431,7 @@ function WeddingHero({
         >
           <div className="min-w-0 [text-shadow:0_2px_18px_rgba(0,0,0,0.35)]">
             {venueLine && (
-              <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
+              <p className="font-mono-numbers text-xs font-medium uppercase tracking-[0.2em] text-white/90 [text-shadow:0_1px_3px_rgba(0,0,0,0.6)]">
                 {venueLine}
               </p>
             )}

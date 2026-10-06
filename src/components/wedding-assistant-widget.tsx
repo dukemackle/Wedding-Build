@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, useTransition } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   applyAssistantProposal,
   askWeddingAssistant,
@@ -409,6 +409,9 @@ export function AssistantChat({
 export function WeddingAssistantWidget() {
   const { open, setOpen } = useAssistant();
   const [expanded, setExpanded] = useState(false);
+  // The dashboard has its own "Ask Wren" box below the planning boxes, and the
+  // floating bubble only sat on top of the checklist box there.
+  const onDashboard = usePathname() === "/dashboard";
 
   // Expanded is two different things: on a phone the chat takes the whole
   // screen (there's no room for a bigger floating box), on desktop the panel
@@ -432,6 +435,7 @@ export function WeddingAssistantWidget() {
       <button
         type="button"
         onClick={() => setOpen(!open)}
+        hidden={onDashboard && !open}
         aria-label={open ? "Close Wren, your wedding assistant" : "Open Wren, your wedding assistant"}
         className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-wren bg-card text-ink shadow-lg hover:bg-wren-soft"
       >
