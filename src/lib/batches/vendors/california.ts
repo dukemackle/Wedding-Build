@@ -88,7 +88,7 @@ Eliana Strings	Music		San Diego	California	San Diego	San Diego string ensemble f
 Glam On The Run	Hair & Makeup		San Diego	California	San Diego area, including La Jolla, Carlsbad and Del Mar	Mobile team of licensed stylists and certified make-up artists doing on-location bridal hair and airbrush or traditional make-up.		917-743-0887	https://www.glamontherun.com	https://www.instagram.com/glam_on_the_run/
 Del Beauty Box	Hair & Makeup	910 Camino Del Mar Unit C	Del Mar	California	Del Mar and coastal San Diego	Del Mar beauty studio specialising in soft, skin-focused bridal make-up and hair styling for brides and their wedding parties.		(858) 259-4247	https://delbeautybox.com	https://www.instagram.com/delbeautybox/
 Makeup by Dali	Hair & Makeup		San Diego	California	Southern California	Freelance San Diego make-up artist with over seven years of experience, focused on long-wearing make-up for weddings and elopements.	dalisatoro.mbd@gmail.com	(619) 736-8649	https://makeupbydali.com	https://www.instagram.com/makeup.by.dali/
-Mili's Sweets	Cake		San Diego	California	San Diego County	Home-based cake maker since 2010 making custom wedding cakes and dessert tables, all peanut and tree-nut free, with vegan and gluten-free options.			https://milissweets.com	https://www.instagram.com/milis_sweets/`,
+Mili's Sweets	Cake		San Diego	California	San Diego County	Home-based cake maker since 2010 making custom wedding cakes and dessert tables, all peanut and tree-nut free, with vegan and gluten-free options.	sweetsbymili@gmail.com	(760) 571-9876	https://milissweets.com	https://www.instagram.com/milis_sweets/`,
   },
   {
     name: "Sacramento: photography, planning, florals, music, catering, hair and makeup, cake and videography",
