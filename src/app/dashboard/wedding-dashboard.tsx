@@ -195,6 +195,8 @@ function PhotosButton({ wedding }: { wedding: Wedding }) {
   const [open, setOpen] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
   const [isPending, startTransition] = useTransition();
+  // "3 of 12" while a batch goes up, one at a time.
+  const [progress, setProgress] = useState<{ done: number; total: number } | null>(null);
   const ref = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const photos = wedding.dashboard_photo_urls ?? [];
@@ -226,7 +228,8 @@ function PhotosButton({ wedding }: { wedding: Wedding }) {
     const picked = Array.from(files ?? []).slice(0, room);
     if (picked.length === 0) return;
     startTransition(async () => {
-      for (const file of picked) {
+      for (const [i, file] of picked.entries()) {
+        setProgress({ done: i + 1, total: picked.length });
         const formData = new FormData();
         formData.set("photo", await shrinkImage(file));
         const result = await addDashboardPhoto(formData);
@@ -236,6 +239,7 @@ function PhotosButton({ wedding }: { wedding: Wedding }) {
         }
         setError(undefined);
       }
+      setProgress(null);
       if (inputRef.current) inputRef.current.value = "";
     });
   }
@@ -284,15 +288,15 @@ function PhotosButton({ wedding }: { wedding: Wedding }) {
       {open && (
         <div className="absolute left-0 top-full z-20 mt-2 w-[min(24rem,calc(100vw-3rem))] rounded-lg border border-hairline bg-card p-4 text-left shadow-lg">
           <p className="text-xs text-ink/60">
-            Photos of the two of you, shown behind your dashboard one at a time. Up to{" "}
-            {MAX_DASHBOARD_PHOTOS}.
+            Photos of the two of you, shown behind your dashboard one at a time. Add as many as
+            you like.
             {photos.length === 0 && wedding.hero_photo_url && (
               <> Until you add some, it shows your guest site banner.</>
             )}
           </p>
 
           {photos.length > 0 && (
-            <ul className="mt-3 grid grid-cols-4 gap-2">
+            <ul className="-mx-1 mt-3 grid max-h-[min(18rem,40vh)] grid-cols-4 gap-2 overflow-y-auto px-1 pt-1.5">
               {photos.map((url) => (
                 <li key={url} className="group relative aspect-square">
                   <button
@@ -345,7 +349,7 @@ function PhotosButton({ wedding }: { wedding: Wedding }) {
                 room > 0 && !isPending ? "cursor-pointer hover:bg-forest/90" : "opacity-60"
               }`}
             >
-              {isPending ? "Uploading…" : "Choose photos"}
+              {progress ? `Uploading ${progress.done} of ${progress.total}…` : isPending ? "Saving…" : "Choose photos"}
               <input
                 ref={inputRef}
                 type="file"
@@ -357,7 +361,7 @@ function PhotosButton({ wedding }: { wedding: Wedding }) {
               />
             </label>
             <span className="text-xs text-ink/50">
-              {room > 0 ? `${room} more` : "That's the most it holds"}
+              {photos.length > 0 && `${photos.length} photo${photos.length === 1 ? "" : "s"}`}
             </span>
           </div>
           {error && <p className="mt-2 text-sm text-red-800">{error}</p>}
