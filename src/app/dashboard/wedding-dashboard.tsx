@@ -375,7 +375,11 @@ function WeddingHero({
 
         <div
           className={`relative flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between ${
-            onPhoto ? "pt-20 pb-2 sm:pt-28 lg:px-2 lg:pt-24" : "p-6 pt-12 sm:p-10 lg:px-10 lg:py-8"
+            onPhoto
+              ? // The photo gets the first screen: on desktop the names sit
+                // low and the cards start below the fold's midpoint.
+                "pt-20 pb-2 sm:pt-28 lg:min-h-[calc(62vh-6rem)] lg:px-2 lg:pt-24"
+              : "p-6 pt-12 sm:p-10 lg:px-10 lg:py-8"
           }`}
         >
           <div className="min-w-0 [text-shadow:0_2px_18px_rgba(0,0,0,0.35)]">
@@ -405,7 +409,7 @@ function WeddingHero({
             </div>
           </div>
 
-          <div className="flex flex-col gap-5 rounded-xl border border-white/20 bg-[#14203d]/45 p-5 backdrop-blur-md lg:min-w-[380px] lg:py-4">
+          <div className="flex flex-col gap-5 rounded-xl border border-white/15 bg-[#14203d]/85 p-5 shadow-lg backdrop-blur-md lg:min-w-[380px] lg:py-4">
             {wedding.wedding_date ? (
               <>
                 <MilestoneBird weddingDate={wedding.wedding_date} />
