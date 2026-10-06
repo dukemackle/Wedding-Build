@@ -27,6 +27,23 @@ Pike's Waterfront Lodge	1850 Hoselton Rd	Fairbanks	Alaska			Beach / Waterfront	I
 Land's End Resort	4786 Homer Spit Rd	Homer	Alaska			Beach / Waterfront	Indoor & Outdoor	200		Hotel at the tip of the Homer Spit on Kachemak Bay, with waterfront event space, bridal suites and beach houses for guests.		907-235-0410	https://www.lands-end-resort.com/weddings/
 Stillpoint Lodge	46877 Stillpoint Trail	Halibut Cove	Alaska			Beach / Waterfront	Indoor & Outdoor			Boat- or floatplane-access lodge with private cabins across Kachemak Bay from Homer, hosting small weddings for groups up to about 28 overnight guests.		907-531-5764	https://stillpointlodge.com/alaska-events`,
   },
+  {
+    name: "Kenai Peninsula and Interior Alaska",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Alaska Legends Kenai River Lodge	37288 Legends Circle	Soldotna	Alaska			Beach / Waterfront	Indoor & Outdoor			Riverside lodge on the Kenai rented whole for weddings, with a commercial kitchen, indoor and outdoor fireplaces, a fishing dock and beds for 50 or more.	info@kenailegends.com	907-565-9600	https://kenailegends.com/weddings/
+Cusack's on the Kenai	34135 Keystone Dr	Soldotna	Alaska			Beach / Waterfront	Indoor & Outdoor	250		Hand-sewn spruce log lodge on the Kenai River with a lawn ceremony site at the water's edge, a 40x60 clear tent and seven ensuite bedrooms.		907-394-1120	https://cusacksonthekenai.com/weddings
+The Lodge at Lone Moose	47696 Funny River Rd	Soldotna	Alaska			Barn / Rustic	Indoor & Outdoor	150		Family-run wooded lodge on the Kenai River with 3,000 sq ft of event space whose glass garage doors open onto a deck and lawn, plus a bridal suite loft.	thelodgeatlonemoose@gmail.com	409-291-9237	https://thelodgeatlonemoose.com/
+Alaska Heavenly Lodge	34950 Blakley Rd	Cooper Landing	Alaska			Garden / Outdoor	Outdoor	50		Private Cooper Landing lodge of hand-hewn log cabins with lawns for the ceremony and reception, a fire pit and a honeymoon suite with hot tub and sauna.		907-599-0102	https://www.alaskaheavenly.com/weddings
+The Inn at Tern Lake	41843 Seward Hwy	Moose Pass	Alaska			Ballroom / Hotel				Moose Pass inn on the Seward Highway looking over the Kenai Mountains, with guest rooms on site for the wedding party.	reservations@innatternlake.com	907-288-3667	https://innatternlake.com/weddings.html
+Trail Lake Lodge		Moose Pass	Alaska			Beach / Waterfront	Indoor & Outdoor	50		Lakeside lodge on Upper Trail Lake with a burl-wood pavilion, deck and dock and an east lawn for vows, hosting small weddings and elopements since 1989.	moosepass@alaskan.com	907-288-3101	https://traillakelodge.com/weddings/
+Driftwood Inn	135 West Bunnell Ave	Homer	Alaska			Beach / Waterfront	Indoor & Outdoor		Classic	Historic Homer inn above Bishop's Beach where a three-night package covers vows over Kachemak Bay and a lodge and cottage for the wedding party.	alaskainfo@thedriftwoodinn.com	907-235-8019	https://thedriftwoodinn.com/alaska-weddings/
+AK Diamond J Ranch	33675 Perkins Rd	Homer	Alaska			Barn / Rustic	Indoor & Outdoor			Peony farm and horse ranch on 25 acres outside Homer with two barns, a pavilion and a remodelled house for weekend-long weddings.	info@akdiamondj.com	907-302-1017	https://www.akdiamondj.com/
+Second Star Mansion	5260 Kachemak Dr	Homer	Alaska			Historic / Estate	Indoor & Outdoor	120		Oceanfront mansion of about 17,000 sq ft above Kachemak Bay with a 3,000 sq ft deck, indoor pool, theatre room and tables and chairs included.			https://www.alaskaluxuryadventures.com/Weddings-Homer.html
+The Lodge at Otter Cove		Homer	Alaska			Beach / Waterfront	Indoor & Outdoor			Boat-access lodge on a private beach in Kachemak Bay State Park, with remodelled cabins and chef-prepared meals for intimate weddings.		907-299-6450	https://lodgeottercove.com/
+Eaglecrest Ski Area		Juneau	Alaska			Barn / Rustic	Indoor			Juneau's city-owned ski area, renting the Fish Creek Lodge plus board room and mezzanine spaces for weddings in the mountains above town.	info@skieaglecrest.com	907-790-2000	https://skieaglecrest.com/news/host-your-next-event-at-eaglecrest-ski-area/
+Huffman Manor		Fairbanks	Alaska			Historic / Estate	Indoor & Outdoor			Six-bedroom Tudor mansion of 6,500 sq ft on three private acres in Fairbanks, with a library, pub room, chef's kitchen and a garden for vows.		907-388-3330	https://huffmanmanor.com/
+Wedgewood Resort		Fairbanks	Alaska			Ballroom / Hotel	Indoor			Fountainhead resort on 105 acres beside a wildlife sanctuary, with the Borealis Ballroom, Gazebo Room and an antique auto museum for events.			https://www.fountainheadhotels.com/wedgewood-resort/meetings-weddings`,
+  },
 ];
 
 export default batches;
