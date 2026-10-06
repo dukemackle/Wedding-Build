@@ -66,6 +66,44 @@ Ardsley Park Productions	Videography		Savannah	Georgia	Savannah and travelling e
 Square City Productions	Videography		Savannah	Georgia		Savannah video team making wedding films on 4K cinema cameras, with drone footage in highlight films and delivery in a digital album.			https://squarecityproductions.com/	https://www.instagram.com/squarecityproductions/
 `,
   },
+  {
+    name: "Savannah: videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Savannah Wedding Films	Videography		Savannah	Georgia	Savannah, Charleston, Hilton Head and beyond	Savannah studio led by filmmaker Trevor Jenkins, making handcrafted wedding videos and photos for Lowcountry and coastal Georgia couples.	savannahweddingfilms@gmail.com		https://www.savannahweddingfilms.com/	https://www.instagram.com/savannahweddingfilms/
+`,
+  },
+  {
+    name: "Athens: photography, planning, florals, music, catering, hair and makeup, cake and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Claire Diana Photography	Photography		Athens	Georgia	Athens, Atlanta and beyond	Full-time Athens photographer, formerly shooting UGA football for the local paper, who covers weddings alongside senior and boudoir portraits.			https://clairedianaphotography.com/	https://www.instagram.com/claire_diana/
+Blane Marable Photography	Photography		Athens	Georgia	Athens and Atlanta	Long-running Athens wedding photographer covering engagements, bridal portraits and the wedding day itself across Athens and Atlanta.			https://www.blanemarable.com/	
+Jackson & June Events	Planning		Athens	Georgia	Athens and Atlanta	Planning studio offering full, partial and month-of coordination, with a soft spot for walkable downtown Athens wedding weekends.			https://jacksonandjune.com/athens-weddings	https://www.instagram.com/jacksonandjuneevents/
+Brett Glenn Floral Design	Florals	1054 S Lumpkin St	Athens	Georgia	Athens and Oconee County	Full-service florist on South Lumpkin Street designing flowers for weddings, corporate events and social gatherings around Athens.		706-227-9937	https://www.brettglenn.com/	
+Flowerland	Florals	823 Prince Ave	Athens	Georgia		Prince Avenue flower shop making bridal bouquets, centrepieces, head-table garlands and floral arches in styles from cascading to modern.	flowerlandathens@gmail.com	(706) 549-1884	https://www.flowerlandathensga.com/wedding-flowers	
+Classic City Confections	Cake		Athens	Georgia	Athens and Northeast Georgia	Athens wedding cake maker offering buttercream and fondant tiers priced per serving, plus a range of dessert-table sweets by consultation.	classiccityconfections@gmail.com		https://classiccityconfections.com/	
+Sound Insight	Music		Athens	Georgia	Athens and Atlanta	DJ company for Athens and Atlanta weddings that also handles ceremony sound, with wireless mics for officiants and readers.	events@soundinsightdj.com	706-927-5261	https://www.soundinsightdj.com/weddings	https://www.instagram.com/soundinsightpro/
+Nightbird	Music		Athens	Georgia	Atlanta, Athens and North Georgia	DJ and photo booth crew, formerly Athens DJ Service, that assigns your DJ 90 days out and joins two planning calls before the day.	info@nightbirdent.com	(706) 715-3371	https://www.nightbirdent.com/	https://www.instagram.com/nightbirdent/
+Bombshell Creations	Hair & Makeup	688 S Milledge Avenue	Athens	Georgia	Athens, Atlanta, Savannah and the Southeast	On-site hair and makeup team based in Athens, styling brides, bridal parties and grooms at venues across Georgia and the Carolinas.		(706) 714-1907	https://bombshellcreations.com/	https://www.instagram.com/bombshellcreationsga/
+CraigFilm	Videography		Athens	Georgia		Athens video and photo studio filming wedding days, with 360 VR coverage and live streaming for guests who can't attend in person.	info@craigfilm.com		https://craigfilm.com/	https://www.instagram.com/craigcarmean/
+Trumps Catering	Catering	2026 South Milledge Avenue, Suite B	Athens	Georgia	Athens and surrounding counties	Athens caterer since 1986, grown from a neighbourhood bistro, handling receptions, rehearsal dinners and bridal luncheons.	sales@trumpscatering.com	(706) 546-1320	https://www.trumpscatering.com/	https://www.instagram.com/trumpscatering/
+Epting Events	Catering	1430 N Chase St	Athens	Georgia	Athens, Atlanta and beyond	Athens-headquartered catering and event design company with decades of experience, also catering weddings in Atlanta.	info@eptingevents.com	706.353.1913	https://www.eptingevents.com/	https://www.instagram.com/eptingevents/
+`,
+  },
+  {
+    name: "North Georgia Mountains: photography, planning, florals, music, catering, hair and makeup, cake and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+River Underwood Photography	Photography		Blue Ridge	Georgia	Blue Ridge, Blairsville, Ellijay and the North Georgia mountains	Blue Ridge photographer covering weddings and events as well as family portraits and real estate around the mountain towns.	sales@riverunderwoodphotography.com	706-455-6736	https://www.riverunderwoodphotography.com/	https://www.instagram.com/riverunderwoodphotography/
+Appalachian Wedding Photography	Photography		Blue Ridge	Georgia	Blue Ridge and travel	Blue Ridge wedding and elopement photographer Emilie Gates, documenting mountain weddings with a Leave No Trace approach to outdoor shoots.	info@appalachianweddingphotography.com		https://appalachianweddingphotography.com/	https://www.instagram.com/appalachianweddingphotography/
+Unique Events	Planning		Blairsville	Georgia	Blue Ridge, Blairsville and the North Georgia mountains	Blairsville planning and design firm led by Andrea, coordinating mountain weddings and connecting couples with trusted local vendors.	andrea.uniqueevents@gmail.com	706.851.9106	https://www.uniqueevents.org/	https://www.instagram.com/uniqueeventsbyandrea/
+Ever Weddings	Planning		Talking Rock	Georgia	North Georgia, from Dahlonega to Chattanooga	Day-of coordinator Michelle, based in Talking Rock, running wedding timelines and vendors for couples marrying across the North Georgia mountains.			https://everweddings.com/	https://www.instagram.com/everweddings/
+North Georgia Weddings & Events	Music		Commerce	Georgia	North Georgia and Atlanta	DJ and MC company covering Blue Ridge, Dahlonega and other mountain venues, with lighting and photo booth hire alongside the music.	info@northgeorgiaweddingsandevents.com	(706) 383-9883	https://www.northgeorgiaweddingsandevents.com/	https://www.instagram.com/northgeorgiaweddingsandevents/
+Smith House Catering	Catering	84 South Chestatee St	Dahlonega	Georgia	Dahlonega and nearby venues	Off-site catering from Dahlonega's long-running Smith House restaurant, whose staff deliver Southern dishes and set up the buffet on site.	info@smithhouse.com	706.725.8330	https://smithhouse.com/cater-to-location/	
+Styles by Sydney	Hair & Makeup		Dawsonville	Georgia	All of Georgia and destination weddings	Dawsonville-based stylist offering on-site bridal hair and makeup for weddings in North Georgia, Atlanta and further afield.	info@stylesbysydney.com	512-738-7097	https://stylesbysydney.com/	
+Jamie Bakes	Cake		Dahlonega	Georgia	North Georgia wedding venues	Boutique cakery in Dahlonega making wedding cakes, and a preferred vendor at a number of North Georgia mountain venues.	jamiebakes706@gmail.com		https://www.jamiebakes.net/	https://www.instagram.com/jamiebakes706/
+Sherry's Sweets-n-Eats	Cake		Dahlonega	Georgia		Licensed cottage bakery in Dahlonega making custom celebration and wedding cakes to order for North Georgia couples.			https://www.sherryssweetsneats.com/	https://www.instagram.com/sherrys.sweetsn.eats/
+Grant Media	Videography		Dahlonega	Georgia		Dahlonega video production company with more than 15 years behind the camera, filming weddings and events as well as corporate work.	ben@grantmediaga.com	(404) 376-9408	https://www.grantmediaga.com/	https://www.instagram.com/grantmediaga/
+`,
+  },
 ];
 
 export default batches;

@@ -77,7 +77,7 @@ if (!existsSync(new URL("../node_modules/@supabase/supabase-js", import.meta.url
 
 const { ALL_VENUE_BATCHES } = await import("../src/lib/batches/venues/index.ts");
 const { ALL_VENDOR_BATCHES } = await import("../src/lib/batches/vendors/index.ts");
-const { parseVenueTable, importSourceId } = await import("../src/lib/venue-import.ts");
+const { parseVenueTable, rowSourceId } = await import("../src/lib/venue-import.ts");
 const { parseVendorTable } = await import("../src/lib/vendor-import.ts");
 const { geocode, censusPlacePin } = await import("../src/lib/listing-pin.ts");
 const { lookUpAddress } = await import("../src/lib/address-finder.ts");
@@ -297,11 +297,11 @@ try {
   for (const [table, { batches, parse, spread }] of Object.entries(TABLES)) {
     const rows = batches.flatMap((batch) => parse(batch.tsv).rows).filter((row) => row.errors.length === 0).map((row) => row.values);
 
-    // 1. New rows. Rows with no website are skipped: nothing would mark them as
+    // 1. New rows. Rows with no website (or, for vendors, Instagram) are skipped: nothing would mark them as
     //    added, so every run would insert them again.
     const present = new Set(listed[table].map((row) => row.source_id).filter(Boolean));
     const fresh = rows.filter((row) => {
-      const id = importSourceId(row.website);
+      const id = rowSourceId(row);
       if (!id || present.has(id)) return false;
       present.add(id);
       return true;
@@ -324,9 +324,9 @@ try {
     // 2. Listed rows whose batch row now has an address, while theirs is blank.
     //    Never a listing whose own address is set: a claimed one keeps its own.
     const unaddressed = new Map(listed[table].filter((row) => !row.address && row.source_id).map((row) => [row.source_id, row]));
-    const movable = rows.filter((row) => row.address && unaddressed.has(importSourceId(row.website)));
+    const movable = rows.filter((row) => row.address && unaddressed.has(rowSourceId(row)));
     const moves = await pool(movable, 8, async (row) => {
-      const listing = unaddressed.get(importSourceId(row.website));
+      const listing = unaddressed.get(rowSourceId(row));
       const hit = await geocodeAny(row);
       const here = await town.pin(row);
       const near = hit && (!here || km(hit, here) <= MAX_KM);

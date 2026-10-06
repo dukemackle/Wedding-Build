@@ -125,6 +125,16 @@ export function importSourceId(website: string | null): string | null {
   );
 }
 
+/**
+ * The de-dupe key for a batch row: its website, or for a vendor listed from
+ * Instagram alone (a "Basic listing"), its Instagram URL.
+ */
+export function rowSourceId(row: { website?: unknown; instagram_url?: unknown }): string | null {
+  const site = typeof row.website === "string" && row.website ? row.website : null;
+  const insta = typeof row.instagram_url === "string" && row.instagram_url ? row.instagram_url : null;
+  return importSourceId(site ?? insta);
+}
+
 export function parseVenueTable(text: string): VenueImportParse {
   const table = readTable(text);
   if (table.length === 0) {

@@ -8,7 +8,10 @@ import { createClient } from "@supabase/supabase-js";
 // wedding so the normal RLS-scoped client can't see it -- that action does
 // its own checks before writing anything -- and to read the emails of a
 // wedding's members for the dashboard's "Who's planning" list, after the
-// RLS-scoped client has shown the caller is on that wedding. Never import
+// RLS-scoped client has shown the caller is on that wedding. Also, for
+// anonymous public forms that write only fixed shapes after validating them:
+// RSVP notifications (the couple's email), listing contact-click counts,
+// listing reports, and the lead counts shown on claim pages. Never import
 // this from client code.
 export function createAdminSupabaseClient() {
   return createClient(
