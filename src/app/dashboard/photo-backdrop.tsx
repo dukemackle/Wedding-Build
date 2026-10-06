@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
+import { focusPosition, type PhotoFocus } from "@/lib/dashboard-photos";
 
 const SECONDS_PER_PHOTO = 8;
 
@@ -18,7 +19,7 @@ const noSubscribe = () => () => {};
  * later in the document, so it covers the glow. Under
  * reduced motion the photos still change, just without the fade or drift.
  */
-export function PhotoBackdrop({ photos }: { photos: string[] }) {
+export function PhotoBackdrop({ photos, focus }: { photos: string[]; focus?: PhotoFocus }) {
   // False during server render, true on the client: there's no <body> to
   // portal into until then.
   const mounted = useSyncExternalStore(
@@ -55,6 +56,8 @@ export function PhotoBackdrop({ photos }: { photos: string[] }) {
             priority={i === 0}
             sizes="100vw"
             className="hero-kenburns object-cover"
+            // Crop around the couple's chosen spot, and zoom in towards it.
+            style={{ objectPosition: focusPosition(focus, src), transformOrigin: focusPosition(focus, src) }}
           />
         </div>
       ))}

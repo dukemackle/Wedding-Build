@@ -233,6 +233,37 @@ export async function addDashboardPhoto(formData: FormData): Promise<{ error?: s
   return {};
 }
 
+/** Sets where a dashboard photo is centred when cropped, as x/y percentages. */
+export async function setDashboardPhotoFocus(
+  photoUrl: string,
+  x: number,
+  y: number,
+): Promise<{ error?: string }> {
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
+
+  if (!wedding) {
+    return { error: noWedding };
+  }
+  if (!(wedding.dashboard_photo_urls ?? []).includes(photoUrl)) {
+    return { error: "That photo isn't on your dashboard any more." };
+  }
+
+  const clamp = (n: number) => (Number.isFinite(n) ? Math.round(Math.min(100, Math.max(0, n))) : 50);
+  const { error } = await supabase
+    .from("weddings")
+    .update({
+      dashboard_photo_focus: { ...(wedding.dashboard_photo_focus ?? {}), [photoUrl]: [clamp(x), clamp(y)] },
+    })
+    .eq("id", wedding.id);
+
+  if (error) {
+    return { error: error.message };
+  }
+
+  revalidatePath("/dashboard");
+  return {};
+}
+
 export async function removeDashboardPhoto(photoUrl: string): Promise<{ error?: string }> {
   const { supabase, wedding, noWedding } = await requireEditableWedding();
 
@@ -244,6 +275,9 @@ export async function removeDashboardPhoto(photoUrl: string): Promise<{ error?: 
     .from("weddings")
     .update({
       dashboard_photo_urls: (wedding.dashboard_photo_urls ?? []).filter((url) => url !== photoUrl),
+      dashboard_photo_focus: Object.fromEntries(
+        Object.entries(wedding.dashboard_photo_focus ?? {}).filter(([url]) => url !== photoUrl),
+      ),
     })
     .eq("id", wedding.id);
 
