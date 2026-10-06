@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
+import { Children, useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 
 /**
  * The browse-and-map layout shared by Venues and Vendors.
@@ -23,6 +23,8 @@ const SHEET_PEEK = 0.5;
 const SHEET_FULL = 0.92;
 /** Past this fraction of the travel, a drag completes instead of springing back. */
 const SNAP_AT = 0.5;
+/** Cards drawn at a time; more load as the list scrolls to its end. */
+const PAGE_SIZE = 24;
 
 export type SearchShellView = {
   key: string;
@@ -47,6 +49,13 @@ export type SearchShellProps = {
    */
   views?: SearchShellView[];
   resultCount: number;
+  /**
+   * Everything the filters match, when the list is narrowed further to what
+   * is in the map's view -- the heading then reads "312 of 4,076 vendors".
+   */
+  totalCount?: number;
+  /** Changes whenever the results do, to start the list back at page one. */
+  pageKey?: string;
   /** Singular; pluralised with a trailing "s". */
   resultNoun: string;
   map: ReactNode;
@@ -62,6 +71,8 @@ export function SearchShell({
   onClearFilters,
   views = [],
   resultCount,
+  totalCount,
+  pageKey,
   resultNoun,
   map,
   empty,
@@ -122,14 +133,16 @@ export function SearchShell({
   const view = views.find((v) => v.key === activeView) ?? null;
   const heading = view
     ? `${view.count} ${view.label.toLowerCase()}`
-    : `${resultCount} ${resultNoun}${resultCount === 1 ? "" : "s"}`;
+    : totalCount != null && totalCount !== resultCount
+      ? `${resultCount.toLocaleString()} of ${totalCount.toLocaleString()} ${resultNoun}s`
+      : `${resultCount.toLocaleString()} ${resultNoun}${resultCount === 1 ? "" : "s"}`;
 
   const results = view ? (
     view.panel
   ) : resultCount === 0 ? (
     empty
   ) : (
-    <div className="grid grid-cols-1 gap-3 xl:grid-cols-2">{children}</div>
+    <PagedGrid key={pageKey}>{children}</PagedGrid>
   );
 
   function toggleView(key: string) {
@@ -198,6 +211,48 @@ export function SearchShell({
         </ResultsPane>
       </div>
     </div>
+  );
+}
+
+/**
+ * The result cards, a page at a time. Thousands of cards with photos were half
+ * of what made the browse screen lag; the next page loads as the end of the
+ * list scrolls into view, with a button as the fallback.
+ */
+function PagedGrid({ children }: { children: ReactNode }) {
+  const items = Children.toArray(children);
+  const [shown, setShown] = useState(PAGE_SIZE);
+  const sentinel = useRef<HTMLDivElement>(null);
+  const more = items.length > shown;
+
+  useEffect(() => {
+    const el = sentinel.current;
+    if (!el || !more) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) setShown((n) => n + PAGE_SIZE);
+      },
+      { rootMargin: "400px 0px" },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [more, shown]);
+
+  return (
+    <>
+      <div className="grid grid-cols-1 gap-3 xl:grid-cols-2">{items.slice(0, shown)}</div>
+      {more && (
+        <div ref={sentinel} className="flex justify-center py-4">
+          <button
+            type="button"
+            onClick={() => setShown((n) => n + PAGE_SIZE)}
+            className="rounded-full border border-hairline bg-card px-4 py-1.5 text-sm text-forest hover:border-forest"
+          >
+            Show more
+          </button>
+        </div>
+      )}
+    </>
   );
 }
 

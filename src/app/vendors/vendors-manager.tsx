@@ -3,7 +3,8 @@
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useMemo, useRef, useState, useTransition } from "react";
+import { createElement, useEffect, useMemo, useRef, useState, useTransition } from "react";
+import type { ComponentType, SVGProps } from "react";
 import type { Vendor, VendorFavoriteEntry, VendorInquiry, VendorInquiryStatus } from "@/lib/supabase/types";
 import { STYLE_TIERS } from "@/lib/wedding-options";
 import {
@@ -20,6 +21,25 @@ import { VendorFollowUps } from "./vendor-follow-ups";
 import { BirdEmptyState } from "@/components/wren-moments";
 import { SignupCardButton, SignupHeart } from "@/components/public-nav";
 import { isBasicListing, vendorHref } from "@/lib/public-listings";
+import { useSavedFilters } from "@/lib/use-saved-filters";
+import { isInView, viewKey, type MapView } from "@/lib/map-view";
+import {
+  AttireIcon,
+  BarIcon,
+  BuntingIcon,
+  CakeIcon,
+  CateringIcon,
+  FloralsIcon,
+  HairMakeupIcon,
+  MusicIcon,
+  OfficiantIcon,
+  PhotographyIcon,
+  PlannerIcon,
+  StationeryIcon,
+  TransportationIcon,
+  VendorsIcon,
+  VideographyIcon,
+} from "@/components/icons";
 
 const VendorsMap = dynamic(() => import("./vendors-map").then((m) => m.VendorsMap), {
   ssr: false,
@@ -29,6 +49,33 @@ const VendorsMap = dynamic(() => import("./vendors-map").then((m) => m.VendorsMa
     </div>
   ),
 });
+
+type IconComponent = ComponentType<SVGProps<SVGSVGElement>>;
+
+/** The line icon a photo-less vendor card shows, keyed by listing category. */
+const VENDOR_CATEGORY_ICONS: Record<string, IconComponent> = {
+  Catering: CateringIcon,
+  Bar: BarIcon,
+  Photography: PhotographyIcon,
+  Videography: VideographyIcon,
+  Florals: FloralsIcon,
+  Music: MusicIcon,
+  Cake: CakeIcon,
+  Desserts: CakeIcon,
+  Planning: PlannerIcon,
+  Transportation: TransportationIcon,
+  "Hair & Makeup": HairMakeupIcon,
+  Officiant: OfficiantIcon,
+  "Stationery & Invitations": StationeryIcon,
+  "Decor & Lighting": BuntingIcon,
+  Rentals: BuntingIcon,
+  "Photo Booth": PhotographyIcon,
+  "Bridal & Formalwear": AttireIcon,
+};
+
+function vendorCategoryIcon(category: string | null): IconComponent {
+  return (category && VENDOR_CATEGORY_ICONS[category]) || VendorsIcon;
+}
 
 const STATUSES: VendorInquiryStatus[] = ["sent", "responded", "booked", "declined"];
 
@@ -79,9 +126,8 @@ function VendorCard({
     });
   }
 
-  // Category leads the card, the slot a property listing gives its price.
-  // Vendors carry no dollar figure, and the category is what a couple is
-  // actually scanning this list for.
+  // The business name leads; the category and price sit under it as one
+  // line, the way a property card puts beds and baths under the address.
   const place = [vendor.city, vendor.state].filter(Boolean).join(", ");
 
   return (
@@ -103,17 +149,17 @@ function VendorCard({
             />
           </Link>
         ) : (
-          // Vendors have no illustration fallback the way venues do, so the
-          // slot becomes a plain tinted band rather than a broken image.
+          // No photo: the category's line icon on a tinted band, the way
+          // venues fall back to an illustration of their type. (A monogram
+          // used to sit here, and names like "[SALON] 718" made it a stray "[".)
           <Link
             href={vendorHref(vendor)}
             className="flex aspect-[16/10] max-h-44 w-full items-center justify-center bg-forest/5 lg:max-h-none"
           >
-            {/* A monogram rather than the category, which the card already
-                leads with two lines further down. */}
-            <span aria-hidden className="font-display text-3xl text-forest/25">
-              {vendor.name.trim().charAt(0).toUpperCase()}
-            </span>
+            {createElement(vendorCategoryIcon(vendor.category), {
+              className: "h-12 w-12 text-forest/30",
+              strokeWidth: 1.25,
+            })}
           </Link>
         )}
         {(isBooked || vendor.is_sample) && (
@@ -131,18 +177,16 @@ function VendorCard({
       </div>
       <div className="flex flex-1 flex-col p-3">
         <Link href={vendorHref(vendor)} className="hover:underline">
-          <p className="font-display text-lg font-semibold tracking-tight text-ink">
-            {vendor.category ?? vendor.name}
+          <p className="font-display text-lg font-semibold leading-snug tracking-tight text-ink">
+            {vendor.name}
           </p>
         </Link>
-        {vendor.price_tier && <p className="mt-0.5 text-sm text-ink/80">{vendor.price_tier}</p>}
+        {(vendor.category || vendor.price_tier) && (
+          <p className="mt-0.5 text-sm text-ink/80">
+            {[vendor.category, vendor.price_tier].filter(Boolean).join(" · ")}
+          </p>
+        )}
         {place && <p className="mt-0.5 text-[13px] text-ink/55">{place}</p>}
-        <Link
-          href={vendorHref(vendor)}
-          className="mt-1 text-[10px] font-semibold uppercase tracking-[0.07em] text-ink/40 hover:text-brass"
-        >
-          {vendor.name}
-        </Link>
         {isBasicListing(vendor) && (
           <span className="mt-1.5 self-start rounded-full border border-hairline px-2 py-0.5 text-[11px] text-ink/60">
             Basic listing · from Instagram
@@ -334,15 +378,20 @@ export function VendorsManager({
   );
   const vendorById = new Map(vendors.map((v) => [v.id, v]));
 
-  const [categoryFilter, setCategoryFilter] = useState<string | "all">("all");
-  const [priceFilter, setPriceFilter] = useState<string | "all">("all");
-  const [stateFilter, setStateFilter] = useState<string | "all">("all");
-  const [cityFilter, setCityFilter] = useState<string | "all">("all");
-  const [search, setSearch] = useState("");
+  const { values: filters, set: setFilter, update: updateFilters } = useSavedFilters(
+    "youdoido:vendor-filters",
+    { state: "all", city: "all", category: "all", price: "all", q: "" },
+  );
+  const { state: stateFilter, city: cityFilter, category: categoryFilter, price: priceFilter, q: search } =
+    filters;
+  const [mapView, setMapView] = useState<MapView | null>(null);
+  // The vendor last opened from a pin, kept at the top of the list.
+  const [selectedVendorId, setSelectedVendorId] = useState<string | null>(null);
   const [highlightedVendorId, setHighlightedVendorId] = useState<string | null>(null);
   const cardEls = useRef<Map<string, HTMLDivElement>>(new Map());
 
   function handleSelectVendorFromMap(vendorId: string) {
+    setSelectedVendorId(vendorId);
     setHighlightedVendorId(vendorId);
   }
 
@@ -378,8 +427,7 @@ export function VendorsManager({
   );
 
   function handleStateFilterChange(value: string) {
-    setStateFilter(value);
-    setCityFilter("all");
+    updateFilters({ state: value, city: "all" });
   }
 
   const activeFilterCount = [categoryFilter, priceFilter, stateFilter, cityFilter].filter(
@@ -388,33 +436,45 @@ export function VendorsManager({
 
   // Few vendors have a price tier yet, so a blank one isn't a mismatch: those
   // vendors stay in, after the confirmed matches, rather than vanishing.
-  const filteredVendors = vendors
-    .filter(
-      (v) =>
-        (categoryFilter === "all" || v.category === categoryFilter) &&
-        (priceFilter === "all" || !v.price_tier || v.price_tier === priceFilter) &&
-        (stateFilter === "all" || v.state === stateFilter) &&
-        (cityFilter === "all" || v.city === cityFilter) &&
-        v.name.toLowerCase().includes(search.trim().toLowerCase()),
-    )
-    .sort(
-      (a, b) =>
-        Number(priceFilter !== "all" && !a.price_tier) - Number(priceFilter !== "all" && !b.price_tier),
-    );
+  const filteredVendors = useMemo(
+    () =>
+      vendors
+        .filter(
+          (v) =>
+            (categoryFilter === "all" || v.category === categoryFilter) &&
+            (priceFilter === "all" || !v.price_tier || v.price_tier === priceFilter) &&
+            (stateFilter === "all" || v.state === stateFilter) &&
+            (cityFilter === "all" || v.city === cityFilter) &&
+            v.name.toLowerCase().includes(search.trim().toLowerCase()),
+        )
+        .sort(
+          (a, b) =>
+            Number(priceFilter !== "all" && !a.price_tier) -
+            Number(priceFilter !== "all" && !b.price_tier),
+        ),
+    [vendors, categoryFilter, priceFilter, stateFilter, cityFilter, search],
+  );
+
+  // Like Zillow, the list is what the map shows: pan or zoom and it follows.
+  // Until the map has drawn, it is everything the filters match.
+  const listedVendors = useMemo(() => {
+    const inView = mapView ? filteredVendors.filter((v) => isInView(v, mapView)) : filteredVendors;
+    const selected = selectedVendorId ? inView.find((v) => v.id === selectedVendorId) : undefined;
+    return selected ? [selected, ...inView.filter((v) => v !== selected)] : inView;
+  }, [filteredVendors, mapView, selectedVendorId]);
 
   function clearFilters() {
-    setStateFilter("all");
-    setCityFilter("all");
-    setCategoryFilter("all");
-    setPriceFilter("all");
+    updateFilters({ state: "all", city: "all", category: "all", price: "all" });
   }
 
   return (
     <SearchShell
-      search={{ value: search, onChange: setSearch, placeholder: "Search vendors by name..." }}
+      search={{ value: search, onChange: (v) => setFilter("q", v), placeholder: "Search vendors by name..." }}
       activeFilterCount={activeFilterCount}
       onClearFilters={clearFilters}
-      resultCount={filteredVendors.length}
+      resultCount={listedVendors.length}
+      totalCount={filteredVendors.length}
+      pageKey={`${JSON.stringify(filters)}|${viewKey(mapView)}`}
       resultNoun="vendor"
       views={!signedIn ? [] : [
         {
@@ -471,7 +531,7 @@ export function VendorsManager({
             label="City"
             allLabel="All cities"
             value={cityFilter}
-            onChange={setCityFilter}
+            onChange={(v) => setFilter("city", v)}
             options={availableCities.map((city) => ({ value: city, label: city }))}
             emptyMessage="No cities for this state"
           />
@@ -479,14 +539,14 @@ export function VendorsManager({
             label="Category"
             allLabel="All categories"
             value={categoryFilter}
-            onChange={setCategoryFilter}
+            onChange={(v) => setFilter("category", v)}
             options={categories.map((category) => ({ value: category, label: category }))}
           />
           <FilterDropdown
             label="Price"
             allLabel="Any price"
             value={priceFilter}
-            onChange={setPriceFilter}
+            onChange={(v) => setFilter("price", v)}
             options={STYLE_TIERS.map((tier) => ({ value: tier, label: tier }))}
           />
         </>
@@ -495,6 +555,7 @@ export function VendorsManager({
         <VendorsMap
           vendors={filteredVendors}
           onSelectVendor={handleSelectVendorFromMap}
+          onViewChange={setMapView}
           heightClassName="h-full w-full"
         />
       }
@@ -502,11 +563,13 @@ export function VendorsManager({
         <p className="py-8 text-center text-sm text-ink/50">
           {vendors.length === 0
             ? "No vendors have been added yet."
-            : "No vendors match these filters."}
+            : filteredVendors.length === 0
+              ? "No vendors match these filters."
+              : "No vendors in this part of the map. Zoom out or move the map to see more."}
         </p>
       }
     >
-      {filteredVendors.map((vendor) => (
+      {listedVendors.map((vendor) => (
         <VendorCard
           key={vendor.id}
           vendor={vendor}
