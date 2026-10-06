@@ -8,6 +8,7 @@ import { detailsFromVenue } from "@/lib/venue-claim";
 import { venueForClaimToken } from "@/lib/venue-claim-server";
 import { WIDE_WIDTH } from "@/lib/layout";
 import { ClaimForm } from "./claim-form";
+import { PUBLIC_VENUE_COLUMNS, publicFields, venueHref } from "@/lib/public-listings";
 
 export const metadata = {
   title: "Update your listing",
@@ -151,7 +152,12 @@ export default async function ClaimPage({ params }: { params: Promise<{ token: s
             Your earlier changes are waiting for review. Anything you submit now replaces them.
           </p>
         )}
-        <ClaimForm token={token} initial={initial} />
+        <ClaimForm
+          token={token}
+          initial={initial}
+          listing={publicFields(venue, PUBLIC_VENUE_COLUMNS)}
+          liveHref={venue.active ? venueHref(venue) : null}
+        />
       </div>
     </main>
   );
