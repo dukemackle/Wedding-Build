@@ -30,6 +30,20 @@ DoMore Digital	Videography		Wilmington	Delaware	DE, PA, MD and NJ	Wilmington vid
 Dukes Films	Videography		Seaford	Delaware	Tri-state area and destination weddings	Husband-and-wife cinematography team from southern Delaware filming weddings from the morning preparations through to the last dance.	hello@dukesfilms.com	302-569-8855	https://www.dukesfilms.com/	https://www.instagram.com/tjdukesfilms/
 Video In Progress	Videography		Seaford	Delaware		Seaford studio filming story-led wedding films since 2012, from 60-second social highlights to full documentary coverage of the day.	Sales@VideoInProgress.com	888-511-4595	https://www.videoinprogress.com/weddings	`,
   },
+  {
+    name: "Rehoboth Beach: photography, florals, music, catering, hair & makeup and cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Jordan Fern Photo	Photography		Rehoboth Beach	Delaware	Rehoboth Beach and coastal Delaware	Rehoboth Beach photographer for weddings and elopements, known for a warm, playful approach that keeps couples relaxed and laughing.			https://jordanfernphoto.com/	https://www.instagram.com/jordanfernphoto/
+Josh Feeney Photography	Photography		Lewes	Delaware	Coastal Delaware and the Delmarva Peninsula	Coastal Delaware photographer covering weddings and engagements with a focus on timeless, feeling-led images, plus family portraits.			https://www.joshfeeneyphotography.com/	https://www.instagram.com/josh_feeney_photography/
+DSmithImages Photography	Photography		Rehoboth Beach	Delaware	Rehoboth Beach and Maryland's Eastern Shore	Rehoboth Beach photographer specialising in micro-weddings and elopements since 2010, with a cinematic, alternative eye.	dsmithimages@gmail.com		https://www.dsiphotography.com/rehoboth-beach-wedding-photography	https://www.instagram.com/dsmithimagesphotography/
+Floral Inspirations	Florals	524 E Savannah Rd	Lewes	Delaware	Lewes, Rehoboth Beach, Milton and nearby	Lewes florist since 2015 with an AIFD-certified designer, making wedding flowers and hand-delivering arrangements across the beaches.	wecare@lewesflowers.com	302-703-1009	https://www.lewesflowers.com/	https://www.instagram.com/floral.inspirations/
+Cowger Entertainment Group	Music		Rehoboth Beach	Delaware	Delaware, Maryland and Virginia	Rehoboth Beach DJ company licensed in three states, offering wedding DJ and MC services with event lighting and photo booths.		443-783-9175	https://cowgerentertainment.com/	https://www.instagram.com/cowgerentertainment/
+Jimmy's Grille Catering	Catering	113 Dickinson Ave	Dewey Beach	Delaware	Delaware and nearby Maryland communities	Dewey Beach caterer doing buffet-style wedding menus for 50 to 5,000 guests, with hors d'oeuvres and drinks in an all-inclusive package.	ron@jimmysgrillecatering.com	302-337-8868	https://www.jimmysgrillecatering.com/	
+Beach House Pantry	Catering		Lewes	Delaware	Lewes, Rehoboth, Dewey, Bethany and Fenwick Island	Personal chef and caterer for the Delaware beaches, offering seafood bakes, grazing boards and event planning for weddings and parties.	heather@beachhousepantry.com	302-841-5253	https://www.beachhousepantry.com/	
+The Art of Beauty	Hair & Makeup		Milford	Delaware	Delaware, Pennsylvania, Maryland, New Jersey, DC and Virginia	Milford bridal hair and makeup team travelling to weddings, with a luxury, soft-glam approach built for every skin tone and hair texture.			https://theartofbeauty.net/	https://www.instagram.com/theartofbeautyyyy/
+Carolina Sugar Fairy	Cake		Rehoboth Beach	Delaware	Lewes, Rehoboth Beach, Dewey Beach, Bethany Beach, Milton and Millsboro	Southern Delaware baker making custom wedding and large-event cakes, dessert tables and decorated cookies from quality ingredients.			http://www.carolinasugarfairy.com/	
+Crumb One Crumb All	Cake		Lewes	Delaware	Lewes and Sussex County	Lewes bakery making gluten-free and traditional custom cakes, cupcakes and pastries to order, with care taken to avoid cross-contamination.	CrumbOneCrumbAllBakery@Gmail.com	302-542-5445	https://crumbonecrumball.com/	`,
+  },
 ];
 
 export default batches;
