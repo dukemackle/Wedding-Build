@@ -6,6 +6,8 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 const ARM_AT = 90;
 /** Ignore scrolls smaller than this -- trackpads and thumbs jitter. */
 const DEADZONE = 6;
+/** Within this of the top the bar counts as "at the top" (see data-top). */
+const TOP_AT = 24;
 
 /**
  * A sticky header that gets out of the way going down and comes back going up.
@@ -16,6 +18,9 @@ const DEADZONE = 6;
  */
 export function AutoHideHeader({ children }: { children: ReactNode }) {
   const [hidden, setHidden] = useState(false);
+  // Pages with a full-screen photo (the dashboard) let the bar go clear while
+  // it sits over the top of the photo; see globals.css.
+  const [atTop, setAtTop] = useState(true);
   const lastY = useRef(0);
   const frame = useRef<number | null>(null);
 
@@ -25,6 +30,7 @@ export function AutoHideHeader({ children }: { children: ReactNode }) {
     function read() {
       frame.current = null;
       const y = window.scrollY;
+      setAtTop(y < TOP_AT);
       const delta = y - lastY.current;
 
       if (Math.abs(delta) < DEADZONE) return;
@@ -45,14 +51,18 @@ export function AutoHideHeader({ children }: { children: ReactNode }) {
     }
 
     window.addEventListener("scroll", onScroll, { passive: true });
+    // A page opened part-way down (back button, refresh) starts not at the top.
+    onScroll();
     return () => {
       window.removeEventListener("scroll", onScroll);
       if (frame.current !== null) window.cancelAnimationFrame(frame.current);
+      frame.current = null;
     };
   }, []);
 
   return (
     <header
+      data-top={atTop}
       // self-stretch, not w-auto: most pages centre their children with
       // `items-center`, and a flex item in a centred column shrinks to its own
       // content rather than filling the line. That is why the bar used to stop

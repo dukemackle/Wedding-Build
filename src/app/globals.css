@@ -321,6 +321,34 @@ body::before {
   border-radius: var(--site-radius);
 }
 /* The guest site has a footer of its own, in its theme. */
+/* The dashboard's photo backdrop sits behind the page at a negative z-index,
+   which paints beneath body's own background -- so on that page body lets
+   the photos through (html keeps the cream for everywhere else). */
+body:has(.dashboard-backdrop) {
+  background: transparent;
+}
+
+/* ...and while the nav sits at the very top of those photos it goes clear,
+   with white type over a soft navy fade, so the photo runs to the top of the
+   screen. Scrolling down brings the usual cream bar back over the cards.
+   Gold (the "I do", icons, Log out) stays gold, lifted to the brighter Gold
+   so it holds up on navy. */
+body:has(.dashboard-backdrop) header[data-top="true"] {
+  background: linear-gradient(to bottom, rgb(20 32 61 / 0.55), rgb(20 32 61 / 0));
+  border-color: transparent;
+  backdrop-filter: none;
+  transition: background-color 0.3s, transform 0.3s;
+}
+body:has(.dashboard-backdrop) header[data-top="true"] :is(.text-ink, .text-forest, [class*="text-ink/"]) {
+  color: #fff;
+}
+body:has(.dashboard-backdrop) header[data-top="true"] .text-brass {
+  color: #ffd301;
+}
+body:has(.dashboard-backdrop) header[data-top="true"] [class*="bg-forest/10"] {
+  background-color: rgb(255 255 255 / 0.18);
+}
+
 body:has(.guest-site) .site-footer {
   display: none;
 }

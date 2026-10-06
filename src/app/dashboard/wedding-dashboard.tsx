@@ -2,92 +2,15 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState, useTransition, type ReactNode } from "react";
-import { saveWedding } from "./actions";
+import { addDashboardPhoto, removeDashboardPhoto, saveWedding } from "./actions";
 import type { Venue, Wedding } from "@/lib/supabase/types";
 import { STATES, SEASONS, STYLE_TIERS, VENUE_TYPES } from "@/lib/wedding-options";
 import { daysUntilWedding } from "@/lib/countdown";
 import { CountdownTimer } from "@/components/countdown-timer";
 import { MilestoneBird } from "./milestone-bird";
-import { PhotoUpload } from "@/components/photo-upload";
-
-/**
- * The couple's picture, and the only place it's set.
- *
- * Falls back to the guest site's banner photo so nobody who already uploaded
- * one sees an empty circle, but a banner cropped to 96px is usually a smear --
- * which is the reason the two are separate now. The pencil is the whole
- * editing affordance; there is no "photo" card any more.
- */
-function ProfileAvatar({ wedding, canEdit }: { wedding: Wedding; canEdit: boolean }) {
-  const [editing, setEditing] = useState(false);
-  const photo = wedding.profile_photo_url ?? wedding.hero_photo_url;
-
-  return (
-    <div className="shrink-0">
-      <div className="relative w-24">
-        {photo ? (
-          <Image
-            src={photo}
-            alt={[wedding.partner_a_name, wedding.partner_b_name].filter(Boolean).join(" & ")}
-            width={96}
-            height={96}
-            className="h-24 w-24 rounded-full border-2 border-white/80 object-cover shadow-md"
-          />
-        ) : (
-          <div className="flex h-24 w-24 items-center justify-center rounded-full border border-hairline bg-parchment">
-            <svg
-              viewBox="0 0 64 64"
-              aria-hidden="true"
-              className="h-14 w-14 fill-forest/25"
-            >
-              <circle cx="24" cy="21" r="10" />
-              <circle cx="43" cy="24" r="8.5" />
-              <path d="M4 64c0-11 9-19 20-19s20 8 20 19Z" />
-              <path d="M33 64c1-9 8-16 17-16s14 6 14 16Z" />
-            </svg>
-          </div>
-        )}
-        {canEdit && (
-          <button
-            type="button"
-            onClick={() => setEditing((v) => !v)}
-            aria-label={photo ? "Change your photo" : "Add a photo"}
-            className="absolute -bottom-1 -right-1 flex h-8 w-8 items-center justify-center rounded-full border-2 border-card bg-forest text-parchment transition-colors hover:bg-forest/90"
-          >
-            <svg
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-              className="h-3.5 w-3.5"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.8"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M12 20h9" />
-              <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
-            </svg>
-          </button>
-        )}
-      </div>
-
-      {editing && (
-        <div className="mt-4 rounded-md border border-hairline bg-parchment p-3">
-          <p className="mb-2 text-xs text-ink/60">
-            A photo of the two of you, shown in this circle. The background is changed with the
-            camera button in the top corner.
-          </p>
-          <PhotoUpload
-            kind="profile"
-            photoUrl={wedding.profile_photo_url}
-            confirmRemove="Remove your profile photo?"
-            onDone={() => setEditing(false)}
-          />
-        </div>
-      )}
-    </div>
-  );
-}
+import { shrinkImage } from "@/lib/shrink-image";
+import { MAX_DASHBOARD_PHOTOS } from "@/lib/dashboard-photos";
+import { PhotoBackdrop } from "./photo-backdrop";
 
 function formatDate(dateStr: string) {
   return new Date(`${dateStr}T00:00:00`).toLocaleDateString("en-US", {
@@ -258,23 +181,27 @@ function WeddingForm({
 }
 
 /**
- * The camera button in the banner's corner: changes the background photo.
- *
- * That photo is also the banner on the guest site -- one picture of the two
- * of you across the top of both, rather than two uploads that drift apart.
+ * The "Photos" pill and its popover: the photos that take turns behind the
+ * dashboard. Several files can be picked at once; each goes up on its own so
+ * every one stays under the upload cap, and a failure stops the rest.
  */
-function CoverPhotoButton({ wedding }: { wedding: Wedding }) {
-  const [editing, setEditing] = useState(false);
+function PhotosButton({ wedding }: { wedding: Wedding }) {
+  const [open, setOpen] = useState(false);
+  const [error, setError] = useState<string | undefined>(undefined);
+  const [isPending, startTransition] = useTransition();
   const ref = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const photos = wedding.dashboard_photo_urls ?? [];
+  const room = MAX_DASHBOARD_PHOTOS - photos.length;
 
   // A click anywhere outside the button and popover closes it, as does Escape.
   useEffect(() => {
-    if (!editing) return;
+    if (!open) return;
     function onPointerDown(e: PointerEvent) {
-      if (ref.current && !ref.current.contains(e.target as Node)) setEditing(false);
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
     }
     function onKeyDown(e: KeyboardEvent) {
-      if (e.key === "Escape") setEditing(false);
+      if (e.key === "Escape") setOpen(false);
     }
     document.addEventListener("pointerdown", onPointerDown);
     document.addEventListener("keydown", onKeyDown);
@@ -282,20 +209,46 @@ function CoverPhotoButton({ wedding }: { wedding: Wedding }) {
       document.removeEventListener("pointerdown", onPointerDown);
       document.removeEventListener("keydown", onKeyDown);
     };
-  }, [editing]);
+  }, [open]);
+
+  function handleFiles(files: FileList | null) {
+    const picked = Array.from(files ?? []).slice(0, room);
+    if (picked.length === 0) return;
+    startTransition(async () => {
+      for (const file of picked) {
+        const formData = new FormData();
+        formData.set("photo", await shrinkImage(file));
+        const result = await addDashboardPhoto(formData);
+        if (result?.error) {
+          setError(result.error);
+          break;
+        }
+        setError(undefined);
+      }
+      if (inputRef.current) inputRef.current.value = "";
+    });
+  }
+
+  function handleRemove(url: string) {
+    if (!confirm("Remove this photo from your dashboard?")) return;
+    startTransition(async () => {
+      const result = await removeDashboardPhoto(url);
+      setError(result?.error);
+    });
+  }
 
   return (
-    <div ref={ref} className="absolute right-4 top-4 z-10 flex flex-col items-end sm:right-6 sm:top-6">
+    <div ref={ref} className="relative">
       <button
         type="button"
-        onClick={() => setEditing((v) => !v)}
-        aria-expanded={editing}
-        className="flex items-center gap-2 rounded-full border border-white/25 bg-black/35 px-3 py-1.5 text-xs font-medium text-white backdrop-blur-sm transition-colors hover:bg-black/55"
+        onClick={() => setOpen((v) => !v)}
+        aria-expanded={open}
+        className="flex items-center gap-1.5 rounded-full border border-white/50 bg-white/15 px-3 py-1 text-xs font-medium text-white backdrop-blur-sm transition-colors hover:bg-white/25"
       >
         <svg
           viewBox="0 0 24 24"
           aria-hidden="true"
-          className="h-4 w-4"
+          className="h-3.5 w-3.5"
           fill="none"
           stroke="currentColor"
           strokeWidth="1.8"
@@ -305,23 +258,66 @@ function CoverPhotoButton({ wedding }: { wedding: Wedding }) {
           <path d="M4 8h3l2-3h6l2 3h3v11H4Z" />
           <circle cx="12" cy="13" r="3.5" />
         </svg>
-        <span className="hidden sm:inline">
-          {wedding.hero_photo_url ? "Change background" : "Add background"}
-        </span>
+        {photos.length > 0 ? "Photos" : "Add photos"}
       </button>
 
-      {editing && (
-        <div className="mt-2 w-[min(22rem,calc(100vw-4rem))] rounded-lg border border-hairline bg-card p-4 text-left shadow-lg">
-          <p className="mb-3 text-xs text-ink/60">
-            A wide photo works best. It&apos;s also the banner across the top of your guest site.
+      {open && (
+        <div className="absolute left-0 top-full z-20 mt-2 w-[min(24rem,calc(100vw-3rem))] rounded-lg border border-hairline bg-card p-4 text-left shadow-lg">
+          <p className="text-xs text-ink/60">
+            Photos of the two of you, shown behind your dashboard one at a time. Up to{" "}
+            {MAX_DASHBOARD_PHOTOS}.
+            {photos.length === 0 && wedding.hero_photo_url && (
+              <> Until you add some, it shows your guest site banner.</>
+            )}
           </p>
-          <PhotoUpload
-            kind="hero"
-            photoUrl={wedding.hero_photo_url}
-            shape="wide"
-            confirmRemove="Remove the background photo? It's also your guest site's banner."
-            onDone={() => setEditing(false)}
-          />
+
+          {photos.length > 0 && (
+            <ul className="mt-3 grid grid-cols-4 gap-2">
+              {photos.map((url) => (
+                <li key={url} className="group relative aspect-square">
+                  <Image
+                    src={url}
+                    alt=""
+                    fill
+                    sizes="96px"
+                    className="rounded-md border border-hairline object-cover"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => handleRemove(url)}
+                    disabled={isPending}
+                    aria-label="Remove this photo"
+                    className="absolute -right-1.5 -top-1.5 flex h-6 w-6 items-center justify-center rounded-full border-2 border-card bg-forest text-xs leading-none text-parchment hover:bg-forest/90"
+                  >
+                    ×
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+
+          <div className="mt-3 flex items-center gap-3">
+            <label
+              className={`rounded-md bg-forest px-4 py-2 text-sm font-medium text-parchment transition-colors ${
+                room > 0 && !isPending ? "cursor-pointer hover:bg-forest/90" : "opacity-60"
+              }`}
+            >
+              {isPending ? "Uploading…" : "Choose photos"}
+              <input
+                ref={inputRef}
+                type="file"
+                accept="image/*"
+                multiple
+                disabled={room <= 0 || isPending}
+                onChange={(e) => handleFiles(e.target.files)}
+                className="sr-only"
+              />
+            </label>
+            <span className="text-xs text-ink/50">
+              {room > 0 ? `${room} more` : "That's the most it holds"}
+            </span>
+          </div>
+          {error && <p className="mt-2 text-sm text-red-800">{error}</p>}
         </div>
       )}
     </div>
@@ -329,13 +325,13 @@ function CoverPhotoButton({ wedding }: { wedding: Wedding }) {
 }
 
 /**
- * The banner across the top: who, when, and how long to go.
+ * The top of the dashboard: who, when, and how long to go.
  *
- * The couple's own background photo when they've set one (the same picture
- * as the guest-site banner), then the booked venue's photo, then plain
- * forest. State, season and style used to show here as chips; they're
- * settings that feed estimates, not anything worth a place on the banner, so
- * they live behind "Edit details".
+ * With photos (the couple's own, else their guest site banner, else the
+ * booked venue) they fill the whole page behind everything and this sits
+ * straight on them, white type over the navy wash. With none it's a navy
+ * panel. State, season and style live behind "Edit details"; they feed
+ * estimates and don't earn a place up here.
  */
 function WeddingHero({
   wedding,
@@ -350,71 +346,70 @@ function WeddingHero({
   canEdit: boolean;
   actions?: ReactNode;
 }) {
-  const backdrop = wedding.hero_photo_url ?? bookedVenue?.image_url;
+  const own = wedding.dashboard_photo_urls ?? [];
+  const fallback = wedding.hero_photo_url ?? bookedVenue?.image_url;
+  const photos = own.length > 0 ? own : fallback ? [fallback] : [];
+  const onPhoto = photos.length > 0;
   const venueLine = bookedVenue
     ? [bookedVenue.name, [bookedVenue.city, bookedVenue.state].filter(Boolean).join(", ")]
         .filter(Boolean)
         .join(" · ")
     : null;
 
-  // The camera button sits outside the section: the section clips to its
-  // rounded corners, and would clip the upload popover along with the photo.
   return (
-    <div className="relative">
-      {canEdit && <CoverPhotoButton wedding={wedding} />}
-      <section className="relative overflow-hidden rounded-2xl bg-forest shadow-lg">
-        {backdrop ? (
-          <Image
-            src={backdrop}
-            alt=""
-            fill
-            priority
-            sizes="(min-width: 1600px) 1600px, 100vw"
-            className="object-cover"
-          />
-        ) : (
+    <>
+      <PhotoBackdrop photos={photos} />
+      <section
+        className={
+          onPhoto
+            ? "relative"
+            : "relative overflow-visible rounded-2xl bg-forest shadow-lg"
+        }
+      >
+        {!onPhoto && (
           <div
             aria-hidden="true"
-            className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(199,154,46,0.35),transparent_55%),radial-gradient(ellipse_at_bottom_left,rgba(255,255,255,0.08),transparent_50%)]"
+            className="absolute inset-0 rounded-2xl bg-[radial-gradient(ellipse_at_top_right,rgba(199,154,46,0.35),transparent_55%),radial-gradient(ellipse_at_bottom_left,rgba(255,255,255,0.08),transparent_50%)]"
           />
         )}
-        {/* Scrim: dark enough at the bottom-left for white type on any photo. */}
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/55 to-black/45 lg:bg-gradient-to-r lg:from-black/75 lg:via-black/45 lg:to-black/10"
-        />
 
-        <div className="relative flex flex-col gap-8 p-6 pt-16 sm:p-10 lg:flex-row lg:items-end lg:justify-between lg:px-10 lg:py-6">
-          <div className="flex flex-col gap-5 sm:flex-row sm:items-end">
-            <ProfileAvatar wedding={wedding} canEdit={canEdit} />
-            <div className="min-w-0">
-              {venueLine && (
-                <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
-                  {venueLine}
-                </p>
-              )}
-              <h1 className="mt-2 font-display text-4xl font-semibold leading-tight text-white sm:text-5xl lg:text-6xl">
-                {wedding.partner_a_name} &amp; {wedding.partner_b_name}
-              </h1>
-              <p className="mt-2 text-lg text-white/85">
-                {wedding.wedding_date ? formatDate(wedding.wedding_date) : "Date not set yet"}
+        <div
+          className={`relative flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between ${
+            onPhoto
+              ? // The photo gets the first screen: on desktop the names sit
+                // low and the cards start below the fold's midpoint.
+                "pt-20 pb-2 sm:pt-28 lg:min-h-[calc(62vh-6rem)] lg:px-2 lg:pt-24"
+              : "p-6 pt-12 sm:p-10 lg:px-10 lg:py-8"
+          }`}
+        >
+          <div className="min-w-0 [text-shadow:0_2px_18px_rgba(0,0,0,0.35)]">
+            {venueLine && (
+              <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
+                {venueLine}
               </p>
-              <div className="mt-4 flex flex-wrap items-center gap-2 lg:mt-3">
-                {canEdit && (
-                  <button
-                    type="button"
-                    onClick={onEdit}
-                    className="rounded-full bg-white px-3 py-1 text-xs font-medium text-forest transition-colors hover:bg-parchment"
-                  >
-                    Edit details
-                  </button>
-                )}
-                {actions}
-              </div>
+            )}
+            <h1 className="mt-2 font-display text-5xl font-semibold leading-tight text-white lg:text-7xl">
+              {wedding.partner_a_name} &amp; {wedding.partner_b_name}
+            </h1>
+            <p className="mt-2 text-lg text-white/90 lg:text-xl">
+              {wedding.wedding_date ? formatDate(wedding.wedding_date) : "Date not set yet"}
+            </p>
+            <div className="mt-4 flex flex-wrap items-center gap-2 [text-shadow:none]">
+              {canEdit && (
+                <button
+                  type="button"
+                  onClick={onEdit}
+                  className="rounded-full bg-white px-3 py-1 text-xs font-medium text-forest transition-colors hover:bg-parchment"
+                >
+                  Edit details
+                </button>
+              )}
+              {actions}
+              {canEdit && <PhotosButton wedding={wedding} />}
             </div>
           </div>
 
-          <div className="flex flex-col gap-5 rounded-xl border border-white/15 bg-black/25 p-5 backdrop-blur-md lg:min-w-[380px] lg:py-4">
+          <div className="flex flex-col gap-5 rounded-xl border border-white/15 bg-[#14203d]/85 p-5 shadow-lg backdrop-blur-md lg:min-w-[380px] lg:py-4">
             {wedding.wedding_date ? (
               <>
                 <MilestoneBird weddingDate={wedding.wedding_date} />
@@ -445,7 +440,7 @@ function WeddingHero({
           </div>
         </div>
       </section>
-    </div>
+    </>
   );
 }
 
