@@ -68,6 +68,30 @@ Striegler Films	Videography		Fayetteville	Arkansas	Northwest Arkansas, Little Ro
 Solari Films	Videography		Bentonville	Arkansas	Arkansas, destinations and worldwide	Wedding film studio led by Brandon Buccheri since 2014, making emotional, story-led films and booked in more than 30 states and abroad.			https://www.solarifilms.com/	https://www.instagram.com/solarifilms/
 `,
   },
+  {
+    name: "Hot Springs: photography, planning, florals, music, catering, hair and makeup, cake and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Hannah Capps Photography	Photography		Hot Springs	Arkansas		Light and airy wedding photographer in Hot Springs who also shoots family and branding work and teaches other photographers.	hello@hannahcapps.com		https://www.hannahcapps.com/	https://www.instagram.com/hannahcappsphoto/
+Megan Thackston Photo & Film	Photography		Hot Springs	Arkansas	Central Arkansas	Hot Springs photographer with a photojournalistic approach to wedding days, covering couples and families across central Arkansas.			https://meganthackston.com/	
+Michelle Cheesman Photo + Video	Photography		Hot Springs	Arkansas		Hot Springs photographer and videographer offering both stills and full wedding films, and travelling for weddings out of state.			https://www.michellecheesman.com/	https://www.instagram.com/mcheeze/
+LuLu's Events	Planning		Hot Springs	Arkansas		Hot Springs planning company offering full and partial planning or day-of coordination, and meeting local vendors for couples living away.	info@lulusevents501.com	501.276.1346	https://www.lulusevents501.com/	https://www.instagram.com/lulus.events501/
+Signature Events	Planning	144 Kelton St	Hot Springs	Arkansas		Hot Springs wedding planner Randi Slick's company, pairing full-service planning with its own event rental inventory.		501-520-1976	https://hotspringsweddingplanner.com/	
+Flowers & Home of Hot Springs	Florals	245 Cornerstone Blvd	Hot Springs	Arkansas		Local flower shop designing bridal bouquets from cascading to hand-tied, plus party, ceremony and reception flowers by consultation.	tom@flowersandhome.com	(501) 525-0444	https://www.flowershophotsprings.com/wedding-flowers	
+Hot Springs Florist & Gifts	Florals	2034 Central Ave	Hot Springs	Arkansas		Long-standing florist on Central Avenue that takes wedding enquiries through a dedicated form and designs to the couple's colours.	info@hotspringsfloristgifts.com	(501) 623-5536	https://hotspringsfloristgifts.com/wedding-flowers-gifts/	
+143 Events LLC	Music		Hot Springs	Arkansas	Hot Springs, Hot Springs Village, Lake Hamilton and central Arkansas	Mobile DJ and MC service led by DJ Keith Anthony, with reception-only or ceremony-and-reception packages for venues around Hot Springs.	143eventshotsprings@gmail.com	(901) 585-8497	https://143eventshotsprings.com/	
+Stubby's BBQ	Catering	3024 Central Ave	Hot Springs	Arkansas		Hot Springs barbecue restaurant catering rehearsal dinners and wedding receptions with smoked meats and Southern sides.		501-624-1552	https://stubbys.com/catering/wedding-catering/	
+The Porterhouse Club & Catering	Catering	707 Central Ave	Hot Springs	Arkansas		Steakhouse team catering off-site weddings and hosting rehearsal dinners and receptions in its private club upstairs on Central Avenue.	pennytheplanner@gmail.com	(501) 321-8282	https://theporterhousehotsprings.com/catering/	
+Whiplash Beauty	Hair & Makeup		Hot Springs	Arkansas	Hot Springs and beyond	Hot Springs hair and makeup studio specialising in bridal trials and wedding-morning glam, alongside pageant and photoshoot work.		501-276-6239	https://whiplashbeauty.co/	https://www.instagram.com/whiplashbeauty/
+Ambrosia Bakery Co.	Cake	726 Central Ave	Hot Springs	Arkansas		Full-service downtown bakery making custom tiered wedding cakes alongside its daily breads, pastries, cookies and pies.		501-525-4500	https://ambrosiabakeryco.com/	
+Capture the Moment Images & Events	Videography		Hot Springs	Arkansas	Hot Springs and central Arkansas	Hot Springs business filming wedding-day videos and highlight montages, with photography and day-of coordination also on offer.	kelly@ctmimages.com	501-625-3260	https://www.capturingmyevent.com/	https://www.instagram.com/capturingmyevent/
+`,
+  },
+  {
+    name: "Northwest Arkansas: music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+NWA Event DJ	Music		Fayetteville	Arkansas	Northwest Arkansas	Fayetteville wedding DJ, DJ Mr. Gray, offering wedding packages with sound, lighting and MC work, plus karaoke and corporate events.	nwaeventdj@gmail.com	479-388-1018	https://www.nwaeventdj.com/	https://www.instagram.com/nwaeventdj/
+`,
+  },
 ];
 
 export default batches;
