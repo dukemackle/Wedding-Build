@@ -36,6 +36,25 @@ Eclipse Multimedia & Video	Videography		Fargo	North Dakota		Fargo video company 
 Spitfire Bar & Grill	Catering	1660 13th Ave E	West Fargo	North Dakota	Fargo-Moorhead	West Fargo wood-fired and smoked BBQ restaurant whose catering team also serves weddings and rehearsal dinners around Fargo-Moorhead.		701-478-8667	https://spitfirebarandgrill.com/catering/west-fargo-catering/	
 `,
   },
+  {
+    name: "Bismarck: planning, florals, photography, videography, hair and makeup and catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Behind the Scenes Events	Planning		Bismarck	North Dakota	Bismarck, Fargo and destination weddings	Bismarck wedding planning and month-of coordination team, who also plan honeymoons and destination weddings for North Dakota couples.		701.401.2218	https://behindthescenesevents.net/	https://www.instagram.com/behind.the.scenes.events/
+Enticed Bismarck	Planning		Bismarck	North Dakota	Bismarck and Mandan	Full-service wedding and event coordinator handling vendors, budgets, decor set-up and tear-down, with DJ and venue options in Mandan.	enticed.bismarck@gmail.com	701-220-7548	https://www.enticedbismarck.com/	
+Mini Blooms by Emil	Florals		Bismarck	North Dakota	Bismarck and beyond	Bismarck florist designing garden-inspired, colourful wedding bouquets, ceremony installations and centrepieces with a touch of whimsy.		701-226-5312	https://minibloomsbyemil.shop/	https://www.instagram.com/minibloomsbyemil/
+BWeis Media Weddings	Videography		Bismarck	North Dakota	North Dakota and beyond	Bismarck wedding videographer making story-driven films, limiting bookings to a small number of weddings each year.	bweisbeck@bweismedia.com		https://bweismediaweddings.com/	https://www.instagram.com/bweismedia/
+TraceLynn Films	Videography		Bismarck	North Dakota	North Dakota, South Dakota, Minnesota and Montana	Bismarck videographer creating personalised, creative wedding films for couples across the northern plains states.	tracelynnfilms@gmail.com		https://www.tracelynnfilms.com/	https://www.instagram.com/tracelynnfilms/
+Great Plains Sound and Media	Videography		Bismarck	North Dakota	Bismarck and North Dakota	Bismarck production collective, established 2023, offering wedding videography with drone footage alongside DJs, live audio and photography.			https://greatplainssound.com/	https://www.instagram.com/greatplainssound/
+Paper Hands Media	Photography		Bismarck	North Dakota	Bismarck and North Dakota	Bismarck photographer and videographer documenting weddings with a warm, emotional and personality-led style.	quinnlyn.nelson@gmail.com		http://paperhandsmedia.com/	
+Jessica Heller Photography	Photography		Bismarck	North Dakota	Bismarck and North Dakota	Bismarck photographer with 15 years behind the camera, shooting weddings, seniors and families with a relaxed, fun approach to bridal parties.	JessicaHellerPhotography@gmail.com		https://jessicahellerphotography.com/	https://www.instagram.com/jessicahellerphotography/
+ily Studios	Photography		Bismarck	North Dakota	Bismarck and North Dakota	Bismarck photographer specialising in weddings, couples and boudoir sessions, with a photobooth available for receptions.			https://www.ilystudios.co/	https://www.instagram.com/ily.studios/
+Leyla Alleyne	Photography		Bismarck	North Dakota	Bismarck and Mandan	Bismarck-Mandan wedding, boudoir and portrait photographer who publishes her wedding investment pricing online.			https://www.leylaalleyne.com/	https://www.instagram.com/leyladwellephotography/
+Desirae's Makeup & Beauty Lounge	Hair & Makeup		Bismarck	North Dakota	Bismarck	Bismarck makeup studio and beauty shop offering professional makeup applications and dedicated bridal makeup for wedding days.		(701) 751-2312	https://www.desiraesbeautylounge.com/	https://www.instagram.com/desiraesbeautylounge/
+Evolve Salon and Spa	Hair & Makeup	1001 West Interstate Avenue, Suite 100	Bismarck	North Dakota	Bismarck	Bismarck salon acting as bridal headquarters, with makeup application and updos for the bride and wedding party.	evolvebismarck@hotmail.com	701-751-7990	https://www.evolvesalonbismarck.com/	https://www.instagram.com/evolvebismarck/
+Eden's Edge Salon	Hair & Makeup		Bismarck	North Dakota	Bismarck	Independent Bismarck hairstylist and makeup artist offering colour, cuts and wedding-day hair and makeup.			https://www.edensedgesalon.com/	https://www.instagram.com/edensedgesalon/
+Mabel's All Day	Catering		Bismarck	North Dakota	Bismarck	Bismarck food truck serving classic American staples, with mobile catering for weddings, rehearsal dinners and community gatherings.	hello@mabelsallday.com		https://www.mabelsallday.com/	https://www.instagram.com/mabelsallday/
+`,
+  },
 ];
 
 export default batches;
