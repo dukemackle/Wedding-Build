@@ -17,8 +17,10 @@ export type Wedding = {
   public_slug: string | null;
   party_share_token: string | null;
   hero_photo_url: string | null;
-  /** Tight crop for the dashboard avatar. Falls back to hero_photo_url. */
+  /** Old dashboard avatar; no longer shown. */
   profile_photo_url: string | null;
+  /** Photos shown behind the dashboard, in order. Up to eight. */
+  dashboard_photo_urls: string[];
   rsvp_deadline: string | null;
   dress_code: string | null;
   travel_notes: string | null;
