@@ -63,6 +63,33 @@ The Cake Girl	Cake		Whitefish	Montana		Whitefish bakery making custom wedding an
 Brulee Bake House	Cake		Kalispell	Montana		Kalispell cake studio baking one-of-a-kind wedding cakes from scratch with no templates, plus custom cakes for birthdays and graduations.	Info@bruleebakehouse.com		https://www.bruleebakehouse.com/	https://www.instagram.com/thebruleebakehouse/
 `,
   },
+  {
+    name: "Missoula: photography, planning, florals, music, catering, hair and makeup, cake and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Infinite Photography and Film	Photography		Missoula	Montana	Missoula and beyond	Missoula wedding photographer and filmmaker who also offers planning help, covering couples from engagement through the day.	hello@sayidahdupuis.com	406-396-0783	https://www.infinitephotoandfilm.com/	https://www.instagram.com/infinitephotographymissoula/
+Life as a Voyager	Photography		Missoula	Montana	Montana, including Glacier and Grand Teton, plus Idaho and Washington	Missoula-based wedding and elopement photographer shooting digital and film, with Super 8 video as an add-on.	hello@lifeasavoyager.org		https://lifeasavoyager.org/	https://www.instagram.com/lifeasavoyager/
+Epic Events	Planning		Missoula	Montana	Missoula and surrounding areas	Missoula wedding planner and coordinator offering full planning, partial planning and day-of coordination packages.	epiceventsmt@gmail.com	406-261-6799	https://www.epiceventsmt.com/	https://www.instagram.com/epiceventsmt/
+Emerald Isle Events	Planning		Missoula	Montana	Western Montana	Missoula day-of coordinator who runs the timeline and vendors so couples can enjoy their wedding.	emeraldisleevents@gmail.com		https://www.emeraldisle.events/	https://www.instagram.com/emeraldisle.events/
+Bustle + Blush	Planning		Missoula	Montana	Western Montana	Event and wedding planner offering day-of coordination, setup and teardown, wedding consulting and rentals.	bustle.blush@gmail.com	406-396-9429	https://www.bustleandblush.com/	https://www.instagram.com/bustleandblush_missoula/
+Habitat Floral Studio	Florals		Missoula	Montana	Missoula and Montana	Woman-owned downtown Missoula flower shop and event studio doing custom wedding and event floral design.	hello@habitatfloralstudio.com		https://habitatfloralstudio.com/	https://www.instagram.com/habitatfloralstudio/
+Millay & Meadowlark Flower Farm	Florals		Missoula	Montana	Missoula and Western Montana	Missoula flower farm designing seasonal wedding and event florals from its own fields.	millayandmeadowlark@gmail.com	406-529-6543	https://www.millayandmeadowlark.com/	https://www.instagram.com/millayandmeadowlark/
+Primrose Views	Florals		Missoula	Montana	Montana	Missoula florist offering full-service fresh wedding florals alongside artificial bouquets and flower rentals.	Primroseviews22@gmail.com	(406) 273-8802	https://www.primroseviews.com/	https://www.instagram.com/primrose_views/
+RMF Entertainment	Music		Missoula	Montana	Montana, including Missoula, Bozeman, Big Sky and Whitefish	Missoula DJ and MC team that also supplies live musicians, jazz and photo booths for weddings and events.	hello@rmfdjs.com	(406) 531-2321	https://www.rmfdjs.com/	https://www.instagram.com/rmf_entertainment/
+Kaleidoscope Entertainment	Music		Missoula	Montana	Missoula, Hamilton and Butte	Wedding DJ service in Missoula that also rents karaoke, photo booths and lawn games.		(406) 721-1798	https://www.kscopeentmt.com/wedding-dj	
+Peak Audio	Music		Missoula	Montana	Missoula and Kalispell	Wedding DJ and sound company with Missoula and Kalispell offices, also renting audio gear.		406.616.2988	https://www.peakaudiomontana.com/missoula-wedding-dj	
+Pulse Entertainment	Music		Missoula	Montana	Montana, Idaho and Washington	Mobile DJ company based in Missoula that plays weddings, proms and corporate events and will travel across the region.	booking@pulse-entertainment-djs.com	(406) 404-6357	https://www.pulse-entertainment-djs.com/	
+A Moveable Feast	Catering		Missoula	Montana	Western Montana	Missoula wedding caterer with a mobile kitchen cooking on site, also offering rehearsal dinners and personal chef work.	amoveablefeastmissoula@gmail.com	(406) 544-8390	https://amoveablefeastmissoula.com/	
+The Silk Road Catering	Catering		Missoula	Montana	Missoula and Western Montana	Missoula caterer cooking from scratch with global menus, building each wedding menu a la carte.	silkroadcatering@gmail.com	406-541-0752	https://www.silkroadcatering.com/	https://www.instagram.com/thesilkroadspices/
+Burton's Classic Hair Co.	Hair & Makeup	3410 S. Reserve St	Missoula	Montana	Western Montana	Long-running Missoula salon offering bridal hair and makeup in the salon or on site at the venue.	burtonshair@gmail.com	406-721-8889	https://burtonshair.com/bridal/	https://www.instagram.com/burtonshair/
+Sugar Tree Hair Salon	Hair & Makeup		Missoula	Montana	Missoula	Missoula salon with a wedding team of hair stylists and makeup artists, also offering lash services.	weddings@sugartreebridal.com		https://www.sugartreebridal.com/	https://www.instagram.com/sugartree_hairsalon/
+Skin Chic	Hair & Makeup		Missoula	Montana	Missoula	Missoula medical spa whose artists do bridal makeup and trial lessons for the bride and her party.		406-541-8466	https://www.skinchic.com/makeup	https://www.instagram.com/skinchic406/
+artcakeMT	Cake		Missoula	Montana	Missoula	Missoula custom cake studio making cakes and cupcakes from specialty ingredients, booking weddings by inquiry.	artcakemt@gmail.com		https://www.artcakemt.com/	https://www.instagram.com/artcakemt/
+Morning Birds Bakery	Cake	223 West Broadway Street	Missoula	Montana	Missoula	Downtown Missoula bakery taking custom cake orders alongside its everyday pastries.	birds@morningbirdsbakery.com	406-540-4333	https://www.morningbirdsbakery.com/custom-cakes	https://www.instagram.com/morningbirdsbakery/
+Reid Graham Weddings	Videography		Missoula	Montana	Montana and destinations	Missoula videographer making cinematic wedding and elopement films with a relaxed, personal approach.			https://www.reidgrahamweddings.com/	https://www.instagram.com/reidgrahamvisuals/
+Bliss & Bloom	Videography		Missoula	Montana	Montana	Missoula wedding videographer and photographer, also running the ZooTown photo booth, with six wedding seasons behind her.			https://www.blissandbloommedia.com/	https://www.instagram.com/blissandbloommedia/
+Slikati Photography	Videography	126 E Broadway, Suite H	Missoula	Montana	Missoula and Montana	Downtown Missoula studio shooting weddings since 2010 and offering wedding films alongside photography.	inquiries@slikati.com	(406) 274-0592	https://slikati.com/	https://www.instagram.com/slikatimissoula/
+`,
+  },
 ];
 
 export default batches;
