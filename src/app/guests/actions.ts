@@ -276,6 +276,22 @@ export async function importGuestsFromGoogleSheet(
   // Keep the link so they can get back to the sheet from inside Wren.
   await supabase.from("weddings").update({ spreadsheet_url: sheetUrl }).eq("id", wedding.id);
 
+  // ...and so "Pull changes" can bring later edits in. Read-only, since a
+  // shared link can't be written to; a sheet already linked through Google
+  // is left as it is rather than downgraded.
+  await supabase.from("sheet_links").upsert(
+    {
+      wedding_id: wedding.id,
+      kind: "guests",
+      mode: "link",
+      file_id: sheet.id,
+      sheet_gid: sheet.gid,
+      title: "your Google Sheet",
+      url: sheetUrl,
+    },
+    { onConflict: "wedding_id,kind", ignoreDuplicates: true },
+  );
+
   revalidatePath("/guests");
   revalidatePath("/budget");
   return { imported: rows.length };
