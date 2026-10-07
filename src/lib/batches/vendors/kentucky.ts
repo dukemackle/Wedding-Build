@@ -72,6 +72,20 @@ Franzetti Photography	Videography		Lexington	Kentucky	Kentucky	Lexington studio 
 Maddox Made Weddings	Videography		Berea	Kentucky	Central Kentucky and beyond, including Lexington, Richmond, Danville and Winchester	Berea film and photo pairing, with Drew filming and Ariana Jordan photographing, so couples can book both from one small team.	hello@maddoxmade.com	(859) 248-9657	https://www.maddoxmadeweddings.com/	https://www.instagram.com/maddoxmadefilm/
 KellieJoy Films	Videography		Lexington	Kentucky	Worldwide destination events	Lexington cinematographer with a soft, true-to-colour approach to wedding films, travelling for destination celebrations.	info@kelliejoyfilms.com		https://kelliejoyfilms.com/	https://www.instagram.com/kelliejoyfilms/`,
   },
+  {
+    name: "Bowling Green: planning, florals, photography, music and hair and makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Events by Allie	Planning		Bowling Green	Kentucky	Bowling Green, Nashville and Kentucky	Bowling Green wedding planning and coordination, with day-of support for couples marrying around south central Kentucky and Nashville.	eventsbyalliecoode@gmail.com	(270) 202-1736	http://www.eventsbyalliecoode.com/	https://www.instagram.com/eventsbyallie_coode/
+Simply Sharp Events	Planning		Bowling Green	Kentucky	Kentucky and Tennessee	Full, partial and day-of wedding planning led by Emily, with a promise to help couples get hitched without a headache.			https://simplysharpevents.com/	https://www.instagram.com/simplysharpevents/
+Belle Lane Events	Planning		Bowling Green	Kentucky		Wedding consulting, month-of and day-of coordination, layout design and full planning packages from a Black- and woman-owned team.	breona@bellelaneevents.com		https://www.bellelaneevents.com/	https://www.instagram.com/bellelaneevents/
+Fete By Arnela	Planning		Bowling Green	Kentucky		Bowling Green event production company offering planning, coordination and rentals for weddings and other celebrations.	info@fetebyarnela.com	(270) 996-8014	https://www.fetebyarnela.com/	https://www.instagram.com/fetebyarnela/
+Jules With The Flowers	Florals		Bowling Green	Kentucky	Bowling Green, Browning, Allen Springs, Blue Level, Petros and Cavehill	Bowling Green florist designing wedding flowers alongside daily deliveries, sympathy work and flower subscriptions, with consultations offered.	juleswiththeflowers@gmail.com	(502) 303-4050	https://juleswiththeflowers.com/	https://www.instagram.com/juleswiththeflowers/
+Julie Hall Photography	Photography		Bowling Green	Kentucky	Bowling Green, Owensboro, Russellville and Nashville	Bowling Green photographer covering weddings, engagements and bridal sessions, and travelling for destination celebrations.			https://juliehallphotography.com/	
+Violet Skies Photography	Photography		Bowling Green	Kentucky	Bowling Green and Nashville	Woman-owned studio led by Olivia Violet, shooting editorial-style weddings and engagements alongside family and portrait sessions.	oliviaviolet@violetskiesphotography.com	(916) 540-6432	https://www.violetskiesphotography.com/	https://www.instagram.com/violetskiesphotograph/
+Five-Carat Entertainment	Music		Bowling Green	Kentucky	Bowling Green and the surrounding region	DJ and MC service for Bowling Green weddings and private celebrations, with bookings open for the 2026 and 2027 seasons.	info@fivecaratent.com	(270) 303-2824	https://fivecaratent.com/	https://www.instagram.com/fivecaratdj/
+Heritage DJs	Music		Bowling Green	Kentucky	Kentucky, Tennessee and Alabama	Wedding DJ company handling ceremony sound, reception music, lighting and hosting for couples across Kentucky and Tennessee.	jim@heritagedjs.com	810-965-0590	https://heritagedjs.com/	
+Regina Webb Salon & Spa	Hair & Makeup		Bowling Green	Kentucky		Full-service Bowling Green salon open since 1999, with a bridal studio for wedding hairstyles, colour and spa treatments.			https://www.reginawebbsalon.com/	https://www.instagram.com/reginawebbsalonandspa/`,
+  },
 ];
 
 export default batches;

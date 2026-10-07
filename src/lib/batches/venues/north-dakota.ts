@@ -32,6 +32,20 @@ Lone Oak Farm Event Venue	14641 28th Street SE	Ayr	North Dakota			Barn / Rustic	
 Alerus Center	1200 South 42nd Street	Grand Forks	North Dakota			Ballroom / Hotel	Indoor	600		Large Grand Forks events centre whose ballroom can be divided into a junior, single or entire ballroom, taking weddings from 50 to over 600 guests.		701-792-1200	https://www.aleruscenter.com/
 `,
   },
+  {
+    name: "Statewide: Devils Lake, Grand Forks, Bismarck, Minot and Medora",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Eastbay Campground (Odessa Event Center)	3892 Eastbay Road	Warwick	North Dakota			Beach / Waterfront	Indoor & Outdoor	400		Lakeside event hall on the east shore of Devils Lake with vaulted ceilings, a balcony and a gazebo, plus in-house catering.	info@eastbaycampground.com	701-398-5184	https://eastbaycampground.com/event-center/
+Bagg Bonanza Farm	8025 169th Ave SE	Mooreton	North Dakota			Barn / Rustic	Indoor			Fully finished barn on a National Historic Landmark bonanza farm near Mooreton, hosting weddings, receptions and showers.	baggbonanzafarm@gmail.com	(701) 361-6572	https://www.baggbonanzafarm.com/weddings
+Empire Arts Center	415 DeMers Avenue	Grand Forks	North Dakota			Ballroom / Hotel	Indoor			Downtown Grand Forks arts centre whose gallery can host wedding receptions, with a theatre and studio stage also available to hire.	info@empireartscenter.com	701-746-5500	https://www.empireartscenter.com/rent
+Gorecki Alumni Center	3501 University Ave	Grand Forks	North Dakota			Ballroom / Hotel	Indoor	225	Simple	University alumni centre with a community room, lobby and bridal rooms, plus a campus chapel on the English Coulee for ceremonies.	events@thegorecki.com	701-777-2611	https://undalumni.org/gorecki-alumni-center/weddings.html
+North Dakota's Gateway to Science	1600 Canary Ave	Bismarck	North Dakota			Ballroom / Hotel	Indoor & Outdoor	320		Science centre on the Missouri River with a wrap-around deck for ceremonies and an atrium and upstairs space for the reception.	events@gscience.org	701-751-6912	https://gatewaytoscience.org/visit/private-event-rentals/weddings/
+Scandinavian Heritage Park	1020 South Broadway	Minot	North Dakota			Garden / Outdoor	Indoor & Outdoor		Simple	Nordic heritage park in Minot where couples marry in a replica Gol stave church or on the grounds outdoors, with fees published.	scandha@srt.com	701-852-9161	https://scandinavianheritage.org/rental-fees
+The Shores at Woodland Resort	1012 Woodland Drive	Devils Lake	North Dakota			Beach / Waterfront	Indoor & Outdoor	400		Lakeside event hall at Woodland Resort on Devils Lake, with a waterfront patio, ceremony area, get-ready suites and on-site catering.	Shores@gondtc.com	(701) 662-5996	https://www.theshoresevents.com
+Belle Mehus Auditorium	201 North 6th Street	Bismarck	North Dakota			Historic / Estate	Indoor			Historic downtown Bismarck auditorium rented for weddings, with event coordinators to help couples plan the day.		701-355-1370	https://bismarckeventcenter.com/weddings/
+Town Square Showhall (Medora)		Medora	North Dakota			Ballroom / Hotel	Indoor	230	Simple	Indoor hall in downtown Medora with overhead string lighting, seating plated dinners for up to 200 or buffets for 230.		701-394-8815	https://medora.com/groups/venues/
+`,
+  },
 ];
 
 export default batches;

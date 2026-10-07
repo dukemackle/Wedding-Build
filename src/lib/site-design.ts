@@ -31,7 +31,17 @@ export type SiteTheme = {
   buttonInk: string;
   radius: string;
   swatches: [string, string, string, string];
+  /** Where the theme sits in the editor's list; none means the classic eight. */
+  group?: ThemeGroup;
+  /** The scene the theme draws by default (a design's own choice wins). */
+  scene?: SceneId;
+  /** The monogram the theme switches to when it's picked. */
+  ornament?: OrnamentId;
 };
+
+export const THEME_GROUPS = ["Classic", "Outdoors", "Western", "Traditions", "Modern & retro"] as const;
+
+export type ThemeGroup = (typeof THEME_GROUPS)[number];
 
 // Soft to bold.
 export const THEMES = [
@@ -171,6 +181,305 @@ export const THEMES = [
     radius: "0px",
     swatches: ["#c9a45c", "#d8c3a5", "#b7c4cf", "#d9a7a0"],
   },
+  // Outdoors. Each one's swatches are its moods: picking another swatch
+  // recolours the scene along with the buttons.
+  {
+    id: "mountain",
+    name: "Mountain",
+    mood: "Alpine",
+    group: "Outdoors",
+    scene: "mountains",
+    bg: "#fbf1ee",
+    surface: "#ffffff",
+    ink: "#2e2140",
+    muted: "#5a4a68",
+    photo: "#e8d6dc",
+    display: "'Oswald', sans-serif",
+    body: "'Jost', sans-serif",
+    italicNames: false,
+    nameWeight: 500,
+    buttonInk: "#ffffff",
+    radius: "2px",
+    swatches: ["#5b3a7a", "#3f6390", "#a14f22", "#3f6e55"],
+  },
+  {
+    id: "ocean",
+    name: "Ocean",
+    mood: "Breezy",
+    group: "Outdoors",
+    scene: "waves",
+    bg: "#f7f3ea",
+    surface: "#ffffff",
+    ink: "#143c5a",
+    muted: "#4a6578",
+    photo: "#d6e6ea",
+    display: "'Marcellus', serif",
+    body: "'Jost', sans-serif",
+    italicNames: false,
+    nameWeight: 400,
+    buttonInk: "#ffffff",
+    radius: "999px",
+    swatches: ["#2a6f8e", "#143c5a", "#0f6a6a", "#4f7a6a"],
+  },
+  {
+    id: "desert",
+    name: "Desert",
+    mood: "Boho",
+    group: "Outdoors",
+    scene: "sunset",
+    bg: "#f6e9d8",
+    surface: "#fcf5ec",
+    ink: "#4a2414",
+    muted: "#74503c",
+    photo: "#e5cdb2",
+    display: "'Fraunces', serif",
+    body: "'Jost', sans-serif",
+    italicNames: false,
+    nameWeight: 500,
+    buttonInk: "#ffffff",
+    radius: "999px",
+    swatches: ["#a84f2a", "#5a2a18", "#5f6b3f", "#8a5a2a"],
+  },
+  {
+    id: "vineyard",
+    name: "Vineyard",
+    mood: "Harvest",
+    group: "Outdoors",
+    scene: "hills",
+    bg: "#f4efe6",
+    surface: "#fbf8f2",
+    ink: "#3e1620",
+    muted: "#6e4e56",
+    photo: "#e2d6d0",
+    display: "'Cormorant Garamond', serif",
+    body: "'Jost', sans-serif",
+    italicNames: true,
+    nameWeight: 500,
+    buttonInk: "#ffffff",
+    radius: "2px",
+    swatches: ["#6e2436", "#5a6630", "#7a5a2a", "#3f4a2a"],
+  },
+  {
+    id: "barn",
+    name: "Barn",
+    mood: "Rustic elegant",
+    group: "Outdoors",
+    scene: "lights",
+    ornament: "barndoor",
+    bg: "#f6f0e6",
+    surface: "#fffaf2",
+    ink: "#3b2a1e",
+    muted: "#6e5a48",
+    photo: "#e2d4c0",
+    display: "'Playfair Display', serif",
+    body: "'Jost', sans-serif",
+    italicNames: true,
+    nameWeight: 500,
+    buttonInk: "#ffffff",
+    radius: "2px",
+    swatches: ["#8a5a2b", "#3b2a1e", "#7d6020", "#5f6b4a"],
+  },
+  {
+    id: "winter",
+    name: "Winter",
+    mood: "Crisp",
+    group: "Outdoors",
+    scene: "pines",
+    bg: "#eef2f5",
+    surface: "#ffffff",
+    ink: "#1e2f4a",
+    muted: "#4c5f78",
+    photo: "#d6dee6",
+    display: "'Gilda Display', serif",
+    body: "'Jost', sans-serif",
+    italicNames: false,
+    nameWeight: 400,
+    buttonInk: "#ffffff",
+    radius: "2px",
+    swatches: ["#1e2f4a", "#4a6380", "#2f5a4a", "#8a2a3c"],
+  },
+  // Western
+  {
+    id: "ranch",
+    name: "Ranch",
+    mood: "Rustic",
+    group: "Western",
+    scene: "frontier",
+    ornament: "horseshoe",
+    bg: "#efe3cc",
+    surface: "#f7eedb",
+    ink: "#3b2416",
+    muted: "#694c37",
+    photo: "#dccaa8",
+    display: "'Rye', serif",
+    body: "'Courier Prime', monospace",
+    italicNames: false,
+    nameWeight: 400,
+    buttonInk: "#f7eedb",
+    radius: "2px",
+    swatches: ["#7a2e1f", "#5a3a24", "#6a5420", "#3b5a4a"],
+  },
+  {
+    id: "cowgirl",
+    name: "Cowgirl",
+    mood: "Playful",
+    group: "Western",
+    scene: "gingham",
+    ornament: "horseshoe",
+    bg: "#fdf5f1",
+    surface: "#ffffff",
+    ink: "#4a1f2a",
+    muted: "#77495a",
+    photo: "#f2d4dc",
+    display: "'Ultra', serif",
+    body: "'Karla', sans-serif",
+    italicNames: false,
+    nameWeight: 400,
+    buttonInk: "#ffffff",
+    radius: "999px",
+    swatches: ["#a3203a", "#a8406a", "#7a4a2a", "#3b5a7a"],
+  },
+  // Traditions. Each brings the marks its weddings use; all of them can be
+  // changed like any other theme's.
+  {
+    id: "mehndi",
+    name: "Mehndi",
+    mood: "Jewel",
+    group: "Traditions",
+    scene: "garland",
+    ornament: "mandala",
+    bg: "#fbf1dc",
+    surface: "#fff8ea",
+    ink: "#4a0d27",
+    muted: "#7a3a52",
+    photo: "#f0d8b8",
+    display: "'Cinzel', serif",
+    body: "'Jost', sans-serif",
+    italicNames: false,
+    nameWeight: 500,
+    buttonInk: "#ffffff",
+    radius: "2px",
+    swatches: ["#7a1640", "#0f5a4a", "#9a4a00", "#1f3a6e"],
+  },
+  {
+    id: "nikah",
+    name: "Nikah",
+    mood: "Serene",
+    group: "Traditions",
+    scene: "stars",
+    ornament: "bismillah",
+    bg: "#f8f4ea",
+    surface: "#ffffff",
+    ink: "#123d35",
+    muted: "#3d5f57",
+    photo: "#dfe6dc",
+    display: "'Pinyon Script', cursive",
+    body: "'Cormorant Garamond', serif",
+    italicNames: false,
+    nameWeight: 400,
+    buttonInk: "#ffffff",
+    radius: "2px",
+    swatches: ["#123d35", "#7d6020", "#5a2a3a", "#1f3a5a"],
+  },
+  {
+    id: "chuppah",
+    name: "Chuppah",
+    mood: "Heirloom",
+    group: "Traditions",
+    scene: "frame",
+    ornament: "chuppah",
+    bg: "#f7f3ea",
+    surface: "#ffffff",
+    ink: "#1f3a6e",
+    muted: "#4a5a7a",
+    photo: "#dde2ea",
+    display: "'Cormorant Garamond', serif",
+    body: "'Jost', sans-serif",
+    italicNames: false,
+    nameWeight: 500,
+    buttonInk: "#ffffff",
+    radius: "2px",
+    swatches: ["#1f3a6e", "#7d6020", "#5a2a4a", "#2f5a4a"],
+  },
+  {
+    id: "fiesta",
+    name: "Fiesta",
+    mood: "Vibrant",
+    group: "Traditions",
+    scene: "papel",
+    bg: "#fff7ec",
+    surface: "#ffffff",
+    ink: "#3a1f2a",
+    muted: "#6a4a52",
+    photo: "#f6dcc6",
+    display: "'Playfair Display', serif",
+    body: "'Karla', sans-serif",
+    italicNames: false,
+    nameWeight: 600,
+    buttonInk: "#ffffff",
+    radius: "999px",
+    swatches: ["#b02a58", "#0f7a74", "#a8481a", "#3a1f2a"],
+  },
+  {
+    id: "doublehappiness",
+    name: "Double happiness",
+    mood: "Festive",
+    group: "Traditions",
+    scene: "clouds",
+    ornament: "xi",
+    bg: "#a61d27",
+    surface: "#b3262f",
+    ink: "#fdf0d6",
+    muted: "#f3d2a8",
+    photo: "#8f1820",
+    display: "'Cinzel', serif",
+    body: "'Jost', sans-serif",
+    italicNames: false,
+    nameWeight: 500,
+    buttonInk: "#6e1219",
+    radius: "2px",
+    swatches: ["#f6d68a", "#fdf0d6", "#ffffff", "#f0b860"],
+  },
+  // Modern & retro
+  {
+    id: "city",
+    name: "City hall",
+    mood: "Editorial",
+    group: "Modern & retro",
+    ornament: "none",
+    bg: "#ffffff",
+    surface: "#ffffff",
+    ink: "#111111",
+    muted: "#555555",
+    photo: "#e6e6e6",
+    display: "'Bodoni Moda', serif",
+    body: "'Jost', sans-serif",
+    italicNames: false,
+    nameWeight: 500,
+    buttonInk: "#ffffff",
+    radius: "0px",
+    swatches: ["#111111", "#8a2a3c", "#2243b6", "#5e5e5e"],
+  },
+  {
+    id: "retro",
+    name: "Retro",
+    mood: "Groovy",
+    group: "Modern & retro",
+    scene: "groovy",
+    ornament: "none",
+    bg: "#fbf0dc",
+    surface: "#fff8ea",
+    ink: "#4e2814",
+    muted: "#7d5236",
+    photo: "#f0d9b5",
+    display: "'Shrikhand', serif",
+    body: "'Karla', sans-serif",
+    italicNames: false,
+    nameWeight: 400,
+    buttonInk: "#ffffff",
+    radius: "999px",
+    swatches: ["#b23f14", "#8a4b2a", "#8a5a00", "#3b5a4a"],
+  },
 ] as const satisfies readonly SiteTheme[];
 
 export type ThemeId = (typeof THEMES)[number]["id"];
@@ -201,7 +510,39 @@ export const FONTS = [
   { id: "gilda", label: "Gilda Display", kind: "serif", css: "'Gilda Display', serif", google: "Gilda+Display" },
   { id: "prata", label: "Prata", kind: "serif", css: "'Prata', serif", google: "Prata" },
   { id: "baskerville", label: "Libre Baskerville", kind: "serif", css: "'Libre Baskerville', serif", google: "Libre+Baskerville:ital,wght@0,400;0,700;1,400" },
+  { id: "forum", label: "Forum", kind: "serif", css: "'Forum', serif", google: "Forum" },
+  { id: "bellefair", label: "Bellefair", kind: "serif", css: "'Bellefair', serif", google: "Bellefair" },
+  { id: "zilla", label: "Zilla Slab", kind: "serif", css: "'Zilla Slab', serif", google: "Zilla+Slab:ital,wght@0,400;0,500;0,600;1,400" },
+  { id: "bree", label: "Bree Serif", kind: "serif", css: "'Bree Serif', serif", google: "Bree+Serif" },
+  // Display: big, characterful faces for names and headings only.
+  { id: "cinzeldeco", label: "Cinzel Decorative", kind: "display", css: "'Cinzel Decorative', serif", google: "Cinzel+Decorative:wght@400;700" },
+  { id: "poiret", label: "Poiret One", kind: "display", css: "'Poiret One', serif", google: "Poiret+One" },
+  { id: "limelight", label: "Limelight", kind: "display", css: "'Limelight', serif", google: "Limelight" },
+  { id: "abril", label: "Abril Fatface", kind: "display", css: "'Abril Fatface', serif", google: "Abril+Fatface" },
+  { id: "gloock", label: "Gloock", kind: "display", css: "'Gloock', serif", google: "Gloock" },
+  { id: "caslondisplay", label: "Libre Caslon Display", kind: "display", css: "'Libre Caslon Display', serif", google: "Libre+Caslon+Display" },
+  { id: "bebas", label: "Bebas Neue", kind: "display", css: "'Bebas Neue', serif", google: "Bebas+Neue" },
+  { id: "anton", label: "Anton", kind: "display", css: "'Anton', serif", google: "Anton" },
+  { id: "oswald", label: "Oswald", kind: "display", css: "'Oswald', sans-serif", google: "Oswald:wght@400;500;600" },
+  { id: "rye", label: "Rye", kind: "display", css: "'Rye', serif", google: "Rye" },
+  { id: "ultra", label: "Ultra", kind: "display", css: "'Ultra', serif", google: "Ultra" },
+  { id: "shrikhand", label: "Shrikhand", kind: "display", css: "'Shrikhand', serif", google: "Shrikhand" },
   // Script
+  { id: "saintdelafield", label: "Mrs Saint Delafield", kind: "script", css: "'Mrs Saint Delafield', cursive", google: "Mrs+Saint+Delafield" },
+  { id: "monsieur", label: "Monsieur La Doulaise", kind: "script", css: "'Monsieur La Doulaise', cursive", google: "Monsieur+La+Doulaise" },
+  { id: "herrvon", label: "Herr Von Muellerhoff", kind: "script", css: "'Herr Von Muellerhoff', cursive", google: "Herr+Von+Muellerhoff" },
+  { id: "corinthia", label: "Corinthia", kind: "script", css: "'Corinthia', cursive", google: "Corinthia:wght@400;700" },
+  { id: "windsong", label: "WindSong", kind: "script", css: "'WindSong', cursive", google: "WindSong:wght@400;500" },
+  { id: "ballet", label: "Ballet", kind: "script", css: "'Ballet', cursive", google: "Ballet" },
+  { id: "alexbrush", label: "Alex Brush", kind: "script", css: "'Alex Brush', cursive", google: "Alex+Brush" },
+  { id: "sacramento", label: "Sacramento", kind: "script", css: "'Sacramento', cursive", google: "Sacramento" },
+  { id: "birthstone", label: "Birthstone", kind: "script", css: "'Birthstone', cursive", google: "Birthstone" },
+  { id: "imperial", label: "Imperial Script", kind: "script", css: "'Imperial Script', cursive", google: "Imperial+Script" },
+  { id: "lobster", label: "Lobster", kind: "script", css: "'Lobster', cursive", google: "Lobster" },
+  { id: "damion", label: "Damion", kind: "script", css: "'Damion', cursive", google: "Damion" },
+  { id: "kaushan", label: "Kaushan Script", kind: "script", css: "'Kaushan Script', cursive", google: "Kaushan+Script" },
+  { id: "grandhotel", label: "Grand Hotel", kind: "script", css: "'Grand Hotel', cursive", google: "Grand+Hotel" },
+  { id: "yellowtail", label: "Yellowtail", kind: "script", css: "'Yellowtail', cursive", google: "Yellowtail" },
   { id: "greatvibes", label: "Great Vibes", kind: "script", css: "'Great Vibes', cursive", google: "Great+Vibes" },
   { id: "pinyon", label: "Pinyon Script", kind: "script", css: "'Pinyon Script', cursive", google: "Pinyon+Script" },
   { id: "parisienne", label: "Parisienne", kind: "script", css: "'Parisienne', cursive", google: "Parisienne" },
@@ -214,14 +555,20 @@ export const FONTS = [
   { id: "montserrat", label: "Montserrat", kind: "sans", css: "'Montserrat', sans-serif", google: "Montserrat:wght@400;500;600" },
   { id: "josefin", label: "Josefin Sans", kind: "sans", css: "'Josefin Sans', sans-serif", google: "Josefin+Sans:wght@400;500;600" },
   { id: "nunito", label: "Nunito Sans", kind: "sans", css: "'Nunito Sans', sans-serif", google: "Nunito+Sans:wght@400;600" },
+  { id: "poppins", label: "Poppins", kind: "sans", css: "'Poppins', sans-serif", google: "Poppins:wght@400;500;600" },
+  { id: "raleway", label: "Raleway", kind: "sans", css: "'Raleway', sans-serif", google: "Raleway:ital,wght@0,400;0,500;0,600;1,400" },
+  { id: "outfit", label: "Outfit", kind: "sans", css: "'Outfit', sans-serif", google: "Outfit:wght@400;500;600" },
+  { id: "courier", label: "Courier Prime", kind: "sans", css: "'Courier Prime', monospace", google: "Courier+Prime:ital,wght@0,400;0,700;1,400" },
 ] as const;
 
 export type FontId = (typeof FONTS)[number]["id"];
 
 const FONT_IDS = FONTS.map((f) => f.id) as [FontId, ...FontId[]];
 
-/** Faces that work for paragraphs: no scripts, and no all-caps Cinzel. */
-export const BODY_FONTS = FONTS.filter((f) => f.kind !== "script" && f.id !== "cinzel" && f.id !== "italiana");
+/** Faces that work for paragraphs: no scripts or display faces, and no all-caps Cinzel. */
+export const BODY_FONTS = FONTS.filter(
+  (f) => f.kind !== "script" && f.kind !== "display" && f.id !== "cinzel" && f.id !== "italiana",
+);
 
 export function fontById(id: string | null | undefined) {
   return FONTS.find((f) => f.id === id) ?? null;
@@ -248,6 +595,12 @@ export const FONT_PAIRINGS = [
   { id: "ij", label: "Italiana · Josefin", display: "italiana", body: "josefin" },
   { id: "pn", label: "Parisienne · Nunito", display: "parisienne", body: "nunito" },
   { id: "gm", label: "Gilda · Marcellus", display: "gilda", body: "nunito" },
+  { id: "mr", label: "Mrs Saint Delafield · Raleway", display: "saintdelafield", body: "raleway" },
+  { id: "co", label: "Corinthia · Outfit", display: "corinthia", body: "outfit" },
+  { id: "lp", label: "Lobster · Poppins", display: "lobster", body: "poppins" },
+  { id: "cb", label: "Cinzel Decorative · Bellefair", display: "cinzeldeco", body: "bellefair" },
+  { id: "go", label: "Gloock · Outfit", display: "gloock", body: "outfit" },
+  { id: "bz", label: "Bebas Neue · Zilla Slab", display: "bebas", body: "zilla" },
 ] as const satisfies readonly { id: string; label: string; display: FontId | null; body: FontId | null }[];
 
 export type FontPairingId = (typeof FONT_PAIRINGS)[number]["id"];
@@ -276,7 +629,83 @@ export const ORNAMENTS = [
   { id: "arch", label: "Arch" },
   { id: "diamond", label: "Diamond" },
   { id: "seal", label: "Wax seal" },
+  { id: "horseshoe", label: "Horseshoe" },
+  { id: "mountain", label: "Peak" },
+  { id: "anchor", label: "Anchor" },
+  { id: "mandala", label: "Mandala" },
+  { id: "star", label: "Eight-point star" },
+  { id: "chuppah", label: "Chuppah" },
+  { id: "compass", label: "Compass" },
+  { id: "wheel", label: "Ship's wheel" },
+  { id: "chandelier", label: "Chandelier" },
+  { id: "barndoor", label: "Barn door" },
+  // Words rather than initials: the blessing a Nikah invitation opens with,
+  // and the double-happiness character.
+  { id: "bismillah", label: "Bismillah" },
+  { id: "xi", label: "囍" },
 ] as const;
+
+/** Ornaments that are a set phrase, not the couple's initials. */
+export const WORD_ORNAMENTS: readonly OrnamentId[] = ["bismillah", "xi"];
+
+/**
+ * A drawn setting for the top of the page, coloured from the palette so it
+ * suits any accent (src/components/site-scene.tsx). "band" scenes sit along
+ * the bottom of the top of the page, "strip" ones along its top, and
+ * "surround" ones frame the names (so they show only where there's no photo
+ * behind them).
+ */
+export const SCENES = [
+  { id: "none", label: "None", place: "none" },
+  // Landscapes, along the bottom of the top of the page.
+  { id: "mountains", label: "Snowy peaks", place: "band" },
+  { id: "ridges", label: "Misty ridges", place: "band" },
+  { id: "lake", label: "Alpine lake", place: "band" },
+  { id: "meadow", label: "Ranch meadow", place: "band" },
+  { id: "hills", label: "Vineyard rows", place: "band" },
+  { id: "waves", label: "Waves", place: "band" },
+  { id: "pines", label: "Pines", place: "band" },
+  { id: "frontier", label: "Mesas", place: "band" },
+  { id: "sunset", label: "Desert sun", place: "band" },
+  // Strips, across the top.
+  { id: "lights", label: "String lights", place: "strip" },
+  { id: "shoreline", label: "Shoreline", place: "strip" },
+  { id: "garland", label: "Marigolds", place: "strip" },
+  { id: "papel", label: "Papel picado", place: "strip" },
+  { id: "stars", label: "Star pattern", place: "strip" },
+  { id: "gingham", label: "Gingham", place: "strip" },
+  { id: "stripes", label: "Stripes", place: "strip" },
+  { id: "western-tiles", label: "Western tiles", place: "strip" },
+  { id: "ocean-tiles", label: "Ocean tiles", place: "strip" },
+  // Around the names.
+  { id: "drape", label: "Draped fabric", place: "surround" },
+  { id: "western-pattern", label: "Western icons", place: "surround" },
+  { id: "ocean-pattern", label: "Sea life", place: "surround" },
+  { id: "clouds", label: "Clouds", place: "surround" },
+  { id: "groovy", label: "Groovy rings", place: "surround" },
+  { id: "frame", label: "Double frame", place: "surround" },
+] as const;
+
+export type SceneId = (typeof SCENES)[number]["id"];
+
+const SCENE_IDS = SCENES.map((x) => x.id) as [SceneId, ...SceneId[]];
+
+export function sceneById(id: string | null | undefined) {
+  return SCENES.find((x) => x.id === id) ?? SCENES[0];
+}
+
+/**
+ * How the sections below the top are dressed. "cards" is each in its own
+ * card, two columns on a computer. "storybook" runs them as full-width bands
+ * in alternating tints, with the schedule as an illustrated timeline, photos
+ * as a scrapbook and places to stay as a dotted route.
+ */
+export const PAGE_STYLES = [
+  { id: "cards", label: "Cards", help: "Each section in its own card" },
+  { id: "storybook", label: "Storybook", help: "Full-width bands, a timeline, scrapbook photos" },
+] as const;
+
+export type PageStyleId = (typeof PAGE_STYLES)[number]["id"];
 
 export type OrnamentId = (typeof ORNAMENTS)[number]["id"];
 
@@ -308,6 +737,24 @@ export const SITE_ART = [
   { id: "holly-line", name: "Holly & mistletoe", group: "Seasonal", kind: "line", src: "/site-art/holly-mistletoe-line.webp", w: 674, h: 900 },
   { id: "lemon", name: "Lemons", group: "Destination", kind: "colour", src: "/site-art/lemon.webp", w: 703, h: 900 },
   { id: "palm", name: "Date palm", group: "Destination", kind: "colour", src: "/site-art/palm-sprig.webp", w: 302, h: 900 },
+  // Drawn for You Do, I Do (SVG, ours outright), filled with the accent.
+  { id: "boot", name: "Cowboy boot", group: "Western", kind: "line", src: "/site-art/boot.svg", w: 640, h: 900 },
+  { id: "saguaro", name: "Cactus", group: "Western", kind: "line", src: "/site-art/saguaro.svg", w: 600, h: 900 },
+  { id: "longhorn", name: "Longhorn", group: "Western", kind: "line", src: "/site-art/longhorn.svg", w: 900, h: 560 },
+  { id: "anchor", name: "Anchor", group: "Coast", kind: "line", src: "/site-art/anchor.svg", w: 720, h: 900 },
+  { id: "shells", name: "Shells", group: "Coast", kind: "line", src: "/site-art/shells.svg", w: 640, h: 900 },
+  { id: "frond", name: "Palm frond", group: "Coast", kind: "line", src: "/site-art/frond.svg", w: 620, h: 900 },
+  { id: "grapes", name: "Grapevine", group: "Vineyard", kind: "line", src: "/site-art/grapes.svg", w: 640, h: 900 },
+  { id: "pine", name: "Pine bough", group: "Winter", kind: "line", src: "/site-art/pine.svg", w: 600, h: 900 },
+  // Icons shared with the patterns (scripts/site-art-icons.mjs writes them).
+  { id: "hat", name: "Cowboy hat", group: "Western", kind: "line", src: "/site-art/icon-hat.svg", w: 900, h: 900 },
+  { id: "badge", name: "Sheriff's star", group: "Western", kind: "line", src: "/site-art/icon-badge.svg", w: 900, h: 900 },
+  { id: "horseshoe", name: "Horseshoe", group: "Western", kind: "line", src: "/site-art/icon-horseshoe.svg", w: 900, h: 900 },
+  { id: "seahorse", name: "Seahorse", group: "Coast", kind: "line", src: "/site-art/icon-seahorse.svg", w: 900, h: 900 },
+  { id: "starfish", name: "Starfish", group: "Coast", kind: "line", src: "/site-art/icon-starfish.svg", w: 900, h: 900 },
+  { id: "turtle", name: "Sea turtle", group: "Coast", kind: "line", src: "/site-art/icon-turtle.svg", w: 900, h: 900 },
+  { id: "coral", name: "Coral", group: "Coast", kind: "line", src: "/site-art/icon-coral.svg", w: 900, h: 900 },
+  { id: "fish", name: "Fish", group: "Coast", kind: "line", src: "/site-art/icon-fish.svg", w: 900, h: 900 },
 ] as const;
 
 export type ArtId = (typeof SITE_ART)[number]["id"];
@@ -526,6 +973,16 @@ export const siteDesignSchema = z.object({
     })
     .catch({ id: null, placement: "sides" }),
   hero: z.enum(HERO_LAYOUTS.map((h) => h.id) as [HeroLayoutId, ...HeroLayoutId[]]).catch("full"),
+  /** null means the theme's own scene. */
+  scene: z.enum(SCENE_IDS).nullable().catch(null),
+  pageStyle: z.enum(["cards", "storybook"]).catch("cards"),
+  /** A vow renewal changes the wording, and counts the years from `since`. */
+  occasion: z
+    .object({
+      kind: z.enum(["wedding", "renewal"]).catch("wedding"),
+      since: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).nullable().catch(null),
+    })
+    .catch({ kind: "wedding", since: null }),
   sections: z
     .array(z.object({ id: sectionKeySchema, hidden: z.boolean().catch(false) }).nullable().catch(null))
     .transform((list) => completeSections(list.filter((x) => x !== null)))
@@ -545,6 +1002,9 @@ export const DEFAULT_SITE_DESIGN: SiteDesign = {
   ornament: "rule",
   art: { id: null, placement: "sides" },
   hero: "full",
+  scene: null,
+  pageStyle: "cards",
+  occasion: { kind: "wedding", since: null },
   sections: DEFAULT_SECTIONS,
   motion: MOTION_PRESETS.subtle,
 };
@@ -599,6 +1059,10 @@ export type ResolvedDesign = {
   heading: string;
   /** The heading face is a script: names aren't slanted or set in capitals. */
   scriptNames: boolean;
+  /** The scene drawn at the top: the design's own choice, else the theme's. */
+  scene: SceneId;
+  /** The tint behind every other band in the storybook page style. */
+  band: string;
 };
 
 export function resolveDesign(design: SiteDesign): ResolvedDesign {
@@ -635,7 +1099,9 @@ export function resolveDesign(design: SiteDesign): ResolvedDesign {
         );
   const scrim = luminance(theme.ink) < luminance(theme.bg) ? theme.ink : theme.bg;
   const heading = cHeading ?? (cInk ? ink : theme.ink);
-  return { theme, accent, onAccent, scrim, heading, scriptNames };
+  const scene = design.scene ?? base.scene ?? "none";
+  const band = mix(theme.bg, accent, dark ? 0.16 : 0.09);
+  return { theme, accent, onAccent, scrim, heading, scriptNames, scene, band };
 }
 
 /** The palette these settings match exactly, if any -- worked out, not stored. */
@@ -662,7 +1128,7 @@ export function paletteColors(p: Palette): Pick<SiteDesign, "colors" | "accent">
  * globals.css handle the few places where one app colour plays two roles.
  */
 export function designCssVars(design: SiteDesign): Record<string, string> {
-  const { theme, accent, onAccent, scrim, heading, scriptNames } = resolveDesign(design);
+  const { theme, accent, onAccent, scrim, heading, scriptNames, band } = resolveDesign(design);
   return {
     "--color-parchment": theme.bg,
     "--color-card": theme.surface,
@@ -681,6 +1147,7 @@ export function designCssVars(design: SiteDesign): Record<string, string> {
     "--site-on-accent": onAccent,
     "--site-muted": theme.muted,
     "--site-photo": theme.photo,
+    "--site-band": band,
     "--site-scrim": scrim,
     "--site-radius": theme.radius,
     "--site-name-style": theme.italicNames ? "italic" : "normal",
