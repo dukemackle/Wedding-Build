@@ -1679,7 +1679,7 @@ function BookingsDemo() {
 
 /* ---------- Wedding site ---------- */
 
-const DEMO_THEMES = ["garden", "blush", "terracotta", "midnight"].map(
+const DEMO_THEMES = ["garden", "mountain", "ranch", "midnight"].map(
   (id) => THEMES.find((t) => t.id === id) ?? THEMES[0],
 );
 

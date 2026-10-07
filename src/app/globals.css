@@ -329,6 +329,22 @@ body::before {
 .guest-site button.rounded-md {
   border-radius: var(--site-radius);
 }
+/* Storybook page style (section-layout.tsx): sections sit on their band
+   rather than in a card, under a larger, centred heading. */
+.site-storybook .site-card {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  padding: 0;
+}
+.site-storybook .site-card > h2 {
+  text-align: center;
+  font-size: clamp(1.9rem, 3.4vw, 2.6rem);
+  font-weight: 500;
+}
+.site-storybook .site-card > h2 + p {
+  text-align: center;
+}
 /* The guest site has a footer of its own, in its theme. */
 /* The dashboard's photo backdrop sits behind the page at a negative z-index,
    which paints beneath body's own background -- so on that page body lets

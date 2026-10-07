@@ -12,6 +12,7 @@ import {
   COLOR_FAMILIES,
   PALETTES,
   THEMES,
+  THEME_GROUPS,
   activePalette,
   contrast,
   isDark,
@@ -452,16 +453,30 @@ function ThemeTab({
     <>
       <div className="flex flex-col gap-3">
         <PanelLabel>Theme</PanelLabel>
-        <div className="grid grid-cols-2 gap-3">
-          {THEMES.map((t) => (
-            <ThemeCard
-              key={t.id}
-              theme={t}
-              selected={t.id === design.theme}
-              onPick={() => onChange({ theme: t.id, accent: null, colors: NO_COLORS })}
-            />
-          ))}
-        </div>
+        {THEME_GROUPS.map((group) => (
+          <div key={group} className="flex flex-col gap-2">
+            {group !== "Classic" && <p className="text-xs font-medium text-ink/60">{group}</p>}
+            <div className="grid grid-cols-2 gap-3">
+              {THEMES.filter((t) => ((t as SiteTheme).group ?? "Classic") === group).map((t) => (
+                <ThemeCard
+                  key={t.id}
+                  theme={t}
+                  selected={t.id === design.theme}
+                  onPick={() =>
+                    onChange({
+                      theme: t.id,
+                      accent: null,
+                      colors: NO_COLORS,
+                      scene: null,
+                      // A theme with marks of its own brings them; the rest keep the couple's monogram.
+                      ...("ornament" in t ? { ornament: t.ornament } : {}),
+                    })
+                  }
+                />
+              ))}
+            </div>
+          </div>
+        ))}
         <p className="text-[13px] leading-normal text-ink/60">
           A theme sets the fonts, corners and colours. Switching keeps everything you&apos;ve
           written — only the look changes.
