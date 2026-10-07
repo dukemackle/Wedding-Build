@@ -29,6 +29,21 @@ The Roost Ocean Springs	604 Porter Avenue	Ocean Springs	Mississippi			Ballroom /
 The Grand Sofia	1785 Beach Blvd	Biloxi	Mississippi			Beach / Waterfront	Indoor & Outdoor	300		Beachfront hall of 10,000 sq ft with coffered ceilings, two preparation suites and direct access to the sand.	info@thegrandsofia.com	(228) 295-7126	https://www.thegrandsofia.com
 `,
   },
+  {
+    name: "Oxford, Natchez, Hattiesburg and Vicksburg",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+The Country Club of Oxford	300 Fazio Drive	Oxford	Mississippi			Ballroom / Hotel	Indoor & Outdoor	200		Club ballroom seating 200 with a connecting patio and tiered fountain, open to non-members with a member sponsor and catered in house.	cbraseth@oxfordgolf.biz	662-234-2866	https://thecountryclubofoxford.com/weddings
+Choctaw Hall	310 N. Wall St.	Natchez	Mississippi			Historic / Estate	Indoor			Historic Natchez mansion that also runs as a bed and breakfast, hosting weddings, tours and seated dinners in its period rooms.	info@choctawhall.com	(601) 807-0196	https://choctawhall.com/events-weddings/
+Brandon Hall Plantation	73 Natchez Trace Parkway	Natchez	Mississippi			Historic / Estate	Indoor & Outdoor	600		1856 antebellum house on 45 acres beside the Natchez Trace, with a garden gazebo, wisteria arbor, pond and on-site cottages and rooms.	info@brandonhallplantation.com	(601) 304-1040	https://brandonhallplantation.com/weddings
+Bridlewood Event Venue Hattiesburg	32 Railroad Rd	Hattiesburg	Mississippi			Barn / Rustic	Indoor & Outdoor			1851 timber-frame barn moved from New York onto 40 acres, with reclaimed-wood vaulted ceilings, an oak-shaded ceremony lawn and a loft above the stables.	tori@bridlewoodeventvenue.com	601.674.3535	https://bridlewoodeventvenue.com/hattiesburg-ms/
+Parkhill Dynasty	321 Tolbert St	Tupelo	Mississippi			Ballroom / Hotel	Indoor & Outdoor			Private event venue in Tupelo with indoor and outdoor space for weddings, banquets and receptions, drawing couples from across north Mississippi.	events@parkhilldynasty.com	662.269.3575	https://www.parkhilldynasty.com/
+LeighWood Place	786 County Road 811	Saltillo	Mississippi			Garden / Outdoor	Indoor & Outdoor			Restored Southern-style venue on ten wooded acres near Tupelo, run by its owner and open for weddings, receptions and meetings since 2019.	jrc@leighwoodplace.com	662-231-4492	https://www.leighwoodplace.com/
+Duff Green Mansion	1114 First East Street	Vicksburg	Mississippi			Historic / Estate	Indoor & Outdoor			Restored Vicksburg mansion and bed and breakfast with indoor and outdoor space for intimate or larger weddings and receptions.	duffgreenmansion@gmail.com	601-636-6968	https://duffgreenmansion.com/events
+Grey Oaks Plantation	4142 Rifle Range Road	Vicksburg	Mississippi			Historic / Estate	Indoor & Outdoor			Federal-style plantation home rebuilt in the 1930s from a Greek Revival house, set among landscaped grounds and oaks and furnished with period antiques.	ron.white@greyoaksplantation.com	(850) 341-9900	https://greyoaksplantation.com/
+The Inn at Cedar Grove Mansion	2200 Oak St	Vicksburg	Mississippi			Historic / Estate	Indoor & Outdoor			Historic Vicksburg mansion inn where couples can marry in the courtyard or ballroom, with the restaurant, rooms and pool on site for the wedding party.	info@cedargroveinn.com	(601) 636-1000	https://www.cedargrovemansion.com/weddings.htm
+The Mill at Plein Air		Taylor	Mississippi			Barn / Rustic	Indoor & Outdoor	450		Reception hall and 280-seat chapel built largely from salvaged century-old mill and church materials, with a two-bedroom bridal loft included.	mccool@bellsouth.net	(662) 234-3151	https://www.pleinairtaylor.com/weddings-receptions-rentals
+Dunleith Historic Inn	84 Homochitto St	Natchez	Mississippi			Historic / Estate	Indoor & Outdoor			Natchez landmark inn with the main house, courtyard and south lawn as wedding spaces, plus on-site catering and coordinators.		601-897-6300	https://www.dunleithhistoricinn.com/weddings/`,
+  },
 ];
 
 export default batches;
