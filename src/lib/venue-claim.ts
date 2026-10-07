@@ -21,7 +21,7 @@ import type { PriceBasis, PriceOption, ServiceLevel, Venue, VendorPolicy } from 
 export const MAX_CLAIM_PHOTOS = 10;
 export const MAX_CLAIM_PHOTO_BYTES = 10 * 1024 * 1024;
 export const CLAIM_PHOTO_TYPES = ["image/jpeg", "image/png", "image/webp"] as const;
-const MAX_PREFERRED_VENDORS = 40;
+export const MAX_PREFERRED_VENDORS = 40;
 const MAX_FAQS = 20;
 const MAX_SPACES = 12;
 export const MAX_PRICE_OPTIONS = 8;
@@ -75,7 +75,13 @@ export type ClaimSpace = {
 
 export type ClaimFaq = { question: string; answer: string };
 
-export type ClaimPreferredVendor = { category: string; name: string; website: string | null };
+export type ClaimPreferredVendor = {
+  category: string;
+  name: string;
+  website: string | null;
+  /** "You must book from these" rather than "we recommend these". Older submissions lack it. */
+  required?: boolean;
+};
 
 export type ClaimSubmission = {
   details: ClaimDetails;
@@ -351,6 +357,7 @@ export function validateClaim(input: ClaimSubmission): { value: ClaimSubmission;
       category: clean(v?.category),
       name: clean(v?.name),
       website: normaliseWebsite(clean(v?.website)),
+      required: v?.required === true,
     }))
     .filter((v) => v.name || v.website);
   if (preferredVendors.length > MAX_PREFERRED_VENDORS) {

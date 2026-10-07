@@ -70,6 +70,24 @@ Take One Visuals	Videography		Post Falls	Idaho	Coeur d'Alene, Hayden, Rathdrum, 
 Northwest Stolen Images	Videography		Coeur d'Alene	Idaho	Coeur d'Alene, Post Falls, Hayden, Sandpoint and Spokane	Photo and video team with more than 1,500 weddings shot, covering lakefront ceremonies and cinematic films.	Admin@northweststolenimages.com	(208) 508-1900	https://nwstolenimages.com/coeur-dalene-wedding-photographer	https://www.instagram.com/northweststolenimages_/
 `,
   },
+  {
+    name: "Sun Valley: photography, planning, florals, catering, hair and makeup and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Dev Khalsa Photography	Photography		Sun Valley	Idaho		Sun Valley wedding and portrait photographer covering ceremonies, receptions and couples' portraits around the Wood River Valley.	studio@devkhalsaphotography.com		https://www.devkhalsaphotography.com/	https://www.instagram.com/devkhalsaphotography/
+Kirsten Shultz Photography	Photography		Sun Valley	Idaho		Photographer who has spent most of her career working in and around Sun Valley, covering weddings alongside studio and editorial work.	kirstenshultzphotography@gmail.com	(208) 481-0138	https://kirstenshultz.com/	https://www.instagram.com/kirstenshultz_photography/
+Cheatwood Photography	Photography		Sun Valley	Idaho	Sun Valley, Atlanta and destination weddings	Wedding photographer splitting the year between Sun Valley and Atlanta, with a portfolio full of mountain and destination weddings.			https://www.cheatwoodphoto.com/	https://www.instagram.com/cheatwoodphotography/
+Heather Minor Events	Planning		Sun Valley	Idaho	Sun Valley	Full-service Sun Valley planner and designer who handles venue choice, vendor hiring and design, drawing on two decades in local events.	heather@heatherminorevents.com		https://www.heatherminorevents.com/	https://www.instagram.com/heatherminorevents/
+Taylor'd Events	Florals		Sun Valley	Idaho	Sun Valley	Sun Valley studio combining full-service wedding flowers with planning, so one team can handle both the design and the day.	taylor@taylordeventssv.com		https://www.taylordeventssv.com/	https://www.instagram.com/taylordeventssv/
+Two Hands Floral	Florals		Sun Valley	Idaho	Sun Valley and Ketchum	Sun Valley and Ketchum florist designing wedding flowers and larger installations, with arrangements that take their cue from the mountains.			https://www.twohandsfloral.com/	https://www.instagram.com/twohandsfloral/
+Tara Bella Flowers	Florals		Sun Valley	Idaho	Idaho and destination weddings	Husband-and-wife florist in Sun Valley known for detailed wedding designs, who also rent arbours, benches, candles and champagne walls.	tarabellaflowers@gmail.com	208.788.4046	https://www.tarabellaflowers.com/	
+Judith McQueen Entertaining	Catering	721 N Main St	Hailey	Idaho		Hailey caterer for weddings and private events, offering menu planning and a list of trusted local vendors.	mcq@judithmcqueen.com	2087202657	https://www.judithmcqueen.com/	https://www.instagram.com/judith.mcqueen/
+Rasberrys	Catering		Ketchum	Idaho		Ketchum bistro and caterer cooking seasonal, largely local food, with hors d'oeuvres and coursed menus for weddings and events.	rasberrysinc@gmail.com	(208) 726-0606	https://www.rasberrys.net/	https://www.instagram.com/rasberrys_eatery/
+At Your Place Catering	Catering		Sun Valley	Idaho	Sun Valley area	Family-run full-service caterer in the Sun Valley area, working with local farmers and suppliers on weddings from small to very large.			https://www.atyourplacecatering.com/	
+The Feathered Flip	Hair & Makeup	12 Bullion Street	Hailey	Idaho		Hailey salon for hair, skin and nails whose owner books wedding parties herself, with treatments suited to the dry mountain air.	thefeatheredflip@gmail.com	208.788.0092	https://www.thefeatheredflip.com/	https://www.instagram.com/thefeatheredflip/
+Hayden Gilmour Weddings	Videography		Ketchum	Idaho		Ketchum videographer and photographer making story-led wedding films that dwell on the small, fleeting moments of the day.	haydeng35@gmail.com	253-302-9623	https://www.haydengilmour.com/	
+Huckleberry Studio	Videography		Filer	Idaho	Boise, Twin Falls, McCall, Stanley, Sun Valley and Elko	Photo and video team near Twin Falls with over 200 weddings since 2016, filming across southern Idaho including Sun Valley and Stanley.	aleapeters@gmail.com	208.473.6439	https://www.thehuckleberrystudio.com/	https://www.instagram.com/huckleberry_studio/
+`,
+  },
 ];
 
 export default batches;

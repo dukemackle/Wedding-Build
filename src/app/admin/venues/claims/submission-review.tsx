@@ -139,6 +139,7 @@ export function SubmissionReview({ submission, venue }: { submission: VenueSubmi
                 ) : (
                   v.name
                 )}
+                {v.required && <span className="ml-1.5 text-xs text-ink/50">(required)</span>}
               </li>
             ))}
           </ul>

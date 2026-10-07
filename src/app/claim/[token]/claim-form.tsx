@@ -25,6 +25,7 @@ import {
   CLAIM_PHOTO_TYPES,
   MAX_CLAIM_PHOTOS,
   MAX_PRICE_OPTIONS,
+  MAX_PREFERRED_VENDORS,
   type ClaimDetails,
   type ClaimFaq,
   type ClaimPreferredVendor,
@@ -32,9 +33,13 @@ import {
   type ClaimSubmission,
 } from "@/lib/venue-claim";
 import { createClaimPhotoUploads, submitVenueClaim, createImportUpload, readListingSource, writeListingText } from "./actions";
-import { ImportPanel, mergeDraft, mergeFaqs } from "../import-panel";
+import { ImportPanel, mergeDraft, mergeFaqs, mergeVendors } from "../import-panel";
 import { ChipPicker, Field, inputClass, labelClass, PhotoGridEditor, Section, Select, WriteHelper, YesNo } from "../form-parts";
 import { StepNav, StepRail, type Step } from "../steps";
+import { ListingPreview, PreviewPrompt } from "../listing-preview";
+import { venuePreview } from "../preview-data";
+import { VenueListing } from "../../venues/[id]/venue-listing";
+import type { Venue } from "@/lib/supabase/types";
 
 const emptySpace: ClaimSpace = { name: "", description: null, capacity: null, setting: null, photo_url: null };
 
@@ -57,12 +62,23 @@ const PRICE_COVERS_PLACEHOLDER: Record<PriceBasis, string> = {
   ask: "",
 };
 
-export function ClaimForm({ token, initial }: { token: string; initial: ClaimSubmission }) {
+export function ClaimForm({
+  token,
+  initial,
+  listing,
+  liveHref,
+}: {
+  token: string;
+  initial: ClaimSubmission;
+  /** The venue's public columns, under the form's details in the preview. */
+  listing: Partial<Venue>;
+  liveHref: string | null;
+}) {
   const [details, setDetails] = useState<ClaimDetails>(initial.details);
   const [writeNotes, setWriteNotes] = useState("");
   const [photos, setPhotos] = useState<string[]>(initial.photoUrls);
   const [vendors, setVendors] = useState<ClaimPreferredVendor[]>(
-    initial.preferredVendors.length > 0 ? initial.preferredVendors : [{ category: "", name: "", website: null }],
+    initial.preferredVendors.length > 0 ? initial.preferredVendors : [{ category: "", name: "", website: null, required: false }],
   );
   const [faqs, setFaqs] = useState<ClaimFaq[]>(initial.faqs);
   const [spaces, setSpaces] = useState<ClaimSpace[]>(initial.spaces);
@@ -75,6 +91,7 @@ export function ClaimForm({ token, initial }: { token: string; initial: ClaimSub
   const [done, setDone] = useState(false);
   const [isPending, startTransition] = useTransition();
   const [step, setStep] = useState(0);
+  const [previewing, setPreviewing] = useState(false);
   const stepRefs = useRef<(HTMLFieldSetElement | null)[]>([]);
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -134,9 +151,11 @@ export function ClaimForm({ token, initial }: { token: string; initial: ClaimSub
   function applyDraft(read: ListingRead) {
     const merged = mergeDraft(details, read.details);
     const answered = mergeFaqs(faqs, read.faqs);
+    const listed = mergeVendors(vendors, read.vendors, MAX_PREFERRED_VENDORS);
     setDetails(merged.details);
     setFaqs(answered.faqs);
-    return merged.filled + answered.filled;
+    setVendors(listed.vendors);
+    return merged.filled + answered.filled + listed.filled;
   }
 
   // What the writer is told besides their own words: only what's on the form.
@@ -205,19 +224,44 @@ export function ClaimForm({ token, initial }: { token: string; initial: ClaimSub
     });
   }
 
+  const preview = previewing && (
+    <ListingPreview
+      onClose={() => setPreviewing(false)}
+      onSend={
+        done
+          ? undefined
+          : () => {
+              setPreviewing(false);
+              formRef.current?.requestSubmit();
+            }
+      }
+    >
+      <VenueListing data={venuePreview(listing, details, photos, faqs, spaces, vendors)} />
+    </ListingPreview>
+  );
+
   if (done) {
     const answeredFaqs = faqs.filter((f) => f.answer.trim()).length;
     return (
-      <ClaimDone
-        kind="venue"
-        token={token}
-        email={submitter.email}
-        summary={[
-          `${photos.length} ${photos.length === 1 ? "photo" : "photos"} sent`,
-          `${answeredFaqs} of ${faqs.length} couple questions answered`,
-          ...(spaces.length > 0 ? [`${spaces.length} ${spaces.length === 1 ? "space" : "spaces"} described`] : []),
-        ]}
-      />
+      <>
+        <ClaimDone
+          kind="venue"
+          token={token}
+          email={submitter.email}
+          liveHref={liveHref}
+          onPreview={() => setPreviewing(true)}
+          onEdit={() => {
+            setDone(false);
+            setStep(0);
+          }}
+          summary={[
+            `${photos.length} ${photos.length === 1 ? "photo" : "photos"} sent`,
+            `${answeredFaqs} of ${faqs.length} couple questions answered`,
+            ...(spaces.length > 0 ? [`${spaces.length} ${spaces.length === 1 ? "space" : "spaces"} described`] : []),
+          ]}
+        />
+        {preview}
+      </>
     );
   }
 
@@ -233,7 +277,7 @@ export function ClaimForm({ token, initial }: { token: string; initial: ClaimSub
     { title: "Photos and spaces", done: photos.length > 0 },
     { title: "Description and contact", done: Boolean(details.description && (details.contact_email || details.contact_phone)) },
     { title: "Details couples ask", done: answered > 0 || namedVendors.length > 0, optional: true },
-    { title: "Send it", done: Boolean(submitter.name && submitter.email && submitter.represents) },
+    { title: "Preview and send", done: Boolean(submitter.name && submitter.email && submitter.represents) },
   ];
 
   return (
@@ -689,11 +733,11 @@ export function ClaimForm({ token, initial }: { token: string; initial: ClaimSub
 
           <Section
             title="Preferred vendors"
-            hint="The caterers, photographers, florists and others you recommend. Couples see these on your listing, with a link to each."
+            hint="The caterers, photographers, florists and others you work with. Tick “Required” when couples must book that one from your list -- they see required and recommended vendors separately."
           >
             <div className="flex flex-col gap-3">
               {vendors.map((v, i) => (
-                <div key={i} className="grid grid-cols-1 gap-2 rounded-md border border-hairline p-3 sm:grid-cols-[160px_1fr_1fr_auto] sm:items-center sm:border-0 sm:p-0">
+                <div key={i} className="grid grid-cols-1 gap-2 rounded-md border border-hairline p-3 sm:grid-cols-[160px_minmax(0,1fr)_minmax(0,1fr)_auto_auto] sm:items-center sm:border-0 sm:p-0">
                   <Select
                     value={v.category || null}
                     onChange={(c) => setVendors((all) => all.map((x, j) => (j === i ? { ...x, category: c ?? "" } : x)))}
@@ -714,6 +758,15 @@ export function ClaimForm({ token, initial }: { token: string; initial: ClaimSub
                     placeholder="Website"
                     aria-label="Vendor website"
                   />
+                  <label className="flex items-center gap-1.5 text-sm text-ink/70">
+                    <input
+                      type="checkbox"
+                      checked={v.required === true}
+                      onChange={(e) => setVendors((all) => all.map((x, j) => (j === i ? { ...x, required: e.target.checked } : x)))}
+                      className="accent-brass"
+                    />
+                    Required
+                  </label>
                   <button
                     type="button"
                     onClick={() => setVendors((all) => all.filter((_, j) => j !== i))}
@@ -727,7 +780,7 @@ export function ClaimForm({ token, initial }: { token: string; initial: ClaimSub
             </div>
             <button
               type="button"
-              onClick={() => setVendors((all) => [...all, { category: "", name: "", website: null }])}
+              onClick={() => setVendors((all) => [...all, { category: "", name: "", website: null, required: false }])}
               className="mt-3 text-sm text-brass hover:underline"
             >
               + Add a vendor
@@ -772,6 +825,7 @@ export function ClaimForm({ token, initial }: { token: string; initial: ClaimSub
           }}
           className={step === 5 ? "flex min-w-0 flex-col gap-6" : "hidden"}
         >
+          <PreviewPrompt onOpen={() => setPreviewing(true)} />
           <Section title="About you" hint="So we can confirm the changes and let you know when they're live. Not shown on the listing.">
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <Field label="Your name">
@@ -884,7 +938,11 @@ export function ClaimForm({ token, initial }: { token: string; initial: ClaimSub
           {spaces.length === 1 ? "space" : "spaces"} · {answered} answered{" "}
           {answered === 1 ? "question" : "questions"}
         </p>
+        <button type="button" onClick={() => setPreviewing(true)} className="mt-2 text-sm text-brass hover:underline">
+          See the full page &rarr;
+        </button>
       </aside>
+      {preview}
     </form>
   );
 }

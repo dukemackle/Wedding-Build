@@ -8,6 +8,7 @@ import { vendorForClaimToken } from "@/lib/vendor-claim-server";
 import { SUGGESTED_VENDOR_QUESTIONS } from "@/lib/wedding-options";
 import { WIDE_WIDTH } from "@/lib/layout";
 import { VendorClaimForm } from "./vendor-claim-form";
+import { PUBLIC_VENDOR_COLUMNS, publicFields, vendorHref } from "@/lib/public-listings";
 
 export const metadata = {
   title: "Update your listing",
@@ -107,7 +108,13 @@ export default async function VendorClaimPage({ params }: { params: Promise<{ to
             Your earlier changes are waiting for review. Anything you submit now replaces them.
           </p>
         )}
-        <VendorClaimForm token={token} category={vendor.category} initial={initial} />
+        <VendorClaimForm
+          token={token}
+          category={vendor.category}
+          initial={initial}
+          listing={publicFields(vendor, PUBLIC_VENDOR_COLUMNS)}
+          liveHref={vendor.active ? vendorHref(vendor) : null}
+        />
       </div>
     </main>
   );

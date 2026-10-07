@@ -16,6 +16,7 @@ import { ItineraryView } from "./itinerary-view";
 import { GuestbookView } from "./guestbook-view";
 import { GuestWall } from "./guest-wall";
 import { GalleryView } from "./gallery-view";
+import { StayList } from "./stay-list";
 import { WeddingHero } from "./wedding-hero";
 import type { ReactNode } from "react";
 import { blockKey, type SectionKey } from "@/lib/site-design";
@@ -31,7 +32,7 @@ import { Replayable, SiteMotion } from "@/components/site-motion";
  * lookalike that drifts.
  */
 
-const CARD = "rounded-lg border border-hairline bg-card p-6 sm:p-10 shadow-sm";
+const CARD = "site-card rounded-lg border border-hairline bg-card p-6 sm:p-10 shadow-sm";
 
 function formatDate(dateStr: string) {
   return new Date(`${dateStr}T00:00:00`).toLocaleDateString("en-US", {
@@ -248,25 +249,7 @@ export function GuestSiteView({
               <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
                 Where to stay
               </p>
-              <div className="mt-2">
-                {accommodations.map((stay) => (
-                  <div key={stay.id} className="border-b border-hairline py-3 last:border-b-0">
-                    <p className="text-ink">{stay.name}</p>
-                    {stay.address && <p className="mt-0.5 text-sm text-ink/60">{stay.address}</p>}
-                    {stay.notes && <p className="mt-1 text-sm text-ink/70">{stay.notes}</p>}
-                    {stay.booking_url && (
-                      <a
-                        href={stay.booking_url}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="mt-1 inline-block text-sm text-brass hover:underline"
-                      >
-                        Book a room &rarr;
-                      </a>
-                    )}
-                  </div>
-                ))}
-              </div>
+              <StayList stays={accommodations} />
             </div>
           )}
         </div>

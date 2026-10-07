@@ -17,8 +17,12 @@ export type Wedding = {
   public_slug: string | null;
   party_share_token: string | null;
   hero_photo_url: string | null;
-  /** Tight crop for the dashboard avatar. Falls back to hero_photo_url. */
+  /** Old dashboard avatar; no longer shown. */
   profile_photo_url: string | null;
+  /** Photos shown behind the dashboard, in order. Up to eight. */
+  dashboard_photo_urls: string[];
+  /** Where to centre each dashboard photo: {url: [x%, y%]}. */
+  dashboard_photo_focus: Record<string, [number, number]>;
   rsvp_deadline: string | null;
   dress_code: string | null;
   travel_notes: string | null;
@@ -277,6 +281,8 @@ export type VenuePreferredVendor = {
   category: string;
   name: string;
   website: string | null;
+  /** True when couples must book from the venue's list, not just may. */
+  required: boolean;
   /** Set when the vendor is also listed on Wren. */
   vendor_id: string | null;
   sort_order: number;
@@ -744,5 +750,40 @@ export type WeddingInvite = {
   token: string;
   wedding_id: string;
   role: WeddingRole;
+  created_at: string;
+};
+
+export type SheetLinkKind = "guests" | "budget";
+
+/** What one sync did, shown as "Pulled 3 from your sheet · sent 4". */
+export type SheetSyncSummary = {
+  added: number;
+  updated: number;
+  sent: number;
+  removedFromSheet: number;
+  deletedOnSite: number;
+  conflicts: number;
+  /** A few names, so the line can say who rather than only how many. */
+  names: string[];
+  skippedRows: number;
+};
+
+export type SheetLink = {
+  id: string;
+  wedding_id: string;
+  kind: SheetLinkKind;
+  mode: "drive" | "link";
+  file_id: string;
+  sheet_gid: string;
+  title: string | null;
+  url: string | null;
+  snapshot: Record<string, Record<string, string>>;
+  pending_snapshot: Record<string, Record<string, string>> | null;
+  pending_token: string | null;
+  last_synced_at: string | null;
+  last_synced_by: string | null;
+  last_synced_by_name: string | null;
+  last_summary: SheetSyncSummary | null;
+  sheet_modified_at: string | null;
   created_at: string;
 };

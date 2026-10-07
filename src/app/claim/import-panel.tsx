@@ -191,3 +191,30 @@ export function mergeFaqs(
   }
   return { faqs: next, filled };
 }
+
+/**
+ * Adds the vendors a read found to the venue's list. A name already on it is
+ * left as typed (its website filled if empty), and blank rows are dropped so
+ * the starter row doesn't sit above the found ones.
+ */
+export function mergeVendors<V extends { category: string; name: string; website: string | null; required?: boolean }>(
+  vendors: V[],
+  found: ListingRead["vendors"],
+  max: number,
+): { vendors: V[]; filled: number } {
+  const next = vendors.filter((v) => v.name.trim() || v.website).map((v) => ({ ...v }));
+  let filled = 0;
+  for (const f of found) {
+    const match = next.find((existing) => existing.name.trim().toLowerCase() === f.name.toLowerCase());
+    if (match) {
+      if (!match.website && f.website) {
+        match.website = f.website;
+        filled += 1;
+      }
+    } else if (next.length < max) {
+      next.push({ ...f } as unknown as V);
+      filled += 1;
+    }
+  }
+  return { vendors: next.length > 0 ? next : vendors, filled };
+}

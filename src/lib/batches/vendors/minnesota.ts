@@ -64,6 +64,32 @@ Infinite Film Production	Videography		Duluth	Minnesota	Within about 200 miles of
 Johnson's Bakery	Cake	2230 West Third Street	Duluth	Minnesota	Duluth and Superior	Family bakery in Duluth's Lincoln Park with Scandinavian roots, offering tiered wedding cakes from 25 to 220 servings.	hello@johnsonsbakery.com	(218) 727-1889	https://www.johnsonsbakery.com/	https://www.instagram.com/johnsonsbakerydlh/
 `,
   },
+  {
+    name: "Rochester: photography, videography, music, catering, florals, cakes and hair and makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Midwest LifeShots Photography	Photography		Rochester	Minnesota		Rochester photography team led by Scott and Jen, photographing weddings, engagements and families in southeast Minnesota for over 15 years.	info@midwestlifeshots.com	507-951-8859	https://midwestlifeshots.com/	https://www.instagram.com/midwestlifeshots/
+Emma Jeanson Photography	Photography		Rochester	Minnesota	Rochester and surrounding areas	Rochester wedding photographer working with a small crew, who also offers drone video alongside engagement, maternity and family sessions.	emmajeanson@gmail.com		https://emmajeanson.com/	https://www.instagram.com/emma_jeanson_photography/
+Cheeky Monkey Studio	Photography		Rochester	Minnesota		Rochester wedding and portrait studio run by photographer Cara, covering weddings and engagements as well as newborn and family sessions.	cheekymonkeystudio@gmail.com		https://cheekymonkeystudio.com/	https://www.instagram.com/cheekymonkeystudiomn/
+Northern Lens Videography	Videography		Rochester	Minnesota		Rochester videographer Damian Fiedler, delivering a highlight film plus full ceremony and speech footage, with packages from $2,500.	northernlensp@gmail.com	(320) 333-1258	https://www.northernlensvideography.com/	https://www.instagram.com/damian_fiedler/
+Golden Hour Wedding Video	Videography	6301 Bandel Rd NW #550	Rochester	Minnesota	Minnesota and Wisconsin	Rochester wedding film team, sister company of Media Core, making documentary-style wedding films with collections from $4,000.	team@goldenhourweddingvideo.com	(507) 242-6678	https://goldenhourweddingvideo.com/	https://www.instagram.com/goldenhourweddingvideo/
+Ever After Entertainment	Music	4481 N. Frontage Road #8	Rochester	Minnesota	Rochester and La Crosse	Wedding DJ and photo booth company with offices in Rochester and La Crosse, using an online wedding-day planner to build each night.	info@everafterentertainment.com	(507) 216-8900	https://www.everafterentertainment.com/	https://www.instagram.com/everafterdj/
+Wedding Day Djs	Music		Rochester	Minnesota	Rochester area	Rochester-area wedding DJ service run by Samuel Hanson, with hundreds of weddings behind it and a customer portal for planning the music.	weddingdaydjs@live.com	(507) 273-5542	https://www.weddingdaydjs.com/	
+Catering By Design	Catering	898 7th St NW	Rochester	Minnesota		Boutique Rochester caterer run by Kathy and Jeff, building custom wedding menus and also selling chef-prepared take-home meals.	sales@cateringbydesign.org	(507) 282-3005	https://cateringbydesign.org/	https://www.instagram.com/cateringbydesignpantry/
+Pinnacle Catering	Catering	2112 2nd Street SW, Suite 100	Rochester	Minnesota		Rochester caterer in the Powers Ventures family, with dedicated wedding and reception menus and the in-house catering at Mayowood Stone Barn.		(507) 258-4633	https://pinnaclecateringmn.com/	https://www.instagram.com/pinnaclecatering_rochmn/
+Fox and Fern Floral	Florals	51 Minnesota Ave S	Oronoco	Minnesota		Appointment-only floral studio in Oronoco, just north of Rochester, designing personalised wedding flowers and event styling.	bloom@foxandfernfloral.com	(507) 405-0901	https://www.foxandfernfloral.com/weddings	https://www.instagram.com/fox_fern_floral/
+Carousel Floral Gifts & Garden	Florals	1717 41st St NW	Rochester	Minnesota		Rochester flower shop delivering since 1991, planning bridal bouquets, ceremony pieces and reception centrepieces with couples.	wecare@carouselflowers.com	(507) 288-7800	https://www.carouselflowers.com/wedding-flowers	https://www.instagram.com/carouselfloral/
+Red Barn Bakery	Cake		Rochester	Minnesota		Small Rochester bakery taking a limited number of custom tiered wedding cakes, mostly finished in buttercream, from about $10 a serving.	redbarncake@gmail.com		https://www.redbarncakes.com/weddings/	
+Rush Of Sweetness	Cake		Rochester	Minnesota	Rochester area	Cottage bakery in Rochester run by Alysha, making custom buttercream wedding cakes and cupcakes and teaching cake decorating classes.			https://www.rushofsweetness.com/	https://www.instagram.com/rush_of_sweetness/
+Cosmo Luxe	Hair & Makeup		Rochester	Minnesota		Freelance Rochester hair and makeup artist Jamie, with over 20 years in the trade, travelling to brides and using hybrid airbrush makeup.	Jayleigh1414@gmail.com	(507) 319-1578	https://www.cosmo-lux.com/	
+Serenity Couture Salon & Spa	Hair & Makeup	2300 Superior Dr NW, Suite 3	Rochester	Minnesota		Aveda salon and spa with two Rochester locations whose bridal team does hair and makeup for wedding parties and travels to venues.		(507) 585-3111	https://serenityrochester.com/services/bridal/	https://www.instagram.com/serenitycouturerochester/
+`,
+  },
+  {
+    name: "Duluth: cakes",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+How Sweet It Is	Cake	118 S 27th Ave W	Duluth	Minnesota	Duluth	Appointment-only cake studio at the Duluth Grill making wedding cakes, cupcakes and desserts, with its own lists of flavours and fillings.		(715) 410-7093	https://www.howsweetitiscakes.com/	https://www.instagram.com/howsweetitisduluth/
+`,
+  },
 ];
 
 export default batches;

@@ -16,6 +16,8 @@ import { ContactCollectorPanel } from "./contact-collector-panel";
 import { TabbedCard } from "./card";
 import { GuestPostsFeed } from "./guest-posts-feed";
 import { PhotoWallQr } from "./photo-wall-qr";
+import { GuestSheetSync } from "./guest-sheet-sync";
+import type { SheetLinkView, SiteChanges } from "@/lib/sheet-link-server";
 
 /**
  * Everything on the guests page below the nav.
@@ -33,6 +35,9 @@ export function GuestsPageBody({
   guestPosts = [],
   shareUrl = null,
   shareQrSvg = null,
+  sheetLink = null,
+  sheetChanges = null,
+  canEdit = true,
 }: {
   wedding: Wedding;
   guests: Guest[];
@@ -43,6 +48,9 @@ export function GuestsPageBody({
   /** The photo wall's posting page, when the guest site is on. */
   shareUrl?: string | null;
   shareQrSvg?: string | null;
+  sheetLink?: SheetLinkView | null;
+  sheetChanges?: SiteChanges | null;
+  canEdit?: boolean;
 }) {
   // Street address is the field that matters for posting an invitation; a
   // guest with a city but no street still can't be mailed anything.
@@ -76,6 +84,14 @@ export function GuestsPageBody({
       </h1>
 
       <div className="flex flex-col gap-6">
+        <GuestSheetSync
+          link={sheetLink}
+          changes={sheetChanges}
+          canEdit={canEdit}
+          partnerAName={wedding.partner_a_name}
+          partnerBName={wedding.partner_b_name}
+        />
+
         <div className="grid gap-6 lg:grid-cols-12 lg:items-start">
           {/* Two columns from 1024px: the list takes two thirds (three
               quarters from 1280px) with invitations beside it, both on screen
