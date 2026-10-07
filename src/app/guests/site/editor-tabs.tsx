@@ -381,7 +381,9 @@ function FontGrid({
             type="button"
             aria-pressed={on}
             onClick={() => onPick(f.id)}
-            className={`flex h-12 items-center rounded-lg bg-card px-3 text-left ${on ? SELECTED : UNSELECTED}`}
+            // Off-screen buttons aren't rendered, so their font isn't fetched until
+            // the couple scrolls to it: the library is too big to load at once.
+            className={`flex h-12 items-center rounded-lg bg-card px-3 text-left [contain-intrinsic-size:auto_48px] [content-visibility:auto] ${on ? SELECTED : UNSELECTED}`}
           >
             <span
               className="truncate text-ink"
