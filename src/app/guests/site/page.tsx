@@ -249,6 +249,7 @@ export default async function GuestSitePage() {
           sectionInfo={{ ...sectionInfo, ...blockInfo }}
           checklist={checklist}
           hasPhoto={Boolean(wedding.hero_photo_url)}
+          photoUrl={wedding.hero_photo_url}
           names={[wedding.partner_a_name ?? "", wedding.partner_b_name ?? ""]}
         />
       </div>

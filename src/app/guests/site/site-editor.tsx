@@ -25,6 +25,8 @@ import {
   type SiteTheme,
 } from "@/lib/site-design";
 import { publishSiteDesign, saveSiteDraft } from "./actions";
+import { SITE_TEMPLATES, matchingTemplate, type SiteTemplate } from "@/lib/site-templates";
+import { TemplateCard, TemplateGallery } from "./template-gallery";
 import { BirdCheer } from "@/components/bird-cheer";
 import { PublicSitePanel, SiteSwitch, useGuestSite } from "../public-site-panel";
 import { MotionTab, PanelLabel, SectionsTab, StyleTab, type ChecklistItem, type SectionInfo } from "./editor-tabs";
@@ -65,6 +67,7 @@ export function SiteEditor({
   sectionInfo,
   checklist,
   hasPhoto,
+  photoUrl,
   names,
 }: {
   draft: SiteDesign;
@@ -79,6 +82,8 @@ export function SiteEditor({
   checklist: ChecklistItem[];
   /** Hero layouts only show with a banner photo; the Style tab says so. */
   hasPhoto: boolean;
+  /** The banner photo, for the template previews and Match my photo. */
+  photoUrl: string | null;
   names: [string, string];
 }) {
   const site = useGuestSite(initialSlug);
@@ -86,6 +91,9 @@ export function SiteEditor({
   const [design, setDesign] = useState(initialDraft);
   const [published, setPublished] = useState(initialPublished);
   const [tab, setTab] = useState<Tab>("theme");
+  const [galleryOpen, setGalleryOpen] = useState(false);
+  // One step back after picking a template: the look it replaced.
+  const [undo, setUndo] = useState<{ name: string; prev: SiteTemplate["design"] } | null>(null);
   const [device, setDevice] = useState<Device>("desktop");
   const [isDesktop, setIsDesktop] = useState(true);
   const [sheetOpen, setSheetOpen] = useState(false);
@@ -176,6 +184,13 @@ export function SiteEditor({
     frameRef.current?.contentWindow?.postMessage({ type }, window.location.origin);
   }, []);
 
+  function pickTemplate(t: SiteTemplate) {
+    const { theme, colors, accent, fonts, fontDisplay, fontBody, ornament, hero, art } = design;
+    setUndo({ name: t.name, prev: { theme, colors, accent, fonts, fontDisplay, fontBody, ornament, hero, art } });
+    change(t.design);
+    setGalleryOpen(false);
+  }
+
   function change(patch: Partial<SiteDesign>) {
     const next = { ...design, ...patch };
     setDesign(next);
@@ -265,7 +280,25 @@ export function SiteEditor({
   const panelBody = (
     <div className="flex flex-col gap-6 px-5 pb-8 pt-5 lg:px-6">
       {tab === "theme" ? (
-        <ThemeTab design={design} onChange={change} />
+        <ThemeTab
+          design={design}
+          onChange={(patch) => {
+            setUndo(null);
+            change(patch);
+          }}
+          onBrowse={() => setGalleryOpen(true)}
+          undo={
+            undo && {
+              name: undo.name,
+              run: () => {
+                change(undo.prev);
+                setUndo(null);
+              },
+            }
+          }
+          names={names}
+          photoUrl={photoUrl}
+        />
       ) : tab === "motion" ? (
         <MotionTab
           design={design}
@@ -423,6 +456,15 @@ export function SiteEditor({
         </BottomSheet>
       )}
     </div>
+    {galleryOpen && (
+      <TemplateGallery
+        design={design}
+        names={names}
+        photoUrl={photoUrl}
+        onPick={pickTemplate}
+        onClose={() => setGalleryOpen(false)}
+      />
+    )}
     </>
   );
 }
@@ -430,9 +472,17 @@ export function SiteEditor({
 function ThemeTab({
   design,
   onChange,
+  onBrowse,
+  undo,
+  names,
+  photoUrl,
 }: {
   design: SiteDesign;
   onChange: (patch: Partial<SiteDesign>) => void;
+  onBrowse: () => void;
+  undo: { name: string; run: () => void } | null;
+  names: [string, string];
+  photoUrl: string | null;
 }) {
   const { theme, accent, heading } = resolveDesign(design);
   const base = themeById(design.theme);
@@ -448,8 +498,50 @@ function ThemeTab({
   const customised =
     design.accent !== null || design.colors.bg !== null || design.colors.ink !== null || design.colors.heading !== null;
 
+  const using = matchingTemplate(design);
+  const showcase = [
+    using ?? SITE_TEMPLATES[0],
+    ...SITE_TEMPLATES.filter((t) => t.id !== (using ?? SITE_TEMPLATES[0]).id && FEATURED.includes(t.id)),
+  ].slice(0, 3);
+
   return (
     <>
+      <div className="flex flex-col gap-3">
+        <PanelLabel>Templates</PanelLabel>
+        <button
+          type="button"
+          onClick={onBrowse}
+          className="group flex flex-col gap-3 rounded-xl border border-hairline bg-parchment/60 p-3 text-left hover:border-ink/30"
+        >
+          <span className="grid grid-cols-3 gap-2">
+            {showcase.map((t) => (
+              <span key={t.id} className="overflow-hidden rounded-md ring-1 ring-hairline">
+                <TemplateCard t={t} names={names} photoUrl={photoUrl} />
+              </span>
+            ))}
+          </span>
+          <span className="flex items-center justify-between gap-2">
+            <span className="flex flex-col">
+              <span className="text-[15px] font-semibold text-forest">Browse {SITE_TEMPLATES.length} templates</span>
+              <span className="text-[12px] text-ink/60">
+                {using ? `You're using ${using.name}` : "Start from a finished look, then make it yours"}
+              </span>
+            </span>
+            <span className="rounded-full bg-forest px-3.5 py-1.5 text-[13px] font-medium text-parchment group-hover:bg-forest/90">
+              Browse
+            </span>
+          </span>
+        </button>
+        {undo && (
+          <p className="flex items-center justify-between gap-3 rounded-lg bg-forest/[0.06] px-3 py-2 text-[13px] text-ink">
+            <span>Now using {undo.name}. Your words and photos are unchanged.</span>
+            <button type="button" onClick={undo.run} className="shrink-0 font-semibold text-forest underline underline-offset-2">
+              Undo
+            </button>
+          </p>
+        )}
+      </div>
+
       <div className="flex flex-col gap-3">
         <PanelLabel>Theme</PanelLabel>
         <div className="grid grid-cols-2 gap-3">
@@ -568,6 +660,9 @@ function ThemeTab({
 }
 
 const NO_COLORS: SiteDesign["colors"] = { bg: null, ink: null, heading: null };
+
+/** The two shown beside the current look on the Templates card. */
+const FEATURED = ["eucalyptus-garden", "amalfi-lemons", "wild-rose-meadow", "blush-peony"];
 
 function FamilyChip({
   on,

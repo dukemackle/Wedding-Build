@@ -8,16 +8,18 @@ import { createPortal } from "react-dom";
 import { WrenMotto } from "@/components/wren-motto";
 import { AskWrenTile } from "@/app/dashboard/ask-wren-tile";
 import {
+  ALL_FONTS_HREF,
   DEFAULT_SITE_DESIGN,
   PALETTES,
   THEMES,
-  fontsHref,
   paletteColors,
   resolveDesign,
   type OrnamentId,
   type ThemeId,
 } from "@/lib/site-design";
 import { SiteOrnament } from "@/components/site-ornament";
+import { SITE_TEMPLATES } from "@/lib/site-templates";
+import { TemplateCard } from "@/app/guests/site/template-gallery";
 import { ConfirmedChip } from "@/components/confirmed-badge";
 import { CHECKLIST_PHASES, CHECKLIST_TEMPLATE } from "@/lib/checklist-template";
 import {
@@ -1687,6 +1689,10 @@ const DEMO_PALETTES = ["eucalyptus", "blush", "french-blue", "midnight-navy", "t
   (id) => PALETTES.find((p) => p.id === id) ?? PALETTES[0],
 );
 
+const DEMO_TEMPLATES = ["classical-crest-navy", "wild-rose-meadow", "amalfi-lemons"].map(
+  (id) => SITE_TEMPLATES.find((t) => t.id === id) ?? SITE_TEMPLATES[0],
+);
+
 const DEMO_ORNAMENTS: { id: OrnamentId; label: string }[] = [
   { id: "laurel", label: "Laurel" },
   { id: "crest", label: "Crest" },
@@ -1700,7 +1706,7 @@ function SiteDemo() {
   const [ornament, setOrnament] = useState<OrnamentId>("laurel");
   const [device, setDevice] = useState<"desktop" | "phone">("desktop");
   const [rsvped, setRsvped] = useState(false);
-  const palette = DEMO_PALETTES.find((p) => p.id === paletteId);
+  const palette = PALETTES.find((p) => p.id === paletteId);
   // The real resolver, so the demo mixes cards and muted text the way the site does.
   const { theme: t, accent, onAccent, heading } = resolveDesign({
     ...DEFAULT_SITE_DESIGN,
@@ -1727,6 +1733,27 @@ function SiteDemo() {
           >
             {label}
           </span>
+        ))}
+      </div>
+      <p className={eyebrow}>Templates</p>
+      <div className="grid grid-cols-3 gap-2">
+        {DEMO_TEMPLATES.map((x) => (
+          <button
+            key={x.id}
+            type="button"
+            title={x.name}
+            onClick={() => {
+              setThemeId(x.theme);
+              setPaletteId(x.palette.id);
+              setOrnament(x.ornament);
+            }}
+            aria-pressed={x.theme === themeId && x.palette.id === paletteId && x.ornament === ornament}
+            className={`overflow-hidden rounded-lg ${
+              x.theme === themeId && x.palette.id === paletteId && x.ornament === ornament ? "ring-2 ring-forest" : "ring-1 ring-hairline"
+            }`}
+          >
+            <TemplateCard t={x} names={["Juniper", "Sam"]} photoUrl={null} />
+          </button>
         ))}
       </div>
       <p className={eyebrow}>Theme</p>
@@ -1804,7 +1831,7 @@ function SiteDemo() {
 
   return (
     <Bleed>
-      <link rel="stylesheet" href={fontsHref(DEMO_THEMES)} precedence="default" />
+      <link rel="stylesheet" href={ALL_FONTS_HREF} precedence="default" />
       <div className="flex flex-col-reverse md:flex-row">
         <aside className="border-t border-hairline bg-card px-5 py-5 sm:px-8 md:w-[300px] md:shrink-0 md:border-r md:border-t-0 md:px-5">
           {panel}
