@@ -34,7 +34,7 @@ export type GuestImportValues = {
 };
 
 /** Fields a column can map to, including the two that merge into `name`. */
-type GuestField = keyof GuestImportValues | "first_name" | "last_name" | "dietary";
+export type GuestField = keyof GuestImportValues | "first_name" | "last_name" | "dietary";
 
 export type GuestImportRow = {
   /** 1-based row number as the person counts them, header excluded. */
@@ -78,7 +78,7 @@ const IDENTITY_FIELDS: GuestField[] = [
  * than the canonical ones. First/last name are separate columns on almost
  * every list people actually keep, and get joined below.
  */
-const FIELD_ALIASES: Record<string, GuestField> = {
+export const FIELD_ALIASES: Record<string, GuestField> = {
   name: "name",
   fullname: "name",
   guest: "name",

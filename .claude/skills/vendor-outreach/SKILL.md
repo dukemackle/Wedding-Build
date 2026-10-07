@@ -43,8 +43,12 @@ Skip the vendor and tell the owner why if any of these apply:
 - The vendor already claimed the listing (`source` is `claimed` or
   `self-listed`). Email those only to ask about specific gaps, and only if the
   owner asks.
-- They have asked not to be contacted, or have already had an email from this
-  skill with no reply. Send one invitation and at most one follow-up, then stop.
+- Their address is in `outreach_opt_outs` or `email_bounces`. Ask the owner to
+  run `select email from outreach_opt_outs union select email from email_bounces;`
+  in Supabase and paste the result, unless the session can read the database
+  itself. Never draft for an address on either list.
+- They have already had an email from this skill with no reply. Send one
+  invitation and at most one follow-up, then stop.
 - The business is outside the US. EU and UK outreach triggers the GDPR items in
   `docs/legal.md`. Flag it and don't draft.
 
@@ -57,16 +61,19 @@ the service is commercial even when it's free, so every draft carries:
   You Do, I Do". Never "Re:", "Inquiry for you", or anything that looks like a
   couple's lead.
 - **A plain opt-out line**, e.g. "Not interested? Reply 'no thanks' and we
-  won't email you again." The owner has to honour it. Keep a do-not-contact
-  list in the admin notes field or a spreadsheet, and check it before each
-  batch.
+  won't email you again." The owner has to honour it, and every "no thanks" is
+  recorded in Supabase so it sticks:
+  `insert into outreach_opt_outs (email, business_name) values ('…', '…');`
+  A reply asking to be *removed* also hides the listing (policy C in
+  `docs/email-playbook.md`).
 - **A physical mailing address in the footer.** There isn't one on file. Leave
   `[MAILING ADDRESS]` and remind the owner every time until they give you one.
   A PO box or a registered-agent address is fine. When they do, record it in
   `docs/legal.md` so the next run doesn't have to ask.
 
 Keep it one-to-one. Write each email as a single message from the owner, sent
-from their own inbox. Bulk sends through Resend or any blast tool need the full
+from hello@youdoido.com in Gmail, so replies land in the business inbox. Stay
+within the daily cap in policy E of `docs/email-playbook.md`. Bulk sends through Resend or any blast tool need the full
 marketing-email build in `docs/legal.md` first (unsubscribe link, consent
 storage, suppression list). If the owner wants a mass send, say that and stop.
 

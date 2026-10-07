@@ -83,3 +83,13 @@ export function metaDescription(parts: (string | null | undefined)[], body: stri
   const text = [lead, body?.replace(/\s+/g, " ").trim()].filter(Boolean).join(". ");
   return text.length > 160 ? `${text.slice(0, 157).trimEnd()}...` : text;
 }
+
+/**
+ * Only the public columns of a row, for handing a listing to the browser
+ * where the full row (claim token, notes) mustn't go -- the claim forms'
+ * preview starts from this.
+ */
+export function publicFields<T extends object>(row: T, columns: string): Partial<T> {
+  const keys = new Set(columns.split(",").map((c) => c.trim()));
+  return Object.fromEntries(Object.entries(row).filter(([k]) => keys.has(k))) as Partial<T>;
+}

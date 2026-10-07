@@ -109,6 +109,16 @@ Fruits of Labor	Cake	161 Main Street	Rainelle	West Virginia		Rainelle café, bak
 Kenzie's Kakes & Coffee	Cake		Beaver	West Virginia		Raleigh County bakery and coffee shop making custom cakes, including wedding and bridal shower cakes, plus cupcakes and cheesecake.			https://www.kenzieskakes.com/	
 White Heaven Co	Videography		Nitro	West Virginia	New River Gorge, Fayetteville and the East Coast	Nitro-based photo and film team that regularly shoots New River Gorge weddings, delivering 4K and 6K cinematic wedding films.	booking@whiteheaven.co		https://whiteheaven.co/productions/weddings/locations/fayetteville-wv	`,
   },
+  {
+    name: "Morgantown: hair & makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Tonique's Trilogy	Hair & Makeup	725 Fairmont Rd, Suite 103	Morgantown	West Virginia		Morgantown salon offering wedding hair and makeup, with bookings handled by phone, text or email.		(304) 212-5558	https://toniquestrilogy.com/	`,
+  },
+  {
+    name: "New River Gorge: cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Posh Manna Cake Art	Cake		Oak Hill	West Virginia	Southern West Virginia	Luxury cake and dessert studio making European-style wedding cakes, macarons and pastries, with consultations and tastings.		(304) 673-2592	https://www.poshmanna.com/	https://www.instagram.com/poshmannacakeart/`,
+  },
 ];
 
 export default batches;

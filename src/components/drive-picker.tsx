@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { cachedToken, loadScript, rememberToken } from "@/lib/google-sheets";
 
 /**
  * "Choose from Drive", for anywhere Wren takes a file.
@@ -23,11 +24,12 @@ import { useEffect, useRef, useState } from "react";
 const GIS_SRC = "https://accounts.google.com/gsi/client";
 const GAPI_SRC = "https://apis.google.com/js/api.js";
 const SCOPE = "https://www.googleapis.com/auth/drive.file";
+// Same scope as src/lib/google-sheets.ts, so one consent covers both.
 
 /** Google's own id for a native Sheet, which downloads differently. */
 const GOOGLE_SHEET_MIME = "application/vnd.google-apps.spreadsheet";
 
-export type DriveKind = "spreadsheet" | "document";
+export type DriveKind = "spreadsheet" | "document" | "google-sheet";
 
 const MIME_TYPES: Record<DriveKind, string> = {
   spreadsheet: [
@@ -36,9 +38,11 @@ const MIME_TYPES: Record<DriveKind, string> = {
     "text/csv",
   ].join(","),
   document: ["application/pdf", "image/jpeg", "image/png", "image/webp"].join(","),
+  // Linking for sync: only a native Sheet can be written back to.
+  "google-sheet": GOOGLE_SHEET_MIME,
 };
 
-type PickedDoc = { id: string; name: string; mimeType: string };
+export type PickedDoc = { id: string; name: string; mimeType: string; url?: string };
 
 type TokenClient = { requestAccessToken: () => void };
 
@@ -63,7 +67,11 @@ type GoogleGlobal = {
       initTokenClient: (config: {
         client_id: string;
         scope: string;
-        callback: (response: { access_token?: string; error?: string }) => void;
+        callback: (response: {
+          access_token?: string;
+          expires_in?: number | string;
+          error?: string;
+        }) => void;
       }) => TokenClient;
     };
   };
@@ -84,27 +92,6 @@ type DocsView = {
 };
 
 type GapiGlobal = { load: (name: string, cb: () => void) => void };
-
-function loadScript(src: string) {
-  return new Promise<void>((resolve, reject) => {
-    const existing = document.querySelector(`script[src="${src}"]`);
-    if (existing) {
-      if (existing.getAttribute("data-loaded") === "true") return resolve();
-      existing.addEventListener("load", () => resolve());
-      existing.addEventListener("error", () => reject(new Error(src)));
-      return;
-    }
-    const script = document.createElement("script");
-    script.src = src;
-    script.async = true;
-    script.onload = () => {
-      script.setAttribute("data-loaded", "true");
-      resolve();
-    };
-    script.onerror = () => reject(new Error(src));
-    document.head.appendChild(script);
-  });
-}
 
 /**
  * Downloads what was picked.
@@ -132,12 +119,15 @@ async function fetchPicked(doc: PickedDoc, token: string): Promise<File> {
 export function DrivePickerButton({
   kind,
   onFile,
+  onDoc,
   disabled,
   className,
   label = "Choose from Drive",
 }: {
   kind: DriveKind;
-  onFile: (file: File) => void;
+  onFile?: (file: File) => void;
+  /** Hands back the picked file itself rather than its contents. */
+  onDoc?: (doc: PickedDoc, token: string) => void;
   disabled?: boolean;
   className?: string;
   label?: string;
@@ -281,9 +271,14 @@ export function DrivePickerButton({
           setBusy(false);
           return;
         }
+        if (onDoc) {
+          onDoc(doc, token);
+          setBusy(false);
+          return;
+        }
         fetchPicked(doc, token)
           .then((file) => {
-            onFile(file);
+            onFile?.(file);
             setBusy(false);
           })
           .catch((cause: Error) => {
@@ -328,8 +323,10 @@ export function DrivePickerButton({
     setBusy(true);
 
     // Already authorised this session -- straight to the picker, no popup.
-    if (tokenRef.current) {
-      showPicker(tokenRef.current);
+    // Shared with sheet sync, so syncing first doesn't mean asking twice.
+    const known = tokenRef.current ?? cachedToken();
+    if (known) {
+      showPicker(known);
       return;
     }
 
@@ -355,6 +352,7 @@ export function DrivePickerButton({
             return;
           }
           tokenRef.current = response.access_token;
+          rememberToken(response.access_token, response.expires_in);
           showPicker(response.access_token);
         },
       });

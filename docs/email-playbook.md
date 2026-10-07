@@ -98,31 +98,56 @@ which categories are ready.
 - At most one automatic reply per sender per day.
 - Nothing goes to an address in `email_bounces`.
 
-## Policies, to be written by the owner
+## Policies (owner-approved 2026-10-05)
 
-These are the owner's calls. Fill them in and the AI uses them word for word
-in spirit. Until a blank is filled, that category stays Draft.
+Wren answers from these. A question they don't cover is escalated, never
+guessed.
 
-**A. "What does it cost?"** (see `docs/monetization.md`, Phase 0)
-> _Owner: e.g. "Listing is free. If that ever changes, listed businesses hear
-> first, well ahead, and nothing is charged without them agreeing."_
+**A. "What does it cost?"** (Phase 0, `docs/monetization.md`)
+> Listing is free. If that ever changes, listed businesses hear first, well
+> ahead, and nothing is charged without them agreeing.
 
 **B. "How did you get my information?"**
-> _Owner: e.g. "From your public website and listings, so couples can find
-> you. You can claim it, change it, or have it taken down."_
+> From your public website and listings, so couples can find you. You can
+> claim it, change it, or have it taken down.
 
-**C. Removal.** Hidden within how long? Permanent, or until they claim? Do
-we keep the row so a later batch doesn't re-add it?
-> _Owner:_
+**C. Removal.** Hide the listing (`active = false`) within 1 business day and
+confirm. It stays hidden unless they claim it later. **Hide, never delete:**
+the import skips any `source_id` already in the table, so a hidden row is what
+stops a later batch re-adding them.
 
-**D. Data deletion for couples.** Self-serve at /account today? What to do
-when the request comes by email (verify that it's from the account's
-address).
-> _Owner:_
+**D. Couples' data deletion.** Point them to the delete button at /account.
+If they want us to do it, act only on a request from the account's own email
+address, and confirm within 30 days.
 
-**E. Vendor outreach.** Daily cap, from-address, and whether outreach
-replies come to the same inbox.
-> _Owner:_
+**E. Vendor outreach.** At most 50 a day, from hello@youdoido.com, with replies
+coming to the same inbox. Move to a separate outreach address once volume
+grows.
+
+## Ready to email? (gate before the first outreach)
+
+No vendor or venue is emailed until every box is ticked. Checked 2026-10-05:
+
+- [x] Mail received at hello@ and privacy@ (Workspace; tested).
+- [x] DNS: Google MX, SPF, DKIM for Gmail and Resend, DMARC (`p=none`).
+- [x] Bounces recorded (`email_bounces`); inquiry footer offers removal.
+- [x] Policies A–E written.
+- [ ] **Postal address for the outreach footer.** CAN-SPAM requires one in
+      commercial email. A PO box or virtual mailbox is fine; a home address
+      works but will be public. _Owner's call._
+- [x] **Opt-out in every outreach email.** The `vendor-outreach` skill
+      includes "Reply 'no thanks'…" and skips anyone in `outreach_opt_outs`
+      (migration 0103) or `email_bounces`. To record a "no thanks", run this
+      in Supabase:
+      `insert into outreach_opt_outs (email, business_name) values ('…', '…');`
+- [ ] **Data check on the first metro**: run `/data-audit` on it so nobody
+      is emailed about a listing with the wrong price, photos or town.
+- [ ] **Dry run**: send the outreach email to yourself, then click the claim
+      link through to a submitted claim, and reply "remove" to check it
+      arrives.
+- [ ] **Soft start**: 10 a day for the first week, answered by hand from
+      Gmail using A–E, then up to 50. That week's replies become Stage 2's
+      test set.
 
 ## Roadmap
 

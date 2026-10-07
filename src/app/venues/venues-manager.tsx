@@ -11,6 +11,8 @@ import { BookedVenueButton, ShortlistButton } from "./venue-card-shared";
 import { InquiryForm } from "./inquiry-form";
 import { FilterDropdown } from "@/components/filter-dropdown";
 import { SearchShell } from "@/components/search-shell";
+import { useSavedFilters } from "@/lib/use-saved-filters";
+import { isInView, viewKey, type MapView } from "@/lib/map-view";
 import { BirdEmptyState } from "@/components/wren-moments";
 import { SignupCardButton, SignupHeart } from "@/components/public-nav";
 import { venueHref } from "@/lib/public-listings";
@@ -189,13 +191,28 @@ export function VenuesManager({
   signedIn?: boolean;
 }) {
   const [bookedVenueId, setBookedVenueId] = useState(initialBookedVenueId);
-  const [typeFilter, setTypeFilter] = useState<string>("all");
-  const [settingFilter, setSettingFilter] = useState<string>("all");
-  const [priceFilter, setPriceFilter] = useState<string>("all");
-  const [capacityFilter, setCapacityFilter] = useState<string>("all");
-  const [stateFilter, setStateFilter] = useState<string>("all");
-  const [cityFilter, setCityFilter] = useState<string>("all");
-  const [search, setSearch] = useState("");
+  const { values: filters, set: setFilter, update: updateFilters } = useSavedFilters(
+    "youdoido:venue-filters",
+    {
+      state: "all",
+      city: "all",
+      capacity: "all",
+      setting: "all",
+      price: "all",
+      type: "all",
+      q: "",
+    },
+  );
+  const {
+    state: stateFilter,
+    city: cityFilter,
+    capacity: capacityFilter,
+    setting: settingFilter,
+    price: priceFilter,
+    type: typeFilter,
+    q: search,
+  } = filters;
+  const [mapView, setMapView] = useState<MapView | null>(null);
   const [hoveredVenueId, setHoveredVenueId] = useState<string | null>(null);
 
   const shortlistedIds = new Set(shortlist.map((s) => s.venue_id));
@@ -221,8 +238,7 @@ export function VenuesManager({
   );
 
   function handleStateFilterChange(value: string) {
-    setStateFilter(value);
-    setCityFilter("all");
+    updateFilters({ state: value, city: "all" });
   }
 
   const activeFilterCount = [
@@ -237,36 +253,49 @@ export function VenuesManager({
   // Most listings don't have a price tier or capacity yet, so a blank one
   // isn't a mismatch: those venues stay in, after the confirmed matches,
   // rather than vanishing from the price and capacity filters.
-  const unknownForFilters = (v: Venue) =>
-    (priceFilter !== "all" && !v.price_tier) || (capacityFilter !== "all" && v.capacity == null);
-  const filteredVenues = venues
-    .filter(
-      (v) =>
-        (typeFilter === "all" || v.venue_type === typeFilter) &&
-        (settingFilter === "all" || v.setting === settingFilter) &&
-        (priceFilter === "all" || !v.price_tier || v.price_tier === priceFilter) &&
-        (capacityFilter === "all" || v.capacity == null || v.capacity >= Number(capacityFilter)) &&
-        (stateFilter === "all" || v.state === stateFilter) &&
-        (cityFilter === "all" || v.city === cityFilter) &&
-        v.name.toLowerCase().includes(search.trim().toLowerCase()),
-    )
-    .sort((a, b) => Number(unknownForFilters(a)) - Number(unknownForFilters(b)));
+  const filteredVenues = useMemo(() => {
+    const unknownForFilters = (v: Venue) =>
+      (priceFilter !== "all" && !v.price_tier) || (capacityFilter !== "all" && v.capacity == null);
+    return venues
+      .filter(
+        (v) =>
+          (typeFilter === "all" || v.venue_type === typeFilter) &&
+          (settingFilter === "all" || v.setting === settingFilter) &&
+          (priceFilter === "all" || !v.price_tier || v.price_tier === priceFilter) &&
+          (capacityFilter === "all" || v.capacity == null || v.capacity >= Number(capacityFilter)) &&
+          (stateFilter === "all" || v.state === stateFilter) &&
+          (cityFilter === "all" || v.city === cityFilter) &&
+          v.name.toLowerCase().includes(search.trim().toLowerCase()),
+      )
+      .sort((a, b) => Number(unknownForFilters(a)) - Number(unknownForFilters(b)));
+  }, [venues, typeFilter, settingFilter, priceFilter, capacityFilter, stateFilter, cityFilter, search]);
+
+  // Like Zillow, the list is what the map shows: pan or zoom and it follows.
+  // Until the map has drawn, it is everything the filters match.
+  const listedVenues = useMemo(
+    () => (mapView ? filteredVenues.filter((v) => isInView(v, mapView)) : filteredVenues),
+    [filteredVenues, mapView],
+  );
 
   function clearFilters() {
-    setStateFilter("all");
-    setCityFilter("all");
-    setCapacityFilter("all");
-    setSettingFilter("all");
-    setPriceFilter("all");
-    setTypeFilter("all");
+    updateFilters({
+      state: "all",
+      city: "all",
+      capacity: "all",
+      setting: "all",
+      price: "all",
+      type: "all",
+    });
   }
 
   return (
     <SearchShell
-      search={{ value: search, onChange: setSearch, placeholder: "Search venues by name..." }}
+      search={{ value: search, onChange: (v) => setFilter("q", v), placeholder: "Search venues by name..." }}
       activeFilterCount={activeFilterCount}
       onClearFilters={clearFilters}
-      resultCount={filteredVenues.length}
+      resultCount={listedVenues.length}
+      totalCount={filteredVenues.length}
+      pageKey={`${JSON.stringify(filters)}|${viewKey(mapView)}`}
       resultNoun="venue"
       views={!signedIn ? [] : [
         {
@@ -303,7 +332,7 @@ export function VenuesManager({
             label="City"
             allLabel="All cities"
             value={cityFilter}
-            onChange={setCityFilter}
+            onChange={(v) => setFilter("city", v)}
             options={availableCities.map((city) => ({ value: city, label: city }))}
             emptyMessage="No cities for this state"
           />
@@ -311,7 +340,7 @@ export function VenuesManager({
             label="Capacity"
             allLabel="Any size"
             value={capacityFilter}
-            onChange={setCapacityFilter}
+            onChange={(v) => setFilter("capacity", v)}
             options={CAPACITY_FILTER_STEPS.map((step) => ({
               value: String(step),
               label: `${step}+ guests`,
@@ -321,21 +350,21 @@ export function VenuesManager({
             label="Setting"
             allLabel="Any setting"
             value={settingFilter}
-            onChange={setSettingFilter}
+            onChange={(v) => setFilter("setting", v)}
             options={VENUE_SETTINGS.map((setting) => ({ value: setting, label: setting }))}
           />
           <FilterDropdown
             label="Price"
             allLabel="Any price"
             value={priceFilter}
-            onChange={setPriceFilter}
+            onChange={(v) => setFilter("price", v)}
             options={STYLE_TIERS.map((tier) => ({ value: tier, label: tier }))}
           />
           <FilterDropdown
             label="Venue type"
             allLabel="All venue types"
             value={typeFilter}
-            onChange={setTypeFilter}
+            onChange={(v) => setFilter("type", v)}
             options={VENUE_TYPES.map((type) => ({ value: type, label: type }))}
           />
         </>
@@ -346,6 +375,7 @@ export function VenuesManager({
           shortlistedIds={shortlistedIds}
           hoveredVenueId={hoveredVenueId}
           onHoverVenue={setHoveredVenueId}
+          onViewChange={setMapView}
           heightClassName="h-full w-full"
           signedIn={signedIn}
         />
@@ -354,11 +384,13 @@ export function VenuesManager({
         <p className="py-8 text-center text-sm text-ink/50">
           {venues.length === 0
             ? "No venues have been added yet."
-            : "No venues match these filters."}
+            : filteredVenues.length === 0
+              ? "No venues match these filters."
+              : "No venues in this part of the map. Zoom out or move the map to see more."}
         </p>
       }
     >
-      {filteredVenues.map((venue) => (
+      {listedVenues.map((venue) => (
         <VenueCard
           key={venue.id}
           venue={venue}
