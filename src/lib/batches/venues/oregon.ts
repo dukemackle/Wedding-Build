@@ -44,6 +44,22 @@ The Oxford Hotel Bend	10 NW Minnesota Ave	Bend	Oregon			Ballroom / Hotel	Indoor	
 Ranch at the Canyons	11050 Vineyard Way	Terrebonne	Oregon			Historic / Estate	Indoor & Outdoor	250		A 1,700-acre gated ranch on the Crooked River below Smith Rock, with a villa-style former winery clubhouse and an outdoor Tuscan Stables space with a woven-willow ceremony corral.	events@ranchatthecanyons.com	503-445-1116	https://www.ranchatthecanyons.com/weddings
 DD Ranch	3836 NE Smith Rock Way	Terrebonne	Oregon			Barn / Rustic	Indoor & Outdoor			Family grass-fed beef ranch and seasonal pumpkin patch with a reception barn with dance floor and bar and a lawn ceremony site facing Smith Rock.	linda@ddranch.net	541-548-1432	https://www.ddranch.net/weddings`,
   },
+  {
+    name: "Willamette Valley and Portland suburbs",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Roddy Ranch Events	33281 Dever Conner Rd NE	Albany	Oregon			Garden / Outdoor	Outdoor	250		Former horse-breeding ranch near Albany with several garden ceremony settings and an 80 x 200 foot covered arena that can host weddings on horseback.	roddyranch@gmail.com	541-905-5829	https://roddyranchevents.com/
+The Foundry at Oswego Pointe	320 Oswego Pointe Dr	Lake Oswego	Oregon			Beach / Waterfront	Indoor & Outdoor	300		Contemporary riverside event space in Lake Oswego with an indoor Great Hall, a river-view promenade and deck, and a riverfront amphitheatre for ceremonies.	tiffani@pearlcateringpdx.com	503-427-1415	https://thefoundrylakeoswego.com/
+Ironlight	525 3rd St	Lake Oswego	Oregon			Ballroom / Hotel	Indoor & Outdoor			Modern downtown Lake Oswego event venue with floor-to-ceiling windows, panoramic views and indoor-outdoor spaces used for weddings and celebrations.	events@ironlightlo.com		https://www.ironlightlo.com/
+Ainsworth House & Gardens	19130 Lot Whitcomb Dr	Oregon City	Oregon			Historic / Estate	Indoor & Outdoor	125	Classic	Historic house with three garden ceremony sites, a fireside room and a reception facility, hosting weddings from peak-season weekends starting at $7,200.	events@ainsworthhouse.net	503-656-1894	https://ainsworthhouse.net/
+Oswego Hills Winery	450 S Rosemont Rd	West Linn	Oregon			Restaurant / Vineyard	Indoor & Outdoor			Winery just outside Portland with indoor event rooms and landscaped grounds used for outdoor ceremonies and dinners.	Help@OswegoHills.com	503-655-2599	https://www.eventsatoswegohills.com/
+Zenith Vineyard	5657 Zena Rd NW	Salem	Oregon			Restaurant / Vineyard	Indoor & Outdoor	500		Eola-Amity Hills vineyard with a 5,000 sq ft ballroom with fireplace and bridal salon, plus a 120-foot patio and lawn overlooking the vines.	info@zenithvineyard.com	503-932-3540	https://www.zenithvineyard.com/
+Yellow Gold Farm	36040 Tennessee Rd SE	Albany	Oregon			Garden / Outdoor			Classic	Six-acre farm between Albany and Lebanon with park-like lawns, trees, water features and a creek, with weddings starting at $6,000.	YellowGoldFarmEvents@gmail.com	541-990-6036	https://www.yellowgoldfarm.com/
+Cubanisimo Vineyards	1754 Best Rd NW	Salem	Oregon			Restaurant / Vineyard				Salem-area winery on a hillside vineyard with valley views, offering wedding rentals and a referral programme for couples.	Vino@CubanisimoVineyards.com	503-588-1763	https://www.cubanisimovineyards.com/
+Green Villa Barn & Gardens	3215 Independence Hwy	Independence	Oregon			Barn / Rustic	Indoor & Outdoor	300	Simple	A 1928 barn that once hosted Prohibition-era dances, with a 2,500 sq ft hardwood dance floor, a bridal suite and a landscaped garden with a ceremony arch.	greenvillaevents@gmail.com	503-838-3475	https://www.greenvilla.us/
+Camp Colton	30000 S Camp Colton Dr	Colton	Oregon			Historic / Estate	Indoor & Outdoor	250		An 85-acre forest camp about 45 minutes from Portland, with a 1920s non-denominational sanctuary, converging creeks and renovated lodging.		503-824-2267	https://www.campcolton.com/
+Postlewait's Country Weddings	29510 S Barlow Rd	Canby	Oregon			Barn / Rustic				Working farm and vineyard in Canby with a restored red barn, hosting weddings and events since 2001.	postlewaitevents@yahoo.com		https://www.postlewaits.com/
+The Oregon Garden	879 W Main St	Silverton	Oregon			Garden / Outdoor	Indoor & Outdoor			A 130-acre botanical garden in Silverton with several indoor and outdoor wedding spaces, including a rustic pavilion, a grand hall and open lawns.	info@oregongardenfoundation.org	503-874-4294	https://www.oregongarden.org/`,
+  },
 ];
 
 export default batches;
