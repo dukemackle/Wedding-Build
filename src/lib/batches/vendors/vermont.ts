@@ -48,6 +48,20 @@ Stowe Bee Bakery & Cafe	Cake	1056 Mountain Road	Stowe	Vermont		Stowe bakery maki
 Red Poppy Cakery	Cake	1 Elm Street, Suite #1	Waterbury	Vermont	Vermont	Waterbury bakery making custom tiered wedding cakes, cupcakes and dessert tables, with vegan and allergy-friendly options and tastings.	janina@redpoppycakery.net	203-400-0700	https://www.redpoppycakery.net/	https://www.instagram.com/redpoppycakeryvt/
 Mountain Brothers Media	Videography		Stowe	Vermont	Vermont and New England	Stowe video and photo team filming weddings with unlimited coverage rather than hourly caps, and meeting couples at their venue before the day.			https://www.mountainbrothersmedia.com/	`,
   },
+  {
+    name: "Stowe: florals, photography, planning, videography and hair & makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Uncle George's Flowers	Florals	638 S Main St, Suite 7	Stowe	Vermont	Stowe	Full-service Stowe florist with a German-trained owner and 25-plus years designing wedding bouquets, arrangements and event flowers.		802-253-9900	https://www.unclegeorgesflowersvt.com/	
+Sprig	Florals		Stowe	Vermont	Stowe and Vermont	Stowe cut-flower farm growing its own blooms, foliage and woody stems for wedding bouquets, ceremony pieces and reception florals.	sprigflowerfarmvt@outlook.com	802-793-6574	https://www.sprigvt.com/	https://www.instagram.com/sprigflowerfarmvt/
+Bagel Flowers	Florals		Stowe	Vermont	Stowe, Waterbury and Chittenden, Lamoille and part of Washington County	Stowe florist offering bespoke wedding and event design, from bouquets to ceremony and reception arrangements.	bagelflowers@gmail.com	802-207-4985	https://bagelflowers.com/pages/weddings-events	https://www.instagram.com/bagel_flowers/
+Peck's Flower Shop	Florals	64 Portland St	Morrisville	Vermont	Morrisville, Stowe and surrounding towns	Morrisville flower shop with more than 50 years serving the area, designing wedding bouquets, centrepieces and ceremony flowers.		802-888-2332	https://www.pecksflowershopvt.com/	https://www.instagram.com/pecksflowershopvt/
+Wildly Vowed	Photography		Stowe	Vermont	Vermont and worldwide	Stowe-based photographers focused on adventure elopements and small weddings for couples who prefer wild places to big guest lists.			https://wildlyvowed.com/	https://www.instagram.com/wildlyvowed/
+Elisabeth Viilu Photography	Photography		Stowe	Vermont	Vermont	Stowe photographer capturing natural, emotional photos of weddings, proposals and family sessions at venues across Vermont.			https://www.elisabethviiluphotography.com/	https://www.instagram.com/elisabeth_viilu_photography/
+Randi Nonni Events	Planning		Burlington	Vermont	Vermont, including Stowe resort weddings	Burlington planner, formerly Silver Toad, offering full-service planning and takes on no more than ten clients a season.	rskn@randinonnievents.com	802-598-3885	https://randinonnievents.com/	https://www.instagram.com/randinonnievents/
+Carmen George Weddings	Planning		Burlington	Vermont	Vermont	Burlington planner and officiant offering full planning, week-of and day-of coordination and hourly consulting for Vermont weddings.	carmengeorgevt@gmail.com	802-829-8111	https://www.officiantvermont.com/vermontdayofcoordinator	
+Align Film	Videography		Waterbury Center	Vermont	Vermont	Waterbury Center team making cinematic wedding films, alongside family and commercial video.	inquire@align.film	802-662-2012	https://www.align.film/	
+Hillary Fay Studios	Hair & Makeup	12 Pearl Street	Essex Junction	Vermont	Vermont	Essex Junction studio offering on-location bridal makeup and hair styling for Vermont weddings and small elopements.		802-373-3149	https://www.hillaryfaystudios.com/	https://www.instagram.com/hillaryfaystudios/`,
+  },
 ];
 
 export default batches;
