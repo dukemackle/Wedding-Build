@@ -78,6 +78,25 @@ Precious Moments Wedding Films	Videography		Hudson	New Hampshire	Massachusetts, 
 Henny B Cakes	Cake		Littleton	New Hampshire	New Hampshire and Vermont	Littleton home bakery run by a White Mountains cake designer, creating custom wedding cakes for couples in New Hampshire and Vermont.	henny@hennybcakes.com		https://hennybcakes.com/	
 `,
   },
+  {
+    name: "Manchester: more photography, planning, florals, cake, music, catering, hair and makeup and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Millyard Studios	Photography	155 Dow Street, Suite 101	Manchester	New Hampshire	New Hampshire and New England	Full-service photography studio in Manchester's millyard shooting weddings and engagements alongside family and portrait sessions.		603-232-6828	https://www.millyardstudios.com/	https://www.instagram.com/millyardstudios/
+Designed by De Silva	Planning		Manchester	New Hampshire	Manchester and southern New Hampshire	Manchester coordinator who handles day-of timelines and styling for couples who have already chosen their vendors.			https://designedbydesilva.com/day-of-coordination	https://www.instagram.com/designedbydesilva/
+Jacques Flower Shop	Florals	712 Mast Road	Manchester	New Hampshire	Manchester and New Hampshire	Manchester florist offering custom wedding designs from a la carte bouquets to full ceremony and reception florals.		603-625-5155	https://www.jacquesflowers.com/page/weddings	
+Rimmon Heights Florist	Florals		Manchester	New Hampshire	Manchester area	Manchester florist handcrafting wedding bouquets, centrepieces and event arrangements for local couples.		603-932-3383	https://rimmonheightsflorist.com/pages/wedding-page	
+Batter Up Cake	Cake		Londonderry	New Hampshire	Southern New Hampshire, Massachusetts and southern Maine	Londonderry baker making custom wedding and celebration cakes to order since 2004, with pickup from the home studio.	melissa@batterupcake.com	603-867-8226	https://www.batterupcake.com/	
+The Bakeshop on Kelley Street	Cake		Manchester	New Hampshire	Manchester	Made-to-order Manchester bakery that takes wedding cake orders alongside its cafe and fresh baked goods.		603-624-3500	https://thebakeshoponkelleystreet.com/	
+Get Down Tonight Entertainment	Music	59 Stiles Road North, Suite 102	Salem	New Hampshire	New Hampshire, New England and upstate New York	Salem DJ and MC company running weddings across New England, with a team of award-winning performers.		603-890-1204	https://www.getdowntonight.com/	
+Audio Events	Music		Barrington	New Hampshire	Southern New Hampshire, Maine, Massachusetts and Vermont	Barrington DJ and MC team providing wedding music, uplighting and event lighting across southern New Hampshire.	info@audioeventsonline.com	603-722-0108	https://audioeventsonline.com/dj-services	https://www.instagram.com/NHweddingDJs/
+Groove Authority	Music		Manchester	New Hampshire	New England	Manchester wedding band that sends the same musicians to every event, with wireless instruments for a lively dance floor.	grooveauthorityband@gmail.com	617-838-3718	https://grooveauthority.com/cities/manchester/	https://www.instagram.com/grooveauthority/
+Tidewater Catering Group	Catering	250 Commercial Street, Suite 2021	Manchester	New Hampshire	Manchester and southern New Hampshire	Manchester catering company designing contemporary custom menus with full-service planning for weddings and events.		603-668-6111	https://www.tidewatercatering.com/	
+Mode Salon and Wellness	Hair & Makeup	1711 South Willow Street, Suite 1	Manchester	New Hampshire	New England	Manchester salon offering bridal hair and makeup alongside colour, cuts and brow and lash services.	info.modesalonnh@gmail.com	603-518-5120	https://www.modesalonandwellness.com/	https://www.instagram.com/modesalonandwellness/
+5 Diamond Salon	Hair & Makeup	915 Holt Ave, Suite 4	Manchester	New Hampshire	New Hampshire and destination weddings	Manchester wedding hair and makeup specialists who style over 150 weddings a year, with trials and airbrush upgrades.		603-459-3367	http://www.5diamondsalon.com/	https://www.instagram.com/5diamondsalon/
+Clear Vision Videography	Videography		Manchester	New Hampshire	Southern New Hampshire	Manchester wedding videographer delivering full-length edited films, highlight reels and raw footage with published pricing.	support@clearvisionvideography.com	866-581-7410	https://clearvisionvideography.com/locations/manchester-nh	https://www.instagram.com/clearvisionvideography/
+Loon Weddings	Videography		Concord	New Hampshire	New Hampshire and New England	Southern New Hampshire filmmaker and photographer making natural-light wedding films and photos in an earthy, bold style.	loonweddings@gmail.com		https://loonweddings.com/	https://www.instagram.com/loonweddings/
+`,
+  },
 ];
 
 export default batches;
