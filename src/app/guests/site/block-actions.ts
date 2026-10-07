@@ -3,10 +3,11 @@
 import { randomUUID } from "node:crypto";
 import { revalidatePath } from "next/cache";
 import type { SiteBlock } from "@/lib/supabase/types";
+import { safeLink, videoEmbedUrl } from "@/lib/video-embed";
 import { requireEditableWedding } from "@/lib/wedding-access";
 
 const MAX_PHOTO_BYTES = 5 * 1024 * 1024;
-const KINDS = ["photo", "story", "quote"] as const;
+const KINDS = ["photo", "story", "quote", "video", "link"] as const;
 
 function revalidate(slug: string | null) {
   revalidatePath("/guests/site");
@@ -50,6 +51,19 @@ export async function updateSiteBlock(formData: FormData): Promise<{ error?: str
     attribution: text(formData, "attribution", 200),
     updated_at: new Date().toISOString(),
   };
+
+  // Video and link blocks keep an address; a bad one is said, not saved.
+  if (formData.has("url")) {
+    const url = text(formData, "url", 1000);
+    const kind = formData.get("kind");
+    if (url && kind === "video" && !videoEmbedUrl(url)) {
+      return { error: "That isn't a YouTube or Vimeo link — copy it from the video's Share button." };
+    }
+    if (url && kind === "link" && !safeLink(url)) {
+      return { error: "That doesn't look like a web address — it should start with https://" };
+    }
+    patch.url = url;
+  }
 
   const photo = formData.get("photo") as File | null;
   if (photo && photo.size > 0) {

@@ -719,11 +719,13 @@ export type GuestPost = {
 export type SiteBlock = {
   id: string;
   wedding_id: string;
-  kind: "photo" | "story" | "quote";
+  kind: "photo" | "story" | "quote" | "video" | "link";
   heading: string | null;
   body: string | null;
   attribution: string | null;
   photo_url: string | null;
+  /** Video: the YouTube or Vimeo link. Link: where the button goes. */
+  url: string | null;
   created_at: string;
   updated_at: string;
 };

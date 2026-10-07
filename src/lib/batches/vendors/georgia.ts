@@ -104,6 +104,22 @@ Sherry's Sweets-n-Eats	Cake		Dahlonega	Georgia		Licensed cottage bakery in Dahlo
 Grant Media	Videography		Dahlonega	Georgia		Dahlonega video production company with more than 15 years behind the camera, filming weddings and events as well as corporate work.	ben@grantmediaga.com	(404) 376-9408	https://www.grantmediaga.com/	https://www.instagram.com/grantmediaga/
 `,
   },
+  {
+    name: "North Georgia Mountains: photography, planning, florals, music, catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Mountain Woman Weddings	Planning		Dahlonega	Georgia	Dahlonega and surrounding North Georgia	Dahlonega planner and certified coordinator offering full planning, partial planning and day-of coordination for mountain weddings.		678.294.8663	https://www.mountainwomanweddings.com/	https://www.instagram.com/mountainwomanweddings/
+Flowers By Patsy	Florals	162 Lumpkin County Parkway, Unit 1	Dahlonega	Georgia	Dahlonega and surrounding delivery area	Dahlonega flower shop making bridal bouquets, arches, centrepieces and cake-table flowers, with custom keepsake handle details.		(706) 326-3106	https://www.flowersbypatsy.com/wedding-flowers	
+Stowers Flowers	Florals	135 Howser Mill Place	Dawsonville	Georgia	Dawsonville and a 20-mile radius, including Dahlonega and Big Canoe	Dawsonville florist doing wedding florals alongside everyday and event arrangements, delivering across the north Georgia foothills.	info@stowersflowers.com	404-405-6199	https://www.stowersflowers.com/	https://www.instagram.com/stowersflowers/
+Floral Creations	Florals	270 Summit St	Blue Ridge	Georgia	Blue Ridge and surrounding North Georgia communities	Family-run Blue Ridge florist since 1977, delivering wedding flowers to mountain venues including Summit Farm and The Falls at Blue Ridge.	floralcreationsbr@yahoo.com	(706) 632-5006	https://floralcreationsblueridge.com/	
+Blue Ridge Flowers	Florals	3586 E 1st St, Suite 304	Blue Ridge	Georgia	Blue Ridge, Ellijay, McCaysville and Cherry Log	Blue Ridge florist with a wedding room of linens, ceremony arches and cake stands for hire, plus custom wedding flower packages.	wecare@blueridgeflowers.net	(706) 258-3913	https://www.blueridgeflowers.net/	
+Ellijay's Hometown Florist	Florals		Ellijay	Georgia	Greater Ellijay area	Ellijay florist making hand-tied bridal bouquets, centrepieces and boutonnieres, and delivering ceremony and reception flowers to local venues.			https://hometownfloristellijay.com/collections/wedding	
+Backwoodz Boyz Entertainment	Music		Dahlonega	Georgia	Georgia and the wider Southeast	Dahlonega DJ company that also hires out photo booths, playing wedding receptions around North Georgia and neighbouring states.	djaycheek@gmail.com	(770) 655-2281	https://www.backwoodzboyzentertainment.com/	https://www.instagram.com/backwoodzboyzentertainment/
+NDL Entertainment	Music		Dawsonville	Georgia	Dawsonville, Dahlonega and North Georgia	Owner-run mobile DJ for North Georgia weddings, with dance-floor lighting included and room uplighting available as an extra.			https://www.looneydjservices.com/	
+Romaine On The Go	Catering		Dahlonega	Georgia	Dahlonega, Blue Ridge, Chattanooga and Knoxville	Personal chef and caterer based in Dahlonega, serving wedding buffets and interactive food stations across the mountains and into Tennessee.		423-504-9999	https://romaineotg.com/catering/dahlonega-ga/	
+Catering by Cindy	Catering		Mineral Bluff	Georgia	North Georgia mountains	Mineral Bluff caterer for weddings, commitment ceremonies and retreats, cooking homemade menus planned around each couple.	cateringbycindy@gmail.com	770-894-9256	https://cateringbycindy.com/	
+Horn Photography and Design	Photography		Dahlonega	Georgia	North Georgia	Husband-and-wife Dahlonega team shooting photo and film for a limited number of weddings a year, including Catholic ceremonies.			https://hornphotographyanddesign.com/	https://www.instagram.com/hornpd/
+`,
+  },
 ];
 
 export default batches;
