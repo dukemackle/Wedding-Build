@@ -29,7 +29,8 @@ Add nothing to that folder without a row here, and only from a page that states 
 
 ## Drawn for You Do, I Do
 
-`boot.svg`, `saguaro.svg`, `longhorn.svg`, `anchor.svg`, `shells.svg`, `frond.svg`, `grapes.svg` and `pine.svg` are
+`boot.svg`, `saguaro.svg`, `longhorn.svg`, `anchor.svg`, `shells.svg`, `frond.svg`, `grapes.svg`, `pine.svg`,
+`hibiscus.svg`, `seagrass.svg`, `sun.svg` and the `icon-*.svg` files (from `src/lib/scene-icons.ts`) are
 line drawings made for the app (October 2026), owned outright. Like the engravings, they're used as a mask and
 filled with the accent. The scenes in `src/components/site-scene.tsx` (mountains, waves, papel picado...) are
 drawn in code the same way.
