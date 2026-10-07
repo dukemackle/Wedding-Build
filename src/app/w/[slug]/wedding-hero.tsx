@@ -7,10 +7,10 @@ import { CountdownTimer } from "@/components/countdown-timer";
 import { daysUntilWedding } from "@/lib/countdown";
 import { HeroActions } from "./hero-actions";
 import { useSiteDesign } from "@/components/guest-site-theme";
-import { motionPreset } from "@/lib/site-design";
+import { motionPreset, PHOTO_HEROES } from "@/lib/site-design";
 import { SiteOrnament } from "@/components/site-ornament";
 import { SiteArt } from "@/components/site-art";
-import { SiteScene } from "@/components/site-scene";
+import { SceneArtwork, SiteScene } from "@/components/site-scene";
 
 function formatDate(dateStr: string) {
   return new Date(`${dateStr}T00:00:00`).toLocaleDateString("en-US", {
@@ -118,11 +118,15 @@ const CARD_RADIUS = "rounded-[min(var(--site-radius,1rem),1.5rem)]";
  * inside the layouts with no photo, where they can't sit on a face.
  */
 export function WeddingHero({ wedding }: { wedding: PublicWedding }) {
+  const { hero } = useSiteDesign();
+  // With no photo yet, a photo layout draws the scene as its picture, so it
+  // isn't drawn again around it.
+  const illustrated = !wedding.hero_photo_url && PHOTO_HEROES.includes(hero);
   return (
     <div className="mb-10 flex flex-col">
-      <SiteScene where="strip" />
+      {!illustrated && <SiteScene where="strip" />}
       <HeroLayout wedding={wedding} />
-      <SiteScene where="band" />
+      {!illustrated && <SiteScene where="band" />}
     </div>
   );
 }
@@ -130,8 +134,8 @@ export function WeddingHero({ wedding }: { wedding: PublicWedding }) {
 /**
  * The top of the guest site, in the couple's chosen layout (Style tab):
  * the photo across the top with a card over it, photo and names side by
- * side, or an arched photo above the names. Without a photo there's nothing
- * to lay out, so every layout falls back to the names on their own.
+ * side, or an arched photo above the names. Until there's a photo, the
+ * photo layouts show the theme's scene as the picture (SceneArtwork).
  */
 function HeroLayout({ wedding }: { wedding: PublicWedding }) {
   const { hero, art } = useSiteDesign();
@@ -156,7 +160,7 @@ function HeroLayout({ wedding }: { wedding: PublicWedding }) {
   // No photo yet is the common first-run state, so it gets its own
   // deliberate treatment rather than an empty grey band. "Text only" is the
   // same page chosen on purpose.
-  if (!photo || hero === "text") {
+  if (hero === "text" || !PHOTO_HEROES.includes(hero)) {
     return (
       <header className="relative overflow-hidden bg-[radial-gradient(120%_90%_at_50%_0%,var(--color-card)_0%,var(--color-parchment)_60%)] px-6 pb-16 pt-24">
         <SiteArt art={art} />
@@ -171,7 +175,11 @@ function HeroLayout({ wedding }: { wedding: PublicWedding }) {
     return (
       <header className="grid lg:min-h-[78vh] lg:grid-cols-2">
         <div className="site-hero-photo relative h-[46vh] min-h-[300px] overflow-hidden bg-[var(--site-photo)] lg:h-auto">
-          <Image src={photo} alt="" fill priority sizes="(min-width: 1024px) 50vw, 100vw" className="hero-kenburns object-cover" />
+          {photo ? (
+            <Image src={photo} alt="" fill priority sizes="(min-width: 1024px) 50vw, 100vw" className="hero-kenburns object-cover" />
+          ) : (
+            <SceneArtwork />
+          )}
         </div>
         <div className="flex items-center justify-center py-14 lg:py-20">
           <HeroContent wedding={wedding} tone="dark" />
@@ -187,7 +195,11 @@ function HeroLayout({ wedding }: { wedding: PublicWedding }) {
         <SiteScene where="surround" />
         <div className="relative z-10 rounded-[200px_200px_8px_8px] border border-[var(--site-accent)] p-2.5">
           <div className="site-hero-photo relative h-[340px] w-[250px] overflow-hidden rounded-[190px_190px_4px_4px] bg-[var(--site-photo)] sm:h-[420px] sm:w-[310px]">
+            {photo ? (
             <Image src={photo} alt="" fill priority sizes="310px" className="hero-kenburns object-cover" />
+          ) : (
+            <SceneArtwork />
+          )}
           </div>
         </div>
         <div className="mt-8 w-full">
@@ -202,7 +214,11 @@ function HeroLayout({ wedding }: { wedding: PublicWedding }) {
   return (
     <header className="flex flex-col items-center">
       <div className="site-hero-photo relative h-[52vh] min-h-[320px] w-full overflow-hidden bg-[var(--site-photo)] lg:h-[62vh]">
-        <Image src={photo} alt="" fill priority sizes="100vw" className="hero-kenburns object-cover" />
+        {photo ? (
+            <Image src={photo} alt="" fill priority sizes="100vw" className="hero-kenburns object-cover" />
+          ) : (
+            <SceneArtwork />
+          )}
       </div>
       <div className={`relative -mt-24 w-[calc(100%-2rem)] max-w-2xl bg-card py-10 shadow-sm sm:py-12 ${CARD_RADIUS}`}>
         <HeroContent wedding={wedding} tone="dark" />

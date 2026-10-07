@@ -45,6 +45,48 @@ export function SiteScene({ where }: { where: "band" | "strip" | "surround" }) {
   return <div aria-hidden="true">{SURROUNDS[scene]?.(id)}</div>;
 }
 
+/**
+ * The picture in a photo layout before the couple has a photo of their own:
+ * their scene drawn large, in their colours, rather than an empty box or
+ * someone else's stock photo. A landscape stands at the bottom under a sky,
+ * and an icon pattern fills the frame. Themes whose scene isn't a landscape
+ * get misty ridges, which suit any palette.
+ * Fills its (positioned) parent.
+ */
+export function SceneArtwork() {
+  const design = useSiteDesign();
+  const id = useId().replace(/:/g, "");
+  const scene = resolveDesign(design).scene;
+  const place = sceneById(scene).place;
+  const sky = `linear-gradient(180deg, color-mix(in srgb, var(--site-accent) 20%, #ffffff) 0%, var(--color-parchment) 75%)`;
+
+  const set = scene.startsWith("western") ? "western" : scene.startsWith("ocean") ? "ocean" : null;
+  if (set) {
+    return (
+      <svg aria-hidden="true" className="absolute inset-0 h-full w-full" style={{ background: tint(10) }}>
+        <defs>{scatter(set, `${id}a`)}</defs>
+        <rect width="100%" height="100%" fill={`url(#${id}a)`} />
+      </svg>
+    );
+  }
+
+  const land = place === "band" && BANDS[scene] ? scene : "ridges";
+  return (
+    <div aria-hidden="true" className="absolute inset-0 overflow-hidden" style={{ background: sky }}>
+      {/* Ridges draw a sun of their own. */}
+      {land !== "ridges" && (
+        <span
+          className="absolute right-[18%] top-[14%] h-[14%] w-auto rounded-full"
+          style={{ aspectRatio: "1", background: tint(12) }}
+        />
+      )}
+      <svg viewBox="0 0 1200 260" preserveAspectRatio="xMidYMax slice" className="absolute inset-x-0 bottom-0 h-[58%] w-full">
+        {BANDS[land]?.(id)}
+      </svg>
+    </div>
+  );
+}
+
 function pinesPattern(id: string, color: string, w = 26, h = 70): ReactNode {
   return (
     <pattern id={id} width={w} height={h} patternUnits="userSpaceOnUse">

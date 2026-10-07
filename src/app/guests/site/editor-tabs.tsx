@@ -351,7 +351,7 @@ export function StyleTab({
         <p className="text-[13px] leading-normal text-ink/60">
           {hasPhoto || !needsPhoto
             ? HERO_LAYOUTS.find((h) => h.id === design.hero)?.help
-            : "This one needs a banner photo — add one under Sections › Photos. Until then the top of the page shows your names on their own."}
+            : "Until you add a banner photo (Sections › Photos), this shows an illustration of your scene in your colours."}
         </p>
       </div>
     </>
