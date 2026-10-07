@@ -92,6 +92,24 @@ Joyful Entertainment	Music		Myrtle Beach	South Carolina	Myrtle Beach, Greenville
 Primetime Event DJs	Music		Myrtle Beach	South Carolina		Myrtle Beach DJ and lighting company whose emcees handle wedding receptions with full sound and lighting set-ups.			https://www.primetimeeventdjs.com	https://www.instagram.com/primetime_event_djs/
 Cakes by the Sea	Cake	2126 Hwy 9 E, Suite 9A	Longs	South Carolina		Longs bakery north of Myrtle Beach making real-buttercream wedding cakes and cupcakes in a wide choice of flavours and fillings.		(843) 390-5501	https://www.cakesbythesea.com	`,
   },
+  {
+    name: "Columbia: catering, videography, hair & makeup and cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Clarrisa's Kitchen & Catering	Catering		Columbia	South Carolina	Columbia and the Midlands	Columbia caterer with customised menus for weddings, corporate and government events, plus an event space for up to 200 guests.	contactus@clarrisaskitchen.com	(803) 741-4985	https://clarrisaskitchen.com	
+France's Catering	Catering		Columbia	South Carolina	Columbia, Lexington, Charleston and across South Carolina	Caterer building tailored wedding and party menus for venues from Columbia and Lexington to Charleston.	francescatering@yahoo.com	803-446-0048	https://francescatering.com	
+Fancy That Bistro & Catering	Catering	1825 Saint Julian Place	Columbia	South Carolina	Columbia	Columbia bistro with more than 25 years of scratch cooking, offering wedding catering packages and full bar service.	fancythatbistrocatering@gmail.com	(803) 779-6110	https://fancythatbistrocatering.com	
+R & T Catering	Catering		Columbia	South Carolina		Columbia caterer offering customisable wedding menus with full-service options and southern-style hospitality.			https://www.rtcateringllc.com	
+Seawell's Catering	Catering	1120 Rosewood Drive	Columbia	South Carolina	Columbia	Family-run Columbia caterer, in business since 1946, for weddings, cocktail parties and banquets of all sizes.	seawellscatering@gmail.com	(803) 771-7385	https://seawellscateringsc.com	
+2 Carolina Gourmet	Catering	4309 Ryan Ave	Columbia	South Carolina	Columbia	Columbia caterer with custom wedding menus, personal chef services and event staff for receptions and rehearsal dinners.	c52729725@gmail.com	(803) 999-8293	https://www.columbiagourmet.com	
+Michael David Productions	Videography		Columbia	South Carolina	Columbia and the Southeast	Columbia studio making editorial-style, cinematic wedding films alongside luxury wedding photography.	david@michaeldavidproductions.com		https://www.michaeldavidproductions.com	https://www.instagram.com/michaeldavidproductions/
+326 Films	Videography		Columbia	South Carolina	Columbia, Charleston, Charlotte, Savannah and Hilton Head	Columbia videographer producing candid, story-driven wedding films, and available for destination weddings.	tk@326films.com	839-810-4047	https://www.326films.com	https://www.instagram.com/326_films/
+The Carters Creative	Videography		Columbia	South Carolina	South Carolina and the Southeast	Columbia photography and videography team that pairs wedding films with colourful, luxury-leaning photo galleries.			https://carterscreative.com	
+Makeup by KeiKei	Hair & Makeup		Columbia	South Carolina	Columbia	Columbia licensed esthetician and makeup artist offering bridal makeup, trials and skincare treatments before the wedding.	makeupbykeikei@gmail.com	803.216.1762	https://www.makeupbykeikei.com	https://www.instagram.com/makeupbykeikei/
+Jennifer Nolan Beauty	Hair & Makeup		Columbia	South Carolina	Columbia and surrounding areas	On-location bridal hair and makeup for brides and their wedding parties around Columbia.		803-520-6168	https://www.jennifernolanbeauty.com	https://www.instagram.com/jennifernolanbeauty/
+Beautifully Styled by Alexis	Hair & Makeup	4282 Platt Springs Road	West Columbia	South Carolina	South Carolina	West Columbia studio offering bridal hair and makeup for the bride and her party.	beautifullystyled.alexis@gmail.com	803-303-6191	https://beautifullystyledbyalexis.com	https://www.instagram.com/beautifullystyled_by_alexis/
+Cakes by Brianne	Cake		Irmo	South Carolina	Columbia and the Midlands	Licensed Irmo cottage baker making small-batch, from-scratch bespoke buttercream cakes for weddings and parties.	hello@cakesbybrianne.com		https://www.cakesbybrianne.com	https://www.instagram.com/cakesbybrianne/
+Main Street Bakery	Cake	3307 N Main Street	Columbia	South Carolina	Columbia	Family-owned Columbia bakery making custom and tiered cakes for weddings, using generations-old southern recipes.	3307MainStreetBakery@gmail.com	803-563-5009	https://www.mainstreetbakery3307.com	https://www.instagram.com/mainstreetcakes/`,
+  },
 ];
 
 export default batches;
