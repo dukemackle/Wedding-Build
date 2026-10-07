@@ -72,6 +72,26 @@ Faces by Leah	Hair & Makeup	16285-A Highland Rd, Room 104	Baton Rouge	Louisiana	
 Elysium Trail	Videography		Baton Rouge	Louisiana		Baton Rouge wedding filmmaker who trained as a wedding planner too, offering story-led films with toasts, interviews and drone footage.	nick@elysiumtrail.com		https://elysiumtrail.com/	https://www.instagram.com/nsavides/
 `,
   },
+  {
+    name: "Lafayette: photography, planning, cake, florals, music, hair and makeup, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Brewyet Photography	Photography		Lafayette	Louisiana		Lafayette photographer Chris Brouillette, covering weddings and portraits around Acadiana and travelling to surrounding areas.		337-849-8435	https://www.brewyet.photo/	https://www.instagram.com/brewyetphoto/
+Cameron Theyard	Photography		Lafayette	Louisiana	Lafayette, Baton Rouge, New Orleans and surrounding areas	Lafayette photographer and videographer shooting weddings, portraits and seniors, with both services offered from one studio.			http://camerontheyard.com/	https://www.instagram.com/camerontheyard/
+Morgan Alysse Photography	Photography		Lafayette	Louisiana		Lafayette wedding photographer aiming for true-to-life, timeless images for joyful couples rather than heavily posed galleries.			https://morganalyssephotography.com/	https://www.instagram.com/morganalyssephotography/
+Angelina Wagnon Photography	Photography		Lafayette	Louisiana	Lafayette, Youngsville, Breaux Bridge and the Acadiana area	Lafayette wedding, family and senior photographer who favours natural, timeless images and will travel for select destinations.			https://angelinawagnon.com/	https://www.instagram.com/angelinawagnonphotography/
+Perfectly Meched Weddings	Planning		Lafayette	Louisiana	Lafayette, Baton Rouge and New Orleans	Lafayette wedding planning and design company building days around each couple, with destination weddings also on offer.			https://perfectlymeched.com/	https://www.instagram.com/perfectlymechedweddings/
+Piece Of Cake Lafayette	Cake		Lafayette	Louisiana	Lafayette	Lafayette bakery making custom wedding cakes, cupcakes and cookies, open since 2010, with pickup or delivery locally.	info@pieceofcakelafayette.com	(337) 565-2753	https://pieceofcakelafayette.com/	https://www.instagram.com/pieceofcakelafayette/
+Crystal Weddings	Cake	221 Jones Road	Duson	Louisiana	Lafayette and Acadiana	Duson bakery near Lafayette known for custom wedding cakes and groom's cakes, plus king cakes, with consultations by booking.	crystal@crystalweddings.net	337-989-1700	https://crystalweddings.net/	https://www.instagram.com/crystalweddingsbakery/
+Flowers By Rodney	Florals	104 Camille St	Lafayette	Louisiana	Lafayette	Lafayette flower shop that designs wedding bouquets in cascading, modern and hand-tied styles alongside everyday arrangements.	flowersbyrodney@yahoo.com	(337) 406-2610	https://www.flowersbyrodney.com/wedding-flowers	https://www.instagram.com/flowersbyrodney/
+Spedale's Florist	Florals	1012 Petroleum Pkwy	Broussard	Louisiana	Lafayette, Youngsville and Broussard	Family-owned Broussard florist, open since 1984, with a wedding flowers and events service for couples across Lafayette.	sales@spedales.com	(337) 233-4404	https://www.spedales.com/wedding-flowers-events-by-spedales-florist-and-wholesale/	https://www.instagram.com/spedales_florist/
+Rouge Krewe	Music		Lafayette	Louisiana	Gulf Coast	Lafayette party band playing wedding ceremonies, cocktail hours and receptions across the Gulf Coast.			https://www.rougekrewe.com/	https://www.instagram.com/rkpartyband/
+Firemen Productions	Music		Lafayette	Louisiana	Lafayette, Acadiana, Alexandria and Opelousas	Acadiana DJ company that tailors party music to each event, covering Lafayette, Youngsville, Broussard and nearby towns.		337-290-9655	https://firemenproductions.com/	
+Bleu Hair and Makeup Studio	Hair & Makeup	5520 Johnston Street, Suite HH	Lafayette	Louisiana	Lafayette and surrounding areas	Lafayette studio run by licensed cosmetologist Megan Hebert, offering bridal hair, makeup and extensions, with on-location wedding service.			https://meganphebert.com/	https://www.instagram.com/megan.p.hebert/
+Lombas Film Co	Videography		Lafayette	Louisiana	Lafayette and Louisiana	Lafayette husband-and-wife team making cinematic wedding films with interviews and immersive sound design.	paul@lombasfilmco.com	337-466-6868	https://lombasfilmco.com/wedding-videography/	https://www.instagram.com/lombasfilmco/
+Evermore Stories	Videography		Lafayette	Louisiana	Louisiana	Lafayette wedding videographers making personalised films that record the couple's own story from the day.		337-254-4755	https://www.evermorestories.com/	https://www.instagram.com/evermorestoriesweddings/
+Tim Hebert Productions	Videography		Lafayette	Louisiana	South Louisiana	Lafayette wedding videographer with over a decade of experience filming weddings across South Louisiana.			https://www.timhebertproductions.com/	https://www.instagram.com/timhebertproductions/
+`,
+  },
 ];
 
 export default batches;
