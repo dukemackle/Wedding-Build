@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { blockHasContent } from "@/app/w/[slug]/site-block";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
@@ -207,14 +208,14 @@ export default async function GuestSitePage() {
   // Custom blocks, keyed as they appear in the design's section list.
   const blockInfo = Object.fromEntries(
     (blocks ?? []).map((b) => {
-      const kind = { story: "Story", photo: "Photo", quote: "Quote" }[b.kind];
-      const filled = b.kind === "photo" ? Boolean(b.photo_url) : Boolean(b.body);
+      const kind = { story: "Story", photo: "Photo", quote: "Quote", video: "Video", link: "Link" }[b.kind];
+      const filled = blockHasContent(b);
       const info: SectionInfo = {
         name: b.heading && b.kind !== "quote" ? `${kind}: ${b.heading}` : kind,
         status: !filled
           ? "Empty — hidden until you fill it in"
-          : b.kind === "photo"
-            ? b.heading ?? "Photo added"
+          : b.kind === "photo" || b.kind === "video" || b.kind === "link"
+            ? b.heading ?? (b.kind === "photo" ? "Photo added" : b.url!)
             : `“${b.body!.slice(0, 60)}${b.body!.length > 60 ? "…" : ""}”`,
         warn: !filled,
         editor: <BlockEditor block={b} />,

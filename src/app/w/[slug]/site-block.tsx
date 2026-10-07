@@ -1,11 +1,15 @@
 import Image from "next/image";
 import type { SiteBlock } from "@/lib/supabase/types";
+import { safeLink, videoEmbedUrl } from "@/lib/video-embed";
 
 const CARD = "site-card rounded-lg border border-hairline bg-card p-6 sm:p-10 shadow-sm";
 
 /** Whether a block has anything to show yet -- empty ones stay off the page. */
 export function blockHasContent(block: SiteBlock) {
-  return block.kind === "photo" ? Boolean(block.photo_url) : Boolean(block.body);
+  if (block.kind === "photo") return Boolean(block.photo_url);
+  if (block.kind === "video") return Boolean(videoEmbedUrl(block.url));
+  if (block.kind === "link") return Boolean(safeLink(block.url));
+  return Boolean(block.body);
 }
 
 /**
@@ -38,6 +42,43 @@ export function SiteBlockView({ block }: { block: SiteBlock }) {
           </figcaption>
         )}
       </figure>
+    );
+  }
+
+  const embed = block.kind === "video" ? videoEmbedUrl(block.url) : null;
+  if (embed) {
+    return (
+      <figure>
+        <div className="relative aspect-video w-full overflow-hidden rounded-[min(var(--site-radius,1rem),1.5rem)] bg-[var(--site-photo)]">
+          <iframe
+            src={embed}
+            title={block.heading ?? "Video"}
+            loading="lazy"
+            allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+            allowFullScreen
+            referrerPolicy="strict-origin-when-cross-origin"
+            className="absolute inset-0 h-full w-full border-0"
+          />
+        </div>
+        {block.heading && <figcaption className="mt-3 text-center text-sm text-ink/70">{block.heading}</figcaption>}
+      </figure>
+    );
+  }
+
+  const href = block.kind === "link" ? safeLink(block.url) : null;
+  if (href) {
+    return (
+      <div className={`${CARD} text-center`}>
+        {block.body && <p className="mx-auto max-w-[50ch] whitespace-pre-line leading-relaxed text-ink/80">{block.body}</p>}
+        <a
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`btn-motion inline-block rounded-md bg-forest px-6 py-3 text-sm font-medium text-parchment transition-colors hover:bg-forest/90 ${block.body ? "mt-5" : ""}`}
+        >
+          {block.heading || "Open the link"} <span aria-hidden="true">↗</span>
+        </a>
+      </div>
     );
   }
 
