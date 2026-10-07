@@ -7,7 +7,7 @@ import { CountdownTimer } from "@/components/countdown-timer";
 import { daysUntilWedding } from "@/lib/countdown";
 import { HeroActions } from "./hero-actions";
 import { useSiteDesign } from "@/components/guest-site-theme";
-import { motionPreset, PHOTO_HEROES } from "@/lib/site-design";
+import { motionPreset, PHOTO_HEROES, resolveDesign } from "@/lib/site-design";
 import { SiteOrnament } from "@/components/site-ornament";
 import { SiteArt } from "@/components/site-art";
 import { SceneArtwork, SiteScene } from "@/components/site-scene";
@@ -25,16 +25,21 @@ function HeroContent({
   wedding,
   tone,
   bigMark = false,
+  poster = false,
 }: {
   wedding: PublicWedding;
   tone: "light" | "dark";
   bigMark?: boolean;
+  /** Names set huge, in capitals unless the face is a script. */
+  poster?: boolean;
 }) {
   const names = `${wedding.partner_a_name ?? ""} & ${wedding.partner_b_name ?? ""}`.trim();
   const location = [wedding.venue_name, wedding.venue_city, wedding.venue_state]
     .filter(Boolean)
     .join(", ");
-  const { motion, ornament, occasion } = useSiteDesign();
+  const design = useSiteDesign();
+  const { motion, ornament, occasion } = design;
+  const capitals = poster && !resolveDesign(design).scriptNames;
   const renewal = occasion.kind === "renewal";
   const years = renewal && occasion.since ? yearsBetween(occasion.since, wedding.wedding_date) : null;
   // The gentle word-by-word rise is the "Straight in" default; the other
@@ -60,7 +65,11 @@ function HeroContent({
       </p>
 
       <h1
-        className={`site-names mt-3 font-display text-[clamp(2.75rem,8vw,5.5rem)] font-medium leading-[1.02] [font-style:var(--site-name-style,normal)] [font-weight:var(--site-name-weight,500)] ${
+        className={`site-names mt-3 font-display font-medium [font-style:var(--site-name-style,normal)] [font-weight:var(--site-name-weight,500)] ${
+          poster
+            ? `mx-auto max-w-[14ch] text-[clamp(3.75rem,15vw,10rem)] ${capitals ? "uppercase leading-[0.9] tracking-tight" : "leading-[1.1]"}`
+            : "text-[clamp(2.75rem,8vw,5.5rem)] leading-[1.02]"
+        } ${
           tone === "light" ? "text-white [text-shadow:0_2px_24px_rgba(0,0,0,0.28)]" : "text-forest"
         }`}
         style={{ fontFamily: "var(--font-names, var(--font-display))" }}
@@ -160,12 +169,59 @@ function HeroLayout({ wedding }: { wedding: PublicWedding }) {
   // No photo yet is the common first-run state, so it gets its own
   // deliberate treatment rather than an empty grey band. "Text only" is the
   // same page chosen on purpose.
-  if (hero === "text" || !PHOTO_HEROES.includes(hero)) {
+  if (hero === "text") {
     return (
       <header className="relative overflow-hidden bg-[radial-gradient(120%_90%_at_50%_0%,var(--color-card)_0%,var(--color-parchment)_60%)] px-6 pb-16 pt-24">
         <SiteArt art={art} />
         <SiteScene where="surround" />
         <HeroContent wedding={wedding} tone="dark" />
+      </header>
+    );
+  }
+
+  // Poster: the names as big as the screen allows, over the photo (darkened
+  // so they read) or straight on the page.
+  if (hero === "poster") {
+    return (
+      <header className="relative flex min-h-[64vh] items-center overflow-hidden py-16 lg:min-h-[80vh]">
+        {photo ? (
+          <>
+            <div className="site-hero-photo absolute inset-0 bg-[var(--site-photo)]">
+              <Image src={photo} alt="" fill priority sizes="100vw" className="hero-kenburns object-cover" />
+            </div>
+            <span className="absolute inset-0 bg-black/40" aria-hidden="true" />
+          </>
+        ) : (
+          <>
+            <SiteArt art={art} />
+            <SiteScene where="surround" />
+          </>
+        )}
+        <HeroContent wedding={wedding} tone={photo ? "light" : "dark"} poster />
+      </header>
+    );
+  }
+
+  // Framed card: the names on a card with a fine double border, over the
+  // photo or, without one, over a band of the accent colour.
+  if (hero === "card") {
+    return (
+      <header
+        className="relative overflow-hidden px-4 py-14 sm:px-8 lg:py-24"
+        style={photo ? undefined : { background: "var(--site-accent)" }}
+      >
+        {photo && (
+          <div className="site-hero-photo absolute inset-0 bg-[var(--site-photo)]">
+            <Image src={photo} alt="" fill priority sizes="100vw" className="hero-kenburns object-cover" />
+          </div>
+        )}
+        <div className="relative z-10 mx-auto max-w-2xl bg-card p-2 shadow-lg sm:p-3">
+          <div className="border border-[var(--site-accent)] p-1.5">
+            <div className="border border-[color-mix(in_srgb,var(--site-accent)_40%,transparent)] py-12 sm:py-16">
+              <HeroContent wedding={wedding} tone="dark" />
+            </div>
+          </div>
+        </div>
       </header>
     );
   }

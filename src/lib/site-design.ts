@@ -611,6 +611,8 @@ export const HERO_LAYOUTS = [
   { id: "framed", label: "Framed", help: "An arched photo above your names" },
   { id: "monogram", label: "Monogram", help: "Your crest large, your names under it, no photo" },
   { id: "text", label: "Text only", help: "Just your names and date, beautifully set" },
+  { id: "card", label: "Framed card", help: "Your names on a framed card, over your photo or a band of your colour" },
+  { id: "poster", label: "Poster", help: "Your names huge, poster-style, over your photo or on their own" },
 ] as const;
 
 /** The layouts that show the banner photo. */
@@ -771,7 +773,7 @@ export const ART_PLACEMENTS = [
 ] as const;
 
 /** The heroes artwork sits in: the photo is the picture in the others. */
-export const ART_HEROES: readonly HeroLayoutId[] = ["text", "monogram", "framed"];
+export const ART_HEROES: readonly HeroLayoutId[] = ["text", "monogram", "framed", "poster"];
 
 /** Colour families for the palette filter, in the order the chips show. */
 export const COLOR_FAMILIES = [

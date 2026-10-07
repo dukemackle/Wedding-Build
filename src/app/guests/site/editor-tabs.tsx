@@ -456,6 +456,19 @@ function HeroThumb({
           <span className="flex flex-col items-center">{lines}</span>
         </span>
       )}
+      {layout === "card" && (
+        <span className="absolute inset-0 flex items-center justify-center" style={{ background: accent }}>
+          <span className="flex w-[64%] flex-col items-center border-2 py-2.5" style={{ background: surface, borderColor: surface, outline: `1px solid ${accent}`, outlineOffset: "-4px" }}>
+            {lines}
+          </span>
+        </span>
+      )}
+      {layout === "poster" && (
+        <span className="flex h-full flex-col items-center justify-center gap-1">
+          <span className="block h-3.5 w-[72%] rounded-sm" style={{ background: ink }} />
+          <span className="block h-3.5 w-[56%] rounded-sm" style={{ background: ink }} />
+        </span>
+      )}
       {layout === "text" && (
         <span className="flex h-full flex-col items-center justify-center">
           <span className="block h-2 w-14 rounded-full" style={{ background: ink }} />
