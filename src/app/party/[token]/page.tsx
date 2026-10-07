@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
 import { categoryArt, formatPrice, safeUrl, swatch } from "@/lib/attire";
+import { AMAZON_DISCLOSURE, AMAZON_TAG, isAmazonUrl, withAmazonTag } from "@/lib/amazon";
 
 type SharedItem = {
   name: string;
@@ -89,7 +90,7 @@ export default async function SharedPartyPage({ params }: { params: Promise<{ to
             {party.members.map((m) => {
               const item = m.item;
               const photo = item?.image_urls?.[0];
-              const shop = safeUrl(item?.retailer_url);
+              const shop = withAmazonTag(safeUrl(item?.retailer_url));
               const buy = formatPrice(item?.buy_price);
               const rent = formatPrice(item?.rent_price);
               return (
@@ -162,6 +163,9 @@ export default async function SharedPartyPage({ params }: { params: Promise<{ to
               );
             })}
           </ul>
+        )}
+        {AMAZON_TAG && party.members.some((m) => isAmazonUrl(m.item?.retailer_url)) && (
+          <p className="mt-12 text-center text-xs text-ink/40">{AMAZON_DISCLOSURE}</p>
         )}
         <p className="mt-12 text-center text-xs text-ink/40">
           Planned with <Link href="/" className="underline">You Do, I Do</Link>

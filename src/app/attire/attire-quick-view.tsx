@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import type { AttireItem, AttirePartyMember } from "@/lib/supabase/types";
 import { formatPrice, safeUrl, swatch } from "@/lib/attire";
+import { AMAZON_DISCLOSURE, AMAZON_TAG, isAmazonUrl, withAmazonTag } from "@/lib/amazon";
 import { AttireImage, HeartButton } from "./attire-card";
 
 /**
@@ -46,7 +47,7 @@ export function AttireQuickView({
     };
   }, [onClose]);
 
-  const retailer = safeUrl(item.retailer_url);
+  const retailer = withAmazonTag(safeUrl(item.retailer_url));
   const buy = formatPrice(item.buy_price);
   const rent = formatPrice(item.rent_price);
   const details = [
@@ -192,6 +193,7 @@ export function AttireQuickView({
               <p className="text-sm text-ink/50">Where to buy is coming soon. Save it now so you don&apos;t lose it.</p>
             )}
           </div>
+          {AMAZON_TAG && isAmazonUrl(retailer) && <p className="mt-2 text-xs text-ink/50">{AMAZON_DISCLOSURE}</p>}
 
           {partyable && (
             <div className="mt-6 rounded-lg border border-hairline bg-parchment p-4">

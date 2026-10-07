@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AMAZON_DISCLOSURE, AMAZON_TAG } from "@/lib/amazon";
 
 export function SiteFooter() {
   return (
@@ -17,6 +18,7 @@ export function SiteFooter() {
           </a>
         </nav>
       </div>
+      {AMAZON_TAG && <p className="mx-auto mt-3 w-full max-w-5xl text-center text-[11px] text-ink/40 sm:text-left">{AMAZON_DISCLOSURE}</p>}
     </footer>
   );
 }

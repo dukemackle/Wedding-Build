@@ -3,6 +3,7 @@
 import { useOptimistic, useRef, useState, useTransition } from "react";
 import { BirdCheer } from "@/components/bird-cheer";
 import { BirdEmptyState } from "@/components/wren-moments";
+import { AMAZON_DISCLOSURE, checklistShopUrl } from "@/lib/amazon";
 import { CHECKLIST_PHASES } from "@/lib/checklist-template";
 import type { ChecklistItem } from "@/lib/supabase/types";
 import {
@@ -153,6 +154,7 @@ function ChecklistRow({ item }: { item: ChecklistItem }) {
   }
 
   const overdue = !completed && item.due_date && isOverdue(item.due_date);
+  const shopUrl = item.phase ? checklistShopUrl(item.title) : null;
 
   if (isEditing) {
     return (
@@ -229,6 +231,17 @@ function ChecklistRow({ item }: { item: ChecklistItem }) {
           )}
         </div>
         {item.notes && <p className="mt-1 text-sm text-ink/70">{item.notes}</p>}
+        {shopUrl && !completed && (
+          <a
+            href={shopUrl}
+            target="_blank"
+            rel="noopener noreferrer sponsored"
+            className="mt-1 inline-block text-xs font-medium text-forest underline decoration-hairline underline-offset-2 hover:decoration-forest"
+          >
+            Shop on Amazon ↗
+          </a>
+        )}
+        {shopUrl && !completed && <span className="ml-2 text-[11px] text-ink/45">{AMAZON_DISCLOSURE}</span>}
         {error && <p className="mt-1 text-sm text-red-800">{error}</p>}
       </div>
       <div className="flex shrink-0 items-center gap-3">

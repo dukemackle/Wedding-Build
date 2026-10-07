@@ -11,7 +11,7 @@ export default function TermsPage() {
       <div className={`w-full ${READING_WIDTH}`}>
         <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Legal</p>
         <h1 className="mt-2 font-display text-3xl font-semibold text-forest">Terms of Service</h1>
-        <p className="mt-2 text-sm text-ink/60">Last updated: October 2, 2026</p>
+        <p className="mt-2 text-sm text-ink/60">Last updated: October 7, 2026</p>
 
         <div className="mt-8 flex flex-col gap-8 text-ink/80">
           <p>
@@ -125,7 +125,16 @@ export default function TermsPage() {
             </p>
           </Section>
 
-          <Section title="8. Disclaimer of warranties">
+          <Section title="8. Affiliate links">
+            <p>
+              Some &ldquo;Shop&rdquo; links on the Service go to Amazon. As an Amazon Associate,
+              You Do, I Do earns from qualifying purchases made through them, at no extra cost to
+              you. They never affect which venues or vendors we show, and the Service stays free
+              whether or not you use them.
+            </p>
+          </Section>
+
+          <Section title="9. Disclaimer of warranties">
             <p>
               The Service is provided &quot;as is&quot; and &quot;as available,&quot; without
               warranties of any kind, express or implied, including warranties of merchantability,
@@ -134,7 +143,7 @@ export default function TermsPage() {
             </p>
           </Section>
 
-          <Section title="9. Limitation of liability">
+          <Section title="10. Limitation of liability">
             <p>
               To the fullest extent permitted by law, You Do, I Do isn&apos;t liable for any indirect,
               incidental, special, consequential, or punitive damages, or for any loss of data,
@@ -145,7 +154,7 @@ export default function TermsPage() {
             </p>
           </Section>
 
-          <Section title="10. Termination">
+          <Section title="11. Termination">
             <p>
               You can stop using the Service and permanently delete your account at any time from
               your{" "}
@@ -157,7 +166,7 @@ export default function TermsPage() {
             </p>
           </Section>
 
-          <Section title="11. Changes to these Terms">
+          <Section title="12. Changes to these Terms">
             <p>
               We may update these Terms from time to time. If we make material changes, we&apos;ll
               post the updated Terms here with a new effective date. Continued use of the Service
@@ -165,7 +174,7 @@ export default function TermsPage() {
             </p>
           </Section>
 
-          <Section title="12. Governing law">
+          <Section title="13. Governing law">
             <p>
               These Terms are governed by the laws of [STATE — to be finalized once You Do, I Do&apos;s
               business entity and home state are established], without regard to
@@ -173,7 +182,7 @@ export default function TermsPage() {
             </p>
           </Section>
 
-          <Section title="13. Contact">
+          <Section title="14. Contact">
             <p>
               Questions about these Terms? Contact us at{" "}
               <a href="mailto:hello@youdoido.com" className="text-brass hover:underline">

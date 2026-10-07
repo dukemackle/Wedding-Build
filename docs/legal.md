@@ -28,6 +28,12 @@ legal questions to the owner rather than deciding them.
   with this listing?" form shows `LegalNotice`; Privacy §1 covers the
   optional reporter email and the anonymous tap counts on listing links.
 
+- **Amazon affiliate links (2026-10-07):** tagged via `src/lib/amazon.ts`
+  (attire retailer links, six checklist "Shop on Amazon" links). Wherever one
+  shows, `AMAZON_DISCLOSURE` shows with it, plus the site footer and Terms §8.
+  Never put tagged links in email (Associates rule). Everything stays hidden
+  until `AMAZON_TAG` is set.
+
 Rule: any new form that sends Wren a person's details gets `LegalNotice`
 next to its submit button, and the Privacy Policy's "Information we collect"
 gets a line for it. Bump the "Last updated" date on any policy change.
