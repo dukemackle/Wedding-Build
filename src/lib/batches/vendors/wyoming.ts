@@ -31,6 +31,21 @@ Morales Photo & Film	Videography		Cody	Wyoming	Jackson Hole, Cody, Afton, Thayne
 Diana Edlinger Studios	Videography		Jackson	Wyoming	Jackson Hole and worldwide destinations	Jackson Hole wedding photographer and filmmaker shooting digital, drone, Super 8 and 16mm film.			https://dianaedlinger.com/	
 `,
   },
+  {
+    name: "Cheyenne: photography, planning, catering, hair and makeup and cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Janelle Rose Photography	Photography		Cheyenne	Wyoming	Cheyenne, Laramie, Fort Collins, Jackson Hole and the Front Range	Cheyenne photographer with 15+ years behind the lens, covering weddings, elopements, engagements and family portraits across southeast Wyoming.		307-399-4629	https://www.janellerosephotography.com/	https://www.instagram.com/janellerosephoto/
+Jasmine Mallo Imagery	Photography		Cheyenne	Wyoming	Wyoming and beyond	Cheyenne-based photographer offering wedding and elopement coverage in five to ten hour packages, with a candid, emotion-led approach to storytelling.			https://www.jasminemalloimagery.com/	https://www.instagram.com/jasminemalloimagery/
+Keith Wagner Photography	Photography		Cheyenne	Wyoming	Cheyenne, Wyoming	Cheyenne photographer for weddings, engagements, families and seniors, with a relaxed style, light posing and drone work as well.	keithwagnerPhotography@gmail.com		https://keithwagnerphotography.com/	https://www.instagram.com/treasured_adventures_photos/
+Sunflower Soirées	Planning		Laramie	Wyoming	Laramie, Cheyenne, Centennial, Saratoga, Casper, Lander and across Wyoming	Laramie planner offering full-service planning, guided coordination, wedding-day management and rentals for couples across Wyoming, including Cheyenne.	info@sunflowersoirees.com		https://www.sunflowersoirees.com/	
+Ranch Eats	Catering	1920 Thomes Ave	Cheyenne	Wyoming	Greater Cheyenne Area, Wyoming, Colorado and Nebraska	Cafe and food-truck caterer that builds custom menus for weddings and events, with couples praising the food at their receptions.	rancheatswyo@gmail.com	(307) 286-8535	https://www.rancheats.com/	
+Kennison's Katering	Catering		Cheyenne	Wyoming	Cheyenne, Wyoming	Local caterer preparing menus from personal recipes for weddings, parties and private dinners, with on-site barbecue and milk can dinners available.	amikennison76@gmail.com	307-630-7676	https://kennisonskatering.com/	
+Wyoming Bridal Collective	Hair & Makeup		Laramie	Wyoming	Southern Wyoming and Northern Colorado	Mobile bridal hair, airbrush makeup and spray tans for the bride and her party, with trials and all-inclusive packages.	katie@wyomingbridalcollective.com	307-343-5065	https://wyomingbridalcollective.com/	https://www.instagram.com/wyomingbridalcollective/
+The Beauty Caliber	Hair & Makeup	1111 E. Lincolnway, Suite 208	Cheyenne	Wyoming	Cheyenne	Cheyenne studio offering bridal makeup trials, bridal and bridesmaid makeup, and mother-of-the-bride application.		307-274-1592	https://thebeautycaliber.glossgenius.com/	https://www.instagram.com/thebeautycaliber/
+Halo Beauty Bar	Hair & Makeup	4001 Laramie St., Unit B	Cheyenne	Wyoming	Cheyenne	Boutique salon and spa where one stylist specialises in bridal hair and makeup, lived-in colour and hair extensions.		307-431-6447	https://halobeautybarwyo.com/	
+Stacy Cakes	Cake		Cheyenne	Wyoming	Cheyenne	Home baker making custom tiered wedding cakes and cupcakes, with a consultation form and a mobile cupcake wagon for events.	stacycakescheyenne@gmail.com		https://www.stacycakescheyenne.com/	https://www.instagram.com/StacyCakesCheyenne/
+`,
+  },
 ];
 
 export default batches;
