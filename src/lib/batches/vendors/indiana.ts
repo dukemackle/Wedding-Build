@@ -87,6 +87,19 @@ Hair International Day Spa	Hair & Makeup	608 W Kirkwood Ave	Bloomington	Indiana	
 Bloomin' Tons	Florals	2642 E 10th St	Bloomington	Indiana	Bloomington and south-central Indiana	Bloomington florist making custom bridal bouquets and on-site ceremony and reception décor, from traditional to contemporary looks.		(812) 336-7201	https://www.bloomintons.net/wedding-flowers	https://www.instagram.com/bloomintonsfloral/
 Three Blondes Floral Co.	Florals	217 W 6th St	Bloomington	Indiana	Bloomington	Downtown Bloomington boutique florist offering wedding and event design, seasonal workshops and daily arrangements.			https://www.threeblondesfloralco.com/	https://www.instagram.com/threeblondesfloralco/`,
   },
+  {
+    name: "Bloomington: planning, florals, music, hair and makeup, cake and catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Ashley Weddings & Events	Planning		Bloomington	Indiana	Bloomington and Indianapolis	Wedding and event planner with a design-led approach, with a blog of real Bloomington and Indiana University venue weddings.			https://ashleyweddingsandevents.com/	https://www.instagram.com/ashleyweddings/
+Sincerely Yours Weddings & Premier Events	Planning		Bloomington	Indiana	Bloomington, Evansville and southern Indiana	Wedding coordination packages covering timelines, vendor management and rehearsal and wedding-day logistics across southern Indiana.	hello@sywpevents.com	812.212.0871	https://www.sywpevents.com/	
+Cathy Teeters Beautiful Weddings	Florals		Bloomington	Indiana	Bloomington	Bloomington florist and bridal consultant with over 40 years' experience, offering wedding flowers, advice and day-of coordination.	cateeters@yahoo.com	(812) 327-9794	https://www.cathyteetersbeautifulweddings.com/	https://www.instagram.com/cathyteetersbeautifulweddings/
+DJ Clay Lewis	Music		Bloomington	Indiana	Bloomington, Martinsville, Bedford, Nashville, Spencer and southern Indiana	Bloomington DJ and MC offering customised music and hosting for weddings and events across southern Indiana.	clay@djclaylewis.com	812-727-0330	https://djclaylewis.com/	https://www.instagram.com/djclaylewis/
+Hoosier DJ Services	Music		Bloomington	Indiana	Indiana	Premium wedding DJ and master of ceremonies working from Bloomington, with packages built around each couple's timeline.			https://www.hoosierdj.com/	
+The Mane Bridal	Hair & Makeup	114 South College Avenue	Bloomington	Indiana	Bloomington and southern Indiana	On-location bridal hair and makeup team in Bloomington, from romantic updos to modern glam, booked by appointment.			https://www.themanebloomington.com/for-brides	https://www.instagram.com/themanebloomington/
+Two Sticks Bakery	Cake	415 S Washington St	Bloomington	Indiana	Bloomington	Women-owned from-scratch bakery making custom wedding cakes, with pick-up tastings and delivery for larger tiered cakes.	twosticksbakery@gmail.com	(812) 668-2125	https://www.twosticksbakery.com/	https://www.instagram.com/twosticksbakery/
+Bake Me A Cake Etc	Cake		Bloomington	Indiana	Bloomington, Ellettsville and Spencer	Home-based Bloomington baker making custom wedding cakes and cupcakes, with delivery to Bloomington, Ellettsville and Spencer.			https://www.bakemeacakeetc.com/	
+Cardinal Spirits Catering	Catering	922 S Morton St	Bloomington	Indiana	Bloomington and surrounding areas	Craft distillery's catering arm, working with The Cabin restaurant to cater a limited number of weddings and events each year.	hello@cardinalspirits.com	812-202-6789	https://www.cardinalspirits.com/catering	https://www.instagram.com/cardinalspirits/`,
+  },
 ];
 
 export default batches;
