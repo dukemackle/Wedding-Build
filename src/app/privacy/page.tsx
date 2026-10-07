@@ -11,7 +11,7 @@ export default function PrivacyPage() {
       <div className={`w-full ${READING_WIDTH}`}>
         <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Legal</p>
         <h1 className="mt-2 font-display text-3xl font-semibold text-forest">Privacy Policy</h1>
-        <p className="mt-2 text-sm text-ink/60">Last updated: October 5, 2026</p>
+        <p className="mt-2 text-sm text-ink/60">Last updated: October 6, 2026</p>
 
         <div className="mt-8 flex flex-col gap-8 text-ink/80">
           <p>
@@ -53,6 +53,14 @@ export default function PrivacyPage() {
                 picker — it cannot see, list, or open anything else in your Drive. The file is
                 downloaded in your browser and then handled exactly like a file you&apos;d
                 uploaded.
+              </li>
+              <li>
+                A Google Sheet you link to your guest list or budget. When you link one (or have
+                You Do, I Do create one in your Drive), syncing reads that sheet and writes your
+                guest list or budget into it, including any notes, from your browser. Anyone you
+                share that sheet with can see what&apos;s in it. We store which sheet is linked
+                and a fingerprint of what it held at the last sync, never a copy of the sheet or
+                your Google login. Unlinking stops syncing; the sheet stays in your Drive.
               </li>
             </ul>
 
@@ -200,7 +208,7 @@ export default function PrivacyPage() {
               </li>
               <li>
                 <strong className="text-ink">Google</strong> — only if you use &ldquo;Choose from
-                Drive.&rdquo; You Do, I Do&apos;s use of information received from Google APIs follows the{" "}
+                Drive&rdquo; or link a Google Sheet. You Do, I Do&apos;s use of information received from Google APIs follows the{" "}
                 <a
                   href="https://developers.google.com/terms/api-services-user-data-policy"
                   target="_blank"
@@ -210,7 +218,8 @@ export default function PrivacyPage() {
                   Google API Services User Data Policy
                 </a>
                 , including its Limited Use requirements. We request the narrowest available
-                permission, which covers only files you personally select; we don&apos;t store
+                permission, which covers only files you personally select or that You Do, I Do
+                creates for you; we don&apos;t store
                 your Google account credentials, and we don&apos;t use Google Drive data for
                 advertising or sell it to anyone.
               </li>

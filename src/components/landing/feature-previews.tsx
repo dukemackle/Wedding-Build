@@ -76,6 +76,58 @@ const REST_COLOR = "#c2c7c0";
 const BUDGET_COLS =
   "md:grid md:grid-cols-[minmax(0,1fr)_6rem_6.5rem_8.5rem] md:items-center md:gap-4";
 
+/**
+ * The linked-Google-Sheet strip from Guests and Budget, in miniature: edits
+ * in the demo count up as changes since the last sync, and Sync now clears
+ * them -- the same banner the real pages show (components/sheet-sync-bar).
+ */
+function DemoSheetStrip({
+  title,
+  changes,
+  extra,
+  onSync,
+}: {
+  title: string;
+  changes: number;
+  extra?: string;
+  onSync: () => void;
+}) {
+  const [synced, setSynced] = useState(false);
+  const pending = changes > 0;
+  return (
+    <div className="overflow-hidden rounded-lg border border-hairline bg-card text-sm shadow-sm">
+      <div className="flex flex-wrap items-center justify-between gap-2 px-4 py-2.5">
+        <span className="min-w-0 text-ink">
+          <svg viewBox="0 0 16 16" aria-hidden="true" className="mr-2 inline h-4 w-4 align-[-3px] text-forest" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+            <rect x="2.5" y="2" width="11" height="12" rx="1.5" />
+            <path d="M2.5 6h11M2.5 10h11M6.5 6v8" />
+          </svg>
+          Linked to <span className="font-medium text-forest">{title}</span>
+          <span className="text-xs text-ink/55">
+            {synced && !pending ? " · synced just now" : " · Google Sheet"}
+          </span>
+        </span>
+        <button
+          type="button"
+          onClick={() => {
+            onSync();
+            setSynced(true);
+          }}
+          className="rounded-full bg-forest px-3 py-1 text-xs text-parchment hover:bg-forest/90"
+        >
+          Sync now
+        </button>
+      </div>
+      {pending && (
+        <p className="border-t border-brass/30 bg-brass/10 px-4 py-1.5 text-xs text-forest">
+          <span className="mr-2 inline-block h-1.5 w-1.5 rounded-full bg-brass align-middle" aria-hidden="true" />
+          {changes} change{changes === 1 ? "" : "s"} here since your last sync{extra ? ` (${extra})` : ""}
+        </p>
+      )}
+    </div>
+  );
+}
+
 function BudgetDemo() {
   const [guests, setGuests] = useState(120);
   const [actual, setActual] = useState<Record<string, number | undefined>>(
@@ -84,6 +136,10 @@ function BudgetDemo() {
   const [paid, setPaid] = useState<Record<string, number>>(
     Object.fromEntries(BUDGET_LINES.map((l) => [l.key, l.paid ?? 0])),
   );
+  const [syncedAt, setSyncedAt] = useState({ actual, paid });
+  const sheetChanges = BUDGET_LINES.filter(
+    (l) => actual[l.key] !== syncedAt.actual[l.key] || paid[l.key] !== syncedAt.paid[l.key],
+  ).length;
 
   const rows = BUDGET_LINES.map((l) => {
     const estimate = l.perGuest ? l.perGuest * guests : (l.flat ?? 0);
@@ -119,6 +175,13 @@ function BudgetDemo() {
 
   return (
     <Bleed>
+      <div className="border-b border-hairline px-5 pt-4 sm:px-8">
+        <DemoSheetStrip
+          title="Our wedding budget"
+          changes={sheetChanges}
+          onSync={() => setSyncedAt({ actual, paid })}
+        />
+      </div>
       <div className="border-b border-hairline bg-gradient-to-b from-parchment/60 to-card px-5 py-5 sm:px-8">
         <div className={BUDGET_COLS.replace("md:items-center", "md:items-end")}>
           <div>
@@ -721,6 +784,8 @@ function RsvpDemo() {
     Object.fromEntries(DEMO_GUESTS.map((g) => [g.name, g.status])),
   );
   const [filter, setFilter] = useState<"none" | "pending" | "address">("none");
+  const [syncedStatus, setSyncedStatus] = useState(status);
+  const rsvpChanges = DEMO_GUESTS.filter((g) => status[g.name] !== syncedStatus[g.name]).length;
   const incoming = INCOMING.filter((r) => status[r.name] === "pending");
 
   const shown = DEMO_GUESTS.filter((g) =>
@@ -755,6 +820,14 @@ function RsvpDemo() {
 
   return (
     <div className="grid gap-4 md:grid-cols-[minmax(0,1fr)_260px] md:items-start">
+      <div className="md:col-span-2">
+        <DemoSheetStrip
+          title="Our guest list"
+          changes={rsvpChanges}
+          extra={rsvpChanges > 0 ? `${rsvpChanges} RSVP${rsvpChanges === 1 ? "" : "s"}` : undefined}
+          onSync={() => setSyncedStatus(status)}
+        />
+      </div>
       <div className="min-w-0 rounded-lg border border-hairline bg-card p-4 shadow-sm">
         <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-hairline pb-3">
           <p className="text-sm text-ink/70">

@@ -13,6 +13,9 @@ import type {
 import { GuestsPageBody } from "./guests-page-body";
 import { qrSvg } from "@/lib/qr";
 import { GUEST_WITH_NOTES, withNotes } from "@/lib/guest-notes";
+import { loadSheetLink, sheetLinkView, siteChangesSince } from "@/lib/sheet-link-server";
+import { guestSiteRows } from "@/lib/guest-sheet";
+import { canEditWedding } from "@/lib/wedding-access";
 
 export default async function GuestsPage() {
   const supabase = await createClient();
@@ -94,6 +97,12 @@ export default async function GuestsPage() {
     .order("created_at", { ascending: true })
     .returns<ContactSubmission[]>();
 
+  const [sheetLink, canEdit] = await Promise.all([
+    loadSheetLink(supabase, wedding.id, "guests"),
+    canEditWedding(supabase, wedding, user.id),
+  ]);
+  const sheetChanges = sheetLink ? siteChangesSince(sheetLink, guestSiteRows(guests ?? [])) : null;
+
   return (
     <main className="flex flex-1 flex-col items-center px-4 py-10 sm:px-6 sm:py-16">
       <AppNav email={user.email ?? ""} />
@@ -106,6 +115,9 @@ export default async function GuestsPage() {
         guestPosts={guestPosts ?? []}
         shareUrl={shareUrl}
         shareQrSvg={shareQrSvg}
+        sheetLink={sheetLinkView(sheetLink)}
+        sheetChanges={sheetChanges}
+        canEdit={canEdit}
       />
     </main>
   );

@@ -34,8 +34,8 @@ const SAMPLE: FeatureData = {
 };
 
 const BLURBS: Record<string, string> = {
-  "/budget": "Real costs for your area, and every quote and payment tracked.",
-  "/guests": "RSVPs, meals, addresses and plus-ones in one table you can edit in bulk.",
+  "/budget": "Real costs for your area, every quote and payment tracked, and a Google Sheet that stays in sync.",
+  "/guests": "RSVPs, meals, addresses and plus-ones in one table — or keep using your Google Sheet, synced both ways.",
   "/venues": "Browse on a map, shortlist, and send inquiries.",
   "/vendors": "Every vendor conversation and quote in one place.",
   "/checklist": "A month-by-month plan built around your date.",
