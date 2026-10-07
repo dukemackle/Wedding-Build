@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRef, useState, useTransition, type ReactNode } from "react";
 import { createSiteBlock, deleteSiteBlock } from "./block-actions";
 import { ChevronDownIcon } from "@/components/icons";
+import type { SiteBlock } from "@/lib/supabase/types";
 import { SiteOrnament } from "@/components/site-ornament";
 import {
   ART_HEROES,
@@ -486,7 +487,7 @@ export function SectionsTab({
   // with its details) has no row info; it's left off the list.
   const sections = design.sections.filter((x) => info[x.id]);
 
-  function add(kind: "photo" | "story" | "quote") {
+  function add(kind: SiteBlock["kind"]) {
     setBlockError(null);
     startAdding(async () => {
       const result = await createSiteBlock(kind).catch(() => ({ error: "Couldn't add it — check your connection.", block: undefined }));
@@ -618,6 +619,8 @@ export function SectionsTab({
               ["story", "Story", "A few paragraphs"],
               ["photo", "Photo", "One big picture"],
               ["quote", "Quote", "A line you love"],
+              ["video", "Video", "YouTube or Vimeo"],
+              ["link", "Link", "A button to anywhere"],
             ] as const
           ).map(([kind, label, help]) => (
             <button

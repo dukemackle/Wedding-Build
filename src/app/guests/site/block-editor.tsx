@@ -27,6 +27,29 @@ export function BlockEditor({ block }: { block: SiteBlock }) {
   return (
     <form action={save} className="flex flex-col gap-4" onChange={() => setMessage({})}>
       <input type="hidden" name="id" value={block.id} />
+      <input type="hidden" name="kind" value={block.kind} />
+
+      {(block.kind === "video" || block.kind === "link") && (
+        <div>
+          <label className={LABEL} htmlFor={`url-${block.id}`}>
+            {block.kind === "video" ? "YouTube or Vimeo link" : "Web address"}
+          </label>
+          <input
+            id={`url-${block.id}`}
+            name="url"
+            type="url"
+            inputMode="url"
+            defaultValue={block.url ?? ""}
+            placeholder={block.kind === "video" ? "https://youtu.be/…" : "https://"}
+            className={FIELD}
+          />
+          <p className="mt-1 text-xs text-ink/60">
+            {block.kind === "video"
+              ? "Your engagement film, a slideshow, or the livestream on the day. Use Share › Copy link on the video."
+              : "A livestream, a playlist, a hotel booking page, the shuttle times…"}
+          </p>
+        </div>
+      )}
 
       {block.kind === "photo" && (
         <div>
@@ -45,32 +68,46 @@ export function BlockEditor({ block }: { block: SiteBlock }) {
       {block.kind !== "quote" && (
         <div>
           <label className={LABEL} htmlFor={`heading-${block.id}`}>
-            {block.kind === "photo" ? "Caption (optional)" : "Heading"}
+            {block.kind === "photo" || block.kind === "video"
+              ? "Caption (optional)"
+              : block.kind === "link"
+                ? "Button text"
+                : "Heading"}
           </label>
           <input
             id={`heading-${block.id}`}
             name="heading"
             defaultValue={block.heading ?? ""}
-            placeholder={block.kind === "story" ? "How it started" : "The night he asked"}
+            placeholder={
+              block.kind === "story"
+                ? "How it started"
+                : block.kind === "link"
+                  ? "Watch the livestream"
+                  : block.kind === "video"
+                    ? "Our engagement film"
+                    : "The night they asked"
+            }
             className={FIELD}
           />
         </div>
       )}
 
-      {block.kind !== "photo" && (
+      {block.kind !== "photo" && block.kind !== "video" && (
         <div>
           <label className={LABEL} htmlFor={`body-${block.id}`}>
-            {block.kind === "quote" ? "Quote" : "Your story"}
+            {block.kind === "quote" ? "Quote" : block.kind === "link" ? "A line about it (optional)" : "Your story"}
           </label>
           <textarea
             id={`body-${block.id}`}
             name="body"
             defaultValue={block.body ?? ""}
-            rows={block.kind === "quote" ? 3 : 7}
+            rows={block.kind === "quote" || block.kind === "link" ? 3 : 7}
             placeholder={
               block.kind === "quote"
                 ? "Whatever our souls are made of, his and mine are the same."
-                : "We met at a friend's barbecue in 2019…"
+                : block.kind === "link"
+                  ? "Can't make it? Watch live from 3:30pm Pacific."
+                  : "We met at a friend's barbecue in 2019…"
             }
             className={FIELD}
           />
