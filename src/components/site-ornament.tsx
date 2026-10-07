@@ -202,6 +202,106 @@ function WordOrnament({ kind, size, color }: { kind: OrnamentId; size: "sm" | "l
 }
 
 const DRAWINGS: Record<Exclude<OrnamentId, "none" | "rule" | "bismillah" | "xi">, (a: string, b: string) => ReactNode> = {
+  compass: (a, b) => (
+    <>
+      <circle cx="100" cy="100" r="86" {...LINE} strokeWidth={1.2} className="orn-fade" />
+      <circle cx="100" cy="100" r="78" {...LINE} strokeWidth={0.7} strokeDasharray="1 4" className="orn-fade" />
+      {[0, 90, 180, 270].map((deg) => (
+        <path key={deg} d="M100 6L109 56H91Z" fill="currentColor" transform={`rotate(${deg} 100 100)`} className="orn-fade" />
+      ))}
+      {[45, 135, 225, 315].map((deg) => (
+        <path key={deg} d="M100 26L105 58H95Z" fill="currentColor" opacity={0.6} transform={`rotate(${deg} 100 100)`} className="orn-fade" />
+      ))}
+      <circle cx="100" cy="100" r="42" {...LINE} fill="var(--color-parchment)" strokeWidth={1.4} className="orn-fade" />
+      <Letters size={34}>
+        {a}
+        <tspan fontSize={20} dx={2} dy={-2}>
+          &amp;
+        </tspan>
+        <tspan dx={2} dy={2}>
+          {b}
+        </tspan>
+      </Letters>
+    </>
+  ),
+
+  wheel: (a, b) => (
+    <>
+      <Draw d="M100 40 A60 60 0 1 1 99.9 40" width={5} />
+      <Draw d="M100 52 A48 48 0 1 1 99.9 52" width={1.2} delay={0.2} />
+      {Array.from({ length: 8 }, (_, i) => {
+        const [x1, y1] = pt(100, 100, 62, i * 45 - 90);
+        const [x2, y2] = pt(100, 100, 86, i * 45 - 90);
+        const [cx, cy] = pt(100, 100, 91, i * 45 - 90);
+        return (
+          <g key={i}>
+            <Draw d={`M${f(x1)} ${f(y1)} L${f(x2)} ${f(y2)}`} width={4} delay={0.3 + i * 0.05} />
+            <circle cx={cx} cy={cy} r="5.5" fill="currentColor" className="orn-fade" />
+          </g>
+        );
+      })}
+      <Letters size={36}>
+        {a}
+        <tspan fontSize={20} dx={2} dy={-2}>
+          &amp;
+        </tspan>
+        <tspan dx={2} dy={2}>
+          {b}
+        </tspan>
+      </Letters>
+    </>
+  ),
+
+  chandelier: (a, b) => (
+    <>
+      <Draw d="M100 4 L100 44" width={1.2} />
+      <ellipse cx="100" cy="52" rx="16" ry="6" {...LINE} strokeWidth={1.4} className="orn-fade" />
+      <Draw
+        d="M100 58 C80 80 50 84 44 68 M100 58 C120 80 150 84 156 68 M100 58 C90 76 76 78 72 62 M100 58 C110 76 124 78 128 62"
+        width={1.4}
+        delay={0.2}
+      />
+      <Draw d="M38 68 H50 M150 68 H162 M66 62 H78 M122 62 H134 M44 68 V54 M156 68 V54 M72 62 V48 M128 62 V48" width={1.4} delay={0.4} />
+      {[
+        [44, 52],
+        [156, 52],
+        [72, 46],
+        [128, 46],
+      ].map(([x, y]) => (
+        <path key={x} d={`M${x} ${y}c-3-4 0-8 0-11 0 3 3 7 0 11z`} fill="currentColor" className="orn-fade" />
+      ))}
+      <Draw d="M100 58 L100 96" width={0.8} delay={0.5} />
+      <path d="M100 96 L104 102 L100 108 L96 102 Z" fill="currentColor" className="orn-fade" />
+      <Letters size={40} y={150}>
+        {a}
+        <tspan fontSize={20} dx={2} dy={-2}>
+          &amp;
+        </tspan>
+        <tspan dx={2} dy={2}>
+          {b}
+        </tspan>
+      </Letters>
+    </>
+  ),
+
+  barndoor: (a, b) => (
+    <>
+      <Draw d="M28 16 H172" width={2.4} />
+      <Draw d="M40 22 H160 V188 H40 Z" width={1.6} delay={0.1} />
+      <Draw d="M50 32 H150 V178 H50 Z M50 108 H150" width={0.9} delay={0.3} />
+      <Draw d="M50 108 L150 178 M150 108 L50 178" width={1.6} delay={0.5} />
+      <Letters size={38} y={70}>
+        {a}
+        <tspan fontSize={20} dx={2} dy={-2}>
+          &amp;
+        </tspan>
+        <tspan dx={2} dy={2}>
+          {b}
+        </tspan>
+      </Letters>
+    </>
+  ),
+
   horseshoe: (a, b) => (
     <>
       {/* Open end up, for luck. */}
