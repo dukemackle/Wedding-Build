@@ -27,6 +27,31 @@ Holly Hill Events at Fasig-Tipton	2400 Newtown Pike	Lexington	Kentucky			Barn / 
 The Gillespie	421 W Market St	Louisville	Kentucky			Ballroom / Hotel	Indoor	400		Former downtown bank turned 24,000-square-foot ballroom with marble walls and floors, 40-foot painted ceilings, a chandeliered mezzanine and the original vault-era gates and mail chute.	info@thegillespie.com	(502) 584-8080	https://www.thegillespie.com/grandballroom
 Heartland of Versailles	1470 Clifton Rd	Versailles	Kentucky			Historic / Estate	Indoor & Outdoor	220		Victorian house from around 1886 on 30 wooded acres west of Versailles, listed on the National Register in 2018, with tented lawn receptions, patios and dressing rooms.	laura@heartlandofversailles.com	(859) 396-1505	https://heartlandofversailles.com/`,
   },
+  {
+    name: "Bowling Green, Owensboro and central Kentucky: fourth batch",
+    tsv: `Name	City	State	Website
+Terrapin Hill Farm	Harrodsburg	Kentucky	https://www.terrapinhillfarm.com/
+South Union Shaker Village	Auburn	Kentucky	https://southunionshakervillage.com/weddings-events-at-susv/
+Green Turtle Bay Resort & Marina	Grand Rivers	Kentucky	https://www.greenturtlebay.com/celebrations
+Queenslake	Georgetown	Kentucky	https://queenslake.com/
+Chenault Vineyards	Richmond	Kentucky	https://www.chenaultvineyards.com/
+Lynwood Estate	Richmond	Kentucky	https://www.lynwoodestate.com/
+The Whitestone Barn	Bowling Green	Kentucky	https://www.thewhitestonebarn.com/
+The Barn at Twin Creeks	Auburn	Kentucky	https://www.thebarnattwincreeks.com/
+Naimoli Estate	Hopkinsville	Kentucky	https://www.naimoliestate.com/
+Windridge Country Club	Owensboro	Kentucky	https://www.windridgecc.com/
+Shelby Hills Farm	Shelbyville	Kentucky	https://www.shelbyhillsfarm.com/`,
+  },
+  {
+    name: "Bowling Green, Danville and Murray: fifth batch",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Ironwood Farm	455 Old Richardsville Rd	Bowling Green	Kentucky			Historic / Estate	Indoor & Outdoor			Pre-Civil War estate built in 1852 on a 500-acre farm above the Barren River, with a restored farmhouse, a thoroughbred horse barn and rolling lawns for ceremonies.	jen@ironwoodofbg.com	270-535-2744	https://ironwoodofbg.com/
+The Potter Farm Events	1100 Rich Pond Rd	Bowling Green	Kentucky			Barn / Rustic	Indoor & Outdoor	300	Simple	Historic barn on 20 acres south of Bowling Green with an outdoor ceremony lawn, a bridal cottage, groom's quarters and a large parking lot.	tonya@thepotterfarmevents.com	(270) 784-1632	https://thepotterfarmevents.com/weddings/
+Highland Stables	1301 B Hunts Ln	Bowling Green	Kentucky			Barn / Rustic	Indoor & Outdoor			Former horse-boarding stable on a 168-acre family farm ten minutes from downtown, now a full-time wedding venue with indoor and outdoor ceremony spaces and a bridal suite.	info@highlandstablesbg.com	270.393.2111	https://www.highlandstablesbg.com/
+The Barn at White Oaks	675 Grant Rd	Murray	Kentucky			Barn / Rustic	Indoor & Outdoor			All-white custom-built barn on 28 acres of farmland in Murray, with a clubhouse, several ceremony sites and separate bridal and groom's suites.	info@thebarnatwhiteoaks.com		https://www.thebarnatwhiteoaks.com/
+Bluegrass Wedding Barn	3050 Mitchellsburg Rd	Danville	Kentucky			Barn / Rustic	Indoor & Outdoor	250		Barn on 76 acres of a Bluegrass horse farm, run as an all-inclusive wedding experience with an on-site team and a floor plan designed around each couple.	events@bluegrassweddingbarn.com	(859) 324-1424	https://www.bluegrassweddingbarn.com/
+Driscoll Estate	3301 Taylorsville Rd	Taylorsville	Kentucky			Garden / Outdoor	Indoor & Outdoor	300		33 acres of Kentucky hills about half an hour from Louisville, with a reception hall, a manor with themed guest rooms, a patio and a pool.	driscollestate@gmail.com	(502) 905-2755	https://www.driscollestate.com/louisville-wedding-venue`,
+  },
 ];
 
 export default batches;

@@ -49,3 +49,22 @@ export async function requireEditableWedding() {
 
   return { supabase, user, wedding, noWedding: NO_WEDDING_ERROR };
 }
+
+/**
+ * Whether the signed-in user may change this wedding, for a page deciding
+ * which controls to show. Actions still check for themselves.
+ */
+export async function canEditWedding(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  wedding: Wedding,
+  userId: string,
+) {
+  if (wedding.user_id === userId) return true;
+  const { data: membership } = await supabase
+    .from("wedding_members")
+    .select("role")
+    .eq("wedding_id", wedding.id)
+    .eq("user_id", userId)
+    .maybeSingle<{ role: string }>();
+  return membership?.role === "edit";
+}

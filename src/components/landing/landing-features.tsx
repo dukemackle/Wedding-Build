@@ -34,8 +34,8 @@ const SAMPLE: FeatureData = {
 };
 
 const BLURBS: Record<string, string> = {
-  "/budget": "Real costs for your area, and every quote and payment tracked.",
-  "/guests": "RSVPs, meals, addresses and plus-ones in one table you can edit in bulk.",
+  "/budget": "Real costs for your area, every quote and payment tracked, and a Google Sheet that stays in sync.",
+  "/guests": "RSVPs, meals, addresses and plus-ones in one table — or keep using your Google Sheet, synced both ways.",
   "/venues": "Browse on a map, shortlist, and send inquiries.",
   "/vendors": "Every vendor conversation and quote in one place.",
   "/checklist": "A month-by-month plan built around your date.",
@@ -43,7 +43,7 @@ const BLURBS: Record<string, string> = {
   "/attire": "Dresses, suits and rings — save favorites, then buy or rent.",
   "/itinerary": "A printable run sheet for the day, hour by hour.",
   "/venue-layout": "Drag tables into your room and seat everyone.",
-  "/guests/site": "A free wedding website in your own style, with RSVPs built in.",
+  "/guests/site": "A free wedding website with 23 themes, from mountain and beach to barn, ranch, mehndi and Nikah, plus 58 fonts, 32 palettes and your own monogram. RSVPs built in.",
 };
 
 /**

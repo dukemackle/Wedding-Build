@@ -49,6 +49,20 @@ The Overlook at Flathead Lake		Lakeside	Montana			Historic / Estate	Indoor & Out
 Ember & Altar	41500 Stasso Rd	Polson	Montana			Barn / Rustic	Indoor & Outdoor		Simple	A 6,000 sq ft heated and air-conditioned event hall on 60 private acres in the Flathead Valley, with mountain views and horses on the property.	emberandaltar@gmail.com	406.830.4468	https://www.emberandaltar.com/
 `,
   },
+  {
+    name: "Helena, Great Falls, Butte and Red Lodge venues",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Summer Star Ranch	7451 Owl Gulch Rd	Helena	Montana			Barn / Rustic	Indoor & Outdoor			A mountain guest ranch in the Helena National Forest with 360-degree views, blending a polished lodge feel with a wild-west setting.	info@summerstarranch.com	406-461-2659	https://summerstarranch.com/weddings
+Tizer Botanic Gardens & Arboretum	38 Tizer Lake Rd	Jefferson City	Montana			Garden / Outdoor	Outdoor			Six acres of landscaped gardens in the Elkhorn Mountains south of Helena, with creekside cabins on site for guests.	info@tizergardens.com	406-933-8789	https://tizergardens.com
+Hotel Finlen	100 E Broadway St	Butte	Montana			Ballroom / Hotel	Indoor			A historic downtown Butte hotel with two ballrooms, the Art Deco Copper Bowl and the Treasure State, plus a terrazzo-floored lobby and a lounge.	info@finlen.com	406-723-5461	https://finlen.com/weddings
+Swift River Ranch	4313 Duck Creek Rd	Billings	Montana			Barn / Rustic	Indoor & Outdoor			A riverside ranch venue near Billings with indoor and outdoor dance floors and river overlooks for sunset portraits.		406-702-5184	https://swiftriverranch.com
+The Ranch at Milo Creek	112 Sun Meadows Rd	Great Falls	Montana			Barn / Rustic	Indoor & Outdoor			A rustic 1970s event space of local rock and timber beside the Sun River, a short drive from Great Falls.	events@ranchatmilocreek.com	406-750-8538	https://ranchatmilocreek.com
+The West Shore Pines		Canyon Ferry	Montana			Garden / Outdoor	Indoor & Outdoor	150		A private event property among tall pines above Canyon Ferry Lake, with a barn, lounge areas and mountain and water views.			https://www.thewestshorepines.com
+Red Lodge Mountain Weddings	305 Ski Run Rd	Red Lodge	Montana			Ballroom / Hotel	Indoor & Outdoor			A ski resort offering a Grand Ballroom in town and a mountain venue, both with Beartooth views and an in-house bar and catering.	weddings@redlodgemountain.com	406-446-2610	https://weddings.redlodgemountain.com/
+Fairmont Hot Springs Resort		Anaconda	Montana			Ballroom / Hotel	Indoor & Outdoor			A hot springs resort with an outdoor pavilion, scenic ceremony spots and conference-centre rooms, plus pools, golf and dining for guests.	apeterson@fairmontmontana.com	406-797-3001	https://fairmontmontana.com/meetings-events/weddings/
+Montana Wildflower Weddings & Special Events		Red Lodge	Montana			Garden / Outdoor	Indoor & Outdoor			A meadow property with flower gardens, waterfall features and mountain views, with a lodge, cabins and in-house coordination.			https://www.montanawildflowerweddings.com
+`,
+  },
 ];
 
 export default batches;

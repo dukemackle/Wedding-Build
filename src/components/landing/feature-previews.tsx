@@ -7,7 +7,17 @@ import type { ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { WrenMotto } from "@/components/wren-motto";
 import { AskWrenTile } from "@/app/dashboard/ask-wren-tile";
-import { THEMES, fontsHref } from "@/lib/site-design";
+import {
+  DEFAULT_SITE_DESIGN,
+  PALETTES,
+  THEMES,
+  fontsHref,
+  paletteColors,
+  resolveDesign,
+  type OrnamentId,
+  type ThemeId,
+} from "@/lib/site-design";
+import { SiteOrnament } from "@/components/site-ornament";
 import { ConfirmedChip } from "@/components/confirmed-badge";
 import { CHECKLIST_PHASES, CHECKLIST_TEMPLATE } from "@/lib/checklist-template";
 import {
@@ -76,6 +86,58 @@ const REST_COLOR = "#c2c7c0";
 const BUDGET_COLS =
   "md:grid md:grid-cols-[minmax(0,1fr)_6rem_6.5rem_8.5rem] md:items-center md:gap-4";
 
+/**
+ * The linked-Google-Sheet strip from Guests and Budget, in miniature: edits
+ * in the demo count up as changes since the last sync, and Sync now clears
+ * them -- the same banner the real pages show (components/sheet-sync-bar).
+ */
+function DemoSheetStrip({
+  title,
+  changes,
+  extra,
+  onSync,
+}: {
+  title: string;
+  changes: number;
+  extra?: string;
+  onSync: () => void;
+}) {
+  const [synced, setSynced] = useState(false);
+  const pending = changes > 0;
+  return (
+    <div className="overflow-hidden rounded-lg border border-hairline bg-card text-sm shadow-sm">
+      <div className="flex flex-wrap items-center justify-between gap-2 px-4 py-2.5">
+        <span className="min-w-0 text-ink">
+          <svg viewBox="0 0 16 16" aria-hidden="true" className="mr-2 inline h-4 w-4 align-[-3px] text-forest" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+            <rect x="2.5" y="2" width="11" height="12" rx="1.5" />
+            <path d="M2.5 6h11M2.5 10h11M6.5 6v8" />
+          </svg>
+          Linked to <span className="font-medium text-forest">{title}</span>
+          <span className="text-xs text-ink/55">
+            {synced && !pending ? " · synced just now" : " · Google Sheet"}
+          </span>
+        </span>
+        <button
+          type="button"
+          onClick={() => {
+            onSync();
+            setSynced(true);
+          }}
+          className="rounded-full bg-forest px-3 py-1 text-xs text-parchment hover:bg-forest/90"
+        >
+          Sync now
+        </button>
+      </div>
+      {pending && (
+        <p className="border-t border-brass/30 bg-brass/10 px-4 py-1.5 text-xs text-forest">
+          <span className="mr-2 inline-block h-1.5 w-1.5 rounded-full bg-brass align-middle" aria-hidden="true" />
+          {changes} change{changes === 1 ? "" : "s"} here since your last sync{extra ? ` (${extra})` : ""}
+        </p>
+      )}
+    </div>
+  );
+}
+
 function BudgetDemo() {
   const [guests, setGuests] = useState(120);
   const [actual, setActual] = useState<Record<string, number | undefined>>(
@@ -84,6 +146,10 @@ function BudgetDemo() {
   const [paid, setPaid] = useState<Record<string, number>>(
     Object.fromEntries(BUDGET_LINES.map((l) => [l.key, l.paid ?? 0])),
   );
+  const [syncedAt, setSyncedAt] = useState({ actual, paid });
+  const sheetChanges = BUDGET_LINES.filter(
+    (l) => actual[l.key] !== syncedAt.actual[l.key] || paid[l.key] !== syncedAt.paid[l.key],
+  ).length;
 
   const rows = BUDGET_LINES.map((l) => {
     const estimate = l.perGuest ? l.perGuest * guests : (l.flat ?? 0);
@@ -119,6 +185,13 @@ function BudgetDemo() {
 
   return (
     <Bleed>
+      <div className="border-b border-hairline px-5 pt-4 sm:px-8">
+        <DemoSheetStrip
+          title="Our wedding budget"
+          changes={sheetChanges}
+          onSync={() => setSyncedAt({ actual, paid })}
+        />
+      </div>
       <div className="border-b border-hairline bg-gradient-to-b from-parchment/60 to-card px-5 py-5 sm:px-8">
         <div className={BUDGET_COLS.replace("md:items-center", "md:items-end")}>
           <div>
@@ -721,6 +794,8 @@ function RsvpDemo() {
     Object.fromEntries(DEMO_GUESTS.map((g) => [g.name, g.status])),
   );
   const [filter, setFilter] = useState<"none" | "pending" | "address">("none");
+  const [syncedStatus, setSyncedStatus] = useState(status);
+  const rsvpChanges = DEMO_GUESTS.filter((g) => status[g.name] !== syncedStatus[g.name]).length;
   const incoming = INCOMING.filter((r) => status[r.name] === "pending");
 
   const shown = DEMO_GUESTS.filter((g) =>
@@ -755,6 +830,14 @@ function RsvpDemo() {
 
   return (
     <div className="grid gap-4 md:grid-cols-[minmax(0,1fr)_260px] md:items-start">
+      <div className="md:col-span-2">
+        <DemoSheetStrip
+          title="Our guest list"
+          changes={rsvpChanges}
+          extra={rsvpChanges > 0 ? `${rsvpChanges} RSVP${rsvpChanges === 1 ? "" : "s"}` : undefined}
+          onSync={() => setSyncedStatus(status)}
+        />
+      </div>
       <div className="min-w-0 rounded-lg border border-hairline bg-card p-4 shadow-sm">
         <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-hairline pb-3">
           <p className="text-sm text-ink/70">
@@ -1596,17 +1679,34 @@ function BookingsDemo() {
 
 /* ---------- Wedding site ---------- */
 
-const DEMO_THEMES = ["garden", "blush", "terracotta", "midnight"].map(
+const DEMO_THEMES = ["garden", "mountain", "ranch", "midnight"].map(
   (id) => THEMES.find((t) => t.id === id) ?? THEMES[0],
 );
 
+const DEMO_PALETTES = ["eucalyptus", "blush", "french-blue", "midnight-navy", "terracotta"].map(
+  (id) => PALETTES.find((p) => p.id === id) ?? PALETTES[0],
+);
+
+const DEMO_ORNAMENTS: { id: OrnamentId; label: string }[] = [
+  { id: "laurel", label: "Laurel" },
+  { id: "crest", label: "Crest" },
+  { id: "seal", label: "Wax seal" },
+  { id: "none", label: "None" },
+];
+
 function SiteDemo() {
-  const [themeId, setThemeId] = useState(DEMO_THEMES[0].id);
-  const [accentIdx, setAccentIdx] = useState(0);
+  const [themeId, setThemeId] = useState<ThemeId>(DEMO_THEMES[0].id);
+  const [paletteId, setPaletteId] = useState<string | null>(null);
+  const [ornament, setOrnament] = useState<OrnamentId>("laurel");
   const [device, setDevice] = useState<"desktop" | "phone">("desktop");
   const [rsvped, setRsvped] = useState(false);
-  const t = DEMO_THEMES.find((x) => x.id === themeId) ?? DEMO_THEMES[0];
-  const accent = t.swatches[accentIdx] ?? t.swatches[0];
+  const palette = DEMO_PALETTES.find((p) => p.id === paletteId);
+  // The real resolver, so the demo mixes cards and muted text the way the site does.
+  const { theme: t, accent, onAccent, heading } = resolveDesign({
+    ...DEFAULT_SITE_DESIGN,
+    theme: themeId,
+    ...(palette ? paletteColors(palette) : {}),
+  });
   const phone = device === "phone";
 
   const panel = (
@@ -1637,7 +1737,7 @@ function SiteDemo() {
             type="button"
             onClick={() => {
               setThemeId(x.id);
-              setAccentIdx(0);
+              setPaletteId(null);
             }}
             aria-pressed={x.id === themeId}
             className={`overflow-hidden rounded-xl bg-card text-left ${
@@ -1660,19 +1760,42 @@ function SiteDemo() {
           </button>
         ))}
       </div>
-      <p className={eyebrow}>Accent colour</p>
+      <p className={eyebrow}>Colour palette</p>
       <div className="flex flex-wrap gap-2">
-        {t.swatches.map((hex, i) => (
+        {DEMO_PALETTES.map((p) => (
           <button
-            key={hex}
+            key={p.id}
             type="button"
-            onClick={() => setAccentIdx(i)}
-            aria-label={`Accent ${i + 1}`}
+            onClick={() => setPaletteId(p.id === paletteId ? null : p.id)}
+            aria-label={p.name}
+            aria-pressed={p.id === paletteId}
+            title={p.name}
             className={`flex h-9 w-9 items-center justify-center rounded-full bg-card ${
-              i === accentIdx ? "ring-2 ring-forest" : "ring-1 ring-hairline"
+              p.id === paletteId ? "ring-2 ring-forest" : "ring-1 ring-hairline"
             }`}
           >
-            <span className="h-6 w-6 rounded-full" style={{ background: hex }} />
+            <span
+              className="flex h-6 w-6 items-center justify-center rounded-full"
+              style={{ background: p.bg, boxShadow: "inset 0 0 0 1px rgb(0 0 0 / 0.08)" }}
+            >
+              <span className="h-2.5 w-2.5 rounded-full" style={{ background: p.accent }} />
+            </span>
+          </button>
+        ))}
+      </div>
+      <p className={eyebrow}>Monogram</p>
+      <div className="flex flex-wrap gap-1.5">
+        {DEMO_ORNAMENTS.map((o) => (
+          <button
+            key={o.id}
+            type="button"
+            onClick={() => setOrnament(o.id)}
+            aria-pressed={o.id === ornament}
+            className={`h-8 rounded-full px-3 text-xs ${
+              o.id === ornament ? "bg-forest text-parchment" : "bg-card text-ink/70 ring-1 ring-hairline"
+            }`}
+          >
+            {o.label}
           </button>
         ))}
       </div>
@@ -1722,8 +1845,18 @@ function SiteDemo() {
               </div>
               <div
                 className={`flex flex-col items-center gap-2 text-center transition-colors duration-500 ${phone ? "px-4 py-8" : "px-6 py-10"}`}
-                style={{ background: t.bg, color: t.ink, fontFamily: t.body }}
+                style={
+                  {
+                    background: t.bg,
+                    color: t.ink,
+                    fontFamily: t.body,
+                    "--site-accent": accent,
+                    "--site-on-accent": onAccent,
+                    "--font-display": t.display,
+                  } as React.CSSProperties
+                }
               >
+                <SiteOrnament kind={ornament} first="Juniper" second="Sam" />
                 <p className="font-mono-numbers text-[10px] uppercase tracking-[0.25em]" style={{ color: t.muted }}>
                   June 12, 2027 · Bend, Oregon
                 </p>
@@ -1733,6 +1866,7 @@ function SiteDemo() {
                     fontFamily: t.display,
                     fontStyle: t.italicNames ? "italic" : "normal",
                     fontWeight: t.nameWeight,
+                    color: heading,
                   }}
                 >
                   Juniper &amp; Sam
@@ -1753,7 +1887,7 @@ function SiteDemo() {
                   type="button"
                   onClick={() => setRsvped(true)}
                   className="mt-4 px-6 py-2 text-lg"
-                  style={{ background: accent, color: t.buttonInk, borderRadius: t.radius, fontFamily: t.display }}
+                  style={{ background: accent, color: onAccent, borderRadius: t.radius, fontFamily: t.display }}
                 >
                   {rsvped ? "See you there! ✓" : "RSVP"}
                 </button>

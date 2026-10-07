@@ -14,6 +14,10 @@ import {
 import { BudgetTable, type BudgetRow } from "./budget-table";
 import type { BudgetChartItem } from "./budget-chart";
 import { UpcomingPayments, paymentsFromRows } from "./upcoming-payments";
+import { BudgetSheetSync } from "./budget-sheet-sync";
+import { loadSheetLink, sheetLinkView, siteChangesSince } from "@/lib/sheet-link-server";
+import { CATEGORY_ID_PREFIX, budgetSiteRows, customItemLine } from "@/lib/budget-sheet";
+import { canEditWedding } from "@/lib/wedding-access";
 
 const currency = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -291,6 +295,29 @@ export default async function BudgetPage() {
 
   const hasSidebar = upcomingPayments.length > 0 || hasAssignedPayer;
 
+  const [sheetLink, canEdit] = await Promise.all([
+    loadSheetLink(supabase, wedding.id, "budget"),
+    canEditWedding(supabase, wedding, user.id),
+  ]);
+  const sheetChanges = sheetLink
+    ? siteChangesSince(
+        sheetLink,
+        budgetSiteRows([
+          ...rows.map((row) => ({
+            id: `${CATEGORY_ID_PREFIX}${row.key}`,
+            label: row.label,
+            amount: row.override,
+            paid_amount: row.paidAmount,
+            purchased_from: row.purchasedFrom,
+            paid_by: row.paidBy,
+            due_date: row.dueDate,
+            notes: row.notes,
+          })),
+          ...(customItems ?? []).map(customItemLine),
+        ]),
+      )
+    : null;
+
   return (
     <PageShell email={user.email ?? ""} width="canvas">
         <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
@@ -306,6 +333,16 @@ export default async function BudgetPage() {
           {guestCount === 1 ? "" : "s"}. Estimates are placeholders — enter an
           Actual and Paid amount on any line once you have a real number.
         </p>
+
+        <div className="mt-6">
+          <BudgetSheetSync
+            link={sheetLinkView(sheetLink)}
+            changes={sheetChanges}
+            canEdit={canEdit}
+            partnerAName={wedding.partner_a_name}
+            partnerBName={wedding.partner_b_name}
+          />
+        </div>
 
         {/* From 1280px the table takes the room and the two money-owed cards
             sit beside it, rather than one above and one below a table forty

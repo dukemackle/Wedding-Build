@@ -73,6 +73,18 @@ Brigham Academy Center	58 N Main St	Brigham City	Utah			Historic / Estate	Indoor
 Snowbird	9385 Snowbird Ctr Dr.	Snowbird	Utah			Ballroom / Hotel	Indoor & Outdoor			A Little Cottonwood Canyon ski and summer resort with The Cliff Lodge and The Cliff Spa, hosting mountain weddings with on-site lodging.	info@snowbird.com	801-933-2222	https://www.snowbird.com/groups-conferences/weddings/weddings-overview/
 `,
   },
+  {
+    name: "Cache Valley, Tooele, Heber and Salt Lake venues",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Mill Pond Farms Events	175 E Pole Canyon Rd	Stansbury Park	Utah			Barn / Rustic	Indoor & Outdoor			Restored 1851 farm property in Tooele County with landscaped grounds for ceremonies and a barn-style reception hall.		(435) 840-5587	https://millpondfarmsevents.com/
+The Barn at Cedar Meadows	1419 W 3000 N	Cedar City	Utah			Barn / Rustic	Indoor & Outdoor			Restored barn with open lawns and valley views outside Cedar City, about an hour from Zion National Park.	info@thebarnatcedarmeadows.com	(435) 531-8319	https://thebarnatcedarmeadows.com/
+Black Rock Mountain Resort	909 W Peace Tree Trail	Heber City	Utah			Ballroom / Hotel	Indoor & Outdoor	400		Lodging resort beside Jordanelle Reservoir with ballrooms and meeting rooms for weddings, plus rooms for the wedding party.		(435) 575-1700	https://www.blackrockmountainresort.com/meetings-events/
+Hearthside Event Center	5612 E 2200 N	Eden	Utah			Historic / Estate				Eden's 1896 brick chapel turned reception hall, used for weddings, receptions and community events in the Ogden Valley.		801-745-4009	https://ogdenvalleyweddings.com/
+Old Rock Church Bed and Breakfast	10 S Main St	Providence	Utah			Historic / Estate	Indoor & Outdoor	100		Stone meetinghouse begun in 1869, now a bed and breakfast whose chapel banquet hall seats 100 at tables.		435-752-3432	https://oldrockchurch.com/event-center/
+The Ridge at Cache Valley	291 S 300 W	Logan	Utah			Barn / Rustic	Indoor & Outdoor			Modern rustic event space in Logan with mountain views, lots of natural light and tri-fold doors opening to the outdoors.	elli@theridge-cachevalley.com	435-850-7234	https://www.theridge-cachevalley.com/
+The Studio Draper	12441 S 900 E	Draper	Utah			Historic / Estate	Indoor	300		Restored 1912 school building in historic Draper with original hardwood floors and over 5,000 sq ft of event space.			https://www.thestudiodraper.com/
+`,
+  },
 ];
 
 export default batches;

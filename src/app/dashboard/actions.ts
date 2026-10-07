@@ -6,6 +6,7 @@ import type { WeddingInvite, WeddingRole } from "@/lib/supabase/types";
 import { STATE_TO_REGION } from "@/lib/budget-categories";
 import { requireEditableWedding, VIEW_ONLY_ERROR } from "@/lib/wedding-access";
 import { seedStandardPlan } from "@/lib/seed-plan";
+import { MAX_DASHBOARD_PHOTOS } from "@/lib/dashboard-photos";
 import type { Wedding } from "@/lib/supabase/types";
 
 const MAX_PHOTO_BYTES = 5 * 1024 * 1024;
@@ -176,6 +177,123 @@ export async function removeWeddingPhoto(formData: FormData): Promise<{ error?: 
 
   revalidatePath("/dashboard");
   revalidatePath("/guests");
+  return {};
+}
+
+/**
+ * Adds one photo to the set shown behind the dashboard. Called once per file
+ * when several are picked at once, so each upload stays under the 5MB cap.
+ */
+export async function addDashboardPhoto(formData: FormData): Promise<{ error?: string }> {
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
+
+  if (!wedding) {
+    return { error: noWedding };
+  }
+
+  const current = wedding.dashboard_photo_urls ?? [];
+  if (current.length >= MAX_DASHBOARD_PHOTOS) {
+    return { error: `You can show up to ${MAX_DASHBOARD_PHOTOS} photos. Remove one to add another.` };
+  }
+
+  const photo = formData.get("photo") as File | null;
+  if (!photo || photo.size === 0) {
+    return { error: "Choose a photo to upload." };
+  }
+  if (!photo.type.startsWith("image/")) {
+    return { error: "Photo must be an image file." };
+  }
+  if (photo.size > MAX_PHOTO_BYTES) {
+    return { error: "Photo is too large — please use one under 5MB." };
+  }
+
+  const extension = photo.name.includes(".") ? photo.name.split(".").pop() : undefined;
+  const path = `${wedding.id}/${randomUUID()}${extension ? `.${extension}` : ""}`;
+
+  const { error: uploadError } = await supabase.storage
+    .from("wedding-photos")
+    .upload(path, photo, { contentType: photo.type });
+
+  if (uploadError) {
+    return { error: "Could not upload your photo — please try again." };
+  }
+
+  const photoUrl = supabase.storage.from("wedding-photos").getPublicUrl(path).data.publicUrl;
+
+  const { error } = await supabase
+    .from("weddings")
+    .update({ dashboard_photo_urls: [...current, photoUrl] })
+    .eq("id", wedding.id);
+
+  if (error) {
+    return { error: error.message };
+  }
+
+  revalidatePath("/dashboard");
+  return {};
+}
+
+/** Sets where a dashboard photo is centred when cropped, as x/y percentages. */
+export async function setDashboardPhotoFocus(
+  photoUrl: string,
+  x: number,
+  y: number,
+): Promise<{ error?: string }> {
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
+
+  if (!wedding) {
+    return { error: noWedding };
+  }
+  if (!(wedding.dashboard_photo_urls ?? []).includes(photoUrl)) {
+    return { error: "That photo isn't on your dashboard any more." };
+  }
+
+  const clamp = (n: number) => (Number.isFinite(n) ? Math.round(Math.min(100, Math.max(0, n))) : 50);
+  const { error } = await supabase
+    .from("weddings")
+    .update({
+      dashboard_photo_focus: { ...(wedding.dashboard_photo_focus ?? {}), [photoUrl]: [clamp(x), clamp(y)] },
+    })
+    .eq("id", wedding.id);
+
+  if (error) {
+    return { error: error.message };
+  }
+
+  revalidatePath("/dashboard");
+  return {};
+}
+
+export async function removeDashboardPhoto(photoUrl: string): Promise<{ error?: string }> {
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
+
+  if (!wedding) {
+    return { error: noWedding };
+  }
+
+  const { error } = await supabase
+    .from("weddings")
+    .update({
+      dashboard_photo_urls: (wedding.dashboard_photo_urls ?? []).filter((url) => url !== photoUrl),
+      dashboard_photo_focus: Object.fromEntries(
+        Object.entries(wedding.dashboard_photo_focus ?? {}).filter(([url]) => url !== photoUrl),
+      ),
+    })
+    .eq("id", wedding.id);
+
+  if (error) {
+    return { error: error.message };
+  }
+
+  // Free the storage too. Only files in this wedding's own folder, and a
+  // failure here just leaves an orphaned file, so it isn't reported.
+  const marker = "/wedding-photos/";
+  const path = photoUrl.slice(photoUrl.indexOf(marker) + marker.length);
+  if (photoUrl.includes(marker) && path.startsWith(`${wedding.id}/`)) {
+    await supabase.storage.from("wedding-photos").remove([path]);
+  }
+
+  revalidatePath("/dashboard");
   return {};
 }
 

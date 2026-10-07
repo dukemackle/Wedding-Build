@@ -4,8 +4,11 @@ import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import Image from "next/image";
 import Link from "next/link";
+import { useMemo } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { FitToPins } from "@/components/map-fit-bounds";
+import { ClusteredMarkers, dotIcon } from "@/components/clustered-markers";
+import type { MapView } from "@/lib/map-view";
 import type { Venue } from "@/lib/supabase/types";
 import { ShortlistButton } from "./venue-card-shared";
 import { venueHref } from "@/lib/public-listings";
@@ -21,27 +24,31 @@ const VENUE_TYPE_IMAGES: Record<string, string> = {
 const DEFAULT_VENUE_IMAGE = "/venue-types/historic-estate.svg";
 
 /**
- * Pins carry the venue's capacity, the same number the card leads with, so the
- * map reads as the listings rather than as anonymous dots. A venue with no
- * capacity on file falls back to a plain dot instead of an empty label.
+ * Up close, pins carry the venue's capacity, the same number the card leads
+ * with, so the map reads as the listings rather than as anonymous dots; further
+ * out they group and shrink (see ClusteredMarkers). A venue with no capacity on
+ * file is a plain dot at every zoom.
  */
-function capacityIcon(capacity: number | null, active: boolean, shortlisted: boolean) {
-  const background = shortlisted ? "#E0A100" : active ? "#E0A100" : "#14203D";
-  const scale = active ? "transform:scale(1.12);" : "";
+const capacityIcons = new Map<string, L.DivIcon>();
 
-  if (capacity == null) {
-    return L.divIcon({
-      className: "",
-      html: `<div style="width:14px;height:14px;border-radius:50%;background:${background};border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.3);${scale}"></div>`,
-      iconSize: [14, 14],
-      iconAnchor: [7, 7],
-    });
-  }
+function capacityIcon(
+  capacity: number | null,
+  active: boolean,
+  shortlisted: boolean,
+  labelled: boolean,
+) {
+  const background = shortlisted ? "#E0A100" : active ? "#E0A100" : "#14203D";
+  if (capacity == null || !labelled) return dotIcon(background, active);
+
+  const key = `${capacity}:${background}:${active}`;
+  const cached = capacityIcons.get(key);
+  if (cached) return cached;
+  const scale = active ? "transform:scale(1.12);" : "";
 
   const label = String(capacity);
   // Roughly 7px a digit plus the padding, so the anchor lands on the middle.
   const width = 22 + label.length * 7;
-  return L.divIcon({
+  const icon = L.divIcon({
     className: "",
     html: `<div style="
       display:flex;align-items:center;justify-content:center;
@@ -54,6 +61,8 @@ function capacityIcon(capacity: number | null, active: boolean, shortlisted: boo
     iconSize: [width, 26],
     iconAnchor: [width / 2, 13],
   });
+  capacityIcons.set(key, icon);
+  return icon;
 }
 
 const CONTINENTAL_US_CENTER: [number, number] = [39.8, -98.6];
@@ -63,6 +72,7 @@ export function VenuesMap({
   shortlistedIds,
   hoveredVenueId,
   onHoverVenue,
+  onViewChange,
   center,
   zoom,
   heightClassName,
@@ -72,15 +82,24 @@ export function VenuesMap({
   shortlistedIds: Set<string>;
   hoveredVenueId?: string | null;
   onHoverVenue?: (venueId: string | null) => void;
+  onViewChange?: (view: MapView) => void;
   center?: [number, number];
   zoom?: number;
   heightClassName?: string;
   /** False for a logged-out visitor: the popup has no save button. */
   signedIn?: boolean;
 }) {
-  const pinned = venues.filter(
-    (v): v is Venue & { latitude: number; longitude: number } =>
-      v.latitude != null && v.longitude != null,
+  const pinned = useMemo(
+    () =>
+      venues.filter(
+        (v): v is Venue & { latitude: number; longitude: number } =>
+          v.latitude != null && v.longitude != null,
+      ),
+    [venues],
+  );
+  const points = useMemo(
+    () => pinned.map((p) => [p.latitude, p.longitude] as [number, number]),
+    [pinned],
   );
 
   return (
@@ -99,8 +118,11 @@ export function VenuesMap({
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <FitToPins points={pinned.map((p) => [p.latitude, p.longitude] as [number, number])} />
-        {pinned.map((venue) => (
+        <FitToPins points={points} />
+        <ClusteredMarkers
+          items={pinned}
+          onViewChange={onViewChange}
+          renderPin={(venue, labelled) => (
           <Marker
             key={venue.id}
             position={[venue.latitude, venue.longitude]}
@@ -108,6 +130,7 @@ export function VenuesMap({
               venue.capacity,
               hoveredVenueId === venue.id,
               shortlistedIds.has(venue.id),
+              labelled,
             )}
             eventHandlers={{
               mouseover: () => onHoverVenue?.(venue.id),
@@ -165,7 +188,8 @@ export function VenuesMap({
               </div>
             </Popup>
           </Marker>
-        ))}
+          )}
+        />
       </MapContainer>
     </div>
   );

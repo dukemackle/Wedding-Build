@@ -308,6 +308,15 @@ body::before {
    but a theme's headings are its ink and its buttons are its accent. */
 .guest-site .bg-forest {
   background-color: var(--site-accent);
+  /* The app's navy gradient would paint over the couple's accent. */
+  background-image: none;
+}
+.guest-site .bg-brass {
+  background-image: none;
+}
+/* The app deepens text-brass to a fixed gold; on the guest site it's the accent. */
+.guest-site .text-brass {
+  color: var(--color-brass);
 }
 .guest-site .bg-forest.text-parchment,
 .guest-site .bg-forest .text-parchment {
@@ -320,7 +329,51 @@ body::before {
 .guest-site button.rounded-md {
   border-radius: var(--site-radius);
 }
+/* Storybook page style (section-layout.tsx): sections sit on their band
+   rather than in a card, under a larger, centred heading. */
+.site-storybook .site-card {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  padding: 0;
+}
+.site-storybook .site-card > h2 {
+  text-align: center;
+  font-size: clamp(1.9rem, 3.4vw, 2.6rem);
+  font-weight: 500;
+}
+.site-storybook .site-card > h2 + p {
+  text-align: center;
+}
 /* The guest site has a footer of its own, in its theme. */
+/* The dashboard's photo backdrop sits behind the page at a negative z-index,
+   which paints beneath body's own background -- so on that page body lets
+   the photos through (html keeps the cream for everywhere else). */
+body:has(.dashboard-backdrop) {
+  background: transparent;
+}
+
+/* ...and while the nav sits at the very top of those photos it goes clear,
+   with white type over a soft navy fade, so the photo runs to the top of the
+   screen. Scrolling down brings the usual cream bar back over the cards.
+   Gold (the "I do", icons, Log out) stays gold, lifted to the brighter Gold
+   so it holds up on navy. */
+body:has(.dashboard-backdrop) header[data-top="true"] {
+  background: linear-gradient(to bottom, rgb(20 32 61 / 0.55), rgb(20 32 61 / 0));
+  border-color: transparent;
+  backdrop-filter: none;
+  transition: background-color 0.3s, transform 0.3s;
+}
+body:has(.dashboard-backdrop) header[data-top="true"] :is(.text-ink, .text-forest, [class*="text-ink/"]) {
+  color: #fff;
+}
+body:has(.dashboard-backdrop) header[data-top="true"] .text-brass {
+  color: #ffd301;
+}
+body:has(.dashboard-backdrop) header[data-top="true"] [class*="bg-forest/10"] {
+  background-color: rgb(255 255 255 / 0.18);
+}
+
 body:has(.guest-site) .site-footer {
   display: none;
 }
@@ -436,6 +489,48 @@ body:has(.guest-site) .site-footer {
   animation: site-confetti 1.6s cubic-bezier(0.2, 0.7, 0.3, 1) forwards;
 }
 
+/* The monogram (site-ornament.tsx): lines draw in, letters and leaves fade
+   up after them. "None" motion shows it finished. */
+@keyframes orn-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes orn-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.guest-site:not([data-scroll="none"]) .orn-draw {
+  stroke-dasharray: 1;
+  animation: orn-draw calc(1.6s * var(--motion-speed, 1)) cubic-bezier(0.45, 0, 0.2, 1) both;
+}
+.guest-site:not([data-scroll="none"]) .orn-fade {
+  animation: orn-fade calc(0.9s * var(--motion-speed, 1)) ease calc(0.5s * var(--motion-speed, 1)) both;
+}
+
+/* Artwork (site-art.tsx) settles in after the names. */
+@keyframes site-art-in {
+  from {
+    opacity: 0;
+    scale: 0.92;
+  }
+  to {
+    opacity: 1;
+    scale: 1;
+  }
+}
+.guest-site:not([data-scroll="none"]) .site-art {
+  animation: site-art-in calc(1.4s * var(--motion-speed, 1)) cubic-bezier(0.22, 1, 0.36, 1)
+    calc(0.4s * var(--motion-speed, 1)) both;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .guest-site[data-scroll] .site-reveal,
   .guest-site[data-scroll] .site-reveal:not([data-shown]) {
@@ -444,7 +539,10 @@ body:has(.guest-site) .site-footer {
     transition: none;
   }
   .guest-site .site-names,
-  .guest-site .site-hero-photo {
+  .guest-site .site-hero-photo,
+  .guest-site .orn-draw,
+  .guest-site .orn-fade,
+  .guest-site .site-art {
     animation: none !important;
   }
 }

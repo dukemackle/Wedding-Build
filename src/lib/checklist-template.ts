@@ -41,7 +41,7 @@ export const CHECKLIST_PHASES: ChecklistPhase[] = [
     key: "foundation",
     title: "Start here",
     blurb:
-      "Three decisions. Nearly everything else depends on them, so it's worth resisting the urge to look at dresses or flowers until these are settled — they're what tells you what you can afford and how big a room you need.",
+      "Three decisions. Nearly everything else depends on them, so it's worth resisting the urge to look at outfits or flowers until these are settled — they're what tells you what you can afford and how big a room you need.",
     doneBlurb:
       "The three decisions everything else rests on. You now know roughly what you can spend and how many people you're feeding — which is what makes every choice from here answerable.",
   },
@@ -160,7 +160,7 @@ export const CHECKLIST_TEMPLATE: ChecklistTemplateTask[] = [
     phase: "foundation",
     title: "Talk about the kind of wedding you actually want",
     notes:
-      "Big or small, formal or relaxed, near or far. Worth saying out loud before anyone's parents have opinions.",
+      "Big or small, formal or relaxed, near or far. Worth getting on the same page early — it shapes every choice after this.",
     weeksBefore: 52,
   },
 
@@ -227,7 +227,7 @@ export const CHECKLIST_TEMPLATE: ChecklistTemplateTask[] = [
   {
     phase: "vendors",
     title: "Book your officiant",
-    notes: "Whoever signs the licence. If it's a friend, check what your state requires of them.",
+    notes: "Whoever signs the license. If it's a friend, check what your state requires of them.",
     weeksBefore: 38,
     essential: true,
   },
@@ -255,7 +255,7 @@ export const CHECKLIST_TEMPLATE: ChecklistTemplateTask[] = [
   },
   {
     phase: "look",
-    title: "Settle your colours and overall look",
+    title: "Settle your colors and overall look",
     notes: "Enough to brief a florist. It doesn't have to be a mood board.",
     weeksBefore: 34,
   },
@@ -263,7 +263,7 @@ export const CHECKLIST_TEMPLATE: ChecklistTemplateTask[] = [
   {
     phase: "look",
     title: "Order the cake or dessert",
-    notes: "Book the tasting when you enquire; the good bakeries schedule those out too.",
+    notes: "Book the tasting when you inquire; the good bakeries schedule those out too.",
     weeksBefore: 30,
     href: "/vendors",
   },
@@ -337,7 +337,7 @@ export const CHECKLIST_TEMPLATE: ChecklistTemplateTask[] = [
   },
   {
     phase: "lock",
-    title: "Apply for your marriage licence",
+    title: "Apply for your marriage license",
     notes:
       "Check your county clerk for two numbers: the waiting period before it's valid, and how long it stays valid. Both vary by state, and applying too early is as broken as too late.",
     weeksBefore: 6,
@@ -415,14 +415,14 @@ export const CHECKLIST_TEMPLATE: ChecklistTemplateTask[] = [
   },
   {
     phase: "week",
-    title: "Put tips and final payments in labelled envelopes",
+    title: "Put tips and final payments in labeled envelopes",
     notes: "Hand them to whoever is running the day, not to yourselves.",
     weeksBefore: 1,
   },
   {
     phase: "week",
     title: "Pack an emergency kit",
-    notes: "Safety pins, stain remover, painkillers, plasters, a phone charger, flat shoes.",
+    notes: "Safety pins, stain remover, painkillers, bandages, a phone charger, flat shoes.",
     weeksBefore: 1,
   },
   {
@@ -444,7 +444,7 @@ export const CHECKLIST_TEMPLATE: ChecklistTemplateTask[] = [
   {
     phase: "after",
     title: "Return the rentals",
-    notes: "Suits, linens, anything hired. Usually due within a couple of days.",
+    notes: "Suits, linens, anything rented. Usually due within a couple of days.",
     weeksBefore: -1,
   },
   {
@@ -458,7 +458,7 @@ export const CHECKLIST_TEMPLATE: ChecklistTemplateTask[] = [
   {
     phase: "after",
     title: "Name-change paperwork, if either of you is changing",
-    notes: "Social security first, then licence, then passport and banks.",
+    notes: "Social security first, then driver's license, then passport and banks.",
     weeksBefore: -6,
   },
 ];

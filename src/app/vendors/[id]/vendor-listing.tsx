@@ -24,6 +24,8 @@ export type VendorListingData = {
   isFavorited: boolean;
   faqs: VendorFaq[];
   similarVendors: Vendor[];
+  /** The claim form's preview: nothing that reports, tracks or links away, FAQs open. */
+  preview?: boolean;
 };
 
 export async function loadVendorListing(
@@ -84,7 +86,7 @@ export async function loadVendorListing(
 const card = "rounded-lg border border-hairline bg-card p-6 shadow-sm";
 
 export function VendorListing({ data }: { data: VendorListingData }) {
-  const { vendor, signedIn, wedding, isFavorited, faqs, similarVendors } = data;
+  const { vendor, signedIn, wedding, isFavorited, faqs, similarVendors, preview } = data;
   // Cover first, no repeats.
   const photos = [...new Set([vendor.image_url, ...vendor.photo_urls].filter((u): u is string => Boolean(u)))];
   const links = [
@@ -125,7 +127,7 @@ export function VendorListing({ data }: { data: VendorListingData }) {
               </Link>
             </p>
           )}
-          {!vendor.is_sample && <ReportListing listingType="vendor" listingId={vendor.id} />}
+          {!vendor.is_sample && !preview && <ReportListing listingType="vendor" listingId={vendor.id} />}
           {vendor.description && <p className="mt-4 text-ink/80">{vendor.description}</p>}
           {links.length > 0 && (
             <div className="mt-4 flex flex-wrap gap-2">
@@ -220,7 +222,7 @@ export function VendorListing({ data }: { data: VendorListingData }) {
               <h2 className="font-display text-xl font-semibold text-forest">Frequently asked questions</h2>
               <div className="mt-2">
                 {faqs.map((faq) => (
-                  <details key={faq.id} className="group border-b border-hairline py-3 last:border-b-0">
+                  <details key={faq.id} open={preview} className="group border-b border-hairline py-3 last:border-b-0">
                     <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-ink marker:hidden">
                       {faq.question}
                       <ChevronDownIcon className="h-4 w-4 shrink-0 text-ink/40 transition-transform group-open:rotate-180" />
@@ -232,7 +234,7 @@ export function VendorListing({ data }: { data: VendorListingData }) {
             </div>
           )}
 
-          {similarVendors.length > 0 && (
+          {similarVendors.length > 0 && !preview && (
             <div>
               <h2 className="font-display text-xl font-semibold text-forest">
                 More {vendor.category?.toLowerCase() ?? "vendors"} like this

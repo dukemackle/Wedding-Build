@@ -28,6 +28,21 @@ Diamond Cross Ranch	24000 N Gun Barrel Flats Rd	Jackson	Wyoming			Barn / Rustic	
 The Barn at Heiner Ranch	2752 Thayne Bedford Rd	Thayne	Wyoming			Barn / Rustic	Indoor & Outdoor	100		A 1928 dairy barn in Star Valley, restored with a loft reception space, a former milking parlour for cocktails and a hillside ceremony site reached by horse-drawn wagon.		435-213-7746	https://heinerranch.com/
 `,
   },
+  {
+    name: "Casper, Laramie, Cody and Sheridan venues",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Deerwood Ranch Weddings and Events	599 WY-11	Laramie	Wyoming			Barn / Rustic	Indoor & Outdoor	160		Family-run barn venue on a working ranch of about 4,700 acres on the Middle Fork River below the Snowy Range, with a bridal suite, kitchen and hayrides.		(307) 760-0645	https://deerwoodbarn.com/
+Double Diamond X Ranch	3453 Southfork Road	Cody	Wyoming			Barn / Rustic	Indoor & Outdoor	150	Classic	End-of-the-road ranch in the Upper South Fork Valley offering a historic log lodge, western saloon, event pavilion and riverfront ceremony spots, from late May to early October.	info@ddxranchwyoming.com		https://www.ddxranchwyoming.com/weddings
+West Fork	2700 Micro Rd	Casper	Wyoming			Barn / Rustic	Indoor & Outdoor	200		Casper lodge venue with seven bedrooms for the weekend, room for 200 guests outside and 50 inside, and optional turnkey food, drinks and decor from the owner.		307-259-3860	https://westforkwyoming.com/events
+Bessemer Mountain Lodge	14500 Hwy 220	Casper	Wyoming			Beach / Waterfront	Indoor & Outdoor			Private hilltop lodge on the North Platte River that hosts riverside ceremonies, outdoor receptions and rehearsal dinners, and sleeps 12 for the wedding party.	kyrstin@bessemermountainlodge.com	307-262-4762	https://www.bessemermountainlodge.com/weddings
+Events at The M	234 E 1st St	Casper	Wyoming			Historic / Estate	Indoor	350		Downtown Casper building renovated in 2022 for weddings and events, with tables, chairs, linens and set-up included and room for 350 guests.	info@eventsatthem.com	307-439-4812	https://www.eventsatthem.com/events
+Ramkota Hotel & Conference Center	800 N Poplar St	Casper	Wyoming			Ballroom / Hotel	Indoor			Casper hotel with a 6,400 square foot ballroom and dance floor, in-house catering, guest room blocks and a complimentary shuttle for wedding parties.	casheim@ramkotacasper.com	307-266-6000	https://www.westernheritagehotelandconferencecenter.com/groups-meetings/weddings
+Casper Country Club	4149 Country Club Road	Casper	Wyoming			Ballroom / Hotel	Indoor	150		Private country club at the foot of Casper Mountain with a 150-guest ballroom, smaller clubhouse rooms, and an events team that plans menus with its kitchen.		307-235-5777	https://www.caspercountryclub.com/events
+BR Infinity Event Center	1081 Herrick Lane	Laramie	Wyoming			Barn / Rustic	Indoor & Outdoor		Simple	Modern barn on Browns Creek Angus Ranch with a bridge to an outdoor ceremony space, a full bar, cabins, a bridal salon and a honeymoon suite; day rental $3,500.			https://www.brinfinityevents.com/
+The Powder Horn	23 Country Club Lane	Sheridan	Wyoming			Ballroom / Hotel	Indoor & Outdoor			Private golf club in the Bighorn foothills that hosts weddings with an events coordinator, sample menus and dining rooms for 30 to 125 guests.		307-673-4800	https://www.thepowderhorn.com/weddings-events
+Gratitude Sheridan	450 S Thurmond Street	Sheridan	Wyoming			Historic / Estate	Indoor	30		1920 Victorian on Residence Hill with six bedrooms and a wrap-around porch, used for small receptions, rehearsal dinners and bridal showers; sleeps 12.			https://gratitudesheridan.com
+`,
+  },
 ];
 
 export default batches;
