@@ -43,6 +43,23 @@ White Oaks Vineyard	211 Burgundy Way	Dahlonega	Georgia			Restaurant / Vineyard	I
 Conley Creek Events	14 Lance Road	Blairsville	Georgia			Barn / Rustic	Indoor & Outdoor			Mountain property near Blairsville with an event barn, a wedding chapel and cabins so guests can stay on site.	info@conleycreekevents.com	706.897.3522	https://conleycreekevents.com/
 `,
   },
+  {
+    name: "Athens, Madison and Middle Georgia",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+SpringHaus Farm	296 Russell Drive	Comer	Georgia			Barn / Rustic	Indoor & Outdoor	200	Simple	Climate-controlled white oak barn and a pine-tree ceremony site on a country property about 15 miles from Athens.		706-843-3276	https://www.shfweddings.com/
+Heartland Farms Event Center	4720 Jacks Creek Road Northwest	Monroe	Georgia			Barn / Rustic	Indoor & Outdoor	200	Simple	Family-run venue on 60 acres of pasture with a farmhouse cottage, courtyard, gazebo, woodland ceremony spot and heated reception room.	heartlandfarmseventcenter@gmail.com	912-486-0024	https://www.heartlandfarmseventcenter.com/
+Southern Charm Wedding & Event Venue	1012 S. Cherokee Road	Social Circle	Georgia			Barn / Rustic	Indoor & Outdoor			Rolling-hills property with an enclosed barn, a covered pavilion, a big deck and a pond-backed island pergola for ceremonies.		(678) 457-1460	https://www.southerncharmsc.com/
+It's The Perfect Space for Events	1221 West Spring Street	Monroe	Georgia			Ballroom / Hotel	Indoor & Outdoor		Simple	Hourly-rate event hall in downtown Monroe with outdoor space, offering box packages that bundle decor for budget weddings.	info@itstheperfectspaceforevents.com	770-895-0111	https://www.itstheperfectspaceforevents.com/
+Beautiful Beginnings Farm	3820 Reese Road	Newborn	Georgia			Barn / Rustic	Indoor & Outdoor	146	Simple	Family farm with four ceremony spots, a barn, a furnished bridal suite apartment and a string-lit pavilion, with decor included in every package.	beautifulbeginningsfarm@gmail.com	678-414-9989	https://www.beautifulbeginningsfarm.net/
+The Sixty-Two	2761 Athens Highway	Madison	Georgia			Garden / Outdoor	Outdoor			Countryside wedding venue on 62 acres with a private lake and several outdoor ceremony and reception areas.	info@thesixty-two.com	678-898-5649	http://thesixty-two.com/
+Historic Smithonia Farm		Colbert	Georgia			Historic / Estate	Indoor & Outdoor			Farm established in 1888 about 20 minutes from Athens, with three brick barns, a landscaped courtyard and 200 acres of pasture.	smithoniafarm@gmail.com		https://www.smithoniafarm.com/
+Sowhatchet Plantation		Madison	Georgia			Historic / Estate				Renovated historic plantation in Morgan County hosting weddings and showers, with budget-friendly options for small groups.	sowhatchetplantation@gmail.com		https://www.sowhatchetplantation.com/
+The Farm at Wolf Creek	475 Brent Rd	Barnesville	Georgia			Barn / Rustic	Indoor & Outdoor			Waterfront farm venue with a lakeside chapel, a barn and a farmhouse, about an hour south of Atlanta.	info@wolfcreekevents.com	(678) 379-4399	https://www.wolfcreekevents.com/
+Lakeside at Five Arrow Farms	499 Hamby Lane	Social Circle	Georgia			Garden / Outdoor	Indoor & Outdoor			Lakefront stone pavilion with a fireplace and weatherproof sides, plus a bridal suite, on a large Walton County property.	lakesideatfivearrowfarms@gmail.com		https://www.lakesideatfivearrow.com/
+The Farmhouse Inn at Hundred Acre Farm	1051 Meadow Ln	Madison	Georgia			Barn / Rustic	Indoor & Outdoor	225		Boutique farm stay on 26 acres with a red barn, terrace lawn and gardens, hosting weddings and events near downtown Madison.	innkeeper@thefarmhouseinn.com	706-342-7933	https://www.thefarmhouseinn.com/
+The Estate at Stone Creek	5226 Ocmulgee East Boulevard	Macon	Georgia			Historic / Estate	Indoor & Outdoor			100-acre Macon property with a restored lodge of about 100 years, a private lake and a 175-year-old barn.	contact@theestateatstonecreek.com	478-341-2180	https://theestateatstonecreek.com/
+`,
+  },
 ];
 
 export default batches;
