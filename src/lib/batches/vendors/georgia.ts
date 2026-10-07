@@ -120,6 +120,23 @@ Catering by Cindy	Catering		Mineral Bluff	Georgia	North Georgia mountains	Minera
 Horn Photography and Design	Photography		Dahlonega	Georgia	North Georgia	Husband-and-wife Dahlonega team shooting photo and film for a limited number of weddings a year, including Catholic ceremonies.			https://hornphotographyanddesign.com/	https://www.instagram.com/hornpd/
 `,
   },
+  {
+    name: "Athens: photography, planning, florals, hair and makeup, cake, videography and catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Elizabeth Hill Photography	Photography		Athens	Georgia	Athens and the Southeast	Athens wedding photographer for faith-minded couples, with calm direction and timeless, heirloom-style gallery images.	hello@elizabethhillphotography.com		https://www.elizabethhillphotography.com/	https://www.instagram.com/elizabethhillphotography/
+Tara Wilburn Photography	Photography		Athens	Georgia	North Georgia and destination	Athens photographer with over sixteen years of experience shooting natural-light, emotion-led weddings for couples who want real moments.		706-338-6208	https://tarawilburn.com/	https://www.instagram.com/tarawilburn_photo/
+Michele Houston Photography	Photography		Athens	Georgia	Georgia and the East Coast	Athens-based wedding photographer mixing classic portraits with room for candid moments, booking Georgia and East Coast weddings.			https://michelehoustonphotography.com/	https://www.instagram.com/michelehoustonphotography/
+Candace McClain Weddings	Planning		Athens	Georgia	Athens and Atlanta	Day-of coordinator who also helps with pre-planning and rehearsals, and can host the reception, for weddings in Athens and Atlanta.	candacemcclainweddings@gmail.com	706-340-0317	https://www.candacemcclainweddings.com/	
+Bloom & Ivy Events	Planning	1211 Washington St	Jefferson	Georgia		Jefferson floral design and planning team offering full-service, partial and month-of wedding coordination alongside decor and flowers.	info@bloomandivyevents.com	762-402-3636	https://www.bloomandivyevents.com/	https://www.instagram.com/bloomandivyweddings/
+Ivy & Sterling Florals	Florals	225 Carruth Road	Jefferson	Georgia	Jefferson, Athens, Braselton, Commerce and Gainesville	Jefferson flower shop designing wedding bouquets and arrangements for couples across Athens and north Georgia.		(770) 797-8918	https://ivyandsterlingflorals.com/	https://www.instagram.com/ivyandsterlingflorals/
+Kayla Walters Beauty Collective	Hair & Makeup		Madison	Georgia	Athens, Atlanta, Augusta, Madison and North Georgia	On-location bridal hair and makeup team creating soft, elevated looks for brides in Athens, Madison, Atlanta and across Georgia.	Kayla@kaylawaltershair.com	404-788-5302	https://kaylawaltershair.com/	https://www.instagram.com/kayla.walters.hair/
+Sweetie Pie by Savie	Cake	150 E Whitehall Rd	Athens	Georgia	Athens	Athens bakery making wedding cakes and desserts, with tasting boxes, published pricing and delivery within town.	sweetiepiebysavie@gmail.com	(706) 850-9255	https://www.sweetiepiebysavie.com/	https://www.instagram.com/sweetiepiebysavie/
+Cecilia's Cake Shop	Cake	610 North Milledge Avenue	Athens	Georgia	Athens	Small-batch Athens bakery taking orders for wedding cakes, groom's cakes, cupcakes and custom designs.		(706) 543-3308	https://ceciliascakeshop.com/	https://www.instagram.com/ceciliascakeshop/
+CareAway Cakes & Gifts	Cake		Athens	Georgia	Athens	Athens bakery that makes custom-designed cakes for weddings and other occasions, with local delivery in the Athens area.			https://careawaycakes.com/	
+Russ Feltman Films	Videography		Athens	Georgia	Athens, Macon, Augusta, Atlanta and Winder	Athens videographer with over thirty years filming weddings, from rehearsal dinner to grand exit, with drone footage available.			https://www.russfeltman.com/	https://www.instagram.com/russfeltman/
+Hallie Jane's Catering	Catering		Madison	Georgia	Within 150 miles, including Athens, Atlanta and Augusta	Full-service Madison caterer for weddings and rehearsal dinners, with sample menus, bar service and a 150-mile travel radius covering Athens.	info@halliejanes.com	706-342-2837	https://halliejanes.com/	https://www.instagram.com/halliejanescatering/
+`,
+  },
 ];
 
 export default batches;
