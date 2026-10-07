@@ -118,6 +118,24 @@ Zion Wedding Officiant	Officiant		St. George	Utah	Zion National Park and surroun
 Bell Tower Bridal	Bridal & Formalwear		St. George	Utah		St. George bridal shop selling wedding gowns by appointment, with separate contemporary and modest collections in fitted, A-line and ballgown cuts.		435-272-3334	https://www.belltowerbridal.com	
 `,
   },
+  {
+    name: "Park City: photography, videography, rentals and catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Terra Ong Photography	Photography		Park City	Utah	Park City and across Utah	Park City wedding and elopement photographer with over six years of experience, focused on candid, couple-centred storytelling.			https://terraongphotography.com	https://www.instagram.com/terraong/
+Mai Cambou Photography	Photography		Park City	Utah	Utah, including Park City	Park City wedding and elopement photographer who tells each couple's story through emotive, timeless portraits and small details.			https://www.maicambou.com	https://www.instagram.com/instamaicamera/
+Backcountry Portraits	Photography		Park City	Utah	Park City, Moab, southern Utah and destination	Husband-and-wife team making adventure elopement and small wedding photographs on digital and film, with location guides and planning help.	stefanolsonphoto@gmail.com		https://www.backcountryphotographers.com	https://www.instagram.com/backcountryportraits/
+Becca Photo	Photography		Herriman	Utah	Utah, including Park City, Zion, Moab and the Salt Flats	Herriman photographer with nearly a decade of experience, shooting elopements and weddings across Utah with location guidance and timeline help.	hello@beccaphoto.co	(801) 613-1540	https://beccaphoto.co	https://www.instagram.com/beccaphoto/
+Shades of Jade Films	Videography		Park City	Utah	Utah's Uinta Mountains, Moab and Zion, plus destination	Park City filmmaker making handcrafted, documentary-style wedding and elopement films, also offered in all-inclusive Utah mountain elopement packages.	shadesofjadefilms@gmail.com		https://shadesofjadefilms.com	https://www.instagram.com/shadesofjade.films/
+Techmedia Films	Videography	5996 Nimbus Way	Salt Lake City	Utah	Salt Lake, Utah, Wasatch and Weber counties, including Park City	Salt Lake City wedding videographer offering highlight films, full-day coverage and elopement filming, with ceremony and engagement add-ons.	hernan@techmediafilms.com	(801) 808-9988	https://www.techmediafilms.com	https://www.instagram.com/techmediafilms/
+J Film Studio	Videography		Lehi	Utah	Park City, Salt Lake City, Moab, Zion and beyond	Lehi studio offering budget-friendly candid wedding photography and documentary videography, from single coverage to two-operator teams.	djr707810493@gmail.com	385-473-7445	https://jfilmstudio.com	https://www.instagram.com/jfilm_studio_usa/
+The Deckers Video & Photography	Videography		Saratoga Springs	Utah	Salt Lake County, Utah County and Park City	Saratoga Springs studio that films and photographs weddings for couples in Salt Lake and Utah counties and up in Park City.		801-400-0003	https://www.thedeckers.com	
+Diamond Event & Tent	Rentals	4518 S 500 W	Salt Lake City	Utah	Park City, Summit County and the Wasatch Front	Event rental showroom supplying mountain-ready tents, tables, chairs, linens, lighting and dance floors for Park City weddings.	marketing@diamondevent.com	(801) 262-2080	https://diamondevent.com	https://www.instagram.com/diamondeventandtent/
+Mountain Event Rentals	Rentals		Park City	Utah	Park City and nearby Utah communities	Park City rental company supplying tents, lighting, drapery, linens, tables, chairs, dance floors and arches for wedding venues.	info@mountaineventrental.com	(801) 900-3411	https://www.mountaineventrental.com	https://www.instagram.com/mountaineventrental/
+In The Event	Rentals	3008 South 300 West	South Salt Lake	Utah	Park City, Deer Valley and across Utah	South Salt Lake rental and event production company with furniture, lighting, pipe and drape and decor for receptions in Park City.	info@intheevent.com	801-886-1144	https://intheevent.com	https://www.instagram.com/weareintheevent/
+Mountain High Society	Catering		Park City	Utah	Park City and the Wasatch Mountains	Park City private chef and catering company offering bespoke menus and full-service catering for weddings and rehearsal dinners.	ryan@mountainhighsociety.com	(435) 338-3169	https://www.mountainhighsociety.com	
+Park City Elite Private Chefs	Catering		Park City	Utah	Park City, Kamas, Heber City and Midway	Chef Dalton Campbell's Park City service creating customised menus with locally sourced ingredients for intimate dinners and wedding events.	contact@pceliteprivatechefs.com	435-659-4657	https://parkcityeliteprivatechefs.com	https://www.instagram.com/pceliteprivatechefs/
+`,
+  },
 ];
 
 export default batches;
