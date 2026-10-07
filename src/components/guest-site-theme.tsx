@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { createContext, useContext, useEffect, useState, type CSSProperties, type ReactNode } from "react";
 import {
-  THEMES,
+  ALL_FONTS_HREF,
   designCssVars,
   fontsHref,
   DEFAULT_SITE_DESIGN,
@@ -94,11 +94,11 @@ export function GuestSiteTheme({
 
   return (
     <>
-      {/* React hoists this into <head>. The preview loads every theme's fonts
-          up front so switching theme doesn't flash a fallback face. */}
+      {/* React hoists this into <head>. The preview loads every face up
+          front so switching theme or font doesn't flash a fallback. */}
       <link
         rel="stylesheet"
-        href={fontsHref(preview ? THEMES : [resolveDesign(design).theme])}
+        href={preview ? ALL_FONTS_HREF : fontsHref([resolveDesign(design).theme])}
         precedence="default"
       />
       <div

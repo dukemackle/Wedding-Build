@@ -8,6 +8,8 @@ import { daysUntilWedding } from "@/lib/countdown";
 import { HeroActions } from "./hero-actions";
 import { useSiteDesign } from "@/components/guest-site-theme";
 import { motionPreset } from "@/lib/site-design";
+import { SiteOrnament } from "@/components/site-ornament";
+import { SiteArt } from "@/components/site-art";
 
 function formatDate(dateStr: string) {
   return new Date(`${dateStr}T00:00:00`).toLocaleDateString("en-US", {
@@ -18,42 +20,36 @@ function formatDate(dateStr: string) {
   });
 }
 
-function initialsOf(a: string | null, b: string | null) {
-  return [a, b]
-    .map((name) => name?.trim()?.[0]?.toUpperCase())
-    .filter(Boolean)
-    .join(" · ");
-}
-
-function Monogram({ initials, tone }: { initials: string; tone: "light" | "dark" }) {
-  if (!initials) return null;
-  const rule = tone === "light" ? "bg-white/45" : "bg-hairline";
-  const text = tone === "light" ? "text-[#e9c97a]" : "text-brass";
-  return (
-    <div className="flex items-center justify-center gap-4">
-      <span className={`h-px w-10 sm:w-14 ${rule}`} aria-hidden="true" />
-      <span className={`font-display text-xl tracking-[0.22em] ${text}`}>{initials}</span>
-      <span className={`h-px w-10 sm:w-14 ${rule}`} aria-hidden="true" />
-    </div>
-  );
-}
-
-function HeroContent({ wedding, tone }: { wedding: PublicWedding; tone: "light" | "dark" }) {
+function HeroContent({
+  wedding,
+  tone,
+  bigMark = false,
+}: {
+  wedding: PublicWedding;
+  tone: "light" | "dark";
+  bigMark?: boolean;
+}) {
   const names = `${wedding.partner_a_name ?? ""} & ${wedding.partner_b_name ?? ""}`.trim();
   const location = [wedding.venue_name, wedding.venue_city, wedding.venue_state]
     .filter(Boolean)
     .join(", ");
-  const { motion } = useSiteDesign();
+  const { motion, ornament } = useSiteDesign();
   // The gentle word-by-word rise is the "Straight in" default; the other
   // openings bring the names in their own way, and "None" means none.
   const stagger = motion.opening === "none" && motionPreset(motion) !== "none";
 
   return (
-    <div className="w-full px-6 text-center">
-      <Monogram initials={initialsOf(wedding.partner_a_name, wedding.partner_b_name)} tone={tone} />
+    <div className="relative z-10 w-full px-6 text-center">
+      <SiteOrnament
+        kind={bigMark && ornament === "none" ? "crest" : ornament}
+        first={wedding.partner_a_name ?? ""}
+        second={wedding.partner_b_name ?? ""}
+        size={bigMark ? "lg" : "sm"}
+        tone={tone}
+      />
 
       <p
-        className={`mt-5 font-mono-numbers text-[11px] uppercase tracking-[0.24em] ${
+        className={`${bigMark ? "mt-8" : "mt-5"} font-mono-numbers text-[11px] uppercase tracking-[0.24em] ${
           tone === "light" ? "text-white/80" : "text-brass"
         }`}
       >
@@ -64,6 +60,7 @@ function HeroContent({ wedding, tone }: { wedding: PublicWedding; tone: "light" 
         className={`site-names mt-3 font-display text-[clamp(2.75rem,8vw,5.5rem)] font-medium leading-[1.02] [font-style:var(--site-name-style,normal)] [font-weight:var(--site-name-weight,500)] ${
           tone === "light" ? "text-white [text-shadow:0_2px_24px_rgba(0,0,0,0.28)]" : "text-forest"
         }`}
+        style={{ fontFamily: "var(--font-names, var(--font-display))" }}
       >
         {stagger ? <StaggerWords text={names} /> : names}
       </h1>
@@ -103,14 +100,31 @@ const CARD_RADIUS = "rounded-[min(var(--site-radius,1rem),1.5rem)]";
  * to lay out, so every layout falls back to the names on their own.
  */
 export function WeddingHero({ wedding }: { wedding: PublicWedding }) {
-  const { hero } = useSiteDesign();
+  const { hero, art } = useSiteDesign();
   const photo = wedding.hero_photo_url;
 
-  // No photo yet is the common first-run state, so it gets its own
-  // deliberate treatment rather than an empty grey band.
-  if (!photo) {
+  // Monogram: the crest is the picture, large, with a fine double rule
+  // framing the whole top of the page. Works the same with or without a photo.
+  if (hero === "monogram") {
     return (
-      <header className="mb-10 bg-[radial-gradient(120%_90%_at_50%_0%,var(--color-card)_0%,var(--color-parchment)_60%)] px-6 pb-16 pt-24">
+      <header className="mb-10 px-4 pb-14 pt-12 sm:px-6 lg:pb-20 lg:pt-16">
+        <div className="mx-auto max-w-4xl border border-[color-mix(in_srgb,var(--site-accent)_45%,transparent)] p-1.5">
+          <div className="relative overflow-hidden border border-[color-mix(in_srgb,var(--site-accent)_25%,transparent)] py-14 lg:py-20">
+            <SiteArt art={art} />
+            <HeroContent wedding={wedding} tone="dark" bigMark />
+          </div>
+        </div>
+      </header>
+    );
+  }
+
+  // No photo yet is the common first-run state, so it gets its own
+  // deliberate treatment rather than an empty grey band. "Text only" is the
+  // same page chosen on purpose.
+  if (!photo || hero === "text") {
+    return (
+      <header className="relative mb-10 overflow-hidden bg-[radial-gradient(120%_90%_at_50%_0%,var(--color-card)_0%,var(--color-parchment)_60%)] px-6 pb-16 pt-24">
+        <SiteArt art={art} />
         <HeroContent wedding={wedding} tone="dark" />
       </header>
     );
@@ -132,8 +146,9 @@ export function WeddingHero({ wedding }: { wedding: PublicWedding }) {
 
   if (hero === "framed") {
     return (
-      <header className="mb-10 flex flex-col items-center px-6 pb-12 pt-14 lg:pt-20">
-        <div className="rounded-[200px_200px_8px_8px] border border-[var(--site-accent)] p-2.5">
+      <header className="relative mb-10 flex flex-col items-center overflow-hidden px-6 pb-12 pt-14 lg:pt-20">
+        <SiteArt art={art} />
+        <div className="relative z-10 rounded-[200px_200px_8px_8px] border border-[var(--site-accent)] p-2.5">
           <div className="site-hero-photo relative h-[340px] w-[250px] overflow-hidden rounded-[190px_190px_4px_4px] bg-[var(--site-photo)] sm:h-[420px] sm:w-[310px]">
             <Image src={photo} alt="" fill priority sizes="310px" className="hero-kenburns object-cover" />
           </div>

@@ -4,9 +4,18 @@ import Link from "next/link";
 import { useRef, useState, useTransition, type ReactNode } from "react";
 import { createSiteBlock, deleteSiteBlock } from "./block-actions";
 import { ChevronDownIcon } from "@/components/icons";
+import { SiteOrnament } from "@/components/site-ornament";
 import {
+  ART_HEROES,
+  ART_PLACEMENTS,
+  BODY_FONTS,
+  FONTS,
+  SITE_ART,
   FONT_PAIRINGS,
   HERO_LAYOUTS,
+  ORNAMENTS,
+  PHOTO_HEROES,
+  fontById,
   MOTION_PRESETS,
   OPENINGS,
   motionPreset,
@@ -53,44 +62,196 @@ export function StyleTab({
   design,
   onChange,
   hasPhoto,
+  names,
 }: {
   design: SiteDesign;
   onChange: Change;
   hasPhoto: boolean;
+  /** The couple's names, so the monograms show their own initials. */
+  names: [string, string];
 }) {
   const base = themeById(design.theme);
-  const { accent } = resolveDesign(design);
+  const { theme, accent, onAccent } = resolveDesign(design);
+  const headingId = design.fontDisplay ?? fontByCssId(theme.display);
+  const bodyId = design.fontBody ?? fontByCssId(theme.body);
+  const scripts = FONTS.filter((f) => f.kind === "script");
+  const others = FONTS.filter((f) => f.kind !== "script");
+  const needsPhoto = PHOTO_HEROES.includes(design.hero);
 
   return (
     <>
       <div className="flex flex-col gap-3">
-        <PanelLabel>Fonts</PanelLabel>
-        {FONT_PAIRINGS.map((f) => {
-          const display = f.display ?? base.display;
-          const body = f.body ?? base.body;
-          const selected = design.fonts === f.id;
-          return (
-            <button
-              key={f.id}
-              type="button"
-              aria-pressed={selected}
-              onClick={() => onChange({ fonts: f.id })}
-              className={`flex items-center gap-4 rounded-xl bg-card px-4 py-3 text-left ${selected ? SELECTED : UNSELECTED}`}
-            >
-              <span className="w-24 shrink-0 text-[26px] leading-none text-ink" style={{ fontFamily: display }}>
-                Aa
-              </span>
-              <span className="min-w-0 flex-1">
-                <span className="block text-[15px] text-ink" style={{ fontFamily: display }}>
-                  {f.label}
+        <PanelLabel>Font pairs</PanelLabel>
+        <div className="grid grid-cols-2 gap-2">
+          {FONT_PAIRINGS.map((f) => {
+            const display = fontById(f.display)?.css ?? base.display;
+            const body = fontById(f.body)?.css ?? base.body;
+            const selected = design.fonts === f.id && !design.fontDisplay && !design.fontBody;
+            return (
+              <button
+                key={f.id}
+                type="button"
+                aria-pressed={selected}
+                onClick={() => onChange({ fonts: f.id, fontDisplay: null, fontBody: null })}
+                className={`flex flex-col gap-0.5 rounded-xl bg-card px-3 py-2.5 text-left ${selected ? SELECTED : UNSELECTED}`}
+              >
+                <span className="truncate text-[20px] leading-tight text-ink" style={{ fontFamily: display }}>
+                  {f.id === "theme" ? base.name : f.label.split(" · ")[0]}
                 </span>
-                <span className="block text-xs text-ink/60" style={{ fontFamily: body }}>
-                  {f.id === "theme" ? `What ${base.name} uses` : "Headings · body text"}
+                <span className="truncate text-[11px] text-ink/60" style={{ fontFamily: body }}>
+                  {f.id === "theme" ? "Theme default" : `with ${f.label.split(" · ")[1]}`}
                 </span>
-              </span>
-            </button>
-          );
-        })}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-3">
+        <PanelLabel>Headings &amp; names</PanelLabel>
+        <FontGrid fonts={others} selected={headingId} onPick={(id) => onChange({ fontDisplay: id })} />
+        <p className="text-xs font-medium text-ink/60">Script</p>
+        <FontGrid fonts={scripts} selected={headingId} onPick={(id) => onChange({ fontDisplay: id })} />
+      </div>
+
+      <label className="flex flex-col gap-2">
+        <PanelLabel>Body text</PanelLabel>
+        <select
+          value={bodyId ?? ""}
+          onChange={(e) => onChange({ fontBody: e.target.value as SiteDesign["fontBody"] })}
+          className="h-11 rounded-lg border border-hairline bg-card px-3 text-[15px] text-ink"
+          style={{ fontFamily: theme.body }}
+        >
+          {BODY_FONTS.map((f) => (
+            <option key={f.id} value={f.id}>
+              {f.label}
+            </option>
+          ))}
+        </select>
+      </label>
+
+      <div className="flex flex-col gap-3">
+        <PanelLabel>Monogram</PanelLabel>
+        <div
+          className="grid grid-cols-4 gap-2"
+          style={
+            {
+              "--site-accent": accent,
+              "--site-on-accent": onAccent,
+              "--font-display": theme.display,
+            } as React.CSSProperties
+          }
+        >
+          {ORNAMENTS.map((o) => {
+            const selected = design.ornament === o.id;
+            return (
+              <button
+                key={o.id}
+                type="button"
+                aria-pressed={selected}
+                onClick={() => onChange({ ornament: o.id })}
+                className={`flex flex-col items-center overflow-hidden rounded-xl text-left ${selected ? SELECTED : UNSELECTED}`}
+                style={{ background: theme.bg }}
+              >
+                <span className="flex h-[72px] w-full items-center justify-center overflow-hidden">
+                  {o.id === "none" ? (
+                    <span className="text-[11px]" style={{ color: theme.muted }}>
+                      —
+                    </span>
+                  ) : (
+                    <span className={`block origin-center ${o.id === "rule" ? "scale-[0.8]" : "scale-[0.58]"}`}>
+                      <SiteOrnament kind={o.id} first={names[0]} second={names[1]} />
+                    </span>
+                  )}
+                </span>
+                <span className="w-full border-t border-hairline bg-card px-1 py-1 text-center text-[11px] font-medium text-ink">
+                  {o.label}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-3">
+        <PanelLabel>Artwork</PanelLabel>
+        <div className="grid grid-cols-3 gap-2">
+          <button
+            type="button"
+            aria-pressed={design.art.id === null}
+            onClick={() => onChange({ art: { ...design.art, id: null } })}
+            className={`flex flex-col overflow-hidden rounded-xl text-left ${design.art.id === null ? SELECTED : UNSELECTED}`}
+            style={{ background: theme.bg }}
+          >
+            <span className="flex h-[84px] items-center justify-center text-[11px]" style={{ color: theme.muted }}>
+              —
+            </span>
+            <span className="w-full border-t border-hairline bg-card px-2 py-1 text-[11px] font-medium text-ink">None</span>
+          </button>
+          {SITE_ART.map((a) => {
+            const on = design.art.id === a.id;
+            return (
+              <button
+                key={a.id}
+                type="button"
+                aria-pressed={on}
+                title={`${a.group} · ${a.kind === "line" ? "drawn in your accent colour" : "watercolour"}`}
+                onClick={() => onChange({ art: { ...design.art, id: a.id } })}
+                className={`flex flex-col overflow-hidden rounded-xl text-left ${on ? SELECTED : UNSELECTED}`}
+                style={{ background: theme.bg }}
+              >
+                <span className="relative block h-[84px] w-full p-2">
+                  {a.kind === "line" ? (
+                    <span
+                      className="block h-full w-full"
+                      style={{
+                        background: accent,
+                        WebkitMaskImage: `url(${a.src})`,
+                        maskImage: `url(${a.src})`,
+                        WebkitMaskSize: "contain",
+                        maskSize: "contain",
+                        WebkitMaskRepeat: "no-repeat",
+                        maskRepeat: "no-repeat",
+                        WebkitMaskPosition: "center",
+                        maskPosition: "center",
+                      }}
+                    />
+                  ) : (
+                    <span
+                      className="block h-full w-full bg-contain bg-center bg-no-repeat"
+                      style={{ backgroundImage: `url(${a.src})` }}
+                    />
+                  )}
+                </span>
+                <span className="w-full truncate border-t border-hairline bg-card px-2 py-1 text-[11px] font-medium text-ink">
+                  {a.name}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+        {design.art.id && (
+          <div className="flex gap-1.5">
+            {ART_PLACEMENTS.map((p) => (
+              <button
+                key={p.id}
+                type="button"
+                aria-pressed={design.art.placement === p.id}
+                onClick={() => onChange({ art: { ...design.art, placement: p.id } })}
+                className={`h-8 rounded-full px-3 text-[13px] ${
+                  design.art.placement === p.id ? "bg-forest text-parchment" : "border border-hairline bg-card text-ink/75"
+                }`}
+              >
+                {p.label}
+              </button>
+            ))}
+          </div>
+        )}
+        <p className="text-[13px] leading-normal text-ink/60">
+          {design.art.id && !ART_HEROES.includes(design.hero) && hasPhoto
+            ? "Artwork shows with the Text only, Monogram and Framed tops — your photo takes its place in this one."
+            : "Sketches are drawn in your accent colour; watercolours keep their own."}
+        </p>
       </div>
 
       <div className="flex flex-col gap-3">
@@ -107,19 +268,57 @@ export function StyleTab({
                 className={`flex flex-col overflow-hidden rounded-xl bg-card text-left ${selected ? SELECTED : UNSELECTED}`}
                 title={h.help}
               >
-                <HeroThumb layout={h.id} bg={base.bg} surface={base.surface} photo={base.photo} ink={base.ink} accent={accent} />
+                <HeroThumb layout={h.id} bg={theme.bg} surface={theme.surface} photo={theme.photo} ink={theme.ink} accent={accent} />
                 <span className="border-t border-hairline px-2 py-1.5 text-[12px] font-medium text-ink">{h.label}</span>
               </button>
             );
           })}
         </div>
         <p className="text-[13px] leading-normal text-ink/60">
-          {hasPhoto
+          {hasPhoto || !needsPhoto
             ? HERO_LAYOUTS.find((h) => h.id === design.hero)?.help
-            : "These need a banner photo — add one under Sections › Photos. Until then the top of the page shows your names on their own."}
+            : "This one needs a banner photo — add one under Sections › Photos. Until then the top of the page shows your names on their own."}
         </p>
       </div>
     </>
+  );
+}
+
+function fontByCssId(css: string) {
+  return FONTS.find((f) => f.css === css)?.id ?? null;
+}
+
+function FontGrid({
+  fonts,
+  selected,
+  onPick,
+}: {
+  fonts: readonly (typeof FONTS)[number][];
+  selected: string | null;
+  onPick: (id: (typeof FONTS)[number]["id"]) => void;
+}) {
+  return (
+    <div className="grid grid-cols-2 gap-2">
+      {fonts.map((f) => {
+        const on = selected === f.id;
+        return (
+          <button
+            key={f.id}
+            type="button"
+            aria-pressed={on}
+            onClick={() => onPick(f.id)}
+            className={`flex h-12 items-center rounded-lg bg-card px-3 text-left ${on ? SELECTED : UNSELECTED}`}
+          >
+            <span
+              className="truncate text-ink"
+              style={{ fontFamily: f.css, fontSize: f.kind === "script" ? 24 : 18 }}
+            >
+              {f.label}
+            </span>
+          </button>
+        );
+      })}
+    </div>
   );
 }
 
@@ -173,6 +372,18 @@ function HeroThumb({
             <span className="block h-full w-full rounded-t-full" style={{ background: photo }} />
           </span>
           <span className="flex flex-col items-center">{lines}</span>
+        </span>
+      )}
+      {layout === "monogram" && (
+        <span className="absolute inset-[6px] flex flex-col items-center justify-center gap-1.5 border" style={{ borderColor: accent }}>
+          <span className="block h-[22px] w-[18px] rounded-full border" style={{ borderColor: accent }} />
+          <span className="flex flex-col items-center">{lines}</span>
+        </span>
+      )}
+      {layout === "text" && (
+        <span className="flex h-full flex-col items-center justify-center">
+          <span className="block h-2 w-14 rounded-full" style={{ background: ink }} />
+          <span className="mt-1.5 block h-1 w-8 rounded-full opacity-60" style={{ background: ink }} />
         </span>
       )}
     </span>

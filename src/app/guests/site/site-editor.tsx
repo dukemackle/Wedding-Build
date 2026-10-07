@@ -8,10 +8,17 @@ import {
   REPLAY_MESSAGE,
 } from "@/components/guest-site-theme";
 import {
+  ALL_FONTS_HREF,
+  COLOR_FAMILIES,
+  PALETTES,
   THEMES,
+  activePalette,
   contrast,
-  fontsHref,
+  isDark,
+  paletteColors,
   resolveDesign,
+  themeById,
+  type ColorFamily,
   sameDesign,
   type SectionKey,
   type SiteDesign,
@@ -58,6 +65,7 @@ export function SiteEditor({
   sectionInfo,
   checklist,
   hasPhoto,
+  names,
 }: {
   draft: SiteDesign;
   published: SiteDesign;
@@ -71,6 +79,7 @@ export function SiteEditor({
   checklist: ChecklistItem[];
   /** Hero layouts only show with a banner photo; the Style tab says so. */
   hasPhoto: boolean;
+  names: [string, string];
 }) {
   const site = useGuestSite(initialSlug);
   const publicSlug = site.slug;
@@ -265,7 +274,7 @@ export function SiteEditor({
           onTryConfetti={() => post(CONFETTI_MESSAGE)}
         />
       ) : tab === "style" ? (
-        <StyleTab design={design} onChange={change} hasPhoto={hasPhoto} />
+        <StyleTab design={design} onChange={change} hasPhoto={hasPhoto} names={names} />
       ) : (
         <SectionsTab
           design={design}
@@ -309,7 +318,7 @@ export function SiteEditor({
   return (
     <>
     {/* The theme cards and font samples are drawn in the real faces. */}
-    <link rel="stylesheet" href={fontsHref(THEMES)} precedence="default" />
+    <link rel="stylesheet" href={ALL_FONTS_HREF} precedence="default" />
     <div
       ref={rootRef}
       // Breaks out of the page's side and bottom padding: the preview reaches
@@ -425,11 +434,19 @@ function ThemeTab({
   design: SiteDesign;
   onChange: (patch: Partial<SiteDesign>) => void;
 }) {
-  const { theme, accent } = resolveDesign(design);
-  const custom = design.accent !== null && !theme.swatches.includes(design.accent as never);
+  const { theme, accent, heading } = resolveDesign(design);
+  const base = themeById(design.theme);
+  const [family, setFamily] = useState<ColorFamily | "dark" | null>(null);
+  const current = activePalette(design);
+  const palettes = PALETTES.filter((p) =>
+    family === null ? true : family === "dark" ? isDark(p.bg) : p.family === family,
+  );
   // Small labels and links are drawn in the accent, so a pale accent on a pale
   // theme (or dark on dark) makes them hard to read. Said, not prevented.
   const lowContrast = contrast(accent, theme.bg) < 3;
+  const lowText = contrast(theme.ink, theme.bg) < 4.5 || contrast(heading, theme.bg) < 3;
+  const customised =
+    design.accent !== null || design.colors.bg !== null || design.colors.ink !== null || design.colors.heading !== null;
 
   return (
     <>
@@ -441,62 +458,183 @@ function ThemeTab({
               key={t.id}
               theme={t}
               selected={t.id === design.theme}
-              onPick={() => onChange({ theme: t.id, accent: null })}
+              onPick={() => onChange({ theme: t.id, accent: null, colors: NO_COLORS })}
             />
           ))}
+        </div>
+        <p className="text-[13px] leading-normal text-ink/60">
+          A theme sets the fonts, corners and colours. Switching keeps everything you&apos;ve
+          written — only the look changes.
+        </p>
+      </div>
+
+      <div className="flex flex-col gap-3">
+        <PanelLabel>Colour palette</PanelLabel>
+        <div className="-mx-5 flex gap-1.5 overflow-x-auto px-5 pb-1 lg:-mx-6 lg:px-6">
+          <FamilyChip on={family === null} onClick={() => setFamily(null)}>
+            All
+          </FamilyChip>
+          {COLOR_FAMILIES.map((c) => (
+            <FamilyChip key={c.id} on={family === c.id} onClick={() => setFamily(c.id)} dot={c.dot}>
+              {c.label}
+            </FamilyChip>
+          ))}
+          <FamilyChip on={family === "dark"} onClick={() => setFamily("dark")} dot="#14203d">
+            Dark
+          </FamilyChip>
+        </div>
+        <div className="grid grid-cols-2 gap-2.5">
+          {palettes.map((p) => {
+            const on = current?.id === p.id;
+            return (
+              <button
+                key={p.id}
+                type="button"
+                aria-pressed={on}
+                onClick={() => onChange(paletteColors(p))}
+                className={`overflow-hidden rounded-xl bg-card text-left ${
+                  on ? "border-2 border-forest" : "m-px border border-hairline hover:border-ink/30"
+                }`}
+              >
+                <span className="flex h-12 items-center justify-center gap-1.5" style={{ background: p.bg }}>
+                  <span
+                    className="text-[19px] leading-none"
+                    style={{ color: p.heading, fontFamily: theme.display }}
+                  >
+                    Aa
+                  </span>
+                  <span className="h-3 w-3 rounded-full" style={{ background: p.accent }} />
+                  <span className="h-3 w-3 rounded-full" style={{ background: p.ink }} />
+                </span>
+                <span className="block truncate border-t border-hairline px-2.5 py-1.5 text-[12px] font-medium text-ink">
+                  {p.name}
+                </span>
+              </button>
+            );
+          })}
         </div>
       </div>
 
       <div className="flex flex-col gap-3">
-        <PanelLabel>Accent colour</PanelLabel>
-        <div className="flex flex-wrap items-center gap-2.5">
-          {theme.swatches.map((hex, i) => (
+        <div className="flex items-center justify-between">
+          <PanelLabel>Fine-tune</PanelLabel>
+          {customised && (
             <button
-              key={hex}
               type="button"
-              aria-label={`Accent ${i + 1}`}
-              aria-pressed={accent === hex && !custom}
-              onClick={() => onChange({ accent: i === 0 ? null : hex })}
-              className={`flex h-11 w-11 items-center justify-center rounded-full bg-card ${
-                accent === hex && !custom ? "border-2 border-ink" : "m-px border border-hairline"
-              }`}
+              onClick={() => onChange({ accent: null, colors: NO_COLORS })}
+              className="text-[13px] text-ink/60 underline underline-offset-2 hover:text-ink"
             >
-              <span className="h-8 w-8 rounded-full" style={{ background: hex }} />
+              Back to {base.name}&apos;s colours
             </button>
-          ))}
-          <label
-            className={`relative flex h-11 w-11 cursor-pointer items-center justify-center rounded-full bg-card text-ink/60 ${
-              custom ? "border-2 border-ink" : "m-px border border-dashed border-ink/30"
-            }`}
-            title="Custom colour"
-          >
-            <span className="sr-only">Custom colour</span>
-            {custom ? (
-              <span className="h-8 w-8 rounded-full" style={{ background: accent }} />
-            ) : (
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
-                <path d="M12 5v14M5 12h14" />
-              </svg>
-            )}
-            <input
-              type="color"
-              value={accent}
-              onChange={(e) => onChange({ accent: e.target.value.toLowerCase() })}
-              className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
-            />
-          </label>
+          )}
         </div>
-        {lowContrast && (
+        <div className="divide-y divide-hairline rounded-xl border border-hairline bg-card">
+          <ColorRow
+            label="Background"
+            value={theme.bg}
+            onChange={(hex) => onChange({ colors: { ...design.colors, bg: hex } })}
+          />
+          <ColorRow
+            label="Headings"
+            value={heading}
+            onChange={(hex) => onChange({ colors: { ...design.colors, heading: hex } })}
+          />
+          <ColorRow
+            label="Text"
+            value={theme.ink}
+            onChange={(hex) => onChange({ colors: { ...design.colors, ink: hex } })}
+          />
+          <ColorRow
+            label="Buttons, links & monogram"
+            value={accent}
+            onChange={(hex) => onChange({ accent: hex })}
+            swatches={theme.swatches}
+          />
+        </div>
+        {lowText && (
           <p className="text-[13px] leading-snug text-[#8a5a00]">
-            This colour is hard to read on {theme.name}&apos;s background — it&apos;s used for small
-            labels and links.
+            Your text is hard to read on this background — try a darker text colour or a lighter
+            background.
           </p>
         )}
-        <p className="text-[13px] leading-normal text-ink/60">
-          Switching themes keeps everything you&apos;ve written — only the look changes.
-        </p>
+        {lowContrast && (
+          <p className="text-[13px] leading-snug text-[#8a5a00]">
+            The accent is hard to read on this background — it&apos;s used for small labels and links.
+          </p>
+        )}
       </div>
     </>
+  );
+}
+
+const NO_COLORS: SiteDesign["colors"] = { bg: null, ink: null, heading: null };
+
+function FamilyChip({
+  on,
+  onClick,
+  dot,
+  children,
+}: {
+  on: boolean;
+  onClick: () => void;
+  dot?: string;
+  children: ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      aria-pressed={on}
+      onClick={onClick}
+      className={`flex h-8 shrink-0 items-center gap-1.5 rounded-full px-3 text-[13px] transition-colors ${
+        on ? "bg-forest text-parchment" : "border border-hairline bg-card text-ink/75 hover:text-ink"
+      }`}
+    >
+      {dot && <span className="h-3 w-3 rounded-full border border-black/10" style={{ background: dot }} />}
+      {children}
+    </button>
+  );
+}
+
+function ColorRow({
+  label,
+  value,
+  onChange,
+  swatches = [],
+}: {
+  label: string;
+  value: string;
+  onChange: (hex: string) => void;
+  swatches?: readonly string[];
+}) {
+  return (
+    <div className="flex items-center justify-between gap-3 px-4 py-2.5">
+      <span className="text-[14px] text-ink">{label}</span>
+      <span className="flex items-center gap-1.5">
+        {swatches.map((hex) => (
+          <button
+            key={hex}
+            type="button"
+            aria-label={`Use ${hex}`}
+            onClick={() => onChange(hex)}
+            className={`h-7 w-7 rounded-full ${value === hex ? "ring-2 ring-ink ring-offset-2 ring-offset-card" : "border border-black/10"}`}
+            style={{ background: hex }}
+          />
+        ))}
+        <label
+          className="relative h-9 w-9 cursor-pointer rounded-full border-2 border-ink/80 p-[3px]"
+          title={`Pick a ${label.toLowerCase()} colour`}
+        >
+          <span className="sr-only">Pick a {label.toLowerCase()} colour</span>
+          <span className="block h-full w-full rounded-full border border-black/10" style={{ background: value }} />
+          <input
+            type="color"
+            value={value}
+            onChange={(e) => onChange(e.target.value.toLowerCase())}
+            className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
+          />
+        </label>
+      </span>
+    </div>
   );
 }
 
