@@ -1,7 +1,7 @@
 import Image from "next/image";
 import type { SiteBlock } from "@/lib/supabase/types";
 
-const CARD = "rounded-lg border border-hairline bg-card p-6 sm:p-10 shadow-sm";
+const CARD = "site-card rounded-lg border border-hairline bg-card p-6 sm:p-10 shadow-sm";
 
 /** Whether a block has anything to show yet -- empty ones stay off the page. */
 export function blockHasContent(block: SiteBlock) {

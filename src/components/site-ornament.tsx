@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import type { OrnamentId } from "@/lib/site-design";
+import { WORD_ORNAMENTS, type OrnamentId } from "@/lib/site-design";
 
 /**
  * The couple's initials in a frame, drawn in the accent colour above their
@@ -23,9 +23,9 @@ export function SiteOrnament({
 }) {
   const a = first.trim()[0]?.toUpperCase() ?? "";
   const b = second.trim()[0]?.toUpperCase() ?? "";
-  if (kind === "none" || (!a && !b)) return null;
-
   const color = tone === "light" ? "text-[#e9c97a]" : "text-[var(--site-accent)]";
+  if (WORD_ORNAMENTS.includes(kind)) return <WordOrnament kind={kind} size={size} color={color} />;
+  if (kind === "none" || (!a && !b)) return null;
 
   if (kind === "rule") {
     const rule = tone === "light" ? "bg-white/45" : "bg-hairline";
@@ -48,7 +48,7 @@ export function SiteOrnament({
       role="img"
       aria-label={`${a} and ${b}`}
     >
-      {DRAWINGS[kind](a, b)}
+      {DRAWINGS[kind as keyof typeof DRAWINGS](a, b)}
     </svg>
   );
 }
@@ -155,7 +155,177 @@ function laurelSide(mirror: boolean) {
   );
 }
 
-const DRAWINGS: Record<Exclude<OrnamentId, "none" | "rule">, (a: string, b: string) => ReactNode> = {
+/**
+ * A set phrase in its own script, loaded on its own (only this character,
+ * for the Chinese) so a theme's fonts don't have to carry it. Screen readers
+ * hear the meaning rather than the characters.
+ */
+const XI_FONT = "https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600&text=%E5%9B%8D&display=swap";
+const AMIRI_FONT = "https://fonts.googleapis.com/css2?family=Amiri&display=swap";
+
+function WordOrnament({ kind, size, color }: { kind: OrnamentId; size: "sm" | "lg"; color: string }) {
+  if (kind === "xi") {
+    return (
+      <>
+        <link
+          rel="stylesheet"
+          href={XI_FONT}
+          precedence="default"
+        />
+        <p
+          lang="zh"
+          aria-label="Double happiness"
+          className={`orn-fade leading-none ${color} ${size === "lg" ? "text-[150px]" : "text-[84px] sm:text-[96px]"}`}
+          style={{ fontFamily: "'Noto Serif SC', serif", fontWeight: 600 }}
+        >
+          囍
+        </p>
+      </>
+    );
+  }
+  return (
+    <>
+      <link rel="stylesheet" href={AMIRI_FONT} precedence="default" />
+      <div className="flex flex-col items-center gap-1">
+        <p
+          lang="ar"
+          dir="rtl"
+          className={`orn-fade leading-[1.6] ${color} ${size === "lg" ? "text-[44px]" : "text-[28px] sm:text-[34px]"}`}
+          style={{ fontFamily: "'Amiri', serif" }}
+        >
+          بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ
+        </p>
+        <p className="text-[13px] italic opacity-75">In the name of God, the Most Gracious, the Most Merciful</p>
+      </div>
+    </>
+  );
+}
+
+const DRAWINGS: Record<Exclude<OrnamentId, "none" | "rule" | "bismillah" | "xi">, (a: string, b: string) => ReactNode> = {
+  horseshoe: (a, b) => (
+    <>
+      {/* Open end up, for luck. */}
+      <Draw d="M70 34 C40 52 30 96 46 132 C60 162 82 174 100 174 C118 174 140 162 154 132 C170 96 160 52 130 34" width={9} />
+      {[
+        [56, 56],
+        [44, 86],
+        [48, 118],
+        [62, 146],
+      ].map(([x, y]) => (
+        <g key={y}>
+          <circle cx={x} cy={y} r="2.2" fill="var(--color-parchment)" className="orn-fade" />
+          <circle cx={200 - x} cy={y} r="2.2" fill="var(--color-parchment)" className="orn-fade" />
+        </g>
+      ))}
+      <Letters size={42} y={100}>
+        {a}
+        <tspan fontSize={22} dx={2} dy={-2}>
+          &amp;
+        </tspan>
+        <tspan dx={2} dy={2}>
+          {b}
+        </tspan>
+      </Letters>
+    </>
+  ),
+
+  mountain: (a, b) => (
+    <>
+      <Draw d="M18 150 L74 70 L98 102 L128 56 L182 150 Z" />
+      <Draw d="M112 80 L128 56 L144 80 L136 76 L128 84 L120 76 Z" width={1} delay={0.3} />
+      <Draw d="M18 162 L182 162" width={0.8} delay={0.5} />
+      <circle cx="156" cy="44" r="10" {...LINE} strokeWidth={1.2} className="orn-fade" />
+      <Letters size={30} y={182}>
+        {a}
+        <tspan fontSize={22} dx={2} dy={-2}>
+          &amp;
+        </tspan>
+        <tspan dx={2} dy={2}>
+          {b}
+        </tspan>
+      </Letters>
+    </>
+  ),
+
+  anchor: (a, b) => (
+    <>
+      <Draw d="M100 34 L100 168" width={2} />
+      <circle cx="100" cy="24" r="10" {...LINE} strokeWidth={2} className="orn-fade" />
+      <Draw d="M74 58 L126 58" width={2} delay={0.2} />
+      <Draw d="M44 128 C50 160 76 176 100 176 C124 176 150 160 156 128" width={2} delay={0.3} />
+      <Draw d="M36 136 L44 124 L56 132 M164 136 L156 124 L144 132" width={2} delay={0.5} />
+      <Letters size={36} y={104}>
+        <tspan x="66">{a}</tspan>
+        <tspan x="134">{b}</tspan>
+      </Letters>
+    </>
+  ),
+
+  mandala: (a, b) => (
+    <>
+      <circle cx="100" cy="100" r="92" {...LINE} strokeWidth={1.2} strokeDasharray="1 5" className="orn-fade" />
+      {Array.from({ length: 16 }, (_, i) => (
+        <path
+          key={i}
+          d="M100 12 C108 24 108 36 100 44 C92 36 92 24 100 12 Z"
+          {...LINE}
+          strokeWidth={1.1}
+          transform={`rotate(${i * 22.5} 100 100)`}
+          className="orn-fade"
+          style={{ animationDelay: `calc(${i * 0.04}s * var(--motion-speed, 1))` }}
+        />
+      ))}
+      <Draw d="M100 48 A52 52 0 1 1 99.9 48" width={1} delay={0.3} />
+      <Letters size={40}>
+        {a}
+        <tspan fontSize={22} dx={2} dy={-2}>
+          &amp;
+        </tspan>
+        <tspan dx={2} dy={2}>
+          {b}
+        </tspan>
+      </Letters>
+    </>
+  ),
+
+  star: (a, b) => (
+    <>
+      <Draw d="M42 42 H158 V158 H42 Z" />
+      <Draw d="M100 18 L182 100 L100 182 L18 100 Z" delay={0.2} />
+      <Draw d="M100 34 L166 100 L100 166 L34 100 Z" width={0.7} delay={0.4} />
+      <Letters size={42}>
+        {a}
+        <tspan fontSize={22} dx={2} dy={-2}>
+          &amp;
+        </tspan>
+        <tspan dx={2} dy={2}>
+          {b}
+        </tspan>
+      </Letters>
+    </>
+  ),
+
+  chuppah: (a, b) => (
+    <>
+      {/* A canopy on poles, the cloth swagged between them. */}
+      <Draw d="M36 56 L36 190 M164 56 L164 190 M28 190 L44 190 M156 190 L172 190" width={1.6} />
+      <Draw d="M24 56 C52 78 76 78 100 56 C124 78 148 78 176 56" width={1.6} delay={0.2} />
+      <Draw d="M24 56 C30 38 46 30 62 30 L138 30 C154 30 170 38 176 56" width={1.6} delay={0.3} />
+      <circle cx="36" cy="50" r="6" {...LINE} strokeWidth={1.2} className="orn-fade" />
+      <circle cx="164" cy="50" r="6" {...LINE} strokeWidth={1.2} className="orn-fade" />
+      <circle cx="100" cy="24" r="5" {...LINE} strokeWidth={1.2} className="orn-fade" />
+      <Letters size={38} y={130}>
+        {a}
+        <tspan fontSize={22} dx={2} dy={-2}>
+          &amp;
+        </tspan>
+        <tspan dx={2} dy={2}>
+          {b}
+        </tspan>
+      </Letters>
+    </>
+  ),
+
   laurel: (a, b) => (
     <>
       {laurelSide(false)}

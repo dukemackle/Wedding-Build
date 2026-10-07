@@ -26,3 +26,10 @@ Add nothing to that folder without a row here, and only from a page that states 
 | lemon.webp | https://www.rijksmuseum.nl/nl/collectie/object/RP-T-BR-2017-1-9-36--383c78459beee461745cedd26f47e578 | Public Domain Mark | 32 |
 | lavender-colour.webp | https://commons.wikimedia.org/wiki/File:Jacques_Le_Moyne_de_Morgues._Lavender.jpg | Public domain | Jacques Le Moyne de Morgues / circa 1575 |
 | lavender-line.webp | https://commons.wikimedia.org/wiki/File:Lavandula_Angustifolia.jpg | Public domain | remi.mahel / 2007-03-16 |
+
+## Drawn for You Do, I Do
+
+`boot.svg`, `saguaro.svg`, `longhorn.svg`, `anchor.svg`, `shells.svg`, `frond.svg`, `grapes.svg` and `pine.svg` are
+line drawings made for the app (October 2026), owned outright. Like the engravings, they're used as a mask and
+filled with the accent. The scenes in `src/components/site-scene.tsx` (mountains, waves, papel picado...) are
+drawn in code the same way.

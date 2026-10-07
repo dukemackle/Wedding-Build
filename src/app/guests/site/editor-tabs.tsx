@@ -14,7 +14,10 @@ import {
   FONT_PAIRINGS,
   HERO_LAYOUTS,
   ORNAMENTS,
+  PAGE_STYLES,
   PHOTO_HEROES,
+  SCENES,
+  sceneById,
   fontById,
   MOTION_PRESETS,
   OPENINGS,
@@ -251,6 +254,77 @@ export function StyleTab({
           {design.art.id && !ART_HEROES.includes(design.hero) && hasPhoto
             ? "Artwork shows with the Text only, Monogram and Framed tops — your photo takes its place in this one."
             : "Sketches are drawn in your accent colour; watercolours keep their own."}
+        </p>
+      </div>
+
+      <div className="flex flex-col gap-3">
+        <PanelLabel>Scene</PanelLabel>
+        <div role="group" aria-label="Scene" className="flex flex-wrap gap-1.5">
+          {[{ id: null, label: `Theme's own${base.scene && base.scene !== "none" ? ` (${sceneById(base.scene).label})` : ""}` }, ...SCENES].map(
+            (x) => {
+              const on = design.scene === x.id;
+              return (
+                <button
+                  key={x.id ?? "theme"}
+                  type="button"
+                  aria-pressed={on}
+                  onClick={() => onChange({ scene: x.id as SiteDesign["scene"] })}
+                  className={`h-8 rounded-full px-3 text-[13px] ${
+                    on ? "bg-forest text-parchment" : "border border-hairline bg-card text-ink/75 hover:border-ink/30"
+                  }`}
+                >
+                  {x.label}
+                </button>
+              );
+            },
+          )}
+        </div>
+        <p className="text-[13px] leading-normal text-ink/60">
+          Drawn in your colours: a landscape under your names, a strip across the top, or a frame around them.
+          Your accent colour sets its mood.
+        </p>
+      </div>
+
+      <div className="flex flex-col gap-3">
+        <PanelLabel>Page style</PanelLabel>
+        <Pills
+          label="Page style"
+          options={PAGE_STYLES.map((x) => [x.id, x.label] as const)}
+          value={design.pageStyle}
+          onPick={(v) => onChange({ pageStyle: v })}
+        />
+        <p className="text-[13px] leading-normal text-ink/60">
+          {PAGE_STYLES.find((x) => x.id === design.pageStyle)?.help}
+        </p>
+      </div>
+
+      <div className="flex flex-col gap-3">
+        <PanelLabel>The occasion</PanelLabel>
+        <Pills
+          label="The occasion"
+          options={[
+            ["wedding", "Wedding"],
+            ["renewal", "Vow renewal"],
+          ]}
+          value={design.occasion.kind}
+          onPick={(v) => onChange({ occasion: { ...design.occasion, kind: v } })}
+        />
+        {design.occasion.kind === "renewal" && (
+          <label className="flex flex-col gap-1.5 text-[13px] text-ink/75">
+            When you first married
+            <input
+              id="occasion-since"
+              type="date"
+              value={design.occasion.since ?? ""}
+              onChange={(e) => onChange({ occasion: { ...design.occasion, since: e.target.value || null } })}
+              className="h-11 rounded-lg border border-hairline bg-card px-3 text-[15px] text-ink"
+            />
+          </label>
+        )}
+        <p className="text-[13px] leading-normal text-ink/60">
+          {design.occasion.kind === "renewal"
+            ? "The top of the page says you're renewing your vows, with the years since you married."
+            : "Planning a vow renewal? Switch this and the wording follows."}
         </p>
       </div>
 
