@@ -32,7 +32,7 @@ export function SiteOrnament({
     return (
       <div className={`flex items-center justify-center gap-4 ${size === "lg" ? "scale-150" : ""}`}>
         <span className={`h-px w-10 sm:w-14 ${rule}`} aria-hidden="true" />
-        <span className={`font-display text-xl tracking-[0.22em] ${color}`}>
+        <span className={`whitespace-nowrap font-display text-xl tracking-[0.22em] ${color}`}>
           {[a, b].filter(Boolean).join(" · ")}
         </span>
         <span className={`h-px w-10 sm:w-14 ${rule}`} aria-hidden="true" />

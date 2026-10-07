@@ -499,6 +499,22 @@ body:has(.guest-site) .site-footer {
   animation: orn-fade calc(0.9s * var(--motion-speed, 1)) ease calc(0.5s * var(--motion-speed, 1)) both;
 }
 
+/* Artwork (site-art.tsx) settles in after the names. */
+@keyframes site-art-in {
+  from {
+    opacity: 0;
+    scale: 0.92;
+  }
+  to {
+    opacity: 1;
+    scale: 1;
+  }
+}
+.guest-site:not([data-scroll="none"]) .site-art {
+  animation: site-art-in calc(1.4s * var(--motion-speed, 1)) cubic-bezier(0.22, 1, 0.36, 1)
+    calc(0.4s * var(--motion-speed, 1)) both;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .guest-site[data-scroll] .site-reveal,
   .guest-site[data-scroll] .site-reveal:not([data-shown]) {
@@ -509,7 +525,8 @@ body:has(.guest-site) .site-footer {
   .guest-site .site-names,
   .guest-site .site-hero-photo,
   .guest-site .orn-draw,
-  .guest-site .orn-fade {
+  .guest-site .orn-fade,
+  .guest-site .site-art {
     animation: none !important;
   }
 }

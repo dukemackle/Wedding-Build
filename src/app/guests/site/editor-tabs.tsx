@@ -6,8 +6,11 @@ import { createSiteBlock, deleteSiteBlock } from "./block-actions";
 import { ChevronDownIcon } from "@/components/icons";
 import { SiteOrnament } from "@/components/site-ornament";
 import {
+  ART_HEROES,
+  ART_PLACEMENTS,
   BODY_FONTS,
   FONTS,
+  SITE_ART,
   FONT_PAIRINGS,
   HERO_LAYOUTS,
   ORNAMENTS,
@@ -168,6 +171,87 @@ export function StyleTab({
             );
           })}
         </div>
+      </div>
+
+      <div className="flex flex-col gap-3">
+        <PanelLabel>Artwork</PanelLabel>
+        <div className="grid grid-cols-3 gap-2">
+          <button
+            type="button"
+            aria-pressed={design.art.id === null}
+            onClick={() => onChange({ art: { ...design.art, id: null } })}
+            className={`flex flex-col overflow-hidden rounded-xl text-left ${design.art.id === null ? SELECTED : UNSELECTED}`}
+            style={{ background: theme.bg }}
+          >
+            <span className="flex h-[84px] items-center justify-center text-[11px]" style={{ color: theme.muted }}>
+              —
+            </span>
+            <span className="w-full border-t border-hairline bg-card px-2 py-1 text-[11px] font-medium text-ink">None</span>
+          </button>
+          {SITE_ART.map((a) => {
+            const on = design.art.id === a.id;
+            return (
+              <button
+                key={a.id}
+                type="button"
+                aria-pressed={on}
+                title={`${a.group} · ${a.kind === "line" ? "drawn in your accent colour" : "watercolour"}`}
+                onClick={() => onChange({ art: { ...design.art, id: a.id } })}
+                className={`flex flex-col overflow-hidden rounded-xl text-left ${on ? SELECTED : UNSELECTED}`}
+                style={{ background: theme.bg }}
+              >
+                <span className="relative block h-[84px] w-full p-2">
+                  {a.kind === "line" ? (
+                    <span
+                      className="block h-full w-full"
+                      style={{
+                        background: accent,
+                        WebkitMaskImage: `url(${a.src})`,
+                        maskImage: `url(${a.src})`,
+                        WebkitMaskSize: "contain",
+                        maskSize: "contain",
+                        WebkitMaskRepeat: "no-repeat",
+                        maskRepeat: "no-repeat",
+                        WebkitMaskPosition: "center",
+                        maskPosition: "center",
+                      }}
+                    />
+                  ) : (
+                    <span
+                      className="block h-full w-full bg-contain bg-center bg-no-repeat"
+                      style={{ backgroundImage: `url(${a.src})` }}
+                    />
+                  )}
+                </span>
+                <span className="w-full truncate border-t border-hairline bg-card px-2 py-1 text-[11px] font-medium text-ink">
+                  {a.name}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+        {design.art.id && (
+          <div className="flex gap-1.5">
+            {ART_PLACEMENTS.map((p) => (
+              <button
+                key={p.id}
+                type="button"
+                aria-pressed={design.art.placement === p.id}
+                onClick={() => onChange({ art: { ...design.art, placement: p.id } })}
+                className={`h-8 rounded-full px-3 text-[13px] ${
+                  design.art.placement === p.id ? "bg-forest text-parchment" : "border border-hairline bg-card text-ink/75"
+                }`}
+              >
+                {p.label}
+              </button>
+            ))}
+          </div>
+        )}
+        <p className="text-[13px] leading-normal text-ink/60">
+          {design.art.id && !ART_HEROES.includes(design.hero) && hasPhoto
+            ? "Artwork shows with the Text only, Monogram and Framed tops — your photo takes its place in this one."
+            : "Sketches are drawn in your accent colour; watercolours keep their own."}
+        </p>
       </div>
 
       <div className="flex flex-col gap-3">

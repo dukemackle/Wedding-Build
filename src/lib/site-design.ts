@@ -282,6 +282,50 @@ export type OrnamentId = (typeof ORNAMENTS)[number]["id"];
 
 const ORNAMENT_IDS = ORNAMENTS.map((o) => o.id) as [OrnamentId, ...OrnamentId[]];
 
+/**
+ * Botanical artwork for the top of the page (Style tab › Artwork): public-
+ * domain illustrations cut out of their paper, in public/site-art/ (sources
+ * and licences in docs/site-art-sources.md). "line" pieces are engravings
+ * kept as a shape and filled with the accent; "colour" pieces are
+ * watercolours shown as painted. w and h are the file's pixel size.
+ */
+export const SITE_ART = [
+  { id: "eucalyptus", name: "Eucalyptus", group: "Greenery", kind: "colour", src: "/site-art/eucalyptus-watercolour.webp", w: 626, h: 900 },
+  { id: "eucalyptus-line", name: "Eucalyptus sketch", group: "Greenery", kind: "line", src: "/site-art/eucalyptus-line.webp", w: 653, h: 900 },
+  { id: "olive", name: "Olive branch", group: "Greenery", kind: "colour", src: "/site-art/olive-colour.webp", w: 787, h: 900 },
+  { id: "olive-line", name: "Olive sketch", group: "Greenery", kind: "line", src: "/site-art/olive-line.webp", w: 900, h: 759 },
+  { id: "rose", name: "Garden rose", group: "Roses & peonies", kind: "colour", src: "/site-art/rose-pink.webp", w: 659, h: 900 },
+  { id: "roses-white", name: "White roses", group: "Roses & peonies", kind: "colour", src: "/site-art/roses-white-pink.webp", w: 824, h: 900 },
+  { id: "peony", name: "Peony", group: "Roses & peonies", kind: "colour", src: "/site-art/peony-magenta.webp", w: 677, h: 900 },
+  { id: "wild-roses", name: "Wild roses", group: "Wildflowers", kind: "colour", src: "/site-art/wild-roses.webp", w: 625, h: 900 },
+  { id: "mallow", name: "Mallow", group: "Wildflowers", kind: "colour", src: "/site-art/mallow.webp", w: 787, h: 900 },
+  { id: "sweet-pea", name: "Sweet pea", group: "Wildflowers", kind: "colour", src: "/site-art/sweet-pea.webp", w: 641, h: 900 },
+  { id: "lavender", name: "Lavender", group: "Wildflowers", kind: "colour", src: "/site-art/lavender-colour.webp", w: 432, h: 900 },
+  { id: "lavender-line", name: "Lavender sketch", group: "Wildflowers", kind: "line", src: "/site-art/lavender-line.webp", w: 366, h: 900 },
+  { id: "oats", name: "Dried grasses", group: "Seasonal", kind: "colour", src: "/site-art/oats.webp", w: 472, h: 900 },
+  { id: "autumn", name: "Autumn leaves", group: "Seasonal", kind: "colour", src: "/site-art/autumn-sprig.webp", w: 802, h: 900 },
+  { id: "holly", name: "Holly", group: "Seasonal", kind: "colour", src: "/site-art/holly.webp", w: 531, h: 900 },
+  { id: "holly-line", name: "Holly & mistletoe", group: "Seasonal", kind: "line", src: "/site-art/holly-mistletoe-line.webp", w: 674, h: 900 },
+  { id: "lemon", name: "Lemons", group: "Destination", kind: "colour", src: "/site-art/lemon.webp", w: 703, h: 900 },
+  { id: "palm", name: "Date palm", group: "Destination", kind: "colour", src: "/site-art/palm-sprig.webp", w: 302, h: 900 },
+] as const;
+
+export type ArtId = (typeof SITE_ART)[number]["id"];
+
+const ART_IDS = SITE_ART.map((a) => a.id) as [ArtId, ...ArtId[]];
+
+export function artById(id: string | null | undefined) {
+  return SITE_ART.find((a) => a.id === id) ?? null;
+}
+
+export const ART_PLACEMENTS = [
+  { id: "sides", label: "Either side" },
+  { id: "corners", label: "Corners" },
+] as const;
+
+/** The heroes artwork sits in: the photo is the picture in the others. */
+export const ART_HEROES: readonly HeroLayoutId[] = ["text", "monogram", "framed"];
+
 /** Colour families for the palette filter, in the order the chips show. */
 export const COLOR_FAMILIES = [
   { id: "neutral", label: "White & ivory", dot: "#f3efe6" },
@@ -475,6 +519,12 @@ export const siteDesignSchema = z.object({
     })
     .catch({ bg: null, ink: null, heading: null }),
   ornament: z.enum(ORNAMENT_IDS).catch("rule"),
+  art: z
+    .object({
+      id: z.enum(ART_IDS).nullable().catch(null),
+      placement: z.enum(["sides", "corners"]).catch("sides"),
+    })
+    .catch({ id: null, placement: "sides" }),
   hero: z.enum(HERO_LAYOUTS.map((h) => h.id) as [HeroLayoutId, ...HeroLayoutId[]]).catch("full"),
   sections: z
     .array(z.object({ id: sectionKeySchema, hidden: z.boolean().catch(false) }).nullable().catch(null))
@@ -493,6 +543,7 @@ export const DEFAULT_SITE_DESIGN: SiteDesign = {
   fontBody: null,
   colors: { bg: null, ink: null, heading: null },
   ornament: "rule",
+  art: { id: null, placement: "sides" },
   hero: "full",
   sections: DEFAULT_SECTIONS,
   motion: MOTION_PRESETS.subtle,

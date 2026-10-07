@@ -9,6 +9,7 @@ import { HeroActions } from "./hero-actions";
 import { useSiteDesign } from "@/components/guest-site-theme";
 import { motionPreset } from "@/lib/site-design";
 import { SiteOrnament } from "@/components/site-ornament";
+import { SiteArt } from "@/components/site-art";
 
 function formatDate(dateStr: string) {
   return new Date(`${dateStr}T00:00:00`).toLocaleDateString("en-US", {
@@ -38,7 +39,7 @@ function HeroContent({
   const stagger = motion.opening === "none" && motionPreset(motion) !== "none";
 
   return (
-    <div className="w-full px-6 text-center">
+    <div className="relative z-10 w-full px-6 text-center">
       <SiteOrnament
         kind={bigMark && ornament === "none" ? "crest" : ornament}
         first={wedding.partner_a_name ?? ""}
@@ -99,7 +100,7 @@ const CARD_RADIUS = "rounded-[min(var(--site-radius,1rem),1.5rem)]";
  * to lay out, so every layout falls back to the names on their own.
  */
 export function WeddingHero({ wedding }: { wedding: PublicWedding }) {
-  const { hero } = useSiteDesign();
+  const { hero, art } = useSiteDesign();
   const photo = wedding.hero_photo_url;
 
   // Monogram: the crest is the picture, large, with a fine double rule
@@ -108,7 +109,8 @@ export function WeddingHero({ wedding }: { wedding: PublicWedding }) {
     return (
       <header className="mb-10 px-4 pb-14 pt-12 sm:px-6 lg:pb-20 lg:pt-16">
         <div className="mx-auto max-w-4xl border border-[color-mix(in_srgb,var(--site-accent)_45%,transparent)] p-1.5">
-          <div className="border border-[color-mix(in_srgb,var(--site-accent)_25%,transparent)] py-14 lg:py-20">
+          <div className="relative overflow-hidden border border-[color-mix(in_srgb,var(--site-accent)_25%,transparent)] py-14 lg:py-20">
+            <SiteArt art={art} />
             <HeroContent wedding={wedding} tone="dark" bigMark />
           </div>
         </div>
@@ -121,7 +123,8 @@ export function WeddingHero({ wedding }: { wedding: PublicWedding }) {
   // same page chosen on purpose.
   if (!photo || hero === "text") {
     return (
-      <header className="mb-10 bg-[radial-gradient(120%_90%_at_50%_0%,var(--color-card)_0%,var(--color-parchment)_60%)] px-6 pb-16 pt-24">
+      <header className="relative mb-10 overflow-hidden bg-[radial-gradient(120%_90%_at_50%_0%,var(--color-card)_0%,var(--color-parchment)_60%)] px-6 pb-16 pt-24">
+        <SiteArt art={art} />
         <HeroContent wedding={wedding} tone="dark" />
       </header>
     );
@@ -143,8 +146,9 @@ export function WeddingHero({ wedding }: { wedding: PublicWedding }) {
 
   if (hero === "framed") {
     return (
-      <header className="mb-10 flex flex-col items-center px-6 pb-12 pt-14 lg:pt-20">
-        <div className="rounded-[200px_200px_8px_8px] border border-[var(--site-accent)] p-2.5">
+      <header className="relative mb-10 flex flex-col items-center overflow-hidden px-6 pb-12 pt-14 lg:pt-20">
+        <SiteArt art={art} />
+        <div className="relative z-10 rounded-[200px_200px_8px_8px] border border-[var(--site-accent)] p-2.5">
           <div className="site-hero-photo relative h-[340px] w-[250px] overflow-hidden rounded-[190px_190px_4px_4px] bg-[var(--site-photo)] sm:h-[420px] sm:w-[310px]">
             <Image src={photo} alt="" fill priority sizes="310px" className="hero-kenburns object-cover" />
           </div>
