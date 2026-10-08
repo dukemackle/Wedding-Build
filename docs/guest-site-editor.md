@@ -126,8 +126,21 @@ Phases, one PR each:
    Sections get style, move up/down, hide and restack. On touch screens
    only the corner handles show, and a tap on a form inside a section picks
    the section rather than opening the form.
-4. Panels: Colour (with colours pulled from the couple's photos), Fonts,
-   Background, Elements library, photo crop/frames/filters, per-element
-   animation; render the guest page as server HTML without editor code.
+4. In three PRs (decided 2026-10-08).
+   **4a, look panels** (built 2026-10-08): the computer editor's tabs became
+   the mockup's side rail (Theme, Style, Colour, Fonts, Background, Motion,
+   Sections, Elements); the phone's bottom bar has the same. Colour holds
+   the palettes and fine-tuning (moved from Theme) plus colours read from
+   the couple's photos in the browser (a tap makes one the accent, or "Make
+   a palette from my photos"). Fonts holds the pairs, the library with a
+   search and kind filter, and body text (moved from Style). While words or
+   a placed element are picked, Colour and Fonts change that instead of the
+   whole site. Background sets the page colour, a pattern (dots, stripes,
+   lattice) and a texture (linen, paper, watercolour wash), drawn in the
+   site's own colours as CSS layers (`background` in the design,
+   `backgroundLayers` in site-design.ts), on every section or the top only.
+   **4b**: photo crop, frames, filters and focus point; per-element animation.
+   **4c**: the guest page rendered as server HTML without editor code; the
+   searchable Elements library.
 5. Templates: gallery, switching that keeps content, "Describe your ideal
    site" and "Wren, write this".

@@ -34,7 +34,7 @@ import {
   type TextStyle,
 } from "@/lib/site-design";
 import { TextToolbar } from "./text-toolbar";
-import { canvasSchema, type SiteCanvas } from "@/lib/site-canvas";
+import { canvasSchema, findElement, updateElement, type CanvasElement, type SiteCanvas } from "@/lib/site-canvas";
 import {
   CANVAS_ACTION,
   CANVAS_COMMIT,
@@ -48,6 +48,7 @@ import {
 } from "./canvas-messages";
 import { CanvasToolbar, ElementsTab, PositionPanel } from "./canvas-panels";
 import { PhoneTools, Sheet, Tool } from "./phone-tools";
+import { BackgroundTab, FontsTab, PhotoColoursSection, TargetColourSection, type PickTarget } from "./look-panels";
 import { publishSiteDesign, saveSiteDraft } from "./actions";
 import { BirdCheer } from "@/components/bird-cheer";
 import { PublicSitePanel, SiteSwitch, useGuestSite } from "../public-site-panel";
@@ -55,11 +56,14 @@ import { MotionTab, PanelLabel, SectionsTab, StyleTab, type ChecklistItem, type 
 
 type Device = "desktop" | "phone";
 // Position opens from a picked element rather than the tab strip.
-type Tab = "theme" | "style" | "motion" | "sections" | "elements" | "position";
+type Tab = "theme" | "style" | "colour" | "fonts" | "background" | "motion" | "sections" | "elements" | "position";
 
 const TABS: { key: Tab; label: string }[] = [
   { key: "theme", label: "Theme" },
   { key: "style", label: "Style" },
+  { key: "colour", label: "Colour" },
+  { key: "fonts", label: "Fonts" },
+  { key: "background", label: "Background" },
   { key: "motion", label: "Motion" },
   { key: "sections", label: "Sections" },
   { key: "elements", label: "Elements" },
@@ -75,7 +79,16 @@ const PHONE_H = 844;
 const LG = "(min-width: 1024px)";
 
 /** The phone editor's bottom tabs, drawn like its tools. */
-const TAB_ICONS = { theme: "theme", style: "styleTab", motion: "motion", sections: "sections", elements: "elements" } as const;
+const TAB_ICONS = {
+  theme: "theme",
+  style: "styleTab",
+  colour: "colour",
+  fonts: "fonts",
+  background: "background",
+  motion: "motion",
+  sections: "sections",
+  elements: "elements",
+} as const;
 
 /**
  * The guest site editor: settings on the left, the site itself on the right.
@@ -428,26 +441,34 @@ export function SiteEditor({
     </button>
   );
 
-  const tabStrip = (
-    <div role="tablist" aria-label="Editor" className="flex gap-1 rounded-lg bg-ink/[0.05] p-1">
-      {TABS.map((t) => (
-        <button
-          key={t.key}
-          type="button"
-          role="tab"
-          aria-selected={tab === t.key || (t.key === "elements" && tab === "position")}
-          onClick={() => {
-            setTab(t.key);
-          }}
-          className={`h-9 flex-1 rounded-md text-sm transition-colors ${
-            tab === t.key ? "bg-card font-semibold text-forest shadow-sm" : "text-ink/70 hover:text-ink"
-          }`}
-        >
-          {t.label}
-        </button>
-      ))}
-    </div>
-  );
+  // Whatever is picked that Fonts and Colour can restyle instead of the whole site.
+  const pickedElement = canvasSel?.id ? findElement(design.canvas, canvasSel.section, canvasSel.id) : null;
+  const pickTarget: PickTarget | null = textSlot
+    ? {
+        label: TEXT_SLOTS.find((s) => s.id === textSlot)?.label.toLowerCase() ?? "these words",
+        font: { value: design.text[textSlot]?.font ?? null },
+        colour: { value: design.text[textSlot]?.color ?? null },
+      }
+    : pickedElement
+      ? {
+          label: pickedElement.kind === "text" ? `“${pickedElement.text.split("\n")[0].slice(0, 24)}”` : "the picked art",
+          font: pickedElement.kind === "text" ? { value: pickedElement.font } : undefined,
+          colour:
+            "color" in pickedElement ? { value: pickedElement.color.startsWith("#") ? pickedElement.color : null } : undefined,
+        }
+      : null;
+
+  function setTargetFont(id: string) {
+    if (textSlot) changeText(textSlot, { font: id as TextStyle["font"] });
+    else if (canvasSel?.id) changeCanvas(updateElement(designRef.current.canvas, canvasSel.section, canvasSel.id, { font: id } as Partial<CanvasElement>));
+  }
+
+  function setTargetColour(hex: string) {
+    if (textSlot) changeText(textSlot, { color: hex });
+    else if (canvasSel?.id) changeCanvas(updateElement(designRef.current.canvas, canvasSel.section, canvasSel.id, { color: hex } as Partial<CanvasElement>));
+  }
+
+  const targetActions = { font: setTargetFont, colour: setTargetColour };
 
   const panelBody = (
     <div className="flex flex-col gap-6 px-5 pb-8 pt-5 lg:px-6">
@@ -472,7 +493,21 @@ export function SiteEditor({
           onClose={() => setTab(lastTab === "position" ? "elements" : lastTab)}
         />
       ) : tab === "theme" ? (
-        <ThemeTab design={design} onChange={change} />
+        <ThemeTab design={design} onChange={change} part="themes" />
+      ) : tab === "colour" ? (
+        <ThemeTab design={design} onChange={change} part="colours">
+          {pickTarget?.colour && <TargetColourSection design={design} target={pickTarget} actions={targetActions} />}
+          <PhotoColoursSection
+            photos={photos}
+            target={pickTarget?.colour ? pickTarget : null}
+            actions={targetActions}
+            onChange={change}
+          />
+        </ThemeTab>
+      ) : tab === "fonts" ? (
+        <FontsTab design={design} onChange={change} target={pickTarget?.font ? pickTarget : null} actions={targetActions} />
+      ) : tab === "background" ? (
+        <BackgroundTab design={design} onChange={change} />
       ) : tab === "motion" ? (
         <MotionTab
           design={design}
@@ -771,15 +806,26 @@ export function SiteEditor({
     >
       {/* Desktop: the settings panel. */}
       {(
-        <aside className="flex w-[400px] shrink-0 flex-col border-r border-hairline bg-card">
-          <div className="flex flex-col gap-3.5 border-b border-hairline px-6 pb-4 pt-5">
-            <div className="flex items-center gap-2.5">
+        <aside className="flex w-[440px] shrink-0 border-r border-hairline bg-card">
+          {/* The panels, down the side as in the approved mockup: eight don't fit across. */}
+          <nav aria-label="Editor panels" className="flex w-[76px] shrink-0 flex-col items-center gap-0.5 overflow-y-auto border-r border-hairline py-2">
+            {TABS.map((t) => (
+              <Tool
+                key={t.key}
+                label={t.label}
+                icon={TAB_ICONS[t.key as keyof typeof TAB_ICONS]}
+                on={tab === t.key || (t.key === "elements" && tab === "position")}
+                onClick={() => setTab(t.key)}
+              />
+            ))}
+          </nav>
+          <div className="flex min-w-0 flex-1 flex-col">
+            <div className="flex items-center gap-2.5 border-b border-hairline px-6 pb-4 pt-5">
               <h1 className="font-display text-3xl font-semibold text-forest">Your guest site</h1>
               <SiteSwitch site={site} />
             </div>
-            {tabStrip}
+            <div className="min-h-0 flex-1 overflow-y-auto">{panelBody}</div>
           </div>
-          <div className="min-h-0 flex-1 overflow-y-auto">{panelBody}</div>
         </aside>
       )}
 
@@ -865,12 +911,21 @@ export function SiteEditor({
   );
 }
 
+/**
+ * Theme (the themes) and Colour (palettes, photo colours, fine-tuning): one
+ * component in two parts, since both read the same resolved colours.
+ */
 function ThemeTab({
   design,
   onChange,
+  part,
+  children,
 }: {
   design: SiteDesign;
   onChange: (patch: Partial<SiteDesign>) => void;
+  part: "themes" | "colours";
+  /** Colour sections that come first: the picked element's, the photos'. */
+  children?: ReactNode;
 }) {
   const { theme, accent, heading } = resolveDesign(design);
   const base = themeById(design.theme);
@@ -886,8 +941,8 @@ function ThemeTab({
   const customised =
     design.accent !== null || design.colors.bg !== null || design.colors.ink !== null || design.colors.heading !== null;
 
-  return (
-    <>
+  if (part === "themes") {
+    return (
       <div className="flex flex-col gap-3">
         <PanelLabel>Theme</PanelLabel>
         {THEME_GROUPS.map((group) => (
@@ -919,7 +974,12 @@ function ThemeTab({
           written — only the look changes.
         </p>
       </div>
+    );
+  }
 
+  return (
+    <>
+      {children}
       <div className="flex flex-col gap-3">
         <PanelLabel>Colour palette</PanelLabel>
         <div className="-mx-5 flex gap-1.5 overflow-x-auto px-5 pb-1 lg:-mx-6 lg:px-6">

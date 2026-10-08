@@ -186,7 +186,7 @@ function HeroLayout({ wedding }: { wedding: PublicWedding }) {
   // same page chosen on purpose.
   if (hero === "text") {
     return (
-      <header className="relative overflow-hidden bg-[radial-gradient(120%_90%_at_50%_0%,var(--color-card)_0%,var(--color-parchment)_60%)] px-6 pb-16 pt-24">
+      <header className="site-hero-plain relative overflow-hidden bg-[radial-gradient(120%_90%_at_50%_0%,var(--color-card)_0%,var(--color-parchment)_60%)] px-6 pb-16 pt-24">
         <SiteArt art={art} />
         <SiteScene where="surround" />
         <HeroContent wedding={wedding} tone="dark" />

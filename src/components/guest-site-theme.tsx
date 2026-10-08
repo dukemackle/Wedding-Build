@@ -153,6 +153,8 @@ export function GuestSiteTheme({
         data-scroll={design.motion.scroll}
         data-photo={design.motion.photo}
         data-opening={design.motion.opening}
+        data-bg-scope={design.background.scope}
+        data-bg-on={design.background.pattern !== "none" || design.background.texture !== "none" || undefined}
       >
         <DesignContext.Provider value={design}>
           <ReplayContext.Provider value={replay}>
