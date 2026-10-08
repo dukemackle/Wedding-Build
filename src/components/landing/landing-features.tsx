@@ -41,7 +41,7 @@ const BLURBS: Record<string, string> = {
   "/checklist": "A month-by-month plan built around your date.",
   "/bookings": "Everyone you book, with their contract and contact details.",
   "/attire": "Dresses, suits and rings — save favorites, then buy or rent.",
-  "/itinerary": "A printable run sheet for the day, hour by hour.",
+  "/itinerary": "A printable run sheet, hour by hour — and for multi-day weddings, separate RSVPs for each event, invite-only ones included.",
   "/venue-layout": "Drag tables into your room and seat everyone.",
   "/guests/site": "A free wedding website with 23 themes, from mountain and beach to barn, ranch, mehndi and Nikah, plus 58 fonts, 32 palettes and your own monogram. Add your story, photos, videos and links. RSVPs built in.",
 };
