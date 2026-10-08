@@ -345,6 +345,103 @@ body::before {
 .site-storybook .site-card > h2 + p {
   text-align: center;
 }
+/* Free elements in a section (src/components/site-section.tsx). Positions are
+   unitless numbers in the section's reference frame (--W wide), scaled to
+   the section with container units. On a computer the elements sit over the
+   section's content; on a phone they stack under it in reading order. */
+.site-canvas {
+  container-type: inline-size;
+  display: grid;
+  /* An element dragged past the edge never makes the page scroll sideways. */
+  overflow-x: clip;
+}
+.site-canvas > * {
+  grid-area: 1 / 1;
+  min-width: 0;
+}
+/* The section's own layers (a hero card at z-10) stay inside it, under the elements. */
+.site-canvas-content {
+  isolation: isolate;
+}
+.site-canvas-layer {
+  position: relative;
+  z-index: 5;
+  pointer-events: none;
+  height: calc(var(--B) / var(--W) * 100cqw);
+  --site-el-stroke: max(1px, calc(3 / var(--W) * 100cqw));
+}
+.site-el {
+  position: absolute;
+  left: calc(var(--x) / var(--W) * 100cqw);
+  top: calc(var(--y) / var(--W) * 100cqw);
+  width: calc(var(--w) / var(--W) * 100cqw);
+  height: calc(var(--h) / var(--W) * 100cqw);
+  transform: rotate(var(--r));
+  pointer-events: auto;
+}
+.site-el-text {
+  height: auto;
+}
+.site-el-words {
+  font-size: calc(var(--fs) / var(--W) * 100cqw);
+  line-height: 1.15;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+}
+@media (max-width: 1023px) {
+  .site-canvas > .site-canvas-layer {
+    grid-area: 2 / 1;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    --site-el-stroke: 2px;
+  }
+  .site-canvas > .site-canvas-layer:not(:empty) {
+    padding: 1.5rem 1rem;
+  }
+  .site-el {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: min(100%, max(4rem, calc(var(--w) / var(--W) * 180%)));
+    height: auto;
+    aspect-ratio: var(--w) / var(--h);
+    transform: none;
+  }
+  .site-el-text {
+    width: 100%;
+    aspect-ratio: auto;
+  }
+  .site-el-words {
+    font-size: max(0.875rem, calc(var(--fs) * 0.45px));
+  }
+}
+
+/* A section restyled as a whole (the floating bar's Card / Plain / Tinted /
+   Outlined). Its insides keep the theme's look. */
+[data-block-style="plain"] .site-card {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+}
+[data-block-style="tint"] .site-card,
+[data-block-style="tint"]:not(:has(.site-card)) > .site-canvas-content {
+  background: var(--site-band);
+  border-color: transparent;
+  box-shadow: none;
+}
+[data-block-style="outline"] .site-card,
+[data-block-style="outline"]:not(:has(.site-card)) > .site-canvas-content {
+  background: transparent;
+  box-shadow: none;
+  border: 1.5px solid var(--site-accent);
+}
+[data-block-style]:not(:has(.site-card)) > .site-canvas-content {
+  border-radius: min(var(--site-radius, 1rem), 1.5rem);
+}
+
 /* The guest site has a footer of its own, in its theme. */
 /* The dashboard's photo backdrop sits behind the page at a negative z-index,
    which paints beneath body's own background -- so on that page body lets

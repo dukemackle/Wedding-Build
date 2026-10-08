@@ -12,6 +12,7 @@ import { SiteOrnament } from "@/components/site-ornament";
 import { SiteArt } from "@/components/site-art";
 import { SiteText } from "@/components/site-text";
 import { SceneArtwork, SiteScene } from "@/components/site-scene";
+import { SiteSection } from "@/components/site-section";
 
 function formatDate(dateStr: string) {
   return new Date(`${dateStr}T00:00:00`).toLocaleDateString("en-US", {
@@ -146,7 +147,9 @@ export function WeddingHero({ wedding }: { wedding: PublicWedding }) {
   return (
     <div className="mb-10 flex flex-col">
       {!illustrated && <SiteScene where="strip" />}
-      <HeroLayout wedding={wedding} />
+      <SiteSection sectionKey="hero">
+        <HeroLayout wedding={wedding} />
+      </SiteSection>
       {!illustrated && <SiteScene where="band" />}
     </div>
   );

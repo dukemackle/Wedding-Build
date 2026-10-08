@@ -2,6 +2,7 @@
 
 import type { ReactNode } from "react";
 import { SiteReveal } from "@/components/site-motion";
+import { SiteSection } from "@/components/site-section";
 import { useSiteDesign } from "@/components/guest-site-theme";
 import { CANVAS_WIDTH, READING_WIDTH, WIDE_WIDTH } from "@/lib/layout";
 import { sectionColumn, type SectionKey } from "@/lib/site-design";
@@ -32,9 +33,9 @@ export function SectionLayout({ sections }: { sections: Partial<Record<SectionKe
 
   const render = (list: typeof shown) =>
     list.map((x) => (
-      <div key={x.id} style={{ order: x.index }}>
+      <SiteSection key={x.id} sectionKey={x.id} style={{ order: x.index }}>
         <SiteReveal>{sections[x.id]}</SiteReveal>
-      </div>
+      </SiteSection>
     ));
 
   return (
@@ -95,7 +96,9 @@ function Storybook({
             }`}
           >
             {band.items.map((x) => (
-              <SiteReveal key={x.id}>{sections[x.id]}</SiteReveal>
+              <SiteSection key={x.id} sectionKey={x.id}>
+                <SiteReveal>{sections[x.id]}</SiteReveal>
+              </SiteSection>
             ))}
           </div>
         </section>

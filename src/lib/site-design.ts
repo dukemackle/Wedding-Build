@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { canvasFontIds, canvasSchema, EMPTY_CANVAS } from "./site-canvas";
 
 /**
  * How a couple's guest site looks: theme, accent and (in later phases) fonts,
@@ -1062,6 +1063,8 @@ export const siteDesignSchema = z.object({
         ) as Partial<Record<TextSlotId, TextStyle>>,
     )
     .catch({}),
+  /** Free elements inside sections, and whole-section styles (src/lib/site-canvas.ts). */
+  canvas: canvasSchema,
 });
 
 export type SiteDesign = z.infer<typeof siteDesignSchema>;
@@ -1082,6 +1085,7 @@ export const DEFAULT_SITE_DESIGN: SiteDesign = {
   sections: DEFAULT_SECTIONS,
   motion: MOTION_PRESETS.subtle,
   text: {},
+  canvas: EMPTY_CANVAS,
 };
 
 /** Whatever is in the column -- null, an old shape, junk -- as a usable design. */
@@ -1259,7 +1263,10 @@ export function fontsHrefFor(css: readonly string[]) {
 /** The live site's stylesheet: the theme's faces plus any picked for a single slot. */
 export function siteFontsHref(design: SiteDesign) {
   const { theme } = resolveDesign(design);
-  const picked = Object.values(design.text).flatMap((s) => (s?.font ? [fontById(s.font)?.css ?? ""] : []));
+  const picked = [
+    ...Object.values(design.text).flatMap((s) => (s?.font ? [s.font] : [])),
+    ...canvasFontIds(design.canvas),
+  ].map((id) => fontById(id)?.css ?? "");
   return fontsHrefFor([theme.display, theme.body, ...picked]);
 }
 

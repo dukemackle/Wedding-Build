@@ -33,19 +33,34 @@ import {
   type TextStyle,
 } from "@/lib/site-design";
 import { TextToolbar } from "./text-toolbar";
+import { canvasSchema, type SiteCanvas } from "@/lib/site-canvas";
+import {
+  CANVAS_COMMIT,
+  CANVAS_FRAMES,
+  CANVAS_KEY,
+  CANVAS_MODE,
+  CANVAS_PANEL,
+  CANVAS_SELECT,
+  type CanvasFrames,
+  type CanvasSelection,
+} from "./canvas-messages";
+import { CanvasToolbar, ElementsTab, PositionPanel } from "./canvas-panels";
 import { publishSiteDesign, saveSiteDraft } from "./actions";
 import { BirdCheer } from "@/components/bird-cheer";
 import { PublicSitePanel, SiteSwitch, useGuestSite } from "../public-site-panel";
 import { MotionTab, PanelLabel, SectionsTab, StyleTab, type ChecklistItem, type SectionInfo } from "./editor-tabs";
 
 type Device = "desktop" | "phone";
-type Tab = "theme" | "style" | "motion" | "sections";
+// Position opens from a picked element rather than the tab strip.
+type Tab = "theme" | "style" | "motion" | "sections" | "elements" | "position";
 
-const TABS: { key: Tab; label: string }[] = [
+const TABS: { key: Tab; label: string; desktopOnly?: boolean }[] = [
   { key: "theme", label: "Theme" },
   { key: "style", label: "Style" },
   { key: "motion", label: "Motion" },
   { key: "sections", label: "Sections" },
+  // Placing elements is computer-only until the phone editor (phase 3).
+  { key: "elements", label: "Elements", desktopOnly: true },
 ];
 
 // Desktop preview is laid out at a real laptop width and scaled down to fit,
@@ -76,6 +91,7 @@ export function SiteEditor({
   checklist,
   hasPhoto,
   names,
+  photos,
 }: {
   draft: SiteDesign;
   published: SiteDesign;
@@ -90,6 +106,8 @@ export function SiteEditor({
   /** Hero layouts only show with a banner photo; the Style tab says so. */
   hasPhoto: boolean;
   names: [string, string];
+  /** The banner and gallery photos, to place on the page from Elements. */
+  photos: string[];
 }) {
   const site = useGuestSite(initialSlug);
   const publicSlug = site.slug;
@@ -124,6 +142,11 @@ export function SiteEditor({
   const future = useRef<SiteDesign[]>([]);
   const lastRecorded = useRef(0);
   const [historySize, setHistorySize] = useState({ past: 0, future: 0 });
+  // Free elements (phase 2): what's picked in the preview, and each section's size there.
+  const [canvasSel, setCanvasSel] = useState<CanvasSelection>(null);
+  const [frames, setFrames] = useState<CanvasFrames>({});
+  // Where Position's close button goes back to.
+  const [lastTab, setLastTab] = useState<Tab>("elements");
 
   // Phone screens start on the phone preview; there's no computer to show it on.
   useEffect(() => {
@@ -161,6 +184,17 @@ export function SiteEditor({
     };
   }, []);
 
+  // Elements are placed on the computer preview only; the phone shows them stacked.
+  const canvasEditing = isDesktop && device === "desktop";
+  const sendMode = useCallback((on: boolean) => {
+    frameRef.current?.contentWindow?.postMessage({ type: CANVAS_MODE, on }, window.location.origin);
+  }, []);
+  const onFrameReady = useEffectEvent(() => sendMode(canvasEditing));
+  useEffect(() => {
+    // The frame drops its own selection when editing goes off.
+    sendMode(canvasEditing);
+  }, [canvasEditing, sendMode]);
+
   const sendDesign = useCallback((next: SiteDesign) => {
     frameRef.current?.contentWindow?.postMessage(
       { type: DESIGN_MESSAGE, design: next },
@@ -174,7 +208,10 @@ export function SiteEditor({
     function onMessage(event: MessageEvent) {
       if (event.origin !== window.location.origin) return;
       if (event.source !== frameRef.current?.contentWindow) return;
-      if (event.data?.type === READY_MESSAGE) sendDesign(designRef.current);
+      if (event.data?.type === READY_MESSAGE) {
+        sendDesign(designRef.current);
+        onFrameReady();
+      }
     }
     window.addEventListener("message", onMessage);
     return () => window.removeEventListener("message", onMessage);
@@ -256,6 +293,22 @@ export function SiteEditor({
     change({ text });
   }
 
+  function changeCanvas(canvas: SiteCanvas) {
+    change({ canvas });
+  }
+
+  /** Picks something in the preview from a panel, or clears it. */
+  function selectCanvas(next: CanvasSelection) {
+    setCanvasSel(next);
+    if (next) setTextSlot(null);
+    frameRef.current?.contentWindow?.postMessage({ type: CANVAS_SELECT, selection: next }, window.location.origin);
+  }
+
+  function openTab(next: Tab) {
+    if (next === "position" && tab !== "position") setLastTab(tab);
+    setTab(next);
+  }
+
   function closeText() {
     setTextSlot(null);
     frameRef.current?.contentWindow?.postMessage({ type: TEXT_SELECT_MESSAGE, slot: null }, window.location.origin);
@@ -265,6 +318,11 @@ export function SiteEditor({
   const onTypedText = useEffectEvent((slot: TextSlotId, text: string) => changeText(slot, { text: text || null }));
   const onUndo = useEffectEvent(() => undo());
   const onRedo = useEffectEvent(() => redo());
+  const onCanvasCommit = useEffectEvent((canvas: unknown) => {
+    const parsed = canvasSchema.safeParse(canvas);
+    if (parsed.success) changeCanvas(parsed.data);
+  });
+  const onCanvasPanel = useEffectEvent(() => openTab("position"));
 
   // Words clicked or retyped in the preview.
   useEffect(() => {
@@ -273,6 +331,18 @@ export function SiteEditor({
       if (event.source !== frameRef.current?.contentWindow) return;
       if (event.data?.type === TEXT_SELECT_MESSAGE) {
         setTextSlot(TEXT_SLOTS.find((s) => s.id === event.data.slot)?.id ?? null);
+      }
+      if (event.data?.type === CANVAS_SELECT) {
+        const next = event.data.selection as CanvasSelection;
+        setCanvasSel(next && typeof next.section === "string" ? next : null);
+        if (next) setTextSlot(null);
+      }
+      if (event.data?.type === CANVAS_COMMIT) onCanvasCommit(event.data.canvas);
+      if (event.data?.type === CANVAS_FRAMES && event.data.frames) setFrames(event.data.frames as CanvasFrames);
+      if (event.data?.type === CANVAS_PANEL) onCanvasPanel();
+      if (event.data?.type === CANVAS_KEY) {
+        if (event.data.action === "undo") onUndo();
+        else if (event.data.action === "redo") onRedo();
       }
       if (event.data?.type === TEXT_EDIT_MESSAGE && typeof event.data.text === "string") {
         const slot = TEXT_SLOTS.find((s) => s.id === event.data.slot);
@@ -342,12 +412,12 @@ export function SiteEditor({
 
   const tabStrip = (
     <div role="tablist" aria-label="Editor" className="flex gap-1 rounded-lg bg-ink/[0.05] p-1">
-      {TABS.map((t) => (
+      {TABS.filter((t) => isDesktop || !t.desktopOnly).map((t) => (
         <button
           key={t.key}
           type="button"
           role="tab"
-          aria-selected={tab === t.key}
+          aria-selected={tab === t.key || (t.key === "elements" && tab === "position")}
           onClick={() => {
             setTab(t.key);
             setSheetOpen(true);
@@ -364,7 +434,25 @@ export function SiteEditor({
 
   const panelBody = (
     <div className="flex flex-col gap-6 px-5 pb-8 pt-5 lg:px-6">
-      {tab === "theme" ? (
+      {tab === "elements" && isDesktop ? (
+        <ElementsTab
+          design={design}
+          frames={frames}
+          selection={canvasSel}
+          photos={photos}
+          onCanvas={changeCanvas}
+          onSelect={selectCanvas}
+        />
+      ) : tab === "position" && isDesktop ? (
+        <PositionPanel
+          design={design}
+          frames={frames}
+          selection={canvasSel}
+          onCanvas={changeCanvas}
+          onSelect={selectCanvas}
+          onClose={() => setTab(lastTab === "position" ? "elements" : lastTab)}
+        />
+      ) : tab === "theme" ? (
         <ThemeTab design={design} onChange={change} />
       ) : tab === "motion" ? (
         <MotionTab
@@ -514,6 +602,20 @@ export function SiteEditor({
           <div className="absolute inset-x-3 top-3 z-10 flex justify-between">
             {historyButtons}
             {deviceToggle}
+          </div>
+        )}
+
+        {canvasSel && canvasEditing && !textSlot && (
+          <div className="absolute inset-x-3 top-[64px] z-20 flex justify-center">
+            <CanvasToolbar
+              design={design}
+              selection={canvasSel}
+              frames={frames}
+              onCanvas={changeCanvas}
+              onDesign={change}
+              onPosition={() => openTab("position")}
+              onDone={() => selectCanvas(null)}
+            />
           </div>
         )}
 
