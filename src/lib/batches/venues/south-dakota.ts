@@ -32,6 +32,21 @@ Hay Camp Brewing Co.	601 Kansas City Street	Rapid City	South Dakota			Restaurant
 The Barn at Aspen Acres	11011 Kellem Lane	Spearfish	South Dakota			Barn / Rustic	Indoor & Outdoor	400	Classic	White-walled 2019 barn with chandeliers on an aspen-lined Spearfish property with Black Hills views, plus a social hall and A-frame cabins for lodging.	events@blackhillsbarn.com	(605) 545-2624	https://www.blackhillsbarn.com/thebarn
 `,
   },
+  {
+    name: "Pierre, Brookings, Madison, Black Hills and Sioux Falls",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Spearfish Canyon Lodge	10619 Roughlock Falls Rd	Lead	South Dakota			Barn / Rustic	Indoor & Outdoor	250		An all-inclusive lodge in Spearfish Canyon with a creekside ceremony spot, a stone-fireplace Great Room, a banquet room and 57 rooms, suites, cabins and creekside units on site.		605-584-3435	https://spfcanyon.com/weddings
+Sylvan Lake Lodge Auditorium		Custer	South Dakota			Barn / Rustic	Indoor & Outdoor	250		An all-wood auditorium of about 3,000 square feet at the top of Needles Highway in Custer State Park, with tall forest-view windows and a connected lakeview deck for ceremonies.	info@custerresorts.com	605-255-4672	https://www.custerresorts.com/groups-events/weddings/sylvan-lake-lodge-auditorium-weddings
+The Chapel Sioux Falls	610 S Dakota Ave	Sioux Falls	South Dakota			Historic / Estate	Indoor	75		A restored 1934 chapel building near downtown Sioux Falls with a full kitchen, gathering rooms and four king bedrooms that sleep up to 10 overnight guests.	sfchapelrental@gmail.com	(605) 376-1847	https://sfchapel.com/
+Wilbert Square Event Center	931 25th Ave	Brookings	South Dakota			Ballroom / Hotel	Indoor			A newer Brookings event centre attached to a Comfort Inn & Suites, with a 10,400-square-foot grand ballroom, breakout rooms and a pre-function space.		605-692-2484	https://www.wilbertsquareeventcenter.com/
+Silver Creek Events	45081 SD Highway 34	Madison	South Dakota			Barn / Rustic	Indoor & Outdoor			A wedding and event venue on 14 landscaped acres west of Madison with indoor and outdoor spaces, a gated entrance and a library of loaner decor.	info@silvercreekevents.net	605-933-1902	https://www.silvercreekevents.net/
+The Dakota Center	912 N Dakota St	Vermillion	South Dakota			Ballroom / Hotel	Indoor			A Vermillion event venue with a main space plus two additional rooms for smaller and larger groups.	events@thedakotacenter.com	(605) 223-0033	https://www.thedakotacenter.com/
+Old Sanctuary	928 4th St	Brookings	South Dakota			Historic / Estate	Indoor			A Brookings wedding and event venue with a 3D online tour and separate pages for facilities and FAQs.		605-692-4859	https://www.oldsanctuary.com/
+Ramkota Hotel & Conference Center Pierre	920 W Sioux Ave	Pierre	South Dakota			Ballroom / Hotel	Indoor	600		A Pierre hotel with a roughly 6,400-square-foot ballroom and 686-square-foot dance floor, in-house catering and a free guest room for the couple.		(605) 224-6877	https://www.ramkotapierre.com/groups-meetings/weddings
+Pine Haven Venue & Lodging	13514 S Highway 16	Rapid City	South Dakota			Barn / Rustic		250		A 19-acre Black Hills venue at the base of Storm Mountain with a reception space, a full liquor licence, 30 log cabins that sleep 162 and RV sites.	pinehavensd@gmail.com	605-515-1276	https://www.pinehavenblackhills.com/venue-events
+Missouri Avenue Event Center	217 W Missouri Ave	Pierre	South Dakota			Restaurant / Vineyard	Indoor & Outdoor	150		A Pierre event centre and wine and ale house near the river with an indoor bar, room for 150 inside and 100 outdoors, and views of LaFramboise Island.	MissouriAvenueEvents@gmail.com		https://missouriavenueevents.com/
+`,
+  },
 ];
 
 export default batches;
