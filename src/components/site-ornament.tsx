@@ -302,6 +302,73 @@ const DRAWINGS: Record<Exclude<OrnamentId, "none" | "rule" | "bismillah" | "xi">
     </>
   ),
 
+  lace: (a, b) => (
+    <>
+      <path d={laceEdge()} {...LINE} strokeWidth={1.4} className="orn-fade" />
+      <circle cx="100" cy="100" r="74" {...LINE} strokeWidth={1.4} strokeDasharray="0.5 5" className="orn-fade" />
+      {Array.from({ length: 24 }, (_, i) => {
+        const [x, y] = pt(100, 100, 83, i * 15 + 7.5);
+        return <circle key={i} cx={f(x)} cy={f(y)} r="1.6" fill="currentColor" className="orn-fade" />;
+      })}
+      <Draw d="M100 34 A66 66 0 1 1 99.9 34" width={0.9} delay={0.3} />
+      <Letters size={40}>
+        {a}
+        <tspan fontSize={20} dx={2} dy={-2}>
+          &amp;
+        </tspan>
+        <tspan dx={2} dy={2}>
+          {b}
+        </tspan>
+      </Letters>
+    </>
+  ),
+
+  scroll: (a, b) => (
+    <>
+      <Draw d="M40 56 C40 44 46 38 58 38 H142 C154 38 160 44 160 56 V144 C160 156 154 162 142 162 H58 C46 162 40 156 40 144 Z" width={1.4} />
+      <Draw d="M48 60 C48 50 52 46 62 46 H138 C148 46 152 50 152 60 V140 C152 150 148 154 138 154 H62 C52 154 48 150 48 140 Z" width={0.7} delay={0.2} />
+      {[0, 90, 180, 270].map((deg) => (
+        <g key={deg} transform={`rotate(${deg} 100 100)`}>
+          <Draw d="M40 56 C26 56 20 44 26 36 C32 28 44 32 42 40 C41 45 35 46 33 42" width={1.3} delay={0.4} />
+          <Draw d="M58 38 C58 24 46 18 38 24" width={1.1} delay={0.5} />
+        </g>
+      ))}
+      <Draw d="M78 38 C86 26 94 24 100 30 C106 24 114 26 122 38 M100 30 V22" width={1.1} delay={0.6} />
+      <Draw d="M78 162 C86 174 94 176 100 170 C106 176 114 174 122 162 M100 170 V178" width={1.1} delay={0.6} />
+      <Letters size={40}>
+        {a}
+        <tspan fontSize={20} dx={2} dy={-2}>
+          &amp;
+        </tspan>
+        <tspan dx={2} dy={2}>
+          {b}
+        </tspan>
+      </Letters>
+    </>
+  ),
+
+  oval: (a, b) => (
+    <>
+      <ellipse cx="100" cy="106" rx="60" ry="82" {...LINE} strokeWidth={1.4} className="orn-fade" />
+      <ellipse cx="100" cy="106" rx="52" ry="74" {...LINE} strokeWidth={0.7} className="orn-fade" />
+      {Array.from({ length: 36 }, (_, i) => {
+        const t = (i * 10 * Math.PI) / 180;
+        return <circle key={i} cx={f(100 + 56 * Math.cos(t))} cy={f(106 + 78 * Math.sin(t))} r="1.3" fill="currentColor" className="orn-fade" />;
+      })}
+      {/* A bow on top. */}
+      <Draw d="M100 24 C88 14 76 16 78 24 C80 32 92 28 100 24 C108 28 120 32 122 24 C124 16 112 14 100 24 M100 24 L92 38 M100 24 L108 38" width={1.3} delay={0.4} />
+      <Letters size={36} y={86}>
+        {a}
+      </Letters>
+      <Letters size={18} y={110}>
+        &amp;
+      </Letters>
+      <Letters size={36} y={134}>
+        {b}
+      </Letters>
+    </>
+  ),
+
   horseshoe: (a, b) => (
     <>
       {/* Open end up, for luck. */}
@@ -543,6 +610,18 @@ const DRAWINGS: Record<Exclude<OrnamentId, "none" | "rule" | "bismillah" | "xi">
     </>
   ),
 };
+
+/** A scalloped lace edge: 24 small arcs around the circle. Fixed, so server and client agree. */
+function laceEdge() {
+  const parts: string[] = [];
+  for (let i = 0; i < 24; i++) {
+    const [x0, y0] = pt(100, 100, 88, i * 15);
+    const [cx, cy] = pt(100, 100, 98, i * 15 + 7.5);
+    const [x1, y1] = pt(100, 100, 88, i * 15 + 15);
+    parts.push(`${i === 0 ? `M${f(x0)} ${f(y0)}` : ""} Q${f(cx)} ${f(cy)} ${f(x1)} ${f(y1)}`);
+  }
+  return `${parts.join(" ")} Z`;
+}
 
 /** A wax seal's soft, uneven edge: a circle whose radius wobbles. Fixed, so server and client agree. */
 function sealEdge() {

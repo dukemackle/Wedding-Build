@@ -641,6 +641,9 @@ export const ORNAMENTS = [
   { id: "wheel", label: "Ship's wheel" },
   { id: "chandelier", label: "Chandelier" },
   { id: "barndoor", label: "Barn door" },
+  { id: "lace", label: "Lace" },
+  { id: "scroll", label: "Gold scroll" },
+  { id: "oval", label: "Oval" },
   // Words rather than initials: the blessing a Nikah invitation opens with,
   // and the double-happiness character.
   { id: "bismillah", label: "Bismillah" },
@@ -677,6 +680,7 @@ export const SCENES = [
   { id: "stars", label: "Star pattern", place: "strip" },
   { id: "gingham", label: "Gingham", place: "strip" },
   { id: "stripes", label: "Stripes", place: "strip" },
+  { id: "rope", label: "Rope", place: "strip" },
   { id: "western-tiles", label: "Western tiles", place: "strip" },
   { id: "ocean-tiles", label: "Ocean tiles", place: "strip" },
   // Around the names.
@@ -686,6 +690,7 @@ export const SCENES = [
   { id: "clouds", label: "Clouds", place: "surround" },
   { id: "groovy", label: "Groovy rings", place: "surround" },
   { id: "frame", label: "Double frame", place: "surround" },
+  { id: "scallop", label: "Scalloped border", place: "surround" },
 ] as const;
 
 export type SceneId = (typeof SCENES)[number]["id"];
@@ -757,6 +762,9 @@ export const SITE_ART = [
   { id: "turtle", name: "Sea turtle", group: "Coast", kind: "line", src: "/site-art/icon-turtle.svg", w: 900, h: 900 },
   { id: "coral", name: "Coral", group: "Coast", kind: "line", src: "/site-art/icon-coral.svg", w: 900, h: 900 },
   { id: "fish", name: "Fish", group: "Coast", kind: "line", src: "/site-art/icon-fish.svg", w: 900, h: 900 },
+  { id: "hibiscus", name: "Hibiscus", group: "Coast", kind: "line", src: "/site-art/hibiscus.svg", w: 600, h: 900 },
+  { id: "seagrass", name: "Sea grass", group: "Coast", kind: "line", src: "/site-art/seagrass.svg", w: 600, h: 900 },
+  { id: "sun", name: "Sun", group: "Desert", kind: "line", src: "/site-art/sun.svg", w: 900, h: 900 },
 ] as const;
 
 export type ArtId = (typeof SITE_ART)[number]["id"];
@@ -1065,6 +1073,8 @@ export type ResolvedDesign = {
   scene: SceneId;
   /** The tint behind every other band in the storybook page style. */
   band: string;
+  /** A second colour from the theme, for skies and far hills in the scenes. */
+  accent2: string;
 };
 
 export function resolveDesign(design: SiteDesign): ResolvedDesign {
@@ -1093,6 +1103,9 @@ export function resolveDesign(design: SiteDesign): ResolvedDesign {
   if (scriptNames) theme.italicNames = false;
 
   const accent = design.accent ?? theme.swatches[0];
+  // A second colour for skies and far hills: the next swatch after the accent.
+  const at = theme.swatches.indexOf(accent as never);
+  const accent2 = theme.swatches[(at + 1) % theme.swatches.length];
   const onAccent =
     contrast(theme.buttonInk, accent) >= 4.5
       ? theme.buttonInk
@@ -1103,7 +1116,7 @@ export function resolveDesign(design: SiteDesign): ResolvedDesign {
   const heading = cHeading ?? (cInk ? ink : theme.ink);
   const scene = design.scene ?? base.scene ?? "none";
   const band = mix(theme.bg, accent, dark ? 0.16 : 0.09);
-  return { theme, accent, onAccent, scrim, heading, scriptNames, scene, band };
+  return { theme, accent, accent2, onAccent, scrim, heading, scriptNames, scene, band };
 }
 
 /** The palette these settings match exactly, if any -- worked out, not stored. */
@@ -1130,7 +1143,7 @@ export function paletteColors(p: Palette): Pick<SiteDesign, "colors" | "accent">
  * globals.css handle the few places where one app colour plays two roles.
  */
 export function designCssVars(design: SiteDesign): Record<string, string> {
-  const { theme, accent, onAccent, scrim, heading, scriptNames, band } = resolveDesign(design);
+  const { theme, accent, accent2, onAccent, scrim, heading, scriptNames, band } = resolveDesign(design);
   return {
     "--color-parchment": theme.bg,
     "--color-card": theme.surface,
@@ -1150,6 +1163,7 @@ export function designCssVars(design: SiteDesign): Record<string, string> {
     "--site-muted": theme.muted,
     "--site-photo": theme.photo,
     "--site-band": band,
+    "--site-accent-2": accent2,
     "--site-scrim": scrim,
     "--site-radius": theme.radius,
     "--site-name-style": theme.italicNames ? "italic" : "normal",

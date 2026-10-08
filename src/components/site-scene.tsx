@@ -21,6 +21,9 @@ const tint = (pct: number) =>
 const shade = (pct: number) =>
   `color-mix(in srgb, var(--site-accent) ${100 - pct}%, var(--color-ink))`;
 const fill = (color: string): CSSProperties => ({ fill: color });
+/** The theme's second colour, for skies and far hills: peach behind teal peaks. */
+const tint2 = (pct: number) =>
+  `color-mix(in srgb, var(--site-accent-2, var(--site-accent)) ${pct}%, var(--color-parchment))`;
 
 export function SiteScene({ where }: { where: "band" | "strip" | "surround" }) {
   const design = useSiteDesign();
@@ -58,7 +61,7 @@ export function SceneArtwork() {
   const id = useId().replace(/:/g, "");
   const scene = resolveDesign(design).scene;
   const place = sceneById(scene).place;
-  const sky = `linear-gradient(180deg, color-mix(in srgb, var(--site-accent) 20%, #ffffff) 0%, var(--color-parchment) 75%)`;
+  const sky = `linear-gradient(180deg, color-mix(in srgb, var(--site-accent-2, var(--site-accent)) 24%, #ffffff) 0%, var(--color-parchment) 75%)`;
 
   const set = scene.startsWith("western") ? "western" : scene.startsWith("ocean") ? "ocean" : null;
   if (set) {
@@ -216,7 +219,7 @@ const BANDS: Draw = {
   mountains: (id: string) => (
     <>
       <defs>{pinesPattern(`${id}p`, shade(55))}</defs>
-      <path d="M0 150C200 110 420 130 600 100S1000 110 1200 120V260H0Z" style={fill(tint(14))} />
+      <path d="M0 150C200 110 420 130 600 100S1000 110 1200 120V260H0Z" style={fill(tint2(22))} />
       {peak(300, 232, 180, 230, tint(36), tint(54), "a")}
       {peak(860, 232, 205, 260, tint(36), tint(54), "b")}
       {peak(580, 232, 125, 170, tint(28), tint(44), "c")}
@@ -227,9 +230,9 @@ const BANDS: Draw = {
   ),
   ridges: () => (
     <>
-      <circle cx="760" cy="120" r="110" style={fill(tint(6))} opacity="0.7" />
-      <circle cx="760" cy="120" r="56" style={fill("color-mix(in srgb, #ffffff 70%, var(--site-accent))")} />
-      <path d="M0 150C150 110 300 120 420 100S700 60 850 110S1050 120 1200 90V260H0Z" style={fill(tint(14))} />
+      <circle cx="760" cy="120" r="110" style={fill(tint2(10))} opacity="0.7" />
+      <circle cx="760" cy="120" r="56" style={fill("color-mix(in srgb, #ffffff 60%, var(--site-accent-2, var(--site-accent)))")} />
+      <path d="M0 150C150 110 300 120 420 100S700 60 850 110S1050 120 1200 90V260H0Z" style={fill(tint2(20))} />
       <path d="M0 175C200 140 350 160 500 135S800 120 950 150S1100 140 1200 130V260H0Z" style={fill(tint(26))} />
       <path d="M0 200C180 170 380 190 560 168S860 165 1020 185S1140 175 1200 170V260H0Z" style={fill(tint(42))} />
       <path d="M0 222C220 200 420 215 620 198S920 205 1200 200V260H0Z" style={fill(tint(62))} />
@@ -239,7 +242,7 @@ const BANDS: Draw = {
   lake: (id: string) => {
     const peaks = (
       <>
-        <path d="M0 130C250 100 500 115 700 95S1000 105 1200 110V156H0Z" style={fill(tint(16))} />
+        <path d="M0 130C250 100 500 115 700 95S1000 105 1200 110V156H0Z" style={fill(tint2(22))} />
         {peak(420, 156, 125, 190, tint(36), tint(54), "a")}
         {peak(800, 156, 145, 220, tint(36), tint(54), "b")}
       </>
@@ -278,10 +281,10 @@ const BANDS: Draw = {
       {peak(900, 170, 128, 200, tint(30), tint(46), "c")}
       <rect y="138" width="1200" height="56" fill={`url(#${id}p)`} />
       <path d="M0 186C400 176 800 182 1200 184V260H0Z" style={fill(tint(34))} />
-      {/* A barn and its silo, right of centre. */}
-      <rect x="1000" y="150" width="22" height="54" rx="11" style={fill(tint(60))} />
-      <path d="M900 204V164L920 146H970L990 164V204Z" style={fill("var(--site-accent)")} />
-      <path d="M930 204V178H960V204M930 178L960 204M960 178L930 204" fill="none" stroke="var(--color-parchment)" strokeWidth="2.5" />
+      {/* A barn and its silo, just right of centre so a phone still shows them. */}
+      <rect x="810" y="150" width="22" height="54" rx="11" style={fill(tint(60))} />
+      <path d="M710 204V164L730 146H780L800 164V204Z" style={fill("var(--site-accent)")} />
+      <path d="M740 204V178H770V204M740 178L770 204M770 178L740 204" fill="none" stroke="var(--color-parchment)" strokeWidth="2.5" />
       {/* Split-rail fence along the front. */}
       <g stroke={shade(40)} strokeWidth="5" strokeLinecap="round">
         {Array.from({ length: 16 }, (_, i) => (
@@ -389,6 +392,16 @@ const BANDS: Draw = {
 };
 
 const STRIPS: Draw = {
+  rope: (id: string) => (
+    <svg className="my-3 block h-5 w-full" aria-hidden="true">
+      <defs>
+        <pattern id={`${id}r`} width="13" height="20" patternUnits="userSpaceOnUse">
+          <ellipse cx="6.5" cy="10" rx="8.5" ry="4.2" transform="rotate(-38 6.5 10)" style={fill(tint(55))} stroke={shade(35)} strokeWidth="1.2" />
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill={`url(#${id}r)`} />
+    </svg>
+  ),
   lights: (id: string) => {
     const p0 = [0, 6];
     const p1 = [110, 64];
@@ -534,6 +547,20 @@ const STRIPS: Draw = {
 };
 
 const SURROUNDS: Draw = {
+  // A wavy, scalloped border: rows of half-rings along each edge.
+  scallop: () => {
+    const ring = (at: string) =>
+      `radial-gradient(circle at ${at}, transparent 8px, var(--site-accent) 8.5px, var(--site-accent) 10.5px, transparent 11px)`;
+    const edge = "pointer-events-none absolute";
+    return (
+      <>
+        <span className={`${edge} inset-x-6 top-4 h-[11px]`} style={{ background: `${ring("11px 11px")} 0 0/22px 22px repeat-x` }} />
+        <span className={`${edge} inset-x-6 bottom-4 h-[11px]`} style={{ background: `${ring("11px 0")} 0 0/22px 22px repeat-x` }} />
+        <span className={`${edge} inset-y-6 left-4 w-[11px]`} style={{ background: `${ring("11px 11px")} 0 0/22px 22px repeat-y` }} />
+        <span className={`${edge} inset-y-6 right-4 w-[11px]`} style={{ background: `${ring("0 11px")} 0 0/22px 22px repeat-y` }} />
+      </>
+    );
+  },
   "western-pattern": (id: string) => iconBackdrop("western", `${id}w`),
   "ocean-pattern": (id: string) => iconBackdrop("ocean", `${id}o`),
   drape: () => {
