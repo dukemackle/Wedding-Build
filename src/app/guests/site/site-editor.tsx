@@ -145,6 +145,7 @@ export function SiteEditor({
   // Free elements (phase 2): what's picked in the preview, and each section's size there.
   const [canvasSel, setCanvasSel] = useState<CanvasSelection>(null);
   const [frames, setFrames] = useState<CanvasFrames>({});
+  const [phoneFrames, setPhoneFrames] = useState<CanvasFrames>({});
   // Where Position's close button goes back to.
   const [lastTab, setLastTab] = useState<Tab>("elements");
 
@@ -184,16 +185,11 @@ export function SiteEditor({
     };
   }, []);
 
-  // Elements are placed on the computer preview only; the phone shows them stacked.
-  const canvasEditing = isDesktop && device === "desktop";
-  const sendMode = useCallback((on: boolean) => {
-    frameRef.current?.contentWindow?.postMessage({ type: CANVAS_MODE, on }, window.location.origin);
-  }, []);
-  const onFrameReady = useEffectEvent(() => sendMode(canvasEditing));
-  useEffect(() => {
-    // The frame drops its own selection when editing goes off.
-    sendMode(canvasEditing);
-  }, [canvasEditing, sendMode]);
+  // Placed elements are editable in both previews: the Computer one moves
+  // them, the Phone one arranges the phone layout (the frame tells by width).
+  const onFrameReady = useEffectEvent(() =>
+    frameRef.current?.contentWindow?.postMessage({ type: CANVAS_MODE, on: true }, window.location.origin),
+  );
 
   const sendDesign = useCallback((next: SiteDesign) => {
     frameRef.current?.contentWindow?.postMessage(
@@ -338,7 +334,11 @@ export function SiteEditor({
         if (next) setTextSlot(null);
       }
       if (event.data?.type === CANVAS_COMMIT) onCanvasCommit(event.data.canvas);
-      if (event.data?.type === CANVAS_FRAMES && event.data.frames) setFrames(event.data.frames as CanvasFrames);
+      if (event.data?.type === CANVAS_FRAMES && event.data.frames) {
+        // Computer sizes place new elements; phone sizes line things up on the phone layout.
+        if (event.data.frame === "phone") setPhoneFrames(event.data.frames as CanvasFrames);
+        else setFrames(event.data.frames as CanvasFrames);
+      }
       if (event.data?.type === CANVAS_PANEL) onCanvasPanel();
       if (event.data?.type === CANVAS_KEY) {
         if (event.data.action === "undo") onUndo();
@@ -447,6 +447,8 @@ export function SiteEditor({
         <PositionPanel
           design={design}
           frames={frames}
+          phoneFrames={phoneFrames}
+          device={device}
           selection={canvasSel}
           onCanvas={changeCanvas}
           onSelect={selectCanvas}
@@ -605,12 +607,14 @@ export function SiteEditor({
           </div>
         )}
 
-        {canvasSel && canvasEditing && !textSlot && (
-          <div className="absolute inset-x-3 top-[64px] z-20 flex justify-center">
+        {canvasSel && !textSlot && (
+          <div className={`absolute inset-x-3 z-20 flex justify-center ${isDesktop ? "top-[64px]" : "top-16"}`}>
             <CanvasToolbar
               design={design}
               selection={canvasSel}
               frames={frames}
+              phoneFrames={phoneFrames}
+              device={device}
               onCanvas={changeCanvas}
               onDesign={change}
               onPosition={() => openTab("position")}

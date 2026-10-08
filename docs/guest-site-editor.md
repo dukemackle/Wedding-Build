@@ -104,8 +104,18 @@ Phases, one PR each:
    positioned HTML scaled with container units; the dragging lives in
    `preview/canvas-editing.tsx`, which only the editor's preview frame loads.
    The hero's own names, date and buttons stay theme-laid-out for now.
-3. Phone editor: bottom tab bar, slide-up sheets, per-element tools with ✓,
-   separate phone layouts.
+3. Phone editor, in two PRs (decided 2026-10-08).
+   **3a, separate phone layouts** (built 2026-10-08): each section's `phone`
+   frame stays "stack" until the couple moves something in the Phone preview
+   (from a computer or on a phone). That first move switches the section to
+   "free", starting from the stack as it was laid out, with boxes in the
+   section's phone width (`phone.w`). An element added on the computer later
+   goes under the rest. "Back to stacked" undoes it, and Hide on the phone
+   layout hides an element on phones only (`phone.hidden`). The editing code
+   is shared with the computer frame; the preview's width picks which one it
+   edits.
+   **3b, the phone editor itself**: bottom tab bar, slide-up sheets,
+   per-element tools with ✓, from the mockup's Phone artboard.
 4. Panels: Colour (with colours pulled from the couple's photos), Fonts,
    Background, Elements library, photo crop/frames/filters, per-element
    animation; render the guest page as server HTML without editor code.
