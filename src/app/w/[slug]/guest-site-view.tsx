@@ -193,7 +193,7 @@ export function GuestSiteView({
       itineraryEvents.length > 0 ? (
         <div className={CARD}>
           <h2 className="font-display text-2xl font-semibold text-forest">
-            Weekend schedule
+            {new Set(itineraryEvents.map((e) => e.event_date)).size > 1 ? "The schedule" : "On the day"}
           </h2>
           <div className="mt-4">
             <ItineraryView events={itineraryEvents} weddingDate={wedding.wedding_date} />
