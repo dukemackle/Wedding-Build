@@ -13,6 +13,7 @@
     "cf:deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
     "coverage": "node scripts/coverage.mjs",
     "verify:batches": "node scripts/verify-batches.mjs",
+    "backup": "node scripts/backup.mjs",
     "import:batches": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/import-batches.mjs"
   },
   "dependencies": {
