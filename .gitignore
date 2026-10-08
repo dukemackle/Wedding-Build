@@ -49,3 +49,6 @@ next-env.d.ts
 
 # supabase cli
 /supabase/.temp/
+
+# weekly backups (uploaded to Drive, never committed)
+/backups/
