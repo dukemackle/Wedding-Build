@@ -82,6 +82,23 @@ Arbor + Light	Videography		Iowa City	Iowa	Weddings anywhere in Iowa and beyond, 
 Diamond Label Films	Videography		Iowa City	Iowa	Iowa	Iowa City filmmaker making cinematic wedding films with an authentic storytelling approach, alongside engagement and wedding photography.	diamondlabelfilms@gmail.com		https://www.diamondlabelfilms.com	https://www.instagram.com/iowaweddingvideographer/
 `,
   },
+  {
+    name: "Iowa City: photography, planning, florals and music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Zak Cooper Photography	Photography		Iowa City	Iowa	Iowa City, the Midwest and destination weddings	Iowa City photographer and videographer covering weddings, engagements and proposals, and travelling across the Midwest.			https://www.zakcooperphotography.com/	https://www.instagram.com/zakcooperphotography/
+Torey Rohde Photography	Photography		Iowa City	Iowa	Iowa City, willing to travel	Iowa City photographer shooting candid, documentary-style weddings and engagements, with Super 8 wedding films as an add-on.			https://toreyrohdephotography.com/	https://www.instagram.com/toreyrohde/
+Storm Photo Co	Photography		Iowa City	Iowa		Husband-and-wife wedding photography team based in Iowa City, shooting timeless, relaxed coverage of the whole wedding day.			https://www.stormphotoco.com/	https://www.instagram.com/stormphotoco/
+Soirée Wedding Planning	Planning		Iowa City	Iowa	Iowa City, Coralville and the wider Midwest	Iowa City planning team offering full-package planning, design, day-of coordination and help with rehearsal dinners and brunches.			https://soireeia.com/	https://www.instagram.com/soireeiowa/
+E's Florals	Florals	101 Prairie Rose Ln, Unit 3	Solon	Iowa	Solon, Iowa City, Cedar Rapids, Coralville and North Liberty	Solon florist doing full-service wedding flowers and favours, with DIY bulk flower buckets and silk or dried options.	info@esflorals.com	319-624-3121	https://www.esflorals.com/	https://www.instagram.com/esflorals/
+Sueppel's Flowers	Florals	1501 Mall Dr	Iowa City	Iowa	Iowa City, Coralville, North Liberty, Tiffin, Solon, West Branch and nearby towns	Iowa City flower shop making bridal bouquets, ceremony arches and centrepieces, with delivery, set-up and bulk flowers for DIY.	wecare@sueppels.com	(319) 351-1400	https://www.sueppels.com/wedding	https://www.instagram.com/sueppelsflowers/
+Every Bloomin' Thing	Florals	418 10th Ave	Coralville	Iowa	Coralville, Iowa City, North Liberty and Tiffin	Coralville flower shop with a dedicated wedding flowers page and a separate wedding and event site for custom designs.		(319) 351-7242	https://www.everybloominthingiowacity.com/	https://www.instagram.com/everybloominthingiowacity/
+It's Electric Entertainment	Music		Iowa City	Iowa	Iowa City, Johnson County, Des Moines, Cedar Rapids and destination weddings	Iowa City wedding DJ and MC team with reception games, timeline help, and cold spark, photo booth and lighting add-ons.			https://www.itselectricentertainment.com/	https://www.instagram.com/itselectricentertainment/
+Massetone Entertainment	Music		Cedar Rapids	Iowa	Cedar Rapids, Iowa City, Coralville, North Liberty, Tiffin, Solon and eastern Iowa	Cedar Rapids wedding DJ with ceremony sound, custom DJ booths, uplighting, cold sparkler displays and a selfie-station photo booth.	aaron@massetone.com	(563) 340-2319	https://www.cedarrapidsdj.com/	https://www.instagram.com/massetoneentertainment/
+JM3 DJs & Productions	Music		Iowa City	Iowa	Iowa City and eastern Iowa	Wedding DJ and MC company with an Iowa City team that mixes live, tailors music to the couple and travels to outlying venues.	events@jm3djs.com		https://jm3djs.com/locations/iowa-city/	https://www.instagram.com/jm3djs/
+Twisted Mics	Music		Iowa City	Iowa	Iowa City, Cedar Rapids and the Quad Cities	Wedding DJ company with sound and lighting, optional photo booths and a dedicated event planner for each booking.			https://twistedmics.com/twisted-mics-iowacity/	https://www.instagram.com/twisted_mics/
+Energy Wave Entertainment	Music		Cedar Rapids	Iowa	Eastern and central Iowa	Cedar Rapids DJ company playing weddings and corporate events across eastern and central Iowa, with sound and lighting.	info@energywavedj.com		https://energywavedj.com/	https://www.instagram.com/energywavedj/
+`,
+  },
 ];
 
 export default batches;
