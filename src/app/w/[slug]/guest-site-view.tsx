@@ -111,7 +111,9 @@ export async function loadGuestSiteContent(supabase: Supabase, wedding: PublicWe
   return {
     blocks: blocks ?? [],
     registryItems: registryItems ?? [],
-    itineraryEvents: itineraryEvents ?? [],
+    // Invite-only events never reach the public schedule (0109 hides them
+    // from guests; this keeps the couple's preview honest too).
+    itineraryEvents: (itineraryEvents ?? []).filter((e) => !e.invite_only),
     weddingFaqs: weddingFaqs ?? [],
     accommodations: accommodations ?? [],
     guestbookEntries: guestbookEntries ?? [],
@@ -161,6 +163,16 @@ export function GuestSiteView({
           </p>
         )}
         <RsvpForm
+          initialEvents={itineraryEvents
+            .filter((e) => e.rsvp && !e.invite_only)
+            .map(({ id, title, event_date, start_time, location, invite_only }) => ({
+              id,
+              title,
+              event_date,
+              start_time,
+              location,
+              invite_only,
+            }))}
           weddingId={wedding.id}
           partnerAName={wedding.partner_a_name}
           partnerBName={wedding.partner_b_name}

@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { ViewGuestSiteButton } from "@/components/view-guest-site-button";
-import type { Guest, RsvpSubmission } from "@/lib/supabase/types";
+import type { Guest, ItineraryEvent, RsvpSubmission } from "@/lib/supabase/types";
 import { findGuestByName } from "@/lib/guest-match";
 import { sideTheme, type SideTheme } from "@/lib/guest-groups";
 import {
@@ -18,7 +18,9 @@ function SubmissionRow({
   submission,
   theme,
   matchedName,
+  events,
 }: {
+  events: Pick<ItineraryEvent, "id" | "title">[];
   submission: RsvpSubmission;
   theme: SideTheme;
   // The guest already on the list this RSVP will update, if any.
@@ -103,6 +105,14 @@ function SubmissionRow({
                 .filter(Boolean)
                 .join(" · ") || "—"}
             </p>
+            {submission.events && events.some((e) => e.id in submission.events!) && (
+              <p className="mt-1 text-xs text-ink/70">
+                {events
+                  .filter((e) => e.id in submission.events!)
+                  .map((e) => `${e.title} ${submission.events![e.id] ? "✓" : "✗"}`)
+                  .join(" · ")}
+              </p>
+            )}
             {submission.notes && (
               <p className="mt-1 text-sm text-ink/70">Private note: {submission.notes}</p>
             )}
@@ -144,7 +154,10 @@ export function PendingRsvps({
   guests,
   partnerAName,
   partnerBName,
+  events = [],
 }: {
+  /** RSVP events, to name the ones each guest answered. */
+  events?: Pick<ItineraryEvent, "id" | "title">[];
   submissions: RsvpSubmission[];
   guests: Pick<Guest, "name">[];
   partnerAName: string | null;
@@ -158,6 +171,7 @@ export function PendingRsvps({
         <SubmissionRow
           key={submission.id}
           submission={submission}
+          events={events}
           matchedName={findGuestByName(guests, submission.guest_name)?.name ?? null}
           theme={sideTheme({
             partnerAName,

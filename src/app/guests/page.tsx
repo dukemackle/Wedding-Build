@@ -3,7 +3,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { AppNav } from "@/components/app-nav";
-import type {
+import type { ItineraryEvent,
   ContactSubmission,
   Guest,
   GuestPost,
@@ -74,6 +74,26 @@ export default async function GuestsPage() {
     .order("created_at", { ascending: true })
     .returns<RsvpSubmission[]>();
 
+  // Per-event RSVPs (0109): the events that ask, and who's invited to the
+  // invite-only ones. Before the migration both read as none.
+  const [{ data: rsvpEvents }, { data: inviteRows }] = await Promise.all([
+    supabase
+      .from("itinerary_events")
+      .select("*")
+      .eq("wedding_id", wedding.id)
+      .eq("rsvp", true)
+      .order("event_date", { ascending: true })
+      .order("start_time", { ascending: true, nullsFirst: true })
+      .returns<ItineraryEvent[]>(),
+    supabase
+      .from("guest_event_invites")
+      .select("guest_id, event_id")
+      .eq("wedding_id", wedding.id)
+      .returns<{ guest_id: string; event_id: string }[]>(),
+  ]);
+  const eventInvites: Record<string, string[]> = {};
+  for (const row of inviteRows ?? []) eventInvites[row.event_id] = [...(eventInvites[row.event_id] ?? []), row.guest_id];
+
   const headersList = await headers();
   const host = headersList.get("host");
   const protocol = host?.startsWith("localhost") ? "http" : "https";
@@ -110,6 +130,8 @@ export default async function GuestsPage() {
         wedding={wedding}
         guests={guests ?? []}
         rsvpSubmissions={rsvpSubmissions ?? []}
+        rsvpEvents={rsvpEvents ?? []}
+        eventInvites={eventInvites}
         contactSubmissions={contactSubmissions ?? []}
         origin={origin}
         guestPosts={guestPosts ?? []}

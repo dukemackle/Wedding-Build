@@ -43,6 +43,8 @@ export function HeroActions({
               event_date: wedding.wedding_date!,
               start_time: null,
               end_time: null,
+              rsvp: false,
+              invite_only: false,
               title: names ? `${names}'s wedding` : "Wedding",
               location: location || null,
               description: null,
