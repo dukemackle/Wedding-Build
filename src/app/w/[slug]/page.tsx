@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import type { PublicWedding } from "@/lib/supabase/types";
 import { parseSiteDesign } from "@/lib/site-design-schema";
+import { bannerPhoto } from "@/lib/site-design";
 import { GuestSiteTheme } from "@/components/guest-site-theme";
 import { GuestSiteView, loadGuestSiteContent } from "./guest-site-view";
 
@@ -48,7 +49,8 @@ export async function generateMetadata({
   const title = when ? `${names} · ${when}` : names;
   const whenWhere = [when, place].filter(Boolean).join(" in ");
   const description = `You're invited! ${whenWhere ? `${whenWhere}. ` : ""}RSVP, see the schedule and travel details here.`;
-  const images = wedding.hero_photo_url ? [{ url: wedding.hero_photo_url }] : undefined;
+  const banner = bannerPhoto(wedding);
+  const images = banner ? [{ url: banner }] : undefined;
 
   return {
     // The couple's own page: their names, not ours, in the tab.
