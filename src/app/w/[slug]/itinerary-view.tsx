@@ -85,7 +85,7 @@ export function ItineraryView({
  */
 function Timeline({ days, weddingDate }: { days: ReturnType<typeof groupEventsByDate>; weddingDate: string | null }) {
   return (
-    <div className="flex flex-col items-center gap-6 md:flex-row md:items-start md:justify-center md:overflow-x-auto md:pb-2">
+    <div className="flex flex-col items-center gap-6 md:flex-row md:items-start md:[justify-content:safe_center] md:overflow-x-auto md:pb-2">
       {days.map((day) => (
         <div
           key={day.date}

@@ -251,11 +251,16 @@ export function StyleTab({
             ))}
           </div>
         )}
-        <p className="text-[13px] leading-normal text-ink/60">
-          {design.art.id && !ART_HEROES.includes(design.hero) && hasPhoto
-            ? "Artwork shows with the Text only, Monogram and Framed tops — your photo takes its place in this one."
-            : "Sketches are drawn in your accent colour; watercolours keep their own."}
-        </p>
+        {design.art.id && !ART_HEROES.includes(design.hero) && hasPhoto ? (
+          <p className="rounded-md bg-[#FFD301]/20 px-3 py-2 text-[13px] leading-normal text-[#14203d]">
+            Your artwork is hidden: this top shows your photo instead. Pick Text only, Monogram,
+            Framed or Poster under Top of the page to show it.
+          </p>
+        ) : (
+          <p className="text-[13px] leading-normal text-ink/60">
+            Sketches are drawn in your accent colour; watercolours keep their own.
+          </p>
+        )}
       </div>
 
       <div className="flex flex-col gap-3">
@@ -553,6 +558,10 @@ export function SectionsTab({
         <p className="text-[13px] leading-normal text-ink/60">
           Drag to reorder. On a computer, sections keep this order within their column —
           what guests act on on the left, the details beside it.
+        </p>
+        <p className="text-[13px] leading-normal text-ink/60">
+          Order and show/hide wait for Publish. What you write or upload inside a
+          section saves straight to your site.
         </p>
         <SortableList
           ids={sections.map((x) => x.id)}

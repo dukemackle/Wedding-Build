@@ -54,8 +54,9 @@ const LG = "(min-width: 1024px)";
  * On a phone the site is the page and the settings are a sheet pulled up
  * over it, the same arrangement as Venues.
  *
- * Every change is saved as a draft straight away; guests see nothing until
- * Publish.
+ * Every design change is saved as a draft straight away; guests see nothing
+ * until Publish. Section content (words, photos, FAQs, blocks) saves to the
+ * live site directly.
  */
 export function SiteEditor({
   draft: initialDraft,
@@ -224,7 +225,7 @@ export function SiteEditor({
       ? "Saving draft…"
       : dirty
         ? publicSlug
-          ? "Draft — guests don't see this yet"
+          ? "Design changes not published yet"
           : "Draft — your site is off"
         : "Guests see this version";
 

@@ -45,6 +45,10 @@ function HeroContent({
   // The gentle word-by-word rise is the "Straight in" default; the other
   // openings bring the names in their own way, and "None" means none.
   const stagger = motion.opening === "none" && motionPreset(motion) !== "none";
+  // Poster names are sized to the screen, so a long single name ("Maximiliano")
+  // would run off a phone. Cap the size so the longest word fits the width.
+  const longest = Math.max(4, ...names.split(/\s+/).map((w) => w.length));
+  const posterSize = `min(clamp(3.75rem,15vw,10rem), calc((100vw - 3rem) / ${(longest * (capitals ? 0.72 : 0.6)).toFixed(2)}))`;
 
   return (
     <div className="relative z-10 w-full px-6 text-center">
@@ -67,12 +71,15 @@ function HeroContent({
       <h1
         className={`site-names mt-3 font-display font-medium [font-style:var(--site-name-style,normal)] [font-weight:var(--site-name-weight,500)] ${
           poster
-            ? `mx-auto max-w-[14ch] text-[clamp(3.75rem,15vw,10rem)] ${capitals ? "uppercase leading-[0.9] tracking-tight" : "leading-[1.1]"}`
+            ? `mx-auto max-w-[14ch] ${capitals ? "uppercase leading-[0.9] tracking-tight" : "leading-[1.1]"}`
             : "text-[clamp(2.75rem,8vw,5.5rem)] leading-[1.02]"
         } ${
           tone === "light" ? "text-white [text-shadow:0_2px_24px_rgba(0,0,0,0.28)]" : "text-forest"
         }`}
-        style={{ fontFamily: "var(--font-names, var(--font-display))" }}
+        style={{
+          fontFamily: "var(--font-names, var(--font-display))",
+          ...(poster ? { fontSize: posterSize } : {}),
+        }}
       >
         {stagger ? <StaggerWords text={names} /> : names}
       </h1>

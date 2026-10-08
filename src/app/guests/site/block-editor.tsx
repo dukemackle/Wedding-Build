@@ -138,7 +138,7 @@ export function BlockEditor({ block }: { block: SiteBlock }) {
           {isPending ? "Saving…" : "Save"}
         </button>
         {message.error && <p className="text-sm text-red-700">{message.error}</p>}
-        {message.saved && <p className="text-sm text-ink/60">Saved — shows in the preview.</p>}
+        {message.saved && <p className="text-sm text-ink/60">Saved — it&apos;s on your site now.</p>}
       </div>
     </form>
   );
