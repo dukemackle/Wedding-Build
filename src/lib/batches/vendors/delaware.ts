@@ -44,6 +44,19 @@ The Art of Beauty	Hair & Makeup		Milford	Delaware	Delaware, Pennsylvania, Maryla
 Carolina Sugar Fairy	Cake		Rehoboth Beach	Delaware	Lewes, Rehoboth Beach, Dewey Beach, Bethany Beach, Milton and Millsboro	Southern Delaware baker making custom wedding and large-event cakes, dessert tables and decorated cookies from quality ingredients.			http://www.carolinasugarfairy.com/	
 Crumb One Crumb All	Cake		Lewes	Delaware	Lewes and Sussex County	Lewes bakery making gluten-free and traditional custom cakes, cupcakes and pastries to order, with care taken to avoid cross-contamination.	CrumbOneCrumbAllBakery@Gmail.com	302-542-5445	https://crumbonecrumball.com/	`,
   },
+  {
+    name: "Rehoboth Beach: planning, florals, music, hair & makeup and catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Beachin Bash	Planning		Rehoboth Beach	Delaware	Rehoboth Beach, Lewes, Dewey Beach, Bethany Beach, Fenwick Island and Ocean City	Beach-town event company planning full-service weddings, beach picnics and celebrations, with in-house catering for multi-day wedding weekends.	jim@beachinbash.com	302-298-1414	https://www.beachinbash.com/	https://www.instagram.com/beachinbashde/
+Make My Day Events	Planning		Lewes	Delaware	Delmarva and destinations worldwide	Lewes planners offering day-of coordination, partial planning and full planning for weddings and events since 2006.	ashley@makemydayevents.net	703-861-4609	https://www.makemydayevents.net/	
+Floral 302	Florals		Lewes	Delaware	Lewes, Milton, Rehoboth Beach, Harbeson and Millsboro	Lewes florist making handcrafted arrangements, with a consultation route for wedding and event flowers on the Delaware coast.	302floral@gmail.com	302-313-5435	https://www.floral302.com/	
+DJ Davy Dave	Music		Lewes	Delaware	Lewes, the Delaware beaches and surrounding area	Lewes DJ and photo booth service with a battery-powered wireless sound setup for beach ceremonies, plus affordable reception packages.	sales@djdavydave.com	302-588-4100	https://www.djdavydave.com/	https://www.instagram.com/djdavydavephotobooth/
+DJ Sound Entertainment	Music		Ocean View	Delaware	Delmarva	Ocean View wedding DJ with over twenty years on Delmarva, offering music planning, add-on lighting and online forms for wedding details.	djjtcruise@gmail.com	302-539-8735	https://www.djsoundentertainment.com/	
+Dani Gaudiosi - DG Beauty Group	Hair & Makeup		Lewes	Delaware	Delaware and the tri-state region	Lewes team of licensed estheticians providing on-site bridal makeup with a glowy, comfortable approach for the whole wedding party.	Info@DaniGaudiosi.com	856-524-1966	http://www.danigaudiosi.com/	https://www.instagram.com/danigaudiosiMUA/
+Village Salon & Spa	Hair & Makeup		Lewes	Delaware	Lewes and the Delaware beaches	Lewes salon with a bridal service menu covering formal hair styling and makeup for brides and entire wedding parties, with free consultations.		302-644-4247	https://villagesalonandspalewes.com/	https://www.instagram.com/villagesalonde/
+Greater Good Events	Catering		Lewes	Delaware	Delaware beach areas and beyond	Nonprofit-backed caterer with a Lewes bay-front facility, crafting custom wedding menus for events from ten to two hundred guests.		302-645-9184	https://www.greatergoodeventsde.com/	https://www.instagram.com/greatergoodeventsde/
+Blue Moon Catering	Catering		Rehoboth Beach	Delaware	Rehoboth Beach and the Delaware coast	Catering arm of a Rehoboth Beach restaurant, serving weddings from small dinners to large beachside receptions with a full-service team.			https://bluemoonrehoboth.com/catering/	`,
+  },
 ];
 
 export default batches;
