@@ -1,8 +1,10 @@
 "use client";
 
-import { useRef, useState, useTransition } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import { RSVP_YES_EVENT } from "@/components/site-motion";
-import { submitRsvp } from "./actions";
+import { getRsvpEvents, submitRsvp } from "./actions";
+import type { RsvpEvent } from "@/lib/supabase/types";
+import { formatFullDate, formatTime } from "@/lib/itinerary";
 import { shrinkImage } from "@/lib/shrink-image";
 import { MEAL_OPTIONS } from "@/lib/meal-options";
 
@@ -15,7 +17,10 @@ export function RsvpForm({
   partnerAName,
   partnerBName,
   shareHref,
+  initialEvents = [],
 }: {
+  /** The open RSVP events, known when the page renders; refined by name as they type. */
+  initialEvents?: RsvpEvent[];
   weddingId: string;
   partnerAName: string | null;
   partnerBName: string | null;
@@ -35,6 +40,24 @@ export function RsvpForm({
   const [showExtras, setShowExtras] = useState(false);
   const [isPending, startTransition] = useTransition();
   const formRef = useRef<HTMLFormElement>(null);
+  // Multi-day weddings ask about each event. Which events depends on who's
+  // answering (invite-only ones are for named guests), so they're looked up
+  // from the name once it's typed.
+  const [name, setName] = useState("");
+  const [events, setEvents] = useState<RsvpEvent[]>(initialEvents);
+  const [going, setGoing] = useState<Record<string, boolean>>({});
+  useEffect(() => {
+    const trimmed = name.trim();
+    if (trimmed.length < 2) return;
+    const timer = setTimeout(async () => {
+      try {
+        setEvents(await getRsvpEvents(weddingId, trimmed));
+      } catch {
+        // Keep the events already shown; the form still sends without them.
+      }
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [name, weddingId]);
 
   function handleSubmit(formData: FormData) {
     startTransition(async () => {
@@ -51,6 +74,8 @@ export function RsvpForm({
         setBringingPlusOne(false);
         setAttending(true);
         setShowExtras(false);
+        setName("");
+        setGoing({});
         formRef.current?.reset();
       }
     });
@@ -85,8 +110,19 @@ export function RsvpForm({
           appears once it applies, so a "no" is two fields, not twelve. */}
       <label className={labelClass}>
         Your name
-        <input name="guest_name" required autoComplete="name" className={inputClass} />
+        <input
+          name="guest_name"
+          required
+          autoComplete="name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          className={inputClass}
+        />
+        {events.length > 0 && (
+          <span className="text-xs text-ink/60">Use the name on your invitation so we can show the events you&apos;re invited to.</span>
+        )}
       </label>
+      <input type="hidden" name="events" value={JSON.stringify(going)} />
       <fieldset className="flex flex-col gap-2">
         <legend className="mb-1 text-sm text-ink">Will you be attending?</legend>
         <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
@@ -115,6 +151,48 @@ export function RsvpForm({
           ))}
         </div>
       </fieldset>
+      {attending && events.length > 0 && (
+        <fieldset className="flex flex-col gap-2">
+          <legend className="mb-1 text-sm text-ink">Which events can you make?</legend>
+          {events.map((event) => {
+            const yes = going[event.id] !== false;
+            const when = [formatFullDate(event.event_date), event.start_time && formatTime(event.start_time)]
+              .filter(Boolean)
+              .join(" · ");
+            return (
+              <div
+                key={event.id}
+                className="flex flex-col gap-2 rounded-md border border-hairline bg-parchment px-3 py-2.5 sm:flex-row sm:items-center sm:justify-between"
+              >
+                <div className="min-w-0">
+                  <p className="text-ink">{event.title}</p>
+                  <p className="text-xs text-ink/60">{[when, event.location].filter(Boolean).join(" · ")}</p>
+                </div>
+                <div role="group" aria-label={event.title} className="flex shrink-0 gap-2">
+                  {[
+                    { label: "Yes", value: true },
+                    { label: "No", value: false },
+                  ].map((choice) => (
+                    <button
+                      key={choice.label}
+                      type="button"
+                      aria-pressed={yes === choice.value}
+                      onClick={() => setGoing((g) => ({ ...g, [event.id]: choice.value }))}
+                      className={`min-h-10 min-w-16 rounded-md border px-3 text-sm ${
+                        yes === choice.value
+                          ? "border-forest bg-forest/10 text-forest"
+                          : "border-hairline text-ink hover:border-forest/50"
+                      }`}
+                    >
+                      {choice.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
+        </fieldset>
+      )}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <label className={labelClass}>
           Household

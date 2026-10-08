@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useRef, useState, useTransition, type CSSProperties } from "react";
-import type { ItineraryEvent } from "@/lib/supabase/types";
+import type { Guest, ItineraryEvent } from "@/lib/supabase/types";
 import {
   dateKey,
   formatFullDate,
@@ -11,7 +11,7 @@ import {
 } from "@/lib/itinerary";
 import { downloadIcs } from "@/lib/ics";
 import { ItineraryCalendar } from "@/components/itinerary-calendar";
-import { addItineraryEvent, updateItineraryEvent, deleteItineraryEvent } from "./actions";
+import { addItineraryEvent, updateItineraryEvent, deleteItineraryEvent, setEventInvites } from "./actions";
 import { BirdEmptyState } from "@/components/wren-moments";
 
 const inputClass =
@@ -23,6 +23,49 @@ const MAX_COLUMN_WIDTH = 340;
 const COLUMN_GAP = 12;
 
 const labelClass = "flex flex-col gap-1 text-sm text-ink";
+
+/** The guest list, as far as choosing who's invited to an event needs it. */
+export type InviteGuest = Pick<Guest, "id" | "name" | "household">;
+
+function RsvpSwitches({ event }: { event?: ItineraryEvent }) {
+  const [asks, setAsks] = useState(event?.rsvp ?? false);
+  return (
+    <div className="flex flex-col gap-2 rounded-md border border-hairline bg-parchment/60 px-3 py-2.5 text-sm text-ink sm:col-span-2">
+      <input type="hidden" name="rsvp_fields" value="1" />
+      <label className="flex items-start gap-2">
+        <input
+          type="checkbox"
+          name="rsvp"
+          checked={asks}
+          onChange={(e) => setAsks(e.target.checked)}
+          className="mt-0.5 h-4 w-4 accent-forest"
+        />
+        <span>
+          Ask guests to RSVP to this one
+          <span className="block text-xs text-ink/60">
+            For weekends with several events: guests answer yes or no to each.
+          </span>
+        </span>
+      </label>
+      {asks && (
+        <label className="ml-6 flex items-start gap-2">
+          <input
+            type="checkbox"
+            name="invite_only"
+            defaultChecked={event?.invite_only ?? false}
+            className="mt-0.5 h-4 w-4 accent-forest"
+          />
+          <span>
+            Invite only
+            <span className="block text-xs text-ink/60">
+              Only the guests you choose see it and are asked, and it stays off your public schedule.
+            </span>
+          </span>
+        </label>
+      )}
+    </div>
+  );
+}
 
 function EventFields({ event, defaultDate }: { event?: ItineraryEvent; defaultDate?: string }) {
   return (
@@ -78,6 +121,128 @@ function EventFields({ event, defaultDate }: { event?: ItineraryEvent; defaultDa
           className={inputClass}
         />
       </label>
+      <RsvpSwitches event={event} />
+    </div>
+  );
+}
+
+/**
+ * Who's invited to an invite-only event: the guest list with a tick each,
+ * a household at a time if they like, and a search for long lists.
+ */
+function InvitePicker({
+  event,
+  guests,
+  invited,
+  onClose,
+}: {
+  event: ItineraryEvent;
+  guests: InviteGuest[];
+  invited: string[];
+  onClose: () => void;
+}) {
+  const [chosen, setChosen] = useState(() => new Set(invited));
+  const [search, setSearch] = useState("");
+  const [error, setError] = useState<string>();
+  const [isPending, startTransition] = useTransition();
+
+  const groups = useMemo(() => {
+    const term = search.trim().toLowerCase();
+    const map = new Map<string, InviteGuest[]>();
+    for (const g of guests) {
+      if (term && !g.name.toLowerCase().includes(term) && !(g.household ?? "").toLowerCase().includes(term)) continue;
+      const key = g.household?.trim() || "";
+      map.set(key, [...(map.get(key) ?? []), g]);
+    }
+    return [...map.entries()].sort(([a], [b]) => (a ? (b ? a.localeCompare(b) : -1) : 1));
+  }, [guests, search]);
+
+  function toggle(ids: string[], on: boolean) {
+    setChosen((prev) => {
+      const next = new Set(prev);
+      for (const id of ids) {
+        if (on) next.add(id);
+        else next.delete(id);
+      }
+      return next;
+    });
+  }
+
+  function save() {
+    startTransition(async () => {
+      const result = await setEventInvites(event.id, [...chosen]);
+      if (result.error) setError(result.error);
+      else onClose();
+    });
+  }
+
+  return (
+    <div className="mt-3 rounded-md border border-hairline bg-parchment p-3">
+      <div className="flex items-center justify-between gap-2">
+        <p className="text-sm font-medium text-ink">Who&apos;s invited to {event.title}?</p>
+        <p className="font-mono-numbers text-xs text-ink/60">{chosen.size} chosen</p>
+      </div>
+      {guests.length === 0 ? (
+        <p className="mt-2 text-sm text-ink/60">Add guests on the Guests page first.</p>
+      ) : (
+        <>
+          <input
+            type="search"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search names or households"
+            aria-label="Search guests"
+            className={`${inputClass} mt-2 w-full text-sm`}
+          />
+          <div className="mt-2 max-h-72 overflow-y-auto">
+            {groups.map(([household, members]) => {
+              const all = members.every((m) => chosen.has(m.id));
+              return (
+                <div key={household || "none"} className="border-b border-hairline py-2 last:border-b-0">
+                  {household && (
+                    <label className="flex items-center gap-2 text-xs font-medium uppercase tracking-wide text-ink/60">
+                      <input
+                        type="checkbox"
+                        checked={all}
+                        onChange={(e) => toggle(members.map((m) => m.id), e.target.checked)}
+                        className="h-4 w-4 accent-forest"
+                      />
+                      {household}
+                    </label>
+                  )}
+                  <div className={`mt-1 grid gap-1 sm:grid-cols-2 ${household ? "pl-6" : ""}`}>
+                    {members.map((g) => (
+                      <label key={g.id} className="flex min-h-9 items-center gap-2 text-sm text-ink">
+                        <input
+                          type="checkbox"
+                          checked={chosen.has(g.id)}
+                          onChange={(e) => toggle([g.id], e.target.checked)}
+                          className="h-4 w-4 accent-forest"
+                        />
+                        {g.name}
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </>
+      )}
+      {error && <p className="mt-2 text-sm text-red-800">{error}</p>}
+      <div className="mt-3 flex items-center gap-3">
+        <button
+          type="button"
+          onClick={save}
+          disabled={isPending || guests.length === 0}
+          className="rounded-md bg-forest px-4 py-2 text-sm font-medium text-parchment hover:bg-forest/90 disabled:opacity-60"
+        >
+          {isPending ? "Saving..." : "Save guests"}
+        </button>
+        <button type="button" onClick={onClose} className="text-sm text-ink/60 hover:underline">
+          Cancel
+        </button>
+      </div>
     </div>
   );
 }
@@ -128,8 +293,17 @@ function AddEventForm({ defaultDate, onDone }: { defaultDate: string; onDone: ()
   );
 }
 
-function EventRow({ event }: { event: ItineraryEvent }) {
+function EventRow({
+  event,
+  guests,
+  invited,
+}: {
+  event: ItineraryEvent;
+  guests: InviteGuest[];
+  invited: string[];
+}) {
   const [isEditing, setIsEditing] = useState(false);
+  const [picking, setPicking] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
   const [isPending, startTransition] = useTransition();
 
@@ -193,6 +367,25 @@ function EventRow({ event }: { event: ItineraryEvent }) {
     <div className="border-b border-hairline py-3 last:border-b-0">
       {timeRange && <p className="font-mono-numbers text-xs text-brass xl:text-[11px]">{timeRange}</p>}
       <p className="mt-0.5 text-ink">{event.title}</p>
+      {event.rsvp && (
+        <p className="mt-1 flex flex-wrap gap-1.5">
+          <span className="rounded-full border border-forest/40 bg-forest/10 px-2 py-0.5 text-[11px] text-forest">
+            Guests RSVP
+          </span>
+          {event.invite_only && (
+            <button
+              type="button"
+              onClick={() => setPicking((p) => !p)}
+              className="rounded-full border border-brass/40 bg-brass/10 px-2 py-0.5 text-[11px] text-brass hover:border-brass"
+            >
+              Invite only · {invited.length} {invited.length === 1 ? "guest" : "guests"} — choose
+            </button>
+          )}
+        </p>
+      )}
+      {picking && event.invite_only && (
+        <InvitePicker event={event} guests={guests} invited={invited} onClose={() => setPicking(false)} />
+      )}
       {event.location && <p className="mt-1 text-xs text-ink/50">{event.location}</p>}
       {event.description && <p className="mt-1 text-sm text-ink/70">{event.description}</p>}
       {error && <p className="mt-1 text-sm text-red-800">{error}</p>}
@@ -220,11 +413,15 @@ function DayColumn({
   events,
   isWeddingDay,
   onAdd,
+  guests,
+  invites,
 }: {
   date: string;
   events: ItineraryEvent[];
   isWeddingDay: boolean;
   onAdd: () => void;
+  guests: InviteGuest[];
+  invites: Record<string, string[]>;
 }) {
   return (
     <div className="w-full min-w-[240px] flex-1 rounded-lg border border-hairline bg-card p-4 shadow-sm xl:min-w-0 xl:p-3">
@@ -251,7 +448,9 @@ function DayColumn({
       {events.length === 0 ? (
         <p className="py-6 text-center text-sm text-ink/50">Nothing scheduled yet.</p>
       ) : (
-        events.map((event) => <EventRow key={event.id} event={event} />)
+        events.map((event) => (
+          <EventRow key={event.id} event={event} guests={guests} invited={invites[event.id] ?? []} />
+        ))
       )}
     </div>
   );
@@ -260,9 +459,15 @@ function DayColumn({
 export function ItineraryManager({
   events,
   weddingDate,
+  guests = [],
+  invites = {},
 }: {
   events: ItineraryEvent[];
   weddingDate: string | null;
+  /** For choosing who's invited to invite-only events. */
+  guests?: InviteGuest[];
+  /** Event id -> the guest ids invited to it. */
+  invites?: Record<string, string[]>;
 }) {
   const [showAddForm, setShowAddForm] = useState(false);
   const [addFormDate, setAddFormDate] = useState(weddingDate ?? dateKey(new Date()));
@@ -332,6 +537,8 @@ export function ItineraryManager({
                 events={day.events}
                 isWeddingDay={weddingDate === day.date}
                 onAdd={() => openAddForm(day.date)}
+                guests={guests}
+                invites={invites}
               />
             ))}
           </div>

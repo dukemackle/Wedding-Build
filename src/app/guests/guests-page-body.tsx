@@ -2,9 +2,11 @@ import type {
   ContactSubmission,
   Guest,
   GuestPost,
+  ItineraryEvent,
   RsvpSubmission,
   Wedding,
 } from "@/lib/supabase/types";
+import { EventHeadcounts } from "./event-headcounts";
 import { FULL_WIDTH } from "@/lib/layout";
 import { GuestsManager } from "./guests-manager";
 import { PendingRsvps } from "./public-site-panel";
@@ -30,6 +32,8 @@ export function GuestsPageBody({
   wedding,
   guests,
   rsvpSubmissions,
+  rsvpEvents = [],
+  eventInvites = {},
   contactSubmissions,
   origin,
   guestPosts = [],
@@ -42,6 +46,10 @@ export function GuestsPageBody({
   wedding: Wedding;
   guests: Guest[];
   rsvpSubmissions: RsvpSubmission[];
+  /** Schedule events guests RSVP to separately (0109). */
+  rsvpEvents?: ItineraryEvent[];
+  /** Event id -> guest ids, for invite-only events. */
+  eventInvites?: Record<string, string[]>;
   contactSubmissions: ContactSubmission[];
   origin: string;
   guestPosts?: GuestPost[];
@@ -92,6 +100,8 @@ export function GuestsPageBody({
           partnerBName={wedding.partner_b_name}
         />
 
+        <EventHeadcounts events={rsvpEvents} guests={guests} invites={eventInvites} />
+
         <div className="grid gap-6 lg:grid-cols-12 lg:items-start">
           {/* Two columns from 1024px: the list takes two thirds (three
               quarters from 1280px) with invitations beside it, both on screen
@@ -122,6 +132,7 @@ export function GuestsPageBody({
                   hidden: !wedding.public_slug || pendingRsvps.length === 0,
                   content: (
                     <PendingRsvps
+                      events={rsvpEvents}
                       submissions={pendingRsvps}
                       guests={guests}
                       partnerAName={wedding.partner_a_name}

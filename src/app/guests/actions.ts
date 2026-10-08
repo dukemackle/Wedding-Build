@@ -604,6 +604,7 @@ export async function approveRsvpSubmission(formData: FormData): Promise<{ error
     song_request: submission.song_request,
     phone: submission.phone,
     sms_opt_in: submission.sms_opt_in,
+    ...(submission.events ? { event_rsvps: submission.events } : {}),
   };
 
   const { error: saveError } = match
@@ -881,4 +882,40 @@ export async function sendRsvpReminders(
 
   revalidatePath("/guests");
   return { sent, skipped, failed };
+}
+
+/**
+ * The couple sets (or clears, with null) one guest's answer for one event,
+ * from the event headcounts on the guests page.
+ */
+export async function setGuestEventAnswer(
+  guestId: string,
+  eventId: string,
+  coming: boolean | null,
+): Promise<{ error?: string }> {
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
+  if (!wedding) return { error: noWedding };
+
+  const { data: guest, error: fetchError } = await supabase
+    .from("guests")
+    .select("event_rsvps")
+    .eq("id", guestId)
+    .eq("wedding_id", wedding.id)
+    .maybeSingle<{ event_rsvps: Record<string, boolean> | null }>();
+  if (fetchError) return { error: fetchError.message };
+  if (!guest) return { error: "That guest is no longer on your list." };
+
+  const answers = { ...(guest.event_rsvps ?? {}) };
+  if (coming === null) delete answers[eventId];
+  else answers[eventId] = coming;
+
+  const { error } = await supabase
+    .from("guests")
+    .update({ event_rsvps: answers })
+    .eq("id", guestId)
+    .eq("wedding_id", wedding.id);
+  if (error) return { error: error.message };
+
+  revalidatePath("/guests");
+  return {};
 }
