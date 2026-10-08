@@ -1797,7 +1797,7 @@ function SiteDemo() {
         </span>
       </div>
       <div className="flex gap-1 rounded-lg bg-ink/[0.05] p-1">
-        {["Theme", "Style", "Motion", "Sections", "Elements"].map((label, i) => (
+        {["Theme", "Colour", "Fonts", "Background", "Elements"].map((label, i) => (
           <span
             key={label}
             className={`flex h-8 flex-1 items-center justify-center rounded-md text-xs ${

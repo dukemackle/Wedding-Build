@@ -472,6 +472,18 @@ body::before {
   border-radius: min(var(--site-radius, 1rem), 1.5rem);
 }
 
+/* Background panel: a pattern and texture over the page colour, on the
+   whole page or only the top of it (site-design.ts, backgroundLayers). */
+.guest-site[data-bg-scope="page"],
+.guest-site[data-bg-scope="top"] [data-canvas-section="hero"] {
+  background-image: var(--site-bg-image, none);
+  background-size: var(--site-bg-size, auto);
+}
+/* The text-only hero's soft glow would hide the pattern at the top. */
+.guest-site[data-bg-on] .site-hero-plain {
+  background: none;
+}
+
 /* The guest site has a footer of its own, in its theme. */
 /* The dashboard's photo backdrop sits behind the page at a negative z-index,
    which paints beneath body's own background -- so on that page body lets

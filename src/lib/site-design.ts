@@ -1012,6 +1012,33 @@ export function hasTextStyle(style: TextStyle | undefined) {
   return !!style && Object.values(style).some((v) => v !== null && v !== "");
 }
 
+/** Background panel: a pattern and a texture over the page colour (phase 4a). */
+export const BG_PATTERNS = [
+  { id: "none", label: "None" },
+  { id: "dots", label: "Dots" },
+  { id: "stripes", label: "Stripes" },
+  { id: "lattice", label: "Lattice" },
+] as const;
+
+export const BG_TEXTURES = [
+  { id: "none", label: "None" },
+  { id: "linen", label: "Linen" },
+  { id: "paper", label: "Paper" },
+  { id: "wash", label: "Watercolour wash" },
+] as const;
+
+type BgPattern = (typeof BG_PATTERNS)[number]["id"];
+type BgTexture = (typeof BG_TEXTURES)[number]["id"];
+
+const backgroundSchema = z.object({
+  pattern: z.enum(BG_PATTERNS.map((p) => p.id) as [BgPattern, ...BgPattern[]]).catch("none"),
+  texture: z.enum(BG_TEXTURES.map((t) => t.id) as [BgTexture, ...BgTexture[]]).catch("none"),
+  /** Every section, or just the top of the page. */
+  scope: z.enum(["page", "top"]).catch("page"),
+});
+
+const NO_BACKGROUND = { pattern: "none", texture: "none", scope: "page" } as const;
+
 export const siteDesignSchema = z.object({
   theme: z.enum(THEME_IDS).catch(DEFAULT_THEME_ID),
   /** null means the theme's first swatch. */
@@ -1065,6 +1092,7 @@ export const siteDesignSchema = z.object({
     .catch({}),
   /** Free elements inside sections, and whole-section styles (src/lib/site-canvas.ts). */
   canvas: canvasSchema,
+  background: backgroundSchema.catch(NO_BACKGROUND),
 });
 
 export type SiteDesign = z.infer<typeof siteDesignSchema>;
@@ -1086,6 +1114,7 @@ export const DEFAULT_SITE_DESIGN: SiteDesign = {
   motion: MOTION_PRESETS.subtle,
   text: {},
   canvas: EMPTY_CANVAS,
+  background: NO_BACKGROUND,
 };
 
 /** Whatever is in the column -- null, an old shape, junk -- as a usable design. */
@@ -1205,6 +1234,42 @@ export function paletteColors(p: Palette): Pick<SiteDesign, "colors" | "accent">
   return { colors: { bg: p.bg, ink: p.ink, heading: p.heading }, accent: p.accent };
 }
 
+// Grey noise reads as paper on light and dark pages alike.
+const PAPER =
+  "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")";
+
+/**
+ * The Background panel's pattern and texture as CSS layers, drawn in the
+ * site's own accent and ink so they follow every palette. Patterns sit over
+ * textures; the page colour shows through both.
+ */
+export function backgroundLayers(background: SiteDesign["background"]): { image: string; size: string } {
+  const tint = (pct: number, v = "--site-accent") => `color-mix(in srgb, var(${v}) ${pct}%, transparent)`;
+  const layers: [string, string][] = [];
+  if (background.pattern === "dots") layers.push([`radial-gradient(${tint(22)} 1.6px, transparent 2.2px)`, "22px 22px"]);
+  if (background.pattern === "stripes")
+    layers.push([`repeating-linear-gradient(45deg, ${tint(14)} 0 2px, transparent 2px 16px)`, "auto"]);
+  if (background.pattern === "lattice")
+    layers.push(
+      [`linear-gradient(${tint(16)} 1px, transparent 1px)`, "32px 32px"],
+      [`linear-gradient(90deg, ${tint(16)} 1px, transparent 1px)`, "32px 32px"],
+    );
+  if (background.texture === "linen")
+    layers.push(
+      [`repeating-linear-gradient(0deg, ${tint(4, "--color-ink")} 0 1px, transparent 1px 3px)`, "auto"],
+      [`repeating-linear-gradient(90deg, ${tint(3, "--color-ink")} 0 1px, transparent 1px 4px)`, "auto"],
+    );
+  if (background.texture === "paper") layers.push([PAPER, "160px 160px"]);
+  if (background.texture === "wash")
+    layers.push(
+      [`radial-gradient(ellipse 60% 40% at 12% 8%, ${tint(16)}, transparent 70%)`, "100% 100%"],
+      [`radial-gradient(ellipse 50% 45% at 88% 35%, ${tint(12, "--site-accent-2")}, transparent 70%)`, "100% 100%"],
+      [`radial-gradient(ellipse 55% 35% at 30% 90%, ${tint(10)}, transparent 70%)`, "100% 100%"],
+    );
+  if (!layers.length) return { image: "none", size: "auto" };
+  return { image: layers.map(([i]) => i).join(", "), size: layers.map(([, s]) => s).join(", ") };
+}
+
 /**
  * The CSS custom properties that restyle the guest site. The site is written
  * against the app's semantic colour names, so overriding those on a wrapper
@@ -1240,6 +1305,8 @@ export function designCssVars(design: SiteDesign): Record<string, string> {
     // Native controls -- checkboxes, select menus, scrollbars -- in the theme's light or dark.
     "--site-scheme": luminance(theme.bg) < 0.2 ? "dark" : "light",
     "--motion-speed": String(MOTION_SPEED[design.motion.speed]),
+    "--site-bg-image": backgroundLayers(design.background).image,
+    "--site-bg-size": backgroundLayers(design.background).size,
   };
 }
 
