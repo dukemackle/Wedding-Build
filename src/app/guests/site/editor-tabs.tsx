@@ -81,9 +81,82 @@ export function StyleTab({
   const scripts = FONTS.filter((f) => f.kind === "script");
   const others = FONTS.filter((f) => f.kind !== "script");
   const needsPhoto = PHOTO_HEROES.includes(design.hero);
+  // The single-font grids are long and rarely needed; the font pairs cover
+  // most couples. Open from the start for a couple already using them.
+  const [more, setMore] = useState(
+    Boolean(design.fontDisplay || design.fontBody || design.occasion.kind === "renewal"),
+  );
 
   return (
     <>
+      <div className="flex flex-col gap-3">
+        <PanelLabel>Top of the page</PanelLabel>
+        <div className="grid grid-cols-3 gap-2.5">
+          {HERO_LAYOUTS.map((h) => {
+            const selected = design.hero === h.id;
+            return (
+              <button
+                key={h.id}
+                type="button"
+                aria-pressed={selected}
+                onClick={() => onChange({ hero: h.id })}
+                className={`flex flex-col overflow-hidden rounded-xl bg-card text-left ${selected ? SELECTED : UNSELECTED}`}
+                title={h.help}
+              >
+                <HeroThumb layout={h.id} bg={theme.bg} surface={theme.surface} photo={theme.photo} ink={theme.ink} accent={accent} />
+                <span className="border-t border-hairline px-2 py-1.5 text-[12px] font-medium text-ink">{h.label}</span>
+              </button>
+            );
+          })}
+        </div>
+        <p className="text-[13px] leading-normal text-ink/60">
+          {hasPhoto || !needsPhoto
+            ? HERO_LAYOUTS.find((h) => h.id === design.hero)?.help
+            : "Until you add a banner photo (Sections › Photos), this shows an illustration of your scene in your colours."}
+        </p>
+      </div>
+
+      <div className="flex flex-col gap-3">
+        <PanelLabel>Page style</PanelLabel>
+        <Pills
+          label="Page style"
+          options={PAGE_STYLES.map((x) => [x.id, x.label] as const)}
+          value={design.pageStyle}
+          onPick={(v) => onChange({ pageStyle: v })}
+        />
+        <p className="text-[13px] leading-normal text-ink/60">
+          {PAGE_STYLES.find((x) => x.id === design.pageStyle)?.help}
+        </p>
+      </div>
+
+      <div className="flex flex-col gap-3">
+        <PanelLabel>Scene</PanelLabel>
+        <div role="group" aria-label="Scene" className="flex flex-wrap gap-1.5">
+          {[{ id: null, label: `Theme's own${base.scene && base.scene !== "none" ? ` (${sceneById(base.scene).label})` : ""}` }, ...SCENES].map(
+            (x) => {
+              const on = design.scene === x.id;
+              return (
+                <button
+                  key={x.id ?? "theme"}
+                  type="button"
+                  aria-pressed={on}
+                  onClick={() => onChange({ scene: x.id as SiteDesign["scene"] })}
+                  className={`h-8 rounded-full px-3 text-[13px] ${
+                    on ? "bg-forest text-parchment" : "border border-hairline bg-card text-ink/75 hover:border-ink/30"
+                  }`}
+                >
+                  {x.label}
+                </button>
+              );
+            },
+          )}
+        </div>
+        <p className="text-[13px] leading-normal text-ink/60">
+          Drawn in your colours: a landscape under your names, a strip across the top, or a frame around them.
+          Your accent colour sets its mood.
+        </p>
+      </div>
+
       <div className="flex flex-col gap-3">
         <PanelLabel>Font pairs</PanelLabel>
         <div className="grid grid-cols-2 gap-2">
@@ -110,29 +183,6 @@ export function StyleTab({
           })}
         </div>
       </div>
-
-      <div className="flex flex-col gap-3">
-        <PanelLabel>Headings &amp; names</PanelLabel>
-        <FontGrid fonts={others} selected={headingId} onPick={(id) => onChange({ fontDisplay: id })} />
-        <p className="text-xs font-medium text-ink/60">Script</p>
-        <FontGrid fonts={scripts} selected={headingId} onPick={(id) => onChange({ fontDisplay: id })} />
-      </div>
-
-      <label className="flex flex-col gap-2">
-        <PanelLabel>Body text</PanelLabel>
-        <select
-          value={bodyId ?? ""}
-          onChange={(e) => onChange({ fontBody: e.target.value as SiteDesign["fontBody"] })}
-          className="h-11 rounded-lg border border-hairline bg-card px-3 text-[15px] text-ink"
-          style={{ fontFamily: theme.body }}
-        >
-          {BODY_FONTS.map((f) => (
-            <option key={f.id} value={f.id}>
-              {f.label}
-            </option>
-          ))}
-        </select>
-      </label>
 
       <div className="flex flex-col gap-3">
         <PanelLabel>Monogram</PanelLabel>
@@ -263,103 +313,75 @@ export function StyleTab({
         )}
       </div>
 
-      <div className="flex flex-col gap-3">
-        <PanelLabel>Scene</PanelLabel>
-        <div role="group" aria-label="Scene" className="flex flex-wrap gap-1.5">
-          {[{ id: null, label: `Theme's own${base.scene && base.scene !== "none" ? ` (${sceneById(base.scene).label})` : ""}` }, ...SCENES].map(
-            (x) => {
-              const on = design.scene === x.id;
-              return (
-                <button
-                  key={x.id ?? "theme"}
-                  type="button"
-                  aria-pressed={on}
-                  onClick={() => onChange({ scene: x.id as SiteDesign["scene"] })}
-                  className={`h-8 rounded-full px-3 text-[13px] ${
-                    on ? "bg-forest text-parchment" : "border border-hairline bg-card text-ink/75 hover:border-ink/30"
-                  }`}
-                >
-                  {x.label}
-                </button>
-              );
-            },
+      <button
+        type="button"
+        onClick={() => setMore(!more)}
+        aria-expanded={more}
+        className="flex items-center justify-between rounded-xl border border-hairline bg-card px-4 py-3 text-left"
+      >
+        <span>
+          <span className="block text-[15px] font-medium text-ink">More options</span>
+          <span className="block text-xs text-ink/60">Pick each font yourself, or set up a vow renewal</span>
+        </span>
+        <ChevronDownIcon className={`h-4 w-4 shrink-0 text-ink/40 transition-transform ${more ? "rotate-180" : ""}`} />
+      </button>
+
+      {more && (
+        <>
+        <div className="flex flex-col gap-3">
+          <PanelLabel>Headings &amp; names</PanelLabel>
+          <FontGrid fonts={others} selected={headingId} onPick={(id) => onChange({ fontDisplay: id })} />
+          <p className="text-xs font-medium text-ink/60">Script</p>
+          <FontGrid fonts={scripts} selected={headingId} onPick={(id) => onChange({ fontDisplay: id })} />
+        </div>
+
+        <label className="flex flex-col gap-2">
+          <PanelLabel>Body text</PanelLabel>
+          <select
+            value={bodyId ?? ""}
+            onChange={(e) => onChange({ fontBody: e.target.value as SiteDesign["fontBody"] })}
+            className="h-11 rounded-lg border border-hairline bg-card px-3 text-[15px] text-ink"
+            style={{ fontFamily: theme.body }}
+          >
+            {BODY_FONTS.map((f) => (
+              <option key={f.id} value={f.id}>
+                {f.label}
+              </option>
+            ))}
+          </select>
+        </label>
+
+        <div className="flex flex-col gap-3">
+          <PanelLabel>The occasion</PanelLabel>
+          <Pills
+            label="The occasion"
+            options={[
+              ["wedding", "Wedding"],
+              ["renewal", "Vow renewal"],
+            ]}
+            value={design.occasion.kind}
+            onPick={(v) => onChange({ occasion: { ...design.occasion, kind: v } })}
+          />
+          {design.occasion.kind === "renewal" && (
+            <label className="flex flex-col gap-1.5 text-[13px] text-ink/75">
+              When you first married
+              <input
+                id="occasion-since"
+                type="date"
+                value={design.occasion.since ?? ""}
+                onChange={(e) => onChange({ occasion: { ...design.occasion, since: e.target.value || null } })}
+                className="h-11 rounded-lg border border-hairline bg-card px-3 text-[15px] text-ink"
+              />
+            </label>
           )}
+          <p className="text-[13px] leading-normal text-ink/60">
+            {design.occasion.kind === "renewal"
+              ? "The top of the page says you're renewing your vows, with the years since you married."
+              : "Planning a vow renewal? Switch this and the wording follows."}
+          </p>
         </div>
-        <p className="text-[13px] leading-normal text-ink/60">
-          Drawn in your colours: a landscape under your names, a strip across the top, or a frame around them.
-          Your accent colour sets its mood.
-        </p>
-      </div>
-
-      <div className="flex flex-col gap-3">
-        <PanelLabel>Page style</PanelLabel>
-        <Pills
-          label="Page style"
-          options={PAGE_STYLES.map((x) => [x.id, x.label] as const)}
-          value={design.pageStyle}
-          onPick={(v) => onChange({ pageStyle: v })}
-        />
-        <p className="text-[13px] leading-normal text-ink/60">
-          {PAGE_STYLES.find((x) => x.id === design.pageStyle)?.help}
-        </p>
-      </div>
-
-      <div className="flex flex-col gap-3">
-        <PanelLabel>The occasion</PanelLabel>
-        <Pills
-          label="The occasion"
-          options={[
-            ["wedding", "Wedding"],
-            ["renewal", "Vow renewal"],
-          ]}
-          value={design.occasion.kind}
-          onPick={(v) => onChange({ occasion: { ...design.occasion, kind: v } })}
-        />
-        {design.occasion.kind === "renewal" && (
-          <label className="flex flex-col gap-1.5 text-[13px] text-ink/75">
-            When you first married
-            <input
-              id="occasion-since"
-              type="date"
-              value={design.occasion.since ?? ""}
-              onChange={(e) => onChange({ occasion: { ...design.occasion, since: e.target.value || null } })}
-              className="h-11 rounded-lg border border-hairline bg-card px-3 text-[15px] text-ink"
-            />
-          </label>
-        )}
-        <p className="text-[13px] leading-normal text-ink/60">
-          {design.occasion.kind === "renewal"
-            ? "The top of the page says you're renewing your vows, with the years since you married."
-            : "Planning a vow renewal? Switch this and the wording follows."}
-        </p>
-      </div>
-
-      <div className="flex flex-col gap-3">
-        <PanelLabel>Top of the page</PanelLabel>
-        <div className="grid grid-cols-3 gap-2.5">
-          {HERO_LAYOUTS.map((h) => {
-            const selected = design.hero === h.id;
-            return (
-              <button
-                key={h.id}
-                type="button"
-                aria-pressed={selected}
-                onClick={() => onChange({ hero: h.id })}
-                className={`flex flex-col overflow-hidden rounded-xl bg-card text-left ${selected ? SELECTED : UNSELECTED}`}
-                title={h.help}
-              >
-                <HeroThumb layout={h.id} bg={theme.bg} surface={theme.surface} photo={theme.photo} ink={theme.ink} accent={accent} />
-                <span className="border-t border-hairline px-2 py-1.5 text-[12px] font-medium text-ink">{h.label}</span>
-              </button>
-            );
-          })}
-        </div>
-        <p className="text-[13px] leading-normal text-ink/60">
-          {hasPhoto || !needsPhoto
-            ? HERO_LAYOUTS.find((h) => h.id === design.hero)?.help
-            : "Until you add a banner photo (Sections › Photos), this shows an illustration of your scene in your colours."}
-        </p>
-      </div>
+        </>
+      )}
     </>
   );
 }

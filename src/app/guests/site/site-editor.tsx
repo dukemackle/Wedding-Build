@@ -449,6 +449,44 @@ function ThemeTab({
   const lowText = contrast(theme.ink, theme.bg) < 4.5 || contrast(heading, theme.bg) < 3;
   const customised =
     design.accent !== null || design.colors.bg !== null || design.colors.ink !== null || design.colors.heading !== null;
+  // Picking a theme clears the couple's own colours and scene; what they had
+  // is kept here so the note under the theme can put it back.
+  const [undo, setUndo] = useState<{
+    group: string;
+    lost: string[];
+    patch: Pick<SiteDesign, "theme" | "accent" | "colors" | "scene" | "ornament">;
+  } | null>(null);
+
+  function pickTheme(t: (typeof THEMES)[number], group: string) {
+    const lost = [
+      ...(customised || current ? ["colours"] : []),
+      ...(design.scene !== null ? ["scene"] : []),
+      ...("ornament" in t && t.ornament !== design.ornament ? ["monogram"] : []),
+    ];
+    setUndo(
+      lost.length && t.id !== design.theme
+        ? {
+            group,
+            lost,
+            patch: {
+              theme: design.theme,
+              accent: design.accent,
+              colors: design.colors,
+              scene: design.scene,
+              ornament: design.ornament,
+            },
+          }
+        : null,
+    );
+    onChange({
+      theme: t.id,
+      accent: null,
+      colors: NO_COLORS,
+      scene: null,
+      // A theme with marks of its own brings them; the rest keep the couple's monogram.
+      ...("ornament" in t ? { ornament: t.ornament } : {}),
+    });
+  }
 
   return (
     <>
@@ -463,24 +501,33 @@ function ThemeTab({
                   key={t.id}
                   theme={t}
                   selected={t.id === design.theme}
-                  onPick={() =>
-                    onChange({
-                      theme: t.id,
-                      accent: null,
-                      colors: NO_COLORS,
-                      scene: null,
-                      // A theme with marks of its own brings them; the rest keep the couple's monogram.
-                      ...("ornament" in t ? { ornament: t.ornament } : {}),
-                    })
-                  }
+                  onPick={() => pickTheme(t, group)}
                 />
               ))}
             </div>
+            {undo?.group === group && (
+              <div className="flex items-center justify-between gap-3 rounded-lg bg-[#FFD301]/20 px-3 py-2 text-[13px] text-[#14203d]">
+                <span>
+                  Your {undo.lost.join(" and ").replace(/ and (?=.* and )/, ", ")} changed to match{" "}
+                  {base.name}.
+                </span>
+                <button
+                  type="button"
+                  onClick={() => {
+                    onChange(undo.patch);
+                    setUndo(null);
+                  }}
+                  className="shrink-0 font-semibold underline underline-offset-2"
+                >
+                  Undo
+                </button>
+              </div>
+            )}
           </div>
         ))}
         <p className="text-[13px] leading-normal text-ink/60">
-          A theme sets the fonts, corners and colours. Switching keeps everything you&apos;ve
-          written — only the look changes.
+          A theme sets the fonts, corners, colours and scene, so switching replaces any
+          colours or scene you picked. Everything you&apos;ve written stays.
         </p>
       </div>
 
@@ -811,9 +858,13 @@ function PreviewStage({
 }
 
 const SHEET_PEEK_PX = 148;
+const SHEET_HALF = 0.52;
 const SHEET_FULL = 0.86;
 
-/** The phone settings sheet: peeks with the title and tabs, drags up to edit. */
+/**
+ * The phone settings sheet: peeks with the title and tabs, opens halfway so
+ * the preview stays in view while you pick, and drags up again for room.
+ */
 function BottomSheet({
   open,
   onOpenChange,
@@ -826,12 +877,19 @@ function BottomSheet({
   const [drag, setDrag] = useState<number | null>(null);
   const startY = useRef(0);
   const moved = useRef(false);
+  const [full, setFull] = useState(false);
+  const height = !open ? SHEET_PEEK_PX : `${(full ? SHEET_FULL : SHEET_HALF) * 100}%`;
+
+  function settle(next: "peek" | "half" | "full") {
+    setFull(next === "full");
+    onOpenChange(next !== "peek");
+  }
 
   return (
     <div
       className="absolute inset-x-0 bottom-0 z-20 flex flex-col rounded-t-2xl border-t border-hairline bg-card shadow-[0_-6px_24px_rgb(11_74_58/0.18)]"
       style={{
-        height: open ? `${SHEET_FULL * 100}%` : SHEET_PEEK_PX,
+        height,
         transform: drag === null ? undefined : `translateY(${drag}px)`,
         transition: drag === null ? "height 220ms ease, transform 220ms ease" : "none",
       }}
@@ -851,11 +909,12 @@ function BottomSheet({
           if (drag === null) return;
           const dy = e.clientY - startY.current;
           if (Math.abs(dy) > 4) moved.current = true;
-          setDrag(open ? Math.max(0, dy) : Math.min(0, dy));
+          setDrag(open && full ? Math.max(0, dy) : !open ? Math.min(0, dy) : dy);
         }}
         onPointerUp={() => {
-          if (drag !== null && Math.abs(drag) > 60) onOpenChange(!open);
-          else if (!moved.current) onOpenChange(!open);
+          if (drag !== null && drag < -60) settle(open ? "full" : "half");
+          else if (drag !== null && drag > 60) settle(full ? "half" : "peek");
+          else if (!moved.current) settle(open ? "peek" : "half");
           setDrag(null);
         }}
         onPointerCancel={() => setDrag(null)}
