@@ -1,15 +1,20 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState, useTransition, type ReactNode } from "react";
+import { useCallback, useEffect, useEffectEvent, useRef, useState, useTransition, type ReactNode } from "react";
 import {
   CONFETTI_MESSAGE,
   DESIGN_MESSAGE,
   READY_MESSAGE,
   REPLAY_MESSAGE,
+  TEXT_EDIT_MESSAGE,
+  TEXT_SELECT_MESSAGE,
 } from "@/components/guest-site-theme";
 import {
   ALL_FONTS_HREF,
   COLOR_FAMILIES,
+  EMPTY_TEXT_STYLE,
+  TEXT_SLOTS,
+  hasTextStyle,
   PALETTES,
   THEMES,
   THEME_GROUPS,
@@ -24,7 +29,10 @@ import {
   type SectionKey,
   type SiteDesign,
   type SiteTheme,
+  type TextSlotId,
+  type TextStyle,
 } from "@/lib/site-design";
+import { TextToolbar } from "./text-toolbar";
 import { publishSiteDesign, saveSiteDraft } from "./actions";
 import { BirdCheer } from "@/components/bird-cheer";
 import { PublicSitePanel, SiteSwitch, useGuestSite } from "../public-site-panel";
@@ -106,11 +114,16 @@ export function SiteEditor({
 
   const dirty = !sameDesign(design, published);
 
-  // For the preview's "ready" handler, which outlives any one render.
+  // The latest design, for message and key handlers that outlive a render
+  // and for changes that land faster than React re-renders.
   const designRef = useRef(design);
-  useEffect(() => {
-    designRef.current = design;
-  }, [design]);
+  // The words clicked in the preview, whose toolbar is showing.
+  const [textSlot, setTextSlot] = useState<TextSlotId | null>(null);
+  // Undo and redo: whole designs, newest last.
+  const past = useRef<SiteDesign[]>([]);
+  const future = useRef<SiteDesign[]>([]);
+  const lastRecorded = useRef(0);
+  const [historySize, setHistorySize] = useState({ past: 0, future: 0 });
 
   // Phone screens start on the phone preview; there's no computer to show it on.
   useEffect(() => {
@@ -178,12 +191,11 @@ export function SiteEditor({
     frameRef.current?.contentWindow?.postMessage({ type }, window.location.origin);
   }, []);
 
-  function change(patch: Partial<SiteDesign>) {
-    const next = { ...design, ...patch };
+  /** Shows a design and saves it as the draft, without touching undo. */
+  function apply(next: SiteDesign) {
+    designRef.current = next;
     setDesign(next);
     sendDesign(next);
-    // A motion change plays straight away, so the couple sees what it does.
-    if (patch.motion) post(REPLAY_MESSAGE);
     setError(null);
     setSaveState("saving");
     clearTimeout(saveTimer.current);
@@ -200,6 +212,92 @@ export function SiteEditor({
       }
     }, 500);
   }
+
+  function change(patch: Partial<SiteDesign>) {
+    const now = Date.now();
+    // A colour drag or a run of clicks within a moment is one step to undo.
+    if (now - lastRecorded.current > 700) {
+      past.current = [...past.current.slice(-99), designRef.current];
+    }
+    lastRecorded.current = now;
+    future.current = [];
+    setHistorySize({ past: past.current.length, future: future.current.length });
+    apply({ ...designRef.current, ...patch });
+    // A motion change plays straight away, so the couple sees what it does.
+    if (patch.motion) post(REPLAY_MESSAGE);
+  }
+
+  function undo() {
+    const previous = past.current.at(-1);
+    if (!previous) return;
+    past.current = past.current.slice(0, -1);
+    future.current = [...future.current, designRef.current];
+    lastRecorded.current = 0;
+    setHistorySize({ past: past.current.length, future: future.current.length });
+    apply(previous);
+  }
+
+  function redo() {
+    const next = future.current.at(-1);
+    if (!next) return;
+    future.current = future.current.slice(0, -1);
+    past.current = [...past.current, designRef.current];
+    lastRecorded.current = 0;
+    setHistorySize({ past: past.current.length, future: future.current.length });
+    apply(next);
+  }
+
+  /** One slot's style; null puts it back to the theme's. */
+  function changeText(slot: TextSlotId, patch: Partial<TextStyle> | null) {
+    const text = { ...designRef.current.text };
+    const style = patch ? { ...EMPTY_TEXT_STYLE, ...text[slot], ...patch } : null;
+    if (style && hasTextStyle(style)) text[slot] = style;
+    else delete text[slot];
+    change({ text });
+  }
+
+  function closeText() {
+    setTextSlot(null);
+    frameRef.current?.contentWindow?.postMessage({ type: TEXT_SELECT_MESSAGE, slot: null }, window.location.origin);
+  }
+
+  // Called from handlers attached once, so they always see the latest render.
+  const onTypedText = useEffectEvent((slot: TextSlotId, text: string) => changeText(slot, { text: text || null }));
+  const onUndo = useEffectEvent(() => undo());
+  const onRedo = useEffectEvent(() => redo());
+
+  // Words clicked or retyped in the preview.
+  useEffect(() => {
+    function onMessage(event: MessageEvent) {
+      if (event.origin !== window.location.origin) return;
+      if (event.source !== frameRef.current?.contentWindow) return;
+      if (event.data?.type === TEXT_SELECT_MESSAGE) {
+        setTextSlot(TEXT_SLOTS.find((s) => s.id === event.data.slot)?.id ?? null);
+      }
+      if (event.data?.type === TEXT_EDIT_MESSAGE && typeof event.data.text === "string") {
+        const slot = TEXT_SLOTS.find((s) => s.id === event.data.slot);
+        if (slot?.words) onTypedText(slot.id, event.data.text.slice(0, 120));
+      }
+    }
+    window.addEventListener("message", onMessage);
+    return () => window.removeEventListener("message", onMessage);
+  }, []);
+
+  // Ctrl/Cmd+Z and Ctrl/Cmd+Shift+Z (or Ctrl+Y), except while typing in a field.
+  useEffect(() => {
+    function onKey(event: KeyboardEvent) {
+      if (!(event.metaKey || event.ctrlKey)) return;
+      const target = event.target as HTMLElement | null;
+      if (target?.closest("input, textarea, select, [contenteditable]")) return;
+      const key = event.key.toLowerCase();
+      if (key === "z" && !event.shiftKey) onUndo();
+      else if ((key === "z" && event.shiftKey) || key === "y") onRedo();
+      else return;
+      event.preventDefault();
+    }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
 
   function publish() {
     clearTimeout(saveTimer.current);
@@ -289,6 +387,37 @@ export function SiteEditor({
     </div>
   );
 
+  const historyButtons = (
+    <div className="flex shrink-0 gap-1 rounded-lg border border-hairline bg-card p-1 shadow-sm lg:shadow-none">
+      <button
+        type="button"
+        onClick={undo}
+        disabled={historySize.past === 0}
+        aria-label="Undo"
+        title="Undo (Ctrl+Z)"
+        className="flex h-8 w-8 items-center justify-center rounded-md text-ink/80 hover:bg-ink/[0.05] hover:text-ink disabled:opacity-30"
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <path d="M9 14L4 9l5-5" />
+          <path d="M4 9h10a6 6 0 010 12h-3" />
+        </svg>
+      </button>
+      <button
+        type="button"
+        onClick={redo}
+        disabled={historySize.future === 0}
+        aria-label="Redo"
+        title="Redo (Ctrl+Shift+Z)"
+        className="flex h-8 w-8 items-center justify-center rounded-md text-ink/80 hover:bg-ink/[0.05] hover:text-ink disabled:opacity-30"
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <path d="M15 14l5-5-5-5" />
+          <path d="M20 9H10a6 6 0 000 12h3" />
+        </svg>
+      </button>
+    </div>
+  );
+
   const deviceToggle = (
     <div
       role="group"
@@ -352,6 +481,7 @@ export function SiteEditor({
         {launches > 0 && <BirdCheer key={launches} message="Your site is live!" />}
         {isDesktop ? (
           <div className="flex h-[60px] shrink-0 items-center gap-3 px-6">
+            {historyButtons}
             {deviceToggle}
             <button
               type="button"
@@ -381,7 +511,21 @@ export function SiteEditor({
             {publishButton}
           </div>
         ) : (
-          <div className="absolute right-3 top-3 z-10">{deviceToggle}</div>
+          <div className="absolute inset-x-3 top-3 z-10 flex justify-between">
+            {historyButtons}
+            {deviceToggle}
+          </div>
+        )}
+
+        {textSlot && (
+          <div className={`absolute inset-x-3 z-20 flex justify-center ${isDesktop ? "top-[64px]" : "top-16"}`}>
+            <TextToolbar
+              slot={textSlot}
+              design={design}
+              onChange={(patch) => changeText(textSlot, patch)}
+              onDone={closeText}
+            />
+          </div>
         )}
 
         <PreviewStage

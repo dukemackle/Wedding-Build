@@ -11,7 +11,9 @@ import {
   DEFAULT_SITE_DESIGN,
   PALETTES,
   THEMES,
+  fontById,
   fontsHref,
+  fontsHrefFor,
   paletteColors,
   resolveDesign,
   type OrnamentId,
@@ -1694,12 +1696,16 @@ const DEMO_ORNAMENTS: { id: OrnamentId; label: string }[] = [
   { id: "none", label: "None" },
 ];
 
+// Theme font first, then a few the names cycle through when clicked.
+const DEMO_NAME_FONTS = [null, "greatvibes", "saintdelafield", "playfair"] as const;
+
 function SiteDemo() {
   const [themeId, setThemeId] = useState<ThemeId>(DEMO_THEMES[0].id);
   const [paletteId, setPaletteId] = useState<string | null>(null);
   const [ornament, setOrnament] = useState<OrnamentId>("laurel");
   const [device, setDevice] = useState<"desktop" | "phone">("desktop");
   const [rsvped, setRsvped] = useState(false);
+  const [namesFont, setNamesFont] = useState(0);
   const palette = DEMO_PALETTES.find((p) => p.id === paletteId);
   // The real resolver, so the demo mixes cards and muted text the way the site does.
   const { theme: t, accent, onAccent, heading } = resolveDesign({
@@ -1805,6 +1811,11 @@ function SiteDemo() {
   return (
     <Bleed>
       <link rel="stylesheet" href={fontsHref(DEMO_THEMES)} precedence="default" />
+      <link
+        rel="stylesheet"
+        href={fontsHrefFor(DEMO_NAME_FONTS.flatMap((id) => (id ? [fontById(id)?.css ?? ""] : [])))}
+        precedence="default"
+      />
       <div className="flex flex-col-reverse md:flex-row">
         <aside className="border-t border-hairline bg-card px-5 py-5 sm:px-8 md:w-[300px] md:shrink-0 md:border-r md:border-t-0 md:px-5">
           {panel}
@@ -1860,17 +1871,21 @@ function SiteDemo() {
                 <p className="font-mono-numbers text-[10px] uppercase tracking-[0.25em]" style={{ color: t.muted }}>
                   June 12, 2027 · Bend, Oregon
                 </p>
-                <p
-                  className={phone ? "text-3xl" : "text-5xl"}
+                {/* Like the real editor: click the words to restyle them. */}
+                <button
+                  type="button"
+                  onClick={() => setNamesFont((i) => (i + 1) % DEMO_NAME_FONTS.length)}
+                  title="Click to try another font"
+                  className={`${phone ? "text-3xl" : "text-5xl"} rounded-sm outline-offset-4 hover:outline hover:outline-2 hover:outline-dashed hover:outline-[#2243B6]/60`}
                   style={{
-                    fontFamily: t.display,
-                    fontStyle: t.italicNames ? "italic" : "normal",
+                    fontFamily: fontById(DEMO_NAME_FONTS[namesFont])?.css ?? t.display,
+                    fontStyle: t.italicNames && namesFont === 0 ? "italic" : "normal",
                     fontWeight: t.nameWeight,
                     color: heading,
                   }}
                 >
                   Juniper &amp; Sam
-                </p>
+                </button>
                 <div className={`mt-3 grid w-full max-w-sm gap-2 ${phone ? "grid-cols-1" : "grid-cols-3"}`}>
                   {[
                     ["4pm", "Ceremony"],

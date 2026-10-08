@@ -10,6 +10,7 @@ import { useSiteDesign } from "@/components/guest-site-theme";
 import { motionPreset, PHOTO_HEROES, resolveDesign } from "@/lib/site-design";
 import { SiteOrnament } from "@/components/site-ornament";
 import { SiteArt } from "@/components/site-art";
+import { SiteText } from "@/components/site-text";
 import { SceneArtwork, SiteScene } from "@/components/site-scene";
 
 function formatDate(dateStr: string) {
@@ -60,15 +61,19 @@ function HeroContent({
         tone={tone}
       />
 
-      <p
+      <SiteText
+        slot="hero.kicker"
+        as="p"
         className={`${bigMark ? "mt-8" : "mt-5"} font-mono-numbers text-[11px] uppercase tracking-[0.24em] ${
           tone === "light" ? "text-white/80" : "text-brass"
         }`}
       >
         {renewal ? "We're renewing our vows" : <>You&apos;re invited</>}
-      </p>
+      </SiteText>
 
-      <h1
+      <SiteText
+        slot="hero.names"
+        as="h1"
         className={`site-names mt-3 font-display font-medium [font-style:var(--site-name-style,normal)] [font-weight:var(--site-name-weight,500)] ${
           poster
             ? `mx-auto max-w-[14ch] ${capitals ? "uppercase leading-[0.9] tracking-tight" : "leading-[1.1]"}`
@@ -82,7 +87,7 @@ function HeroContent({
         }}
       >
         {stagger ? <StaggerWords text={names} /> : names}
-      </h1>
+      </SiteText>
 
       {renewal && occasion.since && (
         <p className={`mt-3 font-display text-lg italic ${tone === "light" ? "text-white/90" : "text-forest"}`}>
