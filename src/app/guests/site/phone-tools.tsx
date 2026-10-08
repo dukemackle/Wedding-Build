@@ -34,6 +34,7 @@ import {
   sectionMoves,
   sectionName,
 } from "./canvas-panels";
+import { AnimatePanel, PhotoPanel } from "./photo-motion-panels";
 
 // Selection and "on" states are Royal blue (CLAUDE.md palette).
 const PRESSED = "bg-[#2243B6]/10 text-[#2243B6]";
@@ -41,7 +42,7 @@ const PRESSED = "bg-[#2243B6]/10 text-[#2243B6]";
 /** What the floating bar in the preview can do, run from the tool row. */
 export type FrameAction = "edit" | "duplicate" | "delete" | "lock";
 
-type SheetId = "font" | "size" | "colour" | "position" | "style";
+type SheetId = "font" | "size" | "colour" | "position" | "style" | "crop" | "frame" | "filter" | "animate";
 
 /**
  * The phone editor's tools for whatever is picked (Editor v2, phase 3b, from
@@ -167,6 +168,7 @@ export function PhoneTools({
     label = elementName(el);
     const common = (
       <>
+        <Tool label="Animate" icon="motion" on={open === "animate" || el.anim !== "none"} onClick={() => toggle("animate")} />
         <Tool label="Position" icon="position" on={open === "position"} onClick={() => toggle("position")} />
         <Tool label={el.locked ? "Unlock" : "Lock"} icon={el.locked ? "locked" : "lock"} on={el.locked} onClick={() => onFrameAction("lock")} />
         <Tool label="Copy" icon="copy" onClick={() => onFrameAction("duplicate")} />
@@ -194,6 +196,13 @@ export function PhoneTools({
         <>
           {colour}
           {el.kind === "art" && <Tool label="Flip" icon="flip" on={el.flip} onClick={() => set({ flip: !el.flip })} />}
+          {el.kind === "photo" && (
+            <>
+              <Tool label="Crop" icon="crop" on={open === "crop"} onClick={() => toggle("crop")} />
+              <Tool label="Frame" icon="frame" on={open === "frame"} onClick={() => toggle("frame")} />
+              <Tool label="Filter" icon="filter" on={open === "filter"} onClick={() => toggle("filter")} />
+            </>
+          )}
           {el.kind === "shape" && el.shape !== "line" && (
             <Tool label="Outline" icon="outline" on={el.outline} onClick={() => set({ outline: !el.outline })} />
           )}
@@ -234,6 +243,20 @@ export function PhoneTools({
           roles={el.kind === "text" ? ["heading", "ink", "accent", "accent2", "muted", "bg"] : ["accent", "accent2", "heading", "ink", "surface", "bg"]}
           onPick={(color) => set({ color } as Partial<CanvasElement>)}
         />
+      );
+    } else if (open === "crop" || open === "frame" || open === "filter") {
+      title = { crop: "Crop", frame: "Frame", filter: "Filter" }[open];
+      body = (
+        <div className="flex flex-col gap-4">
+          <PhotoPanel design={design} selection={canvasSel} onCanvas={onCanvas} only={open} />
+        </div>
+      );
+    } else if (open === "animate") {
+      title = "Animate";
+      body = (
+        <div className="flex flex-col gap-4">
+          <AnimatePanel design={design} selection={canvasSel} onCanvas={onCanvas} />
+        </div>
       );
     } else if (open === "position") {
       body = (
@@ -380,6 +403,9 @@ const ICONS = {
   styleTab: ["M4 19L9.5 5h1L16 19", "M6.5 14h7", "M17 19v-6", "M20 19v-4"],
   motion: ["M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z", "M19 16l.7 1.8 1.8.7-1.8.7L19 21l-.7-1.8-1.8-.7 1.8-.7z"],
   sections: ["M4 5h16v4H4z", "M4 11h16v4H4z", "M4 17h10"],
+  crop: ["M6 2v14a2 2 0 0 0 2 2h14", "M2 6h14a2 2 0 0 1 2 2v14"],
+  frame: ["M4 4h16v16H4z", "M8 8h8v8H8z"],
+  filter: ["M9 4a5 5 0 1 0 0 10 5 5 0 0 0 0-10z", "M15 10a5 5 0 1 0 0 10 5 5 0 0 0 0-10z"],
   colour: ["M12 3.5c3 3.6 6 7 6 10.5a6 6 0 0 1-12 0c0-3.5 3-6.9 6-10.5z"],
   fonts: ["M4 7V5h10v2", "M9 5v14", "M7 19h4", "M14 12v-1h6v1", "M17 11v8", "M16 19h2"],
   background: ["M4 4h16v16H4z", "M4 15l5-5 4 4 3-3 4 4", "M15.5 8.5h.01"],

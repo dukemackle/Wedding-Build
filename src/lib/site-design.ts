@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { canvasFontIds, canvasSchema, EMPTY_CANVAS } from "./site-canvas";
+import { canvasFontIds, canvasSchema, EMPTY_CANVAS, filterCss, PHOTO_FILTERS, type PhotoFilterId } from "./site-canvas";
 
 /**
  * How a couple's guest site looks: theme, accent and (in later phases) fonts,
@@ -1039,6 +1039,8 @@ const backgroundSchema = z.object({
 
 const NO_BACKGROUND = { pattern: "none", texture: "none", scope: "page" } as const;
 
+const HERO_PHOTO = { fx: 50, fy: 50, filter: "none" } as const;
+
 export const siteDesignSchema = z.object({
   theme: z.enum(THEME_IDS).catch(DEFAULT_THEME_ID),
   /** null means the theme's first swatch. */
@@ -1093,6 +1095,14 @@ export const siteDesignSchema = z.object({
   /** Free elements inside sections, and whole-section styles (src/lib/site-canvas.ts). */
   canvas: canvasSchema,
   background: backgroundSchema.catch(NO_BACKGROUND),
+  /** The banner photo's focus point (percent across and down) and filter. */
+  heroPhoto: z
+    .object({
+      fx: z.number().min(0).max(100).catch(50),
+      fy: z.number().min(0).max(100).catch(50),
+      filter: z.enum(PHOTO_FILTERS.map((f) => f.id) as [PhotoFilterId, ...PhotoFilterId[]]).catch("none"),
+    })
+    .catch(HERO_PHOTO),
 });
 
 export type SiteDesign = z.infer<typeof siteDesignSchema>;
@@ -1115,6 +1125,7 @@ export const DEFAULT_SITE_DESIGN: SiteDesign = {
   text: {},
   canvas: EMPTY_CANVAS,
   background: NO_BACKGROUND,
+  heroPhoto: HERO_PHOTO,
 };
 
 /** Whatever is in the column -- null, an old shape, junk -- as a usable design. */
@@ -1307,6 +1318,8 @@ export function designCssVars(design: SiteDesign): Record<string, string> {
     "--motion-speed": String(MOTION_SPEED[design.motion.speed]),
     "--site-bg-image": backgroundLayers(design.background).image,
     "--site-bg-size": backgroundLayers(design.background).size,
+    "--hero-focus": `${design.heroPhoto.fx}% ${design.heroPhoto.fy}%`,
+    "--hero-filter": filterCss(design.heroPhoto.filter),
   };
 }
 
