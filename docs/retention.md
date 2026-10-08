@@ -11,6 +11,14 @@ have to hold.
    work. One lost RSVP or a wrong total sends them back to a spreadsheet for
    good. Every save surfaces its error; nothing shows "saved" when it wasn't;
    destructive actions confirm; couples can export their data.
+   **Backups (2026-10-08):** the "Weekly backup" routine runs
+   `npm run backup` every Sunday: all public tables, auth users and every
+   Storage file, to the "You Do, I Do backups" Shared drive and the private
+   `youdoido-backups` repo (newest 12 data files kept; Storage files mirrored,
+   never deleted). `npm run restore` puts one back into a project (see the
+   header of `scripts/restore.mjs`). Not covered: passwords (users reset them
+   after a restore) and anything changed in the Supabase dashboard rather than
+   a migration.
 2. **The guest site (`/w/[slug]`) never fails.** It's the part their family
    sees. An RSVP that doesn't save, or a site that's down the week of the
    wedding, is public and unforgivable.
