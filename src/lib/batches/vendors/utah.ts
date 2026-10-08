@@ -136,6 +136,18 @@ Mountain High Society	Catering		Park City	Utah	Park City and the Wasatch Mountai
 Park City Elite Private Chefs	Catering		Park City	Utah	Park City, Kamas, Heber City and Midway	Chef Dalton Campbell's Park City service creating customised menus with locally sourced ingredients for intimate dinners and wedding events.	contact@pceliteprivatechefs.com	435-659-4657	https://parkcityeliteprivatechefs.com	https://www.instagram.com/pceliteprivatechefs/
 `,
   },
+  {
+    name: "St. George: videography, cake, planning, catering and music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Emy Videography	Videography		St. George	Utah	Cedar City, Provo, Washington and St. George	St. George and Lehi wedding videographer making cinematic films of ceremonies and receptions, who also shoots real estate and dance.			https://www.emyvideography.com	https://www.instagram.com/emy.videography/
+Andrea's Artistic Cakes	Cake		St. George	Utah	St. George, with delivery from Cedar City to Mesquite	St. George custom wedding cake studio designing one-of-a-kind tiered cakes from a couple's flavours, photos and colours, with free local delivery.	floraandfire@gmail.com	(801) 554-3341	https://www.andreasartisticcakes.com	
+Sunny's Cake Shop	Cake		Cedar City	Utah	Southern Utah, with delivery and setup	Licensed Cedar City bakery making wedding cakes and dessert bars, with free tasting bookings and delivery and setup across Southern Utah.		435-704-7041	https://www.sunnyscakeshop.com	https://www.instagram.com/sunnys_cake_shop/
+Poppy Lane Events	Planning		St. George	Utah	Southern Utah	St. George planning team offering wedding planning plus decor and floral consulting for luxury weddings across Southern Utah and beyond.		(435) 414-0365	https://www.poppylane-events.com	https://www.instagram.com/poppylaneevents_st.george/
+Posh Wedding Planning	Planning		St. George	Utah	St. George and Southern Utah	St. George luxury planning company with full, partial and day-of packages, including a specialism in South Asian and Indian weddings.	poshweddingplanning@gmail.com		https://www.poshweddingplanners.com	https://www.instagram.com/PoshWeddingPlanners/
+Snow Canyon Catering	Catering		St. George	Utah	St. George and Southern Utah	Chef-led St. George caterer for weddings and events, with buffet, plated and family-style menus and vegetarian and vegan options.	snowcanyoncatering@gmail.com	585-315-7095	https://snowcanyoncatering.com	https://www.instagram.com/snow.canyon.catering/
+Zion Wedding Music	Music		Springdale	Utah	St. George, Cedar City, Springdale and Zion National Park	Acoustic guitarist and singer-songwriter playing classical-style and original music for ceremonies and receptions in Zion and St. George.	davetatemusic@gmail.com	435-760-9163	https://www.zionweddingmusic.com	
+`,
+  },
 ];
 
 export default batches;
