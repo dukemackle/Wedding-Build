@@ -51,6 +51,7 @@ import { CanvasToolbar, ElementsTab, PositionPanel } from "./canvas-panels";
 import { PhoneTools, Sheet, Tool } from "./phone-tools";
 import { AnimatePanel, FocusPicker, PhotoPanel } from "./photo-motion-panels";
 import { TemplatesTab } from "./templates-tab";
+import { DescribeSite, WrenWrite } from "./wren-panels";
 import { BackgroundTab, FontsTab, PhotoColoursSection, TargetColourSection, type PickTarget } from "./look-panels";
 import { publishSiteDesign, saveSiteDraft } from "./actions";
 import { BirdCheer } from "@/components/bird-cheer";
@@ -533,7 +534,10 @@ export function SiteEditor({
           )}
         </>
       ) : tab === "templates" ? (
-        <TemplatesTab design={design} names={names} onChange={change} />
+        <>
+          <DescribeSite design={design} onChange={change} />
+          <TemplatesTab design={design} names={names} onChange={change} />
+        </>
       ) : tab === "theme" ? (
         <ThemeTab design={design} onChange={change} part="themes" />
       ) : tab === "colour" ? (
@@ -589,6 +593,8 @@ export function SiteEditor({
           )}
         </>
       ) : (
+        <>
+        <WrenWrite design={design} onChange={change} />
         <SectionsTab
           design={design}
           onChange={change}
@@ -596,6 +602,7 @@ export function SiteEditor({
           info={sectionInfo}
           checklist={checklist}
         />
+        </>
       )}
     </div>
   );

@@ -172,5 +172,15 @@ Phases, one PR each:
    the couple's words, section order, photos and placed elements; one-off
    fonts and colours on retyped headings give way to the new look. The design
    records the template it started from (`template`), shown as picked.
-   **5b, AI** (next): "Describe your ideal site" and "Wren, write this",
-   with a daily cap per couple (the owner chose this on 2026-10-08).
+   **5b, AI** (built 2026-10-08): "Describe your ideal site" (top of
+   Templates) turns a sentence into a template, palette, artwork, background
+   and motion, every field checked against its list on the server and applied
+   as an ordinary draft change, so undo puts it back. "Wren, write this" (top
+   of Sections) drafts their story, FAQ, travel notes or a welcome line from
+   their details and notes. The couple edits the draft, then "Use this" saves
+   it: the story becomes a story section, FAQs are added after theirs, travel
+   notes are replaced, and the welcome line goes on the hero as text. Both
+   share a cap of 20 calls per wedding per day (`site_ai_uses`, migration
+   0110), and the Privacy Policy lists what's sent. They run on
+   `claude-opus-5-5` at low effort (`src/lib/ai/site-wren.ts`); Claude Haiku
+   5.5 would cost far less per call, which is the owner's call.
