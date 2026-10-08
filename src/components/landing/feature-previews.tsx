@@ -1719,21 +1719,33 @@ function artMask(src: string, color: string): React.CSSProperties {
 
 /**
  * A sprig placed freely on the demo site, dragged like an element in the real
- * editor: Royal-blue selection with handles, snapping to 8px. On the phone
- * frame it sits in the flow under the names, as the live site stacks it.
+ * editor: Royal-blue selection with handles, snapping to 8px. The phone frame
+ * has its own layout: the sprig sits stacked under the names until it's
+ * dragged, then stays where it was put there, wherever it is on the computer.
  */
 function DemoArt({ src, color, phone }: { src: string; color: string; phone: boolean }) {
-  const [pos, setPos] = useState({ x: 24, y: 24 });
+  const [desktopPos, setDesktopPos] = useState({ x: 24, y: 24 });
+  const [phonePos, setPhonePos] = useState<{ x: number; y: number } | null>(null);
   const [picked, setPicked] = useState(true);
   const drag = useRef<{ px: number; py: number; x: number; y: number } | null>(null);
-  if (phone) return <span aria-hidden="true" className="mt-2 block h-16 w-12" style={artMask(src, color)} />;
+  const pos = phone ? phonePos : desktopPos;
+  const setPos = phone ? setPhonePos : setDesktopPos;
+  // One element whether stacked or placed, so a drag that starts on the
+  // stacked sprig carries on after it's lifted out of the flow.
   return (
     <span
       role="img"
-      aria-label="Artwork you can drag"
+      aria-label={pos ? "Artwork you can drag" : "Artwork, stacked on phones until you drag it"}
       onPointerDown={(e) => {
         e.currentTarget.setPointerCapture(e.pointerId);
-        drag.current = { px: e.clientX, py: e.clientY, ...pos };
+        let start = pos;
+        if (!start) {
+          const box = e.currentTarget.getBoundingClientRect();
+          const frame = e.currentTarget.offsetParent?.getBoundingClientRect();
+          start = { x: Math.round(box.left - (frame?.left ?? 0)), y: Math.round(box.top - (frame?.top ?? 0)) };
+          setPos(start);
+        }
+        drag.current = { px: e.clientX, py: e.clientY, ...start };
         setPicked(true);
       }}
       onPointerMove={(e) => {
@@ -1743,11 +1755,12 @@ function DemoArt({ src, color, phone }: { src: string; color: string; phone: boo
         setPos({ x: snap(d.x + e.clientX - d.px), y: snap(d.y + e.clientY - d.py) });
       }}
       onPointerUp={() => (drag.current = null)}
-      className="absolute z-10 h-24 w-16 cursor-move touch-none"
-      style={{ left: pos.x, top: pos.y, outline: picked ? "2px solid #2243B6" : undefined, outlineOffset: 2 }}
+      className={`${pos ? "absolute z-10" : "relative mt-2 block"} cursor-move touch-none ${phone ? "h-16 w-12" : "h-24 w-16"}`}
+      style={{ ...(pos ? { left: pos.x, top: pos.y } : {}), outline: picked && pos ? "2px solid #2243B6" : undefined, outlineOffset: 2 }}
     >
       <span className="block h-full w-full" style={artMask(src, color)} />
       {picked &&
+        pos &&
         ["-left-1.5 -top-1.5", "-right-1.5 -top-1.5", "-bottom-1.5 -left-1.5", "-bottom-1.5 -right-1.5"].map((at) => (
           <span key={at} aria-hidden="true" className={`absolute h-2.5 w-2.5 rounded-full border-[1.5px] border-[#2243B6] bg-white ${at}`} />
         ))}

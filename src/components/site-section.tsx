@@ -7,8 +7,10 @@ import {
   colorCss,
   elementsBottom,
   holdsElements,
+  phoneBoxes,
   readingOrder,
   type CanvasElement,
+  type PhoneBox,
 } from "@/lib/site-canvas";
 
 /**
@@ -49,40 +51,82 @@ export function SiteSection({
   const shown = (section?.elements ?? []).filter((el) => !el.hidden);
   const order = new Map(readingOrder(shown).map((el, i) => [el.id, i]));
   const w = section?.w ?? 1280;
+  // A phone layout placed by hand; otherwise phones stack (globals.css).
+  const free = section?.phone.mode === "free" ? phoneBoxes(section) : null;
+  const phoneBottom = free ? Math.max(0, ...[...free.values()].map((b) => b.y + b.h)) : 0;
+  const offPhone = new Set(section?.phone.hidden ?? []);
 
   return (
     <div
       data-canvas-section={sectionKey}
       data-block-style={blockStyle}
-      className={`site-canvas ${className ?? ""}`}
+      className={`site-canvas ${free ? "site-canvas-phone-free" : ""} ${className ?? ""}`}
       style={style}
     >
       <div className="site-canvas-content">{children}</div>
       <div
         data-canvas-layer={sectionKey}
         className="site-canvas-layer"
-        style={{ "--W": w, "--B": elementsBottom(shown) } as CSSProperties}
+        style={
+          {
+            "--W": w,
+            "--B": elementsBottom(shown),
+            ...(free ? { "--PW": section!.phone.w, "--PB": phoneBottom } : {}),
+          } as CSSProperties
+        }
       >
         {shown.map((el) => (
-          <SiteElement key={el.id} el={el} order={order.get(el.id) ?? 0} />
+          <SiteElement
+            key={el.id}
+            el={el}
+            order={order.get(el.id) ?? 0}
+            phone={free?.get(el.id) ?? null}
+            offPhone={offPhone.has(el.id)}
+          />
         ))}
       </div>
     </div>
   );
 }
 
-export function SiteElement({ el, order }: { el: CanvasElement; order: number }) {
+export function SiteElement({
+  el,
+  order,
+  phone = null,
+  offPhone = false,
+}: {
+  el: CanvasElement;
+  order: number;
+  /** Its box in a hand-placed phone layout. */
+  phone?: PhoneBox | null;
+  offPhone?: boolean;
+}) {
   const vars = {
     "--x": el.x,
     "--y": el.y,
     "--w": el.w,
     "--h": el.h,
     "--r": `${el.rot}deg`,
+    ...(phone
+      ? {
+          "--px": phone.x,
+          "--py": phone.y,
+          "--pw": phone.w,
+          "--ph": phone.h,
+          "--pr": `${phone.rot}deg`,
+          ...(phone.size !== null ? { "--pfs": phone.size } : {}),
+        }
+      : {}),
     order,
   } as CSSProperties;
 
   return (
-    <div data-el={el.id} className={`site-el site-el-${el.kind}`} style={vars}>
+    <div
+      data-el={el.id}
+      data-off-phone={offPhone || undefined}
+      className={`site-el site-el-${el.kind}`}
+      style={vars}
+    >
       <ElementBody el={el} />
     </div>
   );

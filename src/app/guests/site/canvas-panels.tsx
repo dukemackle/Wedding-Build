@@ -19,13 +19,18 @@ import {
   findElement,
   moveLayer,
   newElementId,
+  phoneBoxes,
   placeLayer,
+  setHiddenOnPhone,
   setSectionStyle,
+  stackOnPhone,
+  updatePhoneBox,
   snap,
   updateElement,
   type Align,
   type CanvasColor,
   type CanvasElement,
+  type PhoneBox,
   type ShapeId,
   type SiteCanvas,
 } from "@/lib/site-canvas";
@@ -287,6 +292,8 @@ function ShapeIcon({ shape, color }: { shape: ShapeId; color: string }) {
 export function PositionPanel({
   design,
   frames,
+  phoneFrames,
+  device,
   selection,
   onCanvas,
   onSelect,
@@ -294,6 +301,9 @@ export function PositionPanel({
 }: {
   design: SiteDesign;
   frames: CanvasFrames;
+  phoneFrames: CanvasFrames;
+  /** Which preview is showing: Phone arranges the phone layout. */
+  device: "desktop" | "phone";
   selection: CanvasSelection;
   onCanvas: (canvas: SiteCanvas) => void;
   onSelect: (selection: CanvasSelection) => void;
@@ -302,8 +312,37 @@ export function PositionPanel({
   const [tab, setTab] = useState<"arrange" | "layers">("arrange");
   const key = selection?.section ?? "hero";
   const el = selection?.id ? findElement(design.canvas, key, selection.id) : null;
-  const { w, h } = frameSize(design, frames, key);
   const canvas = design.canvas;
+  const section = canvas.sections[key];
+  const phone = device === "phone";
+  const stacked = phone && section?.phone.mode !== "free";
+  const { w, h } = phone && section ? phoneSize(section.phone.w, phoneFrames, key) : frameSize(design, frames, key);
+  // The box being arranged: the element's own, or its place in the phone layout.
+  const box: PhoneBox | null = !el
+    ? null
+    : phone
+      ? stacked || !section
+        ? null
+        : (phoneBoxes(section).get(el.id) ?? null)
+      : { x: el.x, y: el.y, w: el.w, h: el.h, rot: el.rot, size: el.kind === "text" ? el.size : null };
+  function setBox(patch: Partial<PhoneBox>) {
+    if (!el) return;
+    if (phone) {
+      onCanvas(updatePhoneBox(canvas, key, el.id, patch));
+      return;
+    }
+    const { size, ...rest } = patch;
+    onCanvas(updateElement(canvas, key, el.id, { ...rest, ...(el.kind === "text" && size ? { size } : {}) } as Partial<CanvasElement>));
+  }
+  function resizeTo(size: { w?: number; h?: number }) {
+    if (!el || !box) return;
+    // Art and photos keep their shape; shapes and text take the exact size.
+    const keep = el.kind === "art" || el.kind === "photo";
+    const ratio = box.w / box.h;
+    const nw = size.w ?? (keep && size.h ? Math.round(size.h * ratio) : box.w);
+    const nh = size.h ?? (keep && size.w ? Math.round(size.w / ratio) : box.h);
+    setBox({ w: Math.max(GRID, nw), h: Math.max(1, nh) });
+  }
 
   return (
     <>
@@ -337,6 +376,25 @@ export function PositionPanel({
         ))}
       </div>
 
+      {phone && (
+        <div className="flex items-start justify-between gap-3 rounded-xl bg-[#2243B6]/[0.06] p-3">
+          <p className="text-[13px] leading-normal text-ink/80">
+            {stacked
+              ? "Phone layout: stacked under the section automatically. Drag anything in the phone preview to place it by hand."
+              : "Phone layout: placed by hand. Changes here only affect phones."}
+          </p>
+          {!stacked && (
+            <button
+              type="button"
+              onClick={() => onCanvas(stackOnPhone(canvas, key))}
+              className="h-8 shrink-0 rounded-lg border border-hairline bg-card px-2.5 text-[13px] text-ink hover:border-ink/30"
+            >
+              Back to stacked
+            </button>
+          )}
+        </div>
+      )}
+
       {tab === "arrange" ? (
         el ? (
           <>
@@ -354,66 +412,68 @@ export function PositionPanel({
                 </PanelButton>
               ))}
             </div>
-            <div className="flex flex-col gap-2">
-              <PanelLabel>Align to section</PanelLabel>
-              <div className="grid grid-cols-3 gap-2">
-                {(
-                  [
-                    ["top", "Top"],
-                    ["middle", "Middle"],
-                    ["bottom", "Bottom"],
-                    ["left", "Left"],
-                    ["centre", "Centre"],
-                    ["right", "Right"],
-                  ] as [Align, string][]
-                ).map(([align, label]) => (
-                  <PanelButton
-                    key={align}
-                    disabled={el.locked}
-                    onClick={() => onCanvas(updateElement(canvas, key, el.id, alignPatch(el, align, w, h)))}
-                  >
-                    {label}
-                  </PanelButton>
-                ))}
-              </div>
-            </div>
-            <div className="flex flex-col gap-2">
-              <PanelLabel>Size and place</PanelLabel>
-              <div className="grid grid-cols-3 gap-2">
-                <NumberField label="Width" value={el.w} min={GRID} disabled={el.locked} onCommit={(v) => onCanvas(resizeTo(canvas, key, el, { w: v }))} />
-                {el.kind === "text" ? (
-                  <NumberField label="Size" value={el.size} min={8} max={400} disabled={el.locked} onCommit={(v) => onCanvas(updateElement(canvas, key, el.id, { size: v }))} />
-                ) : (
-                  <NumberField label="Height" value={el.h} min={1} disabled={el.locked} onCommit={(v) => onCanvas(resizeTo(canvas, key, el, { h: v }))} />
-                )}
-                <NumberField label="Rotate" value={el.rot} min={-180} max={180} suffix="°" disabled={el.locked} onCommit={(v) => onCanvas(updateElement(canvas, key, el.id, { rot: v }))} />
-                <NumberField label="X" value={el.x} disabled={el.locked} onCommit={(v) => onCanvas(updateElement(canvas, key, el.id, { x: v }))} />
-                <NumberField label="Y" value={el.y} disabled={el.locked} onCommit={(v) => onCanvas(updateElement(canvas, key, el.id, { y: v }))} />
-              </div>
-              <p className="text-[13px] leading-normal text-ink/60">
-                {el.locked
-                  ? "This is locked. Unlock it in Layers or on its bar to move it."
-                  : "Dragging snaps to an 8px grid. Hold Alt to place freely."}
-              </p>
-            </div>
+            {box ? (
+              <>
+                <div className="flex flex-col gap-2">
+                  <PanelLabel>Align to section</PanelLabel>
+                  <div className="grid grid-cols-3 gap-2">
+                    {(
+                      [
+                        ["top", "Top"],
+                        ["middle", "Middle"],
+                        ["bottom", "Bottom"],
+                        ["left", "Left"],
+                        ["centre", "Centre"],
+                        ["right", "Right"],
+                      ] as [Align, string][]
+                    ).map(([align, label]) => (
+                      <PanelButton key={align} disabled={el.locked} onClick={() => setBox(alignBox(box, align, w, h))}>
+                        {label}
+                      </PanelButton>
+                    ))}
+                  </div>
+                </div>
+                <div className="flex flex-col gap-2">
+                  <PanelLabel>Size and place</PanelLabel>
+                  <div className="grid grid-cols-3 gap-2">
+                    <NumberField label="Width" value={box.w} min={GRID} disabled={el.locked} onCommit={(v) => resizeTo({ w: v })} />
+                    {el.kind === "text" ? (
+                      <NumberField label="Size" value={box.size ?? 16} min={6} max={400} disabled={el.locked} onCommit={(v) => setBox({ size: v })} />
+                    ) : (
+                      <NumberField label="Height" value={box.h} min={1} disabled={el.locked} onCommit={(v) => resizeTo({ h: v })} />
+                    )}
+                    <NumberField label="Rotate" value={box.rot} min={-180} max={180} suffix="°" disabled={el.locked} onCommit={(v) => setBox({ rot: v })} />
+                    <NumberField label="X" value={box.x} disabled={el.locked} onCommit={(v) => setBox({ x: v })} />
+                    <NumberField label="Y" value={box.y} disabled={el.locked} onCommit={(v) => setBox({ y: v })} />
+                  </div>
+                  <p className="text-[13px] leading-normal text-ink/60">
+                    {el.locked
+                      ? "This is locked. Unlock it in Layers or on its bar to move it."
+                      : "Dragging snaps to an 8px grid. Hold Alt to place freely."}
+                  </p>
+                </div>
+              </>
+            ) : null}
           </>
         ) : (
           <p className="text-sm text-ink/70">Pick text, art or a shape on your site to arrange it.</p>
         )
       ) : (
-        <Layers design={design} sectionKey={key} selection={selection} label={frames[key]?.label} onCanvas={onCanvas} onSelect={onSelect} />
+        <Layers design={design} sectionKey={key} selection={selection} label={frames[key]?.label} phone={phone} onCanvas={onCanvas} onSelect={onSelect} />
       )}
     </>
   );
 }
 
-function resizeTo(canvas: SiteCanvas, key: string, el: CanvasElement, size: { w?: number; h?: number }) {
-  // Art and photos keep their shape; shapes and text take the exact size.
-  const keep = el.kind === "art" || el.kind === "photo";
-  const ratio = el.w / el.h;
-  const w = size.w ?? (keep && size.h ? Math.round(size.h * ratio) : el.w);
-  const h = size.h ?? (keep && size.w ? Math.round(size.w / ratio) : el.h);
-  return updateElement(canvas, key, el.id, { w: Math.max(GRID, w), h: Math.max(1, h) });
+/** Where a box goes to line up with its section (`w`, `h` are the section's size in the same units). */
+function alignBox(box: { w: number; h: number }, align: Align, w: number, h: number) {
+  return alignPatch(box as CanvasElement, align, w, h) as Partial<PhoneBox>;
+}
+
+/** A section's phone size in its phone layout's units. */
+function phoneSize(pw: number, phoneFrames: CanvasFrames, key: string) {
+  const measured = phoneFrames[key];
+  return { w: pw, h: measured ? (measured.h * pw) / measured.w : 640 };
 }
 
 function Layers({
@@ -421,6 +481,7 @@ function Layers({
   sectionKey,
   selection,
   label,
+  phone,
   onCanvas,
   onSelect,
 }: {
@@ -428,10 +489,13 @@ function Layers({
   sectionKey: string;
   selection: CanvasSelection;
   label?: string;
+  /** Hide and show act on the phone layout only. */
+  phone: boolean;
   onCanvas: (canvas: SiteCanvas) => void;
   onSelect: (selection: CanvasSelection) => void;
 }) {
   const elements = design.canvas.sections[sectionKey]?.elements ?? [];
+  const offPhone = design.canvas.sections[sectionKey]?.phone.hidden ?? [];
   // Front first, as they stack on the page.
   const rows = [...elements].reverse();
   const [dragging, setDragging] = useState<string | null>(null);
@@ -447,9 +511,12 @@ function Layers({
 
   return (
     <div className="flex flex-col gap-1.5">
-      <p className="text-[13px] text-ink/60">{label ?? "This section"} · front to back. Drag to reorder.</p>
+      <p className="text-[13px] text-ink/60">
+        {label ?? "This section"} · front to back. Drag to reorder.{phone ? " Hiding here only hides it on phones." : ""}
+      </p>
       {rows.map((el, row) => {
         const on = selection?.id === el.id;
+        const hidden = phone ? el.hidden || offPhone.includes(el.id) : el.hidden;
         return (
           <div
             key={el.id}
@@ -484,7 +551,7 @@ function Layers({
             <button
               type="button"
               onClick={() => onSelect({ section: sectionKey, id: el.id })}
-              className={`min-w-0 flex-1 truncate text-left text-[13px] ${el.hidden ? "text-ink/40 line-through" : on ? "font-semibold text-[#2243B6]" : "text-ink"}`}
+              className={`min-w-0 flex-1 truncate text-left text-[13px] ${hidden ? "text-ink/40 line-through" : on ? "font-semibold text-[#2243B6]" : "text-ink"}`}
             >
               {elementName(el)}
             </button>
@@ -498,11 +565,17 @@ function Layers({
               <path d={el.locked ? "M8 11V8a4 4 0 0 1 8 0v3" : "M8 11V8a4 4 0 0 1 7.5-2"} />
             </IconToggle>
             <IconToggle
-              label={el.hidden ? "Show" : "Hide"}
-              on={el.hidden}
-              onClick={() => onCanvas(updateElement(design.canvas, sectionKey, el.id, { hidden: !el.hidden }))}
+              label={phone ? (hidden ? "Show on phones" : "Hide on phones") : hidden ? "Show" : "Hide"}
+              on={hidden}
+              onClick={() =>
+                onCanvas(
+                  phone && !el.hidden
+                    ? setHiddenOnPhone(design.canvas, sectionKey, el.id, !hidden)
+                    : updateElement(design.canvas, sectionKey, el.id, { hidden: !el.hidden }),
+                )
+              }
             >
-              {el.hidden ? (
+              {hidden ? (
                 <path d="M3 3l18 18M10.6 6.1A9.8 9.8 0 0 1 12 6c5 0 9 6 9 6a17 17 0 0 1-2.6 3.2M6.6 6.6A16.6 16.6 0 0 0 3 12s4 6 9 6a9.4 9.4 0 0 0 4.4-1.1" />
               ) : (
                 <>
@@ -603,6 +676,7 @@ export function CanvasToolbar({
   design,
   selection,
   frames,
+  device,
   onCanvas,
   onDesign,
   onPosition,
@@ -611,6 +685,9 @@ export function CanvasToolbar({
   design: SiteDesign;
   selection: NonNullable<CanvasSelection>;
   frames: CanvasFrames;
+  phoneFrames: CanvasFrames;
+  /** Which preview is showing: on Phone, size and stacking act on the phone layout. */
+  device: "desktop" | "phone";
   onCanvas: (canvas: SiteCanvas) => void;
   onDesign: (patch: Partial<SiteDesign>) => void;
   onPosition: () => void;
@@ -621,6 +698,13 @@ export function CanvasToolbar({
   const el = selection.id ? findElement(canvas, key, selection.id) : null;
   const colors = roleColors(design);
   const set = (patch: Partial<CanvasElement>) => el && onCanvas(updateElement(canvas, key, el.id, patch));
+  const section = canvas.sections[key];
+  const phoneFree = device === "phone" && section?.phone.mode === "free";
+  // Text size: a hand-placed phone layout keeps its own; otherwise the words' size everywhere.
+  const phoneSizeOf = phoneFree && el && section ? (phoneBoxes(section).get(el.id)?.size ?? null) : null;
+  const textSize = el?.kind === "text" ? (phoneSizeOf ?? el.size) : 0;
+  const setSize = (size: number) =>
+    el && (phoneSizeOf !== null ? onCanvas(updatePhoneBox(canvas, key, el.id, { size })) : set({ size }));
 
   let body: ReactNode;
   if (el) {
@@ -654,11 +738,11 @@ export function CanvasToolbar({
             ))}
           </select>
           <div className="flex h-9 shrink-0 items-center rounded-lg border border-hairline">
-            <BarButton label="Smaller" onClick={() => set({ size: Math.max(8, Math.round(el.size / 1.125)) })}>
+            <BarButton label="Smaller" onClick={() => setSize(Math.max(6, Math.round(textSize / 1.125)))}>
               −
             </BarButton>
-            <span className="w-10 text-center text-[13px] tabular-nums text-ink">{el.size}</span>
-            <BarButton label="Bigger" onClick={() => set({ size: Math.min(400, Math.round(el.size * 1.125)) })}>
+            <span className="w-10 text-center text-[13px] tabular-nums text-ink">{textSize}</span>
+            <BarButton label="Bigger" onClick={() => setSize(Math.min(400, Math.round(textSize * 1.125)))}>
               +
             </BarButton>
           </div>
@@ -729,6 +813,9 @@ export function CanvasToolbar({
             </button>
           ))}
         </div>
+        {phoneFree && (
+          <TextButton onClick={() => onCanvas(stackOnPhone(canvas, key))}>Stack on phones</TextButton>
+        )}
         {key !== "hero" && (
           <>
             <TextButton disabled={prev === undefined} onClick={() => swap(prev)}>

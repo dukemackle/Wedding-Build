@@ -5,6 +5,7 @@ import {
   useLayoutEffect,
   useRef,
   useState,
+  useSyncExternalStore,
   type CSSProperties,
   type MouseEvent as ReactMouseEvent,
   type ReactNode,
@@ -13,16 +14,20 @@ import { createPortal } from "react-dom";
 import { useSiteDesign } from "@/components/guest-site-theme";
 import {
   GRID,
-  alignPatch,
   duplicateElement,
   findElement,
   holdsElements,
   moveLayer,
+  phoneBoxes,
+  placeOnPhone,
   removeElement,
+  setHiddenOnPhone,
   snap,
   updateElement,
+  updatePhoneBox,
   type CanvasElement,
   type LayerMove,
+  type PhoneBox,
   type SiteCanvas,
 } from "@/lib/site-canvas";
 import {
@@ -51,12 +56,19 @@ type Handle = (typeof HANDLES)[number];
 
 type Box = Pick<CanvasElement, "x" | "y" | "w" | "h" | "rot">;
 
+/** Which arrangement is being edited: the frame is computer-wide or phone-wide. */
+type Frame = "desktop" | "phone";
+
+/** An element's box in the frame being edited, with a text element's font size there. */
+type FrameBox = Box & { size: number | null };
+
 type Gesture = {
   kind: "move" | "rotate" | Handle;
+  frame: Frame;
   key: string;
   id: string;
   node: HTMLElement;
-  layer: HTMLElement;
+  wrapper: HTMLElement;
   startX: number;
   startY: number;
   start: Box;
@@ -68,6 +80,8 @@ type Gesture = {
   moved: boolean;
   /** For corner resizes of text: the size the words started at. */
   fontSize: number | null;
+  /** A stacked phone section being placed by hand for the first time: every element's box as it stood. */
+  freeze: Record<string, PhoneBox> | null;
 };
 
 function post(data: object) {
@@ -86,21 +100,108 @@ function elementNode(key: string, id: string) {
   return layerOf(key)?.querySelector<HTMLElement>(`[data-el="${CSS.escape(id)}"]`) ?? null;
 }
 
-/** Puts a box on an element's node straight away, ahead of the round trip through the editor. */
-function paint(node: HTMLElement, box: Box) {
-  node.style.setProperty("--x", String(box.x));
-  node.style.setProperty("--y", String(box.y));
-  node.style.setProperty("--w", String(box.w));
-  node.style.setProperty("--h", String(box.h));
-  node.style.setProperty("--r", `${box.rot}deg`);
+const DESKTOP = "(min-width: 1024px)";
+
+/** The frame follows the preview's width, as the page's own breakpoint does. */
+function useFrame(): Frame {
+  return useSyncExternalStore(
+    (onChange) => {
+      const query = window.matchMedia(DESKTOP);
+      query.addEventListener("change", onChange);
+      return () => query.removeEventListener("change", onChange);
+    },
+    () => (window.matchMedia(DESKTOP).matches ? "desktop" : "phone"),
+    () => "desktop",
+  );
 }
 
 /**
- * Free-element editing inside the editor's preview frame (Editor v2, phase
- * 2): pick, drag, resize from the corners and sides, rotate, snap to the 8px
- * grid and to the section's and other elements' centres and edges, a floating
- * bar and a right-click menu. Only the preview page mounts it, so none of
- * this reaches guests.
+ * Every shown element's box in a frame, and the width those boxes are
+ * measured against. A stacked phone section has no stored boxes, so they're
+ * read off the page as the stack lays them out, in pixels of the section.
+ */
+function frameView(canvas: SiteCanvas, key: string, frame: Frame): { w: number; boxes: Map<string, FrameBox>; stacked: boolean } | null {
+  const section = canvas.sections[key];
+  if (!section) return null;
+  if (frame === "desktop") {
+    const boxes = new Map<string, FrameBox>();
+    for (const el of section.elements) {
+      if (!el.hidden) boxes.set(el.id, { x: el.x, y: el.y, w: el.w, h: el.h, rot: el.rot, size: el.kind === "text" ? el.size : null });
+    }
+    return { w: section.w, boxes, stacked: false };
+  }
+  if (section.phone.mode === "free") return { w: section.phone.w, boxes: phoneBoxes(section), stacked: false };
+  const wrapper = sectionNode(key);
+  if (!wrapper) return null;
+  const origin = wrapper.getBoundingClientRect();
+  const boxes = new Map<string, FrameBox>();
+  for (const el of section.elements) {
+    const node = elementNode(key, el.id);
+    if (el.hidden || !node || node.offsetParent === null) continue;
+    const rect = node.getBoundingClientRect();
+    const words = node.querySelector<HTMLElement>(".site-el-words");
+    boxes.set(el.id, {
+      x: Math.round(rect.left - origin.left),
+      y: Math.round(rect.top - origin.top),
+      w: Math.round(rect.width),
+      h: Math.round(rect.height),
+      rot: 0,
+      size: words ? Math.round(Number.parseFloat(getComputedStyle(words).fontSize)) : null,
+    });
+  }
+  return { w: Math.round(origin.width), boxes, stacked: true };
+}
+
+const VARS = {
+  desktop: { x: "--x", y: "--y", w: "--w", h: "--h", r: "--r", fs: "--fs" },
+  phone: { x: "--px", y: "--py", w: "--pw", h: "--ph", r: "--pr", fs: "--pfs" },
+} as const;
+
+/** Puts a box on an element's node straight away, ahead of the round trip through the editor. */
+function paint(node: HTMLElement, box: Box, frame: Frame) {
+  const v = VARS[frame];
+  node.style.setProperty(v.x, String(box.x));
+  node.style.setProperty(v.y, String(box.y));
+  node.style.setProperty(v.w, String(box.w));
+  node.style.setProperty(v.h, String(box.h));
+  node.style.setProperty(v.r, `${box.rot}deg`);
+}
+
+/**
+ * Turns a stacked phone section into a hand-placed one on the page, with
+ * every element exactly where the stack had it, so nothing jumps when the
+ * first drag starts. The design catches up when the drag is sent up.
+ */
+function freezeStack(key: string, view: { w: number; boxes: Map<string, FrameBox> }) {
+  const wrapper = sectionNode(key);
+  const layer = layerOf(key);
+  if (!wrapper || !layer) return null;
+  const place: Record<string, PhoneBox> = {};
+  let bottom = 0;
+  for (const [id, b] of view.boxes) {
+    place[id] = { x: b.x, y: b.y, w: b.w, h: b.h, rot: 0, size: b.size };
+    bottom = Math.max(bottom, b.y + b.h);
+    const node = elementNode(key, id);
+    if (!node) continue;
+    paint(node, b, "phone");
+    if (b.size !== null) node.style.setProperty("--pfs", String(b.size));
+  }
+  layer.style.setProperty("--PW", String(view.w));
+  layer.style.setProperty("--PB", String(bottom));
+  wrapper.classList.add("site-canvas-phone-free");
+  return place;
+}
+
+/**
+ * Free-element editing inside the editor's preview frame (Editor v2, phases
+ * 2 and 3): pick, drag, resize from the corners and sides, rotate, snap to
+ * the 8px grid and to the section's and other elements' centres and edges, a
+ * floating bar and a right-click menu. Only the preview page mounts it, so
+ * none of this reaches guests.
+ *
+ * The same tools edit both arrangements. At computer width they move the
+ * elements themselves; at phone width they move the phone layout, and the
+ * first move in a stacked section turns it into a hand-placed one.
  *
  * The frame never keeps a design of its own: each finished gesture is sent
  * up as a whole new canvas, the editor records it for undo and saves it, and
@@ -110,6 +211,8 @@ function paint(node: HTMLElement, box: Box) {
  */
 export function CanvasEditing() {
   const { canvas } = useSiteDesign();
+  const frame = useFrame();
+  const frameRef = useRef(frame);
   const canvasRef = useRef(canvas);
   const [on, setOn] = useState(false);
   const [sel, setSel] = useState<CanvasSelection>(null);
@@ -121,19 +224,21 @@ export function CanvasEditing() {
   const [menu, setMenu] = useState<{ left: number; top: number } | null>(null);
   const [typing, setTyping] = useState(false);
   // The picked element's laid-out height in frame units: text grows with its words.
-  const [textHeight, setTextHeight] = useState<{ id: string; h: number } | null>(null);
+  const [textHeight, setTextHeight] = useState<{ id: string; frame: Frame; h: number } | null>(null);
   const gesture = useRef<Gesture | null>(null);
 
   useEffect(() => {
     canvasRef.current = canvas;
-  }, [canvas]);
+    frameRef.current = frame;
+  }, [canvas, frame]);
   useEffect(() => {
     selRef.current = sel;
   }, [sel]);
 
   const selected = sel?.id ? findElement(canvas, sel.section, sel.id) : null;
+  const view = sel && on ? frameView(canvas, sel.section, frame) : null;
   const liveBox = live && live.base === canvas ? live.box : null;
-  const box: Box | null = liveBox ?? selected;
+  const box: Box | null = liveBox ?? (sel?.id ? (view?.boxes.get(sel.id) ?? null) : null);
 
   function pick(next: CanvasSelection, tell = true) {
     setSel(next);
@@ -145,6 +250,31 @@ export function CanvasEditing() {
   function commit(next: SiteCanvas) {
     canvasRef.current = next;
     post({ type: CANVAS_COMMIT, canvas: next });
+  }
+
+  /** A change to one element's box in the frame being edited. */
+  function commitBox(key: string, id: string, patch: Partial<FrameBox>, freeze: Record<string, PhoneBox> | null = null) {
+    const c = canvasRef.current;
+    if (frameRef.current === "desktop") {
+      const { size, ...rest } = patch;
+      const el = findElement(c, key, id);
+      commit(updateElement(c, key, id, { ...rest, ...(el?.kind === "text" && size ? { size } : {}) } as Partial<CanvasElement>));
+      return;
+    }
+    let place = freeze;
+    if (!place && c.sections[key]?.phone.mode !== "free") {
+      const v = frameView(c, key, "phone");
+      place = v ? freezeStack(key, v) : null;
+      if (!place || !v) return;
+      commit(placeOnPhone(c, key, v.w, { ...place, [id]: { ...place[id], ...patch } }));
+      return;
+    }
+    if (place) {
+      const w = Number.parseFloat(layerOf(key)?.style.getPropertyValue("--PW") ?? "") || 390;
+      commit(placeOnPhone(c, key, w, { ...place, [id]: { ...place[id], ...patch } }));
+    } else {
+      commit(updatePhoneBox(c, key, id, patch));
+    }
   }
 
   // Messages from the editor.
@@ -167,9 +297,9 @@ export function CanvasEditing() {
   }, []);
 
   // The editor places new elements and lines things up against each
-  // section's size, so it's told whenever that changes.
+  // section's size, so it's told whenever that changes, and in which frame.
   useEffect(() => {
-    let frame = 0;
+    let raf = 0;
     function report() {
       const frames: CanvasFrames = {};
       document.querySelectorAll<HTMLElement>("[data-canvas-section]").forEach((node) => {
@@ -183,60 +313,66 @@ export function CanvasEditing() {
           label: key === "hero" ? "Top of the page" : heading ? heading.slice(0, 40) : "Your block",
         };
       });
-      post({ type: CANVAS_FRAMES, frames });
+      post({ type: CANVAS_FRAMES, frames, frame: frameRef.current });
     }
     function schedule() {
-      cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(report);
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(report);
     }
     schedule();
     const observer = new ResizeObserver(schedule);
     observer.observe(document.body);
     return () => {
-      cancelAnimationFrame(frame);
+      cancelAnimationFrame(raf);
       observer.disconnect();
     };
-  }, [canvas]);
+  }, [canvas, frame]);
 
   // Text grows with its words, so its box is measured rather than stored.
   useLayoutEffect(() => {
-    if (!sel?.id || selected?.kind !== "text") return;
+    if (!sel?.id || selected?.kind !== "text" || !view) return;
     const node = elementNode(sel.section, sel.id);
-    const layer = layerOf(sel.section);
-    const w = canvas.sections[sel.section]?.w;
-    if (!node || !layer || !w) return;
-    const id = sel.id;
+    const wrapper = sectionNode(sel.section);
+    if (!node || !wrapper) return;
+    const { id } = sel;
+    const w = view.w;
+    const f = frame;
     const observer = new ResizeObserver(() => {
-      const scale = layer.getBoundingClientRect().width / w;
-      setTextHeight({ id, h: node.offsetHeight / scale });
+      const scale = wrapper.getBoundingClientRect().width / w;
+      setTextHeight({ id, frame: f, h: node.offsetHeight / scale });
     });
     observer.observe(node);
     return () => observer.disconnect();
-  }, [sel, selected, canvas]);
+    // `view` is rebuilt every render; its width only changes with these.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sel, selected, canvas, frame]);
 
   function startGesture(kind: Gesture["kind"], key: string, id: string, event: PointerEvent, capture: Element) {
-    const section = canvasRef.current.sections[key];
-    const el = findElement(canvasRef.current, key, id);
+    const f = frameRef.current;
+    const v = frameView(canvasRef.current, key, f);
+    const b = v?.boxes.get(id);
     const node = elementNode(key, id);
-    const layer = layerOf(key);
     const wrapper = sectionNode(key);
-    if (!section || !el || !node || !layer || !wrapper) return;
-    const scale = layer.getBoundingClientRect().width / section.w;
+    if (!v || !b || !node || !wrapper) return;
+    const scale = wrapper.getBoundingClientRect().width / v.w;
+    const el = findElement(canvasRef.current, key, id);
     gesture.current = {
       kind,
+      frame: f,
       key,
       id,
       node,
-      layer,
+      wrapper,
       startX: event.clientX,
       startY: event.clientY,
-      start: { x: el.x, y: el.y, w: el.w, h: el.kind === "text" ? node.offsetHeight / scale : el.h, rot: el.rot },
+      start: { x: b.x, y: b.y, w: b.w, h: el?.kind === "text" ? node.offsetHeight / scale : b.h, rot: b.rot },
       scale,
-      w: section.w,
+      w: v.w,
       h: wrapper.getBoundingClientRect().height / scale,
-      others: section.elements.filter((o) => o.id !== id && !o.hidden),
+      others: [...v.boxes].filter(([other]) => other !== id).map(([, o]) => o),
       moved: false,
-      fontSize: el.kind === "text" ? el.size : null,
+      fontSize: el?.kind === "text" ? b.size : null,
+      freeze: null,
     };
     (capture as HTMLElement).setPointerCapture?.(event.pointerId);
   }
@@ -258,15 +394,16 @@ export function CanvasEditing() {
       const text = words!.innerText.replace(/\n{3,}/g, "\n\n").trim().slice(0, 500);
       if (text === before.trim()) return;
       const section = canvasRef.current.sections[key];
-      const layer = layerOf(key);
+      const wrapper = sectionNode(key);
       const node = elementNode(key, id);
       if (!text) {
         commit(removeElement(canvasRef.current, key, id));
         pick(null);
         return;
       }
-      const scale = layer && section ? layer.getBoundingClientRect().width / section.w : 1;
-      const h = node ? Math.max(GRID, Math.round(node.offsetHeight / scale)) : undefined;
+      // The stored height is the computer one; a phone layout measures its own.
+      const scale = wrapper && section ? wrapper.getBoundingClientRect().width / section.w : 1;
+      const h = node && frameRef.current === "desktop" ? Math.max(GRID, Math.round(node.offsetHeight / scale)) : undefined;
       commit(updateElement(canvasRef.current, key, id, { text, ...(h ? { h } : {}) } as Partial<CanvasElement>));
     }
     function onKey(event: KeyboardEvent) {
@@ -327,6 +464,11 @@ export function CanvasEditing() {
       const dx = (event.clientX - g.startX) / g.scale;
       const dy = (event.clientY - g.startY) / g.scale;
       if (!g.moved && Math.hypot(event.clientX - g.startX, event.clientY - g.startY) < 3) return;
+      if (!g.moved && g.frame === "phone" && canvasRef.current.sections[g.key]?.phone.mode !== "free") {
+        const v = frameView(canvasRef.current, g.key, "phone");
+        g.freeze = v ? freezeStack(g.key, v) : null;
+        if (!g.freeze) return;
+      }
       g.moved = true;
       const free = event.altKey;
       let next: Box;
@@ -334,7 +476,7 @@ export function CanvasEditing() {
       if (g.kind === "move") {
         [next, lines] = snapMove({ ...g.start, x: g.start.x + dx, y: g.start.y + dy }, g, free);
       } else if (g.kind === "rotate") {
-        const rect = g.layer.getBoundingClientRect();
+        const rect = g.wrapper.getBoundingClientRect();
         const cx = rect.left + (g.start.x + g.start.w / 2) * g.scale;
         const cy = rect.top + (g.start.y + g.start.h / 2) * g.scale;
         let angle = (Math.atan2(event.clientY - cy, event.clientX - cx) * 180) / Math.PI + 90;
@@ -346,9 +488,11 @@ export function CanvasEditing() {
       }
       if (g.fontSize !== null && g.kind.length === 2) {
         // A text box's corners scale the words with it.
-        g.node.querySelector<HTMLElement>(".site-el-words")?.style.setProperty("--fs", String(scaledFont(g, next)));
+        const v = VARS[g.frame].fs;
+        const target = g.frame === "desktop" ? g.node.querySelector<HTMLElement>(".site-el-words") : g.node;
+        target?.style.setProperty(v, String(scaledFont(g, next)));
       }
-      paint(g.node, next);
+      paint(g.node, next, g.frame);
       setLive(next);
       setGuides(lines);
     }
@@ -361,19 +505,20 @@ export function CanvasEditing() {
         setLive(null);
         return;
       }
-      const box = readBox(g.node);
-      const el = findElement(canvasRef.current, g.key, g.id);
-      if (["x", "y", "w", "h", "rot"].every((k) => box[k as keyof Box] === Math.round(g.start[k as keyof Box]))) {
+      const box = readBox(g.node, g.frame);
+      const unchanged = ["x", "y", "w", "h", "rot"].every((k) => box[k as keyof Box] === Math.round(g.start[k as keyof Box]));
+      if (unchanged && !g.freeze) {
         setLive(null);
         return;
       }
-      const patch: Partial<CanvasElement> = { ...box };
+      const el = findElement(canvasRef.current, g.key, g.id);
+      const patch: Partial<FrameBox> = { ...box };
       if (el?.kind === "text") {
-        if (g.fontSize !== null && g.kind.length === 2) (patch as Partial<typeof el>).size = scaledFont(g, box);
+        if (g.fontSize !== null && g.kind.length === 2) patch.size = scaledFont(g, box);
         patch.h = Math.max(GRID, Math.round(g.node.offsetHeight / g.scale));
       }
       // The live box stays up until the design comes back with the change.
-      commit(updateElement(canvasRef.current, g.key, g.id, patch));
+      commitBox(g.key, g.id, patch, g.freeze);
     }
 
     function onContextMenu(event: MouseEvent) {
@@ -414,7 +559,7 @@ export function CanvasEditing() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [on]);
 
-  function act(action: "duplicate" | "delete" | "lock" | "hide" | LayerMove | "centre" | "position" | "edit") {
+  function act(action: MenuAction) {
     const current = selRef.current;
     setMenu(null);
     if (!current?.id) return;
@@ -422,6 +567,7 @@ export function CanvasEditing() {
     const c = canvasRef.current;
     const el = findElement(c, key, id);
     if (!el) return;
+    const phone = frameRef.current === "phone";
     if (action === "duplicate") {
       const [next, copy] = duplicateElement(c, key, id);
       commit(next);
@@ -432,10 +578,13 @@ export function CanvasEditing() {
     } else if (action === "lock") {
       commit(updateElement(c, key, id, { locked: !el.locked }));
     } else if (action === "hide") {
-      commit(updateElement(c, key, id, { hidden: true }));
+      // On the phone layout, Hide leaves it off phones only.
+      commit(phone ? setHiddenOnPhone(c, key, id, true) : updateElement(c, key, id, { hidden: true }));
       pick(null);
     } else if (action === "centre") {
-      commit(updateElement(c, key, id, alignPatch(el, "centre", c.sections[key]!.w, 0)));
+      const v = frameView(c, key, frameRef.current);
+      const b = v?.boxes.get(id);
+      if (v && b) commitBox(key, id, { x: Math.round((v.w - b.w) / 2) });
     } else if (action === "position") {
       post({ type: CANVAS_PANEL, panel: "position" });
     } else if (action === "edit") {
@@ -471,10 +620,12 @@ export function CanvasEditing() {
       } else if (event.key === "Enter" && el.kind === "text") {
         act("edit");
       } else if (event.key.startsWith("Arrow") && !el.locked) {
+        const b = frameView(canvasRef.current, current.section, frameRef.current)?.boxes.get(current.id);
+        if (!b) return;
         const step = event.altKey ? 1 : event.shiftKey ? GRID * 4 : GRID;
         const dx = event.key === "ArrowLeft" ? -step : event.key === "ArrowRight" ? step : 0;
         const dy = event.key === "ArrowUp" ? -step : event.key === "ArrowDown" ? step : 0;
-        commit(updateElement(canvasRef.current, current.section, current.id, { x: el.x + dx, y: el.y + dy }));
+        commitBox(current.section, current.id, { x: b.x + dx, y: b.y + dy });
       } else {
         return;
       }
@@ -501,19 +652,19 @@ export function CanvasEditing() {
 
   if (!on) return null;
 
-  const layer = sel ? layerOf(sel.section) : null;
-  const sectionW = sel ? (canvas.sections[sel.section]?.w ?? null) : null;
-  const shown = box && selected && !selected.hidden;
-  const height = selected?.kind === "text" && !liveBox ? (textHeight?.id === selected.id ? textHeight.h : selected.h) : (box?.h ?? 0);
+  const wrapper = sel ? sectionNode(sel.section) : null;
+  const shown = box && selected && view;
+  const measured = textHeight && selected && textHeight.id === selected.id && textHeight.frame === frame ? textHeight.h : null;
+  const height = selected?.kind === "text" && !liveBox ? (measured ?? box?.h ?? 0) : (box?.h ?? 0);
 
   return (
     <>
       <style>{editorCss(sel)}</style>
-      {layer &&
-        sectionW &&
+      {wrapper &&
         shown &&
         createPortal(
-          <>
+          // Boxes are in the frame's units; --EW turns them into the section's width.
+          <div style={{ "--EW": view.w, position: "absolute", inset: 0, pointerEvents: "none", zIndex: 20 } as CSSProperties}>
             <Selection box={{ ...box, h: height }} locked={selected.locked} text={selected.kind === "text"} />
             {!liveBox && !typing && (
               <FloatingBar
@@ -530,30 +681,31 @@ export function CanvasEditing() {
             {guides.y.map((y) => (
               <span key={`y${y}`} aria-hidden="true" style={guideStyle("y", y)} />
             ))}
-          </>,
-          layer,
+          </div>,
+          wrapper,
         )}
       {menu && selected && (
-        <ContextMenu at={menu} locked={selected.locked} text={selected.kind === "text"} onAct={act} />
+        <ContextMenu at={menu} locked={selected.locked} text={selected.kind === "text"} phone={frame === "phone"} onAct={act} />
       )}
     </>
   );
 }
 
 /** The box as last painted on the node, in frame units, snapped to whole numbers. */
-function readBox(node: HTMLElement): Box {
+function readBox(node: HTMLElement, frame: Frame): Box {
+  const v = VARS[frame];
   const read = (name: string) => Number.parseFloat(node.style.getPropertyValue(name));
   return {
-    x: Math.round(read("--x")),
-    y: Math.round(read("--y")),
-    w: Math.max(GRID, Math.round(read("--w"))),
-    h: Math.max(1, Math.round(read("--h"))),
-    rot: Math.round(Number.parseFloat(node.style.getPropertyValue("--r")) || 0),
+    x: Math.round(read(v.x)),
+    y: Math.round(read(v.y)),
+    w: Math.max(GRID, Math.round(read(v.w))),
+    h: Math.max(1, Math.round(read(v.h))),
+    rot: Math.round(read(v.r) || 0),
   };
 }
 
 function scaledFont(g: Gesture, box: Box) {
-  return Math.max(8, Math.min(400, Math.round((g.fontSize ?? 16) * (box.w / g.start.w))));
+  return Math.max(6, Math.min(400, Math.round((g.fontSize ?? 16) * (box.w / g.start.w))));
 }
 
 /**
@@ -624,10 +776,10 @@ function resize(g: Gesture, dx: number, dy: number, free: boolean): Box {
 function placed(box: Box): CSSProperties {
   return {
     position: "absolute",
-    left: `calc(${box.x} / var(--W) * 100cqw)`,
-    top: `calc(${box.y} / var(--W) * 100cqw)`,
-    width: `calc(${box.w} / var(--W) * 100cqw)`,
-    height: `calc(${box.h} / var(--W) * 100cqw)`,
+    left: `calc(${box.x} / var(--EW) * 100cqw)`,
+    top: `calc(${box.y} / var(--EW) * 100cqw)`,
+    width: `calc(${box.w} / var(--EW) * 100cqw)`,
+    height: `calc(${box.h} / var(--EW) * 100cqw)`,
     transform: `rotate(${box.rot}deg)`,
   };
 }
@@ -708,8 +860,8 @@ const rotateStyle: CSSProperties = {
 
 function guideStyle(axis: "x" | "y", at: number): CSSProperties {
   return axis === "x"
-    ? { position: "absolute", top: "-100vh", bottom: "-100vh", left: `calc(${at} / var(--W) * 100cqw)`, width: 1, background: SKY, zIndex: 30, pointerEvents: "none" }
-    : { position: "absolute", left: 0, right: 0, top: `calc(${at} / var(--W) * 100cqw)`, height: 1, background: SKY, zIndex: 30, pointerEvents: "none" };
+    ? { position: "absolute", top: "-100vh", bottom: "-100vh", left: `calc(${at} / var(--EW) * 100cqw)`, width: 1, background: SKY, zIndex: 30, pointerEvents: "none" }
+    : { position: "absolute", left: 0, right: 0, top: `calc(${at} / var(--EW) * 100cqw)`, height: 1, background: SKY, zIndex: 30, pointerEvents: "none" };
 }
 
 function FloatingBar({
@@ -734,8 +886,8 @@ function FloatingBar({
       aria-label="Element"
       style={{
         position: "absolute",
-        left: `calc(${box.x + box.w / 2} / var(--W) * 100cqw)`,
-        top: above ? `calc(${box.y} / var(--W) * 100cqw - 56px)` : `calc(${box.y + box.h} / var(--W) * 100cqw + 52px)`,
+        left: `calc(${box.x + box.w / 2} / var(--EW) * 100cqw)`,
+        top: above ? `calc(${box.y} / var(--EW) * 100cqw - 56px)` : `calc(${box.y + box.h} / var(--EW) * 100cqw + 52px)`,
         transform: "translateX(-50%)",
         display: "flex",
         gap: 2,
@@ -817,11 +969,14 @@ function ContextMenu({
   at,
   locked,
   text,
+  phone,
   onAct,
 }: {
   at: { left: number; top: number };
   locked: boolean;
   text: boolean;
+  /** Editing the phone layout: Hide and Centre act there. */
+  phone: boolean;
   onAct: (action: MenuAction) => void;
 }) {
   const groups: [MenuAction, string, string?][][] = [
@@ -830,7 +985,7 @@ function ContextMenu({
       ["duplicate", "Duplicate", "Ctrl+D"],
       ["delete", "Delete", "Del"],
       ["lock", locked ? "Unlock" : "Lock"],
-      ["hide", "Hide"],
+      ["hide", phone ? "Hide on phones" : "Hide"],
     ],
     [
       ["forward", "Bring forward"],
@@ -909,6 +1064,7 @@ function editorCss(sel: CanvasSelection) {
 [data-canvas-on] .site-el-words[contenteditable] { cursor: text; outline: none; user-select: text; }
 [data-canvas-on] [data-canvas-section]:hover:not(:has(.site-el:hover, [data-site-text]:hover)) { outline: 1px dashed rgb(34 67 182 / 0.6); outline-offset: -1px; }
 ${picked ? `${picked}, ${picked}:hover { outline: 2px solid ${ROYAL} !important; outline-offset: -2px; }` : ""}
+@media (pointer: coarse) { [data-canvas-handle] { min-width: 24px !important; min-height: 24px !important; } }
 .canvas-menu-item:hover { background: ${ROYAL_TINT} !important; color: ${ROYAL}; }
 [data-canvas-on] .site-canvas { overflow: visible; }
 `;

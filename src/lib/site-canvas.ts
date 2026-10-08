@@ -12,9 +12,12 @@ import { z } from "zod";
  * size is in those units. The live page scales the frame to whatever width
  * the section has, so a design made at 1280 looks the same at 1024 or 1600.
  *
- * Phones get their own frame (`phone`). For now that stacks the elements in
- * reading order under the section's usual content; phase 3 lets couples
- * arrange it by hand.
+ * Phones get their own frame (`phone`). Until the couple moves something on
+ * the phone, it stacks the elements in reading order under the section's
+ * usual content ("stack"). The first move switches that section to its own
+ * hand-placed layout ("free"), started from the stack as it looked, with
+ * positions measured against the section's phone width. Either way an
+ * element can be hidden on phones only.
  *
  * Nothing here imports site-design.ts (which imports this), so ids for fonts
  * and art are checked by shape and resolved when the page renders: an id that
@@ -134,6 +137,37 @@ export type BlockStyle = (typeof BLOCK_STYLES)[number]["id"];
 
 export const MAX_ELEMENTS = 80;
 
+/** A box in the phone frame. `size` is a text element's font size there. */
+const phoneBoxSchema = z.object({
+  x: z.number().min(-2000).max(4000),
+  y: z.number().min(-2000).max(8000),
+  w: z.number().min(GRID).max(4000),
+  h: z.number().min(1).max(8000),
+  rot: z.number().min(-180).max(180).catch(0),
+  size: z.number().min(6).max(400).nullable().catch(null),
+});
+
+export type PhoneBox = z.infer<typeof phoneBoxSchema>;
+
+const phoneSchema = z.object({
+  mode: z.enum(["stack", "free"]).catch("stack"),
+  /** The section's width on a phone when it went free; phone boxes are in these units. */
+  w: z.number().min(200).max(1200).catch(390),
+  place: z
+    .record(z.string(), phoneBoxSchema.nullable().catch(null))
+    .transform(
+      (all) =>
+        Object.fromEntries(Object.entries(all).filter(([id, b]) => ID.test(id) && b !== null)) as Record<string, PhoneBox>,
+    )
+    .catch({}),
+  /** Elements left off phones. */
+  hidden: z.array(z.string().regex(ID)).max(MAX_ELEMENTS).catch([]),
+});
+
+export type PhoneFrame = z.infer<typeof phoneSchema>;
+
+export const STACKED_PHONE: PhoneFrame = { mode: "stack", w: 390, place: {}, hidden: [] };
+
 const sectionSchema = z.object({
   /** The reference width every position in this section is measured against. */
   w: z.number().min(200).max(4000),
@@ -148,8 +182,8 @@ const sectionSchema = z.object({
     .catch([]),
   /** The section as a whole: its card style. null is the theme's own. */
   style: z.enum(BLOCK_STYLES.map((s) => s.id) as [BlockStyle, ...BlockStyle[]]).nullable().catch(null),
-  /** The phone frame. "stack" puts the elements in reading order under the section. */
-  phone: z.object({ mode: z.literal("stack") }).catch({ mode: "stack" }),
+  /** The phone frame: stacked under the section, or placed by hand. */
+  phone: phoneSchema.catch(STACKED_PHONE),
 });
 
 export type CanvasSection = z.infer<typeof sectionSchema>;
@@ -197,7 +231,7 @@ function withSection(
   w: number,
   edit: (section: CanvasSection) => CanvasSection,
 ): SiteCanvas {
-  const current = canvas.sections[key] ?? { w: Math.round(w), elements: [], style: null, phone: { mode: "stack" } };
+  const current = canvas.sections[key] ?? { w: Math.round(w), elements: [], style: null, phone: STACKED_PHONE };
   return { ...canvas, sections: { ...canvas.sections, [key]: edit(current) } };
 }
 
@@ -225,7 +259,11 @@ export function updateElement(
 }
 
 export function removeElement(canvas: SiteCanvas, key: string, id: string): SiteCanvas {
-  return mapElements(canvas, key, (list) => list.filter((el) => el.id !== id));
+  const next = mapElements(canvas, key, (list) => list.filter((el) => el.id !== id));
+  return editPhone(next, key, (phone) => {
+    const place = Object.fromEntries(Object.entries(phone.place).filter(([other]) => other !== id));
+    return { ...phone, place, hidden: phone.hidden.filter((h) => h !== id) };
+  });
 }
 
 /** A copy just below and to the right, in front, unlocked. Returns the new id too. */
@@ -233,7 +271,13 @@ export function duplicateElement(canvas: SiteCanvas, key: string, id: string): [
   const el = findElement(canvas, key, id);
   if (!el || (canvas.sections[key]?.elements.length ?? 0) >= MAX_ELEMENTS) return [canvas, null];
   const copy = { ...el, id: newElementId(), x: el.x + GRID * 2, y: el.y + GRID * 2, locked: false, hidden: false };
-  return [mapElements(canvas, key, (list) => [...list, copy]), copy.id];
+  const next = mapElements(canvas, key, (list) => [...list, copy]);
+  // On a hand-placed phone layout the copy lands beside the original there too.
+  const box = canvas.sections[key]?.phone.place[id];
+  return [
+    box ? editPhone(next, key, (phone) => ({ ...phone, place: { ...phone.place, [copy.id]: { ...box, x: box.x + GRID * 2, y: box.y + GRID * 2 } } })) : next,
+    copy.id,
+  ];
 }
 
 export type LayerMove = "forward" | "backward" | "front" | "back";
@@ -302,4 +346,73 @@ export function canvasFontIds(canvas: SiteCanvas) {
   return Object.values(canvas.sections).flatMap((s) =>
     s.elements.flatMap((el) => (el.kind === "text" && el.font !== "display" && el.font !== "body" ? [el.font] : [])),
   );
+}
+
+// ---------------------------------------------------------------------------
+// The phone frame.
+
+function editPhone(canvas: SiteCanvas, key: string, edit: (phone: PhoneFrame) => PhoneFrame): SiteCanvas {
+  const section = canvas.sections[key];
+  if (!section) return canvas;
+  return { ...canvas, sections: { ...canvas.sections, [key]: { ...section, phone: edit(section.phone) } } };
+}
+
+/**
+ * Where each shown element sits in a hand-placed phone layout. An element
+ * added on the computer since the layout went free has no phone box yet, so
+ * it goes under the rest, centred, at a phone-friendly size, the way the
+ * stack would have put it.
+ */
+export function phoneBoxes(section: CanvasSection): Map<string, PhoneBox> {
+  const { phone } = section;
+  const boxes = new Map<string, PhoneBox>();
+  const shown = section.elements.filter((el) => !el.hidden && !phone.hidden.includes(el.id));
+  let bottom = 0;
+  for (const el of shown) {
+    const b = phone.place[el.id];
+    if (b) {
+      boxes.set(el.id, b);
+      bottom = Math.max(bottom, b.y + b.h);
+    }
+  }
+  for (const el of readingOrder(shown)) {
+    if (boxes.has(el.id)) continue;
+    const w = Math.min(phone.w - GRID * 4, Math.max(64, Math.round((el.w / section.w) * phone.w * 1.8)));
+    const h = el.kind === "text" ? el.h * (w / el.w) : Math.round(w * (el.h / el.w));
+    const size = el.kind === "text" ? Math.max(14, Math.round(el.size * 0.45)) : null;
+    const box = { x: Math.round((phone.w - w) / 2), y: bottom + GRID * 2, w, h: Math.max(1, Math.round(h)), rot: 0, size };
+    boxes.set(el.id, box);
+    bottom = box.y + box.h;
+  }
+  return boxes;
+}
+
+/** Switches a section to a hand-placed phone layout, with boxes measured from the stack. */
+export function placeOnPhone(canvas: SiteCanvas, key: string, w: number, place: Record<string, PhoneBox>): SiteCanvas {
+  return editPhone(canvas, key, (phone) => ({
+    ...phone,
+    mode: "free",
+    w: phone.mode === "free" ? phone.w : Math.round(w),
+    place: { ...phone.place, ...place },
+  }));
+}
+
+export function updatePhoneBox(canvas: SiteCanvas, key: string, id: string, patch: Partial<PhoneBox>): SiteCanvas {
+  const section = canvas.sections[key];
+  if (!section || section.phone.mode !== "free") return canvas;
+  const current = phoneBoxes(section).get(id) ?? section.phone.place[id];
+  if (!current) return canvas;
+  return editPhone(canvas, key, (phone) => ({ ...phone, place: { ...phone.place, [id]: { ...current, ...patch } } }));
+}
+
+/** Back to the automatic stack, keeping which elements are off phones. */
+export function stackOnPhone(canvas: SiteCanvas, key: string): SiteCanvas {
+  return editPhone(canvas, key, (phone) => ({ ...STACKED_PHONE, hidden: phone.hidden }));
+}
+
+export function setHiddenOnPhone(canvas: SiteCanvas, key: string, id: string, hidden: boolean): SiteCanvas {
+  return editPhone(canvas, key, (phone) => ({
+    ...phone,
+    hidden: hidden ? [...new Set([...phone.hidden, id])] : phone.hidden.filter((h) => h !== id),
+  }));
 }
