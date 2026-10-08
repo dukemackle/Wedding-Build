@@ -35,6 +35,19 @@ Vow & Velvet Co.	Cake		Anchorage	Alaska		Anchorage wedding cake studio designing
 Lauren Roberts	Videography		Anchorage	Alaska		Anchorage filmmaker and photographer making editorial wedding films that weave personal archive footage in alongside the day itself.	hello@laurenroberts.com		https://laurenroberts.com/wedding-films	https://www.instagram.com/thatlaurengurl/
 Wild & Beloved	Videography		Anchorage	Alaska	Alaska	Anchorage duo Trevor and Tyler filming weddings and elopements across Alaska, from Hatcher Pass to Girdwood, with photography as well.			https://www.thewildandbeloved.com/	https://www.instagram.com/thewildandbeloved/`,
   },
+  {
+    name: "Kenai Peninsula: photography, florals, catering and rentals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Jamie Taylor Photography	Photography	42365 Kalifornsky Beach Road	Soldotna	Alaska	Kenai Peninsula, Girdwood and Anchorage	Soldotna photographer covering weddings, elopements and vow renewals across the Kenai Peninsula, with engagement and portrait sessions also on offer.	jamie@jamietaylorphotography.com		https://jamietaylorphotography.com/	https://www.instagram.com/jamietaylorphotography/
+Emily Jordan Photography	Photography		Seward	Alaska	Seward, Anchorage and the Kenai Peninsula	Seward-based photographer covering weddings, elopements, portraits and family sessions across the Kenai Peninsula, with published wedding packages.	emilyjordanphotos@gmail.com		https://emilyjordanphotography.com/	https://www.instagram.com/emilyjordanphotography_/
+Joshua Veldstra Photography	Photography		Homer	Alaska	Alaska	Homer-raised photographer offering wedding, engagement, family and portrait sessions across Alaska, with published pricing and an online booking form.	joshuaveldstra@gmail.com		https://joshuaveldstra.com/	https://www.instagram.com/joshuaveldstra/
+Jayme Huston Photography	Photography		Soldotna	Alaska	Kenai Peninsula, travelling for weddings elsewhere	Soldotna photographer covering weddings, elopements and portraits with a candid, cinematic style across the Kenai Peninsula and beyond.	jaymehustonphoto@gmail.com		https://www.jaymehustonphotography.com/	https://www.instagram.com/jaymehustonphotography/
+Mary McKinley Photography	Photography		Homer	Alaska	Homer and the Kenai Peninsula	Homer-based photographer covering weddings and elopements, as well as couple, family, maternity and newborn sessions around the Kenai Peninsula.	marymckinleyphoto@gmail.com	907-435-1303	https://marymckinleyphoto.com/	
+Alaska Stems	Florals		Homer	Alaska	Homer and the Kenai Peninsula	Homer flower farm and design studio that grows tulips and designs natural, elegant florals for weddings and events.	rachel@alaskastems.com	907-435-7209	http://www.alaskastems.com/	
+Cook Inlet Gardens	Florals		Kenai	Alaska	Kenai, Soldotna and Nikiski	Peony farm and florist near Nikiski supplying fresh-cut wedding flowers, with full-service and DIY options and delivery across the northern Peninsula.	Office@cookinletgardens.com	907-953-1964	http://www.cookinletgardens.com	https://www.instagram.com/kenaiflowers/
+Mel's Bakery & Cafe	Catering	43335 Kalifornsky Beach Road, Suite 22	Soldotna	Alaska	Soldotna and Kenai	Soldotna bakery and cafe whose catering arm supplies bridal suite brunches, cocktail hour appetisers, charcuterie carts and small cakes for weddings.		907-953-2351	https://melsalaska.com/	https://www.instagram.com/lavish_catering_ak/
+CBC Rental & Supply	Rentals		Soldotna	Alaska	Soldotna, Kenai, Sterling, Kasilof, Homer and Seward	Soldotna rental shop hiring out tents with walls and lighting, tables, chairs, linens, dance floors and staging for weddings and parties.		907-262-7368	https://www.cbcrental.com/	`,
+  },
 ];
 
 export default batches;
