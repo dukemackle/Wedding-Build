@@ -31,6 +31,7 @@ import {
   type SiteCanvas,
 } from "@/lib/site-canvas";
 import {
+  CANVAS_ACTION,
   CANVAS_COMMIT,
   CANVAS_FRAMES,
   CANVAS_KEY,
@@ -288,8 +289,14 @@ export function CanvasEditing() {
       if (event.data?.type === CANVAS_SELECT) {
         const next = event.data.selection as CanvasSelection;
         pick(next, false);
-        if (next?.id) elementNode(next.section, next.id)?.scrollIntoView({ block: "nearest", behavior: "smooth" });
-        else if (next) sectionNode(next.section)?.scrollIntoView({ block: "nearest", behavior: "smooth" });
+        // Something just added isn't on the page until its design arrives, so look for it for a few frames.
+        let tries = 0;
+        const reveal = () => {
+          const node = next?.id ? elementNode(next.section, next.id) : next ? sectionNode(next.section) : null;
+          if (node) node.scrollIntoView({ block: "nearest", behavior: "smooth" });
+          else if (next && tries++ < 20) requestAnimationFrame(reveal);
+        };
+        reveal();
       }
     }
     window.addEventListener("message", onMessage);
@@ -539,7 +546,18 @@ export function CanvasEditing() {
       if (el?.kind === "text" && !el.locked) startTyping(current.section, el.id);
     }
 
+    // On a touch screen, a tap on a form inside a section picks the section;
+    // it doesn't open a menu or the keyboard. Preview lets the form work.
+    const touch = window.matchMedia("(pointer: coarse)").matches;
+    function holdForm(event: Event) {
+      if (!touch) return;
+      const target = event.target as Element;
+      if (target.closest?.("[data-canvas-section] :is(input, select, textarea, label)")) event.preventDefault();
+    }
+
     document.addEventListener("pointerdown", onDown, true);
+    document.addEventListener("mousedown", holdForm, true);
+    document.addEventListener("click", holdForm, true);
     document.addEventListener("pointermove", onMove);
     document.addEventListener("pointerup", onUp);
     document.addEventListener("pointercancel", onUp);
@@ -548,6 +566,8 @@ export function CanvasEditing() {
     document.documentElement.dataset.canvasOn = "";
     return () => {
       document.removeEventListener("pointerdown", onDown, true);
+      document.removeEventListener("mousedown", holdForm, true);
+      document.removeEventListener("click", holdForm, true);
       document.removeEventListener("pointermove", onMove);
       document.removeEventListener("pointerup", onUp);
       document.removeEventListener("pointercancel", onUp);
@@ -593,6 +613,20 @@ export function CanvasEditing() {
       commit(moveLayer(c, key, id, action));
     }
   }
+
+  // The phone editor's tool row runs the floating bar's actions from outside the frame.
+  useEffect(() => {
+    if (!on) return;
+    function onMessage(event: MessageEvent) {
+      if (event.origin !== window.location.origin || event.data?.type !== CANVAS_ACTION) return;
+      const action = event.data.action as MenuAction;
+      if (["edit", "duplicate", "delete", "lock", "hide", "centre"].includes(action)) act(action);
+    }
+    window.addEventListener("message", onMessage);
+    return () => window.removeEventListener("message", onMessage);
+    // `act` reads everything through refs.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [on]);
 
   // Keys while the frame has focus. Undo and redo belong to the editor.
   useEffect(() => {
@@ -1064,7 +1098,7 @@ function editorCss(sel: CanvasSelection) {
 [data-canvas-on] .site-el-words[contenteditable] { cursor: text; outline: none; user-select: text; }
 [data-canvas-on] [data-canvas-section]:hover:not(:has(.site-el:hover, [data-site-text]:hover)) { outline: 1px dashed rgb(34 67 182 / 0.6); outline-offset: -1px; }
 ${picked ? `${picked}, ${picked}:hover { outline: 2px solid ${ROYAL} !important; outline-offset: -2px; }` : ""}
-@media (pointer: coarse) { [data-canvas-handle] { min-width: 24px !important; min-height: 24px !important; } }
+@media (pointer: coarse) { [data-canvas-handle] { min-width: 24px !important; min-height: 24px !important; } [data-canvas-handle="n"], [data-canvas-handle="s"], [data-canvas-handle="e"], [data-canvas-handle="w"] { display: none; } }
 .canvas-menu-item:hover { background: ${ROYAL_TINT} !important; color: ${ROYAL}; }
 [data-canvas-on] .site-canvas { overflow: visible; }
 `;

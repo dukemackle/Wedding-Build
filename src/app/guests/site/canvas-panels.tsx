@@ -47,7 +47,7 @@ const LINE_ART = SITE_ART.filter((a) => a.kind === "line");
 /** A section's frame width and height in its own units: stored once it has elements, else as the preview measures it. */
 export function frameSize(design: SiteDesign, frames: CanvasFrames, key: string) {
   const measured = frames[key];
-  const w = design.canvas.sections[key]?.w ?? measured?.w ?? 1280;
+  const w = design.canvas.sections[key]?.w ?? measured?.w ?? (key.startsWith("block:") ? 768 : 1280);
   const h = measured ? (measured.h * w) / measured.w : 480;
   return { w, h };
 }
@@ -63,7 +63,7 @@ export function elementName(el: CanvasElement) {
 const KIND_NAMES = { text: "Text", art: "Art", shape: "Shape", photo: "Photo" } as const;
 
 /** The site's colours for each palette role, to draw the swatches in. */
-function roleColors(design: SiteDesign): Record<string, string> {
+export function roleColors(design: SiteDesign): Record<string, string> {
   const { theme, accent, accent2, heading } = resolveDesign(design);
   return {
     heading,
@@ -783,17 +783,7 @@ export function CanvasToolbar({
   } else {
     const style = canvas.sections[key]?.style ?? "card";
     const list = design.sections;
-    const at = list.findIndex((x) => x.id === key);
-    // Up and down move within the section's column, as the page lays it out.
-    const sameColumn = (i: number) => list[i] && sectionColumn(list[i].id) === sectionColumn(key as never);
-    const prev = at > 0 ? [...list.keys()].slice(0, at).reverse().find(sameColumn) : undefined;
-    const next = at >= 0 ? [...list.keys()].slice(at + 1).find(sameColumn) : undefined;
-    const swap = (other: number | undefined) => {
-      if (other === undefined) return;
-      const order = [...list];
-      [order[at], order[other]] = [order[other], order[at]];
-      onDesign({ sections: order });
-    };
+    const moves = sectionMoves(design, key);
     const { w } = frameSize(design, frames, key);
     body = (
       <>
@@ -818,10 +808,10 @@ export function CanvasToolbar({
         )}
         {key !== "hero" && (
           <>
-            <TextButton disabled={prev === undefined} onClick={() => swap(prev)}>
+            <TextButton disabled={!moves.up} onClick={() => moves.up && onDesign({ sections: moves.up })}>
               Move up
             </TextButton>
-            <TextButton disabled={next === undefined} onClick={() => swap(next)}>
+            <TextButton disabled={!moves.down} onClick={() => moves.down && onDesign({ sections: moves.down })}>
               Move down
             </TextButton>
             <TextButton
@@ -865,7 +855,26 @@ export function CanvasToolbar({
   );
 }
 
-function sectionName(key: string) {
+/**
+ * The section order with this one moved up or down a place, or null where it
+ * can't go. Moves stay within the section's column, as the page lays it out.
+ */
+export function sectionMoves(design: SiteDesign, key: string) {
+  const list = design.sections;
+  const at = list.findIndex((x) => x.id === key);
+  const sameColumn = (i: number) => list[i] && sectionColumn(list[i].id) === sectionColumn(key as never);
+  const prev = at > 0 ? [...list.keys()].slice(0, at).reverse().find(sameColumn) : undefined;
+  const next = at >= 0 ? [...list.keys()].slice(at + 1).find(sameColumn) : undefined;
+  const swap = (other: number | undefined) => {
+    if (other === undefined) return null;
+    const order = [...list];
+    [order[at], order[other]] = [order[other], order[at]];
+    return order;
+  };
+  return { up: swap(prev), down: swap(next) };
+}
+
+export function sectionName(key: string) {
   return (
     {
       rsvp: "RSVP",
@@ -880,20 +889,24 @@ function sectionName(key: string) {
   );
 }
 
-function ColorPicker({
+export function ColorPicker({
   value,
   colors,
   roles,
   onPick,
+  big = false,
 }: {
   value: CanvasColor | null;
   colors: Record<string, string>;
   roles: string[];
   onPick: (color: CanvasColor) => void;
+  /** Finger-sized, for the phone editor's colour sheet. */
+  big?: boolean;
 }) {
   const custom = value && value.startsWith("#") ? value : null;
+  const dot = big ? "h-11 w-11" : "h-7 w-7";
   return (
-    <div className="flex shrink-0 items-center gap-1 px-1" role="group" aria-label="Colour">
+    <div className={`flex shrink-0 flex-wrap items-center px-1 ${big ? "gap-3" : "gap-1"}`} role="group" aria-label="Colour">
       {roles.map((role) => {
         const info = CANVAS_COLORS.find((c) => c.id === role)!;
         return (
@@ -904,14 +917,14 @@ function ColorPicker({
             title={info.label}
             aria-pressed={value === role}
             onClick={() => onPick(info.id)}
-            className={`h-7 w-7 rounded-full border border-ink/20 ${value === role ? "outline outline-2 outline-offset-2 outline-[#2243B6]" : ""}`}
+            className={`${dot} rounded-full border border-ink/20 ${value === role ? "outline outline-2 outline-offset-2 outline-[#2243B6]" : ""}`}
             style={{ background: colors[role] }}
           />
         );
       })}
       <label
         title="Your own colour"
-        className={`relative h-7 w-7 cursor-pointer overflow-hidden rounded-full border border-ink/20 bg-[conic-gradient(#FFD301,#2243B6,#00BFFE,#5AE4FF,#FFF12F,#FFD301)] ${
+        className={`relative ${dot} cursor-pointer overflow-hidden rounded-full border border-ink/20 bg-[conic-gradient(#FFD301,#2243B6,#00BFFE,#5AE4FF,#FFF12F,#FFD301)] ${
           custom ? "outline outline-2 outline-offset-2 outline-[#2243B6]" : ""
         }`}
       >
