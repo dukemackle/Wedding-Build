@@ -86,6 +86,20 @@ Five-Carat Entertainment	Music		Bowling Green	Kentucky	Bowling Green and the sur
 Heritage DJs	Music		Bowling Green	Kentucky	Kentucky, Tennessee and Alabama	Wedding DJ company handling ceremony sound, reception music, lighting and hosting for couples across Kentucky and Tennessee.	jim@heritagedjs.com	810-965-0590	https://heritagedjs.com/	
 Regina Webb Salon & Spa	Hair & Makeup		Bowling Green	Kentucky		Full-service Bowling Green salon open since 1999, with a bridal studio for wedding hairstyles, colour and spa treatments.			https://www.reginawebbsalon.com/	https://www.instagram.com/reginawebbsalonandspa/`,
   },
+  {
+    name: "Bowling Green: videography, photography, florals, catering and hair and makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Kirby Film Company	Videography		Bowling Green	Kentucky	Southern Kentucky, Nashville and beyond	Husband-and-wife team making wedding films and engagement films, with photo coverage and couples sessions also on offer.	sam@kirbyweddings.com	270-202-6832	https://kirbyfilm.com/	https://www.instagram.com/kirbyfilmco/
+Luke Metzger Visuals	Videography		Bowling Green	Kentucky		Bowling Green wedding filmmaker with about twelve years behind the camera, telling each couple's day as a short film.	metzger.luke@gmail.com	270.776.6587	https://www.lukemetzgervisuals.com/	https://www.instagram.com/lukemetzgervisuals/
+DMG Memories Videography	Videography		Bowling Green	Kentucky	Kentucky	Husband-and-wife Kentucky wedding videography team producing wedding films, with an investment guide and a contact form on site.			https://www.dmgmemories.com/	
+Cassie Adkins Photography	Photography		Bowling Green	Kentucky		Bowling Green wedding, family and lifestyle photographer aiming for authentic, emotional images, with portrait sessions also offered.	cassieadkinsphotography@gmail.com	270-535-3696	https://www.cassieadkins.com/	https://www.instagram.com/cassieadkinsphotography/
+Reid Wilkinson Photography	Photography		Bowling Green	Kentucky	Bowling Green and destination weddings	Bowling Green wedding photographer using natural light and a relaxed approach, with published packages and testimonials.	rwilkinson141@gmail.com		https://www.reidwilkinsonphoto.com/	
+Fete Flowers	Florals	6318 Old Nashville Rd Loop 2	Bowling Green	Kentucky		Bowling Green flower shop with a wedding line covering bouquets, wedding party flowers, and ceremony and reception arrangements.		(270) 996-8014	https://www.feteflowersbowlinggreen.com/wedding-flowers	
+Anthony's Florist & Gifts	Florals	728 Steeplechase Way	Bowling Green	Kentucky		Bowling Green florist taking wedding orders for bouquets, party flowers and arrangements alongside everyday and event flowers.	anthonybradleybrown@gmail.com	(270) 991-9052	https://www.anthonybrownfloral.com/wedding-flowers	
+MacKenzie's Flowers	Florals	935 Lovers Lane	Bowling Green	Kentucky		Bowling Green florist, garden centre and gift shop, run by Stacey Maddox since 2019, that designs flowers for weddings.	info@mackenziesflowers.com	270.782.6954	https://www.mackenziesflowers.com/	
+It's a Southern Thing Catering	Catering		Auburn	Kentucky	Kentucky and Tennessee	Auburn caterer run by chef Susan Barrow, serving Southern menus with delivery, set-up, wait staff and clean-up for weddings.			https://www.southernthingcatering.com/	
+Ariel Herrington	Hair & Makeup	6115 Scottsville Road Unit 2	Bowling Green	Kentucky		Bowling Green hairstylist offering colour, cuts and bridal makeup, with online booking through her own page.			https://arielherrington.glossgenius.com/	https://www.instagram.com/hairbyarielherrington/`,
+  },
 ];
 
 export default batches;
