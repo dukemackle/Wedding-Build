@@ -84,6 +84,21 @@ Henry Loves Hazel	Videography		Mystic	Connecticut		Mystic wedding film studio ma
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
 Mermaid's Reel	Videography		North Haven	Connecticut	Connecticut and New England	Husband-and-wife photo and video team from North Haven filming weddings across Connecticut and the wider New England.	info@mermaidsreel.com		https://www.mermaidsreel.com/	https://www.instagram.com/mermaidsreel/`,
   },
+  {
+    name: "Mystic: music, florals, hair and makeup, photography, catering and cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Mystic River Entertainment	Music		Ledyard	Connecticut	Connecticut and New England	Ledyard wedding DJ and lighting company serving Connecticut and the wider New England coast, with a social booth as an add-on.	jeff@mysticriverentertainment.com	860-245-9226	https://mysticriverentertainment.com/	https://www.instagram.com/mysticriverentertainment/
+Spinning Disc DJ Service	Music		Plainfield	Connecticut	Eastern Connecticut, Rhode Island and eastern Massachusetts	Eastern Connecticut wedding DJ handling ceremony music, MC duties and venue timelines, with customised playlists for each couple.			https://www.spinningdiscdj.com/	https://www.instagram.com/spinningdiscdj/
+Pot of Green Florist	Florals		Stonington	Connecticut	Southeastern Connecticut and Westerly, Rhode Island	Stonington florist and garden centre offering custom wedding design and party consulting along the Mystic and Watch Hill shoreline.	floristjudy@gmail.com		https://www.potofgreenflorist.com/	https://www.instagram.com/potofgreenflorist/
+Ladybug Designs	Florals	125 Fowler Road	North Stonington	Connecticut	Mystic, Stonington and Rhode Island	Wedding-only florist working from The Farm on Fowler, doing personal flowers plus ceremony and reception florals.	ladybugsdesign01@gmail.com		https://www.thefarmweb.com/	https://www.instagram.com/ladybugfloraldesigns/
+Hair Unique II	Hair & Makeup	12 Coogan Blvd, Unit 7	Mystic	Connecticut		Mystic salon building bridal hair and makeup packages around each couple's timeline, with trials and airbrush makeup.		860-536-4976	https://www.hairuniquemystic.com/	https://www.instagram.com/hairuniquemystic/
+Margit Anne Photography	Photography		Mystic	Connecticut		Mystic wedding photographer who also makes handcrafted albums and prints, welcoming couples of all faiths and backgrounds.	hello@margitannephotography.com	860-823-9686	https://margitannephotography.com/	https://www.instagram.com/margitannephotography/
+St. Pierre Photography	Photography		Mystic	Connecticut	Mystic, New London, Groton, Stonington and Newport	Mystic photographer covering weddings and engagement sessions from getting ready through the reception, around the southeastern shore.	larry@stpierrephoto.com	860-572-8092	https://stpierrephoto.com/	
+Coastal Gourmet Catering	Catering	105 Greenmanville Ave	Mystic	Connecticut		Mystic caterer with decades of wedding experience at Mystic Seaport and other shoreline venues, taking inquiries through its website.		860-572-1111	https://www.coastalgourmetcatering.com/	
+Gourmet Galley Catering	Catering		North Stonington	Connecticut	Connecticut and Rhode Island	North Stonington wedding caterer covering receptions, rehearsal dinners and brunches, with dessert stations and cakes on offer.			https://gourmet-galley.com/	https://www.instagram.com/gourmetgalleycatering/
+Caked	Cake		Old Lyme	Connecticut		Old Lyme cottage bakery making made-to-order wedding cakes in Swiss buttercream or ganache and fondant, with a gallery of past designs.		203-984-4137	https://www.cakedct.com/	https://www.instagram.com/cakedct/
+The Cake Lady at The Social	Cake	208 Bank Street	New London	Connecticut	Southeastern Connecticut	In-house baker at New London's Social Bar and Kitchen who makes custom wedding cakes for celebrations across southeastern Connecticut.	bakery@socialnewlondon.com	860-442-6900	https://socialnewlondon.com/bakery	https://www.instagram.com/socialnewlondon/`,
+  },
 ];
 
 export default batches;
