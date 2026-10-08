@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import type { PublicWedding } from "@/lib/supabase/types";
-import { parseSiteDesign } from "@/lib/site-design";
+import { parseSiteDesign } from "@/lib/site-design-schema";
 import { GuestSiteTheme } from "@/components/guest-site-theme";
 import { GuestSiteView, loadGuestSiteContent } from "./guest-site-view";
 

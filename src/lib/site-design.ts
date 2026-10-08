@@ -1,5 +1,9 @@
-import { z } from "zod";
-import { canvasFontIds, canvasSchema, EMPTY_CANVAS, filterCss, PHOTO_FILTERS, type PhotoFilterId } from "./site-canvas";
+import { canvasFontIds, EMPTY_CANVAS, filterCss } from "./site-canvas";
+import type { Motion, SiteDesign, TextStyle } from "./site-design-schema";
+
+// The zod schema is in site-design-schema.ts, so the guest page (which only
+// reads a design) doesn't download the validation library.
+export type { Motion, SiteDesign, TextStyle } from "./site-design-schema";
 
 /**
  * How a couple's guest site looks: theme, accent and (in later phases) fonts,
@@ -487,9 +491,9 @@ export type ThemeId = (typeof THEMES)[number]["id"];
 
 export const DEFAULT_THEME_ID: ThemeId = "garden";
 
-const THEME_IDS = THEMES.map((t) => t.id) as [ThemeId, ...ThemeId[]];
+export const THEME_IDS = THEMES.map((t) => t.id) as [ThemeId, ...ThemeId[]];
 
-const HEX = /^#[0-9a-f]{6}$/i;
+export const HEX = /^#[0-9a-f]{6}$/i;
 
 /**
  * Every face a couple can pick, by itself, for headings or body text. `css`
@@ -564,7 +568,7 @@ export const FONTS = [
 
 export type FontId = (typeof FONTS)[number]["id"];
 
-const FONT_IDS = FONTS.map((f) => f.id) as [FontId, ...FontId[]];
+export const FONT_IDS = FONTS.map((f) => f.id) as [FontId, ...FontId[]];
 
 /** Faces that work for paragraphs: no scripts or display faces, and no all-caps Cinzel. */
 export const BODY_FONTS = FONTS.filter(
@@ -696,7 +700,7 @@ export const SCENES = [
 
 export type SceneId = (typeof SCENES)[number]["id"];
 
-const SCENE_IDS = SCENES.map((x) => x.id) as [SceneId, ...SceneId[]];
+export const SCENE_IDS = SCENES.map((x) => x.id) as [SceneId, ...SceneId[]];
 
 export function sceneById(id: string | null | undefined) {
   return SCENES.find((x) => x.id === id) ?? SCENES[0];
@@ -717,7 +721,7 @@ export type PageStyleId = (typeof PAGE_STYLES)[number]["id"];
 
 export type OrnamentId = (typeof ORNAMENTS)[number]["id"];
 
-const ORNAMENT_IDS = ORNAMENTS.map((o) => o.id) as [OrnamentId, ...OrnamentId[]];
+export const ORNAMENT_IDS = ORNAMENTS.map((o) => o.id) as [OrnamentId, ...OrnamentId[]];
 
 /**
  * Botanical artwork for the top of the page (Style tab › Artwork): public-
@@ -770,7 +774,7 @@ export const SITE_ART = [
 
 export type ArtId = (typeof SITE_ART)[number]["id"];
 
-const ART_IDS = SITE_ART.map((a) => a.id) as [ArtId, ...ArtId[]];
+export const ART_IDS = SITE_ART.map((a) => a.id) as [ArtId, ...ArtId[]];
 
 export function artById(id: string | null | undefined) {
   return SITE_ART.find((a) => a.id === id) ?? null;
@@ -875,7 +879,7 @@ export const SITE_SECTIONS = [
 
 export type SectionId = (typeof SITE_SECTIONS)[number]["id"];
 
-const SECTION_IDS = SITE_SECTIONS.map((x) => x.id) as [SectionId, ...SectionId[]];
+export const SECTION_IDS = SITE_SECTIONS.map((x) => x.id) as [SectionId, ...SectionId[]];
 
 /** A custom block (site_blocks row) in the section list: "block:<uuid>". */
 export type BlockKey = `block:${string}`;
@@ -894,26 +898,9 @@ export function sectionColumn(key: SectionKey): "main" | "side" {
   return SITE_SECTIONS.find((x) => x.id === key)?.column ?? "main";
 }
 
-const BLOCK_KEY = /^block:[0-9a-f-]{36}$/;
+export const BLOCK_KEY = /^block:[0-9a-f-]{36}$/;
 
-const sectionKeySchema = z.union([
-  z.enum(SECTION_IDS),
-  z.string().regex(BLOCK_KEY).transform((k) => k as BlockKey),
-]);
-
-const DEFAULT_SECTIONS = SITE_SECTIONS.map((x) => ({ id: x.id as SectionKey, hidden: false }));
-
-/**
- * Whatever order was saved, made whole: unknown ids and repeats dropped, and
- * any built-in section added to Wren since appended, visible, so a new section
- * never silently goes missing from an older design. Blocks are kept as saved;
- * one whose row has been deleted is simply skipped when the page renders.
- */
-function completeSections(saved: { id: SectionKey; hidden: boolean }[]) {
-  const seen = new Set<SectionKey>();
-  const kept = saved.filter((x) => !seen.has(x.id) && seen.add(x.id));
-  return [...kept, ...DEFAULT_SECTIONS.filter((x) => !seen.has(x.id))];
-}
+export const DEFAULT_SECTIONS = SITE_SECTIONS.map((x) => ({ id: x.id as SectionKey, hidden: false }));
 
 export const OPENINGS = [
   { id: "none", label: "Straight in", help: "The page is simply there." },
@@ -922,17 +909,6 @@ export const OPENINGS = [
   { id: "reveal", label: "Photo reveal", help: "Your photo opens out from the centre." },
 ] as const;
 
-const motionSchema = z.object({
-  opening: z.enum(["none", "envelope", "write", "reveal"]).catch("none"),
-  scroll: z.enum(["none", "fade", "slide", "zoom"]).catch("fade"),
-  photo: z.enum(["still", "zoom"]).catch("zoom"),
-  petals: z.boolean().catch(false),
-  ticking: z.boolean().catch(true),
-  confetti: z.boolean().catch(false),
-  speed: z.enum(["slow", "normal", "fast"]).catch("normal"),
-});
-
-export type Motion = z.infer<typeof motionSchema>;
 
 /**
  * The Motion tab's "Overall" choices. Each fills in every setting; changing
@@ -980,23 +956,10 @@ export const TEXT_SLOTS = [
 
 export type TextSlotId = (typeof TEXT_SLOTS)[number]["id"];
 
-const TEXT_SLOT_IDS = new Set<string>(TEXT_SLOTS.map((s) => s.id));
+export const TEXT_SLOT_IDS = new Set<string>(TEXT_SLOTS.map((s) => s.id));
 
 /** Size steps for the toolbar's − and +, as a multiple of the slot's own size. */
 export const TEXT_SIZES = [0.625, 0.75, 0.875, 1, 1.125, 1.25, 1.5, 1.75, 2] as const;
-
-/** Each null means the theme's own. */
-const textStyleSchema = z.object({
-  text: z.string().trim().max(120).nullable().catch(null),
-  font: z.enum(FONT_IDS).nullable().catch(null),
-  size: z.number().min(0.5).max(2.5).nullable().catch(null),
-  color: z.string().regex(HEX).nullable().catch(null),
-  align: z.enum(["left", "center", "right"]).nullable().catch(null),
-  bold: z.boolean().nullable().catch(null),
-  italic: z.boolean().nullable().catch(null),
-});
-
-export type TextStyle = z.infer<typeof textStyleSchema>;
 
 export const EMPTY_TEXT_STYLE: TextStyle = {
   text: null,
@@ -1027,85 +990,12 @@ export const BG_TEXTURES = [
   { id: "wash", label: "Watercolour wash" },
 ] as const;
 
-type BgPattern = (typeof BG_PATTERNS)[number]["id"];
-type BgTexture = (typeof BG_TEXTURES)[number]["id"];
+export type BgPattern = (typeof BG_PATTERNS)[number]["id"];
+export type BgTexture = (typeof BG_TEXTURES)[number]["id"];
 
-const backgroundSchema = z.object({
-  pattern: z.enum(BG_PATTERNS.map((p) => p.id) as [BgPattern, ...BgPattern[]]).catch("none"),
-  texture: z.enum(BG_TEXTURES.map((t) => t.id) as [BgTexture, ...BgTexture[]]).catch("none"),
-  /** Every section, or just the top of the page. */
-  scope: z.enum(["page", "top"]).catch("page"),
-});
+export const NO_BACKGROUND = { pattern: "none", texture: "none", scope: "page" } as const;
 
-const NO_BACKGROUND = { pattern: "none", texture: "none", scope: "page" } as const;
-
-const HERO_PHOTO = { fx: 50, fy: 50, filter: "none" } as const;
-
-export const siteDesignSchema = z.object({
-  theme: z.enum(THEME_IDS).catch(DEFAULT_THEME_ID),
-  /** null means the theme's first swatch. */
-  accent: z.string().regex(HEX).nullable().catch(null),
-  fonts: z.enum(FONT_PAIRINGS.map((f) => f.id) as [FontPairingId, ...FontPairingId[]]).catch("theme"),
-  /** A face picked on its own; null means the pairing's, then the theme's. */
-  fontDisplay: z.enum(FONT_IDS).nullable().catch(null),
-  fontBody: z.enum(FONT_IDS).nullable().catch(null),
-  /** Colours over the theme's own; each null means the theme's. */
-  colors: z
-    .object({
-      bg: z.string().regex(HEX).nullable().catch(null),
-      ink: z.string().regex(HEX).nullable().catch(null),
-      heading: z.string().regex(HEX).nullable().catch(null),
-    })
-    .catch({ bg: null, ink: null, heading: null }),
-  ornament: z.enum(ORNAMENT_IDS).catch("rule"),
-  art: z
-    .object({
-      id: z.enum(ART_IDS).nullable().catch(null),
-      placement: z.enum(["sides", "corners"]).catch("sides"),
-    })
-    .catch({ id: null, placement: "sides" }),
-  hero: z.enum(HERO_LAYOUTS.map((h) => h.id) as [HeroLayoutId, ...HeroLayoutId[]]).catch("full"),
-  /** null means the theme's own scene. */
-  scene: z.enum(SCENE_IDS).nullable().catch(null),
-  pageStyle: z.enum(["cards", "storybook"]).catch("cards"),
-  /** A vow renewal changes the wording, and counts the years from `since`. */
-  occasion: z
-    .object({
-      kind: z.enum(["wedding", "renewal"]).catch("wedding"),
-      since: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).nullable().catch(null),
-    })
-    .catch({ kind: "wedding", since: null }),
-  sections: z
-    .array(z.object({ id: sectionKeySchema, hidden: z.boolean().catch(false) }).nullable().catch(null))
-    .transform((list) => completeSections(list.filter((x) => x !== null)))
-    .catch(DEFAULT_SECTIONS),
-  motion: motionSchema.catch(MOTION_PRESETS.subtle),
-  /** Per-slot changes made by clicking words in the preview. Unknown or empty slots are dropped. */
-  text: z
-    .record(z.string(), textStyleSchema.nullable().catch(null))
-    .transform(
-      (all) =>
-        Object.fromEntries(
-          Object.entries(all).filter(
-            ([id, style]) => TEXT_SLOT_IDS.has(id) && style !== null && hasTextStyle(style),
-          ),
-        ) as Partial<Record<TextSlotId, TextStyle>>,
-    )
-    .catch({}),
-  /** Free elements inside sections, and whole-section styles (src/lib/site-canvas.ts). */
-  canvas: canvasSchema,
-  background: backgroundSchema.catch(NO_BACKGROUND),
-  /** The banner photo's focus point (percent across and down) and filter. */
-  heroPhoto: z
-    .object({
-      fx: z.number().min(0).max(100).catch(50),
-      fy: z.number().min(0).max(100).catch(50),
-      filter: z.enum(PHOTO_FILTERS.map((f) => f.id) as [PhotoFilterId, ...PhotoFilterId[]]).catch("none"),
-    })
-    .catch(HERO_PHOTO),
-});
-
-export type SiteDesign = z.infer<typeof siteDesignSchema>;
+export const HERO_PHOTO = { fx: 50, fy: 50, filter: "none" } as const;
 
 export const DEFAULT_SITE_DESIGN: SiteDesign = {
   theme: DEFAULT_THEME_ID,
@@ -1127,12 +1017,6 @@ export const DEFAULT_SITE_DESIGN: SiteDesign = {
   background: NO_BACKGROUND,
   heroPhoto: HERO_PHOTO,
 };
-
-/** Whatever is in the column -- null, an old shape, junk -- as a usable design. */
-export function parseSiteDesign(value: unknown): SiteDesign {
-  const result = siteDesignSchema.safeParse(value ?? {});
-  return result.success ? result.data : DEFAULT_SITE_DESIGN;
-}
 
 export function sameDesign(a: SiteDesign, b: SiteDesign) {
   return JSON.stringify(a) === JSON.stringify(b);
