@@ -44,6 +44,14 @@ Eaglecrest Ski Area		Juneau	Alaska			Barn / Rustic	Indoor			Juneau's city-owned 
 Huffman Manor		Fairbanks	Alaska			Historic / Estate	Indoor & Outdoor			Six-bedroom Tudor mansion of 6,500 sq ft on three private acres in Fairbanks, with a library, pub room, chef's kitchen and a garden for vows.		907-388-3330	https://huffmanmanor.com/
 Wedgewood Resort		Fairbanks	Alaska			Ballroom / Hotel	Indoor			Fountainhead resort on 105 acres beside a wildlife sanctuary, with the Borealis Ballroom, Gazebo Room and an antique auto museum for events.			https://www.fountainheadhotels.com/wedgewood-resort/meetings-weddings`,
   },
+  {
+    name: "Southeast and Interior Alaska",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Miller's Landing	13880 Beach Dr	Seward	Alaska			Beach / Waterfront	Indoor & Outdoor	300	Classic	Beachfront property between Resurrection Bay and Spruce Creek, with a clear-walled event tent, fire pit, cabins, yurts and a rentable oceanfront inn.	reservations@millerslandingak.com	907-331-3113	https://www.millerslandingak.com/weddings-and-events/
+Sitka Lighthouse		Sitka	Alaska			Historic / Estate	Indoor & Outdoor	25	Simple	Historic lighthouse on a fully private island in Sitka Sound, hosting ceremonies for up to 50 and full receptions for 25, with overnight stays for six.	reservations@sitkalighthouse.com	205-325-9199	https://www.sitkalighthouse.com/weddings
+The Landing Hotel (Sunny Point Conference Center)	3434 Tongass Ave	Ketchikan	Alaska			Ballroom / Hotel	Indoor			Ketchikan hotel with five meeting rooms totalling 5,000 sq ft in its Sunny Point Conference Center, used for weddings, banquets and receptions.	sunnypoint@landinghotel.com	(907) 225-5166	https://www.landinghotel.com/events/weddings
+Cape Fox Lodge	800 Venetia Ave	Ketchikan	Alaska			Ballroom / Hotel	Indoor	150		Hillside lodge above Ketchikan harbour with the Shaa Hit banquet room, which divides for smaller receptions, and catering from its Heen Kahidi dining room.	info@capefoxlodge.com	866-225-8001	https://capefoxlodge.com/`,
+  },
 ];
 
 export default batches;
