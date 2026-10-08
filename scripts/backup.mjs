@@ -114,7 +114,9 @@ const gz = gzipSync(JSON.stringify(backup));
 mkdirSync(OUT_DIR, { recursive: true });
 const file = join(OUT_DIR, `youdoido-backup-${startedAt.toISOString().slice(0, 10)}.json.gz`);
 writeFileSync(file, gz);
-const drive = await uploadToDrive(file.split("/").pop(), gz);
+// A failed upload is reported, not fatal: the file on disk can still go to
+// the GitHub copy.
+const drive = await uploadToDrive(file.split("/").pop(), gz).catch((e) => `FAILED: ${e.message}`);
 
 console.log(
   JSON.stringify({
@@ -126,6 +128,16 @@ console.log(
     storage_files: Object.fromEntries(Object.entries(storage).map(([b, f]) => [b, f.length])),
   }),
 );
+
+// Pasting the key into a settings box tends to mangle it: literal "\n"s,
+// lost line breaks, stray quotes or a trailing comma from the JSON. Keep only
+// the base64 body between the markers and rebuild a clean PEM around it.
+function toPem(raw) {
+  const m = raw.replace(/\\n/g, "\n").match(/-----BEGIN PRIVATE KEY-----([\s\S]*?)-----END PRIVATE KEY-----/);
+  if (!m) throw new Error(`GOOGLE_PRIVATE_KEY has no BEGIN/END PRIVATE KEY markers (${raw.length} chars); re-paste private_key from the JSON file.`);
+  const body = m[1].replace(/[^A-Za-z0-9+/=]/g, "");
+  return `-----BEGIN PRIVATE KEY-----\n${body.match(/.{1,64}/g).join("\n")}\n-----END PRIVATE KEY-----\n`;
+}
 
 // Service-account sign-in: a self-signed JWT swapped for an access token.
 async function googleToken(email, privateKey) {
@@ -152,7 +164,7 @@ async function googleToken(email, privateKey) {
 async function uploadToDrive(name, data) {
   const { GOOGLE_CLIENT_EMAIL: email, GOOGLE_PRIVATE_KEY: rawKey, GOOGLE_DRIVE_FOLDER_ID: folder } = process.env;
   if (!email || !rawKey || !folder) return "skipped (Google keys not set)";
-  const token = await googleToken(email, rawKey.replace(/\\n/g, "\n"));
+  const token = await googleToken(email.trim(), toPem(rawKey));
   const auth = { Authorization: `Bearer ${token}` };
   const api = "https://www.googleapis.com/drive/v3/files";
   const all = "supportsAllDrives=true&includeItemsFromAllDrives=true";
