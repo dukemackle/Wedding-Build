@@ -37,6 +37,19 @@ Spruce Peak		Stowe	Vermont			Ballroom / Hotel	Indoor & Outdoor	300		Mountain res
 Mad River Barn	2849 Mill Brook Road	Waitsfield	Vermont			Barn / Rustic	Indoor & Outdoor			17-acre Mad River Valley property with an event pavilion and on-site lodging, hosting one event each weekend.	info@madriverbarn.com	(802) 496-3310	https://www.madriverbarn.com/weddings
 The Inn at Manchester	3967 Main Street	Manchester	Vermont			Barn / Rustic	Indoor & Outdoor	170		Manchester Village inn on four acres with a 2,500-square-foot celebration barn for receptions and gatherings.	innkeepers@innatmanchester.com	(802) 362-1793	https://www.innatmanchester.com/weddings`,
   },
+  {
+    name: "Vermont: Burlington, Stowe and central Vermont (2)",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+The Old Scott Barn	4198 Scott Hwy	Groton	Vermont			Barn / Rustic	Indoor & Outdoor			Rustic barn venue in the Groton hills with Green Mountain views and a downstairs bar area.	info@OldScottBarn.com	802-232-2636	https://www.oldscottbarn.com
+Basin Harbor	4800 Basin Harbor Road	Vergennes	Vermont			Beach / Waterfront	Indoor & Outdoor	300		Lake Champlain resort and boat club with waterfront and tented celebration spaces and on-site lodging for multi-day weddings.	stay@basinharbor.com	802-475-2311	https://www.basinharbor.com/weddings
+Community Sailing Center	505 Lake Street	Burlington	Vermont			Beach / Waterfront	Outdoor			Nonprofit sailing hub on the Burlington waterfront on Lake Champlain, with a terrace facing the lake and the Adirondacks.	info@communitysailingcenter.org	(802) 864-2499	https://www.communitysailingcenter.org
+Isham Family Farm	3515 Oak Hill Rd	Williston	Vermont			Barn / Rustic	Indoor & Outdoor	250		Working 108-acre farm with a restored timber-frame barn, hilltop and pond ceremony sites and weekend-long weddings from May to October.	ishamfarmvt@gmail.com		https://www.ishamfamilyfarm.com/wedding-barn
+Woodstock Inn & Resort	14 The Green	Woodstock	Vermont			Ballroom / Hotel	Indoor & Outdoor	225		Resort on the Woodstock village green hosting receptions of 2 to 225 guests with in-house coordinators.		800-448-7900	https://www.woodstockinn.com/weddings
+Boorn Brook Farm	527 Benson Road	Manchester Center	Vermont			Historic / Estate	Indoor & Outdoor			Former country home and studio of painter Ogden Pleissner on over 70 acres of meadows and apple orchards, with an event barn.	info@boornbrookfarm.com	(802) 362-1654	https://www.boornbrookfarm.com
+The Tempson Barn at Town Farm	695 Town Farm Dr	Lyndonville	Vermont			Barn / Rustic	Indoor & Outdoor			Barn on 100 private acres in the Northeast Kingdom with mountain views.	tempsonbarn@gmail.com	802-535-0057	https://www.tempsonbarn.com
+The Old Gray Barn		Dorset	Vermont			Barn / Rustic	Indoor & Outdoor	200	Classic	Hilltop wedding barn three miles from Dorset village with mountain views, on-site catering and shuttles from the Inns of Dorset.		802-867-4455	https://www.innsofdorset.com/old-gray-barn
+The Summit Lodge & Resort	200 Summit Road	Killington	Vermont			Ballroom / Hotel	Indoor & Outdoor			Four-season mountain lodge near Killington and Pico that reserves the whole property for exclusive wedding weekends.		802-422-3535	https://www.summitlodgevermont.com`,
+  },
 ];
 
 export default batches;
