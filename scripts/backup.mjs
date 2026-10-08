@@ -1,23 +1,25 @@
 #!/usr/bin/env node
-// Weekly backup: dumps every table in Supabase's public schema, plus the auth
-// users and a list of the files in Storage, into one gzipped JSON file. The
-// "Weekly backup" routine runs this and uploads the file to Google Drive.
+// Weekly backup: dumps every table in Supabase's public schema, the auth users
+// and the Storage bucket settings into one gzipped JSON file, and downloads
+// every file in Storage (photos, contracts) into a folder beside it. The
+// "Weekly backup" routine runs this, and copies both to the private
+// youdoido-backups GitHub repo. scripts/restore.mjs puts a backup back.
 // The schema itself lives in supabase/migrations, so only the rows are saved.
-// Storage files are listed (name, size, date), not downloaded.
 //
 // Reads keys from the environment, then .env.local / .env if present:
 //   NEXT_PUBLIC_SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY
 //   GOOGLE_CLIENT_EMAIL, GOOGLE_PRIVATE_KEY, GOOGLE_DRIVE_FOLDER_ID   optional:
-//     when all three are set, the file is also uploaded to that Drive folder
-//     (a Shared Drive folder the service account is a member of; service
-//     accounts have no storage of their own) and only the newest KEEP backups
-//     there are kept.
+//     when all three are set, the data file is also uploaded to that Drive
+//     folder (a Shared Drive folder the service account is a member of;
+//     service accounts have no storage of their own), keeping the newest KEEP,
+//     and Storage files are mirrored into its "files" subfolder.
 //
 // Usage: node scripts/backup.mjs [--out <dir>]   (default: ./backups)
-// Prints one JSON summary line: file, bytes, and row counts per table.
+// Writes <dir>/youdoido-backup-<date>.json.gz and <dir>/files/<bucket>/<path>.
+// Prints one JSON summary line: file, bytes, drive, and counts.
 
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
-import { join } from "node:path";
+import { dirname, join } from "node:path";
 import { createSign } from "node:crypto";
 import { gzipSync } from "node:zlib";
 
@@ -42,14 +44,19 @@ const PAGE = 1000;
 const KEEP = 12;
 const headers = { apikey: KEY, Authorization: `Bearer ${KEY}` };
 
-async function getJson(url, init = {}) {
+async function request(url, init = {}) {
   for (let attempt = 1; ; attempt++) {
     const res = await fetch(url, { ...init, headers: { ...headers, ...init.headers } });
+    if (res.ok) return res;
     const text = await res.text();
-    if (res.ok) return text ? JSON.parse(text) : null;
     if (attempt >= 3 || res.status < 500) throw new Error(`${res.status} ${url}: ${text.slice(0, 200)}`);
     await new Promise((r) => setTimeout(r, 2000 * attempt));
   }
+}
+
+async function getJson(url, init) {
+  const text = await (await request(url, init)).text();
+  return text ? JSON.parse(text) : null;
 }
 
 // PostgREST's root describes every table and view it exposes; views are
@@ -94,29 +101,56 @@ async function listFiles(bucket, prefix = "") {
       const path = prefix ? `${prefix}/${item.name}` : item.name;
       // Folders come back with no id; walk into them.
       if (item.id === null) files.push(...(await listFiles(bucket, path)));
-      else files.push({ path, size: item.metadata?.size ?? null, updated_at: item.updated_at });
+      else
+        files.push({
+          path,
+          size: item.metadata?.size ?? null,
+          mimetype: item.metadata?.mimetype ?? null,
+          updated_at: item.updated_at,
+        });
     }
     if (items.length < PAGE) return files;
   }
 }
 
+const encodePath = (p) => p.split("/").map(encodeURIComponent).join("/");
+
 const startedAt = new Date();
 const tables = {};
 for (const table of await listTables()) tables[table] = await dumpTable(table);
 const users = await dumpUsers();
+
+const buckets = (await getJson(`${URL_BASE}/storage/v1/bucket`)).map((b) => ({
+  id: b.id,
+  name: b.name,
+  public: b.public,
+  file_size_limit: b.file_size_limit ?? null,
+  allowed_mime_types: b.allowed_mime_types ?? null,
+}));
 const storage = {};
-for (const bucket of await getJson(`${URL_BASE}/storage/v1/bucket`)) {
-  storage[bucket.name] = await listFiles(bucket.id);
+const downloaded = []; // { bucket, path, mimetype, data }
+let fileBytes = 0;
+for (const bucket of buckets) {
+  storage[bucket.id] = await listFiles(bucket.id);
+  for (const f of storage[bucket.id]) {
+    const res = await request(`${URL_BASE}/storage/v1/object/${bucket.id}/${encodePath(f.path)}`);
+    const data = Buffer.from(await res.arrayBuffer());
+    const dest = join(OUT_DIR, "files", bucket.id, f.path);
+    mkdirSync(dirname(dest), { recursive: true });
+    writeFileSync(dest, data);
+    downloaded.push({ bucket: bucket.id, path: f.path, mimetype: f.mimetype, data });
+    fileBytes += data.length;
+  }
 }
 
-const backup = { createdAt: startedAt.toISOString(), source: URL_BASE, tables, auth_users: users, storage };
+const backup = { createdAt: startedAt.toISOString(), source: URL_BASE, tables, auth_users: users, buckets, storage };
 const gz = gzipSync(JSON.stringify(backup));
 mkdirSync(OUT_DIR, { recursive: true });
 const file = join(OUT_DIR, `youdoido-backup-${startedAt.toISOString().slice(0, 10)}.json.gz`);
 writeFileSync(file, gz);
-// A failed upload is reported, not fatal: the file on disk can still go to
+// A failed upload is reported, not fatal: the files on disk can still go to
 // the GitHub copy.
-const drive = await uploadToDrive(file.split("/").pop(), gz).catch((e) => `FAILED: ${e.message}`);
+const drive = await uploadToDrive(file.split("/").pop(), gz, downloaded).catch((e) => `FAILED: ${e.message}`);
 
 console.log(
   JSON.stringify({
@@ -126,6 +160,7 @@ console.log(
     tables: Object.fromEntries(Object.entries(tables).map(([t, rows]) => [t, rows.length])),
     auth_users: users.length,
     storage_files: Object.fromEntries(Object.entries(storage).map(([b, f]) => [b, f.length])),
+    storage_bytes: fileBytes,
   }),
 );
 
@@ -161,7 +196,7 @@ async function googleToken(email, privateKey) {
   return body.access_token;
 }
 
-async function uploadToDrive(name, data) {
+async function uploadToDrive(name, data, files) {
   const { GOOGLE_CLIENT_EMAIL: email, GOOGLE_PRIVATE_KEY: rawKey, GOOGLE_DRIVE_FOLDER_ID: folder } = process.env;
   if (!email || !rawKey || !folder) return "skipped (Google keys not set)";
   const token = await googleToken(email.trim(), toPem(rawKey));
@@ -169,29 +204,65 @@ async function uploadToDrive(name, data) {
   const api = "https://www.googleapis.com/drive/v3/files";
   const all = "supportsAllDrives=true&includeItemsFromAllDrives=true";
 
-  const boundary = `backup${Date.now()}`;
-  const meta = JSON.stringify({ name, parents: [folder], mimeType: "application/gzip" });
-  const body = Buffer.concat([
-    Buffer.from(`--${boundary}\r\nContent-Type: application/json\r\n\r\n${meta}\r\n--${boundary}\r\nContent-Type: application/gzip\r\n\r\n`),
-    data,
-    Buffer.from(`\r\n--${boundary}--`),
-  ]);
-  const up = await fetch(`https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&supportsAllDrives=true`, {
-    method: "POST",
-    headers: { ...auth, "Content-Type": `multipart/related; boundary=${boundary}` },
-    body,
-  });
-  if (!up.ok) throw new Error(`Drive upload failed: ${up.status} ${(await up.text()).slice(0, 300)}`);
-
-  const q = encodeURIComponent(`'${folder}' in parents and name contains 'youdoido-backup-' and trashed = false`);
-  const list = await (await fetch(`${api}?q=${q}&orderBy=createdTime desc&pageSize=100&fields=files(id,name)&${all}`, { headers: auth })).json();
-  const old = (list.files ?? []).filter((f) => f.name.startsWith("youdoido-backup-")).slice(KEEP);
-  for (const f of old) {
-    await fetch(`${api}/${f.id}?supportsAllDrives=true`, {
+  async function drive(url, init = {}) {
+    const res = await fetch(url, { ...init, headers: { ...auth, ...init.headers } });
+    if (!res.ok) throw new Error(`Drive ${init.method ?? "GET"} failed: ${res.status} ${(await res.text()).slice(0, 300)}`);
+    return res;
+  }
+  async function list(q) {
+    const out = [];
+    let pageToken = "";
+    do {
+      const url = `${api}?q=${encodeURIComponent(q)}&orderBy=createdTime desc&pageSize=1000&fields=nextPageToken,files(id,name,size)&${all}${pageToken ? `&pageToken=${pageToken}` : ""}`;
+      const body = await (await drive(url)).json();
+      out.push(...(body.files ?? []));
+      pageToken = body.nextPageToken ?? "";
+    } while (pageToken);
+    return out;
+  }
+  // Resumable upload: one session per file, so files over 5 MB work too.
+  async function upload(fileName, parent, mimeType, bytes) {
+    const start = await drive(`https://www.googleapis.com/upload/drive/v3/files?uploadType=resumable&supportsAllDrives=true`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json; charset=UTF-8", "X-Upload-Content-Type": mimeType },
+      body: JSON.stringify({ name: fileName, parents: [parent], mimeType }),
+    });
+    await drive(start.headers.get("location"), { method: "PUT", headers: { "Content-Type": mimeType }, body: bytes });
+  }
+  const trash = (id) =>
+    drive(`${api}/${id}?supportsAllDrives=true`, {
       method: "PATCH",
-      headers: { ...auth, "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ trashed: true }),
     });
+
+  await upload(name, folder, "application/gzip", data);
+  const old = (await list(`'${folder}' in parents and name contains 'youdoido-backup-' and trashed = false`))
+    .filter((f) => f.name.startsWith("youdoido-backup-"))
+    .slice(KEEP);
+  for (const f of old) await trash(f.id);
+
+  // Storage files are mirrored, not versioned: a file is uploaded when its
+  // name ("bucket/path") is new or its size changed. Nothing is removed, so a
+  // file deleted from Storage stays recoverable here.
+  let filesFolder = (await list(`'${folder}' in parents and name = 'files' and mimeType = 'application/vnd.google-apps.folder' and trashed = false`))[0]?.id;
+  if (!filesFolder) {
+    const res = await drive(`${api}?supportsAllDrives=true`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name: "files", parents: [folder], mimeType: "application/vnd.google-apps.folder" }),
+    });
+    filesFolder = (await res.json()).id;
   }
-  return `uploaded ${name}; trashed ${old.length} old`;
+  const existing = new Map((await list(`'${filesFolder}' in parents and trashed = false`)).map((f) => [f.name, f]));
+  let uploaded = 0;
+  for (const f of files) {
+    const fileName = `${f.bucket}/${f.path}`;
+    const prev = existing.get(fileName);
+    if (prev && Number(prev.size) === f.data.length) continue;
+    await upload(fileName, filesFolder, f.mimetype ?? "application/octet-stream", f.data);
+    if (prev) await trash(prev.id);
+    uploaded++;
+  }
+  return `uploaded ${name}; trashed ${old.length} old; ${uploaded} of ${files.length} storage files uploaded`;
 }

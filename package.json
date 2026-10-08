@@ -14,6 +14,7 @@
     "coverage": "node scripts/coverage.mjs",
     "verify:batches": "node scripts/verify-batches.mjs",
     "backup": "node scripts/backup.mjs",
+    "restore": "node scripts/restore.mjs",
     "import:batches": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/import-batches.mjs"
   },
   "dependencies": {
