@@ -62,6 +62,26 @@ I Do Weddings & Events	Planning	11233 Rojas Drive	El Paso	Texas	El Paso and acro
 That One Chica Event Planner	Planning		El Paso	Texas	El Paso and surrounding areas, plus destination events	Planner Paola offers full wedding planning, day-of coordination, tent draping and event design, with 8-plus years in the industry.	pq.eventdesigner@gmail.com	(915) 600-3381	https://thatonechicaeventdesigner.com	https://www.instagram.com/urpartyplanner_pao/
 Jocabed Cajiga Event Design	Planning		El Paso	Texas	El Paso and Ciudad Juárez	Bilingual wedding planner and event designer working since 2015, covering full planning and design for couples in El Paso and Juárez.	info@jocabedcajiga.com		https://www.jocabedcajiga.com	https://www.instagram.com/jocabed.planner/`,
   },
+  {
+    name: "Corpus Christi, South Padre and the Rio Grande Valley: music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Dj Art Mobile Dj Service	Music		McAllen	Texas	the Rio Grande Valley	McAllen mobile DJ with around 35 years in the trade, supplying music, sound and lighting for weddings and quinceañeras across the Valley.		(956) 821-3140	https://djartrgv.com/	https://www.instagram.com/djartrgv/
+Mariachi Xochipilli	Music		McAllen	Texas	Rio Grande Valley: McAllen, Mission, Edinburg, Pharr, Weslaco, Harlingen, San Benito, South Padre Island and more	Mariachi band established in 2010 and based in McAllen, playing weddings, quinceañeras, religious events and other celebrations across the Valley.		956.221.3652	https://www.mariachixochipilli.com/	https://www.instagram.com/mariachixochipilli/
+Mariachi Nuevo Tenampa	Music		McAllen	Texas	Rio Grande Valley and South Texas: McAllen, Mission, Edinburg, Weslaco, Harlingen, San Benito and more	McAllen mariachi group, 39 years in business according to its site, performing at weddings and other celebrations around the Valley.	juanperezm197512@gmail.com	(956) 530-5313	https://mariachinuevotenampa.com/	
+El Mariachi Loco de McAllen TX	Music		Pharr	Texas	McAllen area	Pharr-based mariachi offering a dedicated wedding service alongside quinceañeras, parties and funerals.		(956) 558-3788	https://www.mariachilocodemcallentx.com/	
+AB Event Productions	Music		Weslaco	Texas	McAllen, Hidalgo County and the wider Rio Grande Valley, with travel across Texas	Weslaco company supplying DJ, bilingual MC, audio, lighting and LED screens, plus a bilingual wedding officiant for Valley events.	abraham@abeventproductions.com	(956) 325-4294	https://abeventproductions.com/	https://www.instagram.com/abeventproductions/
+Groove Knight	Music		Corpus Christi	Texas	Corpus Christi and throughout Texas	Corpus Christi party band playing weddings every week, with hundreds of couples booked and shows listed for autumn 2026.	bookings@grooveknight.com	512.358.4911	https://www.grooveknight.com/	`,
+  },
+  {
+    name: "Killeen, Harker Heights, Temple and Salado: florals, hair and makeup, photo booth and photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+CenTex Mirror Photo Booth Co.	Photo Booth		Harker Heights	Texas	Harker Heights, Killeen, Copperas Cove, Temple, Round Rock, Waco, Austin	Mirror photo booth hire for weddings and other events, with a dedicated weddings page, working across Bell and Coryell counties and out towards Austin.	centexmirrorphotobooth@gmail.com	(254) 368-9360	https://centexmirrorphotobooth.com/	https://www.instagram.com/centexmirror_photobooth_co/
+Woods Flowers	Florals	1415 W Avenue H	Temple	Texas	Temple, Belton, Killeen, Salado, Harker Heights, Gatesville, Jarrell, Fort Hood	Family florist in Temple that supplies peonies, ranunculus and other wedding blooms, with weddings handled through its own separate wedding site.	woods.bloomingfields@yahoo.com	(254) 778-8506	https://woodsbloomingfields.com/	https://www.instagram.com/woodsflowerstemple/
+Precious Memories Florist & Gifts	Florals	17 N 2nd St	Temple	Texas	Temple	Downtown Temple florist making bridal bouquets, arches, centrepieces and head-table garlands, with pricing quoted after a phone consultation.		(254) 778-2242	https://www.preciousmemoriesflorist.com/wedding-flowers	
+Bloomingfields Florist	Florals		Salado	Texas	Temple, Killeen, Belton, Harker Heights, Salado, Nolanville, Jarrell, Troy, Little River	Florist trading since 1950 that does bridal bouquets, ceremony arches and reception centrepieces, with set-up and wedding consultations included.	wecare@beltonflowers.com	(254) 774-8822	https://www.beltonflowers.com/wedding	
+Expressions Hair & Nail Salon	Hair & Makeup		Temple	Texas	Temple	Salon offering hair styling and makeup for brides and whole bridal parties, from natural to glam looks, with free consultations.		(254) 570-0002	https://www.expressionshairandnailsalontx.com/updos-and-makeup	https://www.instagram.com/expressions_hairandnail/
+PhotosByIvan LLC	Photography		Killeen	Texas	Killeen and surrounding Central Texas, with Austin by arrangement	Killeen-first photographer, working since 2016, covering weddings, elopements and engagements for couples, with Austin sessions available.			https://www.photosbyivantx.com/about/	`,
+  },
 ];
 
 export default batches;
