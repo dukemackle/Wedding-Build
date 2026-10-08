@@ -203,6 +203,18 @@ Cakes by Tanis	Cake		Panama City Beach	Florida	All Bay County, Panama City Beach
 Sweetly Sisters	Cake		Santa Rosa Beach	Florida	Beaches of 30A, Destin and Panama City Beach	Two-sister home bakery specialising in classic Southern wedding cakes and desserts baked to order.			https://www.sweetlysisters.com/	
 `,
   },
+  {
+    name: "Naples and Fort Myers: videography, photography, music, hair and makeup and cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Sweet Apple Films	Videography		Fort Myers	Florida	Naples, Marco Island, Bonita Springs, Estero, Sanibel, Captiva, Fort Myers and Cape Coral	Emmy-winning photojournalist Peter Irberseder leads this Fort Myers wedding film team, offering custom packages across Southwest Florida.		(239) 841-7313	https://sweetapplefilms.com/	https://www.instagram.com/sweetapplefilmsandphotobooths/
+Love Letters Co	Videography		Fort Myers	Florida	Fort Myers and Naples, with travel available	Fort Myers team combining wedding films, photography and planning, so one company can cover the day from timeline to highlight reel.		239-748-0648	https://lovelettersfl.com/	https://www.instagram.com/lovelettersco_fl/
+Sea Soul Studios	Photography		North Fort Myers	Florida	All of Southwest Florida, from Naples to Punta Gorda	North Fort Myers studio shooting weddings, engagements and sunset beach portraits, with aerial photography and church or destination coverage.		(239) 672-3056	https://seasoulstudios.com/	https://www.instagram.com/seasoulsstudios/
+All Request Entertainment	Music		Estero	Florida	Fort Myers, Naples and surrounding areas	Estero wedding DJ service that also offers uplighting, monogram projection, photo booths and event planning help for receptions.		(239) 357-9677	https://allrequestentertainment.com/	https://www.instagram.com/allrequest/
+Intriago's Artistry	Hair & Makeup		Naples	Florida	Naples, Marco Island and Southwest Florida	On-location bridal hair and makeup with wedding glam packages and trial appointments, taking bookings seven days a week.	Intriagosartistry@gmail.com	239-687-9217	https://www.intriagosartistry.com/	https://www.instagram.com/intriagos.artistry/
+Hair to be Different of Cape Coral	Hair & Makeup		Cape Coral	Florida	Cape Coral, in the salon or on location	Cape Coral salon styling hair and makeup for the bride, party and flower girls, with trials and veil and clip-in placement.	h2bdifferent@gmail.com	239-242-1110	https://www.hairtobedifferent.com/bridal	https://www.instagram.com/hair2bedifferent/
+Beauty and the Beach Bride	Hair & Makeup		Naples	Florida	Naples and the surrounding area	Naples team doing natural glam, boho waves and romantic updos at the venue for bridal parties of any size, with advance trials.			https://beautyandthebeachbride.com/naples	
+Sassy Cakes of Naples	Cake		Naples	Florida	Naples, Bonita Springs, Estero, Marco Island, Fort Myers, Sanibel and Captiva	Naples bakery making custom wedding cakes with Thursday tastings or to-go tasting boxes, plus delivery, setup and cake stand rental.	SassyCakesofNaples@gmail.com	239-687-5100	https://www.sassycakesnaples.com/wedding-cakes/	https://www.instagram.com/sassycakesinc/`,
+  },
 ];
 
 export default batches;
