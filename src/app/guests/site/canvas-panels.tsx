@@ -42,7 +42,84 @@ const PRESSED = "bg-[#2243B6]/10 text-[#2243B6]";
 
 const KIND_LABELS: Record<string, string> = { serif: "Serif", sans: "Sans", script: "Script", display: "Display" };
 
-const LINE_ART = SITE_ART.filter((a) => a.kind === "line");
+type ArtPiece = (typeof SITE_ART)[number];
+
+/** The Elements library's filter chips. */
+const CATEGORIES = [
+  { id: "all", label: "All" },
+  { id: "text", label: "Text" },
+  { id: "shapes", label: "Shapes" },
+  { id: "art", label: "Line art" },
+  { id: "paintings", label: "Watercolours" },
+  { id: "photos", label: "Your photos" },
+] as const;
+
+const TEXT_PRESETS = [
+  { style: "heading", label: "Add a heading", size: "text-2xl" },
+  { style: "subheading", label: "Add a subheading", size: "text-lg" },
+  { style: "body", label: "Add a little body text", size: "text-sm" },
+] as const;
+
+/** Art groups that suit a theme, offered first. */
+const THEME_ART: Record<string, string[]> = {
+  ocean: ["Coast"],
+  riviera: ["Coast", "Destination"],
+  desert: ["Desert", "Western"],
+  ranch: ["Western"],
+  cowgirl: ["Western"],
+  vineyard: ["Vineyard", "Greenery"],
+  winter: ["Winter", "Seasonal"],
+  mountain: ["Winter", "Greenery"],
+  barn: ["Greenery", "Seasonal"],
+  garden: ["Greenery", "Wildflowers"],
+  botanical: ["Greenery", "Wildflowers"],
+  blush: ["Roses & peonies", "Wildflowers"],
+  terracotta: ["Desert", "Greenery"],
+};
+
+function groupArt(pieces: ArtPiece[]) {
+  const groups = new Map<string, ArtPiece[]>();
+  for (const p of pieces) groups.set(p.group, [...(groups.get(p.group) ?? []), p]);
+  return [...groups];
+}
+
+function ArtGrid({ pieces, colour, onAdd }: { pieces: ArtPiece[]; colour?: string; onAdd: (id: string) => void }) {
+  return (
+    <div className="grid grid-cols-4 gap-2">
+      {pieces.map((a) => (
+        <button
+          key={a.id}
+          type="button"
+          aria-label={a.name}
+          title={a.name}
+          onClick={() => onAdd(a.id)}
+          className="flex aspect-square items-center justify-center rounded-xl border border-hairline bg-card p-2 [contain-intrinsic-size:auto_80px] [content-visibility:auto] hover:border-ink/30"
+        >
+          {a.kind === "line" ? (
+            <span
+              aria-hidden="true"
+              className="h-full w-full"
+              style={{
+                background: colour,
+                WebkitMaskImage: `url(${a.src})`,
+                maskImage: `url(${a.src})`,
+                WebkitMaskSize: "contain",
+                maskSize: "contain",
+                WebkitMaskRepeat: "no-repeat",
+                maskRepeat: "no-repeat",
+                WebkitMaskPosition: "center",
+                maskPosition: "center",
+              }}
+            />
+          ) : (
+            // eslint-disable-next-line @next/next/no-img-element -- a small static thumbnail
+            <img src={a.src} alt="" loading="lazy" className="h-full w-full object-contain" />
+          )}
+        </button>
+      ))}
+    </div>
+  );
+}
 
 /** A section's frame width and height in its own units: stored once it has elements, else as the preview measures it. */
 export function frameSize(design: SiteDesign, frames: CanvasFrames, key: string) {
@@ -137,6 +214,23 @@ export function ElementsTab({
   const [chosen, setChosen] = useState<string | null>(null);
   const target = picked ?? (chosen && frames[chosen] ? chosen : "hero");
   const colors = roleColors(design);
+  const { theme } = resolveDesign(design);
+  const [query, setQuery] = useState("");
+  const [cat, setCat] = useState<(typeof CATEGORIES)[number]["id"]>("all");
+  const q = query.trim().toLowerCase();
+  const hit = (...words: string[]) => !q || words.some((w) => w.toLowerCase().includes(q));
+  const show = (c: (typeof CATEGORIES)[number]["id"]) => cat === "all" || cat === c;
+  const texts = TEXT_PRESETS.filter((t) => hit(t.label, "text", "words", "heading"));
+  const shapes = SHAPES.filter((sh) => hit(sh.label, "shape"));
+  const lineGroups = groupArt(SITE_ART.filter((a) => a.kind === "line" && hit(a.name, a.group, "line art")));
+  const paintings = SITE_ART.filter((a) => a.kind !== "line" && hit(a.name, a.group, "watercolour", "painting"));
+  const suggested = SITE_ART.filter((a) => a.kind === "line" && (THEME_ART[design.theme] ?? []).includes(a.group)).slice(0, 8);
+  const nothing =
+    (!show("text") || !texts.length) &&
+    (!show("shapes") || !shapes.length) &&
+    (!show("art") || !lineGroups.length) &&
+    (!show("paintings") || !paintings.length) &&
+    (!show("photos") || !photos.length || !!q);
 
   function add(spec: NewElement) {
     const { w, h } = frameSize(design, frames, target);
@@ -172,76 +266,94 @@ export function ElementsTab({
       </div>
 
       <div className="flex flex-col gap-2">
-        <PanelLabel>Text</PanelLabel>
-        <AddCard onClick={() => add({ kind: "text", style: "heading" })}>
-          <span className="text-2xl" style={{ fontFamily: resolveDesign(design).theme.display, color: colors.heading }}>
-            Add a heading
-          </span>
-        </AddCard>
-        <AddCard onClick={() => add({ kind: "text", style: "subheading" })}>
-          <span className="text-lg" style={{ fontFamily: resolveDesign(design).theme.display, color: colors.heading }}>
-            Add a subheading
-          </span>
-        </AddCard>
-        <AddCard onClick={() => add({ kind: "text", style: "body" })}>
-          <span className="text-sm" style={{ fontFamily: resolveDesign(design).theme.body, color: colors.ink }}>
-            Add a little body text
-          </span>
-        </AddCard>
-      </div>
-
-      <div className="flex flex-col gap-2">
-        <PanelLabel>Shapes</PanelLabel>
-        <div className="grid grid-cols-4 gap-2">
-          {SHAPES.map((s) => (
+        <input
+          type="search"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Search palm, roses, arch, heading…"
+          aria-label="Search elements"
+          className="h-11 rounded-lg border border-hairline bg-card px-3 text-[15px] text-ink placeholder:text-ink/45"
+        />
+        <div className="-mx-5 flex gap-1.5 overflow-x-auto px-5 pb-1 lg:-mx-6 lg:px-6">
+          {CATEGORIES.filter((c) => c.id !== "photos" || photos.length > 0).map((c) => (
             <button
-              key={s.id}
+              key={c.id}
               type="button"
-              aria-label={s.label}
-              title={s.label}
-              onClick={() => add({ kind: "shape", shape: s.id })}
-              className="flex aspect-square items-center justify-center rounded-xl border border-hairline bg-card hover:border-ink/30"
+              aria-pressed={cat === c.id}
+              onClick={() => setCat(c.id)}
+              className={`h-8 shrink-0 rounded-full px-3 text-[13px] ${
+                cat === c.id ? "bg-forest text-parchment" : "border border-hairline bg-card text-ink/75 hover:text-ink"
+              }`}
             >
-              <ShapeIcon shape={s.id} color={colors.accent} />
+              {c.label}
             </button>
           ))}
         </div>
       </div>
 
-      <div className="flex flex-col gap-2">
-        <PanelLabel>Line art</PanelLabel>
-        <div className="grid grid-cols-4 gap-2">
-          {LINE_ART.map((a) => (
-            <button
-              key={a.id}
-              type="button"
-              aria-label={a.name}
-              title={a.name}
-              onClick={() => add({ kind: "art", art: a.id })}
-              className="flex aspect-square items-center justify-center rounded-xl border border-hairline bg-card p-2 hover:border-ink/30"
-            >
+      {suggested.length > 0 && !q && cat === "all" && (
+        <div className="flex flex-col gap-2">
+          <PanelLabel>Suits your theme</PanelLabel>
+          <ArtGrid pieces={suggested} colour={colors.accent} onAdd={(id) => add({ kind: "art", art: id })} />
+        </div>
+      )}
+
+      {show("text") && texts.length > 0 && (
+        <div className="flex flex-col gap-2">
+          <PanelLabel>Text</PanelLabel>
+          {texts.map((t) => (
+            <AddCard key={t.style} onClick={() => add({ kind: "text", style: t.style })}>
               <span
-                aria-hidden="true"
-                className="h-full w-full"
-                style={{
-                  background: colors.accent,
-                  WebkitMaskImage: `url(${a.src})`,
-                  maskImage: `url(${a.src})`,
-                  WebkitMaskSize: "contain",
-                  maskSize: "contain",
-                  WebkitMaskRepeat: "no-repeat",
-                  maskRepeat: "no-repeat",
-                  WebkitMaskPosition: "center",
-                  maskPosition: "center",
-                }}
-              />
-            </button>
+                className={t.size}
+                style={{ fontFamily: t.style === "body" ? theme.body : theme.display, color: t.style === "body" ? colors.ink : colors.heading }}
+              >
+                {t.label}
+              </span>
+            </AddCard>
           ))}
         </div>
-        <p className="text-[13px] leading-normal text-ink/60">Drawn in your accent colour, so it changes with your palette.</p>
-      </div>
+      )}
 
-      {photos.length > 0 && (
+      {show("shapes") && shapes.length > 0 && (
+        <div className="flex flex-col gap-2">
+          <PanelLabel>Shapes</PanelLabel>
+          <div className="grid grid-cols-4 gap-2">
+            {shapes.map((sh) => (
+              <button
+                key={sh.id}
+                type="button"
+                aria-label={sh.label}
+                title={sh.label}
+                onClick={() => add({ kind: "shape", shape: sh.id })}
+                className="flex aspect-square items-center justify-center rounded-xl border border-hairline bg-card hover:border-ink/30"
+              >
+                <ShapeIcon shape={sh.id} color={colors.accent} />
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {show("art") &&
+        lineGroups.map(([group, pieces]) => (
+          <div key={group} className="flex flex-col gap-2">
+            <PanelLabel>{group}</PanelLabel>
+            <ArtGrid pieces={pieces} colour={colors.accent} onAdd={(id) => add({ kind: "art", art: id })} />
+          </div>
+        ))}
+      {show("art") && lineGroups.length > 0 && (
+        <p className="text-[13px] leading-normal text-ink/60">Line art is drawn in your accent colour, so it changes with your palette.</p>
+      )}
+
+      {show("paintings") && paintings.length > 0 && (
+        <div className="flex flex-col gap-2">
+          <PanelLabel>Watercolours</PanelLabel>
+          <ArtGrid pieces={paintings} onAdd={(id) => add({ kind: "art", art: id })} />
+          <p className="text-[13px] leading-normal text-ink/60">Painted pieces keep their own colours.</p>
+        </div>
+      )}
+
+      {show("photos") && photos.length > 0 && !q && (
         <div className="flex flex-col gap-2">
           <PanelLabel>Your photos</PanelLabel>
           <div className="grid grid-cols-3 gap-2">
@@ -260,6 +372,8 @@ export function ElementsTab({
           </div>
         </div>
       )}
+
+      {nothing && <p className="text-sm text-ink/60">Nothing matches “{query}”. Try a flower, a shape or “heading”.</p>}
     </>
   );
 }

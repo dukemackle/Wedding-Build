@@ -6,7 +6,6 @@ import {
   ALL_FONTS_HREF,
   designCssVars,
   DEFAULT_SITE_DESIGN,
-  parseSiteDesign,
   siteFontsHref,
   type SiteDesign,
   type TextSlotId,
@@ -103,7 +102,8 @@ export function GuestSiteTheme({
     if (!preview) return;
     function onMessage(event: MessageEvent) {
       if (event.origin !== window.location.origin) return;
-      if (event.data?.type === DESIGN_MESSAGE) setDesign(parseSiteDesign(event.data.design));
+      // The editor only sends designs it has already validated, from this origin.
+      if (event.data?.type === DESIGN_MESSAGE && event.data.design) setDesign(event.data.design as SiteDesign);
       if (event.data?.type === REPLAY_MESSAGE) {
         window.scrollTo(0, 0);
         setReplay((r) => r + 1);

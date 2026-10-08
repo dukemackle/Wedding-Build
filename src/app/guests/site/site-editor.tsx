@@ -34,7 +34,8 @@ import {
   type TextStyle,
 } from "@/lib/site-design";
 import { TextToolbar } from "./text-toolbar";
-import { canvasSchema, filterCss, PHOTO_FILTERS, findElement, updateElement, type CanvasElement, type SiteCanvas } from "@/lib/site-canvas";
+import { canvasSchema } from "@/lib/site-canvas-schema";
+import { filterCss, PHOTO_FILTERS, findElement, updateElement, type CanvasElement, type SiteCanvas } from "@/lib/site-canvas";
 import {
   CANVAS_ACTION,
   CANVAS_COMMIT,

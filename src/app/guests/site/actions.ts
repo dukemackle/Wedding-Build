@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { siteDesignSchema } from "@/lib/site-design";
+import { siteDesignSchema } from "@/lib/site-design-schema";
 import { requireEditableWedding } from "@/lib/wedding-access";
 
 /** Every change in the editor lands here. Guests see none of it until Publish. */

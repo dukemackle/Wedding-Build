@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import type { PublicWedding, Wedding } from "@/lib/supabase/types";
-import { parseSiteDesign } from "@/lib/site-design";
+import { parseSiteDesign } from "@/lib/site-design-schema";
 import { GuestSiteTheme } from "@/components/guest-site-theme";
 import { GuestSiteView, loadGuestSiteContent } from "@/app/w/[slug]/guest-site-view";
 import { CanvasEditing } from "./canvas-editing";

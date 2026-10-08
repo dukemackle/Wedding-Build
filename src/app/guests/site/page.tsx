@@ -12,7 +12,8 @@ import type {
   WeddingGalleryPhoto,
   SiteBlock,
 } from "@/lib/supabase/types";
-import { blockKey, parseSiteDesign, type SectionId } from "@/lib/site-design";
+import { blockKey, type SectionId } from "@/lib/site-design";
+import { parseSiteDesign } from "@/lib/site-design-schema";
 import { HeroPhotoPanel } from "../hero-photo-panel";
 import { GalleryPanel } from "../gallery-panel";
 import { Accommodations, DressAndTravel, Faqs } from "../guest-site-details";

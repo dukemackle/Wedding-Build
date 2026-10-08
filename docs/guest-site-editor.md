@@ -149,7 +149,19 @@ Phases, one PR each:
    Animate panel: CSS only, tied to scrolling where the browser supports
    scroll-driven animations and played on load elsewhere, still for guests
    who turn motion off.
-   **4c**: the guest page rendered as server HTML without editor code; the
-   searchable Elements library.
+   **4c, a lean guest page and the Elements library** (built 2026-10-08):
+   the page was already rendered as HTML on the server; what it carried was
+   editor code. The zod schemas moved to `site-design-schema.ts` and
+   `site-canvas-schema.ts` (server and editor only; the guest page reads
+   designs parsed on the server), and click-to-edit words moved to
+   `site-text-edit.tsx`, loaded on demand only in the preview. The guest
+   page's own JavaScript went from 139 KB to 51 KB gzipped (545 to 161 KB
+   raw, measured from the production build's client manifest for
+   `/w/[slug]`). The canvas editing code was already kept out of it. Turning
+   the hero and sections into server components is possible later but saves
+   little now: the countdown, RSVP form, motion and theme context need the
+   browser anyway. The Elements tab became a library: a search, filter chips
+   (Text, Shapes, Line art, Watercolours, Your photos), line art grouped by
+   kind, the painted watercolours, and a "Suits your theme" row.
 5. Templates: gallery, switching that keeps content, "Describe your ideal
    site" and "Wren, write this".
