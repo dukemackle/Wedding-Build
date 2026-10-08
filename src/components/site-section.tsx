@@ -1,11 +1,12 @@
 "use client";
 
 import type { CSSProperties, ReactNode } from "react";
-import { useSiteDesign } from "@/components/guest-site-theme";
+import { useReplay, useSiteDesign } from "@/components/guest-site-theme";
 import { artById, fontById } from "@/lib/site-design";
 import {
   colorCss,
   elementsBottom,
+  filterCss,
   holdsElements,
   phoneBoxes,
   readingOrder,
@@ -119,15 +120,20 @@ export function SiteElement({
       : {}),
     order,
   } as CSSProperties;
+  // Replay motion, or a new choice in the editor, plays the animation again.
+  const replay = useReplay();
 
   return (
     <div
       data-el={el.id}
       data-off-phone={offPhone || undefined}
+      data-anim={el.anim !== "none" ? el.anim : undefined}
       className={`site-el site-el-${el.kind}`}
       style={vars}
     >
-      <ElementBody el={el} />
+      <div key={`${el.anim}-${replay}`} className={`site-el-in ${el.kind === "text" ? "" : "h-full w-full"}`}>
+        <ElementBody el={el} />
+      </div>
     </div>
   );
 }
@@ -207,6 +213,33 @@ function ElementBody({ el }: { el: CanvasElement }) {
     );
   }
 
-  // eslint-disable-next-line @next/next/no-img-element -- the couple's own upload, any size
-  return <img src={el.src} alt={el.alt} loading="lazy" className="h-full w-full object-cover" />;
+  // Crop is the focus point and zoom; the frame shapes the box around it.
+  const radius =
+    el.frame === "circle" ? "50%" : el.frame === "arch" ? "9999px 9999px 0 0" : el.frame === "rounded" ? "8%" : undefined;
+  const framed =
+    el.frame === "polaroid"
+      ? { padding: "5% 5% 16%", background: "#ffffff", boxShadow: "0 6px 18px rgb(0 0 0 / 0.16)" }
+      : el.frame === "border"
+        ? { padding: "3%", border: "var(--site-el-stroke) solid var(--site-accent)" }
+        : undefined;
+  const origin = `${el.fx}% ${el.fy}%`;
+  return (
+    <div className="h-full w-full" style={framed}>
+      <div className="h-full w-full overflow-hidden" style={{ borderRadius: radius }}>
+        {/* eslint-disable-next-line @next/next/no-img-element -- the couple's own upload, any size */}
+        <img
+          src={el.src}
+          alt={el.alt}
+          loading="lazy"
+          className="h-full w-full object-cover"
+          style={{
+            objectPosition: origin,
+            transform: el.zoom > 1 ? `scale(${el.zoom})` : undefined,
+            transformOrigin: origin,
+            filter: el.filter !== "none" ? filterCss(el.filter) : undefined,
+          }}
+        />
+      </div>
+    </div>
+  );
 }

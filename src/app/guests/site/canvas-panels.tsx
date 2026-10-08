@@ -84,7 +84,7 @@ type NewElement =
 
 /** A new element, centred in its section and a little below the last one added. */
 function buildElement(spec: NewElement, w: number, h: number, count: number): CanvasElement {
-  const base = { id: newElementId(), rot: 0, locked: false, hidden: false };
+  const base = { id: newElementId(), rot: 0, locked: false, hidden: false, anim: "none" as const };
   let el: CanvasElement;
   if (spec.kind === "text") {
     const t = {
@@ -102,7 +102,7 @@ function buildElement(spec: NewElement, w: number, h: number, count: number): Ca
     const aw = piece ? Math.max(GRID, snap((ah * piece.w) / piece.h)) : ah;
     el = { ...base, kind: "art", art: spec.art, color: "accent", flip: false, x: 0, y: 0, w: aw, h: ah };
   } else {
-    el = { ...base, kind: "photo", src: spec.src, alt: "", x: 0, y: 0, w: 320, h: 240 };
+    el = { ...base, kind: "photo", src: spec.src, alt: "", x: 0, y: 0, w: 320, h: 240, fx: 50, fy: 50, zoom: 1, frame: "none", filter: "none" };
   }
   const nudge = (count % 6) * GRID * 2;
   return {
@@ -680,6 +680,7 @@ export function CanvasToolbar({
   onCanvas,
   onDesign,
   onPosition,
+  onOpen,
   onDone,
 }: {
   design: SiteDesign;
@@ -691,6 +692,8 @@ export function CanvasToolbar({
   onCanvas: (canvas: SiteCanvas) => void;
   onDesign: (patch: Partial<SiteDesign>) => void;
   onPosition: () => void;
+  /** Opens the Photo or Animate panel for the picked element. */
+  onOpen: (panel: "photo" | "animate") => void;
   onDone: () => void;
 }) {
   const key = selection.section;
@@ -838,6 +841,10 @@ export function CanvasToolbar({
       {el && (
         <>
           <span className="mx-1 h-6 w-px shrink-0 bg-hairline" />
+          {el.kind === "photo" && <TextButton onClick={() => onOpen("photo")}>Crop, frame &amp; filter</TextButton>}
+          <TextButton pressed={el.anim !== "none"} onClick={() => onOpen("animate")}>
+            Animate
+          </TextButton>
           <TextButton onClick={onPosition}>Position</TextButton>
         </>
       )}

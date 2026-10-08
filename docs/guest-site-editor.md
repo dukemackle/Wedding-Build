@@ -139,7 +139,16 @@ Phases, one PR each:
    lattice) and a texture (linen, paper, watercolour wash), drawn in the
    site's own colours as CSS layers (`background` in the design,
    `backgroundLayers` in site-design.ts), on every section or the top only.
-   **4b**: photo crop, frames, filters and focus point; per-element animation.
+   **4b, photos and motion** (built 2026-10-08): a placed photo has a crop
+   (focus point and zoom), a frame (rounded, circle, arch, polaroid, border)
+   and a filter (warm, cool, vivid, faded, vintage, black & white), plus alt
+   text, from the Photo panel ("Crop, frame & filter" on its bar; Crop,
+   Frame and Filter tools on a phone). The banner photo gets a focus point
+   and filter in Style › Banner photo (`heroPhoto` in the design). Every
+   placed element can animate (rise, fade, pan, pop, wipe, drift) from the
+   Animate panel: CSS only, tied to scrolling where the browser supports
+   scroll-driven animations and played on load elsewhere, still for guests
+   who turn motion off.
    **4c**: the guest page rendered as server HTML without editor code; the
    searchable Elements library.
 5. Templates: gallery, switching that keeps content, "Describe your ideal

@@ -34,7 +34,7 @@ import {
   type TextStyle,
 } from "@/lib/site-design";
 import { TextToolbar } from "./text-toolbar";
-import { canvasSchema, findElement, updateElement, type CanvasElement, type SiteCanvas } from "@/lib/site-canvas";
+import { canvasSchema, filterCss, PHOTO_FILTERS, findElement, updateElement, type CanvasElement, type SiteCanvas } from "@/lib/site-canvas";
 import {
   CANVAS_ACTION,
   CANVAS_COMMIT,
@@ -48,6 +48,7 @@ import {
 } from "./canvas-messages";
 import { CanvasToolbar, ElementsTab, PositionPanel } from "./canvas-panels";
 import { PhoneTools, Sheet, Tool } from "./phone-tools";
+import { AnimatePanel, FocusPicker, PhotoPanel } from "./photo-motion-panels";
 import { BackgroundTab, FontsTab, PhotoColoursSection, TargetColourSection, type PickTarget } from "./look-panels";
 import { publishSiteDesign, saveSiteDraft } from "./actions";
 import { BirdCheer } from "@/components/bird-cheer";
@@ -56,7 +57,19 @@ import { MotionTab, PanelLabel, SectionsTab, StyleTab, type ChecklistItem, type 
 
 type Device = "desktop" | "phone";
 // Position opens from a picked element rather than the tab strip.
-type Tab = "theme" | "style" | "colour" | "fonts" | "background" | "motion" | "sections" | "elements" | "position";
+// Position, Photo and Animate open from a picked element rather than the rail.
+type Tab =
+  | "theme"
+  | "style"
+  | "colour"
+  | "fonts"
+  | "background"
+  | "motion"
+  | "sections"
+  | "elements"
+  | "position"
+  | "photo"
+  | "animate";
 
 const TABS: { key: Tab; label: string }[] = [
   { key: "theme", label: "Theme" },
@@ -168,7 +181,7 @@ export function SiteEditor({
   const [frames, setFrames] = useState<CanvasFrames>({});
   const [phoneFrames, setPhoneFrames] = useState<CanvasFrames>({});
   // Where Position's close button goes back to.
-  const [lastTab, setLastTab] = useState<Tab>("elements");
+  const [lastTab, setLastTab] = useState<Exclude<Tab, "position" | "photo" | "animate">>("elements");
 
   // Phone screens start on the phone preview; there's no computer to show it on.
   useEffect(() => {
@@ -327,7 +340,8 @@ export function SiteEditor({
   }
 
   function openTab(next: Tab) {
-    if (next === "position" && tab !== "position") setLastTab(tab);
+    const floating = (t: Tab) => t === "position" || t === "photo" || t === "animate";
+    if (floating(next) && !floating(tab)) setLastTab(tab);
     setTab(next);
   }
 
@@ -490,8 +504,29 @@ export function SiteEditor({
           selection={canvasSel}
           onCanvas={changeCanvas}
           onSelect={selectCanvas}
-          onClose={() => setTab(lastTab === "position" ? "elements" : lastTab)}
+          onClose={() => setTab(lastTab)}
         />
+      ) : tab === "photo" || tab === "animate" ? (
+        <>
+          <div className="flex items-center justify-between">
+            <h2 className="font-display text-2xl font-semibold text-forest">{tab === "photo" ? "Photo" : "Animate"}</h2>
+            <button
+              type="button"
+              onClick={() => setTab(lastTab)}
+              aria-label="Close"
+              className="flex h-9 w-9 items-center justify-center rounded-lg text-ink/70 hover:bg-ink/[0.05] hover:text-ink"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+                <path d="M6 6l12 12M18 6L6 18" />
+              </svg>
+            </button>
+          </div>
+          {tab === "photo" ? (
+            <PhotoPanel design={design} selection={canvasSel} onCanvas={changeCanvas} />
+          ) : (
+            <AnimatePanel design={design} selection={canvasSel} onCanvas={changeCanvas} />
+          )}
+        </>
       ) : tab === "theme" ? (
         <ThemeTab design={design} onChange={change} part="themes" />
       ) : tab === "colour" ? (
@@ -516,7 +551,36 @@ export function SiteEditor({
           onTryConfetti={() => post(CONFETTI_MESSAGE)}
         />
       ) : tab === "style" ? (
-        <StyleTab design={design} onChange={change} hasPhoto={hasPhoto} names={names} />
+        <>
+          <StyleTab design={design} onChange={change} hasPhoto={hasPhoto} names={names} />
+          {hasPhoto && photos[0] && (
+            <div className="flex flex-col gap-3">
+              <PanelLabel>Banner photo</PanelLabel>
+              <FocusPicker
+                src={photos[0]}
+                fx={design.heroPhoto.fx}
+                fy={design.heroPhoto.fy}
+                filter={filterCss(design.heroPhoto.filter)}
+                onChange={(fx, fy) => change({ heroPhoto: { ...design.heroPhoto, fx, fy } })}
+              />
+              <div className="flex flex-wrap gap-1.5">
+                {PHOTO_FILTERS.map((f) => (
+                  <button
+                    key={f.id}
+                    type="button"
+                    aria-pressed={design.heroPhoto.filter === f.id}
+                    onClick={() => change({ heroPhoto: { ...design.heroPhoto, filter: f.id } })}
+                    className={`h-8 rounded-full px-3 text-[13px] ${
+                      design.heroPhoto.filter === f.id ? "bg-forest text-parchment" : "border border-hairline bg-card text-ink/75"
+                    }`}
+                  >
+                    {f.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+        </>
       ) : (
         <SectionsTab
           design={design}
@@ -814,7 +878,7 @@ export function SiteEditor({
                 key={t.key}
                 label={t.label}
                 icon={TAB_ICONS[t.key as keyof typeof TAB_ICONS]}
-                on={tab === t.key || (t.key === "elements" && tab === "position")}
+                on={tab === t.key || (t.key === "elements" && (tab === "position" || tab === "photo" || tab === "animate"))}
                 onClick={() => setTab(t.key)}
               />
             ))}
@@ -881,6 +945,7 @@ export function SiteEditor({
               onCanvas={changeCanvas}
               onDesign={change}
               onPosition={() => openTab("position")}
+              onOpen={openTab}
               onDone={() => selectCanvas(null)}
             />
           </div>

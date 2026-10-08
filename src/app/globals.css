@@ -484,6 +484,57 @@ body::before {
   background: none;
 }
 
+/* The banner photo's focus point and filter (Style tab › Banner photo). */
+.guest-site .site-hero-photo img {
+  object-position: var(--hero-focus, 50% 50%);
+  filter: var(--hero-filter, none);
+}
+
+/* Placed elements' animations (Animate panel). They play once as guests
+   scroll to them where the browser can tie them to scrolling, and on load
+   elsewhere; the editor's preview plays them on load so a choice can be
+   seen. The inner box moves, so the element keeps its own rotation. */
+@keyframes el-rise {
+  from { opacity: 0; transform: translateY(28px); }
+}
+@keyframes el-fade {
+  from { opacity: 0; }
+}
+@keyframes el-pan {
+  from { opacity: 0; transform: translateX(-40px); }
+}
+@keyframes el-pop {
+  from { opacity: 0; transform: scale(0.8); }
+}
+@keyframes el-wipe {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+@keyframes el-drift {
+  from { opacity: 0; transform: translate(-14px, -18px) rotate(-4deg); }
+}
+.site-el[data-anim] > .site-el-in {
+  animation: var(--el-anim) calc(0.9s * var(--motion-speed, 1)) cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.site-el[data-anim="rise"] { --el-anim: el-rise; }
+.site-el[data-anim="fade"] { --el-anim: el-fade; }
+.site-el[data-anim="pan"] { --el-anim: el-pan; }
+.site-el[data-anim="pop"] { --el-anim: el-pop; }
+.site-el[data-anim="wipe"] { --el-anim: el-wipe; }
+.site-el[data-anim="drift"] { --el-anim: el-drift; }
+@supports (animation-timeline: view()) {
+  .guest-site:not([data-preview]) .site-el[data-anim] > .site-el-in {
+    animation-duration: auto;
+    animation-timeline: view();
+    animation-range: entry 10% cover 35%;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .site-el[data-anim] > .site-el-in {
+    animation: none;
+  }
+}
+
 /* The guest site has a footer of its own, in its theme. */
 /* The dashboard's photo backdrop sits behind the page at a negative z-index,
    which paints beneath body's own background -- so on that page body lets

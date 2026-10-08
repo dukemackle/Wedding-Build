@@ -63,6 +63,47 @@ export function colorCss(color: CanvasColor) {
   return CANVAS_COLORS.find((c) => c.id === color)?.css ?? color;
 }
 
+/** Plays once as guests scroll to it (the Animate panel); "none" stays still. */
+export const ANIMATIONS = [
+  { id: "none", label: "None" },
+  { id: "rise", label: "Rise" },
+  { id: "fade", label: "Fade" },
+  { id: "pan", label: "Pan" },
+  { id: "pop", label: "Pop" },
+  { id: "wipe", label: "Wipe" },
+  { id: "drift", label: "Drift" },
+] as const;
+
+export type AnimationId = (typeof ANIMATIONS)[number]["id"];
+
+/** Photo filters as CSS, gentle enough that skin still looks like skin. */
+export const PHOTO_FILTERS = [
+  { id: "none", label: "Original", css: "none" },
+  { id: "warm", label: "Warm", css: "sepia(.22) saturate(1.15) hue-rotate(-6deg)" },
+  { id: "cool", label: "Cool", css: "saturate(.9) hue-rotate(10deg) brightness(1.03)" },
+  { id: "vivid", label: "Vivid", css: "saturate(1.3) contrast(1.05)" },
+  { id: "fade", label: "Faded", css: "contrast(.88) brightness(1.08) saturate(.8)" },
+  { id: "vintage", label: "Vintage", css: "sepia(.45) contrast(.95) brightness(1.02)" },
+  { id: "mono", label: "Black & white", css: "grayscale(1) contrast(1.05)" },
+] as const;
+
+export type PhotoFilterId = (typeof PHOTO_FILTERS)[number]["id"];
+
+export const PHOTO_FRAMES = [
+  { id: "none", label: "None" },
+  { id: "rounded", label: "Rounded" },
+  { id: "circle", label: "Circle" },
+  { id: "arch", label: "Arch" },
+  { id: "polaroid", label: "Polaroid" },
+  { id: "border", label: "Border" },
+] as const;
+
+export type PhotoFrameId = (typeof PHOTO_FRAMES)[number]["id"];
+
+export function filterCss(id: string) {
+  return PHOTO_FILTERS.find((f) => f.id === id)?.css ?? "none";
+}
+
 const boxSchema = {
   id: z.string().regex(ID),
   x: z.number().min(-4000).max(8000),
@@ -72,6 +113,7 @@ const boxSchema = {
   rot: z.number().min(-180).max(180).catch(0),
   locked: z.boolean().catch(false),
   hidden: z.boolean().catch(false),
+  anim: z.enum(ANIMATIONS.map((a) => a.id) as [AnimationId, ...AnimationId[]]).catch("none"),
 };
 
 export const SHAPES = [
@@ -118,6 +160,12 @@ const photoSchema = z.object({
   kind: z.literal("photo"),
   src: z.string().url().max(1000).refine((u) => u.startsWith("https://")),
   alt: z.string().max(200).catch(""),
+  /** Crop: the point kept in view (percent across and down) and how far it's zoomed in. */
+  fx: z.number().min(0).max(100).catch(50),
+  fy: z.number().min(0).max(100).catch(50),
+  zoom: z.number().min(1).max(3).catch(1),
+  frame: z.enum(PHOTO_FRAMES.map((f) => f.id) as [PhotoFrameId, ...PhotoFrameId[]]).catch("none"),
+  filter: z.enum(PHOTO_FILTERS.map((f) => f.id) as [PhotoFilterId, ...PhotoFilterId[]]).catch("none"),
 });
 
 const elementSchema = z.discriminatedUnion("kind", [textSchema, artSchema, shapeSchema, photoSchema]);
