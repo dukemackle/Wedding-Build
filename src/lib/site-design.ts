@@ -959,6 +959,58 @@ export function motionPreset(motion: Motion): MotionPreset {
 /** Multiplies every duration. */
 export const MOTION_SPEED = { slow: 1.5, normal: 1, fast: 0.6 } as const;
 
+/**
+ * The words on the guest site a couple can click in the editor's preview to
+ * restyle, and (where `words` is true) retype. The rest come from their
+ * wedding details -- names, a guest count -- so only their look changes here.
+ */
+export const TEXT_SLOTS = [
+  { id: "hero.kicker", label: "Invitation line", words: true },
+  { id: "hero.names", label: "Your names", words: false },
+  { id: "rsvp.title", label: "RSVP heading", words: true },
+  { id: "photos.title", label: "Photos heading", words: true },
+  { id: "weekend.title", label: "Schedule heading", words: true },
+  { id: "wall.title", label: "Photo wall heading", words: true },
+  { id: "guests.title", label: "Who's coming heading", words: false },
+  { id: "travel.title", label: "Travel heading", words: true },
+  { id: "faq.title", label: "FAQ heading", words: true },
+  { id: "registry.title", label: "Registry heading", words: true },
+] as const;
+
+export type TextSlotId = (typeof TEXT_SLOTS)[number]["id"];
+
+const TEXT_SLOT_IDS = new Set<string>(TEXT_SLOTS.map((s) => s.id));
+
+/** Size steps for the toolbar's − and +, as a multiple of the slot's own size. */
+export const TEXT_SIZES = [0.625, 0.75, 0.875, 1, 1.125, 1.25, 1.5, 1.75, 2] as const;
+
+/** Each null means the theme's own. */
+const textStyleSchema = z.object({
+  text: z.string().trim().max(120).nullable().catch(null),
+  font: z.enum(FONT_IDS).nullable().catch(null),
+  size: z.number().min(0.5).max(2.5).nullable().catch(null),
+  color: z.string().regex(HEX).nullable().catch(null),
+  align: z.enum(["left", "center", "right"]).nullable().catch(null),
+  bold: z.boolean().nullable().catch(null),
+  italic: z.boolean().nullable().catch(null),
+});
+
+export type TextStyle = z.infer<typeof textStyleSchema>;
+
+export const EMPTY_TEXT_STYLE: TextStyle = {
+  text: null,
+  font: null,
+  size: null,
+  color: null,
+  align: null,
+  bold: null,
+  italic: null,
+};
+
+export function hasTextStyle(style: TextStyle | undefined) {
+  return !!style && Object.values(style).some((v) => v !== null && v !== "");
+}
+
 export const siteDesignSchema = z.object({
   theme: z.enum(THEME_IDS).catch(DEFAULT_THEME_ID),
   /** null means the theme's first swatch. */
@@ -998,6 +1050,18 @@ export const siteDesignSchema = z.object({
     .transform((list) => completeSections(list.filter((x) => x !== null)))
     .catch(DEFAULT_SECTIONS),
   motion: motionSchema.catch(MOTION_PRESETS.subtle),
+  /** Per-slot changes made by clicking words in the preview. Unknown or empty slots are dropped. */
+  text: z
+    .record(z.string(), textStyleSchema.nullable().catch(null))
+    .transform(
+      (all) =>
+        Object.fromEntries(
+          Object.entries(all).filter(
+            ([id, style]) => TEXT_SLOT_IDS.has(id) && style !== null && hasTextStyle(style),
+          ),
+        ) as Partial<Record<TextSlotId, TextStyle>>,
+    )
+    .catch({}),
 });
 
 export type SiteDesign = z.infer<typeof siteDesignSchema>;
@@ -1017,6 +1081,7 @@ export const DEFAULT_SITE_DESIGN: SiteDesign = {
   occasion: { kind: "wedding", since: null },
   sections: DEFAULT_SECTIONS,
   motion: MOTION_PRESETS.subtle,
+  text: {},
 };
 
 /** Whatever is in the column -- null, an old shape, junk -- as a usable design. */
@@ -1189,6 +1254,26 @@ export function fontsHref(themes: readonly Pick<SiteTheme, "display" | "body">[]
 export function fontsHrefFor(css: readonly string[]) {
   const families = [...new Set(css)].map((c) => fontByCss(c)?.google).filter(Boolean);
   return `https://fonts.googleapis.com/css2?${families.map((f) => `family=${f}`).join("&")}&display=swap`;
+}
+
+/** The live site's stylesheet: the theme's faces plus any picked for a single slot. */
+export function siteFontsHref(design: SiteDesign) {
+  const { theme } = resolveDesign(design);
+  const picked = Object.values(design.text).flatMap((s) => (s?.font ? [fontById(s.font)?.css ?? ""] : []));
+  return fontsHrefFor([theme.display, theme.body, ...picked]);
+}
+
+/** A slot's own look over its usual one. Size is applied separately, relative to the slot's size. */
+export function textSlotCss(style: TextStyle | undefined): Record<string, string> {
+  if (!style) return {};
+  const css: Record<string, string> = {};
+  const font = fontById(style.font);
+  if (font) css.fontFamily = font.css;
+  if (style.color) css.color = style.color;
+  if (style.align) css.textAlign = style.align;
+  if (style.bold !== null) css.fontWeight = style.bold ? "700" : "400";
+  if (style.italic !== null) css.fontStyle = style.italic ? "italic" : "normal";
+  return css;
 }
 
 /** Every face in the library, for the editor, where any can be picked. */

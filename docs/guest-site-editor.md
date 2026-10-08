@@ -72,3 +72,31 @@ since there's no story content to show yet.
    the design's section list as a `block:<id>` entry, in the main column on a computer.
 
 Open judgment call (for the owner, not urgent): whether premium themes later become a paid tier.
+
+## Editor v2: Canva-style editing (decided 2026-10-08)
+
+The owner reversed the "no free-form canvas" rule above, **within sections**:
+each section becomes a canvas where text, photos, art and shapes can be placed
+freely on a snapping grid, with its own phone layout edited at real phone size
+(Canva's phone editor just shrinks the desktop page; ours doesn't). Colours and
+fonts default to the site palette so a site still looks designed. Functional
+sections (RSVP, schedule, registry, FAQ) move and restyle as whole blocks.
+
+Approved mockup (desktop 1440 and phone 390): https://claude.ai/artifact/NTyvaB5B6VAdyV2sFx4abw
+
+Phases, one PR each:
+1. **Click-to-edit text** (shipped first): click a heading, the invitation
+   line or the names in the preview to restyle them (font, size, colour, bold,
+   italic, alignment) and retype headings in place; undo/redo. Stored as
+   `text` in the design jsonb, keyed by slot (`TEXT_SLOTS` in
+   `src/lib/site-design.ts`); rendered by `SiteText` (`src/components/site-text.tsx`).
+   The element layout format arrives with phase 2, where it's first used.
+2. Desktop canvas inside sections: select, drag, resize, rotate, snap, the
+   floating bar, Position/Layers panel; add text, art, shapes and photos.
+3. Phone editor: bottom tab bar, slide-up sheets, per-element tools with ✓,
+   separate phone layouts.
+4. Panels: Colour (with colours pulled from the couple's photos), Fonts,
+   Background, Elements library, photo crop/frames/filters, per-element
+   animation; render the guest page as server HTML without editor code.
+5. Templates: gallery, switching that keeps content, "Describe your ideal
+   site" and "Wren, write this".
