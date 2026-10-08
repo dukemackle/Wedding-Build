@@ -5,6 +5,7 @@ import type { PublicWedding, Wedding } from "@/lib/supabase/types";
 import { parseSiteDesign } from "@/lib/site-design";
 import { GuestSiteTheme } from "@/components/guest-site-theme";
 import { GuestSiteView, loadGuestSiteContent } from "@/app/w/[slug]/guest-site-view";
+import { CanvasEditing } from "./canvas-editing";
 
 export const metadata: Metadata = { title: "Guest site preview", robots: { index: false } };
 
@@ -61,6 +62,8 @@ export default async function GuestSitePreviewPage() {
   return (
     <GuestSiteTheme design={draft} preview>
       <GuestSiteView wedding={asGuestsSeeIt} content={content} />
+      {/* Dragging, resizing and the rest: here only, never on /w/[slug]. */}
+      <CanvasEditing />
     </GuestSiteTheme>
   );
 }

@@ -91,8 +91,19 @@ Phases, one PR each:
    `text` in the design jsonb, keyed by slot (`TEXT_SLOTS` in
    `src/lib/site-design.ts`); rendered by `SiteText` (`src/components/site-text.tsx`).
    The element layout format arrives with phase 2, where it's first used.
-2. Desktop canvas inside sections: select, drag, resize, rotate, snap, the
-   floating bar, Position/Layers panel; add text, art, shapes and photos.
+2. **Desktop canvas inside sections** (built 2026-10-08): select, drag,
+   resize, rotate, snap, the floating bar and right-click menu, the Position
+   panel (Arrange and Layers); add text, line art, shapes and the couple's
+   photos from the Elements tab. Stored as `canvas` in the design jsonb
+   (`src/lib/site-canvas.ts`, `v: 1`): per section a reference width `w`, its
+   elements back to front, a whole-section `style` (card, plain, tinted,
+   outlined) and a `phone` frame that for now stacks the elements in reading
+   order under the section. Elements go in the hero and custom blocks; the
+   other sections move (up/down in their column), hide and restyle as whole
+   blocks. Guests get `SiteSection` (`src/components/site-section.tsx`), plain
+   positioned HTML scaled with container units; the dragging lives in
+   `preview/canvas-editing.tsx`, which only the editor's preview frame loads.
+   The hero's own names, date and buttons stay theme-laid-out for now.
 3. Phone editor: bottom tab bar, slide-up sheets, per-element tools with ✓,
    separate phone layouts.
 4. Panels: Colour (with colours pulled from the couple's photos), Fonts,

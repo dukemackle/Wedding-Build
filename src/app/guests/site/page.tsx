@@ -251,6 +251,9 @@ export default async function GuestSitePage() {
           checklist={checklist}
           hasPhoto={Boolean(wedding.hero_photo_url)}
           names={[wedding.partner_a_name ?? "", wedding.partner_b_name ?? ""]}
+          photos={[wedding.hero_photo_url, ...(galleryPhotos ?? []).map((p) => p.photo_url)].filter(
+            (url): url is string => Boolean(url?.startsWith("https://")),
+          )}
         />
       </div>
     </main>
