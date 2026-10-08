@@ -146,6 +146,8 @@ export const siteDesignSchema = z.object({
       filter: z.enum(PHOTO_FILTERS.map((f) => f.id) as [PhotoFilterId, ...PhotoFilterId[]]).catch("none"),
     })
     .catch(HERO_PHOTO),
+  /** The template the look started from (site-templates.ts), shown as picked. */
+  template: z.string().regex(/^[a-z-]{1,40}$/).nullable().catch(null),
 });
 
 /** Whatever is in the column -- null, an old shape, junk -- as a usable design. */

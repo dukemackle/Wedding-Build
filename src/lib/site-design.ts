@@ -1016,6 +1016,7 @@ export const DEFAULT_SITE_DESIGN: SiteDesign = {
   canvas: EMPTY_CANVAS,
   background: NO_BACKGROUND,
   heroPhoto: HERO_PHOTO,
+  template: null,
 };
 
 export function sameDesign(a: SiteDesign, b: SiteDesign) {
