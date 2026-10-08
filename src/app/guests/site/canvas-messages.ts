@@ -10,10 +10,12 @@ export const CANVAS_SELECT = "wren:canvas-select";
 export const CANVAS_COMMIT = "wren:canvas-commit";
 /** Frame to editor: each section that holds elements, and its size now in the frame. */
 export const CANVAS_FRAMES = "wren:canvas-frames";
-/** Editor to frame: editing on (computer preview) or off (phone preview). */
+/** Editor to frame: editing on, or off while the phone editor previews the site as guests see it. */
 export const CANVAS_MODE = "wren:canvas-mode";
 /** Frame to editor: open the Position panel. */
 export const CANVAS_PANEL = "wren:canvas-panel";
+/** Editor to frame: one of the floating bar's actions, from the phone editor's tool row. */
+export const CANVAS_ACTION = "wren:canvas-action";
 /** Frame to editor: undo or redo pressed while the frame had focus. */
 export const CANVAS_KEY = "wren:canvas-key";
 

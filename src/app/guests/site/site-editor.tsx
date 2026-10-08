@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useCallback, useEffect, useEffectEvent, useRef, useState, useTransition, type ReactNode } from "react";
 import {
   CONFETTI_MESSAGE,
@@ -35,6 +36,7 @@ import {
 import { TextToolbar } from "./text-toolbar";
 import { canvasSchema, type SiteCanvas } from "@/lib/site-canvas";
 import {
+  CANVAS_ACTION,
   CANVAS_COMMIT,
   CANVAS_FRAMES,
   CANVAS_KEY,
@@ -45,6 +47,7 @@ import {
   type CanvasSelection,
 } from "./canvas-messages";
 import { CanvasToolbar, ElementsTab, PositionPanel } from "./canvas-panels";
+import { PhoneTools, Sheet, Tool } from "./phone-tools";
 import { publishSiteDesign, saveSiteDraft } from "./actions";
 import { BirdCheer } from "@/components/bird-cheer";
 import { PublicSitePanel, SiteSwitch, useGuestSite } from "../public-site-panel";
@@ -54,13 +57,12 @@ type Device = "desktop" | "phone";
 // Position opens from a picked element rather than the tab strip.
 type Tab = "theme" | "style" | "motion" | "sections" | "elements" | "position";
 
-const TABS: { key: Tab; label: string; desktopOnly?: boolean }[] = [
+const TABS: { key: Tab; label: string }[] = [
   { key: "theme", label: "Theme" },
   { key: "style", label: "Style" },
   { key: "motion", label: "Motion" },
   { key: "sections", label: "Sections" },
-  // Placing elements is computer-only until the phone editor (phase 3).
-  { key: "elements", label: "Elements", desktopOnly: true },
+  { key: "elements", label: "Elements" },
 ];
 
 // Desktop preview is laid out at a real laptop width and scaled down to fit,
@@ -71,6 +73,9 @@ const PHONE_W = 390;
 const PHONE_H = 844;
 
 const LG = "(min-width: 1024px)";
+
+/** The phone editor's bottom tabs, drawn like its tools. */
+const TAB_ICONS = { theme: "theme", style: "styleTab", motion: "motion", sections: "sections", elements: "elements" } as const;
 
 /**
  * The guest site editor: settings on the left, the site itself on the right.
@@ -116,7 +121,10 @@ export function SiteEditor({
   const [tab, setTab] = useState<Tab>("theme");
   const [device, setDevice] = useState<Device>("desktop");
   const [isDesktop, setIsDesktop] = useState(true);
-  const [sheetOpen, setSheetOpen] = useState(false);
+  // Phone editor (phase 3b): the sheet open over the bottom bar, and
+  // "Preview", which hides the tools to see the site as guests will.
+  const [phoneSheet, setPhoneSheet] = useState<Tab | "more" | null>(null);
+  const [previewing, setPreviewing] = useState(false);
   const [saveState, setSaveState] = useState<"idle" | "saving" | "error">("idle");
   const [error, setError] = useState<string | null>(null);
   const [isPublishing, startPublish] = useTransition();
@@ -187,9 +195,13 @@ export function SiteEditor({
 
   // Placed elements are editable in both previews: the Computer one moves
   // them, the Phone one arranges the phone layout (the frame tells by width).
-  const onFrameReady = useEffectEvent(() =>
-    frameRef.current?.contentWindow?.postMessage({ type: CANVAS_MODE, on: true }, window.location.origin),
-  );
+  // Off only while previewing on a phone.
+  const editingOn = isDesktop || !previewing;
+  const sendMode = useCallback((on: boolean) => {
+    frameRef.current?.contentWindow?.postMessage({ type: CANVAS_MODE, on }, window.location.origin);
+  }, []);
+  const onFrameReady = useEffectEvent(() => sendMode(editingOn));
+  useEffect(() => sendMode(editingOn), [editingOn, sendMode]);
 
   const sendDesign = useCallback((next: SiteDesign) => {
     frameRef.current?.contentWindow?.postMessage(
@@ -296,6 +308,7 @@ export function SiteEditor({
   /** Picks something in the preview from a panel, or clears it. */
   function selectCanvas(next: CanvasSelection) {
     setCanvasSel(next);
+    if (next) setPhoneSheet(null);
     if (next) setTextSlot(null);
     frameRef.current?.contentWindow?.postMessage({ type: CANVAS_SELECT, selection: next }, window.location.origin);
   }
@@ -326,12 +339,17 @@ export function SiteEditor({
       if (event.origin !== window.location.origin) return;
       if (event.source !== frameRef.current?.contentWindow) return;
       if (event.data?.type === TEXT_SELECT_MESSAGE) {
-        setTextSlot(TEXT_SLOTS.find((s) => s.id === event.data.slot)?.id ?? null);
+        const slot = TEXT_SLOTS.find((s) => s.id === event.data.slot)?.id ?? null;
+        setTextSlot(slot);
+        if (slot) setPhoneSheet(null);
       }
       if (event.data?.type === CANVAS_SELECT) {
         const next = event.data.selection as CanvasSelection;
         setCanvasSel(next && typeof next.section === "string" ? next : null);
-        if (next) setTextSlot(null);
+        if (next) {
+          setTextSlot(null);
+          setPhoneSheet(null);
+        }
       }
       if (event.data?.type === CANVAS_COMMIT) onCanvasCommit(event.data.canvas);
       if (event.data?.type === CANVAS_FRAMES && event.data.frames) {
@@ -412,7 +430,7 @@ export function SiteEditor({
 
   const tabStrip = (
     <div role="tablist" aria-label="Editor" className="flex gap-1 rounded-lg bg-ink/[0.05] p-1">
-      {TABS.filter((t) => isDesktop || !t.desktopOnly).map((t) => (
+      {TABS.map((t) => (
         <button
           key={t.key}
           type="button"
@@ -420,7 +438,6 @@ export function SiteEditor({
           aria-selected={tab === t.key || (t.key === "elements" && tab === "position")}
           onClick={() => {
             setTab(t.key);
-            setSheetOpen(true);
           }}
           className={`h-9 flex-1 rounded-md text-sm transition-colors ${
             tab === t.key ? "bg-card font-semibold text-forest shadow-sm" : "text-ink/70 hover:text-ink"
@@ -434,7 +451,7 @@ export function SiteEditor({
 
   const panelBody = (
     <div className="flex flex-col gap-6 px-5 pb-8 pt-5 lg:px-6">
-      {tab === "elements" && isDesktop ? (
+      {tab === "elements" ? (
         <ElementsTab
           design={design}
           frames={frames}
@@ -536,6 +553,211 @@ export function SiteEditor({
     </div>
   );
 
+  // The phone editor (phase 3b, the mockup's Phone artboard): a header with
+  // undo, Preview and Publish; the site filling the screen; a bar of tabs
+  // along the bottom, each opening a sheet; and, while something is picked,
+  // that thing's tools in the bar instead, with ✓ to finish.
+  const picked = Boolean(canvasSel || textSlot);
+  const iconButton =
+    "flex h-11 w-11 shrink-0 items-center justify-center rounded-lg text-[#14203d] disabled:opacity-30";
+  const sheetTitle =
+    phoneSheet === "more" ? "Your guest site" : (TABS.find((t) => t.key === phoneSheet)?.label ?? "");
+  const phoneEditor = (
+    <>
+      <link rel="stylesheet" href={ALL_FONTS_HREF} precedence="default" />
+      <div
+        ref={rootRef}
+        className="relative -mx-6 -mb-16 flex flex-col bg-[#eef0ec]"
+        style={{ height: `max(480px, calc(100dvh - ${offset ?? 128}px))` }}
+      >
+        <header className="flex h-14 shrink-0 items-center gap-0.5 border-b border-hairline bg-card px-2">
+          <Link href="/guests" aria-label="Back to Guests" className={iconButton}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+              <path d="M15 18l-6-6 6-6" />
+            </svg>
+          </Link>
+          <button type="button" onClick={undo} disabled={historySize.past === 0} aria-label="Undo" className={iconButton}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M9 14L4 9l5-5" />
+              <path d="M4 9h10a6 6 0 010 12h-3" />
+            </svg>
+          </button>
+          <button type="button" onClick={redo} disabled={historySize.future === 0} aria-label="Redo" className={iconButton}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M15 14l5-5-5-5" />
+              <path d="M20 9H10a6 6 0 000 12h3" />
+            </svg>
+          </button>
+          <div className="flex-1" />
+          <button
+            type="button"
+            aria-label={previewing ? "Back to editing" : "Preview as guests see it"}
+            aria-pressed={previewing}
+            onClick={() => {
+              setPreviewing((p) => !p);
+              setPhoneSheet(null);
+              selectCanvas(null);
+              if (textSlot) closeText();
+            }}
+            className={`${iconButton} ${previewing ? "bg-[#2243B6]/10 text-[#2243B6]" : ""}`}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+              <path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z" />
+              <circle cx="12" cy="12" r="3" />
+            </svg>
+          </button>
+          <button
+            type="button"
+            aria-label="More"
+            aria-expanded={phoneSheet === "more"}
+            onClick={() => setPhoneSheet(phoneSheet === "more" ? null : "more")}
+            className={iconButton}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <circle cx="5" cy="12" r="1.8" />
+              <circle cx="12" cy="12" r="1.8" />
+              <circle cx="19" cy="12" r="1.8" />
+            </svg>
+          </button>
+          {/* Gold on white: the one thing on this screen that matters most. */}
+          <button
+            type="button"
+            onClick={publish}
+            disabled={!dirty || isPublishing}
+            className="ml-1 h-10 shrink-0 rounded-[10px] bg-[#FFD301] px-4 text-sm font-semibold text-[#14203d] disabled:bg-[#FFD301]/40 disabled:text-[#14203d]/60"
+          >
+            {isPublishing ? "Publishing…" : dirty ? "Publish" : "Published"}
+          </button>
+        </header>
+
+        <section aria-label="Preview" className="relative flex min-h-0 flex-1 flex-col">
+          {launches > 0 && (
+            <div key={launches} aria-hidden="true" className="pointer-events-none absolute inset-0 z-10 overflow-hidden">
+              <div className="wren-reveal h-full w-full bg-gradient-to-r from-transparent via-white/70 to-transparent" />
+            </div>
+          )}
+          {launches > 0 && <BirdCheer key={launches} message="Your site is live!" />}
+          {!previewing && (
+            <div className="flex shrink-0 justify-center py-2">
+              <div role="group" aria-label="Layout" className="flex gap-0.5 rounded-[10px] bg-card p-[3px] text-xs font-medium">
+                {(
+                  [
+                    ["desktop", "Computer"],
+                    ["phone", "Phone layout"],
+                  ] as const
+                ).map(([key, label]) => (
+                  <button
+                    key={key}
+                    type="button"
+                    aria-pressed={device === key}
+                    onClick={() => setDevice(key)}
+                    className={`h-8 rounded-lg px-3 ${device === key ? "bg-[#2243B6]/10 font-semibold text-[#2243B6]" : "text-ink/60"}`}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+          {error && (
+            <p role="status" className="mx-3 mb-2 rounded-lg bg-card px-3 py-2 text-xs text-red-700">
+              {error}
+            </p>
+          )}
+          <PreviewStage
+            device={device}
+            fill={device === "phone"}
+            frameRef={frameRef}
+            address={publicSlug ? `youdoido.com/w/${publicSlug}` : "Preview — your site is off"}
+            bottomInset={0}
+          />
+        </section>
+
+        {!previewing && (
+          <div className="relative h-[92px] shrink-0 border-t border-hairline bg-card">
+            {picked ? (
+              <PhoneTools
+                design={design}
+                device={device}
+                frames={frames}
+                phoneFrames={phoneFrames}
+                canvasSel={canvasSel}
+                textSlot={textSlot}
+                onCanvas={changeCanvas}
+                onDesign={change}
+                onText={changeText}
+                onFrameAction={(action) =>
+                  frameRef.current?.contentWindow?.postMessage({ type: CANVAS_ACTION, action }, window.location.origin)
+                }
+                onSelect={selectCanvas}
+                onDone={() => (textSlot ? closeText() : selectCanvas(null))}
+              />
+            ) : (
+              <>
+                {phoneSheet && (
+                  <Sheet title={sheetTitle} onClose={() => setPhoneSheet(null)}>
+                    {phoneSheet === "more" ? (
+                      <div className="flex flex-col gap-4">
+                        <div className="flex items-center gap-2">
+                          <SiteSwitch site={site} />
+                          <p className={`text-sm ${error ? "text-red-700" : "text-ink/70"}`} role="status">
+                            {status}
+                          </p>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setPhoneSheet(null);
+                            post(REPLAY_MESSAGE);
+                          }}
+                          className="h-11 rounded-xl border border-hairline bg-card text-sm font-medium text-ink"
+                        >
+                          Replay motion
+                        </button>
+                        {liveHref && (
+                          <a href={liveHref} target="_blank" rel="noreferrer" className="text-sm font-medium text-forest underline">
+                            Open live site
+                          </a>
+                        )}
+                      </div>
+                    ) : (
+                      <div className="-mx-4 -mt-5">{panelBody}</div>
+                    )}
+                  </Sheet>
+                )}
+                <div role="tablist" aria-label="Editor" className="flex gap-0.5 overflow-x-auto px-2 pt-3">
+                  {TABS.map((t) => (
+                    <Tool
+                      key={t.key}
+                      label={t.label}
+                      icon={TAB_ICONS[t.key as keyof typeof TAB_ICONS]}
+                      on={phoneSheet === t.key}
+                      onClick={() => {
+                        setTab(t.key);
+                        setPhoneSheet(phoneSheet === t.key ? null : t.key);
+                      }}
+                    />
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+        )}
+        {previewing && (
+          <button
+            type="button"
+            onClick={() => setPreviewing(false)}
+            className="absolute bottom-5 left-1/2 z-20 h-11 -translate-x-1/2 rounded-full bg-[#14203d] px-5 text-sm font-semibold text-white shadow-lg"
+          >
+            Back to editing
+          </button>
+        )}
+      </div>
+    </>
+  );
+
+  if (!isDesktop) return phoneEditor;
+
   return (
     <>
     {/* The theme cards and font samples are drawn in the real faces. */}
@@ -548,7 +770,7 @@ export function SiteEditor({
       style={{ height: `max(480px, calc(100dvh - ${offset ?? 128}px))` }}
     >
       {/* Desktop: the settings panel. */}
-      {isDesktop && (
+      {(
         <aside className="flex w-[400px] shrink-0 flex-col border-r border-hairline bg-card">
           <div className="flex flex-col gap-3.5 border-b border-hairline px-6 pb-4 pt-5">
             <div className="flex items-center gap-2.5">
@@ -569,7 +791,7 @@ export function SiteEditor({
           </div>
         )}
         {launches > 0 && <BirdCheer key={launches} message="Your site is live!" />}
-        {isDesktop ? (
+        {(
           <div className="flex h-[60px] shrink-0 items-center gap-3 px-6">
             {historyButtons}
             {deviceToggle}
@@ -600,15 +822,10 @@ export function SiteEditor({
             )}
             {publishButton}
           </div>
-        ) : (
-          <div className="absolute inset-x-3 top-3 z-10 flex justify-between">
-            {historyButtons}
-            {deviceToggle}
-          </div>
         )}
 
         {canvasSel && !textSlot && (
-          <div className={`absolute inset-x-3 z-20 flex justify-center ${isDesktop ? "top-[64px]" : "top-16"}`}>
+          <div className={`absolute inset-x-3 z-20 flex justify-center top-[64px]`}>
             <CanvasToolbar
               design={design}
               selection={canvasSel}
@@ -624,7 +841,7 @@ export function SiteEditor({
         )}
 
         {textSlot && (
-          <div className={`absolute inset-x-3 z-20 flex justify-center ${isDesktop ? "top-[64px]" : "top-16"}`}>
+          <div className={`absolute inset-x-3 z-20 flex justify-center top-[64px]`}>
             <TextToolbar
               slot={textSlot}
               design={design}
@@ -636,44 +853,13 @@ export function SiteEditor({
 
         <PreviewStage
           device={device}
-          fill={!isDesktop && device === "phone"}
+          fill={false}
           frameRef={frameRef}
           address={publicSlug ? `youdoido.com/w/${publicSlug}` : "Preview — your site is off"}
-          bottomInset={isDesktop ? 0 : SHEET_PEEK_PX}
+          bottomInset={0}
         />
       </section>
 
-      {/* Phone: the settings are a sheet over the preview. */}
-      {!isDesktop && (
-        <BottomSheet open={sheetOpen} onOpenChange={setSheetOpen}>
-          <div className="flex items-center gap-3 px-5">
-            <div className="min-w-0 flex-1">
-              <div className="flex items-center gap-2">
-                <h1 className="whitespace-nowrap font-display text-xl font-semibold text-forest">Guest site</h1>
-                <SiteSwitch site={site} />
-              </div>
-              <p
-                className={`truncate text-xs ${error ? "text-red-700" : "text-ink/60"}`}
-                role="status"
-              >
-                {status}
-              </p>
-            </div>
-            {publishButton}
-          </div>
-          <div className="px-5 pt-3">{tabStrip}</div>
-          <div className="mt-1 min-h-0 flex-1 overflow-y-auto">
-            {panelBody}
-            {liveHref && (
-              <p className="px-5 pb-8 text-sm">
-                <a href={liveHref} target="_blank" rel="noreferrer" className="font-medium text-forest underline">
-                  Open live site
-                </a>
-              </p>
-            )}
-          </div>
-        </BottomSheet>
-      )}
     </div>
     </>
   );
@@ -1056,63 +1242,6 @@ function PreviewStage({
           />
         </div>
       </div>
-    </div>
-  );
-}
-
-const SHEET_PEEK_PX = 148;
-const SHEET_FULL = 0.86;
-
-/** The phone settings sheet: peeks with the title and tabs, drags up to edit. */
-function BottomSheet({
-  open,
-  onOpenChange,
-  children,
-}: {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-  children: ReactNode;
-}) {
-  const [drag, setDrag] = useState<number | null>(null);
-  const startY = useRef(0);
-  const moved = useRef(false);
-
-  return (
-    <div
-      className="absolute inset-x-0 bottom-0 z-20 flex flex-col rounded-t-2xl border-t border-hairline bg-card shadow-[0_-6px_24px_rgb(11_74_58/0.18)]"
-      style={{
-        height: open ? `${SHEET_FULL * 100}%` : SHEET_PEEK_PX,
-        transform: drag === null ? undefined : `translateY(${drag}px)`,
-        transition: drag === null ? "height 220ms ease, transform 220ms ease" : "none",
-      }}
-    >
-      <button
-        type="button"
-        aria-label={open ? "Lower the editor" : "Raise the editor"}
-        aria-expanded={open}
-        className="flex h-6 w-full shrink-0 touch-none items-center justify-center"
-        onPointerDown={(e) => {
-          startY.current = e.clientY;
-          moved.current = false;
-          setDrag(0);
-          e.currentTarget.setPointerCapture(e.pointerId);
-        }}
-        onPointerMove={(e) => {
-          if (drag === null) return;
-          const dy = e.clientY - startY.current;
-          if (Math.abs(dy) > 4) moved.current = true;
-          setDrag(open ? Math.max(0, dy) : Math.min(0, dy));
-        }}
-        onPointerUp={() => {
-          if (drag !== null && Math.abs(drag) > 60) onOpenChange(!open);
-          else if (!moved.current) onOpenChange(!open);
-          setDrag(null);
-        }}
-        onPointerCancel={() => setDrag(null)}
-      >
-        <span className="h-1.5 w-10 rounded-full bg-hairline" />
-      </button>
-      {children}
     </div>
   );
 }

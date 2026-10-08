@@ -114,8 +114,18 @@ Phases, one PR each:
    layout hides an element on phones only (`phone.hidden`). The editing code
    is shared with the computer frame; the preview's width picks which one it
    edits.
-   **3b, the phone editor itself**: bottom tab bar, slide-up sheets,
-   per-element tools with ✓, from the mockup's Phone artboard.
+   **3b, the phone editor itself** (built 2026-10-08, from the mockup's Phone
+   artboard): a header with back, undo/redo, Preview (hides the tools so
+   the couple sees and can try the site as guests do), More (site on/off,
+   status, replay, open live) and a gold Publish; a Computer / Phone layout
+   switch; the site filling the screen; a bottom bar of tabs (Theme, Style,
+   Motion, Sections, Elements), each opening a slide-up sheet; and while
+   something is picked, its tools in that bar instead with ✓ to finish
+   (`phone-tools.tsx`). Words get font, size, colour, bold, italic and
+   align. Placed elements also get edit, position, lock, copy and delete.
+   Sections get style, move up/down, hide and restack. On touch screens
+   only the corner handles show, and a tap on a form inside a section picks
+   the section rather than opening the form.
 4. Panels: Colour (with colours pulled from the couple's photos), Fonts,
    Background, Elements library, photo crop/frames/filters, per-element
    animation; render the guest page as server HTML without editor code.
