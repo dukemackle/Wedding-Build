@@ -680,7 +680,7 @@ export function SiteEditor({
       <link rel="stylesheet" href={ALL_FONTS_HREF} precedence="default" />
       <div
         ref={rootRef}
-        className="relative -mx-6 -mb-16 flex flex-col bg-[#eef0ec]"
+        className="site-editor relative -mx-6 -mb-16 flex flex-col bg-[#eef0ec]"
         style={{ height: `max(480px, calc(100dvh - ${offset ?? 128}px))` }}
       >
         <header className="flex h-14 shrink-0 items-center gap-0.5 border-b border-hairline bg-card px-2">
@@ -879,7 +879,7 @@ export function SiteEditor({
       ref={rootRef}
       // Breaks out of the page's side and bottom padding: the preview reaches
       // the edges, as on Venues.
-      className="relative -mx-6 -mb-16 flex"
+      className="site-editor relative -mx-6 -mb-16 flex"
       style={{ height: `max(480px, calc(100dvh - ${offset ?? 128}px))` }}
     >
       {/* Desktop: the settings panel. */}
