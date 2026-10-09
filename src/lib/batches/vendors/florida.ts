@@ -586,6 +586,86 @@ Island Sands Beach Weddings	Planning		Miramar Beach	Florida	Destin, Fort Walton 
 Go Event DJ	Music		Crestview	Florida	Emerald Coast, 30A and the Florida Panhandle	Owner-led wedding DJ and MC who reads the room, keeps the music clean for mixed-age crowds and adds sound, lighting and a 360 booth.		(850) 634-3732	https://www.goeventdj.com/	https://www.instagram.com/goeventdj/
 `,
   },
+  {
+    name: "Miami: photography, catering, hair & makeup, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Casa Cora Wedding Studio	Photography		Miami	Florida	Miami and South Florida	Miami photo and film studio pairing a documentary approach with an editorial eye, covering South Beach, Coral Gables, Brickell and the Keys.	casacorastudio@gmail.com	(954) 376-2826	https://casacorastudio.com/miami/	https://www.instagram.com/casacorastudio/
+Mena Catering	Catering	7460 SW 48th St	Miami	Florida	South Florida, from the Palm Beaches to the Florida Keys	Family caterer serving Miami since 1981, handling full-service event catering and planning for weddings across South Florida.			https://www.menacatering.com	https://www.instagram.com/menacateringinc/
+MCA Makeup & Co	Hair & Makeup		Miami	Florida	Broward, Miami-Dade and Palm Beach counties	Team of makeup artists and hairstylists offering custom wedding hair and makeup, plus trials and lessons, across three South Florida counties.	maria@mcamakeupco.com	(954) 588-5319	https://www.mcamakeupco.com	https://www.instagram.com/mcamakeupco/
+Phairis Luxury	Hair & Makeup		Miami	Florida	Miami, Coral Gables, Miami Beach and destination weddings	Bridal hair and makeup led by Rebecca Mousseau, known for humidity-proof styling at Miami hotel and waterfront weddings.	inquiries@phairisluxury.com		https://phairisluxury.com	https://www.instagram.com/phairisluxury/
+Ikon Films	Videography		Miami	Florida	Miami, Fort Lauderdale, West Palm Beach and the Florida Keys	Wedding photography and film team telling couples' stories in a candid, narrative style, based in Miami and travelling across Florida.	contactikonfilms@gmail.com	(646) 420-8424	https://www.ikon-films.com	https://www.instagram.com/ikon_films/
+`,
+  },
+  {
+    name: "Orlando: planning, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+The Chaos Coordinator	Planning		Orlando	Florida	Central Florida and destination weddings	Orlando wedding planning firm offering planning, vendor coordination and day-of management for couples who want a personal, collaborative process.	Hello@theechaoscoordinator.com		https://www.theechaoscoordinator.com	https://www.instagram.com/theechaoscoordinator/
+At Last Wedding + Event Design	Planning		Orlando	Florida	Central Florida	Orlando planning and design studio with 16 years of experience, offering month-of coordination, mini planning and full-service planning.	hello@atlast-weddings.com	(321) 443-0338	https://www.atlast-weddings.com	https://www.instagram.com/atlastweddings/
+Golden View Video Co.	Videography		Orlando	Florida	Orlando, Florida and destination weddings including Disney venues	Husband-and-wife Orlando video team filming weddings across Florida, Disney venues and cruise ships, with an eye for the in-between moments.			https://www.goldenviewvideoco.com	https://www.instagram.com/goldenviewvideoco/
+`,
+  },
+  {
+    name: "Tampa Bay: planning, florals, hair & makeup, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Special Moments Event Planning	Planning	1185 Ponce De Leon Blvd	Clearwater	Florida	Tampa, Clearwater, St. Petersburg, Sarasota and Gulf Coast beaches	Clearwater planning firm run since 2004 by a master wedding planner, covering full-service, day-of, cultural and Gulf Coast beach weddings.	info@eventsbyspecialmoments.com	(727) 343-0800	https://eventsbyspecialmoments.com	https://www.instagram.com/specialmomentevents/
+Aulen Events	Planning		St. Petersburg	Florida	St. Pete, Tampa, Sarasota and beyond	St. Petersburg planner designing and coordinating upscale weddings, with day-of, partial and full planning packages to choose from.			https://aulenevents.com	https://www.instagram.com/aulenevents/
+Alta Fleura	Florals		Valrico	Florida	Tampa Bay area	Wedding florist with over 40 years of experience, creating bridal bouquets, ceremony flowers and custom reception arrangements.	alta@altafleura.com	(813) 413-6073	https://altafleura.com	https://www.instagram.com/altafleura/
+Samantha Landis	Hair & Makeup		Tampa	Florida	Tampa, St. Pete and Clearwater, plus destination events	Tampa hair stylist and makeup artist offering fashion-forward hair and natural, radiant makeup for brides and their wedding parties.			https://www.samanthalandisbridal.com	https://www.instagram.com/samanthalandis/
+Beauty Brought Out	Hair & Makeup	414 E Madison St	Tampa	Florida	Tampa Bay	Downtown Tampa mobile hair and makeup studio specialising in airbrush makeup and bridal hairstyling, with no travel fees.		(813) 335-7486	https://beautybroughtout.com	https://www.instagram.com/bbotampa/
+Adam Gorham Films	Videography		Tampa	Florida	Tampa, St. Petersburg, Clearwater, Sarasota and across Florida	Tampa wedding filmmaker creating story-driven cinematic films, with owner-led and associate coverage for couples across Tampa Bay.	adam@adamgorhamfilms.com		https://www.adamgorhamfilms.com/tampa-wedding-videographer	https://www.instagram.com/adamgorhamfilms/
+Christian Torres Films	Videography		Tampa	Florida	Tampa Bay, Orlando, Sarasota and Clearwater	Documentary-style Tampa wedding videographer who captures candid, unstaged moments and edits them into cinematic love-story films.	christiantorresmedia@gmail.com		https://www.christiantorresfilms.com/tampa-wedding-videographer	https://www.instagram.com/ctorresfilms/
+Film House Weddings	Videography		Tampa	Florida	Tampa Bay, St. Petersburg, Clearwater, Sarasota and destinations	Tampa studio founded by Dennis Mulyar making custom cinematic wedding films, typically delivered as a short feature plus a social reel.	hello@filmhouseweddings.com		https://filmhouseweddings.com/tampa-wedding-videographer	https://www.instagram.com/thefilmhouseweddings/
+`,
+  },
+  {
+    name: "Destin and 30A: florals, cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Emerald Coast Florals & Event Design	Florals		Destin	Florida	Emerald Coast, from Navarre to Panama City	Family-run Destin floral and event design company with over 20 years of experience, offering wedding florals and event rentals.		(850) 830-5153	https://ecflorals.com	https://www.instagram.com/emeraldcoastflorals/
+Simply Sweet Cakes	Cake		Destin	Florida		Licensed home-based Destin baker making custom wedding and groom's cakes to order, with scratch-made icings.		(678) 373-6613	https://simplysweetcakesdestin.com	
+`,
+  },
+  {
+    name: "Fort Lauderdale and Palm Beach: videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+LeFever Photography	Videography		Palm Beach	Florida	Miami, Fort Lauderdale, Palm Beach and the Treasure Coast	Palm Beach wedding photography studio that also offers cinematic wedding films, serving couples from Miami up to the Treasure Coast.		(954) 803-5884	https://www.lefeverphoto.net	https://www.instagram.com/lefeverphotography/
+`,
+  },
+  {
+    name: "Pensacola: cake, photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Craft Gourmet Bakery	Cake	5555 N Davis Hwy	Pensacola	Florida		Scratch-baking Pensacola bakery with a European slant, offering custom and wedding cakes with tastings, plus dessert catering.	sales@craftgourmetbakery.com	(850) 332-5921	https://www.craftgourmetbakery.com	https://www.instagram.com/craftbakerypensacola/
+Phocus & Company	Photography		Pensacola	Florida		Pensacola team of eight photographers with over 400 weddings behind them, focused on candid, emotional imagery.	phocusandcompany@gmail.com	(850) 320-7875	https://www.phocusonme.com	https://www.instagram.com/phocusandco/
+`,
+  },
+  {
+    name: "Tallahassee: videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Lance Oliver Photography	Videography		Tallahassee	Florida	Tallahassee, North Florida and the Gulf Coast beaches	Tallahassee wedding photographer who also films, selling video by the hour or full day and editing it into a film or story-book.	olivhanson@yahoo.com	(850) 508-2714	https://www.lanceoliverphotography.com/services/weddings-photography/	https://www.instagram.com/lance_oliver_photography/
+`,
+  },
+  {
+    name: "Gainesville: hair & makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Salon Savoy	Hair & Makeup		Gainesville	Florida		Gainesville hair salon offering bridal hair and makeup with personalised looks and on-site wedding-day services.			https://www.salonsavoy.com/services/stylingconditioningbridal	
+`,
+  },
+  {
+    name: "Naples and Fort Myers: planning, photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Platinum Florida Wedding Company	Planning		Fort Myers	Florida	Naples, Fort Myers, Sanibel, Marco Island and Southwest Florida	Fort Myers planning, design and floral studio serving couples since 2007 across Southwest Florida's islands and coast.		(239) 217-3197	https://www.floridaweddingcompany.com	https://www.instagram.com/platinumflweddingco/
+Priscila Del Cristo Photo	Photography		Naples	Florida	Naples, Fort Myers, Bonita Springs, Marco Island and destinations	Naples wedding photographer blending digital and 35mm film, taking a limited number of weddings a year with a calm, editorial approach.			https://prisciladelcristophoto.com	https://www.instagram.com/prisciladelcristophoto/
+Zee Anna Photography	Photography		Naples	Florida	Naples, Fort Myers, Sarasota, Miami and Palm Beach	Naples portrait and wedding photographer making artful, emotionally connected images for couples along Florida's southwest coast.	hello@zeeanna.com	(239) 877-7939	https://zeeanna.com	https://www.instagram.com/zeeannaphoto/
+Lindsey White Photography	Photography		Naples	Florida	Naples, Fort Myers, Sarasota and beyond	Wedding and engagement photographer working in Naples and Minnesota, known for bright, timeless images and hands-on day-of support.	lindseywhitephoto@gmail.com		https://lindseywhitephoto.com/naples-fl-wedding-photographer	https://www.instagram.com/lindseywhitephoto/
+`,
+  },
+  {
+    name: "Sarasota: photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Everence Photography	Photography		Sarasota	Florida	Sarasota, Bradenton, Tampa Bay, St. Petersburg and Boca Grande	Husband-and-wife team photographing weddings and lifestyle portraits around Sarasota, Bradenton and Tampa Bay.			https://everencephotography.com	https://www.instagram.com/everencephotography/
+Imageana	Photography		Bradenton	Florida	Bradenton, Sarasota, Siesta Key and travel	Bradenton fine art wedding photographers focused on timeless, elegant and emotional images for couples along the Sarasota coast.			https://www.imageana.com/wedding-photography/	
+Jaeger Haus Photography	Photography		Bradenton	Florida	Bradenton, Sarasota, Anna Maria Island and St. Pete	Bradenton couple shooting candid digital and film wedding photography, with Super 8 wedding films also available.			https://jaegerhausphotography.com/bradenton-wedding-photographer	https://www.instagram.com/jaeger.haus.photo/
+`,
+  },
 ];
 
 export default batches;
