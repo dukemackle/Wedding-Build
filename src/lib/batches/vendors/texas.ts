@@ -181,6 +181,48 @@ Videography by Henry	Videography		New Braunfels	Texas	New Braunfels, Austin–Sa
 Alba Artisan Bakery	Cake		Austin	Texas	Austin	Austin bakery making custom wedding cakes and dessert tables, with gluten-free requests handled and tastings booked through the site.	info@albaartisanbakery.com		https://www.albaartisanbakery.com/	https://www.instagram.com/albacakedesign/
 `,
   },
+  {
+    name: "Dallas–Fort Worth: music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Outspoken Visions	Music	12801 N Stemmons Fwy #901	Dallas	Texas	Dallas; destination weddings	Dallas company offering wedding DJ and MC services, sound, dance floor lighting and special effects, with over 15 years of events behind it.	info@outspokenvisions.com	972-275-6783	https://outspokenvisions.com/	https://www.instagram.com/outspokenvisions/
+`,
+  },
+  {
+    name: "Houston: videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Cakewalk Films	Videography		Houston	Texas	Houston; Austin; Dallas	Boutique Houston film company making cinematic wedding films, with weddings also covered in Austin and Dallas.	info@cakewalkfilms.com	832-534-2253	https://www.cakewalkfilms.com/	https://www.instagram.com/cakewalkfilms/
+Jacob Alexander Films	Videography		Houston	Texas	Houston; Texas Hill Country; destination weddings	Houston wedding videographer making documentary-style films, with packages for full days, elopements and destination weddings.			https://jacobalexanderfilms.com/	
+`,
+  },
+  {
+    name: "San Antonio, New Braunfels and Boerne: videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Infinity Video & Photo	Videography	2202 Castello Way	San Antonio	Texas	San Antonio; Austin; Houston; South Texas	San Antonio wedding video and photography studio working since 1999, taking only one or two events each weekend.	info@infinityweddings.com	(210) 744-5566	https://infinityweddings.com/	https://www.instagram.com/infinityvideophoto/
+Made In Texas Productions	Videography		San Antonio	Texas	San Antonio; Texas Hill Country	San Antonio videographer making cinematic wedding films with drone shots and professional audio, delivered in six to eight weeks.			https://www.madeintexasproductions.com/	https://www.instagram.com/made_in_texas_productions/
+`,
+  },
+  {
+    name: "Hill Country: videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Hill Country Wedding Co.	Videography		Wimberley	Texas	Wimberley; Texas Hill Country; destination weddings	Wimberley photography and film team shooting weddings across Texas and at destinations, with several wedding film collections.	info@hillcountryweddingco.com		https://www.hillcountryweddingstories.com/	
+`,
+  },
+  {
+    name: "Killeen, Harker Heights, Temple and Salado: planning, hair & makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+JLynn Events Planning	Planning		Killeen	Texas	Killeen	Killeen event planner covering weddings, corporate and social events, from the first consultation through to the event itself.	jlynn.diaz7@gmail.com	787-554-0521	https://www.jlynneventsplanning.com/	https://www.instagram.com/jlynneventsplanning/
+Everlasting Designs and Decor	Planning		Killeen	Texas	Killeen	Killeen event decor, party planning and rental service, with weddings and bridal showers among the celebrations it styles.			https://everlastingdesignanddecor.com/	
+Salon Salado	Hair & Makeup		Salado	Texas	Salado; Bell County	Salado hair salon offering updos, colour and makeup, with wedding preparation handled on request.		254-760-0942	https://www.salonsalado.com/	
+`,
+  },
+  {
+    name: "Tyler and East Texas: catering, hair & makeup, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Hair Barn	Hair & Makeup	2900 Old Henderson Hwy, Ste 5	Tyler	Texas	Tyler	Tyler hair salon offering bridal updos, half-up styles and soft waves, with a trial first and bridal party bookings welcome.	hacketthairdesigns@gmail.com	(903) 944-0863	https://tylerhairbarn.com/	
+Video Magic Productions	Videography	5520 Old Bullard Road, Suite 115	Tyler	Texas	Tyler; Lindale; East Texas; travels nationwide	Tyler video crew with decades of experience making wedding highlight reels and full-length cinematic films for East Texas couples.	vmppro@live.com	903-530-3841	https://videomagicpro.com/	https://www.instagram.com/videomagicprotx/
+Tyler Pro Video	Videography		Tyler	Texas	Tyler; East Texas	Tyler videographers covering weddings in Tyler and the surrounding East Texas area, alongside portrait and general video work.	michael@tylerprovideo.com	940-594-1642	https://tylerprovideo.com/	
+`,
+  },
 ];
 
 export default batches;
