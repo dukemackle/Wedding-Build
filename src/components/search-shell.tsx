@@ -1,6 +1,6 @@
 "use client";
 
-import { Children, useCallback, useEffect, useRef, useState, type ReactNode } from "react";
+import { Children, useEffect, useRef, useState, type ReactNode } from "react";
 
 /**
  * The browse-and-map layout shared by Venues and Vendors.
@@ -18,11 +18,12 @@ import { Children, useCallback, useEffect, useRef, useState, type ReactNode } fr
  */
 
 const DESKTOP = "(min-width: 1024px)";
-/** Sheet height as a fraction of the shell, resting and fully open. */
+/** The phone sheet's resting height, as a fraction of the space under the nav. */
 const SHEET_PEEK = 0.5;
-const SHEET_FULL = 0.92;
-/** Past this fraction of the travel, a drag completes instead of springing back. */
-const SNAP_AT = 0.5;
+/** Swiped all the way down: just the handle and the count, the map gets the screen. */
+const SHEET_DOWN_PX = 64;
+/** Gap kept between the fully open sheet and the floating search and filters. */
+const SHEET_GAP_PX = 8;
 /** Cards drawn at a time; more load as the list scrolls to its end. */
 const PAGE_SIZE = 24;
 
@@ -79,6 +80,8 @@ export function SearchShell({
   children,
 }: SearchShellProps) {
   const rootRef = useRef<HTMLDivElement>(null);
+  const controlsRef = useRef<HTMLDivElement>(null);
+  const [controlsHeight, setControlsHeight] = useState(0);
   const [availableHeight, setAvailableHeight] = useState<number | null>(null);
   const [isDesktop, setIsDesktop] = useState(true);
   const [activeView, setActiveView] = useState<string | null>(null);
@@ -118,6 +121,16 @@ export function SearchShell({
       window.removeEventListener("resize", schedule);
       observer?.disconnect();
     };
+  }, []);
+
+  // How far the floating search and filters reach down on a phone: the
+  // results sheet opens up to just under them, never over them.
+  useEffect(() => {
+    const el = controlsRef.current;
+    if (!el) return;
+    const observer = new ResizeObserver(() => setControlsHeight(el.offsetHeight));
+    observer.observe(el);
+    return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
@@ -172,7 +185,7 @@ export function SearchShell({
       {/* Controls. A floating overlay on a phone, a solid bar on desktop --
           `lg:contents` drops these wrapper rows so their children become
           items of the bar itself. */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 z-[700] flex flex-col gap-2 p-3 lg:static lg:z-auto lg:flex-row lg:items-center lg:gap-2 lg:border-b lg:border-hairline lg:bg-card lg:px-5 lg:py-2.5">
+      <div ref={controlsRef} className="pointer-events-none absolute inset-x-0 top-0 z-[700] flex flex-col gap-2 p-3 lg:static lg:z-auto lg:flex-row lg:items-center lg:gap-2 lg:border-b lg:border-hairline lg:bg-card lg:px-5 lg:py-2.5">
         <div className="pointer-events-auto flex items-center gap-2 lg:contents">
           <input
             type="search"
@@ -205,6 +218,7 @@ export function SearchShell({
         <ResultsPane
           heading={heading}
           isDesktop={isDesktop}
+          topInset={controlsHeight + SHEET_GAP_PX}
           onBack={view ? () => setActiveView(null) : undefined}
         >
           {results}
@@ -299,58 +313,84 @@ function ViewPill({
 
 /**
  * The results: a column beside the map on desktop, a sheet over it on a phone.
- * Drag the handle, or tap the heading, to move between peek and full.
+ * The sheet rests half open; drag the handle up to open it to just under the
+ * search and filters, or down to leave only the count so the map has the
+ * screen. Tapping the heading opens it, or brings it back to half.
  */
+type SheetStop = "down" | "peek" | "full";
+
 function ResultsPane({
   heading,
   isDesktop,
+  topInset,
   onBack,
   children,
 }: {
   heading: string;
   isDesktop: boolean;
+  /** Space the floating controls take at the top, which the sheet stays under. */
+  topInset: number;
   onBack?: () => void;
   children: ReactNode;
 }) {
-  const [expanded, setExpanded] = useState(false);
-  // Live offset while a finger is down; null when settled.
-  const [dragOffset, setDragOffset] = useState<number | null>(null);
+  const [stop, setStop] = useState<SheetStop>("peek");
+  // Live height while a finger is down; null when settled on a stop.
+  const [dragHeight, setDragHeight] = useState<number | null>(null);
+  const [room, setRoom] = useState(0);
   const startY = useRef(0);
-  const travel = useRef(1);
+  const startHeight = useRef(0);
+  /** Set when the last press moved the sheet, so the click it ends with isn't also a tap. */
+  const dragged = useRef(false);
   const ref = useRef<HTMLDivElement>(null);
 
-  const onPointerDown = useCallback((e: React.PointerEvent) => {
+  // The height the sheet can use: the map area under the nav.
+  useEffect(() => {
     const parent = ref.current?.parentElement;
-    travel.current = Math.max(1, (parent?.clientHeight ?? 1) * (SHEET_FULL - SHEET_PEEK));
-    startY.current = e.clientY;
-    setDragOffset(0);
-    (e.target as HTMLElement).setPointerCapture(e.pointerId);
+    if (!parent) return;
+    const observer = new ResizeObserver(() => setRoom(parent.clientHeight));
+    observer.observe(parent);
+    return () => observer.disconnect();
   }, []);
 
-  const onPointerMove = useCallback(
-    (e: React.PointerEvent) => {
-      if (dragOffset === null) return;
-      // Down is positive; clamped so the sheet can't go past either snap.
-      const raw = e.clientY - startY.current;
-      const min = expanded ? 0 : -travel.current;
-      const max = expanded ? travel.current : 0;
-      setDragOffset(Math.min(max, Math.max(min, raw)));
-    },
-    [dragOffset, expanded],
-  );
+  const full = Math.max(SHEET_DOWN_PX, room - topInset);
+  const heights: Record<SheetStop, number> = {
+    down: SHEET_DOWN_PX,
+    peek: Math.min(full, Math.max(SHEET_DOWN_PX, room * SHEET_PEEK)),
+    full,
+  };
 
-  const onPointerUp = useCallback(() => {
-    if (dragOffset === null) return;
-    if (Math.abs(dragOffset) / travel.current > SNAP_AT) setExpanded((v) => !v);
-    setDragOffset(null);
-  }, [dragOffset]);
+  function onPointerDown(e: React.PointerEvent) {
+    startY.current = e.clientY;
+    startHeight.current = ref.current?.offsetHeight ?? 0;
+    dragged.current = false;
+    setDragHeight(startHeight.current);
+    (e.target as HTMLElement).setPointerCapture(e.pointerId);
+  }
+
+  function onPointerMove(e: React.PointerEvent) {
+    if (dragHeight === null) return;
+    const next = startHeight.current - (e.clientY - startY.current);
+    setDragHeight(Math.min(full, Math.max(SHEET_DOWN_PX, next)));
+  }
+
+  function onPointerUp() {
+    if (dragHeight === null) return;
+    // A tap on the heading moves too little to count as a drag; its click handles it.
+    if (Math.abs(dragHeight - startHeight.current) > 6) {
+      dragged.current = true;
+      const nearest = (Object.keys(heights) as SheetStop[]).reduce((best, key) =>
+        Math.abs(heights[key] - dragHeight) < Math.abs(heights[best] - dragHeight) ? key : best,
+      );
+      setStop(nearest);
+    }
+    setDragHeight(null);
+  }
 
   const sheetStyle = isDesktop
     ? undefined
     : {
-        height: `${(expanded ? SHEET_FULL : SHEET_PEEK) * 100}%`,
-        transform: dragOffset === null ? undefined : `translateY(${dragOffset}px)`,
-        transition: dragOffset === null ? "height 220ms ease, transform 220ms ease" : "none",
+        height: dragHeight ?? heights[stop],
+        transition: dragHeight === null ? "height 220ms ease" : "none",
       };
 
   return (
@@ -370,8 +410,10 @@ function ResultsPane({
         <div className="mt-2 flex items-baseline justify-center gap-3 lg:mt-0 lg:justify-between">
           <button
             type="button"
-            onClick={isDesktop ? undefined : () => setExpanded((v) => !v)}
-            aria-expanded={isDesktop ? undefined : expanded}
+            onClick={
+              isDesktop ? undefined : () => !dragged.current && setStop((v) => (v === "full" ? "peek" : "full"))
+            }
+            aria-expanded={isDesktop ? undefined : stop === "full"}
             className="font-display text-base font-semibold text-forest lg:cursor-default lg:text-lg"
           >
             {heading}
