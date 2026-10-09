@@ -163,5 +163,14 @@ Phases, one PR each:
    browser anyway. The Elements tab became a library: a search, filter chips
    (Text, Shapes, Line art, Watercolours, Your photos), line art grouped by
    kind, the painted watercolours, and a "Suits your theme" row.
-5. Templates: gallery, switching that keeps content, "Describe your ideal
-   site" and "Wren, write this".
+5. In two PRs (decided 2026-10-08).
+   **5a, templates** (built 2026-10-08): 14 finished looks in
+   `src/lib/site-templates.ts`, each a combination of what the editor
+   already has (theme, palette, font pair, hero layout, artwork, background,
+   motion), filtered by Beach, Garden, Rustic, Line art, Traditions and
+   Modern. Templates is the first tab and opens by default. Switching keeps
+   the couple's words, section order, photos and placed elements; one-off
+   fonts and colours on retyped headings give way to the new look. The design
+   records the template it started from (`template`), shown as picked.
+   **5b, AI** (next): "Describe your ideal site" and "Wren, write this",
+   with a daily cap per couple (the owner chose this on 2026-10-08).

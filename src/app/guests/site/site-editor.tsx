@@ -50,6 +50,7 @@ import {
 import { CanvasToolbar, ElementsTab, PositionPanel } from "./canvas-panels";
 import { PhoneTools, Sheet, Tool } from "./phone-tools";
 import { AnimatePanel, FocusPicker, PhotoPanel } from "./photo-motion-panels";
+import { TemplatesTab } from "./templates-tab";
 import { BackgroundTab, FontsTab, PhotoColoursSection, TargetColourSection, type PickTarget } from "./look-panels";
 import { publishSiteDesign, saveSiteDraft } from "./actions";
 import { BirdCheer } from "@/components/bird-cheer";
@@ -60,6 +61,7 @@ type Device = "desktop" | "phone";
 // Position opens from a picked element rather than the tab strip.
 // Position, Photo and Animate open from a picked element rather than the rail.
 type Tab =
+  | "templates"
   | "theme"
   | "style"
   | "colour"
@@ -73,6 +75,7 @@ type Tab =
   | "animate";
 
 const TABS: { key: Tab; label: string }[] = [
+  { key: "templates", label: "Templates" },
   { key: "theme", label: "Theme" },
   { key: "style", label: "Style" },
   { key: "colour", label: "Colour" },
@@ -94,6 +97,7 @@ const LG = "(min-width: 1024px)";
 
 /** The phone editor's bottom tabs, drawn like its tools. */
 const TAB_ICONS = {
+  templates: "templates",
   theme: "theme",
   style: "styleTab",
   colour: "colour",
@@ -145,7 +149,7 @@ export function SiteEditor({
   const publicSlug = site.slug;
   const [design, setDesign] = useState(initialDraft);
   const [published, setPublished] = useState(initialPublished);
-  const [tab, setTab] = useState<Tab>("theme");
+  const [tab, setTab] = useState<Tab>("templates");
   const [device, setDevice] = useState<Device>("desktop");
   const [isDesktop, setIsDesktop] = useState(true);
   // Phone editor (phase 3b): the sheet open over the bottom bar, and
@@ -528,6 +532,8 @@ export function SiteEditor({
             <AnimatePanel design={design} selection={canvasSel} onCanvas={changeCanvas} />
           )}
         </>
+      ) : tab === "templates" ? (
+        <TemplatesTab design={design} names={names} onChange={change} />
       ) : tab === "theme" ? (
         <ThemeTab design={design} onChange={change} part="themes" />
       ) : tab === "colour" ? (
