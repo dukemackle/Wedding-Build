@@ -143,6 +143,15 @@ per exchange, not about doing less:
   unless asked for a comparison, no restating the request back, no summarising
   what was just built in a second form. Everything written stays in context for
   the rest of the session and gets re-sent on every turn after it.
+- **Fix-it instructions for the owner are always step by step (2026-10-08).**
+  When the owner has to do something themselves (a setting, a key, a
+  dashboard, an account), give numbered steps with the exact site or menu
+  path, the button names, what the value looks like (e.g. "starts with
+  `sbp_`") and where to paste it. Never stop at "set X to the real value".
+  This beats "keep replies short". Merging a PR and running a migration in
+  the Supabase SQL Editor are the exceptions (2026-10-09): the owner knows
+  how, so just say the PR is ready to merge (with the link) or which
+  migration file to run.
 - **Get the brief right before building anything visual.** Ask for a screenshot
   of what's wrong before proposing a fix. Three design rounds cost far more
   than one question — the mobile nav took three passes that one phone

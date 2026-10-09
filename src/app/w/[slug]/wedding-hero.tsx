@@ -7,10 +7,12 @@ import { CountdownTimer } from "@/components/countdown-timer";
 import { daysUntilWedding } from "@/lib/countdown";
 import { HeroActions } from "./hero-actions";
 import { useSiteDesign } from "@/components/guest-site-theme";
-import { motionPreset, PHOTO_HEROES, resolveDesign } from "@/lib/site-design";
+import { bannerPhoto, motionPreset, PHOTO_HEROES, resolveDesign } from "@/lib/site-design";
 import { SiteOrnament } from "@/components/site-ornament";
 import { SiteArt } from "@/components/site-art";
+import { SiteText } from "@/components/site-text";
 import { SceneArtwork, SiteScene } from "@/components/site-scene";
+import { SiteSection } from "@/components/site-section";
 
 function formatDate(dateStr: string) {
   return new Date(`${dateStr}T00:00:00`).toLocaleDateString("en-US", {
@@ -45,6 +47,10 @@ function HeroContent({
   // The gentle word-by-word rise is the "Straight in" default; the other
   // openings bring the names in their own way, and "None" means none.
   const stagger = motion.opening === "none" && motionPreset(motion) !== "none";
+  // Poster names are sized to the screen, so a long single name ("Maximiliano")
+  // would run off a phone. Cap the size so the longest word fits the width.
+  const longest = Math.max(4, ...names.split(/\s+/).map((w) => w.length));
+  const posterSize = `min(clamp(3.75rem,15vw,10rem), calc((100vw - 3rem) / ${(longest * (capitals ? 0.72 : 0.6)).toFixed(2)}))`;
 
   return (
     <div className="relative z-10 w-full px-6 text-center">
@@ -56,26 +62,33 @@ function HeroContent({
         tone={tone}
       />
 
-      <p
+      <SiteText
+        slot="hero.kicker"
+        as="p"
         className={`${bigMark ? "mt-8" : "mt-5"} font-mono-numbers text-[11px] uppercase tracking-[0.24em] ${
           tone === "light" ? "text-white/80" : "text-brass"
         }`}
       >
         {renewal ? "We're renewing our vows" : <>You&apos;re invited</>}
-      </p>
+      </SiteText>
 
-      <h1
+      <SiteText
+        slot="hero.names"
+        as="h1"
         className={`site-names mt-3 font-display font-medium [font-style:var(--site-name-style,normal)] [font-weight:var(--site-name-weight,500)] ${
           poster
-            ? `mx-auto max-w-[14ch] text-[clamp(3.75rem,15vw,10rem)] ${capitals ? "uppercase leading-[0.9] tracking-tight" : "leading-[1.1]"}`
+            ? `mx-auto max-w-[14ch] ${capitals ? "uppercase leading-[0.9] tracking-tight" : "leading-[1.1]"}`
             : "text-[clamp(2.75rem,8vw,5.5rem)] leading-[1.02]"
         } ${
           tone === "light" ? "text-white [text-shadow:0_2px_24px_rgba(0,0,0,0.28)]" : "text-forest"
         }`}
-        style={{ fontFamily: "var(--font-names, var(--font-display))" }}
+        style={{
+          fontFamily: "var(--font-names, var(--font-display))",
+          ...(poster ? { fontSize: posterSize } : {}),
+        }}
       >
         {stagger ? <StaggerWords text={names} /> : names}
-      </h1>
+      </SiteText>
 
       {renewal && occasion.since && (
         <p className={`mt-3 font-display text-lg italic ${tone === "light" ? "text-white/90" : "text-forest"}`}>
@@ -130,11 +143,13 @@ export function WeddingHero({ wedding }: { wedding: PublicWedding }) {
   const { hero } = useSiteDesign();
   // With no photo yet, a photo layout draws the scene as its picture, so it
   // isn't drawn again around it.
-  const illustrated = !wedding.hero_photo_url && PHOTO_HEROES.includes(hero);
+  const illustrated = !bannerPhoto(wedding) && PHOTO_HEROES.includes(hero);
   return (
     <div className="mb-10 flex flex-col">
       {!illustrated && <SiteScene where="strip" />}
-      <HeroLayout wedding={wedding} />
+      <SiteSection sectionKey="hero">
+        <HeroLayout wedding={wedding} />
+      </SiteSection>
       {!illustrated && <SiteScene where="band" />}
     </div>
   );
@@ -148,7 +163,7 @@ export function WeddingHero({ wedding }: { wedding: PublicWedding }) {
  */
 function HeroLayout({ wedding }: { wedding: PublicWedding }) {
   const { hero, art } = useSiteDesign();
-  const photo = wedding.hero_photo_url;
+  const photo = bannerPhoto(wedding);
 
   // Monogram: the crest is the picture, large, with a fine double rule
   // framing the whole top of the page. Works the same with or without a photo.
@@ -171,7 +186,7 @@ function HeroLayout({ wedding }: { wedding: PublicWedding }) {
   // same page chosen on purpose.
   if (hero === "text") {
     return (
-      <header className="relative overflow-hidden bg-[radial-gradient(120%_90%_at_50%_0%,var(--color-card)_0%,var(--color-parchment)_60%)] px-6 pb-16 pt-24">
+      <header className="site-hero-plain relative overflow-hidden bg-[radial-gradient(120%_90%_at_50%_0%,var(--color-card)_0%,var(--color-parchment)_60%)] px-6 pb-16 pt-24">
         <SiteArt art={art} />
         <SiteScene where="surround" />
         <HeroContent wedding={wedding} tone="dark" />

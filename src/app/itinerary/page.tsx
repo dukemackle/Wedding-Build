@@ -3,8 +3,8 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { AppNav } from "@/components/app-nav";
 import { PageShell } from "@/components/page-shell";
-import type { ItineraryEvent, Wedding } from "@/lib/supabase/types";
-import { ItineraryManager } from "./itinerary-manager";
+import type { GuestEventInvite, ItineraryEvent, Wedding } from "@/lib/supabase/types";
+import { ItineraryManager, type InviteGuest } from "./itinerary-manager";
 import { PublishToggle } from "./publish-toggle";
 
 export default async function ItineraryPage() {
@@ -56,6 +56,25 @@ export default async function ItineraryPage() {
     .order("start_time", { ascending: true, nullsFirst: true })
     .returns<ItineraryEvent[]>();
 
+  // For invite-only events: the guest list to choose from, and who's chosen.
+  // Before migration 0109 the invites table is missing; that reads as none.
+  const [{ data: guests }, { data: inviteRows }] = await Promise.all([
+    supabase
+      .from("guests")
+      .select("id, name, household")
+      .eq("wedding_id", wedding.id)
+      .order("household", { ascending: true, nullsFirst: false })
+      .order("name", { ascending: true })
+      .returns<InviteGuest[]>(),
+    supabase
+      .from("guest_event_invites")
+      .select("guest_id, event_id")
+      .eq("wedding_id", wedding.id)
+      .returns<Pick<GuestEventInvite, "guest_id" | "event_id">[]>(),
+  ]);
+  const invites: Record<string, string[]> = {};
+  for (const row of inviteRows ?? []) invites[row.event_id] = [...(invites[row.event_id] ?? []), row.guest_id];
+
   return (
     <PageShell email={user.email ?? ""} width="canvas">
         <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
@@ -82,7 +101,12 @@ export default async function ItineraryPage() {
           publicSlug={wedding.public_slug}
         />
 
-        <ItineraryManager events={events ?? []} weddingDate={wedding.wedding_date} />
+        <ItineraryManager
+          events={events ?? []}
+          weddingDate={wedding.wedding_date}
+          guests={guests ?? []}
+          invites={invites}
+        />
     </PageShell>
   );
 }

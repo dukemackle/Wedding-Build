@@ -1,4 +1,9 @@
-import { z } from "zod";
+import { canvasFontIds, EMPTY_CANVAS, filterCss } from "./site-canvas";
+import type { Motion, SiteDesign, TextStyle } from "./site-design-schema";
+
+// The zod schema is in site-design-schema.ts, so the guest page (which only
+// reads a design) doesn't download the validation library.
+export type { Motion, SiteDesign, TextStyle } from "./site-design-schema";
 
 /**
  * How a couple's guest site looks: theme, accent and (in later phases) fonts,
@@ -486,9 +491,9 @@ export type ThemeId = (typeof THEMES)[number]["id"];
 
 export const DEFAULT_THEME_ID: ThemeId = "garden";
 
-const THEME_IDS = THEMES.map((t) => t.id) as [ThemeId, ...ThemeId[]];
+export const THEME_IDS = THEMES.map((t) => t.id) as [ThemeId, ...ThemeId[]];
 
-const HEX = /^#[0-9a-f]{6}$/i;
+export const HEX = /^#[0-9a-f]{6}$/i;
 
 /**
  * Every face a couple can pick, by itself, for headings or body text. `css`
@@ -563,7 +568,7 @@ export const FONTS = [
 
 export type FontId = (typeof FONTS)[number]["id"];
 
-const FONT_IDS = FONTS.map((f) => f.id) as [FontId, ...FontId[]];
+export const FONT_IDS = FONTS.map((f) => f.id) as [FontId, ...FontId[]];
 
 /** Faces that work for paragraphs: no scripts or display faces, and no all-caps Cinzel. */
 export const BODY_FONTS = FONTS.filter(
@@ -695,7 +700,7 @@ export const SCENES = [
 
 export type SceneId = (typeof SCENES)[number]["id"];
 
-const SCENE_IDS = SCENES.map((x) => x.id) as [SceneId, ...SceneId[]];
+export const SCENE_IDS = SCENES.map((x) => x.id) as [SceneId, ...SceneId[]];
 
 export function sceneById(id: string | null | undefined) {
   return SCENES.find((x) => x.id === id) ?? SCENES[0];
@@ -716,7 +721,7 @@ export type PageStyleId = (typeof PAGE_STYLES)[number]["id"];
 
 export type OrnamentId = (typeof ORNAMENTS)[number]["id"];
 
-const ORNAMENT_IDS = ORNAMENTS.map((o) => o.id) as [OrnamentId, ...OrnamentId[]];
+export const ORNAMENT_IDS = ORNAMENTS.map((o) => o.id) as [OrnamentId, ...OrnamentId[]];
 
 /**
  * Botanical artwork for the top of the page (Style tab › Artwork): public-
@@ -769,7 +774,7 @@ export const SITE_ART = [
 
 export type ArtId = (typeof SITE_ART)[number]["id"];
 
-const ART_IDS = SITE_ART.map((a) => a.id) as [ArtId, ...ArtId[]];
+export const ART_IDS = SITE_ART.map((a) => a.id) as [ArtId, ...ArtId[]];
 
 export function artById(id: string | null | undefined) {
   return SITE_ART.find((a) => a.id === id) ?? null;
@@ -864,6 +869,7 @@ export type HeroLayoutId = (typeof HERO_LAYOUTS)[number]["id"];
 export const SITE_SECTIONS = [
   { id: "rsvp", name: "RSVP", column: "main" },
   { id: "photos", name: "Photos", column: "main" },
+  { id: "venue", name: "The venue", column: "main" },
   { id: "weekend", name: "The weekend", column: "main" },
   { id: "wall", name: "Photo wall", column: "main" },
   { id: "guests", name: "Who's coming", column: "side" },
@@ -874,7 +880,7 @@ export const SITE_SECTIONS = [
 
 export type SectionId = (typeof SITE_SECTIONS)[number]["id"];
 
-const SECTION_IDS = SITE_SECTIONS.map((x) => x.id) as [SectionId, ...SectionId[]];
+export const SECTION_IDS = SITE_SECTIONS.map((x) => x.id) as [SectionId, ...SectionId[]];
 
 /** A custom block (site_blocks row) in the section list: "block:<uuid>". */
 export type BlockKey = `block:${string}`;
@@ -893,26 +899,9 @@ export function sectionColumn(key: SectionKey): "main" | "side" {
   return SITE_SECTIONS.find((x) => x.id === key)?.column ?? "main";
 }
 
-const BLOCK_KEY = /^block:[0-9a-f-]{36}$/;
+export const BLOCK_KEY = /^block:[0-9a-f-]{36}$/;
 
-const sectionKeySchema = z.union([
-  z.enum(SECTION_IDS),
-  z.string().regex(BLOCK_KEY).transform((k) => k as BlockKey),
-]);
-
-const DEFAULT_SECTIONS = SITE_SECTIONS.map((x) => ({ id: x.id as SectionKey, hidden: false }));
-
-/**
- * Whatever order was saved, made whole: unknown ids and repeats dropped, and
- * any built-in section added to Wren since appended, visible, so a new section
- * never silently goes missing from an older design. Blocks are kept as saved;
- * one whose row has been deleted is simply skipped when the page renders.
- */
-function completeSections(saved: { id: SectionKey; hidden: boolean }[]) {
-  const seen = new Set<SectionKey>();
-  const kept = saved.filter((x) => !seen.has(x.id) && seen.add(x.id));
-  return [...kept, ...DEFAULT_SECTIONS.filter((x) => !seen.has(x.id))];
-}
+export const DEFAULT_SECTIONS = SITE_SECTIONS.map((x) => ({ id: x.id as SectionKey, hidden: false }));
 
 export const OPENINGS = [
   { id: "none", label: "Straight in", help: "The page is simply there." },
@@ -921,17 +910,6 @@ export const OPENINGS = [
   { id: "reveal", label: "Photo reveal", help: "Your photo opens out from the centre." },
 ] as const;
 
-const motionSchema = z.object({
-  opening: z.enum(["none", "envelope", "write", "reveal"]).catch("none"),
-  scroll: z.enum(["none", "fade", "slide", "zoom"]).catch("fade"),
-  photo: z.enum(["still", "zoom"]).catch("zoom"),
-  petals: z.boolean().catch(false),
-  ticking: z.boolean().catch(true),
-  confetti: z.boolean().catch(false),
-  speed: z.enum(["slow", "normal", "fast"]).catch("normal"),
-});
-
-export type Motion = z.infer<typeof motionSchema>;
 
 /**
  * The Motion tab's "Overall" choices. Each fills in every setting; changing
@@ -959,48 +937,67 @@ export function motionPreset(motion: Motion): MotionPreset {
 /** Multiplies every duration. */
 export const MOTION_SPEED = { slow: 1.5, normal: 1, fast: 0.6 } as const;
 
-export const siteDesignSchema = z.object({
-  theme: z.enum(THEME_IDS).catch(DEFAULT_THEME_ID),
-  /** null means the theme's first swatch. */
-  accent: z.string().regex(HEX).nullable().catch(null),
-  fonts: z.enum(FONT_PAIRINGS.map((f) => f.id) as [FontPairingId, ...FontPairingId[]]).catch("theme"),
-  /** A face picked on its own; null means the pairing's, then the theme's. */
-  fontDisplay: z.enum(FONT_IDS).nullable().catch(null),
-  fontBody: z.enum(FONT_IDS).nullable().catch(null),
-  /** Colours over the theme's own; each null means the theme's. */
-  colors: z
-    .object({
-      bg: z.string().regex(HEX).nullable().catch(null),
-      ink: z.string().regex(HEX).nullable().catch(null),
-      heading: z.string().regex(HEX).nullable().catch(null),
-    })
-    .catch({ bg: null, ink: null, heading: null }),
-  ornament: z.enum(ORNAMENT_IDS).catch("rule"),
-  art: z
-    .object({
-      id: z.enum(ART_IDS).nullable().catch(null),
-      placement: z.enum(["sides", "corners"]).catch("sides"),
-    })
-    .catch({ id: null, placement: "sides" }),
-  hero: z.enum(HERO_LAYOUTS.map((h) => h.id) as [HeroLayoutId, ...HeroLayoutId[]]).catch("full"),
-  /** null means the theme's own scene. */
-  scene: z.enum(SCENE_IDS).nullable().catch(null),
-  pageStyle: z.enum(["cards", "storybook"]).catch("cards"),
-  /** A vow renewal changes the wording, and counts the years from `since`. */
-  occasion: z
-    .object({
-      kind: z.enum(["wedding", "renewal"]).catch("wedding"),
-      since: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).nullable().catch(null),
-    })
-    .catch({ kind: "wedding", since: null }),
-  sections: z
-    .array(z.object({ id: sectionKeySchema, hidden: z.boolean().catch(false) }).nullable().catch(null))
-    .transform((list) => completeSections(list.filter((x) => x !== null)))
-    .catch(DEFAULT_SECTIONS),
-  motion: motionSchema.catch(MOTION_PRESETS.subtle),
-});
+/**
+ * The words on the guest site a couple can click in the editor's preview to
+ * restyle, and (where `words` is true) retype. The rest come from their
+ * wedding details -- names, a guest count -- so only their look changes here.
+ */
+export const TEXT_SLOTS = [
+  { id: "hero.kicker", label: "Invitation line", words: true },
+  { id: "hero.names", label: "Your names", words: false },
+  { id: "rsvp.title", label: "RSVP heading", words: true },
+  { id: "photos.title", label: "Photos heading", words: true },
+  { id: "venue.title", label: "Venue heading", words: true },
+  { id: "weekend.title", label: "Schedule heading", words: true },
+  { id: "wall.title", label: "Photo wall heading", words: true },
+  { id: "guests.title", label: "Who's coming heading", words: false },
+  { id: "travel.title", label: "Travel heading", words: true },
+  { id: "faq.title", label: "FAQ heading", words: true },
+  { id: "registry.title", label: "Registry heading", words: true },
+] as const;
 
-export type SiteDesign = z.infer<typeof siteDesignSchema>;
+export type TextSlotId = (typeof TEXT_SLOTS)[number]["id"];
+
+export const TEXT_SLOT_IDS = new Set<string>(TEXT_SLOTS.map((s) => s.id));
+
+/** Size steps for the toolbar's − and +, as a multiple of the slot's own size. */
+export const TEXT_SIZES = [0.625, 0.75, 0.875, 1, 1.125, 1.25, 1.5, 1.75, 2] as const;
+
+export const EMPTY_TEXT_STYLE: TextStyle = {
+  text: null,
+  font: null,
+  size: null,
+  color: null,
+  align: null,
+  bold: null,
+  italic: null,
+};
+
+export function hasTextStyle(style: TextStyle | undefined) {
+  return !!style && Object.values(style).some((v) => v !== null && v !== "");
+}
+
+/** Background panel: a pattern and a texture over the page colour (phase 4a). */
+export const BG_PATTERNS = [
+  { id: "none", label: "None" },
+  { id: "dots", label: "Dots" },
+  { id: "stripes", label: "Stripes" },
+  { id: "lattice", label: "Lattice" },
+] as const;
+
+export const BG_TEXTURES = [
+  { id: "none", label: "None" },
+  { id: "linen", label: "Linen" },
+  { id: "paper", label: "Paper" },
+  { id: "wash", label: "Watercolour wash" },
+] as const;
+
+export type BgPattern = (typeof BG_PATTERNS)[number]["id"];
+export type BgTexture = (typeof BG_TEXTURES)[number]["id"];
+
+export const NO_BACKGROUND = { pattern: "none", texture: "none", scope: "page" } as const;
+
+export const HERO_PHOTO = { fx: 50, fy: 50, filter: "none" } as const;
 
 export const DEFAULT_SITE_DESIGN: SiteDesign = {
   theme: DEFAULT_THEME_ID,
@@ -1017,13 +1014,11 @@ export const DEFAULT_SITE_DESIGN: SiteDesign = {
   occasion: { kind: "wedding", since: null },
   sections: DEFAULT_SECTIONS,
   motion: MOTION_PRESETS.subtle,
+  text: {},
+  canvas: EMPTY_CANVAS,
+  background: NO_BACKGROUND,
+  heroPhoto: HERO_PHOTO,
 };
-
-/** Whatever is in the column -- null, an old shape, junk -- as a usable design. */
-export function parseSiteDesign(value: unknown): SiteDesign {
-  const result = siteDesignSchema.safeParse(value ?? {});
-  return result.success ? result.data : DEFAULT_SITE_DESIGN;
-}
 
 export function sameDesign(a: SiteDesign, b: SiteDesign) {
   return JSON.stringify(a) === JSON.stringify(b);
@@ -1136,6 +1131,42 @@ export function paletteColors(p: Palette): Pick<SiteDesign, "colors" | "accent">
   return { colors: { bg: p.bg, ink: p.ink, heading: p.heading }, accent: p.accent };
 }
 
+// Grey noise reads as paper on light and dark pages alike.
+const PAPER =
+  "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")";
+
+/**
+ * The Background panel's pattern and texture as CSS layers, drawn in the
+ * site's own accent and ink so they follow every palette. Patterns sit over
+ * textures; the page colour shows through both.
+ */
+export function backgroundLayers(background: SiteDesign["background"]): { image: string; size: string } {
+  const tint = (pct: number, v = "--site-accent") => `color-mix(in srgb, var(${v}) ${pct}%, transparent)`;
+  const layers: [string, string][] = [];
+  if (background.pattern === "dots") layers.push([`radial-gradient(${tint(22)} 1.6px, transparent 2.2px)`, "22px 22px"]);
+  if (background.pattern === "stripes")
+    layers.push([`repeating-linear-gradient(45deg, ${tint(14)} 0 2px, transparent 2px 16px)`, "auto"]);
+  if (background.pattern === "lattice")
+    layers.push(
+      [`linear-gradient(${tint(16)} 1px, transparent 1px)`, "32px 32px"],
+      [`linear-gradient(90deg, ${tint(16)} 1px, transparent 1px)`, "32px 32px"],
+    );
+  if (background.texture === "linen")
+    layers.push(
+      [`repeating-linear-gradient(0deg, ${tint(4, "--color-ink")} 0 1px, transparent 1px 3px)`, "auto"],
+      [`repeating-linear-gradient(90deg, ${tint(3, "--color-ink")} 0 1px, transparent 1px 4px)`, "auto"],
+    );
+  if (background.texture === "paper") layers.push([PAPER, "160px 160px"]);
+  if (background.texture === "wash")
+    layers.push(
+      [`radial-gradient(ellipse 60% 40% at 12% 8%, ${tint(16)}, transparent 70%)`, "100% 100%"],
+      [`radial-gradient(ellipse 50% 45% at 88% 35%, ${tint(12, "--site-accent-2")}, transparent 70%)`, "100% 100%"],
+      [`radial-gradient(ellipse 55% 35% at 30% 90%, ${tint(10)}, transparent 70%)`, "100% 100%"],
+    );
+  if (!layers.length) return { image: "none", size: "auto" };
+  return { image: layers.map(([i]) => i).join(", "), size: layers.map(([, s]) => s).join(", ") };
+}
+
 /**
  * The CSS custom properties that restyle the guest site. The site is written
  * against the app's semantic colour names, so overriding those on a wrapper
@@ -1171,6 +1202,10 @@ export function designCssVars(design: SiteDesign): Record<string, string> {
     // Native controls -- checkboxes, select menus, scrollbars -- in the theme's light or dark.
     "--site-scheme": luminance(theme.bg) < 0.2 ? "dark" : "light",
     "--motion-speed": String(MOTION_SPEED[design.motion.speed]),
+    "--site-bg-image": backgroundLayers(design.background).image,
+    "--site-bg-size": backgroundLayers(design.background).size,
+    "--hero-focus": `${design.heroPhoto.fx}% ${design.heroPhoto.fy}%`,
+    "--hero-filter": filterCss(design.heroPhoto.filter),
   };
 }
 
@@ -1191,5 +1226,39 @@ export function fontsHrefFor(css: readonly string[]) {
   return `https://fonts.googleapis.com/css2?${families.map((f) => `family=${f}`).join("&")}&display=swap`;
 }
 
+/** The live site's stylesheet: the theme's faces plus any picked for a single slot. */
+export function siteFontsHref(design: SiteDesign) {
+  const { theme } = resolveDesign(design);
+  const picked = [
+    ...Object.values(design.text).flatMap((s) => (s?.font ? [s.font] : [])),
+    ...canvasFontIds(design.canvas),
+  ].map((id) => fontById(id)?.css ?? "");
+  return fontsHrefFor([theme.display, theme.body, ...picked]);
+}
+
+/** A slot's own look over its usual one. Size is applied separately, relative to the slot's size. */
+export function textSlotCss(style: TextStyle | undefined): Record<string, string> {
+  if (!style) return {};
+  const css: Record<string, string> = {};
+  const font = fontById(style.font);
+  if (font) css.fontFamily = font.css;
+  if (style.color) css.color = style.color;
+  if (style.align) css.textAlign = style.align;
+  if (style.bold !== null) css.fontWeight = style.bold ? "700" : "400";
+  if (style.italic !== null) css.fontStyle = style.italic ? "italic" : "normal";
+  return css;
+}
+
 /** Every face in the library, for the editor, where any can be picked. */
 export const ALL_FONTS_HREF = fontsHrefFor(FONTS.map((f) => f.css));
+
+/**
+ * The guest site's banner: the couple's own photo, or until they add one,
+ * their venue's cover (only photos the venue uploaded itself, see 0110).
+ */
+export function bannerPhoto(wedding: {
+  hero_photo_url: string | null;
+  venue_photo_urls: string[] | null;
+}): string | null {
+  return wedding.hero_photo_url ?? wedding.venue_photo_urls?.[0] ?? null;
+}

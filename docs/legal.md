@@ -11,7 +11,8 @@ legal questions to the owner rather than deciding them.
   the service they asked for, not consent.
 - **Vendors/venues:** `/list` and both `/claim/...` forms show `LegalNotice`
   (`src/components/legal-notice.tsx`) beside the submit button. Terms §6 has
-  the listing-photo license; Privacy §1 covers submitter name and email.
+  the listing-photo license (listing, search, previews, and the guest sites of
+  couples who chose that venue); Privacy §1 covers submitter name and email.
 - **Guests:** the guest site footer (`guest-site-theme.tsx`) links Terms and
   Privacy. Guests have no account; their data goes to the couple.
 - Site-wide footer links Terms and Privacy.

@@ -72,3 +72,96 @@ since there's no story content to show yet.
    the design's section list as a `block:<id>` entry, in the main column on a computer.
 
 Open judgment call (for the owner, not urgent): whether premium themes later become a paid tier.
+
+## Editor v2: Canva-style editing (decided 2026-10-08)
+
+The owner reversed the "no free-form canvas" rule above, **within sections**:
+each section becomes a canvas where text, photos, art and shapes can be placed
+freely on a snapping grid, with its own phone layout edited at real phone size
+(Canva's phone editor just shrinks the desktop page; ours doesn't). Colours and
+fonts default to the site palette so a site still looks designed. Functional
+sections (RSVP, schedule, registry, FAQ) move and restyle as whole blocks.
+
+Approved mockup (desktop 1440 and phone 390): https://claude.ai/artifact/NTyvaB5B6VAdyV2sFx4abw
+
+Phases, one PR each:
+1. **Click-to-edit text** (shipped first): click a heading, the invitation
+   line or the names in the preview to restyle them (font, size, colour, bold,
+   italic, alignment) and retype headings in place; undo/redo. Stored as
+   `text` in the design jsonb, keyed by slot (`TEXT_SLOTS` in
+   `src/lib/site-design.ts`); rendered by `SiteText` (`src/components/site-text.tsx`).
+   The element layout format arrives with phase 2, where it's first used.
+2. **Desktop canvas inside sections** (built 2026-10-08): select, drag,
+   resize, rotate, snap, the floating bar and right-click menu, the Position
+   panel (Arrange and Layers); add text, line art, shapes and the couple's
+   photos from the Elements tab. Stored as `canvas` in the design jsonb
+   (`src/lib/site-canvas.ts`, `v: 1`): per section a reference width `w`, its
+   elements back to front, a whole-section `style` (card, plain, tinted,
+   outlined) and a `phone` frame that for now stacks the elements in reading
+   order under the section. Elements go in the hero and custom blocks; the
+   other sections move (up/down in their column), hide and restyle as whole
+   blocks. Guests get `SiteSection` (`src/components/site-section.tsx`), plain
+   positioned HTML scaled with container units; the dragging lives in
+   `preview/canvas-editing.tsx`, which only the editor's preview frame loads.
+   The hero's own names, date and buttons stay theme-laid-out for now.
+3. Phone editor, in two PRs (decided 2026-10-08).
+   **3a, separate phone layouts** (built 2026-10-08): each section's `phone`
+   frame stays "stack" until the couple moves something in the Phone preview
+   (from a computer or on a phone). That first move switches the section to
+   "free", starting from the stack as it was laid out, with boxes in the
+   section's phone width (`phone.w`). An element added on the computer later
+   goes under the rest. "Back to stacked" undoes it, and Hide on the phone
+   layout hides an element on phones only (`phone.hidden`). The editing code
+   is shared with the computer frame; the preview's width picks which one it
+   edits.
+   **3b, the phone editor itself** (built 2026-10-08, from the mockup's Phone
+   artboard): a header with back, undo/redo, Preview (hides the tools so
+   the couple sees and can try the site as guests do), More (site on/off,
+   status, replay, open live) and a gold Publish; a Computer / Phone layout
+   switch; the site filling the screen; a bottom bar of tabs (Theme, Style,
+   Motion, Sections, Elements), each opening a slide-up sheet; and while
+   something is picked, its tools in that bar instead with ✓ to finish
+   (`phone-tools.tsx`). Words get font, size, colour, bold, italic and
+   align. Placed elements also get edit, position, lock, copy and delete.
+   Sections get style, move up/down, hide and restack. On touch screens
+   only the corner handles show, and a tap on a form inside a section picks
+   the section rather than opening the form.
+4. In three PRs (decided 2026-10-08).
+   **4a, look panels** (built 2026-10-08): the computer editor's tabs became
+   the mockup's side rail (Theme, Style, Colour, Fonts, Background, Motion,
+   Sections, Elements); the phone's bottom bar has the same. Colour holds
+   the palettes and fine-tuning (moved from Theme) plus colours read from
+   the couple's photos in the browser (a tap makes one the accent, or "Make
+   a palette from my photos"). Fonts holds the pairs, the library with a
+   search and kind filter, and body text (moved from Style). While words or
+   a placed element are picked, Colour and Fonts change that instead of the
+   whole site. Background sets the page colour, a pattern (dots, stripes,
+   lattice) and a texture (linen, paper, watercolour wash), drawn in the
+   site's own colours as CSS layers (`background` in the design,
+   `backgroundLayers` in site-design.ts), on every section or the top only.
+   **4b, photos and motion** (built 2026-10-08): a placed photo has a crop
+   (focus point and zoom), a frame (rounded, circle, arch, polaroid, border)
+   and a filter (warm, cool, vivid, faded, vintage, black & white), plus alt
+   text, from the Photo panel ("Crop, frame & filter" on its bar; Crop,
+   Frame and Filter tools on a phone). The banner photo gets a focus point
+   and filter in Style › Banner photo (`heroPhoto` in the design). Every
+   placed element can animate (rise, fade, pan, pop, wipe, drift) from the
+   Animate panel: CSS only, tied to scrolling where the browser supports
+   scroll-driven animations and played on load elsewhere, still for guests
+   who turn motion off.
+   **4c, a lean guest page and the Elements library** (built 2026-10-08):
+   the page was already rendered as HTML on the server; what it carried was
+   editor code. The zod schemas moved to `site-design-schema.ts` and
+   `site-canvas-schema.ts` (server and editor only; the guest page reads
+   designs parsed on the server), and click-to-edit words moved to
+   `site-text-edit.tsx`, loaded on demand only in the preview. The guest
+   page's own JavaScript went from 139 KB to 51 KB gzipped (545 to 161 KB
+   raw, measured from the production build's client manifest for
+   `/w/[slug]`). The canvas editing code was already kept out of it. Turning
+   the hero and sections into server components is possible later but saves
+   little now: the countdown, RSVP form, motion and theme context need the
+   browser anyway. The Elements tab became a library: a search, filter chips
+   (Text, Shapes, Line art, Watercolours, Your photos), line art grouped by
+   kind, the painted watercolours, and a "Suits your theme" row.
+5. Templates: gallery, switching that keeps content, "Describe your ideal
+   site" and "Wren, write this".

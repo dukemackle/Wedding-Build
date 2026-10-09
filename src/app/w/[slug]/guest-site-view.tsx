@@ -1,4 +1,5 @@
 import type { createClient } from "@/lib/supabase/server";
+import { SiteText } from "@/components/site-text";
 import type {
   ItineraryEvent,
   PublicConfirmedGuest,
@@ -17,6 +18,7 @@ import { GuestbookView } from "./guestbook-view";
 import { GuestWall } from "./guest-wall";
 import { GalleryView } from "./gallery-view";
 import { StayList } from "./stay-list";
+import { VenueView } from "./venue-view";
 import { WeddingHero } from "./wedding-hero";
 import type { ReactNode } from "react";
 import { blockKey, type SectionKey } from "@/lib/site-design";
@@ -111,7 +113,9 @@ export async function loadGuestSiteContent(supabase: Supabase, wedding: PublicWe
   return {
     blocks: blocks ?? [],
     registryItems: registryItems ?? [],
-    itineraryEvents: itineraryEvents ?? [],
+    // Invite-only events never reach the public schedule (0109 hides them
+    // from guests; this keeps the couple's preview honest too).
+    itineraryEvents: (itineraryEvents ?? []).filter((e) => !e.invite_only),
     weddingFaqs: weddingFaqs ?? [],
     accommodations: accommodations ?? [],
     guestbookEntries: guestbookEntries ?? [],
@@ -150,7 +154,7 @@ export function GuestSiteView({
     ...Object.fromEntries(blocks.filter(blockHasContent).map((b) => [blockKey(b.id), <SiteBlockView key={b.id} block={b} />])),
     rsvp: (
       <div id="rsvp" className={`${CARD} scroll-mt-6`}>
-        <h2 className="font-display text-2xl font-semibold text-forest">RSVP</h2>
+        <SiteText slot="rsvp.title" className="font-display text-2xl font-semibold text-forest">RSVP</SiteText>
         <p className="mt-1 text-sm text-ink/70">
           Let {wedding.partner_a_name ?? "the couple"} &amp;{" "}
           {wedding.partner_b_name ?? "the couple"} know if you can make it.
@@ -161,6 +165,16 @@ export function GuestSiteView({
           </p>
         )}
         <RsvpForm
+          initialEvents={itineraryEvents
+            .filter((e) => e.rsvp && !e.invite_only)
+            .map(({ id, title, event_date, start_time, location, invite_only }) => ({
+              id,
+              title,
+              event_date,
+              start_time,
+              location,
+              invite_only,
+            }))}
           weddingId={wedding.id}
           partnerAName={wedding.partner_a_name}
           partnerBName={wedding.partner_b_name}
@@ -171,18 +185,19 @@ export function GuestSiteView({
     photos:
       galleryPhotos.length > 0 ? (
         <div className={`${CARD} overflow-hidden`}>
-          <h2 className="font-display text-2xl font-semibold text-forest">Us, so far</h2>
+          <SiteText slot="photos.title" className="font-display text-2xl font-semibold text-forest">Us, so far</SiteText>
           <div className="mt-4">
             <GalleryView photos={galleryPhotos} alt={coupleNames} />
           </div>
         </div>
       ) : null,
+    venue: wedding.venue_name ? <VenueView wedding={wedding} card={CARD} /> : null,
     weekend:
       itineraryEvents.length > 0 ? (
         <div className={CARD}>
-          <h2 className="font-display text-2xl font-semibold text-forest">
-            Weekend schedule
-          </h2>
+          <SiteText slot="weekend.title" className="font-display text-2xl font-semibold text-forest">
+            {new Set(itineraryEvents.map((e) => e.event_date)).size > 1 ? "The schedule" : "On the day"}
+          </SiteText>
           <div className="mt-4">
             <ItineraryView events={itineraryEvents} weddingDate={wedding.wedding_date} />
           </div>
@@ -192,9 +207,9 @@ export function GuestSiteView({
       <div id="photo-wall" className={`${CARD} scroll-mt-6`}>
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
-            <h2 className="font-display text-2xl font-semibold text-forest">
+            <SiteText slot="wall.title" className="font-display text-2xl font-semibold text-forest">
               From our guests
-            </h2>
+            </SiteText>
             <p className="mt-1 text-sm text-ink/70">
               {guestbookEntries && guestbookEntries.length > 0
                 ? "Photos and well wishes from the people we love."
@@ -222,9 +237,9 @@ export function GuestSiteView({
     travel:
       wedding.dress_code || wedding.travel_notes || accommodations.length > 0 ? (
         <div className={CARD}>
-          <h2 className="font-display text-2xl font-semibold text-forest">
+          <SiteText slot="travel.title" className="font-display text-2xl font-semibold text-forest">
             Travel &amp; what to wear
-          </h2>
+          </SiteText>
 
           {wedding.dress_code && (
             <div className="mt-4">
@@ -257,9 +272,9 @@ export function GuestSiteView({
     faq:
       weddingFaqs.length > 0 ? (
         <div className={CARD}>
-          <h2 className="font-display text-2xl font-semibold text-forest">
+          <SiteText slot="faq.title" className="font-display text-2xl font-semibold text-forest">
             Questions &amp; answers
-          </h2>
+          </SiteText>
           <div className="mt-3">
             {weddingFaqs.map((faq) => (
               <details
@@ -279,7 +294,7 @@ export function GuestSiteView({
     registry:
       registryItems.length > 0 ? (
         <div className={CARD}>
-          <h2 className="font-display text-2xl font-semibold text-forest">Gift registry</h2>
+          <SiteText slot="registry.title" className="font-display text-2xl font-semibold text-forest">Gift registry</SiteText>
           <div className="mt-4">
             {registryItems.map((item) => (
               <div key={item.id} className="border-b border-hairline py-4 last:border-b-0">

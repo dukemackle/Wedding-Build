@@ -66,6 +66,10 @@ export type PublicWedding = {
   venue_state: string | null;
   itinerary_published: boolean;
   site_design: unknown;
+  /** The venue's own uploaded photos, cover first (empty when it has none). */
+  venue_photo_urls: string[] | null;
+  venue_about: string | null;
+  venue_address: string | null;
 };
 
 export type WeddingFaq = {
@@ -109,7 +113,30 @@ export type RsvpSubmission = {
   song_request: string | null;
   phone: string | null;
   sms_opt_in: boolean;
+  /** Per-event answers, event id -> coming (0109). Null when the wedding asks none. */
+  events: EventAnswers | null;
   created_at: string;
+};
+
+/** A guest's answer for each RSVP event: event id -> coming or not. */
+export type EventAnswers = Record<string, boolean>;
+
+/** Who is invited to an invite-only event (0109). */
+export type GuestEventInvite = {
+  guest_id: string;
+  event_id: string;
+  wedding_id: string;
+  created_at: string;
+};
+
+/** An RSVP event as a guest sees it (rsvp_events_for, 0109). */
+export type RsvpEvent = {
+  id: string;
+  title: string;
+  event_date: string;
+  start_time: string | null;
+  location: string | null;
+  invite_only: boolean;
 };
 
 export type GuestStatus = "invited" | "confirmed" | "declined" | "pending";
@@ -156,6 +183,8 @@ export type Guest = {
   table_id: string | null;
   created_at: string;
   updated_at: string;
+  /** Per-event RSVP answers, event id -> coming (0109). */
+  event_rsvps: EventAnswers | null;
 };
 
 export type ContactSubmissionStatus = "pending" | "applied" | "dismissed";
@@ -527,6 +556,10 @@ export type ItineraryEvent = {
   title: string;
   location: string | null;
   description: string | null;
+  /** Guests are asked whether they're coming to this one (0109). */
+  rsvp: boolean;
+  /** Only the guests named in guest_event_invites see it (0109). */
+  invite_only: boolean;
   created_at: string;
   updated_at: string;
 };

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import type { PublicConfirmedGuest } from "@/lib/supabase/types";
 import { FadeInSection } from "@/components/fade-in-section";
+import { SiteText } from "@/components/site-text";
 
 // Caps the stagger so a big guest list doesn't leave the last row
 // waiting seconds to appear -- delay grows per guest up to this ceiling.
@@ -11,9 +12,9 @@ export function GuestWall({ guests }: { guests: PublicConfirmedGuest[] }) {
 
   return (
     <div className="site-card rounded-lg border border-hairline bg-card p-6 sm:p-10 shadow-sm">
-      <h2 className="font-display text-2xl font-semibold text-forest">
+      <SiteText slot="guests.title" className="font-display text-2xl font-semibold text-forest">
         {guests.length} {guests.length === 1 ? "person is" : "people are"} going
-      </h2>
+      </SiteText>
       <div className="mt-4 flex flex-wrap gap-4">
         {guests.map((guest, i) => (
           <FadeInSection key={guest.id} delayMs={Math.min(i * 40, MAX_STAGGER_MS)}>

@@ -11,7 +11,9 @@ import {
   DEFAULT_SITE_DESIGN,
   PALETTES,
   THEMES,
+  fontById,
   fontsHref,
+  fontsHrefFor,
   paletteColors,
   resolveDesign,
   type OrnamentId,
@@ -1694,12 +1696,89 @@ const DEMO_ORNAMENTS: { id: OrnamentId; label: string }[] = [
   { id: "none", label: "None" },
 ];
 
+// Line art to place on the demo site, as in the editor's Elements tab.
+const DEMO_ART = [
+  { id: "frond", label: "Palm frond", src: "/site-art/frond.svg" },
+  { id: "eucalyptus", label: "Eucalyptus", src: "/site-art/eucalyptus-line.webp" },
+  { id: "lavender", label: "Lavender", src: "/site-art/lavender-line.webp" },
+] as const;
+
+function artMask(src: string, color: string): React.CSSProperties {
+  return {
+    background: color,
+    WebkitMaskImage: `url(${src})`,
+    maskImage: `url(${src})`,
+    WebkitMaskSize: "contain",
+    maskSize: "contain",
+    WebkitMaskRepeat: "no-repeat",
+    maskRepeat: "no-repeat",
+    WebkitMaskPosition: "center",
+    maskPosition: "center",
+  };
+}
+
+/**
+ * A sprig placed freely on the demo site, dragged like an element in the real
+ * editor: Royal-blue selection with handles, snapping to 8px. The phone frame
+ * has its own layout: the sprig sits stacked under the names until it's
+ * dragged, then stays where it was put there, wherever it is on the computer.
+ */
+function DemoArt({ src, color, phone }: { src: string; color: string; phone: boolean }) {
+  const [desktopPos, setDesktopPos] = useState({ x: 24, y: 24 });
+  const [phonePos, setPhonePos] = useState<{ x: number; y: number } | null>(null);
+  const [picked, setPicked] = useState(true);
+  const drag = useRef<{ px: number; py: number; x: number; y: number } | null>(null);
+  const pos = phone ? phonePos : desktopPos;
+  const setPos = phone ? setPhonePos : setDesktopPos;
+  // One element whether stacked or placed, so a drag that starts on the
+  // stacked sprig carries on after it's lifted out of the flow.
+  return (
+    <span
+      role="img"
+      aria-label={pos ? "Artwork you can drag" : "Artwork, stacked on phones until you drag it"}
+      onPointerDown={(e) => {
+        e.currentTarget.setPointerCapture(e.pointerId);
+        let start = pos;
+        if (!start) {
+          const box = e.currentTarget.getBoundingClientRect();
+          const frame = e.currentTarget.offsetParent?.getBoundingClientRect();
+          start = { x: Math.round(box.left - (frame?.left ?? 0)), y: Math.round(box.top - (frame?.top ?? 0)) };
+          setPos(start);
+        }
+        drag.current = { px: e.clientX, py: e.clientY, ...start };
+        setPicked(true);
+      }}
+      onPointerMove={(e) => {
+        const d = drag.current;
+        if (!d) return;
+        const snap = (n: number) => Math.round(n / 8) * 8;
+        setPos({ x: snap(d.x + e.clientX - d.px), y: snap(d.y + e.clientY - d.py) });
+      }}
+      onPointerUp={() => (drag.current = null)}
+      className={`${pos ? "absolute z-10" : "relative mt-2 block"} cursor-move touch-none ${phone ? "h-16 w-12" : "h-24 w-16"}`}
+      style={{ ...(pos ? { left: pos.x, top: pos.y } : {}), outline: picked && pos ? "2px solid #2243B6" : undefined, outlineOffset: 2 }}
+    >
+      <span className="block h-full w-full" style={artMask(src, color)} />
+      {picked &&
+        pos &&
+        ["-left-1.5 -top-1.5", "-right-1.5 -top-1.5", "-bottom-1.5 -left-1.5", "-bottom-1.5 -right-1.5"].map((at) => (
+          <span key={at} aria-hidden="true" className={`absolute h-2.5 w-2.5 rounded-full border-[1.5px] border-[#2243B6] bg-white ${at}`} />
+        ))}
+    </span>
+  );
+}
+
+// Theme font first, then a few the names cycle through when clicked.
+const DEMO_NAME_FONTS = [null, "greatvibes", "saintdelafield", "playfair"] as const;
+
 function SiteDemo() {
   const [themeId, setThemeId] = useState<ThemeId>(DEMO_THEMES[0].id);
   const [paletteId, setPaletteId] = useState<string | null>(null);
   const [ornament, setOrnament] = useState<OrnamentId>("laurel");
   const [device, setDevice] = useState<"desktop" | "phone">("desktop");
   const [rsvped, setRsvped] = useState(false);
+  const [namesFont, setNamesFont] = useState(0);
+  const [art, setArt] = useState<string | null>(DEMO_ART[0].id);
   const palette = DEMO_PALETTES.find((p) => p.id === paletteId);
   // The real resolver, so the demo mixes cards and muted text the way the site does.
   const { theme: t, accent, onAccent, heading } = resolveDesign({
@@ -1718,7 +1797,7 @@ function SiteDemo() {
         </span>
       </div>
       <div className="flex gap-1 rounded-lg bg-ink/[0.05] p-1">
-        {["Theme", "Style", "Motion", "Sections"].map((label, i) => (
+        {["Theme", "Colour", "Fonts", "Background", "Elements"].map((label, i) => (
           <span
             key={label}
             className={`flex h-8 flex-1 items-center justify-center rounded-md text-xs ${
@@ -1783,6 +1862,24 @@ function SiteDemo() {
           </button>
         ))}
       </div>
+      <p className={eyebrow}>Line art · drag it on the site</p>
+      <div className="flex gap-2">
+        {DEMO_ART.map((a) => (
+          <button
+            key={a.id}
+            type="button"
+            aria-label={a.label}
+            title={a.label}
+            aria-pressed={art === a.id}
+            onClick={() => setArt(art === a.id ? null : a.id)}
+            className={`flex h-12 w-12 items-center justify-center rounded-xl bg-card p-1.5 ${
+              art === a.id ? "ring-2 ring-[#2243B6]" : "ring-1 ring-hairline"
+            }`}
+          >
+            <span aria-hidden="true" className="h-full w-full" style={artMask(a.src, accent)} />
+          </button>
+        ))}
+      </div>
       <p className={eyebrow}>Monogram</p>
       <div className="flex flex-wrap gap-1.5">
         {DEMO_ORNAMENTS.map((o) => (
@@ -1805,6 +1902,11 @@ function SiteDemo() {
   return (
     <Bleed>
       <link rel="stylesheet" href={fontsHref(DEMO_THEMES)} precedence="default" />
+      <link
+        rel="stylesheet"
+        href={fontsHrefFor(DEMO_NAME_FONTS.flatMap((id) => (id ? [fontById(id)?.css ?? ""] : [])))}
+        precedence="default"
+      />
       <div className="flex flex-col-reverse md:flex-row">
         <aside className="border-t border-hairline bg-card px-5 py-5 sm:px-8 md:w-[300px] md:shrink-0 md:border-r md:border-t-0 md:px-5">
           {panel}
@@ -1844,7 +1946,7 @@ function SiteDemo() {
                 youdoido.com/w/juniper-and-sam
               </div>
               <div
-                className={`flex flex-col items-center gap-2 text-center transition-colors duration-500 ${phone ? "px-4 py-8" : "px-6 py-10"}`}
+                className={`relative flex flex-col items-center gap-2 text-center transition-colors duration-500 ${phone ? "px-4 py-8" : "px-6 py-10"}`}
                 style={
                   {
                     background: t.bg,
@@ -1860,17 +1962,24 @@ function SiteDemo() {
                 <p className="font-mono-numbers text-[10px] uppercase tracking-[0.25em]" style={{ color: t.muted }}>
                   June 12, 2027 · Bend, Oregon
                 </p>
-                <p
-                  className={phone ? "text-3xl" : "text-5xl"}
+                {/* Like the real editor: click the words to restyle them. */}
+                <button
+                  type="button"
+                  onClick={() => setNamesFont((i) => (i + 1) % DEMO_NAME_FONTS.length)}
+                  title="Click to try another font"
+                  className={`${phone ? "text-3xl" : "text-5xl"} rounded-sm outline-offset-4 hover:outline hover:outline-2 hover:outline-dashed hover:outline-[#2243B6]/60`}
                   style={{
-                    fontFamily: t.display,
-                    fontStyle: t.italicNames ? "italic" : "normal",
+                    fontFamily: fontById(DEMO_NAME_FONTS[namesFont])?.css ?? t.display,
+                    fontStyle: t.italicNames && namesFont === 0 ? "italic" : "normal",
                     fontWeight: t.nameWeight,
                     color: heading,
                   }}
                 >
                   Juniper &amp; Sam
-                </p>
+                </button>
+                {art && (
+                  <DemoArt src={DEMO_ART.find((a) => a.id === art)!.src} color={accent} phone={phone} />
+                )}
                 <div className={`mt-3 grid w-full max-w-sm gap-2 ${phone ? "grid-cols-1" : "grid-cols-3"}`}>
                   {[
                     ["4pm", "Ceremony"],

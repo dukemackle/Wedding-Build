@@ -9,17 +9,13 @@ import { SiteOrnament } from "@/components/site-ornament";
 import {
   ART_HEROES,
   ART_PLACEMENTS,
-  BODY_FONTS,
-  FONTS,
   SITE_ART,
-  FONT_PAIRINGS,
   HERO_LAYOUTS,
   ORNAMENTS,
   PAGE_STYLES,
   PHOTO_HEROES,
   SCENES,
   sceneById,
-  fontById,
   MOTION_PRESETS,
   OPENINGS,
   motionPreset,
@@ -76,64 +72,10 @@ export function StyleTab({
 }) {
   const base = themeById(design.theme);
   const { theme, accent, onAccent } = resolveDesign(design);
-  const headingId = design.fontDisplay ?? fontByCssId(theme.display);
-  const bodyId = design.fontBody ?? fontByCssId(theme.body);
-  const scripts = FONTS.filter((f) => f.kind === "script");
-  const others = FONTS.filter((f) => f.kind !== "script");
   const needsPhoto = PHOTO_HEROES.includes(design.hero);
 
   return (
     <>
-      <div className="flex flex-col gap-3">
-        <PanelLabel>Font pairs</PanelLabel>
-        <div className="grid grid-cols-2 gap-2">
-          {FONT_PAIRINGS.map((f) => {
-            const display = fontById(f.display)?.css ?? base.display;
-            const body = fontById(f.body)?.css ?? base.body;
-            const selected = design.fonts === f.id && !design.fontDisplay && !design.fontBody;
-            return (
-              <button
-                key={f.id}
-                type="button"
-                aria-pressed={selected}
-                onClick={() => onChange({ fonts: f.id, fontDisplay: null, fontBody: null })}
-                className={`flex flex-col gap-0.5 rounded-xl bg-card px-3 py-2.5 text-left ${selected ? SELECTED : UNSELECTED}`}
-              >
-                <span className="truncate text-[20px] leading-tight text-ink" style={{ fontFamily: display }}>
-                  {f.id === "theme" ? base.name : f.label.split(" · ")[0]}
-                </span>
-                <span className="truncate text-[11px] text-ink/60" style={{ fontFamily: body }}>
-                  {f.id === "theme" ? "Theme default" : `with ${f.label.split(" · ")[1]}`}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
-      <div className="flex flex-col gap-3">
-        <PanelLabel>Headings &amp; names</PanelLabel>
-        <FontGrid fonts={others} selected={headingId} onPick={(id) => onChange({ fontDisplay: id })} />
-        <p className="text-xs font-medium text-ink/60">Script</p>
-        <FontGrid fonts={scripts} selected={headingId} onPick={(id) => onChange({ fontDisplay: id })} />
-      </div>
-
-      <label className="flex flex-col gap-2">
-        <PanelLabel>Body text</PanelLabel>
-        <select
-          value={bodyId ?? ""}
-          onChange={(e) => onChange({ fontBody: e.target.value as SiteDesign["fontBody"] })}
-          className="h-11 rounded-lg border border-hairline bg-card px-3 text-[15px] text-ink"
-          style={{ fontFamily: theme.body }}
-        >
-          {BODY_FONTS.map((f) => (
-            <option key={f.id} value={f.id}>
-              {f.label}
-            </option>
-          ))}
-        </select>
-      </label>
-
       <div className="flex flex-col gap-3">
         <PanelLabel>Monogram</PanelLabel>
         <div
@@ -251,11 +193,16 @@ export function StyleTab({
             ))}
           </div>
         )}
-        <p className="text-[13px] leading-normal text-ink/60">
-          {design.art.id && !ART_HEROES.includes(design.hero) && hasPhoto
-            ? "Artwork shows with the Text only, Monogram and Framed tops — your photo takes its place in this one."
-            : "Sketches are drawn in your accent colour; watercolours keep their own."}
-        </p>
+        {design.art.id && !ART_HEROES.includes(design.hero) && hasPhoto ? (
+          <p className="rounded-md bg-[#FFD301]/20 px-3 py-2 text-[13px] leading-normal text-[#14203d]">
+            Your artwork is hidden: this top shows your photo instead. Pick Text only, Monogram,
+            Framed or Poster under Top of the page to show it.
+          </p>
+        ) : (
+          <p className="text-[13px] leading-normal text-ink/60">
+            Sketches are drawn in your accent colour; watercolours keep their own.
+          </p>
+        )}
       </div>
 
       <div className="flex flex-col gap-3">
@@ -359,45 +306,6 @@ export function StyleTab({
   );
 }
 
-function fontByCssId(css: string) {
-  return FONTS.find((f) => f.css === css)?.id ?? null;
-}
-
-function FontGrid({
-  fonts,
-  selected,
-  onPick,
-}: {
-  fonts: readonly (typeof FONTS)[number][];
-  selected: string | null;
-  onPick: (id: (typeof FONTS)[number]["id"]) => void;
-}) {
-  return (
-    <div className="grid grid-cols-2 gap-2">
-      {fonts.map((f) => {
-        const on = selected === f.id;
-        return (
-          <button
-            key={f.id}
-            type="button"
-            aria-pressed={on}
-            onClick={() => onPick(f.id)}
-            // Off-screen buttons aren't rendered, so their font isn't fetched until
-            // the couple scrolls to it: the library is too big to load at once.
-            className={`flex h-12 items-center rounded-lg bg-card px-3 text-left [contain-intrinsic-size:auto_48px] [content-visibility:auto] ${on ? SELECTED : UNSELECTED}`}
-          >
-            <span
-              className="truncate text-ink"
-              style={{ fontFamily: f.css, fontSize: f.kind === "script" ? 24 : 18 }}
-            >
-              {f.label}
-            </span>
-          </button>
-        );
-      })}
-    </div>
-  );
-}
 
 /** A small drawing of each hero layout, in the current theme's colours. */
 function HeroThumb({
@@ -553,6 +461,10 @@ export function SectionsTab({
         <p className="text-[13px] leading-normal text-ink/60">
           Drag to reorder. On a computer, sections keep this order within their column —
           what guests act on on the left, the details beside it.
+        </p>
+        <p className="text-[13px] leading-normal text-ink/60">
+          Order and show/hide wait for Publish. What you write or upload inside a
+          section saves straight to your site.
         </p>
         <SortableList
           ids={sections.map((x) => x.id)}

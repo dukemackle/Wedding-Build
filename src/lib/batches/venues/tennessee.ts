@@ -22,6 +22,24 @@ The Columns	45 South Main St.	Memphis	Tennessee			Historic / Estate	Indoor	800		
 Mallory-Neely House	652 Adams Ave	Memphis	Tennessee			Historic / Estate	Indoor			Historic house museum in the Victorian Village district, run by the Museum of Science & History and rented for weddings.		(901) 636-2362	https://moshmemphis.com/calendar-events/event-rentals/mallory-neely-house/
 `,
   },
+  {
+    name: "Chattanooga, Cleveland and Soddy Daisy",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Chattanooga Whiskey Event Hall	890 Riverfront Parkway	Chattanooga	Tennessee			Restaurant / Vineyard				Event hall attached to a downtown riverfront distillery, rentable seven days a week.	eventhall@chattanoogawhiskey.com		https://www.chattwhiskeyeventhall.com/
+The Edwin Hotel, Autograph Collection	102 Walnut St	Chattanooga	Tennessee			Ballroom / Hotel	Indoor & Outdoor	80		Downtown hotel with a rooftop space, a terrace facing Lookout Mountain and a room overlooking the Bluff View Art District.		(423) 713-5900	https://www.theedwinhotel.com/chattanooga-wedding-venue
+Hidden Springs Venue	5300 Howardsville Road	Apison	Tennessee			Barn / Rustic	Indoor & Outdoor			Reception barn and lakefront ceremony site on a historic camp property in the woods, with cabins on site.	hello@hiddenspringsvenue.com	(423) 228-0619	https://hiddenspringsvenue.com/
+The Barn at Drewia Hill	16703 Andy Thomas Rd	Sale Creek	Tennessee			Barn / Rustic	Indoor & Outdoor	150		3,200-square-foot barn with a covered outdoor area and ceremony space, sold in packages that include tables, chairs and linens.		423.298.1033	https://thebarnatdrewiahill.com/
+The Barn at Hickory Hills	891 Old Charleston Rd NE	Cleveland	Tennessee			Barn / Rustic	Indoor & Outdoor	150		25-acre property on the edge of Cleveland with several ceremony sites and a renovated barn hall opening to a porch and patio.	info@hickoryhillsbarn.com	423.421.2501	https://www.hickoryhillsbarn.com/
+Pritchard's Barn	5593 Bates Pike SE	Cleveland	Tennessee			Barn / Rustic	Indoor & Outdoor			Family-owned barn with indoor and outdoor ceremony spaces and a large lawn.	pritchardsbarn@gmail.com	423-595-5684	https://www.pritchardsbarn.com/about
+Hope Hills Venue	210 Hughes Rd SE	Cleveland	Tennessee			Barn / Rustic	Indoor & Outdoor	180		Privately owned venue with a covered pavilion seating 180 and a barn seating 150 with roll-up doors to a patio.	info@hopehillsvenue.com	(423) 719-5080	https://www.hopehillsvenue.com/
+The Barn at Living Water	451 Hughes Road SE	Cleveland	Tennessee			Barn / Rustic				Family-run barn venue open since 2013, also used for retreats and reunions.	venueatthebarn@gmail.com	423.715.1325	https://www.thebarnatlivingwater.com/
+Black Fox Farms	2724 Varnell Rd	Cleveland	Tennessee			Barn / Rustic				Family-run 70-acre working farm and estate used for weddings.	blackfoxweddingvenue@gmail.com		https://www.blackfoxfarms.com/
+Weaver's Room at the Old Woolen Mill	445 Church St SE	Cleveland	Tennessee			Historic / Estate	Indoor & Outdoor	250		Converted 1890s clothing factory with brick walls, exposed rafters and a caterer's kitchen.	oldwoolenmilltn@gmail.com	423-457-7433	https://www.weaversroom.com/
+Rock Hill Farms	849 County Road 655	Athens	Tennessee			Barn / Rustic				Countryside barn venue offering elopement and micro-wedding packages.			https://www.rockhillfarmsvenue.com/
+Cedar Hills Farm	10152 Denali Trail	Soddy Daisy	Tennessee			Barn / Rustic	Indoor & Outdoor			Family-run farm with an outdoor ceremony lawn, a timber-frame reception barn and getting-ready suites.		423-758-6316	https://www.cedarhillsfarmtn.com/
+Mountain Heights Venue	1298 Hendon Rd	Soddy Daisy	Tennessee			Barn / Rustic	Indoor & Outdoor			23-acre property with a 5,000-square-foot barn, a covered patio and an arbor over a three-acre pond.	mtnheightsvenue@gmail.com	423-680-2479	https://www.mountainheightsvenue.com/venue-chattanooga
+`,
+  },
 ];
 
 export default batches;

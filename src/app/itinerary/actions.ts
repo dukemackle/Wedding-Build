@@ -26,6 +26,14 @@ function eventFieldsFromForm(formData: FormData) {
       end_time: ((formData.get("end_time") as string) || "").trim() || null,
       location: ((formData.get("location") as string) || "").trim() || null,
       description: ((formData.get("description") as string) || "").trim() || null,
+      // Only the schedule's own form carries the RSVP switches; anything else
+      // that saves an event leaves them as they were.
+      ...(formData.has("rsvp_fields")
+        ? {
+            rsvp: formData.get("rsvp") === "on",
+            invite_only: formData.get("rsvp") === "on" && formData.get("invite_only") === "on",
+          }
+        : {}),
     },
   } as const;
 }
@@ -199,5 +207,47 @@ export async function setItineraryPublished(formData: FormData): Promise<{ error
 
   revalidatePath("/itinerary");
   revalidatePath("/w/[slug]", "page");
+  return {};
+}
+
+/**
+ * Who is invited to an invite-only event: replaces the whole list. Guests
+ * not on this wedding are dropped by the policy rather than trusted.
+ */
+export async function setEventInvites(eventId: string, guestIds: string[]): Promise<{ error?: string }> {
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
+  if (!wedding) return { error: noWedding };
+
+  const { data: event } = await supabase
+    .from("itinerary_events")
+    .select("id")
+    .eq("id", eventId)
+    .eq("wedding_id", wedding.id)
+    .maybeSingle();
+  if (!event) return { error: "That event no longer exists." };
+
+  const { data: ours } = await supabase
+    .from("guests")
+    .select("id")
+    .eq("wedding_id", wedding.id)
+    .in("id", guestIds.length ? guestIds : ["00000000-0000-0000-0000-000000000000"]);
+  const keep = (ours ?? []).map((g) => g.id as string);
+
+  const { error: clearError } = await supabase
+    .from("guest_event_invites")
+    .delete()
+    .eq("event_id", eventId)
+    .eq("wedding_id", wedding.id);
+  if (clearError) return { error: clearError.message };
+
+  if (keep.length) {
+    const { error } = await supabase
+      .from("guest_event_invites")
+      .insert(keep.map((guest_id) => ({ guest_id, event_id: eventId, wedding_id: wedding.id })));
+    if (error) return { error: error.message };
+  }
+
+  revalidatePath("/itinerary");
+  revalidatePath("/guests");
   return {};
 }

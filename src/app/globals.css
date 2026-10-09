@@ -345,6 +345,196 @@ body::before {
 .site-storybook .site-card > h2 + p {
   text-align: center;
 }
+/* Free elements in a section (src/components/site-section.tsx). Positions are
+   unitless numbers in the section's reference frame (--W wide), scaled to
+   the section with container units. On a computer the elements sit over the
+   section's content; on a phone they stack under it in reading order. */
+.site-canvas {
+  position: relative;
+  container-type: inline-size;
+  display: grid;
+  /* An element dragged past the edge never makes the page scroll sideways. */
+  overflow-x: clip;
+}
+.site-canvas > * {
+  grid-area: 1 / 1;
+  min-width: 0;
+}
+/* The section's own layers (a hero card at z-10) stay inside it, under the elements. */
+.site-canvas-content {
+  isolation: isolate;
+}
+.site-canvas-layer {
+  position: relative;
+  z-index: 5;
+  pointer-events: none;
+  height: calc(var(--B) / var(--W) * 100cqw);
+  --site-el-stroke: max(1px, calc(3 / var(--W) * 100cqw));
+}
+.site-el {
+  position: absolute;
+  left: calc(var(--x) / var(--W) * 100cqw);
+  top: calc(var(--y) / var(--W) * 100cqw);
+  width: calc(var(--w) / var(--W) * 100cqw);
+  height: calc(var(--h) / var(--W) * 100cqw);
+  transform: rotate(var(--r));
+  pointer-events: auto;
+}
+.site-el-text {
+  height: auto;
+}
+.site-el-words {
+  font-size: calc(var(--fs) / var(--W) * 100cqw);
+  line-height: 1.15;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+}
+@media (max-width: 1023px) {
+  .site-canvas > .site-canvas-layer {
+    grid-area: 2 / 1;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    --site-el-stroke: 2px;
+  }
+  .site-canvas > .site-canvas-layer:not(:empty) {
+    padding: 1.5rem 1rem;
+  }
+  .site-el {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: min(100%, max(4rem, calc(var(--w) / var(--W) * 180%)));
+    height: auto;
+    aspect-ratio: var(--w) / var(--h);
+    transform: none;
+  }
+  .site-el-text {
+    width: 100%;
+    aspect-ratio: auto;
+  }
+  .site-el-words {
+    font-size: max(0.875rem, calc(var(--fs) * 0.45px));
+  }
+  .site-el[data-off-phone] {
+    display: none;
+  }
+  /* A phone layout placed by hand: over the section, like a computer, in
+     the phone frame's own units (--PW wide). */
+  .site-canvas-phone-free > .site-canvas-layer,
+  .site-canvas-phone-free > .site-canvas-layer:not(:empty) {
+    grid-area: 1 / 1;
+    display: block;
+    padding: 0;
+    height: calc(var(--PB) / var(--PW) * 100cqw);
+    --site-el-stroke: max(1px, calc(3 / var(--PW) * 100cqw));
+  }
+  .site-canvas-phone-free .site-el,
+  .site-canvas-phone-free .site-el-text {
+    position: absolute;
+    left: calc(var(--px) / var(--PW) * 100cqw);
+    top: calc(var(--py) / var(--PW) * 100cqw);
+    width: calc(var(--pw) / var(--PW) * 100cqw);
+    height: calc(var(--ph) / var(--PW) * 100cqw);
+    aspect-ratio: auto;
+    transform: rotate(var(--pr));
+  }
+  .site-canvas-phone-free .site-el-text {
+    height: auto;
+  }
+  .site-canvas-phone-free .site-el-words {
+    font-size: calc(var(--pfs, 16) / var(--PW) * 100cqw);
+  }
+}
+
+/* A section restyled as a whole (the floating bar's Card / Plain / Tinted /
+   Outlined). Its insides keep the theme's look. */
+[data-block-style="plain"] .site-card {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+}
+[data-block-style="tint"] .site-card,
+[data-block-style="tint"]:not(:has(.site-card)) > .site-canvas-content {
+  background: var(--site-band);
+  border-color: transparent;
+  box-shadow: none;
+}
+[data-block-style="outline"] .site-card,
+[data-block-style="outline"]:not(:has(.site-card)) > .site-canvas-content {
+  background: transparent;
+  box-shadow: none;
+  border: 1.5px solid var(--site-accent);
+}
+[data-block-style]:not(:has(.site-card)) > .site-canvas-content {
+  border-radius: min(var(--site-radius, 1rem), 1.5rem);
+}
+
+/* Background panel: a pattern and texture over the page colour, on the
+   whole page or only the top of it (site-design.ts, backgroundLayers). */
+.guest-site[data-bg-scope="page"],
+.guest-site[data-bg-scope="top"] [data-canvas-section="hero"] {
+  background-image: var(--site-bg-image, none);
+  background-size: var(--site-bg-size, auto);
+}
+/* The text-only hero's soft glow would hide the pattern at the top. */
+.guest-site[data-bg-on] .site-hero-plain {
+  background: none;
+}
+
+/* The banner photo's focus point and filter (Style tab › Banner photo). */
+.guest-site .site-hero-photo img {
+  object-position: var(--hero-focus, 50% 50%);
+  filter: var(--hero-filter, none);
+}
+
+/* Placed elements' animations (Animate panel). They play once as guests
+   scroll to them where the browser can tie them to scrolling, and on load
+   elsewhere; the editor's preview plays them on load so a choice can be
+   seen. The inner box moves, so the element keeps its own rotation. */
+@keyframes el-rise {
+  from { opacity: 0; transform: translateY(28px); }
+}
+@keyframes el-fade {
+  from { opacity: 0; }
+}
+@keyframes el-pan {
+  from { opacity: 0; transform: translateX(-40px); }
+}
+@keyframes el-pop {
+  from { opacity: 0; transform: scale(0.8); }
+}
+@keyframes el-wipe {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+@keyframes el-drift {
+  from { opacity: 0; transform: translate(-14px, -18px) rotate(-4deg); }
+}
+.site-el[data-anim] > .site-el-in {
+  animation: var(--el-anim) calc(0.9s * var(--motion-speed, 1)) cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.site-el[data-anim="rise"] { --el-anim: el-rise; }
+.site-el[data-anim="fade"] { --el-anim: el-fade; }
+.site-el[data-anim="pan"] { --el-anim: el-pan; }
+.site-el[data-anim="pop"] { --el-anim: el-pop; }
+.site-el[data-anim="wipe"] { --el-anim: el-wipe; }
+.site-el[data-anim="drift"] { --el-anim: el-drift; }
+@supports (animation-timeline: view()) {
+  .guest-site:not([data-preview]) .site-el[data-anim] > .site-el-in {
+    animation-duration: auto;
+    animation-timeline: view();
+    animation-range: entry 10% cover 35%;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .site-el[data-anim] > .site-el-in {
+    animation: none;
+  }
+}
+
 /* The guest site has a footer of its own, in its theme. */
 /* The dashboard's photo backdrop sits behind the page at a negative z-index,
    which paints beneath body's own background -- so on that page body lets

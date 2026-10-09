@@ -5,7 +5,7 @@ import { createClient } from "@/lib/supabase/server";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import { getResendClient, INQUIRY_FROM_ADDRESS } from "@/lib/resend";
 import { SITE_URL } from "@/lib/public-listings";
-import type { GuestSide, RsvpStatus } from "@/lib/supabase/types";
+import type { EventAnswers, GuestSide, RsvpEvent, RsvpStatus } from "@/lib/supabase/types";
 
 const VALID_STATUSES: RsvpStatus[] = ["confirmed", "declined"];
 const VALID_SIDES: GuestSide[] = ["a", "b", "both"];
@@ -78,6 +78,37 @@ async function notifyCoupleOfRsvp(weddingId: string, guestName: string, status: 
   }
 }
 
+/**
+ * The events a guest of this name is asked about: every open RSVP event plus
+ * the invite-only ones their name is invited to (rsvp_events_for, 0109).
+ * Empty when the wedding asks none, or the database predates per-event RSVPs.
+ */
+export async function getRsvpEvents(weddingId: string, name: string): Promise<RsvpEvent[]> {
+  if (!weddingId) return [];
+  const supabase = await createClient();
+  const { data, error } = await supabase.rpc("rsvp_events_for", {
+    p_wedding: weddingId,
+    p_name: name.slice(0, 120),
+  });
+  if (error) return [];
+  return (data ?? []) as RsvpEvent[];
+}
+
+/** The guest's answers, kept only for events their name may answer. */
+async function eventAnswers(formData: FormData, weddingId: string, name: string, attending: boolean) {
+  const events = await getRsvpEvents(weddingId, name);
+  if (events.length === 0) return null;
+  let sent: Record<string, unknown> = {};
+  try {
+    sent = JSON.parse((formData.get("events") as string) || "{}");
+  } catch {
+    sent = {};
+  }
+  const answers: EventAnswers = {};
+  for (const event of events) answers[event.id] = attending && sent[event.id] !== false;
+  return answers;
+}
+
 export async function submitRsvp(formData: FormData): Promise<{ error?: string }> {
   // Hidden from people, filled in by bots: pretend it worked and store nothing.
   if (((formData.get("website") as string) || "").trim()) {
@@ -105,6 +136,7 @@ export async function submitRsvp(formData: FormData): Promise<{ error?: string }
     return { error: upload.error };
   }
   const photoUrl = upload.photoUrl;
+  const events = await eventAnswers(formData, weddingId, guestName, status === "confirmed");
 
   const { error } = await supabase.from("rsvp_submissions").insert({
     wedding_id: weddingId,
@@ -123,6 +155,7 @@ export async function submitRsvp(formData: FormData): Promise<{ error?: string }
     song_request: field(formData, "song_request", 200),
     phone: field(formData, "phone", 30),
     sms_opt_in: formData.get("sms_opt_in") === "on",
+    ...(events ? { events } : {}),
   });
 
   if (error) {
