@@ -565,7 +565,8 @@ body:has(.dashboard-backdrop) header[data-top="true"] [class*="bg-forest/10"] {
 }
 
 body:has(.guest-site) .site-footer,
-body:has(.site-editor) .site-footer {
+body:has(.site-editor) .site-footer,
+body:has(.search-shell-root) .site-footer {
   display: none;
 }
 

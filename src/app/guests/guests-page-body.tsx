@@ -75,6 +75,15 @@ export function GuestsPageBody({
   const pendingPostCount = guestPosts.filter((p) => p.status === "pending").length;
   const songCount = guests.filter((g) => g.song_request).length;
   const pendingRsvps = rsvpSubmissions;
+  // The one line a folded Invitations card shows on a phone.
+  const rsvpSummary =
+    [
+      pendingRsvps.length > 0 && `${pendingRsvps.length} new RSVP${pendingRsvps.length === 1 ? "" : "s"}`,
+      stragglerCount > 0 && `${stragglerCount} to nudge`,
+      missingAddressCount > 0 && `${missingAddressCount} missing an address`,
+    ]
+      .filter(Boolean)
+      .join(" · ") || "Collect addresses, send invites, chase replies.";
 
   // Wide: the list and the two panels that act on it side by side, all three
   // visible without scrolling. They used to be stacked -- first the whole page,
@@ -105,8 +114,9 @@ export function GuestsPageBody({
         <div className="grid gap-6 lg:grid-cols-12 lg:items-start">
           {/* Two columns from 1024px: the list takes two thirds (three
               quarters from 1280px) with invitations beside it, both on screen
-              from the start. Stacked on a phone, list first -- there is no
-              beside. The guest site has its own tab, Guests › Guest site. */}
+              from the start. Stacked on a phone, invitations first, folded to one
+              line: the list runs to hundreds of rows and RSVPs shouldn't sit
+              under all of them. The guest site has its own tab, Guests › Guest site. */}
           <div className="min-w-0 lg:col-span-8 xl:col-span-9">
             <GuestsManager
               guests={guests}
@@ -121,10 +131,15 @@ export function GuestsPageBody({
 
           {/* Sticky, so it stays beside the list as you scroll 270 rows
               rather than ending halfway down and leaving a column of nothing. */}
-          <div className="min-w-0 lg:sticky lg:top-4 lg:col-span-4 lg:max-h-[calc(100vh-2rem)] lg:overflow-y-auto xl:col-span-3">
+          <div className="order-first min-w-0 lg:order-none lg:sticky lg:top-4 lg:col-span-4 lg:max-h-[calc(100vh-2rem)] lg:overflow-y-auto xl:col-span-3">
             <TabbedCard
               title="Invitations & RSVPs"
               description="Three ways to reach your guests — collect their addresses, email them the link, or chase the ones who haven't replied."
+              collapsible={{
+                // Open on arrival when there's something waiting on the couple.
+                defaultOpen: pendingRsvps.length > 0,
+                summary: rsvpSummary,
+              }}
               tabs={[
                 {
                   key: "new",

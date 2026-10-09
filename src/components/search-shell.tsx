@@ -179,7 +179,7 @@ export function SearchShell({
       ref={rootRef}
       // Breaks out of the page's horizontal padding and eats its bottom
       // padding, so the map reaches all four edges.
-      className="relative -mx-6 -mb-16 -mt-8 flex flex-col"
+      className="search-shell-root relative -mx-6 -mb-16 -mt-8 flex flex-col"
       style={availableHeight ? { height: availableHeight } : undefined}
     >
       {/* Controls. A floating overlay on a phone, a solid bar on desktop --
