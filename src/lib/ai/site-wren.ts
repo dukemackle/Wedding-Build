@@ -14,7 +14,7 @@ import { TEMPLATES } from "@/lib/site-templates";
  *   welcome line from their wedding details. A draft only -- it lands in a
  *   box for them to edit before anything is saved.
  */
-const MODEL = "claude-opus-5-5";
+const MODEL = "claude-haiku-5-5";
 
 /**
  * Wren calls per wedding per day, both kinds together: the ceiling on what
@@ -116,7 +116,7 @@ export async function pickSiteDesign(description: string, facts: WeddingFacts): 
       model: MODEL,
       max_tokens: 4000,
       // A short choice from lists: little thinking needed.
-      output_config: { effort: "low", format: zodOutputFormat(designSchema) },
+      output_config: { format: zodOutputFormat(designSchema) },
       system: DESIGN_SYSTEM,
       messages: [
         {
@@ -169,7 +169,7 @@ export async function draftSiteCopy(kind: WriteKind, notes: string, facts: Weddi
       const response = await client.messages.parse({
         model: MODEL,
         max_tokens: 6000,
-        output_config: { effort: "low", format: zodOutputFormat(faqSchema) },
+        output_config: { format: zodOutputFormat(faqSchema) },
         system: WRITE_SYSTEM,
         messages: [
           {
@@ -189,7 +189,6 @@ export async function draftSiteCopy(kind: WriteKind, notes: string, facts: Weddi
     const response = await client.messages.create({
       model: MODEL,
       max_tokens: 4000,
-      output_config: { effort: "low" },
       system: WRITE_SYSTEM,
       messages: [{ role: "user", content: `Write: ${BRIEFS[kind]}\n\n${known}` }],
     });
