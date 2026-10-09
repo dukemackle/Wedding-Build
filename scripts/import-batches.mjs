@@ -4,7 +4,7 @@
 //   BATCH_IMPORT_SECRET=... npm run import:batches
 //   npm run import:batches -- --minutes 20      stop starting new work after 20 min
 //   npm run import:batches -- --dry-run         say what it would do, write nothing
-//   npm run import:batches -- --repair-pins     also re-check every venue's pin against its address
+//   npm run import:batches -- --repair-pins     also re-check every listing's pin against its spot
 //
 // The heavy part runs here, on the routine's machine: parsing every batch file
 // through the real importers, geocoding, and reading listings' own websites
@@ -14,18 +14,19 @@
 // its 50 outbound requests, so the old /api/import-batches crept along a few
 // listings a call. In order:
 //
-//   1. new batch rows -> inserted, pinned to their address, typed
-//      coordinates or town (vendors nudged apart so they stay clickable)
+//   1. new batch rows -> inserted, pinned to their address (venues: or their
+//      name), typed coordinates or town (nudged apart so they stay clickable)
 //   2. listed rows whose batch row has since gained an address -> moved onto it
 //   3. listings with no pin -> their town's; listings on a bad Census town
 //      point -> the town's real middle
-//   4. with --repair-pins, venues pinned away from their own address -> onto it
+//   4. with --repair-pins, listings pinned away from their own spot -> onto it
 //   5. listings with no address -> read off their website (until --minutes)
 //   6. a line on where the pins stand
 //
-// Addresses go to the Census geocoder first and OpenStreetMap's second, and a
-// result more than 40 km from the listing's town is thrown away as a wrong
-// match.
+// Addresses go to the Census geocoder first and OpenStreetMap's second (only
+// a house, building or business, never a whole street), then venues are
+// looked up by name; a result more than 40 km from the listing's town is
+// thrown away as a wrong match.
 //
 // Prints one line per step and a JSON summary last. Exits 1 if a write fails.
 //
@@ -171,11 +172,11 @@ function km(a, b) {
 const MAX_KM = 40;
 
 // OpenStreetMap's geocoder (Nominatim), for what the Census can't place: rural
-// routes, "N3540 State Road 22", unincorporated towns. Its usage policy asks
-// for one request a second and a real User-Agent; the maps already carry the
-// "© OpenStreetMap contributors" credit its licence asks for.
+// routes, "N3540 State Road 22", unincorporated towns, and venues by name. Its
+// usage policy asks for one request a second and a real User-Agent; the maps
+// already carry the "© OpenStreetMap contributors" credit its licence asks for.
 let osmNext = 0;
-async function osm(params) {
+async function osm(params, { exact = false } = {}) {
   const wait = osmNext - Date.now();
   osmNext = Math.max(Date.now(), osmNext) + 1100;
   if (wait > 0) await sleep(wait);
@@ -186,23 +187,50 @@ async function osm(params) {
     );
     if (!res.ok) return null;
     const [hit] = await res.json();
-    return hit ? { latitude: Number(hit.lat), longitude: Number(hit.lon) } : null;
+    if (!hit || (exact && !isSpot(hit))) return null;
+    return { latitude: Number(hit.lat), longitude: Number(hit.lon) };
   } catch {
     return null;
   }
 }
 
-/** An address's pin: the Census geocoder, then OpenStreetMap. */
-const addressCache = new Map();
-function geocodeAny(row) {
-  const key = fullAddress(row).toLowerCase();
-  if (!addressCache.has(key)) {
-    addressCache.set(
+/**
+ * Whether an OpenStreetMap hit is a place you could stand at -- a house
+ * number, a building, a business -- rather than a whole street, town or
+ * county. When it can't find the house, Nominatim answers with the street's
+ * middle, or a same-named street in the next town ("102 S 67th St, Tulsa"
+ * came back as East 67th Street in Broken Arrow, 12 km off).
+ */
+function isSpot(hit) {
+  if (["highway", "boundary", "landuse", "railway", "waterway"].includes(hit.category)) return false;
+  return hit.category !== "place" || ["house", "building"].includes(hit.type);
+}
+
+/**
+ * The actual spot for a listing, or null: its street address (the Census
+ * geocoder, then OpenStreetMap's exact matches), then, with `byName`, the
+ * place itself looked up by name in its town -- venues are buildings and
+ * grounds that OpenStreetMap often has even when their address won't match.
+ */
+const spotCache = new Map();
+function locate(row, byName = false) {
+  const named = byName && row.name && row.city && row.state;
+  const key = `${named ? row.name : ""}|${fullAddress(row)}`.toLowerCase();
+  if (!spotCache.has(key)) {
+    spotCache.set(
       key,
-      (async () => (await geocode(fullAddress(row))) ?? (await osm({ street: row.address, city: row.city ?? "", state: row.state ?? "" })))(),
+      (async () => {
+        if (row.address) {
+          const hit =
+            (await geocode(fullAddress(row))) ??
+            (await osm({ street: row.address, city: row.city ?? "", state: row.state ?? "" }, { exact: true }));
+          if (hit) return hit;
+        }
+        return named ? await osm({ q: `${row.name}, ${row.city}, ${row.state}` }, { exact: true }) : null;
+      })(),
     );
   }
-  return addressCache.get(key);
+  return spotCache.get(key);
 }
 
 /**
@@ -258,15 +286,14 @@ function towns(all) {
 }
 
 /**
- * Where a listing goes: its address (if it lands near its town), then typed
- * coordinates, then its town (vendors nudged apart so they stay clickable).
+ * Where a listing goes: its spot (see locate; if it lands near its town),
+ * then typed coordinates, then its town, nudged apart so listings placed by
+ * town alone stay clickable and never sit on top of a real one.
  */
-async function pinned(row, town, spread) {
+async function pinned(row, town, spread, byName) {
   const here = await town.pin(row);
-  if (row.address) {
-    const hit = await geocodeAny(row);
-    if (hit && (!here || km(hit, here) <= MAX_KM)) return { ...row, ...hit };
-  }
+  const hit = await locate(row, byName);
+  if (hit && (!here || km(hit, here) <= MAX_KM)) return { ...row, ...hit };
   if (isPinned(row)) return row;
   if (!here) return row;
   return { ...row, ...(spread ? spreadPin(here, row.name) : here) };
@@ -275,8 +302,8 @@ async function pinned(row, town, spread) {
 // --- the run ------------------------------------------------------------
 
 const TABLES = {
-  venues: { batches: ALL_VENUE_BATCHES, parse: parseVenueTable, spread: false },
-  vendors: { batches: ALL_VENDOR_BATCHES, parse: parseVendorTable, spread: true },
+  venues: { batches: ALL_VENUE_BATCHES, parse: parseVenueTable, spread: true, byName: true },
+  vendors: { batches: ALL_VENDOR_BATCHES, parse: parseVendorTable, spread: true, byName: false },
 };
 const summary = {
   imported: 0,
@@ -294,7 +321,7 @@ const both = async () => ({ venues: await listings("venues"), vendors: await lis
 try {
   let listed = await both();
   let town = towns([...listed.venues, ...listed.vendors]);
-  for (const [table, { batches, parse, spread }] of Object.entries(TABLES)) {
+  for (const [table, { batches, parse, spread, byName }] of Object.entries(TABLES)) {
     const rows = batches.flatMap((batch) => parse(batch.tsv).rows).filter((row) => row.errors.length === 0).map((row) => row.values);
 
     // 1. New rows. Rows with no website (or, for vendors, Instagram) are skipped: nothing would mark them as
@@ -306,7 +333,7 @@ try {
       present.add(id);
       return true;
     });
-    const ready = await pool(fresh, 8, (row) => pinned(row, town, spread));
+    const ready = await pool(fresh, 8, (row) => pinned(row, town, spread, byName));
     // A blank vendor address is left out rather than sent as null, as the
     // in-app import does.
     await insert(
@@ -327,7 +354,7 @@ try {
     const movable = rows.filter((row) => row.address && unaddressed.has(rowSourceId(row)));
     const moves = await pool(movable, 8, async (row) => {
       const listing = unaddressed.get(rowSourceId(row));
-      const hit = await geocodeAny(row);
+      const hit = await locate(row);
       const here = await town.pin(row);
       const near = hit && (!here || km(hit, here) <= MAX_KM);
       const pin = near ? hit : isPinned(row) ? { latitude: row.latitude, longitude: row.longitude } : {};
@@ -368,24 +395,37 @@ try {
     console.log(`${table}: ${updates.length - repinned} of ${unpinned.length} unpinned given a town pin, ${repinned} moved off a bad town point`);
   }
 
-  // 4. With --repair-pins (the routine adds it once a day): every venue with
-  //    an address is geocoded again, and a pin more than 1 km from where its
-  //    address lands is moved there, when that's near its town. Catches typed
-  //    coordinates that were wrong and pins set while a geocoder was down.
+  // 4. With --repair-pins (the routine adds it once a day): every listing is
+  //    located again (venues by address, then by name; vendors by address),
+  //    and a pin more than 250 m from that spot is moved onto it, when it's
+  //    near its town. Catches typed coordinates that were wrong, pins set
+  //    while a geocoder was down, and old OpenStreetMap street-level matches.
+  //    A listing with no spot that sits on another listing's exact point (a
+  //    town pin from before they were nudged apart) is nudged off it.
   if (REPAIR) {
-    const withAddress = listed.venues.filter((row) => row.address && row.city && row.state);
-    const fixes = (
-      await pool(withAddress, 8, async (row) => {
-        const hit = await geocodeAny(row);
-        const here = await town.pin(row);
-        if (!hit || (here && km(hit, here) > MAX_KM)) return null;
-        if (isPinned(row) && km(hit, row) <= 1) return null;
-        return { id: row.id, ...hit };
-      }, deadline)
-    ).filter(Boolean);
-    await update("venues", fixes);
-    summary.repaired = fixes.length;
-    console.log(`venues: ${fixes.length} of ${withAddress.length} with an address moved onto it`);
+    const stacked = new Map();
+    for (const row of [...listed.venues, ...listed.vendors]) {
+      if (isPinned(row)) stacked.set(`${row.latitude},${row.longitude}`, (stacked.get(`${row.latitude},${row.longitude}`) ?? 0) + 1);
+    }
+    for (const [table, { byName }] of Object.entries(TABLES)) {
+      const todo = listed[table].filter((row) => row.city && row.state && (row.address || byName));
+      const fixes = (
+        await pool(todo, 8, async (row) => {
+          const hit = await locate(row, byName);
+          const here = await town.pin(row);
+          if (hit && (!here || km(hit, here) <= MAX_KM)) {
+            return isPinned(row) && km(hit, row) <= 0.25 ? null : { id: row.id, ...hit };
+          }
+          if (here && isPinned(row) && stacked.get(`${row.latitude},${row.longitude}`) > 1) {
+            return { id: row.id, ...spreadPin(here, row.name) };
+          }
+          return null;
+        }, deadline)
+      ).filter(Boolean);
+      await update(table, fixes);
+      summary.repaired += fixes.length;
+      console.log(`${table}: ${fixes.length} of ${todo.length} checked moved onto their spot or off another listing`);
+    }
   }
 
   // 5. Listings with no address: read it off their own website. Every one
