@@ -655,6 +655,75 @@ Ryan Films	Videography		San Diego	California	Southern California and Las Vegas	S
 Leggacy Films	Videography		San Diego	California	Southern California	San Diego videographer using a documentary approach, recording the day as it unfolds rather than staging scenes.			https://leggacyfilms.com/	https://www.instagram.com/leggacyfilms/
 SD Wedding Films	Videography		San Diego	California	San Diego County, including North County, Escondido, Carlsbad and Oceanside; Temecula	Cinematic wedding films and highlight reels, with 35mm film photography offered, covering the county from La Jolla to Escondido.	Contact@SDWeddingFilms.com	(619) 333-0973	https://www.sdweddingfilms.com/	https://www.instagram.com/sdweddingfilms/`,
   },
+  {
+    name: "Los Angeles: hair and makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Ruth B. Medrano	Hair & Makeup		Los Angeles	California	Los Angeles and Southern California	Mobile makeup artist and hairstylist who travels to the bride, with wedding and bridal party services alongside red carpet and on-set work.	info@ruthbmedrano.com	323-332-9674	https://www.ruthbmedrano.com/	https://www.instagram.com/ruthbmedrano/`,
+  },
+  {
+    name: "San Francisco Bay Area: photography, music, catering and cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Gabriel Harber Photography	Photography		Oakland	California	San Francisco, Oakland, Marin, Mendocino and beyond	Oakland documentary wedding photographer with over twenty years behind the camera, known for quirky, emotional and unposed moments.	gabriel@harberphotography.com		https://harberphotography.com/	https://www.instagram.com/gabrielharber/
+Vivo Photography	Photography		San Jose	California	San Francisco Bay Area and San Jose	San Jose wedding photography team shooting natural, timeless and elegant images across the South Bay, San Francisco and the wider Bay Area.	info@vivophotography.com	408-250-8927	https://www.vivophotography.com/	https://www.instagram.com/vivophotographydotcom/
+e&b photography	Photography		Oakland	California	San Francisco, San Jose, Oakland, Berkeley and the East Bay	Bay Area wedding photography team with over twenty years of experience, shooting candid, natural weddings from San Francisco to the East Bay.	info@enbphotos.com	510-229-0664	https://www.enbphotos.com/	https://www.instagram.com/enbphotos/
+California Disc Jockey	Music		Burlingame	California	San Francisco Bay Area	Bay Area wedding DJ and MC service run by Chris Webb, with bilingual MCs for Indian, Arabic, Latin and Asian celebrations available.		415-350-5474	https://californiadiscjockey.com/	https://www.instagram.com/bayareadj/
+Sound Wave Mobile DJ	Music		Pleasanton	California	Pleasanton, Livermore, San Jose and the Bay Area	Open-format wedding DJ and MC working since 2000, fluent in Portuguese and Spanish, with lighting, photo booth and officiant add-ons.	info@soundwavemobiledj.com	510-938-7903	https://www.soundwavemobiledj.com/	https://www.instagram.com/soundwavemobiledj/
+Culinary Eye	Catering	1001 24th St	Oakland	California	San Francisco Bay Area	Oakland caterer building each wedding menu from scratch, with bar service, event staffing and venue design offered alongside the food.	events@culinaryeye.com	415-941-4898	https://www.culinaryeye.com/	https://www.instagram.com/culinaryeyecatering/
+Renaissance Specialty Cakes	Cake	274 14th St	Oakland	California	Oakland, Berkeley and the Bay Area	Oakland cake studio making custom wedding cakes and desserts to order, with paid tastings held at its kitchen near downtown.	beth@renaissancespecialtycakes.com	510-406-0998	https://www.renaissancespecialtycakes.com/	https://www.instagram.com/renaissance_specialty_desserts/
+Lavender Bakery & Cafe	Cake	1820 Solano Ave	Berkeley	California	Berkeley and the East Bay	Berkeley bakery on Solano Avenue taking custom cake orders online, including tiered wedding cakes for pickup or delivery.	orders@lavenderbakeries.com		https://www.lavenderbakeries.com/	https://www.instagram.com/lavenderbakeries/
+My Baking Creations	Cake		Daly City	California	San Francisco and the Bay Area	Family-owned custom cake studio, open since 2012, making sculpted, hand-piped and wedding cakes alongside cookies and cake pops.	info@mybakingcreations.com	415-568-8060	https://mybakingcreations.com/	https://www.instagram.com/mybakingcreationscompany/`,
+  },
+  {
+    name: "San Diego: music and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Republic of Music	Music		San Diego	California	San Diego, Orange County, Los Angeles and Palm Desert	San Diego live party band with its own DJs, playing weddings and corporate dances across Southern California.	rockstars@romprod.com	619-277-8689	https://www.romprod.com/	https://www.instagram.com/republicofmusic_sd/
+Ryan Green Films	Videography		San Diego	California	San Diego	Solo San Diego wedding videographer, filming since 2013, making cinematic wedding films with teasers and engagement videos as add-ons.	ryangreenfilms@gmail.com	619-559-1476	https://www.ryangreenfilms.com/	https://www.instagram.com/ryangreenfilms/
+Taylor Films	Videography		San Diego	California	San Diego, La Jolla, Coronado and Rancho Santa Fe	San Diego video production company filming since 2005, covering weddings alongside corporate work, bar and bat mitzvahs and events.	jason@taylorfilms.com	760-846-0418	https://www.taylorfilms.com/	https://www.instagram.com/taylorfilms/`,
+  },
+  {
+    name: "Sacramento: photography, music and cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Zoart Photography	Photography		Sacramento	California	Sacramento, the Bay Area, Napa, Monterey and Lake Tahoe	Sacramento wedding photographer capturing honest, cinematic moments, travelling across Northern California from the Bay Area to Lake Tahoe.	zoartphoto@gmail.com	562-221-3597	https://zoartphoto.com/	https://www.instagram.com/zoartphotography/
+Labrot Studios	Photography	406 Main St	Vacaville	California	Sacramento, Tahoe, Napa and Sonoma	Studio-based photographer covering weddings, elopements and portraits in Sacramento and Vacaville, with galleries from local venues.	info@labrotstudios.com	707-603-9062	https://www.labrotstudios.com/	https://www.instagram.com/labrot.studios/
+Cope Entertainment	Music		Sacramento	California	Sacramento, Elk Grove, Folsom and Roseville	One-person Sacramento wedding DJ and MC business, running since 2011, where the owner personally plays every event.	matthew@copeent.com	916-891-6483	https://copeent.com/	https://www.instagram.com/cope_entertainment/
+Custom Cakes by Tara	Cake		Sacramento	California	Greater Sacramento	Home-based Sacramento baker making bespoke wedding cakes, specialising in buttercream designs and faux display cakes.	customcakesbytara@outlook.com		https://www.customcakesbytara.com/	https://www.instagram.com/customcakesbytara/
+Kneadymama Bakery	Cake		Sacramento	California	Sacramento and surrounding areas	Natomas home bakery making custom celebration and wedding cakes, cookies and dessert tables, with delivery on the day.			https://www.kneadymamabakery.com/	https://www.instagram.com/kneadymamabakery/`,
+  },
+  {
+    name: "Orange County: planning, florals, music, cake and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Maria Lindsay Weddings	Planning	668 N. Coast Highway, Suite 154	Laguna Beach	California	Laguna Beach, Newport Beach and Orange and Los Angeles counties	Laguna Beach wedding planner and coordinator with over twenty years in Orange and Los Angeles counties, from hand-held planning to day-of.	maria@marialindsayweddings.com	949-929-6265	http://marialindsayweddings.com/	https://www.instagram.com/marialindsayevents/
+Golden Hour Events	Planning		Huntington Beach	California	Orange County and Southern California	Huntington Beach wedding coordination business handling logistics and timelines so couples can enjoy a stress-free wedding day.			https://www.goldenhour-events.com/	https://www.instagram.com/goldenhour.events/
+Grand Floral Events	Florals	3001 Red Hill Avenue, Building 3, Suite 102	Costa Mesa	California	Costa Mesa and Orange County	Costa Mesa florist designing wedding flowers from bridal bouquets to ceremony and reception arrangements, plus everyday delivery.	lisadarmousseh@yahoo.com	949-439-0038	https://grandfloralevents.com/	https://www.instagram.com/grandfloralevents/
+OC Flowers and Events	Florals	17921 Sky Park Circle, Suite G	Irvine	California	Irvine and Orange County	Irvine florist and event decorator handling everyday bouquets through to weddings, with delivery across Orange County.	info@ocflowersandevents.com	949-433-4350	https://ocflowersandevents.com/	https://www.instagram.com/ocflowersandevents/
+DJ DAIS	Music		Huntington Beach	California	Orange County	Huntington Beach wedding DJ with over 350 weddings behind him, offering an online price calculator and set packages.	dais@djdaisentertainment.com	714-594-9792	https://www.djdaisent.com/	https://www.instagram.com/djdaisent/
+The Event Consultants	Music	188 E. 17th St., Suite 201	Costa Mesa	California	Orange County	Costa Mesa entertainment and coordination company supplying wedding DJs trained as MCs, plus bands, photographers and videographers.	info@theeventconsultants.com	949-548-7762	https://theeventconsultants.com/	https://www.instagram.com/theeventconsultants/
+Paper Birch Collective	Videography		Santa Ana	California	Orange County and Southern California	Santa Ana photo and video team, founded by Alvis and Norbert, covering weddings with cinematography and photo booth options.	hello@paperbirchcollective.com	949-783-8898	https://www.paperbirchcollective.com/	https://www.instagram.com/paperbirchcollective/
+Tie & Veil	Videography		Newport Beach	California	Orange County, Los Angeles and San Diego	Wedding film studio shooting authentic, real-moment films, with Pelican Hill and other coastal venues among its regular locations.		949-516-8225	https://www.tieandveil.com/	https://www.instagram.com/tieandveil/
+Boss Brides	Videography	700 S. Kroeger St	Anaheim	California	Los Angeles and Orange County	Anaheim team offering wedding videography beside photography, DJ, photo booth and coordination, with raw footage included in packages.	hi@bossbrides.com	323-786-3998	https://www.bossbrides.com/	https://www.instagram.com/bossbridesofficial/`,
+  },
+  {
+    name: "Palm Springs: music, hair and makeup, cake and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Prime Time Productions	Music		Palm Springs	California	Coachella Valley	Palm Springs DJ company offering wedding DJs, photo booths and LED uplighting, with Latin music available for weddings.	ptp1200@aol.com	760-250-1207	https://primetimeproductiondjs.com/	
+Palm Springs DJs	Music		Palm Desert	California	Palm Springs, Coachella Valley and Riverside	Coachella Valley DJ service with elegant wedding packages and a free planning kit for couples building their music schedule.	info@palmspringsdjs.com	760-565-3232	https://palmspringsdjs.com/	
+Chelsea Nicole Hair & Makeup	Hair & Makeup	73-411 Highway 111, Suite 103	Palm Desert	California	Coachella Valley	Palm Desert salon and events beauty team doing hair and makeup in the salon or on location for weddings across the valley.	taylor@chelseanicolemh.com	760-610-2928	https://www.chelseanicolemh.com/	https://www.instagram.com/chelseanicolemh/
+Britain Miranda Beauty	Hair & Makeup		Palm Springs	California	Palm Springs and the Coachella Valley	Palm Springs hair and makeup team specialising in bridal parties, with on-location service for hair, makeup and spray tans.	info@beautymarkedbybc.com		https://beautymarkedbybc.com/	
+DannyCakes	Cake		Palm Springs	California	Coachella Valley	Palm Springs custom cake studio open since 2013, known for bold designs, vibrant colour and detailed work, with paid tastings.	orders@dannycakesps.com	760-989-7726	https://www.dannycakesps.com/	https://www.instagram.com/dannycakesps/
+Llena Vida Media	Videography		Palm Springs	California	Palm Springs and Southern California	Palm Springs wedding videographer and photographer for non-traditional couples, offering cinematic films with a documentary feel.	llenavida@yahoo.com		https://llenavidamedia.com/	https://www.instagram.com/llenavidamedia/`,
+  },
+  {
+    name: "Inland Empire and Temecula: planning, music and catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Haley Simon Events	Planning		Temecula	California	Temecula, Malibu, Palm Springs and Southern California	Temecula wedding planner and day-of coordinator, with more than 200 weddings planned and free consultations offered.	haley@haleysimon.com		https://haleysimon.com/	https://www.instagram.com/haleysimonevents/
+New Life Culinary Creations	Catering	34846 Monte Vista Dr	Wildomar	California	Temecula, Murrieta, Menifee and Southern California	Wildomar caterer serving Temecula Valley weddings with a classic wedding menu, bar services and menu collections to choose from.	candice@newlifecatering.com	951-249-4343	https://www.newlifecatering.com/	https://www.instagram.com/newlifeculinarycreations/`,
+  },
+  {
+    name: "Santa Barbara: videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Like a Letter Wedding Videography	Videography		Santa Barbara	California	Santa Barbara, California and destinations	Santa Barbara wedding videographer, filming since 2012, making timeless films for weddings, elopements, proposals and engagements.	tye@likealetter.com		https://www.likealetter.com/	https://www.instagram.com/likealetter/
+Spark & Stone Film Co	Videography		Ojai	California	Ventura, Santa Barbara and Southern California	Ojai-based documentary-style wedding videographer serving Ventura, Santa Barbara and couples across Southern California.			https://sparkandstonefilmco.com/	`,
+  },
 ];
 
 export default batches;
