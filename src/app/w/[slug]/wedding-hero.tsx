@@ -7,7 +7,7 @@ import { CountdownTimer } from "@/components/countdown-timer";
 import { daysUntilWedding } from "@/lib/countdown";
 import { HeroActions } from "./hero-actions";
 import { useSiteDesign } from "@/components/guest-site-theme";
-import { motionPreset, PHOTO_HEROES, resolveDesign } from "@/lib/site-design";
+import { bannerPhoto, motionPreset, PHOTO_HEROES, resolveDesign } from "@/lib/site-design";
 import { SiteOrnament } from "@/components/site-ornament";
 import { SiteArt } from "@/components/site-art";
 import { SiteText } from "@/components/site-text";
@@ -143,7 +143,7 @@ export function WeddingHero({ wedding }: { wedding: PublicWedding }) {
   const { hero } = useSiteDesign();
   // With no photo yet, a photo layout draws the scene as its picture, so it
   // isn't drawn again around it.
-  const illustrated = !wedding.hero_photo_url && PHOTO_HEROES.includes(hero);
+  const illustrated = !bannerPhoto(wedding) && PHOTO_HEROES.includes(hero);
   return (
     <div className="mb-10 flex flex-col">
       {!illustrated && <SiteScene where="strip" />}
@@ -163,7 +163,7 @@ export function WeddingHero({ wedding }: { wedding: PublicWedding }) {
  */
 function HeroLayout({ wedding }: { wedding: PublicWedding }) {
   const { hero, art } = useSiteDesign();
-  const photo = wedding.hero_photo_url;
+  const photo = bannerPhoto(wedding);
 
   // Monogram: the crest is the picture, large, with a fine double rule
   // framing the whole top of the page. Works the same with or without a photo.

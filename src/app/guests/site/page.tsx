@@ -109,6 +109,15 @@ export default async function GuestSitePage() {
     supabase.from("guest_posts").select("id", { count: "exact", head: true }).eq("wedding_id", wedding.id),
   ]);
 
+  const { data: venue } = wedding.venue_id
+    ? await supabase
+        .from("venues")
+        .select("name, photo_urls")
+        .eq("id", wedding.venue_id)
+        .maybeSingle<{ name: string; photo_urls: string[] }>()
+    : { data: null };
+  const venuePhotos = venue?.photo_urls.length ?? 0;
+
   const headersList = await headers();
   const host = headersList.get("host");
   const protocol = host?.startsWith("localhost") ? "http" : "https";
@@ -150,10 +159,10 @@ export default async function GuestSitePage() {
         },
     photos: {
       status: [
-        wedding.hero_photo_url ? "Banner photo" : "No banner photo",
+        wedding.hero_photo_url ? "Banner photo" : venuePhotos ? "Venue's photo as banner" : "No banner photo",
         photoCount ? `${photoCount} in the gallery` : "no gallery yet",
       ].join(" · "),
-      warn: !wedding.hero_photo_url,
+      warn: !wedding.hero_photo_url && !venuePhotos,
       editor: (
         <div className="flex flex-col gap-8">
           <HeroPhotoPanel photoUrl={wedding.hero_photo_url} />
@@ -163,6 +172,16 @@ export default async function GuestSitePage() {
         </div>
       ),
     },
+    venue: venue
+      ? {
+          status: venuePhotos
+            ? `${venue.name}, with ${venuePhotos} of their photo${venuePhotos === 1 ? "" : "s"}`
+            : `${venue.name} (they haven't added photos yet)`,
+        }
+      : {
+          status: `No venue picked${hidden.replace("add one", "pick one")}`,
+          link: { href: "/venues", label: "Find your venue" },
+        },
     weekend: {
       status: !events
         ? `Nothing scheduled${hidden.replace("one", "an event")}`

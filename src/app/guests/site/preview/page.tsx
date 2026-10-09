@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import type { PublicWedding, Wedding } from "@/lib/supabase/types";
+import type { PublicWedding, Venue, Wedding } from "@/lib/supabase/types";
 import { parseSiteDesign } from "@/lib/site-design-schema";
 import { GuestSiteTheme } from "@/components/guest-site-theme";
 import { GuestSiteView, loadGuestSiteContent } from "@/app/w/[slug]/guest-site-view";
@@ -31,9 +31,11 @@ export default async function GuestSitePreviewPage() {
   const { data: venue } = wedding.venue_id
     ? await supabase
         .from("venues")
-        .select("name, city, state")
+        .select("name, city, state, photo_urls, about, description, address")
         .eq("id", wedding.venue_id)
-        .maybeSingle<{ name: string | null; city: string | null; state: string | null }>()
+        .maybeSingle<
+          Pick<Venue, "name" | "city" | "state" | "photo_urls" | "about" | "description" | "address">
+        >()
     : { data: null };
 
   // Shaped like the public view, so the preview renders through the same
@@ -54,6 +56,9 @@ export default async function GuestSitePreviewPage() {
     venue_state: venue?.state ?? null,
     itinerary_published: wedding.itinerary_published,
     site_design: wedding.site_design,
+    venue_photo_urls: venue?.photo_urls ?? null,
+    venue_about: venue?.about ?? venue?.description ?? null,
+    venue_address: venue?.address ?? null,
   };
 
   const content = await loadGuestSiteContent(supabase, asGuestsSeeIt);

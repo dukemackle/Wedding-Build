@@ -18,6 +18,7 @@ import { GuestbookView } from "./guestbook-view";
 import { GuestWall } from "./guest-wall";
 import { GalleryView } from "./gallery-view";
 import { StayList } from "./stay-list";
+import { VenueView } from "./venue-view";
 import { WeddingHero } from "./wedding-hero";
 import type { ReactNode } from "react";
 import { blockKey, type SectionKey } from "@/lib/site-design";
@@ -190,6 +191,7 @@ export function GuestSiteView({
           </div>
         </div>
       ) : null,
+    venue: wedding.venue_name ? <VenueView wedding={wedding} card={CARD} /> : null,
     weekend:
       itineraryEvents.length > 0 ? (
         <div className={CARD}>
