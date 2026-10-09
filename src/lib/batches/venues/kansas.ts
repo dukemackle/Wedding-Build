@@ -50,6 +50,31 @@ Life's Finer Moments	1285 16th Rd	Clay Center	Kansas			Ballroom / Hotel	Indoor &
 Sand Springs Venue	2256 Deer Rd	Abilene	Kansas			Barn / Rustic	Indoor & Outdoor			A family farm near Abilene converted into a wedding venue, with a stone-walled reception room, bridal suite, back patio and guest house.	sandspringsvenue@gmail.com	785-787-3082	https://www.sandspringsvenue.com/
 `,
   },
+  {
+    name: "Kansas City, Wichita, Topeka and Lawrence",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Cedar Valley Forest	29145 W 83rd St	De Soto	Kansas			Barn / Rustic	Indoor & Outdoor	250	Classic	A wooded barn venue with an oak-lined outdoor ceremony site, a bride and groom cottage suite and a barn for receptions or indoor ceremonies.	info@cedarvalleyforest.com	(913) 278-8818	https://www.cedarvalleyforest.com/
+Kane Family Farm	17791 Chieftain Rd	Tonganoxie	Kansas			Barn / Rustic				A working family farm that hosts full wedding weekends, from rehearsal dinner to reception, with on-site lodging in the farm house.	toddkane@thekanefamilyfarm.com	(913) 749-7379	https://www.kanefamilyfarm.com/
+Deer Ridge Estate	21107 Donahoo Rd	Tonganoxie	Kansas			Garden / Outdoor	Indoor & Outdoor			A private 160-acre property in northeast Kansas with greenhouse micro-wedding settings, stocked ponds, trails and guest houses for overnight stays.		(913) 208-0987	https://www.deerridgeestate.com/
+Cider Gallery	810 Pennsylvania St	Lawrence	Kansas			Historic / Estate	Indoor & Outdoor	200		A historic building in Lawrence's Warehouse Arts District with exposed brick, original wood floors, a courtyard under string lights and rotating fine art.		(785) 304-4005	https://www.cidergallery.com/
+Thompson Barn	11184 Lackman Rd	Lenexa	Kansas			Barn / Rustic	Indoor & Outdoor	200		A city-owned barn event space on Lackman Road with a main hall, warming kitchen, patio and lower-level meeting rooms, rented by the hour.	thompsonbarn@lenexa.com	(913) 477-7100	https://www.lenexa.com/Parks-Places/Rent-a-Venue/Venue-Rentals/Thompson-Barn-Rentals-Entire-Facility
+Historic Elgin Hotel	115 N 3rd St	Marion	Kansas			Historic / Estate	Indoor & Outdoor	75	Simple	A historic Marion hotel with a Victorian ballroom, a vintage courtyard and suites for the wedding party, built for small weddings and elopements.	stay@historicelginhotel.com	(620) 382-3200	https://www.historicelginhotel.com/weddings
+Little Shawnee Chapel	6530 Barton Cir	Shawnee	Kansas			Historic / Estate		40	Simple	A small wedding chapel in Shawnee set up for micro weddings and elopements, with ceremony-only and ceremony-plus-reception packages.	littleshawneechapel@gmail.com	(913) 703-6409	https://www.littleshawneechapel.com/
+River City Brewing Co.	150 N Mosley	Wichita	Kansas			Restaurant / Vineyard	Indoor & Outdoor	200		A century-old Old Town building with two event spaces, The Loft with a balcony and The Barrel Room, plus a full bar and house-brewed beer.	banquets@rivercitybrewingco.com	(316) 263-2739	https://rivercitybrewingco.com/venue/
+Hidden Valley Downs Ranch	8102 N Summers Rd	Hutchinson	Kansas			Barn / Rustic				A 70-acre ranch in sandy hills near the Little Arkansas River with a 7,200-square-foot event space and a five-bedroom guest home.		(316) 226-0366	https://www.hiddenvalleydowns.com/
+The Yellow Barn	11272 S Ridgeview Rd	Olathe	Kansas			Barn / Rustic				A gathering space in a yellow barn in Olathe for weddings and other celebrations.		(913) 314-0695	http://www.theyellowbarn.net/
+Vintage House	7612 W 80th St	Overland Park	Kansas			Historic / Estate	Indoor & Outdoor			An intimate event space in Overland Park with indoor rooms and a garden, open since 2012 and stocked with its own dishware and glassware.	vintagehouse7612@gmail.com		https://vintagehouse7612.com/
+The Barns at Timber Creek	14704 91st Rd	Winfield	Kansas			Barn / Rustic	Indoor & Outdoor			A bed and breakfast near Winfield with restored barns, an outdoor chapel and country-themed guest rooms for wedding weekends.		(620) 221-2797	https://www.timbercreekbarns.com/
+The Foundry Event Center	400 SW 33rd St	Topeka	Kansas			Historic / Estate				A Topeka event center that offers wedding packages alongside corporate and celebration events.	hello@thefoundryeventcenter.com	(785) 633-1767	https://thefoundryeventcenter.com/
+Cardinal Creek Farm	396 SW 110th St	Leon	Kansas			Barn / Rustic				A farm outside Leon in the Flint Hills area that hosts weddings on its rural grounds.		(316) 323-4609	https://www.cardinalcreekfarm.org/
+Rustic Timbers	25501 W 63rd St S	Viola	Kansas			Barn / Rustic	Indoor & Outdoor	150		A wooded property with outdoor ceremony sites and a 4,400-square-foot air-conditioned barn for receptions, with a bed and breakfast on site.	info@Rustic-Timbers.com	(316) 778-0270	https://rustic-timbers.com/
+Willows Bend Wedding & Event Venue	2241 E 141st St	Carbondale	Kansas			Beach / Waterfront	Indoor & Outdoor	300		A 30-acre venue on Strowbridge Reservoir, surrounded by water on three sides, with a main room, bridal suite and groomsmen's room.	info@wbwed.com	(785) 633-7334	https://willowsbendwedding.com/
+Blue Barn Farm	9955 Huff Rd	Westmoreland	Kansas			Barn / Rustic	Indoor & Outdoor			A small Flint Hills farm venue with a climate-controlled barn, a lighted outdoor dining area and several ceremony locations.	mjhanner@gmail.com	(785) 280-9569	https://www.bluebarnfarmkansas.com/wedding-venue-1
+The Barn at Schwinn Produce Farm	17624 Santa Fe Trail	Leavenworth	Kansas			Barn / Rustic	Indoor & Outdoor			A 4,500-square-foot timber barn on a family produce farm in the Salt Creek Valley, with a radiant-heated floor, a bridal house and an outdoor ceremony lawn.	thebarnatspf@gmail.com	(913) 683-3366	https://www.schwinnproducefarm.com/
+Terradyne Country Club	1400 Terradyne Dr	Andover	Kansas			Garden / Outdoor				A country club in Andover that hosts weddings and events through its dining and events team.		(316) 733-2582	https://terradynecountryclub.com/
+Dillon House	404 SW 9th St	Topeka	Kansas			Historic / Estate	Indoor	80		A 1913 mansion near the Kansas Statehouse, run by The Beacon, with three event rooms holding 16 to 56 seated guests.	courtney@beacontopeka.com	(785) 409-1223	https://www.beacontopeka.com/dillon-house
+`,
+  },
 ];
 
 export default batches;
