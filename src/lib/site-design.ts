@@ -869,6 +869,7 @@ export type HeroLayoutId = (typeof HERO_LAYOUTS)[number]["id"];
 export const SITE_SECTIONS = [
   { id: "rsvp", name: "RSVP", column: "main" },
   { id: "photos", name: "Photos", column: "main" },
+  { id: "venue", name: "The venue", column: "main" },
   { id: "weekend", name: "The weekend", column: "main" },
   { id: "wall", name: "Photo wall", column: "main" },
   { id: "guests", name: "Who's coming", column: "side" },
@@ -946,6 +947,7 @@ export const TEXT_SLOTS = [
   { id: "hero.names", label: "Your names", words: false },
   { id: "rsvp.title", label: "RSVP heading", words: true },
   { id: "photos.title", label: "Photos heading", words: true },
+  { id: "venue.title", label: "Venue heading", words: true },
   { id: "weekend.title", label: "Schedule heading", words: true },
   { id: "wall.title", label: "Photo wall heading", words: true },
   { id: "guests.title", label: "Who's coming heading", words: false },
@@ -1250,3 +1252,14 @@ export function textSlotCss(style: TextStyle | undefined): Record<string, string
 
 /** Every face in the library, for the editor, where any can be picked. */
 export const ALL_FONTS_HREF = fontsHrefFor(FONTS.map((f) => f.css));
+
+/**
+ * The guest site's banner: the couple's own photo, or until they add one,
+ * their venue's cover (only photos the venue uploaded itself, see 0110).
+ */
+export function bannerPhoto(wedding: {
+  hero_photo_url: string | null;
+  venue_photo_urls: string[] | null;
+}): string | null {
+  return wedding.hero_photo_url ?? wedding.venue_photo_urls?.[0] ?? null;
+}

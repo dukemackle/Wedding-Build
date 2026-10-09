@@ -66,6 +66,10 @@ export type PublicWedding = {
   venue_state: string | null;
   itinerary_published: boolean;
   site_design: unknown;
+  /** The venue's own uploaded photos, cover first (empty when it has none). */
+  venue_photo_urls: string[] | null;
+  venue_about: string | null;
+  venue_address: string | null;
 };
 
 export type WeddingFaq = {
