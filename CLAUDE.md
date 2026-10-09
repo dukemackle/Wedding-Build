@@ -148,7 +148,8 @@ per exchange, not about doing less:
   dashboard, an account), give numbered steps with the exact site or menu
   path, the button names, what the value looks like (e.g. "starts with
   `sbp_`") and where to paste it. Never stop at "set X to the real value".
-  This beats "keep replies short".
+  This beats "keep replies short". Merging a PR is the exception (2026-10-09):
+  the owner knows how, so just say it's ready to merge, with the link.
 - **Get the brief right before building anything visual.** Ask for a screenshot
   of what's wrong before proposing a fix. Three design rounds cost far more
   than one question — the mobile nav took three passes that one phone
