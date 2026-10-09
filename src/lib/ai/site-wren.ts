@@ -20,7 +20,7 @@ const MODEL = "claude-opus-5-5";
  * Wren calls per wedding per day, both kinds together: the ceiling on what
  * one couple can spend (the owner chose a daily cap, 2026-10-08).
  */
-export const MAX_SITE_AI_PER_DAY = 20;
+export const MAX_SITE_AI_PER_DAY = 3;
 
 const BUSY = "Wren is busy right now — try again in a moment.";
 
