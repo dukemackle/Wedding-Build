@@ -564,7 +564,8 @@ body:has(.dashboard-backdrop) header[data-top="true"] [class*="bg-forest/10"] {
   background-color: rgb(255 255 255 / 0.18);
 }
 
-body:has(.guest-site) .site-footer {
+body:has(.guest-site) .site-footer,
+body:has(.site-editor) .site-footer {
   display: none;
 }
 
