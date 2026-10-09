@@ -11,7 +11,7 @@ export default function TermsPage() {
       <div className={`w-full ${READING_WIDTH}`}>
         <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Legal</p>
         <h1 className="mt-2 font-display text-3xl font-semibold text-forest">Terms of Service</h1>
-        <p className="mt-2 text-sm text-ink/60">Last updated: October 2, 2026</p>
+        <p className="mt-2 text-sm text-ink/60">Last updated: October 9, 2026</p>
 
         <div className="mt-8 flex flex-col gap-8 text-ink/80">
           <p>
@@ -112,7 +112,8 @@ export default function TermsPage() {
               represent it and that you own, or have permission to share, every photo and detail
               you submit. You grant You Do, I Do a non-exclusive, royalty-free license to display that
               listing content publicly in the Service — on your listing page, in search results
-              and maps, and in previews shown to couples — until you ask us to remove it. We
+              and maps, in previews shown to couples, and on the wedding websites of couples who
+              have chosen your venue — until you ask us to remove it. We
               review submissions before they go live and may edit or decline them.
             </p>
           </Section>
