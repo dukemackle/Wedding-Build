@@ -107,7 +107,7 @@ export function MobileNav() {
             hangs from the header like a menu, takes only the height it needs,
             and starts scrolling only if the list ever outgrows the viewport.
           */}
-          <div className="absolute right-2 top-2 flex max-h-[calc(100vh-1rem)] w-[200px] flex-col overflow-hidden rounded-lg border border-hairline bg-card shadow-xl">
+          <div data-menu-panel className="absolute right-2 top-2 flex max-h-[calc(100vh-1rem)] w-[200px] flex-col overflow-hidden rounded-lg border border-hairline bg-card shadow-xl">
             <nav className="overflow-y-auto overscroll-contain p-1.5">
               <Link
                 href="/dashboard"
