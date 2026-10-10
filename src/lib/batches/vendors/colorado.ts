@@ -207,6 +207,78 @@ Promise Pine	Videography		Colorado Springs	Colorado	Colorado Springs and across 
 Lizzie Studios	Videography		Colorado Springs	Colorado	Denver, Boulder, Fort Collins, Aspen, Buena Vista, mountain towns and destinations	Colorado Springs videographer filming documentary-style weddings and elopements full of candid details and laughter, with destination work available.			https://www.lizziestudios.com/	https://www.instagram.com/sarahstruttmann/
 `,
   },
+  {
+    name: "Denver: photography, planning, florals, music, catering, hair and makeup, cake, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Berg Berg Photography	Photography		Golden	Colorado	Golden, Denver, Estes Park, Winter Park, Evergreen, Littleton and across Colorado	Golden wedding photography duo covering Colorado venues, with experience in Indian, Hindu, LGBTQ and film weddings.	bergbergphotography@gmail.com		https://www.bergbergphotography.com/	https://www.instagram.com/bergbergphotography/
+Kimberly Crist Photography	Photography		Denver	Colorado	Statewide in Colorado	Denver photographer focused on scenic Colorado elopements and intimate weddings, favouring locations a short walk from parking.	hello@kimberlycrist.com		https://www.kimberlycrist.com/	https://www.instagram.com/kimberlycrist/
+Brooke Silverman Photography	Photography		Denver	Colorado	Denver and surrounding areas, with travel across the US and abroad	Denver photographer offering photojournalistic wedding, elopement, engagement and proposal coverage, with travel across the US.	info@brookesilvermanphotography.com	410.350.5399	https://www.brookesilvermanphotography.com/	https://www.instagram.com/brookesilvermanphoto/
+Mado Photo	Photography		Denver	Colorado	Denver and the Colorado area, available for travel	Inclusive Denver photographer shooting weddings, couples and elopements on digital and film, with over a decade of experience.	Info@mado-photo.com	(303) 946-1780	https://www.mado-photo.com/	https://www.instagram.com/mado.photo/
+Erika Sandoval Events	Planning		Denver	Colorado	Denver, Vail, Aspen, Boulder and Colorado mountain destinations	Boutique Denver planning and design studio founded in 2013, taking on a limited number of weddings each year in the city and mountains.			https://erikasandovalevents.com/	https://www.instagram.com/erikasandovalevents/
+Tie the Knot Bridal Creations	Planning	10050 Ralston Rd Suite #5	Arvada	Colorado	Denver, Lakewood, Littleton, Boulder, Golden, Estes Park, Breckenridge and surrounding areas	Arvada wedding boutique offering planning, coordination, officiant services and rental decor for couples across the Denver area.	tietheknotbridalcreations@gmail.com	(303) 495-0926	https://www.tietheknotbridalcreations.com/	https://www.instagram.com/tietheknotbridalcreationsllc/
+Lumiere Aisle Collective	Planning		Denver	Colorado	Denver and across Colorado, including destination weddings	Boutique Denver planning collective offering day-of coordination and full planning for city, mountain and intimate weddings.			https://www.lumiereaislecollective.com/	
+Plum Social Events & Flowers	Florals	4360 E. Evans Ave.	Denver	Colorado	Colorado and beyond	Denver studio combining wedding florals with full event design, from candles and lighting to place cards, for celebrations across Colorado.	hello@plumsocial.com	(720) 328-2190	https://plumsocial.com/	https://www.instagram.com/plumsocialdenver/
+KaraKara Blooms	Florals	472 N Broadway	Denver	Colorado		Denver floral studio founded in 2022 creating experiential flowers for weddings and elopements, run by a second-generation florist.			https://www.karakarablooms.com/	
+Hovey Entertainment	Music		Littleton	Colorado	Throughout Colorado, including Denver, Boulder and mountain resort towns	Littleton DJ service handling the music, timeline and key moments for weddings, with lighting, photo booths and karaoke add-ons.	eric@hoveyentertainment.com	(303) 253-2747	https://www.hoveyentertainment.com/	https://www.instagram.com/hoveyentertainment/
+Soul X Band	Music		Denver	Colorado	Colorado, other parts of the US and international	Denver variety band of eight to thirteen players covering Motown, funk, country and current pop for high-energy wedding receptions.	thesoulxband@gmail.com	720-231-5951	https://www.soulxband.com/	https://www.instagram.com/soulxband/
+Deja Blu Variety Dance Band	Music		Denver	Colorado	Denver, Aspen, Vail and across Colorado	Seven-piece Denver dance band where every member sings, with smaller ensemble options for more intimate wedding celebrations.	band@dejabluband.com	(303) 517-9852	https://www.dejabluband.com/	https://www.instagram.com/dejabludanceband/
+DJ Jen G	Music		Denver	Colorado		Denver wedding DJ who builds custom playlists around each couple and works closely with officiants and venues on the day.	book@djjeng.com	303-916-7730	https://www.djjeng.com/	https://www.instagram.com/dj.jeng/
+Denver Lighting and DJ Services	Music		Denver	Colorado		Wedding DJ and MC service offering lighting design and event production for celebrations around Denver and mountain venues.	denverlightinganddj@gmail.com	(720) 788-9389	https://www.denverlightinganddj.com/	
+Hippie Chicks Catering	Catering	225 Mariposa St	Denver	Colorado		Scratch-kitchen caterer making seasonal, locally sourced menus for weddings, from drop-off trays to fully staffed service.	info@hippiechickscatering.com	720-645-4536	https://hippiechickscatering.com	https://www.instagram.com/hippiechickscatering/
+Three Tomatoes Catering	Catering	255 Yuma St	Denver	Colorado	Denver metro including Cherry Creek, LoDo, RiNo, Highlands, Lakewood, Littleton and Aurora	All-inclusive wedding caterer offering buffets, plated dinners and cocktail receptions, with menus and pricing you can build online.	info@threetomatoes.com	303-433-3332	https://www.threetomatoes.com	https://www.instagram.com/threetomatoescatering/
+Modern Catering	Catering	490 Decatur St	Denver	Colorado	Denver, Boulder, Northern Colorado and the Front Range	Full-service Denver caterer building custom plated, buffet and station menus around regional ingredients, plus bartending and rentals.		(720) 299-7638	https://moderncatering.com	https://www.instagram.com/moderncateringco/
+The Next Course	Catering		Denver	Colorado	Within about two hours of the Denver metro, including many mountain venues	Chef-owned caterer bringing restaurant-style wedding menus, from signature buffets and plated dinners to food trucks and brunch.	info@thenextcourseco.com	720-508-9881	https://www.thenextcourseco.com	https://www.instagram.com/thenextcourseco/
+AURA Salon	Hair & Makeup	12664 W Indore Pl	Littleton	Colorado	Ken Caryl, Roxborough, Littleton, Morrison, Highlands Ranch, Evergreen, Bailey and Arvada	Littleton salon styling hair and makeup for brides and their parties, in the salon or on location, with timeless looks to suit each bride.	info@theaurasalon.com	303-933-2872	https://www.theaurasalon.com	https://www.instagram.com/theaurasalon/
+Kim J Beauty	Hair & Makeup		Denver	Colorado	Colorado	Denver team travelling to weddings for natural, timeless bridal makeup and romantic, classic hairstyles.	kim@kimjbeauty.com	720-261-8274	https://www.kimjbeauty.com	https://www.instagram.com/kimjbeauty/
+Candelaria Beauty	Hair & Makeup	2421 28th Ave	Denver	Colorado	Boulder, Denver, Estes Park, Vail and greater Colorado	Wedding beauty team offering calm, refined bridal hair and makeup that looks effortless, plus photoshoot glam and makeup lessons.	hello@candelariabeauty.com	(970) 430-8048	https://www.candelariabeauty.com	https://www.instagram.com/candelariabeautyco/
+Divine Beauty Artists	Hair & Makeup		Denver	Colorado	Denver, Boulder, Colorado Springs, Breckenridge, Vail, Aspen and surrounding areas	Travelling bridal hair and makeup team, from classic princess styles to bold glam, with experience across cultural traditions and skin tones.			https://www.divinebeautyartists.com	https://www.instagram.com/divinebeautyartists/
+The Cake Bar	Cake	214 E 13th Ave	Denver	Colorado		Plant-based Denver bakery making wedding cakes with no eggs or dairy butter, and a mobile cake bar service for events.	team@thecakebardenver.com	303-568-9752	https://thecakebardenver.com	https://www.instagram.com/thecakebardenver/
+Flick of the Whisk Cakes	Cake		Denver	Colorado		Colorado wedding cake baker creating sleek, minimalist cakes with a timeless look, a subtle edge and refined flavours.	flickofthewhiskcakes@gmail.com		https://www.flickofthewhiskcakes.com	https://www.instagram.com/flickofthewhiskcakes/
+CAK	Cake		Denver	Colorado	Colorado	Boutique Denver cake design studio making modern sculpted wedding cakes, donut walls and dessert displays for any guest count.			https://www.cakthebakery.com	
+Clasica Films	Videography	11111 E Mississippi Ave, Suite 211	Aurora	Colorado	Denver and across Colorado	Aurora studio filming weddings and quinceaneras with an emotional, cinematic style, paired with photography and handcrafted albums.			https://www.clasicafilms.com	https://www.instagram.com/clasicafilms/
+Wedding Films Co	Videography		Denver	Colorado	Denver and destination weddings	Denver videographer making cinematic, personalised wedding films, with trained second shooters and professional editing gear.			https://weddingfilmsco.com	https://www.instagram.com/weddingfilmsco/
+Boxcar Photography	Videography		Denver	Colorado	Denver, Vail, Estes Park, Colorado Springs and the mountains	Denver photo and video team shooting candid, documentary-style wedding films with true-to-life colour and natural audio.			https://boxcarphotography.com	https://www.instagram.com/boxcarphotography/
+Wolff Paw Video	Videography		Denver	Colorado	Denver area and beyond	Budget-friendly wedding videographer offering raw in-camera footage or edited films, with guest interviews and no overtime fees.	wolffpawvideo@gmail.com	303-744-8968	https://wolffpawvideo.com	
+`,
+  },
+  {
+    name: "Estes Park: photography, planning, florals, music, catering, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Mark Creery Photography	Photography		Fort Collins	Colorado	Estes Park, Fort Collins, Denver, Boulder, Vail, Aspen, Colorado Springs and more	Fort Collins wedding and portrait photographer with over two decades behind the camera, known for candid moments and big Colorado scenery.	photos@markcreery.com	(970) 402-0618	https://www.markcreeryphotography.com/	
+Annie Grace Events	Planning		Estes Park	Colorado	Estes Park, Colorado, and beyond	Estes Park coordinator offering planning and day-of coordination, vendor liaison, timeline management and calm problem-solving on the wedding day.			https://www.anniegraceevents.com/	https://www.instagram.com/anniegraceevents/
+Wild Blossoms Studio	Florals		Fort Collins	Colorado	Estes Park, Denver and Boulder wedding venues	Fort Collins floral studio creating wedding flowers for Estes Park and Front Range venues, plus pressed-flower bouquet preservation and workshops.			https://wildblossomsstudio.com/	https://www.instagram.com/wildblossomsstudio/
+Ampersand Family	Videography		Littleton	Colorado	Denver, Vail, Aspen, Colorado Springs, Breckenridge and Estes Park	Colorado videography team making cinematic wedding films for couples marrying in the mountains and along the Front Range.	hello@ampersandfamily.com		https://www.ampersandfamily.com/	https://www.instagram.com/ampersandfamily/
+`,
+  },
+  {
+    name: "Boulder: photography, cake, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+J. La Plante Photo	Photography		Boulder	Colorado	Colorado, plus destination weddings across the US and abroad	Boulder wedding photographers offering creative, non-traditional coverage of weddings, elopements and engagement sessions, including destination work.	mail@jlaplante.com	303.652.7346	https://www.jlaplante.com/	https://www.instagram.com/j.laplante.photo/
+16:3 Cake Studio	Cake		Louisville	Colorado	Louisville and surrounding Colorado cities	Louisville cake studio specialising in custom buttercream wedding cakes and gourmet desserts, with delivery across the surrounding area.	info@163cakestudio.com	(720) 593-1570	https://www.163cakestudio.com/	https://www.instagram.com/16.3cakestudio/
+Sugar High Cakes	Cake		Firestone	Colorado	Longmont, Firestone, Frederick, Dacono, Erie, Mead and nearby	Firestone baker handcrafting custom wedding cakes, cutting cakes and dessert spreads for couples in Longmont and the surrounding towns.	amber@sugarhighcakes.com	720-727-5555	https://sugarhighcakes.com/	https://www.instagram.com/sugarhighcakesllc/
+Alchemy Creative	Videography		Boulder	Colorado	Boulder County, Colorado	Boulder County studio filming weddings and elopements alongside photography, for couples wanting stills and video from one creative team.			https://alchemycreative.net/	https://www.instagram.com/alchemy_creative/
+`,
+  },
+  {
+    name: "Fort Collins: cake, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Blackbird Baking Company	Cake		Fort Collins	Colorado	Fort Collins and Northern Colorado	Fort Collins bakery designing handcrafted wedding cakes from scratch, with artistic buttercream finishes and handmade sugar flowers.			https://loveblackbirdbaking.com/	https://www.instagram.com/loveblackbirdbaking/
+Complete Weddings + Events Northern Colorado	Videography		Fort Collins	Colorado	Fort Collins, Loveland, Greeley, Windsor, Estes Park and Northern Colorado	Fort Collins team pairing couples with videographers who produce cinematic or documentary highlight films, with backup coverage on standby.		970.707.3024	https://www.completewedo.com/northern-colorado/	https://www.instagram.com/completenortherncolorado/
+`,
+  },
+  {
+    name: "Colorado Springs: photography, catering, cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Captured with Grace	Photography		Larkspur	Colorado	Manitou Springs, Colorado Springs, El Paso County, the Front Range and Denver	Larkspur-based photographer and videographer covering weddings, engagements and events in Manitou Springs and across the Pikes Peak region.		720-413-1046	https://capturedwithgrace.co/	
+Little London Cake Shoppe	Cake		Colorado Springs	Colorado	Colorado Springs and surrounding area	Family-run Colorado Springs bakery open since 1985, making handcrafted custom cakes, including wedding cakes, to order.		719-475-2340	https://littlelondoncs.com/	
+`,
+  },
+  {
+    name: "Vail and Aspen: cake, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Gold Heart Weddings	Videography		Vail	Colorado	Vail, Aspen, Denver, Buena Vista, Breckenridge and beyond	Vail wedding filmmakers producing story-led films for mountain couples, and willing to travel across Colorado.	goldheartweddings@gmail.com		https://www.goldheartweddings.com/	https://www.instagram.com/goldheartweddingfilms/
+`,
+  },
 ];
 
 export default batches;
