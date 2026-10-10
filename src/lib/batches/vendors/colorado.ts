@@ -279,6 +279,59 @@ Little London Cake Shoppe	Cake		Colorado Springs	Colorado	Colorado Springs and s
 Gold Heart Weddings	Videography		Vail	Colorado	Vail, Aspen, Denver, Buena Vista, Breckenridge and beyond	Vail wedding filmmakers producing story-led films for mountain couples, and willing to travel across Colorado.	goldheartweddings@gmail.com		https://www.goldheartweddings.com/	https://www.instagram.com/goldheartweddingfilms/
 `,
   },
+  {
+    name: "Denver: planning, florals, catering, cake, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+A Touch of Bliss	Planning	4303 Brighton Blvd, Bldg 3	Denver	Colorado	Colorado	Denver planning team covering full wedding planning and day-of coordination, from vendor communication to timelines and the rehearsal.	hello@touchofblissevents.com	720.560.6506	https://www.touchofblissevents.com/	https://www.instagram.com/atouchofbliss/
+Floral Wild	Florals		Denver	Colorado	Colorado and beyond	Denver florist designing lush, textural, seasonal wedding flowers, using locally grown blooms wherever the season allows.	info@floralwild.com	303.523.0418	https://floralwild.com/	https://www.instagram.com/floralwild_designs/
+The Perfect Petal	Florals	3600 W 32nd Ave, Suite B	Denver	Colorado	Denver metro area	Highlands floral company with 25-plus years behind it, offering full-service wedding design and a flexible a la carte wedding menu.	rose@theperfectpetal.com	(303) 480-0966	https://theperfectpetal.com/	https://www.instagram.com/theperfectpetal/
+Brooks Floral & Co.	Florals		Denver	Colorado		Boutique Denver floral studio creating romantic flowers for weddings and events, and running hands-on floral workshops.	Kaitlin@BrooksFloralCo.com		https://brooksfloralco.com/	https://www.instagram.com/brooksfloral/
+Field Supply	Florals		Denver	Colorado		Private-studio Denver florist making nature-inspired, personal wedding flowers, and taking only a limited number of full-service weddings a year.	erica@fieldsupplyfloral.com	(720) 443-1731	https://www.fieldsupplyfloral.com/	
+Blush and Bay	Florals		Denver	Colorado	Denver, Vail and Beaver Creek, Aspen and Steamboat	Denver floral studio offering full-service wedding design and on-site installations, from small weddings to large celebrations.			https://www.blushandbay.com/	https://www.instagram.com/blushandbayfloral/
+Ash + Ether	Florals	411 W Emma St	Lafayette	Colorado	Boulder, Denver, the Front Range and mountain venues	Lafayette floral studio designing full-service wedding flowers, taking one event a weekend, and travelling to Vail and other mountain venues.	ash@ashandether.studio	(720) 279-4840	https://www.ash-ether.com/	https://www.instagram.com/ashxether/
+Relish Catering & Events	Catering	7860 West 16th Ave #100	Lakewood	Colorado	Denver and across Colorado	Fully custom caterer and event company that personalises menus, decor and planning for weddings and other celebrations.		303.536.5062	https://www.relishcateringco.com/	https://www.instagram.com/relisheventsden/
+Alyce in Flourland	Cake		Denver	Colorado	Colorado and beyond	Denver baker making painterly custom wedding cakes and mini desserts that reflect each couple's story.	hello@alyceinflourland.com		https://www.alyceinflourland.com/	https://www.instagram.com/alyce.in.flourland/
+BiteIt! Bakery	Cake		Castle Rock	Colorado	Denver, Colorado Springs, Castle Rock, Boulder, Vail and mountain venues	Luxury wedding cake studio founded in 2017, making custom multi-tier cakes and dessert tables with delivery and on-site setup.	biteit.bakery@gmail.com	720-217-4894	https://www.biteitbakery.com/	https://www.instagram.com/biteit.bakery/
+Wild of the Moon	Videography		Denver	Colorado		Couple-run Denver team making alternative, artistic wedding films and photos for adventurous couples.	wildofthemoon@gmail.com		https://www.wildofthemoon.com/	https://www.instagram.com/wildofthemoon/
+`,
+  },
+  {
+    name: "Colorado Springs: catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+You & I Caterers	Catering	830 Arcturus Drive	Colorado Springs	Colorado	Colorado Springs and surrounding areas	Colorado Springs caterer serving the city since 1994, with wedding catering among its event services.		(719) 572-9233	https://www.youandicaterers.com/	
+`,
+  },
+  {
+    name: "Vail and Aspen: cake, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Dang Sweets Cafe	Cake		Vail	Colorado		Vail cafe and bakery making custom cakes and desserts to order, with a dedicated wedding cakes section.			https://www.dangsweets.com/	https://www.instagram.com/dang_sweets/
+d'Elissious	Cake		Basalt	Colorado	Roaring Fork Valley, Aspen to Glenwood Springs	Basalt custom cake studio making decorated, high-end wedding cakes, with tastings by appointment Tuesday to Friday.	elissa@delissiouscakestudio.com		https://www.delissiouscakestudio.com/	https://www.instagram.com/delissiousaspen/
+Silent James Films	Videography		Aspen	Colorado		Aspen videography studio offering wedding films alongside corporate video production.		+1-860-598-0101	https://www.silentjamesfilms.com/	https://www.instagram.com/silentjamesfilms/
+`,
+  },
+  {
+    name: "Boulder: videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Think Global Media	Videography		Boulder	Colorado	Boulder, Vail, Aspen and Breckenridge	Boulder-based wedding video and photo team (Global Filmz) offering highlight reels, feature films and drone footage where permitted.		888-653-2688	https://globalfilmz.com/	https://www.instagram.com/thinkglobalfilmz/
+Shutter & Sound Films	Videography		Denver	Colorado	Colorado, including Boulder, Aspen and Vail	Denver wedding filmmakers since 2014, making cinematic highlight and feature films plus photography and guest-filmed keepsakes.	hello@shutterandsound.com		https://shutterandsound.com/locations/denver/	https://www.instagram.com/shutterandsound/
+`,
+  },
+  {
+    name: "Estes Park: planning, music, catering, cake, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Rocky Mountain Wedding & Elopement Park	Planning		Estes Park	Colorado	Estes Park and Rocky Mountain National Park	Estes Park micro-wedding venue and planner with all-inclusive elopement packages covering permits, photography, flowers and officiant.	Iver@RockyMountainWeddingPark.com	303-351-1602	https://rockymountainweddingpark.com/	https://www.instagram.com/micro.weddings/
+Lyric Ensemble	Music	3156 9th Street	Boulder	Colorado	Denver, Boulder and Estes Park	Boulder string duos, trios and quartets playing live music for wedding ceremonies, cocktail hours and receptions.	kimberlee@lyricensemble.com	303.442.2025	https://www.lyricensemble.com/	https://www.instagram.com/lyricensemble/
+Sugar Pine Catering	Catering	1920 S Coffman St	Longmont	Colorado	Boulder, Denver area, Estes Park, Fort Collins, Greeley, Loveland and Lyons	Boutique Longmont caterer offering farm-to-table menus, handcrafted cocktails and full-service wedding catering.	contact@sugarpinecatering.com	303.827.3763	https://sugarpinecatering.com/	https://www.instagram.com/sugarpinecatering/
+The Frosted Canvas	Cake		Loveland	Colorado	Loveland and northern Colorado	Loveland home bakery making custom cakes for weddings, bridal showers and other celebrations across northern Colorado.			https://www.thefrostedcanvas.com/	https://www.instagram.com/the_frosted_canvas/
+Sky Pond Photography & Video Productions	Videography		Estes Park	Colorado	Estes Park and Rocky Mountain National Park	Estes Park photo and video studio filming weddings in town and the national park, working there since 1999.			https://skypondphotovideo.com/	
+`,
+  },
+  {
+    name: "Fort Collins: music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Mountain Event Services	Music	2530 Myrtle Ct	Fort Collins	Colorado	Fort Collins, Northern Colorado and southern Wyoming	Fort Collins wedding DJ and MC service that also supplies photo booths, lighting and sound, with soundtracks built around each couple.	events@mountaineventservices.com	970-372-4882	https://www.mountaineventservices.com/	
+`,
+  },
 ];
 
 export default batches;
