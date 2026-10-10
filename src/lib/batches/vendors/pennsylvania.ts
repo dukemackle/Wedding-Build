@@ -299,6 +299,30 @@ Modern Fusion Catering	Catering	5664 Sullivan Trail	Nazareth	Pennsylvania	Lehigh
 DiMartini Catering	Catering		Bethlehem	Pennsylvania	Lehigh Valley and tri-state area	Full-service wedding caterer with Italian-inspired menus, staffing and rentals, set up for venues without an existing kitchen.	dimartinicatering@gmail.com	718-887-6902	https://dimartinicatering.com/	
 Ye Ole Sweet Shoppe	Cake	402 State Street	Erie	Pennsylvania		Cookie-led bakery offering wedding cupcakes, tea cookies, brownie bites, cake pops and favours, and out-of-town guest gift baskets.			https://yeolesweets.com/	https://www.instagram.com/yeolesweetshoppe/`,
   },
+  {
+    name: "Philadelphia: music and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Jay Franco Films	Videography		Philadelphia	Pennsylvania	Philadelphia and the greater Philadelphia region	Wedding and elopement filmmaker who pairs with a sister photographer, so one coordinated team covers both photo and video on the day.	Jayyfrancofilms@gmail.com		https://www.jayfrancofilms.com/	https://www.instagram.com/jayfrancofilms/
+Merryweather Films	Videography		Philadelphia	Pennsylvania		Cinematic keepsake films of weddings and bar and bat mitzvahs, edited in-house and shot to capture key moments without interrupting them.	info@merryweatherfilms.com	610-665-4005	https://merryweatherfilms.com	https://www.instagram.com/merryweatherfilms/
+Nostalgia Ultra Weddings	Videography		Philadelphia	Pennsylvania	Pennsylvania, New Jersey and Delaware	Documentary-style wedding films from a single filmmaker who blends candid storytelling with light direction for couples who want to stay present.			https://www.nostalgiaultraweddings.com/	
+Ryan Cook Music	Music		Willow Grove	Pennsylvania	Bucks and Montgomery Counties and the greater Philadelphia area	Wedding band and DJ in one, playing live ceremony and cocktail music as a solo, duo, trio or quartet before taking over the reception.			https://ryancookmusic.com	
+Philly Star Events	Music		Philadelphia	Pennsylvania	Philadelphia and the Philadelphia metro area	Philadelphia DJ and emcee service that includes a full sound system with every booking and sends its team at least an hour early.		215-825-5300	https://www.phillystarevents.com	
+The Other Wedding DJ	Music		Philadelphia	Pennsylvania		Wedding DJ who sees the job as hosting a great dance party, reading the crowd and keeping the floor busy rather than following a stock script.			https://theotherweddingdj.com/	
+LUV'DUP DJs	Music		Philadelphia	Pennsylvania	Philadelphia, New York City and Washington, DC	Woman-owned DJ agency that curates every song for the couple and adds timeline and audio consultations, lighting and photo booth options.			https://www.luvdupdjs.com	https://www.instagram.com/luvdupdjs/`,
+  },
+  {
+    name: "Poconos: cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Stroudsmoor Bakery & Cafe	Cake	125 Broad St	Stroudsburg	Pennsylvania		Stroudsburg bakery and cafe that bakes wedding and occasion cakes in 18 signature flavours, with details arranged by phone.	sit@stroudsmoor.com	(570) 517-0663	https://www.stroudsmoorbakery.com/cakes/	https://www.instagram.com/stroudsmoorbakerycafe/`,
+  },
+  {
+    name: "Lehigh Valley: photography, planning, music and catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Aryen Mostek Photography	Photography		Center Valley	Pennsylvania	Lehigh Valley and surrounding areas	Wedding photographer mixing posed, candid and true-to-life frames, with natural skin tones and intentional compositions across a range of collections.			https://www.aryenmostekphotos.com/wedding	https://www.instagram.com/aryenmostekphotography/
+Nina Lily Photography	Photography		Allentown	Pennsylvania	Philadelphia, the Lehigh Valley and the Pocono Mountains	Wedding photographer who is also a humanist celebrant, telling couples' stories with emotion and artistry across the Lehigh Valley and beyond.	christina@ninalilyphotography.com		https://www.ninalilyphotography.com	https://www.instagram.com/ninalilyphoto/
+Engagement Sounds	Music		Allentown	Pennsylvania	Lehigh Valley, eastern Pennsylvania and western New Jersey	Wedding-focused DJ and MC offering ceremony sound, uplighting, photo booths and a low fog effect for first dances, with planned timelines.	info@engagementsounds.com	610-424-7799	https://engagementsounds.com	https://www.instagram.com/engagementsounds/
+Pat's Pizza & Bistro	Catering	1426 W Broad St	Bethlehem	Pennsylvania		Bethlehem pizza and bistro that caters weddings with custom menus, table settings and staff, plus a pizza trailer for the afterparty.	yankyzi@gmail.com	610-419-8100	https://www.patsbethlehem.com/weddings	https://www.instagram.com/patsbethlehem/`,
+  },
 ];
 
 export default batches;
