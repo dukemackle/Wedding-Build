@@ -262,6 +262,28 @@ Blend Artistry	Hair & Makeup	316 Main Street, Suite C	Hamilton	Ohio	Cincinnati a
 Tanya's Image & Wellness Salon	Hair & Makeup	2716 Erie Ave.	Cincinnati	Ohio		Hyde Park Square salon that sends on-site hair and makeup artists to weddings, with trial sessions and clear per-service pricing.	tanya@tanyasimage.com	(513) 533-9400	https://tanyasimage.com/	https://www.instagram.com/tanyas_image/
 Happy Chicks Bakery	Cake	4035 Hamilton Avenue	Cincinnati	Ohio		Independent Northside bakery making artistic wedding cakes in a dedicated egg- and dairy-free space.	happychicksbakery@gmail.com	(513) 386-7990	https://happychicksbakery.com/	https://www.instagram.com/happychicksbakery/`,
   },
+  {
+    name: "Columbus: videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Columbus Wedding Videos	Videography	5568 Cloverdale Dr	Galena	Ohio	Columbus and central Ohio	Galena-based studio making cinematic highlight films and full-length documentary-style wedding videos for central Ohio couples.	info@columbusweddingvideos.com	614.725.0169	https://columbusweddingvideos.com/	https://www.instagram.com/columbusweddingvideos/`,
+  },
+  {
+    name: "Cleveland: music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Selective Sound Events	Music	26601 Richmond Rd	Bedford Heights	Ohio	Cleveland and surrounding areas	Cleveland DJ, MC and live party band company that also supplies ceremony audio, lighting and photo booths for weddings.	info@selectivesound.com	(440) 516-0020	https://www.selectivesound.com/	https://www.instagram.com/selectivesoundevents/`,
+  },
+  {
+    name: "Toledo: music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Sounds of Music DJs	Music		Toledo	Ohio	North-west Ohio and south-east Michigan	Toledo DJ and MC service for weddings and parties, which also produces two local bridal shows each year.			https://www.soundsofmusicdjs.com/	`,
+  },
+  {
+    name: "Akron and Canton: planning, hair and makeup and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Always Eventful	Planning		Akron	Ohio	Akron, Canton and Cleveland	Event planner who organises weddings and company celebrations for couples across Akron, Canton and Cleveland.	triciadever91@gmail.com	(330) 354-7133	https://alwayseventful.com/	https://www.instagram.com/triciadeverevents/
+MAVON Beauty	Hair & Makeup	2830 Copley Rd Suite D	Copley	Ohio	Akron, Canton, Cleveland and Columbus	Studio offering on-location bridal hair and makeup, including styling for Indian and South Asian multi-day weddings.		330.730.9711	https://www.mavonbeauty.com/	
+Work Shed Weddings	Videography		Akron	Ohio	Akron, Cleveland, Canton, Youngstown and Pittsburgh	Akron wedding film studio blending documentary storytelling with cinematic visuals across north-east Ohio and western Pennsylvania.	weddings@workshedpictures.com	330.790.1797	https://workshedweddings.com/	https://www.instagram.com/workshedweddings/`,
+  },
 ];
 
 export default batches;
