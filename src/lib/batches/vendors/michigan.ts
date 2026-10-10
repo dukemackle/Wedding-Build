@@ -237,6 +237,40 @@ AA Studios	Videography		Lansing	Michigan		Lansing studio producing wedding films
 Gregory D Productions	Videography	5702 West Saginaw Hwy	Lansing	Michigan		Lansing studio inside the Lansing Mall that films weddings and commercial projects, and also offers photography and DJ sound.	Info@gregorydproductions.com	(615) 212-9791	https://www.gregorydproductions.com/videography	https://www.instagram.com/GregoryDproductions/
 Five Twenty One Photo + Film	Videography		Lansing	Michigan	Mid-Michigan	Lansing photographer and filmmaker covering weddings with photo and video, optional second shooter and payment plans, since 2014.		(517) 898-3870	https://521weddings.com/	https://www.instagram.com/521photography/`,
   },
+  {
+    name: "Detroit: planning, hair and makeup and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Simply Brilliant Events	Planning		Detroit	Michigan		Detroit-based wedding planner offering full-service planning and custom event design for couples.	nicola@simplybrilliantevent.com		https://www.simplybrilliantevent.com/	https://www.instagram.com/simplybrilliantevent/
+Crystal Marie Events	Planning	1420 Washington Blvd, Suite 301	Detroit	Michigan		Downtown Detroit event management company that plans weddings, destination weddings and corporate events, with decor and design services.	welcome@crystalmarieevents.com	313-407-4127	https://www.crystalmarieevents.com/	https://www.instagram.com/crystalmarieevents/
+Metro Detroit Bridal	Hair & Makeup		Detroit	Michigan	Metro Detroit and across Michigan	On-site bridal hair and makeup for brides and their parties, with hair-only, makeup-only and custom packages.			https://metrodetroitbridal.com/	https://www.instagram.com/metrodetroitbridal/
+Nicole Lynn Artistry	Hair & Makeup	33760 Plymouth Rd	Livonia	Michigan		On-location hair and makeup artists in Livonia offering airbrush makeup and romantic updos for brides and wedding parties.	nicolelynnartistry@gmail.com	(352) 408-0642	https://nicolelynnartistry.com/	https://www.instagram.com/nicolelynnartistry/
+Black Tie White Dress Productions	Videography		Detroit	Michigan		Detroit wedding film company directed by Douglas Winningham, making cinematic wedding videos for couples in Michigan.	director@blacktiewhitedressproductions.com		https://www.blacktiewhitedressproductions.com/	https://www.instagram.com/blacktiewhitedressprod/
+Visi Productions	Videography	32733 Grand River Ave	Farmington	Michigan		Farmington studio offering wedding photography and cinematic wedding films, with mitzvah films alongside weddings.	hello@visiproductions.com	(734) 968-1407	https://www.visiproductions.com/	https://www.instagram.com/visiproductions/
+Timothy Scott Films	Videography		Detroit	Michigan		Detroit wedding videographer making emotional, creative and fun wedding films for couples.			https://timothyscottfilms.com/	https://www.instagram.com/timothyscottfilms/
+Diffuse Media	Videography		Detroit	Michigan	Michigan and destination weddings	Metro Detroit photographer and videographer covering weddings across Michigan and further afield, with published packages.	diffusemedia1@gmail.com	586-360-8075	https://www.diffuse-media.com/	https://www.instagram.com/diffusemedia/
+Visual Reflection Wedding Videos	Videography		Metamora	Michigan	Throughout Michigan	Wedding videographer in Metamora with four package tiers, from short highlight films to full-length movies.		(386) 569-4087	https://www.visualreflectionvideo.com/	https://www.instagram.com/visualreflectionvideo/
+Hana Wedding Films	Videography		Sterling Heights	Michigan	Across Michigan	Cinematic wedding videography covering couples across Michigan, with photo booth hire as an add-on.	info@hanaweddingfilms.com		https://www.hanaweddingfilms.com/	`,
+  },
+  {
+    name: "Grand Rapids: catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Martha's Catering	Catering	1122 Michigan St NE	Grand Rapids	Michigan		Grand Rapids caterer that handles weddings as well as office and venue events, with online enquiries by email.	catering@marthascatering.com		https://www.marthascatering.com/	https://www.instagram.com/marthas_catering/
+Maddalena's Catering Company	Catering	4166 Lake Michigan Dr	Grand Rapids	Michigan		Grand Rapids caterer booking weddings and events, with a wedding menu and a link to an affiliated event venue.	info@maddalenascaters.com	616-451-3663	https://www.maddalenascaters.com/weddings/	https://www.instagram.com/maddalenas.catering/
+The Catering Company	Catering	1307 East Fulton St	Grand Rapids	Michigan	Grand Rapids and beyond	Grand Rapids caterer with more than 35 years' experience, offering wedding menus and dessert catering.		616-454-7475	https://thecateringcompanygr.com/	https://www.instagram.com/tccogr/
+Kangaroo Kitchen and Catering	Catering		Grand Rapids	Michigan		Grand Rapids caterer serving eclectic, globally inspired food for weddings and corporate events.			https://www.kangarookitchengr.com/	https://www.instagram.com/kangarookitchengr/
+Above & Beyond Catering	Catering	1307 East Fulton St	Grand Rapids	Michigan		Grand Rapids caterer for weddings, graduation parties, banquets and corporate events, working with partner venues.		616-558-6518	https://above-beyond.com/	https://www.instagram.com/aboveandbeyondcateringgr/`,
+  },
+  {
+    name: "Ann Arbor: videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Voice Wedding Cinema	Videography		Ann Arbor	Michigan	Ann Arbor, Detroit and around Michigan	Wedding videography studio making cinematic films for couples in Ann Arbor and Detroit, plus destination weddings.			https://vmcweddings.com/	https://www.instagram.com/vmcweddings/`,
+  },
+  {
+    name: "Lansing: planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+White Flamingo Events	Planning		Lansing	Michigan	Michigan and beyond	Lansing planner offering one-off consultations, day-of coordination or full event management for weddings.	katie@whiteflamingoevents.com		https://www.whiteflamingoevents.com/	
+1945 Event Co.	Planning		Lansing	Michigan	Mid-Michigan	Planning and decor styling company offering full-service wedding planning, design plans and day-of coordination.	1945EventCo@gmail.com		https://www.1945eventco.com/	`,
+  },
 ];
 
 export default batches;
