@@ -189,13 +189,31 @@ export function SearchShell({
           items of the bar itself. */}
       <div ref={controlsRef} className="pointer-events-none absolute inset-x-0 top-0 z-[700] flex flex-col gap-2 p-3 lg:static lg:z-auto lg:flex-row lg:items-center lg:gap-2 lg:border-b lg:border-hairline lg:bg-card lg:px-5 lg:py-2.5">
         <div className="pointer-events-auto flex items-center gap-2 lg:contents">
-          <input
-            type="search"
-            value={search.value}
-            onChange={(e) => search.onChange(e.target.value)}
-            placeholder={search.placeholder}
-            className="min-w-0 flex-1 rounded-full border border-hairline bg-card px-4 py-2 text-sm text-ink shadow-md outline-none focus:border-forest lg:w-60 lg:flex-none lg:shadow-none"
-          />
+          <div className="relative min-w-0 flex-1 lg:w-60 lg:flex-none">
+            <input
+              type="search"
+              value={search.value}
+              onChange={(e) => search.onChange(e.target.value)}
+              placeholder={search.placeholder}
+              // The browser's own clear button is hidden (Safari's is tiny and
+              // Chrome's doesn't match), and ours is drawn instead.
+              className="w-full rounded-full border border-hairline bg-card py-2 pl-4 pr-9 text-sm text-ink shadow-md outline-none focus:border-forest lg:shadow-none [&::-webkit-search-cancel-button]:appearance-none"
+            />
+            {search.value && (
+              <button
+                type="button"
+                aria-label="Clear search"
+                // Keeps the keyboard up on a phone, so clearing and retyping is one motion.
+                onMouseDown={(e) => e.preventDefault()}
+                onClick={() => search.onChange("")}
+                className="absolute right-1.5 top-1/2 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full text-ink/50 hover:bg-ink/5 hover:text-ink"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                  <path d="M6 6l12 12M18 6L6 18" />
+                </svg>
+              </button>
+            )}
+          </div>
           <>{viewPills}</>
         </div>
         <div className="pointer-events-auto -mx-3 flex gap-2 overflow-x-auto px-3 pb-1 [scrollbar-width:none] lg:contents [&::-webkit-scrollbar]:hidden">
