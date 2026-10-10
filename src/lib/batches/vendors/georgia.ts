@@ -262,6 +262,65 @@ Cam Watson Beauty	Hair & Makeup		Athens	Georgia	Athens and surrounding counties	
 B & B Videography	Videography		Athens	Georgia	Athens and North Georgia	Athens-based wedding videographer offering teaser, highlight and cinematic films plus rehearsal dinner coverage.	bailey.brettvideo@gmail.com		https://www.bandbvideography.com/	
 `,
   },
+  {
+    name: "Macon: photography, planning, florals, music, catering and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Weddings by Matt O	Photography		Macon	Georgia	Georgia, the Southeast and across the US	Fine art wedding photographer based in Macon, with themed galleries, collections and engagement sessions for couples across Georgia and beyond.			https://www.weddingsbymatto.com/	
+Jarvis Willis Events & Designs	Planning	3243 Vineville Ave	Macon	Georgia		Macon wedding planner and designer offering free consultations, plus floral and decor work, run from an office on Vineville Avenue.	info@jarviswillis.com	(478) 718-2280	https://www.jarviswillis.com/	
+Macon Experiences	Planning		Macon	Georgia	Macon	Macon event company offering full wedding planning, day-of coordination, elopements and micro weddings, and welcoming LGBTQ+ couples.		(917) 412-4661	https://www.maconexperiences.com/	https://www.instagram.com/maconexperiences/
+Le Petit Mariage	Planning		Macon	Georgia	Macon	Appointment-only elopement, officiant and micro wedding service producing small, personalised ceremonies in Macon venues such as the Grand Opera House.	info@elopetomaconga.com	(478) 521-9603	https://www.elopetomaconga.com/	
+Lawrence Mayer Florist	Florals	608 Mulberry St	Macon	Georgia	Greater Macon area	Family-run Macon flower shop with a dedicated wedding arm, designing bridal bouquets plus ceremony and reception flowers after a free consultation.			https://lawrencemayerflorist.weddingflorals.net/	
+CM Music Factory	Music		Macon	Georgia	All of Georgia	Macon wedding DJ and photo booth company, family-run with over 25 years of experience, travelling to weddings across Georgia.	Dusty@cmmusicfactory.com	(478) 361-7392	https://www.cmmusicfactory.com/	https://www.instagram.com/cmmusicfactory/
+Plate Macon	Catering		Macon	Georgia	Macon and surrounding areas	Private chef and catering company led by Chef Mike Young, cooking for weddings, parties and corporate events in and around Macon.			https://platemacon.com/	https://www.instagram.com/plate.macon/
+Gustavo Romero Films	Videography		Macon	Georgia	Macon, Atlanta, Savannah and destination weddings	Macon-based luxury wedding filmmaker making cinematic highlight films with recorded vows, offered in three collections up to multi-day events.			https://gustavoromerofilms.com/	
+ShadowCast Studios	Videography		Macon	Georgia	Macon, Warner Robins and Middle Georgia	Cinematic videography and photography studio south of Macon, covering weddings, events and businesses across Middle Georgia.			https://www.shadowcaststudios.com/	https://www.instagram.com/shadowcaststudios/
+`,
+  },
+  {
+    name: "Augusta: planning, music, hair & makeup, cake and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Rohdy Events & Design	Planning		Augusta	Georgia		Sister-run Augusta team of a wedding coordinator and a designer, offering packages from event-day coordination to full planning for quirky, fun-loving couples.	amanda.rohdyevents@gmail.com		https://rohdyevents.com/	https://www.instagram.com/rohdylove/
+Augusta Day Of Coordination	Planning		Augusta	Georgia	Augusta	Augusta coordinator since 2019 who helps couples well before the wedding day and can bundle officiating with day-of coordination at a discount.	info@augustaofficiant.com	(772) 812-3707	https://www.augustadayofcoordination.com/	https://www.instagram.com/augustaweddingofficiant/
+M&S Mobile Productions	Music		Augusta	Georgia	The CSRA	Augusta wedding DJ and MC service run by Mike Stephens, adding event lighting and a photo booth, with more than 1,000 events played.			https://www.djourwedding.com/	
+Bella Faccia Skincare & Beauty Studio	Hair & Makeup	1415 Monte Sano Avenue	Augusta	Georgia		Augusta studio founded in 2006 as a bridal airbrush makeup company, offering wedding makeup and hair as well as facials and lash services.	confirmbellafaccia@gmail.com		https://bellafacciallc.com/	https://www.instagram.com/Bellafacciallc/
+Amazing Cakes and Sweets	Cake	3411 Patron Dr	Grovetown	Georgia	Augusta, Evans, Martinez, North Augusta and Aiken	Grovetown bakery with 25 years of experience making custom wedding cakes, cupcakes, mini cakes and favours for couples across the Augusta area.		(706) 631-4311	https://www.amazingcakesandsweets.com/	https://www.instagram.com/amazingcakesandsweetsaugusta/
+Beauty & Beard Photography	Videography		Augusta	Georgia	Augusta, Savannah and the Carolinas	Husband-and-wife photo and film team in Augusta making heirloom wedding films and photographs, and travelling for celebrations across the Southeast.			https://beautyandbeardphotography.com/	https://www.instagram.com/Beautyandbeardphotography/
+`,
+  },
+  {
+    name: "Atlanta: hair & makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Jolie Artistry & Co	Hair & Makeup		Atlanta	Georgia	Atlanta and worldwide	Atlanta on-location bridal hair and makeup team founded in 2020, aiming for a calm, elevated wedding morning and a refined, timeless look.	jolie@itmeanspretty.com		https://www.itmeanspretty.com/	https://www.instagram.com/jolieartistryco/
+Molly Todd Makeup Artist	Hair & Makeup		Atlanta	Georgia	Atlanta and the Southeast	Atlanta makeup and hair artist working on-site for brides as well as film, editorial and corporate clients, with a glowy, natural bridal look.		(404) 394-6230	https://www.mollytoddmakeup.com/	https://www.instagram.com/mollytoddmakeup/
+`,
+  },
+  {
+    name: "Savannah: music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Olde Pink String Quartet	Music		Savannah	Georgia		Savannah string quartet playing weddings since 2015, with a repertoire of over 700 songs from pop and Broadway to jazz and classical.	rebecca@oldepinkquartet.com	(912) 219-0364	https://www.oldepinkquartet.com/	
+`,
+  },
+  {
+    name: "Athens: music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Athens All-Stars	Music		Athens	Georgia		Entertainment agency booking five Athens bands for weddings and parties, covering yacht rock, 70s dance, Motown, blues and Hawaiian-themed sets.	jason@athensallstars.com		https://www.athensallstars.com/	
+`,
+  },
+  {
+    name: "North Georgia Mountains: videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Wild Wood Photo + Film	Videography		Dawsonville	Georgia	North Georgia and beyond	Ordained photographer and filmmaker pair based in Dawsonville, offering digital and film photography plus digital and Super 8 wedding films.			https://www.wildwoodphotoandfilm.com/	https://www.instagram.com/wildwoodphotofilm/
+`,
+  },
+  {
+    name: "Columbus, Georgia: planning, photography, florals and cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Simply Simes Event Planning	Planning	3151 Tower Road, Suite A	Columbus	Georgia	Columbus, with travel available	Columbus wedding planner and designer also running a micro wedding venue, offering planning, coordination, decor and elopements by appointment.			https://www.simplysimesevents.com/	https://www.instagram.com/simplysimeseventplanning/
+Jill Welch Photography	Photography		Columbus	Georgia	Columbus area	Columbus photographer with around 15 years of engagement, couple and small wedding work, offering albums, canvases and digital packages.			https://www.jillwelchphotography.com/	
+Denham's Florist	Florals	123 12th Street, Suite B	Columbus	Georgia	Greater Columbus area	Full-service Columbus florist designing flowers for weddings, parties and corporate events, with daily delivery across the area.	info@denhamsflorist.com	(706) 685-0182	https://denhamsflorist.com/	https://www.instagram.com/denhamsflorist/
+Pat-A-Cakes Bakery	Cake	2518 2nd Ave	Columbus	Georgia		Columbus bakery making custom wedding cakes and all-occasion cakes, with a portfolio and menus on its site.	rachelle@pat-a-cakes.org	(706) 322-1218	https://www.patacakes.org/	
+`,
+  },
 ];
 
 export default batches;
