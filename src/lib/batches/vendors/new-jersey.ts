@@ -161,7 +161,6 @@ Amber's Lane Events	Planning		Clifton	New Jersey	New York, New Jersey, Connectic
     name: "Jersey Shore: photography, planning and videography",
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
 Lorenzo Media Productions	Videography		Freehold	New Jersey	New Jersey	Husband-and-wife team from Freehold making honest, timeless, personal wedding films for couples across New Jersey.	info@lorenzomediaproductions.com	732-614-5600	https://lorenzomediaproductions.com/	
-Details Made Simple	Planning		Westfield	New Jersey	New Jersey, including the Jersey Shore and Ocean County	Westfield day-of wedding coordinators for couples planning their own celebration, with a dedicated Jersey Shore service.	info@detailsmadesimple.com		https://detailsmadesimple.com/	https://www.instagram.com/detailsmadesimple/
 Hariel Xavier Photography	Photography		Sparta	New Jersey	Monmouth County and the Jersey Shore	Photographer with over 750 weddings behind him, covering Monmouth County from Red Bank to Allentown and across New Jersey.	Hi@HarielXavier.com	862-391-4179	https://harielxavier.com/	https://www.instagram.com/harielxaviermedia/`,
   },
 ];
