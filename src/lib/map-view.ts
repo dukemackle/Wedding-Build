@@ -21,3 +21,14 @@ export function isInView(
 export function viewKey(view: MapView | null) {
   return view ? [view.south, view.west, view.north, view.east].map((n) => n.toFixed(4)).join(",") : "";
 }
+
+/**
+ * How far the browse maps can pan and zoom out: the US with Alaska and Hawaii
+ * plus some sea around it. Without a limit Leaflet repeats the world sideways
+ * forever and a swipe left carries the pins off into a copy of the Pacific.
+ */
+export const US_MAP_BOUNDS: [[number, number], [number, number]] = [
+  [5, -180],
+  [75, -50],
+];
+export const MAP_MIN_ZOOM = 3;
