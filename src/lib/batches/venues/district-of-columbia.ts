@@ -35,6 +35,21 @@ Rosewood Washington, D.C.	1050 31st St NW	Washington	District of Columbia			Ball
 Long View Gallery	1234 9th St NW	Washington	District of Columbia			Ballroom / Hotel	Indoor	200		Divisible 8,500 sq ft industrial gallery beside Blagden Alley that seats up to 200 for dinner and dancing.	events@longviewgallerydc.com	202-630-3122	https://www.longviewgallerydc.com/social-events/
 Heurich House Museum	1307 New Hampshire Ave NW	Washington	District of Columbia			Historic / Estate	Indoor & Outdoor			Dupont Circle mansion museum with a garden and carriage house that offers wedding ceremony rentals.			https://heurichhouse.org/pages/rentals`,
   },
+  {
+    name: "Washington venues 3",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+President Lincoln's Cottage	140 Rock Creek Church Rd NW	Washington	District of Columbia			Historic / Estate	Indoor & Outdoor	350	Classic	Gothic Revival cottage on the Soldiers' Home grounds where Lincoln spent summers, hosting one wedding a day across its first floor, a visitor center and three lawns.			https://www.lincolncottage.org/weddings
+National Press Club	529 14th St NW	Washington	District of Columbia			Ballroom / Hotel	Indoor	200	Classic	Thirteenth-floor ballroom at the top of the National Press Building overlooking the White House, seating 200 with a dance floor.		202-662-7587	https://www.press.org/weddings
+Gallery O on H	1354 H St NE	Washington	District of Columbia			Ballroom / Hotel	Indoor & Outdoor	100		H Street gallery with a multi-level brick courtyard, about 3,000 square feet of gallery space and a garage bar, suited to weddings of 80 to 100.	maryellen@galleryoonh.com	(202) 213-2465	https://www.galleryoonh.com
+Sequoia	3000 K St NW	Washington	District of Columbia			Restaurant / Vineyard	Indoor & Outdoor			Georgetown waterfront restaurant with floor-to-ceiling windows over the Potomac, a main dining room, mezzanine, outdoor terrace and private state room, with a wedding brochure.		(202) 333-3011	https://www.sequoiadc.com
+1789 Restaurant	1226 36th St NW	Washington	District of Columbia			Restaurant / Vineyard	Indoor			Georgetown restaurant with private rooms and a Fitzgerald's bar buyout, listing wedding receptions among its events for groups from about 18 to 125.		(202) 965-1789	https://www.1789restaurant.com
+St. Francis Hall	1340 Quincy St NE	Washington	District of Columbia			Historic / Estate	Indoor & Outdoor	225		Hall at the Franciscan Monastery in Brookland with a beamed main hall, fishpond terrace, private lawn for ceremonies and garden photo backdrops, seating up to 225.	stfrancishall@gmail.com		https://stfrancishall.com
+Union Stage	740 Water St SW	Washington	District of Columbia			Ballroom / Hotel	Indoor	200		Multi-level live-music room of about 7,500 square feet on the Southwest waterfront, offering weddings with banquet seating for 200.			https://www.unionstagepresents.com/union-stage/private-events
+Pearl Street Warehouse	33 Pearl St SW	Washington	District of Columbia			Ballroom / Hotel	Indoor	100		Wharf live-music room with a stage that hosts wedding receptions, seating 100 at banquet tables or 300 standing.			https://www.unionstagepresents.com/pearl-street/private-events
+The Showroom	1099 14th St NW	Washington	District of Columbia			Ballroom / Hotel	Indoor			Modern industrial event space near Franklin Park that lists weddings among the social events it hosts.		202-844-6222	https://theshowroomdc.com
+Friends Meeting of Washington	2111 Decatur Pl NW	Washington	District of Columbia			Historic / Estate	Indoor & Outdoor			Quaker meeting house near Dupont Circle renting rooms such as the Assembly Room, Terrace Room and gardens for wedding ceremonies and receptions.	eventspace@quakersdc.org	(202) 483-3310	https://events.quakersdc.org
+Right Proper Brewing Company	716 Monroe St NE	Washington	District of Columbia			Restaurant / Vineyard	Indoor	200		Brookland brewery and kitchen on the Arts Walk with semi-private spaces for wedding ceremonies, receptions and welcome parties of 10 to 200.			https://www.rightproperbrewing.com/private-events`,
+  },
 ];
 
 export default batches;
