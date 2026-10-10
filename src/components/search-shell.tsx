@@ -180,8 +180,11 @@ export function SearchShell({
       // Breaks out of the page's horizontal padding and eats its bottom
       // padding, so the map reaches all four edges. `isolate` keeps the
       // sheet's and controls' z-[600]/z-[700] inside the shell, so a listing
-      // opened over it (z-50) and the phone menu cover them.
-      className="search-shell-root relative isolate -mx-6 -mb-16 -mt-8 flex flex-col"
+      // opened over it (z-50) and the phone menu cover them. touch-action: a
+      // pinch over the filters or the sheet would zoom the whole page (leaving
+      // the controls cut off at the edges); the map still pinch-zooms itself
+      // through Leaflet's own touch handling.
+      className="search-shell-root relative isolate touch-pan-x touch-pan-y -mx-6 -mb-16 -mt-8 flex flex-col"
       style={availableHeight ? { height: availableHeight } : undefined}
     >
       {/* Controls. A floating overlay on a phone, a solid bar on desktop --
@@ -189,12 +192,13 @@ export function SearchShell({
           items of the bar itself. */}
       <div ref={controlsRef} className="pointer-events-none absolute inset-x-0 top-0 z-[700] flex flex-col gap-2 p-3 lg:static lg:z-auto lg:flex-row lg:items-center lg:gap-2 lg:border-b lg:border-hairline lg:bg-card lg:px-5 lg:py-2.5">
         <div className="pointer-events-auto flex items-center gap-2 lg:contents">
+          {/* 16px on a phone: iOS zooms the page in on focusing any smaller input. */}
           <input
             type="search"
             value={search.value}
             onChange={(e) => search.onChange(e.target.value)}
             placeholder={search.placeholder}
-            className="min-w-0 flex-1 rounded-full border border-hairline bg-card px-4 py-2 text-sm text-ink shadow-md outline-none focus:border-forest lg:w-60 lg:flex-none lg:shadow-none"
+            className="min-w-0 flex-1 rounded-full border border-hairline bg-card px-4 py-2 text-base text-ink lg:text-sm shadow-md outline-none focus:border-forest lg:w-60 lg:flex-none lg:shadow-none"
           />
           <>{viewPills}</>
         </div>
