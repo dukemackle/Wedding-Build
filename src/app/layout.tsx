@@ -50,9 +50,14 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${cormorant.variable} ${plexSans.variable} ${plexMono.variable} h-full antialiased`}
+      // Sideways overflow is cut on <html>, not just <body>: iOS Safari lets a
+      // page pan sideways past body's overflow-x-hidden, which shifted the
+      // whole Venues screen left and chopped the first filter. Body uses
+      // `clip` because `hidden` there would make it a scroll container once
+      // html stops propagating it, and the sticky header would stop sticking.
+      className={`${cormorant.variable} ${plexSans.variable} ${plexMono.variable} h-full overflow-x-hidden antialiased`}
     >
-      <body className="min-h-full flex flex-col overflow-x-hidden bg-parchment text-ink font-body">
+      <body className="min-h-full flex flex-col overflow-x-clip bg-parchment text-ink font-body">
         <AssistantProvider>
           <PageTransition>{children}</PageTransition>
           <SiteFooter />
