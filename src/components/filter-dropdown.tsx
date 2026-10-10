@@ -1,7 +1,11 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { ChevronDownIcon, CloseIcon } from "@/components/icons";
+
+/** Matches the menu's w-56. */
+const MENU_WIDTH = 224;
 
 export function FilterDropdown({
   label,
@@ -20,24 +24,54 @@ export function FilterDropdown({
 }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+  /**
+   * Where the open menu sits, in viewport pixels. The menu is portalled to
+   * <body> and fixed there: on a phone the pills live in a sideways-scrolling
+   * row, and a scrolling box clips anything hanging below it, so a menu
+   * positioned inside the row opened invisibly.
+   */
+  const [pos, setPos] = useState<{ top: number; left: number } | null>(null);
   const isActive = value !== "all";
   const selected = options.find((o) => o.value === value);
 
   useEffect(() => {
     if (!open) return;
     function onPointerDown(e: PointerEvent) {
-      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+      const target = e.target as Node;
+      if (ref.current?.contains(target) || menuRef.current?.contains(target)) return;
+      setOpen(false);
+    }
+    // A fixed menu would drift away from its pill, so moving anything closes it.
+    function onScroll(e: Event) {
+      if (menuRef.current?.contains(e.target as Node)) return;
+      setOpen(false);
     }
     function onKeyDown(e: KeyboardEvent) {
       if (e.key === "Escape") setOpen(false);
     }
     document.addEventListener("pointerdown", onPointerDown);
     document.addEventListener("keydown", onKeyDown);
+    window.addEventListener("scroll", onScroll, true);
+    window.addEventListener("resize", onScroll);
     return () => {
       document.removeEventListener("pointerdown", onPointerDown);
       document.removeEventListener("keydown", onKeyDown);
+      window.removeEventListener("scroll", onScroll, true);
+      window.removeEventListener("resize", onScroll);
     };
   }, [open]);
+
+  function toggle() {
+    if (!open) {
+      const rect = ref.current?.getBoundingClientRect();
+      if (rect) {
+        const left = Math.min(Math.max(rect.left, 8), window.innerWidth - MENU_WIDTH - 8);
+        setPos({ top: rect.bottom + 8, left });
+      }
+    }
+    setOpen(!open);
+  }
 
   function handleSelect(next: string) {
     onChange(next);
@@ -67,7 +101,7 @@ export function FilterDropdown({
         )}
         <button
           type="button"
-          onClick={() => setOpen((v) => !v)}
+          onClick={toggle}
           aria-expanded={open}
           className={`flex items-center gap-1.5 py-1.5 ${isActive ? "" : "pl-3"}`}
         >
@@ -77,8 +111,12 @@ export function FilterDropdown({
           />
         </button>
       </div>
-      {open && (
-        <div className="absolute left-0 top-full z-20 mt-2 max-h-72 w-56 overflow-y-auto rounded-md border border-hairline bg-card py-1 shadow-sm animate-page-in">
+      {open && pos && createPortal(
+        <div
+          ref={menuRef}
+          style={{ top: pos.top, left: pos.left }}
+          className="fixed z-40 max-h-72 w-56 overflow-y-auto rounded-md border border-hairline bg-card py-1 shadow-md animate-page-in"
+        >
           <button
             type="button"
             onClick={() => handleSelect("all")}
@@ -104,7 +142,8 @@ export function FilterDropdown({
               </button>
             ))
           )}
-        </div>
+        </div>,
+        document.body,
       )}
     </div>
   );
