@@ -257,7 +257,6 @@ J. La Plante Photo	Photography		Boulder	Colorado	Colorado, plus destination wedd
 16:3 Cake Studio	Cake		Louisville	Colorado	Louisville and surrounding Colorado cities	Louisville cake studio specialising in custom buttercream wedding cakes and gourmet desserts, with delivery across the surrounding area.	info@163cakestudio.com	(720) 593-1570	https://www.163cakestudio.com/	https://www.instagram.com/16.3cakestudio/
 Sugar High Cakes	Cake		Firestone	Colorado	Longmont, Firestone, Frederick, Dacono, Erie, Mead and nearby	Firestone baker handcrafting custom wedding cakes, cutting cakes and dessert spreads for couples in Longmont and the surrounding towns.	amber@sugarhighcakes.com	720-727-5555	https://sugarhighcakes.com/	https://www.instagram.com/sugarhighcakesllc/
 Alchemy Creative	Videography		Boulder	Colorado	Boulder County, Colorado	Boulder County studio filming weddings and elopements alongside photography, for couples wanting stills and video from one creative team.			https://alchemycreative.net/	https://www.instagram.com/alchemy_creative/
-Francis Sylvest	Videography		Boulder	Colorado	Colorado, including Aspen, Vail, Denver, Boulder and Colorado Springs	Boulder-based filmmaker and photographer shooting candid, documentary-style wedding day videography on both film and digital.	hello@francissylvest.com	+1.985.515.8671	https://francissylvest.com/	https://www.instagram.com/afsylvest/
 `,
   },
   {
