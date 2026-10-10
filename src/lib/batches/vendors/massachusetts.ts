@@ -248,6 +248,25 @@ Bill Smith's Martha's Vineyard Clambake Co.	Catering	10 North Line Road, Unit 3	
 Morning Glory Farm	Florals	120 Meshacket Rd.	Edgartown	Massachusetts	Martha's Vineyard	Family farm in Edgartown offering full-service wedding floral design with centrepieces and bouquets, or seasonal blooms for couples to arrange themselves.		(508) 627-9003	https://www.morninggloryfarm.com/	https://www.instagram.com/morninggloryfarmmv/
 `,
   },
+  {
+    name: "Boston: Catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Calla Catering and Events	Catering	179 W. Central St, Suite 2	Natick	Massachusetts	Massachusetts and southern New Hampshire	Full-service wedding caterer run by a chef and a wedding planner, with private tastings of the real menu and clear pricing.	melanie@callacatering.com	(781) 774-9735	https://www.callacatering.com	https://www.instagram.com/calla.catering/
+MAX Ultimate Food	Catering	65 East Cottage Street	Dorchester	Massachusetts	Rhode Island to Maine	Dorchester caterer for weddings of any style, from small dinners to large celebrations, handling planning details alongside the menu.	info@maxultimatefood.com	(617) 427-9799	https://www.maxultimatefood.com	https://www.instagram.com/maxultimatefood/
+`,
+  },
+  {
+    name: "Martha's Vineyard and Nantucket: Hair & Makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Vineyard Makeup Artist	Hair & Makeup		Edgartown	Massachusetts	Martha's Vineyard	Edgartown makeup artist who travels to your chosen island location to do the bride, bridal party and family.	bufteanicoleta@yahoo.com	508-627-0548	https://www.vineyardmakeupartist.com/weddings	
+`,
+  },
+  {
+    name: "Worcester: Videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+New England Wedding Film	Videography		Worcester	Massachusetts	Massachusetts and New England	Worcester studio making cinematic wedding films and photography across New England, from the Berkshires to Cape Cod and Newport.	info@newenglandweddingfilm.com	(774) 385-0793	https://www.newenglandweddingfilm.com/	https://www.instagram.com/newenglandweddingfilm/
+`,
+  },
 ];
 
 export default batches;
