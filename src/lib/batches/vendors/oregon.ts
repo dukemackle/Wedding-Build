@@ -194,6 +194,26 @@ My Petite Sweet	Cake	1710 NE Highway 101	Lincoln City	Oregon	Lincoln City	Lincol
 Cannon Beach Bakery	Cake	240 N Hemlock St	Cannon Beach	Oregon		Long-running Cannon Beach bakery taking semi-custom wedding cake and cupcake orders online, with at least two weeks' notice required.		503-436-0399	https://cannonbeachbakery.com/	https://www.instagram.com/cannonbeachbakery/
 Niblack Events	Catering	780 Avenue B	Seaside	Oregon	Astoria to the southern Oregon coast, plus greater Portland	Seaside caterer for weddings and events, serving buffet, family-style or plated menus with farm-to-table options, plus rentals, staffing and consultations.	info@niblackevents.com	(360) 918-1191	https://www.niblackevents.com/	https://www.instagram.com/niblackevents/`,
   },
+  {
+    name: "Portland: music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+DJ Casey Kay	Music		Portland	Oregon	Portland and surrounding areas	Club-trained Portland wedding DJ with a lively MC style who lets couples pick and approve their own music, and offers a photo booth.	djcaseypdx@gmail.com		https://www.djcaseypdx.com/	https://www.instagram.com/djcaseykay/
+NW Mobile DJ Service	Music		Portland	Oregon	Portland, Salem, the Gorge, Oregon Coast and the wider Pacific Northwest	Portland DJ and MC service for ceremonies and receptions, with a relaxed, low-key presence, adjustable interaction and karaoke or AV rentals.	kevin@nwmobiledjservice.com	503-380-6319	https://nwmobiledj.com/	https://www.instagram.com/nwmdjs/`,
+  },
+  {
+    name: "Oregon Coast: planning, florals, music, catering, hair and makeup, cake and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+J. Rickey Events	Planning		Astoria	Oregon	Northern Oregon Coast	Astoria planner for coastal elopements and weddings of up to 50 guests, with venue scouting, budgeting, logistics and on-site support.			https://jrickeyevents.com/	https://www.instagram.com/jrickeyevents/
+Newport Florist and Gifts	Florals	1738 N Coast Hwy	Newport	Oregon	Newport, Lincoln City, Florence, Yachats and the central Oregon Coast	Family-run Newport flower shop making wedding bouquets and arrangements from Oregon-grown blooms, to the colours and flowers a couple asks for.	flowerart.newport@gmail.com	(541) 265-8262	https://newportfloral.com/	https://www.instagram.com/newport_florist
+Truck Full of Posies	Florals		Florence	Oregon	Florence and the Oregon Coast	Florence event florist using local, seasonal blooms for coastal wedding flowers, with a rentable flower bar stand and delivery and setup.			https://truckfullofposies.com/	https://www.instagram.com/truckfullofposies
+Wild Rivers Sound	Music		Brookings	Oregon	Brookings, Gold Beach, Port Orford, Bandon, Coos Bay and Northern California	Brookings wedding DJ and MC with over ten years on weddings and two decades in live music, who can also book bands and supply sound.	wildriverssound@gmail.com		https://wildriverssound.com/	
+Sage Bleu Catering	Catering	577 18th Street	Astoria	Oregon	Northern Oregon Coast, from Astoria to Cannon Beach and Manzanita	Chef-led Astoria caterer cooking fresh on site for coastal weddings, with seasonal Pacific Northwest menus and vegetarian and vegan options.		503-717-3953	https://sagebleucatering.com/	https://www.instagram.com/sagebleucatering/
+Pat E Mac's BBQ & Catering	Catering		Newport	Oregon	Oregon, southern Washington, Nevada and northern California	Family-owned Newport caterer cooking over wood in the family's barbecue tradition, with menus that can be adjusted well beyond the classics.			https://www.patemacsbbq.com/	https://instagram.com/patemacs
+Wildflour Cafe & Catering	Catering		North Bend	Oregon	Coos Bay and North Bend, with offsite events at beaches and parks	North Bend caterer offering full-service wedding catering with linens, AV and a full bar, plus an in-house officiant and a downtown venue.			https://www.wildflourpub.com/	
+Tiffani Chante	Hair & Makeup		Cannon Beach	Oregon	Oregon and Idaho	Cannon Beach licensed stylist offering bridal hair and makeup and special-event services, with hair colour as a particular strength.			https://tiffanichantestylist.com/	https://www.instagram.com/tiffanichantestylist/
+Gathered Bakeshop	Cake		Astoria	Oregon	Oregon Coast, within about two hours of Astoria	Astoria bakeshop making custom and signature wedding cakes, with dessert tables and display rentals; wedding orders book 8 to 10 months ahead.			https://www.gatheredastoria.com/	https://www.instagram.com/gatheredastoria/
+Ambient Sky	Videography		Portland	Oregon	Portland, Oregon Coast, Astoria, Cannon Beach, the Gorge and Willamette Valley	Boutique Portland studio making clean, timeless wedding films and trailers alongside photography, and travelling to the coast for weddings.	info@ambientsky.com	503.318.4265	https://www.ambientsky.com/	https://www.instagram.com/ambientsky/`,
+  },
 ];
 
 export default batches;
