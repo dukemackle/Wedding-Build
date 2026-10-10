@@ -42,6 +42,53 @@ Cole Stevens Salon	Hair & Makeup	1247 E Street SE	Washington	District of Columbi
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
 Kennedy String Quartet	Music		Washington	District of Columbia	Washington DC region	DC string quartet founded in 2015 playing ceremonies and cocktail hours from a repertoire of more than 700 classical and pop songs.	gavon@kennedyquartet.com	(443) 247-8370	https://www.kennedyquartet.com/	`,
   },
+  {
+    name: "Washington: photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Rodney Bailey Photography	Photography	1133 14th Street NW	Washington	District of Columbia	Washington DC, Northern Virginia and Maryland	Documentary wedding photography from a long-running DC studio, covering Washington, Northern Virginia and Maryland weddings in a photojournalistic style.	photography@rodneybailey.com	(703) 362-5996	https://www.rodneybailey.com/	https://www.instagram.com/rodneybaileyphotojournalist_/
+Liz Fogarty Photography	Photography		Washington	District of Columbia	The East Coast and beyond	Washington-based photographer producing editorial, heirloom-minded imagery for full wedding weekends, from city ceremonies to tented Virginia estates.			https://lizfogartyphotography.com/	https://www.instagram.com/lizfogarty/
+Shelly Pate Photography	Photography		Washington	District of Columbia	Washington DC, the Shenandoah Valley and the greater DMV	Fun, romantic and adventurous wedding photography from a DC photographer, including elopements and Shenandoah Valley weddings.	shellypatephoto@gmail.com		https://shellypatephotography.com/	https://www.instagram.com/shellypatephoto/
+Erum Rizvi Photography	Photography		Washington	District of Columbia	Washington DC, Maryland, Virginia and global destinations	DC photographer specialising in South Asian, fusion and multicultural weddings, from Hindu and Sikh to Muslim and Pakistani celebrations.	erum@erumrizvi.com	571-243-2694	https://www.erumrizvi.com/	`,
+  },
+  {
+    name: "Washington: videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Feeling Weddings	Videography		Washington	District of Columbia	DC, Virginia and Maryland	Small family-run wedding film studio covering DC, Virginia and Maryland, with photography and livestreaming offered alongside the films.			https://feelingweddingfilms.com/	https://www.instagram.com/feelingweddings/
+Capital Films DC	Videography		Washington	District of Columbia	Washington DC, Maryland and Virginia	DC video production company with a wedding arm offering cinematography, photography and social content for couples in DC, Maryland and Virginia.		757-254-1704	https://www.capitalfilmsdc.com/	https://www.instagram.com/capitalfilmsdc/
+The Studio Weddings	Videography		Washington	District of Columbia	Washington DC, Maryland and Virginia	Cinematic wedding videography with a calm, documentary approach, filming for couples across DC, Maryland and Virginia.			https://thestudioweddings.com/	https://www.instagram.com/thestudioweddings/`,
+  },
+  {
+    name: "Washington: planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Anne Book Event Design	Planning		Washington	District of Columbia	Mid-Atlantic, Midwest and East Coast	Anne Book's DC event design studio, mixing planning, styling and off-premise catering for laid-back luxe weddings across the East Coast.			https://annebook.com/	https://www.instagram.com/annebook_/
+G&N Events	Planning		Washington	District of Columbia	DC, Maryland and Virginia	Mother-and-daughter team planning weddings in DC, Maryland and Virginia, with month-of, partial and full planning including cross-cultural ceremonies.	contactgnevents@gmail.com		https://www.gandnevents.com/	https://www.instagram.com/gneventsllc/
+DC Event Planner	Planning		Washington	District of Columbia	DC, Maryland, Virginia and beyond	Black- and woman-owned DC planning firm handling weddings and proposals alongside wider events in DC, Virginia and beyond.	info@eventsbytrb.com		https://www.thedceventplanner.com/	https://www.instagram.com/thedceventplanner/`,
+  },
+  {
+    name: "Washington: florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Little Acre Flowers	Florals	2004 17th St NW	Washington	District of Columbia	Washington DC, Maryland and Northern Virginia	Washington florist using locally grown seasonal flowers, offering full-service wedding design and smaller à la carte event florals.	info@littleacreflowers.com	(202) 524-0812	https://www.littleacreflowers.com/	https://www.instagram.com/littleacreflowers/
+Capitol Hill Blooms	Florals	600 Pennsylvania Ave SE	Washington	District of Columbia	Washington DC	Capitol Hill flower shop making custom wedding bouquets and ceremony and reception flowers, with bridal consultations.		(202) 547-8405	https://www.capitolhillblooms.com/wedding-flowers	
+Klassy Kreations	Florals		Washington	District of Columbia	Washington DC, including Georgetown, Navy Yard and Capitol Hill	Full-service DC wedding florist known for elegant, garden-style designs, with semi-custom packages and chuppah rentals.			https://klassy-kreations.com/washington-dc-wedding-florist	https://www.instagram.com/klassykreations/`,
+  },
+  {
+    name: "Washington: music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+DJ Casanova Productions	Music		Washington	District of Columbia	Washington DC, Maryland and Virginia	Bilingual English and Spanish DJ service for weddings and quinceañeras, with uplighting and Latin and bicultural sets.			https://djxcasanova.com/	https://www.instagram.com/djxcasanova/
+String Poets	Music		Washington	District of Columbia	Washington DC, Alexandria, Potomac, Baltimore, Leesburg and Frederick	String quartets, trios and soloists for wedding ceremonies and cocktail hours, drawn from Washington and Baltimore musicians.		202-465-2310	https://ceremonymusic.net/	`,
+  },
+  {
+    name: "Washington: hair & makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Carla Pressley Hair & Makeup	Hair & Makeup		Washington	District of Columbia	Washington DC, Northern Virginia and Bethesda	Mobile bridal hair and makeup artist working across DC, Northern Virginia and Bethesda, with a dedicated wedding gallery.	carla@carlapressley.com	515-966-4682	https://www.carlapressley.com/	https://www.instagram.com/carlapressleyhairmakeup/
+Royal Makeup & Hair	Hair & Makeup		Washington	District of Columbia	Washington DC, Northern Virginia and Maryland	Mobile hair and makeup team offering tiered bridal packages for weddings across the DMV.			https://royalmakeupandhair.com/	https://www.instagram.com/royalmakeupandhair/`,
+  },
+  {
+    name: "Washington: catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Paris Caterers	Catering	2258 25th Place NE	Washington	District of Columbia	Washington, DC; Maryland; Virginia	Washington-based caterer handling wedding menus and service for couples across DC, Maryland and Virginia, with an office on Pennsylvania Avenue.	sofia@pariscaterers.com	202-349-1404	https://www.pariscaterers.com/weddings-caterer	https://www.instagram.com/pariscaterers/
+Six Street Eats	Catering		Washington	District of Columbia	Washington, D.C. region	Chef-driven DC caterer, running since 2013, offering seasonal full-service and drop-off menus for weddings across the Washington region.	catering@sixstreeteats.net		https://www.sixstreeteats.com/	https://www.instagram.com/sixstreeteats/`,
+  },
 ];
 
 export default batches;
