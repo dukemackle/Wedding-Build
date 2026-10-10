@@ -223,6 +223,12 @@ Video Magic Productions	Videography	5520 Old Bullard Road, Suite 115	Tyler	Texas
 Tyler Pro Video	Videography		Tyler	Texas	Tyler; East Texas	Tyler videographers covering weddings in Tyler and the surrounding East Texas area, alongside portrait and general video work.	michael@tylerprovideo.com	940-594-1642	https://tylerprovideo.com/	
 `,
   },
+  {
+    name: "Waco, Bryan–College Station and Brenham: videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Jake Gleim Wedding Photo & Video	Videography		Waco	Texas	Waco and surrounding Central Texas communities	Waco filmmaker offering edited wedding films with all raw footage and drone coverage, alone or paired with photography.	contact@jakegleim.com	(254) 221-6887	https://jakegleim.com	
+`,
+  },
 ];
 
 export default batches;
