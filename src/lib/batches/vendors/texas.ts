@@ -229,12 +229,6 @@ Tyler Pro Video	Videography		Tyler	Texas	Tyler; East Texas	Tyler videographers c
 Jake Gleim Wedding Photo & Video	Videography		Waco	Texas	Waco and surrounding Central Texas communities	Waco filmmaker offering edited wedding films with all raw footage and drone coverage, alone or paired with photography.	contact@jakegleim.com	(254) 221-6887	https://jakegleim.com	
 `,
   },
-  {
-    name: "Tyler and East Texas: catering",
-    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
-The Potpourri House	Catering	3320 Troup Hwy, Suite 300	Tyler	Texas	Tyler and surrounding Smith County towns	Family restaurant in Tyler that caters for crowds and hosts private dining for weddings and bridal showers, with its own recipes.	Potpourri.house@gmail.com	(903) 592-4171	https://www.potpourrihouse.com	
-`,
-  },
 ];
 
 export default batches;
