@@ -140,6 +140,29 @@ Sweet Harmony Music	Music		Princeton	New Jersey	Princeton and Mercer County	Prin
 Chambers Walk Cafe and Catering	Catering	2667 Main Street	Lawrenceville	New Jersey		Lawrenceville cafe and caterer providing food for weddings and special events, either at its own site or at the couple's venue.		609-896-5995	https://www.chamberswalk.com/	https://www.instagram.com/chamberswalkcafe/
 Midnight Moon Cakery	Cake		Pennington	New Jersey	NJ, NYC and Bucks County, PA	Pennington cake studio, open by appointment, making custom wedding and celebration cakes and delivering them across New Jersey.	info@midnightmooncakery.com	732-821-4747	https://www.midnightmooncakery.com/	https://www.instagram.com/midnightmooncakery/`,
   },
+  {
+    name: "Princeton: planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Mary Harris Events	Planning		Princeton	New Jersey		Princeton planner and designer of tented weddings and galas, coordinating florals, lighting and rentals around each couple's story.	mary@maryharrisevents.com	609-947-3169	https://www.maryharrisevents.com/	https://www.instagram.com/maryharrisevents/`,
+  },
+  {
+    name: "Northern New Jersey: videography, cake and planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Digital Memories Event Videography	Videography		Oakland	New Jersey	Bergen County and northern New Jersey	Unobtrusive wedding videographer who films natural, unposed moments and captures vows and speeches, with highlight films and drone options.	info@digitalmemorieseventvideo.com	973-352-9672	https://www.digitalmemorieseventvideo.com/	https://www.instagram.com/digitalmemories0829/
+Jason Giordano Photography & Video	Videography	24 Newark Pompton Turnpike	Little Falls	New Jersey	New Jersey, plus New York, Pennsylvania and Connecticut	Little Falls studio offering wedding films from short highlight reels to full-length edits, alongside photography, content creation and live streaming.	jason@jgiordanophotography.com	973-619-5678	https://www.jgiordanophotography.com/	https://www.instagram.com/jgiordanophotography/
+MC Productions Photography and Video	Videography	481 East Westfield Avenue	Roselle Park	New Jersey	New Jersey and the greater tri-state area	Roselle Park studio, in business since 2003, filming and photographing weddings, quinceañeras and mitzvahs across New Jersey.	ivone@mcproductionsnj.com	908-591-9927	https://mcproductionsnj.com/	https://www.instagram.com/mcproductionsnj/
+Live Picture Studios	Videography	186 Griffith St	Jersey City	New Jersey	New Jersey and New York	Jersey City team filming and photographing weddings at venues across New Jersey and New York, with packages for engagements and photo booths.	inquiry@livepicturestudios.com	862-244-5897	https://www.livepicturestudios.com/	https://www.instagram.com/livepicturestudios/
+Keremo Cakes	Cake	18 Union Avenue	Cresskill	New Jersey		Cresskill bakery making custom wedding cakes, plus cupcakes, dessert tables, cake pops and favours to match.	info@keremocakes.com	201-399-7373	http://www.keremocakes.com/	https://www.instagram.com/keremocakes/
+The Magpie Bakery & Café	Cake	2-14 Riverside Square	Bloomingdale	New Jersey		Bloomingdale bakery and café taking custom cake inquiries for weddings, with desserts and pastries from the same kitchen.		973-291-6756	https://magpiebakery.com/	
+Lisa Ivler Events	Planning		Caldwell	New Jersey	North Jersey, the Jersey Shore and nearby New York	Caldwell planning and design firm handling full planning, partial planning and coordination for weddings and mitzvahs.	info@lisaivlerevents.com	862-485-8584	https://lisaivlerevents.com/	https://www.instagram.com/lisaivlerevents/
+Amber's Lane Events	Planning		Clifton	New Jersey	New York, New Jersey, Connecticut and the Philadelphia area	Clifton planners offering partial and full wedding planning, day-of coordination and destination weddings.	hello@amberslane.com	201-566-2987	https://www.amberslane.com/	https://www.instagram.com/ambers_lane_events/`,
+  },
+  {
+    name: "Jersey Shore: photography, planning and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Lorenzo Media Productions	Videography		Freehold	New Jersey	New Jersey	Husband-and-wife team from Freehold making honest, timeless, personal wedding films for couples across New Jersey.	info@lorenzomediaproductions.com	732-614-5600	https://lorenzomediaproductions.com/	
+Hariel Xavier Photography	Photography		Sparta	New Jersey	Monmouth County and the Jersey Shore	Photographer with over 750 weddings behind him, covering Monmouth County from Red Bank to Allentown and across New Jersey.	Hi@HarielXavier.com	862-391-4179	https://harielxavier.com/	https://www.instagram.com/harielxaviermedia/`,
+  },
 ];
 
 export default batches;
