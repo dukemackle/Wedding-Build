@@ -203,7 +203,6 @@ NW Mobile DJ Service	Music		Portland	Oregon	Portland, Salem, the Gorge, Oregon C
   {
     name: "Oregon Coast: planning, florals, music, catering, hair and makeup, cake and videography",
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
-J. Rickey Events	Planning		Astoria	Oregon	Northern Oregon Coast	Astoria planner for coastal elopements and weddings of up to 50 guests, with venue scouting, budgeting, logistics and on-site support.			https://jrickeyevents.com/	https://www.instagram.com/jrickeyevents/
 Newport Florist and Gifts	Florals	1738 N Coast Hwy	Newport	Oregon	Newport, Lincoln City, Florence, Yachats and the central Oregon Coast	Family-run Newport flower shop making wedding bouquets and arrangements from Oregon-grown blooms, to the colours and flowers a couple asks for.	flowerart.newport@gmail.com	(541) 265-8262	https://newportfloral.com/	https://www.instagram.com/newport_florist
 Truck Full of Posies	Florals		Florence	Oregon	Florence and the Oregon Coast	Florence event florist using local, seasonal blooms for coastal wedding flowers, with a rentable flower bar stand and delivery and setup.			https://truckfullofposies.com/	https://www.instagram.com/truckfullofposies
 Wild Rivers Sound	Music		Brookings	Oregon	Brookings, Gold Beach, Port Orford, Bandon, Coos Bay and Northern California	Brookings wedding DJ and MC with over ten years on weddings and two decades in live music, who can also book bands and supply sound.	wildriverssound@gmail.com		https://wildriverssound.com/	
