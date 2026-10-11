@@ -69,9 +69,10 @@ export default async function GuestSitePreviewPage({
     venue_photo_urls: venue?.photo_urls ?? null,
     venue_about: venue?.about ?? venue?.description ?? null,
     venue_address: venue?.address ?? null,
+    site_locked: Boolean(wedding.site_password_hash),
   };
 
-  const content = await loadGuestSiteContent(supabase, asGuestsSeeIt);
+  const content = await loadGuestSiteContent(supabase, asGuestsSeeIt, { preview: true });
   const { data: row } = designId
     ? await supabase
         .from("site_designs")

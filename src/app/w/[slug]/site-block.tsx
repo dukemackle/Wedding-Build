@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { FramedPhoto } from "@/components/framed-photo";
 import type { SiteBlock } from "@/lib/supabase/types";
 import { safeLink, videoEmbedUrl } from "@/lib/video-embed";
 import { StoryView } from "./story-view";
@@ -79,9 +79,13 @@ export function SiteBlockView({ block, photos = [] }: { block: SiteBlock; photos
   if (block.kind === "photo" && block.photo_url) {
     return (
       <figure>
-        <div className="relative aspect-[3/2] w-full overflow-hidden rounded-[min(var(--site-radius,1rem),1.5rem)] bg-[var(--site-photo)]">
-          <Image src={block.photo_url} alt={block.heading ?? ""} fill sizes="(min-width: 1024px) 60vw, 100vw" className="object-cover" />
-        </div>
+        <FramedPhoto
+          src={block.photo_url}
+          alt={block.heading ?? ""}
+          sizes="(min-width: 1024px) 60vw, 100vw"
+          aspect="3 / 2"
+          circleMax="28rem"
+        />
         {block.heading && <figcaption className="mt-3 text-center text-sm text-ink/70">{block.heading}</figcaption>}
       </figure>
     );

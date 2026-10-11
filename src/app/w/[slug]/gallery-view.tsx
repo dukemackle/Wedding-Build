@@ -3,6 +3,7 @@
 import Image from "next/image";
 import type { WeddingGalleryPhoto } from "@/lib/supabase/types";
 import { useSiteDesign } from "@/components/guest-site-theme";
+import { FramedPhoto } from "@/components/framed-photo";
 
 /**
  * The couple's own photos.
@@ -13,40 +14,45 @@ import { useSiteDesign } from "@/components/guest-site-theme";
  * rather than a contact sheet.
  */
 export function GalleryView({ photos, alt }: { photos: WeddingGalleryPhoto[]; alt: string }) {
-  const { pageStyle } = useSiteDesign();
+  const { pageStyle, photoFrame } = useSiteDesign();
   if (photos.length === 0) return null;
-  if (pageStyle === "storybook") return <Scrapbook photos={photos} alt={alt} />;
+  // Storybook's scattered prints are its own frame, until the couple picks one.
+  if (pageStyle === "storybook" && !photoFrame) return <Scrapbook photos={photos} alt={alt} />;
+  // A frame with padding or a curved top needs a little air between photos.
+  const roomy = photoFrame === "polaroid" || photoFrame === "border" || photoFrame === "circle";
 
   return (
     <>
       {/* Phone: swipe row. Negative margin lets photos run to the card edge. */}
-      <div className="-mx-6 flex snap-x snap-mandatory gap-3 overflow-x-auto px-6 pb-2 sm:hidden">
-        {photos.map((photo) => (
-          <Image
+      <div className={`-mx-6 flex snap-x snap-mandatory overflow-x-auto px-6 pb-4 pt-1 sm:hidden ${roomy ? "gap-4" : "gap-3"}`}>
+        {photos.map((photo, i) => (
+          <FramedPhoto
             key={photo.id}
             src={photo.photo_url}
             alt={alt}
-            width={600}
-            height={750}
-            className="aspect-[4/5] w-[80%] shrink-0 snap-center rounded-lg object-cover"
+            sizes="80vw"
+            aspect="4 / 5"
+            priority={i === 0}
+            className="w-[80%] shrink-0 snap-center"
           />
         ))}
       </div>
 
       {/* Tablet and up: a spread. */}
-      <div className="hidden grid-cols-3 gap-3 sm:grid">
-        {photos.map((photo, i) => (
-          <Image
-            key={photo.id}
-            src={photo.photo_url}
-            alt={alt}
-            width={i === 0 ? 900 : 450}
-            height={i === 0 ? 900 : 450}
-            className={`aspect-square w-full rounded-lg object-cover ${
-              i === 0 && photos.length >= 3 ? "col-span-2 row-span-2 h-full" : ""
-            }`}
-          />
-        ))}
+      <div className={`hidden grid-cols-3 items-start sm:grid ${roomy ? "gap-5" : "gap-3"}`}>
+        {photos.map((photo, i) => {
+          const lead = i === 0 && photos.length >= 3;
+          return (
+            <FramedPhoto
+              key={photo.id}
+              src={photo.photo_url}
+              alt={alt}
+              sizes={lead ? "(min-width: 1024px) 40vw, 60vw" : "(min-width: 1024px) 20vw, 30vw"}
+              aspect={photoFrame === "arch" ? "4 / 5" : "1 / 1"}
+              className={lead ? "col-span-2 row-span-2" : ""}
+            />
+          );
+        })}
       </div>
     </>
   );
