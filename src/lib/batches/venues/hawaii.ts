@@ -83,6 +83,18 @@ Hilo Hawaiian Hotel	71 Banyan Dr	Hilo	Hawaii			Ballroom / Hotel	Indoor & Outdoor
 Grand Naniloa Hotel Hilo	93 Banyan Dr	Hilo	Hawaii			Ballroom / Hotel	Indoor & Outdoor			Hilo Bay hotel on the Banyan Drive peninsula with a waterfront wedding gazebo, its own golf course and event rooms.		808-969-3333	https://www.grandnaniloahilo.com/
 Puakea Ranch	56-2864 Akoni Pule Hwy	Hawi	Hawaii			Barn / Rustic	Indoor & Outdoor			Restored plantation-era ranch in North Kohala ringed by lava-rock walls, with historic guest cottages and ocean-view lawns.	aloha@puakearanch.com	808-315-0805	https://www.puakearanch.com/`,
   },
+  {
+    name: "Oahu, Maui and Big Island",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Hawaii Polo Club	68-411 Farrington Hwy	Waialua	Hawaii			Beach / Waterfront	Outdoor			An oceanfront polo field and clubhouse area on Oahu's North Shore between the Waianae mountains and the Pacific.	res.hawaiipolo@gmail.com	808-220-5153	https://hawaii-polo.org/weddings-and-events
+Hulihe'e Palace	75-5718 Ali'i Dr	Kailua-Kona	Hawaii			Historic / Estate	Indoor & Outdoor	350	Simple	A royal retreat built in 1838 with lawns, palm trees, ocean views and a Kalakaua-era entry hall.	allyb@daughtersofhawaii.org	(808) 329-1877	https://daughtersofhawaii.org/hulihee-palace/hulihee-palace-facility-rental/
+The King Kamehameha Golf Club	2500 Honoapiilani Hwy	Wailuku	Hawaii			Ballroom / Hotel	Indoor & Outdoor			A golf club clubhouse on 330 acres on the slopes of Mauna Kahalawai with views of Haleakala and both Maui shores.		808-249-0033	https://www.kamehamehagolf.com/weddings-events
+Papa Kona Events	75-5770 Ali'i Dr	Kailua-Kona	Hawaii			Beach / Waterfront				An oceanside event venue and catering company on the Kailua-Kona waterfront that hosts weddings and receptions.	aloha@papakona.com	808-300-0044	https://www.papakonaevents.com
+Kaimea Estates		Honolulu	Hawaii			Beach / Waterfront				An oceanfront estate on Oahu hosting everything from small elopements to larger receptions under the night sky.	events@kaimeaestates.com		https://www.kaimeaestates.com
+Moanalua Gardens		Honolulu	Hawaii			Garden / Outdoor	Indoor & Outdoor			A park with ten separate venue sites that can be booked singly or combined for a wedding and reception.	events@moanaluagardens.com	808-425-8790	https://www.moanaluagardens.com/weddings-events
+Kaimana Beach Hotel	2863 Kalakaua Ave	Honolulu	Hawaii			Ballroom / Hotel	Indoor & Outdoor	150		An oceanfront hotel on Kaimana Beach with a ballroom and lanai, a lounge and an oceanfront restaurant used for wedding events.		808-923-1555	https://www.kaimana.com/gather/weddings/
+Wailea Golf Club	100 Wailea Golf Club Dr	Wailea	Hawaii			Garden / Outdoor	Outdoor			A golf club with lawns on the Gold and Emerald courses about 300 feet above sea level, with ocean and island views.	info@waileagolf.com	808-875-7450	https://www.waileagolf.com/groups-events`,
+  },
 ];
 
 export default batches;
