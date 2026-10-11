@@ -165,6 +165,17 @@ Hyland Orchard	199 Arnold Rd	Fiskdale	Massachusetts			Garden / Outdoor				Fiskda
 Berlin Farms		Berlin	Massachusetts			Barn / Rustic				Farmstead dating to 1731 under conservation protection, where the restored Great Barn hosts weddings alongside heritage farm animals.		617-710-8810	https://www.berlinfarms.com/
 `,
   },
+  {
+    name: "Massachusetts: Worcester, North Shore, Berkshires and Pioneer Valley",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Asa Waters Mansion	123 Elm Street	Millbury	Massachusetts			Historic / Estate	Indoor & Outdoor			A nineteenth-century mansion with period rooms and gardens, offering ceremonies on the bandstand, lawn or portico, with a garden tent for larger receptions.	klivoti@townofmillbury.net	508-865-0855	https://www.asawaters.org/weddings
+The Farm at SummitWynds	69 Summit Street	Jefferson	Massachusetts			Barn / Rustic	Indoor & Outdoor	90		A lavender and horse farm with a heated fieldstone former ski lodge for receptions and a ceremony field in the middle of 32 acres with views of Mount Wachusett.		508-944-3718	https://thefarmatsummitwynds.com/services-view/farm-weddings/
+Amongst the Oaks	42 Burrington Road	Charlemont	Massachusetts			Garden / Outdoor	Outdoor		Simple	An outdoor wedding venue with ceremonies under old oak trees, a high-peak tent for dinner and dancing, and an optional get-ready shed and fire pit.	wicked-awesome@outlook.com	413-768-0975	https://amongsttheoaks.com
+Five Bridge Inn	152 Pine Street	Rehoboth	Massachusetts			Barn / Rustic	Indoor & Outdoor			An inn with two wedding sites, a woodland Retreat Barn and a modern-farmhouse Innkeeper's Barn on the front lawn, plus a stone-arch ceremony spot and overnight stays.	info@fivebridgeinn.com	508-252-3190	https://fivebridgeinn.com/rustic-weddings-ma
+Montague Retreat Center	177 Ripley Road	Montague	Massachusetts			Barn / Rustic	Indoor & Outdoor			A historic farm site with a wooded ceremony circle by an apple orchard, a Great Hall barn, a tented stone patio and on-site lodging.	montagueretreat@gmail.com	617-435-3649	https://www.montagueretreatcenter.com/wedding-information
+The Estate at Moraine Farm	719 Cabot Street	Beverly	Massachusetts			Historic / Estate	Indoor & Outdoor	250		A 175-acre estate overlooking Wenham Lake with an estate house, gardens and tea house, and a permanent tent for receptions in the warmer months.	info@estateatmorainefarm.com	781-221-4811	https://www.estateatmorainefarm.com/
+`,
+  },
 ];
 
 export default batches;
