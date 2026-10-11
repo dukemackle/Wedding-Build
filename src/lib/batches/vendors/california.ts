@@ -724,6 +724,24 @@ New Life Culinary Creations	Catering	34846 Monte Vista Dr	Wildomar	California	Te
 Like a Letter Wedding Videography	Videography		Santa Barbara	California	Santa Barbara, California and destinations	Santa Barbara wedding videographer, filming since 2012, making timeless films for weddings, elopements, proposals and engagements.	tye@likealetter.com		https://www.likealetter.com/	https://www.instagram.com/likealetter/
 Spark & Stone Film Co	Videography		Ojai	California	Ventura, Santa Barbara and Southern California	Ojai-based documentary-style wedding videographer serving Ventura, Santa Barbara and couples across Southern California.			https://sparkandstonefilmco.com/	`,
   },
+  {
+    name: "Orange County: Music, Cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Special Event Entertainment	Music		Irvine	California	Orange County	Irvine DJ company, in business since 2007, providing DJ, audio, video and lighting for weddings and other Orange County events.	Djdaniel@see-dj.com	714-830-9597	https://see-dj.com/	https://www.instagram.com/djdanielsee/
+Acoustic Hill	Music		Newport Beach	California	Orange County, Los Angeles and San Diego	Solo singer and acoustic guitarist using a looper pedal for wedding ceremonies, cocktail hours and receptions, based in Newport Beach.			https://acoustichill.com/	https://www.instagram.com/acoustichill/
+Amazing Cakes	Cake	524 N Magnolia Ave	Anaheim	California		Anaheim bakery making custom wedding, birthday and specialty cakes and pastries since 1991, with a dedicated wedding cake range.	Amzncakes@yahoo.com	714-995-3399	https://www.amazingcakesanaheim.com/	
+Nikoo Cake	Cake		Rancho Santa Margarita	California	Newport Beach, Irvine, Rancho Santa Margarita and Laguna Beach	Rancho Santa Margarita cake studio making custom luxury cakes, with classic, elegant, naked and floral wedding styles and sugar flowers.	info@nikoocake.com	(949) 545-1215	https://nikoocake.com/	https://www.instagram.com/nikoocake/`,
+  },
+  {
+    name: "Palm Springs: Cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Joshua Tree Cakery	Cake		Yucca Valley	California	Morongo and Coachella Valleys	Yucca Valley baker of organic custom cakes and vegan sweets, taking wedding orders with gluten-free and dairy-free options.	joshuatreecakery@gmail.com	760-968-7206	https://jtcakery.com/	https://www.instagram.com/joshuatreecakery/`,
+  },
+  {
+    name: "Inland Empire and Temecula: Music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Red Velvet DJ	Music		Temecula	California	Inland Empire, San Diego, Orange County and Los Angeles	Temecula DJ and event production company, founded in 2014, whose founder has focused on weddings since 2011.		951-249-3208	https://www.redvelvetdj.com/	https://www.instagram.com/redvelvetdj1/`,
+  },
 ];
 
 export default batches;
