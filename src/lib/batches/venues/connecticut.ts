@@ -102,6 +102,17 @@ Nuzzo's Farm	736 East Main St	Branford	Connecticut			Barn / Rustic	Indoor & Outd
 Westbrook Inn	976 Boston Post Rd	Westbrook	Connecticut			Ballroom / Hotel	Indoor & Outdoor	40		A restored shoreline inn with ten rooms that runs all-inclusive weddings for up to 40 guests.	info@westbrookinn.com	860-399-4777	https://www.westbrookinn.com
 Guilford Yacht Club	379 Whitfield Street	Guilford	Connecticut			Beach / Waterfront	Indoor & Outdoor			A West River yacht club in Guilford that rents its lawn and reception hall to non-members.	eventsmanager@gyc.com	(203) 453-0070	https://gyc.com`,
   },
+  {
+    name: "Connecticut: Middletown, eastern Connecticut, shoreline and Avon",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+The Barns at Wesleyan Hills	616 Long Hill Road	Middletown	Connecticut			Barn / Rustic	Indoor & Outdoor			Restored barn venue in Middletown with willow-lined outdoor ceremony grounds, an indoor ceremony room and a getting-ready suite.		860-347-7171	http://www.ctweddinggroup.com/exclusive-venues/barns-wesleyan-hills/
+Evergreen Farms	204 Hartford Pike	Dayville	Connecticut			Barn / Rustic	Indoor & Outdoor	150		Rustic 1950s barn on a tree farm in Dayville, with indoor seating for 150, three dressing rooms and outdoor ceremony space.		860-407-2022	https://evergreenfarms22.com/
+Tamarack Lodge & Glamping Resort	21 Ten Rod Road	Voluntown	Connecticut			Barn / Rustic	Indoor & Outdoor			Rustic lodge and glamping resort in Voluntown on 28 wooded acres beside Beach Pond, with cabins and tents for overnight guests.	info@tl-ct.com	(860) 376-0224	https://tamaracklodgect.com/
+Beech Tree Cottages	1187 Boston Post Road	Madison	Connecticut			Garden / Outdoor	Outdoor			Three-acre cottage estate in Madison with a tented patio and open lawn for relaxed weddings, plus in-house catering and a day-of coordinator.	events@beechtreecottages.com	203-245-2676	https://www.beechtreecottages.com
+Stonecroft Country Inn	515 Pumpkin Hill Road	Ledyard	Connecticut			Historic / Estate	Indoor & Outdoor			Historic bed and breakfast on 6.5 acres of gardens and lawns near Mystic, offering outdoor ceremonies and small weddings.	innkeeper@stonecroft.com	860-572-0771	https://stonecroft.com
+Chris Bargas Golf Club & Event Venue at Whitney Farms	175 Shelton Road	Monroe	Connecticut			Ballroom / Hotel	Indoor & Outdoor	300		Golf club event venue in Monroe with a golf-view room, a fireplace room, a bridal suite and indoor or outdoor ceremonies.	contact@whitneyfarmsgc.com	203-268-4612	https://www.whitneyfarmsgc.com/weddings
+Avon Old Farms Hotel	279 Avon Mountain Road	Avon	Connecticut			Ballroom / Hotel	Indoor & Outdoor	120		Hotel on Avon Mountain with a Towpath Ballroom and glass terrace, a tented flagstone patio and lawns for cocktail hour.	reservations@avonoldfarmshotel.com	(860) 677-1651	https://www.avonoldfarmshotel.com/weddings`,
+  },
 ];
 
 export default batches;

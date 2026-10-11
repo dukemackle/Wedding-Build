@@ -56,7 +56,7 @@ import { BackgroundTab, FontsTab, PhotoColoursSection, TargetColourSection, type
 import { publishSiteDesign, saveSiteDraft } from "./actions";
 import { BirdCheer } from "@/components/bird-cheer";
 import { PublicSitePanel, SiteSwitch, useGuestSite } from "../public-site-panel";
-import { MotionTab, PanelLabel, SectionsTab, StyleTab, type ChecklistItem, type SectionInfo } from "./editor-tabs";
+import { MotionTab, PageArtworkSection, PanelLabel, SceneSection, SectionsTab, StyleTab, type ChecklistItem, type SectionInfo } from "./editor-tabs";
 
 type Device = "desktop" | "phone";
 // Position opens from a picked element rather than the tab strip.
@@ -506,6 +506,8 @@ export function SiteEditor({
   const panelBody = (
     <div className="flex flex-col gap-6 px-5 pb-8 pt-5 lg:px-6">
       {tab === "elements" ? (
+        <>
+        <PageArtworkSection design={design} onChange={change} hasPhoto={hasPhoto} />
         <ElementsTab
           design={design}
           frames={frames}
@@ -514,6 +516,7 @@ export function SiteEditor({
           onCanvas={changeCanvas}
           onSelect={selectCanvas}
         />
+        </>
       ) : tab === "position" && isDesktop ? (
         <PositionPanel
           design={design}
@@ -566,7 +569,10 @@ export function SiteEditor({
       ) : tab === "fonts" ? (
         <FontsTab design={design} onChange={change} target={pickTarget?.font ? pickTarget : null} actions={targetActions} />
       ) : tab === "background" ? (
-        <BackgroundTab design={design} onChange={change} />
+        <>
+          <BackgroundTab design={design} onChange={change} />
+          <SceneSection design={design} onChange={change} />
+        </>
       ) : tab === "motion" ? (
         <MotionTab
           design={design}
@@ -575,8 +581,7 @@ export function SiteEditor({
           onTryConfetti={() => post(CONFETTI_MESSAGE)}
         />
       ) : tab === "style" ? (
-        <>
-          <StyleTab design={design} onChange={change} hasPhoto={hasPhoto} names={names} />
+        <StyleTab design={design} onChange={change} hasPhoto={hasPhoto} names={names}>
           {hasPhoto && photos[0] && (
             <div className="flex flex-col gap-3">
               <PanelLabel>Banner photo</PanelLabel>
@@ -604,7 +609,7 @@ export function SiteEditor({
               </div>
             </div>
           )}
-        </>
+        </StyleTab>
       ) : (
         <>
         <WrenWrite design={design} onChange={change} />

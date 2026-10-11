@@ -137,7 +137,7 @@ function yearsBetween(from: string, to: string | null) {
 const CARD_RADIUS = "rounded-[min(var(--site-radius,1rem),1.5rem)]";
 
 /**
- * The top of the page with the theme's scene (Style tab › Scene): a strip
+ * The top of the page with the theme's scene (Background tab › Scene): a strip
  * along its top, a landscape along its bottom. Clouds, rings and frames go
  * inside the layouts with no photo, where they can't sit on a face.
  */
