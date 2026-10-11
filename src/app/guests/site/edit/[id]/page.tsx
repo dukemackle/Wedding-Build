@@ -176,6 +176,7 @@ export default async function GuestSiteEditorPage({ params }: { params: Promise<
         photoCount ? `${photoCount} in the gallery` : "no gallery yet",
       ].join(" · "),
       warn: !wedding.hero_photo_url && !venuePhotos,
+      layout: "photos",
       editor: (
         <div className="flex flex-col gap-8">
           <HeroPhotoPanel photoUrl={wedding.hero_photo_url} />

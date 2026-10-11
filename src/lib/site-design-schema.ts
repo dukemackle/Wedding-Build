@@ -127,14 +127,16 @@ export const siteDesignSchema = z.object({
   /** null means the theme's own scene. */
   scene: z.enum(SCENE_IDS).nullable().catch(null),
   pageStyle: z.enum(["cards", "storybook"]).catch("cards"),
-  /** Per-section layouts (SECTION_LAYOUTS); the schedule's null follows the page style. */
+  /** Per-section layouts (SECTION_LAYOUTS); the schedule's and photos' null follows the page style. */
   layouts: z
     .object({
       story: z.enum(["editorial", "timeline", "alternating"]).catch("editorial"),
       rsvp: z.enum(["card", "band", "split"]).catch("card"),
       weekend: z.enum(["timeline", "cards", "list"]).nullable().catch(null),
+      /** null follows the page style: a spread on cards, a scrapbook in storybook. */
+      photos: z.enum(["spread", "masonry", "filmstrip", "scrapbook", "line"]).nullable().catch(null),
     })
-    .catch({ story: "editorial", rsvp: "card", weekend: null }),
+    .catch({ story: "editorial", rsvp: "card", weekend: null, photos: null }),
   /** A vow renewal changes the wording, and counts the years from `since`. */
   occasion: z
     .object({
