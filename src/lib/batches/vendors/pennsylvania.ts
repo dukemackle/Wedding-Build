@@ -323,6 +323,12 @@ Nina Lily Photography	Photography		Allentown	Pennsylvania	Philadelphia, the Lehi
 Engagement Sounds	Music		Allentown	Pennsylvania	Lehigh Valley, eastern Pennsylvania and western New Jersey	Wedding-focused DJ and MC offering ceremony sound, uplighting, photo booths and a low fog effect for first dances, with planned timelines.	info@engagementsounds.com	610-424-7799	https://engagementsounds.com	https://www.instagram.com/engagementsounds/
 Pat's Pizza & Bistro	Catering	1426 W Broad St	Bethlehem	Pennsylvania		Bethlehem pizza and bistro that caters weddings with custom menus, table settings and staff, plus a pizza trailer for the afterparty.	yankyzi@gmail.com	610-419-8100	https://www.patsbethlehem.com/weddings	https://www.instagram.com/patsbethlehem/`,
   },
+  {
+    name: "Lehigh Valley: planning and catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Just Breathe. Weddings & Events	Planning		Wyomissing	Pennsylvania	Lehigh Valley, Berks, Lancaster and Chester counties and Greater Philadelphia	Berks County boutique planner offering full, partial and day-of wedding coordination, with a Lehigh Valley venue network.			https://www.justbreatheevents.co/	https://www.instagram.com/justbreatheeventsco/
+Simply Smooth Catering	Catering	2730 Walbert Ave	Allentown	Pennsylvania	Lehigh Valley	Allentown caterer since 1990 handling weddings, mitzvahs and corporate events, with planning, rentals and staffing alongside the menus.	chefdavid@simplysmooth.com	610-434-3900	https://www.simplysmooth.com/	`,
+  },
 ];
 
 export default batches;

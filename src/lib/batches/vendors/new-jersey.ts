@@ -186,6 +186,16 @@ SCE Event Group	Music	26 Jackson Mills Rd	Freehold	New Jersey	Monmouth, Ocean, M
 GSL Entertainment	Music		Howell	New Jersey	Ocean County, including Toms River, Brick, Jackson, Lakewood and Point Pleasant	Howell DJ company serving Ocean County weddings, with wedding packages listed on its site alongside lighting and add-ons.	greg@gsldjs.com	732-890-8515	https://www.gsldjs.com/areas/ocean-county	https://www.instagram.com/gslentertainment_/
 Blue Collar Catering	Catering	1426 Rt 9	Toms River	New Jersey	Ocean County, including Brick, Barnegat, Manahawkin, LBI and Point Pleasant	Toms River caterer with sit-down, buffet, cocktail and barbecue wedding menus, offering full service with linens, china and waitstaff.		(732) 269-0092	https://bluecollarcatering.com/	`,
   },
+  {
+    name: "Jersey Shore: planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+A Lovely Universe	Planning		Red Bank	New Jersey	Monmouth County	Red Bank studio offering full planning, partial planning and design consultation for weddings, alongside custom paper goods and gifts.	info@alovelyuniverse.com		https://www.alovelyuniverse.com/	https://www.instagram.com/alovelyuniverse/`,
+  },
+  {
+    name: "Princeton: planning and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Dear Heart Film + Portraits	Videography		Princeton	New Jersey	Central New Jersey, with the first 50 miles of travel included	Princeton-based photographer and cinematographer filming weddings and elopements, with highlight films and a la carte video options.			https://www.dearheartfilms.com/	https://www.instagram.com/dearheartfilms/`,
+  },
 ];
 
 export default batches;
