@@ -72,6 +72,14 @@ Everly at Railroad		Tuckahoe	New Jersey			Barn / Rustic	Indoor			An 1895 feed ba
 The Oyster Point Hotel	146 Bodman Place	Red Bank	New Jersey			Ballroom / Hotel	Indoor & Outdoor			A boutique hotel on the Navesink River in Red Bank, with a waterfront ballroom for up to 220 and ceremonies overlooking the river.		(732) 530-8200	https://www.theoysterpointhotel.com
 Jumping Brook Country Club	210 Jumping Brook Road	Neptune	New Jersey			Ballroom / Hotel	Indoor	350		A Neptune country club with three ballrooms, the largest holding up to 350, ranging from intimate parties to grand receptions.	info@jumpingbrookcc.com	(732) 922-8200	https://jumpingbrookcc.com`,
   },
+  {
+    name: "New Jersey venues: shore, north, central and south",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Farmstead Golf & Country Club	88 Lawrence Road	Lafayette	New Jersey			Garden / Outdoor	Indoor & Outdoor			27-hole Sussex County golf club that also hosts weddings and banquets.		(973) 383-1666	https://www.farmsteadgolf.com/
+The Bradford Estate	1910 Marne Highway	Hainesport	New Jersey			Historic / Estate	Indoor			Estate in Burlington County that hosts one wedding at a time with an all-inclusive package.		609-261-8778	https://www.thebradfordestate.com/
+Smoke Rise Village Inn	9 Perimeter Road	Kinnelon	New Jersey			Historic / Estate	Indoor			Stone inn in the Smoke Rise community of Kinnelon, in a building dating to 1892, offering wedding dining and service.		973-838-7770	https://www.smokerisevillageinn.com/
+Barrow Mansion	83 Wayne Street	Jersey City	New Jersey			Historic / Estate	Indoor			1836 Greek Revival mansion in downtown Jersey City that rents out for weddings and other events.	communications@barrowmansion.org	(201) 604-5981	https://barrowmansion.org/`,
+  },
 ];
 
 export default batches;
