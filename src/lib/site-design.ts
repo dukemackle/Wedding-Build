@@ -910,6 +910,23 @@ export const OPENINGS = [
   { id: "reveal", label: "Photo reveal", help: "Your photo opens out from the centre." },
 ] as const;
 
+/** What drifts over the page (Motion tab), all tinted with the theme's accent. */
+export const FALLING = [
+  { id: "none", label: "Nothing" },
+  { id: "petals", label: "Petals" },
+  { id: "hearts", label: "Hearts" },
+  { id: "confetti", label: "Confetti" },
+  { id: "rice", label: "Rice toss" },
+  { id: "snow", label: "Snow" },
+  { id: "leaves", label: "Autumn leaves" },
+  { id: "rings", label: "Rings & sparkles" },
+  { id: "bubbles", label: "Bubbles" },
+  { id: "fireflies", label: "Fireflies" },
+] as const;
+
+export const FALLING_IDS = FALLING.map((f) => f.id) as [FallingId, ...FallingId[]];
+export type FallingId = (typeof FALLING)[number]["id"];
+
 
 /**
  * The Motion tab's "Overall" choices. Each fills in every setting; changing
@@ -918,9 +935,9 @@ export const OPENINGS = [
  * before there was a Motion tab.
  */
 export const MOTION_PRESETS = {
-  none: { opening: "none", scroll: "none", photo: "still", petals: false, ticking: false, confetti: false, speed: "normal" },
-  subtle: { opening: "none", scroll: "fade", photo: "zoom", petals: false, ticking: true, confetti: false, speed: "normal" },
-  lively: { opening: "envelope", scroll: "zoom", photo: "zoom", petals: true, ticking: true, confetti: true, speed: "normal" },
+  none: { opening: "none", scroll: "none", photo: "still", falling: "none", ticking: false, flipboard: false, shimmer: false, confetti: false, speed: "normal" },
+  subtle: { opening: "none", scroll: "fade", photo: "zoom", falling: "none", ticking: true, flipboard: false, shimmer: false, confetti: false, speed: "normal" },
+  lively: { opening: "envelope", scroll: "zoom", photo: "zoom", falling: "petals", ticking: true, flipboard: false, shimmer: true, confetti: true, speed: "normal" },
 } as const satisfies Record<string, Motion>;
 
 export type MotionPreset = keyof typeof MOTION_PRESETS | "custom";

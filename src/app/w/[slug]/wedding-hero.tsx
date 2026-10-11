@@ -46,7 +46,8 @@ function HeroContent({
   const years = renewal && occasion.since ? yearsBetween(occasion.since, wedding.wedding_date) : null;
   // The gentle word-by-word rise is the "Straight in" default; the other
   // openings bring the names in their own way, and "None" means none.
-  const stagger = motion.opening === "none" && motionPreset(motion) !== "none";
+  // Off with the shimmer: its gradient can't reach into the words' own layers.
+  const stagger = motion.opening === "none" && motionPreset(motion) !== "none" && !motion.shimmer;
   // Poster names are sized to the screen, so a long single name ("Maximiliano")
   // would run off a phone. Cap the size so the longest word fits the width.
   const longest = Math.max(4, ...names.split(/\s+/).map((w) => w.length));
@@ -113,6 +114,7 @@ function HeroContent({
           size="lg"
           className="mt-8"
           live={motion.ticking}
+          flipboard={motion.flipboard}
         />
       )}
 

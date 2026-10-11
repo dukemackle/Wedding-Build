@@ -579,6 +579,56 @@ body:has(.search-shell-root) .site-footer {
 .guest-site[data-photo="still"] .hero-kenburns {
   animation: none;
 }
+.guest-site[data-photo="pan"] .hero-kenburns {
+  animation-name: hero-pan;
+}
+@keyframes hero-pan {
+  from {
+    transform: scale(1.12) translateX(-4%);
+  }
+  to {
+    transform: scale(1.12) translateX(4%);
+  }
+}
+
+/* Gold shimmer: a band of the brand gold sweeps once across the names. The
+   text keeps its own colour (currentColor) either side of the band, and the
+   resting position leaves the band off the end, so a guest with reduced
+   motion just sees the names. */
+.guest-site[data-shimmer] .site-names {
+  background-image: linear-gradient(
+    105deg,
+    currentColor 0 45%,
+    #ffd301 48%,
+    #fff12f 50%,
+    #ffd301 52%,
+    currentColor 55% 100%
+  );
+  background-size: 260% 100%;
+  background-position: 0 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: site-shimmer calc(1.8s * var(--motion-speed, 1)) ease-in-out calc(1s * var(--motion-speed, 1)) both;
+}
+/* A text-shadow would paint over the clipped gradient; a drop-shadow doesn't. */
+.guest-site[data-shimmer] .site-names[class*="text-shadow"] {
+  text-shadow: none;
+  filter: drop-shadow(0 2px 14px rgba(0, 0, 0, 0.3));
+}
+.guest-site[data-shimmer][data-opening="write"] .site-names {
+  animation:
+    site-write calc(1.8s * var(--motion-speed, 1)) cubic-bezier(0.45, 0, 0.2, 1) calc(0.3s * var(--motion-speed, 1)) both,
+    site-shimmer calc(1.8s * var(--motion-speed, 1)) ease-in-out calc(2.2s * var(--motion-speed, 1)) both;
+}
+@keyframes site-shimmer {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: 0 0;
+  }
+}
 
 /* As guests scroll: sections start hidden and SiteReveal marks each one
    shown as it enters the screen. */
@@ -651,21 +701,99 @@ body:has(.search-shell-root) .site-footer {
 }
 
 /* Extras. */
-@keyframes site-petal-fall {
+/* What falls (site-motion.tsx's Falling). Each piece carries its own
+   --sway, --spin and --o (peak opacity); durations are set inline. */
+.site-fall {
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-fill-mode: both;
+}
+.site-fall-drift {
+  top: 0;
+  animation-name: site-drift;
+}
+@keyframes site-drift {
   0% {
     opacity: 0;
-    transform: translate3d(0, -20px, 0) rotate(0deg);
+    transform: translate3d(0, -30px, 0) rotate(0deg);
   }
-  10% {
-    opacity: 0.85;
+  8% {
+    opacity: var(--o);
+  }
+  35% {
+    transform: translate3d(var(--sway), 34vh, 0) rotate(calc(var(--spin) * 0.35));
+  }
+  70% {
+    transform: translate3d(calc(var(--sway) * -0.6), 70vh, 0) rotate(calc(var(--spin) * 0.7));
+  }
+  92% {
+    opacity: var(--o);
   }
   100% {
     opacity: 0;
-    transform: translate3d(40px, 100vh, 0) rotate(300deg);
+    transform: translate3d(var(--sway), 100vh, 0) rotate(var(--spin));
   }
 }
-.site-petal {
-  animation: site-petal-fall linear infinite both;
+.site-fall-rise {
+  top: 100%;
+  animation-name: site-rise;
+}
+@keyframes site-rise {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 20px, 0) scale(0.6);
+  }
+  10% {
+    opacity: var(--o);
+  }
+  50% {
+    transform: translate3d(var(--sway), -55vh, 0) scale(1);
+  }
+  85% {
+    opacity: var(--o);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(calc(var(--sway) * -0.5), -105vh, 0) scale(1.1);
+  }
+}
+.site-fall-wander {
+  animation-name: site-wander;
+  animation-timing-function: ease-in-out;
+  animation-direction: alternate;
+}
+@keyframes site-wander {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0);
+  }
+  25% {
+    opacity: var(--o);
+  }
+  50% {
+    opacity: 0.25;
+    transform: translate3d(var(--sway), calc(var(--sway) * -0.6), 0);
+  }
+  75% {
+    opacity: var(--o);
+  }
+  100% {
+    opacity: 0.1;
+    transform: translate3d(calc(var(--sway) * -0.5), calc(var(--sway) * 0.8), 0);
+  }
+}
+/* Confetti and leaves turn over as they fall, not just spin flat. */
+.site-flutter {
+  animation: site-flutter 1.6s ease-in-out infinite;
+}
+@keyframes site-flutter {
+  0%,
+  100% {
+    transform: rotateX(0deg) rotateY(0deg);
+  }
+  50% {
+    transform: rotateX(160deg) rotateY(40deg);
+  }
 }
 @keyframes site-confetti {
   0% {

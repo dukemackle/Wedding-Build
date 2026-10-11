@@ -9,6 +9,7 @@ import { WrenMotto } from "@/components/wren-motto";
 import { AskWrenTile } from "@/app/dashboard/ask-wren-tile";
 import {
   DEFAULT_SITE_DESIGN,
+  FALLING,
   PALETTES,
   THEMES,
   fontById,
@@ -16,9 +17,11 @@ import {
   fontsHrefFor,
   paletteColors,
   resolveDesign,
+  type FallingId,
   type OrnamentId,
   type ThemeId,
 } from "@/lib/site-design";
+import { Falling, useReducedMotion } from "@/components/site-motion";
 import { SiteOrnament } from "@/components/site-ornament";
 import { ConfirmedChip } from "@/components/confirmed-badge";
 import { CHECKLIST_PHASES, CHECKLIST_TEMPLATE } from "@/lib/checklist-template";
@@ -1768,6 +1771,9 @@ function DemoArt({ src, color, phone }: { src: string; color: string; phone: boo
   );
 }
 
+// A few of the Motion tab's falling choices; the site has nine.
+const DEMO_FALLING = FALLING.filter((f) => ["none", "petals", "hearts", "snow", "fireflies"].includes(f.id));
+
 // Theme font first, then a few the names cycle through when clicked.
 const DEMO_NAME_FONTS = [null, "greatvibes", "saintdelafield", "playfair"] as const;
 
@@ -1779,6 +1785,8 @@ function SiteDemo() {
   const [rsvped, setRsvped] = useState(false);
   const [namesFont, setNamesFont] = useState(0);
   const [art, setArt] = useState<string | null>(DEMO_ART[0].id);
+  const [falling, setFalling] = useState<FallingId>("petals");
+  const reduced = useReducedMotion();
   const palette = DEMO_PALETTES.find((p) => p.id === paletteId);
   // The real resolver, so the demo mixes cards and muted text the way the site does.
   const { theme: t, accent, onAccent, heading } = resolveDesign({
@@ -1895,6 +1903,22 @@ function SiteDemo() {
           </button>
         ))}
       </div>
+      <p className={eyebrow}>Falling over the page</p>
+      <div className="flex flex-wrap gap-1.5">
+        {DEMO_FALLING.map((f) => (
+          <button
+            key={f.id}
+            type="button"
+            onClick={() => setFalling(f.id)}
+            aria-pressed={f.id === falling}
+            className={`h-8 rounded-full px-3 text-xs ${
+              f.id === falling ? "bg-forest text-parchment" : "bg-card text-ink/70 ring-1 ring-hairline"
+            }`}
+          >
+            {f.label}
+          </button>
+        ))}
+      </div>
       <p className={eyebrow}>Monogram</p>
       <div className="flex flex-wrap gap-1.5">
         {DEMO_ORNAMENTS.map((o) => (
@@ -1973,6 +1997,7 @@ function SiteDemo() {
                   } as React.CSSProperties
                 }
               >
+                {falling !== "none" && !reduced && <Falling kind={falling} speed={1} contained />}
                 <SiteOrnament kind={ornament} first="Juniper" second="Sam" />
                 <p className="font-mono-numbers text-[10px] uppercase tracking-[0.25em]" style={{ color: t.muted }}>
                   June 12, 2027 · Bend, Oregon
