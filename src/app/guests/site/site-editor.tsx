@@ -131,6 +131,7 @@ export function SiteEditor({
   checklist,
   hasPhoto,
   names,
+  weddingDate,
   photos,
 }: {
   /** Which of the couple's designs this is (site_designs). */
@@ -151,6 +152,8 @@ export function SiteEditor({
   /** Hero layouts only show with a banner photo; the Style tab says so. */
   hasPhoto: boolean;
   names: [string, string];
+  /** For the monogram's date line ("2027-06-12"). */
+  weddingDate: string | null;
   /** The banner and gallery photos, to place on the page from Elements. */
   photos: string[];
 }) {
@@ -581,7 +584,7 @@ export function SiteEditor({
           onTryConfetti={() => post(CONFETTI_MESSAGE)}
         />
       ) : tab === "style" ? (
-        <StyleTab design={design} onChange={change} hasPhoto={hasPhoto} names={names}>
+        <StyleTab design={design} onChange={change} hasPhoto={hasPhoto} names={names} weddingDate={weddingDate}>
           {hasPhoto && photos[0] && (
             <div className="flex flex-col gap-3">
               <PanelLabel>Banner photo</PanelLabel>

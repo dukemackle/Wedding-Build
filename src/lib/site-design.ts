@@ -1076,6 +1076,42 @@ export const NO_BACKGROUND = { pattern: "none", texture: "none", scope: "page", 
 
 export const HERO_PHOTO = { fx: 50, fy: 50, filter: "none" } as const;
 
+/**
+ * The monogram's own letters (Style tab › Monogram): a face for the initials
+ * over the names' face, which initial comes first, and the wedding date set
+ * under the frame. The frame itself is `ornament`.
+ */
+export const MONOGRAM = { font: null, swap: false, date: "none" } as const;
+
+/** Faces that suit two initials in a frame; null is the names' own. */
+export const MONOGRAM_FONTS = [
+  null,
+  "cinzel",
+  "bodoni",
+  "playfair",
+  "italiana",
+  "cormorant",
+  "cinzeldeco",
+  "gloock",
+  "greatvibes",
+  "pinyon",
+  "monsieur",
+  "imperial",
+] as const satisfies readonly (FontId | null)[];
+
+export const MONOGRAM_DATES = [
+  { id: "none", label: "No date" },
+  { id: "year", label: "Year" },
+  { id: "full", label: "Full date" },
+] as const;
+
+/** The line under the frame, from the wedding date ("2027-06-12"). */
+export function monogramDate(kind: (typeof MONOGRAM_DATES)[number]["id"], date: string | null) {
+  if (kind === "none" || !date) return null;
+  const [y, m, d] = date.split("-");
+  return kind === "year" ? y : `${m} · ${d} · ${y}`;
+}
+
 export const DEFAULT_SITE_DESIGN: SiteDesign = {
   theme: DEFAULT_THEME_ID,
   accent: null,
@@ -1096,6 +1132,7 @@ export const DEFAULT_SITE_DESIGN: SiteDesign = {
   canvas: EMPTY_CANVAS,
   background: NO_BACKGROUND,
   heroPhoto: HERO_PHOTO,
+  monogram: MONOGRAM,
   template: null,
 };
 
@@ -1305,6 +1342,7 @@ export function designCssVars(design: SiteDesign): Record<string, string> {
     // ("RSVP", "Travel") it reads as a scrawl, so those take the body face.
     "--font-display": scriptNames ? theme.body : theme.display,
     "--font-names": theme.display,
+    ...(design.monogram.font ? { "--font-monogram": fontById(design.monogram.font)?.css ?? theme.display } : {}),
     "--font-body": theme.body,
     "--site-accent": accent,
     "--site-on-accent": onAccent,
@@ -1349,6 +1387,7 @@ export function siteFontsHref(design: SiteDesign) {
   const picked = [
     ...Object.values(design.text).flatMap((s) => (s?.font ? [s.font] : [])),
     ...canvasFontIds(design.canvas),
+    ...(design.monogram.font ? [design.monogram.font] : []),
   ].map((id) => fontById(id)?.css ?? "");
   return fontsHrefFor([theme.display, theme.body, ...picked]);
 }

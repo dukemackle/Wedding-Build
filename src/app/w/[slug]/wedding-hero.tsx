@@ -7,7 +7,7 @@ import { CountdownTimer } from "@/components/countdown-timer";
 import { daysUntilWedding } from "@/lib/countdown";
 import { HeroActions } from "./hero-actions";
 import { useSiteDesign } from "@/components/guest-site-theme";
-import { bannerPhoto, motionPreset, PHOTO_HEROES, resolveDesign } from "@/lib/site-design";
+import { bannerPhoto, monogramDate, motionPreset, PHOTO_HEROES, resolveDesign } from "@/lib/site-design";
 import { SiteOrnament } from "@/components/site-ornament";
 import { SiteArt } from "@/components/site-art";
 import { SiteText } from "@/components/site-text";
@@ -57,10 +57,11 @@ function HeroContent({
     <div className="relative z-10 w-full px-6 text-center">
       <SiteOrnament
         kind={bigMark && ornament === "none" ? "crest" : ornament}
-        first={wedding.partner_a_name ?? ""}
-        second={wedding.partner_b_name ?? ""}
+        first={(design.monogram.swap ? wedding.partner_b_name : wedding.partner_a_name) ?? ""}
+        second={(design.monogram.swap ? wedding.partner_a_name : wedding.partner_b_name) ?? ""}
         size={bigMark ? "lg" : "sm"}
         tone={tone}
+        date={monogramDate(design.monogram.date, wedding.wedding_date)}
       />
 
       <SiteText

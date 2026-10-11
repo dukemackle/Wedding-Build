@@ -7,6 +7,7 @@ import { ChevronDownIcon } from "@/components/icons";
 import type { SiteBlock } from "@/lib/supabase/types";
 import { SiteOrnament } from "@/components/site-ornament";
 import { Shape } from "@/components/site-motion";
+import { downloadMonogram } from "@/lib/monogram-download";
 import {
   ART_HEROES,
   ART_PLACEMENTS,
@@ -27,6 +28,11 @@ import {
   type LayoutSection,
   resolveDesign,
   themeById,
+  fontById,
+  monogramDate,
+  MONOGRAM_DATES,
+  MONOGRAM_FONTS,
+  WORD_ORNAMENTS,
   type HeroLayoutId,
   blockIdOf,
   blockKey,
@@ -99,6 +105,7 @@ export function StyleTab({
   onChange,
   hasPhoto,
   names,
+  weddingDate,
   children,
 }: {
   design: SiteDesign;
@@ -106,10 +113,12 @@ export function StyleTab({
   hasPhoto: boolean;
   /** The couple's names, so the monograms show their own initials. */
   names: [string, string];
+  weddingDate: string | null;
   /** Extra content placed under Top of the page (the banner photo). */
   children?: ReactNode;
 }) {
   const { theme, accent, onAccent } = resolveDesign(design);
+  const initials: [string, string] = design.monogram.swap ? [names[1], names[0]] : names;
   const needsPhoto = PHOTO_HEROES.includes(design.hero);
   const [allMonograms, setAllMonograms] = useState(false);
   const monograms = allMonograms ? ORNAMENTS : previewOf(ORNAMENTS, PREVIEW.monogram, (o) => o.id === design.ornament);
@@ -154,6 +163,7 @@ export function StyleTab({
               "--site-accent": accent,
               "--site-on-accent": onAccent,
               "--font-display": theme.display,
+              ...(design.monogram.font ? { "--font-monogram": fontById(design.monogram.font)?.css } : {}),
             } as React.CSSProperties
           }
         >
@@ -175,7 +185,7 @@ export function StyleTab({
                     </span>
                   ) : (
                     <span className={`block origin-center ${o.id === "rule" ? "scale-[0.8]" : "scale-[0.58]"}`}>
-                      <SiteOrnament kind={o.id} first={names[0]} second={names[1]} />
+                      <SiteOrnament kind={o.id} first={initials[0]} second={initials[1]} />
                     </span>
                   )}
                 </span>
@@ -187,6 +197,10 @@ export function StyleTab({
           })}
         </div>
       </div>
+
+      {design.ornament !== "none" && !WORD_ORNAMENTS.includes(design.ornament) && (
+        <MonogramLetters design={design} onChange={onChange} names={names} initials={initials} weddingDate={weddingDate} />
+      )}
 
       <div className="flex flex-col gap-3">
         <PanelLabel>Page style</PanelLabel>
@@ -1132,5 +1146,134 @@ export function MotionTab({
         </button>
       </p>
     </>
+  );
+}
+
+/**
+ * The monogram's letters (Style › Monogram): their face, which initial comes
+ * first, and a date under the frame -- and the finished mark to download for
+ * invitations, signs and the like, in the site's colours.
+ */
+function MonogramLetters({
+  design,
+  onChange,
+  names,
+  initials,
+  weddingDate,
+}: {
+  design: SiteDesign;
+  onChange: Change;
+  names: [string, string];
+  initials: [string, string];
+  weddingDate: string | null;
+}) {
+  const { theme, accent, onAccent } = resolveDesign(design);
+  const mono = design.monogram;
+  const set = (patch: Partial<SiteDesign["monogram"]>) => onChange({ monogram: { ...mono, ...patch } });
+  const [a, b] = initials.map((n) => n.trim()[0]?.toUpperCase() ?? "");
+  const face = fontById(mono.font)?.css ?? theme.display;
+  const date = monogramDate(mono.date, weddingDate);
+  // The frame drawn large off-screen, for the download to copy.
+  const drawn = useRef<HTMLDivElement>(null);
+  const [saving, setSaving] = useState<"png" | "svg" | null>(null);
+  const [failed, setFailed] = useState(false);
+  const canDownload = design.ornament !== "rule";
+
+  async function save(format: "png" | "svg") {
+    const svg = drawn.current?.querySelector("svg");
+    if (!svg) return;
+    setSaving(format);
+    setFailed(false);
+    try {
+      const name = `monogram-${[a, b].filter(Boolean).join("").toLowerCase() || "ours"}`;
+      await downloadMonogram(svg, { accent, onAccent, bg: theme.bg, face }, { format, name, date });
+    } catch {
+      setFailed(true);
+    } finally {
+      setSaving(null);
+    }
+  }
+
+  return (
+    <div className="flex flex-col gap-3">
+      <PanelLabel>Monogram letters</PanelLabel>
+      <div className="grid grid-cols-4 gap-2">
+        {MONOGRAM_FONTS.map((id) => {
+          const font = fontById(id);
+          const selected = mono.font === id;
+          return (
+            <button
+              key={id ?? "names"}
+              type="button"
+              aria-pressed={selected}
+              aria-label={font ? font.label : "Same as your names"}
+              title={font ? font.label : "Same as your names"}
+              onClick={() => set({ font: id })}
+              className={`flex h-14 flex-col items-center justify-center rounded-xl ${selected ? SELECTED : UNSELECTED}`}
+              style={{ background: theme.bg, color: accent }}
+            >
+              <span className="text-[22px] leading-none" style={{ fontFamily: font?.css ?? theme.display }}>
+                {a}
+                {b}
+              </span>
+              {!font && <span className="mt-1 text-[10px] text-ink/60">Names</span>}
+            </button>
+          );
+        })}
+      </div>
+
+      {names[0].trim() && names[1].trim() && (
+        <Pills
+          label="Which initial comes first"
+          options={[
+            ["ab", `${names[0].trim()[0]?.toUpperCase()} & ${names[1].trim()[0]?.toUpperCase()}`],
+            ["ba", `${names[1].trim()[0]?.toUpperCase()} & ${names[0].trim()[0]?.toUpperCase()}`],
+          ]}
+          value={mono.swap ? "ba" : "ab"}
+          onPick={(v) => set({ swap: v === "ba" })}
+        />
+      )}
+
+      <Pills
+        label="Date under the monogram"
+        options={MONOGRAM_DATES.map((d) => [d.id, d.label] as const)}
+        value={mono.date}
+        onPick={(v) => set({ date: v })}
+      />
+      {mono.date !== "none" && !weddingDate && (
+        <p className="-mt-1 text-[13px] leading-normal text-ink/60">Add your wedding date in your details and it shows here.</p>
+      )}
+
+      {canDownload && (
+        <>
+          <div className="flex gap-2">
+            {(["png", "svg"] as const).map((format) => (
+              <button
+                key={format}
+                type="button"
+                disabled={saving !== null}
+                onClick={() => save(format)}
+                className="flex h-11 flex-1 items-center justify-center rounded-xl border border-hairline bg-card text-sm font-medium text-ink hover:border-ink/30 disabled:opacity-60"
+              >
+                {saving === format ? "Preparing…" : `Download ${format.toUpperCase()}`}
+              </button>
+            ))}
+          </div>
+          <p className="-mt-1 text-[13px] leading-normal text-ink/60">
+            {failed
+              ? "That didn't save. Try again in a moment."
+              : "Your monogram in your colours, for invitations, signs, napkins or the cake. PNG for printers; SVG stays sharp at any size."}
+          </p>
+          <div
+            ref={drawn}
+            aria-hidden="true"
+            className="pointer-events-none fixed -left-[9999px] top-0"
+            style={{ "--site-accent": accent, "--site-on-accent": onAccent, "--font-monogram": face } as CSSProperties}
+          >
+            <SiteOrnament kind={design.ornament} first={initials[0]} second={initials[1]} size="lg" />
+          </div>
+        </>
+      )}
+    </div>
   );
 }
