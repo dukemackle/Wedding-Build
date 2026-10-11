@@ -50,7 +50,7 @@ import {
 import { CanvasToolbar, ElementsTab, PositionPanel } from "./canvas-panels";
 import { PhoneTools, Sheet, Tool } from "./phone-tools";
 import { AnimatePanel, FocusPicker, PhotoPanel } from "./photo-motion-panels";
-import { TemplatesTab } from "./templates-tab";
+import { MakeItMore, TemplatesTab } from "./templates-tab";
 import { DescribeSite, WrenWrite } from "./wren-panels";
 import { BackgroundTab, FontsTab, PhotoColoursSection, TargetColourSection, type PickTarget } from "./look-panels";
 import { publishSiteDesign, saveSiteDraft } from "./actions";
@@ -555,6 +555,7 @@ export function SiteEditor({
       ) : tab === "templates" ? (
         <>
           <DescribeSite design={design} onChange={change} />
+          <MakeItMore design={design} onChange={change} />
           <TemplatesTab design={design} names={names} onChange={change} />
         </>
       ) : tab === "theme" ? (
