@@ -1804,6 +1804,21 @@ function SiteDemo() {
           Live
         </span>
       </div>
+      {/* Your designs: a few looks side by side, one of them live. */}
+      <div className="flex gap-1.5 overflow-x-auto text-xs">
+        {["Garden Party", "Night Swim", "Lemon Grove"].map((name, i) => (
+          <span
+            key={name}
+            className={`flex h-7 shrink-0 items-center gap-1.5 rounded-full px-2.5 ${
+              i === 0 ? "bg-card font-medium text-forest ring-1 ring-forest/30" : "text-ink/60 ring-1 ring-hairline"
+            }`}
+          >
+            {name}
+            {i === 0 && <span className="rounded-full bg-[#FFD301] px-1.5 text-[10px] font-semibold text-[#14203d]">LIVE</span>}
+          </span>
+        ))}
+        <span className="flex h-7 shrink-0 items-center rounded-full px-2.5 text-[#2243B6] ring-1 ring-hairline">+ New</span>
+      </div>
       <div className="flex gap-1 rounded-lg bg-ink/[0.05] p-1">
         {["Theme", "Templates", "Colour", "Fonts", "Elements"].map((label, i) => (
           <span

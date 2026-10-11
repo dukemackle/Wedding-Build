@@ -119,6 +119,9 @@ const TAB_ICONS = {
  * live site directly.
  */
 export function SiteEditor({
+  designId,
+  designName,
+  isLive: initialLive,
   draft: initialDraft,
   published: initialPublished,
   publicSlug: initialSlug,
@@ -130,6 +133,11 @@ export function SiteEditor({
   names,
   photos,
 }: {
+  /** Which of the couple's designs this is (site_designs). */
+  designId: string;
+  designName: string;
+  /** Whether guests see this design (weddings.live_design_id). */
+  isLive: boolean;
   draft: SiteDesign;
   published: SiteDesign;
   publicSlug: string | null;
@@ -150,6 +158,7 @@ export function SiteEditor({
   const publicSlug = site.slug;
   const [design, setDesign] = useState(initialDraft);
   const [published, setPublished] = useState(initialPublished);
+  const [isLive, setIsLive] = useState(initialLive);
   const [tab, setTab] = useState<Tab>("templates");
   const [device, setDevice] = useState<Device>("desktop");
   const [isDesktop, setIsDesktop] = useState(true);
@@ -170,7 +179,8 @@ export function SiteEditor({
   // settles is the 980px-wide layout's, and the sheet ended up off-screen.
   const [offset, setOffset] = useState<number | null>(null);
 
-  const dirty = !sameDesign(design, published);
+  // A design guests don't see always has something to publish: itself.
+  const dirty = !isLive || !sameDesign(design, published);
 
   // The latest design, for message and key handlers that outlive a render
   // and for changes that land faster than React re-renders.
@@ -278,7 +288,7 @@ export function SiteEditor({
     clearTimeout(saveTimer.current);
     // The colour picker fires on every drag step; one save per pause is plenty.
     saveTimer.current = setTimeout(async () => {
-      const result = await saveSiteDraft(next).catch(() => ({
+      const result = await saveSiteDraft(designId, next).catch(() => ({
         error: "Couldn't save — check your connection.",
       }));
       if (result.error) {
@@ -423,7 +433,7 @@ export function SiteEditor({
   function publish() {
     clearTimeout(saveTimer.current);
     startPublish(async () => {
-      const result = await publishSiteDesign(design).catch(() => ({
+      const result = await publishSiteDesign(designId, design).catch(() => ({
         error: "Couldn't publish — check your connection.",
       }));
       if (result.error) {
@@ -432,6 +442,7 @@ export function SiteEditor({
         setError(null);
         setSaveState("idle");
         setPublished(design);
+        setIsLive(true);
         setLaunches((n) => n + 1);
         post(REPLAY_MESSAGE);
       }
@@ -442,11 +453,13 @@ export function SiteEditor({
     ? error
     : saveState === "saving"
       ? "Saving draft…"
-      : dirty
-        ? publicSlug
-          ? "Design changes not published yet"
-          : "Draft — your site is off"
-        : "Guests see this version";
+      : !isLive
+        ? "Guests see another design"
+        : dirty
+          ? publicSlug
+            ? "Design changes not published yet"
+            : "Draft — your site is off"
+          : "Guests see this version";
 
   const liveHref = publicSlug ? `${origin}/w/${publicSlug}` : null;
 
@@ -457,7 +470,7 @@ export function SiteEditor({
       disabled={!dirty || isPublishing}
       className="h-10 shrink-0 rounded-md bg-forest px-4 text-sm font-semibold text-parchment transition-colors hover:bg-forest/90 disabled:cursor-default disabled:bg-forest/40"
     >
-      {isPublishing ? "Publishing…" : dirty ? "Publish changes" : "Published"}
+      {isPublishing ? "Publishing…" : !isLive ? "Make this live" : dirty ? "Publish changes" : "Published"}
     </button>
   );
 
@@ -674,7 +687,7 @@ export function SiteEditor({
   const iconButton =
     "flex h-11 w-11 shrink-0 items-center justify-center rounded-lg text-[#14203d] disabled:opacity-30";
   const sheetTitle =
-    phoneSheet === "more" ? "Your guest site" : (TABS.find((t) => t.key === phoneSheet)?.label ?? "");
+    phoneSheet === "more" ? designName : (TABS.find((t) => t.key === phoneSheet)?.label ?? "");
   const phoneEditor = (
     <>
       <link rel="stylesheet" href={ALL_FONTS_HREF} precedence="default" />
@@ -684,7 +697,7 @@ export function SiteEditor({
         style={{ height: `max(480px, calc(100dvh - ${offset ?? 128}px))` }}
       >
         <header className="flex h-14 shrink-0 items-center gap-0.5 border-b border-hairline bg-card px-2">
-          <Link href="/guests" aria-label="Back to Guests" className={iconButton}>
+          <Link href="/guests/site" aria-label="Back to your designs" className={iconButton}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
               <path d="M15 18l-6-6 6-6" />
             </svg>
@@ -739,7 +752,7 @@ export function SiteEditor({
             disabled={!dirty || isPublishing}
             className="ml-1 h-10 shrink-0 rounded-[10px] bg-[#FFD301] px-4 text-sm font-semibold text-[#14203d] disabled:bg-[#FFD301]/40 disabled:text-[#14203d]/60"
           >
-            {isPublishing ? "Publishing…" : dirty ? "Publish" : "Published"}
+            {isPublishing ? "Publishing…" : !isLive ? "Make live" : dirty ? "Publish" : "Published"}
           </button>
         </header>
 
@@ -781,6 +794,7 @@ export function SiteEditor({
             device={device}
             fill={device === "phone"}
             frameRef={frameRef}
+            designId={designId}
             address={publicSlug ? `youdoido.com/w/${publicSlug}` : "Preview — your site is off"}
             bottomInset={0}
           />
@@ -899,7 +913,12 @@ export function SiteEditor({
           </nav>
           <div className="flex min-w-0 flex-1 flex-col">
             <div className="flex items-center gap-2.5 border-b border-hairline px-6 pb-4 pt-5">
-              <h1 className="font-display text-3xl font-semibold text-forest">Your guest site</h1>
+              <div className="min-w-0">
+                <Link href="/guests/site" className="text-[13px] text-ink/60 hover:text-ink">
+                  ← Your designs
+                </Link>
+                <h1 className="truncate font-display text-3xl font-semibold text-forest">{designName}</h1>
+              </div>
               <SiteSwitch site={site} />
             </div>
             <div className="min-h-0 flex-1 overflow-y-auto">{panelBody}</div>
@@ -980,6 +999,7 @@ export function SiteEditor({
           device={device}
           fill={false}
           frameRef={frameRef}
+            designId={designId}
           address={publicSlug ? `youdoido.com/w/${publicSlug}` : "Preview — your site is off"}
           bottomInset={0}
         />
@@ -1286,6 +1306,7 @@ function PreviewStage({
   device,
   fill,
   frameRef,
+  designId,
   address,
   bottomInset,
 }: {
@@ -1293,6 +1314,7 @@ function PreviewStage({
   /** On a phone showing the phone view: the preview is simply the screen. */
   fill: boolean;
   frameRef: React.RefObject<HTMLIFrameElement | null>;
+  designId: string;
   address: string;
   bottomInset: number;
 }) {
@@ -1374,7 +1396,7 @@ function PreviewStage({
         <div className="overflow-hidden" style={outer}>
           <iframe
             ref={frameRef}
-            src="/guests/site/preview"
+            src={`/guests/site/preview?design=${designId}`}
             title="Guest site preview"
             className="block border-0 bg-card"
             style={inner}
