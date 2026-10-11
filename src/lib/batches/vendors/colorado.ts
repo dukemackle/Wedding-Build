@@ -332,6 +332,12 @@ Sky Pond Photography & Video Productions	Videography		Estes Park	Colorado	Estes 
 Mountain Event Services	Music	2530 Myrtle Ct	Fort Collins	Colorado	Fort Collins, Northern Colorado and southern Wyoming	Fort Collins wedding DJ and MC service that also supplies photo booths, lighting and sound, with soundtracks built around each couple.	events@mountaineventservices.com	970-372-4882	https://www.mountaineventservices.com/	
 `,
   },
+  {
+    name: "Estes Park: Music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Byers Entertainment	Music		Fort Collins	Colorado	Fort Collins, Loveland, Greeley, Estes Park, Boulder, Longmont, Denver and southern Wyoming	Full-time owner-operated Fort Collins wedding DJ and MC with over 30 years' experience, who also offers a one-man-band and DJ combination.	byerset@msn.com	970-221-0228	https://byersentertainment.com	
+`,
+  },
 ];
 
 export default batches;
