@@ -22,7 +22,9 @@ import {
   FALLING,
   motionPreset,
   type Motion,
+  SECTION_LAYOUTS,
   SITE_SECTIONS,
+  type LayoutSection,
   resolveDesign,
   themeById,
   type HeroLayoutId,
@@ -43,6 +45,8 @@ export type SectionInfo = {
   editor?: ReactNode;
   /** Where its content is edited, when that's elsewhere in Wren. */
   link?: { href: string; label: string };
+  /** The section has layouts to pick from (SECTION_LAYOUTS). */
+  layout?: LayoutSection;
 };
 
 export type ChecklistItem = { label: string; done: boolean; href?: string; action?: string };
@@ -564,7 +568,7 @@ export function SectionsTab({
             const name = row.name ?? NAMES[id];
             const isBlock = blockIdOf(id) !== null;
             const shown = !section.hidden;
-            const expandable = Boolean(row.editor || row.link);
+            const expandable = Boolean(row.editor || row.link || row.layout);
             return (
               <div className="rounded-xl border border-hairline bg-card">
                 <div className="flex items-center gap-2 py-2.5 pl-1.5 pr-3">
@@ -600,6 +604,14 @@ export function SectionsTab({
                 </div>
                 {open === id && expandable && (
                   <div className="border-t border-hairline px-4 pb-5 pt-4">
+                    {row.layout && (
+                      <LayoutPicker
+                        section={row.layout}
+                        value={design.layouts[row.layout]}
+                        auto={row.layout === "weekend" ? (design.pageStyle === "storybook" ? "timeline" : "cards") : null}
+                        onPick={(id) => onChange({ layouts: { ...design.layouts, [row.layout!]: id } })}
+                      />
+                    )}
                     {row.link && (
                       <Link href={row.link.href} className="text-sm font-medium text-forest underline">
                         {row.link.label}
@@ -655,6 +667,92 @@ export function SectionsTab({
       </div>
     </>
   );
+}
+
+/**
+ * The layouts for one section, each a small drawing of its arrangement. The
+ * schedule's unpicked state shows the page style's choice as picked.
+ */
+function LayoutPicker({
+  section,
+  value,
+  auto,
+  onPick,
+}: {
+  section: LayoutSection;
+  value: string | null;
+  auto: string | null;
+  onPick: (id: string) => void;
+}) {
+  const current = value ?? auto;
+  return (
+    <div className="mb-4 flex flex-col gap-2">
+      <span className="text-[13px] font-medium text-ink">Layout</span>
+      <div className="grid grid-cols-3 gap-2">
+        {SECTION_LAYOUTS[section].map((x) => (
+          <button
+            key={x.id}
+            type="button"
+            onClick={() => onPick(x.id)}
+            aria-pressed={current === x.id}
+            title={x.help}
+            className={`flex flex-col items-center gap-1.5 rounded-lg border p-2 text-xs ${
+              current === x.id ? "border-[#2243B6] bg-[#2243B6]/5 font-medium text-ink" : "border-hairline text-ink/70 hover:border-ink/40"
+            }`}
+          >
+            <LayoutThumb section={section} id={x.id} />
+            {x.label}
+          </button>
+        ))}
+      </div>
+      {section === "story" && (
+        <p className="text-[12px] leading-normal text-ink/60">
+          For every Story section. Leave a blank line between paragraphs; start one with a year
+          (&ldquo;2019 · How we met&rdquo;) for the timeline. Photos come from your Photos section.
+        </p>
+      )}
+    </div>
+  );
+}
+
+function LayoutThumb({ section, id }: { section: LayoutSection; id: string }) {
+  const line = (w: string, key?: number) => <span key={key} className="block h-[3px] rounded-full bg-ink/35" style={{ width: w }} />;
+  const photo = (cls: string) => <span className={`block bg-[#dde2d0] ${cls}`} />;
+  const box = "flex h-12 w-full items-center justify-center gap-1.5 overflow-hidden rounded bg-parchment p-1.5";
+  const key = `${section}:${id}`;
+  if (key === "story:editorial")
+    return <span className={`${box} flex-col !gap-1`}>{photo("h-3.5 w-full rounded-sm")}{line("70%")}{line("70%")}{line("50%")}</span>;
+  if (key === "story:timeline" || key === "weekend:timeline")
+    return (
+      <span className={box}>
+        <span className="flex flex-1 flex-col items-end gap-1">{line("80%")}{line("60%")}</span>
+        <span className="block h-full w-px bg-[var(--site-accent,#4f6f45)]" />
+        <span className="flex flex-1 flex-col gap-1">{line("60%")}{line("80%")}</span>
+      </span>
+    );
+  if (key === "story:alternating")
+    return (
+      <span className={`${box} flex-col !gap-1`}>
+        <span className="flex w-full items-center gap-1">{photo("h-4 w-1/2 rounded-t-full")}{line("40%")}</span>
+        <span className="flex w-full items-center justify-end gap-1">{line("40%")}{photo("h-4 w-1/2 rounded-t-full")}</span>
+      </span>
+    );
+  if (key === "rsvp:card")
+    return <span className={box}><span className="flex h-full w-3/5 flex-col items-center justify-center gap-1 rounded-sm bg-white shadow-sm">{line("60%")}{line("40%")}</span></span>;
+  if (key === "rsvp:band")
+    return (
+      <span className={box}>
+        <span className="flex h-full w-full items-center gap-1 rounded-sm bg-[#4f6f45] px-1">
+          <span className="flex flex-1 flex-col gap-1"><span className="block h-[3px] w-3/4 rounded-full bg-white/80" /></span>
+          <span className="block h-5 w-1/2 rounded-sm bg-white" />
+        </span>
+      </span>
+    );
+  if (key === "rsvp:split")
+    return <span className={`${box} !gap-0 !p-0`}>{photo("h-full w-1/2")}<span className="flex h-full w-1/2 flex-col justify-center gap-1 bg-white px-1">{line("80%")}{line("60%")}</span></span>;
+  if (key === "weekend:cards")
+    return <span className={box}>{[0, 1, 2].map((i) => <span key={i} className="flex h-full flex-1 flex-col gap-1 rounded-sm bg-white p-1 shadow-sm">{line("80%")}{line("60%")}</span>)}</span>;
+  return <span className={`${box} flex-col !items-stretch !gap-1.5`}>{[0, 1, 2].map((i) => <span key={i} className="flex gap-1">{line("25%")}{line("45%")}</span>)}</span>;
 }
 
 function Checklist({ items }: { items: ChecklistItem[] }) {
