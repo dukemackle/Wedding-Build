@@ -185,6 +185,32 @@ Confectioneiress Cupcakes & Sweets	Cake	80 Brendon Way	Zionsville	Indiana	Zionsv
 Chef's Table Catering	Catering		Bloomington	Indiana	Bloomington	Chef-owned Bloomington caterer for weddings, corporate lunches and celebrations, with menus built from appetisers through dessert.	chefstablecater@gmail.com	(812) 287-8016	https://chefstablecateringbloomington.com/	https://www.instagram.com/chefs_table.catering/
 Cake Scraps	Cake		Bloomington	Indiana		Bloomington baker of custom wedding cakes, cupcakes and cookies, with quotes built from couples' photos and colour palettes.	cakescrapsus@gmail.com		https://cakescraps.squarespace.com/	https://www.instagram.com/cakescraps_us/`,
   },
+  {
+    name: "Indianapolis: Planning, Cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Weddings by Bretta	Planning		Greenwood	Indiana	Central Indiana, including Indianapolis, Bloomington, Carmel, Fishers and Brown County	Greenwood-based planner, coordinator and officiant for weddings, elopements and micro weddings across Central Indiana.		(317) 416-7777	https://weddingsbybretta.com/	https://www.instagram.com/weddingsbybretta/
+Jessica Dum Wedding Coordination	Planning		Indianapolis	Indiana		Indianapolis wedding coordination business that steps in a few months before the date to run the planning details and the day itself.			https://jessicadum.com/	https://www.instagram.com/jdwc_weddings/
+Top Tier Cakes	Cake		Greenwood	Indiana		Greenwood bakery making custom wedding cakes alongside cupcakes, cookies and cake pops, run by a baker with over twelve years in the trade.		317-449-3902	https://www.toptierindy.com/	https://www.instagram.com/toptierindy/`,
+  },
+  {
+    name: "Bloomington: Hair & Makeup, Rentals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Lé Esthetics	Hair & Makeup	619 North Morton Street	Bloomington	Indiana		Downtown Bloomington skincare studio that also offers bridal and special event makeup for brides and grooms, in studio or on location.			https://leestheticsindiana.com/	https://www.instagram.com/le_esthetics/
+Perfect Parties Tents & Events	Rentals	1717 S. Walnut St.	Bloomington	Indiana		Bloomington rental company supplying tents, tables, chairs, linens, staging and dance floors for weddings and other events.		(812) 334-2219	https://perfectparties-events.com/	
+The Borrowed Eclective	Rentals	3900 W Industrial Blvd, Suite 4	Bloomington	Indiana	Bloomington and surrounding areas of southern Indiana	Bloomington rental studio hiring out tableware, centrepieces, backdrops, furniture and florals for weddings and styled events.		812.360.4518	https://www.theborrowedeclective.com/	https://www.instagram.com/eclecticeventscapes/`,
+  },
+  {
+    name: "Evansville: Music, Rentals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Evansville DJ Services	Music		Evansville	Indiana	Evansville and surrounding areas in Indiana, Kentucky and Illinois	Evansville DJ company providing reception music, ceremony sound and uplighting for weddings, with planning forms for timelines and song choices.	Daniel.Gustafson@evansvilledjservices.com	812-483-1671	https://www.evansvilledjservices.com/	
+Little Willows Weddings, Events, and Designs	Rentals		Evansville	Indiana		Evansville business offering wedding rentals, florals, design and day-of coordination, from floral arches to ceremony backdrops.			https://www.littlewillowswed.com/	https://www.instagram.com/littlewillowswed/`,
+  },
+  {
+    name: "South Bend: Transportation, Rentals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Royal Excursion	Transportation	12807 McKinley Hwy	Mishawaka	Indiana	Indiana, Southwest Michigan and Chicagoland	Mishawaka charter and shuttle company with vehicles from SUVs to motorcoaches for moving wedding parties and guests.		(574) 257-8540	https://royalexcursion.com/	https://www.instagram.com/royalexcursion/
+Burns Rent-Alls	Rentals	2401 N. Home Street	Mishawaka	Indiana	Northern Indiana and Southwest Michigan	Mishawaka event rental company hiring out tents, tables, chairs, linens, dance floors and lighting for weddings.		(574) 259-4807	https://burnsrentals.com/	https://www.instagram.com/burnsspecialevents/`,
+  },
 ];
 
 export default batches;
