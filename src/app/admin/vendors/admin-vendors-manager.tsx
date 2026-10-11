@@ -383,9 +383,10 @@ function vendorChecks(vendor: Vendor): [string, boolean][] {
   ];
 }
 
+// Wide screens (xl+) only; narrower than that the fixed columns squeeze vendor and category to nothing, so it shows the cards.
 // Desktop columns: select, photo, vendor, category, price, source, complete, checked, inquiries, saves, status, actions.
 const GRID =
-  "lg:grid lg:grid-cols-[20px_48px_minmax(0,2fr)_minmax(0,1fr)_48px_72px_84px_minmax(0,150px)_112px_48px_64px_112px] lg:items-center lg:gap-3";
+  "xl:grid xl:grid-cols-[20px_48px_minmax(0,2fr)_minmax(0,1fr)_48px_72px_84px_110px_80px_48px_64px_112px] xl:items-center xl:gap-3";
 
 function VendorRow({
   vendor,
@@ -474,7 +475,7 @@ function VendorRow({
       </div>
 
       {/* Phone: a card. */}
-      <div className="flex items-start gap-3 p-3 lg:hidden">
+      <div className="flex items-start gap-3 p-3 xl:hidden">
         <Checkbox checked={selected} onChange={onToggleSelect} label={`Select ${vendor.name}`} className="mt-1" />
         <Thumb src={vendor.image_url} />
         <div className="min-w-0 flex-1">
