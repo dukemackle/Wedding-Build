@@ -115,6 +115,18 @@ Mari Harsan Studios	Videography		Washington	District of Columbia	Washington DC, 
 Eli Turner Studios	Photography		Washington	District of Columbia	Washington DC metro, Northern Virginia and Maryland	Documentary wedding photographer working since 2010, also offering engagement sessions, albums, and bar and bat mitzvah coverage.	info@eliturner.com	202-525-7055	https://www.eliturner.com/	https://www.instagram.com/eliturnerstudios/
 Mantas Kubilinskas Photography	Photography		Washington	District of Columbia	Washington DC, Virginia, Maryland and worldwide	Candid, documentary-style wedding photography with venue scouting, timeline planning, and highlights within 48 hours of the day.	mantas@mantasphoto.com	+1 (202) 213-7369	https://www.mantasphoto.com/	https://www.instagram.com/mantaskubilinskasphotography/`,
   },
+  {
+    name: "Washington: photography, planning, videography and music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Chris Ferenzi Photography	Photography	2122 Massachusetts Ave NW	Washington	District of Columbia		Wedding photographer for unconventional couples, with 250+ weddings shot across Washington and a studio on Massachusetts Avenue.	chris@chrisferenzi.com	609-790-1727	https://www.chrisferenzi.com/	
+Natalie Estess Photography	Photography		Washington	District of Columbia		DC photographer shooting weddings and elopements on digital and film, and happy to travel for destination celebrations.			https://www.natalieestess.com/	https://www.instagram.com/natalieestessphotography/
+Aimee Custis Photography	Photography		Washington	District of Columbia	East Coast, Virginia, Maryland and beyond	DC wedding photographer with a gentle, hands-off approach who keeps colour true to life across the day.			https://www.aimeecustis.com/	https://www.instagram.com/aimeecustis/
+Kinfete Weddings & Events	Planning		Washington	District of Columbia	DC, Maryland, Virginia and the East Coast	DC planning team, formerly Weddings by Kristy, taking on the logistics so couples can stay focused on their people.			https://www.kinfete.com/	https://www.instagram.com/kinfete.events/
+Capitol Romance	Planning		Washington	District of Columbia	DC Metro Area	DC wedding resource offering coordination for practical, personalised weddings, plus real-wedding features and a shop.			https://www.capitolromance.com/	https://www.instagram.com/capitolromance/
+Lune Dune Pictures	Videography		Washington	District of Columbia		DC film production company with a wedding division making cinematic, story-driven films from engagement to vows.			https://www.lunedunepictures.com/weddings	https://www.instagram.com/lunedunepictures/
+The "Original" Moonlighters	Music		Washington	District of Columbia	DC, Maryland, Virginia and across the US	Motown and variety dance band playing weddings in DC, Maryland and Virginia, and travelling to around twenty states.	info@14kmusic.com	(202) 855-1010	https://moonlightersweddingband.com/	https://www.instagram.com/mltrsband/
+`,
+  },
 ];
 
 export default batches;
