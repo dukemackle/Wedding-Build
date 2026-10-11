@@ -36,8 +36,12 @@ export type Wedding = {
   itinerary_published: boolean;
   /** The published guest site design; parse with parseSiteDesign. */
   site_design: unknown;
-  /** What the guest site editor is working on; Publish copies it to site_design. */
+  /** Before several designs (0111): what the editor worked on. No longer written. */
   site_design_draft: unknown;
+  /** The design in site_designs that site_design was copied from; null before the first publish. */
+  live_design_id: string | null;
+  /** Headings' words shared by every design with shared_wording on; parse with parseWording. */
+  site_wording: unknown;
   /** A Google Sheet the couple imported from, kept so they can reopen it. */
   spreadsheet_url: string | null;
   /** The colour each side of the guest list is drawn in, picked by the couple. */
@@ -749,6 +753,17 @@ export type GuestPost = {
 };
 
 /** A photo, story or quote the couple added to their guest site. */
+/** One of a couple's guest-site designs (0111). parseSiteDesign the design. */
+export type SiteDesignRow = {
+  id: string;
+  wedding_id: string;
+  name: string;
+  design: unknown;
+  shared_wording: boolean;
+  created_at: string;
+  updated_at: string;
+};
+
 export type SiteBlock = {
   id: string;
   wedding_id: string;
