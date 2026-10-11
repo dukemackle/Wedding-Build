@@ -216,6 +216,23 @@ Melissa Jae Films	Videography		St. Louis	Missouri		St. Louis wedding filmmaker f
 The Party Proper	Planning		Lake Ozark	Missouri	Lake of the Ozarks area	Event design, planning and rentals for lake weddings, receptions and bridal luncheons, run by a local team with a showroom open by appointment.	susan@thepartyproper.com	573-280-3668	https://thepartyproper.com	https://www.instagram.com/thepartyproper/
 Li'l Rizzo's Catering	Catering	929 Premium Outlets Dr	Osage Beach	Missouri		Local restaurant catering team that handles wedding receptions and rehearsal dinners, with online ordering and a quote request form for events.		573-302-1500	https://lilrizzos.com/catering/	https://www.instagram.com/lilrizzos/`,
   },
+  {
+    name: "Kansas City: catering, cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Nellie's Custom Cakes	Cake	1443 Swift St	North Kansas City	Missouri	Kansas City	North Kansas City cake shop with over twenty years of decorating, known for hand-made sugar paste flowers on custom wedding cakes.	cakes@nelliescustomcakes.com	816-419-9518	https://nelliescustomcakes.com/	https://www.instagram.com/nelliescustomcakes/
+Sweet Bliss Cakery	Cake		Kansas City	Missouri	Greater Kansas City	Home-based, by-appointment cakery with over forty years serving the Kansas City area, baking wedding cakes alongside cupcakes, cookies and cake pops.		816-506-0526	https://www.sweetblisscakerykc.com/	
+Twenty Four Catering	Catering		Kansas City	Missouri	Greater Kansas City, including Lee's Summit and Overland Park	Kansas City caterer with a dedicated weddings page, tailoring menus, themes and styling to each couple's plans across the metro.		816-686-4266	https://24catering.net/	https://www.instagram.com/24cateringkc/`,
+  },
+  {
+    name: "Lake of the Ozarks: catering, hair & makeup, florals, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Studio T Images	Videography		Osage Beach	Missouri	Lake of the Ozarks, Osage Beach, Camdenton, Lake Ozark, Eldon and Linn Creek	Husband-and-wife team offering wedding and engagement photography with videography, from lakefront elopements to full-day celebrations around the lake.		573-433-6765	https://www.studiotimages.com/	https://www.instagram.com/studiotimages/
+Angela's Lake Catering	Catering		Camdenton	Missouri	Lake of the Ozarks	Camdenton caterer with over twenty years at the lake, building custom menus for wedding receptions, house parties and church dinners, delivered on location.	angela@angelaslakecatering.com	573-317-3064	https://www.angelaslakecatering.com/	
+Argyle Catering	Catering		Jefferson City	Missouri	Jefferson City, Lake of the Ozarks and Rolla	Jefferson City caterer led by a trained chef, covering wedding menus from appetisers to desserts, with a dedicated page for events at the Lake of the Ozarks.	argylecatering@gmail.com	573-680-1144	https://www.argylecatering.com/wedding-catering	
+Shorty Pants Catering	Catering	1680 Autumn Lane	Osage Beach	Missouri	Lake of the Ozarks	Lakeside Cajun restaurant's catering arm, serving New Orleans-style dishes and smoked meats to weddings, family reunions and private parties around the lake.		573-302-1745	https://shortypantslounge.com/catering/	https://www.instagram.com/shortypantslakesidecajun/
+Bella Donna Salon	Hair & Makeup	1058 Main St	Osage Beach	Missouri	Lake of the Ozarks	Osage Beach salon with a bridal menu covering updos, full-face and airbrush makeup, and a pampering wedding-party offering with mimosas and pastries.		573-302-1929	http://belladonnasalonlakeoftheozarks.com/	
+Evergreen Home & Floral	Florals	6711 US-54 Expy	Osage Beach	Missouri	Lake of the Ozarks	Osage Beach silk-flower shop designing custom wedding florals, renting bridal collections and hosting a Flower Bar for couples who like to create their own.		573-346-2286	https://evergreenatthelake.com/pages/weddings	https://www.instagram.com/evergreenhomeandfloral/`,
+  },
 ];
 
 export default batches;
