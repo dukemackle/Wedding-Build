@@ -16,6 +16,8 @@ import {
   HERO_LAYOUTS,
   HERO_PHOTO,
   HEX,
+  MONOGRAM,
+  MONOGRAM_DATES,
   MOTION_PRESETS,
   NO_BACKGROUND,
   ORNAMENT_IDS,
@@ -168,6 +170,14 @@ export const siteDesignSchema = z.object({
       filter: z.enum(PHOTO_FILTERS.map((f) => f.id) as [PhotoFilterId, ...PhotoFilterId[]]).catch("none"),
     })
     .catch(HERO_PHOTO),
+  /** The monogram's letters and date line; the frame is `ornament`. */
+  monogram: z
+    .object({
+      font: z.enum(FONT_IDS).nullable().catch(null),
+      swap: z.boolean().catch(false),
+      date: z.enum(MONOGRAM_DATES.map((d) => d.id) as ["none", "year", "full"]).catch("none"),
+    })
+    .catch(MONOGRAM),
   /** The template the look started from (site-templates.ts), shown as picked. */
   template: z.string().regex(/^[a-z-]{1,40}$/).nullable().catch(null),
 });

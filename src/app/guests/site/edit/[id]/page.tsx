@@ -290,6 +290,7 @@ export default async function GuestSiteEditorPage({ params }: { params: Promise<
           checklist={checklist}
           hasPhoto={Boolean(wedding.hero_photo_url)}
           names={[wedding.partner_a_name ?? "", wedding.partner_b_name ?? ""]}
+          weddingDate={wedding.wedding_date ?? null}
           photos={[wedding.hero_photo_url, ...(galleryPhotos ?? []).map((p) => p.photo_url)].filter(
             (url): url is string => Boolean(url?.startsWith("https://")),
           )}
