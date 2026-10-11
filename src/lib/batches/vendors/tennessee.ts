@@ -239,6 +239,46 @@ Sevier Blumen	Florals		Sevierville	Tennessee	Knoxville, Pigeon Forge and Gatlinb
 Gatlinburg Gourmet	Catering		Gatlinburg	Tennessee	Sevier County and the Smoky Mountains	Caterer serving Sevier County weddings, rehearsal dinners and cabin stays, building a custom menu for each couple.	hello@gatlinburggourmet.com	865-438-0779	https://gatlinburggourmet.com/	https://www.instagram.com/gatlinburggourmet/
 `,
   },
+  {
+    name: "Nashville: planning, catering, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Grace Events	Planning		Spring Hill	Tennessee	Middle Tennessee	Spring Hill planner providing full wedding planning and wedding management for couples across Middle Tennessee, including the Nashville area.	graceeventsbydanielle@gmail.com	805-458-7378	https://www.graceeventsbydanielle.com/	https://www.instagram.com/graceeventsbydanielle/
+Dream Events & Catering	Catering	200 Hill Ave, Suite 4	Nashville	Tennessee	Nashville, Middle Tennessee, Alabama and Kentucky	Nashville full-service caterer feeding weddings and events across Middle Tennessee, with reach into Alabama and Kentucky.		615.259.0848	https://dreameventsandcatering.com/	
+Monell's	Catering		Nashville	Tennessee		Nashville caterer known for Southern comfort food, offering drop-off and off-site catering and a dedicated wedding catering service.		(615) 726-4938	https://monellstn.com/weddings/	https://www.instagram.com/monellstn/
+Brandon Rice Films	Videography		Nashville	Tennessee	Nashville and destination weddings	Nashville filmmaker shooting weddings and events, and travelling for destination celebrations as well as local Middle Tennessee days.	brandon@brandonricefilms.com	615-586-3888	https://www.brandonricefilms.com/	https://www.instagram.com/brandonrfilms/
+Greg and Jess Photography	Videography		Nolensville	Tennessee	Nashville	Nolensville couple filming cinematic wedding films in a documentary style, from elopements to big celebrations at Nashville barns and estates.	gregandjessphoto@gmail.com	(615) 678-9488	https://gregandjess.com/nashville-wedding-videographer	https://www.instagram.com/gregandjessphotography/`,
+  },
+  {
+    name: "Memphis: hair & makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Bridal Hair by Caitlin	Hair & Makeup		Memphis	Tennessee	Memphis area and beyond	Memphis stylist doing on-site bridal, bridesmaid and mother-of-the-bride hair, with a soft boho leaning and preview appointments.	C.puckett.eastwick@gmail.com		https://bridalhairbycaitlin.com/	https://www.instagram.com/bridalhairbycaitlin/
+Heather Boutique and Spa	Hair & Makeup	4544 Poplar Avenue, Suite 102	Memphis	Tennessee		Memphis boutique and spa on Poplar Avenue offering a bridal makeup service for brides who want a professional application.		901-249-5018	https://heatherstore.com/bridal	https://www.instagram.com/heatherboutiqueandspa/`,
+  },
+  {
+    name: "Chattanooga: hair & makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Jilliann's Bridal Hair	Hair & Makeup		Chattanooga	Tennessee	Tennessee	Chattanooga stylist doing on-location wedding hair for brides and bridal parties, with a consultation beforehand about dress and style.			https://jilliannsbridalhair.com/	https://www.instagram.com/jillianns_bridal_hair/
+Mane Station Chattanooga	Hair & Makeup		Chattanooga	Tennessee		Chattanooga salon team offering bridal hair and makeup, with trials, a bridal gallery and online booking for the wedding party.	manestationchattanooga@gmail.com		https://manestationchatt.com/bridal	https://www.instagram.com/manestationchattanooga/
+Chop Chop Beauty Club	Hair & Makeup		Chattanooga	Tennessee	Knoxville, the Smoky Mountains, Nashville, Chattanooga and Atlanta	Tennessee on-site wedding hair and makeup company with a menu for textured hair, taking bookings for 2026 and 2027 weddings.			https://chopchopbeautyclub.com/	`,
+  },
+  {
+    name: "Gatlinburg and the Smokies: florals, catering, hair & makeup, cake, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Cupid's Petals	Florals	805 Glades Rd	Gatlinburg	Tennessee	Gatlinburg, Sevierville and Pigeon Forge	Gatlinburg flower shop making bridal bouquets, ceremony arches and reception centrepieces, with free delivery and setup nearby.	wecare@cupidspetalsflorist.com	(865) 436-8556	https://www.cupidspetalsflorist.com/wedding	https://www.instagram.com/cupidspetalsflorist/
+Flowers of Gatlinburg	Florals	402 East Parkway	Gatlinburg	Tennessee	Gatlinburg, Pigeon Forge and the Great Smoky Mountains	Parkway flower shop designing wedding and reception flowers by appointment, including a collection made for Smoky Mountain elopements.		865-436-2333	https://flowersofgatlinburg.com/	
+D Garden Floratique	Florals	128 Court Avenue	Sevierville	Tennessee	East Tennessee	Sevierville florist and design studio open since 1997, arranging flowers for weddings, parties and events across East Tennessee.		865.453.2282	https://www.mydgarden.com/	
+Buddy's BBQ	Catering	705 Winfield Dunn Pkwy	Sevierville	Tennessee		Sevierville barbecue restaurant whose catering menu includes buffets for groups, suited to relaxed rehearsal dinners and wedding receptions.		865-428-5001	https://www.buddysbbqsevierville.com/	https://www.instagram.com/buddysbarbqsevierville/
+Delightful Diversions	Catering		Knoxville	Tennessee	Knoxville, East Tennessee and the Smoky Mountain region	Knoxville caterer creating custom menus for weddings, corporate events and private parties, travelling to Sevierville, Pigeon Forge and Gatlinburg.	contactus@delightfuldiversionstn.com	(865) 712-8108	https://www.delightfuldiversionstn.com/	https://www.instagram.com/1delightfuldiversions/
+Miss Lily's Catering	Catering	122 Depot Ave	Townsend	Tennessee	Townsend, Gatlinburg, Sevierville and Pigeon Forge	Townsend wedding caterer offering Southern comfort, barbecue and heavy hors d'oeuvres packages, and able to bring a smoker to your reception.	lilybarnevents@gmail.com	(865) 448-9895	https://www.lilybarn.com/wedding-event-catering/	
+Holston's Kitchen Catering Co.	Catering		Sevierville	Tennessee		Sevierville catering company building menus for wedding celebrations and business lunches, with ties to the Gatlinburg Convention Center.		865-455-7779	https://holstonscatering.com/	
+Sheer Envy Hair	Hair & Makeup	385 E Parkway, #227	Gatlinburg	Tennessee	Gatlinburg	Gatlinburg salon styling wedding-day hair and makeup for brides and grooms, close to the chapels along the Parkway.	senvy@bellsouth.net	(865) 436-8774	https://sheerenvyhair.com/	
+Shea Cook Beauty	Hair & Makeup		Athens	Tennessee	Athens, Chattanooga, Knoxville, Sevierville, Pigeon Forge and Gatlinburg	Bridal makeup artist from Athens who travels across East Tennessee, including Sevier County, with spray tans offered for the wedding day too.	sheacookbeauty@gmail.com		https://www.sheacookbeauty.com/	https://www.instagram.com/sheacookbeauty/
+Courtney's Cakes and Sweet Treats	Cake	5306 N Middlebrook Pike	Knoxville	Tennessee	Sevierville, Pigeon Forge, Gatlinburg and Knoxville	Knoxville bakery making custom wedding cakes with tastings and venue delivery, serving Sevierville and the wider Sevier County.	courtneyscakesandsweettreats@gmail.com	(865) 200-5935	https://courtneyscakesandsweettreats.com/pages/sevierville-tn	https://www.instagram.com/courtneyscakesknox/
+All Mixed Up Cakes	Cake		Knoxville	Tennessee	Knoxville, Sevierville, Maryville and surrounding areas	Home-based Knoxville cake studio specialising in wedding cakes, delivering and setting up in Sevierville and nearby towns.	hello@allmixedupcakes.com		https://allmixedupcakes.com/	https://www.instagram.com/allmixedupcakes/
+Captured By Celeste	Videography		Gatlinburg	Tennessee	The Smoky Mountains, Tennessee and Western North Carolina	Gatlinburg photo and video team whose videographer films weddings and elopements, from vows to first dances, across the Smokies.		423-676-0868	https://capturedbyceleste.com/	https://www.instagram.com/capturedbycelestemartinez/
+Morolo Photography & Films	Videography		Knoxville	Tennessee	Knoxville and Chattanooga, travelling on request	Knoxville and Chattanooga team filming full-day weddings, with optional ceremony and speech edits, and approved to film in the Smokies.	hello@morolofilms.com		https://www.morolofilms.com/	https://www.instagram.com/morolophotography/
+Yugen Wedding Films	Videography		Knoxville	Tennessee	Knoxville and the Smoky Mountains	Knoxville wedding videographers filming weddings in the city and throughout the Smoky Mountains, aiming for films to treasure for decades.			https://www.yugenproductions.com/	https://www.instagram.com/yugenproductions/`,
+  },
 ];
 
 export default batches;
