@@ -6,7 +6,7 @@ import { resolveDesign, sceneById, type SceneId } from "@/lib/site-design";
 import { ICONS, ICON_SETS } from "@/lib/scene-icons";
 
 /**
- * The drawn setting at the top of the guest site (Style tab › Scene): a
+ * The drawn setting at the top of the guest site (Background tab › Scene): a
  * landscape along the bottom of it, a strip along its top, or something
  * framing the names. Shapes rather than artwork, each layer mixed from the
  * accent and the background, so one drawing suits every palette and a
