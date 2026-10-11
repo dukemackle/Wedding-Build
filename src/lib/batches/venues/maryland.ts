@@ -120,6 +120,17 @@ Glenview Mansion	603 Edmonston Drive	Rockville	Maryland			Historic / Estate	Indo
 The Barn at Springfield Farm	12 Springfield Lane	Williamsport	Maryland			Barn / Rustic	Indoor & Outdoor	200		A town-owned eight-bay barn from around 1755 with original beams, a raised stage area and a private barnyard overlooking Byron Memorial Park.	springfieldbarnweddings@gmail.com	301-573-0459	https://williamsportmd.gov/visitors/springfield-farm/
 Rod 'N' Reel Resort	4160 Mears Avenue	Chesapeake Beach	Maryland			Beach / Waterfront	Indoor & Outdoor			A Chesapeake Bay resort with a ballroom, a terrace, a ceremony dome on the docks and a beach, plus on-site rooms for guests.		410.257.5596	https://www.rnrresortmd.com/weddings-and-events`,
   },
+  {
+    name: "Maryland: Frederick, Carroll, Annapolis, Baltimore and Eastern Shore venues",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Prosperity Mansion & Farm	11309 Rocky Ridge Rd	Keymar	Maryland			Garden / Outdoor	Indoor & Outdoor			A Frederick County mansion-and-farm venue in open countryside, with outdoor gardens for ceremonies and an indoor space for ceremonies or receptions.		(443) 350-8100	https://www.prosperitymansion.com/
+Whitehall	1915 Whitehall Rd	Annapolis	Maryland			Historic / Estate	Indoor & Outdoor			A 1764 National Historic Landmark manor on more than 115 acres of gardens, fields and parkland with about a mile and a half of Chesapeake Bay shoreline.	info@whitehallmd.com	(443) 295-3546	https://whitehallmd.com/
+Hidden View Farm		Crownsville	Maryland			Garden / Outdoor	Outdoor	250		A 100-plus-acre countryside farm north of the South River with English-style gardens, meadows, woodlands, six garden venues and a historic brick manor house.			https://hiddenviewfarm.org/
+Maria's Love Point	1710 Love Point Rd	Stevensville	Maryland			Beach / Waterfront	Outdoor	275		A waterfront bed and breakfast on Kent Island with 20 acres and more than 800 feet of Chester River shoreline, used mainly for outdoor ceremonies and receptions.		(410) 643-5054	https://www.mariaslovepoint.com/
+The Christian Royer House	817 Fridinger Mill Rd	Westminster	Maryland			Historic / Estate	Indoor & Outdoor	185		A National Register-listed estate on more than four acres with an 1827 brick manor house, a 1770 log cabin, a pond, fountain and gardens.	thechristianroyerhouse@gmail.com	(301) 201-0147	https://christianroyerhouse.com/
+The Manor at River Run	412 Old Bachmans Valley Rd	Westminster	Maryland			Historic / Estate	Indoor & Outdoor			An 1861 manor on Carroll County farmland with indoor rooms such as the Kehoe Ballroom, a tented reception option and outdoor ceremony sites such as the East Lawn.	Events@TheManorAtRiverRun.com	(301) 288-1292	https://themanoratriverrun.com/
+Kent Narrows Events	3028 Kent Narrows Way South	Grasonville	Maryland			Ballroom / Hotel	Indoor & Outdoor			Waterfront hotel event spaces at Kent Narrows with views over the water and marina, plus room-block options.		(443) 446-6000	https://kentnarrowsevents.com/kent-island-waterfront-weddings/`,
+  },
 ];
 
 export default batches;
