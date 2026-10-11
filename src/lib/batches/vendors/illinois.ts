@@ -171,6 +171,27 @@ Willow & Birch Salon	Hair & Makeup	521 E Washington St	Springfield	Illinois	Spri
 enVision Events	Planning		Peoria	Illinois	Central Illinois	Full-service event planning and consulting company offering vendor management, itineraries and day-of coordination for weddings, parties and corporate events.	rachel@envisioneventsinc.com	309-369-1464	https://envisioneventsinc.com/	https://www.instagram.com/team_envision_events/
 Create A Scene Events	Planning	632 Harding Rd	Morton	Illinois	Central Illinois	Morton event planning and production company providing draping, florals, glassware and rentals for weddings, with a showroom open on weekdays.	hello@createasceneevents.com	309-745-5440	https://createasceneevents.com/	https://www.instagram.com/createascene/`,
   },
+  {
+    name: "Chicago: photography, music and catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Studio Finch	Photography		Chicago	Illinois	Chicago and worldwide	Husband-and-wife wedding photographers in Chicago, shooting since 2010 in a fine-art, photojournalistic style.	hello@studiofinch.com		https://studiofinch.com/	https://www.instagram.com/studiofinch/
+JPP Studios	Photography		Chicago	Illinois		Chicago wedding photographer offering natural, candid, documentary-style coverage with a relaxed, unposed approach.			https://www.jppstudios.com/	https://www.instagram.com/jppstudios/
+Red Barn Wedding Studio	Photography	967 Graceland Ave	Des Plaines	Illinois	Chicago and Chicagoland	Des Plaines studio offering wedding photography, cinematic wedding films and photo booths at Chicago and suburban venues.	info@redbarnweddingstudio.com	312-912-5004	https://redbarnweddingstudio.com/	https://www.instagram.com/redbarnweddingstudio/
+Studio This Is	Photography		Chicago	Illinois		Chicago photography and film collective covering weddings in a timeless, editorial and documentary style, with video on request.	weddinginfo@studiothisis.com	312-219-5568	https://studiothisis.com/	https://www.instagram.com/studiothisisphotography/
+Spark Entertainment Group	Music		Chicago	Illinois	Chicago and destination weddings	Chicago wedding entertainment company providing DJs, live musicians and hybrid DJ-and-band performances.	hello@sparkentertainmentgroup.com	844-566-3799	https://www.sparkentertainmentgroup.com/chicago-wedding-dj	https://www.instagram.com/sparkentgroup/
+Shaadi Entertainment	Music		Chicago	Illinois		Chicago provider of South Asian wedding entertainment, with DJs, MCs, dhol and tabla players, and lighting.	info@shaadientertainment.com		https://www.shaadientertainment.com/	https://www.instagram.com/shaadi.entertainment/
+Luniks Entertainment	Music		Chicago	Illinois		Chicago DJ company for weddings and events that designs the night's flow, atmosphere and soundtrack with each couple.			https://www.luniksentertainment.com/	https://www.instagram.com/luniksentertainment/
+Entertaining Company	Catering		Chicago	Illinois		Chicago caterer for weddings, including modern Indian and Jewish celebrations, as well as galas and corporate events.	info@entertainingcompany.com	312-829-2800	https://entertainingcompany.com/catering/weddings/	https://www.instagram.com/entertaining_co/
+Shallots Bistro	Catering	7016 Carpenter Road	Skokie	Illinois	Skokie and Chicagoland	Skokie kosher steakhouse catering weddings and simchas, delivered or fully staffed, under Chicago Rabbinical Council supervision.	info@shallotsbistro.com	847-677-3463	https://shallotsbistro.com/catering/	https://www.instagram.com/shallotsbistro/`,
+  },
+  {
+    name: "Champaign–Urbana: florals, cake and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+The CU Flower House by A. Hunt Design	Florals		Champaign	Illinois	Champaign-Urbana and Central Illinois	Champaign florist creating custom wedding flowers and event florals, with bouquets and arrangements designed by Andrea Hunt.	andrea@ahuntdesign.com	217-419-1774	https://www.thecuflowerhouse.com/wedding-flowers	
+Graceful Acres	Florals		Monticello	Illinois	Monticello, Champaign, Urbana and Decatur	Monticello flower farm offering custom wedding arrangements and DIY flower buckets, with a restored 1895 barn venue on site.	rachel@gracefulacres.com		https://gracefulacresflowerfarm.com/	https://www.instagram.com/gracefulacresflowerfarm/
+Flour & Spice	Cake		Champaign	Illinois	Central Illinois	Home bakery in Champaign making wedding cakes and desserts, with tasting boxes, local delivery and shipping within Illinois.	Flourandspicehomebakery@gmail.com	217-898-7794	https://www.flourandspicebakery.com/	https://www.instagram.com/flourandspicehomebakery/
+Watersong Media	Videography		Champaign	Illinois	Champaign-Urbana and Chicago	Two-person Champaign-Urbana and Chicago team making story-led wedding films, with drone footage and event video too.	watersongmedia@gmail.com		https://watersongmedia.com/	`,
+  },
 ];
 
 export default batches;
