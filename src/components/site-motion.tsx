@@ -114,6 +114,16 @@ const LEAF = "M12 2C7 6 4 10 5 15c.6 3 3.5 5 7 5s6.4-2 7-5c1-5-2-9-7-13zM12 7v15
 const HEART =
   "M12 21s-7.5-4.6-9.6-9C.8 8.4 3 4.5 6.6 4.5c2.3 0 4 1.3 5.4 3.1 1.4-1.8 3.1-3.1 5.4-3.1 3.6 0 5.8 3.9 4.2 7.5-2.1 4.4-9.6 9-9.6 9z";
 const SPARKLE = "M12 2l1.9 6.6L20.5 10l-6.6 1.9L12 18.5l-1.9-6.6L3.5 10l6.6-1.4z";
+const BUTTERFLY =
+  "M12 7.5c-1.2-3-4.6-5.4-7.6-4.6C2 3.6 2.6 7.8 4.6 10c-2 1.6-2.2 5.2.6 6.2 2.6.9 5.2-1.6 6.3-4.2h1c1.1 2.6 3.7 5.1 6.3 4.2 2.8-1 2.6-4.6.6-6.2 2-2.2 2.6-6.4.2-7.1-3-.8-6.4 1.6-7.6 4.6z";
+/** Eight rounded petals around a centre. */
+const MARIGOLD = Array.from({ length: 8 }, (_, k) => {
+  const a = (k * Math.PI) / 4;
+  const [x, y] = [12 + Math.cos(a) * 6.2, 12 + Math.sin(a) * 6.2];
+  return `M${(x + 3.6).toFixed(2)} ${y.toFixed(2)}a3.6 3.6 0 1 0-7.2 0a3.6 3.6 0 1 0 7.2 0z`;
+}).join("");
+/** Marigolds, lanterns and sparklers glow warm whatever the palette. */
+const WARM = "color-mix(in srgb, var(--site-accent) 35%, #FFD301)";
 
 /** Confetti mixes the theme's accent with its ink and the brand gold. */
 const CONFETTI_COLOURS = ["var(--site-accent)", "var(--color-ink)", "#FFD301"];
@@ -189,6 +199,36 @@ export function Shape({ kind, i, size }: { kind: Kind; i: number; size: number }
           }}
         />
       );
+    case "lanterns":
+      return (
+        <span
+          className="block"
+          style={{
+            width: size * 0.8,
+            height: size * 1.1,
+            borderRadius: "38% 38% 28% 28%",
+            background: `linear-gradient(${WARM}, color-mix(in srgb, var(--site-accent) 60%, #FFD301))`,
+            boxShadow: `0 0 12px 3px color-mix(in srgb, ${WARM} 70%, transparent)`,
+          }}
+        />
+      );
+    case "marigolds":
+      return (
+        <span className="block" style={{ color: WARM }}>
+          <svg width={size} height={size} viewBox="0 0 24 24" className="block" aria-hidden="true">
+            <path d={MARIGOLD} fill="currentColor" />
+            <circle cx="12" cy="12" r="3.2" fill="var(--site-accent)" />
+          </svg>
+        </span>
+      );
+    case "sparklers":
+      return (
+        <span className="block" style={{ color: WARM, filter: `drop-shadow(0 0 4px ${WARM})` }}>
+          {svg(SPARKLE)}
+        </span>
+      );
+    case "butterflies":
+      return svg(BUTTERFLY);
     case "fireflies":
       return (
         <span
@@ -222,6 +262,10 @@ const KINDS: Record<
   rings: { count: 10, move: "drift", size: [12, 18], duration: [9, 13], sway: 30, spin: 120, opacity: 0.55 },
   bubbles: { count: 12, move: "rise", size: [10, 22], duration: [9, 14], sway: 25, spin: 0, opacity: 0.6 },
   fireflies: { count: 16, move: "wander", size: [10, 14], duration: [5, 9], sway: 40, spin: 0, opacity: 0.9 },
+  lanterns: { count: 10, move: "rise", size: [12, 20], duration: [12, 18], sway: 30, spin: 0, opacity: 0.75 },
+  marigolds: { count: 14, move: "drift", size: [16, 24], duration: [8, 12], sway: 40, spin: 220, opacity: 0.6 },
+  sparklers: { count: 18, move: "wander", size: [8, 14], duration: [3, 6], sway: 20, spin: 0, opacity: 0.9 },
+  butterflies: { count: 9, move: "drift", size: [14, 20], duration: [11, 16], sway: 70, spin: 30, flutter: true, opacity: 0.55 },
 };
 
 /** Spread between two numbers by a fixed pattern, so server and client agree. */
@@ -273,7 +317,7 @@ export function Falling({ kind, speed, contained = false }: { kind: Kind; speed:
 type Burst = { id: number; pieces: { dx: number; dy: number; spin: number; left: number; size: number }[] };
 
 /** Bursts in the falling shape where it reads as a toss; otherwise classic confetti. */
-const BURST_KINDS: Kind[] = ["petals", "hearts", "confetti", "leaves", "rings"];
+const BURST_KINDS: Kind[] = ["petals", "hearts", "confetti", "leaves", "rings", "marigolds"];
 
 /**
  * A burst from the top of the screen when a guest RSVPs yes. Also fires on

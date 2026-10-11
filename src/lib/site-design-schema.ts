@@ -3,6 +3,7 @@ import { canvasSchema } from "./site-canvas-schema";
 import { PHOTO_FILTERS, type PhotoFilterId } from "./site-canvas";
 import {
   ART_IDS,
+  BG_DIVIDERS,
   BG_PATTERNS,
   BG_TEXTURES,
   BLOCK_KEY,
@@ -23,6 +24,7 @@ import {
   TEXT_SLOT_IDS,
   THEME_IDS,
   hasTextStyle,
+  type BgDivider,
   type BgPattern,
   type BgTexture,
   type BlockKey,
@@ -92,6 +94,8 @@ const backgroundSchema = z.object({
   texture: z.enum(BG_TEXTURES.map((t) => t.id) as [BgTexture, ...BgTexture[]]).catch("none"),
   /** Every section, or just the top of the page. */
   scope: z.enum(["page", "top"]).catch("page"),
+  /** The edge between storybook bands. */
+  divider: z.enum(BG_DIVIDERS.map((d) => d.id) as [BgDivider, ...BgDivider[]]).catch("none"),
 });
 
 export const siteDesignSchema = z.object({

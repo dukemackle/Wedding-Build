@@ -1,8 +1,10 @@
 import {
   EMPTY_TEXT_STYLE,
   MOTION_PRESETS,
+  NO_BACKGROUND,
   PALETTES,
   themeById,
+  type FallingId,
   type FontPairingId,
   type HeroLayoutId,
   type SceneId,
@@ -21,7 +23,7 @@ import {
  * page. Only the look changes.
  */
 
-export const TEMPLATE_TAGS = ["Beach", "Garden", "Rustic", "Line art", "Traditions", "Modern"] as const;
+export const TEMPLATE_TAGS = ["Beach", "Garden", "Rustic", "Line art", "Traditions", "Modern", "Glam"] as const;
 
 export type TemplateTag = (typeof TEMPLATE_TAGS)[number];
 
@@ -41,6 +43,8 @@ export type SiteTemplate = {
   pageStyle?: SiteDesign["pageStyle"];
   background?: Partial<SiteDesign["background"]>;
   motion?: keyof typeof MOTION_PRESETS;
+  /** What falls, over the motion preset's own. */
+  falling?: FallingId;
 };
 
 export const TEMPLATES: SiteTemplate[] = [
@@ -150,7 +154,7 @@ export const TEMPLATES: SiteTemplate[] = [
   {
     id: "black-tie",
     name: "Black Tie",
-    tags: ["Modern"],
+    tags: ["Glam", "Modern"],
     theme: "blacktie",
     hero: "card",
     ornament: "scroll",
@@ -165,6 +169,7 @@ export const TEMPLATES: SiteTemplate[] = [
     ornament: "mandala",
     art: { id: "peony", placement: "corners" },
     background: { pattern: "lattice", scope: "top" },
+    falling: "marigolds",
   },
   {
     id: "nikah",
@@ -183,6 +188,123 @@ export const TEMPLATES: SiteTemplate[] = [
     hero: "framed",
     ornament: "chuppah",
     art: { id: "olive-line", placement: "sides" },
+  },
+  {
+    id: "sunbaked",
+    name: "Sunbaked",
+    tags: ["Rustic"],
+    theme: "terracotta",
+    hero: "split",
+    ornament: "laurel",
+    art: { id: "olive", placement: "corners" },
+    pageStyle: "storybook",
+    background: { texture: "linen", divider: "deckle" },
+  },
+  {
+    id: "conservatory",
+    name: "Conservatory",
+    tags: ["Garden", "Line art"],
+    theme: "botanical",
+    hero: "framed",
+    ornament: "arch",
+    art: { id: "eucalyptus-line", placement: "sides" },
+    background: { pattern: "lattice", scope: "top" },
+    falling: "butterflies",
+  },
+  {
+    id: "alpine",
+    name: "Alpine",
+    tags: ["Rustic", "Line art"],
+    theme: "mountain",
+    hero: "full",
+    ornament: "mountain",
+    art: { id: "pine", placement: "sides" },
+    pageStyle: "storybook",
+    background: { texture: "paper", divider: "torn" },
+  },
+  {
+    id: "barn-dance",
+    name: "Barn Dance",
+    tags: ["Rustic"],
+    theme: "barn",
+    hero: "card",
+    art: { id: "oats", placement: "corners" },
+    pageStyle: "storybook",
+    background: { texture: "linen", divider: "scallop" },
+    falling: "fireflies",
+  },
+  {
+    id: "rodeo",
+    name: "Rodeo Sweetheart",
+    tags: ["Rustic", "Line art"],
+    theme: "cowgirl",
+    hero: "poster",
+    art: { id: "boot", placement: "sides" },
+    background: { pattern: "gingham", scope: "top" },
+    motion: "lively",
+    falling: "hearts",
+  },
+  {
+    id: "fiesta",
+    name: "Fiesta",
+    tags: ["Traditions"],
+    theme: "fiesta",
+    hero: "monogram",
+    pageStyle: "storybook",
+    background: { pattern: "harlequin", scope: "top", divider: "scallop" },
+    motion: "lively",
+    falling: "marigolds",
+  },
+  {
+    id: "red-lanterns",
+    name: "Red Lanterns",
+    tags: ["Traditions"],
+    theme: "doublehappiness",
+    hero: "monogram",
+    background: { pattern: "scallops", scope: "top" },
+    falling: "lanterns",
+  },
+  {
+    id: "city-hall",
+    name: "City Hall",
+    tags: ["Modern"],
+    theme: "city",
+    hero: "split",
+    fonts: "go",
+    background: { pattern: "pinstripe", scope: "top" },
+  },
+  {
+    id: "groovy",
+    name: "Groovy",
+    tags: ["Modern"],
+    theme: "retro",
+    hero: "poster",
+    background: { pattern: "sunburst" },
+    motion: "lively",
+    falling: "confetti",
+  },
+  {
+    id: "marble-gold",
+    name: "Marble & Gold",
+    tags: ["Glam", "Modern"],
+    theme: "modern",
+    palette: "champagne",
+    hero: "framed",
+    fonts: "gm",
+    ornament: "scroll",
+    background: { texture: "marble" },
+  },
+  {
+    id: "gatsby",
+    name: "Gatsby",
+    tags: ["Glam"],
+    theme: "blacktie",
+    palette: "black-tie",
+    hero: "text",
+    fonts: "cb",
+    ornament: "chandelier",
+    background: { pattern: "deco", texture: "flecks" },
+    falling: "sparklers",
   },
 ];
 
@@ -214,8 +336,8 @@ export function applyTemplate(design: SiteDesign, t: SiteTemplate): SiteDesign {
     hero: t.hero,
     scene: t.scene ?? null,
     pageStyle: t.pageStyle ?? "cards",
-    background: { pattern: "none", texture: "none", scope: "page", ...t.background },
-    motion: MOTION_PRESETS[t.motion ?? "subtle"],
+    background: { ...NO_BACKGROUND, ...t.background },
+    motion: { ...MOTION_PRESETS[t.motion ?? "subtle"], ...(t.falling ? { falling: t.falling } : {}) },
     text,
   };
 }
