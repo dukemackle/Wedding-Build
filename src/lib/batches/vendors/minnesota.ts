@@ -155,6 +155,12 @@ A Berry Hair	Hair & Makeup	1553 7 1/2 Ave NE	Rochester	Minnesota	Rochester	Roche
 Baked by Kara	Cake		Rochester	Minnesota	Rochester	Rochester home-style bakery making custom cakes, cupcakes and cookies, with a wedding cake portfolio on its site.			https://www.bakedbykara.com/	
 `,
   },
+  {
+    name: "Rochester: Officiant",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Minnesota Life Celebrations	Officiant		Rochester	Minnesota	Rochester	Rochester officiant Kathy Diedrich, leading simple secular wedding ceremonies, from certificate signings to vow exchanges, at venues around town.	kathy@mnlifecelebrations.com	(507) 250-4655	https://www.mnlifecelebrations.com/	
+`,
+  },
 ];
 
 export default batches;
