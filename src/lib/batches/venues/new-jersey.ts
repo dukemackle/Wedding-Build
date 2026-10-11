@@ -80,6 +80,20 @@ The Bradford Estate	1910 Marne Highway	Hainesport	New Jersey			Historic / Estate
 Smoke Rise Village Inn	9 Perimeter Road	Kinnelon	New Jersey			Historic / Estate	Indoor			Stone inn in the Smoke Rise community of Kinnelon, in a building dating to 1892, offering wedding dining and service.		973-838-7770	https://www.smokerisevillageinn.com/
 Barrow Mansion	83 Wayne Street	Jersey City	New Jersey			Historic / Estate	Indoor			1836 Greek Revival mansion in downtown Jersey City that rents out for weddings and other events.	communications@barrowmansion.org	(201) 604-5981	https://barrowmansion.org/`,
   },
+  {
+    name: "New Jersey venues: north, central and south (more)",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+The Loft at Jack's Barn	1487 NJ-31	Oxford	New Jersey			Barn / Rustic	Indoor & Outdoor	100		A restored rustic barn in rural Warren County with a loft, indoor reception space and outdoor ceremony options, hosting micro weddings and full celebrations.	jacksbarn@comcast.net	(908) 857-2054	https://www.jacksbarn.com
+Brooklake Country Club	139 Brooklake Rd	Florham Park	New Jersey			Ballroom / Hotel	Indoor & Outdoor			A lakeside country club with a ballroom of floor-to-ceiling windows and outdoor ceremony spots by the lake and pond.		973-377-2235	https://www.brooklakeevents.com
+The Inn at Fernbrook Farms	144 Bordentown Georgetown Rd	Chesterfield	New Jersey			Historic / Estate	Indoor & Outdoor	200		A 1740s manor house on a 230-acre preserved working farm, with lawns, gardens and farm-sourced menus for one wedding per day.		(609) 298-3868	https://www.fernbrookfarms.com/inn
+Cherry Valley Country Club	125 Country Club Dr	Skillman	New Jersey			Ballroom / Hotel	Indoor & Outdoor	125		A golf club near Princeton with a window-lined ballroom overlooking the course and a fire-pit patio.		609-466-4244	https://www.invitedclubs.com/clubs/cherry-valley-country-club/host-an-event/weddings
+Forsgate Country Club	375 Forsgate Dr	Monroe Township	New Jersey			Ballroom / Hotel	Indoor & Outdoor			A historic golf clubhouse with the 6,000 sq ft Highlands Ballroom, a fireplace Great Room, a pergola and a terrace over the greens.		732-521-0070	https://www.forsgatecc.com/event
+Basking Ridge Country Club	185 Madisonville Rd	Basking Ridge	New Jersey			Ballroom / Hotel	Indoor			A country club on 258 acres in the Somerset Hills with colonial-style dining rooms, raised-hearth fireplaces and crystal chandeliers.		(908) 766-8200	https://www.baskingridgecc.com
+Woolverton Inn	6 Woolverton Rd	Stockton	New Jersey			Historic / Estate	Indoor & Outdoor	200		A manor estate on 10 acres above the Delaware River with a barn, a tented meadow and on-site rooms and cottages for guests.	sheep@woolvertoninn.com	609.397.0802	https://www.woolvertoninn.com/weddings/
+The Mountain Lakes House	57 Mountain Ave	Princeton	New Jersey			Historic / Estate	Indoor & Outdoor	150		A former private home with a covered lakeside terrace and lawn inside a 75-acre nature preserve less than two miles from central Princeton.	info@themountainlakeshouse.org	(609) 730-1010	https://www.themountainlakeshouse.org
+Chimney Hill Estate	207 Goat Hill Rd	Lambertville	New Jersey			Historic / Estate	Indoor & Outdoor			An 8.5-acre bed-and-breakfast estate with a stone room, a carriage house banquet room, a glass greenhouse, gardens and 16 guest rooms.	info@chimneyhillestate.com	609-397-1516	https://chimneyhillestate.com/weddings/
+Princeton Lavender Farm	3741 Lawrenceville Rd	Princeton	New Jersey			Barn / Rustic	Indoor & Outdoor	220		A working lavender farm with a two-storey event barn and covered patio that fits gatherings of 30 to 220 people.	bradleyssmith14@gmail.com	(609) 564-1212	https://www.princetonlavender.com/host-an-event`,
+  },
 ];
 
 export default batches;

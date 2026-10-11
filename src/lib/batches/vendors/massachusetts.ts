@@ -295,6 +295,13 @@ A Taste of Nantucket	Catering	19 Boynton Lane	Nantucket	Massachusetts		Nantucket
 Revel Catering & Events	Catering		Martha's Vineyard	Massachusetts	Martha's Vineyard	Full-service Martha's Vineyard caterer for weddings, cocktail parties and other events, taking bookings for the 2026 and 2027 seasons.	events@revelcatering.com	508-645-5000	https://revelmv.com/	
 `,
   },
+  {
+    name: "Martha's Vineyard and Nantucket: cake and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+45 Surfside Bakery & Café	Cake	45 Surfside Road	Nantucket	Massachusetts		Surfside Road bakery and café on Nantucket that bakes wedding cakes to order alongside its daily pastries and breakfast and lunch menu.	rebecca@45surfside.com		https://45surfside.com/	https://www.instagram.com/45surfside/
+Wicked Island Bakery	Cake	7B Bayberry Ct	Nantucket	Massachusetts		Nantucket bakery behind the island Morning Bun, taking custom cake orders for weddings and events as well as catering and brunch trays.		(508) 901-5797	https://www.wickedislandbakery.com/	https://www.instagram.com/wickedislandbakery/
+Martha's Vineyard Productions	Videography		Vineyard Haven	Massachusetts	Martha's Vineyard, Nantucket and the Cape Cod areas	Island video studio led by Dan Martino, filming multi-camera wedding films and short highlight edits, with drone shots, for Vineyard couples.	info@marthasvineyardproductions.com		https://marthasvineyardproductions.com/weddings.html	`,
+  },
 ];
 
 export default batches;
