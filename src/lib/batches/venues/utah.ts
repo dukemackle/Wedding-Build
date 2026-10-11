@@ -85,6 +85,37 @@ The Ridge at Cache Valley	291 S 300 W	Logan	Utah			Barn / Rustic	Indoor & Outdoo
 The Studio Draper	12441 S 900 E	Draper	Utah			Historic / Estate	Indoor	300		Restored 1912 school building in historic Draper with original hardwood floors and over 5,000 sq ft of event space.			https://www.thestudiodraper.com/
 `,
   },
+  {
+    name: "Utah statewide venues: barn, garden, resort, historic",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+La Sal Stable	340 UT-29	Orangeville	Utah			Barn / Rustic	Indoor & Outdoor			A repurposed barn left as a blank canvas, set among trees with a creek and a pond with a bridge, near the Manti-La Sal Mountains.		801-828-8763	https://www.lasalstable.com
+The Red Earth Venue	545 SR 313	Moab	Utah			Garden / Outdoor	Indoor & Outdoor		Simple	A private 17-acre event property near Arches and Canyonlands with red rock views and both indoor and outdoor spaces.		435-562-5965	https://www.theredearthvenue.com
+Whispering Oaks Ranch	8105 S La Sal Mountain Loop Road	Moab	Utah			Barn / Rustic	Indoor & Outdoor	200		A private 50-acre mountain property in the La Sal Mountains with a pavilion for weddings and cabins for overnight guests.	info@whisperingoakslodging.com	435-259-7666	https://www.whisperingoakslodging.com
+ULUM Moab	147 S Looking Glass Rd	La Sal	Utah			Garden / Outdoor	Indoor & Outdoor			A desert resort with on-site lodging and event spaces that is booked as a full-camp buyout for weddings.	groups@ulumresorts.com	888-969-4858	https://www.ulumresorts.com
+Canyonlands by Night and Day	1861 N Hwy 191	Moab	Utah			Beach / Waterfront	Outdoor	280		A family-run riverside property on the Colorado River where ceremonies are held on a deck, a patio or aboard a boat.		435-259-5261	https://canyonlandsbynight.com
+Amangiri	1 Kayenta Road	Canyon Point	Utah			Ballroom / Hotel	Indoor & Outdoor			A desert resort on the Colorado Plateau that hosts weddings and private celebrations.		435-675-4100	https://www.aman.com/resorts/amangiri
+Ruby's Inn		Bryce Canyon City	Utah			Ballroom / Hotel	Indoor & Outdoor			A lodging complex at the entrance to Bryce Canyon with lawns for ceremonies, indoor ballrooms for receptions and on-site catering.		866-866-6616	https://www.rubysinn.com
+The Kinlands		Riverton	Utah			Garden / Outdoor	Indoor & Outdoor	200		A garden-style venue with a Garden House, an Arbor House and a small Silo space that can be booked for ceremonies and receptions.		801-999-8548	https://www.thekinlands.com
+Desert Lily Gardens	82 West 800 South	Smithfield	Utah			Garden / Outdoor	Indoor & Outdoor			A garden venue in Cache Valley with a 4,000-square-foot event hall, bridal and groom suites and outdoor gardens.	desertlilygardens@gmail.com	435-535-1474	https://www.desertlilygardens.com
+Alpine Art Center	450 South Alpine Highway	Alpine	Utah			Garden / Outdoor	Indoor & Outdoor		Simple	A gallery and sculpture park with gardens and water features, offering indoor and outdoor ceremony spaces with mountain views.		801-763-7173	https://www.alpineartcenter.com
+Eagle Mountain Ranch	150 West 1400 North	Gunlock	Utah			Barn / Rustic	Indoor & Outdoor			A family-run ranch near St. George with indoor and outdoor wedding spaces, a log cabin for overnight guests and trail rides.	bangerterranch@gmail.com	480-241-3932	https://www.bangerterranch.com
+Wolf Springs Ranch	1000 E Wolf Springs Ranch Rd	La Sal	Utah			Barn / Rustic	Indoor & Outdoor			A private solar-powered ranch with a mountain meadow for ceremonies and a two-story event center for receptions.		435-459-3733	https://wolfspringscabinrentals.com
+Deer Meadows Ranch	1000 East Weber Canyon Rd	Oakley	Utah			Barn / Rustic	Indoor & Outdoor		Classic	A mountain lodge on more than 110 acres with an indoor event space, a covered porch and an outdoor ceremony area near the river.	concierge@deermeadowsranch.com	801-613-1249	https://www.deermeadowsranch.com
+Pierpont Place	163 W Pierpont Avenue	Salt Lake City	Utah			Ballroom / Hotel	Indoor			A full-service downtown event venue with an in-house design and planning team.	info@pierpontplace.com	801-200-3113	https://www.pierpontplace.com
+Alta Lodge	10230 UT-210	Alta	Utah			Ballroom / Hotel	Indoor & Outdoor		Classic	A mountain lodge in Little Cottonwood Canyon that takes weddings from June to mid-October, from small elopements to full-weekend buyouts.		801-742-3500	https://www.altalodge.com
+Boulder Mountain Guest Ranch		Boulder	Utah			Barn / Rustic	Outdoor			A guest ranch near Grand Staircase-Escalante that offers outdoor ceremonies and events.	kara@bouldermountainguestranch.com		https://www.bouldermountainguestranch.com
+Warrior Rizen Ranch	3265 UT-66	Morgan	Utah			Barn / Rustic	Indoor & Outdoor			A ranch with a lodge, banquet room, commercial kitchen and open outdoor space for receptions.	WarriorRizen@gmail.com	801-898-8191	https://www.warriorrizenranch.com
+Aoki Event Garden	8694 S Monroe St	Sandy	Utah			Garden / Outdoor	Outdoor			An outdoor garden built by two artists as an intimate gathering space whose plantings change with the seasons.	rita@aokieventgarden.com	801-671-6921	https://www.aokieventgarden.com
+Barbwire & Lace	2131 N 180 W	Pleasant Grove	Utah			Barn / Rustic	Indoor & Outdoor	200	Simple	A vintage-styled venue on 3.5 acres with a barn dance pavilion, an indoor loft and mountain views.	barbwire46@hotmail.com	801-787-7325	https://www.barbwireandlace.com
+Shade Weddings and Events	435 S Geneva Rd	Orem	Utah			Garden / Outdoor	Indoor & Outdoor			A set of three garden-style spaces (the Glasshouse, the Vineyard and the Greenhouse) in Utah County.	shadeweddings@gmail.com	385-225-7981	https://www.shadeweddings.com
+Solitude Mountain Resort	12000 Big Cottonwood Canyon	Solitude	Utah			Garden / Outdoor	Indoor & Outdoor			A mountain resort that hosts summer weddings from June to October, with on-site coordinators, catering and lodging.			https://www.solitudemountain.com
+Spy Hop Rooftop		Salt Lake City	Utah			Ballroom / Hotel	Indoor & Outdoor	180	Simple	A rooftop event space near the 900 South TRAX station with about 3,300 square feet inside and a 3,500-square-foot patio.			https://spyhop.org/rooftop
+Willow Glen Resort	3308 N 900 W	Enoch	Utah			Barn / Rustic	Indoor			A campground resort with an on-site event center for weddings and gatherings.		435-586-3275	https://www.willowglenresort.com
+Wild Acres	1239 S 300 E	Ephraim	Utah			Barn / Rustic	Indoor & Outdoor		Simple	A central Utah barn venue about an hour from Utah County, rented for the full day with setup and takedown included.		801-712-8170	https://wildacresbarn.com
+Conestoga Ranch	427 N Paradise Parkway	Garden City	Utah			Beach / Waterfront	Outdoor			A glamping resort above Bear Lake with mountain and lake views for ceremonies and receptions.	info@conestogaranch.com	844-464-5267	https://www.conestogaranch.com
+Under Canvas Moab		Moab	Utah			Garden / Outdoor	Outdoor			A tented desert camp about seven miles north of Moab that takes weddings as group buyouts.	groups@undercanvas.com	406-404-1861	https://www.undercanvas.com/camps/moab/
+`,
+  },
 ];
 
 export default batches;
