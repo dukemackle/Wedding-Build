@@ -78,13 +78,13 @@ type Tab =
 const TABS: { key: Tab; label: string }[] = [
   { key: "templates", label: "Templates" },
   { key: "theme", label: "Theme" },
+  { key: "sections", label: "Sections" },
+  { key: "elements", label: "Elements" },
   { key: "style", label: "Style" },
   { key: "colour", label: "Colour" },
   { key: "fonts", label: "Fonts" },
   { key: "background", label: "Background" },
   { key: "motion", label: "Motion" },
-  { key: "sections", label: "Sections" },
-  { key: "elements", label: "Elements" },
 ];
 
 // Desktop preview is laid out at a real laptop width and scaled down to fit,
