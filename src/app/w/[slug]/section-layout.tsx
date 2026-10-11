@@ -62,8 +62,9 @@ const BAND_COLUMNS = ["", "", "lg:grid-cols-2", "lg:grid-cols-3", "lg:grid-cols-
  * cards' own chrome is dropped in globals.css). A wide screen still gets
  * columns: reference sections in a row together share one band, side by
  * side, and the sections themselves lay out wide (the schedule's days side
- * by side, photos as a spread). The RSVP form keeps a readable width. The
- * Background panel's divider shapes the tinted bands' edges (globals.css).
+ * by side, photos as a spread). The RSVP card keeps a readable width; its
+ * band and photo-split layouts need the room. The Background panel's
+ * divider shapes the tinted bands' edges (globals.css).
  */
 function Storybook({
   shown,
@@ -72,6 +73,7 @@ function Storybook({
   shown: { id: SectionKey; index: number }[];
   sections: Partial<Record<SectionKey, ReactNode>>;
 }) {
+  const { layouts } = useSiteDesign();
   const bands: { side: boolean; items: typeof shown }[] = [];
   for (const x of shown) {
     const side = sectionColumn(x.id) === "side";
@@ -92,7 +94,7 @@ function Storybook({
             className={`mx-auto w-full ${
               band.side
                 ? `${CANVAS_WIDTH} grid gap-12 ${BAND_COLUMNS[Math.min(band.items.length, 4)]}`
-                : band.items[0].id === "rsvp"
+                : band.items[0].id === "rsvp" && layouts.rsvp === "card"
                   ? READING_WIDTH
                   : WIDE_WIDTH
             }`}

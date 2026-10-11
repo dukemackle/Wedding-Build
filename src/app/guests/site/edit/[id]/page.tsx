@@ -163,8 +163,9 @@ export default async function GuestSiteEditorPage({ params }: { params: Promise<
 
   const sectionInfo: Record<SectionId, SectionInfo> = {
     rsvp: wedding.rsvp_deadline
-      ? { status: `Replies by ${formatDate(wedding.rsvp_deadline)}` }
+      ? { status: `Replies by ${formatDate(wedding.rsvp_deadline)}`, layout: "rsvp" }
       : {
+          layout: "rsvp",
           status: "Deadline not set",
           warn: true,
           link: { href: "/dashboard", label: "Set an RSVP deadline on the Dashboard" },
@@ -195,6 +196,7 @@ export default async function GuestSiteEditorPage({ params }: { params: Promise<
           link: { href: "/venues", label: "Find your venue" },
         },
     weekend: {
+      layout: "weekend",
       status: !events
         ? `Nothing scheduled${hidden.replace("one", "an event")}`
         : wedding.itinerary_published
@@ -251,6 +253,7 @@ export default async function GuestSiteEditorPage({ params }: { params: Promise<
             : `“${b.body!.slice(0, 60)}${b.body!.length > 60 ? "…" : ""}”`,
         warn: !filled,
         editor: <BlockEditor block={b} />,
+        layout: b.kind === "story" ? "story" : undefined,
       };
       return [blockKey(b.id), info];
     }),

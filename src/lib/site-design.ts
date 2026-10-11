@@ -719,6 +719,38 @@ export const PAGE_STYLES = [
 
 export type PageStyleId = (typeof PAGE_STYLES)[number]["id"];
 
+/**
+ * Layouts for single sections (Sections tab, each section's row), so the
+ * story, RSVP and schedule can be arranged differently, not only recoloured.
+ * Each has its own phone arrangement. The story layout applies to every Story
+ * section. The schedule's null follows the page style: day cards with Cards,
+ * the timeline with Storybook.
+ */
+export const SECTION_LAYOUTS = {
+  story: [
+    { id: "editorial", label: "Editorial", help: "One column, a drop cap and a wide photo" },
+    { id: "timeline", label: "Timeline", help: "Each paragraph a moment on a line" },
+    { id: "alternating", label: "Alternating", help: "Paragraphs beside photos, side to side" },
+  ],
+  rsvp: [
+    { id: "card", label: "Card", help: "The form in a card" },
+    { id: "band", label: "Band", help: "A full-width band in your colour" },
+    { id: "split", label: "Photo split", help: "Your banner photo beside the form" },
+  ],
+  weekend: [
+    { id: "timeline", label: "Timeline", help: "Events down a line under each day" },
+    { id: "cards", label: "Cards", help: "A card for each day" },
+    { id: "list", label: "List", help: "When, what and where in rows" },
+  ],
+} as const;
+
+export type LayoutSection = keyof typeof SECTION_LAYOUTS;
+export type StoryLayoutId = (typeof SECTION_LAYOUTS.story)[number]["id"];
+export type RsvpLayoutId = (typeof SECTION_LAYOUTS.rsvp)[number]["id"];
+export type WeekendLayoutId = (typeof SECTION_LAYOUTS.weekend)[number]["id"];
+
+export const DEFAULT_LAYOUTS: SiteDesign["layouts"] = { story: "editorial", rsvp: "card", weekend: null };
+
 export type OrnamentId = (typeof ORNAMENTS)[number]["id"];
 
 export const ORNAMENT_IDS = ORNAMENTS.map((o) => o.id) as [OrnamentId, ...OrnamentId[]];
@@ -1056,6 +1088,7 @@ export const DEFAULT_SITE_DESIGN: SiteDesign = {
   hero: "full",
   scene: null,
   pageStyle: "cards",
+  layouts: DEFAULT_LAYOUTS,
   occasion: { kind: "wedding", since: null },
   sections: DEFAULT_SECTIONS,
   motion: MOTION_PRESETS.subtle,

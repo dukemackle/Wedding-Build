@@ -22,7 +22,9 @@ import {
   FALLING,
   motionPreset,
   type Motion,
+  SECTION_LAYOUTS,
   SITE_SECTIONS,
+  type LayoutSection,
   resolveDesign,
   themeById,
   type HeroLayoutId,
@@ -43,6 +45,8 @@ export type SectionInfo = {
   editor?: ReactNode;
   /** Where its content is edited, when that's elsewhere in Wren. */
   link?: { href: string; label: string };
+  /** The section has layouts to pick from (SECTION_LAYOUTS). */
+  layout?: LayoutSection;
 };
 
 export type ChecklistItem = { label: string; done: boolean; href?: string; action?: string };
@@ -60,26 +64,89 @@ export function PanelLabel({ children }: { children: ReactNode }) {
 const SELECTED = "border-2 border-forest";
 const UNSELECTED = "m-px border border-hairline hover:border-ink/30";
 
+/** How many of each picker shows before "See all". */
+const PREVIEW = { monogram: 4, art: 5, scene: 6 } as const;
+
+/**
+ * The first `n` of a list, with the selected item swapped in at the end when
+ * it would otherwise be hidden, so the preview row always shows the pick
+ * without tiles jumping around when you click one that's already visible.
+ */
+function previewOf<T>(items: readonly T[], n: number, isOn: (x: T) => boolean): T[] {
+  const head = items.slice(0, n);
+  if (head.some(isOn)) return head;
+  const on = items.find(isOn);
+  return on ? [...head.slice(0, n - 1), on] : head;
+}
+
+/** A section label with "See all N →" (or "Show fewer") on the right. */
+function PickerHead({ label, count, open, onToggle }: { label: string; count: number; open: boolean; onToggle: () => void }) {
+  return (
+    <div className="flex items-baseline justify-between gap-3">
+      <PanelLabel>{label}</PanelLabel>
+      <button type="button" aria-expanded={open} onClick={onToggle} className="text-[13px] font-medium text-forest hover:underline">
+        {open ? "Show fewer" : `See all ${count} →`}
+      </button>
+    </div>
+  );
+}
+
+const CHIP_ON = "bg-forest text-parchment";
+const CHIP_OFF = "border border-hairline bg-card text-ink/75 hover:border-ink/30";
+
 export function StyleTab({
   design,
   onChange,
   hasPhoto,
   names,
+  children,
 }: {
   design: SiteDesign;
   onChange: Change;
   hasPhoto: boolean;
   /** The couple's names, so the monograms show their own initials. */
   names: [string, string];
+  /** Extra content placed under Top of the page (the banner photo). */
+  children?: ReactNode;
 }) {
-  const base = themeById(design.theme);
   const { theme, accent, onAccent } = resolveDesign(design);
   const needsPhoto = PHOTO_HEROES.includes(design.hero);
+  const [allMonograms, setAllMonograms] = useState(false);
+  const monograms = allMonograms ? ORNAMENTS : previewOf(ORNAMENTS, PREVIEW.monogram, (o) => o.id === design.ornament);
 
   return (
     <>
       <div className="flex flex-col gap-3">
-        <PanelLabel>Monogram</PanelLabel>
+        <PanelLabel>Top of the page</PanelLabel>
+        <div className="grid grid-cols-3 gap-2.5">
+          {HERO_LAYOUTS.map((h) => {
+            const selected = design.hero === h.id;
+            return (
+              <button
+                key={h.id}
+                type="button"
+                aria-pressed={selected}
+                onClick={() => onChange({ hero: h.id })}
+                className={`flex flex-col overflow-hidden rounded-xl bg-card text-left ${selected ? SELECTED : UNSELECTED}`}
+                title={h.help}
+              >
+                <HeroThumb layout={h.id} bg={theme.bg} surface={theme.surface} photo={theme.photo} ink={theme.ink} accent={accent} />
+                <span className="border-t border-hairline px-2 py-1.5 text-[12px] font-medium text-ink">{h.label}</span>
+              </button>
+            );
+          })}
+        </div>
+        <p className="text-[13px] leading-normal text-ink/60">
+          {hasPhoto || !needsPhoto
+            ? HERO_LAYOUTS.find((h) => h.id === design.hero)?.help
+            : "Until you add a banner photo (Sections › Photos), this shows an illustration of your scene in your colours."}
+        </p>
+      </div>
+
+      {children}
+
+      <div className="flex flex-col gap-3">
+        <PickerHead label="Monogram" count={ORNAMENTS.length} open={allMonograms} onToggle={() => setAllMonograms((x) => !x)} />
         <div
           className="grid grid-cols-4 gap-2"
           style={
@@ -90,7 +157,7 @@ export function StyleTab({
             } as React.CSSProperties
           }
         >
-          {ORNAMENTS.map((o) => {
+          {monograms.map((o) => {
             const selected = design.ornament === o.id;
             return (
               <button
@@ -119,120 +186,6 @@ export function StyleTab({
             );
           })}
         </div>
-      </div>
-
-      <div className="flex flex-col gap-3">
-        <PanelLabel>Artwork</PanelLabel>
-        <div className="grid grid-cols-3 gap-2">
-          <button
-            type="button"
-            aria-pressed={design.art.id === null}
-            onClick={() => onChange({ art: { ...design.art, id: null } })}
-            className={`flex flex-col overflow-hidden rounded-xl text-left ${design.art.id === null ? SELECTED : UNSELECTED}`}
-            style={{ background: theme.bg }}
-          >
-            <span className="flex h-[84px] items-center justify-center text-[11px]" style={{ color: theme.muted }}>
-              —
-            </span>
-            <span className="w-full border-t border-hairline bg-card px-2 py-1 text-[11px] font-medium text-ink">None</span>
-          </button>
-          {SITE_ART.map((a) => {
-            const on = design.art.id === a.id;
-            return (
-              <button
-                key={a.id}
-                type="button"
-                aria-pressed={on}
-                title={`${a.group} · ${a.kind === "line" ? "drawn in your accent colour" : "watercolour"}`}
-                onClick={() => onChange({ art: { ...design.art, id: a.id } })}
-                className={`flex flex-col overflow-hidden rounded-xl text-left ${on ? SELECTED : UNSELECTED}`}
-                style={{ background: theme.bg }}
-              >
-                <span className="relative block h-[84px] w-full p-2">
-                  {a.kind === "line" ? (
-                    <span
-                      className="block h-full w-full"
-                      style={{
-                        background: accent,
-                        WebkitMaskImage: `url(${a.src})`,
-                        maskImage: `url(${a.src})`,
-                        WebkitMaskSize: "contain",
-                        maskSize: "contain",
-                        WebkitMaskRepeat: "no-repeat",
-                        maskRepeat: "no-repeat",
-                        WebkitMaskPosition: "center",
-                        maskPosition: "center",
-                      }}
-                    />
-                  ) : (
-                    <span
-                      className="block h-full w-full bg-contain bg-center bg-no-repeat"
-                      style={{ backgroundImage: `url(${a.src})` }}
-                    />
-                  )}
-                </span>
-                <span className="w-full truncate border-t border-hairline bg-card px-2 py-1 text-[11px] font-medium text-ink">
-                  {a.name}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-        {design.art.id && (
-          <div className="flex gap-1.5">
-            {ART_PLACEMENTS.map((p) => (
-              <button
-                key={p.id}
-                type="button"
-                aria-pressed={design.art.placement === p.id}
-                onClick={() => onChange({ art: { ...design.art, placement: p.id } })}
-                className={`h-8 rounded-full px-3 text-[13px] ${
-                  design.art.placement === p.id ? "bg-forest text-parchment" : "border border-hairline bg-card text-ink/75"
-                }`}
-              >
-                {p.label}
-              </button>
-            ))}
-          </div>
-        )}
-        {design.art.id && !ART_HEROES.includes(design.hero) && hasPhoto ? (
-          <p className="rounded-md bg-[#FFD301]/20 px-3 py-2 text-[13px] leading-normal text-[#14203d]">
-            Your artwork is hidden: this top shows your photo instead. Pick Text only, Monogram,
-            Framed or Poster under Top of the page to show it.
-          </p>
-        ) : (
-          <p className="text-[13px] leading-normal text-ink/60">
-            Sketches are drawn in your accent colour; watercolours keep their own.
-          </p>
-        )}
-      </div>
-
-      <div className="flex flex-col gap-3">
-        <PanelLabel>Scene</PanelLabel>
-        <div role="group" aria-label="Scene" className="flex flex-wrap gap-1.5">
-          {[{ id: null, label: `Theme's own${base.scene && base.scene !== "none" ? ` (${sceneById(base.scene).label})` : ""}` }, ...SCENES].map(
-            (x) => {
-              const on = design.scene === x.id;
-              return (
-                <button
-                  key={x.id ?? "theme"}
-                  type="button"
-                  aria-pressed={on}
-                  onClick={() => onChange({ scene: x.id as SiteDesign["scene"] })}
-                  className={`h-8 rounded-full px-3 text-[13px] ${
-                    on ? "bg-forest text-parchment" : "border border-hairline bg-card text-ink/75 hover:border-ink/30"
-                  }`}
-                >
-                  {x.label}
-                </button>
-              );
-            },
-          )}
-        </div>
-        <p className="text-[13px] leading-normal text-ink/60">
-          Drawn in your colours: a landscape under your names, a strip across the top, or a frame around them.
-          Your accent colour sets its mood.
-        </p>
       </div>
 
       <div className="flex flex-col gap-3">
@@ -277,34 +230,171 @@ export function StyleTab({
             : "Planning a vow renewal? Switch this and the wording follows."}
         </p>
       </div>
-
-      <div className="flex flex-col gap-3">
-        <PanelLabel>Top of the page</PanelLabel>
-        <div className="grid grid-cols-3 gap-2.5">
-          {HERO_LAYOUTS.map((h) => {
-            const selected = design.hero === h.id;
-            return (
-              <button
-                key={h.id}
-                type="button"
-                aria-pressed={selected}
-                onClick={() => onChange({ hero: h.id })}
-                className={`flex flex-col overflow-hidden rounded-xl bg-card text-left ${selected ? SELECTED : UNSELECTED}`}
-                title={h.help}
-              >
-                <HeroThumb layout={h.id} bg={theme.bg} surface={theme.surface} photo={theme.photo} ink={theme.ink} accent={accent} />
-                <span className="border-t border-hairline px-2 py-1.5 text-[12px] font-medium text-ink">{h.label}</span>
-              </button>
-            );
-          })}
-        </div>
-        <p className="text-[13px] leading-normal text-ink/60">
-          {hasPhoto || !needsPhoto
-            ? HERO_LAYOUTS.find((h) => h.id === design.hero)?.help
-            : "Until you add a banner photo (Sections › Photos), this shows an illustration of your scene in your colours."}
-        </p>
-      </div>
     </>
+  );
+}
+
+/**
+ * The one piece of artwork that frames the top of the page, at either side or
+ * in the corners. Lives at the top of Elements, above the pieces you place
+ * yourself, since it's the same library.
+ */
+export function PageArtworkSection({
+  design,
+  onChange,
+  hasPhoto,
+}: {
+  design: SiteDesign;
+  onChange: Change;
+  hasPhoto: boolean;
+}) {
+  const { theme, accent } = resolveDesign(design);
+  const [all, setAll] = useState(false);
+  const [group, setGroup] = useState<string | null>(null);
+  const groups = [...new Set(SITE_ART.map((a) => a.group))];
+  const pieces = all
+    ? group
+      ? SITE_ART.filter((a) => a.group === group)
+      : SITE_ART
+    : previewOf(SITE_ART, PREVIEW.art, (a) => a.id === design.art.id);
+
+  return (
+    <div className="flex flex-col gap-3">
+      <PickerHead label="Page artwork" count={SITE_ART.length} open={all} onToggle={() => setAll((x) => !x)} />
+      <p className="-mt-1 text-[13px] leading-normal text-ink/60">One piece framing your names at the top. To place pieces anywhere, use the library below.</p>
+      {all && (
+        <div role="group" aria-label="Artwork groups" className="flex flex-wrap gap-1.5">
+          {[null, ...groups].map((g) => (
+            <button
+              key={g ?? "all"}
+              type="button"
+              aria-pressed={group === g}
+              onClick={() => setGroup(g)}
+              className={`h-8 rounded-full px-3 text-[13px] ${group === g ? CHIP_ON : CHIP_OFF}`}
+            >
+              {g ?? "All"}
+            </button>
+          ))}
+        </div>
+      )}
+      <div className="grid grid-cols-3 gap-2">
+        {!(all && group) && (
+          <button
+            type="button"
+            aria-pressed={design.art.id === null}
+            onClick={() => onChange({ art: { ...design.art, id: null } })}
+            className={`flex flex-col overflow-hidden rounded-xl text-left ${design.art.id === null ? SELECTED : UNSELECTED}`}
+            style={{ background: theme.bg }}
+          >
+            <span className="flex h-[84px] items-center justify-center text-[11px]" style={{ color: theme.muted }}>
+              —
+            </span>
+            <span className="w-full border-t border-hairline bg-card px-2 py-1 text-[11px] font-medium text-ink">None</span>
+          </button>
+        )}
+        {pieces.map((a) => {
+          const on = design.art.id === a.id;
+          return (
+            <button
+              key={a.id}
+              type="button"
+              aria-pressed={on}
+              title={`${a.group} · ${a.kind === "line" ? "drawn in your accent colour" : "watercolour"}`}
+              onClick={() => onChange({ art: { ...design.art, id: a.id } })}
+              className={`flex flex-col overflow-hidden rounded-xl text-left ${on ? SELECTED : UNSELECTED}`}
+              style={{ background: theme.bg }}
+            >
+              <span className="relative block h-[84px] w-full p-2">
+                {a.kind === "line" ? (
+                  <span
+                    className="block h-full w-full"
+                    style={{
+                      background: accent,
+                      WebkitMaskImage: `url(${a.src})`,
+                      maskImage: `url(${a.src})`,
+                      WebkitMaskSize: "contain",
+                      maskSize: "contain",
+                      WebkitMaskRepeat: "no-repeat",
+                      maskRepeat: "no-repeat",
+                      WebkitMaskPosition: "center",
+                      maskPosition: "center",
+                    }}
+                  />
+                ) : (
+                  <span
+                    className="block h-full w-full bg-contain bg-center bg-no-repeat"
+                    style={{ backgroundImage: `url(${a.src})` }}
+                  />
+                )}
+              </span>
+              <span className="w-full truncate border-t border-hairline bg-card px-2 py-1 text-[11px] font-medium text-ink">
+                {a.name}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+      {design.art.id && (
+        <div className="flex gap-1.5">
+          {ART_PLACEMENTS.map((p) => (
+            <button
+              key={p.id}
+              type="button"
+              aria-pressed={design.art.placement === p.id}
+              onClick={() => onChange({ art: { ...design.art, placement: p.id } })}
+              className={`h-8 rounded-full px-3 text-[13px] ${
+                design.art.placement === p.id ? "bg-forest text-parchment" : "border border-hairline bg-card text-ink/75"
+              }`}
+            >
+              {p.label}
+            </button>
+          ))}
+        </div>
+      )}
+      {design.art.id && !ART_HEROES.includes(design.hero) && hasPhoto && (
+        <p className="rounded-md bg-[#FFD301]/20 px-3 py-2 text-[13px] leading-normal text-[#14203d]">
+          Your artwork is hidden: this top shows your photo instead. Pick Text only, Monogram,
+          Framed or Poster under Style › Top of the page to show it.
+        </p>
+      )}
+    </div>
+  );
+}
+
+/** The drawn scene behind the names: a landscape, a strip or a frame. Lives in Background. */
+export function SceneSection({ design, onChange }: { design: SiteDesign; onChange: Change }) {
+  const base = themeById(design.theme);
+  const [all, setAll] = useState(false);
+  const options = [
+    { id: null, label: `Theme's own${base.scene && base.scene !== "none" ? ` (${sceneById(base.scene).label})` : ""}` },
+    ...SCENES,
+  ];
+  const shown = all ? options : previewOf(options, PREVIEW.scene, (x) => x.id === design.scene);
+
+  return (
+    <div className="flex flex-col gap-3">
+      <PickerHead label="Scene" count={SCENES.length} open={all} onToggle={() => setAll((x) => !x)} />
+      <div role="group" aria-label="Scene" className="flex flex-wrap gap-1.5">
+        {shown.map((x) => {
+          const on = design.scene === x.id;
+          return (
+            <button
+              key={x.id ?? "theme"}
+              type="button"
+              aria-pressed={on}
+              onClick={() => onChange({ scene: x.id as SiteDesign["scene"] })}
+              className={`h-8 rounded-full px-3 text-[13px] ${on ? CHIP_ON : CHIP_OFF}`}
+            >
+              {x.label}
+            </button>
+          );
+        })}
+      </div>
+      <p className="text-[13px] leading-normal text-ink/60">
+        Drawn in your colours: a landscape under your names, a strip across the top, or a frame around them.
+        Your accent colour sets its mood.
+      </p>
+    </div>
   );
 }
 
@@ -478,7 +568,7 @@ export function SectionsTab({
             const name = row.name ?? NAMES[id];
             const isBlock = blockIdOf(id) !== null;
             const shown = !section.hidden;
-            const expandable = Boolean(row.editor || row.link);
+            const expandable = Boolean(row.editor || row.link || row.layout);
             return (
               <div className="rounded-xl border border-hairline bg-card">
                 <div className="flex items-center gap-2 py-2.5 pl-1.5 pr-3">
@@ -514,6 +604,14 @@ export function SectionsTab({
                 </div>
                 {open === id && expandable && (
                   <div className="border-t border-hairline px-4 pb-5 pt-4">
+                    {row.layout && (
+                      <LayoutPicker
+                        section={row.layout}
+                        value={design.layouts[row.layout]}
+                        auto={row.layout === "weekend" ? (design.pageStyle === "storybook" ? "timeline" : "cards") : null}
+                        onPick={(id) => onChange({ layouts: { ...design.layouts, [row.layout!]: id } })}
+                      />
+                    )}
                     {row.link && (
                       <Link href={row.link.href} className="text-sm font-medium text-forest underline">
                         {row.link.label}
@@ -569,6 +667,92 @@ export function SectionsTab({
       </div>
     </>
   );
+}
+
+/**
+ * The layouts for one section, each a small drawing of its arrangement. The
+ * schedule's unpicked state shows the page style's choice as picked.
+ */
+function LayoutPicker({
+  section,
+  value,
+  auto,
+  onPick,
+}: {
+  section: LayoutSection;
+  value: string | null;
+  auto: string | null;
+  onPick: (id: string) => void;
+}) {
+  const current = value ?? auto;
+  return (
+    <div className="mb-4 flex flex-col gap-2">
+      <span className="text-[13px] font-medium text-ink">Layout</span>
+      <div className="grid grid-cols-3 gap-2">
+        {SECTION_LAYOUTS[section].map((x) => (
+          <button
+            key={x.id}
+            type="button"
+            onClick={() => onPick(x.id)}
+            aria-pressed={current === x.id}
+            title={x.help}
+            className={`flex flex-col items-center gap-1.5 rounded-lg border p-2 text-xs ${
+              current === x.id ? "border-[#2243B6] bg-[#2243B6]/5 font-medium text-ink" : "border-hairline text-ink/70 hover:border-ink/40"
+            }`}
+          >
+            <LayoutThumb section={section} id={x.id} />
+            {x.label}
+          </button>
+        ))}
+      </div>
+      {section === "story" && (
+        <p className="text-[12px] leading-normal text-ink/60">
+          For every Story section. Leave a blank line between paragraphs; start one with a year
+          (&ldquo;2019 · How we met&rdquo;) for the timeline. Photos come from your Photos section.
+        </p>
+      )}
+    </div>
+  );
+}
+
+function LayoutThumb({ section, id }: { section: LayoutSection; id: string }) {
+  const line = (w: string, key?: number) => <span key={key} className="block h-[3px] rounded-full bg-ink/35" style={{ width: w }} />;
+  const photo = (cls: string) => <span className={`block bg-[#dde2d0] ${cls}`} />;
+  const box = "flex h-12 w-full items-center justify-center gap-1.5 overflow-hidden rounded bg-parchment p-1.5";
+  const key = `${section}:${id}`;
+  if (key === "story:editorial")
+    return <span className={`${box} flex-col !gap-1`}>{photo("h-3.5 w-full rounded-sm")}{line("70%")}{line("70%")}{line("50%")}</span>;
+  if (key === "story:timeline" || key === "weekend:timeline")
+    return (
+      <span className={box}>
+        <span className="flex flex-1 flex-col items-end gap-1">{line("80%")}{line("60%")}</span>
+        <span className="block h-full w-px bg-[var(--site-accent,#4f6f45)]" />
+        <span className="flex flex-1 flex-col gap-1">{line("60%")}{line("80%")}</span>
+      </span>
+    );
+  if (key === "story:alternating")
+    return (
+      <span className={`${box} flex-col !gap-1`}>
+        <span className="flex w-full items-center gap-1">{photo("h-4 w-1/2 rounded-t-full")}{line("40%")}</span>
+        <span className="flex w-full items-center justify-end gap-1">{line("40%")}{photo("h-4 w-1/2 rounded-t-full")}</span>
+      </span>
+    );
+  if (key === "rsvp:card")
+    return <span className={box}><span className="flex h-full w-3/5 flex-col items-center justify-center gap-1 rounded-sm bg-white shadow-sm">{line("60%")}{line("40%")}</span></span>;
+  if (key === "rsvp:band")
+    return (
+      <span className={box}>
+        <span className="flex h-full w-full items-center gap-1 rounded-sm bg-[#4f6f45] px-1">
+          <span className="flex flex-1 flex-col gap-1"><span className="block h-[3px] w-3/4 rounded-full bg-white/80" /></span>
+          <span className="block h-5 w-1/2 rounded-sm bg-white" />
+        </span>
+      </span>
+    );
+  if (key === "rsvp:split")
+    return <span className={`${box} !gap-0 !p-0`}>{photo("h-full w-1/2")}<span className="flex h-full w-1/2 flex-col justify-center gap-1 bg-white px-1">{line("80%")}{line("60%")}</span></span>;
+  if (key === "weekend:cards")
+    return <span className={box}>{[0, 1, 2].map((i) => <span key={i} className="flex h-full flex-1 flex-col gap-1 rounded-sm bg-white p-1 shadow-sm">{line("80%")}{line("60%")}</span>)}</span>;
+  return <span className={`${box} flex-col !items-stretch !gap-1.5`}>{[0, 1, 2].map((i) => <span key={i} className="flex gap-1">{line("25%")}{line("45%")}</span>)}</span>;
 }
 
 function Checklist({ items }: { items: ChecklistItem[] }) {
