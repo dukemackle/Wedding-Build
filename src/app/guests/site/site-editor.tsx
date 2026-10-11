@@ -575,8 +575,7 @@ export function SiteEditor({
           onTryConfetti={() => post(CONFETTI_MESSAGE)}
         />
       ) : tab === "style" ? (
-        <>
-          <StyleTab design={design} onChange={change} hasPhoto={hasPhoto} names={names} />
+        <StyleTab design={design} onChange={change} hasPhoto={hasPhoto} names={names}>
           {hasPhoto && photos[0] && (
             <div className="flex flex-col gap-3">
               <PanelLabel>Banner photo</PanelLabel>
@@ -604,7 +603,7 @@ export function SiteEditor({
               </div>
             </div>
           )}
-        </>
+        </StyleTab>
       ) : (
         <>
         <WrenWrite design={design} onChange={change} />

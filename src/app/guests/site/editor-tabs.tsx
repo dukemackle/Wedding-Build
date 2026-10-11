@@ -60,179 +60,334 @@ export function PanelLabel({ children }: { children: ReactNode }) {
 const SELECTED = "border-2 border-forest";
 const UNSELECTED = "m-px border border-hairline hover:border-ink/30";
 
+/** How many of each picker the Style overview shows before "See all". */
+const PREVIEW = { monogram: 4, art: 5, scene: 6 } as const;
+
+type StyleView = "overview" | "monogram" | "art" | "scene";
+
+/**
+ * The first `n` of a list, with the selected item swapped in at the end when
+ * it would otherwise be hidden, so the preview row always shows the pick
+ * without tiles jumping around when you click one that's already visible.
+ */
+function previewOf<T>(items: readonly T[], n: number, isOn: (x: T) => boolean): T[] {
+  const head = items.slice(0, n);
+  if (head.some(isOn)) return head;
+  const on = items.find(isOn);
+  return on ? [...head.slice(0, n - 1), on] : head;
+}
+
+function SeeAll({ count, onClick }: { count: number; onClick: () => void }) {
+  return (
+    <button type="button" onClick={onClick} className="text-[13px] font-medium text-forest hover:underline">
+      See all {count} →
+    </button>
+  );
+}
+
+function PickerHead({ label, count, onSeeAll }: { label: string; count?: number; onSeeAll?: () => void }) {
+  return (
+    <div className="flex items-baseline justify-between gap-3">
+      <PanelLabel>{label}</PanelLabel>
+      {onSeeAll && count !== undefined && <SeeAll count={count} onClick={onSeeAll} />}
+    </div>
+  );
+}
+
 export function StyleTab({
   design,
   onChange,
   hasPhoto,
   names,
+  children,
 }: {
   design: SiteDesign;
   onChange: Change;
   hasPhoto: boolean;
   /** The couple's names, so the monograms show their own initials. */
   names: [string, string];
+  /** Extra overview content placed under Top of the page (the banner photo). */
+  children?: ReactNode;
 }) {
   const base = themeById(design.theme);
   const { theme, accent, onAccent } = resolveDesign(design);
   const needsPhoto = PHOTO_HEROES.includes(design.hero);
+  const [view, setView] = useState<StyleView>("overview");
+  const [artGroup, setArtGroup] = useState<string | null>(null);
+  const topRef = useRef<HTMLDivElement>(null);
+
+  function open(next: StyleView) {
+    setView(next);
+    // The panel scrolls inside its own column; start each view at its top.
+    const scroller = topRef.current?.closest(".overflow-y-auto");
+    if (scroller) scroller.scrollTop = 0;
+  }
+
+  const monogramTile = (o: (typeof ORNAMENTS)[number]) => {
+    const selected = design.ornament === o.id;
+    return (
+      <button
+        key={o.id}
+        type="button"
+        aria-pressed={selected}
+        onClick={() => onChange({ ornament: o.id })}
+        className={`flex flex-col items-center overflow-hidden rounded-xl text-left ${selected ? SELECTED : UNSELECTED}`}
+        style={{ background: theme.bg }}
+      >
+        <span className="flex h-[72px] w-full items-center justify-center overflow-hidden">
+          {o.id === "none" ? (
+            <span className="text-[11px]" style={{ color: theme.muted }}>
+              —
+            </span>
+          ) : (
+            <span className={`block origin-center ${o.id === "rule" ? "scale-[0.8]" : "scale-[0.58]"}`}>
+              <SiteOrnament kind={o.id} first={names[0]} second={names[1]} />
+            </span>
+          )}
+        </span>
+        <span className="w-full border-t border-hairline bg-card px-1 py-1 text-center text-[11px] font-medium text-ink">
+          {o.label}
+        </span>
+      </button>
+    );
+  };
+  const monogramGrid = (items: readonly (typeof ORNAMENTS)[number][]) => (
+    <div
+      className="grid grid-cols-4 gap-2"
+      style={
+        {
+          "--site-accent": accent,
+          "--site-on-accent": onAccent,
+          "--font-display": theme.display,
+        } as React.CSSProperties
+      }
+    >
+      {items.map(monogramTile)}
+    </div>
+  );
+
+  const noArtTile = (
+    <button
+      key="none"
+      type="button"
+      aria-pressed={design.art.id === null}
+      onClick={() => onChange({ art: { ...design.art, id: null } })}
+      className={`flex flex-col overflow-hidden rounded-xl text-left ${design.art.id === null ? SELECTED : UNSELECTED}`}
+      style={{ background: theme.bg }}
+    >
+      <span className="flex h-[84px] items-center justify-center text-[11px]" style={{ color: theme.muted }}>
+        —
+      </span>
+      <span className="w-full border-t border-hairline bg-card px-2 py-1 text-[11px] font-medium text-ink">None</span>
+    </button>
+  );
+  const artTile = (a: (typeof SITE_ART)[number]) => {
+    const on = design.art.id === a.id;
+    return (
+      <button
+        key={a.id}
+        type="button"
+        aria-pressed={on}
+        title={`${a.group} · ${a.kind === "line" ? "drawn in your accent colour" : "watercolour"}`}
+        onClick={() => onChange({ art: { ...design.art, id: a.id } })}
+        className={`flex flex-col overflow-hidden rounded-xl text-left ${on ? SELECTED : UNSELECTED}`}
+        style={{ background: theme.bg }}
+      >
+        <span className="relative block h-[84px] w-full p-2">
+          {a.kind === "line" ? (
+            <span
+              className="block h-full w-full"
+              style={{
+                background: accent,
+                WebkitMaskImage: `url(${a.src})`,
+                maskImage: `url(${a.src})`,
+                WebkitMaskSize: "contain",
+                maskSize: "contain",
+                WebkitMaskRepeat: "no-repeat",
+                maskRepeat: "no-repeat",
+                WebkitMaskPosition: "center",
+                maskPosition: "center",
+              }}
+            />
+          ) : (
+            <span
+              className="block h-full w-full bg-contain bg-center bg-no-repeat"
+              style={{ backgroundImage: `url(${a.src})` }}
+            />
+          )}
+        </span>
+        <span className="w-full truncate border-t border-hairline bg-card px-2 py-1 text-[11px] font-medium text-ink">
+          {a.name}
+        </span>
+      </button>
+    );
+  };
+  const artExtras = (
+    <>
+      {design.art.id && (
+        <div className="flex gap-1.5">
+          {ART_PLACEMENTS.map((p) => (
+            <button
+              key={p.id}
+              type="button"
+              aria-pressed={design.art.placement === p.id}
+              onClick={() => onChange({ art: { ...design.art, placement: p.id } })}
+              className={`h-8 rounded-full px-3 text-[13px] ${
+                design.art.placement === p.id ? "bg-forest text-parchment" : "border border-hairline bg-card text-ink/75"
+              }`}
+            >
+              {p.label}
+            </button>
+          ))}
+        </div>
+      )}
+      {design.art.id && !ART_HEROES.includes(design.hero) && hasPhoto ? (
+        <p className="rounded-md bg-[#FFD301]/20 px-3 py-2 text-[13px] leading-normal text-[#14203d]">
+          Your artwork is hidden: this top shows your photo instead. Pick Text only, Monogram,
+          Framed or Poster under Top of the page to show it.
+        </p>
+      ) : (
+        <p className="text-[13px] leading-normal text-ink/60">
+          Sketches are drawn in your accent colour; watercolours keep their own.
+        </p>
+      )}
+    </>
+  );
+
+  const sceneOptions = [
+    { id: null, label: `Theme's own${base.scene && base.scene !== "none" ? ` (${sceneById(base.scene).label})` : ""}` },
+    ...SCENES,
+  ];
+  const scenePills = (items: readonly { id: string | null; label: string }[]) => (
+    <div role="group" aria-label="Scene" className="flex flex-wrap gap-1.5">
+      {items.map((x) => {
+        const on = design.scene === x.id;
+        return (
+          <button
+            key={x.id ?? "theme"}
+            type="button"
+            aria-pressed={on}
+            onClick={() => onChange({ scene: x.id as SiteDesign["scene"] })}
+            className={`h-8 rounded-full px-3 text-[13px] ${
+              on ? "bg-forest text-parchment" : "border border-hairline bg-card text-ink/75 hover:border-ink/30"
+            }`}
+          >
+            {x.label}
+          </button>
+        );
+      })}
+    </div>
+  );
+  const sceneHelp = (
+    <p className="text-[13px] leading-normal text-ink/60">
+      Drawn in your colours: a landscape under your names, a strip across the top, or a frame around them.
+      Your accent colour sets its mood.
+    </p>
+  );
+
+  if (view !== "overview") {
+    const groups = [...new Set(SITE_ART.map((a) => a.group))];
+    const shownArt = artGroup ? SITE_ART.filter((a) => a.group === artGroup) : SITE_ART;
+    return (
+      <div ref={topRef} className="flex flex-col gap-3">
+        <button
+          type="button"
+          onClick={() => open("overview")}
+          className="self-start text-[13px] text-ink/60 hover:text-ink"
+        >
+          ← Style
+        </button>
+        {view === "monogram" && (
+          <>
+            <PanelLabel>Monogram · {ORNAMENTS.length}</PanelLabel>
+            {monogramGrid(ORNAMENTS)}
+          </>
+        )}
+        {view === "art" && (
+          <>
+            <PanelLabel>Artwork · {SITE_ART.length}</PanelLabel>
+            <div role="group" aria-label="Artwork groups" className="flex flex-wrap gap-1.5">
+              {[null, ...groups].map((g) => (
+                <button
+                  key={g ?? "all"}
+                  type="button"
+                  aria-pressed={artGroup === g}
+                  onClick={() => setArtGroup(g)}
+                  className={`h-8 rounded-full px-3 text-[13px] ${
+                    artGroup === g ? "bg-forest text-parchment" : "border border-hairline bg-card text-ink/75 hover:border-ink/30"
+                  }`}
+                >
+                  {g ?? "All"}
+                </button>
+              ))}
+            </div>
+            <div className="grid grid-cols-3 gap-2">
+              {!artGroup && noArtTile}
+              {shownArt.map(artTile)}
+            </div>
+            {artExtras}
+          </>
+        )}
+        {view === "scene" && (
+          <>
+            <PanelLabel>Scene · {SCENES.length}</PanelLabel>
+            {scenePills(sceneOptions)}
+            {sceneHelp}
+          </>
+        )}
+      </div>
+    );
+  }
 
   return (
     <>
-      <div className="flex flex-col gap-3">
-        <PanelLabel>Monogram</PanelLabel>
-        <div
-          className="grid grid-cols-4 gap-2"
-          style={
-            {
-              "--site-accent": accent,
-              "--site-on-accent": onAccent,
-              "--font-display": theme.display,
-            } as React.CSSProperties
-          }
-        >
-          {ORNAMENTS.map((o) => {
-            const selected = design.ornament === o.id;
+      <div ref={topRef} className="flex flex-col gap-3">
+        <PanelLabel>Top of the page</PanelLabel>
+        <div className="grid grid-cols-3 gap-2.5">
+          {HERO_LAYOUTS.map((h) => {
+            const selected = design.hero === h.id;
             return (
               <button
-                key={o.id}
+                key={h.id}
                 type="button"
                 aria-pressed={selected}
-                onClick={() => onChange({ ornament: o.id })}
-                className={`flex flex-col items-center overflow-hidden rounded-xl text-left ${selected ? SELECTED : UNSELECTED}`}
-                style={{ background: theme.bg }}
+                onClick={() => onChange({ hero: h.id })}
+                className={`flex flex-col overflow-hidden rounded-xl bg-card text-left ${selected ? SELECTED : UNSELECTED}`}
+                title={h.help}
               >
-                <span className="flex h-[72px] w-full items-center justify-center overflow-hidden">
-                  {o.id === "none" ? (
-                    <span className="text-[11px]" style={{ color: theme.muted }}>
-                      —
-                    </span>
-                  ) : (
-                    <span className={`block origin-center ${o.id === "rule" ? "scale-[0.8]" : "scale-[0.58]"}`}>
-                      <SiteOrnament kind={o.id} first={names[0]} second={names[1]} />
-                    </span>
-                  )}
-                </span>
-                <span className="w-full border-t border-hairline bg-card px-1 py-1 text-center text-[11px] font-medium text-ink">
-                  {o.label}
-                </span>
+                <HeroThumb layout={h.id} bg={theme.bg} surface={theme.surface} photo={theme.photo} ink={theme.ink} accent={accent} />
+                <span className="border-t border-hairline px-2 py-1.5 text-[12px] font-medium text-ink">{h.label}</span>
               </button>
             );
           })}
-        </div>
-      </div>
-
-      <div className="flex flex-col gap-3">
-        <PanelLabel>Artwork</PanelLabel>
-        <div className="grid grid-cols-3 gap-2">
-          <button
-            type="button"
-            aria-pressed={design.art.id === null}
-            onClick={() => onChange({ art: { ...design.art, id: null } })}
-            className={`flex flex-col overflow-hidden rounded-xl text-left ${design.art.id === null ? SELECTED : UNSELECTED}`}
-            style={{ background: theme.bg }}
-          >
-            <span className="flex h-[84px] items-center justify-center text-[11px]" style={{ color: theme.muted }}>
-              —
-            </span>
-            <span className="w-full border-t border-hairline bg-card px-2 py-1 text-[11px] font-medium text-ink">None</span>
-          </button>
-          {SITE_ART.map((a) => {
-            const on = design.art.id === a.id;
-            return (
-              <button
-                key={a.id}
-                type="button"
-                aria-pressed={on}
-                title={`${a.group} · ${a.kind === "line" ? "drawn in your accent colour" : "watercolour"}`}
-                onClick={() => onChange({ art: { ...design.art, id: a.id } })}
-                className={`flex flex-col overflow-hidden rounded-xl text-left ${on ? SELECTED : UNSELECTED}`}
-                style={{ background: theme.bg }}
-              >
-                <span className="relative block h-[84px] w-full p-2">
-                  {a.kind === "line" ? (
-                    <span
-                      className="block h-full w-full"
-                      style={{
-                        background: accent,
-                        WebkitMaskImage: `url(${a.src})`,
-                        maskImage: `url(${a.src})`,
-                        WebkitMaskSize: "contain",
-                        maskSize: "contain",
-                        WebkitMaskRepeat: "no-repeat",
-                        maskRepeat: "no-repeat",
-                        WebkitMaskPosition: "center",
-                        maskPosition: "center",
-                      }}
-                    />
-                  ) : (
-                    <span
-                      className="block h-full w-full bg-contain bg-center bg-no-repeat"
-                      style={{ backgroundImage: `url(${a.src})` }}
-                    />
-                  )}
-                </span>
-                <span className="w-full truncate border-t border-hairline bg-card px-2 py-1 text-[11px] font-medium text-ink">
-                  {a.name}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-        {design.art.id && (
-          <div className="flex gap-1.5">
-            {ART_PLACEMENTS.map((p) => (
-              <button
-                key={p.id}
-                type="button"
-                aria-pressed={design.art.placement === p.id}
-                onClick={() => onChange({ art: { ...design.art, placement: p.id } })}
-                className={`h-8 rounded-full px-3 text-[13px] ${
-                  design.art.placement === p.id ? "bg-forest text-parchment" : "border border-hairline bg-card text-ink/75"
-                }`}
-              >
-                {p.label}
-              </button>
-            ))}
-          </div>
-        )}
-        {design.art.id && !ART_HEROES.includes(design.hero) && hasPhoto ? (
-          <p className="rounded-md bg-[#FFD301]/20 px-3 py-2 text-[13px] leading-normal text-[#14203d]">
-            Your artwork is hidden: this top shows your photo instead. Pick Text only, Monogram,
-            Framed or Poster under Top of the page to show it.
-          </p>
-        ) : (
-          <p className="text-[13px] leading-normal text-ink/60">
-            Sketches are drawn in your accent colour; watercolours keep their own.
-          </p>
-        )}
-      </div>
-
-      <div className="flex flex-col gap-3">
-        <PanelLabel>Scene</PanelLabel>
-        <div role="group" aria-label="Scene" className="flex flex-wrap gap-1.5">
-          {[{ id: null, label: `Theme's own${base.scene && base.scene !== "none" ? ` (${sceneById(base.scene).label})` : ""}` }, ...SCENES].map(
-            (x) => {
-              const on = design.scene === x.id;
-              return (
-                <button
-                  key={x.id ?? "theme"}
-                  type="button"
-                  aria-pressed={on}
-                  onClick={() => onChange({ scene: x.id as SiteDesign["scene"] })}
-                  className={`h-8 rounded-full px-3 text-[13px] ${
-                    on ? "bg-forest text-parchment" : "border border-hairline bg-card text-ink/75 hover:border-ink/30"
-                  }`}
-                >
-                  {x.label}
-                </button>
-              );
-            },
-          )}
         </div>
         <p className="text-[13px] leading-normal text-ink/60">
-          Drawn in your colours: a landscape under your names, a strip across the top, or a frame around them.
-          Your accent colour sets its mood.
+          {hasPhoto || !needsPhoto
+            ? HERO_LAYOUTS.find((h) => h.id === design.hero)?.help
+            : "Until you add a banner photo (Sections › Photos), this shows an illustration of your scene in your colours."}
         </p>
+      </div>
+
+      {children}
+
+      <div className="flex flex-col gap-3">
+        <PickerHead label="Monogram" count={ORNAMENTS.length} onSeeAll={() => open("monogram")} />
+        {monogramGrid(previewOf(ORNAMENTS, PREVIEW.monogram, (o) => o.id === design.ornament))}
+      </div>
+
+      <div className="flex flex-col gap-3">
+        <PickerHead label="Artwork" count={SITE_ART.length} onSeeAll={() => open("art")} />
+        <div className="grid grid-cols-3 gap-2">
+          {noArtTile}
+          {previewOf(SITE_ART, PREVIEW.art, (a) => a.id === design.art.id).map(artTile)}
+        </div>
+        {artExtras}
+      </div>
+
+      <div className="flex flex-col gap-3">
+        <PickerHead label="Scene" count={SCENES.length} onSeeAll={() => open("scene")} />
+        {scenePills(previewOf(sceneOptions, PREVIEW.scene, (x) => x.id === design.scene))}
+        {sceneHelp}
       </div>
 
       <div className="flex flex-col gap-3">
@@ -275,33 +430,6 @@ export function StyleTab({
           {design.occasion.kind === "renewal"
             ? "The top of the page says you're renewing your vows, with the years since you married."
             : "Planning a vow renewal? Switch this and the wording follows."}
-        </p>
-      </div>
-
-      <div className="flex flex-col gap-3">
-        <PanelLabel>Top of the page</PanelLabel>
-        <div className="grid grid-cols-3 gap-2.5">
-          {HERO_LAYOUTS.map((h) => {
-            const selected = design.hero === h.id;
-            return (
-              <button
-                key={h.id}
-                type="button"
-                aria-pressed={selected}
-                onClick={() => onChange({ hero: h.id })}
-                className={`flex flex-col overflow-hidden rounded-xl bg-card text-left ${selected ? SELECTED : UNSELECTED}`}
-                title={h.help}
-              >
-                <HeroThumb layout={h.id} bg={theme.bg} surface={theme.surface} photo={theme.photo} ink={theme.ink} accent={accent} />
-                <span className="border-t border-hairline px-2 py-1.5 text-[12px] font-medium text-ink">{h.label}</span>
-              </button>
-            );
-          })}
-        </div>
-        <p className="text-[13px] leading-normal text-ink/60">
-          {hasPhoto || !needsPhoto
-            ? HERO_LAYOUTS.find((h) => h.id === design.hero)?.help
-            : "Until you add a banner photo (Sections › Photos), this shows an illustration of your scene in your colours."}
         </p>
       </div>
     </>
