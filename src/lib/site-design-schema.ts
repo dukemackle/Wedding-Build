@@ -9,6 +9,7 @@ import {
   DEFAULT_SECTIONS,
   DEFAULT_SITE_DESIGN,
   DEFAULT_THEME_ID,
+  FALLING_IDS,
   FONT_IDS,
   FONT_PAIRINGS,
   HERO_LAYOUTS,
@@ -54,15 +55,24 @@ function completeSections(saved: { id: SectionKey; hidden: boolean }[]) {
   return [...kept, ...DEFAULT_SECTIONS.filter((x) => !seen.has(x.id))];
 }
 
-const motionSchema = z.object({
-  opening: z.enum(["none", "envelope", "write", "reveal"]).catch("none"),
-  scroll: z.enum(["none", "fade", "slide", "zoom"]).catch("fade"),
-  photo: z.enum(["still", "zoom"]).catch("zoom"),
-  petals: z.boolean().catch(false),
-  ticking: z.boolean().catch(true),
-  confetti: z.boolean().catch(false),
-  speed: z.enum(["slow", "normal", "fast"]).catch("normal"),
-});
+const motionSchema = z
+  .object({
+    opening: z.enum(["none", "envelope", "write", "reveal"]).catch("none"),
+    scroll: z.enum(["none", "fade", "slide", "zoom"]).catch("fade"),
+    photo: z.enum(["still", "zoom", "pan"]).catch("zoom"),
+    falling: z.enum(FALLING_IDS).optional().catch(undefined),
+    /** Designs saved before the Falling picker had only an on/off for petals. */
+    petals: z.boolean().optional().catch(undefined),
+    ticking: z.boolean().catch(true),
+    flipboard: z.boolean().catch(false),
+    shimmer: z.boolean().catch(false),
+    confetti: z.boolean().catch(false),
+    speed: z.enum(["slow", "normal", "fast"]).catch("normal"),
+  })
+  .transform(({ petals, falling, ...rest }) => ({
+    ...rest,
+    falling: falling ?? (petals ? "petals" : "none"),
+  }));
 
 /** Each null means the theme's own. */
 const textStyleSchema = z.object({

@@ -1,11 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { useRef, useState, useTransition, type ReactNode } from "react";
+import { useRef, useState, useTransition, type CSSProperties, type ReactNode } from "react";
 import { createSiteBlock, deleteSiteBlock } from "./block-actions";
 import { ChevronDownIcon } from "@/components/icons";
 import type { SiteBlock } from "@/lib/supabase/types";
 import { SiteOrnament } from "@/components/site-ornament";
+import { Shape } from "@/components/site-motion";
 import {
   ART_HEROES,
   ART_PLACEMENTS,
@@ -18,6 +19,7 @@ import {
   sceneById,
   MOTION_PRESETS,
   OPENINGS,
+  FALLING,
   motionPreset,
   type Motion,
   SITE_SECTIONS,
@@ -765,9 +767,8 @@ function Pills<T extends string>({
 }
 
 const EXTRAS = [
-  { key: "petals", label: "Falling petals", help: "Drift down over the page" },
-  { key: "ticking", label: "Live countdown", help: "Ticks down to the second" },
-  { key: "confetti", label: "Confetti on RSVP", help: "A burst when a guest says yes" },
+  { key: "shimmer", label: "Gold shimmer on your names", help: "A sweep of gold once the page opens" },
+  { key: "confetti", label: "Celebration on RSVP", help: "A burst when a guest says yes, in your falling shape" },
 ] as const;
 
 export function MotionTab({
@@ -847,9 +848,58 @@ export function MotionTab({
           options={[
             ["still", "Still"],
             ["zoom", "Slow zoom"],
+            ["pan", "Slow pan"],
           ]}
           value={motion.photo}
           onPick={(v) => set({ photo: v })}
+        />
+      </div>
+
+      <div className="flex flex-col gap-2.5">
+        <PanelLabel>Falling over the page</PanelLabel>
+        <div role="group" aria-label="Falling over the page" className="grid grid-cols-3 gap-2 lg:grid-cols-5">
+          {FALLING.map((f) => {
+            const selected = motion.falling === f.id;
+            return (
+              <button
+                key={f.id}
+                type="button"
+                aria-pressed={selected}
+                onClick={() => set({ falling: f.id })}
+                className={`flex flex-col items-center gap-1.5 rounded-xl bg-card px-1 py-2.5 ${selected ? SELECTED : UNSELECTED}`}
+              >
+                <span
+                  className="flex h-7 items-center justify-center gap-1 text-forest"
+                  style={{ "--site-accent": "var(--color-forest)" } as CSSProperties}
+                  aria-hidden="true"
+                >
+                  {f.id === "none" ? (
+                    <span className="text-sm text-ink/40">—</span>
+                  ) : (
+                    <>
+                      <Shape kind={f.id} i={1} size={18} />
+                      <Shape kind={f.id} i={0} size={14} />
+                    </>
+                  )}
+                </span>
+                <span className="text-center text-xs leading-tight text-ink">{f.label}</span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-2.5">
+        <PanelLabel>Countdown</PanelLabel>
+        <Pills
+          label="Countdown"
+          options={[
+            ["off", "Days only"],
+            ["tick", "Ticking"],
+            ["board", "Flip board"],
+          ]}
+          value={!motion.ticking ? "off" : motion.flipboard ? "board" : "tick"}
+          onPick={(v) => set({ ticking: v !== "off", flipboard: v === "board" })}
         />
       </div>
 

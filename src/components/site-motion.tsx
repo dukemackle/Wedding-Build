@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
 import { useReplay, useSiteDesign } from "@/components/guest-site-theme";
-import { MOTION_SPEED } from "@/lib/site-design";
+import { MOTION_SPEED, type FallingId } from "@/lib/site-design";
 
 /** Fired by the RSVP form when a guest says yes; confetti listens for it. */
 export const RSVP_YES_EVENT = "wren:rsvp-yes";
@@ -64,7 +64,7 @@ export function Replayable({ children }: { children: ReactNode }) {
   return <div key={replay} className="contents">{children}</div>;
 }
 
-/** The envelope, petals and confetti: the motion that sits over the page. */
+/** The envelope, what falls, and the RSVP burst: the motion that sits over the page. */
 export function SiteMotion({ initials }: { initials: string }) {
   const { motion } = useSiteDesign();
   const reduced = useReducedMotion();
@@ -72,8 +72,8 @@ export function SiteMotion({ initials }: { initials: string }) {
   return (
     <>
       {motion.opening === "envelope" && <Envelope initials={initials} />}
-      {motion.petals && <Petals speed={MOTION_SPEED[motion.speed]} />}
-      {motion.confetti && <Confetti />}
+      {motion.falling !== "none" && <Falling kind={motion.falling} speed={MOTION_SPEED[motion.speed]} />}
+      {motion.confetti && <Confetti kind={motion.falling} />}
     </>
   );
 }
@@ -106,54 +106,193 @@ function Envelope({ initials }: { initials: string }) {
   );
 }
 
-const PETALS = Array.from({ length: 14 }, (_, i) => ({
-  left: 3 + ((i * 7.3) % 94),
-  duration: 7 + (i % 4) * 1.5,
-  delay: (i * 0.9) % 7,
-  size: 8 + (i % 3) * 3,
-}));
+export type Kind = Exclude<FallingId, "none">;
 
-function Petals({ speed }: { speed: number }) {
-  return (
-    <div className="pointer-events-none fixed inset-0 z-40 overflow-hidden" aria-hidden="true">
-      {PETALS.map((p, i) => (
+const MAPLE =
+  "M12 2l1.5 4 2.5-1-.5 3.5 4-1-1.5 3.5 3 1-4.5 3 1 2.5-4.5-1-.5 5.5h-1l-.5-5.5-4.5 1 1-2.5-4.5-3 3-1-1.5-3.5 4 1L8 5l2.5 1z";
+const LEAF = "M12 2C7 6 4 10 5 15c.6 3 3.5 5 7 5s6.4-2 7-5c1-5-2-9-7-13zM12 7v15";
+const HEART =
+  "M12 21s-7.5-4.6-9.6-9C.8 8.4 3 4.5 6.6 4.5c2.3 0 4 1.3 5.4 3.1 1.4-1.8 3.1-3.1 5.4-3.1 3.6 0 5.8 3.9 4.2 7.5-2.1 4.4-9.6 9-9.6 9z";
+const SPARKLE = "M12 2l1.9 6.6L20.5 10l-6.6 1.9L12 18.5l-1.9-6.6L3.5 10l6.6-1.4z";
+
+/** Confetti mixes the theme's accent with its ink and the brand gold. */
+const CONFETTI_COLOURS = ["var(--site-accent)", "var(--color-ink)", "#FFD301"];
+
+/** One falling thing, drawn in the accent colour. `i` varies shape and colour. */
+export function Shape({ kind, i, size }: { kind: Kind; i: number; size: number }) {
+  const svg = (d: string, stroke = false) => (
+    <svg width={size} height={size} viewBox="0 0 24 24" className="block" aria-hidden="true">
+      <path
+        d={d}
+        fill={stroke ? "none" : "currentColor"}
+        stroke={stroke ? "currentColor" : undefined}
+        strokeWidth={stroke ? 1.6 : undefined}
+      />
+    </svg>
+  );
+  switch (kind) {
+    case "petals":
+      return (
         <span
-          key={i}
-          className="site-petal absolute top-0 bg-[var(--site-accent)]"
+          className="block bg-current"
+          style={{ width: size, height: size * 1.4, borderRadius: `${size}px 0 ${size}px 0` }}
+        />
+      );
+    case "hearts":
+      return svg(HEART);
+    case "confetti":
+      return (
+        <span
+          className="block rounded-[1px]"
           style={{
-            left: `${p.left}%`,
-            width: p.size,
-            height: p.size * 1.4,
-            borderRadius: `${p.size}px 0 ${p.size}px 0`,
-            animationDuration: `${p.duration * speed}s`,
-            animationDelay: `${p.delay * speed}s`,
+            width: i % 3 === 0 ? size * 0.4 : size * 0.7,
+            height: i % 3 === 0 ? size * 1.5 : size * 0.7,
+            background: CONFETTI_COLOURS[i % CONFETTI_COLOURS.length],
           }}
         />
-      ))}
+      );
+    case "rice":
+      return <span className="block rounded-full bg-current" style={{ width: size * 0.35, height: size * 0.6 }} />;
+    case "snow":
+      return (
+        <span
+          className="block rounded-full"
+          style={{
+            width: size * 0.7,
+            height: size * 0.7,
+            background: "color-mix(in srgb, var(--site-accent) 40%, white)",
+            boxShadow: "0 0 6px color-mix(in srgb, var(--site-accent) 30%, white)",
+          }}
+        />
+      );
+    case "leaves":
+      return i % 2 === 0 ? svg(MAPLE) : svg(LEAF);
+    case "rings":
+      return i % 3 === 0 ? (
+        svg(SPARKLE)
+      ) : (
+        <svg width={size * 1.4} height={size} viewBox="0 0 34 24" className="block" aria-hidden="true">
+          <circle cx="12" cy="13" r="7.5" fill="none" stroke="currentColor" strokeWidth="1.8" />
+          <circle cx="22" cy="13" r="7.5" fill="none" stroke="currentColor" strokeWidth="1.8" />
+          <path d="M22 2.5l1.6 1.8-1.6 1.8-1.6-1.8z" fill="currentColor" />
+        </svg>
+      );
+    case "bubbles":
+      return (
+        <span
+          className="block rounded-full border border-current"
+          style={{
+            width: size * 1.4,
+            height: size * 1.4,
+            background:
+              "radial-gradient(circle at 32% 30%, rgba(255,255,255,0.9) 0 12%, transparent 13%), color-mix(in srgb, var(--site-accent) 12%, transparent)",
+          }}
+        />
+      );
+    case "fireflies":
+      return (
+        <span
+          className="block rounded-full"
+          style={{
+            width: size * 0.45,
+            height: size * 0.45,
+            background: "color-mix(in srgb, var(--site-accent) 55%, #FFD301)",
+            boxShadow: "0 0 10px 3px color-mix(in srgb, var(--site-accent) 45%, #FFD301)",
+          }}
+        />
+      );
+  }
+}
+
+/**
+ * How each kind moves. `drift` falls with a sway, `rise` floats up from the
+ * bottom, `wander` hangs in place and blinks. Durations are seconds and
+ * scale with the Speed setting.
+ */
+const KINDS: Record<
+  Kind,
+  { count: number; move: "drift" | "rise" | "wander"; size: [number, number]; duration: [number, number]; sway: number; spin: number; flutter?: boolean; opacity: number }
+> = {
+  petals: { count: 14, move: "drift", size: [8, 14], duration: [7, 11.5], sway: 40, spin: 300, opacity: 0.5 },
+  hearts: { count: 12, move: "drift", size: [10, 16], duration: [8, 12], sway: 30, spin: 40, opacity: 0.5 },
+  confetti: { count: 22, move: "drift", size: [8, 12], duration: [6, 9], sway: 50, spin: 0, flutter: true, opacity: 0.6 },
+  rice: { count: 26, move: "drift", size: [8, 12], duration: [4, 6.5], sway: 12, spin: 200, opacity: 0.5 },
+  snow: { count: 24, move: "drift", size: [6, 14], duration: [10, 16], sway: 30, spin: 0, opacity: 0.75 },
+  leaves: { count: 12, move: "drift", size: [14, 22], duration: [9, 13], sway: 60, spin: 260, flutter: true, opacity: 0.55 },
+  rings: { count: 10, move: "drift", size: [12, 18], duration: [9, 13], sway: 30, spin: 120, opacity: 0.55 },
+  bubbles: { count: 12, move: "rise", size: [10, 22], duration: [9, 14], sway: 25, spin: 0, opacity: 0.6 },
+  fireflies: { count: 16, move: "wander", size: [10, 14], duration: [5, 9], sway: 40, spin: 0, opacity: 0.9 },
+};
+
+/** Spread between two numbers by a fixed pattern, so server and client agree. */
+const spread = ([lo, hi]: [number, number], i: number, step: number) => lo + (((i * step) % 10) / 10) * (hi - lo);
+
+/**
+ * Over the page, but kept faint and small so the words stay readable through
+ * it. `contained` keeps it inside its parent instead of the screen, for the
+ * landing page's demo.
+ */
+export function Falling({ kind, speed, contained = false }: { kind: Kind; speed: number; contained?: boolean }) {
+  const k = KINDS[kind];
+  return (
+    <div
+      className={`pointer-events-none inset-0 overflow-hidden text-[var(--site-accent)] ${contained ? "absolute" : "fixed z-40"}`}
+      aria-hidden="true"
+    >
+      {Array.from({ length: k.count }, (_, i) => {
+        const duration = spread(k.duration, i, 3) * speed;
+        return (
+          <span
+            key={i}
+            className={`site-fall site-fall-${k.move} absolute`}
+            style={
+              {
+                left: `${3 + ((i * 7.3) % 94)}%`,
+                top: k.move === "wander" ? `${8 + ((i * 13.7) % 84)}%` : undefined,
+                animationDuration: `${duration}s`,
+                animationDelay: `${-((i * 1.7) % duration)}s`,
+                "--sway": `${(i % 2 ? 1 : -1) * k.sway}px`,
+                "--spin": `${(i % 3 ? 1 : -1) * k.spin}deg`,
+                "--o": k.opacity,
+              } as React.CSSProperties
+            }
+          >
+            <span
+              className={k.flutter ? "site-flutter block" : "block"}
+              style={k.flutter ? { animationDuration: `${(1.4 + (i % 4) * 0.4) * speed}s` } : undefined}
+            >
+              <Shape kind={kind} i={i} size={spread(k.size, i, 7)} />
+            </span>
+          </span>
+        );
+      })}
     </div>
   );
 }
 
-type Burst = { id: number; pieces: { dx: number; dy: number; spin: number; color: string; left: number }[] };
+type Burst = { id: number; pieces: { dx: number; dy: number; spin: number; left: number; size: number }[] };
+
+/** Bursts in the falling shape where it reads as a toss; otherwise classic confetti. */
+const BURST_KINDS: Kind[] = ["petals", "hearts", "confetti", "leaves", "rings"];
 
 /**
  * A burst from the top of the screen when a guest RSVPs yes. Also fires on
  * the editor's "Try it", since the preview's RSVP form is switched off.
  */
-function Confetti() {
+function Confetti({ kind }: { kind: FallingId }) {
   const [bursts, setBursts] = useState<Burst[]>([]);
+  const shape: Kind = kind !== "none" && BURST_KINDS.includes(kind) ? kind : "confetti";
 
   useEffect(() => {
     function fire() {
-      const colours = ["var(--site-accent)", "var(--color-ink)", "var(--color-card)", "#e9c97a"];
       const burst: Burst = {
         id: Date.now(),
-        pieces: Array.from({ length: 70 }, (_, i) => ({
+        pieces: Array.from({ length: 60 }, () => ({
           dx: (Math.random() - 0.5) * 900,
           dy: 250 + Math.random() * 500,
           spin: (Math.random() - 0.5) * 900,
-          color: colours[i % colours.length],
           left: 50 + (Math.random() - 0.5) * 20,
+          size: 9 + Math.random() * 6,
         })),
       };
       setBursts((b) => [...b, burst]);
@@ -165,22 +304,23 @@ function Confetti() {
 
   if (bursts.length === 0) return null;
   return (
-    <div className="pointer-events-none fixed inset-0 z-50 overflow-hidden" aria-hidden="true">
+    <div className="pointer-events-none fixed inset-0 z-50 overflow-hidden text-[var(--site-accent)]" aria-hidden="true">
       {bursts.flatMap((b) =>
         b.pieces.map((p, i) => (
           <span
             key={`${b.id}-${i}`}
-            className="site-confetti absolute top-[18%] h-2.5 w-1.5 rounded-[1px]"
+            className="site-confetti absolute top-[18%]"
             style={
               {
                 left: `${p.left}%`,
-                background: p.color,
                 "--dx": `${p.dx}px`,
                 "--dy": `${p.dy}px`,
                 "--spin": `${p.spin}deg`,
               } as React.CSSProperties
             }
-          />
+          >
+            <Shape kind={shape} i={i} size={shape === "confetti" ? 10 : p.size} />
+          </span>
         )),
       )}
     </div>
