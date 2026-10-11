@@ -150,6 +150,19 @@ le Bánh Patisserie	Cake	542 Hopmeadow St	Simsbury	Connecticut		Organic Simsbury
 Kaylan's Kitchen	Cake	597 Main St	Torrington	Connecticut		From-scratch Torrington bakery and bistro baking elegant wedding cakes to order, with early booking advised for custom designs.	corey@kaylanskitchens.com	(860) 294-7766	https://kaylanskitchens.com/custom-cakes	https://www.instagram.com/kaylanskitchens/
 The Bakehouse of Litchfield	Cake	7 North St	Litchfield	Connecticut		Litchfield scratch bakery taking custom orders for wedding cakes, alongside its bread, rolls and cookies.	whitehousebakes@gmail.com	(860) 361-6423	https://thebakehousect.com/	https://www.instagram.com/thebakehousect/`,
   },
+  {
+    name: "Litchfield Hills: photography, catering, hair and makeup and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+The Pantry	Catering	5 Titus Road	Washington Depot	Connecticut		A village restaurant and bakery in Washington Depot that also caters, building bespoke menus for dinners and smaller weddings.		(860) 868-0258	https://www.thepantryct.com/	https://www.instagram.com/thepantryct/
+Byrde + the b	Hair & Makeup	43 West Street	Litchfield	Connecticut		A Litchfield hair salon, barbershop and gallery led by celebrity stylist Scott Bond, with bridal hair and makeup among its services.	info@byrdeandtheb.com	(860) 619-0422	https://byrdeandtheb.com/	https://www.instagram.com/byrdeandthebbyrdeman/
+Nutmeg Photography	Photography	174 West Street	Litchfield	Connecticut	Litchfield County	A Litchfield studio above West Street Yard offering photojournalistic wedding and engagement coverage alongside family, newborn and portrait sessions.		860.480.1746	https://www.nutmegphotography.com/	https://www.instagram.com/nutmegphotographyllc/`,
+  },
+  {
+    name: "Mystic: videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+JF3 Productions	Videography		Simsbury	Connecticut	New England and destination weddings	A small Simsbury videography team making unscripted, natural-feeling wedding highlight films and full-length edits for couples across New England.	JF3Productions@gmail.com		https://www.jf3productions.com/	
+Barnberry Productions	Videography		Norwich	Connecticut		An independent Norwich filmmaking studio producing energetic, emotion-led wedding films that favour candid moments over stiff, old-fashioned video.		(860) 861-3344	https://www.barnberryproductions.com/	https://www.instagram.com/barnberryproductions/`,
+  },
 ];
 
 export default batches;
