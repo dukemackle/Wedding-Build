@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { artById, resolveDesign, type SiteDesign } from "@/lib/site-design";
+import { useState, type CSSProperties } from "react";
+import { artById, backgroundLayers, resolveDesign, type SiteDesign } from "@/lib/site-design";
 import { TEMPLATES, TEMPLATE_TAGS, applyTemplate, type SiteTemplate, type TemplateTag } from "@/lib/site-templates";
 import { PanelLabel } from "./editor-tabs";
 
@@ -75,7 +75,8 @@ function TemplateCard({
   onPick: () => void;
 }) {
   const look = applyTemplate(design, template);
-  const { theme, accent, heading, onAccent } = resolveDesign(look);
+  const { theme, accent, accent2, heading, onAccent } = resolveDesign(look);
+  const layers = backgroundLayers(look.background);
   const art = artById(look.art.id);
   const a = names[0]?.trim() || "Alex";
   const b = names[1]?.trim() || "Sam";
@@ -113,7 +114,17 @@ function TemplateCard({
     >
       <span
         className="relative flex h-[120px] flex-col items-center justify-center gap-1.5 overflow-hidden px-3 text-center"
-        style={{ background: theme.bg, color: theme.ink }}
+        style={
+          {
+            backgroundColor: theme.bg,
+            backgroundImage: layers.image,
+            backgroundSize: layers.size,
+            color: theme.ink,
+            "--site-accent": accent,
+            "--site-accent-2": accent2,
+            "--color-ink": theme.ink,
+          } as CSSProperties
+        }
       >
         {sprig(false)}
         {sprig(true)}

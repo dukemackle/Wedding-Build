@@ -472,6 +472,63 @@ body::before {
   border-radius: min(var(--site-radius, 1rem), 1.5rem);
 }
 
+/* Storybook band edges (Background panel › Dividers): the tinted bands grow a
+   shaped edge into the plain band above and below them, in the band colour,
+   so the page reads as layered paper. The bottom edge is the top one flipped. */
+.site-storybook[data-divider] > .site-band {
+  position: relative;
+}
+.site-storybook[data-divider] > .site-band::before,
+.site-storybook[data-divider] > .site-band::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  height: var(--divider-h);
+  background: var(--site-band);
+  pointer-events: none;
+  -webkit-mask: var(--divider) var(--divider-repeat) bottom left / var(--divider-size);
+  mask: var(--divider) var(--divider-repeat) bottom left / var(--divider-size);
+}
+.site-storybook[data-divider] > .site-band::before {
+  bottom: calc(100% - 1px);
+}
+.site-storybook[data-divider] > .site-band::after {
+  top: calc(100% - 1px);
+  transform: scaleY(-1);
+}
+.site-storybook[data-divider="wave"] {
+  --divider: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 20' preserveAspectRatio='none'%3E%3Cpath d='M0 10 Q20 0 40 10 T80 10 V20 H0Z'/%3E%3C/svg%3E");
+  --divider-size: 80px 20px;
+  --divider-repeat: repeat-x;
+  --divider-h: 20px;
+}
+.site-storybook[data-divider="scallop"] {
+  --divider: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 20' preserveAspectRatio='none'%3E%3Cpath d='M0 20 V12 A10 10 0 0 1 20 12 A10 10 0 0 1 40 12 A10 10 0 0 1 60 12 A10 10 0 0 1 80 12 V20Z'/%3E%3C/svg%3E");
+  --divider-size: 48px 12px;
+  --divider-repeat: repeat-x;
+  --divider-h: 12px;
+}
+.site-storybook[data-divider="arch"] {
+  --divider: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 40' preserveAspectRatio='none'%3E%3Cpath d='M0 40 Q50 -36 100 40Z'/%3E%3C/svg%3E");
+  --divider-size: 100% 100%;
+  --divider-repeat: no-repeat;
+  --divider-h: clamp(24px, 4vw, 56px);
+}
+.site-storybook[data-divider="torn"] {
+  --divider: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 16' preserveAspectRatio='none'%3E%3Cpath d='M0 16 L0 5.4 L5.928494308076442 7.0 L12.323244745298133 3.7 L20.937563875663805 12.2 L33.141635039126086 10.7 L40.13898862033894 8.4 L47.62913241131199 4.7 L53.584782043195766 5.1 L66.93206272604831 11.3 L79.19193384636922 11.0 L85.93285440854238 6.1 L96.57563483026055 10.3 L109.26747005218267 11.8 L115.04793432589697 9.1 L126.09324743454523 8.1 L132.6933590027123 7.7 L138.49747486810082 12.3 L151.28683239976658 8.5 L158.9890440559265 12.1 L169.14034527109953 11.8 L181.77274206511225 8.1 L190.49825645329784 9.0 L199.3776436089376 4.6 L207.12364797683225 11.1 L212.51279419848248 3.5 L223.14995090834162 5.8 L232.96154706225641 7.7 L240 8 L240 16Z'/%3E%3C/svg%3E");
+  --divider-size: 240px 16px;
+  --divider-repeat: repeat-x;
+  --divider-h: 16px;
+}
+.site-storybook[data-divider="deckle"] {
+  --divider: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 8' preserveAspectRatio='none'%3E%3Cpath d='M0 8 L0.0 3.3 L2.4 1.7 L6.1 1.0 L8.9 5.5 L10.6 3.8 L13.6 1.2 L16.0 4.5 L18.7 4.6 L20.6 2.2 L22.3 3.5 L26.2 4.0 L29.6 2.9 L33.0 1.5 L35.2 4.4 L38.5 3.1 L40.2 2.3 L42.2 2.4 L45.8 2.0 L49.5 5.4 L51.1 2.9 L53.9 1.1 L56.4 5.5 L58.2 4.0 L60.0 3.9 L63.7 2.0 L65.3 1.4 L68.1 1.1 L69.8 3.5 L73.6 3.1 L76.1 4.2 L77.8 3.9 L79.8 4.0 L83.7 1.3 L86.6 4.0 L88.4 2.3 L92.4 6.0 L94.2 4.5 L98.1 2.2 L101.1 1.2 L103.5 4.4 L106.5 4.9 L108.2 2.7 L111.9 3.9 L114.5 3.0 L118.5 3.9 L120 4 L120 8Z'/%3E%3C/svg%3E");
+  --divider-size: 120px 8px;
+  --divider-repeat: repeat-x;
+  --divider-h: 8px;
+}
+
 /* Background panel: a pattern and texture over the page colour, on the
    whole page or only the top of it (site-design.ts, backgroundLayers). */
 .guest-site[data-bg-scope="page"],

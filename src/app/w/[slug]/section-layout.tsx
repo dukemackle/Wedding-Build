@@ -63,7 +63,8 @@ const BAND_COLUMNS = ["", "", "lg:grid-cols-2", "lg:grid-cols-3", "lg:grid-cols-
  * columns: reference sections in a row together share one band, side by
  * side, and the sections themselves lay out wide (the schedule's days side
  * by side, photos as a spread). The RSVP card keeps a readable width; its
- * band and photo-split layouts need the room.
+ * band and photo-split layouts need the room. The Background panel's
+ * divider shapes the tinted bands' edges (globals.css).
  */
 function Storybook({
   shown,
@@ -81,12 +82,13 @@ function Storybook({
     else bands.push({ side, items: [x] });
   }
 
+  const divider = useSiteDesign().background.divider;
   return (
-    <div className="site-storybook flex flex-col pb-10">
+    <div className="site-storybook flex flex-col pb-10" data-divider={divider !== "none" ? divider : undefined}>
       {bands.map((band, i) => (
         <section
           key={band.items[0].id}
-          className={`px-4 py-14 sm:px-6 lg:px-10 lg:py-20 ${i % 2 === 1 ? "bg-[var(--site-band)]" : ""}`}
+          className={`px-4 py-14 sm:px-6 lg:px-10 lg:py-20 ${i % 2 === 1 ? "site-band bg-[var(--site-band)]" : ""}`}
         >
           <div
             className={`mx-auto w-full ${

@@ -954,6 +954,10 @@ export const FALLING = [
   { id: "rings", label: "Rings & sparkles" },
   { id: "bubbles", label: "Bubbles" },
   { id: "fireflies", label: "Fireflies" },
+  { id: "lanterns", label: "Sky lanterns" },
+  { id: "marigolds", label: "Marigolds" },
+  { id: "sparklers", label: "Sparklers" },
+  { id: "butterflies", label: "Butterflies" },
 ] as const;
 
 export const FALLING_IDS = FALLING.map((f) => f.id) as [FallingId, ...FallingId[]];
@@ -1032,6 +1036,12 @@ export const BG_PATTERNS = [
   { id: "dots", label: "Dots" },
   { id: "stripes", label: "Stripes" },
   { id: "lattice", label: "Lattice" },
+  { id: "gingham", label: "Gingham" },
+  { id: "pinstripe", label: "Pinstripe" },
+  { id: "harlequin", label: "Harlequin" },
+  { id: "scallops", label: "Scallops" },
+  { id: "deco", label: "Deco fans" },
+  { id: "sunburst", label: "Sunburst" },
 ] as const;
 
 export const BG_TEXTURES = [
@@ -1039,12 +1049,30 @@ export const BG_TEXTURES = [
   { id: "linen", label: "Linen" },
   { id: "paper", label: "Paper" },
   { id: "wash", label: "Watercolour wash" },
+  { id: "marble", label: "Marble" },
+  { id: "flecks", label: "Foil flecks" },
+  { id: "silk", label: "Silk sheen" },
+  { id: "glow", label: "Soft edges" },
+] as const;
+
+/**
+ * The edge between storybook bands: a shape cut into the top and bottom of
+ * each tinted band, so the page reads like layered paper rather than stripes.
+ */
+export const BG_DIVIDERS = [
+  { id: "none", label: "Straight" },
+  { id: "wave", label: "Wave" },
+  { id: "scallop", label: "Scallop" },
+  { id: "arch", label: "Arch" },
+  { id: "torn", label: "Torn paper" },
+  { id: "deckle", label: "Deckled" },
 ] as const;
 
 export type BgPattern = (typeof BG_PATTERNS)[number]["id"];
 export type BgTexture = (typeof BG_TEXTURES)[number]["id"];
+export type BgDivider = (typeof BG_DIVIDERS)[number]["id"];
 
-export const NO_BACKGROUND = { pattern: "none", texture: "none", scope: "page" } as const;
+export const NO_BACKGROUND = { pattern: "none", texture: "none", scope: "page", divider: "none" } as const;
 
 export const HERO_PHOTO = { fx: 50, fy: 50, filter: "none" } as const;
 
@@ -1186,6 +1214,10 @@ export function paletteColors(p: Palette): Pick<SiteDesign, "colors" | "accent">
 const PAPER =
   "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")";
 
+// Grey veins from stretched noise, kept to a few thin bands of it.
+const MARBLE =
+  "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='640' height='640'%3E%3Cfilter id='m'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.0035 .011' numOctaves='5' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .45 0 0 0 0 .45 0 0 0 0 .45 1 0 0 0 0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='table' tableValues='0 0 0 .16 0 0 0 0 .11 0 0 0'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23m)'/%3E%3C/svg%3E\")";
+
 /**
  * The Background panel's pattern and texture as CSS layers, drawn in the
  * site's own accent and ink so they follow every palette. Patterns sit over
@@ -1202,6 +1234,25 @@ export function backgroundLayers(background: SiteDesign["background"]): { image:
       [`linear-gradient(${tint(16)} 1px, transparent 1px)`, "32px 32px"],
       [`linear-gradient(90deg, ${tint(16)} 1px, transparent 1px)`, "32px 32px"],
     );
+  if (background.pattern === "gingham")
+    layers.push(
+      [`linear-gradient(90deg, ${tint(11)} 50%, transparent 50%)`, "24px 24px"],
+      [`linear-gradient(${tint(11)} 50%, transparent 50%)`, "24px 24px"],
+    );
+  if (background.pattern === "pinstripe")
+    layers.push([`repeating-linear-gradient(90deg, ${tint(16)} 0 1px, transparent 1px 14px)`, "auto"]);
+  if (background.pattern === "harlequin")
+    // East and west wedges of each tile meet their neighbours' as diamonds.
+    layers.push([`conic-gradient(from 45deg, ${tint(10)} 25%, transparent 0 50%, ${tint(10)} 0 75%, transparent 0)`, "32px 32px"]);
+  if (background.pattern === "scallops")
+    layers.push([`radial-gradient(circle at 50% 100%, transparent 0 11px, ${tint(18)} 11px 12.5px, transparent 13px)`, "28px 14px"]);
+  if (background.pattern === "deco")
+    layers.push([
+      `radial-gradient(circle at 50% 100%, ${tint(20)} 0 2px, transparent 2px 6px, ${tint(16)} 6px 7px, transparent 7px 11.5px, ${tint(16)} 11.5px 12.5px, transparent 12.5px 17px, ${tint(16)} 17px 18px, transparent 18px)`,
+      "36px 18px",
+    ]);
+  if (background.pattern === "sunburst")
+    layers.push([`repeating-conic-gradient(from 0deg at 50% 0%, ${tint(7)} 0 3deg, transparent 3deg 9deg)`, "100% 100%"]);
   if (background.texture === "linen")
     layers.push(
       [`repeating-linear-gradient(0deg, ${tint(4, "--color-ink")} 0 1px, transparent 1px 3px)`, "auto"],
@@ -1214,6 +1265,21 @@ export function backgroundLayers(background: SiteDesign["background"]): { image:
       [`radial-gradient(ellipse 50% 45% at 88% 35%, ${tint(12, "--site-accent-2")}, transparent 70%)`, "100% 100%"],
       [`radial-gradient(ellipse 55% 35% at 30% 90%, ${tint(10)}, transparent 70%)`, "100% 100%"],
     );
+  if (background.texture === "marble") layers.push([MARBLE, "640px 640px"]);
+  if (background.texture === "flecks")
+    // Three grids of odd sizes, so the specks never line up.
+    layers.push(
+      [`radial-gradient(${tint(55)} 0.8px, transparent 1.4px)`, "37px 41px"],
+      [`radial-gradient(${tint(40)} 1.1px, transparent 1.8px)`, "71px 59px"],
+      [`radial-gradient(${tint(35, "--site-accent-2")} 0.7px, transparent 1.2px)`, "53px 97px"],
+    );
+  if (background.texture === "silk")
+    layers.push([
+      "linear-gradient(115deg, transparent 15%, rgb(255 255 255 / 0.22) 32%, transparent 48%, rgb(255 255 255 / 0.14) 66%, transparent 82%)",
+      "100% 100%",
+    ]);
+  if (background.texture === "glow")
+    layers.push([`radial-gradient(ellipse 80% 70% at 50% 40%, transparent 55%, ${tint(12, "--color-ink")})`, "100% 100%"]);
   if (!layers.length) return { image: "none", size: "auto" };
   return { image: layers.map(([i]) => i).join(", "), size: layers.map(([, s]) => s).join(", ") };
 }
