@@ -120,6 +120,28 @@ Tulsa Wedding Co.	Videography		Tulsa	Oklahoma	Tulsa, Oklahoma City, Stillwater a
 Shipman Photos	Videography		Tulsa	Oklahoma	Tulsa and beyond	Tulsa studio offering wedding films alongside photography, drone work and engagement sessions.	support@shipmanphotos.com	(918) 261-4064	https://shipmanphotos.com	https://www.instagram.com/greggshipmanphotography/
 `,
   },
+  {
+    name: "Oklahoma City: planning, hair and makeup, photography and florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Blair Sims Events	Planning		Oklahoma City	Oklahoma	Oklahoma	Oklahoma City planner offering full and partial wedding planning packages for couples across the state, plus wider event planning.			https://blairsimsevents.com/	https://www.instagram.com/blairsimsevents/
+Upon a Star Weddings	Planning		Oklahoma City	Oklahoma	Oklahoma City area	Oklahoma City wedding planner for busy couples, handling planning and day-of coordination from caterers and cake to the bar.	Allison@uponastarweddings.com	405-509-9063	https://www.uponastarweddings.com/	https://www.instagram.com/uponastareventsokc/
+Meg Owen Events	Planning		Oklahoma City	Oklahoma	Oklahoma City and beyond	Boutique Oklahoma City studio combining wedding planning, from full service to event management, with floral design for bouquets and installations.			https://megowenevents.com/	https://www.instagram.com/megowenevents/
+Teresa Luz Makeup + Hair	Hair & Makeup		Oklahoma City	Oklahoma		Oklahoma City freelance makeup artist and hair stylist who works on location, covering bridal looks alongside editorial and commercial work.	info@teresaluz.com	405-618-3198	https://www.makeupbyteresaluz.com/	https://www.instagram.com/teresaluzbridal/
+Dora Petit Makeup	Hair & Makeup		Yukon	Oklahoma	Oklahoma	Yukon makeup team doing bridal makeup and hair for brides, bridesmaids and mothers, offering trials and happy to travel to you.		405-476-8943	http://www.dorapetitmakeup.com/	https://www.instagram.com/dorapetitmua/
+LJ Hill Makeup Artistry	Hair & Makeup		Oklahoma City	Oklahoma		Oklahoma City licensed makeup artist offering bridal makeup for the bride or the whole party, with consultations booked online, plus editorial work.			https://www.ljhill.com/	https://www.instagram.com/ljbrides/
+Bridget Blood Photography	Photography		Oklahoma City	Oklahoma	Oklahoma City, Edmond, Norman, Stillwater, Tulsa and beyond	Oklahoma City photographer who also films weddings, with bright, true-to-life colour, hand-edited images and a limited number of dates a year.			https://bridgetbloodphoto.com/weddings	https://www.instagram.com/bridget.blood.photo.vid/
+Payton Marie Photo	Photography		Oklahoma City	Oklahoma		Oklahoma City documentary-style wedding and elopement photographer who also travels, with galleries from local venues such as Marland Mansion.			https://paytonmarie.com/	https://www.instagram.com/paytonmariephoto/
+A New Beginning Florist	Florals	13316 S Western Ave, Suite M	Oklahoma City	Oklahoma		South Oklahoma City florist designing custom bridal bouquets and ceremony and reception arrangements, with rentals such as arches and candelabras.		405-799-4492	https://www.anewbeginningflorist.com/	https://www.instagram.com/anewbeginningflorist/`,
+  },
+  {
+    name: "Tulsa: cake, rentals and photo booths",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Zoe Cakes Unlimited	Cake		Tulsa	Oklahoma		Tulsa baker making fully customised wedding cakes, from simple naked cakes with florals to tall tiered centrepieces, plus cupcakes.	order@zoecakesunlimited.com	918-947-9844	https://zoecakesunlimited.com/	https://www.instagram.com/zoecakesunlimited/
+Party Pro Rents	Rentals	6511 E 44th St	Tulsa	Oklahoma	Oklahoma, Arkansas, Missouri and Kansas	Tulsa tent and event rental company with tables, chairs, linens, tableware and staging, plus event design help for weddings.		918-622-8102	https://www.partyprorents.com/	https://www.instagram.com/partyprorents/
+Party Perfect Event Rental	Rentals	8401 E 41st St	Tulsa	Oklahoma	Tulsa and north-eastern Oklahoma	Tulsa rental and event design company offering linens, china, chairs, tents and decor, with delivery across north-eastern Oklahoma.		918-258-7368	https://www.partyperfecteventrental.com/	https://www.instagram.com/partyperfectok/
+Route 66 Photobooth	Photo Booth		Tulsa	Oklahoma		Locally owned Tulsa photo booth company since 2009, printing instant strips from professional SLR cameras with custom graphics.	info@route66photobooth.com	918.694.7113	https://www.route66photobooth.com/	
+Photo Booth Rentals Tulsa	Photo Booth		Tulsa	Oklahoma	Tulsa, Broken Arrow and surrounding areas	Locally owned Tulsa company renting 360-degree platforms and stationary photo booths, with attendants, custom backdrops and instant sharing.		(918) 894-8132	https://photoboothrentalstulsa.com/	https://www.instagram.com/photoboothrentalstulsa/`,
+  },
 ];
 
 export default batches;
