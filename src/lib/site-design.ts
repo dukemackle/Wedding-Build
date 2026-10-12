@@ -949,6 +949,26 @@ export const BLOCK_KEY = /^block:[0-9a-f-]{36}$/;
 
 export const DEFAULT_SECTIONS = SITE_SECTIONS.map((x) => ({ id: x.id as SectionKey, hidden: false }));
 
+/**
+ * The envelope opening's own look (Motion › When the page opens): the wax
+ * seal's colour, the pattern lining the flap, and whether it waits for a tap.
+ */
+export const SEALS = [
+  { id: "accent", label: "Your accent", hex: null },
+  { id: "claret", label: "Claret", hex: "#7a1f2b" },
+  { id: "gold", label: "Gold", hex: "#b8892b" },
+  { id: "navy", label: "Navy", hex: "#1f2c4f" },
+  { id: "sage", label: "Sage", hex: "#5f7356" },
+  { id: "blush", label: "Blush", hex: "#c48a8e" },
+  { id: "ink", label: "Black", hex: "#1f1d1b" },
+] as const;
+
+export type SealId = (typeof SEALS)[number]["id"];
+
+export const ENVELOPE_LINERS = ["none", "dots", "stripes", "lattice", "gingham", "harlequin", "scallops", "deco"] as const;
+
+export const ENVELOPE = { seal: "accent", liner: "none", tap: false } as const;
+
 export const OPENINGS = [
   { id: "none", label: "Straight in", help: "The page is simply there." },
   { id: "envelope", label: "Envelope opens", help: "An envelope with your initials unseals first." },
@@ -1147,6 +1167,7 @@ export const DEFAULT_SITE_DESIGN: SiteDesign = {
   background: NO_BACKGROUND,
   heroPhoto: HERO_PHOTO,
   monogram: MONOGRAM,
+  envelope: ENVELOPE,
   template: null,
 };
 

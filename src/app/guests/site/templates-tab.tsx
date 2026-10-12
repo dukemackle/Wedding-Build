@@ -184,7 +184,7 @@ export function MakeItMore({ design, onChange }: { design: SiteDesign; onChange:
       <p className="text-[13px] leading-normal text-ink/60">
         {last
           ? "Tap again for another take. Your colours, words and photos stay; undo puts back what you had."
-          : "Changes your fonts, monogram, background and motion, and keeps your colours, words and photos."}
+          : "Changes your fonts, monogram frame, background and what falls over the page. Your colours, words, photos and envelope stay."}
       </p>
     </div>
   );

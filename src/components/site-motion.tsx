@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
 import { useReplay, useSiteDesign } from "@/components/guest-site-theme";
-import { MOTION_SPEED, type FallingId } from "@/lib/site-design";
+import { MOTION_SPEED, NO_BACKGROUND, SEALS, backgroundLayers, resolveDesign, type FallingId } from "@/lib/site-design";
 
 /** Fired by the RSVP form when a guest says yes; confetti listens for it. */
 export const RSVP_YES_EVENT = "wren:rsvp-yes";
@@ -66,42 +66,123 @@ export function Replayable({ children }: { children: ReactNode }) {
 
 /** The envelope, what falls, and the RSVP burst: the motion that sits over the page. */
 export function SiteMotion({ initials }: { initials: string }) {
-  const { motion } = useSiteDesign();
+  const { motion, envelope } = useSiteDesign();
   const reduced = useReducedMotion();
   if (reduced) return null;
   return (
     <>
-      {motion.opening === "envelope" && <Envelope initials={initials} />}
+      {/* Keyed so switching "wait for a tap" starts it afresh. */}
+      {motion.opening === "envelope" && <Envelope key={String(envelope.tap)} initials={initials} />}
       {motion.falling !== "none" && <Falling kind={motion.falling} speed={MOTION_SPEED[motion.speed]} />}
       {motion.confetti && <Confetti kind={motion.falling} />}
     </>
   );
 }
 
+/** A wax blob: a circle with a slightly uneven, pressed-out edge. */
+const SEAL_EDGE = Array.from({ length: 24 }, (_, i) => {
+  const a = (i / 24) * Math.PI * 2;
+  const r = 30 + [1.8, -0.6, 1.2, -1.4, 0.8, 2, -0.9, 0.4][i % 8];
+  return `${i ? "L" : "M"}${(32 + Math.cos(a) * r).toFixed(1)} ${(32 + Math.sin(a) * r).toFixed(1)}`;
+}).join("") + "Z";
+
+/**
+ * The envelope opening: a lined envelope sealed in wax with the couple's
+ * initials (Motion › When the page opens). It opens by itself, or waits for
+ * a tap -- with a fallback so no guest is ever stuck behind it.
+ */
 function Envelope({ initials }: { initials: string }) {
+  const { envelope } = useSiteDesign();
+  const resolved = resolveDesign(useSiteDesign());
   // Removed once it has faded, so it never sits invisibly over the page.
   const [done, setDone] = useState(false);
+  const [open, setOpen] = useState(!envelope.tap);
+  // A tap-to-open envelope still opens by itself after a while, so no guest is stuck.
+  useEffect(() => {
+    if (!envelope.tap) return;
+    const t = setTimeout(() => setOpen(true), 9000);
+    return () => clearTimeout(t);
+  }, [envelope.tap]);
   if (done) return null;
+  const wax = SEALS.find((x) => x.id === envelope.seal)?.hex ?? resolved.accent;
+  const liner = backgroundLayers({ ...NO_BACKGROUND, pattern: envelope.liner });
+  const flap = "polygon(0 0, 100% 0, 50% 100%)";
   return (
     <div
-      className="site-envelope fixed inset-0 z-50 flex items-center justify-center bg-parchment"
+      className="site-envelope fixed inset-0 z-50 flex flex-col items-center justify-center gap-5 bg-parchment"
+      data-wait={open ? undefined : ""}
       onAnimationEnd={(e) => {
         if (e.target === e.currentTarget) setDone(true);
       }}
-      aria-hidden="true"
+      onClick={() => setOpen(true)}
+      aria-hidden={open || undefined}
+      role={open ? undefined : "button"}
+      aria-label={open ? undefined : "Open the invitation"}
+      tabIndex={open ? undefined : 0}
+      onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && setOpen(true)}
     >
       <div
-        className="relative h-[170px] w-[260px] border border-[var(--site-accent)] bg-card"
-        style={{ perspective: 600 }}
+        className="relative aspect-[1.55] w-[min(86vw,580px)] rounded-[3px] bg-card shadow-[0_18px_40px_rgb(0_0_0_/_0.16)]"
+        style={{ perspective: 900 }}
       >
-        <div className="site-envelope-flap absolute inset-x-0 top-0 h-[100px] origin-top">
-          <svg width="260" height="100" viewBox="0 0 260 100" fill="none" className="h-full w-full">
-            <path d="M0 0 L130 92 L260 0" stroke="var(--site-accent)" strokeWidth="1.2" />
-            <circle cx="130" cy="88" r="11" fill="var(--site-accent)" />
+        {/* The back folds: two side flaps and the bottom, as faint creases. */}
+        <svg className="absolute inset-0 h-full w-full" viewBox="0 0 155 100" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M0 100 L66 52 M155 100 L89 52" stroke="var(--color-ink)" strokeOpacity={0.12} strokeWidth={0.6} fill="none" vectorEffect="non-scaling-stroke" />
+        </svg>
+        <div className="site-envelope-flap absolute inset-x-0 top-0 h-[62%] origin-top [transform-style:preserve-3d]">
+          {/* Outside: the card colour with an edge line. Inside: the liner. */}
+          <div className="absolute inset-0 bg-card [backface-visibility:hidden]" style={{ clipPath: flap, backgroundImage: "linear-gradient(to bottom, transparent 40%, rgb(0 0 0 / 0.05))" }}>
+            <svg className="absolute inset-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+              <path d="M0 0 L50 100 L100 0" stroke="var(--color-ink)" strokeOpacity={0.28} strokeWidth={1} fill="none" vectorEffect="non-scaling-stroke" />
+            </svg>
+          </div>
+          <div
+            className="absolute inset-0 [backface-visibility:hidden] [transform:rotateX(180deg)]"
+            style={{
+              clipPath: flap,
+              backgroundColor: "color-mix(in srgb, var(--site-accent) 14%, var(--color-card))",
+              backgroundImage: liner.image,
+              backgroundSize: liner.size,
+            }}
+          />
+          <svg
+            viewBox="0 0 64 64"
+            className="site-envelope-seal absolute bottom-0 left-1/2 h-[42%] max-h-[124px] min-h-[68px] w-auto -translate-x-1/2 translate-y-1/2 drop-shadow-[0_3px_4px_rgb(0_0_0_/_0.25)] [backface-visibility:hidden]"
+            aria-hidden="true"
+          >
+            <defs>
+              <radialGradient id="seal-shine" cx="38%" cy="32%" r="70%">
+                <stop offset="0" stopColor="#ffffff" stopOpacity={0.35} />
+                <stop offset="0.55" stopColor="#ffffff" stopOpacity={0} />
+                <stop offset="1" stopColor="#000000" stopOpacity={0.25} />
+              </radialGradient>
+            </defs>
+            <path d={SEAL_EDGE} fill={wax} />
+            <path d={SEAL_EDGE} fill="url(#seal-shine)" />
+            <circle cx="32" cy="32" r="21" fill="none" stroke="#000" strokeOpacity={0.22} strokeWidth={1.4} />
+            <circle cx="32" cy="32.6" r="21" fill="none" stroke="#fff" strokeOpacity={0.18} strokeWidth={0.8} />
+            {/* Pressed into the wax: a shadow under, a highlight over. */}
+            {[
+              { dy: 0.7, fill: "#000", opacity: 0.35 },
+              { dy: 0, fill: "#fff", opacity: 0.6 },
+            ].map((t) => (
+              <text
+                key={t.fill}
+                x="32"
+                y={32.5 + t.dy}
+                textAnchor="middle"
+                dominantBaseline="central"
+                fill={t.fill}
+                fillOpacity={t.opacity}
+                style={{ fontFamily: "var(--font-monogram, var(--font-names, var(--font-display)))", fontSize: initials.length > 3 ? 13 : 17 }}
+              >
+                {initials}
+              </text>
+            ))}
           </svg>
         </div>
-        <div className="absolute inset-x-0 bottom-6 text-center font-display text-[22px] text-ink">{initials}</div>
       </div>
+      {!open && <p className="site-envelope-hint text-[13px] uppercase tracking-[0.24em] text-ink/60">Tap to open</p>}
     </div>
   );
 }

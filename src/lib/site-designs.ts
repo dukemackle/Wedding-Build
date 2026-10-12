@@ -51,3 +51,7 @@ export function uniqueName(name: string, taken: string[]) {
     if (!names.has(next.toLowerCase())) return next;
   }
 }
+
+/** A save refused because the design moved on elsewhere (actions.ts, store). */
+export const STALE_DESIGN =
+  "Your partner (or another device) changed this design since you opened it, so this change wasn't saved. Reload to see theirs, then carry on.";

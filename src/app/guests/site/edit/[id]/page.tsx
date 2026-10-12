@@ -283,6 +283,7 @@ export default async function GuestSiteEditorPage({ params }: { params: Promise<
           designName={row.name}
           isLive={wedding.live_design_id === row.id}
           draft={draft}
+          version={row.updated_at}
           published={published}
           publicSlug={wedding.public_slug}
           origin={origin}

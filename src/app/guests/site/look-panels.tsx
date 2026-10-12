@@ -540,7 +540,11 @@ export function BackgroundTab({ design, onChange }: { design: SiteDesign; onChan
               key={d.id}
               type="button"
               aria-pressed={bg.divider === d.id}
-              onClick={() => (storybook ? set({ divider: d.id }) : onChange({ background: { ...bg, divider: d.id }, pageStyle: "storybook" }))}
+              onClick={() =>
+                storybook || d.id === "none"
+                  ? set({ divider: d.id })
+                  : onChange({ background: { ...bg, divider: d.id }, pageStyle: "storybook" })
+              }
               className="flex flex-col items-center gap-1 text-center text-[11px] leading-tight text-ink/70"
             >
               {/* The site's own divider rules (globals.css), drawn as a band rising into the page. */}

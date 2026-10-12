@@ -756,6 +756,19 @@ body:has(.search-shell-root) .site-footer {
   animation: site-flap calc(0.8s * var(--motion-speed, 1)) cubic-bezier(0.45, 0, 0.2, 1)
     calc(0.3s * var(--motion-speed, 1)) both;
 }
+/* "Wait for a tap": everything holds until the guest taps (or the fallback). */
+.site-envelope[data-wait],
+.site-envelope[data-wait] .site-envelope-flap {
+  animation-play-state: paused;
+  cursor: pointer;
+}
+.site-envelope-hint {
+  animation: site-hint 1.8s ease-in-out infinite alternate;
+}
+@keyframes site-hint {
+  from { opacity: 0.45; }
+  to { opacity: 1; }
+}
 
 /* Extras. */
 /* What falls (site-motion.tsx's Falling). Each piece carries its own

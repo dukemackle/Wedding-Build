@@ -16,8 +16,11 @@ import {
   HERO_LAYOUTS,
   HERO_PHOTO,
   HEX,
+  ENVELOPE,
+  ENVELOPE_LINERS,
   MONOGRAM,
   MONOGRAM_DATES,
+  SEALS,
   MOTION_PRESETS,
   NO_BACKGROUND,
   ORNAMENT_IDS,
@@ -27,6 +30,7 @@ import {
   THEME_IDS,
   hasTextStyle,
   type BgDivider,
+  type SealId,
   type BgPattern,
   type BgTexture,
   type BlockKey,
@@ -180,6 +184,14 @@ export const siteDesignSchema = z.object({
       date: z.enum(MONOGRAM_DATES.map((d) => d.id) as ["none", "year", "full"]).catch("none"),
     })
     .catch(MONOGRAM),
+  /** The envelope opening's seal, liner and whether it waits for a tap. */
+  envelope: z
+    .object({
+      seal: z.enum(SEALS.map((x) => x.id) as [SealId, ...SealId[]]).catch("accent"),
+      liner: z.enum(ENVELOPE_LINERS).catch("none"),
+      tap: z.boolean().catch(false),
+    })
+    .catch(ENVELOPE),
   /** The template the look started from (site-templates.ts), shown as picked. */
   template: z.string().regex(/^[a-z-]{1,40}$/).nullable().catch(null),
 });
