@@ -1172,6 +1172,7 @@ export const DEFAULT_SITE_DESIGN: SiteDesign = {
   photoFrame: null,
   monogram: MONOGRAM,
   envelope: ENVELOPE,
+  notice: null,
   template: null,
 };
 

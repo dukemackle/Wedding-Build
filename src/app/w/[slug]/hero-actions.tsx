@@ -1,7 +1,17 @@
 "use client";
 
+import { createContext, useContext, type ReactNode } from "react";
 import type { PublicWedding } from "@/lib/supabase/types";
 import { downloadIcs } from "@/lib/ics";
+
+type Ceremony = { start_time: string | null; end_time: string | null } | null;
+
+const CeremonyContext = createContext<Ceremony>(null);
+
+/** The schedule's ceremony on the wedding day, so "Add to calendar" carries its time. */
+export function CeremonyProvider({ ceremony, children }: { ceremony: Ceremony; children: ReactNode }) {
+  return <CeremonyContext.Provider value={ceremony}>{children}</CeremonyContext.Provider>;
+}
 
 /**
  * The three things a guest opens the link to do, right under the names:
@@ -17,6 +27,7 @@ export function HeroActions({
   tone: "light" | "dark";
 }) {
   const names = [wedding.partner_a_name, wedding.partner_b_name].filter(Boolean).join(" & ");
+  const ceremony = useContext(CeremonyContext);
   const primary =
     tone === "light"
       ? "bg-white text-forest hover:bg-white/90"
@@ -41,8 +52,8 @@ export function HeroActions({
               wedding_id: wedding.id,
               user_id: "",
               event_date: wedding.wedding_date!,
-              start_time: null,
-              end_time: null,
+              start_time: ceremony?.start_time ?? null,
+              end_time: ceremony?.end_time ?? null,
               rsvp: false,
               invite_only: false,
               title: names ? `${names}'s wedding` : "Wedding",

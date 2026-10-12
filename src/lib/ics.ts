@@ -40,6 +40,10 @@ export function icsForEvent(event: ItineraryEvent): string {
   const lines = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//You Do I Do//EN", "BEGIN:VEVENT"];
   lines.push(`UID:${event.id}@wren`);
   lines.push(`DTSTAMP:${utcStamp()}`);
+  // Minutes since 1970: each download outranks the last, so a calendar that
+  // honours SEQUENCE replaces a saved entry (a moved date or time) instead of
+  // keeping the old one.
+  lines.push(`SEQUENCE:${Math.floor(Date.now() / 60000)}`);
 
   if (event.start_time) {
     lines.push(`DTSTART:${dateTimeStamp(event.event_date, event.start_time)}`);

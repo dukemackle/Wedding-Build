@@ -194,6 +194,8 @@ export const siteDesignSchema = z.object({
       tap: z.boolean().catch(false),
     })
     .catch(ENVELOPE),
+  /** A short announcement above the top of the page ("New date: 5 December, in Tucson"); null for none. */
+  notice: z.string().trim().max(160).nullable().catch(null).transform((t) => t || null),
   /** The template the look started from (site-templates.ts), shown as picked. */
   template: z.string().regex(/^[a-z-]{1,40}$/).nullable().catch(null),
 });

@@ -160,6 +160,25 @@ export function StyleTab({
 
       {children}
 
+      <div className="flex flex-col gap-2">
+        <label htmlFor="site-notice" className="text-[13px] font-medium text-ink">
+          Announcement
+        </label>
+        <input
+          id="site-notice"
+          type="text"
+          maxLength={160}
+          value={design.notice ?? ""}
+          onChange={(e) => onChange({ notice: e.target.value || null })}
+          placeholder="New date: Saturday 5 December, in Tucson"
+          className="h-11 rounded-xl border border-hairline bg-card px-3 text-[15px] text-ink placeholder:text-ink/45"
+        />
+        <p className="text-[13px] leading-normal text-ink/60">
+          A line across the very top of your site, for a changed date or venue or a last call for RSVPs. Leave it empty
+          for none.
+        </p>
+      </div>
+
       <div className="flex flex-col gap-3">
         <PickerHead label="Monogram" count={ORNAMENTS.length} open={allMonograms} onToggle={() => setAllMonograms((x) => !x)} />
         <div
