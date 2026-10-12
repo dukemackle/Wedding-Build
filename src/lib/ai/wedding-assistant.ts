@@ -2,6 +2,7 @@
 
 import "server-only";
 import Anthropic from "@anthropic-ai/sdk";
+import { assistantErrorMessage } from "@/lib/ai/errors";
 import { createClient } from "@/lib/supabase/server";
 import type {
   ChecklistItem,
@@ -345,14 +346,8 @@ export async function askWeddingAssistant(
 
     return { ok: true, reply: answer, proposals };
   } catch (error) {
-    if (error instanceof Anthropic.AuthenticationError) {
-      return { ok: false, error: "The assistant isn't configured yet (missing API key)." };
-    }
-    if (error instanceof Anthropic.RateLimitError) {
-      return { ok: false, error: "The assistant is busy right now -- try again in a moment." };
-    }
     console.error("Assistant request failed:", error);
-    return { ok: false, error: "Something went wrong reaching the assistant." };
+    return { ok: false, error: assistantErrorMessage(error) };
   }
 }
 
