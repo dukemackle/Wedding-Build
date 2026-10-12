@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { DEFAULT_SITE_DESIGN, PALETTES, type SiteDesign } from "@/lib/site-design";
 import { parseSiteDesign, siteDesignSchema } from "@/lib/site-design-schema";
-import { MAX_DESIGNS, parseWording, uniqueName, withWording, wordingOf } from "@/lib/site-designs";
+import { MAX_DESIGNS, STALE_DESIGN, parseWording, uniqueName, withWording, wordingOf } from "@/lib/site-designs";
 import { applyTemplate, templateById } from "@/lib/site-templates";
 import type { SiteDesignRow } from "@/lib/supabase/types";
 import { requireEditableWedding } from "@/lib/wedding-access";
@@ -29,28 +29,42 @@ function opened(row: SiteDesignRow, siteWording: unknown): SiteDesign {
   return row.shared_wording ? withWording(design, parseWording(siteWording)) : design;
 }
 
+type Stored = { error?: string; stale?: boolean; version?: string };
+
 /**
  * Saves one design and, when it shares its wording, the words for every
- * design that does.
+ * design that does. `version` is the updated_at the editor last saw: when
+ * the row has moved on since (two partners editing at once), nothing is
+ * written, so one device's stale copy can't overwrite the other's work.
  */
-async function store(access: Editable, id: string, design: SiteDesign): Promise<{ error?: string }> {
-  const { data, error } = await access.supabase
+async function store(access: Editable, id: string, design: SiteDesign, version: string | null): Promise<Stored> {
+  // The words as this design had them, so shared wording is only written
+  // when this save changed it -- not overwritten by a partner's unrelated save.
+  const before = await loadDesign(access, id);
+  let query = access.supabase
     .from("site_designs")
     .update({ design, updated_at: new Date().toISOString() })
     .eq("id", id)
-    .eq("wedding_id", access.wedding.id)
-    .select("shared_wording")
-    .maybeSingle<{ shared_wording: boolean }>();
+    .eq("wedding_id", access.wedding.id);
+  if (version) query = query.eq("updated_at", version);
+  const { data, error } = await query
+    .select("shared_wording, updated_at")
+    .maybeSingle<{ shared_wording: boolean; updated_at: string }>();
   if (error) return { error: error.message };
-  if (!data) return { error: "That design was deleted. Head back to Your designs." };
-  if (data.shared_wording) {
+  if (!data) {
+    if (before && version) return { error: STALE_DESIGN, stale: true };
+    return { error: "That design was deleted. Head back to Your designs." };
+  }
+  const wordsChanged =
+    !before || JSON.stringify(wordingOf(parseSiteDesign(before.design))) !== JSON.stringify(wordingOf(design));
+  if (data.shared_wording && wordsChanged) {
     const { error: wordingError } = await access.supabase
       .from("weddings")
       .update({ site_wording: wordingOf(design) })
       .eq("id", access.wedding.id);
-    if (wordingError) return { error: wordingError.message };
+    if (wordingError) return { error: wordingError.message, version: data.updated_at };
   }
-  return {};
+  return { version: data.updated_at };
 }
 
 function revalidate(slug: string | null) {
@@ -59,13 +73,13 @@ function revalidate(slug: string | null) {
 }
 
 /** Every change in the editor lands here. Guests see none of it until it's published. */
-export async function saveSiteDraft(designId: string, design: unknown): Promise<{ error?: string }> {
+export async function saveSiteDraft(designId: string, design: unknown, version: string | null): Promise<Stored> {
   const parsed = siteDesignSchema.safeParse(design);
   if (!parsed.success) return { error: "That design couldn't be saved." };
 
   const access = await requireEditableWedding();
   if (!access.wedding) return { error: access.noWedding };
-  return store(access as Editable, designId, parsed.data);
+  return store(access as Editable, designId, parsed.data, typeof version === "string" ? version : null);
 }
 
 /**
@@ -73,22 +87,23 @@ export async function saveSiteDraft(designId: string, design: unknown): Promise<
  * Takes the editor's current design rather than re-reading it, so a save
  * still in flight can't publish the design from one click earlier.
  */
-export async function publishSiteDesign(designId: string, design: unknown): Promise<{ error?: string }> {
+export async function publishSiteDesign(designId: string, design: unknown, version: string | null): Promise<Stored> {
   const parsed = siteDesignSchema.safeParse(design);
   if (!parsed.success) return { error: "That design couldn't be published." };
 
   const access = await requireEditableWedding();
   if (!access.wedding) return { error: access.noWedding };
-  const saved = await store(access as Editable, designId, parsed.data);
+  const saved = await store(access as Editable, designId, parsed.data, typeof version === "string" ? version : null);
   if (saved.error) return saved;
 
   const { error } = await access.supabase
     .from("weddings")
     .update({ site_design: parsed.data, live_design_id: designId })
     .eq("id", access.wedding.id);
-  if (error) return { error: error.message };
+  // The design did save, so the editor still needs its new version.
+  if (error) return { error: error.message, version: saved.version };
   revalidate(access.wedding.public_slug);
-  return {};
+  return { version: saved.version };
 }
 
 /** "Make this the live site" from Your designs. */

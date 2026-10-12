@@ -54,6 +54,7 @@ import { MakeItMore, TemplatesTab } from "./templates-tab";
 import { DescribeSite, WrenWrite } from "./wren-panels";
 import { BackgroundTab, FontsTab, PhotoColoursSection, TargetColourSection, type PickTarget } from "./look-panels";
 import { publishSiteDesign, saveSiteDraft } from "./actions";
+import { STALE_DESIGN } from "@/lib/site-designs";
 import { BirdCheer } from "@/components/bird-cheer";
 import { PublicSitePanel, SiteSwitch, useGuestSite } from "../public-site-panel";
 import { MotionTab, PageArtworkSection, PanelLabel, SceneSection, SectionsTab, StyleTab, type ChecklistItem, type SectionInfo } from "./editor-tabs";
@@ -123,6 +124,7 @@ export function SiteEditor({
   designName,
   isLive: initialLive,
   draft: initialDraft,
+  version,
   published: initialPublished,
   publicSlug: initialSlug,
   siteLocked,
@@ -141,6 +143,8 @@ export function SiteEditor({
   /** Whether guests see this design (weddings.live_design_id). */
   isLive: boolean;
   draft: SiteDesign;
+  /** The design row's updated_at when the page loaded, for spotting edits from another device. */
+  version: string;
   published: SiteDesign;
   publicSlug: string | null;
   siteLocked: boolean;
@@ -190,6 +194,11 @@ export function SiteEditor({
   // The latest design, for message and key handlers that outlive a render
   // and for changes that land faster than React re-renders.
   const designRef = useRef(design);
+  // The row's updated_at as this device last saw it: a save from a stale copy is refused.
+  const versionRef = useRef<string | null>(version);
+  const [stale, setStale] = useState(false);
+  // Saves run one after another, so each carries the version the last one returned.
+  const saveChain = useRef<Promise<void>>(Promise.resolve());
   // The words clicked in the preview, whose toolbar is showing.
   const [textSlot, setTextSlot] = useState<TextSlotId | null>(null);
   // Undo and redo: whole designs, newest last.
@@ -292,16 +301,27 @@ export function SiteEditor({
     setSaveState("saving");
     clearTimeout(saveTimer.current);
     // The colour picker fires on every drag step; one save per pause is plenty.
-    saveTimer.current = setTimeout(async () => {
-      const result = await saveSiteDraft(designId, next).catch(() => ({
-        error: "Couldn't save — check your connection.",
-      }));
-      if (result.error) {
-        setSaveState("error");
-        setError(result.error);
-      } else {
-        setSaveState("idle");
-      }
+    if (stale) {
+      setSaveState("error");
+      setError(STALE_DESIGN);
+      return;
+    }
+    saveTimer.current = setTimeout(() => {
+      saveChain.current = saveChain.current.then(async () => {
+        const result: { error?: string; stale?: boolean; version?: string } = await saveSiteDraft(
+          designId,
+          next,
+          versionRef.current,
+        ).catch(() => ({ error: "Couldn't save — check your connection." }));
+        if (result.version) versionRef.current = result.version;
+        if (result.stale) setStale(true);
+        if (result.error) {
+          setSaveState("error");
+          setError(result.error);
+        } else {
+          setSaveState("idle");
+        }
+      });
     }, 500);
   }
 
@@ -438,9 +458,14 @@ export function SiteEditor({
   function publish() {
     clearTimeout(saveTimer.current);
     startPublish(async () => {
-      const result = await publishSiteDesign(designId, design).catch(() => ({
-        error: "Couldn't publish — check your connection.",
-      }));
+      await saveChain.current;
+      const result: { error?: string; stale?: boolean; version?: string } = await publishSiteDesign(
+        designId,
+        design,
+        versionRef.current,
+      ).catch(() => ({ error: "Couldn't publish — check your connection." }));
+      if (result.version) versionRef.current = result.version;
+      if (result.stale) setStale(true);
       if (result.error) {
         setError(result.error);
       } else {
@@ -900,6 +925,14 @@ export function SiteEditor({
     <>
     {/* The theme cards and font samples are drawn in the real faces. */}
     <link rel="stylesheet" href={ALL_FONTS_HREF} precedence="default" />
+    {stale && (
+      <div role="alert" className="fixed inset-x-3 top-3 z-[60] mx-auto flex max-w-xl items-center gap-3 rounded-xl bg-[#14203d] px-4 py-3 text-sm text-white shadow-lg">
+        <span className="flex-1">{STALE_DESIGN}</span>
+        <button type="button" onClick={() => window.location.reload()} className="h-9 shrink-0 rounded-lg bg-[#FFD301] px-3 font-semibold text-[#14203d]">
+          Reload
+        </button>
+      </div>
+    )}
     <div
       ref={rootRef}
       // Breaks out of the page's side and bottom padding: the preview reaches

@@ -7,7 +7,7 @@ import { ChevronDownIcon } from "@/components/icons";
 import type { SiteBlock } from "@/lib/supabase/types";
 import { SiteOrnament } from "@/components/site-ornament";
 import { Shape } from "@/components/site-motion";
-import { downloadMonogram } from "@/lib/monogram-download";
+import { MonogramFontError, downloadMonogram } from "@/lib/monogram-download";
 import { PHOTO_FRAMES } from "@/lib/site-canvas";
 import { FrameIcon } from "./photo-motion-panels";
 import {
@@ -34,6 +34,10 @@ import {
   monogramDate,
   MONOGRAM_DATES,
   MONOGRAM_FONTS,
+  ENVELOPE_LINERS,
+  NO_BACKGROUND,
+  SEALS,
+  backgroundLayers,
   WORD_ORNAMENTS,
   type HeroLayoutId,
   blockIdOf,
@@ -1095,6 +1099,7 @@ export function MotionTab({
             </button>
           );
         })}
+        {motion.opening === "envelope" && <EnvelopeOptions design={design} onChange={onChange} />}
       </div>
 
       <div className="flex flex-col gap-2.5">
@@ -1249,19 +1254,19 @@ function MonogramLetters({
   // The frame drawn large off-screen, for the download to copy.
   const drawn = useRef<HTMLDivElement>(null);
   const [saving, setSaving] = useState<"png" | "svg" | null>(null);
-  const [failed, setFailed] = useState(false);
-  const canDownload = design.ornament !== "rule";
+  const [failed, setFailed] = useState<"font" | "other" | null>(null);
+  const canDownload = design.ornament !== "rule" && Boolean(a || b);
 
   async function save(format: "png" | "svg") {
     const svg = drawn.current?.querySelector("svg");
     if (!svg) return;
     setSaving(format);
-    setFailed(false);
+    setFailed(null);
     try {
       const name = `monogram-${[a, b].filter(Boolean).join("").toLowerCase() || "ours"}`;
       await downloadMonogram(svg, { accent, onAccent, bg: theme.bg, face }, { format, name, date });
-    } catch {
-      setFailed(true);
+    } catch (e) {
+      setFailed(e instanceof MonogramFontError ? "font" : "other");
     } finally {
       setSaving(null);
     }
@@ -1333,8 +1338,10 @@ function MonogramLetters({
             ))}
           </div>
           <p className="-mt-1 text-[13px] leading-normal text-ink/60">
-            {failed
-              ? "That didn't save. Try again in a moment."
+            {failed === "font"
+              ? "Couldn't fetch your monogram's font, so nothing was saved. Check your connection and try again."
+              : failed
+                ? "That didn't save. Try again, or try the other format."
               : "Your monogram in your colours, for invitations, signs, napkins or the cake. PNG for printers; SVG stays sharp at any size."}
           </p>
           <div
@@ -1347,6 +1354,78 @@ function MonogramLetters({
           </div>
         </>
       )}
+      {!canDownload && (
+        <p className="text-[13px] leading-normal text-ink/60">
+          {a || b
+            ? "Pick a framed monogram above (any but Simple) to download it for invitations and signs."
+            : "Add your names in your wedding details to download your monogram."}
+        </p>
+      )}
+    </div>
+  );
+}
+
+/** The envelope opening's seal colour, flap lining and tap-to-open (site-motion.tsx, Envelope). */
+function EnvelopeOptions({ design, onChange }: { design: SiteDesign; onChange: Change }) {
+  const { theme, accent, accent2 } = resolveDesign(design);
+  const env = design.envelope;
+  const set = (patch: Partial<SiteDesign["envelope"]>) => onChange({ envelope: { ...env, ...patch } });
+  const vars = { "--site-accent": accent, "--site-accent-2": accent2, "--color-ink": theme.ink } as CSSProperties;
+  return (
+    <div className="flex flex-col gap-3 rounded-xl border border-hairline bg-parchment p-3">
+      <span className="text-[13px] font-medium text-ink">Wax seal</span>
+      <div role="group" aria-label="Wax seal colour" className="flex flex-wrap gap-2">
+        {SEALS.map((x) => (
+          <button
+            key={x.id}
+            type="button"
+            title={x.label}
+            aria-label={`${x.label} seal`}
+            aria-pressed={env.seal === x.id}
+            onClick={() => set({ seal: x.id })}
+            className={`h-9 w-9 rounded-full ${env.seal === x.id ? "ring-2 ring-forest ring-offset-2" : "border border-black/10"}`}
+            style={{ background: x.hex ?? accent }}
+          />
+        ))}
+      </div>
+      <span className="text-[13px] font-medium text-ink">Lining</span>
+      <div role="group" aria-label="Envelope lining" className="grid grid-cols-4 gap-2">
+        {ENVELOPE_LINERS.map((id) => {
+          const layers = backgroundLayers({ ...NO_BACKGROUND, pattern: id });
+          return (
+            <button
+              key={id}
+              type="button"
+              aria-pressed={env.liner === id}
+              onClick={() => set({ liner: id })}
+              className="flex flex-col items-center gap-1 text-[11px] capitalize text-ink/70"
+            >
+              <span
+                className={`block aspect-square w-full rounded-lg ${env.liner === id ? SELECTED : UNSELECTED}`}
+                style={{
+                  ...vars,
+                  backgroundColor: `color-mix(in srgb, ${accent} 14%, ${theme.surface})`,
+                  backgroundImage: layers.image,
+                  backgroundSize: layers.size,
+                }}
+              />
+              {id === "none" ? "Plain" : id}
+            </button>
+          );
+        })}
+      </div>
+      <label className="flex items-center gap-2.5 text-[14px] text-ink">
+        <input
+          type="checkbox"
+          checked={env.tap}
+          onChange={(e) => set({ tap: e.target.checked })}
+          className="h-5 w-5 accent-[#2243B6]"
+        />
+        Wait for a tap to open
+      </label>
+      <p className="-mt-1.5 text-[12px] leading-normal text-ink/60">
+        Guests break the seal themselves. It opens on its own after a few seconds if they don&apos;t.
+      </p>
     </div>
   );
 }

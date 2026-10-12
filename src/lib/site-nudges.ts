@@ -1,9 +1,10 @@
-import { MOTION_PRESETS, type FontPairingId, type SiteDesign } from "./site-design";
+import type { FontPairingId, SiteDesign } from "./site-design";
 
 /**
  * "Make it more…" (Templates tab): one tap moves the current look in a
- * direction -- fonts, monogram, background and motion -- and keeps the
- * couple's colours, words, photos and layouts. Rules, not Wren, so it's
+ * direction -- fonts, monogram frame, background and what falls -- and keeps
+ * the couple's colours, words, photos, layouts and the rest of their motion
+ * (envelope, countdown, RSVP burst). Rules, not Wren, so it's
  * instant, free and as many taps as they like; undo puts it back. Tapping
  * the same direction again steps to its next variant.
  */
@@ -11,14 +12,15 @@ import { MOTION_PRESETS, type FontPairingId, type SiteDesign } from "./site-desi
 type Variant = Partial<Pick<SiteDesign, "ornament" | "pageStyle" | "hero">> & {
   fonts: FontPairingId;
   background?: Partial<SiteDesign["background"]>;
-  motion?: Partial<SiteDesign["motion"]>;
+  /** Only what falls and the shimmer: the rest of their motion is theirs. */
+  motion?: Partial<Pick<SiteDesign["motion"], "falling" | "shimmer">>;
   /** Takes the artwork off. */
   noArt?: boolean;
   /** Takes the scene off the top. */
   noScene?: boolean;
 };
 
-const CALM = { ...MOTION_PRESETS.subtle, falling: "none" as const };
+const CALM = { falling: "none", shimmer: false } as const;
 
 export const NUDGES = [
   {
@@ -43,25 +45,25 @@ export const NUDGES = [
     id: "playful",
     label: "Playful",
     variants: [
-      { fonts: "lp", ornament: "ring", background: { pattern: "dots", scope: "top" }, motion: { ...MOTION_PRESETS.lively, falling: "confetti" } },
-      { fonts: "pn", ornament: "diamond", background: { pattern: "gingham", scope: "top" }, motion: { ...MOTION_PRESETS.lively, falling: "hearts" } },
-      { fonts: "co", ornament: "star", background: { pattern: "sunburst", scope: "top" }, motion: { ...MOTION_PRESETS.lively, falling: "bubbles" } },
+      { fonts: "lp", ornament: "ring", background: { pattern: "dots", scope: "top" }, motion: { falling: "confetti", shimmer: true } },
+      { fonts: "pn", ornament: "diamond", background: { pattern: "gingham", scope: "top" }, motion: { falling: "hearts", shimmer: true } },
+      { fonts: "co", ornament: "star", background: { pattern: "sunburst", scope: "top" }, motion: { falling: "bubbles", shimmer: true } },
     ],
   },
   {
     id: "minimal",
     label: "Minimal",
     variants: [
-      { fonts: "dk", ornament: "rule", hero: "text", noArt: true, noScene: true, background: { pattern: "none", texture: "none", divider: "none" }, motion: { ...CALM, photo: "still" } },
-      { fonts: "go", ornament: "none", hero: "text", noArt: true, noScene: true, background: { pattern: "none", texture: "none", divider: "none" }, motion: MOTION_PRESETS.none },
+      { fonts: "dk", ornament: "rule", hero: "text", noArt: true, noScene: true, background: { pattern: "none", texture: "none", divider: "none" }, motion: CALM },
+      { fonts: "go", ornament: "rule", hero: "text", noArt: true, noScene: true, background: { pattern: "none", texture: "none", divider: "none" }, motion: CALM },
     ],
   },
   {
     id: "bold",
     label: "Bold",
     variants: [
-      { fonts: "bz", hero: "poster", ornament: "none", noArt: true, background: { pattern: "none" } },
-      { fonts: "go", hero: "poster", ornament: "none", noArt: true, background: { pattern: "pinstripe", scope: "top" } },
+      { fonts: "bz", hero: "poster", noArt: true, background: { pattern: "none" } },
+      { fonts: "go", hero: "poster", noArt: true, background: { pattern: "pinstripe", scope: "top" } },
       { fonts: "cb", hero: "card", ornament: "chandelier", background: { pattern: "deco", scope: "top" } },
     ],
   },
