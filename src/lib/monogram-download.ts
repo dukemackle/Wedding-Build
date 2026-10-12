@@ -22,6 +22,9 @@ const toDataUrl = (blob: Blob) =>
     reader.readAsDataURL(blob);
   });
 
+/** The monogram's font couldn't be fetched, so nothing was saved. */
+export class MonogramFontError extends Error {}
+
 /**
  * The face's @font-face rules for these letters only, fonts inlined. Throws
  * when they can't be fetched: a file in a stand-in serif is worse than none.
@@ -29,15 +32,23 @@ const toDataUrl = (blob: Blob) =>
 async function embeddedFont(face: string, letters: string) {
   const google = fontByCss(face)?.google;
   if (!google) return "";
+  try {
+    return await fetchFont(google, letters);
+  } catch (e) {
+    throw e instanceof MonogramFontError ? e : new MonogramFontError(String(e));
+  }
+}
+
+async function fetchFont(google: string, letters: string) {
   const css = await fetch(`https://fonts.googleapis.com/css2?family=${google}&text=${encodeURIComponent(letters)}`).then(
-    (r) => (r.ok ? r.text() : Promise.reject(new Error("font css"))),
+    (r) => (r.ok ? r.text() : Promise.reject(new MonogramFontError("font css"))),
   );
   const urls = [...new Set([...css.matchAll(/url\((https:[^)]+)\)/g)].map((m) => m[1]))];
-  if (!urls.length) throw new Error("no font files");
+  if (!urls.length) throw new MonogramFontError("no font files");
   let inlined = css;
   for (const url of urls) {
     const data = await fetch(url)
-      .then((r) => (r.ok ? r.blob() : Promise.reject(new Error("font file"))))
+      .then((r) => (r.ok ? r.blob() : Promise.reject(new MonogramFontError("font file"))))
       .then(toDataUrl);
     inlined = inlined.split(url).join(data);
   }

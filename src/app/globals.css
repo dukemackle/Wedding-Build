@@ -756,11 +756,28 @@ body:has(.search-shell-root) .site-footer {
   animation: site-flap calc(0.8s * var(--motion-speed, 1)) cubic-bezier(0.45, 0, 0.2, 1)
     calc(0.3s * var(--motion-speed, 1)) both;
 }
-/* "Wait for a tap": everything holds until the guest taps (or the fallback). */
-.site-envelope[data-wait],
-.site-envelope[data-wait] .site-envelope-flap {
-  animation-play-state: paused;
+/* "Wait for a tap": the same opening, ten seconds later, until the guest taps.
+   Its own names, so a tap (dropping data-wait) starts the usual timing afresh. */
+.site-envelope[data-wait] {
   cursor: pointer;
+  animation: site-overlay-wait calc(0.6s * var(--motion-speed, 1)) ease 11s both;
+}
+.site-envelope[data-wait] .site-envelope-flap {
+  animation: site-flap-wait calc(0.8s * var(--motion-speed, 1)) cubic-bezier(0.45, 0, 0.2, 1) 10s both;
+}
+@keyframes site-overlay-wait {
+  from { opacity: 1; visibility: visible; }
+  to { opacity: 0; visibility: hidden; }
+}
+@keyframes site-flap-wait {
+  from { transform: rotateX(0deg); }
+  to { transform: rotateX(180deg); }
+}
+/* Drawn on the server before the script knows the guest's setting. */
+@media (prefers-reduced-motion: reduce) {
+  .site-envelope {
+    display: none;
+  }
 }
 .site-envelope-hint {
   animation: site-hint 1.8s ease-in-out infinite alternate;

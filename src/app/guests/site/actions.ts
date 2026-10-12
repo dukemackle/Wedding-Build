@@ -38,6 +38,9 @@ type Stored = { error?: string; stale?: boolean; version?: string };
  * written, so one device's stale copy can't overwrite the other's work.
  */
 async function store(access: Editable, id: string, design: SiteDesign, version: string | null): Promise<Stored> {
+  // The words as this design had them, so shared wording is only written
+  // when this save changed it -- not overwritten by a partner's unrelated save.
+  const before = await loadDesign(access, id);
   let query = access.supabase
     .from("site_designs")
     .update({ design, updated_at: new Date().toISOString() })
@@ -49,11 +52,12 @@ async function store(access: Editable, id: string, design: SiteDesign, version: 
     .maybeSingle<{ shared_wording: boolean; updated_at: string }>();
   if (error) return { error: error.message };
   if (!data) {
-    const still = await loadDesign(access, id);
-    if (still && version) return { error: STALE_DESIGN, stale: true };
+    if (before && version) return { error: STALE_DESIGN, stale: true };
     return { error: "That design was deleted. Head back to Your designs." };
   }
-  if (data.shared_wording) {
+  const wordsChanged =
+    !before || JSON.stringify(wordingOf(parseSiteDesign(before.design))) !== JSON.stringify(wordingOf(design));
+  if (data.shared_wording && wordsChanged) {
     const { error: wordingError } = await access.supabase
       .from("weddings")
       .update({ site_wording: wordingOf(design) })
@@ -96,7 +100,8 @@ export async function publishSiteDesign(designId: string, design: unknown, versi
     .from("weddings")
     .update({ site_design: parsed.data, live_design_id: designId })
     .eq("id", access.wedding.id);
-  if (error) return { error: error.message };
+  // The design did save, so the editor still needs its new version.
+  if (error) return { error: error.message, version: saved.version };
   revalidate(access.wedding.public_slug);
   return { version: saved.version };
 }

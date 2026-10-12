@@ -7,7 +7,7 @@ import { ChevronDownIcon } from "@/components/icons";
 import type { SiteBlock } from "@/lib/supabase/types";
 import { SiteOrnament } from "@/components/site-ornament";
 import { Shape } from "@/components/site-motion";
-import { downloadMonogram } from "@/lib/monogram-download";
+import { MonogramFontError, downloadMonogram } from "@/lib/monogram-download";
 import {
   ART_HEROES,
   ART_PLACEMENTS,
@@ -1227,19 +1227,19 @@ function MonogramLetters({
   // The frame drawn large off-screen, for the download to copy.
   const drawn = useRef<HTMLDivElement>(null);
   const [saving, setSaving] = useState<"png" | "svg" | null>(null);
-  const [failed, setFailed] = useState(false);
+  const [failed, setFailed] = useState<"font" | "other" | null>(null);
   const canDownload = design.ornament !== "rule" && Boolean(a || b);
 
   async function save(format: "png" | "svg") {
     const svg = drawn.current?.querySelector("svg");
     if (!svg) return;
     setSaving(format);
-    setFailed(false);
+    setFailed(null);
     try {
       const name = `monogram-${[a, b].filter(Boolean).join("").toLowerCase() || "ours"}`;
       await downloadMonogram(svg, { accent, onAccent, bg: theme.bg, face }, { format, name, date });
-    } catch {
-      setFailed(true);
+    } catch (e) {
+      setFailed(e instanceof MonogramFontError ? "font" : "other");
     } finally {
       setSaving(null);
     }
@@ -1311,8 +1311,10 @@ function MonogramLetters({
             ))}
           </div>
           <p className="-mt-1 text-[13px] leading-normal text-ink/60">
-            {failed
+            {failed === "font"
               ? "Couldn't fetch your monogram's font, so nothing was saved. Check your connection and try again."
+              : failed
+                ? "That didn't save. Try again, or try the other format."
               : "Your monogram in your colours, for invitations, signs, napkins or the cake. PNG for printers; SVG stays sharp at any size."}
           </p>
           <div

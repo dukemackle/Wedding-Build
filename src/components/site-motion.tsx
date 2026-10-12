@@ -89,7 +89,9 @@ const SEAL_EDGE = Array.from({ length: 24 }, (_, i) => {
 /**
  * The envelope opening: a lined envelope sealed in wax with the couple's
  * initials (Motion › When the page opens). It opens by itself, or waits for
- * a tap -- with a fallback so no guest is ever stuck behind it.
+ * a tap -- and opens anyway after ten seconds, in CSS alone (globals.css), so
+ * a slow phone that hasn't loaded the page's script yet never leaves a guest
+ * stuck behind it.
  */
 function Envelope({ initials }: { initials: string }) {
   const { envelope } = useSiteDesign();
@@ -97,12 +99,6 @@ function Envelope({ initials }: { initials: string }) {
   // Removed once it has faded, so it never sits invisibly over the page.
   const [done, setDone] = useState(false);
   const [open, setOpen] = useState(!envelope.tap);
-  // A tap-to-open envelope still opens by itself after a while, so no guest is stuck.
-  useEffect(() => {
-    if (!envelope.tap) return;
-    const t = setTimeout(() => setOpen(true), 9000);
-    return () => clearTimeout(t);
-  }, [envelope.tap]);
   if (done) return null;
   const wax = SEALS.find((x) => x.id === envelope.seal)?.hex ?? resolved.accent;
   const liner = backgroundLayers({ ...NO_BACKGROUND, pattern: envelope.liner });
@@ -119,7 +115,11 @@ function Envelope({ initials }: { initials: string }) {
       role={open ? undefined : "button"}
       aria-label={open ? undefined : "Open the invitation"}
       tabIndex={open ? undefined : 0}
-      onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && setOpen(true)}
+      onKeyDown={(e) => {
+        if (e.key !== "Enter" && e.key !== " ") return;
+        e.preventDefault();
+        setOpen(true);
+      }}
     >
       <div
         className="relative aspect-[1.55] w-[min(86vw,580px)] rounded-[3px] bg-card shadow-[0_18px_40px_rgb(0_0_0_/_0.16)]"
