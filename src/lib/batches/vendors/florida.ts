@@ -287,6 +287,385 @@ Pensacola Cakes	Cake		Pensacola	Florida	Pensacola	Custom cake bakery making wedd
 J's Bakery and Catering	Cake	2014 N 12th Avenue	Pensacola	Florida	Pensacola	East Hill bakery open since 1946, making custom wedding cakes and offering wedding catering.	hellojsbakery@gmail.com	(850) 439-6546	https://jsbakeryandcatering.com/	https://www.instagram.com/jsbakeryandcafe/
 Written in Film	Videography		Pensacola	Florida	Pensacola, Destin, 30A, Florida Panhandle	Wedding videographers making audio-driven films of ceremonies and receptions along the Emerald Coast.			https://writteninfilmweddings.com/	https://www.instagram.com/writteninfilm/`,
   },
+  {
+    name: "Tallahassee: photography, planning, florals, music, catering, hair and makeup, cake and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Black & Hue Photography	Photography		Tallahassee	Florida	Tallahassee and across Florida, with weddings and elopements elsewhere in the US and abroad	Husband-and-wife team in Tallahassee photographing weddings and elopements for couples who want something less traditional.		850-443-4796	https://www.blackandhuephotography.com/	https://www.instagram.com/blackandhuephotography/
+Courtney Wahl Photography	Photography		Tallahassee	Florida	Tallahassee, Wakulla and North Florida	Tallahassee photographer shooting weddings and engagements since 2011, with wedding galleries and couple reviews on her site.	courtneywahlphoto@gmail.com	813-731-4099	https://www.courtneywahl.com/	https://www.instagram.com/cwahlphoto/
+Long's Photography	Photography	702 W Tharpe St	Tallahassee	Florida	Tallahassee	Studio-based Tallahassee photographers who cover around a dozen weddings a year alongside portrait and family sessions.	Linda@LongsPhotography.com	850-339-5799	https://www.longsphotography.com/	https://www.instagram.com/longsphotography/
+Sweet Tea Tallahassee	Planning	250 East 6th Ave	Tallahassee	Florida	North Florida and South Georgia	Tallahassee planning studio offering wedding packages from day-of support through to full planning for North Florida couples.		850-228-0521	https://www.sweetteatallahassee.com/	https://www.instagram.com/sweetteatallahassee/
+Love Times Infinity Events	Planning		Tallahassee	Florida	Tallahassee and throughout Georgia	Tallahassee planner offering full-service, partial and day-of wedding planning for couples in North Florida and Georgia.	Lovetimesinfinityevents@gmail.com	850-339-1643	https://www.lovetimesinfinityevents.com/	https://www.instagram.com/lovetimesinfinityevents/
+Missy Gunnels Flowers	Florals		Tallahassee	Florida	Tallahassee and the Gulf Coast, including Thomasville, Apalachicola and Destin	Tallahassee florist creating wedding flowers since 1985, with galleries of bouquets and ceremony and reception designs.			https://www.missygunnelsflowers.com/	https://www.instagram.com/missygunnels/
+Stem Social Florals	Florals		Tallahassee	Florida	Tallahassee	Tallahassee florist designing flowers for weddings and events, with a dedicated wedding page and enquiry form.	hello@stemsocialflorals.com	850-320-7404	https://www.stemsocialflorals.com/	https://www.instagram.com/stemsocialflorals/
+Tallahassee Nurseries	Florals	2911 Thomasville Rd	Tallahassee	Florida	North Florida	Garden centre in Tallahassee that also offers wedding floral design, from the first consultation through to installation.	theexperts@tallahasseenurseries.com	850-385-2162	https://tallahasseenurseries.com/floral-arrangements-tallahassee/	https://www.instagram.com/tallahasseenurseries/
+Fire Entertainment	Music		Tallahassee	Florida	Tallahassee, Panama City Beach, Destin, 30A, North Florida and Atlanta	Wedding DJ and MC company serving Tallahassee and the Panhandle coast, with ceremony sound and reception lighting on offer.	info@fireentertainmentdjs.com	850-270-8739	https://www.fireentertainmentdjs.com/	
+Black Fig Catering	Catering	1400 Village Square Blvd #7	Tallahassee	Florida		Tallahassee caterer providing wedding dinners and events, served buffet-style or plated at a venue or the couple's home.	info@blackfig.net	850-727-0016	https://blackfig.net/catering-fullservice/	
+Social Catering & Events	Catering		Tallahassee	Florida	Tallahassee and the Greater Panhandle	Off-site caterer and venue manager in Tallahassee handling weddings, bridal showers and other celebrations across the Panhandle.			https://socialcateringandevents.com/	
+Catering Capers	Catering	2915 E Park Ave Unit 4	Tallahassee	Florida	Tallahassee	Tallahassee caterer with a dedicated weddings page, offering plated meals, hors d'oeuvres, bartending and rentals.		850-385-5953	https://www.thecateringcapers.com/	
+Image By Lisa	Hair & Makeup	1419 Market Street	Tallahassee	Florida	Tallahassee	Tallahassee makeup studio taking bridal bookings, with enquiries handled by text or the contact page.	imagebylisa@yahoo.com	850-518-6061	https://www.imagebylisa.com/	https://www.instagram.com/imagebylisaboutique/
+Haus of Beauty	Hair & Makeup		Tallahassee	Florida	Tallahassee, with on-site bridal party makeup for a travel fee	Tallahassee makeup studio offering bridal makeup, bridal trials and on-site makeup for bridal parties of five or more.			https://hausofbeautytallahassee.com/	https://www.instagram.com/hausofbeautytallahassee/
+Ambiance Salon	Hair & Makeup	2207 Apalachee Parkway	Tallahassee	Florida	Tallahassee	Tallahassee hair salon offering bridal hair trials, updos, soft waves and half-up styles for the wedding day.	ambiancesalontlh@gmail.com	850-942-0008	https://ambiancesalons1.com/	
+Belle's Bakery	Cake	281 Potter Woodberry Road	Havana	Florida	Havana, Tallahassee and Bainbridge	Havana baker making custom wedding cakes and desserts since 2019, based at the Woodberry wedding venue.	woodberryfarm281@gmail.com	662-689-6252	https://www.woodberryhavana.com/bellesbakery	https://www.instagram.com/bellesbakery281/
+Jazi Kreations	Cake		Tallahassee	Florida	Tallahassee, Quincy, Crawfordville and Thomasville, Georgia	Tallahassee custom cake studio with a dedicated wedding cake page, taking consultations by direct message.	jazikreations@gmail.com	850-296-2488	https://www.jazikreations.com/	https://www.instagram.com/jazikreations/
+Artistic Confections	Cake	3710 Austin Davis Ave Unit 140	Tallahassee	Florida	Tallahassee and surrounding areas	Tallahassee cake shop making custom wedding cakes since 2011, with consultations and delivery within and beyond the city.		850-577-3000	https://tallahasseecakes.com/	https://www.instagram.com/artisticconfections/
+VASANTA Studios	Videography		Tallahassee	Florida	Tallahassee, the Panhandle, 30A, Tampa and Jacksonville	Tallahassee and Tampa studio making wedding films and photography across the Florida Panhandle and beyond.	hello@vasantastudios.com	850-980-0238	https://vasantastudios.com/	https://www.instagram.com/vasantaweddingfilms/
+Tally Entertainment	Videography		Tallahassee	Florida	Tallahassee	Tallahassee production company filming and photographing weddings, with a free 45-minute consultation on offer.			https://www.tallyentertainment.com/floridaweddings	https://www.instagram.com/tallyentertainment/`,
+  },
+  {
+    name: "Gainesville: photography, planning, florals, music, catering, hair and makeup, cake and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Sofia Brotherton Photography	Photography		Gainesville	Florida	Gainesville and North Florida	Gainesville photographer covering weddings, elopements and engagement sessions across North Florida.	sbrothertonphotography@gmail.com		https://www.sofiabrothertonphotography.com/	https://www.instagram.com/portraiturebysofia/
+Chris Watkins Photography	Photography		Gainesville	Florida	Jacksonville, St. Augustine, Ocala, Orlando and destination weddings	Gainesville photographer shooting documentary-style weddings with partial-day and full-day coverage and two photographers.			https://www.chriswatkinsphoto.com/wedding/	
+Created by Caitlynne	Photography		Gainesville	Florida	Gainesville, St. Augustine, Jacksonville, Valdosta and Tifton	Gainesville photographer shooting weddings and engagements in a natural-light style across Florida and Georgia.	createdbycaitlynne@gmail.com		https://createdbycaitlynne.com/	https://www.instagram.com/createdbycaitlynne/
+Marry Me Moments	Planning		Gainesville	Florida	Central Florida, North Florida and parts of South Georgia	Gainesville team offering wedding planning, day-of coordination and officiating, including elopements and small ceremonies.		352-665-7250	https://www.marrymemomentsfl.com/	https://www.instagram.com/marrymemomentsfl/
+MasterPiece Weddings and Events	Planning		Gainesville	Florida		Gainesville planning and coordination company run by Rachel Griffin, offering complimentary consultations to couples.	rachel@masterpieceweddings.net	352-317-3222	https://www.masterpieceweddings.net/	
+Always Eventful	Planning		Gainesville	Florida	Gainesville and surrounding North Central Florida	Gainesville company offering wedding planning, special event planning and photobooth hire.	info@alwayseventfulplanning.com	407-463-3554	https://www.alwayseventfulplanning.com/	https://www.instagram.com/alwayseventfulplanning/
+Sweet July Design	Florals		Gainesville	Florida	Gainesville, Alachua County and North Florida	Gainesville florist making modern, garden-style bouquets, ceremony installations and table flowers for weddings.	sweetjulydesign@gmail.com	925-993-8081	https://www.sweetjulydesign.com/	https://www.instagram.com/sweetjulydesign/
+Iron and Clay Flowers	Florals		Gainesville	Florida	Gainesville and destination weddings across Florida	Gainesville wedding florist with a portfolio and enquiry page, also travelling to weddings elsewhere in Florida.	ironandclayflowers@gmail.com		https://ironandclayflowers.com/	https://www.instagram.com/ironandclayflowers/
+The Plant Shoppe Florist	Florals	303 NW 8th Avenue	Gainesville	Florida	Gainesville	Gainesville flower shop offering wedding consultations, bouquets and ceremony flowers alongside same-day delivery.	theplantshoppe@aol.com	352-371-6249	https://theplantshoppe.com/	https://www.instagram.com/theplantshoppeflorist/
+Bearded Brothers Events	Music		Gainesville	Florida	Florida	DJ company offering wedding DJ services, mobile bartending and photo booths, and working with the Oak Lane venue in Alachua.		352-745-0724	https://beardedbrothersevents.com/	https://www.instagram.com/beardedbrothersevents/
+David's BBQ & Catering	Catering	5121 NW 39th Ave	Gainesville	Florida	North Central Florida, including Alachua County	Gainesville caterer handling wedding food, bar, decor, setup and cleanup from one kitchen, with tastings on request.		352-373-2002	https://davidsbbq.com/gainesville-weddings/	https://www.instagram.com/davidsbbq/
+Fat G's BBQ & Catering	Catering		Gainesville	Florida	Gainesville	Gainesville barbecue caterer with a wedding catering page, adjustable menus and tastings before the day.	fatgsbbq@gmail.com	352-895-1554	https://fatgsbbqcatering.com/wedding-catering/	https://www.instagram.com/fatgsbbq/
+Kairos Events and Catering	Catering	6 W. University Ave	Gainesville	Florida	Gainesville	Downtown Gainesville wedding venue that also provides full-service catering and bartending with customised menus.	info@kairoseventsandcatering.com	352-776-8706	https://eventsbykairos.com/	https://www.instagram.com/kairoseventsgnv_/
+Stefanie Humphrey Makeup Artistry	Hair & Makeup	7328 W University Ave Ste. A	Gainesville	Florida	Gainesville, with on-location service	Gainesville wedding makeup artist offering bridal glam sessions, trials and group bookings for bridesmaids.	stefaniehumphrey@usa.com	352-328-0077	https://stefaniehumphrey.com/	https://www.instagram.com/stefaniehumphrey/
+Moxie To Go	Hair & Makeup		Gainesville	Florida	North Central Florida	Gainesville salon team providing on-location hair and makeup for weddings, events and photoshoots.	beyou@moxietogo.com	833-669-4363	https://moxietogo.com/	https://www.instagram.com/moxietogo/
+Just Celebrate	Cake		Gainesville	Florida	Gainesville	Gainesville custom cake studio baking wedding tiers and celebration cakes from scratch, delivered by its own driver.			https://www.justcelebratefl.com/	https://www.instagram.com/justcelebrate.fl/
+TrueWalk Productions	Videography		Gainesville	Florida	Gainesville	Single-operator Gainesville videographer offering ceremony-only and full-day wedding packages with delivery in two to three weeks.			https://www.gainesvilleweddingvideo.com/	
+Weddings by Photohead	Videography		Gainesville	Florida	Gainesville, North Central and Central Florida	Gainesville team making cinematic wedding highlight films alongside photography, travelling to Ocala, Jacksonville, Tampa and Orlando.			https://www.weddingsbyphotohead.com/	https://www.instagram.com/photoheadphotography/`,
+  },
+  {
+    name: "Orlando: florals, music, catering and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Love & Lustre Weddings	Videography		Orlando	Florida	Orlando, Central Florida and destination weddings	Orlando studio making cinematic highlight films and documentary-style wedding films, with photography and social content offered as add-ons.	hello@loveandlustreweddings.com	(407) 279-0633	https://www.loveandlustreweddings.com/	https://www.instagram.com/loveandlustreweddings/
+Chiola Films	Videography		Orlando	Florida	Orlando, Central Florida and destination weddings	Orlando videographer making cinematic wedding films plus social-ready clips, with a camcorder left with the wedding party in each package.	robchiola@gmail.com		https://chiolafilms.com/	https://www.instagram.com/robchiola/
+Far Reach Studios	Videography		Orlando	Florida	Orlando, Central Florida, across the US and destinations worldwide	Solo Orlando filmmaker shooting cinematic, documentary and editorial wedding films for local and destination couples.	info@farreachstudios.com	(786) 853-3037	https://www.farreachstudios.com/	https://www.instagram.com/farreachstudios/
+Bluegrass Chic Floral	Florals		Orlando	Florida	Orlando and Central Florida	Orlando wedding florist designing bouquets, ceremony and reception flowers, with rentals available for weddings and larger events.	info@bluegrasschic.com		https://bluegrasschic.com/	https://www.instagram.com/bluegrasschicfloral/
+Atmospheres Floral and Decor	Florals		Orlando	Florida	Orlando and Central Florida	Orlando floral and decor studio doing bouquets, ceremony and reception design, wearable flowers and rentals, mostly by appointment.	info@atmospheresfloral.com	(321) 972-2976	https://www.atmospheresfloral.com/	https://www.instagram.com/atmospheresfloral/
+Our DJ Rocks	Music	380 Semoran Commerce Place, Suite 301	Apopka	Florida	Orlando and Central Florida	Female-owned Apopka DJ company providing wedding DJs and MCs, lighting, photo booths and audio-visual support.		407-509-9786	https://ourdjrocks.com/	https://www.instagram.com/ourdjrocks/
+iRock Your Party	Music		Ocoee	Florida	Orlando, Winter Garden, Ocoee, Windermere, Winter Park, Apopka, Kissimmee, Altamonte Springs	Wedding DJs and live musicians with lighting, LED dance floors and photo booths for Orlando and Orange County celebrations.	events@irock.us	(407) 929-8877	https://www.irockyourparty.com/	https://www.instagram.com/irock.us/
+Orlando DJ and Lighting	Music		Orlando	Florida	Orlando, Winter Park, Lake Mary and Central Florida	Wedding DJ and MC service that also supplies LED uplighting and pipe and drape, with published packages and pricing.		(321) 695-4072	https://orlandodjandlighting.com/	
+Cocktails Catering	Catering	9640 Boggy Creek Rd, Suite 5	Orlando	Florida	Orlando, Daytona, Tampa and Central Florida	Orlando caterer for weddings and social events, with online booking and a list of venues it works at regularly.	Info@CocktailsCatering.com	(407) 446-2878	https://www.cocktailscatering.com/	https://www.instagram.com/cocktails_catering/
+Big City Catering	Catering	9500 Satellite Blvd, Suite 210	Orlando	Florida	Orlando, Lake Mary and Central Florida	Orlando caterer building bespoke wedding menus and delivering service at many local venues, including Lake Mary Events Center.	tom@bigcitycatering.com	407.438.3488	https://bigcitycatering.com/	https://www.instagram.com/bigcitycatering/`,
+  },
+  {
+    name: "Tampa Bay: music, hair and makeup, cake and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Sound Ryte Mobile DJs	Music		Tampa	Florida	Tampa Bay and Central Florida	Tampa mobile DJ company supplying music, sound and lighting for weddings, with an emphasis on keeping to the day's timeline.	info@SoundRyteMobileDJs.com	(813) 370-0113	https://www.soundrytemobiledjs.com/	https://www.instagram.com/soundrytemobiledjs/
+Mabry String Quartet	Music		Tampa	Florida	Tampa Bay	Tampa string quartet playing ceremonies and receptions, with a library of over 700 pieces from classical to pop and film scores.		(813) 296-6468	https://www.mabryquartet.com/	
+Rhythm System Pro DJ	Music		Tampa	Florida	Tampa, Clearwater, St. Petersburg, Sarasota, Lakeland	Tampa DJ and MC service for formal and semi-formal weddings, with LED dance floors, a 360 video booth and equipment hire.			https://rhythmsystem.com/	https://www.instagram.com/rhythm_system_pro_dj/
+3L Beauty	Hair & Makeup		St. Petersburg	Florida	Tampa, Clearwater, St. Petersburg, Tampa Bay	On-location hair and makeup duo based in St. Petersburg, styling brides and wedding parties at homes, hotels and venues around the bay.		(727) 698-5608	https://3lbeauty.com/	https://www.instagram.com/nicole3lbeauty/
+Creative Touches Hair Salon	Hair & Makeup	8401 Dr M.L.K. Jr St N	St. Petersburg	Florida	St. Petersburg, Tampa Bay	St. Petersburg salon offering on-location bridal hair and makeup for wedding parties, with a studio for trials and bridal appointments.			https://www.creativetoucheshairsalon.com/	https://www.instagram.com/creativetoucheshairandmakeup/
+Butter Baked Cookies + Cakes	Cake		Seminole	Florida	Tampa, St. Petersburg, Clearwater, the beaches	Seminole boutique bakery making buttercream wedding cakes with published tier pricing, paid tasting boxes and delivery across Pinellas and Tampa.	butterbakedcookies@gmail.com	(813) 528-3134	https://www.butterbakedcookies.com/	https://www.instagram.com/butterbakedcookies/
+Hands on Sweets	Cake	3601 W Kennedy Blvd, Suite E	Tampa	Florida	Tampa Bay	Tampa wedding cake and dessert studio creating custom cakes, dessert tables and edible favours, with consultations by appointment or online.			https://handsonsweets.com/	
+Michelle's Delectables & Designs	Cake		Clearwater	Florida	Tampa Bay	Clearwater bakery specialising in custom wedding cakes, with desserts, decor and DJ services also available for celebrations.	info@michellesdelectables.com	(727) 243-7555	https://michellesdelectables.com/	https://www.instagram.com/michellesdelectables/
+Tampa Film Company	Videography		Tampa	Florida	Tampa Bay and Florida	Tampa wedding videographers who offer tiered film packages with drone footage included, founded in 2018 and led by Aaron Creamer.	tampafilmco@gmail.com	(813) 784-4962	https://www.tampafilmco.com/	https://www.instagram.com/tampafilmco/
+Hatfield Productions	Videography		Tampa	Florida	Tampa Bay, Clearwater, St. Petersburg	Tampa wedding filmmaker making documentary-style films with real audio and speeches, taking a limited number of weddings each year.	hatfieldbrett@yahoo.com		https://www.1357media.com/	https://www.instagram.com/hatfieldproductions_1357media/`,
+  },
+  {
+    name: "Miami: photography, planning, florals, music, catering, cake, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Michelle Gonzalez Photography	Photography		Miami	Florida	Miami, Palm Beach and destination	Candid, natural wedding photographer covering local and destination celebrations, with galleries from Miami venues such as Vizcaya.	michellegonzalezphotos@gmail.com		https://www.michellegonzalezphotos.com/	
+Kolour Haus	Photography		Miami	Florida	Miami	Miami studio shooting weddings in a documentary, editorial style, with an emphasis on unposed moments and refined colour.			https://kolourhaus.com/	https://www.instagram.com/kolourhaus/
+Events By Elle	Planning		Miami	Florida	Miami and Palm Beach	Full-service wedding planning and design for couples in Miami and Palm Beach, with work featured in several national bridal publications.			https://www.eventsbyelle.com/	https://www.instagram.com/eventsby_elle/
+JV Wedding Planning	Planning		Miami	Florida	Coral Gables, Miami and Miami Beach	Boutique planning duo, Jessica and Valeria, organising weddings across Coral Gables, Miami and Miami Beach.	info@jvweddingplanning.com	954-358-7768	https://jvweddingplanning.com/	https://www.instagram.com/jvweddingplanning/
+Paris Miami Events	Planning		Miami	Florida	Miami	French-inspired planners handling Miami weddings, destination weddings, proposals and vow renewals from first idea to the day itself.			https://www.parismiamievents.com/	https://www.instagram.com/parismiamievents/
+Neroli Blume	Florals	132 NW 27th St	Miami	Florida	Miami	Wynwood florist designing bespoke wedding flowers alongside same-day delivery and everyday arrangements.	info@neroliblume.com	(786) 967-1887	https://neroliblume.com/	https://www.instagram.com/neroliblume/
+Event Factor	Music	4548 SW 75th Ave	Miami	Florida	Miami and South Florida	Entertainment and production company supplying DJs, live musicians, bands, lighting and audiovisual for weddings and other events.	info@theeventfactor.com	(786) 222-9914	https://www.theeventfactor.com/	https://www.instagram.com/eventfactor/
+Soundworthy Entertainment	Music		Miami	Florida	Miami	Wedding bands and DJs for Miami receptions, plus small ensembles such as soloists and string quartets for ceremonies.		1-888-793-2677	https://www.soundworthyent.com/	https://www.instagram.com/soundworthy/
+Essence Caterers	Catering		Miami	Florida	Miami	Full-service caterer working with Miami venues to build tailored wedding, corporate and social event menus.	info@essencecaterers.com		https://www.essencecaterers.com/	https://www.instagram.com/essencecaterersmiami/
+Stivaly's Cakes	Cake	6047 SW 8th St	West Miami	Florida	Miami	Bakery making wedding and celebration cakes from scratch, including vegan, gluten-free and sugar-free choices.		+1 786-683-7953	https://stivalycakes.com/	https://www.instagram.com/stivalycakes/
+Pastry is Art	Cake	12591 Biscayne Blvd	North Miami	Florida	Miami	North Miami bakery producing designer wedding cakes and desserts, with catering and delivery available.	info@pastryisart.com	(305) 603-9340	https://www.pastryisart.com/	https://www.instagram.com/pastryisart/
+George's Films	Videography		Miami	Florida	Miami and destination	Husband-and-wife team making cinematic highlight films of Miami weddings, elopements and small ceremonies.	george@georgefilms.co		https://georgefilms.co/	https://www.instagram.com/georgefilms.co/
+Captivated Films	Videography		Miami	Florida	Central Florida to the Keys	Cinematic wedding films from Miami, edited and scored by hand, with shareable trailers and licensed drone coverage.		+1 786-206-3041	https://www.captivatedfilms.com/	
+`,
+  },
+  {
+    name: "Fort Lauderdale and Palm Beach: planning, florals, music, catering, hair and makeup, cake, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Details by MB	Planning		Fort Lauderdale	Florida	South Florida	Fort Lauderdale planner holding a master certification, offering full planning built around couples' personal details.		954-892-9930	https://detailsbymb.com/	https://www.instagram.com/itsallinthedetailsbymb/
+Aramus House of Flowers	Florals	1800 Forest Hill Blvd Suite A-11	West Palm Beach	Florida	West Palm Beach and Palm Beach County	West Palm Beach flower shop that also designs wedding bouquets, ceremony pieces and reception centrepieces.		561-702-2213	https://aramushouseoflowers.com/	
+Eddie B & Company	Music		Fort Lauderdale	Florida	Fort Lauderdale and West Palm Beach	Disc jockey company serving weddings, corporate events and parties across Broward and Palm Beach counties since 1990.	eddie@eddieb.com	954-721-9911	https://eddieb.com/	
+Glam By Carmen	Hair & Makeup		Hollywood	Florida	Miami, Fort Lauderdale, West Palm Beach and Naples	Hollywood-based bridal hair and airbrush makeup artist working on location for wedding parties across South Florida.		954-870-4139	https://www.glambycarmen.info/	https://www.instagram.com/glambycarmen/
+Kimone's Cake Art Studio	Cake	1021 NE 45th St	Fort Lauderdale	Florida	Broward, Miami-Dade and Palm Beach	Fort Lauderdale studio offering luxury dessert catering, mobile dessert bars and custom cakes for weddings.			https://www.kimonescakeartstudio.com/	https://www.instagram.com/kimonescakeartstudio/
+Jorie Cakes	Cake		West Palm Beach	Florida	Palm Beach County	Small West Palm Beach baker of custom cakes, cupcakes and cookies, with a gallery of wedding work.	jorie@joriecakesllc.com		https://www.joriecakesllc.com/	https://www.instagram.com/joriecakes_/
+`,
+  },
+  {
+    name: "Naples and Fort Myers: planning, cake, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+SBS Weddings & Events	Planning		Naples	Florida	Southwest Florida	Mother-and-daughter boutique planning company based in Naples and serving couples across Southwest Florida.	info@sbsweddings.com	(239) 825-2514	https://www.sbsweddings.com/	https://www.instagram.com/sbsweddings/
+Event Studio K	Planning		Naples	Florida	Naples and surrounding areas	Naples planner and designer handling luxury weddings, anniversaries, private events and galas.		239-314-8701	https://www.eventstudiok.com/	https://www.instagram.com/naplespartyplanner/
+Peace of Cake Kitchen	Cake		Naples	Florida	Naples, Marco Island, Bonita Springs, Fort Myers and Sanibel	Custom wedding cake baker serving Naples, Marco Island, Bonita Springs, Fort Myers and Sanibel, with dessert tables too.	peaceofcakekitchen@gmail.com		https://www.peaceofcakekitchen.com/	
+Southwest Florida Films	Videography		Naples	Florida	Naples, Sarasota and Tampa	Candid, story-led wedding videographer based in Naples, also travelling to Sarasota, Tampa and Costa Rica.			https://www.swfloridafilms.com/	https://www.instagram.com/swflfilms/
+`,
+  },
+  {
+    name: "Sarasota: photography, planning, florals, music, catering, hair and makeup, cake, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Mark Davidson Photography	Photography		Sarasota	Florida	Sarasota and Boston	Documentary wedding photographer and filmmaker in Sarasota with twenty years' experience, offering photo and film from one team.	mark@mark-davidson.com	+1 440-915-3583	https://www.mark-davidson.com/	https://www.instagram.com/mark_davidson/
+Laura Detwiler Events	Planning		Sarasota	Florida	Sarasota and beyond	Sarasota planning and management company for full-service weddings and multi-day celebrations, taking on limited bookings a year.			https://www.lauradetwilerevents.com/	https://www.instagram.com/lauradetwilerevents/
+Tiger Lily Floral	Florals	1619 Desoto Rd	Sarasota	Florida	Sarasota	Sarasota studio designing bespoke bouquets, arches and event flowers, with same-day delivery around the city.		941 355 5661	https://www.tigerlilyflowers.com/	https://www.instagram.com/tigerlilyflowerssrq/
+Black Tie DJs	Music		Sarasota	Florida	Sarasota, Manatee and Charlotte counties	DJ entertainment with uplighting for weddings in Sarasota, Bradenton, Venice and Port Charlotte.		941-925-5944	https://blacktiedjs.net/	
+Simply Gourmet Caterers	Catering	1540 Northgate Blvd	Sarasota	Florida	Sarasota	Sarasota caterer with over 25 years' experience handling wedding, corporate and party menus.	simplygourmet@metzcorp.com	941-218-3671	https://www.simplygourmetcaterers.com/	https://www.instagram.com/simplygourmetsrq/
+Sarasota Beauty Bar	Hair & Makeup		Sarasota	Florida	Sarasota, Tampa Bay and Bradenton	On-location bridal hair and makeup team, with trials offered and extra artists for larger wedding parties.	sarasotabeautybar@gmail.com	941-444-9732	https://www.sarasotabeautybar.com/	
+Paisano's Bakery	Cake	2732 Stickney Point Rd	Sarasota	Florida	Sarasota	Italian bakery in Sarasota making custom tiered and single-tier wedding cakes alongside its everyday baking.		(941) 926-8422	https://www.paisanositalianbakery.com/	
+Visions Unlimited Productions	Videography		Sarasota	Florida	Sarasota, Bradenton and the barrier islands	Husband-and-wife video and photo team filming weddings around Sarasota, Siesta Key, Bradenton and Anna Maria Island.			https://beautifulvideos.com/	
+`,
+  },
+  {
+    name: "Pensacola: florals, planning, music, videography, catering, hair and makeup, photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Fiore of Pensacola	Florals	405 South K Street	Pensacola	Florida		Boutique florist in downtown Pensacola making ready-to-wed and custom wedding flowers alongside event design.		850.469.1930	https://www.fioreofpensacola.com/	
+SN DJ Entertainment	Music		Pensacola	Florida	Pensacola and the Gulf Coast	Pensacola DJ service playing weddings and parties along the Gulf Coast since 2003, with a discount for eligible service couples.	stacey@sndjpensacola.com	(850) 501-1590	https://sndjpensacola.com/	
+Aislinn Kate Weddings	Videography		Pensacola	Florida	Pensacola and Destin	Wedding videographers covering Pensacola and Destin with cinematic films of six to eight minutes, sold alone or bundled with photos.			https://www.aislinnkatephotography.com/	https://www.instagram.com/aislinnkate/
+Culinary Productions	Catering		Pensacola	Florida		Pensacola caterer that also runs its own venue, with tiered dinner menus, themed stations and tastings by appointment for weddings.			https://culinaryproductions.net/	https://www.instagram.com/culinary_productions_inc/
+Mikela Ashlee Artistry	Hair & Makeup		Pensacola	Florida	Pensacola Beach, Destin, 30A, Gulf Breeze, Mobile and Gulf Shores	Bridal makeup artist working since 2021 across the Florida Panhandle and coastal Alabama, with free in-home previews for booked brides.	mikelaashlee@gmail.com	(850) 696-7485	https://mikelaashlee.com/	https://www.instagram.com/mikelaashleemakeup/
+8nfinity Photography	Photography		Pensacola	Florida	Pensacola, Destin, 30A, Navarre, Fairhope and Mobile	Husband-and-wife team in Pensacola photographing and filming under 40 weddings a year, with Gulf Coast and destination bookings.	shawnhandrahan@8nfinityphotography.com	850-341-9538	https://www.8nfinityphotography.com/	https://www.instagram.com/8nfinityphotography/
+`,
+  },
+  {
+    name: "Gainesville: cake, hair and makeup, music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+TDC Entertainment	Music		Gainesville	Florida		Gainesville DJ company running since 1986, supplying its own sound system for wedding receptions and other celebrations.	info@tdcentertainment.com	352-317-0794	https://www.tdcentertainment.com/	https://www.instagram.com/tdc.ent/
+`,
+  },
+  {
+    name: "Tallahassee: planning, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+`,
+  },
+  {
+    name: "Orlando: cake, florals, catering, hair and makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+The Glass Knife	Cake	212 N Park Avenue	Winter Park	Florida	Winter Park, Orlando and Central Florida	Winter Park bakery designing custom wedding cakes priced per serving, with paid private tastings and delivery across Central Florida.	cake@theglassknife.com	407-789-2253	https://theglassknife.com/	https://www.instagram.com/theglassknifewp/
+The Naked Cupcake	Cake	14009 Narcoossee Rd, Ste 110	Orlando	Florida	Lake Nona, Winter Park, Winter Garden, Kissimmee and greater Central Florida	Lake Nona bakery making scratch-built wedding cakes, cupcakes and dessert tables, with gluten-free and vegan options and virtual tastings.	hello@thenakedcupcakeorlando.com	407-308-5736	https://thenakedcupcakeorlando.com/	https://www.instagram.com/thenakedcupcakeorlando/
+Jillycakes	Cake		Orlando	Florida	Orlando area	Orlando baker making scratch wedding and groom's cakes and cupcake towers, with stand hire, setup and free tastings for up to four.	orders@jillycakesorlando.com	(863) 797-4233	https://www.jillycakesorlando.com/	https://www.instagram.com/jillycakesbakes/
+Impekable Flowers & Event Design	Florals	111 Victoria Commons Blvd, Suite 111	DeLand	Florida	Orlando, DeLand and Central Florida	Appointment-only floral studio in DeLand creating handcrafted wedding and private-event flowers across Orlando and Central Florida.		386.337.7220	https://www.impekabledesign.com/	https://www.instagram.com/impekableflowers/
+The Bloomerati	Florals		Orlando	Florida		Orlando florist led by Angelica Munoz, known for lush garden-style wedding flowers, tablescapes and installations.		407-917-8608	https://www.thebloomerati.com/	
+Exclusive Affairs Catering	Catering		Ocoee	Florida	Orlando, Winter Park, Kissimmee, Lake Mary, Maitland and Sanford	Ocoee caterer offering custom BBQ, Italian and Caribbean wedding menus, buffet or plated service, bar packages and tastings.	info@exclusiveaffairscatering.com	(689) 290-6960	https://exclusiveaffairscatering.com/	https://www.instagram.com/exclusiveaffairscateringevents/
+LeJeune Artistry	Hair & Makeup	3531 Edgewater Dr	Orlando	Florida		Orlando salon and wedding hair and makeup studio that has styled over 1,600 bridal parties across more than 30 years.	info@lejeuneartistry.com	407-414-3971	https://www.lejeuneartistry.com/	https://www.instagram.com/lejeuneartistry/
+Haley Finegan Hair & Makeup	Hair & Makeup		Orlando	Florida	Central Florida, Disney and beach weddings	Orlando bridal hair and makeup artist with over 600 weddings behind her, taking bookings for 2026 and 2027 through an inquiry form.			https://haleyfineganhairandmakeup.com/	https://www.instagram.com/haleyhmua/
+`,
+  },
+  {
+    name: "Tampa Bay: photography, planning, florals, cake, catering, music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Kristen Marie Photography	Photography		Tampa	Florida	Tampa, St. Petersburg, Clearwater, Sarasota, Anna Maria Island, Bradenton and destination weddings across Florida	Tampa wedding photographers offering two-photographer collections, elopement packages and a complimentary engagement session for every couple.	Info@Kristenmariephotog.com	813-394-9856	https://kristenmariephotog.com/	
+Soaring Blooms	Florals		Largo	Florida	Greater Tampa Bay Area	Largo florist creating curated wedding flower packages with delivery and setup included, backed by more than twelve years of experience.			https://soaringblooms.com/	https://www.instagram.com/soaringblooms/
+Tampa Bay Cake Company	Cake	1312 Apollo Beach Blvd	Apollo Beach	Florida		Apollo Beach bakery producing custom cakes and wedding desserts, with a wedding cake gallery and tastings available for engaged couples.	HELLO@TAMPABAYCAKECOMPANY.COM	813-641-4573	https://tampabaycakecompany.com/	https://www.instagram.com/tampabaycakecompany/
+The Cake Girl	Cake		Tampa	Florida	Tampa, St. Petersburg, Clearwater, Sarasota, Brandon, Wesley Chapel and Lakeland	Tampa cake studio designing custom wedding and celebration cakes and mini cupcakes, with tastings and local delivery offered.			https://thecakegirl.com/	https://www.instagram.com/thecakegirl/
+CBK Catering & Events	Catering	4108 Gunn Hwy	Tampa	Florida	Tampa, St. Petersburg, Clearwater and Sarasota	Tampa caterer offering plated and station menus for weddings, along with bar service, rentals and on-the-day event coordination.	sales@cbktampa.com	813-699-3060	https://cbktampa.com/	https://www.instagram.com/cbkcatering/
+Midnight Music DJ & Entertainment	Music		St. Petersburg	Florida	Pinellas, Hillsborough, Pasco, Hernando, Polk, Manatee, Sarasota and Charlotte counties	Tampa Bay DJ company providing wedding music alongside its silent disco events, working at venues from St. Petersburg to Tampa.	info@midnightmusicdjs.com	727-776-1237	https://midnightmusicdjs.com/	https://www.instagram.com/midnightmusicdjs/
+`,
+  },
+  {
+    name: "Destin and 30A: planning, photography, videography, cake, florals, music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Addison Kay Weddings	Planning		Destin	Florida	Emerald Coast, 30A, Destin and Miramar Beach	Destin planner handling timelines, rehearsal and day-of coordination and vendor communication for couples marrying along the Emerald Coast.			https://addisonkayweddings.com/	https://www.instagram.com/addisonkayweddings/
+Music Now! Entertainment	Music		Santa Rosa Beach	Florida	Destin, Seaside, Alys Beach, Miramar Beach, Rosemary Beach and Santa Rosa Beach	Santa Rosa Beach mobile DJ service tailoring music for weddings and parties, and giving couples a destination wedding planning guide.		850-225-6699	https://musicnowentertainment.com/	
+`,
+  },
+  {
+    name: "St. Augustine and Jacksonville: florals, cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+A Happily Ever After Floral	Florals		Jacksonville	Florida	Jacksonville and surrounding areas	Wedding and event-only florist in Jacksonville designing flowers for couples in Florida and Georgia.		904-874-6553	https://ahappilyeverafterfloral.com/	https://www.instagram.com/weddingflowersjax/
+Filigree Cake Design	Cake		Jacksonville	Florida		Jacksonville baker making custom wedding cakes, birthday cakes and cupcakes for special events, using quality ingredients.	info@filigreecakedesign.com	904-864-5268	https://filigreecakedesign.com/	https://www.instagram.com/filigreecakedesign/
+`,
+  },
+  {
+    name: "Miami: photography, planning, florals, music, catering, hair & makeup, cake, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+MANGO Studios	Photography	1680 Michigan Ave, Suite 700	Miami Beach	Florida		Boutique husband-and-wife photography studio near Lincoln Road, covering Miami Beach weddings from intimate gatherings to large celebrations.	info@mangostudios.com	888-606-2646	https://mangostudios.com/miami1/	https://www.instagram.com/mangostudios/
+Nova Studio Miami	Photography	4040 W 12 Ave	Hialeah	Florida		Hialeah studio offering wedding photography with options for a second photographer, drone coverage and multi-location packages.		786-848-6862	https://novastudiomiami.com/	https://www.instagram.com/novastudiomiami/
+Your Wedding Boutique	Planning		Miami	Florida	Miami-Dade and Broward	Full-service wedding and event planning and design company that has worked for couples across Miami-Dade and Broward since 2011.	eliq@yourweddingboutiquemiami.com		https://www.yourweddingboutiquemiami.com/	https://www.instagram.com/your_weddingboutique/
+Rose Coloured	Florals		Miami	Florida		Boutique Miami flower shop and design studio known for organic, richly textured arrangements for weddings, events and everyday gifting.	shop@rosecolouredfloral.com	786-505-1608	https://www.rosecolouredfloral.com/	https://www.instagram.com/rosecolouredfloral/
+Gather & Bloom Floral Design House	Florals	4708 W Flagler St	Coral Gables	Florida		Coral Gables floral design house making wedding and event flowers with hard-to-find seasonal stems such as peonies and ranunculus.	plan@gatherandbloomevents.com	305-640-8657	https://yourbouquetdealer.com/	https://www.instagram.com/yourbouquetdealer/
+Nery's Flowers	Florals		Miami	Florida	South Florida	Family-run Miami florist for weddings and special events, with arrangements designed to fit a range of budgets.	info@nerysflowers.com		https://www.nerysflowers.com/	https://www.instagram.com/nerysflowers/
+Chiara Flowers	Florals		Miami	Florida		Miami florist supplying wedding aisle decor, bouquets and centrepieces, with a romantic, tropical-leaning look.		786-375-1301	https://chiaraflowers.com/	https://www.instagram.com/chiara.flowers/
+Fondo Blanco Band	Music		Miami	Florida		Bilingual live band mixing English-language and Latin repertoire for multicultural wedding receptions, with thousands of events behind them.	info@fondoblanco.net		https://www.fondoblanco.net/	https://www.instagram.com/fondoblancoband/
+DJ AJ Falcon	Music		Miami	Florida	Coral Gables, Doral, Miami Beach and Key Biscayne	Miami wedding DJ and emcee who also runs hora loca moments and private parties across the city and its neighbouring areas.	djajfalcon@gmail.com	786-325-7696	https://djajfalcon.com/	https://www.instagram.com/djajfalcon/
+Infinity Sound Production	Music	1525 NW 89th Ct	Doral	Florida		Doral-based sound and DJ company providing music and lighting for weddings, including past events at the Biltmore and Trump Doral.		305-668-6176	https://infinitysoundproduction.com/	https://www.instagram.com/ispdj/
+Elegant Kosher Catering	Catering	280 Sierra Dr	Miami	Florida	Miami and South Florida	Glatt kosher caterer handling Jewish weddings and other celebrations, from the ceremony meal through to the dessert table.	info@elegantkoshercatering.com	954-800-2051	https://www.elegantkoshercatering.com/	https://www.instagram.com/elegant.kosher.catering/
+La Peregrina Miami Catering	Catering		Miami	Florida	Miami-Dade	Live seafood paella pans, made-to-order pasta stations and full-service buffets for weddings across Miami-Dade.	laperegrinamiami@gmail.com	786-991-8740	https://laperegrinamiamicatering.com/	https://www.instagram.com/laperegrinamiami_/
+Art of Hair by Claudia	Hair & Makeup		Miami	Florida		Mobile Miami hair and makeup artist for brides, quinceañeras and special events, travelling to the venue on the day.		305-310-4863	https://artofhairbyclaudia.com/	https://www.instagram.com/artofhairbyclaudia/
+Lindsay Brooke Artistry	Hair & Makeup		Miami	Florida	South Florida	Bridal makeup artist with over ten years in beauty, known for a custom lash technique and looks for the whole wedding party.			https://www.lindsaybrookemua.com/	
+Casa Gioia Miami	Cake	1450 NW 78th Ave	Doral	Florida	Miami	Doral bakery making custom wedding cakes and Dominican-style cakes to order, with tastings and cake painting on offer.	info@casagioia.us	786-282-0447	https://www.casagioiamiami.com/	https://www.instagram.com/casagioiaus/
+Elegant Temptations Bakery	Cake	10840 NW 138th St, Suite 2	Hialeah Gardens	Florida	Miami, Fort Lauderdale and South Florida	Custom bakery making wedding cakes and dessert tables, with design consultations, tastings and delivery across South Florida.	etcakes@me.com	786-660-5584	https://www.eleganttemptations.com/	https://www.instagram.com/etcakes_bakery/
+Donis Coronel Films	Videography		Miami	Florida	South Florida	Miami filmmaker with a decade of experience crafting cinematic wedding films with a focus on emotion and elegance.			https://doniscoronelfilms.com/	https://www.instagram.com/doniscoronelfilms/
+Cutting Desk Productions	Videography		Miami	Florida		Miami wedding videographer since 2011, producing unscripted cinematic films at venues such as Vizcaya and the Biltmore.			https://cuttingdesk.com/	
+Miami Wedding Studio	Videography		Miami	Florida	Miami, Fort Lauderdale, Palm Beach and the Florida Keys	Connected photo and film team offering cinematic wedding films, live streaming and combined coverage throughout South Florida.	daniel@miamiweddingstudio.com	305-878-7749	https://www.miamiweddingstudio.com/	https://www.instagram.com/miamiweddingstudio/
+`,
+  },
+  {
+    name: "Fort Lauderdale and Palm Beach: catering, cake, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Grateful Palate Catering and Events	Catering	3003 NE 32nd Ave	Fort Lauderdale	Florida	Fort Lauderdale	Caterer running its own waterfront Intracoastal venue, so couples can book food and setting together, reached by road or boat.		954-566-3044	https://www.thegratefulpalate.com/	https://www.instagram.com/gratefulpalatecatering/
+Palm Beach Catering	Catering		Palm Beach	Florida	Palm Beaches	Palm Beach luxury caterer and event team with decades of hospitality heritage, offering elevated menus, design and planning for weddings.	info@palmbeachcatering.com		https://www.palmbeachcatering.com/	https://www.instagram.com/palmbeachcateringinsta/
+Kosher Cuisine	Catering	4238 Hollywood Blvd	Hollywood	Florida	Miami and South Florida	Full-service kosher caterer for weddings, brises and other celebrations, certified by the Orthodox Rabbinical Board of Broward and Palm Beach.		954-589-1417	https://koshercuisine.net/	https://www.instagram.com/koshercuisine/
+Earth and Sugar	Cake	7301 S Dixie Hwy	West Palm Beach	Florida		West Palm Beach bakery and cafe taking custom cake orders, with gluten-free and vegan options for weddings and celebrations.			https://earthandsugar.com/	https://www.instagram.com/earthandsugar/
+`,
+  },
+  {
+    name: "Orlando: photography, planning, music, catering, hair & makeup, cake, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Chris Gillyard Photography	Photography		Orlando	Florida	Central Florida, statewide and destination weddings	Orlando photographer with over 15 years of weddings behind him, aiming for relaxed, honest coverage that puts couples at ease.	chris@chrisgillyardphoto.com	(407) 782-5236	https://chrisgillyardphoto.com/	
+Kole Purdy Photography	Photography		Orlando	Florida	Orlando and Central Florida, travels worldwide	Documentary-minded Orlando photographer covering weddings, brands and families, with an engagement-to-print-box wedding package.	kolepurdyphotography@gmail.com	(407) 545-3659	https://www.kolepurdyphotography.com/	https://www.instagram.com/kolepurdy/
+Misty Miotto Photography	Photography		Orlando	Florida		Award-winning Orlando wedding photographer with galleries for Disney and beach weddings, engagement sessions and destination events.	misty@mistymiotto.com	407-234-1033	https://www.mistymiotto.com/	https://www.instagram.com/mistymiottophotography/
+Jensen Larson Wedding Photography	Photography		Winter Park	Florida		Winter Park photographer duo with an elegant portfolio spanning Orlando resorts, Palm Beach, Charleston and other destination weddings.	mail@jensenlarson.com	407-409-8499	https://jensenlarsonweddings.com/	https://www.instagram.com/jensenlarsonweddings/
+Originally Gabe	Photography		Orlando	Florida		One crew handling photography, cinematic video and DJ sets for Orlando weddings, so the whole day is planned and delivered together.	hello@originallygabe.com	(407) 725-6749	https://originallygabe.com/	
+Truly Yours Coordinator	Planning		Orlando	Florida	Orlando and Tampa	Orlando wedding coordinators with 200-plus weddings behind them, managing logistics, timelines and surprises so couples can stay present.		(407) 410-3551	https://www.trulyyoursfl.com/	https://www.instagram.com/trulyyourscoordinator/
+Golden Hour Events	Planning		Orlando	Florida		Central Florida day-of coordination team, sister company to Simply Enchanted Events, handling timelines and vendor coordination on the wedding day.	hello@goldenhoureventsfla.com		https://www.goldenhoureventsfla.com/	https://www.instagram.com/goldenhoureventsfla/
+All the Details by Danielle	Planning		Orlando	Florida		Full-service Orlando wedding and event planner offering a complimentary consultation, with separate services for social and corporate events.	allthedetailsbydanielle@gmail.com	407-913-4489	https://www.allthedetailsbydanielle.com/	https://www.instagram.com/allthedetailsbydanielle/
+Weddings, Inc.	Planning	1836 Crandon Avenue	Winter Park	Florida	Central Florida	Central Florida complete wedding package company pairing couples with preferred vendors and coordinators, with free no-obligation proposals.		407-636-9732	https://www.weddingsincorlando.com/	https://www.instagram.com/weddingsinc/
+White Rose Entertainment	Music		Orlando	Florida		Orlando wedding DJs and MCs balancing elegance with fun, with ceremony sound and experience handling multicultural wedding traditions.	dj@whiteroseent.com	(407) 375-4042	https://orlandodj.com/	https://www.instagram.com/whiteroseent/
+Classic Disc Jockeys	Music		Orlando	Florida		Orlando wedding DJ team led by DJ Chuck and DJ Bayley, with lighting, photobooth and virtual fireworks upgrades for receptions.		407-296-4996	https://classicdiscjockeys.com/	https://www.instagram.com/orlandoweddingdj/
+Table Top Catering	Catering	6925 Lake Ellenor Drive, Suite 503	Orlando	Florida		Full-service Orlando caterer for weddings, corporate events and social gatherings, with seasonal menus and creative food displays.	contact@tabletopcatering.com	(407) 710-8671	https://tabletopcatering.com/	https://www.instagram.com/tabletop.catering/
+Foodie Catering	Catering		Orlando	Florida	Central Florida	Downtown Orlando kitchen catering small and large events, with menus, venue suggestions and an online request form for couples.	info@foodiecatering.com	(407) 704-6908	https://www.foodiecatering.com/	
+Wine & Dine US	Catering		Orlando	Florida	Orlando, Kissimmee, Winter Park, Sanford and Central Florida	Private chef and catering service with build-your-own menus and vegan, vegetarian and gluten-free options for weddings and dinners.		(407) 547-3550	https://wineanddineus.com/	https://www.instagram.com/wineanddineus/
+Kiss & Make Up Orlando	Hair & Makeup		Orlando	Florida	Florida, with travel worldwide	Mobile hair and makeup team with over a decade in beauty, serving brides across Florida and travelling for destination weddings.	info@kissandmakeuporlando.com	(407) 205-9211	https://www.kissandmakeuporlando.com/	https://www.instagram.com/kissandmakeuporlando/
+Ashmar Beauty	Hair & Makeup		Orlando	Florida	Orlando, with travel available	Orlando makeup artist Ashley Lucas, known for polished, timeless bridal looks that enhance natural features, and available to travel.	ashleylucas@ashmarbeauty.com		https://www.ashmarbeauty.com/	https://www.instagram.com/ashmar.beauty/
+APG Beauty & Bridal	Hair & Makeup		Orlando	Florida		Orlando makeup and hair team known for soft, romantic glam and long-lasting updos, with a custom beauty timeline for destination brides.			https://apgbeauty.com/	https://www.instagram.com/apg.beauty/
+The 911 Stylist	Hair & Makeup		Orlando	Florida	Florida, Las Vegas and New York	Mobile wedding hair and makeup artists based in Orlando, bringing camera-ready looks to the venue, with an in-studio option as well.		407-529-8996	https://www.the911stylist.com/	https://www.instagram.com/the911stylist/
+Special Treats By Tanya	Cake		Orlando	Florida		Orlando custom wedding cake designer offering tasting experiences, a dessert bar and design consultations by appointment.	info@specialtreatsbytanya.com	407-476-7079	https://www.specialtreatsbytanya.com/	https://www.instagram.com/specialtreatsbytanya/
+The Roots and Stones	Videography		Orlando	Florida	Central Florida, available for travel	Orlando photographer and filmmaker making documentary-style wedding films built on real moments and voices rather than slow-motion montages.			https://www.therootsandstones.com/wedding-video/	https://www.instagram.com/therootsandstones/
+`,
+  },
+  {
+    name: "Pensacola: planning, florals, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+A Perfect Plan Wedding Consulting	Planning		Pensacola	Florida	The Gulf Coast	Pensacola wedding planner offering full and partial planning plus coordination, so brides can enjoy the day rather than run it.	michelle.aperfectplan@gmail.com	850-860-2440	https://www.aperfectplanweddingconsulting.com/	
+Sunshine Designs Florist	Florals		Pensacola	Florida		Full-service Pensacola florist specialising in weddings and events, alongside everyday local flower deliveries.	SunshineDesigns24@gmail.com	(850) 477-5358	https://www.sunshinedesignsflorist.com/	
+JD Cobb Films	Videography		Pensacola	Florida		High-energy wedding videography based in Pensacola, with a planning call before the day to map out the films.			https://jdcobbfilms.com/	https://www.instagram.com/jdcobbfilms/
+`,
+  },
+  {
+    name: "Tallahassee: planning, music, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Studio Heart	Planning		Tallahassee	Florida	Tallahassee, travelling across the country	Tallahassee event design, planning and production studio that creates weddings, showers and brand events, and travels for clients.			https://studioheart.com/	https://www.instagram.com/theheartofpossibility/
+Leon String Quartet	Music		Tallahassee	Florida		Tallahassee string quartet playing wedding ceremonies, with a song list for couples to choose from and a simple booking process.		(448) 666-7344	https://www.leonquartet.com/	
+Tallahassee String Quartet	Music		Tallahassee	Florida		Tallahassee ceremony musicians offering quartet, trio and duo line-ups, with repertoire and sample videos on their site.			http://tallahasseequartet.com/	
+`,
+  },
+  {
+    name: "Gainesville: music, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+The Gainesville String Quartet	Music		Gainesville	Florida	Gainesville and surrounding areas	Gainesville string players providing elegant live music for wedding ceremonies, cocktail hours, private events and corporate functions.			https://www.thegainesvillestringquartet.com/	
+Check Meowt Productions	Videography		Gainesville	Florida		Gainesville photo and video studio covering weddings, engagements and events, as well as commercial and documentary projects.	checkmeowtproductions@gmail.com		https://www.checkmeowtproductions.com/	https://www.instagram.com/checkmeowtproductions/
+`,
+  },
+  {
+    name: "Tampa Bay: photography, planning, florals, catering, hair & makeup, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Christina Maldonado Photography	Photography		St. Petersburg	Florida	St. Petersburg and Tampa	Fine-art wedding photographer based in St Pete, with a bright, romantic style for couples across St Petersburg and Tampa.	info@christinamaldonado.com	(727) 688-1348	https://www.christinamaldonado.com/	https://www.instagram.com/christinamaldonadophoto/
+Carrie Wildes Photography	Photography		Tampa	Florida	Tampa, Clearwater and St. Petersburg	Tampa wedding photographer who also covers events and portraits, with a calm, personal approach that starts from a discovery call.	info@carriewildes.com	813-480-0324	https://www.carriewildes.com/	https://www.instagram.com/carriewildesphotography/
+Jules Moody Photography	Photography		Tampa	Florida	Tampa Bay	Documentary-minded Tampa wedding photographer who blends digital with 35mm film and also offers video for couples who want to stay present.	julesmoodyphotography@gmail.com		https://julesmoodyphotography.com/	https://www.instagram.com/julesmoodyphotography/
+Gema's Photography	Photography		Tampa	Florida		Tampa photographer shooting editorial, documentary-style weddings, with gentle posing guidance for families and a planning guide for couples.	info@gemasphotographyllc.com	813-952-0680	https://gemasphotographyllc.com/	https://www.instagram.com/gemas_photographyllc/
+Jonathan Fanning Photography	Photography	4500 140th Ave N, Suite 110	Clearwater	Florida	Tampa Bay	Clearwater studio photographer shooting weddings, headshots and events around the bay since 2007, with a documentary eye for milestones.	jonathan@jfanphoto.com	(727) 851-9965	https://jfanphoto.com/	https://www.instagram.com/thejonathanfanning/
+DA Event Planning	Planning		Tampa	Florida	Tampa Bay, St. Petersburg, Orlando and Sarasota	Tampa planner with full, partial and day-of options and a dedicated service for South Asian and multicultural weddings.	hello@daeventplanning.com	407-747-0292	https://daeventplanning.com/	https://www.instagram.com/daeventplanning/
+Be YOUnique Events	Planning		Tampa	Florida	Tampa and Florida	Tampa planner and designer offering full planning, partial planning and month-of coordination, with free consultations and clear starting prices.	melissa.millour@beyouniqueevents.com	813-863-1426	https://www.beyouniqueevents.com/	https://www.instagram.com/be_younique_events/
+Days Remembered by ND	Planning		Seminole	Florida	Tampa, Sarasota and St. Petersburg	Seminole-based wedding and event planner offering partial and full-service packages, with a personal, detail-minded approach for couples around Tampa Bay.	natalia@daysrememberedbynd.com	678.591.6475	https://www.daysrememberedbynd.com/	https://www.instagram.com/daysrememberedbynd/
+Flowers by GP Design	Florals	4404 W Clifton St	Tampa	Florida	Tampa, Clearwater and St. Petersburg	Locally owned Tampa floral studio designing wedding and event flowers in-house, from bouquets to full ceremony and reception arrangements.	gmagro1967@gmail.com	(813) 842-8361	https://www.flowersbygpdesign.com/	https://www.instagram.com/flowers_by_gp_design/
+Arms of Persephone Floral Design	Florals		St. Petersburg	Florida	Tampa Bay	Playful St Pete collective offering seasonal wedding florals and event design, plus a boutique shop and florist drive-thru for everyday stems.	hello@armsofpersephonefloral.com	727.314.2277	https://www.armsofpersephonefloral.com/	https://www.instagram.com/armsofpersephonefloral/
+Flor and Soul	Florals		St. Petersburg	Florida	Tampa Bay	Floral design company for art-loving couples, making bouquets and centrepieces for wedding days across St Petersburg and the wider Tampa Bay area.			https://www.florandsoul.com/	https://www.instagram.com/flor_soul_/
+Delectables Fine Catering	Catering	969 Virginia Ave	Palm Harbor	Florida	Tampa, St. Petersburg, Palm Harbor, Clearwater, Dunedin and Tarpon Springs	Events-only caterer serving plated dinners for up to 600 guests, with fresh, cooked-to-order food and a focus on weddings and parties.	events@delectablescatering.com	(727) 781-1200	https://delectablescatering.com/	https://www.instagram.com/delectablesfinecatering/
+Station House BBQ	Catering	5214 N Nebraska Ave	Tampa	Florida	Hillsborough, Pinellas and Pasco counties	Firefighter-owned caterer doing slow-smoked barbecue and Cuban-style wedding menus, with set-up and service for parties of 50 to 500 or more.	catering@stationhousebbq.com	813-625-1082	https://www.stationhousebbq.com/	https://www.instagram.com/stationhousebbq/
+A Fresh Connection Catering	Catering	7097 30th Ave N	St. Petersburg	Florida	St. Petersburg, Tampa and Clearwater	Chef-led caterer in St Pete with more than fifteen years of weddings, offering plated dinners, buffets, cocktail receptions and action stations.	bill@afreshconnection.com	727-308-1256	https://www.afreshconnection.com/	https://www.instagram.com/afreshconnection/
+3C's Catering	Catering	3016 US Highway 301 N, Suite 100	Tampa	Florida	Greater Tampa	Tampa caterer for weddings, conferences and church events, building menus to suit a couple's taste and budget.	info@3cscatering.net	813-753-9900	https://www.3cscatering.net/	
+Destiny & Light Hair and Makeup Group	Hair & Makeup	5911 Sheldon Rd	Tampa	Florida	Tampa Bay	Tampa studio team offering bridal hair and makeup by appointment, with trials and larger bridal parties handled by several artists.	info@destinyandlight.com	(813) 489-4002	https://destinyandlight.com/	https://www.instagram.com/destinyandlighthairandmakeup/
+`,
+  },
+  {
+    name: "Destin and 30A: photography, videography, planning, florals, music, cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Pure7 Studios	Photography	5417 E County Hwy 30A, Suite 317	Santa Rosa Beach	Florida	Alys Beach, Seaside, Rosemary Beach, WaterColor, Miramar Beach and Destin	30A wedding photographers with over a decade on the beaches, shooting in a documentary style, on digital or film, with rain plans in place.	info@pure7studios.com	850-654-6523	https://pure7studios.com/	https://www.instagram.com/pure7/
+Golden Days Photo Co.	Photography		Destin	Florida	30A, Rosemary Beach, Destin and Panama City Beach	Destin photographer with a retro beach-club feel, covering intimate beach weddings, elopements and vow renewals as well as family sessions.			https://goldendaysphotoco.com/	
+Emerald Coast Films	Videography		Niceville	Florida	Panama City Beach to Pensacola, including Destin and 30A	Documentary-style wedding videographer who films the day as it unfolds, with no travel fee across much of the Emerald Coast.	info@emeraldcoastfilms.com		https://emeraldcoastfilms.com/	https://www.instagram.com/emeraldcoastfilms/
+Pro Art Photo-Video	Videography		Destin	Florida	Pensacola, Destin, 30A and Panama City Beach	Family-run Destin team with fourteen years of photo and video, offering wedding films alongside DJ, MC and photo booth services.		850-737-4646	https://www.proartphotovideo.com/	https://www.instagram.com/georgesalajean/
+Destin To Wed Event Planning	Planning		Destin	Florida	Destin and 30A	Boutique Destin planner with hundreds of Emerald Coast weddings behind her, taking a limited number each year with full or partial packages.	Sherri@destintowed.com	850-687-0076	https://www.destintowed.com/	https://www.instagram.com/destintowed/
+Island Sands Beach Weddings	Planning		Miramar Beach	Florida	Destin, Fort Walton Beach, Miramar Beach and South Walton	Miramar Beach team offering beach packages, micro weddings and full coordination, with personal service and rentals across the Emerald Coast.	info@islandsandsbeachweddings.com	850-974-0921	https://www.islandsandsbeachweddings.com/	https://www.instagram.com/islandsandsbeachwedding/
+Go Event DJ	Music		Crestview	Florida	Emerald Coast, 30A and the Florida Panhandle	Owner-led wedding DJ and MC who reads the room, keeps the music clean for mixed-age crowds and adds sound, lighting and a 360 booth.		(850) 634-3732	https://www.goeventdj.com/	https://www.instagram.com/goeventdj/
+`,
+  },
+  {
+    name: "Miami: photography, catering, hair & makeup, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Casa Cora Wedding Studio	Photography		Miami	Florida	Miami and South Florida	Miami photo and film studio pairing a documentary approach with an editorial eye, covering South Beach, Coral Gables, Brickell and the Keys.	casacorastudio@gmail.com	(954) 376-2826	https://casacorastudio.com/miami/	https://www.instagram.com/casacorastudio/
+Mena Catering	Catering	7460 SW 48th St	Miami	Florida	South Florida, from the Palm Beaches to the Florida Keys	Family caterer serving Miami since 1981, handling full-service event catering and planning for weddings across South Florida.			https://www.menacatering.com	https://www.instagram.com/menacateringinc/
+MCA Makeup & Co	Hair & Makeup		Miami	Florida	Broward, Miami-Dade and Palm Beach counties	Team of makeup artists and hairstylists offering custom wedding hair and makeup, plus trials and lessons, across three South Florida counties.	maria@mcamakeupco.com	(954) 588-5319	https://www.mcamakeupco.com	https://www.instagram.com/mcamakeupco/
+Phairis Luxury	Hair & Makeup		Miami	Florida	Miami, Coral Gables, Miami Beach and destination weddings	Bridal hair and makeup led by Rebecca Mousseau, known for humidity-proof styling at Miami hotel and waterfront weddings.	inquiries@phairisluxury.com		https://phairisluxury.com	https://www.instagram.com/phairisluxury/
+Ikon Films	Videography		Miami	Florida	Miami, Fort Lauderdale, West Palm Beach and the Florida Keys	Wedding photography and film team telling couples' stories in a candid, narrative style, based in Miami and travelling across Florida.	contactikonfilms@gmail.com	(646) 420-8424	https://www.ikon-films.com	https://www.instagram.com/ikon_films/
+`,
+  },
+  {
+    name: "Orlando: planning, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+The Chaos Coordinator	Planning		Orlando	Florida	Central Florida and destination weddings	Orlando wedding planning firm offering planning, vendor coordination and day-of management for couples who want a personal, collaborative process.	Hello@theechaoscoordinator.com		https://www.theechaoscoordinator.com	https://www.instagram.com/theechaoscoordinator/
+At Last Wedding + Event Design	Planning		Orlando	Florida	Central Florida	Orlando planning and design studio with 16 years of experience, offering month-of coordination, mini planning and full-service planning.	hello@atlast-weddings.com	(321) 443-0338	https://www.atlast-weddings.com	https://www.instagram.com/atlastweddings/
+Golden View Video Co.	Videography		Orlando	Florida	Orlando, Florida and destination weddings including Disney venues	Husband-and-wife Orlando video team filming weddings across Florida, Disney venues and cruise ships, with an eye for the in-between moments.			https://www.goldenviewvideoco.com	https://www.instagram.com/goldenviewvideoco/
+`,
+  },
+  {
+    name: "Tampa Bay: planning, florals, hair & makeup, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Special Moments Event Planning	Planning	1185 Ponce De Leon Blvd	Clearwater	Florida	Tampa, Clearwater, St. Petersburg, Sarasota and Gulf Coast beaches	Clearwater planning firm run since 2004 by a master wedding planner, covering full-service, day-of, cultural and Gulf Coast beach weddings.	info@eventsbyspecialmoments.com	(727) 343-0800	https://eventsbyspecialmoments.com	https://www.instagram.com/specialmomentevents/
+Aulen Events	Planning		St. Petersburg	Florida	St. Pete, Tampa, Sarasota and beyond	St. Petersburg planner designing and coordinating upscale weddings, with day-of, partial and full planning packages to choose from.			https://aulenevents.com	https://www.instagram.com/aulenevents/
+Alta Fleura	Florals		Valrico	Florida	Tampa Bay area	Wedding florist with over 40 years of experience, creating bridal bouquets, ceremony flowers and custom reception arrangements.	alta@altafleura.com	(813) 413-6073	https://altafleura.com	https://www.instagram.com/altafleura/
+Samantha Landis	Hair & Makeup		Tampa	Florida	Tampa, St. Pete and Clearwater, plus destination events	Tampa hair stylist and makeup artist offering fashion-forward hair and natural, radiant makeup for brides and their wedding parties.			https://www.samanthalandisbridal.com	https://www.instagram.com/samanthalandis/
+Beauty Brought Out	Hair & Makeup	414 E Madison St	Tampa	Florida	Tampa Bay	Downtown Tampa mobile hair and makeup studio specialising in airbrush makeup and bridal hairstyling, with no travel fees.		(813) 335-7486	https://beautybroughtout.com	https://www.instagram.com/bbotampa/
+Adam Gorham Films	Videography		Tampa	Florida	Tampa, St. Petersburg, Clearwater, Sarasota and across Florida	Tampa wedding filmmaker creating story-driven cinematic films, with owner-led and associate coverage for couples across Tampa Bay.	adam@adamgorhamfilms.com		https://www.adamgorhamfilms.com/tampa-wedding-videographer	https://www.instagram.com/adamgorhamfilms/
+Christian Torres Films	Videography		Tampa	Florida	Tampa Bay, Orlando, Sarasota and Clearwater	Documentary-style Tampa wedding videographer who captures candid, unstaged moments and edits them into cinematic love-story films.	christiantorresmedia@gmail.com		https://www.christiantorresfilms.com/tampa-wedding-videographer	https://www.instagram.com/ctorresfilms/
+Film House Weddings	Videography		Tampa	Florida	Tampa Bay, St. Petersburg, Clearwater, Sarasota and destinations	Tampa studio founded by Dennis Mulyar making custom cinematic wedding films, typically delivered as a short feature plus a social reel.	hello@filmhouseweddings.com		https://filmhouseweddings.com/tampa-wedding-videographer	https://www.instagram.com/thefilmhouseweddings/
+`,
+  },
+  {
+    name: "Destin and 30A: florals, cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Emerald Coast Florals & Event Design	Florals		Destin	Florida	Emerald Coast, from Navarre to Panama City	Family-run Destin floral and event design company with over 20 years of experience, offering wedding florals and event rentals.		(850) 830-5153	https://ecflorals.com	https://www.instagram.com/emeraldcoastflorals/
+Simply Sweet Cakes	Cake		Destin	Florida		Licensed home-based Destin baker making custom wedding and groom's cakes to order, with scratch-made icings.		(678) 373-6613	https://simplysweetcakesdestin.com	
+`,
+  },
+  {
+    name: "Fort Lauderdale and Palm Beach: videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+LeFever Photography	Videography		Palm Beach	Florida	Miami, Fort Lauderdale, Palm Beach and the Treasure Coast	Palm Beach wedding photography studio that also offers cinematic wedding films, serving couples from Miami up to the Treasure Coast.		(954) 803-5884	https://www.lefeverphoto.net	https://www.instagram.com/lefeverphotography/
+`,
+  },
+  {
+    name: "Pensacola: cake, photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Craft Gourmet Bakery	Cake	5555 N Davis Hwy	Pensacola	Florida		Scratch-baking Pensacola bakery with a European slant, offering custom and wedding cakes with tastings, plus dessert catering.	sales@craftgourmetbakery.com	(850) 332-5921	https://www.craftgourmetbakery.com	https://www.instagram.com/craftbakerypensacola/
+Phocus & Company	Photography		Pensacola	Florida		Pensacola team of eight photographers with over 400 weddings behind them, focused on candid, emotional imagery.	phocusandcompany@gmail.com	(850) 320-7875	https://www.phocusonme.com	https://www.instagram.com/phocusandco/
+`,
+  },
+  {
+    name: "Tallahassee: videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Lance Oliver Photography	Videography		Tallahassee	Florida	Tallahassee, North Florida and the Gulf Coast beaches	Tallahassee wedding photographer who also films, selling video by the hour or full day and editing it into a film or story-book.	olivhanson@yahoo.com	(850) 508-2714	https://www.lanceoliverphotography.com/services/weddings-photography/	https://www.instagram.com/lance_oliver_photography/
+`,
+  },
+  {
+    name: "Gainesville: hair & makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Salon Savoy	Hair & Makeup		Gainesville	Florida		Gainesville hair salon offering bridal hair and makeup with personalised looks and on-site wedding-day services.			https://www.salonsavoy.com/services/stylingconditioningbridal	
+`,
+  },
+  {
+    name: "Naples and Fort Myers: planning, photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Platinum Florida Wedding Company	Planning		Fort Myers	Florida	Naples, Fort Myers, Sanibel, Marco Island and Southwest Florida	Fort Myers planning, design and floral studio serving couples since 2007 across Southwest Florida's islands and coast.		(239) 217-3197	https://www.floridaweddingcompany.com	https://www.instagram.com/platinumflweddingco/
+Priscila Del Cristo Photo	Photography		Naples	Florida	Naples, Fort Myers, Bonita Springs, Marco Island and destinations	Naples wedding photographer blending digital and 35mm film, taking a limited number of weddings a year with a calm, editorial approach.			https://prisciladelcristophoto.com	https://www.instagram.com/prisciladelcristophoto/
+Zee Anna Photography	Photography		Naples	Florida	Naples, Fort Myers, Sarasota, Miami and Palm Beach	Naples portrait and wedding photographer making artful, emotionally connected images for couples along Florida's southwest coast.	hello@zeeanna.com	(239) 877-7939	https://zeeanna.com	https://www.instagram.com/zeeannaphoto/
+Lindsey White Photography	Photography		Naples	Florida	Naples, Fort Myers, Sarasota and beyond	Wedding and engagement photographer working in Naples and Minnesota, known for bright, timeless images and hands-on day-of support.	lindseywhitephoto@gmail.com		https://lindseywhitephoto.com/naples-fl-wedding-photographer	https://www.instagram.com/lindseywhitephoto/
+`,
+  },
+  {
+    name: "Sarasota: photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Everence Photography	Photography		Sarasota	Florida	Sarasota, Bradenton, Tampa Bay, St. Petersburg and Boca Grande	Husband-and-wife team photographing weddings and lifestyle portraits around Sarasota, Bradenton and Tampa Bay.			https://everencephotography.com	https://www.instagram.com/everencephotography/
+Imageana	Photography		Bradenton	Florida	Bradenton, Sarasota, Siesta Key and travel	Bradenton fine art wedding photographers focused on timeless, elegant and emotional images for couples along the Sarasota coast.			https://www.imageana.com/wedding-photography/	
+Jaeger Haus Photography	Photography		Bradenton	Florida	Bradenton, Sarasota, Anna Maria Island and St. Pete	Bradenton couple shooting candid digital and film wedding photography, with Super 8 wedding films also available.			https://jaegerhausphotography.com/bradenton-wedding-photographer	https://www.instagram.com/jaeger.haus.photo/
+`,
+  },
 ];
 
 export default batches;

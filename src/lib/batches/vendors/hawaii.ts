@@ -157,6 +157,65 @@ Pineapple Bakery	Cake		Waimea	Hawaii	Big Island, delivery on orders of $200 or m
 Jon Bodhi Films & Photography	Videography		Kailua-Kona	Hawaii	Big Island, multi-day resort weddings; travels to other islands	Cinematic wedding films and photography, centred on multi-day destination weddings along the Kona coast.			https://jonbodhi.com	https://www.instagram.com/jonbodhiweddings/
 Moments of Love Film Co.	Videography		Kailua-Kona	Hawaii	All of the Big Island, including Kailua-Kona, Holualoa, Waimea and Hilo	Wedding and elopement videographer producing films that reflect each couple, covering the whole island.	paul@momentsoflove.co	(808) 209-6932	https://momentsoflove.co	https://www.instagram.com/momentsofloveco/`,
   },
+  {
+    name: "Honolulu: photography, planning, florals, music, catering, hair and makeup, cake and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Tone Photography Studio	Photography		Kaneohe	Hawaii	Oahu, with travel to other islands and the Bay Area	Kaneohe wedding photographers shooting in a documentary style, mixing classic and modern framing, and travelling for island and California weddings.	tone.studio.info@gmail.com		https://www.tonehawaii.com/	https://www.instagram.com/tone.hawaii/
+Jenna Lee Pictures	Photography		Honolulu	Hawaii	Oahu and Hawaii, plus the Chicago area	Oahu photographer and videographer for adventure weddings, elopements and engagements, with pages on Kualoa Ranch and Lanikai Beach ceremonies.	info@jennaleepictures.com	(808) 339-6659	https://www.jennaleepictures.com/	https://www.instagram.com/jennaleepics/
+Kai-Photo Hawaii	Photography		Honolulu	Hawaii	Honolulu and all of Oahu, plus Maui, Kauai and the Big Island	Honolulu studio offering wedding, portrait and commercial photography and video, and booking weddings 12 to 18 months ahead.		(808) 591-1882	https://www.kai-photo.com/	https://www.instagram.com/kaiphotohawaii/
+Hawaiianpix Photography	Photography		Waipahu	Hawaii	Oahu	Wedding and portrait photographers with over 20 years' experience, known for a relaxed island style, serving visiting and local couples.	info@doubledragoninc.com		https://www.hawaiianpix.com/	https://www.instagram.com/hawaiianpixphoto/
+HNL Studios	Videography		Honolulu	Hawaii	Oahu, the rest of Hawaii and worldwide	Honolulu wedding studio combining photography, film, DJ and MC work and photo booths, serving Oahu, the wider state and destination couples.	hello@hnlstudios.com	(808) 454-3113	https://www.hnlstudios.com/	https://www.instagram.com/hnlstudios/
+Bishop Media Productions	Videography		Honolulu	Hawaii	Oahu and across Hawaii	Honolulu wedding videographer filming on Oahu since 2018, with packages from short elopement coverage to full days with a second videographer.			https://bishopmediaproductions.com/	https://www.instagram.com/bishopmedia_/
+Oahu Videographer	Videography		Honolulu	Hawaii	All of Oahu, including Honolulu, Waikiki, Kailua and the North Shore	Honolulu video production company filming weddings and elopements island-wide, with packages that include drone aerials, a highlight reel and a full film.		(808) 746-1178	https://oahuvideographer.com/	https://www.instagram.com/huefilms/
+Twin Fin Filmworks	Videography		Honolulu	Hawaii		Honolulu videographer and editor leading a small team that makes a short wedding film shaped around each couple.			https://www.twinfinfilmworks.com/	
+Your Story Events Hawaii	Planning		Kapolei	Hawaii	Oahu	Kapolei planner and florist offering wedding planning, day-of coordination, fresh and faux flowers and arch rentals across Oahu.	contact@yourstoryeventshawaii.com	(808) 781-6945	https://www.yourstoryeventshawaii.com/	https://www.instagram.com/yourstoryeventshawaii/
+Lifestyle Maven Events	Planning		Kailua	Hawaii	Hawaii, New York and select destinations	Kailua planning and design firm for weddings and multi-day celebrations across Hawaii, New York and a few destinations abroad.			https://lifestylemavenevents.com/	https://www.instagram.com/lifestylemavenevents/
+Designs by Hemingway	Florals		Honolulu	Hawaii	Oahu and the other Hawaiian islands	Honolulu destination wedding florist working from a French-inspired studio and travelling to Maui, Kauai and the Big Island.		(808) 294-4194	https://designsbyhemingway.com/	https://www.instagram.com/dbhemingway/
+MVP Hawaii DJs	Music		Ewa Beach	Hawaii	Honolulu and Oahu	Ewa Beach mobile DJ with over 25 years in the trade, supplying sound and lighting for weddings, birthdays and corporate events.	info@mvphawaiidjs.com	(808) 391-5495	https://www.mvphawaiidjs.com/	https://www.instagram.com/marqofthebeats/
+Aloha Culinary Group	Catering		Honolulu	Hawaii	Oahu	Honolulu caterer building custom wedding menus in Hawaiian, Mediterranean and Pacific Rim styles, with bar service, rentals and decor.	info@alohaculinarygroup.com	(808) 600-7029	https://www.alohaculinarygroup.com/	https://www.instagram.com/alohaculinarygroup/
+Kama'aina Catering & Tent Rentals	Catering	94-252 Pupuole St	Waipahu	Hawaii		Waipahu caterer and tent hire firm led by chef Brian Wada, offering wedding menus alongside tents, tables and chairs.		(808) 306-4214	https://www.kamaainaservices.com/weddings/	
+Remy Reed	Hair & Makeup		Honolulu	Hawaii		Freelance Honolulu hair and makeup artist working on weddings, events and photo shoots, including editorial sets.	hello@remyreed.com	(808) 938-5117	https://remyreed.com/	https://www.instagram.com/hairandmakeupbyremy/
+Cori's Cake Dreams	Cake		Honolulu	Hawaii	Oahu	Honolulu custom cake studio with two storefronts, making tiered wedding cakes and cupcake towers, with tastings and delivery across Oahu.	coriscakedreams@gmail.com	(808) 673-8550	https://www.coriscakedreams.com/	https://www.instagram.com/coriscakedreams/
+Elvin's Bakery	Cake	1210 Dillingham Blvd	Honolulu	Hawaii		Family-run Honolulu bakery open since 2003, taking orders for custom wedding cakes alongside everyday bread and pastries.		(808) 848-8118	https://www.elvinsbakery.com/	https://www.instagram.com/elvinsbakery/
+Hawaii Cupcake Factory	Cake	111 Sand Island Access Rd, #R1	Honolulu	Hawaii	Oahu	Sand Island bakery making cakes and cupcakes to order for weddings and parties across Oahu.		(808) 755-3798	https://www.hawaiicupcakefactory.com/	https://www.instagram.com/hawaiicupcakefactory/`,
+  },
+  {
+    name: "Maui: photography, planning, florals, music, catering, hair and makeup and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Tara Lee Photography	Photography		Paia	Hawaii	Maui, with travel to Kauai, Lanai and Hawaii Island	Paia-based photographer covering Maui weddings and elopements, and travelling to the other islands for destination couples.	tara@taraleephotography.net	(808) 280-9890	https://taraleephotography.net	https://www.instagram.com/taralee.photography/
+Jenny Vargas Photography	Photography		Wailuku	Hawaii		Wailuku photographer for Maui weddings and couples sessions, with a timeless, natural style and elopement packages.	jenny@jennyvargasphotography.com		https://jennyvargasphotography.com	https://www.instagram.com/jennyvargasphotography/
+Simple Maui Wedding	Planning	1787 Wili Pa Loop #3A	Wailuku	Hawaii		Wailuku wedding company selling set beach and venue packages with prices shown, handling planning and coordination on Maui.	aloha@simplemauiwedding.net	(808) 873-0789	https://simplemauiwedding.net/	https://www.instagram.com/simplemauiwed/
+Maui Weddings From The Heart	Planning		Kihei	Hawaii		Kihei planner and licensed officiant offering beach and resort wedding packages, including Wailea and Kapalua lawn ceremonies.	rose@mauiwed.com	(808) 874-8755	https://mauiweddingsfromtheheart.com	https://www.instagram.com/maui_weddings_from_the_heart/
+Petaloom Floral Co.	Florals		Makawao	Hawaii		Sister-run flower farm and studio on the slopes of Haleakala making garden-style wedding florals with chemical-free growing.		(808) 777-8598	https://www.petaloomfloralco.com/	https://www.instagram.com/petaloomfloral/
+Sol Maui Events	Music		Haiku	Hawaii	Maui, Hana and Lanai	Haiku DJ and sound company providing ceremony, reception and after-party music for destination weddings on Maui.	aloha@solmaui.com	(808) 446-0665	https://solmaui.com	https://www.instagram.com/mauiweddingdj/
+The Catered Coconut	Catering		Paia	Hawaii		Paia company that sets up fresh coconut stations at weddings, with shaved coconuts for photos and branded coconut escort displays.	thecateredcoconut@gmail.com	(808) 573-2626	https://thecateredcoconut.com	https://www.instagram.com/thecateredcoconut/
+Bree Rubin Hair + Makeup	Hair & Makeup		Lahaina	Hawaii		Lahaina bridal hair and makeup artist with a dedicated wedding portfolio and Couples' Choice recognition from WeddingWire.	Bree@BreeRubinHair.com		https://breerubinhair.com	https://www.instagram.com/breerubinhair/
+Maui Wedding Medias	Videography	16 S Market St	Wailuku	Hawaii		Wailuku studio led by Sean Hower, offering wedding videography alongside photography for couples marrying across Maui.	hower.photos@gmail.com	(808) 250-1788	https://mauiweddingmedias.com	https://www.instagram.com/seanmhower/`,
+  },
+  {
+    name: "Maui: music, catering and cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Full Flavor Band	Music		Maui	Hawaii	Maui	Six-piece Maui band playing live covers for weddings and corporate events, with a customisable line-up and a high-energy dance set.		(808) 446-5131	https://www.fullflavorband.com/	https://www.instagram.com/fullflavorband/
+Barefoot Minded	Music		Maui	Hawaii	Maui	Acoustic Maui duo with over 15 years of wedding work, playing ceremonies, cocktail hours and receptions at venues across the island.		(808) 208-1605	https://barefootminded.com/	
+Ace Beats	Music		Maui	Hawaii	Island of Maui	Mobile DJ and photo booth company for Maui weddings, offering a ceremony sound system and custom planning for the reception.			https://acebeats.com/	https://www.instagram.com/djskinnyguy/
+Cloud 9 Events	Catering		Wailuku	Hawaii	Maui	Wailuku personal chef and event caterer for Maui weddings, serving passed appetisers, buffets or plated coursed dinners.	orders@cloud9catering.com	(808) 740-3982	https://www.cloud9eventsmaui.com/	https://www.instagram.com/cloud9catering/
+GhiseLani Designer Wedding Cakes	Cake		Maui	Hawaii	Maui	Family-run Maui wedding cake maker with signature styles from mini to large, plus vegan, gluten-free and raw options.	designercakes@mauicakestore.com	(808) 385-0481	https://www.ghiselani.com/	`,
+  },
+  {
+    name: "Big Island: music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+South Kohala Sound System	Music		Waikoloa	Hawaii	Waikoloa and the Kohala Coast	Big Island wedding DJ and sound service around Waikoloa and the Kohala Coast, offering ceremony microphones and reception music.	southkohalasoundsystem@gmail.com		https://www.southkohalasoundsystem.com/	https://www.instagram.com/dj_syf/`,
+  },
+  {
+    name: "Honolulu: hair and makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Maleana Beauty	Hair & Makeup		Honolulu	Hawaii	Oahu and island-wide mobile	Honolulu bridal hair and makeup team that books only one or two weddings a day and travels across Oahu and the other islands.	info@maleana.com	(808) 737-3663	https://www.maleana.com/	https://www.instagram.com/maleanabeauty/`,
+  },
+  {
+    name: "Kauai: videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Zane Persaud	Videography		Kauai	Hawaii	Kauai	Kauai-based videographer filming weddings and events, with a portfolio of wedding films shot at resorts and venues around the island.	zane.persaud@gmail.com		https://www.zanepersaud.com/	https://www.instagram.com/zapsizzle/`,
+  },
 ];
 
 export default batches;

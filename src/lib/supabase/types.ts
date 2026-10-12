@@ -29,6 +29,11 @@ export type Wedding = {
   referral_code: string | null;
   budget_target: number | null;
   venue_id: string | null;
+  /** A venue that isn't listed (0113); the guest site uses it when venue_id is null. */
+  own_venue_name: string | null;
+  own_venue_address: string | null;
+  own_venue_city: string | null;
+  own_venue_state: string | null;
   is_test: boolean;
   /** Everyone besides the owner who can open this wedding -- kept in step with wedding_members by a trigger. */
   member_ids: string[];
@@ -36,8 +41,14 @@ export type Wedding = {
   itinerary_published: boolean;
   /** The published guest site design; parse with parseSiteDesign. */
   site_design: unknown;
-  /** What the guest site editor is working on; Publish copies it to site_design. */
+  /** Before several designs (0111): what the editor worked on. No longer written. */
   site_design_draft: unknown;
+  /** The design in site_designs that site_design was copied from; null before the first publish. */
+  live_design_id: string | null;
+  /** bcrypt of the guest site's password; null when it has none. */
+  site_password_hash: string | null;
+  /** Headings' words shared by every design with shared_wording on; parse with parseWording. */
+  site_wording: unknown;
   /** A Google Sheet the couple imported from, kept so they can reopen it. */
   spreadsheet_url: string | null;
   /** The colour each side of the guest list is drawn in, picked by the couple. */
@@ -70,6 +81,8 @@ export type PublicWedding = {
   venue_photo_urls: string[] | null;
   venue_about: string | null;
   venue_address: string | null;
+  /** The couple put a password on the site (the hash itself never leaves the database). */
+  site_locked: boolean;
 };
 
 export type WeddingFaq = {
@@ -535,7 +548,17 @@ export type AttirePartyMember = {
   notes: string | null;
   sort_order: number;
   created_at: string;
+  /** For the guest site's Wedding party section. */
+  photo_url: string | null;
+  site_blurb: string | null;
+  on_site: boolean;
 };
+
+/** A wedding party member as guests see them (public_party_members). */
+export type PublicPartyMember = Pick<
+  AttirePartyMember,
+  "id" | "wedding_id" | "name" | "role" | "photo_url" | "site_blurb" | "sort_order"
+>;
 
 export type AttireShortlistEntry = {
   id: string;
@@ -749,6 +772,17 @@ export type GuestPost = {
 };
 
 /** A photo, story or quote the couple added to their guest site. */
+/** One of a couple's guest-site designs (0111). parseSiteDesign the design. */
+export type SiteDesignRow = {
+  id: string;
+  wedding_id: string;
+  name: string;
+  design: unknown;
+  shared_wording: boolean;
+  created_at: string;
+  updated_at: string;
+};
+
 export type SiteBlock = {
   id: string;
   wedding_id: string;

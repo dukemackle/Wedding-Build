@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import {
+  BG_DIVIDERS,
   BG_PATTERNS,
   BG_TEXTURES,
   BODY_FONTS,
@@ -18,6 +19,7 @@ import {
 import { PanelLabel } from "./editor-tabs";
 
 const SELECTED = "border-2 border-forest";
+const DIVIDER_MASK = "var(--divider) var(--divider-repeat) bottom left / var(--divider-size)";
 const UNSELECTED = "m-px border border-hairline hover:border-ink/30";
 
 type Change = (patch: Partial<SiteDesign>) => void;
@@ -445,9 +447,10 @@ function FontRow({
  * them behind the whole page; off, only behind the top of it.
  */
 export function BackgroundTab({ design, onChange }: { design: SiteDesign; onChange: Change }) {
-  const { theme, accent, accent2 } = resolveDesign(design);
+  const { theme, accent, accent2, band } = resolveDesign(design);
   const base = themeById(design.theme);
   const bg = design.background;
+  const storybook = design.pageStyle === "storybook";
   const vars = { "--site-accent": accent, "--site-accent-2": accent2, "--color-ink": theme.ink } as Record<string, string>;
   const colours = [...new Set([base.bg, base.surface, mix(base.bg, accent, 0.12), theme.bg].map((c) => c.toLowerCase()))];
   const set = (patch: Partial<SiteDesign["background"]>) => onChange({ background: { ...bg, ...patch } });
@@ -527,6 +530,46 @@ export function BackgroundTab({ design, onChange }: { design: SiteDesign; onChan
             </button>
           ))}
         </div>
+      </div>
+
+      <div className="flex flex-col gap-3">
+        <PanelLabel>Dividers</PanelLabel>
+        <div className="grid grid-cols-3 gap-2">
+          {BG_DIVIDERS.map((d) => (
+            <button
+              key={d.id}
+              type="button"
+              aria-pressed={bg.divider === d.id}
+              onClick={() =>
+                storybook || d.id === "none"
+                  ? set({ divider: d.id })
+                  : onChange({ background: { ...bg, divider: d.id }, pageStyle: "storybook" })
+              }
+              className="flex flex-col items-center gap-1 text-center text-[11px] leading-tight text-ink/70"
+            >
+              {/* The site's own divider rules (globals.css), drawn as a band rising into the page. */}
+              <span
+                className={`site-storybook relative block h-14 w-full overflow-hidden rounded-xl ${bg.divider === d.id ? SELECTED : UNSELECTED}`}
+                data-divider={d.id !== "none" ? d.id : undefined}
+                style={{ backgroundColor: theme.bg }}
+              >
+                <span className="absolute inset-x-0 bottom-0 h-1/2" style={{ background: band }} />
+                {d.id !== "none" && (
+                  <span
+                    className="absolute inset-x-0 bottom-1/2 h-[var(--divider-h)] max-h-6"
+                    style={{ background: band, marginBottom: -1, mask: DIVIDER_MASK, WebkitMask: DIVIDER_MASK }}
+                  />
+                )}
+              </span>
+              {d.label}
+            </button>
+          ))}
+        </div>
+        <p className="text-[13px] leading-normal text-ink/60">
+          {storybook
+            ? "The edge between the tinted bands down your page."
+            : "Dividers shape the edges of the Storybook page style's bands. Picking one switches your page to Storybook."}
+        </p>
       </div>
 
       <label className="flex items-center gap-2.5 text-[14px] text-ink">

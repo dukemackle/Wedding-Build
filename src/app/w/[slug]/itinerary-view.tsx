@@ -14,13 +14,16 @@ export function ItineraryView({
   weddingDate: string | null;
 }) {
   const days = groupEventsByDate(events);
-  const { pageStyle } = useSiteDesign();
+  const { pageStyle, layouts } = useSiteDesign();
+  // With no layout picked, the schedule follows the page style.
+  const layout = layouts.weekend ?? (pageStyle === "storybook" ? "timeline" : "cards");
 
   if (days.length === 0) {
     return <p className="text-sm text-ink/50">Nothing scheduled yet.</p>;
   }
 
-  if (pageStyle === "storybook") return <Timeline days={days} weddingDate={weddingDate} />;
+  if (layout === "timeline") return <Timeline days={days} weddingDate={weddingDate} />;
+  if (layout === "list") return <List days={days} />;
 
   return (
     // Phones stack the days; from md up they sit side by side as columns.
@@ -124,6 +127,56 @@ function Timeline({ days, weddingDate }: { days: ReturnType<typeof groupEventsBy
       ))}
     </div>
   );
+}
+
+/**
+ * The plain list: one row per event, when · what · where. On a computer the
+ * rows line up as columns; on a phone each row stacks.
+ */
+function List({ days }: { days: ReturnType<typeof groupEventsByDate> }) {
+  const many = days.length > 1;
+  return (
+    <div role="table" aria-label="Schedule" className="mx-auto w-full max-w-4xl">
+      <div role="row" className="hidden border-b border-hairline pb-3 font-mono-numbers text-xs uppercase tracking-[0.2em] text-ink/60 md:grid md:grid-cols-[11rem_minmax(0,1.3fr)_minmax(0,1fr)_7rem] md:gap-6">
+        <span role="columnheader">When</span>
+        <span role="columnheader">What</span>
+        <span role="columnheader">Where</span>
+        <span role="columnheader"><span className="sr-only">Calendar</span></span>
+      </div>
+      {days.flatMap((day) =>
+        day.events.map((event) => {
+          const when = [many ? shortDay(day.date) : null, event.start_time ? formatTime(event.start_time) : null]
+            .filter(Boolean)
+            .join(", ");
+          return (
+            <div
+              key={event.id}
+              role="row"
+              className="grid gap-1 border-b border-hairline py-4 last:border-b-0 md:grid-cols-[11rem_minmax(0,1.3fr)_minmax(0,1fr)_7rem] md:items-baseline md:gap-6"
+            >
+              <span role="cell" className="font-mono-numbers text-xs uppercase tracking-[0.15em] text-brass md:text-sm md:normal-case md:tracking-normal md:text-ink/80">
+                {when}
+              </span>
+              <span role="cell" className="min-w-0">
+                <span className="block font-display text-xl text-forest">{event.title}</span>
+                {event.description && <span className="mt-1 block text-sm text-ink/70">{event.description}</span>}
+              </span>
+              <span role="cell" className="text-sm text-ink/70">{event.location}</span>
+              <span role="cell">
+                <button onClick={() => downloadIcs(event)} className="text-xs text-brass hover:underline md:text-sm">
+                  Add to calendar
+                </button>
+              </span>
+            </div>
+          );
+        }),
+      )}
+    </div>
+  );
+}
+
+function shortDay(date: string) {
+  return new Date(`${date}T00:00:00`).toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
 }
 
 const ICONS: [RegExp, ReactNode][] = [

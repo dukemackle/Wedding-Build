@@ -68,6 +68,30 @@ Star Spangled Batter	Cake	2130 Jackson Blvd	Rapid City	South Dakota	Rapid City a
 Willow Salon and Spa	Hair & Makeup	613 6th St	Rapid City	South Dakota	Rapid City and wedding venues across the Black Hills	Salon whose bridal team does hair and makeup for the whole party, plus groom touch-ups, and travels to your venue.	info@willowsalonbh.com	605-718-3797	https://www.willowsalonbh.com/weddings	https://www.instagram.com/willowsalonbh/
 Create Beauty Studio	Hair & Makeup	809 South St	Rapid City	South Dakota	Rapid City and the Black Hills	Rapid City makeup and body-care studio offering luxury beauty services, with bridal and wedding-party work in its portfolio.			https://www.createbeautystudio.com/	https://www.instagram.com/createbeautystudio/`,
   },
+  {
+    name: "Sioux Falls: planning, videography, music, catering and florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Hitch Studio	Planning	406 Main Ave	Brookings	South Dakota	Brookings, Sioux Falls, Watertown, Aberdeen, Mitchell and across South Dakota and southwest Minnesota	Brookings planning and design studio offering full or partial wedding planning, decor styling, rentals, invitations and officiating, plus venue management.		605-592-9072	https://hitchstudio.com/wedding-planning/	https://www.instagram.com/hitchstudio/
+Pink Tie Events	Planning		Sioux Falls	South Dakota		Day-of coordination for couples who plan their own wedding, covering minute-by-minute timelines, vendor checks and DIY decor setup.	hello@pinktieeventsco.com	605-215-1674	https://www.pinktieeventsco.com/	https://www.instagram.com/pinktie_events/
+Grey Summit Productions	Videography	2601 W Sudbury St	Sioux Falls	South Dakota		Sioux Falls wedding filmmaker with over 20 years in video production, offering cinematic films, all-day coverage packages and live streaming of ceremonies.		605-695-1067	https://www.greysummit.com/	https://www.instagram.com/greysummitproductions/
+PINstudios	Videography		Tea	South Dakota	South Dakota, with travel out of state	Production studio whose wedding films have no set hour blocks, so the crew can stay from morning preparations through the late reception.	hi@pinstudios.media	(605) 679-6089	https://weddings.pinstudios.media/	https://www.instagram.com/pinstudiossf/
+Sanders Media	Videography		Sioux Falls	South Dakota		Sioux Falls media business making wedding films alongside real estate photography, commercial video, aerial work and audio production.		(605) 864-7556	https://www.sandersmedia.net/wedding-films	https://www.instagram.com/justinsandersofficial/
+AJ Production Company	Videography		Sioux Falls	South Dakota	Sioux Falls, the Black Hills, North Dakota and Nebraska	Film company making cinematic wedding and engagement films, with commercial work too, and travelling across the Dakotas and Nebraska.			https://www.ajproductioncompany.com/	https://www.instagram.com/ajproductioncompany/
+DJ Jer Events	Music	2101 Industrial St	Tea	South Dakota	Sioux Falls area	Wedding DJ, MC and live band booking led by an event lighting designer, with uplighting, monograms, pin spotting and photo booths.	hello@djjer.com	605-368-1647	https://djjer.com/	
+Roll'n Pin Catering	Catering		Sioux Falls	South Dakota	Sioux Falls, Brandon, Tea and the wider Sioux Empire	Restaurant-backed Sioux Falls caterer serving weddings since 1974 with buffets, plated meals, food stations and bar service.		605-339-9191	https://rollnpin.com/weddings	
+Pied Piper Flowers & Gifts	Florals	308 W 15th St	Yankton	South Dakota	Yankton and surrounding areas	Yankton florist designing wedding bouquets, ceremony arches, candelabra flowers and centrepieces, with consultations by phone or online.		(605) 665-7700	https://www.piedpiperflowers.com/wedding-flowers	https://www.instagram.com/piedpiperflowersandgifts/
+Brickhouse Flowers	Florals	236 N Main Street	Salem	South Dakota		Salem florist who takes on one wedding at a time and designs every bouquet and arrangement personally, after a sit-down consultation.		605-425-2090	https://www.brickhouseflowers.com/wedding-flowers	https://www.instagram.com/brickhouse_flowers/
+`,
+  },
+  {
+    name: "Rapid City: music, hair & makeup, planning and photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Colt 45 Entertainment	Music		Rapid City	South Dakota	South Dakota, North Dakota, Wyoming and Nebraska, with a Black Hills focus	DJ and MC company running Black Hills weddings since 2005, adding lighting, photo booths and cold sparks to its wedding packages.	info@colt45entertainment.com	(605) 484-8797	https://www.colt45entertainment.com/	https://www.instagram.com/colt45entertainment/
+William Walker Salon & Barbershop	Hair & Makeup	726 Jackson Blvd	Rapid City	South Dakota		Downtown Rapid City salon where stylists, some specialising in bridal updos, offer wedding-day updos and event styling.		(605) 716-0667	https://williamwalker.style/	
+Saylor Buxcel Photography	Photography		Rapid City	South Dakota	Western South Dakota, including Spearfish, Custer, Deadwood and the Badlands	Black Hills wedding and elopement photographer with a relaxed, unposed editorial style, covering canyon, meadow and granite-peak ceremonies.	Buxcelsaylor@icloud.com	(707) 599-0576	https://www.saylorbuxcelphotography.com/weddings-elopements	https://www.instagram.com/saylor.buxcel/
+Sayer JaDin Photography	Photography		Rapid City	South Dakota	Black Hills and across South Dakota	Black Hills photographer taking weddings across South Dakota, with a documentary approach that keeps the small moments of the day.	sayer@sayerjadinphotography.com		https://sayerjadinphotography.com/weddings	https://www.instagram.com/sayerjadinphotography/
+`,
+  },
 ];
 
 export default batches;
