@@ -515,6 +515,35 @@ function HeroThumb({
           <span className="flex flex-col items-center">{lines}</span>
         </span>
       )}
+      {layout === "collage" && (
+        <span className="absolute inset-0 flex items-center gap-2 px-2">
+          <span className="relative block h-[48px] w-[46%]">
+            <span className="absolute inset-[4px_6px_4px_4px]" style={{ background: photo }} />
+            <span className="absolute bottom-0 right-0 h-[20px] w-[16px] rotate-6 border-2" style={{ background: photo, borderColor: surface }} />
+            <span className="absolute left-0 top-0 h-[16px] w-[13px] -rotate-6 border-2" style={{ background: photo, borderColor: surface }} />
+          </span>
+          <span className="flex flex-1 flex-col items-center">{lines}</span>
+        </span>
+      )}
+      {layout === "slideshow" && (
+        <span className="absolute inset-0 flex flex-col items-center justify-center" style={{ background: photo }}>
+          <span className="block h-1.5 w-10 rounded-full bg-white" />
+          <span className="mt-1 block h-1 w-6 rounded-full bg-white/70" />
+          <span className="absolute bottom-1.5 flex gap-1">
+            {[1, 0.5, 0.5].map((o, i) => <span key={i} className="block h-1 w-1 rounded-full bg-white" style={{ opacity: o }} />)}
+          </span>
+        </span>
+      )}
+      {layout === "invitation" && (
+        <span className="absolute inset-0 flex items-center justify-center">
+          <span className="flex h-[58px] w-[46%] flex-col items-center justify-center gap-[3px] shadow-sm" style={{ background: surface, outline: `1px solid ${accent}`, outlineOffset: "-3px" }}>
+            <span className="block h-[2px] w-6 rounded-full opacity-50" style={{ background: ink }} />
+            <span className="block h-1.5 w-9 rounded-full" style={{ background: ink }} />
+            <span className="block h-[2px] w-7 rounded-full opacity-50" style={{ background: ink }} />
+            <span className="block h-[2px] w-5 rounded-full opacity-50" style={{ background: ink }} />
+          </span>
+        </span>
+      )}
       {layout === "monogram" && (
         <span className="absolute inset-[6px] flex flex-col items-center justify-center gap-1.5 border" style={{ borderColor: accent }}>
           <span className="block h-[22px] w-[18px] rounded-full border" style={{ borderColor: accent }} />

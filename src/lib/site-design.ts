@@ -618,10 +618,13 @@ export const HERO_LAYOUTS = [
   { id: "text", label: "Text only", help: "Just your names and date, beautifully set" },
   { id: "card", label: "Framed card", help: "Your names on a framed card, over your photo or a band of your colour" },
   { id: "poster", label: "Poster", help: "Your names huge, poster-style, over your photo or on their own" },
+  { id: "collage", label: "Collage", help: "Your banner and two gallery photos, layered, with your names beside them" },
+  { id: "slideshow", label: "Slideshow", help: "Your photos slowly fading one into the next behind your names" },
+  { id: "invitation", label: "Invitation", help: "Your names and date worded like a printed invitation, on a paper card" },
 ] as const;
 
 /** The layouts that show the banner photo. */
-export const PHOTO_HEROES: readonly HeroLayoutId[] = ["full", "split", "framed"];
+export const PHOTO_HEROES: readonly HeroLayoutId[] = ["full", "split", "framed", "collage", "slideshow"];
 
 /**
  * The mark above the couple's names: their initials, set in a frame drawn in
