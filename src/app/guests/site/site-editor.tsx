@@ -598,7 +598,10 @@ export function SiteEditor({
           <TemplatesTab design={design} names={names} onChange={change} />
         </>
       ) : tab === "wren" ? (
-        <DescribeSite design={design} onChange={change} />
+        <>
+          <DescribeSite design={design} onChange={change} />
+          <WrenWrite design={design} onChange={change} />
+        </>
       ) : tab === "theme" ? (
         <ThemeTab design={design} onChange={change} part="themes" />
       ) : tab === "colour" ? (
@@ -656,8 +659,6 @@ export function SiteEditor({
           )}
         </StyleTab>
       ) : (
-        <>
-        <WrenWrite design={design} onChange={change} />
         <SectionsTab
           design={design}
           onChange={change}
@@ -665,7 +666,6 @@ export function SiteEditor({
           info={sectionInfo}
           checklist={checklist}
         />
-        </>
       )}
     </div>
   );
