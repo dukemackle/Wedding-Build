@@ -674,6 +674,7 @@ export const SCENES = [
   { id: "meadow", label: "Ranch meadow", place: "band" },
   { id: "hills", label: "Vineyard rows", place: "band" },
   { id: "waves", label: "Waves", place: "band" },
+  { id: "palms", label: "Palms", place: "band" },
   { id: "pines", label: "Pines", place: "band" },
   { id: "frontier", label: "Mesas", place: "band" },
   { id: "sunset", label: "Desert sun", place: "band" },
@@ -915,6 +916,7 @@ export type HeroLayoutId = (typeof HERO_LAYOUTS)[number]["id"];
 export const SITE_SECTIONS = [
   { id: "rsvp", name: "RSVP", column: "main" },
   { id: "photos", name: "Photos", column: "main" },
+  { id: "party", name: "Wedding party", column: "main" },
   { id: "venue", name: "The venue", column: "main" },
   { id: "weekend", name: "The weekend", column: "main" },
   { id: "wall", name: "Photo wall", column: "main" },
@@ -1014,6 +1016,7 @@ export const TEXT_SLOTS = [
   { id: "hero.names", label: "Your names", words: false },
   { id: "rsvp.title", label: "RSVP heading", words: true },
   { id: "photos.title", label: "Photos heading", words: true },
+  { id: "party.title", label: "Wedding party heading", words: true },
   { id: "venue.title", label: "Venue heading", words: true },
   { id: "weekend.title", label: "Schedule heading", words: true },
   { id: "wall.title", label: "Photo wall heading", words: true },
@@ -1146,6 +1149,7 @@ export const DEFAULT_SITE_DESIGN: SiteDesign = {
   canvas: EMPTY_CANVAS,
   background: NO_BACKGROUND,
   heroPhoto: HERO_PHOTO,
+  photoFrame: null,
   monogram: MONOGRAM,
   template: null,
 };

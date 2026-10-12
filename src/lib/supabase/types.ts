@@ -40,6 +40,8 @@ export type Wedding = {
   site_design_draft: unknown;
   /** The design in site_designs that site_design was copied from; null before the first publish. */
   live_design_id: string | null;
+  /** bcrypt of the guest site's password; null when it has none. */
+  site_password_hash: string | null;
   /** Headings' words shared by every design with shared_wording on; parse with parseWording. */
   site_wording: unknown;
   /** A Google Sheet the couple imported from, kept so they can reopen it. */
@@ -74,6 +76,8 @@ export type PublicWedding = {
   venue_photo_urls: string[] | null;
   venue_about: string | null;
   venue_address: string | null;
+  /** The couple put a password on the site (the hash itself never leaves the database). */
+  site_locked: boolean;
 };
 
 export type WeddingFaq = {
@@ -539,7 +543,17 @@ export type AttirePartyMember = {
   notes: string | null;
   sort_order: number;
   created_at: string;
+  /** For the guest site's Wedding party section. */
+  photo_url: string | null;
+  site_blurb: string | null;
+  on_site: boolean;
 };
+
+/** A wedding party member as guests see them (public_party_members). */
+export type PublicPartyMember = Pick<
+  AttirePartyMember,
+  "id" | "wedding_id" | "name" | "role" | "photo_url" | "site_blurb" | "sort_order"
+>;
 
 export type AttireShortlistEntry = {
   id: string;

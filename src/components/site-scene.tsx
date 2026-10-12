@@ -213,6 +213,39 @@ function iconBackdrop(set: keyof typeof ICON_SETS, id: string) {
   );
 }
 
+/** A palm: a curved trunk leaning by `lean`, and fronds drooping from its crown. */
+function palm(x: number, base: number, h: number, lean: number, color: string, key: string) {
+  const tx = x + lean;
+  const ty = base - h;
+  const fronds = [-160, -125, -95, -60, -25, 10];
+  return (
+    <g key={key}>
+      <path
+        d={`M${x} ${base}C${x + lean * 0.1} ${base - h * 0.45} ${x + lean * 0.6} ${base - h * 0.8} ${tx} ${ty}`}
+        fill="none"
+        stroke={color}
+        strokeWidth={h * 0.07}
+        strokeLinecap="round"
+      />
+      {fronds.map((deg) => {
+        const a = (deg * Math.PI) / 180;
+        const len = h * 0.55;
+        const ex = tx + Math.cos(a) * len;
+        const ey = ty + Math.sin(a) * len * 0.35 + len * 0.3;
+        const cx = tx + Math.cos(a) * len * 0.5;
+        const cy = ty + Math.sin(a) * len * 0.55 - len * 0.05;
+        return (
+          <path
+            key={deg}
+            d={`M${tx} ${ty}Q${cx} ${cy - h * 0.06} ${ex} ${ey}Q${cx} ${cy + h * 0.04} ${tx} ${ty}Z`}
+            style={fill(color)}
+          />
+        );
+      })}
+    </g>
+  );
+}
+
 type Draw = Partial<Record<SceneId, (id: string) => ReactNode>>;
 
 const BANDS: Draw = {
@@ -334,6 +367,17 @@ const BANDS: Draw = {
         d="M0 240C170 220 320 262 480 240S780 216 940 242 1120 258 1200 238V260H0Z"
         style={fill(shade(70))}
       />
+    </>
+  ),
+  palms: () => (
+    <>
+      <path d="M0 150C200 132 400 160 600 146S1000 132 1200 150V260H0Z" style={fill(tint(18))} />
+      <path d="M0 190C180 172 360 204 560 188S940 170 1200 192V260H0Z" style={fill(tint(34))} />
+      <path d="M120 236C260 196 520 192 700 214S980 238 1080 236V260H120Z" style={fill(tint2(30))} />
+      {palm(330, 226, 170, 46, shade(55), "a")}
+      {palm(410, 222, 120, -38, shade(40), "b")}
+      {palm(880, 230, 150, -42, shade(55), "c")}
+      <path d="M0 242C200 230 400 252 600 242S1000 230 1200 244V260H0Z" style={fill(tint(70))} />
     </>
   ),
   pines: (id: string) => (

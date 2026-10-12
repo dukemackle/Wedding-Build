@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { canvasSchema } from "./site-canvas-schema";
-import { PHOTO_FILTERS, type PhotoFilterId } from "./site-canvas";
+import { PHOTO_FILTERS, PHOTO_FRAMES, type PhotoFilterId, type PhotoFrameId } from "./site-canvas";
 import {
   ART_IDS,
   BG_DIVIDERS,
@@ -172,6 +172,8 @@ export const siteDesignSchema = z.object({
       filter: z.enum(PHOTO_FILTERS.map((f) => f.id) as [PhotoFilterId, ...PhotoFilterId[]]).catch("none"),
     })
     .catch(HERO_PHOTO),
+  /** The shape around the Photos section's pictures and photo sections; null keeps the page style's own. */
+  photoFrame: z.enum(PHOTO_FRAMES.map((f) => f.id) as [PhotoFrameId, ...PhotoFrameId[]]).nullable().catch(null),
   /** The monogram's letters and date line; the frame is `ornament`. */
   monogram: z
     .object({
