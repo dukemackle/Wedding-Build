@@ -47,6 +47,25 @@ Pine Haven Venue & Lodging	13514 S Highway 16	Rapid City	South Dakota			Barn / R
 Missouri Avenue Event Center	217 W Missouri Ave	Pierre	South Dakota			Restaurant / Vineyard	Indoor & Outdoor	150		A Pierre event centre and wine and ale house near the river with an indoor bar, room for 150 inside and 100 outdoors, and views of LaFramboise Island.	MissouriAvenueEvents@gmail.com		https://missouriavenueevents.com/
 `,
   },
+  {
+    name: "Statewide: Sioux Falls, Black Hills, Watertown, Pierre, Yankton, Aberdeen and Brookings",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Riviera Events & Catering	26665 481st Ave	Brandon	South Dakota			Ballroom / Hotel	Indoor & Outdoor	300		A rural event hall between Brandon and Sioux Falls with an in-house caterer, a full bar and a patio for up to 75 guests.	info@rivierasiouxfalls.com	(605) 413-8780	https://www.rivierasiouxfalls.com/venue
+Besler's Cadillac Ranch	19314 Helmer Rd	St. Onge	South Dakota			Barn / Rustic	Indoor & Outdoor			A Black Hills ranch of over a thousand acres on the Red Water River with a two-story reception barn, chapel, gazebo and covered bridge.	beslerscadillacranch@gmail.com	605.391.6791	https://beslerscadillacranch.com/
+Diamond Spur Events Center	23826 Mill Iron Dr	Rapid City	South Dakota			Barn / Rustic	Indoor & Outdoor	300	Classic	A 7,000-square-foot ranch-style hall near Hill City with a 33-foot-ceiling Cullinan Hall, two bridal suites and a patio and lawn.	info@diamondspurevents.com		https://www.diamondspurevents.com/weddings
+Prairie View Event Hall	27091 Kerslake Pl	Tea	South Dakota			Ballroom / Hotel	Indoor & Outdoor	450		A light-filled 7,500-square-foot hall with cedar beams between Tea and Sioux Falls, with bridal and groom suites and open catering.	prairievieweventhall@gmail.com	(605) 743-4327	https://www.prairieviewevents.com/weddings-events
+Joy Ranch of South Dakota	16633 448th Ave	Florence	South Dakota			Barn / Rustic	Indoor & Outdoor			A 126-acre horse ranch near Watertown with a lakeside hill, a historic church and a rustic reception hall for ceremonies and dancing.		605-886-4622	https://www.joyranchofsd.org/weddings
+The Goss Opera House	100 E Kemp Ave	Watertown	South Dakota			Historic / Estate	Indoor	275		A downtown Watertown opera house with a 275-seat dining hall, a smaller landing and studio, and a second-floor bridal retreat.	info@thegossoperahouse.com	(605) 753-0200	https://thegossoperahouse.com/weddings/
+Lewis & Clark Resort	43496 Shore Dr	Yankton	South Dakota			Beach / Waterfront	Indoor			A lakeside resort near Yankton whose 4,000-square-foot lodge has an 1,800-square-foot gathering room, kitchen and six bedrooms.	reservations@lewisandclarkresort.com	605-665-2680	https://www.lewisandclarkresort.com/
+Larkspur Landing	1908 N Garfield Ave	Pierre	South Dakota			Ballroom / Hotel	Indoor	650		A 15,000-square-foot event centre in Pierre that opened in 2024, with bridal and groom suites, a long bar and a prep kitchen.	larkspurlanding605@gmail.com	605-380-7663	https://www.larkspurlanding605.com/
+Bennett Barn	47439 214th St	Aurora	South Dakota			Barn / Rustic	Indoor & Outdoor			A 1938 family barn near Brookings with a dance-floor loft, a covered lean-to, a back patio bar and open lawn and trees for ceremonies.	bennettbarnsd@gmail.com	605-690-3246	https://bennettbarn.net/thebarn/
+Drifters Event Center	325 E Hustan Ave	Fort Pierre	South Dakota			Beach / Waterfront	Indoor	300		A modern riverfront event centre at Riverwalk Landing on the Missouri, with in-house catering and bar and lounges for the wedding party.		605.220.5014	https://www.driftersbarandgrille.com/weddings/
+Generations Weddings & Events	7775 Palmer Ln	Rapid City	South Dakota			Garden / Outdoor	Indoor & Outdoor		Simple	A family-run Rapid City venue with several outdoor ceremony sites, a reception hall, and a guest house that sleeps 16.	GenerationsWeddingsAndEvents@gmail.com	(605) 390-0614	https://www.generationsweddingsandevents.com/wedding-packages
+Blue Haven Barn and Gardens	46594 268th St	Sioux Falls	South Dakota			Barn / Rustic	Indoor & Outdoor	500		A barn and gardens west of Sioux Falls, with terraced grounds, a newer 500-seat Atrium and a 100-seat Retreat for smaller weddings.	info@bluehavenbarn.com	605-215-1377	https://www.bluehavenbarn.com/
+Old Courthouse Museum	200 W 6th St	Sioux Falls	South Dakota			Historic / Estate	Indoor & Outdoor			A historic courthouse in downtown Sioux Falls whose courtroom, law library, hallway and outdoor plaza can be rented for weddings.		(605) 367-4210	https://www.siouxlandmuseums.com/index.php/welcome-to-the-siouxland-heritage-museums/rental-facilities/
+Gate City Events & Lodging	47947 W 5th St	Canton	South Dakota			Barn / Rustic	Indoor & Outdoor	350		A 7,200-square-foot rustic event centre on 15 acres at Canton, with an 11-unit motel, a rental home and a campground nearby.	gceventsllc@gmail.com	605-214-4604	https://www.gceventsllc.com/canton-sd-wedding-venues
+`,
+  },
 ];
 
 export default batches;

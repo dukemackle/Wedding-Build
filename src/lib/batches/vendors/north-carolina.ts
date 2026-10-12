@@ -314,6 +314,30 @@ Outer Banks Catering and Events	Catering		Outer Banks	North Carolina	All over th
 Almost Heaven Bakery OBX	Cake		Outer Banks	North Carolina		Outer Banks bakery with a gallery of wedding cakes and a dedicated page explaining its cakes.		252-715-5856	https://almostheavenbakeryobx.com	https://www.instagram.com/almostheavenbakeryobx/
 Icing on the Cakes	Cake		Kitty Hawk	North Carolina	Outer Banks	Kitty Hawk cake and dessert shop serving the Outer Banks for over 27 years, with guidance on ordering wedding desserts.		252-267-7325	https://icingonthecakes.com	`,
   },
+  {
+    name: "Charlotte: Catering, Videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Delectables by Holly	Catering	901 Berryhill Rd, Suite A	Charlotte	North Carolina		Full-service Charlotte caterer building custom menus for weddings, corporate events and social gatherings, with dedicated wedding galleries.		704-342-4800	https://www.delectablesbyholly.com/	https://www.instagram.com/delectablesbyhollycatering/
+M&P Weddings & Films	Videography		Charlotte	North Carolina	Charlotte, Asheville, Waxhaw and destinations across North Carolina	Cinematic wedding films that capture vows and speeches on audio, with raw footage on a wooden USB and an optional pass-around guest camera.	mpweddingservices@gmail.com		https://mpweddingservicescharlotte.com/	https://www.instagram.com/m_p_weddings_films/`,
+  },
+  {
+    name: "Raleigh–Durham: Videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Lucas Studios	Videography		Raleigh	North Carolina	Raleigh, Durham, Chapel Hill and the Research Triangle	Husband-and-wife team filming cinematic wedding films with two cameras, in a calm and unobtrusive style across the Triangle.	josh@lucasstudiosnc.com	(919) 741-8802	https://www.lucasstudiosvideo.com/	https://www.instagram.com/lucasstudiosnc/`,
+  },
+  {
+    name: "Greensboro and Winston-Salem: Music, Videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+336 DJ's & Photobooth	Music		Greensboro	North Carolina	Greensboro, High Point, Winston-Salem, Charlotte, Raleigh and Durham	Greensboro DJ, lighting and sound company that also rents photo booths with unlimited prints, props and a backdrop of your choice.	336djs@gmail.com	(336) 207-9185	https://www.336djs.com/	https://www.instagram.com/336djs/
+Sugar Shack Films	Videography		Greensboro	North Carolina	The Triad and across North Carolina	Greensboro wedding filmmakers shooting story-driven films in 4K with drone footage and recorded audio at barns, farms, beaches and hotels.	john@sugarshackfilms.com	336-893-0756	https://sugarshackfilms.com/greensboro-wedding-videographer/	
+Winston-Salem DJ	Music	1618 Pugh Dr	Winston-Salem	North Carolina	Winston-Salem and surrounding areas	DJ and MC service for weddings with ceremony audio, uplighting and audio rentals, plus a client portal for planning your music.	greg@winstonsalemdj.com	336-995-4822	https://winstonsalemdj.com/	
+Whitt Photography & Film	Videography		Winston-Salem	North Carolina	Winston-Salem and destination weddings	Husband-and-wife team offering wedding highlight and home-movie style films, booked on their own or bundled with photography.		336-618-9957	https://www.whittphotographyandfilm.com/	https://www.instagram.com/whittphotographyandfilm/`,
+  },
+  {
+    name: "Outer Banks: Photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Natalie Heim Photography	Photography		Kitty Hawk	North Carolina	Corolla to Hatteras Island	Outer Banks wedding and family photographer covering beach ceremonies and elopements from Corolla down to Hatteras Island.	info@natalieheimphotography.com	(252) 573-1769	https://www.natalieheimphotography.com/	https://www.instagram.com/natalieheimphotography/`,
+  },
 ];
 
 export default batches;

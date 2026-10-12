@@ -62,19 +62,23 @@ const TEXT_PRESETS = [
 
 /** Art groups that suit a theme, offered first. */
 const THEME_ART: Record<string, string[]> = {
-  ocean: ["Coast"],
-  riviera: ["Coast", "Destination"],
+  ocean: ["Coast", "Tropical"],
+  riviera: ["Coast", "Destination", "Tropical"],
   desert: ["Desert", "Western"],
   ranch: ["Western"],
   cowgirl: ["Western"],
   vineyard: ["Vineyard", "Greenery"],
   winter: ["Winter", "Seasonal"],
   mountain: ["Winter", "Greenery"],
-  barn: ["Greenery", "Seasonal"],
+  barn: ["Harvest", "Greenery", "Seasonal"],
   garden: ["Greenery", "Wildflowers"],
   botanical: ["Greenery", "Wildflowers"],
   blush: ["Roses & peonies", "Wildflowers"],
   terracotta: ["Desert", "Greenery"],
+  city: ["City", "Celebration"],
+  blacktie: ["Celebration", "City"],
+  modern: ["City", "Celebration"],
+  retro: ["Celebration"],
 };
 
 function groupArt(pieces: ArtPiece[]) {

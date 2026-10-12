@@ -153,6 +153,7 @@ export function GuestSiteTheme({
         data-scroll={design.motion.scroll}
         data-photo={design.motion.photo}
         data-opening={design.motion.opening}
+        data-shimmer={design.motion.shimmer || undefined}
         data-bg-scope={design.background.scope}
         data-preview={preview || undefined}
         data-bg-on={design.background.pattern !== "none" || design.background.texture !== "none" || undefined}

@@ -184,6 +184,35 @@ Electra Entertainment	Music		Annapolis	Maryland	Annapolis, Baltimore, Columbia a
 410 Films	Videography		Annapolis	Maryland	Annapolis, Kent Island, Eastern Shore and Cecil County	Annapolis videographer making emotional cinematic highlight films with optional drone footage, offered as three flat-rate packages.	Devin@410films.com	443-454-2986	https://www.410films.com/weddings	https://www.instagram.com/410films/
 A Golden Fox Productions	Videography		Annapolis	Maryland	DMV area and beyond	Annapolis wedding filmmakers focused on unscripted, real-moment storytelling: happy tears, dance floors and quiet glances.	agoldenfoxproduction@gmail.com	203-640-6843	https://www.agoldenfox.com/	https://www.instagram.com/agoldenfox/`,
   },
+  {
+    name: "Baltimore: planning, music, catering, hair & makeup and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Avenue Events	Planning		Baltimore	Maryland		Baltimore planning studio shaping weddings around each couple's personality, with calm vendor coordination and day-of schedule management.			https://www.aveeventsmd.com/	https://www.instagram.com/ave.events.md/
+Lemon & Lime Event Design	Planning		Baltimore	Maryland	East Coast from Baltimore	Baltimore wedding planning and design team creating relaxed, never-repeated looks that are neither too stuffy nor too casual.	hello@lemonandlimeevent.com		https://lemonandlimeevent.com/	https://www.instagram.com/lemonandlimeeventdesign/
+Wedded Details	Planning		Baltimore	Maryland	Baltimore City and County, Howard, Anne Arundel, Harford and Carroll counties	Flat-rate Baltimore planning for budget-minded couples, including multicultural and two-day weddings, with a vendor list within days of intake.			https://www.weddedetails.com/baltimore-wedding-planner/	
+District Remix	Music		Columbia	Maryland	Maryland, DC and Virginia	Columbia wedding DJs who mix live in an open-format style, guiding the timeline, MCing and tailoring sets to each couple's taste in music.	info@districtremix.com	443-832-3911	https://districtremix.com/	https://www.instagram.com/districtremix/
+Phil Phest Events	Music	8064 Philadelphia Road	Baltimore	Maryland	Maryland, Delaware, Virginia, DC and Pennsylvania	Baltimore DJ and event host offering wedding entertainment with photo, video and 360 booths, lighting effects and officiating.	phil@philphestevents.com		https://philphestevents.com/	https://www.instagram.com/philphestevents/
+Evolved Catering & Events	Catering	2315 Belair Rd, Unit B5	Fallston	Maryland	Harford County and Baltimore	Chef-led Harford County caterer for weddings and receptions, with private tastings, family-style service and its own Fallston venue.		443-400-7336	https://evolvedeventscatering.com/	https://www.instagram.com/evolved_catering/
+Copper Kitchen	Catering	2000 Washington Blvd, Suite J	Baltimore	Maryland	Maryland and Virginia, including Howard, Baltimore, Harford and Anne Arundel counties	Chef-led Baltimore caterer building bespoke wedding menus around seasonal Mid-Atlantic ingredients, with polished, hospitable service.	info@copperkitchenmd.com	410-705-7799	https://copperkitchenmd.com/	https://www.instagram.com/copperkitchenmd/
+Ken's Creative Kitchen	Catering	980 Awald Road, Suite 201	Annapolis	Maryland	Annapolis, Greater Washington DC and the Eastern Shore	Annapolis caterer serving fine food since 1977, with wedding menus and help planning the details of the day.	ken@kenscreativekitchen.com	410-268-3222	https://kenscreativekitchen.com/	https://www.instagram.com/kenscreativekitchen/
+Guidugli Artistry & Design	Hair & Makeup		Baltimore	Maryland		Gwynn Oak bridal makeup and hair artistry, offered in studio or on site, with bridal previews and consultations before the wedding day.	info@guidugliartistry.com	443-304-7934	https://guidugliartistry.com/	https://www.instagram.com/guidugliartistry/
+Brushed Beauty	Hair & Makeup	3500 Boston St, Suite 315	Baltimore	Maryland		Baltimore onsite hair and makeup team for brides, bridal parties and families, with looks planned around each person's features and style.	brushedbeauty17@gmail.com		https://brushedbeautyllc.com/	https://www.instagram.com/brushedbeautyllc_/
+Swept, LLC	Hair & Makeup		Joppa	Maryland	Maryland, Delaware, Virginia and Washington DC	Joppa team of 27 artists doing onsite bridal hair and makeup for large parties, with trials, backup artist cover and all hair types.	sweptartistry@gmail.com	443-386-9904	https://sweptllc.com/	
+Vintage Veils	Hair & Makeup	605 Baltimore Annapolis Blvd, Suite 3	Severna Park	Maryland	Maryland, Washington DC, Virginia and destinations	Severna Park on-location bridal hair and makeup from a hand-picked team, favouring natural beauty over trends and a calm morning.	vintageveils@yahoo.com	443-863-0723	https://vintageveilsbeauty.com/	https://www.instagram.com/vintageveilsbeauty/
+Caitlyn Meyer Pro Beauty Team	Hair & Makeup		Baltimore	Maryland	Baltimore, Washington DC and destinations	Baltimore bridal hair and makeup team travelling on location and abroad, with a polished, high-touch approach to effortless looks.			https://caitlynmeyer.com/	https://www.instagram.com/caitlynmeyermua/
+John Braden Films	Videography		Baltimore	Maryland	Baltimore and travelling	Baltimore wedding filmmaker making highlight films from vows, speeches and music, with a calm presence that keeps couples at ease.			https://johnbradenfilms.com/	https://www.instagram.com/johnbradenfilms/`,
+  },
+  {
+    name: "Frederick: cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Sage Cakery	Cake	3401 Urbana Pike	Frederick	Maryland		Frederick bake shop making scratch-baked wedding cakes, with tasting consultations, delivery and setup priced by distance.	sagecakery@gmail.com	240-341-2710	https://sagecakery.com/weddings	`,
+  },
+  {
+    name: "Eastern Shore: videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Gretta Greenwald Videography	Videography		Salisbury	Maryland		Salisbury videographer making candid, emotion-led wedding films, plus smaller lifestyle and adventure mini films.	grettagreenwald@yahoo.com		https://grettagreenwald.com/	https://www.instagram.com/grettagreenwald/
+Holland Videography	Videography		Crisfield	Maryland		Crisfield videography team filming weddings and events in a mix of candid and traditional styles, with trailer-based packages.	HollandVideography18@gmail.com	443-235-1731	https://hollandvideography.com/	https://www.instagram.com/hollandvideography/`,
+  },
 ];
 
 export default batches;

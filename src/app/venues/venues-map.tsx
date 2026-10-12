@@ -114,13 +114,12 @@ export function VenuesMap({
         scrollWheelZoom
         minZoom={MAP_MIN_ZOOM}
         maxBounds={US_MAP_BOUNDS}
-        maxBoundsViscosity={1}
+        maxBoundsViscosity={0.8}
         style={{ height: "100%", width: "100%" }}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          noWrap
         />
         <FitToPins points={points} />
         <ClusteredMarkers

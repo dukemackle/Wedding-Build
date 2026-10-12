@@ -56,6 +56,23 @@ The exact values are in `THEMES` in the mockup's `Main.dc.html`.
 - Existing section content is already stored by `0063_guest_site_sections.sql` and so on. That
   content stays where it is; only presentation moves into the jsonb.
 
+## Several designs (built 2026-10-11)
+Approved from mockups on 2026-10-11 (Canva's "Continue designing" / template gallery as the model).
+- `/guests/site` is now **Your designs**: a card per design (live one first, gold **Live** badge),
+  each with a ⋯ menu (open, make live, rename, duplicate, "Use my shared wording", delete), then
+  a row of templates. Up to 10 designs (`MAX_DESIGNS`). The live design can't be deleted.
+- `/guests/site/templates` is the gallery: tag filters, every template drawn in the couple's names
+  (`site-thumb.tsx`, drawn not rendered). A tapped template opens the real guest site in that look
+  (`/guests/site/preview?look=1`, sent the design by postMessage), three colour options, and
+  **Customize this template**, which makes a new design (template over the live design) and opens it.
+- The editor moved to `/guests/site/edit/[id]`. Publish there copies the design to
+  `weddings.site_design` and sets `weddings.live_design_id`; on a design guests don't see the
+  button reads "Make this live".
+- Data (`0111_site_designs.sql`): one `site_designs` row per design. `site_design_draft` is no
+  longer written. **Shared wording** is the headings' words (the `text` slots): designs with
+  `shared_wording` on read and write them in `weddings.site_wording`; off, the design keeps its own.
+  Story, FAQ, schedule, photos and RSVPs live in their own tables, so they're shared by every design.
+
 ## Section order on a computer (decided 2026-09-27)
 The desktop site keeps two columns: what guests act on (RSVP, photos, the weekend,
 photo wall) in the wide main column, reference material (who's coming, travel & stays,
