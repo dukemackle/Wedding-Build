@@ -966,7 +966,6 @@ export function SiteEditor({
                 key={t.key}
                 label={t.label}
                 icon={TAB_ICONS[t.key as keyof typeof TAB_ICONS]}
-                className={t.key === "wren" ? "mt-auto" : undefined}
                 on={tab === t.key || (t.key === "elements" && (tab === "position" || tab === "photo" || tab === "animate"))}
                 onClick={() => setTab(t.key)}
               >
