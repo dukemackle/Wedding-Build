@@ -41,6 +41,25 @@ export async function updateGuestSiteDetails(formData: FormData): Promise<{ erro
   return {};
 }
 
+/** The venue's name and address when it isn't one of the listings. */
+export async function updateOwnVenue(formData: FormData): Promise<{ error?: string }> {
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
+  if (!wedding) return { error: noWedding };
+  const field = (name: string, max: number) => str(formData, name)?.slice(0, max) ?? null;
+  const { error } = await supabase
+    .from("weddings")
+    .update({
+      own_venue_name: field("own_venue_name", 120),
+      own_venue_address: field("own_venue_address", 200),
+      own_venue_city: field("own_venue_city", 80),
+      own_venue_state: field("own_venue_state", 40),
+    })
+    .eq("id", wedding.id);
+  if (error) return { error: error.message };
+  revalidateGuestSite(wedding.public_slug);
+  return {};
+}
+
 export async function addWeddingFaq(formData: FormData): Promise<{ error?: string }> {
   const { supabase, user, wedding, noWedding } = await requireEditableWedding();
 

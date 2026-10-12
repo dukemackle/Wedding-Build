@@ -19,7 +19,7 @@ import { blockKey, type SectionId } from "@/lib/site-design";
 import { parseSiteDesign } from "@/lib/site-design-schema";
 import { HeroPhotoPanel } from "../../../hero-photo-panel";
 import { GalleryPanel } from "../../../gallery-panel";
-import { Accommodations, DressAndTravel, Faqs } from "../../../guest-site-details";
+import { Accommodations, DressAndTravel, Faqs, OwnVenue } from "../../../guest-site-details";
 import { RegistryManager } from "../../../registry-manager";
 import { SiteEditor } from "../../site-editor";
 import type { ChecklistItem, SectionInfo } from "../../editor-tabs";
@@ -209,10 +209,17 @@ export default async function GuestSiteEditorPage({ params }: { params: Promise<
             ? `${venue.name}, with ${venuePhotos} of their photo${venuePhotos === 1 ? "" : "s"}`
             : `${venue.name} (they haven't added photos yet)`,
         }
-      : {
-          status: `No venue picked${hidden.replace("add one", "pick one")}`,
-          link: { href: "/venues", label: "Find your venue" },
-        },
+      : wedding.own_venue_name
+        ? {
+            status: `${wedding.own_venue_name} (your own venue)`,
+            editor: <OwnVenue wedding={wedding} />,
+            link: { href: "/venues", label: "Or pick a listed venue" },
+          }
+        : {
+            status: `No venue picked${hidden.replace("add one", "pick one")}`,
+            editor: <OwnVenue wedding={wedding} />,
+            link: { href: "/venues", label: "Find your venue" },
+          },
     weekend: {
       layout: "weekend",
       status: !events
