@@ -192,6 +192,30 @@ The Catered Coconut	Catering		Paia	Hawaii		Paia company that sets up fresh cocon
 Bree Rubin Hair + Makeup	Hair & Makeup		Lahaina	Hawaii		Lahaina bridal hair and makeup artist with a dedicated wedding portfolio and Couples' Choice recognition from WeddingWire.	Bree@BreeRubinHair.com		https://breerubinhair.com	https://www.instagram.com/breerubinhair/
 Maui Wedding Medias	Videography	16 S Market St	Wailuku	Hawaii		Wailuku studio led by Sean Hower, offering wedding videography alongside photography for couples marrying across Maui.	hower.photos@gmail.com	(808) 250-1788	https://mauiweddingmedias.com	https://www.instagram.com/seanmhower/`,
   },
+  {
+    name: "Maui: music, catering and cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Full Flavor Band	Music		Maui	Hawaii	Maui	Six-piece Maui band playing live covers for weddings and corporate events, with a customisable line-up and a high-energy dance set.		(808) 446-5131	https://www.fullflavorband.com/	https://www.instagram.com/fullflavorband/
+Barefoot Minded	Music		Maui	Hawaii	Maui	Acoustic Maui duo with over 15 years of wedding work, playing ceremonies, cocktail hours and receptions at venues across the island.		(808) 208-1605	https://barefootminded.com/	
+Ace Beats	Music		Maui	Hawaii	Island of Maui	Mobile DJ and photo booth company for Maui weddings, offering a ceremony sound system and custom planning for the reception.			https://acebeats.com/	https://www.instagram.com/djskinnyguy/
+Cloud 9 Events	Catering		Wailuku	Hawaii	Maui	Wailuku personal chef and event caterer for Maui weddings, serving passed appetisers, buffets or plated coursed dinners.	orders@cloud9catering.com	(808) 740-3982	https://www.cloud9eventsmaui.com/	https://www.instagram.com/cloud9catering/
+GhiseLani Designer Wedding Cakes	Cake		Maui	Hawaii	Maui	Family-run Maui wedding cake maker with signature styles from mini to large, plus vegan, gluten-free and raw options.	designercakes@mauicakestore.com	(808) 385-0481	https://www.ghiselani.com/	`,
+  },
+  {
+    name: "Big Island: music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+South Kohala Sound System	Music		Waikoloa	Hawaii	Waikoloa and the Kohala Coast	Big Island wedding DJ and sound service around Waikoloa and the Kohala Coast, offering ceremony microphones and reception music.	southkohalasoundsystem@gmail.com		https://www.southkohalasoundsystem.com/	https://www.instagram.com/dj_syf/`,
+  },
+  {
+    name: "Honolulu: hair and makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Maleana Beauty	Hair & Makeup		Honolulu	Hawaii	Oahu and island-wide mobile	Honolulu bridal hair and makeup team that books only one or two weddings a day and travels across Oahu and the other islands.	info@maleana.com	(808) 737-3663	https://www.maleana.com/	https://www.instagram.com/maleanabeauty/`,
+  },
+  {
+    name: "Kauai: videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Zane Persaud	Videography		Kauai	Hawaii	Kauai	Kauai-based videographer filming weddings and events, with a portfolio of wedding films shot at resorts and venues around the island.	zane.persaud@gmail.com		https://www.zanepersaud.com/	https://www.instagram.com/zapsizzle/`,
+  },
 ];
 
 export default batches;
