@@ -21,6 +21,38 @@ function seasonOf(date: string) {
   return "Fall";
 }
 
+/** Whole days from one YYYY-MM-DD to another. */
+function daysBetween(from: string, to: string) {
+  return Math.round((Date.parse(`${to}T00:00:00Z`) - Date.parse(`${from}T00:00:00Z`)) / 86_400_000);
+}
+
+function addDays(date: string, days: number) {
+  return new Date(Date.parse(`${date}T00:00:00Z`) + days * 86_400_000).toISOString().slice(0, 10);
+}
+
+async function shiftSchedule(
+  supabase: Awaited<ReturnType<typeof requireEditableWedding>>["supabase"],
+  weddingId: string,
+  days: number,
+): Promise<{ error?: string }> {
+  if (!days) return {};
+  const { data: events, error } = await supabase
+    .from("itinerary_events")
+    .select("id, event_date")
+    .eq("wedding_id", weddingId)
+    .returns<{ id: string; event_date: string }[]>();
+  if (error) return { error: error.message };
+  for (const e of events ?? []) {
+    const { error: moveError } = await supabase
+      .from("itinerary_events")
+      .update({ event_date: addDays(e.event_date, days) })
+      .eq("id", e.id)
+      .eq("wedding_id", weddingId);
+    if (moveError) return { error: moveError.message };
+  }
+  return {};
+}
+
 export async function saveWedding(formData: FormData): Promise<{ error?: string }> {
   const { supabase, user, wedding: existing, noWedding } = await requireEditableWedding();
 
@@ -43,6 +75,11 @@ export async function saveWedding(formData: FormData): Promise<{ error?: string 
     }
   }
 
+  const rsvpDeadline = (formData.get("rsvp_deadline") as string) || null;
+  if (rsvpDeadline && weddingDate && rsvpDeadline >= weddingDate) {
+    return { error: "Your RSVP deadline is on or after the wedding date. Pick a day before it." };
+  }
+
   const details = {
     partner_a_name: formData.get("partner_a_name") as string,
     partner_b_name: formData.get("partner_b_name") as string,
@@ -60,7 +97,7 @@ export async function saveWedding(formData: FormData): Promise<{ error?: string 
     guest_count_override: guestCountOverrideRaw
       ? Number(guestCountOverrideRaw)
       : null,
-    rsvp_deadline: (formData.get("rsvp_deadline") as string) || null,
+    rsvp_deadline: rsvpDeadline,
     updated_at: new Date().toISOString(),
   };
 
@@ -80,6 +117,15 @@ export async function saveWedding(formData: FormData): Promise<{ error?: string 
     // means nothing to a couple; keep it in the logs.
     console.error("saveWedding failed", error);
     return { error: "We couldn't save your wedding details. Please try again in a moment." };
+  }
+
+  // A moved wedding moves its weekend: every schedule event shifts by the same
+  // number of days (the form's "Move my schedule too", on by default), so the
+  // rehearsal stays the night before and guests don't see the old dates.
+  const oldDate = existing?.wedding_date;
+  if (saved && oldDate && weddingDate && oldDate !== weddingDate && formData.get("shift_schedule") === "on") {
+    const shifted = await shiftSchedule(supabase, saved.id, daysBetween(oldDate, weddingDate));
+    if (shifted.error) console.error("shiftSchedule failed", shifted.error);
   }
 
   // The date is what the standard checklist counts back from, so it arrives

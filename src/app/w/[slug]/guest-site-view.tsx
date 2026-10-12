@@ -23,6 +23,8 @@ import { StayList } from "./stay-list";
 import { VenueView } from "./venue-view";
 import { PartyView } from "./party-view";
 import { WeddingHero } from "./wedding-hero";
+import { CeremonyProvider } from "./hero-actions";
+import { SiteNotice } from "./site-notice";
 import type { ReactNode } from "react";
 import { bannerPhoto, blockKey, type SectionKey } from "@/lib/site-design";
 import { SiteBlockView, blockHasContent } from "./site-block";
@@ -362,7 +364,14 @@ export function GuestSiteView({
     <main className="flex flex-1 flex-col">
       <Replayable>
         <SiteMotion initials={initials} />
-        <WeddingHero wedding={wedding} />
+        <SiteNotice />
+        <CeremonyProvider
+          ceremony={
+            itineraryEvents.find((e) => e.event_date === wedding.wedding_date && /ceremony|vows|nikah|wedding/i.test(e.title) && e.start_time) ?? null
+          }
+        >
+          <WeddingHero wedding={wedding} />
+        </CeremonyProvider>
         <SectionLayout sections={sections} />
       </Replayable>
     </main>
