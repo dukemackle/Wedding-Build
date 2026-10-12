@@ -56,6 +56,24 @@ Kiln Creek Golf Club & Resort	1003 Brick Kiln Blvd	Newport News	Virginia			Ballr
 The Watermen's Museum	309 Water Street	Yorktown	Virginia			Beach / Waterfront	Indoor & Outdoor			Museum that rents its Carriage House, event tent and deck, and a private York River beach for weddings.	admin@watermens.org	757-887-2641	https://watermens.org/wedding-venue/
 Lesner Inn	3319 Shore Drive	Virginia Beach	Virginia			Beach / Waterfront	Indoor & Outdoor	200		Shore Drive event venue between the Chesapeake Bay and Lynnhaven River with a hall, waterside deck and in-house catering.		(757) 481-1122	https://lesnerinn.com`,
   },
+  {
+    name: "Virginia venues: Northern Virginia, Hampton Roads, Richmond and Shenandoah",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+The Barn at Willow Brook	15486 Limestone School Road	Leesburg	Virginia			Barn / Rustic	Indoor & Outdoor	150		An intimate luxury wedding barn near Leesburg, with an on-site cottage and packages that include an overnight stay.	betsy@thebarnatwillowbrook.com		https://thebarnatwillowbrook.com/
+Halcyon Watson	23528 Watson Rd.	Leesburg	Virginia			Historic / Estate	Indoor & Outdoor	150		A restored historic estate on 22 acres in Loudoun County with a barn that seats up to 150 guests.	info@halcyonwatson.com	571-707-4030	https://halcyonwatson.com/
+Still Meadow Farm	18297 Silcott Springs Road	Purcellville	Virginia			Barn / Rustic	Indoor & Outdoor	125		A restored equestrian barn in western Loudoun hunt country, with exclusive weekend use and an estate house that sleeps eight.	stay@stillmeadowfarmva.com	540-456-1950	https://stillmeadowfarmva.com/weddings/
+The Oak Barn at Loyalty	14572 Loyalty Rd	Leesburg	Virginia			Barn / Rustic	Indoor & Outdoor			A family-owned boutique barn venue in Loudoun wine country, with mountain views and access to the property for the whole weekend.		571-918-0837	https://theoakbarnatloyalty.com/
+Scarlet Springs Farm	39755 Old Wheatland Road	Waterford	Virginia			Barn / Rustic	Indoor & Outdoor			A family-run farm near Waterford that offers weddings in a stone barn or a tent, plus a bed and breakfast and mini-Highland cattle.	info@scarletspringsfarm.com		https://www.scarletspringsfarm.com/weddings
+The Manor 1858	21595 Chudleigh Farm Ln.	Aldie	Virginia			Historic / Estate	Indoor & Outdoor	250		A historic farm in Aldie with a manor house and room for a tented celebration of up to 250 guests.	sales@themanor1858.com		https://www.themanor1858.com/gatheringspaces
+Inn at Evergreen	15890 Berkeley Dr	Haymarket	Virginia			Ballroom / Hotel	Indoor & Outdoor	180		A country-club inn in Haymarket with a ballroom for receptions of up to 180 guests and eleven guest rooms.	innkeeper@evergreencc.org	703-743-4711	https://innatevergreen.com/weddings
+Historic Rosemont Manor	16 Rosemont Manor Lane	Berryville	Virginia			Historic / Estate	Indoor & Outdoor	400		An 1811 estate near Berryville with a manor, a carriage house for 175 and a barn built to hold up to 400 guests.	communications@rosemont1811.com	540-955-2834	https://www.rosemont1811.com/
+Landfall Events	350 Chestnut Grove Road	Winchester	Virginia			Barn / Rustic	Indoor & Outdoor	225		A private valley venue near Winchester with an outdoor ceremony island and a rustic barn that seats 200 to 225 guests.		540-335-7721	https://landfallevents.com/weddings/
+Oak Creek Farm	25840 Independence Road	Unionville	Virginia			Barn / Rustic	Indoor & Outdoor	120		A family-run barn wedding venue in Unionville that hosts one wedding a week and seats about 120 guests comfortably.	jackie@oakcreekfarmva.com	540-219-1820	https://oakcreekfarmva.com/
+The Trellis Venue	1121 John Marshall Highway	Front Royal	Virginia			Garden / Outdoor	Indoor & Outdoor	100		A hillside venue in Front Royal with panoramic views, a main house and five cottages, and room for around 100 guests.	events@thetrellisvenue.com	540-622-7441	https://www.thetrellisvenue.com/
+Rock Hill Farm	14461 Norman Rd	Culpeper	Virginia			Barn / Rustic	Indoor & Outdoor	160		A working cattle farm of nearly 300 acres in the Blue Ridge foothills, with a climate-controlled reception space seating up to 160.			https://rockhillfarmevents.com/
+Bay Tree Manor	4201 Seaford Road	Seaford	Virginia			Beach / Waterfront	Indoor & Outdoor	160	Classic	A 9.5-acre waterfront estate near Yorktown overlooking Bay Tree Creek, with a pavilion for celebrations of up to 160 guests.	stay@btmanor.com	757-897-6062	https://www.btmanor.com/weddings.html
+The Alexandrian	480 King St.	Alexandria	Virginia			Ballroom / Hotel	Indoor & Outdoor	170		A boutique hotel in Old Town Alexandria with a courtyard and a ballroom that suits up to 170 guests.		703-549-6080	https://www.thealexandrian.com/weddings`,
+  },
 ];
 
 export default batches;
