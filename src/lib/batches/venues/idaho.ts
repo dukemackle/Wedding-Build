@@ -80,6 +80,26 @@ The Hitching Post Wedding Chapel	524 N Government Way	Coeur d'Alene	Idaho			Hist
 Sandpoint Events Center	102 S Euclid Ave	Sandpoint	Idaho			Historic / Estate	Indoor	128		A renovated 1922 brick school building in downtown Sandpoint with an ornate auditorium for ceremonies and an old banquet hall with a commercial kitchen.		208.263.7770	https://sandpointeventcenter.com/weddings/
 `,
   },
+  {
+    name: "Idaho: McCall, Sandpoint, Teton Valley, Magic Valley and Boise venues",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+The Retreat McCall	1400 Boulder Lake Rd	McCall	Idaho			Barn / Rustic	Indoor & Outdoor	120		Handbuilt-furniture lodge on 40 forested acres beside the wilderness edge, with sleeping space for 40 guests on site.	hello@theretreatmccall.com	(208) 315-7248	https://theretreatmccall.com/weddings/
+No Business Lodge	296 Smylie Ln	McCall	Idaho			Barn / Rustic	Indoor & Outdoor			Seven-bedroom lodge on a 10-acre ridge above the Payette River with manicured lawns, wildflowers and West Mountain views.	properties@drift-west.com	(208) 315-6445	https://nobusinesslodge.com/weddings-events/
+Prairie's Edge	9000 Kuna Rd	Kuna	Idaho			Barn / Rustic	Indoor & Outdoor	300		Small farm at the edge of the desert with a 4,800 sq ft white barn, bridal suite, lawn and lit patio facing the Boise Foothills.			https://prairiesedgeidaho.com
+White Barn Ranch	196 Ove Ln	Sagle	Idaho			Barn / Rustic	Indoor & Outdoor		Classic	Private 90-acre working ranch with a 70-year-old 3,200 sq ft tamarack-framed barn, Highland cattle pasture, and a log lodge and cabin for the couple.	whitebarnranchidaho@gmail.com	208-610-1540	https://www.whitebarnranchidaho.com/weddings
+Wild Rose Manor	5800 Oasis Rd	Caldwell	Idaho			Garden / Outdoor	Outdoor	200		Former bed and breakfast open since 1997, now outdoor-only, with rose gardens, ponds, a 31-foot gazebo and a rustic western reception area.	info@wildrosemanor.com	208.454.3331	https://wildrosemanor.com/weddings
+Apple Barn	1152 S Stevens St	Filer	Idaho			Barn / Rustic	Indoor & Outdoor	150	Simple	Two-story 5,000 sq ft barn set among three acres of lawn and 150 apple trees, with a three-bedroom cottage on the property.		(208) 280-8253	https://applebarnevents.com
+Bridal Veil Farms	4292 South 1100 East	Rexburg	Idaho			Barn / Rustic	Indoor & Outdoor			Six-generation family farm with an intimate barn and a large outdoor area, among fields of wheat, barley and potatoes.	bridalveilfarms@gmail.com	208-313-2567	https://bridalveilfarms.com
+Teton Springs Lodge	10 Warm Creek Ln	Victor	Idaho			Ballroom / Hotel	Indoor & Outdoor	150		Mountain lodge and resort in Teton Valley with indoor and outdoor ceremony and reception spaces and overnight suites and cabins.	guestservices@bronzebuffaloranch.com	208-787-7888	https://tetonspringslodge.com/weddings/
+Moose Creek Ranch	2733 East 10800 South	Victor	Idaho			Barn / Rustic	Indoor & Outdoor			Dude ranch dating to 1930 with an historic lodge, a two-acre ceremony lawn, a rustic barn for dancing and cabins and wagons for guests.	info@moosecreekranch.com	208-510-0216	https://moosecreekranch.com/weddings-events/weddings/
+The Lodge at Sandpoint	41 Lakeshore Dr	Sagle	Idaho			Beach / Waterfront	Indoor & Outdoor	150		Lakeside lodge on Lake Pend Oreille with indoor rooms, a tent and decks, and a shoreline gazebo for ceremonies.		208-263-2211	https://lodgeatsandpoint.com/weddings/
+Cedar River Weddings	224 Riversong Ln	Priest River	Idaho			Garden / Outdoor	Outdoor	125	Simple	Small riverside property under tall cedars with a ceremony pergola, bridal suite and groom's cabin.		(208) 964-3296	https://www.cedarriverweddings.com/
+The Avenues	859 S Yellowstone Hwy	Rexburg	Idaho			Ballroom / Hotel	Indoor		Simple	Indoor wedding and photo-studio space in Rexburg, open since 2017, with kitchen, tables and chairs included in its rental.	saralynjensen@hotmail.com	208.359.9712	https://theavenuesrexburg.com
+Hells Canyon Grand Hotel	621 21st St	Lewiston	Idaho			Ballroom / Hotel	Indoor & Outdoor			Riverside hotel in the Lewis-Clark Valley with three ballrooms, a lawn for ceremonies, on-site catering and guest rooms.	sbrown@hcgrandhotel.com	208-748-1057	https://www.hellscanyongrandweddings.com/
+Bogus Basin	2600 N Bogus Basin Rd	Boise	Idaho			Garden / Outdoor	Indoor & Outdoor	200		Mountain recreation area above Boise with a new 10,000 sq ft mid-mountain event building plus a renovated historic lodge.		(208) 332-5100	https://bogusbasin.org/groups/weddings/
+Longhorn Guest Ranch	450 High Valley Rd	Cascade	Idaho			Barn / Rustic	Indoor & Outdoor	150	Classic	Off-grid family ranch on 182 acres with six ceremony sites, a lodge, cabins and glamping tents, plus a vintage horse-trailer bar.	HighValleyLonghorn@gmail.com	208-880-4994	https://longhornguestranch.com/weddings/
+`,
+  },
 ];
 
 export default batches;
