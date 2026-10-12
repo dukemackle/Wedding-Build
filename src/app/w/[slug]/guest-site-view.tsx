@@ -22,7 +22,7 @@ import { GalleryView } from "./gallery-view";
 import { StayList } from "./stay-list";
 import { VenueView } from "./venue-view";
 import { PartyView } from "./party-view";
-import { WeddingHero } from "./wedding-hero";
+import { HeroPhotosProvider, WeddingHero } from "./wedding-hero";
 import { CeremonyProvider } from "./hero-actions";
 import { SiteNotice } from "./site-notice";
 import type { ReactNode } from "react";
@@ -370,7 +370,9 @@ export function GuestSiteView({
             itineraryEvents.find((e) => e.event_date === wedding.wedding_date && /ceremony|vows|nikah|wedding/i.test(e.title) && e.start_time) ?? null
           }
         >
-          <WeddingHero wedding={wedding} />
+          <HeroPhotosProvider photos={galleryPhotos.map((p) => p.photo_url)}>
+            <WeddingHero wedding={wedding} />
+          </HeroPhotosProvider>
         </CeremonyProvider>
         <SectionLayout sections={sections} />
       </Replayable>
