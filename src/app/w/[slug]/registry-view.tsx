@@ -11,6 +11,7 @@ import {
   usd,
   type PayHandles,
 } from "@/lib/registry";
+import { LegalNotice } from "@/components/legal-notice";
 import { claimRegistryGift, releaseRegistryClaim } from "./actions";
 
 /**
@@ -260,6 +261,7 @@ function ClaimGiftDialog({
         >
           {isPending ? "Saving..." : "Count me in"}
         </button>
+        <LegalNotice action="claiming a gift" className="text-center" />
       </form>
     </Dialog>
   );
@@ -506,6 +508,7 @@ function FundDialog({
           Money goes straight to {coupleNames || "the couple"}. You Do, I Do
           never touches it and takes no fee.
         </p>
+        <LegalNotice action="telling them you gave" />
       </div>
     </Dialog>
   );
