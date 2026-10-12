@@ -29,6 +29,11 @@ export type Wedding = {
   referral_code: string | null;
   budget_target: number | null;
   venue_id: string | null;
+  /** A venue that isn't listed (0113); the guest site uses it when venue_id is null. */
+  own_venue_name: string | null;
+  own_venue_address: string | null;
+  own_venue_city: string | null;
+  own_venue_state: string | null;
   is_test: boolean;
   /** Everyone besides the owner who can open this wedding -- kept in step with wedding_members by a trigger. */
   member_ids: string[];
