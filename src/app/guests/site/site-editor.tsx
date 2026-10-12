@@ -71,6 +71,7 @@ type Tab =
   | "background"
   | "motion"
   | "sections"
+  | "wren"
   | "elements"
   | "position"
   | "photo"
@@ -86,6 +87,7 @@ const TABS: { key: Tab; label: string }[] = [
   { key: "background", label: "Background" },
   { key: "motion", label: "Motion" },
   { key: "sections", label: "Sections" },
+  { key: "wren", label: "Wren" },
 ];
 
 // Desktop preview is laid out at a real laptop width and scaled down to fit,
@@ -109,6 +111,17 @@ const TAB_ICONS = {
   sections: "sections",
   elements: "elements",
 } as const;
+
+/** Wren's tab wears her mark: the Sky sparkle on navy (CLAUDE.md, colour roles). */
+function WrenMark() {
+  return (
+    <span className="flex h-[22px] w-[22px] items-center justify-center rounded-full bg-[#14203d]">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="#00BFFE" aria-hidden="true">
+        <path d="M12 2l2.1 6.3L20.5 10l-6.4 1.9L12 18.3l-2.1-6.4L3.5 10l6.4-1.7z" />
+      </svg>
+    </span>
+  );
+}
 
 /**
  * The guest site editor: settings on the left, the site itself on the right.
@@ -581,9 +594,13 @@ export function SiteEditor({
         </>
       ) : tab === "templates" ? (
         <>
-          <DescribeSite design={design} onChange={change} />
           <MakeItMore design={design} onChange={change} />
           <TemplatesTab design={design} names={names} onChange={change} />
+        </>
+      ) : tab === "wren" ? (
+        <>
+          <DescribeSite design={design} onChange={change} />
+          <WrenWrite design={design} onChange={change} />
         </>
       ) : tab === "theme" ? (
         <ThemeTab design={design} onChange={change} part="themes" />
@@ -642,8 +659,6 @@ export function SiteEditor({
           )}
         </StyleTab>
       ) : (
-        <>
-        <WrenWrite design={design} onChange={change} />
         <SectionsTab
           design={design}
           onChange={change}
@@ -651,7 +666,6 @@ export function SiteEditor({
           info={sectionInfo}
           checklist={checklist}
         />
-        </>
       )}
     </div>
   );
@@ -899,7 +913,9 @@ export function SiteEditor({
                         setTab(t.key);
                         setPhoneSheet(phoneSheet === t.key ? null : t.key);
                       }}
-                    />
+                    >
+                      {t.key === "wren" ? <WrenMark /> : undefined}
+                    </Tool>
                   ))}
                 </div>
               </>
@@ -950,9 +966,12 @@ export function SiteEditor({
                 key={t.key}
                 label={t.label}
                 icon={TAB_ICONS[t.key as keyof typeof TAB_ICONS]}
+                className={t.key === "wren" ? "mt-auto" : undefined}
                 on={tab === t.key || (t.key === "elements" && (tab === "position" || tab === "photo" || tab === "animate"))}
                 onClick={() => setTab(t.key)}
-              />
+              >
+                {t.key === "wren" ? <WrenMark /> : undefined}
+              </Tool>
             ))}
           </nav>
           <div className="flex min-w-0 flex-1 flex-col">

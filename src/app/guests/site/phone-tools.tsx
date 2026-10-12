@@ -422,6 +422,7 @@ export function Tool({
   bold,
   italic,
   disabled,
+  className = "",
   onClick,
   children,
 }: {
@@ -433,6 +434,7 @@ export function Tool({
   bold?: boolean;
   italic?: boolean;
   disabled?: boolean;
+  className?: string;
   onClick: () => void;
   children?: ReactNode;
 }) {
@@ -444,7 +446,7 @@ export function Tool({
       onClick={onClick}
       className={`flex h-16 w-[68px] shrink-0 flex-col items-center justify-center gap-1 rounded-xl text-[11px] font-medium disabled:opacity-30 ${
         on ? PRESSED : "text-[#14203d]"
-      }`}
+      } ${className}`}
     >
       <span
         aria-hidden="true"
