@@ -19,7 +19,7 @@ export function VenueView({ wedding, card }: { wedding: PublicWedding; card: str
   const photos = (wedding.venue_photo_urls ?? []).filter((url) => url !== banner).slice(0, 5);
   const place = [wedding.venue_city, wedding.venue_state].filter(Boolean).join(", ");
   const where = wedding.venue_address
-    ? `${wedding.venue_name}, ${wedding.venue_address}`
+    ? [wedding.venue_name, wedding.venue_address, place].filter(Boolean).join(", ")
     : [wedding.venue_name, place].filter(Boolean).join(", ");
 
   return (

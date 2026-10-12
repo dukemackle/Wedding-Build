@@ -229,6 +229,20 @@ Ben Holten Films	Videography		Wenatchee	Washington	Chelan, Leavenworth and Wenat
 New Diamond Productions	Videography		Yakima	Washington	Washington, Oregon and Idaho, including Chelan, Wenatchee and Leavenworth	Yakima cinematic videography studio filming weddings since 2008 and regularly covering Chelan, Wenatchee and Leavenworth.		509-831-1085	https://www.ndproductions.media/	https://www.instagram.com/ndpfilms/
 `,
   },
+  {
+    name: "Bellingham and the San Juan Islands: planning, music and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Epic Celebrations	Planning		Bellingham	Washington	Whatcom, Skagit, Island, Snohomish and King counties	Bellingham planner who shapes weddings around how guests spend time together, not just the decor and logistics.		360-319-8001	https://www.epiccelebrationsnw.com/	
+DJ Sassy Patty	Music		Bellingham	Washington	The area northwest of Seattle	Bellingham wedding DJ who also emcees, with personalised playlists, a mirror ball and guest karaoke on offer.		541-729-0181	https://www.djsassypatty.com	
+Pollock Pictures	Videography		Bellingham	Washington		Bellingham wedding filmmakers who deliver cinematic films meant to let couples relive the day's words, actions and emotions.			https://www.pollockpictures.com/weddings	https://www.instagram.com/pollockpictures/`,
+  },
+  {
+    name: "Leavenworth and Chelan: florals, catering and cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Loves Me Flowers	Florals	404 Aplets Way	Cashmere	Washington		Cashmere floral design company handling weddings, showers and corporate events, with a retail shop and flowers by the week.	lovesmeflowers@yahoo.com	509-393-6567	https://www.lovesmeflowers.com/	
+A Taste of Plain	Catering		Leavenworth	Washington		Leavenworth caterer and personal chef serving handcrafted tapas-style menus built on local farms and seasonal produce, including small weddings.	atasteofplain@gmail.com	509-699-9217	https://www.tasteofplain.com/	
+Deb's Delights	Cake	304 E Wapato Ave	Chelan	Washington		Chelan bakery making custom wedding cakes, cupcakes, cheesecakes and brownies, with natural dye options; allow three weeks' notice.	debi@debsdelightschelan.com	(509) 888-5388	https://debsdelightschelan.com	https://www.instagram.com/debs.delights1/`,
+  },
 ];
 
 export default batches;

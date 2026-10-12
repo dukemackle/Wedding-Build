@@ -1,19 +1,26 @@
 import { z } from "zod";
 import { canvasSchema } from "./site-canvas-schema";
-import { PHOTO_FILTERS, type PhotoFilterId } from "./site-canvas";
+import { PHOTO_FILTERS, PHOTO_FRAMES, type PhotoFilterId, type PhotoFrameId } from "./site-canvas";
 import {
   ART_IDS,
+  BG_DIVIDERS,
   BG_PATTERNS,
   BG_TEXTURES,
   BLOCK_KEY,
   DEFAULT_SECTIONS,
   DEFAULT_SITE_DESIGN,
   DEFAULT_THEME_ID,
+  FALLING_IDS,
   FONT_IDS,
   FONT_PAIRINGS,
   HERO_LAYOUTS,
   HERO_PHOTO,
   HEX,
+  ENVELOPE,
+  ENVELOPE_LINERS,
+  MONOGRAM,
+  MONOGRAM_DATES,
+  SEALS,
   MOTION_PRESETS,
   NO_BACKGROUND,
   ORNAMENT_IDS,
@@ -22,6 +29,8 @@ import {
   TEXT_SLOT_IDS,
   THEME_IDS,
   hasTextStyle,
+  type BgDivider,
+  type SealId,
   type BgPattern,
   type BgTexture,
   type BlockKey,
@@ -54,15 +63,24 @@ function completeSections(saved: { id: SectionKey; hidden: boolean }[]) {
   return [...kept, ...DEFAULT_SECTIONS.filter((x) => !seen.has(x.id))];
 }
 
-const motionSchema = z.object({
-  opening: z.enum(["none", "envelope", "write", "reveal"]).catch("none"),
-  scroll: z.enum(["none", "fade", "slide", "zoom"]).catch("fade"),
-  photo: z.enum(["still", "zoom"]).catch("zoom"),
-  petals: z.boolean().catch(false),
-  ticking: z.boolean().catch(true),
-  confetti: z.boolean().catch(false),
-  speed: z.enum(["slow", "normal", "fast"]).catch("normal"),
-});
+const motionSchema = z
+  .object({
+    opening: z.enum(["none", "envelope", "write", "reveal"]).catch("none"),
+    scroll: z.enum(["none", "fade", "slide", "zoom"]).catch("fade"),
+    photo: z.enum(["still", "zoom", "pan"]).catch("zoom"),
+    falling: z.enum(FALLING_IDS).optional().catch(undefined),
+    /** Designs saved before the Falling picker had only an on/off for petals. */
+    petals: z.boolean().optional().catch(undefined),
+    ticking: z.boolean().catch(true),
+    flipboard: z.boolean().catch(false),
+    shimmer: z.boolean().catch(false),
+    confetti: z.boolean().catch(false),
+    speed: z.enum(["slow", "normal", "fast"]).catch("normal"),
+  })
+  .transform(({ petals, falling, ...rest }) => ({
+    ...rest,
+    falling: falling ?? (petals ? "petals" : "none"),
+  }));
 
 /** Each null means the theme's own. */
 const textStyleSchema = z.object({
@@ -82,6 +100,8 @@ const backgroundSchema = z.object({
   texture: z.enum(BG_TEXTURES.map((t) => t.id) as [BgTexture, ...BgTexture[]]).catch("none"),
   /** Every section, or just the top of the page. */
   scope: z.enum(["page", "top"]).catch("page"),
+  /** The edge between storybook bands. */
+  divider: z.enum(BG_DIVIDERS.map((d) => d.id) as [BgDivider, ...BgDivider[]]).catch("none"),
 });
 
 export const siteDesignSchema = z.object({
@@ -111,6 +131,16 @@ export const siteDesignSchema = z.object({
   /** null means the theme's own scene. */
   scene: z.enum(SCENE_IDS).nullable().catch(null),
   pageStyle: z.enum(["cards", "storybook"]).catch("cards"),
+  /** Per-section layouts (SECTION_LAYOUTS); the schedule's and photos' null follows the page style. */
+  layouts: z
+    .object({
+      story: z.enum(["editorial", "timeline", "alternating"]).catch("editorial"),
+      rsvp: z.enum(["card", "band", "split"]).catch("card"),
+      weekend: z.enum(["timeline", "cards", "list"]).nullable().catch(null),
+      /** null follows the page style: a spread on cards, a scrapbook in storybook. */
+      photos: z.enum(["spread", "masonry", "filmstrip", "scrapbook", "line"]).nullable().catch(null),
+    })
+    .catch({ story: "editorial", rsvp: "card", weekend: null, photos: null }),
   /** A vow renewal changes the wording, and counts the years from `since`. */
   occasion: z
     .object({
@@ -146,6 +176,26 @@ export const siteDesignSchema = z.object({
       filter: z.enum(PHOTO_FILTERS.map((f) => f.id) as [PhotoFilterId, ...PhotoFilterId[]]).catch("none"),
     })
     .catch(HERO_PHOTO),
+  /** The shape around the Photos section's pictures and photo sections; null keeps the page style's own. */
+  photoFrame: z.enum(PHOTO_FRAMES.map((f) => f.id) as [PhotoFrameId, ...PhotoFrameId[]]).nullable().catch(null),
+  /** The monogram's letters and date line; the frame is `ornament`. */
+  monogram: z
+    .object({
+      font: z.enum(FONT_IDS).nullable().catch(null),
+      swap: z.boolean().catch(false),
+      date: z.enum(MONOGRAM_DATES.map((d) => d.id) as ["none", "year", "full"]).catch("none"),
+    })
+    .catch(MONOGRAM),
+  /** The envelope opening's seal, liner and whether it waits for a tap. */
+  envelope: z
+    .object({
+      seal: z.enum(SEALS.map((x) => x.id) as [SealId, ...SealId[]]).catch("accent"),
+      liner: z.enum(ENVELOPE_LINERS).catch("none"),
+      tap: z.boolean().catch(false),
+    })
+    .catch(ENVELOPE),
+  /** A short announcement above the top of the page ("New date: 5 December, in Tucson"); null for none. */
+  notice: z.string().trim().max(160).nullable().catch(null).transform((t) => t || null),
   /** The template the look started from (site-templates.ts), shown as picked. */
   template: z.string().regex(/^[a-z-]{1,40}$/).nullable().catch(null),
 });

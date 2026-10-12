@@ -97,6 +97,18 @@ Clear Vision Videography	Videography		Manchester	New Hampshire	Southern New Hamp
 Loon Weddings	Videography		Concord	New Hampshire	New Hampshire and New England	Southern New Hampshire filmmaker and photographer making natural-light wedding films and photos in an earthy, bold style.	loonweddings@gmail.com		https://loonweddings.com/	https://www.instagram.com/loonweddings/
 `,
   },
+  {
+    name: "White Mountains: photography, planning, florals, music, catering and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Showcase Events Rentals & Planning	Planning		Moultonborough	New Hampshire	New England	Moultonborough planning and rental company offering wedding planning alongside tent, dance floor, linen and lighting hire for Lakes Region events.	showcasenh@gmail.com	603-986-5525	https://showcasenh.com	https://www.instagram.com/showcase_nh/
+Twelve31 Events	Planning		Tilton	New Hampshire	Greater Concord and the Lakes Region	Tilton catering company that also plans and coordinates weddings in the Lakes Region, with tastings and bar service on offer.		(603) 818-0012	https://twelve31.events	
+DJ Shamar	Music		Wolfeboro	New Hampshire	Wolfeboro, Conway, North Conway, Jackson, Plymouth, Lincoln, Franconia, Littleton, Laconia and other parts of New Hampshire	Wolfeboro wedding DJ and MC service that also hires out photo booths, travelling across the White Mountains and Lakes Region.	djshamar3@gmail.com	(603) 986-5030	https://www.wolfeborodjshamar.com	https://www.instagram.com/djshamar3/
+Music Road DJ Service	Music		Tilton	New Hampshire	All of New Hampshire	Tilton-based mobile wedding DJ and MC offering optional ceremony music and three set reception packages across New Hampshire.	musicroadnh@gmail.com	603.286.3102	https://nhmusicroad.com	
+EH Floral (Emily Herzig Design Studios)	Florals		Littleton	New Hampshire	Northern New England	Littleton floral design studio creating seasonal wedding and event flowers and styling, seen by appointment only.	info@ehfloral.com	(603) 444-7600	https://www.ehfloral.com	https://www.instagram.com/ehfloral/
+Kris Dobbins Photography	Photography		Franconia	New Hampshire	North Country of New Hampshire and beyond	Franconia photographer covering weddings and engagements in New Hampshire's North Country, alongside commercial and real estate work.	kris@krisdobbinsphotography.com	(603) 263-4721	https://krisdobbinsphotography.com	
+Chef Joe's Catering	Catering	651 Main Street	Franconia	New Hampshire		Franconia caterer with a travelling kitchen for weddings, offering custom menus, bar service and help arranging rentals and cakes.	info@chefjoescatering.com	(603) 823-8589	https://www.chefjoescatering.com	https://www.instagram.com/thechefjoe/
+Josiah Does Videos	Videography		Salisbury	New Hampshire	New England and beyond	Salisbury-based wedding and elopement videographer making cinematic short films, with private online delivery of footage.			https://josiahdoesvideos.com	https://www.instagram.com/josiahdoesvideos/`,
+  },
 ];
 
 export default batches;

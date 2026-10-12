@@ -41,6 +41,10 @@ function WeddingForm({
   pending: boolean;
   onCancel?: () => void;
 }) {
+  const [date, setDate] = useState(wedding?.wedding_date ?? "");
+  const was = wedding?.wedding_date;
+  const moveBy =
+    was && date && date !== was ? Math.round((Date.parse(`${date}T00:00:00Z`) - Date.parse(`${was}T00:00:00Z`)) / 86_400_000) : 0;
   return (
     <form action={onSave} className="grid grid-cols-1 gap-4 sm:grid-cols-2">
       <label className={labelClass}>
@@ -67,10 +71,20 @@ function WeddingForm({
           type="date"
           name="wedding_date"
           required
-          defaultValue={wedding?.wedding_date ?? ""}
+          value={date}
+          onChange={(e) => setDate(e.target.value)}
           className={selectClass}
         />
       </label>
+      {moveBy !== 0 && (
+        <label className="flex items-start gap-2 rounded-md bg-[#2243B6]/[0.06] px-3 py-2 text-[13px] text-ink sm:col-span-2">
+          <input type="checkbox" name="shift_schedule" defaultChecked className="mt-0.5 h-4 w-4 shrink-0 accent-[#2243B6]" />
+          <span>
+            Move my schedule {Math.abs(moveBy)} day{Math.abs(moveBy) === 1 ? "" : "s"} {moveBy > 0 ? "later" : "earlier"} too,
+            so the rehearsal, ceremony and everything else keep their place around the new date.
+          </span>
+        </label>
+      )}
       <label className={labelClass}>
         RSVP deadline
         <input

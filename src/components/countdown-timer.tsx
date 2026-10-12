@@ -41,6 +41,7 @@ function Unit({
   pad,
   size,
   flip = true,
+  board = false,
 }: {
   value: number;
   label: string;
@@ -49,8 +50,36 @@ function Unit({
   size: "sm" | "lg";
   /** Flip the number over when it changes (off for seconds -- too busy). */
   flip?: boolean;
+  /** Each number on its own split-flap tile, flipping every change. */
+  board?: boolean;
 }) {
   const t = TONE[tone];
+  if (board) {
+    const tile = tone === "light" ? "bg-black/45 text-white" : "bg-ink text-parchment";
+    return (
+      <div className={size === "lg" ? "px-1.5 sm:px-2.5" : "px-1 sm:px-2"}>
+        <div
+          className={`relative overflow-hidden rounded-md shadow-sm [perspective:400px] ${tile} ${
+            size === "lg" ? "min-w-[3.6rem] px-2.5 py-2 sm:min-w-[4.4rem]" : "min-w-[3rem] px-2 py-1.5"
+          }`}
+        >
+          <p
+            key={value}
+            className={`wren-flip text-center font-mono-numbers tabular-nums leading-none ${
+              size === "lg" ? "text-3xl sm:text-4xl" : "text-2xl sm:text-3xl"
+            }`}
+          >
+            {pad ? String(value).padStart(2, "0") : value}
+          </p>
+          {/* The split across the middle of the tile. */}
+          <span className="absolute inset-x-0 top-1/2 h-px bg-black/35" aria-hidden="true" />
+        </div>
+        <p className={`mt-2 text-center font-mono-numbers text-[9px] uppercase tracking-[0.2em] ${t.caption}`}>
+          {label}
+        </p>
+      </div>
+    );
+  }
   return (
     <div className={`relative ${size === "lg" ? "px-4 sm:px-6" : "px-3 sm:px-4"}`}>
       <span
@@ -88,6 +117,7 @@ export function CountdownTimer({
   tone = "dark",
   size = "sm",
   live = true,
+  flipboard = false,
 }: {
   targetDate: string;
   fallbackLabel: string;
@@ -96,6 +126,8 @@ export function CountdownTimer({
   size?: "sm" | "lg";
   /** false: just the fallback label ("120 days to go"), no ticking clock. */
   live?: boolean;
+  /** Split-flap tiles instead of plain numbers. */
+  flipboard?: boolean;
 }) {
   const [ticked, setParts] = useState<Parts | null>(null);
 
@@ -125,10 +157,10 @@ export function CountdownTimer({
 
   return (
     <div className={`flex justify-center ${className ?? ""}`}>
-      <Unit value={parts.days} label="Days" tone={tone} pad={false} size={size} />
-      <Unit value={parts.hours} label="Hours" tone={tone} pad size={size} />
-      <Unit value={parts.minutes} label="Minutes" tone={tone} pad size={size} />
-      <Unit value={parts.seconds} label="Seconds" tone={tone} pad size={size} flip={false} />
+      <Unit value={parts.days} label="Days" tone={tone} pad={false} size={size} board={flipboard} />
+      <Unit value={parts.hours} label="Hours" tone={tone} pad size={size} board={flipboard} />
+      <Unit value={parts.minutes} label="Minutes" tone={tone} pad size={size} board={flipboard} />
+      <Unit value={parts.seconds} label="Seconds" tone={tone} pad size={size} flip={false} board={flipboard} />
     </div>
   );
 }

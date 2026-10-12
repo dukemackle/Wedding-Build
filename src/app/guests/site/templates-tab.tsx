@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
-import { artById, resolveDesign, type SiteDesign } from "@/lib/site-design";
+import { useState, type CSSProperties } from "react";
+import { artById, backgroundLayers, resolveDesign, type SiteDesign } from "@/lib/site-design";
 import { TEMPLATES, TEMPLATE_TAGS, applyTemplate, type SiteTemplate, type TemplateTag } from "@/lib/site-templates";
+import { NUDGES, nudge, type NudgeId } from "@/lib/site-nudges";
 import { PanelLabel } from "./editor-tabs";
 
 /**
@@ -75,7 +76,8 @@ function TemplateCard({
   onPick: () => void;
 }) {
   const look = applyTemplate(design, template);
-  const { theme, accent, heading, onAccent } = resolveDesign(look);
+  const { theme, accent, accent2, heading, onAccent } = resolveDesign(look);
+  const layers = backgroundLayers(look.background);
   const art = artById(look.art.id);
   const a = names[0]?.trim() || "Alex";
   const b = names[1]?.trim() || "Sam";
@@ -113,7 +115,17 @@ function TemplateCard({
     >
       <span
         className="relative flex h-[120px] flex-col items-center justify-center gap-1.5 overflow-hidden px-3 text-center"
-        style={{ background: theme.bg, color: theme.ink }}
+        style={
+          {
+            backgroundColor: theme.bg,
+            backgroundImage: layers.image,
+            backgroundSize: layers.size,
+            color: theme.ink,
+            "--site-accent": accent,
+            "--site-accent-2": accent2,
+            "--color-ink": theme.ink,
+          } as CSSProperties
+        }
       >
         {sprig(false)}
         {sprig(true)}
@@ -140,5 +152,40 @@ function TemplateCard({
         <span className="shrink-0 text-[11px] text-ink/50">{template.tags[0]}</span>
       </span>
     </button>
+  );
+}
+
+/**
+ * "Make it more…": a tap moves the current look one way (src/lib/site-nudges.ts),
+ * keeping colours, words and photos; another tap tries the next variant.
+ */
+export function MakeItMore({ design, onChange }: { design: SiteDesign; onChange: (patch: Partial<SiteDesign>) => void }) {
+  const [last, setLast] = useState<NudgeId | null>(null);
+  return (
+    <div className="flex flex-col gap-2.5">
+      <PanelLabel>Make it more…</PanelLabel>
+      <div className="flex flex-wrap gap-2">
+        {NUDGES.map((n) => (
+          <button
+            key={n.id}
+            type="button"
+            onClick={() => {
+              onChange(nudge(design, n.id));
+              setLast(n.id);
+            }}
+            className={`h-9 rounded-full px-3.5 text-[13px] font-medium ${
+              last === n.id ? "bg-forest text-parchment" : "border border-hairline bg-card text-ink hover:border-ink/30"
+            }`}
+          >
+            {n.label}
+          </button>
+        ))}
+      </div>
+      <p className="text-[13px] leading-normal text-ink/60">
+        {last
+          ? "Tap again for another take. Your colours, words and photos stay; undo puts back what you had."
+          : "Changes your fonts, monogram style, background and what falls over the page; Minimal and Bold also change the top of the page. Your colours, words, photos and envelope stay."}
+      </p>
+    </div>
   );
 }

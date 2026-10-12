@@ -267,6 +267,41 @@ Vineyard Makeup Artist	Hair & Makeup		Edgartown	Massachusetts	Martha's Vineyard	
 New England Wedding Film	Videography		Worcester	Massachusetts	Massachusetts and New England	Worcester studio making cinematic wedding films and photography across New England, from the Berkshires to Cape Cod and Newport.	info@newenglandweddingfilm.com	(774) 385-0793	https://www.newenglandweddingfilm.com/	https://www.instagram.com/newenglandweddingfilm/
 `,
   },
+  {
+    name: "Boston: Cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Oakleaf Cakes	Cake	12 Westland Ave	Boston	Massachusetts		Boston cake shop and café by Symphony Hall making buttercream, fondant and custom cakes, with a wedding cake gallery and wedding dessert bars.	oakleafcakes@gmail.com	(617) 299-1504	https://oakleafcakes.com/	https://www.instagram.com/oakleafcakes/
+`,
+  },
+  {
+    name: "Cape Cod: Hair & Makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Sea Salt Luxury Spa Studio	Hair & Makeup	4 North St	Mashpee	Massachusetts	Cape Cod	Mashpee Commons spa studio whose bridal team travels to Cape Cod weddings for on-site hair and makeup for brides and their wedding parties.	info@seasaltbeauty.com	774-361-8410	https://www.seasaltsalonspa.com/weddings	
+`,
+  },
+  {
+    name: "Worcester: Planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Be Creative Décor	Planning	9R Short St	Worcester	Massachusetts		Worcester décor and design studio with a showroom, creating full-service luxury wedding design from concept to setup for a limited number of couples each season.	info@becreativedecor.com	(617) 820-8110	https://www.becreativedecor.com/	https://www.instagram.com/becreativedecor1/
+Logan Planning Solutions	Planning		Milford	Massachusetts	New England	Milford planner offering full and partial wedding planning and design, plus micro weddings, elopements and honeymoon travel planning.		(508) 603-9288	https://www.loganplanningsolutions.com/	https://www.instagram.com/loganplanningsolutions/
+Perfectly Coordinated	Planning		Lancaster	Massachusetts		Lancaster wedding planner with flexible packages, so couples can book as much or as little help as they need from planning to the day itself.	perfectlycoordinated@gmail.com	(508) 308-0307	https://www.perfectlycoordinated.com/	
+`,
+  },
+  {
+    name: "Martha's Vineyard and Nantucket: Planning and Catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+GATHER Event Company	Planning		Martha's Vineyard	Massachusetts	Martha's Vineyard, Boston and surrounding areas	Island-based planner and designer for Martha's Vineyard weddings, also running corporate and nonprofit events, working with local vendors.	info@gathereventsmv.com	508-939-1035	https://www.gathereventsmv.com/	
+A Taste of Nantucket	Catering	19 Boynton Lane	Nantucket	Massachusetts		Nantucket caterer and event planner with over twenty years' experience, doing weddings, rehearsal dinners, clambakes and private dining-room receptions.	office@atasteofnantucket.com	508-228-9200	https://atasteofnantucket.com/	https://www.instagram.com/atasteofnantucket/
+Revel Catering & Events	Catering		Martha's Vineyard	Massachusetts	Martha's Vineyard	Full-service Martha's Vineyard caterer for weddings, cocktail parties and other events, taking bookings for the 2026 and 2027 seasons.	events@revelcatering.com	508-645-5000	https://revelmv.com/	
+`,
+  },
+  {
+    name: "Martha's Vineyard and Nantucket: cake and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+45 Surfside Bakery & Café	Cake	45 Surfside Road	Nantucket	Massachusetts		Surfside Road bakery and café on Nantucket that bakes wedding cakes to order alongside its daily pastries and breakfast and lunch menu.	rebecca@45surfside.com		https://45surfside.com/	https://www.instagram.com/45surfside/
+Wicked Island Bakery	Cake	7B Bayberry Ct	Nantucket	Massachusetts		Nantucket bakery behind the island Morning Bun, taking custom cake orders for weddings and events as well as catering and brunch trays.		(508) 901-5797	https://www.wickedislandbakery.com/	https://www.instagram.com/wickedislandbakery/
+Martha's Vineyard Productions	Videography		Vineyard Haven	Massachusetts	Martha's Vineyard, Nantucket and the Cape Cod areas	Island video studio led by Dan Martino, filming multi-camera wedding films and short highlight edits, with drone shots, for Vineyard couples.	info@marthasvineyardproductions.com		https://marthasvineyardproductions.com/weddings.html	`,
+  },
 ];
 
 export default batches;

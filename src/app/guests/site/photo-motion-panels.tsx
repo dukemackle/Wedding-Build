@@ -220,7 +220,7 @@ export function PhotoPanel({
   );
 }
 
-function FrameIcon({ frame, accent }: { frame: string; accent: string }) {
+export function FrameIcon({ frame, accent }: { frame: string; accent: string }) {
   const fill = { background: "color-mix(in srgb, currentColor 22%, transparent)" };
   if (frame === "circle") return <span className="h-9 w-9 rounded-full" style={fill} />;
   if (frame === "arch") return <span className="h-10 w-8 rounded-t-full" style={fill} />;

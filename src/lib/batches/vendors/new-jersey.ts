@@ -163,6 +163,39 @@ Amber's Lane Events	Planning		Clifton	New Jersey	New York, New Jersey, Connectic
 Lorenzo Media Productions	Videography		Freehold	New Jersey	New Jersey	Husband-and-wife team from Freehold making honest, timeless, personal wedding films for couples across New Jersey.	info@lorenzomediaproductions.com	732-614-5600	https://lorenzomediaproductions.com/	
 Hariel Xavier Photography	Photography		Sparta	New Jersey	Monmouth County and the Jersey Shore	Photographer with over 750 weddings behind him, covering Monmouth County from Red Bank to Allentown and across New Jersey.	Hi@HarielXavier.com	862-391-4179	https://harielxavier.com/	https://www.instagram.com/harielxaviermedia/`,
   },
+  {
+    name: "Princeton: videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Behold Films	Videography		East Brunswick	New Jersey	Central New Jersey and the Greater New York area, with a travel fee beyond 60 miles	Boutique wedding film house run by one editor who cuts every film himself, with highlight and story-style edits.			https://www.beholdfilms.com/	https://www.instagram.com/beholdfilms/
+Twin Production	Videography		Warren	New Jersey	New Jersey, New York, Connecticut, Pennsylvania and the Mid-Atlantic	Twin brothers Rajiv and Sanjiv film South Asian weddings in 4K, editing every film in-house since 1994.	twin@twinproduction.com	908-903-0722	https://www.twinproduction.com/	https://www.instagram.com/sanjiv_rajiv_twin_production/`,
+  },
+  {
+    name: "Northern New Jersey: music, catering, cake, florals, hair and makeup and planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+TWK Events	Music	457 New Brunswick Ave	Fords	New Jersey	All New Jersey counties, plus New York City, Pennsylvania and Connecticut	Wedding DJs and MCs, including bilingual English and Spanish hosts, with photo booths and a DJ and live band hybrid option.	jose@twkevents.com	(732) 742-4557	https://www.twkevents.com/	https://www.instagram.com/twk_events/
+Nonna's Pizza Ristorante & Bar	Catering	11 Franklin Turnpike	Mahwah	New Jersey	Bergen, Passaic and Morris counties, and statewide for larger events	Italian restaurant offering full-service wedding catering, with chef tastings, plated, buffet or station menus and licensed bar service.		201-529-1151	https://nonnasmahwahnj.com/catering-mahwah-nj/	https://www.instagram.com/nonnasmahwah/
+Menagerie Caterers	Catering	41 East Palisade Ave	Englewood	New Jersey	Tri-State area	Englewood caterer covering weddings, bar and bat mitzvahs and corporate galas, with menus that the chefs adjust to each client.	Martin@menageriecaterers.com	201-988-5502	https://menageriecaterers.com/	https://www.instagram.com/menageriecaterers/
+Beethoven's Veranda	Florals	108 10th St	Hoboken	New Jersey	Hoboken, Hudson County, Summit and nearby, plus New York City	Florist with Hoboken and Summit studios designing wedding flowers, ceremony spaces and chuppas, using seasonal stems such as peonies.	beethovensveranda@gmail.com	(201) 217-3919	https://beethovensveranda.com/	https://www.instagram.com/beethovensveranda/
+Boho Hair Salon	Hair & Makeup	111 Watchung Ave	Montclair	New Jersey	Montclair and Asbury Park	Hair salon with Montclair and Asbury Park locations that lists a dedicated bridal hair service alongside its regular appointments.	montclair@bohohairsalon.com	(973) 944-2069	https://www.bohohairsalon.com/bridal	https://www.instagram.com/bohohairsalon/
+Lisa Ivler Events	Planning		Caldwell	New Jersey	North Jersey, Jersey Shore, New York City area and eastern Pennsylvania	Caldwell planner offering day-of coordination and fuller wedding design packages, who also plans mitzvahs and corporate events.	info@LisaIvlerEvents.com	862-485-8584	https://lisaivlerevents.com/nj-wedding-planner/	https://www.instagram.com/lisaivlerevents/`,
+  },
+  {
+    name: "Jersey Shore: planning, music and catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+SCE Event Group	Music	26 Jackson Mills Rd	Freehold	New Jersey	Monmouth, Ocean, Middlesex, Somerset and Bergen counties, plus Central, North and South Jersey	Wedding DJs and MCs who also supply ceremony audio, uplighting, photo booths and effects such as cold sparks and confetti.		888-278-0900	https://sceeventgroup.com/nj-wedding-djs/	https://www.instagram.com/sceeventgroup/
+GSL Entertainment	Music		Howell	New Jersey	Ocean County, including Toms River, Brick, Jackson, Lakewood and Point Pleasant	Howell DJ company serving Ocean County weddings, with wedding packages listed on its site alongside lighting and add-ons.	greg@gsldjs.com	732-890-8515	https://www.gsldjs.com/areas/ocean-county	https://www.instagram.com/gslentertainment_/
+Blue Collar Catering	Catering	1426 Rt 9	Toms River	New Jersey	Ocean County, including Brick, Barnegat, Manahawkin, LBI and Point Pleasant	Toms River caterer with sit-down, buffet, cocktail and barbecue wedding menus, offering full service with linens, china and waitstaff.		(732) 269-0092	https://bluecollarcatering.com/	`,
+  },
+  {
+    name: "Jersey Shore: planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+A Lovely Universe	Planning		Red Bank	New Jersey	Monmouth County	Red Bank studio offering full planning, partial planning and design consultation for weddings, alongside custom paper goods and gifts.	info@alovelyuniverse.com		https://www.alovelyuniverse.com/	https://www.instagram.com/alovelyuniverse/`,
+  },
+  {
+    name: "Princeton: planning and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Dear Heart Film + Portraits	Videography		Princeton	New Jersey	Central New Jersey, with the first 50 miles of travel included	Princeton-based photographer and cinematographer filming weddings and elopements, with highlight films and a la carte video options.			https://www.dearheartfilms.com/	https://www.instagram.com/dearheartfilms/`,
+  },
 ];
 
 export default batches;

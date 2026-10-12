@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import type { PublicWedding, Venue, Wedding } from "@/lib/supabase/types";
+import type { PublicWedding, SiteDesignRow, Venue, Wedding } from "@/lib/supabase/types";
+import { parseWording, withWording } from "@/lib/site-designs";
 import { parseSiteDesign } from "@/lib/site-design-schema";
 import { GuestSiteTheme } from "@/components/guest-site-theme";
 import { GuestSiteView, loadGuestSiteContent } from "@/app/w/[slug]/guest-site-view";
@@ -13,8 +14,17 @@ export const metadata: Metadata = { title: "Guest site preview", robots: { index
  * The couple's own guest site in its draft design, for the editor's preview
  * frame. Works before the site is turned on, since that's when most couples
  * will be designing it. The editor sends later changes in by postMessage.
+ *
+ * `?design=<id>` starts on that design. `?look=1` is the template gallery's
+ * preview: the parent page sends the look to show, and nothing on it can be
+ * dragged or retyped.
  */
-export default async function GuestSitePreviewPage() {
+export default async function GuestSitePreviewPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ design?: string; look?: string }>;
+}) {
+  const { design: designId, look } = await searchParams;
   const supabase = await createClient();
   const {
     data: { user },
@@ -59,16 +69,26 @@ export default async function GuestSitePreviewPage() {
     venue_photo_urls: venue?.photo_urls ?? null,
     venue_about: venue?.about ?? venue?.description ?? null,
     venue_address: venue?.address ?? null,
+    site_locked: Boolean(wedding.site_password_hash),
   };
 
-  const content = await loadGuestSiteContent(supabase, asGuestsSeeIt);
-  const draft = parseSiteDesign(wedding.site_design_draft ?? wedding.site_design);
+  const content = await loadGuestSiteContent(supabase, asGuestsSeeIt, { preview: true });
+  const { data: row } = designId
+    ? await supabase
+        .from("site_designs")
+        .select("*")
+        .eq("id", designId)
+        .eq("wedding_id", wedding.id)
+        .maybeSingle<SiteDesignRow>()
+    : { data: null };
+  const stored = parseSiteDesign(row ? row.design : wedding.site_design);
+  const draft = row?.shared_wording ? withWording(stored, parseWording(wedding.site_wording)) : stored;
 
   return (
     <GuestSiteTheme design={draft} preview>
       <GuestSiteView wedding={asGuestsSeeIt} content={content} />
       {/* Dragging, resizing and the rest: here only, never on /w/[slug]. */}
-      <CanvasEditing />
+      {!look && <CanvasEditing />}
     </GuestSiteTheme>
   );
 }

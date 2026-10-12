@@ -189,6 +189,33 @@ The Artroom Flowers	Florals		Fish Creek	Wisconsin	Door County, with delivery in 
 Sonny's Italian Kitchen & Pizzeria	Catering	129 N. Madison Ave.	Sturgeon Bay	Wisconsin	Sturgeon Bay and Door County	Sturgeon Bay Italian restaurant with a catering menu for weddings and other events, plus an outdoor event space.		(920) 743-2300	https://sonnyspizzeria.com	https://www.instagram.com/sonnyspizzeriadoorcounty/
 `,
   },
+  {
+    name: "Door County: Planning, Florals, Music, Hair & Makeup, Videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Pink Door Events	Planning		Sister Bay	Wisconsin	Door County peninsula and Washington Island	Full-service wedding planner for peninsula weddings, from bluffside ceremonies to tented estates, with know-how for island and ferry logistics.	info@pinkdooreventsdc.com	(920) 421-1278	https://www.pinkdooreventsdc.com/	https://www.instagram.com/pinkdooreventsdc/
+Shannon Mead Events	Planning		Ellison Bay	Wisconsin	Door County	Boutique planner offering day-of wedding coordination and fuller planning for Door County couples, tailored to the level of help you want.	shannonmeadevents@gmail.com	920-889-6456	http://www.shannonmeadevents.com	https://www.instagram.com/shannonmeadevents/
+Flora Flower Shop	Florals	10280 Orchard Drive	Sister Bay	Wisconsin	Door County, Wisconsin, and the Midwest	Sister Bay floral design studio making personal, one-of-a-kind arrangements for weddings, from large celebrations to intimate ceremonies.	floraflowershopdc@gmail.com	920-421-1314	https://www.doorcountyflowers.com/	https://www.instagram.com/flora_flowershop/
+Door County Wedding Musicians	Music		Sturgeon Bay	Wisconsin	Door County area	String quartet, trio or duet playing classical and contemporary music for wedding ceremonies, a local ensemble performing since 2002.		920-629-0023	https://www.doorcountyweddingmusicians.com/	
+Elite Music Service	Music	1845 7th St	Green Bay	Wisconsin	Door County, De Pere, Appleton and Northeast Wisconsin	Green Bay wedding DJ and MC company that also provides ceremony music, uplighting and photo booths, travelling to Door County venues.	scott@elitemusicservice.com	(920) 497-0998	https://elitemusicservice.com/	https://www.instagram.com/elitemusicservice/
+Will Nye the DJ Guy	Music		Green Bay	Wisconsin	Appleton, Green Bay, Oshkosh, Stevens Point, Wausau, Eau Claire, Madison and Door County	Wedding DJ with photo booths, uplighting and an audio guestbook, serving Door County and cities across Wisconsin.	djay@willnyethedjguy.com	920-891-5770	https://willnyethedjguy.com/	https://www.instagram.com/willnyethedjguy
+Sara Miller Makeup Artistry	Hair & Makeup		Green Bay	Wisconsin	Door County and Green Bay	On-location bridal hair and makeup, with traditional and airbrush options for brides, wedding parties and family members.	Sara@SFMmakeup.com	920-265-3969	https://www.sfmmakeup.com/	
+Little Harbor Wedding	Videography		Sturgeon Bay	Wisconsin		Door County wedding and event cinematography team making wedding films and offering live streaming for guests who cannot attend.	info@littleharborwedding.com	(888) 851-5972	https://www.littleharborwedding.com/	https://www.instagram.com/littleharborwedding/`,
+  },
+  {
+    name: "Madison: Cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Two Sisters Bakery	Cake	5925 Riva Road	Madison	Wisconsin		Madison bakery specialising in tiered cakes at friendly prices for weddings and other custom orders, open to visitors during shop hours.		608-271-7110	https://twosisters-bakery.com/	`,
+  },
+  {
+    name: "Green Bay: Planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+C Krueger Event Planning	Planning		Green Bay	Wisconsin	Green Bay, Appleton and Oshkosh	Event planner offering wedding and private party planning for couples in Green Bay, Appleton and Oshkosh.	ckruegereventplanning@gmail.com	920-328-3005	https://www.ckruegereventplanning.com/	`,
+  },
+  {
+    name: "Lake Geneva: Videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Matthew Thomas Media	Videography		Lake Geneva	Wisconsin		Cinematic wedding films from a Lake Geneva-based videography business that takes enquiries by email or phone.	info@matthewthomasmedia.com	262-358-2326	https://www.matthewthomasmedia.com/	`,
+  },
 ];
 
 export default batches;
