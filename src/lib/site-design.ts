@@ -1126,7 +1126,15 @@ export type BgDivider = (typeof BG_DIVIDERS)[number]["id"];
 
 export const NO_BACKGROUND = { pattern: "none", texture: "none", scope: "page", divider: "none" } as const;
 
-export const HERO_PHOTO = { fx: 50, fy: 50, filter: "none" } as const;
+/** pfx/pfy: a separate focus point on a phone, where the banner is tall rather than wide; null follows fx/fy. */
+export const HERO_PHOTO = { fx: 50, fy: 50, pfx: null, pfy: null, filter: "none" } as const;
+
+/**
+ * How the couple's names are set at the top of the page: joined by "&" or
+ * "and", on one line or stacked one name above the other (the joiner small
+ * between them), and optionally in capitals.
+ */
+export const NAMES_STYLE = { joiner: "&", stacked: false, capitals: false } as const;
 
 /**
  * The monogram's own letters (Style tab › Monogram): a face for the initials
@@ -1184,6 +1192,7 @@ export const DEFAULT_SITE_DESIGN: SiteDesign = {
   canvas: EMPTY_CANVAS,
   background: NO_BACKGROUND,
   heroPhoto: HERO_PHOTO,
+  names: NAMES_STYLE,
   photoFrame: null,
   monogram: MONOGRAM,
   envelope: ENVELOPE,
@@ -1415,6 +1424,7 @@ export function designCssVars(design: SiteDesign): Record<string, string> {
     "--site-bg-image": backgroundLayers(design.background).image,
     "--site-bg-size": backgroundLayers(design.background).size,
     "--hero-focus": `${design.heroPhoto.fx}% ${design.heroPhoto.fy}%`,
+    "--hero-focus-phone": `${design.heroPhoto.pfx ?? design.heroPhoto.fx}% ${design.heroPhoto.pfy ?? design.heroPhoto.fy}%`,
     "--hero-filter": filterCss(design.heroPhoto.filter),
   };
 }

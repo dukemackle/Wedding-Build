@@ -555,6 +555,21 @@ body::before {
   object-position: var(--hero-focus, 50% 50%);
   filter: var(--hero-filter, none);
 }
+/* The arrow at the foot of the screen-filling banners: a slow, small bob. */
+@keyframes scroll-cue {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(5px); }
+}
+.site-scroll-cue {
+  animation: scroll-cue 2.4s ease-in-out infinite;
+}
+
+/* On a phone the banner is tall, so it has its own focus point. */
+@media (max-width: 639px) {
+  .guest-site .site-hero-photo img {
+    object-position: var(--hero-focus-phone, var(--hero-focus, 50% 50%));
+  }
+}
 
 /* Placed elements' animations (Animate panel). They play once as guests
    scroll to them where the browser can tie them to scrolling, and on load
