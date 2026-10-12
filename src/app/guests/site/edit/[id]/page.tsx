@@ -19,6 +19,7 @@ import { blockKey, type SectionId } from "@/lib/site-design";
 import { parseSiteDesign } from "@/lib/site-design-schema";
 import { HeroPhotoPanel } from "../../../hero-photo-panel";
 import { GalleryPanel } from "../../../gallery-panel";
+import { VenuePhotosPanel } from "../../../venue-photos-panel";
 import { Accommodations, DressAndTravel, Faqs, OwnVenue } from "../../../guest-site-details";
 import { RegistryManager } from "../../../registry-manager";
 import { SiteEditor } from "../../site-editor";
@@ -136,7 +137,9 @@ export default async function GuestSiteEditorPage({ params }: { params: Promise<
         .eq("id", wedding.venue_id)
         .maybeSingle<{ name: string; photo_urls: string[] }>()
     : { data: null };
-  const venuePhotos = venue?.photo_urls.length ?? 0;
+  const ownVenuePhotos = wedding.own_venue_photo_urls ?? [];
+  // What the site shows: the couple's own venue photos win over the listing's.
+  const venuePhotos = ownVenuePhotos.length || (venue?.photo_urls.length ?? 0);
 
   const headersList = await headers();
   const host = headersList.get("host");
@@ -153,6 +156,11 @@ export default async function GuestSiteEditorPage({ params }: { params: Promise<
     JSON.stringify([
       wedding.public_slug,
       wedding.hero_photo_url,
+      wedding.own_venue_name,
+      wedding.own_venue_address,
+      wedding.own_venue_city,
+      wedding.own_venue_state,
+      ownVenuePhotos,
       wedding.dress_code,
       wedding.travel_notes,
       galleryPhotos,
@@ -205,14 +213,22 @@ export default async function GuestSiteEditorPage({ params }: { params: Promise<
     },
     venue: venue
       ? {
-          status: venuePhotos
-            ? `${venue.name}, with ${venuePhotos} of their photo${venuePhotos === 1 ? "" : "s"}`
-            : `${venue.name} (they haven't added photos yet)`,
+          status: ownVenuePhotos.length
+            ? `${venue.name}, with ${ownVenuePhotos.length} of your photo${ownVenuePhotos.length === 1 ? "" : "s"}`
+            : venuePhotos
+              ? `${venue.name}, with ${venuePhotos} of their photo${venuePhotos === 1 ? "" : "s"}`
+              : `${venue.name} (no photos yet)`,
+          editor: <VenuePhotosPanel photos={ownVenuePhotos} listed />,
         }
       : wedding.own_venue_name
         ? {
-            status: `${wedding.own_venue_name} (your own venue)`,
-            editor: <OwnVenue wedding={wedding} />,
+            status: `${wedding.own_venue_name} (your own venue)${ownVenuePhotos.length ? `, ${ownVenuePhotos.length} photo${ownVenuePhotos.length === 1 ? "" : "s"}` : ""}`,
+            editor: (
+              <div className="flex flex-col gap-8">
+                <OwnVenue wedding={wedding} />
+                <VenuePhotosPanel photos={ownVenuePhotos} listed={false} />
+              </div>
+            ),
             link: { href: "/venues", label: "Or pick a listed venue" },
           }
         : {

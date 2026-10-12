@@ -34,6 +34,8 @@ export type Wedding = {
   own_venue_address: string | null;
   own_venue_city: string | null;
   own_venue_state: string | null;
+  /** The couple's own venue photos (0114); shown on the guest site instead of the listing's. */
+  own_venue_photo_urls: string[];
   is_test: boolean;
   /** Everyone besides the owner who can open this wedding -- kept in step with wedding_members by a trigger. */
   member_ids: string[];
@@ -83,6 +85,8 @@ export type PublicWedding = {
   venue_address: string | null;
   /** The couple put a password on the site (the hash itself never leaves the database). */
   site_locked: boolean;
+  /** venue_photo_urls are the couple's own, not the venue's, so they aren't credited to it. */
+  venue_photos_own: boolean;
 };
 
 export type WeddingFaq = {
