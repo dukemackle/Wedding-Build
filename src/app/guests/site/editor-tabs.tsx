@@ -13,6 +13,7 @@ import { FrameIcon } from "./photo-motion-panels";
 import {
   ART_HEROES,
   ART_PLACEMENTS,
+  ORNAMENT_GROUP,
   SITE_ART,
   HERO_LAYOUTS,
   ORNAMENTS,
@@ -75,6 +76,9 @@ export function PanelLabel({ children }: { children: ReactNode }) {
 
 const SELECTED = "border-2 border-forest";
 const UNSELECTED = "m-px border border-hairline hover:border-ink/30";
+
+/** Page artwork: every piece but the Elements tab's dividers and ornaments. */
+const PAGE_ART = SITE_ART.filter((a) => a.group !== ORNAMENT_GROUP);
 
 /** How many of each picker shows before "See all". */
 const PREVIEW = { monogram: 4, art: 5, scene: 6 } as const;
@@ -315,16 +319,16 @@ export function PageArtworkSection({
   const { theme, accent } = resolveDesign(design);
   const [all, setAll] = useState(false);
   const [group, setGroup] = useState<string | null>(null);
-  const groups = [...new Set(SITE_ART.map((a) => a.group))];
+  const groups = [...new Set(PAGE_ART.map((a) => a.group))];
   const pieces = all
     ? group
-      ? SITE_ART.filter((a) => a.group === group)
-      : SITE_ART
-    : previewOf(SITE_ART, PREVIEW.art, (a) => a.id === design.art.id);
+      ? PAGE_ART.filter((a) => a.group === group)
+      : PAGE_ART
+    : previewOf(PAGE_ART, PREVIEW.art, (a) => a.id === design.art.id);
 
   return (
     <div className="flex flex-col gap-3">
-      <PickerHead label="Page artwork" count={SITE_ART.length} open={all} onToggle={() => setAll((x) => !x)} />
+      <PickerHead label="Page artwork" count={PAGE_ART.length} open={all} onToggle={() => setAll((x) => !x)} />
       <p className="-mt-1 text-[13px] leading-normal text-ink/60">One piece framing your names at the top. To place pieces anywhere, use the library below.</p>
       {all && (
         <div role="group" aria-label="Artwork groups" className="flex flex-wrap gap-1.5">

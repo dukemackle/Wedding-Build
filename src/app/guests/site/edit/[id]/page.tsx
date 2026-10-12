@@ -19,6 +19,7 @@ import { blockKey, type SectionId } from "@/lib/site-design";
 import { parseSiteDesign } from "@/lib/site-design-schema";
 import { HeroPhotoPanel } from "../../../hero-photo-panel";
 import { GalleryPanel } from "../../../gallery-panel";
+import { liveDetailsOf } from "@/lib/site-live";
 import { VenuePhotosPanel } from "../../../venue-photos-panel";
 import { Accommodations, DressAndTravel, Faqs, OwnVenue } from "../../../guest-site-details";
 import { RegistryManager } from "../../../registry-manager";
@@ -133,9 +134,9 @@ export default async function GuestSiteEditorPage({ params }: { params: Promise<
   const { data: venue } = wedding.venue_id
     ? await supabase
         .from("venues")
-        .select("name, photo_urls")
+        .select("name, city, state, photo_urls")
         .eq("id", wedding.venue_id)
-        .maybeSingle<{ name: string; photo_urls: string[] }>()
+        .maybeSingle<{ name: string; city: string | null; state: string | null; photo_urls: string[] }>()
     : { data: null };
   const ownVenuePhotos = wedding.own_venue_photo_urls ?? [];
   // What the site shows: the couple's own venue photos win over the listing's.
@@ -334,6 +335,14 @@ export default async function GuestSiteEditorPage({ params }: { params: Promise<
           hasPhoto={Boolean(wedding.hero_photo_url)}
           names={[wedding.partner_a_name ?? "", wedding.partner_b_name ?? ""]}
           weddingDate={wedding.wedding_date ?? null}
+          live={liveDetailsOf({
+            partner_a_name: wedding.partner_a_name,
+            partner_b_name: wedding.partner_b_name,
+            wedding_date: wedding.wedding_date,
+            venue_name: venue?.name ?? wedding.own_venue_name,
+            venue_city: venue?.city ?? wedding.own_venue_city,
+            venue_state: venue?.state ?? wedding.own_venue_state,
+          })}
           photos={[wedding.hero_photo_url, ...(galleryPhotos ?? []).map((p) => p.photo_url)].filter(
             (url): url is string => Boolean(url?.startsWith("https://")),
           )}

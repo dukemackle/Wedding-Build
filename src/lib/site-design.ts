@@ -774,6 +774,9 @@ export const ORNAMENT_IDS = ORNAMENTS.map((o) => o.id) as [OrnamentId, ...Orname
  * kept as a shape and filled with the accent; "colour" pieces are
  * watercolours shown as painted. w and h are the file's pixel size.
  */
+/** The Elements tab's dividers and ornaments: placed by hand, never page artwork. */
+export const ORNAMENT_GROUP = "Dividers & ornaments";
+
 export const SITE_ART = [
   { id: "eucalyptus", name: "Eucalyptus", group: "Greenery", kind: "colour", src: "/site-art/eucalyptus-watercolour.webp", w: 626, h: 900 },
   { id: "eucalyptus-line", name: "Eucalyptus sketch", group: "Greenery", kind: "line", src: "/site-art/eucalyptus-line.webp", w: 653, h: 900 },
@@ -820,6 +823,15 @@ export const SITE_ART = [
   { id: "wheat", name: "Wheat sheaf", group: "Harvest", kind: "line", src: "/site-art/wheat.svg", w: 600, h: 900 },
   { id: "skyline", name: "City skyline", group: "City", kind: "line", src: "/site-art/skyline.svg", w: 900, h: 560 },
   { id: "champagne", name: "Champagne toast", group: "Celebration", kind: "line", src: "/site-art/champagne.svg", w: 600, h: 900 },
+  // Dividers and wedding ornaments, for the Elements tab only (not page artwork).
+  { id: "divider-flourish", name: "Flourish divider", group: ORNAMENT_GROUP, kind: "line", src: "/site-art/divider-flourish.svg", w: 900, h: 150 },
+  { id: "divider-diamond", name: "Diamond divider", group: ORNAMENT_GROUP, kind: "line", src: "/site-art/divider-diamond.svg", w: 900, h: 100 },
+  { id: "divider-heart", name: "Heart divider", group: ORNAMENT_GROUP, kind: "line", src: "/site-art/divider-heart.svg", w: 900, h: 120 },
+  { id: "divider-laurel", name: "Laurel divider", group: ORNAMENT_GROUP, kind: "line", src: "/site-art/divider-laurel.svg", w: 900, h: 120 },
+  { id: "rings", name: "Wedding rings", group: ORNAMENT_GROUP, kind: "line", src: "/site-art/rings.svg", w: 900, h: 720 },
+  { id: "wreath", name: "Laurel wreath", group: ORNAMENT_GROUP, kind: "line", src: "/site-art/wreath.svg", w: 900, h: 900 },
+  { id: "bow", name: "Ribbon bow", group: ORNAMENT_GROUP, kind: "line", src: "/site-art/bow.svg", w: 900, h: 720 },
+  { id: "corner-flourish", name: "Corner flourish", group: ORNAMENT_GROUP, kind: "line", src: "/site-art/corner-flourish.svg", w: 900, h: 900 },
 ] as const;
 
 export type ArtId = (typeof SITE_ART)[number]["id"];

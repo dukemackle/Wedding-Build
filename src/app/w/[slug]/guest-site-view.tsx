@@ -31,6 +31,8 @@ import { SiteBlockView, blockHasContent } from "./site-block";
 import { SectionLayout } from "./section-layout";
 import { storyChapters } from "@/lib/site-story";
 import { Replayable, SiteMotion } from "@/components/site-motion";
+import { LiveDetailsProvider } from "@/components/site-live-details";
+import { liveDetailsOf } from "@/lib/site-live";
 
 /**
  * The guest site itself, below any theme.
@@ -363,18 +365,20 @@ export function GuestSiteView({
   return (
     <main className="flex flex-1 flex-col">
       <Replayable>
-        <SiteMotion initials={initials} />
-        <SiteNotice />
-        <CeremonyProvider
-          ceremony={
-            itineraryEvents.find((e) => e.event_date === wedding.wedding_date && /ceremony|vows|nikah|wedding/i.test(e.title) && e.start_time) ?? null
-          }
-        >
-          <HeroPhotosProvider photos={galleryPhotos.map((p) => p.photo_url)}>
-            <WeddingHero wedding={wedding} />
-          </HeroPhotosProvider>
-        </CeremonyProvider>
-        <SectionLayout sections={sections} />
+        <LiveDetailsProvider details={liveDetailsOf(wedding)}>
+          <SiteMotion initials={initials} />
+          <SiteNotice />
+          <CeremonyProvider
+            ceremony={
+              itineraryEvents.find((e) => e.event_date === wedding.wedding_date && /ceremony|vows|nikah|wedding/i.test(e.title) && e.start_time) ?? null
+            }
+          >
+            <HeroPhotosProvider photos={galleryPhotos.map((p) => p.photo_url)}>
+              <WeddingHero wedding={wedding} />
+            </HeroPhotosProvider>
+          </CeremonyProvider>
+          <SectionLayout sections={sections} />
+        </LiveDetailsProvider>
       </Replayable>
     </main>
   );
