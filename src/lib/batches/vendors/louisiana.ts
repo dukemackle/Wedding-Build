@@ -168,6 +168,8 @@ Chemistry Hair Salon	Hair & Makeup	220 Carroll St., Suite E	Shreveport	Louisiana
 Beauty Foundations by Dana	Hair & Makeup		Bossier City	Louisiana	Shreveport-Bossier area, travels	Bossier City makeup artist focused on bridal and special-event makeup, travelling across the Shreveport-Bossier area.			https://beautyfoundationsbydana.com/	https://www.instagram.com/beautyfoundationsbydana/
 Sweet Canvas Cakes	Cake		Bossier City	Louisiana		Bossier City cake decorator making custom and sculpted cakes, including wedding and groom's cakes, from a home kitchen and cake studio.	sweetcanvascakes@gmail.com	804-426-4750	https://www.sweetcanvascakes.com/	
 Anointed Media	Videography		Shreveport	Louisiana	Shreveport, Bossier City, Benton, Stonewall and surrounding areas	Videographer filming weddings and other events in Shreveport, Bossier City, Benton and Stonewall, with a focus on wedding stories.		(501) 247-7804	https://www.anointed.media/	https://www.instagram.com/anointed.media/
+Flower Power Weddings & Events	Florals	3803 Youree Dr	Shreveport	Louisiana	Shreveport	Shreveport florist doing wedding flowers for the bridal party, ceremony and reception, with consultations by appointment only.		(318) 698-4600	https://flowerpowershreveport.flowerlookbook.com/	https://www.instagram.com/flower_power_shreveport/
+Deb's Garden Style Florist	Florals	2154 Airline Drive	Bossier City	Louisiana	Bossier City	Bossier City florist offering wedding packages, bridal bouquets, centrepieces and ceremony and reception flowers, and says it has served the city for twenty years.		(318) 742-5403	https://www.gardenstyleflorist.com/wedding-flowers	https://www.instagram.com/debs_garden_llc/`,
   },
 ];
 
