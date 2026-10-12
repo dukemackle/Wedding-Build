@@ -35,7 +35,7 @@ import {
 } from "@/lib/site-design";
 import { TextToolbar } from "./text-toolbar";
 import { canvasSchema } from "@/lib/site-canvas-schema";
-import { filterCss, PHOTO_FILTERS, findElement, updateElement, type CanvasElement, type SiteCanvas } from "@/lib/site-canvas";
+import { PHOTO_FILTERS, findElement, updateElement, type CanvasElement, type SiteCanvas } from "@/lib/site-canvas";
 import {
   CANVAS_ACTION,
   CANVAS_COMMIT,
@@ -49,7 +49,7 @@ import {
 } from "./canvas-messages";
 import { CanvasToolbar, ElementsTab, PositionPanel } from "./canvas-panels";
 import { PhoneTools, Sheet, Tool } from "./phone-tools";
-import { AnimatePanel, FocusPicker, PhotoPanel } from "./photo-motion-panels";
+import { AnimatePanel, BannerFocus, PhotoPanel } from "./photo-motion-panels";
 import { MakeItMore, TemplatesTab } from "./templates-tab";
 import { DescribeSite, WrenWrite } from "./wren-panels";
 import { BackgroundTab, FontsTab, PhotoColoursSection, TargetColourSection, type PickTarget } from "./look-panels";
@@ -616,13 +616,7 @@ export function SiteEditor({
           {hasPhoto && photos[0] && (
             <div className="flex flex-col gap-3">
               <PanelLabel>Banner photo</PanelLabel>
-              <FocusPicker
-                src={photos[0]}
-                fx={design.heroPhoto.fx}
-                fy={design.heroPhoto.fy}
-                filter={filterCss(design.heroPhoto.filter)}
-                onChange={(fx, fy) => change({ heroPhoto: { ...design.heroPhoto, fx, fy } })}
-              />
+              <BannerFocus src={photos[0]} design={design} onChange={change} />
               <div className="flex flex-wrap gap-1.5">
                 {PHOTO_FILTERS.map((f) => (
                   <button

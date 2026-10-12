@@ -19,6 +19,7 @@ import {
   ENVELOPE,
   ENVELOPE_LINERS,
   MONOGRAM,
+  NAMES_STYLE,
   MONOGRAM_DATES,
   SEALS,
   MOTION_PRESETS,
@@ -173,11 +174,21 @@ export const siteDesignSchema = z.object({
     .object({
       fx: z.number().min(0).max(100).catch(50),
       fy: z.number().min(0).max(100).catch(50),
+      pfx: z.number().min(0).max(100).nullable().catch(null),
+      pfy: z.number().min(0).max(100).nullable().catch(null),
       filter: z.enum(PHOTO_FILTERS.map((f) => f.id) as [PhotoFilterId, ...PhotoFilterId[]]).catch("none"),
     })
     .catch(HERO_PHOTO),
   /** The shape around the Photos section's pictures and photo sections; null keeps the page style's own. */
   photoFrame: z.enum(PHOTO_FRAMES.map((f) => f.id) as [PhotoFrameId, ...PhotoFrameId[]]).nullable().catch(null),
+  /** How the names at the top are joined and set (NAMES_STYLE). */
+  names: z
+    .object({
+      joiner: z.enum(["&", "and"]).catch("&"),
+      stacked: z.boolean().catch(false),
+      capitals: z.boolean().catch(false),
+    })
+    .catch(NAMES_STYLE),
   /** The monogram's letters and date line; the frame is `ornament`. */
   monogram: z
     .object({

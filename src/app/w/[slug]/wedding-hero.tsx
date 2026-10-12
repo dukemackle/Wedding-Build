@@ -37,13 +37,18 @@ function HeroContent({
   /** Names set huge, in capitals unless the face is a script. */
   poster?: boolean;
 }) {
-  const names = `${wedding.partner_a_name ?? ""} & ${wedding.partner_b_name ?? ""}`.trim();
+  const design = useSiteDesign();
+  const { joiner, stacked } = design.names;
+  const first = wedding.partner_a_name ?? "";
+  const second = wedding.partner_b_name ?? "";
+  const names = `${first} ${joiner} ${second}`.trim();
   const location = [wedding.venue_name, wedding.venue_city, wedding.venue_state]
     .filter(Boolean)
     .join(", ");
-  const design = useSiteDesign();
   const { motion, ornament, occasion } = design;
-  const capitals = poster && !resolveDesign(design).scriptNames;
+  // Capitals never suit a script face, whatever was picked.
+  const script = resolveDesign(design).scriptNames;
+  const capitals = (poster || design.names.capitals) && !script;
   const renewal = occasion.kind === "renewal";
   const years = renewal && occasion.since ? yearsBetween(occasion.since, wedding.wedding_date) : null;
   // The gentle word-by-word rise is the "Straight in" default; the other
@@ -82,7 +87,7 @@ function HeroContent({
         className={`site-names mt-3 font-display font-medium [font-style:var(--site-name-style,normal)] [font-weight:var(--site-name-weight,500)] ${
           poster
             ? `mx-auto max-w-[14ch] ${capitals ? "uppercase leading-[0.9] tracking-tight" : "leading-[1.1]"}`
-            : "text-[clamp(2.75rem,8vw,5.5rem)] leading-[1.02]"
+            : `${stacked ? "text-[clamp(2.5rem,9vw,3.75rem)]" : "text-[clamp(2.75rem,8vw,5.5rem)]"} leading-[1.02] ${capitals ? "uppercase tracking-[0.03em]" : ""}`
         } ${
           tone === "light" ? "text-white [text-shadow:0_2px_24px_rgba(0,0,0,0.28)]" : "text-forest"
         }`}
@@ -91,7 +96,20 @@ function HeroContent({
           ...(poster ? { fontSize: posterSize } : {}),
         }}
       >
-        {stagger ? <StaggerWords text={names} /> : names}
+        {stacked && first && second ? (
+          // One name above the other, the joiner small between them, as on a printed invitation.
+          <>
+            <span className="block">{stagger ? <StaggerWords text={first} /> : first}</span>
+            <span className="my-[0.3em] block text-[0.34em] normal-case leading-none tracking-normal [font-style:italic]">
+              {joiner}
+            </span>
+            <span className="block">{stagger ? <StaggerWords text={second} /> : second}</span>
+          </>
+        ) : stagger ? (
+          <StaggerWords text={names} />
+        ) : (
+          names
+        )}
       </SiteText>
 
       {renewal && occasion.since && (
@@ -249,6 +267,40 @@ function InvitationContent({ wedding }: { wedding: PublicWedding }) {
   );
 }
 
+/**
+ * A small arrow at the foot of the screen-filling layouts, so guests know
+ * there's more below. Takes them to the end of the top of the page.
+ */
+function ScrollCue({ tone, className = "" }: { tone: "light" | "dark"; className?: string }) {
+  const reduced = useReducedMotion();
+  return (
+    <button
+      type="button"
+      aria-label="Scroll to the rest of the page"
+      onClick={(e) => {
+        const top = e.currentTarget.closest("header")?.getBoundingClientRect().bottom;
+        if (top !== undefined) window.scrollTo({ top: top + window.scrollY, behavior: reduced ? "auto" : "smooth" });
+      }}
+      className={`absolute bottom-3 left-1/2 z-10 -translate-x-1/2 p-2 transition-opacity hover:opacity-100 ${
+        tone === "light" ? "text-white opacity-80" : "text-ink opacity-45"
+      } ${className}`}
+    >
+      <svg
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+        className={`h-7 w-7 ${reduced ? "" : "site-scroll-cue"}`}
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="m6 9 6 6 6-6" />
+      </svg>
+    </button>
+  );
+}
+
 /** The banner and gallery photos crossfading, five seconds each; still under reduced motion. */
 function Slideshow({ photos }: { photos: string[] }) {
   const reduced = useReducedMotion();
@@ -334,6 +386,7 @@ function HeroLayout({ wedding }: { wedding: PublicWedding }) {
           </>
         )}
         <HeroContent wedding={wedding} tone={photo ? "light" : "dark"} poster />
+        <ScrollCue tone={photo ? "light" : "dark"} />
       </header>
     );
   }
@@ -363,18 +416,23 @@ function HeroLayout({ wedding }: { wedding: PublicWedding }) {
   }
 
   if (hero === "split") {
-    // Side by side from lg; on a phone, the photo first and the names under it.
+    // From lg the photo takes three fifths and the full height of the
+    // screen, the names the rest, with the couple's artwork in the
+    // column's corners. On a phone, the photo first and the names under it.
     return (
-      <header className="grid lg:min-h-[78vh] lg:grid-cols-2">
+      <header className="grid lg:min-h-[92vh] lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
         <div className="site-hero-photo relative h-[46vh] min-h-[300px] overflow-hidden bg-[var(--site-photo)] lg:h-auto">
           {photo ? (
-            <Image src={photo} alt="" fill priority sizes="(min-width: 1024px) 50vw, 100vw" className="hero-kenburns object-cover" />
+            <Image src={photo} alt="" fill priority sizes="(min-width: 1024px) 60vw, 100vw" className="hero-kenburns object-cover" />
           ) : (
             <SceneArtwork />
           )}
         </div>
-        <div className="flex items-center justify-center py-14 lg:py-20">
+        <div className="relative flex items-center justify-center overflow-hidden py-14 lg:py-20">
+          {/* Tucked into the corners: the column is too narrow to flank the names. */}
+          <SiteArt art={{ ...art, placement: "corners" }} />
           <HeroContent wedding={wedding} tone="dark" />
+          <ScrollCue tone="dark" className="hidden lg:block" />
         </div>
       </header>
     );
@@ -406,6 +464,7 @@ function HeroLayout({ wedding }: { wedding: PublicWedding }) {
         </div>
         {photos.length > 0 && <span className="absolute inset-0 bg-black/40" aria-hidden="true" />}
         <HeroContent wedding={wedding} tone={photos.length ? "light" : "dark"} />
+        <ScrollCue tone={photos.length ? "light" : "dark"} />
       </header>
     );
   }

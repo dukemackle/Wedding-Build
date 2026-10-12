@@ -160,6 +160,8 @@ export function StyleTab({
 
       {children}
 
+      <NamesStyle design={design} onChange={onChange} script={resolveDesign(design).scriptNames} />
+
       <div className="flex flex-col gap-2">
         <label htmlFor="site-notice" className="text-[13px] font-medium text-ink">
           Announcement
@@ -1085,6 +1087,48 @@ function Pills<T extends string>({
           {text}
         </button>
       ))}
+    </div>
+  );
+}
+
+/** How the names at the top are joined and set (Style › Your names). */
+function NamesStyle({ design, onChange, script }: { design: SiteDesign; onChange: Change; script: boolean }) {
+  const set = (patch: Partial<SiteDesign["names"]>) => onChange({ names: { ...design.names, ...patch } });
+  return (
+    <div className="flex flex-col gap-3">
+      <PanelLabel>Your names</PanelLabel>
+      <Pills
+        label="Joined by"
+        options={[
+          ["&", "Ana & Sam"],
+          ["and", "Ana and Sam"],
+        ]}
+        value={design.names.joiner}
+        onPick={(joiner) => set({ joiner })}
+      />
+      <Pills
+        label="Arrangement"
+        options={[
+          ["line", "One line"],
+          ["stacked", "Stacked"],
+        ]}
+        value={design.names.stacked ? "stacked" : "line"}
+        onPick={(v) => set({ stacked: v === "stacked" })}
+      />
+      <Pills
+        label="Letters"
+        options={[
+          ["typed", "As typed"],
+          ["capitals", "CAPITALS"],
+        ]}
+        value={design.names.capitals ? "capitals" : "typed"}
+        onPick={(v) => set({ capitals: v === "capitals" })}
+      />
+      {design.names.capitals && script && (
+        <p className="-mt-1 text-[13px] leading-normal text-ink/60">
+          Your names are in a script font, which doesn&apos;t work in capitals, so they stay as typed.
+        </p>
+      )}
     </div>
   );
 }
