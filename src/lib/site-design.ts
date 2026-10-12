@@ -810,6 +810,12 @@ export const SITE_ART = [
   { id: "hibiscus", name: "Hibiscus", group: "Coast", kind: "line", src: "/site-art/hibiscus.svg", w: 600, h: 900 },
   { id: "seagrass", name: "Sea grass", group: "Coast", kind: "line", src: "/site-art/seagrass.svg", w: 600, h: 900 },
   { id: "sun", name: "Sun", group: "Desert", kind: "line", src: "/site-art/sun.svg", w: 900, h: 900 },
+  { id: "monstera", name: "Monstera leaf", group: "Tropical", kind: "line", src: "/site-art/monstera.svg", w: 600, h: 900 },
+  { id: "magnolia", name: "Magnolia", group: "Southern", kind: "line", src: "/site-art/magnolia.svg", w: 600, h: 900 },
+  { id: "pumpkin", name: "Pumpkin", group: "Harvest", kind: "line", src: "/site-art/pumpkin.svg", w: 600, h: 900 },
+  { id: "wheat", name: "Wheat sheaf", group: "Harvest", kind: "line", src: "/site-art/wheat.svg", w: 600, h: 900 },
+  { id: "skyline", name: "City skyline", group: "City", kind: "line", src: "/site-art/skyline.svg", w: 900, h: 560 },
+  { id: "champagne", name: "Champagne toast", group: "Celebration", kind: "line", src: "/site-art/champagne.svg", w: 600, h: 900 },
 ] as const;
 
 export type ArtId = (typeof SITE_ART)[number]["id"];
