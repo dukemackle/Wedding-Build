@@ -48,6 +48,7 @@ export default async function GuestSitePreviewPage({
         >()
     : { data: null };
 
+  const ownVenuePhotos = wedding.own_venue_photo_urls ?? [];
   // Shaped like the public view, so the preview renders through the same
   // component as the live page.
   const asGuestsSeeIt: PublicWedding = {
@@ -61,15 +62,16 @@ export default async function GuestSitePreviewPage({
     rsvp_deadline: wedding.rsvp_deadline,
     dress_code: wedding.dress_code,
     travel_notes: wedding.travel_notes,
-    venue_name: venue?.name ?? null,
-    venue_city: venue?.city ?? null,
-    venue_state: venue?.state ?? null,
+    venue_name: venue?.name ?? wedding.own_venue_name,
+    venue_city: venue?.city ?? wedding.own_venue_city,
+    venue_state: venue?.state ?? wedding.own_venue_state,
     itinerary_published: wedding.itinerary_published,
     site_design: wedding.site_design,
-    venue_photo_urls: venue?.photo_urls ?? null,
+    venue_photo_urls: ownVenuePhotos.length > 0 ? ownVenuePhotos : (venue?.photo_urls ?? null),
     venue_about: venue?.about ?? venue?.description ?? null,
-    venue_address: venue?.address ?? null,
+    venue_address: venue?.address ?? wedding.own_venue_address,
     site_locked: Boolean(wedding.site_password_hash),
+    venue_photos_own: ownVenuePhotos.length > 0,
   };
 
   const content = await loadGuestSiteContent(supabase, asGuestsSeeIt, { preview: true });

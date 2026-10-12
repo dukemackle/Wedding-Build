@@ -42,7 +42,7 @@ export function VenueView({ wedding, card }: { wedding: PublicWedding; card: str
           >
             Get directions
           </a>
-          {(wedding.venue_photo_urls?.length ?? 0) > 0 && (
+          {(wedding.venue_photo_urls?.length ?? 0) > 0 && !wedding.venue_photos_own && (
             <p className="mt-4 text-xs text-ink/50">Photos courtesy of {wedding.venue_name}</p>
           )}
         </div>
