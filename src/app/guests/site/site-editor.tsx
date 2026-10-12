@@ -127,6 +127,7 @@ export function SiteEditor({
   version,
   published: initialPublished,
   publicSlug: initialSlug,
+  siteLocked,
   origin,
   contentKey,
   sectionInfo,
@@ -146,6 +147,7 @@ export function SiteEditor({
   version: string;
   published: SiteDesign;
   publicSlug: string | null;
+  siteLocked: boolean;
   origin: string;
   /** Changes whenever the site's content does, so the preview reloads to show it. */
   contentKey: string;
@@ -645,7 +647,7 @@ export function SiteEditor({
         <SectionsTab
           design={design}
           onChange={change}
-          sitePanel={<PublicSitePanel site={site} origin={origin} />}
+          sitePanel={<PublicSitePanel site={site} origin={origin} locked={siteLocked} />}
           info={sectionInfo}
           checklist={checklist}
         />

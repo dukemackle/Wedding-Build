@@ -5,6 +5,7 @@ import { notFound, redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { AppNav } from "@/components/app-nav";
 import type {
+  AttirePartyMember,
   RegistryItem,
   Wedding,
   WeddingAccommodation,
@@ -23,6 +24,7 @@ import { RegistryManager } from "../../../registry-manager";
 import { SiteEditor } from "../../site-editor";
 import type { ChecklistItem, SectionInfo } from "../../editor-tabs";
 import { BlockEditor } from "../../block-editor";
+import { PartySitePanel } from "../../../party-site-panel";
 
 /**
  * Guests › Guest site › a design: the editor for one of the couple's designs.
@@ -75,6 +77,7 @@ export default async function GuestSiteEditorPage({ params }: { params: Promise<
     { data: faqs },
     { data: accommodations },
     { data: registryItems },
+    { data: partyMembers },
   ] = await Promise.all([
     supabase
       .from("wedding_gallery_photos")
@@ -100,6 +103,12 @@ export default async function GuestSiteEditorPage({ params }: { params: Promise<
       .eq("wedding_id", wedding.id)
       .order("created_at", { ascending: true })
       .returns<RegistryItem[]>(),
+    supabase
+      .from("attire_party_members")
+      .select("*")
+      .eq("wedding_id", wedding.id)
+      .order("sort_order", { ascending: true })
+      .returns<AttirePartyMember[]>(),
   ]);
 
   const { data: blocks } = await supabase
@@ -151,6 +160,7 @@ export default async function GuestSiteEditorPage({ params }: { params: Promise<
       accommodations,
       registryItems,
       blocks,
+      partyMembers,
     ]),
   );
 
@@ -159,6 +169,7 @@ export default async function GuestSiteEditorPage({ params }: { params: Promise<
   const faqCount = faqs?.length ?? 0;
   const registryCount = registryItems?.length ?? 0;
   const events = eventCount ?? 0;
+  const partyShown = (partyMembers ?? []).filter((m) => m.on_site).length;
   const hidden = " — hidden until you add one";
 
   const sectionInfo: Record<SectionId, SectionInfo> = {
@@ -185,6 +196,12 @@ export default async function GuestSiteEditorPage({ params }: { params: Promise<
           </div>
         </div>
       ),
+    },
+    party: {
+      status: partyMembers?.length
+        ? `${partyShown} of ${partyMembers.length} shown`
+        : `No one yet${hidden.replace("one", "your party")}`,
+      editor: <PartySitePanel members={partyMembers ?? []} />,
     },
     venue: venue
       ? {
@@ -286,6 +303,7 @@ export default async function GuestSiteEditorPage({ params }: { params: Promise<
           version={row.updated_at}
           published={published}
           publicSlug={wedding.public_slug}
+          siteLocked={Boolean(wedding.site_password_hash)}
           origin={origin}
           contentKey={contentKey}
           sectionInfo={{ ...sectionInfo, ...blockInfo }}

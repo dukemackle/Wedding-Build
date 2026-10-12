@@ -1981,7 +1981,12 @@ function SiteDemo() {
                 phone ? "max-w-[250px] rounded-[1.6rem]" : "max-w-none rounded-lg"
               }`}
             >
-              <div className="border-b border-hairline px-3 py-1.5 text-center font-mono-numbers text-[10px] text-ink/45">
+              {/* A password on the site: guests type it once, from the invitation. */}
+              <div className="flex items-center justify-center gap-1.5 border-b border-hairline px-3 py-1.5 font-mono-numbers text-[10px] text-ink/45">
+                <svg width="9" height="10" viewBox="0 0 9 10" fill="none" stroke="currentColor" strokeWidth="1.3" aria-hidden="true">
+                  <rect x="1" y="4.5" width="7" height="5" rx="1" />
+                  <path d="M2.5 4.5V3a2 2 0 0 1 4 0v1.5" />
+                </svg>
                 youdoido.com/w/juniper-and-sam
               </div>
               <div
@@ -2029,6 +2034,25 @@ function SiteDemo() {
                     <div key={label} className="py-2" style={{ background: t.surface, borderRadius: t.radius }}>
                       <p className="font-mono-numbers text-xs" style={{ color: accent }}>{time}</p>
                       <p className="text-xs" style={{ color: t.muted }}>{label}</p>
+                    </div>
+                  ))}
+                </div>
+                {/* The wedding party, framed the way the couple picked (arches here). */}
+                <div className="mt-4 flex justify-center gap-3">
+                  {[
+                    ["Maya", "Maid of honor"],
+                    ["Theo", "Best man"],
+                    ["Iris", "Bridesmaid"],
+                  ].map(([name, role]) => (
+                    <div key={name} className="flex w-16 flex-col items-center">
+                      <span
+                        className="grid aspect-[4/5] w-full place-items-center rounded-t-full text-lg"
+                        style={{ background: t.surface, color: accent, fontFamily: t.display }}
+                      >
+                        {name[0]}
+                      </span>
+                      <span className="mt-1 text-[11px]" style={{ color: heading }}>{name}</span>
+                      <span className="text-[8px] uppercase tracking-wider" style={{ color: t.muted }}>{role}</span>
                     </div>
                   ))}
                 </div>

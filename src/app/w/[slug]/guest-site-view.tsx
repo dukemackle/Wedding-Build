@@ -4,6 +4,7 @@ import type {
   ItineraryEvent,
   PublicConfirmedGuest,
   PublicGuestbookEntry,
+  PublicPartyMember,
   PublicWedding,
   RegistryItem,
   WeddingAccommodation,
@@ -20,6 +21,7 @@ import { GuestWall } from "./guest-wall";
 import { GalleryView } from "./gallery-view";
 import { StayList } from "./stay-list";
 import { VenueView } from "./venue-view";
+import { PartyView } from "./party-view";
 import { WeddingHero } from "./wedding-hero";
 import type { ReactNode } from "react";
 import { bannerPhoto, blockKey, type SectionKey } from "@/lib/site-design";
@@ -46,11 +48,17 @@ function formatDate(dateStr: string) {
   });
 }
 
+const PARTY_COLUMNS = "id, wedding_id, name, role, photo_url, site_blurb, sort_order";
+
 type Supabase = Awaited<ReturnType<typeof createClient>>;
 
 export type GuestSiteContent = Awaited<ReturnType<typeof loadGuestSiteContent>>;
 
-export async function loadGuestSiteContent(supabase: Supabase, wedding: PublicWedding) {
+export async function loadGuestSiteContent(
+  supabase: Supabase,
+  wedding: PublicWedding,
+  { preview = false }: { preview?: boolean } = {},
+) {
   const { data: registryItems } = await supabase
     .from("registry_items")
     .select("*")
@@ -106,6 +114,16 @@ export async function loadGuestSiteContent(supabase: Supabase, wedding: PublicWe
     .order("created_at", { ascending: true })
     .returns<PublicConfirmedGuest[]>();
 
+  // The public view only covers sites that are on; the couple's preview
+  // reads their own board (row security lets them) so it works with it off.
+  const partyQuery = preview
+    ? supabase.from("attire_party_members").select(PARTY_COLUMNS).eq("on_site", true)
+    : supabase.from("public_party_members").select(PARTY_COLUMNS);
+  const { data: partyMembers } = await partyQuery
+    .eq("wedding_id", wedding.id)
+    .order("sort_order", { ascending: true })
+    .returns<PublicPartyMember[]>();
+
   const { data: blocks } = await supabase
     .from("site_blocks")
     .select("*")
@@ -124,6 +142,7 @@ export async function loadGuestSiteContent(supabase: Supabase, wedding: PublicWe
     guestbookEntries: guestbookEntries ?? [],
     galleryPhotos: galleryPhotos ?? [],
     confirmedGuests: confirmedGuests ?? [],
+    partyMembers: partyMembers ?? [],
   };
 }
 
@@ -142,6 +161,7 @@ export function GuestSiteView({
     guestbookEntries,
     galleryPhotos,
     confirmedGuests,
+    partyMembers,
     blocks,
   } = content;
   const coupleNames = [wedding.partner_a_name, wedding.partner_b_name].filter(Boolean).join(" & ");
@@ -210,6 +230,7 @@ export function GuestSiteView({
           </div>
         </div>
       ) : null,
+    party: partyMembers.length > 0 ? <PartyView members={partyMembers} card={CARD} /> : null,
     venue: wedding.venue_name ? <VenueView wedding={wedding} card={CARD} /> : null,
     weekend:
       itineraryEvents.length > 0 ? (

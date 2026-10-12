@@ -8,6 +8,8 @@ import type { SiteBlock } from "@/lib/supabase/types";
 import { SiteOrnament } from "@/components/site-ornament";
 import { Shape } from "@/components/site-motion";
 import { MonogramFontError, downloadMonogram } from "@/lib/monogram-download";
+import { PHOTO_FRAMES } from "@/lib/site-canvas";
+import { FrameIcon } from "./photo-motion-panels";
 import {
   ART_HEROES,
   ART_PLACEMENTS,
@@ -216,6 +218,31 @@ export function StyleTab({
         />
         <p className="text-[13px] leading-normal text-ink/60">
           {PAGE_STYLES.find((x) => x.id === design.pageStyle)?.help}
+        </p>
+      </div>
+
+      <div className="flex flex-col gap-3">
+        <PanelLabel>Photo frames</PanelLabel>
+        <div role="group" aria-label="Photo frames" className="grid grid-cols-4 gap-2">
+          {([[null, "Auto"], ...PHOTO_FRAMES.map((f) => [f.id, f.label] as const)] as const).map(([id, label]) => (
+            <button
+              key={id ?? "auto"}
+              type="button"
+              aria-pressed={design.photoFrame === id}
+              onClick={() => onChange({ photoFrame: id })}
+              className={`flex h-[4.5rem] flex-col items-center justify-center gap-1.5 rounded-xl text-[11px] text-ink/70 ${
+                design.photoFrame === id
+                  ? "border-2 border-[#2243B6] bg-[#2243B6]/[0.06]"
+                  : "m-px border border-hairline bg-card hover:border-ink/30"
+              }`}
+            >
+              {id ? <FrameIcon frame={id} accent={resolveDesign(design).accent} /> : <span className="text-base leading-none text-ink/50">✦</span>}
+              {label}
+            </button>
+          ))}
+        </div>
+        <p className="text-[13px] leading-normal text-ink/60">
+          For the Spread photo layout, photo sections and your wedding party. Auto keeps the page style&rsquo;s own.
         </p>
       </div>
 
