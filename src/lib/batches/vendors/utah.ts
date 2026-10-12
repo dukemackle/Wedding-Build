@@ -186,6 +186,19 @@ Roaming Vow Film Co.	Videography		St. George	Utah	St. George, Zion National Park
 Taylor Made Events	Rentals		St. George	Utah	St. George, Zion, Southern Utah	Wedding rental and styling company supplying tents, handcrafted tables, seating and arches, with setup and teardown included.	info@taylormadeevents.co	(435) 256-0647	https://www.taylormadeevents.co/	https://www.instagram.com/taylor.made.events/
 `,
   },
+  {
+    name: "Salt Lake City: planning, hair & makeup and videography; St. George: videography; Brigham City: planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Life Is A Party SLC	Planning		Salt Lake City	Utah	Utah	Wedding and event planner in Salt Lake City who plans and coordinates weddings for couples across Utah.	lifeisapartyslc@gmail.com		https://www.lifeisapartyslc.com/	https://www.instagram.com/lifeisaparty.slc/
+Brittany Williams Events	Planning		Brigham City	Utah	Northern Utah	Brigham City planner offering day-of coordination as well as full-service wedding design and planning across northern Utah.	partyplanningbestie@gmail.com	435-730-5868	https://www.brittanywilliamsevents.com/	https://www.instagram.com/brittany.williamsevents/
+Erin Smith Beauty Creations	Hair & Makeup		Salt Lake City	Utah	Salt Lake City, Moab and St. George	Salt Lake City bridal hair and makeup team that works on site, and also travels to St. George and Moab for wedding parties.	erinsmith@erinsmithbeautycreations.com	6302045429	https://www.erinsmithbeautycreations.com/utahteam	https://www.instagram.com/erinsmithbeautycreations/
+Janelle Ingram	Hair & Makeup		Murray	Utah	Salt Lake City, Park City and Moab	Bridal hair and makeup artist near Salt Lake City, doing updos, braids and makeup for brides and parties, with travel to Park City.	janelleingram@gmail.com	801-879-8712	https://www.janelleingram.com/	https://www.instagram.com/janelleingram/
+Austin Goode Film & Photo	Videography		Salt Lake City	Utah		Salt Lake City wedding and editorial videographer who films wedding days and makes portraits and brand content on the side.			https://austingoode.com	https://www.instagram.com/austingoodefilms/
+Nate Fill Now Films	Videography		Salt Lake City	Utah		Husband-and-wife team in Salt Lake City who film weddings with unobtrusive coverage and creative editing, plus business and ski films.	natefillnow@gmail.com	801-633-6869	https://www.natefillnowfilms.com/	
+Steadman Film	Videography		Salt Lake City	Utah		Salt Lake City wedding filmmaker making candid, emotional heirloom-style films, with weddings filmed at destinations around the world.			https://www.steadmanfilm.com/wedding-films/	
+Maddy Mykel Videography	Videography		St. George	Utah	Southern Utah	St. George wedding videographer who films candid moments and edits them into a visual story of the day for Southern Utah couples.	contact@maddymykel.com	385-515-9693	https://www.maddymykel.com/	https://www.instagram.com/maddymykelvideography/
+`,
+  },
 ];
 
 export default batches;
