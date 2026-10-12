@@ -11,7 +11,7 @@ export default function PrivacyPage() {
       <div className={`w-full ${READING_WIDTH}`}>
         <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Legal</p>
         <h1 className="mt-2 font-display text-3xl font-semibold text-forest">Privacy Policy</h1>
-        <p className="mt-2 text-sm text-ink/60">Last updated: October 8, 2026</p>
+        <p className="mt-2 text-sm text-ink/60">Last updated: October 12, 2026</p>
 
         <div className="mt-8 flex flex-col gap-8 text-ink/80">
           <p>
@@ -241,8 +241,11 @@ export default function PrivacyPage() {
           <Section title="4. Public visibility">
             <p>
               If you (a couple) create a public wedding site, information you choose to display
-              there — guestbook photos/messages, RSVP-form fields, and your weekend schedule once
-              you publish it — is visible to anyone with the link. Guests submitting an RSVP
+              there — guestbook photos/messages, RSVP-form fields, your wedding party&apos;s names,
+              roles, photos and the lines you write about them, and your weekend schedule once you
+              publish it — is visible to anyone with the link (or, if you set a password, anyone with
+              the link and the password). Please make sure the people in your wedding party are happy
+              to appear there. Guests submitting an RSVP
               should know their submission goes to the couple, and anything the couple chooses to
               feature (for example, a guestbook entry) becomes visible to anyone who visits the
               public site.

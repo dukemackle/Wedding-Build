@@ -13,11 +13,14 @@ export function SiteOrnament({
   second,
   size = "sm",
   tone = "dark",
+  date = null,
 }: {
   kind: OrnamentId;
   first: string;
   second: string;
   size?: "sm" | "lg";
+  /** A line under the frame: the year or the full date (monogramDate). */
+  date?: string | null;
   /** "light" over a photo: the frame in a pale gold rather than the accent. */
   tone?: "light" | "dark";
 }) {
@@ -32,7 +35,7 @@ export function SiteOrnament({
     return (
       <div className={`flex items-center justify-center gap-4 ${size === "lg" ? "scale-150" : ""}`}>
         <span className={`h-px w-10 sm:w-14 ${rule}`} aria-hidden="true" />
-        <span className={`whitespace-nowrap font-display text-xl tracking-[0.22em] ${color}`}>
+        <span className={`whitespace-nowrap text-xl tracking-[0.22em] ${color}`} style={{ fontFamily: MONOGRAM_FACE }}>
           {[a, b].filter(Boolean).join(" · ")}
         </span>
         <span className={`h-px w-10 sm:w-14 ${rule}`} aria-hidden="true" />
@@ -41,7 +44,7 @@ export function SiteOrnament({
   }
 
   const px = size === "lg" ? "h-[200px] w-[200px] sm:h-[240px] sm:w-[240px]" : "h-[112px] w-[112px] sm:h-[128px] sm:w-[128px]";
-  return (
+  const frame = (
     <svg
       viewBox="0 0 200 200"
       className={`site-ornament mx-auto block ${px} ${color}`}
@@ -51,7 +54,22 @@ export function SiteOrnament({
       {DRAWINGS[kind as keyof typeof DRAWINGS](a, b)}
     </svg>
   );
+  if (!date) return frame;
+  return (
+    <div className="flex flex-col items-center gap-1.5">
+      {frame}
+      <p
+        className={`orn-fade whitespace-nowrap uppercase tracking-[0.3em] ${color} ${size === "lg" ? "text-[15px]" : "text-[12px]"}`}
+        style={{ fontFamily: MONOGRAM_FACE }}
+      >
+        {date}
+      </p>
+    </div>
+  );
 }
+
+/** Style tab › Monogram's letter face, else the names' own. */
+const MONOGRAM_FACE = "var(--font-monogram, var(--font-names, var(--font-display)))";
 
 const LINE = {
   fill: "none",
@@ -83,7 +101,7 @@ function Letters({ children, size = 54, y = 100 }: { children: ReactNode; size?:
       dominantBaseline="central"
       fill="currentColor"
       className="orn-fade"
-      style={{ fontFamily: "var(--font-names, var(--font-display))", fontSize: size }}
+      style={{ fontFamily: MONOGRAM_FACE, fontSize: size }}
     >
       {children}
     </text>
@@ -599,7 +617,7 @@ const DRAWINGS: Record<Exclude<OrnamentId, "none" | "rule" | "bismillah" | "xi">
         dominantBaseline="central"
         fill="var(--site-on-accent)"
         className="orn-fade"
-        style={{ fontFamily: "var(--font-names, var(--font-display))", fontSize: 44 }}
+        style={{ fontFamily: MONOGRAM_FACE, fontSize: 44 }}
       >
         {a}
         <tspan fontSize={24} dx={2}>

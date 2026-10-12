@@ -309,7 +309,7 @@ function venueChecks(venue: Venue): [string, boolean][] {
 
 // Desktop columns: select, photo, venue, type, source, complete, checked, inquiries, status, actions.
 const GRID =
-  "lg:grid lg:grid-cols-[20px_48px_minmax(0,2fr)_minmax(0,1fr)_72px_84px_minmax(0,150px)_80px_64px_112px] lg:items-center lg:gap-3";
+  "xl:grid xl:grid-cols-[20px_48px_minmax(0,2fr)_minmax(0,1fr)_72px_84px_110px_80px_64px_112px] xl:items-center xl:gap-3";
 
 function VenueRow({
   venue,
@@ -386,7 +386,7 @@ function VenueRow({
       </div>
 
       {/* Phone: a card. */}
-      <div className="flex items-start gap-3 p-3 lg:hidden">
+      <div className="flex items-start gap-3 p-3 xl:hidden">
         <Checkbox checked={selected} onChange={onToggleSelect} label={`Select ${venue.name}`} className="mt-1" />
         <Thumb src={venue.image_url} />
         <div className="min-w-0 flex-1">

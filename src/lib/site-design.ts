@@ -618,10 +618,13 @@ export const HERO_LAYOUTS = [
   { id: "text", label: "Text only", help: "Just your names and date, beautifully set" },
   { id: "card", label: "Framed card", help: "Your names on a framed card, over your photo or a band of your colour" },
   { id: "poster", label: "Poster", help: "Your names huge, poster-style, over your photo or on their own" },
+  { id: "collage", label: "Collage", help: "Your banner and two gallery photos, layered, with your names beside them" },
+  { id: "slideshow", label: "Slideshow", help: "Your photos slowly fading one into the next behind your names" },
+  { id: "invitation", label: "Invitation", help: "Your names and date worded like a printed invitation, on a paper card" },
 ] as const;
 
 /** The layouts that show the banner photo. */
-export const PHOTO_HEROES: readonly HeroLayoutId[] = ["full", "split", "framed"];
+export const PHOTO_HEROES: readonly HeroLayoutId[] = ["full", "split", "framed", "collage", "slideshow"];
 
 /**
  * The mark above the couple's names: their initials, set in a frame drawn in
@@ -674,6 +677,7 @@ export const SCENES = [
   { id: "meadow", label: "Ranch meadow", place: "band" },
   { id: "hills", label: "Vineyard rows", place: "band" },
   { id: "waves", label: "Waves", place: "band" },
+  { id: "palms", label: "Palms", place: "band" },
   { id: "pines", label: "Pines", place: "band" },
   { id: "frontier", label: "Mesas", place: "band" },
   { id: "sunset", label: "Desert sun", place: "band" },
@@ -718,6 +722,46 @@ export const PAGE_STYLES = [
 ] as const;
 
 export type PageStyleId = (typeof PAGE_STYLES)[number]["id"];
+
+/**
+ * Layouts for single sections (Sections tab, each section's row), so the
+ * story, RSVP and schedule can be arranged differently, not only recoloured.
+ * Each has its own phone arrangement. The story layout applies to every Story
+ * section. The schedule's null follows the page style: day cards with Cards,
+ * the timeline with Storybook.
+ */
+export const SECTION_LAYOUTS = {
+  story: [
+    { id: "editorial", label: "Editorial", help: "One column, a drop cap and a wide photo" },
+    { id: "timeline", label: "Timeline", help: "Each paragraph a moment on a line" },
+    { id: "alternating", label: "Alternating", help: "Paragraphs beside photos, side to side" },
+  ],
+  rsvp: [
+    { id: "card", label: "Card", help: "The form in a card" },
+    { id: "band", label: "Band", help: "A full-width band in your colour" },
+    { id: "split", label: "Photo split", help: "Your banner photo beside the form" },
+  ],
+  weekend: [
+    { id: "timeline", label: "Timeline", help: "Events down a line under each day" },
+    { id: "cards", label: "Cards", help: "A card for each day" },
+    { id: "list", label: "List", help: "When, what and where in rows" },
+  ],
+  photos: [
+    { id: "spread", label: "Spread", help: "A grid with your first photo given double the room" },
+    { id: "masonry", label: "Masonry", help: "Every photo at its own shape, in columns" },
+    { id: "filmstrip", label: "Filmstrip", help: "A strip of film to scroll along" },
+    { id: "scrapbook", label: "Scrapbook", help: "Prints scattered on the table, some taped" },
+    { id: "line", label: "Washing line", help: "Polaroids pegged along a string" },
+  ],
+} as const;
+
+export type LayoutSection = keyof typeof SECTION_LAYOUTS;
+export type StoryLayoutId = (typeof SECTION_LAYOUTS.story)[number]["id"];
+export type RsvpLayoutId = (typeof SECTION_LAYOUTS.rsvp)[number]["id"];
+export type WeekendLayoutId = (typeof SECTION_LAYOUTS.weekend)[number]["id"];
+export type PhotosLayoutId = (typeof SECTION_LAYOUTS.photos)[number]["id"];
+
+export const DEFAULT_LAYOUTS: SiteDesign["layouts"] = { story: "editorial", rsvp: "card", weekend: null, photos: null };
 
 export type OrnamentId = (typeof ORNAMENTS)[number]["id"];
 
@@ -770,6 +814,12 @@ export const SITE_ART = [
   { id: "hibiscus", name: "Hibiscus", group: "Coast", kind: "line", src: "/site-art/hibiscus.svg", w: 600, h: 900 },
   { id: "seagrass", name: "Sea grass", group: "Coast", kind: "line", src: "/site-art/seagrass.svg", w: 600, h: 900 },
   { id: "sun", name: "Sun", group: "Desert", kind: "line", src: "/site-art/sun.svg", w: 900, h: 900 },
+  { id: "monstera", name: "Monstera leaf", group: "Tropical", kind: "line", src: "/site-art/monstera.svg", w: 600, h: 900 },
+  { id: "magnolia", name: "Magnolia", group: "Southern", kind: "line", src: "/site-art/magnolia.svg", w: 600, h: 900 },
+  { id: "pumpkin", name: "Pumpkin", group: "Harvest", kind: "line", src: "/site-art/pumpkin.svg", w: 600, h: 900 },
+  { id: "wheat", name: "Wheat sheaf", group: "Harvest", kind: "line", src: "/site-art/wheat.svg", w: 600, h: 900 },
+  { id: "skyline", name: "City skyline", group: "City", kind: "line", src: "/site-art/skyline.svg", w: 900, h: 560 },
+  { id: "champagne", name: "Champagne toast", group: "Celebration", kind: "line", src: "/site-art/champagne.svg", w: 600, h: 900 },
 ] as const;
 
 export type ArtId = (typeof SITE_ART)[number]["id"];
@@ -869,6 +919,7 @@ export type HeroLayoutId = (typeof HERO_LAYOUTS)[number]["id"];
 export const SITE_SECTIONS = [
   { id: "rsvp", name: "RSVP", column: "main" },
   { id: "photos", name: "Photos", column: "main" },
+  { id: "party", name: "Wedding party", column: "main" },
   { id: "venue", name: "The venue", column: "main" },
   { id: "weekend", name: "The weekend", column: "main" },
   { id: "wall", name: "Photo wall", column: "main" },
@@ -903,12 +954,53 @@ export const BLOCK_KEY = /^block:[0-9a-f-]{36}$/;
 
 export const DEFAULT_SECTIONS = SITE_SECTIONS.map((x) => ({ id: x.id as SectionKey, hidden: false }));
 
+/**
+ * The envelope opening's own look (Motion › When the page opens): the wax
+ * seal's colour, the pattern lining the flap, and whether it waits for a tap.
+ */
+export const SEALS = [
+  { id: "accent", label: "Your accent", hex: null },
+  { id: "claret", label: "Claret", hex: "#7a1f2b" },
+  { id: "gold", label: "Gold", hex: "#b8892b" },
+  { id: "navy", label: "Navy", hex: "#1f2c4f" },
+  { id: "sage", label: "Sage", hex: "#5f7356" },
+  { id: "blush", label: "Blush", hex: "#c48a8e" },
+  { id: "ink", label: "Black", hex: "#1f1d1b" },
+] as const;
+
+export type SealId = (typeof SEALS)[number]["id"];
+
+export const ENVELOPE_LINERS = ["none", "dots", "stripes", "lattice", "gingham", "harlequin", "scallops", "deco"] as const;
+
+export const ENVELOPE = { seal: "accent", liner: "none", tap: false } as const;
+
 export const OPENINGS = [
   { id: "none", label: "Straight in", help: "The page is simply there." },
   { id: "envelope", label: "Envelope opens", help: "An envelope with your initials unseals first." },
   { id: "write", label: "Names write in", help: "Your names appear as if handwritten." },
   { id: "reveal", label: "Photo reveal", help: "Your photo opens out from the centre." },
 ] as const;
+
+/** What drifts over the page (Motion tab), all tinted with the theme's accent. */
+export const FALLING = [
+  { id: "none", label: "Nothing" },
+  { id: "petals", label: "Petals" },
+  { id: "hearts", label: "Hearts" },
+  { id: "confetti", label: "Confetti" },
+  { id: "rice", label: "Rice toss" },
+  { id: "snow", label: "Snow" },
+  { id: "leaves", label: "Autumn leaves" },
+  { id: "rings", label: "Rings & sparkles" },
+  { id: "bubbles", label: "Bubbles" },
+  { id: "fireflies", label: "Fireflies" },
+  { id: "lanterns", label: "Sky lanterns" },
+  { id: "marigolds", label: "Marigolds" },
+  { id: "sparklers", label: "Sparklers" },
+  { id: "butterflies", label: "Butterflies" },
+] as const;
+
+export const FALLING_IDS = FALLING.map((f) => f.id) as [FallingId, ...FallingId[]];
+export type FallingId = (typeof FALLING)[number]["id"];
 
 
 /**
@@ -918,9 +1010,9 @@ export const OPENINGS = [
  * before there was a Motion tab.
  */
 export const MOTION_PRESETS = {
-  none: { opening: "none", scroll: "none", photo: "still", petals: false, ticking: false, confetti: false, speed: "normal" },
-  subtle: { opening: "none", scroll: "fade", photo: "zoom", petals: false, ticking: true, confetti: false, speed: "normal" },
-  lively: { opening: "envelope", scroll: "zoom", photo: "zoom", petals: true, ticking: true, confetti: true, speed: "normal" },
+  none: { opening: "none", scroll: "none", photo: "still", falling: "none", ticking: false, flipboard: false, shimmer: false, confetti: false, speed: "normal" },
+  subtle: { opening: "none", scroll: "fade", photo: "zoom", falling: "none", ticking: true, flipboard: false, shimmer: false, confetti: false, speed: "normal" },
+  lively: { opening: "envelope", scroll: "zoom", photo: "zoom", falling: "petals", ticking: true, flipboard: false, shimmer: true, confetti: true, speed: "normal" },
 } as const satisfies Record<string, Motion>;
 
 export type MotionPreset = keyof typeof MOTION_PRESETS | "custom";
@@ -947,6 +1039,7 @@ export const TEXT_SLOTS = [
   { id: "hero.names", label: "Your names", words: false },
   { id: "rsvp.title", label: "RSVP heading", words: true },
   { id: "photos.title", label: "Photos heading", words: true },
+  { id: "party.title", label: "Wedding party heading", words: true },
   { id: "venue.title", label: "Venue heading", words: true },
   { id: "weekend.title", label: "Schedule heading", words: true },
   { id: "wall.title", label: "Photo wall heading", words: true },
@@ -983,6 +1076,12 @@ export const BG_PATTERNS = [
   { id: "dots", label: "Dots" },
   { id: "stripes", label: "Stripes" },
   { id: "lattice", label: "Lattice" },
+  { id: "gingham", label: "Gingham" },
+  { id: "pinstripe", label: "Pinstripe" },
+  { id: "harlequin", label: "Harlequin" },
+  { id: "scallops", label: "Scallops" },
+  { id: "deco", label: "Deco fans" },
+  { id: "sunburst", label: "Sunburst" },
 ] as const;
 
 export const BG_TEXTURES = [
@@ -990,14 +1089,68 @@ export const BG_TEXTURES = [
   { id: "linen", label: "Linen" },
   { id: "paper", label: "Paper" },
   { id: "wash", label: "Watercolour wash" },
+  { id: "marble", label: "Marble" },
+  { id: "flecks", label: "Foil flecks" },
+  { id: "silk", label: "Silk sheen" },
+  { id: "glow", label: "Soft edges" },
+] as const;
+
+/**
+ * The edge between storybook bands: a shape cut into the top and bottom of
+ * each tinted band, so the page reads like layered paper rather than stripes.
+ */
+export const BG_DIVIDERS = [
+  { id: "none", label: "Straight" },
+  { id: "wave", label: "Wave" },
+  { id: "scallop", label: "Scallop" },
+  { id: "arch", label: "Arch" },
+  { id: "torn", label: "Torn paper" },
+  { id: "deckle", label: "Deckled" },
 ] as const;
 
 export type BgPattern = (typeof BG_PATTERNS)[number]["id"];
 export type BgTexture = (typeof BG_TEXTURES)[number]["id"];
+export type BgDivider = (typeof BG_DIVIDERS)[number]["id"];
 
-export const NO_BACKGROUND = { pattern: "none", texture: "none", scope: "page" } as const;
+export const NO_BACKGROUND = { pattern: "none", texture: "none", scope: "page", divider: "none" } as const;
 
 export const HERO_PHOTO = { fx: 50, fy: 50, filter: "none" } as const;
+
+/**
+ * The monogram's own letters (Style tab › Monogram): a face for the initials
+ * over the names' face, which initial comes first, and the wedding date set
+ * under the frame. The frame itself is `ornament`.
+ */
+export const MONOGRAM = { font: null, swap: false, date: "none" } as const;
+
+/** Faces that suit two initials in a frame; null is the names' own. */
+export const MONOGRAM_FONTS = [
+  null,
+  "cinzel",
+  "bodoni",
+  "playfair",
+  "italiana",
+  "cormorant",
+  "cinzeldeco",
+  "gloock",
+  "greatvibes",
+  "pinyon",
+  "monsieur",
+  "imperial",
+] as const satisfies readonly (FontId | null)[];
+
+export const MONOGRAM_DATES = [
+  { id: "none", label: "No date" },
+  { id: "year", label: "Year" },
+  { id: "full", label: "Full date" },
+] as const;
+
+/** The line under the frame, from the wedding date ("2027-06-12"). */
+export function monogramDate(kind: (typeof MONOGRAM_DATES)[number]["id"], date: string | null) {
+  if (kind === "none" || !date) return null;
+  const [y, m, d] = date.split("-");
+  return kind === "year" ? y : `${m} · ${d} · ${y}`;
+}
 
 export const DEFAULT_SITE_DESIGN: SiteDesign = {
   theme: DEFAULT_THEME_ID,
@@ -1011,6 +1164,7 @@ export const DEFAULT_SITE_DESIGN: SiteDesign = {
   hero: "full",
   scene: null,
   pageStyle: "cards",
+  layouts: DEFAULT_LAYOUTS,
   occasion: { kind: "wedding", since: null },
   sections: DEFAULT_SECTIONS,
   motion: MOTION_PRESETS.subtle,
@@ -1018,6 +1172,10 @@ export const DEFAULT_SITE_DESIGN: SiteDesign = {
   canvas: EMPTY_CANVAS,
   background: NO_BACKGROUND,
   heroPhoto: HERO_PHOTO,
+  photoFrame: null,
+  monogram: MONOGRAM,
+  envelope: ENVELOPE,
+  notice: null,
   template: null,
 };
 
@@ -1136,6 +1294,10 @@ export function paletteColors(p: Palette): Pick<SiteDesign, "colors" | "accent">
 const PAPER =
   "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")";
 
+// Grey veins from stretched noise, kept to a few thin bands of it.
+const MARBLE =
+  "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='640' height='640'%3E%3Cfilter id='m'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.0035 .011' numOctaves='5' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .45 0 0 0 0 .45 0 0 0 0 .45 1 0 0 0 0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='table' tableValues='0 0 0 .16 0 0 0 0 .11 0 0 0'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23m)'/%3E%3C/svg%3E\")";
+
 /**
  * The Background panel's pattern and texture as CSS layers, drawn in the
  * site's own accent and ink so they follow every palette. Patterns sit over
@@ -1152,6 +1314,25 @@ export function backgroundLayers(background: SiteDesign["background"]): { image:
       [`linear-gradient(${tint(16)} 1px, transparent 1px)`, "32px 32px"],
       [`linear-gradient(90deg, ${tint(16)} 1px, transparent 1px)`, "32px 32px"],
     );
+  if (background.pattern === "gingham")
+    layers.push(
+      [`linear-gradient(90deg, ${tint(11)} 50%, transparent 50%)`, "24px 24px"],
+      [`linear-gradient(${tint(11)} 50%, transparent 50%)`, "24px 24px"],
+    );
+  if (background.pattern === "pinstripe")
+    layers.push([`repeating-linear-gradient(90deg, ${tint(16)} 0 1px, transparent 1px 14px)`, "auto"]);
+  if (background.pattern === "harlequin")
+    // East and west wedges of each tile meet their neighbours' as diamonds.
+    layers.push([`conic-gradient(from 45deg, ${tint(10)} 25%, transparent 0 50%, ${tint(10)} 0 75%, transparent 0)`, "32px 32px"]);
+  if (background.pattern === "scallops")
+    layers.push([`radial-gradient(circle at 50% 100%, transparent 0 11px, ${tint(18)} 11px 12.5px, transparent 13px)`, "28px 14px"]);
+  if (background.pattern === "deco")
+    layers.push([
+      `radial-gradient(circle at 50% 100%, ${tint(20)} 0 2px, transparent 2px 6px, ${tint(16)} 6px 7px, transparent 7px 11.5px, ${tint(16)} 11.5px 12.5px, transparent 12.5px 17px, ${tint(16)} 17px 18px, transparent 18px)`,
+      "36px 18px",
+    ]);
+  if (background.pattern === "sunburst")
+    layers.push([`repeating-conic-gradient(from 0deg at 50% 0%, ${tint(7)} 0 3deg, transparent 3deg 9deg)`, "100% 100%"]);
   if (background.texture === "linen")
     layers.push(
       [`repeating-linear-gradient(0deg, ${tint(4, "--color-ink")} 0 1px, transparent 1px 3px)`, "auto"],
@@ -1164,6 +1345,21 @@ export function backgroundLayers(background: SiteDesign["background"]): { image:
       [`radial-gradient(ellipse 50% 45% at 88% 35%, ${tint(12, "--site-accent-2")}, transparent 70%)`, "100% 100%"],
       [`radial-gradient(ellipse 55% 35% at 30% 90%, ${tint(10)}, transparent 70%)`, "100% 100%"],
     );
+  if (background.texture === "marble") layers.push([MARBLE, "640px 640px"]);
+  if (background.texture === "flecks")
+    // Three grids of odd sizes, so the specks never line up.
+    layers.push(
+      [`radial-gradient(${tint(55)} 0.8px, transparent 1.4px)`, "37px 41px"],
+      [`radial-gradient(${tint(40)} 1.1px, transparent 1.8px)`, "71px 59px"],
+      [`radial-gradient(${tint(35, "--site-accent-2")} 0.7px, transparent 1.2px)`, "53px 97px"],
+    );
+  if (background.texture === "silk")
+    layers.push([
+      "linear-gradient(115deg, transparent 15%, rgb(255 255 255 / 0.22) 32%, transparent 48%, rgb(255 255 255 / 0.14) 66%, transparent 82%)",
+      "100% 100%",
+    ]);
+  if (background.texture === "glow")
+    layers.push([`radial-gradient(ellipse 80% 70% at 50% 40%, transparent 55%, ${tint(12, "--color-ink")})`, "100% 100%"]);
   if (!layers.length) return { image: "none", size: "auto" };
   return { image: layers.map(([i]) => i).join(", "), size: layers.map(([, s]) => s).join(", ") };
 }
@@ -1189,6 +1385,7 @@ export function designCssVars(design: SiteDesign): Record<string, string> {
     // ("RSVP", "Travel") it reads as a scrawl, so those take the body face.
     "--font-display": scriptNames ? theme.body : theme.display,
     "--font-names": theme.display,
+    ...(design.monogram.font ? { "--font-monogram": fontById(design.monogram.font)?.css ?? theme.display } : {}),
     "--font-body": theme.body,
     "--site-accent": accent,
     "--site-on-accent": onAccent,
@@ -1233,6 +1430,7 @@ export function siteFontsHref(design: SiteDesign) {
   const picked = [
     ...Object.values(design.text).flatMap((s) => (s?.font ? [s.font] : [])),
     ...canvasFontIds(design.canvas),
+    ...(design.monogram.font ? [design.monogram.font] : []),
   ].map((id) => fontById(id)?.css ?? "");
   return fontsHrefFor([theme.display, theme.body, ...picked]);
 }

@@ -9,6 +9,7 @@ import { WrenMotto } from "@/components/wren-motto";
 import { AskWrenTile } from "@/app/dashboard/ask-wren-tile";
 import {
   DEFAULT_SITE_DESIGN,
+  FALLING,
   PALETTES,
   THEMES,
   fontById,
@@ -16,9 +17,11 @@ import {
   fontsHrefFor,
   paletteColors,
   resolveDesign,
+  type FallingId,
   type OrnamentId,
   type ThemeId,
 } from "@/lib/site-design";
+import { Falling, useReducedMotion } from "@/components/site-motion";
 import { SiteOrnament } from "@/components/site-ornament";
 import { ConfirmedChip } from "@/components/confirmed-badge";
 import { CHECKLIST_PHASES, CHECKLIST_TEMPLATE } from "@/lib/checklist-template";
@@ -1768,6 +1771,9 @@ function DemoArt({ src, color, phone }: { src: string; color: string; phone: boo
   );
 }
 
+// A few of the Motion tab's falling choices; the site has nine.
+const DEMO_FALLING = FALLING.filter((f) => ["none", "petals", "hearts", "snow", "fireflies"].includes(f.id));
+
 // Theme font first, then a few the names cycle through when clicked.
 const DEMO_NAME_FONTS = [null, "greatvibes", "saintdelafield", "playfair"] as const;
 
@@ -1779,6 +1785,8 @@ function SiteDemo() {
   const [rsvped, setRsvped] = useState(false);
   const [namesFont, setNamesFont] = useState(0);
   const [art, setArt] = useState<string | null>(DEMO_ART[0].id);
+  const [falling, setFalling] = useState<FallingId>("petals");
+  const reduced = useReducedMotion();
   const palette = DEMO_PALETTES.find((p) => p.id === paletteId);
   // The real resolver, so the demo mixes cards and muted text the way the site does.
   const { theme: t, accent, onAccent, heading } = resolveDesign({
@@ -1795,6 +1803,21 @@ function SiteDemo() {
         <span className="rounded-full bg-forest/10 px-2 py-0.5 text-xs font-semibold text-forest">
           Live
         </span>
+      </div>
+      {/* Your designs: a few looks side by side, one of them live. */}
+      <div className="flex gap-1.5 overflow-x-auto text-xs">
+        {["Garden Party", "Night Swim", "Lemon Grove"].map((name, i) => (
+          <span
+            key={name}
+            className={`flex h-7 shrink-0 items-center gap-1.5 rounded-full px-2.5 ${
+              i === 0 ? "bg-card font-medium text-forest ring-1 ring-forest/30" : "text-ink/60 ring-1 ring-hairline"
+            }`}
+          >
+            {name}
+            {i === 0 && <span className="rounded-full bg-[#FFD301] px-1.5 text-[10px] font-semibold text-[#14203d]">LIVE</span>}
+          </span>
+        ))}
+        <span className="flex h-7 shrink-0 items-center rounded-full px-2.5 text-[#2243B6] ring-1 ring-hairline">+ New</span>
       </div>
       <div className="flex gap-1 rounded-lg bg-ink/[0.05] p-1">
         {["Theme", "Templates", "Colour", "Fonts", "Elements"].map((label, i) => (
@@ -1880,6 +1903,22 @@ function SiteDemo() {
           </button>
         ))}
       </div>
+      <p className={eyebrow}>Falling over the page</p>
+      <div className="flex flex-wrap gap-1.5">
+        {DEMO_FALLING.map((f) => (
+          <button
+            key={f.id}
+            type="button"
+            onClick={() => setFalling(f.id)}
+            aria-pressed={f.id === falling}
+            className={`h-8 rounded-full px-3 text-xs ${
+              f.id === falling ? "bg-forest text-parchment" : "bg-card text-ink/70 ring-1 ring-hairline"
+            }`}
+          >
+            {f.label}
+          </button>
+        ))}
+      </div>
       <p className={eyebrow}>Monogram</p>
       <div className="flex flex-wrap gap-1.5">
         {DEMO_ORNAMENTS.map((o) => (
@@ -1942,7 +1981,12 @@ function SiteDemo() {
                 phone ? "max-w-[250px] rounded-[1.6rem]" : "max-w-none rounded-lg"
               }`}
             >
-              <div className="border-b border-hairline px-3 py-1.5 text-center font-mono-numbers text-[10px] text-ink/45">
+              {/* A password on the site: guests type it once, from the invitation. */}
+              <div className="flex items-center justify-center gap-1.5 border-b border-hairline px-3 py-1.5 font-mono-numbers text-[10px] text-ink/45">
+                <svg width="9" height="10" viewBox="0 0 9 10" fill="none" stroke="currentColor" strokeWidth="1.3" aria-hidden="true">
+                  <rect x="1" y="4.5" width="7" height="5" rx="1" />
+                  <path d="M2.5 4.5V3a2 2 0 0 1 4 0v1.5" />
+                </svg>
                 youdoido.com/w/juniper-and-sam
               </div>
               <div
@@ -1958,6 +2002,7 @@ function SiteDemo() {
                   } as React.CSSProperties
                 }
               >
+                {falling !== "none" && !reduced && <Falling kind={falling} speed={1} contained />}
                 <SiteOrnament kind={ornament} first="Juniper" second="Sam" />
                 <p className="font-mono-numbers text-[10px] uppercase tracking-[0.25em]" style={{ color: t.muted }}>
                   June 12, 2027 · Bend, Oregon
@@ -1989,6 +2034,25 @@ function SiteDemo() {
                     <div key={label} className="py-2" style={{ background: t.surface, borderRadius: t.radius }}>
                       <p className="font-mono-numbers text-xs" style={{ color: accent }}>{time}</p>
                       <p className="text-xs" style={{ color: t.muted }}>{label}</p>
+                    </div>
+                  ))}
+                </div>
+                {/* The wedding party, framed the way the couple picked (arches here). */}
+                <div className="mt-4 flex justify-center gap-3">
+                  {[
+                    ["Maya", "Maid of honor"],
+                    ["Theo", "Best man"],
+                    ["Iris", "Bridesmaid"],
+                  ].map(([name, role]) => (
+                    <div key={name} className="flex w-16 flex-col items-center">
+                      <span
+                        className="grid aspect-[4/5] w-full place-items-center rounded-t-full text-lg"
+                        style={{ background: t.surface, color: accent, fontFamily: t.display }}
+                      >
+                        {name[0]}
+                      </span>
+                      <span className="mt-1 text-[11px]" style={{ color: heading }}>{name}</span>
+                      <span className="text-[8px] uppercase tracking-wider" style={{ color: t.muted }}>{role}</span>
                     </div>
                   ))}
                 </div>
