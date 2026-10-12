@@ -743,14 +743,22 @@ export const SECTION_LAYOUTS = {
     { id: "cards", label: "Cards", help: "A card for each day" },
     { id: "list", label: "List", help: "When, what and where in rows" },
   ],
+  photos: [
+    { id: "spread", label: "Spread", help: "A grid with your first photo given double the room" },
+    { id: "masonry", label: "Masonry", help: "Every photo at its own shape, in columns" },
+    { id: "filmstrip", label: "Filmstrip", help: "A strip of film to scroll along" },
+    { id: "scrapbook", label: "Scrapbook", help: "Prints scattered on the table, some taped" },
+    { id: "line", label: "Washing line", help: "Polaroids pegged along a string" },
+  ],
 } as const;
 
 export type LayoutSection = keyof typeof SECTION_LAYOUTS;
 export type StoryLayoutId = (typeof SECTION_LAYOUTS.story)[number]["id"];
 export type RsvpLayoutId = (typeof SECTION_LAYOUTS.rsvp)[number]["id"];
 export type WeekendLayoutId = (typeof SECTION_LAYOUTS.weekend)[number]["id"];
+export type PhotosLayoutId = (typeof SECTION_LAYOUTS.photos)[number]["id"];
 
-export const DEFAULT_LAYOUTS: SiteDesign["layouts"] = { story: "editorial", rsvp: "card", weekend: null };
+export const DEFAULT_LAYOUTS: SiteDesign["layouts"] = { story: "editorial", rsvp: "card", weekend: null, photos: null };
 
 export type OrnamentId = (typeof ORNAMENTS)[number]["id"];
 
@@ -803,6 +811,12 @@ export const SITE_ART = [
   { id: "hibiscus", name: "Hibiscus", group: "Coast", kind: "line", src: "/site-art/hibiscus.svg", w: 600, h: 900 },
   { id: "seagrass", name: "Sea grass", group: "Coast", kind: "line", src: "/site-art/seagrass.svg", w: 600, h: 900 },
   { id: "sun", name: "Sun", group: "Desert", kind: "line", src: "/site-art/sun.svg", w: 900, h: 900 },
+  { id: "monstera", name: "Monstera leaf", group: "Tropical", kind: "line", src: "/site-art/monstera.svg", w: 600, h: 900 },
+  { id: "magnolia", name: "Magnolia", group: "Southern", kind: "line", src: "/site-art/magnolia.svg", w: 600, h: 900 },
+  { id: "pumpkin", name: "Pumpkin", group: "Harvest", kind: "line", src: "/site-art/pumpkin.svg", w: 600, h: 900 },
+  { id: "wheat", name: "Wheat sheaf", group: "Harvest", kind: "line", src: "/site-art/wheat.svg", w: 600, h: 900 },
+  { id: "skyline", name: "City skyline", group: "City", kind: "line", src: "/site-art/skyline.svg", w: 900, h: 560 },
+  { id: "champagne", name: "Champagne toast", group: "Celebration", kind: "line", src: "/site-art/champagne.svg", w: 600, h: 900 },
 ] as const;
 
 export type ArtId = (typeof SITE_ART)[number]["id"];

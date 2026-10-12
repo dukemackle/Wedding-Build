@@ -238,7 +238,7 @@ export function StyleTab({
           ))}
         </div>
         <p className="text-[13px] leading-normal text-ink/60">
-          For your Photos section, photo sections and wedding party. Auto keeps the page style&rsquo;s own.
+          For the Spread photo layout, photo sections and your wedding party. Auto keeps the page style&rsquo;s own.
         </p>
       </div>
 
@@ -649,7 +649,13 @@ export function SectionsTab({
                       <LayoutPicker
                         section={row.layout}
                         value={design.layouts[row.layout]}
-                        auto={row.layout === "weekend" ? (design.pageStyle === "storybook" ? "timeline" : "cards") : null}
+                        auto={
+                          row.layout === "weekend"
+                            ? design.pageStyle === "storybook" ? "timeline" : "cards"
+                            : row.layout === "photos"
+                              ? design.pageStyle === "storybook" ? "scrapbook" : "spread"
+                              : null
+                        }
                         onPick={(id) => onChange({ layouts: { ...design.layouts, [row.layout!]: id } })}
                       />
                     )}
@@ -746,6 +752,9 @@ function LayoutPicker({
           </button>
         ))}
       </div>
+      {section === "photos" && (
+        <p className="text-[12px] leading-normal text-ink/60">How your gallery photos sit on the page.</p>
+      )}
       {section === "story" && (
         <p className="text-[12px] leading-normal text-ink/60">
           For every Story section. Leave a blank line between paragraphs; start one with a year
@@ -791,6 +800,43 @@ function LayoutThumb({ section, id }: { section: LayoutSection; id: string }) {
     );
   if (key === "rsvp:split")
     return <span className={`${box} !gap-0 !p-0`}>{photo("h-full w-1/2")}<span className="flex h-full w-1/2 flex-col justify-center gap-1 bg-white px-1">{line("80%")}{line("60%")}</span></span>;
+  if (key === "photos:spread")
+    return <span className={`${box} !grid grid-cols-3 grid-rows-2 !gap-0.5`}>{photo("col-span-2 row-span-2 h-full rounded-sm")}{photo("h-full rounded-sm")}{photo("h-full rounded-sm")}</span>;
+  if (key === "photos:masonry")
+    return (
+      <span className={`${box} !items-start`}>
+        {[["h-5", "h-3"], ["h-3", "h-5"], ["h-6", "h-2"]].map((col, i) => (
+          <span key={i} className="flex flex-1 flex-col gap-0.5">{col.map((h, j) => <span key={j}>{photo(`${h} w-full rounded-sm`)}</span>)}</span>
+        ))}
+      </span>
+    );
+  if (key === "photos:filmstrip")
+    return (
+      <span className={box}>
+        <span className="flex h-7 w-full items-center gap-0.5 border-y-[3px] border-dotted border-[#f4f1ea] bg-[#262421] px-0.5 outline outline-2 outline-[#262421]">
+          {[0, 1, 2].map((i) => <span key={i} className="block h-4 flex-1 bg-[#dde2d0]" />)}
+        </span>
+      </span>
+    );
+  if (key === "photos:scrapbook")
+    return (
+      <span className={box}>
+        {["-rotate-6", "rotate-3", "-rotate-2"].map((r, i) => (
+          <span key={i} className={`block bg-white p-0.5 pb-1.5 shadow-sm ${r}`}>{photo("h-4 w-4")}</span>
+        ))}
+      </span>
+    );
+  if (key === "photos:line")
+    return (
+      <span className={`${box} relative !items-start pt-2`}>
+        <svg className="absolute inset-x-1 top-1 h-3 w-[calc(100%-0.5rem)]" viewBox="0 0 100 12" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M0 1 Q50 12 100 1" fill="none" stroke="currentColor" strokeOpacity={0.5} strokeWidth={1} vectorEffect="non-scaling-stroke" />
+        </svg>
+        {["-rotate-3 mt-1", "rotate-2 mt-2.5", "-rotate-2 mt-1"].map((r, i) => (
+          <span key={i} className={`block bg-white p-0.5 pb-1.5 shadow-sm ${r}`}>{photo("h-4 w-4")}</span>
+        ))}
+      </span>
+    );
   if (key === "weekend:cards")
     return <span className={box}>{[0, 1, 2].map((i) => <span key={i} className="flex h-full flex-1 flex-col gap-1 rounded-sm bg-white p-1 shadow-sm">{line("80%")}{line("60%")}</span>)}</span>;
   return <span className={`${box} flex-col !items-stretch !gap-1.5`}>{[0, 1, 2].map((i) => <span key={i} className="flex gap-1">{line("25%")}{line("45%")}</span>)}</span>;
