@@ -72,6 +72,10 @@ export default async function GuestSitePreviewPage({
     venue_address: venue?.address ?? wedding.own_venue_address,
     site_locked: Boolean(wedding.site_password_hash),
     venue_photos_own: ownVenuePhotos.length > 0,
+    gift_venmo: wedding.gift_venmo,
+    gift_paypal: wedding.gift_paypal,
+    gift_cashapp: wedding.gift_cashapp,
+    gift_zelle: wedding.gift_zelle,
   };
 
   const content = await loadGuestSiteContent(supabase, asGuestsSeeIt, { preview: true });

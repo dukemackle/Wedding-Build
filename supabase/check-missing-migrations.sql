@@ -186,7 +186,14 @@ with e(m,k,o,cols) as (values
 ('0112_site_password_and_party','f','set_guest_site_password',''),
 ('0112_site_password_and_party','f','unlock_guest_site',''),
 ('0112_site_password_and_party','v','public_party_members',''),
-('0112_site_password_and_party','vc','public_weddings','site_locked')
+('0112_site_password_and_party','vc','public_weddings','site_locked'),
+('0115_registry_gifts','t','registry_claims',''),
+('0115_registry_gifts','t','registry_gifts',''),
+('0115_registry_gifts','c','weddings','gift_venmo,gift_paypal,gift_cashapp,gift_zelle,gift_ship_to'),
+('0115_registry_gifts','f','claim_registry_gift',''),
+('0115_registry_gifts','f','release_registry_claim',''),
+('0115_registry_gifts','v','public_registry_gifts',''),
+('0115_registry_gifts','vc','public_weddings','gift_venmo')
 ), missing as (
   select e.m, e.k, e.o, x.col
   from e left join lateral unnest(string_to_array(nullif(e.cols,''),',')) x(col) on true

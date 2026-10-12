@@ -214,3 +214,59 @@ export async function submitGuestPost(formData: FormData): Promise<{ error?: str
 
   return {};
 }
+
+const CLAIM_ERRORS: Record<string, string> = {
+  already_taken: "Someone just said they're getting this one. Pick another gift?",
+  gift_not_found: "That gift isn't on the registry any more.",
+  name_required: "Add your name so the couple knows who to thank.",
+  bad_quantity: "Choose how many you're getting.",
+  bad_amount: "That amount doesn't look right.",
+};
+
+/**
+ * A guest says "I'm getting this" (or that they gave to a fund). The database
+ * decides whether there's still one left, so two guests can't both take the
+ * last one. Hands back the token that lets this browser undo it, and for a
+ * gift, where to ship it.
+ */
+export async function claimRegistryGift(
+  formData: FormData,
+): Promise<{ error?: string; token?: string; shipTo?: string | null }> {
+  if (((formData.get("website") as string) || "").trim()) {
+    return { error: "Couldn't save that. Please try again." };
+  }
+  const giftId = formData.get("gift_id") as string;
+  const name = field(formData, "guest_name", 120);
+  if (!giftId) return { error: "Missing gift." };
+  if (!name) return { error: CLAIM_ERRORS.name_required };
+
+  const rawAmount = ((formData.get("amount") as string) || "").replace(/[$,\s]/g, "");
+  const amount = rawAmount ? Number(rawAmount) : null;
+  if (amount !== null && !(Number.isFinite(amount) && amount > 0)) {
+    return { error: CLAIM_ERRORS.bad_amount };
+  }
+
+  const supabase = await createClient();
+  const { data, error } = await supabase.rpc("claim_registry_gift", {
+    p_gift: giftId,
+    p_name: name,
+    p_quantity: Math.max(1, Math.round(Number(formData.get("quantity")) || 1)),
+    p_amount: amount === null ? null : Math.round(amount * 100) / 100,
+    p_message: field(formData, "message", 500),
+  });
+  if (error) {
+    const code = Object.keys(CLAIM_ERRORS).find((key) => error.message.includes(key));
+    return { error: code ? CLAIM_ERRORS[code] : "Couldn't save that. Please try again." };
+  }
+  const row = (Array.isArray(data) ? data[0] : data) as { token: string; ship_to: string | null } | undefined;
+  if (!row) return { error: "Couldn't save that. Please try again." };
+  return { token: row.token, shipTo: row.ship_to };
+}
+
+/** Takes back this browser's own claim, proven by the token it was given. */
+export async function releaseRegistryClaim(token: string): Promise<{ error?: string }> {
+  if (!/^[0-9a-f-]{36}$/i.test(token)) return { error: "Couldn't undo that." };
+  const supabase = await createClient();
+  const { error } = await supabase.rpc("release_registry_claim", { p_token: token });
+  return error ? { error: "Couldn't undo that. Please try again." } : {};
+}

@@ -926,7 +926,7 @@ export const SITE_SECTIONS = [
   { id: "guests", name: "Who's coming", column: "side" },
   { id: "travel", name: "Travel & stays", column: "side" },
   { id: "faq", name: "FAQ", column: "side" },
-  { id: "registry", name: "Registry", column: "side" },
+  { id: "registry", name: "Registry", column: "main" },
 ] as const;
 
 export type SectionId = (typeof SITE_SECTIONS)[number]["id"];

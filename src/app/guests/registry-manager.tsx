@@ -39,7 +39,7 @@ function AddRegistryItemForm({ onDone }: { onDone: () => void }) {
           <input
             name="label"
             required
-            placeholder="e.g. Amazon Registry, Honeymoon Fund"
+            placeholder="e.g. Amazon registry"
             className={inputClass}
           />
         </label>
@@ -57,7 +57,7 @@ function AddRegistryItemForm({ onDone }: { onDone: () => void }) {
           <textarea
             name="notes"
             rows={2}
-            placeholder="Optional — e.g. how to contribute to a cash fund"
+            placeholder="Optional — e.g. our kitchen wish list"
             className={inputClass}
           />
         </label>
@@ -135,7 +135,7 @@ export function RegistryManager({ registryItems }: { registryItems: RegistryItem
     <div>
       <div className="mb-5 flex flex-wrap items-center justify-between gap-4">
         <p className="text-sm text-ink/70">
-          Registry links and cash funds you want to share with guests.
+          Links to registries you keep at a store, like Amazon or Crate &amp; Barrel.
         </p>
         <button
           onClick={() => setShowAddForm((v) => !v)}
