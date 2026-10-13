@@ -89,7 +89,6 @@ Ashley Drew Artistry	Hair & Makeup		Jackson	Wyoming	Jackson Hole and the greater
   {
     name: "Casper, Cody and Sheridan: photography, catering and hair and makeup",
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
-Ben Winckler Photography	Photography		Casper	Wyoming	Casper, Jackson Hole and the American West	Casper photographer for adventure elopements and intimate weddings, working locally and in Jackson Hole and further afield.	ben@benwinckler.com		http://benwinckler.com/	https://www.instagram.com/benwincklerphotography/
 Tami Moore	Photography		Cody	Wyoming	Wyoming, Montana and the American West	Cody photographer for elopements and small weddings, including horseback and multi-day wilderness ceremonies across the Rockies.	tamimoore307@gmail.com	307-250-2040	https://www.tamimoore.art/	https://www.instagram.com/tamimoore307/
 April Stuart Photography	Photography		Cody	Wyoming	Northeast Wyoming and Montana	Cody photographer covering weddings, elopements and proposals, with a styling guide to help couples prepare for their session.	contact@aprilstuartphoto.com	(706) 994-1627	https://www.aprilstuartphoto.com/	https://www.instagram.com/april.stuart.photo/
 Braidyn Looper Photography	Photography		Sheridan	Wyoming	Wyoming	Sheridan studio photographing weddings and elopements, including Big Horn Mountains locations, alongside newborn and family sessions.			https://www.braidynlooperphoto.com/	
