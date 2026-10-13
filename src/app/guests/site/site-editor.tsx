@@ -1415,11 +1415,15 @@ function PreviewStage({
   } else if (device === "desktop") {
     chrome = "browser";
     const bar = 36;
-    const scale = Math.min(1, size.w / DESKTOP_W) || 1;
+    // The frame's 1px border sits inside the stage, so the site gets 2px less.
+    const frameW = Math.max(0, size.w - 2);
+    const scale = Math.min(1, frameW / DESKTOP_W) || 1;
     const frameH = Math.max(0, size.h - bottomInset - bar);
-    outer = { width: size.w, height: frameH };
+    outer = { width: frameW, height: frameH };
     inner = {
-      width: DESKTOP_W,
+      // Narrower than a laptop: shrink a 1280px layout. Wider: show the site
+      // at the frame's real width, as a guest on a big monitor would see it.
+      width: Math.max(DESKTOP_W, frameW),
       height: frameH / scale,
       transform: `scale(${scale})`,
       transformOrigin: "top left",
