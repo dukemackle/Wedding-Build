@@ -178,6 +178,17 @@ Mighty Oak Lodge		Lebanon	Missouri			Barn / Rustic	Indoor & Outdoor	300		A large
 Stone House of St. Charles	4401 McClay Road	St. Charles	Missouri			Historic / Estate	Indoor & Outdoor	400		An early-1800s stone house on a 10-acre plot paired with Sycamore Hall, with a bridal suite and groom's quarters on site.	info@shofsc.com	636-317-1222	https://www.shofsc.com/
 Weathered Wisdom Barn	17769 Hwy F	Preston	Missouri			Barn / Rustic	Indoor & Outdoor			An Amish-built windowed reception barn in the Ozark hills with an outdoor ceremony lawn, fire pit and guest cabins.		(417) 343-8029	https://weatheredwisdombarn.com/`,
   },
+  {
+    name: "Jefferson City, Columbia, Lake of the Ozarks and St. Joseph",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Berry Barn Farms	6301 Rainbow Dr	Jefferson City	Missouri			Barn / Rustic	Indoor & Outdoor	100	Simple	A hay-barn-style event space built in 2019 on a hill above a pick-your-own blueberry farm, with an outdoor patio for ceremonies and a bridal suite.	venue.berrybarn@gmail.com		https://berrybarnfarms.com/wedding-venue/
+The Daisy Farm	1207 Route T	Jefferson City	Missouri			Barn / Rustic	Indoor & Outdoor			A rustic wedding farm with a Carriage Barn and a Loft Barn, a 19th-century farmhouse for the wedding party and outdoor ceremony sites.	thedaisyfarm7@gmail.com	(816) 316-6918	https://thedaisyfarm.com/
+Glenn Acres Farm	1801 N Route Z	Columbia	Missouri			Barn / Rustic	Indoor & Outdoor	150	Classic	A family-run horse farm with a 2,100 sq ft white barn, a 3,600 sq ft event center, an outdoor ceremony site and a bridal suite.	glennacresfarm@gmail.com	(573) 310-1722	https://glennacresfarm.com/weddings
+Cypress Ridge	1470 County Rd 274	Columbia	Missouri			Garden / Outdoor	Indoor & Outdoor		Simple	A countryside estate of 50-plus acres about 15 minutes from downtown Columbia, with three outdoor ceremony sites, an amphitheatre, an event hall and on-site lodging.	info@mssint.org	573-551-6774	https://www.mssint.org/cypress-ridge-weddings
+Shawnee Bluff Vineyard	8 Tolwood Rd	Eldon	Missouri			Restaurant / Vineyard	Indoor & Outdoor	300		A hilltop vineyard above the Lake of the Ozarks with a 5,000 sq ft reception venue, an outdoor ceremony space and a pavilion.	info@shawneebluffwinery.com	573-365-1100	https://shawneebluff.com/vineyard/
+Camp Pin Oak	1191 Camp Pin Oak Dr	Kaiser	Missouri			Barn / Rustic	Indoor & Outdoor			A former 1930s camp inside Lake of the Ozarks State Park with a CCC-style lodge, a waterfront amphitheatre and an industrial-grade kitchen.		(573) 745-5807	https://camppinoak.com/weddings
+The Dome	1201 Felix St	St. Joseph	Missouri			Historic / Estate	Indoor	900		A marble Beaux Arts church built in 1899, rentable as a sanctuary or as a separate ballroom for receptions.		818.968.4706	https://thedomestjoe.com/`,
+  },
 ];
 
 export default batches;

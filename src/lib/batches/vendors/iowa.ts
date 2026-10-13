@@ -99,6 +99,16 @@ Twisted Mics	Music		Iowa City	Iowa	Iowa City, Cedar Rapids and the Quad Cities	W
 Energy Wave Entertainment	Music		Cedar Rapids	Iowa	Eastern and central Iowa	Cedar Rapids DJ company playing weddings and corporate events across eastern and central Iowa, with sound and lighting.	info@energywavedj.com		https://energywavedj.com/	https://www.instagram.com/energywavedj/
 `,
   },
+  {
+    name: "Cedar Rapids: planning, videography, hair & makeup, officiant, rentals and transportation",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Elizabeth Bliss Events	Planning		Cedar Rapids	Iowa	Cedar Rapids, Iowa City, Des Moines, Quad Cities and Eastern Iowa	An Iowa wedding planner offering full planning, partial planning and day-of coordination for couples in Cedar Rapids, Iowa City and across Eastern Iowa.	elizabethblissevents@gmail.com	(720) 466-9119	https://www.elizabethblissevents.com/	https://www.instagram.com/elizabeth_bliss_events/
+Way Made Film & Photo	Videography		Cedar Rapids	Iowa	Eastern Iowa	A Cedar Rapids husband-and-wife team shooting documentary-style wedding video and photography that favours real moments over posed set-ups.	waymadefilmphoto@gmail.com		https://waymadefilmphoto.com/	https://www.instagram.com/waymadefilmphoto/
+Acacia Salon & Spa	Hair & Makeup	1146 Blairs Ferry Rd NE #3	Cedar Rapids	Iowa	Cedar Rapids, Marion, Iowa City and Eastern Iowa	A Cedar Rapids salon offering bridal hair and airbrush makeup with trials, for the bride and her party, in the salon or on location at the venue.	acaciasalonandspacr@gmail.com	(319) 313-4727	https://www.acaciasalonandspacr.com/bridal	https://www.instagram.com/acaciasalonandspacr/
+Iowa City Minister	Officiant		Iowa City	Iowa	Eastern Iowa, including Cedar Rapids, North Liberty and the Amana Colonies	A retired chaplain who officiates weddings across Eastern Iowa, with religious, spiritual or non-religious ceremonies and an online inquiry form.	chaplainhall@outlook.com	319-325-1194	https://www.iowacityminister.com/	
+R & D Events Rental	Rentals		Cedar Rapids	Iowa	Cedar Rapids, Linn County, Hiawatha, Marion, Coralville and statewide	A Cedar Rapids rental company supplying tents, tables, chairs, linens, decor, portable bars and lighting for weddings, with layout planning help.	office@randdevents.com	319-202-8374	https://randdevents.com/weddings.php	https://www.instagram.com/r_and_d_events/
+Black Diamond Limousine	Transportation	840 Liberty Way	North Liberty	Iowa	Cedar Rapids, Iowa City and Eastern Iowa	A North Liberty limousine company with wedding limo hire, serving Cedar Rapids, Iowa City and the wider region from its Liberty Way base.	dispatch@express-limos.com	319-208-3236	https://cedarrapidslimoservice.com/	`,
+  },
 ];
 
 export default batches;
