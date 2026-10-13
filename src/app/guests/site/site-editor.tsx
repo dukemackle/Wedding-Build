@@ -279,6 +279,16 @@ export function SiteEditor({
   const onFrameReady = useEffectEvent(() => sendMode(editingOn));
   useEffect(() => sendMode(editingOn), [editingOn, sendMode]);
 
+  // Full screen shows the site as guests get it: editing off until Esc.
+  const onFullscreenChange = useEffectEvent(() => {
+    sendMode(document.fullscreenElement === frameRef.current ? false : editingOn);
+  });
+  useEffect(() => {
+    const listener = () => onFullscreenChange();
+    document.addEventListener("fullscreenchange", listener);
+    return () => document.removeEventListener("fullscreenchange", listener);
+  }, []);
+
   const sendDesign = useCallback((next: SiteDesign) => {
     frameRef.current?.contentWindow?.postMessage(
       { type: DESIGN_MESSAGE, design: next },
@@ -1545,10 +1555,27 @@ function PreviewStage({
             <span className="w-10 text-right text-xs tabular-nums text-ink/70">
               {Math.round((zoom ?? fitScale) * 100)}%
             </span>
+            <button
+              type="button"
+              onClick={() => frameRef.current?.requestFullscreen().catch(() => {})}
+              aria-label="Full screen"
+              title="Full screen (Esc to exit)"
+              className="flex h-7 w-7 items-center justify-center rounded-md text-ink/60 hover:bg-ink/5 hover:text-ink"
+            >
+              <FullscreenIcon />
+            </button>
           </div>
         )}
       </div>
     </div>
+  );
+}
+
+function FullscreenIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+      <path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7" />
+    </svg>
   );
 }
 
