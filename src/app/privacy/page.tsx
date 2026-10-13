@@ -11,7 +11,7 @@ export default function PrivacyPage() {
       <div className={`w-full ${READING_WIDTH}`}>
         <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Legal</p>
         <h1 className="mt-2 font-display text-3xl font-semibold text-forest">Privacy Policy</h1>
-        <p className="mt-2 text-sm text-ink/60">Last updated: October 12, 2026</p>
+        <p className="mt-2 text-sm text-ink/60">Last updated: October 13, 2026</p>
 
         <div className="mt-8 flex flex-col gap-8 text-ink/80">
           <p>
@@ -68,7 +68,7 @@ export default function PrivacyPage() {
             <ul className="mt-2 list-disc space-y-2 pl-5">
               <li>
                 Whatever you submit through a public RSVP form: your name, household, meal choice,
-                notes, plus-one info, an optional photo, message, and song request.
+                any allergies or dietary needs you mention, notes, plus-one info, an optional photo, message, and song request.
               </li>
               <li>
                 Guest-submitted RSVP data is sent to the couple whose wedding you&apos;re RSVPing

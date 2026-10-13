@@ -76,6 +76,8 @@ export default async function GuestSitePreviewPage({
     gift_paypal: wedding.gift_paypal,
     gift_cashapp: wedding.gift_cashapp,
     gift_zelle: wedding.gift_zelle,
+    meal_options: wedding.meal_options,
+    ask_dietary: wedding.ask_dietary,
   };
 
   const content = await loadGuestSiteContent(supabase, asGuestsSeeIt, { preview: true });

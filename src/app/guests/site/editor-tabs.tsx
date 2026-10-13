@@ -947,7 +947,7 @@ function Checklist({ items }: { items: ChecklistItem[] }) {
   );
 }
 
-function Switch({ on, label, onToggle }: { on: boolean; label: string; onToggle: () => void }) {
+export function Switch({ on, label, onToggle }: { on: boolean; label: string; onToggle: () => void }) {
   return (
     <button
       type="button"
