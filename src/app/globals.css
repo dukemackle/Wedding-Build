@@ -389,6 +389,15 @@ body::before {
   white-space: pre-wrap;
   overflow-wrap: break-word;
 }
+/* A live RSVP button: sized with its words, the theme's corners. */
+.site-el-button {
+  display: inline-block;
+  padding: 0.8em 2.2em;
+  border-radius: var(--site-radius);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+}
 @media (max-width: 1023px) {
   .site-canvas > .site-canvas-layer {
     grid-area: 2 / 1;

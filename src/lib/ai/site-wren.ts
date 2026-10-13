@@ -3,7 +3,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import { zodOutputFormat } from "@anthropic-ai/sdk/helpers/zod";
 import { z } from "zod/v4";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
-import { BG_PATTERNS, BG_TEXTURES, PALETTES, SITE_ART } from "@/lib/site-design";
+import { BG_PATTERNS, BG_TEXTURES, ORNAMENT_GROUP, PALETTES, SITE_ART } from "@/lib/site-design";
 import { TEMPLATES } from "@/lib/site-templates";
 
 /**
@@ -53,7 +53,7 @@ function factLines(facts: WeddingFacts) {
 // ---------------------------------------------------------------------------
 // Describe your ideal site.
 
-const ART_IDS = SITE_ART.map((a) => a.id);
+const ART_IDS = SITE_ART.filter((a) => a.group !== ORNAMENT_GROUP).map((a) => a.id);
 
 // Long lists become hints rather than hard limits in the output format, so the
 // fields are plain strings and every pick is checked against its list below.
@@ -99,7 +99,7 @@ Palettes ("none" keeps the template's own colours):
 ${PALETTES.map((p) => `- ${p.id}: ${p.name}`).join("\n")}
 
 Artwork ("none" for no artwork; line pieces take the accent colour, watercolours keep their own):
-${SITE_ART.map((a) => `- ${a.id}: ${a.name} (${a.group}, ${a.kind === "line" ? "line drawing" : "watercolour"})`).join("\n")}
+${SITE_ART.filter((a) => a.group !== ORNAMENT_GROUP).map((a) => `- ${a.id}: ${a.name} (${a.group}, ${a.kind === "line" ? "line drawing" : "watercolour"})`).join("\n")}
 
 Patterns: ${BG_PATTERNS.map((p) => p.id).join(", ")}. Textures: ${BG_TEXTURES.map((t) => t.id).join(", ")}. Motion: none, subtle, lively.
 

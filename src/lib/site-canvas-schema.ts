@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { DATE_STYLES, LIVE_FIELDS, type DateStyle, type LiveField } from "./site-live";
 import {
   ANIMATIONS,
   BLOCK_STYLES,
@@ -56,6 +57,13 @@ const textSchema = z.object({
   align: z.enum(["left", "center", "right"]).catch("center"),
   bold: z.boolean().catch(false),
   italic: z.boolean().catch(false),
+  /**
+   * Filled in from the wedding's details when the page draws (src/lib/
+   * site-live.ts) instead of `text`, which keeps the words as they were when
+   * it went in. The RSVP button's words are the couple's own.
+   */
+  live: z.enum(LIVE_FIELDS.map((f) => f.id) as [LiveField, ...LiveField[]]).nullable().catch(null),
+  dateStyle: z.enum(DATE_STYLES.map((d) => d.id) as [DateStyle, ...DateStyle[]]).catch("long"),
 });
 
 const artSchema = z.object({
