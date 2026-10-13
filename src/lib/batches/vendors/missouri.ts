@@ -233,6 +233,11 @@ Shorty Pants Catering	Catering	1680 Autumn Lane	Osage Beach	Missouri	Lake of the
 Bella Donna Salon	Hair & Makeup	1058 Main St	Osage Beach	Missouri	Lake of the Ozarks	Osage Beach salon with a bridal menu covering updos, full-face and airbrush makeup, and a pampering wedding-party offering with mimosas and pastries.		573-302-1929	http://belladonnasalonlakeoftheozarks.com/	
 Evergreen Home & Floral	Florals	6711 US-54 Expy	Osage Beach	Missouri	Lake of the Ozarks	Osage Beach silk-flower shop designing custom wedding florals, renting bridal collections and hosting a Flower Bar for couples who like to create their own.		573-346-2286	https://evergreenatthelake.com/pages/weddings	https://www.instagram.com/evergreenhomeandfloral/`,
   },
+  {
+    name: "Lake of the Ozarks: music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Night Moves Entertainment	Music		Freeburg	Missouri	Central Missouri incl. Columbia and Jefferson City	Wedding DJ company with a modern all-white setup, live mixing, uplighting and sparkler cannons for ceremonies and receptions across central Missouri.		(573) 418-6311	https://www.nightmovesent.com/	https://www.instagram.com/nightmoves.ent/`,
+  },
 ];
 
 export default batches;
