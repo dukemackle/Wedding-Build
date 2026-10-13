@@ -174,8 +174,7 @@ RiVideoPro	Videography		Ellington	Connecticut	Southern New England and New York	
   {
     name: "Litchfield Hills: videography",
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
-Millside Wedding Films	Videography		Milford	Connecticut		Milford studio making intimate, cinematic wedding films, with recent work at Litchfield County farms and other Connecticut venues.	josh@millsideweddingfilms.com		https://millsideweddingfilms.com/	https://www.instagram.com/millsideweddingfilms/
-Critical Entertainment	Videography	374 East Village Road	Shelton	Connecticut	Fairfield, Hartford and New Haven counties and Westchester County	Shelton DJ company that also runs a dedicated wedding videography service, with highlight and documentary films across western and central Connecticut.	MikeFesta@CriticalEntertainment.com	203-982-1137	https://criticalentertainment.com/wedding-videography-in-connecticut/	https://www.instagram.com/criticalentertainmentdjs/`,
+Millside Wedding Films	Videography		Milford	Connecticut		Milford studio making intimate, cinematic wedding films, with recent work at Litchfield County farms and other Connecticut venues.	josh@millsideweddingfilms.com		https://millsideweddingfilms.com/	https://www.instagram.com/millsideweddingfilms/`,
   },
 ];
 
