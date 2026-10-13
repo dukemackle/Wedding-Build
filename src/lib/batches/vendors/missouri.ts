@@ -238,6 +238,31 @@ Evergreen Home & Floral	Florals	6711 US-54 Expy	Osage Beach	Missouri	Lake of the
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
 Night Moves Entertainment	Music		Freeburg	Missouri	Central Missouri incl. Columbia and Jefferson City	Wedding DJ company with a modern all-white setup, live mixing, uplighting and sparkler cannons for ceremonies and receptions across central Missouri.		(573) 418-6311	https://www.nightmovesent.com/	https://www.instagram.com/nightmoves.ent/`,
   },
+  {
+    name: "Columbia: photography, planning, music, florals, hair & makeup and cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Pop Wedding Photography	Photography		Columbia	Missouri	Columbia, available to travel	Wedding and engagement photographer working in a directed documentary style, with planning tips and a style guide for couples.	hello@PopWeddingPhotography.com	573-819-0385	https://www.popweddingphotography.com/	https://www.instagram.com/popwedphotos/
+Plan it Terra	Planning		Columbia	Missouri	Columbia, St. Louis, Kansas City, Branson, Springfield and beyond	Columbia-based planner offering wedding design and coordination for couples across Missouri, from city venues to country clubs.	terra@planitterra.com	573-644-4286	https://planitterra.com/	https://www.instagram.com/planitterra/
+Lindsey Pantaleo	Photography		Jefferson City	Missouri	Jefferson City, Columbia, St. Louis, Kansas City and travel worldwide	Fine art wedding and destination photographer in Jefferson City who also shoots engagements and lifestyle sessions.	lindsey@lindseypantaleo.com	573-263-1884	https://www.lindseypantaleo.com/	https://www.instagram.com/lindseypantaleo/
+Jazzy Josh DJ & Events	Music		Columbia	Missouri	Columbia and across Missouri	Columbia DJ and MC handling ceremony audio, reception announcements and dance floor lighting, with karaoke and a photo booth on offer.			https://www.jazzyjosh.com/	https://www.instagram.com/dj.jazzyjosh/
+My Secret Garden	Florals	823 E Broadway	Columbia	Missouri	Columbia and surrounding areas	Columbia florist with a dedicated wedding range, offering bouquets and event flowers alongside custom designs and delivery.	mysecretgardencomo@gmail.com	573-443-1546	https://secretgardenmo.com/columbia-florist-flower-delivery/wedding-flowers/	https://www.instagram.com/mysecretgardencomo/
+The Look Salon	Hair & Makeup	1900 N Providence Rd, Suite 206	Columbia	Missouri	Columbia	Columbia salon offering bridal updos, trial runs and hair and makeup for the whole wedding party, including the mother of the bride.		573-875-4446	https://thelooksaloncolumbiamo.com/bridal-columbia-mo-hair-salon/	https://www.instagram.com/thelook_salon/
+Sugar, Butter & Flour	Cake		Columbia	Missouri	Columbia and surrounding areas	Home-based Columbia bakery making wedding cakes, cupcakes and dessert boxes, with allergen-free options available.	alanna@sugarbutterandflour.com	573-226-6400	https://sugarbutterandflour.com/	https://www.instagram.com/sugar.butter.andflour/
+Blue Diamond Events	Music		Columbia	Missouri	Missouri and destination couples	Columbia DJ and MC company for weddings, with lighting, a photo booth and bundled packages, and an owner who blends Latin and US dance music.	info@bluediamond-events.com	(573) 567-0016	https://www.bluediamond-events.com/	https://www.instagram.com/bluediamondeventsweddings/`,
+  },
+  {
+    name: "Branson: videography and cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Marked Wedding Films	Videography		Branson	Missouri	Branson, Table Rock Lake, Springfield and Northwest Arkansas	Branson wedding videographer producing colour-graded cinematic highlight films, delivered online in 4K.			https://markedweddingfilms.com/	
+Aaron Clark Photography	Videography		Branson	Missouri	Branson and surrounding areas, with destination weddings	Branson team offering wedding videography from simple ceremony films to documentary-style edits with interviews, alone or with photos.			https://www.aaronclarkphotography.com/videography	
+  },
+  {
+    name: "Joplin: photography and hair & makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Taylor Jean Roark	Photography		Joplin	Missouri	Joplin, Northwest Arkansas, Tulsa, Kansas City and Springfield	Joplin photographer shooting weddings and elopements in an artistic, non-traditional style on 35mm and medium format film as well as digital.			https://roamandroark.com/	https://www.instagram.com/roamandroark/
+Beauty of Grace Photography	Photography		Joplin	Missouri	Joplin, Springfield, St. Louis and beyond	Joplin photographer capturing candid, documentary-style weddings, from elopements to full days, with film, albums and prints available.			https://www.beautyofgracephotos.com/weddinginfo	https://www.instagram.com/beautyofgracephotos/
+Aubrey Cooke Makeup	Hair & Makeup		Joplin	Missouri	Missouri	Joplin-based freelance makeup artist and hair stylist who takes bridal bookings alongside glamour and headshot work.	aubreyscooke@gmail.com		https://www.aubreycookemakeup.com/	https://www.instagram.com/aubreyscooke/`,
+  },
 ];
 
 export default batches;
