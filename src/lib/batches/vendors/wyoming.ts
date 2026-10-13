@@ -86,6 +86,27 @@ Hair Love LLC	Hair & Makeup	2401 G Avenue	Cody	Wyoming		Cody hair salon offering
 Ashley Drew Artistry	Hair & Makeup		Jackson	Wyoming	Jackson Hole and the greater Teton region	Jackson makeup artist with over fifteen years of experience, offering bridal party, trial and elopement makeup.			https://ashleydrewartistry.com/	https://www.instagram.com/ashleydrewartistry/
 `,
   },
+  {
+    name: "Casper, Cody and Sheridan: photography, catering and hair and makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Tami Moore	Photography		Cody	Wyoming	Wyoming, Montana and the American West	Cody photographer for elopements and small weddings, including horseback and multi-day wilderness ceremonies across the Rockies.	tamimoore307@gmail.com	307-250-2040	https://www.tamimoore.art/	https://www.instagram.com/tamimoore307/
+April Stuart Photography	Photography		Cody	Wyoming	Northeast Wyoming and Montana	Cody photographer covering weddings, elopements and proposals, with a styling guide to help couples prepare for their session.	contact@aprilstuartphoto.com	(706) 994-1627	https://www.aprilstuartphoto.com/	https://www.instagram.com/april.stuart.photo/
+Braidyn Looper Photography	Photography		Sheridan	Wyoming	Wyoming	Sheridan studio photographing weddings and elopements, including Big Horn Mountains locations, alongside newborn and family sessions.			https://www.braidynlooperphoto.com/	
+DSmithImages Photography	Photography		Sheridan	Wyoming	Sheridan, Wyoming and Montana	Sheridan photographer for weddings and elopements, working full days and travelling around Wyoming and Montana.	dsmithimages@gmail.com		https://www.dsiphotography.com/	https://www.instagram.com/dsmithimagesphotography/
+Catering by Rosie	Catering		Cody	Wyoming	Cody foothills	Family-run Cody caterer serving Mexican and American menus for weddings, celebrations and gatherings, with a dedicated weddings page.	ordering@cateringrosieroberson.com	(307) 772-1358	https://cateringrosieroberson.com/	https://www.instagram.com/cateringrosieroberson/
+Nola Catering & Private Dining	Catering		Sheridan	Wyoming		Sheridan caterer cooking Southern, Creole-influenced food, with buffets and food bars suited to wedding receptions.	megan@nolawyoming.com	(307) 763-2256	https://nolawyoming.com/	https://www.instagram.com/nolacateringwyo/
+Salon De Beauté	Hair & Makeup		Sheridan	Wyoming		Sheridan salon whose service menu includes wedding hair and makeup alongside its regular cuts, colour and styling.	salondebeautesheridan@gmail.com	(307) 672-5021	https://www.salondebeautesheridan.com/	https://www.instagram.com/salondebeautesheridan/
+`,
+  },
+  {
+    name: "Jackson Hole: videography and planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Apres Events	Videography		Jackson	Wyoming	Jackson Hole and the Rocky Mountains	Jackson Hole wedding film studio with a documentary-leaning style, small kit and long lenses, often working alongside planners and photographers.	rory@apresvisuals.com		https://www.apresevents.com/	
+Intimate Adventures Media	Videography		Jackson	Wyoming	Jackson Hole, Grand Teton and central Idaho	Photo and video team for elopements and micro-weddings in Jackson Hole and Grand Teton, with travel within 200 miles included.			https://intimateadventuresmedia.com/	https://www.instagram.com/intimateadventuresmedia/
+Magnolia Ranch Events	Planning		Jackson	Wyoming	Jackson Hole	Jackson Hole planning and design team offering full-service weddings, florals, rentals and production, expanded from a florist business in 2021.			https://magnoliaranchjh.com/	https://www.instagram.com/magnoliaranchevents/
+Destination Jackson Hole	Planning		Jackson	Wyoming	The Tetons and surrounding areas	Event planning company in Jackson since 1996, run by Alison Kyle since 2010, producing weddings and corporate events around the Tetons.	alison@destinationjacksonhole.com		https://www.destinationjacksonhole.com/	https://www.instagram.com/destinationjacksonhole/
+`,
+  },
 ];
 
 export default batches;
