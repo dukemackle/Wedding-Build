@@ -114,6 +114,22 @@ Best of the Best DJs	Music		Las Vegas	Nevada		Las Vegas DJ and emcee company wit
 Exquisite Sounds Production	Music		Las Vegas	Nevada	Las Vegas, Henderson and Summerlin	Mobile DJ service with more than twenty years of experience, providing ceremony audio, uplighting and dance floor lighting for weddings.			https://exquisitesoundsproduction.com/	https://www.instagram.com/exquisite_sp/
 `,
   },
+  {
+    name: "Las Vegas: videography, florals, photography, planning, hair and makeup, catering, cake and music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Andoni Garcia Films	Videography		Las Vegas	Nevada	Las Vegas, available worldwide	Documentary-led wedding films from a Las Vegas filmmaker who also travels for destination weddings.			https://andonigarciafilms.com	https://www.instagram.com/andonigarciafilms/
+Manaya Films	Videography		Las Vegas	Nevada	Las Vegas, available for travel	Wedding videography and photography from one team in Las Vegas, sold as three tiered packages from $2,999.			https://www.manayafilms.com	https://www.instagram.com/manayafilm/
+Cinematic Films by Sierra	Videography		Las Vegas	Nevada	Las Vegas, NV and St. George, UT, and beyond	Wedding and elopement films with a 30-second trailer within a week and the full film on digital and USB after eight weeks.	sierralee.films@gmail.com		https://sierraleefilms.com	https://www.instagram.com/sierralee.films/
+Roots Flowers and Events	Florals		Henderson	Nevada	Las Vegas valley	Henderson florist for weddings and events, offering fresh florals, wearable flowers, ceremony and centrepiece work, arch rentals and installations.	stacey@rootsflowersandevents.com	702-672-9477	https://rootsflowersandevents.com	https://www.instagram.com/girlluvsflowers/
+Erin Marie Photography	Photography		Las Vegas	Nevada	Las Vegas and worldwide travel	Las Vegas photographer shooting weddings, elopements and couple portraits in a modern, timeless and vibrant style.	hello@erinmphotos.com		https://erinmphotos.com	https://www.instagram.com/erinmarie.photos/
+Elopement Las Vegas	Planning		Las Vegas	Nevada	Las Vegas and Clark County	Plans micro weddings and elopements on or off the Strip, handling venue sourcing, vendor selection and day-of coordination.			https://elopementlasvegas.com	https://www.instagram.com/elopementlasvegas/
+Smooth Brides	Hair & Makeup		Las Vegas	Nevada	Mobile service in and around Las Vegas	Mobile wedding makeup, airbrush makeup and hairstyling brought to the couple's home or event location, with bridal styling masterclasses.	kelly@smoothbrides.com	702-469-3558	https://www.smoothbrides.com	https://www.instagram.com/smoothbrides/
+Atomic Style Lounge	Hair & Makeup	1237 South Main Street	Las Vegas	Nevada		Salon on South Main Street offering wedding hair, makeup and customised bridal packages.	booking@atomicstylelounge.com	702-329-0770	https://www.atomicstylelounge.com	https://www.instagram.com/atomicstylelounge/
+Heads Will Roll Salon	Hair & Makeup		Las Vegas	Nevada	Las Vegas, including hotel visits for elopements	Las Vegas salon and beauty agency doing wedding hair and makeup for bridal parties, in the salon or at the couple's hotel.			https://headswillrollsalon.com	https://www.instagram.com/headswillrollsalon/
+Diamond Events	Catering		Las Vegas	Nevada	Las Vegas	Full-service and drop-off caterer for weddings, corporate and private events, which also offers event production and coordination.	sales@diamondevents.com	702-269-6157	https://diamondevents.com	https://www.instagram.com/diamondeventsandproductions/
+Winston Marie Cakes	Cake		Las Vegas	Nevada	Las Vegas	Bespoke Las Vegas bakery making custom wedding cakes with a focus on vintage designs, plus confections.			https://www.winstonmariecakes.com	https://www.instagram.com/winstonmariecakes/
+Eccentrik Events	Music		Las Vegas	Nevada	Las Vegas	Wedding DJs offering live-mixed sets and professional emcee services for introductions and announcements.			https://eccentrikevents.com	https://www.instagram.com/eccentrikevents/`,
+  },
 ];
 
 export default batches;
