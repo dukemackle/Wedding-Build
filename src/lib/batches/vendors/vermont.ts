@@ -62,6 +62,14 @@ Carmen George Weddings	Planning		Burlington	Vermont	Vermont	Burlington planner a
 Align Film	Videography		Waterbury Center	Vermont	Vermont	Waterbury Center team making cinematic wedding films, alongside family and commercial video.	inquire@align.film	802-662-2012	https://www.align.film/	
 Hillary Fay Studios	Hair & Makeup	12 Pearl Street	Essex Junction	Vermont	Vermont	Essex Junction studio offering on-location bridal makeup and hair styling for Vermont weddings and small elopements.		802-373-3149	https://www.hillaryfaystudios.com/	https://www.instagram.com/hillaryfaystudios/`,
   },
+  {
+    name: "Stowe: music, cake and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+The Goose Chase Cake Design	Cake	46 Lareau Farm Rd.	Waitsfield	Vermont	Mad River Valley and beyond	Dessert studio designing custom wedding cakes and dessert tables from scratch to suit each couple, season and venue.	thegoosechasecakes@gmail.com	315-777-7333	https://thegoosechasecakedesign.com	https://www.instagram.com/thegoosechasecakedesign/
+Vermont Sweet Tooth	Cake		Stowe	Vermont		Family-run Stowe bakery making wedding cakes decorated with hand-sculpted sugar paste flowers, with tastings and gluten-free options on request.		802-249-2601	https://vermontsweettooth.com	https://www.instagram.com/vermontsweettooth/
+Hopkins Films	Videography		Williston	Vermont		Wedding videographer making cinematic films of both the planned and unplanned moments, shot unobtrusively to show how the day felt.	dan@hopkinsfilms.com	802-338-6563	https://hopkinsfilms.com	https://www.instagram.com/_hopkinsfilms/
+Sticks and Stones	Music		Burlington	Vermont		Burlington band playing live music for weddings and other events, with past gigs in Stowe and Essex.	emailsticksandstones@gmail.com	802-343-0050	https://www.sticksandstonesbandvt.com	`,
+  },
 ];
 
 export default batches;
