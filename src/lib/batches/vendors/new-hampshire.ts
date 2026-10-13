@@ -109,6 +109,11 @@ Kris Dobbins Photography	Photography		Franconia	New Hampshire	North Country of N
 Chef Joe's Catering	Catering	651 Main Street	Franconia	New Hampshire		Franconia caterer with a travelling kitchen for weddings, offering custom menus, bar service and help arranging rentals and cakes.	info@chefjoescatering.com	(603) 823-8589	https://www.chefjoescatering.com	https://www.instagram.com/thechefjoe/
 Josiah Does Videos	Videography		Salisbury	New Hampshire	New England and beyond	Salisbury-based wedding and elopement videographer making cinematic short films, with private online delivery of footage.			https://josiahdoesvideos.com	https://www.instagram.com/josiahdoesvideos/`,
   },
+  {
+    name: "White Mountains: hair & makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Debony Salon	Hair & Makeup	18 Main Street	Jackson	New Hampshire	Mount Washington Valley	Main Street salon and spa in Jackson doing wedding hair and airbrush or mineral makeup, in the salon or on location, with a wedding coordinator.	info@debonysalon.com	603-383-9366	https://www.debonysalon.com/	https://www.instagram.com/debony_salon/`,
+  },
 ];
 
 export default batches;
