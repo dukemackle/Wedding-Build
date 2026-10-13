@@ -143,6 +143,14 @@ Jessica Greene Photography	Photography		Jackson	Mississippi	Jackson, Madison, Br
 Magnolia Garden Photography	Photography		Clinton	Mississippi	Jackson, Clinton, Brandon, Madison, Ridgeland, Flora and Raymond	Clinton wedding photographers working across Central Mississippi and willing to travel further for couples who want them.			https://magnoliagardenphotography.com/	
 `,
   },
+  {
+    name: "Oxford: planning, music; Gulf Coast: videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Emily Sanders Taylor Weddings & Events	Planning		Oxford	Mississippi	Mississippi, Tennessee, North Carolina and destinations	Oxford-based planner and designer of tented and multi-day weddings, adding guest touches such as live painters and jazz orchestras.	emily@emilysanderstaylor.com		https://emilysanderstaylor.com/	https://www.instagram.com/emilysanderstaylor/
+The Soul Tones	Music		Oxford	Mississippi		Oxford party band offering wedding packages from a duet up to ten pieces, with steel pan and New Orleans second-line horn options.			https://thesoultones.com/	https://www.instagram.com/thesoultonesoxford/
+Jen and Chuck Photography	Videography		Ocean Springs	Mississippi	Mississippi, Alabama, Louisiana, Florida and destinations	Ocean Springs photo and video team with a wedding films portfolio from Biloxi, Bay St Louis, Hattiesburg and further afield.	Jenandchuckphotography@gmail.com	228-235-0242	https://jenandchuck.com/	https://www.instagram.com/jenandchuckphotography/
+`,
+  },
 ];
 
 export default batches;
