@@ -1282,3 +1282,14 @@ body:has(.search-shell-root) .site-footer {
   .gold-flow-border, .gold-twinkle { animation: none; }
   .gold-shine::after { display: none; }
 }
+
+/* The site editor's publish button while there's something to publish: a soft
+   gold ring breathes out from it, so it reads as ready to click. */
+@keyframes publish-ready {
+  0% { box-shadow: 0 0 0 0 rgb(255 211 1 / 0.65); }
+  70% { box-shadow: 0 0 0 9px rgb(255 211 1 / 0); }
+  100% { box-shadow: 0 0 0 0 rgb(255 211 1 / 0); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .publish-ready { animation: publish-ready 2s ease-out infinite; }
+}

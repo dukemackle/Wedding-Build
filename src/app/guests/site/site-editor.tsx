@@ -515,6 +515,8 @@ export function SiteEditor({
         setSaveState("idle");
         setPublished(design);
         setIsLive(true);
+        // Publishing means guests can see it: a site that's off comes on too.
+        if (!site.slug) site.enable();
         setLaunches((n) => n + 1);
         post(REPLAY_MESSAGE);
       }
@@ -531,18 +533,44 @@ export function SiteEditor({
           ? publicSlug
             ? "Design changes not published yet"
             : "Draft — your site is off"
-          : "Guests see this version";
+          : publicSlug
+            ? "Guests see this version"
+            : "Your site is off";
 
   const liveHref = publicSlug ? `${origin}/w/${publicSlug}` : null;
+
+  // What the publish button does now. Published and on: it unpublishes
+  // (turns the site off, after a confirm). Published but off: it turns it on.
+  const publishAction: "publish" | "turnOn" | "unpublish" = dirty ? "publish" : publicSlug ? "unpublish" : "turnOn";
+  const publishBusy = isPublishing || site.isPending;
+  const onPublishClick = publishAction === "publish" ? publish : publishAction === "turnOn" ? site.enable : site.disable;
+  // Gently pulses while there's something to click for, so it reads as ready.
+  const publishReady = publishAction !== "unpublish" && !publishBusy;
 
   const publishButton = (
     <button
       type="button"
-      onClick={publish}
-      disabled={!dirty || isPublishing}
-      className="h-10 shrink-0 rounded-md bg-forest px-4 text-sm font-semibold text-parchment transition-colors hover:bg-forest/90 disabled:cursor-default disabled:bg-forest/40"
+      onClick={onPublishClick}
+      disabled={publishBusy}
+      title={publishAction === "unpublish" ? "Your site is live. Click to unpublish (turn it off)." : undefined}
+      className={`group h-10 shrink-0 rounded-md px-4 text-sm font-semibold transition-[transform,background-color,box-shadow] duration-150 active:scale-[0.97] disabled:cursor-default ${
+        publishAction === "unpublish"
+          ? "border border-forest/30 bg-card text-forest hover:border-red-700/40 hover:text-red-700"
+          : "bg-forest text-parchment shadow-sm hover:-translate-y-px hover:bg-forest/90 hover:shadow-md disabled:bg-forest/40"
+      } ${publishReady ? "publish-ready" : ""}`}
     >
-      {isPublishing ? "Publishing…" : !isLive ? "Make this live" : dirty ? "Publish changes" : "Published"}
+      {publishBusy ? (
+        site.isPending ? (publicSlug ? "Unpublishing…" : "Turning on…") : "Publishing…"
+      ) : publishAction === "publish" ? (
+        !isLive ? "Make this live" : "Publish changes"
+      ) : publishAction === "turnOn" ? (
+        "Turn site on"
+      ) : (
+        <>
+          <span className="group-hover:hidden">Published</span>
+          <span className="hidden group-hover:inline">Unpublish</span>
+        </>
+      )}
     </button>
   );
 
@@ -822,11 +850,25 @@ export function SiteEditor({
           {/* Gold on white: the one thing on this screen that matters most. */}
           <button
             type="button"
-            onClick={publish}
-            disabled={!dirty || isPublishing}
-            className="ml-1 h-10 shrink-0 rounded-[10px] bg-[#FFD301] px-4 text-sm font-semibold text-[#14203d] disabled:bg-[#FFD301]/40 disabled:text-[#14203d]/60"
+            onClick={onPublishClick}
+            disabled={publishBusy}
+            className={`ml-1 h-10 shrink-0 rounded-[10px] px-4 text-sm font-semibold text-[#14203d] transition-transform active:scale-[0.97] disabled:opacity-60 ${
+              publishAction === "unpublish" ? "border border-[#14203d]/20 bg-card" : "bg-[#FFD301]"
+            } ${publishReady ? "publish-ready" : ""}`}
           >
-            {isPublishing ? "Publishing…" : !isLive ? "Make live" : dirty ? "Publish" : "Published"}
+            {publishBusy
+              ? site.isPending
+                ? publicSlug
+                  ? "Unpublishing…"
+                  : "Turning on…"
+                : "Publishing…"
+              : publishAction === "publish"
+                ? !isLive
+                  ? "Make live"
+                  : "Publish"
+                : publishAction === "turnOn"
+                  ? "Turn on"
+                  : "Published"}
           </button>
         </header>
 
@@ -1024,65 +1066,64 @@ export function SiteEditor({
           <div className="flex h-[60px] shrink-0 items-center gap-3 px-6">
             {historyButtons}
             {deviceToggle}
-            <button
-              type="button"
-              onClick={() => post(REPLAY_MESSAGE)}
-              className="flex h-10 items-center gap-1.5 rounded-lg border border-hairline bg-card px-3.5 text-[13px] text-ink hover:border-ink/30"
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <path d="M4 12a8 8 0 1 0 2.3-5.6" />
-                <path d="M4 4v4h4" />
-              </svg>
-              Replay motion
-            </button>
-            <div className="flex-1" />
-            <span className={`text-[13px] ${error ? "text-red-700" : "text-ink/60"}`} role="status">
-              {status}
-            </span>
-            {liveHref && (
-              <a
-                href={liveHref}
-                target="_blank"
-                rel="noreferrer"
-                className="text-sm font-medium text-forest hover:underline"
-              >
-                Open live site
-              </a>
+            {/* Something picked: its bar takes the middle of this row, so the
+                preview never gives up height to a strip that's empty most of the time. */}
+            {canvasSel || textSlot ? (
+              <div className="relative z-20 flex min-w-0 flex-1 justify-center">
+                {textSlot ? (
+                  <TextToolbar
+                    slot={textSlot}
+                    design={design}
+                    onChange={(patch) => changeText(textSlot, patch)}
+                    onDone={closeText}
+                  />
+                ) : canvasSel ? (
+                  <CanvasToolbar
+                    design={design}
+                    selection={canvasSel}
+                    frames={frames}
+                    phoneFrames={phoneFrames}
+                    device={device}
+                    onCanvas={changeCanvas}
+                    onDesign={change}
+                    onPosition={() => openTab("position")}
+                    onOpen={openTab}
+                    onDone={() => selectCanvas(null)}
+                  />
+                ) : null}
+              </div>
+            ) : (
+              <>
+                <button
+                  type="button"
+                  onClick={() => post(REPLAY_MESSAGE)}
+                  className="flex h-10 items-center gap-1.5 rounded-lg border border-hairline bg-card px-3.5 text-[13px] text-ink hover:border-ink/30"
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <path d="M4 12a8 8 0 1 0 2.3-5.6" />
+                    <path d="M4 4v4h4" />
+                  </svg>
+                  Replay motion
+                </button>
+                <div className="flex-1" />
+                <span className={`text-[13px] ${error ? "text-red-700" : "text-ink/60"}`} role="status">
+                  {status}
+                </span>
+                {liveHref && (
+                  <a
+                    href={liveHref}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-sm font-medium text-forest hover:underline"
+                  >
+                    Open live site
+                  </a>
+                )}
+              </>
             )}
             {publishButton}
           </div>
         )}
-
-        {/* Its own strip above the preview, so the selection bar never sits on the page it edits. */}
-        <div className="flex h-[52px] shrink-0 items-start justify-center px-3">
-        {canvasSel && !textSlot && (
-          <div className="relative z-20 flex max-w-full justify-center">
-            <CanvasToolbar
-              design={design}
-              selection={canvasSel}
-              frames={frames}
-              phoneFrames={phoneFrames}
-              device={device}
-              onCanvas={changeCanvas}
-              onDesign={change}
-              onPosition={() => openTab("position")}
-              onOpen={openTab}
-              onDone={() => selectCanvas(null)}
-            />
-          </div>
-        )}
-
-        {textSlot && (
-          <div className="relative z-20 flex max-w-full justify-center">
-            <TextToolbar
-              slot={textSlot}
-              design={design}
-              onChange={(patch) => changeText(textSlot, patch)}
-              onDone={closeText}
-            />
-          </div>
-        )}
-        </div>
 
         <PreviewStage
           device={device}
