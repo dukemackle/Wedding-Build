@@ -118,6 +118,15 @@ JJ Bakes & Co.	Cake		Louisville	Kentucky		Special-order cake and pastry studio i
 Plehn's Bakery	Cake	3940 Shelbyville Rd	Louisville	Kentucky		Louisville bakery with a dedicated weddings section covering cake flavours, fillings, sample designs and groom's cakes.		502-896-4438	https://plehns.com/	
 Heitzman Bakery	Cake		Louisville	Kentucky		Louisville bakery and deli making tiered wedding cakes from two to five tiers, plus mini desserts, with tastings booked on its site.	contact@heitzmanbakery.com	502-426-7736	https://heitzmanbakery.com/wedding-cakes	https://www.instagram.com/heitzmanbakeryanddeli/`,
   },
+  {
+    name: "Bowling Green: music, hair and makeup, catering and cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Crunk DJ	Music		Hanson	Kentucky	Bowling Green, Warren County, Glasgow, Franklin, Russellville, Owensboro, Hopkinsville and wider Western and South Central Kentucky	Husband-and-wife wedding DJ and MC team offering reception music, ceremony sound and uplighting for couples across South Central and Western Kentucky.	crunkdjteam@gmail.com	(270) 836-5311	https://crunkdj.com/	https://www.instagram.com/djeddiecrunk/
+Weekday Ritual	Hair & Makeup	1711 Destiny Ln Ste 120	Bowling Green	Kentucky	Bowling Green and surrounding venues; travel charged by the mile	Studio-based airbrush makeup artist offering bridal makeup and trials in Bowling Green, with travel to venues across the surrounding area.	hi@weekdayritual.com	270-904-4831	https://weekdayritual.com/	https://www.instagram.com/weekdayritual/
+The Bistro	Catering	1129 College Street	Bowling Green	Kentucky	Bowling Green	Restaurant in the restored Fletcher House that caters wedding receptions and hosts rehearsal dinners in a private room, with menu tastings led by a manager and chef.		270-781-9646	https://www.thebistrobg.com/	https://www.instagram.com/thebistro_bg/
+Vette City Catering	Catering	300 East 8th Avenue	Bowling Green	Kentucky	South Central Kentucky	Caterer based at the Bowling Green ballpark, serving weddings, receptions and conferences on site and at off-site venues.			https://vettecitycatering.com/	
+Sprinklicious	Cake		Bowling Green	Kentucky	Bowling Green and surrounding Warren County	Bakery making wedding cakes with a tasting and consultation process, plus cake cutting and setup services and grazing tables for receptions.			https://sprinkliciousbakery.com/	`,
+  },
 ];
 
 export default batches;
