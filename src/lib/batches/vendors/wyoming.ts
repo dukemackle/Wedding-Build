@@ -46,6 +46,23 @@ Halo Beauty Bar	Hair & Makeup	4001 Laramie St., Unit B	Cheyenne	Wyoming	Cheyenne
 Stacy Cakes	Cake		Cheyenne	Wyoming	Cheyenne	Home baker making custom tiered wedding cakes and cupcakes, with a consultation form and a mobile cupcake wagon for events.	stacycakescheyenne@gmail.com		https://www.stacycakescheyenne.com/	https://www.instagram.com/StacyCakesCheyenne/
 `,
   },
+  {
+    name: "Cheyenne: catering, cake, hair and makeup, photography, florals and music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Pioneer Bar-B-Que	Catering		Cheyenne	Wyoming	Wyoming and Colorado	Cheyenne caterer, open since 2004, serving smoked meats and sides for weddings, rehearsal dinners and corporate events.	lauren@pioneerbarbeque.com	(307) 214-8455	https://pioneerbarbeque.com/	
+Tio's Tacos Catering	Catering		Cheyenne	Wyoming	Cheyenne area, indoor and outdoor venues	Taco caterer in Cheyenne serving weddings and other events, with buffet service indoors or cooking on site outdoors.		(307) 287-9269	https://www.tiostacos307.com/	
+Occasions by Cory	Catering		Casper	Wyoming	Casper and surrounding areas	Casper catering and hospitality company with a dedicated weddings page, plus off-site bar service for events.	Events@OccasionsbyCory.com	(307) 337-2679	https://www.occasionsbycory.com/	
+Frosted Tops	Cake	225 S. David St. Suite 2	Casper	Wyoming	Casper area	Casper bakery making custom wedding and birthday cakes, cupcakes and macarons, and offering wedding tastings.			https://www.frostedtops.com/	
+307 Glow	Hair & Makeup	240 West 1st Street	Casper	Wyoming		Casper stylists offering bridal hair and makeup for brides and their wedding parties.	307glow24@gmail.com	(307) 267-3247	https://307glow.com/	https://www.instagram.com/307Glow/
+Travis Gitthens Photography	Photography		Casper	Wyoming	Casper area	Casper wedding and portrait photographer who promises to deliver wedding images within a week of the day.	travis@travisgitthens.com	(307) 262-3337	https://travisgitthens.com/	
+Tayler Ford Photography	Photography		Casper	Wyoming	Casper area	Casper photographer who specialises in weddings, also shooting engagements, couples, seniors and families.	taylerannford@gmail.com	(307) 941-1596	https://taylerfordphotography.com/	https://www.instagram.com/taylerfordphotography/
+Amy Elizabeth Photography	Photography		Casper	Wyoming	Casper area	Casper photographer covering weddings and events alongside maternity, newborn, family and senior sessions.	amyelizabethimages@gmail.com	(307) 797-6161	https://www.amyelizabethimages.com/	https://www.instagram.com/amyelizabethphotographywy/
+Kaylie Sirek Photography	Photography		Sheridan	Wyoming	Wyoming, Nebraska, Montana, Colorado and South Dakota	Sheridan-based wedding and elopement photographer for adventurous couples, working across Wyoming and neighbouring states.	hello@kayliesirek.com		https://www.kayliesirek.com/	https://www.instagram.com/kayliesirek/
+Whirly Girl Flowers	Florals		Sheridan	Wyoming	Sheridan, the Bighorn Mountains and elsewhere in Wyoming, including Jackson Hole	Floral design studio in Sheridan creating full-service wedding florals, bouquets, boutonnieres and elopement flowers with a foraged feel.			https://www.whirlygirlflowers.com/	https://www.instagram.com/_whirlygirl/
+ROW Productions	Music	900 E Lincolnway	Cheyenne	Wyoming	Wyoming, Colorado and Nebraska	Cheyenne DJ and MC with over 20 years' experience, supplying sound, lighting and equipment hire for weddings and other events.	george@rockonwheels.net	(307) 635-1018	https://rowproductions.org/	https://www.instagram.com/rowproductions/
+Dynamic Sound & Lighting	Music	6150 WY-220	Casper	Wyoming	Casper, Cheyenne, Laramie and across Wyoming	Casper event production company offering wedding DJ services, sound, lighting, staging and day-of coordination across the state.	office.dynamicwy@gmail.com	(307) 315-3682	https://dynamicsoundandlightingwy.com/	
+`,
+  },
 ];
 
 export default batches;

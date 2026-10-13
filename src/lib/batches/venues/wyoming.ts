@@ -43,6 +43,24 @@ The Powder Horn	23 Country Club Lane	Sheridan	Wyoming			Ballroom / Hotel	Indoor 
 Gratitude Sheridan	450 S Thurmond Street	Sheridan	Wyoming			Historic / Estate	Indoor	30		1920 Victorian on Residence Hill with six bedrooms and a wrap-around porch, used for small receptions, rehearsal dinners and bridal showers; sleeps 12.			https://gratitudesheridan.com
 `,
   },
+  {
+    name: "Cheyenne, Laramie, Casper, Cody and Wyoming venues",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Cheyenne Depot Museum	121 West 15th Street	Cheyenne	Wyoming			Historic / Estate	Indoor			A historic railroad depot whose chandeliered lobby can be rented for full-day or half-day events.	cdmrentals@cheyennedepotmuseum.org	307.632.3905	https://www.cheyennedepotmuseum.org/lobby-rentals
+Historic Atlas Theatre		Cheyenne	Wyoming			Historic / Estate	Indoor	241	Simple	A century-old downtown building with a theatre auditorium that has a stage, screen and sound system, rented for weddings with tables and chairs included.	rentals@littletheatre.org	307-638-6543	https://www.cheyennelittletheatre.org/rentals/
+Blue Community Events Center	2401 E Pershing Blvd	Cheyenne	Wyoming			Ballroom / Hotel	Indoor & Outdoor	300		A modern event hall of nearly 7,000 square feet at a credit union headquarters, with a built-in bar, pre-function lounge and sliding doors to an outdoor plaza.	shannon.barela@bluefcu.com	1-800-368-9328	https://www.bluefcu.com/events-center/
+Laramie Plains Museum (Ivinson Mansion and Stevens Center)	603 East Ivinson Avenue	Laramie	Wyoming			Historic / Estate	Indoor & Outdoor			A Victorian mansion museum with a beamed-ceiling reception hall that has a stage and kitchen, plus a landscaped east lawn for ceremonies.	lpmdirector@laramiemuseum.org	(307) 742-4448	https://www.laramiemuseum.org/rentals
+Rustic Elegance Venue	18193 State Highway 220	Casper	Wyoming			Barn / Rustic	Indoor & Outdoor			A riverfront property on the North Platte with a barn and lodge for receptions, riverside ceremony spots and on-site lodging for up to 48 guests.		(307) 462-1917	https://rusticelegancevenue.com/
+Hogadon Basin Lodge	2500 W Hogadon Rd	Casper	Wyoming			Barn / Rustic	Indoor & Outdoor	140		A ski-area lodge on Casper Mountain with an indoor hall, outdoor patios and views over Casper.		(307) 235-8441	https://hogadonlodge.com/
+Paradise Valley Country Club	70 Magnolia	Casper	Wyoming			Ballroom / Hotel	Indoor & Outdoor			A golf-course clubhouse banquet room with views over the course and a sunset staging area for ceremonies.		(307) 234-9146	https://paradisevalleyccwyo.com/banquets-weddings
+Buffalo Bill Center of the West	720 Sheridan Ave	Cody	Wyoming			Historic / Estate	Indoor & Outdoor			A museum complex whose Draper Natural History Museum hosts indoor ceremonies and whose sculpture gardens have lawns and amphitheaters for summer weddings.	events@centerofthewest.org	307-578-4000	https://centerofthewest.org/visit/facility-rentals/
+K3 Guest Ranch	30 Nielsen Trail	Cody	Wyoming			Barn / Rustic	Indoor & Outdoor			A guest ranch just outside Cody with indoor and outdoor ceremony spots, mountain views and lodging for the wedding party.	info@k3guestranch.com	307-587-2080	https://k3guestranch.com/groups/
+Barrows Z3 Retreat	700 Main Street	Ralston	Wyoming			Garden / Outdoor	Outdoor			A small historic-cabin retreat with English gardens for outdoor ceremonies, a cabin kitchen and lodging for up to 14.	niina@pacbell.net	(949) 887-8935	https://www.barrowsz3retreat.com/events-venue
+Elk Heart at Pine	6249 County Rd 211	Pine Bluffs	Wyoming			Barn / Rustic	Indoor & Outdoor		Simple	A family ranch with a timber-frame barn and covered porches for receptions and a ceremony site with bluff views, about 30 minutes from Cheyenne.	hello@elkheartatpine.com		https://elkheartatpine.com/
+Teton Cabins	24000 N Gun Barrel Flats Rd	Moran	Wyoming			Barn / Rustic	Indoor & Outdoor	250	Classic	A boutique ranch with a main lodge, lawns and guest cabins that hosts small weddings and uses the adjoining Big Red Barn lawn for up to 250 guests.	weddings@tetoncabins.com		https://www.tetoncabins.com/host-your-wedding
+Turpin Meadow Ranch		Moran	Wyoming			Barn / Rustic	Indoor & Outdoor			A guest ranch on the Buffalo Fork River whose grand lodge hosts weddings, sold as custom buy-out packages.	office@turpinmeadowranch.com	307-543-2000	https://turpinmeadowranch.com/events/weddings/
+`,
+  },
 ];
 
 export default batches;
