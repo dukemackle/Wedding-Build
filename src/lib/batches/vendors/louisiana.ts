@@ -178,6 +178,12 @@ The HeadQuarters of Lafayette	Hair & Makeup	615 Madison St	Lafayette	Louisiana		
 AHEAD Catering	Catering	4600 East Texas St	Bossier City	Louisiana	Shreveport, Bossier City	Bossier City caterer serving Southern barbecue, fish fry and steakhouse-style menus for weddings and other events, with menu planning, setup and service.		(318) 402-8051	https://aheadcatering.com/	
 Chef's Table by Beauxjax	Catering	521 Barksdale Blvd	Bossier City	Louisiana		Bossier City East Bank caterer and event space offering in-house wedding catering with bar packages, seating for up to 200 and menu consultations.	beauxjaxchefstable@gmail.com	318-588-0782	https://www.beauxjaxchefstable.com/	https://www.instagram.com/chefs_table_by_beauxjax/`,
   },
+  {
+    name: "Shreveport: videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Brandon Handy Weddings	Videography		Shreveport	Louisiana	Louisiana, Oklahoma and Texas	Shreveport videography duo, Brandon and Hannah, making story-driven wedding films, with trailers and full films shown on their site.	BrandonHandyMedia@gmail.com		https://www.brandonhandyweddings.com/	https://www.instagram.com/brandonhandyweddings/
+`,
+  },
 ];
 
 export default batches;
