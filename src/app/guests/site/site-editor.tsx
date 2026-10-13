@@ -456,12 +456,24 @@ export function SiteEditor({
     return () => window.removeEventListener("message", onMessage);
   }, []);
 
-  // Ctrl/Cmd+Z and Ctrl/Cmd+Shift+Z (or Ctrl+Y), except while typing in a field.
+  // Delete or Backspace removes the picked element even when focus is out here rather than in the preview
+  // (say, just after adding it from a panel).
+  const onDeleteKey = useEffectEvent(() => {
+    if (!canvasSel?.id) return false;
+    frameRef.current?.contentWindow?.postMessage({ type: CANVAS_ACTION, action: "delete" }, window.location.origin);
+    return true;
+  });
+
+  // Ctrl/Cmd+Z and Ctrl/Cmd+Shift+Z (or Ctrl+Y), plus Delete/Backspace, except while typing in a field.
   useEffect(() => {
     function onKey(event: KeyboardEvent) {
-      if (!(event.metaKey || event.ctrlKey)) return;
       const target = event.target as HTMLElement | null;
       if (target?.closest("input, textarea, select, [contenteditable]")) return;
+      if (event.key === "Delete" || event.key === "Backspace") {
+        if (!event.metaKey && !event.ctrlKey && !event.altKey && onDeleteKey()) event.preventDefault();
+        return;
+      }
+      if (!(event.metaKey || event.ctrlKey)) return;
       const key = event.key.toLowerCase();
       if (key === "z" && !event.shiftKey) onUndo();
       else if ((key === "z" && event.shiftKey) || key === "y") onRedo();
