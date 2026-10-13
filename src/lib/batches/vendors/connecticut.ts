@@ -171,6 +171,12 @@ Legend Photo & Film	Videography		West Hartford	Connecticut	Connecticut	West Hart
 Kane Films	Videography		East Haven	Connecticut	Connecticut and surrounding areas	East Haven videographer who films and edits weddings himself, delivering highlight or feature videos alongside candid, documentary-style photos.	HarryKaneFilms@gmail.com	(860) 840-3737	https://www.kanefilms.net/	https://www.instagram.com/kanefilms/
 RiVideoPro	Videography		Ellington	Connecticut	Southern New England and New York	Ellington wedding videographer filming since 2007 in a candid, easygoing style, known for returning sneak peeks and highlight films within days.			https://www.rivideopro.com/	`,
   },
+  {
+    name: "Litchfield Hills: videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Millside Wedding Films	Videography		Milford	Connecticut		Milford studio making intimate, cinematic wedding films, with recent work at Litchfield County farms and other Connecticut venues.	josh@millsideweddingfilms.com		https://millsideweddingfilms.com/	https://www.instagram.com/millsideweddingfilms/
+Critical Entertainment	Videography	374 East Village Road	Shelton	Connecticut	Fairfield, Hartford and New Haven counties and Westchester County	Shelton DJ company that also runs a dedicated wedding videography service, with highlight and documentary films across western and central Connecticut.	MikeFesta@CriticalEntertainment.com	203-982-1137	https://criticalentertainment.com/wedding-videography-in-connecticut/	https://www.instagram.com/criticalentertainmentdjs/`,
+  },
 ];
 
 export default batches;
