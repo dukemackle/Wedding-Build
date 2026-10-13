@@ -167,6 +167,32 @@ Lavish Myrtle Beach	Hair & Makeup		Myrtle Beach	South Carolina	The Grand Strand	
 Buttercream Cakes & Catering	Cake		North Myrtle Beach	South Carolina	Myrtle Beach and surrounding areas, from Little River to Georgetown	Custom wedding cakes and full-service catering from a Johnson & Wales-trained pastry owner, serving the coast between Little River and Georgetown.	buttercreamcakery@yahoo.com	(843) 251-1636	https://lovebuttercream.com/	
 Hart to Heart Media	Videography		Myrtle Beach	South Carolina	East Coast, including Charleston, Hilton Head and further afield	Myrtle Beach videography company led by Thomas Hart, making custom wedding films about each couple's fun, emotional and heartfelt story.	thomas@harttoheartmedia.com	(843) 828-4188	https://harttoheartmedia.com/	https://www.instagram.com/h2hmedia/`,
   },
+  {
+    name: "Charleston: florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Festoon Charleston	Florals		Charleston	South Carolina	Charleston, Kiawah Island, Palmetto Bluff and the wider Lowcountry	Garden-inspired wedding florals from bouquets to ceremony pieces, with custom proposals built from your mood board and colour palette.			https://festooncharleston.com/	https://www.instagram.com/festooncharleston/
+Bliss in Bloom	Florals		Charleston	South Carolina	Charleston, Kiawah Island and the Lowcountry	Editorial, fine-art wedding floral design with a restrained, architectural eye, covering ceremony arrangements, installations and tablescapes.	hello@blissinbloomchs.com		https://blissinbloomchs.com/	https://www.instagram.com/blissinbloomchs/
+Country & Lace Florist	Florals		Mount Pleasant	South Carolina	Charleston and the Lowcountry, including Mount Pleasant, Sullivan's Island and Isle of Palms	Custom wedding flowers from timeless bouquets to ceremony installations, with local delivery and setup across the Charleston area.		(843) 324-3557	https://countrylaceflorist.com/	https://www.instagram.com/countryandlaceflorist/
+Tupelo Honey Flower Shop & Co.	Florals		Charleston	South Carolina	Charleston and the Southeast	Loose, natural wedding florals with a bohemian Lowcountry feel, using local and foraged elements wherever the season allows.			https://www.tupelohoneyflowershop.com/	https://www.instagram.com/tupelohoneyflowershop/
+Coastal Creations	Florals	1942 Sam Rittenberg Blvd Suite B	Charleston	South Carolina	Charleston and Lowcountry venues	Charleston studio designing traditional, timeless wedding florals for luxury celebrations at venues such as Middleton Place and Magnolia Plantation.	coastalcreations.org@gmail.com	973-876-5502	https://www.coastalcreations.org/	https://www.instagram.com/coastalcreationsfloral/`,
+  },
+  {
+    name: "Myrtle Beach: cake and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Croissants Bistro & Bakery	Cake	8014 North Kings Highway	Myrtle Beach	South Carolina	Myrtle Beach	Long-running Myrtle Beach bistro and bakery making wedding and special-event cakes, with catering available for the reception too.	info@croissants.net	843-448-2253	https://croissants.net/	https://www.instagram.com/croissantsbistroandbakery/
+Incredible Edibles Bakery	Cake	11326 Ocean Hwy Unit 3	Pawleys Island	South Carolina	Coastal South Carolina between Charleston and Myrtle Beach	Pawleys Island bakery with over 25 years in coastal weddings, starting with a cake consultation and also offering catering and retail baking.		843-237-5040	https://www.incredibleediblecakes.com/	https://www.instagram.com/myiecakes/
+Luminous Event Films	Videography		Myrtle Beach	South Carolina	North and South Carolina	One-man cinematic wedding filmmaker offering highlight and documentary-style films with a clean, classic look and travel across the Carolinas included.	luminouseventfilms@gmail.com	843-606-0722	https://www.luminouseventfilms.com/	https://www.instagram.com/luminous_event_films/
+StanWeddings	Videography		Myrtle Beach	South Carolina	Myrtle Beach area and destination weddings	Myrtle Beach photo and creative film team shooting wedding highlight videos at plantations, oceanfront venues and historic mansions.	info@StanWeddings.com	(843) 742-4060	https://www.stanweddings.com/	https://www.instagram.com/StanWeddings/
+Light Must Shine Productions	Videography		Myrtle Beach	South Carolina	Travels worldwide	Myrtle Beach wedding film company with a dedicated wedding films gallery, available for destination weddings as well as Grand Strand venues.			https://lightmustshineproductions.com/	https://www.instagram.com/lightmustshineproductions/
+Player Films	Videography	3518 St James Ave	Myrtle Beach	South Carolina	Myrtle Beach	Wedding film arm of Paula Player Photography, making full wedding videos, short highlights, reels and live streams with drone footage.		843-419-7042	https://paulaplayer.com/films/	https://www.instagram.com/paulaplayer/`,
+  },
+  {
+    name: "Hilton Head: photography and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Jaclyn Armeni Photography	Photography		Hilton Head Island	South Carolina	Hilton Head and the Lowcountry, plus destination weddings	Husband-and-wife team shooting relaxed, candid weddings and sunset beach sessions on Hilton Head and across the Lowcountry.			https://jaclynarmeniphotography.com/	
+Lisa Staff Photography	Photography		Hilton Head Island	South Carolina	Hilton Head, Bluffton, Beaufort, Charleston, Savannah and the wider Lowcountry	Romantic, timeless wedding photography from Hilton Head Island, with heirloom albums and travel across the Lowcountry and coastal Georgia.		843-422-0197	https://lisastaffphoto.com/	https://www.instagram.com/lisastaffphoto/
+Stories and Stills	Videography		Aiken	South Carolina	All of South Carolina, including Hilton Head Island, with no travel fees	Photo and 4K cinematic wedding film studio with in-house editing, covering Hilton Head weddings alongside Charleston, Columbia and Greenville.	contact@storiesandstills.com	(843) 518-0020	https://www.storiesandstills.com/	https://www.instagram.com/the_stories_and_stills/`,
+  },
 ];
 
 export default batches;
