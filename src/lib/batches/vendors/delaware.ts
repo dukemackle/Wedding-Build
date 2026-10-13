@@ -68,6 +68,11 @@ The Party Kween	Decor & Lighting		Felton	Delaware	Delaware, Maryland and Pennsyl
 Party Central	Rentals	9 Town Road	Ocean View	Delaware	Sussex County, Delaware	Ocean View rental company hiring out wedding tents, tables, chairs and dance floors to couples across Sussex County, from Lewes to Selbyville.	Contact@PartyCentralMD.com	302-537-9797	https://toolandpartyrentalsde.com/	
 `,
   },
+  {
+    name: "Rehoboth Beach: planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Happy Hour Events	Planning		Lewes	Delaware		Lewes event company offering consulting, planning and day-of management for weddings, celebrations and corporate events.	dana@happyhoureventsde.com	484-432-5538	https://www.happyhoureventsde.com/	`,
+  },
 ];
 
 export default batches;
