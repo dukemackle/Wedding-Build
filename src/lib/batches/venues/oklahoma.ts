@@ -60,6 +60,21 @@ The Ponds at Mable Farms	998 Pleasant Road	Ardmore	Oklahoma			Barn / Rustic	Indo
 Greenleaf Barn	6815 S 321st E Ave	Broken Arrow	Oklahoma			Barn / Rustic	Indoor & Outdoor	175		A white-interior, climate-controlled barn on a tree-lined country road east of Broken Arrow, with two outdoor ceremony spots and a prep kitchen.	greenleafbarnok@gmail.com		https://greenleafbarn.com/
 `,
   },
+  {
+    name: "Stillwater, Bartlesville, Edmond, Shawnee, Claremore and statewide: more Oklahoma venues",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Sparrow Beginnings	5317 S Hartford St	Stillwater	Oklahoma			Barn / Rustic	Indoor & Outdoor		Classic	Family-run venue on a 30-acre property in Stillwater with an indoor grand hall, a gazebo and promenade for ceremonies, and cottages for overnight stays.	office@sparrowbeginnings.com	405-402-0262	https://www.sparrowbeginnings.com
+Elms & Oaks	13700 N Eastern Ave	Edmond	Oklahoma			Garden / Outdoor	Indoor & Outdoor	300		Edmond wedding and event venue set among mature elm and oak trees, with outdoor ceremony spaces, a deck, a canopy and an indoor banquet room.	Lori@elmsandoaksvenue.com	(405) 849-5657	https://www.elmsandoaksvenue.com
+Eleven Oaks Ranch	21601 Diagonal Rd	Luther	Oklahoma			Barn / Rustic	Indoor & Outdoor	300		Rustic ranch venue near Luther with roughly 10,000 square feet of event space, a grand staircase, an indoor fireplace and an outdoor gazebo for ceremonies.		405-938-2557	https://www.elevenoaksranch.com
+Merrick Hollow	800109 S 3295 Rd	Wellston	Oklahoma			Garden / Outdoor	Indoor & Outdoor	190	Simple	Wooded modern venue in the old town of Merrick, reached by a 360-foot winding bridge, with a banquet hall and a bridal suite balcony overlooking the trees.		405-731-0261	https://merrickhollow.com
+Lakeside Wedding Venue	33001 Lake Rd	Shawnee	Oklahoma			Beach / Waterfront	Indoor & Outdoor	200	Simple	Lakeside hall of more than 4,000 square feet near Shawnee, with a covered patio, a bridal suite and a private sandy beach on Twin Lakes Reservoir a short walk away.		(405) 788-0242	https://www.lakesideweddingvenue.com
+The Wildflower	2611 E Dairy Ln	Tishomingo	Oklahoma			Barn / Rustic	Indoor & Outdoor	225	Simple	Five-thousand-square-foot white barn venue in Tishomingo with indoor and outdoor ceremony sites, bridal and groom suites, and cabins and suites for overnight guests.	cassie.sallee@thewildflowerok.com	580-371-1582	https://thewildflowerok.com
+Pecandarosa Ranch	23606 S Keetonville Rd	Claremore	Oklahoma			Barn / Rustic	Indoor & Outdoor		Classic	Claremore ranch venue with a separate ceremony chapel and reception hall, a fireplace lobby, courtyards, covered patios and large bridal and groom's suites.	info@pecandarosaranch.com	918.698.7500	https://pecandarosaranch.com
+The Ranch at Woodward	201718 East County Road 48	Woodward	Oklahoma			Barn / Rustic	Indoor & Outdoor		Simple	Rustic-to-elegant wooden-beamed barn in Woodward with a dedicated bridal room that has lighted mirrors, a chandelier and a private entrance.	theranchatwoodward@gmail.com	(580) 461-6215	https://www.theranchatwoodward.com
+Twisted Oaks Barn	1980 Copperhead Ln	Velma	Oklahoma			Barn / Rustic	Indoor & Outdoor			Two-storey, 6,000-square-foot barn in southern Oklahoma with a stage, a fireplace bar, a bridal bedroom, a timber arbor and a fire pit.	TwistedOaksBarnVenue@gmail.com	580-467-2805	https://twistedoaksbarn.com
+Three Springs Event Center	2018 State Highway 8A	Watonga	Oklahoma			Barn / Rustic	Indoor & Outdoor			Event venue in Blaine County next to Roman Nose State Park, with an outdoor ceremony arch and an indoor event space.	3springseventcenter@gmail.com	405.200.5753	https://threespringsevents.com
+E.W. Marland Mansion & Estate	901 Monument Rd	Ponca City	Oklahoma			Historic / Estate	Indoor & Outdoor			Historic Ponca City estate built by oilman E.W. Marland that is open for weddings, receptions and parties by arrangement.		(580) 767-0420	https://www.marlandmansion.com`,
+  },
 ];
 
 export default batches;
