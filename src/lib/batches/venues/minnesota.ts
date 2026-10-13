@@ -112,6 +112,22 @@ Hormel Historic Home	208 4th Ave NW	Austin	Minnesota			Historic / Estate	Indoor 
 Cedar Creek Barn	23858 County Road 9	Winona	Minnesota			Barn / Rustic	Indoor & Outdoor			A red barn on more than 100 acres in the Cedar Creek Valley between Winona and La Crosse, with a hilltop ceremony site overlooking the valley.	cedarcreekbarn@gmail.com	507-312-4462	https://cedarcreekbarn.com
 `,
   },
+  {
+    name: "Minnesota: Mankato, St. Cloud, Brainerd lakes, Alexandria and the east metro",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Gathered Oaks	4550 County Road 34 NW	Alexandria	Minnesota			Barn / Rustic	Indoor & Outdoor			White barn beside Little Charlie Lake with lakeside ceremonies, a private bridal cabin, an on-site bar and campfire lodging.	tessa@gatheredoaks.com	218-979-2101	https://gatheredoaks.com
+Linden Hill Historic Estate	608 Highland Ave	Little Falls	Minnesota			Historic / Estate	Indoor & Outdoor	300		Nine-acre National Register estate above the Mississippi River with an 1898 Musser mansion, gardens, a pavilion and on-site lodging.	info@linden-hill.org	320-616-5580	https://linden-hill.org/weddings
+The Madison	7310 Lamar Ave S	Cottage Grove	Minnesota			Barn / Rustic	Indoor & Outdoor	500		Heated and air-conditioned 1940s gothic-arched dairy barn of over 8,000 square feet with a bridal suite, a groom's room and parking for 150 cars.	info@themadisonmn.com	(651) 336-4421	https://themadisonmn.com
+Next Chapter Winery	16945 320th St	New Prague	Minnesota			Restaurant / Vineyard	Indoor & Outdoor			Family-owned country winery with a barrel room, a wedding suite, a vineyard-side patio and fire pit, and a pond.	nextchapterwinery@gmail.com	612-655-6176	https://nextchapterwinery.com/weddings
+Harvester Square	539 E St Germain St	St. Cloud	Minnesota			Historic / Estate	Indoor	400		Downtown St. Cloud event venue in the historic 539 Building for gatherings of 50 to 400 guests.	info@harvestersquare.com		https://harvestersquare.com
+Northern Oaks Events		Sauk Rapids	Minnesota			Garden / Outdoor	Indoor & Outdoor	300		Converted log home on about 100 wooded acres with a 40-by-120-foot backyard pavilion, a pond, two ceremony spots and fire pits.	hello@northernoaksevents.com	320-292-7512	https://www.northernoaksevents.com
+Mankato Event Center	12 Civic Center Plaza	Mankato	Minnesota			Ballroom / Hotel	Indoor	160	Simple	Victorian-style downtown reception hall inside the historic Mankato Place Mall with a commercial kitchen, bar, stage lights and sound system.	info@mankatoeventcenter.com		https://mankatoeventcenter.com/weddings/
+Chase on the Lake Resort & Spa	502 Cleveland Blvd W	Walker	Minnesota			Beach / Waterfront		200		Resort on Walker Bay of Leech Lake offering lakeside wedding receptions for 40 to 200 guests.	groupsales@chaseonthelake.com	218-547-7777	https://chaseonthelake.com/meetings-events/weddings
+Sag Lodge	168 Sag Lake Trail	Grand Marais	Minnesota			Beach / Waterfront				Lodge and cabins on Lake Saganaga at the end of the Gunflint Trail, hosting micro to medium weddings.	info@saglodge.com	(218) 206-8069	https://saglodge.com/events
+Grand View Lodge	23521 Nokomis Ave	Nisswa	Minnesota			Beach / Waterfront	Indoor & Outdoor	350		Gull Lake resort with 45 holes of golf and private reception venues for up to 350 guests.	vacation@grandviewlodge.com	866-801-2951	https://www.grandviewlodge.com/marry
+Spruce Hill Event Center	42593 Hwy 52 Blvd	Zumbrota	Minnesota			Barn / Rustic	Indoor & Outdoor	200	Classic	Family-built, purpose-made event center in Minneola Township with room for 200 guests, an outdoor patio and a prep kitchen.		507-218-7052	https://sprucehillevents.com
+Ivy Black	6910 MN-194	Saginaw	Minnesota			Barn / Rustic	Indoor & Outdoor	288	Classic	Modern barn-style venue on about 60 acres of fields and trails near Duluth with three ceremony spots and a patio with fire pits.		218-269-2378	https://ivyblackmn.com`,
+  },
 ];
 
 export default batches;
