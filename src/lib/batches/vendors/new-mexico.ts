@@ -68,6 +68,28 @@ That Cake Lady of Santa Fe	Cake		Santa Fe	New Mexico	Santa Fe	Santa Fe home bake
 Mayra's Hairstyles	Hair & Makeup		Albuquerque	New Mexico	Albuquerque	On-location Albuquerque bridal hairstylist for glamorous and romantic wedding styles, who also does makeup and quinceañera hair.			https://mayrashairstyles.com/	https://www.instagram.com/mayrashairstyles/
 `,
   },
+  {
+    name: "Albuquerque: photography, planning, music, hair and makeup, videography, cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Patrick Beare Photography	Photography		Albuquerque	New Mexico	New Mexico and the Southwest	Husband-and-wife Albuquerque team shooting wedding photography and video, and helping couples plan timelines and sunset photo spots.			https://www.patrickbearephoto.com/	
+Sunrise and Sage Events	Planning		Albuquerque	New Mexico	Albuquerque, Rio Rancho and central and northern New Mexico	Planning team designing weddings from rustic outdoor ceremonies to ballroom receptions, drawing on trusted local vendor relationships.		(505) 492-7904	https://sunriseandsageevents.com/	https://www.instagram.com/sunriseandsageevents/
+Kalia Gregory Artistry	Hair & Makeup		Albuquerque	New Mexico	Albuquerque, Santa Fe and surrounding areas	Albuquerque makeup artist doing bridal, editorial and special-event looks for Albuquerque and Santa Fe clients.			https://kaliagartistry.com/	https://www.instagram.com/kaliagartistry/
+Avista Video Histories	Videography	401 San Pedro Dr NE	Albuquerque	New Mexico	Albuquerque, Santa Fe and Northern New Mexico	Albuquerque wedding video company filming couples since 2001, with an office on San Pedro Drive and work at venues across Albuquerque and Santa Fe.		(505) 828-2100	https://www.avistavideo.com/	
+BitterSweets Bakery	Cake	9401-A Golf Course Rd NW	Albuquerque	New Mexico		Boutique northwest Albuquerque bakery making wedding cakes alongside cupcakes, pies, and gluten-free and vegan baking.	guestservices@bittersweetsnm.com	(505) 899-3018	http://www.bittersweetsnm.com/	
+`,
+  },
+  {
+    name: "Santa Fe: photography, music, catering, florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Twin Lens	Photography		Santa Fe	New Mexico	Santa Fe, New Mexico and destination weddings	Santa Fe wedding photographers with a documentary approach built around moment, light and composition, who also design finished wedding books.	contact@twinlensimages.com	(505) 504-6532	https://www.twinlensimages.com/	https://www.instagram.com/twinlensimages/
+Vivi Photography	Photography		Santa Fe	New Mexico	Santa Fe, Taos and Albuquerque	Photojournalistic wedding photographer working in Santa Fe, Taos and Albuquerque, with a magazine-style editorial look to her images.		(808) 729-2651	https://www.viviphotography.net/	https://www.instagram.com/viviphotographer/
+Escondido Catering	Catering	1101 Paseo Corazon, Suite 100	Santa Fe	New Mexico	New Mexico	Catering arm of a Santa Fe Mexican restaurant led by a Food Network champion chef, offering full-service wedding menus, drinks and event coordination.	info@escondidosf.com	(505) 316-4718	https://escondidosf.com/catering/	https://www.instagram.com/escondidosantafe/
+Santa Fe Chef	Catering		Santa Fe	New Mexico	Santa Fe	Private chef and event caterer serving Santa Fe weddings with multi-course menus built around local ingredients, run by a family team.	santafechefinc@gmail.com	(505) 629-5467	https://santafechef.com/	
+Marigold Kitchen	Catering	1314 Rufina Circle, Unit A3	Santa Fe	New Mexico	Santa Fe and surrounding areas	Santa Fe caterer blending Indian and American cooking for weddings and private events, with menus tailored to each celebration.		(505) 310-7902	https://www.marigold-kitchen.com/	https://www.instagram.com/marigoldkitchensf/
+Pacific Floral Design	Florals	903 Early St	Santa Fe	New Mexico	Santa Fe	Locally owned Santa Fe florist since 2005 offering wedding and event flowers, using fair-trade, pesticide-free and local blooms where possible.		(505) 577-5248	https://www.pacificdesignonline.com/	https://www.instagram.com/pacificfloral/
+Aspect Flowers	Florals		Santa Fe	New Mexico		Santa Fe studio florist making garden-style arrangements with local blooms, with a wedding florals service and a free online estimator.	schweitzermeredith@gmail.com	347-698-9196	https://www.aspectflowers.com/	
+`,
+  },
 ];
 
 export default batches;
