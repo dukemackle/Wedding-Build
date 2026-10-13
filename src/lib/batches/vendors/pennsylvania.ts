@@ -371,6 +371,12 @@ Stacy Lynn Photography	Photography		Erie	Pennsylvania		Erie wedding, newborn and
 Ron Yarman Music	Music		Erie	Pennsylvania	Erie, Cleveland, Pittsburgh and Buffalo	Singer and guitarist offering tiered wedding packages from ceremony music through cocktail hour and reception sets.	ron@ronyarmanmusic.com	(814) 490-3062	https://www.ronyarmanmusic.com	https://www.instagram.com/ronyarmanmusic/
 Platinum Hair Studio	Hair & Makeup	5320 Buffalo Rd	Erie	Pennsylvania	Venues within 30 miles of the studio	Salon offering bridal hair with optional trial, plus bridesmaid and mother-of-the-bride styling on the day.	Platinumhairstudio814@gmail.com	814-873-8599	https://www.platinumhairstudio814.com	https://www.instagram.com/platinumhairstudio814/`,
   },
+  {
+    name: "Poconos: videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Wind Rose Films	Videography		Lords Valley	Pennsylvania	Pennsylvania, New York, Florida and Georgia	Cinematic wedding filmmaker based in the Pocono Mountains, shooting unscripted, story-led films for couples in Pennsylvania and beyond.	windrosefilms@gmail.com	(818) 805-0879	https://windrosefilms.com/	
+`,
+  },
 ];
 
 export default batches;

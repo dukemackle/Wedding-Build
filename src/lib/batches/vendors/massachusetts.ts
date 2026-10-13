@@ -302,6 +302,25 @@ Revel Catering & Events	Catering		Martha's Vineyard	Massachusetts	Martha's Viney
 Wicked Island Bakery	Cake	7B Bayberry Ct	Nantucket	Massachusetts		Nantucket bakery behind the island Morning Bun, taking custom cake orders for weddings and events as well as catering and brunch trays.		(508) 901-5797	https://www.wickedislandbakery.com/	https://www.instagram.com/wickedislandbakery/
 Martha's Vineyard Productions	Videography		Vineyard Haven	Massachusetts	Martha's Vineyard, Nantucket and the Cape Cod areas	Island video studio led by Dan Martino, filming multi-camera wedding films and short highlight edits, with drone shots, for Vineyard couples.	info@marthasvineyardproductions.com		https://marthasvineyardproductions.com/weddings.html	`,
   },
+  {
+    name: "Berkshires: cake, videography, planning, music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Mamie Brougitte Cakes	Cake		West Stockbridge	Massachusetts	The Berkshires and events across the country	Bespoke wedding cakes with hand-made sugar flowers, designed from a tasting and sketch, then delivered and installed by the studio.	info@mamiebrougitte.com		https://www.mamiebrougitte.com/	https://www.instagram.com/mamie_brougitte_cakes/
+October Mountain Creative Co.	Videography		Lee	Massachusetts	Berkshire County, the Hudson Valley and New England	Husband-and-wife team, both Berkshire natives, filming weddings with two cameras and delivering a highlight film plus ceremony and speech edits.			https://www.octobermountaincreativeco.com/	
+5 Senses Events + Design	Planning		Dalton	Massachusetts	Berkshire County, including Lenox, Pittsfield, Stockbridge and Great Barrington	Berkshire planning and design company offering coordination or full planning, plus its own mobile bar service for receptions.	info@5sensesed.com		https://www.5sensesed.com/	https://www.instagram.com/5senseseventsanddesign/
+Cassandra Events	Planning		West Stockbridge	Massachusetts	The Berkshires and New England	Berkshires planner, designer and floral decorator offering full planning or a la carte design, flowers and day-of management.	cassandraevents@gmail.com		https://www.cassandraevents.com/	
+Old Soul Sounds	Music		Pittsfield	Massachusetts	Berkshire County, western Massachusetts and New England	Pittsfield DJ and sound company founded in 2018, with wedding packages covering MC duties, lighting and an audio guestbook.	oldsoulsounds413@gmail.com		https://www.oldsoulsounds.com/	https://www.instagram.com/oldsoulsounds/
+`,
+  },
+  {
+    name: "Worcester: videography, photography, music, florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Crescent Studios	Videography		Whitinsville	Massachusetts	Massachusetts, including Worcester, Boston and Springfield	Whitinsville photography and video studio covering weddings for over ten years, with a complimentary engagement session in every collection.			https://www.crescent-studios.com/weddings	https://www.instagram.com/crescentstudiosma/
+Serena Burroughs Photography	Photography		North Brookfield	Massachusetts	Worcester, central Massachusetts and New England	Lifestyle wedding and family photographer in central Massachusetts, welcoming couples of every identity and sharing planning guides for the day.	hello@serenaburroughs.com	774-452-5903	https://www.serenaburroughs.com/	https://www.instagram.com/serenaburroughs/
+Blackstone Valley Entertainment	Music	210 Worcester St, Suite I	North Grafton	Massachusetts	New England	String quartets and reception bands featuring strings, serving New England couples since 2016 with live music rather than recordings.	blackstonevalleyquartet@outlook.com	508-414-6711	https://www.blackstonevalleyentertainment.com/	https://www.instagram.com/blackstonequartet/
+House of Flowers	Florals		Worcester	Massachusetts		Worcester florist with ceremony and reception wedding collections, plus one-to-one consultations to match flowers to style and budget.		508-932-0676	https://houseofflowersma.net/pages/wedding-page	
+`,
+  },
 ];
 
 export default batches;

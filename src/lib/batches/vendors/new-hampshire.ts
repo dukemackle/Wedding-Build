@@ -114,6 +114,12 @@ Josiah Does Videos	Videography		Salisbury	New Hampshire	New England and beyond	S
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
 Debony Salon	Hair & Makeup	18 Main Street	Jackson	New Hampshire	Mount Washington Valley	Main Street salon and spa in Jackson doing wedding hair and airbrush or mineral makeup, in the salon or on location, with a wedding coordinator.	info@debonysalon.com	603-383-9366	https://www.debonysalon.com/	https://www.instagram.com/debony_salon/`,
   },
+  {
+    name: "White Mountains: florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Tarrnation Flower Farm	Florals	96 Streeter Pond Rd	Sugar Hill	New Hampshire		Sugar Hill flower farm with a design studio on site, making romantic seasonal wedding flowers grown from seed and foraged locally.	tarrnationfarm@gmail.com		https://www.tarrnationflowerfarm.com/weddings-1	https://www.instagram.com/tarrnationflowers/
+`,
+  },
 ];
 
 export default batches;
