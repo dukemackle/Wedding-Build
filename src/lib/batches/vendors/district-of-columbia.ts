@@ -127,6 +127,14 @@ Lune Dune Pictures	Videography		Washington	District of Columbia		DC film product
 The "Original" Moonlighters	Music		Washington	District of Columbia	DC, Maryland, Virginia and across the US	Motown and variety dance band playing weddings in DC, Maryland and Virginia, and travelling to around twenty states.	info@14kmusic.com	(202) 855-1010	https://moonlightersweddingband.com/	https://www.instagram.com/mltrsband/
 `,
   },
+  {
+    name: "Washington: cake, planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Couture Cakes by Sabrina	Cake		Washington	District of Columbia	Washington DC and Maryland	Custom wedding cakes finished with handmade sugar flowers, baked in limited numbers each month and delivered by cold van with on-site assembly.	info@cakesbysabrina.com		https://www.cakesbysabrina.com/	https://www.instagram.com/couturecakesbysabrina/
+Sarah Kazemburg Events & Styling	Planning		Washington	District of Columbia	Washington DC, the wider DMV, Maryland's Eastern Shore, Charlottesville and East Coast destinations	Luxury full-service planning and design firm based in DC, creating refined multi-day wedding weekends around the DMV and further along the East Coast.	sarah@skbevents.com	(301) 339-8400	https://skbevents.com/	https://www.instagram.com/sarahkazemburgevents/
+Andrew Roby Events	Planning		Washington	District of Columbia	Washington DC, Maryland, Virginia and destinations	DC planning and production company that handles weddings alongside corporate events, offering personalised celebrations across the DC region and beyond.			https://andrewrobyevents.com/	https://www.instagram.com/andrewrobyevents/
+`,
+  },
 ];
 
 export default batches;
