@@ -10,6 +10,7 @@ import { Shape } from "@/components/site-motion";
 import { MonogramFontError, downloadMonogram } from "@/lib/monogram-download";
 import { PHOTO_FRAMES } from "@/lib/site-canvas";
 import { FrameIcon } from "./photo-motion-panels";
+import { SceneThumb } from "@/components/site-scene";
 import {
   ART_HEROES,
   ART_PLACEMENTS,
@@ -46,6 +47,7 @@ import {
   sectionColumn,
   type SectionKey,
   type SiteDesign,
+  type SceneId,
 } from "@/lib/site-design";
 
 export type SectionInfo = {
@@ -81,7 +83,7 @@ const UNSELECTED = "m-px border border-hairline hover:border-ink/30";
 const PAGE_ART = SITE_ART.filter((a) => a.group !== ORNAMENT_GROUP);
 
 /** How many of each picker shows before "See all". */
-const PREVIEW = { monogram: 4, art: 5, scene: 6 } as const;
+const PREVIEW = { monogram: 4, art: 5, scene: 3 } as const;
 
 /**
  * The first `n` of a list, with the selected item swapped in at the end when
@@ -431,39 +433,85 @@ export function PageArtworkSection({
   );
 }
 
+/** The scene groups in Background › Scene, by where each one sits. */
+const SCENE_GROUPS = [
+  { place: "band", label: "Landscapes", hint: "Under your names" },
+  { place: "strip", label: "Strips", hint: "Across the top" },
+  { place: "surround", label: "Frames", hint: "Around your names", note: "Frames show on tops without a photo." },
+] as const;
+
 /** The drawn scene behind the names: a landscape, a strip or a frame. Lives in Background. */
 export function SceneSection({ design, onChange }: { design: SiteDesign; onChange: Change }) {
+  const { theme, accent, accent2 } = resolveDesign(design);
   const base = themeById(design.theme);
-  const [all, setAll] = useState(false);
-  const options = [
-    { id: null, label: `Theme's own${base.scene && base.scene !== "none" ? ` (${sceneById(base.scene).label})` : ""}` },
-    ...SCENES,
-  ];
-  const shown = all ? options : previewOf(options, PREVIEW.scene, (x) => x.id === design.scene);
+  const [open, setOpen] = useState<Record<string, boolean>>({});
+  // The tiles draw in the site's own colours, not the editor's.
+  const vars = {
+    "--site-accent": accent,
+    "--site-accent-2": accent2,
+    "--color-ink": theme.ink,
+    "--color-parchment": theme.bg,
+    "--color-card": theme.surface,
+  } as CSSProperties;
+  const own = base.scene ?? "none";
+
+  const tile = (id: SiteDesign["scene"], draw: SceneId, label: string) => {
+    const on = design.scene === id;
+    return (
+      <button
+        key={id ?? "theme"}
+        type="button"
+        aria-pressed={on}
+        onClick={() => onChange({ scene: id })}
+        className="flex flex-col items-center gap-1 text-center text-[11px] leading-tight text-ink/70"
+      >
+        <span
+          className={`relative block aspect-[3/2] w-full overflow-hidden rounded-xl ${on ? "border-2 border-forest" : "m-px border border-hairline hover:border-ink/30"}`}
+          style={vars}
+        >
+          <SceneThumb scene={draw} />
+        </span>
+        {label}
+      </button>
+    );
+  };
 
   return (
     <div className="flex flex-col gap-3">
-      <PickerHead label="Scene" count={SCENES.length} open={all} onToggle={() => setAll((x) => !x)} />
-      <div role="group" aria-label="Scene" className="flex flex-wrap gap-1.5">
-        {shown.map((x) => {
-          const on = design.scene === x.id;
-          return (
-            <button
-              key={x.id ?? "theme"}
-              type="button"
-              aria-pressed={on}
-              onClick={() => onChange({ scene: x.id as SiteDesign["scene"] })}
-              className={`h-8 rounded-full px-3 text-[13px] ${on ? CHIP_ON : CHIP_OFF}`}
-            >
-              {x.label}
-            </button>
-          );
-        })}
-      </div>
-      <p className="text-[13px] leading-normal text-ink/60">
+      <PanelLabel>Scene</PanelLabel>
+      <p className="-mt-1 text-[13px] leading-normal text-ink/60">
         Drawn in your colours: a landscape under your names, a strip across the top, or a frame around them.
-        Your accent colour sets its mood.
       </p>
+      <div role="group" aria-label="Scene" className="grid grid-cols-3 gap-2">
+        {tile(null, own, own === "none" ? "Theme's own" : `Theme's own (${sceneById(own).label})`)}
+        {tile("none", "none", "None")}
+      </div>
+      {SCENE_GROUPS.map((g) => {
+        const items = SCENES.filter((x) => x.place === g.place);
+        const all = open[g.place];
+        const shown = all ? items : previewOf(items, PREVIEW.scene, (x) => x.id === design.scene);
+        return (
+          <div key={g.place} className="mt-1 flex flex-col gap-2">
+            <div className="flex items-baseline justify-between gap-3">
+              <p className="text-[13px] font-medium text-ink">
+                {g.label} <span className="font-normal text-ink/50">· {g.hint}</span>
+              </p>
+              <button
+                type="button"
+                aria-expanded={all}
+                onClick={() => setOpen((o) => ({ ...o, [g.place]: !all }))}
+                className="shrink-0 text-[13px] font-medium text-forest hover:underline"
+              >
+                {all ? "Show fewer" : `See all ${items.length} →`}
+              </button>
+            </div>
+            <div role="group" aria-label={g.label} className="grid grid-cols-3 gap-2">
+              {shown.map((x) => tile(x.id, x.id, x.label))}
+            </div>
+            {"note" in g && <p className="text-[12px] leading-normal text-ink/50">{g.note}</p>}
+          </div>
+        );
+      })}
     </div>
   );
 }
