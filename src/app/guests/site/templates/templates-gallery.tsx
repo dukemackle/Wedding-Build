@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState, useTransition } from "react";
 import { DESIGN_MESSAGE, READY_MESSAGE } from "@/components/guest-site-theme";
-import { PALETTES, resolveDesign, type SiteDesign } from "@/lib/site-design";
+import { PALETTES, resolveDesign, type Palette, type SiteDesign } from "@/lib/site-design";
 import { TEMPLATES, TEMPLATE_TAGS, applyTemplate, type SiteTemplate, type TemplateTag } from "@/lib/site-templates";
 import { createDesign } from "../actions";
 import { SiteThumb } from "../site-thumb";
@@ -32,6 +32,9 @@ export function TemplatesGallery({
   const shown = TEMPLATES.filter((t) => !tag || t.tags.includes(tag));
   const looks = useMemo(() => new Map(TEMPLATES.map((t) => [t.id, applyTemplate(base, t)])), [base]);
   const openTemplate = TEMPLATES.find((t) => t.id === open) ?? null;
+  // The colours tried on each template, shared by its card and its preview.
+  const [picks, setPicks] = useState<Record<string, string | null>>({});
+  const pick = (id: string) => (palette: string | null) => setPicks((all) => ({ ...all, [id]: palette }));
 
   return (
     <div className="flex flex-col">
@@ -61,7 +64,15 @@ export function TemplatesGallery({
 
       <div className="mt-5 grid grid-cols-2 gap-x-3.5 gap-y-5 sm:gap-6 lg:grid-cols-4">
         {shown.map((t) => (
-          <TemplateTile key={t.id} template={t} design={looks.get(t.id)!} onOpen={() => setOpen(t.id)} {...shared} />
+          <TemplateTile
+            key={t.id}
+            template={t}
+            look={looks.get(t.id)!}
+            palette={picks[t.id] ?? null}
+            onPalette={pick(t.id)}
+            onOpen={() => setOpen(t.id)}
+            {...shared}
+          />
         ))}
       </div>
 
@@ -71,6 +82,8 @@ export function TemplatesGallery({
           template={openTemplate}
           look={looks.get(openTemplate.id)!}
           looks={looks}
+          picks={picks}
+          onPick={pick}
           full={full}
           onOpen={setOpen}
           onClose={() => setOpen(null)}
@@ -83,18 +96,38 @@ export function TemplatesGallery({
 
 function TemplateTile({
   template,
-  design,
+  look,
+  palette,
+  onPalette,
   onOpen,
   ...shared
-}: Shared & { template: SiteTemplate; design: SiteDesign; onOpen: () => void }) {
+}: Shared & {
+  template: SiteTemplate;
+  look: SiteDesign;
+  palette: string | null;
+  onPalette: (palette: string | null) => void;
+  onOpen: () => void;
+}) {
+  const options = useMemo(() => colourOptions(template, look), [template, look]);
+  const design = useMemo(() => withPalette(look, palette), [look, palette]);
   return (
-    <button type="button" onClick={onOpen} className="group flex min-w-0 flex-col text-left">
-      <span className="relative block aspect-[4/5] w-full overflow-hidden rounded-[14px] border border-hairline group-hover:border-ink/30 sm:aspect-[4/3]">
-        <SiteThumb design={design} {...shared} />
-      </span>
-      <span className="mt-2.5 truncate font-medium text-ink">{template.name}</span>
-      <span className="truncate text-[13px] text-ink/55">{template.tags.join(" · ")}</span>
-    </button>
+    <div className="group flex min-w-0 flex-col">
+      <button type="button" onClick={onOpen} className="flex min-w-0 flex-col text-left">
+        <span className="relative block aspect-[4/5] w-full overflow-hidden rounded-[14px] border border-hairline group-hover:border-ink/30 sm:aspect-[4/3]">
+          <SiteThumb design={design} {...shared} />
+        </span>
+        <span className="mt-2.5 truncate font-medium text-ink">{template.name}</span>
+        <span className="truncate text-[13px] text-ink/55">{template.tags.join(" · ")}</span>
+      </button>
+      <Swatches
+        look={look}
+        options={options}
+        palette={palette}
+        onPick={onPalette}
+        label={`${template.name} colours`}
+        size="sm"
+      />
+    </div>
   );
 }
 
@@ -108,6 +141,8 @@ function TemplatePreview({
   template,
   look,
   looks,
+  picks,
+  onPick,
   full,
   onOpen,
   onClose,
@@ -116,23 +151,19 @@ function TemplatePreview({
   template: SiteTemplate;
   look: SiteDesign;
   looks: Map<string, SiteDesign>;
+  picks: Record<string, string | null>;
+  onPick: (id: string) => (palette: string | null) => void;
   full: boolean;
   onOpen: (id: string) => void;
   onClose: () => void;
 }) {
   const router = useRouter();
-  const [palette, setPalette] = useState<string | null>(null);
+  const palette = picks[template.id] ?? null;
+  const setPalette = onPick(template.id);
   const [error, setError] = useState<string | null>(null);
   const [pending, start] = useTransition();
   const options = useMemo(() => colourOptions(template, look), [template, look]);
-  const chosen = PALETTES.find((p) => p.id === palette);
-  const design = useMemo<SiteDesign>(
-    () =>
-      chosen
-        ? { ...look, accent: chosen.accent, colors: { bg: chosen.bg, ink: chosen.ink, heading: chosen.heading } }
-        : look,
-    [look, chosen],
-  );
+  const design = useMemo(() => withPalette(look, palette), [look, palette]);
   const more = TEMPLATES.filter((t) => t.id !== template.id && t.tags.some((tag) => template.tags.includes(tag))).slice(0, 4);
 
   useEffect(() => {
@@ -160,8 +191,6 @@ function TemplatePreview({
     });
   }
 
-  const own = resolveDesign(look);
-
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto bg-white sm:bg-[#14203d]/55 sm:px-6 sm:py-10" onClick={onClose}>
       <div
@@ -187,12 +216,7 @@ function TemplatePreview({
           <p className="mt-1 text-ink/60">{template.tags.join(" · ")}</p>
 
           <p className="mt-6 text-sm font-semibold text-ink">Colours</p>
-          <div className="mt-2 flex gap-2.5" role="radiogroup" aria-label="Colours">
-            <Swatch label="As designed" bg={own.theme.bg} accent={own.accent} on={!palette} onPick={() => setPalette(null)} />
-            {options.map((p) => (
-              <Swatch key={p.id} label={p.name} bg={p.bg} accent={p.accent} on={palette === p.id} onPick={() => setPalette(p.id)} />
-            ))}
-          </div>
+          <Swatches look={look} options={options} palette={palette} onPick={setPalette} label="Colours" size="lg" />
 
           {/* Sticks to the bottom of a phone screen while the preview scrolls past. */}
           <div className="fixed inset-x-0 bottom-0 z-10 border-t border-hairline bg-white p-4 sm:static sm:mt-7 sm:border-0 sm:bg-transparent sm:p-0">
@@ -222,7 +246,15 @@ function TemplatePreview({
             <h3 className="font-display text-2xl font-semibold text-forest">More like this</h3>
             <div className="mt-4 grid grid-cols-2 gap-x-3.5 gap-y-5 sm:gap-6 lg:grid-cols-4">
               {more.map((t) => (
-                <TemplateTile key={t.id} template={t} design={looks.get(t.id)!} onOpen={() => onOpen(t.id)} {...shared} />
+                <TemplateTile
+                  key={t.id}
+                  template={t}
+                  look={looks.get(t.id)!}
+                  palette={picks[t.id] ?? null}
+                  onPalette={onPick(t.id)}
+                  onOpen={() => onOpen(t.id)}
+                  {...shared}
+                />
               ))}
             </div>
           </div>
@@ -232,17 +264,47 @@ function TemplatePreview({
   );
 }
 
+/** "As designed" and the template's other colourways, as a radio row. */
+function Swatches({
+  look,
+  options,
+  palette,
+  onPick,
+  label,
+  size,
+}: {
+  look: SiteDesign;
+  options: Palette[];
+  palette: string | null;
+  onPick: (palette: string | null) => void;
+  label: string;
+  /** Small under a gallery card, large in the preview. */
+  size: "sm" | "lg";
+}) {
+  const own = resolveDesign(look);
+  return (
+    <div className={`flex ${size === "sm" ? "mt-2 gap-3" : "mt-2 gap-2.5"}`} role="radiogroup" aria-label={label}>
+      <Swatch label="As designed" bg={own.theme.bg} accent={own.accent} on={!palette} size={size} onPick={() => onPick(null)} />
+      {options.map((p) => (
+        <Swatch key={p.id} label={p.name} bg={p.bg} accent={p.accent} on={palette === p.id} size={size} onPick={() => onPick(p.id)} />
+      ))}
+    </div>
+  );
+}
+
 function Swatch({
   label,
   bg,
   accent,
   on,
+  size,
   onPick,
 }: {
   label: string;
   bg: string;
   accent: string;
   on: boolean;
+  size: "sm" | "lg";
   onPick: () => void;
 }) {
   return (
@@ -253,9 +315,16 @@ function Swatch({
       aria-label={label}
       title={label}
       onClick={onPick}
-      className={`h-9 w-9 rounded-full ${on ? "ring-2 ring-[#2243B6] ring-offset-2" : "ring-1 ring-ink/15"}`}
-      style={{ background: `linear-gradient(135deg, ${bg} 50%, ${accent} 50%)` }}
-    />
+      // The small ones keep a 32px tap target around a 20px dot.
+      className={size === "sm" ? "-m-1.5 flex h-8 w-8 items-center justify-center" : "flex"}
+    >
+      <span
+        className={`block rounded-full ${size === "sm" ? "h-5 w-5" : "h-9 w-9"} ${
+          on ? "ring-2 ring-[#2243B6] ring-offset-2" : "ring-1 ring-ink/15"
+        }`}
+        style={{ background: `linear-gradient(135deg, ${bg} 50%, ${accent} 50%)` }}
+      />
+    </button>
   );
 }
 
@@ -327,25 +396,60 @@ function LivePreview({ design }: { design: SiteDesign }) {
   );
 }
 
+function withPalette(look: SiteDesign, id: string | null): SiteDesign {
+  const p = PALETTES.find((q) => q.id === id);
+  return p ? { ...look, accent: p.accent, colors: { bg: p.bg, ink: p.ink, heading: p.heading } } : look;
+}
+
 /**
- * Three palettes to try on a template: as light or dark as it is, from
- * colour families other than its own, different for each template.
+ * Three palettes to try on a template, different for each one: two as light
+ * or dark as it is, from colour families other than its own, then its
+ * evening (or daytime) version -- the opposite shade in its own colour.
  */
-function colourOptions(template: SiteTemplate, look: SiteDesign) {
-  const dark = isDark(resolveDesign(look).theme.bg);
+function colourOptions(template: SiteTemplate, look: SiteDesign): Palette[] {
+  const { theme, heading } = resolveDesign(look);
+  const dark = isDark(theme.bg);
   const own = PALETTES.find((p) => p.id === template.palette);
   const offset = [...template.id].reduce((n, c) => n + c.charCodeAt(0), 0);
   const pool = PALETTES.filter((p) => isDark(p.bg) === dark && p.id !== template.palette && p.family !== own?.family);
-  const picked: (typeof PALETTES)[number][] = [];
-  for (let i = 0; i < pool.length && picked.length < 3; i++) {
+  const picked: Palette[] = [];
+  for (let i = 0; i < pool.length && picked.length < 2; i++) {
     const p = pool[(offset + i * 5) % pool.length];
     if (!picked.some((q) => q.family === p.family)) picked.push(p);
   }
-  return picked;
+  // A light page's colour is in its headings; a dark page's is the page itself.
+  const key = keyColour(dark ? theme.bg : heading);
+  const flip = PALETTES.filter((p) => isDark(p.bg) !== dark)
+    .map((p, i) => ({ p, i, d: hueDistance(key, keyColour(isDark(p.bg) ? p.bg : p.heading)) }))
+    .sort((a, b) => a.d - b.d || ((a.i + offset) % 7) - ((b.i + offset) % 7))[0]?.p;
+  return flip ? [...picked, flip] : picked;
 }
 
 function isDark(hex: string) {
-  const n = parseInt(hex.replace("#", "").slice(0, 6), 16);
-  const [r, g, b] = [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+  const [r, g, b] = rgb(hex);
   return 0.299 * r + 0.587 * g + 0.114 * b < 128;
+}
+
+function rgb(hex: string) {
+  const n = parseInt(hex.replace("#", "").slice(0, 6), 16);
+  return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+}
+
+/** Hue in degrees and saturation 0-1 (HSV). */
+function keyColour(hex: string) {
+  const [r, g, b] = rgb(hex).map((c) => c / 255);
+  const max = Math.max(r, g, b);
+  const d = max - Math.min(r, g, b);
+  const sat = max ? d / max : 0;
+  const hue = !d ? 0 : max === r ? ((g - b) / d) % 6 : max === g ? (b - r) / d + 2 : (r - g) / d + 4;
+  return { hue: (hue * 60 + 360) % 360, sat };
+}
+
+/** 0 for the same colour family, up to 2 for greys against strong colours. */
+function hueDistance(a: { hue: number; sat: number }, b: { hue: number; sat: number }) {
+  const greyA = a.sat < 0.2;
+  const greyB = b.sat < 0.2;
+  if (greyA || greyB) return greyA && greyB ? 0 : 2;
+  const h = Math.abs(a.hue - b.hue);
+  return Math.min(h, 360 - h) / 180;
 }
