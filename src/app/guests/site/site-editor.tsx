@@ -1511,12 +1511,16 @@ function PreviewStage({
     const bar = 36 + 40; // browser bar above, zoom bar below
     const frameH = Math.max(0, size.h - bottomInset - bar);
     outer = { width: size.w, height: frameH };
-    // The site sits centred in the frame; zoomed past the frame's width it
-    // overflows and the frame scrolls sideways.
-    site = { width: DESKTOP_W * scale, height: frameH, margin: "0 auto", overflow: "hidden" };
+    // The site's window stays the size it is at "Fit" whatever the zoom, so
+    // zooming only makes the page bigger or smaller. Sizing it by the zoom
+    // made a 10% zoom a window ten screens tall, and full-height sections
+    // stretched to fill it. Zoomed out it sits centred; zoomed in it
+    // overflows and the frame scrolls.
+    const viewH = frameH / fitScale;
+    site = { width: DESKTOP_W * scale, height: viewH * scale, margin: "0 auto", overflow: "hidden" };
     inner = {
       width: DESKTOP_W,
-      height: frameH / scale,
+      height: viewH,
       transform: `scale(${scale})`,
       transformOrigin: "top left",
     };
@@ -1561,7 +1565,7 @@ function PreviewStage({
         )}
         <div
           ref={scrollerRef}
-          className={site ? "relative overflow-x-auto overflow-y-hidden" : "overflow-hidden"}
+          className={site ? "relative overflow-auto" : "overflow-hidden"}
           style={outer}
         >
           <div style={site ?? undefined}>
