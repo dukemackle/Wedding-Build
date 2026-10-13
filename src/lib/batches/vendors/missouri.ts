@@ -254,7 +254,7 @@ Blue Diamond Events	Music		Columbia	Missouri	Missouri and destination couples	Co
     name: "Branson: videography and cake",
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
 Marked Wedding Films	Videography		Branson	Missouri	Branson, Table Rock Lake, Springfield and Northwest Arkansas	Branson wedding videographer producing colour-graded cinematic highlight films, delivered online in 4K.			https://markedweddingfilms.com/	
-Aaron Clark Photography	Videography		Branson	Missouri	Branson and surrounding areas, with destination weddings	Branson team offering wedding videography from simple ceremony films to documentary-style edits with interviews, alone or with photos.			https://www.aaronclarkphotography.com/videography	
+Aaron Clark Photography	Videography		Branson	Missouri	Branson and surrounding areas, with destination weddings	Branson team offering wedding videography from simple ceremony films to documentary-style edits with interviews, alone or with photos.			https://www.aaronclarkphotography.com/videography	`,
   },
   {
     name: "Joplin: photography and hair & makeup",
