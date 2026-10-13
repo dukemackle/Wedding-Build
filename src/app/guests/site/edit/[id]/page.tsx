@@ -20,12 +20,14 @@ import { parseSiteDesign } from "@/lib/site-design-schema";
 import { HeroPhotoPanel } from "../../../hero-photo-panel";
 import { GalleryPanel } from "../../../gallery-panel";
 import { liveDetailsOf } from "@/lib/site-live";
+import { asksMeal, mealChoices } from "@/lib/meal-options";
 import { VenuePhotosPanel } from "../../../venue-photos-panel";
 import { Accommodations, DressAndTravel, Faqs, OwnVenue } from "../../../guest-site-details";
 import { RegistryManager } from "../../../registry-manager";
 import { SiteEditor } from "../../site-editor";
 import type { ChecklistItem, SectionInfo } from "../../editor-tabs";
 import { BlockEditor } from "../../block-editor";
+import { RsvpQuestions } from "../../rsvp-questions";
 import { PartySitePanel } from "../../../party-site-panel";
 
 /**
@@ -164,6 +166,8 @@ export default async function GuestSiteEditorPage({ params }: { params: Promise<
       ownVenuePhotos,
       wedding.dress_code,
       wedding.travel_notes,
+      wedding.meal_options,
+      wedding.ask_dietary,
       galleryPhotos,
       faqs,
       accommodations,
@@ -186,14 +190,16 @@ export default async function GuestSiteEditorPage({ params }: { params: Promise<
   const hidden = " — hidden until you add one";
 
   const sectionInfo: Record<SectionId, SectionInfo> = {
-    rsvp: wedding.rsvp_deadline
-      ? { status: `Replies by ${formatDate(wedding.rsvp_deadline)}`, layout: "rsvp" }
-      : {
-          layout: "rsvp",
-          status: "Deadline not set",
-          warn: true,
-          link: { href: "/dashboard", label: "Set an RSVP deadline on the Dashboard" },
-        },
+    rsvp: {
+      layout: "rsvp",
+      status: [
+        wedding.rsvp_deadline ? `Replies by ${formatDate(wedding.rsvp_deadline)}` : "Deadline not set",
+        asksMeal(wedding.meal_options) ? `${mealChoices(wedding.meal_options).length} meal choices` : "no meal choice",
+      ].join(" · "),
+      warn: !wedding.rsvp_deadline,
+      link: wedding.rsvp_deadline ? undefined : { href: "/dashboard", label: "Set an RSVP deadline on the Dashboard" },
+      editor: <RsvpQuestions mealOptions={wedding.meal_options ?? null} askDietary={wedding.ask_dietary !== false} />,
+    },
     photos: {
       status: [
         wedding.hero_photo_url ? "Banner photo" : venuePhotos ? "Venue's photo as banner" : "No banner photo",

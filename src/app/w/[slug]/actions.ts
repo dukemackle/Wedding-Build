@@ -137,6 +137,7 @@ export async function submitRsvp(formData: FormData): Promise<{ error?: string }
   }
   const photoUrl = upload.photoUrl;
   const events = await eventAnswers(formData, weddingId, guestName, status === "confirmed");
+  const dietary = field(formData, "dietary", 300);
 
   const { error } = await supabase.from("rsvp_submissions").insert({
     wedding_id: weddingId,
@@ -156,6 +157,8 @@ export async function submitRsvp(formData: FormData): Promise<{ error?: string }
     phone: field(formData, "phone", 30),
     sms_opt_in: formData.get("sms_opt_in") === "on",
     ...(events ? { events } : {}),
+    // Only sent when answered, so RSVPs keep working before migration 0116.
+    ...(dietary ? { dietary } : {}),
   });
 
   if (error) {

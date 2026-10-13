@@ -43,6 +43,10 @@ export type Wedding = {
   gift_zelle: string | null;
   /** Where gifts ship; shown only to a guest who has just claimed one. */
   gift_ship_to: string | null;
+  /** The couple's menu (0116); null offers MEAL_OPTIONS, fewer than two asks nothing. */
+  meal_options: string[] | null;
+  /** Ask guests about allergies and dietary needs on the RSVP (0116). */
+  ask_dietary: boolean;
   is_test: boolean;
   /** Everyone besides the owner who can open this wedding -- kept in step with wedding_members by a trigger. */
   member_ids: string[];
@@ -98,6 +102,8 @@ export type PublicWedding = {
   gift_paypal: string | null;
   gift_cashapp: string | null;
   gift_zelle: string | null;
+  meal_options: string[] | null;
+  ask_dietary: boolean;
 };
 
 export type WeddingFaq = {
@@ -135,6 +141,8 @@ export type RsvpSubmission = {
   plus_one_name: string | null;
   status: RsvpStatus;
   meal: string | null;
+  /** Their answer to "Any allergies or dietary needs?" (0116). */
+  dietary: string | null;
   notes: string | null;
   photo_url: string | null;
   message: string | null;
