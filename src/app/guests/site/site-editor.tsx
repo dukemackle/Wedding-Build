@@ -16,6 +16,7 @@ import {
   COLOR_FAMILIES,
   EMPTY_TEXT_STYLE,
   TEXT_SLOTS,
+  textSlotMax,
   hasTextStyle,
   PALETTES,
   THEMES,
@@ -448,7 +449,7 @@ export function SiteEditor({
       }
       if (event.data?.type === TEXT_EDIT_MESSAGE && typeof event.data.text === "string") {
         const slot = TEXT_SLOTS.find((s) => s.id === event.data.slot);
-        if (slot?.words) onTypedText(slot.id, event.data.text.slice(0, 120));
+        if (slot?.words) onTypedText(slot.id, event.data.text.slice(0, textSlotMax(slot.id)));
       }
     }
     window.addEventListener("message", onMessage);

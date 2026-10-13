@@ -85,7 +85,7 @@ const motionSchema = z
 
 /** Each null means the theme's own. */
 const textStyleSchema = z.object({
-  text: z.string().trim().max(120).nullable().catch(null),
+  text: z.string().trim().max(1000).nullable().catch(null),
   font: z.enum(FONT_IDS).nullable().catch(null),
   size: z.number().min(0.5).max(2.5).nullable().catch(null),
   color: z.string().regex(HEX).nullable().catch(null),

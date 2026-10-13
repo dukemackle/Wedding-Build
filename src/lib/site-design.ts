@@ -1053,6 +1053,9 @@ export const TEXT_SLOTS = [
   { id: "photos.title", label: "Photos heading", words: true },
   { id: "party.title", label: "Wedding party heading", words: true },
   { id: "venue.title", label: "Venue heading", words: true },
+  { id: "venue.name", label: "Venue name", words: true },
+  { id: "venue.place", label: "Venue town", words: true },
+  { id: "venue.about", label: "Venue description", words: true },
   { id: "weekend.title", label: "Schedule heading", words: true },
   { id: "wall.title", label: "Photo wall heading", words: true },
   { id: "guests.title", label: "Who's coming heading", words: false },
@@ -1064,6 +1067,18 @@ export const TEXT_SLOTS = [
 export type TextSlotId = (typeof TEXT_SLOTS)[number]["id"];
 
 export const TEXT_SLOT_IDS = new Set<string>(TEXT_SLOTS.map((s) => s.id));
+
+/** Paragraphs rather than lines: they keep their line breaks and run longer. */
+const LONG_TEXT_SLOTS = new Set<TextSlotId>(["venue.about"]);
+
+export function isLongTextSlot(slot: TextSlotId) {
+  return LONG_TEXT_SLOTS.has(slot);
+}
+
+/** Most retyped words are a line; a paragraph slot gets room for a few. */
+export function textSlotMax(slot: TextSlotId) {
+  return isLongTextSlot(slot) ? 1000 : 120;
+}
 
 /** Size steps for the toolbar's − and +, as a multiple of the slot's own size. */
 export const TEXT_SIZES = [0.625, 0.75, 0.875, 1, 1.125, 1.25, 1.5, 1.75, 2] as const;

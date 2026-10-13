@@ -2,7 +2,7 @@
 
 import { useRef, type CSSProperties, type KeyboardEvent, type ReactNode } from "react";
 import { TEXT_EDIT_MESSAGE, useSiteDesign, useTextEditing } from "@/components/guest-site-theme";
-import { TEXT_SLOTS, textSlotCss, type TextSlotId } from "@/lib/site-design";
+import { TEXT_SLOTS, isLongTextSlot, textSlotCss, type TextSlotId } from "@/lib/site-design";
 
 /**
  * SiteText in the editor's preview: click to pick, and type to retype
@@ -29,6 +29,7 @@ export function EditableSiteText({
   const text = words && own?.text ? own.text : null;
   const isSelected = selected === slot;
   const typing = isSelected && words;
+  const long = isLongTextSlot(slot);
   const ref = useRef<HTMLSpanElement>(null);
   const before = useRef("");
 
@@ -36,7 +37,13 @@ export function EditableSiteText({
   const inner = own?.size ? { fontSize: `${own.size}em` } : undefined;
 
   function save() {
-    const typed = ref.current?.innerText.replace(/\s+/g, " ").trim() ?? "";
+    const raw = ref.current?.innerText ?? "";
+    // A paragraph keeps its line breaks (at most one blank line); a heading is one line.
+    const typed = (
+      long
+        ? raw.replace(/\r/g, "").replace(/[ \t]+/g, " ").replace(/ *\n */g, "\n").replace(/\n{3,}/g, "\n\n")
+        : raw.replace(/\s+/g, " ")
+    ).trim();
     if (typed === before.current) return;
     if (!typed && !text) {
       // Already the usual words, so nothing re-renders: put them back by hand.
@@ -48,7 +55,8 @@ export function EditableSiteText({
   }
 
   function onKeyDown(event: KeyboardEvent) {
-    if (event.key === "Enter" || event.key === "Escape") {
+    // Enter starts a new line in a paragraph; Escape always finishes.
+    if ((event.key === "Enter" && !long) || event.key === "Escape") {
       event.preventDefault();
       (event.currentTarget as HTMLElement).blur();
     }
