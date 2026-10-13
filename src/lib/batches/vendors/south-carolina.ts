@@ -189,7 +189,6 @@ Player Films	Videography	3518 St James Ave	Myrtle Beach	South Carolina	Myrtle Be
   {
     name: "Hilton Head: photography and videography",
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
-Jaclyn Armeni Photography	Photography		Hilton Head Island	South Carolina	Hilton Head and the Lowcountry, plus destination weddings	Husband-and-wife team shooting relaxed, candid weddings and sunset beach sessions on Hilton Head and across the Lowcountry.			https://jaclynarmeniphotography.com/	
 Lisa Staff Photography	Photography		Hilton Head Island	South Carolina	Hilton Head, Bluffton, Beaufort, Charleston, Savannah and the wider Lowcountry	Romantic, timeless wedding photography from Hilton Head Island, with heirloom albums and travel across the Lowcountry and coastal Georgia.		843-422-0197	https://lisastaffphoto.com/	https://www.instagram.com/lisastaffphoto/
 Stories and Stills	Videography		Aiken	South Carolina	All of South Carolina, including Hilton Head Island, with no travel fees	Photo and 4K cinematic wedding film studio with in-house editing, covering Hilton Head weddings alongside Charleston, Columbia and Greenville.	contact@storiesandstills.com	(843) 518-0020	https://www.storiesandstills.com/	https://www.instagram.com/the_stories_and_stills/`,
   },
