@@ -263,6 +263,11 @@ Taylor Jean Roark	Photography		Joplin	Missouri	Joplin, Northwest Arkansas, Tulsa
 Beauty of Grace Photography	Photography		Joplin	Missouri	Joplin, Springfield, St. Louis and beyond	Joplin photographer capturing candid, documentary-style weddings, from elopements to full days, with film, albums and prints available.			https://www.beautyofgracephotos.com/weddinginfo	https://www.instagram.com/beautyofgracephotos/
 Aubrey Cooke Makeup	Hair & Makeup		Joplin	Missouri	Missouri	Joplin-based freelance makeup artist and hair stylist who takes bridal bookings alongside glamour and headshot work.	aubreyscooke@gmail.com		https://www.aubreycookemakeup.com/	https://www.instagram.com/aubreyscooke/`,
   },
+  {
+    name: "Lake of the Ozarks: rentals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Laurie Tent & Event Rental	Rentals		Laurie	Missouri	Lake of the Ozarks and surrounding area	Tent, table, chair, dance floor and arbor hire for lakeside weddings from a company serving the lake for over thirty years, with year-round service.	laurietentrental@gmail.com	573-374-8368	http://laurierental.com/	`,
+  },
 ];
 
 export default batches;
