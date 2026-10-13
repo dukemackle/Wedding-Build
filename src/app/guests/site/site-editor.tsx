@@ -1040,8 +1040,10 @@ export function SiteEditor({
           </div>
         )}
 
+        {/* Its own strip above the preview, so the selection bar never sits on the page it edits. */}
+        <div className="flex h-[52px] shrink-0 items-start justify-center px-3">
         {canvasSel && !textSlot && (
-          <div className={`absolute inset-x-3 z-20 flex justify-center top-[64px]`}>
+          <div className="relative z-20 flex max-w-full justify-center">
             <CanvasToolbar
               design={design}
               selection={canvasSel}
@@ -1058,7 +1060,7 @@ export function SiteEditor({
         )}
 
         {textSlot && (
-          <div className={`absolute inset-x-3 z-20 flex justify-center top-[64px]`}>
+          <div className="relative z-20 flex max-w-full justify-center">
             <TextToolbar
               slot={textSlot}
               design={design}
@@ -1067,6 +1069,7 @@ export function SiteEditor({
             />
           </div>
         )}
+        </div>
 
         <PreviewStage
           device={device}
