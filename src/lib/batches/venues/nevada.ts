@@ -71,7 +71,7 @@ The Reason's Banquet Hall and Event Center II	3277 W Craig Rd	North Las Vegas	Ne
   {
     name: "Las Vegas, Reno, Laughlin and rural Nevada venues",
     tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
-Winters Creek Lodge		Reno	Nevada			Barn / Rustic	Indoor & Outdoor	130	Simple	Private ski-area lodge on Mt. Rose with glass walls, an indoor bar and dance area, and an 8,000 sq ft outdoor deck, rented exclusively for weddings.		800-754-7673	https://skirose.com/weddings-and-events
+Winters Creek Lodge		Reno	Nevada			Barn / Rustic	Indoor & Outdoor	130		Private ski-area lodge on Mt. Rose with glass walls, an indoor bar and dance area, and an 8,000 sq ft outdoor deck, rented exclusively for weddings.		800-754-7673	https://skirose.com/weddings-and-events
 Grand Sierra Resort	2500 E 2nd St	Reno	Nevada			Ballroom / Hotel				Resort with a wedding chapel and reception venues, where weddings are booked as ceremony plus reception.	Weddings@GrandSierraResort.com	775-789-2472	https://www.grandsierraresort.com/weddings
 Atlantis Casino Resort Spa	3800 S. Virginia Street	Reno	Nevada			Ballroom / Hotel	Indoor			Resort with two ballrooms and breakout rooms for wedding receptions, offering several wedding packages.		775-825-4700	https://atlantiscasino.com/more/weddings
 Brewery Arts Center	449 W King St	Carson City	Nevada			Ballroom / Hotel	Indoor		Simple	Arts campus that rents its Grand Ballroom, performance hall and black box theater for weddings, with wedding rentals starting at $3,500.	val@breweryarts.org	775-883-1976	https://breweryarts.org/rentals/
