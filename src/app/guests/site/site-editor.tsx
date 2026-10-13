@@ -97,6 +97,9 @@ const TABS: { key: Tab; label: string }[] = [
 // not the page squeezed into whatever room the editor leaves.
 const DESKTOP_W = 1280;
 const PHONE_W = 390;
+/** Desktop preview zoom range, as in Canva's zoom bar. */
+const ZOOM_MIN = 0.1;
+const ZOOM_MAX = 2;
 const PHONE_H = 844;
 
 const LG = "(min-width: 1024px)";
@@ -1404,8 +1407,45 @@ function PreviewStage({
     return () => observer.disconnect();
   }, []);
 
+  // Desktop zoom: null follows the window ("Fit"), a number is a zoom the
+  // couple picked with the slider or ctrl/cmd + wheel.
+  const [zoom, setZoom] = useState<number | null>(null);
+  const scrollerRef = useRef<HTMLDivElement>(null);
+  const fitScale = Math.min(1, size.w / DESKTOP_W) || 1;
+  const phoneBezel = 10;
+  const phoneScale =
+    Math.min(1, Math.max(0, size.h - bottomInset - 8) / (PHONE_H + phoneBezel * 2), size.w / (PHONE_W + phoneBezel * 2)) || 1;
+  // How far the iframe is scaled down (or up) to fit the stage.
+  const scale = fill ? 1 : device === "desktop" ? (zoom ?? fitScale) : phoneScale;
+
+  // Wheel over the iframe scrolls the site natively, but the events never
+  // reach this page. Wheel anywhere else on the stage (the margins, the
+  // browser bar) is passed into the site so it scrolls the same way.
+  const onWheel = useEffectEvent((event: WheelEvent) => {
+    const win = frameRef.current?.contentWindow;
+    if (!win) return;
+    event.preventDefault();
+    const unit = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? size.h : 1;
+    if ((event.ctrlKey || event.metaKey) && device === "desktop" && !fill) {
+      const next = (zoom ?? fitScale) * Math.exp(-event.deltaY * unit * 0.002);
+      setZoom(Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, next)));
+      return;
+    }
+    win.scrollBy(0, (event.deltaY * unit) / scale);
+    if (event.deltaX && scrollerRef.current) scrollerRef.current.scrollLeft += event.deltaX * unit;
+  });
+
+  useEffect(() => {
+    const el = stageRef.current;
+    if (!el) return;
+    const listener = (event: WheelEvent) => onWheel(event);
+    el.addEventListener("wheel", listener, { passive: false });
+    return () => el.removeEventListener("wheel", listener);
+  }, []);
+
   let outer: React.CSSProperties;
   let inner: React.CSSProperties;
+  let site: React.CSSProperties | null = null;
   let chrome: "browser" | "phone" | "none";
 
   if (fill) {
@@ -1414,10 +1454,12 @@ function PreviewStage({
     inner = { width: "100%", height: "100%" };
   } else if (device === "desktop") {
     chrome = "browser";
-    const bar = 36;
-    const scale = Math.min(1, size.w / DESKTOP_W) || 1;
+    const bar = 36 + 40; // browser bar above, zoom bar below
     const frameH = Math.max(0, size.h - bottomInset - bar);
     outer = { width: size.w, height: frameH };
+    // The site sits centred in the frame; zoomed past the frame's width it
+    // overflows and the frame scrolls sideways.
+    site = { width: DESKTOP_W * scale, height: frameH, margin: "0 auto", overflow: "hidden" };
     inner = {
       width: DESKTOP_W,
       height: frameH / scale,
@@ -1426,9 +1468,6 @@ function PreviewStage({
     };
   } else {
     chrome = "phone";
-    const bezel = 10;
-    const available = Math.max(0, size.h - bottomInset - 8);
-    const scale = Math.min(1, available / (PHONE_H + bezel * 2), size.w / (PHONE_W + bezel * 2)) || 1;
     outer = { width: PHONE_W * scale, height: PHONE_H * scale };
     inner = {
       width: PHONE_W,
@@ -1466,15 +1505,48 @@ function PreviewStage({
             </span>
           </div>
         )}
-        <div className="overflow-hidden" style={outer}>
-          <iframe
-            ref={frameRef}
-            src={`/guests/site/preview?design=${designId}`}
-            title="Guest site preview"
-            className="block border-0 bg-card"
-            style={inner}
-          />
+        <div
+          ref={scrollerRef}
+          className={site ? "relative overflow-x-auto overflow-y-hidden" : "overflow-hidden"}
+          style={outer}
+        >
+          <div style={site ?? undefined}>
+            <iframe
+              ref={frameRef}
+              src={`/guests/site/preview?design=${designId}`}
+              title="Guest site preview"
+              className="block border-0 bg-card"
+              style={inner}
+            />
+          </div>
         </div>
+        {chrome === "browser" && (
+          <div className="flex h-10 shrink-0 items-center justify-end gap-3 border-t border-hairline bg-[#f7f7f5] px-4">
+            <button
+              type="button"
+              onClick={() => setZoom(null)}
+              aria-pressed={zoom === null}
+              className={`rounded-md px-2 py-0.5 text-xs ${
+                zoom === null ? "bg-[#2243B6]/10 font-semibold text-[#2243B6]" : "text-ink/60 hover:text-ink"
+              }`}
+            >
+              Fit
+            </button>
+            <input
+              type="range"
+              min={ZOOM_MIN * 100}
+              max={ZOOM_MAX * 100}
+              step={1}
+              value={Math.round((zoom ?? fitScale) * 100)}
+              onChange={(e) => setZoom(Number(e.target.value) / 100)}
+              aria-label="Zoom"
+              className="w-40 accent-[#2243B6]"
+            />
+            <span className="w-10 text-right text-xs tabular-nums text-ink/70">
+              {Math.round((zoom ?? fitScale) * 100)}%
+            </span>
+          </div>
+        )}
       </div>
     </div>
   );
