@@ -234,6 +234,9 @@ export function GuestSiteView({
             weddingId={wedding.id}
             partnerAName={wedding.partner_a_name}
             partnerBName={wedding.partner_b_name}
+            mealOptions={wedding.meal_options}
+            // Undefined until migration 0116 runs: ask, as the default does.
+            askDietary={wedding.ask_dietary !== false}
             shareHref={shareHref}
           />
         }

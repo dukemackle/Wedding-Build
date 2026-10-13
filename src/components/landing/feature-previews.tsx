@@ -790,7 +790,7 @@ const DEMO_GUESTS: {
 ];
 
 const INCOMING = [
-  { name: "Priya S.", reply: "Joyfully accepts", meal: "Salmon", status: "confirmed" as const },
+  { name: "Priya S.", reply: "Joyfully accepts", meal: "Salmon · Dietary: nut allergy", status: "confirmed" as const },
   { name: "Uncle Joe", reply: "Joyfully accepts", meal: "Chicken", status: "confirmed" as const },
 ];
 
