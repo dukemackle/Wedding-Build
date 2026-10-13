@@ -1109,6 +1109,17 @@ export const BG_PATTERNS = [
   { id: "scallops", label: "Scallops" },
   { id: "deco", label: "Deco fans" },
   { id: "sunburst", label: "Sunburst" },
+  { id: "polka", label: "Polka dots" },
+  { id: "confetti", label: "Confetti" },
+  { id: "rings", label: "Rings" },
+  { id: "quatrefoil", label: "Quatrefoil" },
+  { id: "trellis", label: "Trellis" },
+  { id: "checks", label: "Checks" },
+  { id: "tartan", label: "Tartan" },
+  { id: "ticking", label: "Ticking" },
+  { id: "cabana", label: "Cabana" },
+  { id: "waves", label: "Waves" },
+  { id: "pennants", label: "Pennants" },
 ] as const;
 
 export const BG_TEXTURES = [
@@ -1120,6 +1131,14 @@ export const BG_TEXTURES = [
   { id: "flecks", label: "Foil flecks" },
   { id: "silk", label: "Silk sheen" },
   { id: "glow", label: "Soft edges" },
+  { id: "grain", label: "Film grain" },
+  { id: "fibre", label: "Handmade paper" },
+  { id: "terrazzo", label: "Terrazzo" },
+  { id: "glitter", label: "Glitter" },
+  { id: "bokeh", label: "Bokeh" },
+  { id: "ombre", label: "Ombré" },
+  { id: "golden", label: "Golden hour" },
+  { id: "velvet", label: "Velvet" },
 ] as const;
 
 /**
@@ -1334,6 +1353,14 @@ const PAPER =
 const MARBLE =
   "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='640' height='640'%3E%3Cfilter id='m'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.0035 .011' numOctaves='5' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .45 0 0 0 0 .45 0 0 0 0 .45 1 0 0 0 0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='table' tableValues='0 0 0 .16 0 0 0 0 .11 0 0 0'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23m)'/%3E%3C/svg%3E\")";
 
+// Finer, denser noise than paper, like film grain.
+const GRAIN =
+  "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.6' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 .24 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E\")";
+
+// Noise stretched one way into long grey fibres, like handmade paper.
+const FIBRE =
+  "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.012 .35' numOctaves='3' seed='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .45 0 0 0 0 .45 0 0 0 0 .45 1 0 0 0 0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='table' tableValues='0 0 0 0 .1 0 .14 0 0'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E\")";
+
 /**
  * The Background panel's pattern and texture as CSS layers, drawn in the
  * site's own accent and ink so they follow every palette. Patterns sit over
@@ -1369,6 +1396,55 @@ export function backgroundLayers(background: SiteDesign["background"]): { image:
     ]);
   if (background.pattern === "sunburst")
     layers.push([`repeating-conic-gradient(from 0deg at 50% 0%, ${tint(7)} 0 3deg, transparent 3deg 9deg)`, "100% 100%"]);
+  if (background.pattern === "polka")
+    // Two dots per tile, the second offset half a tile, so rows alternate.
+    layers.push(
+      [`radial-gradient(circle at 25% 25%, ${tint(18)} 0 3.5px, transparent 4px)`, "32px 32px"],
+      [`radial-gradient(circle at 75% 75%, ${tint(18)} 0 3.5px, transparent 4px)`, "32px 32px"],
+    );
+  if (background.pattern === "confetti")
+    layers.push(
+      [`radial-gradient(circle at 20% 30%, ${tint(32)} 0 2.5px, transparent 3px)`, "29px 31px"],
+      [`radial-gradient(circle at 70% 60%, ${tint(36, "--site-accent-2")} 0 2px, transparent 2.5px)`, "37px 23px"],
+      [`radial-gradient(circle at 40% 80%, ${tint(26)} 0 1.5px, transparent 2px)`, "19px 41px"],
+    );
+  if (background.pattern === "rings")
+    // A pair of linked rings in each tile.
+    layers.push(
+      [`radial-gradient(circle at 38% 50%, transparent 0 7px, ${tint(22)} 7px 8.5px, transparent 9px)`, "48px 36px"],
+      [`radial-gradient(circle at 62% 50%, transparent 0 7px, ${tint(22, "--site-accent-2")} 7px 8.5px, transparent 9px)`, "48px 36px"],
+    );
+  if (background.pattern === "quatrefoil")
+    // Four discs round each tile's centre make the four-leaf shape.
+    layers.push(
+      ...["50% 28%", "28% 50%", "72% 50%", "50% 72%"].map(
+        (at): [string, string] => [`radial-gradient(circle at ${at}, ${tint(12)} 0 5px, transparent 5.5px)`, "32px 32px"],
+      ),
+    );
+  if (background.pattern === "trellis")
+    layers.push(
+      [`repeating-linear-gradient(45deg, ${tint(14)} 0 1px, transparent 1px 18px)`, "auto"],
+      [`repeating-linear-gradient(-45deg, ${tint(14)} 0 1px, transparent 1px 18px)`, "auto"],
+    );
+  if (background.pattern === "checks")
+    layers.push([`conic-gradient(${tint(10)} 25%, transparent 0 50%, ${tint(10)} 0 75%, transparent 0)`, "24px 24px"]);
+  if (background.pattern === "tartan")
+    layers.push(
+      [`repeating-linear-gradient(90deg, ${tint(10)} 0 10px, transparent 10px 22px, ${tint(14, "--site-accent-2")} 22px 24px, transparent 24px 40px)`, "auto"],
+      [`repeating-linear-gradient(0deg, ${tint(10)} 0 10px, transparent 10px 22px, ${tint(14, "--site-accent-2")} 22px 24px, transparent 24px 40px)`, "auto"],
+    );
+  if (background.pattern === "ticking")
+    layers.push([`repeating-linear-gradient(90deg, ${tint(18)} 0 1px, transparent 1px 4px, ${tint(18)} 4px 5px, transparent 5px 26px)`, "auto"]);
+  if (background.pattern === "cabana")
+    layers.push([`repeating-linear-gradient(90deg, ${tint(9)} 0 18px, transparent 18px 36px)`, "auto"]);
+  if (background.pattern === "waves")
+    // Half rings facing up and down, side by side, join into a wave.
+    layers.push(
+      [`radial-gradient(circle at 25% 100%, transparent 0 7px, ${tint(18)} 7px 8.5px, transparent 9px)`, "32px 16px"],
+      [`radial-gradient(circle at 75% 0%, transparent 0 7px, ${tint(18)} 7px 8.5px, transparent 9px)`, "32px 16px"],
+    );
+  if (background.pattern === "pennants")
+    layers.push([`conic-gradient(from 315deg at 50% 58%, ${tint(14)} 0 90deg, transparent 0)`, "28px 24px"]);
   if (background.texture === "linen")
     layers.push(
       [`repeating-linear-gradient(0deg, ${tint(4, "--color-ink")} 0 1px, transparent 1px 3px)`, "auto"],
@@ -1396,6 +1472,39 @@ export function backgroundLayers(background: SiteDesign["background"]): { image:
     ]);
   if (background.texture === "glow")
     layers.push([`radial-gradient(ellipse 80% 70% at 50% 40%, transparent 55%, ${tint(12, "--color-ink")})`, "100% 100%"]);
+  if (background.texture === "grain") layers.push([GRAIN, "120px 120px"]);
+  if (background.texture === "fibre") layers.push([FIBRE, "300px 300px"]);
+  if (background.texture === "terrazzo")
+    // Chips in the accent, the second accent and the ink, on odd grids.
+    layers.push(
+      [`radial-gradient(ellipse 4px 3px at 30% 40%, ${tint(26)} 0 90%, transparent)`, "43px 47px"],
+      [`radial-gradient(ellipse 3px 4.5px at 60% 70%, ${tint(28, "--site-accent-2")} 0 90%, transparent)`, "59px 67px"],
+      [`radial-gradient(ellipse 2.5px 2px at 50% 50%, ${tint(16, "--color-ink")} 0 90%, transparent)`, "31px 37px"],
+      [`radial-gradient(ellipse 6px 4px at 20% 80%, ${tint(14)} 0 90%, transparent)`, "97px 89px"],
+    );
+  if (background.texture === "glitter")
+    layers.push(
+      [`radial-gradient(rgb(255 255 255 / 0.9) 0.6px, transparent 1.1px)`, "13px 17px"],
+      [`radial-gradient(${tint(60)} 0.6px, transparent 1.1px)`, "19px 23px"],
+      [`radial-gradient(${tint(50, "--site-accent-2")} 0.5px, transparent 1px)`, "29px 11px"],
+    );
+  if (background.texture === "bokeh")
+    layers.push(
+      [`radial-gradient(circle at 30% 30%, ${tint(24)} 0 8px, transparent 22px)`, "97px 113px"],
+      [`radial-gradient(circle at 70% 60%, ${tint(20, "--site-accent-2")} 0 10px, transparent 28px)`, "151px 131px"],
+      [`radial-gradient(circle at 50% 50%, rgb(255 255 255 / 0.5) 0 4px, transparent 14px)`, "71px 127px"],
+    );
+  if (background.texture === "ombre") layers.push([`linear-gradient(${tint(18)}, transparent 70%)`, "100% 100%"]);
+  if (background.texture === "golden")
+    layers.push(
+      [`radial-gradient(ellipse 30% 25% at 85% 10%, rgb(255 255 255 / 0.55), transparent)`, "100% 100%"],
+      [`radial-gradient(ellipse 90% 80% at 100% 0%, ${tint(32)}, transparent 75%)`, "100% 100%"],
+    );
+  if (background.texture === "velvet")
+    layers.push([
+      `linear-gradient(160deg, ${tint(10, "--color-ink")}, transparent 30%, ${tint(6, "--color-ink")} 55%, transparent 75%, ${tint(12, "--color-ink")})`,
+      "100% 100%",
+    ]);
   if (!layers.length) return { image: "none", size: "auto" };
   return { image: layers.map(([i]) => i).join(", "), size: layers.map(([, s]) => s).join(", ") };
 }
