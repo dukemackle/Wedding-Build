@@ -154,6 +154,30 @@ Iron Springs Adventure Resort	3196 North Iron Springs Road	Cedar City	Utah			Bar
 Utah Tech Alumni House		St. George	Utah			Garden / Outdoor	Indoor & Outdoor	80	Simple	The Stephen and Marcia Wade Alumni House has a great room that opens to a patio and Truman Gardens, plus an upstairs bridal suite.	alumnihouse@utahtech.edu	435-879-4535	https://alumni.utahtech.edu/alumnihouse/
 `,
   },
+  {
+    name: "Utah venues: Wasatch Front, Park City, Ogden Canyon and Cache Valley",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Alaskan Inn	435 Ogden Canyon Rd	Ogden	Utah			Barn / Rustic	Indoor & Outdoor	100	Simple	Riverside inn in Ogden Canyon with twenty-two themed suites and cabins, where ceremonies can be held in a gazebo, the lodge or on the grounds.	mail@alaskaninn.com	(801) 621-8600	https://www.alaskaninn.com
+Washington School House Hotel	543 Park Avenue	Park City	Utah			Historic / Estate	Indoor			Twelve-room luxury hotel in an 1889 Park City schoolhouse with mountain views and a heated terraced pool.	info@washingtonschoolhouse.com	435.649.3800	https://washingtonschoolhouse.com/weddings/
+Conrad Ranch	5591 South Fork Road	Provo	Utah			Garden / Outdoor	Outdoor		Simple	Family ranch in Provo Canyon with natural surroundings, offered for ceremonies and full-day receptions.	ConradRanch1863@gmail.com	801-225-6238	https://www.conradranch.com/
+Bellissimo Gardens at Tuscany	2832 East 6200 South	Salt Lake City	Utah			Garden / Outdoor	Outdoor	150		Landscaped foothill gardens beside Tuscany restaurant, with a gazebo, river stone pavilion and fountain beneath views of Mount Olympus.		(801) 274-0448	https://bellissimolovegarden.com
+Carmelle Reception Center	4075 S Highland Drive	Salt Lake City	Utah			Ballroom / Hotel	Indoor & Outdoor			Indoor reception hall with a warm-season garden that has a gazebo and a waterfall.	carmellerc@gmail.com	(801) 278-7893	http://www.carmelleweddings.com/
+Crescent Hall	11020 S State Street Suite A	Sandy	Utah			Ballroom / Hotel	Indoor	200	Simple	Event hall in Sandy that comfortably seats 150 and holds up to 200, rented in five- or ten-hour blocks.		801-736-0262	https://www.crescenthall.com/
+The View Event Venue	11649 S 4000 W Suite 310	South Jordan	Utah			Ballroom / Hotel	Indoor			Third-floor South Jordan reception hall with a virtual tour, rentals included in its packages and add-on hours available.	info@theviewvenue.com	801-888-8439	https://www.theviewvenue.com/
+Magnolia Event Center	1117 S Jordan Pkwy W	South Jordan	Utah			Ballroom / Hotel	Indoor			Newly renovated, light-filled South Jordan event space with mountain views, run as a family venue for weddings and receptions.	info@eventsatmagnolia.com	385.241.5225	https://eventsatmagnolia.com/
+Soldier Hollow Day Lodge	2002 Soldier Hollow Lane	Midway	Utah			Barn / Rustic	Indoor & Outdoor	120	Simple	Rustic mountainside lodge at the 2002 Olympic Nordic venue, with a second event space overlooking the biathlon course.		(435) 658-4253	https://utaholympiclegacy.org/event-space/weddings/
+Hazel Hall	74 North Fort Lane	Layton	Utah			Ballroom / Hotel	Indoor			Layton event center from Hazel Floral Co. that hosts weddings and showers and also rents by the hour for photo shoots.	hazelhallvenue@gmail.com	801-425-8386	https://www.hazelhallvenue.com/
+Maplewood Events	1068 Expressway Ln	Spanish Fork	Utah			Ballroom / Hotel	Indoor			Customizable Spanish Fork event space beside the I-15 exit, with a dance floor, dressing rooms and a warming kitchen.	maplewood1068@gmail.com	(385) 250-7061	https://eventsatmaplewood.com/
+Southworth Hall	116 W Center Street	Provo	Utah			Historic / Estate	Indoor			Historic brick hall in downtown Provo with original woodwork, one block from the Provo Temple.	reservations@southworthhall.com	801-616-6046	http://www.southworthhall.com/
+Stone Gate Weddings and Events	886 West 2600 North	Pleasant Grove	Utah			Historic / Estate	Indoor & Outdoor			All-inclusive Pleasant Grove venue built around a 125-year-old chapel, with a ballroom, great hall and a grove for outdoor moments.	info@stonegateevents.com	(385) 335-6159	https://stonegateweddings.com/
+The Barn in Old Paradise	10802 S UT-165	Paradise	Utah			Barn / Rustic	Indoor & Outdoor			Newly built barn on Old Paradise Farms in the hills of Cache Valley, constructed from century-old plans.		435-881-9353	https://www.thebarninoldparadise.com/
+The Caledonia	170 N Main Street	Layton	Utah			Historic / Estate	Indoor & Outdoor			Restored 1890 Layton landmark with several indoor rooms and grounds with weeping willows and a bridge, styled with Scottish touches.		801-898-0643	https://thecaledonia.co/
+The Eyrie at Glen Eagle	3142 W 1700 S	Syracuse	Utah			Ballroom / Hotel	Indoor			Indoor wedding and event venue next to the Glen Eagle golf course in Syracuse.	aimee@theeyrieatgleneagle.com	(801) 252-5398	https://www.theeyrieatgleneagle.com/
+Receptions on Redwood	1751 W Alexander St	Salt Lake City	Utah			Ballroom / Hotel	Indoor	250	Simple	Roughly 3,000 square foot event center that seats 100 or 250 in an open layout and can split into three areas.	receptionsonredwood@gmail.com	(801) 449-1055	https://receptionsonredwood.com/
+East Canyon Resort	8896 South Highway 65	Morgan	Utah			Barn / Rustic	Indoor & Outdoor			Lodge on 9,000 acres of wilderness near Park City, with a creekside ceremony site and mountaintop ceremony options.	specialevents@eastcanyon.com	801-359-9030	https://www.eastcanyon.com/weddings
+Eaglewood Golf Course Event Center	1110 E Eaglewood Dr	North Salt Lake	Utah			Ballroom / Hotel	Indoor			Golf course event center in North Salt Lake that hosts weddings, parties and corporate gatherings.	golfeaglewood@gmail.com	(801) 299-0088	http://www.eaglewoodgolf.com/
+`,
+  },
 ];
 
 export default batches;
