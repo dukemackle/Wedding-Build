@@ -468,6 +468,7 @@ export async function addRegistryItem(formData: FormData): Promise<{ error?: str
   }
 
   revalidatePath("/guests");
+  revalidatePath("/registry");
   return {};
 }
 
@@ -491,6 +492,7 @@ export async function deleteRegistryItem(formData: FormData): Promise<{ error?: 
   }
 
   revalidatePath("/guests");
+  revalidatePath("/registry");
   return {};
 }
 

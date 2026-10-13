@@ -83,6 +83,13 @@ export default function PrivacyPage() {
                 list.
               </li>
               <li>
+                When you claim a registry gift or say you gave to a cash fund: your name, how many
+                you&apos;re getting or the amount, and any message. This goes to that couple for
+                their thank-you notes. Other guests only see that a gift is taken, never by whom.
+                Money for a cash fund goes straight from you to the couple through the app you
+                choose (such as Venmo or PayPal); we never handle it or see your payment details.
+              </li>
+              <li>
                 Your phone number, if a couple adds it and you opt in to text updates, is used to
                 send you schedule changes for that wedding — nothing else, and never marketing.
               </li>

@@ -175,7 +175,11 @@ export default async function GuestSiteEditorPage({ params }: { params: Promise<
   const photoCount = galleryPhotos?.length ?? 0;
   const stayCount = accommodations?.length ?? 0;
   const faqCount = faqs?.length ?? 0;
-  const registryCount = registryItems?.length ?? 0;
+  const { count: giftCount } = await supabase
+    .from("registry_gifts")
+    .select("id", { count: "exact", head: true })
+    .eq("wedding_id", wedding.id);
+  const registryCount = (registryItems?.length ?? 0) + (giftCount ?? 0);
   const events = eventCount ?? 0;
   const partyShown = (partyMembers ?? []).filter((m) => m.on_site).length;
   const hidden = " — hidden until you add one";
@@ -275,8 +279,11 @@ export default async function GuestSiteEditorPage({ params }: { params: Promise<
       editor: <Faqs faqs={faqs ?? []} />,
     },
     registry: {
-      status: registryCount ? `${registryCount} link${registryCount === 1 ? "" : "s"}` : `No links${hidden}`,
+      status: registryCount
+        ? `${registryCount} thing${registryCount === 1 ? "" : "s"} on your registry`
+        : `Nothing added${hidden.replace("one", "gifts")}`,
       editor: <RegistryManager registryItems={registryItems ?? []} />,
+      link: { href: "/registry", label: "Add gifts and cash funds" },
     },
   };
 

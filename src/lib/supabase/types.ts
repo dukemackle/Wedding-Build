@@ -36,6 +36,13 @@ export type Wedding = {
   own_venue_state: string | null;
   /** The couple's own venue photos (0114); shown on the guest site instead of the listing's. */
   own_venue_photo_urls: string[];
+  /** How guests pay into a registry cash fund (0115), straight to the couple. */
+  gift_venmo: string | null;
+  gift_paypal: string | null;
+  gift_cashapp: string | null;
+  gift_zelle: string | null;
+  /** Where gifts ship; shown only to a guest who has just claimed one. */
+  gift_ship_to: string | null;
   is_test: boolean;
   /** Everyone besides the owner who can open this wedding -- kept in step with wedding_members by a trigger. */
   member_ids: string[];
@@ -87,6 +94,10 @@ export type PublicWedding = {
   site_locked: boolean;
   /** venue_photo_urls are the couple's own, not the venue's, so they aren't credited to it. */
   venue_photos_own: boolean;
+  gift_venmo: string | null;
+  gift_paypal: string | null;
+  gift_cashapp: string | null;
+  gift_zelle: string | null;
 };
 
 export type WeddingFaq = {
@@ -499,6 +510,44 @@ export type RegistryItem = {
   notes: string | null;
   created_at: string;
   updated_at: string;
+};
+
+/** A gift from any store, or a cash fund (0115). */
+export type RegistryGift = {
+  id: string;
+  wedding_id: string;
+  kind: "gift" | "fund";
+  title: string;
+  url: string | null;
+  image_url: string | null;
+  store: string | null;
+  price: number | null;
+  /** How many the couple wants (gifts only). */
+  quantity: number;
+  /** What the couple hopes a fund reaches, if they set one. */
+  goal: number | null;
+  note: string | null;
+  sort_order: number;
+  created_at: string;
+};
+
+/** A gift as guests see it: how many are spoken for, never by whom. */
+export type PublicRegistryGift = RegistryGift & {
+  claimed: number;
+  /** What guests have said they gave to a fund. */
+  raised: number;
+};
+
+/** A guest's "I'm getting this" (or "I gave to this fund"). */
+export type RegistryClaim = {
+  id: string;
+  gift_id: string;
+  wedding_id: string;
+  guest_name: string;
+  quantity: number;
+  amount: number | null;
+  message: string | null;
+  created_at: string;
 };
 
 export type AttireCategory =
