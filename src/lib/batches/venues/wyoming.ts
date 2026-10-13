@@ -61,6 +61,18 @@ Teton Cabins	24000 N Gun Barrel Flats Rd	Moran	Wyoming			Barn / Rustic	Indoor & 
 Turpin Meadow Ranch		Moran	Wyoming			Barn / Rustic	Indoor & Outdoor			A guest ranch on the Buffalo Fork River whose grand lodge hosts weddings, sold as custom buy-out packages.	office@turpinmeadowranch.com	307-543-2000	https://turpinmeadowranch.com/events/weddings/
 `,
   },
+  {
+    name: "Cheyenne, Laramie, Jackson, Casper and Dubois venues",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Vee Bar Guest Ranch	38 Vee Bar Ranch Road	Laramie	Wyoming			Barn / Rustic	Indoor & Outdoor	150		A small dude ranch among cottonwoods on the Little Laramie River with Snowy Range views, a lodge, a saloon and nine cabins for the wedding party.	veebar@veebar.com	(307) 745-7036	https://veebar.com/dude-ranch-wedding/
+Snow King Resort	400 E Snow King Ave	Jackson	Wyoming			Ballroom / Hotel	Indoor & Outdoor	300		A town-edge mountain resort offering a four-season event lawn and two Teton-view ballrooms for ceremonies and receptions.		(866) 976-9422	https://www.snowking.com/blog/jackson-hole-weddings/
+Red Rock Ranch	17760 E Upper Gros Ventre River Road	Kelly	Wyoming			Barn / Rustic	Outdoor	120		A secluded family ranch up the Gros Ventre with creekside ceremony spots, historic log cabins for guests and pasture camping.	info@theredrockranch.com	(307) 733-6288	https://theredrockranch.com
+Brooks Lake Lodge	458 Brooks Lake Rd	Dubois	Wyoming			Historic / Estate	Indoor & Outdoor	36		A 1922 National Register lodge on an alpine lake at 9,200 feet in Shoshone National Forest, rented as a full-property buyout with lodging and meals.	info@brookslake.com	307-455-2121	https://www.brookslake.com/weddings/
+3 Spear Ranch	901 Little Warm Springs Road	Dubois	Wyoming			Barn / Rustic	Indoor & Outdoor			A Western homestead ranch in the Wind River Valley with a homestead lawn for larger weddings, an overlook for elopements and a lodge for dinner.	info@3SpearRanch.com	307-690-6337	https://www.3spearranch.com/events
+The Nicolaysen Art Museum	400 E Collins Dr	Casper	Wyoming			Historic / Estate	Indoor		Simple	A downtown art museum that rents its lobby hall and main gallery for receptions, with tables, chairs, a small kitchen and a grand piano included.	info@thenic.org	(307) 235-5247	https://thenic.org/
+Grand Targhee Resort	3300 Ski Hill Rd	Alta	Wyoming			Ballroom / Hotel	Indoor & Outdoor			A ski resort on the Teton Range's west side with several mountain venues, from rehearsal dinner through reception, and a 30-50 guest microwedding package.	info@grandtarghee.com	307-353-2300	https://www.grandtarghee.com/groups-weddings/weddings/grand-targhee-weddings
+`,
+  },
 ];
 
 export default batches;
