@@ -100,6 +100,26 @@ Bogus Basin	2600 N Bogus Basin Rd	Boise	Idaho			Garden / Outdoor	Indoor & Outdoo
 Longhorn Guest Ranch	450 High Valley Rd	Cascade	Idaho			Barn / Rustic	Indoor & Outdoor	150	Classic	Off-grid family ranch on 182 acres with six ceremony sites, a lodge, cabins and glamping tents, plus a vintage horse-trailer bar.	HighValleyLonghorn@gmail.com	208-880-4994	https://longhornguestranch.com/weddings/
 `,
   },
+  {
+    name: "Idaho: Boise, Treasure Valley, McCall, Priest Lake, Salmon and Teton Valley venues",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+TRICA	1406 W Eastman St	Boise	Idaho			Historic / Estate	Indoor	200	Classic	A 1907 Baroque Romanesque landmark near Hyde Park whose roughly 6,000 sq ft Sanctuary Ballroom has 45-foot ceilings, exposed rafters and a hardwood dance floor.	events@trica.org	208.344.2220	https://www.trica.org/events
+The Adelmann	622 W Idaho St	Boise	Idaho			Historic / Estate	Indoor	200	Simple	A downtown Boise building from 1906 with exposed brick and two adjoining ballrooms that can be used separately or together.	info@theadelmann.com	208-985-9000	https://theadelmann.com
+Barber Park Education and Event Center	4049 S Eckert Rd	Boise	Idaho			Ballroom / Hotel	Indoor & Outdoor	250	Simple	A 3,136 sq ft county-run event center on the Boise River with two fireplaces, large windows and a patio for outdoor receptions.		208-577-4576	https://adacounty.id.gov/parksandwaterways/education-and-event-center/
+Ripple Ranch	13999 E Highway 21	Boise	Idaho			Barn / Rustic	Outdoor			A working goat ranch in the foothills about 20 minutes north of downtown Boise, with a live creek running through it.	experience@rippleranchidaho.com	208-867-7595	https://rippleranchidaho.com/
+Garman Hill	26115 Lower Pleasant Ridge Rd	Wilder	Idaho			Barn / Rustic	Indoor & Outdoor	200	Simple	A modern ranch on about 11 acres of lawn with an indoor event building, a heated pool and patio, and on-site guest suites, looking out to the Owyhee Mountains.			https://garmanhill.com/
+White Barn Weddings	195 E South Slope Rd	Emmett	Idaho			Barn / Rustic	Indoor & Outdoor	200	Classic	A white barn opened in 2022 on three manicured acres in Emmett's orchard country, with a loft bridal suite, a second barn, a covered patio and one wedding booked per weekend.	angie@whitebarnemmett.com	(208) 371-5619	https://whitebarnemmett.com/pricing
+Lazy Bear Ranch	612 Unity Ln	Rebecca	Idaho			Barn / Rustic	Indoor & Outdoor	400	Simple	A foothills ranch with 15 guest suites, a bridal suite and groom's lounge, offering midweek, full-day and multi-day wedding packages.	info@lazybearranch.com	(208) 550-0440	https://lazybearranch.com/experiences
+Riverside Pines	342 Cabarton Rd	Cascade	Idaho			Barn / Rustic	Indoor & Outdoor	200	Classic	Six acres of pines along the Payette River with a riverside ceremony area and a barn-style reception hall with a built-in bar.	info@riversidepines.org	1 (208) 630-4411	https://www.riversidepines.org/
+Scandia Inn Events	401 N 3rd St	McCall	Idaho			Ballroom / Hotel	Indoor & Outdoor			A Scandinavian-themed mountain inn in the pines with a lawn and fire pits for ceremonies, a lodge for receptions and up to 17 guest rooms.	thescandiainn@gmail.com	208-634-7394	https://www.scandiainnevents.com/
+Elkins Resort on Priest Lake	404 Elkins Rd	Nordman	Idaho			Beach / Waterfront	Indoor & Outdoor	300	Simple	A family-run lakeside resort on Reeder Bay, open since 1932, with a lodge for receptions, lawn and lakeside ceremony spots, and about 30 cedar cabins.	info@elkinsresort.com	208-443-2432	https://www.elkinsresort.com/weddings/
+Round Mountain Retreat	1653 Round Mountain Rd	Naples	Idaho			Garden / Outdoor	Indoor & Outdoor	140		Fifty-plus private forested acres with an open-air ceremony deck, a covered event building, and four cabins and four yurts for guests.	joe@roundmountainretreat.com	(650) 889-9272	https://roundmountainretreat.com/
+Sweet Water Hollow	317 River Front Dr	Salmon	Idaho			Barn / Rustic	Indoor & Outdoor		Simple	A riverside event lodge with a commercial kitchen, outdoor amphitheater and covered pavilion, plus three cabins and two glamping tents for lodging.	info@sweetwaterhollow.com	208-993-0672	https://www.sweetwaterhollow.com/priemer-wedding-weekend
+Cactus River Ranch		Salmon	Idaho			Barn / Rustic	Outdoor	250	Simple	A working horse ranch on the Salmon River, about 8 miles south of town, with outdoor ceremony areas, fire pits and three-day wedding weekend packages.		(208) 596-5432	https://cactusriverranch.com/
+River's Fork Lodge	2036 Highway 93 N	North Fork	Idaho			Beach / Waterfront	Indoor & Outdoor			A riverfront lodge where the North Fork meets the Salmon River, with a five-bedroom log cabin, seven lodge rooms and RV sites for wedding guests.	info@riversfork.com	208-742-6634	https://www.riversfork.com/idaho-destination-wedding-venue-salmon-river
+Tetonia Club	6266 S Main St	Tetonia	Idaho			Historic / Estate	Indoor & Outdoor			A 1911 building that opened in 1912 as Teton Valley's first bar, reopened in 2018 as an event hall with tables, chairs and a PA included.	tetoniaclub@gmail.com	208-201-5360	https://www.tetoniaclub.com/services-1
+`,
+  },
 ];
 
 export default batches;
