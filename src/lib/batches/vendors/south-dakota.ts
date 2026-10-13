@@ -100,7 +100,7 @@ Black Hills PortaLux	Rentals		Spearfish	South Dakota	Black Hills and surrounding
 Something Borrowed	Rentals		Spearfish	South Dakota	Western South Dakota, Wyoming and Montana	Hire shop supplying tents, chairs, tables, linens, lighting, dance floors and draping for weddings, serving the region since 2012.		(605) 559-0265	https://www.somethingborrowedspearfish.com/	https://www.instagram.com/somethingborrowed.llc/
 Your Joyful Wedding (Mary Maisey-Ireland)	Officiant		Rapid City	South Dakota	Rapid City and the Black Hills	Wedding officiant and ceremony planner who writes custom ceremonies, and also handles vow renewals and rehearsals.	mary@yourjoyfulwedding.com	(605) 484-8464	http://www.yourjoyfulwedding.com/	https://www.instagram.com/marymaiseyireland/
 Audra's Bridal Gallery	Bridal & Formalwear	601 St. Joseph St	Rapid City	South Dakota		Downtown Rapid City bridal shop stocking wedding gowns, bridesmaid and mother-of-the-bride dresses, tuxedos and suits.		605-348-8816	https://audrasbridalgallery.com/	https://www.instagram.com/audrasbridalgallery/
-Michael's Menwear	Bridal & Formalwear	617 St. Joseph St	Rapid City	South Dakota		Downtown menswear shop offering wedding suits and tuxedo hire for grooms and groomsmen, with fittings and set groom packages.	sales@michaelsmw.com	(605) 342-0127	https://michaelsmw.com/	
+Michael’s Menswear	Bridal & Formalwear	617 St. Joseph St	Rapid City	South Dakota		Downtown menswear shop offering wedding suits and tuxedo hire for grooms and groomsmen, with fittings and set groom packages.	sales@michaelsmw.com	(605) 342-0127	https://michaelsmw.com/	
 `,
   },
 ];

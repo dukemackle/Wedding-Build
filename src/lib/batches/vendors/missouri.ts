@@ -273,7 +273,6 @@ Laurie Tent & Event Rental	Rentals		Laurie	Missouri	Lake of the Ozarks and surro
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
 Truly Bridal	Bridal & Formalwear	1083 Main St	Osage Beach	Missouri		Appointment-based bridal salon offering wedding gowns, formal dresses, and suit and tuxedo rentals or sales for grooms and parties.		573-552-1083	https://trulybridal.com/	
 Fun Pics Photo Booths	Photo Booth		Springfield	Missouri	Springfield, Branson, Lake of the Ozarks, Lebanon, Joplin and the wider Ozarks	Family-run Springfield photo booth rental offering mirror, enclosed and open-air booths with attendants, custom prints and online galleries for weddings.	funpicsphotobooths@gmail.com	(417) 501-9886	https://funpicsphotobooths.com/	
-Elite Photobooth	Photo Booth		Springfield	Missouri	The Ozarks, including Camdenton and Lake of the Ozarks	Springfield photo booth rental with designer booths and themed props, travelling for weddings and parties across the Ozarks, including the Lake area.	info@rentelitephotobooth.com	(417) 234-0319	https://rentelitephotobooth.com/	https://www.instagram.com/elite_photobooth/
 `,
   },
 ];
