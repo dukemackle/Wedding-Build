@@ -121,6 +121,12 @@ Twelve9 Photography	Photography		Bismarck	North Dakota	North Dakota	Wedding and 
 Sixteen03 Main Events	Catering	1603 East Main Ave	Bismarck	North Dakota		Bismarck caterer and event space offering full-service wedding catering and a rental price guide, with an online catering menu.	info@sixteen03mainevents.com	701-255-6246	https://www.sixteen03mainevents.com/	
 `,
   },
+  {
+    name: "Bismarck: planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+White Lace Events	Planning	202 E Broadway Ave	Bismarck	North Dakota	Bismarck, Fargo, Dickinson, Grand Forks, Medora and Rapid City	Planning arm of a Bismarck bridal boutique, offering month-of coordination through to full planning, plus guided bouquet-making sessions.	whitelacebridalnd@gmail.com	(701) 258-4142	https://www.whitelacebridalnd.com/	https://www.instagram.com/whitelacebridalnd/
+`,
+  },
 ];
 
 export default batches;
