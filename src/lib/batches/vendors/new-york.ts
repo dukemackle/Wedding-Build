@@ -388,6 +388,87 @@ Monti Makeup & Mindfulness	Hair & Makeup	4921 W Genesee St	Camillus	New York	Syr
 Mario's Bakery	Cake	505 N Main St	North Syracuse	New York	North Syracuse and the Syracuse area	Italian bakery in North Syracuse listing custom wedding cakes among its specialities, with shipping available on request.	mario@mariositalianbakery.com	315-452-3306	https://mariositalianbakery.com/	
 AlterImage Studio	Videography		Syracuse	New York	Syracuse and Central New York	Syracuse studio offering artistic wedding photography and videography for couples in Syracuse and across Central New York.	alterimagephotostudio@gmail.com	315-455-7603	https://alterimagestudio.com/	https://www.instagram.com/rick_needle/`,
   },
+  {
+    name: "New York City: music, officiant, photography, planning, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Atèpá Media	Photography		Bronx	New York	All five boroughs, Westchester, Long Island, NJ, CT and PA	Bronx studio shooting wedding photography and video, including South Asian, Muslim, Nigerian and church ceremonies, with one team for both.	atepamedia@gmail.com	(929) 992-8372	https://www.atepamedia.com/	https://www.instagram.com/atepamedia/
+Karen Wise Photography	Photography	78 8th Avenue	Brooklyn	New York	Brooklyn and the Berkshires	Brooklyn wedding photographer with a studio open by appointment, shooting on film or digital in a graceful, story-led style.	karen@karenwise.com	917-539-9908	https://karenwise.com/	https://www.instagram.com/karenwisephoto/
+Bailey Q Photo	Photography		Brooklyn	New York		Brooklyn documentary photographer for non-traditional weddings and elopements, with a photojournalistic eye and a colourful but moody edge.	baileyqphoto@gmail.com		https://www.baileyqphoto.com/	https://www.instagram.com/baileyqphoto/
+Meneer Kodak	Photography		Brooklyn	New York	New York City	Brooklyn photographer for weddings and elopements across the city, mixing digital and 35mm film for a candid, cinematic look.			https://meneerkodak.com/	https://www.instagram.com/meneerkodak/
+Tied Films	Videography		Brooklyn	New York	New York, New Jersey and Connecticut	Brooklyn filmmaker making cinematic wedding films that centre genuine moments and speeches, with drone footage and ceremony edits on offer.			https://www.tiedfilms.com/	https://www.instagram.com/booktiedfilms/
+A & J Luxury Event Planning	Planning		Brooklyn	New York	New York and New Jersey	Brooklyn planning duo handling venue selection, vendors and day-of management, plus silk florals, balloon decor and handmade cakes in-house.	ajluxuryplanning@gmail.com	(332) 900-2994	https://www.ajluxuryeventplanning.com/	https://www.instagram.com/ajluxuryeventplanning/
+Envisioned Events by Suzette	Planning		Brooklyn	New York	NYC, New Jersey, Westchester, Hudson Valley and destinations	Brooklyn firm that plans, designs and produces weddings and other celebrations, including destination events and corporate retreats.	admin@envisionedeventsbysuzette.com	(646) 580-5151	https://www.envisionedeventsbysuzette.com/	https://www.instagram.com/envisionedeventsbysuzette/
+Mariachi Hidalgo	Music		New York	New York	Tri-State area	New York City mariachi band that plays weddings, with bilingual English and Spanish booking by phone.	mariachi.hidalgo68@gmail.com	347-204-1944	https://www.mariachihidalgo.com/	https://www.instagram.com/mariachi.hidalgo.nyc/
+Our Wedding Officiant NYC	Officiant	300 W 23rd Street	New York	New York	Five boroughs, Long Island, Westchester and New Jersey	Manhattan officiant for religious, interfaith and civil ceremonies, with custom ceremony writing, vow guidance and Central Park elopements.	peter@ourweddingofficiantnyc.com	917-523-1438	https://ourweddingofficiantnyc.com/	https://www.instagram.com/ourweddingofficiantnyc/
+Honeybreak Officiants NYC	Officiant		New York	New York	Five boroughs, Westchester, Long Island, Hamptons and Connecticut	City officiant team offering full ceremonies, courthouse-style vows and elopements, with optional officiant and photography packages.	hello@honeybreakofficiants.com	860-478-6060	https://www.honeybreakofficiants.com/	https://www.instagram.com/honeybreakofficiants/`,
+  },
+  {
+    name: "Long Island: cake, catering, florals, hair & makeup, music, photography, planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+The Glenmar Studio	Photography		Roslyn	New York	Long Island and New York City	Long-established Roslyn studio, open since 1936, producing classic wedding portraits and engagement sessions across Long Island and the city.			https://www.glenmarstudio.com/	https://www.instagram.com/glenmarstudio/
+Danielle Caldwell Events	Planning		Smithtown	New York	Long Island, New York City and Westchester	Smithtown planner and designer offering full-service planning as well as partial planning and design for Long Island and city weddings.	info@daniellecaldwellevents.com	914-629-8789	https://www.daniellecaldwellevents.com/	https://www.instagram.com/daniellecaldwelleventsllc/
+Unique Entertainment	Music	427 Willis Avenue	Williston Park	New York		Long Island entertainment company supplying DJs, MCs, musicians and lighting for weddings, Sweet 16s, quinceañeras and mitzvahs.		(516) 248-4500	https://www.unique-ent.com/	https://www.instagram.com/uniqueentertainment/
+Elite Entertainment	Music		Patchogue	New York	New York	Patchogue DJ company covering weddings, Sweet 16s and quinceañeras, with music planning and vendor referrals for photo and video.	info@elitedjsli.com	(631) 905-5212	https://elitedjsli.com/	https://www.instagram.com/elitedjsli/
+Flowers by Manny	Florals	4 Main Street	Hempstead	New York	Nassau County and parts of Queens	Hempstead flower shop designing for both small and large weddings and events, and delivering to local venues.	flowersbymanny@gmail.com	(516) 476-7804	https://flowersbymanny.com/	https://www.instagram.com/flowers_by_manny/
+Soundview Caterers	Catering	45 Bayville Avenue	Bayville	New York		Waterfront Bayville venue with in-house wedding catering, event planning and a network of local photographers, florists and musicians.	info@soundviewcaterers.com	516-864-0600	https://soundviewcaterers.com/	https://www.instagram.com/soundviewcaterers/
+Total Glam NY	Hair & Makeup		Bellport	New York	New York, Connecticut and New Jersey	Bellport makeup artist offering HD bridal makeup, trials and lash enhancements, either in her office or at your wedding location.	TotalGlamNY@gmail.com	(631) 603-8099	https://www.totalglamny.com/	https://www.instagram.com/totalglamny/
+Dortoni Bakery & Pastry Shoppe	Cake	3264 Hempstead Turnpike	Levittown	New York		Family bakery with shops across Long Island making wedding and specialty cakes, with tastings bookable at the Levittown shop.		516-796-3033	https://www.dortonibakery.com/	https://www.instagram.com/dortonibakery/`,
+  },
+  {
+    name: "Buffalo: cake, catering, music, photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Photography by Alexandra	Photography	1555 Hertel Avenue	Buffalo	New York	Buffalo and Rochester areas	Buffalo studio on Hertel Avenue photographing weddings across the Buffalo and Rochester areas, with several hundred weddings shot at local venues.	info@photographybyalexandra.com	(716) 903-1035	https://photographybyalexandra.com/	https://www.instagram.com/pbyalexandra/
+Knight Studio	Photography		Buffalo	New York	Buffalo and Western New York	Husband-and-wife team in Buffalo who photograph weddings and have recently added wedding films for couples across Western New York.	rkpkps@gmail.com		https://knightstudio.com/	https://www.instagram.com/knightphotostudio/
+Rich's Catering & Special Events	Catering		Buffalo	New York		Buffalo caterer providing on- and off-premise food service for weddings, with set wedding menus for several city venues.		(716) 878-8422	https://www.richscatering.com/	https://www.instagram.com/richscatering/
+Cakes by Katya	Cake	3509 Niagara Falls Blvd	North Tonawanda	New York		Café and bakery just north of Buffalo making made-to-order cakes for weddings and other occasions, with a phone-in ordering page.		(716) 329-4191	https://cakesbykatya.com/	https://www.instagram.com/cakesbykatya/
+Frost Artisan Bakery	Cake	1197 Niagara Street	Buffalo	New York		Neighbourhood bakery on Niagara Street in Buffalo that takes custom wedding cake orders alongside its everyday cakes and pastries.		(716) 878-8821	https://www.frostartisanbakery.com/	https://www.instagram.com/frostartisanbakery/
+Toy Bros Entertainment	Music		Buffalo	New York	Buffalo and greater Western New York	Buffalo DJ company running wedding receptions and ceremonies, with photo booths on offer, across the city and wider Western New York.		(716) 479-1133	https://toybros.com/	
+DJ716	Music		Orchard Park	New York	Erie and Niagara counties, the Southern Tier and Chautauqua County	Orchard Park DJ and emcee who has played Buffalo-area weddings since 1996, with optional photo and video booths as add-ons.	tim@dj716.com	(716) 257-6002	https://www.dj716.com/	https://www.instagram.com/dj716/`,
+  },
+  {
+    name: "Finger Lakes: florals, planning, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Imagine	Planning		Ithaca	New York	Ithaca and the Finger Lakes	Ithaca planner offering wedding coordination and advice, in person or remotely, for celebrations around the Finger Lakes.	imaginelove.rose@gmail.com		https://www.imaginelove.co/	
+Verve Event Co.	Planning		Rochester	New York	Upstate New York and New England	Rochester wedding planning company whose portfolio includes Finger Lakes weddings, such as ones held at The Lake House on Canandaigua.			https://verveeventco.com/	https://www.instagram.com/verveeventco/
+Plan With Posh	Planning		Rochester	New York	Rochester, Penn Yan, Canandaigua and Pittsford	Rochester event planning and design studio whose wedding galleries include lakehouse, private estate and country club celebrations.	poshprimeventsanddesign@gmail.com		https://planwithposh.com/	
+Faded Film Weddings	Videography		Binghamton	New York	Upstate New York, including the Finger Lakes, Syracuse and Albany	Binghamton wedding film company shooting across Upstate New York, including the Finger Lakes, and available for destination weddings too.	FadedFilmMedia@gmail.com	(607) 972-1951	https://www.fadedfilmweddings.com/	https://www.instagram.com/fadedfilm.weddings/
+Moondream Florals	Florals		Canandaigua	New York		Canandaigua florist focused on weddings, using locally grown flowers, with planning tools and a budget guide for couples.	tanya@moondreamflorals.com	(585) 202-4380	https://www.moondreamflorals.com/	https://www.instagram.com/moondream_florals/`,
+  },
+  {
+    name: "Hudson Valley: hair & makeup, officiant, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+The Luminous Bride	Hair & Makeup	249 Main St	Beacon	New York		On-location bridal hair and makeup, with airbrush options and men's grooming, and trials held at their Beacon studio.	info@theluminousbride.com		https://www.theluminousbride.com/	https://www.instagram.com/theluminousbride/
+Lari Manz Hair & Makeup	Hair & Makeup	24 Murray St	Chatham	New York	Chatham, Upper Hudson Valley, Catskills, Columbia County, Capital Region and the Berkshires	Bridal hair and makeup styled on site for weddings and engagement shoots, with trials available before the day.	lari@larimanz.com	518-573-6425	https://www.larimanz.com/	https://www.instagram.com/larimanz/
+Kindred Beauty Co.	Hair & Makeup	11 Spring St	Newburgh	New York	Hudson Valley	On-site hair and makeup company based in Newburgh, styling brides and wedding parties at the venue or getting-ready location.	KindredBeautyCo@gmail.com		https://www.kindredbeautyco.com/	https://www.instagram.com/kindredbeautyco/
+4GoodLuck Beauty Studio	Hair & Makeup	134 Main St	Beacon	New York	Upper, mid and lower Hudson Valley, Connecticut and northern New Jersey	Bridal makeup artist offering consultations, previews and on-site touch-ups, plus skincare prep and men's grooming for the wedding party.	4GoodLuckBOOK@gmail.com		https://www.4goodluckbeautystudio.com/	https://www.instagram.com/4goodluck.beautystudio/`,
+  },
+  {
+    name: "Albany and Saratoga: hair & makeup, officiant, rentals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Grit + Grace Salon & Boutique	Hair & Makeup	664 New Loudon Rd	Latham	New York	Latham, Albany, Troy, Colonie, Watervliet and surrounding areas	Salon offering bridal hair and makeup in the salon or at your location, including bridesmaids and flower girls.		518-437-3471	https://gritandgracesalon.com/	https://www.instagram.com/gritgracesalon/
+Blissful Beginnings NY	Officiant		Saratoga Springs	New York	Saratoga, Albany and the Capital District	Ordained minister officiating weddings, elopements and vow renewals, with packages from small elopements to formal venue ceremonies.	saratogacamp@juno.com	518-229-3435	https://www.flosblissfulbeginnings.com/	
+Tremont Rentals	Rentals	875 Kautz Hollow Rd	Johnsonville	New York	Upstate New York, with some service in Massachusetts and Vermont	Event rental company supplying tents, tables and chairs for weddings, with delivery and installation handled by their team.	Shelby@TremontRentals.com	518-674-8280	https://www.tremontrentals.com/	https://www.instagram.com/tremontrental/`,
+  },
+  {
+    name: "Rochester: bar, hair & makeup, officiant, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Roc Focus	Videography		Rochester	New York	Rochester, with travel to other locations	Photo and video team filming weddings and engagements in a candid, journalistic style.			https://www.rocfocus.com/	https://www.instagram.com/rocfocus/
+Anthology Visuals	Videography		Rochester	New York	Upstate New York	Film company producing wedding films and engagement shoots, with coverage packages listed on their investment page.	hello@anthologyvisuals.com	585-568-7706	https://www.anthologyvisuals.com/	https://www.instagram.com/anthologyvisuals/
+Paul Pakusch, Wedding Officiant	Officiant		Rochester	New York	Rochester and surrounding areas, with travel fees beyond Geneva, Letchworth Park and Medina	Rochester officiant for weddings, elopements, vow renewals and commitment ceremonies, religious or non-religious.			https://www.upstateweddingbells.com/	
+MoBar Rochester	Bar	4150 Buffalo Rd	Rochester	New York		Mobile bartending service for weddings and other events, with a mobile hat bar and live laser engraving as extras.	david@mobarrochester.com	585-233-8975	https://www.mobarrochester.com/	https://www.instagram.com/mobarrochester/
+Vintage Taps	Bar		Rochester	New York	Rochester, Buffalo and Syracuse	Mobile bar run from a restored 1950 Ford panel truck, with custom drink menus and certified bartenders for weddings.	vintagetapsmobilebar@gmail.com	585-557-3203	https://vintagetapsmobilebar.com/	
+Bridal Biz Beauty	Hair & Makeup		Rochester	New York	Rochester, Canandaigua, Avon, Livonia and the Finger Lakes	Mobile bridal hair and makeup for brides and wedding parties, plus engagement photo styling.	linda@bridalbizbeauty.com	585-503-7143	https://bridalbizbeauty.com/	https://www.instagram.com/bridalbizbeauty/`,
+  },
+  {
+    name: "Syracuse: cake, officiant, rentals, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Magical Wedding CNY	Officiant		Syracuse	New York	Greater Central New York, including Syracuse, Cicero, Skaneateles, Liverpool and North Syracuse	Husband-and-wife team offering custom wedding ceremonies and elopements, alongside planning and day-of coordination.	vanessa@magicalweddingcny.com	315-395-3629	https://www.magicalweddingcny.com/	https://www.instagram.com/magical_wedding_cny/
+Century Party Rental	Rentals	933 Church St	North Syracuse	New York	Syracuse	Tent rental company supplying tables, chairs, china, glassware, linens, dance floors and staging for weddings.		315-452-1240	https://www.centurypartyrental.com/	
+Mario's Bakery	Cake	505 N Main St	North Syracuse	New York		Italian bakery whose specialties include custom wedding cakes, with a dedicated wedding cakes page on its site.	mario@mariositalianbakery.com	315-452-3306	https://mariositalianbakery.com/	
+Select Photo + Film	Videography		Syracuse	New York	Central New York, including Skaneateles, the Finger Lakes, Ithaca and Oswego	Syracuse studio filming wedding highlight films with multi-camera ceremony coverage, also offering photography and photo booth hire.	selectphotofilm@gmail.com	315-400-0482	https://www.selectphotofilm.com/	https://www.instagram.com/selectphotoandfilm/
+Everworks Films	Videography		Syracuse	New York	Syracuse and Central New York, including Auburn and Skaneateles	Wedding filmmakers making cinematic films and teaser films that document the day naturally, with extra footage available.	info@everworksfilms.com		https://www.everworksfilms.com/	https://www.instagram.com/everworksfilms/
+Needle Media	Videography	920 N Salina St	Syracuse	New York		Syracuse-based wedding videographer making wedding films and trailers, with drone footage included in packages.	Ryanneedle@gmail.com	315-313-9980	https://www.ryanneedlemedia.com/	https://www.instagram.com/NeedleMedia/`,
+  },
 ];
 
 export default batches;
