@@ -234,6 +234,30 @@ Drexel Hall	3301 Baltimore Ave	Kansas City	Missouri			Historic / Estate	Indoor		
 The Fontaine Hotel	901 W 48th Pl	Kansas City	Missouri			Ballroom / Hotel	Indoor			Seville-inspired boutique hotel near Country Club Plaza with 132 guest rooms and suites and a weddings and events program.	info@thefontainehotel.com	816.753.8800	https://www.thefontainehotel.com/
 Lakeview by Sue Barn Venue	15559 SE County Rd 2576	Appleton City	Missouri			Barn / Rustic	Indoor & Outdoor	400		Event barn with exposed beams and lake views, plus onsite cabins, kayaks and rowboats, RV hookups and a dressing room.	vintageviewbysue@gmail.com		https://www.vintageview-bysue.com/`,
   },
+  {
+    name: "Ozarks, mid-Missouri, Joplin and northwest Missouri",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Big Cedar Lodge	190 Top of the Rock Road	Ridgedale	Missouri			Ballroom / Hotel	Indoor & Outdoor	500		Wilderness resort above Table Rock Lake with four chapels, a grand ballroom, banquet rooms, lakeside spaces and a spa suite.		877-724-0124	https://bigcedar.com/weddings
+Dogwood Chapel	3265 State Highway F	Branson	Missouri			Barn / Rustic			Simple	Log-cabin wedding chapel outside Branson with ceremony packages for two to fifty guests, decorated for every package.		(417) 593-9890	https://dogwoodchapel.com/
+Log Chapel of the Ozarks	1708 Bee Creek Road	Branson	Missouri			Barn / Rustic	Indoor			One-room cedar log chapel with landscaped gardens and Ozark Mountain views, built for very small ceremonies.		(417) 334-6000	https://logchapeloftheozarks.com/
+Whispering Woods Venue	4268 Alpaca Rd	Joplin	Missouri			Garden / Outdoor				Landscaped wedding and event venue on Alpaca Road in Joplin.	wwoodsvenue@gmail.com	(417) 726-9383	https://www.wwoodsvenue.com/
+Hidden Grace Venue	11936 Hammer Road	Neosho	Missouri			Barn / Rustic	Indoor & Outdoor	250		Renovated indoor hall with vintage lighting plus an outdoor pergola chapel by a pond and oaks, with a bridal suite, barn and guest cabin.	hiddengracevenue@gmail.com	417.669.3990	https://hiddengracevenue.com/
+Country Charm Venue	18389 E. Hwy 86	Neosho	Missouri			Barn / Rustic	Indoor & Outdoor			Five acres of farmland and open pasture with a pond arbor for ceremonies, a farmhouse bridal suite and a groom's room.		(417) 355-1784	https://countrycharmvenue.com/
+The Gaderian	141 E 3rd St	Carthage	Missouri			Historic / Estate	Indoor & Outdoor			Restored downtown building with exposed brick and timber, courthouse views and rooftop ceremony space.		(417) 850-6117	https://www.thegaderian.com/
+Fox Hollow Weddings & Events	19953 MO-98	Boonville	Missouri			Barn / Rustic				Fifteen acres with a five-acre lake, a farmhouse-style reception hall and a Victorian-inspired bridal suite.			https://foxhollowvenue.com/
+Foundry 324	324 W 2nd St	Sedalia	Missouri			Ballroom / Hotel	Indoor			10,000-square-foot event space with exposed brick and tall ceilings in historic downtown Sedalia, with decor included.	foundry324@gmail.com	(660) 620-2486	https://www.foundry324.com/
+The Callaway Jewel	4910 County Rd 105	Fulton	Missouri			Restaurant / Vineyard				Vineyard property with a windowed event center, chapel room, caterer kitchen and bridal suite, hosting one wedding per weekend.	thecallawayjewel@gmail.com	314-330-4114	https://www.thecallawayjewel.com/
+Westwood Center	2445 North Westwood Boulevard	Poplar Bluff	Missouri			Ballroom / Hotel				Event center in Poplar Bluff with a ballroom and chapel, offering event set-up with decorations included.	westwoodcenterevents@gmail.com		https://www.westwoodeventcenter.com/
+Weingarten Vineyard	12323 Rottler Ln	Ste. Genevieve	Missouri			Restaurant / Vineyard				Family-owned vineyard with bride and groom suites plus ceremony and reception spaces and tours of the wedding areas.	joe.weingartenvineyard@gmail.com	(573) 883-2505	https://weingartenvineyard.com/weddings
+Edg-Clif Farms & Vineyard	10035 Edg-Clif Drive	Potosi	Missouri			Restaurant / Vineyard	Indoor & Outdoor	250	Simple	Family farm vineyard with a tasting-room barn, open-air pavilion, wedding garden, vintage barn and a bride's house.	steffie@edg-clif.com	573.438.4741	https://www.edg-clif.com/weddings-parties
+Timber Ridge Event Center	14618 State Route K	Amazonia	Missouri			Barn / Rustic	Indoor & Outdoor			Hilltop hay barn built over 100 years ago with its original hay rail, a bridal suite and a groom's room with a basement man cave.		816-244-8820	https://www.timberridgeec.com/
+Monarch Place Event Center	30889 Vista Drive	Oregon	Missouri			Barn / Rustic				Country venue on 60 wooded acres with a creek and a century-old barn, built where the Monarch School once stood.	croberts2766@hotmail.com	816-529-2787	https://monarchplaceeventcenter.com/
+Shakespeare Chateau Inn and Gardens	809 Hall Street	St. Joseph	Missouri			Historic / Estate		50	Simple	Historic bed and breakfast mansion whose parlors host small ceremonies, receptions and rehearsal dinners with in-house catering.	stay@shakespearechateau.com	816 232 2667	https://www.shakespearechateau.com/weddings
+Windstone Entertainment Event Center	2425 Industrial Dr	Jefferson City	Missouri			Ballroom / Hotel			Simple	West-end Jefferson City event hall with published rental rates and optional decorations, food and bar services.		(573) 636-2850	https://windstoneentertainment.com/
+The Ridge Wedding & Event Center	1974 State Hwy E	Oak Ridge	Missouri			Barn / Rustic	Indoor & Outdoor	350		Countryside event hall with adjustable floor plans, sunset views and overflow outdoor space.	info@booktheridge.com	(573) 275-2000	https://www.booktheridge.com/
+Robinson Farms NXTGEN	2927 County Road 233	Cape Girardeau	Missouri			Barn / Rustic	Indoor & Outdoor	300		Private 95-acre farm with guest lodging at The Elle House and Sunset Cottage and indoor and outdoor ceremony spaces.	admin@robinsonfarmsnxtgenco.com	(573) 200-6450	https://robinsonfarmsnxtgenco.com/venues/
+`,
+  },
 ];
 
 export default batches;
