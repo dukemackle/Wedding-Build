@@ -92,6 +92,17 @@ Saylor Buxcel Photography	Photography		Rapid City	South Dakota	Western South Dak
 Sayer JaDin Photography	Photography		Rapid City	South Dakota	Black Hills and across South Dakota	Black Hills photographer taking weddings across South Dakota, with a documentary approach that keeps the small moments of the day.	sayer@sayerjadinphotography.com		https://sayerjadinphotography.com/weddings	https://www.instagram.com/sayerjadinphotography/
 `,
   },
+  {
+    name: "Rapid City: videography, rentals, officiant, bridal & formalwear",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+BB Photo + Film	Videography		Rapid City	South Dakota	Black Hills and beyond (willing to travel)	Husband-and-wife photo and film team based in Rapid City, offering wedding videography alone or bundled with photography, with a wedding photo portfolio online.			https://www.bbphotoandfilm.com/	https://www.instagram.com/bbphotoandfilm/
+Black Hills PortaLux	Rentals		Spearfish	South Dakota	Black Hills and surrounding areas	Luxury restroom trailers with heating, air conditioning and vanity sinks, hired out for weddings and other events across the Black Hills.	hello@bhportalux.com	605-391-0723	https://www.bhportalux.com/	
+Something Borrowed	Rentals		Spearfish	South Dakota	Western South Dakota, Wyoming and Montana	Hire shop supplying tents, chairs, tables, linens, lighting, dance floors and draping for weddings, serving the region since 2012.		(605) 559-0265	https://www.somethingborrowedspearfish.com/	https://www.instagram.com/somethingborrowed.llc/
+Your Joyful Wedding (Mary Maisey-Ireland)	Officiant		Rapid City	South Dakota	Rapid City and the Black Hills	Wedding officiant and ceremony planner who writes custom ceremonies, and also handles vow renewals and rehearsals.	mary@yourjoyfulwedding.com	(605) 484-8464	http://www.yourjoyfulwedding.com/	https://www.instagram.com/marymaiseyireland/
+Audra's Bridal Gallery	Bridal & Formalwear	601 St. Joseph St	Rapid City	South Dakota		Downtown Rapid City bridal shop stocking wedding gowns, bridesmaid and mother-of-the-bride dresses, tuxedos and suits.		605-348-8816	https://audrasbridalgallery.com/	https://www.instagram.com/audrasbridalgallery/
+Michael’s Menswear	Bridal & Formalwear	617 St. Joseph St	Rapid City	South Dakota		Downtown menswear shop offering wedding suits and tuxedo hire for grooms and groomsmen, with fittings and set groom packages.	sales@michaelsmw.com	(605) 342-0127	https://michaelsmw.com/	
+`,
+  },
 ];
 
 export default batches;
