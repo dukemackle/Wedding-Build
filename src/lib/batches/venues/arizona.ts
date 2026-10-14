@@ -126,6 +126,56 @@ Rolling Raven Ranch	17450 W Fair Oaks Rd	Prescott	Arizona			Barn / Rustic	Indoor
 Desert Outdoor Center at Lake Pleasant		Morristown	Arizona			Garden / Outdoor	Indoor & Outdoor			County-run venue above Lake Pleasant with an outdoor amphitheater for ceremonies, a reception room and a sunset terrace.	maricopacountyparks@maricopa.gov	602-506-2930	https://www.maricopacountyparks.net/park-locator/desert-outdoor-center-at-lake-pleasant/facility-rentals/weddings/
 `,
   },
+  {
+    name: "Phoenix area venues, round 2",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Clayton House	3719 N 75th St #100	Scottsdale	Arizona			Historic / Estate	Indoor & Outdoor	350		Converted industrial warehouse in Old Town Scottsdale with polished concrete floors, exposed beams and sliding glass doors that open to an outdoor cocktail area.		866-966-3009	https://www.wedgewoodweddings.com/claytonhouse
+Lindsay Grove	1742 N Lindsay Rd	Mesa	Arizona			Garden / Outdoor	Indoor & Outdoor	200		Victorian-style estate with botanical gardens, a cascading stone waterfall, stained glass windows and an elevated ceremony pavilion, reserved for one event at a time.		866-966-3009	https://www.wedgewoodweddings.com/lindsaygrove
+Stonebridge Manor	4000 E Palm St	Mesa	Arizona			Historic / Estate	Indoor & Outdoor	350		Red brick mansion on four acres of English-style gardens with six outdoor ceremony spots, water features and a covered pavilion.		866-966-3009	https://www.wedgewoodweddings.com/stonebridgemanor
+Grayhawk Golf Club	8620 E Thompson Peak Pkwy	Scottsdale	Arizona			Restaurant / Vineyard	Indoor & Outdoor			Scottsdale golf club hosting weddings open to non-members, with an events sales team and a published custom wedding package.	alexa.haar@arcisgolf.com	(480) 502-3112	https://grayhawkgolf.com/weddings/
+McCormick Ranch Golf Club	7505 E McCormick Pkwy	Scottsdale	Arizona			Restaurant / Vineyard	Indoor & Outdoor			Golf club in the McCormick Ranch neighborhood that takes weddings and banquets through its in-house catering team.		(480) 948-7011	https://mccormickranchgolf.com/weddings-banquets/
+Ancala Country Club	11700 E Via Linda	Scottsdale	Arizona			Restaurant / Vineyard	Indoor & Outdoor	200		Country club in the McDowell Mountains area with a chandeliered ballroom, an outdoor lawn and patio for ceremonies, and in-house catering.		480-391-1000	https://arcisgolf.com/clubs/ancala_country_club/weddings
+Ocotillo Golf Club	3751 S Clubhouse Dr	Chandler	Arizona			Restaurant / Vineyard	Indoor & Outdoor	200		Golf club with outdoor ceremony sites at The Grove and Lakeside Palms and an indoor Overlook Pavilion ballroom with a patio for the reception.	carolyn.robertson@arcisgolf.com	480-732-1135	https://arcisgolf.com/clubs/ocotillo-golf-club/weddings
+Garden Tuscana Reception Hall	1940 E Main St	Mesa	Arizona			Garden / Outdoor	Indoor & Outdoor	500		Mesa reception hall of about 13,500 square feet with an outdoor garden for ceremonies and cocktails and an indoor ballroom nearby.		(480) 833-0636	https://gardentuscana.com/
+Antique Wedding House	307 E 1st St	Mesa	Arizona			Historic / Estate	Indoor & Outdoor	140	Simple	Small downtown Mesa wedding property with a chapel and a garden pavilion, set up for intimate ceremonies of 20 to 140 guests.	antiquewedding@gmail.com	(480) 649-1934	https://www.antiqueweddinghouse.com/
+Aldea Weddings at The Landmark	809 W Main St	Mesa	Arizona			Historic / Estate	Indoor			Family-run venue in a 1920s National Register building, offering all-inclusive packages with outside vendors and alcohol welcome.	landmarkweddingsaz@gmail.com	(480) 625-2534	https://landmarkweddingsaz.com/
+Kimpton Hotel Palomar Phoenix	2 E Jefferson St	Phoenix	Arizona			Ballroom / Hotel	Indoor & Outdoor	140		Downtown Phoenix hotel with the Dreamcatcher Ballroom, ten flexible event rooms and a rooftop pool deck, taking weddings of 10 to 140 guests.	sales@hotelpalomar-phoenix.com	(480) 478-1775	https://www.hotelpalomar-phoenix.com/wedding-venues-in-phoenix/
+Flying E Ranch	2801 Wickenburg Way	Wickenburg	Arizona			Barn / Rustic	Indoor & Outdoor			Working cattle and guest ranch that reserves the whole property for one wedding at a time, with a desert ceremony site, open-air pavilion and historic bridal suites.	info@flyingeranch.com	(928) 684-2690	https://www.flyingeranch.com/
+Windy Hill Ranch		Cave Creek	Arizona			Barn / Rustic	Outdoor	150	Simple	Nonprofit equine ranch in Cave Creek with open desert skies, mountain views and horses on site, hosting outdoor weddings.		(480) 409-4555	https://www.heartprintsequine.com/wedding-venue/
+`,
+  },
+  {
+    name: "Tucson and southern Arizona venues, round 2",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Stillwell House	134 South 5th Avenue	Tucson	Arizona			Historic / Estate	Indoor & Outdoor			A historic downtown Tucson landmark that stages weddings from garden brunches to candlelit evenings, with a micro-wedding package.	events@stillwellhouse.com	520-623-9123	https://www.stillwellhouse.com/services/weddings
+Mollohan Castle	1939 W Mollohan Dr	Tucson	Arizona			Historic / Estate	Indoor & Outdoor	125		A castle-style event property in Tucson with stone textures, a balcony, a dungeon bar and ceremony and reception spaces, plus elopement and full-wedding packages.	info@mollohancastleweddings.com	520-878-6467	https://www.mollohancastleweddings.com/
+La Mariposa Resort	1501 N Houghton Rd	Tucson	Arizona			Garden / Outdoor	Indoor & Outdoor			A garden-style property at the foot of the Santa Catalina Mountains with a banquet room under a skylight, a firepit patio and a large lawn.	weddings@lamariposaresort.com	520-633-7891	https://lamariposaresort.com/
+Sage Creek Ranch	12880 S Baldwin Ln	Tucson	Arizona			Barn / Rustic	Outdoor			A family-owned 19-acre desert property with gazebos, koi ponds, horse stables and a windmill pavilion that doubles as a dance floor.	info@sagecreekranchevents.com	520-975-4928	https://www.sagecreekranchevents.com/
+Tucson Museum of Art	140 North Main Avenue	Tucson	Arizona			Garden / Outdoor	Indoor & Outdoor			A downtown Tucson art museum that rents its outdoor plaza and indoor lobby for weddings and special occasions.	info@tucsonmuseumofart.org	520-624-2333	https://www.tucsonmuseumofart.org/rentals
+The Venue Tucson		Tucson	Arizona			Ballroom / Hotel	Indoor	400		A ballroom venue attached to the Sheraton Tucson Hotel, with the Catalina and Sabino ballrooms and a theater space for gatherings from 50 to 400 guests.			https://www.thevenuetucson.com/
+Villa de la Meza	2613 E County 16th St	Yuma	Arizona			Garden / Outdoor				A Tuscan-inspired private event venue outside Yuma that hosts weddings, corporate gatherings and private celebrations.		928-287-5886	https://villadelameza.com/
+Old St. Paul's Event Center	645 S 2nd Ave	Yuma	Arizona			Historic / Estate	Indoor & Outdoor			A historic downtown Yuma building with indoor and outdoor spaces for weddings and receptions.		928-210-4878	https://oldstpaulsaz.com/
+Yuma Territorial Prison	220 Prison Hill Road	Yuma	Arizona			Historic / Estate	Outdoor			A former territorial prison and state historic site in Yuma with manicured grounds and an Old West look, near the Ocean-to-Ocean Bridge.		928-783-4771	https://yumaprison.org/yuma-wedding-venue/
+Laughlin Ranch Golf Club	1360 William Hardy Dr	Bullhead City	Arizona			Garden / Outdoor	Indoor & Outdoor			A golf club in the Black Mountains above the Colorado River with outdoor ceremony sites, patios, reception halls and on-site catering.	info@laughlinranch.com	928-754-1243	https://laughlinranch.com/events/weddings/
+Tombstone Monument Ranch	895 W Monument Rd	Tombstone	Arizona			Barn / Rustic	Indoor & Outdoor	120		A western-themed ranch built to resemble Tombstone in its heyday, with a red barn seating 120, a saloon, a mine shaft and 17 guest rooms.	info@tombstonemonumentranch.com	520-457-7299	https://www.tombstonemonumentranch.com/weddings
+The Courtyard Bisbee	18 Brewery Avenue	Bisbee	Arizona			Historic / Estate	Indoor & Outdoor	40		A small venue in Old Bisbee's Brewery Gulch for micro weddings and elopements, with two rental units above it for overnight stays.			https://www.thebisbeecourtyard.com/
+The Inn at Castle Rock	112 Tombstone Canyon Rd	Bisbee	Arizona			Historic / Estate	Indoor & Outdoor	35		An 1895 inn in Old Bisbee with hillside gardens, a private patio and a third-floor Octagon Room for small weddings.	tiacr@hotmail.com	520-432-4449	https://theinnatcastlerock.com/weddings-and-events.htm
+`,
+  },
+  {
+    name: "Northern Arizona venues",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Abineau Lodge	1080 Mountainaire Rd	Flagstaff	Arizona			Barn / Rustic	Indoor & Outdoor	100		Eight-room inn among ponderosa pines six miles south of Flagstaff, with a tented pavilion and an early-1900s dairy barn and log cabin on the grounds.		928-525-6212	https://www.abineaulodge.com/weddings
+High Country Motor Lodge	1000 W Route 66	Flagstaff	Arizona			Ballroom / Hotel	Indoor & Outdoor	320		Route 66 lodge in Flagstaff with an indoor room of about 1,500 sq ft plus a Great Lawn and deck for ceremonies and receptions with mountain views.		928-774-5221	https://highcountrymotorlodge.com/weddings/
+Sedona Heritage Museum	735 Jordan Rd	Sedona	Arizona			Historic / Estate	Indoor & Outdoor			Museum grounds in Uptown Sedona's Jordan Historical Park, with National Register buildings, gardens and red-rock scenery for ceremonies.	volunteercoordinator@sedonamuseum.org	928-282-7038	https://sedonamuseum.org/services/
+UVX Rustic Ranch	1095 UVX Rd	Cottonwood	Arizona			Barn / Rustic	Indoor & Outdoor			Secluded Verde Valley barn with views and a garden chapel, hosting rustic weddings as well as corporate events.	uvxrusticranch@gmail.com	(480) 818-4678	https://uvxrusticranch.com
+Blazin' M Ranch	1875 Mabery Ranch Rd	Cottonwood	Arizona			Barn / Rustic	Indoor & Outdoor			Family-run Wild West ranch in the Verde Valley, about 20 minutes from Sedona, that also offers weddings and private ranch buyouts.		(928) 634-0334	https://blazinm.com
+The Ivory + Grace	6385 W White Mountain Blvd	Lakeside	Arizona			Garden / Outdoor	Indoor & Outdoor			Twenty-acre White Mountains property centred on a restored mid-century hall, with patios, gardens, a pavilion and a waterfall.	hello@theivorygrace.com	928-940-2005	https://www.theivorygrace.com/
+The Greenhouse on Woodland	868 W Woodland Lake Rd	Pinetop	Arizona			Garden / Outdoor	Indoor & Outdoor			Garden wedding site on the old Pico's Nursery grounds under ponderosa pines, with a 1940s tiny house and a reception hall.		(928) 242-7627	https://www.greenhouseonwoodland.com
+Foxfire at Alpine	42661 US Highway 180	Alpine	Arizona			Barn / Rustic	Indoor & Outdoor	125		Lodge-style White Mountains restaurant and bar with interconnected rooms, a stage and a bridal suite in a building dating to 1873.		(928) 339-4344	https://foxfireatalpineaz.com/wedding-events/
+'Tis Art Gallery	105 S Cortez St	Prescott	Arizona			Ballroom / Hotel	Indoor			Downtown Prescott art gallery whose third-floor banquet hall is available for weddings and receptions.	gallery@tisartgallery.com	(928) 775-0223	https://www.tisartgallery.com
+`,
+  },
 ];
 
 export default batches;

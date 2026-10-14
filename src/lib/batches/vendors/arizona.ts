@@ -189,6 +189,15 @@ Granite & Sky	Videography		Prescott	Arizona	Prescott, Prescott Valley, Sedona, F
 Like Morning Sun	Videography		Flagstaff	Arizona	Northern Arizona and greater Phoenix	Husband-and-wife photo and film team in Flagstaff, with calm direction, warm natural films and an option for Super 8 footage.	hello@likemorningsun.com	623-824-1621	https://www.likemorningsun.com/	https://www.instagram.com/likemorningsun/
 `,
   },
+  {
+    name: "Sedona and Flagstaff: hair and makeup, cake and officiant",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Abby Elyse Makeup	Hair & Makeup		Sedona	Arizona	Sedona and across Arizona	Sedona-based makeup artist who travels to red-rock ceremonies and venues around Arizona for bridal, elopement and special-event looks.	abbyelysemakeup@gmail.com	928-821-5813	https://abbyelysemakeup.com	https://www.instagram.com/abbyelysemakeupartistry/
+Jaliza Sedona Luxury Spa & Beauty Lounge	Hair & Makeup	2530 W State Route 89A, Suite B2	Sedona	Arizona	Sedona	Sedona spa and beauty lounge offering bridal hair and makeup for brides, bridesmaids, elopements and wedding parties, in glam or natural looks.	hello@jalizasbeautylounge.com	928-255-0705	https://www.jalizasbeautylounge.com/hairandmakeup	https://www.instagram.com/jalizasbeautylounge/
+Mozelle's Downtown Bakery	Cake	6 E Aspen Ave, Suite 110	Flagstaff	Arizona		Downtown Flagstaff bakery making tiered wedding cakes, cupcake towers and dessert bars, with packages from elopement cakes to five-tier designs.	mozellesdowntownbakery@gmail.com	928-774-5418	https://mozellesbakery.com	https://www.instagram.com/mozellesbakery/
+Earth Elopements	Officiant		Sedona	Arizona		Sedona elopement and wedding ceremony company whose officiants build custom red-rock ceremonies, with optional photography and videography.	Weddings@earthelopements.com	(928) 301-9288	https://earthelopements.com	https://www.instagram.com/earthelopements/
+`,
+  },
 ];
 
 export default batches;
