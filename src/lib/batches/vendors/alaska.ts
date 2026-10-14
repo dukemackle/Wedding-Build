@@ -78,6 +78,18 @@ Golden Heart Weddings Alaska	Officiant		Fairbanks	Alaska	Interior Alaska	Fairban
 Sitka Weddings and Events	Planning		Sitka	Alaska		Sitka-based events company organising weddings, private parties and corporate events in the island town.			https://www.sitkaweddings.com/	https://www.instagram.com/sitkaweddings/
 Juneau Limousine Services	Transportation		Juneau	Alaska	Juneau	Juneau limousine and luxury vehicle service running around the clock, with a stretch limo, sedan, van and SUV and uniformed chauffeurs for weddings.	juneaulimos@gmail.com	907-463-5466	https://juneaulimousineservices.com/	`,
   },
+  {
+    name: "Kenai Peninsula: music, hair & makeup, cake and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Joanna Mergler Mayer	Music		Eagle River	Alaska	Southcentral Alaska	Eagle River harpist playing weddings on concert or Celtic harp, with preludes, processionals, recessionals and cocktail or dinner music.			https://alaskaharp.com/	https://www.instagram.com/brokenstringstudio/
+Lux Studios	Hair & Makeup	9191 Old Seward Highway #15	Anchorage	Alaska	Anchorage, with travel outside Anchorage for an extra fee	Anchorage makeup studio offering traditional and airbrush bridal makeup in the studio or on location, with trials and half- or full-day party packages.		(907) 336-3300	https://luxstudioanc.com/makeup/	https://www.instagram.com/luxstudiosak/
+Cheeky Medspa	Hair & Makeup	36892 Mallard Road	Kenai	Alaska	Kenai Peninsula, with a mileage charge for bridal parties of three or more	Medspa with Soldotna and Homer locations whose artists do bridal-party makeup on location, with a discounted trial and up to six clients.	info@alaskacheeky.com	717-408-6075	https://alaskacheeky.com/service/professional-makeup-artistry/	
+Alaska cAKe Studio	Cake		Anchorage	Alaska		Anchorage bakery building two- to four-tier buttercream wedding cakes from a wide list of flavours, including gluten-free options, ordered online or by enquiry.		907-272-3995	https://www.akcake.com/	https://www.instagram.com/akcake907/
+Alaska Wedding Cake Boutique	Cake		Anchorage	Alaska	Alaska	Wedding cake designer Carolina De Los Santos makes couture cakes with handcrafted sugar flowers, with a limited number of bookings and per-person pricing.	akwedcake@gmail.com	(907) 570-1441	https://www.akweddingcake.com/	https://www.instagram.com/ak_wedding_cake/
+Megan Rai	Videography		Anchorage	Alaska	Anchorage, Girdwood, Wasilla and Kenai, plus destination weddings	Alaska-based photographer and videographer for adventure elopements and destination weddings, with a candid, emotion-led style and wedding films on request.			https://meganraifreeman.com/	https://www.instagram.com/meganrai/
+InZane Photography	Videography		Anchorage	Alaska	Alaska	Husband-and-wife team offering wedding highlight films of four to eight minutes, full multi-angle ceremony coverage and photo and video bundles.	justinlusk@inzanephotography.com	(907)229-4329	https://inzanephotography.com/	https://www.instagram.com/inzanephotography/
+`,
+  },
 ];
 
 export default batches;

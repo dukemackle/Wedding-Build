@@ -90,6 +90,19 @@ Pacific Floral Design	Florals	903 Early St	Santa Fe	New Mexico	Santa Fe	Locally 
 Aspect Flowers	Florals		Santa Fe	New Mexico		Santa Fe studio florist making garden-style arrangements with local blooms, with a wedding florals service and a free online estimator.	schweitzermeredith@gmail.com	347-698-9196	https://www.aspectflowers.com/	
 `,
   },
+  {
+    name: "Albuquerque: planning, florals, music, catering, hair & makeup, cake and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Enchanted Weddings NM	Planning		Rio Rancho	New Mexico	New Mexico	Rio Rancho planner Josie Hamblin offering day-of coordination, partial and full wedding planning, with a travel fee beyond about 60 miles.		(505) 306-9032	https://enchantedweddingsnm.weebly.com/	
+Duke City Floral	Florals	2823 2nd St NW	Albuquerque	New Mexico	Albuquerque, Rio Rancho, Corrales and nearby areas	Albuquerque flower shop providing wedding and event flowers, with consultations and delivery to local venues across the Albuquerque area.	dukecityfloral@gmail.com	(505) 916-5689	https://www.dukecityfloral.com/	https://www.instagram.com/dukecityfloral/
+Ry Smith	Music		Albuquerque	New Mexico	Albuquerque, Santa Fe and New Mexico	Albuquerque cellist and multi-instrumentalist playing live wedding music, layering cello with piano, guitar, bass, percussion or strings.			https://www.ryansmithcellomusic.com/	
+Gourmet to Go	Catering	7600 Jefferson St NE Suite 2	Albuquerque	New Mexico		Albuquerque caterer run by Sharon Levin since 1994, with wedding menus spanning New Mexican, Mediterranean and kosher options.		(505) 872-2421	https://gourmet2goabq.com/	
+Casa Taco Catering	Catering		Albuquerque	New Mexico	New Mexico	Albuquerque restaurant group catering weddings with taco bars, enchiladas and full-meal spreads, on-site or off-site, booked weeks ahead.	Eat@casa-taco.com	505-821-8226	https://casa-taco.com/catering/	https://www.instagram.com/casataconm/
+Prisma Hair Co	Hair & Makeup	3123 Central Ave NE	Albuquerque	New Mexico		Nob Hill salon in Albuquerque with a dedicated wedding team offering bridal hair and makeup, booked through a wedding inquiry form.		(505) 348-6756	https://www.prismahairco.com/	https://www.instagram.com/prismahairco/
+Cake Ingenuity	Cake		Albuquerque	New Mexico		Albuquerque cake studio with a wedding cake gallery, a flavours list and an online quote request for custom designs.			https://www.cakeingenuity.com/wedding-cakes	https://www.instagram.com/cakeingenuity/
+Emily Joanne Weddings & Portraits	Videography		Albuquerque	New Mexico	Albuquerque and Santa Fe	Albuquerque husband-and-wife studio: Emily photographs and Seiji makes the wedding films, working in Albuquerque and Santa Fe.	info@emilyjoanne.com	505-369-9077	https://www.emilyjoanne.com/weddings	
+`,
+  },
 ];
 
 export default batches;
