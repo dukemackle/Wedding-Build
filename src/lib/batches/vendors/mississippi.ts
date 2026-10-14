@@ -151,6 +151,12 @@ The Soul Tones	Music		Oxford	Mississippi		Oxford party band offering wedding pac
 Jen and Chuck Photography	Videography		Ocean Springs	Mississippi	Mississippi, Alabama, Louisiana, Florida and destinations	Ocean Springs photo and video team with a wedding films portfolio from Biloxi, Bay St Louis, Hattiesburg and further afield.	Jenandchuckphotography@gmail.com	228-235-0242	https://jenandchuck.com/	https://www.instagram.com/jenandchuckphotography/
 `,
   },
+  {
+    name: "Oxford: music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Mississippi DJ Events	Music		Oxford	Mississippi	Oxford, Lafayette County and nearby north Mississippi	Wedding DJ service with a dedicated Oxford page, covering Lafayette County and nearby north Mississippi towns as well as other Mississippi and Alabama cities.		(662) 438-3696	https://mississippidjevents.com/oxford	https://www.instagram.com/mississippidjevents/
+`,
+  },
 ];
 
 export default batches;

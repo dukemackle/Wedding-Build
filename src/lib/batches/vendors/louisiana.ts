@@ -190,6 +190,12 @@ Brandon Handy Weddings	Videography		Shreveport	Louisiana	Louisiana, Oklahoma and
 Buttercups Cupcakes	Cake	6535 Youree Dr, Suite 207	Shreveport	Louisiana	Shreveport, Bossier City and Texarkana	Locally owned Shreveport bakery making custom cakes, cupcakes and macarons for weddings and celebrations; two weeks notice asked.			https://www.ilovebuttercups.com/	https://www.instagram.com/buttercupscupcakes/
 `,
   },
+  {
+    name: "Shreveport: hair and makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+The French Twist Salon	Hair & Makeup	6401 Line Ave, Bldg 4	Shreveport	Louisiana	Shreveport	Salon in south Shreveport that styles brides, mothers and bridal parties for the wedding day, with updos, makeup and a private glam room.		(318) 671-4409	https://frenchtwistbeautysalon.com/parties-and-vip-experience	
+`,
+  },
 ];
 
 export default batches;
