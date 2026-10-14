@@ -101,6 +101,94 @@ function pinesPattern(id: string, color: string, w = 26, h = 70): ReactNode {
   );
 }
 
+/** A fixed run of "random" numbers, so a scene draws the same on every visit. */
+function seeded(seed: number) {
+  let s = seed >>> 0;
+  return () => {
+    s = (s + 0x6d2b79f5) >>> 0;
+    let t = s;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+/**
+ * One conifer: tiers of drooping boughs widening towards the base, each tier
+ * a little different, on a short trunk. `rnd` makes every tree its own.
+ */
+function pinePath(cx: number, base: number, h: number, rnd: () => number): string {
+  const n = (v: number) => v.toFixed(1);
+  const w = h * (0.22 + rnd() * 0.08);
+  const trunk = h * 0.07;
+  const crown = base - trunk;
+  const top = base - h;
+  const tiers = 6 + Math.floor(rnd() * 3);
+  const lean = (rnd() - 0.5) * h * 0.06;
+  // Each tier: a bough curving out and down to its tip, then tucking back in.
+  const side = (dir: 1 | -1) => {
+    const tiersOut: { c: number[]; tip: number[]; notch: number[] }[] = [];
+    let prevY = top;
+    for (let i = 0; i < tiers; i++) {
+      const t = (i + 1) / tiers;
+      const y = top + (crown - top) * Math.pow(t, 0.85);
+      const span = y - prevY;
+      const out = w * (0.14 + 0.86 * Math.pow(t, 0.9)) * (0.85 + rnd() * 0.3);
+      const x0 = cx + lean * (1 - t);
+      tiersOut.push({
+        c: [x0 + dir * out * 0.5, prevY + span * 0.8],
+        tip: [x0 + dir * out, y + span * (0.12 + rnd() * 0.2)],
+        notch: [x0 + dir * out * (0.4 + rnd() * 0.12), y - span * 0.02],
+      });
+      prevY = y;
+    }
+    return tiersOut;
+  };
+  const r = side(1);
+  const l = side(-1);
+  const tw = Math.max(1.5, h * 0.03);
+  let d = `M${n(cx + lean)} ${n(top)}`;
+  r.forEach((t, i) => {
+    d += `Q${n(t.c[0])} ${n(t.c[1])} ${n(t.tip[0])} ${n(t.tip[1])}`;
+    if (i < r.length - 1) d += `L${n(t.notch[0])} ${n(t.notch[1])}`;
+  });
+  d += `L${n(cx + tw)} ${n(crown)}V${n(base)}H${n(cx - tw)}V${n(crown)}`;
+  // Back up the left side: each bough drawn from its tip to where it began.
+  for (let i = l.length - 1; i >= 0; i--) {
+    const t = l[i];
+    const from = i > 0 ? l[i - 1].notch : [cx + lean, top];
+    d += `L${n(t.tip[0])} ${n(t.tip[1])}Q${n(t.c[0])} ${n(t.c[1])} ${n(from[0])} ${n(from[1])}`;
+  }
+  return d + "Z";
+}
+
+/**
+ * A stand of pines: trees scattered between x0 and x1 at irregular gaps, the
+ * tallest near `peak` and smaller towards the edges, standing on `ground`.
+ */
+function grove(
+  rnd: () => number,
+  x0: number,
+  x1: number,
+  ground: (x: number) => number,
+  minH: number,
+  maxH: number,
+  gap: number,
+): string {
+  const trees: [number, number][] = [];
+  for (let x = x0 + rnd() * gap; x < x1; x += gap * (0.45 + rnd() * 0.9)) {
+    const mid = (x - x0) / (x1 - x0);
+    const swell = Math.sin(Math.PI * mid) ** 0.6;
+    if (rnd() > 0.35 + swell) continue;
+    trees.push([x, minH + (maxH - minH) * swell * (0.6 + rnd() * 0.4)]);
+  }
+  // Shorter trees last, so they stand in front.
+  return trees
+    .sort((a, b) => b[1] - a[1])
+    .map(([x, h]) => pinePath(x, ground(x) + 2, h, rnd))
+    .join("");
+}
+
 
 const SNOW = "color-mix(in srgb, #ffffff 86%, var(--site-accent))";
 
@@ -380,20 +468,53 @@ const BANDS: Draw = {
       <path d="M0 242C200 230 400 252 600 242S1000 230 1200 244V260H0Z" style={fill(tint(70))} />
     </>
   ),
-  pines: (id: string) => (
-    <>
-      <defs>
-        {pinesPattern(`${id}a`, tint(40), 34, 92)}
-        {pinesPattern(`${id}b`, tint(90), 44, 120)}
-      </defs>
-      <path
-        d="M0 200C300 180 600 196 900 186S1100 190 1200 196V260H0Z"
-        style={fill(tint(10))}
-      />
-      <rect x="10" y="118" width="1200" height="92" fill={`url(#${id}a)`} />
-      <rect x="-12" y="140" width="1224" height="120" fill={`url(#${id}b)`} />
-    </>
-  ),
+  pines: (id: string) => {
+    const rnd = seeded(7);
+    const far = (x: number) => 150 + 14 * Math.sin(x / 170) + 8 * Math.sin(x / 61);
+    const mid = (x: number) => 192 + 10 * Math.sin(x / 140 + 1) + 5 * Math.sin(x / 47);
+    const near = (x: number) => 238 + 6 * Math.sin(x / 120 + 2);
+    const ridge = (f: (x: number) => number) =>
+      `M0 ${f(0).toFixed(1)}` +
+      Array.from({ length: 41 }, (_, i) => `L${i * 30} ${f(i * 30).toFixed(1)}`).join("") +
+      "V260H0Z";
+    const mist = "color-mix(in srgb, #ffffff 55%, var(--color-parchment))";
+    return (
+      <>
+        <defs>
+          <linearGradient id={`${id}m`} x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stopColor={mist} stopOpacity="0" />
+            <stop offset="0.7" stopColor={mist} stopOpacity="0.8" />
+            <stop offset="1" stopColor={mist} stopOpacity="0" />
+          </linearGradient>
+        </defs>
+        {/* Far hills, their pines small and hazy. */}
+        <path d="M0 120C180 92 330 104 470 86S760 70 900 96S1100 92 1200 80V260H0Z" style={fill(tint2(14))} />
+        <path d={ridge(far)} style={fill(tint2(24))} />
+        <path
+          d={grove(rnd, 0, 300, far, 12, 26, 9) + grove(rnd, 380, 520, far, 10, 20, 10) + grove(rnd, 640, 1200, far, 12, 28, 9)}
+          style={fill(tint2(36))}
+        />
+        <rect y="118" width="1200" height="80" fill={`url(#${id}m)`} />
+        {/* The middle distance: stands of trees with clearings between. */}
+        <path d={ridge(mid)} style={fill(tint(30))} />
+        <path
+          d={grove(rnd, -20, 260, mid, 26, 64, 15) + grove(rnd, 470, 610, mid, 20, 44, 16) + grove(rnd, 820, 1220, mid, 28, 70, 15)}
+          style={fill(tint(46))}
+        />
+        <rect y="176" width="1200" height="60" fill={`url(#${id}m)`} opacity="0.7" />
+        {/* The meadow in front, and a few tall pines framing it. */}
+        <path d={ridge(near)} style={fill(tint(56))} />
+        <path
+          d={grove(rnd, 120, 380, near, 50, 120, 26) + grove(rnd, 860, 1120, near, 50, 130, 26)}
+          style={fill(tint(76))}
+        />
+        <path
+          d={grove(rnd, 160, 330, near, 70, 190, 38) + grove(rnd, 910, 1060, near, 80, 210, 40)}
+          style={fill(shade(62))}
+        />
+      </>
+    );
+  },
   frontier: () => (
     <>
       <circle cx="900" cy="90" r="40" style={fill(tint(14))} />
