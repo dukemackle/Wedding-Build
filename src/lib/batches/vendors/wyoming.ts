@@ -107,6 +107,13 @@ Magnolia Ranch Events	Planning		Jackson	Wyoming	Jackson Hole	Jackson Hole planni
 Destination Jackson Hole	Planning		Jackson	Wyoming	The Tetons and surrounding areas	Event planning company in Jackson since 1996, run by Alison Kyle since 2010, producing weddings and corporate events around the Tetons.	alison@destinationjacksonhole.com		https://www.destinationjacksonhole.com/	https://www.instagram.com/destinationjacksonhole/
 `,
   },
+  {
+    name: "Cheyenne: cake and music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Cake Works	Cake		Cheyenne	Wyoming	Front Range Colorado and Cheyenne, Wyoming	Cheyenne baker making custom wedding cakes, groom's cakes and cookies since 2010, with consultations and tastings and delivery along the Front Range.	cakeworksbakery@live.com	(307) 286-3441	https://cakeworksbakery.com/	https://www.instagram.com/cakeworkscolorado/
+Evocative Entertainment	Music		Sheridan	Wyoming	Wyoming, southern Montana and western South Dakota	Sheridan DJ and lighting company offering wedding music, ceremony audio and event lighting across Wyoming, southern Montana and western South Dakota.	evocativeentertainment@gmail.com		https://evocativeentertainment.com/	
+`,
+  },
 ];
 
 export default batches;
