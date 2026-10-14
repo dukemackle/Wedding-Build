@@ -280,6 +280,45 @@ Fun Pics Photo Booths	Photo Booth		Springfield	Missouri	Springfield, Branson, La
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
 Mid-MO Music Machine	Music		Columbia	Missouri	Columbia, Jefferson City, Lake of the Ozarks, Holts Summit and Fulton	Mobile DJ and sound-and-light service run by a DJ with over 30 years in radio and pro audio, offering wedding packages across mid-Missouri.	midmomusicmachine@gmail.com	573-691-2580	https://midmomusicmachine.com/	`,
   },
+  {
+    name: "Lake of the Ozarks: planning, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Delight Events	Planning		Columbia	Missouri	Columbia, Jefferson City, Lake of the Ozarks and the rest of Missouri	Columbia-based planning team handling full, partial and day-of wedding coordination across Missouri, including Jefferson City and the Lake.	eventsthatdelight@gmail.com	573-673-9671	https://www.eventsthatdelight.com/	https://www.instagram.com/delighteventsmo/
+James Smith Films	Videography		Columbia	Missouri		Columbia videographer who films weddings alongside real estate, live event and corporate video projects.	visualfilmcreator@gmail.com		https://jamessmithfilms.com/	https://www.instagram.com/jamessmithfilms/
+`,
+  },
+  {
+    name: "Kansas City: planning, photo booth, bridal & formalwear, desserts, rentals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Bespoke Socials	Planning		Kansas City	Missouri	Missouri	Small-wedding and elopement planner for offbeat, bohemian couples, covering design plus full or partial planning across Missouri.	planner@bespokesocials.com	(641) 530-0044	https://www.bespokesocials.com/	https://www.instagram.com/bespokesocials/
+360picKC	Photo Booth		Kansas City	Missouri	Kansas City and surrounding areas	Photo booth hire with 360 platforms, open-air, roaming and walk-in magazine booths, plus audio guest books, for weddings and corporate events.	service@360picKC.com	816-216-1809	https://www.360pickc.com/	https://www.instagram.com/360pickc/
+Slabotsky's	Bridal & Formalwear	306 Delaware St	Kansas City	Missouri		Menswear and tailoring shop founded in 1908, selling custom-tailored wedding suits and tuxedos to keep, with group pricing for the wedding party.	weddings@slabotskys.com	(816) 842-3445	https://www.slabotskyskc.com/	https://www.instagram.com/slabotskysmens/
+Cake-A-Boo	Desserts	809 W 39th St, Suite 160	Kansas City	Missouri		Custom cakes, cupcakes and gourmet desserts since 2010, with a dessert trailer and cake bar experience on offer for wedding receptions.	info@cakeaboo.com	(913) 915-0194	https://www.cakeaboo.com/	https://www.instagram.com/cake_a_boo/
+Rustic Wedding & Event Rentals	Rentals		Raymore	Missouri	Kansas City and surrounding areas	Small veteran-owned rental company supplying tables, chairs, linens, dance floors and pipe and drape for Kansas City-area weddings.	hello@rusticweddingandeventrentals.com	816-295-2296	https://www.rusticweddingandeventrentals.com/	https://www.instagram.com/rusticweddingeventrentals/
+`,
+  },
+  {
+    name: "St. Louis: transportation, photography, rentals, officiant",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Fun Tyme Limousine	Transportation	3053 Roger Pl	St. Louis	Missouri	St. Louis, St. Charles, Jefferson County and Metro East	Chauffeured limousines, black cars and party buses for bridal parties and guests, running in the St. Louis area since 1995.	info@funtymelimo.com	(314) 313-5466	https://www.funtymelimo.com/	https://www.instagram.com/funtymelimo/
+Riding In Style	Transportation		St. Louis	Missouri	St. Louis area	Family-owned limousine and party bus company, started with one vehicle in 2011, that specialises in wedding and birthday transport.	info@ridinginstylestl.com	636-228-6722	https://www.ridinginstylestl.com/	
+Black Tie Weddings & Events	Photography		St. Louis	Missouri	Missouri and Illinois	Wedding photography from a team that can also supply the DJ and photo booth, handy for couples who want fewer vendors to coordinate.	christina@blacktieweddingsandevents.com	314-933-6137	https://www.blacktieweddingsandevents.com/	https://www.instagram.com/blacktieweddingsandevents/
+Pancho3 Studios	Photography		St. Louis	Missouri	St. Louis area and destination weddings	Documentary wedding photography and video from a St. Louis-area studio, with a dedicated portfolio of South Asian weddings and engagements.			https://pancho3.com/	https://www.instagram.com/pancho3studios/
+Mena Darré Photo & Video	Photography	1120 S. 6th Street	St. Louis	Missouri		St. Louis photographer with a studio, taking wedding and elopement bookings and offering a highlight film alongside the stills.	support@menadarre.com		https://www.menadarrephotography.com/	https://www.instagram.com/menadarrephotography/
+The Aries Company	Rentals	4940 Northrup Ave	St. Louis	Missouri		St. Louis rental house since 1974 for chairs, tables, linens, china, bars, lighting and draping, working with planners and couples.	sales@ariesco.com	314.664.6610	https://ariesco.com/	https://www.instagram.com/the_aries_company/
+Weinhardt Party Rentals	Rentals	5901 Elizabeth Ave	St. Louis	Missouri	St. Louis	Established St. Louis rental firm trading since 1946, with tables, chairs, linens and china for micro weddings through to large receptions.	inquiries@weinhardtpartyrentals.com	(314) 822-9000	https://www.weinhardtpartyrentals.com/	https://www.instagram.com/weinhardtpartyrentals/
+Belmont Party Rentals	Rentals	11721 Dunlap Industrial Blvd	Maryland Heights	Missouri	St. Louis area	Family-owned since 1975, supplying tables, chairs, linens, china and tents for weddings and other events across the St. Louis area.	office@belmontpartyrentals.com	(314) 997-7300	https://belmontpartyrentals.com/	https://www.instagram.com/belmont_party_rentals/
+Inclusively Yours Ceremonies	Officiant		St. Louis	Missouri	St. Louis	Certified life-cycle celebrant who writes custom, LGBTQ-friendly wedding ceremonies, from full services to short elopement vows.	InclusivelyYoursSTL@gmail.com	314.374.5881	https://www.inclusivelyyoursstl.com/	https://www.instagram.com/inclusivelyyoursstl/
+`,
+  },
+  {
+    name: "Springfield: bridal & formalwear, transportation",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Karl's Tuxedos	Bridal & Formalwear	1255 W Battlefield Rd	Springfield	Missouri		Family-owned Springfield tuxedo and suit shop renting for weddings since 1980, with online measurements for out-of-town groomsmen.	info@karlstuxedos.com	417-888-3008	https://karlstuxedos.com/	https://www.instagram.com/karlstuxedos/
+Gracie's Bridal	Bridal & Formalwear	2724 S Glenstone Ave	Springfield	Missouri		Bridal salon since 2006 offering wedding gowns, plus-size and mother-of-the-bride dresses, alterations and tuxedos in the Brentwood centre.		417-866-1808	https://graciesbridalspringfield.com/	https://www.instagram.com/graciesbridal/
+Unique Rides Transportation	Transportation		Springfield	Missouri	Springfield and 150 miles beyond	Springfield limousine service for weddings, with a pink limo, stretch Hummer, executive stretch and sedans, plus airport transfers.	info@uniqueridestransportation.com	417-865-5600	https://www.uniqueridestransportation.com/	https://www.instagram.com/uniqueridestransportation/
+`,
+  },
 ];
 
 export default batches;
