@@ -197,6 +197,13 @@ Sounds Unlimited Entertainment	Music	11 E. Superior Street	Duluth	Minnesota	Twin
 Short & Sweet Cakes	Cake		Pine Island	Minnesota	Rochester, Oronoco, Pine Island, Zumbrota, Cannon Falls, Red Wing, Goodhue, Byron and Kasson	A Pine Island baker making custom cakes, with a dedicated weddings page and wedding inquiry form for couples across south-east Minnesota.			https://www.shortsweetcakes.com/	https://www.instagram.com/shortsweet_cakes/
 `,
   },
+  {
+    name: "Rochester: music, bridal & formalwear",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+DJ Supafly	Music		Rochester	Minnesota	Southeast Minnesota	Bilingual Spanish and English wedding DJ with ceremony audio, plus photo booth and 360 booth rental, serving Rochester and the wider south-east of the state.	info@dj-supafly.com	507-218-7683	https://dj-supafly.com/	https://www.instagram.com/djsupafly/
+Finery Bridal Chic	Bridal & Formalwear		Rochester	Minnesota	Rochester area and Southeastern Minnesota	By-appointment bridal gown boutique for Rochester brides, with a pre-loved gown consignment programme alongside its wedding dress collection.	finerybridalchic@gmail.com	507-517-8039	https://www.finerybridalchic.com/	https://www.instagram.com/finerybridalrochester/
+`,
+  },
 ];
 
 export default batches;
