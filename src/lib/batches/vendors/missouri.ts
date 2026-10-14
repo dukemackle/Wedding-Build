@@ -275,6 +275,11 @@ Truly Bridal	Bridal & Formalwear	1083 Main St	Osage Beach	Missouri		Appointment-
 Fun Pics Photo Booths	Photo Booth		Springfield	Missouri	Springfield, Branson, Lake of the Ozarks, Lebanon, Joplin and the wider Ozarks	Family-run Springfield photo booth rental offering mirror, enclosed and open-air booths with attendants, custom prints and online galleries for weddings.	funpicsphotobooths@gmail.com	(417) 501-9886	https://funpicsphotobooths.com/	
 `,
   },
+  {
+    name: "Lake of the Ozarks: music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Mid-MO Music Machine	Music		Columbia	Missouri	Columbia, Jefferson City, Lake of the Ozarks, Holts Summit and Fulton	Mobile DJ and sound-and-light service run by a DJ with over 30 years in radio and pro audio, offering wedding packages across mid-Missouri.	midmomusicmachine@gmail.com	573-691-2580	https://midmomusicmachine.com/	`,
+  },
 ];
 
 export default batches;
