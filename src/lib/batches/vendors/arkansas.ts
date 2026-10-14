@@ -116,6 +116,14 @@ Made With Love	Videography		Bentonville	Arkansas	Northwest Arkansas	Bentonville 
 Fat Bottomed Girl's Cupcake Shoppe	Desserts	502 Central Ave	Hot Springs	Arkansas		Downtown cupcake shop on Central Avenue that takes large cupcake orders for weddings and parties, with set per-cupcake discounts from 100 up.			https://fbgcupcakes.com/	https://www.instagram.com/fbgcupcakes/
 `,
   },
+  {
+    name: "Hot Springs: music and hair & makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+DJ Bill Remow	Music		Sheridan	Arkansas	Hot Springs, Benton, Malvern, Little Rock, Conway and Bryant	Sheridan DJ with more than 700 weddings played, travelling to Hot Springs, Benton and Malvern with set packages and one named DJ per booking.		(731) 413-0036	https://djbillremow.com/	
+Blossom Beauty	Hair & Makeup		Eureka Springs	Arkansas	Northwest and Central Arkansas including Hot Springs, Little Rock and Fort Smith	Eureka Springs bridal hair and makeup team working on location, with bride-plus-party packages and wedding-morning touch-up kits.	info@blossombeautyar.com	(720) 280-2865	https://www.blossombeautyar.com/	https://www.instagram.com/blossombeautyhairmakeup/
+Elevated Arkansas Artists	Hair & Makeup		Conway	Arkansas	All of Arkansas	Conway-based team of bridal hair and makeup artists working on site for brides, wedding parties and events across Arkansas.		501-504-5411	https://www.elevatedarkansasartists.com/	https://www.instagram.com/elevatedarkansas/
+`,
+  },
 ];
 
 export default batches;
