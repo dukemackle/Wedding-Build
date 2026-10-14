@@ -711,3 +711,31 @@ const SURROUNDS: Draw = {
     </>
   ),
 };
+
+/**
+ * A scene's picker tile in the editor (Background › Scene): a small top of
+ * the page with lines for the names, the scene drawn where it would sit.
+ * Drawn three times larger and scaled down, so strips and frames keep their
+ * proportions. Takes its colours from the CSS variables on the tile.
+ */
+export function SceneThumb({ scene }: { scene: SceneId }) {
+  const id = useId().replace(/:/g, "");
+  const place = sceneById(scene).place;
+  return (
+    <span aria-hidden="true" className="absolute inset-0 overflow-hidden" style={{ background: "var(--color-parchment)" }}>
+      <span className="absolute left-0 top-0 flex h-[300%] w-[300%] origin-top-left scale-[0.3333] flex-col">
+        {place === "strip" && STRIPS[scene]?.(id)}
+        <span className="relative flex flex-1 flex-col items-center justify-center gap-3 overflow-hidden">
+          {place === "surround" && SURROUNDS[scene]?.(id)}
+          <span className="relative block h-5 w-36 rounded-full" style={{ background: "var(--color-ink)" }} />
+          <span className="relative block h-3 w-20 rounded-full opacity-50" style={{ background: "var(--color-ink)" }} />
+        </span>
+        {place === "band" && (
+          <svg viewBox="0 0 1200 260" preserveAspectRatio="xMidYMax slice" className="block h-[55%] w-full shrink-0">
+            {BANDS[scene]?.(id)}
+          </svg>
+        )}
+      </span>
+    </span>
+  );
+}

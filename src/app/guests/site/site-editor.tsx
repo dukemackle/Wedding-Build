@@ -676,8 +676,8 @@ export function SiteEditor({
         <FontsTab design={design} onChange={change} target={pickTarget?.font ? pickTarget : null} actions={targetActions} />
       ) : tab === "background" ? (
         <>
-          <BackgroundTab design={design} onChange={change} />
           <SceneSection design={design} onChange={change} />
+          <BackgroundTab design={design} onChange={change} />
         </>
       ) : tab === "motion" ? (
         <MotionTab
