@@ -679,6 +679,10 @@ export const SCENES = [
   { id: "waves", label: "Waves", place: "band" },
   { id: "palms", label: "Palms", place: "band" },
   { id: "pines", label: "Pines", place: "band" },
+  { id: "snowforest", label: "Snowy forest", place: "band" },
+  { id: "wildflowers", label: "Wildflowers", place: "band" },
+  { id: "coast", label: "Coastal cliffs", place: "band" },
+  { id: "skyline", label: "City skyline", place: "band" },
   { id: "frontier", label: "Mesas", place: "band" },
   { id: "sunset", label: "Desert sun", place: "band" },
   // Strips, across the top.
