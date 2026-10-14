@@ -114,6 +114,13 @@ Dreamt Events & Rentals	Decor & Lighting		Bismarck	North Dakota		Bismarck decora
 The Event Design Agency	Decor & Lighting	1603 East Main Ave	Bismarck	North Dakota		Bismarck decor team offering ceremony, reception and ceiling decor plus a full package, run as the in-house brand of Sixteen03 Main Events.		701.255.6246	https://www.ndeventdesign.com	https://www.instagram.com/ndeventdesign/
 Beyond the Blooms	Florals	517 E. Main St Ste. B	Mandan	North Dakota	Mandan and surrounding areas	Mandan flower shop with dedicated pages for wedding bouquets, wedding party flowers, ceremony flowers and reception flowers.		(701) 255-3312	https://www.beyondtheblooms.net/	`,
   },
+  {
+    name: "Bismarck: photography, catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Twelve9 Photography	Photography		Bismarck	North Dakota	North Dakota	Wedding and elopement photographers based in Bismarck, taking bookings across North Dakota and for destination weddings.			https://twelve9photo.com/	https://www.instagram.com/twelve9.photo/
+Sixteen03 Main Events	Catering	1603 East Main Ave	Bismarck	North Dakota		Bismarck caterer and event space offering full-service wedding catering and a rental price guide, with an online catering menu.	info@sixteen03mainevents.com	701-255-6246	https://www.sixteen03mainevents.com/	
+`,
+  },
 ];
 
 export default batches;
