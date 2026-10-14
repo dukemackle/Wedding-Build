@@ -190,6 +190,49 @@ Teton Valley Gardens	Florals	8680 South 1000 West	Victor	Idaho	Victor, Driggs, T
 Red House Flowers	Florals		Victor	Idaho		Teton flower farm and florist growing and designing bridal bouquets and table flowers, using local seasonal blooms and no floral foam.			https://www.redhouseflowers.com/	https://www.instagram.com/redhouseflowers/
 `,
   },
+  {
+    name: "Sun Valley: planning, music, rentals and transportation",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Mountain Source Music	Music		Sun Valley	Idaho	Southern Idaho and beyond	Boutique DJ and live-music company run by a Sun Valley local, covering weddings and receptions with DJ sets, live bands, singers and string sections.			https://www.mountainsourcemusic.com/	https://www.instagram.com/mountainsourcemusic/
+Carson Weddings	Planning		Ketchum	Idaho	Sun Valley to Santa Barbara and beyond	Wedding and event planner offering month-of coordination, partial and full planning, elopements, styling and design, with Sun Valley celebrations in the portfolio.			https://carsonweddings.com/	https://www.instagram.com/carson_weddings/
+That's Entertainment	Rentals	180 Northwood Way	Ketchum	Idaho	Sun Valley and Ketchum, north to Stanley and south to Fairfield	Event rental company supplying tables, chairs, tableware, linens, lighting, tents and catering equipment, and working alongside the area's wedding planners.	hello@thatsentertainmentsv.com	208-726-8800	http://www.thatsentertainmentsv.com	
+Aardvark Taxi	Transportation		Ketchum	Idaho	Ketchum, Sun Valley and Elkhorn, with airport transfers across the Wood River Valley	Local taxi and airport-shuttle service that also takes bookings for weddings and special events, with advance reservations by card.	rides@aardvarktaxi.com		https://www.aardvarktaxi.com/	
+`,
+  },
+  {
+    name: "Boise: bar, rentals, stationery, bridal and formalwear, photo booth, officiant, transportation, videography and planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Swiggy the Bar	Bar		Boise	Idaho	Treasure Valley	Boise mobile bar serving beer, wine and cocktails at weddings, private parties and corporate events across the Treasure Valley.	hello@swiggythebar.com	208-872-8280	https://www.swiggythebar.com/	https://www.instagram.com/swiggythebar/
+McCall Event Co.	Rentals		McCall	Idaho	McCall, Donnelly, Cascade, Tamarack, Brundage, Garden Valley and the rest of Valley County	Valley County rental company supplying tents, tables, linens, dance floors and decor for mountain weddings, with design and ceremony scripting help.	hello@mccalleventco.com	(208) 254-1640	https://www.mccalleventco.com/	https://www.instagram.com/mccalleventco/
+Sawtooth Calligraphy	Stationery & Invitations		Boise	Idaho		Boise calligraphy studio making bespoke wedding stationery, envelope addressing, place cards, menus and signage, plus live calligraphy at events.	SawtoothCalligraphy@gmail.com	208-994-4021	https://www.sawtoothcalligraphy.com/	https://www.instagram.com/sawtoothcalligraphy/
+Ladybug Press	Stationery & Invitations		Boise	Idaho		Boise letterpress and screen-print studio that prints custom wedding invitations and announcements from original illustrations.			https://www.ladybugpress.com/	https://www.instagram.com/ladybugpress/
+Julietta Bridal	Bridal & Formalwear	900 E Park Blvd, Suite 900	Boise	Idaho		Appointment-only Boise bridal boutique with curated designer gowns, veils and bridesmaid dresses, most made to order.	jb@juliettabridal.com	(208) 309-3962	https://juliettabridal.com/	https://www.instagram.com/juliettabridal/
+Mr. Formal Boise	Bridal & Formalwear	11521 Fairview Ave	Boise	Idaho	Boise, Meridian, Eagle and the Treasure Valley	Boise tuxedo and suit shop renting and selling formalwear since 1976, with group fittings so a whole wedding party can be measured together.	boisemrformal@gmail.com	(208) 377-8636	https://www.mrformalboise.com/	https://www.instagram.com/mrformalboise/
+Boise Tuxedo and Suit Shop	Bridal & Formalwear	3371 N Eagle Rd, Suite C130	Meridian	Idaho		Meridian formalwear shop offering tuxedo and suit rentals and sales for weddings, proms and other formal occasions.		(208) 375-9616	https://www.boisetuxedoshop.com/	https://www.instagram.com/boisetuxedoandsuitshop/
+Treasure Valley Photo Booth	Photo Booth		Boise	Idaho	Idaho, Oregon, Utah and Washington, including Sun Valley and McCall	Boise photo booth rental company bringing booths to weddings and other events around Idaho and the wider Pacific Northwest.	treasurevalleyphotobooth@gmail.com	208-546-9083	https://www.treasurevalleyphotobooth.com/	https://www.instagram.com/treasurevalleyphotobooth/
+Arbor Vine	Officiant		Boise	Idaho	Boise and surrounding areas	Mobile Boise officiant service for weddings, vow renewals and elopements, offering personalised ceremonies in English or Spanish.			https://www.arborvineceremonies.com/	https://www.instagram.com/arbor_vine_weddings/
+Marie's Gold	Officiant		Boise	Idaho	Boise, Meridian, Eagle, Cascade, McCall and Stanley, within about 150 miles	Boise interfaith wedding officiant, Reverend Marie Wallace, who also leads blessings and offers relationship coaching.		(208) 284-3437	https://mariesgold.com/	https://www.instagram.com/maries_gold/
+Sacred Mariposa	Officiant		Boise	Idaho		Boise humanist celebrant leading meaningful wedding ceremonies, alongside bridal beauty, Reiki and coaching services.			https://www.sacredmariposa.com/	
+Gem State Limo	Transportation		Meridian	Idaho	Treasure Valley	Meridian limousine company driving wedding parties and guests, as well as airport transfers, winery tours and corporate trips.	info@gemstatelimo.com	208-206-8060	https://gemstatelimo.com/	
+Lily Marie Films	Videography		Boise	Idaho	Sun Valley, the Pacific Northwest, the West Coast and destination weddings	Boise filmmaker shooting weddings and elopements on Super 8 and 16mm motion picture film in a candid, documentary style.	lilymarielorenz@gmail.com		https://lilymariefilms.com/	https://www.instagram.com/lilymariefilms/
+Weddings by Clara	Planning		Boise	Idaho	Boise, Meridian, Eagle, Star, Kuna, Nampa and McCall	Boise wedding planner offering full, partial, month-of and day-of coordination to keep the wedding day relaxed for the couple.	clara@weddingsbyclara.com	208-477-1748	https://www.weddingsbyclara.com/	https://www.instagram.com/weddingsbyclara/
+`,
+  },
+  {
+    name: "Coeur d'Alene: rentals and planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Ridgeline Event Rentals	Rentals		Osburn	Idaho	Silver Valley, Coeur d'Alene, Post Falls, Hayden, Sandpoint, Rathdrum and Spokane	Osburn rental company supplying tables, chairs, tents and wedding arbors to couples around north Idaho and Spokane.		(208) 784-3246	https://ridgelineeventrentals.com/	
+Blooming Event Design	Planning		Sandpoint	Idaho	Pacific Northwest	Boutique wedding planning and design studio working from Sandpoint and Coeur d'Alene, with weddings at Schweitzer and Homestead Barn.	bloomingeventdesign@gmail.com		https://www.bloomingeventdesign.com/	https://www.instagram.com/bloomingeventdesign/
+`,
+  },
+  {
+    name: "Twin Falls and Idaho Falls: rentals, photo booth and bridal",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+MME Event Rentals	Rentals	350 Main Ave N	Twin Falls	Idaho	Magic Valley, including Twin Falls, Sun Valley and Burley	Twin Falls company hiring out linens, furniture, draping, lighting and staging for weddings, with DJs and decor available too.		208-736-7268	https://musicmagicevents.com/	https://www.instagram.com/musicmagicevents/
+One Fun Photobooth	Photo Booth	350 Main Avenue North	Twin Falls	Idaho	Sun Valley, Twin Falls, Burley and Idaho Falls	Twin Falls photo booth company offering open-style, mirror, enclosed and vintage-trailer booths for weddings across southern Idaho.		208-736-7268	https://www.onefunphotobooth.com/	
+Downtown Bridal & Dress Shop	Bridal & Formalwear	365 Shoup Ave	Idaho Falls	Idaho		Idaho Falls boutique selling bridal, prom and quinceañera gowns, with appointment fittings in a downtown shop.	info@idahofallsdowntownbridal.com	(208) 524-0343	https://idahofallsdowntownbridal.com/	https://www.instagram.com/downtownbridalshop/
+`,
+  },
 ];
 
 export default batches;
