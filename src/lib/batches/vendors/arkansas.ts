@@ -110,6 +110,12 @@ Michael Mueller Video Productions	Videography		Hot Springs	Arkansas	Hot Springs 
 Made With Love	Videography		Bentonville	Arkansas	Northwest Arkansas	Bentonville photographer and videographer Yehudi Silva covers weddings and engagements in English and Spanish, in Northwest Arkansas and further afield.			https://www.mwithlove.com/	https://www.instagram.com/madewithlove.wed/
 `,
   },
+  {
+    name: "Hot Springs: cake and desserts",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Fat Bottomed Girl's Cupcake Shoppe	Desserts	502 Central Ave	Hot Springs	Arkansas		Downtown cupcake shop on Central Avenue that takes large cupcake orders for weddings and parties, with set per-cupcake discounts from 100 up.			https://fbgcupcakes.com/	https://www.instagram.com/fbgcupcakes/
+`,
+  },
 ];
 
 export default batches;
