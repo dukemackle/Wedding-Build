@@ -184,6 +184,12 @@ Chef's Table by Beauxjax	Catering	521 Barksdale Blvd	Bossier City	Louisiana		Bos
 Brandon Handy Weddings	Videography		Shreveport	Louisiana	Louisiana, Oklahoma and Texas	Shreveport videography duo, Brandon and Hannah, making story-driven wedding films, with trailers and full films shown on their site.	BrandonHandyMedia@gmail.com		https://www.brandonhandyweddings.com/	https://www.instagram.com/brandonhandyweddings/
 `,
   },
+  {
+    name: "Shreveport: hair and makeup, cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Buttercups Cupcakes	Cake	6535 Youree Dr, Suite 207	Shreveport	Louisiana	Shreveport, Bossier City and Texarkana	Locally owned Shreveport bakery making custom cakes, cupcakes and macarons for weddings and celebrations; two weeks notice asked.			https://www.ilovebuttercups.com/	https://www.instagram.com/buttercupscupcakes/
+`,
+  },
 ];
 
 export default batches;
