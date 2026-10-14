@@ -204,7 +204,6 @@ Aardvark Taxi	Transportation		Ketchum	Idaho	Ketchum, Sun Valley and Elkhorn, wit
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
 Swiggy the Bar	Bar		Boise	Idaho	Treasure Valley	Boise mobile bar serving beer, wine and cocktails at weddings, private parties and corporate events across the Treasure Valley.	hello@swiggythebar.com	208-872-8280	https://www.swiggythebar.com/	https://www.instagram.com/swiggythebar/
 McCall Event Co.	Rentals		McCall	Idaho	McCall, Donnelly, Cascade, Tamarack, Brundage, Garden Valley and the rest of Valley County	Valley County rental company supplying tents, tables, linens, dance floors and decor for mountain weddings, with design and ceremony scripting help.	hello@mccalleventco.com	(208) 254-1640	https://www.mccalleventco.com/	https://www.instagram.com/mccalleventco/
-Linen + Loot	Rentals		Boise	Idaho	Idaho	Boise-area studio hiring out furniture and tabletop pieces and offering bespoke styling for weddings, galas and private parties.	hello@linenandloot.com	208-350-6010	https://linenandloot.com/	https://www.instagram.com/linenandloot/
 Sawtooth Calligraphy	Stationery & Invitations		Boise	Idaho		Boise calligraphy studio making bespoke wedding stationery, envelope addressing, place cards, menus and signage, plus live calligraphy at events.	SawtoothCalligraphy@gmail.com	208-994-4021	https://www.sawtoothcalligraphy.com/	https://www.instagram.com/sawtoothcalligraphy/
 Ladybug Press	Stationery & Invitations		Boise	Idaho		Boise letterpress and screen-print studio that prints custom wedding invitations and announcements from original illustrations.			https://www.ladybugpress.com/	https://www.instagram.com/ladybugpress/
 Julietta Bridal	Bridal & Formalwear	900 E Park Blvd, Suite 900	Boise	Idaho		Appointment-only Boise bridal boutique with curated designer gowns, veils and bridesmaid dresses, most made to order.	jb@juliettabridal.com	(208) 309-3962	https://juliettabridal.com/	https://www.instagram.com/juliettabridal/
@@ -223,7 +222,6 @@ Weddings by Clara	Planning		Boise	Idaho	Boise, Meridian, Eagle, Star, Kuna, Namp
     name: "Coeur d'Alene: rentals and planning",
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
 Ridgeline Event Rentals	Rentals		Osburn	Idaho	Silver Valley, Coeur d'Alene, Post Falls, Hayden, Sandpoint, Rathdrum and Spokane	Osburn rental company supplying tables, chairs, tents and wedding arbors to couples around north Idaho and Spokane.		(208) 784-3246	https://ridgelineeventrentals.com/	
-PanHandle Event Rentals	Rentals		Hayden	Idaho	Northern Idaho and eastern Washington	Hayden business renting equipment for weddings and other events, serving north Idaho and eastern Washington.	panhandleeventrentals@gmail.com	(509) 833-2410	https://panhandleeventrentals.com/	
 Blooming Event Design	Planning		Sandpoint	Idaho	Pacific Northwest	Boutique wedding planning and design studio working from Sandpoint and Coeur d'Alene, with weddings at Schweitzer and Homestead Barn.	bloomingeventdesign@gmail.com		https://www.bloomingeventdesign.com/	https://www.instagram.com/bloomingeventdesign/
 `,
   },
@@ -232,7 +230,6 @@ Blooming Event Design	Planning		Sandpoint	Idaho	Pacific Northwest	Boutique weddi
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
 MME Event Rentals	Rentals	350 Main Ave N	Twin Falls	Idaho	Magic Valley, including Twin Falls, Sun Valley and Burley	Twin Falls company hiring out linens, furniture, draping, lighting and staging for weddings, with DJs and decor available too.		208-736-7268	https://musicmagicevents.com/	https://www.instagram.com/musicmagicevents/
 One Fun Photobooth	Photo Booth	350 Main Avenue North	Twin Falls	Idaho	Sun Valley, Twin Falls, Burley and Idaho Falls	Twin Falls photo booth company offering open-style, mirror, enclosed and vintage-trailer booths for weddings across southern Idaho.		208-736-7268	https://www.onefunphotobooth.com/	
-Magic Valley Photo Booth	Photo Booth		Twin Falls	Idaho		Twin Falls photo booth rental from LR Events, with a premium package recommended for weddings and an optional attendant.	lynseyrooneyevents@gmail.com		https://lynseyrooneyevents.com/	
 Downtown Bridal & Dress Shop	Bridal & Formalwear	365 Shoup Ave	Idaho Falls	Idaho		Idaho Falls boutique selling bridal, prom and quinceañera gowns, with appointment fittings in a downtown shop.	info@idahofallsdowntownbridal.com	(208) 524-0343	https://idahofallsdowntownbridal.com/	https://www.instagram.com/downtownbridalshop/
 `,
   },
