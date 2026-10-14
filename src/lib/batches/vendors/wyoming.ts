@@ -114,6 +114,18 @@ Cake Works	Cake		Cheyenne	Wyoming	Front Range Colorado and Cheyenne, Wyoming	Che
 Evocative Entertainment	Music		Sheridan	Wyoming	Wyoming, southern Montana and western South Dakota	Sheridan DJ and lighting company offering wedding music, ceremony audio and event lighting across Wyoming, southern Montana and western South Dakota.	evocativeentertainment@gmail.com		https://evocativeentertainment.com/	
 `,
   },
+  {
+    name: "Cheyenne: planning, florals and videography gaps; Casper, Cody, Sheridan and Laramie",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Cheyenne Street Railway Trolley	Transportation	121 W 15th St	Cheyenne	Wyoming		Charter trolleys, a 36-seat motor coach and a 12-seat van from Cheyenne Depot Plaza, hired for weddings, bridal parties and venue transfers.		(307) 778-3133	https://www.cheyenne.org/things-to-do/cheyenne-street-railway-trolley/	
+Paintbrush Photography	Photography		Cody	Wyoming	Cody, Powell and the Big Horn Basin	Cody and Powell photographers covering weddings, couples and families, with a natural-colour style and Wyoming scenery.			https://www.paintbrush-photography.com/	https://www.instagram.com/paintbrush_photography/
+Christina's Prom & Bridal	Bridal & Formalwear	2740 E 3rd St, Suite 2112	Casper	Wyoming		Casper boutique stocking wedding gowns, bridesmaid dresses and accessories, with tuxedo rental for the wedding party.		(307) 234-2251	https://promandbridal.com/	https://www.instagram.com/christinasformalwear/
+Once Upon a Story Boutique	Bridal & Formalwear	250 N Main St	Sheridan	Wyoming		Sheridan bridal shop selling wedding gowns, veils and bridal party attire, with suits and tuxedos to rent or buy and free alterations.		307-674-8606	https://onceuponastoryboutique.net/	https://www.instagram.com/onceuponstory_b/
+Ms. Arias' Formal Boutique	Bridal & Formalwear	611 W Lincolnway	Cheyenne	Wyoming		Cheyenne formalwear shop offering bridal gowns, bridesmaid and mother-of-the-bride dresses, and tuxedo and suit rentals.	Ms.alisha.arias@outlook.com	(307) 637-6623	https://msariasboutique.com/	https://www.instagram.com/ms.ariasboutique/
+Casper Executive Car and Limousine	Transportation		Casper	Wyoming	Casper and central Wyoming	Casper limousine and car service whose Escalade and sedans carry wedding parties, with shuttles between hotel and venue.		(307) 251-2128	https://casperlimosandcars.com/	
+Veronica Catering	Catering		Cody	Wyoming	Cody	Cody caterer serving Mexican dishes based on Guadalajara family recipes for weddings, parties and other events.			https://www.veronicacatering.com/	
+`,
+  },
 ];
 
 export default batches;
