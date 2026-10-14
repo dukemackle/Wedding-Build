@@ -321,6 +321,11 @@ Blackstone Valley Entertainment	Music	210 Worcester St, Suite I	North Grafton	Ma
 House of Flowers	Florals		Worcester	Massachusetts		Worcester florist with ceremony and reception wedding collections, plus one-to-one consultations to match flowers to style and budget.		508-932-0676	https://houseofflowersma.net/pages/wedding-page	
 `,
   },
+  {
+    name: "Berkshires: videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Right Light Productions	Videography	395 North St., Suite 260	Pittsfield	Massachusetts		Pittsfield videographer filming weddings in a relaxed, unobtrusive way, coordinating with the couple's photographer, with drone footage available as an add-on.	shaun@rightlightproductions.com	413.281.6511	https://rightlightproductions.com/	https://www.instagram.com/rightlightproductions/`,
+  },
 ];
 
 export default batches;
