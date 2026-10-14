@@ -191,6 +191,12 @@ String Poets	Music		Duluth	Minnesota	Duluth area	Duluth string quartets, trios a
 Pro Sound & Light Show	Music	350 Garfield Ave STE 5	Duluth	Minnesota	Duluth, Superior, the Twin Ports and Minnesota and Wisconsin	Duluth DJ company with MC services, uplighting and photo booth rental, running weddings since 1991 from one contract.	info@pro-1.com	218-722-1355	https://www.pro-1.com/	https://www.instagram.com/pro_sound_light_show/
 Sounds Unlimited Entertainment	Music	11 E. Superior Street	Duluth	Minnesota	Twin Ports and Twin Cities	Downtown Duluth DJ company offering wedding music, uplighting, photo booth, silent disco and live entertainment.	info@soundsunlimited.com	218-625-7340	https://www.soundsunlimited.com/	`,
   },
+  {
+    name: "Rochester: cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Short & Sweet Cakes	Cake		Pine Island	Minnesota	Rochester, Oronoco, Pine Island, Zumbrota, Cannon Falls, Red Wing, Goodhue, Byron and Kasson	A Pine Island baker making custom cakes, with a dedicated weddings page and wedding inquiry form for couples across south-east Minnesota.			https://www.shortsweetcakes.com/	https://www.instagram.com/shortsweet_cakes/
+`,
+  },
 ];
 
 export default batches;
