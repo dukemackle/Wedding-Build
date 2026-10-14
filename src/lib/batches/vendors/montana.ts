@@ -111,6 +111,30 @@ Farmer Meets Foodie	Catering	27 Lesley Avenue	Somers	Montana	Flathead Valley, Gl
 Gina MacNeil Catering	Catering		Kalispell	Montana		Kalispell caterer with menus spanning Mexican, barbecue, Italian and Hawaiian, plus appetisers, desserts and charcuterie for events.		406-407-2000	https://www.cateringkalispell.com/	
 Montana Wildflour Baking Co.	Cake		Whitefish	Montana		Whitefish baker making every cake to order, with tastings and consultations at the kitchen by appointment.			https://www.montanawildflour.com/about-us	`,
   },
+  {
+    name: "Whitefish: Planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Studio Margot	Planning		Whitefish	Montana		Boutique Whitefish planning studio offering full-service wedding planning, with European-inspired design and curated rentals.	hello@studiomargot.events		https://www.studiomargot.events/	https://www.instagram.com/studio.margot.events/`,
+  },
+  {
+    name: "Bozeman: Rentals, Officiant",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Montana Party Rentals	Rentals	17 All West Trail	Bozeman	Montana	Montana	Bozeman rental company with tables, chairs, linens, tenting, lighting, tabletop and decor for weddings, delivering across Montana.	info@montanapartyrentals.com	406-586-7727	https://www.montanapartyrentals.com/wedding/	https://www.instagram.com/montanapartyrentals/
+Weddings of the Wild	Officiant		Bozeman	Montana		Bozeman non-denominational officiant for adventure weddings, elopements and vow renewals, including horse-themed ceremony packages.	weddingsofthewild@gmail.com	406-209-6567	https://www.weddingsofthewild.com/	
+Big Sky Country Minister	Officiant		Bozeman	Montana	Within 500 miles of Bozeman	Bozeman-based minister who officiates weddings and elopements, with a free consultation by phone, video or in person before booking.	info@bigskycountryminister.com	406-580-5002	https://www.bigskycountryminister.com/	`,
+  },
+  {
+    name: "Missoula: Photo Booth",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+ZooTown Booth	Photo Booth		Missoula	Montana	Montana	Missoula photo booth rental for weddings and other events, available across Montana.	info@zootownbooth.com		https://www.zootownbooth.com/	https://www.instagram.com/zootownbooth/`,
+  },
+  {
+    name: "Billings: Rentals, Music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Revelry & Co	Rentals		Billings	Montana	Billings, Shepherd, Red Lodge, Laurel and Miles City	Billings rental and design company supplying wedding furniture, linens and decor, with planning and coordination packages for couples in Yellowstone County.	revelryeventsmt@gmail.com	(406) 281-0933	https://revelrycompanymt.com/	https://www.instagram.com/revelry_and_company/
+Freakin' Awesome DJ Service	Music		Billings	Montana	Billings and surrounding areas	Billings DJ and MC service for wedding receptions, with sound, custom uplighting and monogrammed lighting, plus equipment rentals.		(406) 259-3000	https://freakinawesome.com/	
+Montana Premiere Entertainment	Music	1935 Lampman Dr, Unit B	Billings	Montana	Billings and the surrounding region	Billings entertainment company offering wedding DJ and MC packages alongside tent, table, chair, linen and lighting rentals for events.	dave@mtpremiere.com	(406) 697-4301	https://mtpremiere.com/	https://www.instagram.com/montanapremiereentertainment/`,
+  },
 ];
 
 export default batches;
