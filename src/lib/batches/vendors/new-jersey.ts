@@ -196,6 +196,11 @@ A Lovely Universe	Planning		Red Bank	New Jersey	Monmouth County	Red Bank studio 
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
 Dear Heart Film + Portraits	Videography		Princeton	New Jersey	Central New Jersey, with the first 50 miles of travel included	Princeton-based photographer and cinematographer filming weddings and elopements, with highlight films and a la carte video options.			https://www.dearheartfilms.com/	https://www.instagram.com/dearheartfilms/`,
   },
+  {
+    name: "Princeton: planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Marigold Wedding Planners	Planning		Hillsborough	New Jersey	New Jersey, Michigan, the Midwest and Northeast, plus destinations across the USA and Mexico	Hillsborough planning firm run by two sisters, handling South Asian weddings with planning, design and decor in New Jersey, Michigan and beyond.		(908) 334-6566	https://marigoldweddingplanners.com/	https://www.instagram.com/marigoldweddingplanners/`,
+  },
 ];
 
 export default batches;
