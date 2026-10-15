@@ -201,6 +201,11 @@ Dear Heart Film + Portraits	Videography		Princeton	New Jersey	Central New Jersey
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
 Marigold Wedding Planners	Planning		Hillsborough	New Jersey	New Jersey, Michigan, the Midwest and Northeast, plus destinations across the USA and Mexico	Hillsborough planning firm run by two sisters, handling South Asian weddings with planning, design and decor in New Jersey, Michigan and beyond.		(908) 334-6566	https://marigoldweddingplanners.com/	https://www.instagram.com/marigoldweddingplanners/`,
   },
+  {
+    name: "Princeton: planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+White Swan Wedding and Events	Planning		Flemington	New Jersey	New Jersey, Pennsylvania and New York	Wedding coordination and planning for couples across central New Jersey and neighbouring states, run from Flemington.	whiteswanweds@gmail.com	908-655-8344	https://whiteswanweds.com	https://www.instagram.com/whiteswanweds/`,
+  },
 ];
 
 export default batches;

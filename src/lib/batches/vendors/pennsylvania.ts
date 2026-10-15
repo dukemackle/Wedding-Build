@@ -377,6 +377,11 @@ Platinum Hair Studio	Hair & Makeup	5320 Buffalo Rd	Erie	Pennsylvania	Venues with
 Wind Rose Films	Videography		Lords Valley	Pennsylvania	Pennsylvania, New York, Florida and Georgia	Cinematic wedding filmmaker based in the Pocono Mountains, shooting unscripted, story-led films for couples in Pennsylvania and beyond.	windrosefilms@gmail.com	(818) 805-0879	https://windrosefilms.com/	
 `,
   },
+  {
+    name: "Poconos: planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Jim Thorpe Elopements	Planning		Jim Thorpe	Pennsylvania	Jim Thorpe and the Pocono Mountains	Husband-and-wife team offering all-inclusive elopement packages around Jim Thorpe and the Poconos, coordinating the vendors through one point of contact.	hello@jimthorpeelopements.com		https://jimthorpeelopements.com/	https://www.instagram.com/jimthorpeelopements/`,
+  },
 ];
 
 export default batches;
