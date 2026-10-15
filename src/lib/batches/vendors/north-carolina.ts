@@ -338,6 +338,12 @@ Whitt Photography & Film	Videography		Winston-Salem	North Carolina	Winston-Salem
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
 Natalie Heim Photography	Photography		Kitty Hawk	North Carolina	Corolla to Hatteras Island	Outer Banks wedding and family photographer covering beach ceremonies and elopements from Corolla down to Hatteras Island.	info@natalieheimphotography.com	(252) 573-1769	https://www.natalieheimphotography.com/	https://www.instagram.com/natalieheimphotography/`,
   },
+  {
+    name: "Outer Banks: videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Baldwin Video Productions (Reel Love Weddings)	Videography		Outer Banks	North Carolina	Outer Banks and Eastern North Carolina	Family-run Outer Banks wedding videographers making relaxed, romantic beach wedding films, with live streaming also available.	baldwinvideo@gmail.com	252-599-6297	https://www.baldwinvideo.com/	https://www.instagram.com/reelloveweddings/
+`,
+  },
 ];
 
 export default batches;
