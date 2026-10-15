@@ -102,6 +102,14 @@ Transitions In Time Photography	Videography	804A NW Buchanan, Suite 40	Corvallis
 Carter Cunningham Films	Videography		Eugene	Oregon	Oregon and the Pacific Northwest	Eugene filmmaker making story-led wedding and elopement films tailored to each couple rather than following trends.			https://cartercunninghamfilms.com	https://www.instagram.com/cartercfilms/
 Ashley Renee Studios	Videography		Salem	Oregon	Salem, available to travel	Husband-and-wife Salem team filming documentary-style weddings since 2018, aiming for films that feel like a favourite movie.	hello@ashleyreneestudios.com		https://ashleyreneestudios.com	https://www.instagram.com/ashleyreneestudios/`,
   },
+  {
+    name: "Oregon Coast: planning, officiants and photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Synergy Events	Planning		Astoria	Oregon		Astoria events company offering wedding planning and day-of coordination alongside DJ and bartending, with a vetted list of local partner vendors.	info@synergyeventsllc.com	715-308-4780	https://synergyeventsllc.com/	https://www.instagram.com/synergyeventsllc/
+Lincoln City Weddings	Officiant		Lincoln City	Oregon		Lincoln City officiant service for beach weddings, elopements, commitment ceremonies and vow renewals, with referrals to local vendors, hotels and venue ideas.	Lincolncityweddings@yahoo.com	(509) 714-2085	https://www.lincolncityweddings.com/	
+Kreative Memories Photography and Video	Photography		Lincoln City	Oregon		Lincoln City photographer documenting weddings and elopements on the Oregon coast and beyond, with a videography option and elopement planning help.			https://www.kreativememories.net/	https://www.instagram.com/kreative_memories_photography/
+`,
+  },
 ];
 
 export default batches;

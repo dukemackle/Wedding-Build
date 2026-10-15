@@ -88,6 +88,13 @@ Hayden Gilmour Weddings	Videography		Ketchum	Idaho		Ketchum videographer and pho
 Huckleberry Studio	Videography		Filer	Idaho	Boise, Twin Falls, McCall, Stanley, Sun Valley and Elko	Photo and video team near Twin Falls with over 200 weddings since 2016, filming across southern Idaho including Sun Valley and Stanley.	aleapeters@gmail.com	208.473.6439	https://www.thehuckleberrystudio.com/	https://www.instagram.com/huckleberry_studio/
 `,
   },
+  {
+    name: "Sun Valley: planning, cake and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Three Peas Bakery	Cake		Hailey	Idaho	Wood River Valley	Gluten-free and paleo bakery in Hailey making standard and custom cakes, cupcakes and decorated cookies, including for weddings, with buttercream or fondant finishes.	3peasbakery@gmail.com	(208) 850-4483	https://3peasbakery.com/	
+Kim Haskell Cinematography	Videography		Boise	Idaho	Ketchum, Hailey, Sun Valley Resort and travel anywhere	Husband-and-wife wedding photo and video team in Boise who also film in Sun Valley, with any style of colour grade and customised packages.			https://www.kimhaskell.com/	https://www.instagram.com/kimhaskellcinematography/
+`,
+  },
 ];
 
 export default batches;

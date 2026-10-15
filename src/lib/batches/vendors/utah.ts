@@ -148,6 +148,12 @@ Snow Canyon Catering	Catering		St. George	Utah	St. George and Southern Utah	Chef
 Zion Wedding Music	Music		Springdale	Utah	St. George, Cedar City, Springdale and Zion National Park	Acoustic guitarist and singer-songwriter playing classical-style and original music for ceremonies and receptions in Zion and St. George.	davetatemusic@gmail.com	435-760-9163	https://www.zionweddingmusic.com	
 `,
   },
+  {
+    name: "Provo: cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Bake Coco Bake	Cake		American Fork	Utah	Wasatch Front	American Fork baker making custom wedding, birthday and celebration cakes for the Wasatch Front, with flavour and pricing pages and online quote requests.	bakecocobake.ut@gmail.com	801-980-1422	https://bakecocobake.com	https://www.instagram.com/bakecocobake/
+`,
+  },
 ];
 
 export default batches;
