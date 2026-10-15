@@ -319,6 +319,11 @@ Gracie's Bridal	Bridal & Formalwear	2724 S Glenstone Ave	Springfield	Missouri		B
 Unique Rides Transportation	Transportation		Springfield	Missouri	Springfield and 150 miles beyond	Springfield limousine service for weddings, with a pink limo, stretch Hummer, executive stretch and sedans, plus airport transfers.	info@uniqueridestransportation.com	417-865-5600	https://www.uniqueridestransportation.com/	https://www.instagram.com/uniqueridestransportation/
 `,
   },
+  {
+    name: "Lake of the Ozarks: planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Waterfront Weddings	Planning	2131 Valley Rd	Osage Beach	Missouri	Osage Beach and the Lake of the Ozarks area	Osage Beach elopement and micro-wedding specialist with an on-site coordinator and set packages covering décor, cake, flowers and an officiant.	waterfrontweddings1@gmail.com	573-434-6543	https://waterfrontweddings.net/	https://www.instagram.com/waterfrontweddingslakeozark/`,
+  },
 ];
 
 export default batches;
