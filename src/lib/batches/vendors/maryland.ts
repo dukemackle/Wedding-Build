@@ -213,6 +213,12 @@ Sage Cakery	Cake	3401 Urbana Pike	Frederick	Maryland		Frederick bake shop making
 Gretta Greenwald Videography	Videography		Salisbury	Maryland		Salisbury videographer making candid, emotion-led wedding films, plus smaller lifestyle and adventure mini films.	grettagreenwald@yahoo.com		https://grettagreenwald.com/	https://www.instagram.com/grettagreenwald/
 Holland Videography	Videography		Crisfield	Maryland		Crisfield videography team filming weddings and events in a mix of candid and traditional styles, with trailer-based packages.	HollandVideography18@gmail.com	443-235-1731	https://hollandvideography.com/	https://www.instagram.com/hollandvideography/`,
   },
+  {
+    name: "Eastern Shore: music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Steve Moody's Entertainment Connection	Music		Easton	Maryland	Maryland's Eastern Shore, plus Delaware, Pennsylvania and Virginia	Wedding DJ and MC service based on the Eastern Shore, running reception music for couples at venues around Easton, St. Michaels and Ocean City.		(800) 410-3013	https://stevemoody.com	
+Maryland's DJ	Music		Rockville	Maryland	Easton, St. Michaels and the Eastern Shore, plus the wider Maryland area	DJ, MC and lighting team that plays weddings across Maryland, with dedicated pages for Easton and St. Michaels receptions.	info@marylandsdj.com	(301) 968-0965	https://www.marylandsdj.com	https://www.instagram.com/marylands_dj/`,
+  },
 ];
 
 export default batches;

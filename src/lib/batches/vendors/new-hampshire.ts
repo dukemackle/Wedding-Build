@@ -120,6 +120,12 @@ Debony Salon	Hair & Makeup	18 Main Street	Jackson	New Hampshire	Mount Washington
 Tarrnation Flower Farm	Florals	96 Streeter Pond Rd	Sugar Hill	New Hampshire		Sugar Hill flower farm with a design studio on site, making romantic seasonal wedding flowers grown from seed and foraged locally.	tarrnationfarm@gmail.com		https://www.tarrnationflowerfarm.com/weddings-1	https://www.instagram.com/tarrnationflowers/
 `,
   },
+  {
+    name: "White Mountains: planning, music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Forever Awaits By Valerie	Planning		Alton	New Hampshire	New Hampshire, White Mountains, Acadia and wider New England	Full-service wedding design, planning and coordination company that also handles intimate elopements, working from the Lakes Region and travelling to the mountains and coast.			https://foreverawaitsbyvalerie.com/	https://www.instagram.com/foreverawaitsbyvalerie/
+Bobby Freedom Entertainment	Music		Farmington	New Hampshire	New Hampshire, Massachusetts, Maine and Vermont	Wedding and party DJ operating since 2008, with a pricing guide, a dedicated wedding page and karaoke nights in North Conway and Tamworth.	NHentertainer@gmail.com	(603) 833-5963	https://www.djbobbyfreedom.com/	`,
+  },
 ];
 
 export default batches;
