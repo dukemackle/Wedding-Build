@@ -69,6 +69,11 @@ Maine Coast Bridal Artistry	Hair & Makeup	823 Commercial Street	Rockport	Maine		
 Affectionate Confections	Cake		Bar Harbor	Maine	Bar Harbor and surrounding communities	Le Cordon Bleu-trained pastry maker baking made-to-order wedding cakes and handmade chocolates, with gluten-free and dairy-free options.	AffectionateConfections@gmail.com	1.207.561.0383	http://www.affectionateconfectionsbarharbor.com	
 `,
   },
+  {
+    name: "Midcoast and Bar Harbor: music and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Sweet Thunder Productions	Videography	153 Hospital Street #8	Augusta	Maine	Boothbay Harbor, Bath, Brunswick, Camden, Bar Harbor, Portland and the rest of Maine	Owner-filmed, unobtrusive wedding videography across Maine, including the Boothbay Harbor and Midcoast regions.			https://sweetthunderproductions.com	https://www.instagram.com/sweetthunder7/`,
+  },
 ];
 
 export default batches;

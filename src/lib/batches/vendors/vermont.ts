@@ -70,6 +70,11 @@ Vermont Sweet Tooth	Cake		Stowe	Vermont		Family-run Stowe bakery making wedding 
 Hopkins Films	Videography		Williston	Vermont		Wedding videographer making cinematic films of both the planned and unplanned moments, shot unobtrusively to show how the day felt.	dan@hopkinsfilms.com	802-338-6563	https://hopkinsfilms.com	https://www.instagram.com/_hopkinsfilms/
 Sticks and Stones	Music		Burlington	Vermont		Burlington band playing live music for weddings and other events, with past gigs in Stowe and Essex.	emailsticksandstones@gmail.com	802-343-0050	https://www.sticksandstonesbandvt.com	`,
   },
+  {
+    name: "Stowe: music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Spencer Lewis	Music	1604 Gilead Brook Road	Randolph	Vermont	Vermont, including Stowe	Vermont musician playing ceremony, cocktail and dinner music on guitar, fiddle or looped violin-guitar duets, with past work at Topnotch in Stowe.		(802) 234-5304	https://www.spencerlewismusic.com	https://www.instagram.com/spencerlewismusic/`,
+  },
 ];
 
 export default batches;

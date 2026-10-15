@@ -326,6 +326,11 @@ House of Flowers	Florals		Worcester	Massachusetts		Worcester florist with ceremo
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
 Right Light Productions	Videography	395 North St., Suite 260	Pittsfield	Massachusetts		Pittsfield videographer filming weddings in a relaxed, unobtrusive way, coordinating with the couple's photographer, with drone footage available as an add-on.	shaun@rightlightproductions.com	413.281.6511	https://rightlightproductions.com/	https://www.instagram.com/rightlightproductions/`,
   },
+  {
+    name: "Berkshires: videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+SkyRide Productions	Videography	120 Cold Hill Rd.	Granby	Massachusetts	Massachusetts and beyond	Husband-and-wife team making cinematic, unobtrusive wedding films across Massachusetts and further afield, with a published film portfolio.	skyrideproweddings@gmail.com		https://www.skyrideproductions.com	https://www.instagram.com/skyride_wedding_films/`,
+  },
 ];
 
 export default batches;
