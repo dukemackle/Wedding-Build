@@ -708,6 +708,22 @@ export const SCENES = [
 
 export type SceneId = (typeof SCENES)[number]["id"];
 
+/**
+ * The light over a landscape scene (Background tab › Scene): its sky, how the
+ * land is washed, and the sun, moon or stars. Strips and frames ignore it.
+ */
+export const SCENE_TIMES = [
+  { id: "dawn", label: "Dawn", swatch: ["#f6d6d2", "#f3c3b6"] },
+  { id: "day", label: "Day", swatch: ["#eef4f8", "#d9e8f0"] },
+  { id: "golden", label: "Golden hour", swatch: ["#fbe6b8", "#f5c06a"] },
+  { id: "dusk", label: "Dusk", swatch: ["#a88bbd", "#ef9a6c"] },
+  { id: "night", label: "Night", swatch: ["#2b3664", "#18224a"] },
+] as const;
+
+export type SceneTimeId = (typeof SCENE_TIMES)[number]["id"];
+
+export const SCENE_TIME_IDS = SCENE_TIMES.map((x) => x.id) as [SceneTimeId, ...SceneTimeId[]];
+
 export const SCENE_IDS = SCENES.map((x) => x.id) as [SceneId, ...SceneId[]];
 
 export function sceneById(id: string | null | undefined) {
@@ -1221,6 +1237,7 @@ export const DEFAULT_SITE_DESIGN: SiteDesign = {
   art: { id: null, placement: "sides" },
   hero: "full",
   scene: null,
+  sceneTime: "day",
   pageStyle: "cards",
   layouts: DEFAULT_LAYOUTS,
   occasion: { kind: "wedding", since: null },
