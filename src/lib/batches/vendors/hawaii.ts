@@ -216,6 +216,16 @@ Maleana Beauty	Hair & Makeup		Honolulu	Hawaii	Oahu and island-wide mobile	Honolu
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
 Zane Persaud	Videography		Kauai	Hawaii	Kauai	Kauai-based videographer filming weddings and events, with a portfolio of wedding films shot at resorts and venues around the island.	zane.persaud@gmail.com		https://www.zanepersaud.com/	https://www.instagram.com/zapsizzle/`,
   },
+  {
+    name: "Maui: cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Cravings Bakery	Cake		Kahului	Hawaii	Maui	Kahului bakery making wedding cakes, cupcakes and desserts to order from scratch, with gluten-free, dairy-free, vegan and sugar-free options.			https://cravingshawaii.com/	`,
+  },
+  {
+    name: "Big Island: cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Kona Sweets	Cake		Kealakekua	Hawaii	The Kona side of the Big Island	Kealakekua cake shop baking wedding and celebration cakes to order from scratch, up to three tiers, plus cupcakes, for the Kona side.			https://www.konasweets.com/	`,
+  },
 ];
 
 export default batches;
