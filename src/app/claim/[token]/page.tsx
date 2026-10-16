@@ -140,9 +140,10 @@ export default async function ClaimPage({ params }: { params: Promise<{ token: s
             </>
           ) : (
             <>
-              Couples planning weddings on You Do, I Do can already find {venue.name}. Check the details
-              below, fix anything that&apos;s wrong, and add your photos and preferred vendors.
-              We review every change before it goes live.
+              Couples planning weddings on You Do, I Do can already find {venue.name}. Answer the
+              questions they&apos;d otherwise email you about (what it costs, what&apos;s included,
+              how many it holds) once, here. A starting price or a range is fine. Fix anything
+              that&apos;s wrong and add your photos. We review every change before it goes live.
             </>
           )}
         </p>
