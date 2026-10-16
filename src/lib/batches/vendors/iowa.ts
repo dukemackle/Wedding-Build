@@ -109,6 +109,11 @@ Iowa City Minister	Officiant		Iowa City	Iowa	Eastern Iowa, including Cedar Rapid
 R & D Events Rental	Rentals		Cedar Rapids	Iowa	Cedar Rapids, Linn County, Hiawatha, Marion, Coralville and statewide	A Cedar Rapids rental company supplying tents, tables, chairs, linens, decor, portable bars and lighting for weddings, with layout planning help.	office@randdevents.com	319-202-8374	https://randdevents.com/weddings.php	https://www.instagram.com/r_and_d_events/
 Black Diamond Limousine	Transportation	840 Liberty Way	North Liberty	Iowa	Cedar Rapids, Iowa City and Eastern Iowa	A North Liberty limousine company with wedding limo hire, serving Cedar Rapids, Iowa City and the wider region from its Liberty Way base.	dispatch@express-limos.com	319-208-3236	https://cedarrapidslimoservice.com/	`,
   },
+  {
+    name: "Iowa City: planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Unique Events of Iowa	Planning		Cedar Rapids	Iowa	The Midwest	A Cedar Rapids event company offering planning, day-of coordination, design, florals, rentals and DJ services for weddings and other events.			https://uniqueeventsiowa.com/	https://www.instagram.com/uniqueeventsiowa/`,
+  },
 ];
 
 export default batches;
