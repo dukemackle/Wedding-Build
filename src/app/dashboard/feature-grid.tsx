@@ -13,6 +13,8 @@ export type Feature = {
   media: ReactNode;
   /** One line on what the part does -- the landing page, for visitors who haven't used it. */
   blurb?: string;
+  /** The one box that needs the couple next: its status is the step to take, set in gold. */
+  nextUp?: boolean;
 };
 
 export type FeatureData = {
@@ -259,19 +261,32 @@ export function buildFeatures(d: FeatureData): Feature[] {
     target == null || over == null
       ? null
       : over > 0
-        ? `${usd(over)} over ${usd(target)}`
-        : `${usd(-over)} under ${usd(target)}`;
+        ? `${usd(over)} over`
+        : `${usd(-over)} under`;
 
-  return [
+  // One box gets the gold: the step that unblocks the most. A venue first
+  // (the date, guest count and every vendor hang on it), then opening RSVPs
+  // once there's a list but no site to answer on, then an overdue task.
+  const today = new Date().toISOString().slice(0, 10);
+  const overdue = d.checklist.next.filter((t) => t.due && t.due < today).length;
+  const next: "venue" | "site" | "checklist" | null = !d.venue?.booked
+    ? "venue"
+    : d.guests.total > 0 && !d.site.live
+      ? "site"
+      : overdue > 0
+        ? "checklist"
+        : null;
+
+  const features: Feature[] = [
     {
       href: "/budget",
       title: "Budget",
       status: `${d.budget.quoted} of ${d.budget.categories} quoted`,
       media: (
         <Panel>
-          <div className="flex items-baseline gap-2">
+          <div className="flex flex-wrap items-baseline gap-x-2">
             <Big>{usd(d.budget.total)}</Big>
-            <Small>estimated</Small>
+            <Small>{target != null ? `of ${usd(target)}` : "estimated"}</Small>
           </div>
           {/* Paid in green over the whole estimate; the tick is the target. */}
           <div className="relative h-1.5 rounded-full bg-brass/70">
@@ -286,10 +301,10 @@ export function buildFeatures(d: FeatureData): Feature[] {
               />
             )}
           </div>
-          <div className="flex justify-between gap-2">
+          <div className="flex justify-between gap-2 whitespace-nowrap">
             <span className="hidden sm:inline">
               <Small>
-                <span className="text-forest">■</span> Paid {usd(d.budget.paid)}
+                <span className="text-forest">■</span> {usd(d.budget.paid)} paid
               </Small>
             </span>
             {overLabel && (
@@ -306,7 +321,14 @@ export function buildFeatures(d: FeatureData): Feature[] {
     {
       href: "/guests",
       title: "Guests",
-      status: d.guests.total > 0 ? `${d.guests.confirmed} coming` : "Start your list",
+      status:
+        d.guests.total === 0
+          ? "Start your list"
+          : d.guests.confirmed > 0
+            ? `${d.guests.confirmed} coming`
+            : d.site.live
+              ? "No replies yet"
+              : "RSVPs not open yet",
       media: d.guests.total === 0 ? (
         <Panel>
           <Phrase>Add your first guests</Phrase>
@@ -340,11 +362,28 @@ export function buildFeatures(d: FeatureData): Feature[] {
       title: "Venues",
       status: d.venue?.booked
         ? "Booked"
+        : next === "venue"
+          ? "Book your venue"
         : d.venuesShortlisted > 0
           ? `${d.venuesShortlisted} shortlisted`
           : "Find your place",
+      // Their venue: its photo, or its name and date when the listing has no
+      // photo. The drawing is only for a couple who hasn't picked one.
       media: d.venue?.photo ? (
         <PhotoMedia src={d.venue.photo} label={d.venue.name} />
+      ) : d.venue ? (
+        <Panel>
+          {d.venue.booked && (
+            <span className="flex items-center gap-1.5">
+              {tick}
+              <Small>Booked</Small>
+            </span>
+          )}
+          <span className="line-clamp-3 font-display text-xl font-semibold leading-tight text-forest sm:text-2xl">
+            {d.venue.name}
+          </span>
+          {d.site.date && <Small>{longDate(d.site.date)}</Small>}
+        </Panel>
       ) : (
         <DrawingMedia src="/venue-types/barn-rustic.svg" />
       ),
@@ -360,9 +399,11 @@ export function buildFeatures(d: FeatureData): Feature[] {
       href: "/checklist",
       title: "Checklist",
       status:
-        d.checklist.total > 0
-          ? `${d.checklist.done} of ${d.checklist.total} done`
-          : "Build your plan",
+        next === "checklist"
+          ? `${overdue} overdue`
+          : d.checklist.total > 0
+            ? `${d.checklist.done} of ${d.checklist.total} done`
+            : "Build your plan",
       media: (
         <Panel>
           {d.checklist.next.length > 0 ? (
@@ -400,6 +441,7 @@ export function buildFeatures(d: FeatureData): Feature[] {
         <Panel>
           {booked.length > 0 ? (
             <Lines
+              wrap
               rows={booked.slice(0, 3).map((v) => ({
                 key: v.key,
                 lead: tick,
@@ -433,6 +475,7 @@ export function buildFeatures(d: FeatureData): Feature[] {
       media: (
         <Panel>
           <Lines
+            wrap
             rows={
               d.itinerary.length > 0
                 ? d.itinerary.map((e, i) => ({
@@ -452,26 +495,35 @@ export function buildFeatures(d: FeatureData): Feature[] {
     },
     {
       href: "/venue-layout",
-      title: "Venue Layout",
+      title: "Layout",
       status: d.layoutItems > 0 ? `${d.layoutItems} pieces placed` : "Arrange the room",
       media: <FloorPlanDrawing />,
     },
     {
       href: "/guests/site",
-      title: "Wedding site",
-      status: d.site.live ? "Live for guests" : "Design yours",
+      title: "Website",
+      status: d.site.live
+        ? "Live for guests"
+        : next === "site"
+          ? "Publish it"
+          : "Design yours",
       // The top of their own site: names, date, and the RSVP button guests see.
       media: (
         <Panel>
           <Phrase>{d.site.names}</Phrase>
-          <Small>{d.site.date ? `${longDate(d.site.date)} · RSVP online` : "Your date, schedule and RSVP"}</Small>
-          <span className="w-fit rounded-full bg-forest px-3 py-1 font-mono-numbers text-[9px] text-parchment sm:text-[10px]">
-            RSVP
+          <Small>{d.site.date ? d.site.live ? `${longDate(d.site.date)} · RSVP online` : longDate(d.site.date) : "Your date, schedule and RSVP"}</Small>
+          {/* Whether guests can see it -- a label, not a button, since the whole box is the link. */}
+          <span className="flex items-center gap-1.5 font-mono-numbers text-[9px] uppercase tracking-[0.15em] text-ink/55 sm:text-[10px]">
+            <span className={`h-1.5 w-1.5 rounded-full ${d.site.live ? "bg-forest" : "border border-ink/40"}`} />
+            {d.site.live ? "Live" : "Not published"}
           </span>
         </Panel>
       ),
     },
   ];
+
+  const nextHref = { venue: "/venues", site: "/guests/site", checklist: "/checklist" };
+  return features.map((f) => (next && f.href === nextHref[next] ? { ...f, nextUp: true } : f));
 }
 
 /**
@@ -479,22 +531,24 @@ export function buildFeatures(d: FeatureData): Feature[] {
  * landing page opens a preview instead of navigating.
  */
 export function FeatureTile({ feature, asBox = false }: { feature: Feature; asBox?: boolean }) {
-  const { href, title, status, media, blurb } = feature;
+  const { href, title, status, media, blurb, nextUp } = feature;
   const words = (
     <div className="px-3 py-3 sm:px-5 sm:py-4">
       <h2 className="font-display text-[1.6rem] font-bold leading-none text-forest sm:text-[2.35rem]">
         {title}
       </h2>
-      <p className="mt-2 truncate font-mono-numbers text-[11px] tracking-wide text-ink/55 sm:text-xs sm:text-brass">
+      <p
+        className={`mt-2 truncate font-mono-numbers text-[11px] tracking-wide sm:text-xs ${nextUp ? "font-semibold text-brass" : "text-ink/55"}`}
+      >
         {status}
+        {nextUp && <span aria-hidden="true"> &rarr;</span>}
       </p>
       {blurb && (
         <p className="mt-2 line-clamp-3 text-[11px] leading-snug text-ink/70 sm:text-sm">{blurb}</p>
       )}
     </div>
   );
-  const className =
-    "group relative flex h-full flex-col overflow-hidden rounded-2xl border border-hairline bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-brass hover:shadow-[0_14px_40px_-12px_rgba(224,161,0,0.55)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brass";
+  const className = `${nextUp ? "ring-2 ring-brass ring-offset-2 ring-offset-transparent " : ""}group relative flex h-full flex-col overflow-hidden rounded-2xl border border-hairline bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-brass hover:shadow-[0_14px_40px_-12px_rgba(224,161,0,0.55)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brass`;
   const inner = (
     <>
       {/* Grows to fill the box, so a neighbour's two-line title never leaves a gap. */}

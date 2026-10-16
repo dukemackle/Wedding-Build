@@ -17,7 +17,7 @@ const SAMPLE: FeatureData = {
   },
   budget: { total: 38400, actual: 31200, target: 40000, paid: 12600, quoted: 8, categories: 14 },
   guests: { total: 142, confirmed: 88, pending: 46, declined: 8 },
-  venue: null,
+  venue: { photo: null, name: "Juniper Barn", booked: true },
   venuesShortlisted: 3,
   vendors: [
     { key: "venue", label: "Venue", status: "booked", detail: "Juniper Barn", href: "/venues" },
