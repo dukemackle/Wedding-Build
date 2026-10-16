@@ -717,7 +717,6 @@ export const SCENE_TIMES = [
   { id: "day", label: "Day", swatch: ["#eef4f8", "#d9e8f0"] },
   { id: "golden", label: "Golden hour", swatch: ["#fbe6b8", "#f5c06a"] },
   { id: "dusk", label: "Dusk", swatch: ["#a88bbd", "#ef9a6c"] },
-  { id: "night", label: "Night", swatch: ["#2b3664", "#18224a"] },
 ] as const;
 
 export type SceneTimeId = (typeof SCENE_TIMES)[number]["id"];

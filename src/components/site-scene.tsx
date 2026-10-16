@@ -36,7 +36,7 @@ const tint = (pct: number) =>
 const shade = (pct: number) =>
   `color-mix(in srgb, var(--site-accent) ${100 - pct}%, var(--color-ink))`;
 const fill = (color: string): CSSProperties => ({ fill: color });
-/** A scene's own sun, recoloured (or made a moon) by the time of day. */
+/** A scene's own sun, recoloured by the time of day. */
 const sun = (day: string) => `var(--scene-sun, ${day})`;
 /** The theme's second colour, for skies and far hills: peach behind teal peaks. */
 const tint2 = (pct: number) =>
@@ -612,18 +612,12 @@ const TIMES: Record<Exclude<SceneTimeId, "day">, { wash: string; amount: number;
   dawn: { wash: "#f0b9b4", amount: 26, sky: ["#f6d6d2", "#f3c3b6"], sun: "#fff1e0", glow: "#fbe2c8" },
   golden: { wash: "#eea94a", amount: 26, sky: ["#fbe6b8", "#f5c06a"], sun: "#ffd98a", glow: "#ffe2a0" },
   dusk: { wash: "#5d4479", amount: 52, sky: ["#a88bbd", "#ef9a6c"], sun: "#f9b07c", glow: "#f7b27a" },
-  night: { wash: "#121a36", amount: 80, sky: ["#2b3664", "#18224a"], sun: "#fbf3dc" },
 };
 
 /** Scenes that draw a sun of their own, which the time of day recolours instead of adding another. */
 const OWN_SUN: readonly SceneId[] = ["ridges", "palms", "frontier", "sunset"];
 
-const STARS = (() => {
-  const rnd = seeded(41);
-  return Array.from({ length: 46 }, () => [rnd() * 1200, 8 + rnd() * 120, 0.7 + rnd() * 1.2, 0.45 + rnd() * 0.5]);
-})();
-
-/** A landscape lit for its time of day: sky, sun or moon and stars, and the land washed to match. */
+/** A landscape lit for its time of day: sky, a low sun, and the land washed to match. */
 function lit(time: SceneTimeId, id: string, scene: SceneId, art: ReactNode): ReactNode {
   if (time === "day" || !art) return art;
   const t = TIMES[time];
@@ -646,19 +640,6 @@ function lit(time: SceneTimeId, id: string, scene: SceneId, art: ReactNode): Rea
       </defs>
       <rect width="1200" height="260" fill={`url(#${id}sky)`} />
       {t.glow && <ellipse cx="600" cy="120" rx="560" ry="90" fill={`url(#${id}glow)`} />}
-      {time === "night" && (
-        <>
-          {STARS.map(([x, y, r, o], i) => (
-            <circle key={i} cx={x.toFixed(1)} cy={y.toFixed(1)} r={r.toFixed(2)} fill="#ffffff" opacity={o.toFixed(2)} />
-          ))}
-          {!own && (
-            <>
-              <circle cx="930" cy="58" r="40" fill="#fdf6df" opacity="0.12" />
-              <circle cx="930" cy="58" r="17" fill="#fbf3dc" />
-            </>
-          )}
-        </>
-      )}
       {!own && time === "dawn" && <circle cx="300" cy="86" r="26" style={{ fill: `color-mix(in srgb, #fff3e4 80%, ${page})` }} />}
       {!own && time === "golden" && <circle cx="860" cy="82" r="28" style={{ fill: "#ffd98a" }} />}
       <g style={{ "--color-parchment": `color-mix(in srgb, ${t.wash} ${t.amount}%, ${page})` } as CSSProperties}>{art}</g>
