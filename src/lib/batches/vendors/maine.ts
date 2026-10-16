@@ -74,6 +74,11 @@ Affectionate Confections	Cake		Bar Harbor	Maine	Bar Harbor and surrounding commu
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
 Sweet Thunder Productions	Videography	153 Hospital Street #8	Augusta	Maine	Boothbay Harbor, Bath, Brunswick, Camden, Bar Harbor, Portland and the rest of Maine	Owner-filmed, unobtrusive wedding videography across Maine, including the Boothbay Harbor and Midcoast regions.			https://sweetthunderproductions.com	https://www.instagram.com/sweetthunder7/`,
   },
+  {
+    name: "Midcoast and Bar Harbor: music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+DJ Greg Young	Music		Camden	Maine	Midcoast Maine, Camden, Bar Harbor and the rest of the Maine coast	Maine wedding DJ for ceremony and reception music, with custom song selection plus sound and lighting, travelling to coastal venues across the state.	bookings@djgregyoung.com	207-949-0566	https://djgregyoung.com/	https://www.instagram.com/djgregyoung/`,
+  },
 ];
 
 export default batches;
