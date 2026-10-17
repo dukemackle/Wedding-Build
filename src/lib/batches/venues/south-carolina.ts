@@ -113,6 +113,23 @@ Adelaide Events Venue	2780 Foster Rd	Inman	South Carolina			Garden / Outdoor	Ind
 Duncan Estate	840 Union St	Spartanburg	South Carolina			Historic / Estate				A historic estate a short way from downtown Spartanburg, hosting weddings and private gatherings.		864-529-7287	https://www.duncanestate.com
 Rock Bottom Pond		Ridgeway	South Carolina			Garden / Outdoor	Indoor & Outdoor	175		A 28-acre country venue with a pond, fountain and private docks, with a main house, reception hall and covered patio.			https://www.rockbottompond.com`,
   },
+  {
+    name: "Sumter and Greenwood map-fill, Hilton Head venues",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Sumter Museum	122 N Washington St	Sumter	South Carolina			Historic / Estate	Indoor & Outdoor	100		Hall and garden grounds of a 1916 home in Sumter, hired out for receptions and gatherings; the hall seats 100 or holds 250 for a cocktail party.		803-775-0908	https://www.sumtermuseum.org/rentals/
+Silver Spoon Event Center	670 West Liberty Street	Sumter	South Carolina			Ballroom / Hotel	Indoor	150	Simple	Event hall in a former bank building with chandeliers, a photo backdrop room and a vault bar; published venue-only fees run from $650 to $1,400.	witherspoon@silverspooneventcenter.com	(803) 757-9208	https://www.silverspooneventcenter.com/
+The O'Donnell House	120 E Liberty St	Sumter	South Carolina			Historic / Estate	Indoor & Outdoor			Historic downtown Sumter house with a 2,000 sq ft ballroom, a landscaped lawn and period rooms; the site says all areas together have held 500.			https://www.theodonnellhouse.com/
+The HIVE @ Lavender Estate	1699 N. Main Street	Sumter	South Carolina			Barn / Rustic				Farm-styled wedding and event venue on North Main Street in Sumter; wedding collections are priced by free consultation.	bee@thehivesc.com	803-305-9376	https://www.thehiveatlavenderestate.com/
+Wagon Trail at DuRant Farms	600 Concord Church Road	Sumter	South Carolina			Barn / Rustic				Countryside property with a clubhouse, cabin, stocked fish pond and sporting clays course that hosts small weddings, rehearsal dinners and receptions.		803-435-3705	https://wagontrail.org/
+Judson Family Farms	190 Lin Ran Lane	Sumter	South Carolina			Barn / Rustic				Family-run farm on the edge of Sumter offering its grounds as an event venue, with wedding photos on its site; pricing and capacity not published.	judsonfamilyfarms@gmail.com	(803) 938-4898	https://judsonfamilyfarms.com/
+Cokesbury College	210 College Dr	Cokesbury	South Carolina			Historic / Estate	Indoor & Outdoor		Simple	An 1854 former women's college in the old village of Cokesbury, rented by a historical commission for weddings with a two-day building-and-grounds fee.			https://www.cokesburycollege.com
+Drummond Center at Lake Greenwood State Park	302 State Park Rd	Ninety Six	South Carolina			Garden / Outdoor	Indoor & Outdoor	169		A state-park event building rented for weddings and receptions, with seating for 169 and room for up to 272 guests in all.	lakegreenwood@scprt.com	864-543-3535	https://southcarolinaparks.com/lake-greenwood/drummond-center
+Inn on the Square	104 Court Ave E	Greenwood	South Carolina			Ballroom / Hotel	Indoor & Outdoor			A 48-room uptown hotel with a 2,500 sq ft ballroom and a courtyard, hosting weddings and receptions.		864-330-1010	https://innonthesquare.net
+Greenwood Country Club	607 Cambridge Ave W	Greenwood	South Carolina			Ballroom / Hotel	Indoor			A private club founded in 1927 whose renovated clubhouse hosts wedding receptions, rehearsal parties and showers, from small gatherings to several hundred guests.	info@greenwoodcountryclub.com	864-942-8851	https://greenwoodcountryclub.com
+The Cotton Loft	305 W Main St	Clinton	South Carolina			Historic / Estate	Indoor & Outdoor		Simple	A brick event hall with timber beams, a chapel, a dressing suite and bride and groom suites, rented by the day or weekend with tables and chairs included.	305cottonloft@gmail.com	803-924-1625	https://thecottonloft.com
+The Magnolia Room	116 S Public Square	Laurens	South Carolina			Ballroom / Hotel	Indoor	200		A 6,647 sq ft second-floor event space on the historic Laurens square, used for weddings, receptions and corporate events.	magnoliaroomlaurens@gmail.com	864-981-1745	https://magnoliaroomsc.com
+Mitchelville Place	170 Dillon Rd	Hilton Head Island	South Carolina			Historic / Estate	Indoor & Outdoor			Historic Hilton Head property with a main house, barn, pavilion and grand lawn for weddings, set up with on-site coordination and a list of partner vendors.	info@mitchelvilleplace.com	843-321-9422	https://www.mitchelvilleplace.com/`,
+  },
 ];
 
 export default batches;

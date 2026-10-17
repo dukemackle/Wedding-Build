@@ -192,6 +192,35 @@ Player Films	Videography	3518 St James Ave	Myrtle Beach	South Carolina	Myrtle Be
 Lisa Staff Photography	Photography		Hilton Head Island	South Carolina	Hilton Head, Bluffton, Beaufort, Charleston, Savannah and the wider Lowcountry	Romantic, timeless wedding photography from Hilton Head Island, with heirloom albums and travel across the Lowcountry and coastal Georgia.		843-422-0197	https://lisastaffphoto.com/	https://www.instagram.com/lisastaffphoto/
 Stories and Stills	Videography		Aiken	South Carolina	All of South Carolina, including Hilton Head Island, with no travel fees	Photo and 4K cinematic wedding film studio with in-house editing, covering Hilton Head weddings alongside Charleston, Columbia and Greenville.	contact@storiesandstills.com	(843) 518-0020	https://www.storiesandstills.com/	https://www.instagram.com/the_stories_and_stills/`,
   },
+  {
+    name: "Sumter: florals, cake, music and photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Polly's Blooms	Florals	623 Manning Ave	Sumter	South Carolina	Sumter, Shaw AFB, Dalzell, Rembert, Oswego, Mayesville, Wedgefield	Sumter flower shop with delivery across the area and a consultation form for wedding and special event flowers; the shop does not take walk-ins.	assist@pollysblooms.com	803-795-5737	https://pollysblooms.com/	https://www.instagram.com/pollysblooms/
+Pauline Green Florist	Florals	2010 Peach Orchard Rd	Sumter	South Carolina	Sumter, Shaw AFB, Dalzell, Horatio and Wedgefield	Locally owned Sumter flower shop that makes wedding bouquets and centrepieces and offers corsages and boutonnieres, with same-day local delivery.		(803) 666-3337	https://www.paulinegreenflorist.com/	
+Carasmatic Creations	Cake		Sumter	South Carolina	Sumter and Shaw AFB (free delivery)	Sumter bakery baking from scratch, with a wedding concierge programme, cake tastings and a published gallery, price list and flavour menu.	customerservice@carasmaticcreations.com		https://carasmaticcreations.com/	https://www.instagram.com/carasmatic.creations/
+Sweet Success Bakery	Cake		Sumter	South Carolina		Sumter bakery taking custom cake orders for birthdays, weddings, baby showers and corporate events, with quotes requested through the site.	kia.smith@sweetsuccessbakery.net		https://www.sweetsuccessbakery.net/	https://www.instagram.com/sweetsuccessbakery803/
+DJ Howie D Entertainment	Music		Sumter	South Carolina	Sumter and surrounding areas, travels	Mobile DJ company for wedding ceremonies and receptions, offering uplighting, photo booths (digital, print or 360), cold spark machines and karaoke.	howie@djhowied.com	803-518-1737	https://djhowied.com/	https://www.instagram.com/djhowied/
+Rebekah Ruth Photography	Photography		Sumter	South Carolina		Natural-light photographer based in Sumter with a weddings portfolio alongside family, portrait and senior sessions.			https://www.rebekahruthphotography.com/	https://instagram.com/Rebekah_ruth_photography`,
+  },
+  {
+    name: "Greenwood: bridal and florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Voila Bridal	Bridal & Formalwear	324 Main St	Greenwood	South Carolina		A private-appointment bridal boutique on Main Street selling designer wedding gowns and accessories, plus mother of the bride and groom dresses.	hello@voilabridal.com	864-229-4696	https://voilabridal.com	https://www.instagram.com/voilabridal/
+Flowers by D and L	Florals	100 W Main St	Ninety Six	South Carolina		A Ninety Six florist offering wedding bouquets, wedding party flowers and ceremony and reception arrangements from a Main Street shop.		864-993-2210	https://www.flowersbydandl.net	`,
+  },
+  {
+    name: "Hilton Head: florals, music, planning, cake and rentals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Gardenias Floral Design	Florals	14 Vine Street	Hilton Head Island	South Carolina	Hilton Head Island, Bluffton, Beaufort and Savannah	Hilton Head Island florist for weddings and events, offering full-service floral design plus plant rentals and commercial work.	gardeniashhi@gmail.com	843-837-6602	https://www.gardeniashhi.com/	
+Stone Floral	Florals		Beaufort	South Carolina	Beaufort, Charleston, Savannah and the Lowcountry	Design-led floral studio in Beaufort making full, refined arrangements for weddings and events across the Lowcountry, with work at Sea Pines and private homes.	tierneystonework@gmail.com	843-694-5252	https://www.stonefloral.com/	https://www.instagram.com/stonefloraldesignstudio/
+Anchor Entertainment	Music		Bluffton	South Carolina	Bluffton, Hilton Head, Beaufort and Savannah	Bluffton wedding and event DJ run by one owner, who books direct and covers ceremony music, cocktail hour, reception and MC duties across the Lowcountry.	gary@anchorentertainment.net	(843) 368-1693	https://www.anchorentertainment.net/	
+Hilton Head Strings	Music		Hilton Head Island	South Carolina	Hilton Head, Savannah, Beaufort and Bluffton	Hilton Head ensemble booking for ceremonies and receptions, from string quartets and duos to a jazz band, sax and keys duo and a DJ, plus speaker hire.	lauren@palmettostrings.com		https://hiltonheadstrings.com/	https://www.instagram.com/hiltonheadstrings/
+Beth Baldwin Weddings	Planning		Hilton Head Island	South Carolina		Hilton Head wedding planning and design company led by its founder, offering full-service planning for couples marrying on the island and nearby.	beth@bethbaldwinweddings.com	(843) 290-8727	https://bethbaldwinweddings.com/	https://www.instagram.com/bethbaldwinwed/
+Julia Noelle Weddings	Planning		Bluffton	South Carolina	Bluffton, Hilton Head Island, Beaufort and Savannah	Wedding planning, design and coordination team working around Bluffton, Hilton Head, Beaufort and Savannah, with florals, getaway cars and decor offered too.	julia@julianoelleweddings.com	203-572-4845	https://www.julianoelleweddings.com/	https://www.instagram.com/julianoelleweddings/
+Dflavorcc	Cake		Bluffton	South Carolina	Hilton Head Island, Bluffton, Savannah and Charleston	Husband-and-wife cake studio making bespoke wedding cakes, sugar flowers and dessert bars for Hilton Head, Bluffton and Savannah; tastings by appointment.	hello@dflavorcc.com	(843) 802-3269	https://www.dflavorcc.com/	https://www.instagram.com/dflavorcc/
+Frosted Artistry	Cake		Beaufort	South Carolina		Beaufort cake and cookie studio taking custom wedding cake, cupcake and decorated sugar cookie orders, and running local decorating classes.			https://www.frostedartistry.shop/	https://www.instagram.com/rachelscakesli/
+Carolina Weddings	Rentals		Hilton Head Island	South Carolina	The Carolinas	Hilton Head design and rental company, in business since 1987, supplying specialty linens, lighting, flooring, draping and furniture for weddings.		(803) 415-2044	https://www.carolinaweddings.com/	https://www.instagram.com/carolinaweddingshhi/`,
+  },
 ];
 
 export default batches;
