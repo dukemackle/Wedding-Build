@@ -536,6 +536,13 @@ Harris Ranch Resort	24505 W Dorris Ave	Coalinga	California			Ballroom / Hotel	In
 Inn at the Pinnacles	32025 Stonewall Canyon Rd	Soledad	California			Restaurant / Vineyard	Indoor & Outdoor	200		Mediterranean-style inn on a 160-acre vineyard estate in the Gabilan Mountains, hired for a full weekend with seven guest rooms.	info@innatthepinnacles.com	831-678-2400	https://www.innatthepinnacles.com/weddings
 Bel Cielo Farm	4895 Hovley Rd	Brawley	California			Barn / Rustic	Outdoor	250		A 40-acre family farm with an olive orchard, rose and bougainvillea gardens, a lawn and a semi-covered barn for weddings and quinceañeras.	belcielovenue@gmail.com	760-457-0605	https://sites.google.com/view/belcielofarm`,
   },
+  {
+    name: "Map fill: Ridgecrest, Susanville, San Lucas",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Kerr McGee Center	100 W California Ave	Ridgecrest	California			Ballroom / Hotel	Indoor	400		City-run community centre with a banquet hall for 400, a half hall for 180, a kitchen and meeting rooms for receptions.	rentals@ridgecrest-ca.gov	(760) 499-5172	https://www.ridgecrest-ca.gov/579/Indoor-facilities
+Far Far Away Ranch	703-185 Johnstonville Rd	Susanville	California			Barn / Rustic	Indoor & Outdoor			Rustic ranch where couples can say vows in a pasture and host dinner outdoors or inside the barn.		(916) 952-7481	https://www.farfarawayranch.com/weddings-events
+Pine Valley Ranch	59055 Pine Valley Rd	San Lucas	California			Barn / Rustic	Indoor & Outdoor	175		Family-run ranch with a pond, a barn that seats around 175 and three days of exclusive use, with camping allowed on the property.			https://pinevalleyranchevents.com/`,
+  },
 ];
 
 export default batches;
