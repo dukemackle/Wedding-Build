@@ -256,6 +256,29 @@ The Hideout Golf Club & Resort	185 Hideout Lane	Brownwood	Texas			Beach / Waterf
 611 Commerce Venue Hall	611 Commerce St	Alice	Texas			Ballroom / Hotel	Indoor	500	Simple	Family-run event hall opened in 2021 with a full bar, security included, and bridal and groom suites in its Saturday wedding package.		361-756-1279	https://611commercevenue.com/
 `,
   },
+  {
+    name: "Map fill: East, Gulf Coast, South and Panhandle Texas towns",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Ocean Village Hotel & Resort	310 Ocean Ave	Surfside Beach	Texas			Ballroom / Hotel	Indoor			Gulf-side hotel with a banquet room looking out over the water, used for wedding receptions and ceremonies on the Surfside shore.	events@oceanvillagehotel.com		https://oceanvillagehotel.net/events/weddings/
+The Warehouse	1003 Thompson St	Lufkin	Texas			Historic / Estate	Indoor & Outdoor	300		Restored historic warehouse north of downtown with over 9,000 square feet of climate-controlled space, a wraparound porch and three acres of grounds.		(936) 366-1894	https://www.thewarehouselufkin.com/
+West Shepherd Avenue Event Venue	113 W Shepherd	Lufkin	Texas			Historic / Estate	Indoor			Four-walled historic building in downtown Lufkin with high ceilings and a handcrafted bar, hiring out as a private event hall.		(936) 560-4364	https://www.westshepherdave.com/
+Buck Creek Hall	1617 Old Ewing Rd	Lufkin	Texas			Barn / Rustic	Indoor & Outdoor	250	Simple	Covered, open-air hall looking over a hundred-acre pasture, with fans, heaters, tables and chairs included in the rental.	buckcreekhallinfo@gmail.com	(936) 631-2168	https://buckcreekhall.com/
+The Grand on First	416 S First St	Lufkin	Texas			Ballroom / Hotel	Indoor & Outdoor			Downtown Lufkin venue with exposed brick and an industrial look, remodelled in 2024, with packages that can cover catering, bar, DJ and decor.		(936) 552-9948	https://thegrandonfirst.com/
+Brick Street 205	205 E Main St	Nacogdoches	Texas			Historic / Estate	Indoor		Simple	Restored downtown Nacogdoches building rented by the night for weddings and dinners, with early key pickup the day before included.		(936) 556-5106	https://www.brickst205.com/
+Millard's Crossing Historic Village Chapel	6020 North St	Nacogdoches	Texas			Historic / Estate	Indoor	100		A 1905 wooden chapel moved into a historic village, climate-controlled, with a working antique pump organ, piano and bell for ceremonies.	info@mchvnac.com	(936) 564-6631	https://www.mchvnac.com/chapel
+The Hideout Golf Club & Resort	185 Hideout Ln	Brownwood	Texas			Beach / Waterfront	Indoor & Outdoor	150		Lake Brownwood resort with a lakeview ceremony area, indoor rooms, on-site lodging and in-house catering from $30 a head.	info@thehideouttexas.com	(325) 784-4653	https://www.thehideouttexas.com/special-events
+Lone Oak Retreat	8484 FM 372	Gainesville	Texas			Barn / Rustic	Indoor & Outdoor	250	Simple	Cross Timbers ranch with a late-1800s chapel, outdoor ceremony lawns, a 3,200 sq ft ballroom and on-site lodging.		(940) 668-2855	https://www.loneoakretreat.com/weddings
+The Venue on Main	519 W Main St	Denison	Texas			Historic / Estate	Indoor	90		1880s downtown ballroom of about 2,400 sq ft with original wood floors, a tin ceiling and columns, suited to small weddings.		(903) 327-5034	http://www.thevenueonmaindenison.com/
+Katy Depot	101 E Main St	Denison	Texas			Historic / Estate	Indoor			Restored 1911 railway building in downtown Denison with tall ceilings, chandeliers and a bridal suite called the Bluebonnet Room.	info@katydepottx.com	(903) 463-7729	https://katydepottx.com/
+The Hills of Luella		Sherman	Texas			Barn / Rustic	Indoor & Outdoor			Country venue near Sherman where receptions happen in a western-style barn and ceremonies take place in front of a custom gazebo.			https://thehillsofluella.com/
+Strawberry Pines	1287 W FM 476	Poteet	Texas			Barn / Rustic	Indoor & Outdoor		Simple	Restored former working ranch among pine trees south of San Antonio, with outdoor ceremonies, a barn reception and three on-site lodging houses.	darlene@strawberrypines.com	210-296-1764	https://strawberrypines.com/
+The Orchard at Caney Creek	923 County Road 235	Wharton	Texas			Barn / Rustic	Indoor & Outdoor	200	Classic	All-inclusive Wharton County venue with a white garden ceremony setup, separate bride's and groom's houses, and dinner, bar and staff in the package.	haley@theorchardatcaneycreek.com	281-944-3331	https://www.caney-creek.com/
+Hotel Settles	200 East Third Street	Big Spring	Texas			Ballroom / Hotel	Indoor	200		Historic downtown Big Spring hotel with a restored Grand Ballroom, a 60-guest pavilion opening onto a patio, and over 15,000 sq ft of event space.	info@hotelsettles.com	432-267-7500	https://www.hotelsettles.com/weddings
+The Black Oak	7435 TX-154	Sulphur Springs	Texas			Barn / Rustic	Indoor & Outdoor	200		Rural wedding property with a climate-controlled chapel, a 3,400 sq ft reception hall, outdoor ceremony spots and trees strung with lights.	bookings@theblackoak.com	903-243-9595	https://theblackoak.com/
+501 Ranch	5892 US-83 S	Uvalde	Texas			Barn / Rustic	Indoor & Outdoor			Ranch of over 9,000 acres by the Nueces River with a lodge, open-air pavilion, chapel, bridal suite and ten guest cottages for staying over.		(830) 278-3939	https://www.501ranch.com/
+Sulphur Springs Country Club	511 Country Club Rd	Sulphur Springs	Texas			Ballroom / Hotel	Indoor			Golf-club ballroom overlooking the course and a private lake, with a built-in sound system, projector and custom catering.	help@sulphurspringscc.com	903-885-4748	https://www.sulphurspringscc.com/
+`,
+  },
 ];
 
 export default batches;
