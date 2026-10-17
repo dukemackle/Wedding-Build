@@ -126,6 +126,12 @@ Casper Executive Car and Limousine	Transportation		Casper	Wyoming	Casper and cen
 Veronica Catering	Catering		Cody	Wyoming	Cody	Cody caterer serving Mexican dishes based on Guadalajara family recipes for weddings, parties and other events.			https://www.veronicacatering.com/	
 `,
   },
+  {
+    name: "Cheyenne: Casper and Rock Springs photography and florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Studio Designs Floral & Co.	Florals	165 K Street	Rock Springs	Wyoming	Rock Springs, Green River and Sweetwater County	Rock Springs florist that designs wedding flowers locally or for destination weddings and delivers across Sweetwater County.	studiodesignsfloralco@gmail.com	307-264-3238	https://www.studiodesignsfloralco.com/	https://www.instagram.com/studiodesignsfc/
+`,
+  },
 ];
 
 export default batches;
