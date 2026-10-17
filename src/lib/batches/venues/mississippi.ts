@@ -41,7 +41,7 @@ LeighWood Place	786 County Road 811	Saltillo	Mississippi			Garden / Outdoor	Indo
 Duff Green Mansion	1114 First East Street	Vicksburg	Mississippi			Historic / Estate	Indoor & Outdoor			Restored Vicksburg mansion and bed and breakfast with indoor and outdoor space for intimate or larger weddings and receptions.	duffgreenmansion@gmail.com	601-636-6968	https://duffgreenmansion.com/events
 Grey Oaks Plantation	4142 Rifle Range Road	Vicksburg	Mississippi			Historic / Estate	Indoor & Outdoor			Federal-style plantation home rebuilt in the 1930s from a Greek Revival house, set among landscaped grounds and oaks and furnished with period antiques.	ron.white@greyoaksplantation.com	(850) 341-9900	https://greyoaksplantation.com/
 The Inn at Cedar Grove Mansion	2200 Oak St	Vicksburg	Mississippi			Historic / Estate	Indoor & Outdoor			Historic Vicksburg mansion inn where couples can marry in the courtyard or ballroom, with the restaurant, rooms and pool on site for the wedding party.	info@cedargroveinn.com	(601) 636-1000	https://www.cedargrovemansion.com/weddings.htm
-The Mill at Plein Air		Taylor	Mississippi			Barn / Rustic	Indoor & Outdoor	450		Reception hall and 280-seat chapel built largely from salvaged century-old mill and church materials, with a two-bedroom bridal loft included.	mccool@bellsouth.net	(662) 234-3151	https://www.pleinairtaylor.com/weddings-receptions-rentals
+The Mill at Plein Air		Taylor	Mississippi			Barn / Rustic	Indoor & Outdoor			Reception hall and 280-seat chapel built largely from salvaged century-old mill and church materials, with a two-bedroom bridal loft included.	mccool@bellsouth.net	(662) 234-3151	https://www.pleinairtaylor.com/weddings-receptions-rentals
 Dunleith Historic Inn	84 Homochitto St	Natchez	Mississippi			Historic / Estate	Indoor & Outdoor			Natchez landmark inn with the main house, courtyard and south lawn as wedding spaces, plus on-site catering and coordinators.		601-897-6300	https://www.dunleithhistoricinn.com/weddings/`,
   },
   {
@@ -61,6 +61,21 @@ The Gin at Rasberry Greene	179 Bernis Hill Rd	Soso	Mississippi			Barn / Rustic	I
 1 Memphis Street	1 Memphis Street	Hernando	Mississippi			Historic / Estate	Indoor & Outdoor	200		Restored 1930s cottonseed warehouse on Hernando's historic square with barn doors, balconies and a green space.	1MemphisStreet@gmail.com	662-996-8331	https://1memphisstreet.com
 Dodson Farm	684 Mt. Olive Rd	Starkville	Mississippi			Barn / Rustic	Indoor & Outdoor			Family-run Starkville farm with a chapel, a reception loft and guest accommodations.	dodsonfarmsms@gmail.com	662-338-6844	https://dodsonfarm.com
 Tupelo Cotton Mill	300 Elliott Street	Tupelo	Mississippi			Historic / Estate	Indoor	500		Restored historic mill building with a 14,000 sq ft hall, stage, dance floor and caterer's kitchen.	tupelocottonmill@gmail.com	662-350-1550	https://tupelocottonmill.com
+`,
+  },
+  {
+    name: "Map fill: Meridian, Greenville, Clarksdale, Greenwood, Grenada, Cleveland",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+The Threefoot Hotel	601 22nd Avenue	Meridian	Mississippi			Ballroom / Hotel	Indoor			A restored Art Deco hotel in downtown Meridian offering a historic backdrop and rooftop bar for showers, ceremonies and receptions.		(601) 282-1525	https://thethreefoothotel.com/
+The MAX (Mississippi Arts + Entertainment Experience)	2155 Front Street	Meridian	Mississippi			Garden / Outdoor	Indoor & Outdoor	600		A downtown Meridian arts museum whose fountain courtyard, rooftop terrace and two-storey Hall of Fame host weddings and receptions.		601-581-1550	https://www.msarts.org/
+MSU Riley Center	2200 5th Street	Meridian	Mississippi			Historic / Estate	Indoor			A restored nineteenth-century theatre and ballroom complex in downtown Meridian with a grand lobby and exhibit hall suited to ceremonies and receptions.	info@msurileycenter.com	(601) 696-2200	https://msurileycenter.com/
+Harlow's Casino Resort & Spa	4280 Harlows Blvd	Greenville	Mississippi			Ballroom / Hotel	Indoor	500		A Greenville casino resort with an event centre for weddings and receptions, plus hotel suites and a bridal suite offered with a catering minimum.		1-866-524-5825	https://www.harlowscasino.com/
+Cutrer Mansion	109 Clark Street	Clarksdale	Mississippi			Historic / Estate				A Clarksdale mansion that hosts weddings and receptions, with tours by appointment.		662-621-9344	https://www.cutrermansion.com
+The Bank	123 E 2nd St	Clarksdale	Mississippi			Historic / Estate	Indoor			A 1930 former bank building of about 12,000 sq ft with a skylit ceiling and marble columns, open to wedding ceremonies and receptions.			https://eventsatthebank.com
+Tallahatchie Tavern at Tallahatchie Flats	58458 County Road 518	Greenwood	Mississippi			Barn / Rustic				A restored plantation commissary on a riverside site, rented for wedding receptions, with shacks on the property for overnight stays.	tallahatchieflats@yahoo.com	662-897-1988	https://tallahatchieflats.com
+Alvastage Acres	3140 Alvastage Rd	Duck Hill	Mississippi			Barn / Rustic	Indoor & Outdoor	250	Simple	A former rural school site with a restored 1800s chapel, a reception barn and an on-site house with a bridal suite.	alvastageacres@gmail.com	(662) 719-1128	https://www.alvastageacres.com
+West End District	1300 Highway 8 West	Cleveland	Mississippi			Ballroom / Hotel	Indoor & Outdoor			A hotel-based event campus whose Gin hall, Southern mansion parlours and lawn host weddings, with in-house catering and coordination.	contact@westendcleveland.com		https://www.westendcleveland.com
+First & Green Celebrations	97 First Street	Grenada	Mississippi			Historic / Estate	Indoor & Outdoor	400		A restored downtown hall with a garden and fire-pit patio nearby, offering in-house catering and bar service for wedding ceremonies and receptions.	celebrate@firstandgreengrenada.com	662-699-0498	https://www.firstandgreengrenada.com
 `,
   },
 ];
