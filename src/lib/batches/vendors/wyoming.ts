@@ -132,6 +132,13 @@ Veronica Catering	Catering		Cody	Wyoming	Cody	Cody caterer serving Mexican dishe
 Studio Designs Floral & Co.	Florals	165 K Street	Rock Springs	Wyoming	Rock Springs, Green River and Sweetwater County	Rock Springs florist that designs wedding flowers locally or for destination weddings and delivers across Sweetwater County.	studiodesignsfloralco@gmail.com	307-264-3238	https://www.studiodesignsfloralco.com/	https://www.instagram.com/studiodesignsfc/
 `,
   },
+  {
+    name: "Map fill: Riverton, and Cheyenne: catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Shelle Anderson Photography	Photography	612 E Main St	Riverton	Wyoming	Fremont County	Boutique Riverton studio photographing weddings and senior portraits, with printed heirloom products and wedding pricing on request.	shelle.anderson@yahoo.com	(480) 510-5351	https://shelleandersonphotos.com/	
+O.B.A Photography	Photography		Riverton	Wyoming		Riverton photographer covering weddings, engagements, family, maternity, newborn and equine sessions, working from a Riverton base.		(307) 388-2770	https://photographyservicesriverton.com/	https://www.instagram.com/o.b.aphotography/
+Paris West	Catering	1719 Central Avenue	Cheyenne	Wyoming		Downtown Cheyenne restaurant and bar that caters weddings and parties, serving twists on classic Western comfort food plus a full bar.	Info@parisinthewest.com	(307) 224-2170	https://parisinthewest.com/	https://www.instagram.com/pariswestcheyenne/`,
+  },
 ];
 
 export default batches;

@@ -81,6 +81,10 @@ Historic Occidental Hotel	10 N Main St	Buffalo	Wyoming			Historic / Estate	Indoo
 Star Valley Lodge	4271 Willow Creek Ln	Bedford	Wyoming			Barn / Rustic	Indoor & Outdoor	65		A mountain lodge with indoor spaces and grounds beside Bridger-Teton National Forest, hosting day-of weddings or three- to four-day wedding weekends.	cindyrowland@starvalleylodge.com	307-201-6250	https://www.starvalleylodge.com/weddings
 `,
   },
+  {
+    name: "Map fill: Evanston",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+  },
 ];
 
 export default batches;
