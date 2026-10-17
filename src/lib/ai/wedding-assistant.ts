@@ -17,7 +17,7 @@ import { applyProposal } from "@/lib/ai/assistant-apply";
 import { PLANNING_QUESTIONS, profileLines } from "@/lib/ai/planning-profile";
 import { seedStandardPlan } from "@/lib/seed-plan";
 
-const MODEL = "claude-haiku-4-5";
+const MODEL = "claude-haiku-5-5";
 /**
  * "Build our plan" is a whole-wedding job -- weighing trade-offs across the
  * checklist, calendar and budget -- so it gets the stronger model and more
@@ -33,6 +33,8 @@ const MAX_ITERATIONS = 6;
  * calls, so this is the ceiling on what one account can spend in a day.
  */
 const MAX_MESSAGES_PER_DAY = 30;
+/** A second ceiling, so maxing out every day can't run all month. */
+const MAX_MESSAGES_PER_MONTH = 300;
 const MAX_MESSAGE_CHARS = 2000;
 /** Open tasks listed by name in the context; the rest are counted. */
 const MAX_TASKS_IN_CONTEXT = 40;
@@ -51,6 +53,8 @@ type AssistantContext = {
   userId: string;
   weddingId: string | null;
   context: string;
+  /** Date, place, headcount and budget -- what a handed-off question carries. */
+  basics: string;
   tools: ToolContext | null;
 };
 
@@ -73,6 +77,7 @@ async function buildContext(): Promise<AssistantContext | null> {
       userId: user.id,
       weddingId: null,
       context: "This couple hasn't set up their wedding details yet.",
+      basics: "",
       tools: null,
     };
   }
@@ -216,11 +221,24 @@ async function buildContext(): Promise<AssistantContext | null> {
     BUDGET_CATEGORIES.map((c) => [c.key, overrideByCategory.get(c.key) ?? estimates.get(c.key) ?? 0]),
   );
 
+  // What goes with a question handed off to another assistant: the outline
+  // of the wedding, never guests or anyone's contact details.
+  const city = venue?.city ?? wedding.own_venue_city;
+  const basics = [
+    wedding.wedding_date ? `wedding date ${wedding.wedding_date}` : null,
+    city || wedding.state ? `in ${[city, wedding.state].filter(Boolean).join(", ")}` : null,
+    headcount ? `about ${headcount} guests` : null,
+    wedding.budget_target ? `budget $${wedding.budget_target.toLocaleString()}` : null,
+  ]
+    .filter(Boolean)
+    .join(", ");
+
   return {
     supabase,
     userId: user.id,
     weddingId: wedding.id,
     context: lines.join("\n"),
+    basics,
     tools: { supabase, weddingId: wedding.id, budgetPlanned, hiddenCategories: hidden },
   };
 }
@@ -270,7 +288,7 @@ ${context}`;
 
 type AssistantResult =
   | { ok: true; reply: string; proposals: Proposal[] }
-  | { ok: false; error: string };
+  | { ok: false; error: string; handoff?: string };
 
 export async function askWeddingAssistant(
   history: AssistantMessage[],
@@ -290,15 +308,33 @@ export async function askWeddingAssistant(
 
   const startOfDay = new Date();
   startOfDay.setUTCHours(0, 0, 0, 0);
-  const { count } = await ctx.supabase
-    .from("assistant_conversations")
-    .select("id", { count: "exact", head: true })
-    .eq("user_id", ctx.userId)
-    .gte("created_at", startOfDay.toISOString());
-  if ((count ?? 0) >= MAX_MESSAGES_PER_DAY) {
+  const startOfMonth = new Date(startOfDay);
+  startOfMonth.setUTCDate(1);
+  const sentSince = (since: Date) =>
+    ctx.supabase
+      .from("assistant_conversations")
+      .select("id", { count: "exact", head: true })
+      .eq("user_id", ctx.userId)
+      .gte("created_at", since.toISOString());
+  const [{ count: today }, { count: thisMonth }] = await Promise.all([
+    sentSince(startOfDay),
+    sentSince(startOfMonth),
+  ]);
+  const capped =
+    (thisMonth ?? 0) >= MAX_MESSAGES_PER_MONTH
+      ? `That's your ${MAX_MESSAGES_PER_MONTH} messages with Wren this month. Wren's back on the 1st.`
+      : (today ?? 0) >= MAX_MESSAGES_PER_DAY
+        ? `That's your ${MAX_MESSAGES_PER_DAY} messages with Wren for today. Wren's back tomorrow.`
+        : null;
+  if (capped) {
+    // Pre-filled for another assistant, so the couple can carry on there.
+    const question = trimmedHistory[trimmedHistory.length - 1].content.slice(0, MAX_MESSAGE_CHARS);
     return {
       ok: false,
-      error: `That's ${MAX_MESSAGES_PER_DAY} messages today -- Wren needs a rest. Try again tomorrow.`,
+      error: capped,
+      handoff: ctx.basics
+        ? `I'm planning my wedding (${ctx.basics}). ${question}`
+        : `I'm planning my wedding. ${question}`,
     };
   }
 
@@ -310,7 +346,11 @@ export async function askWeddingAssistant(
   try {
     const finalMessage = await client.beta.messages.toolRunner({
       model: plan ? PLAN_MODEL : MODEL,
-      max_tokens: plan ? 8192 : 4096,
+      // Haiku 5.5 thinks by default, and thinking counts toward this.
+      max_tokens: 8192,
+      // Every model call in the loop re-sends the same instructions and
+      // wedding details; caching makes the repeats about a tenth the price.
+      cache_control: { type: "ephemeral" },
       max_iterations: plan ? PLAN_MAX_ITERATIONS : MAX_ITERATIONS,
       system: systemPrompt(ctx.context, ctx.tools !== null, plan),
       tools: ctx.tools ? buildAssistantTools(ctx.tools, proposals) : [],
