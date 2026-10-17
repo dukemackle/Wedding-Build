@@ -185,6 +185,12 @@ Delta Party Rental	Rentals	801 W Sunflower Rd	Cleveland	Mississippi		Cleveland p
 Engagements Bridal & Formal Wear	Bridal & Formalwear	178 South Main Street	Grenada	Mississippi		Grenada boutique selling bridal gowns, bridesmaid and mother-of-the-bride dresses, tuxedos and accessories.		(662) 226-2995	http://www.engagementsboutique.com	https://www.instagram.com/bridalbyengagements/
 `,
   },
+  {
+    name: "Clarksdale: florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Ooo So Pretty Flowers and Accessories	Florals	393 Issaquena Ave	Clarksdale	Mississippi	Clarksdale	Clarksdale flower shop designing wedding bouquets, arrangements and on-site decorating for ceremonies and receptions, with consultations by phone.		662-624-4007	https://www.ooosopretty.com/	
+`,
+  },
 ];
 
 export default batches;

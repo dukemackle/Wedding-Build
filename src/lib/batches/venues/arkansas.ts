@@ -62,6 +62,16 @@ The Silos	1743 County Road 380	Bono	Arkansas			Barn / Rustic	Indoor & Outdoor	25
 The Bonneville House	318 N. 7th Street	Fort Smith	Arkansas			Historic / Estate	Indoor			Landmark house built around 1864 in Fort Smith's historic district, rented for weddings, receptions, rehearsal dinners and bridal luncheons with waitstaff included.		(479) 782-7854	https://thebonnevillehouse.com/weddings-events
 `,
   },
+  {
+    name: "El Dorado, Camden, Magnolia and Arkadelphia map fill",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+The Events Center at Fairview Park	2740 Mt Holly Rd	Camden	Arkansas			Historic / Estate	Indoor			Reception space in the 1937 high school gym at Fairview Park in Camden, preserved and reimagined for weddings, galas and other gatherings.	theeventscenter37@gmail.com	(870) 510-9332	https://www.theeventscenteratfairviewpark.com
+First Financial Music Hall at Murphy Arts District	101 East Locust Street	El Dorado	Arkansas			Ballroom / Hotel	Indoor			Large downtown music hall of over 25,000 square feet in El Dorado's arts district that hosts weddings and receptions through the district's events team.	info@eldofest.com	(870) 444-3007	https://eldomad.com/hostedevents
+The Barn at Draggin' M Ranch		El Dorado	Arkansas			Barn / Rustic	Indoor	150		Converted horse barn on a Brangus cattle ranch outside El Dorado, with a full kitchen, fireplace and getting-ready quarters for the wedding party.	barn@dragginm.com		https://dragginm.com/the-barn
+Big Oak Hill Ranch	1795 Columbia Road 10 East	Magnolia	Arkansas			Barn / Rustic	Indoor & Outdoor			Working 300-acre South Arkansas farm with a post-and-beam barn overlooking ponds, a glass-walled carriage house with a covered patio, and a renovated stable for rehearsal dinners.		(870) 904-5049	https://www.bigoakhillranch.com/
+Blakelytown Events Venue	701 Central Road	Arkadelphia	Arkansas			Barn / Rustic	Indoor & Outdoor			Event venue just west of Arkadelphia with an elegant-western look and local-history theme, hosting weddings, corporate gatherings and reunions, with a golf course planned.	kristin@bunnproperties.com	(501) 617-4609	https://www.blakelytown.com/
+`,
+  },
 ];
 
 export default batches;
