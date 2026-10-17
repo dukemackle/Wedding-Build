@@ -26,8 +26,6 @@ Brittingham Farms Lavender & Lambs	22518 Phillips Hill Road	Millsboro	Delaware		
   {
     name: "Delaware venues: Wilmington, Brandywine and Delaware Beaches",
     tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
-Hagley Museum and Library	200 Hagley Creek Road	Wilmington	Delaware			Historic / Estate	Indoor & Outdoor	200		Du Pont powder-works estate on 235 acres of gardens and meadows with three event facilities.	mgarrido@hagley.org	302-658-2400	https://www.hagley.org/weddings
-Winterthur Museum, Garden & Library	5105 Kennett Pike	Winterthur	Delaware			Historic / Estate	Indoor & Outdoor			Henry Francis du Pont's country estate with a 60-acre garden, reflecting-pool ceremonies and pavilion receptions.	ccater@winterthur.org		https://winterthurwedding.com/
 Delaware Art Museum	2301 Kentmere Parkway	Wilmington	Delaware			Historic / Estate	Indoor & Outdoor	150	Simple	Art museum with galleries, a sculpture garden and outdoor ceremony space; venue rentals start at a $2,000 minimum.	venuerentals@delart.org	302-571-9590	https://www.delart.org/weddings/
 The Farm at Coochs Bridge	1771 Old Coochs Bridge Rd	Newark	Delaware			Barn / Rustic	Indoor & Outdoor	170	Simple	Restored farm in the Coochs Bridge Historic District with a barn, farmhouse and pavilion; packages start at $3,000.		302-402-5060	https://thefarmatcoochsbridge.com/
 Thousand Acre Farm	260 S. Reedy Point Rd	Middletown	Delaware			Barn / Rustic	Indoor & Outdoor			Waterfront farm with two barns, a covered patio and a deck facing the sunset.		302-455-8880	https://thousandacrefarm.com/

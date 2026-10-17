@@ -71,8 +71,6 @@ Riggs Washington DC	900 F St NW	Washington	District of Columbia			Ballroom / Hot
   {
     name: "Washington historic houses",
     tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
-The Whittemore House	1526 New Hampshire Ave NW	Washington	District of Columbia			Historic / Estate	Indoor & Outdoor	400		Dupont Circle mansion on the National Register of Historic Places, with nine rooms including a ballroom and salon, a courtyard and in-house catering.		(202) 232-7363	https://thewhittemorehouse.com
-President Woodrow Wilson House	2340 S St NW	Washington	District of Columbia			Historic / Estate	Indoor & Outdoor	200		National Trust historic house museum in Kalorama with upper and lower gardens, a terrace and a presidential dining room open for weddings.	Events@woodrowwilsonhouse.org	202-387-4062	https://woodrowwilsonhouse.org/host-an-event/weddings/
 Anderson House (American Revolution Institute)	2118 Massachusetts Ave NW	Washington	District of Columbia			Historic / Estate	Indoor & Outdoor	130	Luxury	1905 Embassy Row mansion with a ballroom, flying marble staircase, winter garden and walled garden with a reflecting pool.	events@societyofthecincinnati.org	202.785.2040	https://www.americanrevolutioninstitute.org/site-rentals/weddings/`,
   },
 ];
