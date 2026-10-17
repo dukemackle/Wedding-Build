@@ -265,12 +265,12 @@ Happy Chicks Bakery	Cake	4035 Hamilton Avenue	Cincinnati	Ohio		Independent North
   {
     name: "Columbus: videography",
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
-Columbus Wedding Videos	Videography	5568 Cloverdale Dr	Galena	Ohio	Columbus and central Ohio	Galena-based studio making cinematic highlight films and full-length documentary-style wedding videos for central Ohio couples.	info@columbusweddingvideos.com	614.725.0169	https://columbusweddingvideos.com/	https://www.instagram.com/columbusweddingvideos/`,
+`,
   },
   {
     name: "Cleveland: music",
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
-Selective Sound Events	Music	26601 Richmond Rd	Bedford Heights	Ohio	Cleveland and surrounding areas	Cleveland DJ, MC and live party band company that also supplies ceremony audio, lighting and photo booths for weddings.	info@selectivesound.com	(440) 516-0020	https://www.selectivesound.com/	https://www.instagram.com/selectivesoundevents/`,
+`,
   },
   {
     name: "Toledo: music",
@@ -282,7 +282,7 @@ Sounds of Music DJs	Music		Toledo	Ohio	North-west Ohio and south-east Michigan	T
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
 Always Eventful	Planning		Akron	Ohio	Akron, Canton and Cleveland	Event planner who organises weddings and company celebrations for couples across Akron, Canton and Cleveland.	triciadever91@gmail.com	(330) 354-7133	https://alwayseventful.com/	https://www.instagram.com/triciadeverevents/
 MAVON Beauty	Hair & Makeup	2830 Copley Rd Suite D	Copley	Ohio	Akron, Canton, Cleveland and Columbus	Studio offering on-location bridal hair and makeup, including styling for Indian and South Asian multi-day weddings.		330.730.9711	https://www.mavonbeauty.com/	
-Work Shed Weddings	Videography		Akron	Ohio	Akron, Cleveland, Canton, Youngstown and Pittsburgh	Akron wedding film studio blending documentary storytelling with cinematic visuals across north-east Ohio and western Pennsylvania.	weddings@workshedpictures.com	330.790.1797	https://workshedweddings.com/	https://www.instagram.com/workshedweddings/`,
+`,
   },
 ];
 
