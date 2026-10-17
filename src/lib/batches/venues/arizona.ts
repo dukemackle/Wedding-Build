@@ -184,6 +184,11 @@ The Venue on Main	430 W Main St	Safford	Arizona			Historic / Estate	Indoor	200		
 Manor 415	415 E US Highway 70	Safford	Arizona			Ballroom / Hotel	Indoor & Outdoor	336		Event centre with halls that divide into three sections, a bright ceremony room, a bridal room, a lounge bar and a patio.			https://manor415.com
 The Onion Barn	Solomon Cemetery Rd	Safford	Arizona			Barn / Rustic	Indoor & Outdoor	120		Open barn with a concrete floor and hanging lights on farmland run by a family of farmers, with extra outdoor room for larger groups.	onionbarnvenue@gmail.com	(928) 322-2639	https://onion-barn.com`,
   },
+  {
+    name: "Map fill: Lake Havasu City",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Shugrue's Restaurant & Bar	1425 N McCulloch Blvd	Lake Havasu City	Arizona			Restaurant / Vineyard				Waterfront restaurant beside the London Bridge channel that helps with ceremony and reception space, staffing, linens and catering from its group.		928-453-1400	https://www.shugrueslakehavasu.com/weddings`,
+  },
 ];
 
 export default batches;
