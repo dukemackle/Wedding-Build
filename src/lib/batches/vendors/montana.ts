@@ -168,6 +168,16 @@ Revelry & Co	Rentals		Billings	Montana	Billings, Shepherd, Red Lodge, Laurel and
 Freakin' Awesome DJ Service	Music		Billings	Montana	Billings and surrounding areas	Billings DJ and MC service for wedding receptions, with sound, custom uplighting and monogrammed lighting, plus equipment rentals.		(406) 259-3000	https://freakinawesome.com/	
 Montana Premiere Entertainment	Music	1935 Lampman Dr, Unit B	Billings	Montana	Billings and the surrounding region	Billings entertainment company offering wedding DJ and MC packages alongside tent, table, chair, linen and lighting rentals for events.	dave@mtpremiere.com	(406) 697-4301	https://mtpremiere.com/	https://www.instagram.com/montanapremiereentertainment/`,
   },
+  {
+    name: "Billings: hair & makeup and planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+The Beauty Barr	Hair & Makeup		Billings	Montana	Billings and Montana	Licensed esthetician and makeup artist doing bridal and bridal-party makeup, plus skincare and spa makeup parties, for Billings couples.		406-850-5805	https://beautybarrmt.com/	https://www.instagram.com/thebeautybarrmt/
+Rustic Sage Salon	Hair & Makeup	203 S Broadway Ave	Red Lodge	Montana	Red Lodge and the Billings area	Red Lodge salon whose owner has styled weddings for 15 years, with a boho bridal look and event styling.		406-425-1563	https://www.rusticsagesalon.com/	
+Weddings by Sara	Planning		Missoula	Montana	Missoula and throughout Montana	Missoula planner handling venue and vendor recommendations, timelines and wedding-day management, including long-distance destination weddings.	info@weddingsbysara.com	406-260-0665	https://weddingsbysara.com/	https://www.instagram.com/weddingsbysaramt/
+Moments by Allie + Ashley	Planning		Missoula	Montana	Across Montana	Missoula event planning duo that plans weddings and other celebrations, with full-service planning anywhere in the state.	info@momentseventcoordinating.com		https://www.momentseventcoordinating.com/	https://www.instagram.com/momentsbyallie.ashley/
+Harper House Events	Planning		Missoula	Montana	Montana	Missoula planner offering full and partial wedding planning, day-of coordination, event design, rentals and a photo booth.		707-208-6612	https://harperhouseevents.com/	https://www.instagram.com/harper_house_events/
+`,
+  },
 ];
 
 export default batches;

@@ -250,6 +250,13 @@ Confetti Crown Salon	Hair & Makeup	770 Willamette Street	Eugene	Oregon	Eugene, S
 Via Flora	Florals		Bend	Oregon	Bend, Central Oregon and beyond	Bend florist designing organic, textural wedding flowers for couples across Central Oregon.	hello@viafloraflowers.com		https://www.viafloraflowers.com/	https://www.instagram.com/via.flora.flowers/
 Summer Robbins Flowers	Florals		Bend	Oregon	Bend, Central Oregon, travels	Bend studio creating luxury wedding florals, from ceremony installations and arches to bouquets and tablescapes.		458-202-0992	https://summerrobbinsflowers.com/	https://www.instagram.com/summerrobbinsflowers/`,
   },
+  {
+    name: "Oregon: music and photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+DW Duo	Music		Portland	Oregon		Portland harpist, DJ and vocalist playing Celtic harp at ceremonies, jazz at cocktail hour and dance sets, with over 400 weddings since 2001.	dawn@dwduo.com	(503) 642-9509	https://dwduo.com/	
+Emily Woodruff Photography	Photography		Hood River	Oregon		Long-time Hood River wedding photographer with a calm, organised and patient style that puts couples at ease and aims for photos that bring the day back.			https://emilywoodruffphoto.com/	https://www.instagram.com/emilywoodruffphoto/
+`,
+  },
 ];
 
 export default batches;

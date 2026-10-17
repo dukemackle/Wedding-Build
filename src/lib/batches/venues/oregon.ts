@@ -171,6 +171,13 @@ Hood River Hotel	102 Oak St	Hood River	Oregon			Ballroom / Hotel	Indoor			A down
 Historic Balch Hotel	40 Heimrich St	Dufur	Oregon			Historic / Estate	Indoor			A boutique hotel built in 1907 and listed on the National Register of Historic Places, with unique guest rooms and an on-site bistro, available as a full-hotel buyout for weddings.	info@balchhotel.com	(541) 467-2277	https://balchhotel.com
 Roseburg Country Club	5051 Garden Valley Rd	Roseburg	Oregon			Ballroom / Hotel	Indoor			A member golf club that offers banquet and meeting facilities for weddings through an event coordinator.		541-672-5566	https://www.roseburgcountryclub.com`,
   },
+  {
+    name: "Central Oregon: Redmond and Bend",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+River Run Lodge	1730 Blue Heron Dr	Redmond	Oregon			Barn / Rustic	Indoor & Outdoor	200	Classic	Riverside lodge in Redmond with a 5,000 sq ft deck over the river, an indoor Riverside Room and a bridal suite, offered as one all-day package.	info@riverrlodge.com		https://www.riverrlodge.com/wedding-venues
+Tetherow	61240 Skyline Ranch Rd	Bend	Oregon			Ballroom / Hotel	Indoor & Outdoor			A Bend golf resort with an event pavilion, a ceremony lawn overlooking the fairways, an event terrace with a fire pit and indoor banquet rooms.		(844) 431-9701	https://tetherow.com/weddings/your-day/
+`,
+  },
 ];
 
 export default batches;
