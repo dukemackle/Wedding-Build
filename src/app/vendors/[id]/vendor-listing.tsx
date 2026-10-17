@@ -160,6 +160,7 @@ export function VendorListing({ data }: { data: VendorListingData }) {
                   )}
                 </p>
                 {vendor.price_note && <p className="text-sm text-ink/60">{vendor.price_note}</p>}
+                <p className="mt-2 text-xs text-ink/50">Prices change. Confirm with the vendor before you book.</p>
               </div>
             )}
             {!signedIn ? (

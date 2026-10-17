@@ -204,6 +204,16 @@ DJ Supafly	Music		Rochester	Minnesota	Southeast Minnesota	Bilingual Spanish and 
 Finery Bridal Chic	Bridal & Formalwear		Rochester	Minnesota	Rochester area and Southeastern Minnesota	By-appointment bridal gown boutique for Rochester brides, with a pre-loved gown consignment programme alongside its wedding dress collection.	finerybridalchic@gmail.com	507-517-8039	https://www.finerybridalchic.com/	https://www.instagram.com/finerybridalrochester/
 `,
   },
+  {
+    name: "Rochester: videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Fitzgerald Films	Videography		Minneapolis	Minnesota	Minneapolis, Duluth, Rochester and the wider Midwest	Minneapolis wedding videographer Grant, making films of couples' days and willing to travel to Rochester, Duluth and across the Midwest.			https://fitzgeraldfilms.com/	https://www.instagram.com/fitzgeraldfilms/`,
+  },
+  {
+    name: "Rochester: planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Dos Goats Plans	Planning		Minneapolis	Minnesota	Minneapolis, St. Paul, Rochester, Red Wing and across the Midwest	Minneapolis husband-and-wife planning team offering wedding management, coordination, partial and full planning, with Rochester among their listed areas.	hello@dosgoatsplans.com	763.639.8366	https://dosgoatsplans.com/	`,
+  },
 ];
 
 export default batches;

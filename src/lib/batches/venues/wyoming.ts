@@ -73,6 +73,14 @@ The Nicolaysen Art Museum	400 E Collins Dr	Casper	Wyoming			Historic / Estate	In
 Grand Targhee Resort	3300 Ski Hill Rd	Alta	Wyoming			Ballroom / Hotel	Indoor & Outdoor			A ski resort on the Teton Range's west side with several mountain venues, from rehearsal dinner through reception, and a 30-50 guest microwedding package.	info@grandtarghee.com	307-353-2300	https://www.grandtarghee.com/groups-weddings/weddings/grand-targhee-weddings
 `,
   },
+  {
+    name: "Wyoming: Cheyenne, Casper, Buffalo and Star Valley",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Tate Pumphouse	1775 W 1st St	Casper	Wyoming			Beach / Waterfront	Indoor & Outdoor	126		A leasable event building on the Platte River Trails at the White Water Park, steps from the North Platte River, with a patio and views of Casper Mountain.		(307) 394-4880	https://www.tatepumphouse.com/
+Historic Occidental Hotel	10 N Main St	Buffalo	Wyoming			Historic / Estate	Indoor			A restored Buffalo hotel and saloon in business for well over a century, with a 1908 stained-glass back bar and tin ceiling.	info@occidentalwyoming.com	(307) 684-0451	https://occidentalwyoming.com/
+Star Valley Lodge	4271 Willow Creek Ln	Bedford	Wyoming			Barn / Rustic	Indoor & Outdoor	65		A mountain lodge with indoor spaces and grounds beside Bridger-Teton National Forest, hosting day-of weddings or three- to four-day wedding weekends.	cindyrowland@starvalleylodge.com	307-201-6250	https://www.starvalleylodge.com/weddings
+`,
+  },
 ];
 
 export default batches;

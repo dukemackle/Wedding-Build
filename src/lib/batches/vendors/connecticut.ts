@@ -176,6 +176,16 @@ RiVideoPro	Videography		Ellington	Connecticut	Southern New England and New York	
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
 Millside Wedding Films	Videography		Milford	Connecticut		Milford studio making intimate, cinematic wedding films, with recent work at Litchfield County farms and other Connecticut venues.	josh@millsideweddingfilms.com		https://millsideweddingfilms.com/	https://www.instagram.com/millsideweddingfilms/`,
   },
+  {
+    name: "Litchfield Hills: videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Artisan Wedding Films	Videography	257 Federal Rd	Brookfield	Connecticut	Litchfield County, Fairfield County, New Haven, Hartford and wider New England	Cinematic wedding videography from a Brookfield studio, filming across Litchfield County and western Connecticut for over twenty years.	info@artisanweddingfilms.com	203-743-7663	https://artisanweddingfilms.com	`,
+  },
+  {
+    name: "Litchfield Hills: videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+BRB Audiovisual Productions	Videography		Oxford	Connecticut	Connecticut statewide	Connecticut video studio making cinematic wedding highlight films, with more than 25 years behind the camera alongside commercial and promotional work.	services@brbaudiovisual.com	203 881-3577	https://www.brbaudiovisual.com/	`,
+  },
 ];
 
 export default batches;

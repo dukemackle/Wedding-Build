@@ -244,6 +244,15 @@ Rockwell DJ Services	Music		St. George	Utah		St. George DJ service that plays re
 AWJ Entertainment	Music		St. George	Utah	Southern Utah and Northern Arizona	St. George DJ and MC offering reception packages for weddings and corporate events across southern Utah and northern Arizona.	entertainment.awj@gmail.com	(317) 314-0631	https://awjentertainment.com/	https://www.instagram.com/awj_entertainment/
 `,
   },
+  {
+    name: "St. George: catering, cake and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Strata Private Dining	Catering		St. George	Utah	St. George, Hurricane, Washington, Ivins, Santa Clara and Springdale	Chef-led caterer for Southern Utah weddings, rehearsal dinners and welcome parties, with menus tailored to each couple and venue.	chefanthony@strataprivatedining.com		https://www.strataprivatedining.com	https://www.instagram.com/strataprivatedining/
+Muddy Bees Bakery	Cake	525 W State St #7	Hurricane	Utah		Hurricane bakery that takes select wedding cakes, ordered three weeks ahead with a deposit, alongside its custom cakes and daily bakes.	muddybeesbaker@gmail.com	(435) 467-4898	https://www.muddybeesbakery.com/	https://www.instagram.com/muddybeesbakery/
+Juniper Bakery	Cake		Cedar City	Utah	Iron County	Cedar City bakery making custom two-tier celebration cakes and larger event orders, weddings included, for customers across Iron County.	Juniperbakeryut@gmail.com	435-990-5813	https://www.juniperbakeryut.com/	https://www.instagram.com/juniperbakeryut/
+Desertscape Photo and Film	Videography		St. George	Utah	Zion, Moab and Lake Powell; travels further	St. George photo and video team filming weddings and elopements around Zion, with optional drone, Super 8 and live-audio add-ons.	kelsea@desertscapephotoandfilm.com		https://desertscapephotoandfilm.com/zion-videographer	https://www.instagram.com/desertscapephotoandfilm/
+`,
+  },
 ];
 
 export default batches;

@@ -135,6 +135,17 @@ Sarah Kazemburg Events & Styling	Planning		Washington	District of Columbia	Washi
 Andrew Roby Events	Planning		Washington	District of Columbia	Washington DC, Maryland, Virginia and destinations	DC planning and production company that handles weddings alongside corporate events, offering personalised celebrations across the DC region and beyond.			https://andrewrobyevents.com/	https://www.instagram.com/andrewrobyevents/
 `,
   },
+  {
+    name: "Washington: cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Pâtisserie Poupon	Cake	1645 Wisconsin Avenue	Washington	District of Columbia	Washington DC and Baltimore, with delivery across the Baltimore-Washington area	Georgetown French bakery making cakes and wedding cakes in-house with traditional techniques since 1986, alongside croissants, tarts and pastries.		(202) 342-3248	https://patisseriepoupon.com/	https://www.instagram.com/patisserie.poupon/
+`,
+  },
+  {
+    name: "Washington: cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Cakes by Lala	Cake		Washington	District of Columbia	Washington DC and the greater metro Washington area	Washington DC baker making custom tiered cakes for weddings and other occasions, finished with its signature vanilla buttercream.	cakesbylalae@gmail.com		https://www.cakesbylala.org/	https://www.instagram.com/cakesbylalae/`,
+  },
 ];
 
 export default batches;

@@ -679,6 +679,10 @@ export const SCENES = [
   { id: "waves", label: "Waves", place: "band" },
   { id: "palms", label: "Palms", place: "band" },
   { id: "pines", label: "Pines", place: "band" },
+  { id: "snowforest", label: "Snowy forest", place: "band" },
+  { id: "wildflowers", label: "Wildflowers", place: "band" },
+  { id: "coast", label: "Coastal cliffs", place: "band" },
+  { id: "skyline", label: "City skyline", place: "band" },
   { id: "frontier", label: "Mesas", place: "band" },
   { id: "sunset", label: "Desert sun", place: "band" },
   // Strips, across the top.
@@ -703,6 +707,21 @@ export const SCENES = [
 ] as const;
 
 export type SceneId = (typeof SCENES)[number]["id"];
+
+/**
+ * The light over a landscape scene (Background tab › Scene): its sky, how the
+ * land is washed, and the sun, moon or stars. Strips and frames ignore it.
+ */
+export const SCENE_TIMES = [
+  { id: "dawn", label: "Dawn", swatch: ["#f6d6d2", "#f3c3b6"] },
+  { id: "day", label: "Day", swatch: ["#eef4f8", "#d9e8f0"] },
+  { id: "golden", label: "Golden hour", swatch: ["#fbe6b8", "#f5c06a"] },
+  { id: "dusk", label: "Dusk", swatch: ["#a88bbd", "#ef9a6c"] },
+] as const;
+
+export type SceneTimeId = (typeof SCENE_TIMES)[number]["id"];
+
+export const SCENE_TIME_IDS = SCENE_TIMES.map((x) => x.id) as [SceneTimeId, ...SceneTimeId[]];
 
 export const SCENE_IDS = SCENES.map((x) => x.id) as [SceneId, ...SceneId[]];
 
@@ -1217,6 +1236,7 @@ export const DEFAULT_SITE_DESIGN: SiteDesign = {
   art: { id: null, placement: "sides" },
   hero: "full",
   scene: null,
+  sceneTime: "day",
   pageStyle: "cards",
   layouts: DEFAULT_LAYOUTS,
   occasion: { kind: "wedding", since: null },

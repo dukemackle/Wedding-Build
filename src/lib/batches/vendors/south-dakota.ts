@@ -115,6 +115,12 @@ Dandelion Event Rentals	Rentals		Rapid City	South Dakota		Rapid City event renta
 Maysa Oakly Photography	Photography		New Underwood	South Dakota	Black Hills, Sturgis	South Dakota wedding photographer based in New Underwood who has covered weddings in Sturgis and works around the Black Hills.	maysaoakly@gmail.com	(605) 391-2060	https://maysaoaklyphotography.com/	https://www.instagram.com/maysaoaklyphotography/
 `,
   },
+  {
+    name: "Rapid City: cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+BOM Bakery	Cake		Rapid City	South Dakota	Within 50 miles of Rapid City	Small-batch, made-to-order bakery taking one wedding order a weekend, with cakes, cupcakes and tasting boxes, delivered within 50 miles of Rapid City.	bombakeryrc@gmail.com		https://www.bombakery.com/weddings	https://www.instagram.com/bombakery.rcsd/
+`,
+  },
 ];
 
 export default batches;

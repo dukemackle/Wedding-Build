@@ -192,6 +192,12 @@ Graceful Acres	Florals		Monticello	Illinois	Monticello, Champaign, Urbana and De
 Flour & Spice	Cake		Champaign	Illinois	Central Illinois	Home bakery in Champaign making wedding cakes and desserts, with tasting boxes, local delivery and shipping within Illinois.	Flourandspicehomebakery@gmail.com	217-898-7794	https://www.flourandspicebakery.com/	https://www.instagram.com/flourandspicehomebakery/
 Watersong Media	Videography		Champaign	Illinois	Champaign-Urbana and Chicago	Two-person Champaign-Urbana and Chicago team making story-led wedding films, with drone footage and event video too.	watersongmedia@gmail.com		https://watersongmedia.com/	`,
   },
+  {
+    name: "Champaign–Urbana: desserts",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Berries & Flour	Desserts		Champaign	Illinois	Central Illinois	Foraged-ingredient bakery making petite cakes, cookies, cupcakes and dessert bars, plus jam and syrup favours and a cocktail or mocktail syrup bar.	berriesandflour@gmail.com	217-724-8265	https://www.berriesandflour.com/	https://www.instagram.com/berriesandflour/
+`,
+  },
 ];
 
 export default batches;

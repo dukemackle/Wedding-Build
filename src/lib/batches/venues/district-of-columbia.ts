@@ -68,6 +68,13 @@ DC Brau Brewing Company	3178-B Bladensburg Rd NE	Washington	District of Columbia
 Riggs Washington DC	900 F St NW	Washington	District of Columbia			Ballroom / Hotel	Indoor & Outdoor	120		Historic hotel with about 4,000 square feet of event space and a rooftop wraparound terrace for receptions of up to 120.	reservations@riggsdc.com	(202) 638-1800	https://www.riggsdc.com/weddings/
 `,
   },
+  {
+    name: "Washington historic houses",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+The Whittemore House	1526 New Hampshire Ave NW	Washington	District of Columbia			Historic / Estate	Indoor & Outdoor	400		Dupont Circle mansion on the National Register of Historic Places, with nine rooms including a ballroom and salon, a courtyard and in-house catering.		(202) 232-7363	https://thewhittemorehouse.com
+President Woodrow Wilson House	2340 S St NW	Washington	District of Columbia			Historic / Estate	Indoor & Outdoor	200		National Trust historic house museum in Kalorama with upper and lower gardens, a terrace and a presidential dining room open for weddings.	Events@woodrowwilsonhouse.org	202-387-4062	https://woodrowwilsonhouse.org/host-an-event/weddings/
+Anderson House (American Revolution Institute)	2118 Massachusetts Ave NW	Washington	District of Columbia			Historic / Estate	Indoor & Outdoor	130	Luxury	1905 Embassy Row mansion with a ballroom, flying marble staircase, winter garden and walled garden with a reflecting pool.	events@societyofthecincinnati.org	202.785.2040	https://www.americanrevolutioninstitute.org/site-rentals/weddings/`,
+  },
 ];
 
 export default batches;
