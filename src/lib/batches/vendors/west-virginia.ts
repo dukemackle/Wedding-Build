@@ -119,6 +119,12 @@ Tonique's Trilogy	Hair & Makeup	725 Fairmont Rd, Suite 103	Morgantown	West Virgi
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
 Posh Manna Cake Art	Cake		Oak Hill	West Virginia	Southern West Virginia	Luxury cake and dessert studio making European-style wedding cakes, macarons and pastries, with consultations and tastings.		(304) 673-2592	https://www.poshmanna.com/	https://www.instagram.com/poshmannacakeart/`,
   },
+  {
+    name: "New River Gorge: music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+The Cat's Meow Entertainment	Music		Barboursville	West Virginia	All of West Virginia, plus parts of Kentucky and Ohio	All-female DJ trio playing weddings across West Virginia since 2016, with a photo booth and an online planning tool for couples.	thecmentertainment@gmail.com	904-763-6750	https://www.thecmentertainment.com/	https://www.instagram.com/djcatsmeow/
+`,
+  },
 ];
 
 export default batches;

@@ -92,6 +92,38 @@ Capture the Moment Images & Events	Videography		Hot Springs	Arkansas	Hot Springs
 NWA Event DJ	Music		Fayetteville	Arkansas	Northwest Arkansas	Fayetteville wedding DJ, DJ Mr. Gray, offering wedding packages with sound, lighting and MC work, plus karaoke and corporate events.	nwaeventdj@gmail.com	479-388-1018	https://www.nwaeventdj.com/	https://www.instagram.com/nwaeventdj/
 `,
   },
+  {
+    name: "Hot Springs: music, catering, planning, florals and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Roots & Rhythm	Music		Hot Springs	Arkansas	Central Arkansas including Malvern, Benton, Bryant, Little Rock and Conway	Owner-run audio company in Hot Springs offering wedding DJ sets for ceremonies and receptions, plus sound system hire across central Arkansas.	randravrental@gmail.com	501-420-3502	https://www.rootsandrhythmrentals.com/dj-services/hot-springs-ar	https://www.instagram.com/rootsandrhythmav/
+Catering Temptations	Catering	3907 Central Ave, Suite G	Hot Springs	Arkansas		Hot Springs caterer for weddings and receptions, holding an off-site liquor licence and running an event room that seats up to 50.	cateringtemptations.eventroom@gmail.com	501.547.7094	https://www.cateringtemptationshotsprings.net/	
+Elope Hot Springs	Planning		Hot Springs	Arkansas		Hot Springs elopement and micro-wedding coordinators who bundle venue, officiant, photographer, flowers and cake into one package for small ceremonies.	info@elopehotsprings.com	501.276.6239	https://www.elopehotsprings.com/	https://www.instagram.com/elopehotsprings/
+Lake Hamilton Flowers & Gifts	Florals	1006 Airport Rd	Hot Springs	Arkansas		Hot Springs flower shop offering wedding consultations, bouquets, ceremony and reception flowers, garlands and arches alongside everyday gifts.		(501) 767-7607	https://www.lakehamiltonflowershop.com/wedding-flowers	https://www.instagram.com/lakehamiltonflowers/
+Tristan Stuart Visuals	Videography		Benton	Arkansas	Arkansas and worldwide	Benton wedding videographer making highlight films, full ceremony edits and photo-plus-video packages, with a focus on composition and light.	booking@tristanstuartvisuals.com	(501) 773-6568	https://www.tristanstuartvisuals.com/	https://www.instagram.com/tristanstuartvisuals/
+Silver Diamond Media	Videography		Benton	Arkansas		Benton videographer who treats weddings as his speciality, filming highlight films and working around Benton, Alexander and Hot Springs venues.	ScottOlsenSDM@Gmail.com	775-790-6970	https://www.silverdiamond.media/	https://www.instagram.com/silver.diamond.media/
+Michael Mueller Video Productions	Videography		Hot Springs	Arkansas	Hot Springs and Central Arkansas	Hot Springs freelance videographer who has filmed over 150 weddings since 1998, offering highlight videos in traditional, cinematic or modern styles.	muellervideo@gmail.com	501-282-4107	https://www.muellervideo.com/weddingvideos/	
+`,
+  },
+  {
+    name: "Northwest Arkansas: videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Made With Love	Videography		Bentonville	Arkansas	Northwest Arkansas	Bentonville photographer and videographer Yehudi Silva covers weddings and engagements in English and Spanish, in Northwest Arkansas and further afield.			https://www.mwithlove.com/	https://www.instagram.com/madewithlove.wed/
+`,
+  },
+  {
+    name: "Hot Springs: cake and desserts",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Fat Bottomed Girl's Cupcake Shoppe	Desserts	502 Central Ave	Hot Springs	Arkansas		Downtown cupcake shop on Central Avenue that takes large cupcake orders for weddings and parties, with set per-cupcake discounts from 100 up.			https://fbgcupcakes.com/	https://www.instagram.com/fbgcupcakes/
+`,
+  },
+  {
+    name: "Hot Springs: music and hair & makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+DJ Bill Remow	Music		Sheridan	Arkansas	Hot Springs, Benton, Malvern, Little Rock, Conway and Bryant	Sheridan DJ with more than 700 weddings played, travelling to Hot Springs, Benton and Malvern with set packages and one named DJ per booking.		(731) 413-0036	https://djbillremow.com/	
+Blossom Beauty	Hair & Makeup		Eureka Springs	Arkansas	Northwest and Central Arkansas including Hot Springs, Little Rock and Fort Smith	Eureka Springs bridal hair and makeup team working on location, with bride-plus-party packages and wedding-morning touch-up kits.	info@blossombeautyar.com	(720) 280-2865	https://www.blossombeautyar.com/	https://www.instagram.com/blossombeautyhairmakeup/
+Elevated Arkansas Artists	Hair & Makeup		Conway	Arkansas	All of Arkansas	Conway-based team of bridal hair and makeup artists working on site for brides, wedding parties and events across Arkansas.		501-504-5411	https://www.elevatedarkansasartists.com/	https://www.instagram.com/elevatedarkansas/
+`,
+  },
 ];
 
 export default batches;

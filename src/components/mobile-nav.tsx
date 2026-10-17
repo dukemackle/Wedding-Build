@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { ArchIcon, WrenBirdIcon } from "@/components/icons";
 import { NAV_ITEMS, isActiveLink, isNavGroup } from "@/components/nav-links";
 
@@ -88,8 +89,13 @@ export function MobileNav() {
         </svg>
       </button>
 
-      {open && (
-        <div className="fixed inset-0 z-50">
+      {/* Portalled to <body>: the header's transform and backdrop-blur make
+          it the containing block for anything fixed inside it, which shrank
+          this overlay to the header's strip (so tapping beside the panel hit
+          the page, not the backdrop) and let the header's clear-over-photo
+          rules turn the links white on white. */}
+      {open && createPortal(
+        <div className="fixed inset-0 z-50 sm:hidden">
           {/* Tapping beside the panel closes it -- the gesture people try
               first, and the reason the panel is deliberately not full width. */}
           <button
@@ -173,7 +179,8 @@ export function MobileNav() {
               </div>
             </nav>
           </div>
-        </div>
+        </div>,
+        document.body,
       )}
     </div>
   );

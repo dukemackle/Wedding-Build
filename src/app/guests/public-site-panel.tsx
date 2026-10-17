@@ -13,6 +13,7 @@ import {
   disablePublicSite,
   enablePublicSite,
 } from "./actions";
+import { setSitePassword } from "./guest-site-actions";
 
 function SubmissionRow({
   submission,
@@ -101,6 +102,7 @@ function SubmissionRow({
                 // the couple can correct it before approving the row.
                 submission.side ? theme.labels[submission.side] : null,
                 submission.meal,
+                submission.dietary && `Dietary: ${submission.dietary}`,
               ]
                 .filter(Boolean)
                 .join(" · ") || "—"}
@@ -262,7 +264,7 @@ export function SiteSwitch({ site }: { site: GuestSite }) {
 }
 
 /** The guest site's on/off switch and its link. */
-export function PublicSitePanel({ site, origin }: { site: GuestSite; origin: string }) {
+export function PublicSitePanel({ site, origin, locked }: { site: GuestSite; origin: string; locked: boolean }) {
   const { slug, error, isPending } = site;
   const [copied, setCopied] = useState(false);
 
@@ -323,6 +325,99 @@ export function PublicSitePanel({ site, origin }: { site: GuestSite; origin: str
         </div>
       )}
 
+      {slug && <SitePassword locked={locked} />}
+    </div>
+  );
+}
+
+/**
+ * An optional password guests type before they see the site. Only a hash is
+ * kept, so it can be changed but not shown again.
+ */
+function SitePassword({ locked }: { locked: boolean }) {
+  const router = useRouter();
+  const [editing, setEditing] = useState(false);
+  const [error, setError] = useState<string>();
+  const [isPending, startTransition] = useTransition();
+
+  function save(password: string) {
+    const fd = new FormData();
+    fd.set("password", password);
+    startTransition(async () => {
+      const result = await setSitePassword(fd);
+      if (result.error) {
+        setError(result.error);
+      } else {
+        setError(undefined);
+        setEditing(false);
+        router.refresh();
+      }
+    });
+  }
+
+  return (
+    <div className="flex flex-col gap-2 border-t border-hairline pt-3">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <p className="min-w-[12rem] flex-1 text-sm text-ink/70">
+          {locked
+            ? "Password on. Guests type it once to open the site; put it on your invitations."
+            : "No password. Add one so only people with your invitation can open the site."}
+        </p>
+        {!editing && (
+          <div className="flex shrink-0 gap-2">
+            <button
+              type="button"
+              onClick={() => setEditing(true)}
+              className="rounded-md border border-hairline bg-card px-3 py-1 text-xs text-forest transition-colors hover:border-forest"
+            >
+              {locked ? "Change" : "Add a password"}
+            </button>
+            {locked && (
+              <button
+                type="button"
+                disabled={isPending}
+                onClick={() => confirm("Take the password off? Anyone with the link will see the site.") && save("")}
+                className="rounded-md border border-hairline bg-card px-3 py-1 text-xs text-ink/70 transition-colors hover:border-red-700 hover:text-red-700 disabled:opacity-60"
+              >
+                Remove
+              </button>
+            )}
+          </div>
+        )}
+      </div>
+      {editing && (
+        <form
+          action={(fd) => save(((fd.get("password") as string) ?? "").trim())}
+          className="flex flex-wrap items-center gap-2"
+        >
+          <input
+            name="password"
+            type="text"
+            autoComplete="off"
+            minLength={4}
+            maxLength={64}
+            required
+            autoFocus
+            placeholder="e.g. baler2030"
+            aria-label="Guest site password"
+            className="h-9 min-w-0 flex-1 rounded-md border border-hairline bg-card px-3 text-sm text-ink outline-none focus:border-forest"
+          />
+          <button
+            type="submit"
+            disabled={isPending}
+            className="h-9 rounded-md bg-forest px-4 text-sm font-medium text-parchment transition-colors hover:bg-forest/90 disabled:opacity-60"
+          >
+            {isPending ? "Saving…" : "Save"}
+          </button>
+          <button type="button" onClick={() => setEditing(false)} className="h-9 px-2 text-sm text-ink/60">
+            Cancel
+          </button>
+        </form>
+      )}
+      {editing && locked && (
+        <p className="text-[13px] text-ink/60">Guests who already opened the site will need the new one.</p>
+      )}
+      {error && <p className="text-sm text-red-800">{error}</p>}
     </div>
   );
 }

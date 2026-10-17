@@ -4,6 +4,7 @@ import { useRef, useState, type ReactNode } from "react";
 import { resolveDesign, type SiteDesign } from "@/lib/site-design";
 import {
   ANIMATIONS,
+  filterCss,
   PHOTO_FILTERS,
   PHOTO_FRAMES,
   findElement,
@@ -97,6 +98,74 @@ export function FocusPicker({
     </div>
   );
 }
+
+/**
+ * The banner photo's focus point, on a computer and on a phone. A phone shows
+ * the banner tall and narrow, so a wide photo keeps only a slice of it there;
+ * the phone point picks which slice, and follows the computer's until moved.
+ */
+export function BannerFocus({
+  src,
+  design,
+  onChange,
+}: {
+  src: string;
+  design: SiteDesign;
+  onChange: (patch: Partial<SiteDesign>) => void;
+}) {
+  const [screen, setScreen] = useState<"computer" | "phone">("computer");
+  const hp = design.heroPhoto;
+  const own = hp.pfx !== null && hp.pfy !== null;
+  return (
+    <div className="flex flex-col gap-2">
+      <div role="group" aria-label="Crop for" className="flex gap-1.5">
+        {(["computer", "phone"] as const).map((s) => (
+          <button
+            key={s}
+            type="button"
+            aria-pressed={screen === s}
+            onClick={() => setScreen(s)}
+            className={`h-8 rounded-full px-3 text-[13px] ${screen === s ? "bg-forest text-parchment" : "border border-hairline bg-card text-ink/75"}`}
+          >
+            {s === "computer" ? "On a computer" : "On a phone"}
+          </button>
+        ))}
+      </div>
+      {screen === "computer" ? (
+        <FocusPicker
+          src={src}
+          fx={hp.fx}
+          fy={hp.fy}
+          filter={filterCss(hp.filter)}
+          onChange={(fx, fy) => onChange({ heroPhoto: { ...hp, fx, fy } })}
+        />
+      ) : (
+        <>
+          <FocusPicker
+            src={src}
+            fx={hp.pfx ?? hp.fx}
+            fy={hp.pfy ?? hp.fy}
+            ratio={PHONE_BANNER_RATIO}
+            filter={filterCss(hp.filter)}
+            onChange={(pfx, pfy) => onChange({ heroPhoto: { ...hp, pfx, pfy } })}
+          />
+          {own && (
+            <button
+              type="button"
+              onClick={() => onChange({ heroPhoto: { ...hp, pfx: null, pfy: null } })}
+              className="self-start text-[13px] text-ink/60 underline hover:text-ink"
+            >
+              Same as on a computer
+            </button>
+          )}
+        </>
+      )}
+    </div>
+  );
+}
+
+/** Roughly the banner's shape on a phone (375 wide, about half the screen tall). */
+const PHONE_BANNER_RATIO = 0.8;
 
 /** A soft outline of the part of the photo a frame of this shape keeps, around the focus point. */
 function KeptArea({ fx, fy, ratio, natural }: { fx: number; fy: number; ratio: number; natural: number }) {
@@ -220,7 +289,7 @@ export function PhotoPanel({
   );
 }
 
-function FrameIcon({ frame, accent }: { frame: string; accent: string }) {
+export function FrameIcon({ frame, accent }: { frame: string; accent: string }) {
   const fill = { background: "color-mix(in srgb, currentColor 22%, transparent)" };
   if (frame === "circle") return <span className="h-9 w-9 rounded-full" style={fill} />;
   if (frame === "arch") return <span className="h-10 w-8 rounded-t-full" style={fill} />;

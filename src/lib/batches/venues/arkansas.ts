@@ -49,6 +49,19 @@ StoneCreek Ranch Weddings & Events	626 Circle B Ln	Mountain Home	Arkansas			Barn
 The Barn by Two Brothers	3720 South 87th Street	Fort Smith	Arkansas			Barn / Rustic	Indoor & Outdoor		Simple	Climate-controlled 1910 hay barn with decor, tables and an on-site coordinator included, offering micro, one-day and two-day packages.	LisaAMF@Yahoo.com	(479) 926-6083	https://www.thebarnbytwobrothers.com/
 `,
   },
+  {
+    name: "Texarkana, Wynne, Fort Smith and Ozarks additions",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Garrison Gardens	370 Miller County 509	Texarkana	Arkansas			Garden / Outdoor	Indoor & Outdoor	200	Simple	Wooded property with a white steepled chapel, an outdoor ceremony site beside a waterfall and two creeks, and a climate-controlled reception hall with a prep kitchen.	garrisongardens@mail.com	903-244-7644	https://www.garrisongardens.com
+The Delta Gin	1493 AR-163	Wynne	Arkansas			Barn / Rustic	Indoor	350	Simple	Cotton gin built in 1941 and converted to a 9,000-square-foot event hall with a stage, bridal and groom dressing rooms and a food prep area.	TheDeltaGin@gmail.com	870-588-5217	https://www.thedeltagin.com/venue
+Cypress Meadows Estate	17925 Hwy 17	Howell	Arkansas			Barn / Rustic	Indoor & Outdoor	300	Simple	Early-1900s stable barn converted for events, with lofts, a stage, an outdoor ceremony area and a hunting lodge nearby that sleeps the wedding party.		(870) 731-7977	https://cypressmeadowsestate.com/rates-policies/
+Horsehead Lake Lodge & Event Center	213 County Road 3190	Clarksville	Arkansas			Barn / Rustic	Indoor & Outdoor			Lakeside lodge property on 72 acres at the edge of the Ozark National Forest with an indoor ceremony hall, a lakeview deck, a reception hall and on-site cabins.	scott@horseheadlakelodge.com	479-214-0218	https://horseheadlakelodge.com/wedding/
+Hidden Meadow Events	4833 North Rudy Road	Rudy	Arkansas			Barn / Rustic	Indoor & Outdoor	500		Rural property near Fort Smith with a lake island and amphitheater, a wooded ceremony site and an 8,000-square-foot heated and cooled barn.	hiddenmeadowevents@gmail.com	(479) 652-4575	https://hiddenmeadowevents.com
+Plentywoods Venue	275 Madison 5340	Elkins	Arkansas			Barn / Rustic	Indoor & Outdoor	350	Simple	Hilltop barn-and-chapel hybrid with pasture views, a reception hall opening onto a glass-door patio, bridal and groom suites and indoor or outdoor ceremony options.	info@plentywoodsvenue.com	(479) 841-7770	https://plentywoodsvenue.com/weddings
+The Silos	1743 County Road 380	Bono	Arkansas			Barn / Rustic	Indoor & Outdoor	250	Simple	Barn on Crowley's Ridge near Jonesboro with a patio, bridal and groom quarters, and a separate historic chapel that can be added on.		(870) 819-8932	https://www.thesilosbarn.com
+The Bonneville House	318 N. 7th Street	Fort Smith	Arkansas			Historic / Estate	Indoor			Landmark house built around 1864 in Fort Smith's historic district, rented for weddings, receptions, rehearsal dinners and bridal luncheons with waitstaff included.		(479) 782-7854	https://thebonnevillehouse.com/weddings-events
+`,
+  },
 ];
 
 export default batches;

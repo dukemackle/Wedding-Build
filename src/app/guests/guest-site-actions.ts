@@ -2,7 +2,7 @@
 
 import { randomUUID } from "node:crypto";
 import { revalidatePath } from "next/cache";
-import { MAX_GALLERY_PHOTOS } from "@/lib/guest-site";
+import { MAX_GALLERY_PHOTOS, MAX_VENUE_PHOTOS } from "@/lib/guest-site";
 import { requireEditableWedding } from "@/lib/wedding-access";
 
 function str(formData: FormData, key: string): string | null {
@@ -37,6 +37,25 @@ export async function updateGuestSiteDetails(formData: FormData): Promise<{ erro
     return { error: error.message };
   }
 
+  revalidateGuestSite(wedding.public_slug);
+  return {};
+}
+
+/** The venue's name and address when it isn't one of the listings. */
+export async function updateOwnVenue(formData: FormData): Promise<{ error?: string }> {
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
+  if (!wedding) return { error: noWedding };
+  const field = (name: string, max: number) => str(formData, name)?.slice(0, max) ?? null;
+  const { error } = await supabase
+    .from("weddings")
+    .update({
+      own_venue_name: field("own_venue_name", 120),
+      own_venue_address: field("own_venue_address", 200),
+      own_venue_city: field("own_venue_city", 80),
+      own_venue_state: field("own_venue_state", 40),
+    })
+    .eq("id", wedding.id);
+  if (error) return { error: error.message };
   revalidateGuestSite(wedding.public_slug);
   return {};
 }
@@ -235,6 +254,56 @@ export async function removeGalleryPhoto(formData: FormData): Promise<{ error?: 
   return {};
 }
 
+/**
+ * The couple's own photos of their venue, shown in the venue section in
+ * place of the listing's. One per call, like the gallery, to stay under the
+ * server-action body cap.
+ */
+export async function addVenuePhoto(formData: FormData): Promise<{ error?: string }> {
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
+  if (!wedding) return { error: noWedding };
+
+  const current = wedding.own_venue_photo_urls ?? [];
+  if (current.length >= MAX_VENUE_PHOTOS) {
+    return { error: `You can show up to ${MAX_VENUE_PHOTOS} venue photos. Remove one to add another.` };
+  }
+  const photo = formData.get("photo") as File | null;
+  if (!photo || photo.size === 0) return { error: "Choose a photo to upload." };
+  if (!photo.type.startsWith("image/")) return { error: "Photo must be an image file." };
+  if (photo.size > MAX_PHOTO_BYTES) return { error: "Please use a photo under 5MB." };
+
+  const extension = photo.name.includes(".") ? photo.name.split(".").pop() : undefined;
+  const path = `${wedding.id}/venue/${randomUUID()}${extension ? `.${extension}` : ""}`;
+  const { error: uploadError } = await supabase.storage
+    .from("wedding-photos")
+    .upload(path, photo, { contentType: photo.type });
+  if (uploadError) return { error: "Could not upload your photo — please try again." };
+
+  const photoUrl = supabase.storage.from("wedding-photos").getPublicUrl(path).data.publicUrl;
+  const { error } = await supabase
+    .from("weddings")
+    .update({ own_venue_photo_urls: [...current, photoUrl] })
+    .eq("id", wedding.id);
+  if (error) return { error: error.message };
+
+  revalidateGuestSite(wedding.public_slug);
+  return {};
+}
+
+export async function removeVenuePhoto(photoUrl: string): Promise<{ error?: string }> {
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
+  if (!wedding) return { error: noWedding };
+
+  const { error } = await supabase
+    .from("weddings")
+    .update({ own_venue_photo_urls: (wedding.own_venue_photo_urls ?? []).filter((url) => url !== photoUrl) })
+    .eq("id", wedding.id);
+  if (error) return { error: error.message };
+
+  revalidateGuestSite(wedding.public_slug);
+  return {};
+}
+
 // ---------------------------------------------------------------------------
 // Guest posts: approve, hide, delete
 // ---------------------------------------------------------------------------
@@ -283,5 +352,84 @@ export async function deleteGuestPost(formData: FormData): Promise<{ error?: str
   }
 
   revalidateGuestSite(wedding.public_slug);
+  return {};
+}
+
+/** Puts a password on the guest site, or (left empty) takes it off. */
+export async function setSitePassword(formData: FormData): Promise<{ error?: string }> {
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
+  if (!wedding) return { error: noWedding };
+
+  const password = (formData.get("password") as string | null) ?? "";
+  if (password && (password.length < 4 || password.length > 64)) {
+    return { error: "Use 4 to 64 characters." };
+  }
+
+  const { error } = await supabase.rpc("set_guest_site_password", {
+    target_wedding: wedding.id,
+    new_password: password || null,
+  });
+  if (error) return { error: "Could not save the password — please try again." };
+
+  revalidatePath("/guests/site", "layout");
+  if (wedding.public_slug) revalidatePath(`/w/${wedding.public_slug}`, "layout");
+  return {};
+}
+
+/** A wedding party member's guest-site line and whether they're shown. */
+export async function updatePartySiteDetails(formData: FormData): Promise<{ error?: string }> {
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
+  if (!wedding) return { error: noWedding };
+
+  const patch: { site_blurb?: string | null; on_site?: boolean } = {};
+  if (formData.has("site_blurb")) {
+    const blurb = str(formData, "site_blurb");
+    if (blurb && blurb.length > 280) return { error: "Keep it under 280 characters." };
+    patch.site_blurb = blurb;
+  }
+  if (formData.has("on_site")) patch.on_site = formData.get("on_site") === "true";
+
+  const { error } = await supabase
+    .from("attire_party_members")
+    .update(patch)
+    .eq("id", formData.get("id") as string)
+    .eq("wedding_id", wedding.id);
+  if (error) return { error: "Could not save — please try again." };
+
+  revalidateGuestSite(wedding.public_slug);
+  revalidatePath("/guests/site", "layout");
+  return {};
+}
+
+/** Sets (or, with no file, removes) a wedding party member's photo. */
+export async function setPartyPhoto(formData: FormData): Promise<{ error?: string }> {
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
+  if (!wedding) return { error: noWedding };
+
+  const id = formData.get("id") as string;
+  const photo = formData.get("photo") as File | null;
+  let photoUrl: string | null = null;
+
+  if (photo && photo.size > 0) {
+    if (!photo.type.startsWith("image/")) return { error: "Photos must be image files." };
+    if (photo.size > MAX_PHOTO_BYTES) return { error: "Please use a photo under 5MB." };
+    const extension = photo.name.includes(".") ? photo.name.split(".").pop() : undefined;
+    const path = `${wedding.id}/party/${randomUUID()}${extension ? `.${extension}` : ""}`;
+    const { error: uploadError } = await supabase.storage
+      .from("wedding-photos")
+      .upload(path, photo, { contentType: photo.type });
+    if (uploadError) return { error: "Could not upload the photo — please try again." };
+    photoUrl = supabase.storage.from("wedding-photos").getPublicUrl(path).data.publicUrl;
+  }
+
+  const { error } = await supabase
+    .from("attire_party_members")
+    .update({ photo_url: photoUrl })
+    .eq("id", id)
+    .eq("wedding_id", wedding.id);
+  if (error) return { error: "Could not save the photo — please try again." };
+
+  revalidateGuestSite(wedding.public_slug);
+  revalidatePath("/guests/site", "layout");
   return {};
 }

@@ -19,6 +19,11 @@ have to hold.
    header of `scripts/restore.mjs`). Not covered: passwords (users reset them
    after a restore) and anything changed in the Supabase dashboard rather than
    a migration.
+   **Restore drill (2026-10-09):** passed into the scratch project
+   `youdoido-restore-test` with `--reset --apply-migrations`: 53 tables,
+   9,124 rows, 9 users, 23 files, no mismatches. It caught two script bugs,
+   both fixed: migration-seeded rows deleted on live (48 `attire_items`) came
+   back, and `--reset` left Storage policies behind so a re-run failed.
 2. **The guest site (`/w/[slug]`) never fails.** It's the part their family
    sees. An RSVP that doesn't save, or a site that's down the week of the
    wedding, is public and unforgivable.

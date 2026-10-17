@@ -52,6 +52,18 @@ Sitka Lighthouse		Sitka	Alaska			Historic / Estate	Indoor & Outdoor	25	Simple	Hi
 The Landing Hotel (Sunny Point Conference Center)	3434 Tongass Ave	Ketchikan	Alaska			Ballroom / Hotel	Indoor			Ketchikan hotel with five meeting rooms totalling 5,000 sq ft in its Sunny Point Conference Center, used for weddings, banquets and receptions.	sunnypoint@landinghotel.com	(907) 225-5166	https://www.landinghotel.com/events/weddings
 Cape Fox Lodge	800 Venetia Ave	Ketchikan	Alaska			Ballroom / Hotel	Indoor	150		Hillside lodge above Ketchikan harbour with the Shaa Hit banquet room, which divides for smaller receptions, and catering from its Heen Kahidi dining room.	info@capefoxlodge.com	866-225-8001	https://capefoxlodge.com/`,
   },
+  {
+    name: "Alaska: Mat-Su, Seward, Fairbanks, Sitka and Haines venues",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Veil & Vine	4350 S Bodenburg Loop	Palmer	Alaska			Barn / Rustic	Indoor & Outdoor		Simple	Event farm at Pyrah's Pioneer Peak Farm with an enclosed gallery, roofed pavilion, open-air Founder's Chapel and a bridal cottage, open June to September.	veilandvine.ak@gmail.com	907-795-8870	https://www.veilandvine.com/
+Salted Roots Cabins	13690 Beach Dr	Seward	Alaska			Beach / Waterfront	Indoor & Outdoor	75	Classic	Beachfront cabin properties in Seward, hired singly or together, with a beach ceremony platform, sauna and fire pits, sleeping up to 42 guests.	seward@saltedrootsalaska.com	907-308-2264	https://www.saltedrootsalaska.com/gather-seward/
+Sea Mountain Golf Course	301 Granite Creek Rd	Sitka	Alaska			Garden / Outdoor	Indoor & Outdoor			Nine-hole course whose clubhouse looks over Sitka Sound and the mountains, with a full bar, indoor and outdoor patio, gazebo and firepit for weddings.	seamountaingolf@gmail.com	907-747-5663	https://www.seamountaingolf.org/
+Running Reindeer Ranch	1470 Ivans Alley	Fairbanks	Alaska			Garden / Outdoor	Indoor & Outdoor		Simple	Reindeer farm hosting small weddings by an antler arbor, a pond or in birch forest, or indoors in the Reindeer Haus, with a reindeer ring bearer on request.	info@runningreindeer.com	907-455-4998	https://runningreindeer.com/experience/unique-alaskan-weddings/
+Wilmington Wedding Venue & Catering	4311 Dartmoor St	Wasilla	Alaska			Garden / Outdoor	Indoor & Outdoor	180	Simple	Fifteen-acre garden property with gazebos, a small water feature, a bridal bungalow and a 3,500 sq ft tent, with tables and chairs included.	joan@wilmingtonweddingvenue.com	503-559-6261	https://wilmingtonweddingvenue.com/
+Meier Lake	6059 Wasilla-Fishhook Rd	Wasilla	Alaska			Beach / Waterfront		100		Lakeside property among birch and spruce that is hired as a whole for the weekend, built around multi-day weddings with lodging for guests.		907-315-9760	https://meierlake.com/weddings
+Mountain Field Farm		Palmer	Alaska			Barn / Rustic	Indoor & Outdoor	175	Classic	Working flower farm of about 22 acres with mountain-view ceremony sites and a barn, offering elopement, one-day and three-day packages with on-site lodging.			https://mountainfieldfarm.com/alaska-wedding-venue
+Chilkat Inlet Retreat		Haines	Alaska			Beach / Waterfront	Indoor & Outdoor			Year-round lodge on the Chilkat Peninsula with a private beach, forest and trails, which has hosted weddings for around two decades.			https://chilkatinletretreat.com/`,
+  },
 ];
 
 export default batches;

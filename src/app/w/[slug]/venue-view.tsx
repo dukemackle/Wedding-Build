@@ -4,6 +4,7 @@ import Image from "next/image";
 import type { PublicWedding } from "@/lib/supabase/types";
 import { bannerPhoto } from "@/lib/site-design";
 import { SiteText } from "@/components/site-text";
+import { useSiteDesign, useTextEditing } from "@/components/guest-site-theme";
 
 /**
  * Where the wedding is: the venue's own photos, its write-up and the way
@@ -13,13 +14,17 @@ import { SiteText } from "@/components/site-text";
  * swipe; from lg up the photos make a spread to the left of the words.
  */
 export function VenueView({ wedding, card }: { wedding: PublicWedding; card: string }) {
+  const own = useSiteDesign().text;
+  const ownPlace = own["venue.place"]?.text;
+  const ownAbout = own["venue.about"]?.text;
+  const { editable } = useTextEditing();
   const banner = bannerPhoto(wedding);
   // The cover already fills the banner when the couple has no photo of
   // their own, so it isn't shown twice.
   const photos = (wedding.venue_photo_urls ?? []).filter((url) => url !== banner).slice(0, 5);
   const place = [wedding.venue_city, wedding.venue_state].filter(Boolean).join(", ");
   const where = wedding.venue_address
-    ? `${wedding.venue_name}, ${wedding.venue_address}`
+    ? [wedding.venue_name, wedding.venue_address, place].filter(Boolean).join(", ")
     : [wedding.venue_name, place].filter(Boolean).join(", ");
 
   return (
@@ -29,10 +34,23 @@ export function VenueView({ wedding, card }: { wedding: PublicWedding; card: str
           <SiteText slot="venue.title" className="font-display text-2xl font-semibold text-forest">
             Where we&apos;re celebrating
           </SiteText>
-          <p className="mt-4 font-display text-xl text-forest">{wedding.venue_name}</p>
-          {place && <p className="mt-0.5 text-sm text-ink/60">{place}</p>}
-          {wedding.venue_about && (
-            <p className="mt-4 line-clamp-6 whitespace-pre-line text-ink/80">{wedding.venue_about}</p>
+          <SiteText slot="venue.name" as="p" className="mt-4 font-display text-xl text-forest">
+            {wedding.venue_name}
+          </SiteText>
+          {(place || ownPlace || editable) && (
+            <SiteText slot="venue.place" as="p" className="mt-0.5 text-sm text-ink/60">
+              {place || "Add the town"}
+            </SiteText>
+          )}
+          {(wedding.venue_about || ownAbout || editable) && (
+            <SiteText
+              slot="venue.about"
+              as="p"
+              // The venue's own write-up can run long; words the couple wrote show in full.
+              className={`mt-4 whitespace-pre-line text-ink/80 ${ownAbout ? "" : "line-clamp-6"}`}
+            >
+              {wedding.venue_about || "Add a few words about the venue"}
+            </SiteText>
           )}
           <a
             href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(where)}`}
@@ -42,7 +60,7 @@ export function VenueView({ wedding, card }: { wedding: PublicWedding; card: str
           >
             Get directions
           </a>
-          {(wedding.venue_photo_urls?.length ?? 0) > 0 && (
+          {(wedding.venue_photo_urls?.length ?? 0) > 0 && !wedding.venue_photos_own && (
             <p className="mt-4 text-xs text-ink/50">Photos courtesy of {wedding.venue_name}</p>
           )}
         </div>

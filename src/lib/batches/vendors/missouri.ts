@@ -130,6 +130,200 @@ Darla's Cakery	Cake		Highlandville	Missouri		Highlandville home bakery making sc
 Jam & Crumb	Desserts		Springfield	Missouri	Springfield, Battlefield, Republic and Willard	Small-batch Springfield bakery making cake pops, macarons and dessert boxes, with custom cakes for weddings and events.	bre@jamandcrumbcakes.com	(417) 501-4834	https://jamandcrumbcakes.com/	https://www.instagram.com/jamandcrumbcakes/
 Thicc Cakes Cheesecakery	Desserts		Nixa	Missouri		Nixa cheesecake bakery with around thirty flavours, including vegan options, available for custom orders and special events.	thicc.cheesecakes@gmail.com	(417) 319-7524	https://www.thicc-cakes.com/	https://www.instagram.com/thicc_cheesecakes/`,
   },
+  {
+    name: "St. Louis: photography, planning, florals, music, videography, catering, hair and makeup and cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Cassidy Parker Smith Photography	Photography		St. Louis	Missouri	Travels to the couple	Documentary wedding photographer with a fine-art eye, based in St. Louis and happy to travel to wherever the couple is marrying.		(314) 623-6107	https://cassidyparkersmith.com/	https://www.instagram.com/cassidyparkersmith/
+The Bennetts	Photography		St. Louis	Missouri	St. Louis, Columbia, Lake of the Ozarks and destinations	Husband-and-wife photography team shooting weddings on film and digital, with prints and heirloom albums offered alongside the gallery.			https://thebennettsphoto.com/	https://www.instagram.com/thebennettsphoto/
+Toni Lynn Photography	Photography		St. Louis	Missouri	St. Louis, the Midwest and destination weddings	Wedding photographer who specialises in Catholic ceremonies, from parish Masses to cathedral celebrations, as well as engagement sessions.			https://tonilynnphoto.com/	https://www.instagram.com/tonilynnphoto/
+Lainie Arnold Photography	Photography		St. Louis	Missouri	St. Louis and destination weddings	St. Louis photographer covering weddings, engagements and portraits, with galleries from local venues and from out-of-town celebrations.			https://lainiearnold.com/	https://www.instagram.com/lainiearnold.photo/
+Luna + Co. Weddings & Events	Planning		St. Louis	Missouri	St. Louis and beyond	Planning studio offering full-service, partial planning and day-of coordination for weddings and events around St. Louis.	hello@lunaandcoevents.com		https://lunaandcoevents.com/	https://www.instagram.com/lunaandcoevents/
+Revel & Wonder Weddings	Planning		St. Louis	Missouri	St. Louis region and destinations	Wedding planners providing full planning, partial planning and day-of coordination, with floral and table decor through a sister brand.	cheers@revelwonderwed.com		https://www.revelwonderwed.com/	https://www.instagram.com/revel_wonder_wed/
+Belli Fiori	Florals	2705 LaSalle Street	St. Louis	Missouri	St. Louis area	Floral and event design studio making bouquets, ceremony flowers and tablescapes, with rentals and free consultations on offer.		(314) 776-2200	https://www.bellifioristl.com/	https://www.instagram.com/bellifioristl/
+Sisters Floral Design Studio	Florals		St. Louis	Missouri	St. Louis area, Missouri and Illinois venues, destinations	Florists designing wedding flowers in styles from rustic and boho to modern and classic, quoted individually for each couple.	designteam@sistersflowers.net	314.821.0076	https://sistersflowers.net/	https://www.instagram.com/sistersfloraldesignstudio/
+Ayla's Floral Studio	Florals		Ballwin	Missouri	St. Louis and surrounding areas	Ballwin floral studio offering custom wedding design plus a lower-priced pre-styled line, with rentals and bouquet preservation.	aylasweddingstudio@gmail.com	636-394-1400	https://aweddingstudio.com/	https://www.instagram.com/aylasfloralstudio/
+Suncrest Blooms	Florals		St. Louis	Missouri	St. Louis	Garden-style wedding florist covering ceremony installations, bouquets, centrepieces and tablescapes, plus elopements and à la carte orders.	dawn@suncrestblooms.com	(636) 368-7655	https://www.suncrestblooms.com/	https://www.instagram.com/suncrestblooms/
+The LustreLights	Music		St. Louis	Missouri	St. Louis and nationwide	Live wedding band playing everything from jazz to high-energy pop, with ceremony, cocktail and dance sets and its own sound and lighting crew.	thelustrelights@gmail.com		https://www.thelustrelights.com/	https://www.instagram.com/thelustrelights/
+314DJ Event Production	Music		St. Louis	Missouri	Missouri, Illinois and neighbouring states	DJ and MC company for wedding receptions, with optional photo booths, event lighting and rentals.	info@314DJ.com	314-744-9335	https://314dj.com/	
+Cole Coleman	Music		St. Louis	Missouri	St. Louis and across the Midwest	Solo wedding DJ who mixes live through ceremony, cocktails, dinner and dancing, travelling to several Midwest cities.			https://www.thecolecoleman.com/	
+Mirage Entertainment	Music		St. Louis	Missouri	St. Louis region and the Midwest	Live band for wedding receptions that can also supply soloists, a string quartet, brass, jazz combos or a DJ for ceremony and cocktails.			http://www.miragestlouis.com/	
+CJ's Disc Jockey Service	Music	245 Old Meramec Station Rd	Manchester	Missouri	St. Louis metro area	Wedding DJ and MC service with uplighting, photo booths and special effects, run from a Manchester base.	chris@cjsdjs.com	(314) 892-0329	https://cjsdiscjockeyservice.com/	https://www.instagram.com/cjsdjs/
+Milestone Wedding Films	Videography		St. Louis	Missouri	St. Louis area, open to travel	St. Louis videography studio making short trailers, highlight films and long featurette edits of the wedding day.		(314) 270-2434	https://www.milestoneweddingfilms.com/	
+First Twin Films	Videography		St. Louis	Missouri	St. Louis and worldwide	Travelling wedding filmmaker based in St. Louis who documents modern couples and unconventional love stories.	Kristin@firsttwinfilms.com		https://firsttwinfilms.com/	https://www.instagram.com/firsttwinfilms/
+Simply Cinematik	Videography		St. Louis	Missouri	St. Louis and beyond	Wedding video and photo packages, with add-ons such as live coverage, a content creator and a feature-style documentary edit.	weddings@simplycinematik.com		https://www.simplycinematik.com/	https://www.instagram.com/simplycinematik/
+Seed Sprout Spoon	Catering		St. Louis	Missouri	St. Louis	Seasonal wedding catering for St. Louis couples, with menus built around produce from nearby farms, breweries and artisan producers.	contact@seedsproutspoon.com		https://www.seedsproutspoon.com	https://www.instagram.com/seedsproutspoon/
+Sugarfire Events	Catering	6825 Clayton Road	St. Louis	Missouri	St. Louis & beyond	Full-service wedding and event caterer from the Sugarfire team, offering relaxed St. Louis flavours, bar service and two event venues of its own.	sugarfirelass@gmail.com	314-619-5407	https://www.sugarfireevents.com	https://www.instagram.com/sugarfireevents.stl/
+Catering St. Louis Events	Catering		St. Louis	Missouri		Caterer that also runs a roster of partner venues around the city, with seated, buffet and cocktail menus for weddings and receptions.	info@cateringstlouis.com	314-961-7588	https://www.cateringstlouis.com	https://www.instagram.com/cateringstlouisevents/
+Ellvia Beauty	Hair & Makeup		St. Louis	Missouri		Team offering wedding hair styling and airbrush makeup with a romantic, timeless look, working from St. Louis for bridal parties of all sizes.	hello@ellviabeauty.com		https://ellviabeauty.com	https://www.instagram.com/ellviabeauty/
+AB Beauty STL	Hair & Makeup		St. Louis	Missouri		Bridal makeup artist Alexis Bonacker, offering bridal trials, wedding-party application and one-to-one makeup lessons since 2018.	alexisb.mua@gmail.com		https://abbeautystl.com	https://www.instagram.com/ab_beautystl/
+Ashley Boren Makeup & Hair	Hair & Makeup		Festus	Missouri	Festus and surrounding areas	Bridal hair and makeup artist based in Festus, with an online booking flow that runs from enquiry and quote to trial and wedding day.	ashleyborenmakeup@gmail.com		https://www.ashleyborenmakeupandhair.com	
+Sarah's Cake Shop	Cake	10 Clarkson Wilson Centre	Chesterfield	Missouri		Chesterfield bakery making wedding cakes alongside everyday sweets, with online ordering and a shop where couples can collect or sample.	sales@sarahscakeshop.com	636-728-1140	https://www.sarahscakeshopstl.com	
+Celebrating Life Cake Boutique	Cake	13877 Manchester Road	Ballwin	Missouri		Cake boutique near Ballwin making custom wedding cakes, dessert tables and cupcake blooms, with tastings and a dedicated weddings page.	celebratinglifecakes@gmail.com	636-458-7727	https://www.celebratinglifecakes.com	https://www.instagram.com/celebratinglifecakes/
+3:14 Cakes	Cake		Wentzville	Missouri		Small custom cake studio run by owner and decorator Makenzie, making signature and wedding cakes with pick-up in Wentzville or delivery.			https://314cakes.com	https://www.instagram.com/314cakes/`,
+  },
+  {
+    name: "Kansas City: florals and planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Champagne Petals	Florals		Kansas City	Missouri	Kansas City and beyond	Wedding and event florist designing bouquets, ceremony pieces and reception flowers, offered as full-service or a la carte packages.	samantha@champagnepetalskc.com		https://www.champagnepetalskc.com	https://www.instagram.com/champagnepetalskc/
+All Set Events	Planning		Kansas City	Missouri	Kansas City and Overland Park	Wedding company offering day-of coordination, design and decor, and DJ and MC services across the Kansas City area.	info@allseteventskc.com	913-335-0101	https://www.allseteventskc.com	`,
+  },
+  {
+    name: "Lake of the Ozarks: photography, videography, florals, music and cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Lighter Focus Photography	Photography		Lake Ozark	Missouri	Mid-Missouri	Wedding, engagement and family photographer based in Lake Ozark, with a creative, romantic and relaxed approach for couples around mid-Missouri.	info@lighterfocus.com	573-552-7248	https://lighterfocus.com/	https://www.instagram.com/lighterfocus/
+Brad Glidewell Photography	Photography		Camdenton	Missouri	Missouri and beyond; travel fee beyond 20 miles	Camdenton photographer shooting candid, editorial-style weddings with the lake and the Missouri countryside as the backdrop.	info@bradglidewellphotography.com	573-259-3219	https://bradglidewellphotography.com/	https://www.instagram.com/bradglidewell_photography/
+Divine Moments Photography	Photography		Eldon	Missouri	Lake of the Ozarks and surrounding areas	Eldon photographer with dedicated wedding and engagement galleries, booking sessions by appointment around the Lake of the Ozarks.	sevolyentruoc@gmail.com	573-200-3162	https://www.divinemomentsmissouri.com/	https://www.instagram.com/divinemomentsmissouriphoto/
+Lindsey Webster Photography	Photography		Camdenton	Missouri	Lake of the Ozarks and Ozark riverways	Camdenton photographer for couples and elopements, working among lakeside spots, float trips on Missouri rivers and underground caves.		573-286-4561	https://lindseywebsterphotography.com/	https://www.instagram.com/lindseywebsterphotography/
+Woodward Photo + Video + Marketing	Videography		Osage Beach	Missouri	Missouri, Kansas and Oklahoma	Osage Beach studio combining photography and video for weddings with portraits and business marketing work.	soulfuelstudios@gmail.com	573-836-6352	https://www.woodwardpvm.com/	https://www.instagram.com/woodwardphotovideomarketing/
+Janine's Flowers	Florals	235 Ha Ha Tonka Cut Thru	Camdenton	Missouri	Lake Ozark, Osage Beach, Sunrise Beach, Camdenton and nearby	Camdenton flower shop that treats weddings as a speciality, from bridal bouquets to ceremony and reception pieces, with rentals for events.	janinesflowers@gmail.com	573-346-3388	https://janinesflowers.com/	https://www.instagram.com/janines_flowers/
+TIMELESS Weddings & More	Florals		Roach	Missouri	Lake of the Ozarks and surrounding areas	Decorator and designer near the lake offering silk bridal bouquets, ceremony backdrops and reception styling with delivery and set-up.	timelessweddingsloz@gmail.com		https://www.timelessweddingsandmore.com/	https://www.instagram.com/timelessweddingsandmore/
+Elite Lighting & Sound	Music		Lake Ozark	Missouri	Lake of the Ozarks	Lake Ozark wedding DJ and lighting team using a rehearsed timeline, JBL sound, uplighting and laser graphics across 1,400 events.	info@elitelightingandsound.com	573-746-6116	https://www.elitelightingandsound.com/	
+Cake Monkey Bakery	Cake	709 S Aurora St	Eldon	Missouri	Eldon	Eldon bakery making custom cakes for birthdays through weddings, with a wedding cake gallery and wedding catering on offer.	cakemonkey2023@gmail.com	573-920-3820	https://cakemonkeybakerymo.com/	https://www.instagram.com/cakemonkey2023/`,
+  },
+  {
+    name: "Kansas City: photography, music, catering, hair & makeup, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Humbly Hewn Photography	Photography		Kansas City	Missouri	Kansas City and beyond	Documentary-style Kansas City wedding photographer for couples who want relaxed, natural images that look like themselves rather than staged poses.	erin@humblyhewnphotography.com		https://www.humblyhewnphotography.com/kansas-city-wedding-photography-portfolio	https://www.instagram.com/humblyhewnphotography/
+Claire Ryser	Photography		Kansas City	Missouri		Kansas City wedding photographer blending candid moments with careful detail work, in a refined, artful and joyful style, and travels for destination weddings.	claire@claireryser.com	816-726-6705	https://www.claireryser.com/	https://www.instagram.com/claireryser/
+Niva Studios	Photography		Kansas City	Missouri	Kansas City and surrounding areas	Kansas City photographer covering weddings, engagements and portraits in a natural, bright and romantic style, and travelling beyond the metro.	yelena@niva-studios.com		https://www.niva-studios.com/	https://www.instagram.com/niva_studios/
+Cool Wedding DJs	Music		Kansas City	Missouri		Kansas City wedding DJ team with over seven years of experience, playing a mix of pop, rock, country and rap for all ages and keeping dance floors busy.	info@coolweddingdjs.com		https://coolweddingdjs.com	https://www.instagram.com/coolweddingdjs/
+Levity Events	Music	815 W 23rd St S, Suite B	Independence	Missouri	Kansas City metro	Independence production company supplying wedding DJs alongside custom dance floors, draping, specialty lighting and effects for Kansas City receptions.	info@levityevents.com	816-974-3005	https://www.levityevents.com/	https://www.instagram.com/levityevents/
+MIC King Music and Events	Music		Kansas City	Missouri		Mobile DJ business in Kansas City, Missouri, providing wedding music with optional uplighting and photo booth hire for receptions and ceremonies.	mic.kingmusic@gmail.com	816-407-9522	https://mickingmusic.com	https://www.instagram.com/mickingmusicandevents/
+Personal Chef KC	Catering		Kansas City	Missouri	Kansas City and surrounding areas	Kansas City private chef who also caters weddings, cocktail parties and multi-course dinners, with menus built around each couple's tastes.	contact@personalchefkc.com	816-645-6210	https://personalchefkc.com	https://www.instagram.com/personalchefkc/
+The Glam Room KC	Hair & Makeup	304 W 8th Street	Kansas City	Missouri		Downtown Kansas City beauty studio offering bridal and bridal-party hair and makeup, with trial sessions available before the wedding day.	theglamroom@theglamroomkc.com	816-605-1949	https://theglamroomkc.com/service/river-s/bridal-special-occasions	https://www.instagram.com/theglamroomkc/
+Black Moon Media	Videography		Kansas City	Missouri	Kansas City, plus destination weddings	Husband-and-wife photo and video duo in Kansas City making documentary-style, cinematic wedding films that focus on unscripted, genuine moments.	hello@blackmoonmediallc.com	913-415-5101	https://blackmoonmediallc.com/wedding-videography	https://www.instagram.com/black_moon_media/
+HeartFeltVisual	Videography		Kansas City	Missouri		Kansas City husband-and-wife videographers creating story-driven cinematic wedding films, from intimate elopements to large celebrations.	joejuarez@heartfeltvisual.com		https://heartfeltvisual.com	https://www.instagram.com/heartfeltvisual/`,
+  },
+  {
+    name: "St. Louis: planning, catering, hair & makeup, cake, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Lebeaux Weddings and Events	Planning		St. Louis	Missouri	St. Louis	St. Louis day-of coordinator who also offers wedding strategy consulting, covering music and flow, guest experience mapping and full execution on the day.	lebeauxweddings@gmail.com	314-339-8937	https://www.lebeauxweddings.com/	https://www.instagram.com/lebeauxweddings/
+The Composed Collective	Planning		St. Louis	Missouri		St. Louis studio that plans and designs weddings around each couple's personal style, with full planning and design across the Midwest.		314-637-8584	https://thecomposedcollective.com/	https://www.instagram.com/thecomposedcollectiveweddings/
+Raquel Samone Weddings	Planning		St. Louis	Missouri		St. Louis wedding planning firm offering full planning, design and day-of management for couples who want one team handling the whole celebration.			https://raquelsamoneweddings.com/	https://www.instagram.com/raquelsamoneweddings/
+Russo's Catering	Catering	9904 Page Avenue	St. Louis	Missouri		Family caterer in business for 60 years, serving buffet, station, plated and family-style wedding menus with an in-house bakery for desserts.			https://russosgourmet.com/	https://www.instagram.com/russocatering/
+Ces & Judy's Catering	Catering	10440 German Blvd	St. Louis	Missouri	Greater St. Louis	St. Louis caterer with customisable wedding packages built around plated dinners, buffets or interactive dining, including linens, china and service staff.	info@cesandjudys.com	314-991-6700	https://www.cesandjudys.com/wedding-catering	https://www.instagram.com/cesandjudys/
+Heavy Smoke BBQ	Catering	4270 N Service Rd	St. Peters	Missouri	St. Peters, St. Charles, O'Fallon, Wentzville and greater St. Louis	Barbecue restaurant in St. Peters that caters weddings with slow-smoked brisket, ribs, pulled pork and sausage for casual receptions.		636-244-5874	https://www.heavysmokebbq.com/	https://www.instagram.com/heavysmokebbq/
+Make-up N More	Hair & Makeup		St. Louis	Missouri	St. Louis, St. Charles, Chesterfield, Kirkwood, O'Fallon, Ballwin and nearby	On-site bridal hair and makeup team for St. Louis weddings, offering soft natural glam and romantic styles, with a preview session in each bridal package.		314-302-1600	https://www.make-up-n-more.com/	https://www.instagram.com/makeupnmorestl/
+Refine Beauty	Hair & Makeup	854 Bryan Rd	O'Fallon	Missouri	St. Louis and surrounding areas	O'Fallon salon with a bridal team offering all-inclusive hair and makeup packages for the bride and attendants, with in-studio trials and add-ons.	weddings@refinebeauty.com	636-244-0599	https://refinebeauty.com/salon-services/st-louis-wedding-day-hair-and-makeup-services/	https://www.instagram.com/re_finebeauty/
+Patisserie Svoi	Cake	8 S Euclid Ave	St. Louis	Missouri		Central West End patisserie making custom handcrafted wedding cakes, from small elopement cakes to large receptions, designed around each couple's vision.	orders@patisseriesvoi.com	314-800-9595	https://www.patisseriesvoi.com/wedding-cakes	https://www.instagram.com/patisserie_svoi/
+The Sweet Divine	Cake		St. Louis	Missouri		St. Louis cake maker offering custom wedding cakes in any flavour and filling combination, finished in buttercream or fondant, booked via an inquiry form.	jenna@thesweetdivine.com		https://www.thesweetdivine.com/weddings	
+The Film Perspective	Videography	10629 E. Grantview Dr.	St. Louis	Missouri	St. Louis metro	Veteran-owned St. Louis wedding videographer offering cinematic, narrative and full-feature film packages for couples across the metro.	aaron@thefilmperspective.com	314-202-9791	https://www.thefilmperspective.com/	https://www.instagram.com/thefilmperspective/
+Melissa Jae Films	Videography		St. Louis	Missouri		St. Louis wedding filmmaker focused on relaxed, natural moments and genuine emotion, with custom packages and drone footage available.	melissa@melissajaefilms.com	314-703-8093	https://melissajaefilms.com	https://www.instagram.com/melissajaefilms/`,
+  },
+  {
+    name: "Lake of the Ozarks: planning, catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+The Party Proper	Planning		Lake Ozark	Missouri	Lake of the Ozarks area	Event design, planning and rentals for lake weddings, receptions and bridal luncheons, run by a local team with a showroom open by appointment.	susan@thepartyproper.com	573-280-3668	https://thepartyproper.com	https://www.instagram.com/thepartyproper/
+Li'l Rizzo's Catering	Catering	929 Premium Outlets Dr	Osage Beach	Missouri		Local restaurant catering team that handles wedding receptions and rehearsal dinners, with online ordering and a quote request form for events.		573-302-1500	https://lilrizzos.com/catering/	https://www.instagram.com/lilrizzos/`,
+  },
+  {
+    name: "Kansas City: catering, cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Nellie's Custom Cakes	Cake	1443 Swift St	North Kansas City	Missouri	Kansas City	North Kansas City cake shop with over twenty years of decorating, known for hand-made sugar paste flowers on custom wedding cakes.	cakes@nelliescustomcakes.com	816-419-9518	https://nelliescustomcakes.com/	https://www.instagram.com/nelliescustomcakes/
+Sweet Bliss Cakery	Cake		Kansas City	Missouri	Greater Kansas City	Home-based, by-appointment cakery with over forty years serving the Kansas City area, baking wedding cakes alongside cupcakes, cookies and cake pops.		816-506-0526	https://www.sweetblisscakerykc.com/	
+Twenty Four Catering	Catering		Kansas City	Missouri	Greater Kansas City, including Lee's Summit and Overland Park	Kansas City caterer with a dedicated weddings page, tailoring menus, themes and styling to each couple's plans across the metro.		816-686-4266	https://24catering.net/	https://www.instagram.com/24cateringkc/`,
+  },
+  {
+    name: "Lake of the Ozarks: catering, hair & makeup, florals, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Studio T Images	Videography		Osage Beach	Missouri	Lake of the Ozarks, Osage Beach, Camdenton, Lake Ozark, Eldon and Linn Creek	Husband-and-wife team offering wedding and engagement photography with videography, from lakefront elopements to full-day celebrations around the lake.		573-433-6765	https://www.studiotimages.com/	https://www.instagram.com/studiotimages/
+Angela's Lake Catering	Catering		Camdenton	Missouri	Lake of the Ozarks	Camdenton caterer with over twenty years at the lake, building custom menus for wedding receptions, house parties and church dinners, delivered on location.	angela@angelaslakecatering.com	573-317-3064	https://www.angelaslakecatering.com/	
+Argyle Catering	Catering		Jefferson City	Missouri	Jefferson City, Lake of the Ozarks and Rolla	Jefferson City caterer led by a trained chef, covering wedding menus from appetisers to desserts, with a dedicated page for events at the Lake of the Ozarks.	argylecatering@gmail.com	573-680-1144	https://www.argylecatering.com/wedding-catering	
+Shorty Pants Catering	Catering	1680 Autumn Lane	Osage Beach	Missouri	Lake of the Ozarks	Lakeside Cajun restaurant's catering arm, serving New Orleans-style dishes and smoked meats to weddings, family reunions and private parties around the lake.		573-302-1745	https://shortypantslounge.com/catering/	https://www.instagram.com/shortypantslakesidecajun/
+Bella Donna Salon	Hair & Makeup	1058 Main St	Osage Beach	Missouri	Lake of the Ozarks	Osage Beach salon with a bridal menu covering updos, full-face and airbrush makeup, and a pampering wedding-party offering with mimosas and pastries.		573-302-1929	http://belladonnasalonlakeoftheozarks.com/	
+Evergreen Home & Floral	Florals	6711 US-54 Expy	Osage Beach	Missouri	Lake of the Ozarks	Osage Beach silk-flower shop designing custom wedding florals, renting bridal collections and hosting a Flower Bar for couples who like to create their own.		573-346-2286	https://evergreenatthelake.com/pages/weddings	https://www.instagram.com/evergreenhomeandfloral/`,
+  },
+  {
+    name: "Lake of the Ozarks: music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Night Moves Entertainment	Music		Freeburg	Missouri	Central Missouri incl. Columbia and Jefferson City	Wedding DJ company with a modern all-white setup, live mixing, uplighting and sparkler cannons for ceremonies and receptions across central Missouri.		(573) 418-6311	https://www.nightmovesent.com/	https://www.instagram.com/nightmoves.ent/`,
+  },
+  {
+    name: "Columbia: photography, planning, music, florals, hair & makeup and cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Pop Wedding Photography	Photography		Columbia	Missouri	Columbia, available to travel	Wedding and engagement photographer working in a directed documentary style, with planning tips and a style guide for couples.	hello@PopWeddingPhotography.com	573-819-0385	https://www.popweddingphotography.com/	https://www.instagram.com/popwedphotos/
+Plan it Terra	Planning		Columbia	Missouri	Columbia, St. Louis, Kansas City, Branson, Springfield and beyond	Columbia-based planner offering wedding design and coordination for couples across Missouri, from city venues to country clubs.	terra@planitterra.com	573-644-4286	https://planitterra.com/	https://www.instagram.com/planitterra/
+Lindsey Pantaleo	Photography		Jefferson City	Missouri	Jefferson City, Columbia, St. Louis, Kansas City and travel worldwide	Fine art wedding and destination photographer in Jefferson City who also shoots engagements and lifestyle sessions.	lindsey@lindseypantaleo.com	573-263-1884	https://www.lindseypantaleo.com/	https://www.instagram.com/lindseypantaleo/
+Jazzy Josh DJ & Events	Music		Columbia	Missouri	Columbia and across Missouri	Columbia DJ and MC handling ceremony audio, reception announcements and dance floor lighting, with karaoke and a photo booth on offer.			https://www.jazzyjosh.com/	https://www.instagram.com/dj.jazzyjosh/
+My Secret Garden	Florals	823 E Broadway	Columbia	Missouri	Columbia and surrounding areas	Columbia florist with a dedicated wedding range, offering bouquets and event flowers alongside custom designs and delivery.	mysecretgardencomo@gmail.com	573-443-1546	https://secretgardenmo.com/columbia-florist-flower-delivery/wedding-flowers/	https://www.instagram.com/mysecretgardencomo/
+The Look Salon	Hair & Makeup	1900 N Providence Rd, Suite 206	Columbia	Missouri	Columbia	Columbia salon offering bridal updos, trial runs and hair and makeup for the whole wedding party, including the mother of the bride.		573-875-4446	https://thelooksaloncolumbiamo.com/bridal-columbia-mo-hair-salon/	https://www.instagram.com/thelook_salon/
+Sugar, Butter & Flour	Cake		Columbia	Missouri	Columbia and surrounding areas	Home-based Columbia bakery making wedding cakes, cupcakes and dessert boxes, with allergen-free options available.	alanna@sugarbutterandflour.com	573-226-6400	https://sugarbutterandflour.com/	https://www.instagram.com/sugar.butter.andflour/
+Blue Diamond Events	Music		Columbia	Missouri	Missouri and destination couples	Columbia DJ and MC company for weddings, with lighting, a photo booth and bundled packages, and an owner who blends Latin and US dance music.	info@bluediamond-events.com	(573) 567-0016	https://www.bluediamond-events.com/	https://www.instagram.com/bluediamondeventsweddings/`,
+  },
+  {
+    name: "Branson: videography and cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Marked Wedding Films	Videography		Branson	Missouri	Branson, Table Rock Lake, Springfield and Northwest Arkansas	Branson wedding videographer producing colour-graded cinematic highlight films, delivered online in 4K.			https://markedweddingfilms.com/	
+Aaron Clark Photography	Videography		Branson	Missouri	Branson and surrounding areas, with destination weddings	Branson team offering wedding videography from simple ceremony films to documentary-style edits with interviews, alone or with photos.			https://www.aaronclarkphotography.com/videography	`,
+  },
+  {
+    name: "Joplin: photography and hair & makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Taylor Jean Roark	Photography		Joplin	Missouri	Joplin, Northwest Arkansas, Tulsa, Kansas City and Springfield	Joplin photographer shooting weddings and elopements in an artistic, non-traditional style on 35mm and medium format film as well as digital.			https://roamandroark.com/	https://www.instagram.com/roamandroark/
+Beauty of Grace Photography	Photography		Joplin	Missouri	Joplin, Springfield, St. Louis and beyond	Joplin photographer capturing candid, documentary-style weddings, from elopements to full days, with film, albums and prints available.			https://www.beautyofgracephotos.com/weddinginfo	https://www.instagram.com/beautyofgracephotos/
+Aubrey Cooke Makeup	Hair & Makeup		Joplin	Missouri	Missouri	Joplin-based freelance makeup artist and hair stylist who takes bridal bookings alongside glamour and headshot work.	aubreyscooke@gmail.com		https://www.aubreycookemakeup.com/	https://www.instagram.com/aubreyscooke/`,
+  },
+  {
+    name: "Lake of the Ozarks: rentals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Laurie Tent & Event Rental	Rentals		Laurie	Missouri	Lake of the Ozarks and surrounding area	Tent, table, chair, dance floor and arbor hire for lakeside weddings from a company serving the lake for over thirty years, with year-round service.	laurietentrental@gmail.com	573-374-8368	http://laurierental.com/	`,
+  },
+  {
+    name: "Lake of the Ozarks: bridal, photo booth",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Truly Bridal	Bridal & Formalwear	1083 Main St	Osage Beach	Missouri		Appointment-based bridal salon offering wedding gowns, formal dresses, and suit and tuxedo rentals or sales for grooms and parties.		573-552-1083	https://trulybridal.com/	
+Fun Pics Photo Booths	Photo Booth		Springfield	Missouri	Springfield, Branson, Lake of the Ozarks, Lebanon, Joplin and the wider Ozarks	Family-run Springfield photo booth rental offering mirror, enclosed and open-air booths with attendants, custom prints and online galleries for weddings.	funpicsphotobooths@gmail.com	(417) 501-9886	https://funpicsphotobooths.com/	
+`,
+  },
+  {
+    name: "Lake of the Ozarks: music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Mid-MO Music Machine	Music		Columbia	Missouri	Columbia, Jefferson City, Lake of the Ozarks, Holts Summit and Fulton	Mobile DJ and sound-and-light service run by a DJ with over 30 years in radio and pro audio, offering wedding packages across mid-Missouri.	midmomusicmachine@gmail.com	573-691-2580	https://midmomusicmachine.com/	`,
+  },
+  {
+    name: "Lake of the Ozarks: planning, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Delight Events	Planning		Columbia	Missouri	Columbia, Jefferson City, Lake of the Ozarks and the rest of Missouri	Columbia-based planning team handling full, partial and day-of wedding coordination across Missouri, including Jefferson City and the Lake.	eventsthatdelight@gmail.com	573-673-9671	https://www.eventsthatdelight.com/	https://www.instagram.com/delighteventsmo/
+James Smith Films	Videography		Columbia	Missouri		Columbia videographer who films weddings alongside real estate, live event and corporate video projects.	visualfilmcreator@gmail.com		https://jamessmithfilms.com/	https://www.instagram.com/jamessmithfilms/
+`,
+  },
+  {
+    name: "Kansas City: planning, photo booth, bridal & formalwear, desserts, rentals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Bespoke Socials	Planning		Kansas City	Missouri	Missouri	Small-wedding and elopement planner for offbeat, bohemian couples, covering design plus full or partial planning across Missouri.	planner@bespokesocials.com	(641) 530-0044	https://www.bespokesocials.com/	https://www.instagram.com/bespokesocials/
+360picKC	Photo Booth		Kansas City	Missouri	Kansas City and surrounding areas	Photo booth hire with 360 platforms, open-air, roaming and walk-in magazine booths, plus audio guest books, for weddings and corporate events.	service@360picKC.com	816-216-1809	https://www.360pickc.com/	https://www.instagram.com/360pickc/
+Slabotsky's	Bridal & Formalwear	306 Delaware St	Kansas City	Missouri		Menswear and tailoring shop founded in 1908, selling custom-tailored wedding suits and tuxedos to keep, with group pricing for the wedding party.	weddings@slabotskys.com	(816) 842-3445	https://www.slabotskyskc.com/	https://www.instagram.com/slabotskysmens/
+Cake-A-Boo	Desserts	809 W 39th St, Suite 160	Kansas City	Missouri		Custom cakes, cupcakes and gourmet desserts since 2010, with a dessert trailer and cake bar experience on offer for wedding receptions.	info@cakeaboo.com	(913) 915-0194	https://www.cakeaboo.com/	https://www.instagram.com/cake_a_boo/
+Rustic Wedding & Event Rentals	Rentals		Raymore	Missouri	Kansas City and surrounding areas	Small veteran-owned rental company supplying tables, chairs, linens, dance floors and pipe and drape for Kansas City-area weddings.	hello@rusticweddingandeventrentals.com	816-295-2296	https://www.rusticweddingandeventrentals.com/	https://www.instagram.com/rusticweddingeventrentals/
+`,
+  },
+  {
+    name: "St. Louis: transportation, photography, rentals, officiant",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Fun Tyme Limousine	Transportation	3053 Roger Pl	St. Louis	Missouri	St. Louis, St. Charles, Jefferson County and Metro East	Chauffeured limousines, black cars and party buses for bridal parties and guests, running in the St. Louis area since 1995.	info@funtymelimo.com	(314) 313-5466	https://www.funtymelimo.com/	https://www.instagram.com/funtymelimo/
+Riding In Style	Transportation		St. Louis	Missouri	St. Louis area	Family-owned limousine and party bus company, started with one vehicle in 2011, that specialises in wedding and birthday transport.	info@ridinginstylestl.com	636-228-6722	https://www.ridinginstylestl.com/	
+Black Tie Weddings & Events	Photography		St. Louis	Missouri	Missouri and Illinois	Wedding photography from a team that can also supply the DJ and photo booth, handy for couples who want fewer vendors to coordinate.	christina@blacktieweddingsandevents.com	314-933-6137	https://www.blacktieweddingsandevents.com/	https://www.instagram.com/blacktieweddingsandevents/
+Pancho3 Studios	Photography		St. Louis	Missouri	St. Louis area and destination weddings	Documentary wedding photography and video from a St. Louis-area studio, with a dedicated portfolio of South Asian weddings and engagements.			https://pancho3.com/	https://www.instagram.com/pancho3studios/
+Mena Darré Photo & Video	Photography	1120 S. 6th Street	St. Louis	Missouri		St. Louis photographer with a studio, taking wedding and elopement bookings and offering a highlight film alongside the stills.	support@menadarre.com		https://www.menadarrephotography.com/	https://www.instagram.com/menadarrephotography/
+The Aries Company	Rentals	4940 Northrup Ave	St. Louis	Missouri		St. Louis rental house since 1974 for chairs, tables, linens, china, bars, lighting and draping, working with planners and couples.	sales@ariesco.com	314.664.6610	https://ariesco.com/	https://www.instagram.com/the_aries_company/
+Weinhardt Party Rentals	Rentals	5901 Elizabeth Ave	St. Louis	Missouri	St. Louis	Established St. Louis rental firm trading since 1946, with tables, chairs, linens and china for micro weddings through to large receptions.	inquiries@weinhardtpartyrentals.com	(314) 822-9000	https://www.weinhardtpartyrentals.com/	https://www.instagram.com/weinhardtpartyrentals/
+Belmont Party Rentals	Rentals	11721 Dunlap Industrial Blvd	Maryland Heights	Missouri	St. Louis area	Family-owned since 1975, supplying tables, chairs, linens, china and tents for weddings and other events across the St. Louis area.	office@belmontpartyrentals.com	(314) 997-7300	https://belmontpartyrentals.com/	https://www.instagram.com/belmont_party_rentals/
+Inclusively Yours Ceremonies	Officiant		St. Louis	Missouri	St. Louis	Certified life-cycle celebrant who writes custom, LGBTQ-friendly wedding ceremonies, from full services to short elopement vows.	InclusivelyYoursSTL@gmail.com	314.374.5881	https://www.inclusivelyyoursstl.com/	https://www.instagram.com/inclusivelyyoursstl/
+`,
+  },
+  {
+    name: "Springfield: bridal & formalwear, transportation",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Karl's Tuxedos	Bridal & Formalwear	1255 W Battlefield Rd	Springfield	Missouri		Family-owned Springfield tuxedo and suit shop renting for weddings since 1980, with online measurements for out-of-town groomsmen.	info@karlstuxedos.com	417-888-3008	https://karlstuxedos.com/	https://www.instagram.com/karlstuxedos/
+Gracie's Bridal	Bridal & Formalwear	2724 S Glenstone Ave	Springfield	Missouri		Bridal salon since 2006 offering wedding gowns, plus-size and mother-of-the-bride dresses, alterations and tuxedos in the Brentwood centre.		417-866-1808	https://graciesbridalspringfield.com/	https://www.instagram.com/graciesbridal/
+Unique Rides Transportation	Transportation		Springfield	Missouri	Springfield and 150 miles beyond	Springfield limousine service for weddings, with a pink limo, stretch Hummer, executive stretch and sedans, plus airport transfers.	info@uniqueridestransportation.com	417-865-5600	https://www.uniqueridestransportation.com/	https://www.instagram.com/uniqueridestransportation/
+`,
+  },
+  {
+    name: "Lake of the Ozarks: planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Waterfront Weddings	Planning	2131 Valley Rd	Osage Beach	Missouri	Osage Beach and the Lake of the Ozarks area	Osage Beach elopement and micro-wedding specialist with an on-site coordinator and set packages covering décor, cake, flowers and an officiant.	waterfrontweddings1@gmail.com	573-434-6543	https://waterfrontweddings.net/	https://www.instagram.com/waterfrontweddingslakeozark/`,
+  },
 ];
 
 export default batches;

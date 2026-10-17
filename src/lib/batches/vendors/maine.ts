@@ -60,6 +60,25 @@ Atlantic Baking Co.	Cake	351 Main Street	Rockland	Maine		Rockland bakery whose p
 Cakes by Design	Cake		Brunswick	Maine	Brunswick area	Brunswick cake shop making custom wedding cakes with clean lines and careful detail, now taking online pre-orders and scheduled pick-ups only.			https://www.mainecakesbydesign.com/	https://www.instagram.com/mainecakesbydesign/
 Tailwind Media	Videography		Rockport	Maine	Midcoast Maine	Rockport video production company offering wedding films with one or two cinematographers, highlight edits, optional drone and teaser clips.	collaborate@tailwindmedia.com		https://tailwindmedia.com/	`,
   },
+  {
+    name: "Midcoast and Bar Harbor: music, videography, hair and makeup, cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+High Tech Events	Music		Bangor	Maine	Maine, including Bar Harbor, Ellsworth, Camden, Rockland, Boothbay Harbor, Belfast and Blue Hill	Bangor DJ and MC company handling weddings with ceremony sound, lighting and photo booths, travelling to the Maine coast.		207-949-4727	https://www.hightechmaine.com	
+Better Half Productions	Videography		Lewiston	Maine	Maine and New England, including Acadia	Lewiston film team making unscripted wedding and elopement films, with Acadia elopements a speciality and posted pricing.		207-331-9813	https://betterhalfproductions.com	https://www.instagram.com/betterhalf_films/
+Maine Coast Bridal Artistry	Hair & Makeup	823 Commercial Street	Rockport	Maine		Rockport salon suite for one-on-one wedding hair and makeup, booking one wedding per day with a private space for the bridal party.		(207) 536-8143	https://mainecoastbridal.com	https://www.instagram.com/mainecoastbridal/
+Affectionate Confections	Cake		Bar Harbor	Maine	Bar Harbor and surrounding communities	Le Cordon Bleu-trained pastry maker baking made-to-order wedding cakes and handmade chocolates, with gluten-free and dairy-free options.	AffectionateConfections@gmail.com	1.207.561.0383	http://www.affectionateconfectionsbarharbor.com	
+`,
+  },
+  {
+    name: "Midcoast and Bar Harbor: music and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Sweet Thunder Productions	Videography	153 Hospital Street #8	Augusta	Maine	Boothbay Harbor, Bath, Brunswick, Camden, Bar Harbor, Portland and the rest of Maine	Owner-filmed, unobtrusive wedding videography across Maine, including the Boothbay Harbor and Midcoast regions.			https://sweetthunderproductions.com	https://www.instagram.com/sweetthunder7/`,
+  },
+  {
+    name: "Midcoast and Bar Harbor: music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+DJ Greg Young	Music		Camden	Maine	Midcoast Maine, Camden, Bar Harbor and the rest of the Maine coast	Maine wedding DJ for ceremony and reception music, with custom song selection plus sound and lighting, travelling to coastal venues across the state.	bookings@djgregyoung.com	207-949-0566	https://djgregyoung.com/	https://www.instagram.com/djgregyoung/`,
+  },
 ];
 
 export default batches;

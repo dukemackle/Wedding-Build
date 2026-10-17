@@ -4,6 +4,8 @@ import type {
   ItineraryEvent,
   PublicConfirmedGuest,
   PublicGuestbookEntry,
+  PublicPartyMember,
+  PublicRegistryGift,
   PublicWedding,
   RegistryItem,
   WeddingAccommodation,
@@ -13,18 +15,26 @@ import type {
 } from "@/lib/supabase/types";
 import { ChevronDownIcon } from "@/components/icons";
 import { RsvpForm } from "./rsvp-form";
+import { RsvpSection } from "./rsvp-section";
 import { ItineraryView } from "./itinerary-view";
 import { GuestbookView } from "./guestbook-view";
 import { GuestWall } from "./guest-wall";
 import { GalleryView } from "./gallery-view";
 import { StayList } from "./stay-list";
+import { RegistryView } from "./registry-view";
 import { VenueView } from "./venue-view";
-import { WeddingHero } from "./wedding-hero";
+import { PartyView } from "./party-view";
+import { HeroPhotosProvider, WeddingHero } from "./wedding-hero";
+import { CeremonyProvider } from "./hero-actions";
+import { SiteNotice } from "./site-notice";
 import type { ReactNode } from "react";
-import { blockKey, type SectionKey } from "@/lib/site-design";
+import { bannerPhoto, blockKey, type SectionKey } from "@/lib/site-design";
 import { SiteBlockView, blockHasContent } from "./site-block";
 import { SectionLayout } from "./section-layout";
+import { storyChapters } from "@/lib/site-story";
 import { Replayable, SiteMotion } from "@/components/site-motion";
+import { LiveDetailsProvider } from "@/components/site-live-details";
+import { liveDetailsOf } from "@/lib/site-live";
 
 /**
  * The guest site itself, below any theme.
@@ -44,17 +54,33 @@ function formatDate(dateStr: string) {
   });
 }
 
+const PARTY_COLUMNS = "id, wedding_id, name, role, photo_url, site_blurb, sort_order";
+
 type Supabase = Awaited<ReturnType<typeof createClient>>;
 
 export type GuestSiteContent = Awaited<ReturnType<typeof loadGuestSiteContent>>;
 
-export async function loadGuestSiteContent(supabase: Supabase, wedding: PublicWedding) {
+export async function loadGuestSiteContent(
+  supabase: Supabase,
+  wedding: PublicWedding,
+  { preview = false }: { preview?: boolean } = {},
+) {
   const { data: registryItems } = await supabase
     .from("registry_items")
     .select("*")
     .eq("wedding_id", wedding.id)
     .order("created_at", { ascending: true })
     .returns<RegistryItem[]>();
+
+  // The view counts claims without naming anyone, and covers the couple's
+  // preview as well as the published site.
+  const { data: registryGifts } = await supabase
+    .from("public_registry_gifts")
+    .select("*")
+    .eq("wedding_id", wedding.id)
+    .order("sort_order", { ascending: true })
+    .order("created_at", { ascending: true })
+    .returns<PublicRegistryGift[]>();
 
   // Row security already hides an unpublished schedule from guests; the check
   // here is for the owner's preview, where it wouldn't.
@@ -104,15 +130,27 @@ export async function loadGuestSiteContent(supabase: Supabase, wedding: PublicWe
     .order("created_at", { ascending: true })
     .returns<PublicConfirmedGuest[]>();
 
+  // The public view only covers sites that are on; the couple's preview
+  // reads their own board (row security lets them) so it works with it off.
+  const partyQuery = preview
+    ? supabase.from("attire_party_members").select(PARTY_COLUMNS).eq("on_site", true)
+    : supabase.from("public_party_members").select(PARTY_COLUMNS);
+  const { data: partyMembers } = await partyQuery
+    .eq("wedding_id", wedding.id)
+    .order("sort_order", { ascending: true })
+    .returns<PublicPartyMember[]>();
+
   const { data: blocks } = await supabase
     .from("site_blocks")
     .select("*")
     .eq("wedding_id", wedding.id)
+    .order("created_at", { ascending: true })
     .returns<SiteBlock[]>();
 
   return {
     blocks: blocks ?? [],
     registryItems: registryItems ?? [],
+    registryGifts: registryGifts ?? [],
     // Invite-only events never reach the public schedule (0109 hides them
     // from guests; this keeps the couple's preview honest too).
     itineraryEvents: (itineraryEvents ?? []).filter((e) => !e.invite_only),
@@ -121,6 +159,7 @@ export async function loadGuestSiteContent(supabase: Supabase, wedding: PublicWe
     guestbookEntries: guestbookEntries ?? [],
     galleryPhotos: galleryPhotos ?? [],
     confirmedGuests: confirmedGuests ?? [],
+    partyMembers: partyMembers ?? [],
   };
 }
 
@@ -133,12 +172,14 @@ export function GuestSiteView({
 }) {
   const {
     registryItems,
+    registryGifts,
     itineraryEvents,
     weddingFaqs,
     accommodations,
     guestbookEntries,
     galleryPhotos,
     confirmedGuests,
+    partyMembers,
     blocks,
   } = content;
   const coupleNames = [wedding.partner_a_name, wedding.partner_b_name].filter(Boolean).join(" & ");
@@ -148,39 +189,58 @@ export function GuestSiteView({
     .filter(Boolean)
     .join(" & ");
 
+  // Story sections borrow the Photos section's pictures for their chapters,
+  // each story continuing where the one before stopped.
+  const storyPhotos = new Map<string, string[]>();
+  let nextPhoto = 0;
+  for (const b of blocks) {
+    if (b.kind !== "story" || !b.body) continue;
+    const count = storyChapters(b.body).length;
+    storyPhotos.set(b.id, galleryPhotos.slice(nextPhoto, nextPhoto + count).map((p) => p.photo_url));
+    nextPhoto += count;
+  }
+
   // Every section the couple can reorder or hide, or null when there's
   // nothing in it yet -- an empty section is left off whatever the design says.
   const sections: Partial<Record<SectionKey, ReactNode>> = {
-    ...Object.fromEntries(blocks.filter(blockHasContent).map((b) => [blockKey(b.id), <SiteBlockView key={b.id} block={b} />])),
+    ...Object.fromEntries(
+      blocks.filter(blockHasContent).map((b) => [
+        blockKey(b.id),
+        <SiteBlockView key={b.id} block={b} photos={storyPhotos.get(b.id)} />,
+      ]),
+    ),
     rsvp: (
-      <div id="rsvp" className={`${CARD} scroll-mt-6`}>
-        <SiteText slot="rsvp.title" className="font-display text-2xl font-semibold text-forest">RSVP</SiteText>
-        <p className="mt-1 text-sm text-ink/70">
-          Let {wedding.partner_a_name ?? "the couple"} &amp;{" "}
-          {wedding.partner_b_name ?? "the couple"} know if you can make it.
-        </p>
-        {wedding.rsvp_deadline && (
-          <p className="mt-3 inline-block rounded-full border border-brass/40 bg-brass/10 px-3 py-1 text-sm text-brass">
-            Please RSVP by {formatDate(wedding.rsvp_deadline)}
-          </p>
-        )}
-        <RsvpForm
-          initialEvents={itineraryEvents
-            .filter((e) => e.rsvp && !e.invite_only)
-            .map(({ id, title, event_date, start_time, location, invite_only }) => ({
-              id,
-              title,
-              event_date,
-              start_time,
-              location,
-              invite_only,
-            }))}
-          weddingId={wedding.id}
-          partnerAName={wedding.partner_a_name}
-          partnerBName={wedding.partner_b_name}
-          shareHref={shareHref}
-        />
-      </div>
+      <RsvpSection
+        lead={
+          <>
+            Let {wedding.partner_a_name ?? "the couple"} &amp; {wedding.partner_b_name ?? "the couple"} know if you
+            can make it.
+          </>
+        }
+        deadline={wedding.rsvp_deadline ? formatDate(wedding.rsvp_deadline) : null}
+        photo={galleryPhotos[nextPhoto]?.photo_url ?? bannerPhoto(wedding)}
+        form={
+          <RsvpForm
+            initialEvents={itineraryEvents
+              .filter((e) => e.rsvp && !e.invite_only)
+              .map(({ id, title, event_date, start_time, location, invite_only }) => ({
+                id,
+                title,
+                event_date,
+                start_time,
+                location,
+                invite_only,
+              }))}
+            weddingId={wedding.id}
+            partnerAName={wedding.partner_a_name}
+            partnerBName={wedding.partner_b_name}
+            mealOptions={wedding.meal_options}
+            // Undefined until migration 0116 runs: ask, as the default does.
+            askDietary={wedding.ask_dietary !== false}
+            shareHref={shareHref}
+          />
+        }
+      />
     ),
     photos:
       galleryPhotos.length > 0 ? (
@@ -191,6 +251,7 @@ export function GuestSiteView({
           </div>
         </div>
       ) : null,
+    party: partyMembers.length > 0 ? <PartyView members={partyMembers} card={CARD} /> : null,
     venue: wedding.venue_name ? <VenueView wedding={wedding} card={CARD} /> : null,
     weekend:
       itineraryEvents.length > 0 ? (
@@ -292,28 +353,16 @@ export function GuestSiteView({
         </div>
       ) : null,
     registry:
-      registryItems.length > 0 ? (
+      registryItems.length > 0 || registryGifts.length > 0 ? (
         <div className={CARD}>
           <SiteText slot="registry.title" className="font-display text-2xl font-semibold text-forest">Gift registry</SiteText>
-          <div className="mt-4">
-            {registryItems.map((item) => (
-              <div key={item.id} className="border-b border-hairline py-4 last:border-b-0">
-                {item.url ? (
-                  <a
-                    href={item.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-ink hover:underline"
-                  >
-                    {item.label} ↗
-                  </a>
-                ) : (
-                  <span className="text-ink">{item.label}</span>
-                )}
-                {item.notes && <p className="mt-1 text-sm text-ink/70">{item.notes}</p>}
-              </div>
-            ))}
-          </div>
+          <RegistryView
+            weddingId={wedding.id}
+            coupleNames={coupleNames}
+            storeLinks={registryItems}
+            gifts={registryGifts}
+            handles={wedding}
+          />
         </div>
       ) : null,
   };
@@ -321,9 +370,20 @@ export function GuestSiteView({
   return (
     <main className="flex flex-1 flex-col">
       <Replayable>
-        <SiteMotion initials={initials} />
-        <WeddingHero wedding={wedding} />
-        <SectionLayout sections={sections} />
+        <LiveDetailsProvider details={liveDetailsOf(wedding)}>
+          <SiteMotion initials={initials} />
+          <SiteNotice />
+          <CeremonyProvider
+            ceremony={
+              itineraryEvents.find((e) => e.event_date === wedding.wedding_date && /ceremony|vows|nikah|wedding/i.test(e.title) && e.start_time) ?? null
+            }
+          >
+            <HeroPhotosProvider photos={galleryPhotos.map((p) => p.photo_url)}>
+              <WeddingHero wedding={wedding} />
+            </HeroPhotosProvider>
+          </CeremonyProvider>
+          <SectionLayout sections={sections} />
+        </LiveDetailsProvider>
       </Replayable>
     </main>
   );

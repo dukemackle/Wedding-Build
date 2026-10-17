@@ -46,6 +46,22 @@ Belle Mehus Auditorium	201 North 6th Street	Bismarck	North Dakota			Historic / E
 Town Square Showhall (Medora)		Medora	North Dakota			Ballroom / Hotel	Indoor	230	Simple	Indoor hall in downtown Medora with overhead string lighting, seating plated dinners for up to 200 or buffets for 230.		701-394-8815	https://medora.com/groups/venues/
 `,
   },
+  {
+    name: "Statewide: Fargo, Bismarck, Mandan, Dickinson, Medora and Fort Ransom",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Sanctuary Events Center	670 4th Ave N	Fargo	North Dakota			Historic / Estate	Indoor		Simple	Full-service downtown Fargo event venue for weddings and concerts, with in-house caterer Chef's Table and a full-day all-inclusive wedding package.	info@sanctuaryevents.com	(701) 404-9006	https://www.sanctuaryevents.com/
+Synclaire	613 1st Avenue N	Fargo	North Dakota			Historic / Estate	Indoor			Three-storey, 20,000 square foot downtown Fargo building from the early 1900s with a Great Hall, a two-storey Grand Ballroom on the second floor, a gallery and third-floor dressing suites.			https://www.synclairevenue.com/
+Ivy & Rose Warehouse	22 14 1/2 St N	Fargo	North Dakota			Ballroom / Hotel	Indoor			Downtown Fargo warehouse that doubles as an artists' studio space and hosts weddings and other events.	helloivyandrose@gmail.com		https://www.ivyandrosewarehouse.com/
+The 44 Venue	15 Main Ave	Colfax	North Dakota			Ballroom / Hotel	Indoor & Outdoor	400		Modern venue on the edge of Colfax with a Legacy Hall under 25-foot ceilings, a terrace for ceremonies overlooking a pond, a patio and getting-ready suites.		(701) 428-1264	https://the44venue.com/
+Venue Twenty5	3796 ND Highway 25	Mandan	North Dakota			Barn / Rustic	Indoor & Outdoor	220		Six-plus acres of tree rows holding a former schoolhouse with a bar and two stone fireplaces, plus a heated pavilion and an outdoor deck and patio.	hello@venuetwenty5.com	701-306-9887	https://www.venuetwenty5.com/
+Eclipse Venue	118 S 3rd Street	Bismarck	North Dakota			Ballroom / Hotel	Indoor	300		Downtown Bismarck venue with exposed brick, large windows and a private bridal suite, able to host ceremony and reception in the same room.	hello@eclipsevenue.com	(701) 955-9171	https://www.eclipsevenue.com/
+August House Venue	10860 33rd St SW	Dickinson	North Dakota			Garden / Outdoor	Indoor & Outdoor	300		Light-filled white-walled event venue on 20 acres south-west of Dickinson, with indoor and outdoor bars and ceremony options.	augusthousevenue@gmail.com		https://augusthousevenue.com/
+Badlands Ministries (Medora)	3892 Bible Camp Road	Medora	North Dakota			Barn / Rustic	Indoor & Outdoor	200		Badlands camp and retreat site renting a 200-seat dining hall and a 100-seat chapel for weddings, with cabins and a retreat centre for guests to stay on site.		701-290-8482	https://www.badlandsministries.org/site
+Stiklestad Lodge	6459 119th Avenue SE	Fort Ransom	North Dakota			Barn / Rustic	Indoor & Outdoor	88	Simple	Rural lodge in the Sheyenne valley running since 1993, with a main lodge, learning centre, event centre, eight guest cabins and outdoor wedding grounds.	info@stiklestadlodge.com	701-973-2149	https://www.stiklestadlodge.com/
+Lewis & Clark Riverboat	1700 River Road	Bismarck	North Dakota			Beach / Waterfront				Missouri River riverboat run by the Fort Abraham Lincoln Foundation that takes wedding ceremonies, receptions and private charters.		701-255-4233	https://www.lewisandclarkriverboat.com/
+North Dakota Heritage Center and State Museum	612 East Boulevard Avenue	Bismarck	North Dakota			Historic / Estate	Indoor & Outdoor	90		State museum in Bismarck whose glass Northern Lights Atrium can be rented after hours, with the Badlands Plaza outside for receptions.	history@nd.gov	701-328-2666	https://statemuseum.nd.gov/about/rentals
+`,
+  },
 ];
 
 export default batches;

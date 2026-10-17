@@ -130,6 +130,207 @@ Christy & Co.	Hair & Makeup		Sturbridge	Massachusetts	Massachusetts, Connecticut
 Taste Great Cakes	Cake	98 Hamilton St	Worcester	Massachusetts		Family-run Worcester bakery making handcrafted custom cakes for weddings and celebrations, with a shop open by appointment.		508-579-1955	https://www.tastegreatcakes.com	https://www.instagram.com/tastegreatcakes/
 `,
   },
+  {
+    name: "Boston: photography, planning, florals, music, catering, hair and makeup, cake and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Silver + Salt Photography	Photography		Boston	Massachusetts	Massachusetts and New England	Candid, photojournalistic wedding coverage shot on Leica cameras, designed to stay out of the way so guests can enjoy the day.	silverandsaltphoto@gmail.com	(617) 513-1634	https://www.silverandsaltphoto.com/	https://www.instagram.com/silverandsaltphoto/
+Rebecca Cee Photography	Photography		Boston	Massachusetts	New England and beyond	Documentary and editorial wedding photographer working on both film and digital, with an intimate, cinematic feel to city and destination weddings.			https://rebeccacee.com/	https://www.instagram.com/rebeccaceephoto/
+Nicki Bursae Photography	Photography		Boston	Massachusetts	Massachusetts, New England and worldwide	Documentary wedding and elopement photography with a cinematic edge, covering Boston celebrations as well as castle and beach destinations.	nicole.bursae@gmail.com	(843) 540-4057	https://www.nickibursaephotography.com/	https://www.instagram.com/nickibursae_photography/
+Kayla Rice Photography	Photography		Boston	Massachusetts	Greater Boston, Massachusetts, New York and Vermont	Boston wedding photojournalist with an unposed, heartfelt approach, shooting full weddings across Massachusetts and neighbouring states.	kaylaricephoto@gmail.com	(802) 451-9071	https://kaylaricephotography.com/	https://www.instagram.com/kaylaricephoto/
+Raise A Glass Weddings & Events	Planning		Danvers	Massachusetts	Boston's North Shore, Salem and Gloucester	Certified North Shore planner offering full planning and day-of management, including local oversight for couples organising from out of state.	rhonda@raiseaglassweddings.com	(351) 201-0481	https://raiseaglassweddings.com/	https://www.instagram.com/raiseaglassweddings/
+Whim Events	Planning	24 Roland Street	Boston	Massachusetts	Boston, New England, the Hudson Valley and destinations	Planning, design and floral studio for down-to-earth couples who want a warm, nature-inspired celebration rooted in connection.	natalie@whimevents.com	(617) 413-9735	https://www.whimevents.com	https://www.instagram.com/whimevents/
+Heather Dawn Events	Planning		Boston	Massachusetts	New England	Boutique full-service planning and design company building a cohesive look for timeless, modern weddings from first concept through to the day.			https://heatherdawnevents.com/	https://www.instagram.com/heatherdawnevents/
+Elle Weddings & Events	Planning		Boston	Massachusetts	Massachusetts and New England	Planner offering full-service, partial and day-of coordination for modern, elegant weddings, with a collaborative and organised process.	info@elleweddingsandevents.com	(617) 233-4067	https://www.elleweddingsandevents.com/	https://www.instagram.com/elleweddingsandevents_/
+Laura Jean Floral Design	Florals	270 Concord Avenue	Cambridge	Massachusetts	Boston, New England and beyond	Full-service floral studio known for modern-organic designs from local farms, with a focus on sustainability and donating flowers after events.	studio@ljfloral.com	617.299.0092	https://www.ljfloral.com/	https://www.instagram.com/laurajean_floral/
+Table & Tulip	Florals	461 Shawmut Ave	Boston	Massachusetts	Greater Boston	Female-owned South End studio creating full wedding floral environments, plus an a la carte bridal menu of bouquets and centrepieces.	hello@tableandtulip.com		https://tableandtulip.com/	https://www.instagram.com/tableandtulip/
+Hingham Greenery	Florals	39 South Street	Hingham	Massachusetts	Hingham, Cohasset, Hull, Norwell, Scituate and the South Shore	Long-running South Shore flower shop providing wedding and event flowers and delivering to local venues from Quincy to Marshfield.	hinghamgreenery@comcast.net	(781) 749-7363	https://hinghamgreenery.com/	
+The SweetBeats	Music		Boston	Massachusetts	Massachusetts, New England and New York	Seven-piece party band with male and female vocalists and a live strings option, with MC duties included and one event booked per day.	thesweetbeatsband@gmail.com	617-838-3718	https://thesweetbeatsband.com/	https://www.instagram.com/thesweetbeatsband/
+Kahootz Entertainment	Music		Boston	Massachusetts	Greater Boston and surrounding towns	Boston-based roster of six- to nine-piece bands and DJs, with ceremony music, lighting and photo booths available alongside the live acts.		(617) 297-8854	https://www.bostonsbestband.com/kahootz-2/	https://www.instagram.com/kahootzentertainment/
+Fine Tune Entertainment	Music		Boston	Massachusetts	Greater Boston and Cape Cod	Wedding DJ and MC service covering ceremony, cocktails and reception, with wireless uplighting, monograms, photo booths and silent disco options.	finetunedj@gmail.com	(857) 244-0707	https://www.finetunedj.com/	https://www.instagram.com/finetunedj/
+Nandee's Catering	Catering	990 Shirley Street	Winthrop	Massachusetts	Greater Boston and the North Shore	Family caterer where the owner-chef attends every event, supplying linens, china and waitstaff with homemade, generously portioned menus.	peter@nandeescatering.com	617-480-7020	https://nandees.com/	
+Kate's Table	Catering	105 South Street	Hingham	Massachusetts	Hingham, Cohasset, Duxbury and Boston	Female-founded Hingham caterer creating bespoke menus for weddings and private events, cooking from its own commercial kitchen and composting scraps.	kelly@katestable.com	781-740-4111	https://www.katestable.com/	https://www.instagram.com/katestable/
+Pauline's Catering and Staffing	Catering	40 Pond Street	Natick	Massachusetts	MetroWest	Natick caterer of more than twenty years handling weddings, with full bar service, staffing and menus adapted to any cuisine or diet.	Pauline@cateringandstaffing.com	1-508-320-0506	https://paulinesstaffingandcatering.com/	
+Glamour Cosmetics	Hair & Makeup	1844B Mass Ave	Lexington	Massachusetts	Boston, Cape Cod, Newport	Bridal makeup team led by Garineh Ashjian that pairs each client with a matched artist for a soft, glowy look.			https://glamourcosmeticsofficial.com/	https://www.instagram.com/glamourcosmeticsofficial/
+Blush	Hair & Makeup	29 Main Street	Hingham	Massachusetts		On-site bridal and event makeup team in Hingham that travels to the venue and aims to bring out each bride's natural features.		(781) 740-2228	https://blushweddingday.com/	
+Katrina Hess Makeup Studio	Hair & Makeup		Boston	Massachusetts		Back Bay makeup studio on Newbury Street offering bridal makeup and brow shaping, with the artist travelling to wedding-day venues.	katrina@katrinahess.com	781-710-6865	https://katrinahess.com/	https://www.instagram.com/katrinahessmakeup/
+Jenny Luu Hair + Makeup	Hair & Makeup		Milton	Massachusetts	Boston, Cape Cod, Rhode Island	Soft-glam bridal hair and makeup from a single artist with 18 years behind the brush, plus editorial and branding work.	jenny@jcluu.com		https://jcluu.com/	https://www.instagram.com/_jennyluu/
+The Icing on the Cake	Cake	230 Adams Street	Newton	Massachusetts		Newton bakery making custom wedding and celebration cakes and cupcakes in a range of sizes, designs and price points for over 40 years.	cake@tiotc.net	617-969-1830	https://www.theicingonthecake.com/	https://www.instagram.com/tiotcma/
+Silver Whisk Bake Shop	Cake	248 Moody St	Waltham	Massachusetts		Waltham bake shop and chocolatier making designer wedding cakes and cupcakes alongside a retail counter and handmade chocolates.	hello@silverwhiskbakeshop.com		https://silverwhiskbakeshop.com/	https://www.instagram.com/silverwhiskbakeshop/
+Cake Monstah	Cake		Weymouth	Massachusetts		Weymouth cake studio creating hand-crafted modern luxury wedding cakes and sculpted custom designs by a Johnson & Wales-trained baker.			https://www.cakemonstah.com/	https://www.instagram.com/cake.monstah/
+Pirates Lane Video	Videography		Gloucester	Massachusetts	New England	Gloucester wedding videographers blending documentary and cinematic styles, filming in 4K since 2010 across New England.	jim@pirateslane.com		https://pirateslanevideo.com/	https://www.instagram.com/PiratesLaneVideo/
+Lovely Valentine	Videography	343 Medford St	Somerville	Massachusetts	Boston, Newport and destinations	Somerville studio filming cinematic weddings alongside photography under one creative direction, with all editing done in-house.	info@lovelyvalentine.com	617-575-9693	https://lovelyvalentine.com/	https://www.instagram.com/lovelyvalentine/
+Nedd Media	Videography		Cambridge	Massachusetts		Cambridge boutique filmmaker shooting cinematic wedding films on 4K cinema cameras with a storytelling approach and one-on-one service.			https://neddmedia.com/	https://www.instagram.com/neddmedia/
+`,
+  },
+  {
+    name: "Worcester: planning and florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+City Cut Flowers	Florals		Worcester	Massachusetts		Worcester florist and floral design studio offering wedding packages and arrangements, now booking the 2026 and 2027 seasons.	citycutflowers@gmail.com	774-312-5258	https://citycutflowers.com/	https://www.instagram.com/citycutflowers/
+`,
+  },
+  {
+    name: "Cape Cod: photography, planning, florals, music, catering, hair and makeup, cake and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Cape Cod Wedding Planning	Planning		Brewster	Massachusetts	Cape Cod and beyond	Local planner offering full, partial and day-of coordination, with close ties to Cape venues and a knack for guiding out-of-town couples.	alexavictoria@capecodweddingplanning.com		https://capecodweddingplanning.com/	https://www.instagram.com/capecodweddingplanning/
+Garden Party Cape Cod	Florals		South Yarmouth	Massachusetts	Harwich, Dennis, Chatham, Brewster, Orleans and the wider Cape	Boutique floral studio taking one wedding per weekend, favouring bold, locally grown seasonal blooms over the usual coastal palette.	info@gardenpartycapecod.com		https://www.gardenpartycapecod.com/	https://www.instagram.com/gardenpartycapecod/
+American Stems	Florals		Harwich Port	Massachusetts	Cape Cod, Nantucket, Boston and Newport	Wedding floral design studio known for artful, playful arrangements, working across the Cape and out to Nantucket and Newport.	kelsey@americanstemsfd.com		https://americanstems.com/	https://www.instagram.com/americanstems/
+Cape Cod String Quartet	Music		Barnstable	Massachusetts	Cape Cod, Martha's Vineyard, Nantucket, Greater Boston and Rhode Island	Chamber ensemble playing ceremony and cocktail-hour music for weddings, with a repertoire running from classical to modern arrangements.	capecodstringquartet@gmail.com	774-413-0079	https://www.capecodstringquartet.com/	https://www.instagram.com/capecodstringquartet/
+Cape Cod Private Dinners	Catering		Orleans	Massachusetts	Cape Cod	Boutique caterer and private chef service making scratch-cooked menus from mostly local ingredients for small, intimate Cape weddings.		508-246-4967	https://capecodprivatedinners.com/	https://www.instagram.com/capecodprivatedinners/
+Harborview Studios	Videography		Centerville	Massachusetts	Cape Cod, Nantucket, Martha's Vineyard and New England	Husband-and-wife filmmakers making quiet, cinematic wedding films with a natural storytelling approach across the Cape and Islands.			https://www.harborviewstudios.com/	https://www.instagram.com/harborviewstudios/
+`,
+  },
+  {
+    name: "Martha's Vineyard and Nantucket: photography, planning, florals and catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Zofia & Co. Photography	Photography		Nantucket	Massachusetts	Nantucket	Island studio photographing Nantucket weddings and portraits since 2005, with an emotive, documentary feel and deep knowledge of local venues.	zofia@zofiaphoto.com		https://zofiaphoto.com/	https://www.instagram.com/zofiaphoto/
+Mila Lowe Photography	Photography		West Tisbury	Massachusetts	Martha's Vineyard	Island photographer covering weddings, elopements, engagements and proposals on Martha's Vineyard with a relaxed, natural approach.	info@milalowe.com	508-560-6312	https://www.milalowe.com/	https://www.instagram.com/mila.lowe/
+David Welch Photography	Photography		Vineyard Haven	Massachusetts	Martha's Vineyard, New England and beyond	Vineyard Haven studio photographing weddings, elopements and family portraits, with drone photography and video also on offer.		508-939-3438	https://www.davidwelchphotography.com/	https://www.instagram.com/dwpmv/
+Plan It Martha's Vineyard + Nantucket	Planning		Edgartown	Massachusetts	Martha's Vineyard and Nantucket	Edgartown planning and design firm for destination weddings on both islands, from full planning to month-of coordination.	events@planitmv.com	774-549-9406	https://planitmv.com/	https://www.instagram.com/planitmarthasvineyard/
+Immaculate Reception ACK	Planning		Nantucket	Massachusetts	Nantucket	Nantucket coordinator who has planned island weddings and events since 1994, with long-standing relationships among local venues and suppliers.	jimjak@comcast.net	508-221-2239	https://immaculatereceptionack.com/	
+Donaroma's	Florals		Edgartown	Massachusetts	Martha's Vineyard	Family-run nursery, landscape and floral business offering wedding bouquets, ceremony pieces and event flowers across the island.		508-627-3036	https://donaromas.com/	https://www.instagram.com/donaromasmv/
+Morrice Florist	Florals	149 State Rd	Vineyard Haven	Massachusetts	Martha's Vineyard	Island florist creating simple, classic wedding flowers with a loose, wildflower feel, from bouquets to ceremony and reception pieces.	studio@morriceflorist.com	508-693-0392	https://morriceflorist.com/	https://www.instagram.com/morriceflorist/
+PPX Events	Catering	7 South Water Street	Nantucket	Massachusetts	Nantucket	Boutique Nantucket planning and catering studio with an in-house patisserie, offering seasonal menus and delivery for weddings and events.		508-332-8054	https://ppxevents.com/	https://www.instagram.com/ppxevents/
+`,
+  },
+  {
+    name: "Boston: music, florals, planning, videography, cake and hair and makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Brick Park	Music		Boston	Massachusetts		Boston wedding band offering customisable, all-inclusive packages built around a dedicated lineup, with video and audio samples to preview.	contact@brickpark.com		https://www.brickparkent.com/	https://www.instagram.com/brickparkband/
+Epic Entertainment Boston	Music	20 Blackman Rd	Canton	Massachusetts	Greater Boston	Wedding DJ company offering full or a la carte packages, with photo booths, uplighting and event lighting available alongside the music.	info@epicentertainmentboston.com	781-267-3443	https://epicentertainmentboston.com/	https://www.instagram.com/epicentboston/
+Amuse Floral Co.	Florals		Milford	Massachusetts	New England	Private floral studio designing wedding, elopement and event florals, with full-service packages including rentals and on-site setup, by appointment.			https://www.amusefloralco.com/	https://www.instagram.com/amusefloralco/
+Stone Event Planning	Planning		Boston	Massachusetts	Boston, New England and beyond	Boston planning and creative-direction firm with around twenty years of luxury wedding and event experience, working in partnership with couples.	gabriellestone@stoneeventplanning.com	617-470-1946	https://www.stoneeventplanning.com/	https://www.instagram.com/stoneeventplanning/
+Shiang Studios	Videography		Boston	Massachusetts	Boston and Newport	Boston videographer making unhurried, story-led wedding films with a sense of pacing drawn from his classical music background.	hello@shiangstudios.com	857.293.0985	https://www.shiangstudios.com/	https://www.instagram.com/shiangstudios/
+Bright Spot Films	Videography		Boston	Massachusetts	Greater Boston, Cape Cod and across New England	Cinematic, story-driven wedding films that weave vows and toasts into the finished edit, shot across Greater Boston, the Cape and New England.	Brightspotfilm@gmail.com	508-733-4076	https://www.brightspotfilms.com/	https://www.instagram.com/brightspotfilms/
+Path Wedding Films	Videography		Boston	Massachusetts	Boston, New England and Cape Cod	Documentary-minded wedding videographers who film real, unposed moments for couples across Boston, New England and Cape Cod.	pat@pathweddings.com	617.829.3887	https://www.pathweddings.com/	https://www.instagram.com/pathweddings/
+Sound Choice Events	Music		Natick	Massachusetts	Greater Boston and New England	Natick DJ company offering wedding DJs, lighting, photo booths and video, also covering Bar and Bat Mitzvahs and other events.	Info@soundchoiceevents.com	617-909-4700	https://www.soundchoiceevents.com/	
+Boston Latin DJs	Music		Boston	Massachusetts	Boston, Cambridge, Worcester and wider New England	Bilingual English and Spanish DJs and MCs for Latin American weddings and quinceañeras, mixing salsa, bachata, merengue and reggaeton.	contact@bostonlatindjs.biz	617.905.4515	https://bostonlatindjs.biz/	https://www.instagram.com/bostonlatindjs/
+DJ KYD & Co.	Music		Boston	Massachusetts	Boston and New England	Bilingual DJ and MC team for multicultural weddings, blending Latin, Afrobeats, soca and open-format sets into one tailored night.	info@djkyd.com	617-800-9573	https://www.djkyd.com/	https://www.instagram.com/djkyd617/
+Cake Dolls	Cake		Framingham	Massachusetts	Massachusetts, Rhode Island, New Hampshire, Connecticut and Maine	Framingham cake studio, open by appointment, creating custom wedding cakes, dessert tables and sweet favours for weddings across New England.	info@cakedolls.com	(617) 802 9091	https://www.cakedolls.com/	https://www.instagram.com/bycakedolls/
+Min-Ah Campos Makeup + Hair	Hair & Makeup		Boston	Massachusetts	Boston, Rhode Island and New England	Korean-trained Boston bridal makeup and hair artist with two decades of experience, working on location for weddings across New England.	minisha50@icloud.com	508-617-7122	https://www.minahcampos.com/	https://www.instagram.com/makeup_by_minah/
+Fei Xu Beauty Studio	Hair & Makeup		Boston	Massachusetts	Boston	Boston bridal hair and makeup studio founded to serve Asian and multicultural brides, with a team of artists for wedding parties.			https://www.fei-xu.com/	
+`,
+  },
+  {
+    name: "Worcester: hair and makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Leti Silva Beauty	Hair & Makeup		Westborough	Massachusetts	Boston, Worcester, Central Massachusetts and New England	Westborough bridal makeup artist and licensed esthetician who travels on location, with brow and lash services at her studio.			https://letisilvabeauty.com/	https://www.instagram.com/letisilvabeauty/
+`,
+  },
+  {
+    name: "Cape Cod: photography, planning, music, catering, hair and makeup, cake and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Falcon Visuals	Videography		Cape Cod	Massachusetts	Cape Cod and the Islands, including Chatham, Falmouth and Truro	Cape-based videographers offering tiered wedding film packages, from ceremony-only coverage to two-camera days with highlight reels and documentary edits.			https://falconvis.com/	https://www.instagram.com/falconvis/
+Accent	Music		Cape Cod	Massachusetts	Cape Cod	Full-time Cape Cod party band that also offers a DJ option, playing wedding receptions and events across the Cape.			https://www.musiccapecod.com/	
+Salon 700 & Day Spa	Hair & Makeup	700 Main Street	Hyannis	Massachusetts	Cape Cod, with travel to the islands by arrangement	Hyannis salon and spa with bridal packages, in-salon previews and a private bridal suite, plus on-location artists for Cape and island weddings.	info@salon700.com	(508) 957-2509	https://www.salon700.com/	
+Wingate's Cake Design	Cake	434 American Legion Highway	Westport	Massachusetts	South Coast, Cape Cod to Providence, with delivery to Nantucket and Martha's Vineyard	Boutique Westport studio making custom wedding cakes, large-event desserts and French macarons, delivered and set up at the venue.	wingatescakes@gmail.com	774 309 3223	https://www.wingatescakes.com/	https://www.instagram.com/wingatescakedesign/
+Brenda's Cakes For All Occasions	Cake		Harwich	Massachusetts	Cape Cod	Harwich kitchen baking wedding cakes in styles from fresh-flower and beach themes to cupcake and groom's cakes, plus favours and dessert buffets.	brendascakesforalloccasions@gmail.com	774-209-9095	https://www.brendascakesforalloccasions.com/	https://www.instagram.com/brendascakesforalloccasions/
+The Chocolate Rose	Cake	628 Main St, Suite A	Mashpee	Massachusetts	Cape Cod	Boutique Mashpee bakery offering tiered wedding cakes, signature dessert tables and petite pastries, with tastings for larger custom orders.	info@chocolaterosecakes.com	774.238.7020	https://www.chocolaterosecakes.com/	https://www.instagram.com/chocolaterosecakes/
+Aundria's Kitchen	Cake		Falmouth	Massachusetts	Cape Cod and the Islands	Falmouth cottage bakery making custom wedding cakes and dessert-table treats by appointment for couples across the Cape and islands.		774-521-4134	https://www.aundriaskitchen.com/	
+Treats Catering	Catering	25 Scarsdale Road	Dennis	Massachusetts	Provincetown to Woods Hole	Dennis caterer with a long Cape Cod track record, serving wedding receptions and working as a preferred caterer for several local venues.	Celebrate@treatscatering.com	(508) 385-6571	https://www.treats-catering.com/	
+Deering Events	Planning		South Yarmouth	Massachusetts	Cape Cod; Boston; North Carolina	Planner offering partial planning and day-of coordination for Cape Cod weddings, with additional offices in Boston and North Carolina.	jyl@deeringevents.com	774-243-2940	https://deeringevents.com/	https://www.instagram.com/jyldeering/
+Alex Paul Photography	Photography		Harwich	Massachusetts	Cape Cod; also Boston and Rhode Island	Harwich photographer shooting weddings year-round at Cape Cod venues and private estates, with some Boston and Newport commissions.	alexpaulphoto@gmail.com	508 723 50 38	https://www.alexpaulphotography.com/	https://www.instagram.com/alexpaulphotography/
+Meghan Lynch Photography	Photography		Cape Cod	Massachusetts	New England and New York, with Cape Cod weddings featured	Wedding photographer whose Cape Cod galleries cover Pelham House Resort, Chatham Bars Inn and Wequassett, working across New England.			https://meghanlynchphotography.com/	https://www.instagram.com/meghanlynchphotography/
+`,
+  },
+  {
+    name: "Martha's Vineyard and Nantucket: music, videography, hair and makeup, cake, catering, florals and planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Yellow Productions	Videography		Nantucket	Massachusetts	Nantucket	Nantucket-based filmmakers producing cinematic wedding films for island couples, with a team that lives and works on the island year-round.	info@yellowproductions.com		https://www.yellowproductions.com/	https://www.instagram.com/yellowproductions/
+Luke DiOrio	Videography		Martha's Vineyard	Massachusetts	West Tisbury, Edgartown, Chilmark, Aquinnah, Menemsha and nearby coastal towns	Island filmmaker and photographer offering documentary-style wedding films, elopements and intimate celebrations across Martha's Vineyard's up-island and coastal venues.			https://www.lukediorio.com/	https://www.instagram.com/luke_diorio_photography/
+DJ Smooth B	Music		Vineyard Haven	Massachusetts	Martha's Vineyard and beyond	Year-round island DJ with over two decades of experience, playing weddings and private events on Martha's Vineyard and further afield.	sterlingbishop75@gmail.com	(617) 828-9075	https://djsmoothbmv.com/	
+Vineyard Spin	Music		Martha's Vineyard	Massachusetts	Martha's Vineyard	Island wedding DJ playing since 2017 at venues such as Atria, Lambert's Cove Inn and the Beach Plum Inn, as well as private residences.			https://www.vineyardspin.com/	https://www.instagram.com/dj_dern/
+The Vine Shakers	Music		Martha's Vineyard	Massachusetts	Martha's Vineyard	Island-based live band performing for wedding receptions and parties, with testimonials from couples who danced the night away on the Vineyard.			https://thevineshakers.com/	https://www.instagram.com/thevineshakers/
+Nantucket DJ Productions	Music		Nantucket	Massachusetts	Nantucket	Island DJ service that specialises in weddings and offers entertainment and event support for couples marrying on Nantucket.	nantucketdj@hotmail.com	413.531.9637	https://www.nantucketdjproductions.com/	
+Sea Spa Salon	Hair & Makeup		Edgartown	Massachusetts	Martha's Vineyard (on-location across the island)	Edgartown salon whose team travels to island venues to style hair and apply makeup for the whole wedding party on the day.		(508) 627-8953	https://www.seaspasalonmv.com/	https://www.instagram.com/seaspasalon/
+RJ Miller Salon & Spa	Hair & Makeup	6 Amelia Drive	Nantucket	Massachusetts	Nantucket	Long-running Nantucket salon offering bridal hair and makeup trials and wedding-day styling for brides, attendants and flower girls.	rjmillersalon@gmail.com	508.228.3446	https://rjmillersalons.com/	
+Sweet Bites	Cake	32 Beach Street	Vineyard Haven	Massachusetts	Martha's Vineyard	Brazilian bakery and café in Vineyard Haven that makes cakes for island weddings and events alongside its everyday pastries.			https://sweetbitesmv.com/	https://www.instagram.com/sweetbitesmv/
+Bill Smith's Martha's Vineyard Clambake Co.	Catering	10 North Line Road, Unit 3	Edgartown	Massachusetts	Martha's Vineyard	Edgartown clambake caterer offering a full-service wedding option for parties of 30 up to 3,000 guests anywhere on the island.		508-627-8809	https://www.mvclambake.com/	
+Morning Glory Farm	Florals	120 Meshacket Rd.	Edgartown	Massachusetts	Martha's Vineyard	Family farm in Edgartown offering full-service wedding floral design with centrepieces and bouquets, or seasonal blooms for couples to arrange themselves.		(508) 627-9003	https://www.morninggloryfarm.com/	https://www.instagram.com/morninggloryfarmmv/
+`,
+  },
+  {
+    name: "Boston: Catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Calla Catering and Events	Catering	179 W. Central St, Suite 2	Natick	Massachusetts	Massachusetts and southern New Hampshire	Full-service wedding caterer run by a chef and a wedding planner, with private tastings of the real menu and clear pricing.	melanie@callacatering.com	(781) 774-9735	https://www.callacatering.com	https://www.instagram.com/calla.catering/
+MAX Ultimate Food	Catering	65 East Cottage Street	Dorchester	Massachusetts	Rhode Island to Maine	Dorchester caterer for weddings of any style, from small dinners to large celebrations, handling planning details alongside the menu.	info@maxultimatefood.com	(617) 427-9799	https://www.maxultimatefood.com	https://www.instagram.com/maxultimatefood/
+`,
+  },
+  {
+    name: "Martha's Vineyard and Nantucket: Hair & Makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Vineyard Makeup Artist	Hair & Makeup		Edgartown	Massachusetts	Martha's Vineyard	Edgartown makeup artist who travels to your chosen island location to do the bride, bridal party and family.	bufteanicoleta@yahoo.com	508-627-0548	https://www.vineyardmakeupartist.com/weddings	
+`,
+  },
+  {
+    name: "Worcester: Videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+New England Wedding Film	Videography		Worcester	Massachusetts	Massachusetts and New England	Worcester studio making cinematic wedding films and photography across New England, from the Berkshires to Cape Cod and Newport.	info@newenglandweddingfilm.com	(774) 385-0793	https://www.newenglandweddingfilm.com/	https://www.instagram.com/newenglandweddingfilm/
+`,
+  },
+  {
+    name: "Boston: Cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Oakleaf Cakes	Cake	12 Westland Ave	Boston	Massachusetts		Boston cake shop and café by Symphony Hall making buttercream, fondant and custom cakes, with a wedding cake gallery and wedding dessert bars.	oakleafcakes@gmail.com	(617) 299-1504	https://oakleafcakes.com/	https://www.instagram.com/oakleafcakes/
+`,
+  },
+  {
+    name: "Cape Cod: Hair & Makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Sea Salt Luxury Spa Studio	Hair & Makeup	4 North St	Mashpee	Massachusetts	Cape Cod	Mashpee Commons spa studio whose bridal team travels to Cape Cod weddings for on-site hair and makeup for brides and their wedding parties.	info@seasaltbeauty.com	774-361-8410	https://www.seasaltsalonspa.com/weddings	
+`,
+  },
+  {
+    name: "Worcester: Planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Be Creative Décor	Planning	9R Short St	Worcester	Massachusetts		Worcester décor and design studio with a showroom, creating full-service luxury wedding design from concept to setup for a limited number of couples each season.	info@becreativedecor.com	(617) 820-8110	https://www.becreativedecor.com/	https://www.instagram.com/becreativedecor1/
+Logan Planning Solutions	Planning		Milford	Massachusetts	New England	Milford planner offering full and partial wedding planning and design, plus micro weddings, elopements and honeymoon travel planning.		(508) 603-9288	https://www.loganplanningsolutions.com/	https://www.instagram.com/loganplanningsolutions/
+Perfectly Coordinated	Planning		Lancaster	Massachusetts		Lancaster wedding planner with flexible packages, so couples can book as much or as little help as they need from planning to the day itself.	perfectlycoordinated@gmail.com	(508) 308-0307	https://www.perfectlycoordinated.com/	
+`,
+  },
+  {
+    name: "Martha's Vineyard and Nantucket: Planning and Catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+GATHER Event Company	Planning		Martha's Vineyard	Massachusetts	Martha's Vineyard, Boston and surrounding areas	Island-based planner and designer for Martha's Vineyard weddings, also running corporate and nonprofit events, working with local vendors.	info@gathereventsmv.com	508-939-1035	https://www.gathereventsmv.com/	
+A Taste of Nantucket	Catering	19 Boynton Lane	Nantucket	Massachusetts		Nantucket caterer and event planner with over twenty years' experience, doing weddings, rehearsal dinners, clambakes and private dining-room receptions.	office@atasteofnantucket.com	508-228-9200	https://atasteofnantucket.com/	https://www.instagram.com/atasteofnantucket/
+Revel Catering & Events	Catering		Martha's Vineyard	Massachusetts	Martha's Vineyard	Full-service Martha's Vineyard caterer for weddings, cocktail parties and other events, taking bookings for the 2026 and 2027 seasons.	events@revelcatering.com	508-645-5000	https://revelmv.com/	
+`,
+  },
+  {
+    name: "Martha's Vineyard and Nantucket: cake and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+45 Surfside Bakery & Café	Cake	45 Surfside Road	Nantucket	Massachusetts		Surfside Road bakery and café on Nantucket that bakes wedding cakes to order alongside its daily pastries and breakfast and lunch menu.	rebecca@45surfside.com		https://45surfside.com/	https://www.instagram.com/45surfside/
+Wicked Island Bakery	Cake	7B Bayberry Ct	Nantucket	Massachusetts		Nantucket bakery behind the island Morning Bun, taking custom cake orders for weddings and events as well as catering and brunch trays.		(508) 901-5797	https://www.wickedislandbakery.com/	https://www.instagram.com/wickedislandbakery/
+Martha's Vineyard Productions	Videography		Vineyard Haven	Massachusetts	Martha's Vineyard, Nantucket and the Cape Cod areas	Island video studio led by Dan Martino, filming multi-camera wedding films and short highlight edits, with drone shots, for Vineyard couples.	info@marthasvineyardproductions.com		https://marthasvineyardproductions.com/weddings.html	`,
+  },
+  {
+    name: "Berkshires: cake, videography, planning, music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Mamie Brougitte Cakes	Cake		West Stockbridge	Massachusetts	The Berkshires and events across the country	Bespoke wedding cakes with hand-made sugar flowers, designed from a tasting and sketch, then delivered and installed by the studio.	info@mamiebrougitte.com		https://www.mamiebrougitte.com/	https://www.instagram.com/mamie_brougitte_cakes/
+October Mountain Creative Co.	Videography		Lee	Massachusetts	Berkshire County, the Hudson Valley and New England	Husband-and-wife team, both Berkshire natives, filming weddings with two cameras and delivering a highlight film plus ceremony and speech edits.			https://www.octobermountaincreativeco.com/	
+5 Senses Events + Design	Planning		Dalton	Massachusetts	Berkshire County, including Lenox, Pittsfield, Stockbridge and Great Barrington	Berkshire planning and design company offering coordination or full planning, plus its own mobile bar service for receptions.	info@5sensesed.com		https://www.5sensesed.com/	https://www.instagram.com/5senseseventsanddesign/
+Cassandra Events	Planning		West Stockbridge	Massachusetts	The Berkshires and New England	Berkshires planner, designer and floral decorator offering full planning or a la carte design, flowers and day-of management.	cassandraevents@gmail.com		https://www.cassandraevents.com/	
+Old Soul Sounds	Music		Pittsfield	Massachusetts	Berkshire County, western Massachusetts and New England	Pittsfield DJ and sound company founded in 2018, with wedding packages covering MC duties, lighting and an audio guestbook.	oldsoulsounds413@gmail.com		https://www.oldsoulsounds.com/	https://www.instagram.com/oldsoulsounds/
+`,
+  },
+  {
+    name: "Worcester: videography, photography, music, florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Crescent Studios	Videography		Whitinsville	Massachusetts	Massachusetts, including Worcester, Boston and Springfield	Whitinsville photography and video studio covering weddings for over ten years, with a complimentary engagement session in every collection.			https://www.crescent-studios.com/weddings	https://www.instagram.com/crescentstudiosma/
+Serena Burroughs Photography	Photography		North Brookfield	Massachusetts	Worcester, central Massachusetts and New England	Lifestyle wedding and family photographer in central Massachusetts, welcoming couples of every identity and sharing planning guides for the day.	hello@serenaburroughs.com	774-452-5903	https://www.serenaburroughs.com/	https://www.instagram.com/serenaburroughs/
+Blackstone Valley Entertainment	Music	210 Worcester St, Suite I	North Grafton	Massachusetts	New England	String quartets and reception bands featuring strings, serving New England couples since 2016 with live music rather than recordings.	blackstonevalleyquartet@outlook.com	508-414-6711	https://www.blackstonevalleyentertainment.com/	https://www.instagram.com/blackstonequartet/
+House of Flowers	Florals		Worcester	Massachusetts		Worcester florist with ceremony and reception wedding collections, plus one-to-one consultations to match flowers to style and budget.		508-932-0676	https://houseofflowersma.net/pages/wedding-page	
+`,
+  },
+  {
+    name: "Berkshires: videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Right Light Productions	Videography	395 North St., Suite 260	Pittsfield	Massachusetts		Pittsfield videographer filming weddings in a relaxed, unobtrusive way, coordinating with the couple's photographer, with drone footage available as an add-on.	shaun@rightlightproductions.com	413.281.6511	https://rightlightproductions.com/	https://www.instagram.com/rightlightproductions/`,
+  },
+  {
+    name: "Berkshires: videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+SkyRide Productions	Videography	120 Cold Hill Rd.	Granby	Massachusetts	Massachusetts and beyond	Husband-and-wife team making cinematic, unobtrusive wedding films across Massachusetts and further afield, with a published film portfolio.	skyrideproweddings@gmail.com		https://www.skyrideproductions.com	https://www.instagram.com/skyride_wedding_films/`,
+  },
 ];
 
 export default batches;

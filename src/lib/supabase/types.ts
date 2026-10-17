@@ -29,6 +29,24 @@ export type Wedding = {
   referral_code: string | null;
   budget_target: number | null;
   venue_id: string | null;
+  /** A venue that isn't listed (0113); the guest site uses it when venue_id is null. */
+  own_venue_name: string | null;
+  own_venue_address: string | null;
+  own_venue_city: string | null;
+  own_venue_state: string | null;
+  /** The couple's own venue photos (0114); shown on the guest site instead of the listing's. */
+  own_venue_photo_urls: string[];
+  /** How guests pay into a registry cash fund (0115), straight to the couple. */
+  gift_venmo: string | null;
+  gift_paypal: string | null;
+  gift_cashapp: string | null;
+  gift_zelle: string | null;
+  /** Where gifts ship; shown only to a guest who has just claimed one. */
+  gift_ship_to: string | null;
+  /** The couple's menu (0116); null offers MEAL_OPTIONS, fewer than two asks nothing. */
+  meal_options: string[] | null;
+  /** Ask guests about allergies and dietary needs on the RSVP (0116). */
+  ask_dietary: boolean;
   is_test: boolean;
   /** Everyone besides the owner who can open this wedding -- kept in step with wedding_members by a trigger. */
   member_ids: string[];
@@ -36,8 +54,14 @@ export type Wedding = {
   itinerary_published: boolean;
   /** The published guest site design; parse with parseSiteDesign. */
   site_design: unknown;
-  /** What the guest site editor is working on; Publish copies it to site_design. */
+  /** Before several designs (0111): what the editor worked on. No longer written. */
   site_design_draft: unknown;
+  /** The design in site_designs that site_design was copied from; null before the first publish. */
+  live_design_id: string | null;
+  /** bcrypt of the guest site's password; null when it has none. */
+  site_password_hash: string | null;
+  /** Headings' words shared by every design with shared_wording on; parse with parseWording. */
+  site_wording: unknown;
   /** A Google Sheet the couple imported from, kept so they can reopen it. */
   spreadsheet_url: string | null;
   /** The colour each side of the guest list is drawn in, picked by the couple. */
@@ -70,6 +94,16 @@ export type PublicWedding = {
   venue_photo_urls: string[] | null;
   venue_about: string | null;
   venue_address: string | null;
+  /** The couple put a password on the site (the hash itself never leaves the database). */
+  site_locked: boolean;
+  /** venue_photo_urls are the couple's own, not the venue's, so they aren't credited to it. */
+  venue_photos_own: boolean;
+  gift_venmo: string | null;
+  gift_paypal: string | null;
+  gift_cashapp: string | null;
+  gift_zelle: string | null;
+  meal_options: string[] | null;
+  ask_dietary: boolean;
 };
 
 export type WeddingFaq = {
@@ -107,6 +141,8 @@ export type RsvpSubmission = {
   plus_one_name: string | null;
   status: RsvpStatus;
   meal: string | null;
+  /** Their answer to "Any allergies or dietary needs?" (0116). */
+  dietary: string | null;
   notes: string | null;
   photo_url: string | null;
   message: string | null;
@@ -484,6 +520,44 @@ export type RegistryItem = {
   updated_at: string;
 };
 
+/** A gift from any store, or a cash fund (0115). */
+export type RegistryGift = {
+  id: string;
+  wedding_id: string;
+  kind: "gift" | "fund";
+  title: string;
+  url: string | null;
+  image_url: string | null;
+  store: string | null;
+  price: number | null;
+  /** How many the couple wants (gifts only). */
+  quantity: number;
+  /** What the couple hopes a fund reaches, if they set one. */
+  goal: number | null;
+  note: string | null;
+  sort_order: number;
+  created_at: string;
+};
+
+/** A gift as guests see it: how many are spoken for, never by whom. */
+export type PublicRegistryGift = RegistryGift & {
+  claimed: number;
+  /** What guests have said they gave to a fund. */
+  raised: number;
+};
+
+/** A guest's "I'm getting this" (or "I gave to this fund"). */
+export type RegistryClaim = {
+  id: string;
+  gift_id: string;
+  wedding_id: string;
+  guest_name: string;
+  quantity: number;
+  amount: number | null;
+  message: string | null;
+  created_at: string;
+};
+
 export type AttireCategory =
   | "Wedding Dress"
   | "Bridesmaid Dress"
@@ -535,7 +609,17 @@ export type AttirePartyMember = {
   notes: string | null;
   sort_order: number;
   created_at: string;
+  /** For the guest site's Wedding party section. */
+  photo_url: string | null;
+  site_blurb: string | null;
+  on_site: boolean;
 };
+
+/** A wedding party member as guests see them (public_party_members). */
+export type PublicPartyMember = Pick<
+  AttirePartyMember,
+  "id" | "wedding_id" | "name" | "role" | "photo_url" | "site_blurb" | "sort_order"
+>;
 
 export type AttireShortlistEntry = {
   id: string;
@@ -749,6 +833,17 @@ export type GuestPost = {
 };
 
 /** A photo, story or quote the couple added to their guest site. */
+/** One of a couple's guest-site designs (0111). parseSiteDesign the design. */
+export type SiteDesignRow = {
+  id: string;
+  wedding_id: string;
+  name: string;
+  design: unknown;
+  shared_wording: boolean;
+  created_at: string;
+  updated_at: string;
+};
+
 export type SiteBlock = {
   id: string;
   wedding_id: string;

@@ -95,6 +95,11 @@ if (flag("--reset")) {
     alter default privileges in schema public grant all on functions to postgres, anon, authenticated, service_role;
     alter default privileges in schema public grant all on sequences to postgres, anon, authenticated, service_role;
     delete from auth.users;
+    do $$ declare p record; begin
+      for p in select policyname, tablename from pg_policies where schemaname = 'storage' loop
+        execute format('drop policy %I on storage.%I', p.policyname, p.tablename);
+      end loop;
+    end $$;
   `);
   console.error("reset: wiped public schema, auth users and buckets");
 }
@@ -108,6 +113,16 @@ if (flag("--apply-migrations")) {
       fail(`Migration ${name} failed: ${e.message}`);
     }
   }
+  // Some migrations seed rows (attire_items, regional_cost_data). The backup
+  // is the record of what rows exist, including seeds deleted since, so clear
+  // the tables it covers before loading it.
+  const existing = new Set(
+    ((await sql(`select tablename from pg_tables where schemaname = 'public'`)) ?? []).map((r) => r.tablename),
+  );
+  const toClear = Object.keys(backup.tables)
+    .filter((t) => existing.has(t))
+    .map((t) => `public."${t.replace(/"/g, '""')}"`);
+  if (toClear.length) await sql(`truncate ${toClear.join(", ")} cascade;`);
   await sql(`notify pgrst, 'reload schema';`);
   await new Promise((r) => setTimeout(r, 3000));
   console.error("migrations: applied");

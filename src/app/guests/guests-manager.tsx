@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useRef, useState, useTransition, type CSSProperties, type ReactNode } from "react";
+import { createContext, useContext, useRef, useState, useTransition, type CSSProperties, type ReactNode } from "react";
 import type {
   Guest,
   GuestPriority,
@@ -38,7 +38,7 @@ import { SpreadsheetLink } from "@/components/spreadsheet-link";
 import { GuestImportFileTab } from "./guest-import-panel";
 import { FilterDisclosure } from "@/components/filter-disclosure";
 import { SearchBox } from "@/components/search-box";
-import { MEAL_OPTIONS } from "@/lib/meal-options";
+import { mealChoices } from "@/lib/meal-options";
 import { BirdEmptyState } from "@/components/wren-moments";
 
 const STATUSES: GuestStatus[] = ["invited", "confirmed", "declined", "pending"];
@@ -150,10 +150,14 @@ function downloadGuestsCsv(guests: Guest[]) {
   URL.revokeObjectURL(url);
 }
 
+/** The couple's menu (set in the guest site's RSVP section), for the Meal picker. */
+const MealsContext = createContext<string[]>(mealChoices(null));
+
 function GuestFields({ guest, theme }: { guest?: Guest; theme: SideTheme }) {
+  const meals = useContext(MealsContext);
   const mealValue = guest?.meal ?? "";
-  const customMeal =
-    mealValue && !(MEAL_OPTIONS as readonly string[]).includes(mealValue) ? mealValue : null;
+  // A choice since taken off the menu (or typed in a spreadsheet) still shows.
+  const customMeal = mealValue && !meals.includes(mealValue) ? mealValue : null;
   const [bringingPlusOne, setBringingPlusOne] = useState(guest?.plus_one ?? false);
 
   return (
@@ -237,7 +241,7 @@ function GuestFields({ guest, theme }: { guest?: Guest; theme: SideTheme }) {
         <select name="meal" defaultValue={mealValue} className={inputClass}>
           <option value="">Not selected</option>
           {customMeal && <option value={customMeal}>{customMeal}</option>}
-          {MEAL_OPTIONS.map((option) => (
+          {meals.map((option) => (
             <option key={option} value={option}>
               {option}
             </option>
@@ -1480,6 +1484,7 @@ export function GuestsManager({
   sideAColor,
   sideBColor,
   sideBothColor,
+  mealOptions = null,
 }: {
   guests: Guest[];
   /** A Google Sheet they've imported from before, if there is one. */
@@ -1489,6 +1494,7 @@ export function GuestsManager({
   sideAColor: string | null;
   sideBColor: string | null;
   sideBothColor: string | null;
+  mealOptions?: string[] | null;
 }) {
   const [filter, setFilter] = useState<GuestStatus | "all">("all");
   const [priorityFilter, setPriorityFilter] = useState<GuestPriority | "all">("all");
@@ -1706,6 +1712,7 @@ export function GuestsManager({
     }`;
 
   return (
+    <MealsContext.Provider value={mealChoices(mealOptions)}>
     <div className="flex w-full min-w-0 flex-col rounded-lg border border-hairline bg-card p-4 shadow-sm sm:p-6">
       {/* The numbers, on one strip. Headcount, the invite ladder and the meal
           counts used to be three stacked blocks above the list; on a phone
@@ -2080,5 +2087,6 @@ export function GuestsManager({
         </>
       )}
     </div>
+    </MealsContext.Provider>
   );
 }

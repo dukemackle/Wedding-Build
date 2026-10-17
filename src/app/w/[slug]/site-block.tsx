@@ -1,6 +1,7 @@
-import Image from "next/image";
+import { FramedPhoto } from "@/components/framed-photo";
 import type { SiteBlock } from "@/lib/supabase/types";
 import { safeLink, videoEmbedUrl } from "@/lib/video-embed";
+import { StoryView } from "./story-view";
 
 const CARD = "site-card rounded-lg border border-hairline bg-card p-6 sm:p-10 shadow-sm";
 
@@ -14,20 +15,13 @@ export function blockHasContent(block: SiteBlock) {
 
 /**
  * A photo, story or quote the couple added. Returns null until it has
- * something in it, so an empty block never shows guests a blank card.
+ * something in it, so an empty block never shows guests a blank card. A story
+ * is laid out by StoryView, borrowing `photos` (their Photos section's) for
+ * its chapters.
  */
-export function SiteBlockView({ block }: { block: SiteBlock }) {
+export function SiteBlockView({ block, photos = [] }: { block: SiteBlock; photos?: string[] }) {
   if (block.kind === "story" && block.body) {
-    return (
-      <div className={`${CARD} text-center`}>
-        {block.heading && (
-          <h2 className="font-display text-3xl font-semibold text-forest sm:text-4xl">{block.heading}</h2>
-        )}
-        <div className="mx-auto mt-4 max-w-[60ch] whitespace-pre-line text-left leading-relaxed text-ink/80 sm:text-center">
-          {block.body}
-        </div>
-      </div>
-    );
+    return <StoryView heading={block.heading} body={block.body} photos={photos} />;
   }
 
   if (block.kind === "quote" && block.body) {
@@ -85,9 +79,13 @@ export function SiteBlockView({ block }: { block: SiteBlock }) {
   if (block.kind === "photo" && block.photo_url) {
     return (
       <figure>
-        <div className="relative aspect-[3/2] w-full overflow-hidden rounded-[min(var(--site-radius,1rem),1.5rem)] bg-[var(--site-photo)]">
-          <Image src={block.photo_url} alt={block.heading ?? ""} fill sizes="(min-width: 1024px) 60vw, 100vw" className="object-cover" />
-        </div>
+        <FramedPhoto
+          src={block.photo_url}
+          alt={block.heading ?? ""}
+          sizes="(min-width: 1024px) 60vw, 100vw"
+          aspect="3 / 2"
+          circleMax="28rem"
+        />
         {block.heading && <figcaption className="mt-3 text-center text-sm text-ink/70">{block.heading}</figcaption>}
       </figure>
     );
