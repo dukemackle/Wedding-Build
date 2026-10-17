@@ -127,7 +127,7 @@ export function importSourceId(website: string | null): string | null {
 
 /**
  * The de-dupe key for a batch row: its website, or for a vendor listed from
- * Instagram alone (a "Basic listing"), its Instagram URL.
+ * Instagram alone (an Instagram-only listing), its Instagram URL.
  */
 export function rowSourceId(row: { website?: unknown; instagram_url?: unknown }): string | null {
   const site = typeof row.website === "string" && row.website ? row.website : null;

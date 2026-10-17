@@ -37,13 +37,14 @@ than be padded with weak listings.
   but confirm every detail on the vendor's own site.
 - **Include only** vendors that do weddings, have a working website, and are
   based in or regularly serve the metro.
-- **Instagram-only vendors (Basic listings).** A vendor with no website can
+- **Instagram-only vendors.** A vendor with no website can
   go in with its Instagram as the source, Website left blank, if the profile:
   posted in the last six months, shows wedding work, names its town, and gives
   an email (quotes and edit links go to it; the checker refuses one without).
-  Fill only what the profile states. The site labels these "Basic listing"
-  so couples know to confirm the details themselves. Fill websites first: a
-  Basic listing is for gaps a metro can't fill otherwise, never a shortcut.
+  Fill only what the profile states. The site shows these like any other
+  listing (no "basic" label: the owner ruled it would put couples off
+  booking, 2026-10-17). Fill websites first: an Instagram-only listing is
+  for gaps a metro can't fill otherwise, never a shortcut.
   Facebook-only or Google-only businesses still go on the skipped list.
 - **Leave out** anything with a dead or parked site or no sign of activity in
   the last couple of years. Also leave out franchises and directories posing as

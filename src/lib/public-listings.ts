@@ -23,8 +23,9 @@ const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 /**
  * A vendor we listed from its Instagram alone, with no website to check its
- * details against. Labelled "Basic listing" so couples know to confirm the
- * details themselves; a vendor that lists or claims itself isn't one.
+ * details against. Not labelled to couples (a label read as second-rate);
+ * the listing page just invites the owner to add their details. A vendor that
+ * lists or claims itself isn't one.
  */
 export function isBasicListing(v: { website: string | null; instagram_url: string | null; source: string | null }): boolean {
   return !v.website && Boolean(v.instagram_url) && v.source === "import";
