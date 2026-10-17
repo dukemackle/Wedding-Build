@@ -742,6 +742,13 @@ Joshua Tree Cakery	Cake		Yucca Valley	California	Morongo and Coachella Valleys	Y
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
 Red Velvet DJ	Music		Temecula	California	Inland Empire, San Diego, Orange County and Los Angeles	Temecula DJ and event production company, founded in 2014, whose founder has focused on weddings since 2011.		951-249-3208	https://www.redvelvetdj.com/	https://www.instagram.com/redvelvetdj1/`,
   },
+  {
+    name: "Merced: florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+KC Floral Co.	Florals	1723 N Street	Merced	California		Merced flower shop that designs wedding bouquets plus ceremony and reception flowers, with bridal consultations arranged by phone.		209-722-5758	https://www.kcfloralco.com/wedding-flowers	https://www.instagram.com/kcfloralco/
+Merced Floral	Florals	2855 G St	Merced	California		Merced flower shop on G Street that makes arrangements to order and takes wedding flower enquiries by email or phone.	mercedfloral@outlook.com	209-722-7444	https://mercedfloral.com/wedding	
+Erica Gravel Design	Florals		Merced	California	Central Valley, Bay Area, Wine Country and Lake Tahoe	Wedding floral design studio run by a florist from the Merced area, working across the Central Valley, Wine Country and Tahoe.	erica@ericagraveldesign.com		https://ericagraveldesign.com/	https://www.instagram.com/ericagraveldesign/`,
+  },
 ];
 
 export default batches;
