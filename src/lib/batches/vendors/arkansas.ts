@@ -124,6 +124,17 @@ Blossom Beauty	Hair & Makeup		Eureka Springs	Arkansas	Northwest and Central Arka
 Elevated Arkansas Artists	Hair & Makeup		Conway	Arkansas	All of Arkansas	Conway-based team of bridal hair and makeup artists working on site for brides, wedding parties and events across Arkansas.		501-504-5411	https://www.elevatedarkansasartists.com/	https://www.instagram.com/elevatedarkansas/
 `,
   },
+  {
+    name: "El Dorado: photography and planning, Arkadelphia and Blytheville map fill",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Kyle Rapp Photo and Video	Photography		El Dorado	Arkansas	El Dorado and nearby areas; destination weddings by enquiry	Wedding photographer and videographer working in El Dorado since 2012, with engagement sessions, highlight films and packages that bundle photo and video.			https://www.kylerappweddings.com/	https://www.instagram.com/kyle_rapp_photography/
+Forever Photography	Photography	1112 Combs Street	El Dorado	Arkansas		Studio photographer in El Dorado covering weddings alongside senior, family and newborn work, with ready-made wedding packages and a planning guide for couples.		(870) 866-6074	https://www.foreverphotovid.com/	
+Premier Planning & Events	Planning	424 East Main Street	El Dorado	Arkansas	El Dorado, with travel to couples elsewhere	Event planner and coordinator in El Dorado who handles weddings and other celebrations, working with local suppliers and travelling to couples elsewhere.	premierplanningandevents@gmail.com	(870) 866-1681	https://www.premierplanningandevents.com/	
+Eric Lewis Photography	Photography		Arkadelphia	Arkansas	Arkadelphia, Hot Springs, Little Rock and Central Arkansas	Documentary-style wedding and elopement photographer in Arkadelphia, taking a limited number of weddings a year and happy to travel.			https://ericlewisphotography.com/	https://www.instagram.com/ericlewis.photography/
+Lunsford's Flower & Gift Shop	Florals	1505 West Main Street	Blytheville	Arkansas	Blytheville and surrounding area	Blytheville flower and gift shop that custom-designs wedding flowers for each couple, from bridal bouquets to ceremony and reception arrangements.		870-763-7001	https://www.lunsfordsfloral.com/wedding-flowers	
+A-1 Flowers & Gifts	Florals	216 N Franklin	Blytheville	Arkansas	Blytheville and the surrounding area	Blytheville florist offering wedding party flowers such as bridal bouquets, boutonnieres and corsages, and working with the surrounding area.		870-763-8121	https://www.a1flowersandgifts.com/wedding-party-flowers	
+`,
+  },
 ];
 
 export default batches;
