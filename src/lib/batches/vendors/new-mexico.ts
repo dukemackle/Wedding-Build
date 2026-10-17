@@ -119,6 +119,14 @@ Heaven Scent Flowers & Gifts	Florals	207 E Sanger St	Hobbs	New Mexico		Locally o
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
 Lucid Dream Photography	Photography		Alamogordo	New Mexico	Alamogordo, White Sands National Park, Ruidoso, Las Cruces	Alamogordo portrait photographer whose work includes wedding couples, engagements and family sessions.	luciddreamphotography@aol.com	575-434-8637	https://www.luciddreamphotography.net/	https://instagram.com/lucid_dream_photography`,
   },
+  {
+    name: "Map fill: Hobbs, Artesia, Alamogordo",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Alicia Diane Photography	Photography		Hobbs	New Mexico		Hobbs-based wedding and couples photographer with a natural, timeless style, focused on the small details and real emotion of the day.	alicia@aliciadianephotography.com	+1 432-302-0899	https://aliciadianephotography.com/	https://www.instagram.com/alicia_diane_photography/
+Maria's Flowers	Florals	109 W Broadway St	Hobbs	New Mexico	Hobbs area	Hobbs florist that designs wedding bouquets, wedding party flowers and ceremony and reception arrangements, by phone consultation.		(575) 397-3793	https://www.mariasfloral.com/	
+Nelles Floral	Florals	712 W Dallas Ave	Artesia	New Mexico	Artesia and worldwide delivery	Family-run Artesia florist that helps plan wedding bouquets, arrangements and on-site decorating, with consultations booked by phone.		(575) 746-3775	https://www.nellesfloral.com/	
+Alamogordo Flower Company	Florals	901 Texas Ave, Suite A	Alamogordo	New Mexico	Alamogordo, Holloman, La Luz and Tularosa	Alamogordo florist and gift shop with a weddings page offering custom wedding and event flowers, from à la carte pieces to full design, with consultations.		(575) 434-2600	https://alamogordoflowerco.com	`,
+  },
 ];
 
 export default batches;
