@@ -296,6 +296,15 @@ Brazoria Lake Ranch	3006 FM 521	Brazoria	Texas			Garden / Outdoor	Indoor & Outdo
 The Rustic Chandelier	5472 N FM 441	El Campo	Texas			Barn / Rustic	Indoor & Outdoor			A family-run barn venue on rural grounds outside El Campo, with a large wood-framed hall and an outdoor ceremony area.			https://therusticchandelier.com/
 `,
   },
+  {
+    name: "Map fill: Stephenville, Uvalde, Pampa, Borger, Sanford",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Bella Vita Ranch	25182 FM 219	Stephenville	Texas			Garden / Outdoor	Indoor & Outdoor	225	Classic	Family-run Tuscan-style ranch west of Stephenville with a 6,000 sq ft reception hall, a garden pergola, waterfront oak ceremony spot and bridal suites.	info@thebellavitaranch.com		https://www.thebellavitaranch.com/
+SSgt. Willie de Leon Civic Center	300 E Main St	Uvalde	Texas			Ballroom / Hotel	Indoor	400	Simple	City-owned civic center with the Live Oak Hall, a Cactus Room and three partitioned rooms, rented whole for receptions and other events.	civiccenter@uvaldetx.gov	830-333-9980	https://www.uvaldetx.gov/ssgt._willie_de_leon_civic_center/index.php
+Uvalde County Fairplex Commissioners Auditorium	215 Veterans Ln	Uvalde	Texas			Ballroom / Hotel	Indoor	600		County event hall of over 12,500 square feet with a commercial kitchen and green room, offered for weddings and banquets on the fairgrounds.	fairplex@uvaldecounty.gov	(830) 591-9040	https://www.uvaldecountyfairplex.com/p/facilities/event-center
+The Dome Civic & Convention Center	1113 Bulldog Blvd	Borger	Texas			Ballroom / Hotel	Indoor			City-owned convention center with a Grand Ballroom, a half ballroom, the Dome hall and a catering kitchen, bookable for weddings and receptions.			https://www.borgertx.gov/367/Dome-Civic-Convention-Center
+Three Falls Cove	8125 FM 3395	Sanford	Texas			Garden / Outdoor	Indoor & Outdoor			Country inn near Lake Meredith with lawn ceremonies by a private lake and receptions in the lodge, plus five rooms and a cabin for guests.	rebecca@threefallscove.com	806-878-2366	https://www.threefallscove.com/`,
+  },
 ];
 
 export default batches;
