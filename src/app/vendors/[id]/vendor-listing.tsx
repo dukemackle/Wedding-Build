@@ -119,9 +119,7 @@ export function VendorListing({ data }: { data: VendorListingData }) {
             <p className="mt-1 text-xs text-forest/80">✓ {verifiedLabel(vendor, "vendor")}</p>
           )}
           {isBasicListing(vendor) && (
-            <p className="mt-3 rounded-lg bg-forest/5 p-3 text-sm text-ink/80">
-              We found this business on Instagram, but it has no website for us to check details against. Ask about
-              dates, pricing and what&apos;s included before you book.{" "}
+            <p className="mt-2 text-sm text-ink/60">
               <Link href="/list/edit" className="underline hover:text-forest">
                 Is this your business? Add your details
               </Link>

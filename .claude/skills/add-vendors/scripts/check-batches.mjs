@@ -60,7 +60,7 @@ for (const [batchName, tsv, fileState] of batches) {
     if (fileState && state && state !== fileState) problems.push(`${where}: State is ${state} but the batch is in ${fileState}'s file`);
     if (!website && !instagram) problems.push(`${where}: no website or Instagram (leave it out and record it as skipped)`);
     else if (!website && !email) problems.push(`${where}: Instagram-only rows need the email from the profile (quotes and edit links go to it)`);
-    else if (!website) warnings.push(`${where}: Instagram only, so it lists as a Basic listing; confirm by hand it meets the bar in SKILL.md`);
+    else if (!website) warnings.push(`${where}: Instagram only, confirm by hand it meets the bar in SKILL.md`);
     if (!description) warnings.push(`${where}: no description`);
     else if (description.length > 200) warnings.push(`${where}: description is ${description.length} chars (keep it to one sentence)`);
     if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) problems.push(`${where}: email "${email}" doesn't look like an address`);
