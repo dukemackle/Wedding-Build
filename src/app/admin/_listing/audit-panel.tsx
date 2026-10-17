@@ -27,10 +27,25 @@ export function AuditPanel({ table, noun }: { table: "venues" | "vendors"; noun:
     if (!file) return;
     const text = await file.text();
     startTransition(async () => {
-      const result = await previewAudit(table, text);
-      if (result.error) return setError(result.error);
+      let parts: string[];
+      try {
+        parts = auditParts(text, table);
+      } catch {
+        return setError("That file isn't valid JSON. Use the data-audit-fixes.json the audit wrote.");
+      }
+      // Previewed in the same parts as Apply: a whole-file audit needs more
+      // than the 50 lookups one Worker invocation may make.
+      const merged: AuditPlan = { verify: 0, update: [], hide: [], unmatched: [] };
+      for (const part of parts) {
+        const result = await previewAudit(table, part);
+        if (result.error || !result.plan) return setError(result.error ?? "The preview failed.");
+        merged.verify += result.plan.verify;
+        merged.update.push(...result.plan.update);
+        merged.hide.push(...result.plan.hide);
+        merged.unmatched.push(...result.plan.unmatched);
+      }
       setJson(text);
-      setPlan(result.plan ?? null);
+      setPlan(merged);
     });
   }
 
