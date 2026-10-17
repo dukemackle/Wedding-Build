@@ -16,7 +16,11 @@ goes to the owner first.
 
 Use the argument if one was given. Otherwise run `npm run coverage` and take
 the state furthest from its target (the plan's metros and targets are in
-`scripts/coverage-plan.mjs`). Each batch goes at the end of its state's file,
+`scripts/coverage-plan.mjs`). **Map fill (pass 4, stage 1) comes first:**
+`npm run coverage -- <State>` lists "Map fill, <Town>" lines, towns with no
+listing nearby. Each needs 3 venues whose City is that town or one of the
+places listed with it. If a town has none worth listing, log what you checked in
+the skipped file with that town as City: 5 skipped entries mark it done. Each batch goes at the end of its state's file,
 and every row's State must match that file; a PR covering several states adds
 one batch to each state's file. Aim for **40-60 venues per PR**, across several nearby
 towns if one metro runs short: every PR costs a build and a merge whatever its

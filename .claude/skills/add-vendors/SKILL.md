@@ -23,7 +23,14 @@ owner may paste names or a list. Otherwise, choose for them:
    in each core category): take the state furthest from it. After that, fill
    each state's other metros. A category counts as missing until the metro
    reaches its target: 3 per category, 5 in a large market, 8 in a major one
-   (`MARKET_SIZE` in the plan; `npm run coverage -- <State>` shows the gaps).
+   (`MARKET_SIZE` in the plan; `npm run coverage -- <State>` shows the gaps;
+   pass 4 stage 2 doubles these).
+   **Map fill (pass 4, stage 1) comes first:** the per-state report lists
+   "Map fill, <Town>" lines, small towns with nothing nearby. Each needs 3
+   vendors whose City is that town or one of the places listed with it (any
+   core category). Name that batch `"<Town>: <categories>"`; the report counts
+   these by City, not by name. If a town has nothing usable, log what you found
+   in the skipped file with that town as City: 5 skipped entries mark it done.
 3. Say in one line which metro and categories you're doing, then go ahead. Only
    ask if the owner's request is ambiguous.
 
