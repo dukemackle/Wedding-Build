@@ -4,7 +4,7 @@ import Anthropic from "@anthropic-ai/sdk";
 /**
  * Reads a wedding vendor contract and proposes tasks from it.
  *
- * A stronger model than the assistant's `claude-haiku-4-5`: this is a legal
+ * A stronger model than the assistant's `claude-haiku-5-5`: this is a legal
  * document with money attached, and a misread cancellation window costs the
  * couple real money. A contract is a handful of pages read once, so the
  * accuracy is worth more than the fraction of a cent it adds.
