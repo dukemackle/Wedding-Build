@@ -917,3 +917,25 @@ export type SheetLink = {
   sheet_modified_at: string | null;
   created_at: string;
 };
+
+export type MarketListingStatus = "active" | "pending" | "sold" | "removed";
+
+export type MarketListing = {
+  id: string;
+  seller_id: string;
+  seller_name: string;
+  title: string;
+  description: string | null;
+  category: string;
+  condition: string;
+  price_cents: number;
+  quantity: number;
+  city: string;
+  state: string;
+  latitude: number | null;
+  longitude: number | null;
+  photo_urls: string[];
+  status: MarketListingStatus;
+  created_at: string;
+  updated_at: string;
+};
