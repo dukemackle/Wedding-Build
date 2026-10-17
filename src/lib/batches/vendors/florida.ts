@@ -666,6 +666,15 @@ Imageana	Photography		Bradenton	Florida	Bradenton, Sarasota, Siesta Key and trav
 Jaeger Haus Photography	Photography		Bradenton	Florida	Bradenton, Sarasota, Anna Maria Island and St. Pete	Bradenton couple shooting candid digital and film wedding photography, with Super 8 wedding films also available.			https://jaegerhausphotography.com/bradenton-wedding-photographer	https://www.instagram.com/jaeger.haus.photo/
 `,
   },
+  {
+    name: "Sebring: photography, music and florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Caroline Maxcy Photography	Photography		Sebring	Florida	Sebring, Avon Park, Lake Placid and destinations	Sebring fine art photographer shooting weddings on film and digital, with a timeless, romantic style and natural light, plus travel and editorial work.	caroline@carolinemaxcy.com		https://carolinemaxcy.com/	https://www.instagram.com/carolinemaxcyphoto/
+Beloved Wilds Photography	Photography		Avon Park	Florida	Avon Park and Highlands County, with travel	Avon Park photographer capturing weddings, couples and elopements outdoors with a natural, unposed approach and a focus on candid moments.	belovedwildsphotography@hotmail.com	863-410-0956	https://www.belovedwildsphotography.com/	https://www.instagram.com/belovedwildsphotography/
+Belanger Media Group	Music		Sebring	Florida	Highlands County, Avon Park to Venus	Sebring wedding DJ providing sound, MC services, LED uplighting and wireless-mic ceremony audio, with a planning session before the day.	info@belangermediagroup.com	269-207-4542	https://belangermediagroup.com/wedding-dj	
+Hobby Hill Design	Florals	541 North Ridgewood Drive	Sebring	Florida	Sebring and surrounding areas	Long-established Sebring flower shop offering wedding floral consultations by appointment, with a gallery of past work and a bridal flowers checklist.		863-385-8049	https://www.hobbyhillflorist.com/weddings.htm	https://www.instagram.com/hobbyhill_design/
+`,
+  },
 ];
 
 export default batches;

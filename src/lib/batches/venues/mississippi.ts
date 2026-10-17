@@ -78,6 +78,13 @@ West End District	1300 Highway 8 West	Cleveland	Mississippi			Ballroom / Hotel	I
 First & Green Celebrations	97 First Street	Grenada	Mississippi			Historic / Estate	Indoor & Outdoor	400		A restored downtown hall with a garden and fire-pit patio nearby, offering in-house catering and bar service for wedding ceremonies and receptions.	celebrate@firstandgreengrenada.com	662-699-0498	https://www.firstandgreengrenada.com
 `,
   },
+  {
+    name: "Greenwood and Cleveland map fill",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+The Alluvian Hotel	318 Howard Street	Greenwood	Mississippi			Ballroom / Hotel	Indoor & Outdoor			A boutique hotel in downtown Greenwood whose Delta Room opens onto a courtyard, with a terrace room for smaller gatherings and wedding receptions.	fhodge@thealluvian.com	662-453-2114	https://www.thealluvian.com/hotel
+GRAMMY Museum Mississippi	800 W Sunflower Rd	Cleveland	Mississippi			Ballroom / Hotel	Indoor			A music museum in Cleveland that hosts wedding receptions, engagement parties and ceremonies, with a custom proposal for each event.	events@grammymuseumms.org	662-441-0100	https://grammymuseumms.org/host-an-event/
+`,
+  },
 ];
 
 export default batches;

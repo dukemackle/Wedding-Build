@@ -409,6 +409,17 @@ Woodberry Farm	281 Potter Woodberry Rd	Havana	Florida			Barn / Rustic	Indoor & O
 Covington Farm Weddings	36296 Covington Rd	Dade City	Florida			Barn / Rustic	Indoor & Outdoor			A working farm near Dade City with ceremonies under the oaks or by the water and connected indoor and outdoor reception areas.	info@covingtonfarmbarn.com		https://covingtonfarmweddings.com/
 `,
   },
+  {
+    name: "Sebring map fill",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+The Grove at Twenty-One Hundred	2100 Scenic Highway	Sebring	Florida			Barn / Rustic	Indoor & Outdoor	210		A Sebring event centre with a 6,350 sq ft beamed Grand Hall, beer garden, fire-pit patio and lawn, plus bridal suite, groom's room and catering kitchen.	events@thegroveat2100.com	863-347-5656	https://thegroveat2100.com/
+SEVEN Sebring Raceway Hotel	150 Midway Drive	Sebring	Florida			Ballroom / Hotel	Indoor & Outdoor	500		A trackside hotel at Sebring Raceway with over 7,000 sq ft of flexible indoor ballroom and outdoor ceremony space, on-site catering and guest rooms.	reservations@sevensebringhotel.com	1-888-738-3601	https://www.sevensebringhotel.com/weddings.htm
+The Pavilion on Little Lake Jackson	1775 US Hwy 27 S	Sebring	Florida			Garden / Outdoor	Indoor & Outdoor	83		A 1,200 sq ft lakeview pavilion with prep kitchen, a covered lakeside deck and a walled courtyard under two century-old live oaks.	kblake@zmchotels.com	863-546-0026	https://www.pavilionllj.com/
+Sun 'N Lake Golf Club	5223 Tee Time Circle	Sebring	Florida			Garden / Outdoor	Indoor & Outdoor	300		A golf club with a renovated clubhouse banquet room and event lawn on the course, hosting ceremonies, receptions and bridal showers.	jmartin@sunlakegolfclub.com	863-385-4830	https://www.sunlakegolfclub.com/weddings
+The Barn at Paso Fino	3501 Paso Fino Dr	Lake Placid	Florida			Barn / Rustic	Indoor & Outdoor		Classic	A chandelier-lit reception barn on a farmhouse estate with a courtyard fireplace, bridal suite and horse-carriage rides; rental runs $7,000 to $8,000 for three days.		863-448-2145	https://thebarnatpasofino.com/
+The Hotel Jacaranda		Avon Park	Florida			Historic / Estate	Indoor	100		A 1920s hotel on Avon Park's Main Street with banquet rooms seating 45 to 100 and in-house catering for weddings, rehearsal dinners and receptions.	jacinfo@southflorida.edu	863-453-2211	https://www.hoteljac.com/
+`,
+  },
 ];
 
 export default batches;
