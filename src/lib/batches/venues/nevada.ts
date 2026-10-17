@@ -100,6 +100,18 @@ Events at Revere	2600 Hampton Rd	Henderson	Nevada			Garden / Outdoor	Indoor & Ou
 Saddle West Hotel Casino	1220 S Highway 160	Pahrump	Nevada			Ballroom / Hotel	Indoor & Outdoor	225		Casino hotel with a showroom for weddings and banquets and a patio terrace for smaller gatherings.	banquets@saddlewest.com	(800) 433-3987	https://www.saddlewest.com/banquets
 Sunset Station Hotel & Casino	1301 W Sunset Rd	Henderson	Nevada			Ballroom / Hotel	Indoor & Outdoor			Casino hotel with a wedding planning line and an outdoor wedding venue for ceremonies and receptions.	SunsetSales@stationcasinos.com	888.319.4661	https://sunsetstation.com/meetings/weddings/`,
   },
+  {
+    name: "Map fill: Elko, Mesquite, Fernley",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Cottonwood Guest Ranch	HC 62 Box 1300, O'Neil Route	Wells	Nevada			Barn / Rustic	Outdoor	400		Working ranch at the foot of the Jarbidge Mountains that hosts country weddings from tiny gatherings to several hundred guests, with tents, hayrides and carriages.	reservations@cottonwoodguestranch.com	775-472-0222	https://www.cottonwoodguestranch.com
+Elko Euzkaldunak (Basque) Club	1601 Flagview Drive	Elko	Nevada			Historic / Estate	Indoor & Outdoor			Basque cultural club hall rented out year-round for wedding receptions, with a kitchen, bar, musician stage and indoor and outdoor space.		775-777-5255	https://elkobasqueclub.com
+Western Folklife Center (G Three Bar Theater)	501 Railroad Street	Elko	Nevada			Historic / Estate	Indoor			Cultural centre in downtown Elko whose hardwood-floored theatre and 1890s-style Pioneer Saloon are rented for receptions and gatherings.		775-738-7508	https://www.westernfolklife.org
+Eureka Casino Resort	275 Mesa Blvd	Mesquite	Nevada			Ballroom / Hotel	Indoor & Outdoor	150		Mesquite casino hotel with a ballroom that seats 150 for receptions and a hotel garden used for ceremonies and cocktail hours.		702-346-4600	https://www.eurekamesquite.com/meetings-and-events
+Aravada Springs	49900 Nays Ranch Road	Bunkerville	Nevada			Garden / Outdoor	Outdoor			Private 200-acre desert retreat outside Mesquite that hosts outdoor ceremonies with on-site cabins and tents for overnight guests.	info@aravada.com	(801) 431-4950	https://aravada.com/weddings/
+Conestoga Golf Club	1499 Falcon Ridge Parkway	Mesquite	Nevada			Garden / Outdoor	Indoor & Outdoor			Desert golf club in Mesquite that hosts wedding ceremonies and receptions on the course and clubhouse, catered by the on-site 1880 Grille.	rick@par3partner.com	(702) 346-4292	https://conestogagolf.com/weddings-and-events/
+The Meadows	1045 Inglewood Dr	Fernley	Nevada			Ballroom / Hotel	Indoor & Outdoor			Fully equipped event hall run by Roundabout Catering, with a ceremony area, dance floor, two wedding suites and an outdoor patio.		775-686-6130	https://themeadowsfernley.com
+Hunter's Place	1380 Highway 208	Yerington	Nevada			Garden / Outdoor	Outdoor			Family-owned 23-acre riverside property in Mason Valley with lavender fields and century-old cottonwoods, hosting outdoor ceremonies and receptions.	inquiries@huntersplacenv.com	(775) 301-9789	https://huntersplacenv.com`,
+  },
 ];
 
 export default batches;
