@@ -157,6 +157,34 @@ Jen and Chuck Photography	Videography		Ocean Springs	Mississippi	Mississippi, Al
 Mississippi DJ Events	Music		Oxford	Mississippi	Oxford, Lafayette County and nearby north Mississippi	Wedding DJ service with a dedicated Oxford page, covering Lafayette County and nearby north Mississippi towns as well as other Mississippi and Alabama cities.		(662) 438-3696	https://mississippidjevents.com/oxford	https://www.instagram.com/mississippidjevents/
 `,
   },
+  {
+    name: "Meridian: planning, catering, stationery, bridal",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Southern Productions Weddings + Events	Planning		Meridian	Mississippi	Mississippi	Meridian wedding planning and florals studio offering planning packages, custom and à la carte flowers, and rentals for Mississippi couples.			https://southernproductions.net/	
+Carolyn's Creations	Catering	1710 58th Court	Meridian	Mississippi		Family-run Meridian caterer that also bakes wedding and groom's cakes and provides bar service and event flowers.	Lori@carolynscreationsinc.com	(601) 483-9750	https://carolynscreationsinc.com/	
+Generations Fine Paper & Gifts	Stationery & Invitations	212 22nd Avenue	Meridian	Mississippi		Meridian stationery shop designing custom invitations, save-the-dates and hand-calligraphy, with a bridal registry.		601-453-5285	https://generationsmeridian.com/	https://www.instagram.com/generationspaperandgifts/
+Joyce's Etc.	Bridal & Formalwear	802 23rd Avenue	Meridian	Mississippi	Meridian and surrounding areas	Meridian formalwear shop renting tuxedos for weddings, proms and other events, with expert fittings.	joyce@joycesetc.com	(601) 693-6446	https://joycesetc.com/	
+`,
+  },
+  {
+    name: "Greenwood: florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Josephine's Florals	Florals		Greenwood	Mississippi	Greenwood and nearby towns including Itta Bena, Carrollton, Grenada and Winona	Greenwood studio florist, founded in 2023, with a weddings and events consultation page and gallery and local delivery to venues.	josephinesflorals@josephinesflorals.com	(662) 299-4832	https://josephinesflorals.com	https://www.instagram.com/josephinesflorals3/
+`,
+  },
+  {
+    name: "Cleveland: florals, rentals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Happy Petals Flowers & Gifts	Florals	3463 Hwy 8 West	Cleveland	Mississippi		Cleveland flower shop making wedding bouquets, ceremony flowers and reception arrangements for couples in the Delta.		(662) 441-0111	https://www.happypetalsflowersandgifts.com	
+Delta Party Rental	Rentals	801 W Sunflower Rd	Cleveland	Mississippi		Cleveland party hire firm supplying linens, glassware and dinnerware, with event planning and bridal florals on offer.	deltapartyrental@yahoo.com	(662) 545-4483	https://www.deltapartyrental.net	
+`,
+  },
+  {
+    name: "Grenada: bridal",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Engagements Bridal & Formal Wear	Bridal & Formalwear	178 South Main Street	Grenada	Mississippi		Grenada boutique selling bridal gowns, bridesmaid and mother-of-the-bride dresses, tuxedos and accessories.		(662) 226-2995	http://www.engagementsboutique.com	https://www.instagram.com/bridalbyengagements/
+`,
+  },
 ];
 
 export default batches;
