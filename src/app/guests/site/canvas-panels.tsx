@@ -3,6 +3,7 @@
 import { useState, type ReactNode } from "react";
 import {
   FONTS,
+  ORNAMENT_GROUP,
   SITE_ART,
   artById,
   resolveDesign,
@@ -34,6 +35,7 @@ import {
   type ShapeId,
   type SiteCanvas,
 } from "@/lib/site-canvas";
+import { DATE_STYLES, LIVE_FIELDS, liveWords, localToday, type DateStyle, type LiveDetails, type LiveField } from "@/lib/site-live";
 import type { CanvasFrames, CanvasSelection } from "./canvas-messages";
 import { PanelLabel } from "./editor-tabs";
 
@@ -47,7 +49,9 @@ type ArtPiece = (typeof SITE_ART)[number];
 /** The Elements library's filter chips. */
 const CATEGORIES = [
   { id: "all", label: "All" },
+  { id: "live", label: "Live details" },
   { id: "text", label: "Text" },
+  { id: "dividers", label: "Dividers" },
   { id: "shapes", label: "Shapes" },
   { id: "art", label: "Line art" },
   { id: "paintings", label: "Watercolours" },
@@ -59,6 +63,15 @@ const TEXT_PRESETS = [
   { style: "subheading", label: "Add a subheading", size: "text-lg" },
   { style: "body", label: "Add a little body text", size: "text-sm" },
 ] as const;
+
+/** How each live detail goes in: the type it starts in and its box. */
+const LIVE_PRESETS: Record<LiveField, { font: string; size: number; w: number; h: number; color: CanvasColor; italic: boolean }> = {
+  names: { font: "display", size: 72, w: 640, h: 84, color: "heading", italic: false },
+  date: { font: "body", size: 20, w: 520, h: 24, color: "muted", italic: false },
+  countdown: { font: "display", size: 32, w: 400, h: 40, color: "heading", italic: true },
+  venue: { font: "body", size: 18, w: 560, h: 22, color: "muted", italic: false },
+  rsvp: { font: "body", size: 16, w: 200, h: 56, color: "accent", italic: false },
+};
 
 /** Art groups that suit a theme, offered first. */
 const THEME_ART: Record<string, string[]> = {
@@ -99,26 +112,7 @@ function ArtGrid({ pieces, colour, onAdd }: { pieces: ArtPiece[]; colour?: strin
           onClick={() => onAdd(a.id)}
           className="flex aspect-square items-center justify-center rounded-xl border border-hairline bg-card p-2 [contain-intrinsic-size:auto_80px] [content-visibility:auto] hover:border-ink/30"
         >
-          {a.kind === "line" ? (
-            <span
-              aria-hidden="true"
-              className="h-full w-full"
-              style={{
-                background: colour,
-                WebkitMaskImage: `url(${a.src})`,
-                maskImage: `url(${a.src})`,
-                WebkitMaskSize: "contain",
-                maskSize: "contain",
-                WebkitMaskRepeat: "no-repeat",
-                maskRepeat: "no-repeat",
-                WebkitMaskPosition: "center",
-                maskPosition: "center",
-              }}
-            />
-          ) : (
-            // eslint-disable-next-line @next/next/no-img-element -- a small static thumbnail
-            <img src={a.src} alt="" loading="lazy" className="h-full w-full object-contain" />
-          )}
+          <ArtSwatch piece={a} colour={colour} />
         </button>
       ))}
     </div>
@@ -135,6 +129,8 @@ export function frameSize(design: SiteDesign, frames: CanvasFrames, key: string)
 
 /** What an element is called in Layers and the toolbar. */
 export function elementName(el: CanvasElement) {
+  if (el.kind === "text" && el.live === "rsvp") return "RSVP button";
+  if (el.kind === "text" && el.live) return `${LIVE_FIELDS.find((f) => f.id === el.live)?.label ?? "Detail"} (live)`;
   if (el.kind === "text") return el.text.split("\n")[0].slice(0, 32) || "Text";
   if (el.kind === "art") return artById(el.art)?.name ?? "Artwork";
   if (el.kind === "shape") return SHAPES.find((s) => s.id === el.shape)?.label ?? "Shape";
@@ -159,6 +155,7 @@ export function roleColors(design: SiteDesign): Record<string, string> {
 
 type NewElement =
   | { kind: "text"; style: "heading" | "subheading" | "body" }
+  | { kind: "live"; field: LiveField; words: string }
   | { kind: "shape"; shape: ShapeId }
   | { kind: "art"; art: string }
   | { kind: "photo"; src: string };
@@ -173,7 +170,10 @@ function buildElement(spec: NewElement, w: number, h: number, count: number): Ca
       subheading: { text: "Add a subheading", font: "display", size: 32, w: 480, h: 40, color: "heading" as const },
       body: { text: "Add a little body text", font: "body", size: 18, w: 400, h: 24, color: "ink" as const },
     }[spec.style];
-    el = { ...base, kind: "text", x: 0, y: 0, align: "center", bold: false, italic: false, ...t };
+    el = { ...base, kind: "text", x: 0, y: 0, align: "center", bold: false, italic: false, live: null, dateStyle: "long", ...t };
+  } else if (spec.kind === "live") {
+    const p = LIVE_PRESETS[spec.field];
+    el = { ...base, kind: "text", text: spec.words, x: 0, y: 0, align: "center", bold: false, live: spec.field, dateStyle: "long", ...p };
   } else if (spec.kind === "shape") {
     const size = { rect: [240, 160], circle: [160, 160], arch: [160, 224], line: [320, 4] }[spec.shape];
     el = { ...base, kind: "shape", shape: spec.shape, color: "accent", outline: spec.shape === "arch", x: 0, y: 0, w: size[0], h: size[1] };
@@ -203,6 +203,7 @@ export function ElementsTab({
   frames,
   selection,
   photos,
+  live,
   onCanvas,
   onSelect,
 }: {
@@ -210,6 +211,8 @@ export function ElementsTab({
   frames: CanvasFrames;
   selection: CanvasSelection;
   photos: string[];
+  /** The wedding's names, date and venue, for the Live details cards. */
+  live: LiveDetails;
   onCanvas: (canvas: SiteCanvas) => void;
   onSelect: (selection: CanvasSelection) => void;
 }) {
@@ -218,7 +221,7 @@ export function ElementsTab({
   const [chosen, setChosen] = useState<string | null>(null);
   const target = picked ?? (chosen && frames[chosen] ? chosen : "hero");
   const colors = roleColors(design);
-  const { theme } = resolveDesign(design);
+  const { theme, onAccent } = resolveDesign(design);
   const [query, setQuery] = useState("");
   const [cat, setCat] = useState<(typeof CATEGORIES)[number]["id"]>("all");
   const q = query.trim().toLowerCase();
@@ -226,10 +229,20 @@ export function ElementsTab({
   const show = (c: (typeof CATEGORIES)[number]["id"]) => cat === "all" || cat === c;
   const texts = TEXT_PRESETS.filter((t) => hit(t.label, "text", "words", "heading"));
   const shapes = SHAPES.filter((sh) => hit(sh.label, "shape"));
-  const lineGroups = groupArt(SITE_ART.filter((a) => a.kind === "line" && hit(a.name, a.group, "line art")));
+  const today = localToday();
+  const lives = LIVE_FIELDS.filter((f) => hit(f.label, "live", "details", f.id === "rsvp" ? "button" : "")).map((f) => ({
+    ...f,
+    words: liveWords(f.id, live, { today, label: "RSVP" }),
+  }));
+  const ornaments = SITE_ART.filter((a) => a.group === ORNAMENT_GROUP && hit(a.name, "divider", "ornament"));
+  const lineGroups = groupArt(
+    SITE_ART.filter((a) => a.kind === "line" && a.group !== ORNAMENT_GROUP && hit(a.name, a.group, "line art")),
+  );
   const paintings = SITE_ART.filter((a) => a.kind !== "line" && hit(a.name, a.group, "watercolour", "painting"));
   const suggested = SITE_ART.filter((a) => a.kind === "line" && (THEME_ART[design.theme] ?? []).includes(a.group)).slice(0, 8);
   const nothing =
+    (!show("live") || !lives.length) &&
+    (!show("dividers") || !ornaments.length) &&
     (!show("text") || !texts.length) &&
     (!show("shapes") || !shapes.length) &&
     (!show("art") || !lineGroups.length) &&
@@ -302,6 +315,41 @@ export function ElementsTab({
         </div>
       )}
 
+      {show("live") && lives.length > 0 && (
+        <div className="flex flex-col gap-2">
+          <PanelLabel>Live details</PanelLabel>
+          {lives.map((f) => (
+            <AddCard key={f.id} disabled={!f.words} onClick={() => f.words && add({ kind: "live", field: f.id, words: f.words })}>
+              <span className="flex w-full items-center justify-between gap-3">
+                {f.id === "rsvp" ? (
+                  <span
+                    className="rounded px-4 py-2 text-xs font-semibold tracking-[0.06em]"
+                    style={{ background: colors.accent, color: onAccent, fontFamily: theme.body }}
+                  >
+                    RSVP
+                  </span>
+                ) : (
+                  <span
+                    className={f.id === "names" ? "text-2xl" : f.id === "countdown" ? "text-xl italic" : "text-[15px]"}
+                    style={{
+                      fontFamily: f.id === "names" || f.id === "countdown" ? theme.display : theme.body,
+                      color: f.words ? (f.id === "names" || f.id === "countdown" ? colors.heading : colors.ink) : colors.muted,
+                    }}
+                  >
+                    {f.words ?? `No ${f.label.toLowerCase()} yet`}
+                  </span>
+                )}
+                <span className="shrink-0 text-[11px] text-ink/55">{f.id === "rsvp" ? "Button" : f.label}</span>
+              </span>
+            </AddCard>
+          ))}
+          <p className="text-[13px] leading-normal text-ink/60">
+            These fill in from your wedding details and change with them. The countdown ticks down for guests and
+            reads &ldquo;Today&rsquo;s the day&rdquo; on the morning of. The button takes guests to your RSVP.
+          </p>
+        </div>
+      )}
+
       {show("text") && texts.length > 0 && (
         <div className="flex flex-col gap-2">
           <PanelLabel>Text</PanelLabel>
@@ -334,6 +382,31 @@ export function ElementsTab({
                 <ShapeIcon shape={sh.id} color={colors.accent} />
               </button>
             ))}
+          </div>
+        </div>
+      )}
+
+      {show("dividers") && ornaments.length > 0 && (
+        <div className="flex flex-col gap-2">
+          <PanelLabel>Dividers &amp; ornaments</PanelLabel>
+          <div className="grid grid-cols-4 gap-2">
+            {ornaments.map((a) => {
+              const wide = a.w / a.h > 3;
+              return (
+                <button
+                  key={a.id}
+                  type="button"
+                  aria-label={a.name}
+                  title={a.name}
+                  onClick={() => add({ kind: "art", art: a.id })}
+                  className={`flex items-center justify-center rounded-xl border border-hairline bg-card hover:border-ink/30 ${
+                    wide ? "col-span-2 h-14 px-3.5 py-2" : "aspect-square p-2"
+                  }`}
+                >
+                  <ArtSwatch piece={a} colour={colors.accent} />
+                </button>
+              );
+            })}
           </div>
         </div>
       )}
@@ -382,12 +455,38 @@ export function ElementsTab({
   );
 }
 
-function AddCard({ onClick, children }: { onClick: () => void; children: ReactNode }) {
+/** A piece of art in a tile: line art in the given colour, painted pieces as they are. */
+function ArtSwatch({ piece, colour }: { piece: ArtPiece; colour?: string }) {
+  if (piece.kind !== "line") {
+    // eslint-disable-next-line @next/next/no-img-element -- a small static thumbnail
+    return <img src={piece.src} alt="" loading="lazy" className="h-full w-full object-contain" />;
+  }
+  return (
+    <span
+      aria-hidden="true"
+      className="h-full w-full"
+      style={{
+        background: colour,
+        WebkitMaskImage: `url(${piece.src})`,
+        maskImage: `url(${piece.src})`,
+        WebkitMaskSize: "contain",
+        maskSize: "contain",
+        WebkitMaskRepeat: "no-repeat",
+        maskRepeat: "no-repeat",
+        WebkitMaskPosition: "center",
+        maskPosition: "center",
+      }}
+    />
+  );
+}
+
+function AddCard({ onClick, disabled, children }: { onClick: () => void; disabled?: boolean; children: ReactNode }) {
   return (
     <button
       type="button"
       onClick={onClick}
-      className="flex min-h-12 items-center rounded-xl border border-hairline bg-card px-4 py-2 text-left hover:border-ink/30"
+      disabled={disabled}
+      className="flex min-h-12 items-center rounded-xl border border-hairline bg-card px-4 py-2 text-left hover:border-ink/30 disabled:cursor-not-allowed disabled:hover:border-hairline"
     >
       {children}
     </button>
@@ -840,6 +939,23 @@ export function CanvasToolbar({
     body =
       el.kind === "text" ? (
         <>
+          {el.live && (
+            <span className="whitespace-nowrap px-2 text-[13px] font-semibold text-ink">{elementName(el)}</span>
+          )}
+          {el.live === "date" && (
+            <select
+              aria-label="Date style"
+              value={el.dateStyle}
+              onChange={(e) => set({ dateStyle: e.target.value as DateStyle })}
+              className="h-9 w-48 shrink-0 rounded-lg border border-hairline bg-card px-2 text-[13px] text-ink"
+            >
+              {DATE_STYLES.map((d) => (
+                <option key={d.id} value={d.id}>
+                  {d.label}
+                </option>
+              ))}
+            </select>
+          )}
           <select
             aria-label="Font"
             value={el.font}

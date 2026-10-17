@@ -231,6 +231,7 @@ export function VenueListing({ data }: { data: VenueListingData }) {
                     ))}
                   </dl>
                 )}
+                {price && <p className="mt-2 text-xs text-ink/50">Prices change. Confirm with the venue before you book.</p>}
               </div>
             )}
             {!signedIn ? (

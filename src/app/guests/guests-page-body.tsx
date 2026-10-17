@@ -126,6 +126,7 @@ export function GuestsPageBody({
               sideAColor={wedding.side_a_color}
               sideBColor={wedding.side_b_color}
               sideBothColor={wedding.side_both_color}
+              mealOptions={wedding.meal_options}
             />
           </div>
 

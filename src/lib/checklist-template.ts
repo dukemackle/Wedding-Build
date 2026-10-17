@@ -300,7 +300,7 @@ export const CHECKLIST_TEMPLATE: ChecklistTemplateTask[] = [
     href: "/guests",
     essential: true,
   },
-  { phase: "announce", title: "Set up your gift registry", weeksBefore: 24, href: "/guests" },
+  { phase: "announce", title: "Set up your gift registry", weeksBefore: 24, href: "/registry" },
   {
     phase: "announce",
     title: "Sort transport for the day",

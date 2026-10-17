@@ -1,7 +1,8 @@
 "use client";
 
 import type { CSSProperties, ReactNode } from "react";
-import { useReplay, useSiteDesign } from "@/components/guest-site-theme";
+import { useReplay, useSiteDesign, useTextEditing } from "@/components/guest-site-theme";
+import { useLiveDetails, useToday } from "@/components/site-live-details";
 import { artById, fontById } from "@/lib/site-design";
 import {
   colorCss,
@@ -12,7 +13,9 @@ import {
   readingOrder,
   type CanvasElement,
   type PhoneBox,
+  type TextElement,
 } from "@/lib/site-canvas";
+import { LIVE_FIELDS, liveWords, type LiveField } from "@/lib/site-live";
 
 /**
  * One section of the guest site with whatever the couple placed in it
@@ -139,6 +142,7 @@ export function SiteElement({
 }
 
 function ElementBody({ el }: { el: CanvasElement }) {
+  if (el.kind === "text" && el.live) return <LiveBody el={el} field={el.live} />;
   if (el.kind === "text") {
     const font =
       el.font === "display"
@@ -240,6 +244,59 @@ function ElementBody({ el }: { el: CanvasElement }) {
           }}
         />
       </div>
+    </div>
+  );
+}
+
+/**
+ * A live detail (src/lib/site-live.ts): the wedding's own names, date,
+ * countdown or venue in the element's type, or the RSVP button. A detail the
+ * couple hasn't filled in is left off the page, and shows as a prompt in the
+ * editor.
+ */
+function LiveBody({ el, field }: { el: TextElement; field: LiveField }) {
+  const details = useLiveDetails();
+  const today = useToday();
+  const { editable } = useTextEditing();
+  const words = liveWords(field, details, { dateStyle: el.dateStyle, today, label: el.text });
+  if (!words && !editable) return null;
+  const font =
+    el.font === "display"
+      ? "var(--font-names, var(--font-display))"
+      : el.font === "body"
+        ? "var(--font-body)"
+        : (fontById(el.font)?.css ?? "var(--font-body)");
+  const type = {
+    "--fs": el.size,
+    fontFamily: font,
+    textAlign: el.align,
+    fontWeight: el.bold ? 700 : 400,
+    fontStyle: el.italic ? "italic" : "normal",
+  } as CSSProperties;
+
+  if (field === "rsvp") {
+    return (
+      <div key={el.text} className="site-el-words" style={type}>
+        <a
+          href="#rsvp"
+          // In the editor a click picks the button rather than scrolling away.
+          onClick={editable ? (e) => e.preventDefault() : undefined}
+          className="site-el-button"
+          style={{
+            background: colorCss(el.color),
+            color: el.color === "accent" ? "var(--site-on-accent)" : "var(--color-parchment)",
+          }}
+        >
+          {words}
+        </a>
+      </div>
+    );
+  }
+
+  const label = LIVE_FIELDS.find((f) => f.id === field)?.label.toLowerCase();
+  return (
+    <div className="site-el-words" style={{ ...type, color: colorCss(el.color), opacity: words ? undefined : 0.5 }}>
+      {words ?? `Add your ${label} to show it here`}
     </div>
   );
 }

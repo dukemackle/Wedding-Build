@@ -161,6 +161,59 @@ Baked by Kara	Cake		Rochester	Minnesota	Rochester	Rochester home-style bakery ma
 Minnesota Life Celebrations	Officiant		Rochester	Minnesota	Rochester	Rochester officiant Kathy Diedrich, leading simple secular wedding ceremonies, from certificate signings to vow exchanges, at venues around town.	kathy@mnlifecelebrations.com	(507) 250-4655	https://www.mnlifecelebrations.com/	
 `,
   },
+  {
+    name: "Minneapolis–Saint Paul: stationery & invitations, bridal & formalwear, officiant, rentals, decor & lighting, photo booth",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Paper Rock Scissor	Stationery & Invitations	821 West 43rd Street	Minneapolis	Minnesota		South Minneapolis studio making custom wedding stationery, with consultations by appointment and several printing methods.		612-436-0750	https://www.paperrockscissor.com/	https://www.instagram.com/paperockscissor/
+a&bé x anna bé Bridal Shop	Bridal & Formalwear	7101 France Ave S #114	Edina	Minnesota	Edina, serving Minneapolis, St. Paul and the greater Twin Cities	Edina bridal boutique carrying designer gowns, veils and bridal mini dresses, with stylist help on fit and appointment booking.	hellompls@aandbebridalshop.com	612-238-1300	https://anna-be.com/minnesota	https://www.instagram.com/aandbebridalshop/
+Bridal Accents Couture	Bridal & Formalwear	12501 Nicollet Avenue	Burnsville	Minnesota	Minneapolis–St. Paul area	Burnsville boutique for wedding gowns, bridesmaid and parent dresses, accessories and men's tuxedos and suits through Jims Formal Wear.	info@bridalaccentscouture.com	952-846-4496	https://www.bridalaccentscouture.com/	https://www.instagram.com/bridalaccentscouture/
+Judge Tom Armstrong	Officiant		Oakdale	Minnesota	Twin City Metro Area and beyond	Retired judge who officiates civil, traditional, religious and same-sex ceremonies, with a large online library of sample ceremonies and readings.	tom@tgarmstrong.com	651-773-4092	https://www.tgarmstrong.com/	
+Linen Effects	Rentals	1801 W. River Road N.	Minneapolis	Minnesota	Minneapolis area	Minneapolis rental house for wedding linens, chargers, chairs, furniture, glassware and flatware, with showroom appointments and event design.	sales@lineneffects.com	612-355-2500	https://www.lineneffects.com/	https://www.instagram.com/lineneffects/
+Après Event Décor & Tent Rental	Rentals	5801 Clearwater Drive	Minnetonka	Minnesota	Twin Cities and the Upper Midwest	Family business renting tents, tables, seating and linens, with tent installation and décor design help for weddings.	info@apresparty.com	952-942-3399	https://apresparty.com/	https://www.instagram.com/apreseventandtent/
+Festivities	Rentals	10701 Red Circle Drive	Minnetonka	Minnesota		Event rental, décor and floral company supplying tents, tables, linens, draping, lighting and lounge furniture, with virtual consultations.	events@festivitiesmn.com	763-682-4846	https://www.festivitiesmn.com/	https://www.instagram.com/festivitiesmn/
+Y&I Events	Decor & Lighting		Minneapolis	Minnesota	Twin Cities	Draping, backdrop and décor studio that also does Indian wedding specialities such as mandap and sangeet styling, plus event rentals.			https://www.yandieventsllc.com/	https://www.instagram.com/yandievents/
+PHOS Events	Decor & Lighting		Minneapolis	Minnesota		Lighting and décor company for weddings, offering chandeliers, café and string lights, uplighting, custom gobos and draping.	info@phosevents.com	612-730-5690	https://www.phosevents.com/	https://www.instagram.com/phosevents/
+Maven Events	Decor & Lighting		Minneapolis	Minnesota		Planning and design studio that also rents furniture, rugs, vessels and signage, with delivery, styling and pickup available.			https://www.mavenstyling.com/rentalguide	https://www.instagram.com/mavenevents/
+Time Into Pixels	Photo Booth		Minneapolis	Minnesota	Minneapolis and throughout Minnesota	Photo booth company with open-style booths, custom photo strips, guest-book strips and unlimited prints for wedding receptions.	info@timeintopixels.com	612-564-8468	https://tipbooth.com/	https://www.instagram.com/timeintopixels/
+MN Booth	Photo Booth		Brooklyn Park	Minnesota	Brooklyn Park, Minneapolis, Saint Paul and the Twin Cities metro	Brooklyn Park photo booth provider serving weddings across the Twin Cities, with modern and retro booth packages.	info@mnbooth.com	612-930-3456	https://mnbooth.com/	https://www.instagram.com/mnbooth/
+Selfie & Co Photobooth Company	Photo Booth	1330 Quincy Street Northeast	Minneapolis	Minnesota	Minneapolis and Saint Paul	Northeast Minneapolis photo booth company with a dedicated weddings section and several packages for receptions.		651-214-0693	http://selfieandco.com/	https://www.instagram.com/selfiemsp/
+FotoGenic Photo Booth	Photo Booth		Minneapolis	Minnesota	Twin Cities metro, also travelling to rural Minnesota	Minneapolis photo booth rental for weddings and parties across the metro, with packages listed on its site.	Fun@FotoGenicPhotoBooth.com	612-460-5217	https://www.fotogenicmn.com/	https://www.instagram.com/fotogenicmn/`,
+  },
+  {
+    name: "Duluth: bridal & formalwear, rentals, decor & lighting, officiant, music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Josephine's Bridal	Bridal & Formalwear	313 West Superior Street	Duluth	Minnesota		Downtown Duluth bridal shop with designer and in-house gowns, mother-of-the-bride dresses and sample sales, in sizes 0 to 36.	teambride@northlandspecialevents.com	218-499-9441	https://www.josephinesduluth.com/	https://www.instagram.com/josephinesduluth/
+The Vault Duluth	Rentals	315 W. Superior Street, Suite 204	Duluth	Minnesota	Northern Minnesota and Wisconsin	Duluth event décor rental house with linens, chair covers, lounge furniture, ceremony arches and backdrops, plus delivery and styling.	rental@thevaultduluth.com	218-451-2468	https://www.thevaultduluth.com/	https://www.instagram.com/thevaultduluth/
+Decor Lab Duluth	Decor & Lighting		Duluth	Minnesota	Minnesota and Wisconsin	Duluth rental company for centerpieces, tabletop décor, arches and backdrops, which also offers wedding planning and coordination packages.	decorlabduluth@gmail.com		https://decorlabduluth.com/	https://www.instagram.com/decorlabduluth/
+Marry Me In The Northland	Officiant		Duluth	Minnesota	Duluth area, North Shore and Brainerd; will travel	Duluth team of licensed officiants for traditional, outdoor and themed ceremonies, micro weddings and elopements.			https://marrymeinthenorthland.com/	https://www.instagram.com/marrymeinduluth/
+Canal String Quartet	Music		Duluth	Minnesota	Duluth and the Twin Cities area	Duluth string quartet playing wedding preludes, ceremonies, cocktail hours and receptions, with a pop-music specialty since 2016.		218-514-1535	https://www.canalquartet.com/weddings/	
+String Poets	Music		Duluth	Minnesota	Duluth area	Duluth string quartets, trios and duos, with an optional vocalist, for wedding ceremonies, cocktail hours, dinners and dancing.	StringPoets@gmail.com	202-465-2310	https://www.stringpoets.com/duluth-MN-string-quartet.html	
+Pro Sound & Light Show	Music	350 Garfield Ave STE 5	Duluth	Minnesota	Duluth, Superior, the Twin Ports and Minnesota and Wisconsin	Duluth DJ company with MC services, uplighting and photo booth rental, running weddings since 1991 from one contract.	info@pro-1.com	218-722-1355	https://www.pro-1.com/	https://www.instagram.com/pro_sound_light_show/
+Sounds Unlimited Entertainment	Music	11 E. Superior Street	Duluth	Minnesota	Twin Ports and Twin Cities	Downtown Duluth DJ company offering wedding music, uplighting, photo booth, silent disco and live entertainment.	info@soundsunlimited.com	218-625-7340	https://www.soundsunlimited.com/	`,
+  },
+  {
+    name: "Rochester: cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Short & Sweet Cakes	Cake		Pine Island	Minnesota	Rochester, Oronoco, Pine Island, Zumbrota, Cannon Falls, Red Wing, Goodhue, Byron and Kasson	A Pine Island baker making custom cakes, with a dedicated weddings page and wedding inquiry form for couples across south-east Minnesota.			https://www.shortsweetcakes.com/	https://www.instagram.com/shortsweet_cakes/
+`,
+  },
+  {
+    name: "Rochester: music, bridal & formalwear",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+DJ Supafly	Music		Rochester	Minnesota	Southeast Minnesota	Bilingual Spanish and English wedding DJ with ceremony audio, plus photo booth and 360 booth rental, serving Rochester and the wider south-east of the state.	info@dj-supafly.com	507-218-7683	https://dj-supafly.com/	https://www.instagram.com/djsupafly/
+Finery Bridal Chic	Bridal & Formalwear		Rochester	Minnesota	Rochester area and Southeastern Minnesota	By-appointment bridal gown boutique for Rochester brides, with a pre-loved gown consignment programme alongside its wedding dress collection.	finerybridalchic@gmail.com	507-517-8039	https://www.finerybridalchic.com/	https://www.instagram.com/finerybridalrochester/
+`,
+  },
+  {
+    name: "Rochester: videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Fitzgerald Films	Videography		Minneapolis	Minnesota	Minneapolis, Duluth, Rochester and the wider Midwest	Minneapolis wedding videographer Grant, making films of couples' days and willing to travel to Rochester, Duluth and across the Midwest.			https://fitzgeraldfilms.com/	https://www.instagram.com/fitzgeraldfilms/`,
+  },
+  {
+    name: "Rochester: planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Dos Goats Plans	Planning		Minneapolis	Minnesota	Minneapolis, St. Paul, Rochester, Red Wing and across the Midwest	Minneapolis husband-and-wife planning team offering wedding management, coordination, partial and full planning, with Rochester among their listed areas.	hello@dosgoatsplans.com	763.639.8366	https://dosgoatsplans.com/	`,
+  },
 ];
 
 export default batches;

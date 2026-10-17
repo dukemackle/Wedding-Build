@@ -19,12 +19,14 @@ import {
   ENVELOPE,
   ENVELOPE_LINERS,
   MONOGRAM,
+  NAMES_STYLE,
   MONOGRAM_DATES,
   SEALS,
   MOTION_PRESETS,
   NO_BACKGROUND,
   ORNAMENT_IDS,
   SCENE_IDS,
+  SCENE_TIME_IDS,
   SECTION_IDS,
   TEXT_SLOT_IDS,
   THEME_IDS,
@@ -84,7 +86,7 @@ const motionSchema = z
 
 /** Each null means the theme's own. */
 const textStyleSchema = z.object({
-  text: z.string().trim().max(120).nullable().catch(null),
+  text: z.string().trim().max(1000).nullable().catch(null),
   font: z.enum(FONT_IDS).nullable().catch(null),
   size: z.number().min(0.5).max(2.5).nullable().catch(null),
   color: z.string().regex(HEX).nullable().catch(null),
@@ -130,6 +132,7 @@ export const siteDesignSchema = z.object({
   hero: z.enum(HERO_LAYOUTS.map((h) => h.id) as [HeroLayoutId, ...HeroLayoutId[]]).catch("full"),
   /** null means the theme's own scene. */
   scene: z.enum(SCENE_IDS).nullable().catch(null),
+  sceneTime: z.enum(SCENE_TIME_IDS).catch("day"),
   pageStyle: z.enum(["cards", "storybook"]).catch("cards"),
   /** Per-section layouts (SECTION_LAYOUTS); the schedule's and photos' null follows the page style. */
   layouts: z
@@ -173,11 +176,21 @@ export const siteDesignSchema = z.object({
     .object({
       fx: z.number().min(0).max(100).catch(50),
       fy: z.number().min(0).max(100).catch(50),
+      pfx: z.number().min(0).max(100).nullable().catch(null),
+      pfy: z.number().min(0).max(100).nullable().catch(null),
       filter: z.enum(PHOTO_FILTERS.map((f) => f.id) as [PhotoFilterId, ...PhotoFilterId[]]).catch("none"),
     })
     .catch(HERO_PHOTO),
   /** The shape around the Photos section's pictures and photo sections; null keeps the page style's own. */
   photoFrame: z.enum(PHOTO_FRAMES.map((f) => f.id) as [PhotoFrameId, ...PhotoFrameId[]]).nullable().catch(null),
+  /** How the names at the top are joined and set (NAMES_STYLE). */
+  names: z
+    .object({
+      joiner: z.enum(["&", "and"]).catch("&"),
+      stacked: z.boolean().catch(false),
+      capitals: z.boolean().catch(false),
+    })
+    .catch(NAMES_STYLE),
   /** The monogram's letters and date line; the frame is `ornament`. */
   monogram: z
     .object({

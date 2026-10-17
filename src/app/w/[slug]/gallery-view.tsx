@@ -5,7 +5,8 @@ import type { WeddingGalleryPhoto } from "@/lib/supabase/types";
 import { useSiteDesign } from "@/components/guest-site-theme";
 import { FramedPhoto } from "@/components/framed-photo";
 
-type Props = { photos: WeddingGalleryPhoto[]; alt: string };
+/** Each photo's alt text: "Maya & Jordan, photo 3 of 9", so a screen reader can tell them apart. */
+type Props = { photos: WeddingGalleryPhoto[]; alt: (i: number) => string };
 
 /**
  * The couple's own photos, in the layout they picked (SECTION_LAYOUTS.photos);
@@ -13,7 +14,8 @@ type Props = { photos: WeddingGalleryPhoto[]; alt: string };
  * storybook (unless they've picked a photo frame, which the spread wears).
  * Each layout has its own phone arrangement, not a shrunk one.
  */
-export function GalleryView({ photos, alt }: Props) {
+export function GalleryView({ photos, alt: names }: { photos: WeddingGalleryPhoto[]; alt: string }) {
+  const alt = (i: number) => (photos.length > 1 ? `${names}, photo ${i + 1} of ${photos.length}` : names);
   const { pageStyle, layouts, photoFrame } = useSiteDesign();
   if (photos.length === 0) return null;
   const layout = layouts.photos ?? (pageStyle === "storybook" && !photoFrame ? "scrapbook" : "spread");
@@ -42,7 +44,7 @@ function Spread({ photos, alt }: Props) {
           <FramedPhoto
             key={photo.id}
             src={photo.photo_url}
-            alt={alt}
+            alt={alt(i)}
             sizes="80vw"
             aspect="4 / 5"
             priority={i === 0}
@@ -52,14 +54,19 @@ function Spread({ photos, alt }: Props) {
       </div>
 
       {/* Tablet and up: a spread. */}
-      <div className={`hidden grid-cols-3 items-start sm:grid ${roomy ? "gap-5" : "gap-3"}`}>
+      {/* One photo stands alone, two side by side; three or more make the spread. */}
+      <div
+        className={`hidden items-start sm:grid ${
+          photos.length === 1 ? "mx-auto max-w-2xl grid-cols-1" : photos.length === 2 ? "grid-cols-2" : "grid-cols-3"
+        } ${roomy ? "gap-5" : "gap-3"}`}
+      >
         {photos.map((photo, i) => {
           const lead = i === 0 && photos.length >= 3;
           return (
             <FramedPhoto
               key={photo.id}
               src={photo.photo_url}
-              alt={alt}
+              alt={alt(i)}
               sizes={lead ? "(min-width: 1024px) 40vw, 60vw" : "(min-width: 1024px) 20vw, 30vw"}
               aspect={photoFrame === "arch" ? "4 / 5" : "1 / 1"}
               className={lead ? "col-span-2 row-span-2" : ""}
@@ -97,7 +104,7 @@ function Scrapbook({ photos, alt }: Props) {
           )}
           <Image
             src={photo.photo_url}
-            alt={alt}
+            alt={alt(i)}
             width={i === 0 ? 700 : 480}
             height={i === 0 ? 700 : 480}
             className="aspect-square w-full object-cover"
@@ -115,11 +122,11 @@ function Scrapbook({ photos, alt }: Props) {
 function Masonry({ photos, alt }: Props) {
   return (
     <div className="columns-2 gap-2 sm:columns-3 sm:gap-3">
-      {photos.map((photo) => (
+      {photos.map((photo, i) => (
         <Image
           key={photo.id}
           src={photo.photo_url}
-          alt={alt}
+          alt={alt(i)}
           width={600}
           height={750}
           sizes="(min-width: 640px) 33vw, 50vw"
@@ -151,11 +158,11 @@ function Filmstrip({ photos, alt }: Props) {
       }}
     >
       <div className="flex w-max snap-x snap-mandatory gap-2 px-6 sm:gap-3 sm:px-4">
-        {photos.map((photo) => (
+        {photos.map((photo, i) => (
           <Image
             key={photo.id}
             src={photo.photo_url}
-            alt={alt}
+            alt={alt(i)}
             width={640}
             height={480}
             className="aspect-[4/3] w-[78vw] max-w-[360px] shrink-0 snap-center object-cover sm:w-[320px] sm:max-w-none lg:w-[380px]"
@@ -187,22 +194,23 @@ function WashingLine({ photos, alt }: Props) {
           vectorEffect="non-scaling-stroke"
         />
       </svg>
-      <div className="relative grid" style={{ gridTemplateColumns: `repeat(${per}, minmax(0, 1fr))` }}>
+      {/* A short last row hangs in the middle of its string, not off one end. */}
+      <div className="relative flex justify-center">
         {row.map((photo, i) => {
           // Where the string is under this photo: a parabola, 4 at the ends, 28 mid-way.
-          const t = (i + 0.5) / per;
+          const t = ((per - row.length) / 2 + i + 0.5) / per;
           const sag = 4 + 96 * t * (1 - t) - 2;
           return (
             <figure
               key={photo.id}
-              className={`relative mx-auto w-[86%] origin-top bg-white p-1.5 pb-7 shadow-[0_6px_16px_rgba(40,40,30,0.18)] sm:p-2 sm:pb-9 ${SWAY[(offset + i) % SWAY.length]}`}
-              style={{ marginTop: sag }}
+              style={{ marginTop: sag, width: `${86 / per}%`, marginInline: `${7 / per}%` }}
+              className={`relative origin-top bg-white p-1.5 pb-7 shadow-[0_6px_16px_rgba(40,40,30,0.18)] sm:p-2 sm:pb-9 ${SWAY[(offset + i) % SWAY.length]}`}
             >
               <span
                 className="absolute -top-2.5 left-1/2 h-5 w-2 -translate-x-1/2 rounded-[2px] bg-[#c8a77a] shadow-sm"
                 aria-hidden="true"
               />
-              <Image src={photo.photo_url} alt={alt} width={480} height={480} className="aspect-square w-full object-cover" />
+              <Image src={photo.photo_url} alt={alt(offset + i)} width={480} height={480} className="aspect-square w-full object-cover" />
             </figure>
           );
         })}

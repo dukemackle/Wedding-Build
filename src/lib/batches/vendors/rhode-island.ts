@@ -54,6 +54,11 @@ Lockstar Beauty Bar	Hair & Makeup		Newport	Rhode Island	Newport, Cape Cod and su
 SACRA	Hair & Makeup		Newport	Rhode Island	Newport and destination weddings	Newport bridal hair and makeup artists working since 2013, travelling to wherever the wedding party gets ready.	SacraStudio@mail.com	(401) 344-0973	https://www.forthedevoted.com	https://www.instagram.com/sacrahmu/
 Pro Radiance Artistry	Hair & Makeup	5875 Post Rd	East Greenwich	Rhode Island		East Greenwich beauty boutique offering bridal hair, airbrush makeup and spray tans for the wedding party.	keri@proradianceartistry.com	401-829-0266	https://www.proradianceartistry.com	https://www.instagram.com/proradiance/`,
   },
+  {
+    name: "Providence and Newport: videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Veiled In Motion Wedding Films	Videography		Newport	Rhode Island	Newport, Boston and New England	Husband-and-wife wedding film team based in Newport, filming real moments across Rhode Island, Massachusetts and the rest of New England.	valeryandmark@veiledinmotion.com		https://www.veiledinmotion.com/	https://www.instagram.com/veiledinmotion/`,
+  },
 ];
 
 export default batches;

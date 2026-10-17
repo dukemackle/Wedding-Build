@@ -57,6 +57,22 @@ Village Salon & Spa	Hair & Makeup		Lewes	Delaware	Lewes and the Delaware beaches
 Greater Good Events	Catering		Lewes	Delaware	Delaware beach areas and beyond	Nonprofit-backed caterer with a Lewes bay-front facility, crafting custom wedding menus for events from ten to two hundred guests.		302-645-9184	https://www.greatergoodeventsde.com/	https://www.instagram.com/greatergoodeventsde/
 Blue Moon Catering	Catering		Rehoboth Beach	Delaware	Rehoboth Beach and the Delaware coast	Catering arm of a Rehoboth Beach restaurant, serving weddings from small dinners to large beachside receptions with a full-service team.			https://bluemoonrehoboth.com/catering/	`,
   },
+  {
+    name: "Rehoboth Beach: videography, florals, cake, decor and rentals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Mixon Studios	Videography		Newark	Delaware	Newark and the Wilmington area	Veteran-owned Newark studio filming weddings with multi-camera coverage, clear ceremony audio and packages from highlight reel to full-length film.			https://mixonstudios.com/	https://www.instagram.com/mixonstudios/
+Spectrum Farms	Florals		Felton	Delaware		Felton cut-flower farm designing wedding florals entirely from blooms and greens grown in its own Delaware fields during the growing season.			https://spectrumfarmsde.com/weddings/	https://www.instagram.com/spectrumfarms/
+Spark'd Creative Pastry	Cake	1105 N Market St	Wilmington	Delaware		Wilmington pastry shop making custom wedding cakes, with a flavour menu, a wedding FAQ page and an enquiry form for couples to start a booking.	Hello@SparkdCreativePastry.com	302-594-3966	https://sparkdcreativepastry.com/	
+Kaan's Bakery & Eatery	Cake	314 Wilson Highway	Millsboro	Delaware		Millsboro bakery and eatery taking custom cake orders for weddings and other celebrations, with at least a day's notice required on every order.		302-604-8932	https://www.kaanbakery.com/	
+The Party Kween	Decor & Lighting		Felton	Delaware	Delaware, Maryland and Pennsylvania	Felton event stylist who dresses weddings and proposals, with local delivery within 25 miles of town and a travel fee beyond that.		302-526-0812	https://www.partykween.com/	https://www.instagram.com/thepartykween/
+Party Central	Rentals	9 Town Road	Ocean View	Delaware	Sussex County, Delaware	Ocean View rental company hiring out wedding tents, tables, chairs and dance floors to couples across Sussex County, from Lewes to Selbyville.	Contact@PartyCentralMD.com	302-537-9797	https://toolandpartyrentalsde.com/	
+`,
+  },
+  {
+    name: "Rehoboth Beach: planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Happy Hour Events	Planning		Lewes	Delaware		Lewes event company offering consulting, planning and day-of management for weddings, celebrations and corporate events.	dana@happyhoureventsde.com	484-432-5538	https://www.happyhoureventsde.com/	`,
+  },
 ];
 
 export default batches;

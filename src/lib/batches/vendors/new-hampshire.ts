@@ -109,6 +109,23 @@ Kris Dobbins Photography	Photography		Franconia	New Hampshire	North Country of N
 Chef Joe's Catering	Catering	651 Main Street	Franconia	New Hampshire		Franconia caterer with a travelling kitchen for weddings, offering custom menus, bar service and help arranging rentals and cakes.	info@chefjoescatering.com	(603) 823-8589	https://www.chefjoescatering.com	https://www.instagram.com/thechefjoe/
 Josiah Does Videos	Videography		Salisbury	New Hampshire	New England and beyond	Salisbury-based wedding and elopement videographer making cinematic short films, with private online delivery of footage.			https://josiahdoesvideos.com	https://www.instagram.com/josiahdoesvideos/`,
   },
+  {
+    name: "White Mountains: hair & makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Debony Salon	Hair & Makeup	18 Main Street	Jackson	New Hampshire	Mount Washington Valley	Main Street salon and spa in Jackson doing wedding hair and airbrush or mineral makeup, in the salon or on location, with a wedding coordinator.	info@debonysalon.com	603-383-9366	https://www.debonysalon.com/	https://www.instagram.com/debony_salon/`,
+  },
+  {
+    name: "White Mountains: florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Tarrnation Flower Farm	Florals	96 Streeter Pond Rd	Sugar Hill	New Hampshire		Sugar Hill flower farm with a design studio on site, making romantic seasonal wedding flowers grown from seed and foraged locally.	tarrnationfarm@gmail.com		https://www.tarrnationflowerfarm.com/weddings-1	https://www.instagram.com/tarrnationflowers/
+`,
+  },
+  {
+    name: "White Mountains: planning, music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Forever Awaits By Valerie	Planning		Alton	New Hampshire	New Hampshire, White Mountains, Acadia and wider New England	Full-service wedding design, planning and coordination company that also handles intimate elopements, working from the Lakes Region and travelling to the mountains and coast.			https://foreverawaitsbyvalerie.com/	https://www.instagram.com/foreverawaitsbyvalerie/
+Bobby Freedom Entertainment	Music		Farmington	New Hampshire	New Hampshire, Massachusetts, Maine and Vermont	Wedding and party DJ operating since 2008, with a pricing guide, a dedicated wedding page and karaoke nights in North Conway and Tamworth.	NHentertainer@gmail.com	(603) 833-5963	https://www.djbobbyfreedom.com/	`,
+  },
 ];
 
 export default batches;

@@ -92,6 +92,35 @@ Saylor Buxcel Photography	Photography		Rapid City	South Dakota	Western South Dak
 Sayer JaDin Photography	Photography		Rapid City	South Dakota	Black Hills and across South Dakota	Black Hills photographer taking weddings across South Dakota, with a documentary approach that keeps the small moments of the day.	sayer@sayerjadinphotography.com		https://sayerjadinphotography.com/weddings	https://www.instagram.com/sayerjadinphotography/
 `,
   },
+  {
+    name: "Rapid City: videography, rentals, officiant, bridal & formalwear",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+BB Photo + Film	Videography		Rapid City	South Dakota	Black Hills and beyond (willing to travel)	Husband-and-wife photo and film team based in Rapid City, offering wedding videography alone or bundled with photography, with a wedding photo portfolio online.			https://www.bbphotoandfilm.com/	https://www.instagram.com/bbphotoandfilm/
+Black Hills PortaLux	Rentals		Spearfish	South Dakota	Black Hills and surrounding areas	Luxury restroom trailers with heating, air conditioning and vanity sinks, hired out for weddings and other events across the Black Hills.	hello@bhportalux.com	605-391-0723	https://www.bhportalux.com/	
+Something Borrowed	Rentals		Spearfish	South Dakota	Western South Dakota, Wyoming and Montana	Hire shop supplying tents, chairs, tables, linens, lighting, dance floors and draping for weddings, serving the region since 2012.		(605) 559-0265	https://www.somethingborrowedspearfish.com/	https://www.instagram.com/somethingborrowed.llc/
+Your Joyful Wedding (Mary Maisey-Ireland)	Officiant		Rapid City	South Dakota	Rapid City and the Black Hills	Wedding officiant and ceremony planner who writes custom ceremonies, and also handles vow renewals and rehearsals.	mary@yourjoyfulwedding.com	(605) 484-8464	http://www.yourjoyfulwedding.com/	https://www.instagram.com/marymaiseyireland/
+Audra's Bridal Gallery	Bridal & Formalwear	601 St. Joseph St	Rapid City	South Dakota		Downtown Rapid City bridal shop stocking wedding gowns, bridesmaid and mother-of-the-bride dresses, tuxedos and suits.		605-348-8816	https://audrasbridalgallery.com/	https://www.instagram.com/audrasbridalgallery/
+Michael’s Menswear	Bridal & Formalwear	617 St. Joseph St	Rapid City	South Dakota		Downtown menswear shop offering wedding suits and tuxedo hire for grooms and groomsmen, with fittings and set groom packages.	sales@michaelsmw.com	(605) 342-0127	https://michaelsmw.com/	
+`,
+  },
+  {
+    name: "Rapid City: florals, music, rentals, photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Becoming Blooms	Florals		Spearfish	South Dakota	Black Hills	Wedding florist in Spearfish making bouquets and ceremony flowers for couples across the Black Hills, with bookings open for 2026.	BecomingBloomsFlowers@gmail.com		https://www.becomingblooms.com/	https://www.instagram.com/becomingblooms/
+Bent Willow Designs	Florals	631 N. Main Street	Spearfish	South Dakota		Spearfish flower studio on Main Street that makes wedding bouquets, table arrangements and ceremony decorations for local couples.		605-717-0927	https://bentwillowdesigns.com/	https://www.instagram.com/bentwillowdesigns/
+Bloomers Flowers & Gifts	Florals	132 Highway 14A	Central City	South Dakota	Central City, Deadwood, Lead, Nemo, Spearfish, Sturgis, Northern Black Hills	Flower shop and bakery in Central City that supplies wedding flowers and event styling to couples across the Northern Black Hills.		605-578-7737	https://www.bloomersfg.com/	
+Changing Season Floral & Design	Florals	323 S Chicago St.	Hot Springs	South Dakota	Hot Springs and surrounding areas	Hot Springs florist offering wedding bouquets, bridal party flowers and ceremony and reception arrangements for southern Black Hills weddings.		605-745-4836	https://www.changingseasonsfloral.com/	
+Center Stage Entertainment	Music		Rapid City	South Dakota	Western South Dakota, Black Hills, eastern Wyoming	Rapid City DJ and entertainment company providing customised wedding and reception music, with online planning tools for couples.	cse@musicbycse.com	605-390-0693	https://musicbycse.com/	
+Dandelion Event Rentals	Rentals		Rapid City	South Dakota		Rapid City event rental company hiring out decor and furnishings for weddings, corporate events and celebrations.			https://www.dandelioneventrentalssd.com/	
+Maysa Oakly Photography	Photography		New Underwood	South Dakota	Black Hills, Sturgis	South Dakota wedding photographer based in New Underwood who has covered weddings in Sturgis and works around the Black Hills.	maysaoakly@gmail.com	(605) 391-2060	https://maysaoaklyphotography.com/	https://www.instagram.com/maysaoaklyphotography/
+`,
+  },
+  {
+    name: "Rapid City: cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+BOM Bakery	Cake		Rapid City	South Dakota	Within 50 miles of Rapid City	Small-batch, made-to-order bakery taking one wedding order a weekend, with cakes, cupcakes and tasting boxes, delivered within 50 miles of Rapid City.	bombakeryrc@gmail.com		https://www.bombakery.com/weddings	https://www.instagram.com/bombakery.rcsd/
+`,
+  },
 ];
 
 export default batches;

@@ -19,11 +19,15 @@ import { blockKey, type SectionId } from "@/lib/site-design";
 import { parseSiteDesign } from "@/lib/site-design-schema";
 import { HeroPhotoPanel } from "../../../hero-photo-panel";
 import { GalleryPanel } from "../../../gallery-panel";
-import { Accommodations, DressAndTravel, Faqs } from "../../../guest-site-details";
+import { liveDetailsOf } from "@/lib/site-live";
+import { asksMeal, mealChoices } from "@/lib/meal-options";
+import { VenuePhotosPanel } from "../../../venue-photos-panel";
+import { Accommodations, DressAndTravel, Faqs, OwnVenue } from "../../../guest-site-details";
 import { RegistryManager } from "../../../registry-manager";
 import { SiteEditor } from "../../site-editor";
 import type { ChecklistItem, SectionInfo } from "../../editor-tabs";
 import { BlockEditor } from "../../block-editor";
+import { RsvpQuestions } from "../../rsvp-questions";
 import { PartySitePanel } from "../../../party-site-panel";
 
 /**
@@ -132,11 +136,13 @@ export default async function GuestSiteEditorPage({ params }: { params: Promise<
   const { data: venue } = wedding.venue_id
     ? await supabase
         .from("venues")
-        .select("name, photo_urls")
+        .select("name, city, state, photo_urls")
         .eq("id", wedding.venue_id)
-        .maybeSingle<{ name: string; photo_urls: string[] }>()
+        .maybeSingle<{ name: string; city: string | null; state: string | null; photo_urls: string[] }>()
     : { data: null };
-  const venuePhotos = venue?.photo_urls.length ?? 0;
+  const ownVenuePhotos = wedding.own_venue_photo_urls ?? [];
+  // What the site shows: the couple's own venue photos win over the listing's.
+  const venuePhotos = ownVenuePhotos.length || (venue?.photo_urls.length ?? 0);
 
   const headersList = await headers();
   const host = headersList.get("host");
@@ -153,8 +159,15 @@ export default async function GuestSiteEditorPage({ params }: { params: Promise<
     JSON.stringify([
       wedding.public_slug,
       wedding.hero_photo_url,
+      wedding.own_venue_name,
+      wedding.own_venue_address,
+      wedding.own_venue_city,
+      wedding.own_venue_state,
+      ownVenuePhotos,
       wedding.dress_code,
       wedding.travel_notes,
+      wedding.meal_options,
+      wedding.ask_dietary,
       galleryPhotos,
       faqs,
       accommodations,
@@ -167,20 +180,26 @@ export default async function GuestSiteEditorPage({ params }: { params: Promise<
   const photoCount = galleryPhotos?.length ?? 0;
   const stayCount = accommodations?.length ?? 0;
   const faqCount = faqs?.length ?? 0;
-  const registryCount = registryItems?.length ?? 0;
+  const { count: giftCount } = await supabase
+    .from("registry_gifts")
+    .select("id", { count: "exact", head: true })
+    .eq("wedding_id", wedding.id);
+  const registryCount = (registryItems?.length ?? 0) + (giftCount ?? 0);
   const events = eventCount ?? 0;
   const partyShown = (partyMembers ?? []).filter((m) => m.on_site).length;
   const hidden = " — hidden until you add one";
 
   const sectionInfo: Record<SectionId, SectionInfo> = {
-    rsvp: wedding.rsvp_deadline
-      ? { status: `Replies by ${formatDate(wedding.rsvp_deadline)}`, layout: "rsvp" }
-      : {
-          layout: "rsvp",
-          status: "Deadline not set",
-          warn: true,
-          link: { href: "/dashboard", label: "Set an RSVP deadline on the Dashboard" },
-        },
+    rsvp: {
+      layout: "rsvp",
+      status: [
+        wedding.rsvp_deadline ? `Replies by ${formatDate(wedding.rsvp_deadline)}` : "Deadline not set",
+        asksMeal(wedding.meal_options) ? `${mealChoices(wedding.meal_options).length} meal choices` : "no meal choice",
+      ].join(" · "),
+      warn: !wedding.rsvp_deadline,
+      link: wedding.rsvp_deadline ? undefined : { href: "/dashboard", label: "Set an RSVP deadline on the Dashboard" },
+      editor: <RsvpQuestions mealOptions={wedding.meal_options ?? null} askDietary={wedding.ask_dietary !== false} />,
+    },
     photos: {
       status: [
         wedding.hero_photo_url ? "Banner photo" : venuePhotos ? "Venue's photo as banner" : "No banner photo",
@@ -205,14 +224,29 @@ export default async function GuestSiteEditorPage({ params }: { params: Promise<
     },
     venue: venue
       ? {
-          status: venuePhotos
-            ? `${venue.name}, with ${venuePhotos} of their photo${venuePhotos === 1 ? "" : "s"}`
-            : `${venue.name} (they haven't added photos yet)`,
+          status: ownVenuePhotos.length
+            ? `${venue.name}, with ${ownVenuePhotos.length} of your photo${ownVenuePhotos.length === 1 ? "" : "s"}`
+            : venuePhotos
+              ? `${venue.name}, with ${venuePhotos} of their photo${venuePhotos === 1 ? "" : "s"}`
+              : `${venue.name} (no photos yet)`,
+          editor: <VenuePhotosPanel photos={ownVenuePhotos} listed />,
         }
-      : {
-          status: `No venue picked${hidden.replace("add one", "pick one")}`,
-          link: { href: "/venues", label: "Find your venue" },
-        },
+      : wedding.own_venue_name
+        ? {
+            status: `${wedding.own_venue_name} (your own venue)${ownVenuePhotos.length ? `, ${ownVenuePhotos.length} photo${ownVenuePhotos.length === 1 ? "" : "s"}` : ""}`,
+            editor: (
+              <div className="flex flex-col gap-8">
+                <OwnVenue wedding={wedding} />
+                <VenuePhotosPanel photos={ownVenuePhotos} listed={false} />
+              </div>
+            ),
+            link: { href: "/venues", label: "Or pick a listed venue" },
+          }
+        : {
+            status: `No venue picked${hidden.replace("add one", "pick one")}`,
+            editor: <OwnVenue wedding={wedding} />,
+            link: { href: "/venues", label: "Find your venue" },
+          },
     weekend: {
       layout: "weekend",
       status: !events
@@ -252,8 +286,11 @@ export default async function GuestSiteEditorPage({ params }: { params: Promise<
       editor: <Faqs faqs={faqs ?? []} />,
     },
     registry: {
-      status: registryCount ? `${registryCount} link${registryCount === 1 ? "" : "s"}` : `No links${hidden}`,
+      status: registryCount
+        ? `${registryCount} thing${registryCount === 1 ? "" : "s"} on your registry`
+        : `Nothing added${hidden.replace("one", "gifts")}`,
       editor: <RegistryManager registryItems={registryItems ?? []} />,
+      link: { href: "/registry", label: "Add gifts and cash funds" },
     },
   };
 
@@ -311,6 +348,14 @@ export default async function GuestSiteEditorPage({ params }: { params: Promise<
           hasPhoto={Boolean(wedding.hero_photo_url)}
           names={[wedding.partner_a_name ?? "", wedding.partner_b_name ?? ""]}
           weddingDate={wedding.wedding_date ?? null}
+          live={liveDetailsOf({
+            partner_a_name: wedding.partner_a_name,
+            partner_b_name: wedding.partner_b_name,
+            wedding_date: wedding.wedding_date,
+            venue_name: venue?.name ?? wedding.own_venue_name,
+            venue_city: venue?.city ?? wedding.own_venue_city,
+            venue_state: venue?.state ?? wedding.own_venue_state,
+          })}
           photos={[wedding.hero_photo_url, ...(galleryPhotos ?? []).map((p) => p.photo_url)].filter(
             (url): url is string => Boolean(url?.startsWith("https://")),
           )}

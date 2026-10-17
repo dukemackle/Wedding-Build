@@ -171,6 +171,31 @@ Anointed Media	Videography		Shreveport	Louisiana	Shreveport, Bossier City, Bento
 Flower Power Weddings & Events	Florals	3803 Youree Dr	Shreveport	Louisiana	Shreveport	Shreveport florist doing wedding flowers for the bridal party, ceremony and reception, with consultations by appointment only.		(318) 698-4600	https://flowerpowershreveport.flowerlookbook.com/	https://www.instagram.com/flower_power_shreveport/
 Deb's Garden Style Florist	Florals	2154 Airline Drive	Bossier City	Louisiana	Bossier City	Bossier City florist offering wedding packages, bridal bouquets, centrepieces and ceremony and reception flowers, and says it has served the city for twenty years.		(318) 742-5403	https://www.gardenstyleflorist.com/wedding-flowers	https://www.instagram.com/debs_garden_llc/`,
   },
+  {
+    name: "Lafayette and Shreveport: hair and makeup, catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+The HeadQuarters of Lafayette	Hair & Makeup	615 Madison St	Lafayette	Louisiana		Downtown Lafayette salon whose stylists do wedding and event hair and makeup on site at hotels, homes or venues, booked through a special event form.	thehqlafayette@gmail.com	337-534-0049	https://thehqlafayette.com/	https://www.instagram.com/thehqlafayette/
+AHEAD Catering	Catering	4600 East Texas St	Bossier City	Louisiana	Shreveport, Bossier City	Bossier City caterer serving Southern barbecue, fish fry and steakhouse-style menus for weddings and other events, with menu planning, setup and service.		(318) 402-8051	https://aheadcatering.com/	
+Chef's Table by Beauxjax	Catering	521 Barksdale Blvd	Bossier City	Louisiana		Bossier City East Bank caterer and event space offering in-house wedding catering with bar packages, seating for up to 200 and menu consultations.	beauxjaxchefstable@gmail.com	318-588-0782	https://www.beauxjaxchefstable.com/	https://www.instagram.com/chefs_table_by_beauxjax/`,
+  },
+  {
+    name: "Shreveport: videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Brandon Handy Weddings	Videography		Shreveport	Louisiana	Louisiana, Oklahoma and Texas	Shreveport videography duo, Brandon and Hannah, making story-driven wedding films, with trailers and full films shown on their site.	BrandonHandyMedia@gmail.com		https://www.brandonhandyweddings.com/	https://www.instagram.com/brandonhandyweddings/
+`,
+  },
+  {
+    name: "Shreveport: hair and makeup, cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Buttercups Cupcakes	Cake	6535 Youree Dr, Suite 207	Shreveport	Louisiana	Shreveport, Bossier City and Texarkana	Locally owned Shreveport bakery making custom cakes, cupcakes and macarons for weddings and celebrations; two weeks notice asked.			https://www.ilovebuttercups.com/	https://www.instagram.com/buttercupscupcakes/
+`,
+  },
+  {
+    name: "Shreveport: hair and makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+The French Twist Salon	Hair & Makeup	6401 Line Ave, Bldg 4	Shreveport	Louisiana	Shreveport	Salon in south Shreveport that styles brides, mothers and bridal parties for the wedding day, with updos, makeup and a private glam room.		(318) 671-4409	https://frenchtwistbeautysalon.com/parties-and-vip-experience	
+`,
+  },
 ];
 
 export default batches;

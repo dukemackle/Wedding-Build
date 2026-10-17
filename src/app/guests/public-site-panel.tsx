@@ -102,6 +102,7 @@ function SubmissionRow({
                 // the couple can correct it before approving the row.
                 submission.side ? theme.labels[submission.side] : null,
                 submission.meal,
+                submission.dietary && `Dietary: ${submission.dietary}`,
               ]
                 .filter(Boolean)
                 .join(" · ") || "—"}

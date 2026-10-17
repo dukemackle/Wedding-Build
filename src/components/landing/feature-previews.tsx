@@ -790,7 +790,7 @@ const DEMO_GUESTS: {
 ];
 
 const INCOMING = [
-  { name: "Priya S.", reply: "Joyfully accepts", meal: "Salmon", status: "confirmed" as const },
+  { name: "Priya S.", reply: "Joyfully accepts", meal: "Salmon · Dietary: nut allergy", status: "confirmed" as const },
   { name: "Uncle Joe", reply: "Joyfully accepts", meal: "Chicken", status: "confirmed" as const },
 ];
 
@@ -1704,6 +1704,7 @@ const DEMO_ART = [
   { id: "frond", label: "Palm frond", src: "/site-art/frond.svg" },
   { id: "eucalyptus", label: "Eucalyptus", src: "/site-art/eucalyptus-line.webp" },
   { id: "lavender", label: "Lavender", src: "/site-art/lavender-line.webp" },
+  { id: "rings", label: "Wedding rings", src: "/site-art/rings.svg" },
 ] as const;
 
 function artMask(src: string, color: string): React.CSSProperties {
@@ -1885,7 +1886,7 @@ function SiteDemo() {
           </button>
         ))}
       </div>
-      <p className={eyebrow}>Line art · drag it on the site</p>
+      <p className={eyebrow}>Line art &amp; ornaments · drag it on the site</p>
       <div className="flex gap-2">
         {DEMO_ART.map((a) => (
           <button

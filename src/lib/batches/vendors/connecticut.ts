@@ -163,6 +163,29 @@ Nutmeg Photography	Photography	174 West Street	Litchfield	Connecticut	Litchfield
 JF3 Productions	Videography		Simsbury	Connecticut	New England and destination weddings	A small Simsbury videography team making unscripted, natural-feeling wedding highlight films and full-length edits for couples across New England.	JF3Productions@gmail.com		https://www.jf3productions.com/	
 Barnberry Productions	Videography		Norwich	Connecticut		An independent Norwich filmmaking studio producing energetic, emotion-led wedding films that favour candid moments over stiff, old-fashioned video.		(860) 861-3344	https://www.barnberryproductions.com/	https://www.instagram.com/barnberryproductions/`,
   },
+  {
+    name: "Connecticut: videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+mebCINEMA	Videography	151 May St	Naugatuck	Connecticut	Connecticut, Massachusetts and lower New York	Naugatuck filmmaker who shoots and directs every wedding himself, unobtrusively, with engagement films that can be woven into the final cut.	mail@mebCINEMA.com	(203) 830-9907	https://www.mebcinema.com/	https://www.instagram.com/mebcinema/
+Legend Photo & Film	Videography		West Hartford	Connecticut	Connecticut	West Hartford studio filming and photographing weddings quietly, with nothing staged, and taking a limited number of couples each year.	tyler@legendphotoandfilm.com	860.255.8802	https://www.legendphotoandfilm.com/wedding-photography-videography	https://www.instagram.com/legendphotoandfilm/
+Kane Films	Videography		East Haven	Connecticut	Connecticut and surrounding areas	East Haven videographer who films and edits weddings himself, delivering highlight or feature videos alongside candid, documentary-style photos.	HarryKaneFilms@gmail.com	(860) 840-3737	https://www.kanefilms.net/	https://www.instagram.com/kanefilms/
+RiVideoPro	Videography		Ellington	Connecticut	Southern New England and New York	Ellington wedding videographer filming since 2007 in a candid, easygoing style, known for returning sneak peeks and highlight films within days.			https://www.rivideopro.com/	`,
+  },
+  {
+    name: "Litchfield Hills: videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Millside Wedding Films	Videography		Milford	Connecticut		Milford studio making intimate, cinematic wedding films, with recent work at Litchfield County farms and other Connecticut venues.	josh@millsideweddingfilms.com		https://millsideweddingfilms.com/	https://www.instagram.com/millsideweddingfilms/`,
+  },
+  {
+    name: "Litchfield Hills: videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Artisan Wedding Films	Videography	257 Federal Rd	Brookfield	Connecticut	Litchfield County, Fairfield County, New Haven, Hartford and wider New England	Cinematic wedding videography from a Brookfield studio, filming across Litchfield County and western Connecticut for over twenty years.	info@artisanweddingfilms.com	203-743-7663	https://artisanweddingfilms.com	`,
+  },
+  {
+    name: "Litchfield Hills: videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+BRB Audiovisual Productions	Videography		Oxford	Connecticut	Connecticut statewide	Connecticut video studio making cinematic wedding highlight films, with more than 25 years behind the camera alongside commercial and promotional work.	services@brbaudiovisual.com	203 881-3577	https://www.brbaudiovisual.com/	`,
+  },
 ];
 
 export default batches;
