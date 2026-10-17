@@ -103,6 +103,30 @@ Flower Box	Florals	301 W Burdick Expy	Minot	North Dakota		Independent Minot flor
 Lexi Lou Florals	Florals	1900 4th Ave NW	Minot	North Dakota		Small Minot flower shop and studio with a storefront, making wedding bouquets and tablescapes as well as sympathy work.			https://shoplexilou.com/	https://www.instagram.com/flowersbylexilou/
 `,
   },
+  {
+    name: "Bismarck: music, transportation, rentals, decor & lighting and florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Midnight Express DJs - Bismarck	Music		Bismarck	North Dakota	Bismarck, Mandan and central North Dakota	Family-run Bismarck DJ and MC service operating since 1980, which also supplies its own PA system for live bands and ceremonies.	MidnightExpressBismarck@gmail.com	(701) 690-9591	https://www.midnightexpressbismarck.com/	
+BeLoud Entertainment	Music		Bismarck	North Dakota	Bismarck-Mandan, including Sterling, Wilton and New Salem	Bismarck-Mandan mobile DJ company with more than 700 weddings and events behind it, offering clients an online planner for music and timings.		701-214-6271	https://beloudentertainment.com/	
+Nightlife Music	Music	1505 East Main Avenue	Bismarck	North Dakota	Bismarck and Mandan	Bismarck music store whose Azure Blue DJ service covers weddings in Bismarck and Mandan, alongside sound and lighting hire.	sales@nightlifemusic.com	701-222-0202	https://www.nightlifemusic.com	https://www.instagram.com/nightlife_music_store/
+Nightlife Limousine	Transportation	1505 East Main Avenue	Bismarck	North Dakota	Bismarck and Mandan	Bismarck limousine company for bridal parties, adding dry-ice first-dance fog, confetti cannons, venue uplighting and sound and lighting hire.	rick@nightlifemusic.com	701-222-0202	https://www.nightlifelimousine.com/wedding-1	https://www.instagram.com/nightlife_limousine_official/
+Dreamt Events & Rentals	Decor & Lighting		Bismarck	North Dakota		Bismarck decorator offering event design, full-service decorating and tear-down, speaker rentals and day-of coordination for weddings and other events.	dreamt.events.rentals@gmail.com	719-464-9470	https://www.dreamt-events.com/	
+The Event Design Agency	Decor & Lighting	1603 East Main Ave	Bismarck	North Dakota		Bismarck decor team offering ceremony, reception and ceiling decor plus a full package, run as the in-house brand of Sixteen03 Main Events.		701.255.6246	https://www.ndeventdesign.com	https://www.instagram.com/ndeventdesign/
+Beyond the Blooms	Florals	517 E. Main St Ste. B	Mandan	North Dakota	Mandan and surrounding areas	Mandan flower shop with dedicated pages for wedding bouquets, wedding party flowers, ceremony flowers and reception flowers.		(701) 255-3312	https://www.beyondtheblooms.net/	`,
+  },
+  {
+    name: "Bismarck: photography, catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Twelve9 Photography	Photography		Bismarck	North Dakota	North Dakota	Wedding and elopement photographers based in Bismarck, taking bookings across North Dakota and for destination weddings.			https://twelve9photo.com/	https://www.instagram.com/twelve9.photo/
+Sixteen03 Main Events	Catering	1603 East Main Ave	Bismarck	North Dakota		Bismarck caterer and event space offering full-service wedding catering and a rental price guide, with an online catering menu.	info@sixteen03mainevents.com	701-255-6246	https://www.sixteen03mainevents.com/	
+`,
+  },
+  {
+    name: "Bismarck: planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+White Lace Events	Planning	202 E Broadway Ave	Bismarck	North Dakota	Bismarck, Fargo, Dickinson, Grand Forks, Medora and Rapid City	Planning arm of a Bismarck bridal boutique, offering month-of coordination through to full planning, plus guided bouquet-making sessions.	whitelacebridalnd@gmail.com	(701) 258-4142	https://www.whitelacebridalnd.com/	https://www.instagram.com/whitelacebridalnd/
+`,
+  },
 ];
 
 export default batches;

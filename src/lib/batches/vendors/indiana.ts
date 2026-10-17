@@ -211,6 +211,23 @@ Little Willows Weddings, Events, and Designs	Rentals		Evansville	Indiana		Evansv
 Royal Excursion	Transportation	12807 McKinley Hwy	Mishawaka	Indiana	Indiana, Southwest Michigan and Chicagoland	Mishawaka charter and shuttle company with vehicles from SUVs to motorcoaches for moving wedding parties and guests.		(574) 257-8540	https://royalexcursion.com/	https://www.instagram.com/royalexcursion/
 Burns Rent-Alls	Rentals	2401 N. Home Street	Mishawaka	Indiana	Northern Indiana and Southwest Michigan	Mishawaka event rental company hiring out tents, tables, chairs, linens, dance floors and lighting for weddings.		(574) 259-4807	https://burnsrentals.com/	https://www.instagram.com/burnsspecialevents/`,
   },
+  {
+    name: "Bloomington: videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Digital Sunshine Media	Videography		Bloomington	Indiana		Bloomington videographers making wedding highlight reels, full ceremony films and speech edits, with 4K downloads and one- or two-videographer packages.		(812) 675-1164	https://digitalsunshinemedia.com/weddings	https://www.instagram.com/digitalsunshinellc/`,
+  },
+  {
+    name: "South Bend: planning, hair & makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Cara Rose Events	Planning		South Bend	Indiana		South Bend wedding planner offering full design, full planning and day-of coordination packages, with a calm, organised approach to the wedding day.	Cara@CaraRoseEvents.com		https://www.cararoseevents.com/	https://www.instagram.com/cararoseevents/
+Courage and Grace Artistry	Hair & Makeup		South Bend	Indiana	Michiana	Bridal makeup artist and esthetician serving Michiana since 2019, offering wedding-day makeup and trials with a natural, authentic-looking finish.	courageandgraceartistry@gmail.com	(574) 276-5627	https://www.courageandgraceartistry.com/	https://www.instagram.com/courageandgraceartistry/
+Lips and Lashes by Crazy Aimee	Hair & Makeup	3466 Douglas Rd, Suite 300	South Bend	Indiana		South Bend beauty studio that styles bridal hair and makeup, with formal updos, trial makeup and travel to venues, alongside lash, brow and skin services.	crazyaimee73@gmail.com	(574) 850-3612	https://www.crazyaimeedesigns.com/	https://www.instagram.com/lipslashesbycrazy/`,
+  },
+  {
+    name: "Evansville: videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Light on the Hill Creative Company	Videography		Evansville	Indiana	Evansville, Newburgh, Henderson, Owensboro and surrounding areas	Southern Indiana photo and film studio making cinematic wedding films and short features, led by Zack Hill, for couples around Evansville and Newburgh.	zack@lightonthehillcreative.com		https://lightonthehillcreative.com/weddings	https://www.instagram.com/lightonthehillcreativecompany/`,
+  },
 ];
 
 export default batches;

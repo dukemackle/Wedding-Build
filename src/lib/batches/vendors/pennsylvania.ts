@@ -329,6 +329,59 @@ Pat's Pizza & Bistro	Catering	1426 W Broad St	Bethlehem	Pennsylvania		Bethlehem 
 Just Breathe. Weddings & Events	Planning		Wyomissing	Pennsylvania	Lehigh Valley, Berks, Lancaster and Chester counties and Greater Philadelphia	Berks County boutique planner offering full, partial and day-of wedding coordination, with a Lehigh Valley venue network.			https://www.justbreatheevents.co/	https://www.instagram.com/justbreatheeventsco/
 Simply Smooth Catering	Catering	2730 Walbert Ave	Allentown	Pennsylvania	Lehigh Valley	Allentown caterer since 1990 handling weddings, mitzvahs and corporate events, with planning, rentals and staffing alongside the menus.	chefdavid@simplysmooth.com	610-434-3900	https://www.simplysmooth.com/	`,
   },
+  {
+    name: "Poconos: videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Electric City Studios	Videography		Clarks Summit	Pennsylvania	Scranton, Wilkes-Barre, the Pocono region, Eastern Pennsylvania and Southeast New York	Wedding film and photography team in Clarks Summit that shoots highlight films at Poconos and Northeast PA venues and offers combined photo and video coverage.		(570) 354-8471	https://ecstudios.org/	https://www.instagram.com/electric_citystudios/`,
+  },
+  {
+    name: "Pittsburgh: photography, florals, planning and music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Kristy Olivia Photography	Photography		Pittsburgh	Pennsylvania		LGBTQ+-owned Pittsburgh photographer covering weddings, elopements and lifestyle portraits, and happy to travel for adventurous locations.	hello@kristyolivia.com	412.606.9879	https://www.kristyolivia.com	https://www.instagram.com/kristyoliviaphotography/
+greenSinner Floral Event Design	Florals	5234 Butler Street	Pittsburgh	Pennsylvania		Upper Lawrenceville floral studio that designs wedding and event flowers around each couple's taste rather than one house style.	hello@greensinner.com		https://www.greensinner.com	https://www.instagram.com/greensinner/
+Pearl Celebrations	Planning		Pittsburgh	Pennsylvania		Pittsburgh planning and decor team focused on Indian weddings, handling both the coordination and the styling of multi-event celebrations.	rana@pearlceleb.com	(412) 721-0924	https://www.pearlcelebrations.com	
+Three Rivers String Quartet	Music		Pittsburgh	Pennsylvania		Pittsburgh string group for ceremonies and receptions, drawing on a repertoire of 500-plus pieces and a planning sheet to help choose ceremony music.			https://www.threeriversstringquartet.com	https://www.instagram.com/ThreeRiversSQ/`,
+  },
+  {
+    name: "Lancaster: catering and photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Upohar World Kitchen	Catering	800 New Holland Avenue	Lancaster	Pennsylvania	Lancaster, York, Harrisburg, Reading, Lebanon, Gettysburg, Chambersburg, Chester County and the Lehigh Valley	Lancaster caterer with globally inspired menus for weddings, including vegan, gluten-free, dairy-free, nut-free and halal options.	info@UpoharEthnicCuisines.com	717-475-1914	https://www.upoharethniccuisines.com	https://www.instagram.com/global.flavors.catering/
+Sarah Brookhart Photography	Photography		Lancaster	Pennsylvania	Pennsylvania, Maryland and New York City	Documentary-style wedding photographer who welcomes couples of all backgrounds and identities and avoids posed, stiff portraits.			https://www.sarahbrookhart.com	https://www.instagram.com/sarah.brookhart/`,
+  },
+  {
+    name: "Lehigh Valley: cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Crumbs Cake Studio	Cake	817 Linden St	Bethlehem	Pennsylvania		Bethlehem studio making custom-designed cakes and desserts, with a dedicated wedding cake section and an enquiry form for orders.		610-597-0200	https://thecrumbscakestudio.com	https://www.instagram.com/thecrumbscakestudio/
+Sweet Girlz Bakery	Cake	40 N 3rd St	Easton	Pennsylvania		Downtown Easton bakery that takes custom orders for weddings and bridal showers alongside its everyday counter baking.		610-829-1030	https://www.sweetgirlzbakery.com	`,
+  },
+  {
+    name: "Harrisburg and Hershey: planning, florals, hair and makeup and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Hidden Gem Weddings and Events	Planning		Jonestown	Pennsylvania		Wedding planner and day-of coordinator in Lebanon County, with a gallery that includes a Hershey-area reception.	info@hiddengemweddingsandevents.com	717-926-6229	https://hiddengemweddingsandevents.com	https://www.instagram.com/theweddingplanner1/
+Wild Briar Blooms	Florals		Mechanicsburg	Pennsylvania	South Central PA	Cut-flower farm that designs bouquets and arrangements for weddings and events around Mechanicsburg.	Wildbriarblooms@gmail.com	(717) 979-4050	https://wildbriarblooms.com	https://www.instagram.com/wildbriarblooms/
+Beauty by Khara	Hair & Makeup		Harrisburg	Pennsylvania	Harrisburg, Hershey, York, Lancaster	Airbrush makeup artist and hairstylist who works on bridal parties as well as film, print and pageant clients.	khara@beautybykhara.com	717.497.2477	https://www.beautybykhara.com	https://www.instagram.com/beautybykhara/
+Story Manor Films	Videography		Harrisburg	Pennsylvania	Lancaster and Philadelphia areas	Harrisburg filmmaker producing wedding films shot at York County and Lancaster County venues.			https://www.storymanorfilms.com	`,
+  },
+  {
+    name: "Erie: cake, photography, music and hair and makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Warner's Bakery by Hil	Cake	115 North Franklin St.	Titusville	Pennsylvania		Bakery with a wedding cake menu, including hand-painted tiered designs, plus consultations booked online.		(814) 827-2330	https://warnersbakery.com	https://www.instagram.com/warnersbakerybyhil/
+Stevee Elchynski Photography	Photography		Erie	Pennsylvania	Erie, Clymer NY and Meadville	Erie photographer covering weddings alongside portrait sessions, with a dedicated weddings portfolio.	steveeelchynskiphoto@gmail.com		https://www.steveeelchynskiphoto.com	
+Stacy Lynn Photography	Photography		Erie	Pennsylvania		Erie wedding, newborn and family photographer with a separate weddings gallery.			https://www.stacylynn-photography.com	https://www.instagram.com/sl_photography2021/
+Ron Yarman Music	Music		Erie	Pennsylvania	Erie, Cleveland, Pittsburgh and Buffalo	Singer and guitarist offering tiered wedding packages from ceremony music through cocktail hour and reception sets.	ron@ronyarmanmusic.com	(814) 490-3062	https://www.ronyarmanmusic.com	https://www.instagram.com/ronyarmanmusic/
+Platinum Hair Studio	Hair & Makeup	5320 Buffalo Rd	Erie	Pennsylvania	Venues within 30 miles of the studio	Salon offering bridal hair with optional trial, plus bridesmaid and mother-of-the-bride styling on the day.	Platinumhairstudio814@gmail.com	814-873-8599	https://www.platinumhairstudio814.com	https://www.instagram.com/platinumhairstudio814/`,
+  },
+  {
+    name: "Poconos: videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Wind Rose Films	Videography		Lords Valley	Pennsylvania	Pennsylvania, New York, Florida and Georgia	Cinematic wedding filmmaker based in the Pocono Mountains, shooting unscripted, story-led films for couples in Pennsylvania and beyond.	windrosefilms@gmail.com	(818) 805-0879	https://windrosefilms.com/	
+`,
+  },
+  {
+    name: "Poconos: planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Jim Thorpe Elopements	Planning		Jim Thorpe	Pennsylvania	Jim Thorpe and the Pocono Mountains	Husband-and-wife team offering all-inclusive elopement packages around Jim Thorpe and the Poconos, coordinating the vendors through one point of contact.	hello@jimthorpeelopements.com		https://jimthorpeelopements.com/	https://www.instagram.com/jimthorpeelopements/`,
+  },
 ];
 
 export default batches;

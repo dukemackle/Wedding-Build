@@ -6,7 +6,7 @@ import { getRsvpEvents, submitRsvp } from "./actions";
 import type { RsvpEvent } from "@/lib/supabase/types";
 import { formatFullDate, formatTime } from "@/lib/itinerary";
 import { shrinkImage } from "@/lib/shrink-image";
-import { MEAL_OPTIONS } from "@/lib/meal-options";
+import { asksMeal, mealChoices } from "@/lib/meal-options";
 
 const inputClass =
   "rounded-md border border-hairline bg-parchment px-3 py-2 text-ink outline-none focus:border-forest";
@@ -18,6 +18,8 @@ export function RsvpForm({
   partnerBName,
   shareHref,
   initialEvents = [],
+  mealOptions = null,
+  askDietary = true,
 }: {
   /** The open RSVP events, known when the page renders; refined by name as they type. */
   initialEvents?: RsvpEvent[];
@@ -26,12 +28,16 @@ export function RsvpForm({
   partnerBName: string | null;
   /** The photo-wall posting page, offered once the RSVP is in. */
   shareHref?: string;
+  /** The couple's menu; null is the preset list, fewer than two isn't asked. */
+  mealOptions?: string[] | null;
+  askDietary?: boolean;
 }) {
   // "John's side" reads to a guest; "Side A" doesn't. With no names set up
   // yet the question is dropped rather than asked in the abstract.
   const sideA = (partnerAName ?? "").trim().split(/\s+/)[0];
   const sideB = (partnerBName ?? "").trim().split(/\s+/)[0];
   const askSide = Boolean(sideA && sideB);
+  const meals = mealChoices(mealOptions);
 
   const [error, setError] = useState<string | undefined>(undefined);
   const [submitted, setSubmitted] = useState(false);
@@ -211,17 +217,25 @@ export function RsvpForm({
         )}
         {attending && (
           <>
-            <label className={labelClass}>
-              Meal preference
-              <select name="meal" defaultValue="" className={inputClass}>
-                <option value="">Optional — choose one</option>
-                {MEAL_OPTIONS.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
-            </label>
+            {asksMeal(mealOptions) && (
+              <label className={labelClass}>
+                Meal preference
+                <select name="meal" defaultValue="" className={inputClass}>
+                  <option value="">Optional — choose one</option>
+                  {meals.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            )}
+            {askDietary && (
+              <label className={labelClass}>
+                Any allergies or dietary needs?
+                <input name="dietary" placeholder="Optional — e.g. nut allergy, vegan" className={inputClass} />
+              </label>
+            )}
             <label className={labelClass}>
               Song request
               <input
@@ -271,7 +285,7 @@ export function RsvpForm({
               <textarea
                 name="notes"
                 rows={2}
-                placeholder="Optional — allergies, dietary restrictions, questions..."
+                placeholder={askDietary ? "Optional — questions, anything we should know..." : "Optional — allergies, dietary restrictions, questions..."}
                 className={inputClass}
               />
             </label>

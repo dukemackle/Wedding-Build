@@ -5,6 +5,7 @@ import type {
   PublicConfirmedGuest,
   PublicGuestbookEntry,
   PublicPartyMember,
+  PublicRegistryGift,
   PublicWedding,
   RegistryItem,
   WeddingAccommodation,
@@ -20,6 +21,7 @@ import { GuestbookView } from "./guestbook-view";
 import { GuestWall } from "./guest-wall";
 import { GalleryView } from "./gallery-view";
 import { StayList } from "./stay-list";
+import { RegistryView } from "./registry-view";
 import { VenueView } from "./venue-view";
 import { PartyView } from "./party-view";
 import { HeroPhotosProvider, WeddingHero } from "./wedding-hero";
@@ -31,6 +33,8 @@ import { SiteBlockView, blockHasContent } from "./site-block";
 import { SectionLayout } from "./section-layout";
 import { storyChapters } from "@/lib/site-story";
 import { Replayable, SiteMotion } from "@/components/site-motion";
+import { LiveDetailsProvider } from "@/components/site-live-details";
+import { liveDetailsOf } from "@/lib/site-live";
 
 /**
  * The guest site itself, below any theme.
@@ -67,6 +71,16 @@ export async function loadGuestSiteContent(
     .eq("wedding_id", wedding.id)
     .order("created_at", { ascending: true })
     .returns<RegistryItem[]>();
+
+  // The view counts claims without naming anyone, and covers the couple's
+  // preview as well as the published site.
+  const { data: registryGifts } = await supabase
+    .from("public_registry_gifts")
+    .select("*")
+    .eq("wedding_id", wedding.id)
+    .order("sort_order", { ascending: true })
+    .order("created_at", { ascending: true })
+    .returns<PublicRegistryGift[]>();
 
   // Row security already hides an unpublished schedule from guests; the check
   // here is for the owner's preview, where it wouldn't.
@@ -136,6 +150,7 @@ export async function loadGuestSiteContent(
   return {
     blocks: blocks ?? [],
     registryItems: registryItems ?? [],
+    registryGifts: registryGifts ?? [],
     // Invite-only events never reach the public schedule (0109 hides them
     // from guests; this keeps the couple's preview honest too).
     itineraryEvents: (itineraryEvents ?? []).filter((e) => !e.invite_only),
@@ -157,6 +172,7 @@ export function GuestSiteView({
 }) {
   const {
     registryItems,
+    registryGifts,
     itineraryEvents,
     weddingFaqs,
     accommodations,
@@ -218,6 +234,9 @@ export function GuestSiteView({
             weddingId={wedding.id}
             partnerAName={wedding.partner_a_name}
             partnerBName={wedding.partner_b_name}
+            mealOptions={wedding.meal_options}
+            // Undefined until migration 0116 runs: ask, as the default does.
+            askDietary={wedding.ask_dietary !== false}
             shareHref={shareHref}
           />
         }
@@ -334,28 +353,16 @@ export function GuestSiteView({
         </div>
       ) : null,
     registry:
-      registryItems.length > 0 ? (
+      registryItems.length > 0 || registryGifts.length > 0 ? (
         <div className={CARD}>
           <SiteText slot="registry.title" className="font-display text-2xl font-semibold text-forest">Gift registry</SiteText>
-          <div className="mt-4">
-            {registryItems.map((item) => (
-              <div key={item.id} className="border-b border-hairline py-4 last:border-b-0">
-                {item.url ? (
-                  <a
-                    href={item.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-ink hover:underline"
-                  >
-                    {item.label} ↗
-                  </a>
-                ) : (
-                  <span className="text-ink">{item.label}</span>
-                )}
-                {item.notes && <p className="mt-1 text-sm text-ink/70">{item.notes}</p>}
-              </div>
-            ))}
-          </div>
+          <RegistryView
+            weddingId={wedding.id}
+            coupleNames={coupleNames}
+            storeLinks={registryItems}
+            gifts={registryGifts}
+            handles={wedding}
+          />
         </div>
       ) : null,
   };
@@ -363,18 +370,20 @@ export function GuestSiteView({
   return (
     <main className="flex flex-1 flex-col">
       <Replayable>
-        <SiteMotion initials={initials} />
-        <SiteNotice />
-        <CeremonyProvider
-          ceremony={
-            itineraryEvents.find((e) => e.event_date === wedding.wedding_date && /ceremony|vows|nikah|wedding/i.test(e.title) && e.start_time) ?? null
-          }
-        >
-          <HeroPhotosProvider photos={galleryPhotos.map((p) => p.photo_url)}>
-            <WeddingHero wedding={wedding} />
-          </HeroPhotosProvider>
-        </CeremonyProvider>
-        <SectionLayout sections={sections} />
+        <LiveDetailsProvider details={liveDetailsOf(wedding)}>
+          <SiteMotion initials={initials} />
+          <SiteNotice />
+          <CeremonyProvider
+            ceremony={
+              itineraryEvents.find((e) => e.event_date === wedding.wedding_date && /ceremony|vows|nikah|wedding/i.test(e.title) && e.start_time) ?? null
+            }
+          >
+            <HeroPhotosProvider photos={galleryPhotos.map((p) => p.photo_url)}>
+              <WeddingHero wedding={wedding} />
+            </HeroPhotosProvider>
+          </CeremonyProvider>
+          <SectionLayout sections={sections} />
+        </LiveDetailsProvider>
       </Replayable>
     </main>
   );

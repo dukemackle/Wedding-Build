@@ -156,6 +156,8 @@ export function WrenWrite({ design, onChange }: { design: SiteDesign; onChange: 
           align: "center",
           bold: false,
           italic: true,
+          live: null,
+          dateStyle: "long",
           x: 280,
           y: 24,
           w: 720,

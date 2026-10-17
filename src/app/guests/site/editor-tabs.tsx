@@ -10,15 +10,18 @@ import { Shape } from "@/components/site-motion";
 import { MonogramFontError, downloadMonogram } from "@/lib/monogram-download";
 import { PHOTO_FRAMES } from "@/lib/site-canvas";
 import { FrameIcon } from "./photo-motion-panels";
+import { SceneThumb } from "@/components/site-scene";
 import {
   ART_HEROES,
   ART_PLACEMENTS,
+  ORNAMENT_GROUP,
   SITE_ART,
   HERO_LAYOUTS,
   ORNAMENTS,
   PAGE_STYLES,
   PHOTO_HEROES,
   SCENES,
+  SCENE_TIMES,
   sceneById,
   MOTION_PRESETS,
   OPENINGS,
@@ -45,6 +48,7 @@ import {
   sectionColumn,
   type SectionKey,
   type SiteDesign,
+  type SceneId,
 } from "@/lib/site-design";
 
 export type SectionInfo = {
@@ -76,8 +80,11 @@ export function PanelLabel({ children }: { children: ReactNode }) {
 const SELECTED = "border-2 border-forest";
 const UNSELECTED = "m-px border border-hairline hover:border-ink/30";
 
+/** Page artwork: every piece but the Elements tab's dividers and ornaments. */
+const PAGE_ART = SITE_ART.filter((a) => a.group !== ORNAMENT_GROUP);
+
 /** How many of each picker shows before "See all". */
-const PREVIEW = { monogram: 4, art: 5, scene: 6 } as const;
+const PREVIEW = { monogram: 4, art: 5, scene: 3 } as const;
 
 /**
  * The first `n` of a list, with the selected item swapped in at the end when
@@ -159,6 +166,8 @@ export function StyleTab({
       </div>
 
       {children}
+
+      <NamesStyle design={design} onChange={onChange} script={resolveDesign(design).scriptNames} />
 
       <div className="flex flex-col gap-2">
         <label htmlFor="site-notice" className="text-[13px] font-medium text-ink">
@@ -315,16 +324,16 @@ export function PageArtworkSection({
   const { theme, accent } = resolveDesign(design);
   const [all, setAll] = useState(false);
   const [group, setGroup] = useState<string | null>(null);
-  const groups = [...new Set(SITE_ART.map((a) => a.group))];
+  const groups = [...new Set(PAGE_ART.map((a) => a.group))];
   const pieces = all
     ? group
-      ? SITE_ART.filter((a) => a.group === group)
-      : SITE_ART
-    : previewOf(SITE_ART, PREVIEW.art, (a) => a.id === design.art.id);
+      ? PAGE_ART.filter((a) => a.group === group)
+      : PAGE_ART
+    : previewOf(PAGE_ART, PREVIEW.art, (a) => a.id === design.art.id);
 
   return (
     <div className="flex flex-col gap-3">
-      <PickerHead label="Page artwork" count={SITE_ART.length} open={all} onToggle={() => setAll((x) => !x)} />
+      <PickerHead label="Page artwork" count={PAGE_ART.length} open={all} onToggle={() => setAll((x) => !x)} />
       <p className="-mt-1 text-[13px] leading-normal text-ink/60">One piece framing your names at the top. To place pieces anywhere, use the library below.</p>
       {all && (
         <div role="group" aria-label="Artwork groups" className="flex flex-wrap gap-1.5">
@@ -425,39 +434,112 @@ export function PageArtworkSection({
   );
 }
 
+/** The scene groups in Background › Scene, by where each one sits. */
+const SCENE_GROUPS = [
+  { place: "band", label: "Landscapes", hint: "Under your names" },
+  { place: "strip", label: "Strips", hint: "Across the top" },
+  { place: "surround", label: "Frames", hint: "Around your names", note: "Frames show on tops without a photo." },
+] as const;
+
 /** The drawn scene behind the names: a landscape, a strip or a frame. Lives in Background. */
 export function SceneSection({ design, onChange }: { design: SiteDesign; onChange: Change }) {
+  const { theme, accent, accent2 } = resolveDesign(design);
   const base = themeById(design.theme);
-  const [all, setAll] = useState(false);
-  const options = [
-    { id: null, label: `Theme's own${base.scene && base.scene !== "none" ? ` (${sceneById(base.scene).label})` : ""}` },
-    ...SCENES,
-  ];
-  const shown = all ? options : previewOf(options, PREVIEW.scene, (x) => x.id === design.scene);
+  const [open, setOpen] = useState<Record<string, boolean>>({});
+  // The tiles draw in the site's own colours, not the editor's.
+  const vars = {
+    "--site-accent": accent,
+    "--site-accent-2": accent2,
+    "--color-ink": theme.ink,
+    "--color-parchment": theme.bg,
+    "--color-card": theme.surface,
+  } as CSSProperties;
+  const own = base.scene ?? "none";
+
+  const tile = (id: SiteDesign["scene"], draw: SceneId, label: string) => {
+    const on = design.scene === id;
+    return (
+      <button
+        key={id ?? "theme"}
+        type="button"
+        aria-pressed={on}
+        onClick={() => onChange({ scene: id })}
+        className="flex flex-col items-center gap-1 text-center text-[11px] leading-tight text-ink/70"
+      >
+        <span
+          className={`relative block aspect-[3/2] w-full overflow-hidden rounded-xl ${on ? "border-2 border-forest" : "m-px border border-hairline hover:border-ink/30"}`}
+          style={vars}
+        >
+          <SceneThumb scene={draw} time={design.sceneTime} />
+        </span>
+        {label}
+      </button>
+    );
+  };
 
   return (
     <div className="flex flex-col gap-3">
-      <PickerHead label="Scene" count={SCENES.length} open={all} onToggle={() => setAll((x) => !x)} />
-      <div role="group" aria-label="Scene" className="flex flex-wrap gap-1.5">
-        {shown.map((x) => {
-          const on = design.scene === x.id;
-          return (
-            <button
-              key={x.id ?? "theme"}
-              type="button"
-              aria-pressed={on}
-              onClick={() => onChange({ scene: x.id as SiteDesign["scene"] })}
-              className={`h-8 rounded-full px-3 text-[13px] ${on ? CHIP_ON : CHIP_OFF}`}
-            >
-              {x.label}
-            </button>
-          );
-        })}
-      </div>
-      <p className="text-[13px] leading-normal text-ink/60">
+      <PanelLabel>Scene</PanelLabel>
+      <p className="-mt-1 text-[13px] leading-normal text-ink/60">
         Drawn in your colours: a landscape under your names, a strip across the top, or a frame around them.
-        Your accent colour sets its mood.
       </p>
+      <div role="group" aria-label="Scene" className="grid grid-cols-3 gap-2">
+        {tile(null, own, own === "none" ? "Theme's own" : `Theme's own (${sceneById(own).label})`)}
+        {tile("none", "none", "None")}
+      </div>
+      {sceneById(design.scene ?? own).place === "band" && (
+        <div className="flex flex-col gap-2">
+          <p className="text-[13px] font-medium text-ink">
+            Time of day <span className="font-normal text-ink/50">· The sky and light over your landscape</span>
+          </p>
+          <div role="group" aria-label="Time of day" className="grid grid-cols-5 gap-2">
+            {SCENE_TIMES.map((x) => {
+              const on = design.sceneTime === x.id;
+              return (
+                <button
+                  key={x.id}
+                  type="button"
+                  aria-pressed={on}
+                  onClick={() => onChange({ sceneTime: x.id })}
+                  className="flex flex-col items-center gap-1 text-center text-[11px] leading-tight text-ink/70"
+                >
+                  <span
+                    className={`block h-9 w-full rounded-lg ${on ? "border-2 border-forest" : "m-px border border-hairline hover:border-ink/30"}`}
+                    style={{ background: `linear-gradient(180deg, ${x.swatch[0]}, ${x.swatch[1]})` }}
+                  />
+                  {x.label}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
+      {SCENE_GROUPS.map((g) => {
+        const items = SCENES.filter((x) => x.place === g.place);
+        const all = open[g.place];
+        const shown = all ? items : previewOf(items, PREVIEW.scene, (x) => x.id === design.scene);
+        return (
+          <div key={g.place} className="mt-1 flex flex-col gap-2">
+            <div className="flex items-baseline justify-between gap-3">
+              <p className="text-[13px] font-medium text-ink">
+                {g.label} <span className="font-normal text-ink/50">· {g.hint}</span>
+              </p>
+              <button
+                type="button"
+                aria-expanded={all}
+                onClick={() => setOpen((o) => ({ ...o, [g.place]: !all }))}
+                className="shrink-0 text-[13px] font-medium text-forest hover:underline"
+              >
+                {all ? "Show fewer" : `See all ${items.length} →`}
+              </button>
+            </div>
+            <div role="group" aria-label={g.label} className="grid grid-cols-3 gap-2">
+              {shown.map((x) => tile(x.id, x.id, x.label))}
+            </div>
+            {"note" in g && <p className="text-[12px] leading-normal text-ink/50">{g.note}</p>}
+          </div>
+        );
+      })}
     </div>
   );
 }
@@ -941,7 +1023,7 @@ function Checklist({ items }: { items: ChecklistItem[] }) {
   );
 }
 
-function Switch({ on, label, onToggle }: { on: boolean; label: string; onToggle: () => void }) {
+export function Switch({ on, label, onToggle }: { on: boolean; label: string; onToggle: () => void }) {
   return (
     <button
       type="button"
@@ -1085,6 +1167,48 @@ function Pills<T extends string>({
           {text}
         </button>
       ))}
+    </div>
+  );
+}
+
+/** How the names at the top are joined and set (Style › Your names). */
+function NamesStyle({ design, onChange, script }: { design: SiteDesign; onChange: Change; script: boolean }) {
+  const set = (patch: Partial<SiteDesign["names"]>) => onChange({ names: { ...design.names, ...patch } });
+  return (
+    <div className="flex flex-col gap-3">
+      <PanelLabel>Your names</PanelLabel>
+      <Pills
+        label="Joined by"
+        options={[
+          ["&", "Ana & Sam"],
+          ["and", "Ana and Sam"],
+        ]}
+        value={design.names.joiner}
+        onPick={(joiner) => set({ joiner })}
+      />
+      <Pills
+        label="Arrangement"
+        options={[
+          ["line", "One line"],
+          ["stacked", "Stacked"],
+        ]}
+        value={design.names.stacked ? "stacked" : "line"}
+        onPick={(v) => set({ stacked: v === "stacked" })}
+      />
+      <Pills
+        label="Letters"
+        options={[
+          ["typed", "As typed"],
+          ["capitals", "CAPITALS"],
+        ]}
+        value={design.names.capitals ? "capitals" : "typed"}
+        onPick={(v) => set({ capitals: v === "capitals" })}
+      />
+      {design.names.capitals && script && (
+        <p className="-mt-1 text-[13px] leading-normal text-ink/60">
+          Your names are in a script font, which doesn&apos;t work in capitals, so they stay as typed.
+        </p>
+      )}
     </div>
   );
 }

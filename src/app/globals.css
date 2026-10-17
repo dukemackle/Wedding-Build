@@ -389,6 +389,15 @@ body::before {
   white-space: pre-wrap;
   overflow-wrap: break-word;
 }
+/* A live RSVP button: sized with its words, the theme's corners. */
+.site-el-button {
+  display: inline-block;
+  padding: 0.8em 2.2em;
+  border-radius: var(--site-radius);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+}
 @media (max-width: 1023px) {
   .site-canvas > .site-canvas-layer {
     grid-area: 2 / 1;
@@ -545,6 +554,21 @@ body::before {
 .guest-site .site-hero-photo img {
   object-position: var(--hero-focus, 50% 50%);
   filter: var(--hero-filter, none);
+}
+/* The arrow at the foot of the screen-filling banners: a slow, small bob. */
+@keyframes scroll-cue {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(5px); }
+}
+.site-scroll-cue {
+  animation: scroll-cue 2.4s ease-in-out infinite;
+}
+
+/* On a phone the banner is tall, so it has its own focus point. */
+@media (max-width: 639px) {
+  .guest-site .site-hero-photo img {
+    object-position: var(--hero-focus-phone, var(--hero-focus, 50% 50%));
+  }
 }
 
 /* Placed elements' animations (Animate panel). They play once as guests
@@ -1257,4 +1281,15 @@ body:has(.search-shell-root) .site-footer {
 @media (prefers-reduced-motion: reduce) {
   .gold-flow-border, .gold-twinkle { animation: none; }
   .gold-shine::after { display: none; }
+}
+
+/* The site editor's publish button while there's something to publish: a soft
+   gold ring breathes out from it, so it reads as ready to click. */
+@keyframes publish-ready {
+  0% { box-shadow: 0 0 0 0 rgb(255 211 1 / 0.65); }
+  70% { box-shadow: 0 0 0 9px rgb(255 211 1 / 0); }
+  100% { box-shadow: 0 0 0 0 rgb(255 211 1 / 0); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .publish-ready { animation: publish-ready 2s ease-out infinite; }
 }

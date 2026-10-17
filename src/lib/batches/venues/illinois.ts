@@ -137,6 +137,14 @@ Tinker Swiss Cottage Museum Barn	411 Kent St	Rockford	Illinois			Historic / Esta
 DESTIHL Barrel Room	1200 Greenbriar Drive	Normal	Illinois			Restaurant / Vineyard	Indoor & Outdoor	175		A modern-industrial barrel room at a Normal brewery with a string-lit courtyard and in-house catering for ceremonies and receptions.	amcnutt@destihl.com	309-285-8786	https://www.destihl.com/barrel-room-weddings-1
 Von Jakob Winery & Brewery	230 IL-127	Alto Pass	Illinois			Restaurant / Vineyard	Indoor			A Shawnee Hills winery and brewery with two ballrooms overlooking its patio, decks and vineyard, hosting weddings since 1997.	events@vonjakobvineyard.com	618-893-4600	https://www.vonjakobvineyard.com/weddings-and-more`,
   },
+  {
+    name: "Southern and central Illinois",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Sugar Spring Ranch	1385 Centerville Rd	Columbia	Illinois			Barn / Rustic	Indoor & Outdoor	300		Climate-controlled red barn with a covered outdoor pavilion and lake-view patio on more than 11 acres of lakeside fields, woods and private trail.	Events@SugarSpringRanch.com	618-281-2276	https://www.sugarspringranch.com/sugar-spring-ranch
+Sugar Spring South	1365 N IL-3	Waterloo	Illinois			Barn / Rustic		225	Simple	Indoor red barn in a farmhouse style with a tall fireplace, built-in photo nook and décor setup by staff, open to couples from noon to 11pm.	Events@SugarSpringRanch.com	618-281-2276	https://www.sugarspringranch.com/sugar-spring-south
+Sugar Spring Manor	4505 HH Rd	Waterloo	Illinois			Historic / Estate	Indoor & Outdoor	48		Micro-wedding house built in 1852, with a courtyard, chapel and verandah, a detached honeymoon cabin and lodging for up to 18 guests.	Events@SugarSpringRanch.com	618-281-2276	https://www.sugarspringranch.com/sugar-spring-manor
+Sleepy Creek Vineyards	8254 E 1425 North Rd	Fairmount	Illinois			Restaurant / Vineyard		250		Vermilion County's only vineyard and winery, with a rustic event hall called the Dragonfly behind it and a vineyard-view guest apartment above the winery.	info@sleepycreekvineyards.com	217-733-0330	https://www.sleepycreekvineyards.com/weddings/`,
+  },
 ];
 
 export default batches;

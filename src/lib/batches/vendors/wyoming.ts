@@ -46,6 +46,86 @@ Halo Beauty Bar	Hair & Makeup	4001 Laramie St., Unit B	Cheyenne	Wyoming	Cheyenne
 Stacy Cakes	Cake		Cheyenne	Wyoming	Cheyenne	Home baker making custom tiered wedding cakes and cupcakes, with a consultation form and a mobile cupcake wagon for events.	stacycakescheyenne@gmail.com		https://www.stacycakescheyenne.com/	https://www.instagram.com/StacyCakesCheyenne/
 `,
   },
+  {
+    name: "Cheyenne: catering, cake, hair and makeup, photography, florals and music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Pioneer Bar-B-Que	Catering		Cheyenne	Wyoming	Wyoming and Colorado	Cheyenne caterer, open since 2004, serving smoked meats and sides for weddings, rehearsal dinners and corporate events.	lauren@pioneerbarbeque.com	(307) 214-8455	https://pioneerbarbeque.com/	
+Tio's Tacos Catering	Catering		Cheyenne	Wyoming	Cheyenne area, indoor and outdoor venues	Taco caterer in Cheyenne serving weddings and other events, with buffet service indoors or cooking on site outdoors.		(307) 287-9269	https://www.tiostacos307.com/	
+Occasions by Cory	Catering		Casper	Wyoming	Casper and surrounding areas	Casper catering and hospitality company with a dedicated weddings page, plus off-site bar service for events.	Events@OccasionsbyCory.com	(307) 337-2679	https://www.occasionsbycory.com/	
+Frosted Tops	Cake	225 S. David St. Suite 2	Casper	Wyoming	Casper area	Casper bakery making custom wedding and birthday cakes, cupcakes and macarons, and offering wedding tastings.			https://www.frostedtops.com/	
+307 Glow	Hair & Makeup	240 West 1st Street	Casper	Wyoming		Casper stylists offering bridal hair and makeup for brides and their wedding parties.	307glow24@gmail.com	(307) 267-3247	https://307glow.com/	https://www.instagram.com/307Glow/
+Travis Gitthens Photography	Photography		Casper	Wyoming	Casper area	Casper wedding and portrait photographer who promises to deliver wedding images within a week of the day.	travis@travisgitthens.com	(307) 262-3337	https://travisgitthens.com/	
+Tayler Ford Photography	Photography		Casper	Wyoming	Casper area	Casper photographer who specialises in weddings, also shooting engagements, couples, seniors and families.	taylerannford@gmail.com	(307) 941-1596	https://taylerfordphotography.com/	https://www.instagram.com/taylerfordphotography/
+Amy Elizabeth Photography	Photography		Casper	Wyoming	Casper area	Casper photographer covering weddings and events alongside maternity, newborn, family and senior sessions.	amyelizabethimages@gmail.com	(307) 797-6161	https://www.amyelizabethimages.com/	https://www.instagram.com/amyelizabethphotographywy/
+Kaylie Sirek Photography	Photography		Sheridan	Wyoming	Wyoming, Nebraska, Montana, Colorado and South Dakota	Sheridan-based wedding and elopement photographer for adventurous couples, working across Wyoming and neighbouring states.	hello@kayliesirek.com		https://www.kayliesirek.com/	https://www.instagram.com/kayliesirek/
+Whirly Girl Flowers	Florals		Sheridan	Wyoming	Sheridan, the Bighorn Mountains and elsewhere in Wyoming, including Jackson Hole	Floral design studio in Sheridan creating full-service wedding florals, bouquets, boutonnieres and elopement flowers with a foraged feel.			https://www.whirlygirlflowers.com/	https://www.instagram.com/_whirlygirl/
+ROW Productions	Music	900 E Lincolnway	Cheyenne	Wyoming	Wyoming, Colorado and Nebraska	Cheyenne DJ and MC with over 20 years' experience, supplying sound, lighting and equipment hire for weddings and other events.	george@rockonwheels.net	(307) 635-1018	https://rowproductions.org/	https://www.instagram.com/rowproductions/
+Dynamic Sound & Lighting	Music	6150 WY-220	Casper	Wyoming	Casper, Cheyenne, Laramie and across Wyoming	Casper event production company offering wedding DJ services, sound, lighting, staging and day-of coordination across the state.	office.dynamicwy@gmail.com	(307) 315-3682	https://dynamicsoundandlightingwy.com/	
+`,
+  },
+  {
+    name: "Jackson Hole: photography, videography, planning, rentals, bar, transportation, music, florals and hair and makeup (Jackson, Cody, Lander, Rock Springs)",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+495Films	Videography		Rock Springs	Wyoming		Rock Springs videographer shooting wedding films with a documentary and artistic style, offering drone footage and a second shooter.	nick@495films.com		https://www.495films.com/	https://www.instagram.com/495films/
+Sarah Penny Photography	Photography		Jackson	Wyoming	Jackson Hole and beyond	Jackson Hole photographer covering weddings, elopements and engagements in the Tetons, with a background in wedding coordination.			https://sarahpennyphoto.com/	https://www.instagram.com/sarahpennyphotography/
+Karina Dopp Designs	Photography		Jackson	Wyoming	Jackson Hole, with travel available	Jackson Hole wedding photographer, with video packages, capturing candid and scenic weddings at Grand Teton venues.	photosbykdopp@gmail.com		https://karinadoppdesigns.com/	https://www.instagram.com/karinadoppdesigns/
+Elise Sterck Photography	Photography		Jackson	Wyoming	Northwestern Wyoming and Eastern Idaho, with travel	Jackson photographer offering cinematic wedding and elopement coverage, including ski weddings, in Jackson Hole and the Grand Tetons.			https://elisesterckphotography.com/	https://www.instagram.com/elisesterckphotography/
+Stir Photography	Photography		Jackson	Wyoming	Grand Teton National Park area, with destination travel	Photojournalistic wedding and elopement photographer in Jackson Hole who blends outdoor adventure with candid storytelling.			https://www.stirphotography.com/	https://www.instagram.com/stirphotography/
+Kinseylynn Photo Co.	Photography		Jackson	Wyoming	Jackson Hole and Grand Teton National Park	Jackson Hole studio offering wedding and elopement photography and cinematography, plus Super 8 film and licensed drone coverage.			https://kinseylynnphoto.com/	https://www.instagram.com/kinseylynnphoto/
+Backlight Creative	Videography		Jackson	Wyoming		Jackson Hole wedding videographer and photographer producing wedding films alongside photo coverage.	diana@backlightcreative.com		https://www.backlightcreative.com/	https://www.instagram.com/backlightcreative/
+Grand Teton Events	Planning		Jackson	Wyoming	Greater Jackson area, Teton Valley and across the Mountain West	Handcrafted wedding planning for couples marrying in the greater Jackson area and the Teton Valley.	info@grandtetonevents.com	(208) 521-2138	https://www.grandtetonevents.com/	https://www.instagram.com/grandtetonevents/
+Lisa Mack Events	Planning		Jackson	Wyoming	In and around Jackson	Jackson Hole wedding and event planner designing cohesive celebrations for the landscape, including multi-event wedding weekends.	lisa@lisamackevents.com		https://lisamackevents.com/	https://www.instagram.com/lisa.mack.events/
+Wild West Collective	Rentals	189 Blackburn Street	Cody	Wyoming	Greater Yellowstone region	Cody rentals boutique with tents, seating, tableware, decor and a mobile bar, plus planning, design and day-of coordination.	hello@wildwestcollective.com	(307) 899-3432	https://www.wildwestcollective.com/	
+Jackson Hole Event Rentals	Rentals		Wilson	Wyoming	Jackson Hole, Teton Valley (Idaho) and Alta	Rental company supplying tents, tables, chairs, furniture and add-ons for weddings and events across Jackson Hole and Teton Valley.	contact@jheventrentals.com	(307) 414-8857	https://www.jheventrentals.com/	https://www.instagram.com/jacksonholeeventrentals/
+barSIPbar	Bar		Jackson	Wyoming	Anywhere in the town or valley of the Tetons	Mobile cocktail service run from a renovated 1991 horse trailer, serving events around Jackson Hole.	barsipbar@gmail.com	(307) 413-3547	https://www.barsipbar.com/	https://www.instagram.com/barsipbar/
+PartyBusJH	Transportation		Jackson	Wyoming	Jackson and surrounding areas	Jackson party bus service for wedding transport, bachelor and bachelorette nights, and Grand Teton and Yellowstone tours.			https://www.partybusjh.com/	https://www.instagram.com/partybusjh/
+Beats by Capella	Music		Jackson	Wyoming		Jackson DJ, sound and lighting provider for weddings and parties, with customisable packages including a VIP wedding package.	liam@beatsbycapella.com	(307) 699-5689	https://beatsbycapella.com/	https://www.instagram.com/beatsbycapella/
+Field & Frond	Florals		Cody	Wyoming	Cody, Jackson, Billings, Red Lodge, Bozeman and Big Sky	Seasonal, personalised wedding and elopement floral design for Wyoming and Montana couples, with weddings shown in Jackson and the Beartooths.	hello@fieldandfrond.com		https://fieldandfrond.com/	https://www.instagram.com/fieldandfrond/
+Jackson Hole Flower Farm	Florals		Jackson	Wyoming	Jackson and Wilson	Small family flower farm growing fresh, sustainably farmed flowers in the Tetons, available for small weddings and events June to September.	shaunallockhart@gmail.com	(206) 715-9039	https://www.jacksonholeflowerfarm.com/	
+Hair Love LLC	Hair & Makeup	2401 G Avenue	Cody	Wyoming		Cody hair salon offering bridal hair styling and wedding packages, with elopement and wedding work shown from Shell, Wyoming.	cindybingenheimer@aol.com	(307) 920-1248	https://hairlovellc.com/	https://www.instagram.com/hairlovecindy/
+Ashley Drew Artistry	Hair & Makeup		Jackson	Wyoming	Jackson Hole and the greater Teton region	Jackson makeup artist with over fifteen years of experience, offering bridal party, trial and elopement makeup.			https://ashleydrewartistry.com/	https://www.instagram.com/ashleydrewartistry/
+`,
+  },
+  {
+    name: "Casper, Cody and Sheridan: photography, catering and hair and makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Tami Moore	Photography		Cody	Wyoming	Wyoming, Montana and the American West	Cody photographer for elopements and small weddings, including horseback and multi-day wilderness ceremonies across the Rockies.	tamimoore307@gmail.com	307-250-2040	https://www.tamimoore.art/	https://www.instagram.com/tamimoore307/
+April Stuart Photography	Photography		Cody	Wyoming	Northeast Wyoming and Montana	Cody photographer covering weddings, elopements and proposals, with a styling guide to help couples prepare for their session.	contact@aprilstuartphoto.com	(706) 994-1627	https://www.aprilstuartphoto.com/	https://www.instagram.com/april.stuart.photo/
+Braidyn Looper Photography	Photography		Sheridan	Wyoming	Wyoming	Sheridan studio photographing weddings and elopements, including Big Horn Mountains locations, alongside newborn and family sessions.			https://www.braidynlooperphoto.com/	
+DSmithImages Photography	Photography		Sheridan	Wyoming	Sheridan, Wyoming and Montana	Sheridan photographer for weddings and elopements, working full days and travelling around Wyoming and Montana.	dsmithimages@gmail.com		https://www.dsiphotography.com/	https://www.instagram.com/dsmithimagesphotography/
+Catering by Rosie	Catering		Cody	Wyoming	Cody foothills	Family-run Cody caterer serving Mexican and American menus for weddings, celebrations and gatherings, with a dedicated weddings page.	ordering@cateringrosieroberson.com	(307) 772-1358	https://cateringrosieroberson.com/	https://www.instagram.com/cateringrosieroberson/
+Nola Catering & Private Dining	Catering		Sheridan	Wyoming		Sheridan caterer cooking Southern, Creole-influenced food, with buffets and food bars suited to wedding receptions.	megan@nolawyoming.com	(307) 763-2256	https://nolawyoming.com/	https://www.instagram.com/nolacateringwyo/
+Salon De Beauté	Hair & Makeup		Sheridan	Wyoming		Sheridan salon whose service menu includes wedding hair and makeup alongside its regular cuts, colour and styling.	salondebeautesheridan@gmail.com	(307) 672-5021	https://www.salondebeautesheridan.com/	https://www.instagram.com/salondebeautesheridan/
+`,
+  },
+  {
+    name: "Jackson Hole: videography and planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Apres Events	Videography		Jackson	Wyoming	Jackson Hole and the Rocky Mountains	Jackson Hole wedding film studio with a documentary-leaning style, small kit and long lenses, often working alongside planners and photographers.	rory@apresvisuals.com		https://www.apresevents.com/	
+Intimate Adventures Media	Videography		Jackson	Wyoming	Jackson Hole, Grand Teton and central Idaho	Photo and video team for elopements and micro-weddings in Jackson Hole and Grand Teton, with travel within 200 miles included.			https://intimateadventuresmedia.com/	https://www.instagram.com/intimateadventuresmedia/
+Magnolia Ranch Events	Planning		Jackson	Wyoming	Jackson Hole	Jackson Hole planning and design team offering full-service weddings, florals, rentals and production, expanded from a florist business in 2021.			https://magnoliaranchjh.com/	https://www.instagram.com/magnoliaranchevents/
+Destination Jackson Hole	Planning		Jackson	Wyoming	The Tetons and surrounding areas	Event planning company in Jackson since 1996, run by Alison Kyle since 2010, producing weddings and corporate events around the Tetons.	alison@destinationjacksonhole.com		https://www.destinationjacksonhole.com/	https://www.instagram.com/destinationjacksonhole/
+`,
+  },
+  {
+    name: "Cheyenne: cake and music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Cake Works	Cake		Cheyenne	Wyoming	Front Range Colorado and Cheyenne, Wyoming	Cheyenne baker making custom wedding cakes, groom's cakes and cookies since 2010, with consultations and tastings and delivery along the Front Range.	cakeworksbakery@live.com	(307) 286-3441	https://cakeworksbakery.com/	https://www.instagram.com/cakeworkscolorado/
+Evocative Entertainment	Music		Sheridan	Wyoming	Wyoming, southern Montana and western South Dakota	Sheridan DJ and lighting company offering wedding music, ceremony audio and event lighting across Wyoming, southern Montana and western South Dakota.	evocativeentertainment@gmail.com		https://evocativeentertainment.com/	
+`,
+  },
+  {
+    name: "Cheyenne: planning, florals and videography gaps; Casper, Cody, Sheridan and Laramie",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Cheyenne Street Railway Trolley	Transportation	121 W 15th St	Cheyenne	Wyoming		Charter trolleys, a 36-seat motor coach and a 12-seat van from Cheyenne Depot Plaza, hired for weddings, bridal parties and venue transfers.		(307) 778-3133	https://www.cheyenne.org/things-to-do/cheyenne-street-railway-trolley/	
+Paintbrush Photography	Photography		Cody	Wyoming	Cody, Powell and the Big Horn Basin	Cody and Powell photographers covering weddings, couples and families, with a natural-colour style and Wyoming scenery.			https://www.paintbrush-photography.com/	https://www.instagram.com/paintbrush_photography/
+Christina's Prom & Bridal	Bridal & Formalwear	2740 E 3rd St, Suite 2112	Casper	Wyoming		Casper boutique stocking wedding gowns, bridesmaid dresses and accessories, with tuxedo rental for the wedding party.		(307) 234-2251	https://promandbridal.com/	https://www.instagram.com/christinasformalwear/
+Once Upon a Story Boutique	Bridal & Formalwear	250 N Main St	Sheridan	Wyoming		Sheridan bridal shop selling wedding gowns, veils and bridal party attire, with suits and tuxedos to rent or buy and free alterations.		307-674-8606	https://onceuponastoryboutique.net/	https://www.instagram.com/onceuponstory_b/
+Ms. Arias' Formal Boutique	Bridal & Formalwear	611 W Lincolnway	Cheyenne	Wyoming		Cheyenne formalwear shop offering bridal gowns, bridesmaid and mother-of-the-bride dresses, and tuxedo and suit rentals.	Ms.alisha.arias@outlook.com	(307) 637-6623	https://msariasboutique.com/	https://www.instagram.com/ms.ariasboutique/
+Casper Executive Car and Limousine	Transportation		Casper	Wyoming	Casper and central Wyoming	Casper limousine and car service whose Escalade and sedans carry wedding parties, with shuttles between hotel and venue.		(307) 251-2128	https://casperlimosandcars.com/	
+Veronica Catering	Catering		Cody	Wyoming	Cody	Cody caterer serving Mexican dishes based on Guadalajara family recipes for weddings, parties and other events.			https://www.veronicacatering.com/	
+`,
+  },
 ];
 
 export default batches;

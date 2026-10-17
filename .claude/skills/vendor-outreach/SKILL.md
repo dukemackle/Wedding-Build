@@ -130,6 +130,44 @@ You Do, I Do · youdoido.com
 [MAILING ADDRESS]
 ```
 
+### Venues: lead with the questions couples ask
+
+Venues usually hold pricing, packages and rules back until a couple inquires.
+"Update your listing" reads as a chore to them, but "answer the questions you
+get asked anyway, once" saves them time. So the venue email names the
+specific gaps from the claim form's "Details couples ask" step (starting
+price and what it covers, seated capacity, outside-vendor policy) and says a
+range is fine. It still makes no claims about demand or inquiry volume (see
+above). The public listing is `https://youdoido.com/venues/<slug>`.
+
+```
+Subject: Your listing on You Do, I Do
+
+Hi {name} team,
+
+I run You Do, I Do, a wedding-planning app for couples. {Venue} is
+already listed: {public listing URL}
+
+The questions couples usually email you first (what it costs, what's
+included, how many it seats, whether they can bring their own caterer)
+are blank on it. If you answer them once on the listing, couples arrive
+already knowing. A starting price or a range is fine. It's free and
+takes about ten minutes, and you can fix anything I got wrong:
+{claim link}
+
+Not interested? Reply "no thanks" and I won't email again.
+
+{owner name}
+You Do, I Do · youdoido.com
+[MAILING ADDRESS]
+```
+
+Swap the bracketed list for what's actually missing on that venue. Never ask
+for a PDF or brochure by email: details go in through the claim form so
+they're the venue's own, marked "confirmed by the venue" on the listing, and
+reviewed before going live. If a venue replies with a PDF anyway, thank them
+and send the claim link again. Don't type it in for them.
+
 A follow-up, if the owner wants one, goes out 10 or more days later. It's two
 lines in the same thread, with the same opt-out line and footer. Never send a
 second follow-up.

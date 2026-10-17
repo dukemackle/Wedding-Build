@@ -543,7 +543,7 @@ export function CanvasEditing() {
       const current = selRef.current;
       if (!elNode || !current?.id || elNode.dataset.el !== current.id) return;
       const el = findElement(canvasRef.current, current.section, current.id);
-      if (el?.kind === "text" && !el.locked) startTyping(current.section, el.id);
+      if (el && typable(el) && !el.locked) startTyping(current.section, el.id);
     }
 
     // On a touch screen, a tap on a form inside a section picks the section;
@@ -608,7 +608,7 @@ export function CanvasEditing() {
     } else if (action === "position") {
       post({ type: CANVAS_PANEL, panel: "position" });
     } else if (action === "edit") {
-      startTyping(key, id);
+      if (typable(el)) startTyping(key, id);
     } else {
       commit(moveLayer(c, key, id, action));
     }
@@ -651,7 +651,7 @@ export function CanvasEditing() {
         act("delete");
       } else if (mod && key === "d") {
         act("duplicate");
-      } else if (event.key === "Enter" && el.kind === "text") {
+      } else if (event.key === "Enter" && typable(el)) {
         act("edit");
       } else if (event.key.startsWith("Arrow") && !el.locked) {
         const b = frameView(canvasRef.current, current.section, frameRef.current)?.boxes.get(current.id);
@@ -704,7 +704,7 @@ export function CanvasEditing() {
               <FloatingBar
                 box={{ ...box, h: height }}
                 locked={selected.locked}
-                text={selected.kind === "text"}
+                text={typable(selected)}
                 onAct={act}
                 onMore={(rect) => setMenu({ left: rect.left, top: rect.bottom + 6 })}
               />
@@ -719,7 +719,7 @@ export function CanvasEditing() {
           wrapper,
         )}
       {menu && selected && (
-        <ContextMenu at={menu} locked={selected.locked} text={selected.kind === "text"} phone={frame === "phone"} onAct={act} />
+        <ContextMenu at={menu} locked={selected.locked} text={typable(selected)} phone={frame === "phone"} onAct={act} />
       )}
     </>
   );
@@ -1102,4 +1102,9 @@ ${picked ? `${picked}, ${picked}:hover { outline: 2px solid ${ROYAL} !important;
 .canvas-menu-item:hover { background: ${ROYAL_TINT} !important; color: ${ROYAL}; }
 [data-canvas-on] .site-canvas { overflow: visible; }
 `;
+}
+
+/** Words the couple can retype: text, and the RSVP button, but not the live details drawn from their wedding. */
+function typable(el: CanvasElement) {
+  return el.kind === "text" && (!el.live || el.live === "rsvp");
 }

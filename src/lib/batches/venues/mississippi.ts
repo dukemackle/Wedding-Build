@@ -44,6 +44,25 @@ The Inn at Cedar Grove Mansion	2200 Oak St	Vicksburg	Mississippi			Historic / Es
 The Mill at Plein Air		Taylor	Mississippi			Barn / Rustic	Indoor & Outdoor	450		Reception hall and 280-seat chapel built largely from salvaged century-old mill and church materials, with a two-bedroom bridal loft included.	mccool@bellsouth.net	(662) 234-3151	https://www.pleinairtaylor.com/weddings-receptions-rentals
 Dunleith Historic Inn	84 Homochitto St	Natchez	Mississippi			Historic / Estate	Indoor & Outdoor			Natchez landmark inn with the main house, courtyard and south lawn as wedding spaces, plus on-site catering and coordinators.		601-897-6300	https://www.dunleithhistoricinn.com/weddings/`,
   },
+  {
+    name: "Statewide: Oxford, Starkville, Tupelo, Natchez, Hattiesburg and the Gulf Coast",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Castle Hill	120 Castle Hill Drive	Oxford	Mississippi			Historic / Estate	Indoor & Outdoor	350	Classic	Antebellum-style estate near Oxford with a chapel, chandeliered ballroom, courtyard and front lawn, plus seven guest rooms on the grounds.	jean@castlehilloxford.com	662-234-3735	https://www.castlehilloxford.com
+The Hill and Moor	1699 Moor High Rd	Crawford	Mississippi			Historic / Estate	Indoor & Outdoor	500	Classic	Former school gym turned into a ballroom in the countryside between Starkville and Columbus, with an 18-room motel next door.	events@thehillandmoor.com	(662) 498-5207	https://www.thehillandmoor.com
+The Barn at Love Farms	16990 Old Joe Moran Road	Kiln	Mississippi			Barn / Rustic	Indoor & Outdoor	300		Barn on a working farm with a covered porch, live oaks, bridal and groom suites and a caterer's kitchen.	thebarnatlovefarms@gmail.com	(228) 493-0983	https://www.thebarnatlovefarms.com
+Sullivan Barn	1063 Eastabuchie Road	Petal	Mississippi			Barn / Rustic	Indoor & Outdoor			Working horse barn on a quarter horse farm near Hattiesburg, climate-controlled, with indoor and outdoor ceremony sites and limited on-site lodging.		601-337-5622	https://sullivanbarn.com
+Monmouth Historic Inn	1358 John A. Quitman Blvd	Natchez	Mississippi			Historic / Estate	Indoor & Outdoor			Antebellum mansion and inn on 26 acres of gardens, with a wisteria pergola, a temple-style sanctuary and a courtyard for ceremonies and receptions.	luxury@monmouthhistoricinn.com	601-442-5852	https://www.monmouthhistoricinn.com
+Brookside Barn	55 Blackwell Loop	Ellisville	Mississippi			Barn / Rustic	Indoor & Outdoor			Wooded barn venue between Hattiesburg and Laurel with indoor and outdoor ceremony options and three cabins on the property.	info@brooksidebarn.com	(601) 335-4926	https://brooksidebarn.com
+Deer Creek Banquet Hall	1383 Old Rock Road	Porterville	Mississippi			Ballroom / Hotel	Indoor & Outdoor			Country banquet hall with a ballroom, a cypress-shaded outdoor pavilion and a bridal cabin, open for events since 2015.	mhproperties06@gmail.com	(251) 455-1559	https://deercreekbanquethall.com
+Parks Place	481 County Road 512	Corinth	Mississippi			Ballroom / Hotel	Indoor & Outdoor	500		Large grand hall with a lighted courtyard and a bride's room, newly opened for weddings in northeast Mississippi.	Parksplacems@gmail.com	662-664-4510	https://www.parksplacems.com
+Homestead Whittington Farm	946 US-51 South	Brookhaven	Mississippi			Barn / Rustic	Indoor & Outdoor			Farm event center with heirloom gardens, a patio and a lighted live oak used for ceremonies.		(601) 748-4706	https://homesteadwhittingtonfarm.com
+Mallard's Croft	2867 MS-309 North	Byhalia	Mississippi			Restaurant / Vineyard	Indoor & Outdoor			Estate south of Memphis with a glass venue, vineyard barn, ceremony lawns and on-site lodging.	Info@MallardsCroft.com	901-619-5685	https://mallardscroft.com
+The Gin at Rasberry Greene	179 Bernis Hill Rd	Soso	Mississippi			Barn / Rustic	Indoor & Outdoor	300		Old-gin-style hall with a wraparound porch on a tree-lined lake, with ceremony spots in the pine woods.		(769) 208-3802	https://www.rasberrygreene.com
+1 Memphis Street	1 Memphis Street	Hernando	Mississippi			Historic / Estate	Indoor & Outdoor	200		Restored 1930s cottonseed warehouse on Hernando's historic square with barn doors, balconies and a green space.	1MemphisStreet@gmail.com	662-996-8331	https://1memphisstreet.com
+Dodson Farm	684 Mt. Olive Rd	Starkville	Mississippi			Barn / Rustic	Indoor & Outdoor			Family-run Starkville farm with a chapel, a reception loft and guest accommodations.	dodsonfarmsms@gmail.com	662-338-6844	https://dodsonfarm.com
+Tupelo Cotton Mill	300 Elliott Street	Tupelo	Mississippi			Historic / Estate	Indoor	500		Restored historic mill building with a 14,000 sq ft hall, stage, dance floor and caterer's kitchen.	tupelocottonmill@gmail.com	662-350-1550	https://tupelocottonmill.com
+`,
+  },
 ];
 
 export default batches;

@@ -1,5 +1,6 @@
 "use client";
 
+import type { LiveDetails } from "@/lib/site-live";
 import Link from "next/link";
 import { useCallback, useEffect, useEffectEvent, useRef, useState, useTransition, type ReactNode } from "react";
 import {
@@ -15,6 +16,7 @@ import {
   COLOR_FAMILIES,
   EMPTY_TEXT_STYLE,
   TEXT_SLOTS,
+  textSlotMax,
   hasTextStyle,
   PALETTES,
   THEMES,
@@ -35,7 +37,7 @@ import {
 } from "@/lib/site-design";
 import { TextToolbar } from "./text-toolbar";
 import { canvasSchema } from "@/lib/site-canvas-schema";
-import { filterCss, PHOTO_FILTERS, findElement, updateElement, type CanvasElement, type SiteCanvas } from "@/lib/site-canvas";
+import { PHOTO_FILTERS, findElement, updateElement, type CanvasElement, type SiteCanvas } from "@/lib/site-canvas";
 import {
   CANVAS_ACTION,
   CANVAS_COMMIT,
@@ -49,7 +51,7 @@ import {
 } from "./canvas-messages";
 import { CanvasToolbar, ElementsTab, PositionPanel } from "./canvas-panels";
 import { PhoneTools, Sheet, Tool } from "./phone-tools";
-import { AnimatePanel, FocusPicker, PhotoPanel } from "./photo-motion-panels";
+import { AnimatePanel, BannerFocus, PhotoPanel } from "./photo-motion-panels";
 import { MakeItMore, TemplatesTab } from "./templates-tab";
 import { DescribeSite, WrenWrite } from "./wren-panels";
 import { BackgroundTab, FontsTab, PhotoColoursSection, TargetColourSection, type PickTarget } from "./look-panels";
@@ -71,6 +73,7 @@ type Tab =
   | "background"
   | "motion"
   | "sections"
+  | "wren"
   | "elements"
   | "position"
   | "photo"
@@ -86,6 +89,7 @@ const TABS: { key: Tab; label: string }[] = [
   { key: "background", label: "Background" },
   { key: "motion", label: "Motion" },
   { key: "sections", label: "Sections" },
+  { key: "wren", label: "Wren" },
 ];
 
 // Desktop preview is laid out at a real laptop width and scaled down to fit,
@@ -93,6 +97,9 @@ const TABS: { key: Tab; label: string }[] = [
 // not the page squeezed into whatever room the editor leaves.
 const DESKTOP_W = 1280;
 const PHONE_W = 390;
+/** Desktop preview zoom range, as in Canva's zoom bar. */
+const ZOOM_MIN = 0.1;
+const ZOOM_MAX = 2;
 const PHONE_H = 844;
 
 const LG = "(min-width: 1024px)";
@@ -109,6 +116,17 @@ const TAB_ICONS = {
   sections: "sections",
   elements: "elements",
 } as const;
+
+/** Wren's tab wears her mark: the Sky sparkle on navy (CLAUDE.md, colour roles). */
+function WrenMark() {
+  return (
+    <span className="flex h-[22px] w-[22px] items-center justify-center rounded-full bg-[#14203d]">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="#00BFFE" aria-hidden="true">
+        <path d="M12 2l2.1 6.3L20.5 10l-6.4 1.9L12 18.3l-2.1-6.4L3.5 10l6.4-1.7z" />
+      </svg>
+    </span>
+  );
+}
 
 /**
  * The guest site editor: settings on the left, the site itself on the right.
@@ -135,6 +153,7 @@ export function SiteEditor({
   hasPhoto,
   names,
   weddingDate,
+  live,
   photos,
 }: {
   /** Which of the couple's designs this is (site_designs). */
@@ -160,6 +179,7 @@ export function SiteEditor({
   names: [string, string];
   /** For the monogram's date line ("2027-06-12"). */
   weddingDate: string | null;
+  live: LiveDetails;
   /** The banner and gallery photos, to place on the page from Elements. */
   photos: string[];
 }) {
@@ -258,6 +278,16 @@ export function SiteEditor({
   }, []);
   const onFrameReady = useEffectEvent(() => sendMode(editingOn));
   useEffect(() => sendMode(editingOn), [editingOn, sendMode]);
+
+  // Full screen shows the site as guests get it: editing off until Esc.
+  const onFullscreenChange = useEffectEvent(() => {
+    sendMode(document.fullscreenElement === frameRef.current ? false : editingOn);
+  });
+  useEffect(() => {
+    const listener = () => onFullscreenChange();
+    document.addEventListener("fullscreenchange", listener);
+    return () => document.removeEventListener("fullscreenchange", listener);
+  }, []);
 
   const sendDesign = useCallback((next: SiteDesign) => {
     frameRef.current?.contentWindow?.postMessage(
@@ -432,19 +462,31 @@ export function SiteEditor({
       }
       if (event.data?.type === TEXT_EDIT_MESSAGE && typeof event.data.text === "string") {
         const slot = TEXT_SLOTS.find((s) => s.id === event.data.slot);
-        if (slot?.words) onTypedText(slot.id, event.data.text.slice(0, 120));
+        if (slot?.words) onTypedText(slot.id, event.data.text.slice(0, textSlotMax(slot.id)));
       }
     }
     window.addEventListener("message", onMessage);
     return () => window.removeEventListener("message", onMessage);
   }, []);
 
-  // Ctrl/Cmd+Z and Ctrl/Cmd+Shift+Z (or Ctrl+Y), except while typing in a field.
+  // Delete or Backspace removes the picked element even when focus is out here rather than in the preview
+  // (say, just after adding it from a panel).
+  const onDeleteKey = useEffectEvent(() => {
+    if (!canvasSel?.id) return false;
+    frameRef.current?.contentWindow?.postMessage({ type: CANVAS_ACTION, action: "delete" }, window.location.origin);
+    return true;
+  });
+
+  // Ctrl/Cmd+Z and Ctrl/Cmd+Shift+Z (or Ctrl+Y), plus Delete/Backspace, except while typing in a field.
   useEffect(() => {
     function onKey(event: KeyboardEvent) {
-      if (!(event.metaKey || event.ctrlKey)) return;
       const target = event.target as HTMLElement | null;
       if (target?.closest("input, textarea, select, [contenteditable]")) return;
+      if (event.key === "Delete" || event.key === "Backspace") {
+        if (!event.metaKey && !event.ctrlKey && !event.altKey && onDeleteKey()) event.preventDefault();
+        return;
+      }
+      if (!(event.metaKey || event.ctrlKey)) return;
       const key = event.key.toLowerCase();
       if (key === "z" && !event.shiftKey) onUndo();
       else if ((key === "z" && event.shiftKey) || key === "y") onRedo();
@@ -473,6 +515,8 @@ export function SiteEditor({
         setSaveState("idle");
         setPublished(design);
         setIsLive(true);
+        // Publishing means guests can see it: a site that's off comes on too.
+        if (!site.slug) site.enable();
         setLaunches((n) => n + 1);
         post(REPLAY_MESSAGE);
       }
@@ -489,18 +533,44 @@ export function SiteEditor({
           ? publicSlug
             ? "Design changes not published yet"
             : "Draft — your site is off"
-          : "Guests see this version";
+          : publicSlug
+            ? "Guests see this version"
+            : "Your site is off";
 
   const liveHref = publicSlug ? `${origin}/w/${publicSlug}` : null;
+
+  // What the publish button does now. Published and on: it unpublishes
+  // (turns the site off, after a confirm). Published but off: it turns it on.
+  const publishAction: "publish" | "turnOn" | "unpublish" = dirty ? "publish" : publicSlug ? "unpublish" : "turnOn";
+  const publishBusy = isPublishing || site.isPending;
+  const onPublishClick = publishAction === "publish" ? publish : publishAction === "turnOn" ? site.enable : site.disable;
+  // Gently pulses while there's something to click for, so it reads as ready.
+  const publishReady = publishAction !== "unpublish" && !publishBusy;
 
   const publishButton = (
     <button
       type="button"
-      onClick={publish}
-      disabled={!dirty || isPublishing}
-      className="h-10 shrink-0 rounded-md bg-forest px-4 text-sm font-semibold text-parchment transition-colors hover:bg-forest/90 disabled:cursor-default disabled:bg-forest/40"
+      onClick={onPublishClick}
+      disabled={publishBusy}
+      title={publishAction === "unpublish" ? "Your site is live. Click to unpublish (turn it off)." : undefined}
+      className={`group h-10 shrink-0 rounded-md px-4 text-sm font-semibold transition-[transform,background-color,box-shadow] duration-150 active:scale-[0.97] disabled:cursor-default ${
+        publishAction === "unpublish"
+          ? "border border-forest/30 bg-card text-forest hover:border-red-700/40 hover:text-red-700"
+          : "bg-forest text-parchment shadow-sm hover:-translate-y-px hover:bg-forest/90 hover:shadow-md disabled:bg-forest/40"
+      } ${publishReady ? "publish-ready" : ""}`}
     >
-      {isPublishing ? "Publishing…" : !isLive ? "Make this live" : dirty ? "Publish changes" : "Published"}
+      {publishBusy ? (
+        site.isPending ? (publicSlug ? "Unpublishing…" : "Turning on…") : "Publishing…"
+      ) : publishAction === "publish" ? (
+        !isLive ? "Make this live" : "Publish changes"
+      ) : publishAction === "turnOn" ? (
+        "Turn site on"
+      ) : (
+        <>
+          <span className="group-hover:hidden">Published</span>
+          <span className="hidden group-hover:inline">Unpublish</span>
+        </>
+      )}
     </button>
   );
 
@@ -543,6 +613,7 @@ export function SiteEditor({
           frames={frames}
           selection={canvasSel}
           photos={photos}
+          live={live}
           onCanvas={changeCanvas}
           onSelect={selectCanvas}
         />
@@ -581,9 +652,13 @@ export function SiteEditor({
         </>
       ) : tab === "templates" ? (
         <>
-          <DescribeSite design={design} onChange={change} />
           <MakeItMore design={design} onChange={change} />
           <TemplatesTab design={design} names={names} onChange={change} />
+        </>
+      ) : tab === "wren" ? (
+        <>
+          <DescribeSite design={design} onChange={change} />
+          <WrenWrite design={design} onChange={change} />
         </>
       ) : tab === "theme" ? (
         <ThemeTab design={design} onChange={change} part="themes" />
@@ -601,8 +676,8 @@ export function SiteEditor({
         <FontsTab design={design} onChange={change} target={pickTarget?.font ? pickTarget : null} actions={targetActions} />
       ) : tab === "background" ? (
         <>
-          <BackgroundTab design={design} onChange={change} />
           <SceneSection design={design} onChange={change} />
+          <BackgroundTab design={design} onChange={change} />
         </>
       ) : tab === "motion" ? (
         <MotionTab
@@ -616,13 +691,7 @@ export function SiteEditor({
           {hasPhoto && photos[0] && (
             <div className="flex flex-col gap-3">
               <PanelLabel>Banner photo</PanelLabel>
-              <FocusPicker
-                src={photos[0]}
-                fx={design.heroPhoto.fx}
-                fy={design.heroPhoto.fy}
-                filter={filterCss(design.heroPhoto.filter)}
-                onChange={(fx, fy) => change({ heroPhoto: { ...design.heroPhoto, fx, fy } })}
-              />
+              <BannerFocus src={photos[0]} design={design} onChange={change} />
               <div className="flex flex-wrap gap-1.5">
                 {PHOTO_FILTERS.map((f) => (
                   <button
@@ -642,8 +711,6 @@ export function SiteEditor({
           )}
         </StyleTab>
       ) : (
-        <>
-        <WrenWrite design={design} onChange={change} />
         <SectionsTab
           design={design}
           onChange={change}
@@ -651,7 +718,6 @@ export function SiteEditor({
           info={sectionInfo}
           checklist={checklist}
         />
-        </>
       )}
     </div>
   );
@@ -784,11 +850,25 @@ export function SiteEditor({
           {/* Gold on white: the one thing on this screen that matters most. */}
           <button
             type="button"
-            onClick={publish}
-            disabled={!dirty || isPublishing}
-            className="ml-1 h-10 shrink-0 rounded-[10px] bg-[#FFD301] px-4 text-sm font-semibold text-[#14203d] disabled:bg-[#FFD301]/40 disabled:text-[#14203d]/60"
+            onClick={onPublishClick}
+            disabled={publishBusy}
+            className={`ml-1 h-10 shrink-0 rounded-[10px] px-4 text-sm font-semibold text-[#14203d] transition-transform active:scale-[0.97] disabled:opacity-60 ${
+              publishAction === "unpublish" ? "border border-[#14203d]/20 bg-card" : "bg-[#FFD301]"
+            } ${publishReady ? "publish-ready" : ""}`}
           >
-            {isPublishing ? "Publishing…" : !isLive ? "Make live" : dirty ? "Publish" : "Published"}
+            {publishBusy
+              ? site.isPending
+                ? publicSlug
+                  ? "Unpublishing…"
+                  : "Turning on…"
+                : "Publishing…"
+              : publishAction === "publish"
+                ? !isLive
+                  ? "Make live"
+                  : "Publish"
+                : publishAction === "turnOn"
+                  ? "Turn on"
+                  : "Published"}
           </button>
         </header>
 
@@ -899,7 +979,9 @@ export function SiteEditor({
                         setTab(t.key);
                         setPhoneSheet(phoneSheet === t.key ? null : t.key);
                       }}
-                    />
+                    >
+                      {t.key === "wren" ? <WrenMark /> : undefined}
+                    </Tool>
                   ))}
                 </div>
               </>
@@ -952,7 +1034,9 @@ export function SiteEditor({
                 icon={TAB_ICONS[t.key as keyof typeof TAB_ICONS]}
                 on={tab === t.key || (t.key === "elements" && (tab === "position" || tab === "photo" || tab === "animate"))}
                 onClick={() => setTab(t.key)}
-              />
+              >
+                {t.key === "wren" ? <WrenMark /> : undefined}
+              </Tool>
             ))}
           </nav>
           <div className="flex min-w-0 flex-1 flex-col">
@@ -982,60 +1066,62 @@ export function SiteEditor({
           <div className="flex h-[60px] shrink-0 items-center gap-3 px-6">
             {historyButtons}
             {deviceToggle}
-            <button
-              type="button"
-              onClick={() => post(REPLAY_MESSAGE)}
-              className="flex h-10 items-center gap-1.5 rounded-lg border border-hairline bg-card px-3.5 text-[13px] text-ink hover:border-ink/30"
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <path d="M4 12a8 8 0 1 0 2.3-5.6" />
-                <path d="M4 4v4h4" />
-              </svg>
-              Replay motion
-            </button>
-            <div className="flex-1" />
-            <span className={`text-[13px] ${error ? "text-red-700" : "text-ink/60"}`} role="status">
-              {status}
-            </span>
-            {liveHref && (
-              <a
-                href={liveHref}
-                target="_blank"
-                rel="noreferrer"
-                className="text-sm font-medium text-forest hover:underline"
-              >
-                Open live site
-              </a>
+            {/* Something picked: its bar takes the middle of this row, so the
+                preview never gives up height to a strip that's empty most of the time. */}
+            {canvasSel || textSlot ? (
+              <div className="relative z-20 flex min-w-0 flex-1 justify-center">
+                {textSlot ? (
+                  <TextToolbar
+                    slot={textSlot}
+                    design={design}
+                    onChange={(patch) => changeText(textSlot, patch)}
+                    onDone={closeText}
+                  />
+                ) : canvasSel ? (
+                  <CanvasToolbar
+                    design={design}
+                    selection={canvasSel}
+                    frames={frames}
+                    phoneFrames={phoneFrames}
+                    device={device}
+                    onCanvas={changeCanvas}
+                    onDesign={change}
+                    onPosition={() => openTab("position")}
+                    onOpen={openTab}
+                    onDone={() => selectCanvas(null)}
+                  />
+                ) : null}
+              </div>
+            ) : (
+              <>
+                <button
+                  type="button"
+                  onClick={() => post(REPLAY_MESSAGE)}
+                  className="flex h-10 items-center gap-1.5 rounded-lg border border-hairline bg-card px-3.5 text-[13px] text-ink hover:border-ink/30"
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <path d="M4 12a8 8 0 1 0 2.3-5.6" />
+                    <path d="M4 4v4h4" />
+                  </svg>
+                  Replay motion
+                </button>
+                <div className="flex-1" />
+                <span className={`text-[13px] ${error ? "text-red-700" : "text-ink/60"}`} role="status">
+                  {status}
+                </span>
+                {liveHref && (
+                  <a
+                    href={liveHref}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-sm font-medium text-forest hover:underline"
+                  >
+                    Open live site
+                  </a>
+                )}
+              </>
             )}
             {publishButton}
-          </div>
-        )}
-
-        {canvasSel && !textSlot && (
-          <div className={`absolute inset-x-3 z-20 flex justify-center top-[64px]`}>
-            <CanvasToolbar
-              design={design}
-              selection={canvasSel}
-              frames={frames}
-              phoneFrames={phoneFrames}
-              device={device}
-              onCanvas={changeCanvas}
-              onDesign={change}
-              onPosition={() => openTab("position")}
-              onOpen={openTab}
-              onDone={() => selectCanvas(null)}
-            />
-          </div>
-        )}
-
-        {textSlot && (
-          <div className={`absolute inset-x-3 z-20 flex justify-center top-[64px]`}>
-            <TextToolbar
-              slot={textSlot}
-              design={design}
-              onChange={(patch) => changeText(textSlot, patch)}
-              onDone={closeText}
-            />
           </div>
         )}
 
@@ -1375,8 +1461,45 @@ function PreviewStage({
     return () => observer.disconnect();
   }, []);
 
+  // Desktop zoom: null follows the window ("Fit"), a number is a zoom the
+  // couple picked with the slider or ctrl/cmd + wheel.
+  const [zoom, setZoom] = useState<number | null>(null);
+  const scrollerRef = useRef<HTMLDivElement>(null);
+  const fitScale = Math.min(1, size.w / DESKTOP_W) || 1;
+  const phoneBezel = 10;
+  const phoneScale =
+    Math.min(1, Math.max(0, size.h - bottomInset - 8) / (PHONE_H + phoneBezel * 2), size.w / (PHONE_W + phoneBezel * 2)) || 1;
+  // How far the iframe is scaled down (or up) to fit the stage.
+  const scale = fill ? 1 : device === "desktop" ? (zoom ?? fitScale) : phoneScale;
+
+  // Wheel over the iframe scrolls the site natively, but the events never
+  // reach this page. Wheel anywhere else on the stage (the margins, the
+  // browser bar) is passed into the site so it scrolls the same way.
+  const onWheel = useEffectEvent((event: WheelEvent) => {
+    const win = frameRef.current?.contentWindow;
+    if (!win) return;
+    event.preventDefault();
+    const unit = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? size.h : 1;
+    if ((event.ctrlKey || event.metaKey) && device === "desktop" && !fill) {
+      const next = (zoom ?? fitScale) * Math.exp(-event.deltaY * unit * 0.002);
+      setZoom(Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, next)));
+      return;
+    }
+    win.scrollBy(0, (event.deltaY * unit) / scale);
+    if (event.deltaX && scrollerRef.current) scrollerRef.current.scrollLeft += event.deltaX * unit;
+  });
+
+  useEffect(() => {
+    const el = stageRef.current;
+    if (!el) return;
+    const listener = (event: WheelEvent) => onWheel(event);
+    el.addEventListener("wheel", listener, { passive: false });
+    return () => el.removeEventListener("wheel", listener);
+  }, []);
+
   let outer: React.CSSProperties;
   let inner: React.CSSProperties;
+  let site: React.CSSProperties | null = null;
   let chrome: "browser" | "phone" | "none";
 
   if (fill) {
@@ -1385,21 +1508,24 @@ function PreviewStage({
     inner = { width: "100%", height: "100%" };
   } else if (device === "desktop") {
     chrome = "browser";
-    const bar = 36;
-    const scale = Math.min(1, size.w / DESKTOP_W) || 1;
+    const bar = 36 + 40; // browser bar above, zoom bar below
     const frameH = Math.max(0, size.h - bottomInset - bar);
     outer = { width: size.w, height: frameH };
+    // The site's window stays the size it is at "Fit" whatever the zoom, so
+    // zooming only makes the page bigger or smaller. Sizing it by the zoom
+    // made a 10% zoom a window ten screens tall, and full-height sections
+    // stretched to fill it. Zoomed out it sits centred; zoomed in it
+    // overflows and the frame scrolls.
+    const viewH = frameH / fitScale;
+    site = { width: DESKTOP_W * scale, height: viewH * scale, margin: "0 auto", overflow: "hidden" };
     inner = {
       width: DESKTOP_W,
-      height: frameH / scale,
+      height: viewH,
       transform: `scale(${scale})`,
       transformOrigin: "top left",
     };
   } else {
     chrome = "phone";
-    const bezel = 10;
-    const available = Math.max(0, size.h - bottomInset - 8);
-    const scale = Math.min(1, available / (PHONE_H + bezel * 2), size.w / (PHONE_W + bezel * 2)) || 1;
     outer = { width: PHONE_W * scale, height: PHONE_H * scale };
     inner = {
       width: PHONE_W,
@@ -1437,17 +1563,67 @@ function PreviewStage({
             </span>
           </div>
         )}
-        <div className="overflow-hidden" style={outer}>
-          <iframe
-            ref={frameRef}
-            src={`/guests/site/preview?design=${designId}`}
-            title="Guest site preview"
-            className="block border-0 bg-card"
-            style={inner}
-          />
+        <div
+          ref={scrollerRef}
+          className={site ? "relative overflow-auto" : "overflow-hidden"}
+          style={outer}
+        >
+          <div style={site ?? undefined}>
+            <iframe
+              ref={frameRef}
+              src={`/guests/site/preview?design=${designId}`}
+              title="Guest site preview"
+              className="block border-0 bg-card"
+              style={inner}
+            />
+          </div>
         </div>
+        {chrome === "browser" && (
+          <div className="flex h-10 shrink-0 items-center justify-end gap-3 border-t border-hairline bg-[#f7f7f5] px-4">
+            <button
+              type="button"
+              onClick={() => setZoom(null)}
+              aria-pressed={zoom === null}
+              className={`rounded-md px-2 py-0.5 text-xs ${
+                zoom === null ? "bg-[#2243B6]/10 font-semibold text-[#2243B6]" : "text-ink/60 hover:text-ink"
+              }`}
+            >
+              Fit
+            </button>
+            <input
+              type="range"
+              min={ZOOM_MIN * 100}
+              max={ZOOM_MAX * 100}
+              step={1}
+              value={Math.round((zoom ?? fitScale) * 100)}
+              onChange={(e) => setZoom(Number(e.target.value) / 100)}
+              aria-label="Zoom"
+              className="w-40 accent-[#2243B6]"
+            />
+            <span className="w-10 text-right text-xs tabular-nums text-ink/70">
+              {Math.round((zoom ?? fitScale) * 100)}%
+            </span>
+            <button
+              type="button"
+              onClick={() => frameRef.current?.requestFullscreen().catch(() => {})}
+              aria-label="Full screen"
+              title="Full screen (Esc to exit)"
+              className="flex h-7 w-7 items-center justify-center rounded-md text-ink/60 hover:bg-ink/5 hover:text-ink"
+            >
+              <FullscreenIcon />
+            </button>
+          </div>
+        )}
       </div>
     </div>
+  );
+}
+
+function FullscreenIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+      <path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7" />
+    </svg>
   );
 }
 
