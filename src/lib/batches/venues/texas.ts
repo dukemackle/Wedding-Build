@@ -279,6 +279,23 @@ The Black Oak	7435 TX-154	Sulphur Springs	Texas			Barn / Rustic	Indoor & Outdoor
 Sulphur Springs Country Club	511 Country Club Rd	Sulphur Springs	Texas			Ballroom / Hotel	Indoor			Golf-club ballroom overlooking the course and a private lake, with a built-in sound system, projector and custom catering.	help@sulphurspringscc.com	903-885-4748	https://www.sulphurspringscc.com/
 `,
   },
+  {
+    name: "Map fill: Panhandle, East, Brazos and South Texas towns",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Vista Ridge Venue	8399 Ranch Road 1474	Pampa	Texas			Barn / Rustic	Indoor & Outdoor			Panhandle barn venue near Pampa with a pasture for outdoor ceremonies, an indoor reception space, and help with setup, coordination and cleanup.	cobbkelly06@gmail.com	(806) 662-4434	https://www.vistaridgevenue.net/
+International Center for Trade	3295 Bob Rogers Drive	Eagle Pass	Texas			Ballroom / Hotel	Indoor		Simple	City-owned 44,000 sq ft conference centre whose 14,923 sq ft ballroom is let for weddings and quinceañeras, with half-ballroom options.			https://www.eaglepasstx.gov/facilities/facility/details/International-Center-for-Trade-4
+The Retreat at Sugarhill	658 E Farm Road 71	Mount Pleasant	Texas			Beach / Waterfront	Indoor & Outdoor	200	Simple	A 53-acre lakeside property with two ceremony sites, a climate-controlled hall for 200, a bridal suite and guest cabins.	info@theretreatatsugarhill.com	(903) 921-4320	https://www.theretreatatsugarhill.com/
+Folktale Venue	91 CR 3010 N	Mount Pleasant	Texas			Garden / Outdoor				A boutique garden wedding venue built around a farmhouse and gardens, with a second hall, The Glass Hall, listed as coming soon.	info@folktalevenue.com	(903) 380-5803	https://folktalevenue.com/
+La Familia Ranch Events	7225 W FM 476	Poteet	Texas			Garden / Outdoor	Outdoor			Family-run outdoor ranch venue near Poteet with open grounds and gazebos, hosting weddings, quinceañeras and other parties.	LaFamiliaRanch@gmail.com	(210) 371-6024	https://www.lafamiliaranchevents.com/
+The Carleton House Bed and Breakfast	803 N Main St	Bonham	Texas			Historic / Estate	Indoor & Outdoor			Restored 1888 Victorian inn in downtown Bonham with a landscaped half-acre garden and gazebo, offering wedding packages for small ceremonies.	Info@CarletonHouse.com	903-583-2779	https://www.carletonhouse.com/
+Best Day Ever Ranch	5927 Rose Hill Rd	Whitewright	Texas			Barn / Rustic	Indoor & Outdoor	140		Ranch near Whitewright with a wood-beamed chapel, a 2,800 sq ft event barn seating 140 and cabins for wedding-weekend stays.	info@bestdayeverranch.com	(903) 546-6424	https://www.bestdayeverranch.com/weddings
+FarmResort	5757 S FM 1752	Whitewright	Texas			Barn / Rustic	Indoor & Outdoor	300	Luxury	Working farm and winery on 140 acres with a six-acre lake and an 8,500 sq ft barn that seats up to 300 for a wedding.	farmResortUSA@gmail.com	(469) 634-0930	https://www.farmresort.com/wedding-services
+Willowood Ranch		Bells	Texas			Barn / Rustic	Indoor & Outdoor	150		Private 400-acre ranch near Bells with a stained-glass chapel seating 150, an event center and on-site lodges for guests.			https://willowoodranch.com/weddings/
+Mulberry Manor Bed and Breakfast	1400 Sam Houston	Sweetwater	Texas			Historic / Estate	Indoor			Historic Trammell House of 1911, now a bed and breakfast, hosting small wedding ceremonies and receptions on site.	info@mulberrymanortx.com	214-244-1009	https://www.mulberrymanortx.com/
+Brazoria Lake Ranch	3006 FM 521	Brazoria	Texas			Garden / Outdoor	Indoor & Outdoor	250		Thirty-five-acre lakeside ranch with a chandeliered grand hall for 150 and a pavilion and patio for outdoor weddings of up to 250.	brazorialakeranch@gmail.com	346-690-8390	https://www.brazorialakeranch.com/
+The Rustic Chandelier	5472 N FM 441	El Campo	Texas			Barn / Rustic	Indoor & Outdoor			A family-run barn venue on rural grounds outside El Campo, with a large wood-framed hall and an outdoor ceremony area.			https://therusticchandelier.com/
+`,
+  },
 ];
 
 export default batches;
