@@ -142,6 +142,31 @@ Painted Rock Floral Designs	Florals		Whitefish	Montana	Flathead Valley, includin
 Skeeter Johnston Productions	Videography		Kalispell	Montana	Flathead Valley, Glacier National Park, Bigfork, Polson, Plains and Bozeman	Local videographer making tailored wedding and elopement films across the Flathead Valley and Glacier National Park for over ten years.	skeeterjohnstonproductions@gmail.com	406-471-4345	https://www.skeeterjohnstonproductions.com/	https://www.instagram.com/skeeterjohnstonproductions/
 Glacier Wedding Films	Videography		Kalispell	Montana	Montana, including the Flathead Valley and Glacier National Park	Kalispell film company offering bespoke wedding and elopement videos that couples can build from separate highlight, teaser and documentary pieces.	contact@glacierweddingfilms.com	406-897-8300	https://glacierweddingfilms.com/	https://www.instagram.com/glacierweddingfilms/
 On The Fly Films	Videography		Kalispell	Montana	Flathead Valley and Glacier National Park, with travel included for Flathead Valley venues	Montana photographer and videographer pairing romantic wedding and elopement films with photos, with Flathead Valley travel included.	otffilmsmt@gmail.com		https://ontheflyfilmsmt.com/	https://www.instagram.com/ontheflyfilms/`,
+
+  },
+  {
+    name: "Whitefish: Planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Studio Margot	Planning		Whitefish	Montana		Boutique Whitefish planning studio offering full-service wedding planning, with European-inspired design and curated rentals.	hello@studiomargot.events		https://www.studiomargot.events/	https://www.instagram.com/studio.margot.events/`,
+  },
+  {
+    name: "Bozeman: Rentals, Officiant",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Montana Party Rentals	Rentals	17 All West Trail	Bozeman	Montana	Montana	Bozeman rental company with tables, chairs, linens, tenting, lighting, tabletop and decor for weddings, delivering across Montana.	info@montanapartyrentals.com	406-586-7727	https://www.montanapartyrentals.com/wedding/	https://www.instagram.com/montanapartyrentals/
+Weddings of the Wild	Officiant		Bozeman	Montana		Bozeman non-denominational officiant for adventure weddings, elopements and vow renewals, including horse-themed ceremony packages.	weddingsofthewild@gmail.com	406-209-6567	https://www.weddingsofthewild.com/	
+Big Sky Country Minister	Officiant		Bozeman	Montana	Within 500 miles of Bozeman	Bozeman-based minister who officiates weddings and elopements, with a free consultation by phone, video or in person before booking.	info@bigskycountryminister.com	406-580-5002	https://www.bigskycountryminister.com/	`,
+  },
+  {
+    name: "Missoula: Photo Booth",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+ZooTown Booth	Photo Booth		Missoula	Montana	Montana	Missoula photo booth rental for weddings and other events, available across Montana.	info@zootownbooth.com		https://www.zootownbooth.com/	https://www.instagram.com/zootownbooth/`,
+  },
+  {
+    name: "Billings: Rentals, Music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Revelry & Co	Rentals		Billings	Montana	Billings, Shepherd, Red Lodge, Laurel and Miles City	Billings rental and design company supplying wedding furniture, linens and decor, with planning and coordination packages for couples in Yellowstone County.	revelryeventsmt@gmail.com	(406) 281-0933	https://revelrycompanymt.com/	https://www.instagram.com/revelry_and_company/
+Freakin' Awesome DJ Service	Music		Billings	Montana	Billings and surrounding areas	Billings DJ and MC service for wedding receptions, with sound, custom uplighting and monogrammed lighting, plus equipment rentals.		(406) 259-3000	https://freakinawesome.com/	
+Montana Premiere Entertainment	Music	1935 Lampman Dr, Unit B	Billings	Montana	Billings and the surrounding region	Billings entertainment company offering wedding DJ and MC packages alongside tent, table, chair, linen and lighting rentals for events.	dave@mtpremiere.com	(406) 697-4301	https://mtpremiere.com/	https://www.instagram.com/montanapremiereentertainment/`,
   },
 ];
 
