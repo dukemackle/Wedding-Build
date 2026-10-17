@@ -316,6 +316,19 @@ Big Country Flowers	Florals		Sweetwater	Texas	Sweetwater and Abilene	Full-servic
 The Flower Box & Gifts	Florals		Sweetwater	Texas		Sweetwater florist offering wedding consultations by phone, in person or email, with ceremony and reception flowers delivered to the venue.		325-235-8676	https://swtflowerbox.com/collections/wedding	
 `,
   },
+  {
+    name: "Map fill: Mount Pleasant, Uvalde, Hereford, Dumas, El Campo, Lake Jackson: Florals, Photography, Music, Catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Designs by Lisa	Florals	1101 W 16th St	Mount Pleasant	Texas		Florist doing bridal and attendant bouquets, ceremony and reception arrangements, on-site decorating and arch or candelabra hire.		(903) 572-7964	https://www.designsbylisatx.com/wedding-flowers	
+Laura's Cheesecake & Cafe	Catering	109 N Madison Ave	Mount Pleasant	Texas		Downtown cheesecake bakery and cafe that also caters wedding celebrations and other events.	info@laurascheesecake.com	(903) 577-8177	https://laurascheesecakeandcafe.com/	https://www.instagram.com/laurascheesecakeandcafe/
+The Flower Patch	Florals	214 S Getty St	Uvalde	Texas		Uvalde florist offering wedding consultations, bouquets, ceremony and reception flowers, arches, and wedding and party hire.		(830) 278-2583	https://www.theflowerpatchuvaldetx.com/wedding-flowers	https://www.instagram.com/flowerpatchofuvalde/
+Flowers West	Florals	506 S 25 Mile Ave	Hereford	Texas	Hereford area	Long-running Hereford flower shop with a weddings and quinceañeras section on its website.		(806) 364-6452	https://www.flowerswesthfd.com/	
+Flowers Etc. LLC	Florals	523 S Dumas Ave	Dumas	Texas		Dumas florist doing wedding consultations, bouquets, ceremony and cake-table flowers, arches, and wedding and party hire.		(806) 935-7924	https://www.flowersetcdumastx.com/wedding-flowers	
+Floral Gardens	Florals	802 W Jackson St	El Campo	Texas		El Campo florist offering bridal party flowers, ceremony decor, reception centrepieces and on-site wedding consultations.		(979) 543-2705	https://www.floralgardens.biz/wedding-flowers	
+Cristal Malek Photography	Photography		El Campo	Texas	Houston, El Campo and Wharton	Relaxed, airy wedding photography from El Campo, with elopement and full-day packages and a day-after session.		(979) 578-2823	https://www.cristalmalekphotography.com/weddings	
+Wild Roots Photography	Photography		Lake Jackson	Texas	Southern Brazoria County and the Texas Gulf Coast	Lake Jackson photographers covering weddings with two photographers on every collection, serving southern Brazoria County and the Gulf Coast.			https://wildrootsphotography.com/weddings	https://www.instagram.com/wild_roots_photographytx/
+`,
+  },
 ];
 
 export default batches;
