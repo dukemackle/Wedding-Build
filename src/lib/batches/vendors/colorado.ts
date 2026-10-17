@@ -338,6 +338,15 @@ Mountain Event Services	Music	2530 Myrtle Ct	Fort Collins	Colorado	Fort Collins,
 Byers Entertainment	Music		Fort Collins	Colorado	Fort Collins, Loveland, Greeley, Estes Park, Boulder, Longmont, Denver and southern Wyoming	Full-time owner-operated Fort Collins wedding DJ and MC with over 30 years' experience, who also offers a one-man-band and DJ combination.	byerset@msn.com	970-221-0228	https://byersentertainment.com	
 `,
   },
+  {
+    name: "Sterling and Fort Morgan: Florals, Cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Cattleya	Florals	328 Chestnut Street	Sterling	Colorado		Sterling flower shop offering wedding bouquets, wedding party flowers, and ceremony and reception arrangements, with bridal consultations.		(970) 522-7686	https://www.cattleyafloral.com/wedding-flowers	
+The Flower Barn	Florals		Sterling	Colorado		Sterling florist designing bespoke wedding flowers, from the bridal bouquet to table centrepieces, working from a home shop with a retail location.	hello@the-flowerbarn.com	(970) 520-2038	https://www.myflowerbarn.com	https://www.instagram.com/theflowerbarn.co/
+Wickedly Good Treats LLC	Cake	1423 Sidney Avenue	Sterling	Colorado	Sterling, with delivery to Holyoke and Greeley	Sterling bakery run by self-taught decorator Jessica Brom, making custom wedding cakes and cupcakes plus cookies, macarons and dipped treats.	thewickedlygoodtreats@gmail.com	970-580-9940	https://www.wickedly-good-treats.com/	https://www.instagram.com/wickedlygoodtreats/
+The Flower Petaler	Florals	322 Main St	Fort Morgan	Colorado	Morgan County	Fort Morgan flower shop serving Morgan County with wedding bouquets, wedding party flowers, and ceremony and reception arrangements, plus custom orders.	flowerpetaler322@gmail.com	(970) 867-0955	https://www.flowerpetalerftmorgan.com/	
+`,
+  },
 ];
 
 export default batches;

@@ -226,6 +226,15 @@ The Post Mountain House		Estes Park	Colorado			Restaurant / Vineyard	Indoor & Ou
 Ginger and Baker	359 Linden Street	Fort Collins	Colorado			Restaurant / Vineyard	Indoor & Outdoor			Historic buildings in the River District of downtown Fort Collins, with a rooftop, a wine cellar and a patio used for ceremonies and receptions.		970-223-7437	https://gingerandbaker.com/events/weddings/
 `,
   },
+  {
+    name: "Sterling: venues",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+The Prairie Star	6530 County Rd 28.5	Sterling	Colorado			Barn / Rustic				A rural prairie property near Sterling with a hand-built lodge house, loft, heated garage and bedrooms on site for the wedding party.	theprairiestar@gmail.com	(970) 520-9737	https://www.prairiestarevents.com
+Sky Ranch Golf Club	17408 CO-14	Sterling	Colorado			Garden / Outdoor	Indoor & Outdoor			A 1916 golf course on the edge of Sterling with indoor and outdoor ceremony spots, joinable event rooms overlooking the 18th green and in-house catering.		(970) 522-2836	https://skyranchgc.com/weddings
+Logan County Fairgrounds and Mitchek Event Center	1120 Pawnee Avenue	Sterling	Colorado			Barn / Rustic				County fairgrounds in Sterling whose Mitchek Event Center, finished in 2024, is rented for wedding receptions, alongside an indoor arena and meeting rooms.		(970) 522-0554	https://www.logancountyco.gov/212/Fairgrounds
+Longmeadow Event Center	8604 County Rd. 6	Wiggins	Colorado			Barn / Rustic	Indoor & Outdoor			A family-run game resort and clays club near Fort Morgan whose 12,000 sq ft lodge hosts weddings, with on-site lodging, RV slots and catering.	info@longmeadoweventcenter.com	(970) 483-8368	https://longmeadoweventcenter.com/colorado-wedding-venue-at-longmeadow/
+`,
+  },
 ];
 
 export default batches;
