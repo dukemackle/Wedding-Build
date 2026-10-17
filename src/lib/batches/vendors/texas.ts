@@ -329,6 +329,14 @@ Cristal Malek Photography	Photography		El Campo	Texas	Houston, El Campo and Whar
 Wild Roots Photography	Photography		Lake Jackson	Texas	Southern Brazoria County and the Texas Gulf Coast	Lake Jackson photographers covering weddings with two photographers on every collection, serving southern Brazoria County and the Gulf Coast.			https://wildrootsphotography.com/weddings	https://www.instagram.com/wild_roots_photographytx/
 `,
   },
+  {
+    name: "Map fill: Brownwood, Sulphur Springs, Pampa",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Be Okay Photography	Photography		Brownwood	Texas		Brownwood photographer offering wedding packages from a two-hour essentials package to full-day coverage, plus engagement sessions and portraits.			https://beokayphotography.com/	https://www.instagram.com/be_okay_photography/
+The Sticks BBQ	Catering	3501 US-377	Brownwood	Texas	Brown County and nearby Central Texas towns	Family-owned Brownwood barbecue joint since 2001 that smokes brisket, ribs and sausage and offers BBQ catering for larger groups.		(325) 646-2315	https://sticksbbq.com/	
+Whoops-A-Daisy Flower Co.	Florals	128 S Davis St	Sulphur Springs	Texas	Sulphur Springs	Downtown Sulphur Springs flower shop that arranges wedding bouquets, wedding party flowers, and ceremony and reception arrangements.	vickibassham@icloud.com	(903) 885-2554	https://www.whoopsadaisyflowerco.com/	
+The Plaza Restaurant	Catering	1201 N Hobart St	Pampa	Texas		Tex-Mex restaurant in Pampa that caters wedding receptions and rehearsal dinners, with fajita bars and enchilada dinners.			https://www.theplazarestaurant.com/catering/	`,
+  },
 ];
 
 export default batches;
