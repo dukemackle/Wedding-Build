@@ -8,6 +8,7 @@ import {
   deleteAccommodation,
   deleteWeddingFaq,
   updateGuestSiteDetails,
+  updateOwnVenue,
 } from "./guest-site-actions";
 
 const inputClass =
@@ -244,5 +245,71 @@ export function Faqs({ faqs }: { faqs: WeddingFaq[] }) {
 
       {error && <p className="mt-2 text-sm text-red-800">{error}</p>}
     </div>
+  );
+}
+
+/**
+ * A venue that isn't one of the listings: its name and address, so the guest
+ * site still shows where to go, with Directions.
+ */
+export function OwnVenue({ wedding }: { wedding: Wedding }) {
+  const [error, setError] = useState<string | undefined>(undefined);
+  const [saved, setSaved] = useState(false);
+  const [isPending, startTransition] = useTransition();
+
+  function handleSave(formData: FormData) {
+    startTransition(async () => {
+      const result = await updateOwnVenue(formData);
+      setError(result?.error);
+      setSaved(!result?.error);
+      if (!result?.error) setTimeout(() => setSaved(false), 2500);
+    });
+  }
+
+  return (
+    <form action={handleSave} className="flex flex-col gap-3">
+      <p className="text-[13px] leading-normal text-ink/60">
+        Booked somewhere we don&apos;t list, like a family farm or a backyard? Add it here and your site shows it, with
+        directions.
+      </p>
+      <label className={labelClass}>
+        Venue name
+        <input
+          name="own_venue_name"
+          maxLength={120}
+          defaultValue={wedding.own_venue_name ?? ""}
+          placeholder="The Becker farm"
+          className={inputClass}
+        />
+      </label>
+      <label className={labelClass}>
+        Street address
+        <input
+          name="own_venue_address"
+          maxLength={200}
+          defaultValue={wedding.own_venue_address ?? ""}
+          placeholder="1420 County Road 12"
+          className={inputClass}
+        />
+      </label>
+      <div className="grid grid-cols-[1fr_7rem] gap-3">
+        <label className={labelClass}>
+          City
+          <input name="own_venue_city" maxLength={80} defaultValue={wedding.own_venue_city ?? ""} className={inputClass} />
+        </label>
+        <label className={labelClass}>
+          State
+          <input name="own_venue_state" maxLength={40} defaultValue={wedding.own_venue_state ?? ""} className={inputClass} />
+        </label>
+      </div>
+      {error && <p className="text-sm text-red-800">{error}</p>}
+      <button
+        type="submit"
+        disabled={isPending}
+        className="h-10 self-start rounded-md bg-forest px-4 text-sm font-semibold text-parchment hover:bg-forest/90 disabled:opacity-60"
+      >
+        {isPending ? "Saving…" : saved ? "Saved" : "Save venue"}
+      </button>
+    </form>
   );
 }

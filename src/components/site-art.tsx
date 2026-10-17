@@ -2,8 +2,8 @@ import Image from "next/image";
 import { artById, type SiteDesign } from "@/lib/site-design";
 
 /**
- * The couple's botanical artwork around the top of the page (Style tab ›
- * Artwork). Public-domain illustrations, cut out of their paper.
+ * The couple's botanical artwork around the top of the page (Elements tab ›
+ * Page artwork). Public-domain illustrations, cut out of their paper.
  *
  * Watercolours keep their own colours. Line engravings are kept as a shape
  * only and filled with the accent, so one drawing suits every palette.

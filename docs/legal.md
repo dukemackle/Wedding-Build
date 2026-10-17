@@ -29,6 +29,11 @@ legal questions to the owner rather than deciding them.
   with this listing?" form shows `LegalNotice`; Privacy §1 covers the
   optional reporter email and the anonymous tap counts on listing links.
 
+- **Registry claims (2026-10-12):** the guest site's "I'm getting this" and
+  "Give to this fund" dialogs show `LegalNotice`; Privacy §1 (from guests)
+  covers the name, quantity/amount and message. Fund money never passes
+  through us, so the payments trigger below doesn't apply.
+
 Rule: any new form that sends Wren a person's details gets `LegalNotice`
 next to its submit button, and the Privacy Policy's "Information we collect"
 gets a line for it. Bump the "Last updated" date on any policy change.

@@ -8,7 +8,7 @@ import { useMemo } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { FitToPins } from "@/components/map-fit-bounds";
 import { ClusteredMarkers, dotIcon } from "@/components/clustered-markers";
-import type { MapView } from "@/lib/map-view";
+import { MAP_MIN_ZOOM, US_MAP_BOUNDS, type MapView } from "@/lib/map-view";
 import type { Venue } from "@/lib/supabase/types";
 import { ShortlistButton } from "./venue-card-shared";
 import { venueHref } from "@/lib/public-listings";
@@ -112,6 +112,9 @@ export function VenuesMap({
         center={center ?? CONTINENTAL_US_CENTER}
         zoom={zoom ?? 4}
         scrollWheelZoom
+        minZoom={MAP_MIN_ZOOM}
+        maxBounds={US_MAP_BOUNDS}
+        maxBoundsViscosity={0.8}
         style={{ height: "100%", width: "100%" }}
       >
         <TileLayer

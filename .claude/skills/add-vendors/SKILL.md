@@ -21,8 +21,9 @@ owner may paste names or a list. Otherwise, choose for them:
    in `scripts/coverage-plan.mjs`.
 2. **Wide before deep** until every state meets pass 1 (its first metro has 3
    in each core category): take the state furthest from it. After that, fill
-   each state's other metros. Any category with fewer than 3 vendors in a
-   metro counts as missing.
+   each state's other metros. A category counts as missing until the metro
+   reaches its target: 3 per category, 5 in a large market, 8 in a major one
+   (`MARKET_SIZE` in the plan; `npm run coverage -- <State>` shows the gaps).
 3. Say in one line which metro and categories you're doing, then go ahead. Only
    ask if the owner's request is ambiguous.
 

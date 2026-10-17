@@ -468,6 +468,7 @@ export async function addRegistryItem(formData: FormData): Promise<{ error?: str
   }
 
   revalidatePath("/guests");
+  revalidatePath("/registry");
   return {};
 }
 
@@ -491,6 +492,7 @@ export async function deleteRegistryItem(formData: FormData): Promise<{ error?: 
   }
 
   revalidatePath("/guests");
+  revalidatePath("/registry");
   return {};
 }
 
@@ -607,6 +609,10 @@ export async function approveRsvpSubmission(formData: FormData): Promise<{ error
     ...(submission.events ? { event_rsvps: submission.events } : {}),
   };
 
+  // No dietary column on guests: like a spreadsheet's Dietary column on
+  // import, it's kept in notes, where the couple already looks.
+  const submittedNotes = [submission.dietary && `Dietary: ${submission.dietary}`, submission.notes];
+
   const { error: saveError } = match
     ? await supabase
         .from("guests")
@@ -615,8 +621,7 @@ export async function approveRsvpSubmission(formData: FormData): Promise<{ error
           // The couple's own household and side win over what the guest typed.
           household: match.household ?? submission.household,
           side: match.side ?? submission.side,
-          notes:
-            [match.notes, submission.notes].filter(Boolean).join("\n\n") || null,
+          notes: [match.notes, ...submittedNotes].filter(Boolean).join("\n\n") || null,
         })
         .eq("id", match.id)
         .eq("wedding_id", wedding.id)
@@ -627,7 +632,7 @@ export async function approveRsvpSubmission(formData: FormData): Promise<{ error
         name: submission.guest_name,
         household: submission.household,
         side: submission.side,
-        notes: submission.notes,
+        notes: submittedNotes.filter(Boolean).join("\n\n") || null,
       });
 
   if (saveError) {

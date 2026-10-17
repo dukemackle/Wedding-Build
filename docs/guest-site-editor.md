@@ -56,6 +56,23 @@ The exact values are in `THEMES` in the mockup's `Main.dc.html`.
 - Existing section content is already stored by `0063_guest_site_sections.sql` and so on. That
   content stays where it is; only presentation moves into the jsonb.
 
+## Several designs (built 2026-10-11)
+Approved from mockups on 2026-10-11 (Canva's "Continue designing" / template gallery as the model).
+- `/guests/site` is now **Your designs**: a card per design (live one first, gold **Live** badge),
+  each with a ⋯ menu (open, make live, rename, duplicate, "Use my shared wording", delete), then
+  a row of templates. Up to 10 designs (`MAX_DESIGNS`). The live design can't be deleted.
+- `/guests/site/templates` is the gallery: tag filters, every template drawn in the couple's names
+  (`site-thumb.tsx`, drawn not rendered). A tapped template opens the real guest site in that look
+  (`/guests/site/preview?look=1`, sent the design by postMessage), three colour options, and
+  **Customize this template**, which makes a new design (template over the live design) and opens it.
+- The editor moved to `/guests/site/edit/[id]`. Publish there copies the design to
+  `weddings.site_design` and sets `weddings.live_design_id`; on a design guests don't see the
+  button reads "Make this live".
+- Data (`0111_site_designs.sql`): one `site_designs` row per design. `site_design_draft` is no
+  longer written. **Shared wording** is the headings' words (the `text` slots): designs with
+  `shared_wording` on read and write them in `weddings.site_wording`; off, the design keeps its own.
+  Story, FAQ, schedule, photos and RSVPs live in their own tables, so they're shared by every design.
+
 ## Section order on a computer (decided 2026-09-27)
 The desktop site keeps two columns: what guests act on (RSVP, photos, the weekend,
 photo wall) in the wide main column, reference material (who's coming, travel & stays,
@@ -163,5 +180,24 @@ Phases, one PR each:
    browser anyway. The Elements tab became a library: a search, filter chips
    (Text, Shapes, Line art, Watercolours, Your photos), line art grouped by
    kind, the painted watercolours, and a "Suits your theme" row.
-5. Templates: gallery, switching that keeps content, "Describe your ideal
-   site" and "Wren, write this".
+5. In two PRs (decided 2026-10-08).
+   **5a, templates** (built 2026-10-08): 14 finished looks in
+   `src/lib/site-templates.ts`, each a combination of what the editor
+   already has (theme, palette, font pair, hero layout, artwork, background,
+   motion), filtered by Beach, Garden, Rustic, Line art, Traditions and
+   Modern. Templates is the first tab and opens by default. Switching keeps
+   the couple's words, section order, photos and placed elements; one-off
+   fonts and colours on retyped headings give way to the new look. The design
+   records the template it started from (`template`), shown as picked.
+   **5b, AI** (built 2026-10-08): "Describe your ideal site" (top of
+   Templates) turns a sentence into a template, palette, artwork, background
+   and motion, every field checked against its list on the server and applied
+   as an ordinary draft change, so undo puts it back. "Wren, write this" (top
+   of Sections) drafts their story, FAQ, travel notes or a welcome line from
+   their details and notes. The couple edits the draft, then "Use this" saves
+   it: the story becomes a story section, FAQs are added after theirs, travel
+   notes are replaced, and the welcome line goes on the hero as text. Both
+   share a cap of 3 calls per wedding per day (`site_ai_uses`, migration
+   0110), and the Privacy Policy lists what's sent. They run on
+   `claude-haiku-5-5` (`src/lib/ai/site-wren.ts`; switched from Opus 5.5 on
+   2026-10-09 for cost).

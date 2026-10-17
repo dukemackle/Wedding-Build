@@ -148,6 +148,111 @@ Snow Canyon Catering	Catering		St. George	Utah	St. George and Southern Utah	Chef
 Zion Wedding Music	Music		Springdale	Utah	St. George, Cedar City, Springdale and Zion National Park	Acoustic guitarist and singer-songwriter playing classical-style and original music for ceremonies and receptions in Zion and St. George.	davetatemusic@gmail.com	435-760-9163	https://www.zionweddingmusic.com	
 `,
   },
+  {
+    name: "Salt Lake City: photography, planning, florals, music, catering, hair & makeup, cake, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Opie Beauty and Boudoir Photography	Photography	357 South 200 East, Suite 305	Salt Lake City	Utah	Salt Lake City, Sandy, Draper, Cottonwood Heights, Bountiful, Park City, Ogden	Studio led by a University of Utah photography graduate, covering engagements, bridals and weddings at Park City lodges, the Capitol and Wasatch canyons.	opie@opiefoto.com	801-815-2262	https://opiefoto.com/	https://www.instagram.com/opiefoto/
+MarDel Photography & Design	Photography	9424 South Union Square (650 E.)	Sandy	Utah	Salt Lake City, Murray, Draper, South Jordan, West Jordan, Park City	Long-running Sandy studio with over thirty years behind the camera, offering wedding and bridal sessions alongside family and portrait work.	email@mardelphotography.com	801-572-4399	https://www.mardelphotography.com/	
+Jessie & Dallin Photography	Photography		Salt Lake City	Utah	Salt Lake City, Park City, Ogden and across Utah	Husband-and-wife team whose galleries include a Wadley Farms castle wedding, a theatre wedding in Ogden and an Indian wedding session at the Salt Flats.	info@jessieanddallin.com		https://jessieanddallin.com/	https://www.instagram.com/jessieanddallin/
+Todd Collins Wedding Photography	Photography		Salt Lake City	Utah	Salt Lake City and Utah	Salt Lake City photographer with couple galleries, first-look coverage, bridal portraits and engagement sessions.	redcity@msn.com	801-647-0186	http://www.toddcollinsweddings.com/	https://www.instagram.com/toddcollinsweddingphotography/
+Dezember Photography	Photography		Salt Lake City	Utah	Salt Lake City and venues across Utah	Gallery-based studio near downtown Salt Lake City, shooting weddings, engagements and mountain and destination celebrations.			https://dezemberphoto.com/	https://www.instagram.com/dezemberphoto/
+K. Mae Weddings	Planning		Salt Lake City	Utah	Salt Lake City, Draper, Sandy, South Jordan, Lehi, Provo	Day-of coordination for intimate weddings and elopements, run by a Filipino-American coordinator, with timeline, vendor outreach and venue walkthrough.	katrina@kmaeweddings.com		https://www.kmaeweddings.com/	https://www.instagram.com/kmaeweddings/
+The Rose Shop	Florals	1910 Dimple Dell Rd	Sandy	Utah	Salt Lake City, Sandy, Riverton	Family florist with three shops that designs wedding flowers around each couple's style, choices and budget.	flowers@roseshopflowers.com	(801) 501-7673	https://www.roseshopflowers.com/	https://www.instagram.com/roseshopflowers/
+Twigs Flower Company	Florals	2735 S 2000 E	Salt Lake City	Utah	Salt Lake City, Sugar House, Sandy, Midvale, South Jordan, West Jordan	Independent Salt Lake City florist trading since 1989, with a dedicated wedding flowers page and collection.	wecare@twigsflowerco.com	(801) 596-2322	https://www.twigsflowerco.com/	
+DJ Casey Weddings & Events	Music		West Jordan	Utah	Salt Lake, Utah, Davis, Cache, Weber and Summit counties	West Jordan DJ company founded in 2016, with published reception and ceremony-plus-reception packages, ceremony sound and dance lighting.		801-876-1500	https://djcasey.com/	https://www.instagram.com/djcasey_events/
+Platinum Mobile DJ	Music		Salt Lake City	Utah	Greater Salt Lake City area	Mobile DJ covering ceremony and reception music, MC duties and lighting, priced hourly with a three-hour minimum.		(385) 429-2751	https://pmmdj.com/	https://www.instagram.com/platinumdj22/
+Rockwell Catering and Events	Catering		Murray	Utah	Salt Lake County, Utah County and across Utah	Caterer that cooks wedding menus from scratch, serving receptions and luncheons across Salt Lake and Utah counties.	info@rockwellcatering.com	801-610-2111	https://rockwellcatering.com/	https://www.instagram.com/rockwellcaterut/
+Isabella's Catering	Catering		West Jordan	Utah	Wasatch Front, from Provo to Ogden	West Jordan caterer delivering wedding receptions along the Wasatch Front, with staff who help on the day.	isabellascatering1@yahoo.com	(801) 255-9504	https://isabellascatering.com/	
+Saffron Valley	Catering	479 E 2100 S	Salt Lake City	Utah	Greater Salt Lake area	Indian restaurant group offering full-service and delivered catering for weddings, with custom menus for any guest count.			https://www.saffronvalley.com/	https://www.instagram.com/thesaffrongroup/
+NC Studio by Nikra	Hair & Makeup		Cottonwood Heights	Utah	Salt Lake City, Park City and Utah	Bridal hair and makeup with airbrush options, trials held at a Cottonwood Heights studio and Saturdays kept for bridal parties of three or more.		(801) 979-5088	https://www.ncstudioutah.com/	https://www.instagram.com/nikrabeauty/
+Cakes By Edith	Cake	1736 West 5000 South	Taylorsville	Utah	Salt Lake Valley	Family bakery with Taylorsville and Riverton shops, making custom wedding and quinceañera cakes with tastings by appointment.		(801) 963-3743	https://www.cakesbyedithbakery.com/	https://www.instagram.com/cakesbyedithutah/
+Bekah's Baking Atelier	Cake		Lehi	Utah	Lehi and Utah County	Lehi baker making custom tiered wedding cakes shaped around the couple's colours, flavours and story, from two tiers upwards.	hello@bekahsbakingatelier.com	(385) 549-5486	https://bekahsbakingatelier.com/	https://www.instagram.com/bekahsbakingatelier/
+cake. by Alessandra	Cake		Lehi	Utah	Utah	Wedding cake studio making fondant, buttercream, naked and sculpted tiered cakes, plus groom's cakes, priced by emailed enquiry.	info@cakeut.com	801.901.6485	https://cakeut.com/	https://www.instagram.com/cake.ut/
+Bella Alder Photo + Film	Videography		Salt Lake City	Utah	Salt Lake City, Logan, Moab, St. George	Salt Lake City team offering feature wedding films, highlight videos and behind-the-scenes clips alongside photography.	bellaalderphotography@gmail.com	435-225-8661	https://www.bellaalderphotography.com/	https://www.instagram.com/bellaalderphotography/
+`,
+  },
+  {
+    name: "Park City: music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Rhinestone Rodeo	Music		Park City	Utah	Park City, Deer Valley	Park City party band that plays ceremony, cocktail hour and reception sets at Deer Valley resorts and other mountain venues.			https://www.rhinestonerodeoband.com/	https://www.instagram.com/rhinestonerodeoband/
+Sydnie Keddington	Music		Park City	Utah	Park City, Salt Lake City	Solo acoustic singer-songwriter based in Park City who plays folk, country and Americana sets for ceremonies, cocktail hours and receptions.	sydkeddmusic@gmail.com		https://sydniekeddington.com/	https://www.instagram.com/sydniekeddington/
+`,
+  },
+  {
+    name: "St. George: hair & makeup, cake, videography, rentals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Bridal Hair By Brooke	Hair & Makeup		St. George	Utah	Southern Utah	Southern Utah stylist who specialises in bridal hair, with trial runs, bridal party styling and a portfolio of wedding looks.	hairsbybrooke@gmail.com	(435) 632-2588	https://www.bridalhairbybrooke.com/	https://www.instagram.com/bridalhairbybrooke/
+Roaming Vow Film Co.	Videography		St. George	Utah	St. George, Zion National Park, Snow Canyon, Sand Hollow	Photo and video duo filming weddings and elopements around St. George and Zion, with advice on drone permits and backup locations.			https://roamingvowfilmco.com/	https://www.instagram.com/roamingvowfilmco/
+Taylor Made Events	Rentals		St. George	Utah	St. George, Zion, Southern Utah	Wedding rental and styling company supplying tents, handcrafted tables, seating and arches, with setup and teardown included.	info@taylormadeevents.co	(435) 256-0647	https://www.taylormadeevents.co/	https://www.instagram.com/taylor.made.events/
+`,
+  },
+  {
+    name: "Salt Lake City: planning, hair & makeup and videography; St. George: videography; Brigham City: planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Life Is A Party SLC	Planning		Salt Lake City	Utah	Utah	Wedding and event planner in Salt Lake City who plans and coordinates weddings for couples across Utah.	lifeisapartyslc@gmail.com		https://www.lifeisapartyslc.com/	https://www.instagram.com/lifeisaparty.slc/
+Brittany Williams Events	Planning		Brigham City	Utah	Northern Utah	Brigham City planner offering day-of coordination as well as full-service wedding design and planning across northern Utah.	partyplanningbestie@gmail.com	435-730-5868	https://www.brittanywilliamsevents.com/	https://www.instagram.com/brittany.williamsevents/
+Erin Smith Beauty Creations	Hair & Makeup		Salt Lake City	Utah	Salt Lake City, Moab and St. George	Salt Lake City bridal hair and makeup team that works on site, and also travels to St. George and Moab for wedding parties.	erinsmith@erinsmithbeautycreations.com	6302045429	https://www.erinsmithbeautycreations.com/utahteam	https://www.instagram.com/erinsmithbeautycreations/
+Janelle Ingram	Hair & Makeup		Murray	Utah	Salt Lake City, Park City and Moab	Bridal hair and makeup artist near Salt Lake City, doing updos, braids and makeup for brides and parties, with travel to Park City.	janelleingram@gmail.com	801-879-8712	https://www.janelleingram.com/	https://www.instagram.com/janelleingram/
+Austin Goode Film & Photo	Videography		Salt Lake City	Utah		Salt Lake City wedding and editorial videographer who films wedding days and makes portraits and brand content on the side.			https://austingoode.com	https://www.instagram.com/austingoodefilms/
+Nate Fill Now Films	Videography		Salt Lake City	Utah		Husband-and-wife team in Salt Lake City who film weddings with unobtrusive coverage and creative editing, plus business and ski films.	natefillnow@gmail.com	801-633-6869	https://www.natefillnowfilms.com/	
+Steadman Film	Videography		Salt Lake City	Utah		Salt Lake City wedding filmmaker making candid, emotional heirloom-style films, with weddings filmed at destinations around the world.			https://www.steadmanfilm.com/wedding-films/	
+Maddy Mykel Videography	Videography		St. George	Utah	Southern Utah	St. George wedding videographer who films candid moments and edits them into a visual story of the day for Southern Utah couples.	contact@maddymykel.com	385-515-9693	https://www.maddymykel.com/	https://www.instagram.com/maddymykelvideography/
+`,
+  },
+  {
+    name: "Salt Lake City: catering, bar, photography, florals, music and planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Mecca Bar Co.	Bar		Salt Lake City	Utah		Mobile bar company serving craft cocktails, espresso and gondola-style bars for weddings, parties and corporate events, built for high-volume service.	hello@meccabarco.com	801-449-0182	https://meccabarco.com	https://www.instagram.com/meccabarco/
+Masterpiece Images	Photography		Ogden	Utah	Ogden and Northern Utah	Ogden photo and video studio covering weddings alongside portraits and events, serving Northern Utah since 1998.			https://mpiphotovideo.com/	
+Buds Blooms and Blossoms	Florals		Logan	Utah	Logan, Cache Valley and Northern Utah	Northern Utah florist designing wedding and event flowers, who also preserve bouquets in resin for couples anywhere in the country.			https://budsbloomsandblossoms.com/	https://www.instagram.com/budsbloomsandblossoms/
+Polynesian Roots	Catering	1268 S 500 W	Bountiful	Utah		Bountiful caterer serving luau and island-style menus for weddings, family celebrations and corporate events, with a Polynesian flavour.	Hello@PolynesianRootsCatering.com	801-884-6696	https://polynesianrootscatering.com/	https://www.instagram.com/polynesianroots/
+Paradise Biryani Pointe	Catering		Draper	Utah	Draper, Salt Lake City, Utah County and surrounding areas	Draper Indian caterer offering South Indian menus, including Hyderabadi chicken biryani, for weddings and family functions along the Wasatch Front.			https://paradisebiryaniutah.com/catering/	https://www.instagram.com/paradisebiryanidraper/
+Bhansa Ghar	Catering	250 W 2100 S Expy, Suite G	Salt Lake City	Utah		Nepali and Indian restaurant catering weddings and gatherings of up to 300 guests, with pick-up, delivery or fully staffed service.			https://bhansagharut.com/salt-lake-city-bhansa-ghar-catering	https://www.instagram.com/bhansagharut/
+Mariachi Fuego	Music		West Valley City	Utah	Utah	West Valley City mariachi group playing live Mexican music for wedding ceremonies and receptions, as well as quinceañeras and serenatas.		801-654-9139	https://mariachi-fuego.com/	https://www.instagram.com/mariachifuegoutah/
+Indian DJ Events	Music		Draper	Utah	Draper, the Wasatch Front and Utah cities; travels nationwide	Draper DJ specialising in Indian wedding celebrations, playing across Salt Lake, Utah and Weber valleys and travelling further for bigger events.	indiandjevents@gmail.com		https://www.indiandjevents.com/indian-wedding-dj-utah/indian-wedding-dj-draper-utah	https://www.instagram.com/indiandjevents/
+Cactus & Tropicals	Florals	2735 S 2000 E	Salt Lake City	Utah	Salt Lake area	Salt Lake City plant shop and florist with an event design team for wedding flowers, plus further shops in Draper and Midvale.		801-485-2542	https://www.cactusandtropicals.com/eventfloral	https://www.instagram.com/cactusandtropicals/
+Blooms & Company	Florals	1586 E 3900 S	Salt Lake City	Utah	Salt Lake Valley	Salt Lake City florist offering bespoke wedding flowers alongside everyday delivery across the valley on weekdays.	bloomsandco@gmail.com	801-272-3431	https://www.bloomsandco.com/	https://www.instagram.com/bloomsandco/
+`,
+  },
+  {
+    name: "Provo: florals and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Foxglove Flowers	Florals	466 W Center St	Provo	Utah	Utah County and Salt Lake County	Downtown Provo flower shop designing wedding florals for Utah County, with a second shop in Murray covering Salt Lake County.		801-375-8096	https://www.foxgloveutah.com/	https://www.instagram.com/foxgloveutah/
+Bloom & Bramble	Florals	1156 S State St, Suite 101	Orem	Utah	Provo, Orem, Springville and nearby Utah Valley towns	Orem florist taking wedding consultations, with past work at the Provo City Center Temple, delivering across Utah Valley.	sales@bloomandbrambleflorist.com	801-822-6522	https://bloomandbrambleflorist.com/	https://www.instagram.com/bloomandbrambleflorist/
+Mitch Andrew Visuals	Videography		Provo	Utah		Provo wedding videographer making cinematic films at Utah temples, canyons and farm venues, with music edited to suit each couple.		385-224-2258	https://mitchandrewvisuals.com/utah-wedding-videographer/	https://www.instagram.com/mitchwandrew/
+`,
+  },
+  {
+    name: "Park City: hair & makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Park City Hair Solutions	Hair & Makeup	1351 Kearns Blvd	Park City	Utah		Park City salon whose stylists create updos for bridal parties and will bring their hair services to your getting-ready location.		(435) 645-7878	https://parkcityhairsolutions.com/	https://www.instagram.com/ashanton05/
+h2blow the blowdry + beauty bar	Hair & Makeup	1678 W Redstone Center Drive, Suite 107	Park City	Utah		Blow-dry and beauty bar at Kimball Junction that sends hair and makeup stylists to weddings, for single brides or whole parties.	info@h2blowdrybar.com	(435) 575-8800	https://www.h2blowdrybar.com/	https://www.instagram.com/h2blowdrybar/
+Looks By Diana	Hair & Makeup	380 E Main St	Midway	Utah		Midway-based bridal hair and makeup artist who styles brides and their wedding parties and is available to travel for weddings.	looksbydiana7@gmail.com	(801) 441-9396	https://www.looksbydiana.com/	https://www.instagram.com/looksbydiana/
+Fusion Hair Salon	Hair & Makeup	1182 Center Dr, Suite D110	Park City	Utah		Park City hair salon that lists wedding hair styling among its services, bookable by phone or through its online scheduler.		(435) 800-2143	https://parkcityhairsalon.com/	https://www.instagram.com/fusionhairpc/
+MakeupByGen	Hair & Makeup	5300 South 500 East	Washington Terrace	Utah	Northern Utah, Park City and Heber/Midway, with destination travel to St. George, Springdale and Cedar City	Ogden-area makeup artist for brides and wedding parties who also styles hair, travelling to Park City, Heber and southern Utah for a fee.	officialmakeupbygen@gmail.com	833-214-8704	https://makeupartistutah.com/	https://www.instagram.com/makeupbygenllc/
+`,
+  },
+  {
+    name: "St. George: hair & makeup, florals, rentals and music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Studio 359 Salon & Day Spa	Hair & Makeup	1085 S Bluff St	St. George	Utah		St. George salon and day spa whose hair menu includes bridal styling, handy for brides who want a single stop for wedding-day hair.			https://www.studio359.com/	https://www.instagram.com/studio359salon/
+Anne Marie Rose Floral Design	Florals	946 W Sunset Blvd, Suite N	St. George	Utah	Washington, St. George and Ivins	St. George florist making bridal bouquets, boutonnieres, ceremony installations and centrepieces, with delivery and setup at the venue.	wecare@annemarierose.com	(435) 673-8900	https://www.annemarierose.com/wedding	https://www.instagram.com/amr_florals/
+Muse Floral	Florals		St. George	Utah	Southern Utah	St. George wedding and event florist designing organic, personal arrangements for couples across southern Utah.	annie@museeefloral.com		https://www.museeefloral.com/	https://www.instagram.com/museeefloral/
+The Flower Market	Florals	64 N 800 E, Suite 5	St. George	Utah		St. George flower shop with a weddings section and consultation request form, offering same-day delivery around the city.	stgflowermarket@gmail.com	(435) 652-8998	https://stgeorgeflowermarket.com/st-george-florist-flower-delivery/wedding-flowers/	https://www.instagram.com/stgflowermarket/
+The Cautious Creative	Rentals		Santa Clara	Utah	St. George, Washington County and southern Utah	Santa Clara business renting artificial and dried bouquets and garlands, a keepsake-friendly alternative for St. George-area weddings.	Cautious.Creative@gmail.com		https://www.thecautiouscreative.com/floralhome	
+Rockwell DJ Services	Music		St. George	Utah		St. George DJ service that plays requests, makes announcements and coordinates with the planner so the wedding day runs on time.	info@djsut.com	(435) 628-0951	https://djsut.com/	
+AWJ Entertainment	Music		St. George	Utah	Southern Utah and Northern Arizona	St. George DJ and MC offering reception packages for weddings and corporate events across southern Utah and northern Arizona.	entertainment.awj@gmail.com	(317) 314-0631	https://awjentertainment.com/	https://www.instagram.com/awj_entertainment/
+`,
+  },
+  {
+    name: "St. George: catering, cake and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Strata Private Dining	Catering		St. George	Utah	St. George, Hurricane, Washington, Ivins, Santa Clara and Springdale	Chef-led caterer for Southern Utah weddings, rehearsal dinners and welcome parties, with menus tailored to each couple and venue.	chefanthony@strataprivatedining.com		https://www.strataprivatedining.com	https://www.instagram.com/strataprivatedining/
+Muddy Bees Bakery	Cake	525 W State St #7	Hurricane	Utah		Hurricane bakery that takes select wedding cakes, ordered three weeks ahead with a deposit, alongside its custom cakes and daily bakes.	muddybeesbaker@gmail.com	(435) 467-4898	https://www.muddybeesbakery.com/	https://www.instagram.com/muddybeesbakery/
+Juniper Bakery	Cake		Cedar City	Utah	Iron County	Cedar City bakery making custom two-tier celebration cakes and larger event orders, weddings included, for customers across Iron County.	Juniperbakeryut@gmail.com	435-990-5813	https://www.juniperbakeryut.com/	https://www.instagram.com/juniperbakeryut/
+Desertscape Photo and Film	Videography		St. George	Utah	Zion, Moab and Lake Powell; travels further	St. George photo and video team filming weddings and elopements around Zion, with optional drone, Super 8 and live-audio add-ons.	kelsea@desertscapephotoandfilm.com		https://desertscapephotoandfilm.com/zion-videographer	https://www.instagram.com/desertscapephotoandfilm/
+`,
+  },
 ];
 
 export default batches;

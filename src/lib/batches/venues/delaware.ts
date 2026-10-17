@@ -46,6 +46,11 @@ Newark Country Club	300 W Main Street	Newark	Delaware			Ballroom / Hotel	Indoor	
 Bayside Resort Golf Club	12021 North Haven Drive	Selbyville	Delaware			Ballroom / Hotel	Indoor & Outdoor			Golf community overlooking Assawoman Bay with wedding and elopement packages.		302-436-9998	https://www.livebayside.com/weddings-events
 Seaford Historical Society (Ross Station Event Center)	585 North Market Street Ext.	Seaford	Delaware			Historic / Estate	Indoor & Outdoor	225		3,800 sq ft banquet hall, an 1860 mansion and ten acres of grounds for outdoor ceremonies.		302-396-7260	https://seafordhistoricalsociety.com/?p=676`,
   },
+  {
+    name: "Delaware venues: Smyrna",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Belmont Hall	217 Smyrna-Leipsic Road	Smyrna	Delaware			Historic / Estate	Indoor & Outdoor	125		Georgian mansion built in 1773 with gardens and open grounds for ceremonies and receptions, plus a smaller indoor room.	belmonthallde@gmail.com	(302) 264-9048	https://www.belmonthall.org/rental`,
+  },
 ];
 
 export default batches;

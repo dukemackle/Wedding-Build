@@ -55,6 +55,78 @@ Eden's Edge Salon	Hair & Makeup		Bismarck	North Dakota	Bismarck	Independent Bism
 Mabel's All Day	Catering		Bismarck	North Dakota	Bismarck	Bismarck food truck serving classic American staples, with mobile catering for weddings, rehearsal dinners and community gatherings.	hello@mabelsallday.com		https://www.mabelsallday.com/	https://www.instagram.com/mabelsallday/
 `,
   },
+  {
+    name: "Bismarck: catering, florals, desserts, photo booth and bridal",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Anima Cucina	Catering	101 N 5th St	Bismarck	North Dakota	Bismarck	Downtown Bismarck Italian restaurant that also caters, from pastry and sandwich platters to hot buffets with delivery, setup and optional on-site staff.		(701) 751-1738	https://www.animacucina.com/	https://www.instagram.com/anima_cucina/
+Laughing Sun Brewing	Catering	1023 East Front Ave	Bismarck	North Dakota		Bismarck brewery and BBQ restaurant that caters, with smoked meats, sides and salads plus its own beer for events.		701-751-3881	https://laughingsunbrewing.com/	https://www.instagram.com/laughingsunbrewing/
+Roberts Floral & Gifts	Florals	210 N 8th St	Bismarck	North Dakota		Family-run Bismarck florist and gift shop that takes wedding and event flower orders by phone alongside its everyday arrangements.		701-258-8311	https://www.robertsfloral.com/	https://www.instagram.com/robertsfloral/
+Just Desserts by Jessie	Desserts		Bismarck	North Dakota		Bismarck home-based bakery making baklava and baklava cheesecake in several flavours, with wedding dessert packages sized to the guest count.	justdessertsbyjessie@outlook.com		https://justdessertsbyjessie.com/	
+KZ PhotoBooth	Photo Booth		Bismarck	North Dakota	North Dakota and beyond	Bismarck photo booth company with a DSLR studio booth, a 360-degree slow-motion video booth and a digital drop-off station, staffed at events.		(701) 400-2366	https://www.kzphotobooth.com/	https://www.instagram.com/kzphotobooth/
+Bridal n' More	Bridal & Formalwear	115 North 4th Street	Bismarck	North Dakota		Locally owned downtown Bismarck bridal shop with a private bridal suite, gowns in sizes 6 to 26 in stock, and help with wedding timelines.		(701) 223-9742	https://www.bridalnmorebismarck.com/	https://www.instagram.com/bridal_n_more/
+`,
+  },
+  {
+    name: "Fargo: music, photography, florals, hair and makeup, decor, officiant, videography and photo booth",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Chris Argenziano Guitar	Music		Fargo	North Dakota	Within 200 miles of Fargo	Classical and acoustic guitarist, plus jazz duos and trios, for wedding ceremonies, cocktail hours and relaxed reception background music.	tophergenz@gmail.com	(701) 205-7894	https://www.eventmusicbychris.com/	https://www.instagram.com/tophergenz/
+The Archers	Photography		Fargo	North Dakota	Fargo-Moorhead and beyond	Husband-and-wife team shooting wedding photography and film, alone or bundled, with albums and artwork made to be handed down.	hello@thearchers.studio		https://www.thearchers.studio/	https://www.instagram.com/thearchers.studio/
+Floret + Foliage	Florals	5229 51st Ave S, Unit 1	Fargo	North Dakota		Fargo flower shop and studio designing wedding bouquets and event flowers, with delivery, setup, workshops and wearable florals.			https://floretandfoliage.com/	https://www.instagram.com/floretandfoliage/
+Faces by Lizzie	Hair & Makeup		Fargo	North Dakota	The Midwest	Solo makeup artist for brides and events, known for soft glam looks, with bridal trials, lashes, lip colour matching and one-to-one lessons.			https://www.facesbylizzie.com/	https://www.instagram.com/facesbylizzie/
+Party Rae Balloon Co.	Decor & Lighting		Fargo	North Dakota		Custom balloon garlands, arches and columns for bridal showers and wedding celebrations, with delivery and installation around Fargo.			https://www.partyraeballoonco.com/	https://www.instagram.com/partyraeballoonco/
+Love Always Weddings and Parties	Officiant		Fargo	North Dakota	Fargo-Moorhead	Fargo officiant who also hires out tables and chairs, with delivery and optional setup, so ceremony and reception basics come from one team.		(218) 422-6202	https://lovealwaysrentals.com/	https://www.instagram.com/lovealwaysrentals/
+Lily Brundin Photos	Photography		Fargo	North Dakota	Fargo, Minnesota and destination elopements	Photographer focused on micro-weddings and elopements, from Fargo and Minnesota ceremonies to destination locations such as Big Sur and Glacier.			https://lilybrundinphotos.com/	
+A to Z Creative	Videography		Fargo	North Dakota	North Dakota and beyond	Wedding videographer making cinematic, documentary-style films with a personal approach and regular check-ins before the day.			https://atozcreativend.com/	https://www.instagram.com/atozcreativend/
+Odie Booth	Photo Booth		Fargo	North Dakota	Fargo-Moorhead	Husband-and-wife photo booth rentals offering a polished glam booth or a simple selfie station, with custom overlays and instant sharing.	theodiebooth@gmail.com		https://www.odiebooth.co/	https://www.instagram.com/odie.booth/
+Boothworks	Photo Booth		Fargo	North Dakota	Eastern North Dakota and western Minnesota	Locally owned, full-service photo booth hire with props, backdrops, custom overlays, instant sharing and an attendant for every event.	steffan@boothworksphoto.com	406-489-1563	http://boothworksphoto.com/	
+Pirate Radio Productions	Music		West Fargo	North Dakota		Mobile DJ and production company with set wedding packages, uplighting, a photo booth add-on and rental sound and lighting equipment.		701-799-5672	https://www.pirateradio.productions/	
+`,
+  },
+  {
+    name: "Grand Forks: photography, florals and music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Shelby Rae Photography	Photography		Grand Forks	North Dakota	Grand Forks and beyond	Wedding and portrait photographer who builds a relationship with each couple, covering engagement sessions and the full wedding day.	shelbyrae.contact@gmail.com		https://www.shelbyrphoto.com/	https://www.instagram.com/shelbyrae_photo/
+Love Grows & Co	Photography		Grand Forks	North Dakota	Fargo and beyond	Wedding photographer mixing documentary coverage with film, telling the day from the quiet morning through to the last dance.			https://lovegrowsphoto.com/	https://www.instagram.com/lovegrowsphoto/
+Dragon Rose Photography	Photography		Grand Forks	North Dakota	Grand Forks and beyond	Faith-led storytelling photographer based near Grand Forks, shooting golden-hour weddings alongside family and senior sessions.			https://dragonrosephotography.com/	https://www.instagram.com/dragonrosephoto/
+MJD Photography	Photography		Grand Forks	North Dakota	Greater Grand Forks area	Photographer covering weddings, seniors, families, headshots and events around Greater Grand Forks and the nearby Minnesota side.	mjdphotographygrandforks@gmail.com	612-229-2225	https://www.mjd-photography.com/	
+Jalen Nicole Floral	Florals	7 North 3rd St	Grand Forks	North Dakota		Downtown Grand Forks florist offering wedding and event design, trained in floral design and repeatedly voted the city's top florist.	jalen@jalennicolefloral.com		https://www.jalennicolefloral.com/	https://www.instagram.com/jalennicolefloral/
+Flowers By Us	Florals		Grand Forks	North Dakota		Family-owned Grand Forks flower shop with ceremony and reception wedding collections and bookable floral consultations.			https://flowersbyus.com/	
+BlueJ Entertainment	Music		Grand Forks	North Dakota		Grand Forks wedding DJ with more than 60 weddings behind him, offering custom-mixed playlists and high-energy dance sets.	jay@bluejentertainment.com	701-202-4733	https://www.bluejentertainment.com/	https://www.instagram.com/bluejentertainment.nd/
+`,
+  },
+  {
+    name: "Minot: florals and catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Pockets Full of Posies	Florals	316 5th Ave NE	Minot	North Dakota		Minot florist with a boho, dried and preserved flower style, taking wedding enquiries through a bridal form and offering workshops.	pocketsfullofposiesnd@gmail.com	701-240-0162	https://www.pocketsfullofposiesnd.com/	
+Hometown Elegance Event Catering & Productions	Catering		Minot	North Dakota	Minot area	Event caterer with on-site cooked menus plus decor, draping, linens, rentals and day-of coordination, for weddings large or small.		701-420-0990	https://www.hometownelegance.com/	
+Flower Box	Florals	301 W Burdick Expy	Minot	North Dakota		Independent Minot florist since 1972, with a wedding flowers page covering bridal bouquets, attendants' flowers and boutonnieres.	wecare@flowerboxnd.com	(701) 838-9302	https://www.flowerboxnd.com/wedding	https://www.instagram.com/flowerboxminot/
+Lexi Lou Florals	Florals	1900 4th Ave NW	Minot	North Dakota		Small Minot flower shop and studio with a storefront, making wedding bouquets and tablescapes as well as sympathy work.			https://shoplexilou.com/	https://www.instagram.com/flowersbylexilou/
+`,
+  },
+  {
+    name: "Bismarck: music, transportation, rentals, decor & lighting and florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Midnight Express DJs - Bismarck	Music		Bismarck	North Dakota	Bismarck, Mandan and central North Dakota	Family-run Bismarck DJ and MC service operating since 1980, which also supplies its own PA system for live bands and ceremonies.	MidnightExpressBismarck@gmail.com	(701) 690-9591	https://www.midnightexpressbismarck.com/	
+BeLoud Entertainment	Music		Bismarck	North Dakota	Bismarck-Mandan, including Sterling, Wilton and New Salem	Bismarck-Mandan mobile DJ company with more than 700 weddings and events behind it, offering clients an online planner for music and timings.		701-214-6271	https://beloudentertainment.com/	
+Nightlife Music	Music	1505 East Main Avenue	Bismarck	North Dakota	Bismarck and Mandan	Bismarck music store whose Azure Blue DJ service covers weddings in Bismarck and Mandan, alongside sound and lighting hire.	sales@nightlifemusic.com	701-222-0202	https://www.nightlifemusic.com	https://www.instagram.com/nightlife_music_store/
+Nightlife Limousine	Transportation	1505 East Main Avenue	Bismarck	North Dakota	Bismarck and Mandan	Bismarck limousine company for bridal parties, adding dry-ice first-dance fog, confetti cannons, venue uplighting and sound and lighting hire.	rick@nightlifemusic.com	701-222-0202	https://www.nightlifelimousine.com/wedding-1	https://www.instagram.com/nightlife_limousine_official/
+Dreamt Events & Rentals	Decor & Lighting		Bismarck	North Dakota		Bismarck decorator offering event design, full-service decorating and tear-down, speaker rentals and day-of coordination for weddings and other events.	dreamt.events.rentals@gmail.com	719-464-9470	https://www.dreamt-events.com/	
+The Event Design Agency	Decor & Lighting	1603 East Main Ave	Bismarck	North Dakota		Bismarck decor team offering ceremony, reception and ceiling decor plus a full package, run as the in-house brand of Sixteen03 Main Events.		701.255.6246	https://www.ndeventdesign.com	https://www.instagram.com/ndeventdesign/
+Beyond the Blooms	Florals	517 E. Main St Ste. B	Mandan	North Dakota	Mandan and surrounding areas	Mandan flower shop with dedicated pages for wedding bouquets, wedding party flowers, ceremony flowers and reception flowers.		(701) 255-3312	https://www.beyondtheblooms.net/	`,
+  },
+  {
+    name: "Bismarck: photography, catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Twelve9 Photography	Photography		Bismarck	North Dakota	North Dakota	Wedding and elopement photographers based in Bismarck, taking bookings across North Dakota and for destination weddings.			https://twelve9photo.com/	https://www.instagram.com/twelve9.photo/
+Sixteen03 Main Events	Catering	1603 East Main Ave	Bismarck	North Dakota		Bismarck caterer and event space offering full-service wedding catering and a rental price guide, with an online catering menu.	info@sixteen03mainevents.com	701-255-6246	https://www.sixteen03mainevents.com/	
+`,
+  },
+  {
+    name: "Bismarck: planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+White Lace Events	Planning	202 E Broadway Ave	Bismarck	North Dakota	Bismarck, Fargo, Dickinson, Grand Forks, Medora and Rapid City	Planning arm of a Bismarck bridal boutique, offering month-of coordination through to full planning, plus guided bouquet-making sessions.	whitelacebridalnd@gmail.com	(701) 258-4142	https://www.whitelacebridalnd.com/	https://www.instagram.com/whitelacebridalnd/
+`,
+  },
 ];
 
 export default batches;

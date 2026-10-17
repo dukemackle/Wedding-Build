@@ -8,7 +8,7 @@
 // src/lib/vendor-batches.ts and src/lib/batches/), not the live database.
 
 import { existsSync, readdirSync, readFileSync } from "node:fs";
-import { AREA_ALIASES, CORE_CATEGORIES, METROS, MIN_VENUES, PER_CATEGORY, VENUES_PER_METRO } from "./coverage-plan.mjs";
+import { AREA_ALIASES, CORE_CATEGORIES, METROS, MIN_VENUES, PER_CATEGORY, metroTarget } from "./coverage-plan.mjs";
 
 function rows(kind) {
   const files = [
@@ -72,17 +72,20 @@ const vendors = rows("vendor");
 
 const report = Object.entries(METROS).map(([state, metros]) => {
   const venueHave = venues.filter((v) => v.state === state).length;
-  const venueTarget = Math.max(MIN_VENUES, VENUES_PER_METRO * metros.length);
+  const venueTarget = Math.max(MIN_VENUES, metros.reduce((s, m) => s + metroTarget(state, m).venues, 0));
   const metroGaps = metros.map((metro) => {
     const here = vendors.filter((v) => v.state === state && v.area === metro);
-    const missing = CORE_CATEGORIES.map((c) => [c, PER_CATEGORY - here.filter((v) => v.category === c).length]).filter(
+    // Pass 1 only asks for the standard 3 per category in the first metro.
+    const per = metroTarget(state, metro).perCategory;
+    const missing = CORE_CATEGORIES.map((c) => [c, per - here.filter((v) => v.category === c).length]).filter(
       ([, n]) => n > 0,
     );
     return { metro, have: here.length, missing };
   });
   const vendorNeed = metroGaps.reduce((s, m) => s + m.missing.reduce((t, [, n]) => t + n, 0), 0);
   const venueNeed = Math.max(0, venueTarget - venueHave);
-  const pass1 = venueHave >= MIN_VENUES && metroGaps[0].missing.length === 0;
+  const first = vendors.filter((v) => v.state === state && v.area === metros[0]);
+  const pass1 = venueHave >= MIN_VENUES && CORE_CATEGORIES.every((c) => first.filter((v) => v.category === c).length >= PER_CATEGORY);
   return { state, venueHave, venueTarget, venueNeed, metroGaps, vendorNeed, pass1 };
 });
 

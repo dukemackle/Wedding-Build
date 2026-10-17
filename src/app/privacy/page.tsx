@@ -11,7 +11,7 @@ export default function PrivacyPage() {
       <div className={`w-full ${READING_WIDTH}`}>
         <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Legal</p>
         <h1 className="mt-2 font-display text-3xl font-semibold text-forest">Privacy Policy</h1>
-        <p className="mt-2 text-sm text-ink/60">Last updated: October 6, 2026</p>
+        <p className="mt-2 text-sm text-ink/60">Last updated: October 13, 2026</p>
 
         <div className="mt-8 flex flex-col gap-8 text-ink/80">
           <p>
@@ -68,7 +68,7 @@ export default function PrivacyPage() {
             <ul className="mt-2 list-disc space-y-2 pl-5">
               <li>
                 Whatever you submit through a public RSVP form: your name, household, meal choice,
-                notes, plus-one info, an optional photo, message, and song request.
+                any allergies or dietary needs you mention, notes, plus-one info, an optional photo, message, and song request.
               </li>
               <li>
                 Guest-submitted RSVP data is sent to the couple whose wedding you&apos;re RSVPing
@@ -81,6 +81,13 @@ export default function PrivacyPage() {
                 that couple so they can send you an invitation. It is never shown on their public
                 wedding site, and the couple reviews each submission before it joins their guest
                 list.
+              </li>
+              <li>
+                When you claim a registry gift or say you gave to a cash fund: your name, how many
+                you&apos;re getting or the amount, and any message. This goes to that couple for
+                their thank-you notes. Other guests only see that a gift is taken, never by whom.
+                Money for a cash fund goes straight from you to the couple through the app you
+                choose (such as Venmo or PayPal); we never handle it or see your payment details.
               </li>
               <li>
                 Your phone number, if a couple adds it and you opt in to text updates, is used to
@@ -146,7 +153,7 @@ export default function PrivacyPage() {
 
             <p className="mt-4 font-medium text-ink">Features that use AI</p>
             <p className="mt-2">
-              Three parts of You Do, I Do send information to Anthropic&apos;s API to generate a response.
+              Four parts of You Do, I Do send information to Anthropic&apos;s API to generate a response.
               Each one runs only when you ask for it:
             </p>
             <ul className="mt-2 list-disc space-y-2 pl-5">
@@ -159,6 +166,12 @@ export default function PrivacyPage() {
               <li>
                 <strong className="text-ink">Drafting a thank-you note</strong> — that
                 guest&apos;s name, what they gave, and any message they left.
+              </li>
+              <li>
+                <strong className="text-ink">Designing and writing your guest site</strong> — what you
+                type (a description of the look you want, or notes for your story, FAQ or travel
+                notes), plus your names, date, venue, RSVP deadline, dress code, travel notes, places to
+                stay and the events on your public schedule. Never your guest list.
               </li>
               <li>
                 <strong className="text-ink">The planning assistant</strong> — your question,
@@ -235,8 +248,11 @@ export default function PrivacyPage() {
           <Section title="4. Public visibility">
             <p>
               If you (a couple) create a public wedding site, information you choose to display
-              there — guestbook photos/messages, RSVP-form fields, and your weekend schedule once
-              you publish it — is visible to anyone with the link. Guests submitting an RSVP
+              there — guestbook photos/messages, RSVP-form fields, your wedding party&apos;s names,
+              roles, photos and the lines you write about them, and your weekend schedule once you
+              publish it — is visible to anyone with the link (or, if you set a password, anyone with
+              the link and the password). Please make sure the people in your wedding party are happy
+              to appear there. Guests submitting an RSVP
               should know their submission goes to the couple, and anything the couple chooses to
               feature (for example, a guestbook entry) becomes visible to anyone who visits the
               public site.
