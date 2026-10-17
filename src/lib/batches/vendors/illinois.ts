@@ -198,6 +198,68 @@ Watersong Media	Videography		Champaign	Illinois	Champaign-Urbana and Chicago	Two
 Berries & Flour	Desserts		Champaign	Illinois	Central Illinois	Foraged-ingredient bakery making petite cakes, cookies, cupcakes and dessert bars, plus jam and syrup favours and a cocktail or mocktail syrup bar.	berriesandflour@gmail.com	217-724-8265	https://www.berriesandflour.com/	https://www.instagram.com/berriesandflour/
 `,
   },
+  {
+    name: "Kankakee: Florals, Transportation",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Busse & Rieck Flowers, Plants & Gifts	Florals	2001 W. Court St	Kankakee	Illinois	Kankakee, Momence, Gilman, Watseka and nearby towns	Florist and gift shop with ceremony, reception and wedding collection pages and a consultation booking for couples.		(815) 933-2295	https://busseandrieckflowers.com/	
+Flower Shoppe Inc.	Florals	1310 N. Hobbie Ave.	Kankakee	Illinois	Kankakee and surrounding areas	Kankakee florist making bridal bouquets, wedding party flowers and ceremony arrangements, with floral consultants to help plan the look.	flowershoppe.2018@gmail.com	(815) 933-2614	https://www.flowershoppeinc.net/	
+Ba Da Bloom Flower Shoppe	Florals	918 North Convent	Bourbonnais	Illinois	Bourbonnais and surrounding areas	Bourbonnais flower shop with a master designer of over 30 years, making bridal and wedding flowers to suit each couple's style and budget.	badabloomflowershoppe@yahoo.com	(815) 614-3415	https://www.badabloomflowershop.com/	
+Reliable Limo	Transportation	810 W. River Place	Kankakee	Illinois	Kankakee, Manteno, Bradley and Bourbonnais	Kankakee limousine company, owned locally since 1999, hiring out its fleet for weddings, proms, airport transfers and corporate events.	reliable@reliablelimoinc.com	(815) 935-5856	https://www.reliablelimoinc.com/	
+`,
+  },
+  {
+    name: "Freeport: Photography, Decor & Lighting, Music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Photo by Ana	Photography		Freeport	Illinois	Freeport and surrounding areas	Freeport photographer working from a downtown studio, covering weddings and engagements as well as other milestones for couples and families.	hello@photobyana.com		https://photobyana.com/	https://www.instagram.com/photoby.ana/
+Ash Tree Photo	Photography		Freeport	Illinois	Freeport area	Freeport photographer who specialises in weddings, with family, senior, engagement, maternity and newborn portraits also offered.	shanepulgarin@me.com	(309) 613-2911	http://www.ashtreephoto.com/	
+Whiskey & Wildflowers Decor n More	Decor & Lighting		Freeport	Illinois		Freeport company offering wedding and event decor, rentals and planning, and able to source items it does not hold itself.	WhiskeyandWildflowersDecor@gmail.com	(815) 618-8128	https://whiskeyandwildflow7.wixsite.com/wwdecor	https://www.instagram.com/whiskeynwildflowersdecor/
+Davis & Company Productions	Music		Freeport	Illinois		Freeport DJ business providing music and event coordination for wedding receptions and other private events.			https://www.davisandcoproductions.com/	
+`,
+  },
+  {
+    name: "Dixon: Catering, Cake, Florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Baker Street Cafe & Catering	Catering	111 W. 1st St.	Dixon	Illinois		Downtown Dixon cafe and caterer that makes custom wedding cakes and full-service catering menus for weddings and other events.	bakerstreet111@live.com	(815) 285-2253	https://bakerstreetcafeandcatering.com/	
+The Noble Cakery	Cake	201 N. 3rd St.	Oregon	Illinois	Northern Illinois	Oregon baker making wedding cakes, dessert tables and macarons for couples across northern Illinois.	barb@thenoblecakery.com	(630) 484-6969	https://www.thenoblecakery.com/	https://www.instagram.com/thenoblecakery/
+Merlin's Greenhouse & Flowers	Florals	300 Mix Street	Oregon	Illinois	Oregon and surrounding areas	Oregon florist and greenhouse offering wedding bouquets and wedding party flowers alongside its everyday arrangements.	merlins.shop.oregon@gmail.com	(815) 732-2969	https://www.merlinsgreenhouseandflowers.com/	https://www.instagram.com/merlinsgreenhouseandflowers/
+`,
+  },
+  {
+    name: "Macomb: Florals, Photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Candy Lane Floral & Gifts	Florals	121 S Candy Lane	Macomb	Illinois	Macomb, IL	Family florist on Candy Lane in Macomb whose designers plan bouquets, ceremony flowers and on-site decorating for weddings.		(309) 833-4718	https://www.candylanefloralandgifts.com/	
+Tiffany Rusher Photography	Photography		Macomb	Illinois	Central Illinois	Macomb photographer covering weddings, engagements and family sessions across the central Illinois area.	rusherphotography@live.com		https://tiffanyrusherphotography.com/	https://www.instagram.com/tiffanyrusherphotography/
+Steph Zimmerman Photography	Photography	915 Macomb St	Colchester	Illinois		Portrait and wedding photographer working from a studio in Colchester, a short drive from Macomb.	steph@stephzimmermanphotography.com	309.238.3620	https://stephzimmermanphotography.com/	https://www.instagram.com/stephzimmermanphotography/
+`,
+  },
+  {
+    name: "Sterling: Florals, Photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Behrz Bloomz	Florals	2503 N. Locust	Sterling	Illinois	Sterling, IL	Sterling florist designing wedding bouquets, centrepieces and ceremony and reception flowers, with pricing set at a bridal consultation.		(815) 625-5116	https://www.behrzbloomz.com/	https://www.instagram.com/behrzbloomz/
+Lundstrom Florist	Florals	1709 E 3rd St	Sterling	Illinois	Sauk Valley	Long-established Sterling florist, serving the Sauk Valley since 1904, that also creates wedding florals.	lundstromflorist21@gmail.com	815.625.0080	https://lundstromfloral.com/	
+'Til Death Photo + Film	Photography		Sterling	Illinois	Illinois	Photography and film team based in Sterling offering wedding photography and videography across Illinois.			https://tildeathphotoandfilm.com/	
+`,
+  },
+  {
+    name: "Centralia: Music, Photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Dees Beatz Entertainment	Music		Salem	Illinois	Southern Illinois	Salem-based wedding DJ and photo booth service for receptions across Southern Illinois.	kdees88@gmail.com	618-339-8922	https://deesbeatzentertainment.com/	https://www.instagram.com/djkrisdees/
+`,
+  },
+  {
+    name: "Kewanee: Florals, Photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Blooms By Heartfelt	Florals	224 N. Main St	Kewanee	Illinois		Kewanee florist and gift shop on North Main Street creating wedding bouquets, boutonnieres, ceremony flowers and centrepieces.		309-854-3058	https://bloomsbyheartfelt.com/	
+Adriane Dean Photography	Photography		Kewanee	Illinois		Kewanee photographer covering weddings and events, with planning and officiant services also listed on the site.	AdrianeDeanPhotography@gmail.com	773-709-6984	https://www.adrianedeanphotography.com/	https://www.instagram.com/adrianedeanphotography/
+`,
+  },
+  {
+    name: "Effingham: Photography, Florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Amy Eubanks Photography	Photography	505 South Maple St.	Effingham	Illinois	Central Illinois, St. Louis, Springfield, Champaign, Terre Haute, Indianapolis and Decatur	Effingham-based photographer who shoots weddings and boudoir sessions across central Illinois and the wider Midwest.			https://amyeubanksphotography.com/	https://www.instagram.com/amyeubanksphotography/
+Flowers By Debbie	Florals	134 East 6th Street	Neoga	Illinois	Neoga and surrounding area	Neoga florist offering a free wedding consultation and wedding rentals alongside everyday arrangements and local delivery.		(217) 895-2822	https://www.flowersbydebbie.net/	
+`,
+  },
 ];
 
 export default batches;
