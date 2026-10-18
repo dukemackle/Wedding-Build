@@ -360,6 +360,26 @@ Coloured By Ki	Hair & Makeup		Macon	Georgia		Macon makeup artist with a bridal m
 I Need A Beat DJ	Music		Waycross	Georgia	Waycross, Ware County, Savannah and coastal Georgia	Waycross-based wedding DJ and MC covering ceremony music, cocktail hour and reception, with dance-floor lighting and timeline planning.	ineedabeatdj@gmail.com	(912) 614-7275	https://ineedabeatdj.com/	https://www.instagram.com/ineedabeatdj/
 `,
   },
+  {
+    name: "Georgia: hair and makeup, cake, music, florals, officiants, planning, rentals, decor",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Sharon Hutko Cakes	Cake		Grovetown	Georgia	Augusta and Aiken	Boutique buttercream wedding cakes from a Grovetown baker, with free consultations and tastings and pricing by servings and design.	sharonhutkocakes@gmail.com	(706) 550-2106	https://sharonhutkocakes.com/	https://www.instagram.com/sharonhutkocakes/
+Augusta Wedding Officiant	Officiant		Augusta	Georgia	Augusta, Aiken and North Augusta, travelling further on request	Officiant for custom ceremonies, elopements and same-day licence signings in Augusta and across the Carolinas border.	augustaweddingofficiant@gmail.com	762-215-6569	https://augustaofficiant.com	https://www.instagram.com/augustaweddingofficiant/
+Entertainment Purposes Only DJ	Music		Athens	Georgia	Athens and Atlanta	Athens mobile DJ for weddings and parties, taking song requests and offering optional karaoke and MC work.	epomusic@aol.com	(706) 540-5036	https://entertainmentpurposesonly.com/	
+Flori Weddings	Florals		Lawrenceville	Georgia	North Georgia mountains incl. Dahlonega, Blue Ridge, Toccoa and Dawsonville	Family-owned wedding floral studio that travels to mountain venues from Dahlonega wine country to Blue Ridge, with planning on offer.	info@floriweddings.com		https://www.floriweddings.com/north-georgia-mountain-wedding-florist	https://www.instagram.com/floriweddings/
+Savannah Custom Weddings & Elopements	Officiant		Savannah	Georgia	Savannah and other destinations	Savannah officiants for elopements, vow renewals, interfaith and same-sex ceremonies, with custom scripts and licence guidance.			https://www.savannahcustomweddings.com	https://www.instagram.com/savweddings/
+Divine Marriage Union	Officiant		Savannah	Georgia	Savannah, Pooler, Bluffton, Hilton Head and the Lowcountry	Savannah officiant writing personalised scripts and vows, with an option to add premarital coaching sessions to the ceremony package.	andy@divinemarriageunion.com		https://www.divinemarriageunion.com	
+Shockwave Entertainment	Music		Pooler	Georgia	Savannah, Statesboro, St. Simons, Jekyll Island, Hilton Head and Charleston	Coastal Georgia wedding reception DJ with one-on-one consultations to shape music, announcements and lighting.	jeff@shockwave-dj.com	912-259-8653	https://www.shockwave-dj.com/	https://www.instagram.com/djshockwave/
+Fancy That GA	Decor & Lighting		Columbus	Georgia	Columbus, LaGrange, Warm Springs, Phenix City and Opelika	Balloon decor, marquee letter rentals and photo backdrops for weddings and events in Columbus and east Alabama.	contact@fancythatga.com	706-905-9758	https://www.fancythatga.com/	https://www.instagram.com/fancythatga/
+The Event Guys	Rentals		Saint Simons Island	Georgia	Saint Simons, Jekyll Island, Brunswick and the Golden Isles	Island rental company for tents, tables, chairs, dance floors and linens for weddings and backyard parties.			https://www.theeventguysssi.com/	
+Cottage Flowers	Florals		Saint Simons Island	Georgia	Saint Simons Island	Saint Simons wedding and event florist designing custom arrangements in bright or soft romantic palettes.			https://www.cottageflowersbygay.com/	
+Elizabeth Godwin Photography	Photography		Valdosta	Georgia	Georgia, South Carolina and North Florida	Fine art, editorial-style wedding and engagement photography with guided posing and heirloom albums, shooting around thirty weddings a year.	elizabethgodwinphoto@gmail.com	(229) 507-0383	https://elizabethgodwinphoto.com/	https://www.instagram.com/elizabethgodwinphoto/
+Variety DJ Entertainment	Music		Tifton	Georgia	Middle and South Georgia	Mobile wedding DJ and MC service that helps couples build playlists, also covering military, corporate and party events.	Varietydjentertainment@gmail.com	(229) 392-7778	https://varietydjentertainment.us/	
+Just Because Floral & Gifts	Florals	609 A Central Dr	East Dublin	Georgia	Dublin and East Dublin	Family-style flower shop offering wedding flowers alongside everyday arrangements, plants and gift baskets with same-day delivery.		(478) 272-8888	https://www.justbecausefloralandgifts.com/	
+The Flowergirl	Florals	25 S Main St	Statesboro	Georgia		Downtown Statesboro florist doing bridal and event flowers, with consultations for weddings of any size.	jsbflowergirl1@gmail.com	(912) 489-5511	https://www.theflowergirlsflowershop.com/	https://www.instagram.com/theflowergirlstatesboro/
+Flowers by Jeanie	Florals	341 W Martin Luther King Jr Dr	Milledgeville	Georgia	Milledgeville	Milledgeville flower shop making bridal and attendant bouquets, ceremony arrangements and arches, with consultations and rentals.		(478) 452-6202	https://www.flowersbyjeaniemilledgevillega.com/wedding-flowers	
+`,
+  },
 ];
 
 export default batches;

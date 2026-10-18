@@ -205,6 +205,26 @@ General Coffee State Park	46 John Coffee Road	Nicholls	Georgia			Garden / Outdoo
 Central Square Complex	200 South Madison Avenue	Douglas	Georgia			Ballroom / Hotel	Indoor	400		City-run downtown Douglas complex with two exhibit halls, breakout rooms and a caterer's kitchen, used for wedding receptions with banquet seating for 400.	cgoodman@cityofdouglasga.gov	(912) 384-5978	https://cityofdouglasga.gov/317/Multi-Purpose-Facilities
 `,
   },
+  {
+    name: "Georgia: North Georgia, Athens, Augusta, Savannah, Middle and South Georgia",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+The Venue in the Vines	200 Lakeview Rd	Ellijay	Georgia			Restaurant / Vineyard	Indoor & Outdoor			A 7,000 sq ft event space on the 15-acre Engelheim Vineyards, with a barrel cave, veranda, bridal suite and catering kitchen.	Events@Engelheim.com	706-635-9463	https://thevenueinthevines.com
+Willow Creek Farm	6825 US Hwy 129 N	Cleveland	Georgia			Barn / Rustic	Indoor & Outdoor	180		A 40-acre North Georgia farm with a creekside ceremony site, a 4,200 sq ft climate-controlled reception hall, a pavilion and a bridal cottage.		706-892-8215	https://www.willowcreekfarmga.com
+Chattahoochee Nature Center	9135 Willeo Rd	Roswell	Georgia			Garden / Outdoor	Outdoor	250		A 127-acre riverside nature preserve whose wedding sites include a green roof, a river boardwalk and a lakeside pavilion.		770-992-2055	https://chattnaturecenter.org
+Hadden Estate at DGD Farms	1150 Cliff Dawson Rd	Watkinsville	Georgia			Historic / Estate	Indoor & Outdoor			A 25-acre estate near Athens offering spaces for multi-day wedding celebrations and small gatherings.			https://www.haddenestate.com
+Grant Hill Farms	29 Waynes Ln	Commerce	Georgia			Barn / Rustic	Indoor & Outdoor			A farm on 88 acres near Athens that hosts weddings and events by appointment.	info@granthillfarms.com	770-862-4442	https://granthillfarms.com
+Enterprise Mill Events	1450 Greene St	Augusta	Georgia			Historic / Estate	Indoor & Outdoor	250		Event center beside the historic Enterprise Mill, with a courtyard gazebo and tent space and a smaller cafe room.		706-306-6754	https://enterprisemillevents.com
+Lela's Place Venue	110 Genevieve Ct	Peachtree City	Georgia			Garden / Outdoor	Indoor & Outdoor			Event space with indoor and outdoor settings; rentals include setup, tables, chairs, linens, centrepieces and bridal and groom's suites.		678-972-3087	https://lelasplace.com
+Cherokee Pines	1000 N Davis Dr	Perry	Georgia			Restaurant / Vineyard	Indoor & Outdoor	150	Simple	Two banquet rooms plus oak-shaded lawns and a gazebo for ceremonies, with a park-chapel bundle for ceremony and reception.		(478) 224-4653	https://cherokeepines.com/weddings
+Forest Hill Park	1251 Forest Hill Dr	Perry	Georgia			Garden / Outdoor	Outdoor	100		A private park with a small white wedding chapel, a red caboose, a covered bridge and open lawns for ceremonies and photos.		(478) 662-2568	https://foresthillparkofperry.com/
+The Crescent	904 Patterson	Valdosta	Georgia			Historic / Estate	Indoor & Outdoor	175		A historic mansion with a social hall, gardens and a chapel, owned by six local garden clubs and rented for weddings and receptions.		(229) 244-6747	https://www.thecrescentvaldosta.com/
+TimberMill Acres (The Peach Barn)	364 Willie Moore Rd	Tifton	Georgia			Barn / Rustic	Indoor & Outdoor			A two-storey wooden barn venue near Tifton hosting weddings and special events, with rates available on request.	mallory@timbermillacres.com	(229) 234-1094	https://www.peachbarn.net/
+TyTy Creek Plantation	905 Livingston Bridge Rd	Norman Park	Georgia			Barn / Rustic	Outdoor			A farm venue on a large private estate with ceremony sites under oaks or by a lake, a reception barn and a loft that sleeps fifteen.	info@tytycreekplantation.com	(229) 589-5947	https://www.tytycreekplantation.com/
+Twin Oaks Farm & Vineyard	305 Kennedy Pond Rd	Statesboro	Georgia			Restaurant / Vineyard	Indoor & Outdoor	250		Over 10,000 sq ft of indoor space set among pasture and vineyard, with day, weekend and small-event packages.	info@twinoaksevents.com	(912) 515-6696	https://www.twinoaksevents.com/
+The Barn at Olde Homeplace	924 Johnny Brannen Rd	Statesboro	Georgia			Barn / Rustic	Indoor & Outdoor			A 1914 mule barn on a family homeplace dating to 1897, now used for weddings, showers and parties.	barnatoldehomeplace@gmail.com	(912) 601-2780	https://thebarnatoldehomeplacestatesboroga.com/
+Dutch Ford Farm	1710 Defair Farm Loop	Metter	Georgia			Barn / Rustic	Indoor & Outdoor		Classic	A farm with a white reception barn and farmhouse, sold as a Thursday-to-Sunday wedding weekend with lodging for fifteen.	dutchfordfarm@gmail.com		https://www.dutchfordfarm.com/
+`,
+  },
 ];
 
 export default batches;
