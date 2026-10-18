@@ -55,6 +55,12 @@ Cloudcroft Museum Chapel	1000 Highway 82	Cloudcroft	New Mexico			Historic / Esta
 D.H. Lescombes Winery & Tasting Room	7075 Hwy 549 SE	Deming	New Mexico			Restaurant / Vineyard	Indoor & Outdoor			Winery with a special events centre, grassy grounds under shade trees and a covered patio, available for weddings.	tastingroom@lescombeswinery.com	(575) 546-1179	https://lescombeswinery.com/locations/deming/
 Plaza Hotel Las Vegas	230 Plaza	Las Vegas	New Mexico			Ballroom / Hotel	Indoor	180		Hotel opened in 1882 on the Old Town Plaza, with the Ilfeld Ballroom, a bridal suite upstairs and a grand staircase.	reservations@plazahotellvnm.com	505-425-3591	https://plazahotellvnm.com/events/`,
   },
+  {
+    name: "Map fill: Hobbs, Carlsbad",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Rockwind Community Links	5001 Jack Gomez Blvd	Hobbs	New Mexico			Garden / Outdoor	Indoor & Outdoor			City-run golf course whose clubhouse and grill host weddings and receptions, with an open green space and outdoor seating nearby.		(575) 397-9297	https://www.rockwindgolfcourse.com/events/weddings-banquets/weddings-receptions
+Pecos River Village Conference Center	711 Muscatel Ave	Carlsbad	New Mexico			Ballroom / Hotel	Indoor			Riverside city-owned conference centre whose Carousel House banquet hall and meeting rooms are open for weddings, with the Carlsbad Chamber handling bookings.		575-887-6516	https://www.carlsbadchamber.com/general-4`,
+  },
 ];
 
 export default batches;
