@@ -149,6 +149,35 @@ Consider the Lilies	Florals	232 E 2nd St	Casper	Wyoming	Casper, Evansville, Mill
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
 Save the Date Flower and Wedding Studio	Florals	1175 Dewar Dr	Rock Springs	Wyoming	Rock Springs and Green River	Rock Springs florist doing wedding flowers alongside tuxedo hire, table linens, chair covers and planning help, with daily delivery to Green River.		(307) 522-5283	https://www.savethedatefloral.com/	https://www.instagram.com/savethedatefloral/`,
   },
+  {
+    name: "Cheyenne: photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Gwin Photography	Photography		Cheyenne	Wyoming		Documentary-style wedding and outdoor portrait photographer working from Cheyenne, with a weddings portfolio and an Around Cheyenne gallery.			https://gwinphotography.zenfolio.com/	https://www.instagram.com/gwinphotography/
+`,
+  },
+  {
+    name: "Jackson Hole: officiant, videography and transportation",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Jackson Hole Wedding Ceremonies	Officiant		Jackson	Wyoming	Jackson Hole and the Tetons, including Grand Teton National Park	Jackson Hole officiant Cindy Dahlin leads weddings, vow renewals and elopements, including ceremonies in Grand Teton National Park.			https://www.jacksonholeweddingceremonies.com/	
+Watertown Films	Videography		Jackson	Wyoming		Jackson Hole studio making cinematic, editorial-style wedding and elopement films, shot at ranches and venues across the valley and further afield.			https://www.watertownfilms.com/wedding-videographer-jackson-hole	https://www.instagram.com/watertownfilms/
+JH Cab	Transportation		Jackson	Wyoming		Jackson Hole cab and party bus firm running wedding guest shuttles, bridal party rides, late-night reception transfers and black car service.	22jhcab@gmail.com	307-203-5066	https://www.jh-cab.com/weddings	
+Summit Transportation	Transportation		Jackson	Wyoming		Jackson luxury bus and SUV company offering custom wedding transport coordination and logistical advice for couples and their guests.	jhsummittransportation@gmail.com	(307) 264-0880	https://www.summitjh.com/	
+UVC Transportation	Transportation		Jackson	Wyoming		Jackson Hole limousine and taxi service whose SUVs and 15-seat Sprinter van are available for weddings and other special occasions.			https://www.uvctrans.com/	
+`,
+  },
+  {
+    name: "Map fill and gaps: Gillette, Cody, Sheridan, Powell, Casper and Lovell: photography, florals, photo booth and cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+PhoenixPhotos Photography	Photography	700 S Douglas Hwy	Gillette	Wyoming		Gillette studio photographing weddings with posed and candid coverage, an engagement session included in most packages, and full-day attention on the day.	phoenixphotos15@gmail.com	307-660-6335	https://phoenixphotos.org/wedding-info	https://www.instagram.com/phoenixphotos_photography/
+Forget Me Not Floral	Florals		Gillette	Wyoming	Gillette, Rozet, Moorcroft, Pine Haven and Wright	Gillette florist designing custom wedding bouquets, centrepieces and ceremony and reception flowers to suit each couple's style and budget.			https://gilletteflowers.weddingflorals.net/	
+Beartooth Floral & Gifts	Florals	1316 Beck Ave	Cody	Wyoming		Cody florist offering free wedding consultations, bouquets, ceremony arches and reception pieces, with on-site decorating and arbour rentals.		(307) 587-4984	https://www.beartoothfloral.com/wedding-flowers	https://www.instagram.com/beartoothfloralandgifts/
+Babes Flowers	Florals	23 N Main St	Sheridan	Wyoming		Long-running downtown Sheridan florist with full wedding packages, personalised bouquets, ceremony decor and reception flowers planned at a bridal consultation.		(307) 672-3031	https://www.babesflowers.com/wedding-flowers	https://www.instagram.com/babesflowers/
+Hillside Floral	Florals	509 S Fair St	Powell	Wyoming		Powell florist with wedding flowers covering bouquets, bridal party pieces, and ceremony and reception arrangements, delivering around Powell and into Cody.		(307) 764-3688	https://www.hillsidefloralwy.com/wedding-flowers	https://www.instagram.com/hillside_floral/
+McGlathery's Back Porch Designs	Florals	220 E 1st St	Powell	Wyoming		Family florist serving Powell for over 65 years, with wedding bouquets, bridal party flowers and ceremony and reception arrangements.		(307) 754-3629	https://www.mcglatherysbackporchdesigns.com/wedding-flowers	https://www.instagram.com/mcglatherysbackporchdesigns/
+WYO Photo Booth	Photo Booth		Casper	Wyoming	Casper area, with travel for an added fee	Casper photo booth hire for weddings and other events, with the option to travel beyond the Casper area for an added fee.	miguel@wyophoto.com	307-251-9219	https://www.wyophoto.com/	
+SweetArt Cake Company	Cake		Lovell	Wyoming		Lovell cake artist Shannon Mayes makes custom decorated cakes for special occasions, with a wedding cake gallery and a custom order service.	orders@sweetartcakecompany.com		https://www.sweetartcakecompany.com/	https://www.instagram.com/sweetartcakecompany/
+`,
+  },
 ];
 
 export default batches;
