@@ -938,6 +938,10 @@ export type MarketListing = {
   status: MarketListingStatus;
   created_at: string;
   updated_at: string;
+  /** 'rent' is lent for one event and returned (0119). */
+  listing_type: "sale" | "rent";
+  /** "Married Oct 2026", from the seller's wedding when they opt in (0119). */
+  seller_badge: string | null;
 };
 
 export type MarketThread = {

@@ -84,13 +84,48 @@ export function conditionLabel(value: string) {
   return conditionLabels.get(value) ?? value;
 }
 
-export function formatPrice(cents: number) {
-  if (cents === 0) return "Free";
+export function formatPrice(cents: number, type: "sale" | "rent" = "sale"): string {
+  if (cents === 0) return type === "rent" ? "Free to borrow" : "Free";
+  if (type === "rent") return `${formatPrice(cents)} to rent`;
   const dollars = cents / 100;
   return `$${dollars.toLocaleString("en-US", {
     minimumFractionDigits: Number.isInteger(dollars) ? 0 : 2,
     maximumFractionDigits: 2,
   })}`;
+}
+
+/**
+ * The seller badge for a wedding date: "Married Oct 2026" once it has
+ * passed, "Getting married Jun 2027" before. Month and year only.
+ */
+export function sellerBadgeFor(weddingDate: string, today = new Date()) {
+  const date = new Date(`${weddingDate}T12:00:00Z`);
+  const when = date.toLocaleDateString("en-US", { month: "short", year: "numeric", timeZone: "UTC" });
+  return date <= today ? `Married ${when}` : `Getting married ${when}`;
+}
+
+/**
+ * Which marketplace categories each budget line buys from, for the budget
+ * page's "on the marketplace near you" and the post-wedding "pass it on".
+ */
+export const BUDGET_TO_MARKET: Record<string, { categories: string[]; sellTitle: string; sellCategory: string }> = {
+  florals: { categories: ["decor", "florals", "lighting", "tableware"], sellTitle: "Centerpieces and decor", sellCategory: "decor" },
+  attire: { categories: ["attire"], sellTitle: "Wedding dress", sellCategory: "attire" },
+  stationery: { categories: ["stationery", "signage"], sellTitle: "Welcome sign", sellCategory: "signage" },
+  favors: { categories: ["decor"], sellTitle: "Leftover favors", sellCategory: "decor" },
+};
+
+/**
+ * How a listing's quantity fits a wedding of this size, for the "fits my
+ * wedding" badge: enough for every guest, or for every table (eight a table,
+ * the usual round). Null when it fits neither, or is a single item.
+ */
+export function guestFit(quantity: number, guests: number): string | null {
+  if (quantity < 2 || guests < 1) return null;
+  if (quantity >= guests) return `Enough for your ${guests} guests`;
+  const tables = Math.ceil(guests / 8);
+  if (quantity >= tables) return `Enough for your ${tables} tables`;
+  return null;
 }
 
 /** "Listed 3 days ago", the way a marketplace dates things. */

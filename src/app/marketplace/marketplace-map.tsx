@@ -86,7 +86,7 @@ export function MarketplaceMap({
                       className="aspect-square w-full rounded-md object-cover"
                     />
                   )}
-                  <p className="pt-2 font-semibold text-forest">{formatPrice(listing.price_cents)}</p>
+                  <p className="pt-2 font-semibold text-forest">{formatPrice(listing.price_cents, listing.listing_type)}</p>
                   <p className="line-clamp-2 text-xs text-ink/80">{listing.title}</p>
                 </Link>
               </Popup>

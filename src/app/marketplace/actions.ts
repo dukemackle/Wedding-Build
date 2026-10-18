@@ -9,6 +9,7 @@ import {
   MARKET_CONDITIONS,
   MAX_MARKET_PHOTOS,
   isOwnMarketPhoto,
+  sellerBadgeFor,
 } from "@/lib/marketplace";
 import type { MarketListing, MarketListingStatus } from "@/lib/supabase/types";
 
@@ -36,6 +37,7 @@ type ListingFields = Pick<
   | "city"
   | "state"
   | "photo_urls"
+  | "listing_type"
 >;
 
 function readListing(formData: FormData, sellerId: string): { fields?: ListingFields; error?: string } {
@@ -50,6 +52,7 @@ function readListing(formData: FormData, sellerId: string): { fields?: ListingFi
   const price_cents = free ? 0 : parsePrice(str(formData, "price"));
   const quantity = Number(str(formData, "quantity") || "1");
   const photo_urls = formData.getAll("photo_urls").map(String).filter(Boolean);
+  const listing_type = formData.get("listing_type") === "rent" ? "rent" : "sale";
 
   if (!seller_name) return { error: "Add the first name buyers will see." };
   if (title.length < 3) return { error: "Give the listing a title." };
@@ -83,8 +86,28 @@ function readListing(formData: FormData, sellerId: string): { fields?: ListingFi
       city: city.slice(0, 80),
       state,
       photo_urls,
+      listing_type,
     },
   };
+}
+
+/**
+ * "Married Oct 2026" from the seller's own wedding, when they ticked the box;
+ * null otherwise. Worked out here rather than taken from the form, so it
+ * can't claim a wedding that isn't theirs.
+ */
+async function sellerBadge(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  userId: string,
+  formData: FormData,
+): Promise<string | null> {
+  if (formData.get("show_badge") !== "on") return null;
+  const { data } = await supabase
+    .from("weddings")
+    .select("wedding_date")
+    .or(`user_id.eq.${userId},member_ids.cs.{${userId}}`)
+    .maybeSingle<{ wedding_date: string | null }>();
+  return data?.wedding_date ? sellerBadgeFor(data.wedding_date) : null;
 }
 
 async function requireUser() {
@@ -103,11 +126,20 @@ export async function createListing(formData: FormData): Promise<{ error?: strin
 
   // The town's centre, so the listing lands on the map without anyone's
   // address. A town the Census doesn't know just stays off the map.
-  const pin = await pinForTown(fields.city, fields.state);
+  const [pin, seller_badge] = await Promise.all([
+    pinForTown(fields.city, fields.state),
+    sellerBadge(supabase, user.id, formData),
+  ]);
 
   const { data, error: insertError } = await supabase
     .from("market_listings")
-    .insert({ ...fields, seller_id: user.id, latitude: pin?.latitude ?? null, longitude: pin?.longitude ?? null })
+    .insert({
+      ...fields,
+      seller_badge,
+      seller_id: user.id,
+      latitude: pin?.latitude ?? null,
+      longitude: pin?.longitude ?? null,
+    })
     .select("id")
     .single<{ id: string }>();
   if (insertError || !data) return { error: "Couldn't post your listing — please try again." };
@@ -136,6 +168,7 @@ export async function updateListing(id: string, formData: FormData): Promise<{ e
     .from("market_listings")
     .update({
       ...fields,
+      seller_badge: await sellerBadge(supabase, user.id, formData),
       latitude: pin?.latitude ?? null,
       longitude: pin?.longitude ?? null,
       updated_at: new Date().toISOString(),

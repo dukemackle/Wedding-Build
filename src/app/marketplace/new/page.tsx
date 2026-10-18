@@ -3,12 +3,18 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { PageShell } from "@/components/page-shell";
 import { STATES } from "@/lib/wedding-options";
-import type { Wedding } from "@/lib/supabase/types";
+import { MARKET_CATEGORIES, sellerBadgeFor } from "@/lib/marketplace";
+import { loadMarketWedding } from "@/lib/marketplace-server";
 import { ListingForm } from "../listing-form";
 
 export const metadata: Metadata = { title: "Sell something", robots: { index: false } };
 
-export default async function NewListingPage() {
+export default async function NewListingPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ title?: string; category?: string }>;
+}) {
+  const { title, category } = await searchParams;
   const supabase = await createClient();
   const {
     data: { user },
@@ -17,14 +23,9 @@ export default async function NewListingPage() {
 
   // A couple's own name and wedding town fill the form in; anyone else
   // starts blank.
-  const { data: wedding } = await supabase
-    .from("weddings")
-    .select("partner_a_name, own_venue_city, own_venue_state")
-    .or(`user_id.eq.${user.id},member_ids.cs.{${user.id}}`)
-    .maybeSingle<Pick<Wedding, "partner_a_name" | "own_venue_city" | "own_venue_state">>();
-
-  const state = (STATES as readonly string[]).includes(wedding?.own_venue_state ?? "")
-    ? (wedding?.own_venue_state ?? undefined)
+  const wedding = await loadMarketWedding(supabase, user.id);
+  const state = (STATES as readonly string[]).includes(wedding?.ownVenueState ?? "")
+    ? (wedding?.ownVenueState ?? undefined)
     : undefined;
 
   return (
@@ -38,10 +39,14 @@ export default async function NewListingPage() {
         <ListingForm
           sellerId={user.id}
           defaults={{
-            seller_name: wedding?.partner_a_name?.split(/\s+/)[0] ?? undefined,
-            city: wedding?.own_venue_city ?? undefined,
+            seller_name: wedding?.firstName || undefined,
+            city: wedding?.ownVenueCity ?? wedding?.origin?.label ?? undefined,
             state,
+            // From the dashboard's "pass it on" suggestions.
+            title: title?.slice(0, 80),
+            category: MARKET_CATEGORIES.some((c) => c.value === category) ? category : undefined,
           }}
+          badgePreview={wedding?.weddingDate ? sellerBadgeFor(wedding.weddingDate) : null}
         />
       </div>
     </PageShell>

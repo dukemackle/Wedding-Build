@@ -64,7 +64,8 @@ export default function PrivacyPage() {
               </li>
               <li>
                 If you list something in the marketplace: its photos, title, price, description,
-                the first name you give and the pickup town. These are public on the listing, and
+                the first name you give and the pickup town, plus, only if you tick the box, the
+                month and year of your wedding (&ldquo;Married Oct 2026&rdquo;). These are public on the listing, and
                 the town is placed on the map by its centre, never your address. Items you save are
                 visible only to you.
               </li>

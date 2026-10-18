@@ -18,6 +18,7 @@ import { BudgetSheetSync } from "./budget-sheet-sync";
 import { loadSheetLink, sheetLinkView, siteChangesSince } from "@/lib/sheet-link-server";
 import { CATEGORY_ID_PREFIX, budgetSiteRows, customItemLine } from "@/lib/budget-sheet";
 import { canEditWedding } from "@/lib/wedding-access";
+import { MarketplaceSuggestions } from "@/components/marketplace-suggestions";
 
 const currency = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -318,6 +319,21 @@ export default async function BudgetPage() {
       )
     : null;
 
+  // The marketplace measures "near you" from the booked venue, and stops
+  // suggesting buys once the wedding has happened.
+  const { data: venuePinRow } = wedding.venue_id
+    ? await supabase
+        .from("venues")
+        .select("latitude, longitude")
+        .eq("id", wedding.venue_id)
+        .maybeSingle<{ latitude: number | null; longitude: number | null }>()
+    : { data: null };
+  const venuePin =
+    venuePinRow?.latitude != null && venuePinRow.longitude != null
+      ? { latitude: venuePinRow.latitude, longitude: venuePinRow.longitude }
+      : null;
+  const weddingPassed = Boolean(wedding.wedding_date && new Date(`${wedding.wedding_date}T23:59:59`) < new Date());
+
   return (
     <PageShell email={user.email ?? ""} width="canvas">
         <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
@@ -400,6 +416,13 @@ export default async function BudgetPage() {
           </FadeInSection>
         )}
         </div>
+        {!weddingPassed && (
+          <MarketplaceSuggestions
+            budgetKeys={visibleCategories.map((c) => c.key)}
+            origin={venuePin}
+            state={wedding.state}
+          />
+        )}
     </PageShell>
   );
 }
