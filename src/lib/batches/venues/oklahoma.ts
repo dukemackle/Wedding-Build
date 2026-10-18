@@ -75,6 +75,17 @@ Twisted Oaks Barn	1980 Copperhead Ln	Velma	Oklahoma			Barn / Rustic	Indoor & Out
 Three Springs Event Center	2018 State Highway 8A	Watonga	Oklahoma			Barn / Rustic	Indoor & Outdoor			Event venue in Blaine County next to Roman Nose State Park, with an outdoor ceremony arch and an indoor event space.	3springseventcenter@gmail.com	405.200.5753	https://threespringsevents.com
 E.W. Marland Mansion & Estate	901 Monument Rd	Ponca City	Oklahoma			Historic / Estate	Indoor & Outdoor			Historic Ponca City estate built by oilman E.W. Marland that is open for weddings, receptions and parties by arrangement.		(580) 767-0420	https://www.marlandmansion.com`,
   },
+  {
+    name: "Altus, McAlester, Ada, Weatherford and Elk City: map-fill Oklahoma venues",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+The Pointe	72 Golda Dr	McAlester	Oklahoma			Barn / Rustic	Indoor & Outdoor			A hilltop barn and courtyard venue with Lake Eufaula views, offering all-inclusive wedding packages on private acreage.	tourthepointe@gmail.com	(918) 470-1175	https://thepointelakeeufaula.com
+The Dowry Event Center	16712 CR 1580	Ada	Oklahoma			Barn / Rustic	Indoor & Outdoor			Country white-barn venue near Ada with a chapel and separate reception space, suited to weddings from rustic to glamorous.	thedowry2015@gmail.com	580-889-1022	https://www.thedowryeventcenter.com/
+Wild Rose Place	21124 County Road 1543	Ada	Oklahoma			Garden / Outdoor	Indoor & Outdoor	150		Event hall on ten acres a few miles east of Ada with a bride's suite, groom's room and kitchen, used for weddings and receptions.		580-332-8383	https://www.wildroseplace.net/
+Fossil Creek Ranch	17005 County Road 1620	Fitzhugh	Oklahoma			Barn / Rustic	Indoor & Outdoor			Ranch barn venue near Ada with an upstairs hall, guest rooms and an outdoor chapel among oaks, hosting weddings on site.	fcroklahoma@gmail.com	580-277-2794	https://www.fossilcreekranchok.com/
+Sorelle - The Meadow on Deer Creek	9320 North 2370 Rd	Thomas	Oklahoma			Garden / Outdoor	Indoor & Outdoor	250	Simple	An indoor ballroom and several meadow ceremony areas beside Deer Creek, just north of Weatherford, with venue-only and full-service packages.	info@weddingsinthemeadow.com	(580) 661-2627	https://weddingsinthemeadow.com/
+Elk City Convention Center	1016 E Airport Industrial Rd	Elk City	Oklahoma			Ballroom / Hotel	Indoor	1000	Simple	A city-run event hall on Route 66 with a 1,000-seat main hall, West Room, kitchen and a heated barn building, rented by the day for weddings.		(580) 225-0906	https://www.elkcity.com/city-hall/departments/rentals/convention-center/
+The Opera House	2717 W 3rd St	Elk City	Oklahoma			Historic / Estate	Indoor	120		A small city-owned hall in the Old Town Museum complex with a stage and kitchenette, available for intimate weddings and receptions.		(580) 225-3542	https://www.elkcity.com/city-hall/departments/rentals/opera-house/`,
+  },
 ];
 
 export default batches;

@@ -142,6 +142,11 @@ Party Perfect Event Rental	Rentals	8401 E 41st St	Tulsa	Oklahoma	Tulsa and north
 Route 66 Photobooth	Photo Booth		Tulsa	Oklahoma		Locally owned Tulsa photo booth company since 2009, printing instant strips from professional SLR cameras with custom graphics.	info@route66photobooth.com	918.694.7113	https://www.route66photobooth.com/	
 Photo Booth Rentals Tulsa	Photo Booth		Tulsa	Oklahoma	Tulsa, Broken Arrow and surrounding areas	Locally owned Tulsa company renting 360-degree platforms and stationary photo booths, with attendants, custom backdrops and instant sharing.		(918) 894-8132	https://photoboothrentalstulsa.com/	https://www.instagram.com/photoboothrentalstulsa/`,
   },
+  {
+    name: "Ada: florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Dahlia Floral Design	Florals	116 E Main St	Ada	Oklahoma		Locally owned Ada florist making wedding bouquets, arches and arrangements for events, as well as everyday and sympathy flowers.			https://www.dahliafloraldesign.com/	`,
+  },
 ];
 
 export default batches;
