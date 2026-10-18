@@ -324,6 +324,18 @@ Unique Rides Transportation	Transportation		Springfield	Missouri	Springfield and
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
 Waterfront Weddings	Planning	2131 Valley Rd	Osage Beach	Missouri	Osage Beach and the Lake of the Ozarks area	Osage Beach elopement and micro-wedding specialist with an on-site coordinator and set packages covering décor, cake, flowers and an officiant.	waterfrontweddings1@gmail.com	573-434-6543	https://waterfrontweddings.net/	https://www.instagram.com/waterfrontweddingslakeozark/`,
   },
+  {
+    name: "Map fill: Marshall, Maryville, West Plains, Kennett: florals, catering, photography, cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Marshall Floral LLC	Florals	1 E North St	Marshall	Missouri		Locally owned Marshall flower shop whose designers also create wedding ceremony and reception flowers alongside same-day delivery.		660-886-9641	https://marshallfloralmo.net/	
+Jackson's Catering	Catering	25000 Kite Ave	Marshall	Missouri		On-site commercial kitchen catering with no fixed menu, so dishes are built around each couple's requests for weddings and receptions.		660-886-5723	https://www.jacksonseventcenter.com/catering	
+Ashton Turnbull Photography	Photography		West Plains	Missouri	Southern Missouri	West Plains photographer for weddings, engagements, families and seniors, with a timeless, romantic style and a husband-and-wife team.	ashtonturnbullphotography@gmail.com		https://ashtonturnbullphotography.com/	https://www.instagram.com/ashton_turnbull_photography_/
+Creative Cakes2	Cake	1430 W 8th Street	West Plains	Missouri		Two bakers with 40-plus combined years of experience who bake and decorate wedding cakes fresh, with many flavours, fillings and icings.	Judyandkathy@CreativeCakes2.com	417-255-1935	https://creativecakes2wp.weebly.com/	
+Hazelwood Photo Co.	Photography		Maryville	Missouri	Maryville and surrounding areas, including Kansas City and Omaha	Wedding, engagement and elopement photographer working in a classic style with plenty of lighthearted, personality-led moments.	morgan@hazelwoodphotoco.com	(816) 351-2406	https://hazelwoodphotoco.com/	https://www.instagram.com/hazelwoodphotoco/
+Maryville Florists	Florals	214 N Main St	Maryville	Missouri	Maryville and all of Nodaway County	Downtown flower shop doing wedding bouquets, ceremony pieces and centrepieces, with an enquiry form and a gallery for weddings and events.	mflorists214@gmail.com	(660) 562-3066	https://maryvilleflorists.com/	
+Stina's Artistic Visions	Photography		Maryville	Missouri	Northwest Missouri, Saint Joseph and southwest Iowa	Candid, emotion-led wedding photographer who builds the timeline around the couple and offers engagement sessions and an audio phone guest book.	stinasart@gmail.com	660.254.6090	https://www.stinasart.com/	
+Chris Wheeler Photography	Photography		Kennett	Missouri	Dunklin County and nearby	Kennett photographer offering wedding packages from a small-wedding option to all-inclusive coverage, with engagement and bridal sessions.		573-344-6030	https://www.chriswheeler63857.com/	https://www.instagram.com/chris63857/`,
+  },
 ];
 
 export default batches;

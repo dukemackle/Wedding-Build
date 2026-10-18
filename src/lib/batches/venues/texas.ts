@@ -305,6 +305,11 @@ Uvalde County Fairplex Commissioners Auditorium	215 Veterans Ln	Uvalde	Texas			B
 The Dome Civic & Convention Center	1113 Bulldog Blvd	Borger	Texas			Ballroom / Hotel	Indoor			City-owned convention center with a Grand Ballroom, a half ballroom, the Dome hall and a catering kitchen, bookable for weddings and receptions.			https://www.borgertx.gov/367/Dome-Civic-Convention-Center
 Three Falls Cove	8125 FM 3395	Sanford	Texas			Garden / Outdoor	Indoor & Outdoor			Country inn near Lake Meredith with lawn ceremonies by a private lake and receptions in the lodge, plus five rooms and a cabin for guests.	rebecca@threefallscove.com	806-878-2366	https://www.threefallscove.com/`,
   },
+  {
+    name: "Map fill: Pleasanton",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Pleasanton Civic Center	115 N Main St	Pleasanton	Texas			Ballroom / Hotel	Indoor	500		City-owned civic centre with a 12,000 sq ft main hall, a full commercial kitchen and a movable stage, bookable for wedding receptions.	civiccenter@pleasantontx.gov	(830) 569-5904	https://pleasantontx.gov/departments/civic_center/`,
+  },
 ];
 
 export default batches;
