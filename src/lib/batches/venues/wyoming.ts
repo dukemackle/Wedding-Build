@@ -81,6 +81,15 @@ Historic Occidental Hotel	10 N Main St	Buffalo	Wyoming			Historic / Estate	Indoo
 Star Valley Lodge	4271 Willow Creek Ln	Bedford	Wyoming			Barn / Rustic	Indoor & Outdoor	65		A mountain lodge with indoor spaces and grounds beside Bridger-Teton National Forest, hosting day-of weddings or three- to four-day wedding weekends.	cindyrowland@starvalleylodge.com	307-201-6250	https://www.starvalleylodge.com/weddings
 `,
   },
+  {
+    name: "Wyoming: Powell, Dubois, Ucross and Big Horn",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Diamond View Ranch	23 Silver Spur Ln	Powell	Wyoming			Barn / Rustic	Indoor & Outdoor	200	Simple	A 70-acre ranch between Powell and Cody with a 1,600-square-foot indoor reception hall, a 2,000-square-foot outdoor dancing patio and several ceremony spots in view of Heart Mountain.	Diamondviewranchinfo@gmail.com	(307) 272-4606	https://www.diamondviewranch.com/
+Headwaters Arts and Conference Center	20 Stalnaker St	Dubois	Wyoming			Ballroom / Hotel	Indoor & Outdoor	250		A community arts and conference center beside the Wind River in Dubois, with a commercial catering kitchen, a private bridal room and an outdoor courtyard leading to the river.	headwatersacc@gmail.com	(307) 455-2687	https://www.headwaterscenter.org/your-wedding
+Ucross Foundation Chapel and Barn Gallery	30 Big Red Ln	Ucross	Wyoming			Historic / Estate	Indoor & Outdoor			A small chapel of reclaimed stone and timber and a restored barn gallery, both rentable for weddings on the Ucross Foundation grounds among lawns and mature trees.		(307) 737-2291	https://www.ucrossfoundation.org/rentals.html
+Spear-O-Wigwam		Big Horn	Wyoming			Barn / Rustic	Indoor & Outdoor	50	Classic	A remote lodge resort in the Bighorn National Forest with 11 cabins and 4 tipis that couples book as a whole property for a two-night wedding stay, with kayaks, canoes and paddle boards included.	info@spearowigwam.com	(307) 763-7561	https://spearowigwam.com/gatherings/
+`,
+  },
 ];
 
 export default batches;
