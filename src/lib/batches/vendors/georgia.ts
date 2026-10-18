@@ -412,6 +412,12 @@ Red Tie Crew	Bar		Dalton	Georgia	Northwest Georgia and the greater Chattanooga a
 Brittni Cain Photography	Photography		Gainesville	Georgia	Hall County and nearby towns	Gainesville photographer shooting weddings in half-day and intimate collections, with fully edited online galleries.	info@brittnicainphotography.com		https://brittnicainphotography.com/weddings	https://www.instagram.com/brittnicainphotography/
 `,
   },
+  {
+    name: "Georgia: Swainsboro: photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Mark Williams Studio	Photography	706 South Main Street	Swainsboro	Georgia	Southeast Georgia	Family studio in Swainsboro photographing weddings and portraits across Southeast Georgia, including Vidalia, Statesboro, Dublin and Savannah.	info@markwilliamsstudio.com	478.237.3692	https://www.markwilliamsstudio.com/	https://www.instagram.com/markwilliamsstudio/
+`,
+  },
 ];
 
 export default batches;
