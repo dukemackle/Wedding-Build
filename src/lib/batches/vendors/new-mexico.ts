@@ -103,6 +103,22 @@ Cake Ingenuity	Cake		Albuquerque	New Mexico		Albuquerque cake studio with a wedd
 Emily Joanne Weddings & Portraits	Videography		Albuquerque	New Mexico	Albuquerque and Santa Fe	Albuquerque husband-and-wife studio: Emily photographs and Seiji makes the wedding films, working in Albuquerque and Santa Fe.	info@emilyjoanne.com	505-369-9077	https://www.emilyjoanne.com/weddings	
 `,
   },
+  {
+    name: "Clovis: florals and cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Forever Blooms	Florals	1212 N Main St	Clovis	New Mexico	Clovis and surrounding areas	Clovis florist and gift shop that makes flowers for wedding parties, ceremonies and receptions as well as everyday arrangements.		(575) 763-4242	https://www.foreverbloomsclovisnm.com/	
+Kaffee'n'Kuchen	Cake	515 N Main St	Clovis	New Mexico	Eastern New Mexico and West Texas	German bakery in downtown Clovis baking traditional cakes and pastries, with cake and catering orders for celebrations such as weddings.	info@kaffeenkuchen.com	575-777-1153	https://www.kaffeenkuchen.com/	https://www.instagram.com/kaffeenkuchen/`,
+  },
+  {
+    name: "Hobbs: florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Heaven Scent Flowers & Gifts	Florals	207 E Sanger St	Hobbs	New Mexico		Locally owned Hobbs florist and gift shop that lists wedding and quinceañera flowers alongside everyday bouquets and plants.		(575) 397-7770	https://heavenscentflowershobbs.com	`,
+  },
+  {
+    name: "Alamogordo: photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Lucid Dream Photography	Photography		Alamogordo	New Mexico	Alamogordo, White Sands National Park, Ruidoso, Las Cruces	Alamogordo portrait photographer whose work includes wedding couples, engagements and family sessions.	luciddreamphotography@aol.com	575-434-8637	https://www.luciddreamphotography.net/	https://instagram.com/lucid_dream_photography`,
+  },
 ];
 
 export default batches;

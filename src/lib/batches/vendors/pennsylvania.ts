@@ -382,6 +382,11 @@ Wind Rose Films	Videography		Lords Valley	Pennsylvania	Pennsylvania, New York, F
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
 Jim Thorpe Elopements	Planning		Jim Thorpe	Pennsylvania	Jim Thorpe and the Pocono Mountains	Husband-and-wife team offering all-inclusive elopement packages around Jim Thorpe and the Poconos, coordinating the vendors through one point of contact.	hello@jimthorpeelopements.com		https://jimthorpeelopements.com/	https://www.instagram.com/jimthorpeelopements/`,
   },
+  {
+    name: "Erie: cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Warner's Bakery by Hil	Cake	115 North Franklin St	Titusville	Pennsylvania		Titusville bakery making custom tiered and sculpted wedding cakes, with a free consultation and tasting, plus delivery and setup at the venue.		(814) 827-2330	https://warnersbakery.com	https://www.instagram.com/warnersbakerybyhil/`,
+  },
 ];
 
 export default batches;

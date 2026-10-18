@@ -240,6 +240,12 @@ Three Peas Bakery	Cake		Hailey	Idaho	Wood River Valley	Gluten-free and paleo bak
 Kim Haskell Cinematography	Videography		Boise	Idaho	Ketchum, Hailey, Sun Valley Resort and travel anywhere	Husband-and-wife wedding photo and video team in Boise who also film in Sun Valley, with any style of colour grade and customised packages.			https://www.kimhaskell.com/	https://www.instagram.com/kimhaskellcinematography/
 `,
   },
+  {
+    name: "Mountain Home and Sun Valley: planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+AMBiant Events	Planning		Twin Falls	Idaho		Wedding planning arm of The Party Center in Twin Falls, with day-of coordination, management and full-service planning packages.		208-733-9337	https://partycenterrentals.com/ambiant-events/	
+`,
+  },
 ];
 
 export default batches;

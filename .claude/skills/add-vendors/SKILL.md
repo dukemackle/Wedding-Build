@@ -23,7 +23,14 @@ owner may paste names or a list. Otherwise, choose for them:
    in each core category): take the state furthest from it. After that, fill
    each state's other metros. A category counts as missing until the metro
    reaches its target: 3 per category, 5 in a large market, 8 in a major one
-   (`MARKET_SIZE` in the plan; `npm run coverage -- <State>` shows the gaps).
+   (`MARKET_SIZE` in the plan; `npm run coverage -- <State>` shows the gaps;
+   pass 4 stage 2 doubles these).
+   **Map fill (pass 4, stage 1) comes first:** the per-state report lists
+   "Map fill, <Town>" lines, small towns with nothing nearby. Each needs 3
+   vendors whose City is that town or one of the places listed with it (any
+   core category). Name that batch `"<Town>: <categories>"`; the report counts
+   these by City, not by name. If a town has nothing usable, log what you found
+   in the skipped file with that town as City: 5 skipped entries mark it done.
 3. Say in one line which metro and categories you're doing, then go ahead. Only
    ask if the owner's request is ambiguous.
 
@@ -43,8 +50,14 @@ than be padded with weak listings.
   an email (quotes and edit links go to it; the checker refuses one without).
   Fill only what the profile states. The site shows these like any other
   listing (no "basic" label: the owner ruled it would put couples off
-  booking, 2026-10-17). Fill websites first: an Instagram-only listing is
-  for gaps a metro can't fill otherwise, never a shortcut.
+  booking, 2026-10-17).
+  **Look for them on purpose** in hair & makeup, cake, music/DJ, florals and
+  photography, where many good local vendors book only through Instagram
+  (owner, 2026-10-17): search Instagram (e.g. `site:instagram.com <metro>
+  wedding makeup`) as well as the web for those categories. A vendor with a
+  working website still lists from its website. A profile that takes
+  bookings by DM only, with no email, goes on the skipped list as
+  `Social only`, since quotes from the app can't reach it.
   Facebook-only or Google-only businesses still go on the skipped list.
 - **Leave out** anything with a dead or parked site or no sign of activity in
   the last couple of years. Also leave out franchises and directories posing as

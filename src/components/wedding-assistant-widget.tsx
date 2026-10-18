@@ -21,6 +21,12 @@ type Card = Proposal & { status: ProposalStatus };
 
 const MAX_LINES = 6;
 
+// Where a capped-out couple can carry on. Both open with the question typed in.
+const HANDOFFS = [
+  { label: "Ask ChatGPT", url: "https://chatgpt.com/?q=" },
+  { label: "Ask Claude", url: "https://claude.ai/new?q=" },
+];
+
 // A change the assistant offered. Nothing is written until Confirm.
 function ProposalCard({
   card,
@@ -100,6 +106,8 @@ export function AssistantChat({
   const [messages, setMessages] = useState<AssistantMessage[]>([]);
   const [input, setInput] = useState("");
   const [error, setError] = useState<string | null>(null);
+  // Set once today's (or this month's) messages are used up.
+  const [cap, setCap] = useState<{ message: string; handoff: string } | null>(null);
   const [isPending, startTransition] = useTransition();
   const [applying, setApplying] = useState<Set<string>>(new Set());
   const [cardErrors, setCardErrors] = useState<Record<string, string>>({});
@@ -217,6 +225,8 @@ export function AssistantChat({
             proposals: result.proposals.map((p) => ({ ...p, status: "pending" as const })),
           },
         ]);
+      } else if (result.handoff) {
+        setCap({ message: result.error, handoff: result.handoff });
       } else {
         setError(result.error);
       }
@@ -376,6 +386,33 @@ export function AssistantChat({
           </div>
         )}
         {error && <div className="mr-auto text-sm text-brass">{error}</div>}
+        {cap && (
+          <div className="rounded-lg border border-wren/40 bg-white px-3 py-2.5 text-sm text-ink">
+            <p>
+              <span className="font-semibold">{cap.message}</span> Changes you confirm still save as normal.
+            </p>
+            <p className="mt-2">Can&apos;t wait? Ask this somewhere else. Your question and your wedding basics go with it:</p>
+            <div className="mt-2.5 flex flex-wrap gap-2">
+              {HANDOFFS.map((h, i) => (
+                <a
+                  key={h.label}
+                  href={h.url + encodeURIComponent(cap.handoff)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`rounded-md border px-3 py-1.5 text-sm font-semibold text-ink ${
+                    i === 0 ? "border-wren bg-wren" : "border-hairline bg-white hover:bg-wren-soft"
+                  }`}
+                >
+                  {h.label} ↗
+                </a>
+              ))}
+            </div>
+            <p className="mt-2 text-xs text-ink/60">
+              Opens in a new tab and shares your question, wedding date, city, guest count and budget. No guest
+              names or contact details.
+            </p>
+          </div>
+        )}
       </div>
 
       <div className="flex items-end gap-2 border-t border-hairline p-3">
@@ -389,13 +426,16 @@ export function AssistantChat({
             }
           }}
           rows={1}
-          placeholder={current ? "Or type your own answer..." : "Ask or tell Wren..."}
-          className="min-h-9 flex-1 resize-none rounded-md border border-hairline bg-parchment px-3 py-2 text-sm text-ink focus:outline-none focus:ring-1 focus:ring-wren"
+          disabled={Boolean(cap) && !current}
+          placeholder={
+            current ? "Or type your own answer..." : cap ? "Wren's taking a rest" : "Ask or tell Wren..."
+          }
+          className="min-h-9 flex-1 resize-none rounded-md border border-hairline bg-parchment px-3 py-2 text-sm text-ink focus:outline-none focus:ring-1 focus:ring-wren disabled:opacity-60"
         />
         <button
           type="button"
           onClick={() => send()}
-          disabled={isPending || !input.trim()}
+          disabled={isPending || !input.trim() || (Boolean(cap) && !current)}
           aria-label="Send message"
           className="wren-pulse flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-wren text-ink disabled:opacity-40"
         >

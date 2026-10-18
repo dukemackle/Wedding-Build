@@ -219,6 +219,11 @@ The Roost Event Center	935 Rorabaugh Rd	Mahaffey	Pennsylvania			Barn / Rustic	In
 The Overlook at the Civic Club of Harrisburg	612 North Front Street	Harrisburg	Pennsylvania			Historic / Estate	Indoor			An indoor event room run by the Civic Club of Harrisburg, a historic club on the bank of the Susquehanna River.	infocivicclub@gmail.com	717.805.2977	https://www.civicclubofharrisburg.com/overlook
 Pittsburgh Event Center	232 Wise Rd	Harmony	Pennsylvania			Ballroom / Hotel	Indoor			A reception hall in the historic town of Harmony, north of Pittsburgh, with a bridal suite, Medure's Catering on site and a ceremony option onsite or nearby.	info@pittsburgheventcenter.com	724-652-4070	https://pittsburgheventcenter.com/`,
   },
+  {
+    name: "St. Marys map fill: Ridgway venue",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+The Royal Inn	17089 Boot Jack Road	Ridgway	Pennsylvania			Ballroom / Hotel	Indoor	250		A country inn on Route 219 with a main reception room for up to 250 guests and smaller conference rooms for showers and parties.	royalinnpa@comcast.net	(814) 773-3153	https://royalinnpa.com`,
+  },
 ];
 
 export default batches;
