@@ -376,6 +376,12 @@ The Sugar Hill Kakery	Cake	309 S Main St	Laurinburg	North Carolina	Laurinburg an
 Kake Me Away	Cake		Laurinburg	North Carolina	Laurinburg and Scotland County	A Laurinburg home bakery making custom wedding cakes, cupcakes and dessert tables, with free consultations and tasting boxes.	kakemeaway@gmail.com		https://www.kakemeaway.com/	https://www.instagram.com/kakemeaway/
 `,
   },
+  {
+    name: "Map fill: Roanoke Rapids",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Always In Bloom	Florals	507 US-158	Roanoke Rapids	North Carolina	Roanoke Rapids	Roanoke Rapids florist offering bridal bouquets, ceremony flowers and wedding and event designs, with same-day local delivery.		(252) 533-1870	https://alwaysinbloomflowers.com/weddings-events.html	
+`,
+  },
 ];
 
 export default batches;

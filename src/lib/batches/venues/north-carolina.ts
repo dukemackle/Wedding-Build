@@ -222,6 +222,13 @@ The Wallace Wedding & Event Venue	29764 Aberdeen Road	Wagram	North Carolina			Ba
 Oakwood Farms and Venue	955 Red Hill Road	Maxton	North Carolina			Barn / Rustic	Indoor & Outdoor			A family farm with a temperature-controlled 3,600 square foot barn, a caterer's kitchen and outdoor space for ceremonies.	oakwoodfarmsandvenue@gmail.com	910-651-1584	https://www.oakwoodfarmsandvenue.com/
 `,
   },
+  {
+    name: "Map fill: Roanoke Rapids",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+The Acorn Center	411 Mosby Ave	Littleton	North Carolina			Ballroom / Hotel	Indoor	300		Nonprofit performing arts centre in Littleton with a 150-guest gallery, smaller rooms and a 300-seat theatre, plus in-house event coordination.	boxoffice@theacornlive.com	(252) 586-3124	https://www.theacornlive.com/venue-rentals
+John Brown House	23 E Pittsylvania St	Halifax	North Carolina			Historic / Estate	Indoor & Outdoor	40	Simple	Historic Halifax house for intimate weddings, with indoor and outdoor spaces, overnight stays on site and day-before access for setup.			https://www.thejohnbrownhouse.com/events
+`,
+  },
 ];
 
 export default batches;
