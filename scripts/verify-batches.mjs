@@ -212,7 +212,7 @@ const CLOSED =
 async function verify(r) {
   const fails = [];
   const warns = [];
-  // A vendor listed from Instagram alone (a Basic listing). Instagram blocks
+  // A vendor listed from Instagram alone (an Instagram-only listing). Instagram blocks
   // automated visits, so the bar in the add-vendors skill is checked by hand.
   if (!r.Website && r.Instagram)
     return { fails, warns: ["Instagram only: confirm by hand it's active, shows weddings, and names its town, phone and email"] };

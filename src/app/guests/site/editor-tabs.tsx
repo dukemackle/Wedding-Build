@@ -21,6 +21,7 @@ import {
   PAGE_STYLES,
   PHOTO_HEROES,
   SCENES,
+  SCENE_TIMES,
   sceneById,
   MOTION_PRESETS,
   OPENINGS,
@@ -469,7 +470,7 @@ export function SceneSection({ design, onChange }: { design: SiteDesign; onChang
           className={`relative block aspect-[3/2] w-full overflow-hidden rounded-xl ${on ? "border-2 border-forest" : "m-px border border-hairline hover:border-ink/30"}`}
           style={vars}
         >
-          <SceneThumb scene={draw} />
+          <SceneThumb scene={draw} time={design.sceneTime} />
         </span>
         {label}
       </button>
@@ -486,6 +487,33 @@ export function SceneSection({ design, onChange }: { design: SiteDesign; onChang
         {tile(null, own, own === "none" ? "Theme's own" : `Theme's own (${sceneById(own).label})`)}
         {tile("none", "none", "None")}
       </div>
+      {sceneById(design.scene ?? own).place === "band" && (
+        <div className="flex flex-col gap-2">
+          <p className="text-[13px] font-medium text-ink">
+            Time of day <span className="font-normal text-ink/50">· The sky and light over your landscape</span>
+          </p>
+          <div role="group" aria-label="Time of day" className="grid grid-cols-5 gap-2">
+            {SCENE_TIMES.map((x) => {
+              const on = design.sceneTime === x.id;
+              return (
+                <button
+                  key={x.id}
+                  type="button"
+                  aria-pressed={on}
+                  onClick={() => onChange({ sceneTime: x.id })}
+                  className="flex flex-col items-center gap-1 text-center text-[11px] leading-tight text-ink/70"
+                >
+                  <span
+                    className={`block h-9 w-full rounded-lg ${on ? "border-2 border-forest" : "m-px border border-hairline hover:border-ink/30"}`}
+                    style={{ background: `linear-gradient(180deg, ${x.swatch[0]}, ${x.swatch[1]})` }}
+                  />
+                  {x.label}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
       {SCENE_GROUPS.map((g) => {
         const items = SCENES.filter((x) => x.place === g.place);
         const all = open[g.place];

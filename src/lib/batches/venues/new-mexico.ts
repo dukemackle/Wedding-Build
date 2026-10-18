@@ -38,6 +38,23 @@ Ruidoso Convention Center	111 Sierra Blanca Dr	Ruidoso	New Mexico			Ballroom / H
 Triple J Ranch Events	215 County Rd 6100	Farmington	New Mexico			Barn / Rustic	Indoor & Outdoor			Old-West style setting on a private 300-acre working ranch, with late-1800s buildings including a rustic barn and a saloon.		970-382-1819	https://www.tjrevents.com
 `,
   },
+  {
+    name: "Map fill, eastern and southern towns",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Pecos Flavors Winery + Bistro	412 W 2nd St	Roswell	New Mexico			Restaurant / Vineyard	Indoor			Downtown Roswell winery and bistro that hosts wedding receptions and private events, with its own sales and catering team.	info@pecosflavorswinery.com	575-627-6265	https://pecosflavorswinery.com/private-rentals-2/
+Clovis Civic Center	801 Schepps Blvd	Clovis	New Mexico			Ballroom / Hotel	Indoor & Outdoor			City civic centre with separate rooms for ceremony, reception and bridal suite, outdoor options, and its own catering menu.	Sales@ClovisCivicCenter.com	575-935-5009	https://www.clovisnm.gov/396
+BrickStreet Warehouse	321 N Main St	Clovis	New Mexico			Barn / Rustic				Rustic warehouse event space in downtown Clovis, shown by appointment, with wedding packages named Pearl, Ruby, Emerald and Diamond.	brickstreetwarehouse@hotmail.com	575-693-1023	https://www.brickstreetwarehouse.net/
+Citizens Bank of Clovis Events Center	1900 E Brady Ave	Clovis	New Mexico			Barn / Rustic	Indoor			County events complex whose indoor pavilion, open since autumn 2025, is set aside for weddings, alongside an arena and livestock hall.	events@curryeventscenter.com	575-935-7000	http://curryeventscenter.com
+The Valley Venue		Carlsbad	New Mexico			Ballroom / Hotel	Indoor			Climate-controlled event hall about ten minutes from downtown Carlsbad, with an open floor plan, bar area and upstairs bridal suite.			https://www.thevvnm.com/
+Washington Ranch	18 Rattlesnake Springs Rd	Carlsbad	New Mexico			Garden / Outdoor	Indoor & Outdoor			Desert ranch of more than 4,000 acres with a main house, kitchen, conference centre and atrium, run by a disability-services charity.		575-785-2228	https://campwashingtonranch.org/
+Artesia Center		Artesia	New Mexico			Ballroom / Hotel	Indoor			City-owned community hall with a 7,000 sq ft main room and a kitchen, bookable for weddings and quinceañeras at hourly rates.			https://www.artesianm.gov/240/Parks
+The Barn at Tinsley Crossing	41701 US Highway 70	Portales	New Mexico			Barn / Rustic				Barn venue on the US 70 corridor near Portales that hosts weddings and quinceañeras, from large parties to small gatherings.		575-567-2824	https://www.tinsleycrossingbarn.com/weddings-events
+The Patio at Heart of the Desert	7288 Hwy 54/70	Alamogordo	New Mexico			Restaurant / Vineyard	Outdoor	150		Tuscan-style outdoor patio of 2,350 sq ft among the pistachio trees, with a stage, warming kitchen and sunset views.	events@heartofthedesert.com		https://www.heartofthedesert.com/private-events/
+D.H. Lescombes Winery & Bistro Sunset Room	261 Panorama Blvd	Alamogordo	New Mexico			Restaurant / Vineyard	Indoor	65		Private room at a desert winery and bistro, with wine barrels, plants and a vineyard view, and catering on site.	alamoevents@lescombeswinery.com	575-616-5595	https://lescombeswinery.com/event-space-alamogordo/
+Cloudcroft Museum Chapel	1000 Highway 82	Cloudcroft	New Mexico			Historic / Estate	Indoor			Small log chapel built as a railroad office in 1899, now in the museum's Pioneer Village and rented for small ceremonies.	smhsmuseum@yahoo.com	575-682-2932	https://cloudcroftmuseum.com/chapel/
+D.H. Lescombes Winery & Tasting Room	7075 Hwy 549 SE	Deming	New Mexico			Restaurant / Vineyard	Indoor & Outdoor			Winery with a special events centre, grassy grounds under shade trees and a covered patio, available for weddings.	tastingroom@lescombeswinery.com	(575) 546-1179	https://lescombeswinery.com/locations/deming/
+Plaza Hotel Las Vegas	230 Plaza	Las Vegas	New Mexico			Ballroom / Hotel	Indoor	180		Hotel opened in 1882 on the Old Town Plaza, with the Ilfeld Ballroom, a bridal suite upstairs and a grand staircase.	reservations@plazahotellvnm.com	505-425-3591	https://plazahotellvnm.com/events/`,
+  },
 ];
 
 export default batches;

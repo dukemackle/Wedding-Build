@@ -253,6 +253,12 @@ Juniper Bakery	Cake		Cedar City	Utah	Iron County	Cedar City bakery making custom
 Desertscape Photo and Film	Videography		St. George	Utah	Zion, Moab and Lake Powell; travels further	St. George photo and video team filming weddings and elopements around Zion, with optional drone, Super 8 and live-audio add-ons.	kelsea@desertscapephotoandfilm.com		https://desertscapephotoandfilm.com/zion-videographer	https://www.instagram.com/desertscapephotoandfilm/
 `,
   },
+  {
+    name: "Provo: cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Bake Coco Bake	Cake		American Fork	Utah	Wasatch Front	American Fork baker making custom wedding, birthday and celebration cakes for the Wasatch Front, with flavour and pricing pages and online quote requests.	bakecocobake.ut@gmail.com	801-980-1422	https://bakecocobake.com	https://www.instagram.com/bakecocobake/
+`,
+  },
 ];
 
 export default batches;

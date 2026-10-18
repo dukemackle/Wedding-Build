@@ -80,6 +80,15 @@ Historic Boone Tavern Hotel	100 Main St	Berea	Kentucky			Historic / Estate	Indoo
 Cliffview Resort	455 Cliffview Rd	Campton	Kentucky			Ballroom / Hotel	Indoor & Outdoor	200		A Red River Gorge resort with a reception hall for up to 200, ceremonies on Overlook Point above the gorge, a lodge with an outdoor deck and luxury cabins for lodging.	reservations@cliffviewresort.com	606-668-6222	https://cliffviewresort.com/host-an-event/weddings/
 The Overlook Event Center		Pikeville	Kentucky			Ballroom / Hotel	Indoor	350		A 350-person event center in Bob Amos Park overlooking the Pikeville Cut Through and part of downtown, hosting weddings and receptions.	valerie@appwirelessarena.com	606-444-5500	https://overlookeventscenter.com/`,
   },
+  {
+    name: "Glasgow and Cave City: map fill",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Stable House Event Venue	750 Pritchardsville Road	Glasgow	Kentucky			Barn / Rustic	Indoor & Outdoor	100	Simple	Nearly century-old horse barn with 9,000 square feet indoors, an outdoor grass arena, a bridal suite apartment and three published wedding packages.	stablehousevenue@gmail.com		https://www.stablehousevenue.com/
+Grand Victorian Inn	5 Old Dixie Hwy	Park City	Kentucky			Historic / Estate	Indoor & Outdoor	55		Historic bed and breakfast with a dining room for up to 55 and four outdoor ceremony spots, including a pergola walk and rolling pasture views.	grandvictorian@msn.com	270-590-1935	https://grandvictorianinnky.com/
+Cave Area Conference Center	502 Mammoth Cave St	Cave City	Kentucky			Ballroom / Hotel	Indoor			Convention centre by Interstate 65 with over 24,000 square feet of flexible indoor space, an in-house catering menu and a fully equipped bar for receptions.	events@cavecity.com	(270) 773-3131	https://cavecityconventioncenter.com/
+Willow Oaks Golf Club	350 Country Club Rd	Glasgow	Kentucky			Ballroom / Hotel	Indoor & Outdoor			Greek Revival clubhouse above the 18th green with a grand ballroom, covered veranda, and indoor and outdoor spots for ceremony, reception or brunch.	info@willowoaksgolf.com		https://willowoaksgolf.com/
+`,
+  },
 ];
 
 export default batches;

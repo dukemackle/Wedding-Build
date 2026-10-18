@@ -279,6 +279,29 @@ Captured By Celeste	Videography		Gatlinburg	Tennessee	The Smoky Mountains, Tenne
 Morolo Photography & Films	Videography		Knoxville	Tennessee	Knoxville and Chattanooga, travelling on request	Knoxville and Chattanooga team filming full-day weddings, with optional ceremony and speech edits, and approved to film in the Smokies.	hello@morolofilms.com		https://www.morolofilms.com/	https://www.instagram.com/morolophotography/
 Yugen Wedding Films	Videography		Knoxville	Tennessee	Knoxville and the Smoky Mountains	Knoxville wedding videographers filming weddings in the city and throughout the Smoky Mountains, aiming for films to treasure for decades.			https://www.yugenproductions.com/	https://www.instagram.com/yugenproductions/`,
   },
+  {
+    name: "Cookeville: music, catering and photography; Morristown map fill",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Scott Stevens Entertainment	Music		Cookeville	Tennessee	Cookeville, Nashville, Knoxville, Chattanooga, Crossville, Sparta and Livingston	Cookeville wedding DJ and MC offering uplighting matched to your decor, photo booth hire and help with dance and planning details.	cookevilledj@gmail.com	931-261-0663	https://cookevilledj.com/	
+5 Diamond Productions	Music	370 South Lowe Avenue, Suite 131	Cookeville	Tennessee	Cookeville and surrounding Middle Tennessee	Cookeville DJ company covering wedding receptions with music, uplighting and event lighting, plus photo booth rental.	5diamondproductions@gmail.com	931-349-4878	https://5diamondproductions.com/	https://www.instagram.com/cookevilledjs/
+The Right Choice Catering	Catering		Cookeville	Tennessee	Cookeville and the surrounding area	Cookeville caterer for wedding and rehearsal dinners, served as a buffet, partial sit-down or full plated meal, with breads and cakes.	melissa@therightchoicecatering.com	931-261-0561	https://therightchoicecatering.com/	
+Lindsay & Brandon Photography	Photography		Cookeville	Tennessee		Husband-and-wife wedding photographers in Cookeville who tell couples' stories through engagement sessions, portraits and highlight galleries.		931-292-4774	https://www.lindsayandbrandon.com/	https://www.instagram.com/lindsay_and_brandon/
+Roseland Florist & Gifts	Florals	612 E Morris Blvd	Morristown	Tennessee		Morristown florist designing bridal and attendant bouquets, corsages, ceremony and reception arrangements and arch decor, with phone consultations.		(423) 586-8412	https://www.roselandflorist.net/wedding-flowers	https://www.instagram.com/roselandfloristgifts/
+Mildred's Florist	Florals	2255 Sandstone Drive	Morristown	Tennessee		Morristown florist that also hires out wedding arbors, podium pieces and signs in timeless and boho styles to dress a ceremony.	karenmildreds@musfiber.com	(423) 587-0500	https://mildredsofmorristown.com/weddings-events/	https://www.instagram.com/mildredsflorist/
+Simply Enjoy Events	Planning		Morristown	Tennessee	Knoxville, Johnson City, the Tri-Cities, Gatlinburg, Sevierville and surrounding East Tennessee	Morristown planner for small weddings, micro weddings and elopements of up to 75 guests, including design, rehearsals and day-of coordination.	simplyenjoyevents.sarah@gmail.com	(423) 342-5442	https://simplyenjoyevents.com/	
+`,
+  },
+  {
+    name: "Tullahoma: florals and photography, Manchester, Lawrenceburg and Winchester map fill",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+The Flower Shoppe of Tullahoma	Florals	212 W Blackwell St	Tullahoma	Tennessee	Tullahoma	Tullahoma florist offering bridal consultations and floral packages from bouquets to ceremony arrangements, centrepieces and themed designs.		(931) 455-3196	https://www.theflowershoppetullahoma.com/wedding-flowers	
+Tullahoma House of Flowers	Florals	100 S Jackson St	Tullahoma	Tennessee	Tullahoma, Arnold AFB, Estill Springs and Normandy	Tullahoma florist designing custom bouquets, centrepieces and ceremony flowers, with delivery to Arnold AFB, Estill Springs and Normandy.			https://tullahomahouseofflowers.weddingflorals.net/	
+The Petal Patch Manchester	Florals		Manchester	Tennessee	Manchester and surrounding area	Manchester florist with wedding pages for bouquets, bridal party flowers, and ceremony and reception arrangements, plus delivery nearby.		(931) 308-6533	https://www.petalpatchmanchester.com/	
+The Petal Patch Florist and Gifts	Florals	828 Dinah Shore Blvd	Winchester	Tennessee		Winchester florist and gift shop offering bridal and attendant bouquets, centrepieces, candelabra flowers, garlands and party rentals.		(931) 962-0024	https://www.thepetalpatchcompany.com/wedding-flowers	
+Surprise Bouquet Boutique & Flowers	Florals	310 Crews St	Lawrenceburg	Tennessee	Lawrence County, Maury County and surrounding communities	Lawrenceburg florist and boutique, open since 2002, creating wedding and event flowers across Lawrence and Maury counties.		(931) 629-5547	https://surprisebouquetboutiqueandflowers.com/	
+Mac Brown Photographers	Photography	223 N Bradley Rd	Lawrenceburg	Tennessee		Lawrenceburg photography studio known for family and senior portraits that also covers weddings, with details, moments and portraits galleries.	info@macbrownphoto.com	931.762.4263	https://www.macbrownphoto.com/	
+`,
+  },
 ];
 
 export default batches;

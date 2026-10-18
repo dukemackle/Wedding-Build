@@ -209,6 +209,34 @@ Finery Bridal Chic	Bridal & Formalwear		Rochester	Minnesota	Rochester area and S
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
 Fitzgerald Films	Videography		Minneapolis	Minnesota	Minneapolis, Duluth, Rochester and the wider Midwest	Minneapolis wedding videographer Grant, making films of couples' days and willing to travel to Rochester, Duluth and across the Midwest.			https://fitzgeraldfilms.com/	https://www.instagram.com/fitzgeraldfilms/`,
   },
+  {
+    name: "Rochester: planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Dos Goats Plans	Planning		Minneapolis	Minnesota	Minneapolis, St. Paul, Rochester, Red Wing and across the Midwest	Minneapolis husband-and-wife planning team offering wedding management, coordination, partial and full planning, with Rochester among their listed areas.	hello@dosgoatsplans.com	763.639.8366	https://dosgoatsplans.com/	`,
+  },
+  {
+    name: "Map fill: Hibbing, Bemidji, Hutchinson, Fergus Falls, New Ulm, Worthington, Grand Rapids",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Flom Designs and Photography	Photography	904 E Howard St	Hibbing	Minnesota		Hibbing studio photographer Emily Law, who covers full wedding days of around 14 hours alongside seniors, families and children.	contact@flomdesigns.com	218-263-7771	https://flomdesigns.com/sessions/wedding/	
+Sunrise Bakery	Cake	2601 1st Ave	Hibbing	Minnesota		Hibbing bakery and pizzeria making custom and wedding cakes by consultation, plus biscotti, breads and cookies.	office@sunrisebakery.com	218-262-1219	https://sunrisebakery.com/cake-shoppe/	https://www.instagram.com/sunrisebakerymn/
+Valentini's Supper Club Catering	Catering		Chisholm	Minnesota		Italian restaurant serving the Range since 1934 that caters weddings with table service, buffets or off-site catering.		218-254-2607	https://www.valentinissupperclub.com/catering	
+KD Floral and Gardens	Florals	325 Minnesota Ave NW	Bemidji	Minnesota	Within about 25 miles of Bemidji	Downtown Bemidji flower shop since 2001, designing bouquets, boutonnieres and ceremony and reception flowers for local weddings.		218-444-7673	https://kdfloral.com/	
+Raphael's Bakery & Cafe	Cake	319 Minnesota Ave NW	Bemidji	Minnesota	Bemidji area	Family-owned Bemidji bakery since 1990 whose cake decorating team makes custom wedding cakes in a range of flavours and designs.		218-444-2867	https://raphaelsbakery.com/bakery/	https://www.instagram.com/raphaelsbakerycakes/
+Crow River Floral & Gifts	Florals	27 Main St N	Hutchinson	Minnesota	Hutchinson, Glencoe, Dassel, Darwin and nearby towns	Main Street Hutchinson florist with over 25 years of experience, including prize-winning wedding design, offering consultations and a wedding gallery.	crowriverfloral@yahoo.com	320-587-3110	https://crowriverfloral.net/	
+Compass Occasions	Planning		Hutchinson	Minnesota	Throughout Minnesota	Family-owned Hutchinson company offering wedding planning, day-of coordination, styling and décor rentals at venues across Minnesota.	hello@compassoccasions.com		https://compassoccasions.com/minnesota-event-planning-services/weddings/	https://www.instagram.com/compassoccasions/
+Buttery Bliss Bakery	Desserts		Hutchinson	Minnesota		Hutchinson cottage bakery making cupcakes, cookies, macarons and bread to order for special events.	butteryblissbakery@gmail.com		https://butteryblissbakery.square.site/	
+The Flower Mill	Florals	205 W Lincoln Ave	Fergus Falls	Minnesota	Fergus Falls and surrounding areas	Fergus Falls flower shop doing wedding bouquets, wedding party, ceremony and reception flowers, with delivery to nearby towns.		218-736-7877	https://www.fergusfallsflorist.com/	https://www.instagram.com/fergusflowermill/
+Seeded Designs	Florals		Fergus Falls	Minnesota		Studio-based Fergus Falls florist specialising in wedding flowers, floral design classes and event decorating.	seededdesignsmn@gmail.com	218-205-5532	https://www.seededdesignsmn.com/	https://www.instagram.com/seededdesignsmn/
+Jordan Elizabeth Photography	Photography		Fergus Falls	Minnesota	Fergus Falls and the Minnesota Lakes Area	Fergus Falls photographer for weddings and engagements as well as portrait and lifestyle sessions around the lakes area.	jordan@jordanelizabeth.photography		https://jordanelizabeth.photography/	https://www.instagram.com/jordanelizabeth_photo/
+Lance Albers Art & Photography	Photography		Fergus Falls	Minnesota	Fergus Falls and the Otter Tail Lakes area	Fergus Falls photographer shooting lakes-area weddings since 2014, from candid moments and portraits to large family groups.			https://lancealbers.com/wedding-photography-fergus-falls/	
+Becky Bakes	Cake	213 S Minnesota St	New Ulm	Minnesota		Downtown New Ulm bakery making treats for weddings, birthdays and celebrations since 2011, with a wedding page for orders.	beckybakesmn@gmail.com		https://beckybakesmn.com/	https://www.instagram.com/beckybakesmn/
+A to Zinnia Florals + Gifts	Florals	15 S Broadway	New Ulm	Minnesota		New Ulm florist and gift shop with a wedding guide, whose team also sits on the New Ulm Area Wedding Show committee.	info@a2zinnia.com	507-359-9900	https://atozinnia.com/wedding-guide	https://www.instagram.com/atozinniafloralandgifts/
+Gutes Essen Deli & Catering	Catering		New Ulm	Minnesota	New Ulm and the surrounding areas	New Ulm deli and caterer offering custom menus for events from family gatherings to weddings, with pickup or delivery.		507-233-0814	https://gutesessendeliandcatering.com/catering/	https://www.instagram.com/gutesessen_catering/
+DJ Barry Roberts	Music		Worthington	Minnesota	Southwest Minnesota, northwest Iowa and southeast South Dakota	Mobile wedding DJ and lighting service with over 20 years of experience, offering ceremony music, MC duties and a custom dance.	barry@djbarryroberts.com	605-351-4941	https://djbarryroberts.com/	
+Shaw Florists	Florals	2 NE 3rd Street	Grand Rapids	Minnesota	Grand Rapids area	Downtown Grand Rapids flower shop in the historic Pokegama Hotel building, open since 1949, offering bridal bouquets and wedding consultations.		(218) 326-7429	https://www.shawflorists.com/Weddings	
+On River Time Photography	Photography		Grand Rapids	Minnesota	Grand Rapids and surrounding area	Natural-light wedding and family photographer working from a wooded 20-acre riverside property on the Mississippi, who also travels to your location.		(952) 412-9332	https://onrivertimephotography.com/	https://www.instagram.com/onrivertimephotography18/
+Kristina Hendrickson Photo	Photography		Grand Rapids	Minnesota		Grand Rapids photographer taking a limited number of clients a year for outdoor, natural-light weddings, seniors and families with candid and classic portraits.			https://kristinahendrickson.com/wedding	https://www.instagram.com/kristinahendricksonphoto/`,
+  },
 ];
 
 export default batches;

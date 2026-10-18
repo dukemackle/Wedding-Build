@@ -18,7 +18,7 @@ Kind	Name	Category	City	State	Reason	Link	Date
 - **Category**: the vendor category (as in the vendor batches); blank for venues.
 - **Reason**, exactly one of:
   - `Social only`: no website, and either only on Facebook or Google, or an
-    Instagram that misses the Basic-listing bar in the add-vendors skill.
+    Instagram that misses the Instagram-only bar in the add-vendors skill.
   - `No website`: no website or active social profile found.
   - `Site dead`: website down, parked or blocking us, and nothing else to confirm it.
   - `Inactive`: nothing posted or updated for about two years.

@@ -73,6 +73,11 @@ Party Central	Rentals	9 Town Road	Ocean View	Delaware	Sussex County, Delaware	Oc
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
 Happy Hour Events	Planning		Lewes	Delaware		Lewes event company offering consulting, planning and day-of management for weddings, celebrations and corporate events.	dana@happyhoureventsde.com	484-432-5538	https://www.happyhoureventsde.com/	`,
   },
+  {
+    name: "Rehoboth Beach: videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Video In Progress	Videography	10372 Old Furnace Rd	Seaford	Delaware		Seaford wedding videographer, in business since 2012, making story-driven wedding films rather than short highlight reels.	Sales@VideoInProgress.com	888-511-4595	https://www.videoinprogress.com	https://www.instagram.com/videoinprogress/`,
+  },
 ];
 
 export default batches;

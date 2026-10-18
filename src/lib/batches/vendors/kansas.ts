@@ -121,6 +121,19 @@ Custom Limousine, Inc.	Transportation		Bonner Springs	Kansas	Kansas City, Overla
 The Blooming Bud	Florals	350 S Parker Street	Olathe	Kansas	Olathe, Shawnee, Lenexa, Overland Park	Olathe flower shop that makes bouquets and arrangements for weddings and events, including seasonal stems such as ranunculus and dahlias.	bloom@thebloomingbudkc.com	913-603-9055	https://thebloomingbudkc.com/	https://www.instagram.com/thebloomingbudkc/
 `,
   },
+  {
+    name: "Great Bend, Dodge City, Garden City, Hays and Pittsburg: map-fill Kansas vendors",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Stephen McAnulla Photography	Photography		Great Bend	Kansas	Kansas	Great Bend photographer with a cinematic, classic portrait style, covering weddings, engagements, seniors and families across Kansas.		620-797-1773	https://stephenmcanulla.com/weddings/	
+Yours Truly	Florals	2017 Lakin	Great Bend	Kansas	Central Kansas	Family-run Great Bend flower shop designing wedding and event florals, with same-day delivery across Central Kansas.		620-796-2356	https://yourstrulyks.com	
+Flavored Celebrations	Cake	2114 Washington	Great Bend	Kansas		Great Bend bakery making custom wedding cakes, from classic tiers with sugar flowers to modern fondant designs.	cakelady@flavoredcelebrations.com	620-793-0664	https://www.flavoredcelebrations.com/weddings	
+Flowers by Irene	Florals	509 N 2nd, Suite 4	Dodge City	Kansas	Dodge City and surrounding area	Long-running Dodge City florist offering full wedding packages, from bridal bouquets to ceremony, cake table and reception flowers.		(620) 227-2451	https://www.dodgecityflorist.com/wedding-flowers	
+Love and Bloom Flower Boutique	Florals	2010 1st Ave	Dodge City	Kansas	Dodge City, Garden City, Fort Dodge and nearby towns	Bilingual Dodge City flower boutique making everyday bouquets and wedding flowers, with delivery across southwest Kansas.	loveandbloomflowerboutique@gmail.com	(620) 371-7070	https://loveandbloomflowerboutique.com/	https://www.instagram.com/_love_and_bloom_/
+Smoove Productions	Music		Garden City	Kansas	Garden City, Dodge City, Liberal, Great Bend, Hays and southwest Kansas	Garden City mobile DJ with over 25 years of experience who specialises in weddings, with lighting included in every package.		(620) 290-2125	https://www.smooveproductions.com/	
+Velvet & Vows	Photography		Hays	Kansas	Hays and Wichita	Hays wedding photography and videography team covering central and western Kansas, with film and photo packages and cinematic wedding films.		(785) 377-6137	https://velvetandvows.com/wedding-photography-and-videography-hays-ks/	https://www.instagram.com/velvetxvows/
+Alexis Renee Photographs	Photography		Pittsburg	Kansas	Pittsburg, the Midwest and destination weddings	Pittsburg photographer shooting weddings with film and digital, with coverage from four to ten hours and optional 35mm film.			https://alexisreneephotographs.com/wedding-collections	https://www.instagram.com/alexisreneephotographs/
+AudioCrisp Events	Music		Pittsburg	Kansas	Pittsburg and south-east Kansas	Pittsburg wedding DJ and photo booth company covering ceremony and reception sound, uplighting and dance-floor effects.	audiocrispevents@gmail.com	913.687.6963	https://www.audiocrispevents.com/	https://www.instagram.com/audiocrisp_events/`,
+  },
 ];
 
 export default batches;

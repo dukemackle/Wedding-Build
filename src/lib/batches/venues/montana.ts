@@ -94,6 +94,15 @@ Downing Mountain Lodge	1017 Grubstake Road	Hamilton	Montana			Barn / Rustic	Indo
 Moon-Randolph Homestead	1515 Spurlock Road	Missoula	Montana			Historic / Estate	Outdoor			A historic working-ranch site two miles from downtown Missoula, with several outdoor spaces for ceremonies or tented receptions.	moonrandolph@gmail.com	406-728-0451	https://www.moonrandolphhomestead.org/weddings
 Alberton Orchards	1022 Sawmill Gulch Rd	Alberton	Montana			Barn / Rustic	Indoor & Outdoor	150		A Clark Fork riverside ranch and vineyard west of Missoula, with a barn, private cabins for the wedding night and seating for 150.	info@albertonorchards.com	(406) 380-3308	https://www.albertonorchards.com/weddings/
 Staubach Creek Ranch	112 Pole Creek Road	Winston	Montana			Barn / Rustic	Indoor & Outdoor		Simple	A working cattle ranch and guest house south of Helena that hosts rustic outdoor weddings, with an upstairs barn and overnight packages.		406-461-6135	https://www.staubachcreekranch.com/weddings`,
+
+  },
+  {
+    name: "Billings, Bridger, Fromberg and Columbus venues",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Northern Hotel	19 North Broadway	Billings	Montana			Ballroom / Hotel	Indoor			A downtown Billings hotel whose Grand Ballroom is offered with a wedding package that adds planner consultation, private dressing rooms and a honeymoon suite.	info@northernhotel.com	406-867-6767	https://www.northernhotel.com
+The Legacy Barn at Lonesome Spur Ranch	121 Schwend Road	Bridger	Montana			Barn / Rustic				A historic ranch with a barn, an indoor reception space for dinner and dancing with mountain views, and on-site cabins for the couple and wedding party.	legacybarn.mt@gmail.com	406-439-9321	https://legacybarnvenue.com
+Stetson Ranches	285 Lower River Road	Fromberg	Montana			Barn / Rustic	Indoor & Outdoor			A ranch wedding venue whose Gebo Barn has an 8,000 sq ft loft with cathedral-like beams for dining and dancing, with indoor and outdoor ceremony options.	stetsonrancheswedding@gmail.com	406-261-6434	https://stetsonranches.com/wedding-venue-montana-ranch/
+Hensley Creek Hangar	35 Hensley Creek Road	Columbus	Montana			Barn / Rustic	Indoor & Outdoor	300		A 2,500-acre working cattle ranch with a new hangar at the end of a 6,000-foot runway, a century-old barn, a farmhouse and a lodge, with Yellowstone River frontage.	contact@hensleycreekhangar.com		https://hensleycreekhangar.com`,
   },
 ];
 

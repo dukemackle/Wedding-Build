@@ -233,6 +233,19 @@ One Fun Photobooth	Photo Booth	350 Main Avenue North	Twin Falls	Idaho	Sun Valley
 Downtown Bridal & Dress Shop	Bridal & Formalwear	365 Shoup Ave	Idaho Falls	Idaho		Idaho Falls boutique selling bridal, prom and quinceañera gowns, with appointment fittings in a downtown shop.	info@idahofallsdowntownbridal.com	(208) 524-0343	https://idahofallsdowntownbridal.com/	https://www.instagram.com/downtownbridalshop/
 `,
   },
+  {
+    name: "Sun Valley: planning, cake and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Three Peas Bakery	Cake		Hailey	Idaho	Wood River Valley	Gluten-free and paleo bakery in Hailey making standard and custom cakes, cupcakes and decorated cookies, including for weddings, with buttercream or fondant finishes.	3peasbakery@gmail.com	(208) 850-4483	https://3peasbakery.com/	
+Kim Haskell Cinematography	Videography		Boise	Idaho	Ketchum, Hailey, Sun Valley Resort and travel anywhere	Husband-and-wife wedding photo and video team in Boise who also film in Sun Valley, with any style of colour grade and customised packages.			https://www.kimhaskell.com/	https://www.instagram.com/kimhaskellcinematography/
+`,
+  },
+  {
+    name: "Mountain Home and Sun Valley: planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+AMBiant Events	Planning		Twin Falls	Idaho		Wedding planning arm of The Party Center in Twin Falls, with day-of coordination, management and full-service planning packages.		208-733-9337	https://partycenterrentals.com/ambiant-events/	
+`,
+  },
 ];
 
 export default batches;
