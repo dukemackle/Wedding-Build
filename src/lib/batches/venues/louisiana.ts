@@ -84,6 +84,14 @@ Layton Castle	1133 South Grand Street	Monroe	Louisiana			Historic / Estate	Indoo
 Logtown Estate	1463 Logtown Loop Road	Monroe	Louisiana			Historic / Estate	Indoor & Outdoor			An 11-acre estate on the edge of Monroe, formerly known as Logtown Plantation, offered for weddings.			https://logtownestate.com/
 111 Cotton		West Monroe	Louisiana			Historic / Estate	Indoor			An event venue in West Monroe that lists weddings among its bookings, alongside birthdays and corporate events.		318-460-0169	https://www.111cotton.com/`,
   },
+  {
+    name: "Ruston: map fill",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+White Oak Event Venue and Lodging	515 Highway 3072	Ruston	Louisiana			Barn / Rustic	Indoor & Outdoor	250		Hilltop property in Ruston with an open-air chapel, a reception venue with a kitchen and bar, bride and groom suites, and Airbnb cottages for overnight stays.	whiteoakruston@gmail.com	318-614-0040	https://www.whiteoakvenue.com/
+The Big House	500 North Vienna Street	Ruston	Louisiana			Historic / Estate	Indoor & Outdoor			An 1884 Colonial Revival house on the National Register of Historic Places in downtown Ruston, with a carriage house and nearly two acres of lawn and garden.		318-251-8996	https://www.thebighouseruston.com/
+Historic Fire Station	200 E. Mississippi Avenue	Ruston	Louisiana			Historic / Estate	Indoor & Outdoor	80	Simple	A restored downtown Ruston fire station with a caterer's kitchen, the original fire poles and a landscaped garden with a fountain, rented by the City of Ruston.		318-251-8621	https://www.ruston.org/facility-rentals-historic-fire-station
+Creekwood Gardens		Simsboro	Louisiana			Garden / Outdoor	Outdoor			Simsboro wedding venue and bed and breakfast with RV sites, hosting events on its grounds for more than twenty years.			http://creekwoodgardensvenue.com/`,
+  },
 ];
 
 export default batches;
