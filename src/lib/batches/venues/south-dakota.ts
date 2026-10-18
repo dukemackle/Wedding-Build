@@ -66,6 +66,11 @@ Old Courthouse Museum	200 W 6th St	Sioux Falls	South Dakota			Historic / Estate	
 Gate City Events & Lodging	47947 W 5th St	Canton	South Dakota			Barn / Rustic	Indoor & Outdoor	350		A 7,200-square-foot rustic event centre on 15 acres at Canton, with an 11-unit motel, a rental home and a campground nearby.	gceventsllc@gmail.com	605-214-4604	https://www.gceventsllc.com/canton-sd-wedding-venues
 `,
   },
+  {
+    name: "Map fill: Huron",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Crossroads Hotel and Huron Event Center	100 4th St SW	Huron	South Dakota			Ballroom / Hotel	Indoor			Downtown Huron hotel joined to the Huron Event Center and arena, giving weddings large indoor halls, an on-site restaurant and lodging for guests.	reservations@crossroadshotel.com	(800) 876-5858	https://crossroadshotelhuron.com/`,
+  },
 ];
 
 export default batches;
