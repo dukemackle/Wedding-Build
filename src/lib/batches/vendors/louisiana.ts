@@ -259,6 +259,12 @@ Rent Photo Booth New Orleans	Photo Booth		New Orleans	Louisiana	New Orleans metr
 Geaux Vogue Photo Booth	Photo Booth		New Orleans	Louisiana	New Orleans, Metairie, Slidell, Gretna and Baton Rouge	New Orleans photo booth company offering wedding rentals and serving Metairie, Slidell, Gretna and Baton Rouge.		504-265-2518	https://geauxvogue.com	
 `,
   },
+  {
+    name: "Ruston: photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Hawkins Photography	Photography	212 N Trenton St, Suite 1	Ruston	Louisiana	Ruston, North Louisiana and destination weddings	Downtown Ruston studio shooting relaxed, classic wedding and portrait work, with photo restoration and classes alongside.	info@hawkinsphoto.com	(318) 255-3395	https://www.hawkinsphoto.com/	https://www.instagram.com/hawkins_photo/
+Allison Walker Photography	Photography		Ruston	Louisiana	North Louisiana, with worldwide travel	Ruston photographer offering wedding packages, elopements and destination weddings, plus a guest portrait experience and photo booth.		(318) 791-6057	https://www.allisonwalkerphotography.com/	https://www.instagram.com/allisonwalkerphotography/`,
+  },
 ];
 
 export default batches;

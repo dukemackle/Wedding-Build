@@ -246,6 +246,12 @@ Alina Mills Makeup	Hair & Makeup		Falls Church	Virginia	Falls Church, Leesburg a
 Salon SBS	Hair & Makeup		Aldie	Virginia	Aldie, Loudoun and Northern Virginia	An Aldie salon with certified makeup artists and stylists who offer bridal hair and makeup, booked through an enquiry form.	info@salonsbs.com	571-373-0100	https://www.salonsbs.com/	https://www.instagram.com/stylesbyswati_salonsbs/
 Reston Wedding Hair and Makeup	Hair & Makeup		Reston	Virginia	Reston and Northern Virginia	A mobile team of bridal hair stylists and makeup artists serving Reston and nearby Northern Virginia towns for weddings.		703-782-9694	https://restonweddinghairandmakeup.com/	https://www.instagram.com/makeoverbykyung/`,
   },
+  {
+    name: "Danville: photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Studio 1 Photography	Photography		Danville	Virginia	Southside Virginia and northern North Carolina	Danville photography studio covering weddings and bridal sessions alongside family, senior and newborn work, with a relaxed, modern approach.		434-334-6716	http://www.studio-1-photography.com/	
+Patrick Gibson Photography	Photography		Danville	Virginia	Danville, Lynchburg, Roanoke, Greensboro, Raleigh and Charlotte	Danville-based wedding photographer giving emotive, stylish coverage, with a sneak peek within a week and full galleries in four to six weeks.	pg@iampgphotography.com	(434) 429-7194	https://www.iampgphotography.com/	https://www.instagram.com/iampgphotography/`,
+  },
 ];
 
 export default batches;
