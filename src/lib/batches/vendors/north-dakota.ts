@@ -127,6 +127,29 @@ Sixteen03 Main Events	Catering	1603 East Main Ave	Bismarck	North Dakota		Bismarc
 White Lace Events	Planning	202 E Broadway Ave	Bismarck	North Dakota	Bismarck, Fargo, Dickinson, Grand Forks, Medora and Rapid City	Planning arm of a Bismarck bridal boutique, offering month-of coordination through to full planning, plus guided bouquet-making sessions.	whitelacebridalnd@gmail.com	(701) 258-4142	https://www.whitelacebridalnd.com/	https://www.instagram.com/whitelacebridalnd/
 `,
   },
+  {
+    name: "Williston: photography, florals and hair and makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Amara Lea Photography	Photography		Williston	North Dakota	Williston and Fargo, available for travel	A lifestyle and portrait photographer based in Williston and Fargo who also shoots weddings, with couples' love stories on the homepage.	amaraleaphotography@hotmail.com		https://www.amaraleaphotography.com/	https://www.instagram.com/amaraleaphotography/
+Shawna Thomas Photography	Photography		Williston	North Dakota	Williston, available for travel	A Williston photographer focused on weddings and portraits, taking enquiries through an online form and available to travel.			https://www.shawnathomasphotography.com/	https://www.instagram.com/shawnathomasphotography/
+Country Floral Gifts & Greenhouse	Florals	1111 2nd Ave W	Williston	North Dakota	Williston	A Williston floral design shop and greenhouse that takes custom orders for weddings alongside everyday arrangements and gifts.		701-572-9402	https://countryfloralgreenhouse.com/	
+Kenlee Blooms	Florals		Williston	North Dakota	Williston	A Williston florist offering wedding flowers described as romantic and thoughtfully curated, plus a bloom bar and flower subscriptions.	danielle.tiedje@gmail.com	406-939-5457	https://www.kenlee-blooms.com/	https://www.instagram.com/kenleeblooms/
+Woodland Star Styling & Makeup	Hair & Makeup		Williston	North Dakota	Williston	A Williston stylist who specialises in bridal hair and makeup, with online booking and a salon base.			https://woodlandstar.glossgenius.com/	https://www.instagram.com/woodlandstar_hmu/
+`,
+  },
+  {
+    name: "Jamestown: photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Huntly Photography	Photography		Jamestown	North Dakota	North Dakota	Wedding, engagement and portrait photographer with a dedicated wedding experience, plus mini sessions and backdrop and furniture rental.			https://huntlyphotography.com/	
+`,
+  },
+  {
+    name: "Fargo: hair and makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+AVANT Hair & Skin Care Studio	Hair & Makeup	214 N 4th St	Grand Forks	North Dakota		Downtown Grand Forks hair and skin studio offering bridal packages with practice updo, makeup and lash trials plus day-of styling.	avantdowntown@gmail.com	701-775-5333	https://www.avanthairstudio.com/weddings	https://www.instagram.com/avanthairandskincare/
+Artistry Fargo	Hair & Makeup	705 13th Ave E	West Fargo	North Dakota		West Fargo hair and airbrush makeup team for brides and wedding parties, working in the salon or on location with two or more stylists.		701-353-8073	https://artistryfargo.com/weddings	https://www.instagram.com/artistryfargo/
+`,
+  },
 ];
 
 export default batches;

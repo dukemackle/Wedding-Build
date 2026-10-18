@@ -62,6 +62,19 @@ Lewis & Clark Riverboat	1700 River Road	Bismarck	North Dakota			Beach / Waterfro
 North Dakota Heritage Center and State Museum	612 East Boulevard Avenue	Bismarck	North Dakota			Historic / Estate	Indoor & Outdoor	90		State museum in Bismarck whose glass Northern Lights Atrium can be rented after hours, with the Badlands Plaza outside for receptions.	history@nd.gov	701-328-2666	https://statemuseum.nd.gov/about/rentals
 `,
   },
+  {
+    name: "Williston: Old Armory and hotel ballroom",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+The Williston Old Armory	320 1st Ave E	Williston	North Dakota			Historic / Estate	Indoor	225		A 1915 Romanesque-style former National Guard armory downtown, with a stage auditorium, a lower-level room and an onsite catering kitchen.		701-577-0278	https://www.willistonoldarmory.org/
+Grand Williston Hotel & Conference Center	3601 2nd Ave	Williston	North Dakota			Ballroom / Hotel	Indoor			A hotel with a renovated 7,800 sq ft Mediterranean-style ballroom, a smaller Bison Room and 147 guest rooms for wedding parties.	Lyndie.owens@aimbridge.com	701-609-5000	https://grandwilliston.com/meetings-and-events/
+`,
+  },
+  {
+    name: "Jamestown: hotel ballrooms",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Fairfield Inn & Suites Jamestown	930 25th St SW	Jamestown	North Dakota			Ballroom / Hotel	Indoor	66		Small hotel event room, the Buffalo Room, suited to an intimate reception or rehearsal dinner, with a room block for wedding guests.		701-952-6300	https://www.marriott.com/en-us/hotels/jmsfi-fairfield-inn-and-suites-jamestown/events/
+`,
+  },
 ];
 
 export default batches;
