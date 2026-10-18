@@ -78,6 +78,15 @@ Lucile's Old Market	510 S 10th St	Omaha	Nebraska			Historic / Estate	Indoor & Ou
 Slattery Vintage Estates	8925 Adams Street	Nehawka	Nebraska			Restaurant / Vineyard	Indoor & Outdoor	200	Simple	Family-run vineyard on 84 acres in rural Cass County with a banquet hall, ponds, gazebos and vine rows for ceremonies and photos, plus catering and on-site lodging.	info@svevineyards.com	(402) 267-5267	https://www.svevineyards.com/index.php/weddings
 Riverside Golf Club	2820 Riverside Drive	Grand Island	Nebraska			Ballroom / Hotel	Indoor	500		Golf-club clubhouse in Grand Island with a ballroom that seats a wedding dinner and also rents to non-members.		(308) 382-7298	https://www.riversidegolfclub.org/Wedding_Events`,
   },
+  {
+    name: "Map fill: Columbus and North Platte",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Harbor Lights	711 N Lake Rd	North Platte	Nebraska			Garden / Outdoor	Indoor & Outdoor			Wedding venue south of North Platte near Lake Maloney with indoor and outdoor spaces, offering exclusive use from rehearsal to day-after brunch.	hello@npharborlights.com	308-534-8700	https://www.npharborlights.com/
+Venue304	304 East 5th Street	North Platte	Nebraska			Ballroom / Hotel	Indoor			Downtown North Platte event space in the Canteen District with brick walls and an open floor plan, offering full wedding weekend packages.	hello@venue304.com	308-534-8700	https://venue304.com/
+Prairie Arts Center	416 N Jeffers St	North Platte	Nebraska			Historic / Estate	Indoor & Outdoor			Restored downtown North Platte arts building hosting ceremonies and receptions in its Marble Hall and upstairs Grand Ballroom with balcony patio.	holly@prairieartscenter.org	(308) 534-5121	https://www.prairieartscenter.org/rental-spaces
+Feather River Vineyard	5700 East State Farm Road	North Platte	Nebraska			Restaurant / Vineyard	Indoor & Outdoor			Working vineyard of about 37 acres in the Loess Hills south of North Platte, hosting weddings and receptions in a tasting room, on a veranda or under tents.	info@feather-river.com	(308) 696-0078	https://www.feather-river.com/
+Prime 10 Steakhouse and Venue	4174 63rd Ave	Columbus	Nebraska			Restaurant / Vineyard	Indoor			Steakhouse and event venue in Columbus with private dining space and catering, plus a wedding pricing guide on request.	hello@prime10venue.com	(402) 835-2090	https://prime10venue.com/`,
+  },
 ];
 
 export default batches;
