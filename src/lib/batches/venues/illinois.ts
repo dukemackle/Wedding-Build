@@ -28,7 +28,7 @@ Hotel Baker	100 W Main St	St. Charles	Illinois			Ballroom / Hotel	Indoor & Outdo
 Wilder Mansion	211 S Prospect Ave	Elmhurst	Illinois			Historic / Estate	Indoor & Outdoor	250		An 1868 park-district mansion in Wilder Park, restored and reopened in 2008, with 9,000 sq ft of rooms and formal gardens with a fountain.		630-993-8186	https://www.wildermansion.org/
 Garfield Park Conservatory	300 N Central Park Ave	Chicago	Illinois			Garden / Outdoor	Indoor	300	Classic	A West Side park-district glasshouse where evening events take over the whole conservatory, with banquets in the long, plant-filled Horticulture Hall.	joan.colon@chicagoparkdistrict.com	312-746-5250	https://garfieldconservatory.org/visit/room-rentals-information/
 Lincoln Farmstead	8401 N IL Route 47	Huntley	Illinois			Barn / Rustic	Indoor & Outdoor			A restored 1920s dairy farm north of Huntley with a heated and air-conditioned barn for receptions and outdoor ceremony grounds, open April to November.	LincolnFarmsteadHuntley@gmail.com	815-793-1341	https://www.lincolnfarmstead.com/
-Panther Creek Country Club	3001 Panther Creek Dr	Springfield	Illinois			Ballroom / Hotel	Indoor	250		A west Springfield golf club whose clubhouse rooms look out over the course, with an in-house chef and events team for weddings of 20 to 250.		217-546-4431	https://www.panthercreekcc.com/Weddings_and_Events
+Panther Creek Country Club	3001 Panther Creek Dr	Springfield	Illinois			Ballroom / Hotel	Indoor			A west Springfield golf club whose clubhouse rooms look out over the course, with an in-house chef and events team for weddings of 20 to 250.		217-546-4431	https://www.panthercreekcc.com/Weddings_and_Events
 Abraham Lincoln Presidential Library and Museum	212 N 6th St	Springfield	Illinois			Historic / Estate	Indoor	300	Simple	A downtown Springfield museum whose 4,500 sq ft rotunda plaza, set between a replica White House and Lincoln's boyhood log cabin, hosts evening receptions.		217-558-8844	https://presidentlincoln.illinois.gov/visit/venue-rentals/event-venues/museum-plaza/
 Route 66 Hotel and Conference Center	625 E St Joseph St	Springfield	Illinois			Ballroom / Hotel	Indoor	300		A locally owned 99-room hotel on the original Route 66 alignment, once its first Holiday Inn, with a 5,000 sq ft banquet hall for receptions.	route66hotel@gmail.com	217-529-6626	https://rt66hotel.com/route-66-wedding-venue/
 Danenberger Family Vineyards	12341 Irish Rd	New Berlin	Illinois			Restaurant / Vineyard	Indoor & Outdoor			A family winery on about 100 acres around a centennial farmhouse west of Springfield, with a barrel room, a vineyard lawn and terrace, and concert stages.	info@dfv-wines.com	217-488-6321	https://danenbergerfamilyvineyards.com/event-rental-venue-new-berlin-il/`,
@@ -175,6 +175,11 @@ A Fair Barn	3416 Hotze Road	Salem	Illinois			Barn / Rustic	Indoor & Outdoor			Fo
 Wells on Main Guesthouse & Gatherings	112 E. Locust Street	Fairbury	Illinois			Historic / Estate	Indoor			Restored historic building in Fairbury with a wedding chapel, champagne room, bridal suite and overnight stays for the wedding party.	TonyaWells@WellsonMain.com	309-660-6296	https://www.wellsonmain.com/
 Harms Country Farms	7478 N 1800 East Rd	Chenoa	Illinois			Barn / Rustic				Chenoa farm venue that hosts weddings and other events, with tours arranged by phone.		(309) 530-4482	https://www.harmscountryfarms.com/
 `,
+  },
+  {
+    name: "Kewanee: venues",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Midland Golf Club	3536 Midland Road	Kewanee	Illinois			Ballroom / Hotel	Indoor			Golf club with a recently remodelled 3,000 sq ft banquet room overlooking the course, with in-house catering, bar and linens, hosting weddings and receptions.	mwelgat@midlandgolfclub.com	309-852-4508	https://www.midlandgolfclub.com`,
   },
 ];
 

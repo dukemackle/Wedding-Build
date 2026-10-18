@@ -90,6 +90,11 @@ The Strand	1102 Main St	Hays	Kansas			Historic / Estate	Indoor & Outdoor		Simple
 Carbon Creek Event Venue	981 S 190th St	Pittsburg	Kansas			Barn / Rustic	Indoor & Outdoor	300		Pittsburg event venue with a sunken dance floor, built-in sound and lighting and a bridal suite, with packages including a DJ, bartender and coordinator.		(620) 231-4359	https://www.carboncreekevents.com/
 Memorial Auditorium & Convention Center	503 N Pine St	Pittsburg	Kansas			Historic / Estate	Indoor		Simple	Historic Pittsburg auditorium and convention centre offering basic and deluxe wedding packages, with an optional onstage ceremony in its 1,500-seat theatre.	macc@pittks.gov	(620) 231-8310	https://www.pittks.org/memorial-auditorium/weddings/`,
   },
+  {
+    name: "Dodge City: venues",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Hoover Pavilion	108 4th Avenue	Dodge City	Kansas			Historic / Estate	Indoor			A city-owned 1919 pavilion in Wright Park, now climate controlled with a 5,000 sq ft main hall, warming kitchen and the Liberty Garden, taken for weddings and receptions.	caitlyns@dodgecity.org	620-225-8160	https://www.dodgecity.org/104/Hoover-Pavilion`,
+  },
 ];
 
 export default batches;
