@@ -91,6 +91,13 @@ Captured Story Media	Videography		Omaha	Nebraska	Omaha and surrounding areas; tr
 A Final Take Films	Videography		Omaha	Nebraska	Omaha, Nebraska and destination weddings	Husband-and-wife team in Omaha making true-to-colour wedding films that capture the personality and emotion of the day.	info@afinaltake.com	402.965.1824	https://afinaltake.com/	https://www.instagram.com/afinaltake/
 LoveBound Media	Videography		Omaha	Nebraska	Omaha	Omaha photo and video team offering wedding videography, from a short highlight film to a documentary-style cut with drone footage.			https://loveboundmedia.com/omaha/	https://www.instagram.com/loveboundmedia/`,
   },
+  {
+    name: "Columbus: Photography. North Platte: Florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Inspired by Soul Photography	Photography		Columbus	Nebraska	Within 45 miles of Columbus	Downtown Columbus portrait studio that also photographs weddings and engagements, with set packages for couples within 45 miles.			https://inspiredbysoulphotography.com/	https://www.instagram.com/inspiredbysoulphotography/
+Pearl Moments Photography	Photography	2417 13th St	Columbus	Nebraska	Columbus, NE area	Columbus studio photographer offering wedding portrait packages alongside family and event sessions for couples in the Columbus area.		402.992.1499	https://www.pearlmomentsbytanisha.com/	https://www.instagram.com/pearlmomentsbytanisha/
+Prairie Friends and Flowers	Florals	320 W 4th St	North Platte	Nebraska		Family-run florist in North Platte making custom bridal bouquets, ceremony and reception flowers, with consultations and arch and candelabra hire.		(308) 532-2577	https://www.prairiefriendsandflowers.com/	`,
+  },
 ];
 
 export default batches;
