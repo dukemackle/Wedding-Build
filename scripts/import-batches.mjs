@@ -5,6 +5,8 @@
 //   npm run import:batches -- --minutes 20      stop starting new work after 20 min
 //   npm run import:batches -- --dry-run         say what it would do, write nothing
 //   npm run import:batches -- --repair-pins     also re-check every listing's pin against its spot
+//   npm run import:batches -- --repair-pins --refine-pins
+//                                                 ...and look every venue up by name too (slow: ~2 h)
 //
 // The heavy part runs here, on the routine's machine: parsing every batch file
 // through the real importers, geocoding, and reading listings' own websites
@@ -24,9 +26,11 @@
 //   6. a line on where the pins stand
 //
 // Addresses go to the Census geocoder first and OpenStreetMap's second (only
-// a house, building or business, never a whole street), then venues are
-// looked up by name; a result more than 40 km from the listing's town is
-// thrown away as a wrong match.
+// a house, building or business, never a whole street). Venues are also
+// looked up by name, and the named building wins when it's near the address:
+// the Census only estimates where a house number falls along its street, so
+// on its own it lands a venue on the road, often 300 m to 1 km off. A result
+// more than 40 km from the listing's town is thrown away as a wrong match.
 //
 // Prints one line per step and a JSON summary last. Exits 1 if a write fails.
 //
@@ -62,6 +66,7 @@ const option = (name) => {
 };
 const DRY = args.includes("--dry-run");
 const REPAIR = args.includes("--repair-pins");
+const REFINE = args.includes("--refine-pins");
 const MINUTES = Number(option("--minutes") ?? 35);
 const SITE = option("--site") ?? "https://youdoido.com";
 const SECRET = process.env.BATCH_IMPORT_SECRET;
@@ -170,13 +175,21 @@ function km(a, b) {
 
 /** A geocoded address must land within this of its town, or it's a wrong match. */
 const MAX_KM = 40;
+/**
+ * A venue found by name counts as the place at its address when the two are
+ * within this. The Census's street estimates were up to ~1 km off in a
+ * sample of 200; a same-named different place this close is unlikely.
+ */
+const AGREE_KM = 1.5;
+/** Wider than this across, an OpenStreetMap hit's middle isn't a spot (a golf course, a park, a farm). */
+const SPOT_KM = 0.5;
 
 // OpenStreetMap's geocoder (Nominatim), for what the Census can't place: rural
 // routes, "N3540 State Road 22", unincorporated towns, and venues by name. Its
 // usage policy asks for one request a second and a real User-Agent; the maps
 // already carry the "© OpenStreetMap contributors" credit its licence asks for.
 let osmNext = 0;
-async function osm(params, { exact = false } = {}) {
+async function osm(params, { exact = false, compact = false } = {}) {
   const wait = osmNext - Date.now();
   osmNext = Math.max(Date.now(), osmNext) + 1100;
   if (wait > 0) await sleep(wait);
@@ -188,6 +201,7 @@ async function osm(params, { exact = false } = {}) {
     if (!res.ok) return null;
     const [hit] = await res.json();
     if (!hit || (exact && !isSpot(hit))) return null;
+    if (compact && !isCompact(hit)) return null;
     return { latitude: Number(hit.lat), longitude: Number(hit.lon) };
   } catch {
     return null;
@@ -206,11 +220,19 @@ function isSpot(hit) {
   return hit.category !== "place" || ["house", "building"].includes(hit.type);
 }
 
+/** Whether a hit is small enough that its middle is the place: a building, not a 60-hectare golf course. */
+function isCompact(hit) {
+  const [south, north, west, east] = (hit.boundingbox ?? []).map(Number);
+  if (![south, north, west, east].every(Number.isFinite)) return false;
+  return km({ latitude: south, longitude: west }, { latitude: north, longitude: east }) <= SPOT_KM;
+}
+
 /**
- * The actual spot for a listing, or null: its street address (the Census
- * geocoder, then OpenStreetMap's exact matches), then, with `byName`, the
- * place itself looked up by name in its town -- venues are buildings and
- * grounds that OpenStreetMap often has even when their address won't match.
+ * The actual spot for a listing, or null. Its street address (the Census
+ * geocoder, then OpenStreetMap's exact matches); with `byName`, the place
+ * itself looked up by name in its town, which wins when it's within AGREE_KM
+ * of the address (it's the building, the address only the road outside) and
+ * stands in when the address won't match at all.
  */
 const spotCache = new Map();
 function locate(row, byName = false) {
@@ -220,13 +242,15 @@ function locate(row, byName = false) {
     spotCache.set(
       key,
       (async () => {
-        if (row.address) {
-          const hit =
-            (await geocode(fullAddress(row))) ??
-            (await osm({ street: row.address, city: row.city ?? "", state: row.state ?? "" }, { exact: true }));
-          if (hit) return hit;
-        }
-        return named ? await osm({ q: `${row.name}, ${row.city}, ${row.state}` }, { exact: true }) : null;
+        const address = row.address
+          ? ((await geocode(fullAddress(row))) ??
+            (await osm({ street: row.address, city: row.city ?? "", state: row.state ?? "" }, { exact: true })))
+          : null;
+        const building = named
+          ? await osm({ q: `${row.name.replace(/\s*\(.*?\)/g, "")}, ${row.city}, ${row.state}` }, { exact: true, compact: true })
+          : null;
+        if (address && building) return km(address, building) <= AGREE_KM ? building : address;
+        return address ?? building;
       })(),
     );
   }
@@ -396,12 +420,16 @@ try {
   }
 
   // 4. With --repair-pins (the routine adds it once a day): every listing is
-  //    located again (venues by address, then by name; vendors by address),
+  //    located again (venues by address and by name; vendors by address),
   //    and a pin more than 250 m from that spot is moved onto it, when it's
   //    near its town. Catches typed coordinates that were wrong, pins set
-  //    while a geocoder was down, and old OpenStreetMap street-level matches.
-  //    A listing with no spot that sits on another listing's exact point (a
-  //    town pin from before they were nudged apart) is nudged off it.
+  //    while a geocoder was down, and venues left on their town's point when
+  //    no geocoder knew the address. A pin already within AGREE_KM of its
+  //    address is left alone without the name lookup (it may be the building
+  //    itself, and the lookups are a second each); --refine-pins does them
+  //    anyway, to move street estimates onto their buildings. A listing with
+  //    no spot that sits on another listing's exact point (a town pin from
+  //    before they were nudged apart) is nudged off it.
   if (REPAIR) {
     const stacked = new Map();
     for (const row of [...listed.venues, ...listed.vendors]) {
@@ -411,6 +439,10 @@ try {
       const todo = listed[table].filter((row) => row.city && row.state && (row.address || byName));
       const fixes = (
         await pool(todo, 8, async (row) => {
+          if (byName && !REFINE && row.address && isPinned(row)) {
+            const address = await locate(row);
+            if (address && km(address, row) <= AGREE_KM) return null;
+          }
           const hit = await locate(row, byName);
           const here = await town.pin(row);
           if (hit && (!here || km(hit, here) <= MAX_KM)) {
