@@ -759,6 +759,11 @@ DJ Feely	Music		Greenfield	California	Greenfield, King City, Soledad, Salinas an
 The Garden House	Florals	650 Canal Street	King City	California		Family-run King City florist making bridal and attendant bouquets plus ceremony and reception arrangements, with consultations and party rentals.		831-385-6811	https://www.thegardenhousekingcity.com/wedding-flowers	https://www.instagram.com/thegardenhousekb/
 Plants and Things	Florals	151 W. Elm Ave	Coalinga	California	Coalinga, Huron, Avenal, Kettleman City, Five Points and nearby towns	Coalinga flower shop supplying seasonal wedding and event flowers to the west Fresno County towns, including deliveries to Harris Ranch.	plantsandthings@gmail.com	559-935-0035	https://plantsandthings-coalinga.com	https://www.instagram.com/plantsandthingsflorist/`,
   },
+  {
+    name: "Susanville: florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Milwood Florist Weddings	Florals	2020 Main St	Susanville	California	Northern California and Nevada	Susanville florist with a century of history, arranging wedding flowers for couples across Northern California and Nevada.	milwoodflorist@gmail.com	530.257.9194	https://www.milwoodfloristweddings.com/	https://www.instagram.com/milwoodflorist/`,
+  },
 ];
 
 export default batches;
