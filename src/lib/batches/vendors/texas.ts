@@ -288,6 +288,55 @@ Alice Floral & Gift	Florals	512 E Front St	Alice	Texas	Alice	Alice florist and g
 Bay City Floral	Florals	2133 Avenue G	Bay City	Texas		Downtown Bay City florist designing bridal bouquets plus ceremony and reception flowers to the couple's vision, with full floral set-up.		979-245-9492	https://baycityfloral.net/	https://www.instagram.com/bay_city_floral/
 `,
   },
+  {
+    name: "Map fill: Lufkin, Nacogdoches, Gainesville, Sherman, Brazosport and small towns: Florals, Catering, Photography, Cake, Desserts",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Grandough Baking Co.	Cake	1705 Feagin Dr	Lufkin	Texas	Lufkin and Nacogdoches	Bakery making custom tiered and naked wedding cakes and groom's cakes, with tastings by appointment and event catering.	grandough@yahoo.com	(936) 632-1005	https://grandough.com/wedding-cakes/	
+The Flower Pot	Florals	304 E Denman Ave	Lufkin	Texas		Lufkin florist designing bridal bouquets, ceremony arrangements and centrepieces, with candelabra, arch and topiary rentals.		(936) 632-8400	https://www.theflowerpottexas.com/wedding-flowers	
+Texas Custom Catering	Catering	691 E Texas Rd	Lufkin	Texas	Lufkin area	Lufkin caterer serving wedding receptions, corporate events and parties with fresh-made menus.	aperfectweddingllc@gmail.com	(936) 635-4236	https://www.texascustomcatering.com/our-services	
+WNW Photography	Photography		Nacogdoches	Texas	East Texas, Houston and Dallas	Nacogdoches photographer who shoots natural, candid weddings, engagements and elopements, and will travel for destination work.	wnwcreatives@gmail.com		https://www.wnw-photography.com/	https://www.instagram.com/wnw_photography/
+99ndco	Photography		Nacogdoches	Texas	Nacogdoches, Houston and Dallas	Husband-and-wife duo in Nacogdoches shooting cinematic, true-to-colour wedding stories with a film-inspired look.			https://99ndco.com	https://www.instagram.com/99ndco/
+Mike's Barbeque House	Catering		Nacogdoches	Texas	Nacogdoches	Barbecue caterer offering chipped beef, sandwiches, catfish and sides for weddings, reunions and large parties.		(936) 560-1676	https://www.mikesbarbequehouse.net/nacogdoches-tx-catering-service	
+Vine and Branches	Florals	401 N Grand Ave	Gainesville	Texas	Dallas-Fort Worth and southern Oklahoma	Gainesville florist designing fresh, silk or mixed wedding flowers for celebrations of roughly 25 to 250 guests.	info@vineandbranchesgainesville.com	(940) 612-1829	https://www.vineandbranchesgainesville.com/weddings	https://www.instagram.com/vineandbranchesgainesville/
+Gene's Photos	Photography		Gainesville	Texas	Gainesville and Muenster	Gainesville photography business covering weddings, portraits, seniors and aerials, meeting couples wherever they choose.		(940) 665-4742	https://genesphotos.com/	
+Country Florist	Florals	1520 Texoma Pkwy	Sherman	Texas	Sherman and nearby areas	Sherman florist with over 40 years in business, arranging ceremony and reception flowers and bouquets after a phone consultation.		(903) 892-0114	https://www.countryfloristshermantx.com/about_us.php	
+Amanda Elaine Photography	Photography		Sherman	Texas	Sherman, Denison, McKinney and the Texoma area	Sherman studio photographing weddings, families and seniors across Texoma and north Dallas suburbs.			https://amandaelainephotography.com/2025/02/28/wedding-photographer-sherman-tx/	https://www.instagram.com/amandaelainephoto/
+Cakery Lane	Cake		Lake Jackson	Texas	Lake Jackson	Lake Jackson custom bakery hand-sculpting wedding and groom's cakes to order, by appointment only.			https://www.cakerylane.com/	https://www.instagram.com/cakerylanellc/
+Talk About Good	Catering	2105 N Brazosport Blvd	Freeport	Texas	Brazosport area	Freeport restaurant and caterer serving Southern and Cajun dishes for weddings, private events and corporate parties.		(979) 233-0665	https://talkaboutgood.biz/	
+Littlejohn's Catering	Catering	513 W Lingleville Rd	Stephenville	Texas	Erath County and beyond	Stephenville caterer offering buffet, table-service or drop-off menus from casual country to black tie, plus charcuterie boards.	sherrilittlejohn@yahoo.com	(254) 842-4260	https://www.littlejohnstx.com/catering	
+Amy's Cookie Co. and Bakery	Desserts	227 East Jackson St	El Campo	Texas		El Campo bakery turning out big soft cookies, cakes and brownies, and taking custom orders for weddings, bridal showers and other celebrations.	amyscookiecoorders@gmail.com		https://amyscookiecoandbakery.com/	https://www.instagram.com/amyscookiecoandbakery/
+Heather Crump Photography	Photography		Victoria	Texas		Victoria wedding and portrait photographer who favours natural light and a timeless, sophisticated look in the images she delivers.	hello@heathercrump.com		https://heathercrump.com/	https://www.instagram.com/heatherncrump/
+Desert Rose Flowers & Gifts	Florals	1302 Simmons Avenue	Jourdanton	Texas	Jourdanton, Pleasanton and Poteet	Family florist in Jourdanton offering bridal bouquets, bridesmaids' flowers, ceremony arrangements and reception centrepieces.		830-769-3585	https://www.lesleysflowersandgifts.com/	https://www.instagram.com/lesleysflowersandgifts/
+Gloria's Floral Shop	Florals	314 NW Ave. B	Andrews	Texas		Andrews flower shop that arranges bridal and bridesmaid bouquets, boutonnieres, ceremony flowers and reception centrepieces, with consultations by phone.		432-523-2096	https://www.gloriasfloralshop.com/wedding-flowers	
+Chocolate Tulip	Florals	517 North Main	Borger	Texas		Borger florist with wedding packages covering bouquets, corsages and boutonnieres, ceremony decor and reception flowers, planned at a bridal consultation.		806-273-3718	https://www.chocolatetulip.com/wedding-flowers	https://www.instagram.com/chocolatetulipboutique/
+Family Blooms	Florals	440 Oriente Drive	Pleasanton	Texas		Pleasanton flower shop making wedding bouquets, wedding-party flowers, ceremony pieces and reception arrangements for couples in the area.		830-281-2131	https://www.pleasantontxflorist.com/wedding-flowers	
+Thyme & Elegance Catering	Catering	409 N. Beaton Street	Corsicana	Texas	Navarro County	Corsicana caterer cooking personalised menus for weddings and parties, with a gourmet, from-scratch approach and options for gluten-free and vegan diets.	thymeandelegancecatering@gmail.com	903-602-5000	https://www.thymeandelegance.com/	https://www.instagram.com/thymeandelegancecatering/
+J&S BBQ	Catering	2025 N Center St	Bonham	Texas	Fannin County	Family-run Bonham barbecue business with a food truck and a catering service for weddings, slow-smoking its meats and making its own rubs and sauces.	cutterace1@gmail.com	903-647-0829	https://jsbbque.com/	https://www.instagram.com/Jsbbqfoodtruckbonhamtx/
+Big Country Flowers	Florals		Sweetwater	Texas	Sweetwater and Abilene	Full-service Sweetwater florist with over 25 years of experience, handling wedding flowers alongside everyday and sympathy orders.	sweetwaterflorist@gmail.com	325-236-4304	http://sweetwaterflowershops.com/	
+The Flower Box & Gifts	Florals		Sweetwater	Texas		Sweetwater florist offering wedding consultations by phone, in person or email, with ceremony and reception flowers delivered to the venue.		325-235-8676	https://swtflowerbox.com/collections/wedding	
+`,
+  },
+  {
+    name: "Map fill: Mount Pleasant, Uvalde, Hereford, Dumas, El Campo, Lake Jackson: Florals, Photography, Music, Catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Designs by Lisa	Florals	1101 W 16th St	Mount Pleasant	Texas		Florist doing bridal and attendant bouquets, ceremony and reception arrangements, on-site decorating and arch or candelabra hire.		(903) 572-7964	https://www.designsbylisatx.com/wedding-flowers	
+Laura's Cheesecake & Cafe	Catering	109 N Madison Ave	Mount Pleasant	Texas		Downtown cheesecake bakery and cafe that also caters wedding celebrations and other events.	info@laurascheesecake.com	(903) 577-8177	https://laurascheesecakeandcafe.com/	https://www.instagram.com/laurascheesecakeandcafe/
+The Flower Patch	Florals	214 S Getty St	Uvalde	Texas		Uvalde florist offering wedding consultations, bouquets, ceremony and reception flowers, arches, and wedding and party hire.		(830) 278-2583	https://www.theflowerpatchuvaldetx.com/wedding-flowers	https://www.instagram.com/flowerpatchofuvalde/
+Flowers West	Florals	506 S 25 Mile Ave	Hereford	Texas	Hereford area	Long-running Hereford flower shop with a weddings and quinceañeras section on its website.		(806) 364-6452	https://www.flowerswesthfd.com/	
+Flowers Etc. LLC	Florals	523 S Dumas Ave	Dumas	Texas		Dumas florist doing wedding consultations, bouquets, ceremony and cake-table flowers, arches, and wedding and party hire.		(806) 935-7924	https://www.flowersetcdumastx.com/wedding-flowers	
+Floral Gardens	Florals	802 W Jackson St	El Campo	Texas		El Campo florist offering bridal party flowers, ceremony decor, reception centrepieces and on-site wedding consultations.		(979) 543-2705	https://www.floralgardens.biz/wedding-flowers	
+Cristal Malek Photography	Photography		El Campo	Texas	Houston, El Campo and Wharton	Relaxed, airy wedding photography from El Campo, with elopement and full-day packages and a day-after session.		(979) 578-2823	https://www.cristalmalekphotography.com/weddings	
+Wild Roots Photography	Photography		Lake Jackson	Texas	Southern Brazoria County and the Texas Gulf Coast	Lake Jackson photographers covering weddings with two photographers on every collection, serving southern Brazoria County and the Gulf Coast.			https://wildrootsphotography.com/weddings	https://www.instagram.com/wild_roots_photographytx/
+`,
+  },
+  {
+    name: "Map fill: Brownwood, Sulphur Springs, Pampa",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Be Okay Photography	Photography		Brownwood	Texas		Brownwood photographer offering wedding packages from a two-hour essentials package to full-day coverage, plus engagement sessions and portraits.			https://beokayphotography.com/	https://www.instagram.com/be_okay_photography/
+The Sticks BBQ	Catering	3501 US-377	Brownwood	Texas	Brown County and nearby Central Texas towns	Family-owned Brownwood barbecue joint since 2001 that smokes brisket, ribs and sausage and offers BBQ catering for larger groups.		(325) 646-2315	https://sticksbbq.com/	
+Whoops-A-Daisy Flower Co.	Florals	128 S Davis St	Sulphur Springs	Texas	Sulphur Springs	Downtown Sulphur Springs flower shop that arranges wedding bouquets, wedding party flowers, and ceremony and reception arrangements.	vickibassham@icloud.com	(903) 885-2554	https://www.whoopsadaisyflowerco.com/	
+The Plaza Restaurant	Catering	1201 N Hobart St	Pampa	Texas		Tex-Mex restaurant in Pampa that caters wedding receptions and rehearsal dinners, with fajita bars and enchilada dinners.			https://www.theplazarestaurant.com/catering/	`,
+  },
 ];
 
 export default batches;

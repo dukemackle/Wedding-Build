@@ -167,6 +167,24 @@ Audrie Klavas	Hair & Makeup		Birmingham	Alabama	Birmingham	Licensed Birmingham h
 Lumio Digital	Videography		Mobile	Alabama	Mobile, Daphne, Spanish Fort and Gulf Shores	Mobile company producing cinematic wedding films and photography, also covering Daphne, Spanish Fort and Gulf Shores.	hello@lumiodigital.com	(251) 281-8233	https://lumiodigital.com/	https://www.instagram.com/lumiodigital/
 `,
   },
+  {
+    name: "Map fill: Scottsboro, Jasper, Eufaula: photography, florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Cotton State Photography	Photography		Scottsboro	Alabama	Alabama, Tennessee and Georgia	Wedding and elopement photographers based in Scottsboro, covering Alabama, Tennessee and Georgia, with travel available further afield.	cottonstatephotography@gmail.com		https://www.cottonstatephotography.com/	https://www.instagram.com/cottonstatephoto/
+Audra's Flowers	Florals	205 Oak Hill Road, Suite B	Jasper	Alabama	Jasper and surrounding area	Jasper florist making bridal bouquets, ceremony arches, centrepieces and wedding party flowers, with a bridal consultation required for pricing.		(205) 221-5235	https://www.audrasflowers.net/	
+The Leaf & Petal	Florals	1200 Alabama Ave	Jasper	Alabama	Jasper	Full-service floral design studio in Jasper that styles weddings alongside everyday arrangements, and shows a gallery of wedding work.		(205) 221-7335	https://www.theleafandpetaljasper.com/	
+Lana's Flowers	Florals	1347 S. Eufaula Ave, Ste H	Eufaula	Alabama	Eufaula	Eufaula flower shop offering bridal bouquets, wedding party flowers, and ceremony and reception arrangements.		(205) 607-0005	https://www.lanasflowershop.com/	
+The Flower Hut	Florals	1975 South Eufaula	Eufaula	Alabama	Eufaula and surrounding areas	Eufaula florist creating custom wedding flowers for formal and casual celebrations, with consultations arranged by phone.		(334) 687-6037	https://www.flowerhuteufaula.com/	
+`,
+  },
+  {
+    name: "Scottsboro and Eufaula: florals, catering, photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Woods Cove Flowers & Gifts	Florals	107 Woods Cove Rd	Scottsboro	Alabama		Scottsboro flower shop with a wedding menu of bridal and attendant bouquets, ceremony and reception arrangements, plus arch and candelabra hire.		(256) 259-5100	https://www.wcflowers.net/	
+Talk of the South	Catering		Skyline	Alabama	Skyline, Scottsboro and events within 100 miles	Family-run caterer based in Skyline since 2015, offering buffet, plated and food-station service for weddings, with tastings and bar service.	theglasshouse2020@yahoo.com	(256) 244-0903	https://www.talkofthesouth.com/	
+Walden Photography	Photography		Eufaula	Alabama		Eufaula photographer with a fine-arts degree and over twelve years shooting weddings, events, family portraits and more, working from her hometown.		334-803-1415	https://www.waldenphoto.com/	https://www.instagram.com/walden_photography/
+`,
+  },
 ];
 
 export default batches;

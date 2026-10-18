@@ -480,6 +480,28 @@ Jane Lozada Photography	Photography		Fredonia	New York		Fredonia photographer co
 Fresh & Fancy Floral Design Studio	Florals	9 Eagle Street, Unit 2	Fredonia	New York	Fredonia and surrounding areas	Fredonia florist with over 30 years of experience making bouquets, wedding party flowers, and ceremony and reception arrangements.		716-673-1911	https://www.freshandfancyflowers.com/	https://www.instagram.com/freshandfancydesigns/
 Forevermore Studio	Photography	213 Main St, Suite 104	Massena	New York		Massena photo studio whose portfolio includes wedding images, with a photo booth for hire and wedding officiant services.	info@forevermorestudio.com	315-514-0379	http://www.myforevermore.com/	https://www.instagram.com/forevermorestudio/`,
   },
+  {
+    name: "Map fill: Florals, Cake, Photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Kowalski Flowers	Florals	226 Oriskany Blvd	Whitesboro	New York		Whitesboro flower shop that designs wedding flowers and offers a downloadable wedding brochure for couples planning their florals.		(315) 736-8330	https://www.kowalskiflowers.com/wedding-flowers	
+Flowers By Suzanne	Florals	433 Mohawk St	Herkimer	New York		Herkimer florist creating custom wedding flowers, from bridal bouquets and corsages to ceremony arrangements, planned in a bridal consultation.		(315) 866-0206	https://www.flowersbysuzanne.net/wedding-flowers	https://www.instagram.com/flowersbysuzanne/
+Maida's Floral Shop	Florals	215 West First St	Oswego	New York		Oswego florist on West First Street designing bouquets plus ceremony and reception flowers for weddings, with consultations by appointment.	roseypusher@yahoo.com	(315) 343-1655	https://maidasfloralshop.flowerlookbook.com/	
+House of Bloom Florals	Florals	222 Hall Road	Hannibal	New York	Hannibal, Oswego and Fulton	Hannibal florist with dedicated wedding flower and bouquet pages, delivering to Oswego, Fulton and other towns around Oswego County.		(315) 399-3583	https://www.houseofbloomflorals.com/wedding-flowers	https://www.instagram.com/houseofbloomflorals/
+The Cakery	Cake	24 West Main St	Fredonia	New York	Buffalo, Erie, Jamestown and the Chautauqua Institution	Fredonia custom cake shop on Main Street that bakes wedding cakes, serving western New York and northern Pennsylvania.		716-679-6408	https://www.cakeryfredonia.com/wedding-cakes.html	
+Downtown Florist	Florals	67 Andrews St	Massena	New York		Massena florist on Andrews Street offering wedding planning and coordination for flowers, with personal consultations for couples.	sales@downtownfloristofmassena.com	315-769-9490	https://www.downtownfloristofmassena.com/	
+Hardy's Bakery	Cake	116 N Main St	Massena	New York		Massena bakery whose owner bakes wedding cakes, with tastings of up to four flavours made as cupcakes and an online wedding portfolio.	hello@hardysbakery.com	(315) 514-1399	https://www.hardysbakery.com/weddings	https://www.instagram.com/hardys_bakery/
+JD Meyers Productions	Photography		Potsdam	New York	St. Lawrence County	Potsdam studio offering wedding photography and cinematic highlight films across St. Lawrence County, with fuller coverage at its top tier.	productions@jdmeyersjr.com		https://jdmeyersjr.com/	https://www.instagram.com/jdmeyersproductions/`,
+  },
+  {
+    name: "Long Island: Planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Timeless Tale Events	Planning		Wantagh	New York	Long Island and Queens	Long Island planning team that handles weddings alongside birthdays and other celebrations, with a portfolio and phone or text enquiries.	info@timelesstaleevents.com	516-983-7346	https://www.timelesstaleevents.com/	https://www.instagram.com/timelesstaleevents/`,
+  },
+  {
+    name: "Finger Lakes: Videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Skyforge Media	Videography		Farmington	New York	Finger Lakes, Rochester, Syracuse and Buffalo	Finger Lakes videographer and photographer making wedding films, based in Farmington and travelling to Rochester, Syracuse and Buffalo.	skyforgedrone@gmail.com		https://skyforgephotovideo.com/	https://www.instagram.com/skyforgephotovideo/`,
+  },
 ];
 
 export default batches;

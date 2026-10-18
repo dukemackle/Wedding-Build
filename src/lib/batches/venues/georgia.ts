@@ -199,6 +199,12 @@ Dawson Farms	305 Dawson Farms Road SE	Ludowici	Georgia			Barn / Rustic				Farm p
 General Coffee State Park	46 John Coffee Road	Nicholls	Georgia			Garden / Outdoor	Indoor & Outdoor	120		State park with a pondside amphitheatre, a heated and cooled group shelter seating 120, and a restored 19th-century cottage for wedding preparations.		912-384-7082	https://gastateparks.org/GeneralCoffee/Weddings
 `,
   },
+  {
+    name: "Douglas: map fill",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Central Square Complex	200 South Madison Avenue	Douglas	Georgia			Ballroom / Hotel	Indoor	400		City-run downtown Douglas complex with two exhibit halls, breakout rooms and a caterer's kitchen, used for wedding receptions with banquet seating for 400.	cgoodman@cityofdouglasga.gov	(912) 384-5978	https://cityofdouglasga.gov/317/Multi-Purpose-Facilities
+`,
+  },
 ];
 
 export default batches;

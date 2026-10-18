@@ -353,6 +353,13 @@ Harvey & Co. Fine Art Photography	Photography		Jesup	Georgia	South Georgia and s
 Under The Chandelier Rentals	Rentals	1205 S US Hwy 301	Jesup	Georgia	Jesup, Hinesville, Ludowici, Fort Stewart and surrounding areas	Tent and party rental company supplying tents, tables, chairs, linens, tableware, decor and dance floors for weddings across Jesup and nearby towns.		912-559-6923	https://www.utcrental.com/	https://www.instagram.com/under_the_chandelier/
 `,
   },
+  {
+    name: "Macon and Waycross: hair and makeup, music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Coloured By Ki	Hair & Makeup		Macon	Georgia		Macon makeup artist with a bridal menu covering consultations, bridal and bridal-party makeup, and travel to the venue.	colouredbyki@gmail.com	678-690-9723	https://www.colouredbyki.com/bridal	https://www.instagram.com/colouredbyki/
+I Need A Beat DJ	Music		Waycross	Georgia	Waycross, Ware County, Savannah and coastal Georgia	Waycross-based wedding DJ and MC covering ceremony music, cocktail hour and reception, with dance-floor lighting and timeline planning.	ineedabeatdj@gmail.com	(912) 614-7275	https://ineedabeatdj.com/	https://www.instagram.com/ineedabeatdj/
+`,
+  },
 ];
 
 export default batches;

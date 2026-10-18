@@ -95,6 +95,26 @@ The Lodge at Lake Martin	60 Spradley Rd.	Eclectic	Alabama			Beach / Waterfront	I
 Danclay Farms	500 County Road 347	Florence	Alabama			Barn / Rustic	Indoor & Outdoor			A working farm near Florence with a white Great Room for ceremonies and receptions, a hillside ceremony spot, a bridal suite and a groom's game room.	danclayfarms@gmail.com	256-764-3335	https://www.danclayfarms.com
 `,
   },
+  {
+    name: "Map fill: Troy, Scottsboro, Fort Payne, Eufaula, Dora",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Hideaway Events	5780 County Road 7755	Troy	Alabama			Barn / Rustic	Indoor & Outdoor			A rural hall of about 3,500 sq ft with roughly two acres of grounds, rented for weddings, receptions and family events north of Troy.			https://hideawayevents.info/
+The Glass House Venue	892 County Road 219	Scottsboro	Alabama			Garden / Outdoor	Indoor & Outdoor			A glass-walled wedding and event venue offering all-inclusive packages with catering and decoration, for small ceremonies or larger indoor receptions.		(256) 244-0903	https://theglasshousevenue.com/
+The Venue at Broken Arrow	399 Broken Arrow Dr	Scottsboro	Alabama			Beach / Waterfront	Indoor & Outdoor			A lake-view venue above Lake Guntersville offering indoor and outdoor weddings, with a two-day package that includes lodging at The Cellars.	venuecellars@gmail.com	(256) 582-9888	https://thevenueatbrokenarrow.com/
+Cottages of Mentone	16569 County Road 89	Mentone	Alabama			Garden / Outdoor	Outdoor			A set of mountain cottages on Lookout Mountain with an outdoor wedding site, where guests can stay on the property and couples can set up the day before.	RitzOnTheRocks@gmail.com	(504) 481-8666	https://www.cottagesofmentone.com/
+Crest View – The Venue		Fort Payne	Alabama			Garden / Outdoor	Indoor & Outdoor	70		A gated mountaintop property bordering DeSoto State Park, with a covered outdoor chapel, an indoor reception hall and on-site lodging.	venue@peacefulretreatproperties.com	256-273-9102	https://peacefulretreatproperties.com/crest-view-the-venue
+Hawkins Ridge Venue	915 County Road 79 S	Eufaula	Alabama			Barn / Rustic	Indoor & Outdoor			A family-run rustic venue, open since 1987, with a heated and cooled main building and a covered pavilion that suits a ceremony or reception whatever the weather.			https://www.hawkinsridgevenue.com/
+Shorter Mansion	340 North Eufaula Ave	Eufaula	Alabama			Historic / Estate	Indoor & Outdoor			A historic mansion in Eufaula's historic district with a pavilion, dining room, bridal party suite and event space for receptions and other celebrations.	snewman@eufaulapilgrimage.com	(334) 687-3793	https://shortermansion.com/
+Eufaula Community Center		Eufaula	Alabama			Ballroom / Hotel	Indoor	500	Simple	A city-run community room that seats up to 500 and is rented by the day for weddings and receptions, with a sound system and staging available as extras.		(334) 687-1246	https://eufaularecreation.com/RentalECC.aspx
+Horse Creek Golf Course Event Room	1745 Highway 78	Dora	Alabama			Ballroom / Hotel	Indoor			A spacious event room in the golf clubhouse that takes bookings for weddings, showers, reunions and corporate gatherings.		205.648.1499	https://www.golfhorsecreek.com/event-room
+`,
+  },
+  {
+    name: "Scottsboro: map fill",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Stone Haven Event Venue	6348 County Road 44	Section	Alabama			Historic / Estate	Indoor & Outdoor		Luxury	Italian-inspired bluff-top estate above the Tennessee River with a glass atrium, grand hall, ceremony patio and on-site stay in the Rock House.			https://stonehavenevent.com/
+`,
+  },
 ];
 
 export default batches;
