@@ -749,6 +749,16 @@ KC Floral Co.	Florals	1723 N Street	Merced	California		Merced flower shop that d
 Merced Floral	Florals	2855 G St	Merced	California		Merced flower shop on G Street that makes arrangements to order and takes wedding flower enquiries by email or phone.	mercedfloral@outlook.com	209-722-7444	https://mercedfloral.com/wedding	
 Erica Gravel Design	Florals		Merced	California	Central Valley, Bay Area, Wine Country and Lake Tahoe	Wedding floral design studio run by a florist from the Merced area, working across the Central Valley, Wine Country and Tahoe.	erica@ericagraveldesign.com		https://ericagraveldesign.com/	https://www.instagram.com/ericagraveldesign/`,
   },
+  {
+    name: "Map fill: Ridgecrest, Barstow, Greenfield, King City, Coalinga",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Sierra Photography Studios	Photography		Ridgecrest	California	Ridgecrest, and weddings across the country	Long-running Ridgecrest studio offering wedding photography and video, with up to six hours of coverage and a private online preview album.			https://sierraphotographystudios.com/information/wedding-photography/	
+The Flower Shoppe RC	Florals	229 W Ridgecrest Blvd	Ridgecrest	California		Ridgecrest flower shop making bridal and bridesmaid bouquets, boutonnieres, corsages and floral hair pieces to suit each couple's theme.		(760) 371-1350	https://www.ridgecrestflorist.com/wedding-party-flowers	
+Beautiful Beginnings	Officiant	1041 West Main St, Suite G	Barstow	California		Barstow officiant offering low-cost ceremonies in a small indoor chapel for up to ten guests, with a bouquet and sparkling drink included.		(442) 295-9610	https://beautifulbeginningsbarstow.com/	
+DJ Feely	Music		Greenfield	California	Greenfield, King City, Soledad, Salinas and all Monterey County	Bilingual wedding and quinceañera DJ and MC, also offering photo and 360 video booths, working across the Salinas Valley since 2012.			https://www.djfeely.com/	https://www.instagram.com/djfeely/
+The Garden House	Florals	650 Canal Street	King City	California		Family-run King City florist making bridal and attendant bouquets plus ceremony and reception arrangements, with consultations and party rentals.		831-385-6811	https://www.thegardenhousekingcity.com/wedding-flowers	https://www.instagram.com/thegardenhousekb/
+Plants and Things	Florals	151 W. Elm Ave	Coalinga	California	Coalinga, Huron, Avenal, Kettleman City, Five Points and nearby towns	Coalinga flower shop supplying seasonal wedding and event flowers to the west Fresno County towns, including deliveries to Harris Ranch.	plantsandthings@gmail.com	559-935-0035	https://plantsandthings-coalinga.com	https://www.instagram.com/plantsandthingsflorist/`,
+  },
 ];
 
 export default batches;

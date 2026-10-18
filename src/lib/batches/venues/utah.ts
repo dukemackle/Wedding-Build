@@ -178,6 +178,13 @@ East Canyon Resort	8896 South Highway 65	Morgan	Utah			Barn / Rustic	Indoor & Ou
 Eaglewood Golf Course Event Center	1110 E Eaglewood Dr	North Salt Lake	Utah			Ballroom / Hotel	Indoor			Golf course event center in North Salt Lake that hosts weddings, parties and corporate gatherings.	golfeaglewood@gmail.com	(801) 299-0088	http://www.eaglewoodgolf.com/
 `,
   },
+  {
+    name: "Vernal: venues",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Cross Water Ranch	732 N 500 E	Vernal	Utah			Barn / Rustic				Vernal reception venue that lists weddings, elopements and photoshoots, and also rents out furniture, decor and games for events.	crosswaterranch@gmail.com	801-686-7167	https://www.crosswaterranch.net/
+SpringHill Suites by Marriott Vernal	1205 W Highway 40	Vernal	Utah			Ballroom / Hotel	Indoor	100		Vernal hotel with two event rooms, the larger holding 100 for a reception, and wedding services plus discounted room blocks for out-of-town guests.		435-781-9000	https://marriott.com/en-us/hotels/velsh-springhill-suites-vernal/events
+`,
+  },
 ];
 
 export default batches;

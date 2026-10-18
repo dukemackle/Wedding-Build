@@ -337,6 +337,11 @@ The Sticks BBQ	Catering	3501 US-377	Brownwood	Texas	Brown County and nearby Cent
 Whoops-A-Daisy Flower Co.	Florals	128 S Davis St	Sulphur Springs	Texas	Sulphur Springs	Downtown Sulphur Springs flower shop that arranges wedding bouquets, wedding party flowers, and ceremony and reception arrangements.	vickibassham@icloud.com	(903) 885-2554	https://www.whoopsadaisyflowerco.com/	
 The Plaza Restaurant	Catering	1201 N Hobart St	Pampa	Texas		Tex-Mex restaurant in Pampa that caters wedding receptions and rehearsal dinners, with fajita bars and enchilada dinners.			https://www.theplazarestaurant.com/catering/	`,
   },
+  {
+    name: "Killeen, Harker Heights, Temple and Salado: photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Hunter Bee Photography	Photography		Killeen	Texas	Bell County, Williamson County and the greater Austin area, including Harker Heights, Belton, Temple and Salado	Wedding and elopement photographer near Killeen who mixes digital with 35mm film and Super 8, and also travels for destination weddings.	hunterbeephotography@gmail.com		https://hunterbeephotography.com/	https://www.instagram.com/hunterbee.co/`,
+  },
 ];
 
 export default batches;
