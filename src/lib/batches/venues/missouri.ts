@@ -268,7 +268,7 @@ Rubydoo's Vintage Events	9240 Co Rd 9190	West Plains	Missouri			Barn / Rustic	In
 West Plains Civic Center	1910 Holiday Lane	West Plains	Missouri			Ballroom / Hotel	Indoor			A city-run civic centre with roughly 30,000 sq ft of banquet floor, a 450-seat theatre and a prep kitchen, hosting weddings and ceremonies.		417-256-8087	https://westplains.gov/departments/community-services/civic-center/
 Rose Hill Acres Event Center	105 S Main St	Maryville	Missouri			Ballroom / Hotel	Indoor			Upscale downtown event hall on the corner of 1st and Main, with an upstairs cocktail bar and its own tux and decor hire.	rharosie@gmail.com	(660) 254-8283	https://www.rosehillacresec.com/
 The Valley Event Center	33618 State Hwy H	Skidmore	Missouri			Garden / Outdoor	Indoor & Outdoor			Countryside event hall ten minutes from Maryville, with a climate-controlled indoor room and outdoor ceremony and gathering areas.	tina@thevalleyeventcenter.com	660-582-1118	https://www.thevalleyeventcenter.com/
-The Opera House	100 North Side Square	Kennett	Missouri			Historic / Estate	Indoor	350	Simple	Century-old downtown Kennett opera house with exposed brick, original wood floors and antique chandeliers, in three room sizes with a bridal suite.		(573) 529-3203	https://www.operahousekennett.com/`,
+The Opera House	100 North Side Square	Kennett	Missouri			Historic / Estate	Indoor		Simple	Century-old downtown Kennett opera house with exposed brick, original wood floors and antique chandeliers, in three room sizes with a bridal suite.		(573) 529-3203	https://www.operahousekennett.com/`,
   },
 ];
 
