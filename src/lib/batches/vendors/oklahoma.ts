@@ -152,6 +152,16 @@ Dahlia Floral Design	Florals	116 E Main St	Ada	Oklahoma		Locally owned Ada flori
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
 Flatland Flower Farms	Florals	2830 Road L	Guymon	Oklahoma		Guymon flower farm offering budget-friendly fresh wedding florals, from bouquets to centrepieces, with farm pickup or paid delivery.	orders@flatlandflowerfarms.com	(580) 461-5621	https://www.flatlandflowerfarms.com/weddings	https://www.instagram.com/flatland.flowers/`,
   },
+  {
+    name: "Oklahoma City: videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Brandon Handy Weddings	Videography		Oklahoma City	Oklahoma	Oklahoma and Texas	Wedding videographers filming story-led films across Oklahoma City, Tulsa and beyond, with a focus on unscripted moments and clean audio.	BrandonHandyMedia@gmail.com		https://www.brandonhandyweddings.com/oklahoma	https://www.instagram.com/brandonhandyweddings/`,
+  },
+  {
+    name: "Tulsa: hair & makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Megan Berven Makeup	Hair & Makeup		Tulsa	Oklahoma	Tulsa	Tulsa makeup artist specialising in bridal and special-event looks, offering wedding-day makeup for the bride and party alongside facials and brow services.			https://www.meganbervenmakeup.com/	`,
+  },
 ];
 
 export default batches;
