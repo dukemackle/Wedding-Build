@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRef, useState, useTransition } from "react";
+import { LegalNotice } from "@/components/legal-notice";
 import { createClient } from "@/lib/supabase/client";
 import { shrinkImage } from "@/lib/shrink-image";
 import { STATES } from "@/lib/wedding-options";
@@ -238,6 +239,7 @@ export function ListingForm({
           Cancel
         </Link>
       </div>
+      <LegalNotice action={listing ? "saving this listing" : "posting this listing"} className="-mt-3" />
       <details className="text-xs text-ink/50">
         <summary className="cursor-pointer">
           By posting you confirm it&apos;s yours to sell and isn&apos;t on the not-allowed list.

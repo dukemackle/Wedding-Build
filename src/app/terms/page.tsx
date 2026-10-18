@@ -11,7 +11,7 @@ export default function TermsPage() {
       <div className={`w-full ${READING_WIDTH}`}>
         <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Legal</p>
         <h1 className="mt-2 font-display text-3xl font-semibold text-forest">Terms of Service</h1>
-        <p className="mt-2 text-sm text-ink/60">Last updated: October 9, 2026</p>
+        <p className="mt-2 text-sm text-ink/60">Last updated: October 18, 2026</p>
 
         <div className="mt-8 flex flex-col gap-8 text-ink/80">
           <p>
@@ -82,6 +82,14 @@ export default function TermsPage() {
             <p className="mt-3">
               We can remove Content that violates these Terms or that we&apos;re required to
               remove by law, though we don&apos;t proactively monitor everything submitted.
+            </p>
+            <p className="mt-3">
+              <strong>Marketplace.</strong> When you list something in the marketplace, the listing
+              (photos, title, price, description, your first name and pickup town) is public. You
+              confirm the item is yours to sell and isn&apos;t on the not-allowed list shown on the
+              sell form. Sales happen directly between buyer and seller: You Do, I Do isn&apos;t a
+              party to them, doesn&apos;t handle payment, and doesn&apos;t vouch for any item or
+              person. We can take down any listing.
             </p>
           </Section>
 
