@@ -147,6 +147,11 @@ Photo Booth Rentals Tulsa	Photo Booth		Tulsa	Oklahoma	Tulsa, Broken Arrow and su
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
 Dahlia Floral Design	Florals	116 E Main St	Ada	Oklahoma		Locally owned Ada florist making wedding bouquets, arches and arrangements for events, as well as everyday and sympathy flowers.			https://www.dahliafloraldesign.com/	`,
   },
+  {
+    name: "Map fill: Guymon: florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Flatland Flower Farms	Florals	2830 Road L	Guymon	Oklahoma		Guymon flower farm offering budget-friendly fresh wedding florals, from bouquets to centrepieces, with farm pickup or paid delivery.	orders@flatlandflowerfarms.com	(580) 461-5621	https://www.flatlandflowerfarms.com/weddings	https://www.instagram.com/flatland.flowers/`,
+  },
 ];
 
 export default batches;

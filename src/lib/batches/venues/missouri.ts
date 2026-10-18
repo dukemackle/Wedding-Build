@@ -258,6 +258,18 @@ The Ridge Wedding & Event Center	1974 State Hwy E	Oak Ridge	Missouri			Barn / Ru
 Robinson Farms NXTGEN	2927 County Road 233	Cape Girardeau	Missouri			Barn / Rustic	Indoor & Outdoor	300		Private 95-acre farm with guest lodging at The Elle House and Sunset Cottage and indoor and outdoor ceremony spaces.	admin@robinsonfarmsnxtgenco.com	(573) 200-6450	https://robinsonfarmsnxtgenco.com/venues/
 `,
   },
+  {
+    name: "Map fill: Marshall, Maryville, West Plains, Kennett, Skidmore",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Jackson's Event Center & Catering	25000 Kite Ave	Marshall	Missouri			Ballroom / Hotel	Indoor & Outdoor	450		A 2018-built ballroom venue with an outdoor wedding space, patio fire pits, a full bar and an in-house catering kitchen.		660-886-5723	https://www.jacksonseventcenter.com/
+Martin Community Center	1985 S Odell Ave	Marshall	Missouri			Ballroom / Hotel	Indoor			A community events centre that hires out for wedding receptions, banquets and reunions, with step-free access and ample parking.	mccnbam@mmuonline.net	(660) 886-2630	https://martincenter.wixsite.com/mccenter
+Saline County Fairgrounds	2702 S Hwy 65	Marshall	Missouri			Historic / Estate	Indoor	410		Fairgrounds with a century-old chapel seating 110 for small weddings and a 50 by 164 ft hall with a full kitchen for receptions.		660-886-6908	https://www.salinecountymofairgrounds.org/multipurpose-building
+Rubydoo's Vintage Events	9240 Co Rd 9190	West Plains	Missouri			Barn / Rustic	Indoor & Outdoor	350	Simple	A rustic countryside barn with wedding packages for up to 350 guests, in-house catering, bridal rooms and a house for overnight stays.	rubydoosvintageevents@gmail.com	(417) 293-1331	https://rubydoosvintageevents.com/
+West Plains Civic Center	1910 Holiday Lane	West Plains	Missouri			Ballroom / Hotel	Indoor			A city-run civic centre with roughly 30,000 sq ft of banquet floor, a 450-seat theatre and a prep kitchen, hosting weddings and ceremonies.		417-256-8087	https://westplains.gov/departments/community-services/civic-center/
+Rose Hill Acres Event Center	105 S Main St	Maryville	Missouri			Ballroom / Hotel	Indoor			Upscale downtown event hall on the corner of 1st and Main, with an upstairs cocktail bar and its own tux and decor hire.	rharosie@gmail.com	(660) 254-8283	https://www.rosehillacresec.com/
+The Valley Event Center	33618 State Hwy H	Skidmore	Missouri			Garden / Outdoor	Indoor & Outdoor			Countryside event hall ten minutes from Maryville, with a climate-controlled indoor room and outdoor ceremony and gathering areas.	tina@thevalleyeventcenter.com	660-582-1118	https://www.thevalleyeventcenter.com/
+The Opera House	100 North Side Square	Kennett	Missouri			Historic / Estate	Indoor		Simple	Century-old downtown Kennett opera house with exposed brick, original wood floors and antique chandeliers, in three room sizes with a bridal suite.		(573) 529-3203	https://www.operahousekennett.com/`,
+  },
 ];
 
 export default batches;
