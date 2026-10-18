@@ -45,6 +45,34 @@ export const NOT_ALLOWED = [
   "Gift cards or tickets",
 ];
 
+export const MARKET_REPORT_REASONS = [
+  { value: "scam", label: "Looks like a scam" },
+  { value: "prohibited", label: "Not allowed to be sold here" },
+  { value: "offensive", label: "Offensive or harassing" },
+  { value: "misleading", label: "Misleading or fake listing" },
+  { value: "other", label: "Something else" },
+] as const;
+
+/** First message a buyer sends, pre-filled the way Facebook does. */
+export const OPENING_MESSAGE = "Hi! Is this still available?";
+
+/** Rate limits for messaging, per sender. */
+export const MAX_NEW_THREADS_PER_DAY = 20;
+export const MAX_MESSAGES_PER_HOUR = 60;
+
+/** The distance filter's choices, in miles. */
+export const MARKET_DISTANCES = [10, 25, 50, 100] as const;
+
+/** Great-circle distance in miles. */
+export function milesBetween(a: { latitude: number; longitude: number }, b: { latitude: number; longitude: number }) {
+  const rad = Math.PI / 180;
+  const dLat = (b.latitude - a.latitude) * rad;
+  const dLng = (b.longitude - a.longitude) * rad;
+  const h =
+    Math.sin(dLat / 2) ** 2 + Math.cos(a.latitude * rad) * Math.cos(b.latitude * rad) * Math.sin(dLng / 2) ** 2;
+  return 3958.8 * 2 * Math.asin(Math.sqrt(h));
+}
+
 const categoryLabels = new Map<string, string>(MARKET_CATEGORIES.map((c) => [c.value, c.label]));
 const conditionLabels = new Map<string, string>(MARKET_CONDITIONS.map((c) => [c.value, c.label]));
 
@@ -56,13 +84,48 @@ export function conditionLabel(value: string) {
   return conditionLabels.get(value) ?? value;
 }
 
-export function formatPrice(cents: number) {
-  if (cents === 0) return "Free";
+export function formatPrice(cents: number, type: "sale" | "rent" = "sale"): string {
+  if (cents === 0) return type === "rent" ? "Free to borrow" : "Free";
+  if (type === "rent") return `${formatPrice(cents)} to rent`;
   const dollars = cents / 100;
   return `$${dollars.toLocaleString("en-US", {
     minimumFractionDigits: Number.isInteger(dollars) ? 0 : 2,
     maximumFractionDigits: 2,
   })}`;
+}
+
+/**
+ * The seller badge for a wedding date: "Married Oct 2026" once it has
+ * passed, "Getting married Jun 2027" before. Month and year only.
+ */
+export function sellerBadgeFor(weddingDate: string, today = new Date()) {
+  const date = new Date(`${weddingDate}T12:00:00Z`);
+  const when = date.toLocaleDateString("en-US", { month: "short", year: "numeric", timeZone: "UTC" });
+  return date <= today ? `Married ${when}` : `Getting married ${when}`;
+}
+
+/**
+ * Which marketplace categories each budget line buys from, for the budget
+ * page's "on the marketplace near you" and the post-wedding "pass it on".
+ */
+export const BUDGET_TO_MARKET: Record<string, { categories: string[]; sellTitle: string; sellCategory: string }> = {
+  florals: { categories: ["decor", "florals", "lighting", "tableware"], sellTitle: "Centerpieces and decor", sellCategory: "decor" },
+  attire: { categories: ["attire"], sellTitle: "Wedding dress", sellCategory: "attire" },
+  stationery: { categories: ["stationery", "signage"], sellTitle: "Welcome sign", sellCategory: "signage" },
+  favors: { categories: ["decor"], sellTitle: "Leftover favors", sellCategory: "decor" },
+};
+
+/**
+ * How a listing's quantity fits a wedding of this size, for the "fits my
+ * wedding" badge: enough for every guest, or for every table (eight a table,
+ * the usual round). Null when it fits neither, or is a single item.
+ */
+export function guestFit(quantity: number, guests: number): string | null {
+  if (quantity < 2 || guests < 1) return null;
+  if (quantity >= guests) return `Enough for your ${guests} guests`;
+  const tables = Math.ceil(guests / 8);
+  if (quantity >= tables) return `Enough for your ${tables} tables`;
+  return null;
 }
 
 /** "Listed 3 days ago", the way a marketplace dates things. */

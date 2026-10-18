@@ -3,6 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import { PageShell } from "@/components/page-shell";
 import { FadeInSection } from "@/components/fade-in-section";
 import { WeddingDashboard } from "./wedding-dashboard";
+import { PassItOn } from "./pass-it-on";
 import { AskWrenTile } from "./ask-wren-tile";
 import { FeatureGrid, buildFeatures } from "./feature-grid";
 import { InviteToPlan } from "./invite-to-plan";
@@ -76,7 +77,7 @@ export default async function DashboardPage() {
       .from("budget_line_items")
       .select("category, override_value, paid_amount, vendor_id, venue_id, purchased_from")
       .eq("wedding_id", wedding.id),
-    supabase.from("budget_custom_items").select("amount, paid_amount").eq("wedding_id", wedding.id),
+    supabase.from("budget_custom_items").select("label, amount, paid_amount").eq("wedding_id", wedding.id),
     supabase
       .from("venue_shortlist")
       .select("venue_id")
@@ -232,6 +233,15 @@ export default async function DashboardPage() {
         heroActions={<InviteToPlan data={planners} currentUserId={user.id} />}
       />
       <WelcomeBird userId={user.id} createdAt={user.created_at} />
+
+      <PassItOn
+        weddingDate={wedding.wedding_date}
+        spentCategories={(lineItems ?? [])
+          .filter((l) => (l.override_value ?? 0) > 0 || (l.paid_amount ?? 0) > 0)
+          .map((l) => l.category)}
+        customItems={(customItems ?? []).map((c) => c.label).filter(Boolean)}
+        today={new Date()}
+      />
 
       <FadeInSection delayMs={40}>
         <FeatureGrid features={features} tail={<AskWrenTile />} />

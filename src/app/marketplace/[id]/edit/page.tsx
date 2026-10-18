@@ -5,6 +5,8 @@ import { PageShell } from "@/components/page-shell";
 import { STATES } from "@/lib/wedding-options";
 import { STATE_ABBR } from "@/lib/listing-pin";
 import type { MarketListing } from "@/lib/supabase/types";
+import { sellerBadgeFor } from "@/lib/marketplace";
+import { loadMarketWedding } from "@/lib/marketplace-server";
 import { ListingForm } from "../../listing-form";
 
 export const metadata: Metadata = { title: "Edit listing", robots: { index: false } };
@@ -27,13 +29,16 @@ export default async function EditListingPage({ params }: { params: Promise<{ id
   if (!listing) notFound();
 
   const stateName = STATES.find((name) => STATE_ABBR[name] === listing.state);
+  const wedding = await loadMarketWedding(supabase, user.id);
 
   return (
     <PageShell email={user.email ?? ""} width="reading">
       <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Marketplace</p>
       <h1 className="mt-2 font-display text-3xl font-semibold text-forest">Edit listing</h1>
       <div className="mt-8">
-        <ListingForm sellerId={user.id} listing={listing} defaults={{ state: stateName }} />
+        <ListingForm sellerId={user.id} listing={listing} defaults={{ state: stateName }}
+          badgePreview={wedding?.weddingDate ? sellerBadgeFor(wedding.weddingDate) : null}
+        />
       </div>
     </PageShell>
   );

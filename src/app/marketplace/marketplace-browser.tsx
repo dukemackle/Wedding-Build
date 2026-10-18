@@ -11,10 +11,13 @@ import { isInView, viewKey, type MapView } from "@/lib/map-view";
 import {
   MARKET_CATEGORIES,
   MARKET_CONDITIONS,
+  MARKET_DISTANCES,
   MARKET_PRICE_BANDS,
   categoryLabel,
   formatPrice,
+  guestFit,
   listedAgo,
+  milesBetween,
   pinListings,
 } from "@/lib/marketplace";
 import type { MarketListing } from "@/lib/supabase/types";
@@ -25,22 +28,57 @@ const MarketplaceMap = dynamic(() => import("./marketplace-map").then((m) => m.M
   loading: () => <div className="h-full w-full animate-pulse bg-parchment" />,
 });
 
-type Filters = { q: string; category: string; price: string; condition: string; state: string };
-const NO_FILTERS: Filters = { q: "", category: "all", price: "all", condition: "all", state: "all" };
+type Filters = {
+  q: string;
+  category: string;
+  price: string;
+  condition: string;
+  distance: string;
+  type: string;
+  fits: string;
+};
+const NO_FILTERS: Filters = {
+  q: "",
+  category: "all",
+  price: "all",
+  condition: "all",
+  distance: "all",
+  type: "all",
+  fits: "all",
+};
+
+export type MarketOrigin = { latitude: number; longitude: number; label: string };
 
 export function MarketplaceBrowser({
   listings,
   mine,
   savedIds,
   signedIn,
+  origin: weddingOrigin,
+  unread = 0,
+  guestCount = 0,
+  initial = {},
 }: {
   listings: MarketListing[];
   /** The viewer's own listings in every state but removed. */
   mine: MarketListing[];
   savedIds: string[];
   signedIn: boolean;
+  /** Where "within X miles" measures from: the couple's venue, when we know it. */
+  origin: MarketOrigin | null;
+  /** Conversations with unread messages. */
+  unread?: number;
+  /** The viewer's guest count, for "fits my wedding". */
+  guestCount?: number;
+  /** Filters to open with, from a link (the budget page's suggestions). */
+  initial?: Partial<Filters>;
 }) {
-  const [filters, setFilters] = useState<Filters>(NO_FILTERS);
+  const [filters, setFilters] = useState<Filters>(() => ({
+    ...NO_FILTERS,
+    ...Object.fromEntries(Object.entries(initial).filter(([, v]) => v)),
+  }));
+  const [origin, setOrigin] = useState<MarketOrigin | null>(weddingOrigin);
+  const [locating, setLocating] = useState(false);
   const [mapView, setMapView] = useState<MapView | null>(null);
   const [saved, setSaved] = useState(() => new Set(savedIds));
   const [, startTransition] = useTransition();
@@ -62,20 +100,44 @@ export function MarketplaceBrowser({
     });
   }
 
-  const states = useMemo(() => Array.from(new Set(listings.map((l) => l.state))).sort(), [listings]);
+  // Without a venue to measure from, the distance filter asks the browser
+  // where this is, once.
+  function chooseDistance(value: string) {
+    if (value === "all" || origin) {
+      set("distance", value);
+      return;
+    }
+    if (!navigator.geolocation) return;
+    setLocating(true);
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setOrigin({ latitude: position.coords.latitude, longitude: position.coords.longitude, label: "you" });
+        set("distance", value);
+        setLocating(false);
+      },
+      () => setLocating(false),
+      { maximumAge: 600_000, timeout: 10_000 },
+    );
+  }
 
   const filtered = useMemo(() => {
     const q = filters.q.trim().toLowerCase();
+    const maxMiles = filters.distance === "all" || !origin ? null : Number(filters.distance);
     const band = MARKET_PRICE_BANDS.find((b) => b.value === filters.price);
     return listings.filter(
       (l) =>
         (filters.category === "all" || l.category === filters.category) &&
         (filters.condition === "all" || l.condition === filters.condition) &&
-        (filters.state === "all" || l.state === filters.state) &&
         (!band || (l.price_cents >= band.min && l.price_cents < band.max)) &&
-        (!q || l.title.toLowerCase().includes(q) || (l.description ?? "").toLowerCase().includes(q)),
+        (!q || l.title.toLowerCase().includes(q) || (l.description ?? "").toLowerCase().includes(q)) &&
+        (filters.type === "all" || l.listing_type === filters.type) &&
+        (filters.fits === "all" || guestFit(l.quantity, guestCount) !== null) &&
+        (maxMiles === null ||
+          (l.latitude != null &&
+            l.longitude != null &&
+            milesBetween(origin!, { latitude: l.latitude, longitude: l.longitude }) <= maxMiles)),
     );
-  }, [listings, filters]);
+  }, [listings, filters, origin, guestCount]);
 
   const pinned = useMemo(() => pinListings(filtered), [filtered]);
 
@@ -87,7 +149,7 @@ export function MarketplaceBrowser({
     return filtered.filter((l) => inView.has(l.id) || l.latitude == null);
   }, [filtered, pinned, mapView]);
 
-  const activeFilterCount = (["category", "price", "condition", "state"] as const).filter(
+  const activeFilterCount = (["category", "price", "condition", "distance", "type", "fits"] as const).filter(
     (k) => filters[k] !== "all",
   ).length;
 
@@ -119,7 +181,7 @@ export function MarketplaceBrowser({
                   ) : (
                     <Grid>
                       {savedListings.map((l) => (
-                        <ListingCard key={l.id} listing={l} saved onToggleSave={onToggleSave} />
+                        <ListingCard key={l.id} listing={l} saved onToggleSave={onToggleSave} guestCount={guestCount} />
                       ))}
                     </Grid>
                   ),
@@ -159,6 +221,43 @@ export function MarketplaceBrowser({
           >
             + Sell
           </Link>
+          {signedIn && (
+            <Link
+              href="/marketplace/inbox"
+              className="flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border border-hairline bg-card px-3 py-1.5 text-sm text-forest shadow-md hover:border-forest lg:order-last lg:shadow-none"
+            >
+              Messages
+              {unread > 0 && (
+                <span className="rounded-full bg-[#2243B6] px-1.5 text-[11px] font-semibold leading-4 text-white">{unread}</span>
+              )}
+            </Link>
+          )}
+          <FilterDropdown
+            label={locating ? "Finding you…" : origin && origin.label !== "you" ? `Near ${origin.label}` : "Distance"}
+            allLabel="Any distance"
+            value={filters.distance}
+            onChange={chooseDistance}
+            options={MARKET_DISTANCES.map((miles) => ({ value: String(miles), label: `Within ${miles} miles` }))}
+          />
+          {guestCount > 0 && (
+            <FilterDropdown
+              label="Fits my wedding"
+              allLabel="Any quantity"
+              value={filters.fits}
+              onChange={(v) => set("fits", v)}
+              options={[{ value: "yes", label: `Enough for ${guestCount} guests or their tables` }]}
+            />
+          )}
+          <FilterDropdown
+            label="Buy or rent"
+            allLabel="Buy or rent"
+            value={filters.type}
+            onChange={(v) => set("type", v)}
+            options={[
+              { value: "sale", label: "For sale" },
+              { value: "rent", label: "For rent" },
+            ]}
+          />
           <FilterDropdown
             label="Category"
             allLabel="All categories"
@@ -180,13 +279,6 @@ export function MarketplaceBrowser({
             onChange={(v) => set("condition", v)}
             options={MARKET_CONDITIONS.map((c) => ({ value: c.value, label: c.label }))}
           />
-          <FilterDropdown
-            label="State"
-            allLabel="All states"
-            value={filters.state}
-            onChange={(v) => set("state", v)}
-            options={states.map((s) => ({ value: s, label: s }))}
-          />
         </>
       }
       map={<MarketplaceMap listings={pinned} onViewChange={setMapView} />}
@@ -204,6 +296,7 @@ export function MarketplaceBrowser({
     >
       {listed.map((l) => (
         <ListingCard
+          guestCount={guestCount}
           key={l.id}
           listing={l}
           saved={saved.has(l.id)}
@@ -226,11 +319,14 @@ function ListingCard({
   listing,
   saved = false,
   onToggleSave,
+  guestCount = 0,
 }: {
   listing: MarketListing;
+  guestCount?: number;
   saved?: boolean;
   onToggleSave?: (id: string) => void;
 }) {
+  const fit = guestFit(listing.quantity, guestCount);
   const badge = listing.status === "sold" ? "Sold" : listing.status === "pending" ? "Pending" : null;
   return (
     <div className="group relative">
@@ -245,6 +341,16 @@ function ListingCard({
               className={`object-cover transition-transform duration-300 group-hover:scale-[1.03] ${badge === "Sold" ? "opacity-60" : ""}`}
             />
           )}
+          {fit && !badge && (
+            <span className="absolute bottom-2 left-2 rounded-full bg-white/95 px-2 py-0.5 text-[11px] font-medium text-[#2243B6] shadow">
+              {fit.replace("Enough for your ", "Fits ")}
+            </span>
+          )}
+          {listing.listing_type === "rent" && !badge && (
+            <span className="absolute left-2 top-2 rounded-full bg-[#FFD301] px-2 py-0.5 text-xs font-semibold text-[#14203d]">
+              Rent
+            </span>
+          )}
           {badge && (
             <span className="absolute left-2 top-2 rounded-full bg-forest px-2 py-0.5 text-xs font-semibold text-parchment">
               {badge}
@@ -252,7 +358,7 @@ function ListingCard({
           )}
         </div>
         <p className="mt-1.5 font-semibold text-forest">
-          {formatPrice(listing.price_cents)}
+          {formatPrice(listing.price_cents, listing.listing_type)}
           {listing.quantity > 1 && (
             <span className="ml-1 text-xs font-normal text-ink/50">· {listing.quantity} pieces</span>
           )}

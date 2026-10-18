@@ -24,6 +24,7 @@ export function ListingForm({
   sellerId,
   listing,
   defaults,
+  badgePreview = null,
 }: {
   sellerId: string;
   listing?: MarketListing;
@@ -31,11 +32,14 @@ export function ListingForm({
    * Prefilled values: for a new listing the seller's first name and wedding
    * town, and for an edit the state's full name (the row keeps its abbreviation).
    */
-  defaults?: { seller_name?: string; city?: string; state?: string };
+  defaults?: { seller_name?: string; city?: string; state?: string; title?: string; category?: string };
+  /** The badge the seller's wedding would earn ("Married Oct 2026"), or null without a date. */
+  badgePreview?: string | null;
 }) {
   const [photos, setPhotos] = useState<string[]>(listing?.photo_urls ?? []);
   const [uploading, setUploading] = useState(0);
   const [free, setFree] = useState(listing ? listing.price_cents === 0 : false);
+  const [type, setType] = useState<"sale" | "rent">(listing?.listing_type ?? "sale");
   const [error, setError] = useState<string>();
   const [isPending, startTransition] = useTransition();
   const fileInput = useRef<HTMLInputElement>(null);
@@ -136,14 +140,48 @@ export function ListingForm({
         </div>
       </section>
 
+      <fieldset>
+        <legend className={label}>Selling or renting it out?</legend>
+        <div className="mt-1 inline-flex rounded-md border border-hairline bg-card p-1">
+          {(
+            [
+              ["sale", "Sell it"],
+              ["rent", "Rent it out"],
+            ] as const
+          ).map(([value, text]) => (
+            <label
+              key={value}
+              className={`cursor-pointer rounded px-4 py-1.5 text-sm font-medium ${
+                type === value ? "bg-forest text-parchment" : "text-forest hover:bg-forest/5"
+              }`}
+            >
+              <input
+                type="radio"
+                name="listing_type"
+                value={value}
+                checked={type === value}
+                onChange={() => setType(value)}
+                className="sr-only"
+              />
+              {text}
+            </label>
+          ))}
+        </div>
+        {type === "rent" && (
+          <p className="mt-1 text-xs text-ink/50">
+            Lent for one wedding and returned after. Agree the dates and any deposit with the renter in messages.
+          </p>
+        )}
+      </fieldset>
+
       <div>
         <label htmlFor="title" className={label}>Title</label>
-        <input id="title" name="title" required maxLength={80} defaultValue={listing?.title} placeholder="e.g. 24 gold table numbers" className={field} />
+        <input id="title" name="title" required maxLength={80} defaultValue={listing?.title ?? defaults?.title} placeholder="e.g. 24 gold table numbers" className={field} />
       </div>
 
       <div className="grid gap-4 sm:grid-cols-3">
         <div className="sm:col-span-1">
-          <label htmlFor="price" className={label}>Price</label>
+          <label htmlFor="price" className={label}>{type === "rent" ? "Rental price" : "Price"}</label>
           <div className="relative">
             <span className="pointer-events-none absolute left-3 top-1/2 mt-0.5 -translate-y-1/2 text-ink/50">$</span>
             <input
@@ -159,12 +197,12 @@ export function ListingForm({
           </div>
           <label className="mt-2 flex items-center gap-2 text-sm text-ink/70">
             <input type="checkbox" name="free" checked={free} onChange={(e) => setFree(e.target.checked)} />
-            Free to a good home
+            {type === "rent" ? "Free to borrow" : "Free to a good home"}
           </label>
         </div>
         <div>
           <label htmlFor="category" className={label}>Category</label>
-          <select id="category" name="category" required defaultValue={listing?.category ?? ""} className={field}>
+          <select id="category" name="category" required defaultValue={listing?.category ?? defaults?.category ?? ""} className={field}>
             <option value="" disabled>Choose…</option>
             {MARKET_CATEGORIES.map((c) => (
               <option key={c.value} value={c.value}>{c.label}</option>
@@ -224,6 +262,16 @@ export function ListingForm({
         <label htmlFor="seller_name" className={label}>Your first name</label>
         <input id="seller_name" name="seller_name" required maxLength={40} defaultValue={listing?.seller_name ?? defaults?.seller_name} className={`${field} sm:w-64`} />
       </div>
+
+      {badgePreview && (
+        <label className="flex items-start gap-2 text-sm text-ink/80">
+          <input type="checkbox" name="show_badge" defaultChecked={listing ? Boolean(listing.seller_badge) : true} className="mt-1" />
+          <span>
+            Show <strong className="text-forest">&ldquo;{badgePreview} · planned on You Do, I Do&rdquo;</strong> on this
+            listing, so buyers know you&apos;re a real couple. Month and year only, never your venue or date.
+          </span>
+        </label>
+      )}
 
       {error && <p className="text-sm text-red-700" role="alert">{error}</p>}
 

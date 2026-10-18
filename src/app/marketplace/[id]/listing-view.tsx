@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { PageShell } from "@/components/page-shell";
 import { PhotoGallery } from "@/components/photo-gallery";
-import { categoryLabel, conditionLabel, formatPrice, listedAgo } from "@/lib/marketplace";
+import { categoryLabel, conditionLabel, formatPrice, guestFit, listedAgo } from "@/lib/marketplace";
 import type { MarketListing } from "@/lib/supabase/types";
 import { BuyerActions, SellerControls } from "./listing-actions";
 
@@ -10,12 +10,21 @@ export function ListingView({
   listing,
   viewer,
   saved,
+  threadId = null,
+  defaultName = "",
+  guestCount = 0,
 }: {
   listing: MarketListing;
   /** Null when logged out. */
   viewer: { id: string; email: string } | null;
   saved: boolean;
+  /** The viewer's conversation about this listing, if any. */
+  threadId?: string | null;
+  defaultName?: string;
+  /** The viewer's guest count, for "Enough for your 150 guests". */
+  guestCount?: number;
 }) {
+  const fit = guestFit(listing.quantity, guestCount);
   const isSeller = viewer?.id === listing.seller_id;
   const details = [
     ["Condition", conditionLabel(listing.condition)],
@@ -51,10 +60,21 @@ export function ListingView({
             </span>
           )}
           <h1 className="font-display text-3xl font-semibold text-forest">{listing.title}</h1>
-          <p className="mt-1 text-2xl font-semibold text-ink">{formatPrice(listing.price_cents)}</p>
+          <p className="mt-1 text-2xl font-semibold text-ink">{formatPrice(listing.price_cents, listing.listing_type)}</p>
           <p className="mt-1 text-sm text-ink/50">
             Listed {listedAgo(listing.created_at)} in {listing.city}, {listing.state}
           </p>
+          {listing.listing_type === "rent" && (
+            <p className="mt-2 rounded-md border border-hairline bg-card px-3 py-2 text-sm text-ink/70">
+              <strong className="text-forest">For rent:</strong> borrow it for your wedding and give it back after.
+              Agree the dates and any deposit with {listing.seller_name} in messages.
+            </p>
+          )}
+          {fit && (
+            <p className="mt-2 inline-block rounded-full bg-[#00BFFE]/15 px-2.5 py-0.5 text-xs font-medium text-[#2243B6]">
+              {fit}
+            </p>
+          )}
 
           <div className="mt-5">
             {isSeller ? (
@@ -65,6 +85,8 @@ export function ListingView({
                 signedIn={viewer !== null}
                 saved={saved}
                 available={listing.status === "active" || listing.status === "pending"}
+                threadId={threadId}
+                defaultName={defaultName}
               />
             )}
           </div>
@@ -91,7 +113,14 @@ export function ListingView({
             </span>
             <div>
               <p className="font-medium text-forest">{listing.seller_name}</p>
-              <p className="text-xs text-ink/50">Seller</p>
+              {listing.seller_badge ? (
+                // Gold: the one thing on this page that says "a real couple".
+                <p className="mt-0.5 inline-flex items-center gap-1 rounded-full bg-[#FFD301] px-2 py-0.5 text-xs font-medium text-[#14203d]">
+                  <span aria-hidden>♥</span> {listing.seller_badge} · planned on You Do, I Do
+                </p>
+              ) : (
+                <p className="text-xs text-ink/50">Seller</p>
+              )}
             </div>
           </div>
 
