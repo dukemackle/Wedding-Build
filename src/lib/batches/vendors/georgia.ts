@@ -380,6 +380,38 @@ The Flowergirl	Florals	25 S Main St	Statesboro	Georgia		Downtown Statesboro flor
 Flowers by Jeanie	Florals	341 W Martin Luther King Jr Dr	Milledgeville	Georgia	Milledgeville	Milledgeville flower shop making bridal and attendant bouquets, ceremony arrangements and arches, with consultations and rentals.		(478) 452-6202	https://www.flowersbyjeaniemilledgevillega.com/wedding-flowers	
 `,
   },
+  {
+    name: "Georgia: Atlanta suburbs and coast: photography, planning, florals, music, bridal and formalwear",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+DJ Tibor	Music		Cumming	Georgia	North Georgia	Cumming-based wedding and event DJ with over fifty receptions behind him, offering sound, lighting and an optional karaoke add-on.		(678) 341-0856	https://www.djtibor.com/	https://www.instagram.com/followdjtibor/
+Flowers of Marietta	Florals	1100 Johnson Ferry Rd, Suite 250	Marietta	Georgia	Marietta and Atlanta metro	Marietta flower shop that also designs wedding flowers, from bridal bouquets and boutonnieres to centrepieces and ceremony arches.	info@flowersofmarietta.com	(770) 579-2342	https://flowersofmarietta.com/weddings-and-events/	https://www.instagram.com/theflowersofmarietta/
+Kattie Jackson Photography	Photography		Marietta	Georgia	Marietta, Georgia and beyond	Documentary-style wedding and family photographer in Marietta, photographing couples since 2016 with a relaxed, personable approach.	info@kattiejackson.com		https://kattiejackson.com/	https://www.instagram.com/kattiejacksonphotography/
+Dashing Images Photography	Photography		Woodstock	Georgia		Woodstock photography company covering weddings with two photographers on an hourly rate, alongside sports, portrait and real estate work.			https://www.dashingimages.com/weddings	https://www.instagram.com/dashingimages/
+Prestigious Occasions	Planning		Lawrenceville	Georgia	Metro Atlanta	Lawrenceville boutique planning firm offering full, partial and day-of coordination, with a focus on multicultural weddings.			https://prestigiousoccasions.com/	https://www.instagram.com/prestigiousplanner/
+Tiffany Dawson Photography	Photography		Newnan	Georgia	Atlanta and surrounding Georgia and Alabama	Newnan wedding and portrait photographer offering timeless, elegant coverage of weddings and engagement sessions.		(678) 215-6433	https://www.tiffanydawsonphotography.com/	https://www.instagram.com/tiffanydawsonphotography/
+Kayla Duffey Photography	Photography		Newnan	Georgia	Newnan, willing to travel	Newnan lifestyle photographer who has shot weddings, engagements and families since 2014 and will travel for weddings.	kayladuffeyphotography@gmail.com	(706) 977-0904	https://www.newnanphotographer.com/	https://www.instagram.com/kayladuffeyphotography/
+Esther Griffin Photography	Photography	127 Abercorn St, Suite 207	Savannah	Georgia	Savannah and beyond	Savannah wedding photographer working from a downtown studio, covering weddings, elopements and engagements with an emotion-led style.	esther@esthergriffinphotography.com	912-312-2058	https://esthergriffinphotography.com	https://www.instagram.com/esthergriffinphoto/
+Weddings With Dana	Planning		Savannah	Georgia	Tybee, Savannah and Hilton Head	Savannah and Tybee coordinator offering day-of, month-of and full planning, with officiant services for beach and coastal weddings.	dana@weddingswithdana.com	(404) 840-7100	https://www.weddingswithdana.com	https://www.instagram.com/weddingswithdana/
+Barefoot Royalty Photography	Photography		Claxton	Georgia	Georgia and destinations worldwide	Claxton-based photographer for intimate weddings and elopements, also offering albums and gallery art as keepsakes.			https://www.barefootroyaltyphotography.com	https://www.instagram.com/barefootroyaltyphotography/
+The White Magnolia	Bridal & Formalwear	2426 Abercorn Street	Savannah	Georgia		Appointment-only Savannah bridal boutique with made-to-order and in-stock gowns, including a curve collection in sizes 16 to 24.	savannah@whitemagnoliabridal.com	912.724.9219	https://whitemagnoliabridal.com/savannah	https://www.instagram.com/whitemagnoliabridal/
+Simons Formal Wear	Bridal & Formalwear	132 Cooper Drive	Augusta	Georgia	Augusta and surrounding areas	Augusta menswear rental and sales shop offering matching wedding tuxedos for groups, with free fittings and in-house alterations.		706-738-2432	https://simonsformalwear.com	https://www.instagram.com/simonsformalwear/
+Acuity Photography	Photography	108 North Belair Road	Evans	Georgia		Evans studio offering wedding photography alongside portrait and headshot work for Augusta-area couples.	patrick@acuityphotography.com		https://acuityphotography.com	https://www.instagram.com/acuityphotography/
+`,
+  },
+  {
+    name: "Georgia: Columbus, Rome, Valdosta, Gainesville: florals, photography, catering, bar, formalwear, transportation",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Key Moments in Time	Photography		Fortson	Georgia	Callaway Gardens, Oakhurst Farm and Pine Mountain	Wedding photographer who also plans and coordinates events, with day-of coordination that can be added to a photo package.	info@keymomentsintime.com	(706) 302-2081	https://www.keymomentsintime.com	https://www.instagram.com/keymomentsintime/
+Fala's Flower Market	Florals	69 Broad St	Warm Springs	Georgia		Warm Springs flower shop that makes bridal bouquets, bridal party flowers and ceremony and reception arrangements.	glharper1985@icloud.com	(706) 655-2124	https://www.falasflowermarket.com	
+A Courtesy Limousine	Transportation		LaGrange	Georgia	LaGrange, Columbus, Auburn and the Atlanta area	Chauffeured sedans, SUVs and buses for wedding-day arrivals, guest shuttles and airport transfers to Atlanta and Columbus airports.	info@acourtesylimousine.com	(706) 957-2879	https://www.acourtesylimousine.com	https://www.instagram.com/acourtesytransportation/
+Jane Foods Catering & Events	Catering	100 Webster St	LaGrange	Georgia	South Atlanta metro south to Columbus and Auburn	Family-run LaGrange caterer, formerly Kimble's, that can supply wedding food only or coordinate the whole event.	sales@janefoods.com	(706) 298-6520	https://www.janefoods.com/catering-events	
+An Affair to Remember	Bridal & Formalwear	9 E Lafayette Square	LaGrange	Georgia		Downtown LaGrange bridal boutique with designer gowns, looks for the mothers and tuxedo rentals, open since 2007.		(706) 416-2396	https://www.anaffairtorememberbridal.com	https://www.instagram.com/aa2remember/
+The Flower Gallery	Florals	127 N Ashley St	Valdosta	Georgia	South Georgia	Valdosta florist doing wedding event design plus bridal bouquets, bridesmaid flowers, centrepieces and cake flowers.		(229) 242-1001	https://flowergalleryweddings.com	https://www.instagram.com/the.flower.gallery/
+Beautiful Flowers	Florals	128 North Patterson St	Valdosta	Georgia		Downtown Valdosta flower shop with bridal bouquets, bridesmaid and flower girl pieces, plus ceremony and reception flowers.		(229) 253-0940	https://www.valdostabeautifulflowers.com/wedding-flowers	
+Red Tie Crew	Bar		Dalton	Georgia	Northwest Georgia and the greater Chattanooga area	Family-run Dalton team offering wedding bartending and day-of coordination, with the planning done around your timeline.	efraire@redtiecrew.com		https://redtiecrew.com	https://www.instagram.com/redtiecrewllc/
+Brittni Cain Photography	Photography		Gainesville	Georgia	Hall County and nearby towns	Gainesville photographer shooting weddings in half-day and intimate collections, with fully edited online galleries.	info@brittnicainphotography.com		https://brittnicainphotography.com/weddings	https://www.instagram.com/brittnicainphotography/
+`,
+  },
 ];
 
 export default batches;
