@@ -109,6 +109,12 @@ Eufaula Community Center		Eufaula	Alabama			Ballroom / Hotel	Indoor	500	Simple	A
 Horse Creek Golf Course Event Room	1745 Highway 78	Dora	Alabama			Ballroom / Hotel	Indoor			A spacious event room in the golf clubhouse that takes bookings for weddings, showers, reunions and corporate gatherings.		205.648.1499	https://www.golfhorsecreek.com/event-room
 `,
   },
+  {
+    name: "Scottsboro: map fill",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Stone Haven Event Venue	6348 County Road 44	Section	Alabama			Historic / Estate	Indoor & Outdoor		Luxury	Italian-inspired bluff-top estate above the Tennessee River with a glass atrium, grand hall, ceremony patio and on-site stay in the Rock House.			https://stonehavenevent.com/
+`,
+  },
 ];
 
 export default batches;
