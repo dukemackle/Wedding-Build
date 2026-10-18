@@ -259,6 +259,19 @@ Desertscape Photo and Film	Videography		St. George	Utah	Zion, Moab and Lake Powe
 Bake Coco Bake	Cake		American Fork	Utah	Wasatch Front	American Fork baker making custom wedding, birthday and celebration cakes for the Wasatch Front, with flavour and pricing pages and online quote requests.	bakecocobake.ut@gmail.com	801-980-1422	https://bakecocobake.com	https://www.instagram.com/bakecocobake/
 `,
   },
+  {
+    name: "Map fill and gaps: Cedar City, Logan, Ogden, Moab, Vernal, Provo, Park City: photography, florals, planning, music, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Kristi Lyn Photography	Photography		Cedar City	Utah	Southern Utah and the American Southwest	Cedar City photographer for adventure elopements and intimate weddings among Southern Utah's red-rock canyons and national parks.	contact@kristilynphotography.com	435.767.1654	https://kristilynphotography.com/	https://www.instagram.com/kristilynphotography/
+Kenzie Mae Photography	Photography		Cedar City	Utah	Southern Utah, including St. George	Cedar City photographer covering weddings, engagements and families across Southern Utah, with a dedicated weddings gallery and pricing page.			https://www.kenziemaephotography.com/	https://www.instagram.com/kenziemaephotography/
+Alayna's Arrangements	Florals	1218 W Hwy 40	Vernal	Utah	Vernal	Vernal florist and gift shop making bridal bouquets, centrepieces and altar arrangements, with pricing set at a bridal consultation.		(435) 789-1222	https://www.alaynasarrangements.com/	https://www.instagram.com/alaynasarrangements/
+Convincing Image	Photography	160 North Main St, Suite 201	Logan	Utah	Cache Valley and Northern Utah	Logan studio photographing weddings, engagements and bridal portraits, from Logan Temple days to canyon and Bear Lake settings.	nathan@convincingimage.com	(435) 227-5194	https://www.convincingimage.com/	https://www.instagram.com/convincingimage/
+Nix Events & Co.	Planning		Ogden	Utah	Utah and Idaho destination weddings	Ogden wedding planner offering partial and full-service planning and design, plus à la carte add-ons, for Utah and Idaho weddings.			https://www.nixeventsco.com	https://www.instagram.com/nixevents_co/
+Moab Event Services	Planning		Moab	Utah	Moab and Castle Valley	Moab planning and rental company handling elopements, weddings and pop-up picnics, with linens, lighting, tents, delivery and setup.	moabeventservices@gmail.com		https://www.moabeventservices.com/wedding-moab	https://www.instagram.com/moabeventservices/
+Flowers by Mandy	Florals		Provo	Utah	Utah	Wedding florist based in Provo and Kanab who sources from local pesticide-free farms and offers a free 30-minute consultation.			https://www.flowersbymandy.org	https://www.instagram.com/flowers_bymandy/
+DJ Cam Reeve	Music		Farmington	Utah	Utah, including Park City, Heber City, Ogden and Logan	Farmington DJ and emcee for weddings who builds sets from the couple's inspiration lists, with a light, informative style.	info@djcamreeve.com	(435) 770-6917	https://www.djcamreeve.com/dj-cam/	https://www.instagram.com/djcamreeve/
+Hawkins Photo and Film	Videography		Park City	Utah	Salt Lake City, Moab, Park City and Utah destinations	Husband-and-wife Utah team making cinematic wedding films and photography, with highlight and documentary cuts that can be bundled.	info@hawkinsphotoandfilm.com	801-717-5186	https://hawkinsphotoandfilm.com/	https://www.instagram.com/hawkinsphotoandfilm/`,
+  },
 ];
 
 export default batches;
