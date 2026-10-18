@@ -266,6 +266,15 @@ The Owl's Hoot Barn	386 Bronch Mill Rd	West Coxsackie	New York			Barn / Rustic	I
 Lucy Brate Barn at Mead Family Farm		Delmar	New York			Barn / Rustic	Indoor			A restored nineteenth-century Dutch timber-frame barn, 100 by 50 feet, on an eight-generation family farm with views over the Vloman Kill.	meadfamfarm@gmail.com		https://www.lucybratebarn.com/
 Knotting Hill Farm	259 Main St	Jordanville	New York			Barn / Rustic	Indoor & Outdoor	200		A farmstead of more than 70 acres with a 200-year-old farmhouse and climate-controlled barn for 200 seated guests, plus 30 on-site beds for the wedding weekend.	john@knottinghillfarm.com		https://www.knottinghillfarm.com/`,
   },
+  {
+    name: "Catskills, Hudson Valley, Adirondacks and Finger Lakes gaps",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+The Barn on Hubbard	28 Hubbard Rd	Callicoon	New York			Barn / Rustic	Indoor & Outdoor	200	Classic	A restored nineteenth-century dairy barn in the Catskills, with a courtyard, gardens and a bar built into the silo.	info@thebarnonhubbard.com	(845) 701-5031	https://www.thebarnonhubbard.com/weddings
+The Barn at Liberty Farms	60 Ostrander Road	Ghent	New York			Barn / Rustic		150	Classic	A renovated former stallion barn among Hudson Valley farmland, with optional farmhouse and canvas-cabin lodging for wedding weekends.	thebarnatlibertyfarms@gmail.com	(917) 539-9283	https://thebarnatlibertyfarms.com/
+Beaverkill Valley Inn	7 Barnhart Rd	Lew Beach	New York			Ballroom / Hotel	Indoor & Outdoor	150		A Catskills country inn on the Beaverkill River that hosts only a handful of weddings each year, with riverside ceremony spots and a post-and-beam barn for the late-night party.		(845) 439-4844	https://www.beaverkillvalleyinn.com/weddings
+Cayuga Shoreline	7930 County Rd 153	Interlaken	New York			Beach / Waterfront				A newly renovated lakeside property on the western shore of Cayuga Lake, offering adaptable event spaces and group lodging for wedding weekends.	events@cayugashoreline.com	(607) 532-9573	https://www.cayugashoreline.com/celebrate
+Once Upon A Time Barn	32 Smith Road	Olmstedville	New York			Barn / Rustic	Indoor & Outdoor	150		An 1800s hand-hewn post-and-beam barn on a 150-acre Adirondack farm, with a lakeside pergola for ceremonies and on-site lodging.	allbrightaquariums@gmail.com	(518) 307-9291	https://onceuponatimebarn.com/weddings/`,
+  },
 ];
 
 export default batches;
