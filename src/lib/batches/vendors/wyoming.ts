@@ -139,6 +139,11 @@ Shelle Anderson Photography	Photography	612 E Main St	Riverton	Wyoming	Fremont C
 O.B.A Photography	Photography		Riverton	Wyoming		Riverton photographer covering weddings, engagements, family, maternity, newborn and equine sessions, working from a Riverton base.		(307) 388-2770	https://photographyservicesriverton.com/	https://www.instagram.com/o.b.aphotography/
 Paris West	Catering	1719 Central Avenue	Cheyenne	Wyoming		Downtown Cheyenne restaurant and bar that caters weddings and parties, serving twists on classic Western comfort food plus a full bar.	Info@parisinthewest.com	(307) 224-2170	https://parisinthewest.com/	https://www.instagram.com/pariswestcheyenne/`,
   },
+  {
+    name: "Map fill and gaps: Casper: florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Consider the Lilies	Florals	232 E 2nd St	Casper	Wyoming	Casper, Evansville, Mills and Vista West	Downtown Casper flower shop that designs wedding bouquets, ceremony arches and reception centerpieces, with delivery and setup at Casper venues.	wecare@marvelfloralart.com	(307) 315-6121	https://www.marvelfloralart.com/wedding	https://www.instagram.com/considerthelilies_flowers/`,
+  },
 ];
 
 export default batches;
