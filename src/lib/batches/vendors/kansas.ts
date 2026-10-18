@@ -134,6 +134,13 @@ Velvet & Vows	Photography		Hays	Kansas	Hays and Wichita	Hays wedding photography
 Alexis Renee Photographs	Photography		Pittsburg	Kansas	Pittsburg, the Midwest and destination weddings	Pittsburg photographer shooting weddings with film and digital, with coverage from four to ten hours and optional 35mm film.			https://alexisreneephotographs.com/wedding-collections	https://www.instagram.com/alexisreneephotographs/
 AudioCrisp Events	Music		Pittsburg	Kansas	Pittsburg and south-east Kansas	Pittsburg wedding DJ and photo booth company covering ceremony and reception sound, uplighting and dance-floor effects.	audiocrispevents@gmail.com	913.687.6963	https://www.audiocrispevents.com/	https://www.instagram.com/audiocrisp_events/`,
   },
+  {
+    name: "Liberal: photography, florals and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+King Luxe Photography & Salon	Photography		Liberal	Kansas	Liberal	A Liberal photography studio that shoots weddings and engagements alongside senior, family and portrait sessions, and also offers an officiant service.			https://www.kingluxephotography.com/	https://www.instagram.com/kingluxephotography/
+The Flower Basket	Florals	13 E 2nd Street	Liberal	Kansas	Liberal	A Liberal florist with a wedding flowers page, taking bridal bouquet and ceremony enquiries by consultation booked in advance by phone.		(620) 624-7049	https://www.flowerbasketliberal.com/wedding-flowers	
+Efilms Video & Photography	Videography		Liberal	Kansas	Liberal	A Liberal video and photo business with wedding and quinceañera galleries and couple testimonials on its site.			https://efilmsvideo.com/	https://www.instagram.com/efilmsvideophoto/`,
+  },
 ];
 
 export default batches;

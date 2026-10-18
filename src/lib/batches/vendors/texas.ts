@@ -342,6 +342,11 @@ The Plaza Restaurant	Catering	1201 N Hobart St	Pampa	Texas		Tex-Mex restaurant i
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
 Hunter Bee Photography	Photography		Killeen	Texas	Bell County, Williamson County and the greater Austin area, including Harker Heights, Belton, Temple and Salado	Wedding and elopement photographer near Killeen who mixes digital with 35mm film and Super 8, and also travels for destination weddings.	hunterbeephotography@gmail.com		https://hunterbeephotography.com/	https://www.instagram.com/hunterbee.co/`,
   },
+  {
+    name: "Pleasanton: florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Family Blooms	Florals	440 Oriente Drive	Pleasanton	Texas	Pleasanton, Jourdanton, Poteet, Floresville and nearby	Pleasanton florist designing wedding bouquets, boutonnieres, ceremony and reception flowers, with consultations and party decor rentals.		(830) 281-2131	https://www.pleasantontxflorist.com/wedding-flowers	`,
+  },
 ];
 
 export default batches;
