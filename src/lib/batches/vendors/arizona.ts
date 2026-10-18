@@ -216,6 +216,11 @@ J. R. Poole Photography	Photography		Kingman	Arizona	Kingman and Arizona	Kingman
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
 Jennifer Markle Photography	Photography		Pinetop	Arizona	Pinetop and the White Mountains	Wedding photographer for small, intimate outdoor weddings in the White Mountains of Arizona.		480-225-0750	https://jennifermarkle.com/	https://www.instagram.com/jennifer.markle/`,
   },
+  {
+    name: "Safford: florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Graham County Florist	Florals	407 W Main Street	Safford	Arizona	Safford and surrounding areas	Main Street Safford florist selling ready-made wedding bouquets and boutonnieres, with flower delivery around Safford and the surrounding area.		(928) 428-3241	http://grahamcountyflorist.com	`,
+  },
 ];
 
 export default batches;

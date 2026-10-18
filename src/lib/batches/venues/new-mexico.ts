@@ -61,6 +61,11 @@ Plaza Hotel Las Vegas	230 Plaza	Las Vegas	New Mexico			Ballroom / Hotel	Indoor	1
 Rockwind Community Links	5001 Jack Gomez Blvd	Hobbs	New Mexico			Garden / Outdoor	Indoor & Outdoor			City-run golf course whose clubhouse and grill host weddings and receptions, with an open green space and outdoor seating nearby.		(575) 397-9297	https://www.rockwindgolfcourse.com/events/weddings-banquets/weddings-receptions
 Pecos River Village Conference Center	711 Muscatel Ave	Carlsbad	New Mexico			Ballroom / Hotel	Indoor			Riverside city-owned conference centre whose Carousel House banquet hall and meeting rooms are open for weddings, with the Carlsbad Chamber handling bookings.		575-887-6516	https://www.carlsbadchamber.com/general-4`,
   },
+  {
+    name: "Deming: ballroom",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Mimbres Valley Special Events Center	2300 E. Pine Street	Deming	New Mexico			Ballroom / Hotel	Indoor	700		County-run banquet hall in Deming with a 700-seat ballroom and three conference rooms, advertised for weddings and receptions.	planning_assistant@lunacountynm.us	(575) 543-6620	https://www.cityofdeming.org/residents/mimbres_valley_special_events_center.php`,
+  },
 ];
 
 export default batches;
