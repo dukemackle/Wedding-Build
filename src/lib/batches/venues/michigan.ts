@@ -241,6 +241,13 @@ Iron Fish Distillery	14234 Dzuibanek Rd	Thompsonville	Michigan			Barn / Rustic	I
 The Osgood	614 Center Ave	Bay City	Michigan			Historic / Estate	Indoor	350		Century-old restored building in Bay City's historic district with hand-carved mahogany woodwork, a ballroom with a mezzanine and a 500-seat auditorium.	info@theosgood.com	989-214-3733	https://www.theosgood.com/
 Mackinaw Mill Creek Camping	9730 US Hwy 23	Mackinaw City	Michigan			Beach / Waterfront	Outdoor			200-acre retreat on the Straits of Mackinac with a mile of shoreline, views of the bridge and Mackinac Island, and cabins on site.		231-436-5584	https://www.campmackinaw.com/mackinac-weddings/`,
   },
+  {
+    name: "Sault Ste. Marie: map fill",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Kewadin Casino Hotel Convention Center	2186 Shunk Rd	Sault Ste. Marie	Michigan			Ballroom / Hotel	Indoor	360		Casino hotel with fifteen convention rooms, a 5,000 sq ft Grand Ball Room and wedding banquet menus, plus an on-site 318-room hotel.		1-800-539-2346	https://kewadin.com/groups-conventions/weddings/
+Ramada Plaza Ojibway Hotel	240 W Portage Ave	Sault Ste. Marie	Michigan			Historic / Estate	Indoor	150		Downtown hotel that opened in 1927 beside the Soo Locks, with three banquet rooms that suit weddings of up to 150 guests.		(906) 632-4100	https://www.ojibwayhotel.com/banquet-rooms/
+Bay Mills Resort & Casino	11386 West Lakeshore Drive	Brimley	Michigan			Ballroom / Hotel	Indoor & Outdoor			Lake Superior resort offering a grand ballroom, outdoor ceremonies at Wild Bluff Golf Course and a 270-room hotel for guests.	alandress@4baymills.com	888-422-9645	https://www.baymillscasinos.com/plan-your-event/weddings/`,
+  },
 ];
 
 export default batches;

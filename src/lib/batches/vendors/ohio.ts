@@ -284,6 +284,13 @@ Always Eventful	Planning		Akron	Ohio	Akron, Canton and Cleveland	Event planner w
 MAVON Beauty	Hair & Makeup	2830 Copley Rd Suite D	Copley	Ohio	Akron, Canton, Cleveland and Columbus	Studio offering on-location bridal hair and makeup, including styling for Indian and South Asian multi-day weddings.		330.730.9711	https://www.mavonbeauty.com/	
 Work Shed Weddings	Videography		Akron	Ohio	Akron, Cleveland, Canton, Youngstown and Pittsburgh	Akron wedding film studio blending documentary storytelling with cinematic visuals across north-east Ohio and western Pennsylvania.	weddings@workshedpictures.com	330.790.1797	https://workshedweddings.com/	https://www.instagram.com/workshedweddings/`,
   },
+  {
+    name: "Portsmouth: photography, florals, hair and makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Jeremy Reed Photography	Photography		Wheelersburg	Ohio	Southern Ohio and across the Midwest	Documentary-style wedding and engagement photographer based in Wheelersburg, shooting candid, relaxed coverage across southern Ohio and beyond.	reed.jeremy@gmail.com	(740) 464-6856	https://jeremyreed.photography/	https://www.instagram.com/jeremyreedphotography/
+Fuhrmann Orchards	Florals	510 Hansgen Morgan Rd	Wheelersburg	Ohio		Family fruit and flower farm in Wheelersburg designing bouquets, ceremony pieces and reception florals from its own fresh-grown blooms.	fuhrmannorchards@gmail.com	(740) 776-6406	https://www.fuhrmannorchards.com/	https://www.instagram.com/fuhrmann_orchards/
+Amelia Gray Skincare & Cosmetics	Hair & Makeup	2034 11th Street	Portsmouth	Ohio	On location within 25 miles of the shop	Portsmouth skincare and cosmetics studio whose bridal team does wedding-day hair and makeup, in the shop or on location at your venue.	hello@ameliagrayskincare.com	(740) 353-3255	https://ameliagraysalonspa.com/bridal	https://www.instagram.com/ameliagraysalon_spa/`,
+  },
 ];
 
 export default batches;

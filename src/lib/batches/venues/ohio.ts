@@ -196,6 +196,14 @@ Pyramid Hill Sculpture Park & Museum	1763 Hamilton Cleves Road	Hamilton	Ohio			G
 Hancock Hotel	631 South Main Street	Findlay	Ohio			Ballroom / Hotel	Indoor	275		Downtown hotel with two ballrooms, the larger of 5,200 square feet that can be split into three rooms, plus in-house catering and overnight suites.		419-423-0631	https://www.hancockhotel.com/
 Valley Gem Sternwheeler	601 Front Street	Marietta	Ohio			Beach / Waterfront	Indoor & Outdoor		Simple	Sternwheeler that holds weddings and rehearsal dinners as cruises on the Ohio and Muskingum rivers, with packages priced per guest from $50.		740-373-7862	https://www.valleygemsternwheeler.com/`,
   },
+  {
+    name: "Portsmouth: map fill",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Blackburn Acres	16195 State Route 139	Minford	Ohio			Barn / Rustic	Indoor & Outdoor	250	Simple	Modern rustic barn of 4,896 sq ft on 120 acres in the Ohio hills, with three on-site cabins included in each rental package.	jackie@blackburnacres.net		https://www.blackburnacres.net/
+The Meadow at Wheelers Mill	1776 Wheelers Mill Rd	Wheelersburg	Ohio			Barn / Rustic	Indoor & Outdoor			White farmhouse-style event building on 175 acres of Southern Ohio hills, with indoor and outdoor ceremony space and sunset views.		(606) 465-9400	https://themeadowatwheelersmill.weebly.com/
+Shawnee Park Lodge & Conference Center	4404B State Route 125	West Portsmouth	Ohio			Ballroom / Hotel				Lodge in Shawnee State Park's forested hills with guest rooms and cabins for wedding parties, plus flexible event space and outdoor recreation.		(740) 858-6621	https://www.shawneeparklodge.com/weddings
+Marting's	515 Chillicothe Street	Portsmouth	Ohio			Historic / Estate	Indoor			Historic downtown Portsmouth building offering flexible floor plans for weddings, receptions and other celebrations.	hello@martings.co		https://martings.co/`,
+  },
 ];
 
 export default batches;
