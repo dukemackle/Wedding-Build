@@ -272,6 +272,11 @@ Flowers by Mandy	Florals		Provo	Utah	Utah	Wedding florist based in Provo and Kan
 DJ Cam Reeve	Music		Farmington	Utah	Utah, including Park City, Heber City, Ogden and Logan	Farmington DJ and emcee for weddings who builds sets from the couple's inspiration lists, with a light, informative style.	info@djcamreeve.com	(435) 770-6917	https://www.djcamreeve.com/dj-cam/	https://www.instagram.com/djcamreeve/
 Hawkins Photo and Film	Videography		Park City	Utah	Salt Lake City, Moab, Park City and Utah destinations	Husband-and-wife Utah team making cinematic wedding films and photography, with highlight and documentary cuts that can be bundled.	info@hawkinsphotoandfilm.com	801-717-5186	https://hawkinsphotoandfilm.com/	https://www.instagram.com/hawkinsphotoandfilm/`,
   },
+  {
+    name: "Park City: bar",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Top Shelf Professional Bar Services	Bar	6436 N Business Loop Rd, Suite C	Park City	Utah	Utah	Park City mobile bar company serving weddings and private events, with customisable bar packages and help with event permits.	info@topshelfutah.com	(435) 940-9131	https://www.topshelfutah.com/	https://www.instagram.com/topshelfutah/`,
+  },
 ];
 
 export default batches;

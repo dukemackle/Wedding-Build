@@ -246,6 +246,11 @@ Kim Haskell Cinematography	Videography		Boise	Idaho	Ketchum, Hailey, Sun Valley 
 AMBiant Events	Planning		Twin Falls	Idaho		Wedding planning arm of The Party Center in Twin Falls, with day-of coordination, management and full-service planning packages.		208-733-9337	https://partycenterrentals.com/ambiant-events/	
 `,
   },
+  {
+    name: "Sun Valley: music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Sun Valley Music Events	Music		Sun Valley	Idaho		Sun Valley musicians' booking site for live wedding music, from cocktail-hour ambience to ceremony processional songs and full-band sets.			https://www.sunvalleymusicevents.com/	`,
+  },
 ];
 
 export default batches;
