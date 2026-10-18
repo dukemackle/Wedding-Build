@@ -7,7 +7,7 @@ import type { MarketListing } from "@/lib/supabase/types";
 import { ListingView } from "./listing-view";
 
 const load = cache(async (id: string) => {
-  if (!/^[0-9a-f-]{36}$/i.test(id)) return { user: null, listing: null, saved: false };
+  if (!/^[0-9a-f-]{36}$/i.test(id)) return { user: null, listing: null, saved: false, threadId: null, defaultName: "" };
   const supabase = await createClient();
   const {
     data: { user },
@@ -18,15 +18,32 @@ const load = cache(async (id: string) => {
     .eq("id", id)
     .maybeSingle<MarketListing>();
   let saved = false;
+  let threadId: string | null = null;
+  let defaultName = "";
   if (user && listing) {
-    const { count } = await supabase
-      .from("market_saves")
-      .select("listing_id", { count: "exact", head: true })
-      .eq("user_id", user.id)
-      .eq("listing_id", id);
+    const [{ count }, { data: thread }, { data: wedding }] = await Promise.all([
+      supabase
+        .from("market_saves")
+        .select("listing_id", { count: "exact", head: true })
+        .eq("user_id", user.id)
+        .eq("listing_id", id),
+      supabase
+        .from("market_threads")
+        .select("id")
+        .eq("listing_id", id)
+        .eq("buyer_id", user.id)
+        .maybeSingle<{ id: string }>(),
+      supabase
+        .from("weddings")
+        .select("partner_a_name")
+        .or(`user_id.eq.${user.id},member_ids.cs.{${user.id}}`)
+        .maybeSingle<{ partner_a_name: string | null }>(),
+    ]);
     saved = (count ?? 0) > 0;
+    threadId = thread?.id ?? null;
+    defaultName = wedding?.partner_a_name?.split(/\s+/)[0] ?? "";
   }
-  return { user, listing, saved };
+  return { user, listing, saved, threadId, defaultName };
 });
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
@@ -44,8 +61,8 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 
 export default async function ListingPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const { user, listing, saved } = await load(id);
+  const { user, listing, saved, threadId, defaultName } = await load(id);
   if (!listing) notFound();
 
-  return <ListingView listing={listing} viewer={user ? { id: user.id, email: user.email ?? "" } : null} saved={saved} />;
+  return <ListingView listing={listing} viewer={user ? { id: user.id, email: user.email ?? "" } : null} saved={saved} threadId={threadId} defaultName={defaultName} />;
 }

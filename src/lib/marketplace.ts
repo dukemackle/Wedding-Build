@@ -45,6 +45,34 @@ export const NOT_ALLOWED = [
   "Gift cards or tickets",
 ];
 
+export const MARKET_REPORT_REASONS = [
+  { value: "scam", label: "Looks like a scam" },
+  { value: "prohibited", label: "Not allowed to be sold here" },
+  { value: "offensive", label: "Offensive or harassing" },
+  { value: "misleading", label: "Misleading or fake listing" },
+  { value: "other", label: "Something else" },
+] as const;
+
+/** First message a buyer sends, pre-filled the way Facebook does. */
+export const OPENING_MESSAGE = "Hi! Is this still available?";
+
+/** Rate limits for messaging, per sender. */
+export const MAX_NEW_THREADS_PER_DAY = 20;
+export const MAX_MESSAGES_PER_HOUR = 60;
+
+/** The distance filter's choices, in miles. */
+export const MARKET_DISTANCES = [10, 25, 50, 100] as const;
+
+/** Great-circle distance in miles. */
+export function milesBetween(a: { latitude: number; longitude: number }, b: { latitude: number; longitude: number }) {
+  const rad = Math.PI / 180;
+  const dLat = (b.latitude - a.latitude) * rad;
+  const dLng = (b.longitude - a.longitude) * rad;
+  const h =
+    Math.sin(dLat / 2) ** 2 + Math.cos(a.latitude * rad) * Math.cos(b.latitude * rad) * Math.sin(dLng / 2) ** 2;
+  return 3958.8 * 2 * Math.asin(Math.sqrt(h));
+}
+
 const categoryLabels = new Map<string, string>(MARKET_CATEGORIES.map((c) => [c.value, c.label]));
 const conditionLabels = new Map<string, string>(MARKET_CONDITIONS.map((c) => [c.value, c.label]));
 

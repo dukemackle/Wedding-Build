@@ -939,3 +939,23 @@ export type MarketListing = {
   created_at: string;
   updated_at: string;
 };
+
+export type MarketThread = {
+  id: string;
+  listing_id: string;
+  buyer_id: string;
+  seller_id: string;
+  buyer_name: string;
+  created_at: string;
+  last_message_at: string;
+  buyer_last_read_at: string;
+  seller_last_read_at: string;
+};
+
+export type MarketMessage = {
+  id: string;
+  thread_id: string;
+  sender_id: string;
+  body: string;
+  created_at: string;
+};

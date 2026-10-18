@@ -11,10 +11,12 @@ import { isInView, viewKey, type MapView } from "@/lib/map-view";
 import {
   MARKET_CATEGORIES,
   MARKET_CONDITIONS,
+  MARKET_DISTANCES,
   MARKET_PRICE_BANDS,
   categoryLabel,
   formatPrice,
   listedAgo,
+  milesBetween,
   pinListings,
 } from "@/lib/marketplace";
 import type { MarketListing } from "@/lib/supabase/types";
@@ -25,22 +27,32 @@ const MarketplaceMap = dynamic(() => import("./marketplace-map").then((m) => m.M
   loading: () => <div className="h-full w-full animate-pulse bg-parchment" />,
 });
 
-type Filters = { q: string; category: string; price: string; condition: string; state: string };
-const NO_FILTERS: Filters = { q: "", category: "all", price: "all", condition: "all", state: "all" };
+type Filters = { q: string; category: string; price: string; condition: string; state: string; distance: string };
+const NO_FILTERS: Filters = { q: "", category: "all", price: "all", condition: "all", state: "all", distance: "all" };
+
+export type MarketOrigin = { latitude: number; longitude: number; label: string };
 
 export function MarketplaceBrowser({
   listings,
   mine,
   savedIds,
   signedIn,
+  origin: weddingOrigin,
+  unread = 0,
 }: {
   listings: MarketListing[];
   /** The viewer's own listings in every state but removed. */
   mine: MarketListing[];
   savedIds: string[];
   signedIn: boolean;
+  /** Where "within X miles" measures from: the couple's venue, when we know it. */
+  origin: MarketOrigin | null;
+  /** Conversations with unread messages. */
+  unread?: number;
 }) {
   const [filters, setFilters] = useState<Filters>(NO_FILTERS);
+  const [origin, setOrigin] = useState<MarketOrigin | null>(weddingOrigin);
+  const [locating, setLocating] = useState(false);
   const [mapView, setMapView] = useState<MapView | null>(null);
   const [saved, setSaved] = useState(() => new Set(savedIds));
   const [, startTransition] = useTransition();
@@ -64,8 +76,29 @@ export function MarketplaceBrowser({
 
   const states = useMemo(() => Array.from(new Set(listings.map((l) => l.state))).sort(), [listings]);
 
+  // Without a venue to measure from, the distance filter asks the browser
+  // where this is, once.
+  function chooseDistance(value: string) {
+    if (value === "all" || origin) {
+      set("distance", value);
+      return;
+    }
+    if (!navigator.geolocation) return;
+    setLocating(true);
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setOrigin({ latitude: position.coords.latitude, longitude: position.coords.longitude, label: "you" });
+        set("distance", value);
+        setLocating(false);
+      },
+      () => setLocating(false),
+      { maximumAge: 600_000, timeout: 10_000 },
+    );
+  }
+
   const filtered = useMemo(() => {
     const q = filters.q.trim().toLowerCase();
+    const maxMiles = filters.distance === "all" || !origin ? null : Number(filters.distance);
     const band = MARKET_PRICE_BANDS.find((b) => b.value === filters.price);
     return listings.filter(
       (l) =>
@@ -73,9 +106,13 @@ export function MarketplaceBrowser({
         (filters.condition === "all" || l.condition === filters.condition) &&
         (filters.state === "all" || l.state === filters.state) &&
         (!band || (l.price_cents >= band.min && l.price_cents < band.max)) &&
-        (!q || l.title.toLowerCase().includes(q) || (l.description ?? "").toLowerCase().includes(q)),
+        (!q || l.title.toLowerCase().includes(q) || (l.description ?? "").toLowerCase().includes(q)) &&
+        (maxMiles === null ||
+          (l.latitude != null &&
+            l.longitude != null &&
+            milesBetween(origin!, { latitude: l.latitude, longitude: l.longitude }) <= maxMiles)),
     );
-  }, [listings, filters]);
+  }, [listings, filters, origin]);
 
   const pinned = useMemo(() => pinListings(filtered), [filtered]);
 
@@ -87,7 +124,7 @@ export function MarketplaceBrowser({
     return filtered.filter((l) => inView.has(l.id) || l.latitude == null);
   }, [filtered, pinned, mapView]);
 
-  const activeFilterCount = (["category", "price", "condition", "state"] as const).filter(
+  const activeFilterCount = (["category", "price", "condition", "state", "distance"] as const).filter(
     (k) => filters[k] !== "all",
   ).length;
 
@@ -159,6 +196,24 @@ export function MarketplaceBrowser({
           >
             + Sell
           </Link>
+          {signedIn && (
+            <Link
+              href="/marketplace/inbox"
+              className="flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border border-hairline bg-card px-3 py-1.5 text-sm text-forest shadow-md hover:border-forest lg:order-last lg:shadow-none"
+            >
+              Messages
+              {unread > 0 && (
+                <span className="rounded-full bg-[#2243B6] px-1.5 text-[11px] font-semibold leading-4 text-white">{unread}</span>
+              )}
+            </Link>
+          )}
+          <FilterDropdown
+            label={locating ? "Finding you…" : origin && origin.label !== "you" ? `Near ${origin.label}` : "Distance"}
+            allLabel="Any distance"
+            value={filters.distance}
+            onChange={chooseDistance}
+            options={MARKET_DISTANCES.map((miles) => ({ value: String(miles), label: `Within ${miles} miles` }))}
+          />
           <FilterDropdown
             label="Category"
             allLabel="All categories"

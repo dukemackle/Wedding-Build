@@ -68,6 +68,12 @@ export default function PrivacyPage() {
                 the town is placed on the map by its centre, never your address. Items you save are
                 visible only to you.
               </li>
+              <li>
+                Marketplace messages: what you and the other person write, and the first name you
+                give. Only the two of you see a conversation, unless one of you reports it, in which
+                case we read it to decide what to do. We email you when a new message arrives, with
+                a link rather than the message itself. Who you block is visible only to you.
+              </li>
             </ul>
 
             <p className="mt-4 font-medium text-ink">From guests (no account required)</p>

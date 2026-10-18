@@ -10,11 +10,16 @@ export function ListingView({
   listing,
   viewer,
   saved,
+  threadId = null,
+  defaultName = "",
 }: {
   listing: MarketListing;
   /** Null when logged out. */
   viewer: { id: string; email: string } | null;
   saved: boolean;
+  /** The viewer's conversation about this listing, if any. */
+  threadId?: string | null;
+  defaultName?: string;
 }) {
   const isSeller = viewer?.id === listing.seller_id;
   const details = [
@@ -65,6 +70,8 @@ export function ListingView({
                 signedIn={viewer !== null}
                 saved={saved}
                 available={listing.status === "active" || listing.status === "pending"}
+                threadId={threadId}
+                defaultName={defaultName}
               />
             )}
           </div>
