@@ -62,6 +62,11 @@ export type SearchShellProps = {
   map: ReactNode;
   /** Shown in place of the grid when nothing matches. */
   empty: ReactNode;
+  /**
+   * The results grid's columns. Venue and vendor cards are wide rows; the
+   * marketplace's are square photos, which want more of them across.
+   */
+  gridClassName?: string;
   children: ReactNode;
 };
 
@@ -77,6 +82,7 @@ export function SearchShell({
   resultNoun,
   map,
   empty,
+  gridClassName,
   children,
 }: SearchShellProps) {
   const rootRef = useRef<HTMLDivElement>(null);
@@ -155,7 +161,7 @@ export function SearchShell({
   ) : resultCount === 0 ? (
     empty
   ) : (
-    <PagedGrid key={pageKey}>{children}</PagedGrid>
+    <PagedGrid key={pageKey} className={gridClassName}>{children}</PagedGrid>
   );
 
   function toggleView(key: string) {
@@ -253,7 +259,13 @@ export function SearchShell({
  * of what made the browse screen lag; the next page loads as the end of the
  * list scrolls into view, with a button as the fallback.
  */
-function PagedGrid({ children }: { children: ReactNode }) {
+function PagedGrid({
+  className = "grid-cols-1 xl:grid-cols-2",
+  children,
+}: {
+  className?: string;
+  children: ReactNode;
+}) {
   const items = Children.toArray(children);
   const [shown, setShown] = useState(PAGE_SIZE);
   const sentinel = useRef<HTMLDivElement>(null);
@@ -274,7 +286,7 @@ function PagedGrid({ children }: { children: ReactNode }) {
 
   return (
     <>
-      <div className="grid grid-cols-1 gap-3 xl:grid-cols-2">{items.slice(0, shown)}</div>
+      <div className={`grid gap-3 ${className}`}>{items.slice(0, shown)}</div>
       {more && (
         <div ref={sentinel} className="flex justify-center py-4">
           <button

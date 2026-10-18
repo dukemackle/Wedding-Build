@@ -10,6 +10,7 @@ import {
   BudgetIcon,
   HeadcountIcon,
   RingsIcon,
+  TagIcon,
   VenueIcon,
   WrenBirdIcon,
 } from "@/components/icons";
@@ -65,6 +66,7 @@ export const NAV_ITEMS: NavItem[] = [
       { href: "/bookings", label: "Bookings" },
     ],
   },
+  { href: "/marketplace", label: "Marketplace", icon: TagIcon },
 ];
 
 function PlainLink({ href, label, icon: Icon }: { href: string; label: string; icon: IconType }) {
