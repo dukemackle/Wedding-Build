@@ -237,6 +237,18 @@ Shaw Florists	Florals	2 NE 3rd Street	Grand Rapids	Minnesota	Grand Rapids area	D
 On River Time Photography	Photography		Grand Rapids	Minnesota	Grand Rapids and surrounding area	Natural-light wedding and family photographer working from a wooded 20-acre riverside property on the Mississippi, who also travels to your location.		(952) 412-9332	https://onrivertimephotography.com/	https://www.instagram.com/onrivertimephotography18/
 Kristina Hendrickson Photo	Photography		Grand Rapids	Minnesota		Grand Rapids photographer taking a limited number of clients a year for outdoor, natural-light weddings, seniors and families with candid and classic portraits.			https://kristinahendrickson.com/wedding	https://www.instagram.com/kristinahendricksonphoto/`,
   },
+  {
+    name: "Map fill: Fairmont, Mankato, Waseca, Janesville, Waldorf, Willmar",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Jessica Sauck Photography	Photography		Truman	Minnesota	Southern Minnesota, Mankato, the Twin Cities and northern Iowa	Truman wedding and engagement photographer who gets to know couples before booking and helps with shot lists and day-of flow.	jess@jessicasauckphotography.com	507-236-9773	https://jessicasauckphotography.com/	https://www.instagram.com/jessicasauckphotography/
+Dee's Floral & Designs	Florals	107 Downtown Plz	Fairmont	Minnesota	Fairmont	Locally owned Fairmont flower shop making bridal bouquets and ceremony flowers alongside everyday arrangements and same-day delivery.		507-235-9856	https://www.deesfloral.com/	
+Sherburn Nursery & Floral	Florals		Sherburn	Minnesota	Alpha, Ceylon, Dunnell, Fairmont, Jackson, Northrop, Sherburn, Trimont and Welcome	Sherburn nursery and florist making wedding bouquets, bridal party flowers and ceremony and reception arrangements for towns around Fairmont.		507-764-3191	https://www.sherburnnurseryandfloral.org/	https://www.instagram.com/sherburnnurseryandfloral/
+Malwitz Photography	Photography		Mankato	Minnesota	Mankato, Rochester and the Twin Cities	Mankato wedding and engagement photographers, working since 2006, known for dramatic light and emotional galleries across southern Minnesota.	info@malwitzphotography.com		https://malwitzphotography.com/	https://www.instagram.com/malwitzphotography/
+DJ Ultralight	Music	424 N Riverfront Dr, Floor 3	Mankato	Minnesota	Mankato, southern Minnesota and the southern Twin Cities	Mankato wedding DJ and photo booth company providing ceremony music, MC hosting and dance-floor sets for couples across southern Minnesota.		507-229-0220	https://www.djultralight.com/	https://www.instagram.com/djultralight/
+Lush Cakes	Cake	930 State St South	Waseca	Minnesota		Waseca bakery and café making custom wedding cakes, cupcakes and macarons, with cake-tasting appointments and event catering.	jessica@lushcakesmn.com	(507) 201-3245	https://lushcakesmn.com/	https://www.instagram.com/lushcakesmn/
+Infinity Catering	Catering		Janesville	Minnesota		Janesville caterer with more than 25 years' experience, serving weddings and other events with buffet setup, table decor and attired servers.	infinitycatering@hotmail.com	507-995-4849	https://www.infinitycateringmn.com/	https://www.instagram.com/infinitycatering.mn/
+Haven Designs	Hair & Makeup		Waldorf	Minnesota		Waldorf hair and makeup team offering bridal and formal hair designs, full makeup with lash options and trial runs, close to JR's Barn.	havenacres142@gmail.com	(507) 317-5309	https://www.haven-ho.me/haven-services	`,
+  },
 ];
 
 export default batches;

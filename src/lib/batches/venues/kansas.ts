@@ -95,6 +95,13 @@ Memorial Auditorium & Convention Center	503 N Pine St	Pittsburg	Kansas			Histori
     tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
 Hoover Pavilion	108 4th Avenue	Dodge City	Kansas			Historic / Estate	Indoor			A city-owned 1919 pavilion in Wright Park, now climate controlled with a 5,000 sq ft main hall, warming kitchen and the Liberty Garden, taken for weddings and receptions.	caitlyns@dodgecity.org	620-225-8160	https://www.dodgecity.org/104/Hoover-Pavilion`,
   },
+  {
+    name: "Map fill: Garden City, Liberal, Hugoton",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Southwind Golf & Dining	77 Grandview Dr	Garden City	Kansas			Restaurant / Vineyard	Indoor & Outdoor			A Garden City golf club with a fine dining hall, lake-view lounge, patio and pool, hosting weddings and receptions with fireplaces and full bars.	events@southwind-gc.com	620-275-2117	https://www.southwind-gc.com/weddings
+The Kitchen at the Baker	624 N Pershing Ave	Liberal	Kansas			Restaurant / Vineyard	Indoor & Outdoor			A rentable community kitchen at Liberal's Baker Arts Center, with a she shed and patio, open for small receptions and wedding showers.	info@bakerarts.org	(620) 624-2810	https://www.bakerarts.org/the-kitchen
+The Wild Sage Ranch	1552 Road S	Hugoton	Kansas			Barn / Rustic	Indoor & Outdoor	300	Simple	A five-acre prairie ranch outside Hugoton with a 5,100 sq ft beamed indoor space and outdoor ceremony sites among trees and open prairie.	thewildsageranch@gmail.com	620-575-5569	https://www.thewildsageranch.com/`,
+  },
 ];
 
 export default batches;
