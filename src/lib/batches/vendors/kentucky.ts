@@ -127,6 +127,14 @@ The Bistro	Catering	1129 College Street	Bowling Green	Kentucky	Bowling Green	Res
 Vette City Catering	Catering	300 East 8th Avenue	Bowling Green	Kentucky	South Central Kentucky	Caterer based at the Bowling Green ballpark, serving weddings, receptions and conferences on site and at off-site venues.			https://vettecitycatering.com/	
 Sprinklicious	Cake		Bowling Green	Kentucky	Bowling Green and surrounding Warren County	Bakery making wedding cakes with a tasting and consultation process, plus cake cutting and setup services and grazing tables for receptions.			https://sprinkliciousbakery.com/	`,
   },
+  {
+    name: "Glasgow: florals and catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+All In Bloom Florist	Florals	201 Happy Valley Road	Glasgow	Kentucky		Glasgow flower shop offering custom wedding bouquets, ceremony and reception flowers, and hire of arches and candelabras after a phone consultation.		(270) 651-7673	https://www.allinbloomflorist.net/	
+Esters Farm Cafe & Catering	Catering	4900 Park City Bon Ayr Rd	Park City	Kentucky		Scratch-cooking cafe near Mammoth Cave that caters wedding receptions and rehearsals, from drop-off trays to full delivery, setup and staffing.		270-544-7341	https://www.estersfarm.com/	
+The Bar-B-Q Hut	Catering	594 Reynolds Rd	Glasgow	Kentucky		Glasgow barbecue restaurant, open since 2009, whose catering service covers weddings and receptions with slow-smoked meats, sides and house sauces.		(270) 659-2933	https://www.thebarbqhut.com/	
+`,
+  },
 ];
 
 export default batches;

@@ -177,6 +177,14 @@ Lana's Flowers	Florals	1347 S. Eufaula Ave, Ste H	Eufaula	Alabama	Eufaula	Eufaul
 The Flower Hut	Florals	1975 South Eufaula	Eufaula	Alabama	Eufaula and surrounding areas	Eufaula florist creating custom wedding flowers for formal and casual celebrations, with consultations arranged by phone.		(334) 687-6037	https://www.flowerhuteufaula.com/	
 `,
   },
+  {
+    name: "Scottsboro and Eufaula: florals, catering, photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Woods Cove Flowers & Gifts	Florals	107 Woods Cove Rd	Scottsboro	Alabama		Scottsboro flower shop with a wedding menu of bridal and attendant bouquets, ceremony and reception arrangements, plus arch and candelabra hire.		(256) 259-5100	https://www.wcflowers.net/	
+Talk of the South	Catering		Skyline	Alabama	Skyline, Scottsboro and events within 100 miles	Family-run caterer based in Skyline since 2015, offering buffet, plated and food-station service for weddings, with tastings and bar service.	theglasshouse2020@yahoo.com	(256) 244-0903	https://www.talkofthesouth.com/	
+Walden Photography	Photography		Eufaula	Alabama		Eufaula photographer with a fine-arts degree and over twelve years shooting weddings, events, family portraits and more, working from her hometown.		334-803-1415	https://www.waldenphoto.com/	https://www.instagram.com/walden_photography/
+`,
+  },
 ];
 
 export default batches;
