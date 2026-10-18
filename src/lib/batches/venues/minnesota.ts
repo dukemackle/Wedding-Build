@@ -156,6 +156,15 @@ Fox Lake Event Center	730 125th Street	Sherburn	Minnesota			Ballroom / Hotel	Ind
 Fairmont Opera House	45 Downtown Plaza	Fairmont	Minnesota			Historic / Estate	Indoor			Downtown theatre dating to 1901, billed as the state's oldest operating theatre, with about 500 seats and available to rent for weddings and receptions.	info@fairmontoperahouse.org	(507) 238-4900	https://fairmontoperahouse.org/
 Red Rock Center for the Arts	222 East Blue Earth Avenue	Fairmont	Minnesota			Historic / Estate	Indoor	150	Simple	Red brick arts building with stained glass, a large hall seating 150 for a ceremony, a warming kitchen and a grand piano; hall rental runs $350 to $500 a day.		(507) 235-9262	https://www.redrockcenter.org/rentals.html`,
   },
+  {
+    name: "Map fill: Fairmont, Rochester, Waldorf, Willmar",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Best Western Fairmont Hotel & Event Center	1201 Torgerson Drive	Fairmont	Minnesota			Ballroom / Hotel	Indoor			Lakeside-town hotel with a 3,300 sq ft ballroom, customisable wedding packages, in-house catering and planning help.		507-238-4700	https://www.bestwesternfairmonteventcenter.com/
+Chain of Lakes Yacht Club	405 Interlaken Road	Fairmont	Minnesota			Beach / Waterfront	Indoor & Outdoor		Simple	Members' lakeside clubhouse on the Fairmont chain of lakes that rents out for weddings, with a published wedding rental fee.			https://chainoflakesyachtclub.com/
+Hilltop House	1735 3rd Ave NW	Rochester	Minnesota			Historic / Estate	Indoor & Outdoor			1928 limestone house in Rochester, once a bed and breakfast, now hosting weddings with a chandelier-lit tent, grounds and getting-ready space.	hello@hilltophousemn.com	507-800-3010	https://hilltophousemn.com/
+JR's Barn	21573 45th Street	Waldorf	Minnesota			Barn / Rustic	Indoor & Outdoor	290	Classic	Family-run barn near Waldorf with indoor and outdoor ceremony spots, decor included, and a day-of coordinator in the rental fee.	jrsbarn@gmail.com	507-327-7047	https://www.jrsbarn.com/
+Stonewall Farms	3067 67th Ave NW	Willmar	Minnesota			Barn / Rustic	Indoor & Outdoor	150		Eighty-acre estate on Solomon Lake with a white oak barn built in 2010, pine-grove ceremony spots and a getting-ready suite.		(763) 213-7302	https://mnstonewallfarms.com/`,
+  },
 ];
 
 export default batches;

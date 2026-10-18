@@ -141,6 +141,30 @@ King Luxe Photography & Salon	Photography		Liberal	Kansas	Liberal	A Liberal phot
 The Flower Basket	Florals	13 E 2nd Street	Liberal	Kansas	Liberal	A Liberal florist with a wedding flowers page, taking bridal bouquet and ceremony enquiries by consultation booked in advance by phone.		(620) 624-7049	https://www.flowerbasketliberal.com/wedding-flowers	
 Efilms Video & Photography	Videography		Liberal	Kansas	Liberal	A Liberal video and photo business with wedding and quinceañera galleries and couple testimonials on its site.			https://efilmsvideo.com/	https://www.instagram.com/efilmsvideophoto/`,
   },
+  {
+    name: "Dodge City: catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Prime On The Nine	Catering	1800 Matt Down Ln	Dodge City	Kansas		A Dodge City steakhouse offering event catering, with weddings listed among the occasions on its catering request form.		(620) 227-2736	https://www.primeonthenine.com/catering/	https://www.instagram.com/primeonthenine/`,
+  },
+  {
+    name: "Garden City: catering and florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+John Ross & Co. Signature Catering	Catering		Garden City	Kansas		A Garden City caterer founded in 2010 by a former Ritz-Carlton chef, with custom and pre-built menus for weddings, parties and corporate events.	johnrossandco@gmail.com	316-323-5119	https://www.johnrossandco.com/	
+Wharton's Flowers & Gifts	Florals	906 N 10th St	Garden City	Kansas	Garden City and Holcomb	A Garden City flower and gift shop that designs wedding flowers alongside everyday arrangements, delivering in Garden City and Holcomb.	Hello@WhartonsFlowers.com	620.276.6000	https://www.whartonsflowers.com/	`,
+  },
+  {
+    name: "Wichita: bar, photo booth, officiant, decor and rentals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+ICT Bartending	Bar		Wichita	Kansas	Wichita	A mobile bar and bartending service for Wichita-area weddings, with lighted portable bars and cash, limited or full open bar packages.	tosha@ictbartending.com	(316) 531-1700	https://ictbartending.com/	https://www.instagram.com/ict.bartending/
+The Wichita Photobooth Company	Photo Booth		Wichita	Kansas	Wichita	A Wichita photo booth company offering open and enclosed booths for weddings, parties and corporate events, with over a thousand events since 2009.	joel@thewichitaphotoboothcompany.com	316.640.6270	https://www.thewichitaphotoboothcompany.com/	
+Kimberly Professional Wedding Officiant	Officiant		Wichita	Kansas	Wichita area	A Wichita-area wedding officiant who writes personalised vows with each couple and arrives an hour early on the day to settle everything.	KimberlyProfessionalOfficiant@gmail.com	316-247-0164	https://www.kimberly-professional-wedding-officiant.com/	
+Le Luci	Decor & Lighting	214 S Commerce St	Wichita	Kansas	Wichita and Kansas City	A Wichita lighting and decor studio renting chandeliers, drapery, bars and centrepieces, with custom builds and a Kansas City inventory too.	info@lelucilighting.com	316.932.2876	https://www.lelucilighting.com/	https://www.instagram.com/leluci_ict/`,
+  },
+  {
+    name: "Lawrence and Topeka: rentals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+U-neek Events	Rentals	2460 Fairfield St, Suite B	Lawrence	Kansas	Lawrence area	A Lawrence rental company with tents, tables, chairs, linens, a stage and lounge furniture for weddings and other events around Lawrence.	info@uneekeventsks.com	785.764.1153	https://www.uneekeventsks.com/	`,
+  },
 ];
 
 export default batches;
