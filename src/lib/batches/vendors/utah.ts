@@ -277,6 +277,35 @@ Hawkins Photo and Film	Videography		Park City	Utah	Salt Lake City, Moab, Park Ci
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
 Top Shelf Professional Bar Services	Bar	6436 N Business Loop Rd, Suite C	Park City	Utah	Utah	Park City mobile bar company serving weddings and private events, with customisable bar packages and help with event permits.	info@topshelfutah.com	(435) 940-9131	https://www.topshelfutah.com/	https://www.instagram.com/topshelfutah/`,
   },
+  {
+    name: "Ogden: Cake, Music, Florals, Photography, Planning, Catering, Hair & Makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Sweet Fabula	Cake		Ogden	Utah	Ogden	Ogden bakery making handcrafted cakes from simple ingredients with no additives, for weddings as well as birthdays and showers.	sweetfabula@gmail.com	+1 801 695 6959	https://www.sweetfabula.com/	https://www.instagram.com/sweetfabula/
+DJ Illuminique	Music		Layton	Utah	Davis, Weber, Salt Lake, Box Elder and Utah counties	Layton-area mobile DJ and MC for wedding receptions, working across Davis, Weber, Salt Lake, Box Elder and Utah counties.			https://illuminique.com/wedding-dj-northern-utah/	https://www.instagram.com/dj_illuminique/
+Flowers By Lex	Florals	246 E 100 N	Bountiful	Utah		Bountiful florist with a published pricing guide for wedding bouquets, ceremony arches and reception flowers.	flowersbylex.info@gmail.com	(801) 214-8495	https://www.flowersbylex.com/weddings-events	https://www.instagram.com/flowersbylex/
+Rachel Bolan Photo	Photography		Logan	Utah	Logan, Cache Valley and northern Utah	Logan wedding photographer covering Cache Valley and northern Utah, with travel fees for weddings further afield.			https://www.rachelbolanphoto.com/Logan-Utah-Wedding-Photographer/	
+Farm Yard	Florals		Moab	Utah		Moab florist growing flowers on its own micro farm and designing wedding florals and installations, with 100+ Moab weddings since 2016.	hello@farmyard.co		https://farmyard.co/	https://www.instagram.com/farmyardmoab/
+Lund Floral	Florals	483 12th St	Ogden	Utah	Utah	Ogden florist offering bridal bouquets, ceremony arches and reception centrepieces for weddings across Utah.		(801) 627-2424	https://lundfloraldesigns.com/	
+Brigham Floral Design	Florals	437 S Main	Brigham City	Utah	Brigham City	Main Street Brigham City florist making wedding bouquets, ceremony and reception flowers, with consultations for couples.		(435) 246-4803	https://www.brighamcityfloralandgift.com/wedding-flowers	
+Lee's Corner Floral Shop	Florals	2645 N Washington Blvd	North Ogden	Utah	North Ogden	North Ogden flower shop offering wedding bouquets, centrepieces and ceremony arrangements, with packages set at a consultation.		(801) 782-7800	https://www.leesfloralogden.com/wedding-flowers	
+Dill the Menace	Music		Smithfield	Utah	Logan, North Logan, Hyde Park, Providence, Nibley, Wellsville, Hyrum and Cache Valley	Smithfield DJ for Cache Valley weddings, offering custom playlists, smooth transitions and MC services.		(435) 999-8729	https://dillthemenace.com/	https://www.instagram.com/dillthemenace_dj/
+Scott's Catering & Grill	Catering	3554 West 1550 North	West Point	Utah	Ogden, Layton, Clearfield, Bountiful and the Wasatch Front	West Point caterer offering customised wedding menus with a grill and barbecue focus for the Ogden area and Wasatch Front.	scottscateringandgrill@gmail.com	(435) 799-5981	https://www.scottscateringandgrill.com/	
+Jones & Co Catering	Catering	1096 West Highway 40	Vernal	Utah	Vernal, Roosevelt and Duchesne	Vernal caterer offering buffet and full-service menus for weddings and other events across the Uintah Basin.	jonescustomcatering@gmail.com	435-790-5139	https://jonescustomcatering.com/	
+Basin Wedding Planning and Rentals	Planning		Vernal	Utah	Utah, Colorado and Wyoming	Vernal planner offering full-service wedding planning, luxury rentals and styling and design in Utah, Colorado and Wyoming.		(720) 590-2768	https://www.basinweddingplanningandrentals.org/	https://www.instagram.com/basinweddingplanningrentals/
+Nicole Christiansen Photography	Photography		Cedar City	Utah	Southern Utah, including Cedar City, Brianhead, Zion and Bryce	Cedar City photographer with a weddings and elopements portfolio, shooting around Brianhead, Zion and Bryce Canyon.	nicolechristiansenphoto@yahoo.com	435-531-9269	https://www.nicolechristiansen.com/	https://www.instagram.com/nicolechristiansenphoto/
+Sandstone Sound	Music		Moab	Utah	Moab	Moab-based wedding and event DJ service handling music and announcements for receptions in the Moab area.	info@sandstonesound.com	512-721-8739	https://www.sandstonesound.com/	https://www.instagram.com/sandstone_sound/
+Flowers By Laura Studio	Florals	3556 South 250 West	Nibley	Utah	Cache Valley, including Logan, North Logan, Hyrum, Smithfield and Providence	Nibley florist serving Cache Valley with wedding flowers, a consultation request form and a weddings gallery.	flowersbylaurastudio@gmail.com	(435) 753-1121	https://flowersbylaura.studio/	https://www.instagram.com/flowersbylaura.studio/
+Boomer's Bloomers & The Candy Factory	Florals	5 N Main St	Cedar City	Utah	Cedar City	Cedar City florist and candy shop on Main Street making wedding bouquets, ceremony and reception flowers, with consultations.		(435) 586-6769	https://www.flowerscedarcity.com/wedding-flowers	https://www.instagram.com/boomers.bloomers/
+LV Bridal Designs	Hair & Makeup	57 E Center Street	Moab	Utah	Moab, with travel available	Moab bridal hair and makeup artist and salon owner, a licensed cosmetologist, who also travels for weddings.			https://www.lvbridaldesigns.com/	https://www.instagram.com/lv_bridaldesigns/`,
+  },
+  {
+    name: "Park City: Photography, Music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Trevor Hooper Photography	Photography		Park City	Utah	Park City and Salt Lake City	Park City and Salt Lake City wedding photographer with a bold, fun style, covering mountain venues across Utah and further afield.	trevor@trevorhooperphoto.com		https://www.trevorhooperphoto.com/	https://www.instagram.com/trevorhooperphoto/
+Kaci Lou Photography	Photography		Park City	Utah	Park City and worldwide	Park City photographer for small weddings and elopements in secluded places, working in film, drone and outdoor styles.	kaci@kacilou.com		https://kacilou.com/	https://www.instagram.com/kacilouphotography/
+Chelsea Fabrizio Photo	Photography		Park City	Utah	Park City, Moab and Salt Lake City	Park City photographer shooting weddings and couples since 2015 in a candid, story-led style, from mountain lodges to red-rock elopements.	chelseafabriziophoto@gmail.com	801-783-8812	https://www.chelseafabriziophoto.com/	https://www.instagram.com/chelseafabrizio_/
+Oquirrh String Quartet	Music		Salt Lake City	Utah	Salt Lake City, Park City and throughout Utah	Salt Lake City string quartet formed in 2010, playing wedding ceremonies and receptions including at Deer Valley venues.		801-386-8110	https://oquartet.com/	`,
+  },
 ];
 
 export default batches;
