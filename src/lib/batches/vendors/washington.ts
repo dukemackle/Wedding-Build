@@ -243,6 +243,17 @@ Loves Me Flowers	Florals	404 Aplets Way	Cashmere	Washington		Cashmere floral des
 A Taste of Plain	Catering		Leavenworth	Washington		Leavenworth caterer and personal chef serving handcrafted tapas-style menus built on local farms and seasonal produce, including small weddings.	atasteofplain@gmail.com	509-699-9217	https://www.tasteofplain.com/	
 Deb's Delights	Cake	304 E Wapato Ave	Chelan	Washington		Chelan bakery making custom wedding cakes, cupcakes, cheesecakes and brownies, with natural dye options; allow three weeks' notice.	debi@debsdelightschelan.com	(509) 888-5388	https://debsdelightschelan.com	https://www.instagram.com/debs.delights1/`,
   },
+  {
+    name: "Moses Lake, Aberdeen and Leavenworth: map fill",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Rachael Herrera	Photography		Moses Lake	Washington	Moses Lake, Tri-Cities and surrounding Eastern Washington	Moses Lake photographer for weddings and engagements, with a relaxed, genuine-moments approach to couples, families and portraits.	rachaelherreraphotography@gmail.com	(509) 554-1186	https://www.rachaelherrera.com/	https://www.instagram.com/rachaelherrera/
+Kalahan & Sean	Photography		Moses Lake	Washington	Eastern Washington, including Spokane, Wenatchee, Chelan, the Tri-Cities and Ellensburg	Moses Lake wedding photographer with 16 years' experience, offering a clean, timeless style, a second shooter and a complimentary engagement session.			https://kalahanandsean.com/wedding	https://www.instagram.com/kalahanandsean/
+Floral Occasions	Florals	315 S Ash Street	Moses Lake	Washington		Moses Lake flower shop whose wedding range covers bouquets, wedding party flowers, and ceremony and reception arrangements.		(509) 764-7673	https://www.floraloccasions.net/	https://www.instagram.com/floraloccasions_ml/
+Harbor Blooms	Florals	400 E Wishkah Street	Aberdeen	Washington		Downtown Aberdeen florist and gift shop making wedding bouquets, wedding party flowers and ceremony and reception arrangements.	marnisharborblooms@outlook.com	(360) 532-0300	https://www.harborblooms.com/	
+Bakery Lavogue	Cake	617 Simpson Ave	Hoquiam	Washington		Hoquiam bakery in the historic Lavogue Building that makes custom wedding and special-event cakes alongside its daily breads and pastries.		(360) 743-4242	https://bakerylavogue.com/	
+Hopkins Media	Videography		Leavenworth	Washington	Leavenworth, Wenatchee, Lake Chelan and destinations	Leavenworth photographer and filmmaker making cinematic, editorial-style wedding and engagement films and photographs.			https://www.hopkinsmedia.net/home/	https://www.instagram.com/hopkinsmedia._/
+`,
+  },
 ];
 
 export default batches;
