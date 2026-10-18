@@ -144,6 +144,11 @@ Paris West	Catering	1719 Central Avenue	Cheyenne	Wyoming		Downtown Cheyenne rest
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
 Consider the Lilies	Florals	232 E 2nd St	Casper	Wyoming	Casper, Evansville, Mills and Vista West	Downtown Casper flower shop that designs wedding bouquets, ceremony arches and reception centerpieces, with delivery and setup at Casper venues.	wecare@marvelfloralart.com	(307) 315-6121	https://www.marvelfloralart.com/wedding	https://www.instagram.com/considerthelilies_flowers/`,
   },
+  {
+    name: "Map fill and gaps: Rock Springs: florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Save the Date Flower and Wedding Studio	Florals	1175 Dewar Dr	Rock Springs	Wyoming	Rock Springs and Green River	Rock Springs florist doing wedding flowers alongside tuxedo hire, table linens, chair covers and planning help, with daily delivery to Green River.		(307) 522-5283	https://www.savethedatefloral.com/	https://www.instagram.com/savethedatefloral/`,
+  },
 ];
 
 export default batches;
