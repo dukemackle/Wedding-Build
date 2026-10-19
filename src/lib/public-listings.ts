@@ -27,6 +27,15 @@ const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
  * the listing page just invites the owner to add their details. A vendor that
  * lists or claims itself isn't one.
  */
+/**
+ * Nobody from the business has claimed or submitted it: built from public
+ * information. Such a listing says so, and that the business isn't affiliated
+ * with us (docs/legal-audit.md R5).
+ */
+export function isUnclaimedListing(v: { source: string | null; is_sample: boolean }): boolean {
+  return !v.is_sample && v.source !== "claimed" && v.source !== "self-listed";
+}
+
 export function isBasicListing(v: { website: string | null; instagram_url: string | null; source: string | null }): boolean {
   return !v.website && Boolean(v.instagram_url) && v.source === "import";
 }
@@ -60,14 +69,14 @@ export function isIndexable(listing: {
   return Boolean(listing.description?.trim()) && Boolean(listing.last_verified_at) && !listing.is_sample;
 }
 
-/** "Details verified September 2026", or who confirmed them. */
+/** "Checked against their website, September 2026", or who confirmed them. Unclaimed listings never say "verified": nobody from the business has (docs/legal-audit.md R5). */
 export function verifiedLabel(
   listing: { source: string | null; last_verified_at: string | null },
   noun: "venue" | "vendor",
 ): string | null {
   if (!listing.last_verified_at) return null;
   const when = new Date(listing.last_verified_at).toLocaleDateString("en-US", { month: "long", year: "numeric" });
-  return listing.source === "claimed" ? `Details confirmed by the ${noun}, ${when}` : `Details verified ${when}`;
+  return listing.source === "claimed" ? `Details confirmed by the ${noun}, ${when}` : `Checked against their website, ${when}`;
 }
 
 /** Whether the business itself confirmed this field through its claim link. */

@@ -1,6 +1,6 @@
 "use server";
 
-import { createClient } from "@/lib/supabase/server";
+import { createGuestSiteClient } from "@/lib/supabase/guest-site";
 
 const MAX_FIELD = 200;
 const MAX_NOTE = 500;
@@ -22,10 +22,9 @@ function clean(value: FormDataEntryValue | null, max = MAX_FIELD) {
 export async function submitContactDetails(
   formData: FormData,
 ): Promise<{ error?: string; success?: boolean }> {
-  const supabase = await createClient();
-
   const slug = (formData.get("slug") as string)?.trim();
   if (!slug) return { error: "Something went wrong — please reload and try again." };
+  const supabase = await createGuestSiteClient(slug);
 
   const name = clean(formData.get("name"));
   if (!name) return { error: "Please add your name." };
@@ -47,11 +46,9 @@ export async function submitContactDetails(
     return { error: "That phone number looks too short — please check it." };
   }
 
-  const { data: wedding } = await supabase
-    .from("public_weddings")
-    .select("id")
-    .eq("public_slug", slug)
-    .maybeSingle<{ id: string }>();
+  // By slug alone, like the page: the insert policy checks the same (0121).
+  const { data: covers } = await supabase.rpc("guest_site_cover", { site_slug: slug });
+  const wedding = (Array.isArray(covers) ? covers[0] : covers) as { id: string } | undefined;
 
   if (!wedding) return { error: "This link isn't active — ask the couple for a new one." };
 

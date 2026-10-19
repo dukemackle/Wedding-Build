@@ -66,7 +66,11 @@ export async function sendVendorInquiry(formData: FormData): Promise<{ error?: s
   const phoneNote = senderPhone ? `\n\nPhone: ${senderPhone}` : "";
 
   // Only real listings get a claim link; a sample vendor has no one to claim it.
-  const claimUrl = vendorId && listing && !listing.is_sample ? await ensureVendorClaimLink(vendorId) : null;
+  // And only when the email goes to the listing's own stored address: an
+  // address the couple typed could be anyone's, and the link would let them
+  // take over the listing (docs/legal-audit.md R8).
+  const claimUrl =
+    vendorId && listing && !listing.is_sample && listing.contact_email ? await ensureVendorClaimLink(vendorId) : null;
 
   // Log the inquiry before sending, so an email never goes out unrecorded:
   // the per-listing lead count is what we'll show vendors. If the send then
@@ -226,21 +230,26 @@ export async function sendVendorFollowUps(
   let failed = 0;
   const sentIds: string[] = [];
 
-  // Follow-ups carry the claim link too, for real (non-sample) listings.
+  // Follow-ups carry the claim link too, for real (non-sample) listings, and
+  // only to the listing's own stored address, as with the first inquiry.
   const listingIds = [...new Set(followable.map((i) => i.vendor_id).filter((id): id is string => !!id))];
-  const claimable = new Set<string>();
+  const listingEmails = new Map<string, string>();
   if (listingIds.length > 0) {
     const { data: listed } = await supabase
       .from("vendors")
-      .select("id, is_sample")
-      .in("id", listingIds);
-    for (const v of listed ?? []) if (!v.is_sample) claimable.add(v.id);
+      .select("id, is_sample, contact_email")
+      .in("id", listingIds)
+      .returns<{ id: string; is_sample: boolean; contact_email: string | null }[]>();
+    for (const v of listed ?? []) {
+      if (!v.is_sample && v.contact_email) listingEmails.set(v.id, v.contact_email.toLowerCase());
+    }
   }
 
   for (const inquiry of followable) {
     try {
       const claimUrl =
-        inquiry.vendor_id && claimable.has(inquiry.vendor_id)
+        inquiry.vendor_id &&
+        listingEmails.get(inquiry.vendor_id) === inquiry.recipient_email?.toLowerCase()
           ? await ensureVendorClaimLink(inquiry.vendor_id)
           : null;
       const { error: sendError } = await resend.emails.send({

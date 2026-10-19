@@ -74,6 +74,15 @@ vendor outreach blasts):
 **SMS beyond the current opt-in text updates:** explicit opt-in per number,
 STOP handling, and record of consent (TCPA). Current texts are
 wedding-schedule only and never marketing — keep it that way or revisit.
+Since 2026-10-19 the RSVP checkbox shows `SMS_CONSENT_DETAIL`
+(`src/lib/sms-consent.ts`), which is stored with the opt-in (0122). Every
+text names the sender and says "Reply STOP". Never add a line promoting
+anything to a guest text: one line of promotion makes it a marketing text.
+
+**Guest sites:** read through `createGuestSiteClient` (`src/lib/supabase/guest-site.ts`),
+never a plain client. The database shows one site per request, and only
+past its password (0121). A new guest-site table gets a policy built on
+`public_weddings`, or on `guest_site_open()` / `guest_site_named()`.
 
 **EU/UK users** (marketing to them, or real sign-ups arriving):
 - Cookie banner only if non-essential cookies/analytics are added; today

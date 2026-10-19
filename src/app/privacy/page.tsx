@@ -83,6 +83,9 @@ export default function PrivacyPage() {
               <li>
                 Whatever you submit through a public RSVP form: your name, household, meal choice,
                 any allergies or dietary needs you mention, notes, plus-one info, an optional photo, message, and song request.
+                Allergies, dietary needs and anything about access or health you mention go only to
+                that couple, to plan the day; they&apos;re never shown on the site or shared with
+                vendors.
               </li>
               <li>
                 Guest-submitted RSVP data is sent to the couple whose wedding you&apos;re RSVPing
@@ -111,8 +114,10 @@ export default function PrivacyPage() {
                 choose (such as Venmo or PayPal); we never handle it or see your payment details.
               </li>
               <li>
-                Your phone number, if a couple adds it and you opt in to text updates, is used to
-                send you schedule changes for that wedding — nothing else, and never marketing.
+                Your phone number, if you give it on the RSVP form or the couple adds it. If you tick
+                &ldquo;Text me schedule changes&rdquo;, we keep a record of the wording you agreed
+                to and when. Texts come from You Do, I Do only when the couple changes their
+                schedule, never to advertise anything. Reply STOP to any of them to stop.
               </li>
             </ul>
 
@@ -132,6 +137,19 @@ export default function PrivacyPage() {
                 or brochure, or to help write your description, the website address, the file or
                 the notes you typed are used to draft it. You check the draft before sending it.
               </li>
+              <li>
+                Businesses we list from public information, before anyone from them signs up: the
+                business name, address, phone number, email address, website and social links,
+                and details such as capacity, services and price range, taken from the
+                business&apos;s own website or other public listings. Descriptions are written by us.
+                The email address and phone number aren&apos;t shown on the listing; couples reach
+                the business through You Do, I Do. A business can claim, correct or remove its
+                listing at any time from the listing itself or by emailing{" "}
+                <a href="mailto:hello@youdoido.com" className="text-brass hover:underline">
+                  hello@youdoido.com
+                </a>
+                .
+              </li>
             </ul>
 
             <p className="mt-4 font-medium text-ink">From anyone reporting a listing</p>
@@ -147,8 +165,11 @@ export default function PrivacyPage() {
             <p className="mt-4 font-medium text-ink">Automatically</p>
             <p className="mt-2">
               Basic technical information needed to operate the Service, such as an authentication
-              session cookie set by our infrastructure provider. We don&apos;t use third-party
-              advertising trackers. When someone taps a listing&apos;s phone number, website or social
+              session cookie set by our infrastructure provider, and on a password-protected
+              wedding site, a cookie that remembers you&apos;ve typed the password. We don&apos;t use
+              analytics or third-party advertising trackers. Some wedding-site designs load their
+              fonts from Google Fonts, so your browser contacts Google, which sees your IP address
+              (see Google&apos;s privacy policy). When someone taps a listing&apos;s phone number, website or social
               link, we count the tap against that listing, with no personal details attached, so we
               can tell the business how many couples found it here.
             </p>
@@ -189,8 +210,8 @@ export default function PrivacyPage() {
 
             <p className="mt-4 font-medium text-ink">Features that use AI</p>
             <p className="mt-2">
-              Six parts of You Do, I Do send information to Anthropic&apos;s API to generate a response.
-              Each one runs only when you ask for it:
+              These parts of You Do, I Do send information to Anthropic&apos;s API to generate a
+              response. Each one runs only when someone asks for it:
             </p>
             <ul className="mt-2 list-disc space-y-2 pl-5">
               <li>
@@ -210,13 +231,19 @@ export default function PrivacyPage() {
                 stay and the events on your public schedule. Never your guest list.
               </li>
               <li>
-                <strong className="text-ink">The planning assistant</strong> — your question,
-                plus details of your wedding (date, guest count, budget figures, checklist) so the
-                answer is about your wedding rather than weddings in general. When your question
-                needs it, Wren also looks up your guest list (names, households, RSVP status, side,
-                meal choice, plus-ones and tables), your itinerary and your seating plan. Wren can
-                suggest changes, such as adding a guest or a task, but nothing changes until you
-                press Confirm.
+                <strong className="text-ink">The planning assistant (Wren)</strong> — your question
+                and the conversation so far, plus details of your wedding so the answer is about
+                your wedding rather than weddings in general: your names, date, state, venue, guest
+                count, budget figures, the vendors you&apos;ve booked or contacted and what you&apos;re
+                paying them, your answers to Wren&apos;s planning questions (which can include who&apos;s
+                paying and family situations, if you share them), your checklist and, when a
+                question needs it, your guest list (names, households, RSVP status, side, meal
+                choice, plus-ones and tables), your itinerary and your seating plan. Not guests&apos;
+                contact details, addresses or notes. Wren can suggest changes, such as adding a
+                guest or a task, but nothing changes until you press Confirm. If
+                you reach Wren&apos;s daily limit, you can choose to open your question in ChatGPT or
+                Claude with your wedding basics filled in; that only happens if you click it, and
+                those services&apos; own policies then apply.
               </li>
               <li>
                 <strong className="text-ink">Filling in a vendor or venue listing</strong> — the
@@ -266,8 +293,10 @@ export default function PrivacyPage() {
                 database/authentication/file-storage provider (Supabase), our hosting provider
                 (Cloudflare), our email-delivery provider (Resend), our text-message provider
                 (Twilio, only for guests who opted in to schedule updates), and Anthropic, which
-                powers the AI features described above. They process data on our behalf and
-                don&apos;t use it for their own purposes.
+                powers the AI features described above. Weekly backups of our database and files are
+                kept in our private Google Drive and GitHub storage, used only to recover from a
+                failure. These providers process data on our behalf and don&apos;t use it for their
+                own purposes.
               </li>
               <li>
                 <strong className="text-ink">Google</strong> — only if you use &ldquo;Choose from
@@ -315,7 +344,8 @@ export default function PrivacyPage() {
             <p className="mt-3">
               Two things are never public: your itinerary stays private until you choose to
               publish it, and contracts or documents you attach to your budget are never shown on
-              a wedding site at all.
+              a wedding site at all. Wedding sites aren&apos;t listed or searchable on You Do, I Do,
+              each one opens only from its own link, and we ask search engines not to index them.
             </p>
           </Section>
 
@@ -333,7 +363,10 @@ export default function PrivacyPage() {
               . Deleting your account removes your login immediately; if you&apos;re a wedding&apos;s
               owner, it also deletes that wedding and everything on it — including any photos and
               any contracts or documents you uploaded — except where we&apos;re required to retain
-              limited records by law.
+              limited records by law. Your conversations with Wren and any feedback you sent are
+              deleted too. Copies can remain in our private backups for a while afterwards; we use
+              backups only to recover from a failure, and if we ever restore one, we delete again
+              anything you had deleted.
             </p>
           </Section>
 
@@ -344,7 +377,15 @@ export default function PrivacyPage() {
               <a href="mailto:privacy@youdoido.com" className="text-brass hover:underline">
                 privacy@youdoido.com
               </a>{" "}
-              to exercise these rights, and we&apos;ll respond as required by applicable law.
+              to exercise these rights. We&apos;ll confirm the request comes from you (usually by
+              replying to the email address on your account) and answer within 30 days. Guests can
+              ask the couple directly, or ask us and we&apos;ll pass it on or act on it.
+            </p>
+            <p className="mt-3">
+              We don&apos;t sell personal information, or share it for advertising across other
+              sites and apps, as California law defines those terms. Because we don&apos;t track
+              you across other sites, we don&apos;t respond differently to browser &ldquo;Do Not
+              Track&rdquo; signals.
             </p>
           </Section>
 
