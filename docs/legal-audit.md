@@ -455,14 +455,14 @@ Answer each question; any "yes" means update `docs/legal.md` and this register:
 
 | ID | Risk | Sev. | Likelihood | Status | Owner |
 |---|---|---|---|---|---|
-| R1 | Guest-site data enumerable / password bypass | Critical | High | Fixed in branch (migration 0121): one site per request, password enforced in the database, address gated, unlock rate-limited, guest uploads server-side only. Pending photos still public until approved | Code |
+| R1 | Guest-site data enumerable / password bypass | Critical | High | Fixed, live 2026-10-19 (migration 0121): one site per request, password enforced in the database, address gated, unlock rate-limited, guest uploads server-side only. Pending photos still public until approved | Code |
 | R2 | Marketing in guest SMS; no STOP or consent record | High | Med | Fixed in branch (0122): ad removed, sender + STOP in every text, consent wording and time stored, STOP replies (Twilio 21610) clear the opt-in. Twilio number not yet registered for A2P 10DLC (owner) | Code + owner |
 | R3 | Privacy Policy mismatches | High | High | Fixed in branch (Oct 19 policy); attorney review still queued (A5) | Code + attorney |
 | R4 | No entity; Terms gaps | High | Med | Open | Owner + attorney |
 | R5 | "Verified" listing wording; no unclaimed notice | High | Med | Fixed in branch: "Checked against their website", unclaimed/not-affiliated note, "take it down" report reason (0123) | Code |
-| R6 | Incomplete deletion; unencrypted backups; no export | High | Med | Partly fixed: deletion now recursive and removes Wren chats and feedback. Open: backup encryption, GitHub backup history, data export | Code + owner |
+| R6 | Incomplete deletion; unencrypted backups; no export | High | Med | Deletion fix live. Backups encrypted (AES-256-GCM, `BACKUP_ENCRYPTION_KEY`) once the owner sets the key; files deleted from Storage leave the mirror after Drive's 30-day trash. Open: plaintext copies in the GitHub repo's history (owner: recreate the repo), data export | Code + owner |
 | R7 | No DMCA agent or process | High | Med | Open | Owner + code |
-| R8 | Weak claim verification | Med-High | Med | Partly fixed: no claim link in emails to a couple-typed address. Open: token expiry, change-of-email notice, approval checklist | Code |
+| R8 | Weak claim verification | Med-High | Med | Mostly fixed: no claim link to a couple-typed address; links last 90 days (refreshed after 60); a new link after every approved claim; the old contact address is emailed when it's replaced; only the latest approved submitter can request links. Open: claim-form photo uploads go straight from the browser to public buckets | Code |
 | R9 | No insurance known | High | Low–Med | Open (ask owner) | Owner + broker |
 | R10 | CAN-SPAM pieces missing; test-inflated lead counts | Med | Med | Partly fixed: test weddings left out of lead counts. Open: postal address (owner declined a PO box, 2026-10-19; some address is legally required before any commercial email), unsubscribe | Code + owner |
 | R11 | Wren AI notice | Med | — | Fixed in branch (line under the chat input); retention purge open | Code |

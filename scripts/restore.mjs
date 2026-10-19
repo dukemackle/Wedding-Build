@@ -13,7 +13,10 @@
 //     Supabase's Management API (the database port isn't reachable from here),
 //     and to move id sequences past the restored rows.
 //
-// Usage: node scripts/restore.mjs --data <youdoido-backup-*.json.gz>
+//   BACKUP_ENCRYPTION_KEY   the key the backup was made with, if it was encrypted
+//     (a .json.gz.enc data file); see scripts/backup-crypto.mjs.
+//
+// Usage: node scripts/restore.mjs --data <youdoido-backup-*.json.gz[.enc]>
 //          [--files <dir>]          Storage files (default: <data's folder>/files)
 //          [--apply-migrations]     run supabase/migrations/*.sql first (empty project)
 //          [--reset]                wipe the target first (scratch projects only)
@@ -26,6 +29,7 @@ import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { dirname, join, relative } from "node:path";
 import { randomBytes } from "node:crypto";
 import { gunzipSync } from "node:zlib";
+import { backupKey, readable } from "./backup-crypto.mjs";
 
 for (const file of [".env.local", ".env"]) {
   if (!existsSync(file)) continue;
@@ -60,7 +64,9 @@ const FILES_DIR = arg("--files") ?? join(dirname(DATA), "files");
 const REF = new URL(URL_BASE).hostname.split(".")[0];
 const CHUNK = 500;
 const headers = { apikey: KEY, Authorization: `Bearer ${KEY}` };
-const backup = JSON.parse(gunzipSync(readFileSync(DATA)));
+// Encrypted backups (.enc) need BACKUP_ENCRYPTION_KEY; older ones read as they are.
+const CRYPT_KEY = backupKey();
+const backup = JSON.parse(gunzipSync(readable(CRYPT_KEY, readFileSync(DATA))));
 const problems = [];
 const notes = [];
 
@@ -255,7 +261,7 @@ for (const [bucket, files] of Object.entries(backup.storage ?? {})) {
     const res = await api(`/storage/v1/object/${bucket}/${f.path.split("/").map(encodeURIComponent).join("/")}`, {
       method: "POST",
       headers: { "Content-Type": f.mimetype ?? "application/octet-stream", "x-upsert": "true" },
-      body: readFileSync(local),
+      body: readable(CRYPT_KEY, readFileSync(local)),
     });
     if (res.ok) filesRestored++;
     else problems.push(`file ${bucket}/${f.path}: ${res.status} ${(await res.text()).slice(0, 150)}`);

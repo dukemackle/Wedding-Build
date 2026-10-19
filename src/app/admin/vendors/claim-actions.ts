@@ -6,8 +6,8 @@ import { restamp, type FieldSources } from "@/lib/field-sources";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import type { VendorSubmission } from "@/lib/supabase/types";
 import { getResendClient, INQUIRY_FROM_ADDRESS } from "@/lib/resend";
-import { newClaimToken } from "@/lib/venue-claim-server";
-import { ensureVendorClaimLink, VENDOR_CLAIM_BASE_URL } from "@/lib/vendor-claim-server";
+import { noticeOfContactChange } from "@/lib/venue-claim-server";
+import { ensureVendorClaimLink, replaceVendorClaimLink } from "@/lib/vendor-claim-server";
 import { townPin } from "@/lib/listing-pin";
 
 // The vendor side of ../venues/claim-actions.ts.
@@ -20,12 +20,8 @@ export async function getVendorClaimLink(vendorId: string): Promise<{ error?: st
 
 export async function regenerateVendorClaimLink(vendorId: string): Promise<{ error?: string; url?: string }> {
   await requireAdmin();
-  const token = newClaimToken();
-  const { error } = await createAdminSupabaseClient()
-    .from("vendor_claim_links")
-    .upsert({ vendor_id: vendorId, token, created_at: new Date().toISOString() });
-  if (error) return { error: error.message };
-  return { url: VENDOR_CLAIM_BASE_URL + token };
+  const url = await replaceVendorClaimLink(vendorId);
+  return url ? { url } : { error: "Couldn't create a link -- try again." };
 }
 
 export async function approveVendorSubmission(submissionId: string): Promise<{ error?: string }> {
@@ -41,9 +37,10 @@ export async function approveVendorSubmission(submissionId: string): Promise<{ e
 
   const { data: live } = await admin
     .from("vendors")
-    .select("latitude, city, state, source, field_sources")
+    .select("latitude, city, state, source, field_sources, contact_email")
     .eq("id", submission.vendor_id)
     .maybeSingle<{
+      contact_email: string | null;
       latitude: number | null;
       city: string | null;
       state: string | null;
@@ -87,6 +84,12 @@ export async function approveVendorSubmission(submissionId: string): Promise<{ e
 
   await admin.from("vendor_submissions").update({ status: "approved", reviewed_at: now }).eq("id", submissionId);
 
+  // As for venues: the old link has been in forwarded inquiry emails, so the
+  // approved submitter gets a fresh one and the old one stops working.
+  const link = await replaceVendorClaimLink(submission.vendor_id);
+  const linkLine = link ? `Your private link for changes from now on (it lasts 90 days; ask for a new one any time at https://youdoido.com/list/edit):\n${link}` : "Ask for your link any time at https://youdoido.com/list/edit";
+  await noticeOfContactChange(d.name, live?.contact_email, d.contact_email);
+
   if (process.env.RESEND_API_KEY) {
     try {
       await getResendClient().emails.send({
@@ -95,8 +98,8 @@ export async function approveVendorSubmission(submissionId: string): Promise<{ e
         replyTo: process.env.ADMIN_EMAIL?.split(",")[0]?.trim(),
         subject: isNew ? `${d.name} is live on You Do, I Do` : `${d.name} is updated on You Do, I Do`,
         text: isNew
-          ? `Hi ${submission.submitter_name},\n\n${d.name} is now listed on You Do, I Do, where couples can find you and send you inquiries. Use the same link any time to make changes, or ask for it again at https://youdoido.com/list/edit\n\nThanks,\nYou Do, I Do`
-          : `Hi ${submission.submitter_name},\n\nYour changes to ${d.name} are now live on You Do, I Do. You can use the same link any time to make more.\n\nThanks,\nYou Do, I Do`,
+          ? `Hi ${submission.submitter_name},\n\n${d.name} is now listed on You Do, I Do, where couples can find you and send you inquiries.\n\n${linkLine}\n\nThanks,\nYou Do, I Do`
+          : `Hi ${submission.submitter_name},\n\nYour changes to ${d.name} are now live on You Do, I Do.\n\n${linkLine}\n\nThanks,\nYou Do, I Do`,
       });
     } catch {
       // The listing is live either way.
