@@ -133,6 +133,10 @@ reflexively:
 - **`docs/legal.md`** — terms/privacy/consent coverage and what future features
   trigger (marketing email opt-in, EU users, SMS, analytics, billing). Read
   before shipping a new form that collects details, or any of those triggers.
+- **`docs/legal-audit.md`** — the legal/liability audit (2026-10-19), live
+  risk register, launch-review questions and attorney queue. Read before
+  legal, privacy, SMS, listing-wording or payments work; update a risk's
+  status when a fix ships.
 
 ## Working efficiently (2026-09-21)
 
