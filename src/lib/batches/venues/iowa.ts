@@ -121,6 +121,11 @@ Uptown Event Center	15 1st Ave SW	Le Mars	Iowa			Ballroom / Hotel	Indoor & Outdo
 Carrollton Inn Hotel & Event Centre	1730 US Highway 71 N	Carroll	Iowa			Ballroom / Hotel	Indoor			An 86-room hotel on the north side of Carroll with a ballroom, a large event centre, a bridal suite and a patio, so guests can stay on site.	info@carrolltoninn.com	(712) 792-5600	https://www.carrolltoninn.com/meetings-events/weddings/
 Manning Hausbarn Heritage Park	130 Heritage Drive	Manning	Iowa			Historic / Estate	Indoor & Outdoor	250		Heritage park in Carroll County with a German-style hausbarn, a 1913 church, a turn-of-the-century farmstead and a conference centre with halls and a courtyard.		712-655-3131	https://www.germanhausbarn.com/`,
   },
+  {
+    name: "Le Mars: map fill",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Willow Creek Banquet Hall	935 Park Lane	Le Mars	Iowa			Ballroom / Hotel	Indoor	250		City-run banquet hall beside the Willow Creek golf courses, with a bar, portable dance floor, AV gear and parking.	jbrownmiller@lemarsiowa.com	712-548-4971	https://www.lemarsiowa.com/Facilities/Facility/Details/Willow-Creek-Banquet-Hall-19`,
+  },
 ];
 
 export default batches;

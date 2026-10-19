@@ -176,6 +176,16 @@ Ultimate Entertainment	Music		Cedar Falls	Iowa	Iowa	Cedar Falls DJ company that 
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
 Seeley Photography	Photography	236 Main St	Dubuque	Iowa	Dubuque, Cedar Rapids and Madison, plus Galena and surrounding areas	Dubuque wedding and portrait studio on Main Street, photographing weddings since 2006 across Iowa, Illinois and Wisconsin.	seeleyphotography@sarahseeley.com	563-581-6367	https://www.sarahseeley.com/	`,
   },
+  {
+    name: "Le Mars: catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Mama Barb's Catering	Catering	104 1/2 Central Ave NE	Le Mars	Iowa		Home-style catering made from scratch for weddings, celebrations and funerals, with taco and pasta bars and charcuterie; tastings by appointment.		712-540-5564	https://www.mamabarbscatering.com/	`,
+  },
+  {
+    name: "Iowa City: planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Star Entertainment	Planning		Iowa City	Iowa		Family-run Iowa City DJ and MC team that also offers event planning and day-of coordination, plus photobooth hire and Name That Tune games.		319-594-5529	https://starentertainment12.com/	`,
+  },
 ];
 
 export default batches;
