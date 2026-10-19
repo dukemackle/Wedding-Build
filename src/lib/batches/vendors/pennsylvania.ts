@@ -385,7 +385,7 @@ Jim Thorpe Elopements	Planning		Jim Thorpe	Pennsylvania	Jim Thorpe and the Pocon
   {
     name: "Erie: cake",
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
-Warner's Bakery by Hil	Cake	115 North Franklin St	Titusville	Pennsylvania		Titusville bakery making custom tiered and sculpted wedding cakes, with a free consultation and tasting, plus delivery and setup at the venue.		(814) 827-2330	https://warnersbakery.com	https://www.instagram.com/warnersbakerybyhil/`,
+`,
   },
   {
     name: "State College: cake, catering, florals, hair & makeup, music, photography, planning, videography",

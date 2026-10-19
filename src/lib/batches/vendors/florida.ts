@@ -717,7 +717,6 @@ Wondrous Look	Hair & Makeup		Miami	Florida	Miami and Miami-Dade, including Brick
 Lyndsey Ariel Makeup	Hair & Makeup		Miami	Florida	Miami and South Florida	Miami makeup artist for brides, offering natural and elegant bridal looks for weddings across South Florida.	lyndsey@lyndseyarielmakeup.com		https://www.lyndseyarielmakeup.com/	https://www.instagram.com/lyndseyariel/
 Luxe Layers Cakery	Cake		Miami	Florida	Miami, Hialeah, Doral, Coral Gables, Kendall and Homestead	Made-to-order custom cake studio in Miami making wedding cakes with a design consultation, plus scheduled pickup or delivery.	hello@luxelayerscakery.com	(305) 333-5772	https://luxelayerscakery.com/	https://www.instagram.com/luxelayerscakery/
 Spuntino Catering & Events	Catering	1000 NW 54th St	Miami	Florida	Miami-Dade, Broward and much of South Florida	Full-service Miami caterer handling food, bar, staffing, rentals and florals for weddings, with a two-round chef tasting.	gioia@spuntinocatering.com	(786) 266-5974	https://spuntinocatering.com/weddings-catering-miami/	https://www.instagram.com/spuntinocatering/
-A Joy Catering	Catering	18001 Old Cutler Road, Suite 362	Miami	Florida	South Florida, including Miami Beach, Coral Gables, Brickell and Fort Lauderdale	Miami caterer with over thirty years of experience, designing chef-led wedding menus and event experiences across South Florida.		305-252-0020	https://www.ajoycatering.com/	https://www.instagram.com/ajoywallace/
 Feelmakes	Videography		Miami	Florida	Miami and South Florida, with travel across Florida and the US	Miami studio making cinematic wedding films and photography for couples, venues and planners, and travelling for destination weddings.			https://www.feelmakes.com/pages/weddings	https://www.instagram.com/feel.makes/
 `,
   },
@@ -809,7 +808,6 @@ Your Day-Of Coordinator	Planning		Tallahassee	Florida		Tallahassee day-of weddin
     name: "Gainesville: planning, hair and makeup, florals",
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
 White Magnolia Weddings & Events	Planning		Gainesville	Florida	Gainesville, Lake City and Jacksonville	Gainesville planner offering full and custom planning, elopements and design, with an online platform for to-dos, vendor payments and messages.			https://www.whitemagnoliaevents.com/	https://www.instagram.com/whitemagnoliaweddingsfl/
-Moxie To Go	Hair & Makeup		Gainesville	Florida	North Central Florida	Gainesville salon whose on-location team does bridal and event hair and makeup across North Central Florida, with destination work too.	beyou@moxietogo.com	1-833-669-4363	https://moxietogo.com/	https://www.instagram.com/moxietogo/
 Shelley West Event Florals	Florals		Gainesville	Florida	Gainesville	Gainesville wedding florist focused on bouquets, ceremony arches and event flowers, with galleries from real local weddings on its site.			https://gainesvilleflorals.com/	
 `,
   },
