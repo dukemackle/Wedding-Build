@@ -4,7 +4,7 @@ import "server-only";
 import Anthropic from "@anthropic-ai/sdk";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
-import { isAdminEmail } from "@/lib/admin";
+import { isAdminUser } from "@/lib/admin";
 import { buildAdminTools, type Lookup } from "@/lib/ai/admin-assistant-tools";
 
 /** Same model as the couple-facing Wren: these are lookups, not hard reasoning. */
@@ -51,7 +51,7 @@ export async function getAdminQuestionAllowance(): Promise<{ used: number; cap: 
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   const cap = MAX_ADMIN_QUESTIONS_PER_DAY;
-  if (!user || !isAdminEmail(user.email)) return { used: 0, cap };
+  if (!user || !isAdminUser(user)) return { used: 0, cap };
   return { used: await usedToday(createAdminSupabaseClient(), user.id), cap };
 }
 
@@ -60,7 +60,7 @@ export async function askAdminAssistant(history: AdminAssistantMessage[]): Promi
   // trusting the layout's gate.
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
-  if (!user || !isAdminEmail(user.email)) return { ok: false, error: "Admins only." };
+  if (!user || !isAdminUser(user)) return { ok: false, error: "Admins only." };
 
   const trimmed = history.slice(-MAX_TURNS);
   while (trimmed.length > 0 && trimmed[0].role !== "user") trimmed.shift();

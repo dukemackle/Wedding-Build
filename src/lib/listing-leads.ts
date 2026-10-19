@@ -21,7 +21,7 @@ export async function leadCounts(type: ListingType, listingId: string): Promise<
   const table = type === "venue" ? "venue_inquiries" : "vendor_inquiries";
   const idColumn = type === "venue" ? "venue_id" : "vendor_id";
 
-  const [{ data: inquiries }, { count: clicks }] = await Promise.all([
+  const [{ data: inquiries }, { count: clicks }, { data: testWeddings }] = await Promise.all([
     admin
       .from(table)
       .select("wedding_id")
@@ -34,10 +34,14 @@ export async function leadCounts(type: ListingType, listingId: string): Promise<
       .select("id", { count: "exact", head: true })
       .eq("listing_type", type)
       .eq("listing_id", listingId),
+    // The owner's test weddings aren't couples: a count that includes them
+    // overstates the leads we tell a vendor about (docs/legal-audit.md R10).
+    admin.from("weddings").select("id").eq("is_test", true).returns<{ id: string }[]>(),
   ]);
 
+  const test = new Set((testWeddings ?? []).map((w) => w.id));
   return {
-    inquiries: new Set((inquiries ?? []).map((i) => i.wedding_id)).size,
+    inquiries: new Set((inquiries ?? []).map((i) => i.wedding_id).filter((id) => !test.has(id))).size,
     clicks: clicks ?? 0,
   };
 }

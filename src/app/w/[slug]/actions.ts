@@ -2,20 +2,24 @@
 
 import { randomUUID } from "node:crypto";
 import { createClient } from "@/lib/supabase/server";
+import { createGuestSiteClientFor } from "@/lib/supabase/guest-site";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import { getResendClient, INQUIRY_FROM_ADDRESS } from "@/lib/resend";
 import { SITE_URL } from "@/lib/public-listings";
+import { SMS_CONSENT_DETAIL } from "@/lib/sms-consent";
 import type { EventAnswers, GuestSide, RsvpEvent, RsvpStatus } from "@/lib/supabase/types";
 
 const VALID_STATUSES: RsvpStatus[] = ["confirmed", "declined"];
 const VALID_SIDES: GuestSide[] = ["a", "b", "both"];
 const MAX_PHOTO_BYTES = 5 * 1024 * 1024;
 
-type Supabase = Awaited<ReturnType<typeof createClient>>;
-
-/** Validates and stores a guest's photo. No file is fine -- photos are optional. */
+/**
+ * Validates and stores a guest's photo. No file is fine -- photos are optional.
+ *
+ * Uploaded with the service role: browsers can't write to the bucket (0121).
+ * Callers check first that this request may post to the wedding's site.
+ */
 async function uploadGuestPhoto(
-  supabase: Supabase,
   weddingId: string,
   photo: File | null,
 ): Promise<{ photoUrl: string | null } | { error: string }> {
@@ -32,7 +36,8 @@ async function uploadGuestPhoto(
   const extension = photo.name.includes(".") ? photo.name.split(".").pop() : undefined;
   const path = `${weddingId}/${randomUUID()}${extension ? `.${extension}` : ""}`;
 
-  const { error: uploadError } = await supabase.storage
+  const storage = createAdminSupabaseClient().storage;
+  const { error: uploadError } = await storage
     .from("guest-photos")
     .upload(path, photo, { contentType: photo.type });
 
@@ -40,7 +45,7 @@ async function uploadGuestPhoto(
     return { error: "Could not upload your photo — please try again." };
   }
 
-  return { photoUrl: supabase.storage.from("guest-photos").getPublicUrl(path).data.publicUrl };
+  return { photoUrl: storage.from("guest-photos").getPublicUrl(path).data.publicUrl };
 }
 
 /** Trimmed text field, capped so an anonymous form can't store a novel. */
@@ -85,7 +90,7 @@ async function notifyCoupleOfRsvp(weddingId: string, guestName: string, status: 
  */
 export async function getRsvpEvents(weddingId: string, name: string): Promise<RsvpEvent[]> {
   if (!weddingId) return [];
-  const supabase = await createClient();
+  const supabase = await createGuestSiteClientFor(weddingId);
   const { data, error } = await supabase.rpc("rsvp_events_for", {
     p_wedding: weddingId,
     p_name: name.slice(0, 120),
@@ -129,15 +134,22 @@ export async function submitRsvp(formData: FormData): Promise<{ error?: string }
     return { error: "Please choose whether you'll be attending." };
   }
 
-  const supabase = await createClient();
+  const supabase = await createGuestSiteClientFor(weddingId);
+  // Past the password, if there is one, before anything is stored.
+  const { data: open } = await supabase.from("public_weddings").select("id").eq("id", weddingId).maybeSingle();
+  if (!open) {
+    return { error: "This page has expired. Reload it and try again." };
+  }
 
-  const upload = await uploadGuestPhoto(supabase, weddingId, formData.get("photo") as File | null);
+  const upload = await uploadGuestPhoto(weddingId, formData.get("photo") as File | null);
   if ("error" in upload) {
     return { error: upload.error };
   }
   const photoUrl = upload.photoUrl;
   const events = await eventAnswers(formData, weddingId, guestName, status === "confirmed");
   const dietary = field(formData, "dietary", 300);
+  const phone = field(formData, "phone", 30);
+  const smsOptIn = formData.get("sms_opt_in") === "on" && !!phone;
 
   const { error } = await supabase.from("rsvp_submissions").insert({
     wedding_id: weddingId,
@@ -154,8 +166,10 @@ export async function submitRsvp(formData: FormData): Promise<{ error?: string }
     photo_url: photoUrl,
     message: field(formData, "message", 1000),
     song_request: field(formData, "song_request", 200),
-    phone: field(formData, "phone", 30),
-    sms_opt_in: formData.get("sms_opt_in") === "on",
+    phone,
+    sms_opt_in: smsOptIn,
+    // The record of consent: the words the guest saw, and when (0122).
+    ...(smsOptIn ? { sms_consent: SMS_CONSENT_DETAIL, sms_opt_in_at: new Date().toISOString() } : {}),
     ...(events ? { events } : {}),
     // Only sent when answered, so RSVPs keep working before migration 0116.
     ...(dietary ? { dietary } : {}),
@@ -197,9 +211,18 @@ export async function submitGuestPost(formData: FormData): Promise<{ error?: str
     return { error: `Please keep your message under ${MAX_MESSAGE_LENGTH} characters.` };
   }
 
-  const supabase = await createClient();
+  // The photo wall takes posts by link alone, like guest_site_named (0121).
+  const { data: site } = await createAdminSupabaseClient()
+    .from("weddings")
+    .select("public_slug")
+    .eq("id", weddingId)
+    .maybeSingle<{ public_slug: string | null }>();
+  if (!site?.public_slug) {
+    return { error: "This wedding's site isn't up any more." };
+  }
+  const supabase = await createGuestSiteClientFor(weddingId);
 
-  const upload = await uploadGuestPhoto(supabase, weddingId, photo);
+  const upload = await uploadGuestPhoto(weddingId, photo);
   if ("error" in upload) {
     return { error: upload.error };
   }
@@ -249,7 +272,13 @@ export async function claimRegistryGift(
     return { error: CLAIM_ERRORS.bad_amount };
   }
 
-  const supabase = await createClient();
+  const { data: gift } = await createAdminSupabaseClient()
+    .from("registry_gifts")
+    .select("wedding_id")
+    .eq("id", giftId)
+    .maybeSingle<{ wedding_id: string }>();
+  if (!gift) return { error: CLAIM_ERRORS.gift_not_found };
+  const supabase = await createGuestSiteClientFor(gift.wedding_id);
   const { data, error } = await supabase.rpc("claim_registry_gift", {
     p_gift: giftId,
     p_name: name,

@@ -99,7 +99,7 @@ export default async function Home() {
       <FadeInSection>
         <CtaCard
           title="Ready to start planning?"
-          body="Create your account in under a minute — no credit card, ever."
+          body="Create your account in under a minute — no credit card needed."
           href="/signup"
           label="Sign up free"
           className="mb-24 max-w-3xl"

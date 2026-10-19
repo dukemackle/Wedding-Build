@@ -55,6 +55,14 @@ paperwork (an LLC, a $6 DMCA agent filing, a PO box), and insurance quotes.
 
 ---
 
+## Owner answers (2026-10-19)
+
+- **Entity:** none yet.
+- **Insurance:** none.
+- **PO box or virtual mailbox:** declined. CAN-SPAM still requires *a* valid postal address in commercial email, and the DMCA agent filing needs one too. Until one is chosen, no commercial email goes out. The outreach gate stays shut.
+- **Outside users:** none yet. No real weddings, guests or texts, so nothing already sent needs remedying.
+- **Twilio and Supabase:** the number isn't registered for business texting with the carriers (A2P 10DLC). "Confirm email" in Supabase is not known to be on.
+
 ## 2. What exists today (verified in code)
 
 **Live features:**
@@ -233,7 +241,6 @@ paperwork (an LLC, a $6 DMCA agent filing, a PO box), and insurance quotes.
   - `src/app/account/actions.ts:20` lists storage with a single `list(weddingId)`. That call is not recursive and stops at 100 items, so `gallery/`, `venue/`, `party/` and `blocks/` files stay **publicly reachable** after deletion.
   - `assistant_conversations` and `feedback_submissions` survive with `user_id` set to null (`0056`).
   - Backups go unencrypted to Drive (12 copies kept) **and** to a GitHub repo, where git history keeps them forever (`scripts/backup.mjs`).
-  - `backups/` is not in `.gitignore`.
   - There is no self-serve export (`docs/retention.md` lists export as a must-have).
 - **Applicable authority:** FTC §5 (the policy promises deletion, §5 at `privacy/page.tsx:281-297`); state privacy laws if and when they apply (deletion and portability rights); breach laws if a backup copy leaks.
 - **Fix:**
@@ -241,10 +248,9 @@ paperwork (an LLC, a $6 DMCA agent filing, a PO box), and insurance quotes.
   - Delete or anonymise conversation and feedback text.
   - Encrypt backups before upload (age or GPG, key kept off GitHub).
   - Move the GitHub copy to Drive only, or prune history.
-  - Add `backups/` to `.gitignore`.
   - Say "deleted from backups within 90 days" in Privacy.
   - Add a "Download my data" ZIP: JSON plus the existing CSVs.
-- **Priority:** Deletion fix and `.gitignore` now. Encryption within 30 days. Export within 60.
+- **Priority:** Deletion fix now. Encryption within 30 days. Export within 60.
 - **Attorney:** Not currently identified as necessary.
 
 ### R7. No DMCA agent or repeat-infringer policy; open public upload bucket
@@ -343,7 +349,6 @@ paperwork (an LLC, a $6 DMCA agent filing, a PO box), and insurance quotes.
 | R18 | Cap hand-off pre-fills ChatGPT or Claude links with wedding basics | Low | `wedding-assistant.ts:224-234` | FTC §5 if undisclosed | Disclose in Privacy; the user clicks, so this is fine once said | With R3 | No |
 | R19 | Marketplace: no age minimum; no seller terms beyond §4 | Low | `src/lib/marketplace.ts:52-68` (good banned-items list) | §230 covers user posts; CPSC recalled goods (already banned) | 18+ in Terms; marketplace § (as-is, between users, no warranty from us) | With R4 | Recommended (with R4) |
 | R20 | Google Fonts fetched from Google on guest sites | Low | `site-design.ts:1588-1590` | US: disclosure only. EU: LG München 2022 (GDPR) | Self-host fonts or disclose | With R3 | No |
-| R21 | Registry product photos use `alt=""` | Low | `registry-view.tsx:116,534` | WCAG 1.1.1 | Use gift title as alt | 60 days | No |
 
 ---
 
@@ -451,17 +456,21 @@ Answer each question; any "yes" means update `docs/legal.md` and this register:
 
 | ID | Risk | Sev. | Likelihood | Status | Owner |
 |---|---|---|---|---|---|
-| R1 | Guest-site data enumerable / password bypass | Critical | High | Open | Code |
-| R2 | Marketing in guest SMS; no STOP or consent record | High | Med | Open | Code |
-| R3 | Privacy Policy mismatches | High | High | Open | Code + attorney |
+| R1 | Guest-site data enumerable / password bypass | Critical | High | Fixed in branch (migration 0121): one site per request, password enforced in the database, address gated, unlock rate-limited, guest uploads server-side only. Pending photos still public until approved | Code |
+| R2 | Marketing in guest SMS; no STOP or consent record | High | Med | Fixed in branch (0122): ad removed, sender + STOP in every text, consent wording and time stored, STOP replies (Twilio 21610) clear the opt-in. Twilio number not yet registered for A2P 10DLC (owner) | Code + owner |
+| R3 | Privacy Policy mismatches | High | High | Fixed in branch (Oct 19 policy); attorney review still queued (A5) | Code + attorney |
 | R4 | No entity; Terms gaps | High | Med | Open | Owner + attorney |
-| R5 | "Verified" listing wording; no unclaimed notice | High | Med | Open | Code |
-| R6 | Incomplete deletion; unencrypted backups; no export | High | Med | Open | Code + owner |
+| R5 | "Verified" listing wording; no unclaimed notice | High | Med | Fixed in branch: "Checked against their website", unclaimed/not-affiliated note, "take it down" report reason (0123) | Code |
+| R6 | Incomplete deletion; unencrypted backups; no export | High | Med | Partly fixed: deletion now recursive and removes Wren chats and feedback. Open: backup encryption, GitHub backup history, data export | Code + owner |
 | R7 | No DMCA agent or process | High | Med | Open | Owner + code |
-| R8 | Weak claim verification | Med-High | Med | Open | Code |
+| R8 | Weak claim verification | Med-High | Med | Partly fixed: no claim link in emails to a couple-typed address. Open: token expiry, change-of-email notice, approval checklist | Code |
 | R9 | No insurance known | High | Low–Med | Open (ask owner) | Owner + broker |
-| R10 | CAN-SPAM pieces missing; test-inflated lead counts | Med | Med | Open | Code + owner |
-| R11–R21 | See section 4 | Med–Low | — | Open | Code |
+| R10 | CAN-SPAM pieces missing; test-inflated lead counts | Med | Med | Partly fixed: test weddings left out of lead counts. Open: postal address (owner declined a PO box, 2026-10-19; some address is legally required before any commercial email), unsubscribe | Code + owner |
+| R11 | Wren AI notice | Med | — | Fixed in branch (line under the chat input); retention purge open | Code |
+| R12 | Guest health-adjacent data | Med | — | Partly fixed: notice on RSVP and address forms, Privacy line. MHMDA question still with attorney (A4) | Code + attorney |
+| R13 | "No credit card, ever" | Med | — | Fixed in branch ("needed"). "50 states" is accurate: every state meets coverage pass 1 | Code |
+| R16 | Admin access | Med | — | Partly fixed: admin also requires a confirmed email. Owner: confirm "Confirm email" is on, admin MFA | Code + owner |
+| R14, R15, R17–R20 | See section 4 | Med–Low | — | Open | Code |
 
 Status values: Open, In progress, Fixed (date, PR), Accepted (reason, date).
 

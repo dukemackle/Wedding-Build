@@ -7,6 +7,8 @@ import type { RsvpEvent } from "@/lib/supabase/types";
 import { formatFullDate, formatTime } from "@/lib/itinerary";
 import { shrinkImage } from "@/lib/shrink-image";
 import { asksMeal, mealChoices } from "@/lib/meal-options";
+import { SMS_CONSENT_DETAIL } from "@/lib/sms-consent";
+import { LegalNotice } from "@/components/legal-notice";
 
 const inputClass =
   "rounded-md border border-hairline bg-parchment px-3 py-2 text-ink outline-none focus:border-forest";
@@ -255,9 +257,12 @@ export function RsvpForm({
               />
             </label>
             <div className="flex flex-col justify-end gap-2 sm:pb-2">
-              <label className="flex items-center gap-2 text-sm text-ink">
-                <input type="checkbox" name="sms_opt_in" className="h-4 w-4 rounded border-hairline" />
-                Text me for schedule updates
+              <label className="flex items-start gap-2 text-sm text-ink">
+                <input type="checkbox" name="sms_opt_in" className="mt-0.5 h-4 w-4 shrink-0 rounded border-hairline" />
+                <span>
+                  Text me schedule changes for this wedding
+                  <span className="block text-xs text-ink/70">{SMS_CONSENT_DETAIL}</span>
+                </span>
               </label>
               <label className="flex items-center gap-2 text-sm text-ink">
                 <input
@@ -318,7 +323,11 @@ export function RsvpForm({
           </button>
         )}
       </div>
-      {error && <p className="text-sm text-red-800">{error}</p>}
+      {error && (
+        <p role="alert" className="text-sm text-red-800">
+          {error}
+        </p>
+      )}
       <button
         type="submit"
         disabled={isPending}
@@ -326,6 +335,7 @@ export function RsvpForm({
       >
         {isPending ? "Submitting..." : "Submit RSVP"}
       </button>
+      <LegalNotice action="sending your RSVP" />
     </form>
   );
 }

@@ -13,7 +13,10 @@ export async function unlockGuestSite(slug: string, password: string): Promise<{
   if (!attempt) return { error: "Type the password from your invitation." };
 
   const supabase = await createClient();
-  const { data: token } = await supabase.rpc("unlock_guest_site", { site_slug: slug, attempt });
+  const { data: token, error } = await supabase.rpc("unlock_guest_site", { site_slug: slug, attempt });
+  if (error?.message.includes("too_many_attempts")) {
+    return { error: "Too many tries. Wait 15 minutes, then try again." };
+  }
   if (typeof token !== "string" || !token) {
     return { error: "That's not it. Check your invitation and try again." };
   }

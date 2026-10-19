@@ -80,11 +80,11 @@ async function notifyGuestsOfScheduleChange(
 ) {
   const { data: guests } = await supabase
     .from("guests")
-    .select("phone")
+    .select("id, phone")
     .eq("wedding_id", wedding.id)
     .eq("sms_opt_in", true)
     .not("phone", "is", null)
-    .returns<{ phone: string | null }[]>();
+    .returns<{ id: string; phone: string | null }[]>();
 
   if (!guests || guests.length === 0) return;
 
@@ -94,12 +94,20 @@ async function notifyGuestsOfScheduleChange(
   const details = [timeRange, event.location].filter(Boolean).join(" @ ");
   const coupleNames = [wedding.partner_a_name, wedding.partner_b_name].filter(Boolean).join(" & ");
 
-  const body = `Schedule update for ${coupleNames || "the wedding"}: "${event.title}" is now ${formatFullDate(event.event_date)}${details ? `, ${details}` : ""}.\n\nPlanning your own wedding? Try You Do, I Do free: youdoido.com`;
+  // Schedule news only, never an ad: a text that promotes anything is
+  // marketing under the TCPA and needs consent guests haven't given
+  // (docs/legal-audit.md R2). Says who it's from and how to stop.
+  const body = `You Do, I Do: schedule update for ${coupleNames || "the wedding"}. "${event.title}" is now ${formatFullDate(event.event_date)}${details ? `, ${details}` : ""}.\n\nReply STOP to stop these texts.`;
 
   for (const guest of guests) {
     if (!guest.phone) continue;
     try {
-      await sendSms(guest.phone, body);
+      const { error } = await sendSms(guest.phone, body);
+      // 21610: the guest replied STOP, and Twilio now refuses to text them.
+      // Record it so the guest list shows they've opted out.
+      if (error?.includes("21610")) {
+        await supabase.from("guests").update({ sms_opt_in: false }).eq("id", guest.id);
+      }
     } catch {
       // Best-effort -- one failed text shouldn't undo the schedule save that already succeeded.
     }
