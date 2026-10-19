@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useState, useTransition } from "react";
 import type { MarketListingStatus } from "@/lib/supabase/types";
 import { LegalNotice } from "@/components/legal-notice";
-import { OPENING_MESSAGE } from "@/lib/marketplace";
+import { OPENING_MESSAGE, QUICK_QUESTIONS } from "@/lib/marketplace";
 import { deleteListing, setListingStatus, toggleSave } from "../actions";
 import { startThread } from "../chat-actions";
 import { ReportForm } from "../report-form";
@@ -31,6 +31,7 @@ export function BuyerActions({
 }) {
   const [saved, setSaved] = useState(initiallySaved);
   const [panel, setPanel] = useState<"none" | "message" | "report">("none");
+  const [body, setBody] = useState(OPENING_MESSAGE);
   const [error, setError] = useState<string>();
   const [isPending, startTransition] = useTransition();
 
@@ -93,12 +94,27 @@ export function BuyerActions({
           }}
           className="space-y-2 rounded-lg border border-hairline bg-card p-3"
         >
+          <div className="flex flex-wrap gap-1.5">
+            {QUICK_QUESTIONS.map((q) => (
+              <button
+                key={q}
+                type="button"
+                onClick={() => setBody(q)}
+                className={`rounded-full px-3 py-1 text-xs transition-colors ${
+                  body === q ? "bg-forest text-parchment" : "bg-forest/5 text-forest hover:bg-forest/10"
+                }`}
+              >
+                {q}
+              </button>
+            ))}
+          </div>
           <textarea
             name="body"
             required
             rows={3}
             maxLength={2000}
-            defaultValue={OPENING_MESSAGE}
+            value={body}
+            onChange={(e) => setBody(e.target.value)}
             aria-label="Message to the seller"
             className="w-full rounded-md border border-hairline bg-card px-3 py-2 text-sm outline-none focus:border-forest"
           />
@@ -117,6 +133,7 @@ export function BuyerActions({
             </button>
           </div>
           {error && <p className="text-sm text-red-700">{error}</p>}
+          <p className="text-xs text-ink/60">Don&apos;t share your email, phone number or bank details until you&apos;ve agreed a sale.</p>
           <LegalNotice action="sending a message" />
         </form>
       )}

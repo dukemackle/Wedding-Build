@@ -75,6 +75,7 @@ export function Conversation({
       sender_id: userId,
       body: text,
       created_at: "",
+      kind: "text" as const,
     };
     setSent((s) => [...s, optimistic]);
     startTransition(async () => {
@@ -112,6 +113,14 @@ export function Conversation({
           </Link>
         ) : (
           <p className="flex-1 font-medium text-forest">{otherName}</p>
+        )}
+        {listing && (
+          <Link
+            href={`/marketplace/${listing.id}`}
+            className="hidden shrink-0 rounded-md border border-hairline px-3 py-1.5 text-sm text-forest hover:border-forest sm:block"
+          >
+            See details
+          </Link>
         )}
         <div className="relative">
           <button
@@ -160,6 +169,14 @@ export function Conversation({
           details. You Do, I Do doesn&apos;t handle payments.
         </p>
         {shown.map((m) => {
+          if (m.kind === "event") {
+            return (
+              <p key={m.id} className="py-1 text-center text-xs text-ink/50">
+                {m.sender_id === userId ? "You: " : ""}
+                {m.body}
+              </p>
+            );
+          }
           const mine = m.sender_id === userId;
           return (
             <div key={m.id} className={`flex ${mine ? "justify-end" : "justify-start"}`}>

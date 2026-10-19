@@ -67,7 +67,8 @@ export default function PrivacyPage() {
                 the first name you give and the pickup town, plus, only if you tick the box, the
                 month and year of your wedding (&ldquo;Married Oct 2026&rdquo;). These are public on the listing, and
                 the town is placed on the map by its centre, never your address. Items you save are
-                visible only to you.
+                visible only to you. If the price of something you saved drops, we email you once to say so;
+                unsave it to stop.
               </li>
               <li>
                 Marketplace messages: what you and the other person write, and the first name you
