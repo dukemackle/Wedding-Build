@@ -301,6 +301,12 @@ Rock Out Entertainment	Music		Livonia	Michigan	Detroit, Ann Arbor, Troy, Dearbor
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
 Glitter Booth	Photo Booth	929 Alpine Commerce Park NW, Suite 700	Grand Rapids	Michigan		Grand Rapids photo booth rental with open-style, GIF, 360 and roaming booths for weddings across West Michigan.		(616) 855-2163	https://www.glitterbooth.com/wedding-photo-booth-rental	https://www.instagram.com/glitterbooth/`,
   },
+  {
+    name: "Sault Ste. Marie: photography, music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Mary Boike Photography	Photography		Sault Ste. Marie	Michigan		Photographer in the Soo who covers weddings and engagements, alongside family, newborn, senior and lifestyle sessions, with a dedicated weddings gallery.			https://www.maryboikephotography.com/weddings	
+On The Mark Entertainment	Music		Sault Ste. Marie	Michigan	Northern Michigan and Ontario, including Sault Ste. Marie, Drummond Island and Mackinac Island	Husband-and-wife mobile DJ and MC team with 25+ years behind the decks, also offering photo booth, uplighting and ceremony audio for weddings.	mark@onthemarkentertainment.com	(906) 440-4287	https://www.onthemarkentertainment.com/	https://www.instagram.com/onthemarkentertainment/`,
+  },
 ];
 
 export default batches;
