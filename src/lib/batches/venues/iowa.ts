@@ -94,6 +94,38 @@ Golden Leaf Banquet Center	2902 E Kimberly Rd	Davenport	Iowa			Ballroom / Hotel	
 The Gathering Barn		Williamsburg	Iowa			Barn / Rustic	Indoor & Outdoor			Barn venue with indoor and outdoor ceremony space, two prep suites, a full bar and fire pits.	thegatheringbarnllc@gmail.com	(319) 668-6702	https://www.thegatheringbarnllc.com/services
 `,
   },
+  {
+    name: "Fort Dodge",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Cardiff Event Center at Fort Frenzy	3232 1st Avenue South	Fort Dodge	Iowa			Ballroom / Hotel	Indoor	400		A large 6,500 sq ft reception hall beside a family entertainment centre, with a bar area, entrance lobby and a patio and stage outside.	info@fortfrenzy.com	515.576.2226	https://www.fortfrenzy.com/event-spaces
+The Laramar Ballroom	710 1st Avenue North	Fort Dodge	Iowa			Historic / Estate	Indoor			A 1904 downtown building blending vintage charm with modern finishes, rented on an all-inclusive basis for weddings and other events.	info@thelaramar.com	(515) 206-8080	https://thelaramar.com/
+Lizard Creek Ranch & Event Center	1762 Johnson Ave	Fort Dodge	Iowa			Barn / Rustic	Indoor & Outdoor	500	Simple	A country event ranch with a 500-seat hall, a smaller conference centre, outdoor ceremony set-up and on-site cottages for guests to stay in.	info@lizardcreekranch.com	(515) 890-3758	https://www.lizardcreekranch.com/
+Frontier Opera House at the Fort Museum	1 Museum Road	Fort Dodge	Iowa			Historic / Estate	Indoor			A period opera house within the Fort Museum's frontier village, available to hire for weddings and receptions.		(515) 573-4231	https://www.fortmuseumfv.com/`,
+  },
+  {
+    name: "Muscatine",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Rendezvous Banquet Facility & Catering	3127 Lucas St	Muscatine	Iowa			Ballroom / Hotel				A Muscatine banquet hall with in-house catering that hosts wedding ceremonies, receptions and other celebrations.		(563) 260-6061	https://rendezvousbanquetfacilityandcatering.com/
+Durant Lamp Memorial Community Center	606 5th Avenue	Durant	Iowa			Ballroom / Hotel	Indoor	300	Simple	A city-owned hall seating up to 300 with a bar and kitchen, rented by the ballroom or the whole building at modest published rates.	awest@cityofdurantiowa.com	563.785.6419	https://cityofdurantiowa.com/lamp-memorial-community-center
+Cedar River Ranch	2798 Casey Ave	Letts	Iowa			Barn / Rustic				A riverside resort and events centre near Muscatine with a lodge, cabins and a chalet, hosting weddings and other gatherings.	info@cedarriverranch.com	(319) 728-3333	https://www.cedarriverranch.com/`,
+  },
+  {
+    name: "Le Mars",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Le Mars Convention Center	275 12th St SE	Le Mars	Iowa			Ballroom / Hotel	Indoor	475		City-run hall with an upper and lower level, plus a board room, hired out with tables, chairs, a stage and sound equipment for receptions and dances.	jbrownmiller@lemarsiowa.com	712-548-4971	https://www.lemarsiowa.com/facilities/facility/details/Le-Mars-Convention-Center-17
+Uptown Event Center	15 1st Ave SW	Le Mars	Iowa			Ballroom / Hotel	Indoor & Outdoor	85	Simple	Small room above the Habitué coffeehouse in downtown Le Mars, with an outdoor area alongside, suited to intimate weddings and priced by the hour, half day or full day.	uptown@habituecoffee.com	712-546-4424	https://habituecoffee.com/uptown-event-center/`,
+  },
+  {
+    name: "Carroll",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Carrollton Inn Hotel & Event Centre	1730 US Highway 71 N	Carroll	Iowa			Ballroom / Hotel	Indoor			An 86-room hotel on the north side of Carroll with a ballroom, a large event centre, a bridal suite and a patio, so guests can stay on site.	info@carrolltoninn.com	(712) 792-5600	https://www.carrolltoninn.com/meetings-events/weddings/
+Manning Hausbarn Heritage Park	130 Heritage Drive	Manning	Iowa			Historic / Estate	Indoor & Outdoor	250		Heritage park in Carroll County with a German-style hausbarn, a 1913 church, a turn-of-the-century farmstead and a conference centre with halls and a courtyard.		712-655-3131	https://www.germanhausbarn.com/`,
+  },
+  {
+    name: "Le Mars: map fill",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Willow Creek Banquet Hall	935 Park Lane	Le Mars	Iowa			Ballroom / Hotel	Indoor	250		City-run banquet hall beside the Willow Creek golf courses, with a bar, portable dance floor, AV gear and parking.	jbrownmiller@lemarsiowa.com	712-548-4971	https://www.lemarsiowa.com/Facilities/Facility/Details/Willow-Creek-Banquet-Hall-19`,
+  },
 ];
 
 export default batches;

@@ -486,3 +486,12 @@ export function CalculatorIcon(props: IconProps) {
     </IconBase>
   );
 }
+
+export function TagIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M3.5 12.1V5a1.5 1.5 0 0 1 1.5-1.5h7.1a1.5 1.5 0 0 1 1.06.44l7.4 7.4a1.5 1.5 0 0 1 0 2.12l-7.1 7.1a1.5 1.5 0 0 1-2.12 0l-7.4-7.4A1.5 1.5 0 0 1 3.5 12.1Z" />
+      <circle cx="8.25" cy="8.25" r="1.5" />
+    </IconBase>
+  );
+}

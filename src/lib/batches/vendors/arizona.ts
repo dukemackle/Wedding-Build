@@ -198,6 +198,29 @@ Mozelle's Downtown Bakery	Cake	6 E Aspen Ave, Suite 110	Flagstaff	Arizona		Downt
 Earth Elopements	Officiant		Sedona	Arizona		Sedona elopement and wedding ceremony company whose officiants build custom red-rock ceremonies, with optional photography and videography.	Weddings@earthelopements.com	(928) 301-9288	https://earthelopements.com	https://www.instagram.com/earthelopements/
 `,
   },
+  {
+    name: "Lake Havasu City: florals and music and planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Tux & Tulips	Florals	420 El Camino Way Suite 102	Lake Havasu City	Arizona	Lake Havasu City	Florist and tuxedo shop offering wedding flowers by consultation, with delivery to local venues.	tuxntulips@gmail.com	(928) 505-2222	http://tuxntulips.com/	
+High End Productions	Music		Lake Havasu City	Arizona	Lake Havasu City	Wedding DJ business that also provides sound, lighting, photo booths and video for ceremonies and receptions.		(928) 889-6074	https://highendprod.com/	
+Lovedwell Creative	Planning		Lake Havasu City	Arizona	Lake Havasu City and the West Coast	Havasu planning and design studio covering wedding coordination, florals and photo booth hire.			https://www.lovedwellcreative.com/	`,
+  },
+  {
+    name: "Kingman: photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Jo Lamsus Photography	Photography		Kingman	Arizona	Kingman, Las Vegas, Flagstaff, Sedona and Phoenix	Kingman photographer whose work centres on weddings, maternity and family sessions across Arizona and Las Vegas.			https://www.jolamsusphoto.com/	https://www.instagram.com/jolamsusphotography/
+J. R. Poole Photography	Photography		Kingman	Arizona	Kingman and Arizona	Kingman husband-and-wife team shooting wedding photography and video, with elopements and portrait sessions as well.	jrpoole15@gmail.com	(928) 530-6871	https://www.jrpoole.com/wedding-photography	https://www.instagram.com/jrpoolephotography/`,
+  },
+  {
+    name: "Pinetop: photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Jennifer Markle Photography	Photography		Pinetop	Arizona	Pinetop and the White Mountains	Wedding photographer for small, intimate outdoor weddings in the White Mountains of Arizona.		480-225-0750	https://jennifermarkle.com/	https://www.instagram.com/jennifer.markle/`,
+  },
+  {
+    name: "Safford: florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Graham County Florist	Florals	407 W Main Street	Safford	Arizona	Safford and surrounding areas	Main Street Safford florist selling ready-made wedding bouquets and boutonnieres, with flower delivery around Safford and the surrounding area.		(928) 428-3241	http://grahamcountyflorist.com	`,
+  },
 ];
 
 export default batches;

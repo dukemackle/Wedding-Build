@@ -228,6 +228,35 @@ Lips and Lashes by Crazy Aimee	Hair & Makeup	3466 Douglas Rd, Suite 300	South Be
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
 Light on the Hill Creative Company	Videography		Evansville	Indiana	Evansville, Newburgh, Henderson, Owensboro and surrounding areas	Southern Indiana photo and film studio making cinematic wedding films and short features, led by Zack Hill, for couples around Evansville and Newburgh.	zack@lightonthehillcreative.com		https://lightonthehillcreative.com/weddings	https://www.instagram.com/lightonthehillcreativecompany/`,
   },
+  {
+    name: "Madison: photography, officiant, florals, hair & makeup, bar",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Brooke Taylor Photography	Photography		Madison	Indiana	Madison, Indiana and surrounding counties	Madison photographer covering weddings, families, newborns and seniors, with a client closet of outfits for sessions.			https://www.brooketayphotography.com/	https://www.instagram.com/brooketphotography/
+Janie Mahoney Photography & Design	Photography		Madison	Indiana	Madison, Indiana	Downtown Madison photographer shooting weddings, seniors, families and sports leagues from a studio near Main Street.			http://www.janiemahoney.com/	https://www.instagram.com/janiemahoneyphotography/
+Weddings by Joe	Officiant		Madison	Indiana	Madison, Jefferson County and Southern Indiana	Ordained officiant offering simple, signature and full-day ceremony packages with custom scripts for Madison-area couples.			https://weddingsbyjoe.com/	
+Colonial Flower Shop	Florals		Madison	Indiana	Madison, Indiana	Madison flower shop offering ceremony and reception wedding collections, with consultations for event flowers.		812-265-4127	https://colonialfloristmadison.com/	
+Mane Attractions Salon & Spa	Hair & Makeup		Madison	Indiana	Madison, Indiana	Madison salon and spa with a dedicated bridal services page alongside cuts, colour, nails and spa treatments.	info@maneattractions.net	812-265-4003	http://maneattractions.net/	https://www.instagram.com/maneattractionssalonandspa/
+Vintage Lanes	Bar		Madison	Indiana	Madison, Indiana	Duckpin bowling alley and wine bar in historic Madison that also offers a wedding bar catering service.	hello@vintagelanesmadison.com		https://www.vintagelanesmadison.com/	`,
+  },
+  {
+    name: "Vincennes: florals, photography, cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+The Enchanted Florist And More	Florals		Vincennes	Indiana	Vincennes	Vincennes florist with a wedding collection for ceremony and reception flowers, a consultation booking and an events portfolio.			https://theenchantedfloristllc.com/	
+Lydia's Flowers	Florals	927 N 7th St	Vincennes	Indiana	Vincennes area	Locally owned Vincennes flower shop with a weddings section covering bouquets, centrepieces, corsages and boutonnieres.	lydias.vincennes@gmail.com	(812) 882-2607	https://www.lydiasflowersvincennes.com/	
+The Ascended Photography	Photography		Vincennes	Indiana		Vincennes photographer who lists weddings alongside newborn, family, senior and maternity sessions, with online booking.	theascendedphotography@gmail.com	(812) 887-3120	http://www.theascendedphotography.com	
+Ford's The Art of Photography	Photography		Vincennes	Indiana	Within 30 miles of Vincennes	Vincennes portrait studio run by Amanda Linn, with a weddings gallery alongside senior, family and children's sessions.			https://www.fordsphotographystudio.com/	https://www.instagram.com/fords_photo/
+Kali's Bake Adventures	Cake	2425 N 6th St	Vincennes	Indiana		Vincennes bakery taking custom cake orders, with a wedding gallery and cupcakes, macarons and cookies in its shop case.	kalisbakeadventures@outlook.com	(812) 887-9860	https://www.kalisbakeadventures.com/	https://www.instagram.com/kalisbakeadventures/`,
+  },
+  {
+    name: "Evansville: cake, photography, photo booth, florals, officiant, bridal",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Brittney Moseby Photo & Video	Photography		Evansville	Indiana	Indiana and the wider Midwest	Evansville photographer and videographer covering weddings and engagements, with highlight films, full ceremony edits and toast footage.			https://brittneymoseby.com/	https://www.instagram.com/brittneymoseby/
+GOpix Photo Booth	Photo Booth		Evansville	Indiana	Evansville, Newburgh, Mount Vernon and Henderson KY	Mirror photo booth hire for weddings, with printing, text sharing, a reception slideshow and a mobile trailer for outdoor venues.	info@GOpixPhotoBooth.com	(812) 221-1226	https://www.gopixphotobooth.com/	https://www.instagram.com/gopixphotobooth/
+Joni's Flower Shop	Florals	63 W Main St	Poseyville	Indiana	Evansville, Mount Vernon, Newburgh, New Harmony and Wadesville	Poseyville flower shop that has designed bridal flowers and boutonnieres, delivering across south-west Indiana.		(812) 874-0100	https://jonisflowershop.com/	
+Celebrating Officiant	Officiant		Newburgh	Indiana	Evansville, New Harmony, Boonville, Rockport, French Lick and Owensboro KY	Newburgh wedding officiant with over 21 years in wedding planning, writing personalised ceremonies for couples of all backgrounds.	celebratingofficiant@gmail.com	(812) 518-0094	https://celebratingofficiant.com/	https://www.instagram.com/celebratingofficiant/
+Magnolia Bridal House	Bridal & Formalwear	4155 Peachwood Court, Suite A	Newburgh	Indiana		Appointment-only bridal gown boutique in Newburgh, with a curated collection and an online booking page.	hello@magnoliabridalhouse.com	812-297-1627	https://magnoliabridalhouse.com/	https://www.instagram.com/magnoliabridalhouse/
+Rose and Bliss Bridal	Bridal & Formalwear	2820 Lincoln Ave	Evansville	Indiana		Evansville bridal shop selling wedding dresses across a wide size range, plus veils, shoes, jewellery and mother-of-the-bride dresses.		(812) 589-8961	https://www.roseandblissbridal.com/	https://www.instagram.com/roseandblissbridal/`,
+  },
 ];
 
 export default batches;

@@ -109,6 +109,83 @@ Iowa City Minister	Officiant		Iowa City	Iowa	Eastern Iowa, including Cedar Rapid
 R & D Events Rental	Rentals		Cedar Rapids	Iowa	Cedar Rapids, Linn County, Hiawatha, Marion, Coralville and statewide	A Cedar Rapids rental company supplying tents, tables, chairs, linens, decor, portable bars and lighting for weddings, with layout planning help.	office@randdevents.com	319-202-8374	https://randdevents.com/weddings.php	https://www.instagram.com/r_and_d_events/
 Black Diamond Limousine	Transportation	840 Liberty Way	North Liberty	Iowa	Cedar Rapids, Iowa City and Eastern Iowa	A North Liberty limousine company with wedding limo hire, serving Cedar Rapids, Iowa City and the wider region from its Liberty Way base.	dispatch@express-limos.com	319-208-3236	https://cedarrapidslimoservice.com/	`,
   },
+  {
+    name: "Iowa City: planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Unique Events of Iowa	Planning		Cedar Rapids	Iowa	The Midwest	A Cedar Rapids event company offering planning, day-of coordination, design, florals, rentals and DJ services for weddings and other events.			https://uniqueeventsiowa.com/	https://www.instagram.com/uniqueeventsiowa/`,
+  },
+  {
+    name: "Fort Dodge: florals and photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Becker Florist	Florals	1335 1st Ave N	Fort Dodge	Iowa	Fort Dodge and surrounding areas	Family-run Fort Dodge flower shop making wedding bouquets, centrepieces, corsages and boutonnieres, with local delivery in the area.	beckerflorists@gmail.com	(515) 576-1113	https://www.fortdodgeflowersandplants.com/	
+Betsy Louise Designs	Photography	16 South 12th Street	Fort Dodge	Iowa		Fort Dodge photography studio offering wedding and engagement session packages alongside family and commercial work for local couples.		(515) 955-4870	https://www.betsylouisedesigns.com/	
+Floral Creations Weddings & Events	Florals		Humboldt	Iowa		Boutique Humboldt florist designing ceremony and reception flowers, bouquets and personal flowers for weddings from intimate to large-scale.	fcreat2@gmail.com		https://floralcreationhumboldt.weddingday.pro/	https://www.instagram.com/floral.creations123/`,
+  },
+  {
+    name: "Muscatine: photography and music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Mississippi Pearl Photography	Photography	204 E 2nd St	Muscatine	Iowa	All of Iowa, including the Quad Cities, Iowa City and Des Moines	Muscatine studio photographing weddings and senior portraits across Iowa and the Quad Cities, with travel available for farther celebrations.	hello@misspearlphoto.com	563-265-1836	https://mississippipearlphotography.com/	https://www.instagram.com/iowaweddingphotographer/
+Double A Sound	Music		Muscatine	Iowa	Muscatine, with travel to events	Muscatine DJ offering reception packages on a powerful sound system, plus ceremony music, karaoke and an optional photo booth.	stu@doubleasound.com	563-260-8537	https://www.doubleasound.com/	https://www.instagram.com/double_a_sound_djs/`,
+  },
+  {
+    name: "Le Mars: cakes",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Habitué Coffeehouse & Bakery	Cake	108 Central Ave NE	Le Mars	Iowa	Le Mars, Sioux City, Sioux Falls and Omaha	Custom wedding cakes designed to match your colours and theme, with free tastings, delivery and set-up, plus cupcakes, cookies and mini desserts.	info@habituecoffee.com	712-546-4424	https://habituecoffee.com/wedding-cakes/	https://www.instagram.com/habituecoffee/`,
+  },
+  {
+    name: "Cedar Rapids: videography, music and bridal and formalwear",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Dreamscape Weddings	Videography		Cedar Rapids	Iowa	Cedar Rapids, Iowa City and Eastern Iowa	Cedar Rapids photographer and videographer making full-day and highlight wedding films, with drone shots and video-only coverage on offer.		319-573-3857	https://dreamscapeweddings.com/	https://www.instagram.com/dreamscapewedding/
+Center Stage Productions	Music		Cedar Rapids	Iowa	Cedar Rapids, Iowa City, Dubuque, Burlington, Des Moines and surrounding areas	Cedar Rapids wedding DJ and emcee service that also handles ceremony audio, lighting design and help with the day's timeline.		319-210-0607	https://centerstageproductionsdj.com/	https://www.instagram.com/centerstageproductionsdj/
+Embody Bridal	Bridal & Formalwear	323 3rd St SE, Suite 100	Cedar Rapids	Iowa		Appointment-only Cedar Rapids bridal boutique stocking gowns across a wide range of sizes and styles, from about $1,500 to $4,500.	hello@embodybridal.com	319-536-1816	https://www.embodybridal.com/	https://www.instagram.com/embodybridal/
+D'Luxe Tux	Bridal & Formalwear	1960 51st St NE	Cedar Rapids	Iowa		Cedar Rapids tuxedo and suit shop renting or selling formalwear for wedding parties, with free colour swatches and home try-ons.		319-393-4298	https://dluxe-tux.com/	
+Merci's Tailoring	Bridal & Formalwear	2020 Sylvia Ave NE, Unit A	Cedar Rapids	Iowa		Cedar Rapids tailoring studio that alters wedding gowns and formalwear, and offers wedding dress consultations.		319-377-0751	https://www.mercistailoring.com/	https://www.instagram.com/mercis.tailoring/`,
+  },
+  {
+    name: "Iowa City: hair and makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Morgan Lorraine Makeup Artistry	Hair & Makeup		Iowa City	Iowa	Eastern Iowa	Iowa City makeup artist for weddings and photoshoots, with a soft-to-medium glam look and a glowy finish; travels across Eastern Iowa.			https://www.morganlmua.com/	https://www.instagram.com/morganlmua/`,
+  },
+  {
+    name: "Des Moines: planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Jade + Ivy Events	Planning		Des Moines	Iowa	Des Moines, with travel for other events	Des Moines planning company offering full and partial planning, day-of coordination, and design with rentals.	jadeandivyevents@gmail.com	515-460-6403	https://jadeandivyevents.com/	https://www.instagram.com/jadeandivyevents/
+Honey & Joy Events	Planning	2701 SE Convenience Blvd, Suite 2	Ankeny	Iowa	Des Moines, Cedar Rapids and Iowa City	Ankeny studio offering wedding planning with floral and event design, for romantic, heartfelt celebrations across central and eastern Iowa.	karla@honeyandjoyevents.com	515-372-4697	https://honeyandjoyevents.com/	https://www.instagram.com/honeyandjoyevents/`,
+  },
+  {
+    name: "Quad Cities: planning and photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Bright DeSigns	Planning		Bettendorf	Iowa	Quad Cities and Iowa City regions, travelling on request	Bettendorf planner and designer providing full wedding planning, vendor management and day-of execution, mainly for the Quad Cities and Iowa City.	BrightDesignsIowa@gmail.com	563-370-5440	http://www.brightdesignsiowa.com/	https://www.instagram.com/brightdesignsiowa/
+Wiz of Oz Photography	Photography		Davenport	Iowa	The Quad Cities and beyond	Davenport studio shooting weddings, engagements and portraits around the Quad Cities on both sides of the Mississippi.		563-726-5040	https://www.wizofozphotography.com/	https://www.instagram.com/wizofozphoto/
+Giraffe Photography	Photography		Davenport	Iowa	Quad Cities and Davenport	Davenport photography business led by Stephen Folker, covering weddings alongside family, corporate and film production work.		309-738-2329	https://www.giraffephoto.com/	https://www.instagram.com/giraffephotography/`,
+  },
+  {
+    name: "Ames: bridal and formalwear, rentals and cakes",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Pure Bridal	Bridal & Formalwear	306 South 16th St	Ames	Iowa		Ames bridal shop selling wedding dresses from designers including Essense of Australia, Morilee and Stella York, plus accessories.		515-663-2222	https://www.purebridaliowa.com/	https://www.instagram.com/purebridal/
+Celebrations Party & Rental Store	Rentals	320 S 3rd St	Ames	Iowa		Ames party and event rental store hiring out furniture, linens, decor and centrepieces, with items that can be reserved online.	celebrationsames@yahoo.com	515-268-9333	http://celebrationsames.com/	https://www.instagram.com/celebrations_ia/
+Van Hemert's Dutch Oven Bakery	Cake	219 Duff Ave	Ames	Iowa	Ames and Boone	Ames and Boone bakery known for its award-winning cakes, including wedding cakes, alongside a cafe menu.		515-232-9244	https://dutchovenbakeryiowa.com/	https://www.instagram.com/dutchovenbakeryboone/`,
+  },
+  {
+    name: "Waterloo and Cedar Falls: music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Ultimate Entertainment	Music		Cedar Falls	Iowa	Iowa	Cedar Falls DJ company that also offers photo booths, decorative lighting, decorating and day-of coordination for weddings.		319-266-0717	https://www.ultimateentertainment.cc/	https://www.instagram.com/uecf/`,
+  },
+  {
+    name: "Dubuque: photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Seeley Photography	Photography	236 Main St	Dubuque	Iowa	Dubuque, Cedar Rapids and Madison, plus Galena and surrounding areas	Dubuque wedding and portrait studio on Main Street, photographing weddings since 2006 across Iowa, Illinois and Wisconsin.	seeleyphotography@sarahseeley.com	563-581-6367	https://www.sarahseeley.com/	`,
+  },
+  {
+    name: "Le Mars: catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Mama Barb's Catering	Catering	104 1/2 Central Ave NE	Le Mars	Iowa		Home-style catering made from scratch for weddings, celebrations and funerals, with taco and pasta bars and charcuterie; tastings by appointment.		712-540-5564	https://www.mamabarbscatering.com/	`,
+  },
+  {
+    name: "Iowa City: planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Star Entertainment	Planning		Iowa City	Iowa		Family-run Iowa City DJ and MC team that also offers event planning and day-of coordination, plus photobooth hire and Name That Tune games.		319-594-5529	https://starentertainment12.com/	`,
+  },
 ];
 
 export default batches;

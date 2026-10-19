@@ -11,7 +11,7 @@ export default function PrivacyPage() {
       <div className={`w-full ${READING_WIDTH}`}>
         <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Legal</p>
         <h1 className="mt-2 font-display text-3xl font-semibold text-forest">Privacy Policy</h1>
-        <p className="mt-2 text-sm text-ink/60">Last updated: October 13, 2026</p>
+        <p className="mt-2 text-sm text-ink/60">Last updated: October 18, 2026</p>
 
         <div className="mt-8 flex flex-col gap-8 text-ink/80">
           <p>
@@ -61,6 +61,19 @@ export default function PrivacyPage() {
                 share that sheet with can see what&apos;s in it. We store which sheet is linked
                 and a fingerprint of what it held at the last sync, never a copy of the sheet or
                 your Google login. Unlinking stops syncing; the sheet stays in your Drive.
+              </li>
+              <li>
+                If you list something in the marketplace: its photos, title, price, description,
+                the first name you give and the pickup town, plus, only if you tick the box, the
+                month and year of your wedding (&ldquo;Married Oct 2026&rdquo;). These are public on the listing, and
+                the town is placed on the map by its centre, never your address. Items you save are
+                visible only to you.
+              </li>
+              <li>
+                Marketplace messages: what you and the other person write, and the first name you
+                give. Only the two of you see a conversation, unless one of you reports it, in which
+                case we read it to decide what to do. We email you when a new message arrives, with
+                a link rather than the message itself. Who you block is visible only to you.
               </li>
             </ul>
 

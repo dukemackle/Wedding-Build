@@ -73,6 +73,13 @@ export async function deleteAccount(formData: FormData): Promise<{ error?: strin
     }
   }
 
+  // Marketplace photos sit under the seller's own id, not a wedding's; the
+  // listings themselves cascade with the auth user.
+  const { data: marketFiles } = await admin.storage.from("market-photos").list(user.id);
+  if (marketFiles && marketFiles.length > 0) {
+    await admin.storage.from("market-photos").remove(marketFiles.map((f) => `${user.id}/${f.name}`));
+  }
+
   const { error: deleteUserError } = await admin.auth.admin.deleteUser(user.id);
   if (deleteUserError) {
     return { error: deleteUserError.message };

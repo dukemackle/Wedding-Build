@@ -2,7 +2,7 @@
 
 import { useId, type CSSProperties, type ReactNode } from "react";
 import { useSiteDesign } from "@/components/guest-site-theme";
-import { resolveDesign, sceneById, type SceneId } from "@/lib/site-design";
+import { resolveDesign, sceneById, type SceneId, type SceneTimeId } from "@/lib/site-design";
 import { ICONS, ICON_SETS } from "@/lib/scene-icons";
 import {
   butte,
@@ -36,6 +36,8 @@ const tint = (pct: number) =>
 const shade = (pct: number) =>
   `color-mix(in srgb, var(--site-accent) ${100 - pct}%, var(--color-ink))`;
 const fill = (color: string): CSSProperties => ({ fill: color });
+/** A scene's own sun, recoloured by the time of day. */
+const sun = (day: string) => `var(--scene-sun, ${day})`;
 /** The theme's second colour, for skies and far hills: peach behind teal peaks. */
 const tint2 = (pct: number) =>
   `color-mix(in srgb, var(--site-accent-2, var(--site-accent)) ${pct}%, var(--color-parchment))`;
@@ -54,7 +56,7 @@ export function SiteScene({ where }: { where: "band" | "strip" | "surround" }) {
         preserveAspectRatio="xMidYMax slice"
         className="site-scene pointer-events-none block h-[clamp(120px,21.7vw,340px)] w-full"
       >
-        {BANDS[scene]?.(id)}
+        {lit(design.sceneTime, id, scene, BANDS[scene]?.(id))}
       </svg>
     );
   }
@@ -99,7 +101,7 @@ export function SceneArtwork() {
         />
       )}
       <svg viewBox="0 0 1200 260" preserveAspectRatio="xMidYMax slice" className="absolute inset-x-0 bottom-0 h-[58%] w-full">
-        {BANDS[land]?.(id)}
+        {lit(design.sceneTime, id, land, BANDS[land]?.(id))}
       </svg>
     </div>
   );
@@ -294,8 +296,8 @@ const BANDS: Draw = {
   },
   ridges: () => (
     <>
-      <circle cx="760" cy="120" r="110" style={fill(tint2(10))} opacity="0.7" />
-      <circle cx="760" cy="120" r="56" style={fill("color-mix(in srgb, #ffffff 70%, var(--color-parchment))")} />
+      <circle cx="760" cy="120" r="110" style={fill(sun(tint2(10)))} opacity="0.7" />
+      <circle cx="760" cy="120" r="56" style={fill(sun("color-mix(in srgb, #ffffff 70%, var(--color-parchment))"))} />
       <path d="M0 150C150 110 300 120 420 100S700 60 850 110S1050 120 1200 90V260H0Z" style={fill(tint2(20))} />
       <path d="M0 175C200 140 350 160 500 135S800 120 950 150S1100 140 1200 130V260H0Z" style={fill(tint(26))} />
       <path d="M0 200C180 170 380 190 560 168S860 165 1020 185S1140 175 1200 170V260H0Z" style={fill(tint(42))} />
@@ -441,7 +443,7 @@ const BANDS: Draw = {
     const dune = wave(238, 6, 140, 1);
     return (
       <>
-        <circle cx="820" cy="118" r="44" style={fill(tint2(16))} />
+        <circle cx="820" cy="118" r="44" style={fill(sun(tint2(16)))} />
         <rect y="148" width="1200" height="70" style={fill(tint(30))} />
         <rect y="148" width="1200" height="3" style={fill(tint(40))} />
         <g stroke="#ffffff" strokeOpacity="0.6" strokeWidth="2" strokeLinecap="round">
@@ -483,7 +485,7 @@ const BANDS: Draw = {
             <path d={midButtes} />
           </clipPath>
         </defs>
-        <circle cx="900" cy="78" r="34" style={fill(tint2(16))} />
+        <circle cx="900" cy="78" r="34" style={fill(sun(tint2(16)))} />
         <path d={butte(rnd, 60, 250, 106, 178) + butte(rnd, 690, 760, 128, 178) + butte(rnd, 860, 1060, 94, 178)} style={fill(tint2(26))} />
         <path d={ground(far)} style={fill(tint2(26))} />
         <path d={midButtes} style={fill(tint(40))} />
@@ -504,9 +506,9 @@ const BANDS: Draw = {
     const d3 = wave(240, 6, 150, 2);
     return (
       <>
-        <circle cx="600" cy="186" r="170" style={fill(tint(8))} />
-        <circle cx="600" cy="186" r="112" style={fill(tint(58))} />
-        <path d="M480 150H720V154H480ZM480 164H720V169H480ZM480 177H720V183H480Z" style={fill("var(--color-parchment)")} />
+        <circle cx="600" cy="186" r="170" style={fill(sun(tint(8)))} opacity="0.5" />
+        <circle cx="600" cy="186" r="112" style={fill(sun(tint(58)))} />
+        <path d="M480 150H720V154H480ZM480 164H720V169H480ZM480 177H720V183H480Z" style={fill("var(--scene-sky, var(--color-parchment))")} />
         <path d={ground(d1)} style={fill(tint2(30))} />
         <path d={ground(d2)} style={fill(tint(44))} />
         {cacti(rnd, [[240, d2(240) + 4, 58], [930, d2(930) + 4, 72]], tint(66))}
@@ -599,6 +601,51 @@ const BANDS: Draw = {
     );
   },
 };
+
+/**
+ * The light for each time of day: `wash` is mixed into the page colour the
+ * land is drawn from (so every layer shifts together, in the theme's own
+ * colours), and the sky fades from clear at the top of the band to `sky` at
+ * the horizon. Day draws the scene as it is.
+ */
+const TIMES: Record<Exclude<SceneTimeId, "day">, { wash: string; amount: number; sky: [string, string]; sun: string; glow?: string }> = {
+  dawn: { wash: "#f0b9b4", amount: 26, sky: ["#f6d6d2", "#f3c3b6"], sun: "#fff1e0", glow: "#fbe2c8" },
+  golden: { wash: "#eea94a", amount: 26, sky: ["#fbe6b8", "#f5c06a"], sun: "#ffd98a", glow: "#ffe2a0" },
+  dusk: { wash: "#5d4479", amount: 52, sky: ["#a88bbd", "#ef9a6c"], sun: "#f9b07c", glow: "#f7b27a" },
+};
+
+/** Scenes that draw a sun of their own, which the time of day recolours instead of adding another. */
+const OWN_SUN: readonly SceneId[] = ["ridges", "palms", "frontier", "sunset"];
+
+/** A landscape lit for its time of day: sky, a low sun, and the land washed to match. */
+function lit(time: SceneTimeId, id: string, scene: SceneId, art: ReactNode): ReactNode {
+  if (time === "day" || !art) return art;
+  const t = TIMES[time];
+  const own = OWN_SUN.includes(scene);
+  const page = "var(--scene-page)";
+  return (
+    <g style={{ "--scene-page": "var(--color-parchment)", "--scene-sun": t.sun, "--scene-sky": t.sky[1] } as CSSProperties}>
+      <defs>
+        <linearGradient id={`${id}sky`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" style={{ stopColor: t.sky[0], stopOpacity: 0 }} />
+          <stop offset="0.4" style={{ stopColor: t.sky[0], stopOpacity: 0.85 }} />
+          <stop offset="0.75" style={{ stopColor: t.sky[1] }} />
+        </linearGradient>
+        {t.glow && (
+          <radialGradient id={`${id}glow`}>
+            <stop offset="0" style={{ stopColor: t.glow, stopOpacity: 0.9 }} />
+            <stop offset="1" style={{ stopColor: t.glow, stopOpacity: 0 }} />
+          </radialGradient>
+        )}
+      </defs>
+      <rect width="1200" height="260" fill={`url(#${id}sky)`} />
+      {t.glow && <ellipse cx="600" cy="120" rx="560" ry="90" fill={`url(#${id}glow)`} />}
+      {!own && time === "dawn" && <circle cx="300" cy="86" r="26" style={{ fill: `color-mix(in srgb, #fff3e4 80%, ${page})` }} />}
+      {!own && time === "golden" && <circle cx="860" cy="82" r="28" style={{ fill: "#ffd98a" }} />}
+      <g style={{ "--color-parchment": `color-mix(in srgb, ${t.wash} ${t.amount}%, ${page})` } as CSSProperties}>{art}</g>
+    </g>
+  );
+}
 
 const STRIPS: Draw = {
   rope: (id: string) => (
@@ -883,7 +930,7 @@ const SURROUNDS: Draw = {
  * Drawn three times larger and scaled down, so strips and frames keep their
  * proportions. Takes its colours from the CSS variables on the tile.
  */
-export function SceneThumb({ scene }: { scene: SceneId }) {
+export function SceneThumb({ scene, time = "day" }: { scene: SceneId; time?: SceneTimeId }) {
   const id = useId().replace(/:/g, "");
   const place = sceneById(scene).place;
   return (
@@ -897,7 +944,7 @@ export function SceneThumb({ scene }: { scene: SceneId }) {
         </span>
         {place === "band" && (
           <svg viewBox="0 0 1200 260" preserveAspectRatio="xMidYMax slice" className="block h-[55%] w-full shrink-0">
-            {BANDS[scene]?.(id)}
+            {lit(time, id, scene, BANDS[scene]?.(id))}
           </svg>
         )}
       </span>

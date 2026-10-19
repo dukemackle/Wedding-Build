@@ -75,6 +75,33 @@ Terradyne Country Club	1400 Terradyne Dr	Andover	Kansas			Garden / Outdoor				A 
 Dillon House	404 SW 9th St	Topeka	Kansas			Historic / Estate	Indoor	80		A 1913 mansion near the Kansas Statehouse, run by The Beacon, with three event rooms holding 16 to 56 seated guests.	courtney@beacontopeka.com	(785) 409-1223	https://www.beacontopeka.com/dillon-house
 `,
   },
+  {
+    name: "Great Bend, Liberal, Dodge City, Garden City, Hays and Pittsburg: map-fill Kansas venues",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Corinthians Hill Event Center	464 NE 20 Ave	Great Bend	Kansas			Barn / Rustic	Indoor & Outdoor			Barn-style hall of reclaimed wood and tin near Cheyenne Bottoms, with chandeliers, a pond ceremony site and an outdoor dance floor.		620-793-7921	https://corinthianshilleventcenter.com
+Black Walnut Event Venue	292 NE 10th Ave	Great Bend	Kansas			Barn / Rustic	Indoor & Outdoor	350		Rustic countryside venue near Great Bend with a limestone outdoor stage, commercial kitchen, open vendor policy and a farmhouse that sleeps nine.		620-617-3410	https://www.blackwalnutvenue.net/
+Great Bend Events Center	3111 10th St	Great Bend	Kansas			Ballroom / Hotel	Indoor			City-run events centre in Great Bend that hosts weddings, reunions and conferences, with a virtual tour and online booking form.	eventscenter@greatbendks.gov	620-792-2750	https://www.exploregreatbend.com/plan/events_center.php
+Seward County Event Center	810 Stadium Ave	Liberal	Kansas			Ballroom / Hotel	Indoor			County-run event centre and fairgrounds in Liberal that takes weddings and quinceañeras alongside concerts, trade shows and rodeos.	ljohnson@sewardcountyks.org	620-624-3743	https://www.sewardcountyks.org/83/Event-Center
+Boot Hill Casino & Resort Conference Center	4100 W Comanche St	Dodge City	Kansas			Ballroom / Hotel	Indoor & Outdoor	400	Simple	A 7,200 sq ft banquet hall beside the casino, with in-house catering, bar service and a walled garden used for ceremonies.	info@unitedwirelessarena.com	(620) 371-7390	https://www.unitedwirelessarena.com/p/about/conference-center-articles/qa-about-using-bhcrcc-as-your-wedding-venue
+Boot Hill Museum Event Spaces	500 W Wyatt Earp Blvd	Dodge City	Kansas			Historic / Estate	Indoor		Simple	Old West museum rooms including a gallery, a recreated hotel and a saloon, rented for weddings with on-site catering and guest museum access.	tour@boothill.org	(620) 227-8188	https://boothill.org/rental
+The Refinery Event Center	3122 Cecil Dr	Garden City	Kansas			Ballroom / Hotel	Indoor	520		A large open hall inside a southwest Kansas fieldhouse, with an in-house culinary team and dressing suites for weddings and receptions.			https://refineryeventcenter.com/
+Moonlight Harvest	4770 Chmelka	Garden City	Kansas			Barn / Rustic	Indoor & Outdoor	275	Simple	A heated, air-conditioned barn on four acres at the edge of a crop circle, with a covered patio and a weekend wedding package.	moonlightharvestgc@gmail.com		https://www.moonlightharvestgc.com/
+The Strand	1102 Main St	Hays	Kansas			Historic / Estate	Indoor & Outdoor		Simple	Renovated 1917 downtown Hays building with tin ceilings, hand-painted stencilling and an original stage, offering three tiered wedding packages and a patio.	thestrandhays@gmail.com	(785) 261-1314	https://thestrandhays.com/packages
+Carbon Creek Event Venue	981 S 190th St	Pittsburg	Kansas			Barn / Rustic	Indoor & Outdoor	300		Pittsburg event venue with a sunken dance floor, built-in sound and lighting and a bridal suite, with packages including a DJ, bartender and coordinator.		(620) 231-4359	https://www.carboncreekevents.com/
+Memorial Auditorium & Convention Center	503 N Pine St	Pittsburg	Kansas			Historic / Estate	Indoor		Simple	Historic Pittsburg auditorium and convention centre offering basic and deluxe wedding packages, with an optional onstage ceremony in its 1,500-seat theatre.	macc@pittks.gov	(620) 231-8310	https://www.pittks.org/memorial-auditorium/weddings/`,
+  },
+  {
+    name: "Dodge City: venues",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Hoover Pavilion	108 4th Avenue	Dodge City	Kansas			Historic / Estate	Indoor			A city-owned 1919 pavilion in Wright Park, now climate controlled with a 5,000 sq ft main hall, warming kitchen and the Liberty Garden, taken for weddings and receptions.	caitlyns@dodgecity.org	620-225-8160	https://www.dodgecity.org/104/Hoover-Pavilion`,
+  },
+  {
+    name: "Map fill: Garden City, Liberal, Hugoton",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Southwind Golf & Dining	77 Grandview Dr	Garden City	Kansas			Restaurant / Vineyard	Indoor & Outdoor			A Garden City golf club with a fine dining hall, lake-view lounge, patio and pool, hosting weddings and receptions with fireplaces and full bars.	events@southwind-gc.com	620-275-2117	https://www.southwind-gc.com/weddings
+The Kitchen at the Baker	624 N Pershing Ave	Liberal	Kansas			Restaurant / Vineyard	Indoor & Outdoor			A rentable community kitchen at Liberal's Baker Arts Center, with a she shed and patio, open for small receptions and wedding showers.	info@bakerarts.org	(620) 624-2810	https://www.bakerarts.org/the-kitchen
+The Wild Sage Ranch	1552 Road S	Hugoton	Kansas			Barn / Rustic	Indoor & Outdoor	300	Simple	A five-acre prairie ranch outside Hugoton with a 5,100 sq ft beamed indoor space and outdoor ceremony sites among trees and open prairie.	thewildsageranch@gmail.com	620-575-5569	https://www.thewildsageranch.com/`,
+  },
 ];
 
 export default batches;

@@ -176,6 +176,19 @@ Foxfire at Alpine	42661 US Highway 180	Alpine	Arizona			Barn / Rustic	Indoor & O
 'Tis Art Gallery	105 S Cortez St	Prescott	Arizona			Ballroom / Hotel	Indoor			Downtown Prescott art gallery whose third-floor banquet hall is available for weddings and receptions.	gallery@tisartgallery.com	(928) 775-0223	https://www.tisartgallery.com
 `,
   },
+  {
+    name: "Map fill, Lake Havasu City, Safford",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Iron Wolf Golf & Country Club	3275 N Latrobe Dr	Lake Havasu City	Arizona			Garden / Outdoor	Outdoor	150		Golf club with a large pavilion, ceremony gazebo and poolside lawn looking over the course towards the lake.		(928) 227-3922	https://ironwolfgcc.com/weddings-event-space-lake-havasu-az/wedding-reception-venues-lake-havasu-az
+The Venue on Main	430 W Main St	Safford	Arizona			Historic / Estate	Indoor	200		Restored downtown building with a smaller annex next door, the Vignette on Main, that can be booked separately for weddings.	TheVenueOnMain@Outlook.com	(928) 965-0371	https://thevenueonmain.net
+Manor 415	415 E US Highway 70	Safford	Arizona			Ballroom / Hotel	Indoor & Outdoor	336		Event centre with halls that divide into three sections, a bright ceremony room, a bridal room, a lounge bar and a patio.			https://manor415.com
+The Onion Barn	Solomon Cemetery Rd	Safford	Arizona			Barn / Rustic	Indoor & Outdoor	120		Open barn with a concrete floor and hanging lights on farmland run by a family of farmers, with extra outdoor room for larger groups.	onionbarnvenue@gmail.com	(928) 322-2639	https://onion-barn.com`,
+  },
+  {
+    name: "Map fill: Lake Havasu City",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Shugrue's Restaurant & Bar	1425 N McCulloch Blvd	Lake Havasu City	Arizona			Restaurant / Vineyard				Waterfront restaurant beside the London Bridge channel that helps with ceremony and reception space, staffing, linens and catering from its group.		928-453-1400	https://www.shugrueslakehavasu.com/weddings`,
+  },
 ];
 
 export default batches;

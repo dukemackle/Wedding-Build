@@ -271,6 +271,42 @@ Voice Wedding Cinema	Videography		Ann Arbor	Michigan	Ann Arbor, Detroit and arou
 White Flamingo Events	Planning		Lansing	Michigan	Michigan and beyond	Lansing planner offering one-off consultations, day-of coordination or full event management for weddings.	katie@whiteflamingoevents.com		https://www.whiteflamingoevents.com/	
 1945 Event Co.	Planning		Lansing	Michigan	Mid-Michigan	Planning and decor styling company offering full-service wedding planning, design plans and day-of coordination.	1945EventCo@gmail.com		https://www.1945eventco.com/	`,
   },
+  {
+    name: "Ann Arbor: videography, florals, officiant, rentals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Reno Presents	Videography		Ann Arbor	Michigan		Ann Arbor photographer and videographer who films weddings alongside concerts and corporate shoots, with quotes handled through a simple booking form.	reno@renopresents.com		https://renopresents.com/	
+DJL Photo Video	Videography		Ann Arbor	Michigan	Southeast Michigan	Photographer and videographer offering wedding films from a ceremony-and-reception edit up to two-shooter coverage with prep, plus engagement sessions.			https://djlphotovideo.com/	https://www.instagram.com/djlphotovideo/
+Marilla Field & Flora	Florals	10203 Easton Road	Dexter	Michigan		Flower farm outside Ann Arbor growing seasonal stems for modern, romantic wedding florals, from full-service design to à la carte bouquets and DIY buckets.	adrianne@marillafield.com	(419) 921-2422	https://www.marillafield.com/weddings-events	https://www.instagram.com/marillafieldandflora/
+A Simple Ceremony	Officiant		Chelsea	Michigan	Chelsea and the Ann Arbor area, Southeast Michigan	Secular celebrant for LGBTQ+ and humanist couples, offering brief signings through to fully scripted ceremonies, with rehearsals and sample scripts available.	stacey@asimpleceremony.org		https://www.asimpleceremony.org/	
+Classic Tent and Event	Rentals	800 Rickett Road	Brighton	Michigan		Brighton rental company supplying frame tents, tables, chairs and linens for weddings, with delivery, set-up and take-down handled by its own crew.		734-891-2699	https://www.classictentandevent.com/	`,
+  },
+  {
+    name: "Lansing: cake, florals, rentals, photo booth",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Michigan Made Treats	Cake		Lansing	Michigan	Lansing, delivering to venues across Michigan	Lansing baker taking a limited number of custom wedding cake and dessert orders, with in-person or take-home tasting boxes before you book.	michiganmadetreats@gmail.com	(810) 309-9448	https://michiganmadetreats.com/weddings-with-michigan-made-treats/	
+B/A Florist	Florals	1424 E Grand River Ave	East Lansing	Michigan		East Lansing flower shop with a wedding gallery and ready-made wedding packages, covering bouquets and arrangements at accessible prices.		(517) 351-4484	https://www.bafloristonline.com/	
+Events To Rent	Rentals	7080 E Saginaw St	East Lansing	Michigan	East Lansing, Haslett, Okemos and Greater Lansing	Party and wedding rental showroom stocking tents, linens, china, glassware and dance floors, with delivery and set-up across the Lansing area.		517-337-9222	https://eventstorent.com/	
+American Rentals	Rentals	4901 W Grand River Ave	Lansing	Michigan	Lansing and across Michigan	Lansing tent and party rental business with a large tent range plus tables, chairs, dance floors and portable restrooms for weddings.		(517) 321-1110	https://www.wereintents.com/lansing-tent-rental-company-in-michigan.php	
+Take A Shot Photo Booth	Photo Booth		Lansing	Michigan		Lansing open-air photo booth service run by two friends, with custom print layouts and themed props for weddings and other celebrations.	info@takeashotphotobooth.party	517-997-1190	https://www.takeashotphotobooth.party/	https://www.instagram.com/takeashotlansingmi/
+Hot Flash Selfies	Photo Booth		Lansing	Michigan	Lansing and beyond	Woman-owned Lansing photo booth company offering print, digital, roaming and 360 video booths with props and backdrops for weddings.	hotflashselfies@gmail.com	517-974-5424	https://www.hotflashselfies.com/	https://www.instagram.com/hotflashselfies/`,
+  },
+  {
+    name: "Detroit: hair and makeup, music, photo booth",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Configure Beauty Detroit	Hair & Makeup		Detroit	Michigan	Metro Detroit, Ann Arbor, Traverse City and across Michigan	Mobile bridal hair and makeup team that sets up a pop-up studio at your getting-ready location, with a portfolio including Ann Arbor weddings.	Robbin@configurebeautydetroit.com	(313) 903-9797	https://www.configurebeautydetroit.com/	https://www.instagram.com/configurebeautydetroit/
+Rock Out Entertainment	Music		Livonia	Michigan	Detroit, Ann Arbor, Troy, Dearborn and Southeast Michigan	Livonia DJ company providing wedding DJs, lighting, sound and photo booths for receptions around Detroit and Ann Arbor.	info@rockoutentertainment.com	734-956-0511	https://rockoutentertainment.com/weddings/	https://www.instagram.com/rockoutinsta/`,
+  },
+  {
+    name: "Grand Rapids: photo booth",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Glitter Booth	Photo Booth	929 Alpine Commerce Park NW, Suite 700	Grand Rapids	Michigan		Grand Rapids photo booth rental with open-style, GIF, 360 and roaming booths for weddings across West Michigan.		(616) 855-2163	https://www.glitterbooth.com/wedding-photo-booth-rental	https://www.instagram.com/glitterbooth/`,
+  },
+  {
+    name: "Sault Ste. Marie: photography, music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Mary Boike Photography	Photography		Sault Ste. Marie	Michigan		Photographer in the Soo who covers weddings and engagements, alongside family, newborn, senior and lifestyle sessions, with a dedicated weddings gallery.			https://www.maryboikephotography.com/weddings	
+On The Mark Entertainment	Music		Sault Ste. Marie	Michigan	Northern Michigan and Ontario, including Sault Ste. Marie, Drummond Island and Mackinac Island	Husband-and-wife mobile DJ and MC team with 25+ years behind the decks, also offering photo booth, uplighting and ceremony audio for weddings.	mark@onthemarkentertainment.com	(906) 440-4287	https://www.onthemarkentertainment.com/	https://www.instagram.com/onthemarkentertainment/`,
+  },
 ];
 
 export default batches;

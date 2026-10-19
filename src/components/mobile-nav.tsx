@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { ArchIcon, WrenBirdIcon } from "@/components/icons";
-import { NAV_ITEMS, isActiveLink, isNavGroup } from "@/components/nav-links";
+import { Badge, NAV_ITEMS, isActiveLink, isNavGroup } from "@/components/nav-links";
 
 /**
  * The navigation, for a phone.
@@ -33,7 +33,8 @@ import { NAV_ITEMS, isActiveLink, isNavGroup } from "@/components/nav-links";
 
 const EXTRA_LINKS = [{ href: "/help", label: "Help", icon: WrenBirdIcon }];
 
-export function MobileNav() {
+/** `badges` maps a tab's href to an unread count, e.g. marketplace messages. */
+export function MobileNav({ badges = {} }: { badges?: Record<string, number> }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
@@ -72,10 +73,13 @@ export function MobileNav() {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        aria-label="Open menu"
+        aria-label={Object.values(badges).some(Boolean) ? "Open menu (unread messages)" : "Open menu"}
         aria-expanded={open}
-        className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md text-forest"
+        className="relative flex h-8 w-8 shrink-0 items-center justify-center rounded-md text-forest"
       >
+        {Object.values(badges).some(Boolean) && (
+          <span className="absolute right-0.5 top-0.5 h-2.5 w-2.5 rounded-full border-2 border-card bg-[#2243B6]" />
+        )}
         <svg
           viewBox="0 0 24 24"
           aria-hidden="true"
@@ -136,6 +140,7 @@ export function MobileNav() {
                     >
                       <Icon className="h-4 w-4 shrink-0 text-brass" />
                       {item.label}
+                      <Badge count={badges[item.href]} />
                     </Link>
                   );
                 }

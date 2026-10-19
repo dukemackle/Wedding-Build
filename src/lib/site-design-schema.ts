@@ -26,6 +26,7 @@ import {
   NO_BACKGROUND,
   ORNAMENT_IDS,
   SCENE_IDS,
+  SCENE_TIME_IDS,
   SECTION_IDS,
   TEXT_SLOT_IDS,
   THEME_IDS,
@@ -131,6 +132,7 @@ export const siteDesignSchema = z.object({
   hero: z.enum(HERO_LAYOUTS.map((h) => h.id) as [HeroLayoutId, ...HeroLayoutId[]]).catch("full"),
   /** null means the theme's own scene. */
   scene: z.enum(SCENE_IDS).nullable().catch(null),
+  sceneTime: z.enum(SCENE_TIME_IDS).catch("day"),
   pageStyle: z.enum(["cards", "storybook"]).catch("cards"),
   /** Per-section layouts (SECTION_LAYOUTS); the schedule's and photos' null follows the page style. */
   layouts: z

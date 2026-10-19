@@ -103,6 +103,41 @@ Cake Ingenuity	Cake		Albuquerque	New Mexico		Albuquerque cake studio with a wedd
 Emily Joanne Weddings & Portraits	Videography		Albuquerque	New Mexico	Albuquerque and Santa Fe	Albuquerque husband-and-wife studio: Emily photographs and Seiji makes the wedding films, working in Albuquerque and Santa Fe.	info@emilyjoanne.com	505-369-9077	https://www.emilyjoanne.com/weddings	
 `,
   },
+  {
+    name: "Clovis: florals and cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Forever Blooms	Florals	1212 N Main St	Clovis	New Mexico	Clovis and surrounding areas	Clovis florist and gift shop that makes flowers for wedding parties, ceremonies and receptions as well as everyday arrangements.		(575) 763-4242	https://www.foreverbloomsclovisnm.com/	
+Kaffee'n'Kuchen	Cake	515 N Main St	Clovis	New Mexico	Eastern New Mexico and West Texas	German bakery in downtown Clovis baking traditional cakes and pastries, with cake and catering orders for celebrations such as weddings.	info@kaffeenkuchen.com	575-777-1153	https://www.kaffeenkuchen.com/	https://www.instagram.com/kaffeenkuchen/`,
+  },
+  {
+    name: "Hobbs: florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Heaven Scent Flowers & Gifts	Florals	207 E Sanger St	Hobbs	New Mexico		Locally owned Hobbs florist and gift shop that lists wedding and quinceañera flowers alongside everyday bouquets and plants.		(575) 397-7770	https://heavenscentflowershobbs.com	`,
+  },
+  {
+    name: "Alamogordo: photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Lucid Dream Photography	Photography		Alamogordo	New Mexico	Alamogordo, White Sands National Park, Ruidoso, Las Cruces	Alamogordo portrait photographer whose work includes wedding couples, engagements and family sessions.	luciddreamphotography@aol.com	575-434-8637	https://www.luciddreamphotography.net/	https://instagram.com/lucid_dream_photography`,
+  },
+  {
+    name: "Map fill: Hobbs, Artesia, Alamogordo",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Alicia Diane Photography	Photography		Hobbs	New Mexico		Hobbs-based wedding and couples photographer with a natural, timeless style, focused on the small details and real emotion of the day.	alicia@aliciadianephotography.com	+1 432-302-0899	https://aliciadianephotography.com/	https://www.instagram.com/alicia_diane_photography/
+Maria's Flowers	Florals	109 W Broadway St	Hobbs	New Mexico	Hobbs area	Hobbs florist that designs wedding bouquets, wedding party flowers and ceremony and reception arrangements, by phone consultation.		(575) 397-3793	https://www.mariasfloral.com/	
+Nelles Floral	Florals	712 W Dallas Ave	Artesia	New Mexico	Artesia and worldwide delivery	Family-run Artesia florist that helps plan wedding bouquets, arrangements and on-site decorating, with consultations booked by phone.		(575) 746-3775	https://www.nellesfloral.com/	
+Alamogordo Flower Company	Florals	901 Texas Ave, Suite A	Alamogordo	New Mexico	Alamogordo, Holloman, La Luz and Tularosa	Alamogordo florist and gift shop with a weddings page offering custom wedding and event flowers, from à la carte pieces to full design, with consultations.		(575) 434-2600	https://alamogordoflowerco.com	`,
+  },
+  {
+    name: "Carlsbad: florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Bloom Floral Studio	Florals	522 W Mermod Street, #2002	Carlsbad	New Mexico	Carlsbad, Artesia, Roswell, El Paso and Lubbock	Carlsbad florist making custom arrangements and event flowers for weddings and corporate gatherings, with delivery to Carlsbad and Artesia.		(575) 400-5766	https://bloomfloralstudio.com/	https://www.instagram.com/bloom_floralstudio_/`,
+  },
+  {
+    name: "Deming: florals and photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Tharp's Flowers	Florals	1205 Columbus Road	Deming	New Mexico	Deming and surrounding areas	Deming flower shop creating wedding bouquets and ceremony and reception flowers, with on-site decorating and tailored consultations.		(575) 546-9501	https://www.tharpsflowersdeming.com/	
+Cosetta Lewis Imagery	Photography		Deming	New Mexico	Southwest New Mexico	Deming photographer focused on seniors and families who also covers small, intimate weddings and engagement sessions across southwest New Mexico.		575.544.7537	https://www.cosettalewisimagery.com/	https://www.instagram.com/cosettalewisimagery/`,
+  },
 ];
 
 export default batches;

@@ -144,6 +144,32 @@ Tuscan Ridge	1701 Reid Hooker Rd	Eads	Tennessee			Garden / Outdoor	Indoor & Outd
 Balinese Ballroom	330 N Main Street	Memphis	Tennessee			Ballroom / Hotel	Indoor			A downtown Memphis ballroom on North Main Street offering wedding and event bookings.	balineseballroom@yahoo.com	901-522-1144	https://www.balineseballroom.com/
 `,
   },
+  {
+    name: "Cookeville and Morristown map fill",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Saltbox Wedding and Event Center	537 Hutchenson Rd	Cookeville	Tennessee			Barn / Rustic	Indoor & Outdoor	300	Simple	A 22-acre Cookeville farm with a climate-controlled stables reception hall, a loft, gardens and four outdoor ceremony spots.		931-510-6787	https://www.saltboxinn.net/
+Newton's Bend Farm	1694 Hill Rd	Cookeville	Tennessee			Barn / Rustic	Indoor & Outdoor		Simple	A four-generation family barn near Cookeville with a two-storey ceremony and reception space, a bridal cottage and a groom's den.	info@newtonsbendfarm.com	863-514-0639	https://www.newtonsbendfarm.com/
+Waterloo Venue & Events	145 Virgil Murphy Cir	Cookeville	Tennessee			Garden / Outdoor	Outdoor			An outdoor Cookeville venue set among a waterfall, creek and river access, with an on-site suite and tent camping for wedding guests.	info@waterloovenueandevents.com	931-498-4337	https://waterloovenueandevents.com/
+River Cliff Event Venue	1241 River Cliff Way	Sparta	Tennessee			Garden / Outdoor	Indoor & Outdoor			A Sparta ceremony overlook above the meeting of Cane Creek and the Caney Fork, with a grapevine pergola and a climate-controlled barn-style hall.		931-212-7057	https://rivercliffevents.com/
+The Red Barn at Great Smoky Farm	7464 W Andrew Johnson Hwy	Morristown	Tennessee			Barn / Rustic	Indoor			A 15,000 sq ft heated and cooled event barn just outside Morristown with indoor restrooms and tables and chairs included for large weddings.		865-282-3854	https://greatsmokyfarm.com/
+Raines Manor	1204 Old Witt Rd	Morristown	Tennessee			Garden / Outdoor	Outdoor			A Morristown property with a pond, dock and gazebo, a bridal suite, and all-inclusive packages that still let couples bring their own vendors.		423-585-7975	https://www.rainesmanor.com/
+Sunflower Barn	1686 Highway 139	Dandridge	Tennessee			Barn / Rustic	Indoor & Outdoor	100		A Dandridge wedding barn for up to 100 guests with views over Douglas Lake and the Smoky Mountains, set up to suit each couple's style.	sunflowerbarnweddings@gmail.com	865-361-2114	https://www.sunflowerbarntn.com
+Colley Hill Farm	740 Sam Martin Rd	Dandridge	Tennessee			Barn / Rustic	Outdoor			A secluded 50-acre family farm in Dandridge, in the same family since 1925, with Smoky Mountains views and an events team to help plan.	colleyhillfarms@eleaseproductions.info	865-274-3520	https://colleyhillfarm.com
+The Carriage House	895 Sellers Rd	Jefferson City	Tennessee			Historic / Estate	Indoor & Outdoor			A private estate in Jefferson City's Dry Hollow, ringed by forest and rolling hills, with roomy indoor space that can be styled for each wedding.	lisa@thecarriagehousetn.com	423-690-0831	https://thecarriagehousetn.com
+`,
+  },
+  {
+    name: "Tullahoma, Lawrenceburg and Manchester area map fill",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+The Atlantic Venue	205 NW Atlantic St	Tullahoma	Tennessee			Historic / Estate	Indoor	288	Simple	Restored 1940 hardware store in downtown Tullahoma with Art Deco touches, black concrete floors, exposed brick, a catering kitchen and bridal suite.	theatlanticvenue@gmail.com	(931) 247-8985	https://www.theatlanticvenue.com/
+Beau Cheval	6999 Highway 64 E	Wartrace	Tennessee			Historic / Estate	Indoor & Outdoor			78-acre historic farm with an 1800s log farmhouse, a garden ceremony spot and a 5,000 sq ft indoor reception hall, sold as all-inclusive packages.	beauandgary@beauchevalwartrace.com	615-295-3326	https://www.beauchevalwartrace.com/weddings
+Twin Creeks Marina	215 Slip-A-Way	Winchester	Tennessee			Beach / Waterfront	Indoor & Outdoor		Simple	Lakeside marina venue with a covered pavilion, waterfront chapel, bridal and groom's houses and guest cottages, offered as all-inclusive packages.	info@twincreekstfl.com	(931) 229-4095	https://www.twincreekstfl.com/weddings
+At Rivers Edge	148 Garner Ford Rd	Winchester	Tennessee			Beach / Waterfront	Indoor & Outdoor	180	Classic	Elk River venue on fifty-plus acres with a climate-controlled hall, four private cabins and a cedar arbor, hosting one wedding per weekend.	AtRiversEdgeTN@gmail.com	678-491-8480	https://www.atriversedgetn.com/copy-of-wedding-packages-1
+Providence Hall	26 Public Sq	Lawrenceburg	Tennessee			Historic / Estate	Indoor	170	Simple	Historic hall on the Lawrenceburg public square with seating for up to 170, offered as a day rental or a two-day weekend package.		931-279-7878	https://providencehallvenue.com/wedding
+The Lakes Venue	401 The Way Dr	Lawrenceburg	Tennessee			Barn / Rustic	Indoor & Outdoor			Lakeside property with meadows, rolling hills, a new lakeside event centre and a historic barn, with ceremony spots by the water.	thelakesvenue@gmail.com	931-244-0209	https://thelakesvenue.com/
+Promise Manor		Lynchburg	Tennessee			Historic / Estate	Indoor & Outdoor	100	Simple	Historic Lynchburg manor with a parlour and outdoor ceremony space for up to 100, offering a twelve-hour wedding rental with bridal and groom's suites.			https://www.promisemanor.com/packages
+`,
+  },
 ];
 
 export default batches;

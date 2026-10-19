@@ -1,16 +1,26 @@
 import Link from "next/link";
 import { MobileNav } from "@/components/mobile-nav";
 import { isAdminEmail } from "@/lib/admin";
+import { unreadThreadCount } from "@/lib/marketplace-server";
+import { createClient } from "@/lib/supabase/server";
 import { signOut } from "@/lib/supabase/actions";
 import { WeddingAssistantWidget } from "@/components/wedding-assistant-widget";
 import { WrenMark } from "@/components/wren-mark";
 import { NavLinks } from "@/components/nav-links";
 import { AutoHideHeader } from "@/components/auto-hide-header";
 
-export function AppNav({ email }: { email: string }) {
+export async function AppNav({ email }: { email: string }) {
   // Same allowlist the admin routes enforce, so the nav link and the actual
   // access can't disagree.
   const isAdmin = isAdminEmail(email);
+
+  // Unread marketplace conversations, for the tab's badge. getClaims reads
+  // the session token rather than asking Supabase again: the page has
+  // already checked who this is.
+  const { data: auth } = await (await createClient()).auth.getClaims();
+  const userId = auth?.claims.sub;
+  const unread = userId ? await unreadThreadCount(userId).catch(() => 0) : 0;
+  const badges = { "/marketplace": unread };
 
   return (
     <>
@@ -51,7 +61,7 @@ export function AppNav({ email }: { email: string }) {
               </form>
               {/* Sits in the row that already exists rather than claiming one
                   of its own -- a whole line of height back on a phone. */}
-              <MobileNav />
+              <MobileNav badges={badges} />
             </div>
           </div>
 
@@ -63,7 +73,7 @@ export function AppNav({ email }: { email: string }) {
               row -- same two-row arrangement, less height. Only from 2xl,
               where the centred tabs clear the logo and the account links. */}
           <div className="hidden sm:block 2xl:-mt-3">
-            <NavLinks />
+            <NavLinks badges={badges} />
           </div>
         </div>
       </AutoHideHeader>

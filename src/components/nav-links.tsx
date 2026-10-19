@@ -10,6 +10,7 @@ import {
   BudgetIcon,
   HeadcountIcon,
   RingsIcon,
+  TagIcon,
   VenueIcon,
   WrenBirdIcon,
 } from "@/components/icons";
@@ -65,9 +66,31 @@ export const NAV_ITEMS: NavItem[] = [
       { href: "/bookings", label: "Bookings" },
     ],
   },
+  { href: "/marketplace", label: "Marketplace", icon: TagIcon },
 ];
 
-function PlainLink({ href, label, icon: Icon }: { href: string; label: string; icon: IconType }) {
+/** An unread count beside a tab, in Royal blue so it reads as news, not as the brand's gold. */
+export function Badge({ count }: { count?: number }) {
+  if (!count) return null;
+  return (
+    <span className="ml-0.5 rounded-full bg-[#2243B6] px-1.5 py-px font-sans text-[11px] font-semibold leading-4 text-white">
+      {count > 9 ? "9+" : count}
+      <span className="sr-only"> unread</span>
+    </span>
+  );
+}
+
+function PlainLink({
+  href,
+  label,
+  icon: Icon,
+  badge,
+}: {
+  href: string;
+  label: string;
+  icon: IconType;
+  badge?: number;
+}) {
   const pathname = usePathname();
   const isActive = pathname.startsWith(href);
   return (
@@ -79,11 +102,12 @@ function PlainLink({ href, label, icon: Icon }: { href: string; label: string; i
     >
       <Icon className={`h-4 w-4 shrink-0 xl:h-5 xl:w-5 ${isActive ? "text-forest" : "text-brass"}`} />
       {label}
+      <Badge count={badge} />
     </Link>
   );
 }
 
-export function NavLinks() {
+export function NavLinks({ badges = {} }: { badges?: Record<string, number> }) {
   return (
     // One row, always: the tabs never wrap under each other. Past the point
     // where they stop fitting (phones) the strip scrolls sideways instead.
@@ -98,7 +122,7 @@ export function NavLinks() {
         isNavGroup(item) ? (
           <NavDropdown key={item.label} label={item.label} icon={item.icon} links={item.links} />
         ) : (
-          <PlainLink key={item.href} href={item.href} label={item.label} icon={item.icon} />
+          <PlainLink key={item.href} href={item.href} label={item.label} icon={item.icon} badge={badges[item.href]} />
         ),
       )}
       <PlainLink href="/help" label="Help" icon={WrenBirdIcon} />

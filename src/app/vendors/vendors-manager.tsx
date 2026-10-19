@@ -20,7 +20,7 @@ import { InquiryForm } from "./inquiry-form";
 import { VendorFollowUps } from "./vendor-follow-ups";
 import { BirdEmptyState } from "@/components/wren-moments";
 import { SignupCardButton, SignupHeart } from "@/components/public-nav";
-import { isBasicListing, vendorHref } from "@/lib/public-listings";
+import { vendorHref } from "@/lib/public-listings";
 import { useSavedFilters } from "@/lib/use-saved-filters";
 import { isInView, viewKey, type MapView } from "@/lib/map-view";
 import {
@@ -187,11 +187,6 @@ function VendorCard({
           </p>
         )}
         {place && <p className="mt-0.5 text-[13px] text-ink/55">{place}</p>}
-        {isBasicListing(vendor) && (
-          <span className="mt-1.5 self-start rounded-full border border-hairline px-2 py-0.5 text-[11px] text-ink/60">
-            Basic listing · from Instagram
-          </span>
-        )}
 
         {!signedIn ? (
           <div className="mt-3 flex flex-col gap-2">

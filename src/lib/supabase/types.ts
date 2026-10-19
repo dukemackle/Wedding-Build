@@ -917,3 +917,49 @@ export type SheetLink = {
   sheet_modified_at: string | null;
   created_at: string;
 };
+
+export type MarketListingStatus = "active" | "pending" | "sold" | "removed";
+
+export type MarketListing = {
+  id: string;
+  seller_id: string;
+  seller_name: string;
+  title: string;
+  description: string | null;
+  category: string;
+  condition: string;
+  price_cents: number;
+  quantity: number;
+  city: string;
+  state: string;
+  latitude: number | null;
+  longitude: number | null;
+  photo_urls: string[];
+  status: MarketListingStatus;
+  created_at: string;
+  updated_at: string;
+  /** 'rent' is lent for one event and returned (0119). */
+  listing_type: "sale" | "rent";
+  /** "Married Oct 2026", from the seller's wedding when they opt in (0119). */
+  seller_badge: string | null;
+};
+
+export type MarketThread = {
+  id: string;
+  listing_id: string;
+  buyer_id: string;
+  seller_id: string;
+  buyer_name: string;
+  created_at: string;
+  last_message_at: string;
+  buyer_last_read_at: string;
+  seller_last_read_at: string;
+};
+
+export type MarketMessage = {
+  id: string;
+  thread_id: string;
+  sender_id: string;
+  body: string;
+  created_at: string;
+};

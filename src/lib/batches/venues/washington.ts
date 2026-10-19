@@ -172,6 +172,17 @@ Maplehurst Farm	18495 Dike Rd	Mount Vernon	Washington			Barn / Rustic	Indoor & O
 Christianson's Nursery	15806 Best Rd	Mount Vernon	Washington			Garden / Outdoor	Indoor & Outdoor	130	Simple	Skagit Valley nursery with a restored 1888 schoolhouse, English rose garden, historic greenhouses and a hilltop vinery.	emma.christiansons1@gmail.com	360-466-3821	https://www.christiansonsnursery.com/christiansons-weddings/
 Santucci Farm	16769 McLean Rd	Mount Vernon	Washington			Barn / Rustic	Indoor & Outdoor			Historic Skagit Valley farm with an accessible barn, covered pavilion, lawn with a wooden arbor and gardens.	SantucciFarm@gmail.com		https://www.santuccifarm.com/`,
   },
+  {
+    name: "Moses Lake and Aberdeen: venues",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Hidden Meadow	9383 Rd 11.5 NE	Moses Lake	Washington			Garden / Outdoor	Outdoor	200	Classic	Country estate north of Moses Lake with a pond, waterfall and arched bridge, plus a covered pavilion, iron-gazebo dance floor and BBQ kitchen.	info@ourhiddenmeadow.com	509.750.1846	https://www.ourhiddenmeadow.com/
+The Garden	605 E Nelson Rd	Moses Lake	Washington			Historic / Estate	Indoor & Outdoor			Estate built in 1904 with manicured grounds, a waterfall and a koi pond, whose owners decorate and coordinate the wedding day on site.			https://www.thegardenml.com/
+Tin Roof Venues	14117 Rd 8 NE	Moses Lake	Washington			Barn / Rustic	Indoor & Outdoor		Simple	Rural 9,600 sq ft barn hung with twinkle lights, with a separate covered concrete area, wine-barrel bar and a 50x50 pad for outdoor games.	tinroofvenues11@gmail.com	(509)-989-1456	https://tinroofvenues.wixsite.com/my-site-1
+Events on Emerson	212 4th St	Hoquiam	Washington			Historic / Estate	Indoor	100	Simple	Former 1906 Episcopal church in downtown Hoquiam with tall windows and beams, seating about 100 with tables, chairs, linens and AV included.	eventsonemerson@zucchinivolcano.com	(360) 580-5585	https://emerson.events/
+Grays Harbor Historical Seaport	500 N Custer St	Aberdeen	Washington			Beach / Waterfront	Outdoor			Weddings aboard Lady Washington, a full-size replica 18th-century brig run by a nonprofit on the Aberdeen waterfront.	bbednarik@historicalseaport.org	(360) 589-8212	https://historicalseaport.org/wedding-venue/
+Legacy Pavilion at Lake Sylvia State Park	1812 N Lake Sylvia Rd	Montesano	Washington			Garden / Outdoor	Indoor & Outdoor	60	Simple	Glass-walled state park pavilion with a stone fireplace and forest and lake views, rented by the day and holding up to 60 guests.		(360) 249-3621	https://parks.wa.gov/find-park/state-parks/lake-sylvia-state-park/legacy-pavilion-wedding-day-use-site
+`,
+  },
 ];
 
 export default batches;

@@ -34,6 +34,15 @@ legal questions to the owner rather than deciding them.
   covers the name, quantity/amount and message. Fund money never passes
   through us, so the payments trigger below doesn't apply.
 
+- **Marketplace sell form (2026-10-18):** shows `LegalNotice`; Privacy §1
+  (from you) covers the public listing, first name and pickup town; Terms §4
+  says sales are between buyer and seller and we don't handle payment.
+  Messaging (part 2, 2026-10-18): the message box and report forms show
+  `LegalNotice`; Privacy §1 covers messages, that reported conversations are
+  read by us, and the new-message email.
+  Part 3: the opt-in seller badge (month and year of the wedding only) is
+  in the same Privacy line; rentals are between the two people, like sales.
+
 Rule: any new form that sends Wren a person's details gets `LegalNotice`
 next to its submit button, and the Privacy Policy's "Information we collect"
 gets a line for it. Bump the "Last updated" date on any policy change.

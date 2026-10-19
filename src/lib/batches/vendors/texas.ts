@@ -263,6 +263,507 @@ Sweets + Meats	Catering	3300 S Coulter, Suite 5	Amarillo	Texas		Amarillo shop th
 Bijoux Belles Hair & Makeup	Hair & Makeup	10105 Montwood Suite J	El Paso	Texas	El Paso, Texas and New Mexico, plus destination weddings	El Paso studio sending hair and makeup artists on location for weddings, with looks tailored to each client's style and event details.	info@bijouxbellesstudio.com	915-256-4803	https://www.bijouxbellesstudio.com/	https://www.instagram.com/bijouxbelles/
 `,
   },
+  {
+    name: "Texas map fill: Laredo, Victoria, Eagle Pass, Lake Jackson, Corsicana, Paris, Big Spring, Stephenville, Plainview, Palestine, Brownwood, Alice, Bay City: florals, photography, cake, music, catering, hair & makeup, bar",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Jenny King Photography	Photography		Victoria	Texas		Victoria wedding photographer shooting romantic, emotive portraits, with an experienced, relaxed approach to the whole wedding day.	jenny@jennykingphotography.com		https://jennykingphotography.com/	https://www.instagram.com/jenny_king_photography/
+Sweet Fountainz Bakery	Cake	5805 John Stockbauer Dr	Victoria	Texas	Victoria, with delivery to venues within 35 miles	Victoria bakery baking custom wedding cakes in couples own flavours, designs and colours, delivered to the venue.		361-575-4715	https://sweetfountainzbakery.com/wedding-cakes	https://www.instagram.com/sweetfountainzbakery/
+Allison's Floral & Gift Shop	Florals	415 W Hillside Rd	Laredo	Texas		Laredo florist offering bridal bouquets, wedding party flowers and ceremony and reception arrangements, with custom orders and Spanish pages.		956-724-5833	https://www.allisonsfloralandgiftshop.com/	
+Eva's Flower Shop & Gifts	Florals	1915 N Veterans Blvd	Eagle Pass	Texas		Eagle Pass florist since 1991 designing custom wedding flowers, from bouquets to arches, with consultations and silk and decor rentals.		830-757-0109	https://www.evasflowershopandgifts.com/wedding-flowers	
+Emily McNeel Photography	Photography		Corsicana	Texas		Corsicana wedding photographer with Classic, Luxe and Exclusive packages from intimate elopements to full-day and destination weddings.	emilymcneelphotos@gmail.com		https://www.emilymcneelphotography.com/	https://www.instagram.com/emilymcneelphotos/
+DarKer Side DJs & Photo Booths	Music	506 S Brooks St	Brazoria	Texas		Wedding DJ, lighting and photo booth company with more than twenty years of experience, working from Brazoria and the Houston area.	darkersidedjs@darkersidedjs.com	281-542-3555	https://www.darkersidedjs.com/	
+Made You Blush	Hair & Makeup		Lake Jackson	Texas		Team of hair and makeup artists focused on weddings, offering bridal trials, airbrush makeup and bridesmaid styling.			https://www.madeyoublushtx.com/	https://www.instagram.com/madeyoublushtx/
+Paris Texas Mobile Bar	Bar		Paris	Texas	Paris and North Texas	TABC-certified mobile bar service that sets up a full bar at weddings and other events, indoors or out, in and around Paris.		(903) 517-9303	https://parismobilebar.com	
+Mexia Photography	Photography		Big Spring	Texas		Big Spring photographer covering weddings, families and graduations, with a husband-and-wife team and drone coverage at weddings.	mexiaphotographyllc@gmail.com		https://www.mexiaphotography.com/	https://www.instagram.com/mexiaphotographyllc/
+B & A MediaTech	Music		Stephenville	Texas	North Texas	DJ and live sound company serving Stephenville and Granbury weddings, with photo booth and LED video wall options for receptions.	contact@bamediatech.com	(682) 719-3412	https://www.bamediatech.com/	
+The Red Umbrella Bakery	Cake	2029 W Washington St, Suite 220	Stephenville	Texas		Stephenville bakery taking custom cake orders for weddings, parties and birthdays alongside everyday treats.	emilyt@theredumbrellabakery.com	254-434-5016	https://www.theredumbrellabakery.com/	https://www.instagram.com/theredumbrellatx/
+Scott's Flowers	Florals	200 W College St	Stephenville	Texas	Stephenville	Locally owned Stephenville florist since 1978 that designs wedding flowers and event arrangements alongside everyday bouquets.		(254) 965-5979	https://www.stephenvillescottsflowers.com/	
+Kan Del's Floral, Candles & Gifts	Florals	605 Amarillo Street	Plainview	Texas	Plainview	Florist and gift shop making custom bridal bouquets, centrepieces and ceremony flowers, with pricing agreed at a bridal consultation.		806-288-0256	https://www.kandelsflowershop.com/	https://www.instagram.com/kan_dels/
+WeekEnds Take Out BBQ and Catering	Catering	2206 W 5th St	Plainview	Texas		West Texas barbecue caterer whose wedding packages can add prime rib and beef tenderloin, serving events from family dinners to large celebrations.	weekendsbbq@gmail.com	806-292-1423	https://weekendsbbq.com/	https://www.instagram.com/weekendsbbq/
+Flowers by Pat	Florals	616 W Oak St	Palestine	Texas	Palestine	Palestine florist designing each wedding to order, from bouquets and corsages to arches, centrepieces and on-site decorating, with themed ideas.		903-729-0631	https://www.flowersbypatflorist.com/	
+The Flower Shop	Florals	1734 Crockett Rd	Palestine	Texas	Palestine	Wedding flower boutique offering bridal bouquets, aisle petals, arches and centrepieces, delivered and set up to suit the venue and timeline.	wecare@theflowershoppalestinetx.com	903-727-0510	https://www.theflowershoppalestinetx.com/	https://www.instagram.com/theflowershop_boutique/
+The Party Doc Wedding DJs	Music		Brownwood	Texas	Brownwood and Central Texas, with travel to Abilene, San Angelo and further	Brownwood wedding DJ with over 30 years behind the decks, offering sound, an emcee, lighting and optional up-lighting and monogram gobos.		844-489-2378	https://brownwoodweddingdjs.com/	
+Rose Image	Florals	1525 E Main St	Alice	Texas	Alice	Alice florist creating custom-designed wedding flowers with themed options, plus consultations, on-site decorating and arch and candelabra rentals.		361-664-7000	https://www.roseimageflowers.com/	
+Alice Floral & Gift	Florals	512 E Front St	Alice	Texas	Alice	Alice florist and gift shop doing bridal and attendant bouquets, ceremony flowers and centrepieces, with candelabra, topiary and arch rentals.		361-664-9999	https://www.alicefloral.com/	
+Bay City Floral	Florals	2133 Avenue G	Bay City	Texas		Downtown Bay City florist designing bridal bouquets plus ceremony and reception flowers to the couple's vision, with full floral set-up.		979-245-9492	https://baycityfloral.net/	https://www.instagram.com/bay_city_floral/
+`,
+  },
+  {
+    name: "Map fill: Lufkin, Nacogdoches, Gainesville, Sherman, Brazosport and small towns: Florals, Catering, Photography, Cake, Desserts",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Grandough Baking Co.	Cake	1705 Feagin Dr	Lufkin	Texas	Lufkin and Nacogdoches	Bakery making custom tiered and naked wedding cakes and groom's cakes, with tastings by appointment and event catering.	grandough@yahoo.com	(936) 632-1005	https://grandough.com/wedding-cakes/	
+The Flower Pot	Florals	304 E Denman Ave	Lufkin	Texas		Lufkin florist designing bridal bouquets, ceremony arrangements and centrepieces, with candelabra, arch and topiary rentals.		(936) 632-8400	https://www.theflowerpottexas.com/wedding-flowers	
+Texas Custom Catering	Catering	691 E Texas Rd	Lufkin	Texas	Lufkin area	Lufkin caterer serving wedding receptions, corporate events and parties with fresh-made menus.	aperfectweddingllc@gmail.com	(936) 635-4236	https://www.texascustomcatering.com/our-services	
+WNW Photography	Photography		Nacogdoches	Texas	East Texas, Houston and Dallas	Nacogdoches photographer who shoots natural, candid weddings, engagements and elopements, and will travel for destination work.	wnwcreatives@gmail.com		https://www.wnw-photography.com/	https://www.instagram.com/wnw_photography/
+99ndco	Photography		Nacogdoches	Texas	Nacogdoches, Houston and Dallas	Husband-and-wife duo in Nacogdoches shooting cinematic, true-to-colour wedding stories with a film-inspired look.			https://99ndco.com	https://www.instagram.com/99ndco/
+Mike's Barbeque House	Catering		Nacogdoches	Texas	Nacogdoches	Barbecue caterer offering chipped beef, sandwiches, catfish and sides for weddings, reunions and large parties.		(936) 560-1676	https://www.mikesbarbequehouse.net/nacogdoches-tx-catering-service	
+Vine and Branches	Florals	401 N Grand Ave	Gainesville	Texas	Dallas-Fort Worth and southern Oklahoma	Gainesville florist designing fresh, silk or mixed wedding flowers for celebrations of roughly 25 to 250 guests.	info@vineandbranchesgainesville.com	(940) 612-1829	https://www.vineandbranchesgainesville.com/weddings	https://www.instagram.com/vineandbranchesgainesville/
+Gene's Photos	Photography		Gainesville	Texas	Gainesville and Muenster	Gainesville photography business covering weddings, portraits, seniors and aerials, meeting couples wherever they choose.		(940) 665-4742	https://genesphotos.com/	
+Country Florist	Florals	1520 Texoma Pkwy	Sherman	Texas	Sherman and nearby areas	Sherman florist with over 40 years in business, arranging ceremony and reception flowers and bouquets after a phone consultation.		(903) 892-0114	https://www.countryfloristshermantx.com/about_us.php	
+Amanda Elaine Photography	Photography		Sherman	Texas	Sherman, Denison, McKinney and the Texoma area	Sherman studio photographing weddings, families and seniors across Texoma and north Dallas suburbs.			https://amandaelainephotography.com/2025/02/28/wedding-photographer-sherman-tx/	https://www.instagram.com/amandaelainephoto/
+Cakery Lane	Cake		Lake Jackson	Texas	Lake Jackson	Lake Jackson custom bakery hand-sculpting wedding and groom's cakes to order, by appointment only.			https://www.cakerylane.com/	https://www.instagram.com/cakerylanellc/
+Talk About Good	Catering	2105 N Brazosport Blvd	Freeport	Texas	Brazosport area	Freeport restaurant and caterer serving Southern and Cajun dishes for weddings, private events and corporate parties.		(979) 233-0665	https://talkaboutgood.biz/	
+Littlejohn's Catering	Catering	513 W Lingleville Rd	Stephenville	Texas	Erath County and beyond	Stephenville caterer offering buffet, table-service or drop-off menus from casual country to black tie, plus charcuterie boards.	sherrilittlejohn@yahoo.com	(254) 842-4260	https://www.littlejohnstx.com/catering	
+Amy's Cookie Co. and Bakery	Desserts	227 East Jackson St	El Campo	Texas		El Campo bakery turning out big soft cookies, cakes and brownies, and taking custom orders for weddings, bridal showers and other celebrations.	amyscookiecoorders@gmail.com		https://amyscookiecoandbakery.com/	https://www.instagram.com/amyscookiecoandbakery/
+Heather Crump Photography	Photography		Victoria	Texas		Victoria wedding and portrait photographer who favours natural light and a timeless, sophisticated look in the images she delivers.	hello@heathercrump.com		https://heathercrump.com/	https://www.instagram.com/heatherncrump/
+Desert Rose Flowers & Gifts	Florals	1302 Simmons Avenue	Jourdanton	Texas	Jourdanton, Pleasanton and Poteet	Family florist in Jourdanton offering bridal bouquets, bridesmaids' flowers, ceremony arrangements and reception centrepieces.		830-769-3585	https://www.lesleysflowersandgifts.com/	https://www.instagram.com/lesleysflowersandgifts/
+Gloria's Floral Shop	Florals	314 NW Ave. B	Andrews	Texas		Andrews flower shop that arranges bridal and bridesmaid bouquets, boutonnieres, ceremony flowers and reception centrepieces, with consultations by phone.		432-523-2096	https://www.gloriasfloralshop.com/wedding-flowers	
+Chocolate Tulip	Florals	517 North Main	Borger	Texas		Borger florist with wedding packages covering bouquets, corsages and boutonnieres, ceremony decor and reception flowers, planned at a bridal consultation.		806-273-3718	https://www.chocolatetulip.com/wedding-flowers	https://www.instagram.com/chocolatetulipboutique/
+Family Blooms	Florals	440 Oriente Drive	Pleasanton	Texas		Pleasanton flower shop making wedding bouquets, wedding-party flowers, ceremony pieces and reception arrangements for couples in the area.		830-281-2131	https://www.pleasantontxflorist.com/wedding-flowers	
+Thyme & Elegance Catering	Catering	409 N. Beaton Street	Corsicana	Texas	Navarro County	Corsicana caterer cooking personalised menus for weddings and parties, with a gourmet, from-scratch approach and options for gluten-free and vegan diets.	thymeandelegancecatering@gmail.com	903-602-5000	https://www.thymeandelegance.com/	https://www.instagram.com/thymeandelegancecatering/
+J&S BBQ	Catering	2025 N Center St	Bonham	Texas	Fannin County	Family-run Bonham barbecue business with a food truck and a catering service for weddings, slow-smoking its meats and making its own rubs and sauces.	cutterace1@gmail.com	903-647-0829	https://jsbbque.com/	https://www.instagram.com/Jsbbqfoodtruckbonhamtx/
+Big Country Flowers	Florals		Sweetwater	Texas	Sweetwater and Abilene	Full-service Sweetwater florist with over 25 years of experience, handling wedding flowers alongside everyday and sympathy orders.	sweetwaterflorist@gmail.com	325-236-4304	http://sweetwaterflowershops.com/	
+The Flower Box & Gifts	Florals		Sweetwater	Texas		Sweetwater florist offering wedding consultations by phone, in person or email, with ceremony and reception flowers delivered to the venue.		325-235-8676	https://swtflowerbox.com/collections/wedding	
+`,
+  },
+  {
+    name: "Map fill: Mount Pleasant, Uvalde, Hereford, Dumas, El Campo, Lake Jackson: Florals, Photography, Music, Catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Designs by Lisa	Florals	1101 W 16th St	Mount Pleasant	Texas		Florist doing bridal and attendant bouquets, ceremony and reception arrangements, on-site decorating and arch or candelabra hire.		(903) 572-7964	https://www.designsbylisatx.com/wedding-flowers	
+Laura's Cheesecake & Cafe	Catering	109 N Madison Ave	Mount Pleasant	Texas		Downtown cheesecake bakery and cafe that also caters wedding celebrations and other events.	info@laurascheesecake.com	(903) 577-8177	https://laurascheesecakeandcafe.com/	https://www.instagram.com/laurascheesecakeandcafe/
+The Flower Patch	Florals	214 S Getty St	Uvalde	Texas		Uvalde florist offering wedding consultations, bouquets, ceremony and reception flowers, arches, and wedding and party hire.		(830) 278-2583	https://www.theflowerpatchuvaldetx.com/wedding-flowers	https://www.instagram.com/flowerpatchofuvalde/
+Flowers West	Florals	506 S 25 Mile Ave	Hereford	Texas	Hereford area	Long-running Hereford flower shop with a weddings and quinceañeras section on its website.		(806) 364-6452	https://www.flowerswesthfd.com/	
+Flowers Etc. LLC	Florals	523 S Dumas Ave	Dumas	Texas		Dumas florist doing wedding consultations, bouquets, ceremony and cake-table flowers, arches, and wedding and party hire.		(806) 935-7924	https://www.flowersetcdumastx.com/wedding-flowers	
+Floral Gardens	Florals	802 W Jackson St	El Campo	Texas		El Campo florist offering bridal party flowers, ceremony decor, reception centrepieces and on-site wedding consultations.		(979) 543-2705	https://www.floralgardens.biz/wedding-flowers	
+Cristal Malek Photography	Photography		El Campo	Texas	Houston, El Campo and Wharton	Relaxed, airy wedding photography from El Campo, with elopement and full-day packages and a day-after session.		(979) 578-2823	https://www.cristalmalekphotography.com/weddings	
+Wild Roots Photography	Photography		Lake Jackson	Texas	Southern Brazoria County and the Texas Gulf Coast	Lake Jackson photographers covering weddings with two photographers on every collection, serving southern Brazoria County and the Gulf Coast.			https://wildrootsphotography.com/weddings	https://www.instagram.com/wild_roots_photographytx/
+`,
+  },
+  {
+    name: "Map fill: Brownwood, Sulphur Springs, Pampa",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Be Okay Photography	Photography		Brownwood	Texas		Brownwood photographer offering wedding packages from a two-hour essentials package to full-day coverage, plus engagement sessions and portraits.			https://beokayphotography.com/	https://www.instagram.com/be_okay_photography/
+The Sticks BBQ	Catering	3501 US-377	Brownwood	Texas	Brown County and nearby Central Texas towns	Family-owned Brownwood barbecue joint since 2001 that smokes brisket, ribs and sausage and offers BBQ catering for larger groups.		(325) 646-2315	https://sticksbbq.com/	
+Whoops-A-Daisy Flower Co.	Florals	128 S Davis St	Sulphur Springs	Texas	Sulphur Springs	Downtown Sulphur Springs flower shop that arranges wedding bouquets, wedding party flowers, and ceremony and reception arrangements.	vickibassham@icloud.com	(903) 885-2554	https://www.whoopsadaisyflowerco.com/	
+The Plaza Restaurant	Catering	1201 N Hobart St	Pampa	Texas		Tex-Mex restaurant in Pampa that caters wedding receptions and rehearsal dinners, with fajita bars and enchilada dinners.			https://www.theplazarestaurant.com/catering/	`,
+  },
+  {
+    name: "Killeen, Harker Heights, Temple and Salado: photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Hunter Bee Photography	Photography		Killeen	Texas	Bell County, Williamson County and the greater Austin area, including Harker Heights, Belton, Temple and Salado	Wedding and elopement photographer near Killeen who mixes digital with 35mm film and Super 8, and also travels for destination weddings.	hunterbeephotography@gmail.com		https://hunterbeephotography.com/	https://www.instagram.com/hunterbee.co/`,
+  },
+  {
+    name: "Pleasanton: florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Family Blooms	Florals	440 Oriente Drive	Pleasanton	Texas	Pleasanton, Jourdanton, Poteet, Floresville and nearby	Pleasanton florist designing wedding bouquets, boutonnieres, ceremony and reception flowers, with consultations and party decor rentals.		(830) 281-2131	https://www.pleasantontxflorist.com/wedding-flowers	`,
+  },
+  {
+    name: "Galveston: photography, hair & makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Phoenix Photography	Photography		Galveston	Texas	Galveston Island, Houston and across Texas	Galveston Island photographer covering weddings alongside family and portrait work, with fully retouched collections and prints.		(903) 360-0397	https://www.phoenixphotogtx.com/	https://www.instagram.com/phoenixfamilyphotogalveston/
+Plan-it ink Photography Galveston	Photography		Galveston	Texas	Galveston	Mother and daughter photography team in Galveston with over twenty years behind the lens, offering wedding packages and relaxed beach sessions.		254-979-5025	https://www.planitinkphotographygalveston.com/	https://www.instagram.com/trevawygle/
+Degrees North Images	Photography		Galveston	Texas	Galveston	Galveston photographer for elopements, intimate weddings and larger celebrations, with a playful, adventurous eye for couples who skip the stiff poses.	dawn@degreesnorthimages.com		https://degreesnorthimages.com/	https://www.instagram.com/degreesnorthimages/
+Salty Skin + Hair	Hair & Makeup		Galveston	Texas	Galveston, Houston and the Texas Gulf Coast	On-location bridal hair and makeup that comes to your venue, beach house or hotel, with styling for the full wedding party and pre-wedding events.			https://www.saltyskinandhair.com/	https://www.instagram.com/saltyskinandhair/`,
+  },
+  {
+    name: "Midland and Odessa: photography, hair & makeup, cake, catering, music, florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Wilson Photography	Photography	203 W Wall St, Suite 309	Midland	Texas	Permian Basin	Husband and wife team in Midland who photograph weddings among other life milestones, known by clients for quick turnaround and approachable pricing.	Mike@wilsonphotographytx.com	(432) 557-8853	https://www.wilsonphotographytx.com/	https://www.instagram.com/wilson_photography_tx/
+Christina Chavez Photography	Photography		Midland	Texas	West Texas	Midland wedding and lifestyle photographer with 17 years of experience and a friendly, put-you-at-ease approach, happy to travel for destination weddings.			https://www.christinachavezphotography.com/	https://www.instagram.com/christinachavezphotography/
+Ashlee Rice Makeup Artistry	Hair & Makeup	3211 W Wadley Ave, Suite B4	Midland	Texas		Midland makeup artist with about twenty years in cosmetics, offering bridal and special-occasion looks from a studio using mineral makeup.		432.684.4148	https://www.ashleericemakeup.com/	https://www.instagram.com/ashleericemakeup/
+Jen McNally Makeup	Hair & Makeup		Odessa	Texas	Midland and Odessa	Bridal and wedding-party makeup artist serving Midland and Odessa, with separate services for brides, photoshoots, events and makeup classes.	jen@jenmcnallymakeup.com	727.599.8779	https://www.jenmcnallymakeup.com/	
+Wolfman Catering	Catering		Midland	Texas	Midland-Odessa and West Texas	Family-run Midland caterer using its own staff at every event, with custom menus cooked from fresh ingredients and full on-site management.	info@wolfmancatering.com		https://wolfmancatering.com/	https://www.instagram.com/wolfmancatering/
+BeatMasterMobile Entertainment	Music		Odessa	Texas	West Texas and parts of New Mexico	Odessa mobile DJ business bundling music, lighting and sound with photo booth options, drawing on fifteen years of events across West Texas.		+1 (432) 243-0288	https://www.beatmastermobile.com/	
+Artistic DJ	Music		Odessa	Texas	Permian Basin and West Texas	Odessa DJ with a light show and photo booths who plays English and Spanish sets, including Norteño, Banda and Tejano, for weddings and quinceañeras.		(432) 889-0907	https://www.artisticdj.com/	https://www.instagram.com/artisticdjevents/
+Vivians Floral and Gifts	Florals	1405 N County Rd W	Odessa	Texas	Odessa and the surrounding area	Odessa florist designing custom bridal bouquets and ceremony and reception flowers, with themed styling, consultations and event decor or rentals.		(432) 337-1672	https://www.viviansfloralodessa.com/wedding-flowers	
+Awesome Blossoms	Florals	1541 John Ben Shepperd Pkwy, Suite 12	Odessa	Texas	Odessa, Midland and Gardendale	Odessa flower shop with hand-made bouquets, corsages and boutonnieres for weddings, plus same-day local delivery across Odessa, Midland and Gardendale.		(432) 337-5468	https://www.awesomeblossomsodessa.com/store/wedding/Bridal-Bouquets/	`,
+  },
+  {
+    name: "Houston: florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Floral Events	Florals	4901 Milwee, Suite 202	Houston	Texas	Houston and across Texas	Houston florist working since 1995 on custom designs rather than preset packages, with in-studio prep for quick installs and leftover blooms donated.		713-863-7900	https://www.floralevents.com/	https://www.instagram.com/floraleventshouston/`,
+  },
+  {
+    name: "El Paso: photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Maya Isabella Photography	Photography		El Paso	Texas	El Paso and destination weddings	El Paso wedding photographer who limits bookings each year to give every couple personal attention, starting with a free, no-obligation consultation.	maya@mayaisabellaphotography.com	(585) 747-8999	https://www.mayaisabellaphotography.com/	https://www.instagram.com/mayaisabella.photography/
+JasminCPhoto	Photography		El Paso	Texas	El Paso and destinations worldwide	El Paso photographer for intimate weddings with natural light and true-to-colour editing, offering a 48-hour sneak peek and timeline help.			https://jasmincphoto.com/	https://www.instagram.com/jasmincphoto/`,
+  },
+  {
+    name: "Lubbock and Amarillo: planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+A Night to Remember	Planning		Lubbock	Texas	Lubbock and surrounding areas	Lubbock planner offering full-service planning, month-of and day-of coordination with steady guidance and a personal, stress-free approach.	anighttoremember@att.net	806-786-6296	https://nighttoremember.co/	https://www.instagram.com/tammyandjodymaxx/`,
+  },
+  {
+    name: "Corpus Christi, South Padre and the Rio Grande Valley: photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Saltwater Heals Photography	Photography		Corpus Christi	Texas	Rockport, Corpus Christi, Port Aransas and the Coastal Bend	Coastal Bend wedding and elopement photographer with a relaxed, storytelling style, gentle direction and timeline help to keep the day flowing.	saltwaterhealsphotography@gmail.com	361-205-5117	https://www.saltwaterhealsphotography.com/	https://www.instagram.com/saltwaterhealsphotography/`,
+  },
+  {
+    name: "Killeen, Harker Heights, Temple and Salado: catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Grazin' Gracie Cart Co.	Catering		Temple	Texas	Bell County and within 25 miles of Temple	Temple mobile caterer bringing charcuterie, snack, flower and drink carts to weddings, with bar setups and party games to rent.	info@grazingraciecartco.com		https://www.grazingraciecartco.com/	https://www.instagram.com/grazingraciecartco/`,
+  },
+  {
+    name: "Waco: photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Hip Pixel Photography	Photography		Waco	Texas	Waco and Central Texas	Waco photographer covering weddings and portraits, with wedding videography available across Central Texas.			http://www.hippixelphotography.com/	https://www.instagram.com/hip_pixel_photography/`,
+  },
+  {
+    name: "Bryan–College Station and Brenham: music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Downtown Event Services	Music	103 South Bryan Avenue	Bryan	Texas	Bryan–College Station	Bryan DJ, MC, photo booth and uplighting company working weddings since 2006, based in historic downtown Bryan.		979-822-1999	https://www.downtowneventservicesllc.com/	https://www.instagram.com/aggielanddjs/`,
+  },
+  {
+    name: "Tyler and East Texas: music, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Marsdale Media	Music	312 Murray St	Marshall	Texas	East Texas, including Tyler, Longview and Marshall	Marshall wedding DJ service that also offers a portable guest photo booth and wedding photography through Joshua Payne Photography.		903-309-0579	http://www.marsdalemedia.com/	
+Falco Media Services	Videography	113 Gaslight Blvd	Lufkin	Texas	Tyler, Longview, Nacogdoches, Lufkin and across Texas	Lufkin studio with a Tyler office offering wedding videography in 4K with aerials, alongside photography packages with set coverage hours.	contact@falcomediaservices.com	936-276-8640	https://falcomediaservices.com/	https://www.instagram.com/falcomediaservices/`,
+  },
+  {
+    name: "Hill Country: florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Bella by Sara	Florals	105 S. Canyonwood Dr.	Dripping Springs	Texas	Greater Austin	Dripping Springs florist and event designer with over fifteen years in the Austin wedding scene, also offering styled shoots and rentals.	S.Mulder@BellaBySara.com	512-636-6383	https://bellabysara.com/	https://www.instagram.com/bellabysara/
+Hill Country Flowers	Florals	19750 State Highway 46 W, Suite 108	Spring Branch	Texas	Bulverde, Spring Branch, Canyon Lake, New Braunfels, Boerne and Fredericksburg	Spring Branch flower shop doing wedding and event flowers across the Hill Country alongside everyday bouquets, with a wide online selection.	info@thehillcountryflowers.com	830-714-4490	https://thehillcountryflowers.com/	https://www.instagram.com/hillcountryflowers/
+Wow Factor Floral	Florals	13600 Ranch Road 12	Wimberley	Texas	Central Texas Hill Country	Wimberley and Kyle florist designing wedding and event flowers for Hill Country venues from its studio on Ranch Road 12.	designteam@wowfactorfloral.com	512-395-7159	https://www.wowfactorfloral.com/	https://www.instagram.com/wowfactorfloraldesign/`,
+  },
+  {
+    name: "San Antonio, New Braunfels and Boerne: videography, hair & makeup, photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Imagine Films	Videography		San Antonio	Texas	San Antonio and New Braunfels	Story-driven wedding films for San Antonio and New Braunfels couples, following the story from first date through the vows.			https://www.imaginefilmssa.com/	https://www.instagram.com/imaginefilmstx/
+San Antonio Video Productions	Videography		San Antonio	Texas	San Antonio and Austin	San Antonio video company offering wedding highlight reels and documentary coverage with drone and livestream options, also filming quinceañeras.	info@savp.pro		https://sanantoniovideoproductions.com/weddings-and-quinces	
+Rebecca L. Budolfson Salon	Hair & Makeup	153 N Santa Clara Ave	New Braunfels	Texas	New Braunfels, San Antonio and Austin	New Braunfels esthetician and makeup artist offering bridal makeup applications, trials and on-site service from a private studio.	rebeccalbudolfson@icloud.com	830-730-0180	https://www.rebeccalbudolfson.com/	https://www.instagram.com/rebeccalbudolfson/
+Madame Makeup On Location	Hair & Makeup	4118 McCullough #17	San Antonio	Texas	San Antonio and the Texas Hill Country	San Antonio hair and makeup service with over 25 years behind it, working on location or in its salon suite for weddings and events.	inquires@madamemakeup.com	210-826-0138	https://madamemakeup.com/	https://www.instagram.com/madamemakeupandhair/
+Radiance Photography	Photography		San Antonio	Texas	San Antonio, Boerne, New Braunfels, the Hill Country and Austin	San Antonio wedding photographer including a second shooter on full-day bookings, with guided posing for portraits and no travel fees in Texas.	ruben@radiance.photography	210-840-1196	https://radiance.photography/weddings/	`,
+  },
+  {
+    name: "Austin: photography, planning, florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Lisa Woods Photography	Photography		Austin	Texas	Austin and the Hill Country	Austin photographer with nearly twenty years behind the lens, known for courthouse weddings, small ceremonies and elopements with calm, practical guidance.			https://www.lisawoodsphotography.com/austin-wedding-photographer/	https://www.instagram.com/lisawoodsphotography/
+The Bohde Collective	Photography		Austin	Texas	Central Texas and the Hill Country, within 100 miles of Austin	Austin wedding and elopement photographers shooting unposed, golden-hour storytelling, with no travel fee for Hill Country venues within 100 miles.	caity@thebohdecollective.com	512-517-3182	https://www.thebohdecollective.com/	https://www.instagram.com/thebohdecollective/
+Bushel + Peck Photo	Photography		Austin	Texas	Austin, Round Rock, Dripping Springs, Lake Travis and the Hill Country	Collaborative Austin photography team covering full wedding days, elopements and micro weddings, with a choice of four editing styles to match your taste.		817-382-1213	https://bushel-peck.com/	https://www.instagram.com/bushelpeckphoto/
+Photography By Estefana	Photography		Austin	Texas	Central Texas and destinations	Austin wedding and elopement photographer offering two editing styles, engagement and proposal sessions, and optional wedding videography.			https://www.photographybyestefana.com/	https://www.instagram.com/photographybyestefana/
+Two Pair Photography	Photography		Austin	Texas	Austin, Dallas-Fort Worth and the Hill Country	Austin team shooting weddings with two photographers, building each collection around the couple's actual timeline and including a free engagement session.			https://twopairphotography.com/	https://www.instagram.com/twopairphoto/
+In Ink Weddings + Events	Planning		Austin	Texas		Austin wedding planner and designer for style-led couples, building immersive, design-forward celebrations; working since 2021 and open to destination weddings.			https://ininkweddings.com/	https://www.instagram.com/ininkweddings/
+Events by Leslie	Planning		Austin	Texas	Austin, Dripping Springs, Fredericksburg, Georgetown, Kyle and San Antonio	Austin team offering full-service wedding planning and design with a friendly, collaborative approach, also travelling to Oregon for a small fee.			https://www.eventsbyleslietx.com/	https://www.instagram.com/eventsbyleslietx/
+K Laine + Co	Planning		Austin	Texas	Austin, Bryan and College Station, and destinations	Austin wedding planning and event design team focused on refined, timeless celebrations, with styling support for tablescapes, florals and stationery.	kim@klaineandco.com		https://www.klaineandco.com/	https://www.instagram.com/k_laine_co/
+Momentous Weddings	Planning		Austin	Texas		Austin planning and design company offering full-service planning, partial planning and coordination, led by an owner with over a decade in events.			https://momentousweddings.co/	https://www.instagram.com/momentous_wed/
+Altar Ego Weddings	Planning		Austin	Texas	Austin, Dripping Springs, Wimberley, Round Rock, Georgetown, Driftwood and Manor	Austin wedding planner with eighteen years of experience, offering full planning and day-of coordination with a calm, honest and direct style.			https://altaregoweddings.com/	https://www.instagram.com/altaregoweddings/
+Stems Floral Design	Florals		Austin	Texas	Austin and Central Texas	Austin studio offering white-glove full-service wedding florals plus a lower-cost à la carte line ordered online from a set-price catalogue.		512-537-0577	https://www.stemfloral.com/	https://www.instagram.com/stemsofatx/
+Exquisite Petals	Florals		Austin	Texas	Austin and the Texas Hill Country	Austin floral studio run by two co-owners who skip a signature look and design wedding flowers around each couple's own style.			https://exquisitepetals.com/	https://www.instagram.com/exquisitepetals/
+Native Bloom Floral	Florals	11903 Fitzhugh Road	Austin	Texas	Austin and the Texas Hill Country	Austin studio creating organic, textured wedding florals, from ceremony arches and tablescapes to bouquets, as full service or drop-off design.	design@nativebloomfloral.com	512-639-8003	https://www.nativebloomfloral.com/	https://www.instagram.com/nativebloomfloral/
+Sixpence Floral Design	Florals		Austin	Texas	Central Texas	Austin florist specialising in weddings and corporate events, led by a designer with an interior design background and familiar with most area venues.	stella@sixpencefloral.com	512-810-3244	https://www.sixpencefloral.com/	https://www.instagram.com/sixpencefloral/`,
+  },
+  {
+    name: "Dallas–Fort Worth: photography, planning, florals, music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Scott Aleman Photography	Photography		Dallas	Texas	Dallas–Fort Worth, North Texas and destination weddings	Dallas wedding photographer taking a limited number of commissions a year, covering full wedding days, engagements and welcome parties.			https://scottaleman.com/	https://www.instagram.com/scottalemanphotography/
+Shots By LC	Photography		Dallas	Texas	Dallas–Fort Worth and destination weddings	Dallas photography team shooting candid, faith-centred weddings and elopements, with a focus on affordable coverage for couples.	info@shotsbylc.com		https://www.shotsbylc.com/	https://www.instagram.com/shotsbylc/
+Sadi Brooke Photography	Photography		Dallas	Texas		Dallas wedding and elopement photographer with an artistic, non-traditional approach who travels for couples and shares recent love stories online.			https://www.sadibrooke.com/	
+Liepina Photography	Photography		Fort Worth	Texas	Dallas–Fort Worth and destination weddings	Fort Worth photographer offering natural, documentary-style wedding coverage with calm portrait direction, engagement sessions and film add-ons.	linda@liepina.photo	682-559-0664	https://www.liepina.photo/	https://www.instagram.com/liepina.photo/
+Royal Line Photography	Photography		Dallas	Texas	Dallas–Fort Worth and across Texas	Dallas studio covering full-day weddings, engagement sessions and receptions, from upscale city venues to intimate backyard ceremonies.	info@royallinephotography.com	469-544-8985	https://www.royallinephotography.com/	https://www.instagram.com/_rlcreative/
+Natalie Roberson Photography	Photography		Frisco	Texas	Frisco, Celina, Denton, Plano, McKinney, Allen and Lewisville	Frisco husband-and-wife team shooting fine art weddings together, with hundreds of North Texas weddings behind them since 2012.	info@natalierobersonphotography.com	972-415-7644	https://natalierobersonphotography.com/	https://www.instagram.com/natalierobersonphotography/
+Fuld & Co.	Planning		Dallas	Texas	Texas	Dallas full-service wedding planner and designer for design-driven couples, drawing on interiors, architecture and fine art.			https://fuldandco.com/	https://www.instagram.com/fuldandco/
+Wedfully Yours Events & Design	Florals		Dallas	Texas	The Dallas area	Dallas boutique floral design and event coordination firm creating romantic, textural wedding flowers for a limited number of couples a year.	hello@wedfullyyours.com		https://www.wedfullyyours.com/	https://www.instagram.com/wedfullyyours/
+Feisty Florals	Florals		Lewisville	Texas	Dallas–Fort Worth	Lewisville florist offering full-service wedding flowers and cheaper à la carte designs for smaller or DIY weddings, happy with unusual palettes.			https://www.feistyflorals.com/	
+DJ JDiaz	Music		Fort Worth	Texas	Fort Worth, Dallas, Arlington, Mansfield, Grand Prairie, Keller and Burleson	Bilingual Fort Worth wedding DJ and MC covering ceremony audio, cocktail hour and reception, with written quotes before any contract.	djjdiaz6@gmail.com	817-372-9515	https://www.dj-jdiaz.com/	`,
+  },
+  {
+    name: "Houston: catering, florals, music, photography, planning, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Kelly Doonan Events	Planning		Houston	Texas	Houston, with destination weddings in Europe and Mexico	Houston luxury wedding planning and design company that also plans destination weddings in Europe and Mexico.	hello@kellydoonanevents.com	713.824.3353	https://www.kellydoonanevents.com/	https://www.instagram.com/kellydoonanevents/
+Wise Events & Design	Planning	717 Texas Avenue, Suite 1200	Houston	Texas		Houston planner offering full planning, partial planning, month-of coordination and design for weddings and events.	info@wise-event.com	832.403.6176	https://www.wise-event.com/	https://www.instagram.com/awiseevent/
+Moonstruck Events	Planning		Houston	Texas	Houston and Galveston	Houston wedding planning team offering guided planning, design and event management, with a page for Galveston weddings.	hello@moonstruckeventstx.com	281-744-4039	https://moonstruckeventstx.com/	https://www.instagram.com/moonstruckeventstx/
+Bring Joy	Florals		Houston	Texas	Houston	Houston wedding florist making bouquets, buttonholes, centrepieces and cake flowers.	lauren@bringjoytexas.com	832-304-0076	https://bringjoytexas.com/	https://www.instagram.com/bringjoytexas/
+Hybrid 7	Music		Houston	Texas	Houston and nationwide	Houston live band for weddings, galas and corporate events, playing ceremonies, cocktail hours and receptions.	info@hybrid7music.com	(832) 373-8895	https://www.hybrid7music.com/	https://www.instagram.com/hybrid7music/`,
+  },
+  {
+    name: "Galveston: cake, catering, florals, hair & makeup, photography, planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+My Island Weddings	Planning		Galveston	Texas	Galveston Island	Galveston Island planner specialising in beach weddings, with set themes or custom designs and vendor introductions.			https://www.myislandweddings.com/	https://www.instagram.com/my_island_weddings_galveston/`,
+  },
+  {
+    name: "Midland and Odessa: cake, florals, music, photography, planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Becky's Flowers	Florals		Midland	Texas	Midland	Locally owned Midland florist that designs wedding bouquets and arrangements, handles on-site decorating and offers consultations by appointment.		432-699-0011	https://www.beckysflowersmidland.com/	https://www.instagram.com/beckysflowers/
+Midland-Odessa Wedding DJs	Music		Midland	Texas	Midland, Odessa and nearby West Texas towns	Wedding DJ and emcee service with sound, dance-floor lighting and optional uplighting, drawing on roughly thirty years of Midland-Odessa receptions.		844-489-2378	https://midland-odessaweddingdjs.com/	
+Golden Hour Photography	Photography		Midland	Texas	Midland, Odessa and across Texas	Midland photographer covering weddings from getting ready to reception, with an online gallery, plus engagements and optional 360 photo booths.			https://www.ghrphotography.com/Midland-Wedding-Photographer/	
+Rebecca Hieb Photography	Photography		Midland	Texas	West Texas	Midland photographer offering wedding coverage alongside portrait, maternity and lifestyle sessions, with online galleries for clients.	hiebphotography@gmail.com		https://www.rebeccahiebphotography.com/	https://www.instagram.com/rebeccahiebphotography/
+The Little Red Mixer	Cake		Midland	Texas	Midland, Odessa and West Texas	Boutique Midland bakery with a dedicated weddings section, featured in several Texas wedding guides.		(432) 978-0015	https://thelittleredmixer.com/	https://www.instagram.com/littleredmixertx/
+The Cake Company of Odessa	Cake		Odessa	Texas	Odessa	Odessa cake shop with a weddings and big events section, delivering larger wedding and quinceañera cakes.		(432) 339-2253	https://thecakecompanyofodessa.com/cakes	
+KHG Events	Planning		Midland	Texas	Midland and Odessa	Wedding planning and coordination for Midland and Odessa couples, from full planning through to month-of support.			https://www.khgevents.com/	https://www.instagram.com/khgevents/`,
+  },
+  {
+    name: "Tyler and East Texas: florals, music, photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Botanical Floristry	Florals		Tyler	Texas	East Texas, travelling for weddings	Tyler wedding florist known for garden-style and modern designs, with proposals and rates set out in a floral investment guide.			https://botanicalfloristry.com/	https://www.instagram.com/botanicalfloristy/
+Gotta Dance DJs	Music		Tyler	Texas		Tyler wedding DJ and emcee building a custom timeline and soundtrack, with an online planner for must-play and do-not-play songs.			https://www.gottadancedjs.com/about-me-and-what-sets-me-apart	https://www.instagram.com/gottadancedjs/`,
+  },
+  {
+    name: "Waco, Bryan–College Station and Brenham: cake, catering, planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+All Things Planned	Planning		College Station	Texas	Bryan and College Station	Bryan and College Station planning and coordination firm for weddings and events, with planning sessions.			https://www.atplanned.com/	https://www.instagram.com/atplanned/
+D'Vine Cuisine	Catering	211 W 23rd	Bryan	Texas	Brazos Valley	Bryan caterer serving weddings from small dinners to very large receptions, with a Southern-leaning menu.	info@dvinecuisine.com	(979) 704-6024	https://www.dvinecuisine.com/	https://www.instagram.com/dvinecuisine/
+The Great Cakery	Cake		College Station	Texas	Bryan and College Station	In-home College Station bakery specialising in wedding cakes made to order, with delivery available.	thegreatcakery@gmail.com	(432) 466-1531	https://www.thegreatcakery.com/about	https://www.instagram.com/the.great.cakery/`,
+  },
+  {
+    name: "Lubbock and Amarillo: cake, hair & makeup, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Max Media Production	Videography		Lubbock	Texas	Lubbock, Wolfforth, Slaton, Levelland and Plainview	Lubbock videographer making cinematic wedding films since 2019, with flexible hourly coverage so couples book only what they need.			https://www.maxmediaproduction.com/weddingvideographer/	https://www.instagram.com/maxmedia.prod/
+Virginia Blake Photography	Videography		Lubbock	Texas	Lubbock and across Texas	Lubbock filmmaker making wedding and elopement films, including warm, grainy Super 8mm options.			https://www.vblakephoto.com/films/	https://www.instagram.com/virginiablakephotovideo/
+Makeup by Janelle	Hair & Makeup		Lubbock	Texas	Lubbock and surrounding area	Lubbock airbrush makeup artist for brides, with a wedding waitlist, studio sessions and special rates for destination weddings.			https://www.makeup-by-janelle.com/	https://www.instagram.com/makeup_by_janelle_/
+OhMyCakes	Cake		Amarillo	Texas		Home-based Amarillo baker making custom cakes, including a dedicated wedding cakes page on its site.	cakelife35@gmail.com		https://ohmycakes.org/	https://www.instagram.com/_ohmycakes_/`,
+  },
+  {
+    name: "El Paso: cake, music, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Arcoiris Fine Bakery	Cake	8018 N. Mesa St	El Paso	Texas	El Paso	North Mesa bakery making custom wedding and quinceañera cakes, with a gallery of past weddings.	arcoirisfinepastry@gmail.com	(915) 760-5600	https://arcoirisfinebakery.com/	https://www.instagram.com/arcoirisfinebakery/
+Studio-07 Photo & Cinema	Videography		El Paso	Texas	El Paso, with destination weddings in Mexico	El Paso wedding photography and cinema in three collections, with an emotional, moody style and destination coverage.		915.494.7306	https://www.studio-07.com/	https://www.instagram.com/studio07photo/
+Mariachi Gold El Paso	Music		El Paso	Texas	El Paso, Socorro, Horizon City, Fort Bliss, Canutillo and San Elizario	Mariachi trio to seven-piece ensemble for ceremonies and cocktail hours, with a mariachi-then-DJ combination package.			https://mariachigoldelpaso.com/	`,
+  },
+  {
+    name: "Austin: cake, catering, florals, hair & makeup, music, photography, planning, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Reminisce Films	Videography		Austin	Texas	Central Texas	Austin videographer and musician Chris Truitt, filming Texas weddings since 2014 and cutting each film to a soundtrack.			https://reminiscefilms.net/	https://www.instagram.com/reminiscefilms/
+Hopelessly Romantic Films	Videography		Austin	Texas	Austin, the Hill Country and destinations	Austin wedding videographer making highlight films of Hill Country ranch and venue weddings, with destination weddings also taken.			https://hopelesslyromanticfilms.com/	https://www.instagram.com/hopelesslyromanticfilms/
+Reid & Co. Films	Videography		Austin	Texas	Austin and destination weddings	Austin wedding filmmaker making documentary-style films that include interviews with family and friends, for couples at local and destination venues.	hello@reidandcofilms.com		https://reidandcofilms.com/	https://www.instagram.com/reidandcofilms/
+Samaha Studios	Videography		Austin	Texas	Central Texas and the Hill Country	Videographers filming weddings at Central Texas and Hill Country venues, including Georgetown, Liberty Hill, Dripping Springs and Fredericksburg.			https://www.samaha-studios.com/weddings	
+DJ Bambú Entertainment	Music		Austin	Texas	Austin, Round Rock, Georgetown, Dripping Springs, San Marcos, Buda and Liberty Hill	Austin DJ specialising in weddings, with bilingual English and Spanish service and coverage across Austin, Round Rock, Georgetown and the Hill Country.	david@djbambuentertainment.com	512-767-9157	https://www.djbambuentertainment.com/	https://www.instagram.com/deejaybambu/
+Greenbelt DJ	Music		Austin	Texas	Austin and Central Texas	Wedding DJ team serving couples across Austin and Central Texas, with photo booths, uplighting and other add-ons offered alongside the music.	joel@greenbeltdj.com	512-413-1371	https://www.greenbeltdj.com/	https://www.instagram.com/greenbeltdj/
+U7 Austin DJ	Music		Austin	Texas	Austin, Central Texas and destinations across Texas	Austin wedding DJ and MC taking one wedding per day, with 360 booth, uplighting and drapery add-ons and packages from $1,500.	hello@u7austindj.com	1-833-872-8935	https://www.u7austindj.com/	https://www.instagram.com/u7austindj/
+Full Scope Entertainment	Music		Austin	Texas	Austin and Central Texas	Wedding DJ company that also offers photography and photo booth packages, serving Austin and the wider Central Texas area.	myfullscope@gmail.com	512-915-2470	https://austinweddingentertainment.com/	
+ATX Wedding DJ	Music		Austin	Texas	Austin	Woman-owned Austin DJ company focused on weddings and private events, with ceremony and reception packages and a father-daughter dance in its portfolio.		(512) 893-4080	https://www.atxweddingdj.com/	https://www.instagram.com/atxweddingdj_/
+Trivino Entertainment	Music		Austin	Texas		Austin entertainment company offering wedding DJ services and partnered with local wedding venues as a preferred vendor.			https://www.trivinoentertainment.com/	https://www.instagram.com/trivino_entertainment/
+Makeup ATX	Hair & Makeup	1901 East Cesar Chavez	Austin	Texas	Austin	Austin hair and makeup team offering bridal and event styling, travelling to hotels, venues and event spaces across the city.	Codie@makeupatx.com	512-537-6274	https://www.makeupatx.com/	https://www.instagram.com/makeupatx/
+Luna Beauty & Bridal	Hair & Makeup		Austin	Texas	Austin and beyond	Bridal hair and makeup team that travels to wherever the bride is getting ready and can look after wedding parties of up to 20 people.	lunabeautybridal@gmail.com		https://www.lunabeautyandbridal.com/	https://www.instagram.com/lunabeauty_bridal/
+Bonita Brides	Hair & Makeup		Austin	Texas	Austin	Mobile bridal makeup and hair styling in Austin led by Sara Hernandez, travelling to the bride's chosen location on the wedding day.		512-660-7575	https://www.bonitabrides.com/	https://www.instagram.com/bonitabrides/
+Cakes Chocolates and More	Cake		Austin	Texas	Westlake, Lakeway, Cedar Park, Round Rock, Georgetown, Kyle, San Marcos and surrounds	Custom cake studio making tiered wedding cakes since 1996, delivering across Austin and a long list of nearby Central Texas towns.	info@cakeschocolatesandmore.com	(512) 335-0500	https://www.cakeschocolatesandmore.com/	https://www.instagram.com/cakeschocolatesandmore/
+It Sprinkles	Cake	5804 Viejo Drive	Bee Cave	Texas	Austin, Round Rock and Cedar Park	Bee Cave cake shop making custom wedding cakes after a tasting and design chat, delivered to venues around Austin, Round Rock and Cedar Park.	megha@itsprinkles.com	1-737-222-1054	https://www.itsprinkles.com/private/wedding-cakes-in-austin/	https://www.instagram.com/ItSprinklesAustin/
+Hill Country Catering Company	Catering		Austin	Texas	Austin, San Antonio and the Texas Hill Country	South Austin caterer taking weddings and celebrations, serving Austin, San Antonio and Hill Country venues.	info@hillcountrycateringcompany.com	512-953-3183	https://www.hillcountrycateringcompany.com/	https://www.instagram.com/hillcountrycateringcompany/
+Root Cellar Catering Co.	Catering		Austin	Texas	Austin and the Texas Hill Country	Austin-based caterer with a dedicated wedding menu page, serving receptions in Austin and across the Hill Country.			https://rootcellarcateringco.com/	https://www.instagram.com/rootcellarcateringco/
+Urban Cowboy Catering	Catering	602 E McNeil Rd #106	Round Rock	Texas	Austin, Round Rock, Georgetown, Dripping Springs, Wimberley and Fredericksburg	Round Rock full-service wedding caterer covering Austin and the Hill Country, with a quote form and testimonials from local couples.	events@urbancowboycatering.com		https://urbancowboyfood.com/wedding-catering-services/	https://www.instagram.com/urbancowboycatering/
+Remi + Gold	Florals		Austin	Texas	Austin and beyond	Floral atelier with Austin and Scottsdale bases, designing more than 100 weddings a year with Austin as one of its main markets.	info@remiandgold.com		https://www.remiandgold.com/	https://www.instagram.com/remiandgold/
+Christie Turner Floral Design	Florals		Austin	Texas	Austin and the Texas Hill Country	Austin floral design studio that specialises in weddings, serving the city and Hill Country venues.	christieturnerdesigns@gmail.com		https://www.christieturnerdesigns.com/	https://www.instagram.com/christieturnerdesigns/
+Faith Floral	Florals		Austin	Texas	Austin	Austin florist designing romantic bridal bouquets and ceremony and reception flowers for weddings across the city.	alicia@faithflorals.com		https://faithflorals.com/	https://www.instagram.com/faithfloral.atx/
+Truly Together Event Co.	Planning		Austin	Texas	Austin and the Hill Country	Austin planner with over 13 years in weddings, offering full planning and day-of management with a focus on inclusive and offbeat weddings.			https://trulytogethereventco.com/	https://www.instagram.com/trulytogethereventco/
+Hentrich Creative Consultants	Planning	101 Westlake Drive, Suite 130	Austin	Texas	Austin and destination weddings	Westlake planning firm led by Victoria Hentrich, handling weddings, rehearsal dinners and destination events with galleries of past couples.		512-468-7266	https://hentrichcreative.com/wedding-planner-austin	https://www.instagram.com/hentrichcreative/
+Lauren Nicole Photo	Photography		Austin	Texas	Texas Hill Country and destinations	Austin editorial and documentary wedding and elopement photographer working across the Hill Country and further afield.			https://www.laurennicole.photo/	
+Rising Oak Images	Photography		Dripping Springs	Texas	Central Texas, including Austin and San Antonio	Dripping Springs documentary wedding photographer capped at 40 weddings a year and travelling across Central Texas.		541-220-1584	https://risingoakimages.com/austin-wedding-photographer	https://www.instagram.com/claire_risingoakimages/`,
+  },
+  {
+    name: "Dallas–Fort Worth: cake, florals, hair & makeup, photography, planning, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Paradigm Wedding Films	Videography		Dallas	Texas	North Texas and destinations	Dallas wedding film company founded in 2015, making highlight and documentary films at North Texas venues and abroad.			https://www.paradigmweddingfilms.com/	https://www.instagram.com/paradigmweddingfilms/
+Jade Films	Videography		Dallas	Texas	Dallas, Fort Worth, Plano, Frisco, McKinney and surrounding North Texas	Dallas wedding videographers offering highlight films, ceremony edits and Super 8 footage at venues across North Texas.			https://jadefilms.co/dallas	https://www.instagram.com/jadefilms.co/
+The Vow Department	Videography		Dallas	Texas	Dallas, Fort Worth, Frisco, Plano, McKinney and the wider DFW area	Dallas-based wedding videographers covering the DFW metroplex, with highlight films and destination coverage available.	brandon@thecreatedepartment.com		https://thevowdepartment.com/	
+Sue Kelson Events	Planning		Dallas	Texas	Dallas/Fort Worth and destination weddings	Dallas wedding planner with tiered packages from a $1,995 day-of option to full planning, plus destination wedding support.	info@suekelsonevents.com	214.449.0280	https://www.suekelsonevents.com/packages	https://www.instagram.com/sue_kelson_events/
+Elevations Design Co.	Florals		Azle	Texas	Azle, Weatherford, Springtown and select North Texas venues	Azle private floral studio offering four priced wedding collections, with delivery and set-up included within 20 miles.		817-757-9404	https://jennadowell.com/	
+C.Marie's Sweets	Cake	2816 Central Drive #152	Bedford	Texas	DFW	Bedford bakery offering set bridal and groom's cake packages as well as fully custom wedding cake designs across DFW.	cakes@cmariessweets.com	(682) 970-9644	https://cmariesweets.com/	https://www.instagram.com/cmariesweets/
+Unicorn Hair Queen	Hair & Makeup	2811 McKinney Avenue, Ste 22	Dallas	Texas	Dallas and surrounding areas	Uptown Dallas salon and mobile team offering bridal hair and makeup on location, with wedding special packages listed on its site.	service@unicornhairqueen.com	214-919-3055	https://unicornhairqueen.com/services/bridal-hair-2/	https://www.instagram.com/unicornhairqueen/
+Makeup and Hair by Elsa	Hair & Makeup		Dallas	Texas	Dallas, Fort Worth and travel worldwide	Mobile Dallas-Fort Worth artist specialising in bridal makeup and wedding hair, offering airbrush makeup and travelling for destination weddings.	info@makeupandhairbyelsa.com		https://makeupandhairbyelsa.com/	https://www.instagram.com/makeupandhairbyelsa/
+Onsite Luxe Hair and Makeup	Hair & Makeup		McKinney	Texas	DFW	McKinney bridal hair and makeup team booking North Texas weddings, with a small number of openings per weekend.	info@onsiteluxe.com	469-248-7101	https://www.onsiteluxe.com/	https://www.instagram.com/onsitehairandmakeup_/
+The Bridal Edit Co.	Hair & Makeup		Dallas	Texas	Dallas, available for travel	Dallas bridal hair and makeup company led by CrisJenn Makeup, offering bridal looks for a range of skin tones and types.			https://www.bridaleditco.com/	https://www.instagram.com/thebridaleditco_/
+Tracy Autem Photography	Photography		Fort Worth	Texas	Texas and worldwide	Fort Worth wedding and lifestyle photographer who has shot weddings since 2005 and travels for destination couples.			http://tracyautem.com/	https://www.instagram.com/tracyautemphotography/`,
+  },
+  {
+    name: "Houston: cake, florals, hair & makeup, music, photography, planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Gulf Coast Entertainment	Music	3201 Allen Pkwy #275	Houston	Texas	Houston	Booking agency supplying wedding bands, gospel choirs and string players for ceremonies, receptions and rehearsal dinners.	info@gulfcoastentertainment.com	713-523-7004	https://www.gulfcoastentertainment.com/	https://www.instagram.com/gulfcoastentertainment/
+Sky High Party Rentals	Music	3517 Pinemont Dr	Houston	Texas	Greater Houston, including Katy, Sugar Land and The Woodlands	Wedding DJ and MC packages with lighting and a planning call, plus optional live musicians from strings to mariachi.	reservations@skyhighpartyrentals.com	(281) 606-5867	https://www.skyhighpartyrentals.com/houston/wedding-djs	https://www.instagram.com/skyhighpartyrentals
+Dubois & Co.	Planning		Houston	Texas	Houston and across Texas	Houston wedding planning, design and day-of coordination from a small team that helps couples manage logistics and personal details.	hello@duboisandcompany.com	262.957.0991	https://www.duboisandcompany.com/	https://www.instagram.com/duboisandcompany/
+Piper & Muse	Planning	845 Texas Avenue, Suite 200	Houston	Texas	Houston and destination weddings worldwide	Boutique planner for multi-day luxury and destination weddings, also building full tented celebrations from scratch in Houston.	Piper@PiperandMuse.com	(503) 729-4566	https://www.piperandmuse.com/	https://www.instagram.com/piperandmuse/
+Da Cakes Houston	Cake	1829 Bingle Rd	Houston	Texas	Houston	Made-from-scratch custom cake bakery with a dedicated wedding cake page, quote form and public availability calendar.			https://dacakeshouston.com/pages/wedding-cakes	https://www.instagram.com/dacakeshouston/
+Etoilly Artistry	Hair & Makeup		Houston	Texas	Houston, Dallas and destination weddings	Team of hair and makeup artists for brides and wedding parties, offering editorial-style looks in the studio or on location.		281.702.3802	https://www.etoillyartistry.com/	https://www.instagram.com/etoillyartistry/
+LovelyKind Beauty	Hair & Makeup		Houston	Texas	Houston, Austin and destinations	Award-winning hair and makeup team known for a modern, less-is-more bridal look, working from a Houston studio or on location.		832.230.3003	https://lovelykindbeauty.com/	https://www.instagram.com/lovelykindbeauty/
+Laila's Makeup Studio	Hair & Makeup		Houston	Texas	Houston	Bridal hair and makeup artist who styles brides, mothers and wedding parties from the shower through to the reception.			https://www.lailasmakeupstudio.com/	https://www.instagram.com/lailasmakeupstudio/
+Khanh Nguyen Photography	Photography		Houston	Texas	Houston and surrounding venues, including Brenham	Houston wedding photography studio telling each couple's day in a bold, emotional and documentary way.	hi@knwedding.com	832-821-6661	https://www.khanhnguyenphotography.com/	https://www.instagram.com/knwedding/
+Chris Bailey Photography	Photography	4809 Blossom St	Houston	Texas	Houston and beyond	Fine art wedding and portrait photography studio in Houston, run by a team that favours personal, timeless images.		713-518-1452	https://www.cbaileyphotography.com/	https://www.instagram.com/chrisbaileyphoto/
+Genovese Studios	Photography		Houston	Texas	Houston, Galveston and beyond	Documentary-style wedding photographer who also films weddings, with bridal, engagement and group portraits on offer.	chrisg@genovesestudio.com	225-772-9143	https://genovese.studio/	https://www.instagram.com/genovese.studio/`,
+  },
+  {
+    name: "Galveston: planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+The Total Wedding Experience	Planning		Galveston	Texas	Galveston	Galveston wedding planning and decor service with local venue and officiant guidance and a free consultation call.		(409) 765-9333	https://www.thetotalweddingexperience.com/	https://www.instagram.com/thetotalweddingexperience/`,
+  },
+  {
+    name: "Waco, Bryan–College Station and Brenham: cake, catering, music, planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Admiral Catering	Catering		College Station	Texas	Bryan-College Station	Full-service caterer for Brazos Valley weddings, with proposals, menus and venue guidance for receptions and rehearsal dinners.	catering@admiralcatering.com	979-676-0300	https://admiralcatering.com/weddings/	https://www.instagram.com/admiralcatering/
+Botkin Creative	Planning		College Station	Texas	Bryan and College Station	Wedding planner and coordinator working with Bryan and College Station couples since 2020, from traditional to unconventional plans.			https://www.botkincreative.com/	https://www.instagram.com/botkincreative/
+Kris with a K Entertainment	Music		Waco	Texas	Waco and Central Texas	Award-winning mobile DJ near Waco providing wedding entertainment across Central Texas, with an in-house day-of coordinator.		254-644-6906	https://djkwaco.com/	https://www.instagram.com/djkriswithak/
+DJ Waco	Music		Waco	Texas	Waco and Central Texas	Wedding and event DJ team in Waco that also plays college and corporate events and rents dance floors.			https://www.wacotexasdj.com/	https://www.instagram.com/wacotexasdj/
+Cuppiecakes	Cake	313 S Main St	McGregor	Texas	Waco and McGregor	Small bakery near Waco making handcrafted cupcakes, custom cakes and wedding cakes, with consultations by phone.	cuppiecakesofwaco@gmail.com	254-840-7030	https://www.cuppiecakesofwaco.com/	https://www.instagram.com/cuppiecakes_of_waco/`,
+  },
+  {
+    name: "Austin: hair & makeup, cake, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Pantheon Media	Videography		Austin	Texas	Austin, the Hill Country, the coast, Dallas/Fort Worth and Houston	Austin studio making documentary-style wedding films, with travel to the Hill Country, the coast and further for destination weddings.	hello@pantheon.media		https://weddingvideoaustin.com/	
+Lona Weddings	Videography		Austin	Texas	Austin and beyond	Austin filmmaker and photographer covering weddings in a single-owner studio, delivering films and photographs from the same day.	hello@lonaweddings.com	210-872-4257	https://lonaweddings.com/	https://www.instagram.com/lonaweddings/
+PamCakes Bakery	Cake		Austin	Texas	Marble Falls, Austin and surrounding areas	Cottage-style bakery serving Austin and Marble Falls with custom wedding cakes and free tastings for weddings of 75 guests or more.	PamCakescb@gmail.com	512-940-9552	https://pamcakestexas.com/	https://www.instagram.com/pamcakescb/
+Divine Weddings Hair & Makeup	Hair & Makeup	10001 S I-35 Frontage Rd, Suite 200	Austin	Texas	Austin area	Bridal hair and makeup offered either on location or at a salon suite in south Austin, with full wedding-party styling.		512-363-7903	https://www.tammiegarza.com/	https://www.instagram.com/divineweddingsatx/
+Last Satellite	Hair & Makeup		Austin	Texas	Austin and surrounding areas	Austin bridal hair and makeup service sending stylists and makeup artists to the venue, with travel fees set by time and distance.	info@lastsatellite.com		https://www.lastsatellite.com/	https://www.instagram.com/lastsatellite/`,
+  },
+  {
+    name: "Dallas–Fort Worth: cake, florals, hair & makeup, planning, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Thirteen Media	Videography		Fort Worth	Texas	DFW and destination weddings	Fort Worth wedding videographers led by Charity Robinson, producing cinematic films for DFW couples and destination weddings.	charityrobinson@thirteenmediaweddings.com	682-300-1001	https://thirteenmediaweddings.com	https://www.instagram.com/thirteenmediaweddings/
+Tin Roof Cakes	Cake		Fort Worth	Texas		Fort Worth bakery making custom cakes for weddings, with a dedicated wedding page showing tiered designs.	info@tinroofcakes.com		https://www.tinroofcakes.com	https://www.instagram.com/tin_roof_cakes/
+Loft22 Cakes	Cake	502 Grand Ave	Fort Worth	Texas		Fort Worth cake studio making custom wedding cakes, from simple classic tiers to bespoke designs, to order.	loft22cakes@gmail.com	682-841-1771	https://www.loft22cakes.com	https://www.instagram.com/loft22cakes/
+Southern Affairs Weddings & Events	Planning		Dallas	Texas	Texas, Oregon and destination events	Dallas wedding and event planners offering full-service planning, design and coordination for Texas couples and destination weddings.	inquire@southern-affairs.com	972-584-7335	https://southern-affairs.com/	https://www.instagram.com/Southern_Affairs/
+Platinum Petals	Florals	10120 Cayuga Dr #110	Dallas	Texas	Dallas-Fort Worth, with travel beyond	Dallas floral designer creating lush custom wedding flowers by appointment, with more than 360 weddings behind the studio.	jill@platinumpetalsfloral.com	605-310-4887	https://www.platinumpetalsfloral.com/	https://www.instagram.com/platinumpetalsfloral/
+A & L Floral Design	Florals	10720 Miller Rd, Suite 200	Dallas	Texas	Delivery within the DFW metroplex	Sister-run Dallas florist providing wedding and event flowers with delivery across the metroplex.		469-213-8141	https://www.aandlfloraldesign.com/	https://www.instagram.com/aandlfloraldesign/`,
+  },
+  {
+    name: "Hill Country: catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Cartewheels Catering	Catering	216 Quinlan Street	Kerrville	Texas	Texas Hill Country	Kerrville caterer providing Hill Country wedding menus alongside corporate and social events, run from a Quinlan Street kitchen.	party@cartewheelscatering.com	830-257-7171	https://cartewheelscatering.com/	https://www.instagram.com/cartewheels_catering/`,
+  },
+  {
+    name: "Tyler and East Texas: photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Jessica Thigpen Photo + Video	Photography		Tyler	Texas	East Texas and destination weddings	Tyler wedding and elopement photographer who pairs documentary-style digital coverage with vintage Super 8 film footage.	hello@jessicathigpenphotovideo.com		https://jessicathigpenphotovideo.com/	https://www.instagram.com/jessicathigpenphoto/`,
+  },
+  {
+    name: "Midland and Odessa: catering, florals, hair & makeup, photography, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Lucero Molina Photography	Photography		Midland	Texas	Midland and Odessa	Midland photographer with around ten years behind the camera, offering engagement and wedding coverage alongside family and branding sessions.			https://luceromolina.com/	https://www.instagram.com/lucero.molina.photo/
+Tall City Photography	Photography		Midland	Texas	Midland	Midland-based photographer covering weddings as well as portraits and branding work, with a dedicated weddings gallery.			https://tallcityphotography.com/	https://www.instagram.com/tallcity.photography/
+The Stones Photo + Film	Videography		Odessa	Texas	Midland and Odessa	Husband-and-wife team in Odessa shooting both photography and wedding films, so couples can book stills and video together.	info@thestonesphotofilm.com	(432) 210-4199	https://thestonesphotofilm.com/	https://www.instagram.com/thestonesphotofilm/
+AV Workshop Productions	Videography		Midland	Texas	West Texas	Midland video production company with more than twenty years of local work, including wedding video and transfers to DVD.	roger915@gmail.com	(432) 570-6466	https://www.finduseasy.com/	
+Mark Knox Flowers	Florals	1209 E 8th Street	Odessa	Texas	Odessa	Family-run Odessa florist open since 1960, taking wedding orders by appointment alongside everyday arrangements and gifts.		(432) 332-0858	https://www.markknoxflowersodessatx.com/	
+Arlene's Flowers and Gifts	Florals	6032 W Venus St	Odessa	Texas	Odessa	Odessa flower shop with a dedicated wedding range of bouquets and arrangements, plus same-day local delivery.	arlenesflowersandgifts@yahoo.com	(432) 381-2650	https://arlenesflowersandgifts.com/	https://www.instagram.com/arlenesflowersandgifts/
+D'Kache Rose & Box	Florals	1524 North Grandview Ave	Odessa	Texas	Odessa	Odessa florist offering bridal consultations and flowers for the wedding party, ceremony and reception, including arches and centrepieces.		(432) 332-9696	https://www.dkacherose.com/	
+Black Tulip Floral Design	Florals	4651 N. Grandview Ave	Odessa	Texas	Odessa	Odessa florist that books wedding consultations and delivers locally, with same-day delivery further afield for a destination fee.	info@blacktulipdesign.com	(432) 362-2343	https://www.blacktulipdesign.com/	https://www.instagram.com/blacktuliptx/
+Cadillac Rosé Events and Catering	Catering	909 N Midkiff	Midland	Texas	Midland	Midland caterer that also hosts events, handling wedding-weekend meals from the rehearsal dinner through to the reception.	Brandt@CadillacRoseTX.com	(817) 247-6115	https://www.cadillacrosetx.com/	
+ARTISTRYXANGELA	Hair & Makeup	3116 N Loop 250 W, Suite 500	Midland	Texas	Midland and Odessa	Midland beauty studio with set bridal packages for makeup and hair, available in the studio or on location for a travel fee.			https://angelawetmore.glossgenius.com/	https://www.instagram.com/artistryxangela/`,
+  },
+  {
+    name: "Killeen, Harker Heights, Temple and Salado: cake, catering, hair & makeup, photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Brooklyn Alpha Media	Photography		Killeen	Texas	Killeen, Fort Cavazos, Harker Heights, Copperas Cove and Temple	Killeen photographer covering weddings and events, with no travel fee within the Killeen area and a small add-on beyond 25 miles.	brooklynalphamediagroup@gmail.com	(254) 677-8118	https://brooklynalphamedia.com/killeen-photographer.html	https://www.instagram.com/brooklynalphamedia/
+Easy As Pie Home Bakery	Cake		Temple	Texas	Temple	Made-to-order Temple home bakery that includes wedding cakes in its range and asks for two to six weeks' notice.	easyaspie.temple@gmail.com	(254) 727-0487	https://easyaspieonline.com/	https://www.instagram.com/easyaspie.temple/
+Amber Christine - Professional Makeup Artist	Hair & Makeup	1303 South 21st	Temple	Texas	Temple	Temple makeup artist offering bridal packages with a wedding consultation, plus makeup and hair for the wider bridal party.			https://amberchristinemua.glossgenius.com/	https://www.instagram.com/AmberChristineMUA/
+Luigi's Belton	Catering	2805 N Loop 121 Ste B	Belton	Texas	Bell County	Family-friendly Italian restaurant in Belton that also caters events, weddings included, across Bell County.		(254) 933-3214	https://luigisbelton.com/	`,
+  },
+  {
+    name: "El Paso: catering, hair & makeup, music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Jinny Riddle Makeup Studio	Hair & Makeup	1280 Hawkins Suite #140	El Paso	Texas	El Paso	El Paso makeup studio offering bridal makeup by appointment, alongside an academy and airbrush courses.	jinnyriddle@gmail.com	(915) 820-0333	http://www.jinnyriddle.com/	https://www.instagram.com/jinnyriddlemakeupstudio/
+A&S Productions	Music		El Paso	Texas	El Paso County	El Paso DJ service listing wedding DJ work among its services, with karaoke and other entertainment for parties.		(915) 449-6384	https://www.a-sproductions.com/	
+La Cocina de Ivette	Catering		El Paso	Texas	El Paso	El Paso Mexican caterer with customisable menus for dinner parties, corporate events, weddings and quinceañeras.			https://www.lacocinadeivette.com/	`,
+  },
+  {
+    name: "Corpus Christi, South Padre and the Rio Grande Valley: planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Wedding Whisperer	Planning		Corpus Christi	Texas	Corpus Christi, Padre Island, Port Aransas and the Texas Gulf Coast	Planner offering full, partial and month-of coordination, focused on beach, waterfront and outdoor weddings on the Gulf Coast.		(210) 802-7905	https://www.wedding-whisperer.com/corpuschristi	https://www.instagram.com/weddingwhispererllc/`,
+  },
+  {
+    name: "Lubbock and Amarillo: cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+My Sweet Insanity	Cake	15402 CR 2150	Lubbock	Texas		Lubbock cake designer with twenty years' experience, known for handmade sugar flowers and a dedicated wedding cake gallery.	mandy@mysweetinsanity.com		https://mysweetinsanity.com/	`,
+  },
+  {
+    name: "San Antonio, New Braunfels and Boerne: videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram`,
+  },
+  {
+    name: "Houston: photography, planning, florals, music, catering, hair & makeup, cake, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Joe Than Photography	Photography		Houston	Texas		Houston photographer covering weddings, engagements, events and portraits, with customisable packages and a relaxed coffee-chat first meeting.	Joe@JoeThanPhotography.com	832-276-1097	https://www.joethanphotography.com/	https://www.instagram.com/joethan_photography/
+Epic Photography and Films	Photography		Houston	Texas		Houston photography and film company offering candid, cinematic wedding coverage, with separate photo and film portfolios and photo booths.	info@epicphotos.com		https://www.epicphotos.com/	https://www.instagram.com/epic.productions/
+Aly Matei Photography	Photography		Houston	Texas		Houston wedding photographer shooting film and digital, covering whole weekends from rehearsal dinner to exit with a directed yet documentary style.			https://alymateiphoto.com/	https://www.instagram.com/alymateiphoto/
+Houston Day Of Coordinators	Planning		Houston	Texas		Houston day-of wedding coordinator who builds a detailed timeline and manages logistics so couples can stay present on the day.	HoustonDayOfCoordinators@gmail.com	832-362-7445	https://www.houstondayofcoordinators.com/	https://www.instagram.com/houstondayofcoordinators/
+Always Floral Weddings & Events	Florals		Spring	Texas	Houston, Spring and The Woodlands	Custom wedding flowers and event design for couples across Houston, Spring and The Woodlands, from bouquets to full reception styling.		281-353-1112	https://www.alwaysfloral.com/	https://www.instagram.com/alwaysfloralspring/
+D&Co Entertainment	Music		Houston	Texas		Houston wedding DJ and MC who takes a limited number of dates and focuses on smooth timelines and a full dance floor.	info@dandcoent.com		https://www.dandcoent.com/	https://www.instagram.com/dandcoent/
+Elegante Entertainment	Music		Houston	Texas	Houston, Conroe, The Woodlands, Katy, Tomball and Sugar Land	Houston DJ with over 25 years' experience for weddings, quinceañeras and bilingual celebrations, working across the Houston suburbs.	fhperez@fhpentertainment.com	832-465-1161	https://www.fhpentertainment.com/	
+Avalon Music	Music		Houston	Texas		Houston booking agency supplying live bands and DJs for weddings and parties, in business since 1993.	theavalonmusic@gmail.com	832-723-8886	https://theavalonmusic.com/	https://www.instagram.com/theavalonmusic/
+Culinaire Catering	Catering	3900 Milam St, Suite 5100	Houston	Texas		Houston off-site caterer for weddings, galas and corporate events, with custom menus and a proposal process led by its chef-owner.	info@culinairehouston.com	713-524-2337	https://culinairecatering.com/	https://www.instagram.com/culinairecatering/
+Essen Catering	Catering		Houston	Texas		Houston caterer for weddings, corporate and social events, with sample menus, tastings and a published list of preferred venues.			https://essencatering.com/	https://www.instagram.com/essen_catering/
+Cotton Culinary	Catering		Houston	Texas	Houston, Galveston and League City	Houston catering company handling weddings and corporate events, with staffing, rentals and dietary options such as vegan and halal.		832-224-3991	https://cottonculinary.com/	https://www.instagram.com/cottonculinary/
+Pink Palette Artists	Hair & Makeup		Houston	Texas		Houston team of makeup artists and hair stylists offering bridal packages and on-location service for wedding parties.	info@pinkpaletteartists.com	281-236-2360	https://www.pinkpaletteartists.com/	https://www.instagram.com/pinkpaletteartists/
+Blooming Beauty Company	Hair & Makeup		Houston	Texas		Houston bridal beauty team specialising in soft glam makeup and romantic hairstyling for brides and their parties.	info@bloomingbeautycompany.com		https://www.bloomingbeautycompany.com/	https://www.instagram.com/bloomingbeautycompany/
+Makeup By Sheila	Hair & Makeup		Houston	Texas		Houston makeup artist offering on-location bridal and wedding party packages alongside her own makeup range.		281-935-7000	https://makeupbysheila.com/	https://www.instagram.com/makeupbysheila/
+Cakes by Gina	Cake	14165 Bissonnet St, Ste M	Houston	Texas		Long-running Houston bakery with a wedding cake service, selling tasting boxes for pickup through its online shop.	clients@cakesbyginahouston.com	281-495-9400	https://shopcakesbygina.com/	https://www.instagram.com/cakesbyginahou/
+Houston Live Productions	Videography		Houston	Texas	Houston, Dallas, Austin, San Antonio, Galveston and destinations	Houston studio making cinematic wedding films and photography, travelling to other Texas cities and destination weddings.	houstonliveproductions@gmail.com		https://www.houstonliveproductions.com/	https://www.instagram.com/houstonliveproductions/
+Leap Productions	Videography		Houston	Texas		Houston-based wedding videographers making raw, unobtrusive films that follow vows, first dance and the moments in between.	hello@leapproductions.com		https://www.leapproductions.com/	https://www.instagram.com/leapproductions/
+Jacob Austin Films	Videography		Houston	Texas	Texas and destinations	Houston wedding videographer making documentary-style films for Texas and destination weddings.	connect@jacobaustinfilms.com		https://www.jacobaustinfilms.com/	https://www.instagram.com/jacobaustinfilms/
+Atilano Productions	Videography		Houston	Texas		Boutique Houston film studio making documentary-style wedding films with an unobtrusive, cinematic approach.	info@atilanoproductions.com		https://www.atilanoproductions.com/	https://www.instagram.com/atilanoweddingproductions/`,
+  },
+  {
+    name: "Galveston: planning, florals, catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Barefoot Weddings Galveston	Planning		Galveston	Texas	Galveston beaches	Galveston beach wedding service offering all-inclusive ceremony packages, elopements, proposals and vow renewals, with arches and florals.			https://www.barefootweddingsgalveston.com/	
+Flowers By Rickea	Florals		League City	Texas	League City and Galveston County	League City florist offering wedding flower packages with custom arrangements for weddings and events across Galveston County.		281-480-2586	https://flowersbyrickea.com/	
+Kemah Flowers & Company	Florals	601 Kipp Ave	Kemah	Texas		Kemah flower shop offering wedding bouquets, wedding party flowers, and ceremony and reception arrangements.	kemahflowersandcompany@gmail.com	281-532-6933	https://www.kemahflorist.com/	
+Robinette & Company	Catering	216 Kirby Rd	Seabrook	Texas	Clear Lake, League City, Kemah and Seabrook	Seabrook caterer for weddings and corporate events in the Clear Lake, League City, Kemah and Seabrook area.	contact@robinetteandcompany.com		https://robinetteandcompany.com/	https://www.instagram.com/robinettecaterers/
+Coastal Catering	Catering	6341 Stewart Rd, Suite 123	Galveston	Texas	Galveston and Houston	Galveston caterer run by Chef Marshall, offering wedding menus, hors d'oeuvres and buffets for Galveston and Houston events.	chef@chefmarshall.com	409-789-1119	https://www.chefmarshall.com/	https://www.instagram.com/coastalcatering/`,
+  },
+  {
+    name: "Tyler and East Texas: photography, florals, catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Kellie Gann & Company	Photography		Lufkin	Texas	Lufkin, Hudson, Nacogdoches and Houston	Lufkin portrait studio that also photographs weddings, serving Lufkin, Hudson, Nacogdoches and Houston.	Kellie@KellieGann.com	409-622-1040	https://www.kelliegann.com/	https://www.instagram.com/kellie.gann.and.company/
+House of Photography	Photography	122 N Mound St	Nacogdoches	Texas		Nacogdoches photography studio in the downtown area offering wedding, engagement and bridal photography alongside portraits.		936-337-1003	https://houseofphotography.biz/	https://www.instagram.com/houseofphotographynac/
+Wild Flower On Plum Creek	Florals	3001 E 5th St	Tyler	Texas	Tyler and East Smith County	Tyler flower shop offering wedding bouquets, wedding party flowers and consultations for East Smith County brides.	wildflowerplum@gmail.com	903-565-0500	https://www.wildfloweronplumcreek.com/	https://www.instagram.com/wildfloweronplumcreek/
+Everything Floral By Dylan	Florals	2114 Elgem St	Tyler	Texas		Tyler flower shop offering wedding floral packages that cover bridal party flowers and reception decor.	EVERYTHINGFLORALDESIGNS@gmail.com	903-202-0227	https://www.everythingfloralbydylan.com/	`,
+  },
+  {
+    name: "Dallas–Fort Worth: planning, music, catering, hair & makeup, cake, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Keestone Events	Planning		Dallas	Texas	Dallas-Fort Worth and destination weddings	Dallas planning firm with full, partial and month-of wedding packages, plus standalone venue searches, budgeting and vendor negotiation.	hello@keestoneevents.com		https://keestoneevents.com/	https://www.instagram.com/keestone_events/
+Perfect Tale Events	Planning		Dallas	Texas		Dallas planners who offer premium full-service planning, a month-of package and a week-of package for couples who already have vendors booked.			https://perfecttaleevents.com/	https://www.instagram.com/perfecttaleevents/
+Double Blessing Weddings + Events	Planning		Richardson	Texas	Dallas-Fort Worth	Faith-based Richardson planners offering full planning, partial planning and day-of coordination, with prayer support for couples who want it.	danaekenyon@doubleblessingevents.com	(214) 773-5887	https://www.doubleblessingevents.com/	https://www.instagram.com/doubleblessingevents/
+Jess Wegner Events	Planning		Fort Worth	Texas	Fort Worth, Dallas and destination weddings	Fort Worth planner and designer creating modern, polished weddings, with full-service, partial planning and monthly coordination.			https://www.jesswegnerevents.com/	https://www.instagram.com/jesswegnerevents/
+Great Music & Games	Music		Dallas	Texas	Dallas-Fort Worth	Dallas DJ and MC service for weddings, with photo and 360 booths, karaoke, silent disco headphones and audio-visual support.		(214) 267-8974	https://greatmusicandgames.com/	https://www.instagram.com/greatmusicandgames/
+Corona Entertainment	Music		Dallas	Texas	Dallas-Fort Worth and surrounding cities	Dallas wedding DJ team with bilingual English and Spanish MCs, ceremony audio, lighting design and photo booth rentals.		(214) 621-6389	https://coronaentertainment.fun/	https://www.instagram.com/corona_entertainment/
+DJ Jazz Entertainment	Music		Dallas	Texas	Dallas-Fort Worth, nationwide and destination	Dallas DJ and MC specialising in Indian weddings, with baraat processions, sangeet and mehndi nights, dhol players and a live Bollywood band.	info@djjazz.net	(844) 529-9368	https://djjazz.net/	https://www.instagram.com/djjazzentertainment/
+Premier Weddings and Events	Music		Aledo	Texas	Dallas-Fort Worth and North Texas	Aledo company combining wedding DJ and MC work with photo and 360 booths, lighting, officiants and month-of coordination.	info@premierweddingsdfw.com	(214) 794-8709	https://www.premierweddingsdfw.com/	https://www.instagram.com/premierweddingsdfw/
+Q The Band	Music		Dallas	Texas	Texas and destination weddings	Dallas live band of twelve to fifteen players with strings and brass, aimed at luxury and destination weddings, with a string quartet option.		(214) 288-2440	https://www.qthebandlive.com/	https://www.instagram.com/qbandlive/
+Serve & Savour Catering	Catering		McKinney	Texas	Greater Dallas area, including Frisco, Plano and McKinney	McKinney caterer with in-house chefs offering made-to-order wedding menus, fine-dining service, rentals and décor, plus tasting events.	team@serveandsavour.com	(214) 831-8887	https://serveandsavour.com/	https://www.instagram.com/serveandsavourcatering/
+Coburn's Catering	Catering	801 N Main St	Fort Worth	Texas	Dallas-Fort Worth	Long-running Fort Worth caterer known for barbecue, offering reception catering, rehearsal dinners and custom wedding menus.		(817) 336-0401	https://coburnscatering.com/	
+Creative Affairs Catering	Catering	4318 Eastside Avenue	Dallas	Texas	Dallas, Plano, Fort Worth and surrounding areas	Dallas caterer offering wedding cocktail hours, buffets and plated dinners with staffing and rental coordination, tailored to the couple's budget.		(214) 238-7548	https://creativeaffairscatering.com/	https://www.instagram.com/creativeaffairscatering/
+Magdalena's Catering & Events	Catering	1300 Gould Ave	Fort Worth	Texas	Fort Worth and North Texas	Fort Worth caterer handling weddings and private events, working at a range of local venues, with a supper club on the side.	info@magdalenastx.com	(817) 740-8085	https://www.magdalenastx.com/	https://www.instagram.com/magdalenastx/
+LS Catering	Catering	1780 Strader Rd	Justin	Texas	Dallas-Fort Worth	North Texas caterer offering full-service and custom catering for wedding receptions as well as company events and reunions.			https://lscatering.net/	https://www.instagram.com/lscateringtx/
+Backstage Makeup Professionals	Hair & Makeup	18216 Preston Rd, Suite B-3	Dallas	Texas	Dallas, Fort Worth and North Texas	North Dallas bridal hair and makeup team working on location, with weekday trials at its studio and extra artists for large parties.	hello@backstage.life	(214) 727-5410	https://www.backstage.life/bridalmakeupandhair	https://www.instagram.com/backstage.life/
+Paige Anderson Makeup and Hair Artists	Hair & Makeup	203 W Comstock St	Dallas	Texas	Dallas-Fort Worth	Oak Cliff studio providing bridal makeup and hair with a trial and on-location service on the day, plus bridal party packages.		(214) 448-6438	https://www.paigeanderson.com/	https://www.instagram.com/paigemakeupartist/
+Brite Beauty	Hair & Makeup	1430 Dragon St, Suite 21	Dallas	Texas	Dallas-Fort Worth	Dallas studio and mobile team for bridal and bridal party hair and makeup, with trials included and a touch-up kit with each bridal package.		(972) 795-4240	https://www.britebeauty.com/weddings	https://www.instagram.com/brite.beauty/
+Dallas Hair and Makeup	Hair & Makeup		Dallas	Texas	Dallas-Fort Worth	Dallas artist offering on-site hair and makeup for brides, attendants and family, with travel within twenty miles included in listed prices.	jj@dallashairandmakeup.com	(817) 946-7305	https://www.dallashairandmakeup.com/	https://www.instagram.com/dallashairandmakeup/
+Dallas Affaires Cake Co.	Cake	2307 Abrams Road	Dallas	Texas		Dallas bakery making classic and contemporary wedding cakes and custom groom's cakes, with consultations by appointment.		(214) 826-9409	https://www.dallasaffairescakeco.com/weddings	https://www.instagram.com/dallasaffairescakecompany/
+Flie Cakes	Cake		Fort Worth	Texas	Fort Worth and North Texas	Home-based Fort Worth baker taking custom wedding cake orders by form, with pickup in downtown Fort Worth.	fliecakes@gmail.com	(618) 600-6563	https://www.fliecakes.com/	
+The Williams Weddings	Videography		Dallas	Texas	Fort Worth, Dallas and North Texas	Videographer making cinematic wedding films planned around each couple's timeline, with a focus on Fort Worth and Tarrant County.			https://thewilliamsweddings.com/	
+FilmsbyRoy	Videography		Dallas	Texas	Dallas-Fort Worth	Dallas studio producing wedding films and wedding photography, covering Dallas, Frisco, Plano, McKinney, Denton and Fort Worth.		(214) 296-7910	https://www.filmsbyroy.com/	https://www.instagram.com/filmsbyroy/`,
+  },
+  {
+    name: "Midland and Odessa: music, catering, hair & makeup, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Boyd's Events	Music		Midland	Texas	Permian Basin, including Midland and Odessa	Midland DJ and MC service for weddings, with monogram and event lighting, pipe and drape, photo booth and 360 video booth.	office@boydsevents.com	(432) 262-1951	https://boydsevents.com/	
+Brown's Bar-B-Q	Catering	4200 W Illinois Ave Ste 260	Midland	Texas	Midland and West Texas	Midland barbecue restaurant catering weddings and rehearsal dinners, which also offers private chef experiences and cooking parties.		(432) 352-1658	https://cateringmidland.com/	
+Southern Charm Salon	Hair & Makeup	1500 E. 8th St.	Odessa	Texas	Odessa	Full-service salon on the Bride Smart property in Odessa, offering bridal and bridal party hair with consultations.		(432) 332-7011	https://bridesmartodessa.com/southern-charm-salon	
+Filmhunter Media	Videography		Midland	Texas		Midland and Odessa video company that produces wedding highlight films alongside its commercial and marketing work.	filmhuntermedia@gmail.com	(432) 203-6424	https://www.filmhuntermedia.com/	https://www.instagram.com/filmhuntermedia/`,
+  },
+  {
+    name: "El Paso: florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Flower Atelier Co.	Florals		El Paso	Texas	El Paso, Horizon City, Sunland Park and Socorro	El Paso florist designing bridal bouquets, boutonnieres, ceremony arches and reception flowers, with a wedding consultation form.	sales@floweratelierco.com	(915) 224-1160	https://floweratelierco.com/	https://www.instagram.com/floweratelierco/`,
+  },
+  {
+    name: "Waco, Bryan–College Station and Brenham: cake, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Patsy's Bake Shop	Cake		West	Texas		Home-based bakery in West, Texas, making custom tiered wedding cakes since 1996 and ranked in a local wedding cake poll.	patsysbakeshop@gmail.com	(254) 749-3598	https://www.patsysbakeshop.com/	
+Reverent Wedding Films	Videography		Bryan	Texas	Bryan-College Station, Brenham, Waco, The Woodlands and Houston	Bryan wedding film company with teaser, feature highlight and drone footage, and an in-house timeline coordinator.	booking@wedding.film	(832) 639-0587	https://www.wedding.film/	https://www.instagram.com/reverentweddingfilms/`,
+  },
+  {
+    name: "Hill Country: photography, planning, music, catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Pink Salt Pics	Photography		Dripping Springs	Texas	Fredericksburg, Johnson City, Driftwood and the greater Hill Country	Dripping Springs photographer focused on weddings and elopements, with simple elopement collections for the Hill Country and Austin areas.			https://pinksaltpics.com	https://www.instagram.com/pinksaltpics/
+Spin Eventz	Music		Austin	Texas	Texas, including the Hill Country, Fredericksburg and Kerrville	Austin bilingual DJ and MC service with photo booth and karaoke, travelling to Hill Country weddings and quinceañeras.	andres@spineventz.com	830-715-5550	https://spineventz.com	https://www.instagram.com/spineventz/
+Hill Country Strings	Music		Austin	Texas	Austin and the Texas Hill Country	String and acoustic ensembles for ceremonies, from violin and guitar duos to trios, based in Austin and playing Hill Country venues.	booking@hillcountrystrings.com	512-689-1975	http://www.hillcountrystrings.com	
+ThinBlueSmokery (TBS BBQ)	Catering		Dripping Springs	Texas	Dripping Springs and surrounding areas	Dripping Springs barbecue caterer taking full-service wedding bookings with a published minimum and notice period.	Thinbluesmokery@gmail.com		https://thinbluesmokery.com/catering	https://www.instagram.com/thinbluesmokery/`,
+  },
+  {
+    name: "Austin: catering, music, hair & makeup, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Contigo Catering	Catering		Austin	Texas	Austin and Central Texas	Full-service Austin caterer for weddings and private parties, with custom menus, bar service, rentals and staffing.	catering@contigocatering.com	(512) 750-0343	https://contigocatering.com	https://www.instagram.com/contigocatering/
+Maudie's Tex-Mex Catering	Catering		Austin	Texas	Austin	Austin Tex-Mex restaurant catering weddings and large parties, with staff who deliver, set up stations and stay on site.		(512) 280-8700	https://www.maudies.com/catering	https://www.instagram.com/maudiestexmex/
+Katy Reddell Beauty	Hair & Makeup		Austin	Texas	Austin, San Antonio and Dallas	Austin makeup artist and hairstylist offering bridal, event and commercial work, including on-location wedding styling.	info@katyreddellbeauty.com	254-749-9947	https://www.katyreddellbeauty.com	https://www.instagram.com/katyreddellbeauty/
+Mission Stylehouse	Hair & Makeup		Austin	Texas	Austin	Austin bridal hair and makeup team offering bohemian, classic and romantic looks, with quotes requested through its site.		(737) 320-4242	https://www.missionstylehouse.com	
+Moonlit Weddings	Videography		Austin	Texas	Austin and Texas	Austin wedding videographer shooting cinematic 4K and Super 8 films with two cinematographers and one wedding per day.	jake@moonlitweddings.com		https://www.moonlitweddings.com	https://www.instagram.com/moonlitweddings/`,
+  },
+  {
+    name: "San Antonio, New Braunfels and Boerne: videography, cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Sweet & Smitten Visuals	Videography		San Antonio	Texas	San Antonio and across Texas	San Antonio team shooting natural wedding photography and cinematic videography with a relaxed, unposed approach.	info@sweetandsmittenvisuals.com		https://sweetandsmittenvisuals.com/wedding	https://www.instagram.com/sweetnsmitten/
+The Cake Shop - Sweets & More	Cake	11255 Huebner Road #110	San Antonio	Texas	San Antonio	San Antonio bakery run by a Cordon Bleu-trained chef, making scratch-baked custom cakes with tastings for weddings.	thecakeshop.contact@gmail.com	(210) 561-1700	https://thecakeshopsat.com	https://www.instagram.com/cakeshop_sa/`,
+  },
 ];
 
 export default batches;

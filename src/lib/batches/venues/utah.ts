@@ -178,6 +178,36 @@ East Canyon Resort	8896 South Highway 65	Morgan	Utah			Barn / Rustic	Indoor & Ou
 Eaglewood Golf Course Event Center	1110 E Eaglewood Dr	North Salt Lake	Utah			Ballroom / Hotel	Indoor			Golf course event center in North Salt Lake that hosts weddings, parties and corporate gatherings.	golfeaglewood@gmail.com	(801) 299-0088	http://www.eaglewoodgolf.com/
 `,
   },
+  {
+    name: "Vernal: venues",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Cross Water Ranch	732 N 500 E	Vernal	Utah			Barn / Rustic				Vernal reception venue that lists weddings, elopements and photoshoots, and also rents out furniture, decor and games for events.	crosswaterranch@gmail.com	801-686-7167	https://www.crosswaterranch.net/
+SpringHill Suites by Marriott Vernal	1205 W Highway 40	Vernal	Utah			Ballroom / Hotel	Indoor	100		Vernal hotel with two event rooms, the larger holding 100 for a reception, and wedding services plus discounted room blocks for out-of-town guests.		435-781-9000	https://marriott.com/en-us/hotels/velsh-springhill-suites-vernal/events
+`,
+  },
+  {
+    name: "Utah: Wasatch Front, Heber, Moab and Cedar City venues",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Timber Moose Lodge	10000 Timber Moose Way	Heber City	Utah			Barn / Rustic	Indoor & Outdoor	150		A 26,500-square-foot private log lodge on 12 wooded acres above Heritage Lake where the whole wedding party stays under one roof.			https://timbermoose.com/weddings
+Tag Ranch	1738 W Hoytsville Rd	Wanship	Utah	40.83208	-111.41409	Barn / Rustic	Indoor & Outdoor	150		Working ranch and retreat in the Wasatch Mountains with a birch-ceilinged stable barn, a barn stage and horseback rides over the reservoir.	ml@tagranch.com	801-414-5131	https://tagranchweddings.com
+4U Ranch	3158 W 5000 N	Peoa	Utah			Barn / Rustic	Indoor & Outdoor			Timber-frame barn on 75 riverside acres along the Weber River in the Kamas Valley, about 20 minutes east of Park City.			https://www.4uranch.org
+Tuscany Garden Reception Center	1856 W 4500 S	Roy	Utah			Barn / Rustic	Indoor			Updated 1939 barn with central air, two commercial kitchens and an open catering policy.		801-837-6756	https://tuscanygardenroy.com
+Logan Depot	75 S 600 W	Logan	Utah			Historic / Estate	Indoor & Outdoor			Logan's 1873 freight depot, the oldest rail building in Cache Valley, rented whole with two interior rooms and a patio.	logandepot@gmail.com	(435) 752-4544	https://www.logandepot.com
+The Dance Hall Venue	25 N 300 W #A	Washington	Utah			Ballroom / Hotel	Indoor			1990s dance hall in the Cotton Town Village complex in downtown Washington, with a prep kitchen and a choice of tables and chairs.		(435) 632-7995	https://www.dancehallvenue.com
+Cedar Canyon RV Retreat	3243 UT-14	Cedar City	Utah			Garden / Outdoor	Outdoor	120	Classic	Mountain-edge campground rented whole for a weekend, with a ceremony space, a reception area under the stars and a five-bedroom cabin.	info@cedarcanyonretreat.com	435-627-7371	https://www.cedarcanyonretreat.com/private-events
+The Gonzo Inn	100 W 200 S	Moab	Utah			Ballroom / Hotel	Outdoor			Downtown Moab boutique inn that hosts receptions on a private creekside lawn and in a fire-pit lounge.		435-259-2515	https://gonzoinn.com/special-events/
+The Startup Building	100 W 560 S	Provo	Utah			Historic / Estate	Indoor & Outdoor	120	Simple	Former 1898 candy factory in Provo with exposed brick, wood beams and a renovated courtyard.		(385) 236-3061	https://www.thestartupbuilding.co
+The Bright Building	25 W 400 S	Provo	Utah			Historic / Estate	Indoor	150	Simple	Open downtown Provo event hall with a barrel-vaulted ceiling, steel trusses, vintage steel windows and a mezzanine.		801-709-0455	https://www.thebrightbuilding.com
+White Shanty Venue	502 S 300 W	Provo	Utah			Historic / Estate	Indoor & Outdoor	100	Simple	Industrial 3,600-square-foot hall in Provo with picture windows and oversized sliding barn doors that open to an outdoor area.	events@whiteshantyvenue.com	801-624-6070	https://www.whiteshantyvenue.com
+Willow Springs Event Center	554 W 1200 N	Springville	Utah			Ballroom / Hotel	Indoor & Outdoor		Simple	White ballroom with four chandeliers and a fireplace that opens through 30-foot glass doors to a covered patio and string-lit lawn.	janelle@thewillowsprings.com	(385) 375-7756	https://www.thewillowsprings.com
+The Vista at Cedar Hills Golf Club	10640 N Clubhouse Dr	Cedar Hills	Utah			Ballroom / Hotel	Indoor & Outdoor	200	Simple	City golf-club hall with a 4,000-square-foot Vista Room and a classic outdoor pavilion.	bgalloway@cedarhillsutah.gov	801-785-9668	https://www.vistacedarhills.com
+The Villa at Cedar Hills	9914 N 4000 W	Cedar Hills	Utah			Garden / Outdoor	Outdoor	350	Classic	Italian-style villa built in 1999 in the middle of a 125-year-old pear orchard, booked for one wedding a week.	villagirlsays@gmail.com	801-358-7661	https://www.weddingsatthevilla.com
+The Venue at The Ranches	4118 E Clubhouse Ln	Eagle Mountain	Utah			Ballroom / Hotel	Indoor & Outdoor	300	Simple	Golf-course event venue with a 4,817-square-foot main space, a banquet hall, a courtyard and a bridal suite.	info@theranchesvenue.com	(801) 796-2651	https://theranchesvenue.com
+Clarion Gardens	463 E 100 N	Payson	Utah			Garden / Outdoor	Indoor & Outdoor			Payson venue with a two-story entry staircase, a vaulted banquet hall and a garden room opening onto landscaped grounds with canopy trees.	clariongardens@gmail.com	385-447-8768	https://clariongardens.com
+Ladu Event Center	61 W 10600 S	Sandy	Utah			Ballroom / Hotel	Indoor	350	Simple	Sandy event building with a Grand Ballroom and a smaller Regal Ballroom, rented with chairs, tables, linens and sound included.		385-420-5744	https://ladueventcenter.com
+Le Jardin	1910 E Dimple Dell Rd	Sandy	Utah			Garden / Outdoor	Indoor & Outdoor			Two garden venues at the foot of the Wasatch, a larger fountain-and-courtyard hall plus the Chateau with a gazebo courtyard.	lejardin@lejardinweddings.com	(801) 326-2511	https://www.lejardinweddings.com
+The Ballard	14658 S Bangerter Pkwy	Draper	Utah			Ballroom / Hotel				Draper event space with panoramic views and complimentary planning help from the owner, an event planner.	info.ballardvenues@gmail.com	385-427-8787	https://www.ballardvenues.com`,
+  },
 ];
 
 export default batches;

@@ -213,6 +213,50 @@ Tiffani Chante	Hair & Makeup		Cannon Beach	Oregon	Oregon and Idaho	Cannon Beach 
 Gathered Bakeshop	Cake		Astoria	Oregon	Oregon Coast, within about two hours of Astoria	Astoria bakeshop making custom and signature wedding cakes, with dessert tables and display rentals; wedding orders book 8 to 10 months ahead.			https://www.gatheredastoria.com/	https://www.instagram.com/gatheredastoria/
 Ambient Sky	Videography		Portland	Oregon	Portland, Oregon Coast, Astoria, Cannon Beach, the Gorge and Willamette Valley	Boutique Portland studio making clean, timeless wedding films and trailers alongside photography, and travelling to the coast for weddings.	info@ambientsky.com	503.318.4265	https://www.ambientsky.com/	https://www.instagram.com/ambientsky/`,
   },
+  {
+    name: "Oregon Coast: planning, officiants and photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Synergy Events	Planning		Astoria	Oregon		Astoria events company offering wedding planning and day-of coordination alongside DJ and bartending, with a vetted list of local partner vendors.	info@synergyeventsllc.com	715-308-4780	https://synergyeventsllc.com/	https://www.instagram.com/synergyeventsllc/
+Lincoln City Weddings	Officiant		Lincoln City	Oregon		Lincoln City officiant service for beach weddings, elopements, commitment ceremonies and vow renewals, with referrals to local vendors, hotels and venue ideas.	Lincolncityweddings@yahoo.com	(509) 714-2085	https://www.lincolncityweddings.com/	
+Kreative Memories Photography and Video	Photography		Lincoln City	Oregon		Lincoln City photographer documenting weddings and elopements on the Oregon coast and beyond, with a videography option and elopement planning help.			https://www.kreativememories.net/	https://www.instagram.com/kreative_memories_photography/
+`,
+  },
+  {
+    name: "Baker City: florals and cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Baker Floral & Botanicals	Florals	1719 Main St	Baker City	Oregon	Baker City, Baker County and nearby Union County towns including Haines, Halfway, Sumpter and La Grande	Baker City flower shop that also designs wedding and event flowers, with delivery across Baker County and nearby towns.	bakerfloralandbotanicals@gmail.com	(541) 519-6059	https://bakerfloralandbotanicals.com	https://www.instagram.com/bakerfloralandbotanicals/
+Sweet Wife Baking	Cake	2028 Main Street	Baker City	Oregon		Baker City bakery taking bookings for wedding cakes and dessert tables, with dates reserved by email.	jenny@sweetwifebaking.com	541.403.6028	https://www.sweetwifebaking.com	https://www.instagram.com/sweetwifebaking/`,
+  },
+  {
+    name: "Oregon Coast: florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Florence in Bloom	Florals		Florence	Oregon	Florence and surrounding areas	Florence florist offering bouquets, wedding party, ceremony and reception flowers, with local delivery around the town.		(541) 997-5391	https://www.florenceinbloom.com	`,
+  },
+  {
+    name: "Bend and Central Oregon: officiants, planning, cake, hair & makeup and florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Wendy Duncan Ministries	Officiant		Redmond	Oregon	Central Oregon incl. Bend, Sisters, Sunriver, Prineville, Madras, La Pine	Ordained minister officiating weddings, elopements and vow renewals across Central Oregon, including interfaith and same-sex ceremonies.	wendy@wendyduncan.com	541-749-8251	https://www.wendyduncanministries.com/	https://www.instagram.com/wendyduncanministriesandcoach/
+Weddings with Heart	Officiant		Bend	Oregon	Bend and Central Oregon	Bend officiant for weddings and small elopements, with garden and mountain ceremonies across Central Oregon.	maryellen@weddingwithheart.com	(541) 312-3393	https://www.weddingwithheart.com/	https://www.instagram.com/weddingwithheartelopebend/
+DJ Mishibishi	Music		Klamath Falls	Oregon	Southern and Central Oregon into Northern California	Klamath Falls DJ for weddings and private parties, serving Southern and Central Oregon into Northern California.	djmishibishi@outlook.com	(541) 605-5073	https://djmishibishi.com	https://www.instagram.com/dj_mishibishi/
+DJ Mandy Mac	Music		Eugene	Oregon	Eugene, Bend and surrounding areas	Eugene DJ for weddings and events, serving couples in Eugene, Bend and surrounding areas.	mandymac310@gmail.com		https://djmandymac.com	
+Trevino Entertainment	Music		Salem	Oregon	Oregon and Southwest Washington	Salem mobile wedding DJ company playing ceremonies and receptions across Oregon and Southwest Washington.	michael@trevino-ent.com	(971) 218-5492	https://www.trevino-ent.com/	https://www.instagram.com/trevinoentertainment/
+Gorge Wedding Concierge	Planning		Hood River	Oregon	Columbia River Gorge and beyond	Boutique planning and coordination team for Columbia River Gorge weddings, based in Hood River.	hello@gorgeweddingconcierge.co		https://www.gorgeweddingconcierge.co/	https://www.instagram.com/gorgeweddingconcierge/
+Central Oregon Wedding Collective	Planning		Bend	Oregon	Central Oregon	Bend planning and coordination for weddings, from full and partial planning to day-of coordination with local vendors.	amanda@thecowc.com	(504) 278-0098	https://www.thecowc.com/	https://www.instagram.com/the_cowc/
+Shine Events	Planning		Bend	Oregon	Central Oregon	Bend wedding and event planner who has coordinated celebrations across Central Oregon since 2014.		541-550-0982	https://shineeventsbend.com/	
+West Sixteenth Cake Studio	Cake		Eugene	Oregon	Oregon, Washington and California	Eugene cake studio making custom wedding and celebration cakes, delivering across Oregon, Washington and California.	hello@westsixteenthcakes.com	503-791-1741	https://www.westsixteenthcakes.com/	https://www.instagram.com/westsixteenthcakes/
+Dreamin' Desserts	Cake		Bend	Oregon	Bend	Bend cake designer making handcrafted tiered wedding cakes, plus cupcakes and decorated cookies, to order.	tracy@dreamindesserts.com	541-350-5274	https://www.dreamindesserts.com/	https://www.instagram.com/dreamindesserts/
+Makeup Mafia Weddings	Hair & Makeup		Bend	Oregon	Bend, or on location by arrangement	Bend hair and makeup artist for brides and wedding parties, working from a home studio or on location.	christine@makeupmafiaweddings.com	323-497-5679	https://www.makeupmafiaweddings.com/	
+Confetti Crown Salon	Hair & Makeup	770 Willamette Street	Eugene	Oregon	Eugene, Springfield, Pleasant Hill, Veneta, Cottage Grove, Creswell	Eugene salon whose stylists focus on wedding hair and makeup for brides and their parties.	confetticrownsalon@outlook.com	(541) 686-1692	https://www.confetticrownsalon.com/	https://www.instagram.com/confetticrown_salon.spa/
+Via Flora	Florals		Bend	Oregon	Bend, Central Oregon and beyond	Bend florist designing organic, textural wedding flowers for couples across Central Oregon.	hello@viafloraflowers.com		https://www.viafloraflowers.com/	https://www.instagram.com/via.flora.flowers/
+Summer Robbins Flowers	Florals		Bend	Oregon	Bend, Central Oregon, travels	Bend studio creating luxury wedding florals, from ceremony installations and arches to bouquets and tablescapes.		458-202-0992	https://summerrobbinsflowers.com/	https://www.instagram.com/summerrobbinsflowers/`,
+  },
+  {
+    name: "Oregon: music and photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+DW Duo	Music		Portland	Oregon		Portland harpist, DJ and vocalist playing Celtic harp at ceremonies, jazz at cocktail hour and dance sets, with over 400 weddings since 2001.	dawn@dwduo.com	(503) 642-9509	https://dwduo.com/	
+Emily Woodruff Photography	Photography		Hood River	Oregon		Long-time Hood River wedding photographer with a calm, organised and patient style that puts couples at ease and aims for photos that bring the day back.			https://emilywoodruffphoto.com/	https://www.instagram.com/emilywoodruffphoto/
+`,
+  },
 ];
 
 export default batches;

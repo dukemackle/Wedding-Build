@@ -130,6 +130,19 @@ Diamond Events	Catering		Las Vegas	Nevada	Las Vegas	Full-service and drop-off ca
 Winston Marie Cakes	Cake		Las Vegas	Nevada	Las Vegas	Bespoke Las Vegas bakery making custom wedding cakes with a focus on vintage designs, plus confections.			https://www.winstonmariecakes.com	https://www.instagram.com/winstonmariecakes/
 Eccentrik Events	Music		Las Vegas	Nevada	Las Vegas	Wedding DJs offering live-mixed sets and professional emcee services for introductions and announcements.			https://eccentrikevents.com	https://www.instagram.com/eccentrikevents/`,
   },
+  {
+    name: "Map fill: Elko, Fernley, and Reno: catering, music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Kate Brown Photography	Photography	443 Idaho Street	Elko	Nevada	Elko and northeastern Nevada	Elko studio photographer covering weddings from ceremony to reception, with timeline help, engagement sessions and bridal portraits.	info@katebrownphotographyelko.com	775-397-1531	https://www.katebrownphotographyelko.com	https://www.instagram.com/katebrownphotography/
+Beth Kellum Photography	Photography		Elko	Nevada	Elko, Salt Lake City and Reno	Elko-based photographer and film maker who covers weddings and also travels to Salt Lake City and Reno.	bethkellumphotography@gmail.com		https://www.bethkellumphotography.com	https://www.instagram.com/bethkellumphotography/
+Fernley Flowers & More	Florals	170A W. Main St	Fernley	Nevada	Fernley, Wadsworth, Nixon, Silver Springs, Stagecoach and Fallon	Local Fernley flower shop with a wedding and formal events gallery of bouquets, corsages and table arrangements, plus same-day delivery.		(775) 560-3740	https://fernleyflowers.com/	
+Paisan's Old World Deli & Catering	Catering	6550 Longley Ln, Suite 110	Reno	Nevada	Reno, Fernley, Wadsworth, Stagecoach and Silver Springs	Family-run Reno deli and caterer, in business since 1995, offering per-plate wedding menus such as carved tri-tip and a mobile pub.		(775) 826-9444	https://paisanscatering.com/	https://www.instagram.com/paisans_deli/
+Roundabout Catering	Catering	631 Dunn Circle	Sparks	Nevada	Reno, Lake Tahoe and the Sierras	Chef-led caterer providing buffets, plated dinners and late-night bites, with its own flatware, glassware, tables and chairs for clients.	info@roundaboutcatering.com	775.747.2090	https://roundaboutcatering.com/	https://www.instagram.com/roundaboutreno/
+Candlelight and Roses	Florals	1687 US HWY 395 #7	Minden	Nevada	Minden, Gardnerville, Genoa, Carson City, Washoe Valley and Lake Tahoe's south shore	Family-run Minden florist doing wedding flowers, event coordination and consultations, delivering to many Carson Valley wedding venues.	april@candlelightandroses.com	(775) 250-1791	https://candlelightandroses.com/	https://www.instagram.com/candlelight_and_roses/
+Carson Valley Event Rentals	Rentals	1426 Industrial Way	Gardnerville	Nevada	Carson Valley, Reno and Lake Tahoe	Gardnerville rental company supplying tents, tables, chairs, linens, lighting and marquee letters for weddings across Carson Valley and Tahoe.	info@carsonvalleyeventrentals.com	775-315-6034	https://www.carsonvalleyeventrentals.com/	https://www.instagram.com/carsonvalleyeventrentals/
+Silver State DJ	Music	30 Mary St. #2	Reno	Nevada	Greater Reno and Lake Tahoe	Reno wedding and event DJ who limits the number of weddings taken each year to keep the attention on each couple.	dan@silverstatedj.com	(775) 338-6969	http://www.silverstatedj.com/	https://www.instagram.com/silverstatedj/
+Cruz Entertainment	Music	235 E Sky Ranch Blvd	Sparks	Nevada	Reno and the Tahoe Basin	Sparks DJ and entertainment company covering weddings from ceremony sound through to the last dance.		(775) 636-3833	https://cruzentnv.com/	https://www.instagram.com/cruz.entertainment/`,
+  },
 ];
 
 export default batches;

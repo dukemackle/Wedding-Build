@@ -170,6 +170,13 @@ Creek's Edge Winery	41255 Annas Lane	Lovettsville	Virginia			Restaurant / Vineya
 Notaviva Farm Brewery & Winery	13274 Sagle Rd	Hillsboro	Virginia			Restaurant / Vineyard	Indoor & Outdoor			A farm winery and brewery whose timber-frame tasting room and pondside pavilion suit small, intimate weddings.	info@notavivavineyards.com	(540) 668-6756	https://www.notaviva.com/weddings
 The Barn at Autumn Valley	10077 Store Road	Culpeper	Virginia			Barn / Rustic	Indoor & Outdoor			A farm barn venue in Culpeper County with rolling farmland views and indoor reception space.	info@autumnvalleyfarm.com		https://www.thebarnatautumnvalley.com/`,
   },
+  {
+    name: "Danville: map fill",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Cottontail Weddings	600 Craghead St	Danville	Virginia			Ballroom / Hotel	Indoor & Outdoor	175	Simple	Warehouse venue in Danville's historic River District with a 3,600 sq ft climate-controlled ballroom, a 600 sq ft patio, and bridal and groom suites.	info@CottontailWeddings.com	(434) 710-0425	https://www.cottontailweddings.com/
+Danville Museum of Fine Arts & History	975 Main St	Danville	Virginia			Historic / Estate	Indoor & Outdoor	150		Museum offering an auditorium of about 1,300 sq ft with a stage, plus a lawn, as indoor and outdoor event spaces for weddings.	info@danvillemuseum.org	(434) 793-5644	https://danvillemuseum.org/rent-venue/
+Danville Golf Club	2725 W Main St	Danville	Virginia			Ballroom / Hotel			Simple	Private country club founded in 1916 with a Donald Ross-designed course and a ballroom that non-members can book for weddings through a member sponsor.		(434) 792-7225	https://www.danvillegolfclub.com/special-events`,
+  },
 ];
 
 export default batches;
