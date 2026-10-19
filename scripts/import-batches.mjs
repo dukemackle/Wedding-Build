@@ -437,26 +437,43 @@ try {
     }
     for (const [table, { byName }] of Object.entries(TABLES)) {
       const todo = listed[table].filter((row) => row.city && row.state && (row.address || byName));
-      const fixes = (
-        await pool(todo, 8, async (row) => {
-          if (byName && !REFINE && row.address && isPinned(row)) {
-            const address = await locate(row);
-            if (address && km(address, row) <= AGREE_KM) return null;
-          }
-          const hit = await locate(row, byName);
-          const here = await town.pin(row);
-          if (hit && (!here || km(hit, here) <= MAX_KM)) {
-            return isPinned(row) && km(hit, row) <= 0.25 ? null : { id: row.id, ...hit };
-          }
-          if (here && isPinned(row) && stacked.get(`${row.latitude},${row.longitude}`) > 1) {
-            return { id: row.id, ...spreadPin(here, row.name) };
-          }
-          return null;
-        }, deadline)
-      ).filter(Boolean);
-      await update(table, fixes);
-      summary.repaired += fixes.length;
-      console.log(`${table}: ${fixes.length} of ${todo.length} checked moved onto their spot or off another listing`);
+      // Saved as it goes, like step 5: --refine-pins takes hours, and a run
+      // cut off partway shouldn't lose what it found.
+      let fixes = [];
+      let repaired = 0;
+      const flush = async () => {
+        const batch = fixes;
+        fixes = [];
+        repaired += batch.length;
+        await update(table, batch);
+      };
+      await pool(
+        todo,
+        8,
+        async (row) => {
+          const fix = await (async () => {
+            if (byName && !REFINE && row.address && isPinned(row)) {
+              const address = await locate(row);
+              if (address && km(address, row) <= AGREE_KM) return null;
+            }
+            const hit = await locate(row, byName);
+            const here = await town.pin(row);
+            if (hit && (!here || km(hit, here) <= MAX_KM)) {
+              return isPinned(row) && km(hit, row) <= 0.25 ? null : { id: row.id, ...hit };
+            }
+            if (here && isPinned(row) && stacked.get(`${row.latitude},${row.longitude}`) > 1) {
+              return { id: row.id, ...spreadPin(here, row.name) };
+            }
+            return null;
+          })();
+          if (fix) fixes.push(fix);
+          if (fixes.length >= 40) await flush();
+        },
+        deadline,
+      );
+      await flush();
+      summary.repaired += repaired;
+      console.log(`${table}: ${repaired} of ${todo.length} checked moved onto their spot or off another listing`);
     }
   }
 
