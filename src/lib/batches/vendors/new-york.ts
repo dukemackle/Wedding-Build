@@ -529,11 +529,6 @@ Gifts From The Heart Florist	Florals		North Babylon	New York	Nassau and Suffolk 
 `,
   },
   {
-    name: "Hudson Valley: hair and makeup",
-    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
-`,
-  },
-  {
     name: "Catskills: photography, florals, catering, cake",
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
 Turnquist Collective	Photography		Catskill	New York	The Catskills, Berkshires and Hudson Valley	Husband-and-wife team in Catskill shooting weddings and elopements as photographers and filmmakers, together or separately.	hello@turnquistcollective.com		https://turnquistcollective.com/	https://www.instagram.com/turnquistcollective/
