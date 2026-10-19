@@ -165,7 +165,6 @@ The Frosty Badger	505 NW 1st St	Ontario	Oregon			Historic / Estate	Indoor			A fo
 Gilliam & Bisbee Event Center & Suites	106 E May Street	Heppner	Oregon			Historic / Estate	Indoor			A 1919 building renovated in 2019, with a 4,000-square-foot event hall, a lobby and commercial kitchen, a stage with sound system, and upstairs suites for out-of-town guests.	bisbee@hcfgives.org	509-285-0833	https://www.hcfgives.org
 Willow Tree Ranch	9390 Highway 140 East	Klamath Falls	Oregon			Barn / Rustic	Indoor & Outdoor	250	Classic	A 100-acre ranch with a half-acre ceremony lawn framed by weeping willows, a covered patio, an indoor flex hall, a game room and two furnished guest suites.			https://willowtreeranchkfalls.com
 Crag Rat Hut		Hood River	Oregon			Barn / Rustic	Indoor & Outdoor			A rustic cabin-style event hall in the east hills above Hood River with a back patio, a lawn and a deck, owned by a mountain search-and-rescue club.			https://www.cragrathut.com
-Hood River Hotel	102 Oak St	Hood River	Oregon			Ballroom / Hotel	Indoor			A downtown Hood River hotel that rents its event space for weddings and meetings.	frontdesk@hoodriverhotel.com	(541) 386-1900	https://hoodriverhotel.com
 Historic Balch Hotel	40 Heimrich St	Dufur	Oregon			Historic / Estate	Indoor			A boutique hotel built in 1907 and listed on the National Register of Historic Places, with unique guest rooms and an on-site bistro, available as a full-hotel buyout for weddings.	info@balchhotel.com	(541) 467-2277	https://balchhotel.com
 Roseburg Country Club	5051 Garden Valley Rd	Roseburg	Oregon			Ballroom / Hotel	Indoor			A member golf club that offers banquet and meeting facilities for weddings through an event coordinator.		541-672-5566	https://www.roseburgcountryclub.com`,
   },
@@ -173,7 +172,6 @@ Roseburg Country Club	5051 Garden Valley Rd	Roseburg	Oregon			Ballroom / Hotel	I
     name: "Central Oregon: Redmond and Bend",
     tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
 River Run Lodge	1730 Blue Heron Dr	Redmond	Oregon			Barn / Rustic	Indoor & Outdoor	200	Classic	Riverside lodge in Redmond with a 5,000 sq ft deck over the river, an indoor Riverside Room and a bridal suite, offered as one all-day package.	info@riverrlodge.com		https://www.riverrlodge.com/wedding-venues
-Tetherow	61240 Skyline Ranch Rd	Bend	Oregon			Ballroom / Hotel	Indoor & Outdoor			A Bend golf resort with an event pavilion, a ceremony lawn overlooking the fairways, an event terrace with a fire pit and indoor banquet rooms.		(844) 431-9701	https://tetherow.com/weddings/your-day/
 `,
   },
 ];

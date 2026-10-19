@@ -345,7 +345,7 @@ Hunter Bee Photography	Photography		Killeen	Texas	Bell County, Williamson County
   {
     name: "Pleasanton: florals",
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
-Family Blooms	Florals	440 Oriente Drive	Pleasanton	Texas	Pleasanton, Jourdanton, Poteet, Floresville and nearby	Pleasanton florist designing wedding bouquets, boutonnieres, ceremony and reception flowers, with consultations and party decor rentals.		(830) 281-2131	https://www.pleasantontxflorist.com/wedding-flowers	`,
+`,
   },
   {
     name: "Galveston: photography, hair & makeup",

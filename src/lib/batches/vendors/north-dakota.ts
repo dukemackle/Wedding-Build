@@ -147,7 +147,6 @@ Huntly Photography	Photography		Jamestown	North Dakota	North Dakota	Wedding, eng
     name: "Fargo: hair and makeup",
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
 AVANT Hair & Skin Care Studio	Hair & Makeup	214 N 4th St	Grand Forks	North Dakota		Downtown Grand Forks hair and skin studio offering bridal packages with practice updo, makeup and lash trials plus day-of styling.	avantdowntown@gmail.com	701-775-5333	https://www.avanthairstudio.com/weddings	https://www.instagram.com/avanthairandskincare/
-Artistry Fargo	Hair & Makeup	705 13th Ave E	West Fargo	North Dakota		West Fargo hair and airbrush makeup team for brides and wedding parties, working in the salon or on location with two or more stylists.		701-353-8073	https://artistryfargo.com/weddings	https://www.instagram.com/artistryfargo/
 `,
   },
 ];
