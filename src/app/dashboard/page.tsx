@@ -42,12 +42,9 @@ export default async function DashboardPage() {
     .or(`user_id.eq.${user.id},member_ids.cs.{${user.id}}`)
     .maybeSingle<Wedding>();
 
+  // No wedding yet: the first-run questions, not an empty dashboard.
   if (!wedding) {
-    return (
-      <PageShell email={user.email ?? ""} width="reading">
-        <WeddingDashboard initialWedding={null} />
-      </PageShell>
-    );
+    redirect("/start");
   }
 
   let bookedVenue: Venue | null = null;
