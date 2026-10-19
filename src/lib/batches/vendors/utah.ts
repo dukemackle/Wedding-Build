@@ -306,6 +306,11 @@ Kaci Lou Photography	Photography		Park City	Utah	Park City and worldwide	Park Ci
 Chelsea Fabrizio Photo	Photography		Park City	Utah	Park City, Moab and Salt Lake City	Park City photographer shooting weddings and couples since 2015 in a candid, story-led style, from mountain lodges to red-rock elopements.	chelseafabriziophoto@gmail.com	801-783-8812	https://www.chelseafabriziophoto.com/	https://www.instagram.com/chelseafabrizio_/
 Oquirrh String Quartet	Music		Salt Lake City	Utah	Salt Lake City, Park City and throughout Utah	Salt Lake City string quartet formed in 2010, playing wedding ceremonies and receptions including at Deer Valley venues.		801-386-8110	https://oquartet.com/	`,
   },
+  {
+    name: "Park City: videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Brätt Photo and Film	Videography		Salt Lake City	Utah	Salt Lake City, Park City, Midway, Heber and Utah County	A married photo and video team filming weddings across Salt Lake City, Park City, Midway and Heber in a clean, true-to-life style.			https://brattphotoandfilm.com/	https://www.instagram.com/brattphotoandfilm/`,
+  },
 ];
 
 export default batches;
