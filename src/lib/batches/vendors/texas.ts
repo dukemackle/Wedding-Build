@@ -568,8 +568,7 @@ LovelyKind Beauty	Hair & Makeup		Houston	Texas	Houston, Austin and destinations	
 Laila's Makeup Studio	Hair & Makeup		Houston	Texas	Houston	Bridal hair and makeup artist who styles brides, mothers and wedding parties from the shower through to the reception.			https://www.lailasmakeupstudio.com/	https://www.instagram.com/lailasmakeupstudio/
 Khanh Nguyen Photography	Photography		Houston	Texas	Houston and surrounding venues, including Brenham	Houston wedding photography studio telling each couple's day in a bold, emotional and documentary way.	hi@knwedding.com	832-821-6661	https://www.khanhnguyenphotography.com/	https://www.instagram.com/knwedding/
 Chris Bailey Photography	Photography	4809 Blossom St	Houston	Texas	Houston and beyond	Fine art wedding and portrait photography studio in Houston, run by a team that favours personal, timeless images.		713-518-1452	https://www.cbaileyphotography.com/	https://www.instagram.com/chrisbaileyphoto/
-Genovese Studios	Photography		Houston	Texas	Houston, Galveston and beyond	Documentary-style wedding photographer who also films weddings, with bridal, engagement and group portraits on offer.	chrisg@genovesestudio.com	225-772-9143	https://genovese.studio/	https://www.instagram.com/genovese.studio/
-The Ivory Stem	Florals	13847 Stafford Rd	Stafford	Texas	Houston area	Studio florist in Stafford creating bridal bouquets, centrepieces and ceremony flowers alongside everyday deliveries.	theivorystem@gmail.com	(713) 875-8371	https://theivorystem.com/pages/weddings	`,
+Genovese Studios	Photography		Houston	Texas	Houston, Galveston and beyond	Documentary-style wedding photographer who also films weddings, with bridal, engagement and group portraits on offer.	chrisg@genovesestudio.com	225-772-9143	https://genovese.studio/	https://www.instagram.com/genovese.studio/`,
   },
   {
     name: "Galveston: planning",
@@ -626,7 +625,6 @@ Arlene's Flowers and Gifts	Florals	6032 W Venus St	Odessa	Texas	Odessa	Odessa fl
 D'Kache Rose & Box	Florals	1524 North Grandview Ave	Odessa	Texas	Odessa	Odessa florist offering bridal consultations and flowers for the wedding party, ceremony and reception, including arches and centrepieces.		(432) 332-9696	https://www.dkacherose.com/	
 Black Tulip Floral Design	Florals	4651 N. Grandview Ave	Odessa	Texas	Odessa	Odessa florist that books wedding consultations and delivers locally, with same-day delivery further afield for a destination fee.	info@blacktulipdesign.com	(432) 362-2343	https://www.blacktulipdesign.com/	https://www.instagram.com/blacktuliptx/
 Cadillac Rosé Events and Catering	Catering	909 N Midkiff	Midland	Texas	Midland	Midland caterer that also hosts events, handling wedding-weekend meals from the rehearsal dinner through to the reception.	Brandt@CadillacRoseTX.com	(817) 247-6115	https://www.cadillacrosetx.com/	
-Exquisite Catering	Catering	2907 N Big Spring St	Midland	Texas	Midland, Odessa and the Permian Basin	Midland caterer offering tailored wedding menus, tastings and on-site service, alongside corporate and oilfield catering.	chefmichaels@hotmail.com	(432) 352-6101	https://exquisitecateringtx.com/	https://www.instagram.com/exquisitecateringllc/
 ARTISTRYXANGELA	Hair & Makeup	3116 N Loop 250 W, Suite 500	Midland	Texas	Midland and Odessa	Midland beauty studio with set bridal packages for makeup and hair, available in the studio or on location for a travel fee.			https://angelawetmore.glossgenius.com/	https://www.instagram.com/artistryxangela/`,
   },
   {
@@ -656,8 +654,7 @@ My Sweet Insanity	Cake	15402 CR 2150	Lubbock	Texas		Lubbock cake designer with t
   },
   {
     name: "San Antonio, New Braunfels and Boerne: videography",
-    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
-The Lovely Lens	Videography		New Braunfels	Texas	Texas Hill Country, Austin, San Antonio and Dallas-Fort Worth	New Braunfels husband-and-wife team filming and photographing weddings, with cinematic storytelling on the video side.	lovelylensproductions@gmail.com		https://thelovelyphotos.com/	https://www.instagram.com/thelovelylensgram/`,
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram`,
   },
 ];
 
