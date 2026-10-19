@@ -11,6 +11,10 @@ They're summarised here only by reference; CLAUDE.md is the source.
 
 ## Approved directions
 
+- **2026-10-19:** Keyboard focus is a deep-gold ring (`#9a6b00`, bright Gold
+  on navy fills, soft gold halo on fields); 404 and error pages are a
+  centred card with Wren idling, a mono eyebrow, a display heading and two
+  actions (`src/components/lost-page.tsx`). PR #896.
 - **2026-10-11:** Guest site "Your designs" gallery + template gallery
   modelled on Canva's "Continue designing" (docs/guest-site-editor.md).
 - **2026-10-08:** Guest-site Editor v2: free placement *within* sections on
