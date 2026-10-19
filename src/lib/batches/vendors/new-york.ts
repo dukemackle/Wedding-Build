@@ -613,6 +613,94 @@ Catering By Luna	Catering	113 N Aurora St	Ithaca	New York	Ithaca and Finger Lake
 DJ Steven Share	Music		Corning	New York	Corning, Ithaca, Geneva, Skaneateles and the Finger Lakes	Finger Lakes wedding and event DJ working from Corning to Geneva and Skaneateles, also offering premium karaoke and destination weddings.	hello@djstevenshare.com	(607) 638-3577	https://www.djstevenshare.com/	https://instagram.com/djstevenshare
 `,
   },
+  {
+    name: "New York City: photography, hair & makeup, planning, cake, catering, florals, music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Precious Pics	Photography		Brooklyn	New York	Brooklyn, Manhattan and the wider New York City area	Wedding photography and film team in Brooklyn, with dedicated coverage of South Asian, Jewish, Islamic and East Asian weddings.		(866) 556-2566	https://www.preciouspicspro.com/	https://www.instagram.com/preciouspicspro/
+Taylor Rose Beauty	Hair & Makeup		New York	New York	New York City	Hair and makeup artist team based in New York City, offering bridal hair and makeup for wedding days.		561-251-2286	https://www.taylorrosebeauty.com/	https://www.instagram.com/tayonmyface/
+Cristina Verger Event Planning	Planning	745 5th Avenue, Suite 500	New York	New York	New York City and destination weddings	Full-service planning and production for luxury weddings in New York City, with a second office in Rome for destination celebrations.	info@cristinaverger.com	+1 917.880.7445	https://www.cristinaverger.com/	https://www.instagram.com/cristinaverger/
+Wildflour Cakery	Cake		Brooklyn	New York	Brooklyn, Manhattan, Queens, the Bronx, Staten Island, New Jersey and Long Island	Brooklyn bakery making bespoke tiered wedding cakes after a design consultation, finished with buttercream and sugar flowers.	WildflourCakery.nyc@gmail.com	(347) 433-8564	https://wildflourcakery.com/	https://www.instagram.com/Wild.flour.cakery/
+Purslane Catering	Catering	233 Butler Street	Brooklyn	New York	New York City, the Hudson Valley, the Hamptons and Connecticut	Brooklyn caterer for weddings at venues without in-house catering, with zero-waste service and custom menus.	info@purslane.com	718-701-8344	https://www.purslane.com/	https://www.instagram.com/purslanenyc/
+Pheasant Catering	Catering	57 Driggs Avenue	Brooklyn	New York	New York City, the Hudson Valley and Long Island	Brooklyn catering company offering wedding menus, cocktail-hour options and menus built around dietary needs.	info@pheasantnyc.com		https://www.pheasantnyc.com/	https://www.instagram.com/pheasantnyc/
+Ahna Han	Florals		Brooklyn	New York	New York City, the Hudson Valley and select destinations	Brooklyn floral designer creating bespoke wedding flowers for New York City and Hudson Valley celebrations.			https://www.ahnahan.com/	https://www.instagram.com/ahna__han/
+Bride & Blossom	Florals	750 Lexington Avenue	New York	New York	New York City and the Tri-State area	Wedding-focused florist in Manhattan designing bespoke bouquets and venue florals for city and Tri-State weddings.	info@brideandblossom.com		https://www.brideandblossom.com/	https://www.instagram.com/brideandblossom/
+Lucy Music	Music		New York	New York	New York City	Boutique music company supplying bands, string quartets and jazz groups for wedding ceremonies, cocktail hours and receptions.			https://weddingbandnyc.com/	https://www.instagram.com/lucymusicny/
+`,
+  },
+  {
+    name: "Long Island: photography, hair & makeup, cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Vaaho Photo	Photography	132 S Broadway	Hicksville	New York		Hicksville studio covering weddings in photo and film, including South Asian and Muslim ceremonies such as haldi, pheras and nikkah.	bookings@vaahony.com	516-681-3040	https://www.vaahony.com/	https://www.instagram.com/vaahophoto/
+Cassarino Studios	Photography	431 Willis Avenue	Williston Park	New York	Long Island, including Nassau and Suffolk counties	Williston Park studio offering wedding photography and films at Long Island venues.	info@cassarinostudios.com	516-877-2700	https://www.cassarinostudios.com/	https://www.instagram.com/cassarinostudios/
+Beauty By The Beach	Hair & Makeup		Hamptons	New York	The Hamptons	Hamptons hair and makeup artist taking a small number of weddings each year, for the bride alone or the bride plus three.			https://www.beautybythebeach.co/	
+J Fink Beauty	Hair & Makeup		Centereach	New York	New York City, Long Island and worldwide travel	Bridal makeup and hair artist in Centereach offering customised bridal collections and wedding-day glam.	info@jfinkbeauty.com	(631) 492-7592	https://jfinkbeauty.com/	https://www.instagram.com/jfinkbeauty/
+Leonetti Bakery	Cake	82 Glen Cove Road	Greenvale	New York	Long Island	Greenvale pastry shop serving Long Island, with a wedding cakes range made to order for couples across the island.		516-625-8242	https://www.leonettibakery.com/	https://www.instagram.com/leonetti_bakery/
+`,
+  },
+  {
+    name: "Hudson Valley: photography, videography, florals, catering, cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Little But Fierce Photography	Photography		Poughkeepsie	New York	Hudson Valley, Catskills and Westchester	Candid, natural-colour wedding and elopement photographer in Poughkeepsie, offering optional 35mm film and drone coverage across the region.			https://www.lbfphoto.com/	https://www.instagram.com/lbfphoto/
+Far & Found Films	Videography		Kingston	New York	Hudson Valley, Catskills and New York City	Kingston wedding filmmaker shooting short films and full-length wedding films since 2017, with travel across the Hudson Valley and Catskills included.	farfoundfilm@gmail.com		https://farandfoundfilms.com/	
+Tyler O'Leary Productions	Videography		Wingdale	New York	Dutchess, Putnam, Orange and Ulster counties, plus Litchfield County, Connecticut	Wedding videographer in the Hudson Valley offering three packages with drone footage, a one-minute trailer and a highlight film.	tylerolearyproductions@gmail.com	845-240-3428	https://tylerolearyweddingvideos.com/	https://www.instagram.com/tylerolearyproductions/
+LILYSH Flower Studio	Florals		Newburgh	New York	Hudson Valley and New York City	Newburgh floral studio designing contemporary, eco-conscious flowers for weddings and events across the Hudson Valley and the city.	contact@lilyshdesign.com		https://www.lilysh.com/	https://www.instagram.com/lilyshdesign/
+Angel Wedding Works	Florals		Newburgh	New York	Orange, Dutchess, Putnam and Westchester counties	Newburgh wedding florist offering bouquets, ceremony pieces and centrepieces, plus budget-friendly do-it-yourself flower packages.		845-216-0270	https://www.angelweddingworks.com/	https://www.instagram.com/angelweddingworks/
+Agnes Devereux Catering	Catering		Staatsburg	New York	Hudson Valley	Staatsburg caterer serving rehearsal dinners and large weddings with seasonal menus built on local farm produce, and a signature honey bee wedding cake.	agnes@agnesdevereuxcatering.com	845-926-6059	https://agnesdevereuxcatering.com/	https://www.instagram.com/agnesdevereuxcatering/
+Di Sweet Spot by One N Only Cakes	Cake		Kingston	New York	Kingston, Ulster, Dutchess and Greene counties, Hudson Valley and Catskills	Kingston bakery run by a trained pastry chef, making tiered custom wedding cakes and mini dessert displays, including gluten-free and vegan options.	disweetspot@gmail.com	845-481-3234	https://disweetspot.com/	https://www.instagram.com/di_sweet_spot/
+`,
+  },
+  {
+    name: "Catskills: photography, planning, florals, cake, hair & makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+H. Smith & Co.	Planning		Narrowsburg	New York	Catskills, Hudson Valley, New England and Connecticut	Narrowsburg planning firm offering full planning, partial planning and coordination for Catskills weddings, with a portfolio of real weddings.		845-798-7650	https://www.hsmithandco.com/	https://www.instagram.com/hsmithandco/
+Le Shag	Hair & Makeup		Woodstock	New York	Woodstock, Kingston and the Hudson Valley	Beauty salon with Woodstock and Kingston locations that also styles bridal parties for weddings, with a dedicated wedding enquiry address.	Leshagwedding@gmail.com	845-338-0191	https://leshag.com/	https://www.instagram.com/leshagbeauty/
+`,
+  },
+  {
+    name: "Adirondacks and Lake Placid: catering, music, photography, florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+MX Productions	Music		Vermontville	New York	Lake Placid, Saranac Lake, Keene, Wilmington, Tupper Lake and Plattsburgh	Wedding DJ and master of ceremonies based in Vermontville, with sound and dance-floor lighting and travel included within 50 miles.		518-637-4989	https://weddingdjlakeplacidny.com/	https://www.instagram.com/mxproductionsweddingdj/
+Mary Dougherty Photography	Photography		Lake Placid	New York	Adirondacks, East Coast, Vermont and Boston, with destination weddings	Lake Placid photographer with a candid, editorial style, known for multi-day wedding weekend coverage in the mountains and beyond.	hello@marydougherty.com		https://marydougherty.com/	https://www.instagram.com/mary.dougherty/
+`,
+  },
+  {
+    name: "Buffalo: planning, florals, catering, hair & makeup, cake, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Wildroot Floral	Florals	1250 Niagara St	Buffalo	New York	Buffalo and Western New York	Buffalo flower shop that also designs wedding florals, with a portfolio and inquiries open for the 2027 season.	info@wildroot-floral.com	(716) 248-1351	https://wildroot-floral.com/	https://www.instagram.com/wildrootfloral/
+Luxe Stem Design	Florals		Buffalo	New York	Western New York	Wedding and event florist founded in 2021, making floral installations and event styling for couples in Western New York.	Luxestemdesign@gmail.com		https://www.luxestemdesign.com/	
+Makeup by Layla M	Hair & Makeup		Buffalo	New York	Buffalo and Western New York	Bridal makeup artist in Buffalo offering previews and wedding-day makeup in natural to full-glam styles for local and destination weddings.		(716) 605-8360	https://makeupbylaylam.com/	https://www.instagram.com/makeupbylaylam/
+Gullo's Bakery	Cake	3865 Seneca Street	West Seneca	New York	Buffalo and Western New York	Bakery on Seneca Street making tiered wedding cakes, cupcakes and cookies, with a wedding cake guide and gallery on its site.	tmg@gullosbakery.com		https://www.gullosbakery.com/	
+Memento Media Company	Videography		Buffalo	New York	Buffalo and Western New York	Husband-and-wife team making wedding films and photography in Buffalo, currently taking bookings for 2027 and 2028.			https://mementomediacompany.com/	https://www.instagram.com/mementomediacompany/
+`,
+  },
+  {
+    name: "Rochester: planning, florals, catering, hair & makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Pistil & Pollen	Florals		Victor	New York	Rochester and the Finger Lakes	Floral studio in Victor designing full-service wedding flowers, with seasonal minimums and a portfolio of past weddings.	info@pistilandpollenstudio.com		https://www.pistilandpollenstudio.com/	https://www.instagram.com/pistilandpollen/
+Rockcastle Florist	Florals	175 Norman St	Rochester	New York	Rochester area	Rochester florist with a design centre on Norman Street, offering free consultations for wedding and event flowers.		(585) 225-3640	https://www.rockcastleweddings.com/	https://www.instagram.com/rockcastleflorist/
+Buttery Bridal	Hair & Makeup		Rochester	New York	Rochester and the Finger Lakes	Rochester bridal hair and makeup artist who works on location for weddings around Rochester and the Finger Lakes.	buttery_hair@yahoo.com		https://www.butterybridal.com/	
+`,
+  },
+  {
+    name: "Albany and Saratoga: planning, florals, music, cake, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Blooms Floral Design	Florals		Greenwich	New York	Saratoga Springs, Lake George, Albany and the Capital Region	Floral studio in Greenwich designing wedding bouquets and arrangements for couples and venues across the Capital Region.			https://bloomsfloraldesign.com/	https://www.instagram.com/bloomsweddings/
+Indulgence Bakery	Cake	63 Putnam Street	Saratoga Springs	New York	Saratoga Springs and the Capital Region	Women-owned bakery on Putnam Street making custom wedding cakes, with a weddings page and booking for 2026 and 2027.			https://www.bitesofindulgence.com/	https://www.instagram.com/bitesofindulgence/
+`,
+  },
+  {
+    name: "Syracuse: photography, planning, florals, catering, hair & makeup, cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Coleman Florist	Florals	4000 E. Genesee St	Syracuse	New York	Syracuse area	Syracuse flower shop on East Genesee Street with a wedding gallery and consultations for bridal and ceremony flowers.	colemanflorist@verizon.net	(315) 446-0862	https://colemanflorist.com/	https://www.instagram.com/colemanfloristinc/
+Biscotti Cafe & Gelateria	Cake		Syracuse	New York	Syracuse area	Syracuse bakery with a wedding cakes page and gallery, taking custom cake enquiries alongside its pastries and gelato.	info@biscotticafe.com	(315) 478-9583	https://biscotticafe.com/	https://www.instagram.com/biscotti_cafe/
+`,
+  },
+  {
+    name: "Finger Lakes: photography, planning, catering, hair & makeup, cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Chesler Photography	Photography	114 South Main St	Canandaigua	New York	Rochester, Canandaigua and the Finger Lakes	Canandaigua studio in the downtown historic district photographing weddings around Rochester and the Finger Lakes.	info@cheslerphoto.com	(585) 393-9242	https://www.cheslerphoto.com/	https://www.instagram.com/Cheslerphotography/
+`,
+  },
 ];
 
 export default batches;
