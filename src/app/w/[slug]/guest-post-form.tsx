@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, useTransition } from "react";
 import { submitGuestPost } from "./actions";
 import { shrinkImage } from "@/lib/shrink-image";
+import { LegalNotice } from "@/components/legal-notice";
 
 const inputClass =
   "rounded-md border border-hairline bg-parchment px-3 py-2 text-ink outline-none focus:border-forest";
@@ -144,6 +145,7 @@ export function GuestPostForm({
       >
         {isPending ? "Posting…" : "Post to the wall"}
       </button>
+      <LegalNotice action="posting" />
     </form>
   );
 }
