@@ -27,7 +27,9 @@ export function PageShell({
   return (
     <main className="flex flex-1 flex-col items-center px-6 py-16">
       {email === null ? <PublicNav /> : <AppNav email={email} />}
-      <div className={`w-full ${pageWidthClass(width)}`}>{children}</div>
+      <div id="main-content" tabIndex={-1} className={`w-full ${pageWidthClass(width)}`}>
+        {children}
+      </div>
     </main>
   );
 }

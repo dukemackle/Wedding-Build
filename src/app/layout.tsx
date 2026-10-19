@@ -4,6 +4,7 @@ import { PageTransition } from "@/components/page-transition";
 import { SiteFooter } from "@/components/site-footer";
 import { AssistantProvider } from "@/components/assistant-context";
 import { RegisterServiceWorker } from "@/components/register-service-worker";
+import { SkipLink } from "@/components/skip-link";
 import "./globals.css";
 import { SITE_URL } from "@/lib/public-listings";
 
@@ -53,6 +54,7 @@ export default function RootLayout({
       className={`${cormorant.variable} ${plexSans.variable} ${plexMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col overflow-x-hidden bg-parchment text-ink font-body">
+        <SkipLink />
         <AssistantProvider>
           <PageTransition>{children}</PageTransition>
           <SiteFooter />
