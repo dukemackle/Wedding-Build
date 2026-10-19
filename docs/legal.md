@@ -50,8 +50,12 @@ legal questions to the owner rather than deciding them.
   feedback form, marketplace message emails (§2), and the attire share link
   (Privacy §4). Terms §1 now covers vendors and marketplace users, §4 covers
   rentals, and a new §7 says AI output is a draft to check, not advice.
-  Terms §13 governing law is still a placeholder until the business entity
-  and home state are chosen.
+- **California (2026-10-20):** the owner is in California, so Terms §13 is
+  California law. Privacy §1 has the Do Not Track line CalOPPA asks for.
+  CCPA/CPRA doesn't apply yet (it starts at $25M+ revenue, 100k+ consumers'
+  data a year, or half of revenue from selling/sharing data); revisit if any
+  of those come close. If the business is later formed in another state,
+  revisit §13.
 
 Rule: any new form that sends Wren a person's details gets `LegalNotice`
 next to its submit button, and the Privacy Policy's "Information we collect"

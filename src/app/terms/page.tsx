@@ -11,7 +11,7 @@ export default function TermsPage() {
       <div className={`w-full ${READING_WIDTH}`}>
         <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Legal</p>
         <h1 className="mt-2 font-display text-3xl font-semibold text-forest">Terms of Service</h1>
-        <p className="mt-2 text-sm text-ink/60">Last updated: October 19, 2026</p>
+        <p className="mt-2 text-sm text-ink/60">Last updated: October 20, 2026</p>
 
         <div className="mt-8 flex flex-col gap-8 text-ink/80">
           <p>
@@ -203,8 +203,7 @@ export default function TermsPage() {
 
           <Section title="13. Governing law">
             <p>
-              These Terms are governed by the laws of [STATE — to be finalized once You Do, I Do&apos;s
-              business entity and home state are established], without regard to
+              These Terms are governed by the laws of the State of California, without regard to
               conflict-of-laws principles.
             </p>
           </Section>
