@@ -764,6 +764,81 @@ Plants and Things	Florals	151 W. Elm Ave	Coalinga	California	Coalinga, Huron, Av
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
 Milwood Florist Weddings	Florals	2020 Main St	Susanville	California	Northern California and Nevada	Susanville florist with a century of history, arranging wedding flowers for couples across Northern California and Nevada.	milwoodflorist@gmail.com	530.257.9194	https://www.milwoodfloristweddings.com/	https://www.instagram.com/milwoodflorist/`,
   },
+  {
+    name: "Los Angeles: Photography, Videography, Catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+LifeStory.Film	Videography		Los Angeles	California	Los Angeles, Glendale and greater Southern California	Wedding films and photography with deep experience of Armenian church ceremonies, khosk-kap traditions and large receptions in Glendale.		323.556.4362	https://lifestory.film/	https://www.instagram.com/lifestoryfilm/
+ConneryFilm	Videography		Los Angeles	California	Glendale, Burbank, the San Fernando Valley and wider Los Angeles	Photo and video studio focused on Glendale and Burbank, experienced with Armenian ceremonies, Persian sofreh aghd setups and large banquet-hall receptions.		(818) 749-7039	https://conneryfilm.com/	https://www.instagram.com/conneryfilm/
+Chicas Tacos	Catering		Los Angeles	California	Los Angeles neighbourhoods from Santa Monica to Downtown	Mexican caterer offering taco platters, street corn and a mobile bar for wedding ceremonies, engagement parties and rehearsal dinners across Los Angeles.			https://www.chicastacos.com/weddings-engagements	https://www.instagram.com/chicastacos/`,
+  },
+  {
+    name: "Orange County: Catering, Cake, Hair & Makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Colette's Catering & Events	Catering	1568 Kimberly Ave	Fullerton	California	Orange County and Southern California	Full-service Fullerton caterer producing locally sourced, handcrafted menus for weddings, rehearsal dinners and other celebrations across Orange County.	info@colettesevents.com	714.447.9190	https://colettesevents.com/	https://www.instagram.com/colettescatering/
+Patty's Cakes and Desserts	Cake	825 W Commonwealth Ave	Fullerton	California	Orange County and Los Angeles County	Fullerton bakery trading since 1985, making wedding cakes and desserts for pickup or delivery to venues across Orange and Los Angeles counties.		(714) 525-8350	https://pattys-cakes.com/	`,
+  },
+  {
+    name: "San Diego: Videography, Hair & Makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Ania Glam Lab	Hair & Makeup		La Jolla	California	La Jolla, Del Mar, Coronado, Encinitas, Temecula and wider San Diego	La Jolla bridal hair and makeup studio founded in 2011, travelling to venues around San Diego County with a second artist for larger bridal parties.	info@aniaglamlab.com		https://www.aniaglamlab.com/	
+Refined Beauty	Hair & Makeup		San Diego	California	San Diego, Orange County, Temecula and Los Angeles	San Diego collective of hair and makeup artists covering bridal parties across Southern California, with published wedding pricing.	info@refinedbeautyinc.com	(858) 522-0283	https://www.refinedbeautyinc.com/	https://www.instagram.com/refinedbeautyinc/`,
+  },
+  {
+    name: "Inland Empire and Temecula: Photography, Florals, Planning, Catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+DelToroPhoto	Photography		Redlands	California	Redlands, Riverside, Palm Springs, Temecula and Southern California	Redlands photography studio with dozens of wedding galleries from Riverside, Pasadena, Pala and Coachella Valley venues.	udeltoro@deltorophoto.com	(310) 601-0685	https://www.deltorophoto.com/wedding/	
+LaLa Tacos	Catering	27715 Jefferson Ave #106	Temecula	California	Riverside, San Bernardino, Orange and San Diego counties and Los Angeles	Temecula taco caterer providing on-site wedding taco carts, taco and elote bars and churro stations, with per-person pricing published.	info@lalatacos.com	951-325-0011	https://www.lalatacos.com/	https://www.instagram.com/lala_tacos1/`,
+  },
+  {
+    name: "San Francisco Bay Area: Photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Jerry Yoon Photographers	Photography		Oakland	California		Oakland and Piedmont wedding photography studio offering engagement sessions, print albums and a planning guide for the wedding day.	info@jerryyoon.com	510-473-7006	https://www.jerryyoon.com	https://www.instagram.com/jerryyoonphotographers/`,
+  },
+  {
+    name: "Sacramento: Videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Timestamp Films	Videography		Sacramento	California	Sacramento, San Francisco, Lake Tahoe and destination weddings	Cinematic wedding films that keep the details and emotion of the day, shaped around each couple's love story by a small team.	Contact@TimestampFilms.com	209-609-6730	https://timestampfilms.com	https://www.instagram.com/TimestampFilms/`,
+  },
+  {
+    name: "Napa and Sonoma: Catering, Planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+So Eventful	Planning		Healdsburg	California	Healdsburg, Napa, Sonoma, San Francisco, Bay Area, Lodi, Sacramento, Carmel and Lake Tahoe	Wedding planning and design company that builds packages around each couple's style, with venue scouting and styling through to the day itself.	info@so-eventful.com	707.385.9632	https://www.so-eventful.com	https://www.instagram.com/soeventful/`,
+  },
+  {
+    name: "Santa Cruz: Photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Expressive Photographics	Photography		Santa Cruz	California	Monterey Bay Area, San Francisco Bay Area, and beyond	Santa Cruz studio shooting fine-art and documentary weddings and elopements, often on local beaches and along the coast to Carmel and Big Sur.	info@expressivephotographics.com	831-687-9069	https://www.expressivephotographics.com	https://www.instagram.com/expressivephotographics/`,
+  },
+  {
+    name: "Lake Tahoe and Truckee: Hair & Makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Kiss & Makeup Tahoe	Hair & Makeup	760 N. Lake Blvd.	Tahoe City	California	Lake Tahoe, including Truckee and Tahoe City estates and venues	Wedding makeup artist working at Lake Tahoe venues and private estates, by appointment, with a portfolio of real Tahoe weddings.	info@kissandmakeuptahoe.com	(530) 581-4748	https://www.kissandmakeuptahoe.com	`,
+  },
+  {
+    name: "Santa Barbara: Florals, Hair & Makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Foriver Floral	Florals		Santa Barbara	California		Santa Barbara florist creating romantic, nature-led wedding flowers with a focus on seasonal sourcing and sustainability.			https://www.foriverfloral.com/	https://www.instagram.com/foriverfloral/
+Boho Chic Dreams Floral Design	Florals		Santa Barbara	California	Santa Barbara	Santa Barbara wedding florist designing seasonal, whimsical arrangements with blooms from local farms and overseas growers.		(805) 618-6619	https://www.bohochicdreams.com/	https://www.instagram.com/boho_chic_dreams/
+Samara Beauty	Hair & Makeup		Santa Barbara	California	Santa Barbara and Montecito	On-location bridal hair and makeup in Santa Barbara, covering bridal parties and multi-day wedding weekends, including South Asian looks.			https://samarabeautysb.com/	`,
+  },
+  {
+    name: "Monterey and Carmel: Photography, Florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Manuel Ortega Photography	Photography	191 Lighthouse Ave Ste A4	Monterey	California	Carmel, Pacific Grove, Pebble Beach, Big Sur, Santa Cruz and the Bay Area	Monterey studio photographing weddings in a candid, photojournalistic style at Peninsula venues and destination locations.		831.682.7170	https://manuelortegaphoto.com/	https://www.instagram.com/manuel_ortega_photography/
+Carmel Gardens	Florals		Carmel	California	Monterey Peninsula, Pebble Beach, Carmel Valley and Big Sur	Carmel florist designing seasonal wedding installations and tablescapes, working alongside planners and venue teams on the Peninsula.	hello@carmelgardensfloral.com	831-293-9936	https://carmelgardensfloral.com/	https://www.instagram.com/carmelgardensfloral/`,
+  },
+  {
+    name: "San Luis Obispo and Paso Robles: Photography, Planning, Catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Heart Melting Events	Planning		San Luis Obispo	California	California's Central Coast	Full-service wedding planning, design and day management in San Luis Obispo, with a focus on fine detail for Central Coast couples.			https://heartmeltingevents.com/	https://www.instagram.com/heartmeltingevents/
+Popolo Catering	Catering		San Luis Obispo	California	San Luis Obispo County, Paso Robles, Santa Maria and Santa Barbara	Family-run San Luis Obispo caterer cooking Santa Maria-style barbecue, Mexican and Italian menus from scratch for weddings.		(805) 543-9543	https://popolocatering.com/	https://www.instagram.com/popolo_catering/`,
+  },
+  {
+    name: "Fresno: Photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+The Clausen Gallery	Photography		Fresno	California	Fresno, Clovis and across Central California	Husband-and-wife wedding photography team in Fresno, producing natural, timeless galleries for Central California couples.	info@theclausengallery.com	559-392-3131	https://www.theclausengallery.com/	https://www.instagram.com/theclausengalleryweddings/
+Michelle Gunn Photo	Photography		Fresno	California	Fresno, Clovis, Visalia and the Central Valley	Fresno photographer shooting weddings and elopements on digital and film, with a gentle, candid style for LGBTQ+ and all couples.	michelle@gunnshotphoto.com	(559) 634-0911	https://michellegunnphoto.com/	https://www.instagram.com/michellegunnphoto/`,
+  },
 ];
 
 export default batches;
