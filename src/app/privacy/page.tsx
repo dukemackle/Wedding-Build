@@ -93,6 +93,13 @@ export default function PrivacyPage() {
                 display it (for example, a guestbook photo/message on their public site).
               </li>
               <li>
+                A photo or message you post to a couple&apos;s guest wall (for example, from the
+                QR code on a reception table), with the name you give. It waits for the couple to
+                approve it before it appears on their wedding site, and they can remove it at any
+                time. Your name is remembered on your own device so a second post is quicker;
+                it&apos;s never used to track you.
+              </li>
+              <li>
                 Whatever you submit through a couple&apos;s address-collection link: your name,
                 mailing address, email address, phone number, and any note you add. This goes to
                 that couple so they can send you an invitation. It is never shown on their public
@@ -124,6 +131,11 @@ export default function PrivacyPage() {
               <li>
                 The business details and photos you submit, which become public on your listing
                 once we approve them.
+              </li>
+              <li>
+                If you ask You Do, I Do to fill in your listing from your website or a pricing guide
+                or brochure, or to help write your description, the website address, the file or
+                the notes you typed are used to draft it. You check the draft before sending it.
               </li>
               <li>
                 Businesses we list from public information, before anyone from them signs up: the
@@ -162,6 +174,13 @@ export default function PrivacyPage() {
               can tell the business how many couples found it here.
             </p>
 
+            <p className="mt-4 font-medium text-ink">When you send feedback</p>
+            <p className="mt-2">
+              What you write through the Help page&apos;s feedback form, its category, and which
+              account and wedding it came from, so we can fix what&apos;s broken and follow up with
+              you.
+            </p>
+
             <p className="mt-4 font-medium text-ink">When you email us</p>
             <p className="mt-2">
               Your email address and the message, kept so we can answer you and see earlier
@@ -177,7 +196,10 @@ export default function PrivacyPage() {
                 operate the Service — store your wedding plan, display your public site, and run
                 your guest list, budget, and seating tools;
               </li>
-              <li>send emails you initiate — RSVP confirmations, vendor inquiries, and reminders you choose to send;</li>
+              <li>
+                send emails the Service needs — RSVP confirmations, vendor inquiries and reminders
+                you choose to send, and a notice when someone messages you in the marketplace;
+              </li>
               <li>respond to support requests; and</li>
               <li>maintain and improve the Service.</li>
             </ul>
@@ -215,17 +237,23 @@ export default function PrivacyPage() {
                 count, budget figures, the vendors you&apos;ve booked or contacted and what you&apos;re
                 paying them, your answers to Wren&apos;s planning questions (which can include who&apos;s
                 paying and family situations, if you share them), your checklist and, when a
-                question needs it, your guest list: names, households, RSVP status, side, meal
-                choice, plus-ones and tables. Not guests&apos; contact details, addresses or notes. If
+                question needs it, your guest list (names, households, RSVP status, side, meal
+                choice, plus-ones and tables), your itinerary and your seating plan. Not guests&apos;
+                contact details, addresses or notes. Wren can suggest changes, such as adding a
+                guest or a task, but nothing changes until you press Confirm. If
                 you reach Wren&apos;s daily limit, you can choose to open your question in ChatGPT or
                 Claude with your wedding basics filled in; that only happens if you click it, and
                 those services&apos; own policies then apply.
               </li>
               <li>
-                <strong className="text-ink">Filling in a business listing</strong> — when a venue
-                or vendor asks You Do, I Do to fill in their listing, the website or document they
-                point it to; and when we write a listing&apos;s description, the business&apos;s
-                details.
+                <strong className="text-ink">Filling in a vendor or venue listing</strong> — the
+                business&apos;s website address, or the pricing guide or brochure they upload, read
+                to draft their listing.
+              </li>
+              <li>
+                <strong className="text-ink">Writing a listing description</strong> — the notes a
+                business types (&ldquo;ocean views, 200 guests&rdquo;), turned into a draft for them
+                to edit.
               </li>
             </ul>
             <p className="mt-2">
@@ -307,6 +335,11 @@ export default function PrivacyPage() {
               should know their submission goes to the couple, and anything the couple chooses to
               feature (for example, a guestbook entry) becomes visible to anyone who visits the
               public site.
+            </p>
+            <p className="mt-3">
+              If you share your wedding party&apos;s attire link, anyone holding that link can see
+              each member&apos;s name, role, colour, size and outfit. It isn&apos;t listed on your
+              site or in search engines, but anyone you forward it to can open it.
             </p>
             <p className="mt-3">
               Two things are never public: your itinerary stays private until you choose to

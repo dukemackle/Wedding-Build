@@ -180,12 +180,11 @@ paperwork (an LLC, a $6 DMCA agent filing, a PO box), and insurance quotes.
 - **Evidence:**
   - The Terms name only "You Do, I Do" (`src/app/terms/page.tsx:18`).
   - §12 governing law is a placeholder (`:177-181`).
-  - The Terms have none of the following:
+  - The Terms (AI section added 2026-10-19 on main) have none of the following:
     - indemnification;
     - a dispute or arbitration clause;
     - a DMCA process;
     - a minimum age;
-    - an AI-output clause;
     - SMS terms;
     - a marketplace release;
     - a postal address.

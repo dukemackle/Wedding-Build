@@ -214,7 +214,7 @@ C Krueger Event Planning	Planning		Green Bay	Wisconsin	Green Bay, Appleton and O
   {
     name: "Lake Geneva: Videography",
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
-Matthew Thomas Media	Videography		Lake Geneva	Wisconsin		Cinematic wedding films from a Lake Geneva-based videography business that takes enquiries by email or phone.	info@matthewthomasmedia.com	262-358-2326	https://www.matthewthomasmedia.com/	`,
+`,
   },
 ];
 

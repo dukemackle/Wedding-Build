@@ -177,13 +177,12 @@ Nonna's Pizza Ristorante & Bar	Catering	11 Franklin Turnpike	Mahwah	New Jersey	B
 Menagerie Caterers	Catering	41 East Palisade Ave	Englewood	New Jersey	Tri-State area	Englewood caterer covering weddings, bar and bat mitzvahs and corporate galas, with menus that the chefs adjust to each client.	Martin@menageriecaterers.com	201-988-5502	https://menageriecaterers.com/	https://www.instagram.com/menageriecaterers/
 Beethoven's Veranda	Florals	108 10th St	Hoboken	New Jersey	Hoboken, Hudson County, Summit and nearby, plus New York City	Florist with Hoboken and Summit studios designing wedding flowers, ceremony spaces and chuppas, using seasonal stems such as peonies.	beethovensveranda@gmail.com	(201) 217-3919	https://beethovensveranda.com/	https://www.instagram.com/beethovensveranda/
 Boho Hair Salon	Hair & Makeup	111 Watchung Ave	Montclair	New Jersey	Montclair and Asbury Park	Hair salon with Montclair and Asbury Park locations that lists a dedicated bridal hair service alongside its regular appointments.	montclair@bohohairsalon.com	(973) 944-2069	https://www.bohohairsalon.com/bridal	https://www.instagram.com/bohohairsalon/
-Lisa Ivler Events	Planning		Caldwell	New Jersey	North Jersey, Jersey Shore, New York City area and eastern Pennsylvania	Caldwell planner offering day-of coordination and fuller wedding design packages, who also plans mitzvahs and corporate events.	info@LisaIvlerEvents.com	862-485-8584	https://lisaivlerevents.com/nj-wedding-planner/	https://www.instagram.com/lisaivlerevents/`,
+`,
   },
   {
     name: "Jersey Shore: planning, music and catering",
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
 SCE Event Group	Music	26 Jackson Mills Rd	Freehold	New Jersey	Monmouth, Ocean, Middlesex, Somerset and Bergen counties, plus Central, North and South Jersey	Wedding DJs and MCs who also supply ceremony audio, uplighting, photo booths and effects such as cold sparks and confetti.		888-278-0900	https://sceeventgroup.com/nj-wedding-djs/	https://www.instagram.com/sceeventgroup/
-GSL Entertainment	Music		Howell	New Jersey	Ocean County, including Toms River, Brick, Jackson, Lakewood and Point Pleasant	Howell DJ company serving Ocean County weddings, with wedding packages listed on its site alongside lighting and add-ons.	greg@gsldjs.com	732-890-8515	https://www.gsldjs.com/areas/ocean-county	https://www.instagram.com/gslentertainment_/
 Blue Collar Catering	Catering	1426 Rt 9	Toms River	New Jersey	Ocean County, including Brick, Barnegat, Manahawkin, LBI and Point Pleasant	Toms River caterer with sit-down, buffet, cocktail and barbecue wedding menus, offering full service with linens, china and waitstaff.		(732) 269-0092	https://bluecollarcatering.com/	`,
   },
   {

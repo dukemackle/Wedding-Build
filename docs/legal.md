@@ -43,6 +43,16 @@ legal questions to the owner rather than deciding them.
   Part 3: the opt-in seller badge (month and year of the wedding only) is
   in the same Privacy line; rentals are between the two people, like sales.
 
+- **Policy catch-up (2026-10-19):** guest wall posts (form shows
+  `LegalNotice`; Privacy §1 from guests, Terms §5 approval), the assistant's
+  guest-list/itinerary/seating lookups and Confirm-only changes, the vendor
+  listing reader and writer (Privacy §1 vendors and §2 AI, now six), the Help
+  feedback form, marketplace message emails (§2), and the attire share link
+  (Privacy §4). Terms §1 now covers vendors and marketplace users, §4 covers
+  rentals, and a new §7 says AI output is a draft to check, not advice.
+  Terms §13 governing law is still a placeholder until the business entity
+  and home state are chosen.
+
 Rule: any new form that sends Wren a person's details gets `LegalNotice`
 next to its submit button, and the Privacy Policy's "Information we collect"
 gets a line for it. Bump the "Last updated" date on any policy change.
