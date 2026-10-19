@@ -298,7 +298,6 @@ Your Moment Media	Videography		Richmond	Virginia	Virginia	Richmond videographer 
 Sweet Caroline Events	Planning		Williamsburg	Virginia	Williamsburg, Richmond and Hampton Roads	Williamsburg planning company offering full planning, partial planning and day-of coordination for weddings across Virginia and the East Coast.	sweetcarolineeventsva@gmail.com		https://sweetcarolineeventsva.com	https://www.instagram.com/sweetcarolineeventsva/
 Wedding Company of Williamsburg	Planning		Williamsburg	Virginia	Williamsburg and destination weddings across Virginia	Williamsburg planners offering full design and planning from eighteen months out, or wedding day management, with a client portal for planning.			https://weddingcoofwilliamsburg.com	https://www.instagram.com/weddingcoofwmsbg/
 Kadi Bakes	Cake		Williamsburg	Virginia	Williamsburg to the Richmond region	Williamsburg home bakery making wedding cakes, dessert bars and cupcakes, with delivery, setup and cake stand hire on offer.			https://www.kadibakes.com	https://www.instagram.com/kadibakes/
-Rachael Reid Photography	Photography		Yorktown	Virginia	Yorktown, Williamsburg, Gloucester and Hampton Roads	Yorktown photographer shooting weddings in a fine-art, documentary style with film-inspired colour, golden-hour light and heirloom-quality images.	rachael.reid.photography@gmail.com		https://rachaelreidphotography.com	https://www.instagram.com/rachael.reid.photography/
 Ashley Hesse Photography	Photography		Yorktown	Virginia	Yorktown, Richmond, Virginia Beach, Norfolk and Hampton Roads	Yorktown photographer for weddings and engagements, known for candid, low-stress sessions and customised heirloom albums.	ashley@ashleyhessephotography.com		https://ashleyhessephotography.com	https://www.instagram.com/ashleyhessephotos/
 I Do Weddings with Love	Florals		Williamsburg	Virginia	Virginia and beyond	Williamsburg florist designing natural, textural wedding flowers with garden roses, dried grasses and wildflowers, plus full wedding styling.		757-813-1115	https://idoweddingswithlove.com	
 Squared Away Entertainment	Music		Williamsburg	Virginia	Williamsburg, Richmond and Virginia Beach	Williamsburg DJ and MC for weddings, with iPad photo booths and AV hire, planning the day with couples through an online planning app.			https://squaredawayent.com	https://www.instagram.com/squaredawayent/
@@ -340,11 +339,10 @@ The Photo & Flower Girl	Photography		Winchester	Virginia	Winchester, Northern Vi
 Moonflower Farm	Florals		Stephens City	Virginia	Northern Virginia, the DMV and beyond	Stephens City flower farm and florist designing wedding flowers from its own blooms for couples across the region.			https://www.moonflowerfarmllc.com/	https://www.instagram.com/moonflowerfarmva/`,
   },
   {
-    name: "Roanoke: florals, photography, music",
+    name: "Roanoke: florals, photography",
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
 The Moss & Rose	Florals	503 Forest Hill Drive	Blacksburg	Virginia		Blacksburg wedding florist working in a romantic English-garden style, taking a limited number of weddings each year.	jody@themossandrose.com	832-492-4542	https://themossandrose.com/	https://www.instagram.com/themossandrose/
-Rachel DeBusk Creative	Photography		Blacksburg	Virginia	Blacksburg, Christiansburg, Floyd, Roanoke, Radford and Salem	Blacksburg studio offering both wedding photography and wedding videography across the New River and Roanoke valleys.	hello@racheldebusk.com		https://www.racheldebusk.com/home	https://www.instagram.com/racheldebuskcreative/
-Creative Entertainment	Music		Roanoke	Virginia	Roanoke, Salem, Blacksburg, Smith Mountain Lake, Lynchburg and surrounding areas	Roanoke agency supplying DJs, bands and specialty acts for weddings, with planning and production help.	sales@creativeentertainmentva.com	540-354-3598	https://creativeentertainmentva.com	`,
+Rachel DeBusk Creative	Photography		Blacksburg	Virginia	Blacksburg, Christiansburg, Floyd, Roanoke, Radford and Salem	Blacksburg studio offering both wedding photography and wedding videography across the New River and Roanoke valleys.	hello@racheldebusk.com		https://www.racheldebusk.com/home	https://www.instagram.com/racheldebuskcreative/`,
   },
 ];
 
