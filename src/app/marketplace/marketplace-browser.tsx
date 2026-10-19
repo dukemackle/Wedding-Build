@@ -80,6 +80,7 @@ export function MarketplaceBrowser({
   const [origin, setOrigin] = useState<MarketOrigin | null>(weddingOrigin);
   const [locating, setLocating] = useState(false);
   const [mapView, setMapView] = useState<MapView | null>(null);
+  const [mode, setMode] = useState<"map" | "grid">("map");
   const [saved, setSaved] = useState(() => new Set(savedIds));
   const [, startTransition] = useTransition();
 
@@ -144,10 +145,10 @@ export function MarketplaceBrowser({
   // The list follows the map, like Venues. A listing whose town we couldn't
   // place is never on the map, so it stays in the list rather than vanishing.
   const listed = useMemo(() => {
-    if (!mapView) return filtered;
+    if (!mapView || mode === "grid") return filtered;
     const inView = new Set(pinned.filter((l) => isInView(l, mapView)).map((l) => l.id));
     return filtered.filter((l) => inView.has(l.id) || l.latitude == null);
-  }, [filtered, pinned, mapView]);
+  }, [filtered, pinned, mapView, mode]);
 
   const activeFilterCount = (["category", "price", "condition", "distance", "type", "fits"] as const).filter(
     (k) => filters[k] !== "all",
@@ -165,6 +166,12 @@ export function MarketplaceBrowser({
       pageKey={`${JSON.stringify(filters)}|${viewKey(mapView)}`}
       resultNoun="listing"
       gridClassName="grid-cols-2 xl:grid-cols-3"
+      mode={mode}
+      onModeChange={(next) => {
+        // The map reports its view again when it comes back.
+        setMapView(null);
+        setMode(next);
+      }}
       views={
         signedIn
           ? [
@@ -249,7 +256,7 @@ export function MarketplaceBrowser({
             />
           )}
           <FilterDropdown
-            label="Buy or rent"
+            label="Buy/rent"
             allLabel="Buy or rent"
             value={filters.type}
             onChange={(v) => set("type", v)}
@@ -359,6 +366,9 @@ function ListingCard({
         </div>
         <p className="mt-1.5 font-semibold text-forest">
           {formatPrice(listing.price_cents, listing.listing_type)}
+          {listing.original_price_cents && (
+            <s className="ml-1.5 text-xs font-normal text-ink/40">{formatPrice(listing.original_price_cents)}</s>
+          )}
           {listing.quantity > 1 && (
             <span className="ml-1 text-xs font-normal text-ink/50">· {listing.quantity} pieces</span>
           )}

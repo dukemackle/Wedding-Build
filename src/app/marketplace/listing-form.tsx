@@ -7,7 +7,7 @@ import { LegalNotice } from "@/components/legal-notice";
 import { createClient } from "@/lib/supabase/client";
 import { shrinkImage } from "@/lib/shrink-image";
 import { STATES } from "@/lib/wedding-options";
-import { MARKET_CATEGORIES, MARKET_CONDITIONS, MAX_MARKET_PHOTOS, NOT_ALLOWED } from "@/lib/marketplace";
+import { MARKET_CATEGORIES, MARKET_CONDITIONS, MAX_MARKET_PHOTOS, NOT_ALLOWED, PICKUP_OPTIONS } from "@/lib/marketplace";
 import type { MarketListing } from "@/lib/supabase/types";
 import { createListing, updateListing } from "./actions";
 
@@ -199,6 +199,12 @@ export function ListingForm({
             <input type="checkbox" name="free" checked={free} onChange={(e) => setFree(e.target.checked)} />
             {type === "rent" ? "Free to borrow" : "Free to a good home"}
           </label>
+          {!free && (
+            <label className="mt-1 flex items-center gap-2 text-sm text-ink/70">
+              <input type="checkbox" name="negotiable" defaultChecked={listing?.negotiable ?? false} />
+              Open to offers
+            </label>
+          )}
         </div>
         <div>
           <label htmlFor="category" className={label}>Category</label>
@@ -225,6 +231,23 @@ export function ListingForm({
         <input id="quantity" name="quantity" type="number" min={1} max={10000} defaultValue={listing?.quantity ?? 1} className={`${field} sm:w-32`} />
         <p className="mt-1 text-xs text-ink/50">Selling a set? Put the number in the set and price it as one.</p>
       </div>
+
+      <fieldset>
+        <legend className={label}>How can the buyer get it?</legend>
+        <div className="mt-1 flex flex-wrap gap-x-5 gap-y-2">
+          {PICKUP_OPTIONS.map((o) => (
+            <label key={o.value} className="flex items-center gap-2 text-sm text-ink/80">
+              <input
+                type="checkbox"
+                name="pickup_options"
+                value={o.value}
+                defaultChecked={(listing?.pickup_options ?? ["meetup"]).includes(o.value)}
+              />
+              {o.label}
+            </label>
+          ))}
+        </div>
+      </fieldset>
 
       <div>
         <label htmlFor="description" className={label}>Description <span className="font-normal text-ink/50">(optional)</span></label>

@@ -67,6 +67,15 @@ export type SearchShellProps = {
    * marketplace's are square photos, which want more of them across.
    */
   gridClassName?: string;
+  /**
+   * Map beside the results (the default), or the results alone as a wider
+   * photo grid, Facebook Marketplace's way. Offered only when onModeChange is
+   * passed, so Venues and Vendors stay map-first.
+   */
+  mode?: "map" | "grid";
+  onModeChange?: (mode: "map" | "grid") => void;
+  /** The grid's columns when the map is hidden. */
+  fullGridClassName?: string;
   children: ReactNode;
 };
 
@@ -83,8 +92,12 @@ export function SearchShell({
   map,
   empty,
   gridClassName,
+  mode = "map",
+  onModeChange,
+  fullGridClassName = "grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 2xl:grid-cols-6",
   children,
 }: SearchShellProps) {
+  const gridOnly = mode === "grid";
   const rootRef = useRef<HTMLDivElement>(null);
   const controlsRef = useRef<HTMLDivElement>(null);
   const [controlsHeight, setControlsHeight] = useState(0);
@@ -161,7 +174,30 @@ export function SearchShell({
   ) : resultCount === 0 ? (
     empty
   ) : (
-    <PagedGrid key={pageKey} className={gridClassName}>{children}</PagedGrid>
+    <PagedGrid key={pageKey} className={gridOnly ? fullGridClassName : gridClassName}>
+      {children}
+    </PagedGrid>
+  );
+
+  const modeToggle = onModeChange && (
+    <button
+      type="button"
+      onClick={() => onModeChange(gridOnly ? "map" : "grid")}
+      aria-pressed={gridOnly}
+      aria-label={gridOnly ? "Show map" : "Grid view"}
+      title={gridOnly ? "Show map" : "Grid view"}
+      className="flex h-[34px] w-[34px] shrink-0 items-center justify-center rounded-full border border-hairline bg-card text-forest shadow-md hover:border-forest lg:order-last lg:shadow-none"
+    >
+      <svg viewBox="0 0 24 24" aria-hidden="true" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        {gridOnly ? (
+          // A folded map.
+          <path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2Zm0 0v14m6-12v14" />
+        ) : (
+          // Four squares.
+          <path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z" />
+        )}
+      </svg>
+    </button>
   );
 
   function toggleView(key: string) {
@@ -193,7 +229,7 @@ export function SearchShell({
       {/* Controls. A floating overlay on a phone, a solid bar on desktop --
           `lg:contents` drops these wrapper rows so their children become
           items of the bar itself. */}
-      <div ref={controlsRef} className="pointer-events-none absolute inset-x-0 top-0 z-[700] flex flex-col gap-2 p-3 lg:static lg:z-auto lg:flex-row lg:items-center lg:gap-2 lg:border-b lg:border-hairline lg:bg-card lg:px-5 lg:py-2.5">
+      <div ref={controlsRef} className={`pointer-events-none inset-x-0 top-0 z-[700] flex flex-col gap-2 p-3 lg:static ${gridOnly ? "static border-b border-hairline bg-card" : "absolute"} lg:z-auto lg:flex-row lg:items-center lg:gap-2 lg:border-b lg:border-hairline lg:bg-card lg:px-5 lg:py-2.5`}>
         <div className="pointer-events-auto flex items-center gap-2 lg:contents">
           <div className="relative min-w-0 flex-1 lg:w-60 lg:flex-none">
             <input
@@ -223,6 +259,7 @@ export function SearchShell({
           <>{viewPills}</>
         </div>
         <div className="pointer-events-auto -mx-3 flex gap-2 overflow-x-auto px-3 pb-1 [scrollbar-width:none] lg:contents [&::-webkit-scrollbar]:hidden">
+          {modeToggle}
           {filters}
           {activeFilterCount > 0 && (
             <button
@@ -237,6 +274,20 @@ export function SearchShell({
         <div className="hidden lg:block lg:flex-1" />
       </div>
 
+      {gridOnly ? (
+        // No map: the results are the page, scrolling under the controls.
+        <div className="min-h-0 flex-1 overflow-y-auto px-4 py-4 lg:px-6">
+          <div className="mb-3 flex items-baseline justify-between gap-3">
+            <p className="font-display text-lg font-semibold text-forest">{heading}</p>
+            {view && (
+              <button type="button" onClick={() => setActiveView(null)} className="text-sm text-brass hover:underline">
+                Back to all
+              </button>
+            )}
+          </div>
+          {results}
+        </div>
+      ) : (
       <div className="relative min-h-0 flex-1 lg:flex">
         {/* One map, positioned two ways. */}
         <div className="search-shell-map absolute inset-0 z-0 lg:static lg:w-[58%] lg:shrink-0">{map}</div>
@@ -250,6 +301,7 @@ export function SearchShell({
           {results}
         </ResultsPane>
       </div>
+      )}
     </div>
   );
 }

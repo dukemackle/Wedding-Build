@@ -8,9 +8,12 @@ import {
   MARKET_CATEGORIES,
   MARKET_CONDITIONS,
   MAX_MARKET_PHOTOS,
+  PICKUP_OPTIONS,
+  formatPrice,
   isOwnMarketPhoto,
   sellerBadgeFor,
 } from "@/lib/marketplace";
+import { announcePriceDrop, postListingEvent } from "@/lib/marketplace-server";
 import type { MarketListing, MarketListingStatus } from "@/lib/supabase/types";
 
 function str(formData: FormData, key: string): string {
@@ -38,6 +41,8 @@ type ListingFields = Pick<
   | "state"
   | "photo_urls"
   | "listing_type"
+  | "pickup_options"
+  | "negotiable"
 >;
 
 function readListing(formData: FormData, sellerId: string): { fields?: ListingFields; error?: string } {
@@ -53,6 +58,11 @@ function readListing(formData: FormData, sellerId: string): { fields?: ListingFi
   const quantity = Number(str(formData, "quantity") || "1");
   const photo_urls = formData.getAll("photo_urls").map(String).filter(Boolean);
   const listing_type = formData.get("listing_type") === "rent" ? "rent" : "sale";
+  const pickup_options = formData
+    .getAll("pickup_options")
+    .map(String)
+    .filter((o) => PICKUP_OPTIONS.some((p) => p.value === o));
+  const negotiable = formData.get("negotiable") === "on";
 
   if (!seller_name) return { error: "Add the first name buyers will see." };
   if (title.length < 3) return { error: "Give the listing a title." };
@@ -69,6 +79,7 @@ function readListing(formData: FormData, sellerId: string): { fields?: ListingFi
   const state = STATE_ABBR[stateName];
   if (!state) return { error: "Choose a state." };
   if (photo_urls.length === 0) return { error: "Add at least one photo." };
+  if (pickup_options.length === 0) return { error: "Choose at least one way to get it to the buyer." };
   if (photo_urls.length > MAX_MARKET_PHOTOS) return { error: `Up to ${MAX_MARKET_PHOTOS} photos.` };
   if (!photo_urls.every((url) => isOwnMarketPhoto(url, sellerId))) {
     return { error: "One of the photos didn't upload properly. Remove it and add it again." };
@@ -87,6 +98,8 @@ function readListing(formData: FormData, sellerId: string): { fields?: ListingFi
       state,
       photo_urls,
       listing_type,
+      pickup_options,
+      negotiable,
     },
   };
 }
@@ -155,20 +168,40 @@ export async function updateListing(id: string, formData: FormData): Promise<{ e
 
   const { data: current } = await supabase
     .from("market_listings")
-    .select("city, state, latitude, longitude, photo_urls")
+    .select("title, city, state, latitude, longitude, photo_urls, price_cents, original_price_cents, listing_type")
     .eq("id", id)
     .eq("seller_id", user.id)
-    .maybeSingle<Pick<MarketListing, "city" | "state" | "latitude" | "longitude" | "photo_urls">>();
+    .maybeSingle<
+      Pick<
+        MarketListing,
+        | "title"
+        | "city"
+        | "state"
+        | "latitude"
+        | "longitude"
+        | "photo_urls"
+        | "price_cents"
+        | "original_price_cents"
+        | "listing_type"
+      >
+    >();
   if (!current) return { error: "That listing isn't yours to edit." };
 
   const moved = current.city !== fields.city || current.state !== fields.state;
   const pin = moved ? await pinForTown(fields.city, fields.state) : current;
+
+  // A lower price keeps the first "was" price for the strike-through; going
+  // back up to it or past it drops the strike-through.
+  const dropped = fields.price_cents > 0 && fields.price_cents < current.price_cents;
+  const wasPrice = current.original_price_cents ?? current.price_cents;
+  const original_price_cents = fields.price_cents > 0 && fields.price_cents < wasPrice ? wasPrice : null;
 
   const { error: updateError } = await supabase
     .from("market_listings")
     .update({
       ...fields,
       seller_badge: await sellerBadge(supabase, user.id, formData),
+      original_price_cents,
       latitude: pin?.latitude ?? null,
       longitude: pin?.longitude ?? null,
       updated_at: new Date().toISOString(),
@@ -183,6 +216,10 @@ export async function updateListing(id: string, formData: FormData): Promise<{ e
     current.photo_urls.filter((url) => !fields.photo_urls.includes(url)),
   );
 
+  if (dropped) {
+    await announcePriceDrop(id, user.id, fields.title, formatPrice(fields.price_cents, fields.listing_type));
+  }
+
   revalidatePath("/marketplace");
   revalidatePath(`/marketplace/${id}`);
   redirect(`/marketplace/${id}`);
@@ -194,12 +231,19 @@ export async function setListingStatus(
 ): Promise<{ error?: string }> {
   if (!["active", "pending", "sold"].includes(status)) return { error: "Unknown status." };
   const { supabase, user } = await requireUser();
-  const { error } = await supabase
+  const { data: updated, error } = await supabase
     .from("market_listings")
     .update({ status, updated_at: new Date().toISOString() })
     .eq("id", id)
-    .eq("seller_id", user.id);
-  if (error) return { error: "Couldn't update the listing — please try again." };
+    .eq("seller_id", user.id)
+    .select("id")
+    .maybeSingle();
+  if (error || !updated) return { error: "Couldn't update the listing — please try again." };
+  await postListingEvent(
+    id,
+    user.id,
+    status === "sold" ? "Marked as sold" : status === "pending" ? "Marked as pending" : "Marked as available again",
+  );
   revalidatePath("/marketplace");
   revalidatePath(`/marketplace/${id}`);
   return {};

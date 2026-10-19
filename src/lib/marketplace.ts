@@ -34,6 +34,20 @@ export const MARKET_PRICE_BANDS = [
 
 export const MAX_MARKET_PHOTOS = 10;
 
+export const PICKUP_OPTIONS = [
+  { value: "meetup", label: "Public meetup" },
+  { value: "door", label: "Door pickup" },
+  { value: "ship", label: "Can ship" },
+] as const;
+
+/** The quick questions on "Message seller", like Facebook's. */
+export const QUICK_QUESTIONS = [
+  "Is this still available?",
+  "I'm interested in this.",
+  "What condition is it in?",
+  "Can you deliver or ship it?",
+];
+
 /** Shown on the sell form; a listing for any of these gets taken down. */
 export const NOT_ALLOWED = [
   "Alcohol",
@@ -55,6 +69,7 @@ export const MARKET_REPORT_REASONS = [
 
 /** First message a buyer sends, pre-filled the way Facebook does. */
 export const OPENING_MESSAGE = "Hi! Is this still available?";
+
 
 /** Rate limits for messaging, per sender. */
 export const MAX_NEW_THREADS_PER_DAY = 20;

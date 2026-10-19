@@ -1,9 +1,18 @@
+import Image from "next/image";
 import Link from "next/link";
 import { PageShell } from "@/components/page-shell";
 import { PhotoGallery } from "@/components/photo-gallery";
-import { categoryLabel, conditionLabel, formatPrice, guestFit, listedAgo } from "@/lib/marketplace";
+import {
+  PICKUP_OPTIONS,
+  categoryLabel,
+  conditionLabel,
+  formatPrice,
+  guestFit,
+  listedAgo,
+} from "@/lib/marketplace";
 import type { MarketListing } from "@/lib/supabase/types";
 import { BuyerActions, SellerControls } from "./listing-actions";
+import { ApproxLocation, ShareButton } from "./listing-extras";
 
 /** One listing, for its own page. */
 export function ListingView({
@@ -13,6 +22,9 @@ export function ListingView({
   threadId = null,
   defaultName = "",
   guestCount = 0,
+  joined = null,
+  sellerListings = [],
+  similar = [],
 }: {
   listing: MarketListing;
   /** Null when logged out. */
@@ -23,6 +35,12 @@ export function ListingView({
   defaultName?: string;
   /** The viewer's guest count, for "Enough for your 150 guests". */
   guestCount?: number;
+  /** The year the seller joined, for "Joined You Do, I Do in 2026". */
+  joined?: number | null;
+  /** The seller's other live listings. */
+  sellerListings?: MarketListing[];
+  /** "More like this": same category, nearby. */
+  similar?: MarketListing[];
 }) {
   const fit = guestFit(listing.quantity, guestCount);
   const isSeller = viewer?.id === listing.seller_id;
@@ -59,11 +77,30 @@ export function ListingView({
               {listing.status === "removed" ? "Taken down" : listing.status}
             </span>
           )}
-          <h1 className="font-display text-3xl font-semibold text-forest">{listing.title}</h1>
-          <p className="mt-1 text-2xl font-semibold text-ink">{formatPrice(listing.price_cents, listing.listing_type)}</p>
+          <div className="flex items-start justify-between gap-3">
+            <h1 className="font-display text-3xl font-semibold text-forest">{listing.title}</h1>
+            <ShareButton
+              title={listing.title}
+              className="mt-1 shrink-0 rounded-full border border-hairline px-3 py-1 text-sm text-forest hover:border-forest"
+            />
+          </div>
+          <p className="mt-1 flex flex-wrap items-baseline gap-x-2 text-2xl font-semibold text-ink">
+            {formatPrice(listing.price_cents, listing.listing_type)}
+            {listing.original_price_cents && (
+              <s className="text-lg font-normal text-ink/40">{formatPrice(listing.original_price_cents)}</s>
+            )}
+            {listing.negotiable && <span className="text-sm font-medium text-ink/60">or best offer</span>}
+          </p>
           <p className="mt-1 text-sm text-ink/50">
             Listed {listedAgo(listing.created_at)} in {listing.city}, {listing.state}
           </p>
+          <ul className="mt-2 flex flex-wrap gap-2 text-xs text-ink/70">
+            {PICKUP_OPTIONS.filter((o) => listing.pickup_options.includes(o.value)).map((o) => (
+              <li key={o.value} className="rounded-full border border-hairline px-2.5 py-0.5">
+                {o.label}
+              </li>
+            ))}
+          </ul>
           {listing.listing_type === "rent" && (
             <p className="mt-2 rounded-md border border-hairline bg-card px-3 py-2 text-sm text-ink/70">
               <strong className="text-forest">For rent:</strong> borrow it for your wedding and give it back after.
@@ -107,6 +144,15 @@ export function ListingView({
             </section>
           )}
 
+          {listing.latitude != null && listing.longitude != null && (
+            <div className="mt-6">
+              <ApproxLocation latitude={listing.latitude} longitude={listing.longitude} />
+              <p className="mt-1 text-xs text-ink/50">
+                {listing.city}, {listing.state} · Location is approximate
+              </p>
+            </div>
+          )}
+
           <div className="mt-6 flex items-center gap-3 rounded-lg border border-hairline bg-card p-4">
             <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#2243B6] font-display text-lg font-semibold text-white">
               {listing.seller_name.slice(0, 1).toUpperCase()}
@@ -121,6 +167,7 @@ export function ListingView({
               ) : (
                 <p className="text-xs text-ink/50">Seller</p>
               )}
+              {joined && <p className="mt-0.5 text-xs text-ink/50">Joined You Do, I Do in {joined}</p>}
             </div>
           </div>
 
@@ -130,6 +177,41 @@ export function ListingView({
           </p>
         </div>
       </div>
+
+      {sellerListings.length > 0 && (
+        <MiniGrid title={`More from ${listing.seller_name}`} listings={sellerListings} />
+      )}
+      {similar.length > 0 && <MiniGrid title="More like this nearby" listings={similar} />}
     </PageShell>
+  );
+}
+
+function MiniGrid({ title, listings }: { title: string; listings: MarketListing[] }) {
+  return (
+    <section className="mt-12">
+      <h2 className="font-display text-xl font-semibold text-forest">{title}</h2>
+      <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+        {listings.map((l) => (
+          <Link key={l.id} href={`/marketplace/${l.id}`} className="group block">
+            <div className="relative aspect-square overflow-hidden rounded-lg border border-hairline bg-parchment">
+              {l.photo_urls[0] && (
+                <Image
+                  src={l.photo_urls[0]}
+                  alt={l.title}
+                  fill
+                  sizes="(min-width: 1024px) 16vw, 50vw"
+                  className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+                />
+              )}
+            </div>
+            <p className="mt-1 text-sm font-semibold text-forest">{formatPrice(l.price_cents, l.listing_type)}</p>
+            <p className="truncate text-sm text-ink">{l.title}</p>
+            <p className="truncate text-xs text-ink/50">
+              {l.city}, {l.state}
+            </p>
+          </Link>
+        ))}
+      </div>
+    </section>
   );
 }

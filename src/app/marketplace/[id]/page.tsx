@@ -2,13 +2,22 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { cache } from "react";
 import { createClient } from "@/lib/supabase/server";
-import { categoryLabel, formatPrice } from "@/lib/marketplace";
+import { categoryLabel, formatPrice, milesBetween } from "@/lib/marketplace";
 import type { MarketListing } from "@/lib/supabase/types";
-import { loadMarketWedding, type MarketWedding } from "@/lib/marketplace-server";
+import { joinedYear, loadMarketWedding, type MarketWedding } from "@/lib/marketplace-server";
 import { ListingView } from "./listing-view";
 
 const load = cache(async (id: string) => {
-  if (!/^[0-9a-f-]{36}$/i.test(id)) return { user: null, listing: null, saved: false, threadId: null, wedding: null };
+  if (!/^[0-9a-f-]{36}$/i.test(id)) return {
+      user: null,
+      listing: null,
+      saved: false,
+      threadId: null,
+      wedding: null,
+      joined: null,
+      sellerListings: [],
+      similar: [],
+    };
   const supabase = await createClient();
   const {
     data: { user },
@@ -40,7 +49,38 @@ const load = cache(async (id: string) => {
     threadId = thread?.id ?? null;
     wedding = ownWedding;
   }
-  return { user, listing, saved, threadId, wedding };
+  // Seller details and "more like this", for anyone viewing.
+  let joined: number | null = null;
+  let sellerListings: MarketListing[] = [];
+  let similar: MarketListing[] = [];
+  if (listing) {
+    const [year, { data: fromSeller }, { data: sameCategory }] = await Promise.all([
+      joinedYear(listing.seller_id),
+      supabase
+        .from("market_listings")
+        .select("*")
+        .eq("seller_id", listing.seller_id)
+        .eq("status", "active")
+        .neq("id", listing.id)
+        .order("created_at", { ascending: false })
+        .limit(6)
+        .returns<MarketListing[]>(),
+      supabase
+        .from("market_listings")
+        .select("*")
+        .eq("category", listing.category)
+        .eq("status", "active")
+        .neq("id", listing.id)
+        .neq("seller_id", listing.seller_id)
+        .order("created_at", { ascending: false })
+        .limit(60)
+        .returns<MarketListing[]>(),
+    ]);
+    joined = year;
+    sellerListings = fromSeller ?? [];
+    similar = nearestFirst(sameCategory ?? [], listing).slice(0, 6);
+  }
+  return { user, listing, saved, threadId, wedding, joined, sellerListings, similar };
 });
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
@@ -58,7 +98,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 
 export default async function ListingPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const { user, listing, saved, threadId, wedding } = await load(id);
+  const { user, listing, saved, threadId, wedding, joined, sellerListings, similar } = await load(id);
   if (!listing) notFound();
 
   return (
@@ -69,6 +109,20 @@ export default async function ListingPage({ params }: { params: Promise<{ id: st
       threadId={threadId}
       defaultName={wedding?.firstName ?? ""}
       guestCount={wedding?.guestCount ?? 0}
+      joined={joined}
+      sellerListings={sellerListings}
+      similar={similar}
     />
   );
+}
+
+/** Listings sorted by distance from this one; ones without a pin go last. */
+function nearestFirst(listings: MarketListing[], from: MarketListing) {
+  if (from.latitude == null || from.longitude == null) return listings;
+  const origin = { latitude: from.latitude, longitude: from.longitude };
+  const miles = (l: MarketListing) =>
+    l.latitude != null && l.longitude != null
+      ? milesBetween(origin, { latitude: l.latitude, longitude: l.longitude })
+      : Infinity;
+  return [...listings].sort((a, b) => miles(a) - miles(b));
 }

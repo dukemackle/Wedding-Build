@@ -942,6 +942,12 @@ export type MarketListing = {
   listing_type: "sale" | "rent";
   /** "Married Oct 2026", from the seller's wedding when they opt in (0119). */
   seller_badge: string | null;
+  /** The price before it was lowered, for the struck-through "was" price (0120). */
+  original_price_cents: number | null;
+  /** Any of 'meetup', 'door', 'ship' (0120). */
+  pickup_options: string[];
+  /** "Or best offer" (0120). */
+  negotiable: boolean;
 };
 
 export type MarketThread = {
@@ -962,4 +968,6 @@ export type MarketMessage = {
   sender_id: string;
   body: string;
   created_at: string;
+  /** 'event' for a line the app posted ("Marked as sold"), shown apart from the chat (0120). */
+  kind: "text" | "event";
 };

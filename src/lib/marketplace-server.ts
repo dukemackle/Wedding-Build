@@ -2,6 +2,8 @@ import "server-only";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import type { createClient as createServerClient } from "@/lib/supabase/server";
 import type { MarketListing, MarketThread } from "@/lib/supabase/types";
+import { getResendClient, INQUIRY_FROM_ADDRESS } from "@/lib/resend";
+import { SITE_URL } from "@/lib/public-listings";
 
 export type InboxThread = MarketThread & {
   listing: Pick<MarketListing, "id" | "title" | "price_cents" | "photo_urls" | "status" | "seller_name"> | null;
@@ -143,4 +145,82 @@ export async function loadMarketWedding(
     ownVenueCity: wedding.own_venue_city,
     ownVenueState: wedding.own_venue_state,
   };
+}
+
+/**
+ * Posts a line from the app into every conversation about a listing ("Marked
+ * as sold", "Price reduced to $40"), so buyers who asked hear about it where
+ * they asked. Moves the conversation up and marks it unread for the buyer;
+ * the seller, who made the change, has seen it.
+ */
+export async function postListingEvent(listingId: string, sellerId: string, body: string) {
+  const admin = createAdminSupabaseClient();
+  const { data: threads } = await admin
+    .from("market_threads")
+    .select("id")
+    .eq("listing_id", listingId)
+    .returns<{ id: string }[]>();
+  if (!threads?.length) return;
+  const now = new Date().toISOString();
+  await admin
+    .from("market_messages")
+    .insert(threads.map((t) => ({ thread_id: t.id, sender_id: sellerId, body, kind: "event" })));
+  await admin
+    .from("market_threads")
+    .update({ last_message_at: now, seller_last_read_at: now })
+    .in(
+      "id",
+      threads.map((t) => t.id),
+    );
+}
+
+/** Most people a price drop emails, so a popular listing can't run up the Resend bill. */
+const MAX_PRICE_DROP_EMAILS = 50;
+
+/**
+ * A lower price: a line in each conversation about the listing, and an email
+ * to the people who saved it (Facebook's "price dropped" nudge), except the
+ * ones already talking to the seller, who get the line instead.
+ */
+export async function announcePriceDrop(listingId: string, sellerId: string, title: string, price: string) {
+  await postListingEvent(listingId, sellerId, `Price reduced to ${price}`);
+  if (!process.env.RESEND_API_KEY) return;
+
+  const admin = createAdminSupabaseClient();
+  const [{ data: saves }, { data: threads }] = await Promise.all([
+    admin
+      .from("market_saves")
+      .select("user_id")
+      .eq("listing_id", listingId)
+      .limit(MAX_PRICE_DROP_EMAILS)
+      .returns<{ user_id: string }[]>(),
+    admin.from("market_threads").select("buyer_id").eq("listing_id", listingId).returns<{ buyer_id: string }[]>(),
+  ]);
+  const talking = new Set((threads ?? []).map((t) => t.buyer_id));
+  const resend = getResendClient();
+  for (const { user_id } of saves ?? []) {
+    if (talking.has(user_id) || user_id === sellerId) continue;
+    try {
+      const { data } = await admin.auth.admin.getUserById(user_id);
+      if (!data.user?.email) continue;
+      await resend.emails.send({
+        from: INQUIRY_FROM_ADDRESS,
+        to: data.user.email,
+        subject: `Price drop: "${title}" is now ${price}`,
+        text: `Something you saved on the You Do, I Do marketplace just got cheaper: "${title}" is now ${price}.\n\nSee it: ${SITE_URL}/marketplace/${listingId}\n\nYou're getting this because you saved the listing. Unsave it to stop hearing about it.\n\nYou Do, I Do`,
+      });
+    } catch {
+      // One failed email shouldn't stop the rest.
+    }
+  }
+}
+
+/** When this person joined, for "Joined You Do, I Do in 2026". */
+export async function joinedYear(userId: string): Promise<number | null> {
+  try {
+    const { data } = await createAdminSupabaseClient().auth.admin.getUserById(userId);
+    return data.user?.created_at ? new Date(data.user.created_at).getFullYear() : null;
+  } catch {
+    return null;
+  }
 }
