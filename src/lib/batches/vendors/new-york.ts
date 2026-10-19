@@ -502,6 +502,122 @@ Timeless Tale Events	Planning		Wantagh	New York	Long Island and Queens	Long Isla
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
 Skyforge Media	Videography		Farmington	New York	Finger Lakes, Rochester, Syracuse and Buffalo	Finger Lakes videographer and photographer making wedding films, based in Farmington and travelling to Rochester, Syracuse and Buffalo.	skyforgedrone@gmail.com		https://skyforgephotovideo.com/	https://www.instagram.com/skyforgephotovideo/`,
   },
+  {
+    name: "New York City: florals, videography, music, cake, photography, catering, hair and makeup, planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Stems Brooklyn	Florals	96 Knickerbocker Avenue, Unit 109	Brooklyn	New York		Brooklyn florist studio doing full-service wedding flowers from a proposal, plus bouquets and centrepieces bought individually.	hello@stemsbrooklyn.com	347-627-2724	https://www.stemsbrooklyn.com/	https://www.instagram.com/stemsbrooklyn/
+FeatherSouls Films	Videography		New York	New York	Manhattan, Brooklyn and New Jersey estates	Wedding cinematographers making teaser, highlight and full-length films in an editorial style, with a privacy option for sensitive couples.			https://feathersoulsfilms.com/	
+DLE Event Group	Music	404 5th Avenue, 3rd Floor	New York	New York	New York City, Long Island, the Hudson Valley and across New York State	Hybrid DJ and live band for weddings, from duos to twelve players, with cultural music and bilingual emceeing for many traditions.	contact@dleeventgroup.com	877-534-2424	https://www.dleeventgroup.com/ny/	https://www.instagram.com/dleeventgroup/
+Eileen Meny Photography	Photography		Brooklyn	New York		Brooklyn photojournalistic wedding photographer who also covers elopements and small ceremonies, with pricing shown on the site.			https://eileenmenyphotography.com/	https://www.instagram.com/eileenmenyphoto/
+Green Apple Catering & Events	Catering		New York	New York	The five boroughs, Long Island, Westchester and New Jersey	Wedding caterer handling 30 to 3,000 guests and multi-day celebrations, with halal, vegan and allergen-aware menus and advance tastings.	clients@nygreenapple.com		https://nygreenapple.com/	https://www.instagram.com/greenapplecateringny/
+Tikka N Talk	Catering	70-11 Austin Street, Lower Level	Forest Hills	New York	All five boroughs, New Jersey and Connecticut	Forest Hills Indian restaurant catering weddings with vegetarian, halal and Jain menus, outdoor on-site cooking and a small party space.	tikkantalkny@gmail.com	718-575-2018	https://www.tikkantalkny.com/catering/wedding-party/	https://www.instagram.com/tikkantalkny/
+El Caribe Caterers	Catering	5945 Strickland Avenue	Brooklyn	New York	Brooklyn	Long-running Brooklyn banquet hall and caterer hosting weddings for 100 guests and up, with a catering service on site.	Events@Elcaribecaterers.com	718-531-1200	https://www.elcaribecaterers.com/	https://www.instagram.com/elcaribecaterers/
+NY Jukebox	Music		Brooklyn	New York		Brooklyn wedding band covering ceremony to after-party, with lineups from a DJ with guitar and horns up to a fourteen-piece band.			https://www.nyjukebox.com/	https://www.instagram.com/nyjukebox/
+TI Fusion Band	Music		New York	New York	Manhattan, Brooklyn, Queens and the Hudson Valley	Fully live ten-piece style wedding band playing bilingual English and Spanish sets, with jazz, Latin and pop, and an optional DJ finish.		212-920-5898	http://www.tifusionband.com/wedding-band-nyc	https://www.instagram.com/ti_fusion_band/
+Simple + Sultry	Hair & Makeup		Brooklyn	New York	Brooklyn	On-location Brooklyn wedding hair and makeup, leaning towards natural skin and soft, romantic styles, with sunless tanning offered too.			https://www.simpleandsultry.com/	https://www.instagram.com/simpleandsultry/
+PMT Party Services	Planning		Staten Island	New York	Staten Island and New York City	Staten Island event company that plans and decorates weddings and elegant parties, booked through an online event form.			https://www.pmtparty.com/	https://www.instagram.com/pmtparty/
+Indo Events NYC	Planning	216-08 Jamaica Avenue	Queens Village	New York	New York City	Queens Village planner offering full, partial and day-of wedding coordination, plus mandap, stage and centrepiece decor for South Asian weddings.	info@indoeventsnyc.com	718-916-4031	https://www.indoeventsnyc.com/wedding-planning-coordinator-in-newyork/	https://www.instagram.com/indoevents.nyc/
+Susan's Kitchen Catering and Events	Catering	32 W 39th Street	New York	New York	The five boroughs	Midtown caterer for weddings with custom cakes, kosher-style and allergy-aware options, plus tastings, delivery, table styling and cleanup.	contact@nysusankitchen.com	212-767-0218	https://nysusankitchen.com/luxury-custom-wedding-cakes-nyc/	https://www.instagram.com/susanskitchencaters
+`,
+  },
+  {
+    name: "Long Island: hair and makeup, florals, photography, planning, music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Lisa Nicole Beauty & Esthetics	Hair & Makeup		Wantagh	New York	Nassau and Suffolk Counties, Queens and Brooklyn	Wantagh studio offering on-site bridal glam makeup and travel services for weddings, with virtual consultations for out-of-town couples.	Lisanicolenyllc@gmail.com		https://lisanicoleny.com/location-long-island	https://www.instagram.com/lilifi777/
+The Funky Flower	Florals	386 New York Avenue	Huntington	New York	Huntington and nearby North Shore and Suffolk towns	Huntington florist making wedding and event flowers alongside everyday bouquets, working with seasonal blooms and local venue deliveries.	thefunkyflower2@gmail.com	631-421-4410	https://thefunkyflowershop.com/	
+Gifts From The Heart Florist	Florals		North Babylon	New York	Nassau and Suffolk Counties	Studio florist in North Babylon that designs wedding and event flowers by consultation and delivers across Long Island.	martha@giftsfromtheheartflorist.com	631-539-8887	https://giftsfromtheheartflorist.com/	https://www.instagram.com/heartflorist/
+`,
+  },
+  {
+    name: "Hudson Valley: hair and makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+`,
+  },
+  {
+    name: "Catskills: photography, florals, catering, cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Turnquist Collective	Photography		Catskill	New York	The Catskills, Berkshires and Hudson Valley	Husband-and-wife team in Catskill shooting weddings and elopements as photographers and filmmakers, together or separately.	hello@turnquistcollective.com		https://turnquistcollective.com/	https://www.instagram.com/turnquistcollective/
+Earthgirl Flowers	Florals		North Branch	New York	Hudson Valley and the Catskills	Wedding florist in the western Catskills designing with flowers grown on the farm and sourced from nearby growers.	jill@earthgirlflowers.com		https://www.earthgirlflowers.com/	https://www.instagram.com/earthgirlflowers/
+Sticky Petal Farm	Florals		Jefferson	New York		Small flower farm in the Catskill foothills offering wedding and event floral design from its own cutting garden.			https://stickypetalfarm.com/	https://www.instagram.com/stickypetalfarm/
+Catskill Cooks	Catering		Mount Tremper	New York	Hudson Valley	Private chef service in Mount Tremper that specialises in micro weddings and has a private room at a sister restaurant in Phoenicia.	catskillschef@gmail.com	(845) 443-0488	https://www.catskillcooks.com/	https://www.instagram.com/catskillcooking/
+Overlook Bakery	Cake	105 Tinker St	Woodstock	New York		Woodstock bakery that specialises in wedding cakes, party cakes and desserts, and ships orders as well as selling in the shop.	hello@overlookbakery.com	845-684-5898	https://www.overlookbakery.com/	https://www.instagram.com/overlookbakery/
+`,
+  },
+  {
+    name: "Adirondacks and Lake Placid: photography, florals, planning, music, catering, cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Scotts Florist	Florals	17 Woodruff St	Saranac Lake	New York	Saranac Lake, Lake Placid, Lake George and the wider Adirondack region	Saranac Lake florist making wedding bouquets, arbour pieces and centrepieces, with quotes through an online wedding form.		518-891-4436	https://scottsflorist.com/adirondack-wedding-flowers-scotts-florist/	https://www.instagram.com/scotts_florist/
+Placid Planner	Planning		Lake Placid	New York	Lake Placid and the northern Adirondacks	Lake Placid planner working since 2014 on mountain, lakeside and rural weddings, with partial and full planning options.			https://www.placidplanner.com/	https://www.instagram.com/placidplanner/
+Farmstead Catering	Catering	327 Walker Road	Essex	New York	Saranac Lake, Lake Placid, Hudson Valley, Champlain Valley and Upstate New York	Farm-based Essex caterer cooking weddings from ingredients grown on its own land, serving the Adirondacks and beyond.	farmsteadcatering@gmail.com	518.302.1018	https://www.farmsteadcatering.com/	https://www.instagram.com/farmsteadcatering/
+Northern Feast Catering	Catering	765 Mace Chasm Road	Keeseville	New York		Adirondack caterer in Keeseville cooking from scratch with fresh, local and organic ingredients for weddings and other events.	northernfeast@gmail.com		https://www.northernfeast.com/services	https://www.instagram.com/northernfeast/
+Early Dawn Confections	Cake		Saranac Lake	New York		Small scratch bakery in Saranac Lake making wedding cakes and cupcakes, including Adirondack-themed designs.	earlydawnconfections11@gmail.com	(518) 354-8000	https://earlydawnconfections.com/	https://www.instagram.com/earlydawnconfections/
+`,
+  },
+  {
+    name: "Albany and Saratoga: photography, music, catering, hair and makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Rob Spring Photography	Photography		Saratoga Springs	New York	Lake George to Albany	Saratoga Springs photography team covering weddings with a natural-light, relaxed style, with video also on offer for the day.	info@robspringphotography.com	518-584-0596	https://robspringphotography.com/	https://www.instagram.com/robspringphotography/
+Caitlin Miller Photography	Photography		Saratoga Springs	New York	Saratoga Springs, Lake George, Lake Placid, Albany and the Adirondacks	Saratoga Springs wedding photographer with a timeless, elegant style who also travels to the Adirondacks and takes destination bookings.	caitlin@caitlinmillerphotography.com	(518) 538-7609	https://caitlinmillerphotography.com/	https://www.instagram.com/caitlinmillerphotography/
+The Harris Co.	Photography		Saratoga Springs	New York	The Berkshires, the Adirondacks and destinations	Saratoga Springs studio offering contemporary, polished wedding photography and cinema for a small number of couples each year.	info@theharrisco.com	(518) 886-1048	https://theharrisco.com/	https://www.instagram.com/HCOphotocinema/
+Farm to Fire by Hudson Valley BBQ Co.	Catering		Ballston Spa	New York	Travels for weddings across the east coast	Ballston Spa caterer cooking wedding menus from scratch over open fire, with farm-to-table dishes and vegetarian choices.	Brandon@HudsonValleyBBQCo.com	(845) 240-5095	https://www.hudsonvalleybbqco.com/	https://www.instagram.com/hvbbqco/
+Distinctive Catering of Albany & Saratoga	Catering	888 Rt 29	Saratoga Springs	New York	Albany, Saratoga Springs, Schenectady and the Capital District	Catering company just outside Saratoga Springs offering wedding receptions and an affordable sample wedding package menu.	Distinctivecateringsaratoga@gmail.com	518-858-2184	https://www.saratoga-catering.com/	
+Suburban Kitchen	Catering		Albany	New York	Albany, Saratoga Springs, the Adirondacks and the Hudson Valley	Boutique Albany caterer focused on weddings and private dining, with a seasonal approach to menus.	SuburbankitchenChefs@gmail.com		https://suburbankitchenny.com/	https://www.instagram.com/suburbankitchenNY/
+Lipstick N Lashes	Hair & Makeup		Saratoga Springs	New York	Saratoga Springs, the Capital District, Lake George, Lake Placid, Hunter Mountain and Vermont	Saratoga Springs bridal beauty team offering wedding hair and makeup on location, and able to handle large bridal parties.	bridalbeauty@lipsticknlashes.com	518.698.3582	https://www.lipsticknlashes.com/	https://www.instagram.com/lipsticknlashesny/
+Brides 2 Go	Hair & Makeup	4976 Rt 7	Hoosick	New York	Albany, Saratoga and the Capital Region, plus Vermont, Massachusetts and the Hudson Valley	Hoosick bridal beauty service bringing wedding hair and makeup to your getting-ready location across the Capital Region.	brides2go@yahoo.com	518-265-4314	https://brides2go.com/	
+Wild Ivy Bridal Co.	Hair & Makeup		Albany	New York	The Capital Region, Adirondacks, Catskills and Upstate New York	Fully mobile Albany bridal hair and makeup team, with bridesmaid services and travel priced from Albany.			https://wildivybridalco.com/	
+`,
+  },
+  {
+    name: "Buffalo: photography, florals, music, hair and makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+SMW Photography	Photography		Buffalo	New York	Western New York and Rochester	Buffalo wedding and engagement photographer shooting candid, colourful frames with gentle prompts rather than stiff posing.	info@smwphotography.com		https://smwphotography.com/	https://www.instagram.com/smwphotography/
+Aaron Bobeck Photography	Photography		Buffalo	New York	Buffalo and all of New York State	Buffalo photographer with over a decade of wedding experience, mixing posed and candid coverage in a bright, colourful style.	a@aaronbobeckphotography.com		https://www.aaronbobeckphotography.com/	https://www.instagram.com/aarons_lens/
+Rebecca Fix Photography	Photography		Buffalo	New York	Buffalo, Western New York and Niagara Falls	Storytelling wedding photography from Buffalo, with three clear collections from small ceremonies to full-day coverage and optional albums.	becky@fixphotostudios.com	716-868-8564	https://www.fixphotostudios.com/buffalo-wedding-photographer	https://www.instagram.com/rebeccafixphotography/
+Dawn M Gibson Photography	Photography		Buffalo	New York	Buffalo and the Finger Lakes, available to travel	Buffalo-based wedding photographer known for relaxed, elegant imagery, with much of her portfolio shot at Finger Lakes estates and inns.	info@dawnmgibsonphotography.com		http://www.dawnmgibsonphotography.com/finger-lakes-weddings	
+Rooted Blooms Designs	Florals		Buffalo	New York	Buffalo area	Boutique Buffalo floral studio creating custom wedding flowers, with consultations booked online and a small shop for everyday stems.			https://www.floralbuffalo.com/	
+Catherine Rose Floral Design	Florals		Buffalo	New York	Buffalo, Rochester, the Finger Lakes and Western New York	Western New York wedding florist who builds each design from a colour palette and recipe, and also mentors other florists.			https://www.catherinerosefloral.com/	https://www.instagram.com/catherinerosefloral/
+Buffalo Jazz & Swing Band	Music		Buffalo	New York	Buffalo and Western New York	Live jazz and swing for ceremonies, cocktail hour and dancing, available as an 8, 13 or 16-piece band with DJ music between sets.		716-517-6537	https://www.buffaloswingband.com/buffalo-wedding-band	https://www.instagram.com/buffalojazzswing/
+DJ Johnny K Sound System	Music		Buffalo	New York	Buffalo, Rochester and Western New York	Long-running Buffalo mobile DJ offering wedding packages with ceremony and reception coordination, plus lighting and sound options.		716-472-9898	https://djjohnnyk.com/weddings/	
+716 Beauty	Hair & Makeup		West Seneca	New York	Western New York, on location	Licensed cosmetologist offering bridal hair and makeup in the salon or on location, booked with a contract and a deposit.		716-984-3990	https://www.716beauty.com/	https://www.instagram.com/kaleighannecleveland/
+Urbanity	Hair & Makeup	1239 Hertel Ave	Buffalo	New York	Buffalo and Western New York	Hertel Avenue salon doing bridal hair and makeup for the whole wedding party, with previews and packages for bride, bridesmaids and mothers.		(716) 803-7094	https://www.urbanitybuffalo.com/bridal	https://www.instagram.com/urbanitybuffalo/
+`,
+  },
+  {
+    name: "Rochester: photography, planning, music, cake, catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Kniley Photography	Photography		Lima	New York	Rochester and Western New York	Documentary-style wedding photography from a photographer with over 200 weddings behind him, including same-sex and Indian celebrations.			https://www.kniley.com/	https://www.instagram.com/knileyphoto/
+Michael Fisher Photography	Photography	110 Alpha St	Rochester	New York	Rochester, the Finger Lakes, Syracuse and Buffalo	Full-time Rochester photojournalist of twelve years, shooting candid weddings with relaxed posing for portraits when couples want it.		585.899.0686	https://www.michaelfisherphoto.com/	https://www.instagram.com/michaelfisherphoto/
+Bemont Photo	Photography		Rochester	New York	Rochester, Buffalo and the Finger Lakes	Rochester wedding photography team with natural, true-to-colour editing, published pricing and online booking and galleries.			https://www.bemontphoto.com/	https://www.instagram.com/thebemontphoto/
+CelebrateYOU Events	Planning		Rochester	New York	Rochester, Monroe County and the Finger Lakes	Rochester planner offering full, partial and month-of wedding planning, with help managing vendors and family dynamics.			https://www.celebrateyouevents.com/	
+Kalifornia Entertainment	Music		Brighton	New York	Rochester and surrounding areas, including Canandaigua	Brighton DJ company with a heavy Rochester wedding calendar, adding photo booths, custom lighting and cake projection mapping.			https://www.kaliforniaentertainment.com/	https://www.instagram.com/kaliforniaentertainment/
+The Party Connection	Music		Rochester	New York	Rochester, Buffalo, Syracuse and upstate New York	Rochester DJ service for weddings with dance-floor lighting, monogram projection and other effects, plus photo booth add-ons.		585-865-1420	https://thepartyconnectionny.com/dj-and-dance/	
+Torta	Cake		Rochester	New York	Rochester	One-person Rochester bakery making scratch-baked buttercream wedding cakes and mini cupcake dessert tables, with tasting boxes to try flavours.			https://tortaroc.com/	https://www.instagram.com/tortaroc/
+Hollycake House	Cake	300 East Main St, Suite 25	East Rochester	New York	Rochester area	Vegan custom bakery in East Rochester making wedding cakes, with gluten-free and allergy-friendly options and a small cafe.	contact@hollycakehouse.com	585-310-7728	https://www.hollycakehouse.com/custom	https://www.instagram.com/hollycakehouse/
+Disco Sugar	Cake		Rochester	New York	Rochester	Licensed home-kitchen cake studio in Rochester known for vintage-style wedding cakes, also running decorating classes and parties.			https://www.discosugar.com/	
+Christopher's Restaurant & Custom Catering	Catering	28 E Main St, #100	Rochester	New York	Rochester, Buffalo and Syracuse	Rochester restaurant and caterer handling wedding food, staff, rentals and licensed bar service, and catering at Signature Barn at Conesus.	christopher.restaurant@yahoo.com	(585) 325-1810	https://christopherscustomcatering.com/full-service-custom-catering-and-weddings/	https://www.instagram.com/christophers_restaurant/
+`,
+  },
+  {
+    name: "Syracuse: photography, music, videography, hair and makeup, catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Calypso Rae Photography	Photography		Syracuse	New York	Syracuse	Syracuse boutique wedding photographer going for vibrant, artistic images that balance candid moments with posed portraits.	calypsoraephotography@gmail.com	607-232-0670	https://calypsoraephotography.com/	https://www.instagram.com/calypsoraephotography/
+Salt City DJ	Music		Syracuse	New York	Syracuse	Syracuse wedding DJ with three clear package tiers, plus optional ceremony sound, officiant services and a 360 video booth.	dj@djsaltcity.com	(315) 450-6390	https://www.djsaltcity.com/	https://www.instagram.com/saltcitydj/
+Perfect Sounds DJ Music Entertainment	Music		Syracuse	New York	Syracuse and Central New York	Syracuse DJ company offering five-hour wedding packages with ceremony and cocktail music, uplighting, spark cannons and a photo suite.	tom@myperfectsounds.com	(315) 720-2349	https://www.myperfectsounds.com/services	https://www.instagram.com/myperfectsoundsdj/
+Legendary Weddings	Music		Syracuse	New York	Syracuse and Central New York	Syracuse wedding DJ and MC team offering three tiers, from reception-only sound to ceremony music and full-room uplighting.			https://www.djbitti.com/weddings	
+123 Imaging	Videography		North Syracuse	New York	Central and Western New York	Wedding specialists offering photography, videography, drone and photo booth services, with in-house editing and an online couples login.	Info@123Imaging.com	315-333-0336	https://www.123imaging.com/	https://www.instagram.com/123imaging/
+Painted Lady Studios	Hair & Makeup	126 Walton St	Syracuse	New York	Syracuse, studio and on location	Syracuse beauty studio offering bridal makeup packages and a paid trial consultation, in the studio or on location.	autumn@paintedladystudios.com	315-420-6336	https://www.paintedladystudios.com/makeup/wedding-makeup/	https://www.instagram.com/paintedladystudios/
+Syracuse Catering Co.	Catering		Syracuse	New York	Central New York	Full-service Syracuse caterer with custom menus for events of all sizes, including weddings at its list of preferred venues.			https://syracusecateringco.com/	https://www.instagram.com/syracusecatering__/
+`,
+  },
+  {
+    name: "Finger Lakes: photography, music, catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Leanne Rose Photography	Photography		Ithaca	New York	Ithaca, Finger Lakes and upstate New York	Ithaca documentary wedding photographer with a calm, observational approach, limiting herself to around fifteen weddings a year.			https://leannerosephotography.com/finger-lakes-wedding-photographer	https://www.instagram.com/leannerosephotography/
+Westphal Music	Music		Ithaca	New York	Finger Lakes and upstate New York	Ithaca pianist and DJ who plays live piano for the ceremony and cocktails, then DJs the reception with uplighting and backup gear.			https://westphalmusic.com/	
+Catering By Luna	Catering	113 N Aurora St	Ithaca	New York	Ithaca and Finger Lakes venues and wineries	Ithaca caterer providing formal, casual and food-truck wedding menus, with tastings, bar service and experience at Finger Lakes wineries.		(607) 882-4529	https://www.cateringbyluna.com/formal-weddings.html	
+DJ Steven Share	Music		Corning	New York	Corning, Ithaca, Geneva, Skaneateles and the Finger Lakes	Finger Lakes wedding and event DJ working from Corning to Geneva and Skaneateles, also offering premium karaoke and destination weddings.	hello@djstevenshare.com	(607) 638-3577	https://www.djstevenshare.com/	https://instagram.com/djstevenshare
+`,
+  },
 ];
 
 export default batches;
