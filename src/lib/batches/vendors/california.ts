@@ -839,6 +839,102 @@ Popolo Catering	Catering		San Luis Obispo	California	San Luis Obispo County, Pas
 The Clausen Gallery	Photography		Fresno	California	Fresno, Clovis and across Central California	Husband-and-wife wedding photography team in Fresno, producing natural, timeless galleries for Central California couples.	info@theclausengallery.com	559-392-3131	https://www.theclausengallery.com/	https://www.instagram.com/theclausengalleryweddings/
 Michelle Gunn Photo	Photography		Fresno	California	Fresno, Clovis, Visalia and the Central Valley	Fresno photographer shooting weddings and elopements on digital and film, with a gentle, candid style for LGBTQ+ and all couples.	michelle@gunnshotphoto.com	(559) 634-0911	https://michellegunnphoto.com/	https://www.instagram.com/michellegunnphoto/`,
   },
+  {
+    name: "Santa Cruz: Florals, Planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+A Bit of Earth Flowers	Florals		Santa Cruz	California	Santa Cruz, Carmel, Monterey, San Jose and San Francisco	Santa Cruz florist designing nature-inspired wedding flowers, from wildflower-style bouquets to ceremony arrangements on the coast.	dyana@abitofearthflowers.com	(831) 706-7327	https://www.abitofearthflowers.com/	https://www.instagram.com/abitofearthflowers/
+Wild Iris Floral and Botanical	Florals	6227 Hwy 9	Felton	California	San Lorenzo Valley, Scotts Valley, Ben Lomond, Boulder Creek and Santa Cruz	Felton flower shop offering full wedding packages, from bouquets and arbours to centrepieces, with local blooms and plant-dyed ribbons.	events@wildirisfloral.com	(831) 278-0151	https://www.wildirisfloral.com/	https://www.instagram.com/wildirisfloral/
+Dahlias & Details	Florals		Santa Cruz	California	Santa Cruz, Monterey, Carmel, San Jose and Los Gatos	Sustainable Santa Cruz florist offering full-service and a la carte wedding flowers from in-season local growers, plus rentals.	hello@dahliasanddetails.com	831-889-0703	https://www.dahliasanddetails.com/	https://www.instagram.com/dahliasanddetails/
+Flower Bar Design Studio	Florals	511 River St	Santa Cruz	California	Santa Cruz	Santa Cruz design studio creating wedding flowers by appointment, alongside event and everyday arrangements with same-day delivery.		(831) 225-0520	https://flowerbardesignstudio.com/	
+Event by Dawn	Planning		Corralitos	California	Santa Cruz, Carmel Valley, Monterey, Big Sur and the greater Bay Area	Santa Cruz area planner offering month-of coordination plus partial and full wedding planning and design for coastal and Monterey Bay celebrations.	eventbydawn@gmail.com	(818) 606-4514	https://www.eventbydawn.com/	https://www.instagram.com/eventbydawn/`,
+  },
+  {
+    name: "Lake Tahoe and Truckee: Florals, Cake, Catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Love and Lupines Floral Design	Florals	10736 Pioneer Trail, Unit 6	Truckee	California	Northern California, with a focus on the greater Lake Tahoe region	Truckee floral studio designing Sierra-inspired wedding flowers from locally sourced blooms, and working alongside planners.	meghon@loveandlupines.com		https://www.loveandlupines.com	https://www.instagram.com/love_and_lupines/
+Edible Art Tahoe	Cake		Truckee	California		Truckee baker making scratch-baked wedding cakes and cupcakes with seasonal buttercream florals, taking a limited number of weddings each season.	deb@edible-art-tahoe.com		https://www.edible-art-tahoe.com/	https://www.instagram.com/ediblearttahoe/
+Flour Girl Wedding Cakes	Cake	2093 James Ave	South Lake Tahoe	California		South Lake Tahoe baker designing each wedding cake to order, with a long flavour list, and booking only a few events a week.	info@flourgirlweddingcakes.com	530-573-1138	https://www.flourgirlweddingcakes.com/	https://www.instagram.com/flourgirlweddingcakes/
+D'lish Catering	Catering	8501 North Lake Blvd	Kings Beach	California	North Shore and Truckee	North Lake Tahoe caterer serving North Shore and Truckee weddings, with a Kings Beach kitchen and a walk-up burrito window.	info@dlish.com	530.553.1702	https://www.dlish.com/	https://www.instagram.com/dlishtahoe/`,
+  },
+  {
+    name: "Sacramento: Music, Videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Funk Shui Band	Music		Sacramento	California	Sacramento and Placer County, including Roseville, Rocklin, Lincoln and Auburn	Six-piece R&B, funk, soul and dance band playing weddings across Sacramento and Placer County since 2016.		916-705-9848	https://funkshuiband.com/	https://www.instagram.com/funk_shui_band/
+Moonlight Swing	Music		Sacramento	California	Sacramento area, with travel by arrangement	Sacramento big band playing 1930s and 1940s swing, waltzes and Latin numbers for wedding receptions and dances.	MoonlightSwing@yahoo.com	(916) 672-1043	https://www.moonlightswing.org/	https://www.instagram.com/moonlightswing/
+175 Productions	Videography		Sacramento	California	Sacramento, Roseville, Napa and Northern California	Sacramento video studio filming weddings with multi-camera coverage, drone shots, cultural ceremonies and clean audio for vows and speeches.	info@175productions.com	888-992-9391	https://175productions.com/services/wedding-video/	https://www.instagram.com/175_productions/
+Rosette Wedding Co.	Videography		Folsom	California	Greater Sacramento, Wine Country, Lake Tahoe, Napa, Sonoma and the Bay Area	Folsom content creator filming candid iPhone-style vertical video and photos of weddings, delivered quickly, from a small studio.	hello@rosetteweddingco.com		https://rosetteweddingco.com/	https://www.instagram.com/rosette.weddingco/`,
+  },
+  {
+    name: "Inland Empire and Temecula: Florals, Planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Ricky's Flowers & More	Florals	16781 Van Buren Blvd, Suite 1A	Riverside	California	Riverside and the Inland Empire	Riverside florist covering bridal bouquets, ceremony arches and centrepieces, with venue setup and morning installs for evening weddings.	wecare@rickysflowers.com	(951) 776-8999	https://www.rickysflowers.com/wedding	https://www.instagram.com/rickysflowersandmore/
+Divina Arrangements	Florals		Fontana	California	Within 40 miles of Fontana, including Rancho Cucamonga, Riverside, Corona, Redlands and Ontario	Fontana florist with no storefront, doing wedding consultations, proposals, delivery and setup for venues across the Inland Empire.	Contact@divinaarrangements.org	(909) 550-5233	https://divinaarrangements.org/	https://www.instagram.com/divinaarrangements/
+Classic Touch Events	Planning		Temecula	California	Riverside County, Inland Empire, Orange County and San Diego County	Temecula-based planners with Association of Bridal Consultants accreditation, known for vineyard and destination weddings across Southern California.	info@classictouchevents.com		https://www.classictouchevents.com/	https://www.instagram.com/classictouchevents/
+Timeless Timelines	Planning		Riverside	California	Riverside, Orange County, San Diego County, the Inland Empire and Southern California	Riverside planning company offering wedding coordination and full planning packages, plus a free digital guide to help couples get started.	info@timeless-timelines.com	951-204-4590	https://www.timeless-timelines.com/	https://www.instagram.com/timelesstimelines/`,
+  },
+  {
+    name: "Los Angeles: Florals, Cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+La Florecita Flowers	Florals	5240 Long Beach Blvd	Long Beach	California	Long Beach, Los Angeles, Torrance, Downey, Lakewood and Pasadena	Long Beach flower shop supplying bridal and ceremony flowers with venue setup, and DIY support for couples doing part themselves.	wecare@laflorecitaflowers.com	(562) 423-6505	https://www.laflorecitaflowers.com/wedding	https://www.instagram.com/laflorecitaflowers/
+Valentine Sweets Cakes & Cupcakes	Cake		Pasadena	California	Pasadena, South Pasadena, Eagle Rock, Altadena, Glendale and La Canada	Woman-owned Pasadena bakery taking made-to-order wedding cakes, with gluten-free, vegan and sugar-free options.		(310) 747-4777	https://valentinesweets.com/	https://www.instagram.com/valentine.sweets/`,
+  },
+  {
+    name: "Orange County: Florals, Music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Visser's Florist and Greenhouses	Florals	701 W Lincoln Ave	Anaheim	California	Orange County	Family-run Anaheim florist of fifty years, offering custom wedding design or set packages with a free consultation.		714-772-9900	https://www.vissersflowers.com/weddings.htm	https://www.instagram.com/vissersflorist/
+Orange County Wedding DJ	Music	15471 Red Hill Ave, Suite E	Tustin	California	Orange County	Tustin DJ company focused on weddings, with beat-matching DJs who also act as emcees.		(714) 702-1980	https://ocweddingdj.wordpress.com/	https://www.instagram.com/orangecountyweddingdj/`,
+  },
+  {
+    name: "San Diego: Music, Catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Mariachi Continental de Mexico	Music	747 Nolan Ave	Chula Vista	California	San Diego	Family mariachi group in Chula Vista, with roots going back to 1920, playing weddings and serenades in traditional suits.	Continentaldemexico@gmail.com	(619) 513-0668	https://mariachicmx.com/	https://www.instagram.com/mariachicmx/
+Innocenti Strings	Music		San Diego	California	San Diego, La Jolla, Coronado, Del Mar, Carlsbad, Chula Vista and Encinitas	San Diego string quartets, trios, harp and solo violin for ceremonies and cocktail hours, with free travel within 25 miles.		773-217-9007	https://www.innocentistrings.com/san-diego-string-quartet	https://www.instagram.com/innocentistrings/
+Harvest Kitchen	Catering	1495 Poinsettia Ave, Suite 152	Vista	California	North County San Diego, Palm Springs, Joshua Tree and Temecula	North County caterer cooking with organic ingredients for weddings, with a dedicated wedding menu and offices in Vista.	info@harvestkitchen.com		https://www.harvestkitchen.com/	https://www.instagram.com/harvest_kitchen/`,
+  },
+  {
+    name: "San Francisco Bay Area: Florals, Cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Ribbon & Twine Floral	Florals	195 Water St	Petaluma	California	Sonoma, Napa, Marin and the San Francisco Bay Area	Petaluma studio, open since 2016, creating organic wedding and event flowers, seen by appointment at Water Street Studios.	flowers@ribbonandtwinefloral.com	415-408-8519	https://ribbonandtwinefloral.com/	https://www.instagram.com/ribbonandtwinefloral/
+San Jose Cakes Delighted	Cake		San Jose	California	Bay Area	San Jose baker specialising in two-tier vintage piped wedding cakes, made from scratch after a design consultation.	suzymaworkssesimi@gmail.com		https://sidpm.com/cake/cake_index	https://www.instagram.com/SanJose_cakes_delight/`,
+  },
+  {
+    name: "Napa and Sonoma: Planning, Photography, Catering, Cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Events By Tyler	Planning		Petaluma	California	Northern California and destinations	Petaluma planner offering partial planning, full planning and day-of management for weddings and other celebrations across Sonoma County.	tyler@eventsbytyler.com	415-850-2728	https://www.eventsbytyler.com/	https://www.instagram.com/eventsbytyler/
+Christophe Genty Photography	Photography		Napa	California	Napa Valley and the Bay Area	French photographer in Napa shooting weddings, proposals and engagements in natural light with an elegant portrait style.	info@christophegenty.com	707-258-8559	https://www.christophegenty.com/	https://www.instagram.com/christophegentyphotography/
+Mazza Catering	Catering		Petaluma	California	Sonoma, Napa, Marin and the Bay Area	Petaluma caterer serving the North Bay since 2011 with Mediterranean-leaning, seasonal menus for weddings.	events@mazzacatering.com	707-953-3359	https://www.mazzacatering.com/	https://www.instagram.com/mazza_catering/
+Spoonful of Sugar Petaluma	Cake		Petaluma	California	Sonoma, Napa, Marin and the Bay Area	Petaluma bakeshop baking wedding cakes and cupcakes fresh to order with locally sourced, often organic ingredients.	spoonfulofsugarpetaluma@gmail.com	707-338-0509	https://www.spoonfulofsugarpetaluma.com/	https://www.instagram.com/spoonfulofsugar00/`,
+  },
+  {
+    name: "Santa Barbara: Photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Malaya Images	Photography		Santa Barbara	California	California and beyond	Santa Barbara photographer who blends fine-art portraiture with candid documentary coverage of weddings and elopements.	contact@malayaimages.com		https://malayaimages.com/	https://www.instagram.com/malayaimages/`,
+  },
+  {
+    name: "Palm Springs: Planning, Catering, Videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Mae&Co Creative	Planning		Palm Springs	California	Palm Springs and destination weddings	Palm Springs planning and styling studio taking a small number of full and partial-service weddings and elopements each year.			https://www.maeandcocreative.com/	
+The Walk Down the Aisle	Planning		Palm Springs	California	Palm Springs, Joshua Tree and the desert cities	Plans and styles elopements and tiny weddings across the Coachella Valley and Joshua Tree, with set packages for each size of day.		760-507-1335	https://www.thewalkdowntheaisle.com/	https://www.instagram.com/thewalkdowntheaisle/
+The Butler Did It	Catering		La Quinta	California	Palm Springs and the surrounding desert	Full-service desert caterer supplying chefs, butlers and bartending for weddings, elopements and private parties.		760-325-2100	https://thebutlerdiditps.com/	https://www.instagram.com/thebutlerdidit_catering/`,
+  },
+  {
+    name: "Monterey and Carmel: Florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Fancy Pansy Art & Design	Florals		Carmel Highlands	California	Carmel, Big Sur, Monterey and the Central Coast	Small Carmel Highlands florist making loose, garden-style wedding flowers for everything from elopements to full celebrations.	fancypansyartdesign@gmail.com	805-235-8408	https://www.fancypansy.net/	https://www.instagram.com/fancypansyartdesign/
+Twigs Floral Design	Florals		Carmel	California	Carmel, Carmel Valley, Monterey, Pebble Beach, Big Sur and Pacific Grove	Florist designing custom wedding and rehearsal-dinner flowers on the Monterey Peninsula, including a smaller intimate-wedding package.	monica@twigsfloraldesign.com		https://www.twigsfloraldesign.com/	https://www.instagram.com/twigsfloraldesign/`,
+  },
+  {
+    name: "San Luis Obispo and Paso Robles: Planning, Florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+LouLou Event Planning	Planning		San Luis Obispo	California	Central Coast	San Luis Obispo planner offering month-of coordination, partial planning and a la carte help for Central Coast weddings.	louloueventplanning@gmail.com		https://www.louloueventplanning.com/	https://www.instagram.com/louloueventplanning/
+Lori Boe Floral Design	Florals	1362 Old Oak Park Road	Arroyo Grande	California		Arroyo Grande florist designing wedding bouquets, ceremony pieces and reception flowers to a couple's palette and budget.	loriboefloraldesign@hotmail.com	805-709-2634	https://loriboefloraldesign.com/	`,
+  },
+  {
+    name: "Fresno: Planning, Music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Velvet Events Co.	Planning		Fresno	California	Fresno, Clovis, Madera, Visalia, Tulare and Kingsburg	Fresno coordinator for luxury weddings, including Sikh, Hindu and Punjabi celebrations across the Central Valley.	info@velvetevents.co	209-597-1053	https://velvetevents.co/	https://www.instagram.com/velveteventsco/
+Everlasting Events	Music		Fresno	California	Central Valley and California	Fresno DJ, lighting, photo booth and photography team serving weddings, quinceañeras and corporate events.	info@everlasting-events.com		https://www.everlasting-events.com/	https://www.instagram.com/everlasting_event/`,
+  },
 ];
 
 export default batches;
