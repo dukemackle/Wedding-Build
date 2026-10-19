@@ -178,6 +178,12 @@ Moments by Allie + Ashley	Planning		Missoula	Montana	Across Montana	Missoula eve
 Harper House Events	Planning		Missoula	Montana	Montana	Missoula planner offering full and partial wedding planning, day-of coordination, event design, rentals and a photo booth.		707-208-6612	https://harperhouseevents.com/	https://www.instagram.com/harper_house_events/
 `,
   },
+  {
+    name: "Billings: videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+A & A Weddings	Videography		Columbus	Montana	Billings, Bozeman, Paradise Valley, Red Lodge, Glacier and Yellowstone	Columbus-based married duo making documentary-style wedding films, from highlight reels to feature films, with drone and timelapse footage.	Info@AandAweddings.com	+1 262 719 9518	https://aandaweddings.com	https://www.instagram.com/a_and_a__weddings/
+`,
+  },
 ];
 
 export default batches;
