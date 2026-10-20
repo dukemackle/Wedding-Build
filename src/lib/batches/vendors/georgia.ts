@@ -516,6 +516,69 @@ Blue Hills Entertainment	Music		Blairsville	Georgia	Blairsville, Blue Ridge, You
 Jim's Smokin' Que	Catering		Blairsville	Georgia	North Georgia mountains	Blairsville barbecue restaurant whose catering team builds customised wedding menus, known for cheese boards, taco bars and rehearsal dinners.			https://www.jimssmokinque.com/catering	https://www.instagram.com/jsqblairsville/
 `,
   },
+  {
+    name: "Columbus: photography, planning, florals, music, catering, hair & makeup, cake, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Raydient Collective	Photography		Columbus	Georgia	Columbus, GA; travels up to two hours from Columbus without a fee	Columbus wedding and elopement photographer who also shoots engagements and family portraits, with candid, emotive coverage.	chloebutlerphotos@gmail.com		https://raydientcollective.com/	https://www.instagram.com/raydientcollective/
+JE Hedges Photography & Photo Booths	Photography		Columbus	Georgia	Columbus, GA	Studio on Gentian Boulevard offering wedding photography with engagement and bridal sessions, plus photo booth hire for receptions.	Julie@JEHedges.com	(706) 992-8233	https://www.jehedges.com/	
+P. Hasting Design	Planning		Columbus	Georgia	Columbus, GA and destination venues	Wedding and event planner in Columbus who builds a team of vendors around each couple's budget after a free initial consultation.	p.hastingdesign@gmail.com	(706) 289-0252	http://www.phastingdesign.com/	https://www.instagram.com/p.hastingdesign/
+Albright's Inc	Florals	3400 University Ave	Columbus	Georgia	Columbus, GA	Long-running Columbus florist with a wedding line covering ceremony and reception flowers, plus one-to-one consultations for couples.		(706) 563-8200	https://albrightsflowers.com/	
+Bloomwoods Flowers & Events	Florals	1640 Rollins Way	Columbus	Georgia	Columbus, GA and surrounding Muscogee County	Locally owned Columbus florist handling wedding and event design from planning through installation, alongside a small gift shop.	orders@bloomwoodsflowers.com	(706) 507-5859	https://www.bloomwoodsflowers.com/	https://www.instagram.com/bloomwoodsflowers/
+YourTunes Pro DJs and Entertainment	Music		Columbus	Georgia	Columbus, GA	Columbus DJ and MC company for weddings, offering coordination help, uplighting and custom monograms alongside music and announcements.	info@yourtunesnow.com	(706) 575-1527	https://yourtunesnow.com/	
+Roz's Cafe and Catering Services	Catering	3418 Buena Vista Rd	Columbus	Georgia	Columbus, GA	Columbus cafe and caterer providing food and bar service for weddings and engagement parties, with tent, table and chair hire.	Rozcateringservices@gmail.com	(706) 325-5034	https://www.rozscafe.com/	https://www.instagram.com/rozscafeandcatering/
+Jasmine D. Makeup Artistry	Hair & Makeup		Columbus	Georgia	Columbus, GA	Columbus bridal makeup artist offering natural glam looks for brides, with an enquiry form for wedding dates and a portfolio.	hello@jasminedmakeup.com		https://jasminedmakeup.com/	https://www.instagram.com/jasminedmakeup/
+S&S Wedding Films	Videography		Columbus	Georgia	Columbus, GA and worldwide	Husband-and-wife wedding filmmakers in Columbus focused on narrative storytelling, with published packages and drone add-ons.			https://www.snsweddingfilms.com/	
+National Audio Visual Services	Videography	2300 Whittlesey Rd. Suite J	Columbus	Georgia	Columbus, GA	Columbus audio-visual company offering three-camera wedding videography with drone footage, ceremony live streaming and photo booth hire.	info@nationalavs.com	(706) 617-4443	https://www.nationalavs.com/	https://www.instagram.com/nationalavs/
+`,
+  },
+  {
+    name: "Golden Isles: photography, planning, florals, catering, hair & makeup, cake, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+The Living Lenz	Photography		Kingsland	Georgia	Kingsland, St. Simons Island, Jekyll Island, Amelia Island	Kingsland photographer booking full-day weddings with a natural-light, true-to-colour style across the Georgia and north Florida coast.	thelivinglenz@gmail.com		https://thelivinglenz.com/	https://www.instagram.com/thelivinglenz/
+Cocktails & Details	Planning		St. Simons Island	Georgia	St. Simons Island, Jekyll Island, Sea Island	Full-service planning and day-of coordination for weddings at Jekyll Island Club, Sea Island cottages and other coastal Georgia venues.			https://cocktailsdetails.com/	https://www.instagram.com/officialcocktailsanddetails/
+Island Beach Wedding	Planning		Jekyll Island	Georgia	Jekyll Island, St. Simons Island	Beach wedding planner and day-of coordinator that also hires out arbors, chairs and tables for ceremonies on Jekyll and St. Simons.			https://www.islandbeachweddingllc.com/	
+All In Blooms	Florals	104 Trade Street Suite B	Brunswick	Georgia	Brunswick, Golden Isles	Brunswick florist offering full-scale wedding flowers alongside retail arrangements, with delivery available around the city.	info@allinblooms.com	912-554-0509	https://allinblooms.com/	
+Halyards Catering	Catering	60 Cinema Lane Suite 230	St. Simons Island	Georgia	St. Simons Island, Sea Island, Jekyll Island, Little St. Simons Island, Brunswick	Full-service wedding caterer with tailored menus, rehearsal dinners and beachfront weekends at Golden Isles venues.	info@halyardscatering.com	912-399-3813	https://halyardscatering.com/	https://www.instagram.com/halyards_catering/
+Tastebuds In-Home Catering	Catering		St. Simons Island	Georgia	St. Simons Island, Sea Island, Jekyll Island, Brunswick	Chef-led caterer building co-created menus for weddings, with professional service staff and smaller private events too.			https://tastebuds-stsimons.com/	
+Ruby Lu's Sweets	Cake		Brunswick	Georgia	Brunswick, Golden Isles, Savannah	Custom wedding and specialty cake baker with flavour lists and a portfolio including a classic tiered cake at The Vine.			https://www.rubylus.com/	https://www.instagram.com/ruby_lus/
+Sweet Luncheonette	Cake	101 East Weed Street	St. Marys	Georgia	St. Marys, Kingsland, Woodbine, Brunswick, Jekyll Island, Sea Island	St. Marys studio making handcrafted wedding cakes by retainer, with a tasting process and wine events alongside.		912-227-8847	https://www.sweet-luncheonette.com/	https://www.instagram.com/sweetluncheonette/
+3BrinSalon	Hair & Makeup		St. Simons Island	Georgia	St. Simons Island	Island hair salon whose stylists also do makeup and hair for brides, wedding guests and other special occasions.	3brinsalon@gmail.com	912-207-6326	https://www.3brinsalon.com/	https://www.instagram.com/3brinsalon/
+`,
+  },
+  {
+    name: "Savannah: photography, planning, florals, music, catering, hair & makeup, cake, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+ARG Foto	Photography		Savannah	Georgia	Savannah, Tybee Island, Pooler, Richmond Hill and the Lowcountry	Editorial photography studio in Savannah covering weddings, couples and family sessions, with pages for Tybee, Pooler and Richmond Hill weddings.			https://www.argfoto.com/	
+LM Events	Planning		Savannah	Georgia	Savannah	Savannah planning company offering full service, partial planning, coordination, elopements and picnic setups for weddings.			https://www.lmeventcoordination.com/	https://www.instagram.com/lm.eventcoordination/
+Spectacular Saturdays Weddings & Events	Planning		Savannah	Georgia	Savannah	Savannah wedding planner with full-service, partial, month-of, week-of and ceremony-only packages.		(912) 660-9419	https://spectacularsaturdays.com/	https://www.instagram.com/spectacularsaturdaysweddings/
+Grace and Thorn	Florals		Savannah	Georgia	Savannah, Richmond Hill, Jekyll Island, Sea Island, Hilton Head Island	Boutique floral studio in Savannah providing fresh wedding flowers and styling for events across the Georgia coast.	emma@graceandthornsav.com		https://graceandthornsav.com/	https://www.instagram.com/graceandthornsav/
+Peachy Keene Flower Farm	Florals		Savannah	Georgia	Savannah, Golden Isles, Hilton Head Island	Savannah florist designing custom wedding and event arrangements for couples along the Georgia and Carolina coast.	peachykeeneflowerfarm@gmail.com	(810) 771-8072	https://www.peachykeeneflowerfarm.com/	https://www.instagram.com/peachykeeneflowerfarm/
+Gray Harper	Florals		Savannah	Georgia	Savannah and the Georgia and South Carolina coasts	Small Savannah floral studio designing flowers for large events and a limited number of full-service weddings each year.			https://grayharper.com/	https://www.instagram.com/grayharperflorals/
+Luxe Vibes Entertainment	Music		Savannah	Georgia	Savannah	Savannah DJ service run by DJ Pat, offering curated playlists, sound and lighting for weddings and private parties.	patbar46@gmail.com	+19128568472	https://luxevibesentertainment.com/	https://www.instagram.com/djpat912/
+IC Karaoke LLC	Music		Savannah	Georgia	Savannah, Pooler, Tybee Island, Hilton Head Island	Savannah DJ and karaoke business offering wedding entertainment, corporate event music and monogram projection.	ivan.cruz88@ickaraokellc.com		https://www.ickaraokellc.com/	https://www.instagram.com/ic_karaoke/
+Erica Davis Catering	Catering		Savannah	Georgia	Savannah	Savannah caterer serving Lowcountry and Southern dishes such as shrimp and grits and barbecue at weddings and private events.	info@ericadaviscatering.com	(912) 544-5100	https://www.ericadaviscatering.com/	
+Coastal Kitchen Catering	Catering		Savannah	Georgia	Savannah	Savannah caterer run by Chef Steven Williams, with wedding menus, drop-off catering, private dinners and cooking classes.			https://thecoastalkitchen.net/	
+Vanilla and the Bean	Cake		Savannah	Georgia	Savannah, Jekyll Island, Sea Island, Charleston	Wedding cake bakery serving the Georgia and South Carolina coast with designs tailored to each couple.			https://vanillaandthebean.com/	https://www.instagram.com/vanillaandthebean/
+Chrislynn's Confections	Cake		Savannah	Georgia	Savannah and the Georgia Lowcountry	Savannah cake artist making custom wedding, sculpted and celebration cakes, ordered through an online contact form.	chrislynn@chrislynnsconfections.com	337-281-5903	https://www.chrislynnsconfections.com/	https://www.instagram.com/chrislynnsconfections/
+Blushed Bakes	Cake		Savannah	Georgia	Savannah	Savannah baker Reva making wedding and custom cakes, plus decorated cookies and baking classes.		912.312.3774	https://www.blushedbakes.com/	https://www.instagram.com/blushedbyreva/
+Matthew Snyder Films	Videography		Sparta	Georgia	Savannah, Tybee Island, Bluffton, Atlanta and Lowcountry	Georgia solo wedding filmmaker shooting unstaged, honest coverage, with Savannah as his main market.			https://matthewsnyderfilms.com/	https://www.instagram.com/matthewsnyderfilms/
+Paros Films	Videography	24 Oak Street	Statesboro	Georgia	Savannah, Charleston and destination weddings	Statesboro wedding videography company offering tiered film packages with highlight films, ceremony and reception coverage, and drone.			https://www.parosfilms.com/	https://www.instagram.com/parosfilms/
+`,
+  },
+  {
+    name: "Augusta: planning, music, hair & makeup, catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Planning with Style Events	Planning		Augusta	Georgia	Augusta, Atlanta, Savannah and destinations	Augusta wedding planning company led by Jennifer Grubbs, with packages, a portfolio and a linked bridal boutique.	info@planningwithstyleevents.com		https://www.planningwithstyleevents.com/	https://www.instagram.com/planningwithstyleevents_/
+LightStream Wedding DJ	Music		Augusta	Georgia	Augusta, North Augusta, Aiken	Wedding DJ and lighting service for the Augusta and Aiken area that also provides wedding officiants.		(803) 226-3706	https://lsweddingdj.com/	https://www.instagram.com/lsweddingdj/
+Renew You Makeup Artistry	Hair & Makeup		Augusta	Georgia	Augusta area	Freelance makeup artist Rachael Renew with over 13 years of bridal and event experience, booked online.	rachael@renewyoumakeupartistry.com	(706) 691-5282	https://renewyoumakeupartistry.com/	https://www.instagram.com/renewyoumakeupartistry/
+Fat Man's Mill Cafe	Catering		Augusta	Georgia	Augusta	Augusta cafe whose catering runs from drop-off trays to wedding catering, with a food truck and on-site venues.			https://fatmans.com/	https://www.instagram.com/fatmanscafe/
+`,
+  },
+  {
+    name: "Macon: hair & makeup, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+`,
+  },
 ];
 
 export default batches;
