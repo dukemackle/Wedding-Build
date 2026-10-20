@@ -14,7 +14,7 @@ department prepares so that launch is fast and safe when the owner says go.
 | Gate | Status | What opens it |
 | --- | --- | --- |
 | 50-state coverage ("no marketing until every state has listings") | **Met at pass 1** — `npm run coverage` 2026-10-20: 51/51 states meet pass 1; pass 4 targets still open. ROADMAP.md line 9 still says West Virginia is short, so it's stale | Owner decides whether pass 1 is enough to start |
-| Commercial email (vendor outreach, newsletters) | **Shut, opening** — owner is getting a PO box (2026-10-20); no address yet, no unsubscribe link or List-Unsubscribe header, `outreach_opt_outs` not read by the app | PO box in hand → its address in the footer; code adds unsubscribe, List-Unsubscribe, opt-out check, signup opt-in |
+| Commercial email (vendor outreach, newsletters) | **Shut, opening** — unsubscribe, one-click header, opt-out check, signup opt-in and /account toggle built 2026-10-20 (`sendMarketingEmail`); owner is getting a PO box | Run migration 0124; set `UNSUBSCRIBE_SECRET` and `MARKETING_POSTAL_ADDRESS` in Cloudflare |
 | Analytics / ad pixels | **Shut** — nothing installed, not disclosed in Privacy | Choose a cookieless tool (Cloudflare Web Analytics is free and on the stack) and add a Privacy line |
 | Paid ads | **Shut** — no tracking to measure them and no budget set | Analytics first, then an owner-set test budget |
 | Gmail access for inbox work | **Connected** 2026-10-20 as hello@youdoido.com; draft-only by rule (the connector can send) | — |

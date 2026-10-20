@@ -75,6 +75,17 @@ vendor outreach blasts):
 - Transactional email (auth, RSVP notifications, vendor replies) needs none
   of this.
 
+**Built 2026-10-20** (migration 0124): consent lives in `marketing_consents`
+(keyed by email, so it also covers businesses and works for unsubscribe
+without sign-in) rather than on a profile, since there is no profiles table.
+Signup has the unticked box; /account has the toggle; /unsubscribe and the
+RFC 8058 one-click `/api/unsubscribe` write both `marketing_consents` and
+`outreach_opt_outs`. Every marketing send must go through `sendMarketingEmail`
+(`src/lib/marketing-email.ts`), which refuses to send without
+`MARKETING_POSTAL_ADDRESS` and `UNSUBSCRIBE_SECRET`, skips opted-out and
+bounced addresses, and mails couples only with a confirmed opt-in. Still open:
+the postal address itself (owner getting a PO box), and the two secrets.
+
 **SMS beyond the current opt-in text updates:** explicit opt-in per number,
 STOP handling, and record of consent (TCPA). Current texts are
 wedding-schedule only and never marketing — keep it that way or revisit.

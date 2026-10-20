@@ -42,6 +42,19 @@ export default async function SignupPage({
               className="rounded-md border border-hairline bg-parchment px-3 py-2 text-ink outline-none focus:border-forest"
             />
           </label>
+          {/* Marketing consent: separate from the terms notice and unticked
+              by default (docs/legal.md). Leaving it empty changes nothing
+              about the emails the app needs to send. */}
+          <label className="flex items-start gap-2 text-sm text-ink/80">
+            <input
+              type="checkbox"
+              name="marketing_opt_in"
+              className="mt-0.5 h-4 w-4 shrink-0 accent-forest"
+            />
+            <span>
+              Send me occasional planning tips and news from You Do, I Do. Unsubscribe any time.
+            </span>
+          </label>
           <PendingSubmit
             pendingText="Creating account..."
             className="mt-2 rounded-md bg-forest px-4 py-2 font-medium text-parchment transition-colors hover:bg-forest/90 disabled:opacity-60"
