@@ -137,7 +137,6 @@ export function VendorListing({ data }: { data: VendorListingData }) {
               </p>
             )
           )}
-          {!vendor.is_sample && !preview && <ReportListing listingType="vendor" listingId={vendor.id} />}
           {vendor.description && <p className="mt-4 text-ink/80">{vendor.description}</p>}
           {links.length > 0 && (
             <div className="mt-4 flex flex-wrap gap-2">
@@ -264,6 +263,9 @@ export function VendorListing({ data }: { data: VendorListingData }) {
               </div>
             </div>
           )}
+
+          {/* At the foot of the page rather than beside the name (see venue-listing.tsx). */}
+          {!vendor.is_sample && !preview && <ReportListing listingType="vendor" listingId={vendor.id} />}
         </div>
       </div>
     </div>

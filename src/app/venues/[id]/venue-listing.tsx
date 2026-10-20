@@ -192,11 +192,6 @@ export function VenueListing({ data }: { data: VenueListingData }) {
               <p className="mt-1 text-xs text-forest/80">✓ {verifiedLabel(venue, "venue")}</p>
             ))}
           {isUnclaimedListing(venue) && <UnclaimedNote name={venue.name} />}
-          {!venue.is_sample && !preview && (
-            <div>
-              <ReportListing listingType="venue" listingId={venue.id} />
-            </div>
-          )}
           {venue.description && <p className="mt-4 text-ink/80">{venue.description}</p>}
           <VenueKeyFacts venue={venue} />
           <a
@@ -382,6 +377,10 @@ export function VenueListing({ data }: { data: VenueListingData }) {
               </div>
             </div>
           )}
+
+          {/* At the foot of the page, not beside the name and verified badge:
+              a doubt-raising link shouldn't be the first thing a couple reads. */}
+          {!venue.is_sample && !preview && <ReportListing listingType="venue" listingId={venue.id} />}
         </div>
       </div>
     </div>
