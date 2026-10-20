@@ -1,7 +1,6 @@
-import { BrandRings } from "@/components/brand-rings";
 import Link from "next/link";
 import { FadeInSection } from "@/components/fade-in-section";
-import { AnimatedCounter } from "@/components/animated-counter";
+import { PublicNav } from "@/components/public-nav";
 import { CtaCard } from "@/components/cta-card";
 import { HomeEstimatorCard } from "@/components/home-estimator-card";
 import { LandingFeatures } from "@/components/landing/landing-features";
@@ -9,86 +8,98 @@ import { WIDE_WIDTH } from "@/lib/layout";
 import { createClient } from "@/lib/supabase/server";
 import type { RegionalCostData } from "@/lib/supabase/types";
 
-const stats: { value: number; prefix?: string; suffix?: string; label: string }[] = [
-  { value: 15, suffix: "+", label: "planning tools in one place" },
-  { value: 0, prefix: "$", label: "cost to plan your wedding" },
-  { value: 50, label: "states covered" },
-];
-
 export default async function Home() {
   const supabase = await createClient();
-  const { data: regionalData } = await supabase
-    .from("regional_cost_data")
-    .select("*")
-    .returns<RegionalCostData[]>();
+  const [{ data: regionalData }, { count: venueCount }, { count: vendorCount }] = await Promise.all([
+    supabase.from("regional_cost_data").select("*").returns<RegionalCostData[]>(),
+    supabase.from("venues").select("id", { count: "exact", head: true }).eq("active", true).eq("is_sample", false),
+    supabase.from("vendors").select("id", { count: "exact", head: true }).eq("active", true).eq("is_sample", false),
+  ]);
+  // Live counts, rounded down so the row doesn't change every time a batch lands.
+  const roughly = (n: number | null) => (n && n >= 100 ? `${(Math.floor(n / 100) * 100).toLocaleString("en-US")}+` : null);
+  const facts = [
+    roughly(venueCount) && { strong: roughly(venueCount), rest: "venues" },
+    roughly(vendorCount) && { strong: roughly(vendorCount), rest: "vendors" },
+    { strong: null, rest: "All 50 states and DC" },
+    { strong: null, rest: "Free for couples, start to finish" },
+  ].filter((f): f is { strong: string | null; rest: string } => Boolean(f));
 
   return (
     <main className="flex flex-1 flex-col items-center overflow-x-hidden px-6">
-      <section className="relative grid w-full max-w-6xl grid-cols-1 items-center gap-10 py-10 lg:grid-cols-[1fr_1.05fr] lg:gap-8 lg:py-14">
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -top-10 left-1/4 h-72 w-72 -translate-x-1/2 rounded-full bg-brass/15 blur-3xl motion-safe:animate-[float_7s_ease-in-out_infinite]"
-        />
-        <div className="flex flex-col items-start text-left">
-          <div className="flex w-full max-w-[34rem] flex-col items-center">
-            <BrandRings genie="loop" className="h-auto w-full max-w-88 sm:max-w-112" />
-            <p className="mt-2 font-display text-5xl font-semibold text-ink sm:text-6xl">
-              You do, <span className="italic text-[#d99a00]">I do</span>
-            </p>
-          </div>
-          <p className="mt-4 w-full max-w-[34rem] text-center font-display text-xl italic text-ink/70">
-            An easier way to get to &ldquo;I&nbsp;do.&rdquo;
-          </p>
-          <h1 className="mt-4 font-display text-5xl font-semibold leading-[1.05] text-ink sm:text-6xl lg:text-7xl">
-            Plan your <span className="italic text-[#d99a00]">dream</span> wedding.
+      <PublicNav />
+
+      {/* Hero, approved 2026-10-20 (direction A, https://claude.ai/artifact/QyvNJE735cjYK7Rf8XDWzi):
+          the product is the hero. One headline in the brand's own words, the
+          live estimator as the hero's gold moment, and on a computer a glimpse
+          of the dashboard behind it. The mockup's guest-site phone was left
+          out: three overlapping cards read as clutter. */}
+      <section className={`grid w-full ${WIDE_WIDTH} grid-cols-1 items-center gap-10 pb-10 pt-20 sm:pt-10 lg:grid-cols-[11fr_10fr] lg:gap-14 lg:pb-14 lg:pt-12`}>
+        <div className="flex flex-col">
+          <p className="font-mono-numbers text-xs uppercase tracking-[0.18em] text-brass">Free wedding planning</p>
+          <h1 className="mt-4 font-display text-[44px] font-semibold leading-[1.02] tracking-[-0.01em] text-ink sm:text-6xl lg:text-[76px]">
+            Everything before <span className="italic text-brass">&ldquo;I&nbsp;do,&rdquo;</span> made a whole lot easier.
           </h1>
-          <p className="mt-4 max-w-md text-lg text-ink/80">
-            Everything you need, all in one place.
+          <p className="mt-5 max-w-[34rem] text-base leading-relaxed text-ink/80 sm:text-lg lg:text-[19px]">
+            Your budget, guest list, venues, vendors and wedding website in one calm place. Free for couples, start
+            to finish.
           </p>
-          {/* Centred in the same column the logo and tagline are centred in,
-              so the block reads as one piece rather than a centred mark over
-              a left-aligned stack. */}
-          <div className="mt-6 flex w-full max-w-[34rem] items-center justify-center gap-3">
+          <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
             <Link
               href="/signup"
-              className="btn-motion rounded-full border border-transparent bg-forest px-6 pb-3 pt-2 font-display text-lg text-parchment transition-colors hover:bg-forest/90"
+              className="btn-motion flex h-[52px] items-center justify-center rounded-full bg-forest px-7 text-base font-medium text-parchment transition-colors hover:bg-forest/90 sm:text-[17px]"
             >
-              Sign up free
+              Start planning free
             </Link>
             <Link
-              href="/login"
-              className="btn-motion btn-motion-brass rounded-full border border-hairline bg-parchment px-6 pb-3 pt-2 font-display text-lg text-forest transition-colors hover:border-forest"
+              href="/estimate"
+              className="btn-motion btn-motion-brass hidden h-[52px] items-center justify-center rounded-full border border-hairline bg-card px-6 text-[17px] text-forest transition-colors hover:border-forest sm:flex"
             >
-              Log in
+              See what your wedding costs
             </Link>
           </div>
-          <p className="mt-4 w-full max-w-[34rem] text-center text-sm text-ink/70">
+          <p className="mt-5 text-sm text-ink/70">
             Venue or vendor?{" "}
             <Link href="/list" className="font-medium text-brass hover:underline">
-              List your business free &rarr;
+              List your business free
             </Link>
           </p>
         </div>
 
-        <div className="w-full max-w-xl lg:justify-self-end">
-          <HomeEstimatorCard regionalData={regionalData ?? []} />
+        <div className="relative w-full lg:h-[620px]">
+          {/* A glimpse of the dashboard, behind the estimator. Decoration only. */}
+          <div
+            aria-hidden="true"
+            className="absolute right-0 top-2 hidden w-[440px] rotate-2 overflow-hidden rounded-2xl bg-card shadow-[0_30px_60px_-30px_rgb(20_32_61/0.35)] lg:block"
+          >
+            <div className="flex h-[88px] items-center justify-between bg-forest px-6">
+              <span className="font-display text-3xl font-semibold text-parchment">Maya &amp; Jordan</span>
+              <span className="font-mono-numbers text-[13px] text-parchment/85">236 days to go</span>
+            </div>
+            <div className="flex flex-col gap-1.5 px-6 py-4">
+              <span className="font-mono-numbers text-[10px] uppercase tracking-[0.18em] text-brass">Your next step</span>
+              <span className="font-display text-2xl font-semibold text-forest">Book your caterer</span>
+              <span className="mt-1.5 grid grid-cols-6 gap-1">
+                {[0, 1, 2, 3, 4, 5].map((i) => (
+                  <span key={i} className={`h-1 rounded-full ${i < 3 ? "bg-forest" : i === 3 ? "bg-[#ffd301]" : "bg-hairline"}`} />
+                ))}
+              </span>
+            </div>
+          </div>
+
+          <div className="relative z-10 lg:absolute lg:left-0 lg:top-[188px] lg:w-[440px]">
+            <HomeEstimatorCard regionalData={regionalData ?? []} />
+          </div>
+
         </div>
       </section>
 
-      <FadeInSection>
-        <div className="grid w-full max-w-3xl grid-cols-1 gap-6 border-y border-hairline py-10 sm:grid-cols-3">
-          {stats.map((stat) => (
-            <div key={stat.label} className="text-center">
-              <span className="font-mono-numbers text-4xl font-semibold text-forest">
-                {stat.prefix}
-                <AnimatedCounter value={stat.value} />
-                {stat.suffix}
-              </span>
-              <p className="mt-1 text-sm text-ink/60">{stat.label}</p>
-            </div>
-          ))}
-        </div>
-      </FadeInSection>
+      <ul className={`grid w-full ${WIDE_WIDTH} grid-cols-2 gap-x-6 gap-y-2 border-t border-hairline py-6 text-sm text-ink/80 sm:text-[15px] lg:flex lg:justify-between`}>
+        {facts.map((f) => (
+          <li key={f.rest}>
+            {f.strong && <strong className="font-mono-numbers font-medium text-forest">{f.strong}</strong>} {f.rest}
+          </li>
+        ))}
+      </ul>
 
       <div className={`w-full ${WIDE_WIDTH} py-16`}>
         <FadeInSection>
