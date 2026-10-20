@@ -103,7 +103,6 @@ Sunset Station Hotel & Casino	1301 W Sunset Rd	Henderson	Nevada			Ballroom / Hot
   {
     name: "Map fill: Elko, Mesquite, Fernley",
     tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
-Cottonwood Guest Ranch	HC 62 Box 1300, O'Neil Route	Wells	Nevada			Barn / Rustic	Outdoor	400		Working ranch at the foot of the Jarbidge Mountains that hosts country weddings from tiny gatherings to several hundred guests, with tents, hayrides and carriages.	reservations@cottonwoodguestranch.com	775-472-0222	https://www.cottonwoodguestranch.com
 Elko Euzkaldunak (Basque) Club	1601 Flagview Drive	Elko	Nevada			Historic / Estate	Indoor & Outdoor			Basque cultural club hall rented out year-round for wedding receptions, with a kitchen, bar, musician stage and indoor and outdoor space.		775-777-5255	https://elkobasqueclub.com
 Western Folklife Center (G Three Bar Theater)	501 Railroad Street	Elko	Nevada			Historic / Estate	Indoor			Cultural centre in downtown Elko whose hardwood-floored theatre and 1890s-style Pioneer Saloon are rented for receptions and gatherings.		775-738-7508	https://www.westernfolklife.org
 Eureka Casino Resort	275 Mesa Blvd	Mesquite	Nevada			Ballroom / Hotel	Indoor & Outdoor	150		Mesquite casino hotel with a ballroom that seats 150 for receptions and a hotel garden used for ceremonies and cocktail hours.		702-346-4600	https://www.eurekamesquite.com/meetings-and-events

@@ -43,6 +43,20 @@ legal questions to the owner rather than deciding them.
   Part 3: the opt-in seller badge (month and year of the wedding only) is
   in the same Privacy line; rentals are between the two people, like sales.
 
+- **Policy catch-up (2026-10-19):** guest wall posts (form shows
+  `LegalNotice`; Privacy §1 from guests, Terms §5 approval), the assistant's
+  guest-list/itinerary/seating lookups and Confirm-only changes, the vendor
+  listing reader and writer (Privacy §1 vendors and §2 AI, now six), the Help
+  feedback form, marketplace message emails (§2), and the attire share link
+  (Privacy §4). Terms §1 now covers vendors and marketplace users, §4 covers
+  rentals, and a new §7 says AI output is a draft to check, not advice.
+- **California (2026-10-20):** the owner is in California, so Terms §13 is
+  California law. Privacy §1 has the Do Not Track line CalOPPA asks for.
+  CCPA/CPRA doesn't apply yet (it starts at $25M+ revenue, 100k+ consumers'
+  data a year, or half of revenue from selling/sharing data); revisit if any
+  of those come close. If the business is later formed in another state,
+  revisit §13.
+
 Rule: any new form that sends Wren a person's details gets `LegalNotice`
 next to its submit button, and the Privacy Policy's "Information we collect"
 gets a line for it. Bump the "Last updated" date on any policy change.
@@ -64,6 +78,15 @@ vendor outreach blasts):
 **SMS beyond the current opt-in text updates:** explicit opt-in per number,
 STOP handling, and record of consent (TCPA). Current texts are
 wedding-schedule only and never marketing — keep it that way or revisit.
+Since 2026-10-19 the RSVP checkbox shows `SMS_CONSENT_DETAIL`
+(`src/lib/sms-consent.ts`), which is stored with the opt-in (0122). Every
+text names the sender and says "Reply STOP". Never add a line promoting
+anything to a guest text: one line of promotion makes it a marketing text.
+
+**Guest sites:** read through `createGuestSiteClient` (`src/lib/supabase/guest-site.ts`),
+never a plain client. The database shows one site per request, and only
+past its password (0121). A new guest-site table gets a policy built on
+`public_weddings`, or on `guest_site_open()` / `guest_site_named()`.
 
 **EU/UK users** (marketing to them, or real sign-ups arriving):
 - Cookie banner only if non-essential cookies/analytics are added; today

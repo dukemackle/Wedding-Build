@@ -149,6 +149,9 @@ export type RsvpSubmission = {
   song_request: string | null;
   phone: string | null;
   sms_opt_in: boolean;
+  /** The opt-in wording the guest agreed to, and when (0122). Null before 0122 or without opt-in. */
+  sms_consent?: string | null;
+  sms_opt_in_at?: string | null;
   /** Per-event answers, event id -> coming (0109). Null when the wedding asks none. */
   events: EventAnswers | null;
   created_at: string;
@@ -204,6 +207,9 @@ export type Guest = {
   song_request: string | null;
   phone: string | null;
   sms_opt_in: boolean;
+  /** The opt-in wording the guest agreed to, and when (0122). Null before 0122 or without opt-in. */
+  sms_consent?: string | null;
+  sms_opt_in_at?: string | null;
   address_line1: string | null;
   address_line2: string | null;
   city: string | null;

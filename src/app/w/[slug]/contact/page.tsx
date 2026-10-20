@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
-import type { PublicWedding } from "@/lib/supabase/types";
+import { guestSiteCover } from "@/lib/supabase/guest-site";
 import { ContactForm } from "./contact-form";
 
 export const metadata = {
@@ -16,13 +15,9 @@ export default async function ContactCollectorPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const supabase = await createClient();
-
-  const { data: wedding } = await supabase
-    .from("public_weddings")
-    .select("*")
-    .eq("public_slug", slug)
-    .maybeSingle<PublicWedding>();
+  // By slug alone, password or not: guests reach this from a link or a
+  // table card, often before they've opened the site (0121).
+  const wedding = await guestSiteCover(slug);
 
   if (!wedding) {
     notFound();

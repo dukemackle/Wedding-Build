@@ -606,6 +606,9 @@ export async function approveRsvpSubmission(formData: FormData): Promise<{ error
     song_request: submission.song_request,
     phone: submission.phone,
     sms_opt_in: submission.sms_opt_in,
+    ...(submission.sms_opt_in && submission.sms_consent
+      ? { sms_consent: submission.sms_consent, sms_opt_in_at: submission.sms_opt_in_at }
+      : {}),
     ...(submission.events ? { event_rsvps: submission.events } : {}),
   };
 

@@ -1293,3 +1293,35 @@ body:has(.search-shell-root) .site-footer {
 @media (prefers-reduced-motion: no-preference) {
   .publish-ready { animation: publish-ready 2s ease-out infinite; }
 }
+
+/* Keyboard focus, everywhere. Browsers' default ring was the only cue on
+   most buttons and links, and inputs had none (outline-none). The ring is
+   the deep gold that's readable on white, cream and navy alike (4.7:1 on
+   white, 3.4:1 on navy); on navy fills it switches to the bright Gold. In
+   the base layer, so a component's own focus-visible:* utilities still
+   win. Only :focus-visible, so a mouse click never draws it. */
+@layer base {
+  :focus-visible {
+    outline: 2px solid #9a6b00;
+    outline-offset: 2px;
+    /* Softens the ring on plain text links; rounded-* utilities win. */
+    border-radius: 0.25rem;
+  }
+  .bg-forest :focus-visible,
+  .bg-forest:focus-visible {
+    outline-color: #ffd301;
+  }
+  /* Where the skip link lands: a region, not a control, so no ring. */
+  main:focus-visible,
+  #main-content:focus-visible {
+    outline: none;
+  }
+  /* Fields set outline-none and change their border on focus; add a soft
+     gold halo so the focused field is obvious without relying on a 1px
+     border colour. */
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    box-shadow: 0 0 0 3px rgb(224 161 0 / 0.35);
+  }
+}

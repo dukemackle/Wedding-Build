@@ -2,6 +2,7 @@
 
 import "server-only";
 import Anthropic from "@anthropic-ai/sdk";
+import { assistantErrorMessage } from "@/lib/ai/errors";
 import { requireAdmin } from "@/lib/admin";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 
@@ -109,13 +110,7 @@ export async function summarizeChatThemes(): Promise<Result> {
     if (!Array.isArray(themes)) return { ok: false, error: "Wren didn't return any themes. Try again." };
     return { ok: true, themes: themes.sort((a, b) => b.count - a.count), questionCount: questions.length };
   } catch (err) {
-    if (err instanceof Anthropic.AuthenticationError) {
-      return { ok: false, error: "The assistant isn't configured (missing API key)." };
-    }
-    if (err instanceof Anthropic.RateLimitError) {
-      return { ok: false, error: "The assistant is busy -- try again in a moment." };
-    }
     console.error("Chat themes request failed:", err);
-    return { ok: false, error: "Something went wrong reaching the assistant." };
+    return { ok: false, error: assistantErrorMessage(err) };
   }
 }

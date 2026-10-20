@@ -6,7 +6,7 @@ import { restamp, type FieldSources } from "@/lib/field-sources";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import type { Vendor, VenueSubmission } from "@/lib/supabase/types";
 import { getResendClient, INQUIRY_FROM_ADDRESS } from "@/lib/resend";
-import { CLAIM_BASE_URL, ensureClaimLink, newClaimToken } from "@/lib/venue-claim-server";
+import { ensureClaimLink, noticeOfContactChange, replaceClaimLink } from "@/lib/venue-claim-server";
 import { geocode, townPin } from "@/lib/listing-pin";
 
 /** The venue's claim link, creating one the first time it's asked for. */
@@ -19,13 +19,8 @@ export async function getClaimLink(venueId: string): Promise<{ error?: string; u
 /** Replaces the link, so the old one stops working -- for a link sent to the wrong person. */
 export async function regenerateClaimLink(venueId: string): Promise<{ error?: string; url?: string }> {
   await requireAdmin();
-  const token = newClaimToken();
-  const admin = createAdminSupabaseClient();
-  const { error } = await admin
-    .from("venue_claim_links")
-    .upsert({ venue_id: venueId, token, created_at: new Date().toISOString() });
-  if (error) return { error: error.message };
-  return { url: CLAIM_BASE_URL + token };
+  const url = await replaceClaimLink(venueId);
+  return url ? { url } : { error: "Couldn't create a link -- try again." };
 }
 
 /**
@@ -51,9 +46,15 @@ export async function approveSubmission(submissionId: string): Promise<{ error?:
   // was placed by hand.
   const { data: live } = await admin
     .from("venues")
-    .select("address, latitude, source, field_sources")
+    .select("address, latitude, source, field_sources, contact_email")
     .eq("id", submission.venue_id)
-    .maybeSingle<{ address: string | null; latitude: number | null; source: string | null; field_sources: FieldSources }>();
+    .maybeSingle<{
+      address: string | null;
+      latitude: number | null;
+      source: string | null;
+      field_sources: FieldSources;
+      contact_email: string | null;
+    }>();
   const d = submission.details;
   // A listing with no pin at all (a venue that listed itself without an
   // address the geocoder knows) borrows its town's, so it still shows on the map.
@@ -135,6 +136,12 @@ export async function approveSubmission(submissionId: string): Promise<{ error?:
     .update({ status: "approved", reviewed_at: now })
     .eq("id", submissionId);
 
+  // The link that brought this claim in has been in inquiry emails anyone
+  // could forward. From here on only the approved submitter holds one.
+  const link = await replaceClaimLink(submission.venue_id);
+  const linkLine = link ? `Your private link for changes from now on (it lasts 90 days; ask for a new one any time at https://youdoido.com/list/edit):\n${link}` : "Ask for your link any time at https://youdoido.com/list/edit";
+  await noticeOfContactChange(submission.details.name, live?.contact_email, submission.details.contact_email);
+
   if (process.env.RESEND_API_KEY) {
     try {
       await getResendClient().emails.send({
@@ -143,8 +150,8 @@ export async function approveSubmission(submissionId: string): Promise<{ error?:
         replyTo: process.env.ADMIN_EMAIL?.split(",")[0]?.trim(),
         subject: isNew ? `${submission.details.name} is live on You Do, I Do` : `${submission.details.name} is updated on You Do, I Do`,
         text: isNew
-          ? `Hi ${submission.submitter_name},\n\n${submission.details.name} is now listed on You Do, I Do, where couples can find it and send you inquiries. Use the same link any time to make changes, or ask for it again at https://youdoido.com/list/edit\n\nThanks,\nYou Do, I Do`
-          : `Hi ${submission.submitter_name},\n\nYour changes to ${submission.details.name} are now live on You Do, I Do. You can use the same link any time to make more.\n\nThanks,\nYou Do, I Do`,
+          ? `Hi ${submission.submitter_name},\n\n${submission.details.name} is now listed on You Do, I Do, where couples can find it and send you inquiries.\n\n${linkLine}\n\nThanks,\nYou Do, I Do`
+          : `Hi ${submission.submitter_name},\n\nYour changes to ${submission.details.name} are now live on You Do, I Do.\n\n${linkLine}\n\nThanks,\nYou Do, I Do`,
       });
     } catch {
       // The listing is live either way.

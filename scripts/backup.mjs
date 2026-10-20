@@ -13,6 +13,10 @@
 //     folder (a Shared Drive folder the service account is a member of;
 //     service accounts have no storage of their own), keeping the newest KEEP,
 //     and Storage files are mirrored into its "files" subfolder.
+//   BACKUP_ENCRYPTION_KEY   encrypts the data file and every Storage file
+//     before anything is written or uploaded (scripts/backup-crypto.mjs).
+//     Without it the backup still runs, unencrypted, and the summary says
+//     "encrypted": false so the weekly review flags it.
 //
 // Usage: node scripts/backup.mjs [--out <dir>]   (default: ./backups)
 // Writes <dir>/youdoido-backup-<date>.json.gz and <dir>/files/<bucket>/<path>.
@@ -22,6 +26,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { createSign } from "node:crypto";
 import { gzipSync } from "node:zlib";
+import { backupKey, encrypt } from "./backup-crypto.mjs";
 
 for (const file of [".env.local", ".env"]) {
   if (!existsSync(file)) continue;
@@ -43,6 +48,8 @@ const OUT_DIR = outIdx > -1 ? process.argv[outIdx + 1] : "backups";
 const PAGE = 1000;
 const KEEP = 12;
 const headers = { apikey: KEY, Authorization: `Bearer ${KEY}` };
+const CRYPT_KEY = backupKey();
+const seal = (data) => (CRYPT_KEY ? encrypt(CRYPT_KEY, data) : data);
 
 async function request(url, init = {}) {
   for (let attempt = 1; ; attempt++) {
@@ -134,7 +141,7 @@ for (const bucket of buckets) {
   storage[bucket.id] = await listFiles(bucket.id);
   for (const f of storage[bucket.id]) {
     const res = await request(`${URL_BASE}/storage/v1/object/${bucket.id}/${encodePath(f.path)}`);
-    const data = Buffer.from(await res.arrayBuffer());
+    const data = seal(Buffer.from(await res.arrayBuffer()));
     const dest = join(OUT_DIR, "files", bucket.id, f.path);
     mkdirSync(dirname(dest), { recursive: true });
     writeFileSync(dest, data);
@@ -144,9 +151,9 @@ for (const bucket of buckets) {
 }
 
 const backup = { createdAt: startedAt.toISOString(), source: URL_BASE, tables, auth_users: users, buckets, storage };
-const gz = gzipSync(JSON.stringify(backup));
+const gz = seal(gzipSync(JSON.stringify(backup)));
 mkdirSync(OUT_DIR, { recursive: true });
-const file = join(OUT_DIR, `youdoido-backup-${startedAt.toISOString().slice(0, 10)}.json.gz`);
+const file = join(OUT_DIR, `youdoido-backup-${startedAt.toISOString().slice(0, 10)}.json.gz${CRYPT_KEY ? ".enc" : ""}`);
 writeFileSync(file, gz);
 // A failed upload is reported, not fatal: the files on disk can still go to
 // the GitHub copy.
@@ -156,6 +163,7 @@ console.log(
   JSON.stringify({
     file,
     bytes: gz.length,
+    encrypted: Boolean(CRYPT_KEY),
     drive,
     tables: Object.fromEntries(Object.entries(tables).map(([t, rows]) => [t, rows.length])),
     auth_users: users.length,
@@ -236,15 +244,17 @@ async function uploadToDrive(name, data, files) {
       body: JSON.stringify({ trashed: true }),
     });
 
-  await upload(name, folder, "application/gzip", data);
+  await upload(name, folder, CRYPT_KEY ? "application/octet-stream" : "application/gzip", data);
   const old = (await list(`'${folder}' in parents and name contains 'youdoido-backup-' and trashed = false`))
     .filter((f) => f.name.startsWith("youdoido-backup-"))
     .slice(KEEP);
   for (const f of old) await trash(f.id);
 
   // Storage files are mirrored, not versioned: a file is uploaded when its
-  // name ("bucket/path") is new or its size changed. Nothing is removed, so a
-  // file deleted from Storage stays recoverable here.
+  // name ("bucket/path") is new or its size changed (so the first encrypted
+  // run replaces every unencrypted copy). A file deleted from Storage goes to
+  // the Drive trash, recoverable for its 30 days and then gone, so a deleted
+  // account's photos and contracts don't outlive it here for good.
   let filesFolder = (await list(`'${folder}' in parents and name = 'files' and mimeType = 'application/vnd.google-apps.folder' and trashed = false`))[0]?.id;
   if (!filesFolder) {
     const res = await drive(`${api}?supportsAllDrives=true`, {
@@ -260,9 +270,16 @@ async function uploadToDrive(name, data, files) {
     const fileName = `${f.bucket}/${f.path}`;
     const prev = existing.get(fileName);
     if (prev && Number(prev.size) === f.data.length) continue;
-    await upload(fileName, filesFolder, f.mimetype ?? "application/octet-stream", f.data);
+    await upload(fileName, filesFolder, CRYPT_KEY ? "application/octet-stream" : (f.mimetype ?? "application/octet-stream"), f.data);
     if (prev) await trash(prev.id);
     uploaded++;
   }
-  return `uploaded ${name}; trashed ${old.length} old; ${uploaded} of ${files.length} storage files uploaded`;
+  const current = new Set(files.map((f) => `${f.bucket}/${f.path}`));
+  let removed = 0;
+  for (const [fileName, prev] of existing) {
+    if (current.has(fileName)) continue;
+    await trash(prev.id);
+    removed++;
+  }
+  return `uploaded ${name}; trashed ${old.length} old; ${uploaded} of ${files.length} storage files uploaded; ${removed} deleted from Storage trashed`;
 }

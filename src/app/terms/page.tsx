@@ -11,7 +11,7 @@ export default function TermsPage() {
       <div className={`w-full ${READING_WIDTH}`}>
         <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Legal</p>
         <h1 className="mt-2 font-display text-3xl font-semibold text-forest">Terms of Service</h1>
-        <p className="mt-2 text-sm text-ink/60">Last updated: October 18, 2026</p>
+        <p className="mt-2 text-sm text-ink/60">Last updated: October 20, 2026</p>
 
         <div className="mt-8 flex flex-col gap-8 text-ink/80">
           <p>
@@ -34,6 +34,14 @@ export default function TermsPage() {
                 <strong className="text-ink">Guests</strong> — anyone who submits an RSVP,
                 message, photo, or other content through a public wedding site, without creating
                 an account.
+              </li>
+              <li>
+                <strong className="text-ink">Vendors and venues</strong> — anyone who lists or
+                claims a business on You Do, I Do.
+              </li>
+              <li>
+                <strong className="text-ink">Marketplace users</strong> — anyone who lists, buys,
+                rents or messages about an item in the marketplace.
               </li>
             </ul>
             <p className="mt-3">
@@ -87,9 +95,11 @@ export default function TermsPage() {
               <strong>Marketplace.</strong> When you list something in the marketplace, the listing
               (photos, title, price, description, your first name and pickup town) is public. You
               confirm the item is yours to sell and isn&apos;t on the not-allowed list shown on the
-              sell form. Sales happen directly between buyer and seller: You Do, I Do isn&apos;t a
-              party to them, doesn&apos;t handle payment, and doesn&apos;t vouch for any item or
-              person. We can take down any listing.
+              sell form. Sales and rentals happen directly between the two people involved: You Do, I Do
+  isn&apos;t a party to them, doesn&apos;t handle payment or deposits, and doesn&apos;t
+  vouch for any item or person. Agree the terms of a rental (dates, deposit, condition
+  on return) between yourselves before handing anything over. We can take down any
+  listing or conversation.
             </p>
           </Section>
 
@@ -98,8 +108,13 @@ export default function TermsPage() {
               When you (a couple) create a public wedding site, anyone with the link can view the
               information you choose to make public — including RSVP forms, itinerary details, and
               guestbook photos/messages guests submit. Don&apos;t include anything on your public
-              site that you or your guests wouldn&apos;t want visible to anyone with the link.
-            </p>
+                site that you or your guests wouldn&apos;t want visible to anyone with the link.
+              </p>
+              <p className="mt-3">
+                Photos and messages guests post to your guest wall wait for your approval before
+                they appear, and you can remove any of them later. Approving a post is your choice
+                to show it to everyone with the link.
+              </p>
           </Section>
 
           <Section title="6. Vendors and venues">
@@ -126,7 +141,19 @@ export default function TermsPage() {
             </p>
           </Section>
 
-          <Section title="7. Referral codes">
+          <Section title="7. AI features">
+            <p>
+              Some features use AI to draft things for you, such as contract summaries and dates,
+              thank-you notes, guest-site text, answers and suggested changes from Wren, the
+              planning assistant, and listing text for vendors and venues. AI can get things
+              wrong. Treat its output as a starting point to check, not as legal, financial or
+              professional advice, and check anything important (a contract date, a payment
+              amount) against the original. Nothing Wren suggests changes your plan until you
+              confirm it.
+            </p>
+          </Section>
+
+          <Section title="8. Referral codes">
             <p>
               Any referral code shown in your account is for informal tracking only. It
               doesn&apos;t create a binding commission, discount, or payment obligation between
@@ -134,7 +161,7 @@ export default function TermsPage() {
             </p>
           </Section>
 
-          <Section title="8. Disclaimer of warranties">
+          <Section title="9. Disclaimer of warranties">
             <p>
               The Service is provided &quot;as is&quot; and &quot;as available,&quot; without
               warranties of any kind, express or implied, including warranties of merchantability,
@@ -143,7 +170,7 @@ export default function TermsPage() {
             </p>
           </Section>
 
-          <Section title="9. Limitation of liability">
+          <Section title="10. Limitation of liability">
             <p>
               To the fullest extent permitted by law, You Do, I Do isn&apos;t liable for any indirect,
               incidental, special, consequential, or punitive damages, or for any loss of data,
@@ -154,7 +181,7 @@ export default function TermsPage() {
             </p>
           </Section>
 
-          <Section title="10. Termination">
+          <Section title="11. Termination">
             <p>
               You can stop using the Service and permanently delete your account at any time from
               your{" "}
@@ -166,7 +193,7 @@ export default function TermsPage() {
             </p>
           </Section>
 
-          <Section title="11. Changes to these Terms">
+          <Section title="12. Changes to these Terms">
             <p>
               We may update these Terms from time to time. If we make material changes, we&apos;ll
               post the updated Terms here with a new effective date. Continued use of the Service
@@ -174,15 +201,14 @@ export default function TermsPage() {
             </p>
           </Section>
 
-          <Section title="12. Governing law">
+          <Section title="13. Governing law">
             <p>
-              These Terms are governed by the laws of [STATE — to be finalized once You Do, I Do&apos;s
-              business entity and home state are established], without regard to
+              These Terms are governed by the laws of the State of California, without regard to
               conflict-of-laws principles.
             </p>
           </Section>
 
-          <Section title="13. Contact">
+          <Section title="14. Contact">
             <p>
               Questions about these Terms? Contact us at{" "}
               <a href="mailto:hello@youdoido.com" className="text-brass hover:underline">

@@ -140,7 +140,11 @@ export async function sendVenueInquiry(formData: FormData): Promise<{ error?: st
   const phoneNote = senderPhone ? `\n\nPhone: ${senderPhone}` : "";
 
   // Only real listings get a claim link; a sample venue has no one to claim it.
-  const claimUrl = venueId && listing && !listing.is_sample ? await ensureClaimLink(venueId) : null;
+  // And only when the email goes to the listing's own stored address: an
+  // address the couple typed could be anyone's, and the link would let them
+  // take over the listing (docs/legal-audit.md R8).
+  const claimUrl =
+    venueId && listing && !listing.is_sample && listing.contact_email ? await ensureClaimLink(venueId) : null;
 
   // Log first so an email never goes out unrecorded (see vendors/actions.ts).
   const { data: logged, error: dbError } = await supabase

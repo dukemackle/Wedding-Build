@@ -361,8 +361,8 @@ export async function setSitePassword(formData: FormData): Promise<{ error?: str
   if (!wedding) return { error: noWedding };
 
   const password = (formData.get("password") as string | null) ?? "";
-  if (password && (password.length < 4 || password.length > 64)) {
-    return { error: "Use 4 to 64 characters." };
+  if (password && (password.length < 8 || password.length > 64)) {
+    return { error: "Use 8 to 64 characters." };
   }
 
   const { error } = await supabase.rpc("set_guest_site_password", {

@@ -25,13 +25,24 @@ export function isAdminEmail(email: string | undefined): boolean {
   return allowed.length > 0 && allowed.includes(email.toLowerCase());
 }
 
+/**
+ * An admin is a listed address the account has proven it owns. Without the
+ * confirmation check, signing up as an unregistered listed address would be
+ * enough wherever Supabase lets accounts in before the email is confirmed.
+ */
+export function isAdminUser(
+  user: { email?: string; email_confirmed_at?: string | null } | null | undefined,
+): boolean {
+  return Boolean(user?.email_confirmed_at) && isAdminEmail(user?.email);
+}
+
 export async function isCurrentUserAdmin(): Promise<boolean> {
   const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
-  return isAdminEmail(user?.email);
+  return isAdminUser(user);
 }
 
 // Call at the top of every admin page/layout and every admin server
@@ -54,7 +65,7 @@ export async function requireAdmin() {
     redirect("/login");
   }
 
-  if (!isAdminEmail(user.email)) {
+  if (!isAdminUser(user)) {
     redirect("/login?error=" + encodeURIComponent("This account doesn't have admin access."));
   }
 }

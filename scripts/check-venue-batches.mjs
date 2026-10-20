@@ -174,9 +174,16 @@ for (const batch of ALL_VENUE_BATCHES) {
       if (seenSite.has(site)) errors.push(`${where(row)}: same website as ${seenSite.get(site)} -- only the first imports`);
       else seenSite.set(site, where(row));
     }
-    const nameKey = `${v.name.toLowerCase()}|${(v.city ?? "").toLowerCase()}`;
-    if (seenName.has(nameKey)) warnings.push(`${where(row)}: same name and city as ${seenName.get(nameKey)}`);
-    else seenName.set(nameKey, where(row));
+    // The importer keys on the full URL, so the same venue under another page
+    // of its site (/weddings vs the home page) imports as a second listing.
+    const nameKey = `${v.name.toLowerCase()}|${(v.state ?? "").toLowerCase()}`;
+    const domain = (site ?? "").split("/")[0];
+    const earlier = seenName.get(nameKey);
+    if (earlier && domain && earlier.domain === domain) {
+      errors.push(`${where(row)}: same venue as ${earlier.where} (same name and site) -- it would be listed twice`);
+    } else if (earlier) {
+      warnings.push(`${where(row)}: same name as ${earlier.where} in this state`);
+    } else seenName.set(nameKey, { where: where(row), domain });
 
     if ((v.latitude === null) !== (v.longitude === null)) {
       errors.push(`${where(row)}: has only one of Latitude/Longitude -- give both or neither`);

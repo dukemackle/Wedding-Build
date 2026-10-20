@@ -2,9 +2,10 @@
 
 import "server-only";
 import Anthropic from "@anthropic-ai/sdk";
+import { assistantErrorMessage } from "@/lib/ai/errors";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
-import { isAdminEmail } from "@/lib/admin";
+import { isAdminUser } from "@/lib/admin";
 import { buildAdminTools, type Lookup } from "@/lib/ai/admin-assistant-tools";
 
 /** Same model as the couple-facing Wren: these are lookups, not hard reasoning. */
@@ -51,7 +52,7 @@ export async function getAdminQuestionAllowance(): Promise<{ used: number; cap: 
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   const cap = MAX_ADMIN_QUESTIONS_PER_DAY;
-  if (!user || !isAdminEmail(user.email)) return { used: 0, cap };
+  if (!user || !isAdminUser(user)) return { used: 0, cap };
   return { used: await usedToday(createAdminSupabaseClient(), user.id), cap };
 }
 
@@ -60,7 +61,7 @@ export async function askAdminAssistant(history: AdminAssistantMessage[]): Promi
   // trusting the layout's gate.
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
-  if (!user || !isAdminEmail(user.email)) return { ok: false, error: "Admins only." };
+  if (!user || !isAdminUser(user)) return { ok: false, error: "Admins only." };
 
   const trimmed = history.slice(-MAX_TURNS);
   while (trimmed.length > 0 && trimmed[0].role !== "user") trimmed.shift();
@@ -109,13 +110,7 @@ export async function askAdminAssistant(history: AdminAssistantMessage[]): Promi
 
     return { ok: true, reply, lookups, usedToday: used + 1 };
   } catch (error) {
-    if (error instanceof Anthropic.AuthenticationError) {
-      return { ok: false, error: "The assistant isn't configured (missing API key)." };
-    }
-    if (error instanceof Anthropic.RateLimitError) {
-      return { ok: false, error: "The assistant is busy -- try again in a moment." };
-    }
     console.error("Admin assistant request failed:", error);
-    return { ok: false, error: "Something went wrong reaching the assistant." };
+    return { ok: false, error: assistantErrorMessage(error) };
   }
 }

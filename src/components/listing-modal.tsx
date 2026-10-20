@@ -19,8 +19,12 @@ export function ListingModal({ title, children }: { title: string; children: Rea
   const panel = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // Focus goes back to whatever opened the panel (usually the result card)
+    // once it closes, so a keyboard user isn't dropped at the top of the page.
+    const opener = document.activeElement instanceof HTMLElement ? document.activeElement : null;
     function onKey(e: KeyboardEvent) {
       if (e.key === "Escape") router.back();
+      if (e.key === "Tab" && panel.current) keepFocusInside(panel.current, e);
     }
     window.addEventListener("keydown", onKey);
     // The results behind shouldn't scroll along with the panel.
@@ -30,6 +34,7 @@ export function ListingModal({ title, children }: { title: string; children: Rea
     return () => {
       window.removeEventListener("keydown", onKey);
       document.body.style.overflow = previous;
+      if (opener?.isConnected) opener.focus({ preventScroll: true });
     };
   }, [router]);
 
@@ -67,4 +72,25 @@ export function ListingModal({ title, children }: { title: string; children: Rea
       </div>
     </div>
   );
+}
+
+const FOCUSABLE =
+  'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), iframe, [tabindex]:not([tabindex="-1"])';
+
+/** Tab and Shift+Tab wrap around inside the panel instead of reaching the results behind it. */
+function keepFocusInside(container: HTMLElement, e: KeyboardEvent) {
+  const items = Array.from(container.querySelectorAll<HTMLElement>(FOCUSABLE)).filter(
+    (el) => el.getClientRects().length > 0,
+  );
+  if (items.length === 0) return;
+  const first = items[0];
+  const last = items[items.length - 1];
+  const active = document.activeElement;
+  if (e.shiftKey && (active === first || active === container)) {
+    e.preventDefault();
+    last.focus();
+  } else if (!e.shiftKey && (active === last || !container.contains(active))) {
+    e.preventDefault();
+    first.focus();
+  }
 }

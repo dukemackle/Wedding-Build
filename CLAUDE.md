@@ -23,6 +23,17 @@ an admin panel (admin.youdoido.com) for tracking couples, vendors, venues,
 revenue, and growth. Current stage: **pre-launch, not yet monetized, no outside
 users** — the owner is still building and testing solo.
 
+**Design expert (2026-10-19):** use the project's `design-expert` skill
+(`.claude/skills/design-expert/`, or `/design-expert`) whenever work involves
+website design, user interfaces, frontend features, layouts, navigation, user
+journeys, styling, animation or visual presentation. Treat design quality and
+usability as part of the product work. Briefly recommend high-value design
+improvements relevant to the current work, even unasked. For a major visual
+change, propose a recommended direction before building. Never start a large
+redesign nobody asked for, and never deploy without approval. Its backlog is
+`DESIGN-OPPORTUNITIES.md` and its log of approved/rejected directions is
+`DECISIONS.md`, both in that folder.
+
 **Workflow note (2026-09-13, amended 2026-09-14):** for any visual/UI
 change (icons, layout, colors, mascot art, etc.) or any bigger/riskier
 change, render a preview (screenshot or generated image) and/or confirm
@@ -133,6 +144,10 @@ reflexively:
 - **`docs/legal.md`** — terms/privacy/consent coverage and what future features
   trigger (marketing email opt-in, EU users, SMS, analytics, billing). Read
   before shipping a new form that collects details, or any of those triggers.
+- **`docs/legal-audit.md`** — the legal/liability audit (2026-10-19), live
+  risk register, launch-review questions and attorney queue. Read before
+  legal, privacy, SMS, listing-wording or payments work; update a risk's
+  status when a fix ships.
 
 ## Working efficiently (2026-09-21)
 
