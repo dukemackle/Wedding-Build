@@ -415,6 +415,107 @@ Brittni Cain Photography	Photography		Gainesville	Georgia	Hall County and nearby
 Mark Williams Studio	Photography	706 South Main Street	Swainsboro	Georgia	Southeast Georgia	Family studio in Swainsboro photographing weddings and portraits across Southeast Georgia, including Vidalia, Statesboro, Dublin and Savannah.	info@markwilliamsstudio.com	478.237.3692	https://www.markwilliamsstudio.com/	https://www.instagram.com/markwilliamsstudio/
 `,
   },
+  {
+    name: "Atlanta: photography, florals, music, hair and makeup, videography, cake, planning, catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Andrea Lucia Photography	Photography		Atlanta	Georgia	Atlanta, Gwinnett County and Northeast Georgia	Bilingual photographer and officiant for micro-weddings, elopements and courthouse ceremonies, offering ceremony design alongside the photography.			https://www.andrealuciaphotography.com/	
+Leigha Gray Photography	Photography		Atlanta	Georgia	Atlanta, the Southeast and destination	Atlanta photographer for weddings and elopements who offers 35mm film and Polaroid add-ons, with travel built into the collection price.			https://leighagrayphotography.com/weddings-elopements	https://www.instagram.com/leighagray.photography/
+Jaimie Dee Photography	Photography		Atlanta	Georgia	Metro Atlanta and North Georgia	Husband-and-wife team photographing since 2008, with gentle posing guidance for nervous couples and weekday elopement slots alongside full weddings.		404-890-0035	https://jaimiedee.com/	https://www.instagram.com/jaimiedeephotography/
+Jordan Grimes Photography	Photography		Atlanta	Georgia	Georgia and destination	Documentary-style wedding photographer shooting on both digital and 35mm or 120 film for relaxed, editorial celebrations in Georgia and abroad.			https://jordangrimesphotography.com/	https://www.instagram.com/jordangrimesphotography/
+Flowers by Impressions	Florals		Atlanta	Georgia	Metro Atlanta	Independent full-service wedding florist founded in 2007, where couples work directly with the owner and see a live sample and design board at consultation.	dina@flowersbyimpressions.com	(404) 488-5038	https://flowersbyimpressions.com/	
+Bloom Floral Design	Florals		Decatur	Georgia	Decatur and Atlanta	Small Decatur florist making bridal bouquets, ceremony pieces and centrepieces, with a published sustainability approach to sourcing and waste.	bloomfloraldesignatl@gmail.com	404-664-6138	https://www.bloomfloraldesignatl.com/	https://www.instagram.com/bloomfloralatl/
+Rittenhouse Designs & Events	Florals		Atlanta	Georgia	Atlanta and the Southeast	Atlanta studio combining bespoke wedding florals, full event design and day-of management, led by a founder who grew up in her family's flower shop.	christina@rittenhousedesigns.com	678-428-9036	https://www.rittenhousedesigns.com/	https://www.instagram.com/rittenhousedesigns/
+Diamond Entertainment	Music		Atlanta	Georgia	Atlanta	Atlanta wedding DJ company whose top package adds a separate host and MC, with a planning app for must-play lists and multicultural music.		(943) 238-1488	https://www.diamondvents.com/	https://www.instagram.com/diam_dj/
+DJ Cuttlefish	Music	480 John Wesley Dobbs Ave NE, Suite 150	Atlanta	Georgia	Atlanta	Atlanta wedding DJ with a branded video facade, projector, dance floor lighting and uplighting, working alongside partner photo and film vendors.		770-876-9248	https://djcuttlefish.com/	https://www.instagram.com/djcuttlefish/
+Kings of the Party	Music		Atlanta	Georgia	Atlanta and the Southeast	Nine to twelve-piece Atlanta showband with a full horn section and vocalists, playing soul, pop and Top 40 sets tailored to each reception.			https://www.kingsoftheparty.com/	https://www.instagram.com/kingsofthepartylive/
+Glow by Kourtney	Hair & Makeup		Atlanta	Georgia	Atlanta	Atlanta bridal makeup and hair artist whose packages include a trial, a skin-prep facial routine, a touch-up kit and a personalised makeup timeline.	services@glowbykourtney.com	504-913-6619	https://www.glowbykourtney.com/bridal	https://www.instagram.com/glowbykourtney/
+Shutter & Sound	Videography		Atlanta	Georgia	Atlanta, Georgia and the Carolinas	Two Atlanta filmmakers who hand-cut every wedding film themselves, with a lower-cost DIY kit option and discounts when bundling film and photo.	hello@shutterandsound.com		https://shutterandsound.com/locations/atlanta/	https://www.instagram.com/shutterandsound/
+Film by Eugene	Videography		Atlanta	Georgia	Atlanta and across Georgia	Atlanta wedding videographer offering a five-hour highlight film or a ten-hour full-story package, with samples of ceremonies and full films online.	filmbyeugene@gmail.com	+1 (470) 326-8132	https://filmbyeugene.com/	https://www.instagram.com/film_by_eugene/
+Film and Fable	Videography		Atlanta	Georgia		Married Atlanta filmmakers who focus on small, human moments in wedding films, covering both elopements and large celebrations in several states.			https://www.filmandfable.com/	https://www.instagram.com/filmandfableco/
+CEG Bakery	Cake	2591 Piedmont Rd NE, Suite 1115	Atlanta	Georgia	Atlanta	Piedmont Road bakery making French and Southern-inspired wedding and custom cakes from scratch with local produce and a seasonally changing menu.	confiserieeg@gmail.com	404-832-5757	https://www.cegbakery.com/	https://www.instagram.com/ceg_bakery_official/
+True Joy Bakery	Cake		Decatur	Georgia	Metro Atlanta	Decatur bakery making made-to-order couture wedding cakes, with bundle deals when paired with reception catering from its sister company.	info@truejoybakery.com	404-574-9959	https://www.truejoybakery.com/	https://www.instagram.com/truejoybakery/
+S & B Events	Planning		Atlanta	Georgia	Atlanta	Atlanta firm offering full planning, coordination and design for luxury weddings, plus a room-block service and a wedding podcast for couples.	madison@stunningandbrilliantevents.com	770-312-2007	https://www.atlantastunningandbrilliantevents.com/	https://www.instagram.com/stunningandbrilliantevents/
+Sweet Magnolia Catering	Catering		Atlanta	Georgia	Atlanta	Atlanta caterer cooking from scratch with seasonal ingredients, with Creole and Caribbean menus, vegan options and full bar and service staffing.	richard@magnoliacateringatlanta.com	404.769.4803	https://www.magnoliacateringatlanta.com/	https://www.instagram.com/sweet_magnolia_catering/
+LG's Magical Affairs	Catering		Douglasville	Georgia	Atlanta and the Greater Atlanta area	Black-owned Douglasville caterer offering Mediterranean, Middle Eastern, Asian and American wedding menus, with tastings and allergy-aware planning.	lisa@lgsmagicalaffairs.com	678.270.0359	https://lgsmagicalaffairs.com/service/weddings/	https://www.instagram.com/lvsmagicalaffairs/
+`,
+  },
+  {
+    name: "Savannah: photography, cake, music, hair and makeup, florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Foundry Photography	Photography		Savannah	Georgia	Savannah, Tybee Island, the Lowcountry and destinations	Husband-and-wife duo shooting weddings on film and digital, favouring honest colour, natural movement and unposed moments.			https://foundryphotography.com/	https://www.instagram.com/foundryphotography/
+A Shot In Time Photography	Photography		Savannah	Georgia	Savannah, Tybee Island and the Lowcountry	Savannah photographer for weddings, elopements and portraits, known for true-to-colour, timeless editing.	jamibrannen@gmail.com	(912) 655-5455	https://ashotintimephotography.com/	https://www.instagram.com/jamibrannen/
+Tangible Traditions	Photography		Savannah	Georgia	Savannah, Pooler, Richmond Hill, Tybee Island, Hilton Head and Bluffton	Wedding and portrait photographer covering Savannah and Tybee, with a candid, emotion-led approach and willingness to travel.			https://www.tangibletraditions.co/	https://www.instagram.com/tangibletraditions/
+Sugar Whisk Co.	Cake		Savannah	Georgia	Savannah	Sugar artist Linda Fisher designs intricate, ornate custom wedding cakes and offers tastings to help couples choose flavours.	linda@sugarwhiskco.com	(912) 429-2912	https://www.sugarwhiskco.com/	https://www.instagram.com/sugarwhiskco/
+The Fabulous Equinox Orchestra	Music		Savannah	Georgia	Savannah, Sea Island and nationwide	Savannah-based Southern big band that can scale from a large ensemble to a ten-piece band with a six-piece string section.			https://equinoxorchestra.com/wedding-band/savannah-ga/	https://www.instagram.com/equinoxorchestra/
+Nabia Beauty	Hair & Makeup		Savannah	Georgia	Savannah, Hilton Head and the Lowcountry	On-location bridal makeup and hair artist creating personalised looks, from soft romance to bold glamour, with a preview session beforehand.			https://nabiabeauty.com/	
+Ivory & Beau	Florals	1010 E Victory Dr	Savannah	Georgia	Savannah	Savannah bridal boutique with an in-house floral team offering custom event flowers and a la carte bouquets alongside wedding dresses.	ivoryandbeau@gmail.com	(912) 200-4794	https://www.ivoryandbeau.com/	https://www.instagram.com/ivoryandbeau/
+`,
+  },
+  {
+    name: "Golden Isles: florals, catering, music, hair and makeup, planning, videography, photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+A Courtyard Florist	Florals	231 Skiff Landing Rd	St. Simons Island	Georgia	St. Simons Island, Sea Island, Jekyll Island and Brunswick	Full-service island florist designing ceremony and reception flowers, with more than thirty years of experience across the Golden Isles.	courtyardflowers@aol.com	(912) 634-9622	https://www.courtyardflowersandgifts.com/	https://www.instagram.com/acourtyardflorist/
+Edward on St. Simons	Florals	217 Longview Plaza	St. Simons Island	Georgia	St. Simons Island and Golden Isles venues	Village flower shop on the island that handles wedding bouquets and venue arrangements alongside everyday delivery, with a dedicated wedding information page.	chris@edwardonstsimons.com	(912) 638-7323	https://edwardonstsimons.com/	https://www.instagram.com/edwardonssi/
+Tasteful Temptations	Catering		St. Simons Island	Georgia	St. Simons Island, Sea Island, Jekyll Island and southeast Georgia	Island caterer and private chef service with about twenty years of experience cooking at the Golden Isles' wedding venues and rental homes.		(912) 638-3640	https://tasteful-temptations.com/	
+Dreamweavers DJ	Music		Brunswick	Georgia	Brunswick, St. Simons Island, Jekyll Island, Savannah and Jacksonville	Father-and-son wedding DJs offering flat-rate packages with a separate ceremony sound system, custom lit booth and couple-specific playlists.	dreamweaversdj@gmail.com		https://dreamweaversdj.com/	https://www.instagram.com/dreamweaversdj/
+Maggie Hughes Events	Planning		St. Simons Island	Georgia	Golden Isles	Boutique planning and design studio that takes on a limited number of luxury weddings each year so every couple gets close attention.	hello@maggiehughesevents.com		https://maggiehughesevents.com/	https://www.instagram.com/maggiehughesevents/
+Sam Ghioto Studio	Videography		St. Simons Island	Georgia	Sea Island, Jekyll Island, St. Simons Island and Atlanta	Documentary-style wedding filmmaker, born on the island, who includes drone footage and a full multi-angle ceremony edit with every package.	samghiotostudio@gmail.com	(912) 223-4551	https://www.samghiotostudio.com/wedding-video	https://www.instagram.com/samghiotostudio/
+Rainey Gregg Photography	Photography		St. Simons Island	Georgia	St. Simons Island, Jekyll Island and Sea Island	Island-based photographer and videographer for weddings and elopements, known for relaxed posing guidance under the live oaks and on the beach.			https://www.raineygreggphotography.com/	https://www.instagram.com/raineygreggphotography/
+`,
+  },
+  {
+    name: "Columbus, Georgia: florals, videography, planning, photography, cake, hair and makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Terri's Florist	Florals	4082 Macon Rd	Columbus	Georgia	Columbus and surrounding area	Family florist with more than forty years in Columbus, building bridal bouquets to each bride's style and budget, including keepsake accents.		(706) 322-4782	https://www.terrisfloristcolumbus.com/wedding-flowers	https://www.instagram.com/terris_florist/
+House of Blair Florist	Florals	3852 Gentian Blvd	Columbus	Georgia	Columbus	Neighbourhood Columbus flower shop that designs wedding flowers around the colours and blooms a couple chooses, as well as day-to-day orders.	houseofblairflorist@gmail.com	(706) 322-1561	https://houseofblairflorist.com/	
+7th Wink Productions	Videography		Columbus	Georgia	Columbus and surrounding areas	Wedding video company making cinematic films at Columbus venues, with a choice of bride-focused or groom-focused storytelling.			https://www.7thwink.com/	https://www.instagram.com/seventh.wink.productions/
+Prelude Events Studio	Planning	3547 Gentian Blvd	Columbus	Georgia	Columbus	Full-service planning and design studio that also runs its own event space, handling floral design, rentals, linens and day-of styling in-house.		(706) 940-0143	https://www.preludeeventsstudio.com/	https://www.instagram.com/preludeeventsstudio/
+Amanda Richardson Photography	Photography		Columbus	Georgia	Columbus, Auburn, Atlanta and destinations	Wedding and elopement photographer mixing digital and film, who joins in the dancing and delivers a sneak peek within 48 hours.			https://arichardsonphoto.com/	https://www.instagram.com/amandarichardsonphotog/
+Marina Gomez Photography	Photography		Columbus	Georgia	Fort Moore (Fort Benning) and surrounding areas, plus Alabama and Florida	Family and wedding photographer serving the Fort Moore military community, with published pricing and a client gallery area.			https://marinagomezphotography.com/	https://www.instagram.com/marinagomezphotography/
+Amir Leon Photography	Photography		Columbus	Georgia	Columbus and Atlanta	Studio and on-location photographer covering weddings and events, including on-site printing so guests can take photographs home that night.		(706) 393-7307	https://amirleonimages.zenfolio.com/	
+How Sweet It Is Cake Studio	Cake	6002 Veterans Pkwy	Columbus	Georgia	Columbus	Appointment-only cake studio making wedding, carved and 3D cakes, with a Cuban-inspired signature flavour and decorating classes on the side.	info@howsweetkitchen.com	(706) 341-3966	https://howsweetkitchen.com/	https://www.instagram.com/howsweetkitchen/
+`,
+  },
+  {
+    name: "Athens: florals, catering, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Black Eyed Susan Flowers	Florals		Bishop	Georgia	Athens, Oconee County and across Georgia	Fine-art floral studio making bridal bouquets and ceremony flowers for weddings in Athens, Watkinsville and venues across the state.	blkeyedsusan@gmail.com	706-424-6910	https://www.blackeyedsusanflowers.com/	https://www.instagram.com/blkeyedsusanflowers/
+R&R Secret Flowers	Florals	919 N. Chase Street	Athens	Georgia		Athens flower farm and design studio that sells a streamlined wedding floral menu with online ordering, booking 2026 and 2027 dates.		706-389-0446	https://rrsecretflowers.com/	https://www.instagram.com/rrsecretflowers/
+Earl Grey Floral	Florals		Athens	Georgia		Floral studio with an Athens base that designs wedding flowers from bouquets to ceremony installations, with a dedicated weddings page.	amy@earlgreyfloral.com	706-363-0616	https://www.earlgreyfloral.com/	https://www.instagram.com/earlgreyfloral/
+White Tiger Deluxe	Catering	64 N. Main Street	Watkinsville	Georgia	Athens and Oconee County	Barbecue-led restaurant and bar in Watkinsville that also caters weddings with full service, delivery and a relaxed local feel.	hello@whitetigerdeluxe.com		https://whitetigerdeluxe.com/what-we-offer	https://www.instagram.com/whitetigerdeluxe
+Morgan Media Group	Videography		Athens	Georgia		Athens videographer and photographer making unobtrusive, cinematic wedding reels that aim to capture how the day felt, not just how it looked.	morganmediagroup2@gmail.com	706-572-8516	https://www.morganmediagroup.org/weddings	https://www.instagram.com/framed4u_/
+`,
+  },
+  {
+    name: "Augusta: planning, catering, florals, desserts, photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Southern Gates Weddings and Events	Planning		Augusta	Georgia	Georgia, South Carolina and destination weddings	Boutique Augusta planning firm offering full planning and day-of coordination, with a private online dashboard for checklists, budget and timeline.	info@southerngatesevents.com	(706) 294-7940	https://southerngatesevents.com/	https://www.instagram.com/southerngatesevents/
+Events 2020	Catering		Martinez	Georgia		Full-service Martinez caterer with more than two dozen years behind it, handling weddings and events of every size across the Augusta area.		706-210-9002	https://www.events2020.com/	
+Annie's Floral Boutique	Florals	2508 Wrightsboro Rd	Augusta	Georgia	Augusta, North Augusta, Grovetown, Evans and Martinez	Neighbourhood Augusta florist with a wedding gallery and fresh, carefully designed arrangements delivered across the CSRA.	anniesfloral5563@rocketmail.com	(706) 733-5563	https://anniesfloralboutique.com/	
+Whipped Creamery	Desserts	514 Oxbow Dr.	Grovetown	Georgia	CSRA	Frozen dessert caterer with a mobile unit and two shops, serving ice cream bars at weddings with full-service or self-serve set-ups.	whippedcreamerytreats@gmail.com	803-928-0400	https://www.whippedcreamerytreats.com/mobile-catering	https://instagram.com/whippedcreamerytreats/
+Chloe Giancola Photography	Photography		Evans	Georgia	Augusta, Aiken, the CSRA and the Southeast	Evans wedding photographer with a calm, organised approach and a light, classic-meets-modern style, limiting how many weddings she books each year.	hello@chloegiancolaphotography.com		http://www.chloegiancolaphotography.com/	https://www.instagram.com/chloegiancola/
+Iris Chen Photography	Photography		Augusta	Georgia	Augusta, Evans, North Augusta, Aiken and the wider Southeast	Augusta photographer with a relaxed, documentary approach to weddings, guiding gently rather than posing so real moments can unfold.			https://www.irischanphotography.com/	
+`,
+  },
+  {
+    name: "Macon: planning, florals, videography, photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Chic Events by Laurel	Planning		Macon	Georgia		Macon planner offering full and partial planning, design and decor, day-of coordination and florals for weddings and other celebrations.	Info@chiceventsbylaurel.com	(954) 815-8679	https://www.chiceventsbylaurel.com/	https://www.instagram.com/chic_events_by_laurel/
+Mary Pinson	Florals		Macon	Georgia		Downtown Macon floral studio creating refined, artful flowers for weddings, events and gatherings, with workshops alongside.			https://marypinson.com/	https://www.instagram.com/marypinson/
+Petals, Flowers & Market	Florals	592 2nd Street	Macon	Georgia		Macon flower shop designing each wedding to the couple's style and budget, with on-site decor and arches, candelabras and topiaries to rent.		(478) 742-7882	https://www.petalsofmacon.net/wedding-flowers	https://www.instagram.com/petalsofmacon/
+Michael Sloop Films	Videography		Macon	Georgia	Macon, Warner Robins, Centerville and Middle Georgia	Macon team shooting wedding films and photos in a warm, cinematic style with honest moments and a pace that never feels like a production.	mike@michaelsloopfilms.com	478-302-0990	https://michaelsloopfilms.com/wedding-photo-video-macon-ga/	
+Goodman Photography	Photography		Macon	Georgia	Macon and Middle Georgia, travelling further on request	Macon wedding photographer offering timeless, naturalistic coverage with a focus on magazine-quality images and attentive service.	Ross@Goodman.Photography	(478) 808-6115	https://goodman.photography/	https://www.instagram.com/goodmanphotog/
+`,
+  },
+  {
+    name: "North Georgia Mountains: photography, music, catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Deana Lee Photography	Photography		Blue Ridge	Georgia	Blue Ridge and the North Georgia mountains	Blue Ridge photographer covering cabin weddings, mountain elopements and proposals, with galleries typically delivered within about eight weeks.			https://www.deanaleephotography.com/	
+Zolu Photography	Photography		Blue Ridge	Georgia	Blue Ridge, Blairsville, Ellijay and nearby	Blue Ridge natural-light photographer offering wedding and family portrait sessions across the Blue Ridge area.			https://www.zoluphotography.com/	https://www.instagram.com/zolu.photography/
+Blue Hills Entertainment	Music		Blairsville	Georgia	Blairsville, Blue Ridge, Young Harris, Hiawassee and nearby	Blairsville DJ and emcee with over 150 weddings behind him, offering free planning meetings and timeline help for indoor and outdoor receptions.	bhillsentertainment@gmail.com		https://www.bluehillsentertainment.com/	https://www.instagram.com/bluehillsentertainment
+Jim's Smokin' Que	Catering		Blairsville	Georgia	North Georgia mountains	Blairsville barbecue restaurant whose catering team builds customised wedding menus, known for cheese boards, taco bars and rehearsal dinners.			https://www.jimssmokinque.com/catering	https://www.instagram.com/jsqblairsville/
+`,
+  },
 ];
 
 export default batches;
