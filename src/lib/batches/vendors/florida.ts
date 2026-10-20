@@ -1239,6 +1239,101 @@ Mister DJ Entertainment	Music	925 Beville Rd, Suite 14	South Daytona	Florida	Day
 Your Sound Man DJ	Music		Daytona Beach	Florida	Daytona Beach, Ormond Beach, Port Orange and New Smyrna Beach	Daytona Beach DJ and sound technician service with over 27 years of experience, offering wedding packages and live sound.		(800) 933-6808	https://www.yoursoundmandj.com/	https://www.instagram.com/yoursoundman/
 `,
   },
+  {
+    name: "Orlando: photography, videography, planning, florals, music, catering, hair & makeup, cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Bella Grey Photography & Studio	Photography		Orlando	Florida	Orlando, Winter Garden, Winter Park, Celebration and Disney; travels	Orlando photography team covering weddings, Disney weddings and engagement sessions, with day-of coordination support for couples.	andrea@bellagreystudios.com		https://bellagreyphotography.com/	https://www.instagram.com/BellaGreyPhotography/
+CBK Studios	Photography		Orlando	Florida	Orlando, Lake Mary, Clermont and Central Florida; travels	Orlando wedding photographer working at Central Florida venues such as Lake Mary and Clermont, and travelling for destination weddings.	capturedbykendyl@gmail.com		https://cbkstudios.com/	https://www.instagram.com/cbkstudios/
+Castaldo Studio	Photography	1331 Green Forest Court	Winter Garden	Florida	Orlando and across Florida	Husband-and-wife studio in Winter Garden offering wedding photography and cinematography at Orlando venues and across Florida.	photo@castaldostudio.com	(407) 347-8926	https://www.castaldostudio.com/	https://www.instagram.com/castaldostudio_weddings/
+Contempo Photos and Videos	Photography		Orlando	Florida	Orlando, Miami, Tampa, Jacksonville and across Florida	Orlando studio offering cinematic wedding photography and videography, including multicultural weddings at the Waldorf Astoria Orlando.	info@contempophotos.com	(786) 443-7602	https://www.contempophotos.com/	https://www.instagram.com/contempophotos/
+Mesh Films	Videography		Orlando	Florida	Orlando and New York	Orlando wedding videography company working in Orlando and New York since 2012, with an unobtrusive filming style.			https://www.meshfilms.com/	https://www.instagram.com/meshfilms/
+BR Focus Films	Videography		Orlando	Florida	Central Florida	Orlando wedding videographer producing cinematic films for couples across Central Florida, with packages listed on the site.	brian@brfocusfilms.com		https://brfocusfilms.com/	https://www.instagram.com/brfocusfilms/
+Jones Events Orlando	Planning		Orlando	Florida	Ocoee, Winter Garden, Winter Park, Apopka, Lake Mary, Altamonte Springs	Orlando wedding planning, day-of management and floral design business, including custom draping, for venues around Central Florida.			https://www.jonesevents.com/	
+Edgewood Flowers	Florals	4927 S Orange Avenue	Orlando	Florida	Orlando	Orlando florist on South Orange Avenue offering wedding bouquets, boutonnieres and arrangements alongside everyday flowers.	edgewoodflowers@gmail.com	(407) 888-8013	https://www.edgewoodfloristoforlando.com/	https://www.instagram.com/edgewoodflowers/
+CNergy Music	Music		Orlando	Florida	Florida	Orlando live band for weddings, playing ceremony and cocktail-hour sets as well as reception music across Florida.	info@cnergymusic.com	321-426-8193	https://cnergymusic.com/	https://www.instagram.com/cnergymusic/
+Beautiful Music	Music		Orlando	Florida	Central Florida	Orlando musicians and dance band for wedding ceremonies and receptions, with DJ services, playing hotels and gardens around Central Florida.		407-718-0752	https://www.beautifulmusic.cc/	
+Events by Dubsdread	Catering	549 West Par Street	Orlando	Florida	Orlando and Central Florida	Orlando caterer running weddings at Historic Dubsdread, The Highland Manor and Azalea Lodge, plus catering at partner venues.	info@eventsbydubsdread.com	407-650-9558	https://eventsbydubsdread.com/	https://www.instagram.com/eventsbydubsdread/
+Kristy's Artistry Design Team	Hair & Makeup	334 Wymore Rd., Ste. B	Winter Park	Florida	Orlando	Winter Park hair and makeup team offering on-site wedding styling, airbrush makeup and Indian wedding looks for Orlando brides.	info@kristysartistry.com	(407) 766-3335	https://kristysartistry.com/	https://www.instagram.com/kristysartistrydesignteam/
+The Glam Room	Hair & Makeup		Orlando	Florida	Orlando, Central Florida and beyond	Mobile hair and makeup team for Orlando brides, offering long-wear bridal looks at homes, hotels and wedding venues.			https://www.theglamroomorlando.com/	https://www.instagram.com/theglamroomorlando/
+Your Favorite Salon	Hair & Makeup	1235 N Orange Ave #201	Orlando	Florida	Central Florida and destination weddings	Orlando salon with a bridal team offering wedding hair and makeup at the salon or on location around Central Florida.		407.305.9218	https://www.yourfavoritesalon.com/	
+Zoily's Cakes & Pastries	Cake		Poinciana	Florida	Kissimmee, Orlando, Davenport	Poinciana bakery making custom wedding cakes, tres leches and Puerto Rican desserts for couples in Kissimmee and Orlando.	zoilyscakespastries@yahoo.com		https://www.zoilyscakesandpastries.com/	https://www.instagram.com/zoilyscakes/
+`,
+  },
+  {
+    name: "Daytona and New Smyrna Beach: photography, florals, catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Hinson Photography	Photography		New Smyrna Beach	Florida	New Smyrna Beach and surrounding areas	New Smyrna Beach photographer taking wedding and portrait bookings, with a Daytona Beach wedding in its portfolio.	booking@hinsonphotography.com	(386) 478-8099	https://www.hinsonphotography.com/	https://www.instagram.com/hinsonphoto/
+Dharma Photography	Photography		New Smyrna Beach	Florida		Husband-and-wife photo and video team in New Smyrna Beach shooting candid weddings and elopements, with travel available.			https://www.dharmaphotographyy.com/	https://www.instagram.com/dharma_photographyy/
+Port Orange Florist	Florals		Daytona Beach	Florida	Daytona Beach, Port Orange, New Smyrna Beach, Ormond Beach	Daytona Beach florist taking wedding flower orders and delivering to ceremony venues across Volusia County.	portorangefloristfl@gmail.com	(386) 394-8999	https://portorangefloristfl.com/	
+Chef Papa's Cafe & Catering	Catering	156 S. Beach Street	Daytona Beach	Florida		Downtown Daytona Beach cafe and caterer offering wedding catering, with tastings arranged on request.		(386) 253-5080	https://www.chefpapas.com/	
+Amber's Jewel Catering	Catering	413 Oak Place Unit 6-E	Port Orange	Florida	Daytona Beach, Port Orange, Orlando and Central Florida	Port Orange caterer focusing on wedding catering around Daytona Beach and Port Orange, and serving Orlando.		386.788.8696	https://www.ambersjewelcatering.com/	
+`,
+  },
+  {
+    name: "Tampa Bay: photography, planning, florals, music, catering, hair & makeup, cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Jennifer Martin Photography	Photography		Largo	Florida	Tampa and St. Petersburg	Wedding, elopement and portrait photographer in Largo who builds storytelling galleries around each couple's connection.	jennifermartinphotography@gmail.com	727-580-1142	https://jennifermartinphoto.com	https://www.instagram.com/jennifermartinphotography/
+Valley & Vine Photography	Photography		Tampa	Florida	Tampa, St. Pete, Clearwater Beach, Sarasota and Lakeland	Photographer covering weddings and elopements at Tampa Bay barns, hotels and beaches with a warm, documentary approach.	valleyandvinephotography@gmail.com		https://www.valleyandvinephotography.com	https://www.instagram.com/valleyandvinephotography/
+Regina as the Photographer	Photography		Tampa	Florida	Tampa and St. Pete	Tampa photographer shooting weddings, elopements and branding sessions for couples across Tampa and St. Pete.	regina@asthephotographer.com		https://www.reginaasthephotographer.com	https://www.instagram.com/reginathephotographer/
+Cherished Ceremonies	Planning		Tampa	Florida	Tampa Bay area and west coast Florida beaches	Tampa Bay beach wedding planner offering elopement, proposal and vow renewal packages with day-of coordination included.		813-817-0459	https://www.cherishedceremonies.com	
+Mint Floral Studio	Florals		Clearwater	Florida	Florida, including Tampa and Sarasota	Floral and event design studio creating custom wedding bouquets, installations and styling for celebrations across Florida.	mintfloralstudio@gmail.com	561-231-0554	https://mintfloralstudio.com	https://www.instagram.com/mintfloralstudio/
+Eufloria Flowers Tampa	Florals	11230 Clayridge Dr	Tampa	Florida		Tampa florist making custom bouquets and arrangements for weddings and other events from its Clayridge Drive shop.	info@eufloriaflowerstampa.com	813-833-6674	https://www.eufloriaflowerstampa.com	https://www.instagram.com/eufloriaflowerboutique/
+Marc Bosserman	Music		Tampa	Florida	Books nationwide	Tampa-based pianist and singer performing live music for weddings and private events, from the ceremony to the last song.	marc@marcbosserman.com		https://marcbosserman.com	https://www.instagram.com/marc_bosserman/
+Baystar Catering	Catering	20 Island Way	Clearwater Beach	Florida	Tampa Bay	Clearwater Beach caterer for weddings, corporate events and celebrations, run as part of the Baystar Restaurant Group.		727-461-6617	https://baystarcatering.com	
+Femme Akoi	Hair & Makeup	1425 Main Street, Suite P	Dunedin	Florida	Tampa Bay, in the studio or on location	Beauty studio and bridal team offering wedding hair and makeup in its Dunedin salon or at your venue.	info@femmeakoi.com	727-266-2233	https://femmeakoi.com	https://www.instagram.com/femmeakoi/
+The Artistic Whisk	Cake	1646 W. Snow Avenue	Tampa	Florida	Tampa, St. Pete, Clearwater and Sarasota	Custom wedding cake bakery using all-natural ingredients, with gluten-free and vegan options and tastings by appointment.	info@theartisticwhisk.com	727-350-4995	https://www.theartisticwhisk.com	https://www.instagram.com/theartisticwhisk/
+`,
+  },
+  {
+    name: "Sarasota: florals, catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Beneva Weddings & Events	Florals		Sarasota	Florida	Greater Sarasota area	Sarasota wedding and event florist offering consultations, design mock-ups, bouquets, centrepieces and custom arrangements.			https://www.benevaweddings.com	https://www.instagram.com/benevaweddings/
+BBQ Art Co.	Catering	7426 Crock Ave	North Port	Florida	Sarasota, Venice, North Port and SW Florida	Barbecue food truck and caterer serving smoked meats and sides for wedding receptions, rehearsal dinners and late-night bites.	Art@BBQArtCo.com	916-804-1579	https://www.thebbqart.com	https://www.instagram.com/bbqartco/
+`,
+  },
+  {
+    name: "Destin and 30A: photography, planning, florals, videography, catering, hair & makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+UsovPhoto	Photography		Destin	Florida	Destin, 30A, Navarre, Santa Rosa Beach	Husband-and-wife photographers in Destin who shoot weddings, couples and family sessions along the coast from Destin to 30A.	usovphoto@gmail.com	+1 561 647 0467	https://usovphoto.com/	https://www.instagram.com/usovphoto/
+Jenna Kaye Photography	Photography		Santa Rosa Beach	Florida	30A	Santa Rosa Beach photographer who covers weddings and wedding suites as well as family and portrait sessions on the 30A beaches.	info@jennakayephotography.com	502-689-1005	https://jennakayephotography.com/	https://www.instagram.com/jennakaye30aphotography/
+Savoir Faire Weddings	Planning		Santa Rosa Beach	Florida	30A	Wedding planning team specialising in destination weddings along 30A, with more than 400 celebrations planned since 2005.	stephanie@savoirfaireweddings.com	(850) 499-6336	https://savoirfaireweddings.com/	https://www.instagram.com/sfweddingsandevents/
+Peach & Pearl Events	Planning		Santa Rosa Beach	Florida	30A and Florida	Event and wedding planning company based along the 30A coast, creating weddings and events across Florida and beyond.	avis@peachandpearlevents.com		https://www.peachandpearlevents.com/	https://www.instagram.com/peachandpearlevents/
+Destin Floral Designs	Florals	127 Harbor Blvd., Suites 8A and 9A	Destin	Florida		Destin florist that designs wedding flowers and event arrangements, with wedding packages and consultations on request.		850-654-4646	https://destinfloraldesigns.com/	
+Sarah & Paul Creative	Videography		Destin	Florida	30A, Destin, Fort Walton Beach, Pensacola, Panama City	Husband-and-wife team filming and photographing weddings across the Florida panhandle, from Destin and 30A to Pensacola.	info@sarahlyn.com	850.888.0432	https://sarahlynandpaul.com/	https://www.instagram.com/sarahandpaulphotography/
+Emerald Coast Catering	Catering	3906 US Highway 98, Suite 40	Santa Rosa Beach	Florida	Northwest Florida	Santa Rosa Beach caterer with full-service wedding menus, staffing and party rentals, including for couples marrying away from home.	ecc.gtg@gmail.com	(850) 585-5979	https://cater1.com/	https://www.instagram.com/emeraldcoastcatering/
+MH Salon 30A	Hair & Makeup	25 Hub Lane	Watersound	Florida	30A	Hair salon in Watersound with a dedicated weddings menu for bridal hair and styling for the wedding party along 30A.	mhsalon30a@gmail.com	850-387-7907	https://www.mhsalon30a.com/	https://www.instagram.com/mhsalon30a/
+`,
+  },
+  {
+    name: "Tallahassee: planning, music, hair & makeup, cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Dulce Events Planning & Design	Planning		Tallahassee	Florida	Tallahassee, North Florida beaches, South Georgia	Tallahassee wedding planner offering coordination, planning and design for weddings in the capital region and nearby coast.	dania@dulceeventstally.com		https://dulce-weddings.com/	https://www.instagram.com/dulce.eventstally/
+Aairius DJ Entertainment	Music		Tallahassee	Florida	Tallahassee	Tallahassee mobile DJ company running since 2008, providing sound systems and a separate ceremony setup for weddings.	joe@aairiusdj.com	(850) 212-5083	https://www.aairiusdj.com/	
+SL Entertainment	Music		Tallahassee	Florida	North Florida, South Georgia	Tallahassee DJ and event production company offering wedding DJ services, lighting and live sound across the region.	slentertainment12@gmail.com	(850) 328-3747	https://www.slentertainmentllc.com/	https://www.instagram.com/slent_ertainmentllc/
+Chelsea Salon & Spa	Hair & Makeup	1629 Mahan Center Blvd	Tallahassee	Florida	Tallahassee	Family-run Tallahassee salon and spa that styles brides and wedding parties, in the salon or on site at the venue.	info@chelseasalon.com	(850) 878-8282	https://www.chelseasalon.com/	https://www.instagram.com/chelseasalonandspa/
+Anna Renee Beauty	Hair & Makeup	1812 Thomasville Road	Tallahassee	Florida	Tallahassee, Thomasville, Havana, Quincy, Crawfordville	Private salon suite in Tallahassee offering bridal hair styling for brides and their wedding parties.	annareneebeauty@gmail.com	(448) 488-5626	https://www.cabellossalon.com/	
+Soleil 7 Hair Salon and Spa	Hair & Makeup	1410-C6 Market St	Tallahassee	Florida	Tallahassee	Aveda salon and spa in Tallahassee with a weddings team handling bridal hair and makeup in the salon or at the venue.	weddings@soleil7.com	850.727.0482	https://www.soleil7.com/	https://www.instagram.com/soleil7salons.and.spa/
+`,
+  },
+  {
+    name: "Gainesville: music, florals, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Gosia & Ali	Music		Gainesville	Florida	Gainesville and North Central Florida	Gainesville live music duo who also play as a trio, quartet or band, with wedding ceremony and reception sets.	ali@gosiaandali.com	352-262-7161	https://www.gosiaandali.com/	
+Barbara Kerkhoff Harpist	Music		Gainesville	Florida	Gainesville and North Central Florida	Gainesville harpist with over thirty years of experience playing for weddings, receptions and private events.			https://www.barbtheharpist.com/	
+Prange's Florist	Florals	728 E. University Ave.	Gainesville	Florida	Gainesville	Gainesville florist providing wedding party flowers such as bouquets, corsages and boutonnieres, with bridal consultations.		(352) 335-0100	https://www.prangesflorist.com/	
+Sky Palm Studios	Videography	4113 NW 6th St, Suite C	Gainesville	Florida	Gainesville and surrounding areas	Gainesville video and photo studio that films weddings alongside commercial work, with a separate wedding site.	info@skypalmstudios.com	(352) 359-0555	https://skypalmstudios.com/	https://www.instagram.com/skypalmstudios/
+`,
+  },
+  {
+    name: "Pensacola: florals, catering, hair & makeup, cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+A Personal Touch Florist	Florals	5507 W Fairfield Dr	Pensacola	Florida	Pensacola	Pensacola flower shop offering wedding party flowers, ceremony pieces and reception arrangements.	apersonaltouchflowers@gmail.com	(850) 602-0415	https://www.apersonaltouchflowers.com/	
+Greek's Catering and Events	Catering	3960 Spanish Trl.	Pensacola	Florida	Pensacola and surrounding area	Pensacola caterer offering wedding service styles from drop-off and set-up to buffets, stations and plated dinners.	catering@greeksevents.com	(850) 529-6721	https://greekscateringevents.com/	https://www.instagram.com/greekscateringevents/
+Volume One Salon	Hair & Makeup	7 West Main Street	Pensacola	Florida	Pensacola	Downtown Pensacola salon with a weddings team for bridal hair and makeup, reached through a dedicated weddings email.	weddings@volumeonesalon.com	850.434.5409	https://volumeonesalon.com/	https://www.instagram.com/volumeonesalon/
+Hairitage House	Hair & Makeup	1449 W 9 Mile Rd #14	Pensacola	Florida	Pensacola	Pensacola salon with a bridal team for wedding-day hair and makeup, including trials before the wedding.	hello@hhsalon.co	850.857.9555	https://hairitagehousepensacola.com/	https://www.instagram.com/hairitagehouse/
+ShaCondra's Kake Shop	Cake	120 Chief's Way, Ste 7	Pensacola	Florida	Pensacola and surrounding areas	Pensacola bakery specialising in custom birthday and wedding cakes and cupcakes, with cake consultations by arrangement.		850.982.5508	https://shacondraskakeshop.yourwebsitespace.com/	
+`,
+  },
 ];
 
 export default batches;
