@@ -1541,6 +1541,31 @@ Delicious Treats	Cake		San Diego	California	San Diego	Scripps Ranch home baker m
 Edelweiss Bakery	Cake	11639 Duenda Rd	San Diego	California		San Diego bakery making tiered wedding cakes, with a tasting fee credited toward a cake ordered the same day.		(858) 487-4338	https://edelweissbakerysandiego.com/	
 igotyourcake	Cake		La Mesa	California		La Mesa boutique bakery specialising in luxury custom wedding cakes with handmade edible flowers, for pickup or online order.			https://igotyourcake.net/	`,
   },
+  {
+    name: "Sacramento: Florals, Hair & Makeup, Videography, Planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Vita Fiori	Florals		Sacramento	California	Sacramento, wine country and destination weddings	Sacramento florist doing full-service wedding flowers, with delivery, installation, styling and breakdown on the day.	thevitafiori@gmail.com		https://www.thevitafiori.com/	https://www.instagram.com/thevitafiori/
+Parisa Design	Florals		Fair Oaks	California	Sacramento and Northern California	Fair Oaks floral and event design studio making custom wedding flowers, including Persian Sofreh Aghd table designs.			https://www.parisadesign.com/	https://www.instagram.com/parisadesignn/
+Lea BGorgeous	Hair & Makeup		Sacramento	California	Sacramento, Roseville, Tahoe, Napa, Sonoma and destinations	Sacramento bridal hair and makeup artist who goes to the venue, with a natural, timeless look for brides and their parties.	lbgorgeous@live.com	916-705-5827	https://www.lbgorgeous.com/	https://www.instagram.com/lea_bgorgeous/
+Avant Garde Kinema	Videography		Sacramento	California	Rancho Cordova, West Sacramento and Sacramento	Sacramento video team making multi-camera wedding films with drone footage, edited into a full-length story of the day.	info@avantgardekinema.com	(530) 788-5541	https://www.avantgardekinema.com/wedding	https://www.instagram.com/avant.garde.kinema/
+Yours & Mine Productions	Videography		Cool	California	Sacramento, Roseville, Lake Tahoe and Northern California	Husband-and-wife team who shoot wedding photo and video together, with Sacramento travel included in each package.	yandmpro@gmail.com	530-333-5722	https://yoursandmineproductions.com/sacramento-wedding-videography	https://www.instagram.com/yoursandminepro/
+Honeysuckle Traditions	Planning		Grass Valley	California	Grass Valley, Nevada City, Lake Tahoe and Sacramento	Boutique Northern California wedding planner offering coordination and planning for couples in the Sierra foothills and Sacramento.	honeysuckletraditions@gmail.com		https://www.honeysuckletraditions.com/	https://www.instagram.com/honeysuckle.traditions/`,
+  },
+  {
+    name: "Orange County: Hair & Makeup, Cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Flawless Faces	Hair & Makeup	440 E 17th St #6	Costa Mesa	California	Orange County	Costa Mesa hair and makeup boutique with an in-studio lounge and on-location teams for wedding parties across Orange County.	Flawlessfacesbeautylounge@gmail.com	949-742-4211	https://flawlessfacesinc.com/	https://www.instagram.com/flawlessfacesbeautylounge/
+OC Fresh Look	Hair & Makeup	18019 Sky Park Cir	Irvine	California	Irvine and Orange County	Irvine makeup studio offering bridal and event makeup by appointment, with skin prep as part of the look.	ocfreshlook@gmail.com	(949) 466-8019	https://ocfreshlook.com/	
+Shadows Hair Salon	Hair & Makeup	4250 Barranca Pkwy, Ste O	Irvine	California	Irvine and Orange County	Irvine salon with a dedicated bridal service for wedding hairstyles and makeup, booked through a consultation.	info@shadowssalon.com	949-857-4686	https://shadowssalon.com/bridal/	https://www.instagram.com/shadowshairsalon/
+Sweet As Love	Cake		Capistrano Beach	California	Orange County, Los Angeles, San Diego, Riverside and San Bernardino	Hand-crafted custom wedding cakes and desserts from a Capistrano Beach bakery, delivered across Southern California.	sweetasloveoc@gmail.com		https://sweetaslove.com/	https://www.instagram.com/sweetasloveOC/`,
+  },
+  {
+    name: "Palm Springs: Planning, Catering, Music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Shari Kelley Events	Planning	1258 Montalvo Way, Suite B	Palm Springs	California	Palm Springs and the Coachella Valley	Palm Springs event planner running weddings, corporate events and parties from a Montalvo Way office, with design and styling.	shari@skparty.com	760-567-1894	https://sharikelleyeventsinc.com/	
+Act 2 Catering	Catering		Palm Springs	California	Palm Springs and the Coachella Valley	Palm Springs caterer for weddings, with plated dinners, food stations and cocktail-hour spreads, founded by Jimmy Avila.	events@act2catering.com	(760) 320-7678	https://act2catering.com/	https://www.instagram.com/act2catering/
+F9 Pro	Music		Palm Springs	California	Palm Springs, San Diego and Los Angeles	Palm Springs wedding DJ and MC with a silent disco option and photo booth, run by Trevor Worden.			https://f9pro.com/	https://www.instagram.com/frequency9productions/`,
+  },
 ];
 
 export default batches;

@@ -15,7 +15,11 @@ have to hold.
    `npm run backup` every Sunday: all public tables, auth users and every
    Storage file, to the "You Do, I Do backups" Shared drive and the private
    `youdoido-backups` repo (newest 12 data files kept; Storage files mirrored,
-   never deleted). `npm run restore` puts one back into a project (see the
+   and a file deleted from Storage is trashed from the mirror, so Drive keeps
+   it 30 more days). Since 2026-10-19 everything is encrypted with
+   `BACKUP_ENCRYPTION_KEY` before it leaves the machine
+   (`scripts/backup-crypto.mjs`); the routine won't copy an unencrypted
+   backup to GitHub. `npm run restore` puts one back into a project (see the
    header of `scripts/restore.mjs`). Not covered: passwords (users reset them
    after a restore) and anything changed in the Supabase dashboard rather than
    a migration.

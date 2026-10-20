@@ -25,11 +25,11 @@ export default async function VendorClaimPage({ params }: { params: Promise<{ to
         <div className="w-full max-w-md rounded-lg border border-hairline bg-card p-8 text-center shadow-sm">
           <h1 className="font-display text-2xl font-semibold text-forest">This link has expired</h1>
           <p className="mt-3 text-sm text-ink/70">
-            Claim links are replaced from time to time. Reply to the email it came in and we&apos;ll send you a new
-            one.
+            Claim links last 90 days, so a link from an older email stops working. Get a fresh one
+            sent to the email address on your listing.
           </p>
-          <Link href="/" className="mt-6 inline-block text-sm text-brass hover:underline">
-            Go to You Do, I Do &rarr;
+          <Link href="/list/edit" className="mt-6 inline-block text-sm text-brass hover:underline">
+            Send me a new link &rarr;
           </Link>
         </div>
       </main>
