@@ -6,11 +6,11 @@ Priority = I×C×E×R. Work at most three at a time. Updated 2026-10-20.
 | # | Opportunity | Area | I | C | E | R | Score | Gate / owner action |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 1 | Verify youdoido.com in Google Search Console and submit the sitemap | SEO | 3 | 5 | 5 | 5 | 375 | Owner: 10 min DNS step (`seo.md`) |
-| 2 | Pick a postal-address option to open commercial email | Compliance | 5 | 5 | 3 | 5 | 375 | Owner decision (declined PO box; virtual mailbox or registered agent are alternatives) |
+| 2 | Pick a postal-address option to open commercial email | Compliance | 5 | 5 | 3 | 5 | 375 | Owner getting a PO box (2026-10-20); code: unsubscribe + opt-out check |
 | 3 | Cloudflare Web Analytics (cookieless) + Privacy line | Analytics | 4 | 5 | 4 | 4 | 320 | Owner: enable in dashboard |
 | 4 | Capture signup source (UTM, `ref`, landing path) on the profile | Analytics | 4 | 5 | 4 | 4 | 320 | Code PR + Privacy line |
 | 5 | Sharpen the inquiry footer and claim / `/list` pages for conversion | Listings | 4 | 4 | 4 | 4 | 256 | Copy ships directly; layout → preview |
-| 6 | Connect Gmail connector; first `/marketing inbox` digest | Inbox | 3 | 4 | 5 | 4 | 240 | Owner: connect (`email-inbox.md`) |
+| 6 | First `/marketing inbox` digest (Gmail connected 2026-10-20) | Inbox | 3 | 4 | 5 | 4 | 240 | Ready |
 | 7 | Removable "Made with You Do, I Do" link on published guest sites | Couples | 5 | 3 | 4 | 3 | 180 | Visual → `/design-expert` preview; owner decision |
 | 8 | Choose 1–2 launch metros; be the most complete directory there | Listings | 5 | 3 | 3 | 4 | 180 | Owner judgement |
 | 9 | Organization/WebSite JSON-LD, `llms.txt`, OG images for public pages | SEO | 2 | 4 | 4 | 5 | 160 | Small PR; OG image is visual |

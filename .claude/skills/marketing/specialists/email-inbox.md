@@ -26,6 +26,8 @@ in the claude.ai connector directory but not installed on this account
 (checked 2026-10-20). It uses Google OAuth, so no password or token ever
 passes through chat. Owner steps:
 
+(Done 2026-10-20; kept for reconnecting.)
+
 1. Go to https://claude.ai/customize/connectors.
 2. Find **Gmail** and click **Connect**.
 3. Sign in with the **Workspace account that receives hello@** (not a personal
@@ -36,11 +38,22 @@ passes through chat. Owner steps:
 4. Start a **new** Claude Code session (connectors load at session start) and
    run `/marketing inbox`.
 
-The connector's listing shows tools such as search, get message, create draft,
-labels, filters and forward (plus ~21 not listed). **Unknown until connected:**
-the exact tool list, whether it can send, and whether it sees mail sent to the
-alias the same as the primary address. On the first connected run, list the
-tools, record them here, and test on one message.
+**Connected 2026-10-20** as `hello@youdoido.com` itself (the signed-in Google
+account is hello@, ~200 threads). Tools, sorted by what we may do:
+
+- **Use freely (read):** `search_threads`, `get_thread`, `get_message`,
+  `list_labels`, `list_drafts`, `get_draft`.
+- **Use freely (drafts):** `create_draft`, `update_draft`, `delete_draft` on
+  drafts this skill created.
+- **Owner OK once, then routine:** `create_label`, `label_thread`,
+  `unlabel_thread` and the message variants, limited to labels under `YDID/`
+  (e.g. `YDID/lead`, `YDID/urgent`). Ask before the first use and record the
+  yes in DECISIONS.md.
+- **Never without the owner's explicit yes for that specific message:**
+  `send_message`, `reply`, `forward`, `trash_*`, `mark_*_spam`,
+  `update_label`, `delete_label`, `update_message_labels`. The connector *can*
+  send; draft-only mode is our rule, not a technical limit, so hold it.
+  `apply_sensitive_*_label`: never.
 
 **Option B — Gmail API with a service account (Stage 2 in the playbook).**
 For scheduled triage without a chat session (the 8am digest, `/admin/inbox`).
