@@ -305,6 +305,12 @@ Three Falls Cove	8125 FM 3395	Sanford	Texas			Garden / Outdoor	Indoor & Outdoor	
     tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
 Pleasanton Civic Center	115 N Main St	Pleasanton	Texas			Ballroom / Hotel	Indoor	500		City-owned civic centre with a 12,000 sq ft main hall, a full commercial kitchen and a movable stage, bookable for wedding receptions.	civiccenter@pleasantontx.gov	(830) 569-5904	https://pleasantontx.gov/departments/civic_center/`,
   },
+  {
+    name: "Brownwood: lakeside and country venues",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Texas 4-H Conference Center	5600 FM 3021	Brownwood	Texas			Beach / Waterfront	Indoor & Outdoor			A Texas A&M AgriLife lakeside retreat on Lake Brownwood with a 3,040 sq ft auditorium, a covered patio, a lakeside pavilion and on-site lodging.		(325) 784-5482	https://texas4hcenter.tamu.edu/
+`,
+  },
 ];
 
 export default batches;

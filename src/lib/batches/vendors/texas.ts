@@ -864,6 +864,60 @@ Dan Lozada Studios	Videography		El Paso	Texas	El Paso, Dallas–Fort Worth and a
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
 Limelight San Antonio	Videography	6391 De Zavala Road, Suite 221	San Antonio	Texas	San Antonio, New Braunfels, Spring Branch, the Hill Country and Austin	San Antonio studio offering wedding photography and videography, covering the city, New Braunfels and the Hill Country.	events@limelightsanantonio.com	210-842-6620	https://www.limelightsanantonio.com/	`,
   },
+  {
+    name: "Killeen, Harker Heights, Temple and Salado: videography, photography, music, florals, cake, catering, hair & makeup, planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Mountain View Productions	Videography		Killeen	Texas	Central Texas	Husband-and-wife video team offering two- or three-camera HD or 4K wedding films, with ceremony, reception and highlight edits.	Kevin@mtviewproductions.com	406-334-0081	https://www.mtviewproductions.com/services	
+Khanetic Images	Photography		Killeen	Texas	Killeen and Central Texas	Killeen studio covering weddings, formal events and portraits, with videography and PR services offered alongside the photography.			https://www.khaneticimages.com/	https://www.instagram.com/khaneticimages/
+Carmen Williams Photography LLC	Photography		Belton	Texas	Texas and beyond	Belton wedding photographer shooting natural, timeless coverage for couples, willing to travel across Texas and beyond.			https://carmenjwilliams.com/	https://www.instagram.com/carmenjphotography/
+Jade & Kyle Photography	Photography		Belton	Texas	Belton and Central Texas	Husband-and-wife photography team in Belton shooting weddings from two angles, with engagement, family and portrait sessions too.			https://jadeandkyle.com/weddings	https://www.instagram.com/jadeandkylephotography/
+Callie Ring Photography	Photography		Temple	Texas	Central Texas and across Texas	Photographer focused on classic, timeless wedding and engagement coverage with natural editing, plus elopement packages.	callieringphotography@gmail.com		https://www.callieringphotography.com/	https://www.instagram.com/callieringphotography/
+HP Soundcraft	Music		Temple	Texas	Temple, Waco, Killeen, Belton and Georgetown	Music-led wedding DJ playing everything from classic country to disco for couples in Temple, Waco, Killeen and Belton.	hpsoundcraft@gmail.com		https://www.hpsoundcraft.com/	https://www.instagram.com/hp_soundcraft/
+Divine Flowers & Gifts	Florals	4008 E Stan Schlueter Loop, Ste 113	Killeen	Texas		Killeen flower shop with a wedding design service covering hand-tied bouquets, centrepieces, corsages and boutonnieres, plus consultations.	divineflowerskilleen@gmail.com	254-628-7800	https://divineflowersandgifts.com/killeen-florist-flower-delivery/wedding-flowers/	https://www.instagram.com/divineflowersandgiftstx/
+Cone Flower Designs	Florals		Salado	Texas	Central Texas	Salado wedding and event florist creating lush, custom florals for Central Texas couples, with a sister brand for pre-designed collections.	courtney@coneflowerdesigns.com		https://www.coneflowerdesigns.com/	https://www.instagram.com/coneflowerdesigns/
+Salado Bloom Society	Florals	20 Rock Creek Dr	Salado	Texas	Salado, Belton, Jarrell and Temple	Salado florist with wedding bouquets, wedding party, ceremony and reception flowers, delivering to Belton, Jarrell and Temple.		254-444-2702	https://www.saladobloomsociety.com/wedding-flowers	
+Freeman's Family Bakery	Cake	1010 W Jasper Dr, Suite 12	Killeen	Texas		Killeen retail bakery making custom wedding and celebration cakes, with dessert catering for events.		254-628-0497	https://freemansfamilybakery.us/services	
+Kitty's Kakery	Cake		Killeen	Texas		Killeen cake artist taking quotes for custom wedding cakes from simple to elaborate, plus cheesecakes and gourmet cookies.			https://kittyskakery.com/pages/weddings	
+Let's Eat Texas	Catering	207 E Avenue D	Killeen	Texas		Killeen restaurant catering weddings with customised menus built on local ingredients and accommodating dietary restrictions.		254-768-0106	https://letseattexas.com/catering	
+H&C Events and Designs	Planning		Killeen	Texas	Bell County and nearby areas	Killeen event company known for balloon decor, also offering event planning and party rentals for weddings and other occasions.	hceventsanddesigns@gmail.com	254-446-4290	https://hceventsanddesigns.com/	https://www.instagram.com/hceventsanddesigns/
+`,
+  },
+  {
+    name: "Pleasanton: catering, florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Pleasant Perk Coffee House	Catering	1416 West Oaklawn Road, Suite A	Pleasanton	Texas		Pleasanton coffee house offering catering for wedding festivities, plus a space to book for rehearsal dinners and other small gatherings.	info@pleasantperkcoffeehouse.com	(830) 268-6429	https://pleasantperkcoffeehouse.com/	https://www.instagram.com/pleasantperkcoffeehouse/
+The Olive Branch Floral, Design & Boutique	Florals	416 W Oaklawn Rd	Pleasanton	Texas	Pleasanton, Jourdanton, Floresville, Pearsall, Castroville and San Antonio	Pleasanton florist making wedding and event flowers, with a gallery and consultation page, and deliveries to local venues such as Pleasanton Country Club.	theolivebranchflowershop@yahoo.com	(830) 268-8435	https://theolivebranchesflorist.com/	https://www.instagram.com/theolivebranch.flowershop/
+`,
+  },
+  {
+    name: "Tyler and East Texas: bridal & formalwear, photo booth, rentals, bar, decor & lighting",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Georgie Bridal & Formal	Bridal & Formalwear	7264 Old Jacksonville Hwy	Tyler	Texas		Tyler boutique selling designer wedding gowns and bridesmaid dresses, with tuxedo and suit rental or purchase, all fitted by appointment.		(903) 385-4985	https://georgietx.com/	https://www.instagram.com/georgiebridalandformal/
+Elevated Bridal	Bridal & Formalwear	4815 Old Bullard Road, Suite 106	Tyler	Texas		By-appointment Tyler bridal studio where each bride gets a dedicated stylist and curated gown selection, with gowns from about $2,000 to $10,000.		(903) 630-2601	https://www.elevatedbridal.com/	https://www.instagram.com/elevatedbridal/
+The Dress Co.	Bridal & Formalwear	110 Tall Pines Avenue, Suite C	Longview	Texas		Locally owned Longview bridal boutique with designer gowns, a plus-size section and accessories, plus suits and same-day tuxedo rentals.		(903) 759-7751	https://www.tuxedoco.com/	https://www.instagram.com/the.dressco/
+Freeze! Photo Booth	Photo Booth		Tyler	Texas		Family-run Tyler photo booth company with iPad, oval mirror and astro mirror booths for weddings and other events, with phone support.	freezephotoboothtx@gmail.com	903-749-1201	https://www.freezephotobooth.com/	https://www.instagram.com/freeze.photobooth/
+Tyler Tents and Events	Rentals	5515 Highway 31 W	Tyler	Texas	Tyler and East Texas	Tyler rental company supplying linens, chairs, tents and table settings, with delivery, tent setup and styling for weddings of any style.	info@tylertentsandevents.com	(903) 200-6744	https://tylertentsandevents.com/	https://www.instagram.com/tylertents/
+All American Party and Tent Rentals	Rentals	4917 Old Jacksonville Hwy	Tyler	Texas	East Texas, including Longview, Palestine, Athens and White Oak, plus Shreveport	Tyler rental company covering wedding tents, tables, chairs, linens, china, dance floors, staging, lighting and wedding decor such as arches.	info@allamericanpartyandtent.com	(903) 561-2943	https://www.allamericanpartyandtent.com/	
+Piney Woods Event Rentals	Rentals		Longview	Texas	Longview, Gilmer, Marshall, Henderson, Kilgore, Carthage and Gladewater	Longview rental company for tents, tables, chairs and wedding decor such as backdrops and marquee letters across East Texas.		903-206-4305	https://pineywoodseventrentals.com/	https://www.instagram.com/pineywoodseventrentals/
+Silver Sipper Mobile Bar	Bar		Tyler	Texas	Tyler and East Texas	Tyler mobile bar run from a vintage Airstream-style trailer, with custom cocktail menus, draft beer and local wine, beer and spirits.	reservations@silversipper.com	(903) 830-2550	https://silversipper.com/	https://www.instagram.com/silversipper/
+Alluring Bold Events	Decor & Lighting		Longview	Texas		Longview planning, design and rental company with chairs, gold serpentine tables, dance floors, cold sparklers, props and mirror photo booths.			https://www.alluringboldevents.com/	https://www.instagram.com/alluring_bold_events/
+`,
+  },
+  {
+    name: "Lubbock and Amarillo: videography, photo booth",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+41 Productions	Videography		Amarillo	Texas		Amarillo video company, established 2006, that specialises in wedding films alongside small-business and real estate video.	lindsay@41productions.com	(806) 681-2465	https://41productions.com/	https://www.instagram.com/41_productions_videography/
+Petrichor Video	Videography		Amarillo	Texas	Amarillo and destination weddings	Amarillo videographer making cinematic wedding films, from highlight edits to full feature films with drone coverage, plus commercial work.	derek@petrichorvideo.com	(806) 424-3555	https://petrichorvideo.com/weddings	https://www.instagram.com/petrichorweddings/
+Picture Perfect Photo Booth Rental	Photo Booth	3304 37th St	Lubbock	Texas	Lubbock and the surrounding area	Locally owned Lubbock photo booth rental for weddings and parties, with custom overlays on each rental and a gallery and pricing page online.	pictureperfectlbk@gmail.com	806-392-2361	https://www.pictureperfectlubbock.com/	https://www.instagram.com/picture.perfect.lbk/
+`,
+  },
+  {
+    name: "Waco, Bryan–College Station and Brenham: planning, hair & makeup, cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Kindred Event Studio	Planning		Waco	Texas	Waco and Texas	Waco-based planning and design studio offering full-service wedding planning and event production, with a free downloadable planning guide.	info@kindredeventstudio.com		https://www.kindredeventstudio.com/	https://www.instagram.com/kindredeventstudio/
+Wonderful Events	Planning		College Station	Texas	College Station, Bryan and Brazos County	Brazos Valley planning and design team handling weddings, proposals and other events, with a pocket wedding planner guide.	erin@wonderfuleventstx.com	979-450-4329	https://www.wonderfuleventstx.com/	https://www.instagram.com/wonderfuleventstx/
+`,
+  },
 ];
 
 export default batches;
