@@ -34,6 +34,14 @@ redesign nobody asked for, and never deploy without approval. Its backlog is
 `DESIGN-OPPORTUNITIES.md` and its log of approved/rejected directions is
 `DECISIONS.md`, both in that folder.
 
+**Marketing department (2026-10-20):** use the `/marketing` skill
+(`.claude/skills/marketing/`) for any marketing, growth, SEO, social, ads,
+partnership, lifecycle or hello@ inbox work. It acts as CMO, keeps the live
+picture in `STATE.md` and a ranked `BACKLOG.md`, and loads one specialist
+playbook at a time. Drafts only: nothing is sent, posted, spent or published
+without the owner's approval. It reuses `/vendor-outreach`, `/wren-voice` and
+`/weekly-review` rather than duplicating them.
+
 **Workflow note (2026-09-13, amended 2026-09-14):** for any visual/UI
 change (icons, layout, colors, mascot art, etc.) or any bigger/riskier
 change, render a preview (screenshot or generated image) and/or confirm
