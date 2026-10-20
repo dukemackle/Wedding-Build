@@ -1,9 +1,11 @@
+import { requireAdmin } from "@/lib/admin";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import { effectiveGuestCount } from "@/lib/budget-categories";
 import type { AdminCoupleNotes, Wedding } from "@/lib/supabase/types";
 import { CouplesManager, type CoupleRow } from "./couples-manager";
 
 export default async function AdminCouplesPage() {
+  await requireAdmin();
   const admin = createAdminSupabaseClient();
 
   const [{ data: weddings }, { data: guests }, { data: usersPage }, { data: notes }] =

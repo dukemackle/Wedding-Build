@@ -1,3 +1,4 @@
+import { requireAdmin } from "@/lib/admin";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 
 function StatTile({ label, value }: { label: string; value: number }) {
@@ -10,6 +11,7 @@ function StatTile({ label, value }: { label: string; value: number }) {
 }
 
 export default async function AdminOverviewPage() {
+  await requireAdmin();
   const admin = createAdminSupabaseClient();
 
   const [

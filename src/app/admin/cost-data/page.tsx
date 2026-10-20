@@ -1,3 +1,4 @@
+import { requireAdmin } from "@/lib/admin";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import { BUDGET_CATEGORIES } from "@/lib/budget-categories";
 import { STATES } from "@/lib/wedding-options";
@@ -5,6 +6,7 @@ import type { RegionalCostData } from "@/lib/supabase/types";
 import { CostDataBrowser, ImportForm, RecomputeFromCustomerData } from "./cost-data-manager";
 
 export default async function AdminCostDataPage() {
+  await requireAdmin();
   const admin = createAdminSupabaseClient();
   const { data: rows } = await admin
     .from("regional_cost_data")

@@ -1,3 +1,4 @@
+import { requireAdmin } from "@/lib/admin";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 
 type FeatureRow = { label: string; adopted: number };
@@ -47,6 +48,7 @@ function Bar({ label, count, max }: { label: string; count: number; max: number 
 const AT_RISK_DAYS = 7;
 
 export default async function AdminGrowthPage() {
+  await requireAdmin();
   const admin = createAdminSupabaseClient();
 
   const [

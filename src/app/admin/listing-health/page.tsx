@@ -1,3 +1,4 @@
+import { requireAdmin } from "@/lib/admin";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import { reportReasonLabel } from "@/lib/listing-report-reasons";
 import { SITE_URL, venueHref, vendorHref } from "@/lib/public-listings";
@@ -24,6 +25,7 @@ const date = (iso: string) => new Date(iso).toLocaleDateString("en-US", { month:
  * listings whose contact email our mail can no longer reach.
  */
 export default async function ListingHealthPage() {
+  await requireAdmin();
   const admin = createAdminSupabaseClient();
   const [{ data: reports }, { data: bounces }] = await Promise.all([
     admin

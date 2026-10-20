@@ -1,3 +1,4 @@
+import { requireAdmin } from "@/lib/admin";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import type { VendorInquiry, Wedding } from "@/lib/supabase/types";
 import { ExportCsvButton } from "@/components/admin/export-csv-button";
@@ -17,6 +18,7 @@ function StatTile({ label, value }: { label: string; value: string }) {
 }
 
 export default async function AdminRevenuePage() {
+  await requireAdmin();
   const admin = createAdminSupabaseClient();
 
   const [{ data: inquiries }, { data: weddings }] = await Promise.all([

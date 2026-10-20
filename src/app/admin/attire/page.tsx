@@ -1,8 +1,10 @@
+import { requireAdmin } from "@/lib/admin";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import type { AttireItem } from "@/lib/supabase/types";
 import { AdminAttireManager } from "./admin-attire-manager";
 
 export default async function AdminAttirePage() {
+  await requireAdmin();
   const admin = createAdminSupabaseClient();
   const [{ data: items }, { data: vendors }, { data: saves }] = await Promise.all([
     admin.from("attire_items").select("*").order("category").order("name").returns<AttireItem[]>(),
