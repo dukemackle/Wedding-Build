@@ -144,6 +144,9 @@ reflexively:
 - **`docs/legal.md`** — terms/privacy/consent coverage and what future features
   trigger (marketing email opt-in, EU users, SMS, analytics, billing). Read
   before shipping a new form that collects details, or any of those triggers.
+- **`docs/admin-blueprint.md`** — admin audit, ranked roadmap and owner
+  questions (2026-10-20). Read before admin, analytics, finance or ops work;
+  the `youdoido-admin-master` skill builds on it.
 - **`docs/legal-audit.md`** — the legal/liability audit (2026-10-19), live
   risk register, launch-review questions and attorney queue. Read before
   legal, privacy, SMS, listing-wording or payments work; update a risk's
