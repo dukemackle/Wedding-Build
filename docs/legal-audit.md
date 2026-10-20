@@ -464,7 +464,7 @@ Answer each question; any "yes" means update `docs/legal.md` and this register:
 | R7 | No DMCA agent or process | High | Med | Open | Owner + code |
 | R8 | Weak claim verification | Med-High | Med | Mostly fixed: no claim link to a couple-typed address; links last 90 days (refreshed after 60); a new link after every approved claim; the old contact address is emailed when it's replaced; only the latest approved submitter can request links. Open: claim-form photo uploads go straight from the browser to public buckets | Code |
 | R9 | No insurance known | High | Low–Med | Open (ask owner) | Owner + broker |
-| R10 | CAN-SPAM pieces missing; test-inflated lead counts | Med | Med | Partly fixed: test weddings left out of lead counts. Open: postal address (owner declined a PO box, 2026-10-19; some address is legally required before any commercial email), unsubscribe | Code + owner |
+| R10 | CAN-SPAM pieces missing; test-inflated lead counts | Med | Med | Partly fixed: test weddings left out of lead counts. Unsubscribe built 2026-10-20 (0124: signup opt-in, /account toggle, /unsubscribe, one-click header, `sendMarketingEmail` refuses without address). Open: postal address (owner getting a PO box, 2026-10-20) and the two secrets | Code + owner |
 | R11 | Wren AI notice | Med | — | Fixed in branch (line under the chat input); retention purge open | Code |
 | R12 | Guest health-adjacent data | Med | — | Partly fixed: notice on RSVP and address forms, Privacy line. MHMDA question still with attorney (A4) | Code + attorney |
 | R13 | "No credit card, ever" | Med | — | Fixed in branch ("needed"). "50 states" is accurate: every state meets coverage pass 1 | Code |
