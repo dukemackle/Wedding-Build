@@ -11,6 +11,13 @@ They're summarised here only by reference; CLAUDE.md is the source.
 
 ## Approved directions
 
+- **2026-10-20:** Dashboard "Your next step": one gold-bordered card above
+  the tiles (the page's only gold; the gold tile ring was removed), naming
+  the step and why it comes now. Path: venue, date, guest list, key vendors
+  (caterer, photographer, DJ or band), guest site, RSVPs; basics (state and
+  headcount) come first, the checklist after. Not dismissable. Rejected:
+  a reason line on the gold tile; reordering tiles by stage. Mockup:
+  https://claude.ai/artifact/UMLSoXHjivMK76zVXgR5yZ
 - **2026-10-19:** First-run setup is Direction A: Wren asks five questions,
   one per screen, only the names required; the desktop shows the dashboard
   filling in beside the question; it ends on the couple's budget estimate as
