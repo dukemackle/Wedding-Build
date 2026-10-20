@@ -473,6 +473,11 @@ Answer each question; any "yes" means update `docs/legal.md` and this register:
 
 Status values: Open, In progress, Fixed (date, PR), Accepted (reason, date).
 
+**Check (2026-10-20):** rows above that say "fixed in branch" (R2, R3, R5,
+R11, R13) are on `main` now — migrations 0122 and 0123 are in
+`supabase/migrations/`. Whether 0121–0123 have been run in production is for
+the owner to confirm; update each row to "Fixed (date, PR)" once confirmed.
+
 ## 13. Change monitoring (not automatic)
 
 Nothing watches the law continuously yet. A quarterly entry already fits the
