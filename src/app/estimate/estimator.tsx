@@ -211,7 +211,15 @@ export function Estimator({
             <CtaCard
               title={ctaTitle}
               body={ctaBody}
-              href={ctaHref}
+              href={
+                // Signing up from here carries the answers into setup, so the
+                // couple doesn't give them twice.
+                ctaHref === "/signup"
+                  ? `/signup?next=${encodeURIComponent(
+                      `/start?${new URLSearchParams({ state, tier, guests: String(guestCount) })}`,
+                    )}`
+                  : ctaHref
+              }
               label={ctaLabel}
               className={`mt-8 ${split ? "lg:mt-6" : ""}`}
             />

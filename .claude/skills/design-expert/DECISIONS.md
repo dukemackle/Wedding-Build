@@ -11,6 +11,13 @@ They're summarised here only by reference; CLAUDE.md is the source.
 
 ## Approved directions
 
+- **2026-10-19:** First-run setup is Direction A: Wren asks five questions,
+  one per screen, only the names required; the desktop shows the dashboard
+  filling in beside the question; it ends on the couple's budget estimate as
+  the page's gold moment plus three ordered first steps. "Roughly when" is
+  season only (no year column). The dashboard's existing form stays for
+  editing. Rejected alternatives: a shorter single form (B), no setup at all
+  (C). Mockup: https://claude.ai/artifact/MKwFy2KT4NiNuEYcZDVH9T
 - **2026-10-19:** Keyboard focus is a deep-gold ring (`#9a6b00`, bright Gold
   on navy fills, soft gold halo on fields); 404 and error pages are a
   centred card with Wren idling, a mono eyebrow, a display heading and two

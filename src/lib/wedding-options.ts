@@ -248,3 +248,13 @@ export const STATES = [
   "Wisconsin",
   "Wyoming",
 ] as const;
+
+/** Meteorological seasons, matching the SEASONS picker. */
+export function seasonOf(date: string): (typeof SEASONS)[number] | null {
+  const month = Number(date.slice(5, 7));
+  if (!month) return null;
+  if (month <= 2 || month === 12) return "Winter";
+  if (month <= 5) return "Spring";
+  if (month <= 8) return "Summer";
+  return "Fall";
+}

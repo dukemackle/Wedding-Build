@@ -70,7 +70,6 @@ function WeddingForm({
         <input
           type="date"
           name="wedding_date"
-          required
           value={date}
           onChange={(e) => setDate(e.target.value)}
           className={selectClass}
@@ -109,13 +108,10 @@ function WeddingForm({
         State
         <select
           name="state"
-          required
           defaultValue={wedding?.state ?? ""}
           className={selectClass}
         >
-          <option value="" disabled>
-            Select a state
-          </option>
+          <option value="">Not sure yet</option>
           {STATES.map((state) => (
             <option key={state} value={state}>
               {state}
@@ -127,13 +123,10 @@ function WeddingForm({
         Season
         <select
           name="season"
-          required
           defaultValue={wedding?.season ?? ""}
           className={selectClass}
         >
-          <option value="" disabled>
-            Select a season
-          </option>
+          <option value="">Not sure yet</option>
           {SEASONS.map((season) => (
             <option key={season} value={season}>
               {season}
@@ -145,13 +138,10 @@ function WeddingForm({
         Style tier
         <select
           name="style_tier"
-          required
           defaultValue={wedding?.style_tier ?? ""}
           className={selectClass}
         >
-          <option value="" disabled>
-            Select a style
-          </option>
+          <option value="">Not sure yet</option>
           {STYLE_TIERS.map((tier) => (
             <option key={tier} value={tier}>
               {tier}
@@ -163,13 +153,10 @@ function WeddingForm({
         Venue type
         <select
           name="venue_type"
-          required
           defaultValue={wedding?.venue_type ?? ""}
           className={selectClass}
         >
-          <option value="" disabled>
-            Select a venue type
-          </option>
+          <option value="">Not sure yet</option>
           {VENUE_TYPES.map((type) => (
             <option key={type} value={type}>
               {type}
