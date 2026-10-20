@@ -506,6 +506,20 @@ export function WeddingDashboard({
   heroActions?: ReactNode;
 }) {
   const [isEditing, setIsEditing] = useState(!initialWedding);
+
+  // "Add your date" on the next-step card links to #edit-details: open the
+  // form, then drop the hash so the same link works again.
+  useEffect(() => {
+    function openFromHash() {
+      if (window.location.hash !== "#edit-details") return;
+      setIsEditing(true);
+      window.history.replaceState(null, "", window.location.pathname + window.location.search);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+    openFromHash();
+    window.addEventListener("hashchange", openFromHash);
+    return () => window.removeEventListener("hashchange", openFromHash);
+  }, []);
   const [error, setError] = useState<string | undefined>(undefined);
   const [isPending, startTransition] = useTransition();
 

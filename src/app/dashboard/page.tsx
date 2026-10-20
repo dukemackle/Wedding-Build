@@ -6,6 +6,8 @@ import { WeddingDashboard } from "./wedding-dashboard";
 import { PassItOn } from "./pass-it-on";
 import { AskWrenTile } from "./ask-wren-tile";
 import { FeatureGrid, buildFeatures } from "./feature-grid";
+import { nextStep } from "./next-step";
+import { NextStepCard } from "./next-step-card";
 import { InviteToPlan } from "./invite-to-plan";
 import { loadPlanners } from "./planners";
 import { WelcomeBird } from "./welcome-bird";
@@ -219,6 +221,33 @@ export default async function DashboardPage() {
     },
   });
 
+  // No "next step" once the wedding has happened: Pass it on takes over then.
+  const today = new Date().toISOString().slice(0, 10);
+  const step =
+    wedding.wedding_date && wedding.wedding_date < today
+      ? null
+      : nextStep({
+          state: wedding.state,
+          headcount,
+          weddingDate: wedding.wedding_date,
+          venue: {
+            booked: Boolean(bookedVenue),
+            name: bookedVenue?.name ?? null,
+            shortlisted: venueShortlist?.length ?? 0,
+          },
+          guests: {
+            total: guestRows.length,
+            pending: guestRows.filter((g) => g.status === "invited" || g.status === "pending").length,
+          },
+          vendors,
+          siteLive: Boolean(wedding.public_slug),
+          checklist: checklistItems
+            .filter((item) => !item.completed)
+            .sort((a, b) => (a.due_date ?? "9999").localeCompare(b.due_date ?? "9999"))
+            .map((item) => ({ title: item.title, due: item.due_date })),
+          today,
+        });
+
   const planners = await loadPlanners(supabase, wedding, user.id);
 
   return (
@@ -239,6 +268,8 @@ export default async function DashboardPage() {
         customItems={(customItems ?? []).map((c) => c.label).filter(Boolean)}
         today={new Date()}
       />
+
+      {step && <NextStepCard step={step} />}
 
       <FadeInSection delayMs={40}>
         <FeatureGrid features={features} tail={<AskWrenTile />} />

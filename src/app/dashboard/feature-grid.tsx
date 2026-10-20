@@ -13,8 +13,6 @@ export type Feature = {
   media: ReactNode;
   /** One line on what the part does -- the landing page, for visitors who haven't used it. */
   blurb?: string;
-  /** The one box that needs the couple next: its status is the step to take, set in gold. */
-  nextUp?: boolean;
 };
 
 export type FeatureData = {
@@ -264,9 +262,9 @@ export function buildFeatures(d: FeatureData): Feature[] {
         ? `${usd(over)} over`
         : `${usd(-over)} under`;
 
-  // One box gets the gold: the step that unblocks the most. A venue first
-  // (the date, guest count and every vendor hang on it), then opening RSVPs
-  // once there's a list but no site to answer on, then an overdue task.
+  // Which box's status line reads as an instruction ("Book your venue",
+  // "Publish it", "3 overdue"). The gold itself moved to the next-step card
+  // above the grid (next-step.ts), so the page has one highlight, not two.
   const today = new Date().toISOString().slice(0, 10);
   const overdue = d.checklist.next.filter((t) => t.due && t.due < today).length;
   const next: "venue" | "site" | "checklist" | null = !d.venue?.booked
@@ -522,8 +520,7 @@ export function buildFeatures(d: FeatureData): Feature[] {
     },
   ];
 
-  const nextHref = { venue: "/venues", site: "/guests/site", checklist: "/checklist" };
-  return features.map((f) => (next && f.href === nextHref[next] ? { ...f, nextUp: true } : f));
+  return features;
 }
 
 /**
@@ -531,24 +528,23 @@ export function buildFeatures(d: FeatureData): Feature[] {
  * landing page opens a preview instead of navigating.
  */
 export function FeatureTile({ feature, asBox = false }: { feature: Feature; asBox?: boolean }) {
-  const { href, title, status, media, blurb, nextUp } = feature;
+  const { href, title, status, media, blurb } = feature;
   const words = (
     <div className="px-3 py-3 sm:px-5 sm:py-4">
       <h2 className="font-display text-[1.6rem] font-bold leading-none text-forest sm:text-[2.35rem]">
         {title}
       </h2>
       <p
-        className={`mt-2 truncate font-mono-numbers text-[11px] tracking-wide sm:text-xs ${nextUp ? "font-semibold text-brass" : "text-ink/55"}`}
+        className={`mt-2 truncate font-mono-numbers text-[11px] tracking-wide sm:text-xs text-ink/55`}
       >
         {status}
-        {nextUp && <span aria-hidden="true"> &rarr;</span>}
       </p>
       {blurb && (
         <p className="mt-2 line-clamp-3 text-[11px] leading-snug text-ink/70 sm:text-sm">{blurb}</p>
       )}
     </div>
   );
-  const className = `${nextUp ? "ring-2 ring-brass ring-offset-2 ring-offset-transparent " : ""}group relative flex h-full flex-col overflow-hidden rounded-2xl border border-hairline bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-brass hover:shadow-[0_14px_40px_-12px_rgba(224,161,0,0.55)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brass`;
+  const className = `group relative flex h-full flex-col overflow-hidden rounded-2xl border border-hairline bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-brass hover:shadow-[0_14px_40px_-12px_rgba(224,161,0,0.55)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brass`;
   const inner = (
     <>
       {/* Grows to fill the box, so a neighbour's two-line title never leaves a gap. */}
