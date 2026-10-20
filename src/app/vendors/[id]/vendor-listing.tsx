@@ -7,7 +7,15 @@ import { VENDOR_PRICE_UNITS } from "@/lib/wedding-options";
 import { ChevronDownIcon } from "@/components/icons";
 import { PhotoGallery } from "@/components/photo-gallery";
 import { SignupPrompt } from "@/components/public-nav";
-import { PUBLIC_VENDOR_COLUMNS, isBasicListing, isUuid, vendorHref, verifiedLabel } from "@/lib/public-listings";
+import {
+  PUBLIC_VENDOR_COLUMNS,
+  isBasicListing,
+  isUnclaimedListing,
+  isUuid,
+  vendorHref,
+  verifiedLabel,
+} from "@/lib/public-listings";
+import { UnclaimedNote } from "@/components/unclaimed-note";
 import { VendorDetailClient } from "./vendor-detail-client";
 
 /**
@@ -118,12 +126,16 @@ export function VendorListing({ data }: { data: VendorListingData }) {
           {verifiedLabel(vendor, "vendor") && (
             <p className="mt-1 text-xs text-forest/80">✓ {verifiedLabel(vendor, "vendor")}</p>
           )}
-          {isBasicListing(vendor) && (
-            <p className="mt-2 text-sm text-ink/60">
-              <Link href="/list/edit" className="underline hover:text-forest">
-                Is this your business? Add your details
-              </Link>
-            </p>
+          {isUnclaimedListing(vendor) ? (
+            <UnclaimedNote name={vendor.name} />
+          ) : (
+            isBasicListing(vendor) && (
+              <p className="mt-2 text-sm text-ink/60">
+                <Link href="/list/edit" className="underline hover:text-forest">
+                  Is this your business? Add your details
+                </Link>
+              </p>
+            )
           )}
           {!vendor.is_sample && !preview && <ReportListing listingType="vendor" listingId={vendor.id} />}
           {vendor.description && <p className="mt-4 text-ink/80">{vendor.description}</p>}

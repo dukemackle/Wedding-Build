@@ -1,13 +1,11 @@
 import { cache } from "react";
 import type { Metadata } from "next";
-import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
+import { createGuestSiteClient, guestSiteCover } from "@/lib/supabase/guest-site";
 import type { PublicWedding } from "@/lib/supabase/types";
 import { parseSiteDesign } from "@/lib/site-design-schema";
 import { bannerPhoto } from "@/lib/site-design";
 import { GuestSiteTheme } from "@/components/guest-site-theme";
-import { gateCookie } from "@/lib/site-gate";
 import { GuestSiteView, loadGuestSiteContent } from "./guest-site-view";
 import { SiteGate } from "./site-gate";
 
@@ -20,14 +18,16 @@ function formatDate(dateStr: string) {
 }
 
 // Shared by the metadata and the page so the lookup runs once per request.
-const getWedding = cache(async (slug: string) => {
-  const supabase = await createClient();
-  const { data } = await supabase
+// The database shows the site only past its password (0121), so a locked site
+// the guest hasn't opened comes back as just its cover: names, date, look.
+const getSite = cache(async (slug: string) => {
+  const supabase = await createGuestSiteClient(slug);
+  const { data: wedding } = await supabase
     .from("public_weddings")
     .select("*")
     .eq("public_slug", slug)
     .maybeSingle<PublicWedding>();
-  return data;
+  return { supabase, wedding, cover: wedding ? null : await guestSiteCover(slug) };
 });
 
 /**
@@ -41,7 +41,8 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const wedding = await getWedding(slug);
+  const { wedding: open, cover } = await getSite(slug);
+  const wedding = open ?? (cover?.site_locked ? { ...cover, venue_city: null, venue_state: null } : null);
   if (!wedding) return {};
 
   const names =
@@ -80,30 +81,19 @@ export default async function PublicWeddingPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const supabase = await createClient();
-  const wedding = await getWedding(slug);
+  const { supabase, wedding, cover } = await getSite(slug);
 
   if (!wedding) {
-    notFound();
+    if (!cover?.site_locked) notFound();
+    const names = [cover.partner_a_name, cover.partner_b_name].filter(Boolean).join(" & ") || "Our wedding";
+    return (
+      <GuestSiteTheme design={parseSiteDesign(cover.site_design)}>
+        <SiteGate slug={slug} names={names} when={cover.wedding_date ? formatDate(cover.wedding_date) : null} />
+      </GuestSiteTheme>
+    );
   }
 
   const design = parseSiteDesign(wedding.site_design);
-
-  if (wedding.site_locked) {
-    const token = (await cookies()).get(gateCookie(slug))?.value;
-    const { data: unlocked } = token
-      ? await supabase.rpc("guest_site_token_ok", { site_slug: slug, token })
-      : { data: false };
-    if (!unlocked) {
-      const names = [wedding.partner_a_name, wedding.partner_b_name].filter(Boolean).join(" & ") || "Our wedding";
-      return (
-        <GuestSiteTheme design={design}>
-          <SiteGate slug={slug} names={names} when={wedding.wedding_date ? formatDate(wedding.wedding_date) : null} />
-        </GuestSiteTheme>
-      );
-    }
-  }
-
   const content = await loadGuestSiteContent(supabase, wedding);
 
   return (

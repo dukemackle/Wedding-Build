@@ -118,6 +118,29 @@ export async function startListing(
   return { next: new URL(url).pathname };
 }
 
+/** Of these listings, the ones whose most recent approved change came from this email. */
+async function latestApprovedBy(
+  table: "venue_submissions" | "vendor_submissions",
+  idColumn: "venue_id" | "vendor_id",
+  listingIds: string[],
+  email: string,
+): Promise<string[]> {
+  if (listingIds.length === 0) return [];
+  const { data } = await createAdminSupabaseClient()
+    .from(table)
+    .select(`${idColumn}, submitter_email, reviewed_at`)
+    .in(idColumn, [...new Set(listingIds)])
+    .eq("status", "approved")
+    .order("reviewed_at", { ascending: false })
+    .returns<Record<string, string | null>[]>();
+  const latest = new Map<string, string>();
+  for (const row of data ?? []) {
+    const id = row[idColumn];
+    if (id && !latest.has(id)) latest.set(id, (row.submitter_email ?? "").toLowerCase());
+  }
+  return [...latest].filter(([, by]) => by === email).map(([id]) => id);
+}
+
 /**
  * Emails the edit link for every listing on file under this address.
  *
@@ -133,9 +156,11 @@ export async function requestEditLinks(rawEmail: string): Promise<{ error?: stri
   const admin = createAdminSupabaseClient();
   const pattern = email.replace(/[%_\\]/g, "\\$&");
 
-  // A listing is theirs if its contact email is this one, or if they've had a
-  // change approved from this address before (the venue's public contact email
-  // is often a shared inbox, not the person who manages the listing).
+  // A listing is theirs if its contact email is this one, or if they sent its
+  // most recent approved change (the venue's public contact email is often a
+  // shared inbox, not the person who manages the listing). Only the most
+  // recent: when a listing changes hands, whoever managed it before loses
+  // access (docs/legal-audit.md R8).
   const [venues, vendors, venueSubs, vendorSubs] = await Promise.all([
     admin.from("venues").select("id, name").ilike("contact_email", pattern).eq("is_sample", false),
     admin.from("vendors").select("id, name").ilike("contact_email", pattern).eq("is_sample", false),
@@ -145,8 +170,18 @@ export async function requestEditLinks(rawEmail: string): Promise<{ error?: stri
 
   const venueIds = new Map<string, string>((venues.data ?? []).map((v) => [v.id, v.name]));
   const vendorIds = new Map<string, string>((vendors.data ?? []).map((v) => [v.id, v.name]));
-  const extraVenues = (venueSubs.data ?? []).map((s) => s.venue_id).filter((id) => !venueIds.has(id));
-  const extraVendors = (vendorSubs.data ?? []).map((s) => s.vendor_id).filter((id) => !vendorIds.has(id));
+  const extraVenues = await latestApprovedBy(
+    "venue_submissions",
+    "venue_id",
+    (venueSubs.data ?? []).map((s) => s.venue_id).filter((id) => !venueIds.has(id)),
+    email,
+  );
+  const extraVendors = await latestApprovedBy(
+    "vendor_submissions",
+    "vendor_id",
+    (vendorSubs.data ?? []).map((s) => s.vendor_id).filter((id) => !vendorIds.has(id)),
+    email,
+  );
   if (extraVenues.length > 0) {
     const { data } = await admin.from("venues").select("id, name").in("id", extraVenues);
     for (const v of data ?? []) venueIds.set(v.id, v.name);

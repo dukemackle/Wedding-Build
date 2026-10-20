@@ -426,6 +426,7 @@ export function AssistantChat({
             }
           }}
           rows={1}
+          aria-label="Message Wren"
           disabled={Boolean(cap) && !current}
           placeholder={
             current ? "Or type your own answer..." : cap ? "Wren's taking a rest" : "Ask or tell Wren..."
@@ -442,6 +443,12 @@ export function AssistantChat({
           <SendIcon className="h-4 w-4" />
         </button>
       </div>
+      {/* Wren is AI and reads the wedding's guest list, budget and checklist;
+          say both where the couple types (docs/legal-audit.md R3, R11). */}
+      <p className="px-3 pb-2 text-[11px] leading-snug text-ink/70">
+        Wren is AI and can get things wrong. It can see your guest list, budget and checklist. Check
+        prices, dates and contract terms with your vendor.
+      </p>
     </div>
   );
 }

@@ -15,6 +15,7 @@ import { PhotoGallery } from "@/components/photo-gallery";
 import { SignupPrompt } from "@/components/public-nav";
 import { ReportListing } from "@/components/report-listing";
 import { ConfirmedChip, ConfirmedMark } from "@/components/confirmed-badge";
+import { UnclaimedNote } from "@/components/unclaimed-note";
 import {
   PUBLIC_VENUE_COLUMNS,
   confirmedByOwner,
@@ -22,6 +23,7 @@ import {
   vendorHref,
   venueHref,
   verifiedLabel,
+  isUnclaimedListing,
 } from "@/lib/public-listings";
 import { VenueDetailClient, VenueMapEmbed } from "./venue-detail-client";
 import { VenueGoodToKnow, VenueKeyFacts, VenueSpaces } from "./listing-sections";
@@ -189,6 +191,7 @@ export function VenueListing({ data }: { data: VenueListingData }) {
             ) : (
               <p className="mt-1 text-xs text-forest/80">✓ {verifiedLabel(venue, "venue")}</p>
             ))}
+          {isUnclaimedListing(venue) && <UnclaimedNote name={venue.name} />}
           {!venue.is_sample && !preview && (
             <div>
               <ReportListing listingType="venue" listingId={venue.id} />

@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { submitContactDetails } from "./actions";
+import { LegalNotice } from "@/components/legal-notice";
 
 const fieldClass =
   "w-full rounded-md border border-hairline bg-parchment px-3 py-2 text-ink outline-none transition-colors focus:border-forest";
@@ -146,7 +147,11 @@ export function ContactForm({ slug, coupleNames }: { slug: string; coupleNames: 
         <textarea name="note" rows={2} className={fieldClass} />
       </label>
 
-      {error && <p className="text-sm text-red-800">{error}</p>}
+      {error && (
+        <p role="alert" className="text-sm text-red-800">
+          {error}
+        </p>
+      )}
 
       <button
         type="submit"
@@ -155,6 +160,8 @@ export function ContactForm({ slug, coupleNames }: { slug: string; coupleNames: 
       >
         {isPending ? "Sending…" : "Send my details"}
       </button>
+
+      <LegalNotice action="sending your details" />
 
       <p className="text-xs text-ink/50">
         Only {coupleNames || "the couple"} can see what you send. It isn&apos;t shown on their

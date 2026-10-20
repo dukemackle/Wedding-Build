@@ -5,6 +5,7 @@ export const REPORT_REASONS = [
   { value: "price", label: "Price is wrong" },
   { value: "details", label: "Capacity, address or other details are wrong" },
   { value: "photos", label: "Photos are wrong or not theirs" },
+  { value: "remove", label: "It's my business and I want it taken down" },
   { value: "other", label: "Something else" },
 ] as const;
 
