@@ -78,7 +78,7 @@ into the conversation. If one appears anyway, tell them to rotate it.
    as the playbook says. Create it as a **Gmail draft** if the connector can,
    otherwise write it into the digest file. Never send, forward, delete,
    archive, or change filters unless the owner says so for that message.
-4. Write `drafts/inbox-YYYY-MM-DD.md`: urgent first, then reply drafts, then
+4. Write `drafts/inbox-YYYY-MM-DD.md` (git-ignored: it holds mailbox contents, never commit it; codes, links with tokens and passwords are never copied in): urgent first, then reply drafts, then
    leads/partners (name, business, city, what they asked: business details
    only), then follow-ups due (threads where we're waiting >5 days), then
    "no action". Keep personal details of couples and guests out of it beyond
