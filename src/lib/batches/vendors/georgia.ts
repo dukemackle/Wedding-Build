@@ -574,11 +574,6 @@ Renew You Makeup Artistry	Hair & Makeup		Augusta	Georgia	Augusta area	Freelance 
 Fat Man's Mill Cafe	Catering		Augusta	Georgia	Augusta	Augusta cafe whose catering runs from drop-off trays to wedding catering, with a food truck and on-site venues.			https://fatmans.com/	https://www.instagram.com/fatmanscafe/
 `,
   },
-  {
-    name: "Macon: hair & makeup, videography",
-    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
-`,
-  },
 ];
 
 export default batches;
