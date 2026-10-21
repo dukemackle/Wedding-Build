@@ -11,6 +11,11 @@ They're summarised here only by reference; CLAUDE.md is the source.
 
 ## Approved directions
 
+- **2026-10-21 (later):** Maps moved to our own tiles on R2 with the Protomaps
+  **light** style, the closest of Protomaps' styles to full colour (blue
+  water, green parks, road shields). The owner chose our own files over
+  Liberty knowing it's a bit greyer. Liberty is one line away in
+  `src/lib/map-tiles.ts` if it ever needs to come back.
 - **2026-10-21:** Maps use the full-colour OpenFreeMap **Liberty** style.
   The grey Positron was rejected as "depressing and untrustworthy". When the
   maps move to our own Cloudflare-hosted tiles, pick the closest full-colour
