@@ -14,8 +14,8 @@ department prepares so that launch is fast and safe when the owner says go.
 | Gate | Status | What opens it |
 | --- | --- | --- |
 | 50-state coverage ("no marketing until every state has listings") | **Met at pass 1** — `npm run coverage` 2026-10-20: 51/51 states meet pass 1; pass 4 targets still open. ROADMAP.md line 9 still says West Virginia is short, so it's stale | Owner decides whether pass 1 is enough to start |
-| Commercial email (vendor outreach, newsletters) | **Shut, opening** — unsubscribe, one-click header, opt-out check, signup opt-in and /account toggle built 2026-10-20 (`sendMarketingEmail`); owner is getting a PO box | Run migration 0124; set `UNSUBSCRIBE_SECRET` and `MARKETING_POSTAL_ADDRESS` in Cloudflare |
-| Analytics / ad pixels | **Shut** — nothing installed, not disclosed in Privacy | Choose a cookieless tool (Cloudflare Web Analytics is free and on the stack) and add a Privacy line |
+| Commercial email (vendor outreach, newsletters) | **Shut, opening** — unsubscribe, one-click header, opt-out check, signup opt-in and /account toggle built 2026-10-20 (`sendMarketingEmail`); owner is getting a PO box | Migration 0124 ran 2026-10-21; set `UNSUBSCRIBE_SECRET` and `MARKETING_POSTAL_ADDRESS` in Cloudflare |
+| Analytics | **Open for cookieless** — Cloudflare Web Analytics on youdoido.com since ~2026-10-02 (automatic setup, injected at the edge, not in code); disclosed in Privacy 2026-10-21. Ad pixels still shut | Pixels: Privacy update + EU consent first |
 | Paid ads | **Shut** — no tracking to measure them and no budget set | Analytics first, then an owner-set test budget |
 | Gmail access for inbox work | **Connected** 2026-10-20 as hello@youdoido.com; draft-only by rule (the connector can send) | — |
 | Entity / insurance (legal-audit R4, R9) | Open | Owner + attorney; matters before paid or partner deals |
@@ -37,7 +37,7 @@ the app, a mobile app in the stores, partnerships, user counts, a newsletter,
 ## Funnel instrumentation
 
 Signup source / UTM: none. Referral codes exist per wedding but only tag vendor
-inquiries. Page analytics: none. Admin has signups by month and feature
+inquiries. Page analytics: Cloudflare Web Analytics (cookieless; visits, referrers, pages). Admin has signups by month and feature
 adoption (`/admin/growth`), inquiries and contact taps. So today we can count
 signups and activity but not where anyone came from.
 

@@ -1,72 +1,85 @@
-# Founder Briefing — 2026-10-21
+# Founder Briefing — 2026-10-20
 
-Covers 2026-10-20 to 2026-10-21 (previous briefing: 2026-10-20, on PR #924).
-Sources: `node scripts/weekly-review.mjs` (run with PR #924's `sent_at` fix),
-`npm run coverage`, `git log main`, open PRs.
+First run, made during the AI operating system install. Covers 2026-10-13 to
+2026-10-20. Sources: `node scripts/weekly-review.mjs` (Supabase counts),
+`npm run coverage`, `git log main`, `docs/legal-audit.md` §12,
+`docs/retention.md`.
 
 ## 1. Executive summary
-Listings keep climbing (12,013 vendors, 7,641 venues, measured) and every state
-still meets pass 1. Yesterday's product work landed: the "Your next step"
-dashboard card, the new inquiry form, the product-led landing hero and the
-marketing-email plumbing (opt-in, unsubscribe). Still no outside users, and
-traffic/errors/email volume still can't be measured.
+The directory grew fast this week (+3,571 vendors, +1,257 venues, measured)
+and every state meets coverage pass 1. Big product and legal work landed: the
+guest-site data exposure was closed, claim links now expire, backups are
+encrypted, and first-run setup with Wren shipped. The remaining blockers to
+inviting real users are mostly owner-only (entity, DMCA agent, insurance, A2P,
+the backup key and plaintext backups in git history). The app still can't
+measure traffic or errors.
 
 ## 2. Top three priorities
-1. **Merge PR #924** — it holds this briefing skill and the fix for
-   `weekly-review.mjs`, which fails on `main` every run.
-2. **Owner-only legal/data blockers** (entity R4, DMCA R7, insurance R9, A2P for
-   SMS, plaintext backups in git history R6) — unchanged since yesterday.
-3. **Measurement before launch** — Cloudflare Web Analytics, Search Console,
-   error alerting.
+1. **Owner-only legal and data-safety blockers.** Nothing else can stand in
+   for these, and R6 (plaintext backups in git history) is live exposure.
+2. **Measurement before launch.** Analytics, Search Console and error
+   alerting (`integrations.md` 1–3), so launch can be judged on facts.
+3. **A reason for couples to come back.** Reminder emails need a scheduled
+   job (`risks-and-opportunities.md` O1).
 
-## 3. Product developments (since 2026-10-20)
-- Dashboard "Your next step" card with the planning path.
-- Inquiry form: date + headcount, ask-with-chips, auto-written message.
-- Landing hero redone: the product is the hero.
-- Marketing email: signup opt-in, /account toggle, unsubscribe + one-click header.
-- `/marketing` CMO skill installed; Gmail connected (draft-only).
-- 31 venue/vendor batch PRs merged.
+## 3. Product developments (from `git log`, 179 commits incl. batches)
+- First-run setup: five skippable questions with Wren, then a budget estimate.
+- Guest-site data exposure closed; legal copy fixed from the audit.
+- Claim links expire; backups encrypted (once the key is set).
+- Accessibility basics: focus ring, skip link, modal focus trap, error/404 pages.
+- Marketplace (sell/browse) part 1 and polish; venue pins on the building.
+- Wren on a cheaper model with prompt caching and a monthly cap.
+- Duplicate listings removed (migration 0121).
 
 ## 4. Technical and security concerns
-- `weekly-review.mjs` on `main` queries `venue_inquiries.created_at` (column is
-  `sent_at`) and fails; fixed in PR #924.
-- Migration 0124 (marketing email) plus `UNSUBSCRIBE_SECRET` and
-  `MARKETING_POSTAL_ADDRESS` in Cloudflare still to do before commercial email.
-- 1 owner wedding not marked test (skews growth numbers).
-- No tests, no error alerting.
+- Legal register: R4 entity, R7 DMCA, R9 insurance **open**. R6 open for git
+  history and export. R2 waits on Twilio A2P 10DLC registration (owner).
+- Rows marked "fixed in branch" are on `main`. Confirm migrations 0121–0123
+  are run in production.
+- `scripts/weekly-review.mjs` was failing on every run (it queried a column
+  that doesn't exist). Fixed in this PR.
+- The `SUPABASE_ACCESS_TOKEN` in the Claude Code environment is rejected
+  (401), so DB and storage size are unknown.
+- No tests. No error alerting.
 
 ## 5. Acquisition and marketplace (measured)
-- Vendors 12,013 (+4,249 this week; 6 inactive; 58 missing map location).
-- Venues 7,641 (+1,562 this week; 15 inactive; 8 missing location).
-- Coverage: 51/51 pass 1; current stage still wants 8,442 venues, 7,717 vendors.
-  29% of researched businesses skipped (mostly dead sites / no website).
-- Inquiries this week: 0 vendor, 0 venue. Submissions pending: 0.
-  Feedback: 1 new.
-- Accounts 9 (0 this week, 3 active in 30 days); weddings 4, all likely yours.
-- Open batch PRs: #937 (Georgia vendors), #938 (New York venues).
+- Listings: **11,335 vendors** (6 inactive, 58 missing map location) and
+  **7,336 venues** (15 inactive, 7 missing location).
+- Coverage: 51/51 meet pass 1. The current stage still wants 9,000 venues and
+  8,761 vendors. 28% of researched businesses were skipped (mostly dead sites
+  or no website).
+- Inquiries this week: 0 vendor, 0 venue. Feedback queue: 1 new.
+- Accounts: 9 total (0 this week, 3 active in 30 days). Weddings: 4.
+  **Caveat:** `ADMIN_EMAIL` isn't set in this environment, so the owner's
+  test weddings can't be told apart. "4 real" is probably the owner's own
+  testing.
 
 ## 6. Financial health
-Revenue $0 by design. Supabase DB 49/500 MB, storage 17/1,000 MB, MAU 3/50,000
-(measured). Cloudflare and Resend **not connected** (keys missing). No finance
-system connected.
+Revenue $0 (not monetized, by design). Infra usage vs free tiers: Supabase
+MAU 3 of 50,000. DB/storage, Cloudflare requests and Resend volume are **not
+connected** (see section 4 and `integrations.md`). No finance system
+connected. Anthropic and Twilio spend: check their dashboards.
 
 ## 7. Competitors and industry
-Nothing new since 2026-09-14; a refresh is due.
+Nothing new researched since 2026-09-14 (`docs/competitors.md`). A refresh is
+due within the month.
 
 ## 8. High-value opportunities
-- Reminder emails (payment due / checklist) — the main reason couples return.
-- Search Console + sitemap: ~19,600 listings is real SEO surface, 10 min of DNS.
+- Payment-due and checklist reminder emails. Zola has these and we have none.
+- Search discovery: ~18,700 real listings is SEO surface worth checking once
+  Search Console is connected.
 
 ## 9. Decisions needing you
-1. Merge PR #924? Recommend yes.
-2. Is pass 1 coverage enough to lift the "no marketing" gate? Recommend yes,
-   once the legal blockers are moving.
-3. Turn on Cloudflare Web Analytics with a Privacy line? Recommend yes.
+1. **Launch bar for listings:** pass 1 (met) or the current stage? I'd
+   recommend pass 1 plus the legal blockers closed, then keep filling.
+2. **Turn on Cloudflare Web Analytics**, with the privacy-policy line?
+   I'd recommend yes.
+3. **Confirm migrations 0121–0123 are run** so the register can say Fixed.
 
 ## 10. Recommended next actions
-1. Mark your wedding as test on /admin/couples.
-2. Merge PR #924.
-3. Run migration 0124; set the two marketing-email secrets once the PO box exists.
-4. Add Cloudflare + Resend keys to the Claude Code environment so the next
-   briefing has infra numbers.
-5. Me, on your yes: Web Analytics + Privacy line.
+1. You: set `ADMIN_EMAIL` and a fresh `SUPABASE_ACCESS_TOKEN` in the Claude
+   Code environment (steps in the PR description).
+2. You: start the entity, DMCA agent and A2P registration. Each is a form.
+3. Me, on your yes: Web Analytics plus the privacy line, then a reminder-email
+   cron.
+4. Run `/launch-readiness` once 1–3 are moving.

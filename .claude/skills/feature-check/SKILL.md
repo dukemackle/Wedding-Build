@@ -1,6 +1,6 @@
 ---
 name: feature-check
-description: Before building a feature idea, check whether You Do, I Do already has it, what The Knot, Zola and Joy do, and the smallest version worth shipping. Use when the owner types /feature-check <idea>, or proposes a new couple-facing or admin feature ("should we add…", "what about a…") before any code is written.
+description: Before building a feature idea, check whether You Do, I Do already has it, what The Knot, Zola and Joy do, and the smallest version worth shipping. Use when the owner types /feature-check <idea>, or proposes a new couple-facing or admin feature ("should we add…", "what about a…") before any code is written. Also the competitor-research mode — "/feature-check compare <competitor or area>", "what do The Knot and Zola offer that we don't?".
 ---
 
 # /feature-check
@@ -51,6 +51,17 @@ read-and-advise pass: write no code, open no branch.
 Short — the owner is on a usage budget. Three labelled paragraphs
 (**Exists?**, **Competitors**, **Smallest version**) and a one-line verdict:
 build it / build the smaller version / skip. No tables.
+
+## Competitor-research mode
+
+When the argument starts with `compare` (or the question is "what does X
+have that we don't"), skip step 3's single-feature framing: refresh
+`docs/competitors.md` for the named competitor or area (one round of web
+searches, official pages first), list the gaps that matter to a real couple,
+mark each **exists / partly / missing / parked** against our code, and end
+with the one or two gaps worth closing. Log sources and dates in
+`docs/ai-operating-system/research-log.md`. For a broad market sweep, use the
+`product-strategist` agent instead of doing it inline.
 
 ## Keep the doc current
 

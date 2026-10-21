@@ -11,7 +11,7 @@ export default function PrivacyPage() {
       <div className={`w-full ${READING_WIDTH}`}>
         <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Legal</p>
         <h1 className="mt-2 font-display text-3xl font-semibold text-forest">Privacy Policy</h1>
-        <p className="mt-2 text-sm text-ink/60">Last updated: October 20, 2026</p>
+        <p className="mt-2 text-sm text-ink/60">Last updated: October 21, 2026</p>
 
         <div className="mt-8 flex flex-col gap-8 text-ink/80">
           <p>
@@ -171,8 +171,10 @@ export default function PrivacyPage() {
             <p className="mt-2">
               Basic technical information needed to operate the Service, such as an authentication
               session cookie set by our infrastructure provider, and on a password-protected
-              wedding site, a cookie that remembers you&apos;ve typed the password. We don&apos;t use
-              analytics or third-party advertising trackers. Some wedding-site designs load their
+              wedding site, a cookie that remembers you&apos;ve typed the password. We count visits
+              with Cloudflare Web Analytics, which uses no cookies and doesn&apos;t follow you to
+              other sites: it records the page, the referring site, and your browser, device type and
+              country. We don&apos;t use advertising trackers. Some wedding-site designs load their
               fonts from Google Fonts, so your browser contacts Google, which sees your IP address
               (see Google&apos;s privacy policy). When someone taps a listing&apos;s phone number, website or social
               link, we count the tap against that listing, with no personal details attached, so we
