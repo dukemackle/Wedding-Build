@@ -254,3 +254,8 @@ The owner found the editor "too complicated" and struggled to find Sections.
 - **Sections** rows have an Edit / Done button, lift on hover and outline in
   Royal blue when open; clicking a whole section in the computer preview
   opens its row.
+- **Follow-up (same day):** the editor preview shows the Unsplash sample
+  photos while the couple has none (`?samples=1`), with "sample photos until
+  you add yours" in its address bar; guests never see them. Colours shows six
+  palettes that suit the look (the template's own, then light or dark like
+  the page, same family first) and "More colours" for the full list.

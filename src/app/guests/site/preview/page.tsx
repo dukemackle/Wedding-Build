@@ -24,9 +24,9 @@ export const metadata: Metadata = { title: "Guest site preview", robots: { index
 export default async function GuestSitePreviewPage({
   searchParams,
 }: {
-  searchParams: Promise<{ design?: string; look?: string }>;
+  searchParams: Promise<{ design?: string; look?: string; samples?: string }>;
 }) {
-  const { design: designId, look } = await searchParams;
+  const { design: designId, look, samples: withSamples } = await searchParams;
   const supabase = await createClient();
   const {
     data: { user },
@@ -98,10 +98,10 @@ export default async function GuestSitePreviewPage({
     loadGuestSiteContent(supabase, asGuestsSeeIt, { preview: true }),
     rowPromise,
   ]);
-  // In the template gallery, a couple with no photos yet sees samples, so a
-  // photo layout is judged with a photo in it. Never in the editor's preview,
-  // which shows exactly what guests would.
-  const samples = Boolean(look);
+  // A couple with no photos yet sees samples, so a photo layout is judged
+  // with a photo in it: in the template gallery, and in the editor (owner,
+  // 2026-10-21), whose address bar says so. Never on the live site.
+  const samples = Boolean(look) || withSamples === "1";
   if (samples && !bannerPhoto(asGuestsSeeIt)) asGuestsSeeIt.hero_photo_url = SAMPLE_HERO;
   const content =
     samples && loaded.galleryPhotos.length === 0

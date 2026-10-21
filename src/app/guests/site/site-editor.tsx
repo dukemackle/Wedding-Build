@@ -27,6 +27,7 @@ import {
   themeById,
   type ColorFamily,
   sameDesign,
+  type Palette,
   type SectionKey,
   type SiteDesign,
   type TextSlotId,
@@ -921,7 +922,7 @@ export function SiteEditor({
             fill={device === "phone"}
             frameRef={frameRef}
             designId={designId}
-            address={publicSlug ? `youdoido.com/w/${publicSlug}` : "Preview — your site is off"}
+            address={`${publicSlug ? `youdoido.com/w/${publicSlug}` : "Preview — your site is off"}${hasPhoto ? "" : " · sample photos until you add yours"}`}
             bottomInset={0}
           />
         </section>
@@ -1139,7 +1140,7 @@ export function SiteEditor({
           fill={false}
           frameRef={frameRef}
             designId={designId}
-          address={publicSlug ? `youdoido.com/w/${publicSlug}` : "Preview — your site is off"}
+          address={`${publicSlug ? `youdoido.com/w/${publicSlug}` : "Preview — your site is off"}${hasPhoto ? "" : " · sample photos until you add yours"}`}
           bottomInset={0}
         />
       </section>
@@ -1171,6 +1172,7 @@ function ColoursSection({
   const base = themeById(design.theme);
   const [family, setFamily] = useState<ColorFamily | "dark" | null>(null);
   const current = activePalette(design);
+  const [showAll, setShowAll] = useState(false);
   const palettes = PALETTES.filter((p) =>
     family === null ? true : family === "dark" ? isDark(p.bg) : p.family === family,
   );
@@ -1183,12 +1185,26 @@ function ColoursSection({
   const startPalette = PALETTES.find((p) => p.id === template?.palette);
   const starting = startPalette ? paletteColors(startPalette) : { accent: null, colors: NO_COLORS };
   const startName = template?.name ?? base.name;
+  // Six that suit the look (owner, 2026-10-21: fewer choices up front): the
+  // template's own and the one in use, then light or dark like the page,
+  // its own colour family first. The rest wait behind "More colours".
+  const anchor = startPalette ?? current;
+  const dark = isDark(theme.bg);
+  const suited = [
+    ...[startPalette, current].filter((p): p is Palette => Boolean(p)),
+    ...PALETTES.filter((p) => isDark(p.bg) === dark && p.family === anchor?.family),
+    ...PALETTES.filter((p) => isDark(p.bg) === dark),
+    ...PALETTES,
+  ]
+    .filter((p, i, all) => all.findIndex((x) => x.id === p.id) === i)
+    .slice(0, 6);
   const customised = JSON.stringify({ a: design.accent, c: design.colors }) !== JSON.stringify({ a: starting.accent, c: starting.colors });
 
   return (
     <>
       <div className="flex flex-col gap-3 border-t border-hairline pt-6">
         <PanelLabel>Colours</PanelLabel>
+        {showAll && (
         <div className="-mx-5 flex gap-1.5 overflow-x-auto px-5 pb-1 lg:-mx-6 lg:px-6">
           <FamilyChip on={family === null} onClick={() => setFamily(null)}>
             All
@@ -1202,8 +1218,9 @@ function ColoursSection({
             Dark
           </FamilyChip>
         </div>
+        )}
         <div className="grid grid-cols-2 gap-2.5">
-          {palettes.map((p) => {
+          {(showAll ? palettes : suited).map((p) => {
             const on = current?.id === p.id;
             return (
               <button
@@ -1232,6 +1249,17 @@ function ColoursSection({
             );
           })}
         </div>
+        <button
+          type="button"
+          onClick={() => {
+            setShowAll((v) => !v);
+            setFamily(null);
+          }}
+          aria-expanded={showAll}
+          className="h-10 rounded-lg border border-hairline bg-card text-[13px] font-semibold text-[#2243B6] transition-colors hover:border-[#2243B6]/50 hover:bg-[#2243B6]/[0.04]"
+        >
+          {showAll ? "Fewer colours" : `More colours (${PALETTES.length})`}
+        </button>
       </div>
 
       {children}
@@ -1509,7 +1537,7 @@ function PreviewStage({
           <div style={site ?? undefined}>
             <iframe
               ref={frameRef}
-              src={`/guests/site/preview?design=${designId}`}
+              src={`/guests/site/preview?design=${designId}&samples=1`}
               title="Guest site preview"
               className="block border-0 bg-card"
               style={inner}
