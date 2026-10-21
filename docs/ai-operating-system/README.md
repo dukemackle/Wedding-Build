@@ -23,7 +23,11 @@ Existing skills stay the specialists' tools and keep their own triggers:
 `design-expert` (all visual/UX design, brand, accessibility of what's on
 screen), `wren-voice`, `couple-test`, `feature-check`, `pricing-check`,
 `weekly-review`, `data-audit`, `data-refresh`, `add-venues`, `add-vendors`,
-`vendor-outreach`, `ship`, `deploy-doctor`. New: `founder-briefing`,
+`vendor-outreach`, `ship`, `deploy-doctor`, and `marketing` (the CMO skill:
+campaigns, social, SEO, ads, lifecycle email and inbox triage, with its own
+specialist playbooks; drafts only). Marketing plans and drafts go to
+`/marketing`; `growth-marketplace` is for marketplace and claiming analysis
+and a second opinion on growth questions. New: `founder-briefing`,
 `business-audit`, `launch-readiness`.
 
 ## Routing rules (Chief of Staff)

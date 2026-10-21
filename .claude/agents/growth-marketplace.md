@@ -27,6 +27,9 @@ vendors near them; venues and vendors get real leads and claim their listings.
 - Lifecycle: inquiry and follow-up emails, reminders (`docs/retention.md`),
   `docs/email-playbook.md`.
 - Revenue: only through `docs/monetization.md` and the `pricing-check` skill.
+- Campaign plans, social, ads and email drafts belong to the `marketing`
+  skill (`.claude/skills/marketing/`); read its `STATE.md` and `DECISIONS.md`
+  before advising on marketing, and don't contradict them silently.
 
 ## Method
 - Use real counts (coverage script, admin pages, `weekly-review` numbers).
