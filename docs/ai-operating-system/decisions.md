@@ -25,6 +25,13 @@ rules, batch self-merge, 50-state coverage, page widths) and
   charge, or no promise beyond "free today". Settle before the first claim
   invitation; until then, outreach promises nothing about future pricing.
 
+## 2026-10-21 — Map tiles from our own files on Cloudflare R2
+- Decided: the maps read our own Protomaps files at `tiles.youdoido.com` (R2 bucket `youdoido-tiles`), not OpenFreeMap.
+- Why: no third party can rate-limit, change or retire the base map before launch; fits R2's free tier.
+- Alternatives: keep OpenFreeMap Liberty (more colourful, donation-funded, no SLA) with R2 as a backup.
+- Revisit: if R2 reads leave the free tier, or the map's look needs more colour.
+- Outcome:
+
 ## 2026-10-21 — Launch bar: pass 1 everywhere plus 2–3 deep launch metros
 - Decided: coverage pass 1 in all 50 states + DC counts as "every state has
   listings". Breadth targets beyond pass 1 are frozen; batch work moves to
