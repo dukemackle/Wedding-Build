@@ -818,6 +818,15 @@ export type FeedbackSubmission = {
   created_at: string;
 };
 
+/** Credit for a photo picked through photo search (Unsplash); see 0132. */
+export type WeddingPhotoCredit = {
+  wedding_id: string;
+  photo_url: string;
+  photographer: string;
+  profile_url: string;
+  created_at: string;
+};
+
 export type WeddingGalleryPhoto = {
   id: string;
   wedding_id: string;

@@ -1,4 +1,5 @@
 import { PhotoUpload } from "@/components/photo-upload";
+import { StockPhotoSearch } from "./stock-photo-search";
 
 /**
  * The guest site's banner photo, edited where the banner is.
@@ -8,7 +9,7 @@ import { PhotoUpload } from "@/components/photo-upload";
  * belongs beside the rest of the guest site settings, next to the link that
  * shows what it looks like.
  */
-export function HeroPhotoPanel({ photoUrl }: { photoUrl: string | null }) {
+export function HeroPhotoPanel({ photoUrl, canSearch }: { photoUrl: string | null; canSearch: boolean }) {
   return (
     <div>
       <p className="max-w-2xl text-sm text-ink/70">
@@ -23,6 +24,7 @@ export function HeroPhotoPanel({ photoUrl }: { photoUrl: string | null }) {
           shape="wide"
           confirmRemove="Remove the banner photo from your guest site?"
         />
+        {canSearch && <StockPhotoSearch target="hero" />}
       </div>
     </div>
   );
