@@ -1,6 +1,27 @@
 import type { NextConfig } from "next";
 
+// Baseline security headers on every response. Framing is limited to our own
+// pages (the guest-site editor and template gallery preview the site in an
+// iframe), which stops another site from wrapping the admin or a guest site to
+// trick clicks. HSTS leaves out includeSubDomains/preload until every
+// subdomain is confirmed HTTPS-only. A full Content-Security-Policy is a
+// separate change: it needs testing against maps, Drive picker and video
+// embeds first.
+const SECURITY_HEADERS = [
+  { key: "Strict-Transport-Security", value: "max-age=31536000" },
+  { key: "X-Frame-Options", value: "SAMEORIGIN" },
+  { key: "Content-Security-Policy", value: "frame-ancestors 'self'" },
+  { key: "X-Content-Type-Options", value: "nosniff" },
+  { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+  // Marketplace "near me" asks for location on our own pages; nothing uses
+  // the camera or microphone through the browser API (photo inputs are files).
+  { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=(self), payment=()" },
+];
+
 const nextConfig: NextConfig = {
+  async headers() {
+    return [{ source: "/:path*", headers: SECURITY_HEADERS }];
+  },
   // Contacts and the old Wedding Plan page were merged into Bookings.
   // Temporary redirects, so browsers don't cache them if either path is reused.
   async redirects() {

@@ -1,5 +1,6 @@
 import { requireAdmin } from "@/lib/admin";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
+import { listAllUsers, selectAll } from "@/lib/supabase/fetch-all";
 import { effectiveGuestCount } from "@/lib/budget-categories";
 import type { AdminCoupleNotes, Wedding } from "@/lib/supabase/types";
 import { CouplesManager, type CoupleRow } from "./couples-manager";
@@ -10,19 +11,10 @@ export default async function AdminCouplesPage() {
 
   const [{ data: weddings }, { data: guests }, { data: usersPage }, { data: notes }] =
     await Promise.all([
-      admin
-        .from("weddings")
-        .select("*")
-        .order("created_at", { ascending: false })
-        .returns<Wedding[]>(),
-      admin
-        .from("guests")
-        .select("wedding_id, status, plus_one")
-        .returns<{ wedding_id: string; status: string; plus_one: boolean }[]>(),
-      admin.auth.admin.listUsers({ perPage: 1000 }),
-      admin.from("admin_couple_notes").select("wedding_id, tags").returns<
-        Pick<AdminCoupleNotes, "wedding_id" | "tags">[]
-      >(),
+      selectAll<Wedding>(admin, "weddings", "*", { column: "created_at", ascending: false }),
+      selectAll<{ wedding_id: string; status: string; plus_one: boolean }>(admin, "guests", "wedding_id, status, plus_one"),
+      listAllUsers(admin),
+      selectAll<Pick<AdminCoupleNotes, "wedding_id" | "tags">>(admin, "admin_couple_notes", "wedding_id, tags"),
     ]);
 
   const guestsByWedding = new Map<string, { status: string; plus_one: boolean }[]>();

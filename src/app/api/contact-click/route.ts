@@ -10,6 +10,13 @@ import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const TYPES = ["venue", "vendor"];
 const KINDS = ["phone", "website", "social"];
+/**
+ * Taps counted per listing, per kind, per hour. Far above what real couples
+ * produce, low enough that a script hammering this public endpoint can't fill
+ * the table or inflate a vendor's lead count without limit. Taps past it are
+ * accepted (204) but not stored.
+ */
+const MAX_PER_HOUR = 10;
 
 export async function POST(request: Request) {
   let body: { type?: unknown; id?: unknown; kind?: unknown };
@@ -35,6 +42,16 @@ export async function POST(request: Request) {
     .eq("id", id)
     .maybeSingle();
   if (!listing) return new Response(null, { status: 404 });
+
+  const since = new Date(Date.now() - 60 * 60 * 1000).toISOString();
+  const { count, error } = await admin
+    .from("listing_contact_clicks")
+    .select("id", { count: "exact", head: true })
+    .eq("listing_type", type)
+    .eq("listing_id", id)
+    .eq("kind", kind)
+    .gte("created_at", since);
+  if (error || (count ?? 0) >= MAX_PER_HOUR) return new Response(null, { status: 204 });
 
   await admin.from("listing_contact_clicks").insert({ listing_type: type, listing_id: id, kind });
   return new Response(null, { status: 204 });

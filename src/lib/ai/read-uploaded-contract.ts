@@ -1,5 +1,6 @@
 import "server-only";
 import type { SupabaseClient } from "@supabase/supabase-js";
+import { takeAiAllowance } from "./allowance";
 import { readContract } from "./contract-reader";
 
 const BUCKET = "contracts";
@@ -32,6 +33,15 @@ export async function readUploadedContract(
   },
 ): Promise<void> {
   try {
+    if (!(await takeAiAllowance(contract.wedding_id, "contract"))) {
+      await supabase
+        .from("budget_contracts")
+        .update({ read_error: "Wren has read as many contracts as it can today. Ask again tomorrow and it'll read this one." })
+        .eq("id", contract.id)
+        .eq("wedding_id", contract.wedding_id);
+      return;
+    }
+
     const { data: signed } = await supabase.storage
       .from(BUCKET)
       .createSignedUrl(contract.storage_path, READ_URL_TTL_SECONDS);

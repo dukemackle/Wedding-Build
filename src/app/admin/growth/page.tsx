@@ -1,5 +1,6 @@
 import { requireAdmin } from "@/lib/admin";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
+import { listAllUsers, selectAll } from "@/lib/supabase/fetch-all";
 
 type FeatureRow = { label: string; adopted: number };
 
@@ -70,45 +71,23 @@ export default async function AdminGrowthPage() {
     { data: registryItems },
     { data: usersPage },
   ] = await Promise.all([
-    admin
-      .from("weddings")
-      .select(
-        "id, user_id, partner_a_name, partner_b_name, created_at, is_test, member_ids, public_slug, itinerary_published",
-      )
-      .returns<
-        {
-          id: string;
-          user_id: string;
-          partner_a_name: string | null;
-          partner_b_name: string | null;
-          created_at: string;
-          is_test: boolean;
-          member_ids: string[];
-          public_slug: string | null;
-          itinerary_published: boolean;
-        }[]
-      >(),
-    admin
-      .from("guests")
-      .select("wedding_id, invite_sent_at, gift_description")
-      .returns<
-        { wedding_id: string; invite_sent_at: string | null; gift_description: string | null }[]
-      >(),
-    admin.from("budget_line_items").select("wedding_id").returns<{ wedding_id: string }[]>(),
-    admin.from("seating_tables").select("wedding_id").returns<{ wedding_id: string }[]>(),
-    admin.from("itinerary_events").select("wedding_id").returns<{ wedding_id: string }[]>(),
-    admin.from("vendor_inquiries").select("wedding_id").returns<{ wedding_id: string }[]>(),
-    admin.from("venue_shortlist").select("wedding_id").returns<{ wedding_id: string }[]>(),
-    admin.from("checklist_items").select("wedding_id").returns<{ wedding_id: string }[]>(),
-    admin.from("venue_inquiries").select("wedding_id").returns<{ wedding_id: string }[]>(),
-    admin.from("budget_contracts").select("wedding_id").returns<{ wedding_id: string }[]>(),
-    admin.from("rsvp_submissions").select("wedding_id").returns<{ wedding_id: string }[]>(),
-    admin.from("guest_posts").select("wedding_id").returns<{ wedding_id: string }[]>(),
-    admin.from("wedding_gallery_photos").select("wedding_id").returns<{ wedding_id: string }[]>(),
-    admin.from("venue_layout_items").select("wedding_id").returns<{ wedding_id: string }[]>(),
-    admin.from("attire_party_members").select("wedding_id").returns<{ wedding_id: string }[]>(),
-    admin.from("registry_items").select("wedding_id").returns<{ wedding_id: string }[]>(),
-    admin.auth.admin.listUsers({ perPage: 1000 }),
+    selectAll<{ id: string; user_id: string; partner_a_name: string | null; partner_b_name: string | null; created_at: string; is_test: boolean; member_ids: string[]; public_slug: string | null; itinerary_published: boolean; }>(admin, "weddings", "id, user_id, partner_a_name, partner_b_name, created_at, is_test, member_ids, public_slug, itinerary_published"),
+    selectAll<{ wedding_id: string; invite_sent_at: string | null; gift_description: string | null }>(admin, "guests", "wedding_id, invite_sent_at, gift_description"),
+    selectAll<{ wedding_id: string }>(admin, "budget_line_items", "wedding_id"),
+    selectAll<{ wedding_id: string }>(admin, "seating_tables", "wedding_id"),
+    selectAll<{ wedding_id: string }>(admin, "itinerary_events", "wedding_id"),
+    selectAll<{ wedding_id: string }>(admin, "vendor_inquiries", "wedding_id"),
+    selectAll<{ wedding_id: string }>(admin, "venue_shortlist", "wedding_id"),
+    selectAll<{ wedding_id: string }>(admin, "checklist_items", "wedding_id"),
+    selectAll<{ wedding_id: string }>(admin, "venue_inquiries", "wedding_id"),
+    selectAll<{ wedding_id: string }>(admin, "budget_contracts", "wedding_id"),
+    selectAll<{ wedding_id: string }>(admin, "rsvp_submissions", "wedding_id"),
+    selectAll<{ wedding_id: string }>(admin, "guest_posts", "wedding_id"),
+    selectAll<{ wedding_id: string }>(admin, "wedding_gallery_photos", "wedding_id"),
+    selectAll<{ wedding_id: string }>(admin, "venue_layout_items", "wedding_id"),
+    selectAll<{ wedding_id: string }>(admin, "attire_party_members", "wedding_id"),
+    selectAll<{ wedding_id: string }>(admin, "registry_items", "wedding_id"),
+    listAllUsers(admin),
   ]);
 
   // Testing your own product creates weddings, guests, inquiries, etc. just

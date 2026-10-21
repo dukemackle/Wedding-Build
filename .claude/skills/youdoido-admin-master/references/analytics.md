@@ -13,10 +13,10 @@
   `vendor_inquiries`, `venue_inquiries`, `assistant_conversations`,
   `site_ai_uses`, `listing_reads`, `feedback_submissions`.
 - Test data: `weddings.is_test` (exclude everywhere), `vendors.is_sample`.
-- **Row cap:** PostgREST returns at most 1000 rows by default. Unpaged
-  `select` calls on Overview, Growth, Revenue, Couples and search silently
-  undercount past that. Use `count: "exact", head: true`, a SQL view or an
-  RPC for every count.
+- **Row cap:** PostgREST returns at most 1000 rows per request, silently.
+  Whole-table reads go through `selectAll` / `listAllUsers`
+  (`src/lib/supabase/fetch-all.ts`); a plain count uses
+  `count: "exact", head: true`. Never a bare unpaged `select`.
 
 ## Metric definition template
 

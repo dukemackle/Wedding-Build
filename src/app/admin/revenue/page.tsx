@@ -1,5 +1,6 @@
 import { requireAdmin } from "@/lib/admin";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
+import { selectAll } from "@/lib/supabase/fetch-all";
 import type { VendorInquiry, Wedding } from "@/lib/supabase/types";
 import { ExportCsvButton } from "@/components/admin/export-csv-button";
 import { ReferralLookup } from "./referral-lookup";
@@ -22,13 +23,8 @@ export default async function AdminRevenuePage() {
   const admin = createAdminSupabaseClient();
 
   const [{ data: inquiries }, { data: weddings }] = await Promise.all([
-    admin.from("vendor_inquiries").select("*").returns<VendorInquiry[]>(),
-    admin
-      .from("weddings")
-      .select("id, partner_a_name, partner_b_name, referral_code, is_test")
-      .returns<
-        Pick<Wedding, "id" | "partner_a_name" | "partner_b_name" | "referral_code" | "is_test">[]
-      >(),
+    selectAll<VendorInquiry>(admin, "vendor_inquiries", "*"),
+    selectAll<Pick<Wedding, "id" | "partner_a_name" | "partner_b_name" | "referral_code" | "is_test">>(admin, "weddings", "id, partner_a_name, partner_b_name, referral_code, is_test"),
   ]);
 
   // Excludes inquiries/bookings from weddings marked as test on the Couples
@@ -60,7 +56,11 @@ export default async function AdminRevenuePage() {
   return (
     <div>
       <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Admin</p>
-      <h1 className="mt-2 mb-2 font-display text-3xl font-semibold text-forest">Revenue</h1>
+      <h1 className="mt-2 mb-2 font-display text-3xl font-semibold text-forest">Reported bookings</h1>
+      <p className="mb-2 text-sm text-ink/70">
+        What couples say they booked and paid vendors they found here. This is marketplace activity, not
+        You Do, I Do&rsquo;s income: the company has no revenue yet (everything is free in Phase 0).
+      </p>
       <p className="mb-6 text-xs text-ink/50">
         {testWeddingIds.size > 0
           ? `Excluding ${testWeddingIds.size} couple${testWeddingIds.size === 1 ? "" : "s"} marked as test on the Couples page.`
@@ -70,7 +70,7 @@ export default async function AdminRevenuePage() {
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
         <StatTile label="Inquiries sent" value={String(allInquiries.length)} />
         <StatTile label="Bookings confirmed" value={String(bookedInquiries.length)} />
-        <StatTile label="Total booked amount" value={formatCurrency(totalBookedAmount)} />
+        <StatTile label="Booked amount (couple-reported)" value={formatCurrency(totalBookedAmount)} />
       </div>
 
       <div className="mt-8 flex justify-end">

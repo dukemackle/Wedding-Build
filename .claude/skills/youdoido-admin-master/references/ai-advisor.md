@@ -4,8 +4,8 @@
 
 `/admin/ask` -> `src/lib/ai/admin-assistant.ts` + `admin-assistant-tools.ts`.
 - Model `claude-haiku-4-5` via the Anthropic SDK tool runner; 8 model calls
-  per question, last 10 turns, 50 questions/admin/day (fails open if the
-  count query fails), logged to `admin_assistant_log`.
+  per question, last 10 turns, 50 questions/admin/day (fails closed since
+  2026-10-21), logged to `admin_assistant_log`.
 - One read-only `query` tool over an allowlist of 8 tables and columns;
   emails, phones, tokens, guest names and inquiry messages excluded; test
   couples filtered; 300 rows per query.
@@ -35,10 +35,10 @@ It is a sound, conservative base. Extend it; don't replace it.
    a specific record; summarise feedback text server-side before sending
    when volumes grow. Confirm the privacy policy covers AI processing of
    feedback (`docs/legal.md`).
-7. **Fail closed** on the daily cap if the count query errors.
 
 ## Cost and reliability
 
 At owner-only volume (a few questions a day), Haiku costs cents per month.
 The real cost risks are elsewhere: couple-facing AI calls without caps
-(contract reading has none). Watch those first.
+(contract reading and thank-you drafts got caps in `src/lib/ai/allowance.ts`
+on 2026-10-21; any new AI feature needs one too).

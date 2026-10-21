@@ -14,9 +14,13 @@ update it when a fix ships.
   not an auth boundary.
 - Admin only routes on admin.youdoido.com (`src/proxy.ts`); a hidden URL is
   not security, the server checks are.
-- Gaps: no MFA (Supabase supports TOTP; enforce `aal2` in `requireAdmin`),
-  no admin audit log, no roles, no security headers (CSP, HSTS,
-  frame-ancestors), no general rate limiting.
+- `requireAdmin()` and `currentAdmin()` also require an authenticator code
+  (`aal2`); `/login/mfa` sets it up on first sign-in. Lost device: remove
+  the factor in Supabase (Authentication > Users) and sign in again.
+- Baseline headers in `next.config.ts` (HSTS, frame-ancestors 'self',
+  nosniff, Referrer-Policy, Permissions-Policy).
+- Gaps: no admin audit log, no roles, no full CSP, rate limits only on
+  contact-click and the AI features.
 
 ## Approval levels
 

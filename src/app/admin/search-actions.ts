@@ -2,6 +2,7 @@
 
 import { requireAdmin } from "@/lib/admin";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
+import { listAllUsers, selectAll } from "@/lib/supabase/fetch-all";
 
 export type SearchHit = { href: string; title: string; detail?: string; keywords?: string };
 export type SearchGroup = { label: string; hits: SearchHit[] };
@@ -63,20 +64,8 @@ export async function adminSearch(raw: string): Promise<SearchGroup[]> {
   }
 
   const [weddings, users, venues, vendors, venueClaims, vendorClaims, feedback, attire, costs] = await Promise.all([
-    admin
-      .from("weddings")
-      .select("id, user_id, partner_a_name, partner_b_name, venue_name, wedding_date")
-      .returns<
-        {
-          id: string;
-          user_id: string;
-          partner_a_name: string | null;
-          partner_b_name: string | null;
-          venue_name: string | null;
-          wedding_date: string | null;
-        }[]
-      >(),
-    admin.auth.admin.listUsers({ perPage: 1000 }),
+    selectAll<{ id: string; user_id: string; partner_a_name: string | null; partner_b_name: string | null; venue_name: string | null; wedding_date: string | null }>(admin, "weddings", "id, user_id, partner_a_name, partner_b_name, venue_name, wedding_date"),
+    listAllUsers(admin),
     venueQuery
       .order("name")
       .limit(PER_GROUP)

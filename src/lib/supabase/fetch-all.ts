@@ -1,3 +1,5 @@
+import type { SupabaseClient, User } from "@supabase/supabase-js";
+
 /**
  * Reads every row of a query, a page at a time.
  *
@@ -21,5 +23,41 @@ export async function fetchAll<T>(
     if (error) throw new Error(error.message);
     rows.push(...(data ?? []));
     if (!data || data.length < PAGE_SIZE) return rows;
+  }
+}
+
+type AnyClient = SupabaseClient<any, any, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+
+/**
+ * Every row of a table's columns, in `order` then id order, shaped like a
+ * Supabase result (`{ data }`) so it drops into an existing
+ * `Promise.all([...])` destructure. For admin pages that count or group whole
+ * tables; a count alone should use `count: "exact", head: true` instead.
+ */
+export async function selectAll<T>(
+  client: AnyClient,
+  table: string,
+  columns: string,
+  order?: { column: string; ascending: boolean },
+): Promise<{ data: T[] }> {
+  const data = await fetchAll<T>((from, to) => {
+    let query = client.from(table).select(columns);
+    if (order) query = query.order(order.column, { ascending: order.ascending });
+    return query.order("id").range(from, to) as unknown as PromiseLike<{
+      data: T[] | null;
+      error: { message: string } | null;
+    }>;
+  });
+  return { data };
+}
+
+/** Every auth user, not just the first page of 1000. Shaped like `listUsers`. */
+export async function listAllUsers(client: AnyClient): Promise<{ data: { users: User[] } }> {
+  const users: User[] = [];
+  for (let page = 1; ; page++) {
+    const { data, error } = await client.auth.admin.listUsers({ page, perPage: PAGE_SIZE });
+    if (error) throw new Error(error.message);
+    users.push(...data.users);
+    if (data.users.length < PAGE_SIZE) return { data: { users } };
   }
 }
