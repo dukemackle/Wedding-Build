@@ -75,7 +75,14 @@ export const BUDGET_CATEGORIES: BudgetCategory[] = [
   { key: "hair_makeup", label: "Hair & Makeup", flatBase: 900, perGuestAmount: 0 },
   { key: "rings", label: "Wedding Rings", flatBase: 1500, perGuestAmount: 0 },
   { optional: true, key: "officiant", label: "Officiant", flatBase: 500, perGuestAmount: 0 },
-  { key: "gratuities", label: "Gratuities & Service Charges", flatBase: 700, perGuestAmount: 0 },
+  // Tips for the people who work the day. Service charges are their own line
+  // below: a venue's 20% on food and drink isn't a tip.
+  { key: "gratuities", label: "Tips & Gratuities", flatBase: 700, perGuestAmount: 0 },
+  // Worked out from the lines above, not priced on their own (see
+  // src/lib/estimate-add-ons.ts), so these bases are never used.
+  { key: "service_charge", label: "Service Charges", flatBase: 0, perGuestAmount: 0 },
+  { key: "sales_tax", label: "Sales Tax", flatBase: 0, perGuestAmount: 0 },
+  { key: "contingency", label: "Cushion for Surprises", flatBase: 0, perGuestAmount: 0 },
 ];
 
 /**

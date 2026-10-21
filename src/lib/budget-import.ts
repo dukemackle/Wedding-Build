@@ -236,7 +236,16 @@ const CATEGORY_ALIASES: Record<string, string> = {
   gratuities: "gratuities",
   gratuitiesservicecharges: "gratuities",
   tips: "gratuities",
-  servicecharge: "gratuities",
+  tipsgratuities: "gratuities",
+  servicecharge: "service_charge",
+  servicecharges: "service_charge",
+  salestax: "sales_tax",
+  tax: "sales_tax",
+  taxes: "sales_tax",
+  contingency: "contingency",
+  cushion: "contingency",
+  cushionforsurprises: "contingency",
+  buffer: "contingency",
 };
 
 const CATEGORY_LABELS = new Map(BUDGET_CATEGORIES.map((c) => [c.key, c.label]));

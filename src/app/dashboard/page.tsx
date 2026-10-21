@@ -149,7 +149,14 @@ export default async function DashboardPage() {
   const hidden = new Set(wedding.hidden_budget_categories);
   const visibleCategories = BUDGET_CATEGORIES.filter((c) => !hidden.has(c.key));
   const lineByCategory = new Map((lineItems ?? []).map((row) => [row.category, row]));
-  const estimates = weddingCategoryEstimates(regionalData ?? [], wedding, headcount);
+  const actuals = new Map<string, number>();
+  for (const [key, row] of lineByCategory) {
+    if (row.override_value != null) actuals.set(key, row.override_value);
+  }
+  const estimates = weddingCategoryEstimates(regionalData ?? [], wedding, headcount, {
+    hidden,
+    actuals,
+  });
   let categoriesTotal = 0;
   let categoriesActual = 0;
   for (const category of visibleCategories) {

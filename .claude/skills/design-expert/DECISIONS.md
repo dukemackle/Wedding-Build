@@ -11,6 +11,11 @@ They're summarised here only by reference; CLAUDE.md is the source.
 
 ## Approved directions
 
+- **2026-10-21:** Estimator extras: service charge, sales tax, tips and a
+  cushion for surprises sit apart from the vendor bar chart in a
+  gold-bordered "On top of vendor prices" box, with how each was worked
+  out. Reason: these are what couples leave out of a budget. Applied in
+  `src/app/estimate/estimator.tsx`.
 - **2026-10-20:** Landing hero is direction A, "the product is the hero":
   headline "Everything before “I do,” made a whole lot easier." (the brand
   line), the live estimator as the gold card, a dashboard glimpse behind it

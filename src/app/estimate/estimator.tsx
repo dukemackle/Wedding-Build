@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useMemo, useState, useTransition, type ReactNode } from "react";
 import type { RegionalCostData } from "@/lib/supabase/types";
 import { estimateWeddingCost, type EstimatorTier } from "@/lib/estimator";
+import { isAddOn } from "@/lib/estimate-add-ons";
 import { STATES, STYLE_TIERS } from "@/lib/wedding-options";
 import { BudgetBarChart } from "@/app/budget/budget-chart";
 import { applyEstimateToWedding } from "@/app/budget/actions";
@@ -78,12 +79,13 @@ export function Estimator({
   );
 
   const realDataCount = estimate.breakdown.filter((item) => item.isRealData).length;
+  const pricedCount = estimate.breakdown.filter((item) => !isAddOn(item.key)).length;
   // Most states have no sourced rows yet, so the default reading has to be
   // "national averages, adjusted" -- not a claim of local price data.
   const sourceNote =
     realDataCount === 0
       ? `These are national averages adjusted for your region, style and season, not local prices for ${state}. A starting point, not a quote.`
-      : `${realDataCount} of ${estimate.breakdown.length} categories use sourced pricing for ${state}; the rest are national averages adjusted for your region, style and season. A starting point, not a quote.`;
+      : `${realDataCount} of ${pricedCount} categories use sourced pricing for ${state}; the rest are national averages adjusted for your region, style and season. A starting point, not a quote.`;
 
   return (
     <div
@@ -233,13 +235,25 @@ export function Estimator({
   );
 }
 
+// Lines that land on top of vendors' prices rather than being a vendor.
+// Shown apart from the chart, because they're what couples most often leave
+// out of a budget and then meet on the final invoice.
+const ON_TOP_KEYS = ["service_charge", "sales_tax", "gratuities", "contingency"];
+const TIPS_BASIS = "For the people who work the day: planner, hair and makeup, drivers, crew.";
+
 function BudgetOverview({
   breakdown,
   split,
 }: {
-  breakdown: { key: string; label: string; amount: number }[];
+  breakdown: { key: string; label: string; amount: number; basis?: string }[];
   split: boolean;
 }) {
+  const vendors = breakdown.filter((item) => !ON_TOP_KEYS.includes(item.key));
+  const onTop = ON_TOP_KEYS.map((key) => breakdown.find((item) => item.key === key)).filter(
+    (item) => item != null,
+  );
+  const onTopTotal = onTop.reduce((sum, item) => sum + item.amount, 0);
+
   return (
     <div
       className={`mt-6 w-full rounded-lg border border-hairline bg-card p-5 shadow-sm sm:p-8 ${split ? "lg:mt-0" : ""}`}
@@ -247,7 +261,30 @@ function BudgetOverview({
       <span className="font-display text-2xl font-semibold text-forest">Cost breakdown</span>
       <p className="mt-1 text-sm text-ink/70">Where this estimate goes, highest to lowest.</p>
       <div className="mt-6">
-        <BudgetBarChart items={breakdown} />
+        <BudgetBarChart items={vendors} />
+      </div>
+
+      <div className="mt-8 rounded-md border border-brass/40 bg-parchment p-4 sm:p-5">
+        <div className="flex items-baseline justify-between gap-4">
+          <h3 className="font-display text-lg font-semibold text-forest">On top of vendor prices</h3>
+          <span className="font-mono-numbers text-forest">{currency.format(onTopTotal)}</span>
+        </div>
+        <p className="mt-1 text-sm text-ink/70">
+          Easy to miss in a quote, and already counted in your total.
+        </p>
+        <ul className="mt-3 divide-y divide-hairline">
+          {onTop.map((item) => (
+            <li key={item.key} className="flex items-start justify-between gap-4 py-2.5">
+              <div className="min-w-0">
+                <p className="text-sm font-medium text-ink">{item.label}</p>
+                <p className="mt-0.5 text-xs text-ink/60">{item.basis ?? TIPS_BASIS}</p>
+              </div>
+              <span className="shrink-0 font-mono-numbers text-sm text-ink">
+                {currency.format(item.amount)}
+              </span>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );
