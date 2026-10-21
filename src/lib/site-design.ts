@@ -590,6 +590,7 @@ export function fontByCss(css: string) {
 export const FONT_PAIRINGS = [
   { id: "theme", label: "Theme default", display: null, body: null },
   { id: "cg", label: "Cormorant · Karla", display: "cormorant", body: "karla" },
+  { id: "cj", label: "Cormorant · Jost", display: "cormorant", body: "jost" },
   { id: "pj", label: "Playfair · Jost", display: "playfair", body: "jost" },
   { id: "bj", label: "Bodoni · Jost", display: "bodoni", body: "jost" },
   { id: "fw", label: "Fraunces · Work Sans", display: "fraunces", body: "worksans" },
@@ -734,13 +735,35 @@ export function sceneById(id: string | null | undefined) {
  * card, two columns on a computer. "storybook" runs them as full-width bands
  * in alternating tints, with the schedule as an illustrated timeline, photos
  * as a scrapbook and places to stay as a dotted route.
+ *
+ * The other three are the signature templates' pages (approved 2026-10-21),
+ * each its own arrangement rather than a recolour: "invitation" is one
+ * centred column on paper with framed panels and the schedule down a centre
+ * line; "magazine" numbers the sections under heavy rules with big type and
+ * the schedule as a table; "postcard" runs bold colour bands with wavy
+ * edges, a ticket for each event and travel as postcards.
  */
 export const PAGE_STYLES = [
   { id: "cards", label: "Cards", help: "Each section in its own card" },
   { id: "storybook", label: "Storybook", help: "Full-width bands, a timeline, scrapbook photos" },
+  { id: "invitation", label: "Invitation", help: "One centred column on paper, framed panels, the schedule down a centre line" },
+  { id: "magazine", label: "Magazine", help: "Numbered sections under ruled lines, big type, the schedule as a table" },
+  { id: "postcard", label: "Postcard", help: "Bold colour bands with wavy edges, a ticket for each event, postcards for travel" },
 ] as const;
 
 export type PageStyleId = (typeof PAGE_STYLES)[number]["id"];
+
+export const PAGE_STYLE_IDS = PAGE_STYLES.map((x) => x.id) as [PageStyleId, ...PageStyleId[]];
+
+/** The schedule's layout when the couple hasn't picked one: the page style's own. */
+export function defaultWeekendLayout(pageStyle: PageStyleId): WeekendLayoutId {
+  return { cards: "cards", storybook: "timeline", invitation: "centre", magazine: "list", postcard: "tickets" }[pageStyle] as WeekendLayoutId;
+}
+
+/** The photos' layout when the couple hasn't picked one: the page style's own. */
+export function defaultPhotosLayout(pageStyle: PageStyleId): PhotosLayoutId {
+  return pageStyle === "storybook" || pageStyle === "postcard" ? "scrapbook" : "spread";
+}
 
 /**
  * Layouts for single sections (Sections tab, each section's row), so the
@@ -764,6 +787,8 @@ export const SECTION_LAYOUTS = {
     { id: "timeline", label: "Timeline", help: "Events down a line under each day" },
     { id: "cards", label: "Cards", help: "A card for each day" },
     { id: "list", label: "List", help: "When, what and where in rows" },
+    { id: "centre", label: "Centre line", help: "Events either side of a line down the middle" },
+    { id: "tickets", label: "Tickets", help: "A ticket for each event, the time on its stub" },
   ],
   photos: [
     { id: "spread", label: "Spread", help: "A grid with your first photo given double the room" },
@@ -797,59 +822,20 @@ export const ORNAMENT_IDS = ORNAMENTS.map((o) => o.id) as [OrnamentId, ...Orname
 export const ORNAMENT_GROUP = "Dividers & ornaments";
 
 export const SITE_ART = [
-  { id: "eucalyptus", name: "Eucalyptus", group: "Greenery", kind: "colour", src: "/site-art/eucalyptus-watercolour.webp", w: 626, h: 900 },
   { id: "eucalyptus-line", name: "Eucalyptus sketch", group: "Greenery", kind: "line", src: "/site-art/eucalyptus-line.webp", w: 653, h: 900 },
-  { id: "olive", name: "Olive branch", group: "Greenery", kind: "colour", src: "/site-art/olive-colour.webp", w: 787, h: 900 },
-  { id: "olive-line", name: "Olive sketch", group: "Greenery", kind: "line", src: "/site-art/olive-line.webp", w: 900, h: 759 },
   { id: "rose", name: "Garden rose", group: "Roses & peonies", kind: "colour", src: "/site-art/rose-pink.webp", w: 659, h: 900 },
   { id: "roses-white", name: "White roses", group: "Roses & peonies", kind: "colour", src: "/site-art/roses-white-pink.webp", w: 824, h: 900 },
-  { id: "peony", name: "Peony", group: "Roses & peonies", kind: "colour", src: "/site-art/peony-magenta.webp", w: 677, h: 900 },
   { id: "wild-roses", name: "Wild roses", group: "Wildflowers", kind: "colour", src: "/site-art/wild-roses.webp", w: 625, h: 900 },
   { id: "mallow", name: "Mallow", group: "Wildflowers", kind: "colour", src: "/site-art/mallow.webp", w: 787, h: 900 },
   { id: "sweet-pea", name: "Sweet pea", group: "Wildflowers", kind: "colour", src: "/site-art/sweet-pea.webp", w: 641, h: 900 },
-  { id: "lavender", name: "Lavender", group: "Wildflowers", kind: "colour", src: "/site-art/lavender-colour.webp", w: 432, h: 900 },
   { id: "lavender-line", name: "Lavender sketch", group: "Wildflowers", kind: "line", src: "/site-art/lavender-line.webp", w: 366, h: 900 },
-  { id: "oats", name: "Dried grasses", group: "Seasonal", kind: "colour", src: "/site-art/oats.webp", w: 472, h: 900 },
-  { id: "autumn", name: "Autumn leaves", group: "Seasonal", kind: "colour", src: "/site-art/autumn-sprig.webp", w: 802, h: 900 },
-  { id: "holly", name: "Holly", group: "Seasonal", kind: "colour", src: "/site-art/holly.webp", w: 531, h: 900 },
-  { id: "holly-line", name: "Holly & mistletoe", group: "Seasonal", kind: "line", src: "/site-art/holly-mistletoe-line.webp", w: 674, h: 900 },
   { id: "lemon", name: "Lemons", group: "Destination", kind: "colour", src: "/site-art/lemon.webp", w: 703, h: 900 },
-  { id: "palm", name: "Date palm", group: "Destination", kind: "colour", src: "/site-art/palm-sprig.webp", w: 302, h: 900 },
-  // Drawn for You Do, I Do (SVG, ours outright), filled with the accent.
-  { id: "boot", name: "Cowboy boot", group: "Western", kind: "line", src: "/site-art/boot.svg", w: 640, h: 900 },
-  { id: "saguaro", name: "Cactus", group: "Western", kind: "line", src: "/site-art/saguaro.svg", w: 600, h: 900 },
-  { id: "longhorn", name: "Longhorn", group: "Western", kind: "line", src: "/site-art/longhorn.svg", w: 900, h: 560 },
-  { id: "anchor", name: "Anchor", group: "Coast", kind: "line", src: "/site-art/anchor.svg", w: 720, h: 900 },
-  { id: "shells", name: "Shells", group: "Coast", kind: "line", src: "/site-art/shells.svg", w: 640, h: 900 },
-  { id: "frond", name: "Palm frond", group: "Coast", kind: "line", src: "/site-art/frond.svg", w: 620, h: 900 },
-  { id: "grapes", name: "Grapevine", group: "Vineyard", kind: "line", src: "/site-art/grapes.svg", w: 640, h: 900 },
-  { id: "pine", name: "Pine bough", group: "Winter", kind: "line", src: "/site-art/pine.svg", w: 600, h: 900 },
-  // Icons shared with the patterns (scripts/site-art-icons.mjs writes them).
-  { id: "hat", name: "Cowboy hat", group: "Western", kind: "line", src: "/site-art/icon-hat.svg", w: 900, h: 900 },
-  { id: "badge", name: "Sheriff's star", group: "Western", kind: "line", src: "/site-art/icon-badge.svg", w: 900, h: 900 },
-  { id: "horseshoe", name: "Horseshoe", group: "Western", kind: "line", src: "/site-art/icon-horseshoe.svg", w: 900, h: 900 },
-  { id: "seahorse", name: "Seahorse", group: "Coast", kind: "line", src: "/site-art/icon-seahorse.svg", w: 900, h: 900 },
-  { id: "starfish", name: "Starfish", group: "Coast", kind: "line", src: "/site-art/icon-starfish.svg", w: 900, h: 900 },
-  { id: "turtle", name: "Sea turtle", group: "Coast", kind: "line", src: "/site-art/icon-turtle.svg", w: 900, h: 900 },
-  { id: "coral", name: "Coral", group: "Coast", kind: "line", src: "/site-art/icon-coral.svg", w: 900, h: 900 },
-  { id: "fish", name: "Fish", group: "Coast", kind: "line", src: "/site-art/icon-fish.svg", w: 900, h: 900 },
-  { id: "hibiscus", name: "Hibiscus", group: "Coast", kind: "line", src: "/site-art/hibiscus.svg", w: 600, h: 900 },
-  { id: "seagrass", name: "Sea grass", group: "Coast", kind: "line", src: "/site-art/seagrass.svg", w: 600, h: 900 },
-  { id: "sun", name: "Sun", group: "Desert", kind: "line", src: "/site-art/sun.svg", w: 900, h: 900 },
-  { id: "monstera", name: "Monstera leaf", group: "Tropical", kind: "line", src: "/site-art/monstera.svg", w: 600, h: 900 },
-  { id: "magnolia", name: "Magnolia", group: "Southern", kind: "line", src: "/site-art/magnolia.svg", w: 600, h: 900 },
-  { id: "pumpkin", name: "Pumpkin", group: "Harvest", kind: "line", src: "/site-art/pumpkin.svg", w: 600, h: 900 },
-  { id: "wheat", name: "Wheat sheaf", group: "Harvest", kind: "line", src: "/site-art/wheat.svg", w: 600, h: 900 },
-  { id: "skyline", name: "City skyline", group: "City", kind: "line", src: "/site-art/skyline.svg", w: 900, h: 560 },
-  { id: "champagne", name: "Champagne toast", group: "Celebration", kind: "line", src: "/site-art/champagne.svg", w: 600, h: 900 },
-  // Dividers and wedding ornaments, for the Elements tab only (not page artwork).
-  { id: "divider-flourish", name: "Flourish divider", group: ORNAMENT_GROUP, kind: "line", src: "/site-art/divider-flourish.svg", w: 900, h: 150 },
+  // Dividers and wedding ornaments, drawn for You Do, I Do (SVG, ours outright),
+  // filled with the accent; for the Elements tab only, not page artwork.
   { id: "divider-diamond", name: "Diamond divider", group: ORNAMENT_GROUP, kind: "line", src: "/site-art/divider-diamond.svg", w: 900, h: 100 },
   { id: "divider-heart", name: "Heart divider", group: ORNAMENT_GROUP, kind: "line", src: "/site-art/divider-heart.svg", w: 900, h: 120 },
   { id: "divider-laurel", name: "Laurel divider", group: ORNAMENT_GROUP, kind: "line", src: "/site-art/divider-laurel.svg", w: 900, h: 120 },
   { id: "rings", name: "Wedding rings", group: ORNAMENT_GROUP, kind: "line", src: "/site-art/rings.svg", w: 900, h: 720 },
-  { id: "wreath", name: "Laurel wreath", group: ORNAMENT_GROUP, kind: "line", src: "/site-art/wreath.svg", w: 900, h: 900 },
-  { id: "bow", name: "Ribbon bow", group: ORNAMENT_GROUP, kind: "line", src: "/site-art/bow.svg", w: 900, h: 720 },
   { id: "corner-flourish", name: "Corner flourish", group: ORNAMENT_GROUP, kind: "line", src: "/site-art/corner-flourish.svg", w: 900, h: 900 },
 ] as const;
 
@@ -914,6 +900,8 @@ export const PALETTES = [
   { id: "marsala", name: "Marsala", family: "red", bg: "#f5ede8", ink: "#3a1d1d", heading: "#7b2d2d", accent: "#8f3f36" },
   { id: "marigold", name: "Marigold", family: "gold", bg: "#fdf6e7", ink: "#3a2a10", heading: "#7d5200", accent: "#8a5d00" },
   { id: "champagne", name: "Champagne", family: "gold", bg: "#faf6ef", ink: "#3a3226", heading: "#6f5b3b", accent: "#866a3a" },
+  { id: "heirloom", name: "Heirloom rose", family: "pink", bg: "#fbf7ef", ink: "#2e3b2f", heading: "#2e3b2f", accent: "#a2475e" },
+  { id: "gallery", name: "Gallery blue", family: "neutral", bg: "#f4f1ec", ink: "#121212", heading: "#121212", accent: "#2243b6" },
   { id: "classic-white", name: "Classic white", family: "neutral", bg: "#ffffff", ink: "#1a1a1a", heading: "#1a1a1a", accent: "#5e5e5e" },
   { id: "ivory-black", name: "Ivory & ink", family: "neutral", bg: "#fbf9f4", ink: "#111111", heading: "#111111", accent: "#111111" },
   { id: "linen", name: "Linen", family: "neutral", bg: "#f2eee6", ink: "#2e2a24", heading: "#4a4237", accent: "#6b5f4c" },

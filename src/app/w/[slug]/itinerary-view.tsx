@@ -4,6 +4,7 @@ import type { ItineraryEvent } from "@/lib/supabase/types";
 import { formatFullDate, formatTime, groupEventsByDate } from "@/lib/itinerary";
 import { downloadIcs } from "@/lib/ics";
 import { useSiteDesign } from "@/components/guest-site-theme";
+import { defaultWeekendLayout } from "@/lib/site-design";
 import type { ReactNode } from "react";
 
 export function ItineraryView({
@@ -16,7 +17,7 @@ export function ItineraryView({
   const days = groupEventsByDate(events);
   const { pageStyle, layouts } = useSiteDesign();
   // With no layout picked, the schedule follows the page style.
-  const layout = layouts.weekend ?? (pageStyle === "storybook" ? "timeline" : "cards");
+  const layout = layouts.weekend ?? defaultWeekendLayout(pageStyle);
 
   if (days.length === 0) {
     return <p className="text-sm text-ink/50">Nothing scheduled yet.</p>;
@@ -24,6 +25,8 @@ export function ItineraryView({
 
   if (layout === "timeline") return <Timeline days={days} weddingDate={weddingDate} />;
   if (layout === "list") return <List days={days} />;
+  if (layout === "centre") return <CentreLine days={days} weddingDate={weddingDate} />;
+  if (layout === "tickets") return <Tickets days={days} />;
 
   return (
     // Phones stack the days; from md up they sit side by side as columns.
@@ -172,6 +175,92 @@ function List({ days }: { days: ReturnType<typeof groupEventsByDate> }) {
         }),
       )}
     </div>
+  );
+}
+
+/**
+ * The invitation page's schedule: each day's name sits on a line down the
+ * middle, its events either side of it in turn, the way a printed order of
+ * the day reads. A phone keeps the line at the left with everything beside it.
+ */
+function CentreLine({ days, weddingDate }: { days: ReturnType<typeof groupEventsByDate>; weddingDate: string | null }) {
+  let n = 0;
+  return (
+    <div className="relative mx-auto w-full max-w-4xl">
+      <span className="absolute bottom-0 left-[7px] top-0 w-px bg-hairline md:left-1/2" aria-hidden="true" />
+      {days.map((day) => (
+        <div key={day.date} className="relative pb-8 last:pb-0">
+          <p className="relative flex items-center gap-3 py-2 md:justify-center">
+            <span className="relative z-10 h-[15px] w-[15px] shrink-0 rounded-full border border-[var(--site-accent)] bg-parchment md:hidden" aria-hidden="true" />
+            <span className="relative z-10 bg-parchment font-display text-xl italic text-[var(--site-accent)] md:px-6 md:text-2xl">
+              {formatFullDate(day.date)}
+            </span>
+            {weddingDate === day.date && (
+              <span className="relative z-10 bg-parchment font-mono-numbers text-[11px] uppercase tracking-[0.2em] text-ink/60 md:hidden">
+                Wedding day
+              </span>
+            )}
+          </p>
+          <ol className="mt-4 flex flex-col gap-7">
+            {day.events.map((event) => {
+              const left = n++ % 2 === 0;
+              return (
+                <li key={event.id} className="pl-8 md:grid md:grid-cols-2 md:gap-x-24 md:pl-0">
+                  <div className={`min-w-0 ${left ? "md:text-right" : "md:col-start-2"}`}>
+                    {event.start_time && (
+                      <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-ink/60">{formatTime(event.start_time)}</p>
+                    )}
+                    <p className="font-display text-2xl leading-snug text-forest md:text-3xl">{event.title}</p>
+                    {event.location && <p className="text-sm text-ink/70">{event.location}</p>}
+                    {event.description && <p className="mt-1 text-sm text-ink/70">{event.description}</p>}
+                    <button onClick={() => downloadIcs(event)} className="mt-1 text-xs text-brass hover:underline">
+                      Add to calendar
+                    </button>
+                  </div>
+                </li>
+              );
+            })}
+          </ol>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/**
+ * The postcard page's schedule: a ticket for each event, the day and time on
+ * a coloured stub torn along a dotted line. Two to a row on a computer, one
+ * under another on a phone.
+ */
+function Tickets({ days }: { days: ReturnType<typeof groupEventsByDate> }) {
+  return (
+    <ol className="grid gap-4 md:grid-cols-2 md:gap-6">
+      {days.flatMap((day) =>
+        day.events.map((event) => {
+          const time = formatTime(event.start_time);
+          return (
+            <li key={event.id} className="site-ticket flex min-w-0 overflow-hidden rounded-[min(var(--site-radius,1rem),1.25rem)] bg-card">
+              <div className="flex w-24 shrink-0 flex-col items-center justify-center bg-[var(--site-accent)] px-2 py-5 text-center text-[var(--site-on-accent)] sm:w-32">
+                <span className="font-mono-numbers text-[11px] uppercase tracking-[0.18em] opacity-90">{shortDay(day.date).split(",")[0]}</span>
+                <span className="mt-1 font-display text-2xl leading-tight sm:text-3xl">{time ? time.replace(/\s?[AP]M$/, "") : "\u2014"}</span>
+                {time && (
+                  <span className="font-mono-numbers text-[11px] uppercase tracking-[0.18em] opacity-90">{time.endsWith("PM") ? "pm" : "am"}</span>
+                )}
+              </div>
+              <div className="min-w-0 flex-1 border-l-[3px] border-dashed border-parchment px-5 py-5 sm:px-7">
+                <p className="font-display text-2xl leading-tight text-forest">{event.title}</p>
+                {(event.location || event.description) && (
+                  <p className="mt-1 text-sm text-ink/70">{[event.location, event.description].filter(Boolean).join(" \u00b7 ")}</p>
+                )}
+                <button onClick={() => downloadIcs(event)} className="mt-2 text-xs text-brass hover:underline">
+                  Add to calendar
+                </button>
+              </div>
+            </li>
+          );
+        }),
+      )}
+    </ol>
   );
 }
 
