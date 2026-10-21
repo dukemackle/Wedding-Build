@@ -1701,10 +1701,10 @@ const DEMO_ORNAMENTS: { id: OrnamentId; label: string }[] = [
 
 // Line art to place on the demo site, as in the editor's Elements tab.
 const DEMO_ART = [
-  { id: "frond", label: "Palm frond", src: "/site-art/frond.svg" },
   { id: "eucalyptus", label: "Eucalyptus", src: "/site-art/eucalyptus-line.webp" },
   { id: "lavender", label: "Lavender", src: "/site-art/lavender-line.webp" },
   { id: "rings", label: "Wedding rings", src: "/site-art/rings.svg" },
+  { id: "laurel", label: "Laurel divider", src: "/site-art/divider-laurel.svg" },
 ] as const;
 
 function artMask(src: string, color: string): React.CSSProperties {
