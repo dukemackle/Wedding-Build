@@ -807,6 +807,22 @@ body:has(.dashboard-backdrop) header[data-top="true"] [class*="bg-forest/10"] {
   background-color: rgb(255 255 255 / 0.18);
 }
 
+/* The landing page's photo hero: the same clear, white-text bar while it sits
+   over the photo, without the dashboard's dark wash (the photo has its own). */
+body:has(.landing-photo) header[data-top="true"] {
+  background: transparent;
+  border-color: transparent;
+  backdrop-filter: none;
+}
+body:has(.landing-photo) header[data-top="true"] > div > nav > a,
+body:has(.landing-photo) header[data-top="true"] > div > nav > details > summary,
+body:has(.landing-photo) header[data-top="true"] > div > a > span {
+  color: #fff;
+}
+body:has(.landing-photo) header[data-top="true"] > div > a > span > span {
+  color: #ffd301;
+}
+
 body:has(.guest-site) .site-footer,
 body:has(.site-editor) .site-footer,
 body:has(.search-shell-root) .site-footer {

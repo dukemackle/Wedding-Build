@@ -4,34 +4,60 @@ import { WrenMark } from "@/components/wren-mark";
 import { AutoHideHeader } from "@/components/auto-hide-header";
 
 /**
- * The bar a logged-out visitor sees on the public venue and vendor pages.
- * Same edge-to-edge frame as AppNav, one row: the mark, the two things they
- * can browse, and the way in. On a phone the browse links drop out -- the
- * page itself is the browse screen -- and only Log in and Sign up remain.
+ * The bar a logged-out visitor sees on the landing page and the public venue
+ * and vendor pages. Same edge-to-edge frame as AppNav, one row: the mark, the
+ * places to look, and Log in. Signing up is the page's own button ("Start
+ * planning" on the landing hero), so the bar doesn't repeat it. On a phone the
+ * links fold into a menu beside Log in.
  */
 export function PublicNav({ next }: { next?: string }) {
   const q = next ? `?next=${encodeURIComponent(next)}` : "";
+  const links = [
+    { href: "/venues", label: "Venues" },
+    { href: "/vendors", label: "Vendors" },
+    { href: "/list", label: "For businesses" },
+  ];
   return (
     <AutoHideHeader>
-      <div className="flex w-full items-center justify-between gap-4 px-6 py-2">
+      <div className="flex w-full items-center justify-between gap-4 px-4 py-2 sm:px-6">
         <WrenMark href="/" />
-        <div className="flex items-center gap-4 sm:gap-6">
-          <Link href="/venues" className="hidden text-sm text-ink/70 hover:text-forest sm:block xl:text-base">
-            Venues
-          </Link>
-          <Link href="/vendors" className="hidden text-sm text-ink/70 hover:text-forest sm:block xl:text-base">
-            Vendors
-          </Link>
-          <Link href={`/login${q}`} className="shrink-0 text-sm text-brass hover:underline xl:text-base">
+        <nav aria-label="Main" className="flex items-center gap-1 sm:gap-7">
+          {links.map((l) => (
+            <Link key={l.href} href={l.href} className="hidden text-[15px] text-ink/80 hover:text-forest sm:block xl:text-base">
+              {l.label}
+            </Link>
+          ))}
+          <Link
+            href={`/login${q}`}
+            className="shrink-0 px-2 py-3 text-[15px] font-medium text-ink hover:text-forest sm:px-0 xl:text-base"
+          >
             Log in
           </Link>
-          <Link
-            href={`/signup${q}`}
-            className="shrink-0 rounded-full bg-forest px-4 py-1.5 text-sm text-parchment transition-colors hover:bg-forest/90"
-          >
-            Sign up free
-          </Link>
-        </div>
+          <details className="group relative sm:hidden">
+            <summary
+              aria-label="Menu"
+              className="flex h-11 w-11 cursor-pointer list-none items-center justify-center text-ink [&::-webkit-details-marker]:hidden"
+            >
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
+                <path d="M4 7h16M4 12h16M4 17h16" className="group-open:hidden" />
+                <path d="M6 6l12 12M18 6L6 18" className="hidden group-open:block" />
+              </svg>
+            </summary>
+            <div className="absolute right-0 top-full mt-2 flex w-56 flex-col rounded-2xl border border-hairline bg-card p-2 shadow-lg">
+              {links.map((l) => (
+                <Link key={l.href} href={l.href} className="rounded-xl px-4 py-3 text-base text-forest hover:bg-parchment">
+                  {l.label}
+                </Link>
+              ))}
+              <Link
+                href={`/signup${q}`}
+                className="mt-1 rounded-full bg-forest px-4 py-3 text-center text-base font-medium text-parchment"
+              >
+                Start planning
+              </Link>
+            </div>
+          </details>
+        </nav>
       </div>
     </AutoHideHeader>
   );

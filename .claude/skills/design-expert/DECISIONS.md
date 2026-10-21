@@ -11,6 +11,16 @@ They're summarised here only by reference; CLAUDE.md is the source.
 
 ## Approved directions
 
+- **2026-10-21:** Landing hero is now direction B, a full-width wedding
+  photograph (Unsplash, Jacob Diehl, credited on the photo) with the nav
+  clear and white over it, headline "The easy way to *I do.*", one line and
+  one "Start planning" button; the estimator sits under it with Style as
+  three buttons and one "Use this as my budget" button. Nav simplified to
+  Venues · Vendors · For businesses · Log in (signing up moved to the page's
+  own buttons; a menu on phones). Replaces the 2026-10-20 direction A below,
+  which the owner felt didn't read as a wedding site and had too many words.
+  Rejected: an invitation-style hero with the site-art florals. Mockup:
+  https://claude.ai/artifact/Nk7e6ynP1YcrYgQvUdSKS4
 - **2026-10-21:** Maps use the full-colour OpenFreeMap **Liberty** style.
   The grey Positron was rejected as "depressing and untrustworthy". When the
   maps move to our own Cloudflare-hosted tiles, pick the closest full-colour
