@@ -55,7 +55,9 @@ counts on `venues` and `vendors`, and the files cited inline.
   Claims go to an admin queue, and unclaimed listings carry a "not affiliated"
   note. The open items are mostly owner actions: R4 (LLC in progress), R6, R7,
   R9 and R10.
-- **Measurement [V].** No product events, no web analytics, no Search Console.
+- **Measurement [V].** No product events, no web analytics, no Search Console. (Later the same day: PR #956 added the `events` table and
+  `/admin/analytics`, and this branch added the per-couple First cohort table.
+  Web Analytics and Search Console are still owner steps.)
 - **Scheduling [V].** A GitHub Actions daily job now calls
   `/api/spend-reminders` (`.github/workflows/spend-reminders.yml`, merged
   2026-10-21). It is the existing scheduler pattern. There is no Cloudflare
