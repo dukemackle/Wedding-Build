@@ -1,3 +1,4 @@
+-- (0129: 0128 is ops_services, built in parallel.)
 -- Server errors, so breakage on a guest site, an RSVP or an inquiry is caught
 -- from the admin rather than reported by a couple. Written by
 -- src/lib/error-log.ts (the Next.js onRequestError hook and the failure

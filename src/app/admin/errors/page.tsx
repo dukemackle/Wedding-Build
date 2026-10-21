@@ -52,7 +52,7 @@ export default async function AdminErrorsPage() {
       </p>
 
       {error ? (
-        <p className="mt-6 text-sm text-ink/60">Not pulled: run migration 0128 to start logging errors.</p>
+        <p className="mt-6 text-sm text-ink/60">Not pulled: run migration 0129 to start logging errors.</p>
       ) : days.size === 0 ? (
         <p className={`${card} mt-6 px-5 py-4 text-sm text-ink/70`}>No errors in the last {DAYS} days.</p>
       ) : (

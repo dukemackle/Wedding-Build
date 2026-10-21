@@ -146,7 +146,7 @@ export default async function AdminHomePage() {
     },
     { n: pendingPosts ?? 0, label: "photo-wall posts", item: (n: number) => `${plural(n, "photo-wall post")} awaiting couples`, href: "/admin/photo-wall", action: "Look" },
   ];
-  // Until migration 0128 runs, errors are "not pulled", not "all clear".
+  // Until migration 0129 runs, errors are "not pulled", not "all clear".
   const tracked = queue.filter((q) => !(errorsError && q.label === "app errors"));
   const waiting = tracked.filter((q) => q.n > 0);
   const clear = tracked.filter((q) => q.n === 0);
@@ -169,7 +169,7 @@ export default async function AdminHomePage() {
     { label: "Last admin change", value: daysAgo(lastAdminChange?.[0]?.created_at) ?? "none logged" },
     { label: "Infra usage", value: "not pulled · /weekly-review", muted: true },
     errorsError
-      ? { label: "App errors", value: "not pulled · migration 0128", muted: true }
+      ? { label: "App errors", value: "not pulled · migration 0129", muted: true }
       : { label: "App errors", value: `${errorsToday.toLocaleString()} today · ${errorsWeek.toLocaleString()} in 7 days`, href: "/admin/errors" },
   ];
 

@@ -46,7 +46,7 @@ function groups(claims: PendingClaims): { title?: string; links: NavLink[] }[] {
       title: "Business",
       links: [
         { href: "/admin/revenue", label: "Reported bookings", keywords: "revenue money referrals payments income gmv booked" },
-        { href: "/admin/finance", label: "Finance", soon: true },
+        { href: "/admin/spend", label: "Spend & renewals", keywords: "expenses costs bills subscriptions renewals domain workspace llc finance burn" },
         { href: "/admin/growth", label: "Growth", keywords: "signups funnel coverage states" },
         { href: "/admin/analytics", label: "Analytics", soon: true },
         { href: "/admin/audit-log", label: "Admin log", keywords: "audit history who changed deleted approved activity accountability" },

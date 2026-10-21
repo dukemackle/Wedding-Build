@@ -30,7 +30,7 @@ export function scrubErrorMessage(message: string) {
 }
 
 /**
- * Records a server error in app_errors (migration 0128). Never throws: if the
+ * Records a server error in app_errors (migration 0129). Never throws: if the
  * log can't be written, it goes to the Worker logs instead, and whatever the
  * caller was doing carries on.
  *
