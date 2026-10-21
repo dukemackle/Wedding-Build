@@ -7,6 +7,8 @@ import { parseSiteDesign } from "@/lib/site-design-schema";
 import { GuestSiteTheme } from "@/components/guest-site-theme";
 import { GuestSiteView, loadGuestSiteContent } from "@/app/w/[slug]/guest-site-view";
 import { CanvasEditing } from "./canvas-editing";
+import { bannerPhoto } from "@/lib/site-design";
+import { SAMPLE_GALLERY, SAMPLE_HERO } from "@/lib/sample-photos";
 
 export const metadata: Metadata = { title: "Guest site preview", robots: { index: false } };
 
@@ -92,10 +94,28 @@ export default async function GuestSitePreviewPage({
     ask_dietary: wedding.ask_dietary,
   };
 
-  const [content, { data: row }] = await Promise.all([
+  const [loaded, { data: row }] = await Promise.all([
     loadGuestSiteContent(supabase, asGuestsSeeIt, { preview: true }),
     rowPromise,
   ]);
+  // In the template gallery, a couple with no photos yet sees samples, so a
+  // photo layout is judged with a photo in it. Never in the editor's preview,
+  // which shows exactly what guests would.
+  const samples = Boolean(look);
+  if (samples && !bannerPhoto(asGuestsSeeIt)) asGuestsSeeIt.hero_photo_url = SAMPLE_HERO;
+  const content =
+    samples && loaded.galleryPhotos.length === 0
+      ? {
+          ...loaded,
+          galleryPhotos: SAMPLE_GALLERY.map((photo_url, i) => ({
+            id: `sample-${i}`,
+            wedding_id: wedding.id,
+            photo_url,
+            sort_order: i,
+            created_at: "",
+          })),
+        }
+      : loaded;
   const stored = parseSiteDesign(row ? row.design : wedding.site_design);
   const draft = row?.shared_wording ? withWording(stored, parseWording(wedding.site_wording)) : stored;
 

@@ -56,12 +56,13 @@ legal questions to the owner rather than deciding them.
   data a year, or half of revenue from selling/sharing data); revisit if any
   of those come close. If the business is later formed in another state,
   revisit §13.
-- **Free photo library (2026-10-21):** the banner panel searches Unsplash
+- **Free photo library (2026-10-21):** the banner and gallery panels search Unsplash
   (`src/lib/unsplash.ts`). Privacy §1 says visitors' browsers load those
   banners from Unsplash; the sharing list says search words go to Unsplash
   from our server and the pick is reported to it. Unsplash's API terms
   require hotlinking, the download ping and a photographer credit, all in
-  place. Photos of people aren't model-released: the picker tells couples to
+  place (gallery credits: `wedding_photo_credits`, 0133). Template previews
+  also show Unsplash sample photos (`src/lib/sample-photos.ts`), couple-only. Photos of people aren't model-released: the picker tells couples to
   choose places and details. Still open for the attorney: whether a stock
   photo of an identifiable person on a couple's site exposes us or only them.
 

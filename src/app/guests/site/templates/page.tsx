@@ -3,6 +3,7 @@ import { PageShell } from "@/components/page-shell";
 import { ALL_FONTS_HREF } from "@/lib/site-design";
 import { MAX_DESIGNS } from "@/lib/site-designs";
 import { templateById } from "@/lib/site-templates";
+import { SAMPLE_HERO } from "@/lib/sample-photos";
 import { loadSiteDesigns } from "../load-designs";
 import { TemplatesGallery } from "./templates-gallery";
 
@@ -23,7 +24,8 @@ export default async function GuestSiteTemplatesPage({ searchParams }: { searchP
         base={site.base}
         names={site.names}
         dateLine={site.dateLine}
-        photoUrl={site.photoUrl}
+        photoUrl={site.photoUrl ?? SAMPLE_HERO}
+        samplePhotos={!site.photoUrl}
         initialOpen={templateById(t)?.id ?? null}
         full={site.designs.length >= MAX_DESIGNS}
       />

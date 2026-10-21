@@ -11,6 +11,7 @@ import type {
   WeddingAccommodation,
   WeddingFaq,
   WeddingGalleryPhoto,
+  WeddingPhotoCredit,
   SiteBlock,
 } from "@/lib/supabase/types";
 import { ChevronDownIcon } from "@/components/icons";
@@ -31,6 +32,7 @@ import type { ReactNode } from "react";
 import { bannerPhoto, blockKey, type SectionKey } from "@/lib/site-design";
 import { SiteBlockView, blockHasContent } from "./site-block";
 import { SectionLayout } from "./section-layout";
+import { PhotoCredits } from "./photo-credits";
 import { storyChapters } from "@/lib/site-story";
 import { Replayable, SiteMotion } from "@/components/site-motion";
 import { LiveDetailsProvider } from "@/components/site-live-details";
@@ -85,6 +87,7 @@ export async function loadGuestSiteContent(
     { data: confirmedGuests },
     { data: partyMembers },
     { data: blocks },
+    { data: photoCredits },
   ] = await Promise.all([
     supabase
       .from("registry_items")
@@ -152,6 +155,11 @@ export async function loadGuestSiteContent(
       .eq("wedding_id", wedding.id)
       .order("created_at", { ascending: true })
       .returns<SiteBlock[]>(),
+    supabase
+      .from("wedding_photo_credits")
+      .select("*")
+      .eq("wedding_id", wedding.id)
+      .returns<WeddingPhotoCredit[]>(),
   ]);
 
   return {
@@ -167,6 +175,7 @@ export async function loadGuestSiteContent(
     galleryPhotos: galleryPhotos ?? [],
     confirmedGuests: confirmedGuests ?? [],
     partyMembers: partyMembers ?? [],
+    photoCredits: photoCredits ?? [],
   };
 }
 
@@ -188,6 +197,7 @@ export function GuestSiteView({
     confirmedGuests,
     partyMembers,
     blocks,
+    photoCredits,
   } = content;
   const coupleNames = [wedding.partner_a_name, wedding.partner_b_name].filter(Boolean).join(" & ");
   const shareHref = `/w/${wedding.public_slug}/share`;
@@ -394,6 +404,7 @@ export function GuestSiteView({
           <SectionLayout sections={sections} />
         </LiveDetailsProvider>
       </Replayable>
+      <PhotoCredits credits={photoCredits} shown={galleryPhotos.map((p) => p.photo_url)} />
     </main>
   );
 }

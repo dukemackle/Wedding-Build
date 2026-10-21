@@ -212,7 +212,7 @@ export default async function GuestSiteEditorPage({ params }: { params: Promise<
         <div className="flex flex-col gap-8">
           <HeroPhotoPanel photoUrl={wedding.hero_photo_url} library={photoLibraryEnabled()} />
           <div className="border-t border-hairline pt-6">
-            <GalleryPanel photos={galleryPhotos ?? []} />
+            <GalleryPanel photos={galleryPhotos ?? []} library={photoLibraryEnabled()} />
           </div>
         </div>
       ),
