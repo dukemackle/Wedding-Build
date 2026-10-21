@@ -18,7 +18,7 @@ import { applyProposal } from "@/lib/ai/assistant-apply";
 import { PLANNING_QUESTIONS, profileLines } from "@/lib/ai/planning-profile";
 import { seedStandardPlan } from "@/lib/seed-plan";
 import { logError } from "@/lib/error-log";
-import { trackEvent } from "@/lib/usage-events";
+import { trackEvent } from "@/lib/events";
 
 const MODEL = "claude-haiku-5-5";
 /**
@@ -385,8 +385,8 @@ export async function askWeddingAssistant(
       // the couple is actually waiting on.
       console.error("Failed to log assistant conversation:", logError.message);
     }
-    await trackEvent("wren_asked", ctx.userId, ctx.weddingId);
 
+    trackEvent("wren_question_asked", { weddingId: ctx.weddingId, userId: ctx.userId });
     return { ok: true, reply: answer, proposals };
   } catch (error) {
     console.error("Assistant request failed:", error);

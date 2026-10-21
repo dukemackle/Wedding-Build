@@ -10,7 +10,7 @@ import { syncBudgetLineFromBooking } from "@/lib/budget-sync";
 import type { VendorInquiryStatus } from "@/lib/supabase/types";
 import { requireEditableWedding } from "@/lib/wedding-access";
 import { logError } from "@/lib/error-log";
-import { trackEvent } from "@/lib/usage-events";
+import { trackEvent } from "@/lib/events";
 
 const VALID_STATUSES: VendorInquiryStatus[] = ["sent", "responded", "booked", "declined"];
 
@@ -121,7 +121,12 @@ export async function sendVendorInquiry(formData: FormData): Promise<{ error?: s
     await supabase.from("vendor_inquiries").delete().eq("id", logged.id);
     return { error: sendFailure };
   }
-  await trackEvent("vendor_inquiry_sent", user.id, wedding.id);
+  trackEvent("listing_inquiry_sent", {
+    weddingId: wedding.id,
+    userId: user.id,
+    listing: vendorId ? { kind: "vendor", id: vendorId } : null,
+    props: { category },
+  });
 
   revalidatePath("/vendors");
   return {};
@@ -174,6 +179,8 @@ export async function markVendorBooked(formData: FormData): Promise<{ error?: st
     });
     if (error) return { error: error.message };
   }
+
+  trackEvent("listing_booked", { weddingId: wedding.id, userId: user.id, listing: { kind: "vendor", id: vendorId }, props: { category } });
 
   const budgetKey = category ? VENDOR_CATEGORY_TO_BUDGET_KEY[category] : undefined;
   if (budgetKey) {
@@ -319,6 +326,14 @@ export async function updateInquiryStatus(formData: FormData): Promise<{ error?:
       .eq("id", inquiryId)
       .maybeSingle();
 
+    if (inquiry?.vendor_id) {
+      trackEvent("listing_booked", {
+        weddingId: wedding.id,
+        listing: { kind: "vendor", id: inquiry.vendor_id },
+        props: { category: inquiry.category },
+      });
+    }
+
     const budgetKey = inquiry?.category ? VENDOR_CATEGORY_TO_BUDGET_KEY[inquiry.category] : undefined;
     if (inquiry && budgetKey) {
       await syncBudgetLineFromBooking(supabase, wedding, {
@@ -407,7 +422,7 @@ export async function toggleVendorFavorite(formData: FormData): Promise<{ error?
     });
 
     if (error) return { error: error.message };
-    await trackEvent("listing_saved", user.id, wedding.id);
+    trackEvent("listing_saved", { weddingId: wedding.id, userId: user.id, listing: { kind: "vendor", id: vendorId } });
   }
 
   revalidatePath("/vendors");

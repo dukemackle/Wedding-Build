@@ -1,7 +1,7 @@
 import { requireAdmin } from "@/lib/admin";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
-import { listAllUsers, selectAll } from "@/lib/supabase/fetch-all";
-import { FirstCohort, type CohortEventRow } from "./cohort";
+import { fetchAll, listAllUsers, selectAll } from "@/lib/supabase/fetch-all";
+import { FirstCohort, MILESTONES, type CohortEventRow } from "./cohort";
 
 type FeatureRow = { label: string; adopted: number };
 
@@ -90,10 +90,18 @@ export default async function AdminGrowthPage() {
     selectAll<{ wedding_id: string }>(admin, "registry_items", "wedding_id"),
     listAllUsers(admin),
   ]);
-  // null until migration 0130 has been run, so the page still loads before it.
-  const usageEvents = await selectAll<CohortEventRow>(admin, "usage_events", "day, name, wedding_id")
-    .then((r) => r.data)
-    .catch(() => null);
+  // Only the milestone events, for real weddings. null until migration 0130
+  // has been run, so the page still loads before it.
+  const realWeddingIds = (weddings ?? []).filter((w) => !w.is_test).map((w) => w.id);
+  const cohortEvents = await fetchAll<CohortEventRow>((from, to) =>
+    admin
+      .from("events")
+      .select("name, wedding_id, created_at")
+      .in("name", ["dashboard_visited", ...MILESTONES.flatMap((m) => m.events)])
+      .in("wedding_id", realWeddingIds)
+      .order("id")
+      .range(from, to),
+  ).catch(() => null);
 
   // Testing your own product creates weddings, guests, inquiries, etc. just
   // like a real couple would -- excluded here so growth signal reflects
@@ -261,7 +269,7 @@ export default async function AdminGrowthPage() {
           : "Mark any test/owner accounts as test on the Couples page to exclude them here."}
       </p>
 
-      <FirstCohort couples={cohortCouples} events={usageEvents} />
+      <FirstCohort couples={cohortCouples} events={cohortEvents} />
 
       <div className="mt-8 w-full rounded-lg border border-hairline bg-card p-6 shadow-sm">
         <p className="text-sm font-medium text-ink">Signups by month</p>

@@ -8,7 +8,7 @@ import { ensureClaimLink } from "@/lib/venue-claim-server";
 import { syncBudgetLineFromBooking } from "@/lib/budget-sync";
 import { requireEditableWedding } from "@/lib/wedding-access";
 import { logError } from "@/lib/error-log";
-import { trackEvent } from "@/lib/usage-events";
+import { trackEvent } from "@/lib/events";
 
 export async function toggleShortlist(formData: FormData): Promise<{ error?: string }> {
   const { supabase, user, wedding, noWedding } = await requireEditableWedding();
@@ -36,7 +36,7 @@ export async function toggleShortlist(formData: FormData): Promise<{ error?: str
     });
 
     if (error) return { error: error.message };
-    await trackEvent("listing_saved", user.id, wedding.id);
+    trackEvent("listing_saved", { weddingId: wedding.id, userId: user.id, listing: { kind: "venue", id: venueId } });
   }
 
   revalidatePath("/venues");
@@ -68,6 +68,7 @@ export async function setBookedVenue(formData: FormData): Promise<{ error?: stri
   }
 
   if (newVenueId) {
+    trackEvent("listing_booked", { weddingId: wedding.id, listing: { kind: "venue", id: newVenueId } });
     const { data: venue } = await supabase
       .from("venues")
       .select("name")
@@ -193,7 +194,12 @@ export async function sendVenueInquiry(formData: FormData): Promise<{ error?: st
     await supabase.from("venue_inquiries").delete().eq("id", logged.id);
     return { error: sendFailure };
   }
-  await trackEvent("venue_inquiry_sent", user.id, wedding.id);
+  trackEvent("listing_inquiry_sent", {
+    weddingId: wedding.id,
+    userId: user.id,
+    listing: venueId ? { kind: "venue", id: venueId } : null,
+    props: { category: "venue" },
+  });
 
   revalidatePath(`/venues/${venueId}`);
   revalidatePath("/venues");

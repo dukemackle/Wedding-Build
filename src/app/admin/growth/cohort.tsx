@@ -1,4 +1,4 @@
-import type { UsageEvent } from "@/lib/usage-events";
+import type { EventName } from "@/lib/events";
 
 export type CohortCouple = {
   id: string;
@@ -6,18 +6,18 @@ export type CohortCouple = {
   signedUpAt: string;
 };
 
-export type CohortEventRow = { day: string; name: UsageEvent; wedding_id: string | null };
+export type CohortEventRow = { name: EventName; wedding_id: string | null; created_at: string };
 
 // The first-value moments, in roughly the order a couple reaches them.
-const MILESTONES: { label: string; events: UsageEvent[] }[] = [
+export const MILESTONES: { label: string; events: EventName[] }[] = [
   { label: "Guests", events: ["guest_added"] },
-  { label: "Budget", events: ["budget_edited"] },
-  { label: "Checklist", events: ["checklist_done"] },
+  { label: "Budget", events: ["budget_set"] },
+  { label: "Checklist", events: ["checklist_item_completed"] },
   { label: "Saved a listing", events: ["listing_saved"] },
-  { label: "Contacted", events: ["vendor_inquiry_sent", "venue_inquiry_sent"] },
-  { label: "Site live", events: ["site_published"] },
+  { label: "Contacted", events: ["listing_inquiry_sent"] },
+  { label: "Site live", events: ["guest_site_published"] },
   { label: "Invites", events: ["rsvp_invites_sent"] },
-  { label: "Wren", events: ["wren_asked"] },
+  { label: "Wren", events: ["wren_question_asked"] },
 ];
 
 const DAY_MS = 24 * 60 * 60 * 1000;
@@ -29,6 +29,10 @@ function dayNumber(signedUpAt: string, day: string) {
     new Date(signedUpAt).getUTCDate(),
   );
   return Math.max(0, Math.round((Date.parse(`${day}T00:00:00Z`) - start) / DAY_MS));
+}
+
+function utcDay(row: CohortEventRow) {
+  return row.created_at.slice(0, 10);
 }
 
 function shortDate(value: string) {
@@ -57,9 +61,9 @@ export function FirstCohort({
 
   const rows = couples.map((couple) => {
     const own = byWedding.get(couple.id) ?? [];
-    const days = [...new Set(own.map((r) => r.day))].sort();
-    const firstDay = (names: UsageEvent[]) => {
-      const hit = own.filter((r) => names.includes(r.name)).map((r) => r.day).sort()[0];
+    const days = [...new Set(own.map(utcDay))].sort();
+    const firstDay = (names: EventName[]) => {
+      const hit = own.filter((r) => names.includes(r.name)).map(utcDay).sort()[0];
       return hit ? dayNumber(couple.signedUpAt, hit) : null;
     };
     return {
@@ -79,7 +83,7 @@ export function FirstCohort({
       </p>
       {events === null ? (
         <p className="mt-3 text-sm text-ink/50">
-          Not tracking yet: run migration 0130 (usage events) in Supabase.
+          Not tracking yet: run migration 0130 (events) in Supabase.
         </p>
       ) : couples.length === 0 ? (
         <p className="mt-3 text-sm text-ink/50">No real couples yet.</p>

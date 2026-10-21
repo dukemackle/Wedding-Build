@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { seedStandardPlan } from "@/lib/seed-plan";
 import { requireEditableWedding } from "@/lib/wedding-access";
-import { trackEvent } from "@/lib/usage-events";
+import { trackEvent } from "@/lib/events";
 
 function checklistFieldsFromForm(formData: FormData) {
   const title = (formData.get("title") as string)?.trim();
@@ -76,7 +76,7 @@ export async function updateChecklistItem(formData: FormData): Promise<{ error?:
 }
 
 export async function toggleChecklistItem(formData: FormData): Promise<{ error?: string }> {
-  const { supabase, user, wedding, noWedding } = await requireEditableWedding();
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
     return { error: noWedding };
@@ -98,7 +98,7 @@ export async function toggleChecklistItem(formData: FormData): Promise<{ error?:
   if (error) {
     return { error: error.message };
   }
-  if (completed) await trackEvent("checklist_done", user.id, wedding.id);
+  if (completed) trackEvent("checklist_item_completed", { weddingId: wedding.id });
 
   revalidatePath("/checklist");
   revalidatePath("/dashboard");

@@ -35,9 +35,10 @@ rules, batch self-merge, 50-state coverage, page widths) and
 - Revisit: when the first cohort's data is in.
 
 ## 2026-10-21 — Measurement: first-party usage events and Web Analytics
-- Decided: `usage_events` table (migration 0130) logging 12 fixed milestone
-  names per account and day, a "First cohort" table on /admin/growth, a
-  Privacy line, Cloudflare Web Analytics and Google Search Console.
+- Decided: the `events` table (migration 0130, PR #956) with
+  `/admin/analytics` funnels, a per-couple "First cohort" table on
+  /admin/growth, the Privacy line, Cloudflare Web Analytics and Google
+  Search Console.
 - Why: activation and retention can't be measured after the fact; the first
   5–10 couples need to be measured from day one.
 - Alternatives: third-party product analytics (more data, more privacy
