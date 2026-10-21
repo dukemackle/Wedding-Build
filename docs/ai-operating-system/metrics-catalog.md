@@ -19,7 +19,8 @@ up under `unavailable`). **PC** = `node .claude/skills/pricing-check/metrics.mjs
 | Couple funnel | Real weddings created in a period → started planning → activated (3 of guest/budget/task/save) → inquired → guest site live → first RSVP; plus returned 30+ days after signup | `/admin/analytics`, `admin_event_funnels()` on `events` (0130). Counts from when 0130 ran, no backfill |
 | Listing funnel | Wedding × listing pairs: opened → saved → inquired → booked, venues and vendors | `/admin/analytics` |
 | First cohort, per couple | Each real couple's days active, last seen, and the day (from signup) each milestone first happened | `/admin/growth` "First cohort", from `events` (0130) |
-| Website traffic | Visits, referrers, pages | Cloudflare Web Analytics (once the owner turns it on); Search Console for search |
+| Website traffic | Visits, referrers, pages | Cloudflare Web Analytics (live since ~2026-10-01, automatic setup; filter out `admin.youdoido.com`, which is the owner's own use) |
+| Search | Impressions, clicks, indexed pages | Google Search Console, Domain property verified 2026-10-21; `https://youdoido.com/sitemap.xml` submitted 2026-10-21 (14,855 URLs) |
 
 ## Marketplace
 | Metric | Definition | Source |
