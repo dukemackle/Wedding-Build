@@ -18,6 +18,8 @@ export type OpsService = {
   paid_with: string | null;
   status: "active" | "cancelled";
   notes: string | null;
+  /** The next_renewal a reminder email was last sent for. */
+  reminded_for: string | null;
 };
 
 export const SPEND_CATEGORIES = {
@@ -40,6 +42,8 @@ export type BillingCycle = keyof typeof BILLING_CYCLES;
 
 /** How far ahead a renewal counts as "soon". */
 export const RENEWAL_WARNING_DAYS = 14;
+/** How far ahead the reminder email goes out. */
+export const REMINDER_DAYS = 7;
 
 export function formatUsd(cents: number): string {
   return (cents / 100).toLocaleString("en-US", { style: "currency", currency: "USD" });
@@ -81,4 +85,24 @@ export function spendTotals(services: OpsService[], today = new Date()) {
     activeCount: active.length,
     dueSoon,
   };
+}
+
+/**
+ * The next renewal on or after today for a recurring service whose date has
+ * passed: subscriptions renew themselves, so the date moves on by whole
+ * cycles. One-time items and future dates come back unchanged.
+ */
+export function rolledRenewal(s: Pick<OpsService, "billing_cycle" | "next_renewal">, today = new Date()): string | null {
+  if (!s.next_renewal || s.billing_cycle === "one_time") return s.next_renewal;
+  const [y, m, d] = s.next_renewal.split("-").map(Number);
+  const step = s.billing_cycle === "yearly" ? 12 : 1;
+  let months = 0;
+  let next = s.next_renewal;
+  while (daysUntil(next, today) < 0) {
+    months += step;
+    // Clamp to the month's last day, so Jan 31 rolls to Feb 28 rather than Mar 3.
+    const last = new Date(Date.UTC(y, m - 1 + months + 1, 0)).getUTCDate();
+    next = new Date(Date.UTC(y, m - 1 + months, Math.min(d, last))).toISOString().slice(0, 10);
+  }
+  return next;
 }
