@@ -20,6 +20,11 @@ They're summarised here only by reference; CLAUDE.md is the source.
   The grey Positron was rejected as "depressing and untrustworthy". When the
   maps move to our own Cloudflare-hosted tiles, pick the closest full-colour
   style. Applied in `src/lib/map-tiles.ts`.
+- **2026-10-21:** Guest-site editor simplified: one Design tab (templates +
+  colours, no Theme grid), Wren removed from the builder, Sections second in
+  the rail with Edit buttons, template flowers/extras optional (off by
+  default, photo-first), and a "Finish your site" step list. Recommended
+  options picked by the owner; see docs/guest-site-editor.md.
 - **2026-10-21:** Art review result: keep 13 pieces (the painted rose,
   white roses, wild roses, mallow, sweet pea and lemons; the eucalyptus and
   lavender engravings; the diamond, heart and laurel dividers, rings and

@@ -23,7 +23,7 @@ import {
  * page. Only the look changes.
  */
 
-export const TEMPLATE_TAGS = ["Signature", "Beach", "Garden", "Rustic", "Line art", "Traditions", "Modern", "Glam"] as const;
+export const TEMPLATE_TAGS = ["Signature", "Beach", "Garden", "Rustic", "Traditions", "Modern", "Glam"] as const;
 
 export type TemplateTag = (typeof TEMPLATE_TAGS)[number];
 
@@ -95,7 +95,7 @@ export const TEMPLATES: SiteTemplate[] = [
     name: "Cake by the Ocean",
     tags: ["Beach"],
     theme: "ocean",
-    hero: "text",
+    hero: "full",
     ornament: "anchor",
     pageStyle: "storybook",
     background: { texture: "paper" },
@@ -158,7 +158,7 @@ export const TEMPLATES: SiteTemplate[] = [
     name: "Desert Sun",
     tags: ["Rustic"],
     theme: "desert",
-    hero: "text",
+    hero: "full",
     ornament: "star",
     background: { texture: "wash" },
   },
@@ -204,7 +204,7 @@ export const TEMPLATES: SiteTemplate[] = [
     name: "Mehndi Night",
     tags: ["Traditions"],
     theme: "mehndi",
-    hero: "monogram",
+    hero: "card",
     ornament: "mandala",
     background: { pattern: "lattice", scope: "top" },
     falling: "marigolds",
@@ -215,7 +215,7 @@ export const TEMPLATES: SiteTemplate[] = [
     name: "Nikah",
     tags: ["Traditions"],
     theme: "nikah",
-    hero: "text",
+    hero: "full",
     ornament: "bismillah",
     background: { pattern: "lattice" },
   },
@@ -242,7 +242,7 @@ export const TEMPLATES: SiteTemplate[] = [
   {
     id: "conservatory",
     name: "Conservatory",
-    tags: ["Garden", "Line art"],
+    tags: ["Garden"],
     theme: "botanical",
     hero: "framed",
     ornament: "arch",
@@ -286,7 +286,7 @@ export const TEMPLATES: SiteTemplate[] = [
     name: "Fiesta",
     tags: ["Traditions"],
     theme: "fiesta",
-    hero: "monogram",
+    hero: "card",
     pageStyle: "storybook",
     background: { pattern: "harlequin", scope: "top", divider: "scallop" },
     motion: "lively",
@@ -297,7 +297,7 @@ export const TEMPLATES: SiteTemplate[] = [
     name: "Red Lanterns",
     tags: ["Traditions"],
     theme: "doublehappiness",
-    hero: "monogram",
+    hero: "card",
     background: { pattern: "scallops", scope: "top" },
     falling: "lanterns",
   },
@@ -337,7 +337,7 @@ export const TEMPLATES: SiteTemplate[] = [
     tags: ["Glam"],
     theme: "blacktie",
     palette: "black-tie",
-    hero: "text",
+    hero: "full",
     fonts: "cb",
     ornament: "chandelier",
     background: { pattern: "deco", texture: "flecks" },
@@ -369,13 +369,30 @@ export function applyTemplate(design: SiteDesign, t: SiteTemplate): SiteDesign {
     fontDisplay: null,
     fontBody: null,
     ornament: t.ornament ?? theme.ornament ?? "rule",
-    art: t.art ?? { id: null, placement: "sides" },
+    // Art, scenes and falling extras are optional (owner, 2026-10-21): a
+    // template starts with the couple's photo and nothing else over it.
+    // `withExtras` adds the template's own when they ask for them.
+    art: { id: null, placement: "sides" },
     hero: t.hero,
-    scene: t.scene ?? null,
+    scene: null,
     pageStyle: t.pageStyle ?? "cards",
     layouts: { ...design.layouts, rsvp: t.rsvp ?? "card" },
     background: { ...NO_BACKGROUND, ...t.background },
-    motion: { ...MOTION_PRESETS[t.motion ?? "subtle"], ...(t.falling ? { falling: t.falling } : {}) },
+    motion: { ...MOTION_PRESETS[t.motion ?? "subtle"], falling: "none" },
     text,
+  };
+}
+
+/** Whether a template has art, a scene or something falling to offer. */
+export function hasExtras(t: SiteTemplate): boolean {
+  return Boolean(t.art?.id || t.scene || t.falling);
+}
+
+/** Adds a template's own art, scene and falling extras to the design. */
+export function withExtras(design: SiteDesign, t: SiteTemplate): Partial<SiteDesign> {
+  return {
+    ...(t.art ? { art: t.art } : {}),
+    ...(t.scene ? { scene: t.scene } : {}),
+    ...(t.falling ? { motion: { ...design.motion, falling: t.falling } } : {}),
   };
 }
