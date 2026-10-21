@@ -48,6 +48,9 @@ They're summarised here only by reference; CLAUDE.md is the source.
   page. (CLAUDE.md)
 - **2026-09-27:** Rebrand to You Do, I Do: wordmark, linked rings with a
   diamond, navy + Sunshine. Wren remains the assistant. (CLAUDE.md)
+- **2026-10-21:** Admin Home: "Needs you" queue first (empty queues on one
+  "All clear" line), then KPI cards with definitions; coverage and health
+  in a right column on desktop (WIDE width), one column on a phone.
 - **2026-09-27:** Guest-site editor: desktop panel + live preview, phone
   sheet; draft and publish. Mockup:
   https://claude.ai/artifact/XR8AQDdZnMSokSc9sqZLDk

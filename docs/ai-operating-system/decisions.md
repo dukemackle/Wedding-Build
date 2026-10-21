@@ -35,3 +35,11 @@ rules, batch self-merge, 50-state coverage, page widths) and
 - Standing exceptions kept: batch-only PRs self-merge, text/logic-only fixes
   ship directly, PR opens once a preview is approved.
 - Revisit: when there are outside users, or if an agent is never used.
+
+## 2026-10-21 — Admin Home replaces Overview
+- Decided: the owner approved the Home preview (blueprint #6) and asked for
+  the sidebar link to read "Home". The queue comes first, then six KPI cards,
+  each with its definition. There's no revenue card until revenue exists.
+- Why: one page answers "does anything need me?" instead of four or five.
+- Revisit: when the error log (#8) and spend page (#9) fill the "not tracked"
+  health rows.
