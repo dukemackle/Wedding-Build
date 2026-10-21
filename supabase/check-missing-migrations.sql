@@ -227,7 +227,9 @@ with e(m,k,o,cols) as (values
 ('0129_ops_services_reminders','c','ops_services','reminded_for'),
 ('0130_events','t','events',''),
 ('0130_events','f','log_event',''),
-('0130_events','f','admin_event_funnels','')
+('0130_events','f','admin_event_funnels',''),
+('0134_booking_facts','c','venues','founded_year,weddings_per_year,booking_lead_months,reply_time,deposit_percent,balance_due_days,cancellation_policy,music_until,rain_plan,alcohol_policy'),
+('0134_booking_facts','c','vendors','founded_year,weddings_per_year,booking_lead_months,reply_time,deposit_percent,balance_due_days,cancellation_policy')
 ), missing as (
   select e.m, e.k, e.o, x.col
   from e left join lateral unnest(string_to_array(nullif(e.cols,''),',')) x(col) on true

@@ -1,5 +1,6 @@
 import { STATES, STYLE_TIERS, VENDOR_PRICE_UNITS } from "@/lib/wedding-options";
 import type { Vendor, VendorPriceUnit } from "@/lib/supabase/types";
+import { BUSINESS_FACT_LABELS, businessFactsFrom, validateBusinessFacts, type BusinessFacts } from "@/lib/business-facts";
 import { clean, EMAIL, isUrl, MAX_CLAIM_PHOTOS, normaliseWebsite, type ClaimFaq } from "@/lib/venue-claim";
 
 /**
@@ -8,7 +9,7 @@ import { clean, EMAIL, isUrl, MAX_CLAIM_PHOTOS, normaliseWebsite, type ClaimFaq 
  * link is public and nothing the browser sends is trusted.
  */
 
-export type VendorClaimDetails = {
+export type VendorClaimDetails = BusinessFacts & {
   name: string;
   city: string | null;
   state: string | null;
@@ -57,6 +58,7 @@ export const VENDOR_CLAIM_FIELD_LABELS: Record<keyof VendorClaimDetails, string>
   instagram_url: "Instagram",
   facebook_url: "Facebook",
   pinterest_url: "Pinterest",
+  ...BUSINESS_FACT_LABELS,
 };
 
 const LIMITS: Partial<Record<keyof VendorClaimDetails, number>> = {
@@ -93,6 +95,7 @@ export function vendorDetailsFrom(vendor: Vendor): VendorClaimDetails {
     instagram_url: vendor.instagram_url,
     facebook_url: vendor.facebook_url,
     pinterest_url: vendor.pinterest_url,
+    ...businessFactsFrom(vendor),
   };
 }
 
@@ -160,6 +163,7 @@ export function validateVendorClaim(input: VendorClaimSubmission): {
     instagram_url: link("instagram_url"),
     facebook_url: link("facebook_url"),
     pinterest_url: link("pinterest_url"),
+    ...validateBusinessFacts(d, errors),
   };
   if (details.price_from != null && !details.price_unit) errors.push("Say what the starting price is per.");
 
