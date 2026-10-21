@@ -18,15 +18,37 @@ rules, batch self-merge, 50-state coverage, page widths) and
 `docs/legal-audit.md` "Owner answers (2026-10-19)". They aren't copied here.
 
 ## Pending owner decisions
-- **Launch bar for listings.** All 50 states + DC meet coverage pass 1
-  (2026-10-20); the current stage wants ~9,000 more venues and ~8,800 more
-  vendors. Which level counts as "every state has listings" before marketing
-  starts? Executive assessment 2026-10-21 recommends pass 1 + 2–3 deep launch
-  metros.
-- **Measurement.** Approve the events table, Cloudflare Web Analytics, the
-  Privacy line and Search Console (assessment 2026-10-21).
-- **Founding-business claim terms** (e.g. free listing for life). Binds
-  `docs/monetization.md`; decide before the first claim invitation.
+- **Which launch metros** (2–3), and the completeness bar they must meet.
+- **Who counts as a founding business** (e.g. claim approved before a date or
+  before Phase 1 starts). Settle before the first claim invitation.
+
+## 2026-10-21 — Launch bar: pass 1 everywhere plus 2–3 deep launch metros
+- Decided: coverage pass 1 in all 50 states + DC counts as "every state has
+  listings". Breadth targets beyond pass 1 are frozen; batch work moves to
+  depth (capacity, price tier, re-verification) in 2–3 launch metros.
+- Why: 1 real couple and 0 outside claims against 19,800 listings; no photos,
+  no vendor prices (executive assessment 2026-10-21).
+- Alternatives: keep filling the stage-2 targets (~16,000 more listings).
+- Revisit: when the first cohort's data is in.
+
+## 2026-10-21 — Measurement: first-party usage events and Web Analytics
+- Decided: `usage_events` table (migration 0130) logging 12 fixed milestone
+  names per account and day, a "First cohort" table on /admin/growth, a
+  Privacy line, Cloudflare Web Analytics and Google Search Console.
+- Why: activation and retention can't be measured after the fact; the first
+  5–10 couples need to be measured from day one.
+- Alternatives: third-party product analytics (more data, more privacy
+  surface); no measurement until launch.
+- Revisit: add events as new questions come up; nothing a couple types is
+  ever logged.
+
+## 2026-10-21 — Founding businesses keep a free listing for life
+- Decided: businesses that claim during the founding period keep their basic
+  listing free for life. It covers the listing only: lead pricing and future
+  paid features still apply to them (`docs/monetization.md`).
+- Why: a reason to claim now, while there are no inquiries to offer.
+- Alternatives: no promise; free paid features for founders (too binding).
+- Open: the cutoff that defines "founding" (see pending).
 
 ## 2026-10-21 — Form a California LLC and get a public mailing address
 - Decided: "You Do, I Do LLC", California, member-managed, single member,

@@ -23,6 +23,7 @@ import type {
 } from "@/lib/supabase/types";
 import { BUDGET_CATEGORIES, effectiveGuestCount } from "@/lib/budget-categories";
 import { weddingCategoryEstimates } from "@/lib/estimator";
+import { trackEvent } from "@/lib/usage-events";
 
 /**
  * The first screen after signing in: the couple's banner, and then one box
@@ -48,6 +49,9 @@ export default async function DashboardPage() {
   if (!wedding) {
     redirect("/start");
   }
+
+  // One row a day, so "days active" on /admin/growth shows who came back.
+  await trackEvent("dashboard_viewed", user.id, wedding.id);
 
   let bookedVenue: Venue | null = null;
   if (wedding.venue_id) {

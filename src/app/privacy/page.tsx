@@ -178,7 +178,11 @@ export default function PrivacyPage() {
               fonts from Google Fonts, so your browser contacts Google, which sees your IP address
               (see Google&apos;s privacy policy). When someone taps a listing&apos;s phone number, website or social
               link, we count the tap against that listing, with no personal details attached, so we
-              can tell the business how many couples found it here.
+              can tell the business how many couples found it here. When you&apos;re signed in, we
+              record which planning steps you&apos;ve used and on which days (for example, that you
+              added guests or published your wedding site, never what you typed), tied to your
+              account, so we can see which parts of the Service are helping and improve them. It
+              isn&apos;t shared or sold, and it&apos;s deleted with your account.
             </p>
             <p className="mt-2">
               Because we don&apos;t track you across other websites, there&apos;s nothing for a

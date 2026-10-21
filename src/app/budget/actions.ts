@@ -18,6 +18,7 @@ import {
   readTable,
 } from "@/lib/spreadsheet";
 import { requireEditableWedding } from "@/lib/wedding-access";
+import { trackEvent } from "@/lib/usage-events";
 
 function parseOptionalAmount(raw: FormDataEntryValue | null): number | null | "invalid" {
   const trimmed = (raw as string)?.trim();
@@ -174,6 +175,7 @@ export async function updateBudgetLineItem(
   if (error) {
     return { error: error.message };
   }
+  await trackEvent("budget_edited", user.id, wedding.id);
 
   revalidatePath("/budget");
   return {};
@@ -316,6 +318,7 @@ export async function addBudgetCustomItem(formData: FormData): Promise<{ error?:
   if (error) {
     return { error: error.message };
   }
+  await trackEvent("budget_edited", user.id, wedding.id);
 
   revalidatePath("/budget");
   revalidatePath("/dashboard");

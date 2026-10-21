@@ -20,6 +20,7 @@ import { GUEST_SIDES, GUEST_TYPES, SIDE_COLORS } from "@/lib/guest-groups";
 import { findGuestByName, normalizeGuestName } from "@/lib/guest-match";
 import { requireEditableWedding } from "@/lib/wedding-access";
 import { withNotes } from "@/lib/guest-notes";
+import { trackEvent } from "@/lib/usage-events";
 
 const VALID_STATUSES: GuestStatus[] = ["invited", "confirmed", "declined", "pending"];
 const VALID_PRIORITIES: GuestPriority[] = ["must_invite", "would_like", "if_room"];
@@ -101,6 +102,7 @@ export async function addGuest(formData: FormData): Promise<{ error?: string }> 
   if (error) {
     return { error: error.message };
   }
+  await trackEvent("guest_added", user.id, wedding.id);
 
   revalidatePath("/guests");
   revalidatePath("/budget");
@@ -235,6 +237,7 @@ export async function importGuestRows(
   const rows = rowsForInsert(parsed, wedding.id, user.id);
   const { error } = await supabase.from("guests").insert(rows);
   if (error) return { error: error.message };
+  await trackEvent("guest_added", user.id, wedding.id);
 
   revalidatePath("/guests");
   revalidatePath("/budget");
@@ -272,6 +275,7 @@ export async function importGuestsFromGoogleSheet(
   const rows = rowsForInsert(parsed, wedding.id, user.id);
   const { error } = await supabase.from("guests").insert(rows);
   if (error) return { error: error.message };
+  await trackEvent("guest_added", user.id, wedding.id);
 
   // Keep the link so they can get back to the sheet from inside Wren.
   await supabase.from("weddings").update({ spreadsheet_url: sheetUrl }).eq("id", wedding.id);
@@ -504,7 +508,7 @@ function slugify(value: string) {
 }
 
 export async function enablePublicSite(): Promise<{ error?: string; slug?: string }> {
-  const { supabase, wedding, noWedding } = await requireEditableWedding();
+  const { supabase, user, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
     return { error: noWedding };
@@ -526,6 +530,7 @@ export async function enablePublicSite(): Promise<{ error?: string; slug?: strin
       .eq("id", wedding.id);
 
     if (!error) {
+      await trackEvent("site_published", user.id, wedding.id);
       revalidatePath("/guests");
       return { slug };
     }
@@ -805,6 +810,7 @@ export async function sendBulkRsvpInvites(
       .from("guests")
       .update({ invite_sent_at: new Date().toISOString() })
       .in("id", sentIds);
+    await trackEvent("rsvp_invites_sent", user.id, wedding.id);
   }
 
   revalidatePath("/guests");

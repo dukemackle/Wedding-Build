@@ -1,6 +1,7 @@
 import { requireAdmin } from "@/lib/admin";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import { listAllUsers, selectAll } from "@/lib/supabase/fetch-all";
+import { FirstCohort, type CohortEventRow } from "./cohort";
 
 type FeatureRow = { label: string; adopted: number };
 
@@ -89,6 +90,10 @@ export default async function AdminGrowthPage() {
     selectAll<{ wedding_id: string }>(admin, "registry_items", "wedding_id"),
     listAllUsers(admin),
   ]);
+  // null until migration 0130 has been run, so the page still loads before it.
+  const usageEvents = await selectAll<CohortEventRow>(admin, "usage_events", "day, name, wedding_id")
+    .then((r) => r.data)
+    .catch(() => null);
 
   // Testing your own product creates weddings, guests, inquiries, etc. just
   // like a real couple would -- excluded here so growth signal reflects
@@ -223,6 +228,16 @@ export default async function AdminGrowthPage() {
     (vendorInquiries ?? []).length +
     (venueInquiries ?? []).length;
 
+  const signedUpAtByUserId = new Map<string, string>();
+  for (const user of usersPage?.users ?? []) signedUpAtByUserId.set(user.id, user.created_at);
+  const cohortCouples = realWeddings
+    .map((w) => ({
+      id: w.id,
+      names: [w.partner_a_name, w.partner_b_name].filter(Boolean).join(" & ") || "—",
+      signedUpAt: signedUpAtByUserId.get(w.user_id) ?? w.created_at,
+    }))
+    .sort((a, b) => new Date(b.signedUpAt).getTime() - new Date(a.signedUpAt).getTime());
+
   const riskCutoff = riskCutoffTimestamp(AT_RISK_DAYS);
   const atRiskCouples = realWeddings
     .filter(
@@ -246,7 +261,9 @@ export default async function AdminGrowthPage() {
           : "Mark any test/owner accounts as test on the Couples page to exclude them here."}
       </p>
 
-      <div className="w-full rounded-lg border border-hairline bg-card p-6 shadow-sm">
+      <FirstCohort couples={cohortCouples} events={usageEvents} />
+
+      <div className="mt-8 w-full rounded-lg border border-hairline bg-card p-6 shadow-sm">
         <p className="text-sm font-medium text-ink">Signups by month</p>
         <div className="mt-3">
           {months.map((m) => (

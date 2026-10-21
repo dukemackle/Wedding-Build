@@ -10,6 +10,7 @@ import { syncBudgetLineFromBooking } from "@/lib/budget-sync";
 import type { VendorInquiryStatus } from "@/lib/supabase/types";
 import { requireEditableWedding } from "@/lib/wedding-access";
 import { logError } from "@/lib/error-log";
+import { trackEvent } from "@/lib/usage-events";
 
 const VALID_STATUSES: VendorInquiryStatus[] = ["sent", "responded", "booked", "declined"];
 
@@ -120,6 +121,7 @@ export async function sendVendorInquiry(formData: FormData): Promise<{ error?: s
     await supabase.from("vendor_inquiries").delete().eq("id", logged.id);
     return { error: sendFailure };
   }
+  await trackEvent("vendor_inquiry_sent", user.id, wedding.id);
 
   revalidatePath("/vendors");
   return {};
@@ -405,6 +407,7 @@ export async function toggleVendorFavorite(formData: FormData): Promise<{ error?
     });
 
     if (error) return { error: error.message };
+    await trackEvent("listing_saved", user.id, wedding.id);
   }
 
   revalidatePath("/vendors");

@@ -109,7 +109,11 @@ past its password (0121). A new guest-site table gets a policy built on
 - Processor DPAs with Supabase/Cloudflare/Resend (all offer standard ones).
 
 **Analytics or ad pixels:** disclose in Privacy; in the EU, a consent banner
-before they load.
+before they load. Status (2026-10-21): Cloudflare Web Analytics (cookieless)
+and first-party `usage_events` (server-side, fixed milestone names per account
+and day, no cookies, deleted with the account) are both disclosed in Privacy.
+Neither sets a cookie, so no banner today; revisit for EU users (legitimate-
+interest basis to name in Privacy).
 
 **Payments/billing:** Terms need pricing, refunds, auto-renewal disclosure
 (state auto-renewal laws require clear terms and easy cancellation); the

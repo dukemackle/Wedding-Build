@@ -16,7 +16,9 @@ up under `unavailable`). **PC** = `node .claude/skills/pricing-check/metrics.mjs
 | Test weddings | Flagged test or owner-owned | WR `signups.weddingsTest` |
 | Real signups by month | Real weddings by created month | PC `couples.real_signups_by_month` |
 | Couples who inquired | Real weddings with ≥1 vendor inquiry | PC `couples.real_weddings_with_a_vendor_inquiry` |
-| Activation, retention, feature use | — | **No data**: no analytics (see `integrations.md`) |
+| First-cohort milestones | Per real couple: first day (from signup) of guests, budget, checklist, saved listing, inquiry, site live, invites, Wren | `usage_events` (migration 0130), `/admin/growth` "First cohort"; from the day 0130 runs |
+| Return | Real couples active on a later day than signup; days active | `usage_events` `dashboard_viewed` + any event, `/admin/growth` |
+| Website traffic | Visits, referrers, pages | Cloudflare Web Analytics (once the owner turns it on); Search Console for search |
 
 ## Marketplace
 | Metric | Definition | Source |

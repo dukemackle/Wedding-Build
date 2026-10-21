@@ -8,6 +8,7 @@ import { seedStandardPlan } from "@/lib/seed-plan";
 import { SEASONS, STATES, STYLE_TIERS, VENUE_TYPES, seasonOf } from "@/lib/wedding-options";
 import type { Wedding } from "@/lib/supabase/types";
 import { logError } from "@/lib/error-log";
+import { trackEvent } from "@/lib/usage-events";
 
 const MAX_GUESTS = 2000;
 
@@ -68,6 +69,7 @@ export async function startWedding(_prev: { error?: string }, formData: FormData
     await logError("planning", "startWedding", error);
     return { error: "We couldn't save your wedding details. Please try again in a moment." };
   }
+  await trackEvent("wedding_created", user.id, saved?.id);
 
   // Same as saveWedding: the checklist counts back from the date, so it
   // arrives with one. Without a date it's built when the date is added.

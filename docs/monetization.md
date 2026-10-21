@@ -11,6 +11,10 @@ it's reference, and `CLAUDE.md` is re-sent with every message.
   and vendors both. The only goal right now is adoption; no fees, no paywalls,
   nothing that adds friction to signing up or using the product. Stay here
   until there's real, organic (non-owner) usage to point at.
+  **Founding businesses (owner decision 2026-10-21):** businesses that claim
+  during the founding period keep their basic listing free for life, even
+  after Phase 1. Inquiry/lead pricing and later paid features still apply to
+  them. The cutoff is still to be set (`docs/ai-operating-system/decisions.md`).
 - **Phase 1: light vendor lead pricing** for continuing to receive inquiries /
   stay listed. The goal of this phase is proving vendors will pay *at all* and
   building the habit of vendor billing, not meaningful revenue — so whatever

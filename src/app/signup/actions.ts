@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import { normalizeEmail } from "@/lib/unsubscribe";
+import { trackEvent } from "@/lib/usage-events";
 
 export async function signup(formData: FormData) {
   const supabase = await createClient();
@@ -36,6 +37,8 @@ export async function signup(formData: FormData) {
   if (error) {
     redirect(`/signup?error=${encodeURIComponent(error.message)}`);
   }
+
+  await trackEvent("signed_up", data.user?.id);
 
   // Record the tick, not its absence: an unticked box writes nothing, so a
   // returning user who once opted in isn't silently opted out by signing up
