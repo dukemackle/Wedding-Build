@@ -5,7 +5,7 @@ const batches: VenueBatch[] = [
   {
     name: "Fargo, Bismarck–Mandan, Grand Forks and Minot",
     tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
-Brewhalla		Fargo	North Dakota			Restaurant / Vineyard	Indoor	360		Brewery, market and 40-room boutique hotel complex with two event halls, the larger seating 360, beside the Drekker brewery.		701-532-0506	https://brewhalla.co/weddings/
+Brewhalla	1702 1st Ave N	Fargo	North Dakota			Restaurant / Vineyard	Indoor	360		Brewery, market and 40-room boutique hotel complex with two event halls, the larger seating 360, beside the Drekker brewery.		701-532-0506	https://brewhalla.co/weddings/
 The Pines	4487 165th Ave SE	Davenport	North Dakota			Barn / Rustic	Indoor & Outdoor	400		Two barn-style event buildings, Pines White and Pines Black, on a 17-acre rural property about ten miles from the Fargo-West Fargo metro.		(701) 645-3274	https://thepinesvenue.com/weddings/
 Lake Elsie Wedding Barn	16602 94th St SE	Hankinson	North Dakota			Barn / Rustic	Indoor & Outdoor	300		Historic Gothic-arch barn and a 60 by 60 foot pavilion on five acres between two lakes, with an on-site bed and breakfast.		701-640-9692	https://lakeelsieweddingbarn.com/
 Sixteen03 Main Events	1603 East Main Ave	Bismarck	North Dakota			Historic / Estate	Indoor	450		Event centre in a 1916 warehouse that later housed the Sweetheart Bakery, with exposed industrial rooms and in-house catering.	info@sixteen03mainevents.com	701-255-6246	https://sixteen03mainevents.com/
@@ -43,7 +43,7 @@ North Dakota's Gateway to Science	1600 Canary Ave	Bismarck	North Dakota			Ballro
 Scandinavian Heritage Park	1020 South Broadway	Minot	North Dakota			Garden / Outdoor	Indoor & Outdoor		Simple	Nordic heritage park in Minot where couples marry in a replica Gol stave church or on the grounds outdoors, with fees published.	scandha@srt.com	701-852-9161	https://scandinavianheritage.org/rental-fees
 The Shores at Woodland Resort	1012 Woodland Drive	Devils Lake	North Dakota			Beach / Waterfront	Indoor & Outdoor	400		Lakeside event hall at Woodland Resort on Devils Lake, with a waterfront patio, ceremony area, get-ready suites and on-site catering.	Shores@gondtc.com	(701) 662-5996	https://www.theshoresevents.com
 Belle Mehus Auditorium	201 North 6th Street	Bismarck	North Dakota			Historic / Estate	Indoor			Historic downtown Bismarck auditorium rented for weddings, with event coordinators to help couples plan the day.		701-355-1370	https://bismarckeventcenter.com/weddings/
-Town Square Showhall (Medora)		Medora	North Dakota			Ballroom / Hotel	Indoor	230	Simple	Indoor hall in downtown Medora with overhead string lighting, seating plated dinners for up to 200 or buffets for 230.		701-394-8815	https://medora.com/groups/venues/
+Town Square Showhall (Medora)	250 3rd Ave	Medora	North Dakota			Ballroom / Hotel	Indoor	230	Simple	Indoor hall in downtown Medora with overhead string lighting, seating plated dinners for up to 200 or buffets for 230.		701-394-8815	https://medora.com/groups/venues/
 `,
   },
   {
