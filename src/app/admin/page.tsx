@@ -312,7 +312,11 @@ export default async function AdminHomePage() {
               </>
             )}
             <p className="mt-3 text-[11px] text-ink/45">
-              From live listings. Metro-level targets: <code>npm run coverage</code>.
+              From live listings.{" "}
+              <Link href="/admin/coverage" className="underline decoration-hairline underline-offset-4 hover:text-forest">
+                Every state against its targets
+              </Link>
+              .
             </p>
           </section>
 

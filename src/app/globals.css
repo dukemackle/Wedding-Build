@@ -345,6 +345,168 @@ body::before {
 .site-storybook .site-card > h2 + p {
   text-align: center;
 }
+/* The signature page styles (section-layout.tsx, PAGE_STYLES). Each drops the
+   cards' own chrome and sets the sections its own way; the section components
+   only add hooks (.site-travel, .site-ticket), so a couple's words, order and
+   layouts carry over between them. */
+
+/* Invitation: one centred column on paper. Headings large and italic, the
+   RSVP in a double-ruled panel, travel as framed cards side by side. */
+.site-invitation .site-card {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  padding: 0;
+}
+.site-invitation [data-canvas-section]:not([data-canvas-section="rsvp"]) h2,
+.site-invitation #rsvp.site-card > h2 {
+  text-align: center;
+  font-size: clamp(2.25rem, 4.6vw, 3.6rem);
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.05;
+  text-wrap: balance;
+}
+.site-invitation .site-card > h2 + p,
+.site-invitation [data-canvas-section="venue"] .site-card,
+.site-invitation [data-canvas-section="registry"] .site-card {
+  text-align: center;
+}
+.site-invitation [data-canvas-section="registry"] .site-card .flex {
+  justify-content: center;
+}
+.site-invitation [data-canvas-section="wall"] .site-card > div:first-child {
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.site-invitation #rsvp.site-card {
+  background: var(--color-card);
+  border: 1px solid var(--color-hairline);
+  outline: 1px solid var(--color-hairline);
+  outline-offset: -10px;
+  border-radius: 2px;
+  padding: clamp(2rem, 6vw, 4rem) clamp(1.25rem, 6vw, 4.5rem);
+}
+.site-invitation #rsvp.site-card > p:first-of-type {
+  text-align: center;
+}
+.site-invitation #rsvp.site-card > p:nth-of-type(2) {
+  display: table;
+  margin-inline: auto;
+}
+.site-invitation .site-travel,
+.site-postcard .site-travel {
+  margin-top: 2rem;
+}
+.site-invitation .site-travel-item {
+  border: 1px solid var(--color-hairline);
+  outline: 1px solid var(--color-hairline);
+  outline-offset: -7px;
+  background: var(--color-card);
+  padding: 1.75rem 1.5rem;
+}
+.site-invitation [data-canvas-section="faq"] .site-card > div {
+  max-width: 36rem;
+  margin-inline: auto;
+}
+@media (min-width: 768px) {
+  .site-invitation .site-travel,
+  .site-magazine .site-travel,
+  .site-postcard .site-travel {
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+    gap: 1.5rem;
+  }
+}
+
+/* Magazine: big, tight headings beside a numbered margin; the travel notes
+   as numbered columns; questions two to a row on a wide screen. */
+.site-magazine .site-card {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  border-radius: 0;
+  padding: 0;
+}
+.site-magazine [data-canvas-section]:not([data-canvas-section="rsvp"]) h2 {
+  text-align: left;
+  font-style: normal;
+  font-size: clamp(2.6rem, 6.4vw, 5.25rem);
+  font-weight: 400;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+.site-magazine .site-travel {
+  counter-reset: travel;
+  margin-top: 2rem;
+}
+.site-magazine .site-travel-item {
+  counter-increment: travel;
+  border-top: 1px solid var(--color-ink);
+  padding-top: 1rem;
+}
+.site-magazine .site-travel-item::before {
+  content: counter(travel, lower-roman) ".";
+  display: block;
+  font-family: var(--font-display);
+  font-size: 3.5rem;
+  line-height: 1;
+  color: var(--site-accent);
+  margin-bottom: 0.75rem;
+}
+@media (min-width: 1024px) {
+  .site-magazine [data-canvas-section="faq"] .site-card > div {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 3rem;
+  }
+  .site-magazine [data-canvas-section="faq"] details {
+    border-bottom-width: 1px;
+  }
+}
+
+/* Postcard: the storybook bands in the theme's second colour, headings big
+   and left-aligned, travel as postcards with a stamp box, tickets with a
+   printed edge. */
+.site-postcard {
+  --site-band: var(--color-card);
+}
+.site-postcard [data-canvas-section]:not([data-canvas-section="rsvp"]) h2 {
+  text-align: left;
+  font-style: normal;
+  font-size: clamp(2.4rem, 5.4vw, 4.4rem);
+  font-weight: 400;
+  line-height: 1;
+}
+.site-postcard .site-card > h2 + p {
+  text-align: left;
+}
+.site-postcard .site-travel-item {
+  position: relative;
+  border: 2px solid var(--color-ink);
+  border-radius: 6px;
+  background: var(--color-parchment);
+  padding: 1.75rem 1.5rem;
+  padding-right: 5.5rem;
+}
+.site-postcard .site-travel-item::after {
+  content: "";
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 3.25rem;
+  height: 3.9rem;
+  border: 2px dashed var(--site-accent);
+  border-radius: 2px;
+}
+.site-ticket {
+  box-shadow: 0 2px 0 var(--color-ink);
+}
+.site-band .site-ticket {
+  background: var(--color-parchment);
+}
+
 /* Free elements in a section (src/components/site-section.tsx). Positions are
    unitless numbers in the section's reference frame (--W wide), scaled to
    the section with container units. On a computer the elements sit over the

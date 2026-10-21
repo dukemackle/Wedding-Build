@@ -428,8 +428,9 @@ function HeroLayout({ wedding }: { wedding: PublicWedding }) {
             <SceneArtwork />
           )}
         </div>
-        <div className="relative flex items-center justify-center overflow-hidden py-14 lg:py-20">
-          {/* Tucked into the corners: the column is too narrow to flank the names. */}
+        <div className={`relative flex items-center justify-center overflow-hidden py-14 lg:py-20 ${art.id ? "max-sm:pb-40" : ""}`}>
+          {/* Tucked into the corners: the column is too narrow to flank the names.
+              A phone leaves the bottom corner room so it can't cover the buttons. */}
           <SiteArt art={{ ...art, placement: "corners" }} />
           <HeroContent wedding={wedding} tone="dark" />
           <ScrollCue tone="dark" className="hidden lg:block" />

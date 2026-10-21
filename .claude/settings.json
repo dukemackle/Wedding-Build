@@ -13,5 +13,16 @@
       "mcp__github__list_pull_requests",
       "mcp__github__get_label"
     ]
+  },
+  "extraKnownMarketplaces": {
+    "cloudflare": {
+      "source": {
+        "source": "github",
+        "repo": "cloudflare/skills"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "cloudflare@cloudflare": true
   }
 }

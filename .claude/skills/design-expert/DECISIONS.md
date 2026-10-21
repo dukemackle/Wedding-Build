@@ -15,6 +15,23 @@ They're summarised here only by reference; CLAUDE.md is the source.
   The grey Positron was rejected as "depressing and untrustworthy". When the
   maps move to our own Cloudflare-hosted tiles, pick the closest full-colour
   style. Applied in `src/lib/map-tiles.ts`.
+- **2026-10-21:** Art review result: keep 13 pieces (the painted rose,
+  white roses, wild roses, mallow, sweet pea and lemons; the eucalyptus and
+  lavender engravings; the diamond, heart and laurel dividers, rings and
+  corner flourish), cut the other 38, including every simple icon-style
+  drawing. Templates that used cut art now have none (Garden Party moved to
+  the eucalyptus engraving). Applied in `SITE_ART` and `site-templates.ts`.
+- **2026-10-21:** Guest-site signature templates: build fewer, better
+  templates, each laying out the whole page its own way rather than
+  recolouring one skeleton. First three from the mockup
+  (https://claude.ai/artifact/7PfnLaRR3YrcaxYqVwm8ax): Heirloom (invitation
+  page style, painted roses), Editorial (magazine page style) and Riviera
+  (postcard page style). Same day, the owner approved free stock photos
+  (template samples and an in-editor photo search, after a licence check)
+  and a keep-or-cut review of the existing art
+  (https://claude.ai/artifact/2qpGBE5DeeCzKbskYx1MnG). Applied in
+  `PAGE_STYLES` (`src/lib/site-design.ts`), `section-layout.tsx` and
+  `site-templates.ts`.
 - **2026-10-21:** `/data-sources` page in the Privacy page's style (READING
   width, eyebrow + display heading, one bordered list of sources), linked
   from the footer as "Data sources". Applied in `src/app/data-sources/`.

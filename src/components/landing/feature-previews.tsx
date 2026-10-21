@@ -1701,10 +1701,10 @@ const DEMO_ORNAMENTS: { id: OrnamentId; label: string }[] = [
 
 // Line art to place on the demo site, as in the editor's Elements tab.
 const DEMO_ART = [
-  { id: "frond", label: "Palm frond", src: "/site-art/frond.svg" },
   { id: "eucalyptus", label: "Eucalyptus", src: "/site-art/eucalyptus-line.webp" },
   { id: "lavender", label: "Lavender", src: "/site-art/lavender-line.webp" },
   { id: "rings", label: "Wedding rings", src: "/site-art/rings.svg" },
+  { id: "laurel", label: "Laurel divider", src: "/site-art/divider-laurel.svg" },
 ] as const;
 
 function artMask(src: string, color: string): React.CSSProperties {
@@ -1807,7 +1807,7 @@ function SiteDemo() {
       </div>
       {/* Your designs: a few looks side by side, one of them live. */}
       <div className="flex gap-1.5 overflow-x-auto text-xs">
-        {["Garden Party", "Night Swim", "Lemon Grove"].map((name, i) => (
+        {["Heirloom", "Garden Party", "Lemon Grove"].map((name, i) => (
           <span
             key={name}
             className={`flex h-7 shrink-0 items-center gap-1.5 rounded-full px-2.5 ${

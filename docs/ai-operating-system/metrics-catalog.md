@@ -25,7 +25,7 @@ up under `unavailable`). **PC** = `node .claude/skills/pricing-check/metrics.mjs
 | Metric | Definition | Source |
 |---|---|---|
 | Venues / vendors listed | Active, non-sample rows; added this week; missing geo | WR `venues.*`, `vendors.*`; PC `vendors.*` |
-| Coverage | Per-state venues/vendors vs plan targets | Cov |
+| Coverage | Per-state venues/vendors vs plan targets | Cov (batch files, by metro); `/admin/coverage` (live DB, by state, ranked with couple demand) |
 | Skipped businesses | Researched but left out, by reason | Cov (bottom line) |
 | Inquiries | Vendor and venue inquiries from real weddings, week / all time / by status | WR `inquiriesThisWeek`, PC `*_inquiries_real` |
 | Contact taps | Phone/website/social taps on listings | `listing_contact_clicks` table, `/admin/leads` |
