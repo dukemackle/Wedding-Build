@@ -10,8 +10,12 @@ changes.
 - **Hosting:** Cloudflare Workers via OpenNext (`@opennextjs/cloudflare`),
   deployed from `main` by Cloudflare's Git integration. Build command
   `npm run cf:build`. Config `wrangler.jsonc` (worker `wedding-build`,
-  observability enabled, no cron triggers, no R2/KV/D1). Workers Free has a
-  10 ms CPU cap per request, which is why batch imports run off-Worker.
+  observability enabled, no cron triggers, no R2/KV/D1). The account is on
+  **Workers Paid** ($5/month + usage; confirmed by the owner 2026-10-21): 10M
+  requests a month included, then $0.30 per million, and up to 5 min CPU per
+  request. Batch imports were moved off-Worker when the account was on Workers
+  Free (10 ms CPU cap, error 1102); they stay off-Worker because geocoding and
+  site reading are slow, not because of the cap.
 - **Database, auth, storage:** Supabase (Postgres + RLS + Storage), 132
   migrations in `supabase/migrations/`. Clients in `src/lib/supabase/`.
   Migrations are run by hand by the owner in the Supabase SQL Editor.
