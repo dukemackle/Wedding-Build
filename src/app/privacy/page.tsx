@@ -247,12 +247,6 @@ export default function PrivacyPage() {
                 guest&apos;s name, what they gave, and any message they left.
               </li>
               <li>
-                <strong className="text-ink">Designing and writing your guest site</strong> — what you
-                type (a description of the look you want, or notes for your story, FAQ or travel
-                notes), plus your names, date, venue, RSVP deadline, dress code, travel notes, places to
-                stay and the events on your public schedule. Never your guest list.
-              </li>
-              <li>
                 <strong className="text-ink">The planning assistant (Wren)</strong> — your question
                 and the conversation so far, plus details of your wedding so the answer is about
                 your wedding rather than weddings in general: your names, date, state, venue, guest

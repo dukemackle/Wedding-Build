@@ -43,7 +43,7 @@ Serenity Point at Mountain Lake Campground	1898 Summersville Airport Road	Summer
 Sweet Retreat: Lodge and Event Venue	698 Mallard Rd	Hico	West Virginia			Barn / Rustic	Indoor & Outdoor			Log lodge and event space on 13 private wooded acres near New River Gorge National Park.	takemehome@sweetretreatlodge.com	681-208-0797	https://sweetretreatlodge.com
 The Wilderness Lodge		Summersville	West Virginia			Barn / Rustic	Indoor & Outdoor	200	Classic	Rustic lodge on 700 acres above the Gauley River with a white oak post-and-beam pavilion for ceremonies and receptions.	Sabrina@wlclandco.com	304-207-1412	https://wildernesslodgewv.com/weddings
 Beckley Party Hall	321 S Eisenhower Dr	Beckley	West Virginia			Ballroom / Hotel	Indoor	80		Air-conditioned event hall with a full kitchen and on-site parking, formerly known as EisenHover Hall.	beckleypartyhall@gmail.com	681-496-5872	https://www.beckleypartyhall.com
-ACE Adventure Resort (Concho Overlook)		Oak Hill	West Virginia			Garden / Outdoor	Outdoor	80		Outdoor wedding site on a bluff overlooking the horseshoe bend of the New River Gorge, with packages from elopements to full-day receptions.		800-787-3982	https://www.aceraft.com/weddings`,
+ACE Adventure Resort (Concho Overlook)	1 Concho Road	Oak Hill	West Virginia			Garden / Outdoor	Outdoor	80		Outdoor wedding site on a bluff overlooking the horseshoe bend of the New River Gorge, with packages from elopements to full-day receptions.		800-787-3982	https://www.aceraft.com/weddings`,
   },
   {
     name: "West Virginia venues: Morgantown, Fairmont, Eastern Panhandle, Charleston and the south",

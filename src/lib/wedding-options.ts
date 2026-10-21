@@ -131,13 +131,35 @@ export const VENDOR_POLICIES = {
   required: "Must use the venue's vendor list",
 } as const;
 
+export const ALCOHOL_POLICIES = {
+  in_house: "The venue's own bar only",
+  licensed: "Bring your own, served by a licensed bartender",
+  byob: "Bring your own",
+  none: "No alcohol",
+} as const;
+
+// Stored as the label itself, like VENUE_TYPES.
+export const MUSIC_END_TIMES = [
+  "9 pm",
+  "9:30 pm",
+  "10 pm",
+  "10:30 pm",
+  "11 pm",
+  "11:30 pm",
+  "Midnight",
+  "12:30 am",
+  "1 am",
+  "2 am",
+  "No curfew",
+] as const;
+
+// Booking lead time, deposit, curfew, rain plan and alcohol have their own
+// fields now, so the suggestions stick to what those don't cover.
 export const SUGGESTED_VENUE_QUESTIONS = [
   "What is your peak season?",
   "How many hours are included?",
-  "Can we bring our own alcohol?",
-  "What's the plan if it rains?",
-  "Is there a noise curfew?",
-  "What deposit is required to book?",
+  "Is the venue ours alone that day?",
+  "When can vendors start setting up?",
 ] as const;
 
 export const VENDOR_PRICE_UNITS = {
@@ -171,7 +193,7 @@ export const SUGGESTED_VENDOR_QUESTIONS: Record<string, readonly string[]> = {
   Florals: ["Is there a minimum spend?", "Do you handle setup and teardown?", "Can we reuse ceremony flowers at the reception?"],
   Music: ["Do you take song requests?", "Do you provide the sound system and microphones?", "How long do you play?"],
   Cake: ["Do you offer tastings?", "Do you deliver and set up?", "Can you do dietary-friendly cakes?"],
-  Planning: ["Do you offer day-of coordination only?", "How many weddings do you take a year?", "When should we book you?"],
+  Planning: ["Do you offer day-of coordination only?", "When do you start working with us?", "Do you coordinate the rehearsal?"],
   Transportation: ["How many passengers per vehicle?", "Is there a minimum booking time?"],
   "Hair & Makeup": ["Do you offer a trial?", "Do you come to us on the day?", "How many people can you get ready?"],
   "Stationery & Invitations": ["How long does printing take?", "Do you do day-of signs and menus?", "Can we see a proof first?"],
@@ -179,7 +201,7 @@ export const SUGGESTED_VENDOR_QUESTIONS: Record<string, readonly string[]> = {
   "Photo Booth": ["How many hours are included?", "Do guests get prints?", "Are props and an attendant included?"],
   "Bridal & Formalwear": ["How far ahead should we order?", "Are alterations included?", "Do you rent as well as sell?"],
   Desserts: ["Do you offer tastings?", "Do you deliver and set up?", "Can you do dietary-friendly options?"],
-  default: ["How far ahead should we book?", "What deposit is required?", "Do you travel, and is there a fee?"],
+  default: ["Do you travel, and is there a fee?", "What happens if you're ill on the day?"],
 };
 
 export const CAPACITY_FILTER_STEPS = [50, 100, 150, 200, 300] as const;

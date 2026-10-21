@@ -32,11 +32,14 @@ export function BaseMapLayer() {
     } else {
       const { style, attribution } = VECTOR_STYLES[TILE_HOST];
       // Loaded on demand: MapLibre is large and only map pages need it.
-      void import("@maplibre/maplibre-gl-leaflet").then(({ maplibreGL }) => {
+      void Promise.all([
+        import("@maplibre/maplibre-gl-leaflet"),
+        typeof style === "string" ? style : style(),
+      ]).then(([{ maplibreGL }, resolved]) => {
         if (cancelled) return;
         // Leaflet reads the credit from the layer's `attribution` option; the
         // plugin's types leave it out.
-        const options = { style, attribution } as Parameters<typeof maplibreGL>[0];
+        const options = { style: resolved, attribution } as Parameters<typeof maplibreGL>[0];
         layer = maplibreGL(options).addTo(map);
       });
     }

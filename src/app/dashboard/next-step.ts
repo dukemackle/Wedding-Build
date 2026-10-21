@@ -1,9 +1,11 @@
 import type { VendorTrackerRow } from "./dashboard-data";
 
 /**
- * "Your next step" on the dashboard: the first thing in a wedding's natural
- * order that isn't done yet, with why it comes now. Approved from the mockup
- * on 2026-10-20 (https://claude.ai/artifact/UMLSoXHjivMK76zVXgR5yZ).
+ * The planning path on the dashboard: six milestones in a wedding's natural
+ * order, how many are done, and what's still open, said as a status with
+ * quiet links rather than an order (2026-10-21: the owner found "Book your
+ * photographer" bossy; couples know they need one). First approved as
+ * "Your next step" on 2026-10-20 (https://claude.ai/artifact/UMLSoXHjivMK76zVXgR5yZ).
  *
  * The order is the one couples actually book in: the venue fixes the date
  * and the headcount ceiling; the date is what vendors quote against; the
@@ -20,17 +22,20 @@ export type Milestone = {
   detail: string;
 };
 
+type Link = { label: string; href: string };
+
 export type NextStep = {
-  title: string;
-  why: string;
-  action: { label: string; href: string };
-  /** A second, quieter way through: "Already booked one?" */
-  aside?: { label: string; href: string };
+  /**
+   * What's still open, said as a status rather than an order ("Still to book:"),
+   * with the open items as quiet links. Couples know they need a photographer;
+   * the card shows where they are and offers a shortcut, it doesn't tell them.
+   */
+  open: { lead: string; links: Link[] };
+  /** A second, quieter way through: "Booked one already?" */
+  aside?: Link;
   /** The path's current milestone, or null before it (the basics) and after it (checklist). */
   current: Milestone["key"] | null;
   milestones: Milestone[];
-  /** Under the path on a computer, when there's something worth spelling out. */
-  note?: string;
 };
 
 export type NextStepInput = {
@@ -47,25 +52,10 @@ export type NextStepInput = {
 };
 
 /** The vendors who can only do one wedding a day, so they go first. Caterer, photographer, music. */
-const KEY_VENDORS: { key: string; noun: string; plural: string; why: string }[] = [
-  {
-    key: "catering",
-    noun: "caterer",
-    plural: "caterers",
-    why: "The menu sets most of your cost per guest, so it shapes the rest of the budget.",
-  },
-  {
-    key: "photography",
-    noun: "photographer",
-    plural: "photographers",
-    why: "Photographers can only shoot one wedding a day, so the ones you like book up early.",
-  },
-  {
-    key: "music",
-    noun: "DJ or band",
-    plural: "DJs and bands",
-    why: "Like photographers, a DJ or band can only take one wedding a day.",
-  },
+const KEY_VENDORS: { key: string; label: string; category: string }[] = [
+  { key: "catering", label: "Caterer", category: "Catering" },
+  { key: "photography", label: "Photographer", category: "Photography" },
+  { key: "music", label: "DJ or band", category: "Music" },
 ];
 
 const shortDate = (iso: string) =>
@@ -134,9 +124,7 @@ export function nextStep(d: NextStepInput): NextStep | null {
     return {
       ...base,
       current: null,
-      title: "Tell us where and roughly how many",
-      why: "Your budget estimate, and the venues and vendors we suggest, all start from these two answers. A guess is fine.",
-      action: { label: "Add them", href: "/budget/estimate" },
+      open: { lead: "Your budget starts from where and roughly how many:", links: [{ label: "Add them", href: "/budget/estimate" }] },
     };
   }
 
@@ -144,12 +132,14 @@ export function nextStep(d: NextStepInput): NextStep | null {
     return {
       ...base,
       current: "venue",
-      title: "Book your venue",
-      why: "Your date, guest count and most vendors depend on it, so it’s the first big decision.",
-      action:
-        d.venue.shortlisted > 0
-          ? { label: `Compare your ${d.venue.shortlisted} saved`, href: "/venues" }
-          : { label: `Browse venues in ${d.state}`, href: "/venues" },
+      open: {
+        lead: "Still to book: your venue.",
+        links: [
+          d.venue.shortlisted > 0
+            ? { label: `Compare your ${d.venue.shortlisted} saved`, href: "/venues" }
+            : { label: `Venues in ${d.state}`, href: "/venues" },
+        ],
+      },
     };
   }
 
@@ -157,9 +147,7 @@ export function nextStep(d: NextStepInput): NextStep | null {
     return {
       ...base,
       current: "date",
-      title: "Set your date",
-      why: "Vendors quote by date, and your checklist and countdown count back from it.",
-      action: { label: "Add your date", href: "#edit-details" },
+      open: { lead: "No date set yet.", links: [{ label: "Add your date", href: "#edit-details" }] },
     };
   }
 
@@ -167,28 +155,22 @@ export function nextStep(d: NextStepInput): NextStep | null {
     return {
       ...base,
       current: "guests",
-      title: "Start your guest list",
-      why: "It sizes your catering, your seating and your RSVP site. A rough first pass is enough, and you can bring it in from a spreadsheet.",
-      action: { label: "Start the list", href: "/guests" },
+      open: { lead: "No guest list yet.", links: [{ label: "Start the list", href: "/guests" }] },
     };
   }
 
   if (keyOpen.length > 0) {
-    const v = keyOpen[0];
-    const talking = v.row!.status === "talking" ? `You have ${v.row!.detail}. ` : "";
     return {
       ...base,
       current: "vendors",
-      title: `Book your ${v.noun}`,
-      why: talking + v.why,
-      action: { label: `Find ${v.plural}`, href: "/vendors" },
-      aside: { label: "Already booked one?", href: "/bookings" },
-      note: [
-        keyBooked.length ? `Booked: ${keyBooked.map((k) => k.noun).join(", ")}.` : "",
-        `Still to book: ${keyOpen.map((k) => k.noun).join(", ")}.`,
-      ]
-        .filter(Boolean)
-        .join(" "),
+      open: {
+        lead: "Still to book:",
+        links: keyOpen.map((v) => ({
+          label: v.label,
+          href: `/vendors?category=${encodeURIComponent(v.category)}`,
+        })),
+      },
+      aside: { label: "Booked one already?", href: "/bookings" },
     };
   }
 
@@ -196,9 +178,7 @@ export function nextStep(d: NextStepInput): NextStep | null {
     return {
       ...base,
       current: "site",
-      title: "Publish your guest site",
-      why: "Guests RSVP there, and it keeps the schedule, travel and registry in one link you can send.",
-      action: { label: "Open your site", href: "/guests/site" },
+      open: { lead: "Your guest site isn’t live yet.", links: [{ label: "Open your site", href: "/guests/site" }] },
     };
   }
 
@@ -206,9 +186,10 @@ export function nextStep(d: NextStepInput): NextStep | null {
     return {
       ...base,
       current: "rsvps",
-      title: "Collect your RSVPs",
-      why: `${d.guests.pending} ${d.guests.pending === 1 ? "guest hasn’t" : "guests haven’t"} answered yet. Your caterer and seating plan need final numbers.`,
-      action: { label: "See who’s answered", href: "/guests" },
+      open: {
+        lead: `${d.guests.pending} ${d.guests.pending === 1 ? "guest hasn’t" : "guests haven’t"} answered yet.`,
+        links: [{ label: "See who’s answered", href: "/guests" }],
+      },
     };
   }
 
@@ -219,15 +200,16 @@ export function nextStep(d: NextStepInput): NextStep | null {
   return {
     ...base,
     current: null,
-    title: task.title,
-    why:
-      overdue.length > 1
-        ? `This and ${overdue.length - 1} more ${overdue.length === 2 ? "task is" : "tasks are"} past due on your checklist.`
-        : overdue.length === 1
-          ? "This one is past due on your checklist."
-          : task.due
-            ? `Next on your checklist, due ${shortDate(task.due)}.`
-            : "Next on your checklist.",
-    action: { label: "Open your checklist", href: "/checklist" },
+    open: {
+      lead:
+        overdue.length > 1
+          ? `${overdue.length} checklist tasks are past due, starting with`
+          : overdue.length === 1
+            ? "Past due on your checklist:"
+            : task.due
+              ? `Next on your checklist, due ${shortDate(task.due)}:`
+              : "Next on your checklist:",
+      links: [{ label: task.title, href: "/checklist" }],
+    },
   };
 }

@@ -67,7 +67,18 @@ export type SectionInfo = {
   layout?: LayoutSection;
 };
 
-export type ChecklistItem = { label: string; done: boolean; href?: string; action?: string };
+/**
+ * One step of "Finish your site". A step opens the place that does it: a
+ * section's row (`section`), the Design tab (`tab`), or another page (`href`).
+ */
+export type ChecklistItem = {
+  label: string;
+  done: boolean;
+  href?: string;
+  action?: string;
+  section?: SectionKey;
+  tab?: "design";
+};
 
 type Change = (patch: Partial<SiteDesign>) => void;
 
@@ -662,15 +673,17 @@ export function SectionsTab({
   onChange,
   sitePanel,
   info,
-  checklist,
+  open,
+  onOpen: setOpen,
 }: {
   design: SiteDesign;
   onChange: Change;
   sitePanel: ReactNode;
   info: Partial<Record<SectionKey, SectionInfo>>;
-  checklist: ChecklistItem[];
+  /** The row whose editor is open; the steps and the preview open rows too. */
+  open: SectionKey | null;
+  onOpen: (key: SectionKey | null) => void;
 }) {
-  const [open, setOpen] = useState<SectionKey | null>(null);
   const [adding, startAdding] = useTransition();
   const [blockError, setBlockError] = useState<string | null>(null);
   // A block deleted elsewhere (or one just added, before the page refreshes
@@ -722,18 +735,10 @@ export function SectionsTab({
 
   return (
     <>
-      {sitePanel}
-      <Checklist items={checklist} />
-
       <div className="flex flex-col gap-2">
-        <PanelLabel>Sections</PanelLabel>
+        <PanelLabel>Your sections</PanelLabel>
         <p className="text-[13px] leading-normal text-ink/60">
-          Drag to reorder. On a computer, sections keep this order within their column —
-          what guests act on on the left, the details beside it.
-        </p>
-        <p className="text-[13px] leading-normal text-ink/60">
-          Order and show/hide wait for Publish. What you write or upload inside a
-          section saves straight to your site.
+          Open a section to fill it in. Drag ⠿ to reorder.
         </p>
         <SortableList
           ids={sections.map((x) => x.id)}
@@ -747,14 +752,23 @@ export function SectionsTab({
             const shown = !section.hidden;
             const expandable = Boolean(row.editor || row.link || row.layout);
             return (
-              <div className="rounded-xl border border-hairline bg-card">
+              <div
+                id={`section-row-${id}`}
+                className={`scroll-mt-4 rounded-xl border bg-card transition-[border-color,box-shadow,transform] duration-200 motion-reduce:transition-none ${
+                  open === id
+                    ? "border-[#2243B6] shadow-[0_6px_20px_-8px_rgba(34,67,182,0.35)]"
+                    : expandable
+                      ? "border-hairline hover:-translate-y-px hover:border-[#2243B6]/50 hover:shadow-[0_6px_16px_-10px_rgba(20,32,61,0.4)] motion-reduce:hover:translate-y-0"
+                      : "border-hairline"
+                }`}
+              >
                 <div className="flex items-center gap-2 py-2.5 pl-1.5 pr-3">
                   {handle}
                   <button
                     type="button"
                     onClick={() => expandable && setOpen(open === id ? null : id)}
                     aria-expanded={expandable ? open === id : undefined}
-                    className={`flex min-w-0 flex-1 items-center gap-2 text-left ${expandable ? "" : "cursor-default"}`}
+                    className={`group flex min-w-0 flex-1 items-center gap-2 rounded-lg text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2243B6] ${expandable ? "" : "cursor-default"}`}
                   >
                     <span className="min-w-0 flex-1">
                       <span className={`block truncate text-[15px] font-medium ${shown ? "text-ink" : "text-ink/45"}`}>
@@ -772,9 +786,16 @@ export function SectionsTab({
                       </span>
                     </span>
                     {expandable && (
-                      <ChevronDownIcon
-                        className={`h-4 w-4 shrink-0 text-ink/40 transition-transform ${open === id ? "rotate-180" : ""}`}
-                      />
+                      <span
+                        className={`flex h-8 shrink-0 items-center gap-1 rounded-full px-3 text-[13px] font-semibold transition-colors ${
+                          open === id
+                            ? "bg-[#2243B6] text-white"
+                            : "bg-[#2243B6]/[0.08] text-[#2243B6] group-hover:bg-[#2243B6] group-hover:text-white"
+                        }`}
+                      >
+                        {open === id ? "Done" : "Edit"}
+                        <ChevronDownIcon className={`h-3.5 w-3.5 transition-transform ${open === id ? "rotate-180" : ""}`} />
+                      </span>
                     )}
                   </button>
                   <Switch on={shown} label={`Show ${name}`} onToggle={() => toggle(id)} />
@@ -820,7 +841,7 @@ export function SectionsTab({
       </div>
 
       <div className="flex flex-col gap-2.5">
-        <PanelLabel>Add a section</PanelLabel>
+        <PanelLabel>Add your own section</PanelLabel>
         <div className="grid grid-cols-3 gap-2">
           {(
             [
@@ -836,9 +857,12 @@ export function SectionsTab({
               type="button"
               onClick={() => add(kind)}
               disabled={adding}
-              className="flex flex-col items-start rounded-xl border border-dashed border-ink/30 bg-card px-3 py-2.5 text-left hover:border-forest disabled:opacity-60"
+              className="group flex flex-col items-start rounded-xl border border-dashed border-ink/30 bg-card px-3 py-2.5 text-left transition-[border-color,background-color,transform] duration-200 hover:-translate-y-px hover:border-solid hover:border-[#2243B6] hover:bg-[#2243B6]/[0.04] disabled:opacity-60 motion-reduce:transition-none motion-reduce:hover:translate-y-0"
             >
-              <span className="text-sm font-medium text-ink">+ {label}</span>
+              <span className="flex items-center gap-1.5 text-sm font-medium text-ink">
+                <span aria-hidden="true" className="flex h-5 w-5 items-center justify-center rounded-full bg-[#2243B6]/10 text-[#2243B6] transition-colors group-hover:bg-[#2243B6] group-hover:text-white">+</span>
+                {label}
+              </span>
               <span className="text-[11px] text-ink/60">{help}</span>
             </button>
           ))}
@@ -848,6 +872,8 @@ export function SectionsTab({
           Guests see a new section once it has something in it and you publish.
         </p>
       </div>
+
+      {sitePanel}
     </>
   );
 }
@@ -978,48 +1004,99 @@ function LayoutThumb({ section, id }: { section: LayoutSection; id: string }) {
   return <span className={`${box} flex-col !items-stretch !gap-1.5`}>{[0, 1, 2].map((i) => <span key={i} className="flex gap-1">{line("25%")}{line("45%")}</span>)}</span>;
 }
 
-function Checklist({ items }: { items: ChecklistItem[] }) {
-  const left = items.filter((x) => !x.done);
-  return (
-    <div className="flex flex-col gap-2 rounded-xl border border-hairline bg-parchment p-4">
-      <div className="flex items-baseline justify-between gap-3">
-        <PanelLabel>Before you share</PanelLabel>
-        <span className="text-xs text-ink/60">
-          {items.length - left.length} of {items.length} done
+/**
+ * "Finish your site": the few things a site needs before it's sent, in order,
+ * pinned above the panels so a couple always knows what's left (owner,
+ * 2026-10-21: "what do I need to do to make this website complete?"). Folded
+ * to the next step; each step opens the place that does it.
+ */
+export function FinishSteps({ items, onGo }: { items: ChecklistItem[]; onGo: (item: ChecklistItem) => void }) {
+  const [open, setOpen] = useState(false);
+  const done = items.filter((x) => x.done).length;
+  const next = items.find((x) => !x.done);
+  const step = (x: ChecklistItem, i: number) => {
+    const body = (
+      <>
+        <span
+          aria-hidden="true"
+          className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[12px] font-semibold ${
+            x.done ? "bg-[#FFD301] text-[#14203d]" : "border border-ink/25 text-ink/60"
+          }`}
+        >
+          {x.done ? (
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round">
+              <path d="M5 12l5 5L20 7" />
+            </svg>
+          ) : (
+            i + 1
+          )}
         </span>
-      </div>
-      {left.length === 0 ? (
-        <p className="text-sm text-ink/70">All set — your site is ready to send.</p>
-      ) : (
-        <ul className="flex flex-col gap-1.5">
-          {items.map((x) => (
-            <li key={x.label} className="flex items-start gap-2 text-sm">
-              <span
-                className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full ${
-                  x.done ? "bg-forest text-parchment" : "border border-ink/30"
-                }`}
-                aria-hidden="true"
-              >
-                {x.done && (
-                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
-                    <path d="M5 12l5 5L20 7" />
-                  </svg>
-                )}
-              </span>
-              <span className={`flex-1 ${x.done ? "text-ink/50 line-through" : "text-ink"}`}>
-                {x.label}
-                {!x.done && x.href && (
-                  <>
-                    {" "}
-                    <Link href={x.href} className="whitespace-nowrap text-forest underline">
-                      {x.action ?? "Fix"}
-                    </Link>
-                  </>
-                )}
-              </span>
-            </li>
+        <span className={`min-w-0 flex-1 text-[14px] ${x.done ? "text-ink/50" : "font-medium text-ink"}`}>
+          {x.label}
+          {x.done && <span className="sr-only"> (done)</span>}
+        </span>
+        {!x.done && (x.section || x.tab || x.href) && (
+          <span className="shrink-0 text-[13px] font-semibold text-[#2243B6]">{x.action ?? "Go"} →</span>
+        )}
+      </>
+    );
+    const row = "flex w-full items-center gap-3 rounded-lg px-2 py-2 text-left";
+    if (x.done || (!x.section && !x.tab && !x.href)) return <div className={row}>{body}</div>;
+    if (x.href && !x.section && !x.tab)
+      return (
+        <Link href={x.href} className={`${row} hover:bg-[#2243B6]/[0.06]`}>
+          {body}
+        </Link>
+      );
+    return (
+      <button
+        type="button"
+        onClick={() => {
+          setOpen(false);
+          onGo(x);
+        }}
+        className={`${row} hover:bg-[#2243B6]/[0.06]`}
+      >
+        {body}
+      </button>
+    );
+  };
+  return (
+    <div className="rounded-xl border border-[#FFD301] bg-card">
+      <button
+        type="button"
+        onClick={() => setOpen((o) => !o)}
+        aria-expanded={open}
+        className="flex w-full items-center gap-3 px-4 pb-2.5 pt-3 text-left"
+      >
+        <span className="min-w-0 flex-1">
+          <span className="flex items-baseline justify-between gap-2">
+            <span className="text-[14px] font-semibold text-[#14203d]">
+              {next ? "Finish your site" : "Ready to share"}
+            </span>
+            <span className="text-xs text-ink/60">
+              {done} of {items.length} done
+            </span>
+          </span>
+          <span className="mt-2 block h-1.5 overflow-hidden rounded-full bg-ink/10" aria-hidden="true">
+            <span
+              className="block h-full rounded-full bg-[#FFD301] transition-[width] duration-500 motion-reduce:transition-none"
+              style={{ width: `${(done / items.length) * 100}%` }}
+            />
+          </span>
+        </span>
+        <ChevronDownIcon className={`h-4 w-4 shrink-0 text-ink/50 transition-transform ${open ? "rotate-180" : ""}`} />
+      </button>
+      {open ? (
+        <ol className="flex flex-col px-2 pb-2">
+          {items.map((x, i) => (
+            <li key={x.label}>{step(x, i)}</li>
           ))}
-        </ul>
+        </ol>
+      ) : next ? (
+        <div className="px-2 pb-2">{step(next, items.indexOf(next))}</div>
+      ) : (
+        <p className="px-4 pb-3 text-[13px] text-ink/70">Everything&apos;s in. Publish, then send guests your link.</p>
       )}
     </div>
   );

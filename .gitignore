@@ -55,3 +55,7 @@ next-env.d.ts
 
 # Marketing inbox digests hold mailbox contents; keep them local
 .claude/skills/marketing/drafts/inbox-*
+
+# map tiles built by npm run tiles:build
+*.pmtiles
+*.pmtiles.region.geojson

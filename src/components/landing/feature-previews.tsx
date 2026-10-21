@@ -1822,7 +1822,7 @@ function SiteDemo() {
         <span className="flex h-7 shrink-0 items-center rounded-full px-2.5 text-[#2243B6] ring-1 ring-hairline">+ New</span>
       </div>
       <div className="flex gap-1 rounded-lg bg-ink/[0.05] p-1">
-        {["Theme", "Templates", "Colour", "Fonts", "Elements"].map((label, i) => (
+        {["Design", "Sections", "Elements", "Fonts"].map((label, i) => (
           <span
             key={label}
             className={`flex h-8 flex-1 items-center justify-center rounded-md text-xs ${
@@ -1833,7 +1833,7 @@ function SiteDemo() {
           </span>
         ))}
       </div>
-      <p className={eyebrow}>Theme</p>
+      <p className={eyebrow}>Looks</p>
       <div className="grid grid-cols-2 gap-2.5">
         {DEMO_THEMES.map((x) => (
           <button
