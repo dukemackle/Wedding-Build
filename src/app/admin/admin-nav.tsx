@@ -25,6 +25,7 @@ function groups(claims: PendingClaims): { title?: string; links: NavLink[] }[] {
     {
       title: "Marketplace",
       links: [
+        { href: "/admin/coverage", label: "Coverage", keywords: "states gaps targets 50-state plan thin missing categories opportunity ranking" },
         { href: "/admin/venues", label: "Venues", keywords: "listings import batches export audit map" },
         { href: "/admin/vendors", label: "Vendors", keywords: "listings import batches export audit photographers florists caterers" },
         { href: "/admin/venues/claims", label: "Venue claims", keywords: "submissions approve review", badge: claims.venues },
