@@ -29,6 +29,17 @@ const MAX_INSERT = 100;
 /** Updates per POST: one database request each, under Cloudflare's 50. */
 const MAX_UPDATES = 40;
 
+/**
+ * Columns an insert may never set. Batch rows carry whatever fields their
+ * file has, so inserts can't use a whitelist like updates; instead the
+ * columns that decide identity, visibility and the "checked" claim stay
+ * the database's (or an admin's) to set.
+ */
+const PROTECTED_ON_INSERT = ["id", "created_at", "active", "verified_by", "last_verified_at"] as const;
+
+const withoutProtected = (row: Record<string, unknown>) =>
+  Object.fromEntries(Object.entries(row).filter(([key]) => !(PROTECTED_ON_INSERT as readonly string[]).includes(key)));
+
 /** The only columns an update may set, so a bad payload can't touch anything else. */
 const UPDATABLE = ["address", "city", "latitude", "longitude", "address_checked_at"] as const;
 
@@ -77,7 +88,7 @@ export async function POST(request: Request) {
     }
     const { error } = await admin.from(table).insert(
       rows.map((row: Record<string, unknown>) => ({
-        ...row,
+        ...withoutProtected(row),
         // As the "Add them" import stamps them: real listings, imported, keyed
         // by website so the same row is never added twice.
         is_sample: false,

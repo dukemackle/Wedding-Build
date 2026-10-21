@@ -3,6 +3,7 @@
 import "server-only";
 import Anthropic from "@anthropic-ai/sdk";
 import { revalidatePath } from "next/cache";
+import { takeAiAllowance } from "@/lib/ai/allowance";
 import type { Guest } from "@/lib/supabase/types";
 import { requireEditableWedding } from "@/lib/wedding-access";
 
@@ -55,6 +56,10 @@ export async function draftThankYouNote(
         : null,
     guest.message?.trim() ? `They left this message: "${guest.message.trim()}"` : null,
   ].filter((line): line is string => Boolean(line));
+
+  if (!(await takeAiAllowance(wedding.id, "thank_you"))) {
+    return { error: "Wren has drafted as many notes as it can today. Try again tomorrow, or write this one yourself." };
+  }
 
   const client = new Anthropic();
 

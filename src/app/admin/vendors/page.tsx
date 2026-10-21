@@ -1,3 +1,4 @@
+import { requireAdmin } from "@/lib/admin";
 import Link from "next/link";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import type { Vendor, VendorContactLog, VendorFaq } from "@/lib/supabase/types";
@@ -14,6 +15,7 @@ export default async function AdminVendorsPage({
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
+  await requireAdmin();
   const params = parseListingParams(await searchParams);
   const admin = createAdminSupabaseClient();
 

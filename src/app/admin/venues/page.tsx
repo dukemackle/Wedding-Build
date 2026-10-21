@@ -1,3 +1,4 @@
+import { requireAdmin } from "@/lib/admin";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import type { Venue, VenueFaq } from "@/lib/supabase/types";
 import Link from "next/link";
@@ -14,6 +15,7 @@ export default async function AdminVenuesPage({
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
+  await requireAdmin();
   const params = parseListingParams(await searchParams);
   const admin = createAdminSupabaseClient();
 

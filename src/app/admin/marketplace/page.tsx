@@ -1,3 +1,4 @@
+import { requireAdmin } from "@/lib/admin";
 import Image from "next/image";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import { SITE_URL } from "@/lib/public-listings";
@@ -24,6 +25,7 @@ const reasonLabel = (value: string) => MARKET_REPORT_REASONS.find((r) => r.value
  * listings for a look before anyone has to report them.
  */
 export default async function AdminMarketplacePage() {
+  await requireAdmin();
   const admin = createAdminSupabaseClient();
   const [{ data: reports }, { data: recent }] = await Promise.all([
     admin

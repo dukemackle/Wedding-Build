@@ -1,8 +1,10 @@
+import { requireAdmin } from "@/lib/admin";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import type { AssistantConversation, FeedbackSubmission, Wedding } from "@/lib/supabase/types";
 import { AdminFeedbackManager } from "./admin-feedback-manager";
 
 export default async function AdminFeedbackPage() {
+  await requireAdmin();
   const admin = createAdminSupabaseClient();
   const [{ data: feedback }, { data: conversations }, { data: weddings }] = await Promise.all([
     admin

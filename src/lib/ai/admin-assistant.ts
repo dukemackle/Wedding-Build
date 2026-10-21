@@ -3,9 +3,8 @@
 import "server-only";
 import Anthropic from "@anthropic-ai/sdk";
 import { assistantErrorMessage } from "@/lib/ai/errors";
-import { createClient } from "@/lib/supabase/server";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
-import { isAdminUser } from "@/lib/admin";
+import { currentAdmin } from "@/lib/admin";
 import { buildAdminTools, type Lookup } from "@/lib/ai/admin-assistant-tools";
 
 /** Same model as the couple-facing Wren: these are lookups, not hard reasoning. */
@@ -42,26 +41,28 @@ async function usedToday(admin: ReturnType<typeof createAdminSupabaseClient>, us
     .select("id", { count: "exact", head: true })
     .eq("user_id", userId)
     .gte("created_at", startOfDay.toISOString());
-  // Before the migration runs the table is missing; don't lock the page for that.
-  if (error) console.error("admin_assistant_log count failed:", error.message);
+  // Null when the count can't be read: the caller refuses rather than letting
+  // an unreadable log mean an unlimited allowance.
+  if (error) {
+    console.error("admin_assistant_log count failed:", error.message);
+    return null;
+  }
   return count ?? 0;
 }
 
 /** For the counter under the box. Only async exports are allowed in this file, hence a call. */
 export async function getAdminQuestionAllowance(): Promise<{ used: number; cap: number }> {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const user = await currentAdmin();
   const cap = MAX_ADMIN_QUESTIONS_PER_DAY;
-  if (!user || !isAdminUser(user)) return { used: 0, cap };
-  return { used: await usedToday(createAdminSupabaseClient(), user.id), cap };
+  if (!user) return { used: 0, cap };
+  return { used: (await usedToday(createAdminSupabaseClient(), user.id)) ?? cap, cap };
 }
 
 export async function askAdminAssistant(history: AdminAssistantMessage[]): Promise<Result> {
   // Server actions can be called directly, so this re-checks rather than
   // trusting the layout's gate.
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user || !isAdminUser(user)) return { ok: false, error: "Admins only." };
+  const user = await currentAdmin();
+  if (!user) return { ok: false, error: "Admins only." };
 
   const trimmed = history.slice(-MAX_TURNS);
   while (trimmed.length > 0 && trimmed[0].role !== "user") trimmed.shift();
@@ -72,6 +73,9 @@ export async function askAdminAssistant(history: AdminAssistantMessage[]): Promi
 
   const admin = createAdminSupabaseClient();
   const used = await usedToday(admin, user.id);
+  if (used === null) {
+    return { ok: false, error: "Couldn't check today's question allowance. Try again in a moment." };
+  }
   if (used >= MAX_ADMIN_QUESTIONS_PER_DAY) {
     return { ok: false, error: `That's ${MAX_ADMIN_QUESTIONS_PER_DAY} questions today. Try again tomorrow.` };
   }

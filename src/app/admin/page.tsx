@@ -1,4 +1,6 @@
+import { requireAdmin } from "@/lib/admin";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
+import { selectAll } from "@/lib/supabase/fetch-all";
 
 function StatTile({ label, value }: { label: string; value: number }) {
   return (
@@ -10,6 +12,7 @@ function StatTile({ label, value }: { label: string; value: number }) {
 }
 
 export default async function AdminOverviewPage() {
+  await requireAdmin();
   const admin = createAdminSupabaseClient();
 
   const [
@@ -20,17 +23,11 @@ export default async function AdminOverviewPage() {
     { data: venueInquiries },
     { data: pendingPosts },
   ] = await Promise.all([
-    admin.from("weddings").select("id, is_test").returns<{ id: string; is_test: boolean }[]>(),
+    selectAll<{ id: string; is_test: boolean }>(admin, "weddings", "id, is_test"),
     admin.from("vendors").select("id", { count: "exact", head: true }),
     admin.from("venues").select("id", { count: "exact", head: true }),
-    admin
-      .from("vendor_inquiries")
-      .select("id, wedding_id, status")
-      .returns<{ id: string; wedding_id: string; status: string }[]>(),
-    admin
-      .from("venue_inquiries")
-      .select("id, wedding_id")
-      .returns<{ id: string; wedding_id: string }[]>(),
+    selectAll<{ id: string; wedding_id: string; status: string }>(admin, "vendor_inquiries", "id, wedding_id, status"),
+    selectAll<{ id: string; wedding_id: string }>(admin, "venue_inquiries", "id, wedding_id"),
     admin
       .from("guest_posts")
       .select("id, wedding_id")

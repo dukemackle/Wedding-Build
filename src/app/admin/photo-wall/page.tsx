@@ -1,8 +1,10 @@
+import { requireAdmin } from "@/lib/admin";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import type { GuestPost, Wedding } from "@/lib/supabase/types";
 import { PhotoWallManager } from "./photo-wall-manager";
 
 export default async function AdminPhotoWallPage() {
+  await requireAdmin();
   const admin = createAdminSupabaseClient();
   const [{ data: posts }, { data: weddings }] = await Promise.all([
     admin

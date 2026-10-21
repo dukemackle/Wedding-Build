@@ -6,6 +6,8 @@ import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import { getResendClient, INQUIRY_FROM_ADDRESS } from "@/lib/resend";
 import type { Wedding } from "@/lib/supabase/types";
 
+const MAX_COUPLES_PER_EMAIL = 50;
+
 export async function emailCouples(
   formData: FormData,
 ): Promise<{ error?: string; sent?: number; failed?: number }> {
@@ -16,6 +18,11 @@ export async function emailCouples(
   const message = ((formData.get("message") as string) || "").trim();
 
   if (weddingIds.length === 0) return { error: "Select at least one couple." };
+  // Resend's free tier allows 100 emails a day across the whole app; a bigger
+  // send would starve RSVP and inquiry emails, and goes out in batches.
+  if (weddingIds.length > MAX_COUPLES_PER_EMAIL) {
+    return { error: `Select at most ${MAX_COUPLES_PER_EMAIL} couples per send.` };
+  }
   if (!subject || !message) return { error: "Subject and message are required." };
 
   const admin = createAdminSupabaseClient();
@@ -49,7 +56,7 @@ export async function emailCouples(
         to: email,
         // Otherwise a couple replying to a message from Wren writes into a
         // mailbox nobody reads.
-        replyTo: process.env.ADMIN_EMAIL,
+        replyTo: process.env.ADMIN_EMAIL?.split(",")[0]?.trim(),
         subject,
         text: `Hi ${names || "there"},\n\n${message}`,
       });
@@ -96,6 +103,11 @@ export async function bulkAddCoupleTag(formData: FormData): Promise<{ error?: st
   const weddingIds = formData.getAll("wedding_id") as string[];
   const tag = ((formData.get("tag") as string) || "").trim();
   if (weddingIds.length === 0) return { error: "Select at least one couple." };
+  // Resend's free tier allows 100 emails a day across the whole app; a bigger
+  // send would starve RSVP and inquiry emails, and goes out in batches.
+  if (weddingIds.length > MAX_COUPLES_PER_EMAIL) {
+    return { error: `Select at most ${MAX_COUPLES_PER_EMAIL} couples per send.` };
+  }
   if (!tag) return { error: "Enter a tag." };
 
   const admin = createAdminSupabaseClient();
