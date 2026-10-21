@@ -7,6 +7,7 @@ import { PageShell } from "@/components/page-shell";
 import { JsonLd, faqJsonLd } from "@/components/json-ld";
 import { SITE_URL, isIndexable, metaDescription, vendorHref } from "@/lib/public-listings";
 import { loadVendorListing, VendorListing, type VendorListingData } from "./vendor-listing";
+import { trackEvent } from "@/lib/events";
 
 // The full-page listing: what a shared link, a refresh, a search result or a
 // link from outside /vendors opens. From the vendor search the same listing
@@ -79,6 +80,9 @@ export default async function VendorDetailPage({ params }: { params: Promise<{ i
   const { id } = await params;
   const { user, data } = await load(id);
   if (!data) notFound();
+  // A couple opening a listing: the top of the listing funnel. Logged-out
+  // visitors and bots aren't counted.
+  if (data.wedding) trackEvent("listing_viewed", { weddingId: data.wedding.id, listing: { kind: "vendor", id: data.vendor.id } });
 
   return (
     <PageShell email={user ? (user.email ?? "") : null} width="wide">

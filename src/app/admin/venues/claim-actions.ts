@@ -9,6 +9,7 @@ import type { Vendor, VenueSubmission } from "@/lib/supabase/types";
 import { getResendClient, INQUIRY_FROM_ADDRESS } from "@/lib/resend";
 import { ensureClaimLink, noticeOfContactChange, replaceClaimLink } from "@/lib/venue-claim-server";
 import { geocode, townPin } from "@/lib/listing-pin";
+import { trackEvent } from "@/lib/events";
 
 /** The venue's claim link, creating one the first time it's asked for. */
 export async function getClaimLink(venueId: string): Promise<{ error?: string; url?: string }> {
@@ -164,6 +165,7 @@ export async function approveSubmission(submissionId: string): Promise<{ error?:
   revalidatePath("/admin/venues/claims");
   revalidatePath("/venues");
   revalidatePath(`/venues/${submission.venue_id}`);
+  if (submission.venue_id) trackEvent("listing_claimed", { listing: { kind: "venue", id: submission.venue_id }, props: { new_listing: isNew } });
   await logAdminAction("venue.claim_approve", { type: "venue_submission", ids: [submissionId] }, "Approved a venue claim");
   return {};
 }

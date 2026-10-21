@@ -9,6 +9,7 @@ import { SITE_URL } from "@/lib/public-listings";
 import { SMS_CONSENT_DETAIL } from "@/lib/sms-consent";
 import type { EventAnswers, GuestSide, RsvpEvent, RsvpStatus } from "@/lib/supabase/types";
 import { logError } from "@/lib/error-log";
+import { trackEvent } from "@/lib/events";
 
 const VALID_STATUSES: RsvpStatus[] = ["confirmed", "declined"];
 const VALID_SIDES: GuestSide[] = ["a", "b", "both"];
@@ -181,6 +182,7 @@ export async function submitRsvp(formData: FormData): Promise<{ error?: string }
     return { error: "Could not submit your RSVP — please try again." };
   }
 
+  trackEvent("rsvp_received", { weddingId, props: { status } });
   await notifyCoupleOfRsvp(weddingId, guestName, status as RsvpStatus);
   return {};
 }

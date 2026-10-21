@@ -15,6 +15,7 @@ import {
   validateClaim,
   type ClaimSubmission,
 } from "@/lib/venue-claim";
+import { trackEvent } from "@/lib/events";
 
 /**
  * Everything on the claim page runs through the service role, because the
@@ -115,6 +116,7 @@ export async function submitVenueClaim(
     photo_urls: value.photoUrls,
   });
   if (error) return { error: "Couldn't save your changes -- please try again." };
+  trackEvent("listing_claim_submitted", { listing: { kind: "venue", id: venue.id } });
 
   // Best effort: the review queue is the record, the email is only a nudge.
   const adminEmail = process.env.ADMIN_EMAIL?.split(",")[0]?.trim();
