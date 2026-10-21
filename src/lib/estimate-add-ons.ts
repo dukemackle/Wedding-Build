@@ -63,6 +63,7 @@ export const SALES_TAX_RATES: Record<string, number> = {
   Wisconsin: 5.72,
   Wyoming: 5.39,
 };
+// Registered in src/lib/data-sources.ts as "tax-foundation-sales-tax".
 export const SALES_TAX_SOURCE = "Tax Foundation, July 2026";
 /** The population-weighted national average in the same release, for no state. */
 const NATIONAL_SALES_TAX = 7.53;

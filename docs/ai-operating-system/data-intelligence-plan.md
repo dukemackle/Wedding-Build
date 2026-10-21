@@ -281,7 +281,7 @@ price_observations  id, listing_kind (venue|vendor), listing_id, category_key,
 | Q4 (done 2026-10-21: 46 Colorado rows) | Fix the about 49 malformed `skipped/*.tsv` rows and add a column-count check to `npm run coverage` | Clean coverage numbers | Batch-file hygiene |
 | Q5 | Plan the map-tile move off `tile.openstreetmap.org`. Options to price: self-hosted Protomaps PMTiles on Cloudflare R2, MapTiler, Stadia (all UNVERIFIED, quotes needed) | Policy and reliability risk at launch | Research, then owner decision |
 | Q6 | Fix the privacy-page Cloudflare Web Analytics claim, or connect it (owner step) | Policy must match code (legal-audit R3) | Text or owner action |
-| Q7 | Add a `data_sources` registry table and an `/about/data` attribution page | Foundation for every later import | Migration + page |
+| Q7 (done 2026-10-21, as `src/lib/data-sources.ts` + `/data-sources`) | Add a `data_sources` registry table and an `/about/data` attribution page | Foundation for every later import | Migration + page |
 
 ---
 

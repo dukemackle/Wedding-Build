@@ -11,6 +11,9 @@ They're summarised here only by reference; CLAUDE.md is the source.
 
 ## Approved directions
 
+- **2026-10-21:** `/data-sources` page in the Privacy page's style (READING
+  width, eyebrow + display heading, one bordered list of sources), linked
+  from the footer as "Data sources". Applied in `src/app/data-sources/`.
 - **2026-10-21:** Estimator extras: service charge, sales tax, tips and a
   cushion for surprises sit apart from the vendor bar chart in a
   gold-bordered "On top of vendor prices" box, with how each was worked
