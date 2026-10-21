@@ -950,12 +950,15 @@ export type HeroLayoutId = (typeof HERO_LAYOUTS)[number]["id"];
  * column, reference material in the sidebar. Order is kept within a column
  * there; on a phone the page is one column in the full order.
  */
+// The order a new design starts in: who and where first, then the weekend,
+// then the RSVP once guests know what they're answering for (the top of the
+// page has its own RSVP button).
 export const SITE_SECTIONS = [
-  { id: "rsvp", name: "RSVP", column: "main" },
   { id: "photos", name: "Photos", column: "main" },
   { id: "party", name: "Wedding party", column: "main" },
   { id: "venue", name: "The venue", column: "main" },
   { id: "weekend", name: "The weekend", column: "main" },
+  { id: "rsvp", name: "RSVP", column: "main" },
   { id: "wall", name: "Photo wall", column: "main" },
   { id: "guests", name: "Who's coming", column: "side" },
   { id: "travel", name: "Travel & stays", column: "side" },
