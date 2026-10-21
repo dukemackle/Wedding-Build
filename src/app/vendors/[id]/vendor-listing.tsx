@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BookingFactsCard } from "@/components/booking-facts-card";
 import { TrackedContactLink } from "@/components/tracked-contact-link";
 import { ReportListing } from "@/components/report-listing";
 import type { SupabaseClient } from "@supabase/supabase-js";
@@ -226,6 +227,8 @@ export function VendorListing({ data }: { data: VendorListingData }) {
               <p className="mt-2 whitespace-pre-line text-ink/80">{vendor.good_to_know}</p>
             </div>
           )}
+
+          <BookingFactsCard facts={vendor} />
 
           {faqs.length > 0 && (
             <div className={card}>

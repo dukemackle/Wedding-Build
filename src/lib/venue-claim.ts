@@ -1,4 +1,6 @@
 import {
+  ALCOHOL_POLICIES,
+  MUSIC_END_TIMES,
   PREFERRED_VENDOR_CATEGORIES,
   PRICE_BASES,
   SERVICE_LEVELS,
@@ -8,7 +10,8 @@ import {
   VENUE_SETTINGS,
   VENUE_TYPES,
 } from "@/lib/wedding-options";
-import type { PriceBasis, PriceOption, ServiceLevel, Venue, VendorPolicy } from "@/lib/supabase/types";
+import type { AlcoholPolicy, PriceBasis, PriceOption, ServiceLevel, Venue, VendorPolicy } from "@/lib/supabase/types";
+import { BUSINESS_FACT_LABELS, businessFactsFrom, validateBusinessFacts, type BusinessFacts } from "@/lib/business-facts";
 
 /**
  * What a venue can submit through its claim link, and the checks on it.
@@ -27,7 +30,7 @@ const MAX_SPACES = 12;
 export const MAX_PRICE_OPTIONS = 8;
 
 /** The venue columns a venue may change. Everything else stays admin-only. */
-export type ClaimDetails = {
+export type ClaimDetails = BusinessFacts & {
   name: string;
   city: string | null;
   state: string | null;
@@ -63,6 +66,9 @@ export type ClaimDetails = {
   tiktok_url: string | null;
   youtube_url: string | null;
   reviews_url: string | null;
+  music_until: string | null;
+  rain_plan: string | null;
+  alcohol_policy: AlcoholPolicy | null;
 };
 
 export type ClaimSpace = {
@@ -127,6 +133,10 @@ export const CLAIM_FIELD_LABELS: Record<keyof ClaimDetails, string> = {
   tiktok_url: "TikTok",
   youtube_url: "YouTube",
   reviews_url: "Reviews page",
+  music_until: "Music until",
+  rain_plan: "Rain plan",
+  alcohol_policy: "Alcohol",
+  ...BUSINESS_FACT_LABELS,
 };
 
 // Generous, but bounded: the listing page has to hold whatever gets approved.
@@ -143,6 +153,7 @@ const LIMITS: Partial<Record<keyof ClaimDetails, number>> = {
   contact_email: 200,
   contact_phone: 40,
   website: 300,
+  rain_plan: 300,
 };
 
 export function detailsFromVenue(venue: Venue): ClaimDetails {
@@ -181,6 +192,10 @@ export function detailsFromVenue(venue: Venue): ClaimDetails {
     tiktok_url: venue.tiktok_url,
     youtube_url: venue.youtube_url,
     reviews_url: venue.reviews_url,
+    music_until: venue.music_until,
+    rain_plan: venue.rain_plan,
+    alcohol_policy: venue.alcohol_policy,
+    ...businessFactsFrom(venue),
   };
 }
 
@@ -339,6 +354,10 @@ export function validateClaim(input: ClaimSubmission): { value: ClaimSubmission;
     tiktok_url: social("tiktok_url"),
     youtube_url: social("youtube_url"),
     reviews_url: link("reviews_url"),
+    music_until: option("music_until", MUSIC_END_TIMES),
+    rain_plan: text("rain_plan"),
+    alcohol_policy: option("alcohol_policy", Object.keys(ALCOHOL_POLICIES)) as AlcoholPolicy | null,
+    ...validateBusinessFacts(d, errors),
   };
 
   const faqs = (Array.isArray(input.faqs) ? input.faqs : [])
