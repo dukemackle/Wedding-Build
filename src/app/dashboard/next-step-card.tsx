@@ -2,34 +2,36 @@ import Link from "next/link";
 import type { NextStep } from "./next-step";
 
 /**
- * The dashboard's one gold moment: the step to take now, why it comes now,
- * and where it sits on the planning path.
+ * The dashboard's one gold moment: where the couple is on the planning path.
+ * A status, not an instruction: how many of the six milestones are done and
+ * what's still open, with quiet links for anyone who wants a shortcut.
  *
- * Computer: the step on the left, the six-milestone path on the right.
- * Phone: a thin six-part progress bar over the step, and the path folded
+ * Computer: the count and what's open on the left, the six-milestone path on
+ * the right. Phone: the count over a thin six-part bar, and the path folded
  * into "See all six steps" so it doesn't push the tiles off the screen.
  */
 export function NextStepCard({ step }: { step: NextStep }) {
   const currentIndex = step.milestones.findIndex((m) => m.key === step.current);
-  const allDone = step.milestones.every((m) => m.done);
+  const total = step.milestones.length;
+  const done = step.milestones.filter((m) => m.done).length;
   // The line fills up to the current milestone (or all the way once the path is done).
-  const filled = currentIndex >= 0 ? currentIndex / (step.milestones.length - 1) : allDone ? 1 : 0;
+  const filled = currentIndex >= 0 ? currentIndex / (total - 1) : done === total ? 1 : 0;
+  const headline = done === 0 ? "Just getting started" : done === total ? "All six done" : `${done} of ${total} done`;
 
   return (
     <section
       aria-labelledby="next-step-title"
-      className="mt-6 grid gap-6 rounded-2xl border-2 border-[#ffd301] bg-card p-5 shadow-[0_18px_44px_-24px_rgb(224_161_0/0.55)] sm:p-7 lg:grid-cols-[5fr_7fr] lg:items-center lg:gap-12 lg:px-9"
+      className="mt-6 grid gap-5 rounded-2xl border-2 border-[#ffd301] bg-card p-5 shadow-[0_18px_44px_-24px_rgb(224_161_0/0.55)] sm:p-7 lg:grid-cols-[4fr_8fr] lg:items-center lg:gap-12 lg:px-9"
     >
       <div className="flex flex-col">
-        <div className="flex items-center justify-between">
-          <span className="font-mono-numbers text-[11px] uppercase tracking-[0.18em] text-brass">Your next step</span>
-          {currentIndex >= 0 && (
-            <span className="text-xs text-ink/70 lg:hidden">
-              {currentIndex + 1} of {step.milestones.length}
-            </span>
-          )}
-        </div>
-        <div className="mt-2.5 grid grid-cols-6 gap-1 lg:hidden" aria-hidden="true">
+        <span className="font-mono-numbers text-[11px] uppercase tracking-[0.18em] text-brass">Your planning path</span>
+        <h2
+          id="next-step-title"
+          className="mt-2 font-display text-[30px] font-semibold leading-[1.05] text-forest lg:text-[36px]"
+        >
+          {headline}
+        </h2>
+        <div className="mt-3 grid grid-cols-6 gap-1 lg:hidden" aria-hidden="true">
           {step.milestones.map((m, i) => (
             <span
               key={m.key}
@@ -37,44 +39,29 @@ export function NextStepCard({ step }: { step: NextStep }) {
             />
           ))}
         </div>
-        <h2
-          id="next-step-title"
-          className="mt-3.5 font-display text-[32px] font-semibold leading-[1.05] text-forest lg:mt-2.5 lg:text-[40px]"
-        >
-          {step.title}
-        </h2>
-        <p className="mt-2 text-[15px] leading-relaxed text-ink/80 lg:text-base">{step.why}</p>
-        <div className="mt-4 flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-5 lg:mt-5">
-          {/* A plain anchor for "#edit-details", so the hash change opens the dashboard's own form. */}
-          {step.action.href.startsWith("#") ? (
-            <a href={step.action.href} className={primary}>
-              {step.action.label}
-            </a>
-          ) : (
-            <Link href={step.action.href} className={primary}>
-              {step.action.label}
-            </Link>
-          )}
-          {step.aside && (
-            <Link href={step.aside.href} className="py-2.5 text-sm text-brass hover:underline sm:text-[15px]">
-              {step.aside.label}
-            </Link>
-          )}
-        </div>
+        <p className="mt-3 text-[15px] leading-relaxed text-ink/80">
+          {step.open.lead}{" "}
+          {step.open.links.map((l, i) => (
+            <span key={l.href + l.label}>
+              {i > 0 && <span aria-hidden="true" className="text-ink/40"> · </span>}
+              <StepLink link={l} className="font-medium text-brass underline-offset-2 hover:underline" />
+            </span>
+          ))}
+        </p>
+        {step.aside && (
+          <StepLink link={step.aside} className="mt-1.5 self-start py-1 text-sm text-ink/70 hover:text-forest hover:underline" />
+        )}
       </div>
 
       {/* The path, on a computer. */}
-      <div className="hidden flex-col gap-4 lg:flex">
-        <div className="relative">
-          <div aria-hidden="true" className="absolute left-[8.33%] right-[8.33%] top-3.5 h-1 rounded-full bg-hairline">
-            <div
-              className="h-full rounded-full bg-forest"
-              style={{ width: `${filled * 100}%` }}
-            />
-          </div>
-          <Path step={step} currentIndex={currentIndex} />
+      <div className="relative hidden lg:block">
+        <div aria-hidden="true" className="absolute left-[8.33%] right-[8.33%] top-3.5 h-1 rounded-full bg-hairline">
+          <div
+            className="h-full rounded-full bg-forest"
+            style={{ width: `${filled * 100}%` }}
+          />
         </div>
-        {step.note && <p className="text-center text-sm text-ink/70">{step.note}</p>}
+        <Path step={step} currentIndex={currentIndex} />
       </div>
 
       {/* The same path, folded away on a phone. */}
@@ -96,8 +83,18 @@ export function NextStepCard({ step }: { step: NextStep }) {
   );
 }
 
-const primary =
-  "flex h-12 items-center justify-center rounded-md bg-forest px-6 text-[15px] font-medium text-parchment transition-colors hover:bg-forest/90";
+/** A plain anchor for "#edit-details", so the hash change opens the dashboard's own form. */
+function StepLink({ link, className }: { link: { label: string; href: string }; className: string }) {
+  return link.href.startsWith("#") ? (
+    <a href={link.href} className={className}>
+      {link.label}
+    </a>
+  ) : (
+    <Link href={link.href} className={className}>
+      {link.label}
+    </Link>
+  );
+}
 
 function Path({ step, currentIndex }: { step: NextStep; currentIndex: number }) {
   return (
