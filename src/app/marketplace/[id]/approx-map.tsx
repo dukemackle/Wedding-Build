@@ -19,10 +19,13 @@ export function ApproxMap({ latitude, longitude }: { latitude: number; longitude
       doubleClickZoom={false}
       touchZoom={false}
       keyboard={false}
-      attributionControl={false}
       style={{ height: "100%", width: "100%" }}
     >
-      <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+      {/* OpenStreetMap's licence and tile policy require the credit on every map. */}
+      <TileLayer
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      />
       <Circle
         center={[latitude, longitude]}
         radius={3000}
