@@ -70,6 +70,7 @@ export default async function GuestSitePreviewPage({
     wedding_date: wedding.wedding_date,
     region: wedding.region,
     hero_photo_url: wedding.hero_photo_url,
+    hero_photo_credit: wedding.hero_photo_credit ?? null,
     rsvp_deadline: wedding.rsvp_deadline,
     dress_code: wedding.dress_code,
     travel_notes: wedding.travel_notes,

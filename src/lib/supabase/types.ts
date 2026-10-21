@@ -17,6 +17,8 @@ export type Wedding = {
   public_slug: string | null;
   party_share_token: string | null;
   hero_photo_url: string | null;
+  /** A free-library banner's photographer (0132); absent until that migration runs. */
+  hero_photo_credit?: unknown;
   /** Old dashboard avatar; no longer shown. */
   profile_photo_url: string | null;
   /** Photos shown behind the dashboard, in order. Up to eight. */
@@ -104,6 +106,8 @@ export type PublicWedding = {
   gift_zelle: string | null;
   meal_options: string[] | null;
   ask_dietary: boolean;
+  /** A free-library banner's photographer (0132); absent until that migration runs. */
+  hero_photo_credit?: unknown;
 };
 
 export type WeddingFaq = {
