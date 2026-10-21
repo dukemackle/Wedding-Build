@@ -38,6 +38,17 @@ export default async function GuestSitePreviewPage({
     .maybeSingle<Wedding>();
   if (!wedding) notFound();
 
+  // The design row doesn't depend on the venue or the content, so it's
+  // fetched alongside them rather than after.
+  const rowPromise = designId
+    ? supabase
+        .from("site_designs")
+        .select("*")
+        .eq("id", designId)
+        .eq("wedding_id", wedding.id)
+        .maybeSingle<SiteDesignRow>()
+    : Promise.resolve({ data: null });
+
   const { data: venue } = wedding.venue_id
     ? await supabase
         .from("venues")
@@ -80,15 +91,10 @@ export default async function GuestSitePreviewPage({
     ask_dietary: wedding.ask_dietary,
   };
 
-  const content = await loadGuestSiteContent(supabase, asGuestsSeeIt, { preview: true });
-  const { data: row } = designId
-    ? await supabase
-        .from("site_designs")
-        .select("*")
-        .eq("id", designId)
-        .eq("wedding_id", wedding.id)
-        .maybeSingle<SiteDesignRow>()
-    : { data: null };
+  const [content, { data: row }] = await Promise.all([
+    loadGuestSiteContent(supabase, asGuestsSeeIt, { preview: true }),
+    rowPromise,
+  ]);
   const stored = parseSiteDesign(row ? row.design : wedding.site_design);
   const draft = row?.shared_wording ? withWording(stored, parseWording(wedding.site_wording)) : stored;
 

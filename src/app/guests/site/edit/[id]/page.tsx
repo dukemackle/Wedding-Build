@@ -68,21 +68,29 @@ export default async function GuestSiteEditorPage({ params }: { params: Promise<
     );
   }
 
-  const { data: row } = await supabase
-    .from("site_designs")
-    .select("*")
-    .eq("id", id)
-    .eq("wedding_id", wedding.id)
-    .maybeSingle<SiteDesignRow>();
-  if (!row) notFound();
-
+  // Everything below needs only the wedding, so it's fetched in one round
+  // rather than one query after another.
   const [
+    { data: row },
     { data: galleryPhotos },
     { data: faqs },
     { data: accommodations },
     { data: registryItems },
     { data: partyMembers },
+    { data: blocks },
+    // Counts for the Sections tab's status lines. Head-only: just the numbers.
+    { count: eventCount },
+    { count: confirmedCount },
+    { count: postCount },
+    { count: giftCount },
+    { data: venue },
   ] = await Promise.all([
+    supabase
+      .from("site_designs")
+      .select("*")
+      .eq("id", id)
+      .eq("wedding_id", wedding.id)
+      .maybeSingle<SiteDesignRow>(),
     supabase
       .from("wedding_gallery_photos")
       .select("*")
@@ -113,17 +121,12 @@ export default async function GuestSiteEditorPage({ params }: { params: Promise<
       .eq("wedding_id", wedding.id)
       .order("sort_order", { ascending: true })
       .returns<AttirePartyMember[]>(),
-  ]);
-
-  const { data: blocks } = await supabase
-    .from("site_blocks")
-    .select("*")
-    .eq("wedding_id", wedding.id)
-    .order("created_at", { ascending: true })
-    .returns<SiteBlock[]>();
-
-  // Counts for the Sections tab's status lines. Head-only: just the numbers.
-  const [{ count: eventCount }, { count: confirmedCount }, { count: postCount }] = await Promise.all([
+    supabase
+      .from("site_blocks")
+      .select("*")
+      .eq("wedding_id", wedding.id)
+      .order("created_at", { ascending: true })
+      .returns<SiteBlock[]>(),
     supabase.from("itinerary_events").select("id", { count: "exact", head: true }).eq("wedding_id", wedding.id),
     supabase
       .from("guests")
@@ -131,15 +134,16 @@ export default async function GuestSiteEditorPage({ params }: { params: Promise<
       .eq("wedding_id", wedding.id)
       .eq("status", "confirmed"),
     supabase.from("guest_posts").select("id", { count: "exact", head: true }).eq("wedding_id", wedding.id),
+    supabase.from("registry_gifts").select("id", { count: "exact", head: true }).eq("wedding_id", wedding.id),
+    wedding.venue_id
+      ? supabase
+          .from("venues")
+          .select("name, city, state, photo_urls")
+          .eq("id", wedding.venue_id)
+          .maybeSingle<{ name: string; city: string | null; state: string | null; photo_urls: string[] }>()
+      : Promise.resolve({ data: null }),
   ]);
-
-  const { data: venue } = wedding.venue_id
-    ? await supabase
-        .from("venues")
-        .select("name, city, state, photo_urls")
-        .eq("id", wedding.venue_id)
-        .maybeSingle<{ name: string; city: string | null; state: string | null; photo_urls: string[] }>()
-    : { data: null };
+  if (!row) notFound();
   const ownVenuePhotos = wedding.own_venue_photo_urls ?? [];
   // What the site shows: the couple's own venue photos win over the listing's.
   const venuePhotos = ownVenuePhotos.length || (venue?.photo_urls.length ?? 0);
@@ -180,10 +184,6 @@ export default async function GuestSiteEditorPage({ params }: { params: Promise<
   const photoCount = galleryPhotos?.length ?? 0;
   const stayCount = accommodations?.length ?? 0;
   const faqCount = faqs?.length ?? 0;
-  const { count: giftCount } = await supabase
-    .from("registry_gifts")
-    .select("id", { count: "exact", head: true })
-    .eq("wedding_id", wedding.id);
   const registryCount = (registryItems?.length ?? 0) + (giftCount ?? 0);
   const events = eventCount ?? 0;
   const partyShown = (partyMembers ?? []).filter((m) => m.on_site).length;

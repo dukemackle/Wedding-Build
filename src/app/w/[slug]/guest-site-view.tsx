@@ -65,36 +65,53 @@ export async function loadGuestSiteContent(
   wedding: PublicWedding,
   { preview = false }: { preview?: boolean } = {},
 ) {
-  const { data: registryItems } = await supabase
-    .from("registry_items")
-    .select("*")
-    .eq("wedding_id", wedding.id)
-    .order("created_at", { ascending: true })
-    .returns<RegistryItem[]>();
+  // The public view only covers sites that are on; the couple's preview
+  // reads their own board (row security lets them) so it works with it off.
+  const partyQuery = preview
+    ? supabase.from("attire_party_members").select(PARTY_COLUMNS).eq("on_site", true)
+    : supabase.from("public_party_members").select(PARTY_COLUMNS);
 
-  // The view counts claims without naming anyone, and covers the couple's
-  // preview as well as the published site.
-  const { data: registryGifts } = await supabase
-    .from("public_registry_gifts")
-    .select("*")
-    .eq("wedding_id", wedding.id)
-    .order("sort_order", { ascending: true })
-    .order("created_at", { ascending: true })
-    .returns<PublicRegistryGift[]>();
-
-  // Row security already hides an unpublished schedule from guests; the check
-  // here is for the owner's preview, where it wouldn't.
-  const { data: itineraryEvents } = wedding.itinerary_published
-    ? await supabase
-    .from("itinerary_events")
-    .select("*")
-    .eq("wedding_id", wedding.id)
-    .order("event_date", { ascending: true })
-    .order("start_time", { ascending: true, nullsFirst: true })
-    .returns<ItineraryEvent[]>()
-    : { data: [] as ItineraryEvent[] };
-
-  const [{ data: weddingFaqs }, { data: accommodations }] = await Promise.all([
+  // None of these depend on each other, so they go out in one round rather
+  // than one after another: on the public site and the editor's preview,
+  // that's the difference between one database trip and nine.
+  const [
+    { data: registryItems },
+    { data: registryGifts },
+    { data: itineraryEvents },
+    { data: weddingFaqs },
+    { data: accommodations },
+    { data: guestbookEntries },
+    { data: galleryPhotos },
+    { data: confirmedGuests },
+    { data: partyMembers },
+    { data: blocks },
+  ] = await Promise.all([
+    supabase
+      .from("registry_items")
+      .select("*")
+      .eq("wedding_id", wedding.id)
+      .order("created_at", { ascending: true })
+      .returns<RegistryItem[]>(),
+    // The view counts claims without naming anyone, and covers the couple's
+    // preview as well as the published site.
+    supabase
+      .from("public_registry_gifts")
+      .select("*")
+      .eq("wedding_id", wedding.id)
+      .order("sort_order", { ascending: true })
+      .order("created_at", { ascending: true })
+      .returns<PublicRegistryGift[]>(),
+    // Row security already hides an unpublished schedule from guests; the
+    // check here is for the owner's preview, where it wouldn't.
+    wedding.itinerary_published
+      ? supabase
+          .from("itinerary_events")
+          .select("*")
+          .eq("wedding_id", wedding.id)
+          .order("event_date", { ascending: true })
+          .order("start_time", { ascending: true, nullsFirst: true })
+          .returns<ItineraryEvent[]>()
+      : Promise.resolve({ data: [] as ItineraryEvent[] }),
     supabase
       .from("wedding_faqs")
       .select("*")
@@ -107,45 +124,35 @@ export async function loadGuestSiteContent(
       .eq("wedding_id", wedding.id)
       .order("sort_order", { ascending: true })
       .returns<WeddingAccommodation[]>(),
+    supabase
+      .from("public_guestbook_entries")
+      .select("*")
+      .eq("wedding_id", wedding.id)
+      .order("created_at", { ascending: false })
+      .returns<PublicGuestbookEntry[]>(),
+    supabase
+      .from("wedding_gallery_photos")
+      .select("*")
+      .eq("wedding_id", wedding.id)
+      .order("sort_order", { ascending: true })
+      .returns<WeddingGalleryPhoto[]>(),
+    supabase
+      .from("public_confirmed_guests")
+      .select("*")
+      .eq("wedding_id", wedding.id)
+      .order("created_at", { ascending: true })
+      .returns<PublicConfirmedGuest[]>(),
+    partyQuery
+      .eq("wedding_id", wedding.id)
+      .order("sort_order", { ascending: true })
+      .returns<PublicPartyMember[]>(),
+    supabase
+      .from("site_blocks")
+      .select("*")
+      .eq("wedding_id", wedding.id)
+      .order("created_at", { ascending: true })
+      .returns<SiteBlock[]>(),
   ]);
-
-  const { data: guestbookEntries } = await supabase
-    .from("public_guestbook_entries")
-    .select("*")
-    .eq("wedding_id", wedding.id)
-    .order("created_at", { ascending: false })
-    .returns<PublicGuestbookEntry[]>();
-
-  const { data: galleryPhotos } = await supabase
-    .from("wedding_gallery_photos")
-    .select("*")
-    .eq("wedding_id", wedding.id)
-    .order("sort_order", { ascending: true })
-    .returns<WeddingGalleryPhoto[]>();
-
-  const { data: confirmedGuests } = await supabase
-    .from("public_confirmed_guests")
-    .select("*")
-    .eq("wedding_id", wedding.id)
-    .order("created_at", { ascending: true })
-    .returns<PublicConfirmedGuest[]>();
-
-  // The public view only covers sites that are on; the couple's preview
-  // reads their own board (row security lets them) so it works with it off.
-  const partyQuery = preview
-    ? supabase.from("attire_party_members").select(PARTY_COLUMNS).eq("on_site", true)
-    : supabase.from("public_party_members").select(PARTY_COLUMNS);
-  const { data: partyMembers } = await partyQuery
-    .eq("wedding_id", wedding.id)
-    .order("sort_order", { ascending: true })
-    .returns<PublicPartyMember[]>();
-
-  const { data: blocks } = await supabase
-    .from("site_blocks")
-    .select("*")
-    .eq("wedding_id", wedding.id)
-    .order("created_at", { ascending: true })
-    .returns<SiteBlock[]>();
 
   return {
     blocks: blocks ?? [],
