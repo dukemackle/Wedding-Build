@@ -19,8 +19,11 @@ rules, batch self-merge, 50-state coverage, page widths) and
 
 ## Pending owner decisions
 - **Which launch metros** (2–3), and the completeness bar they must meet.
-- **Who counts as a founding business** (e.g. claim approved before a date or
-  before Phase 1 starts). Settle before the first claim invitation.
+- **What founding businesses get, if anything.** "Free listing for life" was
+  approved then withdrawn on 2026-10-21 (could block monetization). Options:
+  a time-limited free period, a founding discount or notice period before any
+  charge, or no promise beyond "free today". Settle before the first claim
+  invitation; until then, outreach promises nothing about future pricing.
 
 ## 2026-10-21 — Launch bar: pass 1 everywhere plus 2–3 deep launch metros
 - Decided: coverage pass 1 in all 50 states + DC counts as "every state has
@@ -41,14 +44,6 @@ rules, batch self-merge, 50-state coverage, page widths) and
   surface); no measurement until launch.
 - Revisit: add events as new questions come up; nothing a couple types is
   ever logged.
-
-## 2026-10-21 — Founding businesses keep a free listing for life
-- Decided: businesses that claim during the founding period keep their basic
-  listing free for life. It covers the listing only: lead pricing and future
-  paid features still apply to them (`docs/monetization.md`).
-- Why: a reason to claim now, while there are no inquiries to offer.
-- Alternatives: no promise; free paid features for founders (too binding).
-- Open: the cutoff that defines "founding" (see pending).
 
 ## 2026-10-21 — Form a California LLC and get a public mailing address
 - Decided: "You Do, I Do LLC", California, member-managed, single member,
