@@ -144,7 +144,7 @@ export default function TermsPage() {
           <Section title="7. AI features">
             <p>
               Some features use AI to draft things for you, such as contract summaries and dates,
-              thank-you notes, guest-site text, answers and suggested changes from Wren, the
+              thank-you notes, answers and suggested changes from Wren, the
               planning assistant, and listing text for vendors and venues. AI can get things
               wrong. Treat its output as a starting point to check, not as legal, financial or
               professional advice, and check anything important (a contract date, a payment

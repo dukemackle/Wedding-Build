@@ -19,8 +19,6 @@ import {
   textSlotMax,
   hasTextStyle,
   PALETTES,
-  THEMES,
-  THEME_GROUPS,
   activePalette,
   contrast,
   isDark,
@@ -31,7 +29,6 @@ import {
   sameDesign,
   type SectionKey,
   type SiteDesign,
-  type SiteTheme,
   type TextSlotId,
   type TextStyle,
 } from "@/lib/site-design";
@@ -52,44 +49,41 @@ import {
 import { CanvasToolbar, ElementsTab, PositionPanel } from "./canvas-panels";
 import { PhoneTools, Sheet, Tool } from "./phone-tools";
 import { AnimatePanel, BannerFocus, PhotoPanel } from "./photo-motion-panels";
-import { MakeItMore, TemplatesTab } from "./templates-tab";
-import { DescribeSite, WrenWrite } from "./wren-panels";
+import { TemplatesTab } from "./templates-tab";
+import { templateById } from "@/lib/site-templates";
 import { BackgroundTab, FontsTab, PhotoColoursSection, TargetColourSection, type PickTarget } from "./look-panels";
 import { publishSiteDesign, saveSiteDraft } from "./actions";
 import { STALE_DESIGN } from "@/lib/site-designs";
 import { BirdCheer } from "@/components/bird-cheer";
 import { PublicSitePanel, SiteSwitch, useGuestSite } from "../public-site-panel";
-import { MotionTab, PageArtworkSection, PanelLabel, SceneSection, SectionsTab, StyleTab, type ChecklistItem, type SectionInfo } from "./editor-tabs";
+import { MotionTab, PageArtworkSection, PanelLabel, SceneSection, FinishSteps, SectionsTab, StyleTab, type ChecklistItem, type SectionInfo } from "./editor-tabs";
 
 type Device = "desktop" | "phone";
 // Position opens from a picked element rather than the tab strip.
 // Position, Photo and Animate open from a picked element rather than the rail.
 type Tab =
-  | "templates"
-  | "theme"
+  | "design"
   | "style"
-  | "colour"
   | "fonts"
   | "background"
   | "motion"
   | "sections"
-  | "wren"
   | "elements"
   | "position"
   | "photo"
   | "animate";
 
+// Seven, not ten (owner, 2026-10-21): templates, themes and colours are one
+// Design tab, Wren's tab is gone, and Sections, where the site gets filled
+// in, sits right under Design.
 const TABS: { key: Tab; label: string }[] = [
-  { key: "templates", label: "Templates" },
-  { key: "theme", label: "Theme" },
+  { key: "design", label: "Design" },
+  { key: "sections", label: "Sections" },
   { key: "elements", label: "Elements" },
-  { key: "style", label: "Style" },
-  { key: "colour", label: "Colour" },
   { key: "fonts", label: "Fonts" },
   { key: "background", label: "Background" },
+  { key: "style", label: "Style" },
   { key: "motion", label: "Motion" },
-  { key: "sections", label: "Sections" },
-  { key: "wren", label: "Wren" },
 ];
 
 // Desktop preview is laid out at a real laptop width and scaled down to fit,
@@ -106,27 +100,14 @@ const LG = "(min-width: 1024px)";
 
 /** The phone editor's bottom tabs, drawn like its tools. */
 const TAB_ICONS = {
-  templates: "templates",
-  theme: "theme",
+  design: "templates",
   style: "styleTab",
-  colour: "colour",
   fonts: "fonts",
   background: "background",
   motion: "motion",
   sections: "sections",
   elements: "elements",
 } as const;
-
-/** Wren's tab wears her mark: the Sky sparkle on navy (CLAUDE.md, colour roles). */
-function WrenMark() {
-  return (
-    <span className="flex h-[22px] w-[22px] items-center justify-center rounded-full bg-[#14203d]">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="#00BFFE" aria-hidden="true">
-        <path d="M12 2l2.1 6.3L20.5 10l-6.4 1.9L12 18.3l-2.1-6.4L3.5 10l6.4-1.7z" />
-      </svg>
-    </span>
-  );
-}
 
 /**
  * The guest site editor: settings on the left, the site itself on the right.
@@ -188,7 +169,7 @@ export function SiteEditor({
   const [design, setDesign] = useState(initialDraft);
   const [published, setPublished] = useState(initialPublished);
   const [isLive, setIsLive] = useState(initialLive);
-  const [tab, setTab] = useState<Tab>("templates");
+  const [tab, setTab] = useState<Tab>("design");
   const [device, setDevice] = useState<Device>("desktop");
   const [isDesktop, setIsDesktop] = useState(true);
   // Phone editor (phase 3b): the sheet open over the bottom bar, and
@@ -232,6 +213,30 @@ export function SiteEditor({
   const [phoneFrames, setPhoneFrames] = useState<CanvasFrames>({});
   // Where Position's close button goes back to.
   const [lastTab, setLastTab] = useState<Exclude<Tab, "position" | "photo" | "animate">>("elements");
+  // The Sections row that's open, kept here so the steps and the preview can open one.
+  const [openSection, setOpenSection] = useState<SectionKey | null>(null);
+
+  // Brings an opened row into view in the panel.
+  useEffect(() => {
+    if (!openSection) return;
+    const frame = requestAnimationFrame(() =>
+      document.getElementById(`section-row-${openSection}`)?.scrollIntoView({ block: "start", behavior: "smooth" }),
+    );
+    return () => cancelAnimationFrame(frame);
+  }, [openSection, tab, phoneSheet]);
+
+  // "Finish your site": picking a look comes first; the switch is read live.
+  const steps: ChecklistItem[] = [
+    { label: "Pick a look", done: design.template !== null, tab: "design", action: "Pick" },
+    ...checklist.map((x) => (!x.section && !x.href && !x.tab ? { ...x, done: Boolean(publicSlug) } : x)),
+  ];
+
+  function goToStep(item: ChecklistItem) {
+    const next: Tab = item.tab ?? "sections";
+    setTab(next);
+    if (item.section) setOpenSection(item.section);
+    if (!isDesktop) setPhoneSheet(next);
+  }
 
   // Phone screens start on the phone preview; there's no computer to show it on.
   useEffect(() => {
@@ -431,6 +436,17 @@ export function SiteEditor({
   });
   const onCanvasPanel = useEffectEvent(() => openTab("position"));
 
+  // A whole section clicked in the computer preview opens its row in
+  // Sections, so what's on the page is where it's edited.
+  const onSectionPicked = useEffectEvent((next: CanvasSelection) => {
+    if (!isDesktop || !next || next.id !== null) return;
+    const key = next.section as SectionKey;
+    const row = sectionInfo[key];
+    if (!row || !(row.editor || row.link || row.layout)) return;
+    setTab("sections");
+    setOpenSection(key);
+  });
+
   // Words clicked or retyped in the preview.
   useEffect(() => {
     function onMessage(event: MessageEvent) {
@@ -449,6 +465,7 @@ export function SiteEditor({
           setPhoneSheet(null);
         }
       }
+      if (event.data?.type === CANVAS_SELECT) onSectionPicked(event.data.selection as CanvasSelection);
       if (event.data?.type === CANVAS_COMMIT) onCanvasCommit(event.data.canvas);
       if (event.data?.type === CANVAS_FRAMES && event.data.frames) {
         // Computer sizes place new elements; phone sizes line things up on the phone layout.
@@ -605,6 +622,7 @@ export function SiteEditor({
 
   const panelBody = (
     <div className="flex flex-col gap-6 px-5 pb-8 pt-5 lg:px-6">
+      {!isDesktop && (tab === "sections" || tab === "design") && <FinishSteps items={steps} onGo={goToStep} />}
       {tab === "elements" ? (
         <>
         <PageArtworkSection design={design} onChange={change} hasPhoto={hasPhoto} />
@@ -650,28 +668,19 @@ export function SiteEditor({
             <AnimatePanel design={design} selection={canvasSel} onCanvas={changeCanvas} />
           )}
         </>
-      ) : tab === "templates" ? (
+      ) : tab === "design" ? (
         <>
-          <MakeItMore design={design} onChange={change} />
-          <TemplatesTab design={design} names={names} onChange={change} />
-        </>
-      ) : tab === "wren" ? (
-        <>
-          <DescribeSite design={design} onChange={change} />
-          <WrenWrite design={design} onChange={change} />
-        </>
-      ) : tab === "theme" ? (
-        <ThemeTab design={design} onChange={change} part="themes" />
-      ) : tab === "colour" ? (
-        <ThemeTab design={design} onChange={change} part="colours">
           {pickTarget?.colour && <TargetColourSection design={design} target={pickTarget} actions={targetActions} />}
-          <PhotoColoursSection
-            photos={photos}
-            target={pickTarget?.colour ? pickTarget : null}
-            actions={targetActions}
-            onChange={change}
-          />
-        </ThemeTab>
+          <TemplatesTab design={design} names={names} onChange={change} />
+          <ColoursSection design={design} onChange={change}>
+            <PhotoColoursSection
+              photos={photos}
+              target={pickTarget?.colour ? pickTarget : null}
+              actions={targetActions}
+              onChange={change}
+            />
+          </ColoursSection>
+        </>
       ) : tab === "fonts" ? (
         <FontsTab design={design} onChange={change} target={pickTarget?.font ? pickTarget : null} actions={targetActions} />
       ) : tab === "background" ? (
@@ -716,7 +725,8 @@ export function SiteEditor({
           onChange={change}
           sitePanel={<PublicSitePanel site={site} origin={origin} locked={siteLocked} />}
           info={sectionInfo}
-          checklist={checklist}
+          open={openSection}
+          onOpen={setOpenSection}
         />
       )}
     </div>
@@ -979,9 +989,7 @@ export function SiteEditor({
                         setTab(t.key);
                         setPhoneSheet(phoneSheet === t.key ? null : t.key);
                       }}
-                    >
-                      {t.key === "wren" ? <WrenMark /> : undefined}
-                    </Tool>
+                    />
                   ))}
                 </div>
               </>
@@ -1034,9 +1042,7 @@ export function SiteEditor({
                 icon={TAB_ICONS[t.key as keyof typeof TAB_ICONS]}
                 on={tab === t.key || (t.key === "elements" && (tab === "position" || tab === "photo" || tab === "animate"))}
                 onClick={() => setTab(t.key)}
-              >
-                {t.key === "wren" ? <WrenMark /> : undefined}
-              </Tool>
+              />
             ))}
           </nav>
           <div className="flex min-w-0 flex-1 flex-col">
@@ -1048,6 +1054,9 @@ export function SiteEditor({
                 <h1 className="truncate font-display text-3xl font-semibold text-forest">{designName}</h1>
               </div>
               <SiteSwitch site={site} />
+            </div>
+            <div className="border-b border-hairline px-6 py-3">
+              <FinishSteps items={steps} onGo={goToStep} />
             </div>
             <div className="min-h-0 flex-1 overflow-y-auto">{panelBody}</div>
           </div>
@@ -1144,16 +1153,18 @@ export function SiteEditor({
  * Theme (the themes) and Colour (palettes, photo colours, fine-tuning): one
  * component in two parts, since both read the same resolved colours.
  */
-function ThemeTab({
+/**
+ * The colour half of the Design tab: palettes to put over the template, then
+ * fine-tuning folded away, since most couples never need it.
+ */
+function ColoursSection({
   design,
   onChange,
-  part,
   children,
 }: {
   design: SiteDesign;
   onChange: (patch: Partial<SiteDesign>) => void;
-  part: "themes" | "colours";
-  /** Colour sections that come first: the picked element's, the photos'. */
+  /** The colours read from the couple's photos, after the palettes. */
   children?: ReactNode;
 }) {
   const { theme, accent, heading } = resolveDesign(design);
@@ -1167,50 +1178,17 @@ function ThemeTab({
   // theme (or dark on dark) makes them hard to read. Said, not prevented.
   const lowContrast = contrast(accent, theme.bg) < 3;
   const lowText = contrast(theme.ink, theme.bg) < 4.5 || contrast(heading, theme.bg) < 3;
-  const customised =
-    design.accent !== null || design.colors.bg !== null || design.colors.ink !== null || design.colors.heading !== null;
-
-  if (part === "themes") {
-    return (
-      <div className="flex flex-col gap-3">
-        <PanelLabel>Theme</PanelLabel>
-        {THEME_GROUPS.map((group) => (
-          <div key={group} className="flex flex-col gap-2">
-            {group !== "Classic" && <p className="text-xs font-medium text-ink/60">{group}</p>}
-            <div className="grid grid-cols-2 gap-3">
-              {THEMES.filter((t) => ((t as SiteTheme).group ?? "Classic") === group).map((t) => (
-                <ThemeCard
-                  key={t.id}
-                  theme={t}
-                  selected={t.id === design.theme}
-                  onPick={() =>
-                    onChange({
-                      theme: t.id,
-                      accent: null,
-                      colors: NO_COLORS,
-                      scene: null,
-                      // A theme with marks of its own brings them; the rest keep the couple's monogram.
-                      ...("ornament" in t ? { ornament: t.ornament } : {}),
-                    })
-                  }
-                />
-              ))}
-            </div>
-          </div>
-        ))}
-        <p className="text-[13px] leading-normal text-ink/60">
-          A theme sets the fonts, corners and colours. Switching keeps everything you&apos;ve
-          written — only the look changes.
-        </p>
-      </div>
-    );
-  }
+  // The colours the template started with, which "Back to" restores.
+  const template = templateById(design.template);
+  const startPalette = PALETTES.find((p) => p.id === template?.palette);
+  const starting = startPalette ? paletteColors(startPalette) : { accent: null, colors: NO_COLORS };
+  const startName = template?.name ?? base.name;
+  const customised = JSON.stringify({ a: design.accent, c: design.colors }) !== JSON.stringify({ a: starting.accent, c: starting.colors });
 
   return (
     <>
-      {children}
-      <div className="flex flex-col gap-3">
-        <PanelLabel>Colour palette</PanelLabel>
+      <div className="flex flex-col gap-3 border-t border-hairline pt-6">
+        <PanelLabel>Colours</PanelLabel>
         <div className="-mx-5 flex gap-1.5 overflow-x-auto px-5 pb-1 lg:-mx-6 lg:px-6">
           <FamilyChip on={family === null} onClick={() => setFamily(null)}>
             All
@@ -1256,19 +1234,23 @@ function ThemeTab({
         </div>
       </div>
 
-      <div className="flex flex-col gap-3">
-        <div className="flex items-center justify-between">
-          <PanelLabel>Fine-tune</PanelLabel>
-          {customised && (
-            <button
-              type="button"
-              onClick={() => onChange({ accent: null, colors: NO_COLORS })}
-              className="text-[13px] text-ink/60 underline underline-offset-2 hover:text-ink"
-            >
-              Back to {base.name}&apos;s colours
-            </button>
-          )}
-        </div>
+      {children}
+
+      <details className="group flex flex-col gap-3 rounded-xl border border-hairline">
+        <summary className="flex cursor-pointer list-none items-center justify-between gap-2 px-4 py-3 text-[14px] font-medium text-ink hover:bg-ink/[0.03] [&::-webkit-details-marker]:hidden">
+          Fine-tune colours
+          <ChevronIcon />
+        </summary>
+        <div className="flex flex-col gap-3 px-4 pb-4">
+        {customised && (
+          <button
+            type="button"
+            onClick={() => onChange(starting)}
+            className="self-start text-[13px] text-ink/60 underline underline-offset-2 hover:text-ink"
+          >
+            Back to {startName}&apos;s colours
+          </button>
+        )}
         <div className="divide-y divide-hairline rounded-xl border border-hairline bg-card">
           <ColorRow
             label="Background"
@@ -1303,8 +1285,17 @@ function ThemeTab({
             The accent is hard to read on this background — it&apos;s used for small labels and links.
           </p>
         )}
-      </div>
+        </div>
+      </details>
     </>
+  );
+}
+
+function ChevronIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true" className="text-ink/50 transition-transform group-open:rotate-180">
+      <path d="M6 9l6 6 6-6" />
+    </svg>
   );
 }
 
@@ -1379,59 +1370,6 @@ function ColorRow({
   );
 }
 
-function ThemeCard({
-  theme,
-  selected,
-  onPick,
-}: {
-  theme: SiteTheme;
-  selected: boolean;
-  onPick: () => void;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onPick}
-      aria-pressed={selected}
-      className={`overflow-hidden rounded-xl bg-card text-left ${
-        selected ? "border-2 border-forest" : "m-px border border-hairline hover:border-ink/30"
-      }`}
-    >
-      <div
-        className="flex h-[92px] flex-col items-center justify-center gap-2"
-        style={{ background: theme.bg, color: theme.ink }}
-      >
-        <span
-          className="text-[28px] leading-none"
-          style={{
-            fontFamily: theme.display,
-            fontStyle: theme.italicNames ? "italic" : "normal",
-            fontWeight: theme.nameWeight,
-          }}
-        >
-          M &amp; J
-        </span>
-        <span className="flex gap-1" aria-hidden="true">
-          <span className="h-3.5 w-3.5 rounded-full" style={{ background: theme.swatches[0] }} />
-          <span
-            className="h-3.5 w-3.5 rounded-full border"
-            style={{ background: theme.surface, borderColor: theme.ink }}
-          />
-          <span className="h-3.5 w-3.5 rounded-full" style={{ background: theme.ink }} />
-        </span>
-      </div>
-      <span className="flex items-center justify-between border-t border-hairline px-2.5 py-2">
-        <span className="text-[13px] font-medium text-ink">{theme.name}</span>
-        <span className="text-[11px] text-ink/60">{theme.mood}</span>
-      </span>
-    </button>
-  );
-}
-
-/**
- * The preview frame, laid out at a real device width and scaled to fit.
- * One iframe throughout: switching device restyles it rather than reloading.
- */
 function PreviewStage({
   device,
   fill,

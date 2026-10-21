@@ -5,8 +5,7 @@ import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
  * Per-wedding daily ceilings on the couple-facing AI calls that had none.
  * Generous for real use -- a couple uploads a handful of contracts and writes
  * thank-yous in sittings -- but finite, so a loop or a misbehaving client
- * can't spend without limit. Guest-site calls have their own cap in
- * site-wren.ts.
+ * can't spend without limit.
  */
 export const AI_DAILY_CAPS = {
   contract: 10,
