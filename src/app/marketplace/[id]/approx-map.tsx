@@ -1,7 +1,8 @@
 "use client";
 
 import "leaflet/dist/leaflet.css";
-import { Circle, MapContainer, TileLayer } from "react-leaflet";
+import { Circle, MapContainer } from "react-leaflet";
+import { BaseTiles } from "@/components/base-tiles";
 
 /**
  * A circle around the pickup town, never a pin: the listing only knows the
@@ -22,7 +23,7 @@ export function ApproxMap({ latitude, longitude }: { latitude: number; longitude
       attributionControl={false}
       style={{ height: "100%", width: "100%" }}
     >
-      <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+      <BaseTiles attribution={false} />
       <Circle
         center={[latitude, longitude]}
         radius={3000}

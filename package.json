@@ -16,7 +16,8 @@
     "verify:batches": "node scripts/verify-batches.mjs",
     "backup": "node scripts/backup.mjs",
     "restore": "node scripts/restore.mjs",
-    "import:batches": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/import-batches.mjs"
+    "import:batches": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/import-batches.mjs",
+    "tiles:build": "node scripts/build-tiles.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.124.0",
@@ -28,6 +29,7 @@
     "leaflet": "^1.9.4",
     "next": "^16.3.4",
     "papaparse": "^5.5.4",
+    "protomaps-leaflet": "^5.1.0",
     "qrcode": "^1.5.4",
     "react": "19.2.4",
     "react-dom": "19.2.4",
@@ -50,6 +52,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/three": "^0.185.4",
+    "aws4fetch": "^1.0.20",
     "eslint": "^9",
     "eslint-config-next": "^16.3.4",
     "tailwindcss": "^4",
