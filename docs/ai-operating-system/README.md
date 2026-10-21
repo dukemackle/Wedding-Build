@@ -68,6 +68,7 @@ traffic, conversion or revenue that isn't measured. Say "no data" instead.
 | `risks-and-opportunities.md` | Non-legal risks and opportunities (legal risks live in `docs/legal-audit.md`) |
 | `research-log.md` | External research: source, date, finding, confidence |
 | `founder-briefing.md` | The latest Founder Briefing |
+| `executive-assessment-2026-10-21.md` | First full five-specialist assessment: state, top ten, 30/60/90, founder decisions |
 
 Elsewhere, unchanged: `ROADMAP.md` (the backlog), `docs/competitors.md`,
 `docs/monetization.md`, `docs/retention.md`, `docs/legal.md`,

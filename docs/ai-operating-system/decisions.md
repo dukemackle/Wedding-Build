@@ -18,10 +18,33 @@ rules, batch self-merge, 50-state coverage, page widths) and
 `docs/legal-audit.md` "Owner answers (2026-10-19)". They aren't copied here.
 
 ## Pending owner decisions
-- **Launch bar for listings.** All 50 states + DC meet coverage pass 1
-  (2026-10-20); the current stage wants ~9,000 more venues and ~8,800 more
-  vendors. Which level counts as "every state has listings" before marketing
-  starts?
+- **Which launch metros** (2–3), and the completeness bar they must meet.
+- **What founding businesses get, if anything.** "Free listing for life" was
+  approved then withdrawn on 2026-10-21 (could block monetization). Options:
+  a time-limited free period, a founding discount or notice period before any
+  charge, or no promise beyond "free today". Settle before the first claim
+  invitation; until then, outreach promises nothing about future pricing.
+
+## 2026-10-21 — Launch bar: pass 1 everywhere plus 2–3 deep launch metros
+- Decided: coverage pass 1 in all 50 states + DC counts as "every state has
+  listings". Breadth targets beyond pass 1 are frozen; batch work moves to
+  depth (capacity, price tier, re-verification) in 2–3 launch metros.
+- Why: 1 real couple and 0 outside claims against 19,800 listings; no photos,
+  no vendor prices (executive assessment 2026-10-21).
+- Alternatives: keep filling the stage-2 targets (~16,000 more listings).
+- Revisit: when the first cohort's data is in.
+
+## 2026-10-21 — Measurement: first-party usage events and Web Analytics
+- Decided: the `events` table (migration 0130, PR #956) with
+  `/admin/analytics` funnels, a per-couple "First cohort" table on
+  /admin/growth, the Privacy line, Cloudflare Web Analytics and Google
+  Search Console.
+- Why: activation and retention can't be measured after the fact; the first
+  5–10 couples need to be measured from day one.
+- Alternatives: third-party product analytics (more data, more privacy
+  surface); no measurement until launch.
+- Revisit: add events as new questions come up; nothing a couple types is
+  ever logged.
 
 ## 2026-10-21 — Form a California LLC and get a public mailing address
 - Decided: "You Do, I Do LLC", California, member-managed, single member,
