@@ -1,6 +1,7 @@
 import type { ClaimDetails, ClaimFaq, ClaimPreferredVendor, ClaimSpace } from "@/lib/venue-claim";
 import type { FieldSources } from "@/lib/field-sources";
 import type { VendorClaimDetails } from "@/lib/vendor-claim";
+import type { BusinessFacts } from "@/lib/business-facts";
 
 export type Wedding = {
   id: string;
@@ -269,7 +270,7 @@ export type PublicConfirmedGuest = {
   created_at: string;
 };
 
-export type Venue = {
+export type Venue = BusinessFacts & {
   id: string;
   /** URL segment, set by a trigger on insert (0091). Never follows a rename. */
   slug: string;
@@ -319,6 +320,10 @@ export type Venue = {
   reviews_url: string | null;
   /** Picked from INCLUDED_OPTIONS; `included` is the free-text rest. */
   included_items: string[];
+  /** A MUSIC_END_TIMES label, e.g. "11 pm" or "No curfew" (0134). */
+  music_until: string | null;
+  rain_plan: string | null;
+  alcohol_policy: AlcoholPolicy | null;
   active: boolean;
   is_sample: boolean;
   /** Where this listing came from: manual, import, osm, google, claimed. */
@@ -337,6 +342,7 @@ export type ServiceLevel = "space_only" | "some_services" | "all_inclusive";
 export type PriceBasis = "rental" | "package" | "per_person" | "minimum" | "ask";
 export type PriceOption = { label: string; amount: number };
 export type VendorPolicy = "any" | "preferred" | "required";
+export type AlcoholPolicy = "in_house" | "licensed" | "byob" | "none";
 
 export type VenueSpace = {
   id: string;
@@ -434,7 +440,7 @@ export type VendorSubmission = {
   reviewed_at: string | null;
 };
 
-export type Vendor = {
+export type Vendor = BusinessFacts & {
   id: string;
   /** URL segment, set by a trigger on insert (0091). Never follows a rename. */
   slug: string;

@@ -9,7 +9,7 @@ import type {
   VenueSpace,
   Wedding,
 } from "@/lib/supabase/types";
-import { SERVICE_LEVELS } from "@/lib/wedding-options";
+import { ALCOHOL_POLICIES, SERVICE_LEVELS } from "@/lib/wedding-options";
 import { ChevronDownIcon } from "@/components/icons";
 import { PhotoGallery } from "@/components/photo-gallery";
 import { SignupPrompt } from "@/components/public-nav";
@@ -27,6 +27,7 @@ import {
 } from "@/lib/public-listings";
 import { VenueDetailClient, VenueMapEmbed } from "./venue-detail-client";
 import { VenueGoodToKnow, VenueKeyFacts, VenueSpaces } from "./listing-sections";
+import { BookingFactsCard } from "@/components/booking-facts-card";
 import { priceHeadline, priceOptionAmount } from "@/lib/venue-pricing";
 
 /**
@@ -301,6 +302,15 @@ export function VenueListing({ data }: { data: VenueListingData }) {
               <p className="mt-2 whitespace-pre-line text-ink/80">{venue.good_to_know}</p>
             </div>
           )}
+
+          <BookingFactsCard
+            facts={venue}
+            extraRows={[
+              ["Music until", venue.music_until],
+              ["Alcohol", venue.alcohol_policy && ALCOHOL_POLICIES[venue.alcohol_policy]],
+            ]}
+            extraNotes={[["If it rains", venue.rain_plan]]}
+          />
 
           <VenueSpaces spaces={spaces} />
 

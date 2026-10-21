@@ -58,7 +58,7 @@ K3 Guest Ranch	30 Nielsen Trail	Cody	Wyoming			Barn / Rustic	Indoor & Outdoor			
 Barrows Z3 Retreat	700 Main Street	Ralston	Wyoming			Garden / Outdoor	Outdoor			A small historic-cabin retreat with English gardens for outdoor ceremonies, a cabin kitchen and lodging for up to 14.	niina@pacbell.net	(949) 887-8935	https://www.barrowsz3retreat.com/events-venue
 Elk Heart at Pine	6249 County Rd 211	Pine Bluffs	Wyoming			Barn / Rustic	Indoor & Outdoor		Simple	A family ranch with a timber-frame barn and covered porches for receptions and a ceremony site with bluff views, about 30 minutes from Cheyenne.	hello@elkheartatpine.com		https://elkheartatpine.com/
 Teton Cabins	24000 N Gun Barrel Flats Rd	Moran	Wyoming			Barn / Rustic	Indoor & Outdoor	250	Classic	A boutique ranch with a main lodge, lawns and guest cabins that hosts small weddings and uses the adjoining Big Red Barn lawn for up to 250 guests.	weddings@tetoncabins.com		https://www.tetoncabins.com/host-your-wedding
-Turpin Meadow Ranch		Moran	Wyoming			Barn / Rustic	Indoor & Outdoor			A guest ranch on the Buffalo Fork River whose grand lodge hosts weddings, sold as custom buy-out packages.	office@turpinmeadowranch.com	307-543-2000	https://turpinmeadowranch.com/events/weddings/
+Turpin Meadow Ranch	24505 Buffalo Valley Road	Moran	Wyoming			Barn / Rustic	Indoor & Outdoor			A guest ranch on the Buffalo Fork River whose grand lodge hosts weddings, sold as custom buy-out packages.	office@turpinmeadowranch.com	307-543-2000	https://turpinmeadowranch.com/events/weddings/
 `,
   },
   {

@@ -13,6 +13,7 @@ import { Field, inputClass, labelClass, PhotoGridEditor, Section, Select } from 
 import { createVendorClaimPhotoUploads, submitVendorClaim, createImportUpload, readListingSource } from "./actions";
 import { ImportPanel, mergeDraft, mergeFaqs } from "../../import-panel";
 import { StepNav, StepRail, type Step } from "../../steps";
+import { BookingFactsSection } from "../../booking-fields";
 import { ListingPreview, PreviewPrompt } from "../../listing-preview";
 import { vendorPreview } from "../../preview-data";
 import { VendorListing } from "../../../vendors/[id]/vendor-listing";
@@ -186,7 +187,7 @@ export function VendorClaimForm({
     { title: "Pricing", done: details.price_from != null },
     { title: "Photos", done: photos.length > 0 },
     { title: "Description and contact", done: Boolean(details.description && (details.contact_email || details.contact_phone)) },
-    { title: "Questions couples ask", done: answered > 0, optional: true },
+    { title: "Booking and questions", done: answered > 0 || details.booking_lead_months !== null, optional: true },
     { title: "Preview and send", done: Boolean(submitter.name && submitter.email && submitter.represents) },
   ];
   const stepClass = (i: number) => (step === i ? "flex min-w-0 flex-col gap-6" : "hidden");
@@ -375,6 +376,7 @@ export function VendorClaimForm({
           }}
           className={stepClass(4)}
         >
+          <BookingFactsSection facts={details} onChange={(patch) => setDetails((d) => ({ ...d, ...patch }))} />
           <Section
             title="Questions couples ask"
             hint={`We've started you off with what couples ask ${category ? `${category.toLowerCase()} vendors` : "vendors"} most. Answer any you like -- blank ones are skipped.`}
