@@ -78,6 +78,12 @@ export function Estimator({
   );
 
   const realDataCount = estimate.breakdown.filter((item) => item.isRealData).length;
+  // Most states have no sourced rows yet, so the default reading has to be
+  // "national averages, adjusted" -- not a claim of local price data.
+  const sourceNote =
+    realDataCount === 0
+      ? `These are national averages adjusted for your region, style and season, not local prices for ${state}. A starting point, not a quote.`
+      : `${realDataCount} of ${estimate.breakdown.length} categories use sourced pricing for ${state}; the rest are national averages adjusted for your region, style and season. A starting point, not a quote.`;
 
   return (
     <div
@@ -175,8 +181,7 @@ export function Estimator({
               Where the numbers come from
             </h2>
             <p className="mt-2 text-sm text-ink/70">
-              {realDataCount} of {estimate.breakdown.length} categories use real, sourced pricing
-              data for {state}; the rest use a regional estimate until more data is added.
+              {sourceNote}
             </p>
           </div>
         )}
@@ -188,8 +193,7 @@ export function Estimator({
         {saved ? (
           <>
             <p className="mt-4 text-center text-xs text-ink/50">
-              {realDataCount} of {estimate.breakdown.length} categories use real, sourced pricing
-              data for {state}; the rest use a regional estimate until more data is added.
+              {sourceNote}
             </p>
             <ApplyCard
               saved={saved}
@@ -205,8 +209,7 @@ export function Estimator({
             <p
               className={`mt-4 text-center text-xs text-ink/50 ${split ? "lg:hidden" : ""}`}
             >
-              {realDataCount} of {estimate.breakdown.length} categories use real, sourced pricing
-              data for {state}; the rest use a regional estimate until more data is added.
+              {sourceNote}
             </p>
             <CtaCard
               title={ctaTitle}

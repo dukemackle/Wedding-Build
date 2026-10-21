@@ -81,8 +81,9 @@ console.log(`Verifying ${targets.length} row(s) against their websites...\n`);
 
 // ---- fetching ---------------------------------------------------------------
 
-const UA =
-  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0 Safari/537.36";
+// Says who we are, like the address finder does. A site that turns away
+// bots gets a "confirm by hand" fail below, not a disguised second try.
+const UA = "Mozilla/5.0 (compatible; YouDoIDoBot/1.0; +https://youdoido.com)";
 const pages = new Map(); // url -> Promise<{status, text, finalUrl} | {error}>
 
 function fetchPage(url) {
