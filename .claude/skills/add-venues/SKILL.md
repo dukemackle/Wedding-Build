@@ -14,7 +14,12 @@ goes to the owner first.
 
 ## 1. Pick the region
 
-Use the argument if one was given. Otherwise run `npm run coverage` and take
+Use the argument if one was given. **Launch metros come first (owner,
+2026-10-21):** `LAUNCH_METROS` in `scripts/coverage-plan.mjs` (Austin, Dallas–Fort
+Worth, Houston, San Antonio, New York City, Los Angeles, Chicago, Miami, in that
+order). Batches there go for depth: venues in and around those metros, and
+capacity, price tier and re-verification on the ones already listed. Otherwise
+run `npm run coverage` and take
 the state furthest from its target (the plan's metros and targets are in
 `scripts/coverage-plan.mjs`). **Map fill (pass 4, stage 1) comes first:**
 `npm run coverage -- <State>` lists "Map fill, <Town>" lines, towns with no
