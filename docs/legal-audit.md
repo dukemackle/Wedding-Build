@@ -458,7 +458,7 @@ Answer each question; any "yes" means update `docs/legal.md` and this register:
 | R1 | Guest-site data enumerable / password bypass | Critical | High | Fixed, live 2026-10-19 (migration 0121): one site per request, password enforced in the database, address gated, unlock rate-limited, guest uploads server-side only. Pending photos still public until approved | Code |
 | R2 | Marketing in guest SMS; no STOP or consent record | High | Med | Fixed, live 2026-10-21 (0122): ad removed, sender + STOP in every text, consent wording and time stored, STOP replies (Twilio 21610) clear the opt-in. Twilio number not yet registered for A2P 10DLC (owner) | Code + owner |
 | R3 | Privacy Policy mismatches | High | High | Fixed, live 2026-10-21 (Oct 19 policy); attorney review still queued (A5) | Code + attorney |
-| R4 | No entity; Terms gaps | High | Med | Open | Owner + attorney |
+| R4 | No entity; Terms gaps | High | Med | In progress: California LLC filed via Northwest 2026-10-21 (approval ~Nov 2); mailing address via Anytime Mailbox. Open: EIN, Terms entity/address and redraft, attorney review | Owner + attorney |
 | R5 | "Verified" listing wording; no unclaimed notice | High | Med | Fixed, live 2026-10-21: "Checked against their website", unclaimed/not-affiliated note, "take it down" report reason (0123) | Code |
 | R6 | Incomplete deletion; unencrypted backups; no export | High | Med | Deletion fix live. Backups encrypted (AES-256-GCM, `BACKUP_ENCRYPTION_KEY`) once the owner sets the key; files deleted from Storage leave the mirror after Drive's 30-day trash. Open: plaintext copies in the GitHub repo's history (owner: recreate the repo), data export | Code + owner |
 | R7 | No DMCA agent or process | High | Med | Open | Owner + code |

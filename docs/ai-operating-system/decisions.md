@@ -23,6 +23,22 @@ rules, batch self-merge, 50-state coverage, page widths) and
   vendors. Which level counts as "every state has listings" before marketing
   starts?
 
+## 2026-10-21 — Form a California LLC and get a public mailing address
+- Decided: "You Do, I Do LLC", California, member-managed, single member,
+  filed through Northwest Registered Agent (agent included the first year,
+  then $125/yr; Northwest files the first Statement of Information). Order
+  placed 2026-10-21, approval expected about 2026-11-02. Public business
+  address: an Anytime Mailbox virtual mailbox in Encinitas, CA (Bronze,
+  ~$110/yr), with USPS Form 1583 completed once the LLC is approved.
+- Why: R4 (personal liability) in `docs/legal-audit.md`; DMCA agent filing
+  and CAN-SPAM footers need a public postal address. Reverses the 2026-10-19
+  "no PO box or virtual mailbox" answer.
+- Alternatives: DIY on bizfile (home address public); Wyoming/Delaware (still
+  pay California's $800/yr); Northwest Virtual Office ($20/mo); USPS PO box.
+- Next: EIN at irs.gov, business bank account, Form 1583, then the entity
+  name and address in Terms, Privacy and email footers, DMCA agent ($6),
+  insurance quotes, Twilio A2P registration.
+
 ## 2026-10-20 — Install the AI operating system
 - Decided: five read-only Sonnet specialist agents (`.claude/agents/`), with
   the main session as Chief of Staff; new skills `founder-briefing`,
