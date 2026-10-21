@@ -11,10 +11,13 @@ They're summarised here only by reference; CLAUDE.md is the source.
 
 ## Approved directions
 
-- **2026-10-21:** Landing hero is now direction B, a full-width wedding
-  photograph (Unsplash, Jacob Diehl, credited on the photo) with the nav
-  clear and white over it, headline "The easy way to *I do.*", one line and
-  one "Start planning" button; the estimator sits under it with Style as
+- **2026-10-21:** Landing hero is now direction B: full-width wedding
+  photographs as a slow crossfade slideshow (four bright reception tables and
+  the sunset couple, all Unsplash, each credited on the photo) with the nav
+  clear and white over it, headline "Wedding planning, *made easy.*" (the
+  owner's line; "The easy way to *I do*" was the step before), "Everything
+  you need to plan your wedding. Free for couples." and one "Start planning"
+  button; the estimator sits under it with Style as
   three buttons and one "Use this as my budget" button. Nav simplified to
   Venues · Vendors · For businesses · Log in (signing up moved to the page's
   own buttons; a menu on phones). Replaces the 2026-10-20 direction A below,
