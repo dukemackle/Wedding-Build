@@ -52,3 +52,6 @@ next-env.d.ts
 
 # weekly backups (uploaded to Drive, never committed)
 /backups/
+
+# Marketing inbox digests hold mailbox contents; keep them local
+.claude/skills/marketing/drafts/inbox-*

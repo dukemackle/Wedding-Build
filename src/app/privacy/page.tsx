@@ -28,6 +28,11 @@ export default function PrivacyPage() {
                 see your plain-text password).
               </li>
               <li>
+                Email preference: whether you asked for planning tips and news from us, and when you
+                turned it on or off. It starts off, and you can change it on your Account page or with
+                the unsubscribe link in any of those emails.
+              </li>
+              <li>
                 Wedding details you enter: partner names, wedding date, region, budget figures,
                 guest list, itinerary, seating/venue layout, and checklist items.
               </li>
@@ -204,6 +209,10 @@ export default function PrivacyPage() {
               <li>
                 send emails the Service needs — RSVP confirmations, vendor inquiries and reminders
                 you choose to send, and a notice when someone messages you in the marketplace;
+              </li>
+              <li>
+                send occasional planning tips and news, only if you turned that on, each with an
+                unsubscribe link;
               </li>
               <li>respond to support requests; and</li>
               <li>maintain and improve the Service.</li>

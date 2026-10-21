@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import type { Wedding } from "@/lib/supabase/types";
+import { normalizeEmail, recordOptOut } from "@/lib/unsubscribe";
 
 // Every bucket that stores objects under a `<wedding_id>/` prefix. Deleting
 // the wedding row cascades the database records but never touches storage, so
@@ -113,4 +114,39 @@ export async function deleteAccount(formData: FormData): Promise<{ error?: strin
 
   await supabase.auth.signOut();
   redirect("/");
+}
+
+/**
+ * The settings toggle docs/legal.md asks for. Ticking it is a fresh opt-in,
+ * so it also lifts an earlier unsubscribe for this address; unticking it is
+ * an unsubscribe like any other.
+ */
+export async function setMarketingOptIn(formData: FormData) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user?.email) redirect("/login");
+
+  const email = normalizeEmail(user.email);
+  if (formData.get("marketing_opt_in") === "on") {
+    const admin = createAdminSupabaseClient();
+    const now = new Date().toISOString();
+    await admin.from("outreach_opt_outs").delete().eq("email", email);
+    await admin.from("marketing_consents").upsert(
+      {
+        email,
+        user_id: user.id,
+        opted_in: true,
+        opted_in_at: now,
+        opted_out_at: null,
+        source: "account",
+        updated_at: now,
+      },
+      { onConflict: "email" },
+    );
+  } else {
+    await recordOptOut(email, "account");
+  }
+  redirect("/account?saved=email");
 }

@@ -60,10 +60,11 @@ the service is commercial even when it's free, so every draft carries:
 - **An accurate From name and an honest subject line.** Write "Your listing on
   You Do, I Do". Never "Re:", "Inquiry for you", or anything that looks like a
   couple's lead.
-- **A plain opt-out line**, e.g. "Not interested? Reply 'no thanks' and we
-  won't email you again." The owner has to honour it, and every "no thanks" is
-  recorded in Supabase so it sticks:
-  `insert into outreach_opt_outs (email, business_name) values ('…', '…');`
+- **A plain opt-out line**, e.g. "Not interested? Reply 'no thanks' or visit
+  youdoido.com/unsubscribe and we won't email you again." The owner has to
+  honour a reply, and every "no thanks" is recorded in Supabase so it sticks:
+  `insert into outreach_opt_outs (email, business_name, source) values ('…', '…', 'reply');`
+  The /unsubscribe page writes the same table itself.
   A reply asking to be *removed* also hides the listing (policy C in
   `docs/email-playbook.md`).
 - **A physical mailing address in the footer.** There isn't one on file. Leave
@@ -75,7 +76,11 @@ Keep it one-to-one. Write each email as a single message from the owner, sent
 from hello@youdoido.com in Gmail, so replies land in the business inbox. Stay
 within the daily cap in policy E of `docs/email-playbook.md`. Bulk sends through Resend or any blast tool need the full
 marketing-email build in `docs/legal.md` first (unsubscribe link, consent
-storage, suppression list). If the owner wants a mass send, say that and stop.
+storage, suppression list). That build exists since 2026-10-20 as
+`sendMarketingEmail` in `src/lib/marketing-email.ts`, but it refuses to send
+until `MARKETING_POSTAL_ADDRESS` and `UNSUBSCRIBE_SECRET` are set. If the owner
+wants a mass send, say that, and stop until a sending script built on it has
+been reviewed.
 
 ## What the email may and may not claim
 

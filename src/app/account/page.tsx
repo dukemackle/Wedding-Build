@@ -2,9 +2,18 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { PageShell } from "@/components/page-shell";
 import type { Wedding } from "@/lib/supabase/types";
+import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
+import { normalizeEmail } from "@/lib/unsubscribe";
+import { PendingSubmit } from "@/components/pending-submit";
 import { DeleteAccountForm } from "./delete-account-form";
+import { setMarketingOptIn } from "./actions";
 
-export default async function AccountPage() {
+export default async function AccountPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ saved?: string }>;
+}) {
+  const { saved } = await searchParams;
   const supabase = await createClient();
   const {
     data: { user },
@@ -19,6 +28,16 @@ export default async function AccountPage() {
     .select("*")
     .or(`user_id.eq.${user.id},member_ids.cs.{${user.id}}`)
     .maybeSingle<Wedding>();
+
+  // Service role: consent rows are keyed by email and have no RLS policies,
+  // and this reads only the signed-in user's own address.
+  const { data: consent } = user.email
+    ? await createAdminSupabaseClient()
+        .from("marketing_consents")
+        .select("opted_in")
+        .eq("email", normalizeEmail(user.email))
+        .maybeSingle<{ opted_in: boolean }>()
+    : { data: null };
 
   const isOwner = wedding?.user_id === user.id;
   const coupleNames = wedding
@@ -50,6 +69,34 @@ export default async function AccountPage() {
             )}
           </dl>
         </div>
+
+        <form
+          action={setMarketingOptIn}
+          className="mt-6 rounded-lg border border-hairline bg-card p-6 shadow-sm"
+        >
+          <h2 className="font-display text-xl font-semibold text-forest">Email from us</h2>
+          <label className="mt-3 flex items-start gap-2 text-sm text-ink/80">
+            <input
+              type="checkbox"
+              name="marketing_opt_in"
+              defaultChecked={consent?.opted_in ?? false}
+              className="mt-0.5 h-4 w-4 shrink-0 accent-forest"
+            />
+            <span>
+              Occasional planning tips and news from You Do, I Do. Emails about your own wedding,
+              like RSVPs and reminders you set, come either way.
+            </span>
+          </label>
+          <div className="mt-4 flex items-center gap-3">
+            <PendingSubmit
+              pendingText="Saving..."
+              className="rounded-md bg-forest px-4 py-2 text-sm font-medium text-parchment transition-colors hover:bg-forest/90 disabled:opacity-60"
+            >
+              Save
+            </PendingSubmit>
+            {saved === "email" && <span className="text-sm text-ink/60">Saved.</span>}
+          </div>
+        </form>
 
         <div className="mt-8 rounded-lg border border-red-300 bg-red-50 p-6">
           <h2 className="font-display text-xl font-semibold text-red-900">Delete account</h2>

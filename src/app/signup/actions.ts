@@ -2,6 +2,8 @@
 
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
+import { normalizeEmail } from "@/lib/unsubscribe";
 
 export async function signup(formData: FormData) {
   const supabase = await createClient();
@@ -33,6 +35,27 @@ export async function signup(formData: FormData) {
 
   if (error) {
     redirect(`/signup?error=${encodeURIComponent(error.message)}`);
+  }
+
+  // Record the tick, not its absence: an unticked box writes nothing, so a
+  // returning user who once opted in isn't silently opted out by signing up
+  // again. sendMarketingEmail only counts it once this address is confirmed.
+  if (formData.get("marketing_opt_in") === "on" && data.user) {
+    const now = new Date().toISOString();
+    await createAdminSupabaseClient()
+      .from("marketing_consents")
+      .upsert(
+        {
+          email: normalizeEmail(email),
+          user_id: data.user.id,
+          opted_in: true,
+          opted_in_at: now,
+          opted_out_at: null,
+          source: "signup",
+          updated_at: now,
+        },
+        { onConflict: "email" },
+      );
   }
 
   if (!data.session) {
