@@ -1,0 +1,17 @@
+# Daily check for renewals on /admin/spend; the endpoint emails the owner
+# about anything due within a week, once per renewal.
+name: Spend reminders
+on:
+  schedule:
+    - cron: "17 15 * * *" # 8:17am Pacific (7:17 in winter)
+  workflow_dispatch:
+jobs:
+  remind:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ask the site to send any due reminders
+        env:
+          SPEND_REMINDER_SECRET: ${{ secrets.SPEND_REMINDER_SECRET }}
+        run: |
+          curl -fsS -X POST https://youdoido.com/api/spend-reminders \
+            -H "Authorization: Bearer $SPEND_REMINDER_SECRET"

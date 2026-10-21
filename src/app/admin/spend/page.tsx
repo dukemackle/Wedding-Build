@@ -23,7 +23,8 @@ export default async function AdminSpendPage() {
       <h1 className="mt-2 mb-2 font-display text-3xl font-semibold text-forest">Spend &amp; renewals</h1>
       <p className="mb-6 max-w-2xl text-sm text-ink/70">
         Everything You Do, I Do pays for, what it costs and when it renews. These are your own running notes. For
-        taxes, keep the receipts themselves.
+        taxes, keep the receipts themselves. Monthly and yearly bills move on to their next date once it passes, and
+        yearly and one-time items get a reminder email a week before they&apos;re due.
       </p>
       {error ? (
         <p className="rounded-lg border border-hairline bg-card p-4 text-sm text-red-800">

@@ -24,7 +24,6 @@ with e(m,k,o,n,tok) as (values
 ('0022_vendor_favorites','index','','vendor_favorites_wedding_id_idx',''),
 ('0024_budget_custom_items','index','','budget_custom_items_wedding_id_idx',''),
 ('0026_guestbook','bucket','','guest-photos',''),
-('0026_guestbook','policy','storage.objects','anyone can upload a guest photo',''),
 ('0026_guestbook','policy','storage.objects','anyone can view guest photos',''),
 ('0028_wedding_hero_photo','bucket','','wedding-photos',''),
 ('0028_wedding_hero_photo','policy','storage.objects','anyone can view wedding photos',''),
@@ -181,7 +180,45 @@ with e(m,k,o,n,tok) as (values
 ('0110_site_ai_uses','index','','site_ai_uses_wedding_idx',''),
 ('0111_site_designs','index','','site_designs_wedding_id_idx',''),
 ('0111_site_designs','policy','public.site_designs','site_designs_member_select',''),
-('0111_site_designs','policy','public.site_designs','site_designs_owner_all','')
+('0111_site_designs','policy','public.site_designs','site_designs_owner_all',''),
+('0115_registry_gifts','index','','registry_gifts_wedding_id_idx',''),
+('0115_registry_gifts','index','','registry_claims_gift_id_idx',''),
+('0115_registry_gifts','index','','registry_claims_wedding_id_idx',''),
+('0115_registry_gifts','policy','public.registry_gifts','registry_gifts_owner_all',''),
+('0115_registry_gifts','policy','public.registry_gifts','registry_gifts_member_select',''),
+('0115_registry_gifts','policy','public.registry_claims','registry_claims_member_select',''),
+('0115_registry_gifts','policy','public.registry_claims','registry_claims_owner_delete',''),
+('0117_marketplace','index','','market_listings_status_created_idx',''),
+('0117_marketplace','index','','market_listings_seller_idx',''),
+('0117_marketplace','policy','public.market_listings','anyone can browse live listings',''),
+('0117_marketplace','policy','public.market_listings','sellers see their own listings',''),
+('0117_marketplace','policy','public.market_listings','sellers create their own listings',''),
+('0117_marketplace','policy','public.market_listings','sellers edit their own listings',''),
+('0117_marketplace','policy','public.market_listings','sellers delete their own listings',''),
+('0117_marketplace','policy','public.market_saves','people manage their own saves',''),
+('0117_marketplace','bucket','','market-photos',''),
+('0117_marketplace','policy','storage.objects','sellers upload their own marketplace photos',''),
+('0117_marketplace','policy','storage.objects','anyone can view marketplace photos',''),
+('0117_marketplace','policy','storage.objects','sellers delete their own marketplace photos',''),
+('0118_marketplace_chat','index','','market_threads_buyer_idx',''),
+('0118_marketplace_chat','index','','market_threads_seller_idx',''),
+('0118_marketplace_chat','index','','market_messages_thread_idx',''),
+('0118_marketplace_chat','index','','market_messages_sender_idx',''),
+('0118_marketplace_chat','index','','market_reports_open_idx',''),
+('0118_marketplace_chat','policy','public.market_threads','people read their own conversations',''),
+('0118_marketplace_chat','policy','public.market_messages','people read messages in their own conversations',''),
+('0118_marketplace_chat','policy','public.market_blocks','people see who they''ve blocked',''),
+('0121_guest_site_privacy','index','','guest_site_unlock_failures_wedding_idx',''),
+('0121_guest_site_privacy','policy','public.contact_submissions','anyone can submit contact details to a public wedding','guest_site_named'),
+('0121_guest_site_privacy','policy','public.guest_posts','anyone can post to a public wedding','guest_site_named'),
+('0124_marketing_consent','index','','marketing_consents_user_id_idx',''),
+('0125_ai_uses','index','','ai_uses_wedding_idx',''),
+('0126_admin_audit_log','index','','admin_audit_log_created_idx',''),
+('0126_admin_audit_log','index','','admin_audit_log_action_idx',''),
+('0128_ops_services','index','','ops_services_renewal_idx',''),
+('0129_app_errors','index','','app_errors_last_idx',''),
+('0130_events','index','','events_name_created_idx',''),
+('0130_events','index','','events_wedding_idx','')
 ), extra(m,missing) as (values
   ('0045_layout_house_parking', case when not exists (select 1 from pg_constraint
      where conname='venue_layout_items_item_type_check'
@@ -195,7 +232,16 @@ with e(m,k,o,n,tok) as (values
      where conname in ('assistant_conversations_user_id_fkey','feedback_submissions_user_id_fkey')
        and confdeltype <> 'c') then 'user_id foreign keys not on delete cascade' end),
   ('0100_public_field_sources', case when not (has_column_privilege('anon','public.venues','field_sources','select')
-       and has_column_privilege('anon','public.vendors','field_sources','select')) then 'anon select on field_sources' end)
+       and has_column_privilege('anon','public.vendors','field_sources','select')) then 'anon select on field_sources' end),
+  ('0121_guest_site_privacy', case when exists (select 1 from pg_policies where schemaname='storage'
+       and tablename='objects' and policyname='anyone can upload a guest photo') then 'guest photo upload policy still there' end),
+  ('0121_guest_site_privacy', case when to_regclass('public.public_weddings') is not null
+       and pg_get_viewdef('public.public_weddings'::regclass) not like '%guest_site_open%' then 'public_weddings not gated on guest_site_open' end),
+  ('0121_guest_site_privacy', case when not exists (select 1 from storage.buckets
+       where id='guest-photos' and file_size_limit = 5242880) then 'guest-photos bucket limits' end),
+  ('0123_listing_removal_reason', case when not exists (select 1 from pg_constraint
+     where conname='listing_reports_reason_check'
+       and pg_get_constraintdef(oid) like '%remove%') then 'reason check without remove' end)
 ), missing as (
   select e.m, e.k || ' ' || e.n as what from e
   where case e.k

@@ -18,6 +18,7 @@ import {
   readTable,
 } from "@/lib/spreadsheet";
 import { requireEditableWedding } from "@/lib/wedding-access";
+import { trackEvent } from "@/lib/events";
 
 function parseOptionalAmount(raw: FormDataEntryValue | null): number | null | "invalid" {
   const trimmed = (raw as string)?.trim();
@@ -48,6 +49,7 @@ export async function setBudgetTarget(formData: FormData): Promise<{ error?: str
   if (error) {
     return { error: error.message };
   }
+  if (budgetTarget) trackEvent("budget_set", { weddingId: wedding.id, props: { via: "budget" } });
 
   revalidatePath("/budget");
   revalidatePath("/dashboard");
@@ -99,6 +101,7 @@ export async function applyEstimateToWedding(formData: FormData): Promise<{ erro
   if (error) {
     return { error: error.message };
   }
+  if (update.budget_target) trackEvent("budget_set", { weddingId: wedding.id, props: { via: "estimator" } });
 
   revalidatePath("/budget");
   revalidatePath("/budget/estimate");

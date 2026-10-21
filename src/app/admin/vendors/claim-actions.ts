@@ -10,6 +10,7 @@ import { getResendClient, INQUIRY_FROM_ADDRESS } from "@/lib/resend";
 import { noticeOfContactChange } from "@/lib/venue-claim-server";
 import { ensureVendorClaimLink, replaceVendorClaimLink } from "@/lib/vendor-claim-server";
 import { townPin } from "@/lib/listing-pin";
+import { trackEvent } from "@/lib/events";
 
 // The vendor side of ../venues/claim-actions.ts.
 
@@ -112,6 +113,7 @@ export async function approveVendorSubmission(submissionId: string): Promise<{ e
   revalidatePath("/admin/vendors/claims");
   revalidatePath("/vendors");
   revalidatePath(`/vendors/${submission.vendor_id}`);
+  if (submission.vendor_id) trackEvent("listing_claimed", { listing: { kind: "vendor", id: submission.vendor_id }, props: { new_listing: isNew } });
   await logAdminAction("vendor.claim_approve", { type: "vendor_submission", ids: [submissionId] }, "Approved a vendor claim");
   return {};
 }

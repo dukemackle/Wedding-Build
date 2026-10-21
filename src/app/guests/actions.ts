@@ -20,6 +20,7 @@ import { GUEST_SIDES, GUEST_TYPES, SIDE_COLORS } from "@/lib/guest-groups";
 import { findGuestByName, normalizeGuestName } from "@/lib/guest-match";
 import { requireEditableWedding } from "@/lib/wedding-access";
 import { withNotes } from "@/lib/guest-notes";
+import { trackEvent } from "@/lib/events";
 
 const VALID_STATUSES: GuestStatus[] = ["invited", "confirmed", "declined", "pending"];
 const VALID_PRIORITIES: GuestPriority[] = ["must_invite", "would_like", "if_room"];
@@ -101,6 +102,7 @@ export async function addGuest(formData: FormData): Promise<{ error?: string }> 
   if (error) {
     return { error: error.message };
   }
+  trackEvent("guest_added", { weddingId: wedding.id, userId: user.id, props: { via: "form" } });
 
   revalidatePath("/guests");
   revalidatePath("/budget");
@@ -235,6 +237,7 @@ export async function importGuestRows(
   const rows = rowsForInsert(parsed, wedding.id, user.id);
   const { error } = await supabase.from("guests").insert(rows);
   if (error) return { error: error.message };
+  if (rows.length) trackEvent("guest_added", { weddingId: wedding.id, userId: user.id, props: { via: "file" } });
 
   revalidatePath("/guests");
   revalidatePath("/budget");
@@ -272,6 +275,7 @@ export async function importGuestsFromGoogleSheet(
   const rows = rowsForInsert(parsed, wedding.id, user.id);
   const { error } = await supabase.from("guests").insert(rows);
   if (error) return { error: error.message };
+  if (rows.length) trackEvent("guest_added", { weddingId: wedding.id, userId: user.id, props: { via: "sheet" } });
 
   // Keep the link so they can get back to the sheet from inside Wren.
   await supabase.from("weddings").update({ spreadsheet_url: sheetUrl }).eq("id", wedding.id);
@@ -526,6 +530,7 @@ export async function enablePublicSite(): Promise<{ error?: string; slug?: strin
       .eq("id", wedding.id);
 
     if (!error) {
+      trackEvent("guest_site_published", { weddingId: wedding.id });
       revalidatePath("/guests");
       return { slug };
     }
@@ -806,6 +811,7 @@ export async function sendBulkRsvpInvites(
       .update({ invite_sent_at: new Date().toISOString() })
       .in("id", sentIds);
   }
+  if (sent > 0) trackEvent("rsvp_invites_sent", { weddingId: wedding.id, userId: user.id });
 
   revalidatePath("/guests");
   return { sent, skipped, failed };

@@ -14,7 +14,7 @@ export default async function AdminCouplesPage() {
       selectAll<Wedding>(admin, "weddings", "*", { column: "created_at", ascending: false }),
       selectAll<{ wedding_id: string; status: string; plus_one: boolean }>(admin, "guests", "wedding_id, status, plus_one"),
       listAllUsers(admin),
-      selectAll<Pick<AdminCoupleNotes, "wedding_id" | "tags">>(admin, "admin_couple_notes", "wedding_id, tags"),
+      selectAll<Pick<AdminCoupleNotes, "wedding_id" | "tags">>(admin, "admin_couple_notes", "wedding_id, tags", undefined, "wedding_id"),
     ]);
 
   const guestsByWedding = new Map<string, { status: string; plus_one: boolean }[]>();

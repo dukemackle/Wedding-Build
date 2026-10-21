@@ -12,10 +12,18 @@ function matches(given: string, expected: string): boolean {
 
 /** A response to send back when the request isn't the routine's, else null. */
 export function refuseBatchCaller(request: Request): Response | null {
-  const secret = process.env.BATCH_IMPORT_SECRET;
+  return refuseUnlessSecret(request, process.env.BATCH_IMPORT_SECRET, "Batch import isn't switched on.");
+}
+
+/**
+ * The same check against any shared secret, for other scheduled callers
+ * (the spend reminders use SPEND_REMINDER_SECRET) so each can be replaced
+ * without breaking the rest.
+ */
+export function refuseUnlessSecret(request: Request, secret: string | undefined, offMessage: string): Response | null {
   // Unset means switched off, not open to anyone.
   if (!secret || secret.length < 32) {
-    return Response.json({ error: "Batch import isn't switched on." }, { status: 503 });
+    return Response.json({ error: offMessage }, { status: 503 });
   }
   const given = request.headers.get("authorization")?.replace(/^Bearer\s+/i, "") ?? "";
   if (!matches(given, secret)) return Response.json({ error: "Unauthorized." }, { status: 401 });

@@ -302,7 +302,7 @@ through `design-expert`, with a preview before any build.
 | 9 | P1 | Spend & renewals page (`ops_services`, `ops_deadlines`) | Know what you pay for and when it renews | M | 0 | Built 2026-10-21 (`/admin/spend`, migration 0128); `ops_deadlines` not yet |
 | 10 | P1 | Rename Revenue to "Reported bookings (GMV)" + definitions on every card | Stops GMV being mistaken for income | S | 0 | Relabel live (Phase A, 2026-10-21); card definitions on Home in PR (#6) |
 | 11 | P1 | Live-DB coverage view + listing opportunity ranking | Points the 50-state work at the gaps that matter most | M | 0 | Proposed |
-| 12 | P1 | Server-side `events` table, 15 events, couple + listing funnels | Can't learn where couples drop off without it; cheap now, painful to backfill | M | 0 | Proposed |
+| 12 | P1 | Server-side `events` table, 15 events, couple + listing funnels | Can't learn where couples drop off without it; cheap now, painful to backfill | M | 0 | Built 2026-10-21: `/admin/analytics` (Funnels), migration 0130, `trackEvent` in `src/lib/events.ts` (16 events) |
 | 13 | P2 | Ask Wren approved report tools + token tracking + fail-closed cap | Trustworthy, cited answers; visible AI cost | M | Cents | Proposed |
 | 14 | P2 | Vendor/venue record timeline + follow-up tasks | Outreach and accuracy history in one place | M–L | 0 | Proposed |
 | 15 | P2 | Cmd+K palette + saved views; decision log + documents | Speed; institutional memory | M | 0 | Proposed |
