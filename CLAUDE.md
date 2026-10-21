@@ -62,7 +62,8 @@ shows the dashboard's own boxes (same order) and each opens a demo in
 `src/components/landing/feature-previews.tsx`. Whenever a PR adds or changes a
 couple-facing feature, update the matching demo and blurb in the same PR —
 don't wait to be asked. Boxes and blurbs come from `buildFeatures` in
-`src/app/dashboard/feature-grid.tsx` plus `BLURBS` in `landing-features.tsx`.
+`src/app/dashboard/feature-grid.tsx` plus `BLURBS` in `landing-features.tsx`. Keep each blurb to one short sentence;
+the demo shows the feature, so new capabilities go in the demo, not the blurb.
 
 **Shipping (2026-09-22):** once the owner says the preview looks good, open
 the pull request without asking again — pushing to a branch isn't shipping,
