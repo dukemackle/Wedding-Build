@@ -107,6 +107,19 @@ export const DATA_SOURCES = [
     notes:
       "Nominatim: max 1 request/second, real User-Agent, no heavy bulk use (capped at 500 lookups per import run). Tiles from tile.openstreetmap.org are for light use; they're now only the no-WebGL fallback (src/lib/map-tiles.ts). Don't merge OSM fields into listing rows (share-alike).",
   },
+  {
+    id: "openfreemap",
+    name: "OpenFreeMap",
+    url: "https://openfreemap.org",
+    termsUrl: "https://openfreemap.org",
+    licence: "Free to use, including commercially; map data from OpenStreetMap (ODbL)",
+    termsCheckedAt: "2026-10-21",
+    attribution: "OpenFreeMap © OpenMapTiles Data from OpenStreetMap",
+    usedFor: "Draws the map tiles (the Liberty style) on the Venues, Vendors and Marketplace maps.",
+    may: { store: false, display: true, derive: false },
+    notes:
+      "Hosted vector tiles, no key, no published limits; donation-funded, no SLA. Planned replacement: our own Protomaps basemap on Cloudflare R2 (TILE_HOST in src/lib/map-tiles.ts).",
+  },
 ] as const satisfies readonly DataSource[];
 
 export type DataSourceId = (typeof DATA_SOURCES)[number]["id"];

@@ -11,6 +11,10 @@ They're summarised here only by reference; CLAUDE.md is the source.
 
 ## Approved directions
 
+- **2026-10-21:** Maps use the full-colour OpenFreeMap **Liberty** style.
+  The grey Positron was rejected as "depressing and untrustworthy". When the
+  maps move to our own Cloudflare-hosted tiles, pick the closest full-colour
+  style. Applied in `src/lib/map-tiles.ts`.
 - **2026-10-21:** `/data-sources` page in the Privacy page's style (READING
   width, eyebrow + display heading, one bordered list of sources), linked
   from the footer as "Data sources". Applied in `src/app/data-sources/`.
