@@ -3,6 +3,7 @@
 import Image from "next/image";
 import type { WeddingGalleryPhoto } from "@/lib/supabase/types";
 import { useSiteDesign } from "@/components/guest-site-theme";
+import { defaultPhotosLayout } from "@/lib/site-design";
 import { FramedPhoto } from "@/components/framed-photo";
 
 /** Each photo's alt text: "Maya & Jordan, photo 3 of 9", so a screen reader can tell them apart. */
@@ -10,15 +11,16 @@ type Props = { photos: WeddingGalleryPhoto[]; alt: (i: number) => string };
 
 /**
  * The couple's own photos, in the layout they picked (SECTION_LAYOUTS.photos);
- * left unpicked, a spread on the cards page style and a scrapbook in
- * storybook (unless they've picked a photo frame, which the spread wears).
+ * left unpicked, the page style's own (defaultPhotosLayout), except that a
+ * picked photo frame always gets the spread, which wears it.
  * Each layout has its own phone arrangement, not a shrunk one.
  */
 export function GalleryView({ photos, alt: names }: { photos: WeddingGalleryPhoto[]; alt: string }) {
   const alt = (i: number) => (photos.length > 1 ? `${names}, photo ${i + 1} of ${photos.length}` : names);
   const { pageStyle, layouts, photoFrame } = useSiteDesign();
   if (photos.length === 0) return null;
-  const layout = layouts.photos ?? (pageStyle === "storybook" && !photoFrame ? "scrapbook" : "spread");
+  const auto = defaultPhotosLayout(pageStyle);
+  const layout = layouts.photos ?? (auto === "scrapbook" && photoFrame ? "spread" : auto);
   if (layout === "scrapbook") return <Scrapbook photos={photos} alt={alt} />;
   if (layout === "masonry") return <Masonry photos={photos} alt={alt} />;
   if (layout === "filmstrip") return <Filmstrip photos={photos} alt={alt} />;

@@ -23,7 +23,7 @@ import {
  * page. Only the look changes.
  */
 
-export const TEMPLATE_TAGS = ["Beach", "Garden", "Rustic", "Line art", "Traditions", "Modern", "Glam"] as const;
+export const TEMPLATE_TAGS = ["Signature", "Beach", "Garden", "Rustic", "Line art", "Traditions", "Modern", "Glam"] as const;
 
 export type TemplateTag = (typeof TEMPLATE_TAGS)[number];
 
@@ -45,17 +45,58 @@ export type SiteTemplate = {
   motion?: keyof typeof MOTION_PRESETS;
   /** What falls, over the motion preset's own. */
   falling?: FallingId;
+  /** The RSVP's layout; none means the plain card. */
+  rsvp?: SiteDesign["layouts"]["rsvp"];
 };
 
 export const TEMPLATES: SiteTemplate[] = [
+  // The signature templates (approved 2026-10-21): each its own page
+  // arrangement (PAGE_STYLES), not only a colour and a piece of art.
+  {
+    id: "heirloom",
+    name: "Heirloom",
+    tags: ["Signature", "Garden"],
+    theme: "garden",
+    palette: "heirloom",
+    fonts: "cj",
+    hero: "framed",
+    ornament: "none",
+    art: { id: "rose", placement: "sides" },
+    pageStyle: "invitation",
+  },
+  {
+    id: "editorial",
+    name: "Editorial",
+    tags: ["Signature", "Modern"],
+    theme: "modern",
+    palette: "gallery",
+    fonts: "bj",
+    hero: "poster",
+    ornament: "none",
+    pageStyle: "magazine",
+    rsvp: "band",
+  },
+  {
+    id: "riviera",
+    name: "Riviera",
+    tags: ["Signature", "Beach"],
+    theme: "riviera",
+    palette: "amalfi",
+    fonts: "dk",
+    hero: "split",
+    ornament: "none",
+    art: { id: "lemon", placement: "sides" },
+    pageStyle: "postcard",
+    rsvp: "band",
+    motion: "lively",
+  },
   {
     id: "ocean",
     name: "Cake by the Ocean",
-    tags: ["Beach", "Line art"],
+    tags: ["Beach"],
     theme: "ocean",
     hero: "text",
     ornament: "anchor",
-    art: { id: "frond", placement: "sides" },
     pageStyle: "storybook",
     background: { texture: "paper" },
   },
@@ -88,7 +129,7 @@ export const TEMPLATES: SiteTemplate[] = [
     theme: "garden",
     hero: "full",
     ornament: "laurel",
-    art: { id: "eucalyptus", placement: "sides" },
+    art: { id: "eucalyptus-line", placement: "sides" },
     background: { texture: "linen" },
   },
   {
@@ -105,21 +146,19 @@ export const TEMPLATES: SiteTemplate[] = [
   {
     id: "vineyard",
     name: "Vineyard Supper",
-    tags: ["Rustic", "Line art"],
+    tags: ["Rustic"],
     theme: "vineyard",
     hero: "split",
     ornament: "crest",
-    art: { id: "grapes", placement: "sides" },
     background: { texture: "linen" },
   },
   {
     id: "desert-sun",
     name: "Desert Sun",
-    tags: ["Rustic", "Line art"],
+    tags: ["Rustic"],
     theme: "desert",
     hero: "text",
     ornament: "star",
-    art: { id: "saguaro", placement: "sides" },
     background: { texture: "wash" },
   },
   {
@@ -129,16 +168,14 @@ export const TEMPLATES: SiteTemplate[] = [
     theme: "ranch",
     hero: "card",
     ornament: "horseshoe",
-    art: { id: "horseshoe", placement: "corners" },
     background: { texture: "paper" },
   },
   {
     id: "winter-pines",
     name: "Winter Pines",
-    tags: ["Line art"],
+    tags: [],
     theme: "winter",
     hero: "framed",
-    art: { id: "pine", placement: "sides" },
     pageStyle: "storybook",
   },
   {
@@ -167,7 +204,6 @@ export const TEMPLATES: SiteTemplate[] = [
     theme: "mehndi",
     hero: "monogram",
     ornament: "mandala",
-    art: { id: "peony", placement: "corners" },
     background: { pattern: "lattice", scope: "top" },
     falling: "marigolds",
   },
@@ -183,11 +219,10 @@ export const TEMPLATES: SiteTemplate[] = [
   {
     id: "chuppah",
     name: "Under the Chuppah",
-    tags: ["Traditions", "Line art"],
+    tags: ["Traditions"],
     theme: "chuppah",
     hero: "framed",
     ornament: "chuppah",
-    art: { id: "olive-line", placement: "sides" },
   },
   {
     id: "sunbaked",
@@ -196,7 +231,6 @@ export const TEMPLATES: SiteTemplate[] = [
     theme: "terracotta",
     hero: "split",
     ornament: "laurel",
-    art: { id: "olive", placement: "corners" },
     pageStyle: "storybook",
     background: { texture: "linen", divider: "deckle" },
   },
@@ -214,11 +248,10 @@ export const TEMPLATES: SiteTemplate[] = [
   {
     id: "alpine",
     name: "Alpine",
-    tags: ["Rustic", "Line art"],
+    tags: ["Rustic"],
     theme: "mountain",
     hero: "full",
     ornament: "mountain",
-    art: { id: "pine", placement: "sides" },
     pageStyle: "storybook",
     background: { texture: "paper", divider: "torn" },
   },
@@ -228,7 +261,6 @@ export const TEMPLATES: SiteTemplate[] = [
     tags: ["Rustic"],
     theme: "barn",
     hero: "card",
-    art: { id: "oats", placement: "corners" },
     pageStyle: "storybook",
     background: { texture: "linen", divider: "scallop" },
     falling: "fireflies",
@@ -236,10 +268,9 @@ export const TEMPLATES: SiteTemplate[] = [
   {
     id: "rodeo",
     name: "Rodeo Sweetheart",
-    tags: ["Rustic", "Line art"],
+    tags: ["Rustic"],
     theme: "cowgirl",
     hero: "poster",
-    art: { id: "boot", placement: "sides" },
     background: { pattern: "gingham", scope: "top" },
     motion: "lively",
     falling: "hearts",
@@ -336,6 +367,7 @@ export function applyTemplate(design: SiteDesign, t: SiteTemplate): SiteDesign {
     hero: t.hero,
     scene: t.scene ?? null,
     pageStyle: t.pageStyle ?? "cards",
+    layouts: { ...design.layouts, rsvp: t.rsvp ?? "card" },
     background: { ...NO_BACKGROUND, ...t.background },
     motion: { ...MOTION_PRESETS[t.motion ?? "subtle"], ...(t.falling ? { falling: t.falling } : {}) },
     text,

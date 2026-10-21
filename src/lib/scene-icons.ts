@@ -1,7 +1,7 @@
 /**
- * Small line drawings for the guest site's icon patterns (site-scene.tsx) and,
- * written out as files by scripts/site-art-icons.mjs, the art library. Each is
- * a stroked path on a 48 x 48 grid, drawn for You Do, I Do.
+ * Small line drawings for the guest site's icon patterns (site-scene.tsx). Each
+ * is a stroked path on a 48 x 48 grid, drawn for You Do, I Do. (They were also
+ * in the art library until the 2026-10-21 clean-up cut the icon-style pieces.)
  */
 export const ICONS = {
   hat: "M4 30c6 6 34 6 40 0M10 31c-2-3-1-5 2-5M38 31c2-3 1-5-2-5M13 27c0-9 3-17 7-17 2 0 3 2 4 2s2-2 4-2c4 0 7 8 7 17M13 24c7 2 15 2 22 0",

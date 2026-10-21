@@ -146,7 +146,7 @@ skip link; modal lacks a focus trap; images mostly have alt (53 decorative
 
 A separate, much richer system: `src/lib/site-design.ts` (themes, palettes,
 fonts, pairings, hero layouts, ornaments, art, backgrounds, motion),
-`site-templates.ts` (25 templates, 7 tags), `site-canvas*.ts`,
+`site-templates.ts` (28 templates, 8 tags; three "Signature" ones with their own page styles), `site-canvas*.ts`,
 `guest-site-theme.tsx` (CSS variables via `designCssVars`), and the `.guest-site`
 remap in globals.css. Editor at `src/app/guests/site/`. The approved design
 and its history are in `docs/guest-site-editor.md`; read it before changing

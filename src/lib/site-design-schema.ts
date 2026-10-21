@@ -25,6 +25,7 @@ import {
   MOTION_PRESETS,
   NO_BACKGROUND,
   ORNAMENT_IDS,
+  PAGE_STYLE_IDS,
   SCENE_IDS,
   SCENE_TIME_IDS,
   SECTION_IDS,
@@ -133,13 +134,13 @@ export const siteDesignSchema = z.object({
   /** null means the theme's own scene. */
   scene: z.enum(SCENE_IDS).nullable().catch(null),
   sceneTime: z.enum(SCENE_TIME_IDS).catch("day"),
-  pageStyle: z.enum(["cards", "storybook"]).catch("cards"),
+  pageStyle: z.enum(PAGE_STYLE_IDS).catch("cards"),
   /** Per-section layouts (SECTION_LAYOUTS); the schedule's and photos' null follows the page style. */
   layouts: z
     .object({
       story: z.enum(["editorial", "timeline", "alternating"]).catch("editorial"),
       rsvp: z.enum(["card", "band", "split"]).catch("card"),
-      weekend: z.enum(["timeline", "cards", "list"]).nullable().catch(null),
+      weekend: z.enum(["timeline", "cards", "list", "centre", "tickets"]).nullable().catch(null),
       /** null follows the page style: a spread on cards, a scrapbook in storybook. */
       photos: z.enum(["spread", "masonry", "filmstrip", "scrapbook", "line"]).nullable().catch(null),
     })

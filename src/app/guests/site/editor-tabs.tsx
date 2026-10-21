@@ -19,6 +19,8 @@ import {
   HERO_LAYOUTS,
   ORNAMENTS,
   PAGE_STYLES,
+  defaultPhotosLayout,
+  defaultWeekendLayout,
   PHOTO_HEROES,
   SCENES,
   SCENE_TIMES,
@@ -785,9 +787,9 @@ export function SectionsTab({
                         value={design.layouts[row.layout]}
                         auto={
                           row.layout === "weekend"
-                            ? design.pageStyle === "storybook" ? "timeline" : "cards"
+                            ? defaultWeekendLayout(design.pageStyle)
                             : row.layout === "photos"
-                              ? design.pageStyle === "storybook" ? "scrapbook" : "spread"
+                              ? defaultPhotosLayout(design.pageStyle)
                               : null
                         }
                         onPick={(id) => onChange({ layouts: { ...design.layouts, [row.layout!]: id } })}
