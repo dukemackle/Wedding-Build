@@ -184,7 +184,14 @@ export default async function BudgetPage() {
     .select("*")
     .eq("state", wedding.state ?? "")
     .returns<RegionalCostData[]>();
-  const estimates = weddingCategoryEstimates(regionalData ?? [], wedding, guestCount);
+  const actuals = new Map<string, number>();
+  for (const [key, row] of overrideByCategory) {
+    if (row.override_value != null) actuals.set(key, row.override_value);
+  }
+  const estimates = weddingCategoryEstimates(regionalData ?? [], wedding, guestCount, {
+    hidden: hiddenSet,
+    actuals,
+  });
 
   const rows: BudgetRow[] = visibleCategories.map((category) => {
     const lineItem = overrideByCategory.get(category.key);

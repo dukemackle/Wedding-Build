@@ -361,7 +361,7 @@ function BudgetDemo() {
           </div>
         ))}
         <p className="py-3 text-xs text-ink/50">
-          Example numbers. Your account starts from real costs for your state,
+          Example numbers. Your account starts from estimates for your state,
           season and style.
         </p>
       </div>

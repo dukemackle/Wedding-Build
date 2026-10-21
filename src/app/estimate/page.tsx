@@ -23,8 +23,8 @@ export default async function EstimatePage() {
                 What will your wedding <span className="text-[#00BFFE]">cost</span>?
               </h1>
               <p className="mt-4 text-base text-ink/80">
-                Pick your state, guest count, and style to get an instant estimate, built from
-                real wedding cost data across the country.
+                Pick your state, guest count, and style to get an instant estimate: national
+                wedding cost averages, adjusted for where you are and how you&apos;re celebrating.
               </p>
             </div>
           }

@@ -147,7 +147,14 @@ async function buildContext(): Promise<AssistantContext | null> {
   );
   // Same arithmetic as the Budget page: hidden categories don't count.
   const hidden = new Set(wedding.hidden_budget_categories);
-  const estimates = weddingCategoryEstimates(regionalData ?? [], wedding, headcount);
+  const actuals = new Map<string, number>();
+  for (const [key, value] of overrideByCategory) {
+    if (value != null) actuals.set(key, value);
+  }
+  const estimates = weddingCategoryEstimates(regionalData ?? [], wedding, headcount, {
+    hidden,
+    actuals,
+  });
   const categoriesTotal = BUDGET_CATEGORIES.filter((c) => !hidden.has(c.key)).reduce((sum, category) => {
     const computed = estimates.get(category.key) ?? 0;
     return sum + (overrideByCategory.get(category.key) ?? computed);

@@ -7,6 +7,7 @@
 //   npm run import:batches -- --repair-pins     also re-check every listing's pin against its spot
 //   npm run import:batches -- --repair-pins --refine-pins
 //                                                 ...and look every venue up by name too (slow: ~2 h)
+//   npm run import:batches -- --osm-limit 2000  allow more OpenStreetMap lookups this run (default 500)
 //
 // The heavy part runs here, on the routine's machine: parsing every batch file
 // through the real importers, geocoding, and reading listings' own websites
@@ -69,6 +70,7 @@ const DRY = args.includes("--dry-run");
 const REPAIR = args.includes("--repair-pins");
 const REFINE = args.includes("--refine-pins");
 const MINUTES = Number(option("--minutes") ?? 35);
+const OSM_LIMIT = Number(option("--osm-limit") ?? 500);
 const SITE = option("--site") ?? "https://youdoido.com";
 const SECRET = process.env.BATCH_IMPORT_SECRET;
 const deadline = Date.now() + MINUTES * 60_000;
@@ -189,8 +191,19 @@ const SPOT_KM = 0.5;
 // routes, "N3540 State Road 22", unincorporated towns, and venues by name. Its
 // usage policy asks for one request a second and a real User-Agent; the maps
 // already carry the "© OpenStreetMap contributors" credit its licence asks for.
+// It also rules out heavy bulk use of the free server, and this runs every
+// hour, so each run gets at most OSM_LIMIT lookups; past that a listing is
+// treated as not found there (it keeps its Census or town pin) and the next
+// run picks it up.
 let osmNext = 0;
+let osmCalls = 0;
+let osmSkipped = 0;
 async function osm(params, { exact = false, compact = false } = {}) {
+  if (osmCalls >= OSM_LIMIT) {
+    osmSkipped++;
+    return null;
+  }
+  osmCalls++;
   const wait = osmNext - Date.now();
   osmNext = Math.max(Date.now(), osmNext) + 1100;
   if (wait > 0) await sleep(wait);
@@ -551,4 +564,4 @@ try {
   process.exit(1);
 }
 
-console.log(JSON.stringify({ ...summary, done: summary.remaining === 0 }));
+console.log(JSON.stringify({ ...summary, osmLookups: osmCalls, osmSkipped, done: summary.remaining === 0 }));

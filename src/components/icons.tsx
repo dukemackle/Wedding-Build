@@ -400,6 +400,40 @@ export function GratuitiesIcon(props: IconProps) {
   );
 }
 
+// A covered serving dish -- the venue or caterer's service charge.
+export function ServiceChargeIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M4 17a8 8 0 0 1 16 0" />
+      <path d="M3 17h18" />
+      <path d="M12 9V7" />
+      <path d="M10.5 7h3" />
+    </IconBase>
+  );
+}
+
+// A receipt with a torn edge -- sales tax.
+export function SalesTaxIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M6 3h12v18l-2-1.5-2 1.5-2-1.5-2 1.5-2-1.5L6 21Z" />
+      <path d="M9.5 14.5 14.5 9" />
+      <circle cx="9.75" cy="9.25" r=".75" />
+      <circle cx="14.25" cy="14.25" r=".75" />
+    </IconBase>
+  );
+}
+
+// An umbrella -- the cushion for surprises.
+export function ContingencyIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M3 12a9 9 0 0 1 18 0Z" />
+      <path d="M12 12v6.5a2 2 0 0 1-4 0" />
+    </IconBase>
+  );
+}
+
 export function BellIcon(props: IconProps) {
   return (
     <IconBase {...props}>

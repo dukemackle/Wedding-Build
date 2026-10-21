@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { AppNav } from "@/components/app-nav";
 import { PageShell } from "@/components/page-shell";
 import { BUDGET_CATEGORIES, VENDOR_CATEGORY_TO_BUDGET_KEY } from "@/lib/budget-categories";
+import { isAddOn } from "@/lib/estimate-add-ons";
 import { CATEGORY_ICONS } from "@/app/budget/budget-table";
 import { ContractsPanel } from "@/app/budget/contracts-panel";
 import type {
@@ -252,6 +253,8 @@ export default async function BookingsPage() {
   const bookedVenueIds = new Set<string>();
 
   for (const category of BUDGET_CATEGORIES) {
+    // Service charge, tax and the cushion are budget maths, not bookings.
+    if (isAddOn(category.key)) continue;
     const line = lineItemByCategory.get(category.key);
     const inquiry = bookedInquiryByKey.get(category.key);
     const contracts = contractsByCategory.get(category.key) ?? [];
@@ -391,7 +394,10 @@ export default async function BookingsPage() {
                     file_name,
                     created_at,
                   }))}
-                  categories={BUDGET_CATEGORIES.map(({ key, label }) => ({ key, label }))}
+                  categories={BUDGET_CATEGORIES.filter((c) => !isAddOn(c.key)).map(({ key, label }) => ({
+                    key,
+                    label,
+                  }))}
                 />
               </div>
             </section>

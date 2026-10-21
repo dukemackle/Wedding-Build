@@ -46,6 +46,7 @@ function rows(kind) {
 }
 
 // Businesses research found but left out (src/lib/batches/skipped/README.md).
+const badSkipped = [];
 function skipped() {
   const dir = "src/lib/batches/skipped";
   if (!existsSync(dir)) return [];
@@ -54,8 +55,13 @@ function skipped() {
     .flatMap((f) => {
       const [header, ...lines] = readFileSync(`${dir}/${f}`, "utf8").split("\n").filter((l) => l.trim());
       const cols = header.split("\t");
-      return lines.map((line) => {
+      return lines.map((line, i) => {
         const cells = line.split("\t");
+        // A dropped empty column (usually Category on a venue) shifts every
+        // cell after it, and the Reason counts below fill with URLs.
+        if (cells.length !== cols.length) {
+          badSkipped.push(`${f}:${i + 2} has ${cells.length} columns, not ${cols.length}`);
+        }
         const get = (c) => (cells[cols.indexOf(c)] ?? "").trim();
         return { kind: get("Kind"), state: get("State"), city: get("City").toLowerCase(), reason: get("Reason") };
       });
@@ -175,4 +181,10 @@ if (picked.length) {
     const pct = Math.round((100 * left.length) / (listed + left.length));
     console.log(`${line}; ${pct}% of the businesses research has found.`);
   }
+}
+
+if (badSkipped.length) {
+  console.log(`\nMalformed skipped rows (fix the column count so they're counted right):`);
+  for (const line of badSkipped.slice(0, 20)) console.log(`  ${line}`);
+  if (badSkipped.length > 20) console.log(`  ...and ${badSkipped.length - 20} more`);
 }

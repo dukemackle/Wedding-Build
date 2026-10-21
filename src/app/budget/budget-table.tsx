@@ -31,6 +31,9 @@ import {
   RingsIcon,
   OfficiantIcon,
   GratuitiesIcon,
+  ServiceChargeIcon,
+  SalesTaxIcon,
+  ContingencyIcon,
   CustomItemIcon,
   BellIcon,
   NotesIcon,
@@ -63,6 +66,9 @@ export const CATEGORY_ICONS: Record<string, ComponentType<{ className?: string }
   rings: RingsIcon,
   officiant: OfficiantIcon,
   gratuities: GratuitiesIcon,
+  service_charge: ServiceChargeIcon,
+  sales_tax: SalesTaxIcon,
+  contingency: ContingencyIcon,
 };
 
 export type BudgetRow = {

@@ -1,4 +1,5 @@
 import { BUDGET_CATEGORIES, computeCategoryValue } from "./budget-categories";
+import { computeAddOns, isAddOn } from "./estimate-add-ons";
 import type { RegionalCostData, Wedding } from "./supabase/types";
 import type { STYLE_TIERS } from "./wedding-options";
 
@@ -9,6 +10,8 @@ export type EstimateBreakdownItem = {
   label: string;
   amount: number;
   isRealData: boolean;
+  /** How an add-on line (service charge, tax, cushion) was worked out. */
+  basis?: string;
 };
 
 export type WeddingEstimate = {
@@ -54,14 +57,23 @@ export function estimateWeddingCost(
   state: string | null,
   guestCount: number,
   tier: string | null,
-  options: { region?: string | null; season?: string | null } = {},
+  options: {
+    region?: string | null;
+    season?: string | null;
+    /** Lines the couple isn't tracking: still estimated, but kept out of the add-ons. */
+    hidden?: Iterable<string>;
+    /** The couple's own figure per line, which the add-ons use in place of the estimate. */
+    actuals?: Map<string, number>;
+  } = {},
 ): WeddingEstimate {
   const byCategory = new Map(
     regionalData.filter((row) => row.state === state).map((row) => [row.category_key, row]),
   );
   const tierColumn = tier ? TIER_COLUMN[tier as EstimatorTier] : undefined;
 
-  const breakdown: EstimateBreakdownItem[] = BUDGET_CATEGORIES.map((category) => {
+  const priced: EstimateBreakdownItem[] = BUDGET_CATEGORIES.filter(
+    (category) => !isAddOn(category.key),
+  ).map((category) => {
     const row = byCategory.get(category.key);
     const rawAmount = row && tierColumn ? (row[tierColumn] as number | null) : null;
 
@@ -81,9 +93,28 @@ export function estimateWeddingCost(
     return { key: category.key, label: category.label, amount, isRealData: false };
   });
 
+  // Service charge, tax and cushion sit on top of the lines above, at the
+  // couple's real figure where they have one.
+  const hidden = new Set(options.hidden ?? []);
+  const counted = new Map(
+    priced
+      .filter((item) => !hidden.has(item.key))
+      .map((item) => [item.key, options.actuals?.get(item.key) ?? item.amount]),
+  );
+  const addOns = computeAddOns(counted, state);
+  const breakdown: EstimateBreakdownItem[] = [
+    ...priced,
+    ...BUDGET_CATEGORIES.filter((category) => isAddOn(category.key)).map((category) => ({
+      key: category.key,
+      label: category.label,
+      ...addOns[category.key as keyof typeof addOns],
+      isRealData: false,
+    })),
+  ];
+
   const total = breakdown.reduce((sum, item) => sum + item.amount, 0);
   const realDataRatio =
-    breakdown.filter((item) => item.isRealData).length / (breakdown.length || 1);
+    priced.filter((item) => item.isRealData).length / (priced.length || 1);
   const { low, high } = estimateRange(total, realDataRatio);
 
   return { total, low, high, breakdown };
@@ -97,13 +128,14 @@ export function weddingCategoryEstimates(
   regionalData: RegionalCostData[],
   wedding: Pick<Wedding, "state" | "region" | "season" | "style_tier">,
   guestCount: number,
+  couple: { hidden?: Iterable<string>; actuals?: Map<string, number> } = {},
 ): Map<string, number> {
   const { breakdown } = estimateWeddingCost(
     regionalData,
     wedding.state,
     guestCount,
     wedding.style_tier,
-    { region: wedding.region, season: wedding.season },
+    { region: wedding.region, season: wedding.season, ...couple },
   );
   return new Map(breakdown.map((item) => [item.key, item.amount]));
 }
