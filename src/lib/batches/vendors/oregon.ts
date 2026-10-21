@@ -357,6 +357,85 @@ All Smoked Out BBQ	Catering		Medford	Oregon	Rogue Valley	Medford barbecue catere
 Janice Moon Artistry	Hair & Makeup		Medford	Oregon	Southern Oregon	Medford hair and makeup artist specialising in bridal looks, with trial runs, lashes and a touch-up kit included.	janicemoon8@gmail.com		http://janicemoon.com/	https://www.instagram.com/janicemoonartistry/
 `,
   },
+  {
+    name: "Portland: photography, planning, florals, music, hair & makeup, cake, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Briana Morrison	Photography		Portland	Oregon	Portland, the Columbia River Gorge, Mt Hood and the Oregon coast	Fine art-trained Portland wedding photographer shooting film and digital, with two-photographer coverage and curated galleries.	hello@brianamorrison.com	(971) 202-0360	https://brianamorrison.com/	https://www.instagram.com/brianamorrison/
+Terra Lange Photography	Photography		Portland	Oregon	Portland, the Pacific Northwest and beyond	Portland photographer covering weddings alongside family and lifestyle sessions, travelling across the Pacific Northwest.	terra@terralange.com	541-556-7961	https://terralange.com/	https://www.instagram.com/terra_lange_photography/
+Mark Federighi Photography	Photography		Portland	Oregon	Pacific Northwest and destinations	Portland-based wedding and elopement photographer taking a candid, documentary approach centred on people, details and emotion.			https://www.markfederighiphotography.com/	https://www.instagram.com/markfederighi/
+Kelsey Straus Photography	Photography		Portland	Oregon	Throughout the Pacific Northwest	Portland photographer specialising in Pacific Northwest elopements and intimate weddings, plus couples sessions.			https://kelseystrausphotography.com/	https://www.instagram.com/kelseystrausphoto/
+Bekah Taylor	Photography		Portland	Oregon	Pacific Northwest	Fine art wedding and portrait photographer with thirteen years of experience serving couples across the Pacific Northwest.	hello@bekahtaylor.com		https://bekahtaylor.com/	https://www.instagram.com/bekahtaylorphotography/
+Aralani Photography	Photography	2574 NW Thurman Street	Portland	Oregon	Pacific Northwest, Columbia River Gorge, Oregon coast, Bend, Seattle and worldwide	Portland wedding and elopement photographer working since 2008, known for vibrant images shaped by Pacific Northwest landscapes.	dreams@aralani.com	(503) 539-7299	https://www.aralani.com/	https://www.instagram.com/aralani/
+Portland Event & Design	Planning		Portland	Oregon	Portland and the greater Pacific Northwest	Portland planning and event design team offering full-service and partial planning, with a calm, detail-led approach to coordination.			https://portlandeventanddesign.com/	https://www.instagram.com/pdxeventdesign/
+Amarie Flora	Florals		Portland	Oregon	Portland, Oregon, plus destination work	Botany-inspired fine art floral studio making sculptural designs and installations for modern weddings and events.	alana@amarieflora.com		https://www.amarieflora.com/	https://www.instagram.com/amarie_flora/
+Britlyn Simone Floral	Florals		Portland	Oregon	Available to travel worldwide	Destination wedding florist creating modern, polished arrangements from local, in-season blooms for a relaxed, natural look.	britlyn@britlynsimonefloral.com	603.205.5012	https://britlynsimonefloral.com/	https://www.instagram.com/britlynsimonefloral/
+Kailla Platt Flowers	Florals		Portland	Oregon	Portland, the Oregon coast, the Columbia Gorge, Central Oregon and beyond	Sellwood-based florist designing fine art, seasonal wedding flowers sourced from local farms, gardens and growers.	k@kaillaplattflowers.com	503.709.6680	https://kaillaplattflowers.com/	https://www.instagram.com/kaillaplatt/
+Starflower PDX	Florals	3564 SE Hawthorne Blvd	Portland	Oregon		Portland florist open since 2001, offering custom wedding and event florals, same-day delivery and a walk-in stem bar.	hello@starflowerpassion.com	503-225-9400	https://www.starflowerpassion.com/	https://www.instagram.com/starflowerpdx/
+Flowers by Alana	Florals		Portland	Oregon	Oregon and Washington	Boutique Portland floral studio creating romantic, garden-inspired bespoke flowers for weddings and events across two states.	info@flowersbyalana.com	(360) 450-9411	https://flowersbyalana.com/	https://www.instagram.com/flowersbyalana/
+Silicon Forest Entertainment	Music		Portland	Oregon	Oregon and Washington, with venues in Gales Creek, Newberg, Molalla, Portland and Tualatin	Laid-back Portland wedding DJ with ten-plus years behind the decks, offering premium sound and intelligent lighting.	craig.kraus@siliconforestdj.com	(503) 862-3357	https://siliconforestdj.com/	https://www.instagram.com/siliconforestdj/
+A Beat Above Entertainment	Music		Portland	Oregon		Portland wedding DJ and MC service offering photo booth, dance lighting, audio guestbook, uplighting and ceremony sound packages.	abeataboveentertainment@gmail.com	503-422-7061	https://www.abeataboveentertainment.com/	https://www.instagram.com/abeataboveentertainment/
+D.J. R.P.M.	Music		Portland	Oregon	Portland metropolitan area, including Newberg, Troutdale, Oregon City and Lake Oswego	Portland-area wedding DJ offering flat-rate packages covering ceremony, reception, sound, dance lighting and planning meetings.			https://www.djrpm503.com/	
+Tracy Does Makeup	Hair & Makeup		Hillsboro	Oregon		Hillsboro hair and makeup business with on-location bridal packages, trial sessions and a licensed stylist for the wedding party.			https://www.tracydoesmakeup.com/	https://www.instagram.com/tracydoesmakeup/
+Saint Cupcake	Cake	1138 SW Morrison St	Portland	Oregon		Downtown Portland bakery selling cupcakes, cakes and cookies, with a weddings and catering service for special orders.	hello@saintcupcake.com	(503) 473-8760	https://www.saintcupcake.com/	https://www.instagram.com/saintcupcakepdx/
+Cascadia Kitchen	Cake		Hillsboro	Oregon		Home-based Hillsboro cake studio designing centrepiece wedding cakes with a fantasy, floral and vintage piping style.	cascadiakitchenpdx@gmail.com		https://www.cascadiakitchenpdx.com/	https://www.instagram.com/cascadiakitchen.pdx/
+Kevin Ryan Films	Videography		Portland	Oregon	Portland, Spokane and Missoula	Wedding videographer with twelve years of experience, filming in a relaxed, minimalist style that stays unobtrusive.			https://www.kevinryanfilms.com/	https://www.instagram.com/kevinryanweddingfilms/
+CC Films	Videography	5202 N Albina Ave	Portland	Oregon	Portland, Seattle and Bend, plus weddings across the US and worldwide	Modern Portland wedding videographer making relaxed, down-to-earth films set to a carefully chosen soundtrack.			https://ccfilms.co/	https://www.instagram.com/ccfilmspdx/
+`,
+  },
+  {
+    name: "Eugene: photography, florals, music, cake, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Among the Oaks	Photography		Eugene	Oregon		Eugene photographer shooting weddings and lifestyle portraits on film and digital, with a warm, sentimental and documentary approach.			https://amongtheoaks.co	https://www.instagram.com/amongtheoaks.co/
+Flowers By Taby	Florals	1307 Lincoln Street	Eugene	Oregon	Eugene and Springfield	Eugene flower shop with a dedicated wedding service, also making everyday arrangements, forever flowers, workshops and event florals.	Info@flowersbytaby.com	541-285-2598	https://flowersbytaby.com	https://www.instagram.com/flowersbytaby/
+Rising Phoenix Productions (RPPDJ)	Music		Eugene	Oregon	Eugene and Springfield	Eugene DJ company providing wedding and event music, with photo booth, trivia, karaoke and game show options available as add-ons.	rick@rppdj.com	(541) 953-6222	https://www.rppdj.com	https://www.instagram.com/rppdj_experience/
+Mad Batters Bakery	Cake	777 River Avenue	Eugene	Oregon		Eugene bakery and tea room providing tiered wedding cakes, cupcakes, pies, cheesecakes and full dessert bars for receptions.		541-852-6897	https://www.madbatterseugene.com/weddings	https://www.instagram.com/madbatters/
+Gaz Studio	Videography		Eugene	Oregon	Eugene and the Pacific Northwest	Eugene filmmaker making emotional, cinematic wedding films, run by Gustavo Ramirez alongside portrait, landscape and family work.			https://gazstudio.com/weddings	https://www.instagram.com/gazzrj/
+`,
+  },
+  {
+    name: "Columbia River Gorge and Hood River: photography, planning, florals, music, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Blaine + Bethany Photography	Photography		Hood River	Oregon	Hood River and worldwide	Husband-and-wife photography team in Hood River covering weddings, elopements, engagements and portraits, and willing to travel.			https://blaineandbethany.com	https://www.instagram.com/blaineandbethany/
+CGHP Events	Planning		Hood River	Oregon	Hood River and Portland	Hood River wedding planner handling event coordination and design, taking bookings for 2027 and 2028 weddings.			https://cghpevents.com	
+Heather's Flower Farm	Florals		Hood River	Oregon	Columbia River Gorge and Mt. Hood	Hood River flower farm designing garden-inspired, seasonal wedding flowers grown close to the venue, with full-service and a la carte options.	heather@heathersflowerfarm.com	(541) 490-5225	https://heathersflowerfarm.com	https://www.instagram.com/heathersflowerfarm/
+Apple Core Farm & Cut Flowers	Florals		Hood River	Oregon		Hood River boutique flower farm supplying buckets of seasonal blooms for DIY weddings, plus bouquet-making workshops and farm events.		(541) 354-1520	https://www.applecorefarm.com	https://www.instagram.com/applecorefarm/
+Gorge Music - Weddings	Music		Hood River	Oregon	Columbia River Gorge and the Pacific Northwest	Hood River wedding music company combining solo, duo or trio live performers with DJ sets, MC announcements and audio support.	ryan@gorgemusic.com		https://www.gorgeweddingmusic.com	https://www.instagram.com/gorgeweddingmusic/
+Gorge DJ	Music		Hood River	Oregon	Hood River and the Columbia River Gorge	Hood River DJ with 25 years of experience mixing vinyl and digital for weddings, anniversaries and other celebrations.	djgrok.cd@gmail.com	928-600-5353	https://www.gorgedj.com	
+Moon Water Film House	Videography		Hood River	Oregon	Pacific Northwest and destinations	Hood River film studio run by two cousins, making romantic, cinematic wedding films for adventurous couples, including destination weddings.	weddings@moonwaterfilmhouse.com		https://www.moonwaterfilmhouse.com	
+`,
+  },
+  {
+    name: "Willamette Valley: cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Salem Cake Shop	Cake		Salem	Oregon		Licensed Salem home bakery making vintage-inspired custom cakes, with a request form for wedding cakes.	info@salemcakeshop.com	503-877-9732	https://salemcakeshop.com	https://www.instagram.com/salemcakeshop/
+`,
+  },
+  {
+    name: "Oregon Coast: florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Anderson Florists	Florals	1913 2nd St	Tillamook	Oregon	Tillamook, Cannon Beach, Seaside, Pacific City, Lincoln City, Newport and nearby coast towns	Tillamook florist designing wedding flowers such as bouquets, arbors, garlands and centrepieces for north and central coast weddings.		(503) 815-1525	https://www.oregoncoastweddingflowers.com/	
+`,
+  },
+  {
+    name: "Bend: videography, planning, music, florals, photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Julianne Brasher Photography & Films	Videography		Bend	Oregon	Central Oregon and the California Bay Area	Bend photographer and filmmaker covering weddings in photo, video or both, plus engagement sessions for couples.	info@juliannebrasher.com		http://juliannebrasher.com/	https://www.instagram.com/juliannebrasher/
+Bend Weddings and Events	Planning		Bend	Oregon	Central Oregon	Bend planner offering full, partial and month-of wedding coordination plus day-of styling for Central Oregon celebrations.			https://bendweddingsandevents.com/	
+Studio 7 DJ & Recording Services	Music		Tumalo	Oregon	Central Oregon	Tumalo mobile DJ serving Central Oregon weddings and specialty events, with in-house recording work as well.	dave@studiosevenmusic.com		https://studiosevenmusic.com/	
+Porter Floral	Florals		Bend	Oregon		Bend floral studio designing wedding, elopement and event flowers, from bouquets through to larger installations.	porterfloral@gmail.com		https://www.porterfloral.com/	https://www.instagram.com/porterfloral/
+Wild Pines Photography	Photography		Bend	Oregon	Bend, Sunriver, Sisters, Smith Rock, Black Butte and across Oregon	Bend photographer shooting film-inspired, documentary wedding and elopement coverage across Central Oregon and beyond.	lana@wildpinesphotographyoregon.com	(541) 668-0142	https://www.wildpinesphotographyoregon.com/	https://www.instagram.com/wildpinesphotographyoregon/
+Emilee Setting	Photography		Bend	Oregon	Oregon, including the coast, Mount Hood and the Columbia River Gorge	Bend elopement photographer who also helps with location scouting, permits, timelines and vendor suggestions.			https://emileesetting.com/	https://www.instagram.com/emileesettingphoto/
+`,
+  },
+  {
+    name: "Southern Oregon: florals, music, videography, photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Beauty Grows Wild	Florals		Medford	Oregon	Southern Oregon	Medford flower farm studio designing seasonal, garden-inspired wedding florals, offered full-service or a la carte.	info@beautygrowswild.com		https://www.beautygrowswild.com/	https://www.instagram.com/beauty_grows_wild/
+Templeton DJ	Music		Medford	Oregon	Medford and Southern Oregon	Medford wedding DJ company also offering photo booth, photography and video add-ons for Southern Oregon couples.		(541) 301-6408	https://www.templetondj.com/	
+Good Times Productions	Videography		Medford	Oregon		Medford cinematographer making story-driven destination wedding films, with highlight films and travel worldwide.	darren@goodtimepro.com	2536938441	https://www.goodtimepro.com/	https://www.instagram.com/goodtimesproductions/
+2Spear Photography	Photography		Klamath Falls	Oregon	Oregon coast and redwoods	Klamath Falls photographer covering elopements and weddings across Oregon, with a focus on the coast and redwoods.			https://2spearphotography.com/	https://www.instagram.com/2spearphotography/
+`,
+  },
 ];
 
 export default batches;
