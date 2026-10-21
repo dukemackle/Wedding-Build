@@ -50,6 +50,7 @@ function groups(claims: PendingClaims): { title?: string; links: NavLink[] }[] {
         { href: "/admin/growth", label: "Growth", keywords: "signups funnel coverage states" },
         { href: "/admin/analytics", label: "Analytics", soon: true },
         { href: "/admin/audit-log", label: "Admin log", keywords: "audit history who changed deleted approved activity accountability" },
+        { href: "/admin/errors", label: "Errors", keywords: "app errors crashes broken failures bugs health logs" },
       ],
     },
     {
@@ -202,6 +203,7 @@ const WIDTH_BY_PATH: Record<string, PageWidth> = {
   "/admin/vendors": "canvas",
   "/admin/ask": "wide",
   "/admin/audit-log": "wide",
+  "/admin/errors": "wide",
 };
 
 export function AdminContent({ children }: { children: React.ReactNode }) {

@@ -17,6 +17,7 @@ import { buildAssistantTools, type Proposal, type ProposalKind, type ToolContext
 import { applyProposal } from "@/lib/ai/assistant-apply";
 import { PLANNING_QUESTIONS, profileLines } from "@/lib/ai/planning-profile";
 import { seedStandardPlan } from "@/lib/seed-plan";
+import { logError } from "@/lib/error-log";
 
 const MODEL = "claude-haiku-5-5";
 /**
@@ -387,6 +388,7 @@ export async function askWeddingAssistant(
     return { ok: true, reply: answer, proposals };
   } catch (error) {
     console.error("Assistant request failed:", error);
+    await logError("wren", "askWeddingAssistant", error);
     return { ok: false, error: assistantErrorMessage(error) };
   }
 }
