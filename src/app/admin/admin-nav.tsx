@@ -17,7 +17,7 @@ function groups(claims: PendingClaims): { title?: string; links: NavLink[] }[] {
   return [
     {
       links: [
-        { href: "/admin", label: "Overview", keywords: "home dashboard stats summary" },
+        { href: "/admin", label: "Home", keywords: "overview dashboard stats summary needs attention queue coverage health" },
         { href: "/admin/ask", label: "Ask Wren", keywords: "ai assistant question chat" },
         { href: "/admin/notifications", label: "Notifications", soon: true },
       ],
@@ -197,6 +197,7 @@ export function AdminNav({ pendingClaims }: { pendingClaims: PendingClaims }) {
 // Pages composed for the room a wide screen gives them. Everything else keeps
 // the width it was designed at until it gets the same treatment.
 const WIDTH_BY_PATH: Record<string, PageWidth> = {
+  "/admin": "wide",
   "/admin/venues": "canvas",
   "/admin/vendors": "canvas",
   "/admin/ask": "wide",
