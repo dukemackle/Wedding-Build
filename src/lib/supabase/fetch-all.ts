@@ -29,21 +29,25 @@ export async function fetchAll<T>(
 type AnyClient = SupabaseClient<any, any, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 
 /**
- * Every row of a table's columns, in `order` then id order, shaped like a
+ * Every row of a table's columns, in `order` then `key` order, shaped like a
  * Supabase result (`{ data }`) so it drops into an existing
  * `Promise.all([...])` destructure. For admin pages that count or group whole
  * tables; a count alone should use `count: "exact", head: true` instead.
+ *
+ * `key` is a unique column to page by: `id` unless the table has none
+ * (admin_couple_notes is keyed by wedding_id).
  */
 export async function selectAll<T>(
   client: AnyClient,
   table: string,
   columns: string,
   order?: { column: string; ascending: boolean },
+  key = "id",
 ): Promise<{ data: T[] }> {
   const data = await fetchAll<T>((from, to) => {
     let query = client.from(table).select(columns);
     if (order) query = query.order(order.column, { ascending: order.ascending });
-    return query.order("id").range(from, to) as unknown as PromiseLike<{
+    return query.order(key).range(from, to) as unknown as PromiseLike<{
       data: T[] | null;
       error: { message: string } | null;
     }>;
