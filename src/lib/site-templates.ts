@@ -151,6 +151,7 @@ export const TEMPLATES: SiteTemplate[] = [
     hero: "split",
     ornament: "crest",
     background: { texture: "linen" },
+    art: { id: "cherries", placement: "sides" },
   },
   {
     id: "desert-sun",
@@ -176,6 +177,7 @@ export const TEMPLATES: SiteTemplate[] = [
     tags: [],
     theme: "winter",
     hero: "framed",
+    art: { id: "hawthorn", placement: "sides" },
     pageStyle: "storybook",
   },
   {
@@ -206,6 +208,7 @@ export const TEMPLATES: SiteTemplate[] = [
     ornament: "mandala",
     background: { pattern: "lattice", scope: "top" },
     falling: "marigolds",
+    art: { id: "peony", placement: "corners" },
   },
   {
     id: "nikah",
@@ -223,6 +226,7 @@ export const TEMPLATES: SiteTemplate[] = [
     theme: "chuppah",
     hero: "framed",
     ornament: "chuppah",
+    art: { id: "myrtle", placement: "sides" },
   },
   {
     id: "sunbaked",
@@ -231,6 +235,7 @@ export const TEMPLATES: SiteTemplate[] = [
     theme: "terracotta",
     hero: "split",
     ornament: "laurel",
+    art: { id: "bay-laurel", placement: "corners" },
     pageStyle: "storybook",
     background: { texture: "linen", divider: "deckle" },
   },
@@ -261,6 +266,7 @@ export const TEMPLATES: SiteTemplate[] = [
     tags: ["Rustic"],
     theme: "barn",
     hero: "card",
+    art: { id: "grass", placement: "corners" },
     pageStyle: "storybook",
     background: { texture: "linen", divider: "scallop" },
     falling: "fireflies",
