@@ -96,7 +96,7 @@ await source("supabase", ["NEXT_PUBLIC_SUPABASE_URL", "SUPABASE_SERVICE_ROLE_KEY
     : [];
 
   async function realInquiries(table) {
-    const list = await rows(table, `select=wedding_id,created_at&created_at=gte.${weekAgo}&limit=10000`);
+    const list = await rows(table, `select=wedding_id,sent_at&sent_at=gte.${weekAgo}&limit=10000`);
     return list.filter((r) => !testIds.has(r.wedding_id)).length;
   }
 

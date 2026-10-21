@@ -11,6 +11,14 @@ They're summarised here only by reference; CLAUDE.md is the source.
 
 ## Approved directions
 
+- **2026-10-20:** Landing hero is direction A, "the product is the hero":
+  headline "Everything before “I do,” made a whole lot easier." (the brand
+  line), the live estimator as the gold card, a dashboard glimpse behind it
+  on desktop, and a facts row (live venue/vendor counts, 50 states and DC,
+  free for couples) instead of the count-up stats. Rejected: an editorial
+  stock-photo hero (B, looks like The Knot/Zola and needs licensing) and a
+  typographic rings-first hero (C, says least about the product). Mockup:
+  https://claude.ai/artifact/QyvNJE735cjYK7Rf8XDWzi
 - **2026-10-20:** Dashboard "Your next step": one gold-bordered card above
   the tiles (the page's only gold; the gold tile ring was removed), naming
   the step and why it comes now. Path: venue, date, guest list, key vendors
