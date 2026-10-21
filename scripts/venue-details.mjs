@@ -6,7 +6,8 @@
 //   npm run venue-details -- fill found.tsv       write what research found
 //
 // `list` prints Website, Name, City, Capacity, Price tier for each venue with a
-// blank in either column (oldest rows first). `fill` reads a TSV with the
+// blank in either column: those missing a capacity first (most sites state
+// one, few publish prices), then those missing only a tier, oldest first. `fill` reads a TSV with the
 // columns Website, Capacity and Price tier (others are ignored), finds each
 // venue's row by website in src/lib/batches/venues/ and writes only into a
 // blank cell: a value already there is never changed. Capacity must be a whole
@@ -34,7 +35,7 @@ if (mode === "list") {
   if (!arg) throw new Error("Usage: venue-details list <State> [--limit N]");
   const limitAt = rest.indexOf("--limit");
   const limit = limitAt >= 0 ? Number(rest[limitAt + 1]) : Infinity;
-  const out = ["Website\tName\tCity\tCapacity\tPrice tier"];
+  const out = [];
   for (const file of files) {
     for (const [, tsv] of readFileSync(`${DIR}/${file}`, "utf8").matchAll(/tsv:\s*`([^`]*)`/g)) {
       const [header, ...lines] = tsv.split("\n").filter((l) => l.trim());
@@ -44,12 +45,17 @@ if (mode === "list") {
         const get = (c) => (cells[cols.indexOf(c)] ?? "").trim();
         if (get("State").toLowerCase() !== arg.toLowerCase() || !get("Website")) continue;
         if (get("Capacity") && get("Price tier")) continue;
-        out.push([get("Website"), get("Name"), get("City"), get("Capacity"), get("Price tier")].join("\t"));
+        out.push({
+          noCapacity: !get("Capacity"),
+          line: [get("Website"), get("Name"), get("City"), get("Capacity"), get("Price tier")].join("\t"),
+        });
       }
     }
   }
-  console.log(out.slice(0, limit + 1).join("\n"));
-  console.error(`${out.length - 1} venues in ${arg} missing a capacity or price tier`);
+  const ordered = [...out.filter((r) => r.noCapacity), ...out.filter((r) => !r.noCapacity)];
+  console.log(["Website\tName\tCity\tCapacity\tPrice tier", ...ordered.slice(0, limit).map((r) => r.line)].join("\n"));
+  const short = out.filter((r) => r.noCapacity).length;
+  console.error(`${out.length} venues in ${arg} missing a capacity or price tier (${short} without a capacity)`);
 } else if (mode === "fill") {
   if (!arg) throw new Error("Usage: venue-details fill <found.tsv>");
   const [head, ...found] = readFileSync(arg, "utf8").split("\n").filter((l) => l.trim());
