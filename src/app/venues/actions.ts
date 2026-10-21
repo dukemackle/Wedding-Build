@@ -7,6 +7,7 @@ import { inquiryFooter, inquirySubject } from "@/lib/inquiry-footer";
 import { ensureClaimLink } from "@/lib/venue-claim-server";
 import { syncBudgetLineFromBooking } from "@/lib/budget-sync";
 import { requireEditableWedding } from "@/lib/wedding-access";
+import { logError } from "@/lib/error-log";
 
 export async function toggleShortlist(formData: FormData): Promise<{ error?: string }> {
   const { supabase, user, wedding, noWedding } = await requireEditableWedding();
@@ -186,6 +187,7 @@ export async function sendVenueInquiry(formData: FormData): Promise<{ error?: st
   }
 
   if (sendFailure) {
+    await logError("inquiry", "sendVenueInquiry", sendFailure);
     await supabase.from("venue_inquiries").delete().eq("id", logged.id);
     return { error: sendFailure };
   }

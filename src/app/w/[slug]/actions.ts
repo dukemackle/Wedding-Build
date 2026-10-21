@@ -8,6 +8,7 @@ import { getResendClient, INQUIRY_FROM_ADDRESS } from "@/lib/resend";
 import { SITE_URL } from "@/lib/public-listings";
 import { SMS_CONSENT_DETAIL } from "@/lib/sms-consent";
 import type { EventAnswers, GuestSide, RsvpEvent, RsvpStatus } from "@/lib/supabase/types";
+import { logError } from "@/lib/error-log";
 
 const VALID_STATUSES: RsvpStatus[] = ["confirmed", "declined"];
 const VALID_SIDES: GuestSide[] = ["a", "b", "both"];
@@ -176,6 +177,7 @@ export async function submitRsvp(formData: FormData): Promise<{ error?: string }
   });
 
   if (error) {
+    await logError("rsvp", "submitRsvp", error);
     return { error: "Could not submit your RSVP — please try again." };
   }
 
@@ -235,6 +237,7 @@ export async function submitGuestPost(formData: FormData): Promise<{ error?: str
   });
 
   if (error) {
+    await logError("guest_site", "submitGuestPost", error);
     return { error: "Could not post that — please try again." };
   }
 

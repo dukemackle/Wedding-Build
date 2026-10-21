@@ -9,6 +9,7 @@ import { requireEditableWedding, VIEW_ONLY_ERROR } from "@/lib/wedding-access";
 import { seedStandardPlan } from "@/lib/seed-plan";
 import { MAX_DASHBOARD_PHOTOS } from "@/lib/dashboard-photos";
 import type { Wedding } from "@/lib/supabase/types";
+import { logError } from "@/lib/error-log";
 
 const MAX_PHOTO_BYTES = 5 * 1024 * 1024;
 
@@ -107,6 +108,7 @@ export async function saveWedding(formData: FormData): Promise<{ error?: string 
     // Raw Postgres text ("new row violates row-level security policy...")
     // means nothing to a couple; keep it in the logs.
     console.error("saveWedding failed", error);
+    await logError("planning", "saveWedding", error);
     return { error: "We couldn't save your wedding details. Please try again in a moment." };
   }
 

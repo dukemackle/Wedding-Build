@@ -70,6 +70,7 @@ export default async function AdminHomePage() {
     { data: lastVendor },
     { data: lastAdminChange },
     { data: stateCounts, error: stateCountsError },
+    { data: recentErrors, error: errorsError },
   ] = await Promise.all([
     selectAll<{ id: string; is_test: boolean; created_at: string }>(admin, "weddings", "id, is_test, created_at"),
     selectAll<{ id: string; wedding_id: string; sent_at: string }>(admin, "vendor_inquiries", "id, wedding_id, sent_at"),
@@ -100,6 +101,7 @@ export default async function AdminHomePage() {
     admin.from("vendors").select("created_at").order("created_at", { ascending: false }).limit(1).returns<{ created_at: string }[]>(),
     admin.from("admin_audit_log").select("created_at").order("created_at", { ascending: false }).limit(1).returns<{ created_at: string }[]>(),
     admin.rpc("admin_listing_state_counts"),
+    admin.from("app_errors").select("day, count").gte("day", isoDaysAgo(6).slice(0, 10)).returns<{ day: string; count: number }[]>(),
   ]);
 
   // Test weddings (marked on the Couples page) are left out of every couple
@@ -113,6 +115,11 @@ export default async function AdminHomePage() {
   const claimed = (approvedVenueClaims ?? 0) + (approvedVendorClaims ?? 0);
   const lastListing = [lastVenue?.[0]?.created_at, lastVendor?.[0]?.created_at].filter(Boolean).sort().at(-1);
   const oldestFeedback = daysAgo(newFeedback?.[0]?.created_at);
+
+  // app_errors rows are one per error per UTC day, with a repeat count.
+  const today = new Date().toISOString().slice(0, 10);
+  const errorsToday = (recentErrors ?? []).filter((e) => e.day === today).reduce((n, e) => n + e.count, 0);
+  const errorsWeek = (recentErrors ?? []).reduce((n, e) => n + e.count, 0);
 
   // Anything with a count goes in the queue; the rest are listed as clear.
   const queue = [
@@ -129,10 +136,20 @@ export default async function AdminHomePage() {
       href: "/admin/feedback",
       action: "Read",
     },
+    {
+      n: errorsToday,
+      label: "app errors",
+      item: (n: number) => `${plural(n, "app error")} today`,
+      detail: "Server errors since midnight UTC",
+      href: "/admin/errors",
+      action: "View",
+    },
     { n: pendingPosts ?? 0, label: "photo-wall posts", item: (n: number) => `${plural(n, "photo-wall post")} awaiting couples`, href: "/admin/photo-wall", action: "Look" },
   ];
-  const waiting = queue.filter((q) => q.n > 0);
-  const clear = queue.filter((q) => q.n === 0);
+  // Until migration 0129 runs, errors are "not pulled", not "all clear".
+  const tracked = queue.filter((q) => !(errorsError && q.label === "app errors"));
+  const waiting = tracked.filter((q) => q.n > 0);
+  const clear = tracked.filter((q) => q.n === 0);
   const noTestCouples = testIds.size === 0 && real.length > 0;
 
   const byState = new Map(
@@ -146,12 +163,14 @@ export default async function AdminHomePage() {
   const atFloor = states.filter((s) => s.venues >= MIN_VENUES).length;
   const thinnest = [...states].sort((a, b) => a.venues - b.venues || a.vendors - b.vendors).slice(0, 3);
 
-  const health: { label: string; value: string; muted?: boolean }[] = [
+  const health: { label: string; value: string; muted?: boolean; href?: string }[] = [
     { label: "Last listing added", value: daysAgo(lastListing) ?? "none yet" },
     { label: "Bounced emails", value: (bounces ?? 0).toLocaleString() },
     { label: "Last admin change", value: daysAgo(lastAdminChange?.[0]?.created_at) ?? "none logged" },
     { label: "Infra usage", value: "not pulled · /weekly-review", muted: true },
-    { label: "App errors", value: "not tracked yet", muted: true },
+    errorsError
+      ? { label: "App errors", value: "not pulled · migration 0129", muted: true }
+      : { label: "App errors", value: `${errorsToday.toLocaleString()} today · ${errorsWeek.toLocaleString()} in 7 days`, href: "/admin/errors" },
   ];
 
   return (
@@ -302,7 +321,13 @@ export default async function AdminHomePage() {
             <ul className="mt-3 space-y-2 text-sm">
               {health.map((h) => (
                 <li key={h.label} className="flex justify-between gap-3">
-                  <span className="text-ink/70">{h.label}</span>
+                  {h.href ? (
+                    <Link href={h.href} className="text-ink/70 underline decoration-hairline underline-offset-4 hover:text-forest">
+                      {h.label}
+                    </Link>
+                  ) : (
+                    <span className="text-ink/70">{h.label}</span>
+                  )}
                   <span className={`text-right font-mono-numbers text-xs ${h.muted ? "text-ink/45" : ""}`}>{h.value}</span>
                 </li>
               ))}
