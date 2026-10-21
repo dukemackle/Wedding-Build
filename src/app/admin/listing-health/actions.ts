@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/admin";
+import { logAdminAction } from "@/lib/admin-audit";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 
 /** Closes a couple's listing report as fixed or dismissed. */
@@ -17,5 +18,6 @@ export async function setReportStatus(formData: FormData): Promise<void> {
     .update({ status, resolved_at: new Date().toISOString() })
     .eq("id", id);
   if (error) throw new Error(error.message);
+  await logAdminAction("listing_report.status", { type: "listing_report", ids: [id] }, `Marked a listing report ${status}`);
   revalidatePath("/admin/listing-health");
 }

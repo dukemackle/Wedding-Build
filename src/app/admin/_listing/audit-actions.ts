@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/admin";
+import { logAdminAction } from "@/lib/admin-audit";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import { createClient } from "@/lib/supabase/server";
 
@@ -189,5 +190,6 @@ export async function applyAudit(table: Table, json: string): Promise<{ error?: 
 
   revalidatePath(`/admin/${table}`);
   revalidatePath(`/${table}`);
+  await logAdminAction("listing.audit_apply", { type: table }, `Applied data-audit fixes to ${table} (${resolved.hides.length} hidden)`);
   return {};
 }

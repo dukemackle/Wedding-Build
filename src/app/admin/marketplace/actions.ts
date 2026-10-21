@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/admin";
+import { logAdminAction } from "@/lib/admin-audit";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import { getResendClient, INQUIRY_FROM_ADDRESS } from "@/lib/resend";
 import { NOT_ALLOWED } from "@/lib/marketplace";
@@ -46,6 +47,7 @@ export async function takeDownListing(formData: FormData): Promise<void> {
     }
   }
 
+  await logAdminAction("market.take_down", { type: "market_listing", ids: [listingId] }, `Took down a marketplace listing${reason ? `: ${reason}` : ""}`);
   revalidatePath("/admin/marketplace");
   revalidatePath("/marketplace");
   revalidatePath(`/marketplace/${listingId}`);
@@ -59,5 +61,6 @@ export async function dismissReport(formData: FormData): Promise<void> {
     .from("market_reports")
     .update({ status: "dismissed", resolved_at: new Date().toISOString() })
     .eq("id", id);
+  await logAdminAction("market.dismiss_report", { type: "market_report", ids: [id] }, "Dismissed a marketplace report");
   revalidatePath("/admin/marketplace");
 }

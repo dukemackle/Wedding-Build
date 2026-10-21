@@ -19,8 +19,11 @@ update it when a fix ships.
   the factor in Supabase (Authentication > Users) and sign in again.
 - Baseline headers in `next.config.ts` (HSTS, frame-ancestors 'self',
   nosniff, Referrer-Policy, Permissions-Policy).
-- Gaps: no admin audit log, no roles, no full CSP, rate limits only on
-  contact-click and the AI features.
+- Every admin action that changes data calls `logAdminAction()`
+  (`src/lib/admin-audit.ts`) after it succeeds; read it at /admin/audit-log.
+  New admin actions must do the same.
+- Gaps: no roles, no full CSP, rate limits only on contact-click and the AI
+  features.
 
 ## Approval levels
 
@@ -32,14 +35,6 @@ update it when a fix ships.
 | D. Outward / money / access | Sending email/SMS, charging, refunds, billing settings, changing admins, rotating credentials, DNS | Owner's explicit yes for that exact action |
 
 Level C/D actions, once built into the admin, write an audit-log row.
-
-## Audit log (to build)
-
-`admin_audit_log`: id, at, actor email, action (`listing.bulk_delete`,
-`claim.approve`, `couple.email`, `couple.test_flag` ...), target type + ids,
-summary of change (no secrets, minimal PII), request id. Insert-only via
-service role; no update/delete policy. One helper `logAdminAction()` called
-from each mutating action after it succeeds.
 
 ## Secrets
 

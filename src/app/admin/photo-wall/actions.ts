@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/admin";
+import { logAdminAction } from "@/lib/admin-audit";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 
 const BUCKET = "guest-photos";
@@ -37,6 +38,7 @@ export async function hideGuestPost(formData: FormData): Promise<{ error?: strin
 
   if (error) return { error: error.message };
   if (post) await revalidateWall(post.wedding_id);
+  await logAdminAction("guest_post.hide", { type: "guest_post", ids: [postId] }, "Hid a photo-wall post");
   return {};
 }
 
@@ -66,5 +68,6 @@ export async function deleteGuestPostAsAdmin(formData: FormData): Promise<{ erro
   }
 
   await revalidateWall(post.wedding_id);
+  await logAdminAction("guest_post.delete", { type: "guest_post", ids: [postId] }, "Deleted a photo-wall post");
   return {};
 }

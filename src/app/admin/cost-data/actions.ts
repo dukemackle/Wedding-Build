@@ -3,6 +3,7 @@
 import Papa from "papaparse";
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/admin";
+import { logAdminAction } from "@/lib/admin-audit";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import { BUDGET_CATEGORIES, effectiveGuestCount } from "@/lib/budget-categories";
 import { STATES, STYLE_TIERS } from "@/lib/wedding-options";
@@ -113,6 +114,7 @@ export async function importRegionalCostData(
   }
 
   revalidatePath("/admin/cost-data");
+  await logAdminAction("cost_data.import", { type: "regional_cost_data" }, `Imported ${imported} cost rows for ${categoryKey} (${skipped} skipped)`);
   return { imported, skipped };
 }
 
@@ -144,6 +146,7 @@ export async function updateRegionalCostDataRow(
   if (error) return { error: error.message };
 
   revalidatePath("/admin/cost-data");
+  await logAdminAction("cost_data.update", { type: "regional_cost_data", ids: [id] }, "Edited a cost-data row");
   return {};
 }
 
@@ -317,5 +320,6 @@ export async function recomputeCostDataFromCustomerQuotes(): Promise<{
   }
 
   revalidatePath("/admin/cost-data");
+  await logAdminAction("cost_data.recompute", { type: "regional_cost_data" }, `Recomputed cost data from couples' quotes (${updatedCells} cells updated)`);
   return { updatedCells, insufficientCells, quotesConsidered };
 }

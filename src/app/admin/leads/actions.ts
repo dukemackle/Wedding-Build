@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/admin";
+import { logAdminAction, plural } from "@/lib/admin-audit";
 import { leadKey } from "@/lib/leads";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import { kindOf, unlinkedLines, type LeadKind } from "./load";
@@ -29,6 +30,7 @@ export async function decideLead(lead: {
     });
   if (error) return { error: error.message };
   revalidatePath("/admin/leads");
+  await logAdminAction("lead.decide", { type: "listing_lead", ids: [lead.key] }, `${lead.status === "research" ? "Sent to research" : "Dismissed"}: ${lead.name}`);
   return {};
 }
 
@@ -45,5 +47,6 @@ export async function linkLead(kind: LeadKind, key: string, listingId: string): 
     .in("id", ids);
   if (error) return { error: error.message };
   revalidatePath("/admin/leads");
+  await logAdminAction("lead.link", { type: kind, ids: [listingId] }, `Linked ${plural(ids.length, "budget line")} to a listing`);
   return {};
 }

@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/admin";
+import { logAdminAction } from "@/lib/admin-audit";
 import { restamp, type FieldSources } from "@/lib/field-sources";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import type { VendorSubmission } from "@/lib/supabase/types";
@@ -21,6 +22,7 @@ export async function getVendorClaimLink(vendorId: string): Promise<{ error?: st
 export async function regenerateVendorClaimLink(vendorId: string): Promise<{ error?: string; url?: string }> {
   await requireAdmin();
   const url = await replaceVendorClaimLink(vendorId);
+  if (url) await logAdminAction("vendor.claim_link_replace", { type: "vendor", ids: [vendorId] }, "Replaced a vendor's claim link");
   return url ? { url } : { error: "Couldn't create a link -- try again." };
 }
 
@@ -110,6 +112,7 @@ export async function approveVendorSubmission(submissionId: string): Promise<{ e
   revalidatePath("/admin/vendors/claims");
   revalidatePath("/vendors");
   revalidatePath(`/vendors/${submission.vendor_id}`);
+  await logAdminAction("vendor.claim_approve", { type: "vendor_submission", ids: [submissionId] }, "Approved a vendor claim");
   return {};
 }
 
@@ -122,5 +125,6 @@ export async function rejectVendorSubmission(submissionId: string): Promise<{ er
     .eq("status", "pending");
   if (error) return { error: error.message };
   revalidatePath("/admin/vendors/claims");
+  await logAdminAction("vendor.claim_reject", { type: "vendor_submission", ids: [submissionId] }, "Rejected a vendor claim");
   return {};
 }

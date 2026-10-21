@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/admin";
+import { logAdminAction } from "@/lib/admin-audit";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import type { FeedbackStatus } from "@/lib/supabase/types";
 
@@ -25,5 +26,6 @@ export async function setFeedbackStatus(formData: FormData): Promise<{ error?: s
   if (error) return { error: error.message };
 
   revalidatePath("/admin/feedback");
+  await logAdminAction("feedback.status", { type: "feedback", ids: [feedbackId] }, `Set feedback to ${status}`);
   return {};
 }

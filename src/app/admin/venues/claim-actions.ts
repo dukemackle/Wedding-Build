@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/admin";
+import { logAdminAction } from "@/lib/admin-audit";
 import { restamp, type FieldSources } from "@/lib/field-sources";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import type { Vendor, VenueSubmission } from "@/lib/supabase/types";
@@ -20,6 +21,7 @@ export async function getClaimLink(venueId: string): Promise<{ error?: string; u
 export async function regenerateClaimLink(venueId: string): Promise<{ error?: string; url?: string }> {
   await requireAdmin();
   const url = await replaceClaimLink(venueId);
+  if (url) await logAdminAction("venue.claim_link_replace", { type: "venue", ids: [venueId] }, "Replaced a venue's claim link");
   return url ? { url } : { error: "Couldn't create a link -- try again." };
 }
 
@@ -162,6 +164,7 @@ export async function approveSubmission(submissionId: string): Promise<{ error?:
   revalidatePath("/admin/venues/claims");
   revalidatePath("/venues");
   revalidatePath(`/venues/${submission.venue_id}`);
+  await logAdminAction("venue.claim_approve", { type: "venue_submission", ids: [submissionId] }, "Approved a venue claim");
   return {};
 }
 
@@ -175,5 +178,6 @@ export async function rejectSubmission(submissionId: string): Promise<{ error?: 
     .eq("status", "pending");
   if (error) return { error: error.message };
   revalidatePath("/admin/venues/claims");
+  await logAdminAction("venue.claim_reject", { type: "venue_submission", ids: [submissionId] }, "Rejected a venue claim");
   return {};
 }
