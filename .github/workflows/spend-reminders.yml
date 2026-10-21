@@ -11,7 +11,7 @@ jobs:
     steps:
       - name: Ask the site to send any due reminders
         env:
-          BATCH_IMPORT_SECRET: ${{ secrets.BATCH_IMPORT_SECRET }}
+          SPEND_REMINDER_SECRET: ${{ secrets.SPEND_REMINDER_SECRET }}
         run: |
           curl -fsS -X POST https://youdoido.com/api/spend-reminders \
-            -H "Authorization: Bearer $BATCH_IMPORT_SECRET"
+            -H "Authorization: Bearer $SPEND_REMINDER_SECRET"

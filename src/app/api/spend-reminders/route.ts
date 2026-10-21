@@ -1,4 +1,4 @@
-import { refuseBatchCaller } from "@/lib/batch-secret";
+import { refuseUnlessSecret } from "@/lib/batch-secret";
 import { INQUIRY_FROM_ADDRESS, getResendClient } from "@/lib/resend";
 import { BILLING_CYCLES, REMINDER_DAYS, daysUntil, formatUsd, rolledRenewal, type OpsService } from "@/lib/spend";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
@@ -8,8 +8,8 @@ import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 // owner gets one email about yearly and one-time items due within
 // REMINDER_DAYS, once per renewal date (ops_services.reminded_for); monthly
 // bills are left out, since a reminder every month for each is noise. Called
-// daily by .github/workflows/spend-reminders.yml with the batch routine's
-// secret (BATCH_IMPORT_SECRET); one Supabase read, one send, one update.
+// daily by .github/workflows/spend-reminders.yml with SPEND_REMINDER_SECRET
+// (set in Cloudflare and in GitHub Actions); one Supabase read, one send.
 
 function line(s: OpsService, today: Date): string {
   const days = daysUntil(s.next_renewal!, today);
@@ -19,7 +19,7 @@ function line(s: OpsService, today: Date): string {
 }
 
 export async function POST(request: Request) {
-  const refused = refuseBatchCaller(request);
+  const refused = refuseUnlessSecret(request, process.env.SPEND_REMINDER_SECRET, "Spend reminders aren't switched on.");
   if (refused) return refused;
 
   const today = new Date();
