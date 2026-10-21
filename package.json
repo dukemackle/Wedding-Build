@@ -12,6 +12,7 @@
     "cf:preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "cf:deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
     "coverage": "node scripts/coverage.mjs",
+    "venue-details": "node scripts/venue-details.mjs",
     "verify:batches": "node scripts/verify-batches.mjs",
     "backup": "node scripts/backup.mjs",
     "restore": "node scripts/restore.mjs",
