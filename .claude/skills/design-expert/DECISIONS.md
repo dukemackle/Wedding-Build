@@ -11,6 +11,19 @@ They're summarised here only by reference; CLAUDE.md is the source.
 
 ## Approved directions
 
+- **2026-10-21:** Landing hero is now direction B: full-width wedding
+  photographs as a slow crossfade slideshow (four bright reception tables and
+  the sunset couple, all Unsplash, each credited on the photo) with the nav
+  clear and white over it, headline "Wedding planning, *made easy.*" (the
+  owner's line; "The easy way to *I do*" was the step before), "Everything
+  you need to plan your wedding. Free for couples." and one "Start planning"
+  button; the estimator sits under it with Style as
+  three buttons and one "Use this as my budget" button. Nav simplified to
+  Venues · Vendors · For businesses · Log in (signing up moved to the page's
+  own buttons; a menu on phones). Replaces the 2026-10-20 direction A below,
+  which the owner felt didn't read as a wedding site and had too many words.
+  Rejected: an invitation-style hero with the site-art florals. Mockup:
+  https://claude.ai/artifact/Nk7e6ynP1YcrYgQvUdSKS4
 - **2026-10-21 (later):** Maps moved to our own tiles on R2 with the Protomaps
   **light** style, the closest of Protomaps' styles to full colour (blue
   water, green parks, road shields). The owner chose our own files over
