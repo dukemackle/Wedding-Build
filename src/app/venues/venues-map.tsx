@@ -5,7 +5,8 @@ import L from "leaflet";
 import Image from "next/image";
 import Link from "next/link";
 import { useMemo } from "react";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { MapContainer, Marker, Popup } from "react-leaflet";
+import { BaseMapLayer } from "@/components/base-map-layer";
 import { FitToPins } from "@/components/map-fit-bounds";
 import { ClusteredMarkers, dotIcon } from "@/components/clustered-markers";
 import { MAP_MIN_ZOOM, US_MAP_BOUNDS, type MapView } from "@/lib/map-view";
@@ -117,10 +118,7 @@ export function VenuesMap({
         maxBoundsViscosity={0.8}
         style={{ height: "100%", width: "100%" }}
       >
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
+        <BaseMapLayer />
         <FitToPins points={points} />
         <ClusteredMarkers
           items={pinned}

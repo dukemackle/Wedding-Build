@@ -102,10 +102,10 @@ export const DATA_SOURCES = [
     termsCheckedAt: "2026-10-21",
     attribution: "© OpenStreetMap contributors",
     usedFor:
-      "The map tiles on Venues, Vendors and Marketplace, and finding a venue's spot when the Census can't.",
+      "The map data under every map (streets, parks, water, place names), and finding a venue's spot when the Census can't.",
     may: { store: true, display: true, derive: true },
     notes:
-      "Nominatim: max 1 request/second, real User-Agent, no heavy bulk use (capped at 500 lookups per import run). Tiles from tile.openstreetmap.org are for light use; move to another tile host before launch traffic (plan Q5). Don't merge OSM fields into listing rows (share-alike).",
+      "Nominatim: max 1 request/second, real User-Agent, no heavy bulk use (capped at 500 lookups per import run). Tiles from tile.openstreetmap.org are for light use; they're now only the no-WebGL fallback (src/lib/map-tiles.ts). Don't merge OSM fields into listing rows (share-alike).",
   },
 ] as const satisfies readonly DataSource[];
 
