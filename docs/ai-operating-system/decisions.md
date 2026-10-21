@@ -21,7 +21,12 @@ rules, batch self-merge, 50-state coverage, page widths) and
 - **Launch bar for listings.** All 50 states + DC meet coverage pass 1
   (2026-10-20); the current stage wants ~9,000 more venues and ~8,800 more
   vendors. Which level counts as "every state has listings" before marketing
-  starts?
+  starts? Executive assessment 2026-10-21 recommends pass 1 + 2–3 deep launch
+  metros.
+- **Measurement.** Approve the events table, Cloudflare Web Analytics, the
+  Privacy line and Search Console (assessment 2026-10-21).
+- **Founding-business claim terms** (e.g. free listing for life). Binds
+  `docs/monetization.md`; decide before the first claim invitation.
 
 ## 2026-10-21 — Form a California LLC and get a public mailing address
 - Decided: "You Do, I Do LLC", California, member-managed, single member,
