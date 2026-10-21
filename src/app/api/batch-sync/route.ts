@@ -42,6 +42,8 @@ const withoutProtected = (row: Record<string, unknown>) =>
 
 /** The only columns an update may set, so a bad payload can't touch anything else. */
 const UPDATABLE = ["address", "city", "latitude", "longitude", "address_checked_at"] as const;
+/** Venue details a batch row can fill in later; the importer only sends them for a blank field. */
+const VENUE_DETAILS = ["capacity", "price_tier"] as const;
 
 export async function GET(request: Request) {
   const refused = refuseBatchCaller(request);
@@ -54,7 +56,11 @@ export async function GET(request: Request) {
   }
   const { data, error } = await createAdminSupabaseClient()
     .from(table)
-    .select("id, name, source_id, website, city, state, address, latitude, longitude, address_checked_at")
+    .select(
+      `id, name, source_id, website, city, state, address, latitude, longitude, address_checked_at${
+        table === "venues" ? ", capacity, price_tier" : ""
+      }`,
+    )
     .order("id")
     .range(from, from + PAGE - 1);
   if (error) return Response.json({ error: error.message }, { status: 500 });
@@ -110,23 +116,35 @@ export async function POST(request: Request) {
       return Response.json({ error: `updates must hold 1-${MAX_UPDATES} changes.` }, { status: 400 });
     }
     // An address arriving with address_checked_at was read off the listing's
-    // own website; one without it was moved over from its batch row.
-    const addressed = updates.filter((u: Record<string, unknown>) => typeof u.id === "string" && "address" in u);
+    // own website; one without it was moved over from its batch row. Venue
+    // details only ever fill a blank field, so the current row is read first.
+    const stamped = updates.filter(
+      (u: Record<string, unknown>) =>
+        typeof u.id === "string" && ("address" in u || VENUE_DETAILS.some((key) => key in u)),
+    );
     const current = new Map<string, Record<string, unknown> & { field_sources: FieldSources }>();
-    if (addressed.length > 0) {
+    if (stamped.length > 0) {
       const { data } = await admin
         .from(table)
-        .select("id, address, city, field_sources")
-        .in("id", addressed.map((u: Record<string, unknown>) => u.id as string));
-      for (const row of data ?? []) current.set(row.id, row);
+        .select(`id, address, city, field_sources${table === "venues" ? ", capacity, price_tier" : ""}`)
+        .in("id", stamped.map((u: Record<string, unknown>) => u.id as string));
+      for (const row of (data ?? []) as unknown as (Record<string, unknown> & { id: string; field_sources: FieldSources })[]) {
+        current.set(row.id, row);
+      }
     }
     const errors = await Promise.all(
       updates.map(async (update: Record<string, unknown>) => {
         if (typeof update.id !== "string") return "Each update needs an id.";
+        const allowed = table === "venues" ? [...UPDATABLE, ...VENUE_DETAILS] : UPDATABLE;
         const values: Record<string, unknown> = Object.fromEntries(
-          UPDATABLE.filter((key) => key in update).map((key) => [key, update[key]]),
+          allowed.filter((key) => key in update).map((key) => [key, update[key]]),
         );
+        const was = current.get(update.id) ?? null;
+        for (const key of VENUE_DETAILS) {
+          if (key in values && (was?.[key] ?? null) !== null) delete values[key];
+        }
         if (Object.keys(values).length === 0) return null;
+        const details = Object.fromEntries(VENUE_DETAILS.filter((key) => key in values).map((key) => [key, values[key]]));
         if ("address" in values) {
           const { address, city } = values;
           values.field_sources = restamp(
@@ -135,6 +153,10 @@ export async function POST(request: Request) {
             "address_checked_at" in values ? "website" : "batch",
             { changedOnly: true },
           );
+        }
+        if (Object.keys(details).length > 0) {
+          const base = values.field_sources ? { field_sources: values.field_sources as FieldSources } : was;
+          values.field_sources = restamp(base, details, "batch", { changedOnly: true });
         }
         const { error } = await admin.from(table).update(values).eq("id", update.id);
         return error?.message ?? null;

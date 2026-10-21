@@ -18,7 +18,8 @@
 //
 //   1. new batch rows -> inserted, pinned to their address (venues: or their
 //      name), typed coordinates or town (nudged apart so they stay clickable)
-//   2. listed rows whose batch row has since gained an address -> moved onto it
+//   2. listed rows whose batch row has since gained an address -> moved onto it;
+//      venues whose batch row has gained a capacity or price tier -> filled in
 //   3. listings with no pin -> their town's; listings on a bad Census town
 //      point -> the town's real middle
 //   4. with --repair-pins, listings pinned away from their own spot -> onto it
@@ -332,6 +333,7 @@ const TABLES = {
 const summary = {
   imported: 0,
   moved: 0,
+  detailed: 0,
   townPinned: 0,
   repinned: 0,
   repaired: 0,
@@ -388,6 +390,25 @@ try {
     await update(table, moves);
     summary.moved += moves.length;
     console.log(`${table}: ${moves.length} moved onto their batch row's address`);
+
+    // 2b. Venue capacity and price tier a batch row has gained since import
+    //     (the details backfill adds them to existing rows). Blank fields only:
+    //     a claimed or hand-edited listing keeps its own.
+    if (table === "venues") {
+      const byId = new Map(listed[table].filter((row) => row.source_id).map((row) => [row.source_id, row]));
+      const fills = [];
+      for (const row of rows) {
+        const listing = byId.get(rowSourceId(row));
+        if (!listing) continue;
+        const fill = {};
+        if (row.capacity != null && listing.capacity == null) fill.capacity = row.capacity;
+        if (row.price_tier && !listing.price_tier) fill.price_tier = row.price_tier;
+        if (Object.keys(fill).length) fills.push({ id: listing.id, ...fill });
+      }
+      await update(table, fills);
+      summary.detailed = fills.length;
+      console.log(`${table}: ${fills.length} given a capacity or price tier from their batch row`);
+    }
   }
 
   // 3. Fresh listings, so steps 1-2 are counted. Listings with no pin get
