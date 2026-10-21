@@ -12,6 +12,8 @@ settings, or `.env.local` (gitignored). Checked 2026-10-20.
 | Supabase (service role + access token in the Claude Code environment) | Admin counts, DB size via `weekly-review.mjs` | **Full** (service role) | Works, but more access than a briefing needs; see plan item 4 |
 | Gmail, Google Drive (claude.ai connectors) | Inbox, backups folder | Owner's account | Available in sessions; use read-only unless asked |
 | Cloudflare Workers observability | Worker logs in the dashboard | — | On (`wrangler.jsonc`); nothing reads it automatically |
+| Cloudflare Web Analytics | Page views, referrers, country; no cookies | Dashboard only | On through the dashboard's automatic setup since about 2026-09-30, so it isn't in the code: Cloudflare injects `static.cloudflareinsights.com/beacon.min.js` into pages (seen 2026-10-21). Disclosed in the Privacy Policy. Nothing reads it automatically; see item 5 |
+| First-party usage events | Funnels and the First cohort table | `events` table (0130, PR #956) | /admin/analytics, /admin/growth; disclosed in the Privacy Policy |
 
 ## Not available in this environment
 - `CLOUDFLARE_API_TOKEN` / account ID: Worker request and error counts in
@@ -21,7 +23,7 @@ settings, or `.env.local` (gitignored). Checked 2026-10-20.
 ## Missing, in priority order
 | # | Integration | Business value | Data / scope | Privacy and security risk | Effort | Approval | How to verify |
 |---|---|---|---|---|---|---|---|
-| 1 | **Cloudflare Web Analytics** | First real traffic, page and referrer data; the briefing stops saying "no data" | Page views, referrers, country; no cookies | Low; still needs a line in the Privacy Policy (`docs/legal.md` trigger) | S: one dashboard toggle, or a script tag | Yes (privacy wording) | Dashboard shows visits after a test visit |
+| 1 | ~~Cloudflare Web Analytics~~ | Done: connected, see above | | | | | |
 | 2 | **Google Search Console** | Which searches find listings, indexing errors, sitemap health | Query and page stats for youdoido.com | Low; read-only | S: verify the domain via DNS TXT in Cloudflare | Yes | Sitemap shows "Success"; data appears in 2–3 days |
 | 3 | **Error alerting** (Workers Logs alerts, or Sentry free tier) | Know when couples hit errors before they leave | Error messages, stack traces, URLs | Medium: traces can carry user data. Scrub PII; Sentry is a new sub-processor for the Privacy Policy | S–M | Yes | Throw a test error; an alert arrives |
 | 4 | **Read-only metrics access** for briefings (a Postgres role limited to counts, or a Cloudflare token scoped to Analytics: Read) | Briefings without full service-role or account-wide power | Aggregate counts only | Reduces risk compared to today | M | Yes | `weekly-review.mjs` runs with the new key; writes fail |
