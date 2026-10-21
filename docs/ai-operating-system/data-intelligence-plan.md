@@ -65,6 +65,7 @@ This is not legal advice. The attorney questions are listed in §3.
    - There is no events table, page views, funnels, estimator-completion tracking, search/filter logging or listing-view counts.
    - The privacy page names Cloudflare Web Analytics (`privacy/page.tsx:175`), but `integrations.md` says it isn't connected.
    - Without this, Phase 5 dashboards have nothing to measure.
+   - **Update, later on 2026-10-21:** PR #956 added the `events` table (0130) with funnels on /admin/analytics, and Cloudflare Web Analytics turned out to be on already (dashboard automatic setup, which is why it isn't in the code). Estimator, search and listing-view events are still missing.
 
 4. **Freshness is set by people only.**
    - Imports leave `last_verified_at` null, so most listings read as "unverified".
@@ -267,7 +268,7 @@ price_observations  id, listing_kind (venue|vendor), listing_id, category_key,
   - signup, wedding_created, estimate_viewed, estimate_applied, listing_viewed, listing_contact, inquiry_sent, inquiry_responded, claim_started, claim_approved, site_published, search_performed (filters, results_count), and others.
 - Write server-side from existing actions, with no third-party tracker.
 - Each event records `is_test`.
-- Connect Cloudflare Web Analytics for page traffic. This also makes the privacy page true.
+- Cloudflare Web Analytics is already on (dashboard automatic setup) and covers page traffic. The `events` table (0130, PR #956) now exists too; build the dashboards on it rather than a new table.
 
 ---
 
@@ -280,7 +281,7 @@ price_observations  id, listing_kind (venue|vendor), listing_id, category_key,
 | Q3 | Switch `verify-batches.mjs` to the honest UA; cap Nominatim lookups per import run (done 2026-10-21) | Removes two terms/ethics risks | Script-only, ship directly |
 | Q4 (done 2026-10-21: 46 Colorado rows) | Fix the about 49 malformed `skipped/*.tsv` rows and add a column-count check to `npm run coverage` | Clean coverage numbers | Batch-file hygiene |
 | Q5 | Plan the map-tile move off `tile.openstreetmap.org`. Options to price: self-hosted Protomaps PMTiles on Cloudflare R2, MapTiler, Stadia (all UNVERIFIED, quotes needed) | Policy and reliability risk at launch | Research, then owner decision |
-| Q6 | Fix the privacy-page Cloudflare Web Analytics claim, or connect it (owner step) | Policy must match code (legal-audit R3) | Text or owner action |
+| Q6 (no change needed, 2026-10-21: Web Analytics is on via the dashboard, so the policy was already true; integrations.md corrected) | Fix the privacy-page Cloudflare Web Analytics claim, or connect it (owner step) | Policy must match code (legal-audit R3) | Text or owner action |
 | Q7 (done 2026-10-21, as `src/lib/data-sources.ts` + `/data-sources`) | Add a `data_sources` registry table and an `/about/data` attribution page | Foundation for every later import | Migration + page |
 
 ---
