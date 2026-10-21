@@ -18,6 +18,7 @@ import { parseWording, withWording } from "@/lib/site-designs";
 import { blockKey, type SectionId } from "@/lib/site-design";
 import { parseSiteDesign } from "@/lib/site-design-schema";
 import { HeroPhotoPanel } from "../../../hero-photo-panel";
+import { photoLibraryEnabled } from "@/lib/unsplash";
 import { GalleryPanel } from "../../../gallery-panel";
 import { liveDetailsOf } from "@/lib/site-live";
 import { asksMeal, mealChoices } from "@/lib/meal-options";
@@ -209,9 +210,9 @@ export default async function GuestSiteEditorPage({ params }: { params: Promise<
       layout: "photos",
       editor: (
         <div className="flex flex-col gap-8">
-          <HeroPhotoPanel photoUrl={wedding.hero_photo_url} />
+          <HeroPhotoPanel photoUrl={wedding.hero_photo_url} library={photoLibraryEnabled()} />
           <div className="border-t border-hairline pt-6">
-            <GalleryPanel photos={galleryPhotos ?? []} />
+            <GalleryPanel photos={galleryPhotos ?? []} library={photoLibraryEnabled()} />
           </div>
         </div>
       ),

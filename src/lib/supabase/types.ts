@@ -17,6 +17,8 @@ export type Wedding = {
   public_slug: string | null;
   party_share_token: string | null;
   hero_photo_url: string | null;
+  /** A free-library banner's photographer (0132); absent until that migration runs. */
+  hero_photo_credit?: unknown;
   /** Old dashboard avatar; no longer shown. */
   profile_photo_url: string | null;
   /** Photos shown behind the dashboard, in order. Up to eight. */
@@ -104,6 +106,8 @@ export type PublicWedding = {
   gift_zelle: string | null;
   meal_options: string[] | null;
   ask_dietary: boolean;
+  /** A free-library banner's photographer (0132); absent until that migration runs. */
+  hero_photo_credit?: unknown;
 };
 
 export type WeddingFaq = {
@@ -815,6 +819,15 @@ export type FeedbackSubmission = {
   category: FeedbackCategory;
   message: string;
   status: FeedbackStatus;
+  created_at: string;
+};
+
+/** Credit for a photo picked through photo search (Unsplash); see 0132. */
+export type WeddingPhotoCredit = {
+  wedding_id: string;
+  photo_url: string;
+  photographer: string;
+  profile_url: string;
   created_at: string;
 };
 

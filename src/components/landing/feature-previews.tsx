@@ -24,6 +24,7 @@ import {
 import { Falling, useReducedMotion } from "@/components/site-motion";
 import { SiteOrnament } from "@/components/site-ornament";
 import { ConfirmedChip } from "@/components/confirmed-badge";
+import { SAMPLE_GALLERY } from "@/lib/sample-photos";
 import { CHECKLIST_PHASES, CHECKLIST_TEMPLATE } from "@/lib/checklist-template";
 import {
   BarIcon,
@@ -1934,6 +1935,18 @@ function SiteDemo() {
           >
             {o.label}
           </button>
+        ))}
+      </div>
+      <p className={eyebrow}>Photos · upload yours or search free ones</p>
+      <div className="flex h-9 items-center gap-2 rounded-lg bg-card px-3 text-xs text-ink/50 ring-1 ring-hairline">
+        <span aria-hidden="true">⌕</span>
+        Vineyard
+      </div>
+      <div className="grid grid-cols-4 gap-1.5">
+        {SAMPLE_GALLERY.slice(0, 4).map((src) => (
+          // Unsplash's own resized copies, like the real photo search.
+          // eslint-disable-next-line @next/next/no-img-element
+          <img key={src} src={src.replace("w=1200", "w=240")} alt="" loading="lazy" className="aspect-square w-full rounded-md object-cover" />
         ))}
       </div>
     </div>

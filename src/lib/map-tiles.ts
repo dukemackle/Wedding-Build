@@ -1,27 +1,43 @@
-/**
- * Where the maps' base tiles come from (plan Q5, data-intelligence-plan.md).
- *
- * tile.openstreetmap.org is for light use, not a product's main map, so the
- * maps read two Protomaps files straight out of a public R2 bucket with HTTP
- * range requests. No Worker sits in the path, so they cost no Worker CPU;
- * R2's free tier covers 10 GB stored and 10M reads a month.
- * `npm run tiles:build` makes and uploads them.
- *
- *   world.pmtiles  whole world, zoom 0-6 (~45 MB): the zoomed-out views
- *   us.pmtiles     the 50 states, zoom 0-13 (~4.6 GB): zoom 7 and in
- *
- * The bucket is youdoido-tiles, served at tiles.youdoido.com (its CORS rule
- * lists the origins allowed to read it). NEXT_PUBLIC_MAP_TILES_BASE overrides
- * the address for local previews; set it to "" to fall back to OSM's tiles.
- */
-const TILES_BASE = (process.env.NEXT_PUBLIC_MAP_TILES_BASE ?? "https://tiles.youdoido.com").trim();
+import type { StyleSpecification } from "maplibre-gl";
 
-export const PMTILES = TILES_BASE
-  ? {
-      world: { url: `${TILES_BASE}/world.pmtiles`, maxDataZoom: 6 },
-      us: { url: `${TILES_BASE}/us.pmtiles`, maxDataZoom: 13 },
-    }
-  : null;
+// Which base map every Leaflet map draws under its pins. One setting, so
+// moving between tile hosts is a one-line change (data plan Q5).
+//
+// - "openfreemap": OpenFreeMap's hosted vector tiles. Free, commercial use
+//   allowed, no key; donation-funded with no SLA.
+// - "youdoido": our own Protomaps files on Cloudflare R2 at
+//   tiles.youdoido.com, read with range requests (no Worker, no CPU). Built
+//   and uploaded by `npm run tiles:build`; the style is in own-map-style.ts.
+//   Our own copy, so no third party can rate-limit or retire it (owner,
+//   2026-10-21).
+// - "osm": OpenStreetMap's raster tiles, the old default. Its tile policy is
+//   for light use, so it's only the fallback when a browser can't run WebGL.
+export type TileHost = "openfreemap" | "youdoido" | "osm";
 
-export const OSM_ATTRIBUTION =
-  '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+export const TILE_HOST: TileHost = "youdoido";
+
+const OSM_CREDIT = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+
+/** A style URL, or a loader for a style built in code. */
+type StyleSource = string | (() => Promise<StyleSpecification>);
+
+const OWN_CREDIT = `<a href="https://protomaps.com">Protomaps</a> ${OSM_CREDIT}`;
+
+export const VECTOR_STYLES: Record<Exclude<TileHost, "osm">, { style: StyleSource; attribution: string }> = {
+  openfreemap: {
+    // Liberty: full colour (parks, water, roads), chosen over the grey
+    // Positron, which read as dreary (owner, 2026-10-21).
+    style: "https://tiles.openfreemap.org/styles/liberty",
+    attribution: `<a href="https://openfreemap.org">OpenFreeMap</a> &copy; <a href="https://www.openmaptiles.org/">OpenMapTiles</a> ${OSM_CREDIT}`,
+  },
+  youdoido: {
+    // Loaded on demand with MapLibre, so pages without a map don't pay for it.
+    style: () => import("./own-map-style").then((m) => m.ownMapStyle(OWN_CREDIT)),
+    attribution: OWN_CREDIT,
+  },
+};
+
+export const RASTER_FALLBACK = {
+  url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+  attribution: OSM_CREDIT,
+};

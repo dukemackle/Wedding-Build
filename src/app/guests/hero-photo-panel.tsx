@@ -1,4 +1,5 @@
 import { PhotoUpload } from "@/components/photo-upload";
+import { PhotoLibrary } from "./photo-library";
 
 /**
  * The guest site's banner photo, edited where the banner is.
@@ -8,7 +9,7 @@ import { PhotoUpload } from "@/components/photo-upload";
  * belongs beside the rest of the guest site settings, next to the link that
  * shows what it looks like.
  */
-export function HeroPhotoPanel({ photoUrl }: { photoUrl: string | null }) {
+export function HeroPhotoPanel({ photoUrl, library = false }: { photoUrl: string | null; library?: boolean }) {
   return (
     <div>
       <p className="max-w-2xl text-sm text-ink/70">
@@ -24,6 +25,11 @@ export function HeroPhotoPanel({ photoUrl }: { photoUrl: string | null }) {
           confirmRemove="Remove the banner photo from your guest site?"
         />
       </div>
+      {library && (
+        <div className="mt-4">
+          <PhotoLibrary />
+        </div>
+      )}
     </div>
   );
 }

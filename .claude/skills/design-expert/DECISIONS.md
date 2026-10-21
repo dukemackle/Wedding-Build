@@ -11,6 +11,10 @@ They're summarised here only by reference; CLAUDE.md is the source.
 
 ## Approved directions
 
+- **2026-10-21:** Maps use the full-colour OpenFreeMap **Liberty** style.
+  The grey Positron was rejected as "depressing and untrustworthy". When the
+  maps move to our own Cloudflare-hosted tiles, pick the closest full-colour
+  style. Applied in `src/lib/map-tiles.ts`.
 - **2026-10-21:** Art review result: keep 13 pieces (the painted rose,
   white roses, wild roses, mallow, sweet pea and lemons; the eucalyptus and
   lavender engravings; the diamond, heart and laurel dividers, rings and

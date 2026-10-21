@@ -3,6 +3,7 @@
 //   R2_ACCOUNT_ID=... R2_ACCESS_KEY_ID=... R2_SECRET_ACCESS_KEY=... npm run tiles:build
 //   npm run tiles:build -- --skip-upload        build the files only
 //   npm run tiles:build -- --skip-extract       upload files already built
+//   npm run tiles:build -- --assets-only        only re-copy the fonts and icons
 //   npm run tiles:build -- --dir /some/folder   where the files go (default: here)
 //   npm run tiles:build -- --bucket youdoido-tiles   (the default)
 //
@@ -17,6 +18,10 @@
 //   us.pmtiles     the 50 states, zoom 0-13 (~4.6 GB) -- zoom 7 and in. Zoom
 //                  14 doubles it past R2's free 10 GB; the map draws deeper
 //                  zooms from 13.
+//
+// It also copies the style's fonts and icons from Protomaps' basemaps-assets
+// into assets/ in the bucket, so the map needs nothing but tiles.youdoido.com.
+// The style itself is code: src/lib/own-map-style.ts.
 //
 // The upload is a multipart S3 upload to R2, then a CORS rule so browsers on
 // youdoido.com can make the range requests. Re-run it every few months to
@@ -155,6 +160,42 @@ async function upload(call, file) {
   await call(`${obj}?uploadId=${encodeURIComponent(uploadId)}`, { method: "POST", body: xml });
 }
 
+// Fonts the "light" style asks for (src/lib/own-map-style.ts), every 256-
+// glyph range, and its icon sheets.
+const ASSETS = "https://protomaps.github.io/basemaps-assets";
+const FONTS = ["Noto Sans Regular", "Noto Sans Medium", "Noto Sans Italic"];
+const SPRITES = ["light.json", "light.png", "light@2x.json", "light@2x.png"];
+
+async function uploadAssets(call) {
+  const paths = [
+    ...FONTS.flatMap((font) =>
+      Array.from({ length: 256 }, (_, i) => `fonts/${font}/${i * 256}-${i * 256 + 255}.pbf`),
+    ),
+    ...SPRITES.map((name) => `sprites/v4/${name}`),
+  ];
+  console.log(`Copying ${paths.length} fonts and icon files to r2://${BUCKET}/assets/ ...`);
+  let copied = 0;
+  let next = 0;
+  await Promise.all(
+    Array.from({ length: 8 }, async () => {
+      while (next < paths.length) {
+        const path = paths[next++];
+        const res = await fetch(`${ASSETS}/${path.split("/").map(encodeURIComponent).join("/")}`);
+        if (res.status === 404) continue; // not every font covers every range
+        if (!res.ok) throw new Error(`basemaps-assets ${path}: HTTP ${res.status}`);
+        const type = path.endsWith(".json") ? "application/json" : path.endsWith(".png") ? "image/png" : "application/x-protobuf";
+        await call(`/assets/${path.split("/").map(encodeURIComponent).join("/")}`, {
+          method: "PUT",
+          body: Buffer.from(await res.arrayBuffer()),
+          headers: { "Content-Type": type, "Cache-Control": "public, max-age=604800" },
+        });
+        copied++;
+      }
+    }),
+  );
+  console.log(`  ${copied} copied`);
+}
+
 async function setCors(call) {
   const cors = `<CORSConfiguration><CORSRule>${ORIGINS.map((o) => `<AllowedOrigin>${o}</AllowedOrigin>`).join("")}<AllowedMethod>GET</AllowedMethod><AllowedMethod>HEAD</AllowedMethod><AllowedHeader>range</AllowedHeader><AllowedHeader>if-match</AllowedHeader><ExposeHeader>etag</ExposeHeader><ExposeHeader>content-range</ExposeHeader><MaxAgeSeconds>86400</MaxAgeSeconds></CORSRule></CORSConfiguration>`;
   try {
@@ -167,6 +208,10 @@ async function setCors(call) {
   }
 }
 
+if (flag("--assets-only")) {
+  await uploadAssets(r2());
+  process.exit(0);
+}
 if (!flag("--skip-extract")) {
   const cmd = pmtilesCommand();
   const source = await latestBuild();
@@ -178,5 +223,6 @@ for (const file of FILES) {
 if (!flag("--skip-upload")) {
   const call = r2();
   for (const file of FILES) await upload(call, file);
+  await uploadAssets(call);
   await setCors(call);
 }

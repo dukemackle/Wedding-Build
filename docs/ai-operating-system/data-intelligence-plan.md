@@ -93,7 +93,7 @@ This is not legal advice. The attorney questions are listed in §3.
   - Leaflet loads `tile.openstreetmap.org` directly.
   - The OSM tile policy is for light use, not a commercial product's main map.
   - This needs replacing before launch traffic. See quick win Q5.
-  - **Done 2026-10-21:** maps read our own Protomaps files from R2 (`tiles.youdoido.com`, `src/lib/map-tiles.ts`); `npm run tiles:build` rebuilds them.
+  - **Done 2026-10-21:** maps read our own Protomaps files from R2 (`tiles.youdoido.com`, `src/lib/map-tiles.ts`); `npm run tiles:build` rebuilds them. OpenFreeMap stays a one-line fallback.
 - **Spoofed Chrome User-Agent** in `scripts/verify-batches.mjs:85-100`, used to get past bot blocks.
   - It undercuts the honest "YouDoIDoBot" UA used everywhere else.
   - It is hard to defend if a business objects.
@@ -281,7 +281,7 @@ price_observations  id, listing_kind (venue|vendor), listing_id, category_key,
 | Q2 (done 2026-10-21) | Add tax, venue service charge and contingency lines to the estimator (assumption ranges, labelled) | Biggest planning shock surfaced up front | Logic + UI; preview first |
 | Q3 | Switch `verify-batches.mjs` to the honest UA; cap Nominatim lookups per import run (done 2026-10-21) | Removes two terms/ethics risks | Script-only, ship directly |
 | Q4 (done 2026-10-21: 46 Colorado rows) | Fix the about 49 malformed `skipped/*.tsv` rows and add a column-count check to `npm run coverage` | Clean coverage numbers | Batch-file hygiene |
-| Q5 | **Done 2026-10-21** (self-hosted Protomaps on R2, free tier). Was: plan the map-tile move off `tile.openstreetmap.org`. Options to price: self-hosted Protomaps PMTiles on Cloudflare R2, MapTiler, Stadia (all UNVERIFIED, quotes needed) | Policy and reliability risk at launch | Research, then owner decision |
+| Q5 (done 2026-10-21: step 1 OpenFreeMap Liberty; step 2, our own Protomaps files on Cloudflare R2 at `tiles.youdoido.com`, `TILE_HOST` \"youdoido\" in `src/lib/map-tiles.ts`, rebuilt by `npm run tiles:build`) | Plan the map-tile move off `tile.openstreetmap.org`. Options to price: self-hosted Protomaps PMTiles on Cloudflare R2, MapTiler, Stadia (all UNVERIFIED, quotes needed) | Policy and reliability risk at launch | Research, then owner decision |
 | Q6 (no change needed, 2026-10-21: Web Analytics is on via the dashboard, so the policy was already true; integrations.md corrected) | Fix the privacy-page Cloudflare Web Analytics claim, or connect it (owner step) | Policy must match code (legal-audit R3) | Text or owner action |
 | Q7 (done 2026-10-21, as `src/lib/data-sources.ts` + `/data-sources`) | Add a `data_sources` registry table and an `/about/data` attribution page | Foundation for every later import | Migration + page |
 

@@ -176,7 +176,9 @@ export default function PrivacyPage() {
               other sites: it records the page, the referring site, and your browser, device type and
               country. We don&apos;t use advertising trackers. Some wedding-site designs load their
               fonts from Google Fonts, so your browser contacts Google, which sees your IP address
-              (see Google&apos;s privacy policy). When someone taps a listing&apos;s phone number, website or social
+              (see Google&apos;s privacy policy). A banner or gallery photo a couple picked from our free
+              photo library is shown from Unsplash&apos;s servers, so your browser contacts Unsplash, which
+              sees your IP address. When someone taps a listing&apos;s phone number, website or social
               link, we count the tap against that listing, with no personal details attached, so we
               can tell the business how many couples found it here. Inside your account, we note when
               you reach planning milestones, such as adding your first guest, opening or saving a
@@ -317,6 +319,13 @@ export default function PrivacyPage() {
                 kept in our private Google Drive and GitHub storage, used only to recover from a
                 failure. These providers process data on our behalf and don&apos;t use it for their
                 own purposes.
+              </li>
+              <li>
+                <strong className="text-ink">Unsplash</strong> — only if you search the free photo
+                library for your banner or gallery. The words you search for go to Unsplash from our server,
+                without your name or email, and we tell Unsplash which photo you picked, as its
+                terms require. The photo stays on Unsplash&apos;s servers and your site credits its
+                photographer.
               </li>
               <li>
                 <strong className="text-ink">Google</strong> — only if you use &ldquo;Choose from

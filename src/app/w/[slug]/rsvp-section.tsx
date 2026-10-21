@@ -4,6 +4,7 @@ import Image from "next/image";
 import type { ReactNode } from "react";
 import { useSiteDesign } from "@/components/guest-site-theme";
 import { SiteText } from "@/components/site-text";
+import { isLibraryPhoto } from "@/lib/photo-credit";
 
 const CARD = "site-card rounded-lg border border-hairline bg-card p-6 sm:p-10 shadow-sm";
 
@@ -67,7 +68,7 @@ export function RsvpSection({
     return (
       <div id="rsvp" className={`${CARD} grid scroll-mt-6 overflow-hidden !p-0 md:grid-cols-2`}>
         <div className="relative aspect-[4/3] bg-[var(--site-photo)] md:aspect-auto md:min-h-[28rem]">
-          <Image src={photo} alt="" fill sizes="(min-width: 768px) 40vw, 100vw" className="object-cover" />
+          <Image src={photo} unoptimized={isLibraryPhoto(photo)} alt="" fill sizes="(min-width: 768px) 40vw, 100vw" className="object-cover" />
         </div>
         <div className="p-6 sm:p-10">{details}</div>
       </div>

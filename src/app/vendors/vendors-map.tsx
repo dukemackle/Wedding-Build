@@ -5,7 +5,7 @@ import L from "leaflet";
 import Image from "next/image";
 import { useMemo } from "react";
 import { MapContainer, Marker, Popup } from "react-leaflet";
-import { BaseTiles } from "@/components/base-tiles";
+import { BaseMapLayer } from "@/components/base-map-layer";
 import { FitToPins } from "@/components/map-fit-bounds";
 import { ClusteredMarkers, dotIcon } from "@/components/clustered-markers";
 import { MAP_MIN_ZOOM, US_MAP_BOUNDS, type MapView } from "@/lib/map-view";
@@ -86,7 +86,7 @@ export function VendorsMap({
         maxBoundsViscosity={0.8}
         style={{ height: "100%", width: "100%" }}
       >
-        <BaseTiles />
+        <BaseMapLayer />
         <FitToPins points={points} />
         <ClusteredMarkers
           items={pinned}

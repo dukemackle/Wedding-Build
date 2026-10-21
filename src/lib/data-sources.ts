@@ -102,10 +102,23 @@ export const DATA_SOURCES = [
     termsCheckedAt: "2026-10-21",
     attribution: "© OpenStreetMap contributors",
     usedFor:
-      "The map tiles on Venues, Vendors and Marketplace, and finding a venue's spot when the Census can't.",
+      "The map data under every map (streets, parks, water, place names), and finding a venue's spot when the Census can't.",
     may: { store: true, display: true, derive: true },
     notes:
-      "Nominatim: max 1 request/second, real User-Agent, no heavy bulk use (capped at 500 lookups per import run). Map tiles come from our own Protomaps files on R2 (tiles.youdoido.com, src/lib/map-tiles.ts), not tile.openstreetmap.org; credit Protomaps and OpenStreetMap on every map. Don't merge OSM fields into listing rows (share-alike).",
+      "Nominatim: max 1 request/second, real User-Agent, no heavy bulk use (capped at 500 lookups per import run). Tiles from tile.openstreetmap.org are for light use; they're now only the no-WebGL fallback (src/lib/map-tiles.ts). Don't merge OSM fields into listing rows (share-alike).",
+  },
+  {
+    id: "protomaps",
+    name: "Protomaps basemap",
+    url: "https://protomaps.com",
+    termsUrl: "https://docs.protomaps.com/basemaps/downloads",
+    licence: "Basemap files free to use and self-host, including commercially; map data from OpenStreetMap (ODbL)",
+    termsCheckedAt: "2026-10-21",
+    attribution: "Protomaps © OpenStreetMap",
+    usedFor: "Draws the map tiles on the Venues, Vendors and Marketplace maps, from our own copy on Cloudflare R2 (tiles.youdoido.com).",
+    may: { store: true, display: true, derive: false },
+    notes:
+      "Two files cut from Protomaps' daily planet build by `npm run tiles:build`: world zoom 0-6 and the 50 states zoom 0-13, plus the style's fonts and icons. OpenFreeMap (Liberty) is the one-line fallback (TILE_HOST in src/lib/map-tiles.ts).",
   },
 ] as const satisfies readonly DataSource[];
 

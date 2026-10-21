@@ -155,6 +155,18 @@ function photoKindFromForm(formData: FormData): WeddingPhotoKind {
   return formData.get("kind") === "profile" ? "profile" : "hero";
 }
 
+/**
+ * A banner the couple uploaded or removed has no library photographer to
+ * credit. Separate from the photo's own update so a database without
+ * migration 0132 still saves the photo.
+ */
+async function clearHeroCredit(
+  supabase: Awaited<ReturnType<typeof requireEditableWedding>>["supabase"],
+  weddingId: string,
+) {
+  await supabase.from("weddings").update({ hero_photo_credit: null }).eq("id", weddingId);
+}
+
 export async function uploadWeddingPhoto(formData: FormData): Promise<{ error?: string }> {
   const { supabase, wedding, noWedding } = await requireEditableWedding();
 
@@ -195,6 +207,8 @@ export async function uploadWeddingPhoto(formData: FormData): Promise<{ error?: 
     return { error: error.message };
   }
 
+  if (photoKindFromForm(formData) === "hero") await clearHeroCredit(supabase, wedding.id);
+
   revalidatePath("/dashboard");
   revalidatePath("/guests");
   return {};
@@ -215,6 +229,8 @@ export async function removeWeddingPhoto(formData: FormData): Promise<{ error?: 
   if (error) {
     return { error: error.message };
   }
+
+  if (photoKindFromForm(formData) === "hero") await clearHeroCredit(supabase, wedding.id);
 
   revalidatePath("/dashboard");
   revalidatePath("/guests");
