@@ -1,8 +1,8 @@
 # Component resources: what to reuse, what to borrow, what to avoid
 
 The stack is **Next.js 16 (App Router), React 19, Tailwind CSS v4, TypeScript**,
-deployed to Cloudflare Workers (Workers Free, 10 ms CPU per request, so
-server work and bundle size matter). No component library and no animation
+deployed to Cloudflare Workers (Workers Paid since about 2026-10; server
+work and bundle size still matter for speed and cost). No component library and no animation
 library is installed. Three.js / react-three-fiber are installed for specific
 3D pieces (`src/components/three/`).
 
