@@ -269,6 +269,7 @@ export const MARKET_SIZE = Object.fromEntries([
 // order, before anything else in pass 4. `npm run coverage -- launch` shows them.
 export const LAUNCH_METROS = [
   "Texas: Austin",
+  "California: San Diego",
   "Texas: Dallas–Fort Worth",
   "Texas: Houston",
   "Texas: San Antonio, New Braunfels and Boerne",

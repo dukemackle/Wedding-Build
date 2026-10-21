@@ -25,11 +25,13 @@ rules, batch self-merge, 50-state coverage, page widths) and
   charge, or no promise beyond "free today". Settle before the first claim
   invitation; until then, outreach promises nothing about future pricing.
 
-## 2026-10-21 — Launch metros: Austin plus seven of the deepest large markets
+## 2026-10-21 — Launch metros: Austin, San Diego and seven large markets
 - Decided: `LAUNCH_METROS` in `scripts/coverage-plan.mjs`, in priority order:
-  Austin, Dallas–Fort Worth, Houston, San Antonio, New York City, Los Angeles,
-  Chicago, Miami. Owner asked for 5–10 top US metros with Austin; these are the
-  largest markets that already have the most vendors (119–176 each).
+  Austin, San Diego, Dallas–Fort Worth, Houston, San Antonio, New York City,
+  Los Angeles, Chicago, Miami. Owner asked for 5–10 top US metros with Austin,
+  then added San Diego (home city, so the easiest place to reach couples and
+  vendors in person); the rest are the largest markets that already have the
+  most vendors (119–176 each).
 - Why: widens the "2–3 deep metros" bar below. Four are in one Texas region
   reachable from Austin; the other four are the biggest national markets.
 - Alternatives: 2–3 metros only (less spread); Atlanta, Nashville, Denver
