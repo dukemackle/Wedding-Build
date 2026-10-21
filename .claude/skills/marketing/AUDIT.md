@@ -31,7 +31,7 @@ No analytics, CRM, ESP for marketing, or ad platform.
 | Lifecycle / drip / cron | Missing | no scheduled jobs |
 | In-app notifications | Missing | `/admin/notifications` "soon" |
 | CRM / lead tracking | Partial | `listing_leads`, `vendor_contact_log`, `listing_contact_clicks`, couple notes/tags; no contacts CRM or campaign log |
-| Analytics | Partial | admin growth + feature adoption, contact taps, Cloudflare account stats via script; no page analytics; `/admin/analytics` "soon" |
+| Analytics | Partial | Cloudflare Web Analytics (automatic setup, outside the code, found 2026-10-21); admin growth + feature adoption, contact taps, Cloudflare account stats via script; no page analytics; `/admin/analytics` "soon" |
 | SEO basics | Exists | sitemap, robots, canonicals, EventVenue/LocalBusiness/FAQ JSON-LD |
 | SEO local/content pages | Missing | no state/city pages, guides, blog |
 | AI-search hygiene | Missing | no `llms.txt`, Organization/WebSite JSON-LD |

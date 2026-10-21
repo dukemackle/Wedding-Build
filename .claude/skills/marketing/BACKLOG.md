@@ -7,7 +7,6 @@ Priority = I×C×E×R. Work at most three at a time. Updated 2026-10-20.
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 1 | Verify youdoido.com in Google Search Console and submit the sitemap | SEO | 3 | 5 | 5 | 5 | 375 | Owner: 10 min DNS step (`seo.md`) |
 | 2 | Pick a postal-address option to open commercial email | Compliance | 5 | 5 | 3 | 5 | 375 | Owner getting a PO box (2026-10-20); code: unsubscribe + opt-out check |
-| 3 | Cloudflare Web Analytics (cookieless) + Privacy line | Analytics | 4 | 5 | 4 | 4 | 320 | Owner: enable in dashboard |
 | 4 | Capture signup source (UTM, `ref`, landing path) on the profile | Analytics | 4 | 5 | 4 | 4 | 320 | Code PR + Privacy line |
 | 5 | Sharpen the inquiry footer and claim / `/list` pages for conversion | Listings | 4 | 4 | 4 | 4 | 256 | Copy ships directly; layout → preview |
 | 6 | First `/marketing inbox` digest (Gmail connected 2026-10-20) | Inbox | 3 | 4 | 5 | 4 | 240 | Ready |
