@@ -319,6 +319,13 @@ export default function PrivacyPage() {
                 own purposes.
               </li>
               <li>
+                <strong className="text-ink">Unsplash</strong> — if a couple picks photos for their
+                guest site through our photo search, those photos load from Unsplash&apos;s servers,
+                so Unsplash receives the standard details any website gets when a page loads an image
+                (such as the visitor&apos;s IP address and browser). We send Unsplash the search words
+                typed, and never anyone&apos;s name, email or guest list.
+              </li>
+              <li>
                 <strong className="text-ink">Google</strong> — only if you use &ldquo;Choose from
                 Drive&rdquo; or link a Google Sheet. You Do, I Do&apos;s use of information received from Google APIs follows the{" "}
                 <a

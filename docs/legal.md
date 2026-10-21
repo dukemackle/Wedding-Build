@@ -105,6 +105,10 @@ past its password (0121). A new guest-site table gets a policy built on
 - Privacy Policy: name the legal basis for each use, list data subject rights
   (access, correction, deletion, export, objection), name processors
   (Supabase, Cloudflare, Resend, AI providers) and cross-border transfers.
+  Unsplash (2026-10-21) isn't a processor: searched photos are hotlinked from
+  its servers, so guests' browsers contact it directly (IP, user agent). It's
+  disclosed under "Service providers" in the Privacy Policy; only search words
+  go to its API.
 - A working data export and account deletion path.
 - Processor DPAs with Supabase/Cloudflare/Resend (all offer standard ones).
 
