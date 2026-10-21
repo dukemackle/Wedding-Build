@@ -335,7 +335,7 @@ KINGMAfilms	Videography		Lafayette	Indiana	Lafayette, Indiana	Lafayette videogra
 Gracie Mae Events	Florals		Columbus	Indiana	Columbus, Indiana	Woman-owned Columbus florist offering wedding floral design and coordination plus DIY bridal flower workshops.		(812) 603-2025	https://graciemaeevents.com/	https://www.instagram.com/graciemaeevents/
 Farrer Photography	Photography		Columbus	Indiana	Columbus IN, Indianapolis IN and Cincinnati OH area	Columbus-based photographer Bailey Manuel, with wedding galleries shot for couples in the Columbus area and beyond.			https://farrerphotography.com/	
 Icing On The Cake By Kristina	Cake		Columbus	Indiana	Columbus and nearby areas	Columbus baker making custom wedding cakes and cupcakes to order, including vegan options, from artist Kristina Taylor.	icing@earthlink.net	812-720-0928	https://www.icingonthecakebykristina.com/	
-The Nashville House	Catering	15 South Van Buren Street	Nashville	Indiana	Nashville, Indiana	Historic Nashville restaurant that designs menus for weddings and other functions, with catering for your event.	andreabartels289@gmail.com	(812) 988-4554	https://www.nashvillehousebc.com/	https://www.instagram.com/nashville.house/
+The Nashville House	Catering	15 South Van Buren Street	Nashville	Indiana	Nashville, Indiana	Historic Nashville restaurant that designs menus for weddings and other functions, with catering for your event.	andreabartels289@gmail.com	(812) 988-4554	https://www.nashvillehousebc.com/	https://www.instagram.com/nashville.house/`,
   },
 ];
 
