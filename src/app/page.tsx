@@ -76,8 +76,8 @@ export default async function Home() {
               <span className="font-mono-numbers text-[13px] text-parchment/85">236 days to go</span>
             </div>
             <div className="flex flex-col gap-1.5 px-6 py-4">
-              <span className="font-mono-numbers text-[10px] uppercase tracking-[0.18em] text-brass">Your next step</span>
-              <span className="font-display text-2xl font-semibold text-forest">Book your caterer</span>
+              <span className="font-mono-numbers text-[10px] uppercase tracking-[0.18em] text-brass">Your planning path</span>
+              <span className="font-display text-2xl font-semibold text-forest">3 of 6 done</span>
               <span className="mt-1.5 grid grid-cols-6 gap-1">
                 {[0, 1, 2, 3, 4, 5].map((i) => (
                   <span key={i} className={`h-1 rounded-full ${i < 3 ? "bg-forest" : i === 3 ? "bg-[#ffd301]" : "bg-hairline"}`} />
