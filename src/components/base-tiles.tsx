@@ -3,14 +3,15 @@
 import { useEffect } from "react";
 import { TileLayer, useMap } from "react-leaflet";
 import { leafletLayer } from "protomaps-leaflet";
-import { OSM_ATTRIBUTION, PMTILES_MAX_ZOOM, PMTILES_URL } from "@/lib/map-tiles";
+import { OSM_ATTRIBUTION, PMTILES } from "@/lib/map-tiles";
 
 /**
- * The base map under every Leaflet map: our own Protomaps file on R2 when
- * it's set up, otherwise OSM's raster tiles. See src/lib/map-tiles.ts.
+ * The base map under every Leaflet map: our own Protomaps files on R2 (the
+ * world file zoomed out, the US file from zoom 7), or OSM's raster tiles if
+ * they're switched off. See src/lib/map-tiles.ts.
  */
 export function BaseTiles({ attribution = true }: { attribution?: boolean }) {
-  if (!PMTILES_URL) {
+  if (!PMTILES) {
     return (
       <TileLayer
         attribution={attribution ? OSM_ATTRIBUTION : undefined}
@@ -18,25 +19,33 @@ export function BaseTiles({ attribution = true }: { attribution?: boolean }) {
       />
     );
   }
-  return <ProtomapsLayer url={PMTILES_URL} attribution={attribution} />;
+  return <ProtomapsLayers attribution={attribution} />;
 }
 
-function ProtomapsLayer({ url, attribution }: { url: string; attribution: boolean }) {
+function ProtomapsLayers({ attribution }: { attribution: boolean }) {
   const map = useMap();
   useEffect(() => {
-    const layer = leafletLayer({
-      url,
-      flavor: "light",
-      lang: "en",
-      maxDataZoom: PMTILES_MAX_ZOOM,
-      attribution: attribution
-        ? `<a href="https://protomaps.com">Protomaps</a> ${OSM_ATTRIBUTION}`
-        : undefined,
-    });
-    layer.addTo(map);
+    if (!PMTILES) return;
+    const { world, us } = PMTILES;
+    const shared = { flavor: "light", lang: "en" };
+    const layers = [
+      // "" not undefined: the library adds its own credit when it's missing.
+      leafletLayer({ ...shared, url: world.url, maxDataZoom: world.maxDataZoom, maxZoom: world.maxDataZoom, attribution: "" }),
+      leafletLayer({
+        ...shared,
+        url: us.url,
+        maxDataZoom: us.maxDataZoom,
+        minZoom: world.maxDataZoom + 1,
+        // Leaflet takes the map's zoom limit from its layers; 18 is what the
+        // OSM layer allowed.
+        maxZoom: 18,
+        attribution: attribution ? `<a href="https://protomaps.com">Protomaps</a> ${OSM_ATTRIBUTION}` : "",
+      }),
+    ];
+    for (const layer of layers) layer.addTo(map);
     return () => {
-      layer.remove();
+      for (const layer of layers) layer.remove();
     };
-  }, [map, url, attribution]);
+  }, [map, attribution]);
   return null;
 }

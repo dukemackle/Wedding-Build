@@ -105,7 +105,7 @@ export const DATA_SOURCES = [
       "The map tiles on Venues, Vendors and Marketplace, and finding a venue's spot when the Census can't.",
     may: { store: true, display: true, derive: true },
     notes:
-      "Nominatim: max 1 request/second, real User-Agent, no heavy bulk use (capped at 500 lookups per import run). Tiles from tile.openstreetmap.org are for light use; move to another tile host before launch traffic (plan Q5). Don't merge OSM fields into listing rows (share-alike).",
+      "Nominatim: max 1 request/second, real User-Agent, no heavy bulk use (capped at 500 lookups per import run). Map tiles come from our own Protomaps files on R2 (tiles.youdoido.com, src/lib/map-tiles.ts), not tile.openstreetmap.org; credit Protomaps and OpenStreetMap on every map. Don't merge OSM fields into listing rows (share-alike).",
   },
 ] as const satisfies readonly DataSource[];
 

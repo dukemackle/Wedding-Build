@@ -1,16 +1,22 @@
-// Builds the maps' base-tile file and uploads it to R2 (plan Q5). Run with:
+// Builds the maps' base-tile files and uploads them to R2 (plan Q5). Run with:
 //
 //   R2_ACCOUNT_ID=... R2_ACCESS_KEY_ID=... R2_SECRET_ACCESS_KEY=... npm run tiles:build
-//   npm run tiles:build -- --skip-upload        build the file only
-//   npm run tiles:build -- --skip-extract       upload a us.pmtiles already built
-//   npm run tiles:build -- --bucket youdoido-tiles --key us.pmtiles   (the defaults)
+//   npm run tiles:build -- --skip-upload        build the files only
+//   npm run tiles:build -- --skip-extract       upload files already built
+//   npm run tiles:build -- --dir /some/folder   where the files go (default: here)
+//   npm run tiles:build -- --bucket youdoido-tiles   (the default)
 //
 // Needs the `pmtiles` command (https://github.com/protomaps/go-pmtiles; with
 // Go installed: `go install github.com/protomaps/go-pmtiles@latest`, which
-// names it go-pmtiles -- either name works). It cuts the 50 states out of
-// Protomaps' latest daily planet build with range requests, so only the ~4.6 GB
-// it keeps is downloaded, not the ~140 GB planet. Zoom stops at 13 (zoom 14
-// doubles the file past R2's free 10 GB); the map draws deeper zooms from 13.
+// names it go-pmtiles -- either name works). It cuts two files out of
+// Protomaps' latest daily planet build with range requests, so only what it
+// keeps is downloaded, not the ~140 GB planet:
+//
+//   world.pmtiles  the whole world, zoom 0-6 (~45 MB) -- the zoomed-out views,
+//                  so Canada, Mexico and the sea aren't blank squares
+//   us.pmtiles     the 50 states, zoom 0-13 (~4.6 GB) -- zoom 7 and in. Zoom
+//                  14 doubles it past R2's free 10 GB; the map draws deeper
+//                  zooms from 13.
 //
 // The upload is a multipart S3 upload to R2, then a CORS rule so browsers on
 // youdoido.com can make the range requests. Re-run it every few months to
@@ -28,9 +34,12 @@ const opt = (name, fallback) => {
 };
 
 const BUCKET = opt("--bucket", "youdoido-tiles");
-const KEY = opt("--key", "us.pmtiles");
-const OUT = opt("--out", "us.pmtiles");
-const MAX_ZOOM = 13; // keep in step with PMTILES_MAX_ZOOM in src/lib/map-tiles.ts
+const DIR = opt("--dir", ".");
+// Keep the zooms in step with src/lib/map-tiles.ts.
+const FILES = [
+  { key: "world.pmtiles", maxZoom: 6, region: null, label: "the world" },
+  { key: "us.pmtiles", maxZoom: 13, region: "us", label: "the 50 states" },
+];
 const PART_SIZE = 100 * 1024 * 1024;
 const PARALLEL = 4;
 const ORIGINS = ["https://youdoido.com", "https://www.youdoido.com", "http://localhost:3000"];
@@ -68,15 +77,16 @@ async function latestBuild() {
   return `https://build.protomaps.com/${latest}`;
 }
 
-async function extract() {
-  const cmd = pmtilesCommand();
-  const source = await latestBuild();
-  const region = `${OUT}.region.geojson`;
-  writeFileSync(region, JSON.stringify(US_REGION));
-  console.log(`Cutting the 50 states (zoom 0-${MAX_ZOOM}) out of ${source} ...`);
-  execFileSync(cmd, ["extract", source, OUT, `--region=${region}`, `--maxzoom=${MAX_ZOOM}`], {
-    stdio: "inherit",
-  });
+async function extract(cmd, source, file) {
+  const out = `${DIR}/${file.key}`;
+  const extra = [];
+  if (file.region) {
+    const region = `${out}.region.geojson`;
+    writeFileSync(region, JSON.stringify(US_REGION));
+    extra.push(`--region=${region}`);
+  }
+  console.log(`Cutting ${file.label} (zoom 0-${file.maxZoom}) out of ${source} ...`);
+  execFileSync(cmd, ["extract", source, out, ...extra, `--maxzoom=${file.maxZoom}`], { stdio: "inherit" });
 }
 
 function r2() {
@@ -98,12 +108,12 @@ function r2() {
   };
 }
 
-async function upload() {
-  const call = r2();
-  const size = statSync(OUT).size;
+async function upload(call, file) {
+  const out = `${DIR}/${file.key}`;
+  const size = statSync(out).size;
   const parts = Math.ceil(size / PART_SIZE);
-  const obj = `/${encodeURIComponent(KEY)}`;
-  console.log(`Uploading ${(size / 1e9).toFixed(1)} GB to r2://${BUCKET}/${KEY} in ${parts} parts ...`);
+  const obj = `/${encodeURIComponent(file.key)}`;
+  console.log(`Uploading ${(size / 1e9).toFixed(2)} GB to r2://${BUCKET}/${file.key} in ${parts} parts ...`);
 
   const started = await call(`${obj}?uploads`, {
     method: "POST",
@@ -112,7 +122,7 @@ async function upload() {
   const uploadId = (await started.text()).match(/<UploadId>([^<]+)<\/UploadId>/)?.[1];
   if (!uploadId) throw new Error("R2 didn't return an UploadId");
 
-  const fd = openSync(OUT, "r");
+  const fd = openSync(out, "r");
   const etags = new Array(parts);
   let next = 0;
   try {
@@ -143,12 +153,30 @@ async function upload() {
     .map((etag, i) => `<Part><PartNumber>${i + 1}</PartNumber><ETag>${etag}</ETag></Part>`)
     .join("")}</CompleteMultipartUpload>`;
   await call(`${obj}?uploadId=${encodeURIComponent(uploadId)}`, { method: "POST", body: xml });
-
-  const cors = `<CORSConfiguration><CORSRule>${ORIGINS.map((o) => `<AllowedOrigin>${o}</AllowedOrigin>`).join("")}<AllowedMethod>GET</AllowedMethod><AllowedMethod>HEAD</AllowedMethod><AllowedHeader>range</AllowedHeader><AllowedHeader>if-match</AllowedHeader><ExposeHeader>etag</ExposeHeader><ExposeHeader>content-range</ExposeHeader><MaxAgeSeconds>86400</MaxAgeSeconds></CORSRule></CORSConfiguration>`;
-  await call("?cors", { method: "PUT", body: cors, headers: { "Content-Type": "application/xml" } });
-  console.log("Done. Uploaded and CORS set.");
 }
 
-if (!flag("--skip-extract")) await extract();
-else if (!existsSync(OUT)) throw new Error(`${OUT} doesn't exist; drop --skip-extract`);
-if (!flag("--skip-upload")) await upload();
+async function setCors(call) {
+  const cors = `<CORSConfiguration><CORSRule>${ORIGINS.map((o) => `<AllowedOrigin>${o}</AllowedOrigin>`).join("")}<AllowedMethod>GET</AllowedMethod><AllowedMethod>HEAD</AllowedMethod><AllowedHeader>range</AllowedHeader><AllowedHeader>if-match</AllowedHeader><ExposeHeader>etag</ExposeHeader><ExposeHeader>content-range</ExposeHeader><MaxAgeSeconds>86400</MaxAgeSeconds></CORSRule></CORSConfiguration>`;
+  try {
+    await call("?cors", { method: "PUT", body: cors, headers: { "Content-Type": "application/xml" } });
+    console.log("Done. Uploaded and CORS set.");
+  } catch {
+    // An "Object Read & Write" token can't change bucket settings. The rule
+    // only needs setting once (it's already on youdoido-tiles).
+    console.log("Uploaded. This token can't set CORS; if the bucket is new, add the rule in R2 > bucket > Settings > CORS Policy.");
+  }
+}
+
+if (!flag("--skip-extract")) {
+  const cmd = pmtilesCommand();
+  const source = await latestBuild();
+  for (const file of FILES) await extract(cmd, source, file);
+}
+for (const file of FILES) {
+  if (!existsSync(`${DIR}/${file.key}`)) throw new Error(`${DIR}/${file.key} doesn't exist; drop --skip-extract`);
+}
+if (!flag("--skip-upload")) {
+  const call = r2();
+  for (const file of FILES) await upload(call, file);
+  await setCors(call);
+}
