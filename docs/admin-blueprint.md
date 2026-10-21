@@ -292,15 +292,15 @@ through `design-expert`, with a preview before any build.
 | # | Pri | Improvement | Why it matters | Size | Running cost | Roadmap status |
 |---|---|---|---|---|---|---|
 | 1 | P0 | `requireAdmin()` on every admin page | Every couple's data sat behind a layout-only check | S | 0 | **Done in branch** |
-| 2 | P0 | Admin MFA (Supabase TOTP, require `aal2` in `requireAdmin`) | One stolen password exposes every couple | S–M | 0 | In PR (Phase A): `/login/mfa` |
-| 3 | P0 | Daily cap on contract reading and thank-you drafts | An uncapped AI loop is an open-ended bill | S | 0 | In PR (Phase A): 10 contract reads, 40 thank-you drafts per wedding per day (migration 0125) |
-| 4 | P0 | Correct counts past 1,000 rows (Overview, Growth, Revenue, Couples) | Wrong numbers lead to wrong decisions, and fail silently | M | 0 | In PR (Phase A): `selectAll`/`listAllUsers` page past 1,000 |
-| 5 | P1 | Admin audit log (`admin_audit_log` + `logAdminAction`) | Accountability for bulk deletes, claim approvals and emails; prerequisite for a second admin | M | 0 | Proposed |
+| 2 | P0 | Admin MFA (Supabase TOTP, require `aal2` in `requireAdmin`) | One stolen password exposes every couple | S–M | 0 | Live (Phase A, 2026-10-21): `/login/mfa` |
+| 3 | P0 | Daily cap on contract reading and thank-you drafts | An uncapped AI loop is an open-ended bill | S | 0 | Live (Phase A, 2026-10-21): 10 contract reads, 40 thank-you drafts per wedding per day (migration 0125) |
+| 4 | P0 | Correct counts past 1,000 rows (Overview, Growth, Revenue, Couples) | Wrong numbers lead to wrong decisions, and fail silently | M | 0 | Live (Phase A, 2026-10-21): `selectAll`/`listAllUsers` page past 1,000 |
+| 5 | P1 | Admin audit log (`admin_audit_log` + `logAdminAction`) | Accountability for bulk deletes, claim approvals and emails; prerequisite for a second admin | M | 0 | In PR: `admin_audit_log` (migration 0126), `logAdminAction` in every changing admin action, /admin/audit-log |
 | 6 | P1 | Home redesign: needs-action queue + 5–7 defined KPI cards + coverage | Understand the company in 30 seconds; fewer page visits | M | 0 | Proposed (preview first) |
-| 7 | P1 | Security headers (CSP, HSTS, frame-ancestors) + rate limits on public inserts | Cheap protection against clickjacking, spam and inflated counts | S–M | 0 | Partly in PR (Phase A): HSTS, frame-ancestors, nosniff, Referrer/Permissions-Policy; contact-click capped at 10/hour per listing. Full CSP open |
+| 7 | P1 | Security headers (CSP, HSTS, frame-ancestors) + rate limits on public inserts | Cheap protection against clickjacking, spam and inflated counts | S–M | 0 | Partly live (Phase A, 2026-10-21): HSTS, frame-ancestors, nosniff, Referrer/Permissions-Policy; contact-click capped at 10/hour per listing. Full CSP open |
 | 8 | P1 | Error log table + daily error summary | Catch breakage before couples do (guest site, RSVPs) | M | 0 | Proposed |
 | 9 | P1 | Spend & renewals page (`ops_services`, `ops_deadlines`) | Know what you pay for and when it renews | M | 0 | Proposed |
-| 10 | P1 | Rename Revenue to "Reported bookings (GMV)" + definitions on every card | Stops GMV being mistaken for income | S | 0 | Relabel in PR (Phase A); card definitions come with Home (#6) |
+| 10 | P1 | Rename Revenue to "Reported bookings (GMV)" + definitions on every card | Stops GMV being mistaken for income | S | 0 | Relabel live (Phase A, 2026-10-21); card definitions come with Home (#6) |
 | 11 | P1 | Live-DB coverage view + listing opportunity ranking | Points the 50-state work at the gaps that matter most | M | 0 | Proposed |
 | 12 | P1 | Server-side `events` table, 15 events, couple + listing funnels | Can't learn where couples drop off without it; cheap now, painful to backfill | M | 0 | Proposed |
 | 13 | P2 | Ask Wren approved report tools + token tracking + fail-closed cap | Trustworthy, cited answers; visible AI cost | M | Cents | Proposed |

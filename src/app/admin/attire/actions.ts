@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/admin";
+import { logAdminAction } from "@/lib/admin-audit";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 
 function str(formData: FormData, key: string): string | null {
@@ -76,6 +77,7 @@ export async function saveAttireItem(formData: FormData): Promise<{ error?: stri
   if (error) return { error: error.message };
 
   refresh();
+  await logAdminAction("attire.save", { type: "attire_item", ids: [id] }, `${id ? "Edited" : "Added"} attire item "${values.name}"`);
   return {};
 }
 
@@ -85,5 +87,6 @@ export async function deleteAttireItem(formData: FormData): Promise<{ error?: st
   const { error } = await admin.from("attire_items").delete().eq("id", formData.get("id") as string);
   if (error) return { error: error.message };
   refresh();
+  await logAdminAction("attire.delete", { type: "attire_item", ids: [formData.get("id") as string] }, "Deleted an attire item");
   return {};
 }

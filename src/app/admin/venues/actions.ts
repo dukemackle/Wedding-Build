@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/admin";
+import { logAdminAction, plural } from "@/lib/admin-audit";
 import { restamp } from "@/lib/field-sources";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import { createClient } from "@/lib/supabase/server";
@@ -71,6 +72,7 @@ export async function createVenue(formData: FormData): Promise<{ error?: string 
 
   revalidatePath("/admin/venues");
   revalidatePath("/venues");
+  await logAdminAction("venue.create", { type: "venue" }, `Added venue "${name}"`);
   return {};
 }
 
@@ -113,6 +115,7 @@ export async function updateVenue(formData: FormData): Promise<{ error?: string 
 
   revalidatePath("/admin/venues");
   revalidatePath("/venues");
+  await logAdminAction("venue.update", { type: "venue", ids: [id] }, `Edited venue "${name}"`);
   return {};
 }
 
@@ -129,6 +132,7 @@ export async function setVenueActive(formData: FormData): Promise<{ error?: stri
 
   revalidatePath("/admin/venues");
   revalidatePath("/venues");
+  await logAdminAction("venue.set_active", { type: "venue", ids: [id] }, active ? "Showed a venue" : "Hid a venue");
   return {};
 }
 
@@ -155,6 +159,7 @@ export async function addVenueFaq(formData: FormData): Promise<{ error?: string 
 
   revalidatePath("/admin/venues");
   revalidatePath(`/venues/${venueId}`);
+  await logAdminAction("venue.faq_add", { type: "venue", ids: [venueId] }, "Added a venue FAQ");
   return {};
 }
 
@@ -171,6 +176,7 @@ export async function deleteVenueFaq(formData: FormData): Promise<{ error?: stri
 
   revalidatePath("/admin/venues");
   revalidatePath(`/venues/${venueId}`);
+  await logAdminAction("venue.faq_delete", { type: "venue", ids: [venueId] }, "Deleted a venue FAQ");
   return {};
 }
 
@@ -208,6 +214,7 @@ export async function importVenues(
 
   revalidatePath("/admin/venues");
   revalidatePath("/venues");
+  await logAdminAction("venue.import", { type: "venue" }, `Imported ${plural(parsed.rows.length, "venue")} from a pasted sheet`);
   return { imported: parsed.rows.length };
 }
 
@@ -238,6 +245,7 @@ export async function markVenueVerified(formData: FormData): Promise<{ error?: s
   if (error) return { error: error.message };
 
   revalidatePath("/admin/venues");
+  await logAdminAction("venue.mark_checked", { type: "venue", ids: [id] }, "Marked a venue as still right");
   return {};
 }
 
@@ -258,6 +266,7 @@ export async function bulkSetVenueActive(formData: FormData): Promise<{ error?: 
 
   revalidatePath("/admin/venues");
   revalidatePath("/venues");
+  await logAdminAction("venue.set_active", { type: "venue", ids }, `${formData.get("active") === "true" ? "Showed" : "Hid"} ${plural(ids.length, "venue")}`);
   return {};
 }
 
@@ -279,6 +288,7 @@ export async function bulkMarkVenuesVerified(formData: FormData): Promise<{ erro
   if (error) return { error: error.message };
 
   revalidatePath("/admin/venues");
+  await logAdminAction("venue.mark_checked", { type: "venue", ids }, `Marked ${plural(ids.length, "venue")} as still right`);
   return {};
 }
 
@@ -293,11 +303,14 @@ export async function bulkDeleteVenues(formData: FormData): Promise<{ error?: st
   const ids = formData.getAll("id") as string[];
   if (ids.length === 0) return { error: "Select at least one venue." };
 
+  // Names first: once the rows are gone, their ids no longer say what was deleted.
+  const { data: doomed } = await createAdminSupabaseClient().from("venues").select("name").in("id", ids);
   const { error } = await createAdminSupabaseClient().from("venues").delete().in("id", ids);
   if (error) return { error: error.message };
 
   revalidatePath("/admin/venues");
   revalidatePath("/venues");
+  await logAdminAction("venue.delete", { type: "venue", ids }, `Deleted ${plural(ids.length, "venue")}: ${(doomed ?? []).map((row) => row.name).join(", ")}`);
   return {};
 }
 
@@ -315,5 +328,7 @@ export async function pendingBundledVenues(): Promise<VenueImportValues[]> {
  */
 export async function addBundledVenues(): Promise<BundledResult> {
   await requireAdmin();
-  return addBundledVenueRows();
+  const result = await addBundledVenueRows();
+  if (result.imported) await logAdminAction("venue.import", { type: "venue" }, `Added ${plural(result.imported, "venue")} from the bundled batches`);
+  return result;
 }

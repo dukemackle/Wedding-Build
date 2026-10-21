@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/admin";
+import { logAdminAction, plural } from "@/lib/admin-audit";
 import { restamp } from "@/lib/field-sources";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import { createClient } from "@/lib/supabase/server";
@@ -61,6 +62,7 @@ export async function createVendor(formData: FormData): Promise<{ error?: string
 
   revalidatePath("/admin/vendors");
   revalidatePath("/vendors");
+  await logAdminAction("vendor.create", { type: "vendor" }, `Added vendor "${name}"`);
   return {};
 }
 
@@ -102,6 +104,7 @@ export async function updateVendor(formData: FormData): Promise<{ error?: string
 
   revalidatePath("/admin/vendors");
   revalidatePath("/vendors");
+  await logAdminAction("vendor.update", { type: "vendor", ids: [id] }, `Edited vendor "${name}"`);
   return {};
 }
 
@@ -118,6 +121,7 @@ export async function setVendorActive(formData: FormData): Promise<{ error?: str
 
   revalidatePath("/admin/vendors");
   revalidatePath("/vendors");
+  await logAdminAction("vendor.set_active", { type: "vendor", ids: [id] }, active ? "Showed a vendor" : "Hid a vendor");
   return {};
 }
 
@@ -135,6 +139,7 @@ export async function bulkSetVendorActive(formData: FormData): Promise<{ error?:
 
   revalidatePath("/admin/vendors");
   revalidatePath("/vendors");
+  await logAdminAction("vendor.set_active", { type: "vendor", ids }, `${active ? "Showed" : "Hid"} ${plural(ids.length, "vendor")}`);
   return {};
 }
 
@@ -161,6 +166,7 @@ export async function addVendorFaq(formData: FormData): Promise<{ error?: string
 
   revalidatePath("/admin/vendors");
   revalidatePath(`/vendors/${vendorId}`);
+  await logAdminAction("vendor.faq_add", { type: "vendor", ids: [vendorId] }, "Added a vendor FAQ");
   return {};
 }
 
@@ -177,6 +183,7 @@ export async function deleteVendorFaq(formData: FormData): Promise<{ error?: str
 
   revalidatePath("/admin/vendors");
   revalidatePath(`/vendors/${vendorId}`);
+  await logAdminAction("vendor.faq_delete", { type: "vendor", ids: [vendorId] }, "Deleted a vendor FAQ");
   return {};
 }
 
@@ -196,6 +203,7 @@ export async function addVendorContactLog(formData: FormData): Promise<{ error?:
   if (error) return { error: error.message };
 
   revalidatePath("/admin/vendors");
+  await logAdminAction("vendor.contact_log", { type: "vendor", ids: [vendorId] }, `Logged a ${contactType} for a vendor`);
   return {};
 }
 
@@ -218,6 +226,7 @@ export async function markVendorsVerified(formData: FormData): Promise<{ error?:
   if (error) return { error: error.message };
 
   revalidatePath("/admin/vendors");
+  await logAdminAction("vendor.mark_checked", { type: "vendor", ids }, `Marked ${plural(ids.length, "vendor")} as still right`);
   return {};
 }
 
@@ -232,11 +241,14 @@ export async function bulkDeleteVendors(formData: FormData): Promise<{ error?: s
   const ids = formData.getAll("id") as string[];
   if (ids.length === 0) return { error: "Select at least one vendor." };
 
+  // Names first: once the rows are gone, their ids no longer say what was deleted.
+  const { data: doomed } = await createAdminSupabaseClient().from("vendors").select("name").in("id", ids);
   const { error } = await createAdminSupabaseClient().from("vendors").delete().in("id", ids);
   if (error) return { error: error.message };
 
   revalidatePath("/admin/vendors");
   revalidatePath("/vendors");
+  await logAdminAction("vendor.delete", { type: "vendor", ids }, `Deleted ${plural(ids.length, "vendor")}: ${(doomed ?? []).map((row) => row.name).join(", ")}`);
   return {};
 }
 
@@ -254,5 +266,7 @@ export async function pendingBundledVendors(): Promise<VendorImportValues[]> {
  */
 export async function addBundledVendors(): Promise<BundledResult> {
   await requireAdmin();
-  return addBundledVendorRows();
+  const result = await addBundledVendorRows();
+  if (result.imported) await logAdminAction("vendor.import", { type: "vendor" }, `Added ${plural(result.imported, "vendor")} from the bundled batches`);
+  return result;
 }

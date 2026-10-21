@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/admin";
+import { logAdminAction, plural } from "@/lib/admin-audit";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import { getResendClient, INQUIRY_FROM_ADDRESS } from "@/lib/resend";
 import type { Wedding } from "@/lib/supabase/types";
@@ -70,6 +71,7 @@ export async function emailCouples(
     }
   }
 
+  await logAdminAction("couple.email", { type: "wedding", ids: weddingIds }, `Emailed ${plural(sent, "couple")} (${failed} failed): "${subject}"`);
   return { sent, failed };
 }
 
@@ -94,6 +96,7 @@ export async function updateCoupleNotes(formData: FormData): Promise<{ error?: s
 
   revalidatePath(`/admin/couples/${weddingId}`);
   revalidatePath("/admin/couples");
+  await logAdminAction("couple.notes", { type: "wedding", ids: [weddingId] }, "Edited a couple's admin notes and tags");
   return {};
 }
 
@@ -103,11 +106,6 @@ export async function bulkAddCoupleTag(formData: FormData): Promise<{ error?: st
   const weddingIds = formData.getAll("wedding_id") as string[];
   const tag = ((formData.get("tag") as string) || "").trim();
   if (weddingIds.length === 0) return { error: "Select at least one couple." };
-  // Resend's free tier allows 100 emails a day across the whole app; a bigger
-  // send would starve RSVP and inquiry emails, and goes out in batches.
-  if (weddingIds.length > MAX_COUPLES_PER_EMAIL) {
-    return { error: `Select at most ${MAX_COUPLES_PER_EMAIL} couples per send.` };
-  }
   if (!tag) return { error: "Enter a tag." };
 
   const admin = createAdminSupabaseClient();
@@ -131,6 +129,7 @@ export async function bulkAddCoupleTag(formData: FormData): Promise<{ error?: st
   if (error) return { error: error.message };
 
   revalidatePath("/admin/couples");
+  await logAdminAction("couple.tag", { type: "wedding", ids: weddingIds }, `Tagged ${plural(weddingIds.length, "couple")} "${tag}"`);
   return {};
 }
 
@@ -148,5 +147,6 @@ export async function setWeddingIsTest(formData: FormData): Promise<{ error?: st
   revalidatePath("/admin/couples");
   revalidatePath("/admin/growth");
   revalidatePath("/admin/vendors");
+  await logAdminAction("couple.set_test", { type: "wedding", ids: [weddingId] }, isTest ? "Marked a couple as test" : "Unmarked a couple as test");
   return {};
 }
