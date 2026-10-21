@@ -3,7 +3,6 @@
 import { randomUUID } from "node:crypto";
 import { revalidatePath } from "next/cache";
 import { MAX_GALLERY_PHOTOS, MAX_VENUE_PHOTOS } from "@/lib/guest-site";
-import { chooseUnsplash, searchUnsplash, type StockPhoto } from "@/lib/unsplash";
 import { requireEditableWedding } from "@/lib/wedding-access";
 
 function str(formData: FormData, key: string): string | null {
@@ -251,67 +250,6 @@ export async function removeGalleryPhoto(formData: FormData): Promise<{ error?: 
     return { error: error.message };
   }
 
-  revalidateGuestSite(wedding.public_slug);
-  return {};
-}
-
-/** A page of photo-search results for the banner or gallery. */
-export async function searchStockPhotos(
-  query: string,
-  page: number,
-): Promise<{ error?: string; photos?: StockPhoto[]; more?: boolean }> {
-  const { wedding, noWedding } = await requireEditableWedding();
-  if (!wedding) return { error: noWedding };
-  const q = query.trim().slice(0, 100);
-  if (!q) return { photos: [], more: false };
-  const result = await searchUnsplash(q, Math.max(1, Math.min(50, Math.floor(page) || 1)));
-  if (!result) return { error: "Photo search isn't answering right now. Try again in a minute." };
-  return result;
-}
-
-/**
- * Puts a searched photo on the banner or in the gallery, with its credit.
- * Hotlinked from Unsplash rather than copied into storage: their terms ask
- * for that, and it costs us no storage.
- */
-export async function addStockPhoto(id: string, target: "hero" | "gallery"): Promise<{ error?: string }> {
-  const { supabase, wedding, noWedding } = await requireEditableWedding();
-  if (!wedding) return { error: noWedding };
-
-  let existing = 0;
-  if (target === "gallery") {
-    const { count } = await supabase
-      .from("wedding_gallery_photos")
-      .select("id", { count: "exact", head: true })
-      .eq("wedding_id", wedding.id);
-    existing = count ?? 0;
-    if (existing >= MAX_GALLERY_PHOTOS) {
-      return { error: `The gallery holds ${MAX_GALLERY_PHOTOS} photos — remove one to add another.` };
-    }
-  }
-
-  const photo = await chooseUnsplash(id, target === "hero" ? 2400 : 1600);
-  if (!photo) return { error: "Couldn't get that photo. Try another, or try again in a minute." };
-
-  const { error: creditError } = await supabase.from("wedding_photo_credits").upsert({
-    wedding_id: wedding.id,
-    photo_url: photo.url,
-    photographer: photo.photographer,
-    profile_url: photo.profileUrl,
-  });
-  if (creditError) return { error: "Couldn't save that photo — please try again." };
-
-  const { error } =
-    target === "hero"
-      ? await supabase.from("weddings").update({ hero_photo_url: photo.url }).eq("id", wedding.id)
-      : await supabase.from("wedding_gallery_photos").insert({
-          wedding_id: wedding.id,
-          photo_url: photo.url,
-          sort_order: existing,
-        });
-  if (error) return { error: "Couldn't save that photo — please try again." };
-
-  revalidatePath("/dashboard");
   revalidateGuestSite(wedding.public_slug);
   return {};
 }

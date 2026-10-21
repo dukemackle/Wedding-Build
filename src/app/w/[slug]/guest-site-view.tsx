@@ -404,10 +404,7 @@ export function GuestSiteView({
           <SectionLayout sections={sections} />
         </LiveDetailsProvider>
       </Replayable>
-      <PhotoCredits
-        credits={photoCredits}
-        shown={[wedding.hero_photo_url, ...galleryPhotos.map((p) => p.photo_url)]}
-      />
+      <PhotoCredits credits={photoCredits} shown={galleryPhotos.map((p) => p.photo_url)} />
     </main>
   );
 }

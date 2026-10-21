@@ -1,5 +1,6 @@
 "use client";
 
+import { isLibraryPhoto } from "@/lib/photo-credit";
 import Image from "next/image";
 import type { WeddingGalleryPhoto } from "@/lib/supabase/types";
 import { useSiteDesign } from "@/components/guest-site-theme";
@@ -106,6 +107,7 @@ function Scrapbook({ photos, alt }: Props) {
           )}
           <Image
             src={photo.photo_url}
+            unoptimized={isLibraryPhoto(photo.photo_url)}
             alt={alt(i)}
             width={i === 0 ? 700 : 480}
             height={i === 0 ? 700 : 480}
@@ -128,6 +130,7 @@ function Masonry({ photos, alt }: Props) {
         <Image
           key={photo.id}
           src={photo.photo_url}
+          unoptimized={isLibraryPhoto(photo.photo_url)}
           alt={alt(i)}
           width={600}
           height={750}
@@ -164,6 +167,7 @@ function Filmstrip({ photos, alt }: Props) {
           <Image
             key={photo.id}
             src={photo.photo_url}
+            unoptimized={isLibraryPhoto(photo.photo_url)}
             alt={alt(i)}
             width={640}
             height={480}
@@ -212,7 +216,7 @@ function WashingLine({ photos, alt }: Props) {
                 className="absolute -top-2.5 left-1/2 h-5 w-2 -translate-x-1/2 rounded-[2px] bg-[#c8a77a] shadow-sm"
                 aria-hidden="true"
               />
-              <Image src={photo.photo_url} alt={alt(offset + i)} width={480} height={480} className="aspect-square w-full object-cover" />
+              <Image src={photo.photo_url} unoptimized={isLibraryPhoto(photo.photo_url)} alt={alt(offset + i)} width={480} height={480} className="aspect-square w-full object-cover" />
             </figure>
           );
         })}

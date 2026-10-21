@@ -15,6 +15,7 @@ import { SiteArt } from "@/components/site-art";
 import { SiteText } from "@/components/site-text";
 import { SceneArtwork, SiteScene } from "@/components/site-scene";
 import { SiteSection } from "@/components/site-section";
+import { creditLinks, isLibraryPhoto, parseCredit } from "@/lib/photo-credit";
 
 function formatDate(dateStr: string) {
   return new Date(`${dateStr}T00:00:00`).toLocaleDateString("en-US", {
@@ -167,12 +168,28 @@ export function WeddingHero({ wedding }: { wedding: PublicWedding }) {
   // With no photo yet, a photo layout draws the scene as its picture, so it
   // isn't drawn again around it.
   const illustrated = !bannerPhoto(wedding) && PHOTO_HEROES.includes(hero);
+  // A free-library banner always shows its photographer (Unsplash's rule),
+  // whenever the layout shows the banner at all.
+  const credit = wedding.hero_photo_url && PHOTO_HEROES.includes(hero) ? parseCredit(wedding.hero_photo_credit) : null;
+  const links = credit ? creditLinks(credit) : null;
   return (
     <div className="mb-10 flex flex-col">
       {!illustrated && <SiteScene where="strip" />}
       <SiteSection sectionKey="hero">
         <HeroLayout wedding={wedding} />
       </SiteSection>
+      {credit && links && (
+        <p className="px-4 pt-2 text-right text-[11px] text-ink/60 sm:px-6">
+          Photo by{" "}
+          <a href={links.photographer} target="_blank" rel="noopener noreferrer" className="underline">
+            {credit.name}
+          </a>{" "}
+          on{" "}
+          <a href={links.library} target="_blank" rel="noopener noreferrer" className="underline">
+            Unsplash
+          </a>
+        </p>
+      )}
       {!illustrated && <SiteScene where="band" />}
     </div>
   );
@@ -316,6 +333,7 @@ function Slideshow({ photos }: { photos: string[] }) {
         <Image
           key={src}
           src={src}
+          unoptimized={isLibraryPhoto(src)}
           alt=""
           fill
           priority={i === 0}
@@ -375,7 +393,7 @@ function HeroLayout({ wedding }: { wedding: PublicWedding }) {
         {photo ? (
           <>
             <div className="site-hero-photo absolute inset-0 bg-[var(--site-photo)]">
-              <Image src={photo} alt="" fill priority sizes="100vw" className="hero-kenburns object-cover" />
+              <Image src={photo} unoptimized={isLibraryPhoto(photo)} alt="" fill priority sizes="100vw" className="hero-kenburns object-cover" />
             </div>
             <span className="absolute inset-0 bg-black/40" aria-hidden="true" />
           </>
@@ -401,7 +419,7 @@ function HeroLayout({ wedding }: { wedding: PublicWedding }) {
       >
         {photo && (
           <div className="site-hero-photo absolute inset-0 bg-[var(--site-photo)]">
-            <Image src={photo} alt="" fill priority sizes="100vw" className="hero-kenburns object-cover" />
+            <Image src={photo} unoptimized={isLibraryPhoto(photo)} alt="" fill priority sizes="100vw" className="hero-kenburns object-cover" />
           </div>
         )}
         <div className="relative z-10 mx-auto max-w-2xl bg-card p-2 shadow-lg sm:p-3">
@@ -423,7 +441,7 @@ function HeroLayout({ wedding }: { wedding: PublicWedding }) {
       <header className="grid lg:min-h-[92vh] lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
         <div className="site-hero-photo relative h-[46vh] min-h-[300px] overflow-hidden bg-[var(--site-photo)] lg:h-auto">
           {photo ? (
-            <Image src={photo} alt="" fill priority sizes="(min-width: 1024px) 60vw, 100vw" className="hero-kenburns object-cover" />
+            <Image src={photo} unoptimized={isLibraryPhoto(photo)} alt="" fill priority sizes="(min-width: 1024px) 60vw, 100vw" className="hero-kenburns object-cover" />
           ) : (
             <SceneArtwork />
           )}
@@ -479,16 +497,16 @@ function HeroLayout({ wedding }: { wedding: PublicWedding }) {
       <header className="grid items-center gap-10 px-4 pb-12 pt-10 sm:px-8 lg:min-h-[78vh] lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:gap-6 lg:px-12">
         <div className="relative mx-auto aspect-[5/4] w-full max-w-[640px]">
           <div className={`${tile} inset-y-[6%] left-[8%] right-[14%]`}>
-            {photo ? <Image src={photo} alt="" fill priority sizes="(min-width: 1024px) 45vw, 90vw" className="object-cover" /> : <SceneArtwork />}
+            {photo ? <Image src={photo} unoptimized={isLibraryPhoto(photo)} alt="" fill priority sizes="(min-width: 1024px) 45vw, 90vw" className="object-cover" /> : <SceneArtwork />}
           </div>
           {second && (
             <div className={`${tile} bottom-0 right-0 h-[42%] w-[34%] rotate-[4deg]`}>
-              <Image src={second} alt="" fill sizes="(min-width: 1024px) 16vw, 34vw" className="object-cover" />
+              <Image src={second} unoptimized={isLibraryPhoto(second)} alt="" fill sizes="(min-width: 1024px) 16vw, 34vw" className="object-cover" />
             </div>
           )}
           {third && (
             <div className={`${tile} left-0 top-0 h-[34%] w-[28%] -rotate-[5deg]`}>
-              <Image src={third} alt="" fill sizes="(min-width: 1024px) 13vw, 28vw" className="object-cover" />
+              <Image src={third} unoptimized={isLibraryPhoto(third)} alt="" fill sizes="(min-width: 1024px) 13vw, 28vw" className="object-cover" />
             </div>
           )}
         </div>
@@ -505,7 +523,7 @@ function HeroLayout({ wedding }: { wedding: PublicWedding }) {
         <div className="relative z-10 rounded-[200px_200px_8px_8px] border border-[var(--site-accent)] p-2.5">
           <div className="site-hero-photo relative h-[340px] w-[250px] overflow-hidden rounded-[190px_190px_4px_4px] bg-[var(--site-photo)] sm:h-[420px] sm:w-[310px]">
             {photo ? (
-            <Image src={photo} alt="" fill priority sizes="310px" className="hero-kenburns object-cover" />
+            <Image src={photo} unoptimized={isLibraryPhoto(photo)} alt="" fill priority sizes="310px" className="hero-kenburns object-cover" />
           ) : (
             <SceneArtwork />
           )}
@@ -524,7 +542,7 @@ function HeroLayout({ wedding }: { wedding: PublicWedding }) {
     <header className="flex flex-col items-center">
       <div className="site-hero-photo relative h-[52vh] min-h-[320px] w-full overflow-hidden bg-[var(--site-photo)] lg:h-[62vh]">
         {photo ? (
-            <Image src={photo} alt="" fill priority sizes="100vw" className="hero-kenburns object-cover" />
+            <Image src={photo} unoptimized={isLibraryPhoto(photo)} alt="" fill priority sizes="100vw" className="hero-kenburns object-cover" />
           ) : (
             <SceneArtwork />
           )}

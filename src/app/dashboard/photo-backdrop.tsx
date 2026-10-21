@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import { focusPosition, type PhotoFocus } from "@/lib/dashboard-photos";
+import { isLibraryPhoto } from "@/lib/photo-credit";
 
 const SECONDS_PER_PHOTO = 8;
 
@@ -59,6 +60,7 @@ export function PhotoBackdrop({ photos, focus }: { photos: string[]; focus?: Pho
         >
           <Image
             src={src}
+            unoptimized={isLibraryPhoto(src)}
             alt=""
             fill
             priority={i === shown && step === 0}

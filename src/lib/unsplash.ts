@@ -1,91 +1,101 @@
 import "server-only";
+import type { PhotoCredit } from "./photo-credit";
 
 /**
- * Photo search for the guest site's banner and gallery, through the Unsplash
- * API. Off until UNSPLASH_ACCESS_KEY is set; the search button doesn't show.
+ * Unsplash, the free photo library behind "Find a free photo" in the guest
+ * site's banner panel (decided 2026-10-21, after Pexels paused new keys).
  *
- * The API's terms shape this file: photos are hotlinked from the URLs it
- * returns (never re-uploaded), every chosen photo is reported to its download
- * endpoint, and the photographer and Unsplash are credited with links back,
- * tagged with our app name. See https://unsplash.com/documentation.
+ * Unsplash's API rules shape this file: the key never leaves the server, the
+ * photos are shown from Unsplash's own image servers (never copied into our
+ * storage), using one is reported to Unsplash's download endpoint, and every
+ * photo shown carries its photographer's name and links back with our UTM
+ * tags (creditLinks in photo-credit.ts). Without UNSPLASH_ACCESS_KEY the
+ * feature simply doesn't appear, as with the Google Drive picker.
  */
 
 const API = "https://api.unsplash.com";
-const APP = "youdoido";
 
-export function unsplashConfigured(): boolean {
-  return Boolean(process.env.UNSPLASH_ACCESS_KEY?.trim());
-}
+export type LibraryPhoto = {
+  id: string;
+  /** A small version for the picker's grid. */
+  thumb: string;
+  alt: string;
+  width: number;
+  height: number;
+  credit: PhotoCredit;
+};
 
 type ApiPhoto = {
   id: string;
   width: number;
   height: number;
   alt_description: string | null;
-  urls: { raw: string; regular: string; small: string };
+  description: string | null;
+  urls: { raw: string; small: string };
   links: { download_location: string };
-  user: { name: string; links: { html: string } };
+  user: { name: string; username: string };
 };
 
-export type StockPhoto = {
-  id: string;
-  thumb: string;
-  alt: string;
-  photographer: string;
-  profileUrl: string;
-};
+function accessKey() {
+  return process.env.UNSPLASH_ACCESS_KEY || null;
+}
+
+export function photoLibraryEnabled() {
+  return accessKey() !== null;
+}
 
 async function call<T>(path: string): Promise<T | null> {
-  const key = process.env.UNSPLASH_ACCESS_KEY?.trim();
+  const key = accessKey();
   if (!key) return null;
   const res = await fetch(`${API}${path}`, {
     headers: { Authorization: `Client-ID ${key}`, "Accept-Version": "v1" },
     cache: "no-store",
-  }).catch(() => null);
-  if (!res?.ok) return null;
+  });
+  if (!res.ok) return null;
   return (await res.json()) as T;
 }
 
-/** The credit links Unsplash asks for: the photographer's page and theirs, tagged with ours. */
-export function withReferral(url: string): string {
-  return `${url}${url.includes("?") ? "&" : "?"}utm_source=${APP}&utm_medium=referral`;
-}
-export const UNSPLASH_HOME = withReferral("https://unsplash.com/");
-
-function summary(p: ApiPhoto): StockPhoto {
+function toLibraryPhoto(p: ApiPhoto): LibraryPhoto {
   return {
     id: p.id,
     thumb: p.urls.small,
-    alt: p.alt_description ?? "",
-    photographer: p.user.name,
-    profileUrl: withReferral(p.user.links.html),
+    alt: p.alt_description ?? p.description ?? "",
+    width: p.width,
+    height: p.height,
+    credit: { source: "unsplash", name: p.user.name, username: p.user.username },
   };
 }
 
-/** One page of results, with Unsplash's strictest safe-search filter. */
-export async function searchUnsplash(query: string, page: number): Promise<{ photos: StockPhoto[]; more: boolean } | null> {
-  const params = new URLSearchParams({ query, page: String(page), per_page: "24", content_filter: "high" });
+/** Landscape photos for a banner, safe-search on. Null when the library is off or Unsplash fails. */
+export async function searchPhotos(query: string, page = 1) {
+  const params = new URLSearchParams({
+    query,
+    page: String(page),
+    per_page: "18",
+    orientation: "landscape",
+    content_filter: "high",
+  });
   const data = await call<{ total_pages: number; results: ApiPhoto[] }>(`/search/photos?${params}`);
   if (!data) return null;
-  return { photos: data.results.map(summary), more: page < data.total_pages };
+  return { photos: data.results.map(toLibraryPhoto), totalPages: data.total_pages };
 }
 
 /**
- * The photo to save, looked up again by id so the URL and credit come from
- * Unsplash rather than from the browser, and reported as a download.
+ * One photo, looked up again on the server so a banner's address and credit
+ * always come from Unsplash, never from what the browser sent. Reports the
+ * use to Unsplash, as their terms ask. The address is Unsplash's own,
+ * sized for a banner.
  */
-export async function chooseUnsplash(
-  id: string,
-  width: number,
-): Promise<{ url: string; photographer: string; profileUrl: string } | null> {
-  if (!/^[A-Za-z0-9_-]{1,32}$/.test(id)) return null;
+export async function claimPhoto(id: string) {
+  if (!/^[A-Za-z0-9_-]{1,64}$/.test(id)) return null;
   const photo = await call<ApiPhoto>(`/photos/${id}`);
-  if (!photo || !photo.urls.raw.startsWith("https://images.unsplash.com/")) return null;
+  if (!photo) return null;
   const download = new URL(photo.links.download_location);
-  await call(download.pathname + download.search);
-  return {
-    url: `${photo.urls.raw}&auto=format&fit=crop&w=${width}&q=80`,
-    photographer: photo.user.name,
-    profileUrl: withReferral(photo.user.links.html),
-  };
+  if (download.origin === API) await call(`${download.pathname}${download.search}`);
+  const url = new URL(photo.urls.raw);
+  url.searchParams.set("w", "2400");
+  url.searchParams.set("q", "80");
+  url.searchParams.set("fm", "jpg");
+  url.searchParams.set("fit", "max");
+  return { url: url.toString(), credit: toLibraryPhoto(photo).credit };
 }

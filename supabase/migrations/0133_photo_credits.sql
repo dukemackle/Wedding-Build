@@ -1,12 +1,12 @@
--- Credits for photos the couple picked through photo search (Unsplash) for
--- their guest-site banner or gallery. Unsplash's API terms require the
--- photographer and Unsplash to be credited wherever the photo is shown, so
--- the guest site prints a credits line from this table.
+-- Credits for gallery photos the couple picked from the free photo library
+-- (Unsplash). The banner's credit is weddings.hero_photo_credit (0132).
+-- Unsplash's API terms require the photographer and Unsplash to be credited
+-- wherever a photo is shown, so the guest site prints a credits line from
+-- this table. Was 0132 on its branch; same contents, safe to run again.
 --
--- Keyed by the photo's URL rather than hung off the banner column and the
--- gallery table, so neither changes shape and the public_weddings view stays
--- as it is. A credit outlives its photo harmlessly: the site only prints
--- credits for URLs it is actually showing.
+-- Keyed by the photo's URL rather than a column on the gallery table, so that
+-- table keeps its shape. A credit outlives its photo harmlessly: the site
+-- only prints credits for URLs it is actually showing.
 
 create table if not exists wedding_photo_credits (
   wedding_id uuid not null references weddings (id) on delete cascade,

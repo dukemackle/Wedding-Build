@@ -6,10 +6,10 @@ import type { WeddingGalleryPhoto } from "@/lib/supabase/types";
 import { MAX_GALLERY_PHOTOS } from "@/lib/guest-site";
 import { shrinkImage } from "@/lib/shrink-image";
 import { addGalleryPhotos, removeGalleryPhoto } from "./guest-site-actions";
-import { StockPhotoSearch } from "./stock-photo-search";
+import { PhotoLibrary } from "./photo-library";
 
 /** The couple's photo gallery on the guest site: a grid of what's up, and an add button. */
-export function GalleryPanel({ photos, canSearch }: { photos: WeddingGalleryPhoto[]; canSearch: boolean }) {
+export function GalleryPanel({ photos, library = false }: { photos: WeddingGalleryPhoto[]; library?: boolean }) {
   const [error, setError] = useState<string | undefined>(undefined);
   const [isPending, startTransition] = useTransition();
   const formRef = useRef<HTMLFormElement>(null);
@@ -97,7 +97,11 @@ export function GalleryPanel({ photos, canSearch }: { photos: WeddingGalleryPhot
           </button>
         </form>
       )}
-      {!full && canSearch && <StockPhotoSearch target="gallery" />}
+      {!full && library && (
+        <div className="mt-4">
+          <PhotoLibrary target="gallery" />
+        </div>
+      )}
       {error && <p className="mt-2 text-sm text-red-800">{error}</p>}
     </div>
   );

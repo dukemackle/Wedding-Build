@@ -1,9 +1,10 @@
 import type { WeddingPhotoCredit } from "@/lib/supabase/types";
-import { UNSPLASH_HOME } from "@/lib/unsplash";
+import { UNSPLASH_HOME } from "@/lib/photo-credit";
 
 /**
  * "Photos by Ana Ruiz and Leo Park on Unsplash", under the last section, for
- * the searched photos the page is actually showing. Unsplash's terms require
+ * the free-library gallery photos the page is showing (the banner's credit sits
+ * under the banner, see wedding-hero.tsx). Unsplash's terms require
  * the credit; it stays small so it doesn't compete with the couple's page.
  */
 export function PhotoCredits({ credits, shown }: { credits: WeddingPhotoCredit[]; shown: (string | null)[] }) {
