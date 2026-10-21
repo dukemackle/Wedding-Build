@@ -109,7 +109,10 @@ past its password (0121). A new guest-site table gets a policy built on
 - Processor DPAs with Supabase/Cloudflare/Resend (all offer standard ones).
 
 **Analytics or ad pixels:** disclose in Privacy; in the EU, a consent banner
-before they load.
+before they load. (First-party milestone events in `events`, 2026-10-21, are
+server-side, cookieless, hold no typed content and are disclosed in Privacy
+under "Automatically"; they need no banner. A new event that would carry
+personal data does.)
 
 **Payments/billing:** Terms need pricing, refunds, auto-renewal disclosure
 (state auto-renewal laws require clear terms and easy cancellation); the

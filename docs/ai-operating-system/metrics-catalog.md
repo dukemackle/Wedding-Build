@@ -16,7 +16,8 @@ up under `unavailable`). **PC** = `node .claude/skills/pricing-check/metrics.mjs
 | Test weddings | Flagged test or owner-owned | WR `signups.weddingsTest` |
 | Real signups by month | Real weddings by created month | PC `couples.real_signups_by_month` |
 | Couples who inquired | Real weddings with ≥1 vendor inquiry | PC `couples.real_weddings_with_a_vendor_inquiry` |
-| Activation, retention, feature use | — | **No data**: no analytics (see `integrations.md`) |
+| Couple funnel | Real weddings created in a period → started planning → activated (3 of guest/budget/task/save) → inquired → guest site live → first RSVP; plus returned 30+ days after signup | `/admin/analytics`, `admin_event_funnels()` on `events` (0130). Counts from when 0130 ran, no backfill |
+| Listing funnel | Wedding × listing pairs: opened → saved → inquired → booked, venues and vendors | `/admin/analytics` |
 
 ## Marketplace
 | Metric | Definition | Source |

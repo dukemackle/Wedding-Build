@@ -8,6 +8,7 @@ import { getResendClient, INQUIRY_FROM_ADDRESS } from "@/lib/resend";
 import { vendorForClaimToken } from "@/lib/vendor-claim-server";
 import { CLAIM_PHOTO_TYPES, MAX_CLAIM_PHOTO_BYTES, MAX_CLAIM_PHOTOS } from "@/lib/venue-claim";
 import { validateVendorClaim, type VendorClaimSubmission } from "@/lib/vendor-claim";
+import { trackEvent } from "@/lib/events";
 
 // The vendor side of the claim flow; see ../../[token]/actions.ts for the
 // venue side and the reasoning. Every action resolves the token first and
@@ -68,6 +69,7 @@ export async function submitVendorClaim(
     photo_urls: value.photoUrls,
   });
   if (error) return { error: "Couldn't save your changes -- please try again." };
+  trackEvent("listing_claim_submitted", { listing: { kind: "vendor", id: vendor.id } });
 
   const adminEmail = process.env.ADMIN_EMAIL?.split(",")[0]?.trim();
   if (adminEmail && process.env.RESEND_API_KEY) {

@@ -7,6 +7,7 @@ import { PageShell } from "@/components/page-shell";
 import { JsonLd, faqJsonLd } from "@/components/json-ld";
 import { SITE_URL, isIndexable, metaDescription, venueHref } from "@/lib/public-listings";
 import { loadVenueListing, VenueListing, type VenueListingData } from "./venue-listing";
+import { trackEvent } from "@/lib/events";
 
 // The full-page listing: what a shared link, a refresh, a search result or a
 // link from outside /venues opens. Clicking a venue in the search results
@@ -81,6 +82,9 @@ export default async function VenueDetailPage({ params }: { params: Promise<{ id
   const { id } = await params;
   const { user, data } = await load(id);
   if (!data) notFound();
+  // A couple opening a listing: the top of the listing funnel. Logged-out
+  // visitors and bots aren't counted.
+  if (data.wedding) trackEvent("listing_viewed", { weddingId: data.wedding.id, listing: { kind: "venue", id: data.venue.id } });
 
   return (
     <PageShell email={user ? (user.email ?? "") : null} width="wide">

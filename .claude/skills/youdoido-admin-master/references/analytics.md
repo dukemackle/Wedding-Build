@@ -6,7 +6,9 @@
   (`src/app/privacy/page.tsx`, "We don't use analytics or third-party
   advertising trackers"). Adding any provider means updating that page and
   `docs/legal.md` first.
-- No event table. Metrics are derived from domain rows: Growth's "feature
+- Event table `events` (migration 0130, 2026-10-21): `trackEvent()` in
+  `src/lib/events.ts` holds the approved names; funnels on `/admin/analytics`.
+  Older metrics are still derived from domain rows: Growth's "feature
   adoption" = a wedding has at least one row in a table
   (`src/app/admin/growth/page.tsx`). No timestamps of use, funnels or cohorts.
 - Event-like tables that do exist: `listing_contact_clicks`,

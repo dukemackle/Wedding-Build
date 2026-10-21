@@ -10,6 +10,7 @@ import { seedStandardPlan } from "@/lib/seed-plan";
 import { MAX_DASHBOARD_PHOTOS } from "@/lib/dashboard-photos";
 import type { Wedding } from "@/lib/supabase/types";
 import { logError } from "@/lib/error-log";
+import { trackEvent } from "@/lib/events";
 
 const MAX_PHOTO_BYTES = 5 * 1024 * 1024;
 
@@ -111,6 +112,7 @@ export async function saveWedding(formData: FormData): Promise<{ error?: string 
     await logError("planning", "saveWedding", error);
     return { error: "We couldn't save your wedding details. Please try again in a moment." };
   }
+  if (!existing && saved) trackEvent("wedding_created", { weddingId: saved.id, userId: user.id });
 
   // A moved wedding moves its weekend: every schedule event shifts by the same
   // number of days (the form's "Move my schedule too", on by default), so the
