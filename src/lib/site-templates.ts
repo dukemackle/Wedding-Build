@@ -23,7 +23,7 @@ import {
  * page. Only the look changes.
  */
 
-export const TEMPLATE_TAGS = ["Beach", "Garden", "Rustic", "Line art", "Traditions", "Modern", "Glam"] as const;
+export const TEMPLATE_TAGS = ["Signature", "Beach", "Garden", "Rustic", "Line art", "Traditions", "Modern", "Glam"] as const;
 
 export type TemplateTag = (typeof TEMPLATE_TAGS)[number];
 
@@ -45,9 +45,51 @@ export type SiteTemplate = {
   motion?: keyof typeof MOTION_PRESETS;
   /** What falls, over the motion preset's own. */
   falling?: FallingId;
+  /** The RSVP's layout; none means the plain card. */
+  rsvp?: SiteDesign["layouts"]["rsvp"];
 };
 
 export const TEMPLATES: SiteTemplate[] = [
+  // The signature templates (approved 2026-10-21): each its own page
+  // arrangement (PAGE_STYLES), not only a colour and a piece of art.
+  {
+    id: "heirloom",
+    name: "Heirloom",
+    tags: ["Signature", "Garden"],
+    theme: "garden",
+    palette: "heirloom",
+    fonts: "cj",
+    hero: "framed",
+    ornament: "none",
+    art: { id: "rose", placement: "sides" },
+    pageStyle: "invitation",
+  },
+  {
+    id: "editorial",
+    name: "Editorial",
+    tags: ["Signature", "Modern"],
+    theme: "modern",
+    palette: "gallery",
+    fonts: "bj",
+    hero: "poster",
+    ornament: "none",
+    pageStyle: "magazine",
+    rsvp: "band",
+  },
+  {
+    id: "riviera",
+    name: "Riviera",
+    tags: ["Signature", "Beach"],
+    theme: "riviera",
+    palette: "amalfi",
+    fonts: "dk",
+    hero: "split",
+    ornament: "none",
+    art: { id: "lemon", placement: "sides" },
+    pageStyle: "postcard",
+    rsvp: "band",
+    motion: "lively",
+  },
   {
     id: "ocean",
     name: "Cake by the Ocean",
@@ -336,6 +378,7 @@ export function applyTemplate(design: SiteDesign, t: SiteTemplate): SiteDesign {
     hero: t.hero,
     scene: t.scene ?? null,
     pageStyle: t.pageStyle ?? "cards",
+    layouts: { ...design.layouts, rsvp: t.rsvp ?? "card" },
     background: { ...NO_BACKGROUND, ...t.background },
     motion: { ...MOTION_PRESETS[t.motion ?? "subtle"], ...(t.falling ? { falling: t.falling } : {}) },
     text,

@@ -11,6 +11,17 @@ They're summarised here only by reference; CLAUDE.md is the source.
 
 ## Approved directions
 
+- **2026-10-21:** Guest-site signature templates: build fewer, better
+  templates, each laying out the whole page its own way rather than
+  recolouring one skeleton. First three from the mockup
+  (https://claude.ai/artifact/7PfnLaRR3YrcaxYqVwm8ax): Heirloom (invitation
+  page style, painted roses), Editorial (magazine page style) and Riviera
+  (postcard page style). Same day, the owner approved free stock photos
+  (template samples and an in-editor photo search, after a licence check)
+  and a keep-or-cut review of the existing art
+  (https://claude.ai/artifact/2qpGBE5DeeCzKbskYx1MnG). Applied in
+  `PAGE_STYLES` (`src/lib/site-design.ts`), `section-layout.tsx` and
+  `site-templates.ts`.
 - **2026-10-21:** `/data-sources` page in the Privacy page's style (READING
   width, eyebrow + display heading, one bordered list of sources), linked
   from the footer as "Data sources". Applied in `src/app/data-sources/`.

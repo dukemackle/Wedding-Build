@@ -309,32 +309,34 @@ export function GuestSiteView({
             Travel &amp; what to wear
           </SiteText>
 
-          {wedding.dress_code && (
-            <div className="mt-4">
-              <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
-                Dress code
-              </p>
-              <p className="mt-1 text-ink/80">{wedding.dress_code}</p>
-            </div>
-          )}
+          <div className="site-travel mt-4 grid gap-5">
+            {wedding.dress_code && (
+              <div className="site-travel-item">
+                <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
+                  Dress code
+                </p>
+                <p className="mt-1 text-ink/80">{wedding.dress_code}</p>
+              </div>
+            )}
 
-          {wedding.travel_notes && (
-            <div className="mt-5">
-              <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
-                Getting there &amp; parking
-              </p>
-              <p className="mt-1 whitespace-pre-line text-ink/80">{wedding.travel_notes}</p>
-            </div>
-          )}
+            {wedding.travel_notes && (
+              <div className="site-travel-item">
+                <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
+                  Getting there &amp; parking
+                </p>
+                <p className="mt-1 whitespace-pre-line text-ink/80">{wedding.travel_notes}</p>
+              </div>
+            )}
 
-          {accommodations && accommodations.length > 0 && (
-            <div className="mt-5">
-              <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
-                Where to stay
-              </p>
-              <StayList stays={accommodations} />
-            </div>
-          )}
+            {accommodations && accommodations.length > 0 && (
+              <div className="site-travel-item">
+                <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
+                  Where to stay
+                </p>
+                <StayList stays={accommodations} />
+              </div>
+            )}
+          </div>
         </div>
       ) : null,
     faq:

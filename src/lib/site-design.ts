@@ -590,6 +590,7 @@ export function fontByCss(css: string) {
 export const FONT_PAIRINGS = [
   { id: "theme", label: "Theme default", display: null, body: null },
   { id: "cg", label: "Cormorant · Karla", display: "cormorant", body: "karla" },
+  { id: "cj", label: "Cormorant · Jost", display: "cormorant", body: "jost" },
   { id: "pj", label: "Playfair · Jost", display: "playfair", body: "jost" },
   { id: "bj", label: "Bodoni · Jost", display: "bodoni", body: "jost" },
   { id: "fw", label: "Fraunces · Work Sans", display: "fraunces", body: "worksans" },
@@ -734,13 +735,35 @@ export function sceneById(id: string | null | undefined) {
  * card, two columns on a computer. "storybook" runs them as full-width bands
  * in alternating tints, with the schedule as an illustrated timeline, photos
  * as a scrapbook and places to stay as a dotted route.
+ *
+ * The other three are the signature templates' pages (approved 2026-10-21),
+ * each its own arrangement rather than a recolour: "invitation" is one
+ * centred column on paper with framed panels and the schedule down a centre
+ * line; "magazine" numbers the sections under heavy rules with big type and
+ * the schedule as a table; "postcard" runs bold colour bands with wavy
+ * edges, a ticket for each event and travel as postcards.
  */
 export const PAGE_STYLES = [
   { id: "cards", label: "Cards", help: "Each section in its own card" },
   { id: "storybook", label: "Storybook", help: "Full-width bands, a timeline, scrapbook photos" },
+  { id: "invitation", label: "Invitation", help: "One centred column on paper, framed panels, the schedule down a centre line" },
+  { id: "magazine", label: "Magazine", help: "Numbered sections under ruled lines, big type, the schedule as a table" },
+  { id: "postcard", label: "Postcard", help: "Bold colour bands with wavy edges, a ticket for each event, postcards for travel" },
 ] as const;
 
 export type PageStyleId = (typeof PAGE_STYLES)[number]["id"];
+
+export const PAGE_STYLE_IDS = PAGE_STYLES.map((x) => x.id) as [PageStyleId, ...PageStyleId[]];
+
+/** The schedule's layout when the couple hasn't picked one: the page style's own. */
+export function defaultWeekendLayout(pageStyle: PageStyleId): WeekendLayoutId {
+  return { cards: "cards", storybook: "timeline", invitation: "centre", magazine: "list", postcard: "tickets" }[pageStyle] as WeekendLayoutId;
+}
+
+/** The photos' layout when the couple hasn't picked one: the page style's own. */
+export function defaultPhotosLayout(pageStyle: PageStyleId): PhotosLayoutId {
+  return pageStyle === "storybook" || pageStyle === "postcard" ? "scrapbook" : "spread";
+}
 
 /**
  * Layouts for single sections (Sections tab, each section's row), so the
@@ -764,6 +787,8 @@ export const SECTION_LAYOUTS = {
     { id: "timeline", label: "Timeline", help: "Events down a line under each day" },
     { id: "cards", label: "Cards", help: "A card for each day" },
     { id: "list", label: "List", help: "When, what and where in rows" },
+    { id: "centre", label: "Centre line", help: "Events either side of a line down the middle" },
+    { id: "tickets", label: "Tickets", help: "A ticket for each event, the time on its stub" },
   ],
   photos: [
     { id: "spread", label: "Spread", help: "A grid with your first photo given double the room" },
@@ -914,6 +939,8 @@ export const PALETTES = [
   { id: "marsala", name: "Marsala", family: "red", bg: "#f5ede8", ink: "#3a1d1d", heading: "#7b2d2d", accent: "#8f3f36" },
   { id: "marigold", name: "Marigold", family: "gold", bg: "#fdf6e7", ink: "#3a2a10", heading: "#7d5200", accent: "#8a5d00" },
   { id: "champagne", name: "Champagne", family: "gold", bg: "#faf6ef", ink: "#3a3226", heading: "#6f5b3b", accent: "#866a3a" },
+  { id: "heirloom", name: "Heirloom rose", family: "pink", bg: "#fbf7ef", ink: "#2e3b2f", heading: "#2e3b2f", accent: "#a2475e" },
+  { id: "gallery", name: "Gallery blue", family: "neutral", bg: "#f4f1ec", ink: "#121212", heading: "#121212", accent: "#2243b6" },
   { id: "classic-white", name: "Classic white", family: "neutral", bg: "#ffffff", ink: "#1a1a1a", heading: "#1a1a1a", accent: "#5e5e5e" },
   { id: "ivory-black", name: "Ivory & ink", family: "neutral", bg: "#fbf9f4", ink: "#111111", heading: "#111111", accent: "#111111" },
   { id: "linen", name: "Linen", family: "neutral", bg: "#f2eee6", ink: "#2e2a24", heading: "#4a4237", accent: "#6b5f4c" },

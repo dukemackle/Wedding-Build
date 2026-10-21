@@ -1807,7 +1807,7 @@ function SiteDemo() {
       </div>
       {/* Your designs: a few looks side by side, one of them live. */}
       <div className="flex gap-1.5 overflow-x-auto text-xs">
-        {["Garden Party", "Night Swim", "Lemon Grove"].map((name, i) => (
+        {["Heirloom", "Garden Party", "Lemon Grove"].map((name, i) => (
           <span
             key={name}
             className={`flex h-7 shrink-0 items-center gap-1.5 rounded-full px-2.5 ${

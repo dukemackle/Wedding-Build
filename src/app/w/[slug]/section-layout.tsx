@@ -1,11 +1,11 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { Fragment, type ReactNode } from "react";
 import { SiteReveal } from "@/components/site-motion";
 import { SiteSection } from "@/components/site-section";
 import { useSiteDesign } from "@/components/guest-site-theme";
-import { CANVAS_WIDTH, READING_WIDTH, WIDE_WIDTH } from "@/lib/layout";
-import { sectionColumn, type SectionKey } from "@/lib/site-design";
+import { CANVAS_WIDTH, READING_WIDTH, STANDARD_WIDTH, WIDE_WIDTH } from "@/lib/layout";
+import { SITE_SECTIONS, sectionColumn, type SectionKey } from "@/lib/site-design";
 
 /**
  * The guest site's sections, in the couple's order.
@@ -30,6 +30,9 @@ export function SectionLayout({ sections }: { sections: Partial<Record<SectionKe
   const hasSidebar = side.length > 0;
 
   if (design.pageStyle === "storybook") return <Storybook shown={shown} sections={sections} />;
+  if (design.pageStyle === "postcard") return <Storybook shown={shown} sections={sections} postcard />;
+  if (design.pageStyle === "invitation") return <Invitation shown={shown} sections={sections} />;
+  if (design.pageStyle === "magazine") return <Magazine shown={shown} sections={sections} />;
 
   const render = (list: typeof shown) =>
     list.map((x) => (
@@ -69,22 +72,31 @@ const BAND_COLUMNS = ["", "", "lg:grid-cols-2", "lg:grid-cols-3", "lg:grid-cols-
 function Storybook({
   shown,
   sections,
+  postcard = false,
 }: {
   shown: { id: SectionKey; index: number }[];
   sections: Partial<Record<SectionKey, ReactNode>>;
+  /** The postcard page style: the same bands, bolder, always with an edge. */
+  postcard?: boolean;
 }) {
   const { layouts } = useSiteDesign();
   const bands: { side: boolean; items: typeof shown }[] = [];
   for (const x of shown) {
     const side = sectionColumn(x.id) === "side";
     const last = bands.at(-1);
-    if (side && last?.side) last.items.push(x);
+    // Postcards want the room: on that page each section is a band of its own.
+    if (side && last?.side && !postcard) last.items.push(x);
     else bands.push({ side, items: [x] });
   }
 
-  const divider = useSiteDesign().background.divider;
+  const picked = useSiteDesign().background.divider;
+  // A postcard page always has an edge between its bands: a wave unless they picked another.
+  const divider = postcard && picked === "none" ? "wave" : picked;
   return (
-    <div className="site-storybook flex flex-col pb-10" data-divider={divider !== "none" ? divider : undefined}>
+    <div
+      className={`site-storybook ${postcard ? "site-postcard" : ""} flex flex-col pb-10`}
+      data-divider={divider !== "none" ? divider : undefined}
+    >
       {bands.map((band, i) => (
         <section
           key={band.items[0].id}
@@ -92,7 +104,7 @@ function Storybook({
         >
           <div
             className={`mx-auto w-full ${
-              band.side
+              band.side && !postcard
                 ? `${CANVAS_WIDTH} grid gap-12 ${BAND_COLUMNS[Math.min(band.items.length, 4)]}`
                 : band.items[0].id === "rsvp" && layouts.rsvp === "card"
                   ? READING_WIDTH
@@ -105,6 +117,79 @@ function Storybook({
               </SiteSection>
             ))}
           </div>
+        </section>
+      ))}
+    </div>
+  );
+}
+
+type Shown = { id: SectionKey; index: number }[];
+
+/** What a section is called, for the magazine's running labels; a custom block has its own heading. */
+function sectionName(id: SectionKey) {
+  return SITE_SECTIONS.find((x) => x.id === id)?.name ?? null;
+}
+
+/**
+ * The invitation page style: one centred column on paper, in the couple's
+ * exact order on a computer as on a phone, each section set like a panel of
+ * a printed invitation suite (globals.css) with a small flourish between
+ * them. A wide screen gets room around the column, not a second column:
+ * the point of this look is that it reads top to bottom like a card.
+ */
+function Invitation({ shown, sections }: { shown: Shown; sections: Partial<Record<SectionKey, ReactNode>> }) {
+  return (
+    <div className={`site-invitation mx-auto flex w-full ${STANDARD_WIDTH} flex-col px-4 pb-20 sm:px-6`}>
+      {shown.map((x, i) => (
+        <Fragment key={x.id}>
+          {i > 0 && (
+            <div className="flex items-center justify-center gap-3 py-10 text-[var(--site-accent)] sm:py-14" aria-hidden="true">
+              <span className="h-px w-16 bg-current opacity-40" />
+              <span className="h-2 w-2 rotate-45 border border-current" />
+              <span className="h-px w-16 bg-current opacity-40" />
+            </div>
+          )}
+          <SiteSection sectionKey={x.id}>
+            <SiteReveal>{sections[x.id]}</SiteReveal>
+          </SiteSection>
+        </Fragment>
+      ))}
+    </div>
+  );
+}
+
+/**
+ * The magazine page style: a contents line at the top, then each section a
+ * numbered row under a heavy rule, its number and name in the margin and the
+ * section beside it on a computer (above it on a phone). The numbers are the
+ * page's real order, so the contents can link to them.
+ */
+function Magazine({ shown, sections }: { shown: Shown; sections: Partial<Record<SectionKey, ReactNode>> }) {
+  const anchor = (id: SectionKey) => `no-${id.replace(/[^a-z0-9-]/gi, "-")}`;
+  const number = (i: number) => String(i + 1).padStart(2, "0");
+  return (
+    <div className={`site-magazine mx-auto w-full ${CANVAS_WIDTH} px-4 pb-20 sm:px-6 lg:px-16`}>
+      <nav aria-label="Contents" className="flex flex-wrap gap-x-8 gap-y-2 border-y border-ink py-3">
+        {shown.map((x, i) => (
+          <a key={x.id} href={`#${anchor(x.id)}`} className="font-mono-numbers text-xs uppercase tracking-[0.16em] text-ink hover:text-[var(--site-accent)]">
+            <span className="text-[var(--site-accent)]">{number(i)}</span>
+            {sectionName(x.id) ? <>&nbsp;&nbsp;{sectionName(x.id)}</> : null}
+          </a>
+        ))}
+      </nav>
+      {shown.map((x, i) => (
+        <section
+          key={x.id}
+          id={anchor(x.id)}
+          className="mt-16 scroll-mt-6 border-t-2 border-ink pt-5 lg:mt-24 lg:grid lg:grid-cols-[13rem_minmax(0,1fr)] lg:gap-12"
+        >
+          <p className="font-mono-numbers text-xs uppercase tracking-[0.16em] text-[var(--site-accent)]">
+            {number(i)}
+            {sectionName(x.id) ? <> &mdash; {sectionName(x.id)}</> : null}
+          </p>
+          <SiteSection sectionKey={x.id} className="mt-4 min-w-0 lg:mt-0">
+            <SiteReveal>{sections[x.id]}</SiteReveal>
+          </SiteSection>
         </section>
       ))}
     </div>

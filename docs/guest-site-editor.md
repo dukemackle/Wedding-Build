@@ -181,7 +181,7 @@ Phases, one PR each:
    (Text, Shapes, Line art, Watercolours, Your photos), line art grouped by
    kind, the painted watercolours, and a "Suits your theme" row.
 5. In two PRs (decided 2026-10-08).
-   **5a, templates** (built 2026-10-08): 14 finished looks in
+   **5a, templates** (built 2026-10-08, since grown to 28): 14 finished looks in
    `src/lib/site-templates.ts`, each a combination of what the editor
    already has (theme, palette, font pair, hero layout, artwork, background,
    motion), filtered by Beach, Garden, Rustic, Line art, Traditions and
@@ -201,3 +201,33 @@ Phases, one PR each:
    0110), and the Privacy Policy lists what's sent. They run on
    `claude-haiku-5-5` (`src/lib/ai/site-wren.ts`; switched from Opus 5.5 on
    2026-10-09 for cost).
+
+## Signature templates (decided 2026-10-21)
+
+The owner found the templates "beginner level": every one was the same page of
+cards with a different colour, font and corner art. Approved from mockups
+(https://claude.ai/artifact/7PfnLaRR3YrcaxYqVwm8ax, desktop 1440 and phone
+390): fewer, better templates, each laying out the whole page its own way.
+
+- Three new page styles in `PAGE_STYLES`, laid out in `section-layout.tsx`
+  and dressed in `globals.css` (`.site-invitation`, `.site-magazine`,
+  `.site-postcard`):
+  **invitation**, one centred column in the couple's exact order, a flourish
+  between sections, the RSVP in a double-ruled paper panel, travel as framed
+  cards; **magazine**, a contents line, then numbered rows under heavy rules
+  with the number and name in the margin, big tight headings, travel as
+  roman-numbered columns, questions two to a row; **postcard**, the
+  storybook bands in the theme's second colour, always with an edge (wave
+  unless another is picked), each section its own band, travel as postcards
+  with a stamp box.
+- Two new schedule layouts, which those styles use when the couple hasn't
+  picked one (`defaultWeekendLayout`): **centre** (events either side of a
+  line, a left rail on phones) and **tickets** (a coloured stub per event).
+- Templates **Heirloom** (invitation, painted roses, Cormorant · Jost),
+  **Editorial** (magazine, poster names, Bodoni · Jost, RSVP band) and
+  **Riviera** (postcard, side-by-side photo, lemons, DM Serif · Jost, RSVP
+  band), tagged Signature and listed first. A template can now set the
+  RSVP layout (`rsvp`); others reset it to the card.
+- Still to do: sample photos (Pexels, people-free, after the licence check),
+  an in-editor photo search, the art keep-or-cut review, and a shorter first
+  RSVP step (DESIGN-OPPORTUNITIES rows 16-19).
