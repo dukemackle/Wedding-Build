@@ -18,12 +18,30 @@ rules, batch self-merge, 50-state coverage, page widths) and
 `docs/legal-audit.md` "Owner answers (2026-10-19)". They aren't copied here.
 
 ## Pending owner decisions
-- **Completeness bar for the launch metros** (what "done thoroughly" means).
-- **What founding businesses get, if anything.** "Free listing for life" was
-  approved then withdrawn on 2026-10-21 (could block monetization). Options:
-  a time-limited free period, a founding discount or notice period before any
-  charge, or no promise beyond "free today". Settle before the first claim
-  invitation; until then, outreach promises nothing about future pricing.
+- None open.
+
+## 2026-10-22 — When a launch metro is "done"
+- Decided: every core vendor category at its target; at least 90% of the
+  metro's venues show capacity and price tier; every listing's website
+  re-checked within 90 days. Photos are not part of the bar (separate
+  project, San Diego and Austin first). San Diego goes first: 150+ venues.
+- Why: the owner saw San Diego County thin on the map (~53 venues in view
+  against several hundred real ones).
+- Revisit: once San Diego and Austin meet it.
+- Outcome:
+
+## 2026-10-22 — Founding businesses: notice and an unnamed discount
+- Decided: outreach says "Listing is free today. If we ever introduce paid
+  plans, founding businesses get at least 60 days' notice and a founding
+  discount." The discount's size and length stay unnamed until there's a price.
+- Why: replaces "free listing for life" (withdrawn 2026-10-21, could block
+  monetization); matches the 60-day notice and early-bird rate already in
+  `docs/monetization.md`.
+- Alternatives: name the discount now (e.g. 50% off year one), more persuasive
+  but commits early; promise nothing beyond "free today".
+- Revisit: when Phase 1 pricing is set; have the attorney check the sentence
+  before the first invitation.
+- Outcome:
 
 ## 2026-10-21 — Launch metros: Austin, San Diego and seven large markets
 - Decided: `LAUNCH_METROS` in `scripts/coverage-plan.mjs`, in priority order:
