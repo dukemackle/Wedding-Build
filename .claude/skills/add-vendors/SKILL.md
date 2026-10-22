@@ -31,6 +31,10 @@ owner may paste names or a list. Otherwise, choose for them:
    core category). Name that batch `"<Town>: <categories>"`; the report counts
    these by City, not by name. If a town has nothing usable, log what you found
    in the skipped file with that town as City: 5 skipped entries mark it done.
+   **Launch metros come before all of this (owner, 2026-10-21):** run `npm run
+   coverage -- launch` and take the first of `LAUNCH_METROS` with gaps. Once
+   their gaps are filled, depth there (prices, re-checking dead or stale
+   listings) beats new metros elsewhere.
 3. Say in one line which metro and categories you're doing, then go ahead. Only
    ask if the owner's request is ambiguous.
 

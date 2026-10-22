@@ -18,12 +18,26 @@ rules, batch self-merge, 50-state coverage, page widths) and
 `docs/legal-audit.md` "Owner answers (2026-10-19)". They aren't copied here.
 
 ## Pending owner decisions
-- **Which launch metros** (2–3), and the completeness bar they must meet.
+- **Completeness bar for the launch metros** (what "done thoroughly" means).
 - **What founding businesses get, if anything.** "Free listing for life" was
   approved then withdrawn on 2026-10-21 (could block monetization). Options:
   a time-limited free period, a founding discount or notice period before any
   charge, or no promise beyond "free today". Settle before the first claim
   invitation; until then, outreach promises nothing about future pricing.
+
+## 2026-10-21 — Launch metros: Austin, San Diego and seven large markets
+- Decided: `LAUNCH_METROS` in `scripts/coverage-plan.mjs`, in priority order:
+  Austin, San Diego, Dallas–Fort Worth, Houston, San Antonio, New York City,
+  Los Angeles, Chicago, Miami. Owner asked for 5–10 top US metros with Austin,
+  then added San Diego (home city, so the easiest place to reach couples and
+  vendors in person); the rest are the largest markets that already have the
+  most vendors (119–176 each).
+- Why: widens the "2–3 deep metros" bar below. Four are in one Texas region
+  reachable from Austin; the other four are the biggest national markets.
+- Alternatives: 2–3 metros only (less spread); Atlanta, Nashville, Denver
+  (big wedding markets but 76–97 vendors and wide gaps).
+- Revisit: if depth work in 8 metros is too slow, cut back to the Texas four.
+- Outcome:
 
 ## 2026-10-21 — Map tiles from our own files on Cloudflare R2
 - Decided: the maps read our own Protomaps files at `tiles.youdoido.com` (R2 bucket `youdoido-tiles`), not OpenFreeMap.
