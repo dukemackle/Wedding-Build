@@ -11,7 +11,13 @@ They're summarised here only by reference; CLAUDE.md is the source.
 
 ## Approved directions
 
-- **2026-10-22 (latest):** Budget page: lines grouped into four collapsible
+- **2026-10-22 (latest):** Venues without photos show a category
+  drawing, not a stock photo: one drawing per category (15), navy line art
+  on an Aqua sky with white buildings and one Gold accent. Rejected: real
+  stock photos per category (couples could mistake them for the venue, and
+  they take away a reason to claim). Files: `public/venue-types/`, mapped
+  in `VENUE_TYPE_DRAWINGS` (`src/lib/wedding-options.ts`).
+- **2026-10-22 (later):** Budget page: lines grouped into four collapsible
   sections (Wedding day; Rehearsal & welcome; Attire & rings; Fees & cushion,
   folded by default), each with a subtotal and paid bar. Each line's icon
   sits in a ring that fills royal blue as it's paid and turns gold when paid

@@ -52,24 +52,23 @@ export function currentVenueType(value: string | null | undefined): VenueCategor
   return LEGACY_VENUE_TYPES[value] ?? null;
 }
 
-// The drawing a venue without photos shows. Six drawings cover the fifteen
-// categories, each going to its nearest look.
+// The drawing a venue without photos shows, one per category.
 const VENUE_TYPE_DRAWINGS: Record<VenueCategory, string> = {
   "Barn & Farm": "barn-rustic",
-  Ranch: "barn-rustic",
+  Ranch: "ranch",
   "Historic Mansion & Estate": "historic-estate",
-  "Chapel & Church": "historic-estate",
+  "Chapel & Church": "chapel",
   Ballroom: "ballroom-hotel",
-  "Hotel & Resort": "ballroom-hotel",
+  "Hotel & Resort": "hotel-resort",
   "Garden & Park": "garden-outdoor",
-  "Lake & River": "beach-waterfront",
-  "Mountain & Lodge": "garden-outdoor",
+  "Lake & River": "lake-river",
+  "Mountain & Lodge": "mountain-lodge",
   "Beach & Coast": "beach-waterfront",
   "Vineyard & Winery": "restaurant-vineyard",
-  "Restaurant & Brewery": "restaurant-vineyard",
-  "Country Club & Golf": "garden-outdoor",
-  "Industrial Loft & Warehouse": "ballroom-hotel",
-  "Museum, Gallery & Rooftop": "historic-estate",
+  "Restaurant & Brewery": "restaurant-brewery",
+  "Country Club & Golf": "country-club",
+  "Industrial Loft & Warehouse": "industrial-loft",
+  "Museum, Gallery & Rooftop": "rooftop-gallery",
 };
 
 /** The venue-type drawing for a stored venue type (old labels included). */

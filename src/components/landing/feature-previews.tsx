@@ -1184,7 +1184,7 @@ const VENUES = [
   { id: "harbor", name: "Harbor House", kind: "Beach & Coast", setting: "Outdoor", src: "/venue-types/beach-waterfront.svg", guests: 140, price: 12500, x: 62, y: 68 },
   { id: "linden", confirmed: true, name: "The Linden Estate", kind: "Historic Mansion & Estate", setting: "Indoor", src: "/venue-types/historic-estate.svg", guests: 220, price: 16000, x: 78, y: 32 },
   { id: "rosewood", name: "Rosewood Garden", kind: "Garden & Park", setting: "Outdoor", src: "/venue-types/garden-outdoor.svg", guests: 120, price: 7500, x: 40, y: 50 },
-  { id: "grand", name: "The Grand Hotel", kind: "Hotel & Resort", setting: "Indoor", src: "/venue-types/ballroom-hotel.svg", guests: 300, price: 21000, x: 52, y: 18 },
+  { id: "grand", name: "The Grand Hotel", kind: "Hotel & Resort", setting: "Indoor", src: "/venue-types/hotel-resort.svg", guests: 300, price: 21000, x: 52, y: 18 },
   { id: "vine", name: "Cedar Vine Winery", kind: "Vineyard & Winery", setting: "Indoor & outdoor", src: "/venue-types/restaurant-vineyard.svg", guests: 160, price: 11000, x: 12, y: 60 },
 ];
 

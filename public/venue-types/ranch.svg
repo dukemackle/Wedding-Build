@@ -1,0 +1,18 @@
+<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of a ranch gate">
+  <rect width="400" height="300" fill="#FBF8F1"/>
+  <rect width="400" height="230" fill="#E4F9FF"/>
+  <path d="M0 230 V190 Q100 160 200 185 T400 175 V230 Z" fill="#B7EFFF"/>
+  <path d="M160 230 V196 H260 V230 Z" fill="#FFFFFF"/>
+  <rect x="160" y="128" width="80" height="26" fill="#FFD301"/>
+  <line x1="0" y1="230" x2="400" y2="230" stroke="#C9BFA6" stroke-width="2"/>
+  <g fill="none" stroke="#14203D" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M0 190 Q100 160 200 185 T400 175" stroke="#2243B6" stroke-width="3"/>
+    <path d="M150 198 L210 172 L270 198"/><path d="M160 196 V230 M260 196 V230"/>
+    <rect x="178" y="206" width="18" height="14"/><rect x="226" y="206" width="18" height="14"/>
+    <path d="M80 230 V110 M320 230 V110 M66 112 H334"/>
+    <path d="M180 112 V128 M220 112 V128"/>
+    <rect x="160" y="128" width="80" height="26"/>
+    <path d="M10 230 V198 M40 230 V198 M0 206 H80 M0 220 H80 M360 230 V198 M390 230 V198 M320 206 H400 M320 220 H400"/>
+  </g>
+  <path d="M184 141 H216" stroke="#14203D" stroke-width="3" stroke-linecap="round"/>
+</svg>

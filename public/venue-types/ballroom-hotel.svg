@@ -1,20 +1,23 @@
-<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of a ballroom chandelier">
+<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of a ballroom with a chandelier">
   <rect width="400" height="300" fill="#FBF8F1"/>
+  <rect width="400" height="230" fill="#E4F9FF"/>
+  <rect width="400" height="230" fill="#FFFFFF"/>
+  <path d="M40 210 V110 A35 35 0 0 1 110 110 V210 Z M290 210 V110 A35 35 0 0 1 360 110 V210 Z" fill="#E4F9FF"/>
   <line x1="0" y1="230" x2="400" y2="230" stroke="#C9BFA6" stroke-width="2"/>
   <g fill="none" stroke="#14203D" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
-    <line x1="200" y1="60" x2="200" y2="95"/>
-    <path d="M140 95 H260"/>
-    <path d="M150 95 C150 130 175 130 175 155"/>
-    <path d="M200 95 V155"/>
-    <path d="M250 95 C250 130 225 130 225 155"/>
-    <path d="M120 95 C120 145 165 140 175 175"/>
-    <path d="M280 95 C280 145 235 140 225 175"/>
+    <path d="M40 210 V110 A35 35 0 0 1 110 110 V210 Z M75 75 V210 M40 150 H110"/>
+    <path d="M290 210 V110 A35 35 0 0 1 360 110 V210 Z M325 75 V210 M290 150 H360"/>
+    <path d="M200 0 V60"/>
+    <path d="M150 70 H250"/>
+    <path d="M160 70 C160 100 180 100 180 120"/>
+    <path d="M200 70 V120"/>
+    <path d="M240 70 C240 100 220 100 220 120"/>
+    <path d="M135 70 C135 110 165 108 172 136"/>
+    <path d="M265 70 C265 110 235 108 228 136"/>
+    <path d="M0 210 H400"/>
   </g>
-  <g fill="#E0A100">
-    <circle cx="175" cy="160" r="7"/>
-    <circle cx="200" cy="160" r="7"/>
-    <circle cx="225" cy="160" r="7"/>
-    <circle cx="175" cy="180" r="6"/>
-    <circle cx="225" cy="180" r="6"/>
+  <g fill="#FFD301" stroke="#14203D" stroke-width="2">
+    <circle cx="180" cy="126" r="7"/><circle cx="200" cy="126" r="7"/><circle cx="220" cy="126" r="7"/>
+    <circle cx="172" cy="142" r="6"/><circle cx="228" cy="142" r="6"/><circle cx="200" cy="146" r="6"/>
   </g>
 </svg>
