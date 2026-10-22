@@ -11,6 +11,14 @@ They're summarised here only by reference; CLAUDE.md is the source.
 
 ## Approved directions
 
+- **2026-10-22 (later):** Venue map pins are "badge pins": every venue gets
+  its category icon in a gold disc on a navy pill, then its capacity when
+  known, with a tail pointing at the spot (no more bare dots for venues
+  without a capacity). Hovered pins turn Royal blue; saved ones show a gold
+  heart. Below city zoom, dots on all maps are small rings (coloured band,
+  gold centre). The Venue type filter shows the same icons and is
+  multi-select. Rejected alongside: teardrop pins (crowd in dense areas) and
+  photo pins (most listings lack photos). Icons: `src/lib/venue-type-icons.ts`.
 - **2026-10-22:** Venue categories: 15 replace the six venue types, in
   this order: Barn & Farm; Ranch; Historic Mansion & Estate; Chapel &
   Church; Ballroom; Hotel & Resort; Garden & Park; Lake & River; Mountain &
