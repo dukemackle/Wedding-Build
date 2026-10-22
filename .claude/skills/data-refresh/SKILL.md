@@ -32,7 +32,7 @@ Ground rules for every run:
 | Monthly | Attire catalog links and prices | §Monthly below |
 | Monthly | Cost estimator from real couples' quotes | §Monthly below |
 | Monthly | Security updates in dependencies | §Monthly below |
-| Quarterly | Listing price tiers | §Quarterly |
+| Quarterly | Listing prices | §Quarterly |
 | Quarterly | AI model IDs in `src/lib/ai/` | §Quarterly |
 | Quarterly | Supabase / Cloudflare / Resend / Anthropic pricing and free-tier limits | §Quarterly |
 | Quarterly | Whether to move pricing phases | `/pricing-check` |
@@ -65,11 +65,13 @@ Weddings Study, Zola's First Look report) come out in Feb–Mar.
 
 ## Quarterly
 
-1. **Price tiers.** Pick ~30 listings, weighted to the metros with the most
-   rows (`npm run coverage`), and check each one's tier against its own
-   website's current pricing. Wrong tiers on batch rows not yet imported are
-   fixed in the batch file; imported rows are listed for the owner to change
-   on /admin.
+1. **Prices.** Pick ~30 listings, weighted to the metros with the most rows
+   (`npm run coverage`) and to the oldest `field_sources.price_from` dates,
+   and check each one's price and basis (or, for a tier-only row, its tier)
+   against its own website's current pricing. Wrong ones on batch rows not
+   yet imported are fixed in the batch file; imported rows are listed for the
+   owner to change on /admin. A tier-only row whose site now publishes a
+   price gets the figure added the same way.
 2. **AI models.** List every `MODEL` constant in `src/lib/ai/`. Load the
    `claude-api` skill and check each against current model IDs and
    deprecation dates. A retiring model gets swapped for its named successor
