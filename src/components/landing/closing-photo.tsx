@@ -5,7 +5,6 @@ import { useSyncExternalStore } from "react";
 /** Free under the Unsplash licence; none of these are in the hero rotation. */
 const PHOTOS = [
   { file: "toast", by: "Al Elmes", position: "object-[center_40%]" },
-  { file: "first-dance", by: "Fotógrafo Samuel Cruz", position: "object-[center_30%] sm:object-[center_55%]" },
   { file: "waterfront", by: "Fotógrafo Samuel Cruz", position: "object-[center_45%]" },
   { file: "sparklers", by: "Christian Bowen", position: "object-[center_40%]" },
 ] as const;
