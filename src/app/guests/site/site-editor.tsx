@@ -1,6 +1,5 @@
 "use client";
 
-import type { LiveDetails } from "@/lib/site-live";
 import Link from "next/link";
 import { useCallback, useEffect, useEffectEvent, useRef, useState, useTransition, type ReactNode } from "react";
 import {
@@ -134,7 +133,6 @@ export function SiteEditor({
   hasPhoto,
   names,
   weddingDate,
-  live,
   photos,
 }: {
   /** Which of the couple's designs this is (site_designs). */
@@ -158,7 +156,6 @@ export function SiteEditor({
   names: [string, string];
   /** For the monogram's date line ("2027-06-12"). */
   weddingDate: string | null;
-  live: LiveDetails;
   /** The banner and gallery photos, to place on the page from Elements. */
   photos: string[];
 }) {
@@ -615,7 +612,6 @@ export function SiteEditor({
           frames={frames}
           selection={canvasSel}
           photos={photos}
-          live={live}
           onCanvas={changeCanvas}
           onSelect={selectCanvas}
         />
