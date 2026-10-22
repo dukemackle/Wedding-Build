@@ -13,6 +13,8 @@ import { ALCOHOL_POLICIES, SERVICE_LEVELS } from "@/lib/wedding-options";
 import { ChevronDownIcon } from "@/components/icons";
 import { PhotoGallery } from "@/components/photo-gallery";
 import { SignupPrompt } from "@/components/public-nav";
+import type { SignupIntent } from "@/lib/signup-intent";
+import { SetupFirst } from "@/components/setup-first";
 import { ReportListing } from "@/components/report-listing";
 import { ConfirmedChip, ConfirmedMark } from "@/components/confirmed-badge";
 import { UnclaimedNote } from "@/components/unclaimed-note";
@@ -59,6 +61,8 @@ export type VenueListingData = {
   similarVenues: Venue[];
   /** The claim form's preview: nothing that reports, tracks or links away, FAQs open. */
   preview?: boolean;
+  /** What they tapped before signing up, to finish now (signup-sheet.tsx). */
+  then?: SignupIntent;
 };
 
 export async function loadVenueListing(
@@ -150,7 +154,7 @@ function photosOf(venue: Venue): string[] {
 const card = "rounded-lg border border-hairline bg-card p-6 shadow-sm";
 
 export function VenueListing({ data }: { data: VenueListingData }) {
-  const { venue, signedIn, wedding, shortlistEntry, faqs, spaces, preferredVendors, similarVenues, preview } = data;
+  const { venue, signedIn, wedding, shortlistEntry, faqs, spaces, preferredVendors, similarVenues, preview, then } = data;
 
   // "Must book from these" and "we recommend these" change a couple's budget
   // very differently, so they're shown apart, required first.
@@ -234,21 +238,17 @@ export function VenueListing({ data }: { data: VenueListingData }) {
               </div>
             )}
             {!signedIn ? (
-              <SignupPrompt noun="venue" next={venueHref(venue)} website={venue.website} listingId={venue.id} />
+              <SignupPrompt noun="venue" name={venue.name} next={venueHref(venue)} website={venue.website} listingId={venue.id} />
             ) : wedding ? (
               <VenueDetailClient
                 venue={venue}
                 isShortlisted={Boolean(shortlistEntry)}
                 isBooked={wedding.venue_id === venue.id}
                 shortlistEntry={shortlistEntry}
+                then={then}
               />
             ) : (
-              <div className={`${card} text-sm text-ink/70`}>
-                <Link href="/dashboard" className="text-brass hover:underline">
-                  Set up your wedding
-                </Link>{" "}
-                to save venues and contact them.
-              </div>
+              <SetupFirst name={venue.name} href={venueHref(venue)} then={then} noun="venues" />
             )}
           </div>
         </aside>

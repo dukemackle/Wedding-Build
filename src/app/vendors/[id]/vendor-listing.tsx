@@ -8,6 +8,8 @@ import { VENDOR_PRICE_UNITS } from "@/lib/wedding-options";
 import { ChevronDownIcon } from "@/components/icons";
 import { PhotoGallery } from "@/components/photo-gallery";
 import { SignupPrompt } from "@/components/public-nav";
+import type { SignupIntent } from "@/lib/signup-intent";
+import { SetupFirst } from "@/components/setup-first";
 import {
   PUBLIC_VENDOR_COLUMNS,
   isBasicListing,
@@ -35,6 +37,8 @@ export type VendorListingData = {
   similarVendors: Vendor[];
   /** The claim form's preview: nothing that reports, tracks or links away, FAQs open. */
   preview?: boolean;
+  /** What they tapped before signing up, to finish now (signup-sheet.tsx). */
+  then?: SignupIntent;
 };
 
 export async function loadVendorListing(
@@ -95,7 +99,7 @@ export async function loadVendorListing(
 const card = "rounded-lg border border-hairline bg-card p-6 shadow-sm";
 
 export function VendorListing({ data }: { data: VendorListingData }) {
-  const { vendor, signedIn, wedding, isFavorited, faqs, similarVendors, preview } = data;
+  const { vendor, signedIn, wedding, isFavorited, faqs, similarVendors, preview, then } = data;
   // Cover first, no repeats.
   const photos = [...new Set([vendor.image_url, ...vendor.photo_urls].filter((u): u is string => Boolean(u)))];
   const links = [
@@ -174,16 +178,11 @@ export function VendorListing({ data }: { data: VendorListingData }) {
               </div>
             )}
             {!signedIn ? (
-              <SignupPrompt noun="vendor" next={vendorHref(vendor)} />
+              <SignupPrompt noun="vendor" name={vendor.name} next={vendorHref(vendor)} />
             ) : wedding ? (
-              <VendorDetailClient vendor={vendor} isFavorited={isFavorited} />
+              <VendorDetailClient vendor={vendor} isFavorited={isFavorited} then={then} />
             ) : (
-              <div className={`${card} text-sm text-ink/70`}>
-                <Link href="/dashboard" className="text-brass hover:underline">
-                  Set up your wedding
-                </Link>{" "}
-                to save vendors and request quotes.
-              </div>
+              <SetupFirst name={vendor.name} href={vendorHref(vendor)} then={then} noun="vendors" />
             )}
           </div>
         </aside>

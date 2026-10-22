@@ -80,5 +80,8 @@ export async function startWedding(_prev: { error?: string }, formData: FormData
   }
 
   revalidatePath("/dashboard");
-  redirect("/start/done");
+  // A detour from a listing goes back to finish the save or inquiry; only a
+  // relative path, since `next` comes from a link anyone could write.
+  const next = String(formData.get("next") ?? "");
+  redirect(next.startsWith("/") && !next.startsWith("//") ? next : "/start/done");
 }

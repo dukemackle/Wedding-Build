@@ -50,6 +50,12 @@ export default async function Home() {
           >
             Start planning
           </Link>
+          <p className="mt-5 text-center text-[15px] text-white/85 sm:text-left sm:text-base">
+            Venue or vendor?{" "}
+            <Link href="/list" className="font-medium text-[#ffd301] underline-offset-4 hover:underline">
+              Claim or list your business free
+            </Link>
+          </p>
         </div>
       </section>
 

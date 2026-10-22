@@ -3,10 +3,12 @@
 import dynamic from "next/dynamic";
 import { useState, useTransition } from "react";
 import type { Venue, VenueShortlistEntry } from "@/lib/supabase/types";
-import { updateShortlistNotes } from "../actions";
+import { toggleShortlist, updateShortlistNotes } from "../actions";
 import { BookedVenueButton, ShortlistButton } from "../venue-card-shared";
 import { InquiryForm } from "../inquiry-form";
 import { TrackedContactLink, telHref } from "@/components/tracked-contact-link";
+import { useFinishIntent } from "@/components/signup-sheet";
+import type { SignupIntent } from "@/lib/signup-intent";
 
 const VenuesMap = dynamic(() => import("../venues-map").then((m) => m.VenuesMap), {
   ssr: false,
@@ -76,20 +78,34 @@ export function VenueDetailClient({
   isShortlisted: initialShortlisted,
   isBooked: initialBooked,
   shortlistEntry,
+  then,
 }: {
   venue: Venue;
   isShortlisted: boolean;
   isBooked: boolean;
   shortlistEntry: VenueShortlistEntry | null;
+  then?: SignupIntent;
 }) {
   const [isShortlisted, setIsShortlisted] = useState(initialShortlisted);
   const [isBooked, setIsBooked] = useState(initialBooked);
   const [showInquiry, setShowInquiry] = useState(false);
+  useFinishIntent(then, {
+    save: () => {
+      if (initialShortlisted) return;
+      const formData = new FormData();
+      formData.set("venue_id", venue.id);
+      formData.set("is_shortlisted", "false");
+      toggleShortlist(formData).then((result) => !result?.error && setIsShortlisted(true));
+    },
+    ask: () => setShowInquiry(true),
+  });
 
   return (
     <div className="rounded-lg border border-hairline bg-card p-6 shadow-sm">
       <div className="flex flex-wrap items-center gap-2">
         <ShortlistButton
+          // Remounted when the arrival save lands, so the heart shows it.
+          key={String(isShortlisted)}
           venueId={venue.id}
           isShortlisted={isShortlisted}
           onToggled={setIsShortlisted}

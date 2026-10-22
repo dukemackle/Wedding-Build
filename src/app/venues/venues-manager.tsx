@@ -96,7 +96,7 @@ function VenueCard({
           {signedIn ? (
             <ShortlistButton venueId={venue.id} isShortlisted={isShortlisted} overlay />
           ) : (
-            <SignupHeart next={venueHref(venue)} />
+            <SignupHeart name={venue.name} next={venueHref(venue)} />
           )}
         </div>
       </div>
@@ -114,7 +114,7 @@ function VenueCard({
         </Link>
         {!signedIn ? (
           <div className="mt-3 flex flex-col gap-2">
-            <SignupCardButton next={venueHref(venue)} />
+            <SignupCardButton name={venue.name} next={venueHref(venue)} />
           </div>
         ) : (
           <div className="mt-3 flex flex-col gap-2">

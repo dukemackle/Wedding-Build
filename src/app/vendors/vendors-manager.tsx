@@ -171,7 +171,7 @@ function VendorCard({
           {signedIn ? (
             <VendorFavoriteButton vendorId={vendor.id} isFavorited={isFavorited} overlay />
           ) : (
-            <SignupHeart next={vendorHref(vendor)} />
+            <SignupHeart name={vendor.name} next={vendorHref(vendor)} />
           )}
         </div>
       </div>
@@ -190,7 +190,7 @@ function VendorCard({
 
         {!signedIn ? (
           <div className="mt-3 flex flex-col gap-2">
-            <SignupCardButton next={vendorHref(vendor)} />
+            <SignupCardButton name={vendor.name} next={vendorHref(vendor)} />
           </div>
         ) : (
           <div className="mt-3 flex flex-col gap-2">
