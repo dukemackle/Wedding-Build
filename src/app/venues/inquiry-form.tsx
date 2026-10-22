@@ -1,6 +1,6 @@
 "use client";
 
-import type { Venue } from "@/lib/supabase/types";
+import type { VenueListing } from "@/lib/public-listings";
 import { InquiryComposer, type InquiryQuestion } from "@/components/inquiry-composer";
 import { sendVenueInquiry } from "./actions";
 
@@ -14,7 +14,7 @@ const VENUE_QUESTIONS: InquiryQuestion[] = [
   { label: "A visit", line: "when we could come and see it" },
 ];
 
-export function InquiryForm({ venue, onDone }: { venue: Venue; onDone: () => void }) {
+export function InquiryForm({ venue, onDone }: { venue: VenueListing; onDone: () => void }) {
   return (
     <InquiryComposer
       to={venue.name}

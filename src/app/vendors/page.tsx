@@ -4,8 +4,8 @@ import { createClient } from "@/lib/supabase/server";
 import { fetchAll } from "@/lib/supabase/fetch-all";
 import { AppNav } from "@/components/app-nav";
 import { PublicNav } from "@/components/public-nav";
-import { PUBLIC_VENDOR_COLUMNS } from "@/lib/public-listings";
-import type { Vendor, VendorFavoriteEntry, VendorInquiry, Wedding } from "@/lib/supabase/types";
+import { VENDOR_LIST_COLUMNS, type VendorListing } from "@/lib/public-listings";
+import type { VendorFavoriteEntry, VendorInquiry, Wedding } from "@/lib/supabase/types";
 import { VendorsManager } from "./vendors-manager";
 
 export const metadata: Metadata = {
@@ -15,16 +15,18 @@ export const metadata: Metadata = {
   alternates: { canonical: "/vendors" },
 };
 
-function loadVendors(supabase: Awaited<ReturnType<typeof createClient>>, columns: string) {
-  return fetchAll<Vendor>((from, to) =>
+// Only the browse fields (see VENDOR_LIST_COLUMNS), five pages at a time.
+function loadVendors(supabase: Awaited<ReturnType<typeof createClient>>, signedIn: boolean) {
+  return fetchAll<VendorListing>((from, to) =>
     supabase
       .from("vendors")
-      .select(columns)
+      .select(signedIn ? `${VENDOR_LIST_COLUMNS}, contact_email` : VENDOR_LIST_COLUMNS)
       .eq("active", true)
       .order("name")
       .order("id")
       .range(from, to)
-      .returns<Vendor[]>(),
+      .returns<VendorListing[]>(),
+    5,
   );
 }
 
@@ -37,7 +39,7 @@ export default async function VendorsPage() {
   // Logged out: the same browse screen, public columns only, and the save /
   // quote buttons turn into signup links.
   if (!user) {
-    const vendors = await loadVendors(supabase, PUBLIC_VENDOR_COLUMNS);
+    const vendors = await loadVendors(supabase, false);
     return (
       <main className="flex flex-1 flex-col px-6 py-16">
         <PublicNav next="/vendors" />
@@ -78,21 +80,21 @@ export default async function VendorsPage() {
     );
   }
 
-  const vendors = await loadVendors(supabase, "*");
-
-  const { data: inquiries } = await supabase
-    .from("vendor_inquiries")
-    .select("*")
-    .eq("wedding_id", wedding.id)
-    .order("sent_at", { ascending: false })
-    .returns<VendorInquiry[]>();
-
-  const { data: favorites } = await supabase
-    .from("vendor_favorites")
-    .select("*")
-    .eq("wedding_id", wedding.id)
-    .order("created_at", { ascending: true })
-    .returns<VendorFavoriteEntry[]>();
+  const [vendors, { data: inquiries }, { data: favorites }] = await Promise.all([
+    loadVendors(supabase, true),
+    supabase
+      .from("vendor_inquiries")
+      .select("*")
+      .eq("wedding_id", wedding.id)
+      .order("sent_at", { ascending: false })
+      .returns<VendorInquiry[]>(),
+    supabase
+      .from("vendor_favorites")
+      .select("*")
+      .eq("wedding_id", wedding.id)
+      .order("created_at", { ascending: true })
+      .returns<VendorFavoriteEntry[]>(),
+  ]);
 
   return (
     // Full-bleed, like Venues: the filter bar is the top of this screen, and

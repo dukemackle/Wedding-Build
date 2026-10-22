@@ -1,4 +1,5 @@
 import type { FieldSources } from "@/lib/field-sources";
+import type { Vendor, Venue } from "@/lib/supabase/types";
 
 /**
  * Venue and vendor listings as the public -- and search engines -- see them.
@@ -9,6 +10,28 @@ import type { FieldSources } from "@/lib/field-sources";
  * name them: `select("*")` would be refused. Contact email and phone are left
  * out on purpose -- inquiries go through the product.
  */
+
+/**
+ * The fields the /venues and /vendors browse screens use: the cards, the
+ * filters and the map pins. Everything else loads when a listing is opened.
+ * The full rows came to ~9 MB of venues and ~13 MB of vendors, sent on every
+ * visit, which is what made those pages slow to appear. Signed-in pages add
+ * `contact_email` (not readable by anon), so the quote form knows whether to
+ * ask for an address.
+ */
+export const VENUE_LIST_COLUMNS =
+  "id, slug, name, state, city, latitude, longitude, venue_type, setting, capacity, price_tier, image_url, is_sample, source";
+export type VenueListing = Pick<
+  Venue,
+  "id" | "slug" | "name" | "state" | "city" | "latitude" | "longitude" | "venue_type" | "setting" | "capacity" | "price_tier" | "image_url" | "is_sample" | "source"
+> & { contact_email?: string | null };
+
+export const VENDOR_LIST_COLUMNS =
+  "id, slug, name, category, state, city, latitude, longitude, price_tier, image_url, is_sample, source";
+export type VendorListing = Pick<
+  Vendor,
+  "id" | "slug" | "name" | "category" | "state" | "city" | "latitude" | "longitude" | "price_tier" | "image_url" | "is_sample" | "source"
+> & { contact_email?: string | null };
 
 /** Where the site lives. One place to change when the new domain arrives. */
 export const SITE_URL = "https://youdoido.com";

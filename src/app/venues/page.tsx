@@ -4,8 +4,8 @@ import { createClient } from "@/lib/supabase/server";
 import { fetchAll } from "@/lib/supabase/fetch-all";
 import { AppNav } from "@/components/app-nav";
 import { PublicNav } from "@/components/public-nav";
-import { PUBLIC_VENUE_COLUMNS } from "@/lib/public-listings";
-import type { Venue, VenueShortlistEntry, Wedding } from "@/lib/supabase/types";
+import { VENUE_LIST_COLUMNS, type VenueListing } from "@/lib/public-listings";
+import type { VenueShortlistEntry, Wedding } from "@/lib/supabase/types";
 import { VenuesManager } from "./venues-manager";
 
 export const metadata: Metadata = {
@@ -15,16 +15,18 @@ export const metadata: Metadata = {
   alternates: { canonical: "/venues" },
 };
 
-function loadVenues(supabase: Awaited<ReturnType<typeof createClient>>, columns: string) {
-  return fetchAll<Venue>((from, to) =>
+// Only the browse fields (see VENUE_LIST_COLUMNS), five pages at a time.
+function loadVenues(supabase: Awaited<ReturnType<typeof createClient>>, signedIn: boolean) {
+  return fetchAll<VenueListing>((from, to) =>
     supabase
       .from("venues")
-      .select(columns)
+      .select(signedIn ? `${VENUE_LIST_COLUMNS}, contact_email` : VENUE_LIST_COLUMNS)
       .eq("active", true)
       .order("name")
       .order("id")
       .range(from, to)
-      .returns<Venue[]>(),
+      .returns<VenueListing[]>(),
+    5,
   );
 }
 
@@ -37,7 +39,7 @@ export default async function VenuesPage() {
   // Logged out: the same browse screen, public columns only, and the save /
   // contact buttons turn into signup links.
   if (!user) {
-    const venues = await loadVenues(supabase, PUBLIC_VENUE_COLUMNS);
+    const venues = await loadVenues(supabase, false);
     return (
       <main className="flex flex-1 flex-col px-6 py-16">
         <PublicNav next="/venues" />
@@ -78,13 +80,14 @@ export default async function VenuesPage() {
     );
   }
 
-  const venues = await loadVenues(supabase, "*");
-
-  const { data: shortlist } = await supabase
-    .from("venue_shortlist")
-    .select("*")
-    .eq("wedding_id", wedding.id)
-    .returns<VenueShortlistEntry[]>();
+  const [venues, { data: shortlist }] = await Promise.all([
+    loadVenues(supabase, true),
+    supabase
+      .from("venue_shortlist")
+      .select("*")
+      .eq("wedding_id", wedding.id)
+      .returns<VenueShortlistEntry[]>(),
+  ]);
 
   return (
     // No width cap and no visible page heading: the filter bar is the top of
