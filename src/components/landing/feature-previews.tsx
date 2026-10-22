@@ -1188,11 +1188,18 @@ const VENUES = [
   { id: "vine", name: "Cedar Vine Winery", kind: "Vineyard & Winery", setting: "Indoor & outdoor", src: "/venue-types/restaurant-vineyard.svg", guests: 160, price: 11000, x: 12, y: 60 },
 ];
 
+const BUDGET_GUESTS = 150;
+const BUDGET_LIMIT = 40000;
+
 function VenuesDemo() {
   const [saved, setSaved] = useState<Set<string>>(new Set());
   const [min, setMin] = useState(0);
+  const [inBudget, setInBudget] = useState(false);
   const [active, setActive] = useState<string | null>(null);
-  const shown = VENUES.filter((v) => v.guests >= min);
+  // The real Budget filter's sum for a room-only rental: the room plus about
+  // $150 a guest for food and drink, here for 150 guests against $40,000.
+  const withFood = (price: number) => price + BUDGET_GUESTS * 150;
+  const shown = VENUES.filter((v) => v.guests >= min && (!inBudget || withFood(v.price) <= BUDGET_LIMIT));
   const toggle = (id: string) =>
     setSaved((s) => {
       const next = new Set(s);
@@ -1221,6 +1228,9 @@ function VenuesDemo() {
               {n === 0 ? "Any size" : `${n}+ guests`}
             </FilterPill>
           ))}
+          <FilterPill on={inBudget} onClick={() => setInBudget((b) => !b)}>
+            Under $40k · {BUDGET_GUESTS} guests
+          </FilterPill>
           <span className="shrink-0 self-center whitespace-nowrap rounded-full bg-brass/15 px-3 py-1 text-sm text-forest">
             ♥ {saved.size} saved
           </span>
@@ -1261,6 +1271,9 @@ function VenuesDemo() {
               {v.kind} · {v.setting}
             </p>
             <p className="text-xs text-ink/55">from {usd(v.price)}</p>
+            {inBudget && (
+              <p className="text-[11px] text-ink/55">About {usd(withFood(v.price))} with food &amp; drink (est.)</p>
+            )}
             <p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.07em] text-ink/40">
               {v.name}
             </p>
