@@ -942,7 +942,7 @@ Austin Flower Walls	Decor & Lighting		Austin	Texas	Austin and surrounding areas	
 The Vintage Texan Mobile Bar	Bar		Austin	Texas	Austin, Cedar Park, Round Rock, Georgetown, Lakeway, Leander, Dripping Springs and the Hill Country	Women-run dry-hire mobile bar with a custom menu, bar sign and shopping list, serving wedding receptions and rehearsals.	thevintagetexamobilebar@gmail.com	512-296-3933	https://thevintagetexanmobilebar.com	https://www.instagram.com/vintagetexanmobilebar/
 Signature Bridal Salon	Bridal & Formalwear	12812 Shops Pkwy, Suite 200	Austin	Texas	Austin and Central Texas	Large showroom of designer gowns in sizes 4 to 24, with bridesmaid, mother-of-the-bride and gown preservation services.	information@signaturebridalsalon.com	512-892-5000	https://signaturebridalsalon.com	https://www.instagram.com/signaturebridalsalon/
 Coreena's Bridal Boutique	Bridal & Formalwear	806 S Rock Street	Georgetown	Texas	Georgetown	Georgetown wedding dress boutique taking online appointments, with walk-ins welcome on weekdays and Saturdays.	info@coreenasbridal.com		https://coreenasbridal.com	
-Paper Place	Stationery & Invitations	4001 North Lamar Boulevard	Austin	Texas	Austin	Long-running Austin paper shop offering bespoke invitation design, personalised stationery and Austin-themed wedding favours.	sales@paperplaceaustin.com	512-451-6531	https://paperplaceaustin.com	https://www.instagram.com/paperplaceaustin/
+Paper Place	Stationery & Invitations	4001 North Lamar Boulevard	Austin	Texas	Austin	Long-running Austin paper shop offering bespoke invitation design, personalised stationery and Austin-themed wedding favours.	sales@paperplaceaustin.com	512-451-6531	https://paperplaceaustin.com	https://www.instagram.com/paperplaceaustin/`,
   },
 ];
 
