@@ -11,6 +11,13 @@ They're summarised here only by reference; CLAUDE.md is the source.
 
 ## Approved directions
 
+- **2026-10-22:** Public nav's business link is a thin outlined "List your
+  business" pill (was "For businesses"), and the hero carries "Venue or
+  vendor? Claim or list your business free" under Start planning. Logged-out
+  Save / Request a quote on venues and vendors open a sign-up sheet over the
+  page (bottom sheet on phones, centred on desktop) and the listing finishes
+  the action after signup (`?then=`, via /start for a new account).
+  Browsing stays open; no sign-up wall. (`signup-sheet.tsx`, `public-nav.tsx`)
 - **2026-10-22:** Landing closes with a full-width photo band (lawn table,
   "Ready when *you are.*", yellow Start planning) in place of the gold
   CtaCard, and the landing feature boxes open with real Unsplash wedding
