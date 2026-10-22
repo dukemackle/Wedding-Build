@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { AppNav } from "@/components/app-nav";
 import { PageShell } from "@/components/page-shell";
+import { PageHeader } from "@/components/page-header";
 import type { Guest, SeatingTable, VenueLayoutItem, VenueRoom, Wedding } from "@/lib/supabase/types";
 import { VenueLayoutClient } from "./venue-layout-client";
 import { GUEST_WITH_NOTES, withNotes } from "@/lib/guest-notes";
@@ -101,17 +102,19 @@ export default async function VenueLayoutPage() {
     // takes the whole screen rather than stopping at 1600px with empty
     // margins either side on a wide monitor.
     <PageShell email={user.email ?? ""} width="full">
-        <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
-          Venue layout
-        </p>
-        <div className="mt-2 mb-6 flex flex-wrap items-baseline justify-between gap-3">
-          <h1 className="font-display text-3xl font-semibold text-forest">
-            Seating &amp; floor plan
-          </h1>
-          <Link href="/venue-layout/print" className="text-sm text-brass hover:underline">
-            Print seating chart &rarr;
-          </Link>
-        </div>
+        <PageHeader
+          eyebrow="Venue layout"
+          title="Set the"
+          accent="room"
+          photo="layout"
+          actions={
+            <Link href="/venue-layout/print" className="btn-secondary">
+              Print seating chart
+            </Link>
+          }
+        >
+          Tables, the dance floor and a seat for every guest.
+        </PageHeader>
 
         <VenueLayoutClient
           tables={tables ?? []}

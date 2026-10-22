@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { AppNav } from "@/components/app-nav";
 import { PageShell } from "@/components/page-shell";
+import { PageHeader } from "@/components/page-header";
 import { FadeInSection } from "@/components/fade-in-section";
 import type { BudgetContract, BudgetCustomItem, RegionalCostData, Wedding } from "@/lib/supabase/types";
 import { weddingCategoryEstimates } from "@/lib/estimator";
@@ -343,19 +344,13 @@ export default async function BudgetPage() {
 
   return (
     <PageShell email={user.email ?? ""} width="canvas">
-        <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
-          Budget
-        </p>
-        <h1 className="mt-2 font-display text-3xl font-semibold text-forest">
-          Estimated wedding cost
-        </h1>
-        <p className="mt-2 text-sm text-ink/70">
-          Based on {wedding.state ?? "your state"},{" "}
-          {(wedding.season ?? "your season").toLowerCase()} season, a{" "}
-          {wedding.style_tier ?? "your"} style, and {guestCount} guest
-          {guestCount === 1 ? "" : "s"}. Estimates are placeholders — enter an
-          Actual and Paid amount on any line once you have a real number.
-        </p>
+        <PageHeader eyebrow="Budget" title="Your wedding," accent="priced honestly" photo="budget">
+          Built from real prices for {wedding.state ?? "your state"}, a{" "}
+          {(wedding.season ?? "your season").toLowerCase()} wedding in{" "}
+          {wedding.style_tier ?? "your"} style and {guestCount} guest
+          {guestCount === 1 ? "" : "s"}. Add what you actually pay as you
+          book, and the totals keep up.
+        </PageHeader>
 
         <div className="mt-6">
           <BudgetSheetSync

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { PageHeader } from "@/components/page-header";
 import { createClient } from "@/lib/supabase/server";
 import { AppNav } from "@/components/app-nav";
 import type { ChecklistItem, Wedding } from "@/lib/supabase/types";
@@ -80,12 +81,9 @@ export default async function ChecklistPage() {
           third column from 1280px rather than a card under the whole plan.
           See src/lib/layout.ts for the widths. */}
       <div className={`w-full ${CANVAS_WIDTH}`}>
-        <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
-          Checklist
-        </p>
-        <h1 className="mt-2 mb-6 font-display text-3xl font-semibold text-forest">
-          Planning to-dos
-        </h1>
+        <PageHeader eyebrow="Checklist" title="One thing" accent="at a time" photo="checklist">
+          What to do now, built around your date, and what can wait.
+        </PageHeader>
 
         <div className="xl:grid xl:grid-cols-[minmax(0,1fr)_380px] xl:items-start xl:gap-8">
           <div className="min-w-0">
