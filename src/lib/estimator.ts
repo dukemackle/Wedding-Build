@@ -1,4 +1,4 @@
-import { BUDGET_CATEGORIES, computeCategoryValue } from "./budget-categories";
+import { BUDGET_CATEGORIES, SEASON_MULTIPLIERS, computeCategoryValue } from "./budget-categories";
 import { computeAddOns, isAddOn } from "./estimate-add-ons";
 import type { RegionalCostData, Wedding } from "./supabase/types";
 import type { STYLE_TIERS } from "./wedding-options";
@@ -50,8 +50,9 @@ const TIER_COLUMN = {
 // This is the one pricing model. The Estimator, the Budget page's
 // placeholder lines, the Dashboard and the assistant all go through it, so
 // "Apply to my budget" on the Estimator produces exactly the numbers it
-// showed. Season only reaches the placeholder model -- the sourced data
-// has no seasonal dimension.
+// showed. The sourced rows are year-round figures with no season of their
+// own, so season is applied to them the same way as to the placeholder
+// model; otherwise picking summer moved one state's total and not the next.
 export function estimateWeddingCost(
   regionalData: RegionalCostData[],
   state: string | null,
@@ -70,6 +71,7 @@ export function estimateWeddingCost(
     regionalData.filter((row) => row.state === state).map((row) => [row.category_key, row]),
   );
   const tierColumn = tier ? TIER_COLUMN[tier as EstimatorTier] : undefined;
+  const seasonMult = options.season ? (SEASON_MULTIPLIERS[options.season] ?? 1) : 1;
 
   const priced: EstimateBreakdownItem[] = BUDGET_CATEGORIES.filter(
     (category) => !isAddOn(category.key),
@@ -78,7 +80,7 @@ export function estimateWeddingCost(
     const rawAmount = row && tierColumn ? (row[tierColumn] as number | null) : null;
 
     if (row && rawAmount != null) {
-      const amount = row.per_guest ? rawAmount * guestCount : rawAmount;
+      const amount = (row.per_guest ? rawAmount * guestCount : rawAmount) * seasonMult;
       return { key: category.key, label: category.label, amount: Math.round(amount), isRealData: true };
     }
 
