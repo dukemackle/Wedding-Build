@@ -44,28 +44,35 @@ export const VENDOR_CATEGORY_TO_BUDGET_KEY: Record<string, string> = {
   Desserts: "cake",
 };
 
-// Placeholder national-average estimates in USD. Editable per-wedding via overrides.
+// National Classic-tier figures for every state without its own rows in
+// regional_cost_data. The 13 categories that have rows anywhere use the
+// same national figures those rows were built from (each row is national x
+// the state's cost index; sources are in each row's `source` column, mostly
+// The Knot 2026 Real Weddings Study at 117 average guests), so a state with
+// rows and its neighbour without them now land in the same place instead of
+// thousands apart. The other six (rehearsal dinner, welcome party, hair and
+// makeup, rings, officiant, tips) have no sourced figure yet and are
+// unchanged. Editable per-wedding via overrides.
 export const BUDGET_CATEGORIES: BudgetCategory[] = [
-  { key: "venue", label: "Venue Rental", flatBase: 12000, perGuestAmount: 0 },
+  { key: "venue", label: "Venue Rental", flatBase: 8570, perGuestAmount: 0 },
   // Split from a combined "Catering & Bar" category -- couples often
   // book food and bar service as two separate vendors, and a budget
   // category can only ever hold one linked vendor at a time, so
   // combining them meant a second booking would silently overwrite the
-  // first. The 107/43 split mirrors the ~71%/29% ratio from the
-  // original source data (catering $6,927 vs bar $2,800 nationally,
-  // see the cost-data spreadsheet methodology).
-  { key: "catering", label: "Catering", flatBase: 0, perGuestAmount: 107 },
-  { key: "bar", label: "Bar", flatBase: 0, perGuestAmount: 43 },
-  { key: "photography", label: "Photography", flatBase: 3500, perGuestAmount: 0 },
-  { optional: true, key: "videography", label: "Videography", flatBase: 2500, perGuestAmount: 0 },
-  { key: "florals", label: "Florals & Decor", flatBase: 3000, perGuestAmount: 0 },
-  { key: "music", label: "Music / Entertainment", flatBase: 2200, perGuestAmount: 0 },
-  { key: "attire", label: "Wedding Attire", flatBase: 2800, perGuestAmount: 0 },
-  { optional: true, key: "planner", label: "Wedding Planner", flatBase: 2500, perGuestAmount: 0 },
-  { key: "stationery", label: "Invitations & Stationery", flatBase: 300, perGuestAmount: 6 },
-  { optional: true, key: "favors", label: "Favors & Gifts", flatBase: 0, perGuestAmount: 8 },
-  { key: "cake", label: "Cake & Desserts", flatBase: 600, perGuestAmount: 0 },
-  { optional: true, key: "transportation", label: "Transportation", flatBase: 800, perGuestAmount: 0 },
+  // first. $6,927 and $2,800 nationally over 117 guests (The Knot 2026),
+  // the same figures behind the catering and bar rows in regional_cost_data.
+  { key: "catering", label: "Catering", flatBase: 0, perGuestAmount: 59 },
+  { key: "bar", label: "Bar", flatBase: 0, perGuestAmount: 24 },
+  { key: "photography", label: "Photography", flatBase: 4400, perGuestAmount: 0 },
+  { optional: true, key: "videography", label: "Videography", flatBase: 4000, perGuestAmount: 0 },
+  { key: "florals", label: "Florals & Decor", flatBase: 6350, perGuestAmount: 0 },
+  { key: "music", label: "Music / Entertainment", flatBase: 1570, perGuestAmount: 0 },
+  { key: "attire", label: "Wedding Attire", flatBase: 2500, perGuestAmount: 0 },
+  { optional: true, key: "planner", label: "Wedding Planner", flatBase: 3200, perGuestAmount: 0 },
+  { key: "stationery", label: "Invitations & Stationery", flatBase: 0, perGuestAmount: 4.7 },
+  { optional: true, key: "favors", label: "Favors & Gifts", flatBase: 0, perGuestAmount: 3 },
+  { key: "cake", label: "Cake & Desserts", flatBase: 700, perGuestAmount: 0 },
+  { optional: true, key: "transportation", label: "Transportation", flatBase: 1000, perGuestAmount: 0 },
   // Both scale a bit with guest count, unlike most flat-base categories
   // above -- modern rehearsal dinners and welcome parties increasingly
   // invite most/all out-of-town guests, not just the wedding party, so
