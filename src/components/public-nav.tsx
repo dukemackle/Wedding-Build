@@ -18,31 +18,32 @@ export function PublicNav({ next }: { next?: string }) {
   const links = [
     { href: "/venues", label: "Venues" },
     { href: "/vendors", label: "Vendors" },
+    { href: "/attire", label: "Attire" },
   ];
   const business = { href: "/list", label: "List your business" };
   return (
     <AutoHideHeader>
       <div className="flex w-full items-center justify-between gap-4 px-4 py-2 sm:px-6">
         <WrenMark href="/" />
-        <nav aria-label="Main" className="flex items-center gap-1 sm:gap-7">
+        <nav aria-label="Main" className="flex items-center gap-1 md:gap-7">
           {links.map((l) => (
-            <Link key={l.href} href={l.href} className="hidden text-[15px] text-ink/80 hover:text-forest sm:block xl:text-base">
+            <Link key={l.href} href={l.href} className="hidden text-[15px] text-ink/80 hover:text-forest md:block xl:text-base">
               {l.label}
             </Link>
           ))}
           <Link
             href={business.href}
-            className="hidden rounded-full border border-current px-4 py-1.5 text-[15px] text-ink/80 transition-colors hover:text-forest sm:block xl:text-base"
+            className="hidden whitespace-nowrap rounded-full border border-current px-4 py-1.5 text-[15px] text-ink/80 transition-colors hover:text-forest md:block xl:text-base"
           >
             {business.label}
           </Link>
           <Link
             href={`/login${q}`}
-            className="shrink-0 px-2 py-3 text-[15px] font-medium text-ink hover:text-forest sm:px-0 xl:text-base"
+            className="shrink-0 px-2 py-3 text-[15px] font-medium text-ink hover:text-forest md:px-0 xl:text-base"
           >
             Log in
           </Link>
-          <details className="group relative sm:hidden">
+          <details className="group relative md:hidden">
             <summary
               aria-label="Menu"
               className="flex h-11 w-11 cursor-pointer list-none items-center justify-center text-ink [&::-webkit-details-marker]:hidden"

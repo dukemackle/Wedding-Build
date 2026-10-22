@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useMemo, useState, useTransition } from "react";
 import type { AttireItem, AttirePartyMember, AttireShortlistEntry } from "@/lib/supabase/types";
 import { ATTIRE_CATEGORIES, STYLE_TIERS } from "@/lib/wedding-options";
@@ -9,6 +11,8 @@ import { AttireCard, AttireImage, ColorDots, HeartButton, PricePills } from "./a
 import { AttireQuickView } from "./attire-quick-view";
 import { PartyBoard } from "./party-board";
 import { WrenChatBirdIcon } from "@/components/icons";
+
+const SIGNUP = `/signup?next=${encodeURIComponent("/attire")}`;
 
 type Category = (typeof ATTIRE_CATEGORIES)[number];
 type View = "browse" | "saved" | "party";
@@ -308,14 +312,18 @@ export function AttireBrowser({
   vendorNames,
   shareToken,
   initialView = "browse",
+  signedIn = true,
 }: {
   initialView?: View;
+  /** Logged out: browse only; saving and the party board send you to signup. */
+  signedIn?: boolean;
   items: AttireItem[];
   shortlist: AttireShortlistEntry[];
   party: AttirePartyMember[];
   vendorNames: Record<string, string>;
   shareToken: string | null;
 }) {
+  const router = useRouter();
   const [view, setView] = useState<View>(initialView);
   const [category, setCategory] = useState<Category>("Wedding Dress");
   const [styleTab, setStyleTab] = useState<string>("all");
@@ -375,6 +383,10 @@ export function AttireBrowser({
   }
 
   function toggleSave(id: string) {
+    if (!signedIn) {
+      router.push(SIGNUP);
+      return;
+    }
     const wasSaved = savedIds.has(id);
     setSavedIds((s) => {
       const next = new Set(s);
@@ -442,6 +454,7 @@ export function AttireBrowser({
               and dress the party from one board.
             </p>
           </div>
+          {signedIn ? (
           <div className="flex rounded-full border border-hairline bg-card p-1 shadow-sm" role="tablist">
             {tabs.map((t) => (
               <button
@@ -467,6 +480,14 @@ export function AttireBrowser({
               </button>
             ))}
           </div>
+          ) : (
+            <Link
+              href={SIGNUP}
+              className="self-start rounded-full bg-forest px-5 py-2.5 text-sm font-medium text-parchment hover:bg-forest/90 lg:self-auto"
+            >
+              Sign up free to save looks
+            </Link>
+          )}
         </div>
       </section>
 
@@ -651,7 +672,7 @@ export function AttireBrowser({
                   {results.map((item, idx) => (
                     <FragmentWithPromo
                       key={item.id}
-                      promo={showPromo && idx === promoAt ? <PartyPromo onClick={() => setView("party")} /> : null}
+                      promo={showPromo && idx === promoAt ? <PartyPromo onClick={() => (signedIn ? setView("party") : router.push(SIGNUP))} /> : null}
                     >
                       <AttireCard
                         item={item}
@@ -664,7 +685,7 @@ export function AttireBrowser({
                       />
                     </FragmentWithPromo>
                   ))}
-                  {showPromo && promoAt === results.length && <PartyPromo onClick={() => setView("party")} />}
+                  {showPromo && promoAt === results.length && <PartyPromo onClick={() => (signedIn ? setView("party") : router.push(SIGNUP))} />}
                 </div>
               )}
             </section>
@@ -794,6 +815,7 @@ export function AttireBrowser({
           pending={pendingIds.has(openItem.id)}
           vendorName={openItem.vendor_id ? vendorNames[openItem.vendor_id] : undefined}
           party={partyState}
+          signedIn={signedIn}
           onToggleSave={() => toggleSave(openItem.id)}
           onAssign={(memberId) => assign(memberId, openItem.id)}
           onClose={() => setOpenId(null)}
