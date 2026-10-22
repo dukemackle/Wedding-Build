@@ -11,7 +11,8 @@ import { CAPACITY_FILTER_STEPS, STYLE_TIERS, VENUE_SETTINGS, VENUE_TYPES, curren
 import { updateShortlistNotes } from "./actions";
 import { BookedVenueButton, ShortlistButton } from "./venue-card-shared";
 import { InquiryForm } from "./inquiry-form";
-import { FilterDropdown } from "@/components/filter-dropdown";
+import { FilterDropdown, MULTI_SEPARATOR, splitMulti } from "@/components/filter-dropdown";
+import { VenueTypeIcon } from "@/components/venue-type-icon";
 import { SearchShell } from "@/components/search-shell";
 import { useSavedFilters } from "@/lib/use-saved-filters";
 import { isInView, viewKey, type MapView } from "@/lib/map-view";
@@ -210,8 +211,12 @@ export function VenuesManager({
     type: savedType,
     q: search,
   } = filters;
-  // A filter saved before the 2026-10-22 categories maps to the nearest one.
-  const typeFilter = currentVenueType(savedType) ?? "all";
+  // Any number of types, joined; a filter saved before the 2026-10-22
+  // categories maps to the nearest one.
+  const typeFilters = splitMulti(savedType)
+    .map((t) => currentVenueType(t))
+    .filter((t): t is NonNullable<typeof t> => t != null);
+  const typeFilter = typeFilters.length ? typeFilters.join(MULTI_SEPARATOR) : "all";
   const [mapView, setMapView] = useState<MapView | null>(null);
   const [hoveredVenueId, setHoveredVenueId] = useState<string | null>(null);
 
@@ -245,10 +250,11 @@ export function VenuesManager({
   const filteredVenues = useMemo(() => {
     const unknownForFilters = (v: VenueListing) =>
       (priceFilter !== "all" && !v.price_tier) || (capacityFilter !== "all" && v.capacity == null);
+    const types = new Set<string>(splitMulti(typeFilter));
     return venues
       .filter(
         (v) =>
-          (typeFilter === "all" || currentVenueType(v.venue_type) === typeFilter) &&
+          (types.size === 0 || types.has(currentVenueType(v.venue_type) ?? "")) &&
           (settingFilter === "all" || v.setting === settingFilter) &&
           (priceFilter === "all" || !v.price_tier || v.price_tier === priceFilter) &&
           (capacityFilter === "all" || v.capacity == null || v.capacity >= Number(capacityFilter)) &&
@@ -356,7 +362,12 @@ export function VenuesManager({
             allLabel="All venue types"
             value={typeFilter}
             onChange={(v) => setFilter("type", v)}
-            options={VENUE_TYPES.map((type) => ({ value: type, label: type }))}
+            multiple
+            options={VENUE_TYPES.map((type) => ({
+              value: type,
+              label: type,
+              icon: <VenueTypeIcon type={type} />,
+            }))}
           />
         </>
       }
