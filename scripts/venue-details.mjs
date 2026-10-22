@@ -5,6 +5,12 @@
 //   npm run venue-details -- list Ohio --limit 60
 //   npm run venue-details -- fill found.tsv       write what research found
 //
+// `fill` also takes Price from and Price basis (Rental, Package, Per person or
+// Minimum), for the tier-only re-check: a row with a tier but no price gets the
+// figure its own site publishes, and its tier is redrawn from that figure the
+// way the importer would (tierFromPrice), so the two can't disagree. Blocks
+// older than the price columns gain them at the end of their header.
+//
 // `list` prints Website, Name, City, Capacity, Price tier for each venue with a
 // blank in either column: those missing a capacity first (most sites state
 // one, few publish prices), then those missing only a tier, oldest first. `fill` reads a TSV with the
@@ -19,6 +25,12 @@ import { readdirSync, readFileSync, writeFileSync } from "node:fs";
 
 const DIR = "src/lib/batches/venues";
 const TIERS = ["Simple", "Classic", "Luxury"];
+const BASES = ["Rental", "Package", "Per person", "Minimum"];
+// As tierFromPrice in src/lib/venue-pricing.ts.
+const tierFor = (price, basis) => {
+  const [classic, luxury] = basis === "Per person" ? [100, 200] : [6000, 15000];
+  return price < classic ? "Simple" : price <= luxury ? "Classic" : "Luxury";
+};
 const site = (url) =>
   url
     .trim()
@@ -74,7 +86,13 @@ if (mode === "list") {
       console.error(`skip ${get("Website")}: Price tier "${tier}" isn't ${TIERS.join(", ")}`);
       continue;
     }
-    if (capacity || tier) want.set(site(get("Website")), { capacity, tier });
+    const price = get("Price from").replace(/[$,]/g, "");
+    const basis = BASES.find((b) => b.toLowerCase() === get("Price basis").toLowerCase()) ?? "";
+    if ((price || get("Price basis")) && !(/^\d+$/.test(price) && +price > 0 && basis)) {
+      console.error(`skip ${get("Website")}: Price from "${price}" / Price basis "${get("Price basis")}" isn't whole dollars plus one of ${BASES.join(", ")}`);
+      continue;
+    }
+    if (capacity || tier || price) want.set(site(get("Website")), { capacity, tier, price, basis });
   }
   let filled = 0;
   const used = new Set();
@@ -84,10 +102,16 @@ if (mode === "list") {
     const next = src.replace(/(tsv:\s*`)([^`]*)(`)/g, (all, open, tsv, close) => {
       const lines = tsv.split("\n");
       const headAt = lines.findIndex((l) => l.trim());
-      const cols = lines[headAt].split("\t");
-      const [w, c, t] = ["Website", "Capacity", "Price tier"].map((name) => cols.indexOf(name));
-      if (w < 0 || c < 0 || t < 0) return all;
+      let cols = lines[headAt].split("\t");
+      const pricing = lines.slice(headAt + 1).some((l) => want.get(site(l.split("\t")[cols.indexOf("Website")] ?? ""))?.price);
+      if (pricing && !cols.includes("Price from")) {
+        cols = [...cols, "Price from", "Price basis"];
+        lines[headAt] = cols.join("\t");
+      }
+      const [w, c, t, p, b] = ["Website", "Capacity", "Price tier", "Price from", "Price basis"].map((name) => cols.indexOf(name));
+      if (w < 0 || c < 0) return all;
       for (let i = headAt + 1; i < lines.length; i++) {
+        if (!lines[i].trim()) continue;
         const cells = lines[i].split("\t");
         const hit = cells[w] && want.get(site(cells[w]));
         if (!hit) continue;
@@ -97,8 +121,14 @@ if (mode === "list") {
           cells[c] = hit.capacity;
           changed = true;
         }
-        if (hit.tier && !cells[t].trim()) {
+        if (hit.tier && t >= 0 && !cells[t].trim()) {
           cells[t] = hit.tier;
+          changed = true;
+        }
+        if (hit.price && p >= 0 && !cells[p].trim() && !cells[b].trim()) {
+          cells[p] = hit.price;
+          cells[b] = hit.basis;
+          if (t >= 0 && cells[t].trim()) cells[t] = tierFor(+hit.price, hit.basis);
           changed = true;
         }
         if (changed) {
