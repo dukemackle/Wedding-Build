@@ -529,3 +529,40 @@ export function TagIcon(props: IconProps) {
     </IconBase>
   );
 }
+
+/** A plain tick, for "done" and "paid" marks (was a ✓ character). */
+export function CheckIcon(props: IconProps) {
+  return (
+    <IconBase strokeWidth={2.5} {...props}>
+      <path d="m5 12.5 4.5 4.5L19 7.5" />
+    </IconBase>
+  );
+}
+
+export function MailIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <rect x="3" y="5.5" width="18" height="13" rx="1.5" />
+      <path d="m3.5 6.5 8.5 6 8.5-6" />
+    </IconBase>
+  );
+}
+
+export function PhoneIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M6.5 3.5h3l1.8 4.5-2.3 1.4a11 11 0 0 0 5.6 5.6l1.4-2.3 4.5 1.8v3a2 2 0 0 1-2 2A16.5 16.5 0 0 1 4.5 5.5a2 2 0 0 1 2-2Z" />
+    </IconBase>
+  );
+}
+
+/** A wrapped present, for a registry gift with no photo. */
+export function GiftIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <rect x="3.5" y="8.5" width="17" height="4" rx="1" />
+      <path d="M5 12.5v8h14v-8M12 8.5v12" />
+      <path d="M12 8.5C10.5 5 7 4.5 7 6.8 7 8.5 10 8.5 12 8.5ZM12 8.5c1.5-3.5 5-4 5-1.7 0 1.7-3 1.7-5 1.7Z" />
+    </IconBase>
+  );
+}

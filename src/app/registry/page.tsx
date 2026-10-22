@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { AppNav } from "@/components/app-nav";
 import { PageShell } from "@/components/page-shell";
+import { PageHeader } from "@/components/page-header";
 import type { PublicRegistryGift, RegistryClaim, RegistryItem, Wedding } from "@/lib/supabase/types";
 import { usd } from "@/lib/registry";
 import { RegistryManager } from "@/app/guests/registry-manager";
@@ -77,37 +78,38 @@ export default async function RegistryPage() {
 
   return (
     <PageShell email={user.email ?? ""} width="wide">
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Guests</p>
-          <h1 className="mt-2 font-display text-3xl font-semibold text-forest">Registry</h1>
-          <p className="mt-2 text-sm text-ink/70">
-            Everything you&apos;d love, in one place on your guest site.{" "}
-            <span className="font-mono-numbers text-ink">
-              {claimedCount} of {items.length} gifts claimed
-              {raised > 0 ? ` · ${usd(raised)} to your funds` : ""}
-            </span>
-          </p>
-        </div>
-        {wedding.public_slug ? (
-          <a
-            href={`/w/${wedding.public_slug}#registry`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-sm text-brass hover:underline"
-          >
-            See it on your guest site ↗
-          </a>
-        ) : (
-          <Link href="/guests" className="text-sm text-brass hover:underline">
-            Turn on your guest site so guests can see it
-          </Link>
-        )}
-      </div>
+      <PageHeader
+        eyebrow="Registry"
+        title="Gifts you’ll"
+        accent="actually love"
+        photo="website"
+        actions={
+          wedding.public_slug ? (
+            <a
+              href={`/w/${wedding.public_slug}#registry`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-secondary"
+            >
+              See it on your guest site ↗
+            </a>
+          ) : (
+            <Link href="/guests" className="btn-secondary">
+              Turn on your guest site so guests can see it
+            </Link>
+          )
+        }
+      >
+        Every store and fund in one place on your guest site.{" "}
+        <span className="font-mono-numbers text-ink">
+          {claimedCount} of {items.length} gifts claimed
+          {raised > 0 ? ` · ${usd(raised)} to your funds` : ""}
+        </span>
+      </PageHeader>
 
       {/* Phone: one column, the gifts first. Desktop: the gifts and funds take
           the wide column, and who's giving what sits beside them. */}
-      <div className="mt-6 grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-start">
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-start">
         <div className="flex flex-col gap-10">
           <GiftsSection gifts={allGifts} claims={allClaims} />
           <FundsSection gifts={allGifts} claims={allClaims} />

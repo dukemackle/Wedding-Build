@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { AppNav } from "@/components/app-nav";
 import { PageShell } from "@/components/page-shell";
+import { PageHeader } from "@/components/page-header";
 import type { GuestEventInvite, ItineraryEvent, Wedding } from "@/lib/supabase/types";
 import { ItineraryManager, type InviteGuest } from "./itinerary-manager";
 import { PublishToggle } from "./publish-toggle";
@@ -77,23 +78,19 @@ export default async function ItineraryPage() {
 
   return (
     <PageShell email={user.email ?? ""} width="canvas">
-        <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
-          Itinerary
-        </p>
-        <div className="mt-2 mb-6 flex flex-wrap items-center justify-between gap-4">
-          <h1 className="font-display text-3xl font-semibold text-forest">
-            Wedding weekend schedule
-          </h1>
-          <Link
-            href="/itinerary/print"
-            className="rounded-full border border-hairline bg-parchment px-4 py-1.5 font-mono-numbers text-sm text-forest transition-colors hover:border-forest"
-          >
-            Print run sheet
-          </Link>
-        </div>
-        <p className="mb-6 text-sm text-ink/70">
-          Every scheduled day shows up side by side below.
-        </p>
+        <PageHeader
+          eyebrow="Itinerary"
+          title="The day,"
+          accent="hour by hour"
+          photo="itinerary"
+          actions={
+            <Link href="/itinerary/print" className="btn-secondary">
+              Print run sheet
+            </Link>
+          }
+        >
+          Who needs to be where, and when. Every scheduled day sits side by side below.
+        </PageHeader>
 
         <PublishToggle
           published={wedding.itinerary_published}

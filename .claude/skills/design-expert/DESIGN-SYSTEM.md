@@ -90,6 +90,9 @@ layout switch in new code.
 | Need | Use | Status |
 | --- | --- | --- |
 | Page frame | `PageShell` | Good |
+| Planning-page header | `PageHeader` (`page-header.tsx`): eyebrow, headline with an italic royal-blue end, one line, actions, landing feature photo | Budget, guests, checklist, itinerary, layout, registry |
+| Page's main action | `btn-primary` (gold pill, navy text, `PlusIcon` for "Add …") | One per page |
+| Its other actions | `btn-secondary` (navy 2px outline pill) | Planning pages |
 | Primary button | `rounded-md bg-forest px-4 py-2 text-sm font-medium text-parchment transition-colors hover:bg-forest/90 disabled:opacity-60` (+ `btn-motion` on marketing) | ~6 near-duplicate variants; no shared component |
 | Secondary | `rounded-md border border-hairline px-3 py-2 text-sm text-ink hover:border-forest disabled:opacity-60` | |
 | Chip / filter | `rounded-full border border-hairline bg-card px-3 py-1 text-sm` | |
@@ -123,7 +126,10 @@ today, see the backlog).
 
 CSS keyframes in globals.css (page-in, stagger words, link underline,
 btn-motion, Wren bird set, `wren-*` micro-feedback, `ydid-*` logo, guest-site
-`site-*`/`el-*` with `animation-timeline: view()`). See
+`site-*`/`el-*` with `animation-timeline: view()`, planning pages'
+`page-photo-drift`, `rise-in`, `rise-stagger` for list rows, `paid-glow` /
+`paid-pop`). Celebrations use `BirdCheer`: a line paid in full, a checklist
+stage done, the last guest seated, RSVP milestones (`rsvp-milestone.tsx`). See
 [ANIMATION-GUIDELINES.md](ANIMATION-GUIDELINES.md).
 
 ## Accessibility conventions

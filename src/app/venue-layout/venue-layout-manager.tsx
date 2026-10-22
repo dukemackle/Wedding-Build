@@ -41,6 +41,9 @@ import {
   itemDimensions,
   tableFootprint,
 } from "@/lib/venue-layout-geometry";
+import { PlusIcon } from "@/components/page-header";
+import { CheckIcon } from "@/components/icons";
+import { BirdCheer } from "@/components/bird-cheer";
 
 const VenueLayout3DView = dynamic(() => import("./venue-layout-3d-view"), {
   ssr: false,
@@ -1439,6 +1442,14 @@ function GuestPanel({
 }) {
   const [query, setQuery] = useState("");
   const [grouping, setGrouping] = useState<PanelGrouping>("household");
+  // Wren cheers when the last guest gets a seat -- only on that drop, not
+  // every time a fully seated plan is opened.
+  const leftBefore = useRef(unassigned.length);
+  const [seatedCheer, setSeatedCheer] = useState(0);
+  useEffect(() => {
+    if (leftBefore.current > 0 && unassigned.length === 0 && totalGuests > 0) setSeatedCheer((n) => n + 1);
+    leftBefore.current = unassigned.length;
+  }, [unassigned.length, totalGuests]);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -1506,8 +1517,14 @@ function GuestPanel({
           is the scroll, and a box-in-a-box would trap the thumb. */}
       <div className="xl:max-h-[60vh] xl:overflow-y-auto">
         {unassigned.length === 0 ? (
-          <p className="p-4 text-sm text-ink/60">
-            Everyone has a seat{totalGuests > 0 ? " 🎉" : ""}.
+          <p className="flex items-center gap-2 p-4 text-sm font-medium text-forest">
+            {totalGuests > 0 && (
+              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#ffd301]">
+                <CheckIcon className="h-3.5 w-3.5" />
+              </span>
+            )}
+            Everyone has a seat.
+            {seatedCheer > 0 && <BirdCheer key={seatedCheer} message="Everyone has a seat!" />}
           </p>
         ) : blocks.length === 0 ? (
           <p className="p-4 text-sm text-ink/50">No one matches “{query}”.</p>
@@ -2079,7 +2096,7 @@ export function VenueLayoutManager({
           {hasContent && (
             <button
               onClick={() => setView3D((v) => !v)}
-              className="rounded-full border border-hairline bg-parchment px-4 py-1.5 font-mono-numbers text-sm text-forest transition-colors hover:border-forest"
+              className="btn-secondary"
             >
               {view3D ? "Back to editor" : "View in 3D"}
             </button>
@@ -2087,17 +2104,17 @@ export function VenueLayoutManager({
           <button
             onClick={() => setAddFormType((v) => (v === "table" ? null : "table"))}
             disabled={!canAdd}
-            className="rounded-full bg-forest px-4 py-1.5 font-mono-numbers text-sm text-parchment transition-colors hover:bg-forest/90 disabled:opacity-40"
+            className={addFormType === "table" ? "btn-secondary" : "btn-primary"}
           >
-            {addFormType === "table" ? "Close" : "+ Add table"}
+            {addFormType === "table" ? "Close" : <><PlusIcon /> Add table</>}
           </button>
           {mode !== "seating" && (
             <button
               onClick={() => setAddFormType((v) => (v === "item" ? null : "item"))}
               disabled={!canAdd}
-              className="rounded-full bg-forest px-4 py-1.5 font-mono-numbers text-sm text-parchment transition-colors hover:bg-forest/90 disabled:opacity-40"
+              className="btn-secondary disabled:opacity-40"
             >
-              {addFormType === "item" ? "Close" : "+ Add item"}
+              {addFormType === "item" ? "Close" : <><PlusIcon /> Add item</>}
             </button>
           )}
         </div>

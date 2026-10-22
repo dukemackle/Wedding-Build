@@ -39,12 +39,15 @@ import {
   NotesIcon,
   PaperclipIcon,
   TrashIcon,
+  CheckIcon,
 } from "@/components/icons";
 import { SpreadsheetLink } from "@/components/spreadsheet-link";
 import type { BudgetContract } from "@/lib/supabase/types";
 import { ContractsPanel } from "./contracts-panel";
 import { BudgetImportPanel } from "./budget-import-panel";
 import { BudgetSummary } from "./budget-summary";
+import { PlusIcon } from "@/components/page-header";
+import { BirdCheer } from "@/components/bird-cheer";
 
 export const CATEGORY_ICONS: Record<string, ComponentType<{ className?: string }>> = {
   venue: VenueIcon,
@@ -218,6 +221,9 @@ function BudgetRowItem({
    * unticking clears it, which is what the page is showing anyway.
    */
   const [paidBeforeFull, setPaidBeforeFull] = useState<string | null>(null);
+  // Counts each "paid in full" click, so the tick pops and Wren cheers again
+  // every time rather than only the first.
+  const [paidCheer, setPaidCheer] = useState(0);
 
   const effectiveValue = row.override ?? row.computed ?? 0;
   const liveActual = Number(actualInput) || effectiveValue;
@@ -271,6 +277,7 @@ function BudgetRowItem({
     const next = checked ? String(liveActual) : (paidBeforeFull ?? "");
     setPaidBeforeFull(checked ? paidInput : null);
     setPaidInput(next);
+    if (checked) setPaidCheer((n) => n + 1);
     handleAmountBlur("paid_amount", next);
   }
 
@@ -382,7 +389,8 @@ function BudgetRowItem({
 
   return (
     <div className="border-b border-hairline last:border-b-0">
-      <div className="px-1 py-2.5 transition-colors lg:py-3 hover:bg-parchment/50 sm:grid sm:grid-cols-[1fr_7rem_7.5rem_11rem] lg:grid-cols-[minmax(0,1fr)_7rem_7.5rem_9.5rem] lg:gap-5 2xl:grid-cols-[minmax(0,1fr)_9.5rem_9.5rem_12rem] 2xl:gap-8 sm:items-center sm:gap-4 sm:px-2">
+      {paidCheer > 0 && isFullyPaid && <BirdCheer key={paidCheer} message={`${row.label} is paid in full!`} />}
+      <div className={`${paidCheer > 0 && isFullyPaid ? "paid-glow " : ""}px-1 py-2.5 transition-colors lg:py-3 hover:bg-parchment/50 sm:grid sm:grid-cols-[1fr_7rem_7.5rem_11rem] lg:grid-cols-[minmax(0,1fr)_7rem_7.5rem_9.5rem] lg:gap-5 2xl:grid-cols-[minmax(0,1fr)_9.5rem_9.5rem_12rem] 2xl:gap-8 sm:items-center sm:gap-4 sm:px-2`}>
         <div className="flex min-w-0 items-center gap-2">
         <div className="flex min-w-0 flex-1 items-center gap-2">
           <Icon className="h-4 w-4 shrink-0 text-brass lg:h-5 lg:w-5" />
@@ -452,19 +460,20 @@ function BudgetRowItem({
               </span>
             </span>
             <button
+              key={paidCheer}
               type="button"
               onClick={() => handlePaidInFull(!isFullyPaid)}
               disabled={liveActual <= 0 || isPending}
               aria-pressed={isFullyPaid}
               title={isFullyPaid ? "Paid in full -- click to undo" : "Mark paid in full"}
               aria-label={`Paid in full for ${row.label}`}
-              className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full border text-sm transition-colors disabled:opacity-40 ${
+              className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full border transition-colors disabled:opacity-40 ${
                 isFullyPaid
-                  ? "border-forest bg-forest text-parchment"
+                  ? `border-[#c9a800] bg-[#ffd301] text-forest ${paidCheer > 0 ? "paid-pop" : ""}`
                   : "border-hairline text-ink/30 hover:border-forest hover:text-forest"
               }`}
             >
-              ✓
+              <CheckIcon className="h-3.5 w-3.5" />
             </button>
           </span>
         </div>
@@ -844,7 +853,7 @@ export function BudgetTable({
         </span>
       </div>
 
-      <div className="px-5 sm:px-6">
+      <div className="rise-stagger px-5 sm:px-6">
 
       {rows.map((row) => (
         <BudgetRowItem
@@ -908,9 +917,9 @@ export function BudgetTable({
         <button
           type="button"
           onClick={() => setShowAddForm(true)}
-          className="mt-2 flex w-full items-center justify-center gap-2 rounded-md border border-dashed border-hairline py-3 text-sm text-ink/60 transition-colors hover:border-forest hover:text-forest"
+          className="btn-primary mt-2"
         >
-          <span className="text-lg leading-none">+</span> Add item
+          <PlusIcon /> Add a cost
         </button>
       )}
 
