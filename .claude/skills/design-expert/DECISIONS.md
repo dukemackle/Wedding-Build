@@ -11,6 +11,19 @@ They're summarised here only by reference; CLAUDE.md is the source.
 
 ## Approved directions
 
+- **2026-10-22:** Venue categories: 15 replace the six venue types, in
+  this order: Barn & Farm; Ranch; Historic Mansion & Estate; Chapel &
+  Church; Ballroom; Hotel & Resort; Garden & Park; Lake & River; Mountain &
+  Lodge; Beach & Coast; Vineyard & Winery; Restaurant & Brewery; Country Club
+  & Golf; Industrial Loft & Warehouse; Museum, Gallery & Rooftop. Every venue
+  re-sorted (`src/lib/venue-category.ts`, migration 0137); ocean-front
+  hotels count as Beach & Coast. Guest sites get "layout families": 8
+  families, each shared by related categories, each its own page layout
+  plus per-category colours, fonts, photos and art. First four mocked and
+  approved: Field Notes (Barn & Farm, Ranch), Grand (Ballroom, Hotel &
+  Resort), Shoreline (Lake & River, Beach & Coast), Gallery (Industrial Loft
+  & Warehouse; Museum, Gallery & Rooftop). Mockup:
+  https://claude.ai/artifact/HCim7sNFtMsZ9wdj6oRiyZ
 - **2026-10-22:** Planning pages (budget, guests, checklist, itinerary,
   layout, registry) keep their layouts but get livelier: a `PageHeader` with
   the landing box's photo (slow drift), a headline with an italic royal-blue

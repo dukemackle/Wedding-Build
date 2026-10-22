@@ -9,7 +9,7 @@ import {
   setDashboardPhotoFocus,
 } from "./actions";
 import type { Venue, Wedding } from "@/lib/supabase/types";
-import { STATES, SEASONS, STYLE_TIERS, VENUE_TYPES } from "@/lib/wedding-options";
+import { STATES, SEASONS, STYLE_TIERS, VENUE_TYPES, currentVenueType } from "@/lib/wedding-options";
 import { daysUntilWedding } from "@/lib/countdown";
 import { CountdownTimer } from "@/components/countdown-timer";
 import { MilestoneBird } from "./milestone-bird";
@@ -153,7 +153,7 @@ function WeddingForm({
         Venue type
         <select
           name="venue_type"
-          defaultValue={wedding?.venue_type ?? ""}
+          defaultValue={currentVenueType(wedding?.venue_type) ?? ""}
           className={selectClass}
         >
           <option value="">Not sure yet</option>

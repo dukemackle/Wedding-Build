@@ -9,7 +9,7 @@ import type {
   VenueSpace,
   Wedding,
 } from "@/lib/supabase/types";
-import { ALCOHOL_POLICIES, SERVICE_LEVELS } from "@/lib/wedding-options";
+import { ALCOHOL_POLICIES, SERVICE_LEVELS, venueTypeImage } from "@/lib/wedding-options";
 import { ChevronDownIcon } from "@/components/icons";
 import { PhotoGallery } from "@/components/photo-gallery";
 import { SignupPrompt } from "@/components/public-nav";
@@ -38,16 +38,6 @@ import { priceHeadline, priceOptionAmount } from "@/lib/venue-pricing";
  * load through `loadVenueListing` and render `VenueListing`, so the page and
  * the panel can't drift apart.
  */
-
-export const VENUE_TYPE_IMAGES: Record<string, string> = {
-  "Barn / Rustic": "/venue-types/barn-rustic.svg",
-  "Ballroom / Hotel": "/venue-types/ballroom-hotel.svg",
-  "Garden / Outdoor": "/venue-types/garden-outdoor.svg",
-  "Beach / Waterfront": "/venue-types/beach-waterfront.svg",
-  "Historic / Estate": "/venue-types/historic-estate.svg",
-  "Restaurant / Vineyard": "/venue-types/restaurant-vineyard.svg",
-};
-const DEFAULT_VENUE_IMAGE = "/venue-types/historic-estate.svg";
 
 export type VenueListingData = {
   venue: Venue;
@@ -81,7 +71,8 @@ export async function loadVenueListing(
   if (!venue) return null;
 
   const similarityFilters = [
-    venue.venue_type ? `venue_type.eq.${venue.venue_type}` : null,
+    // Quoted: "Museum, Gallery & Rooftop" has a comma, which would split the or().
+    venue.venue_type ? `venue_type.eq."${venue.venue_type}"` : null,
     venue.state ? `state.eq.${venue.state}` : null,
   ].filter((f): f is string => Boolean(f));
 
@@ -148,7 +139,7 @@ function directionsHref(venue: Venue): string {
 function photosOf(venue: Venue): string[] {
   const photos = [...new Set([venue.image_url, ...venue.photo_urls].filter((u): u is string => Boolean(u)))];
   if (photos.length > 0) return photos;
-  return [(venue.venue_type && VENUE_TYPE_IMAGES[venue.venue_type]) || DEFAULT_VENUE_IMAGE];
+  return [venueTypeImage(venue.venue_type)];
 }
 
 const card = "rounded-lg border border-hairline bg-card p-6 shadow-sm";
@@ -372,7 +363,7 @@ export function VenueListing({ data }: { data: VenueListingData }) {
                     className="flex flex-col overflow-hidden rounded-lg border border-hairline bg-card transition-colors hover:border-forest"
                   >
                     <Image
-                      src={v.image_url || (v.venue_type && VENUE_TYPE_IMAGES[v.venue_type]) || DEFAULT_VENUE_IMAGE}
+                      src={v.image_url || venueTypeImage(v.venue_type)}
                       alt={v.name}
                       width={300}
                       height={225}

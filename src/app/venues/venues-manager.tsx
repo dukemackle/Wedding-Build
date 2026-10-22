@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState, useTransition } from "react";
 import type { VenueShortlistEntry } from "@/lib/supabase/types";
-import { CAPACITY_FILTER_STEPS, STYLE_TIERS, VENUE_SETTINGS, VENUE_TYPES } from "@/lib/wedding-options";
+import { CAPACITY_FILTER_STEPS, STYLE_TIERS, VENUE_SETTINGS, VENUE_TYPES, currentVenueType, venueTypeImage } from "@/lib/wedding-options";
 import { updateShortlistNotes } from "./actions";
 import { BookedVenueButton, ShortlistButton } from "./venue-card-shared";
 import { InquiryForm } from "./inquiry-form";
@@ -27,15 +27,6 @@ const VenuesMap = dynamic(() => import("./venues-map").then((m) => m.VenuesMap),
   ),
 });
 
-const VENUE_TYPE_IMAGES: Record<string, string> = {
-  "Barn / Rustic": "/venue-types/barn-rustic.svg",
-  "Ballroom / Hotel": "/venue-types/ballroom-hotel.svg",
-  "Garden / Outdoor": "/venue-types/garden-outdoor.svg",
-  "Beach / Waterfront": "/venue-types/beach-waterfront.svg",
-  "Historic / Estate": "/venue-types/historic-estate.svg",
-  "Restaurant / Vineyard": "/venue-types/restaurant-vineyard.svg",
-};
-const DEFAULT_VENUE_IMAGE = "/venue-types/historic-estate.svg";
 
 function VenueCard({
   venue,
@@ -57,8 +48,7 @@ function VenueCard({
   onLeave?: () => void;
 }) {
   const [showInquiry, setShowInquiry] = useState(false);
-  const image =
-    venue.image_url || (venue.venue_type && VENUE_TYPE_IMAGES[venue.venue_type]) || DEFAULT_VENUE_IMAGE;
+  const image = venue.image_url || venueTypeImage(venue.venue_type);
 
   // Capacity leads the card, where a property listing would put its price.
   // It is the number a couple actually filters a venue on, and unlike price it
@@ -209,9 +199,11 @@ export function VenuesManager({
     capacity: capacityFilter,
     setting: settingFilter,
     price: priceFilter,
-    type: typeFilter,
+    type: savedType,
     q: search,
   } = filters;
+  // A filter saved before the 2026-10-22 categories maps to the nearest one.
+  const typeFilter = currentVenueType(savedType) ?? "all";
   const [mapView, setMapView] = useState<MapView | null>(null);
   const [hoveredVenueId, setHoveredVenueId] = useState<string | null>(null);
 
@@ -259,7 +251,7 @@ export function VenuesManager({
     return venues
       .filter(
         (v) =>
-          (typeFilter === "all" || v.venue_type === typeFilter) &&
+          (typeFilter === "all" || currentVenueType(v.venue_type) === typeFilter) &&
           (settingFilter === "all" || v.setting === settingFilter) &&
           (priceFilter === "all" || !v.price_tier || v.price_tier === priceFilter) &&
           (capacityFilter === "all" || v.capacity == null || v.capacity >= Number(capacityFilter)) &&
