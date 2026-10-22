@@ -26,7 +26,7 @@ import { VenuePhotosPanel } from "../../../venue-photos-panel";
 import { Accommodations, DressAndTravel, Faqs, OwnVenue } from "../../../guest-site-details";
 import { RegistryManager } from "../../../registry-manager";
 import { SiteEditor } from "../../site-editor";
-import type { ChecklistItem, SectionInfo } from "../../editor-tabs";
+import type { SectionInfo } from "../../editor-tabs";
 import { BlockEditor } from "../../block-editor";
 import { RsvpQuestions } from "../../rsvp-questions";
 import { PartySitePanel } from "../../../party-site-panel";
@@ -315,21 +315,6 @@ export default async function GuestSiteEditorPage({ params }: { params: Promise<
     }),
   );
 
-  // "Finish your site" (the editor adds "Pick a look" first, from the design).
-  const checklist: ChecklistItem[] = [
-    { label: "Add your main photo", done: Boolean(wedding.hero_photo_url), section: "photos", action: "Add" },
-    { label: "Add your venue", done: Boolean(venue || wedding.own_venue_name), section: "venue", action: "Add" },
-    {
-      label: "Publish your weekend schedule",
-      done: events > 0 && wedding.itinerary_published,
-      href: "/itinerary",
-      action: "Itinerary",
-    },
-    { label: "Add somewhere to stay", done: stayCount > 0, section: "travel", action: "Add" },
-    { label: "Set an RSVP deadline", done: Boolean(wedding.rsvp_deadline), href: "/dashboard", action: "Dashboard" },
-    { label: "Turn on your site (the switch at the top)", done: Boolean(wedding.public_slug) },
-  ];
-
   return (
     <main className="flex flex-1 flex-col items-center px-6 pt-16 pb-16">
       <AppNav email={user.email ?? ""} />
@@ -347,7 +332,6 @@ export default async function GuestSiteEditorPage({ params }: { params: Promise<
           origin={origin}
           contentKey={contentKey}
           sectionInfo={{ ...sectionInfo, ...blockInfo }}
-          checklist={checklist}
           hasPhoto={Boolean(wedding.hero_photo_url)}
           names={[wedding.partner_a_name ?? "", wedding.partner_b_name ?? ""]}
           weddingDate={wedding.wedding_date ?? null}

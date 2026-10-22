@@ -57,7 +57,7 @@ import { publishSiteDesign, saveSiteDraft } from "./actions";
 import { STALE_DESIGN } from "@/lib/site-designs";
 import { BirdCheer } from "@/components/bird-cheer";
 import { PublicSitePanel, SiteSwitch, useGuestSite } from "../public-site-panel";
-import { MotionTab, PageArtworkSection, PanelLabel, SceneSection, FinishSteps, SectionsTab, StyleTab, type ChecklistItem, type SectionInfo } from "./editor-tabs";
+import { MotionTab, PageArtworkSection, PanelLabel, SceneSection, SectionsTab, StyleTab, type SectionInfo } from "./editor-tabs";
 
 type Device = "desktop" | "phone";
 // Position opens from a picked element rather than the tab strip.
@@ -131,7 +131,6 @@ export function SiteEditor({
   origin,
   contentKey,
   sectionInfo,
-  checklist,
   hasPhoto,
   names,
   weddingDate,
@@ -154,8 +153,6 @@ export function SiteEditor({
   contentKey: string;
   /** Each section's status line, and its content editor where it has one. */
   sectionInfo: Partial<Record<SectionKey, SectionInfo>>;
-  /** The "before you share" list. */
-  checklist: ChecklistItem[];
   /** Hero layouts only show with a banner photo; the Style tab says so. */
   hasPhoto: boolean;
   names: [string, string];
@@ -214,7 +211,7 @@ export function SiteEditor({
   const [phoneFrames, setPhoneFrames] = useState<CanvasFrames>({});
   // Where Position's close button goes back to.
   const [lastTab, setLastTab] = useState<Exclude<Tab, "position" | "photo" | "animate">>("elements");
-  // The Sections row that's open, kept here so the steps and the preview can open one.
+  // The Sections row that's open, kept here so the preview can open one.
   const [openSection, setOpenSection] = useState<SectionKey | null>(null);
 
   // Brings an opened row into view in the panel.
@@ -225,19 +222,6 @@ export function SiteEditor({
     );
     return () => cancelAnimationFrame(frame);
   }, [openSection, tab, phoneSheet]);
-
-  // "Finish your site": picking a look comes first; the switch is read live.
-  const steps: ChecklistItem[] = [
-    { label: "Pick a look", done: design.template !== null, tab: "design", action: "Pick" },
-    ...checklist.map((x) => (!x.section && !x.href && !x.tab ? { ...x, done: Boolean(publicSlug) } : x)),
-  ];
-
-  function goToStep(item: ChecklistItem) {
-    const next: Tab = item.tab ?? "sections";
-    setTab(next);
-    if (item.section) setOpenSection(item.section);
-    if (!isDesktop) setPhoneSheet(next);
-  }
 
   // Phone screens start on the phone preview; there's no computer to show it on.
   useEffect(() => {
@@ -623,7 +607,6 @@ export function SiteEditor({
 
   const panelBody = (
     <div className="flex flex-col gap-6 px-5 pb-8 pt-5 lg:px-6">
-      {!isDesktop && (tab === "sections" || tab === "design") && <FinishSteps items={steps} onGo={goToStep} />}
       {tab === "elements" ? (
         <>
         <PageArtworkSection design={design} onChange={change} hasPhoto={hasPhoto} />
@@ -1056,9 +1039,6 @@ export function SiteEditor({
               </div>
               <SiteSwitch site={site} />
             </div>
-            <div className="border-b border-hairline px-6 py-3">
-              <FinishSteps items={steps} onGo={goToStep} />
-            </div>
             <div className="min-h-0 flex-1 overflow-y-auto">{panelBody}</div>
           </div>
         </aside>
@@ -1114,6 +1094,19 @@ export function SiteEditor({
                     <path d="M4 4v4h4" />
                   </svg>
                   Replay motion
+                </button>
+                {/* The site full screen as guests get it, editing off until Esc. */}
+                <button
+                  type="button"
+                  onClick={() => frameRef.current?.requestFullscreen().catch(() => {})}
+                  title="Preview (Esc to exit)"
+                  className="flex h-10 items-center gap-1.5 rounded-lg border border-hairline bg-card px-3.5 text-[13px] text-ink hover:border-ink/30"
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+                    <path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z" />
+                    <circle cx="12" cy="12" r="3" />
+                  </svg>
+                  Preview
                 </button>
                 <div className="flex-1" />
                 <span className={`text-[13px] ${error ? "text-red-700" : "text-ink/60"}`} role="status">
