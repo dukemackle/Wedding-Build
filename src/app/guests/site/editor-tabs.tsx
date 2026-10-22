@@ -67,19 +67,6 @@ export type SectionInfo = {
   layout?: LayoutSection;
 };
 
-/**
- * One step of "Finish your site". A step opens the place that does it: a
- * section's row (`section`), the Design tab (`tab`), or another page (`href`).
- */
-export type ChecklistItem = {
-  label: string;
-  done: boolean;
-  href?: string;
-  action?: string;
-  section?: SectionKey;
-  tab?: "design";
-};
-
 type Change = (patch: Partial<SiteDesign>) => void;
 
 const NAMES = Object.fromEntries(SITE_SECTIONS.map((x) => [x.id, x.name])) as Record<string, string>;
@@ -1002,104 +989,6 @@ function LayoutThumb({ section, id }: { section: LayoutSection; id: string }) {
   if (key === "weekend:cards")
     return <span className={box}>{[0, 1, 2].map((i) => <span key={i} className="flex h-full flex-1 flex-col gap-1 rounded-sm bg-white p-1 shadow-sm">{line("80%")}{line("60%")}</span>)}</span>;
   return <span className={`${box} flex-col !items-stretch !gap-1.5`}>{[0, 1, 2].map((i) => <span key={i} className="flex gap-1">{line("25%")}{line("45%")}</span>)}</span>;
-}
-
-/**
- * "Finish your site": the few things a site needs before it's sent, in order,
- * pinned above the panels so a couple always knows what's left (owner,
- * 2026-10-21: "what do I need to do to make this website complete?"). Folded
- * to the next step; each step opens the place that does it.
- */
-export function FinishSteps({ items, onGo }: { items: ChecklistItem[]; onGo: (item: ChecklistItem) => void }) {
-  const [open, setOpen] = useState(false);
-  const done = items.filter((x) => x.done).length;
-  const next = items.find((x) => !x.done);
-  const step = (x: ChecklistItem, i: number) => {
-    const body = (
-      <>
-        <span
-          aria-hidden="true"
-          className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[12px] font-semibold ${
-            x.done ? "bg-[#FFD301] text-[#14203d]" : "border border-ink/25 text-ink/60"
-          }`}
-        >
-          {x.done ? (
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round">
-              <path d="M5 12l5 5L20 7" />
-            </svg>
-          ) : (
-            i + 1
-          )}
-        </span>
-        <span className={`min-w-0 flex-1 text-[14px] ${x.done ? "text-ink/50" : "font-medium text-ink"}`}>
-          {x.label}
-          {x.done && <span className="sr-only"> (done)</span>}
-        </span>
-        {!x.done && (x.section || x.tab || x.href) && (
-          <span className="shrink-0 text-[13px] font-semibold text-[#2243B6]">{x.action ?? "Go"} →</span>
-        )}
-      </>
-    );
-    const row = "flex w-full items-center gap-3 rounded-lg px-2 py-2 text-left";
-    if (x.done || (!x.section && !x.tab && !x.href)) return <div className={row}>{body}</div>;
-    if (x.href && !x.section && !x.tab)
-      return (
-        <Link href={x.href} className={`${row} hover:bg-[#2243B6]/[0.06]`}>
-          {body}
-        </Link>
-      );
-    return (
-      <button
-        type="button"
-        onClick={() => {
-          setOpen(false);
-          onGo(x);
-        }}
-        className={`${row} hover:bg-[#2243B6]/[0.06]`}
-      >
-        {body}
-      </button>
-    );
-  };
-  return (
-    <div className="rounded-xl border border-[#FFD301] bg-card">
-      <button
-        type="button"
-        onClick={() => setOpen((o) => !o)}
-        aria-expanded={open}
-        className="flex w-full items-center gap-3 px-4 pb-2.5 pt-3 text-left"
-      >
-        <span className="min-w-0 flex-1">
-          <span className="flex items-baseline justify-between gap-2">
-            <span className="text-[14px] font-semibold text-[#14203d]">
-              {next ? "Finish your site" : "Ready to share"}
-            </span>
-            <span className="text-xs text-ink/60">
-              {done} of {items.length} done
-            </span>
-          </span>
-          <span className="mt-2 block h-1.5 overflow-hidden rounded-full bg-ink/10" aria-hidden="true">
-            <span
-              className="block h-full rounded-full bg-[#FFD301] transition-[width] duration-500 motion-reduce:transition-none"
-              style={{ width: `${(done / items.length) * 100}%` }}
-            />
-          </span>
-        </span>
-        <ChevronDownIcon className={`h-4 w-4 shrink-0 text-ink/50 transition-transform ${open ? "rotate-180" : ""}`} />
-      </button>
-      {open ? (
-        <ol className="flex flex-col px-2 pb-2">
-          {items.map((x, i) => (
-            <li key={x.label}>{step(x, i)}</li>
-          ))}
-        </ol>
-      ) : next ? (
-        <div className="px-2 pb-2">{step(next, items.indexOf(next))}</div>
-      ) : (
-        <p className="px-4 pb-3 text-[13px] text-ink/70">Everything&apos;s in. Publish, then send guests your link.</p>
-      )}
-    </div>
-  );
 }
 
 export function Switch({ on, label, onToggle }: { on: boolean; label: string; onToggle: () => void }) {
