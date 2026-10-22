@@ -4,7 +4,7 @@ import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import type { LibraryPhoto } from "@/lib/unsplash";
 import { creditLinks, UNSPLASH_HOME } from "@/lib/photo-credit";
-import { searchPhotoLibrary, setLibraryBanner } from "./photo-library-actions";
+import { addLibraryGalleryPhoto, searchPhotoLibrary, setLibraryBanner } from "./photo-library-actions";
 
 const IDEAS = ["Garden", "Beach", "Mountains", "Vineyard", "Flowers", "City lights", "Desert", "Forest"];
 
@@ -13,8 +13,10 @@ const IDEAS = ["Garden", "Beach", "Mountains", "Vineyard", "Flowers", "City ligh
  * (Unsplash) and makes a pick the banner. Landscape, safe-search results
  * only; each shows its photographer, as Unsplash asks. Photos of people
  * aren't model-released, so the hint steers couples to places and details.
+ * The gallery uses it too: there a pick is added, and the picker stays open.
  */
-export function PhotoLibrary() {
+export function PhotoLibrary({ target = "banner" }: { target?: "banner" | "gallery" }) {
+  const gallery = target === "gallery";
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
@@ -24,6 +26,7 @@ export function PhotoLibrary() {
   const [totalPages, setTotalPages] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const [choosing, setChoosing] = useState<string | null>(null);
+  const [added, setAdded] = useState<Set<string>>(new Set());
   const [searching, startSearch] = useTransition();
   const [, startChoose] = useTransition();
 
@@ -44,9 +47,10 @@ export function PhotoLibrary() {
     setChoosing(photo.id);
     setError(null);
     startChoose(async () => {
-      const result = await setLibraryBanner(photo.id);
+      const result = gallery ? await addLibraryGalleryPhoto(photo.id) : await setLibraryBanner(photo.id);
       setChoosing(null);
       if (result.error) return setError(result.error);
+      if (gallery) setAdded((s) => new Set(s).add(photo.id));
       router.refresh();
     });
   }
@@ -69,11 +73,11 @@ export function PhotoLibrary() {
         }}
         className="flex gap-2"
       >
-        <label className="sr-only" htmlFor="photo-library-q">
+        <label className="sr-only" htmlFor={`photo-library-q-${target}`}>
           Search free photos
         </label>
         <input
-          id="photo-library-q"
+          id={`photo-library-q-${target}`}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Search free photos, e.g. lake at sunset"
@@ -125,15 +129,23 @@ export function PhotoLibrary() {
                 <button
                   type="button"
                   onClick={() => choose(photo)}
-                  disabled={choosing !== null}
-                  aria-label={`Use ${photo.alt || "this photo"} as your banner`}
+                  disabled={choosing !== null || added.has(photo.id)}
+                  aria-label={gallery ? `Add ${photo.alt || "this photo"} to your gallery` : `Use ${photo.alt || "this photo"} as your banner`}
                   className="group relative block aspect-[3/2] w-full overflow-hidden rounded-md bg-[var(--color-hairline)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-forest disabled:opacity-70"
                 >
                   {/* Shown from Unsplash's own servers, as their terms ask. */}
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={photo.thumb} alt="" loading="lazy" className="h-full w-full object-cover" />
                   <span className="absolute inset-x-0 bottom-0 bg-black/55 px-2 py-1 text-xs font-medium text-white opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
-                    {choosing === photo.id ? "Setting as banner..." : "Use as banner"}
+                    {gallery
+                      ? added.has(photo.id)
+                        ? "Added"
+                        : choosing === photo.id
+                          ? "Adding..."
+                          : "Add to gallery"
+                      : choosing === photo.id
+                        ? "Setting as banner..."
+                        : "Use as banner"}
                   </span>
                 </button>
                 <p className="mt-1 truncate text-xs text-ink/60">
@@ -163,7 +175,7 @@ export function PhotoLibrary() {
         <a href={UNSPLASH_HOME} target="_blank" rel="noopener noreferrer" className="underline">
           Unsplash
         </a>
-        . Your site credits the photographer under the banner.
+        . Your site credits the photographer {gallery ? "at the bottom of the page" : "under the banner"}.
       </p>
     </section>
   );

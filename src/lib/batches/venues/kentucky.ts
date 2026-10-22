@@ -29,18 +29,18 @@ Heartland of Versailles	1470 Clifton Rd	Versailles	Kentucky			Historic / Estate	
   },
   {
     name: "Bowling Green, Owensboro and central Kentucky: fourth batch",
-    tsv: `Name	City	State	Website
-Terrapin Hill Farm	Harrodsburg	Kentucky	https://www.terrapinhillfarm.com/
-South Union Shaker Village	Auburn	Kentucky	https://southunionshakervillage.com/weddings-events-at-susv/
-Green Turtle Bay Resort & Marina	Grand Rivers	Kentucky	https://www.greenturtlebay.com/celebrations
-Queenslake	Georgetown	Kentucky	https://queenslake.com/
-Chenault Vineyards	Richmond	Kentucky	https://www.chenaultvineyards.com/
-Lynwood Estate	Richmond	Kentucky	https://www.lynwoodestate.com/
-The Whitestone Barn	Bowling Green	Kentucky	https://www.thewhitestonebarn.com/
-The Barn at Twin Creeks	Auburn	Kentucky	https://www.thebarnattwincreeks.com/
-Naimoli Estate	Hopkinsville	Kentucky	https://www.naimoliestate.com/
-Windridge Country Club	Owensboro	Kentucky	https://www.windridgecc.com/
-Shelby Hills Farm	Shelbyville	Kentucky	https://www.shelbyhillsfarm.com/`,
+    tsv: `Name	Address	City	State	Website
+Terrapin Hill Farm		Harrodsburg	Kentucky	https://www.terrapinhillfarm.com/
+South Union Shaker Village		Auburn	Kentucky	https://southunionshakervillage.com/weddings-events-at-susv/
+Green Turtle Bay Resort & Marina	239 Jetty Dr	Grand Rivers	Kentucky	https://www.greenturtlebay.com/celebrations
+Queenslake		Georgetown	Kentucky	https://queenslake.com/
+Chenault Vineyards	2284 Barnes Mill Rd	Richmond	Kentucky	https://www.chenaultvineyards.com/
+Lynwood Estate		Richmond	Kentucky	https://www.lynwoodestate.com/
+The Whitestone Barn		Bowling Green	Kentucky	https://www.thewhitestonebarn.com/
+The Barn at Twin Creeks	333 P. Kinkade Rd	Auburn	Kentucky	https://www.thebarnattwincreeks.com/
+Naimoli Estate	6000 Harmony Grove Rd	Hopkinsville	Kentucky	https://www.naimoliestate.com/
+Windridge Country Club		Owensboro	Kentucky	https://www.windridgecc.com/
+Shelby Hills Farm		Shelbyville	Kentucky	https://www.shelbyhillsfarm.com/`,
   },
   {
     name: "Bowling Green, Danville and Murray: fifth batch",

@@ -103,3 +103,38 @@ export function safeUrl(url: string | null | undefined) {
     return null;
   }
 }
+
+/** Where "Shop" goes: the affiliate link if there is one, else the plain retailer link. */
+export function outboundUrl(item: { affiliate_url?: string | null; retailer_url?: string | null }) {
+  return safeUrl(item.affiliate_url) ?? safeUrl(item.retailer_url);
+}
+
+/**
+ * The "Shop" href. It goes through /go/attire/<id>, which counts the click
+ * and redirects to outboundUrl. Null when the item has nowhere to send you.
+ */
+export function shopHref(
+  item: { id: string; affiliate_url?: string | null; retailer_url?: string | null },
+  source: "attire" | "party" = "attire",
+) {
+  if (!outboundUrl(item)) return null;
+  return `/go/attire/${item.id}${source === "party" ? "?from=party" : ""}`;
+}
+
+/**
+ * FTC: a clear disclosure next to the links, not just in the Terms. Shown
+ * only where an affiliate link actually is.
+ */
+export const AFFILIATE_DISCLOSURE =
+  "Some links here are affiliate links. If you buy through them, You Do, I Do may earn a commission, at no extra cost to you.";
+
+/** Stored prices are never presented as live: say when it was last checked. */
+export function priceNote(checkedAt: string | null | undefined) {
+  if (!checkedAt) return "Approximate price. The retailer's price is final.";
+  const date = new Date(`${checkedAt}T12:00:00`).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+  return `Price checked ${date}. The retailer's price is final.`;
+}

@@ -3,6 +3,7 @@
 //
 //   npm run coverage                 every state, worst first, with totals
 //   npm run coverage -- Ohio Iowa    what's missing in those states, by metro
+//   npm run coverage -- launch       the launch metros, in priority order
 //
 // Counts rows in the batch files (src/lib/venue-batches.ts,
 // src/lib/vendor-batches.ts and src/lib/batches/), not the live database.
@@ -13,6 +14,7 @@ import {
   CORE_CATEGORIES,
   FILL_DRY,
   FILL_TARGET,
+  LAUNCH_METROS,
   MAP_FILL,
   METROS,
   MIN_VENUES,
@@ -139,7 +141,20 @@ for (const r of [...report].sort((a, b) => b.state.length - a.state.length)) {
 }
 picked.sort((a, b) => a.state.localeCompare(b.state));
 
-if (picked.length) {
+if (asked.trim() === "launch") {
+  console.log("Launch metros (LAUNCH_METROS), in priority order:");
+  for (const key of LAUNCH_METROS) {
+    const [state, metro] = key.split(": ");
+    const r = report.find((x) => x.state === state);
+    const m = r?.metroGaps.find((g) => g.metro === metro);
+    if (!m) {
+      console.log(`  ${key}: not in this stage's metros for ${state}`);
+      continue;
+    }
+    const gaps = m.missing.map(([c, n]) => `${c} ${n}`).join(", ");
+    console.log(`  ${key}: ${m.have} vendors${gaps ? `; still needs ${gaps}` : "; core categories filled"}`);
+  }
+} else if (picked.length) {
   for (const r of picked) {
     console.log(`\n${r.state}: venues ${r.venueHave}/${r.venueTarget}${r.pass1 ? "  (pass 1 met)" : ""}`);
     for (const m of r.metroGaps) {

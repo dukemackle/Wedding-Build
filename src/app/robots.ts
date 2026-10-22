@@ -28,6 +28,7 @@ export default function robots(): MetadataRoute.Robots {
         "/checklist",
         "/bookings",
         "/attire",
+        "/go/",
         "/help",
         "/list/edit",
         "/reset-password",

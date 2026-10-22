@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import type { AttireItem, AttirePartyMember } from "@/lib/supabase/types";
-import { formatPrice, safeUrl, swatch } from "@/lib/attire";
+import { AFFILIATE_DISCLOSURE, formatPrice, priceNote, safeUrl, shopHref, swatch } from "@/lib/attire";
 import { AttireImage, HeartButton } from "./attire-card";
 
 /**
@@ -46,7 +46,8 @@ export function AttireQuickView({
     };
   }, [onClose]);
 
-  const retailer = safeUrl(item.retailer_url);
+  const retailer = shopHref(item);
+  const affiliate = Boolean(safeUrl(item.affiliate_url));
   const buy = formatPrice(item.buy_price);
   const rent = formatPrice(item.rent_price);
   const details = [
@@ -138,6 +139,10 @@ export function AttireQuickView({
             )}
           </div>
 
+          {(buy || rent || item.price_from != null) && (
+            <p className="mt-2 text-xs text-ink/50">{priceNote(item.price_checked_at)}</p>
+          )}
+
           {item.description && <p className="mt-5 leading-relaxed text-ink/80">{item.description}</p>}
 
           {item.colors?.length > 0 && (
@@ -192,6 +197,7 @@ export function AttireQuickView({
               <p className="text-sm text-ink/50">Where to buy is coming soon. Save it now so you don&apos;t lose it.</p>
             )}
           </div>
+          {affiliate && <p className="mt-2 text-xs text-ink/50">{AFFILIATE_DISCLOSURE}</p>}
 
           {partyable && (
             <div className="mt-6 rounded-lg border border-hairline bg-parchment p-4">

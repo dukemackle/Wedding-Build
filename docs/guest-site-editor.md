@@ -231,3 +231,31 @@ cards with a different colour, font and corner art. Approved from mockups
 - Still to do: sample photos (Pexels, people-free, after the licence check),
   an in-editor photo search, the art keep-or-cut review, and a shorter first
   RSVP step (DESIGN-OPPORTUNITIES rows 16-19).
+
+## Simpler editor (decided 2026-10-21)
+
+The owner found the editor "too complicated" and struggled to find Sections.
+- The rail went from ten tabs to seven: **Design · Sections · Elements · Fonts
+  · Background · Style · Motion**. Design holds the templates, then the
+  palettes, the colours from the couple's photos and "Fine-tune colours"
+  (folded). The Theme grid is gone (a template sets the theme), and so is
+  "Make it more…".
+- **Wren is out of the guest-site editor**: "Describe your ideal site" and
+  "Wren, write this" (5b) were removed with `site-wren.ts` and their actions.
+  `site_ai_uses` (0110) stays, unused. Privacy and Terms no longer list it.
+- **Templates are photo-first**: art, the night-sky scene and falling extras
+  are off when a template is applied; "Add them" under the templates puts the
+  template's own back (`withExtras`). Templates that opened on text or a
+  monogram now open on a photo (full or framed card). The Line art tag went.
+- **"Finish your site"**: a gold-bordered step list pinned above the panels
+  (Pick a look, main photo, venue, schedule, somewhere to stay, RSVP
+  deadline, turn the site on), folded to the next step. Each step opens the
+  Sections row, tab or page that does it. Replaces "Before you share".
+- **Sections** rows have an Edit / Done button, lift on hover and outline in
+  Royal blue when open; clicking a whole section in the computer preview
+  opens its row.
+- **Follow-up (same day):** the editor preview shows the Unsplash sample
+  photos while the couple has none (`?samples=1`), with "sample photos until
+  you add yours" in its address bar; guests never see them. Colours shows six
+  palettes that suit the look (the template's own, then light or dark like
+  the page, same family first) and "More colours" for the full list.

@@ -18,12 +18,51 @@ rules, batch self-merge, 50-state coverage, page widths) and
 `docs/legal-audit.md` "Owner answers (2026-10-19)". They aren't copied here.
 
 ## Pending owner decisions
-- **Which launch metros** (2–3), and the completeness bar they must meet.
-- **What founding businesses get, if anything.** "Free listing for life" was
-  approved then withdrawn on 2026-10-21 (could block monetization). Options:
-  a time-limited free period, a founding discount or notice period before any
-  charge, or no promise beyond "free today". Settle before the first claim
-  invitation; until then, outreach promises nothing about future pricing.
+- None open.
+
+## 2026-10-22 — When a launch metro is "done"
+- Decided: every core vendor category at its target; at least 90% of the
+  metro's venues show capacity and price tier; every listing's website
+  re-checked within 90 days. Photos are not part of the bar (separate
+  project, San Diego and Austin first). San Diego goes first: 150+ venues.
+- Why: the owner saw San Diego County thin on the map (~53 venues in view
+  against several hundred real ones).
+- Revisit: once San Diego and Austin meet it.
+- Outcome:
+
+## 2026-10-22 — Founding businesses: notice and an unnamed discount
+- Decided: outreach says "Listing is free today. If we ever introduce paid
+  plans, founding businesses get at least 60 days' notice and a founding
+  discount." The discount's size and length stay unnamed until there's a price.
+- Why: replaces "free listing for life" (withdrawn 2026-10-21, could block
+  monetization); matches the 60-day notice and early-bird rate already in
+  `docs/monetization.md`.
+- Alternatives: name the discount now (e.g. 50% off year one), more persuasive
+  but commits early; promise nothing beyond "free today".
+- Revisit: when Phase 1 pricing is set; have the attorney check the sentence
+  before the first invitation.
+- Outcome:
+
+## 2026-10-21 — Launch metros: Austin, San Diego and seven large markets
+- Decided: `LAUNCH_METROS` in `scripts/coverage-plan.mjs`, in priority order:
+  Austin, San Diego, Dallas–Fort Worth, Houston, San Antonio, New York City,
+  Los Angeles, Chicago, Miami. Owner asked for 5–10 top US metros with Austin,
+  then added San Diego (home city, so the easiest place to reach couples and
+  vendors in person); the rest are the largest markets that already have the
+  most vendors (119–176 each).
+- Why: widens the "2–3 deep metros" bar below. Four are in one Texas region
+  reachable from Austin; the other four are the biggest national markets.
+- Alternatives: 2–3 metros only (less spread); Atlanta, Nashville, Denver
+  (big wedding markets but 76–97 vendors and wide gaps).
+- Revisit: if depth work in 8 metros is too slow, cut back to the Texas four.
+- Outcome:
+
+## 2026-10-21 — Map tiles from our own files on Cloudflare R2
+- Decided: the maps read our own Protomaps files at `tiles.youdoido.com` (R2 bucket `youdoido-tiles`), not OpenFreeMap.
+- Why: no third party can rate-limit, change or retire the base map before launch; fits R2's free tier.
+- Alternatives: keep OpenFreeMap Liberty (more colourful, donation-funded, no SLA) with R2 as a backup.
+- Revisit: if R2 reads leave the free tier, or the map's look needs more colour.
+- Outcome:
 
 ## 2026-10-21 — Launch bar: pass 1 everywhere plus 2–3 deep launch metros
 - Decided: coverage pass 1 in all 50 states + DC counts as "every state has
@@ -82,3 +121,15 @@ rules, batch self-merge, 50-state coverage, page widths) and
 - Why: one page answers "does anything need me?" instead of four or five.
 - Revisit: when the error log (#8) and spend page (#9) fill the "not tracked"
   health rows.
+
+## 2026-10-22 — Attire affiliate pilot: build the plumbing
+- Decided: the owner approved building the pilot from
+  `docs/attire-affiliates.md`: a retailers table, a separate affiliate link,
+  a "price checked" date, counted click-outs and the commission disclosure.
+  No feed importer, sponsored placements or checkout.
+- Why: the attire catalog already existed; this makes it ready for approved
+  programs (Revelry, Brilliant Earth, Azazie, The Black Tux first) without
+  showing stale prices or undisclosed affiliate links.
+- Still the owner's: applying to Awin and Impact, and which programs to join.
+- Revisit: 60 days after the first approval, comparing our clicks with
+  network-reported sales.

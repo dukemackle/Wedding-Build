@@ -1,5 +1,6 @@
 "use client";
 
+import { isLibraryPhoto } from "@/lib/photo-credit";
 import Image from "next/image";
 import { useSiteDesign } from "@/components/guest-site-theme";
 import { storyChapters, type StoryChapter } from "@/lib/site-story";
@@ -45,7 +46,7 @@ export function StoryView({ heading, body, photos }: { heading: string | null; b
                   <div
                     className={`${PHOTO} aspect-[3/2] rounded-[min(var(--site-radius,1rem),1rem)] md:mx-auto md:max-w-md ${right ? "md:col-start-1 md:row-start-1" : ""}`}
                   >
-                    <Image src={photo} alt="" fill sizes="(min-width: 768px) 40vw, 90vw" className="object-cover" />
+                    <Image src={photo} unoptimized={isLibraryPhoto(photo)} alt="" fill sizes="(min-width: 768px) 40vw, 90vw" className="object-cover" />
                   </div>
                 )}
               </li>
@@ -74,7 +75,7 @@ export function StoryView({ heading, body, photos }: { heading: string | null; b
             return (
               <div key={i} className="grid items-center gap-6 md:grid-cols-2 md:gap-14">
                 <div className={`${PHOTO} mx-auto aspect-[4/5] max-w-xs rounded-t-full md:max-w-sm ${flip ? "md:order-2" : ""}`}>
-                  <Image src={photo} alt="" fill sizes="(min-width: 768px) 45vw, 90vw" className="object-cover" />
+                  <Image src={photo} unoptimized={isLibraryPhoto(photo)} alt="" fill sizes="(min-width: 768px) 45vw, 90vw" className="object-cover" />
                 </div>
                 <div className={`text-center ${flip ? "md:text-right" : "md:text-left"}`}>
                   <Chapter chapter={c} large />
@@ -95,7 +96,7 @@ export function StoryView({ heading, body, photos }: { heading: string | null; b
       )}
       {photos[0] && (
         <div className={`${PHOTO} mt-8 aspect-[4/3] rounded-[min(var(--site-radius,1rem),1rem)] sm:aspect-[16/7]`}>
-          <Image src={photos[0]} alt="" fill sizes="(min-width: 1024px) 60vw, 100vw" className="object-cover" />
+          <Image src={photos[0]} unoptimized={isLibraryPhoto(photos[0])} alt="" fill sizes="(min-width: 1024px) 60vw, 100vw" className="object-cover" />
         </div>
       )}
       <div

@@ -6,8 +6,10 @@ import { LegalNotice } from "@/components/legal-notice";
 import { ClaimDone } from "../claim-done";
 import { createClient } from "@/lib/supabase/client";
 import {
+  ALCOHOL_POLICIES,
   AMENITY_OPTIONS,
   INCLUDED_OPTIONS,
+  MUSIC_END_TIMES,
   PREFERRED_VENDOR_CATEGORIES,
   PRICE_BASES,
   PRICE_BASIS_HINTS,
@@ -19,7 +21,7 @@ import {
   VENDOR_POLICIES,
   VENUE_TYPES,
 } from "@/lib/wedding-options";
-import type { PriceBasis, ServiceLevel, VendorPolicy } from "@/lib/supabase/types";
+import type { AlcoholPolicy, PriceBasis, ServiceLevel, VendorPolicy } from "@/lib/supabase/types";
 import { priceHeadline } from "@/lib/venue-pricing";
 import {
   CLAIM_PHOTO_TYPES,
@@ -36,6 +38,7 @@ import { createClaimPhotoUploads, submitVenueClaim, createImportUpload, readList
 import { ImportPanel, mergeDraft, mergeFaqs, mergeVendors } from "../import-panel";
 import { ChipPicker, Field, inputClass, labelClass, PhotoGridEditor, Section, Select, WriteHelper, YesNo } from "../form-parts";
 import { StepNav, StepRail, type Step } from "../steps";
+import { BookingFactsSection } from "../booking-fields";
 import { ListingPreview, PreviewPrompt } from "../listing-preview";
 import { venuePreview } from "../preview-data";
 import { VenueListing } from "../../venues/[id]/venue-listing";
@@ -276,7 +279,11 @@ export function ClaimForm({
     { title: "Pricing", done: details.price_basis !== null },
     { title: "Photos and spaces", done: photos.length > 0 },
     { title: "Description and contact", done: Boolean(details.description && (details.contact_email || details.contact_phone)) },
-    { title: "Details couples ask", done: answered > 0 || namedVendors.length > 0, optional: true },
+    {
+      title: "Details couples ask",
+      done: answered > 0 || namedVendors.length > 0 || details.booking_lead_months !== null,
+      optional: true,
+    },
     { title: "Preview and send", done: Boolean(submitter.name && submitter.email && submitter.represents) },
   ];
 
@@ -730,6 +737,40 @@ export function ClaimForm({
               </Field>
             </div>
           </Section>
+
+          <BookingFactsSection facts={details} onChange={(patch) => setDetails((d) => ({ ...d, ...patch }))}>
+            <Field label="Music has to stop by">
+              <Select
+                value={details.music_until}
+                onChange={(v) => set("music_until", v)}
+                options={MUSIC_END_TIMES}
+                placeholder="Pick a time"
+              />
+            </Field>
+            <Field label="Alcohol">
+              <select
+                value={details.alcohol_policy ?? ""}
+                onChange={(e) => set("alcohol_policy", (e.target.value || null) as AlcoholPolicy | null)}
+                className={inputClass}
+              >
+                <option value="">Pick one</option>
+                {Object.entries(ALCOHOL_POLICIES).map(([key, label]) => (
+                  <option key={key} value={key}>
+                    {label}
+                  </option>
+                ))}
+              </select>
+            </Field>
+            <Field label="If it rains" className="sm:col-span-2">
+              <input
+                value={details.rain_plan ?? ""}
+                maxLength={300}
+                onChange={(e) => set("rain_plan", e.target.value || null)}
+                className={inputClass}
+                placeholder="Ceremony moves into the barn; the lawn tent stays up"
+              />
+            </Field>
+          </BookingFactsSection>
 
           <Section
             title="Preferred vendors"

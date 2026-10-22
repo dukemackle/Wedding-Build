@@ -90,6 +90,10 @@ been reviewed.
   and choose where inquiries go.
 - What You Do, I Do is: a wedding-planning app for couples, with venue and
   vendor discovery built in.
+- Founding businesses (owner, 2026-10-22), use this wording and no other:
+  "Listing is free today. If we ever introduce paid plans, founding
+  businesses get at least 60 days' notice and a founding discount." Never
+  name the discount's size or how long it lasts.
 
 **Never say:**
 - "Free forever", "always free", or "no fees ever". `docs/monetization.md`

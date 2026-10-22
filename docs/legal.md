@@ -56,14 +56,24 @@ legal questions to the owner rather than deciding them.
   data a year, or half of revenue from selling/sharing data); revisit if any
   of those come close. If the business is later formed in another state,
   revisit §13.
-- **Free photo library (2026-10-21):** the banner panel searches Unsplash
+- **Free photo library (2026-10-21):** the banner and gallery panels search Unsplash
   (`src/lib/unsplash.ts`). Privacy §1 says visitors' browsers load those
   banners from Unsplash; the sharing list says search words go to Unsplash
   from our server and the pick is reported to it. Unsplash's API terms
   require hotlinking, the download ping and a photographer credit, all in
-  place. Photos of people aren't model-released: the picker tells couples to
+  place (gallery credits: `wedding_photo_credits`, 0133). Template previews
+  also show Unsplash sample photos (`src/lib/sample-photos.ts`), couple-only. Photos of people aren't model-released: the picker tells couples to
   choose places and details. Still open for the attorney: whether a stock
   photo of an identifiable person on a couple's site exposes us or only them.
+- **Attire affiliate links (2026-10-22, `docs/attire-affiliates.md`):** "Shop"
+  goes through `/go/attire/<id>`, which counts the tap (no personal details)
+  and redirects. Where an item has an `affiliate_url`, `AFFILIATE_DISCLOSURE`
+  shows next to the links (grid, quick view, shared party page), per the FTC
+  endorsement guides. Prices show "Price checked <date>. The retailer's price
+  is final." Terms §6 and Privacy §1 cover it. Merchant photos go up only once
+  the merchant row's photo-rights note says yes. Open for the attorney: whether
+  a network's cookie set after the click counts as "sharing" under CCPA/CPRA,
+  and whether to honour Global Privacy Control on the click-out.
 
 Rule: any new form that sends Wren a person's details gets `LegalNotice`
 next to its submit button, and the Privacy Policy's "Information we collect"

@@ -807,6 +807,39 @@ body:has(.dashboard-backdrop) header[data-top="true"] [class*="bg-forest/10"] {
   background-color: rgb(255 255 255 / 0.18);
 }
 
+/* Landing hero slideshow (hero-slideshow.tsx): crossfade, with the showing
+   photo drifting slightly in. The scale only resets once a photo has faded
+   out, so nothing jumps. */
+.hero-slide {
+  opacity: 0;
+  transform: scale(1);
+  transition: opacity 1.6s ease, transform 0s linear 1.6s;
+}
+.hero-slide-on {
+  opacity: 1;
+  transform: scale(1.06);
+  transition: opacity 1.6s ease, transform 8s ease-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-slide, .hero-slide-on { transform: none; transition: none; }
+}
+
+/* The landing page's photo hero: the same clear, white-text bar while it sits
+   over the photo, without the dashboard's dark wash (the photo has its own). */
+body:has(.landing-photo) header[data-top="true"] {
+  background: transparent;
+  border-color: transparent;
+  backdrop-filter: none;
+}
+body:has(.landing-photo) header[data-top="true"] > div > nav > a,
+body:has(.landing-photo) header[data-top="true"] > div > nav > details > summary,
+body:has(.landing-photo) header[data-top="true"] > div > a > span {
+  color: #fff;
+}
+body:has(.landing-photo) header[data-top="true"] > div > a > span > span {
+  color: #ffd301;
+}
+
 body:has(.guest-site) .site-footer,
 body:has(.site-editor) .site-footer,
 body:has(.search-shell-root) .site-footer {

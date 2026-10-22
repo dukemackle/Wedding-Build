@@ -11,7 +11,7 @@ export default function PrivacyPage() {
       <div className={`w-full ${READING_WIDTH}`}>
         <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Legal</p>
         <h1 className="mt-2 font-display text-3xl font-semibold text-forest">Privacy Policy</h1>
-        <p className="mt-2 text-sm text-ink/60">Last updated: October 21, 2026</p>
+        <p className="mt-2 text-sm text-ink/60">Last updated: October 22, 2026</p>
 
         <div className="mt-8 flex flex-col gap-8 text-ink/80">
           <p>
@@ -176,11 +176,15 @@ export default function PrivacyPage() {
               other sites: it records the page, the referring site, and your browser, device type and
               country. We don&apos;t use advertising trackers. Some wedding-site designs load their
               fonts from Google Fonts, so your browser contacts Google, which sees your IP address
-              (see Google&apos;s privacy policy). A banner photo a couple picked from our free photo
-              library is shown from Unsplash&apos;s servers, so your browser contacts Unsplash, which
+              (see Google&apos;s privacy policy). A banner or gallery photo a couple picked from our free
+              photo library is shown from Unsplash&apos;s servers, so your browser contacts Unsplash, which
               sees your IP address. When someone taps a listing&apos;s phone number, website or social
               link, we count the tap against that listing, with no personal details attached, so we
-              can tell the business how many couples found it here. Inside your account, we note when
+              can tell the business how many couples found it here. When someone taps
+              &ldquo;Shop&rdquo; on an attire item, we count the tap against that item, also with no
+              personal details attached, then send you to the retailer. If the link is an affiliate
+              link, the retailer or its affiliate network may set its own cookie on its site to
+              credit the sale to us; that cookie is governed by its privacy policy, not ours. Inside your account, we note when
               you reach planning milestones, such as adding your first guest, opening or saving a
               listing, sending an inquiry or turning on your guest site. The note records which step
               and when, linked to your wedding, never what you typed, and helps us see which parts of
@@ -245,12 +249,6 @@ export default function PrivacyPage() {
               <li>
                 <strong className="text-ink">Drafting a thank-you note</strong> — that
                 guest&apos;s name, what they gave, and any message they left.
-              </li>
-              <li>
-                <strong className="text-ink">Designing and writing your guest site</strong> — what you
-                type (a description of the look you want, or notes for your story, FAQ or travel
-                notes), plus your names, date, venue, RSVP deadline, dress code, travel notes, places to
-                stay and the events on your public schedule. Never your guest list.
               </li>
               <li>
                 <strong className="text-ink">The planning assistant (Wren)</strong> — your question
@@ -322,7 +320,7 @@ export default function PrivacyPage() {
               </li>
               <li>
                 <strong className="text-ink">Unsplash</strong> — only if you search the free photo
-                library for your banner. The words you search for go to Unsplash from our server,
+                library for your banner or gallery. The words you search for go to Unsplash from our server,
                 without your name or email, and we tell Unsplash which photo you picked, as its
                 terms require. The photo stays on Unsplash&apos;s servers and your site credits its
                 photographer.

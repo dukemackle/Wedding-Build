@@ -6,23 +6,21 @@ import type { RegionalCostData } from "@/lib/supabase/types";
 import { estimateWeddingCost, type EstimatorTier } from "@/lib/estimator";
 import { STATES, STYLE_TIERS } from "@/lib/wedding-options";
 
-const currency = new Intl.NumberFormat("en-US", {
-  style: "currency",
-  currency: "USD",
-  maximumFractionDigits: 0,
-});
+// "$66k", not "$66,000": a range is a feel for the size of it, and the short
+// form fits the display type on a phone.
+const thousands = (n: number) => `$${Math.round(n / 1000).toLocaleString("en-US")}k`;
+const dollars = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
 
 const DEFAULT_GUESTS = 100;
 const MIN_GUESTS = 25;
 const MAX_GUESTS = 300;
 
-const fieldClass =
-  "h-11 w-full rounded-md border border-hairline bg-parchment px-3 text-base text-ink outline-none focus:border-forest";
-
 /**
- * The landing hero's live estimator: the page's one gold moment, because the
- * budget is where You Do, I Do is strongest. Three answers, a range, and a
- * way to carry those answers straight into setup (/start reads them).
+ * The landing page's live estimator, set just under the photo: the page's one
+ * gold moment, because the budget is where You Do, I Do is strongest. Style as
+ * three buttons (the owner prefers them to a dropdown), guests, state, a range,
+ * and one way on: carry those answers straight into setup (/start reads them).
+ * Approved 2026-10-21 with the photo hero (direction B).
  */
 export function HomeEstimatorCard({ regionalData }: { regionalData: RegionalCostData[] }) {
   const [state, setState] = useState<string>("California");
@@ -39,13 +37,59 @@ export function HomeEstimatorCard({ regionalData }: { regionalData: RegionalCost
   )}`;
 
   return (
-    <div className="w-full rounded-2xl border-2 border-[#ffd301] bg-card p-5 shadow-[0_30px_70px_-30px_rgb(224_161_0/0.6)] sm:p-7">
-      <p className="font-mono-numbers text-[11px] uppercase tracking-[0.18em] text-brass">What would yours cost?</p>
+    <section
+      aria-label="What would your wedding cost?"
+      className="grid w-full grid-cols-1 gap-6 rounded-3xl border-2 border-[#ffd301] bg-card p-6 shadow-[0_30px_70px_-36px_rgb(20_32_61/0.45)] sm:p-10 md:grid-cols-2 md:gap-12"
+    >
+      <div className="flex flex-col gap-5">
+        <h2 className="font-display text-[30px] font-semibold leading-tight text-forest sm:text-[34px]">
+          What would yours cost?
+        </h2>
 
-      <div className="mt-4 grid grid-cols-2 gap-3">
-        <label className="flex flex-col gap-1 text-sm text-ink/80">
+        <div className="flex flex-col gap-2 text-sm text-ink/80">
+          Style
+          <div className="flex gap-2">
+            {STYLE_TIERS.map((t) => (
+              <button
+                key={t}
+                type="button"
+                onClick={() => setTier(t)}
+                aria-pressed={tier === t}
+                className={`h-11 flex-1 rounded-full border text-[15px] font-medium transition-colors ${
+                  tier === t
+                    ? "border-forest bg-forest text-parchment"
+                    : "border-hairline bg-card text-forest hover:border-forest"
+                }`}
+              >
+                {t}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <label className="flex flex-col gap-2 text-sm text-ink/80">
+          <span className="flex items-baseline justify-between">
+            Guests
+            <span className="text-base font-semibold text-forest">{guestCount}</span>
+          </span>
+          <input
+            type="range"
+            min={MIN_GUESTS}
+            max={MAX_GUESTS}
+            step={5}
+            value={guestCount}
+            onChange={(e) => setGuestCount(Number(e.target.value))}
+            className="h-2 w-full accent-forest"
+          />
+        </label>
+
+        <label className="flex flex-col gap-2 text-sm text-ink/80">
           State
-          <select value={state} onChange={(e) => setState(e.target.value)} className={fieldClass}>
+          <select
+            value={state}
+            onChange={(e) => setState(e.target.value)}
+            className="h-11 w-full rounded-xl border border-hairline bg-card px-3 text-base text-ink outline-none focus:border-forest"
+          >
             {STATES.map((s) => (
               <option key={s} value={s}>
                 {s}
@@ -53,54 +97,27 @@ export function HomeEstimatorCard({ regionalData }: { regionalData: RegionalCost
             ))}
           </select>
         </label>
-        <label className="flex flex-col gap-1 text-sm text-ink/80">
-          Style
-          <select value={tier} onChange={(e) => setTier(e.target.value as EstimatorTier)} className={fieldClass}>
-            {STYLE_TIERS.map((t) => (
-              <option key={t} value={t}>
-                {t}
-              </option>
-            ))}
-          </select>
-        </label>
       </div>
 
-      <label className="mt-4 flex flex-col gap-1.5 text-sm text-ink/80">
-        <span className="flex items-baseline justify-between">
-          Guests
-          <span className="font-mono-numbers text-base text-forest">{guestCount}</span>
-        </span>
-        <input
-          type="range"
-          min={MIN_GUESTS}
-          max={MAX_GUESTS}
-          step={5}
-          value={guestCount}
-          onChange={(e) => setGuestCount(Number(e.target.value))}
-          className="h-2 w-full accent-forest"
-        />
-      </label>
-
-      <div className="mt-5 border-t border-hairline pt-4" aria-live="polite">
-        <p className="font-mono-numbers text-[28px] font-medium leading-tight tabular-nums text-ink sm:text-[38px]">
-          {currency.format(estimate.low)}–{currency.format(estimate.high)}
+      <div
+        className="flex flex-col items-center justify-center border-t border-hairline pt-6 text-center md:items-start md:border-l md:border-t-0 md:pl-12 md:pt-0 md:text-left"
+        aria-live="polite"
+      >
+        <p className="text-sm text-ink/70">A typical wedding like yours</p>
+        <p className="mt-2 font-display text-[46px] font-semibold leading-none text-forest sm:text-[60px]">
+          {thousands(estimate.low)}–{thousands(estimate.high)}
         </p>
-        <p className="mt-1 text-sm text-ink/70">
-          Typical total · about {currency.format(perGuest)} a guest
-        </p>
-      </div>
-
-      <div className="mt-5 flex flex-col gap-1">
+        <p className="mt-2.5 text-[15px] text-ink/70">About {dollars.format(perGuest)} a guest</p>
         <Link
           href={startHref}
-          className="flex h-11 items-center justify-center whitespace-nowrap rounded-full bg-forest px-5 text-[15px] font-medium text-parchment transition-colors hover:bg-forest/90"
+          className="btn-motion mt-7 flex h-[50px] w-full items-center justify-center rounded-full bg-forest px-7 text-base font-medium text-parchment transition-colors hover:bg-forest/90 md:w-auto"
         >
-          Plan with these numbers
+          Use this as my budget
         </Link>
-        <Link href="/estimate" className="py-2 text-center text-[15px] text-brass hover:underline">
+        <Link href="/estimate" className="mt-3 py-1 text-[15px] text-forest underline-offset-4 hover:underline">
           See the full breakdown
         </Link>
       </div>
-    </div>
+    </section>
   );
 }

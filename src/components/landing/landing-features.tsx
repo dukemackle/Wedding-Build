@@ -43,7 +43,26 @@ const BLURBS: Record<string, string> = {
   "/attire": "Dresses, suits and rings — save favorites, then buy or rent.",
   "/itinerary": "A printable run sheet, hour by hour — and for multi-day weddings, separate RSVPs for each event, invite-only ones included.",
   "/venue-layout": "Drag tables into your room and seat everyone.",
-  "/guests/site": "A free wedding website: browse 28 templates shown in your own names, led by three signature designs that each lay the whole page out their own way (Heirloom, a centred invitation on paper with painted roses; Editorial, numbered magazine sections in big type; Riviera, bold colour bands with tickets for the schedule and postcards for travel), describe the look you want or tap to make it more elegant, romantic, playful, minimal or bold, keep a few designs side by side and pick the one guests see, open with a photo collage, a slideshow, your photo side by side with your names (stacked, in capitals, joined by & or and) or your names worded like a printed invitation, with the banner cropped separately for phones, then make it yours with 23 themes, from mountain and beach to barn, ranch, mehndi and Nikah, plus 58 fonts, 32 palettes, colours pulled from your own photos, patterns and textures from gingham to marble, wave or torn-paper edges between sections, a drawn landscape under your names, from snowy peaks and pine forests to palms, wildflowers, coastal cliffs and a city skyline, at dawn, in golden hour or at dusk, and your own monogram (pick its letters' font, add your date, and download it for invitations and signs), with petals, hearts, snow, marigolds, sky lanterns, butterflies or fireflies drifting over the page, an envelope sealed in wax with your initials for guests to open, a flip-board countdown, and an announcement line across the top if your date or venue changes. Click any heading to restyle or reword it, and drag text, shapes, line art, dividers and ornaments, watercolours, your photos and live details (your names, date, venue, a countdown and an RSVP button, which update themselves when your details change) from a searchable library (cropped, framed, filtered and animated) anywhere at the top of the page or in your own blocks, with a separate layout for phones, and do all of it from your phone. Add your story, up to 30 photos in the frame you like (arch, circle, polaroid and more), your wedding party with a photo and a line about each, videos and links, or have Wren draft your story and FAQ, then lay your story out as a timeline or beside your photos, your RSVP as a band of colour or beside a photo, your photos as a spread, masonry, filmstrip, scrapbook or polaroids on a washing line, and your schedule as a timeline, cards, a simple list, a centre line or tickets. Pick your venue, or type in one we don't list, and the site shows it with directions and photos: the venue's own, or up to five of yours. RSVPs built in, asking guests to choose from your own menu (or not at all, for one set meal) and about allergies and dietary needs, and an optional password so only invited guests get in.",
+  "/guests/site": "A free wedding website in your names — 28 templates, your photos and story, and RSVPs built in.",
+};
+
+/**
+ * On the landing page each box opens with a real wedding photo rather than the
+ * dashboard's drawing, so the grid reads as weddings, not app mock-ups; the
+ * demo behind each box still shows the product. All Unsplash (approved
+ * 2026-10-22).
+ */
+const PHOTOS: Record<string, { file: string; alt: string }> = {
+  "/budget": { file: "budget", alt: "An open wedding planner with gold clips" },
+  "/guests": { file: "guests", alt: "A wedding invitation suite with ribbon and wax seal" },
+  "/venues": { file: "venues", alt: "A lawn set for an outdoor ceremony at sunset" },
+  "/vendors": { file: "vendors", alt: "A florist's table of cut flowers and ribbon" },
+  "/checklist": { file: "checklist", alt: "A planner notebook on a wooden table" },
+  "/bookings": { file: "bookings", alt: "A fountain pen resting on a handwritten letter" },
+  "/attire": { file: "attire", alt: "A wedding dress on a hanger" },
+  "/itinerary": { file: "itinerary", alt: "A ring-shaped ceremony arch among the trees" },
+  "/venue-layout": { file: "layout", alt: "Round reception tables set in a bright marquee" },
+  "/guests/site": { file: "website", alt: "Wedding invitations and rings laid out together" },
 };
 
 /**
@@ -54,7 +73,21 @@ const BLURBS: Record<string, string> = {
  */
 export function LandingFeatures() {
   const items: PreviewItem[] = buildFeatures(SAMPLE).map((feature) => {
-    const withBlurb = { ...feature, blurb: BLURBS[feature.href] };
+    const photo = PHOTOS[feature.href];
+    const withBlurb = {
+      ...feature,
+      blurb: BLURBS[feature.href],
+      media: photo ? (
+        <img
+          src={`/landing/features/${photo.file}.webp`}
+          alt={photo.alt}
+          loading="lazy"
+          className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105 motion-reduce:transition-none"
+        />
+      ) : (
+        feature.media
+      ),
+    };
     return {
       id: feature.href.slice(1),
       title: feature.title,
@@ -62,5 +95,10 @@ export function LandingFeatures() {
       tile: <FeatureTile feature={withBlurb} asBox />,
     };
   });
-  return <PreviewGrid items={items} />;
+  return (
+    <>
+      <PreviewGrid items={items} />
+      <p className="mt-3 text-right text-[11px] text-ink/50">Photos: Unsplash</p>
+    </>
+  );
 }

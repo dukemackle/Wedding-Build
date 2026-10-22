@@ -333,6 +333,7 @@ function Slideshow({ photos }: { photos: string[] }) {
         <Image
           key={src}
           src={src}
+          unoptimized={isLibraryPhoto(src)}
           alt=""
           fill
           priority={i === 0}
@@ -500,12 +501,12 @@ function HeroLayout({ wedding }: { wedding: PublicWedding }) {
           </div>
           {second && (
             <div className={`${tile} bottom-0 right-0 h-[42%] w-[34%] rotate-[4deg]`}>
-              <Image src={second} alt="" fill sizes="(min-width: 1024px) 16vw, 34vw" className="object-cover" />
+              <Image src={second} unoptimized={isLibraryPhoto(second)} alt="" fill sizes="(min-width: 1024px) 16vw, 34vw" className="object-cover" />
             </div>
           )}
           {third && (
             <div className={`${tile} left-0 top-0 h-[34%] w-[28%] -rotate-[5deg]`}>
-              <Image src={third} alt="" fill sizes="(min-width: 1024px) 13vw, 28vw" className="object-cover" />
+              <Image src={third} unoptimized={isLibraryPhoto(third)} alt="" fill sizes="(min-width: 1024px) 13vw, 28vw" className="object-cover" />
             </div>
           )}
         </div>

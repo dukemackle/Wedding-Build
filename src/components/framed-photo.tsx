@@ -1,5 +1,6 @@
 "use client";
 
+import { isLibraryPhoto } from "@/lib/photo-credit";
 import Image from "next/image";
 import type { CSSProperties } from "react";
 import type { PhotoFrameId } from "@/lib/site-canvas";
@@ -48,7 +49,7 @@ export function FramedPhoto({
         style={{ borderRadius: radius, aspectRatio: frame === "circle" ? "1 / 1" : aspect }}
       >
         {src ? (
-          <Image src={src} alt={alt} fill sizes={sizes} priority={priority} className="object-cover" />
+          <Image src={src} unoptimized={isLibraryPhoto(src)} alt={alt} fill sizes={sizes} priority={priority} className="object-cover" />
         ) : (
           <span className="absolute inset-0 grid place-items-center font-display text-4xl text-forest" aria-hidden="true">
             {initial}

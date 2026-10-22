@@ -38,6 +38,9 @@ function fields(formData: FormData) {
     description: str(formData, "description"),
     image_urls: list(formData, "image_urls", /\s+/).filter((u) => /^https:\/\//i.test(u)),
     retailer_url: str(formData, "retailer_url"),
+    affiliate_url: str(formData, "affiliate_url"),
+    merchant_id: str(formData, "merchant_id"),
+    price_checked_at: str(formData, "price_checked_at"),
     vendor_id: str(formData, "vendor_id"),
     buy_price: buy,
     rent_price: rent,
@@ -88,5 +91,47 @@ export async function deleteAttireItem(formData: FormData): Promise<{ error?: st
   if (error) return { error: error.message };
   refresh();
   await logAdminAction("attire.delete", { type: "attire_item", ids: [formData.get("id") as string] }, "Deleted an attire item");
+  return {};
+}
+
+function merchantFields(formData: FormData) {
+  return {
+    name: str(formData, "name"),
+    website: str(formData, "website"),
+    network: str(formData, "network"),
+    status: str(formData, "status") ?? "Not applied",
+    commission_note: str(formData, "commission_note"),
+    image_rights_note: str(formData, "image_rights_note"),
+    contact: str(formData, "contact"),
+    approved_at: str(formData, "approved_at"),
+    notes: str(formData, "notes"),
+  };
+}
+
+export async function saveAttireMerchant(formData: FormData): Promise<{ error?: string }> {
+  await requireAdmin();
+  const values = merchantFields(formData);
+  if (!values.name) return { error: "Name is required." };
+
+  const admin = createAdminSupabaseClient();
+  const id = str(formData, "id");
+  const { error } = id
+    ? await admin.from("attire_merchants").update(values).eq("id", id)
+    : await admin.from("attire_merchants").insert(values);
+  if (error) return { error: error.message };
+
+  revalidatePath("/admin/attire");
+  await logAdminAction("attire.merchant_save", { type: "attire_merchant", ids: [id] }, `${id ? "Edited" : "Added"} retailer "${values.name}"`);
+  return {};
+}
+
+export async function deleteAttireMerchant(formData: FormData): Promise<{ error?: string }> {
+  await requireAdmin();
+  const id = formData.get("id") as string;
+  const admin = createAdminSupabaseClient();
+  const { error } = await admin.from("attire_merchants").delete().eq("id", id);
+  if (error) return { error: error.message };
+  revalidatePath("/admin/attire");
+  await logAdminAction("attire.merchant_delete", { type: "attire_merchant", ids: [id] }, "Deleted a retailer");
   return {};
 }

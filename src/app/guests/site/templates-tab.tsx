@@ -1,9 +1,8 @@
 "use client";
 
 import { useState, type CSSProperties } from "react";
-import { artById, backgroundLayers, resolveDesign, type SiteDesign } from "@/lib/site-design";
-import { TEMPLATES, TEMPLATE_TAGS, applyTemplate, type SiteTemplate, type TemplateTag } from "@/lib/site-templates";
-import { NUDGES, nudge, type NudgeId } from "@/lib/site-nudges";
+import { FALLING, artById, backgroundLayers, resolveDesign, type SiteDesign } from "@/lib/site-design";
+import { TEMPLATES, TEMPLATE_TAGS, applyTemplate, hasExtras, templateById, withExtras, type SiteTemplate, type TemplateTag } from "@/lib/site-templates";
 import { PanelLabel } from "./editor-tabs";
 
 /**
@@ -22,6 +21,7 @@ export function TemplatesTab({
 }) {
   const [tag, setTag] = useState<TemplateTag | null>(null);
   const shown = TEMPLATES.filter((t) => !tag || t.tags.includes(tag));
+  const picked = templateById(design.template);
   return (
     <>
       <div className="-mx-5 flex gap-1.5 overflow-x-auto px-5 pb-1 lg:-mx-6 lg:px-6">
@@ -54,11 +54,56 @@ export function TemplatesTab({
           ))}
         </div>
         <p className="text-[13px] leading-normal text-ink/60">
-          Switching templates keeps your words, photos and anything you&apos;ve placed. Only the look changes,
-          and you can keep changing it from here.
+          Every template starts with your photo. Switching keeps your words, photos and anything
+          you&apos;ve placed; only the look changes.
         </p>
+        {picked && hasExtras(picked) && <Extras template={picked} design={design} onChange={onChange} />}
       </div>
     </>
+  );
+}
+
+/**
+ * A template's art, scene and falling extras are off until asked for (owner,
+ * 2026-10-21): the photo carries the page. One tap adds them, one takes them off.
+ */
+function Extras({
+  template,
+  design,
+  onChange,
+}: {
+  template: SiteTemplate;
+  design: SiteDesign;
+  onChange: (patch: Partial<SiteDesign>) => void;
+}) {
+  const on =
+    (template.art ? design.art.id === template.art.id : true) &&
+    (template.scene ? design.scene === template.scene : true) &&
+    (template.falling ? design.motion.falling === template.falling : true);
+  const what = [
+    template.art && artById(template.art.id)?.name.toLowerCase(),
+    template.scene && "a night sky",
+    template.falling && `falling ${FALLING.find((f) => f.id === template.falling)?.label.toLowerCase()}`,
+  ].filter(Boolean);
+  return (
+    <div className="flex items-center justify-between gap-3 rounded-xl border border-hairline bg-parchment px-4 py-3">
+      <span className="min-w-0 text-[13px] leading-snug text-ink/70">
+        <span className="block font-medium text-ink">{template.name}&apos;s decorations</span>
+        {what.join(", ")}
+      </span>
+      <button
+        type="button"
+        aria-pressed={on}
+        onClick={() =>
+          onChange(on ? { art: { id: null, placement: "sides" }, scene: null, motion: { ...design.motion, falling: "none" } } : withExtras(design, template))
+        }
+        className={`h-9 shrink-0 rounded-lg px-3.5 text-[13px] font-semibold transition-colors ${
+          on ? "border border-hairline bg-card text-ink hover:border-ink/30" : "bg-[#14203d] text-white hover:bg-[#2243B6]"
+        }`}
+      >
+        {on ? "Remove" : "Add them"}
+      </button>
+    </div>
   );
 }
 
@@ -152,40 +197,5 @@ function TemplateCard({
         <span className="shrink-0 text-[11px] text-ink/50">{template.tags[0]}</span>
       </span>
     </button>
-  );
-}
-
-/**
- * "Make it more…": a tap moves the current look one way (src/lib/site-nudges.ts),
- * keeping colours, words and photos; another tap tries the next variant.
- */
-export function MakeItMore({ design, onChange }: { design: SiteDesign; onChange: (patch: Partial<SiteDesign>) => void }) {
-  const [last, setLast] = useState<NudgeId | null>(null);
-  return (
-    <div className="flex flex-col gap-2.5">
-      <PanelLabel>Make it more…</PanelLabel>
-      <div className="flex flex-wrap gap-2">
-        {NUDGES.map((n) => (
-          <button
-            key={n.id}
-            type="button"
-            onClick={() => {
-              onChange(nudge(design, n.id));
-              setLast(n.id);
-            }}
-            className={`h-9 rounded-full px-3.5 text-[13px] font-medium ${
-              last === n.id ? "bg-forest text-parchment" : "border border-hairline bg-card text-ink hover:border-ink/30"
-            }`}
-          >
-            {n.label}
-          </button>
-        ))}
-      </div>
-      <p className="text-[13px] leading-normal text-ink/60">
-        {last
-          ? "Tap again for another take. Your colours, words and photos stay; undo puts back what you had."
-          : "Changes your fonts, monogram style, background and what falls over the page; Minimal and Bold also change the top of the page. Your colours, words, photos and envelope stay."}
-      </p>
-    </div>
   );
 }

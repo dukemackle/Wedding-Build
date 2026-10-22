@@ -11,10 +11,39 @@ They're summarised here only by reference; CLAUDE.md is the source.
 
 ## Approved directions
 
+- **2026-10-22:** Landing closes with a full-width photo band (lawn table,
+  "Ready when *you are.*", yellow Start planning) in place of the gold
+  CtaCard, and the landing feature boxes open with real Unsplash wedding
+  photos instead of the dashboard drawings (the dashboard keeps its own art;
+  each box still opens its demo). Not adding more boxes: they mirror the
+  dashboard's ten. Estimator's "See the full breakdown" link is back.
+- **2026-10-21:** Landing hero is now direction B: full-width wedding
+  photographs as a slow crossfade slideshow (four bright reception tables and
+  the sunset couple, all Unsplash, each credited on the photo) with the nav
+  clear and white over it, headline "Wedding planning, *made easy.*" (the
+  owner's line; "The easy way to *I do*" was the step before), "Everything
+  you need to plan your wedding. Free for couples." and one "Start planning"
+  button; the estimator sits under it with Style as
+  three buttons and one "Use this as my budget" button. Nav simplified to
+  Venues · Vendors · For businesses · Log in (signing up moved to the page's
+  own buttons; a menu on phones). Replaces the 2026-10-20 direction A below,
+  which the owner felt didn't read as a wedding site and had too many words.
+  Rejected: an invitation-style hero with the site-art florals. Mockup:
+  https://claude.ai/artifact/Nk7e6ynP1YcrYgQvUdSKS4
+- **2026-10-21 (later):** Maps moved to our own tiles on R2 with the Protomaps
+  **light** style, the closest of Protomaps' styles to full colour (blue
+  water, green parks, road shields). The owner chose our own files over
+  Liberty knowing it's a bit greyer. Liberty is one line away in
+  `src/lib/map-tiles.ts` if it ever needs to come back.
 - **2026-10-21:** Maps use the full-colour OpenFreeMap **Liberty** style.
   The grey Positron was rejected as "depressing and untrustworthy". When the
   maps move to our own Cloudflare-hosted tiles, pick the closest full-colour
   style. Applied in `src/lib/map-tiles.ts`.
+- **2026-10-21:** Guest-site editor simplified: one Design tab (templates +
+  colours, no Theme grid), Wren removed from the builder, Sections second in
+  the rail with Edit buttons, template flowers/extras optional (off by
+  default, photo-first), and a "Finish your site" step list. Recommended
+  options picked by the owner; see docs/guest-site-editor.md.
 - **2026-10-21:** Art review result: keep 13 pieces (the painted rose,
   white roses, wild roses, mallow, sweet pea and lemons; the eucalyptus and
   lavender engravings; the diamond, heart and laurel dividers, rings and
@@ -48,6 +77,12 @@ They're summarised here only by reference; CLAUDE.md is the source.
   stock-photo hero (B, looks like The Knot/Zola and needs licensing) and a
   typographic rings-first hero (C, says least about the product). Mockup:
   https://claude.ai/artifact/QyvNJE735cjYK7Rf8XDWzi
+- **2026-10-21:** Dashboard next-step card becomes a status, not an order:
+  "Your planning path / 3 of 6 done", what's open as quiet links ("Still to
+  book: Photographer · DJ or band", filtered Vendors), same six-step tracker.
+  Rejected: the command headline ("Book your photographer"), the "why" advice
+  line and the big action button; the owner found them bossy. Supersedes the
+  2026-10-20 entry's copy, not its placement or gold.
 - **2026-10-20:** Dashboard "Your next step": one gold-bordered card above
   the tiles (the page's only gold; the gold tile ring was removed), naming
   the step and why it comes now. Path: venue, date, guest list, key vendors

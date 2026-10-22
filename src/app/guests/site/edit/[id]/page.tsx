@@ -212,7 +212,7 @@ export default async function GuestSiteEditorPage({ params }: { params: Promise<
         <div className="flex flex-col gap-8">
           <HeroPhotoPanel photoUrl={wedding.hero_photo_url} library={photoLibraryEnabled()} />
           <div className="border-t border-hairline pt-6">
-            <GalleryPanel photos={galleryPhotos ?? []} />
+            <GalleryPanel photos={galleryPhotos ?? []} library={photoLibraryEnabled()} />
           </div>
         </div>
       ),
@@ -315,17 +315,19 @@ export default async function GuestSiteEditorPage({ params }: { params: Promise<
     }),
   );
 
+  // "Finish your site" (the editor adds "Pick a look" first, from the design).
   const checklist: ChecklistItem[] = [
-    { label: "Turn on your guest site", done: Boolean(wedding.public_slug) },
-    { label: "Add a banner photo", done: Boolean(wedding.hero_photo_url) },
-    { label: "Set an RSVP deadline", done: Boolean(wedding.rsvp_deadline), href: "/dashboard", action: "Dashboard" },
-    { label: "Add somewhere to stay", done: stayCount > 0 },
+    { label: "Add your main photo", done: Boolean(wedding.hero_photo_url), section: "photos", action: "Add" },
+    { label: "Add your venue", done: Boolean(venue || wedding.own_venue_name), section: "venue", action: "Add" },
     {
       label: "Publish your weekend schedule",
       done: events > 0 && wedding.itinerary_published,
       href: "/itinerary",
       action: "Itinerary",
     },
+    { label: "Add somewhere to stay", done: stayCount > 0, section: "travel", action: "Add" },
+    { label: "Set an RSVP deadline", done: Boolean(wedding.rsvp_deadline), href: "/dashboard", action: "Dashboard" },
+    { label: "Turn on your site (the switch at the top)", done: Boolean(wedding.public_slug) },
   ];
 
   return (

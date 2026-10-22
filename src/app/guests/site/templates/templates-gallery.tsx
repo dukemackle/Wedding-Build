@@ -19,6 +19,7 @@ export function TemplatesGallery({
   base,
   initialOpen,
   full,
+  samplePhotos,
   ...shared
 }: Shared & {
   /** The design templates go over: the couple's sections and words. */
@@ -26,6 +27,8 @@ export function TemplatesGallery({
   initialOpen: string | null;
   /** At the design limit: previews still open, but can't be customized. */
   full: boolean;
+  /** No photos of their own yet, so the previews show Unsplash samples. */
+  samplePhotos: boolean;
 }) {
   const [tag, setTag] = useState<TemplateTag | null>(null);
   const [open, setOpen] = useState<string | null>(initialOpen);
@@ -85,6 +88,7 @@ export function TemplatesGallery({
           picks={picks}
           onPick={pick}
           full={full}
+          samplePhotos={samplePhotos}
           onOpen={setOpen}
           onClose={() => setOpen(null)}
           {...shared}
@@ -144,6 +148,7 @@ function TemplatePreview({
   picks,
   onPick,
   full,
+  samplePhotos,
   onOpen,
   onClose,
   ...shared
@@ -154,6 +159,7 @@ function TemplatePreview({
   picks: Record<string, string | null>;
   onPick: (id: string) => (palette: string | null) => void;
   full: boolean;
+  samplePhotos: boolean;
   onOpen: (id: string) => void;
   onClose: () => void;
 }) {
@@ -239,6 +245,11 @@ function TemplatePreview({
               ? "You have the most designs you can keep. Delete one on Your guest site to make room."
               : "Starts a new design with your wording, photos and schedule. Your live site stays as it is."}
           </p>
+          {samplePhotos && (
+            <p className="mt-2 text-[13px] leading-normal text-ink/60">
+              Sample photos from Unsplash for now. Yours take their place once you add a banner and gallery.
+            </p>
+          )}
         </div>
 
         {more.length > 0 && (

@@ -265,6 +265,20 @@ export const MARKET_SIZE = Object.fromEntries([
   ...LARGE.map((k) => [k, "large"]),
 ]);
 
+// Launch metros (owner, 2026-10-21): where batch work goes deep first, in this
+// order, before anything else in pass 4. `npm run coverage -- launch` shows them.
+export const LAUNCH_METROS = [
+  "Texas: Austin",
+  "California: San Diego",
+  "Texas: Dallas–Fort Worth",
+  "Texas: Houston",
+  "Texas: San Antonio, New Braunfels and Boerne",
+  "New York: New York City",
+  "California: Los Angeles",
+  "Illinois: Chicago",
+  "Florida: Miami",
+];
+
 export function metroTarget(state, metro, doubled = false) {
   return (doubled ? PASS4_SIZES : SIZES)[MARKET_SIZE[`${state}: ${metro}`] ?? "standard"];
 }
