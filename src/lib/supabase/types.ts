@@ -609,6 +609,23 @@ export type AttireItem = {
   badge: string | null;
   is_featured: boolean;
   is_active: boolean;
+  merchant_id: string | null;
+  affiliate_url: string | null;
+  price_checked_at: string | null;
+  created_at: string;
+};
+
+export type AttireMerchant = {
+  id: string;
+  name: string;
+  website: string | null;
+  network: string | null;
+  status: string;
+  commission_note: string | null;
+  image_rights_note: string | null;
+  contact: string | null;
+  approved_at: string | null;
+  notes: string | null;
   created_at: string;
 };
 

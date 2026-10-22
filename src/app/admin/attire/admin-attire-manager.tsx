@@ -2,10 +2,13 @@
 
 import Image from "next/image";
 import { useState, useTransition } from "react";
-import type { AttireItem } from "@/lib/supabase/types";
+import type { AttireItem, AttireMerchant } from "@/lib/supabase/types";
 import { ATTIRE_CATEGORIES, STYLE_TIERS } from "@/lib/wedding-options";
 import { COLOR_SWATCHES, formatPrice } from "@/lib/attire";
-import { deleteAttireItem, saveAttireItem } from "./actions";
+import { deleteAttireItem, deleteAttireMerchant, saveAttireItem, saveAttireMerchant } from "./actions";
+
+const MERCHANT_STATUSES = ["Not applied", "Applied", "Approved", "Rejected", "Paused"] as const;
+const NETWORKS = ["Awin", "Impact", "Rakuten", "CJ", "Amazon", "Direct", "Other"] as const;
 
 const input =
   "w-full rounded-md border border-hairline bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-forest";
@@ -23,10 +26,12 @@ function Field({ label, hint, children }: { label: string; hint?: string; childr
 function ItemForm({
   item,
   vendors,
+  merchants,
   onDone,
 }: {
   item?: AttireItem;
   vendors: { id: string; name: string }[];
+  merchants: AttireMerchant[];
   onDone: () => void;
 }) {
   const [error, setError] = useState<string>();
@@ -71,8 +76,24 @@ function ItemForm({
           <textarea name="image_urls" rows={3} defaultValue={item?.image_urls?.join("\n")} className={`${input} font-mono-numbers text-xs`} />
         </Field>
       </div>
-      <Field label="Retailer link" hint="Where 'Shop' sends the couple. Affiliate links go here.">
+      <Field label="Retailer" hint="Add retailers in the Retailers list above.">
+        <select name="merchant_id" defaultValue={item?.merchant_id ?? ""} className={input}>
+          <option value="">None</option>
+          {merchants.map((m) => (
+            <option key={m.id} value={m.id}>
+              {m.name} ({m.status})
+            </option>
+          ))}
+        </select>
+      </Field>
+      <Field label="Price checked on" hint="The day you saw these prices on the retailer's site. Couples see it.">
+        <input name="price_checked_at" type="date" defaultValue={item?.price_checked_at ?? ""} className={input} />
+      </Field>
+      <Field label="Retailer link" hint="The plain product page. Used when there's no affiliate link.">
         <input name="retailer_url" type="url" defaultValue={item?.retailer_url ?? ""} className={input} />
+      </Field>
+      <Field label="Affiliate link" hint="The tracked link from the network. Shows the commission disclosure.">
+        <input name="affiliate_url" type="url" defaultValue={item?.affiliate_url ?? ""} className={input} />
       </Field>
       <Field label="Listed by vendor" hint="A boutique on the vendor side. 'Book a fitting' links to them.">
         <select name="vendor_id" defaultValue={item?.vendor_id ?? ""} className={input}>
@@ -144,14 +165,165 @@ function ItemForm({
   );
 }
 
+function MerchantForm({ merchant, onDone }: { merchant?: AttireMerchant; onDone: () => void }) {
+  const [error, setError] = useState<string>();
+  const [isPending, startTransition] = useTransition();
+
+  return (
+    <form
+      action={(fd) =>
+        startTransition(async () => {
+          const result = await saveAttireMerchant(fd);
+          setError(result?.error);
+          if (!result?.error) onDone();
+        })
+      }
+      className="grid gap-4 rounded-lg border border-hairline bg-card p-5 shadow-sm sm:grid-cols-3"
+    >
+      {merchant && <input type="hidden" name="id" value={merchant.id} />}
+      <Field label="Name *">
+        <input name="name" required defaultValue={merchant?.name} className={input} />
+      </Field>
+      <Field label="Website">
+        <input name="website" type="url" defaultValue={merchant?.website ?? ""} className={input} />
+      </Field>
+      <Field label="Contact" hint="Affiliate manager or partnerships email.">
+        <input name="contact" defaultValue={merchant?.contact ?? ""} className={input} />
+      </Field>
+      <Field label="Network">
+        <select name="network" defaultValue={merchant?.network ?? ""} className={input}>
+          <option value="">—</option>
+          {NETWORKS.map((n) => (
+            <option key={n}>{n}</option>
+          ))}
+        </select>
+      </Field>
+      <Field label="Status">
+        <select name="status" defaultValue={merchant?.status ?? "Not applied"} className={input}>
+          {MERCHANT_STATUSES.map((st) => (
+            <option key={st}>{st}</option>
+          ))}
+        </select>
+      </Field>
+      <Field label="Approved on">
+        <input name="approved_at" type="date" defaultValue={merchant?.approved_at ?? ""} className={input} />
+      </Field>
+      <Field label="Commission" hint="As the program states it, e.g. 5%, 30-day cookie.">
+        <input name="commission_note" defaultValue={merchant?.commission_note ?? ""} className={input} />
+      </Field>
+      <div className="sm:col-span-2">
+        <Field label="Photo rights" hint="What the terms or the merchant said about showing their photos. No photos until this says yes.">
+          <input name="image_rights_note" defaultValue={merchant?.image_rights_note ?? ""} className={input} />
+        </Field>
+      </div>
+      <div className="sm:col-span-3">
+        <Field label="Notes">
+          <textarea name="notes" rows={2} defaultValue={merchant?.notes ?? ""} className={input} />
+        </Field>
+      </div>
+      <div className="flex items-center gap-3 sm:col-span-3">
+        <button type="submit" disabled={isPending} className="rounded-md bg-forest px-4 py-2 text-sm font-medium text-parchment disabled:opacity-60">
+          {isPending ? "Saving…" : merchant ? "Save retailer" : "Add retailer"}
+        </button>
+        <button type="button" onClick={onDone} className="text-sm text-ink/60 hover:text-forest">
+          Cancel
+        </button>
+        {error && <p className="text-sm text-red-700">{error}</p>}
+      </div>
+    </form>
+  );
+}
+
+function MerchantList({
+  merchants,
+  items,
+  merchantClicks,
+}: {
+  merchants: AttireMerchant[];
+  items: AttireItem[];
+  merchantClicks: Record<string, number>;
+}) {
+  const [editing, setEditing] = useState<string | "new" | null>(null);
+  const [, startTransition] = useTransition();
+
+  return (
+    <section className="flex flex-col gap-3">
+      <div className="flex items-center gap-3">
+        <h2 className="font-display text-xl font-semibold text-forest">Retailers</h2>
+        <button type="button" onClick={() => setEditing("new")} className="text-sm text-forest hover:underline">
+          + Add retailer
+        </button>
+        <span className="text-xs text-ink/45">Clicks are ours, last 30 days. Sales live in each network&apos;s dashboard.</span>
+      </div>
+      {editing === "new" && <MerchantForm onDone={() => setEditing(null)} />}
+      {merchants.length === 0 && editing !== "new" ? (
+        <p className="text-sm text-ink/50">No retailers yet. Add one when you apply to its program.</p>
+      ) : (
+        <ul className="divide-y divide-hairline rounded-lg border border-hairline bg-card">
+          {merchants.map((m) =>
+            editing === m.id ? (
+              <li key={m.id} className="p-3">
+                <MerchantForm merchant={m} onDone={() => setEditing(null)} />
+              </li>
+            ) : (
+              <li key={m.id} className="flex flex-wrap items-center gap-x-4 gap-y-1 p-3 text-sm">
+                <span className="min-w-0 flex-1 font-medium text-ink">
+                  {m.name}
+                  <span
+                    className={`ml-2 rounded-full px-2 py-0.5 text-xs ${
+                      m.status === "Approved" ? "bg-forest/10 text-forest" : m.status === "Rejected" ? "bg-red-50 text-red-700" : "bg-ink/5 text-ink/60"
+                    }`}
+                  >
+                    {m.status}
+                  </span>
+                </span>
+                <span className="text-xs text-ink/55">{[m.network, m.commission_note].filter(Boolean).join(" · ")}</span>
+                <span className={`text-xs ${m.image_rights_note ? "text-ink/55" : "text-red-700"}`} title={m.image_rights_note ?? undefined}>
+                  {m.image_rights_note ? "Photo rights noted" : "No photo rights yet"}
+                </span>
+                <span className="whitespace-nowrap text-right font-mono-numbers text-xs text-ink/50">
+                  {items.filter((i) => i.merchant_id === m.id).length} items · {merchantClicks[m.id] ?? 0} clicks
+                </span>
+                <button type="button" onClick={() => setEditing(m.id)} className="text-forest hover:underline">
+                  Edit
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (!confirm(`Delete ${m.name}? Its items stay, they just lose the retailer.`)) return;
+                    const fd = new FormData();
+                    fd.set("id", m.id);
+                    startTransition(async () => {
+                      await deleteAttireMerchant(fd);
+                    });
+                  }}
+                  className="text-ink/40 hover:text-red-700"
+                >
+                  Delete
+                </button>
+              </li>
+            ),
+          )}
+        </ul>
+      )}
+    </section>
+  );
+}
+
 export function AdminAttireManager({
   items,
   vendors,
+  merchants,
   saveCounts,
+  clickCounts,
+  merchantClicks,
 }: {
   items: AttireItem[];
   vendors: { id: string; name: string }[];
+  merchants: AttireMerchant[];
   saveCounts: Record<string, number>;
+  clickCounts: Record<string, number>;
+  merchantClicks: Record<string, number>;
 }) {
   const [editing, setEditing] = useState<string | "new" | null>(null);
   const [category, setCategory] = useState<string>("all");
@@ -162,6 +334,8 @@ export function AdminAttireManager({
 
   return (
     <div className="flex flex-col gap-5">
+      <MerchantList merchants={merchants} items={items} merchantClicks={merchantClicks} />
+      <h2 className="mt-4 font-display text-xl font-semibold text-forest">Items</h2>
       <div className="flex flex-wrap items-center gap-3">
         <button
           type="button"
@@ -183,13 +357,13 @@ export function AdminAttireManager({
         </span>
       </div>
 
-      {editing === "new" && <ItemForm vendors={vendors} onDone={() => setEditing(null)} />}
+      {editing === "new" && <ItemForm vendors={vendors} merchants={merchants} onDone={() => setEditing(null)} />}
 
       <ul className="divide-y divide-hairline rounded-lg border border-hairline bg-card">
         {shown.map((item) =>
           editing === item.id ? (
             <li key={item.id} className="p-3">
-              <ItemForm item={item} vendors={vendors} onDone={() => setEditing(null)} />
+              <ItemForm item={item} vendors={vendors} merchants={merchants} onDone={() => setEditing(null)} />
             </li>
           ) : (
             <li key={item.id} className={`flex items-center gap-3 p-3 ${item.is_active ? "" : "opacity-50"}`}>
@@ -212,6 +386,9 @@ export function AdminAttireManager({
               </div>
               <span className="w-16 text-right font-mono-numbers text-xs text-ink/50" title="Couples who saved it">
                 ♥ {saveCounts[item.id] ?? 0}
+              </span>
+              <span className="w-16 text-right font-mono-numbers text-xs text-ink/50" title="Shop clicks, last 30 days">
+                ↗ {clickCounts[item.id] ?? 0}
               </span>
               <button type="button" onClick={() => setEditing(item.id)} className="text-sm text-forest hover:underline">
                 Edit

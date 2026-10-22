@@ -3,14 +3,17 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
-import { categoryArt, formatPrice, safeUrl, swatch } from "@/lib/attire";
+import { AFFILIATE_DISCLOSURE, categoryArt, formatPrice, safeUrl, shopHref, swatch } from "@/lib/attire";
 
 type SharedItem = {
+  id: string;
   name: string;
   category: string;
   designer: string | null;
   image_urls: string[] | null;
   retailer_url: string | null;
+  affiliate_url: string | null;
+  price_checked_at: string | null;
   vendor_name: string | null;
   buy_price: number | null;
   rent_price: number | null;
@@ -89,7 +92,8 @@ export default async function SharedPartyPage({ params }: { params: Promise<{ to
             {party.members.map((m) => {
               const item = m.item;
               const photo = item?.image_urls?.[0];
-              const shop = safeUrl(item?.retailer_url);
+              // Before migration 0135 the RPC returned no id; link straight out then.
+              const shop = item ? (item.id ? shopHref(item, "party") : safeUrl(item.retailer_url)) : null;
               const buy = formatPrice(item?.buy_price);
               const rent = formatPrice(item?.rent_price);
               return (
@@ -162,6 +166,12 @@ export default async function SharedPartyPage({ params }: { params: Promise<{ to
               );
             })}
           </ul>
+        )}
+        {party.members.some((m) => m.item) && (
+          <p className="mx-auto mt-8 max-w-2xl text-center text-xs text-ink/50">
+            Prices are approximate; the retailer&apos;s price is final.
+            {party.members.some((m) => safeUrl(m.item?.affiliate_url)) && ` ${AFFILIATE_DISCLOSURE}`}
+          </p>
         )}
         <p className="mt-12 text-center text-xs text-ink/40">
           Planned with <Link href="/" className="underline">You Do, I Do</Link>

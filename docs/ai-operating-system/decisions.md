@@ -103,3 +103,15 @@ rules, batch self-merge, 50-state coverage, page widths) and
 - Why: one page answers "does anything need me?" instead of four or five.
 - Revisit: when the error log (#8) and spend page (#9) fill the "not tracked"
   health rows.
+
+## 2026-10-22 — Attire affiliate pilot: build the plumbing
+- Decided: the owner approved building the pilot from
+  `docs/attire-affiliates.md`: a retailers table, a separate affiliate link,
+  a "price checked" date, counted click-outs and the commission disclosure.
+  No feed importer, sponsored placements or checkout.
+- Why: the attire catalog already existed; this makes it ready for approved
+  programs (Revelry, Brilliant Earth, Azazie, The Black Tux first) without
+  showing stale prices or undisclosed affiliate links.
+- Still the owner's: applying to Awin and Impact, and which programs to join.
+- Revisit: 60 days after the first approval, comparing our clicks with
+  network-reported sales.
