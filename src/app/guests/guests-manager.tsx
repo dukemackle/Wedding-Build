@@ -40,6 +40,8 @@ import { FilterDisclosure } from "@/components/filter-disclosure";
 import { SearchBox } from "@/components/search-box";
 import { mealChoices } from "@/lib/meal-options";
 import { BirdEmptyState } from "@/components/wren-moments";
+import { PlusIcon } from "@/components/page-header";
+import { CheckIcon, MailIcon, PhoneIcon } from "@/components/icons";
 
 const STATUSES: GuestStatus[] = ["invited", "confirmed", "declined", "pending"];
 
@@ -898,8 +900,8 @@ function GuestRow({
         {PRIORITY_SHORT_LABELS[guest.priority]}
       </span>
       {guest.thanked && (
-        <span title="Thanked" className="shrink-0 font-mono-numbers text-[11px] leading-4 text-forest">
-          ✓
+        <span title="Thanked" className="shrink-0 text-forest">
+          <CheckIcon className="h-3.5 w-3.5" />
         </span>
       )}
     </>
@@ -1255,8 +1257,8 @@ function GuestTableRow({
             )}
             <span className="truncate text-sm text-ink">{guest.name}</span>
             {guest.thanked && (
-              <span title="Thanked" className="shrink-0 text-[11px] text-forest">
-                ✓
+              <span title="Thanked" className="shrink-0 text-forest">
+                <CheckIcon className="h-3.5 w-3.5" />
               </span>
             )}
           </div>
@@ -1321,7 +1323,7 @@ function GuestTableRow({
                 .join(", ")}
               className="block truncate text-xs text-ink/70"
             >
-              <span className="text-forest">✓</span> {address}
+              <CheckIcon className="inline h-3.5 w-3.5 align-[-2px] text-forest" /> {address}
             </span>
           ) : (
             <span className="text-xs text-red-700/80">Missing</span>
@@ -1329,15 +1331,17 @@ function GuestTableRow({
         </td>
         <td className={cell}>
           {guest.email || guest.phone ? (
-            <span className="flex gap-1.5 text-xs">
+            <span className="flex gap-2 text-xs">
               {guest.email && (
-                <span title={guest.email} className="text-forest">
-                  ✉
+                <span title={guest.email} className="text-[#2243B6]">
+                  <MailIcon className="h-4 w-4" />
+                  <span className="sr-only">Email: {guest.email}</span>
                 </span>
               )}
               {guest.phone && (
-                <span title={guest.phone} className="text-forest">
-                  ☎
+                <span title={guest.phone} className="text-[#2243B6]">
+                  <PhoneIcon className="h-4 w-4" />
+                  <span className="sr-only">Phone: {guest.phone}</span>
                 </span>
               )}
             </span>
@@ -1756,30 +1760,30 @@ export function GuestsManager({
               setShowAddForm((v) => !v);
               setShowImportForm(false);
             }}
-            className="rounded-full bg-forest px-3 py-1 font-mono-numbers text-sm text-parchment transition-colors hover:bg-forest/90"
+            className={showAddForm ? "btn-secondary" : "btn-primary"}
           >
-            {showAddForm ? "Close" : "+ Add guest"}
+            {showAddForm ? "Close" : <><PlusIcon /> Add guest</>}
           </button>
           <button
             onClick={() => {
               setShowImportForm((v) => !v);
               setShowAddForm(false);
             }}
-            className="rounded-full border border-hairline bg-parchment px-3 py-1 font-mono-numbers text-sm text-ink transition-colors hover:border-forest"
+            className="btn-secondary"
           >
             {showImportForm ? "Close" : "Import"}
           </button>
           <button
             onClick={() => downloadGuestsXlsx(guests)}
             disabled={guests.length === 0}
-            className="rounded-full border border-hairline bg-parchment px-3 py-1 font-mono-numbers text-sm text-ink transition-colors hover:border-forest disabled:opacity-50"
+            className="btn-secondary disabled:opacity-50"
           >
             Excel
           </button>
           <button
             onClick={() => downloadGuestsCsv(guests)}
             disabled={guests.length === 0}
-            className="rounded-full border border-hairline bg-parchment px-3 py-1 font-mono-numbers text-sm text-ink transition-colors hover:border-forest disabled:opacity-50"
+            className="btn-secondary disabled:opacity-50"
           >
             CSV
           </button>
@@ -2028,7 +2032,7 @@ export function GuestsManager({
                 <th className="px-2 py-2" />
               </tr>
             </thead>
-            <tbody>
+            <tbody className="rise-stagger">
               {groups.map((group) => (
                 <GuestTableGroup
                   key={group.key}

@@ -13,6 +13,7 @@ import { downloadIcs } from "@/lib/ics";
 import { ItineraryCalendar } from "@/components/itinerary-calendar";
 import { addItineraryEvent, updateItineraryEvent, deleteItineraryEvent, setEventInvites } from "./actions";
 import { BirdEmptyState } from "@/components/wren-moments";
+import { PlusIcon } from "@/components/page-header";
 
 const inputClass =
   "rounded-md border border-hairline bg-parchment px-3 py-2 text-ink outline-none focus:border-forest";
@@ -502,9 +503,9 @@ export function ItineraryManager({
           </p>
           <button
             onClick={() => (showAddForm ? setShowAddForm(false) : openAddForm(addFormDate))}
-            className="rounded-full bg-forest px-4 py-1.5 font-mono-numbers text-sm text-parchment transition-colors hover:bg-forest/90"
+            className={showAddForm ? "btn-secondary" : "btn-primary"}
           >
-            {showAddForm ? "Close" : "+ Add event"}
+            {showAddForm ? "Close" : <><PlusIcon /> Add event</>}
           </button>
         </div>
 

@@ -10,6 +10,8 @@ import {
   saveGiftSettings,
   saveRegistryGift,
 } from "./actions";
+import { PlusIcon } from "@/components/page-header";
+import { GiftIcon } from "@/components/icons";
 
 const inputClass =
   "w-full rounded-md border border-hairline bg-parchment px-3 py-2 text-ink outline-none focus:border-forest";
@@ -134,9 +136,7 @@ function GiftForm({
               // eslint-disable-next-line @next/next/no-img-element -- a store's product photo, any host
               <img src={picture} alt="" className="h-full w-full object-contain p-1" />
             ) : (
-              <span className="text-2xl text-ink/20" aria-hidden>
-                🎁
-              </span>
+              <GiftIcon className="h-8 w-8 text-[#9a6b00]/50" />
             )}
           </div>
         )}
@@ -243,8 +243,8 @@ function GiftTile({ gift, claims }: { gift: PublicRegistryGift; claims: Registry
           // eslint-disable-next-line @next/next/no-img-element -- a store's product photo, any host
           <img src={picture} alt="" loading="lazy" className="h-full w-full object-contain p-2" />
         ) : (
-          <div className="flex h-full items-center justify-center text-3xl text-ink/20" aria-hidden>
-            🎁
+          <div className="flex h-full items-center justify-center bg-[#fff7c2]/60">
+            <GiftIcon className="h-10 w-10 text-[#9a6b00]/60" />
           </div>
         )}
         <span
@@ -341,8 +341,8 @@ export function GiftsSection({ gifts, claims }: { gifts: PublicRegistryGift[]; c
           </p>
         </div>
         {!adding && (
-          <button onClick={() => setAdding(true)} className={`${primary} text-sm`}>
-            + Add a gift
+          <button onClick={() => setAdding(true)} className="btn-primary">
+            <PlusIcon /> Add a gift
           </button>
         )}
       </div>
@@ -358,7 +358,7 @@ export function GiftsSection({ gifts, claims }: { gifts: PublicRegistryGift[]; c
           </p>
         </div>
       ) : (
-        <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-4">
+        <div className="rise-stagger mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-4">
           {items.map((gift) => (
             <GiftTile key={gift.id} gift={gift} claims={claims.filter((c) => c.gift_id === gift.id)} />
           ))}
@@ -379,8 +379,8 @@ export function FundsSection({ gifts, claims }: { gifts: PublicRegistryGift[]; c
           <p className="mt-1 text-sm text-ink/60">Guests send money straight to you. No fees, ever.</p>
         </div>
         {!adding && (
-          <button onClick={() => setAdding(true)} className={`${secondary} text-sm`}>
-            + Add a fund
+          <button onClick={() => setAdding(true)} className="btn-secondary">
+            <PlusIcon /> Add a fund
           </button>
         )}
       </div>

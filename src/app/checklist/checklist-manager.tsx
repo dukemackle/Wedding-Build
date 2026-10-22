@@ -12,6 +12,7 @@ import {
   toggleChecklistItem,
   deleteChecklistItem,
 } from "./actions";
+import { PlusIcon } from "@/components/page-header";
 
 const inputClass =
   "rounded-md border border-hairline bg-parchment px-3 py-2 text-ink outline-none focus:border-forest";
@@ -294,9 +295,9 @@ export function ChecklistManager({ items }: { items: ChecklistItem[] }) {
         </div>
         <button
           onClick={() => setShowAddForm((v) => !v)}
-          className="rounded-full bg-forest px-4 py-1.5 font-mono-numbers text-sm text-parchment transition-colors hover:bg-forest/90"
+          className={showAddForm ? "btn-secondary" : "btn-primary"}
         >
-          {showAddForm ? "Close" : "+ Add task"}
+          {showAddForm ? "Close" : <><PlusIcon /> Add task</>}
         </button>
       </div>
 
@@ -632,7 +633,7 @@ function PhasedList({ items }: { items: ChecklistItem[] }) {
               <p className="mt-1 max-w-2xl text-sm text-ink/65">
                 {active.isDone ? active.doneBlurb : active.blurb}
               </p>
-              <div className="mt-3">
+              <div className="rise-stagger mt-3">
                 {active.ordered.map((item) => (
                   <ChecklistRow key={item.id} item={item} />
                 ))}

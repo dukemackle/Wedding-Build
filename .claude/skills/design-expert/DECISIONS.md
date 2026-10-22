@@ -11,6 +11,14 @@ They're summarised here only by reference; CLAUDE.md is the source.
 
 ## Approved directions
 
+- **2026-10-22:** Planning pages (budget, guests, checklist, itinerary,
+  layout, registry) keep their layouts but get livelier: a `PageHeader` with
+  the landing box's photo (slow drift), a headline with an italic royal-blue
+  end, and one line; no couple names, countdown or headline stat (owner cut
+  those). Drawn icons replace emojis, the main "Add …" action is a gold pill
+  with navy outlines for the rest, bolder headings, rows rise in, and Wren
+  cheers small wins (paid in full, everyone seated, RSVP milestones).
+  Mockup: https://claude.ai/artifact/LP1zF42bXSm1SKy9aF5KBE
 - **2026-10-22:** Public nav's business link is a thin outlined "List your
   business" pill (was "For businesses"), and the hero carries "Venue or
   vendor? Claim or list your business free" under Start planning. Logged-out

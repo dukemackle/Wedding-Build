@@ -7,6 +7,8 @@ import type {
   Wedding,
 } from "@/lib/supabase/types";
 import { EventHeadcounts } from "./event-headcounts";
+import { PageHeader } from "@/components/page-header";
+import { RsvpMilestone } from "./rsvp-milestone";
 import { FULL_WIDTH } from "@/lib/layout";
 import { GuestsManager } from "./guests-manager";
 import { PendingRsvps } from "./public-site-panel";
@@ -93,12 +95,10 @@ export function GuestsPageBody({
   // margins. See src/lib/layout.ts for the widths.
   return (
     <div className={`w-full ${FULL_WIDTH}`}>
-      <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
-        Guests
-      </p>
-      <h1 className="mt-2 mb-6 font-display text-3xl font-semibold text-forest">
-        Guest list & RSVPs
-      </h1>
+      <PageHeader eyebrow="Guests" title="Everyone you" accent="want there" photo="guests">
+        Addresses, RSVPs and meals in one list, with the counts kept for you.
+      </PageHeader>
+      <RsvpMilestone confirmed={guests.filter((g) => g.status === "confirmed").length} weddingId={wedding.id} />
 
       <div className="flex flex-col gap-6">
         <GuestSheetSync
