@@ -23,6 +23,16 @@ function supportsWebGL() {
 export function BaseMapLayer() {
   const map = useMap();
 
+  // Leaflet measures its box once and then only on window resizes. Safari
+  // measured the browse screens' map mid-layout (~4,400px tall), centred the
+  // pins and tiles below the visible part, and left it grey. Re-measure
+  // whenever the box itself changes size.
+  useEffect(() => {
+    const observer = new ResizeObserver(() => map.invalidateSize());
+    observer.observe(map.getContainer());
+    return () => observer.disconnect();
+  }, [map]);
+
   useEffect(() => {
     let layer: L.Layer | null = null;
     let cancelled = false;
