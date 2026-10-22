@@ -72,9 +72,15 @@ Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tie
   geocode (rural ranch roads sometimes don't). Fill them only from the
   site's own map embed, never estimated. Both or neither, five decimal
   places, longitude negative.
-- **Venue type**: exactly one of `Barn / Rustic`, `Ballroom / Hotel`,
-  `Garden / Outdoor`, `Beach / Waterfront`, `Historic / Estate`,
-  `Restaurant / Vineyard`. **Setting**: `Indoor`, `Outdoor` or
+- **Venue type**: exactly one of the 15 categories (2026-10-22): `Barn & Farm`,
+  `Ranch`, `Historic Mansion & Estate`, `Chapel & Church`, `Ballroom`,
+  `Hotel & Resort`, `Garden & Park`, `Lake & River`, `Mountain & Lodge`,
+  `Beach & Coast`, `Vineyard & Winery`, `Restaurant & Brewery`,
+  `Country Club & Golf`, `Industrial Loft & Warehouse`,
+  `Museum, Gallery & Rooftop`. Pick what the venue is, not what it has (a
+  barn with a garden is `Barn & Farm`); an ocean- or Gulf-front hotel is
+  `Beach & Coast`. A blank or old six-type value is sorted automatically by
+  `src/lib/venue-category.ts`, but write the category. **Setting**: `Indoor`, `Outdoor` or
   `Indoor & Outdoor`. A misspelled value makes the whole row skip.
 - **Capacity**: the most guests the venue says it holds for a wedding, as a
   whole number. If it gives seated and standing, use seated; if several

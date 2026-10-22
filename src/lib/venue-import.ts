@@ -1,4 +1,5 @@
-import { STATES, STYLE_TIERS, VENUE_SETTINGS, VENUE_TYPES } from "@/lib/wedding-options";
+import { LEGACY_VENUE_TYPES, STATES, STYLE_TIERS, VENUE_SETTINGS, VENUE_TYPES } from "@/lib/wedding-options";
+import { categorizeVenue } from "@/lib/venue-category";
 import { mapColumns, readTable } from "@/lib/spreadsheet";
 
 /**
@@ -222,14 +223,27 @@ export function parseVenueTable(text: string): VenueImportParse {
     let website = cell("website") || null;
     if (website && !/^https?:\/\//i.test(website)) website = `https://${website}`;
 
+    // A row that names one of the six old venue types, or none, is sorted
+    // into a category from its name and description. Only those rows pay
+    // for the classifier; a current category passes straight through.
+    const state = option("state", "State", STATES);
+    const rawType = cell("venue_type");
+    const legacy = Object.keys(LEGACY_VENUE_TYPES).find((t) => t.toLowerCase() === rawType.toLowerCase());
+    const venueType =
+      rawType && !legacy
+        ? option("venue_type", "Venue type", VENUE_TYPES)
+        : name
+          ? categorizeVenue({ name, description: cell("description"), venueType: legacy ?? "", setting: cell("setting"), state: state ?? "" }).category
+          : null;
+
     const values: VenueImportValues = {
       name,
-      state: option("state", "State", STATES),
+      state,
       city: cell("city") || null,
       address: cell("address") || null,
       latitude,
       longitude,
-      venue_type: option("venue_type", "Venue type", VENUE_TYPES),
+      venue_type: venueType,
       setting: option("setting", "Setting", VENUE_SETTINGS),
       capacity,
       price_tier: option("price_tier", "Price tier", STYLE_TIERS),

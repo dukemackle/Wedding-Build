@@ -9,6 +9,7 @@ import {
   VENDOR_POLICIES,
   VENUE_SETTINGS,
   VENUE_TYPES,
+  currentVenueType,
 } from "@/lib/wedding-options";
 import type { AlcoholPolicy, PriceBasis, PriceOption, ServiceLevel, Venue, VendorPolicy } from "@/lib/supabase/types";
 import { BUSINESS_FACT_LABELS, businessFactsFrom, validateBusinessFacts, type BusinessFacts } from "@/lib/business-facts";
@@ -161,7 +162,8 @@ export function detailsFromVenue(venue: Venue): ClaimDetails {
     name: venue.name,
     city: venue.city,
     state: venue.state,
-    venue_type: venue.venue_type,
+    // Old venue types (before 2026-10-22) show as their nearest category.
+    venue_type: currentVenueType(venue.venue_type) ?? venue.venue_type,
     setting: venue.setting,
     address: venue.address,
     capacity: venue.capacity,

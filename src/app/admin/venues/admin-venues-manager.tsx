@@ -5,7 +5,7 @@ import type { Venue, VenueFaq } from "@/lib/supabase/types";
 import { VenueImportPanel } from "./venue-import-panel";
 import { ClaimLinkPanel } from "../claim-link-panel";
 import { getClaimLink, regenerateClaimLink } from "./claim-actions";
-import { STATES, STYLE_TIERS, VENUE_SETTINGS, VENUE_TYPES } from "@/lib/wedding-options";
+import { STATES, STYLE_TIERS, VENUE_SETTINGS, VENUE_TYPES, currentVenueType } from "@/lib/wedding-options";
 import { FilterBar, StatusChips } from "../_listing/listing-toolbar";
 import {
   BulkBar,
@@ -70,7 +70,7 @@ function VenueForm({
       </label>
       <label className={labelClass}>
         Venue type
-        <select name="venue_type" defaultValue={venue?.venue_type ?? ""} className={inputClass}>
+        <select name="venue_type" defaultValue={currentVenueType(venue?.venue_type) ?? ""} className={inputClass}>
           <option value="">—</option>
           {VENUE_TYPES.map((t) => (
             <option key={t} value={t}>

@@ -13,16 +13,8 @@ import { MAP_MIN_ZOOM, US_MAP_BOUNDS, type MapView } from "@/lib/map-view";
 import type { Venue } from "@/lib/supabase/types";
 import { ShortlistButton } from "./venue-card-shared";
 import { venueHref } from "@/lib/public-listings";
+import { venueTypeImage } from "@/lib/wedding-options";
 
-const VENUE_TYPE_IMAGES: Record<string, string> = {
-  "Barn / Rustic": "/venue-types/barn-rustic.svg",
-  "Ballroom / Hotel": "/venue-types/ballroom-hotel.svg",
-  "Garden / Outdoor": "/venue-types/garden-outdoor.svg",
-  "Beach / Waterfront": "/venue-types/beach-waterfront.svg",
-  "Historic / Estate": "/venue-types/historic-estate.svg",
-  "Restaurant / Vineyard": "/venue-types/restaurant-vineyard.svg",
-};
-const DEFAULT_VENUE_IMAGE = "/venue-types/historic-estate.svg";
 
 /**
  * Up close, pins carry the venue's capacity, the same number the card leads
@@ -142,11 +134,7 @@ export function VenuesMap({
               <div className="w-[200px]">
                 <Link href={venueHref(venue)} className="block">
                   <Image
-                    src={
-                      venue.image_url ||
-                      (venue.venue_type && VENUE_TYPE_IMAGES[venue.venue_type]) ||
-                      DEFAULT_VENUE_IMAGE
-                    }
+                    src={venue.image_url || venueTypeImage(venue.venue_type)}
                     alt={venue.venue_type ? `${venue.venue_type} illustration` : "Venue illustration"}
                     width={200}
                     height={125}

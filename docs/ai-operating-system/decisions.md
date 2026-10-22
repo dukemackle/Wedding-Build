@@ -154,3 +154,13 @@ rules, batch self-merge, 50-state coverage, page widths) and
 - Still the owner's: applying to Awin and Impact, and which programs to join.
 - Revisit: 60 days after the first approval, comparing our clicks with
   network-reported sales.
+
+## 2026-10-22 — Venue categories and guest-site layout families
+- Decided: the owner approved 15 venue categories in place of the six venue
+  types (every venue re-sorted; migration 0137), and guest-site "layout
+  families": 8 families shared by related categories, the first four
+  (Field Notes, Grand, Shoreline, Gallery) mocked and approved. Detail in
+  `.claude/skills/design-expert/DECISIONS.md`.
+- Why: finer categories for browsing venues, and a basis for designing guest
+  sites per kind of venue.
+- Revisit: after the remaining four layout families are mocked.

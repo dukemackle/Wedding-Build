@@ -13,14 +13,70 @@ export const SEASONS = ["Winter", "Spring", "Summer", "Fall"] as const;
 
 export const STYLE_TIERS = ["Simple", "Classic", "Luxury"] as const;
 
+// Venue categories (2026-10-22), replacing six broad venue types. Stored as
+// the label itself. src/lib/venue-category.ts sorts a venue into one.
 export const VENUE_TYPES = [
-  "Barn / Rustic",
-  "Ballroom / Hotel",
-  "Garden / Outdoor",
-  "Beach / Waterfront",
-  "Historic / Estate",
-  "Restaurant / Vineyard",
+  "Barn & Farm",
+  "Ranch",
+  "Historic Mansion & Estate",
+  "Chapel & Church",
+  "Ballroom",
+  "Hotel & Resort",
+  "Garden & Park",
+  "Lake & River",
+  "Mountain & Lodge",
+  "Beach & Coast",
+  "Vineyard & Winery",
+  "Restaurant & Brewery",
+  "Country Club & Golf",
+  "Industrial Loft & Warehouse",
+  "Museum, Gallery & Rooftop",
 ] as const;
+
+export type VenueCategory = (typeof VENUE_TYPES)[number];
+
+/** The six venue types used before 2026-10-22, and the closest category to each. */
+export const LEGACY_VENUE_TYPES: Record<string, VenueCategory> = {
+  "Barn / Rustic": "Barn & Farm",
+  "Ballroom / Hotel": "Ballroom",
+  "Garden / Outdoor": "Garden & Park",
+  "Beach / Waterfront": "Beach & Coast",
+  "Historic / Estate": "Historic Mansion & Estate",
+  "Restaurant / Vineyard": "Vineyard & Winery",
+};
+
+/** A current category for any stored value: current labels pass, old ones map, anything else is null. */
+export function currentVenueType(value: string | null | undefined): VenueCategory | null {
+  if (!value) return null;
+  if ((VENUE_TYPES as readonly string[]).includes(value)) return value as VenueCategory;
+  return LEGACY_VENUE_TYPES[value] ?? null;
+}
+
+// The drawing a venue without photos shows. Six drawings cover the fifteen
+// categories, each going to its nearest look.
+const VENUE_TYPE_DRAWINGS: Record<VenueCategory, string> = {
+  "Barn & Farm": "barn-rustic",
+  Ranch: "barn-rustic",
+  "Historic Mansion & Estate": "historic-estate",
+  "Chapel & Church": "historic-estate",
+  Ballroom: "ballroom-hotel",
+  "Hotel & Resort": "ballroom-hotel",
+  "Garden & Park": "garden-outdoor",
+  "Lake & River": "beach-waterfront",
+  "Mountain & Lodge": "garden-outdoor",
+  "Beach & Coast": "beach-waterfront",
+  "Vineyard & Winery": "restaurant-vineyard",
+  "Restaurant & Brewery": "restaurant-vineyard",
+  "Country Club & Golf": "garden-outdoor",
+  "Industrial Loft & Warehouse": "ballroom-hotel",
+  "Museum, Gallery & Rooftop": "historic-estate",
+};
+
+/** The venue-type drawing for a stored venue type (old labels included). */
+export function venueTypeImage(value: string | null | undefined): string {
+  const type = currentVenueType(value);
+  return `/venue-types/${type ? VENUE_TYPE_DRAWINGS[type] : "historic-estate"}.svg`;
+}
 
 export const VENUE_SETTINGS = ["Indoor", "Outdoor", "Indoor & Outdoor"] as const;
 
