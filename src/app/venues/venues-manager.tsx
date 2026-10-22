@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState, useTransition } from "react";
-import type { Venue, VenueShortlistEntry } from "@/lib/supabase/types";
+import type { VenueShortlistEntry } from "@/lib/supabase/types";
 import { CAPACITY_FILTER_STEPS, STYLE_TIERS, VENUE_SETTINGS, VENUE_TYPES } from "@/lib/wedding-options";
 import { updateShortlistNotes } from "./actions";
 import { BookedVenueButton, ShortlistButton } from "./venue-card-shared";
@@ -15,7 +15,7 @@ import { useSavedFilters } from "@/lib/use-saved-filters";
 import { isInView, viewKey, type MapView } from "@/lib/map-view";
 import { BirdEmptyState } from "@/components/wren-moments";
 import { SignupCardButton, SignupHeart } from "@/components/public-nav";
-import { venueHref } from "@/lib/public-listings";
+import { venueHref, type VenueListing } from "@/lib/public-listings";
 import { ConfirmedChip } from "@/components/confirmed-badge";
 
 const VenuesMap = dynamic(() => import("./venues-map").then((m) => m.VenuesMap), {
@@ -47,7 +47,7 @@ function VenueCard({
   onLeave,
   signedIn,
 }: {
-  venue: Venue;
+  venue: VenueListing;
   signedIn: boolean;
   isShortlisted: boolean;
   isBooked: boolean;
@@ -184,7 +184,7 @@ export function VenuesManager({
   bookedVenueId: initialBookedVenueId,
   signedIn = true,
 }: {
-  venues: Venue[];
+  venues: VenueListing[];
   shortlist: VenueShortlistEntry[];
   bookedVenueId: string | null;
   /** False on the public page: no Saved view, and card actions link to signup. */
@@ -254,7 +254,7 @@ export function VenuesManager({
   // isn't a mismatch: those venues stay in, after the confirmed matches,
   // rather than vanishing from the price and capacity filters.
   const filteredVenues = useMemo(() => {
-    const unknownForFilters = (v: Venue) =>
+    const unknownForFilters = (v: VenueListing) =>
       (priceFilter !== "all" && !v.price_tier) || (capacityFilter !== "all" && v.capacity == null);
     return venues
       .filter(

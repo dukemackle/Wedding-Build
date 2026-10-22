@@ -16,13 +16,26 @@ const PAGE_SIZE = 1000;
 
 export async function fetchAll<T>(
   page: (from: number, to: number) => PromiseLike<{ data: T[] | null; error: { message: string } | null }>,
+  /**
+   * Pages to request at once. One after another, the 9-13 pages of the venue
+   * and vendor directories were most of /venues' and /vendors' wait; a wave
+   * that overshoots the end just gets empty pages back.
+   */
+  concurrency = 1,
 ): Promise<T[]> {
   const rows: T[] = [];
-  for (let from = 0; ; from += PAGE_SIZE) {
-    const { data, error } = await page(from, from + PAGE_SIZE - 1);
-    if (error) throw new Error(error.message);
-    rows.push(...(data ?? []));
-    if (!data || data.length < PAGE_SIZE) return rows;
+  for (let wave = 0; ; wave += concurrency) {
+    const results = await Promise.all(
+      Array.from({ length: concurrency }, (_, i) => {
+        const from = (wave + i) * PAGE_SIZE;
+        return page(from, from + PAGE_SIZE - 1);
+      }),
+    );
+    for (const { data, error } of results) {
+      if (error) throw new Error(error.message);
+      rows.push(...(data ?? []));
+      if (!data || data.length < PAGE_SIZE) return rows;
+    }
   }
 }
 
