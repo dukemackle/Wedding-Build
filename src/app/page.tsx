@@ -2,6 +2,7 @@ import Link from "next/link";
 import { FadeInSection } from "@/components/fade-in-section";
 import { PublicNav } from "@/components/public-nav";
 import { HomeEstimatorCard } from "@/components/home-estimator-card";
+import { ClosingPhoto } from "@/components/landing/closing-photo";
 import { HeroSlideshow } from "@/components/landing/hero-slideshow";
 import { LandingFeatures } from "@/components/landing/landing-features";
 import { STANDARD_WIDTH, WIDE_WIDTH } from "@/lib/layout";
@@ -67,18 +68,12 @@ export default async function Home() {
 
       {/* Closing band, approved 2026-10-22: the page ends the way it opens --
           a real wedding photo, white type and the same yellow button -- in
-          place of the old gold CtaCard, which belonged to the previous design. */}
+          place of the old gold CtaCard, which belonged to the previous design.
+          The photo changes on each visit and the words fade up (2026-10-22). */}
       <section className="relative -mx-6 flex min-h-[420px] items-center justify-center self-stretch overflow-hidden bg-forest sm:min-h-[480px]">
-        <img
-          src="/landing/hero-lawn-lights-2000.webp"
-          srcSet="/landing/hero-lawn-lights-1000.webp 1000w, /landing/hero-lawn-lights-2000.webp 2000w"
-          sizes="100vw"
-          alt=""
-          loading="lazy"
-          className="absolute inset-0 h-full w-full object-cover object-[center_65%]"
-        />
+        <ClosingPhoto />
         <div aria-hidden="true" className="absolute inset-0 bg-[rgb(10_16_32/0.5)]" />
-        <div className="relative flex flex-col items-center px-6 py-16 text-center text-white">
+        <FadeInSection className="relative flex flex-col items-center px-6 py-16 text-center text-white">
           <h2 className="font-display text-[44px] font-medium leading-[1.05] [text-shadow:0_2px_24px_rgb(10_16_32/0.35)] sm:text-6xl lg:text-7xl">
             Ready when <span className="whitespace-nowrap italic text-[#ffd301]">you are.</span>
           </h2>
@@ -89,8 +84,7 @@ export default async function Home() {
           >
             Start planning
           </Link>
-        </div>
-        <p className="absolute bottom-2 right-3 text-[11px] text-white/70">Photo: Josh Withers, Unsplash</p>
+        </FadeInSection>
       </section>
     </main>
   );
