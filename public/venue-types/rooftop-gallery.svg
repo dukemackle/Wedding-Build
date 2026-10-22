@@ -1,0 +1,16 @@
+<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of a city rooftop terrace">
+  <rect width="400" height="300" fill="#FBF8F1"/>
+  <rect width="400" height="230" fill="#E4F9FF"/>
+  <path d="M0 230 V130 H40 V100 H80 V150 H120 V80 H170 V140 H220 V110 H260 V60 H300 V130 H340 V96 H380 V140 H400 V230 Z" fill="#B7EFFF"/>
+  <line x1="0" y1="230" x2="400" y2="230" stroke="#C9BFA6" stroke-width="2"/>
+  <g fill="none" stroke="#14203D" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M0 130 H40 V100 H80 V150 H120 V80 H170 V140 H220 V110 H260 V60 H300 V130 H340 V96 H380 V140 H400" stroke="#2243B6" stroke-width="3"/>
+    <path d="M0 196 H400"/>
+    <path d="M20 196 V230 M60 196 V230 M100 196 V230 M140 196 V230 M180 196 V230 M220 196 V230 M260 196 V230 M300 196 V230 M340 196 V230 M380 196 V230"/>
+    <path d="M110 196 V140 M290 196 V140 M100 140 H300"/>
+  </g>
+  <path d="M110 146 Q200 170 290 146" fill="none" stroke="#14203D" stroke-width="1.5"/>
+  <g fill="#FFD301" stroke="#14203D" stroke-width="1">
+    <circle cx="130" cy="152" r="4"/><circle cx="160" cy="158" r="4"/><circle cx="200" cy="160" r="4"/><circle cx="240" cy="158" r="4"/><circle cx="270" cy="152" r="4"/>
+  </g>
+</svg>

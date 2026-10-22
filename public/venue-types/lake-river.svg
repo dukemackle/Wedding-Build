@@ -1,0 +1,18 @@
+<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of a lake with a dock">
+  <rect width="400" height="300" fill="#FBF8F1"/>
+  <rect width="400" height="230" fill="#E4F9FF"/>
+  <circle cx="320" cy="62" r="18" fill="#FFD301"/>
+  <path d="M0 160 Q90 128 180 152 T400 146 V170 H0 Z" fill="#B7EFFF"/>
+  <rect y="170" width="400" height="60" fill="#5AE4FF" opacity=".45"/>
+  <line x1="0" y1="230" x2="400" y2="230" stroke="#C9BFA6" stroke-width="2"/>
+  <g fill="none" stroke="#14203D" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M0 160 Q90 128 180 152 T400 146" stroke="#2243B6" stroke-width="3"/>
+    <path d="M0 170 H400" stroke="#2243B6" stroke-width="3"/>
+    <path d="M40 160 V138 M30 138 L40 116 L50 138 Z M80 152 V132 M70 132 L80 110 L90 132 Z"/>
+    <path d="M60 196 Q80 190 100 196 M300 210 Q320 204 340 210 M140 214 Q160 208 180 214" stroke="#2243B6" stroke-width="3"/>
+    <path d="M220 230 V188 H300 V230 M220 188 L260 168 L300 188"/>
+    <path d="M300 214 H380 M330 214 V230 M360 214 V230"/>
+  </g>
+  <path d="M130 186 H182 L174 198 H138 Z" fill="#FFD301" stroke="#14203D" stroke-width="3" stroke-linejoin="round"/>
+  <rect x="246" y="196" width="28" height="18" fill="#FFD301" stroke="#14203D" stroke-width="3"/>
+</svg>

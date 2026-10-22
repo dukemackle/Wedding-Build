@@ -1,18 +1,19 @@
 <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of a garden arch">
   <rect width="400" height="300" fill="#FBF8F1"/>
+  <rect width="400" height="230" fill="#E4F9FF"/>
+  <path d="M0 230 V200 C30 180 70 182 100 200 V230 Z M300 230 V200 C330 182 370 180 400 200 V230 Z" fill="#B7EFFF"/>
   <line x1="0" y1="230" x2="400" y2="230" stroke="#C9BFA6" stroke-width="2"/>
   <g fill="none" stroke="#14203D" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M130 230 V140 C130 90 270 90 270 140 V230"/>
-    <path d="M130 170 C110 165 100 150 105 130"/>
-    <path d="M270 170 C290 165 300 150 295 130"/>
-    <path d="M150 200 C135 195 130 180 138 168"/>
-    <path d="M250 200 C265 195 270 180 262 168"/>
+    <path d="M0 200 C30 180 70 182 100 200 V230 M300 230 V200 C330 182 370 180 400 200" stroke="#2243B6" stroke-width="3"/>
+    <path d="M140 230 V140 C140 86 260 86 260 140 V230"/>
+    <path d="M140 172 C120 167 110 152 115 132"/>
+    <path d="M260 172 C280 167 290 152 285 132"/>
+    <path d="M158 204 C143 199 138 184 146 172"/>
+    <path d="M242 204 C257 199 262 184 254 172"/>
   </g>
-  <g fill="#E0A100">
-    <circle cx="130" cy="140" r="8"/>
-    <circle cx="270" cy="140" r="8"/>
-    <circle cx="200" cy="112" r="8"/>
-    <circle cx="165" cy="118" r="6"/>
-    <circle cx="235" cy="118" r="6"/>
+  <g fill="#FFD301" stroke="#14203D" stroke-width="2">
+    <circle cx="140" cy="140" r="8"/><circle cx="260" cy="140" r="8"/><circle cx="200" cy="100" r="8"/>
+    <circle cx="166" cy="110" r="6"/><circle cx="234" cy="110" r="6"/>
+    <circle cx="40" cy="194" r="5"/><circle cx="70" cy="196" r="5"/><circle cx="335" cy="194" r="5"/><circle cx="365" cy="192" r="5"/>
   </g>
 </svg>

@@ -1,0 +1,17 @@
+<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of a country club">
+  <rect width="400" height="300" fill="#FBF8F1"/>
+  <rect width="400" height="230" fill="#E4F9FF"/>
+  <circle cx="330" cy="58" r="18" fill="#FFD301"/>
+  <path d="M0 230 V212 Q100 196 200 210 T400 204 V230 Z" fill="#B7EFFF"/>
+  <path d="M60 210 V140 H260 V210 Z M50 140 L90 110 H230 L270 140 Z" fill="#FFFFFF"/>
+  <line x1="0" y1="230" x2="400" y2="230" stroke="#C9BFA6" stroke-width="2"/>
+  <g fill="none" stroke="#14203D" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M0 212 Q100 196 200 210 T400 204" stroke="#2243B6" stroke-width="3"/>
+    <path d="M60 206 V140 H260 V208"/><path d="M50 140 L90 110 H230 L270 140 Z"/>
+    <path d="M90 140 V206 M130 140 V206 M190 140 V206 M230 140 V206"/>
+    <path d="M148 206 V172 H172 V206"/>
+    <path d="M340 222 V140"/>
+    <ellipse cx="340" cy="222" rx="18" ry="5" stroke-width="3"/>
+  </g>
+  <path d="M342 140 L376 152 L342 164 Z" fill="#FFD301" stroke="#14203D" stroke-width="3" stroke-linejoin="round"/>
+</svg>

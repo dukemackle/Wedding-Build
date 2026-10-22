@@ -1,8 +1,15 @@
-<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of a sun setting over the water">
+<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of a beach at sunset">
   <rect width="400" height="300" fill="#FBF8F1"/>
-  <circle cx="200" cy="140" r="45" fill="none" stroke="#E0A100" stroke-width="4"/>
-  <g fill="none" stroke="#14203D" stroke-width="4" stroke-linecap="round">
-    <path d="M60 200 Q100 185 140 200 T220 200 T300 200 T340 200"/>
-    <path d="M60 225 Q100 210 140 225 T220 225 T300 225 T340 225"/>
+  <rect width="400" height="230" fill="#E4F9FF"/>
+  <path d="M155 170 A45 45 0 0 1 245 170 Z" fill="#FFD301"/>
+  <rect y="170" width="400" height="60" fill="#5AE4FF" opacity=".45"/>
+  <line x1="0" y1="230" x2="400" y2="230" stroke="#C9BFA6" stroke-width="2"/>
+  <g fill="none" stroke="#14203D" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M0 170 H400" stroke="#2243B6" stroke-width="3"/>
+    <path d="M30 196 Q60 186 90 196 T150 196 M200 214 Q230 204 260 214 T320 214" stroke="#2243B6" stroke-width="3"/>
+    <path d="M300 250 V170 M370 250 V170 M292 170 H378"/>
+    <path d="M300 172 C318 196 352 196 370 172"/>
+    <path d="M60 250 C58 210 62 180 72 150"/>
+    <path d="M72 150 C52 140 38 146 30 158 M72 150 C92 138 108 144 114 158 M72 150 C64 132 48 128 38 132 M72 150 C82 132 98 128 108 134"/>
   </g>
 </svg>

@@ -1,0 +1,18 @@
+<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of a restaurant storefront">
+  <rect width="400" height="300" fill="#FBF8F1"/>
+  <rect width="400" height="230" fill="#E4F9FF"/>
+  <rect x="100" y="80" width="200" height="150" fill="#FFFFFF"/>
+  <rect x="116" y="158" width="84" height="56" fill="#5AE4FF" opacity=".45"/>
+  <path d="M100 124 H300 V140 Q290 152 280 140 Q270 152 260 140 Q250 152 240 140 Q230 152 220 140 Q210 152 200 140 Q190 152 180 140 Q170 152 160 140 Q150 152 140 140 Q130 152 120 140 Q110 152 100 140 Z" fill="#2243B6"/>
+  <path d="M120 124 H140 V140 Q130 152 120 140 Z M160 124 H180 V140 Q170 152 160 140 Z M200 124 H220 V140 Q210 152 200 140 Z M240 124 H260 V140 Q250 152 240 140 Z M280 124 H300 V140 Q290 152 280 140 Z" fill="#FFFFFF"/>
+  <line x1="0" y1="230" x2="400" y2="230" stroke="#C9BFA6" stroke-width="2"/>
+  <g fill="none" stroke="#14203D" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M100 230 V80 H300 V230"/><path d="M92 80 H308"/>
+    <path d="M100 124 H300"/>
+    <rect x="116" y="158" width="84" height="56"/>
+    <path d="M222 230 V160 H278 V230"/>
+    <path d="M308 100 H336 M326 100 V108"/>
+  </g>
+  <circle cx="326" cy="124" r="16" fill="#FFD301" stroke="#14203D" stroke-width="3"/>
+  <path d="M140 214 V196 M176 214 V196 M132 196 H184" stroke="#14203D" stroke-width="3" stroke-linecap="round"/>
+</svg>
