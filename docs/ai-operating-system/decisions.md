@@ -43,6 +43,27 @@ rules, batch self-merge, 50-state coverage, page widths) and
   before the first invitation.
 - Outcome:
 
+## 2026-10-22 — "Booked by couples who married here" on venue pages (parked)
+- Decided: once real weddings have happened, venue pages show vendors past
+  couples booked there, kept apart from the venue's own preferred list and
+  worded as history, not a recommendation. Categories where the venue
+  requires its own vendors (`venue_preferred_vendors.required`) are hidden
+  automatically, and claimed venues can turn the section off. It's off for
+  unclaimed venues. Only weddings whose date has passed count, and a vendor
+  shows only after 2–3 couples have booked them, so no single couple's
+  choices can be worked out. The same data adds "Worked at: <venue>" to
+  vendor profiles.
+- Why: "vendors who've worked this room" is a signal competitors don't
+  have, and the data is already captured (booked venue, 0051; booked
+  vendors linked via budget lines, 0052). Hiding categories the venue
+  requires, plus the off switch, avoids fights with venues that pick
+  vendors for couples.
+- Alternatives: on by default everywhere (risks upsetting venues); merge it
+  into the venue's own list (blurs whose recommendation it is).
+- Revisit: when enough real weddings have passed to fill the lists. Before
+  building, check that the privacy terms cover this use, and keep booked
+  vendors linked by ID, not by typed-in names.
+
 ## 2026-10-21 — Launch metros: Austin, San Diego and seven large markets
 - Decided: `LAUNCH_METROS` in `scripts/coverage-plan.mjs`, in priority order:
   Austin, San Diego, Dallas–Fort Worth, Houston, San Antonio, New York City,
