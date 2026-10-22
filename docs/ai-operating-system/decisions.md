@@ -18,7 +18,17 @@ rules, batch self-merge, 50-state coverage, page widths) and
 `docs/legal-audit.md` "Owner answers (2026-10-19)". They aren't copied here.
 
 ## Pending owner decisions
-- **Completeness bar for the launch metros** (what "done thoroughly" means).
+- None open.
+
+## 2026-10-22 — When a launch metro is "done"
+- Decided: every core vendor category at its target; at least 90% of the
+  metro's venues show capacity and price tier; every listing's website
+  re-checked within 90 days. Photos are not part of the bar (separate
+  project, San Diego and Austin first). San Diego goes first: 150+ venues.
+- Why: the owner saw San Diego County thin on the map (~53 venues in view
+  against several hundred real ones).
+- Revisit: once San Diego and Austin meet it.
+- Outcome:
 
 ## 2026-10-22 — Founding businesses: notice and an unnamed discount
 - Decided: outreach says "Listing is free today. If we ever introduce paid
