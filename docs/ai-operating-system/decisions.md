@@ -19,11 +19,19 @@ rules, batch self-merge, 50-state coverage, page widths) and
 
 ## Pending owner decisions
 - **Completeness bar for the launch metros** (what "done thoroughly" means).
-- **What founding businesses get, if anything.** "Free listing for life" was
-  approved then withdrawn on 2026-10-21 (could block monetization). Options:
-  a time-limited free period, a founding discount or notice period before any
-  charge, or no promise beyond "free today". Settle before the first claim
-  invitation; until then, outreach promises nothing about future pricing.
+
+## 2026-10-22 — Founding businesses: notice and an unnamed discount
+- Decided: outreach says "Listing is free today. If we ever introduce paid
+  plans, founding businesses get at least 60 days' notice and a founding
+  discount." The discount's size and length stay unnamed until there's a price.
+- Why: replaces "free listing for life" (withdrawn 2026-10-21, could block
+  monetization); matches the 60-day notice and early-bird rate already in
+  `docs/monetization.md`.
+- Alternatives: name the discount now (e.g. 50% off year one), more persuasive
+  but commits early; promise nothing beyond "free today".
+- Revisit: when Phase 1 pricing is set; have the attorney check the sentence
+  before the first invitation.
+- Outcome:
 
 ## 2026-10-21 — Launch metros: Austin, San Diego and seven large markets
 - Decided: `LAUNCH_METROS` in `scripts/coverage-plan.mjs`, in priority order:
