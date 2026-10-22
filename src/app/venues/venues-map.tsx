@@ -13,47 +13,62 @@ import { MAP_MIN_ZOOM, US_MAP_BOUNDS, type MapView } from "@/lib/map-view";
 import { ShortlistButton } from "./venue-card-shared";
 import { venueHref, type VenueListing } from "@/lib/public-listings";
 import { venueTypeImage } from "@/lib/wedding-options";
-
+import { SAVED_ICON, venueTypeIconPaths } from "@/lib/venue-type-icons";
 
 /**
- * Up close, pins carry the venue's capacity, the same number the card leads
- * with, so the map reads as the listings rather than as anonymous dots; further
- * out they group and shrink (see ClusteredMarkers). A venue with no capacity on
- * file is a plain dot at every zoom.
+ * Up close, every venue gets a badge pin: its category's icon in a gold disc,
+ * then its capacity (the number the card leads with) when we have one, and a
+ * tail that points at the spot. So the map reads as the listings rather than
+ * as anonymous dots, and a couple can tell a barn from a ballroom at a glance.
+ * Further out they group and shrink to rings (see ClusteredMarkers).
  */
-const capacityIcons = new Map<string, L.DivIcon>();
+const venueIcons = new Map<string, L.DivIcon>();
 
-function capacityIcon(
+const PIN_HEIGHT = 30;
+const TAIL = 7;
+
+function venueIcon(
+  venueType: string | null,
   capacity: number | null,
   active: boolean,
   shortlisted: boolean,
   labelled: boolean,
 ) {
-  const background = shortlisted ? "#E0A100" : active ? "#E0A100" : "#14203D";
-  if (capacity == null || !labelled) return dotIcon(background, active);
+  if (!labelled) return dotIcon(active ? "#2243B6" : shortlisted ? "#E0A100" : "#14203D", active);
 
-  const key = `${capacity}:${background}:${active}`;
-  const cached = capacityIcons.get(key);
+  const key = `${venueType}:${capacity}:${active}:${shortlisted}`;
+  const cached = venueIcons.get(key);
   if (cached) return cached;
-  const scale = active ? "transform:scale(1.12);" : "";
 
-  const label = String(capacity);
-  // Roughly 7px a digit plus the padding, so the anchor lands on the middle.
-  const width = 22 + label.length * 7;
+  const background = active ? "#2243B6" : "#14203D";
+  const label = capacity == null ? "" : String(capacity);
+  // Wide enough for the badge at its hovered size; the badge centres in it,
+  // so the tail lands on the venue whatever the font's real digit width.
+  const width = label ? 60 + label.length * 9 : 40;
+  const height = PIN_HEIGHT + TAIL + 4;
+  const glyph = shortlisted ? SAVED_ICON : venueTypeIconPaths(venueType);
   const icon = L.divIcon({
     className: "",
-    html: `<div style="
-      display:flex;align-items:center;justify-content:center;
-      height:26px;padding:0 9px;border-radius:13px;
-      background:${background};border:2px solid #fff;
-      box-shadow:0 1px 5px rgba(0,0,0,.32);
-      color:#fff;font:700 12px ui-sans-serif,system-ui,sans-serif;
-      white-space:nowrap;${scale}
-    ">${label}</div>`,
-    iconSize: [width, 26],
-    iconAnchor: [width / 2, 13],
+    html: `<div style="display:flex;justify-content:center;align-items:flex-end;width:${width}px;height:${height}px;">
+      <div style="
+        position:relative;display:flex;align-items:center;gap:6px;
+        height:${PIN_HEIGHT}px;padding:0 ${label ? 10 : 2}px 0 2px;box-sizing:border-box;margin-bottom:${TAIL}px;
+        border-radius:${PIN_HEIGHT / 2}px;background:${background};border:2px solid #fff;
+        box-shadow:0 2px 8px rgba(20,32,61,.35);
+        color:#fff;font:700 12.5px ui-sans-serif,system-ui,sans-serif;white-space:nowrap;
+        ${active ? "transform:scale(1.12);transform-origin:50% 100%;" : ""}
+      ">
+        <span style="display:flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:${shortlisted ? "#fff" : "#FFD301"};">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#14203D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${glyph}</svg>
+        </span>${label}
+        <span style="position:absolute;left:50%;bottom:-${TAIL + 1}px;margin-left:-6px;border:6px solid transparent;border-bottom:0;border-top:${TAIL}px solid ${background};filter:drop-shadow(0 2px 0 #fff);"></span>
+      </div>
+    </div>`,
+    iconSize: [width, height],
+    iconAnchor: [width / 2, height],
+    popupAnchor: [0, -height],
   });
-  capacityIcons.set(key, icon);
+  venueIcons.set(key, icon);
   return icon;
 }
 
@@ -118,7 +133,8 @@ export function VenuesMap({
           <Marker
             key={venue.id}
             position={[venue.latitude, venue.longitude]}
-            icon={capacityIcon(
+            icon={venueIcon(
+              venue.venue_type,
               venue.capacity,
               hoveredVenueId === venue.id,
               shortlistedIds.has(venue.id),
