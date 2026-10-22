@@ -703,6 +703,9 @@ export type BudgetCustomItem = {
   label: string;
   amount: number;
   paid_amount: number | null;
+  saved_amount: number | null;
+  /** A BUDGET_SECTIONS key; null is the wedding day. */
+  section: string | null;
   purchased_from: string | null;
   paid_by: string | null;
   due_date: string | null;

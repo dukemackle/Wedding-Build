@@ -379,6 +379,44 @@ export function RingsIcon(props: IconProps) {
   );
 }
 
+export function InsuranceIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M12 3 5 5.5V11c0 4.5 3 7.8 7 9 4-1.2 7-4.5 7-9V5.5Z" />
+      <path d="m9 11.5 2 2 4-4" />
+    </IconBase>
+  );
+}
+
+export function AlterationsIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M19.5 4.5 8 16" />
+      <path d="M17.5 4h2.5v2.5" />
+      <path d="M8 16c-2.5 2.5-4.5 1-3.5-.5S8 14 6.5 18.5" />
+    </IconBase>
+  );
+}
+
+export function PartyAttireIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M8 3 4 5.5V21h16V5.5L16 3" />
+      <path d="m8 3 4 6 4-6" />
+      <path d="M12 9v12" />
+      <path d="M9.5 12.5h.01M9.5 16h.01" />
+    </IconBase>
+  );
+}
+
+export function MoreIcon(props: IconProps) {
+  return (
+    <IconBase strokeWidth={2.5} {...props}>
+      <path d="M5.5 12h.01M12 12h.01M18.5 12h.01" />
+    </IconBase>
+  );
+}
+
 export function OfficiantIcon(props: IconProps) {
   return (
     <IconBase {...props}>

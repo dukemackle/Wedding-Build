@@ -53,7 +53,7 @@ const BLURBS: Record<string, string> = {
  * 2026-10-22).
  */
 const PHOTOS: Record<string, { file: string; alt: string }> = {
-  "/budget": { file: "budget", alt: "An open wedding planner with gold clips" },
+  "/budget": { file: "budget", alt: "Two gold wedding bands on a dictionary page open at “marriage”" },
   "/guests": { file: "guests", alt: "A wedding invitation suite with ribbon and wax seal" },
   "/venues": { file: "venues", alt: "A lawn set for an outdoor ceremony at sunset" },
   "/vendors": { file: "vendors", alt: "A florist's table of cut flowers and ribbon" },
