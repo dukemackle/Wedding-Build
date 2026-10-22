@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useMemo, useState, useTransition } from "react";
 import type { VenueShortlistEntry } from "@/lib/supabase/types";
 import { cityFilterValues, cityOptions } from "@/lib/city-options";
+import { priceHeadline } from "@/lib/venue-pricing";
 import { CAPACITY_FILTER_STEPS, STYLE_TIERS, VENUE_SETTINGS, VENUE_TYPES, currentVenueType, venueTypeImage } from "@/lib/wedding-options";
 import { updateShortlistNotes } from "./actions";
 import { BookedVenueButton, ShortlistButton } from "./venue-card-shared";
@@ -55,7 +56,10 @@ function VenueCard({
   // It is the number a couple actually filters a venue on, and unlike price it
   // is data we hold for every listing.
   const lead = venue.capacity ? `${venue.capacity} guests` : venue.name;
-  const facts = [venue.venue_type, venue.setting, venue.price_tier].filter(Boolean).join(" · ");
+  // A published price says more than the tier worked out from it, so the tier
+  // only shows on venues without one (2026-10-22: tiers are on their way out).
+  const price = priceHeadline({ price_from: venue.price_from, price_basis: venue.price_basis ?? null });
+  const facts = [venue.venue_type, venue.setting, !price && venue.price_tier].filter(Boolean).join(" · ");
   const place = [venue.city, venue.state].filter(Boolean).join(", ");
 
   return (
@@ -96,6 +100,9 @@ function VenueCard({
           <p className="font-mono-numbers text-lg font-bold tracking-tight text-ink">{lead}</p>
         </Link>
         {facts && <p className="mt-0.5 text-sm text-ink/80">{facts}</p>}
+        {price && (
+          <p className={`mt-0.5 text-sm ${venue.price_basis === "ask" ? "text-ink/60" : "font-medium text-ink"}`}>{price}</p>
+        )}
         {place && <p className="mt-0.5 text-[13px] text-ink/55">{place}</p>}
         <Link
           href={venueHref(venue)}
