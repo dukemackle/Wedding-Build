@@ -30,7 +30,7 @@ import {
 import { VenueDetailClient, VenueMapEmbed } from "./venue-detail-client";
 import { VenueGoodToKnow, VenueKeyFacts, VenueSpaces } from "./listing-sections";
 import { BookingFactsCard } from "@/components/booking-facts-card";
-import { priceHeadline, priceOptionAmount } from "@/lib/venue-pricing";
+import { priceCheckedNote, priceHeadline, priceOptionAmount } from "@/lib/venue-pricing";
 
 /**
  * One venue's listing: everything below the nav on /venues/[id], and the same
@@ -168,7 +168,7 @@ export function VenueListing({ data }: { data: VenueListingData }) {
         <div className="lg:col-start-1 lg:row-start-1">
           <div className="flex flex-wrap items-start justify-between gap-2">
             <h1 className="font-display text-3xl font-semibold text-forest">{venue.name}</h1>
-            {venue.price_tier && (
+            {venue.price_tier && !price && (
               <span className="shrink-0 rounded-full border border-hairline px-3 py-1 text-sm text-brass">
                 {venue.price_tier}
               </span>
@@ -225,7 +225,11 @@ export function VenueListing({ data }: { data: VenueListingData }) {
                     ))}
                   </dl>
                 )}
-                {price && <p className="mt-2 text-xs text-ink/50">Prices change. Confirm with the venue before you book.</p>}
+                {price && (
+                  <p className="mt-2 text-xs text-ink/50">
+                    {[priceCheckedNote(venue), "Prices change. Confirm with the venue before you book."].filter(Boolean).join(" ")}
+                  </p>
+                )}
               </div>
             )}
             {!signedIn ? (
