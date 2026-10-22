@@ -1022,7 +1022,7 @@ Saluti Cellars	7505 Grizzly Flat Rd	Somerset	California			Vineyard & Winery	Indo
 Carmelo Vineyards	124 E Carmel Valley Rd	Carmel Valley	California			Vineyard & Winery	Outdoor			A Carmel Valley winery with a vineyard gazebo that seats up to 120 for ceremonies.	candace@carmelovineyards.com		https://carmelovineyards.com/weddings/`,
   },
   {
-    name: "San Diego County: coast, North County and Temecula long tail (15)",
+    name: "San Diego County: coast, North County and Temecula long tail (14)",
     tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
 Cherish Hills Julian	4700 CA-78	Julian	California			Ranch	Outdoor	200			A 7-acre mountain property in Julian's Wynola area with a hilltop ceremony site facing sunset views, a farmhouse-style reception barn, a couples' cottage, and a pond-side cantina bar.	info@cherishhillsjulian.com	(619) 368-9944	https://www.cherishhillsjulian.com/
 Porto Vista Hotel	1835 Columbia Street	San Diego	California			Hotel & Resort	Indoor & Outdoor				Little Italy boutique hotel with a harbor-view open-air terrace, a restaurant space and a window-lined event room for wedding events and receptions.	events@portovistasd.com	619-544-0164	https://portovistasd.com/weddings/
@@ -1032,12 +1032,11 @@ Avensole Winery	34567 Rancho California Rd	Temecula	California			Vineyard & Wine
 The Corporate Room	34846 Monte Vista Dr	Wildomar	California			Ballroom	Indoor	200	1350	Rental	Modern 2,769 sq ft event hall just off Interstate 15 in Wildomar, available as a bare rental or with catered intimate and signature packages.	events@thecorporateroom.com	(951) 249-4343	https://www.thecorporateroom.com
 Hill Top Winery	30801 Valley Center Road	Valley Center	California			Vineyard & Winery	Indoor & Outdoor				Hilltop vineyard and patio in Valley Center that hosts weddings with live-fire Argentine catering from its own kitchen and its own wine.	info@hilltopwinery.com	(760) 913-1013	https://www.hilltopwinery.com/events.html
 The Chandelier Room Carlsbad	3077 State St	Carlsbad	California			Ballroom	Indoor & Outdoor	50	3000	Package	Boutique Carlsbad Village space with a gated patio, built for elopements and micro weddings of up to 50 guests.	thechandelierroomcarlsbad@gmail.com	(760) 207-9589	https://www.thechandelierroomcarlsbad.com
-El Camino Country Club	3202 Vista Way	Oceanside	California			Country Club & Golf	Indoor & Outdoor	200			Golf-course country club in Oceanside with a main dining room, garden room and garden patio for ceremonies and receptions.		(760) 757-5375	https://elcaminoclub.com/private-events
 Arrowood Golf Course	5201 Village Drive	Oceanside	California			Country Club & Golf	Indoor & Outdoor	200			Oceanside golf course with indoor and outdoor event spaces above the fairways, in-house catering and a dedicated event team.		(760) 967-8400	https://arrowoodevents.com/weddings/
 Bella Gala Event Hall	3955 Mission Avenue	Oceanside	California			Ballroom	Indoor				Oceanside event hall that offers wedding planning, coordination and decor design alongside the hall rental.	info@bellagalahall.com	(760) 989-5655	https://www.bellagalahall.com/event-services/weddings/
 Coomber Craft Wines	611 Mission Ave	Oceanside	California			Vineyard & Winery	Indoor & Outdoor		1500	Rental	Industrial-style tasting room with a covered, heated patio a few blocks from the beach, rented out whole for small affordable weddings.		(760) 231-8022	https://coomberwines.com/venue-rentals
 Agua Hedionda Lagoon Foundation Discovery Center	1580 Cannon Road	Carlsbad	California			Garden & Park	Indoor & Outdoor	150	3250	Package	Lagoon-side nature center with a terrace and indoor rooms that sells wedding packages and hourly rentals to couples.	info@aguahedionda.org	(760) 804-1969	https://www.aguahedionda.org/weddings
-The Green Room Hotel	2020 South Coast Highway	Oceanside	California			Hotel & Resort					Boutique Oceanside hotel whose events page says it welcomes wedding inquiries.	info@thegreenroomhotel.com	(760) 978-1191	https://www.thegreenroomhotel.com
+The Green Room Hotel	2020 South Coast Highway	Oceanside	California			Hotel & Resort					Boutique Oceanside hotel whose events page says it welcomes wedding inquiries.		(760) 978-1191	https://www.thegreenroomhotel.com
 The Condor's Nest Ranch		Pala	California			Ranch	Outdoor	100	8500	Package	Hilltop Old California ranch in Pala with an adobe house, red barn and a ceremony spot under an old ash tree.	info@thecondorsnestranch.com		https://www.condorsnestranch.com/`,
   },
 ];
