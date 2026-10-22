@@ -1,8 +1,27 @@
 import type { Wedding } from "@/lib/supabase/types";
 
+/**
+ * The budget page's sections, in order. Fees are worked out from the other
+ * lines (see estimate-add-ons.ts), so couples don't add their own lines there.
+ */
+export const BUDGET_SECTIONS = [
+  { key: "wedding_day", label: "Wedding day" },
+  { key: "rehearsal", label: "Rehearsal & welcome" },
+  { key: "attire", label: "Attire & rings" },
+  { key: "fees", label: "Fees & cushion" },
+] as const;
+
+export type BudgetSectionKey = (typeof BUDGET_SECTIONS)[number]["key"];
+
+export function isBudgetSection(value: unknown): value is BudgetSectionKey {
+  return BUDGET_SECTIONS.some((s) => s.key === value);
+}
+
 export type BudgetCategory = {
   key: string;
   label: string;
+  /** Which section of the budget page it sits in; the wedding day if left out. */
+  section?: BudgetSectionKey;
   flatBase: number;
   perGuestAmount: number;
   /**
@@ -67,7 +86,13 @@ export const BUDGET_CATEGORIES: BudgetCategory[] = [
   { optional: true, key: "videography", label: "Videography", flatBase: 4000, perGuestAmount: 0 },
   { key: "florals", label: "Florals & Decor", flatBase: 6350, perGuestAmount: 0 },
   { key: "music", label: "Music / Entertainment", flatBase: 1570, perGuestAmount: 0 },
-  { key: "attire", label: "Wedding Attire", flatBase: 2500, perGuestAmount: 0 },
+  { section: "attire", key: "attire", label: "Wedding Attire", flatBase: 2500, perGuestAmount: 0 },
+  // Hemming, bustle and fittings are almost never in the dress price, and
+  // usually land in the last month when there's least slack.
+  { section: "attire", key: "alterations", label: "Alterations", flatBase: 350, perGuestAmount: 0 },
+  // Often paid by the wedding party themselves, so no estimate of its own --
+  // it's here for the couples who are covering suits or dresses.
+  { optional: true, section: "attire", key: "wedding_party_attire", label: "Wedding Party Attire", flatBase: 0, perGuestAmount: 0 },
   { optional: true, key: "planner", label: "Wedding Planner", flatBase: 3200, perGuestAmount: 0 },
   { key: "stationery", label: "Invitations & Stationery", flatBase: 0, perGuestAmount: 4.7 },
   { optional: true, key: "favors", label: "Favors & Gifts", flatBase: 0, perGuestAmount: 3 },
@@ -77,19 +102,22 @@ export const BUDGET_CATEGORIES: BudgetCategory[] = [
   // above -- modern rehearsal dinners and welcome parties increasingly
   // invite most/all out-of-town guests, not just the wedding party, so
   // a larger wedding plausibly means a larger one of these too.
-  { key: "rehearsal_dinner", label: "Rehearsal Dinner", flatBase: 800, perGuestAmount: 15 },
-  { optional: true, key: "welcome_party", label: "Welcome Party", flatBase: 600, perGuestAmount: 12 },
+  { section: "rehearsal", key: "rehearsal_dinner", label: "Rehearsal Dinner", flatBase: 800, perGuestAmount: 15 },
+  { optional: true, section: "rehearsal", key: "welcome_party", label: "Welcome Party", flatBase: 600, perGuestAmount: 12 },
   { key: "hair_makeup", label: "Hair & Makeup", flatBase: 900, perGuestAmount: 0 },
-  { key: "rings", label: "Wedding Rings", flatBase: 1500, perGuestAmount: 0 },
+  { section: "attire", key: "rings", label: "Wedding Rings", flatBase: 1500, perGuestAmount: 0 },
   { optional: true, key: "officiant", label: "Officiant", flatBase: 500, perGuestAmount: 0 },
+  // Event liability (which many venues require) plus cancellation cover;
+  // one-day policies commonly run $150-$550.
+  { key: "insurance", label: "Wedding Insurance", flatBase: 250, perGuestAmount: 0 },
   // Tips for the people who work the day. Service charges are their own line
   // below: a venue's 20% on food and drink isn't a tip.
-  { key: "gratuities", label: "Tips & Gratuities", flatBase: 700, perGuestAmount: 0 },
+  { section: "fees", key: "gratuities", label: "Tips & Gratuities", flatBase: 700, perGuestAmount: 0 },
   // Worked out from the lines above, not priced on their own (see
   // src/lib/estimate-add-ons.ts), so these bases are never used.
-  { key: "service_charge", label: "Service Charges", flatBase: 0, perGuestAmount: 0 },
-  { key: "sales_tax", label: "Sales Tax", flatBase: 0, perGuestAmount: 0 },
-  { key: "contingency", label: "Cushion for Surprises", flatBase: 0, perGuestAmount: 0 },
+  { section: "fees", key: "service_charge", label: "Service Charges", flatBase: 0, perGuestAmount: 0 },
+  { section: "fees", key: "sales_tax", label: "Sales Tax", flatBase: 0, perGuestAmount: 0 },
+  { section: "fees", key: "contingency", label: "Cushion for Surprises", flatBase: 0, perGuestAmount: 0 },
 ];
 
 /**

@@ -11,6 +11,7 @@ import {
   BUDGET_CATEGORIES,
   VENDOR_CATEGORY_TO_BUDGET_KEY,
   effectiveGuestCount,
+  isBudgetSection,
 } from "@/lib/budget-categories";
 import { BudgetTable, type BudgetRow } from "./budget-table";
 import type { BudgetChartItem } from "./budget-chart";
@@ -31,6 +32,7 @@ type BudgetLineItemRow = {
   category: string;
   override_value: number | null;
   paid_amount: number | null;
+  saved_amount: number | null;
   purchased_from: string | null;
   paid_by: string | null;
   due_date: string | null;
@@ -91,7 +93,7 @@ export default async function BudgetPage() {
   const { data: overrides } = await supabase
     .from("budget_line_items")
     .select(
-      "category, override_value, paid_amount, purchased_from, paid_by, due_date, notes, vendor_id, venue_id",
+      "category, override_value, paid_amount, saved_amount, purchased_from, paid_by, due_date, notes, vendor_id, venue_id",
     )
     .eq("wedding_id", wedding.id);
 
@@ -209,6 +211,8 @@ export default async function BudgetPage() {
       computed: estimates.get(category.key) ?? 0,
       override: lineItem?.override_value ?? null,
       paidAmount: lineItem?.paid_amount ?? null,
+      savedAmount: lineItem?.saved_amount ?? null,
+      section: category.section ?? "wedding_day",
       purchasedFrom: lineItem?.purchased_from ?? null,
       paidBy: lineItem?.paid_by ?? null,
       dueDate: lineItem?.due_date ?? null,
@@ -232,6 +236,8 @@ export default async function BudgetPage() {
     computed: null,
     override: item.amount,
     paidAmount: item.paid_amount,
+    savedAmount: item.saved_amount,
+    section: isBudgetSection(item.section) ? item.section : "wedding_day",
     purchasedFrom: item.purchased_from,
     paidBy: item.paid_by,
     dueDate: item.due_date,

@@ -8,6 +8,7 @@ import {
   STATE_TO_REGION,
   computeCategoryValue,
   effectiveGuestCount,
+  isBudgetSection,
 } from "@/lib/budget-categories";
 import { STATES, STYLE_TIERS } from "@/lib/wedding-options";
 import { parseBudgetTable, type BudgetColumnMap } from "@/lib/budget-import";
@@ -26,6 +27,15 @@ function parseOptionalAmount(raw: FormDataEntryValue | null): number | null | "i
   const value = Number(trimmed);
   if (Number.isNaN(value) || value < 0) return "invalid";
   return value;
+}
+
+/** The text fields the form actually sent, trimmed, with blanks as null. */
+function presentTextFields(formData: FormData, fields: readonly string[]) {
+  const out: Record<string, string | null> = {};
+  for (const field of fields) {
+    if (formData.has(field)) out[field] = ((formData.get(field) as string) || "").trim() || null;
+  }
+  return out;
 }
 
 export async function setBudgetTarget(formData: FormData): Promise<{ error?: string }> {
@@ -129,19 +139,22 @@ export async function updateBudgetLineItem(
     return { error: "Unknown budget category." };
   }
 
-  const overrideValue = parseOptionalAmount(formData.get("override_value"));
-  if (overrideValue === "invalid") {
-    return { error: "Enter a valid actual cost." };
+  // Only the fields this form carried are written. The row saves its amounts
+  // on blur and its details from a separate form, and writing every column
+  // each time meant typing a cost wiped the vendor, due date and notes, and
+  // saving a note wiped the cost.
+  const amounts: Record<string, number | null> = {};
+  for (const [field, message] of [
+    ["override_value", "Enter a valid actual cost."],
+    ["paid_amount", "Enter a valid paid amount."],
+    ["saved_amount", "Enter a valid amount saved."],
+  ] as const) {
+    if (!formData.has(field)) continue;
+    const value = parseOptionalAmount(formData.get(field));
+    if (value === "invalid") return { error: message };
+    amounts[field] = value;
   }
-  const paidAmount = parseOptionalAmount(formData.get("paid_amount"));
-  if (paidAmount === "invalid") {
-    return { error: "Enter a valid paid amount." };
-  }
-
-  const purchasedFrom = ((formData.get("purchased_from") as string) || "").trim() || null;
-  const paidBy = ((formData.get("paid_by") as string) || "").trim() || null;
-  const dueDate = ((formData.get("due_date") as string) || "").trim() || null;
-  const notes = ((formData.get("notes") as string) || "").trim() || null;
+  const details = presentTextFields(formData, ["purchased_from", "paid_by", "due_date", "notes"]);
 
   const { data: guests } = await supabase
     .from("guests")
@@ -164,12 +177,8 @@ export async function updateBudgetLineItem(
       category: category.key,
       label: category.label,
       base_value: computed,
-      override_value: overrideValue,
-      paid_amount: paidAmount,
-      purchased_from: purchasedFrom,
-      paid_by: paidBy,
-      due_date: dueDate,
-      notes,
+      ...amounts,
+      ...details,
     },
     { onConflict: "wedding_id,category" },
   );
@@ -284,18 +293,36 @@ function customItemFieldsFromForm(formData: FormData) {
   if (paidAmount === "invalid") {
     return { error: "Enter a valid paid amount." } as const;
   }
+  const savedAmount = parseOptionalAmount(formData.get("saved_amount"));
+  if (savedAmount === "invalid") {
+    return { error: "Enter a valid amount saved." } as const;
+  }
+
+  const section = formData.get("section");
 
   return {
     fields: {
       label,
       amount,
       paid_amount: paidAmount,
-      purchased_from: ((formData.get("purchased_from") as string) || "").trim() || null,
-      paid_by: ((formData.get("paid_by") as string) || "").trim() || null,
-      due_date: ((formData.get("due_date") as string) || "").trim() || null,
-      notes: ((formData.get("notes") as string) || "").trim() || null,
+      saved_amount: savedAmount,
+      section: isBudgetSection(section) ? section : null,
+      ...presentTextFields(formData, ["purchased_from", "paid_by", "due_date", "notes"]),
     },
   } as const;
+}
+
+/**
+ * The fields of an edit the form actually sent -- an amount saved on blur
+ * mustn't clear the notes, and a notes save mustn't clear the paid amount.
+ * Label and amount always come with it.
+ */
+function presentCustomItemFields(formData: FormData, fields: Record<string, unknown>) {
+  const out: Record<string, unknown> = {};
+  for (const [key, value] of Object.entries(fields)) {
+    if (key === "label" || key === "amount" || formData.has(key)) out[key] = value;
+  }
+  return out;
 }
 
 export async function addBudgetCustomItem(formData: FormData): Promise<{ error?: string }> {
@@ -340,7 +367,7 @@ export async function updateBudgetCustomItem(formData: FormData): Promise<{ erro
 
   const { error } = await supabase
     .from("budget_custom_items")
-    .update({ ...parsed.fields, updated_at: new Date().toISOString() })
+    .update({ ...presentCustomItemFields(formData, parsed.fields), updated_at: new Date().toISOString() })
     .eq("id", itemId)
     .eq("wedding_id", wedding.id);
 

@@ -44,6 +44,7 @@ export function BudgetSummary({
   totalEstimate,
   totalActual,
   totalPaid,
+  totalSaved,
   target,
   categoryCount,
   contractCount,
@@ -55,6 +56,8 @@ export function BudgetSummary({
   /** Lines with a real number entered, plus custom items. */
   totalActual: number;
   totalPaid: number;
+  /** Discounts and credits across every line. */
+  totalSaved: number;
   target: number | null;
   categoryCount: number;
   contractCount: number;
@@ -118,8 +121,9 @@ export function BudgetSummary({
 
   return (
     <div className="border-b border-hairline bg-gradient-to-b from-parchment/60 to-card px-5 py-5 sm:px-8 sm:py-6">
-      {/* Same track widths and gap as the rows below, so each total sits
-          exactly over the column it sums. If one changes, change both. */}
+      {/* These track widths predate the budget's sections (2026-10-22), when
+          each total sat over a column of one long table; the rows now live in
+          their own section cards, so this grid only lays out the summary. */}
       <div className="sm:grid sm:grid-cols-[1fr_7rem_7.5rem_11rem] lg:grid-cols-[minmax(0,1fr)_7rem_7.5rem_9.5rem] lg:gap-5 2xl:grid-cols-[minmax(0,1fr)_9.5rem_9.5rem_12rem] 2xl:gap-8 sm:items-end sm:gap-4">
         <div>
           <h2 className="font-display text-2xl font-semibold text-forest lg:text-3xl">Your budget</h2>
@@ -128,6 +132,18 @@ export function BudgetSummary({
             {contractCount > 0 &&
               ` · ${contractCount} with ${contractCount === 1 ? "a contract" : "contracts"}`}
           </p>
+          {/* The page's one gold moment: money they kept. Only once there's
+              something to show, so it never reads "$0 saved". */}
+          {totalSaved > 0 && (
+            <p className="saved-shine relative mt-2.5 inline-flex items-center gap-2 overflow-hidden rounded-xl border border-[#f2dc6a] bg-gradient-to-br from-[#fffbe0] to-[#fff3b0] px-3 py-1.5">
+              <span className="font-mono-numbers text-[10px] uppercase tracking-[0.16em] text-[#9a6b00]">
+                ✦ You&apos;ve saved
+              </span>
+              <span className="font-mono-numbers text-lg font-semibold text-forest">
+                {currency.format(totalSaved)}
+              </span>
+            </p>
+          )}
           {headerAction && <div className="mt-2.5 flex flex-wrap gap-2">{headerAction}</div>}
         </div>
 

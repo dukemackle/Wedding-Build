@@ -40,7 +40,16 @@ import {
   PaperclipIcon,
   TrashIcon,
   CheckIcon,
+  InsuranceIcon,
+  AlterationsIcon,
+  PartyAttireIcon,
+  MoreIcon,
+  ChevronDownIcon,
 } from "@/components/icons";
+import {
+  BUDGET_SECTIONS,
+  type BudgetSectionKey,
+} from "@/lib/budget-categories";
 import { SpreadsheetLink } from "@/components/spreadsheet-link";
 import type { BudgetContract } from "@/lib/supabase/types";
 import { ContractsPanel } from "./contracts-panel";
@@ -67,6 +76,9 @@ export const CATEGORY_ICONS: Record<string, ComponentType<{ className?: string }
   welcome_party: BuntingIcon,
   hair_makeup: HairMakeupIcon,
   rings: RingsIcon,
+  alterations: AlterationsIcon,
+  wedding_party_attire: PartyAttireIcon,
+  insurance: InsuranceIcon,
   officiant: OfficiantIcon,
   gratuities: GratuitiesIcon,
   service_charge: ServiceChargeIcon,
@@ -81,6 +93,9 @@ export type BudgetRow = {
   computed: number | null;
   override: number | null;
   paidAmount: number | null;
+  /** Discounts and credits on this line; already taken off what they pay. */
+  savedAmount: number | null;
+  section: BudgetSectionKey;
   purchasedFrom: string | null;
   paidBy: string | null;
   dueDate: string | null;
@@ -89,11 +104,7 @@ export type BudgetRow = {
   suggestions: string[];
 };
 
-function isOverdue(dateStr: string) {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  return new Date(`${dateStr}T00:00:00`) < today;
-}
+type AmountField = "override_value" | "paid_amount" | "saved_amount";
 
 const currency = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -172,11 +183,80 @@ function downloadBudgetCsv(rows: BudgetRow[]) {
 }
 
 const numberInputClass =
-  "w-20 sm:w-24 rounded-md border border-hairline bg-parchment px-2 py-1 text-right font-mono-numbers text-sm text-ink outline-none focus:border-forest lg:w-28 lg:py-1.5 lg:text-base 2xl:w-32";
-/** The row's paid box, a step narrower so the paid-in-full tick fits beside it. */
-const paidInputClass = numberInputClass.replace("lg:w-28", "lg:w-24").replace("2xl:w-32", "2xl:w-28");
-const iconButtonClass =
-  "rounded-md p-1.5 text-ink/40 transition-colors hover:bg-parchment hover:text-forest";
+  "w-full rounded-md border border-hairline bg-parchment px-2 py-1.5 text-right font-mono-numbers text-sm text-ink outline-none focus:border-[#2243B6] lg:text-[15px]";
+
+/** Quieter than the other two: it's for the record, and empty on most lines. */
+const savedInputClass =
+  "w-full rounded-md border border-transparent bg-transparent px-2 py-1.5 text-right font-mono-numbers text-sm text-[#9a6b00] outline-none placeholder:text-ink/25 hover:border-hairline focus:border-[#2243B6] focus:bg-card lg:text-[15px]";
+
+/**
+ * The wide-screen row: icon, name, estimate, actual, saved, paid, menu. The
+ * section's column labels use the same tracks, so if one changes, change both.
+ */
+const ROW_GRID =
+  "lg:grid-cols-[2.75rem_minmax(0,1fr)_5.5rem_6.5rem_5.5rem_8.75rem_2rem] lg:gap-x-3 2xl:grid-cols-[2.75rem_minmax(0,1fr)_6.5rem_7.5rem_6.5rem_10rem_2rem] 2xl:gap-x-4";
+
+/** "Due Aug 28", turning urgent inside a week and red once it's passed. */
+function dueStatus(dateStr: string): { text: string; tone: "overdue" | "soon" | "set" } {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const due = new Date(`${dateStr}T00:00:00`);
+  const label = due.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+  const days = Math.round((due.getTime() - today.getTime()) / 86_400_000);
+  if (days < 0) return { text: `Overdue · ${label}`, tone: "overdue" };
+  if (days === 0) return { text: "Due today", tone: "soon" };
+  if (days <= 7) return { text: `Due in ${days} day${days === 1 ? "" : "s"} · ${label}`, tone: "soon" };
+  return { text: `Due ${label}`, tone: "set" };
+}
+
+/**
+ * The line's icon in a ring that fills royal blue as it's paid, turning gold
+ * with a check once it's paid in full -- how far along each line is, readable
+ * down the page without reading a number.
+ */
+function PaidRing({
+  pct,
+  full,
+  icon: Icon,
+}: {
+  pct: number;
+  full: boolean;
+  icon: ComponentType<{ className?: string }>;
+}) {
+  const circumference = 2 * Math.PI * 20;
+  return (
+    <div className="relative col-start-1 row-start-1 h-11 w-11 self-start lg:row-end-3">
+      <svg viewBox="0 0 44 44" aria-hidden="true" className="absolute inset-0 -rotate-90">
+        <circle cx="22" cy="22" r="20" fill="none" stroke="#ece8df" strokeWidth="3" />
+        {pct > 0 && (
+          <circle
+            cx="22"
+            cy="22"
+            r="20"
+            fill="none"
+            stroke={full ? "#FFD301" : "#2243B6"}
+            strokeWidth="3"
+            strokeLinecap="round"
+            strokeDasharray={`${(circumference * pct) / 100} ${circumference}`}
+            className="transition-[stroke-dasharray] duration-700 ease-out motion-reduce:transition-none"
+          />
+        )}
+      </svg>
+      <span
+        className={`absolute inset-[5px] flex items-center justify-center rounded-full transition-colors ${
+          full ? "bg-[#FFD301] text-forest" : "bg-[#fff8d1] text-[#9a6b00]"
+        }`}
+      >
+        <Icon className="h-[18px] w-[18px]" />
+      </span>
+      {full && (
+        <span className="absolute -bottom-0.5 -right-0.5 flex h-[18px] w-[18px] items-center justify-center rounded-full border-2 border-card bg-[#2243B6] text-white">
+          <CheckIcon className="h-2.5 w-2.5" />
+        </span>
+      )}
+    </div>
+  );
+}
 
 function BudgetRowItem({
   row,
@@ -212,6 +292,8 @@ function BudgetRowItem({
   const [reminderSent, setReminderSent] = useState(false);
   const [actualInput, setActualInput] = useState(row.override != null ? String(row.override) : "");
   const [paidInput, setPaidInput] = useState(row.paidAmount != null ? String(row.paidAmount) : "");
+  const [savedInput, setSavedInput] = useState(row.savedAmount != null ? String(row.savedAmount) : "");
+  const [menuOpen, setMenuOpen] = useState(false);
   /**
    * What was in the paid box before "Paid in full" filled it.
    *
@@ -234,38 +316,47 @@ function BudgetRowItem({
   const payerDatalistId = `paid-by-${row.key}`;
   const Icon = CATEGORY_ICONS[row.key] ?? CustomItemIcon;
 
-  /** Writes both amounts, whichever one the edit touched. */
-  function saveAmounts(nextActual: string, nextPaid: string) {
+  /** Writes all three amounts, whichever one the edit touched. */
+  function saveAmounts(next: { actual: string; paid: string; saved: string }) {
     const formData = new FormData();
     formData.set("category", row.key);
-    formData.set("override_value", nextActual);
-    formData.set("paid_amount", nextPaid);
+    formData.set("override_value", next.actual);
+    formData.set("paid_amount", next.paid);
+    formData.set("saved_amount", next.saved);
     return onSaveAmounts(formData);
   }
 
-  function handleAmountBlur(field: "override_value" | "paid_amount", value: string) {
-    const nextActual = field === "override_value" ? value : actualInput;
-    const nextPaid = field === "paid_amount" ? value : paidInput;
+  function handleAmountBlur(field: AmountField, value: string) {
+    const next = {
+      actual: field === "override_value" ? value : actualInput,
+      paid: field === "paid_amount" ? value : paidInput,
+      saved: field === "saved_amount" ? value : savedInput,
+    };
 
     // What the server last told us, which is what undo puts back -- not the
     // local input, which is already carrying the new value by now.
-    const wasActual = row.override != null ? String(row.override) : "";
-    const wasPaid = row.paidAmount != null ? String(row.paidAmount) : "";
-    const changed = nextActual !== wasActual || nextPaid !== wasPaid;
+    const was = {
+      actual: row.override != null ? String(row.override) : "",
+      paid: row.paidAmount != null ? String(row.paidAmount) : "",
+      saved: row.savedAmount != null ? String(row.savedAmount) : "",
+    };
+    const changed = next.actual !== was.actual || next.paid !== was.paid || next.saved !== was.saved;
 
     startTransition(async () => {
-      const result = await saveAmounts(nextActual, nextPaid);
+      const result = await saveAmounts(next);
       setError(result?.error);
       if (result?.error || !changed) return;
 
-      const amount = field === "override_value" ? nextActual : nextPaid;
-      const what = field === "override_value" ? "cost" : "paid";
+      const amount =
+        field === "override_value" ? next.actual : field === "paid_amount" ? next.paid : next.saved;
+      const what = field === "override_value" ? "cost" : field === "paid_amount" ? "paid" : "saved";
       onEdited({
         label: `${row.label} ${what} set to ${amount ? currency.format(Number(amount)) : "—"}`,
         undo: () => {
-          setActualInput(wasActual);
-          setPaidInput(wasPaid);
-          return saveAmounts(wasActual, wasPaid);
+          setActualInput(was.actual);
+          setPaidInput(was.paid);
+          setSavedInput(was.saved);
+          return saveAmounts(was);
         },
       });
     });
@@ -279,68 +370,6 @@ function BudgetRowItem({
     setPaidInput(next);
     if (checked) setPaidCheer((n) => n + 1);
     handleAmountBlur("paid_amount", next);
-  }
-
-  /**
-   * The line's four actions, straight on the row. There is no open/closed
-   * state: what an action reveals shows under the row on its own and goes
-   * away when it's done.
-   */
-  function renderActions() {
-    return (
-      <>
-        <button
-          type="button"
-          onClick={() => {
-            handleSendReminder();
-          }}
-          disabled={isSendingReminder}
-          title="Send a payment reminder to yourself"
-          className={`${iconButtonClass} ${reminderSent ? "text-forest" : ""}`}
-        >
-          <BellIcon className="h-4 w-4" />
-        </button>
-        <button
-          type="button"
-          onClick={() => {
-            setShowDetails((v) => !v);
-          }}
-          title="Notes and payment details"
-          className={`${iconButtonClass} ${showDetails ? "bg-parchment text-forest" : ""}`}
-        >
-          <NotesIcon className="h-4 w-4" />
-        </button>
-        <button
-          type="button"
-          onClick={() => {
-            setShowContracts((v) => !v);
-          }}
-          title={
-            contracts.length > 0
-              ? `${contracts.length} contract${contracts.length === 1 ? "" : "s"}`
-              : "Attach a contract"
-          }
-          className={`${iconButtonClass} ${
-            contracts.length > 0 ? "text-forest" : ""
-          } ${showContracts ? "bg-parchment text-forest" : ""}`}
-        >
-          <PaperclipIcon className="h-4 w-4" />
-        </button>
-        <button
-          type="button"
-          onClick={() => {
-            setConfirmingDelete((open) => !open);
-          }}
-          disabled={isPending}
-          title={deleteLabel}
-          aria-expanded={confirmingDelete}
-          className={`${iconButtonClass} ${confirmingDelete ? "bg-red-50 text-red-800" : ""}`}
-        >
-          <TrashIcon className="h-4 w-4" />
-        </button>
-
-      </>
-    );
   }
 
   function handleSaveDetails(formData: FormData) {
@@ -382,66 +411,76 @@ function BudgetRowItem({
     });
   }
 
-  // Everything is on the row itself -- name, both numbers, the paid box and
-  // the actions -- so there is nothing to open. Who's paying, when it's due
-  // and notes live in the notes form.
+  // The row's amounts, chips and menu. Who's paying, when it's due and notes
+  // live in the details form the chips open.
   const actionOpen = showDetails || showContracts || confirmingDelete || reminderSent || !!error;
+  const due = row.dueDate ? dueStatus(row.dueDate) : null;
+  const liveSaved = Number(savedInput) || 0;
+  const chipClass =
+    "inline-flex h-7 items-center gap-1.5 rounded-full border px-2.5 text-[12.5px] font-medium transition-[transform,box-shadow,background-color,border-color] hover:-translate-y-px hover:shadow-[0_2px_6px_rgb(20_32_61/0.08)] motion-reduce:transform-none";
+  const emptyChipClass = `${chipClass} border-dashed border-[#d8d2c4] text-ink/55 hover:border-[#2243B6] hover:text-[#2243B6]`;
 
   return (
     <div className="border-b border-hairline last:border-b-0">
       {paidCheer > 0 && isFullyPaid && <BirdCheer key={paidCheer} message={`${row.label} is paid in full!`} />}
-      <div className={`${paidCheer > 0 && isFullyPaid ? "paid-glow " : ""}px-1 py-2.5 transition-colors lg:py-3 hover:bg-parchment/50 sm:grid sm:grid-cols-[1fr_7rem_7.5rem_11rem] lg:grid-cols-[minmax(0,1fr)_7rem_7.5rem_9.5rem] lg:gap-5 2xl:grid-cols-[minmax(0,1fr)_9.5rem_9.5rem_12rem] 2xl:gap-8 sm:items-center sm:gap-4 sm:px-2`}>
-        <div className="flex min-w-0 items-center gap-2">
-        <div className="flex min-w-0 flex-1 items-center gap-2">
-          <Icon className="h-4 w-4 shrink-0 text-brass lg:h-5 lg:w-5" />
-          <span className="min-w-0 truncate text-ink lg:text-[17px]">
-            {row.label}
-            {row.purchasedFrom && <span className="text-ink/45"> · {row.purchasedFrom}</span>}
-            {!row.purchasedFrom && row.isPerGuest && (
-              <span className="text-ink/45"> · scales with guest count</span>
-            )}
-          </span>
-          {/* Surfaced on the collapsed row so filed paperwork is visible
-              without opening all nineteen lines one at a time. */}
-          {contracts.length > 0 && (
-            <span className="flex shrink-0 items-center gap-0.5 text-forest">
-              <PaperclipIcon className="h-3.5 w-3.5" />
-              <span className="font-mono-numbers text-[10px]">{contracts.length}</span>
-            </span>
+      <div
+        className={`${paidCheer > 0 && isFullyPaid ? "paid-glow " : ""}grid grid-cols-[2.75rem_minmax(0,1fr)_auto] items-center gap-x-3 gap-y-2 px-4 py-3.5 transition-colors hover:bg-parchment/50 ${ROW_GRID} lg:px-6`}
+      >
+        <PaidRing pct={paidPct} full={isFullyPaid} icon={Icon} />
+
+        <div className="col-start-2 row-start-1 min-w-0">
+          <p className="truncate text-[15px] font-medium text-ink lg:text-base">{row.label}</p>
+          {(row.purchasedFrom || row.isPerGuest) && (
+            <p className="truncate text-[13px] text-ink/55">
+              {row.purchasedFrom ?? "scales with guest count"}
+            </p>
           )}
-          {row.dueDate && isOverdue(row.dueDate) && (
-            <span className="shrink-0 font-mono-numbers text-[10px] uppercase tracking-wider text-red-700">
-              Overdue
-            </span>
-          )}
-        </div>
-        <span className="flex shrink-0 items-center text-ink/30 [&>button]:p-1">
-          {renderActions()}
-        </span>
         </div>
 
-        {/* sm:contents dissolves this wrapper at the breakpoint so the three
-            cells become grid items of the row above -- one stacked block on a
-            phone, aligned columns on anything wider. */}
-        <div className="mt-2 flex items-center gap-2 sm:contents">
-          <span className="flex-1 font-mono-numbers text-sm text-ink/60 sm:text-right lg:text-base">
-            {row.computed !== null ? currency.format(row.computed) : "—"}
-          </span>
-          <input
-            type="number"
-            min={0}
-            value={actualInput}
-            placeholder="0"
-            aria-label={`Actual cost for ${row.label}`}
-            onChange={(e) => setActualInput(e.target.value)}
-            onBlur={(e) => handleAmountBlur("override_value", e.target.value)}
-            className={`${numberInputClass} sm:justify-self-end`}
-          />
-          {/* The paid amount is typed on the row itself, with its progress
-              drawn as a line under the box, and settling in full is one
-              click -- the two things done most often on this column. */}
-          <span className="flex items-center gap-2">
-            <span className="relative">
+        {/* Est. / Actual / Paid. Labelled cells on a phone; on a wide screen
+            lg:contents dissolves the wrapper so each lands in its column. */}
+        <div className="col-start-1 col-end-4 row-start-3 grid grid-cols-[0.8fr_1fr_1.35fr] gap-2 lg:contents">
+          <label className="flex flex-col gap-0.5 lg:col-start-3 lg:row-start-1 lg:block lg:text-right">
+            <span className="font-mono-numbers text-[10px] uppercase tracking-[0.14em] text-ink/45 lg:hidden">
+              Estimate
+            </span>
+            <span className="py-1.5 font-mono-numbers text-sm text-ink/55 lg:py-0">
+              {row.computed !== null ? currency.format(row.computed) : "—"}
+            </span>
+          </label>
+          <label className="flex flex-col gap-0.5 lg:col-start-4 lg:row-start-1">
+            <span className="font-mono-numbers text-[10px] uppercase tracking-[0.14em] text-ink/45 lg:hidden">
+              Actual
+            </span>
+            <input
+              type="number"
+              min={0}
+              value={actualInput}
+              placeholder="0"
+              aria-label={`Actual cost for ${row.label}`}
+              onChange={(e) => setActualInput(e.target.value)}
+              onBlur={(e) => handleAmountBlur("override_value", e.target.value)}
+              className={numberInputClass}
+            />
+          </label>
+          <label className="hidden lg:col-start-5 lg:row-start-1 lg:block">
+            <input
+              type="number"
+              min={0}
+              value={savedInput}
+              placeholder="—"
+              title="Discounts and credits. Enter the cost after them; this is for the record."
+              aria-label={`Amount saved on ${row.label}`}
+              onChange={(e) => setSavedInput(e.target.value)}
+              onBlur={(e) => handleAmountBlur("saved_amount", e.target.value)}
+              className={savedInputClass}
+            />
+          </label>
+          <label className="flex flex-col gap-0.5 lg:col-start-6 lg:row-start-1">
+            <span className="font-mono-numbers text-[10px] uppercase tracking-[0.14em] text-ink/45 lg:hidden">
+              Paid
+            </span>
+            <span className="flex items-center gap-1.5">
               <input
                 type="number"
                 min={0}
@@ -450,32 +489,151 @@ function BudgetRowItem({
                 aria-label={`Amount paid for ${row.label}`}
                 onChange={(e) => setPaidInput(e.target.value)}
                 onBlur={(e) => handleAmountBlur("paid_amount", e.target.value)}
-                className={paidInputClass}
+                className={`${numberInputClass} min-w-0`}
               />
-              <span className="absolute inset-x-1.5 bottom-0 h-[3px] overflow-hidden rounded-full bg-forest/10">
-                <span
-                  className="block h-full rounded-full bg-forest transition-[width]"
-                  style={{ width: `${paidPct}%` }}
-                />
-              </span>
+              <button
+                key={paidCheer}
+                type="button"
+                onClick={() => handlePaidInFull(!isFullyPaid)}
+                disabled={liveActual <= 0 || isPending}
+                aria-pressed={isFullyPaid}
+                title={isFullyPaid ? "Paid in full -- click to undo" : "Mark paid in full"}
+                aria-label={`Paid in full for ${row.label}`}
+                className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full border-[1.5px] transition-colors disabled:opacity-40 ${
+                  isFullyPaid
+                    ? `border-[#2243B6] bg-[#2243B6] text-white ${paidCheer > 0 ? "paid-pop" : ""}`
+                    : "border-[#c9d3f2] text-transparent hover:border-[#2243B6] hover:text-[#2243B6]/50"
+                }`}
+              >
+                <CheckIcon className="h-3.5 w-3.5" />
+              </button>
             </span>
-            <button
-              key={paidCheer}
-              type="button"
-              onClick={() => handlePaidInFull(!isFullyPaid)}
-              disabled={liveActual <= 0 || isPending}
-              aria-pressed={isFullyPaid}
-              title={isFullyPaid ? "Paid in full -- click to undo" : "Mark paid in full"}
-              aria-label={`Paid in full for ${row.label}`}
-              className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full border transition-colors disabled:opacity-40 ${
-                isFullyPaid
-                  ? `border-[#c9a800] bg-[#ffd301] text-forest ${paidCheer > 0 ? "paid-pop" : ""}`
-                  : "border-hairline text-ink/30 hover:border-forest hover:text-forest"
+          </label>
+        </div>
+
+        <div className="relative col-start-3 row-start-1 justify-self-end lg:col-start-7">
+          <button
+            type="button"
+            onClick={() => setMenuOpen((open) => !open)}
+            aria-label={`More for ${row.label}`}
+            aria-expanded={menuOpen}
+            className="flex h-8 w-8 items-center justify-center rounded-full text-ink/45 transition-colors hover:bg-parchment hover:text-forest"
+          >
+            <MoreIcon className="h-[18px] w-[18px]" />
+          </button>
+          {menuOpen && (
+            <>
+              <button
+                type="button"
+                aria-label="Close menu"
+                tabIndex={-1}
+                className="fixed inset-0 z-20 cursor-default"
+                onClick={() => setMenuOpen(false)}
+              />
+              <div
+                role="menu"
+                onKeyDown={(e) => e.key === "Escape" && setMenuOpen(false)}
+                className="absolute right-0 top-9 z-30 w-56 overflow-hidden rounded-xl border border-hairline bg-card py-1 text-sm shadow-lg"
+              >
+                <button
+                  type="button"
+                  role="menuitem"
+                  autoFocus
+                  disabled={isSendingReminder}
+                  onClick={() => {
+                    setMenuOpen(false);
+                    handleSendReminder();
+                  }}
+                  className="flex w-full items-center gap-2 px-3 py-2 text-left text-ink hover:bg-parchment"
+                >
+                  <BellIcon className="h-4 w-4 text-ink/50" /> Email me a reminder
+                </button>
+                <button
+                  type="button"
+                  role="menuitem"
+                  onClick={() => {
+                    setMenuOpen(false);
+                    setConfirmingDelete(true);
+                  }}
+                  className="flex w-full items-center gap-2 px-3 py-2 text-left text-red-800 hover:bg-red-50"
+                >
+                  <TrashIcon className="h-4 w-4" /> {deleteLabel}
+                </button>
+              </div>
+            </>
+          )}
+        </div>
+
+        {/* What's set shows what it is; what isn't is a faint dashed chip to
+            add it. On a phone, paid and saved are chips too, since there's no
+            Saved column there. */}
+        <div className="col-start-2 col-end-4 row-start-2 flex flex-wrap items-center gap-1.5 lg:col-end-7">
+          {livePaid > 0 && (
+            <span
+              className={`${chipClass} border-transparent lg:hidden ${
+                isFullyPaid ? "bg-[#2243B6] text-white" : "bg-[#eef1fb] text-[#2243B6]"
               }`}
             >
-              <CheckIcon className="h-3.5 w-3.5" />
+              {isFullyPaid ? (
+                <>
+                  <CheckIcon className="h-3.5 w-3.5" /> Paid in full
+                </>
+              ) : (
+                `${currency.format(livePaid)} paid`
+              )}
+            </span>
+          )}
+          {liveSaved > 0 && (
+            <span className={`${chipClass} border-transparent bg-[#fff8d1] text-[#9a6b00] lg:hidden`}>
+              ✦ Saved {currency.format(liveSaved)}
+            </span>
+          )}
+          {due ? (
+            <button
+              type="button"
+              onClick={() => setShowDetails((v) => !v)}
+              className={`${chipClass} ${
+                due.tone === "overdue"
+                  ? "border-red-200 bg-red-50 text-red-800"
+                  : due.tone === "soon"
+                    ? "border-[#2243B6] bg-[#2243B6] text-white"
+                    : "border-[#c9d3f2] bg-card text-[#2243B6]"
+              }`}
+            >
+              <BellIcon className="h-3.5 w-3.5" /> {due.text}
             </button>
-          </span>
+          ) : (
+            !isFullyPaid && (
+              <button type="button" onClick={() => setShowDetails((v) => !v)} className={emptyChipClass}>
+                <BellIcon className="h-3.5 w-3.5" /> Due date
+              </button>
+            )
+          )}
+          <button
+            type="button"
+            onClick={() => setShowContracts((v) => !v)}
+            aria-expanded={showContracts}
+            className={
+              contracts.length > 0 ? `${chipClass} border-hairline bg-card text-forest` : emptyChipClass
+            }
+          >
+            <PaperclipIcon className="h-3.5 w-3.5" />
+            {contracts.length > 0
+              ? `${contracts.length} contract${contracts.length === 1 ? "" : "s"}`
+              : "Contract"}
+          </button>
+          <button
+            type="button"
+            onClick={() => setShowDetails((v) => !v)}
+            aria-expanded={showDetails}
+            className={
+              row.notes
+                ? `${chipClass} border-hairline bg-card text-forest`
+                : `${emptyChipClass.replace("inline-flex ", "")} hidden sm:inline-flex`
+            }
+          >
+            <NotesIcon className="h-3.5 w-3.5" /> {row.notes ? "Note" : "Details"}
+          </button>
         </div>
       </div>
 
@@ -558,6 +716,19 @@ function BudgetRowItem({
               className="w-full rounded-md border border-hairline bg-card px-2 py-1 text-sm text-ink outline-none focus:border-forest"
             />
           </label>
+          {/* The Saved column is wide-screen only, so a phone sets it here. */}
+          <label className="flex w-full flex-col gap-1 text-xs text-ink/70 sm:w-64 lg:hidden">
+            Saved (discounts and credits)
+            <input
+              type="number"
+              name="saved_amount"
+              min={0}
+              value={savedInput}
+              onChange={(e) => setSavedInput(e.target.value)}
+              placeholder="0"
+              className="w-full rounded-md border border-hairline bg-card px-2 py-1 text-sm text-ink outline-none focus:border-forest"
+            />
+          </label>
           <textarea
             name="notes"
             rows={2}
@@ -599,9 +770,11 @@ type BudgetEdit = {
 function AddItemForm({
   onDone,
   payerSuggestions,
+  section,
 }: {
   onDone: () => void;
   payerSuggestions: string[];
+  section: BudgetSectionKey;
 }) {
   const [error, setError] = useState<string | undefined>(undefined);
   const [isPending, startTransition] = useTransition();
@@ -621,8 +794,9 @@ function AddItemForm({
   return (
     <form
       action={handleSubmit}
-      className="mb-4 grid grid-cols-1 gap-3 rounded-lg border border-hairline bg-parchment p-4 sm:grid-cols-2"
+      className="m-4 grid grid-cols-1 gap-3 rounded-lg border border-hairline bg-parchment p-4 sm:grid-cols-2"
     >
+      <input type="hidden" name="section" value={section} />
       <label className="flex flex-col gap-1 text-sm text-ink">
         Item name
         <input
@@ -714,7 +888,19 @@ export function BudgetTable({
   /** Keyed by BudgetRow.key -- a category key for standard rows, an id for custom ones. */
   contractsByRowKey: Record<string, BudgetContract[]>;
 }) {
-  const [showAddForm, setShowAddForm] = useState(false);
+  /** The section whose "Add a line" form is open. */
+  const [addingTo, setAddingTo] = useState<BudgetSectionKey | null>(null);
+  // Fees are worked out from everything else, so they start folded away.
+  const [collapsed, setCollapsed] = useState<Set<BudgetSectionKey>>(() => new Set(["fees"]));
+
+  function toggleSection(key: BudgetSectionKey) {
+    setCollapsed((prev) => {
+      const next = new Set(prev);
+      if (next.has(key)) next.delete(key);
+      else next.add(key);
+      return next;
+    });
+  }
   const [showImport, setShowImport] = useState(false);
   const [isPending, startTransition] = useTransition();
   /**
@@ -752,12 +938,81 @@ export function BudgetTable({
     });
   }
 
+  function renderRow(row: BudgetRow, isCustom: boolean) {
+    if (!isCustom) {
+      return (
+        <BudgetRowItem
+          key={row.key}
+          row={row}
+          payerSuggestions={payerSuggestions}
+          onSaveAmounts={updateBudgetLineItem}
+          onSaveDetails={updateBudgetLineItem}
+          onDelete={() => {
+            const formData = new FormData();
+            formData.set("category", row.key);
+            return hideBudgetCategory(formData);
+          }}
+          deleteLabel="Remove from your budget"
+          deleteConfirm={`Remove "${row.label}" from your budget? You can add it back later.`}
+          contracts={contractsByRowKey[row.key] ?? []}
+          isCustom={false}
+          onEdited={setLastEdit}
+        />
+      );
+    }
+    return (
+      <BudgetRowItem
+        key={row.key}
+        row={row}
+        payerSuggestions={payerSuggestions}
+        onSaveAmounts={(formData) => {
+          formData.set("id", row.key);
+          formData.set("label", row.label);
+          formData.set("amount", formData.get("override_value") as string);
+          return updateBudgetCustomItem(formData);
+        }}
+        onSaveDetails={(formData) => {
+          formData.set("id", row.key);
+          formData.set("label", row.label);
+          formData.set("amount", String(row.override ?? 0));
+          return updateBudgetCustomItem(formData);
+        }}
+        onDelete={() => {
+          const formData = new FormData();
+          formData.set("id", row.key);
+          return deleteBudgetCustomItem(formData);
+        }}
+        deleteLabel="Remove item"
+        deleteConfirm={`Remove "${row.label}" from the budget?`}
+        contracts={contractsByRowKey[row.key] ?? []}
+        isCustom
+        onEdited={setLastEdit}
+      />
+    );
+  }
+
+  const sections = BUDGET_SECTIONS.map((section) => {
+    const sectionRows = rows.filter((r) => r.section === section.key);
+    const sectionCustom = customItems.filter((r) => r.section === section.key);
+    const all = [...sectionRows, ...sectionCustom];
+    return {
+      ...section,
+      sectionRows,
+      sectionCustom,
+      count: all.length,
+      total: all.reduce((sum, r) => sum + (r.override ?? r.computed ?? 0), 0),
+      paid: all.reduce((sum, r) => sum + (r.paidAmount ?? 0), 0),
+    };
+  }).filter((section) => section.count > 0 || addingTo === section.key);
+
   return (
-    <div className="mt-8 w-full overflow-hidden rounded-lg border border-hairline bg-card shadow-sm">
+    <div className="mt-8 w-full">
+      <div className="overflow-hidden rounded-[18px] border border-hairline bg-card shadow-sm">
       <BudgetSummary
         totalEstimate={total}
         totalActual={totalActual}
         totalPaid={allRows.reduce((sum, r) => sum + (r.paidAmount ?? 0), 0)}
+        totalSaved={allRows.reduce((sum, r) => sum + (r.savedAmount ?? 0), 0)}
         target={budgetTarget}
         categoryCount={allRows.length}
         contractCount={contractCount}
@@ -802,6 +1057,98 @@ export function BudgetTable({
         </div>
       )}
 
+      </div>
+
+      {sections.map((section) => {
+        const isCollapsed = collapsed.has(section.key);
+        const pct = section.total > 0 ? Math.min(100, (section.paid / section.total) * 100) : 0;
+        return (
+          <section
+            key={section.key}
+            className="mt-4 overflow-hidden rounded-[18px] border border-hairline bg-card shadow-sm"
+          >
+            <button
+              type="button"
+              onClick={() => toggleSection(section.key)}
+              aria-expanded={!isCollapsed}
+              className={`flex w-full items-center gap-3 px-4 py-4 text-left transition-colors hover:bg-parchment/40 lg:px-6 ${
+                isCollapsed ? "" : "border-b border-hairline"
+              }`}
+            >
+              <span
+                className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-parchment text-ink/60 transition-transform motion-reduce:transition-none ${
+                  isCollapsed ? "-rotate-90" : ""
+                }`}
+              >
+                <ChevronDownIcon className="h-4 w-4" />
+              </span>
+              <span className="min-w-0">
+                <span className="block font-display text-2xl font-bold leading-none text-forest lg:text-[28px]">
+                  {section.label}
+                </span>
+                <span className="mt-1 block font-mono-numbers text-[11px] uppercase tracking-[0.1em] text-ink/50">
+                  {section.key === "fees"
+                    ? "Worked out from the lines above"
+                    : `${section.count} ${section.count === 1 ? "line" : "lines"}`}
+                </span>
+              </span>
+              <span className="ml-auto shrink-0 text-right">
+                <span className="block font-mono-numbers text-base font-semibold text-ink">
+                  {currency.format(section.total)}
+                </span>
+                <span className="block text-xs text-ink/60">{currency.format(section.paid)} paid</span>
+                <span className="ml-auto mt-1.5 block h-1 w-24 overflow-hidden rounded-full bg-[#eef1fb] lg:w-32">
+                  <span
+                    className="block h-full rounded-full bg-[#2243B6] transition-[width] duration-700"
+                    style={{ width: `${pct}%` }}
+                  />
+                </span>
+              </span>
+            </button>
+
+            {!isCollapsed && (
+              <>
+                {/* Column labels, wide screens only; same tracks as ROW_GRID. */}
+                <div
+                  className={`hidden border-b border-hairline bg-parchment/50 px-6 py-2 font-mono-numbers text-[10px] uppercase tracking-[0.16em] text-ink/45 lg:grid ${ROW_GRID}`}
+                >
+                  <span className="col-start-2">Category</span>
+                  <span className="text-right">Estimate</span>
+                  <span className="pr-2 text-right">Actual</span>
+                  <span
+                    className="pr-2 text-right"
+                    title="Discounts and credits. Enter the cost after them; this is for the record."
+                  >
+                    Saved
+                  </span>
+                  <span>Paid</span>
+                </div>
+                <div className="rise-stagger">
+                  {section.sectionRows.map((row) => renderRow(row, false))}
+                  {section.sectionCustom.map((row) => renderRow(row, true))}
+                </div>
+                {section.key !== "fees" &&
+                  (addingTo === section.key ? (
+                    <AddItemForm
+                      section={section.key}
+                      onDone={() => setAddingTo(null)}
+                      payerSuggestions={payerSuggestions}
+                    />
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => setAddingTo(section.key)}
+                      className="flex w-full items-center gap-2 border-t border-hairline px-4 py-3 text-sm font-medium text-[#2243B6] transition-colors hover:bg-[#eef1fb]/50 lg:px-6"
+                    >
+                      <PlusIcon /> Add a line to {section.label}
+                    </button>
+                  ))}
+              </>
+            )}
+          </section>
+        );
+      })}
+
       {/* Sticky rather than pinned to the top of the card: the edit that needs
           undoing might be twenty rows down, and an undo you have to scroll
           back to find is one nobody uses. */}
@@ -832,97 +1179,8 @@ export function BudgetTable({
         <p className="px-5 pt-2 text-center text-xs text-red-800 sm:px-6">{undoError}</p>
       )}
 
-      {/* Column labels, so the totals above are visibly the sum of what's
-          below rather than three numbers floating over a list. */}
-      <div className="hidden border-b border-hairline bg-parchment/50 py-2 sm:grid sm:px-8 sm:grid-cols-[1fr_7rem_7.5rem_11rem] lg:grid-cols-[minmax(0,1fr)_7rem_7.5rem_9.5rem] lg:gap-5 2xl:grid-cols-[minmax(0,1fr)_9.5rem_9.5rem_12rem] 2xl:gap-8 sm:items-center sm:gap-4">
-        <span className="font-mono-numbers text-[10px] uppercase tracking-[0.16em] text-ink/45 lg:text-[11px]">
-          Category
-        </span>
-        <span className="text-right font-mono-numbers text-[10px] uppercase tracking-[0.16em] text-ink/45 lg:text-[11px]">
-          Estimate
-        </span>
-        {/* pr-2 matches the input's padding, so the label ends where the number does. */}
-        <span className="pr-2 text-right font-mono-numbers text-[10px] uppercase tracking-[0.16em] text-ink/45 lg:text-[11px]">
-          Actual
-        </span>
-        {/* The progress bar had no label at all, so the one column that
-            answers "how much of this have we actually paid?" read as
-            decoration. */}
-        <span className="font-mono-numbers text-[10px] uppercase tracking-[0.16em] text-ink/45 lg:text-[11px]">
-          Paid
-        </span>
-      </div>
 
-      <div className="rise-stagger px-5 sm:px-6">
-
-      {rows.map((row) => (
-        <BudgetRowItem
-          key={row.key}
-          row={row}
-          payerSuggestions={payerSuggestions}
-          onSaveAmounts={updateBudgetLineItem}
-          onSaveDetails={updateBudgetLineItem}
-          onDelete={() => {
-            const formData = new FormData();
-            formData.set("category", row.key);
-            return hideBudgetCategory(formData);
-          }}
-          deleteLabel="Remove from your budget"
-          deleteConfirm={`Remove "${row.label}" from your budget? You can add it back later.`}
-          contracts={contractsByRowKey[row.key] ?? []}
-          isCustom={false}
-          onEdited={setLastEdit}
-        />
-      ))}
-
-      {customItems.map((row) => (
-        <BudgetRowItem
-          key={row.key}
-          row={row}
-          payerSuggestions={payerSuggestions}
-          onSaveAmounts={(formData) => {
-            formData.set("id", row.key);
-            formData.set("label", row.label);
-            formData.set("amount", formData.get("override_value") as string);
-            return updateBudgetCustomItem(formData);
-          }}
-          onSaveDetails={(formData) => {
-            formData.set("id", row.key);
-            formData.set("label", row.label);
-            formData.set("amount", String(row.override ?? 0));
-            formData.set("paid_amount", String(row.paidAmount ?? ""));
-            return updateBudgetCustomItem(formData);
-          }}
-          onDelete={() => {
-            const formData = new FormData();
-            formData.set("id", row.key);
-            return deleteBudgetCustomItem(formData);
-          }}
-          deleteLabel="Remove item"
-          deleteConfirm={`Remove "${row.label}" from the budget?`}
-          contracts={contractsByRowKey[row.key] ?? []}
-          isCustom
-          onEdited={setLastEdit}
-        />
-      ))}
-
-      </div>
-
-      <div className="px-5 pb-5 sm:px-6 sm:pb-6">
-      {/* Import moved up to the card header; Add item stays down here, next to
-          the list it appends to. */}
-      {showAddForm ? (
-        <AddItemForm onDone={() => setShowAddForm(false)} payerSuggestions={payerSuggestions} />
-      ) : (
-        <button
-          type="button"
-          onClick={() => setShowAddForm(true)}
-          className="btn-primary mt-2"
-        >
-          <PlusIcon /> Add a cost
-        </button>
-      )}
-
+      <div className="px-1 pb-2">
       {spreadsheetUrl && !showImport && (
         <div className="mt-2 flex justify-end">
           <SpreadsheetLink url={spreadsheetUrl} />

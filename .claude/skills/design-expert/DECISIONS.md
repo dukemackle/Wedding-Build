@@ -11,6 +11,19 @@ They're summarised here only by reference; CLAUDE.md is the source.
 
 ## Approved directions
 
+- **2026-10-22 (latest):** Budget page: lines grouped into four collapsible
+  sections (Wedding day; Rehearsal & welcome; Attire & rings; Fees & cushion,
+  folded by default), each with a subtotal and paid bar. Each line's icon
+  sits in a ring that fills royal blue as it's paid and turns gold when paid
+  in full; due date, contracts and note are labelled chips that show their
+  state (dashed when empty); reminder and remove live in a "⋯" menu. New
+  per-line "Saved" amount (discounts and credits, never subtracted) feeding a
+  gold "You've saved" total, the page's gold moment. New lines Wedding
+  Insurance, Alterations, Wedding Party Attire. Header photo: gold bands on
+  a dictionary page at "marriage" (Unsplash, Sandy Millar), chosen over coins
+  and an invitation suite. Reason: owner's own spreadsheet grouped costs this
+  way and the old row icons all looked the same set or not. Applied in
+  `src/app/budget/budget-table.tsx`, migration 0138.
 - **2026-10-22 (later):** Venue map pins are "badge pins": every venue gets
   its category icon in a gold disc on a navy pill, then its capacity when
   known, with a tail pointing at the spot (no more bare dots for venues
