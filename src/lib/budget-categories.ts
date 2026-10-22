@@ -128,6 +128,70 @@ export const DEFAULT_HIDDEN_CATEGORIES = BUDGET_CATEGORIES.filter((c) => c.optio
   (c) => c.key,
 );
 
+// Average wedding cost per state, The Knot 2026 Real Weddings Study (couples
+// married in 2025, engagement ring excluded), as tabled by SoFi's "Average
+// Cost of a Wedding" (sofi.com/learn/content/average-wedding-cost/, read
+// 2026-10-22); DC is The Knot's Washington, DC city figure. Divided by the
+// study's national $34,200, it's each state's cost index, the same index the
+// regional_cost_data rows were built with. It replaced the eight region
+// multipliers for any wedding with a state: one multiplier per region priced
+// Illinois like Iowa and New York like Pennsylvania.
+export const NATIONAL_AVERAGE_COST = 34_200;
+export const STATE_AVERAGE_COST: Record<string, number> = {
+  Alabama: 27_000,
+  Alaska: 19_000,
+  Arizona: 27_000,
+  Arkansas: 19_000,
+  California: 39_000,
+  Colorado: 31_000,
+  Connecticut: 42_000,
+  Delaware: 39_000,
+  "District of Columbia": 42_000,
+  Florida: 33_000,
+  Georgia: 29_000,
+  Hawaii: 33_000,
+  Idaho: 18_000,
+  Illinois: 38_000,
+  Indiana: 24_000,
+  Iowa: 21_000,
+  Kansas: 20_000,
+  Kentucky: 23_000,
+  Louisiana: 34_000,
+  Maine: 37_000,
+  Maryland: 38_000,
+  Massachusetts: 45_000,
+  Michigan: 29_000,
+  Minnesota: 28_000,
+  Mississippi: 21_000,
+  Missouri: 26_000,
+  Montana: 21_000,
+  Nebraska: 22_000,
+  Nevada: 21_000,
+  "New Hampshire": 37_000,
+  "New Jersey": 57_000,
+  "New Mexico": 22_000,
+  "New York": 49_000,
+  "North Carolina": 29_000,
+  "North Dakota": 22_000,
+  Ohio: 28_000,
+  Oklahoma: 19_000,
+  Oregon: 23_000,
+  Pennsylvania: 36_000,
+  "Rhode Island": 51_000,
+  "South Carolina": 35_000,
+  "South Dakota": 21_000,
+  Tennessee: 24_000,
+  Texas: 31_000,
+  Utah: 18_000,
+  Vermont: 47_000,
+  Virginia: 34_000,
+  Washington: 26_000,
+  "West Virginia": 19_000,
+  Wisconsin: 29_000,
+  Wyoming: 17_000,
+};
+
+// Only for a wedding with a region but no state.
 export const REGION_MULTIPLIERS: Record<string, number> = {
   Northeast: 1.25,
   "Mid-Atlantic": 1.15,
@@ -139,12 +203,8 @@ export const REGION_MULTIPLIERS: Record<string, number> = {
   "West Coast": 1.3,
 };
 
-// Placeholder state -> region mapping so the cost model can take a state
-// as input today, ahead of real per-state data landing (see the cost
-// estimator data-collection plan). Every state currently just inherits
-// its region's multiplier above -- this is not real state-level pricing,
-// it's a stand-in that lets the estimator UI collect "state" now without
-// the formula changing shape again once real numbers replace it.
+// State -> region, stored as weddings.region. Pricing goes by
+// STATE_AVERAGE_COST above whenever the state is known.
 export const STATE_TO_REGION: Record<string, keyof typeof REGION_MULTIPLIERS> = {
   Connecticut: "Northeast",
   Maine: "Northeast",
@@ -221,8 +281,13 @@ export function computeCategoryValue(
   state?: string | null,
 ) {
   const base = category.flatBase + category.perGuestAmount * guestCount;
+  const stateAverage = state ? STATE_AVERAGE_COST[state] : undefined;
   const effectiveRegion = (state && STATE_TO_REGION[state]) || region;
-  const regionMult = effectiveRegion ? (REGION_MULTIPLIERS[effectiveRegion] ?? 1) : 1;
+  const regionMult = stateAverage
+    ? stateAverage / NATIONAL_AVERAGE_COST
+    : effectiveRegion
+      ? (REGION_MULTIPLIERS[effectiveRegion] ?? 1)
+      : 1;
   const seasonMult = season ? (SEASON_MULTIPLIERS[season] ?? 1) : 1;
   const styleMult = styleTier ? (STYLE_TIER_MULTIPLIERS[styleTier] ?? 1) : 1;
   return Math.round(base * regionMult * seasonMult * styleMult);
