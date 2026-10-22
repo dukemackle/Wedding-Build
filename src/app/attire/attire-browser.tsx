@@ -3,7 +3,7 @@
 import { useMemo, useState, useTransition } from "react";
 import type { AttireItem, AttirePartyMember, AttireShortlistEntry } from "@/lib/supabase/types";
 import { ATTIRE_CATEGORIES, STYLE_TIERS } from "@/lib/wedding-options";
-import { ATTIRE_CATEGORY_META, canBuy, canRent, lowestPrice, swatch } from "@/lib/attire";
+import { AFFILIATE_DISCLOSURE, ATTIRE_CATEGORY_META, canBuy, canRent, lowestPrice, safeUrl, swatch } from "@/lib/attire";
 import { toggleAttireShortlist, updateAttireShortlistNotes, updatePartyMember } from "./actions";
 import { AttireCard, AttireImage, ColorDots, HeartButton, PricePills } from "./attire-card";
 import { AttireQuickView } from "./attire-quick-view";
@@ -618,6 +618,10 @@ export function AttireBrowser({
                   </button>
                 </div>
               </div>
+
+              {results.some((i) => safeUrl(i.affiliate_url)) && (
+                <p className="-mt-2 pb-4 text-xs text-ink/50">{AFFILIATE_DISCLOSURE}</p>
+              )}
 
               {results.length === 0 ? (
                 <div className="rounded-xl border border-dashed border-hairline bg-card p-12 text-center">

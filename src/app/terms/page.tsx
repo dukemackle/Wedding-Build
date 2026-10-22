@@ -11,7 +11,7 @@ export default function TermsPage() {
       <div className={`w-full ${READING_WIDTH}`}>
         <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Legal</p>
         <h1 className="mt-2 font-display text-3xl font-semibold text-forest">Terms of Service</h1>
-        <p className="mt-2 text-sm text-ink/60">Last updated: October 20, 2026</p>
+        <p className="mt-2 text-sm text-ink/60">Last updated: October 22, 2026</p>
 
         <div className="mt-8 flex flex-col gap-8 text-ink/80">
           <p>
@@ -138,6 +138,15 @@ export default function TermsPage() {
               and maps, in previews shown to couples, and on the wedding websites of couples who
               have chosen your venue — until you ask us to remove it. We
               review submissions before they go live and may edit or decline them.
+            </p>
+            <p className="mt-3">
+              The Attire section shows clothing and rings sold by other companies. Buying or
+              renting happens on the retailer&apos;s own site, under its terms, prices, shipping and
+              returns; You Do, I Do isn&apos;t the seller. Prices we show are approximate, with the
+              date we last checked them, and the retailer&apos;s price is final. Some links are
+              affiliate links: if you buy through one, You Do, I Do may earn a commission from the
+              retailer, at no extra cost to you. We say so next to those links. A retailer appearing
+              in Attire doesn&apos;t mean it endorses or partners with You Do, I Do beyond that link.
             </p>
           </Section>
 

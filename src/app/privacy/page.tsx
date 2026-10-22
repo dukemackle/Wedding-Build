@@ -11,7 +11,7 @@ export default function PrivacyPage() {
       <div className={`w-full ${READING_WIDTH}`}>
         <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Legal</p>
         <h1 className="mt-2 font-display text-3xl font-semibold text-forest">Privacy Policy</h1>
-        <p className="mt-2 text-sm text-ink/60">Last updated: October 21, 2026</p>
+        <p className="mt-2 text-sm text-ink/60">Last updated: October 22, 2026</p>
 
         <div className="mt-8 flex flex-col gap-8 text-ink/80">
           <p>
@@ -180,7 +180,11 @@ export default function PrivacyPage() {
               photo library is shown from Unsplash&apos;s servers, so your browser contacts Unsplash, which
               sees your IP address. When someone taps a listing&apos;s phone number, website or social
               link, we count the tap against that listing, with no personal details attached, so we
-              can tell the business how many couples found it here. Inside your account, we note when
+              can tell the business how many couples found it here. When someone taps
+              &ldquo;Shop&rdquo; on an attire item, we count the tap against that item, also with no
+              personal details attached, then send you to the retailer. If the link is an affiliate
+              link, the retailer or its affiliate network may set its own cookie on its site to
+              credit the sale to us; that cookie is governed by its privacy policy, not ours. Inside your account, we note when
               you reach planning milestones, such as adding your first guest, opening or saving a
               listing, sending an inquiry or turning on your guest site. The note records which step
               and when, linked to your wedding, never what you typed, and helps us see which parts of
