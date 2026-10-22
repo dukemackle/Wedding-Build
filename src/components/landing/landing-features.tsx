@@ -47,6 +47,25 @@ const BLURBS: Record<string, string> = {
 };
 
 /**
+ * On the landing page each box opens with a real wedding photo rather than the
+ * dashboard's drawing, so the grid reads as weddings, not app mock-ups; the
+ * demo behind each box still shows the product. All Unsplash (approved
+ * 2026-10-22).
+ */
+const PHOTOS: Record<string, { file: string; alt: string }> = {
+  "/budget": { file: "budget", alt: "An open wedding planner with gold clips" },
+  "/guests": { file: "guests", alt: "A wedding invitation suite with ribbon and wax seal" },
+  "/venues": { file: "venues", alt: "A lawn set for an outdoor ceremony at sunset" },
+  "/vendors": { file: "vendors", alt: "A florist's table of cut flowers and ribbon" },
+  "/checklist": { file: "checklist", alt: "A planner notebook on a wooden table" },
+  "/bookings": { file: "bookings", alt: "A fountain pen resting on a handwritten letter" },
+  "/attire": { file: "attire", alt: "A wedding dress on a hanger" },
+  "/itinerary": { file: "itinerary", alt: "A ring-shaped ceremony arch among the trees" },
+  "/venue-layout": { file: "layout", alt: "Round reception tables set in a bright marquee" },
+  "/guests/site": { file: "website", alt: "Wedding invitations and rings laid out together" },
+};
+
+/**
  * The dashboard's own boxes, in the dashboard's order, filled with a sample
  * couple -- the same grid a couple gets after signing up, with a line under
  * each for visitors. Each opens a preview of that feature, and the Ask Wren
@@ -54,7 +73,21 @@ const BLURBS: Record<string, string> = {
  */
 export function LandingFeatures() {
   const items: PreviewItem[] = buildFeatures(SAMPLE).map((feature) => {
-    const withBlurb = { ...feature, blurb: BLURBS[feature.href] };
+    const photo = PHOTOS[feature.href];
+    const withBlurb = {
+      ...feature,
+      blurb: BLURBS[feature.href],
+      media: photo ? (
+        <img
+          src={`/landing/features/${photo.file}.webp`}
+          alt={photo.alt}
+          loading="lazy"
+          className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105 motion-reduce:transition-none"
+        />
+      ) : (
+        feature.media
+      ),
+    };
     return {
       id: feature.href.slice(1),
       title: feature.title,
@@ -62,5 +95,10 @@ export function LandingFeatures() {
       tile: <FeatureTile feature={withBlurb} asBox />,
     };
   });
-  return <PreviewGrid items={items} />;
+  return (
+    <>
+      <PreviewGrid items={items} />
+      <p className="mt-3 text-right text-[11px] text-ink/50">Photos: Unsplash</p>
+    </>
+  );
 }

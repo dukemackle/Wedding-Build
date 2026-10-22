@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { FadeInSection } from "@/components/fade-in-section";
 import { PublicNav } from "@/components/public-nav";
-import { CtaCard } from "@/components/cta-card";
 import { HomeEstimatorCard } from "@/components/home-estimator-card";
 import { HeroSlideshow } from "@/components/landing/hero-slideshow";
 import { LandingFeatures } from "@/components/landing/landing-features";
@@ -66,15 +65,33 @@ export default async function Home() {
         </FadeInSection>
       </div>
 
-      <FadeInSection>
-        <CtaCard
-          title="Ready to start planning?"
-          body="Create your account in under a minute — no credit card needed."
-          href="/signup"
-          label="Start planning"
-          className="mb-24 max-w-3xl"
+      {/* Closing band, approved 2026-10-22: the page ends the way it opens --
+          a real wedding photo, white type and the same yellow button -- in
+          place of the old gold CtaCard, which belonged to the previous design. */}
+      <section className="relative -mx-6 flex min-h-[420px] items-center justify-center self-stretch overflow-hidden bg-forest sm:min-h-[480px]">
+        <img
+          src="/landing/hero-lawn-lights-2000.webp"
+          srcSet="/landing/hero-lawn-lights-1000.webp 1000w, /landing/hero-lawn-lights-2000.webp 2000w"
+          sizes="100vw"
+          alt=""
+          loading="lazy"
+          className="absolute inset-0 h-full w-full object-cover object-[center_65%]"
         />
-      </FadeInSection>
+        <div aria-hidden="true" className="absolute inset-0 bg-[rgb(10_16_32/0.5)]" />
+        <div className="relative flex flex-col items-center px-6 py-16 text-center text-white">
+          <h2 className="font-display text-[44px] font-medium leading-[1.05] [text-shadow:0_2px_24px_rgb(10_16_32/0.35)] sm:text-6xl lg:text-7xl">
+            Ready when <span className="whitespace-nowrap italic text-[#ffd301]">you are.</span>
+          </h2>
+          <p className="mt-4 text-[17px] text-white/90 sm:text-xl">Free for couples, start to finish.</p>
+          <Link
+            href="/signup"
+            className="btn-motion mt-8 flex h-14 items-center justify-center rounded-full bg-[#ffd301] px-10 text-[17px] font-medium text-forest transition-colors hover:bg-[#fff12f] sm:h-[60px] sm:text-lg"
+          >
+            Start planning
+          </Link>
+        </div>
+        <p className="absolute bottom-2 right-3 text-[11px] text-white/70">Photo: Josh Withers, Unsplash</p>
+      </section>
     </main>
   );
 }

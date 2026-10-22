@@ -114,6 +114,9 @@ export function HomeEstimatorCard({ regionalData }: { regionalData: RegionalCost
         >
           Use this as my budget
         </Link>
+        <Link href="/estimate" className="mt-3 py-1 text-[15px] text-forest underline-offset-4 hover:underline">
+          See the full breakdown
+        </Link>
       </div>
     </section>
   );

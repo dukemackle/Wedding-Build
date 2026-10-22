@@ -11,6 +11,12 @@ They're summarised here only by reference; CLAUDE.md is the source.
 
 ## Approved directions
 
+- **2026-10-22:** Landing closes with a full-width photo band (lawn table,
+  "Ready when *you are.*", yellow Start planning) in place of the gold
+  CtaCard, and the landing feature boxes open with real Unsplash wedding
+  photos instead of the dashboard drawings (the dashboard keeps its own art;
+  each box still opens its demo). Not adding more boxes: they mirror the
+  dashboard's ten. Estimator's "See the full breakdown" link is back.
 - **2026-10-21:** Landing hero is now direction B: full-width wedding
   photographs as a slow crossfade slideshow (four bright reception tables and
   the sunset couple, all Unsplash, each credited on the photo) with the nav
