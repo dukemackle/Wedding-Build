@@ -105,8 +105,17 @@ if (mode === "list") {
       let cols = lines[headAt].split("\t");
       const pricing = lines.slice(headAt + 1).some((l) => want.get(site(l.split("\t")[cols.indexOf("Website")] ?? ""))?.price);
       if (pricing && !cols.includes("Price from")) {
-        cols = [...cols, "Price from", "Price basis"];
-        lines[headAt] = cols.join("\t");
+        // After Price tier (or Capacity), not at the end: a checker trims
+        // trailing tabs, so empty cells there would read as missing.
+        const at = (cols.includes("Price tier") ? cols.indexOf("Price tier") : cols.indexOf("Capacity")) + 1;
+        for (let i = headAt; i < lines.length; i++) {
+          if (!lines[i].trim()) continue;
+          const cells = lines[i].split("\t");
+          while (cells.length < cols.length) cells.push("");
+          cells.splice(at, 0, ...(i === headAt ? ["Price from", "Price basis"] : ["", ""]));
+          lines[i] = cells.join("\t");
+        }
+        cols = lines[headAt].split("\t");
       }
       const [w, c, t, p, b] = ["Website", "Capacity", "Price tier", "Price from", "Price basis"].map((name) => cols.indexOf(name));
       if (w < 0 || c < 0) return all;
