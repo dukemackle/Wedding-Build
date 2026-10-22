@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState, useTransition } from "react";
 import type { VenueShortlistEntry } from "@/lib/supabase/types";
+import { cityFilterValues, cityOptions } from "@/lib/city-options";
 import { CAPACITY_FILTER_STEPS, STYLE_TIERS, VENUE_SETTINGS, VENUE_TYPES, currentVenueType, venueTypeImage } from "@/lib/wedding-options";
 import { updateShortlistNotes } from "./actions";
 import { BookedVenueButton, ShortlistButton } from "./venue-card-shared";
@@ -26,6 +27,15 @@ const VenuesMap = dynamic(() => import("./venues-map").then((m) => m.VenuesMap),
     </div>
   ),
 });
+
+// The rental-fee bands a tier stands for, as the add-venues skill assigns them
+// (all-inclusive venues by price per guest instead). Shown in the Price filter
+// so "Luxury" reads as a number, not a judgement of who it's for.
+const PRICE_TIER_RANGES: Record<(typeof STYLE_TIERS)[number], string> = {
+  Simple: "under $6k",
+  Classic: "$6k–15k",
+  Luxury: "$15k+",
+};
 
 
 function VenueCard({
@@ -216,18 +226,7 @@ export function VenuesManager({
     [venues],
   );
 
-  const availableCities = useMemo(
-    () =>
-      Array.from(
-        new Set(
-          venues
-            .filter((v) => stateFilter === "all" || v.state === stateFilter)
-            .map((v) => v.city)
-            .filter((c): c is string => Boolean(c)),
-        ),
-      ).sort(),
-    [venues, stateFilter],
-  );
+  const availableCities = useMemo(() => cityOptions(venues, stateFilter), [venues, stateFilter]);
 
   function handleStateFilterChange(value: string) {
     updateFilters({ state: value, city: "all" });
@@ -324,9 +323,10 @@ export function VenuesManager({
             label="City"
             allLabel="All cities"
             value={cityFilter}
-            onChange={(v) => setFilter("city", v)}
-            options={availableCities.map((city) => ({ value: city, label: city }))}
+            onChange={(v) => updateFilters(cityFilterValues(v))}
+            options={availableCities}
             emptyMessage="No cities for this state"
+            searchPlaceholder="Type your city"
           />
           <FilterDropdown
             label="Capacity"
@@ -350,7 +350,8 @@ export function VenuesManager({
             allLabel="Any price"
             value={priceFilter}
             onChange={(v) => setFilter("price", v)}
-            options={STYLE_TIERS.map((tier) => ({ value: tier, label: tier }))}
+            options={STYLE_TIERS.map((tier) => ({ value: tier, label: `${tier} · ${PRICE_TIER_RANGES[tier]}` }))}
+            note="Venue rental, from each venue's published prices. Venues that don't publish theirs still show."
           />
           <FilterDropdown
             label="Venue type"

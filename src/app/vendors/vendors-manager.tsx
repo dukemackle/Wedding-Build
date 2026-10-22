@@ -6,7 +6,7 @@ import Link from "next/link";
 import { createElement, useEffect, useMemo, useRef, useState, useTransition } from "react";
 import type { ComponentType, SVGProps } from "react";
 import type { VendorFavoriteEntry, VendorInquiry, VendorInquiryStatus } from "@/lib/supabase/types";
-import { STYLE_TIERS } from "@/lib/wedding-options";
+import { cityFilterValues, cityOptions } from "@/lib/city-options";
 import {
   markVendorBooked,
   updateInquiryBookedAmount,
@@ -375,9 +375,9 @@ export function VendorsManager({
 
   const { values: filters, set: setFilter, update: updateFilters } = useSavedFilters(
     "youdoido:vendor-filters",
-    { state: "all", city: "all", category: "all", price: "all", q: "" },
+    { state: "all", city: "all", category: "all", q: "" },
   );
-  const { state: stateFilter, city: cityFilter, category: categoryFilter, price: priceFilter, q: search } =
+  const { state: stateFilter, city: cityFilter, category: categoryFilter, q: search } =
     filters;
   const [mapView, setMapView] = useState<MapView | null>(null);
   // The vendor last opened from a pin, kept at the top of the list.
@@ -408,46 +408,29 @@ export function VendorsManager({
     [vendors],
   );
 
-  const availableCities = useMemo(
-    () =>
-      Array.from(
-        new Set(
-          vendors
-            .filter((v) => stateFilter === "all" || v.state === stateFilter)
-            .map((v) => v.city)
-            .filter((c): c is string => Boolean(c)),
-        ),
-      ).sort(),
-    [vendors, stateFilter],
-  );
+  const availableCities = useMemo(() => cityOptions(vendors, stateFilter), [vendors, stateFilter]);
 
   function handleStateFilterChange(value: string) {
     updateFilters({ state: value, city: "all" });
   }
 
-  const activeFilterCount = [categoryFilter, priceFilter, stateFilter, cityFilter].filter(
+  const activeFilterCount = [categoryFilter, stateFilter, cityFilter].filter(
     (f) => f !== "all",
   ).length;
 
-  // Few vendors have a price tier yet, so a blank one isn't a mismatch: those
-  // vendors stay in, after the confirmed matches, rather than vanishing.
+  // No price filter until vendors carry published prices: with almost none
+  // tiered, it only reordered the list while looking like it narrowed it.
   const filteredVendors = useMemo(
     () =>
       vendors
         .filter(
           (v) =>
             (categoryFilter === "all" || v.category === categoryFilter) &&
-            (priceFilter === "all" || !v.price_tier || v.price_tier === priceFilter) &&
             (stateFilter === "all" || v.state === stateFilter) &&
             (cityFilter === "all" || v.city === cityFilter) &&
             v.name.toLowerCase().includes(search.trim().toLowerCase()),
-        )
-        .sort(
-          (a, b) =>
-            Number(priceFilter !== "all" && !a.price_tier) -
-            Number(priceFilter !== "all" && !b.price_tier),
         ),
-    [vendors, categoryFilter, priceFilter, stateFilter, cityFilter, search],
+    [vendors, categoryFilter, stateFilter, cityFilter, search],
   );
 
   // Like Zillow, the list is what the map shows: pan or zoom and it follows.
@@ -459,7 +442,7 @@ export function VendorsManager({
   }, [filteredVendors, mapView, selectedVendorId]);
 
   function clearFilters() {
-    updateFilters({ state: "all", city: "all", category: "all", price: "all" });
+    updateFilters({ state: "all", city: "all", category: "all" });
   }
 
   return (
@@ -526,9 +509,10 @@ export function VendorsManager({
             label="City"
             allLabel="All cities"
             value={cityFilter}
-            onChange={(v) => setFilter("city", v)}
-            options={availableCities.map((city) => ({ value: city, label: city }))}
+            onChange={(v) => updateFilters(cityFilterValues(v))}
+            options={availableCities}
             emptyMessage="No cities for this state"
+            searchPlaceholder="Type your city"
           />
           <FilterDropdown
             label="Category"
@@ -536,13 +520,6 @@ export function VendorsManager({
             value={categoryFilter}
             onChange={(v) => setFilter("category", v)}
             options={categories.map((category) => ({ value: category, label: category }))}
-          />
-          <FilterDropdown
-            label="Price"
-            allLabel="Any price"
-            value={priceFilter}
-            onChange={(v) => setFilter("price", v)}
-            options={STYLE_TIERS.map((tier) => ({ value: tier, label: tier }))}
           />
         </>
       }
