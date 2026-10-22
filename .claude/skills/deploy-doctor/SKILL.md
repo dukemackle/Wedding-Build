@@ -56,3 +56,17 @@ depending on Google's CDN. That's a code change — confirm with the owner first
 
 If you find a new failure mode and its fix, add it here as a numbered section
 (symptom, cause, fix, date) so the next diagnosis is a lookup.
+
+## 3. "Failed: error occurred while fetching repository" — clone flake
+
+**Symptom:** the log is four lines and stops at `Cloning repository...` /
+`Failed: error occurred while fetching repository`. The GitHub check shows
+started and completed at the same second, with no output.
+
+**Cause:** Cloudflare's builder couldn't fetch from GitHub. Nothing of ours
+ran.
+
+**Fix:** retry once. From a session: `POST
+/accounts/{account_id}/builds/triggers/{trigger_uuid}/builds` with the
+branch and commit hash (the trigger uuid is on the failed build's record).
+Retry fixed it (2026-10-22).
