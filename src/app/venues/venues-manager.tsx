@@ -28,15 +28,6 @@ const VenuesMap = dynamic(() => import("./venues-map").then((m) => m.VenuesMap),
   ),
 });
 
-// The rental-fee bands a tier stands for, as the add-venues skill assigns them
-// (all-inclusive venues by price per guest instead). Shown in the Price filter
-// so "Luxury" reads as a number, not a judgement of who it's for.
-const PRICE_TIER_RANGES: Record<(typeof STYLE_TIERS)[number], string> = {
-  Simple: "under $6k",
-  Classic: "$6k–15k",
-  Luxury: "$15k+",
-};
-
 
 function VenueCard({
   venue,
@@ -350,8 +341,8 @@ export function VenuesManager({
             allLabel="Any price"
             value={priceFilter}
             onChange={(v) => setFilter("price", v)}
-            options={STYLE_TIERS.map((tier) => ({ value: tier, label: `${tier} · ${PRICE_TIER_RANGES[tier]}` }))}
-            note="Venue rental, from each venue's published prices. Venues that don't publish theirs still show."
+            options={STYLE_TIERS.map((tier) => ({ value: tier, label: tier }))}
+            note="From each venue's published prices. Venues that don't publish theirs still show."
           />
           <FilterDropdown
             label="Venue type"

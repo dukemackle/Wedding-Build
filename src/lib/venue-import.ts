@@ -1,4 +1,6 @@
 import { LEGACY_VENUE_TYPES, STATES, STYLE_TIERS, VENUE_SETTINGS, VENUE_TYPES } from "@/lib/wedding-options";
+import type { PriceBasis } from "@/lib/supabase/types";
+import { tierFromPrice } from "@/lib/venue-pricing";
 import { categorizeVenue } from "@/lib/venue-category";
 import { mapColumns, readTable } from "@/lib/spreadsheet";
 
@@ -22,6 +24,9 @@ export type VenueImportValues = {
   setting: string | null;
   capacity: number | null;
   price_tier: string | null;
+  /** The venue's published starting price, whole dollars. */
+  price_from: number | null;
+  price_basis: PriceBasis | null;
   description: string | null;
   about: string | null;
   included: string | null;
@@ -75,8 +80,12 @@ const FIELD_ALIASES: Record<string, keyof VenueImportValues> = {
   maxguests: "capacity",
   guests: "capacity",
   pricetier: "price_tier",
-  price: "price_tier",
   tier: "price_tier",
+  pricefrom: "price_from",
+  startingprice: "price_from",
+  price: "price_from",
+  pricebasis: "price_basis",
+  priceper: "price_basis",
   description: "description",
   summary: "description",
   about: "about",
@@ -94,6 +103,19 @@ const FIELD_ALIASES: Record<string, keyof VenueImportValues> = {
   website: "website",
   url: "website",
   site: "website",
+};
+
+/** How a batch file writes a price basis, to the stored value. */
+const PRICE_BASIS_WORDS: Record<string, Exclude<PriceBasis, "ask">> = {
+  rental: "rental",
+  "venue rental": "rental",
+  package: "package",
+  packages: "package",
+  "per person": "per_person",
+  "per guest": "per_person",
+  minimum: "minimum",
+  "minimum spend": "minimum",
+  "food & drink minimum": "minimum",
 };
 
 function optionError(label: string, value: string, allowed: readonly string[]) {
@@ -206,6 +228,20 @@ export function parseVenueTable(text: string): VenueImportParse {
       errors.push(`Capacity "${cell("capacity")}" should be a whole number above zero`);
     }
 
+    const priceFrom = numeric("price_from", "Price from");
+    if (priceFrom !== null && (priceFrom <= 0 || !Number.isInteger(priceFrom))) {
+      errors.push(`Price from "${cell("price_from")}" should be whole dollars above zero`);
+    }
+    const rawBasis = cell("price_basis");
+    const priceBasis = rawBasis ? (PRICE_BASIS_WORDS[rawBasis.toLowerCase()] ?? null) : null;
+    if (rawBasis && !priceBasis) {
+      errors.push(`Price basis "${rawBasis}" isn't one of: Rental, Package, Per person, Minimum`);
+    }
+    // A figure means nothing without what it buys: $95 a head and $9,500 for
+    // the room read the same once the basis is lost.
+    if (priceFrom !== null && !rawBasis) errors.push("Price from needs a Price basis");
+    if (rawBasis && priceFrom === null) errors.push("Price basis needs a Price from");
+
     const latitude = numeric("latitude", "Latitude");
     if (latitude !== null && (latitude < -90 || latitude > 90)) {
       errors.push(`Latitude ${latitude} is outside -90 to 90`);
@@ -246,7 +282,9 @@ export function parseVenueTable(text: string): VenueImportParse {
       venue_type: venueType,
       setting: option("setting", "Setting", VENUE_SETTINGS),
       capacity,
-      price_tier: option("price_tier", "Price tier", STYLE_TIERS),
+      price_tier: option("price_tier", "Price tier", STYLE_TIERS) ?? tierFromPrice(priceFrom, priceBasis),
+      price_from: priceFrom,
+      price_basis: priceBasis,
       description: cell("description") || null,
       about: cell("about") || null,
       included: cell("included") || null,
@@ -275,7 +313,8 @@ export const VENUE_IMPORT_TEMPLATE = [
   "Venue type",
   "Setting",
   "Capacity",
-  "Price tier",
+  "Price from",
+  "Price basis",
   "Description",
   "Amenities",
   "Email",
