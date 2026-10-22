@@ -1,8 +1,27 @@
 import type { Wedding } from "@/lib/supabase/types";
 
+/**
+ * The budget page's sections, in order. Fees are worked out from the other
+ * lines (see estimate-add-ons.ts), so couples don't add their own lines there.
+ */
+export const BUDGET_SECTIONS = [
+  { key: "wedding_day", label: "Wedding day" },
+  { key: "rehearsal", label: "Rehearsal & welcome" },
+  { key: "attire", label: "Attire & rings" },
+  { key: "fees", label: "Fees & cushion" },
+] as const;
+
+export type BudgetSectionKey = (typeof BUDGET_SECTIONS)[number]["key"];
+
+export function isBudgetSection(value: unknown): value is BudgetSectionKey {
+  return BUDGET_SECTIONS.some((s) => s.key === value);
+}
+
 export type BudgetCategory = {
   key: string;
   label: string;
+  /** Which section of the budget page it sits in; the wedding day if left out. */
+  section?: BudgetSectionKey;
   flatBase: number;
   perGuestAmount: number;
   /**
@@ -50,9 +69,8 @@ export const VENDOR_CATEGORY_TO_BUDGET_KEY: Record<string, string> = {
 // the state's cost index; sources are in each row's `source` column, mostly
 // The Knot 2026 Real Weddings Study at 117 average guests), so a state with
 // rows and its neighbour without them now land in the same place instead of
-// thousands apart. The other six (rehearsal dinner, welcome party, hair and
-// makeup, rings, officiant, tips) have no sourced figure yet and are
-// unchanged. Editable per-wedding via overrides.
+// thousands apart. The six below with no rows anywhere carry their own
+// source beside them (read 2026-10-22). Editable per-wedding via overrides.
 export const BUDGET_CATEGORIES: BudgetCategory[] = [
   { key: "venue", label: "Venue Rental", flatBase: 8570, perGuestAmount: 0 },
   // Split from a combined "Catering & Bar" category -- couples often
@@ -67,29 +85,46 @@ export const BUDGET_CATEGORIES: BudgetCategory[] = [
   { optional: true, key: "videography", label: "Videography", flatBase: 4000, perGuestAmount: 0 },
   { key: "florals", label: "Florals & Decor", flatBase: 6350, perGuestAmount: 0 },
   { key: "music", label: "Music / Entertainment", flatBase: 1570, perGuestAmount: 0 },
-  { key: "attire", label: "Wedding Attire", flatBase: 2500, perGuestAmount: 0 },
+  { section: "attire", key: "attire", label: "Wedding Attire", flatBase: 2500, perGuestAmount: 0 },
+  // Hemming, bustle and fittings are almost never in the dress price, and
+  // usually land in the last month when there's least slack.
+  { section: "attire", key: "alterations", label: "Alterations", flatBase: 350, perGuestAmount: 0 },
+  // Often paid by the wedding party themselves, so no estimate of its own --
+  // it's here for the couples who are covering suits or dresses.
+  { optional: true, section: "attire", key: "wedding_party_attire", label: "Wedding Party Attire", flatBase: 0, perGuestAmount: 0 },
   { optional: true, key: "planner", label: "Wedding Planner", flatBase: 3200, perGuestAmount: 0 },
   { key: "stationery", label: "Invitations & Stationery", flatBase: 0, perGuestAmount: 4.7 },
   { optional: true, key: "favors", label: "Favors & Gifts", flatBase: 0, perGuestAmount: 3 },
   { key: "cake", label: "Cake & Desserts", flatBase: 700, perGuestAmount: 0 },
   { optional: true, key: "transportation", label: "Transportation", flatBase: 1000, perGuestAmount: 0 },
-  // Both scale a bit with guest count, unlike most flat-base categories
-  // above -- modern rehearsal dinners and welcome parties increasingly
-  // invite most/all out-of-town guests, not just the wedding party, so
-  // a larger wedding plausibly means a larger one of these too.
-  { key: "rehearsal_dinner", label: "Rehearsal Dinner", flatBase: 800, perGuestAmount: 15 },
-  { optional: true, key: "welcome_party", label: "Welcome Party", flatBase: 600, perGuestAmount: 12 },
-  { key: "hair_makeup", label: "Hair & Makeup", flatBase: 900, perGuestAmount: 0 },
-  { key: "rings", label: "Wedding Rings", flatBase: 1500, perGuestAmount: 0 },
-  { optional: true, key: "officiant", label: "Officiant", flatBase: 500, perGuestAmount: 0 },
+  // Both scale a bit with guest count: bigger weddings invite more
+  // out-of-town guests to these too. Rehearsal dinner: The Knot 2026 average
+  // $2,800 at 117 wedding guests (as quoted by MoneyLion, Apr 2026), and The
+  // Knot's under-50 / over-100 averages of $1,630 / $3,139 set the slope.
+  // Welcome party: no national study figure exists; Ally's 2025 survey puts
+  // welcome drinks at $1,200, so this is an estimate, not a sourced number.
+  { section: "rehearsal", key: "rehearsal_dinner", label: "Rehearsal Dinner", flatBase: 1300, perGuestAmount: 13 },
+  { optional: true, section: "rehearsal", key: "welcome_party", label: "Welcome Party", flatBase: 500, perGuestAmount: 6 },
+  // Zola's national average for wedding-day hair and makeup, $982 (The Knot's
+  // $150 hair + $150 makeup is one person's alone).
+  { key: "hair_makeup", label: "Hair & Makeup", flatBase: 980, perGuestAmount: 0 },
+  // The Knot 2026: wedding rings $3,000, apart from the engagement ring.
+  { section: "attire", key: "rings", label: "Wedding Rings", flatBase: 3000, perGuestAmount: 0 },
+  // The Knot 2026: $260.
+  { optional: true, key: "officiant", label: "Officiant", flatBase: 260, perGuestAmount: 0 },
+  // Event liability (which many venues require) plus cancellation cover;
+  // one-day policies commonly run $150-$550.
+  { key: "insurance", label: "Wedding Insurance", flatBase: 250, perGuestAmount: 0 },
   // Tips for the people who work the day. Service charges are their own line
-  // below: a venue's 20% on food and drink isn't a tip.
-  { key: "gratuities", label: "Tips & Gratuities", flatBase: 700, perGuestAmount: 0 },
+  // below: a venue's 20% on food and drink isn't a tip. ~$1,000 is the sum of
+  // Zola's 2026 Wedding Spend Survey flat tips (caterer $262; photographer,
+  // music and planner $200 each; hair and makeup $150); no study gives a total.
+  { section: "fees", key: "gratuities", label: "Tips & Gratuities", flatBase: 1000, perGuestAmount: 0 },
   // Worked out from the lines above, not priced on their own (see
   // src/lib/estimate-add-ons.ts), so these bases are never used.
-  { key: "service_charge", label: "Service Charges", flatBase: 0, perGuestAmount: 0 },
-  { key: "sales_tax", label: "Sales Tax", flatBase: 0, perGuestAmount: 0 },
-  { key: "contingency", label: "Cushion for Surprises", flatBase: 0, perGuestAmount: 0 },
+  { section: "fees", key: "service_charge", label: "Service Charges", flatBase: 0, perGuestAmount: 0 },
+  { section: "fees", key: "sales_tax", label: "Sales Tax", flatBase: 0, perGuestAmount: 0 },
+  { section: "fees", key: "contingency", label: "Cushion for Surprises", flatBase: 0, perGuestAmount: 0 },
 ];
 
 /**
@@ -100,6 +135,70 @@ export const DEFAULT_HIDDEN_CATEGORIES = BUDGET_CATEGORIES.filter((c) => c.optio
   (c) => c.key,
 );
 
+// Average wedding cost per state, The Knot 2026 Real Weddings Study (couples
+// married in 2025, engagement ring excluded), as tabled by SoFi's "Average
+// Cost of a Wedding" (sofi.com/learn/content/average-wedding-cost/, read
+// 2026-10-22); DC is The Knot's Washington, DC city figure. Divided by the
+// study's national $34,200, it's each state's cost index, the same index the
+// regional_cost_data rows were built with. It replaced the eight region
+// multipliers for any wedding with a state: one multiplier per region priced
+// Illinois like Iowa and New York like Pennsylvania.
+export const NATIONAL_AVERAGE_COST = 34_200;
+export const STATE_AVERAGE_COST: Record<string, number> = {
+  Alabama: 27_000,
+  Alaska: 19_000,
+  Arizona: 27_000,
+  Arkansas: 19_000,
+  California: 39_000,
+  Colorado: 31_000,
+  Connecticut: 42_000,
+  Delaware: 39_000,
+  "District of Columbia": 42_000,
+  Florida: 33_000,
+  Georgia: 29_000,
+  Hawaii: 33_000,
+  Idaho: 18_000,
+  Illinois: 38_000,
+  Indiana: 24_000,
+  Iowa: 21_000,
+  Kansas: 20_000,
+  Kentucky: 23_000,
+  Louisiana: 34_000,
+  Maine: 37_000,
+  Maryland: 38_000,
+  Massachusetts: 45_000,
+  Michigan: 29_000,
+  Minnesota: 28_000,
+  Mississippi: 21_000,
+  Missouri: 26_000,
+  Montana: 21_000,
+  Nebraska: 22_000,
+  Nevada: 21_000,
+  "New Hampshire": 37_000,
+  "New Jersey": 57_000,
+  "New Mexico": 22_000,
+  "New York": 49_000,
+  "North Carolina": 29_000,
+  "North Dakota": 22_000,
+  Ohio: 28_000,
+  Oklahoma: 19_000,
+  Oregon: 23_000,
+  Pennsylvania: 36_000,
+  "Rhode Island": 51_000,
+  "South Carolina": 35_000,
+  "South Dakota": 21_000,
+  Tennessee: 24_000,
+  Texas: 31_000,
+  Utah: 18_000,
+  Vermont: 47_000,
+  Virginia: 34_000,
+  Washington: 26_000,
+  "West Virginia": 19_000,
+  Wisconsin: 29_000,
+  Wyoming: 17_000,
+};
+
+// Only for a wedding with a region but no state.
 export const REGION_MULTIPLIERS: Record<string, number> = {
   Northeast: 1.25,
   "Mid-Atlantic": 1.15,
@@ -111,12 +210,8 @@ export const REGION_MULTIPLIERS: Record<string, number> = {
   "West Coast": 1.3,
 };
 
-// Placeholder state -> region mapping so the cost model can take a state
-// as input today, ahead of real per-state data landing (see the cost
-// estimator data-collection plan). Every state currently just inherits
-// its region's multiplier above -- this is not real state-level pricing,
-// it's a stand-in that lets the estimator UI collect "state" now without
-// the formula changing shape again once real numbers replace it.
+// State -> region, stored as weddings.region. Pricing goes by
+// STATE_AVERAGE_COST above whenever the state is known.
 export const STATE_TO_REGION: Record<string, keyof typeof REGION_MULTIPLIERS> = {
   Connecticut: "Northeast",
   Maine: "Northeast",
@@ -193,8 +288,13 @@ export function computeCategoryValue(
   state?: string | null,
 ) {
   const base = category.flatBase + category.perGuestAmount * guestCount;
+  const stateAverage = state ? STATE_AVERAGE_COST[state] : undefined;
   const effectiveRegion = (state && STATE_TO_REGION[state]) || region;
-  const regionMult = effectiveRegion ? (REGION_MULTIPLIERS[effectiveRegion] ?? 1) : 1;
+  const regionMult = stateAverage
+    ? stateAverage / NATIONAL_AVERAGE_COST
+    : effectiveRegion
+      ? (REGION_MULTIPLIERS[effectiveRegion] ?? 1)
+      : 1;
   const seasonMult = season ? (SEASON_MULTIPLIERS[season] ?? 1) : 1;
   const styleMult = styleTier ? (STYLE_TIER_MULTIPLIERS[styleTier] ?? 1) : 1;
   return Math.round(base * regionMult * seasonMult * styleMult);

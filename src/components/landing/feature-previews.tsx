@@ -28,6 +28,7 @@ import { ConfirmedChip } from "@/components/confirmed-badge";
 import { SAMPLE_GALLERY } from "@/lib/sample-photos";
 import { CHECKLIST_PHASES, CHECKLIST_TEMPLATE } from "@/lib/checklist-template";
 import {
+  AttireIcon,
   BarIcon,
   CakeIcon,
   CateringIcon,
@@ -35,6 +36,8 @@ import {
   MusicIcon,
   PaperclipIcon,
   PhotographyIcon,
+  RingsIcon,
+  ToastIcon,
   VenueIcon,
 } from "@/components/icons";
 
@@ -76,22 +79,62 @@ const BUDGET_LINES: {
   flat?: number;
   actual?: number;
   paid?: number;
+  /** Discounts and credits, like the real Saved column. */
+  saved?: number;
+  section: string;
 }[] = [
-  { key: "venue", label: "Venue", Icon: VenueIcon, flat: 9000, actual: 9500, paid: 3000 },
-  { key: "catering", label: "Catering", Icon: CateringIcon, perGuest: 85 },
-  { key: "bar", label: "Bar", Icon: BarIcon, perGuest: 30 },
-  { key: "photo", label: "Photography", Icon: PhotographyIcon, flat: 4200, actual: 4000, paid: 4000 },
-  { key: "florals", label: "Florals", Icon: FloralsIcon, flat: 2800 },
-  { key: "music", label: "Music", Icon: MusicIcon, flat: 2200, actual: 1800 },
-  { key: "cake", label: "Cake", Icon: CakeIcon, perGuest: 6 },
+  { section: "Wedding day", key: "venue", label: "Venue", Icon: VenueIcon, flat: 9000, actual: 9500, paid: 3000, saved: 500 },
+  { section: "Wedding day", key: "catering", label: "Catering", Icon: CateringIcon, perGuest: 85 },
+  { section: "Wedding day", key: "bar", label: "Bar", Icon: BarIcon, perGuest: 30 },
+  { section: "Wedding day", key: "photo", label: "Photography", Icon: PhotographyIcon, flat: 4200, actual: 4000, paid: 4000, saved: 400 },
+  { section: "Wedding day", key: "florals", label: "Florals", Icon: FloralsIcon, flat: 2800 },
+  { section: "Wedding day", key: "music", label: "Music", Icon: MusicIcon, flat: 2200, actual: 1800, paid: 900 },
+  { section: "Wedding day", key: "cake", label: "Cake", Icon: CakeIcon, perGuest: 6 },
+  { section: "Rehearsal & welcome", key: "rehearsal", label: "Rehearsal Dinner", Icon: ToastIcon, flat: 2400, actual: 2600, paid: 1300 },
+  { section: "Attire & rings", key: "attire", label: "Wedding Attire", Icon: AttireIcon, flat: 2500, actual: 2200, paid: 2200, saved: 150 },
+  { section: "Attire & rings", key: "rings", label: "Wedding Rings", Icon: RingsIcon, flat: 1500 },
 ];
+const BUDGET_SECTION_ORDER = ["Wedding day", "Rehearsal & welcome", "Attire & rings"];
+
+/** The real budget's paid ring (budget-table.tsx), in miniature. */
+function DemoPaidRing({ pct, Icon }: { pct: number; Icon: (p: { className?: string }) => ReactNode }) {
+  const full = pct >= 100;
+  const c = 2 * Math.PI * 16;
+  return (
+    <span className="relative inline-block h-9 w-9 shrink-0">
+      <svg viewBox="0 0 36 36" aria-hidden="true" className="absolute inset-0 -rotate-90">
+        <circle cx="18" cy="18" r="16" fill="none" stroke="#ece8df" strokeWidth="2.5" />
+        {pct > 0 && (
+          <circle
+            cx="18"
+            cy="18"
+            r="16"
+            fill="none"
+            stroke={full ? "#FFD301" : "#2243B6"}
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeDasharray={`${(c * pct) / 100} ${c}`}
+            className="transition-[stroke-dasharray] duration-700"
+          />
+        )}
+      </svg>
+      <span
+        className={`absolute inset-[4px] flex items-center justify-center rounded-full ${
+          full ? "bg-[#FFD301] text-forest" : "bg-[#fff8d1] text-[#9a6b00]"
+        }`}
+      >
+        <Icon className="h-4 w-4" />
+      </span>
+    </span>
+  );
+}
 
 const BUDGET_TARGET = 40000;
 // Same colours as the real "Where it's going" bar (budget-summary.tsx).
 const SLICE_COLORS = ["#0d8266", "#b07d0a", "#d2426b", "#3b76c4"];
 const REST_COLOR = "#c2c7c0";
 const BUDGET_COLS =
-  "md:grid md:grid-cols-[minmax(0,1fr)_6rem_6.5rem_8.5rem] md:items-center md:gap-4";
+  "md:grid md:grid-cols-[minmax(0,1fr)_6rem_6.5rem_4.5rem_8.5rem] md:items-center md:gap-4";
 
 /**
  * The linked-Google-Sheet strip from Guests and Budget, in miniature: edits
@@ -205,6 +248,14 @@ function BudgetDemo() {
             <p className="font-display text-2xl font-semibold text-forest">
               Your budget
             </p>
+            <p className="mt-2 inline-flex items-center gap-2 rounded-xl border border-[#f2dc6a] bg-gradient-to-br from-[#fffbe0] to-[#fff3b0] px-3 py-1">
+              <span className="font-mono-numbers text-[10px] uppercase tracking-[0.16em] text-[#9a6b00]">
+                ✦ You&apos;ve saved
+              </span>
+              <span className="font-mono-numbers font-semibold text-forest">
+                {usd(rows.reduce((s, r) => s + (r.saved ?? 0), 0))}
+              </span>
+            </p>
             <label className="mt-2 flex items-center gap-3 text-sm text-ink/70">
               <span className="shrink-0">Guests</span>
               <input
@@ -296,72 +347,89 @@ function BudgetDemo() {
         <span className={eyebrow}>Category</span>
         <span className={`${eyebrow} text-right`}>Estimate</span>
         <span className={`${eyebrow} pr-2 text-right`}>Actual</span>
+        <span className={`${eyebrow} text-right`}>Saved</span>
         <span className={eyebrow}>Paid</span>
       </div>
 
       <div className="px-5 sm:px-6">
-        {rows.map((r) => (
-          <div
-            key={r.key}
-            className={`border-b border-hairline px-1 py-2.5 last:border-b-0 md:px-2 ${BUDGET_COLS}`}
-          >
-            <div className="flex min-w-0 items-center gap-2">
-              <r.Icon className="h-4 w-4 shrink-0 text-brass" />
-              <span className="min-w-0 truncate text-ink">
-                {r.label}
-                {r.perGuest && (
-                  <span className="text-ink/45"> · scales with guest count</span>
-                )}
-              </span>
-            </div>
-            <div className="mt-2 flex items-center gap-3 pl-6 md:contents">
-              <span className="font-mono-numbers text-sm text-ink/60 md:text-right">
-                {usd(r.estimate)}
-              </span>
-              <input
-                type="number"
-                min={0}
-                value={r.a ?? ""}
-                placeholder="0"
-                aria-label={`Actual cost for ${r.label}`}
-                onChange={(e) =>
-                  setActual((s) => ({
-                    ...s,
-                    [r.key]: e.target.value ? Number(e.target.value) : undefined,
-                  }))
-                }
-                className="w-24 rounded-md border border-hairline bg-parchment px-2 py-1 text-right font-mono-numbers text-sm text-ink outline-none focus:border-forest md:justify-self-end"
-              />
-              <span className="flex flex-1 items-center gap-2 md:flex-none">
-                <span className="h-1.5 flex-1 overflow-hidden rounded-full bg-forest/10">
-                  <span
-                    className="block h-1.5 rounded-full bg-forest transition-[width]"
-                    style={{ width: `${r.pct}%` }}
-                  />
+        {BUDGET_SECTION_ORDER.map((section) => {
+          const inSection = rows.filter((r) => r.section === section);
+          return (
+            <div key={section}>
+              <div className="flex items-baseline justify-between border-b border-hairline pb-2 pt-4">
+                <span className="font-display text-xl font-bold text-forest">{section}</span>
+                <span className="font-mono-numbers text-sm text-ink/70">
+                  {usd(inSection.reduce((s, r) => s + r.amount, 0))}
                 </span>
-                <span className="w-9 shrink-0 text-right font-mono-numbers text-[11px] text-ink/55">
-                  {r.p <= 0 ? "—" : r.pct >= 100 ? "Paid" : `${Math.round(r.pct)}%`}
-                </span>
-                <button
-                  type="button"
-                  disabled={!r.a}
-                  aria-pressed={r.pct >= 100}
-                  aria-label={`Paid in full for ${r.label}`}
-                  onClick={() =>
-                    setPaid((s) => ({ ...s, [r.key]: r.pct >= 100 ? 0 : (r.a ?? 0) }))
-                  }
-                  className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full border text-sm transition-colors disabled:opacity-40 ${
-                    r.pct >= 100
-                      ? "border-forest bg-forest text-parchment"
-                      : "border-hairline text-ink/30 hover:border-forest hover:text-forest"
-                  }`}
+              </div>
+              {inSection.map((r) => (
+                <div
+                  key={r.key}
+                  className={`border-b border-hairline px-1 py-2.5 last:border-b-0 md:px-2 ${BUDGET_COLS}`}
                 >
-                  ✓
-                </button>
-              </span>
+                  <div className="flex min-w-0 items-center gap-2.5">
+                    <DemoPaidRing pct={r.pct} Icon={r.Icon} />
+                    <span className="min-w-0 truncate text-ink">
+                      {r.label}
+                      {r.perGuest && (
+                        <span className="text-ink/45"> · scales with guest count</span>
+                      )}
+                    </span>
+                  </div>
+                  <div className="mt-2 flex items-center gap-3 pl-6 md:contents">
+                    <span className="font-mono-numbers text-sm text-ink/60 md:text-right">
+                      {usd(r.estimate)}
+                    </span>
+                    <input
+                      type="number"
+                      min={0}
+                      value={r.a ?? ""}
+                      placeholder="0"
+                      aria-label={`Actual cost for ${r.label}`}
+                      onChange={(e) =>
+                        setActual((s) => ({
+                          ...s,
+                          [r.key]: e.target.value ? Number(e.target.value) : undefined,
+                        }))
+                      }
+                      className="w-24 rounded-md border border-hairline bg-parchment px-2 py-1 text-right font-mono-numbers text-sm text-ink outline-none focus:border-forest md:justify-self-end"
+                    />
+                    <span className="hidden font-mono-numbers text-sm text-[#9a6b00] md:block md:text-right">
+                      {r.saved ? `−${usd(r.saved)}` : ""}
+                    </span>
+                    <span className="flex flex-1 items-center gap-2 md:flex-none">
+                      <span className="h-1.5 flex-1 overflow-hidden rounded-full bg-forest/10">
+                        <span
+                          className="block h-1.5 rounded-full bg-forest transition-[width]"
+                          style={{ width: `${r.pct}%` }}
+                        />
+                      </span>
+                      <span className="w-9 shrink-0 text-right font-mono-numbers text-[11px] text-ink/55">
+                        {r.p <= 0 ? "—" : r.pct >= 100 ? "Paid" : `${Math.round(r.pct)}%`}
+                      </span>
+                      <button
+                        type="button"
+                        disabled={!r.a}
+                        aria-pressed={r.pct >= 100}
+                        aria-label={`Paid in full for ${r.label}`}
+                        onClick={() =>
+                          setPaid((s) => ({ ...s, [r.key]: r.pct >= 100 ? 0 : (r.a ?? 0) }))
+                        }
+                        className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full border text-sm transition-colors disabled:opacity-40 ${
+                          r.pct >= 100
+                            ? "border-forest bg-forest text-parchment"
+                            : "border-hairline text-ink/30 hover:border-forest hover:text-forest"
+                        }`}
+                      >
+                        ✓
+                      </button>
+                    </span>
+                  </div>
+                </div>
+              ))}
             </div>
-          </div>
-        ))}
+          );
+        })}
         <p className="py-3 text-xs text-ink/50">
           Example numbers. Your account starts from estimates for your state,
           season and style.
@@ -1120,11 +1188,18 @@ const VENUES = [
   { id: "vine", name: "Cedar Vine Winery", kind: "Vineyard & Winery", setting: "Indoor & outdoor", src: "/venue-types/restaurant-vineyard.svg", guests: 160, price: 11000, x: 12, y: 60 },
 ];
 
+const BUDGET_GUESTS = 150;
+const BUDGET_LIMIT = 40000;
+
 function VenuesDemo() {
   const [saved, setSaved] = useState<Set<string>>(new Set());
   const [min, setMin] = useState(0);
+  const [inBudget, setInBudget] = useState(false);
   const [active, setActive] = useState<string | null>(null);
-  const shown = VENUES.filter((v) => v.guests >= min);
+  // The real Budget filter's sum for a room-only rental: the room plus about
+  // $150 a guest for food and drink, here for 150 guests against $40,000.
+  const withFood = (price: number) => price + BUDGET_GUESTS * 150;
+  const shown = VENUES.filter((v) => v.guests >= min && (!inBudget || withFood(v.price) <= BUDGET_LIMIT));
   const toggle = (id: string) =>
     setSaved((s) => {
       const next = new Set(s);
@@ -1153,6 +1228,9 @@ function VenuesDemo() {
               {n === 0 ? "Any size" : `${n}+ guests`}
             </FilterPill>
           ))}
+          <FilterPill on={inBudget} onClick={() => setInBudget((b) => !b)}>
+            Under $40k · {BUDGET_GUESTS} guests
+          </FilterPill>
           <span className="shrink-0 self-center whitespace-nowrap rounded-full bg-brass/15 px-3 py-1 text-sm text-forest">
             ♥ {saved.size} saved
           </span>
@@ -1193,6 +1271,9 @@ function VenuesDemo() {
               {v.kind} · {v.setting}
             </p>
             <p className="text-xs text-ink/55">from {usd(v.price)}</p>
+            {inBudget && (
+              <p className="text-[11px] text-ink/55">About {usd(withFood(v.price))} with food &amp; drink (est.)</p>
+            )}
             <p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.07em] text-ink/40">
               {v.name}
             </p>

@@ -4,8 +4,9 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { ChevronDownIcon, CloseIcon } from "@/components/icons";
 
-/** Matches the menu's w-56. */
+/** Matches the menu's w-56, or w-64 for a panel. */
 const MENU_WIDTH = 224;
+const PANEL_WIDTH = 256;
 
 type Option = { value: string; label: string; icon?: ReactNode };
 
@@ -30,6 +31,8 @@ export function FilterDropdown({
   multiple = false,
   searchPlaceholder,
   note,
+  panel,
+  activeLabel,
 }: {
   label: string;
   allLabel: string;
@@ -42,6 +45,13 @@ export function FilterDropdown({
   searchPlaceholder?: string;
   /** A short line under the options, e.g. what the filter does with blanks. */
   note?: string;
+  /**
+   * Custom menu contents in place of the option list (the venue budget's two
+   * numbers). Given `close` so it can shut the menu once applied.
+   */
+  panel?: (close: () => void) => ReactNode;
+  /** The pill's text while active, when it isn't one of `options`. */
+  activeLabel?: string;
 }) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
@@ -96,7 +106,7 @@ export function FilterDropdown({
     if (!open) {
       const rect = ref.current?.getBoundingClientRect();
       if (rect) {
-        const left = Math.min(Math.max(rect.left, 8), window.innerWidth - MENU_WIDTH - 8);
+        const left = Math.min(Math.max(rect.left, 8), window.innerWidth - (panel ? PANEL_WIDTH : MENU_WIDTH) - 8);
         setPos({ top: rect.bottom + 8, left });
       }
     }
@@ -161,7 +171,7 @@ export function FilterDropdown({
           aria-expanded={open}
           className={`flex items-center gap-1.5 py-1.5 ${isActive ? "" : "pl-3"}`}
         >
-          {isActive ? pillLabel : label}
+          {isActive ? (activeLabel ?? pillLabel) : label}
           <ChevronDownIcon
             className={`h-3.5 w-3.5 transition-transform ${open ? "rotate-180" : ""}`}
           />
@@ -173,70 +183,76 @@ export function FilterDropdown({
           style={{ top: pos.top, left: pos.left }}
           role={multiple ? "listbox" : undefined}
           aria-multiselectable={multiple || undefined}
-          className={`fixed z-40 max-h-72 w-56 overflow-y-auto rounded-md border border-hairline bg-card shadow-md animate-page-in ${searchPlaceholder ? "pb-1" : "py-1"}`}
+          className={`fixed z-40 rounded-md border border-hairline bg-card shadow-md animate-page-in ${panel ? "w-64" : `max-h-72 w-56 overflow-y-auto ${searchPlaceholder ? "pb-1" : "py-1"}`}`}
         >
-          {searchPlaceholder && (
-            <div className="sticky top-0 z-10 border-b border-hairline bg-card p-2">
-              <input
-                ref={searchRef}
-                type="search"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" && shown[0]) handleSelect(shown[0].value);
-                }}
-                placeholder={searchPlaceholder}
-                aria-label={searchPlaceholder}
-                className="w-full rounded-md border border-hairline bg-parchment/60 px-2.5 py-1.5 text-base text-ink placeholder:text-ink/40 focus:border-forest focus:outline-none sm:text-sm"
-              />
-            </div>
-          )}
-          {!q && (
-            <button
-              type="button"
-              onClick={() => handleSelect("all")}
-              className={`block w-full px-3 py-2 text-left text-sm transition-colors hover:bg-parchment ${
-                !isActive ? "text-forest" : "text-ink/80"
-              }`}
-            >
-              {allLabel}
-            </button>
-          )}
-          {options.length === 0 && emptyMessage ? (
-            <p className="px-3 py-2 text-left text-sm text-ink/40">{emptyMessage}</p>
-          ) : q && shown.length === 0 ? (
-            <p className="px-3 py-2 text-left text-sm text-ink/40">No match for &ldquo;{query.trim()}&rdquo;</p>
+          {panel ? (
+            panel(() => setOpen(false))
           ) : (
-            shown.map((opt) => {
-              const on = picked.includes(opt.value);
-              return (
+            <>
+              {searchPlaceholder && (
+                <div className="sticky top-0 z-10 border-b border-hairline bg-card p-2">
+                  <input
+                    ref={searchRef}
+                    type="search"
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" && shown[0]) handleSelect(shown[0].value);
+                    }}
+                    placeholder={searchPlaceholder}
+                    aria-label={searchPlaceholder}
+                    className="w-full rounded-md border border-hairline bg-parchment/60 px-2.5 py-1.5 text-base text-ink placeholder:text-ink/40 focus:border-forest focus:outline-none sm:text-sm"
+                  />
+                </div>
+              )}
+              {!q && (
                 <button
-                  key={opt.value}
                   type="button"
-                  role={multiple ? "option" : undefined}
-                  aria-selected={multiple ? on : undefined}
-                  onClick={() => handleSelect(opt.value)}
-                  className={`flex w-full items-center gap-2.5 px-3 py-2 text-left text-sm transition-colors hover:bg-parchment ${
-                    on ? "text-forest" : "text-ink/80"
+                  onClick={() => handleSelect("all")}
+                  className={`block w-full px-3 py-2 text-left text-sm transition-colors hover:bg-parchment ${
+                    !isActive ? "text-forest" : "text-ink/80"
                   }`}
                 >
-                  {multiple && (
-                    <span
-                      aria-hidden
-                      className={`flex h-4 w-4 shrink-0 items-center justify-center rounded border text-[10px] leading-none ${
-                        on ? "border-forest bg-forest text-parchment" : "border-hairline bg-card"
+                  {allLabel}
+                </button>
+              )}
+              {options.length === 0 && emptyMessage ? (
+                <p className="px-3 py-2 text-left text-sm text-ink/40">{emptyMessage}</p>
+              ) : q && shown.length === 0 ? (
+                <p className="px-3 py-2 text-left text-sm text-ink/40">No match for &ldquo;{query.trim()}&rdquo;</p>
+              ) : (
+                shown.map((opt) => {
+                  const on = picked.includes(opt.value);
+                  return (
+                    <button
+                      key={opt.value}
+                      type="button"
+                      role={multiple ? "option" : undefined}
+                      aria-selected={multiple ? on : undefined}
+                      onClick={() => handleSelect(opt.value)}
+                      className={`flex w-full items-center gap-2.5 px-3 py-2 text-left text-sm transition-colors hover:bg-parchment ${
+                        on ? "text-forest" : "text-ink/80"
                       }`}
                     >
-                      {on ? "\u2713" : ""}
-                    </span>
-                  )}
-                  {opt.icon}
-                  <span className="min-w-0 flex-1">{opt.label}</span>
-                </button>
-              );
-            })
+                      {multiple && (
+                        <span
+                          aria-hidden
+                          className={`flex h-4 w-4 shrink-0 items-center justify-center rounded border text-[10px] leading-none ${
+                            on ? "border-forest bg-forest text-parchment" : "border-hairline bg-card"
+                          }`}
+                        >
+                          {on ? "\u2713" : ""}
+                        </span>
+                      )}
+                      {opt.icon}
+                      <span className="min-w-0 flex-1">{opt.label}</span>
+                    </button>
+                  );
+                })
+              )}
+              {note && <p className="mt-1 border-t border-hairline px-3 pb-1 pt-2 text-xs leading-snug text-ink/50">{note}</p>}
+            </>
           )}
-          {note && <p className="mt-1 border-t border-hairline px-3 pb-1 pt-2 text-xs leading-snug text-ink/50">{note}</p>}
         </div>,
         document.body,
       )}

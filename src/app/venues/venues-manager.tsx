@@ -7,7 +7,9 @@ import { useMemo, useState, useTransition } from "react";
 import type { VenueShortlistEntry } from "@/lib/supabase/types";
 import { cityFilterValues, cityOptions } from "@/lib/city-options";
 import { priceHeadline } from "@/lib/venue-pricing";
-import { CAPACITY_FILTER_STEPS, STYLE_TIERS, VENUE_SETTINGS, VENUE_TYPES, currentVenueType, venueTypeImage } from "@/lib/wedding-options";
+import { dollars, venueTotalFor } from "@/lib/venue-budget";
+import { BudgetPanel, parseBudgetFilter } from "./budget-panel";
+import { CAPACITY_FILTER_STEPS, VENUE_SETTINGS, VENUE_TYPES, currentVenueType, venueTypeImage } from "@/lib/wedding-options";
 import { updateShortlistNotes } from "./actions";
 import { BookedVenueButton, ShortlistButton } from "./venue-card-shared";
 import { InquiryForm } from "./inquiry-form";
@@ -31,6 +33,8 @@ const VenuesMap = dynamic(() => import("./venues-map").then((m) => m.VenuesMap),
 });
 
 
+const roundTo500 = (n: number) => Math.round(n / 500) * 500;
+
 function VenueCard({
   venue,
   isShortlisted,
@@ -40,9 +44,12 @@ function VenueCard({
   onHover,
   onLeave,
   signedIn,
+  budgetGuests,
 }: {
   venue: VenueListing;
   signedIn: boolean;
+  /** Set while the budget filter is on: the card adds its estimated total. */
+  budgetGuests?: number;
   isShortlisted: boolean;
   isBooked: boolean;
   onBookedToggled: (bookedVenueId: string | null) => void;
@@ -61,6 +68,9 @@ function VenueCard({
   // only shows on venues without one (2026-10-22: tiers are on their way out).
   const price = priceHeadline({ price_from: venue.price_from, price_basis: venue.price_basis ?? null });
   const facts = [venue.venue_type, venue.setting, !price && venue.price_tier].filter(Boolean).join(" · ");
+  // A package or minimum is already the total; only the others need working out.
+  const total = budgetGuests ? venueTotalFor(venue, budgetGuests) : null;
+  const estimate = total && (total.estimated || venue.price_basis === "per_person") ? total : null;
   const place = [venue.city, venue.state].filter(Boolean).join(", ");
 
   return (
@@ -103,6 +113,13 @@ function VenueCard({
         {facts && <p className="mt-0.5 text-sm text-ink/80">{facts}</p>}
         {price && (
           <p className={`mt-0.5 text-sm ${venue.price_basis === "ask" ? "text-ink/60" : "font-medium text-ink"}`}>{price}</p>
+        )}
+        {estimate && (
+          <p className="text-[13px] text-ink/60">
+            {estimate.estimated
+              ? `About ${dollars(roundTo500(estimate.total))} with food & drink (est.)`
+              : `About ${dollars(roundTo500(estimate.total))} for ${budgetGuests} guests`}
+          </p>
         )}
         {place && <p className="mt-0.5 text-[13px] text-ink/55">{place}</p>}
         <Link
@@ -182,10 +199,13 @@ export function VenuesManager({
   shortlist,
   bookedVenueId: initialBookedVenueId,
   signedIn = true,
+  budgetDefaults = null,
 }: {
   venues: VenueListing[];
   shortlist: VenueShortlistEntry[];
   bookedVenueId: string | null;
+  /** A signed-in couple's guest count and venue, food & drink budget, to prefill the Budget filter. */
+  budgetDefaults?: { guests: number; budget: number } | null;
   /** False on the public page: no Saved view, and card actions link to signup. */
   signedIn?: boolean;
 }) {
@@ -197,7 +217,7 @@ export function VenuesManager({
       city: "all",
       capacity: "all",
       setting: "all",
-      price: "all",
+      budget: "all",
       type: "all",
       q: "",
     },
@@ -207,7 +227,7 @@ export function VenuesManager({
     city: cityFilter,
     capacity: capacityFilter,
     setting: settingFilter,
-    price: priceFilter,
+    budget: budgetFilter,
     type: savedType,
     q: search,
   } = filters;
@@ -238,32 +258,37 @@ export function VenuesManager({
   const activeFilterCount = [
     typeFilter,
     settingFilter,
-    priceFilter,
+    budgetFilter,
     capacityFilter,
     stateFilter,
     cityFilter,
   ].filter((f) => f !== "all").length;
+  const budget = useMemo(() => parseBudgetFilter(budgetFilter), [budgetFilter]);
 
-  // Most listings don't have a price tier or capacity yet, so a blank one
-  // isn't a mismatch: those venues stay in, after the confirmed matches,
-  // rather than vanishing from the price and capacity filters.
+  // Most listings don't have a price or capacity yet, so a blank one isn't a
+  // mismatch: those venues stay in, after the confirmed matches, rather than
+  // vanishing from the budget and capacity filters. A venue whose starting
+  // price is already over budget is the only one the budget hides.
   const filteredVenues = useMemo(() => {
+    const totals = new Map(
+      budget ? venues.map((v) => [v.id, venueTotalFor(v, budget.guests)?.total ?? null]) : [],
+    );
     const unknownForFilters = (v: VenueListing) =>
-      (priceFilter !== "all" && !v.price_tier) || (capacityFilter !== "all" && v.capacity == null);
+      (budget !== null && totals.get(v.id) == null) || (capacityFilter !== "all" && v.capacity == null);
     const types = new Set<string>(splitMulti(typeFilter));
     return venues
       .filter(
         (v) =>
           (types.size === 0 || types.has(currentVenueType(v.venue_type) ?? "")) &&
           (settingFilter === "all" || v.setting === settingFilter) &&
-          (priceFilter === "all" || !v.price_tier || v.price_tier === priceFilter) &&
+          (!budget || (totals.get(v.id) ?? 0) <= budget.budget) &&
           (capacityFilter === "all" || v.capacity == null || v.capacity >= Number(capacityFilter)) &&
           (stateFilter === "all" || v.state === stateFilter) &&
           (cityFilter === "all" || v.city === cityFilter) &&
           v.name.toLowerCase().includes(search.trim().toLowerCase()),
       )
       .sort((a, b) => Number(unknownForFilters(a)) - Number(unknownForFilters(b)));
-  }, [venues, typeFilter, settingFilter, priceFilter, capacityFilter, stateFilter, cityFilter, search]);
+  }, [venues, typeFilter, settingFilter, budget, capacityFilter, stateFilter, cityFilter, search]);
 
   // Like Zillow, the list is what the map shows: pan or zoom and it follows.
   // Until the map has drawn, it is everything the filters match.
@@ -278,7 +303,7 @@ export function VenuesManager({
       city: "all",
       capacity: "all",
       setting: "all",
-      price: "all",
+      budget: "all",
       type: "all",
     });
   }
@@ -350,12 +375,20 @@ export function VenuesManager({
             options={VENUE_SETTINGS.map((setting) => ({ value: setting, label: setting }))}
           />
           <FilterDropdown
-            label="Price"
-            allLabel="Any price"
-            value={priceFilter}
-            onChange={(v) => setFilter("price", v)}
-            options={STYLE_TIERS.map((tier) => ({ value: tier, label: tier }))}
-            note="From each venue's published prices. Venues that don't publish theirs still show."
+            label="Budget"
+            allLabel="Any budget"
+            value={budgetFilter}
+            onChange={(v) => setFilter("budget", v)}
+            options={[]}
+            activeLabel={budget ? `Under ${dollars(budget.budget, true)} · ${budget.guests} guests` : undefined}
+            panel={(close) => (
+              <BudgetPanel
+                value={budgetFilter}
+                defaults={budgetDefaults}
+                onApply={(v) => setFilter("budget", v)}
+                close={close}
+              />
+            )}
           />
           <FilterDropdown
             label="Venue type"
@@ -403,6 +436,7 @@ export function VenuesManager({
           onHover={() => setHoveredVenueId(venue.id)}
           onLeave={() => setHoveredVenueId(null)}
           signedIn={signedIn}
+          budgetGuests={budget?.guests}
         />
       ))}
     </SearchShell>
