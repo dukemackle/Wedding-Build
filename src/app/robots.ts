@@ -27,7 +27,6 @@ export default function robots(): MetadataRoute.Robots {
         "/itinerary",
         "/checklist",
         "/bookings",
-        "/attire",
         "/go/",
         "/help",
         "/list/edit",

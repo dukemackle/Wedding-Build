@@ -16,6 +16,7 @@ export function AttireQuickView({
   pending,
   vendorName,
   party,
+  signedIn = true,
   onToggleSave,
   onAssign,
   onClose,
@@ -25,6 +26,7 @@ export function AttireQuickView({
   pending?: boolean;
   vendorName?: string;
   party: AttirePartyMember[];
+  signedIn?: boolean;
   onToggleSave: () => void;
   onAssign: (memberId: string) => void;
   onClose: () => void;
@@ -207,7 +209,14 @@ export function AttireQuickView({
                   Wearing this: {wearing.map((m) => m.name).join(", ")}
                 </p>
               )}
-              {party.length === 0 ? (
+              {!signedIn ? (
+                <p className="mt-1 text-sm text-ink/60">
+                  <Link href={`/signup?next=${encodeURIComponent("/attire")}`} className="text-forest underline">
+                    Sign up free
+                  </Link>{" "}
+                  to give each bridesmaid and groomsman a look and send them one link.
+                </p>
+              ) : party.length === 0 ? (
                 <p className="mt-1 text-sm text-ink/60">
                   Add your party on the Party board tab, then assign this look to them.
                 </p>

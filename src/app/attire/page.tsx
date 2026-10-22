@@ -1,8 +1,9 @@
+import type { Metadata } from "next";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { AppNav } from "@/components/app-nav";
 import { PageShell } from "@/components/page-shell";
+import { PublicNav } from "@/components/public-nav";
 import type {
   AttireItem,
   AttirePartyMember,
@@ -10,6 +11,24 @@ import type {
   Wedding,
 } from "@/lib/supabase/types";
 import { AttireBrowser } from "./attire-browser";
+
+export const metadata: Metadata = {
+  title: "Wedding attire",
+  description:
+    "Wedding dresses, bridesmaid dresses, suits and tuxedos to buy or rent, and rings, from US retailers. Filter by style, colour and price, with prices dated.",
+  alternates: { canonical: "/attire" },
+};
+
+async function loadVendorNames(supabase: Awaited<ReturnType<typeof createClient>>, items: AttireItem[]) {
+  const vendorIds = [...new Set(items.map((i) => i.vendor_id).filter(Boolean))] as string[];
+  if (!vendorIds.length) return {};
+  const { data } = await supabase
+    .from("vendors")
+    .select("id, name")
+    .in("id", vendorIds)
+    .returns<{ id: string; name: string }[]>();
+  return Object.fromEntries((data ?? []).map((v) => [v.id, v.name]));
+}
 
 export default async function AttirePage({
   searchParams,
@@ -22,8 +41,32 @@ export default async function AttirePage({
     data: { user },
   } = await supabase.auth.getUser();
 
+  // Logged out: the same browse screen; the heart, the party board and
+  // "Sign up" all lead to signup. Lets retailers' affiliate reviewers and
+  // search engines see the catalog.
   if (!user) {
-    redirect("/login");
+    const { data: items } = await supabase
+      .from("attire_items")
+      .select("*")
+      .eq("is_active", true)
+      .order("is_featured", { ascending: false })
+      .order("name")
+      .returns<AttireItem[]>();
+    return (
+      <main className="flex flex-1 flex-col items-center px-6 py-16">
+        <PublicNav next="/attire" />
+        <div id="main-content" tabIndex={-1} className="w-full">
+          <AttireBrowser
+            items={items ?? []}
+            shortlist={[]}
+            party={[]}
+            vendorNames={await loadVendorNames(supabase, items ?? [])}
+            shareToken={null}
+            signedIn={false}
+          />
+        </div>
+      </main>
+    );
   }
 
   const { data: wedding } = await supabase
@@ -78,14 +121,6 @@ export default async function AttirePage({
       .returns<AttirePartyMember[]>(),
   ]);
 
-  const vendorIds = [...new Set((items ?? []).map((i) => i.vendor_id).filter(Boolean))] as string[];
-  const { data: vendors } = vendorIds.length
-    ? await supabase
-        .from("vendors")
-        .select("id, name")
-        .in("id", vendorIds)
-        .returns<{ id: string; name: string }[]>()
-    : { data: [] };
 
   return (
     <PageShell email={user.email ?? ""} width="full">
@@ -93,7 +128,7 @@ export default async function AttirePage({
         items={items ?? []}
         shortlist={shortlist ?? []}
         party={party ?? []}
-        vendorNames={Object.fromEntries((vendors ?? []).map((v) => [v.id, v.name]))}
+        vendorNames={await loadVendorNames(supabase, items ?? [])}
         shareToken={wedding.party_share_token}
         initialView={view === "saved" || view === "party" ? view : "browse"}
       />
