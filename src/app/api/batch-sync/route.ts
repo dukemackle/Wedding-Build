@@ -43,7 +43,7 @@ const withoutProtected = (row: Record<string, unknown>) =>
 /** The only columns an update may set, so a bad payload can't touch anything else. */
 const UPDATABLE = ["address", "city", "latitude", "longitude", "address_checked_at"] as const;
 /** Venue details a batch row can fill in later; the importer only sends them for a blank field. */
-const VENUE_DETAILS = ["capacity", "price_tier"] as const;
+const VENUE_DETAILS = ["capacity", "price_tier", "price_from", "price_basis"] as const;
 
 export async function GET(request: Request) {
   const refused = refuseBatchCaller(request);
@@ -58,7 +58,7 @@ export async function GET(request: Request) {
     .from(table)
     .select(
       `id, name, source_id, website, city, state, address, latitude, longitude, address_checked_at${
-        table === "venues" ? ", capacity, price_tier" : ""
+        table === "venues" ? ", capacity, price_tier, price_from, price_basis" : ""
       }`,
     )
     .order("id")
@@ -126,7 +126,7 @@ export async function POST(request: Request) {
     if (stamped.length > 0) {
       const { data } = await admin
         .from(table)
-        .select(`id, address, city, field_sources${table === "venues" ? ", capacity, price_tier" : ""}`)
+        .select(`id, address, city, field_sources${table === "venues" ? ", capacity, price_tier, price_from, price_basis" : ""}`)
         .in("id", stamped.map((u: Record<string, unknown>) => u.id as string));
       for (const row of (data ?? []) as unknown as (Record<string, unknown> & { id: string; field_sources: FieldSources })[]) {
         current.set(row.id, row);
@@ -142,6 +142,12 @@ export async function POST(request: Request) {
         const was = current.get(update.id) ?? null;
         for (const key of VENUE_DETAILS) {
           if (key in values && (was?.[key] ?? null) !== null) delete values[key];
+        }
+        // A price and its basis are one fact: if the listing already has
+        // either (a venue's own "Ask us" included), neither is overwritten.
+        if ((was?.price_from ?? null) !== null || (was?.price_basis ?? null) !== null) {
+          delete values.price_from;
+          delete values.price_basis;
         }
         if (Object.keys(values).length === 0) return null;
         const details = Object.fromEntries(VENUE_DETAILS.filter((key) => key in values).map((key) => [key, values[key]]));
