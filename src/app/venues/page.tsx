@@ -5,13 +5,16 @@ import { fetchAll } from "@/lib/supabase/fetch-all";
 import { AppNav } from "@/components/app-nav";
 import { PublicNav } from "@/components/public-nav";
 import { VENUE_LIST_COLUMNS, type VenueListing } from "@/lib/public-listings";
-import type { VenueShortlistEntry, Wedding } from "@/lib/supabase/types";
+import type { RegionalCostData, VenueShortlistEntry, Wedding } from "@/lib/supabase/types";
+import { effectiveGuestCount } from "@/lib/budget-categories";
+import { weddingCategoryEstimates } from "@/lib/estimator";
+import { VENUE_BUDGET_KEYS } from "@/lib/venue-budget";
 import { VenuesManager } from "./venues-manager";
 
 export const metadata: Metadata = {
   title: "Wedding venues",
   description:
-    "Browse wedding venues by state, city, capacity, setting and price, on a map. Details checked and dated, so you know what's current.",
+    "Browse wedding venues by state, city, capacity, setting and budget, on a map. Details checked and dated, so you know what's current.",
   alternates: { canonical: "/venues" },
 };
 
@@ -28,6 +31,36 @@ function loadVenues(supabase: Awaited<ReturnType<typeof createClient>>, signedIn
       .returns<VenueListing[]>(),
     5,
   );
+}
+
+/**
+ * The Budget filter's starting numbers: the couple's guest count and their
+ * Venue, Catering and Bar lines, as the budget page shows them (their own
+ * figure where they've set one, Wren's estimate otherwise). Null without a
+ * guest count, since a per-person price means nothing without one.
+ */
+async function loadBudgetDefaults(supabase: Awaited<ReturnType<typeof createClient>>, wedding: Wedding) {
+  const [{ data: guests }, { data: lines }, { data: regionalData }] = await Promise.all([
+    supabase.from("guests").select("status, plus_one").eq("wedding_id", wedding.id),
+    supabase
+      .from("budget_line_items")
+      .select("category, override_value")
+      .eq("wedding_id", wedding.id)
+      .in("category", [...VENUE_BUDGET_KEYS]),
+    supabase.from("regional_cost_data").select("*").eq("state", wedding.state ?? "").returns<RegionalCostData[]>(),
+  ]);
+  const guestCount = effectiveGuestCount(wedding, guests ?? []);
+  if (guestCount <= 0) return null;
+  const actuals = new Map<string, number>();
+  for (const line of lines ?? []) {
+    if (line.override_value != null) actuals.set(line.category, line.override_value);
+  }
+  const estimates = weddingCategoryEstimates(regionalData ?? [], wedding, guestCount, {
+    hidden: wedding.hidden_budget_categories,
+    actuals,
+  });
+  const budget = VENUE_BUDGET_KEYS.reduce((sum, key) => sum + (actuals.get(key) ?? estimates.get(key) ?? 0), 0);
+  return budget > 0 ? { guests: guestCount, budget } : null;
 }
 
 export default async function VenuesPage() {
@@ -80,13 +113,14 @@ export default async function VenuesPage() {
     );
   }
 
-  const [venues, { data: shortlist }] = await Promise.all([
+  const [venues, { data: shortlist }, budgetDefaults] = await Promise.all([
     loadVenues(supabase, true),
     supabase
       .from("venue_shortlist")
       .select("*")
       .eq("wedding_id", wedding.id)
       .returns<VenueShortlistEntry[]>(),
+    loadBudgetDefaults(supabase, wedding),
   ]);
 
   return (
@@ -100,6 +134,7 @@ export default async function VenuesPage() {
         venues={venues}
         shortlist={shortlist ?? []}
         bookedVenueId={wedding.venue_id}
+        budgetDefaults={budgetDefaults}
       />
     </main>
   );
