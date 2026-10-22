@@ -13,7 +13,9 @@ import type { MapView } from "@/lib/map-view";
  *
  * - zoomed out, nearby listings group into one numbered circle; tapping it
  *   zooms in on them;
- * - closer in, the ones that separate are small plain dots;
+ * - closer in, the ones that separate are small rings, a coloured band
+ *   round a gold centre (like the logo's rings), which hold up on green
+ *   parkland and grey streets where a plain dot got lost;
  * - at city level (LABEL_ZOOM and up), they get their label back.
  *
  * Only what is on screen (plus a margin) is ever drawn.
@@ -140,15 +142,15 @@ export function ClusteredMarkers<T extends PinnedListing>({
   );
 }
 
-/** A plain dot for a listing seen from too far out to read a label. */
-export function dotIcon(background: string, active = false) {
-  const key = `${background}:${active}`;
+/** A small ring for a listing seen from too far out to read a label. */
+export function dotIcon(band: string, active = false) {
+  const key = `${band}:${active}`;
   let icon = dotIcons.get(key);
   if (!icon) {
-    const size = active ? 16 : 12;
+    const size = active ? 16 : 14;
     icon = L.divIcon({
       className: "",
-      html: `<div style="width:${size}px;height:${size}px;border-radius:50%;background:${background};border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.3);"></div>`,
+      html: `<div style="width:${size}px;height:${size}px;box-sizing:border-box;border-radius:50%;background:#FFD301;border:3px solid ${band};box-shadow:0 0 0 2px #fff,0 1px 5px rgba(0,0,0,.35);"></div>`,
       iconSize: [size, size],
       iconAnchor: [size / 2, size / 2],
     });

@@ -5,11 +5,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState, useTransition } from "react";
 import type { VenueShortlistEntry } from "@/lib/supabase/types";
+import { cityFilterValues, cityOptions } from "@/lib/city-options";
+import { priceHeadline } from "@/lib/venue-pricing";
 import { CAPACITY_FILTER_STEPS, STYLE_TIERS, VENUE_SETTINGS, VENUE_TYPES, currentVenueType, venueTypeImage } from "@/lib/wedding-options";
 import { updateShortlistNotes } from "./actions";
 import { BookedVenueButton, ShortlistButton } from "./venue-card-shared";
 import { InquiryForm } from "./inquiry-form";
-import { FilterDropdown } from "@/components/filter-dropdown";
+import { FilterDropdown, MULTI_SEPARATOR, splitMulti } from "@/components/filter-dropdown";
+import { VenueTypeIcon } from "@/components/venue-type-icon";
 import { SearchShell } from "@/components/search-shell";
 import { useSavedFilters } from "@/lib/use-saved-filters";
 import { isInView, viewKey, type MapView } from "@/lib/map-view";
@@ -54,7 +57,10 @@ function VenueCard({
   // It is the number a couple actually filters a venue on, and unlike price it
   // is data we hold for every listing.
   const lead = venue.capacity ? `${venue.capacity} guests` : venue.name;
-  const facts = [venue.venue_type, venue.setting, venue.price_tier].filter(Boolean).join(" · ");
+  // A published price says more than the tier worked out from it, so the tier
+  // only shows on venues without one (2026-10-22: tiers are on their way out).
+  const price = priceHeadline({ price_from: venue.price_from, price_basis: venue.price_basis ?? null });
+  const facts = [venue.venue_type, venue.setting, !price && venue.price_tier].filter(Boolean).join(" · ");
   const place = [venue.city, venue.state].filter(Boolean).join(", ");
 
   return (
@@ -95,6 +101,9 @@ function VenueCard({
           <p className="font-mono-numbers text-lg font-bold tracking-tight text-ink">{lead}</p>
         </Link>
         {facts && <p className="mt-0.5 text-sm text-ink/80">{facts}</p>}
+        {price && (
+          <p className={`mt-0.5 text-sm ${venue.price_basis === "ask" ? "text-ink/60" : "font-medium text-ink"}`}>{price}</p>
+        )}
         {place && <p className="mt-0.5 text-[13px] text-ink/55">{place}</p>}
         <Link
           href={venueHref(venue)}
@@ -202,8 +211,12 @@ export function VenuesManager({
     type: savedType,
     q: search,
   } = filters;
-  // A filter saved before the 2026-10-22 categories maps to the nearest one.
-  const typeFilter = currentVenueType(savedType) ?? "all";
+  // Any number of types, joined; a filter saved before the 2026-10-22
+  // categories maps to the nearest one.
+  const typeFilters = splitMulti(savedType)
+    .map((t) => currentVenueType(t))
+    .filter((t): t is NonNullable<typeof t> => t != null);
+  const typeFilter = typeFilters.length ? typeFilters.join(MULTI_SEPARATOR) : "all";
   const [mapView, setMapView] = useState<MapView | null>(null);
   const [hoveredVenueId, setHoveredVenueId] = useState<string | null>(null);
 
@@ -216,18 +229,7 @@ export function VenuesManager({
     [venues],
   );
 
-  const availableCities = useMemo(
-    () =>
-      Array.from(
-        new Set(
-          venues
-            .filter((v) => stateFilter === "all" || v.state === stateFilter)
-            .map((v) => v.city)
-            .filter((c): c is string => Boolean(c)),
-        ),
-      ).sort(),
-    [venues, stateFilter],
-  );
+  const availableCities = useMemo(() => cityOptions(venues, stateFilter), [venues, stateFilter]);
 
   function handleStateFilterChange(value: string) {
     updateFilters({ state: value, city: "all" });
@@ -248,10 +250,11 @@ export function VenuesManager({
   const filteredVenues = useMemo(() => {
     const unknownForFilters = (v: VenueListing) =>
       (priceFilter !== "all" && !v.price_tier) || (capacityFilter !== "all" && v.capacity == null);
+    const types = new Set<string>(splitMulti(typeFilter));
     return venues
       .filter(
         (v) =>
-          (typeFilter === "all" || currentVenueType(v.venue_type) === typeFilter) &&
+          (types.size === 0 || types.has(currentVenueType(v.venue_type) ?? "")) &&
           (settingFilter === "all" || v.setting === settingFilter) &&
           (priceFilter === "all" || !v.price_tier || v.price_tier === priceFilter) &&
           (capacityFilter === "all" || v.capacity == null || v.capacity >= Number(capacityFilter)) &&
@@ -324,9 +327,10 @@ export function VenuesManager({
             label="City"
             allLabel="All cities"
             value={cityFilter}
-            onChange={(v) => setFilter("city", v)}
-            options={availableCities.map((city) => ({ value: city, label: city }))}
+            onChange={(v) => updateFilters(cityFilterValues(v))}
+            options={availableCities}
             emptyMessage="No cities for this state"
+            searchPlaceholder="Type your city"
           />
           <FilterDropdown
             label="Capacity"
@@ -351,13 +355,19 @@ export function VenuesManager({
             value={priceFilter}
             onChange={(v) => setFilter("price", v)}
             options={STYLE_TIERS.map((tier) => ({ value: tier, label: tier }))}
+            note="From each venue's published prices. Venues that don't publish theirs still show."
           />
           <FilterDropdown
             label="Venue type"
             allLabel="All venue types"
             value={typeFilter}
             onChange={(v) => setFilter("type", v)}
-            options={VENUE_TYPES.map((type) => ({ value: type, label: type }))}
+            multiple
+            options={VENUE_TYPES.map((type) => ({
+              value: type,
+              label: type,
+              icon: <VenueTypeIcon type={type} />,
+            }))}
           />
         </>
       }

@@ -20,10 +20,10 @@ import type { Vendor, Venue } from "@/lib/supabase/types";
  * ask for an address.
  */
 export const VENUE_LIST_COLUMNS =
-  "id, slug, name, state, city, latitude, longitude, venue_type, setting, capacity, price_tier, image_url, is_sample, source";
+  "id, slug, name, state, city, latitude, longitude, venue_type, setting, capacity, price_tier, price_from, price_basis, image_url, is_sample, source";
 export type VenueListing = Pick<
   Venue,
-  "id" | "slug" | "name" | "state" | "city" | "latitude" | "longitude" | "venue_type" | "setting" | "capacity" | "price_tier" | "image_url" | "is_sample" | "source"
+  "id" | "slug" | "name" | "state" | "city" | "latitude" | "longitude" | "venue_type" | "setting" | "capacity" | "price_tier" | "price_from" | "price_basis" | "image_url" | "is_sample" | "source"
 > & { contact_email?: string | null };
 
 export const VENDOR_LIST_COLUMNS =

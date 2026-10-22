@@ -404,7 +404,7 @@ try {
     summary.moved += moves.length;
     console.log(`${table}: ${moves.length} moved onto their batch row's address`);
 
-    // 2b. Venue capacity and price tier a batch row has gained since import
+    // 2b. Venue capacity, price tier and published price a batch row has gained since import
     //     (the details backfill adds them to existing rows). Blank fields only:
     //     a claimed or hand-edited listing keeps its own.
     if (table === "venues") {
@@ -416,11 +416,16 @@ try {
         const fill = {};
         if (row.capacity != null && listing.capacity == null) fill.capacity = row.capacity;
         if (row.price_tier && !listing.price_tier) fill.price_tier = row.price_tier;
+        // Figure and basis travel together, and only onto a listing with no price of its own.
+        if (row.price_from != null && listing.price_from == null && !listing.price_basis) {
+          fill.price_from = row.price_from;
+          fill.price_basis = row.price_basis;
+        }
         if (Object.keys(fill).length) fills.push({ id: listing.id, ...fill });
       }
       await update(table, fills);
       summary.detailed = fills.length;
-      console.log(`${table}: ${fills.length} given a capacity or price tier from their batch row`);
+      console.log(`${table}: ${fills.length} given a capacity, price tier or price from their batch row`);
     }
   }
 

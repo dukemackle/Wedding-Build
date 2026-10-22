@@ -18,7 +18,7 @@ Use the argument if one was given. **Launch metros come first (owner,
 2026-10-21):** `LAUNCH_METROS` in `scripts/coverage-plan.mjs` (Austin, San Diego,
 Dallas–Fort Worth, Houston, San Antonio, New York City, Los Angeles, Chicago, Miami, in that
 order). Batches there go for depth: venues in and around those metros, and
-capacity, price tier and re-verification on the ones already listed. Otherwise
+capacity, published price and re-verification on the ones already listed. Otherwise
 run `npm run coverage` and take
 the state furthest from its target (the plan's metros and targets are in
 `scripts/coverage-plan.mjs`). **Map fill (pass 4, stage 1) comes first:**
@@ -53,7 +53,7 @@ Start a new batch with this heading row (tab-separated, the same table the
 admin import panel accepts):
 
 ```
-Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
+Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
 ```
 
 - **Address**: required research, because it's what puts the venue in the
@@ -86,16 +86,17 @@ Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tie
   whole number. If it gives seated and standing, use seated; if several
   spaces, the largest single space or the total it says it can host at once,
   whichever the site states. Blank if the site doesn't say -- never guess.
-- **Price tier**: `Simple`, `Classic` or `Luxury`, only when the site
-  publishes pricing (rental fee, packages or a starting price). Blank when it
-  doesn't -- "Contact us for pricing" is blank, and so is "it looks
-  expensive". Provisional bands, for a peak Saturday:
-  - Venue-only rental: under $6,000 Simple, $6,000-$15,000 Classic, over
-    $15,000 Luxury.
-  - All-inclusive per guest: under $100 Simple, $100-$200 Classic, over $200
-    Luxury.
-  - A minimum spend counts as the rental fee.
-  Say in the PR body which venues got a tier and from what figure.
+- **Price from / Price basis** (2026-10-22, replacing a hand-picked Price
+  tier): the lowest wedding price the venue's own site publishes, in whole
+  dollars ("8000", no "$" needed), and what it buys: `Rental` (the space),
+  `Package`, `Per person`, or `Minimum` (a food-and-drink minimum spend).
+  Both or neither: "Contact us for pricing" is blank, and so is "it looks
+  expensive". Take the peak-Saturday price when the site lists several, and
+  never add up a total yourself. The importer derives the Simple/Classic/
+  Luxury tier from these (`tierFromPrice` in `src/lib/venue-pricing.ts`), so
+  leave out the Price tier column. Older files that still have it import as
+  before.
+  Say in the PR body which venues got a price and which page it came from.
 - **Email / Phone / Website**: from the site. Website is the de-dupe key, so
   use the venue's own wedding page or home page, `https://`, no tracking
   query string. A venue inside a hotel chain gets that property's URL, not
@@ -116,7 +117,7 @@ ERROR. Warnings (no Setting, a capacity under 20 or over 1000) aren't
 blockers, but re-check each one against the site and say in the PR body if
 it's right. Every venue in your batch should have an address (a "no Address" warning
 on one of yours needs a reason in the PR body). The last line reports what
-share of all venues carry a capacity, price tier, street address and pin -- quote it in the PR body so coverage can be tracked.
+share of all venues carry a capacity, published price, price tier, street address and pin -- quote it in the PR body so coverage can be tracked.
 
 Then `npm run lint` if node_modules is installed.
 

@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import type { ReactNode } from "react";
 import { createPortal } from "react-dom";
+import { VenueTypeIcon } from "@/components/venue-type-icon";
 import { WrenMotto } from "@/components/wren-motto";
 import { AskWrenTile } from "@/app/dashboard/ask-wren-tile";
 import {
@@ -1036,7 +1037,7 @@ function RsvpDemo() {
  * The map is drawn, not Leaflet, so opening a demo pulls no tiles.
  */
 
-type Pin = { id: string; x: number; y: number; label: string };
+type Pin = { id: string; x: number; y: number; label: string; icon?: ReactNode };
 
 function MockMap({
   pins,
@@ -1082,12 +1083,17 @@ function MockMap({
           onBlur={() => onPin(null)}
           aria-label={p.label}
           style={{ left: `${p.x}%`, top: `${p.y}%` }}
-          className={`absolute -translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded-full border-2 border-white px-2 py-0.5 text-[11px] font-bold shadow-md transition-transform ${
+          className={`absolute flex -translate-x-1/2 -translate-y-1/2 items-center gap-1 whitespace-nowrap rounded-full border-2 border-white text-[11px] font-bold shadow-md transition-transform ${
+            p.icon ? "py-0.5 pl-0.5 pr-2" : "px-2 py-0.5"
+          } ${
             active === p.id
-              ? "z-10 scale-110 bg-brass text-forest"
+              ? p.icon
+                ? "z-10 scale-110 bg-[#2243B6] text-white"
+                : "z-10 scale-110 bg-brass text-forest"
               : "bg-forest text-white"
           }`}
         >
+          {p.icon}
           {p.label}
         </button>
       ))}
@@ -1201,7 +1207,13 @@ function VenuesDemo() {
       noun="venue"
       active={active}
       onActive={setActive}
-      pins={shown.map((v) => ({ id: v.id, x: v.x, y: v.y, label: `${v.guests}` }))}
+      pins={shown.map((v) => ({
+        id: v.id,
+        x: v.x,
+        y: v.y,
+        label: `${v.guests}`,
+        icon: <VenueTypeIcon type={v.kind} className="h-4 w-4" />,
+      }))}
       filters={
         <>
           {[0, 150, 200].map((n) => (

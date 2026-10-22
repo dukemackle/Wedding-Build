@@ -164,3 +164,23 @@ rules, batch self-merge, 50-state coverage, page widths) and
 - Why: finer categories for browsing venues, and a basis for designing guest
   sites per kind of venue.
 - Revisit: after the remaining four layout families are mocked.
+
+## 2026-10-22 — Venue price: store the published figure, not a tier
+- Decided: the owner approved (1) recording each venue's published price and
+  basis (`price_from`, `price_basis`, dated in `field_sources`) in batches,
+  with Simple/Classic/Luxury derived from them (`tierFromPrice`) as an
+  interim; (2) dropping the tier labels from the public UI once the launch
+  metros have figures; (3) a "fits my budget" Price filter that signed-out
+  visitors use by typing a guest count and signed-in couples get prefilled.
+  Venues with no price stay in results as "Ask for pricing". The vendor price
+  filter is removed until vendors carry prices.
+- Why: a flat tier merges venue size with luxury (a 40-guest estate at $8k
+  read "Classic"), a label like "Luxury" can put couples off a venue they
+  could afford, and a sourced figure is easier to defend than our own label
+  (legal-audit R5). Couples compare total cost for their guest count.
+- Alternatives: relabel or shift the tier bands (keeps the size flaw); a
+  separate "style" rating (subjective, no source; venue type and setting
+  already cover feel).
+- Next: cards show "From $X · basis · checked" in estimate wording; the
+  budget filter; re-check the ~1,300 tier-only venues, launch metros first.
+- Revisit: when the launch metros' share of venues with a price is known.
