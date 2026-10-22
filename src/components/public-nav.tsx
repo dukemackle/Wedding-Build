@@ -15,6 +15,7 @@ export function PublicNav({ next }: { next?: string }) {
   const links = [
     { href: "/venues", label: "Venues" },
     { href: "/vendors", label: "Vendors" },
+    { href: "/attire", label: "Attire" },
     { href: "/list", label: "For businesses" },
   ];
   return (
