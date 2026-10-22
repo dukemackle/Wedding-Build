@@ -1,6 +1,6 @@
 "use client";
 
-import type { Vendor } from "@/lib/supabase/types";
+import type { VendorListing } from "@/lib/public-listings";
 import { InquiryComposer, type InquiryQuestion } from "@/components/inquiry-composer";
 import { sendVendorInquiry } from "./actions";
 
@@ -13,7 +13,7 @@ const VENDOR_QUESTIONS: InquiryQuestion[] = [
   { label: "A call", line: "a good time for a quick call" },
 ];
 
-export function InquiryForm({ vendor, onDone }: { vendor: Vendor; onDone: () => void }) {
+export function InquiryForm({ vendor, onDone }: { vendor: VendorListing; onDone: () => void }) {
   return (
     <InquiryComposer
       to={vendor.name}

@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { createElement, useEffect, useMemo, useRef, useState, useTransition } from "react";
 import type { ComponentType, SVGProps } from "react";
-import type { Vendor, VendorFavoriteEntry, VendorInquiry, VendorInquiryStatus } from "@/lib/supabase/types";
+import type { VendorFavoriteEntry, VendorInquiry, VendorInquiryStatus } from "@/lib/supabase/types";
 import { STYLE_TIERS } from "@/lib/wedding-options";
 import {
   markVendorBooked,
@@ -20,7 +20,7 @@ import { InquiryForm } from "./inquiry-form";
 import { VendorFollowUps } from "./vendor-follow-ups";
 import { BirdEmptyState } from "@/components/wren-moments";
 import { SignupCardButton, SignupHeart } from "@/components/public-nav";
-import { vendorHref } from "@/lib/public-listings";
+import { vendorHref, type VendorListing } from "@/lib/public-listings";
 import { useSavedFilters } from "@/lib/use-saved-filters";
 import { isInView, viewKey, type MapView } from "@/lib/map-view";
 import {
@@ -101,7 +101,7 @@ function VendorCard({
   cardRef,
   signedIn,
 }: {
-  vendor: Vendor;
+  vendor: VendorListing;
   signedIn: boolean;
   isFavorited: boolean;
   isBooked: boolean;
@@ -358,7 +358,7 @@ export function VendorsManager({
   favorites,
   signedIn = true,
 }: {
-  vendors: Vendor[];
+  vendors: VendorListing[];
   inquiries: VendorInquiry[];
   favorites: VendorFavoriteEntry[];
   /** False on the public page: no Saved / Inquiries views, and card actions link to signup. */

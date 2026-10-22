@@ -37,7 +37,7 @@ export type FeatureData = {
   itinerary: { time: string | null; title: string }[];
   layoutItems: number;
   /** The guest site: the couple's names and date as it shows them, and whether it's published. */
-  site: { names: string; date: string | null; live: boolean };
+  site: { names: string; date: string | null; live: boolean; photo?: string | null };
 };
 
 const usd = (n: number) =>
@@ -59,8 +59,17 @@ const pct = (part: number, whole: number) =>
 
 /* ---------- What fills each box ---------- */
 
+/**
+ * Stand-in photos (the landing page's, Unsplash) for boxes that would
+ * otherwise open on a drawing, until the couple has a photo of their own.
+ */
+const STOCK = {
+  venue: "/landing/features/venues.webp",
+  attire: "/landing/features/attire.webp",
+};
+
 /** A photo filling the box, with a label across its foot. */
-function PhotoMedia({ src, label }: { src: string; label: string }) {
+function PhotoMedia({ src, label }: { src: string; label?: string }) {
   return (
     <>
       <Image
@@ -71,9 +80,11 @@ function PhotoMedia({ src, label }: { src: string; label: string }) {
         className="object-cover transition-transform duration-700 group-hover:scale-105"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/5 to-transparent" />
-      <p className="absolute inset-x-3 bottom-2 truncate font-mono-numbers text-[9px] uppercase tracking-[0.2em] text-white sm:inset-x-4 sm:bottom-3 sm:text-[10px]">
-        {label}
-      </p>
+      {label && (
+        <p className="absolute inset-x-3 bottom-2 truncate font-mono-numbers text-[9px] uppercase tracking-[0.2em] text-white sm:inset-x-4 sm:bottom-3 sm:text-[10px]">
+          {label}
+        </p>
+      )}
     </>
   );
 }
@@ -365,23 +376,10 @@ export function buildFeatures(d: FeatureData): Feature[] {
         : d.venuesShortlisted > 0
           ? `${d.venuesShortlisted} shortlisted`
           : "Find your place",
-      // Their venue: its photo, or its name and date when the listing has no
-      // photo. The drawing is only for a couple who hasn't picked one.
-      media: d.venue?.photo ? (
-        <PhotoMedia src={d.venue.photo} label={d.venue.name} />
-      ) : d.venue ? (
-        <Panel>
-          {d.venue.booked && (
-            <span className="flex items-center gap-1.5">
-              {tick}
-              <Small>Booked</Small>
-            </span>
-          )}
-          <span className="line-clamp-3 font-display text-xl font-semibold leading-tight text-forest sm:text-2xl">
-            {d.venue.name}
-          </span>
-          {d.site.date && <Small>{longDate(d.site.date)}</Small>}
-        </Panel>
+      // Their venue's photo, or a stand-in with its name when the listing has
+      // none. The drawing is only for a couple who hasn't picked one.
+      media: d.venue ? (
+        <PhotoMedia src={d.venue.photo ?? STOCK.venue} label={d.venue.name} />
       ) : (
         <DrawingMedia src="/venue-types/barn-rustic.svg" />
       ),
@@ -462,7 +460,7 @@ export function buildFeatures(d: FeatureData): Feature[] {
       media: d.attire?.photo ? (
         <PhotoMedia src={d.attire.photo} label={d.attire.name} />
       ) : (
-        <DrawingMedia src="/attire-types/wedding-dress.svg" />
+        <PhotoMedia src={STOCK.attire} />
       ),
     },
     {
@@ -505,8 +503,11 @@ export function buildFeatures(d: FeatureData): Feature[] {
         : next === "site"
           ? "Publish it"
           : "Design yours",
-      // The top of their own site: names, date, and the RSVP button guests see.
-      media: (
+      // Their banner photo once they've chosen one; until then the top of the
+      // site as text: names, date, and whether guests can see it.
+      media: d.site.photo ? (
+        <PhotoMedia src={d.site.photo} label={d.site.names} />
+      ) : (
         <Panel>
           <Phrase>{d.site.names}</Phrase>
           <Small>{d.site.date ? d.site.live ? `${longDate(d.site.date)} · RSVP online` : longDate(d.site.date) : "Your date, schedule and RSVP"}</Small>

@@ -10,9 +10,8 @@ import { BaseMapLayer } from "@/components/base-map-layer";
 import { FitToPins } from "@/components/map-fit-bounds";
 import { ClusteredMarkers, dotIcon } from "@/components/clustered-markers";
 import { MAP_MIN_ZOOM, US_MAP_BOUNDS, type MapView } from "@/lib/map-view";
-import type { Venue } from "@/lib/supabase/types";
 import { ShortlistButton } from "./venue-card-shared";
-import { venueHref } from "@/lib/public-listings";
+import { venueHref, type VenueListing } from "@/lib/public-listings";
 import { venueTypeImage } from "@/lib/wedding-options";
 
 
@@ -71,7 +70,7 @@ export function VenuesMap({
   heightClassName,
   signedIn = true,
 }: {
-  venues: Venue[];
+  venues: VenueListing[];
   shortlistedIds: Set<string>;
   hoveredVenueId?: string | null;
   onHoverVenue?: (venueId: string | null) => void;
@@ -85,7 +84,7 @@ export function VenuesMap({
   const pinned = useMemo(
     () =>
       venues.filter(
-        (v): v is Venue & { latitude: number; longitude: number } =>
+        (v): v is VenueListing & { latitude: number; longitude: number } =>
           v.latitude != null && v.longitude != null,
       ),
     [venues],

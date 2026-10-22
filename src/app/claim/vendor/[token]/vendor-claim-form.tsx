@@ -12,6 +12,7 @@ import type { Vendor, VendorPriceUnit } from "@/lib/supabase/types";
 import { Field, inputClass, labelClass, PhotoGridEditor, Section, Select } from "../../form-parts";
 import { createVendorClaimPhotoUploads, submitVendorClaim, createImportUpload, readListingSource } from "./actions";
 import { ImportPanel, mergeDraft, mergeFaqs } from "../../import-panel";
+import { SavedNote, useSavedDraft } from "../../use-saved-draft";
 import { StepNav, StepRail, type Step } from "../../steps";
 import { BookingFactsSection } from "../../booking-fields";
 import { ListingPreview, PreviewPrompt } from "../../listing-preview";
@@ -50,6 +51,20 @@ export function VendorClaimForm({
   const [previewing, setPreviewing] = useState(false);
   const stepRefs = useRef<(HTMLFieldSetElement | null)[]>([]);
   const formRef = useRef<HTMLFormElement>(null);
+
+  const saved = useSavedDraft(
+    token,
+    initial,
+    { details, amenitiesText, photos, faqs, submitter, step },
+    (d) => {
+      setDetails(d.details);
+      setAmenitiesText(d.amenitiesText);
+      setPhotos(d.photos);
+      setFaqs(d.faqs);
+      setSubmitter(d.submitter);
+      setStep(d.step);
+    },
+  );
 
   const set = <K extends keyof VendorClaimDetails>(key: K, value: VendorClaimDetails[K]) =>
     setDetails((d) => ({ ...d, [key]: value }));
@@ -124,15 +139,18 @@ export function VendorClaimForm({
     }
     setErrors([]);
     startTransition(async () => {
+      // A failed request must not throw: that swaps the page for the error
+      // screen and everything typed goes with it.
       const result = await submitVendorClaim(token, {
         details: { ...details, amenities: amenities() },
         faqs,
         photoUrls: photos,
         submitter,
-      });
+      }).catch(() => ({ error: "Couldn't reach us just now -- your answers are still here, so try again in a minute." }) as { error?: string; errors?: string[] });
       if (result.error) setErrors([result.error]);
       else if (result.errors?.length) setErrors(result.errors);
       else {
+        saved.clear();
         setDone(true);
         window.scrollTo({ top: 0, behavior: "smooth" });
       }
@@ -203,6 +221,7 @@ export function VendorClaimForm({
       <StepRail steps={steps} current={step} onPick={goTo} />
 
       <div className="flex min-w-0 flex-col gap-6">
+        {saved.restored && <SavedNote />}
         <fieldset
           ref={(el) => {
             stepRefs.current[0] = el;

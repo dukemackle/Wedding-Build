@@ -9,7 +9,7 @@ import { BaseMapLayer } from "@/components/base-map-layer";
 import { FitToPins } from "@/components/map-fit-bounds";
 import { ClusteredMarkers, dotIcon } from "@/components/clustered-markers";
 import { MAP_MIN_ZOOM, US_MAP_BOUNDS, type MapView } from "@/lib/map-view";
-import type { Vendor } from "@/lib/supabase/types";
+import type { VendorListing } from "@/lib/public-listings";
 
 /**
  * Up close, pins carry the vendor's category so the map reads as the listings
@@ -53,7 +53,7 @@ export function VendorsMap({
   onViewChange,
   heightClassName,
 }: {
-  vendors: Vendor[];
+  vendors: VendorListing[];
   onSelectVendor?: (vendorId: string) => void;
   onViewChange?: (view: MapView) => void;
   heightClassName?: string;
@@ -61,7 +61,7 @@ export function VendorsMap({
   const pinned = useMemo(
     () =>
       vendors.filter(
-        (v): v is Vendor & { latitude: number; longitude: number } =>
+        (v): v is VendorListing & { latitude: number; longitude: number } =>
           v.latitude != null && v.longitude != null,
       ),
     [vendors],

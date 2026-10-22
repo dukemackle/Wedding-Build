@@ -36,6 +36,7 @@ import {
 } from "@/lib/venue-claim";
 import { createClaimPhotoUploads, submitVenueClaim, createImportUpload, readListingSource, writeListingText } from "./actions";
 import { ImportPanel, mergeDraft, mergeFaqs, mergeVendors } from "../import-panel";
+import { SavedNote, useSavedDraft } from "../use-saved-draft";
 import { ChipPicker, Field, inputClass, labelClass, PhotoGridEditor, Section, Select, WriteHelper, YesNo } from "../form-parts";
 import { StepNav, StepRail, type Step } from "../steps";
 import { BookingFactsSection } from "../booking-fields";
@@ -97,6 +98,22 @@ export function ClaimForm({
   const [previewing, setPreviewing] = useState(false);
   const stepRefs = useRef<(HTMLFieldSetElement | null)[]>([]);
   const formRef = useRef<HTMLFormElement>(null);
+
+  const saved = useSavedDraft(
+    token,
+    initial,
+    { details, writeNotes, photos, vendors, faqs, spaces, submitter, step },
+    (d) => {
+      setDetails(d.details);
+      setWriteNotes(d.writeNotes);
+      setPhotos(d.photos);
+      setVendors(d.vendors);
+      setFaqs(d.faqs);
+      setSpaces(d.spaces);
+      setSubmitter(d.submitter);
+      setStep(d.step);
+    },
+  );
 
   const set = <K extends keyof ClaimDetails>(key: K, value: ClaimDetails[K]) =>
     setDetails((d) => ({ ...d, [key]: value }));
@@ -210,6 +227,8 @@ export function ClaimForm({
     }
     setErrors([]);
     startTransition(async () => {
+      // A failed request must not throw: that swaps the page for the error
+      // screen and everything typed goes with it.
       const result = await submitVenueClaim(token, {
         details,
         faqs,
@@ -217,10 +236,11 @@ export function ClaimForm({
         spaces,
         photoUrls: photos,
         submitter,
-      });
+      }).catch(() => ({ error: "Couldn't reach us just now -- your answers are still here, so try again in a minute." }) as { error?: string; errors?: string[] });
       if (result.error) setErrors([result.error]);
       else if (result.errors?.length) setErrors(result.errors);
       else {
+        saved.clear();
         setDone(true);
         window.scrollTo({ top: 0, behavior: "smooth" });
       }
@@ -292,6 +312,7 @@ export function ClaimForm({
       <StepRail steps={steps} current={step} onPick={goTo} />
 
       <div className="flex min-w-0 flex-col gap-6">
+        {saved.restored && <SavedNote />}
         <fieldset
           ref={(el) => {
             stepRefs.current[0] = el;
