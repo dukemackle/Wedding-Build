@@ -58,6 +58,8 @@ export function ImportPanel({
           ? { kind: "ok", text: `Filled in ${filled} ${filled === 1 ? "box" : "boxes"} below. Check each one before you send it.` }
           : { kind: "ok", text: "Everything we found is already filled in below." },
       );
+    } catch {
+      setMessage({ kind: "error", text: "Couldn't read that just now -- please try again in a minute." });
     } finally {
       setBusy(null);
     }

@@ -241,7 +241,12 @@ export function WriteHelper({
   const run = () => {
     setError(null);
     startTransition(async () => {
-      const result = await write();
+      // Thrown inside a transition, a failed call would replace the whole
+      // form with the error page and lose everything typed so far.
+      const result = await write().catch(() => ({
+        error: "Wren couldn't write that just now -- try again in a minute, or write it yourself.",
+        text: undefined,
+      }));
       if (result.error) setError(result.error);
       else setDraft(result.text ?? null);
     });
