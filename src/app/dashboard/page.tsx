@@ -228,6 +228,7 @@ export default async function DashboardPage() {
       names: [wedding.partner_a_name, wedding.partner_b_name].filter(Boolean).join(" & ") || "Your names",
       date: wedding.wedding_date,
       live: Boolean(wedding.public_slug),
+      photo: wedding.hero_photo_url,
     },
   });
 
