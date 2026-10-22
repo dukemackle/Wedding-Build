@@ -8,6 +8,7 @@ import { JsonLd, faqJsonLd } from "@/components/json-ld";
 import { SITE_URL, isIndexable, metaDescription, vendorHref } from "@/lib/public-listings";
 import { loadVendorListing, VendorListing, type VendorListingData } from "./vendor-listing";
 import { trackEvent } from "@/lib/events";
+import { parseThen } from "@/lib/signup-intent";
 
 // The full-page listing: what a shared link, a refresh, a search result or a
 // link from outside /vendors opens. From the vendor search the same listing
@@ -76,8 +77,15 @@ function vendorJsonLd({ vendor, faqs }: VendorListingData) {
   return [business, ...faqJsonLd(faqs)];
 }
 
-export default async function VendorDetailPage({ params }: { params: Promise<{ id: string }> }) {
+export default async function VendorDetailPage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{ then?: string }>;
+}) {
   const { id } = await params;
+  const then = parseThen((await searchParams).then);
   const { user, data } = await load(id);
   if (!data) notFound();
   // A couple opening a listing: the top of the listing funnel. Logged-out
@@ -90,7 +98,7 @@ export default async function VendorDetailPage({ params }: { params: Promise<{ i
       <Link href="/vendors" className="mb-4 inline-block text-sm text-brass hover:underline">
         &larr; {user ? "Back to vendors" : "Browse wedding vendors"}
       </Link>
-      <VendorListing data={data} />
+      <VendorListing data={{ ...data, then }} />
     </PageShell>
   );
 }

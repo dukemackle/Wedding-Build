@@ -8,6 +8,7 @@ import { JsonLd, faqJsonLd } from "@/components/json-ld";
 import { SITE_URL, isIndexable, metaDescription, venueHref } from "@/lib/public-listings";
 import { loadVenueListing, VenueListing, type VenueListingData } from "./venue-listing";
 import { trackEvent } from "@/lib/events";
+import { parseThen } from "@/lib/signup-intent";
 
 // The full-page listing: what a shared link, a refresh, a search result or a
 // link from outside /venues opens. Clicking a venue in the search results
@@ -78,8 +79,15 @@ function venueJsonLd({ venue, faqs }: VenueListingData) {
   return [business, ...faqJsonLd(faqs)];
 }
 
-export default async function VenueDetailPage({ params }: { params: Promise<{ id: string }> }) {
+export default async function VenueDetailPage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{ then?: string }>;
+}) {
   const { id } = await params;
+  const then = parseThen((await searchParams).then);
   const { user, data } = await load(id);
   if (!data) notFound();
   // A couple opening a listing: the top of the listing funnel. Logged-out
@@ -92,7 +100,7 @@ export default async function VenueDetailPage({ params }: { params: Promise<{ id
       <Link href="/venues" className="mb-4 inline-block text-sm text-brass hover:underline">
         &larr; {user ? "Back to venues" : "Browse wedding venues"}
       </Link>
-      <VenueListing data={data} />
+      <VenueListing data={{ ...data, then }} />
     </PageShell>
   );
 }

@@ -47,10 +47,13 @@ export function SetupFlow({
   initialState,
   initialTier,
   initialGuests,
+  next: returnTo,
 }: {
   initialState: string;
   initialTier: string;
   initialGuests: number | null;
+  /** Where to go once it's saved, when setup was a detour (e.g. a listing's Save). */
+  next?: string;
 }) {
   const [step, setStep] = useState(0);
   const [partnerA, setPartnerA] = useState("");
@@ -300,6 +303,7 @@ export function SetupFlow({
           <input type="hidden" name="guest_count" value={guests ?? ""} />
           <input type="hidden" name="style_tier" value={tier} />
           <input type="hidden" name="venue_type" value={venueType} />
+          {returnTo && <input type="hidden" name="next" value={returnTo} />}
 
           <div className="fixed inset-x-0 bottom-0 z-20 flex items-center gap-3 border-t border-hairline bg-parchment px-4 pb-7 pt-3 lg:static lg:mt-auto lg:max-w-[520px] lg:border-0 lg:bg-transparent lg:px-0 lg:pb-0 lg:pt-10">
             {step > 0 && (

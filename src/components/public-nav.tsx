@@ -2,13 +2,16 @@ import Link from "next/link";
 import { TrackedContactLink } from "@/components/tracked-contact-link";
 import { WrenMark } from "@/components/wren-mark";
 import { AutoHideHeader } from "@/components/auto-hide-header";
+import { SignupSheetButton } from "@/components/signup-sheet";
 
 /**
  * The bar a logged-out visitor sees on the landing page and the public venue
  * and vendor pages. Same edge-to-edge frame as AppNav, one row: the mark, the
  * places to look, and Log in. Signing up is the page's own button ("Start
- * planning" on the landing hero), so the bar doesn't repeat it. On a phone the
- * links fold into a menu beside Log in.
+ * planning" on the landing hero), so the bar doesn't repeat it. "List your
+ * business" is a thin pill so a venue or vendor finds it at a glance, without
+ * it pulling against the hero's yellow button. On a phone the links fold into
+ * a menu beside Log in.
  */
 export function PublicNav({ next }: { next?: string }) {
   const q = next ? `?next=${encodeURIComponent(next)}` : "";
@@ -16,25 +19,31 @@ export function PublicNav({ next }: { next?: string }) {
     { href: "/venues", label: "Venues" },
     { href: "/vendors", label: "Vendors" },
     { href: "/attire", label: "Attire" },
-    { href: "/list", label: "For businesses" },
   ];
+  const business = { href: "/list", label: "List your business" };
   return (
     <AutoHideHeader>
       <div className="flex w-full items-center justify-between gap-4 px-4 py-2 sm:px-6">
         <WrenMark href="/" />
-        <nav aria-label="Main" className="flex items-center gap-1 sm:gap-7">
+        <nav aria-label="Main" className="flex items-center gap-1 md:gap-7">
           {links.map((l) => (
-            <Link key={l.href} href={l.href} className="hidden text-[15px] text-ink/80 hover:text-forest sm:block xl:text-base">
+            <Link key={l.href} href={l.href} className="hidden text-[15px] text-ink/80 hover:text-forest md:block xl:text-base">
               {l.label}
             </Link>
           ))}
           <Link
+            href={business.href}
+            className="hidden whitespace-nowrap rounded-full border border-current px-4 py-1.5 text-[15px] text-ink/80 transition-colors hover:text-forest md:block xl:text-base"
+          >
+            {business.label}
+          </Link>
+          <Link
             href={`/login${q}`}
-            className="shrink-0 px-2 py-3 text-[15px] font-medium text-ink hover:text-forest sm:px-0 xl:text-base"
+            className="shrink-0 px-2 py-3 text-[15px] font-medium text-ink hover:text-forest md:px-0 xl:text-base"
           >
             Log in
           </Link>
-          <details className="group relative sm:hidden">
+          <details className="group relative md:hidden">
             <summary
               aria-label="Menu"
               className="flex h-11 w-11 cursor-pointer list-none items-center justify-center text-ink [&::-webkit-details-marker]:hidden"
@@ -45,7 +54,7 @@ export function PublicNav({ next }: { next?: string }) {
               </svg>
             </summary>
             <div className="absolute right-0 top-full mt-2 flex w-56 flex-col rounded-2xl border border-hairline bg-card p-2 shadow-lg">
-              {links.map((l) => (
+              {[...links, business].map((l) => (
                 <Link key={l.href} href={l.href} className="rounded-xl px-4 py-3 text-base text-forest hover:bg-parchment">
                   {l.label}
                 </Link>
@@ -71,11 +80,13 @@ export function PublicNav({ next }: { next?: string }) {
  */
 export function SignupPrompt({
   noun,
+  name,
   next,
   website,
   listingId,
 }: {
   noun: "venue" | "vendor";
+  name: string;
   next: string;
   website?: string | null;
   /** Counts a click on the website as a lead for this listing. */
@@ -90,12 +101,22 @@ export function SignupPrompt({
       <p className="mt-1 text-sm text-ink/70">
         A free account lets you favorite this {noun}, contact them, and keep it next to your budget and guest count.
       </p>
-      <Link
-        href={`/signup${q}`}
+      <SignupSheetButton
+        name={name}
+        intent="ask"
+        next={next}
         className="mt-4 block w-full rounded-md bg-forest px-4 py-2.5 text-center text-sm font-medium text-parchment transition-colors hover:bg-forest/90"
       >
         {noun === "venue" ? "Request info — sign up free" : "Request a quote — sign up free"}
-      </Link>
+      </SignupSheetButton>
+      <SignupSheetButton
+        name={name}
+        intent="save"
+        next={next}
+        className="mt-2 block w-full rounded-md border border-hairline px-4 py-2.5 text-center text-sm text-forest transition-colors hover:border-forest"
+      >
+        ♡ Save to favorites
+      </SignupSheetButton>
       <p className="mt-2 text-center text-sm text-ink/60">
         Have an account?{" "}
         <Link href={`/login${q}`} className="text-brass hover:underline">
@@ -126,26 +147,30 @@ export function SignupPrompt({
 }
 
 /** The heart on a result card, for a logged-out visitor: a way to sign up. */
-export function SignupHeart({ next }: { next: string }) {
+export function SignupHeart({ name, next }: { name: string; next: string }) {
   return (
-    <Link
-      href={`/signup?next=${encodeURIComponent(next)}`}
-      aria-label="Sign up to save favorites"
+    <SignupSheetButton
+      name={name}
+      intent="save"
+      next={next}
+      ariaLabel={`Save ${name} to favorites`}
       className="flex h-8 w-8 items-center justify-center rounded-full bg-card/90 text-base text-forest shadow-sm transition-colors hover:text-brass"
     >
       <span aria-hidden="true">♡</span>
-    </Link>
+    </SignupSheetButton>
   );
 }
 
 /** A result card's action row, for a logged-out visitor. */
-export function SignupCardButton({ next }: { next: string }) {
+export function SignupCardButton({ name, next }: { name: string; next: string }) {
   return (
-    <Link
-      href={`/signup?next=${encodeURIComponent(next)}`}
+    <SignupSheetButton
+      name={name}
+      intent="ask"
+      next={next}
       className="w-full rounded-full border border-hairline bg-card px-3 py-1.5 text-center text-sm text-forest transition-colors hover:border-forest"
     >
       Request a quote
-    </Link>
+    </SignupSheetButton>
   );
 }

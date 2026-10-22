@@ -1,6 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { toggleVendorFavorite } from "../actions";
+import { useFinishIntent } from "@/components/signup-sheet";
+import type { SignupIntent } from "@/lib/signup-intent";
 import type { Vendor } from "@/lib/supabase/types";
 import { VendorFavoriteButton } from "../vendor-card-shared";
 import { InquiryForm } from "../inquiry-form";
@@ -8,16 +11,30 @@ import { TrackedContactLink, telHref } from "@/components/tracked-contact-link";
 
 export function VendorDetailClient({
   vendor,
-  isFavorited,
+  isFavorited: initialFavorited,
+  then,
 }: {
   vendor: Vendor;
   isFavorited: boolean;
+  then?: SignupIntent;
 }) {
+  const [isFavorited, setIsFavorited] = useState(initialFavorited);
   const [showInquiry, setShowInquiry] = useState(false);
+  useFinishIntent(then, {
+    save: () => {
+      if (initialFavorited) return;
+      const formData = new FormData();
+      formData.set("vendor_id", vendor.id);
+      formData.set("is_favorited", "false");
+      toggleVendorFavorite(formData).then((result) => !result?.error && setIsFavorited(true));
+    },
+    ask: () => setShowInquiry(true),
+  });
 
   return (
     <div className="rounded-lg border border-hairline bg-card p-6 shadow-sm">
-      <VendorFavoriteButton vendorId={vendor.id} isFavorited={isFavorited} />
+      {/* Remounted when the arrival save lands, so the heart shows it. */}
+      <VendorFavoriteButton key={String(isFavorited)} vendorId={vendor.id} isFavorited={isFavorited} />
       {!showInquiry && (
         <button
           type="button"

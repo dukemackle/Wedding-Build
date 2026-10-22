@@ -24,7 +24,7 @@ export const metadata: Metadata = {
 export default async function StartPage({
   searchParams,
 }: {
-  searchParams: Promise<{ state?: string; tier?: string; guests?: string }>;
+  searchParams: Promise<{ state?: string; tier?: string; guests?: string; next?: string }>;
 }) {
   const supabase = await createClient();
   const {
@@ -47,6 +47,7 @@ export default async function StartPage({
       initialState={(STATES as readonly string[]).includes(params.state ?? "") ? params.state! : ""}
       initialTier={(STYLE_TIERS as readonly string[]).includes(params.tier ?? "") ? params.tier! : ""}
       initialGuests={Number.isInteger(guests) && guests > 0 && guests <= 2000 ? guests : null}
+      next={params.next}
     />
   );
 }

@@ -35,7 +35,7 @@ export async function signup(formData: FormData) {
   });
 
   if (error) {
-    redirect(`/signup?error=${encodeURIComponent(error.message)}`);
+    redirect(`/signup?error=${encodeURIComponent(error.message)}&next=${encodeURIComponent(next)}`);
   }
 
   // Supabase answers a repeat signup with a stand-in user with no
