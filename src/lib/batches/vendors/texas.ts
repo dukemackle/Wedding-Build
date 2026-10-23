@@ -1254,6 +1254,14 @@ Jeff Loftin Photography	Photography		Georgetown	Texas	Georgetown and Austin area
 Amy Odom Photography	Photography		Austin	Texas	Austin and Central Texas	Austin wedding photographer, established 2013, who favours a calm, unhurried approach and timeless images.			https://amyodom.com/	https://www.instagram.com/amy_odom/
 Rebekah Paul Photography	Photography		Austin	Texas	Austin, Round Rock and Jonestown venues	Austin wedding photographer with a photojournalistic, people-focused style, shown through real weddings at local venues.			https://rebekahpaulphotography.com/	https://www.instagram.com/rebekahpaulphoto/`,
   },
+  {
+    name: "Austin: rentals, music, photo booth, transportation",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Loos of Luxe	Rentals		Bastrop	Texas	Greater Austin, Bastrop, Fredericksburg to Round Top	Luxury restroom trailer hire for weddings, film and commercial sets, serving Greater Austin, Bastrop and the Fredericksburg to Round Top area.	hello@loosofluxe.com	406-210-6072	https://www.loosofluxe.com/	https://www.instagram.com/loosofluxe/		
+Hill Country DJ	Music		Austin	Texas	Austin and the Texas Hill Country	Austin-based mobile DJ team offering wedding DJing, photo booths, uplighting and videography across Austin and the Texas Hill Country.			https://www.hillcountrydj.com/			
+Prestige 360	Photo Booth		Austin	Texas	Austin	Austin 360-degree photo booth rental with spinning cameras, selfie stations and slow-motion video for weddings, with a three-hour minimum booking.	prestige360booth@gmail.com	(512) 696-8486	https://prestige360.info/	https://www.instagram.com/prestige360vb/		
+Austin Pedicab Company	Transportation		Austin	Texas	Downtown Austin, plus Domain, Round Rock, Cedar Park, Georgetown, Dripping Springs, Lakeway, Buda, Kyle	Austin pedicab firm offering an all-white wedding pedicab for grand exits, with a Just Married sign, faux florals and a speaker for your exit song.		(512) 210-7914	https://austinpedicab.com/	https://www.instagram.com/austin_pedicab/	320	package`,
+  },
 ];
 
 export default batches;
