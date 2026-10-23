@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import type { ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { VenueTypeIcon } from "@/components/venue-type-icon";
+import { VendorCategoryIcon } from "@/components/vendor-category-icon";
 import { WrenMotto } from "@/components/wren-motto";
 import { AskWrenTile } from "@/app/dashboard/ask-wren-tile";
 import {
@@ -1062,7 +1063,8 @@ function RsvpDemo() {
  * The map is drawn, not Leaflet, so opening a demo pulls no tiles.
  */
 
-type Pin = { id: string; x: number; y: number; label: string; icon?: ReactNode };
+/** `iconOnly` pins (vendors) show just the icon; the label stays as the aria-label. */
+type Pin = { id: string; x: number; y: number; label: string; icon?: ReactNode; iconOnly?: boolean };
 
 function MockMap({
   pins,
@@ -1109,7 +1111,7 @@ function MockMap({
           aria-label={p.label}
           style={{ left: `${p.x}%`, top: `${p.y}%` }}
           className={`absolute flex -translate-x-1/2 -translate-y-1/2 items-center gap-1 whitespace-nowrap rounded-full border-2 border-white text-[11px] font-bold shadow-md transition-transform ${
-            p.icon ? "py-0.5 pl-0.5 pr-2" : "px-2 py-0.5"
+            p.iconOnly ? "p-0.5" : p.icon ? "py-0.5 pl-0.5 pr-2" : "px-2 py-0.5"
           } ${
             active === p.id
               ? p.icon
@@ -1119,7 +1121,7 @@ function MockMap({
           }`}
         >
           {p.icon}
-          {p.label}
+          {!p.iconOnly && p.label}
         </button>
       ))}
     </div>
@@ -1321,10 +1323,18 @@ const VENDORS = [
 ];
 
 function VendorsDemo() {
-  const [kind, setKind] = useState<string | null>(null);
+  // Several categories at once, like the real Category filter.
+  const [kinds, setKinds] = useState<Set<string>>(new Set());
   const [sent, setSent] = useState<Set<string>>(new Set(["fern"]));
   const [active, setActive] = useState<string | null>(null);
-  const shown = VENDORS.filter((v) => !kind || v.kind === kind);
+  const shown = VENDORS.filter((v) => kinds.size === 0 || kinds.has(v.kind));
+  const toggleKind = (k: string) =>
+    setKinds((s) => {
+      const next = new Set(s);
+      if (next.has(k)) next.delete(k);
+      else next.add(k);
+      return next;
+    });
   return (
     <MockBrowser
       search="Austin, TX"
@@ -1332,14 +1342,21 @@ function VendorsDemo() {
       noun="vendor"
       active={active}
       onActive={setActive}
-      pins={shown.map((v) => ({ id: v.id, x: v.x, y: v.y, label: v.kind }))}
+      pins={shown.map((v) => ({
+        id: v.id,
+        x: v.x,
+        y: v.y,
+        label: v.kind,
+        icon: <VendorCategoryIcon category={v.kind} className="h-4 w-4" />,
+        iconOnly: true,
+      }))}
       filters={
         <>
-          <FilterPill on={kind === null} onClick={() => setKind(null)}>
+          <FilterPill on={kinds.size === 0} onClick={() => setKinds(new Set())}>
             All
           </FilterPill>
           {VENDOR_KINDS.map((k) => (
-            <FilterPill key={k} on={kind === k} onClick={() => setKind(k)}>
+            <FilterPill key={k} on={kinds.has(k)} onClick={() => toggleKind(k)}>
               {k}
             </FilterPill>
           ))}
