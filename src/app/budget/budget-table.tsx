@@ -285,6 +285,15 @@ function BudgetRowItem({
 }) {
   const [showDetails, setShowDetails] = useState(false);
   const [showContracts, setShowContracts] = useState(false);
+  // Details and Contract share the space under the row, so opening one closes the other.
+  function toggleDetails() {
+    setShowContracts(false);
+    setShowDetails((v) => !v);
+  }
+  function toggleContracts() {
+    setShowDetails(false);
+    setShowContracts((v) => !v);
+  }
   const [confirmingDelete, setConfirmingDelete] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
   const [isPending, startTransition] = useTransition();
@@ -591,7 +600,7 @@ function BudgetRowItem({
           {due ? (
             <button
               type="button"
-              onClick={() => setShowDetails((v) => !v)}
+              onClick={toggleDetails}
               className={`${chipClass} ${
                 due.tone === "overdue"
                   ? "border-red-200 bg-red-50 text-red-800"
@@ -604,14 +613,14 @@ function BudgetRowItem({
             </button>
           ) : (
             !isFullyPaid && (
-              <button type="button" onClick={() => setShowDetails((v) => !v)} className={emptyChipClass}>
+              <button type="button" onClick={toggleDetails} className={emptyChipClass}>
                 <BellIcon className="h-3.5 w-3.5" /> Due date
               </button>
             )
           )}
           <button
             type="button"
-            onClick={() => setShowContracts((v) => !v)}
+            onClick={toggleContracts}
             aria-expanded={showContracts}
             className={
               contracts.length > 0 ? `${chipClass} border-hairline bg-card text-forest` : emptyChipClass
@@ -624,7 +633,7 @@ function BudgetRowItem({
           </button>
           <button
             type="button"
-            onClick={() => setShowDetails((v) => !v)}
+            onClick={toggleDetails}
             aria-expanded={showDetails}
             className={
               row.notes
