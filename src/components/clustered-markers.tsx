@@ -22,7 +22,7 @@ import type { MapView } from "@/lib/map-view";
  */
 
 /** From this zoom up a lone pin carries its label (category, capacity). */
-export const LABEL_ZOOM = 11;
+export const LABEL_ZOOM = 10;
 /** Past this zoom nothing groups, so every pin can be reached. */
 const CLUSTER_MAX_ZOOM = 13;
 

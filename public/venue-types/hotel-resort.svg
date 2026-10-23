@@ -1,0 +1,16 @@
+<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of a resort hotel">
+  <rect width="400" height="300" fill="#FBF8F1"/>
+  <rect width="400" height="230" fill="#E4F9FF"/>
+  <circle cx="70" cy="58" r="18" fill="#FFD301"/>
+  <rect x="140" y="60" width="120" height="170" fill="#FFFFFF"/>
+  <rect x="150" y="243" width="100" height="20" rx="10" fill="#5AE4FF" opacity=".55"/>
+  <line x1="0" y1="230" x2="400" y2="230" stroke="#C9BFA6" stroke-width="2"/>
+  <g fill="none" stroke="#14203D" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M140 230 V60 H260 V230"/><path d="M132 60 H268"/>
+    <rect x="158" y="78" width="14" height="16"/><rect x="193" y="78" width="14" height="16"/><rect x="228" y="78" width="14" height="16"/><rect x="158" y="106" width="14" height="16"/><rect x="193" y="106" width="14" height="16"/><rect x="228" y="106" width="14" height="16"/><rect x="158" y="134" width="14" height="16"/><rect x="193" y="134" width="14" height="16"/><rect x="228" y="134" width="14" height="16"/><rect x="158" y="162" width="14" height="16"/><rect x="193" y="162" width="14" height="16"/><rect x="228" y="162" width="14" height="16"/>
+    <path d="M180 230 V196 H220 V230"/><path d="M170 196 H230"/>
+    <path d="M320 230 C318 190 322 160 330 130"/>
+    <path d="M330 130 C310 120 296 126 288 138 M330 130 C350 118 366 124 372 138 M330 130 C322 112 306 108 296 112 M330 130 C340 112 356 108 366 114"/>
+    <rect x="150" y="243" width="100" height="20" rx="10" stroke-width="3"/>
+  </g>
+</svg>

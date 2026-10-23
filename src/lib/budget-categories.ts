@@ -69,9 +69,8 @@ export const VENDOR_CATEGORY_TO_BUDGET_KEY: Record<string, string> = {
 // the state's cost index; sources are in each row's `source` column, mostly
 // The Knot 2026 Real Weddings Study at 117 average guests), so a state with
 // rows and its neighbour without them now land in the same place instead of
-// thousands apart. The other six (rehearsal dinner, welcome party, hair and
-// makeup, rings, officiant, tips) have no sourced figure yet and are
-// unchanged. Editable per-wedding via overrides.
+// thousands apart. The six below with no rows anywhere carry their own
+// source beside them (read 2026-10-22). Editable per-wedding via overrides.
 export const BUDGET_CATEGORIES: BudgetCategory[] = [
   { key: "venue", label: "Venue Rental", flatBase: 8570, perGuestAmount: 0 },
   // Split from a combined "Catering & Bar" category -- couples often
@@ -98,21 +97,29 @@ export const BUDGET_CATEGORIES: BudgetCategory[] = [
   { optional: true, key: "favors", label: "Favors & Gifts", flatBase: 0, perGuestAmount: 3 },
   { key: "cake", label: "Cake & Desserts", flatBase: 700, perGuestAmount: 0 },
   { optional: true, key: "transportation", label: "Transportation", flatBase: 1000, perGuestAmount: 0 },
-  // Both scale a bit with guest count, unlike most flat-base categories
-  // above -- modern rehearsal dinners and welcome parties increasingly
-  // invite most/all out-of-town guests, not just the wedding party, so
-  // a larger wedding plausibly means a larger one of these too.
-  { section: "rehearsal", key: "rehearsal_dinner", label: "Rehearsal Dinner", flatBase: 800, perGuestAmount: 15 },
-  { optional: true, section: "rehearsal", key: "welcome_party", label: "Welcome Party", flatBase: 600, perGuestAmount: 12 },
-  { key: "hair_makeup", label: "Hair & Makeup", flatBase: 900, perGuestAmount: 0 },
-  { section: "attire", key: "rings", label: "Wedding Rings", flatBase: 1500, perGuestAmount: 0 },
-  { optional: true, key: "officiant", label: "Officiant", flatBase: 500, perGuestAmount: 0 },
+  // Both scale a bit with guest count: bigger weddings invite more
+  // out-of-town guests to these too. Rehearsal dinner: The Knot 2026 average
+  // $2,800 at 117 wedding guests (as quoted by MoneyLion, Apr 2026), and The
+  // Knot's under-50 / over-100 averages of $1,630 / $3,139 set the slope.
+  // Welcome party: no national study figure exists; Ally's 2025 survey puts
+  // welcome drinks at $1,200, so this is an estimate, not a sourced number.
+  { section: "rehearsal", key: "rehearsal_dinner", label: "Rehearsal Dinner", flatBase: 1300, perGuestAmount: 13 },
+  { optional: true, section: "rehearsal", key: "welcome_party", label: "Welcome Party", flatBase: 500, perGuestAmount: 6 },
+  // Zola's national average for wedding-day hair and makeup, $982 (The Knot's
+  // $150 hair + $150 makeup is one person's alone).
+  { key: "hair_makeup", label: "Hair & Makeup", flatBase: 980, perGuestAmount: 0 },
+  // The Knot 2026: wedding rings $3,000, apart from the engagement ring.
+  { section: "attire", key: "rings", label: "Wedding Rings", flatBase: 3000, perGuestAmount: 0 },
+  // The Knot 2026: $260.
+  { optional: true, key: "officiant", label: "Officiant", flatBase: 260, perGuestAmount: 0 },
   // Event liability (which many venues require) plus cancellation cover;
   // one-day policies commonly run $150-$550.
   { key: "insurance", label: "Wedding Insurance", flatBase: 250, perGuestAmount: 0 },
   // Tips for the people who work the day. Service charges are their own line
-  // below: a venue's 20% on food and drink isn't a tip.
-  { section: "fees", key: "gratuities", label: "Tips & Gratuities", flatBase: 700, perGuestAmount: 0 },
+  // below: a venue's 20% on food and drink isn't a tip. ~$1,000 is the sum of
+  // Zola's 2026 Wedding Spend Survey flat tips (caterer $262; photographer,
+  // music and planner $200 each; hair and makeup $150); no study gives a total.
+  { section: "fees", key: "gratuities", label: "Tips & Gratuities", flatBase: 1000, perGuestAmount: 0 },
   // Worked out from the lines above, not priced on their own (see
   // src/lib/estimate-add-ons.ts), so these bases are never used.
   { section: "fees", key: "service_charge", label: "Service Charges", flatBase: 0, perGuestAmount: 0 },

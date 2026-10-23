@@ -223,7 +223,7 @@ export function SearchShell({
       // padding, so the map reaches all four edges. `isolate` keeps the
       // sheet's and controls' z-[600]/z-[700] inside the shell, so a listing
       // opened over it (z-50) and the phone menu cover them.
-      className="search-shell-root relative isolate -mx-6 -mb-16 -mt-8 flex flex-col"
+      className="search-shell-root relative isolate -mx-6 -mb-16 -mt-4 flex flex-col"
       style={availableHeight ? { height: availableHeight } : undefined}
     >
       {/* Controls. A floating overlay on a phone, a solid bar on desktop --

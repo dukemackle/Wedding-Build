@@ -1,0 +1,20 @@
+<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of an industrial loft">
+  <rect width="400" height="300" fill="#FBF8F1"/>
+  <rect width="400" height="230" fill="#E4F9FF"/>
+  <circle cx="330" cy="62" r="20" fill="#FFD301"/>
+  <rect x="80" y="110" width="240" height="120" fill="#FFFFFF"/>
+  <line x1="0" y1="230" x2="400" y2="230" stroke="#C9BFA6" stroke-width="2"/>
+  <g fill="none" stroke="#14203D" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M80 230 V110 H320 V230"/>
+    <path d="M80 110 L80 98 H320 V110"/>
+    <path d="M110 98 V60 H150 V98"/><path d="M105 60 H155"/><path d="M115 60 L130 44 L145 60"/>
+    <rect x="100" y="130" width="90" height="60"/><path d="M130 130 V190 M160 130 V190 M100 160 H190"/>
+    <rect x="210" y="130" width="90" height="60"/><path d="M240 130 V190 M270 130 V190 M210 160 H300"/>
+    <path d="M180 230 V205 H220 V230"/>
+  </g>
+  <path d="M60 104 Q200 128 340 104" fill="none" stroke="#14203D" stroke-width="1.5"/>
+  <g fill="#FFD301" stroke="#14203D" stroke-width="1">
+    <circle cx="90" cy="108" r="4"/><circle cx="130" cy="114" r="4"/><circle cx="170" cy="117" r="4"/><circle cx="210" cy="117" r="4"/><circle cx="250" cy="115" r="4"/><circle cx="290" cy="111" r="4"/><circle cx="330" cy="106" r="4"/>
+  </g>
+  <g fill="#5AE4FF" opacity=".45"><rect x="102" y="132" width="26" height="26"/><rect x="242" y="162" width="26" height="26"/></g>
+</svg>
