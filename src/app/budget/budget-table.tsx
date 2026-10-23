@@ -885,7 +885,8 @@ export function BudgetTable({
 }: {
   rows: BudgetRow[];
   customItems: BudgetRow[];
-  hiddenCategories: { key: string; label: string }[];
+  /** Lines not on the budget, offered back as suggestions in their own section. */
+  hiddenCategories: { key: string; label: string; section: BudgetSectionKey; estimate: number }[];
   total: number;
   totalActual: number;
   budgetTarget: number | null;
@@ -1008,11 +1009,14 @@ export function BudgetTable({
       ...section,
       sectionRows,
       sectionCustom,
+      suggestions: hiddenCategories.filter((c) => c.section === section.key),
       count: all.length,
       total: all.reduce((sum, r) => sum + (r.override ?? r.computed ?? 0), 0),
       paid: all.reduce((sum, r) => sum + (r.paidAmount ?? 0), 0),
     };
-  }).filter((section) => section.count > 0 || addingTo === section.key);
+  }).filter(
+    (section) => section.count > 0 || section.suggestions.length > 0 || addingTo === section.key,
+  );
 
   return (
     <div className="mt-8 w-full">
@@ -1136,6 +1140,28 @@ export function BudgetTable({
                   {section.sectionRows.map((row) => renderRow(row, false))}
                   {section.sectionCustom.map((row) => renderRow(row, true))}
                 </div>
+                {section.suggestions.length > 0 && (
+                  <div className="flex flex-wrap items-center gap-2 border-t border-hairline bg-[#fffbe0]/60 px-4 py-3 lg:px-6">
+                    <span className="mr-1 w-full text-xs font-medium text-ink/60 sm:w-auto">Couples often add</span>
+                    {section.suggestions.map((category) => (
+                      <button
+                        key={category.key}
+                        type="button"
+                        onClick={() => handleUnhide(category.key)}
+                        disabled={isPending}
+                        className="inline-flex items-center gap-1.5 rounded-full border border-[#FFD301] bg-card px-3 py-1.5 text-xs font-medium text-forest transition-colors hover:bg-[#FFF12F]/40 disabled:opacity-60"
+                      >
+                        <PlusIcon />
+                        {category.label}
+                        {category.estimate > 0 && (
+                          <span className="font-mono-numbers font-normal text-ink/55">
+                            ~{currency.format(category.estimate)}
+                          </span>
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                )}
                 {section.key !== "fees" &&
                   (addingTo === section.key ? (
                     <AddItemForm
@@ -1196,22 +1222,6 @@ export function BudgetTable({
         </div>
       )}
 
-      {hiddenCategories.length > 0 && (
-        <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-hairline pt-4">
-          <span className="text-xs text-ink/50">Not tracking:</span>
-          {hiddenCategories.map((category) => (
-            <button
-              key={category.key}
-              type="button"
-              onClick={() => handleUnhide(category.key)}
-              disabled={isPending}
-              className="rounded-full border border-hairline px-3 py-1 text-xs text-ink transition-colors hover:border-forest"
-            >
-              + {category.label}
-            </button>
-          ))}
-        </div>
-      )}
       </div>
     </div>
   );

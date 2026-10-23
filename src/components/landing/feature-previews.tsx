@@ -82,6 +82,8 @@ const BUDGET_LINES: {
   /** Discounts and credits, like the real Saved column. */
   saved?: number;
   section: string;
+  /** Off the budget until tapped in, like the real "Couples often add" chips. */
+  suggested?: boolean;
 }[] = [
   { section: "Wedding day", key: "venue", label: "Venue", Icon: VenueIcon, flat: 9000, actual: 9500, paid: 3000, saved: 500 },
   { section: "Wedding day", key: "catering", label: "Catering", Icon: CateringIcon, perGuest: 85 },
@@ -91,6 +93,7 @@ const BUDGET_LINES: {
   { section: "Wedding day", key: "music", label: "Music", Icon: MusicIcon, flat: 2200, actual: 1800, paid: 900 },
   { section: "Wedding day", key: "cake", label: "Cake", Icon: CakeIcon, perGuest: 6 },
   { section: "Rehearsal & welcome", key: "rehearsal", label: "Rehearsal Dinner", Icon: ToastIcon, flat: 2400, actual: 2600, paid: 1300 },
+  { section: "Rehearsal & welcome", key: "welcome", label: "Welcome Party", Icon: ToastIcon, perGuest: 10, suggested: true },
   { section: "Attire & rings", key: "attire", label: "Wedding Attire", Icon: AttireIcon, flat: 2500, actual: 2200, paid: 2200, saved: 150 },
   { section: "Attire & rings", key: "rings", label: "Wedding Rings", Icon: RingsIcon, flat: 1500 },
 ];
@@ -197,11 +200,12 @@ function BudgetDemo() {
     Object.fromEntries(BUDGET_LINES.map((l) => [l.key, l.paid ?? 0])),
   );
   const [syncedAt, setSyncedAt] = useState({ actual, paid });
+  const [added, setAdded] = useState<Set<string>>(() => new Set());
   const sheetChanges = BUDGET_LINES.filter(
     (l) => actual[l.key] !== syncedAt.actual[l.key] || paid[l.key] !== syncedAt.paid[l.key],
   ).length;
 
-  const rows = BUDGET_LINES.map((l) => {
+  const rows = BUDGET_LINES.filter((l) => !l.suggested || added.has(l.key)).map((l) => {
     const estimate = l.perGuest ? l.perGuest * guests : (l.flat ?? 0);
     const a = actual[l.key];
     const amount = a ?? estimate;
@@ -354,6 +358,9 @@ function BudgetDemo() {
       <div className="px-5 sm:px-6">
         {BUDGET_SECTION_ORDER.map((section) => {
           const inSection = rows.filter((r) => r.section === section);
+          const suggestions = BUDGET_LINES.filter(
+            (l) => l.section === section && l.suggested && !added.has(l.key),
+          );
           return (
             <div key={section}>
               <div className="flex items-baseline justify-between border-b border-hairline pb-2 pt-4">
@@ -427,6 +434,24 @@ function BudgetDemo() {
                   </div>
                 </div>
               ))}
+              {suggestions.length > 0 && (
+                <div className="flex flex-wrap items-center gap-2 border-t border-hairline bg-[#fffbe0]/60 px-2 py-2.5">
+                  <span className="mr-1 text-xs font-medium text-ink/60">Couples often add</span>
+                  {suggestions.map((l) => (
+                    <button
+                      key={l.key}
+                      type="button"
+                      onClick={() => setAdded((s) => new Set(s).add(l.key))}
+                      className="inline-flex items-center gap-1.5 rounded-full border border-[#FFD301] bg-card px-3 py-1 text-xs font-medium text-forest transition-colors hover:bg-[#FFF12F]/40"
+                    >
+                      + {l.label}
+                      <span className="font-mono-numbers font-normal text-ink/55">
+                        ~{usd(l.perGuest ? l.perGuest * guests : (l.flat ?? 0))}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           );
         })}
