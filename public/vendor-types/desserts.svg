@@ -1,0 +1,10 @@
+<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of cupcakes on a stand">
+  <rect width="400" height="300" fill="#FBF8F1"/>
+  <rect width="400" height="215" fill="#E4F9FF"/>
+  <line x1="0" y1="215" x2="400" y2="215" stroke="#C9BFA6" stroke-width="2"/>
+  <path d="M123 120 H167 L161 160 H129 Z" fill="#FFFFFF"/><path d="M121 120 A24 22 0 0 1 169 120 Z" fill="#FFFFFF"/><path d="M178 120 H222 L216 160 H184 Z" fill="#FFFFFF"/><path d="M176 120 A24 22 0 0 1 224 120 Z" fill="#FFFFFF"/><path d="M233 120 H277 L271 160 H239 Z" fill="#FFFFFF"/><path d="M231 120 A24 22 0 0 1 279 120 Z" fill="#FFFFFF"/>
+  <g fill="none" stroke="#14203D" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M123 120 H167 L161 160 H129 Z"/><path d="M121 120 A24 22 0 0 1 169 120"/><path d="M137 124 L139 158 M153 124 L151 158"/><path d="M178 120 H222 L216 160 H184 Z"/><path d="M176 120 A24 22 0 0 1 224 120"/><path d="M192 124 L194 158 M208 124 L206 158"/><path d="M233 120 H277 L271 160 H239 Z"/><path d="M231 120 A24 22 0 0 1 279 120"/><path d="M247 124 L249 158 M263 124 L261 158"/><path d="M105 162 H295 M200 162 V205 M165 210 H235"/>
+  </g>
+  <circle cx="200" cy="94" r="9" fill="#FFD301" stroke="#14203D" stroke-width="3"/>
+</svg>

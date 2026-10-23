@@ -1,0 +1,10 @@
+<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of a ceremony lectern and arch">
+  <rect width="400" height="300" fill="#FBF8F1"/>
+  <rect width="400" height="215" fill="#E4F9FF"/>
+  <line x1="0" y1="215" x2="400" y2="215" stroke="#C9BFA6" stroke-width="2"/>
+  <path d="M175 130 H225 L215 210 H185 Z" fill="#FFFFFF"/>
+  <g fill="none" stroke="#14203D" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M115 215 V125 A85 85 0 0 1 285 125 V215"/><path d="M175 130 H225 L215 210 H185 Z"/><path d="M165 125 L200 135 L235 125"/><path d="M175 210 H225"/>
+  </g>
+  <path d="M168 118 Q184 110 200 120 Q216 110 232 118 L232 126 Q216 120 200 128 Q184 120 168 126 Z" fill="#FFD301" stroke="#14203D" stroke-width="3" stroke-linejoin="round"/>
+</svg>

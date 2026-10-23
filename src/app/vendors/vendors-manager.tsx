@@ -3,8 +3,7 @@
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
-import { createElement, useEffect, useMemo, useRef, useState, useTransition } from "react";
-import type { ComponentType, SVGProps } from "react";
+import { useEffect, useMemo, useRef, useState, useTransition } from "react";
 import type { VendorFavoriteEntry, VendorInquiry, VendorInquiryStatus } from "@/lib/supabase/types";
 import { cityFilterValues, cityOptions } from "@/lib/city-options";
 import {
@@ -24,23 +23,7 @@ import { SignupCardButton, SignupHeart } from "@/components/public-nav";
 import { vendorHref, type VendorListing } from "@/lib/public-listings";
 import { useSavedFilters } from "@/lib/use-saved-filters";
 import { isInView, viewKey, type MapView } from "@/lib/map-view";
-import {
-  AttireIcon,
-  BarIcon,
-  BuntingIcon,
-  CakeIcon,
-  CateringIcon,
-  FloralsIcon,
-  HairMakeupIcon,
-  MusicIcon,
-  OfficiantIcon,
-  PhotographyIcon,
-  PlannerIcon,
-  StationeryIcon,
-  TransportationIcon,
-  VendorsIcon,
-  VideographyIcon,
-} from "@/components/icons";
+import { vendorCategoryImage } from "@/lib/vendor-category-icons";
 
 const VendorsMap = dynamic(() => import("./vendors-map").then((m) => m.VendorsMap), {
   ssr: false,
@@ -50,33 +33,6 @@ const VendorsMap = dynamic(() => import("./vendors-map").then((m) => m.VendorsMa
     </div>
   ),
 });
-
-type IconComponent = ComponentType<SVGProps<SVGSVGElement>>;
-
-/** The line icon a photo-less vendor card shows, keyed by listing category. */
-const VENDOR_CATEGORY_ICONS: Record<string, IconComponent> = {
-  Catering: CateringIcon,
-  Bar: BarIcon,
-  Photography: PhotographyIcon,
-  Videography: VideographyIcon,
-  Florals: FloralsIcon,
-  Music: MusicIcon,
-  Cake: CakeIcon,
-  Desserts: CakeIcon,
-  Planning: PlannerIcon,
-  Transportation: TransportationIcon,
-  "Hair & Makeup": HairMakeupIcon,
-  Officiant: OfficiantIcon,
-  "Stationery & Invitations": StationeryIcon,
-  "Decor & Lighting": BuntingIcon,
-  Rentals: BuntingIcon,
-  "Photo Booth": PhotographyIcon,
-  "Bridal & Formalwear": AttireIcon,
-};
-
-function vendorCategoryIcon(category: string | null): IconComponent {
-  return (category && VENDOR_CATEGORY_ICONS[category]) || VendorsIcon;
-}
 
 const STATUSES: VendorInquiryStatus[] = ["sent", "responded", "booked", "declined"];
 
@@ -139,30 +95,17 @@ function VendorCard({
       }`}
     >
       <div className="relative">
-        {vendor.image_url ? (
-          <Link href={vendorHref(vendor)}>
-            <Image
-              src={vendor.image_url}
-              alt={vendor.name}
-              width={400}
-              height={250}
-              className="aspect-[16/10] max-h-44 w-full object-cover lg:max-h-none"
-            />
-          </Link>
-        ) : (
-          // No photo: the category's line icon on a tinted band, the way
-          // venues fall back to an illustration of their type. (A monogram
-          // used to sit here, and names like "[SALON] 718" made it a stray "[".)
-          <Link
-            href={vendorHref(vendor)}
-            className="flex aspect-[16/10] max-h-44 w-full items-center justify-center bg-forest/5 lg:max-h-none"
-          >
-            {createElement(vendorCategoryIcon(vendor.category), {
-              className: "h-12 w-12 text-forest/30",
-              strokeWidth: 1.25,
-            })}
-          </Link>
-        )}
+        {/* No photo: a drawing of the category, the way venues fall back to
+            one of their type. */}
+        <Link href={vendorHref(vendor)}>
+          <Image
+            src={vendor.image_url || vendorCategoryImage(vendor.category)}
+            alt={vendor.image_url ? vendor.name : `${vendor.category ?? "Vendor"} illustration`}
+            width={400}
+            height={250}
+            className="aspect-[16/10] max-h-44 w-full object-cover lg:max-h-none"
+          />
+        </Link>
         {(isBooked || vendor.is_sample) && (
           <span className="absolute left-2 top-2 rounded-full bg-ink/80 px-2.5 py-1 text-[11px] font-semibold text-parchment">
             {isBooked ? "Booked" : "Sample listing"}
