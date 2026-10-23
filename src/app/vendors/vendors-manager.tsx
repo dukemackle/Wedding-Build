@@ -530,6 +530,7 @@ export function VendorsManager({
           onSelectVendor={handleSelectVendorFromMap}
           onViewChange={setMapView}
           heightClassName="h-full w-full"
+          outline={{ city: cityFilter, state: stateFilter }}
         />
       }
       empty={
