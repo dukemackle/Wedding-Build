@@ -11,6 +11,13 @@ They're summarised here only by reference; CLAUDE.md is the source.
 
 ## Approved directions
 
+- **2026-10-23:** Picking a city on Venues or Vendors outlines that city's
+  limits on the map (Royal blue line, faint tint, under the pins), like
+  Zillow's search boundary. City limits, not county lines: couples choose by
+  city, and the filter matches city names, so the line and results agree.
+  Census outlines in `public/boundaries/`, drawn by
+  `src/components/city-outline.tsx`; `npm run boundaries:build` refreshes them.
+
 - **2026-10-22 (latest):** Venues without photos show a category
   drawing, not a stock photo: one drawing per category (15), navy line art
   on an Aqua sky with white buildings and one Gold accent. Rejected: real
