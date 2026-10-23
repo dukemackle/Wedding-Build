@@ -26,7 +26,12 @@ They're summarised here only by reference; CLAUDE.md is the source.
   Census outlines in `public/boundaries/`, drawn by
   `src/components/city-outline.tsx`; `npm run boundaries:build` refreshes them.
 
-- **2026-10-22 (latest):** Venues without photos show a category
+- **2026-10-23:** Vendors without photos show a category drawing in the
+  venue drawings' style (navy line art on an Aqua wall, white object, one
+  Gold accent), one per category (17) plus a shop front for Other. Same
+  reasoning as venues: no stock photos. Files: `public/vendor-types/`,
+  mapped in `vendorCategoryImage` (`src/lib/vendor-category-icons.ts`).
+- **2026-10-22 :** Venues without photos show a category
   drawing, not a stock photo: one drawing per category (15), navy line art
   on an Aqua sky with white buildings and one Gold accent. Rejected: real
   stock photos per category (couples could mistake them for the venue, and

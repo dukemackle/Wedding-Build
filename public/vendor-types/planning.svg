@@ -1,0 +1,10 @@
+<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of a planning clipboard">
+  <rect width="400" height="300" fill="#FBF8F1"/>
+  <rect width="400" height="215" fill="#E4F9FF"/>
+  <line x1="0" y1="215" x2="400" y2="215" stroke="#C9BFA6" stroke-width="2"/>
+  <path d="M140 50 H260 V210 H140 Z" fill="#FFFFFF"/>
+  <g fill="none" stroke="#14203D" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M140 50 H260 V210 H140 Z"/><path d="M178 42 H222 V62 H178 Z"/><path d="M160 95 l8 8 l14 -16 M196 98 H240 M160 135 l8 8 l14 -16 M196 138 H240 M164 172 H180 V188 H164 Z M196 180 H230"/>
+  </g>
+  <path d="M268 200 L300 90 L314 94 L282 204 L270 214 Z" fill="#FFD301" stroke="#14203D" stroke-width="3" stroke-linejoin="round"/>
+</svg>

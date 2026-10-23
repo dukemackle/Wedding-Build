@@ -1,0 +1,10 @@
+<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of a vanity mirror">
+  <rect width="400" height="300" fill="#FBF8F1"/>
+  <rect width="400" height="215" fill="#E4F9FF"/>
+  <line x1="0" y1="215" x2="400" y2="215" stroke="#C9BFA6" stroke-width="2"/>
+  <path d="M130 50 H270 V185 H130 Z" fill="#FFFFFF"/>
+  <g fill="none" stroke="#14203D" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M130 50 H270 V185 H130 Z"/><path d="M150 70 H250 V165 H150 Z"/><path d="M110 200 H290"/><path d="M290 200 V185 H302 V200 M292 185 L296 170 L302 175 V185"/><path d="M100 200 L120 170 M116 166 l8 8"/>
+  </g>
+  <circle cx="130" cy="70" r="6" fill="#FFD301" stroke="#14203D" stroke-width="2.5"/><circle cx="130" cy="118" r="6" fill="#FFD301" stroke="#14203D" stroke-width="2.5"/><circle cx="130" cy="166" r="6" fill="#FFD301" stroke="#14203D" stroke-width="2.5"/><circle cx="270" cy="70" r="6" fill="#FFD301" stroke="#14203D" stroke-width="2.5"/><circle cx="270" cy="118" r="6" fill="#FFD301" stroke="#14203D" stroke-width="2.5"/><circle cx="270" cy="166" r="6" fill="#FFD301" stroke="#14203D" stroke-width="2.5"/><circle cx="170" cy="50" r="6" fill="#FFD301" stroke="#14203D" stroke-width="2.5"/><circle cx="230" cy="50" r="6" fill="#FFD301" stroke="#14203D" stroke-width="2.5"/><path d="M168 100 L190 82 M168 120 L210 86" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"/>
+</svg>

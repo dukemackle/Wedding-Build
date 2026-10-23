@@ -1,0 +1,10 @@
+<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of a video camera on a tripod">
+  <rect width="400" height="300" fill="#FBF8F1"/>
+  <rect width="400" height="215" fill="#E4F9FF"/>
+  <line x1="0" y1="215" x2="400" y2="215" stroke="#C9BFA6" stroke-width="2"/>
+  <path d="M120 70 H250 V135 H120 Z" fill="#FFFFFF"/><path d="M250 90 L300 70 V135 L250 115 Z" fill="#FFFFFF"/>
+  <g fill="none" stroke="#14203D" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M120 70 H250 V135 H120 Z"/><path d="M250 90 L300 70 V135 L250 115 Z"/><circle cx="160" cy="102" r="18"/><path d="M185 135 V160 M185 160 L150 215 M185 160 V215 M185 160 L220 215"/>
+  </g>
+  <circle cx="230" cy="86" r="8" fill="#FFD301" stroke="#14203D" stroke-width="3"/>
+</svg>

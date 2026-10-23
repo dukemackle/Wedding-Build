@@ -9,7 +9,7 @@ import { FitToPins } from "@/components/map-fit-bounds";
 import { CityOutline } from "@/components/city-outline";
 import { ClusteredMarkers } from "@/components/clustered-markers";
 import { badgePin } from "@/components/badge-pin";
-import { vendorCategoryIconPaths } from "@/lib/vendor-category-icons";
+import { vendorCategoryIconPaths, vendorCategoryImage } from "@/lib/vendor-category-icons";
 import { MAP_MIN_ZOOM, US_MAP_BOUNDS, type MapView } from "@/lib/map-view";
 import type { VendorListing } from "@/lib/public-listings";
 
@@ -73,15 +73,13 @@ export function VendorsMap({
             })}>
             <Popup minWidth={200}>
               <div className="w-[200px]">
-                {vendor.image_url && (
-                  <Image
-                    src={vendor.image_url}
-                    alt={vendor.name}
-                    width={200}
-                    height={125}
-                    className="aspect-[8/5] w-full rounded-md border border-hairline object-cover"
-                  />
-                )}
+                <Image
+                  src={vendor.image_url || vendorCategoryImage(vendor.category)}
+                  alt={vendor.image_url ? vendor.name : `${vendor.category ?? "Vendor"} illustration`}
+                  width={200}
+                  height={125}
+                  className="aspect-[8/5] w-full rounded-md border border-hairline object-cover"
+                />
                 <div className="pt-2">
                   <div className="flex items-start justify-between gap-2">
                     <p className="font-semibold text-forest">{vendor.name}</p>
