@@ -756,6 +756,27 @@ The Bayview House	122 Ocean Avenue	Bay Shore	New York			Ballroom	Indoor		110	Per
 O'Connell Gardens	2985 Kenneth Place	Oceanside	New York			Ballroom	Indoor	300			An Oceanside catering hall on Long Island's south shore with a grand ballroom and a smaller Star Light Room and set wedding packages.	reservations@oconnellgardens.com	516-678-1492	https://www.oconnellgardens.com/
 La Terrazza	291 S Main Street	New City	New York			Restaurant & Brewery	Indoor				A New City Italian restaurant that specializes in intimate weddings, with a Garden Room, Chateau Room and Grand Veranda for private parties.	laterrazza@verizon.net	845-638-0757	https://laterrazzarestaurant.com/`,
   },
+  {
+    name: "New York City: Brooklyn, Queens, Staten Island, Bronx, Westchester and Long Island",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Price from	Price basis	Description	Email	Phone	Website
+Verdi's of Whitestone	149-58 Cross Island Parkway	Whitestone	New York			Ballroom	Indoor					A Queens catering hall with banquet rooms that hosts wedding receptions and other celebrations.		718-746-6000	https://www.verdis.com
+Marina Cafe	154 Mansion Avenue	Staten Island	New York			Restaurant & Brewery	Indoor					A family-run restaurant on Great Kills Harbor that offers wedding packages and banquet catering.		718-967-3077	https://marinacafesiny.com
+The Snapper Inn	500 Shore Drive	Oakdale	New York			Restaurant & Brewery	Indoor & Outdoor	250		175	Per person	Family-run waterfront restaurant on the Connetquot River that hosts five-hour wedding receptions indoors year-round and in a riverside pavilion from May to October.	thesnapperinn@yahoo.com	(631) 589-0248	https://thesnapperinn.com/wedding_packages.asp
+Lawrence Yacht & Country Club	101 Causeway	Lawrence	New York			Country Club & Golf	Indoor & Outdoor	300				Marina-side club open to non-members, with a renovated ballroom, a cocktail room and a pergola patio for ceremonies and receptions.	lyccinfo@villageoflawrence.org	(516) 239-1685	https://www.lycc.cc/private-events/
+Bridgeview Yacht Club	80 Waterfront Boulevard	Island Park	New York			Beach & Coast	Indoor & Outdoor	375				Glass-walled ballroom and cocktail room on Reynolds Channel with an outdoor courtyard and pergola for ceremonies, plus a smaller sister space called The Loft.		(516) 432-2400	https://bridgeviewyachtclub.com/venue
+The Nyack Seaport	21 Burd Street	Nyack	New York			Ballroom	Indoor					Event hall on the Hudson with a ballroom looking toward the river and bridge, selling wedding packages with its own menus and planning staff.		(845) 353-3200	https://nyackseaport.com/weddings
+Terrace on the Hudson	21 South Route 9W	Haverstraw	New York			Ballroom	Indoor & Outdoor	280				Newly built banquet venue with a large indoor space and an outdoor waterfall, offering sit-down and buffet wedding packages and on-site ceremonies.	terraceonthehudsonny@gmail.com	845-271-4932	https://terrace-on-the-hudson.com/
+Viana Hotel & Spa	3998 Brush Hollow Road	Westbury	New York			Hotel & Resort	Indoor	95				Hotel with a function ballroom aimed at small and intimate weddings and other family celebrations.	info@vianahotelandspa.com	516.338.7777	https://www.vianahotelandspa.com/social-events/
+Marina del Rey	1 Marina Dr.	Bronx	New York			Beach & Coast	Indoor & Outdoor					Family-run waterfront catering venue on Long Island Sound with indoor rooms and outdoor spaces for weddings.	info@mdrnyc.com	718-931-6500	https://www.mdrnyc.com/
+Westchester Manor	140 Saw Mill River Road	Hastings-on-Hudson	New York			Ballroom	Indoor & Outdoor	350				Banquet hall with renovated ballrooms and an outdoor garden terrace that has hosted weddings since 2008.	john@westchestermanor.com	914-478-2331	https://www.westchestermanor.com
+Castle Royale	92 Waverly Street	Yonkers	New York			Ballroom	Indoor					Yonkers event venue with two ballrooms, an in-house culinary team and design support for weddings.	info@castle-royale.com	914-965-2559	https://www.castle-royale.com/weddings
+Mamaroneck Beach & Yacht Club	555 S Barry Ave	Mamaroneck	New York			Beach & Coast	Indoor & Outdoor					Harborfront club on Long Island Sound that offers a ballroom, a wine cellar and outdoor spaces for weddings.		914-698-1130	https://www.mamaroneckbeachandyacht.com/events/
+The Fairways at Dunwoodie	1 Wasylenko Lane	Yonkers	New York			Country Club & Golf	Indoor & Outdoor					Golf course event hall run by Homestyle Caterers, with two renovated rooms and a garden terrace for wedding receptions.	mhartnett@homestylecaterersny.com	914-375-3177	https://www.fairwaysatdunwoodie.com/
+The Pleasantville Manor	110 Nannahagan Rd	Pleasantville	New York			Country Club & Golf	Indoor & Outdoor	120				Banquet room inside Pleasantville Country Club with a covered patio overlooking the greens, suited to weddings of 50 to 120.		914-769-5010	https://www.thepleasantvillemanor.com/weddings-at-the-pleasantville-manor/
+Hollow Brook Golf Club	1060 Oregon Road	Cortlandt Manor	New York			Country Club & Golf	Indoor & Outdoor					Golf club that books one wedding at a time, with a covered veranda ceremony site, patio cocktail hour and banquet room reception.		914-734-1500	https://www.golfhollowbrook.com/Weddings-Special-Events
+The Players	16 Gramercy Park South	New York	New York			Historic Mansion & Estate	Indoor					Historic Gramercy Park clubhouse whose landmark rooms can be arranged for intimate dinners or whole-house wedding celebrations.		(212) 475-6116	https://www.theplayersnyc.org/web/pages/private-events
+`,
+  },
 ];
 
 export default batches;
