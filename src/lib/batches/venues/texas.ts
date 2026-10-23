@@ -739,6 +739,28 @@ The Wayback	9601 Bee Cave Road	Austin	Texas			Hotel & Resort	Indoor & Outdoor			
 Onion Creek Club	2510 Onion Creek Parkway	Austin	Texas			Country Club & Golf	Indoor & Outdoor	225			Private South Austin golf club offering a lawn ceremony site beside the course and an indoor banquet room or terrace for receptions.		512-282-2150	https://arcisgolf.com/clubs/onion-creek-club/weddings
 Capital Venue	10401 Old Lockhart Road	Austin	Texas			Ballroom	Indoor & Outdoor	400			South Austin events center with an indoor hall seating up to 400, a patio and a koi pond on ten acres.		281-973-2911	https://capitalvenueatx.com/`,
   },
+  {
+    name: "Dallas–Fort Worth: north suburbs, Fort Worth west and Ellis County depth",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+Oak + Ivy	11858 FM 428	Aubrey	Texas			Barn & Farm	Indoor & Outdoor				French Country-inspired barn on 11 acres of meadow and woods, with ceremonies under the oaks or inside the barn.			https://oakandivyvenue.com
+Heard-Craig Center for the Arts	205 W. Hunt Street	McKinney	Texas			Museum, Gallery & Rooftop	Indoor & Outdoor				Historic downtown McKinney art museum renting its garden with gazebo and its Carriage House for weddings and showers.		972-569-6909	https://www.heardcraig.org
+MK Venue	312 E Cloyd St	McKinney	Texas			Ballroom	Indoor	65			Boutique event space in historic downtown McKinney for intimate weddings and receptions of 10 to 65 guests.	info@mkvenue.com	(469) 400-5182	https://www.mkvenue.com
+The Reserve at Marty B's	1001 IT Neely Road	Bartonville	Texas			Ballroom	Indoor & Outdoor	350			Event center with a grand ballroom, indoor chapel and unity garden for ceremonies and receptions.			https://thereserveatmartybs.com
+Winding Brooks	153 Mesquite Rd	Ennis	Texas			Garden & Park	Indoor & Outdoor				Water gardens, gazebos and arbors for outdoor vows, plus a 5,000 sq ft banquet hall, in the countryside outside Ennis.	windingbrooksvenue@gmail.com	(214) 534-7043	https://www.windingbrooks.com
+Chateau Hiddenwood	105 Honeytree Circle	Waxahachie	Texas			Garden & Park	Indoor & Outdoor	40			A wooded French country-style retreat in Waxahachie built for micro weddings and elopements, with overnight rooms for up to 18.	Info@chateauhiddenwood.com	(817) 513-4939	https://www.chateauhiddenwood.com
+Ellis County Event Center	1200 Kingdom Circle	Waxahachie	Texas			Ballroom	Indoor				A family-run Waxahachie event hall offering all-inclusive wedding packages with catering, DJ, decor and day-of coordination.	info@elliscountyevents.com	(972) 923-0990	https://elliscountyevents.com
+Diamond Ranch Event Center	683 Jenkins Road	Waxahachie	Texas			Ranch	Indoor & Outdoor	300			A 56-acre Waxahachie property with a 7,100 sq ft modern hall, covered outdoor space and a pond.			https://diamondranchtx.com
+Flourish Events Dallas	316 W College St	Mesquite	Texas			Ballroom	Indoor & Outdoor	230	600	Package	A Hill Country-style Mesquite venue near City Lake Park with a chandeliered ballroom and a garden pavilion for ceremonies.	flourisheventsdallas@gmail.com	(972) 222-6066	https://www.flourisheventsdallas.com
+T&C Venues & Events		Waxahachie	Texas			Historic Mansion & Estate	Indoor & Outdoor				A private estate just outside historic Waxahachie with a mansion, a second event space called Salon 11 and manicured gardens.	Info@tcvenuesevents.com		https://tcvenuesevents.com
+The Delanie		Forney	Texas			Garden & Park	Indoor & Outdoor				A Forney wedding venue pairing an outdoor ceremony site under an angular arch with an all-glass reception space.	delanie@thedelanie.com	(214) 305-9333	https://www.thedelanie.com
+The Madison Hotel	1159 N Madison Ave	Dallas	Texas			Hotel & Resort	Indoor				A revived Oak Cliff hotel by Bishop Arts that takes weddings, groups and events through an online inquiry form.	hello@themadisonhoteloc.com	(469) 778-4319	https://www.themadisonhoteloc.com
+Midlothian Conference Center	1 Community Circle Dr	Midlothian	Texas			Ballroom	Indoor	1000			A 39,000 sq ft Midlothian multipurpose center with flexible rooms that host weddings and receptions of any size.		(972) 775-7125	https://www.midlothiancenter.com
+Clark Gardens Botanical Park	567 Maddux Road	Weatherford	Texas			Garden & Park	Outdoor				Botanical gardens with White Gardens, Channel Gardens pavilions and a rose-arbor lawn for outdoor ceremonies and receptions.	info@clarkgardens.org	(940) 682-4856	https://clarkgardens.org
+The Acre at 920	11620 Creekview St	Crowley	Texas			Industrial Loft & Warehouse	Indoor & Outdoor	150	3000	Rental	Modern industrial-style countryside venue south of Fort Worth with indoor and outdoor spaces for ceremonies and receptions.		682-209-4866	https://theacreat920.com
+Canyon West Golf Course	160 Club House Drive	Weatherford	Texas			Country Club & Golf	Indoor & Outdoor	400			Golf club hosting weddings in a pavilion with an adjoining terrace that seats large guest lists.		(817) 596-4653	https://canyonwestgolf.com
+Sapphire Banquet Hall & Conference Center	1300 North Main Street	Euless	Texas			Ballroom	Indoor	1000			Stand-alone banquet complex with several halls from 150 to 1,000 guests for wedding receptions.	events@sapphirebanquet.com	(972) 800-6282	https://sapphirebanquet.com
+La Vida at Harmony Ranch	3893 N Hwy 287	Alvord	Texas			Barn & Farm	Indoor	80			Small alpaca-ranch barn near Bridgeport offering micro weddings, elopements and venue rentals.	lavidaatharmonyranch@gmail.com	940-980-9008	https://lavidaatharmonyranch.com`,
+  },
 ];
 
 export default batches;
