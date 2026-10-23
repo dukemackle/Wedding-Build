@@ -688,6 +688,21 @@ Church of the Holy Apostles	296 9th Ave	New York	New York			Chapel & Church	Indo
 Church of the Holy Trinity	316 E 88th St	New York	New York			Chapel & Church	Indoor				Upper East Side Episcopal church with a garden that marries couples after pre-marriage counseling and generally does not host full receptions.	ebrent@holytrinity-nyc.org	212-289-4100	https://www.holytrinity-nyc.org/weddings
 Factoria at Charles Point	5 John Walsh Blvd	Peekskill	New York			Restaurant & Brewery	Indoor & Outdoor	180			A Hudson River brewery and restaurant complex in Peekskill with event space for ceremonies and receptions, plus intimate ceremonies for 10 to 60 guests.		(914) 788-4555	https://factoriacp.com/`,
   },
+  {
+    name: "New York City: Bronx, Brooklyn, Manhattan, Queens, Staten Island and Westchester depth",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+Pelham Bay & Split Rock Golf Courses	870 Shore Road	Bronx	New York			Country Club & Golf	Indoor & Outdoor				Golf clubhouse in Pelham Bay Park with an art deco great room, a glass-enclosed pavilion and a garden gazebo for weddings.		718-885-1258	https://www.pelhamsplitrock.com/private-events-weddings/
+Charisma Ballroom	71-46 Main St	Flushing	New York			Ballroom	Indoor				Family-run Flushing ballroom, open since 1975, with catering, open bar and DJ for weddings and other parties.		718-268-2800	https://charismaballroom.com
+Serena's Catering Hall	192 Ebbitts Street	Staten Island	New York			Ballroom	Indoor				Small Staten Island catering hall with a full bar and buffet service for weddings and showers.	Serenascateringhall@aol.com	718-980-0001	https://serenascateringhall.com
+Rory's Rooftop	446 W 14th St	New York	New York			Museum, Gallery & Rooftop	Indoor & Outdoor				A Meatpacking District rooftop with an open-air ceremony area and a glass-covered atrium for dinner and dancing.			https://www.rorysrooftop.com/weddings
+Smack Mellon	92 Plymouth St.	Brooklyn	New York			Museum, Gallery & Rooftop	Indoor	200	1500	Package	A waterfront art gallery in a renovated Dumbo boiler building, rented raw for elopements, ceremonies and receptions.		(718) 834-8761	https://www.smackmellon.org/venue-rental/
+The Lucerne Hotel	201 West 79th Street	New York	New York			Hotel & Resort	Indoor & Outdoor	80	1000	Rental	An Upper West Side hotel with a penthouse event room and rooftop terrace used for small ceremonies and receptions.		212.875.1000	https://thelucernehotel.com/meetings-events
+One if by Land, Two if by Sea	17 Barrow St	New York	New York			Restaurant & Brewery	Indoor & Outdoor				A West Village restaurant in a former carriage house with candlelit rooms, fireplaces and a private garden that takes weddings.		+1 (212) 255-8649	https://www.oneifbyland.com/weddings
+Library Hotel	299 Madison Ave	New York	New York			Hotel & Resort	Indoor & Outdoor	75			A Midtown hotel offering a glass-enclosed Poetry Garden, a terrace and a 14th-floor space for small weddings.		(212) 983-4500	https://www.libraryhotel.com/en/weddings.html
+Hotel Giraffe	365 Park Avenue South	New York	New York			Hotel & Resort	Indoor & Outdoor	70			A Flatiron-area hotel with a rooftop garden and a penthouse suite used for elopements and small weddings.		212-685-7700	https://www.hotelgiraffe.com/weddings
+Manhattan by Sail	299 South Street	New York	New York			Lake & River	Outdoor	150			A schooner charter operator departing from Pier 36 that offers wedding cruises and elopements with the captain officiating.		212-619-6900	https://www.manhattanbysail.com/private-sailing-charters
+Frankie's 457 Spuntino		Brooklyn	New York			Restaurant & Brewery	Indoor & Outdoor				A Carroll Gardens Italian restaurant whose events team hosts cocktail receptions and weddings on its Brooklyn campus.			https://www.frankiesspuntino.com`,
+  },
 ];
 
 export default batches;
