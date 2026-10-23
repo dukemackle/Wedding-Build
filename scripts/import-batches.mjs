@@ -20,7 +20,8 @@
 //   1. new batch rows -> inserted, pinned to their address (venues: or their
 //      name), typed coordinates or town (nudged apart so they stay clickable)
 //   2. listed rows whose batch row has since gained an address -> moved onto it;
-//      venues whose batch row has gained a capacity or price tier -> filled in
+//      venues whose batch row has gained a capacity or price tier, and vendors
+//      whose row has gained a starting price -> filled in
 //   3. listings with no pin -> their town's; listings on a bad Census town
 //      point -> the town's real middle
 //   4. with --repair-pins, listings pinned away from their own spot -> onto it
@@ -404,7 +405,7 @@ try {
     summary.moved += moves.length;
     console.log(`${table}: ${moves.length} moved onto their batch row's address`);
 
-    // 2b. Venue capacity, price tier and published price a batch row has gained since import
+    // 2b. Venue capacity, price tier and published price (vendors: starting price) a batch row has gained since import
     //     (the details backfill adds them to existing rows). Blank fields only, except
     //     a batch-set tier, which follows a newly added price:
     //     a claimed or hand-edited listing keeps its own.
@@ -430,6 +431,19 @@ try {
       await update(table, fills);
       summary.detailed = fills.length;
       console.log(`${table}: ${fills.length} given a capacity, price tier or price from their batch row`);
+    } else {
+      // Vendors: a published starting price and its unit, together, only onto
+      // a listing with neither (a claimed vendor's own price stays). No tier.
+      const byId = new Map(listed[table].filter((row) => row.source_id).map((row) => [row.source_id, row]));
+      const fills = [];
+      for (const row of rows) {
+        const listing = byId.get(rowSourceId(row));
+        if (!listing || row.price_from == null || listing.price_from != null || listing.price_unit) continue;
+        fills.push({ id: listing.id, price_from: row.price_from, price_unit: row.price_unit });
+      }
+      await update(table, fills);
+      summary.detailed += fills.length;
+      console.log(`${table}: ${fills.length} given a starting price from their batch row`);
     }
   }
 
