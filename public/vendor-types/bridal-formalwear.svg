@@ -1,0 +1,10 @@
+<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of a wedding dress on a dress form">
+  <rect width="400" height="300" fill="#FBF8F1"/>
+  <rect width="400" height="215" fill="#E4F9FF"/>
+  <line x1="0" y1="215" x2="400" y2="215" stroke="#C9BFA6" stroke-width="2"/>
+  <path d="M180 60 Q200 70 220 60 L228 115 L280 205 H120 L172 115 Z" fill="#FFFFFF"/>
+  <g fill="none" stroke="#14203D" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M180 60 Q200 70 220 60 L228 115 L280 205 H120 L172 115 Z"/><path d="M200 40 V60 M190 40 H210"/><path d="M172 115 Q200 125 228 115"/><path d="M160 150 Q170 180 150 205 M240 150 Q230 180 250 205 M200 125 V205"/><path d="M200 205 V212 M175 214 H225"/>
+  </g>
+  <path d="M172 108 Q200 118 228 108 L229 118 Q200 128 171 118 Z" fill="#FFD301" stroke="#14203D" stroke-width="3" stroke-linejoin="round"/>
+</svg>

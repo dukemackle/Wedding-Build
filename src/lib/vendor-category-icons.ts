@@ -40,3 +40,31 @@ const UNKNOWN_ICON =
 export function vendorCategoryIconPaths(category: string | null | undefined): string {
   return (category && VENDOR_CATEGORY_ICONS[category]) || UNKNOWN_ICON;
 }
+
+/**
+ * The drawing a photo-less vendor card shows, in the venue drawings' style
+ * (navy line art, Aqua wall, one Gold accent). Files in public/vendor-types/.
+ */
+const VENDOR_CATEGORY_DRAWINGS: Record<string, string> = {
+  Catering: "catering",
+  Bar: "bar",
+  Photography: "photography",
+  Videography: "videography",
+  Florals: "florals",
+  Music: "music",
+  Cake: "cake",
+  Desserts: "desserts",
+  Planning: "planning",
+  Transportation: "transportation",
+  "Hair & Makeup": "hair-makeup",
+  Rentals: "rentals",
+  Officiant: "officiant",
+  "Stationery & Invitations": "stationery",
+  "Decor & Lighting": "decor-lighting",
+  "Photo Booth": "photo-booth",
+  "Bridal & Formalwear": "bridal-formalwear",
+};
+
+export function vendorCategoryImage(category: string | null | undefined): string {
+  return `/vendor-types/${(category && VENDOR_CATEGORY_DRAWINGS[category]) || "other"}.svg`;
+}

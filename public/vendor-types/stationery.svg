@@ -1,0 +1,10 @@
+<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of an invitation and envelope">
+  <rect width="400" height="300" fill="#FBF8F1"/>
+  <rect width="400" height="215" fill="#E4F9FF"/>
+  <line x1="0" y1="215" x2="400" y2="215" stroke="#C9BFA6" stroke-width="2"/>
+  <path d="M170 50 H270 V170 H170 Z" fill="#FFFFFF"/><path d="M110 110 H250 V205 H110 Z" fill="#FFFFFF"/>
+  <g fill="none" stroke="#14203D" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M170 50 H270 V170 H170 Z"/><path d="M190 75 H250 M195 92 H245 M205 140 H235"/><path d="M110 110 H250 V205 H110 Z"/><path d="M110 110 L180 160 L250 110"/>
+  </g>
+  <circle cx="180" cy="160" r="13" fill="#FFD301" stroke="#14203D" stroke-width="3"/>
+</svg>
