@@ -12,19 +12,31 @@ type Pin = { latitude: number; longitude: number };
  * addresses only, which is every listing today. Null when there's no match.
  */
 export async function geocode(address: string): Promise<Pin | null> {
+  return (await geocodeAll(address))[0] ?? null;
+}
+
+/**
+ * Every place the Census matches `address` to. Usually one; a road that runs
+ * through town under one name in two pieces gives two, often kilometres
+ * apart ("15425 McKenzie Highway, Sisters" is on both OR-126 and OR-242), and
+ * geocode's first pick can be the wrong one.
+ */
+export async function geocodeAll(address: string): Promise<Pin[]> {
   try {
     const url =
       "https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?" +
       new URLSearchParams({ address, benchmark: "Public_AR_Current", format: "json" });
     const res = await fetch(url, { signal: AbortSignal.timeout(8000) });
-    if (!res.ok) return null;
+    if (!res.ok) return [];
     const body = (await res.json()) as {
       result?: { addressMatches?: { coordinates: { x: number; y: number } }[] };
     };
-    const match = body.result?.addressMatches?.[0];
-    return match ? { latitude: match.coordinates.y, longitude: match.coordinates.x } : null;
+    return (body.result?.addressMatches ?? []).map((match) => ({
+      latitude: match.coordinates.y,
+      longitude: match.coordinates.x,
+    }));
   } catch {
-    return null;
+    return [];
   }
 }
 
