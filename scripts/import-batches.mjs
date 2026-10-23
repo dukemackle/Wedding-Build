@@ -405,7 +405,8 @@ try {
     console.log(`${table}: ${moves.length} moved onto their batch row's address`);
 
     // 2b. Venue capacity, price tier and published price a batch row has gained since import
-    //     (the details backfill adds them to existing rows). Blank fields only:
+    //     (the details backfill adds them to existing rows). Blank fields only, except
+    //     a batch-set tier, which follows a newly added price:
     //     a claimed or hand-edited listing keeps its own.
     if (table === "venues") {
       const byId = new Map(listed[table].filter((row) => row.source_id).map((row) => [row.source_id, row]));
@@ -420,6 +421,9 @@ try {
         if (row.price_from != null && listing.price_from == null && !listing.price_basis) {
           fill.price_from = row.price_from;
           fill.price_basis = row.price_basis;
+          // The batch row's tier is drawn from this price; the route swaps it
+          // in for a batch-set tier and keeps one the venue or an admin set.
+          if (row.price_tier && row.price_tier !== listing.price_tier) fill.price_tier = row.price_tier;
         }
         if (Object.keys(fill).length) fills.push({ id: listing.id, ...fill });
       }
