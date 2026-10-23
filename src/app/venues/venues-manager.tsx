@@ -413,6 +413,7 @@ export function VenuesManager({
           onViewChange={setMapView}
           heightClassName="h-full w-full"
           signedIn={signedIn}
+          outline={{ city: cityFilter, state: stateFilter }}
         />
       }
       empty={
