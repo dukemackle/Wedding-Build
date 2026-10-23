@@ -430,7 +430,7 @@ function BudgetRowItem({
   const emptyChipClass = `${chipClass} border-dashed border-[#d8d2c4] text-ink/55 hover:border-[#2243B6] hover:text-[#2243B6]`;
 
   return (
-    <div className="border-b border-hairline last:border-b-0">
+    <div className={`border-b border-hairline last:border-b-0${menuOpen ? " relative z-30" : ""}`}>
       {paidCheer > 0 && isFullyPaid && <BirdCheer key={paidCheer} message={`${row.label} is paid in full!`} />}
       <div
         className={`${paidCheer > 0 && isFullyPaid ? "paid-glow " : ""}grid grid-cols-[2.75rem_minmax(0,1fr)_auto] items-center gap-x-3 gap-y-2 px-4 py-3.5 transition-colors hover:bg-parchment/50 ${ROW_GRID} lg:px-6`}
