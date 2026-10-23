@@ -26,6 +26,9 @@ const categories = [...catBlock.matchAll(/"([^"]+)"/g)].map((m) => m[1]).filter(
 // New batches carry Address after Category; batches from before it don't.
 const HEADER = "Name\tCategory\tAddress\tCity\tState\tService area\tDescription\tEmail\tPhone\tWebsite\tInstagram";
 const OLD_HEADER = HEADER.replace("\tAddress", "");
+// Either may end with the published starting price (both or neither per row).
+const PRICE = "\tPrice from\tPrice unit";
+const PRICE_UNITS = ["package", "per package", "event", "per event", "hour", "per hour", "guest", "per guest", "per person"];
 const siteKey = (w) =>
   w.toLowerCase().replace(/^https?:\/\//, "").replace(/^www\./, "").replace(/[?#].*$/, "").replace(/\/+$/, "");
 
@@ -41,15 +44,23 @@ const batches = sources.flatMap(([src, fileState]) =>
 for (const [batchName, tsv, fileState] of batches) {
   const area = batchName.split(":")[0].trim();
   const lines = tsv.split("\n").filter((l) => l.trim() !== "");
-  const hasAddress = lines[0] === HEADER;
-  if (!hasAddress && lines[0] !== OLD_HEADER) problems.push(`${batchName}: header row differs from the standard columns`);
-  const width = hasAddress ? 11 : 10;
+  const priced = lines[0].endsWith(PRICE);
+  const header = priced ? lines[0].slice(0, -PRICE.length) : lines[0];
+  const hasAddress = header === HEADER;
+  if (!hasAddress && header !== OLD_HEADER) problems.push(`${batchName}: header row differs from the standard columns`);
+  const width = (hasAddress ? 11 : 10) + (priced ? 2 : 0);
   for (const line of lines.slice(1)) {
     const cols = line.split("\t");
     const [name, category, address, city, state, , description, email, , website, instagram] = hasAddress
       ? cols
       : [cols[0], cols[1], undefined, ...cols.slice(2)];
     const where = `${batchName} → ${name || "(no name)"}`;
+    if (priced) {
+      const [price = "", unit = ""] = cols.slice(width - 2).map((c) => c.trim());
+      if (Boolean(price) !== Boolean(unit)) problems.push(`${where}: Price from and Price unit go together (both or neither)`);
+      if (price && !/^[1-9]\d*$/.test(price.replace(/[$,]/g, ""))) problems.push(`${where}: Price from "${price}" should be whole dollars`);
+      if (unit && !PRICE_UNITS.includes(unit.toLowerCase())) problems.push(`${where}: Price unit "${unit}" isn't one of: package, per event, per hour, per person`);
+    }
     if (cols.length > width + 2) problems.push(`${where}: ${cols.length} columns (a stray tab?)`);
     if (cols.length < width) problems.push(`${where}: only ${cols.length} columns (should be ${width})`);
     if (address && /\b(p\.?\s*o\.?\s*box|post office box)\b/i.test(address)) problems.push(`${where}: Address is a PO Box`);

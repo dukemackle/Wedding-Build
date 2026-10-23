@@ -44,6 +44,14 @@ const withoutProtected = (row: Record<string, unknown>) =>
 const UPDATABLE = ["address", "city", "latitude", "longitude", "address_checked_at"] as const;
 /** Venue details a batch row can fill in later; the importer only sends them for a blank field. */
 const VENUE_DETAILS = ["capacity", "price_tier", "price_from", "price_basis"] as const;
+/** The vendor equivalent: a published starting price and what it's per. No tier is derived. */
+const VENDOR_DETAILS = ["price_from", "price_unit"] as const;
+const detailsFor = (table: Table): readonly string[] => (table === "venues" ? VENUE_DETAILS : VENDOR_DETAILS);
+/** Extra columns each table's GET and pre-update read carry for those details. */
+const DETAIL_COLUMNS: Record<Table, string> = {
+  venues: ", capacity, price_tier, price_from, price_basis",
+  vendors: ", price_from, price_unit",
+};
 
 export async function GET(request: Request) {
   const refused = refuseBatchCaller(request);
@@ -57,9 +65,7 @@ export async function GET(request: Request) {
   const { data, error } = await createAdminSupabaseClient()
     .from(table)
     .select(
-      `id, name, source_id, website, city, state, address, latitude, longitude, address_checked_at${
-        table === "venues" ? ", capacity, price_tier, price_from, price_basis" : ""
-      }`,
+      `id, name, source_id, website, city, state, address, latitude, longitude, address_checked_at${DETAIL_COLUMNS[table]}`,
     )
     .order("id")
     .range(from, from + PAGE - 1);
@@ -116,17 +122,18 @@ export async function POST(request: Request) {
       return Response.json({ error: `updates must hold 1-${MAX_UPDATES} changes.` }, { status: 400 });
     }
     // An address arriving with address_checked_at was read off the listing's
-    // own website; one without it was moved over from its batch row. Venue
+    // own website; one without it was moved over from its batch row. Listing
     // details only ever fill a blank field, so the current row is read first.
+    const DETAILS = detailsFor(table);
     const stamped = updates.filter(
       (u: Record<string, unknown>) =>
-        typeof u.id === "string" && ("address" in u || VENUE_DETAILS.some((key) => key in u)),
+        typeof u.id === "string" && ("address" in u || DETAILS.some((key) => key in u)),
     );
     const current = new Map<string, Record<string, unknown> & { field_sources: FieldSources }>();
     if (stamped.length > 0) {
       const { data } = await admin
         .from(table)
-        .select(`id, address, city, field_sources${table === "venues" ? ", capacity, price_tier, price_from, price_basis" : ""}`)
+        .select(`id, address, city, field_sources${DETAIL_COLUMNS[table]}`)
         .in("id", stamped.map((u: Record<string, unknown>) => u.id as string));
       for (const row of (data ?? []) as unknown as (Record<string, unknown> & { id: string; field_sources: FieldSources })[]) {
         current.set(row.id, row);
@@ -135,29 +142,32 @@ export async function POST(request: Request) {
     const errors = await Promise.all(
       updates.map(async (update: Record<string, unknown>) => {
         if (typeof update.id !== "string") return "Each update needs an id.";
-        const allowed = table === "venues" ? [...UPDATABLE, ...VENUE_DETAILS] : UPDATABLE;
+        const allowed = [...UPDATABLE, ...DETAILS];
         const values: Record<string, unknown> = Object.fromEntries(
           allowed.filter((key) => key in update).map((key) => [key, update[key]]),
         );
         const was = current.get(update.id) ?? null;
-        // A price and its basis are one fact: if the listing already has
-        // either (a venue's own "Ask us" included), neither is overwritten.
-        const priced = (was?.price_from ?? null) !== null || (was?.price_basis ?? null) !== null;
+        // A price and its basis (a vendor's: its unit) are one fact: if the
+        // listing already has either (a venue's own "Ask us" included),
+        // neither is overwritten.
+        const unit = table === "venues" ? "price_basis" : "price_unit";
+        const priced = (was?.price_from ?? null) !== null || (was?.[unit] ?? null) !== null;
         // A tier a batch guessed gives way to the one its new price implies,
         // so "From $16,000" isn't filtered as Classic. One the venue or an
         // admin set stays.
         const tierBy = was?.field_sources?.price_tier?.by;
-        const retier = !priced && values.price_from != null && tierBy !== "venue" && tierBy !== "admin";
-        for (const key of VENUE_DETAILS) {
+        const retier =
+          table === "venues" && !priced && values.price_from != null && tierBy !== "venue" && tierBy !== "admin";
+        for (const key of DETAILS) {
           if (key === "price_tier" && retier) continue;
           if (key in values && (was?.[key] ?? null) !== null) delete values[key];
         }
         if (priced) {
           delete values.price_from;
-          delete values.price_basis;
+          delete values[unit];
         }
         if (Object.keys(values).length === 0) return null;
-        const details = Object.fromEntries(VENUE_DETAILS.filter((key) => key in values).map((key) => [key, values[key]]));
+        const details = Object.fromEntries(DETAILS.filter((key) => key in values).map((key) => [key, values[key]]));
         if ("address" in values) {
           const { address, city } = values;
           values.field_sources = restamp(
