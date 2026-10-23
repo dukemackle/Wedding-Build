@@ -7,7 +7,9 @@ import type { Vendor, VendorFaq, Wedding } from "@/lib/supabase/types";
 import { VENDOR_PRICE_UNITS } from "@/lib/wedding-options";
 import { ChevronDownIcon } from "@/components/icons";
 import { PhotoGallery } from "@/components/photo-gallery";
-import { SignupPrompt } from "@/components/public-nav";
+import { ListingDesktopActions, ListingPhoneBar } from "@/components/listing-actions";
+import { VendorFavoriteButton } from "../vendor-card-shared";
+import { SignupHeart, SignupPrompt } from "@/components/public-nav";
 import type { SignupIntent } from "@/lib/signup-intent";
 import { SetupFirst } from "@/components/setup-first";
 import {
@@ -109,19 +111,36 @@ export function VendorListing({ data }: { data: VendorListingData }) {
     ["Pinterest", vendor.pinterest_url],
   ].filter((l): l is [string, string] => Boolean(l[1]));
 
+  const heart = (glass: boolean) =>
+    !signedIn ? (
+      <SignupHeart name={vendor.name} next={vendorHref(vendor)} />
+    ) : wedding ? (
+      <VendorFavoriteButton vendorId={vendor.id} isFavorited={isFavorited} glass={glass} />
+    ) : undefined;
+  const actions = {
+    name: vendor.name,
+    href: vendorHref(vendor),
+    fallbackHref: "/vendors",
+    contactId: "listing-contact",
+  };
+
   return (
     <div>
+      <ListingPhoneBar {...actions} save={heart(true)} overPhoto={photos.length > 0} />
       <PhotoGallery photos={photos} alt={vendor.name} />
 
       <div className={`${photos.length ? "mt-6" : ""} grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_340px] lg:gap-10`}>
         <div className="lg:col-start-1 lg:row-start-1">
           <div className="flex flex-wrap items-start justify-between gap-2">
             <h1 className="font-display text-3xl font-semibold text-forest">{vendor.name}</h1>
-            {vendor.price_tier && (
-              <span className="shrink-0 rounded-full border border-hairline px-3 py-1 text-sm text-brass">
-                {vendor.price_tier}
-              </span>
-            )}
+            <div className="flex shrink-0 items-center gap-2">
+              {vendor.price_tier && (
+                <span className="shrink-0 rounded-full border border-hairline px-3 py-1 text-sm text-brass">
+                  {vendor.price_tier}
+                </span>
+              )}
+              <ListingDesktopActions {...actions} save={heart(false)} />
+            </div>
           </div>
           <p className="mt-1 text-sm uppercase tracking-wide text-ink/50">
             {[[vendor.city, vendor.state].filter(Boolean).join(", "), vendor.category].filter(Boolean).join(" · ")}
@@ -161,7 +180,7 @@ export function VendorListing({ data }: { data: VendorListingData }) {
           )}
         </div>
 
-        <aside className="lg:col-start-2 lg:row-span-2 lg:row-start-1">
+        <aside id="listing-contact" className="scroll-mt-16 lg:col-start-2 lg:row-span-2 lg:row-start-1">
           <div className="lg:sticky lg:top-16">
             {vendor.price_from != null && (
               <div className="mb-3 rounded-lg border border-hairline bg-card px-5 py-4 shadow-sm">

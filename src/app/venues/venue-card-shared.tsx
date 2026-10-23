@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { announceSaved, useSavedSync } from "@/lib/saved-sync";
 import { setBookedVenue, toggleShortlist } from "./actions";
 
 export function ShortlistButton({
@@ -8,15 +9,22 @@ export function ShortlistButton({
   isShortlisted,
   onToggled,
   overlay = false,
+  glass = false,
 }: {
   venueId: string;
   isShortlisted: boolean;
   onToggled?: (isShortlisted: boolean) => void;
   /** Render as a bare heart for sitting on top of a card photo. */
   overlay?: boolean;
+  /** A white heart for the frosted bar over a listing's photo on a phone. */
+  glass?: boolean;
 }) {
   const [shortlisted, setShortlisted] = useState(isShortlisted);
   const [isPending, startTransition] = useTransition();
+  useSavedSync("venue", venueId, (saved) => {
+    setShortlisted(saved);
+    onToggled?.(saved);
+  });
 
   function handleClick() {
     const formData = new FormData();
@@ -25,16 +33,27 @@ export function ShortlistButton({
 
     startTransition(async () => {
       const result = await toggleShortlist(formData);
-      if (!result?.error) {
-        setShortlisted((v) => {
-          onToggled?.(!v);
-          return !v;
-        });
-      }
+      if (!result?.error) announceSaved("venue", venueId, !shortlisted);
     });
   }
 
-  const label = shortlisted ? "Remove from favorites" : "Add to favorites";
+  const label = shortlisted ? "Remove from saved" : "Save";
+
+  if (glass) {
+    return (
+      <button
+        onClick={handleClick}
+        disabled={isPending}
+        aria-pressed={shortlisted}
+        aria-label={label}
+        className={`flex h-10 w-10 items-center justify-center rounded-full text-xl transition-colors disabled:opacity-60 ${
+          shortlisted ? "text-[#FFD301]" : "text-white"
+        }`}
+      >
+        <span aria-hidden="true">{shortlisted ? "♥" : "♡"}</span>
+      </button>
+    );
+  }
 
   if (overlay) {
     return (
@@ -65,7 +84,7 @@ export function ShortlistButton({
       }`}
     >
       <span aria-hidden="true">{shortlisted ? "♥" : "♡"}</span>
-      {shortlisted ? "Favorited" : "Favorite"}
+      {shortlisted ? "Saved" : "Save"}
     </button>
   );
 }

@@ -4,7 +4,8 @@ import dynamic from "next/dynamic";
 import { useState, useTransition } from "react";
 import type { Venue, VenueShortlistEntry } from "@/lib/supabase/types";
 import { toggleShortlist, updateShortlistNotes } from "../actions";
-import { BookedVenueButton, ShortlistButton } from "../venue-card-shared";
+import { BookedVenueButton } from "../venue-card-shared";
+import { announceSaved, useSavedSync } from "@/lib/saved-sync";
 import { InquiryForm } from "../inquiry-form";
 import { TrackedContactLink, telHref } from "@/components/tracked-contact-link";
 import { useFinishIntent } from "@/components/signup-sheet";
@@ -86,7 +87,9 @@ export function VenueDetailClient({
   shortlistEntry: VenueShortlistEntry | null;
   then?: SignupIntent;
 }) {
+  // The heart is in the listing's header; the notes here follow it.
   const [isShortlisted, setIsShortlisted] = useState(initialShortlisted);
+  useSavedSync("venue", venue.id, setIsShortlisted);
   const [isBooked, setIsBooked] = useState(initialBooked);
   const [showInquiry, setShowInquiry] = useState(false);
   useFinishIntent(then, {
@@ -95,7 +98,7 @@ export function VenueDetailClient({
       const formData = new FormData();
       formData.set("venue_id", venue.id);
       formData.set("is_shortlisted", "false");
-      toggleShortlist(formData).then((result) => !result?.error && setIsShortlisted(true));
+      toggleShortlist(formData).then((result) => !result?.error && announceSaved("venue", venue.id, true));
     },
     ask: () => setShowInquiry(true),
   });
@@ -103,13 +106,6 @@ export function VenueDetailClient({
   return (
     <div className="rounded-lg border border-hairline bg-card p-6 shadow-sm">
       <div className="flex flex-wrap items-center gap-2">
-        <ShortlistButton
-          // Remounted when the arrival save lands, so the heart shows it.
-          key={String(isShortlisted)}
-          venueId={venue.id}
-          isShortlisted={isShortlisted}
-          onToggled={setIsShortlisted}
-        />
         <BookedVenueButton
           venueId={venue.id}
           isBooked={isBooked}

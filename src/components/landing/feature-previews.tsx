@@ -1221,10 +1221,14 @@ function VenuesDemo() {
   const [min, setMin] = useState(0);
   const [inBudget, setInBudget] = useState(false);
   const [active, setActive] = useState<string | null>(null);
+  // The ♥ pill opens the saved list, as the real Saved page does.
+  const [onlySaved, setOnlySaved] = useState(false);
   // The real Budget filter's sum for a room-only rental: the room plus about
   // $150 a guest for food and drink, here for 150 guests against $40,000.
   const withFood = (price: number) => price + BUDGET_GUESTS * 150;
-  const shown = VENUES.filter((v) => v.guests >= min && (!inBudget || withFood(v.price) <= BUDGET_LIMIT));
+  const shown = onlySaved
+    ? VENUES.filter((v) => saved.has(v.id))
+    : VENUES.filter((v) => v.guests >= min && (!inBudget || withFood(v.price) <= BUDGET_LIMIT));
   const toggle = (id: string) =>
     setSaved((s) => {
       const next = new Set(s);
@@ -1256,9 +1260,16 @@ function VenuesDemo() {
           <FilterPill on={inBudget} onClick={() => setInBudget((b) => !b)}>
             Under $40k · {BUDGET_GUESTS} guests
           </FilterPill>
-          <span className="shrink-0 self-center whitespace-nowrap rounded-full bg-brass/15 px-3 py-1 text-sm text-forest">
+          <button
+            type="button"
+            onClick={() => setOnlySaved((o) => !o)}
+            aria-pressed={onlySaved}
+            className={`shrink-0 self-center whitespace-nowrap rounded-full px-3 py-1 text-sm text-forest ${
+              onlySaved ? "bg-brass" : "bg-brass/15"
+            }`}
+          >
             ♥ {saved.size} saved
-          </span>
+          </button>
         </>
       }
     >

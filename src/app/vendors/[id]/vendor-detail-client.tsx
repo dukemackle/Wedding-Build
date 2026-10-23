@@ -5,7 +5,7 @@ import { toggleVendorFavorite } from "../actions";
 import { useFinishIntent } from "@/components/signup-sheet";
 import type { SignupIntent } from "@/lib/signup-intent";
 import type { Vendor } from "@/lib/supabase/types";
-import { VendorFavoriteButton } from "../vendor-card-shared";
+import { announceSaved } from "@/lib/saved-sync";
 import { InquiryForm } from "../inquiry-form";
 import { TrackedContactLink, telHref } from "@/components/tracked-contact-link";
 
@@ -18,7 +18,6 @@ export function VendorDetailClient({
   isFavorited: boolean;
   then?: SignupIntent;
 }) {
-  const [isFavorited, setIsFavorited] = useState(initialFavorited);
   const [showInquiry, setShowInquiry] = useState(false);
   useFinishIntent(then, {
     save: () => {
@@ -26,20 +25,19 @@ export function VendorDetailClient({
       const formData = new FormData();
       formData.set("vendor_id", vendor.id);
       formData.set("is_favorited", "false");
-      toggleVendorFavorite(formData).then((result) => !result?.error && setIsFavorited(true));
+      // The heart is in the listing's header now; this tells it.
+      toggleVendorFavorite(formData).then((result) => !result?.error && announceSaved("vendor", vendor.id, true));
     },
     ask: () => setShowInquiry(true),
   });
 
   return (
     <div className="rounded-lg border border-hairline bg-card p-6 shadow-sm">
-      {/* Remounted when the arrival save lands, so the heart shows it. */}
-      <VendorFavoriteButton key={String(isFavorited)} vendorId={vendor.id} isFavorited={isFavorited} />
       {!showInquiry && (
         <button
           type="button"
           onClick={() => setShowInquiry(true)}
-          className="mt-4 w-full rounded-md bg-forest px-4 py-2.5 text-sm font-medium text-parchment transition-colors hover:bg-forest/90"
+          className="w-full rounded-md bg-forest px-4 py-2.5 text-sm font-medium text-parchment transition-colors hover:bg-forest/90"
         >
           Request a quote
         </button>
