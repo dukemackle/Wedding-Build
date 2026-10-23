@@ -7,6 +7,7 @@ import { useMemo } from "react";
 import { MapContainer, Marker, Popup } from "react-leaflet";
 import { BaseMapLayer } from "@/components/base-map-layer";
 import { FitToPins } from "@/components/map-fit-bounds";
+import { CityOutline } from "@/components/city-outline";
 import { ClusteredMarkers } from "@/components/clustered-markers";
 import { badgePin } from "@/components/badge-pin";
 import { MAP_MIN_ZOOM, US_MAP_BOUNDS, type MapView } from "@/lib/map-view";
@@ -27,6 +28,7 @@ export function VenuesMap({
   zoom,
   heightClassName,
   signedIn = true,
+  outline,
 }: {
   venues: VenueListing[];
   shortlistedIds: Set<string>;
@@ -36,6 +38,8 @@ export function VenuesMap({
   center?: [number, number];
   zoom?: number;
   heightClassName?: string;
+  /** The picked city, outlined on the map. */
+  outline?: { city: string; state: string };
   /** False for a logged-out visitor: the popup has no save button. */
   signedIn?: boolean;
 }) {
@@ -68,6 +72,7 @@ export function VenuesMap({
         style={{ height: "100%", width: "100%" }}
       >
         <BaseMapLayer />
+        {outline && <CityOutline city={outline.city} state={outline.state} />}
         <FitToPins points={points} />
         <ClusteredMarkers
           items={pinned}

@@ -140,12 +140,19 @@ export async function POST(request: Request) {
           allowed.filter((key) => key in update).map((key) => [key, update[key]]),
         );
         const was = current.get(update.id) ?? null;
-        for (const key of VENUE_DETAILS) {
-          if (key in values && (was?.[key] ?? null) !== null) delete values[key];
-        }
         // A price and its basis are one fact: if the listing already has
         // either (a venue's own "Ask us" included), neither is overwritten.
-        if ((was?.price_from ?? null) !== null || (was?.price_basis ?? null) !== null) {
+        const priced = (was?.price_from ?? null) !== null || (was?.price_basis ?? null) !== null;
+        // A tier a batch guessed gives way to the one its new price implies,
+        // so "From $16,000" isn't filtered as Classic. One the venue or an
+        // admin set stays.
+        const tierBy = was?.field_sources?.price_tier?.by;
+        const retier = !priced && values.price_from != null && tierBy !== "venue" && tierBy !== "admin";
+        for (const key of VENUE_DETAILS) {
+          if (key === "price_tier" && retier) continue;
+          if (key in values && (was?.[key] ?? null) !== null) delete values[key];
+        }
+        if (priced) {
           delete values.price_from;
           delete values.price_basis;
         }

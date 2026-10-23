@@ -505,6 +505,7 @@ export function VendorsManager({
             value={stateFilter}
             onChange={handleStateFilterChange}
             options={availableStates.map((state) => ({ value: state, label: state }))}
+            searchPlaceholder="Type your state"
           />
           <FilterDropdown
             label="City"
@@ -536,6 +537,7 @@ export function VendorsManager({
           onSelectVendor={handleSelectVendorFromMap}
           onViewChange={setMapView}
           heightClassName="h-full w-full"
+          outline={{ city: cityFilter, state: stateFilter }}
         />
       }
       empty={

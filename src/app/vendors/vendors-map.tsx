@@ -6,6 +6,7 @@ import { useMemo } from "react";
 import { MapContainer, Marker, Popup } from "react-leaflet";
 import { BaseMapLayer } from "@/components/base-map-layer";
 import { FitToPins } from "@/components/map-fit-bounds";
+import { CityOutline } from "@/components/city-outline";
 import { ClusteredMarkers } from "@/components/clustered-markers";
 import { badgePin } from "@/components/badge-pin";
 import { vendorCategoryIconPaths } from "@/lib/vendor-category-icons";
@@ -20,12 +21,15 @@ export function VendorsMap({
   onSelectVendor,
   onViewChange,
   heightClassName,
+  outline,
 }: {
   vendors: VendorListing[];
   favoritedIds?: Set<string>;
   onSelectVendor?: (vendorId: string) => void;
   onViewChange?: (view: MapView) => void;
   heightClassName?: string;
+  /** The picked city, outlined on the map. */
+  outline?: { city: string; state: string };
 }) {
   const pinned = useMemo(
     () =>
@@ -56,6 +60,7 @@ export function VendorsMap({
         style={{ height: "100%", width: "100%" }}
       >
         <BaseMapLayer />
+        {outline && <CityOutline city={outline.city} state={outline.state} />}
         <FitToPins points={points} />
         <ClusteredMarkers
           items={pinned}
