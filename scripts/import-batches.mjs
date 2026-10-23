@@ -248,7 +248,9 @@ function isCompact(hit) {
 
 /**
  * Every geocoder match for a row's street address: the Census's (sometimes
- * two, see geocodeAll), else OpenStreetMap's exact one.
+ * two, see geocodeAll), else OpenStreetMap's exact one. Null when the Census
+ * failed twice: then nothing about the address is known, and a pin isn't
+ * moved on a guess (a Census outage once sent Swan House across Atlanta).
  */
 const matchCache = new Map();
 function addressMatches(row) {
@@ -258,7 +260,8 @@ function addressMatches(row) {
     matchCache.set(
       key,
       (async () => {
-        const census = await geocodeAll(fullAddress(row));
+        const census = (await geocodeAll(fullAddress(row))) ?? (await sleep(2000), await geocodeAll(fullAddress(row)));
+        if (!census) return null;
         if (census.length) return census;
         const hit = await osm({ street: row.address, city: row.city ?? "", state: row.state ?? "" }, { exact: true });
         return hit ? [hit] : [];
@@ -277,7 +280,12 @@ const ambiguous = (matches) => matches.some((match) => km(match, matches[0]) > A
 const siteCache = new Map();
 function siteSpot(row) {
   if (!row.website) return Promise.resolve(null);
-  if (!siteCache.has(row.website)) siteCache.set(row.website, sitePin(row.website).catch(() => null));
+  if (!siteCache.has(row.website)) {
+    // A hard stop as well as fetch's own timeout: a site that stalls mid-page
+    // otherwise holds up its slot in the pool for good.
+    const giveUp = new Promise((resolve) => setTimeout(resolve, 20_000, null));
+    siteCache.set(row.website, Promise.race([sitePin(row.website).catch(() => null), giveUp]));
+  }
   return siteCache.get(row.website);
 }
 
@@ -300,6 +308,7 @@ function locate(row, byName = false) {
       key,
       (async () => {
         const matches = await addressMatches(row);
+        if (!matches) return null;
         const site = named ? await siteSpot(row) : null;
         if (site && agrees(site, matches)) return site;
         const building = named
@@ -542,6 +551,7 @@ try {
           const fix = await (async () => {
             // Already on its address: left alone unless the address is
             // ambiguous, or --site-pins asks for the site's own pin.
+            if (row.address && !(await addressMatches(row))) return null;
             if (byName && !REFINE && row.address && isPinned(row)) {
               const matches = await addressMatches(row);
               if (matches.length && !ambiguous(matches) && km(matches[0], row) <= AGREE_KM) {
@@ -555,7 +565,8 @@ try {
             if (hit && (!here || km(hit, here) <= MAX_KM)) {
               return isPinned(row) && km(hit, row) <= 0.25 ? null : { id: row.id, ...hit };
             }
-            if (here && isPinned(row) && stacked.get(`${row.latitude},${row.longitude}`) > 1) {
+            // Town pins only: listings at one street address share its point.
+            if (!row.address && here && isPinned(row) && stacked.get(`${row.latitude},${row.longitude}`) > 1) {
               return { id: row.id, ...spreadPin(here, row.name) };
             }
             return null;
