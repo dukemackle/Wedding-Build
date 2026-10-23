@@ -5,6 +5,8 @@
 //   npm run import:batches -- --minutes 20      stop starting new work after 20 min
 //   npm run import:batches -- --dry-run         say what it would do, write nothing
 //   npm run import:batches -- --repair-pins     also re-check every listing's pin against its spot
+//   npm run import:batches -- --repair-pins --site-pins
+//                                                 ...and check every venue against its own website's map pin
 //   npm run import:batches -- --repair-pins --refine-pins
 //                                                 ...and look every venue up by name too (slow: ~2 h)
 //   npm run import:batches -- --osm-limit 2000  allow more OpenStreetMap lookups this run (default 500)
@@ -29,10 +31,12 @@
 //
 // Addresses go to the Census geocoder first and OpenStreetMap's second (only
 // a house, building or business, never a whole street). Venues are also
-// looked up by name, and the named building wins when it's near the address:
-// the Census only estimates where a house number falls along its street, so
-// on its own it lands a venue on the road, often 300 m to 1 km off. A result
-// more than 40 km from the listing's town is thrown away as a wrong match.
+// placed by the pin on their own website's map, and looked up by name, and
+// either wins when it's near the address: the Census only estimates where a
+// house number falls along its street, so on its own it lands a venue on the
+// road, often 300 m to 1 km off -- or, where a road comes in two pieces of
+// one name, on the wrong piece entirely (Pole Creek Ranch was 3 km out). A
+// result more than 40 km from the listing's town is thrown away as a wrong match.
 //
 // Prints one line per step and a JSON summary last. Exits 1 if a write fails.
 //
@@ -69,6 +73,7 @@ const option = (name) => {
 const DRY = args.includes("--dry-run");
 const REPAIR = args.includes("--repair-pins");
 const REFINE = args.includes("--refine-pins");
+const SITE_PINS = args.includes("--site-pins");
 const MINUTES = Number(option("--minutes") ?? 35);
 const OSM_LIMIT = Number(option("--osm-limit") ?? 500);
 const SITE = option("--site") ?? "https://youdoido.com";
@@ -88,8 +93,8 @@ const { ALL_VENUE_BATCHES } = await import("../src/lib/batches/venues/index.ts")
 const { ALL_VENDOR_BATCHES } = await import("../src/lib/batches/vendors/index.ts");
 const { parseVenueTable, rowSourceId } = await import("../src/lib/venue-import.ts");
 const { parseVendorTable } = await import("../src/lib/vendor-import.ts");
-const { geocode, censusPlacePin } = await import("../src/lib/listing-pin.ts");
-const { lookUpAddress } = await import("../src/lib/address-finder.ts");
+const { geocodeAll, censusPlacePin } = await import("../src/lib/listing-pin.ts");
+const { lookUpAddress, sitePin } = await import("../src/lib/address-finder.ts");
 const { spreadPin, fullAddress, townKey, isPinned } = await import("../src/lib/import-pins.ts");
 
 // --- talking to /api/batch-sync -------------------------------------------
@@ -242,29 +247,76 @@ function isCompact(hit) {
 }
 
 /**
+ * Every geocoder match for a row's street address: the Census's (sometimes
+ * two, see geocodeAll), else OpenStreetMap's exact one. Null when the Census
+ * failed twice: then nothing about the address is known, and a pin isn't
+ * moved on a guess (a Census outage once sent Swan House across Atlanta).
+ */
+const matchCache = new Map();
+function addressMatches(row) {
+  if (!row.address) return Promise.resolve([]);
+  const key = fullAddress(row).toLowerCase();
+  if (!matchCache.has(key)) {
+    matchCache.set(
+      key,
+      (async () => {
+        const census = (await geocodeAll(fullAddress(row))) ?? (await sleep(2000), await geocodeAll(fullAddress(row)));
+        if (!census) return null;
+        if (census.length) return census;
+        const hit = await osm({ street: row.address, city: row.city ?? "", state: row.state ?? "" }, { exact: true });
+        return hit ? [hit] : [];
+      })(),
+    );
+  }
+  return matchCache.get(key);
+}
+
+/** Whether `pin` is within AGREE_KM of any of the address's matches. */
+const agrees = (pin, matches) => matches.some((match) => km(pin, match) <= AGREE_KM);
+/** Whether the address's matches are far apart, so the first may be the wrong one. */
+const ambiguous = (matches) => matches.some((match) => km(match, matches[0]) > AGREE_KM);
+
+/** The pin on a listing's own website (see sitePin), looked up once a run. */
+const siteCache = new Map();
+function siteSpot(row) {
+  if (!row.website) return Promise.resolve(null);
+  if (!siteCache.has(row.website)) {
+    // A hard stop as well as fetch's own timeout: a site that stalls mid-page
+    // otherwise holds up its slot in the pool for good.
+    const giveUp = new Promise((resolve) => setTimeout(resolve, 20_000, null));
+    siteCache.set(row.website, Promise.race([sitePin(row.website).catch(() => null), giveUp]));
+  }
+  return siteCache.get(row.website);
+}
+
+/**
  * The actual spot for a listing, or null. Its street address (the Census
- * geocoder, then OpenStreetMap's exact matches); with `byName`, the place
- * itself looked up by name in its town, which wins when it's within AGREE_KM
- * of the address (it's the building, the address only the road outside) and
- * stands in when the address won't match at all.
+ * geocoder, then OpenStreetMap's exact matches); with `byName` (venues),
+ * first the pin on its own website, then the place itself looked up by name
+ * in its town. Either wins when it's within AGREE_KM of an address match
+ * (it's the building, the address only the road outside), and picks between
+ * matches when the Census found two. A site pin with nothing to agree with is
+ * ignored: a page can carry a head office's or a template's default. The
+ * name lookup stands in when the address won't match at all.
  */
 const spotCache = new Map();
 function locate(row, byName = false) {
   const named = byName && row.name && row.city && row.state;
-  const key = `${named ? row.name : ""}|${fullAddress(row)}`.toLowerCase();
+  const key = `${named ? `${row.name}|${row.website ?? ""}` : ""}|${fullAddress(row)}`.toLowerCase();
   if (!spotCache.has(key)) {
     spotCache.set(
       key,
       (async () => {
-        const address = row.address
-          ? ((await geocode(fullAddress(row))) ??
-            (await osm({ street: row.address, city: row.city ?? "", state: row.state ?? "" }, { exact: true })))
-          : null;
+        const matches = await addressMatches(row);
+        if (!matches) return null;
+        const site = named ? await siteSpot(row) : null;
+        if (site && agrees(site, matches)) return site;
         const building = named
           ? await osm({ q: `${row.name.replace(/\s*\(.*?\)/g, "")}, ${row.city}, ${row.state}` }, { exact: true, compact: true })
           : null;
-        if (address && building) return km(address, building) <= AGREE_KM ? building : address;
-        return address ?? building;
+        if (building && site && km(site, building) <= AGREE_KM) return site;
+        if (building && (!matches.length || agrees(building, matches))) return building;
+        return matches[0] ?? null;
       })(),
     );
   }
@@ -469,8 +521,10 @@ try {
   //    while a geocoder was down, and venues left on their town's point when
   //    no geocoder knew the address. A pin already within AGREE_KM of its
   //    address is left alone without the name lookup (it may be the building
-  //    itself, and the lookups are a second each); --refine-pins does them
-  //    anyway, to move street estimates onto their buildings. A listing with
+  //    itself, and the lookups are a second each), unless the Census placed
+  //    the address in two spots far apart; --site-pins checks those against
+  //    the venue's own website (no OpenStreetMap calls), and --refine-pins
+  //    does every lookup anyway, to move street estimates onto their buildings. A listing with
   //    no spot that sits on another listing's exact point (a town pin from
   //    before they were nudged apart) is nudged off it.
   if (REPAIR) {
@@ -495,16 +549,24 @@ try {
         8,
         async (row) => {
           const fix = await (async () => {
+            // Already on its address: left alone unless the address is
+            // ambiguous, or --site-pins asks for the site's own pin.
+            if (row.address && !(await addressMatches(row))) return null;
             if (byName && !REFINE && row.address && isPinned(row)) {
-              const address = await locate(row);
-              if (address && km(address, row) <= AGREE_KM) return null;
+              const matches = await addressMatches(row);
+              if (matches.length && !ambiguous(matches) && km(matches[0], row) <= AGREE_KM) {
+                if (!SITE_PINS) return null;
+                const site = await siteSpot(row);
+                return site && agrees(site, matches) && km(site, row) > 0.25 ? { id: row.id, ...site } : null;
+              }
             }
             const hit = await locate(row, byName);
             const here = await town.pin(row);
             if (hit && (!here || km(hit, here) <= MAX_KM)) {
               return isPinned(row) && km(hit, row) <= 0.25 ? null : { id: row.id, ...hit };
             }
-            if (here && isPinned(row) && stacked.get(`${row.latitude},${row.longitude}`) > 1) {
+            // Town pins only: listings at one street address share its point.
+            if (!row.address && here && isPinned(row) && stacked.get(`${row.latitude},${row.longitude}`) > 1) {
               return { id: row.id, ...spreadPin(here, row.name) };
             }
             return null;
