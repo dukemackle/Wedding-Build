@@ -180,10 +180,17 @@ export function FilterDropdown({
       {open && pos && createPortal(
         <div
           ref={menuRef}
-          style={{ top: pos.top, left: pos.left }}
+          // As tall as the screen allows, so a 15-item list
+          // like Category or Venue type shows whole rather than stopping at
+          // the eighth row.
+          style={{
+            top: pos.top,
+            left: pos.left,
+            maxHeight: panel ? undefined : `calc(100dvh - ${pos.top + 12}px)`,
+          }}
           role={multiple ? "listbox" : undefined}
           aria-multiselectable={multiple || undefined}
-          className={`fixed z-40 rounded-md border border-hairline bg-card shadow-md animate-page-in ${panel ? "w-64" : `max-h-72 w-56 overflow-y-auto ${searchPlaceholder ? "pb-1" : "py-1"}`}`}
+          className={`fixed z-40 rounded-md border border-hairline bg-card shadow-md animate-page-in ${panel ? "w-64" : `w-56 overflow-y-auto ${searchPlaceholder ? "pb-1" : "py-1"}`}`}
         >
           {panel ? (
             panel(() => setOpen(false))
