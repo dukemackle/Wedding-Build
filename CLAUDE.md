@@ -114,6 +114,13 @@ page with the results in a sheet dragged up from the bottom. They deliberately
 have no `max-w-*` cap, so don't "fix" them back into a centred column. The
 shared layout lives in `src/components/search-shell.tsx`.
 
+**Venues and vendors are siblings (2026-10-23):** whenever a change touches
+venues (browse page, filters, map pins, cards, listing page, claim form, admin),
+check whether vendors need the same and say so in the PR: do it in the same PR,
+or name why it doesn't apply (e.g. venue-only data like capacity). Same the
+other way round. Shared pieces (`search-shell`, `filter-dropdown`,
+`clustered-markers`) carry both; the gaps open up in the per-page files.
+
 **Page widths are a fixed scale (2026-09-22):** five names in
 `src/lib/layout.ts` — READING (2xl), STANDARD (4xl), WIDE (6xl), CANVAS
 (1600px), FULL — and a rule in that file for which pages use which. Signed-in

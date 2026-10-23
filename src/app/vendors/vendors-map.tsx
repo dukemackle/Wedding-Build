@@ -1,62 +1,35 @@
 "use client";
 
 import "leaflet/dist/leaflet.css";
-import L from "leaflet";
 import Image from "next/image";
 import { useMemo } from "react";
 import { MapContainer, Marker, Popup } from "react-leaflet";
 import { BaseMapLayer } from "@/components/base-map-layer";
 import { FitToPins } from "@/components/map-fit-bounds";
-import { ClusteredMarkers, dotIcon } from "@/components/clustered-markers";
+import { CityOutline } from "@/components/city-outline";
+import { ClusteredMarkers } from "@/components/clustered-markers";
+import { badgePin } from "@/components/badge-pin";
+import { vendorCategoryIconPaths } from "@/lib/vendor-category-icons";
 import { MAP_MIN_ZOOM, US_MAP_BOUNDS, type MapView } from "@/lib/map-view";
 import type { VendorListing } from "@/lib/public-listings";
-
-/**
- * Up close, pins carry the vendor's category so the map reads as the listings
- * rather than as anonymous dots; further out they group and shrink (see
- * ClusteredMarkers).
- */
-const categoryIcons = new Map<string, L.DivIcon>();
-
-function categoryIcon(category: string | null, labelled: boolean) {
-  if (!category || !labelled) return dotIcon("#14203D");
-  const cached = categoryIcons.get(category);
-  if (cached) return cached;
-
-  // Escaped: categories are operator-entered text and go into an HTML string.
-  const label = category.replace(/[&<>"]/g, (c) =>
-    c === "&" ? "&amp;" : c === "<" ? "&lt;" : c === ">" ? "&gt;" : "&quot;",
-  );
-  const width = 22 + category.length * 6.5;
-  const icon = L.divIcon({
-    className: "",
-    html: `<div style="
-      display:flex;align-items:center;justify-content:center;
-      height:26px;padding:0 9px;border-radius:13px;
-      background:#14203D;border:2px solid #fff;
-      box-shadow:0 1px 5px rgba(0,0,0,.32);
-      color:#fff;font:700 12px ui-sans-serif,system-ui,sans-serif;
-      white-space:nowrap;
-    ">${label}</div>`,
-    iconSize: [width, 26],
-    iconAnchor: [width / 2, 13],
-  });
-  categoryIcons.set(category, icon);
-  return icon;
-}
 
 const CONTINENTAL_US_CENTER: [number, number] = [39.8, -98.6];
 
 export function VendorsMap({
   vendors,
+  favoritedIds,
   onSelectVendor,
   onViewChange,
   heightClassName,
+  outline,
 }: {
   vendors: VendorListing[];
+  favoritedIds?: Set<string>;
   onSelectVendor?: (vendorId: string) => void;
   onViewChange?: (view: MapView) => void;
   heightClassName?: string;
+  /** The picked city, outlined on the map. */
+  outline?: { city: string; state: string };
 }) {
   const pinned = useMemo(
     () =>
@@ -87,12 +60,17 @@ export function VendorsMap({
         style={{ height: "100%", width: "100%" }}
       >
         <BaseMapLayer />
+        {outline && <CityOutline city={outline.city} state={outline.state} />}
         <FitToPins points={points} />
         <ClusteredMarkers
           items={pinned}
           onViewChange={onViewChange}
           renderPin={(vendor, labelled) => (
-          <Marker key={vendor.id} position={[vendor.latitude, vendor.longitude]} icon={categoryIcon(vendor.category, labelled)}>
+          <Marker key={vendor.id} position={[vendor.latitude, vendor.longitude]} icon={badgePin({
+              glyph: vendorCategoryIconPaths(vendor.category),
+              saved: favoritedIds?.has(vendor.id),
+              labelled,
+            })}>
             <Popup minWidth={200}>
               <div className="w-[200px]">
                 {vendor.image_url && (

@@ -14,7 +14,8 @@ import {
   updateInquiryStatus,
   updateVendorFavoriteNotes,
 } from "./actions";
-import { FilterDropdown } from "@/components/filter-dropdown";
+import { FilterDropdown, splitMulti } from "@/components/filter-dropdown";
+import { VendorCategoryIcon } from "@/components/vendor-category-icon";
 import { SearchShell } from "@/components/search-shell";
 import { VendorFavoriteButton } from "./vendor-card-shared";
 import { InquiryForm } from "./inquiry-form";
@@ -403,9 +404,9 @@ export function VendorsManager({
     return () => clearTimeout(timeout);
   }, [highlightedVendorId]);
 
-  const categories = Array.from(
+  const categoryOptions = Array.from(
     new Set(vendors.map((v) => v.category).filter((c): c is string => Boolean(c))),
-  );
+  ).sort();
 
   const availableStates = useMemo(
     () =>
@@ -425,19 +426,19 @@ export function VendorsManager({
 
   // No price filter until vendors carry published prices: with almost none
   // tiered, it only reordered the list while looking like it narrowed it.
-  const filteredVendors = useMemo(
-    () =>
-      vendors
+  const filteredVendors = useMemo(() => {
+    // Any number of categories, joined (photo and video are often shopped together).
+    const categories = new Set(splitMulti(categoryFilter));
+    return vendors
         .filter(
           (v) =>
-            (categoryFilter === "all" || v.category === categoryFilter) &&
+            (categories.size === 0 || categories.has(v.category ?? "")) &&
             (stateFilter === "all" || v.state === stateFilter) &&
             (cityFilter === "all" || v.city === cityFilter) &&
             (showHidden || !hidden.has(v.id)) &&
             v.name.toLowerCase().includes(search.trim().toLowerCase()),
-        ),
-    [vendors, categoryFilter, stateFilter, cityFilter, search, showHidden, hidden],
-  );
+        );
+  }, [vendors, categoryFilter, stateFilter, cityFilter, search, showHidden, hidden]);
 
   // Like Zillow, the list is what the map shows: pan or zoom and it follows.
   // Until the map has drawn, it is everything the filters match.
@@ -599,6 +600,7 @@ export function VendorsManager({
             value={stateFilter}
             onChange={handleStateFilterChange}
             options={availableStates.map((state) => ({ value: state, label: state }))}
+            searchPlaceholder="Type your state"
           />
           <FilterDropdown
             label="City"
@@ -614,7 +616,12 @@ export function VendorsManager({
             allLabel="All categories"
             value={categoryFilter}
             onChange={(v) => setFilter("category", v)}
-            options={categories.map((category) => ({ value: category, label: category }))}
+            multiple
+            options={categoryOptions.map((category) => ({
+              value: category,
+              label: category,
+              icon: <VendorCategoryIcon category={category} />,
+            }))}
           />
           {hidden.size > 0 && (
             <button
@@ -631,9 +638,11 @@ export function VendorsManager({
       map={
         <VendorsMap
           vendors={filteredVendors}
+          favoritedIds={favoritedIds}
           onSelectVendor={handleSelectVendorFromMap}
           onViewChange={setMapView}
           heightClassName="h-full w-full"
+          outline={{ city: cityFilter, state: stateFilter }}
         />
       }
       empty={
