@@ -4,10 +4,12 @@ import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState, useTransition } from "react";
+import type { ReactNode } from "react";
 import type { VendorFavoriteEntry, VendorInquiry, VendorInquiryStatus } from "@/lib/supabase/types";
 import { cityFilterValues, cityOptions } from "@/lib/city-options";
 import {
   markVendorBooked,
+  toggleVendorFavorite,
   updateInquiryBookedAmount,
   updateInquiryStatus,
   updateVendorFavoriteNotes,
@@ -23,6 +25,22 @@ import { SignupCardButton, SignupHeart } from "@/components/public-nav";
 import { vendorHref, type VendorListing } from "@/lib/public-listings";
 import { useSavedFilters } from "@/lib/use-saved-filters";
 import { isInView, viewKey, type MapView } from "@/lib/map-view";
+import {
+  HideIcon,
+  LinkIcon,
+  ListingMenu,
+  ShareIcon,
+  ShowIcon,
+  SimilarIcon,
+  UnsaveIcon,
+  copyLink,
+  shareLink,
+  useLongPress,
+  type ListingMenuItem,
+} from "@/components/listing-menu";
+import { SavedNote, SavedPage, countSummary, savedOn } from "@/components/saved-page";
+import { useHiddenListings } from "@/lib/use-hidden-listings";
+import { announceSaved } from "@/lib/saved-sync";
 import { vendorCategoryImage } from "@/lib/vendor-category-icons";
 
 const VendorsMap = dynamic(() => import("./vendors-map").then((m) => m.VendorsMap), {
@@ -57,9 +75,18 @@ function VendorCard({
   isHighlighted,
   cardRef,
   signedIn,
+  menuItems,
+  footer,
+  dimmed = false,
 }: {
   vendor: VendorListing;
   signedIn: boolean;
+  /** The ••• menu: Share, Hide, See similar on a result; Share, Remove on a saved card. */
+  menuItems: ListingMenuItem[];
+  /** Under the card's actions -- the note and saved date on the Saved page. */
+  footer?: ReactNode;
+  /** A hidden vendor shown again by "Show hidden". */
+  dimmed?: boolean;
   isFavorited: boolean;
   isBooked: boolean;
   isHighlighted?: boolean;
@@ -68,6 +95,8 @@ function VendorCard({
   const [showForm, setShowForm] = useState(false);
   const [isBooked, setIsBooked] = useState(initialIsBooked);
   const [isPending, startTransition] = useTransition();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const longPress = useLongPress(() => setMenuOpen(true));
 
   function handleMarkBooked() {
     const formData = new FormData();
@@ -90,9 +119,10 @@ function VendorCard({
   return (
     <div
       ref={cardRef}
-      className={`flex flex-col overflow-hidden rounded-xl border bg-card transition-colors ${
+      {...longPress}
+      className={`flex flex-col overflow-hidden rounded-xl border bg-card transition-colors [-webkit-touch-callout:none] ${
         isHighlighted ? "border-forest ring-2 ring-forest/30" : "border-hairline"
-      }`}
+      } ${dimmed ? "opacity-60" : ""}`}
     >
       <div className="relative">
         {/* No photo: a drawing of the category, the way venues fall back to
@@ -120,11 +150,16 @@ function VendorCard({
         </div>
       </div>
       <div className="flex flex-1 flex-col p-3">
-        <Link href={vendorHref(vendor)} className="hover:underline">
-          <p className="font-display text-lg font-semibold leading-snug tracking-tight text-ink">
-            {vendor.name}
-          </p>
-        </Link>
+        <div className="flex items-start justify-between gap-2">
+          <Link href={vendorHref(vendor)} className="min-w-0 hover:underline">
+            <p className="font-display text-lg font-semibold leading-snug tracking-tight text-ink">
+              {vendor.name}
+            </p>
+          </Link>
+          <div className="-mr-1 -mt-0.5 shrink-0">
+            <ListingMenu name={vendor.name} items={menuItems} open={menuOpen} onOpenChange={setMenuOpen} />
+          </div>
+        </div>
         {(vendor.category || vendor.price_tier) && (
           <p className="mt-0.5 text-sm text-ink/80">
             {[vendor.category, vendor.price_tier].filter(Boolean).join(" · ")}
@@ -163,43 +198,8 @@ function VendorCard({
 
         )}
         {showForm && <InquiryForm vendor={vendor} onDone={() => setShowForm(false)} />}
+        {footer}
       </div>
-    </div>
-  );
-}
-
-function VendorFavoriteNotes({ entry, vendorName }: { entry: VendorFavoriteEntry; vendorName: string }) {
-  const [saved, setSaved] = useState(true);
-  const [isPending, startTransition] = useTransition();
-
-  function handleSave(formData: FormData) {
-    startTransition(async () => {
-      const result = await updateVendorFavoriteNotes(formData);
-      setSaved(!result?.error);
-    });
-  }
-
-  return (
-    <div className="border-b border-hairline py-4 last:border-b-0">
-      <p className="text-ink">{vendorName}</p>
-      <form action={handleSave} className="mt-2 flex items-start gap-3">
-        <input type="hidden" name="vendor_id" value={entry.vendor_id} />
-        <textarea
-          name="notes"
-          rows={2}
-          placeholder="Notes (pricing, availability, questions to ask)..."
-          defaultValue={entry.notes ?? ""}
-          onChange={() => setSaved(false)}
-          className="flex-1 rounded-md border border-hairline bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-forest"
-        />
-        <button
-          type="submit"
-          disabled={isPending}
-          className="rounded-md border border-hairline px-3 py-2 text-sm text-ink transition-colors hover:border-forest disabled:opacity-60"
-        >
-          {isPending ? "Saving..." : saved ? "Saved" : "Save"}
-        </button>
-      </form>
     </div>
   );
 }
@@ -301,8 +301,11 @@ export function VendorsManager({
   inquiries,
   favorites,
   signedIn = true,
+  venueSavedCount = 0,
 }: {
   vendors: VendorListing[];
+  /** For the Saved page's Venues/Vendors switch. */
+  venueSavedCount?: number;
   inquiries: VendorInquiry[];
   favorites: VendorFavoriteEntry[];
   /** False on the public page: no Saved / Inquiries views, and card actions link to signup. */
@@ -316,6 +319,9 @@ export function VendorsManager({
       .filter((id): id is string => Boolean(id)),
   );
   const vendorById = new Map(vendors.map((v) => [v.id, v]));
+  const { hidden, hide, unhide } = useHiddenListings("youdoido:hidden-vendors");
+  const [showHidden, setShowHidden] = useState(false);
+  const [savedSort, setSavedSort] = useState("date");
 
   const { values: filters, set: setFilter, update: updateFilters } = useSavedFilters(
     "youdoido:vendor-filters",
@@ -373,9 +379,10 @@ export function VendorsManager({
             (categories.size === 0 || categories.has(v.category ?? "")) &&
             (stateFilter === "all" || v.state === stateFilter) &&
             (cityFilter === "all" || v.city === cityFilter) &&
+            (showHidden || !hidden.has(v.id)) &&
             v.name.toLowerCase().includes(search.trim().toLowerCase()),
         );
-  }, [vendors, categoryFilter, stateFilter, cityFilter, search]);
+  }, [vendors, categoryFilter, stateFilter, cityFilter, search, showHidden, hidden]);
 
   // Like Zillow, the list is what the map shows: pan or zoom and it follows.
   // Until the map has drawn, it is everything the filters match.
@@ -387,6 +394,109 @@ export function VendorsManager({
 
   function clearFilters() {
     updateFilters({ state: "all", city: "all", category: "all" });
+  }
+
+  // Same category, same town: the filters set to this vendor's, so the map shows its neighbours.
+  function seeSimilar(vendor: VendorListing) {
+    updateFilters({
+      category: vendor.category ?? "all",
+      state: vendor.state ?? "all",
+      city: vendor.state && vendor.city ? vendor.city : "all",
+      q: "",
+    });
+  }
+
+  function resultMenu(vendor: VendorListing): ListingMenuItem[] {
+    return [
+      { label: "See similar", icon: <SimilarIcon />, onSelect: () => seeSimilar(vendor) },
+      hidden.has(vendor.id)
+        ? { label: "Unhide", icon: <ShowIcon />, onSelect: () => unhide(vendor.id) }
+        : { label: "Hide", icon: <HideIcon />, onSelect: () => hide(vendor.id) },
+      { label: "Share", icon: <ShareIcon />, onSelect: () => shareLink(vendor.name, vendorHref(vendor)) },
+    ];
+  }
+
+  function savedMenu(vendor: VendorListing): ListingMenuItem[] {
+    return [
+      { label: "Share", icon: <ShareIcon />, onSelect: () => shareLink(vendor.name, vendorHref(vendor)) },
+      { label: "Copy link", icon: <LinkIcon />, onSelect: () => copyLink(vendorHref(vendor)) },
+      {
+        label: "Remove from saved",
+        icon: <UnsaveIcon />,
+        onSelect: async () => {
+          const formData = new FormData();
+          formData.set("vendor_id", vendor.id);
+          formData.set("is_favorited", "true");
+          const result = await toggleVendorFavorite(formData);
+          if (result?.error) return result.error;
+          announceSaved("vendor", vendor.id, false);
+        },
+      },
+    ];
+  }
+
+  function savedPage(close: () => void) {
+    const entries = favorites.flatMap((entry) => {
+      const vendor = vendorById.get(entry.vendor_id);
+      return vendor ? [{ entry, vendor }] : [];
+    });
+    entries.sort((a, b) =>
+      savedSort === "category"
+        ? (a.vendor.category ?? "~").localeCompare(b.vendor.category ?? "~") || a.vendor.name.localeCompare(b.vendor.name)
+        : savedSort === "name"
+          ? a.vendor.name.localeCompare(b.vendor.name)
+          : b.entry.created_at.localeCompare(a.entry.created_at),
+    );
+    const booked = entries.filter(({ vendor }) => bookedVendorIds.has(vendor.id)).length;
+    return (
+      <SavedPage
+        current="vendors"
+        venueCount={venueSavedCount}
+        vendorCount={entries.length}
+        summary={countSummary(
+          entries.map(({ vendor }) => vendor.category),
+          booked ? [`${booked} booked`] : [],
+        )}
+        sort={savedSort}
+        onSort={setSavedSort}
+        sortOptions={[
+          { value: "date", label: "Date saved" },
+          { value: "category", label: "Category" },
+          { value: "name", label: "Name" },
+        ]}
+        onBack={close}
+        empty={
+          <BirdEmptyState>
+            <p className="text-sm text-ink/60">Nothing saved yet. Tap the heart on a vendor to keep it here.</p>
+          </BirdEmptyState>
+        }
+      >
+        {entries.map(({ entry, vendor }) => (
+          <VendorCard
+            key={entry.id}
+            vendor={vendor}
+            isFavorited
+            isBooked={bookedVendorIds.has(vendor.id)}
+            signedIn={signedIn}
+            menuItems={savedMenu(vendor)}
+            footer={
+              <>
+                <SavedNote
+                  notes={entry.notes}
+                  onSave={(notes) => {
+                    const formData = new FormData();
+                    formData.set("vendor_id", vendor.id);
+                    formData.set("notes", notes);
+                    return updateVendorFavoriteNotes(formData);
+                  }}
+                />
+                <p className="mt-2 text-xs text-ink/45">{savedOn(entry.created_at)}</p>
+              </>
+            }
+          />
+        ))}
+      </SavedPage>
+    );
   }
 
   return (
@@ -404,22 +514,8 @@ export function VendorsManager({
           label: "Saved",
           icon: "♥",
           count: favorites.length,
-          panel:
-            favorites.length === 0 ? (
-              <BirdEmptyState>
-                <p className="text-sm text-ink/60">Nothing saved yet. Tap the heart on a vendor to keep it here.</p>
-              </BirdEmptyState>
-            ) : (
-              <div>
-                {favorites.map((entry) => {
-                  const vendor = vendorById.get(entry.vendor_id);
-                  if (!vendor) return null;
-                  return (
-                    <VendorFavoriteNotes key={entry.id} entry={entry} vendorName={vendor.name} />
-                  );
-                })}
-              </div>
-            ),
+          fullPage: true,
+          panel: savedPage,
         },
         {
           key: "inquiries",
@@ -471,6 +567,16 @@ export function VendorsManager({
               icon: <VendorCategoryIcon category={category} />,
             }))}
           />
+          {hidden.size > 0 && (
+            <button
+              type="button"
+              onClick={() => setShowHidden((v) => !v)}
+              aria-pressed={showHidden}
+              className="shrink-0 whitespace-nowrap rounded-full border border-hairline bg-card px-3 py-1.5 text-sm text-ink shadow-md hover:border-forest lg:shadow-none"
+            >
+              {showHidden ? "Hide hidden" : `Show hidden (${hidden.size})`}
+            </button>
+          )}
         </>
       }
       map={
@@ -501,6 +607,8 @@ export function VendorsManager({
           isBooked={bookedVendorIds.has(vendor.id)}
           isHighlighted={highlightedVendorId === vendor.id}
           signedIn={signedIn}
+          menuItems={resultMenu(vendor)}
+          dimmed={hidden.has(vendor.id)}
           cardRef={(el) => {
             if (el) cardEls.current.set(vendor.id, el);
             else cardEls.current.delete(vendor.id);

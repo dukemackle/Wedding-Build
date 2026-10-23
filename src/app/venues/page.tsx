@@ -113,7 +113,7 @@ export default async function VenuesPage() {
     );
   }
 
-  const [venues, { data: shortlist }, budgetDefaults] = await Promise.all([
+  const [venues, { data: shortlist }, budgetDefaults, { count: vendorSavedCount }] = await Promise.all([
     loadVenues(supabase, true),
     supabase
       .from("venue_shortlist")
@@ -121,6 +121,7 @@ export default async function VenuesPage() {
       .eq("wedding_id", wedding.id)
       .returns<VenueShortlistEntry[]>(),
     loadBudgetDefaults(supabase, wedding),
+    supabase.from("vendor_favorites").select("id", { count: "exact", head: true }).eq("wedding_id", wedding.id),
   ]);
 
   return (
@@ -135,6 +136,7 @@ export default async function VenuesPage() {
         shortlist={shortlist ?? []}
         bookedVenueId={wedding.venue_id}
         budgetDefaults={budgetDefaults}
+        vendorSavedCount={vendorSavedCount ?? 0}
       />
     </main>
   );

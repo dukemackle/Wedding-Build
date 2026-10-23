@@ -20,7 +20,7 @@ export default async function VendorModalPage({ params }: { params: Promise<{ id
   if (data.wedding) trackEvent("listing_viewed", { weddingId: data.wedding.id, listing: { kind: "vendor", id: data.vendor.id } });
 
   return (
-    <ListingModal title={data.vendor.name}>
+    <ListingModal phoneBar={false} title={data.vendor.name}>
       <VendorListing data={data} />
     </ListingModal>
   );

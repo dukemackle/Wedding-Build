@@ -3,14 +3,14 @@
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
-import { useMemo, useState, useTransition } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import type { VenueShortlistEntry } from "@/lib/supabase/types";
 import { cityFilterValues, cityOptions } from "@/lib/city-options";
 import { priceHeadline } from "@/lib/venue-pricing";
 import { dollars, venueTotalFor } from "@/lib/venue-budget";
 import { BudgetPanel, parseBudgetFilter } from "./budget-panel";
 import { CAPACITY_FILTER_STEPS, VENUE_SETTINGS, VENUE_TYPES, currentVenueType, venueTypeImage } from "@/lib/wedding-options";
-import { updateShortlistNotes } from "./actions";
+import { toggleShortlist, updateShortlistNotes } from "./actions";
 import { BookedVenueButton, ShortlistButton } from "./venue-card-shared";
 import { InquiryForm } from "./inquiry-form";
 import { FilterDropdown, MULTI_SEPARATOR, splitMulti } from "@/components/filter-dropdown";
@@ -22,6 +22,22 @@ import { BirdEmptyState } from "@/components/wren-moments";
 import { SignupCardButton, SignupHeart } from "@/components/public-nav";
 import { venueHref, type VenueListing } from "@/lib/public-listings";
 import { ConfirmedChip } from "@/components/confirmed-badge";
+import {
+  HideIcon,
+  LinkIcon,
+  ListingMenu,
+  ShareIcon,
+  ShowIcon,
+  SimilarIcon,
+  UnsaveIcon,
+  copyLink,
+  shareLink,
+  useLongPress,
+  type ListingMenuItem,
+} from "@/components/listing-menu";
+import { SavedNote, SavedPage, countSummary, savedOn } from "@/components/saved-page";
+import { useHiddenListings } from "@/lib/use-hidden-listings";
+import { announceSaved } from "@/lib/saved-sync";
 
 const VenuesMap = dynamic(() => import("./venues-map").then((m) => m.VenuesMap), {
   ssr: false,
@@ -45,9 +61,18 @@ function VenueCard({
   onLeave,
   signedIn,
   budgetGuests,
+  menuItems,
+  footer,
+  dimmed = false,
 }: {
   venue: VenueListing;
   signedIn: boolean;
+  /** The ••• menu: Share, Hide, See similar on a result; Share, Remove on a saved card. */
+  menuItems: ListingMenuItem[];
+  /** Under the card's actions -- the note and saved date on the Saved page. */
+  footer?: ReactNode;
+  /** A hidden venue shown again by "Show hidden". */
+  dimmed?: boolean;
   /** Set while the budget filter is on: the card adds its estimated total. */
   budgetGuests?: number;
   isShortlisted: boolean;
@@ -58,6 +83,8 @@ function VenueCard({
   onLeave?: () => void;
 }) {
   const [showInquiry, setShowInquiry] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const longPress = useLongPress(() => setMenuOpen(true));
   const image = venue.image_url || venueTypeImage(venue.venue_type);
 
   // Capacity leads the card, where a property listing would put its price.
@@ -77,9 +104,10 @@ function VenueCard({
     <div
       onMouseEnter={onHover}
       onMouseLeave={onLeave}
-      className={`flex flex-col overflow-hidden rounded-xl border bg-card transition-colors ${
+      {...longPress}
+      className={`flex flex-col overflow-hidden rounded-xl border bg-card transition-colors [-webkit-touch-callout:none] ${
         isBooked ? "border-brass" : isHighlighted ? "border-forest" : "border-hairline"
-      }`}
+      } ${dimmed ? "opacity-60" : ""}`}
     >
       <div className="relative">
         <Link href={venueHref(venue)}>
@@ -107,9 +135,14 @@ function VenueCard({
         </div>
       </div>
       <div className="flex flex-1 flex-col p-3">
-        <Link href={venueHref(venue)} className="hover:underline">
-          <p className="font-mono-numbers text-lg font-bold tracking-tight text-ink">{lead}</p>
-        </Link>
+        <div className="flex items-start justify-between gap-2">
+          <Link href={venueHref(venue)} className="min-w-0 hover:underline">
+            <p className="font-mono-numbers text-lg font-bold tracking-tight text-ink">{lead}</p>
+          </Link>
+          <div className="-mr-1 -mt-0.5 shrink-0">
+            <ListingMenu name={venue.name} items={menuItems} open={menuOpen} onOpenChange={setMenuOpen} />
+          </div>
+        </div>
         {facts && <p className="mt-0.5 text-sm text-ink/80">{facts}</p>}
         {price && (
           <p className={`mt-0.5 text-sm ${venue.price_basis === "ask" ? "text-ink/60" : "font-medium text-ink"}`}>{price}</p>
@@ -153,43 +186,8 @@ function VenueCard({
         {showInquiry && (
           <InquiryForm venue={venue} onDone={() => setShowInquiry(false)} />
         )}
+        {footer}
       </div>
-    </div>
-  );
-}
-
-function ShortlistNotes({ entry, venueName }: { entry: VenueShortlistEntry; venueName: string }) {
-  const [saved, setSaved] = useState(true);
-  const [isPending, startTransition] = useTransition();
-
-  function handleSave(formData: FormData) {
-    startTransition(async () => {
-      const result = await updateShortlistNotes(formData);
-      setSaved(!result?.error);
-    });
-  }
-
-  return (
-    <div className="border-b border-hairline py-4 last:border-b-0">
-      <p className="text-ink">{venueName}</p>
-      <form action={handleSave} className="mt-2 flex items-start gap-3">
-        <input type="hidden" name="venue_id" value={entry.venue_id} />
-        <textarea
-          name="notes"
-          rows={2}
-          placeholder="Notes (pricing, availability, questions to ask)..."
-          defaultValue={entry.notes ?? ""}
-          onChange={() => setSaved(false)}
-          className="flex-1 rounded-md border border-hairline bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-forest"
-        />
-        <button
-          type="submit"
-          disabled={isPending}
-          className="rounded-md border border-hairline px-3 py-2 text-sm text-ink transition-colors hover:border-forest disabled:opacity-60"
-        >
-          {isPending ? "Saving..." : saved ? "Saved" : "Save"}
-        </button>
-      </form>
     </div>
   );
 }
@@ -200,8 +198,11 @@ export function VenuesManager({
   bookedVenueId: initialBookedVenueId,
   signedIn = true,
   budgetDefaults = null,
+  vendorSavedCount = 0,
 }: {
   venues: VenueListing[];
+  /** For the Saved page's Venues/Vendors switch. */
+  vendorSavedCount?: number;
   shortlist: VenueShortlistEntry[];
   bookedVenueId: string | null;
   /** A signed-in couple's guest count and venue, food & drink budget, to prefill the Budget filter. */
@@ -242,6 +243,9 @@ export function VenuesManager({
 
   const shortlistedIds = new Set(shortlist.map((s) => s.venue_id));
   const venueById = new Map(venues.map((v) => [v.id, v]));
+  const { hidden, hide, unhide } = useHiddenListings("youdoido:hidden-venues");
+  const [showHidden, setShowHidden] = useState(false);
+  const [savedSort, setSavedSort] = useState("date");
 
   const availableStates = useMemo(
     () =>
@@ -285,10 +289,11 @@ export function VenuesManager({
           (capacityFilter === "all" || v.capacity == null || v.capacity >= Number(capacityFilter)) &&
           (stateFilter === "all" || v.state === stateFilter) &&
           (cityFilter === "all" || v.city === cityFilter) &&
+          (showHidden || !hidden.has(v.id)) &&
           v.name.toLowerCase().includes(search.trim().toLowerCase()),
       )
       .sort((a, b) => Number(unknownForFilters(a)) - Number(unknownForFilters(b)));
-  }, [venues, typeFilter, settingFilter, budget, capacityFilter, stateFilter, cityFilter, search]);
+  }, [venues, typeFilter, settingFilter, budget, capacityFilter, stateFilter, cityFilter, search, showHidden, hidden]);
 
   // Like Zillow, the list is what the map shows: pan or zoom and it follows.
   // Until the map has drawn, it is everything the filters match.
@@ -308,6 +313,115 @@ export function VenuesManager({
     });
   }
 
+  // Same type, same town: the filters set to this venue's, so the map shows its neighbours.
+  function seeSimilar(venue: VenueListing) {
+    const type = currentVenueType(venue.venue_type);
+    updateFilters({
+      type: type ?? "all",
+      state: venue.state ?? "all",
+      city: venue.state && venue.city ? venue.city : "all",
+      q: "",
+    });
+  }
+
+  function resultMenu(venue: VenueListing): ListingMenuItem[] {
+    return [
+      { label: "See similar", icon: <SimilarIcon />, onSelect: () => seeSimilar(venue) },
+      hidden.has(venue.id)
+        ? { label: "Unhide", icon: <ShowIcon />, onSelect: () => unhide(venue.id) }
+        : { label: "Hide", icon: <HideIcon />, onSelect: () => hide(venue.id) },
+      { label: "Share", icon: <ShareIcon />, onSelect: () => shareLink(venue.name, venueHref(venue)) },
+    ];
+  }
+
+  function savedMenu(venue: VenueListing): ListingMenuItem[] {
+    return [
+      { label: "Share", icon: <ShareIcon />, onSelect: () => shareLink(venue.name, venueHref(venue)) },
+      { label: "Copy link", icon: <LinkIcon />, onSelect: () => copyLink(venueHref(venue)) },
+      {
+        label: "Remove from saved",
+        icon: <UnsaveIcon />,
+        onSelect: async () => {
+          const formData = new FormData();
+          formData.set("venue_id", venue.id);
+          formData.set("is_shortlisted", "true");
+          const result = await toggleShortlist(formData);
+          if (result?.error) return result.error;
+          announceSaved("venue", venue.id, false);
+        },
+      },
+    ];
+  }
+
+  function savedPage(close: () => void) {
+    const entries = shortlist.flatMap((entry) => {
+      const venue = venueById.get(entry.venue_id);
+      return venue ? [{ entry, venue }] : [];
+    });
+    const last = Number.MAX_SAFE_INTEGER;
+    entries.sort((a, b) =>
+      savedSort === "capacity"
+        ? (b.venue.capacity ?? -1) - (a.venue.capacity ?? -1)
+        : savedSort === "price"
+          ? (a.venue.price_from ?? last) - (b.venue.price_from ?? last)
+          : savedSort === "name"
+            ? a.venue.name.localeCompare(b.venue.name)
+            : b.entry.created_at.localeCompare(a.entry.created_at),
+    );
+    const booked = entries.some(({ venue }) => venue.id === bookedVenueId);
+    return (
+      <SavedPage
+        current="venues"
+        venueCount={entries.length}
+        vendorCount={vendorSavedCount}
+        summary={countSummary(
+          entries.map(({ venue }) => currentVenueType(venue.venue_type)),
+          booked ? ["1 booked"] : [],
+        )}
+        sort={savedSort}
+        onSort={setSavedSort}
+        sortOptions={[
+          { value: "date", label: "Date saved" },
+          { value: "capacity", label: "Capacity" },
+          { value: "price", label: "Price" },
+          { value: "name", label: "Name" },
+        ]}
+        onBack={close}
+        empty={
+          <BirdEmptyState>
+            <p className="text-sm text-ink/60">Nothing saved yet. Tap the heart on a venue to keep it here.</p>
+          </BirdEmptyState>
+        }
+      >
+        {entries.map(({ entry, venue }) => (
+          <VenueCard
+            key={entry.id}
+            venue={venue}
+            isShortlisted
+            isBooked={bookedVenueId === venue.id}
+            onBookedToggled={setBookedVenueId}
+            signedIn={signedIn}
+            menuItems={savedMenu(venue)}
+            footer={
+              <>
+                <SavedNote
+                  notes={entry.notes}
+                  onSave={(notes) => {
+                    const formData = new FormData();
+                    formData.set("venue_id", venue.id);
+                    formData.set("notes", notes);
+                    return updateShortlistNotes(formData);
+                  }}
+                />
+                <p className="mt-2 text-xs text-ink/45">{savedOn(entry.created_at)}</p>
+              </>
+            }
+          />
+        ))}
+      </SavedPage>
+    );
+  }
+
   return (
     <SearchShell
       search={{ value: search, onChange: (v) => setFilter("q", v), placeholder: "Search venues by name..." }}
@@ -323,20 +437,8 @@ export function VenuesManager({
           label: "Saved",
           icon: "♥",
           count: shortlist.length,
-          panel:
-            shortlist.length === 0 ? (
-              <BirdEmptyState>
-                <p className="text-sm text-ink/60">Nothing saved yet. Tap the heart on a venue to keep it here.</p>
-              </BirdEmptyState>
-            ) : (
-              <div>
-                {shortlist.map((entry) => {
-                  const venue = venueById.get(entry.venue_id);
-                  if (!venue) return null;
-                  return <ShortlistNotes key={entry.id} entry={entry} venueName={venue.name} />;
-                })}
-              </div>
-            ),
+          fullPage: true,
+          panel: savedPage,
         },
       ]}
       filters={
@@ -403,6 +505,16 @@ export function VenuesManager({
               icon: <VenueTypeIcon type={type} />,
             }))}
           />
+          {hidden.size > 0 && (
+            <button
+              type="button"
+              onClick={() => setShowHidden((v) => !v)}
+              aria-pressed={showHidden}
+              className="shrink-0 whitespace-nowrap rounded-full border border-hairline bg-card px-3 py-1.5 text-sm text-ink shadow-md hover:border-forest lg:shadow-none"
+            >
+              {showHidden ? "Hide hidden" : `Show hidden (${hidden.size})`}
+            </button>
+          )}
         </>
       }
       map={
@@ -439,6 +551,8 @@ export function VenuesManager({
           onLeave={() => setHoveredVenueId(null)}
           signedIn={signedIn}
           budgetGuests={budget?.guests}
+          menuItems={resultMenu(venue)}
+          dimmed={hidden.has(venue.id)}
         />
       ))}
     </SearchShell>

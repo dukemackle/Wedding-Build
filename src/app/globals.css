@@ -110,6 +110,18 @@ html {
   animation: page-in 0.4s ease-out;
 }
 
+/* A listing's ••• menu opening (listing-menu.tsx). */
+@keyframes menu-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-page-in {
     animation: none;

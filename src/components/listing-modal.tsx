@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useRef, type ReactNode } from "react";
 
 /**
  * A listing opened over the search results, the way Zillow opens a home.
@@ -14,7 +14,26 @@ import { useEffect, useRef, type ReactNode } from "react";
  * Desktop: a wide panel with the results dimmed behind; click outside to
  * close. Phone: the full screen, since a panel with margins wastes a phone.
  */
-export function ListingModal({ title, children }: { title: string; children: ReactNode }) {
+const InListingModal = createContext(false);
+
+/** True inside the panel, where Back means closing it. */
+export function useInListingModal() {
+  return useContext(InListingModal);
+}
+
+export function ListingModal({
+  title,
+  phoneBar = true,
+  children,
+}: {
+  title: string;
+  /**
+   * False when the listing brings its own phone header (Back and the save /
+   * share pill over the photo), so a phone doesn't get two Back buttons.
+   */
+  phoneBar?: boolean;
+  children: ReactNode;
+}) {
   const router = useRouter();
   const panel = useRef<HTMLDivElement>(null);
 
@@ -55,7 +74,7 @@ export function ListingModal({ title, children }: { title: string; children: Rea
         // the scrolling area, and padding there would leave it floating 32px down.
         className="relative mx-auto min-h-full w-full max-w-6xl bg-parchment shadow-2xl outline-none sm:my-8 sm:min-h-0 sm:rounded-xl"
       >
-        <div className="sticky top-0 z-10 flex items-center justify-between border-b border-hairline bg-parchment/95 px-4 py-2.5 backdrop-blur sm:rounded-t-xl sm:px-6">
+        <div className={`sticky top-0 z-10 ${phoneBar ? "flex" : "hidden sm:flex"} items-center justify-between border-b border-hairline bg-parchment/95 px-4 py-2.5 backdrop-blur sm:rounded-t-xl sm:px-6`}>
           <button type="button" onClick={() => router.back()} className="text-sm text-brass hover:underline">
             &larr; Back to search
           </button>
@@ -68,7 +87,9 @@ export function ListingModal({ title, children }: { title: string; children: Rea
             ✕
           </button>
         </div>
-        <div className="px-4 pb-10 pt-4 sm:px-6">{children}</div>
+        <div className={`px-4 pb-10 sm:px-6 sm:pt-4 ${phoneBar ? "pt-4" : "pt-0"}`}>
+          <InListingModal.Provider value={true}>{children}</InListingModal.Provider>
+        </div>
       </div>
     </div>
   );

@@ -11,6 +11,14 @@ They're summarised here only by reference; CLAUDE.md is the source.
 
 ## Approved directions
 
+- **2026-10-23:** Saved venues/vendors follow Zillow's favourites: a full
+  page over the map (Back to search, "Saved" title, Venues/Vendors switch,
+  summary bar with sort, the search's photo cards in three columns / one on a
+  phone, each with the couple's note and saved date). Every card gets a •••
+  menu (results: See similar, Hide, Share; saved: Share, Copy link, Remove).
+  Phone listing pages get Back plus a frosted ♥/Share/••• pill over the photo;
+  desktop puts Save/Share/••• beside the name. Hide is device-only for now;
+  Compare is a later PR.
 - **2026-10-23:** Picking a city on Venues or Vendors outlines that city's
   limits on the map (Royal blue line, faint tint, under the pins), like
   Zillow's search boundary. City limits, not county lines: couples choose by

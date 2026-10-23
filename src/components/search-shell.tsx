@@ -34,7 +34,14 @@ export type SearchShellView = {
   /** A glyph standing in for the label where there is no room for words. */
   icon: string;
   count: number;
-  panel: ReactNode;
+  /** Given a way back to the results, for a full-page view's own back link. */
+  panel: ReactNode | ((close: () => void) => ReactNode);
+  /**
+   * Takes over the whole shell -- no map, no filters -- instead of the
+   * results pane. The map stays mounted underneath, so coming back finds it
+   * where it was. Saved listings work this way.
+   */
+  fullPage?: boolean;
 };
 
 export type SearchShellProps = {
@@ -105,6 +112,24 @@ export function SearchShell({
   const [isDesktop, setIsDesktop] = useState(true);
   const [activeView, setActiveView] = useState<string | null>(null);
 
+  // `?view=saved` opens a view directly -- the Saved page's Venues/Vendors
+  // switch links between the two screens this way.
+  useEffect(() => {
+    const key = new URLSearchParams(window.location.search).get("view");
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- the address is only readable after mount
+    if (key && views.some((v) => v.key === key)) setActiveView(key);
+    // Mount only.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // ...and the address follows, so a refresh stays on the view.
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    if (activeView) url.searchParams.set("view", activeView);
+    else url.searchParams.delete("view");
+    if (url.href !== window.location.href) window.history.replaceState(window.history.state, "", url);
+  }, [activeView]);
+
   // The shell fills whatever is left under the nav. Measured rather than
   // hardcoded: the nav is one row on a phone and two from sm up.
   useEffect(() => {
@@ -169,8 +194,12 @@ export function SearchShell({
       ? `${resultCount.toLocaleString()} of ${totalCount.toLocaleString()} ${resultNoun}s`
       : `${resultCount.toLocaleString()} ${resultNoun}${resultCount === 1 ? "" : "s"}`;
 
-  const results = view ? (
-    view.panel
+  const close = () => setActiveView(null);
+  const panel = view && (typeof view.panel === "function" ? view.panel(close) : view.panel);
+  const fullPage = Boolean(view?.fullPage);
+
+  const results = view && !fullPage ? (
+    panel
   ) : resultCount === 0 ? (
     empty
   ) : (
@@ -273,6 +302,10 @@ export function SearchShell({
         </div>
         <div className="hidden lg:block lg:flex-1" />
       </div>
+
+      {/* Over the map rather than instead of it: Leaflet hidden with
+          display:none comes back grey, and this way it's where it was. */}
+      {fullPage && <div className="absolute inset-0 z-[800] overflow-y-auto bg-parchment">{panel}</div>}
 
       {gridOnly ? (
         // No map: the results are the page, scrolling under the controls.
