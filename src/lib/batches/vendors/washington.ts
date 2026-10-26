@@ -390,6 +390,90 @@ Whisky Trail Band	Music		Wenatchee	Washington	North Central Washington	Wenatchee
 Awolfey Productions	Videography		Chelan	Washington	Central Washington, with travel to Seattle, Spokane and Yakima	Lake Chelan video producer with worldwide film experience, making wedding films alongside event and commercial work.			https://www.awolfey.com/	
 `,
   },
+  {
+    name: "Seattle: planning, florals, music, hair and makeup, cake, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Sara Tam Events	Planning		Seattle	Washington	Seattle	Full, partial and month-of wedding planning from a Seattle planner, with packages priced openly on her site.	hello@saratamevents.com		https://www.saratamevents.com/	https://www.instagram.com/saratamevents/	3500	package
+Elaborate Events	Planning		Seattle	Washington	Seattle, the Eastside and Snohomish County	Seattle planner and designer who builds each wedding around the feeling couples want, with full-service planning on the Eastside too.	abagail@elaborate.events	(425) 567-7798	https://elaborate.events/	https://www.instagram.com/elaborate.events.nw/		
+Villanelle Floral Company	Florals	111 South Lander Street, Suite 104	Seattle	Washington		Seattle floral studio doing wedding and elopement design with sustainably sourced flowers, from bouquets to ceremony arches.	villanellefloral@gmail.com		https://www.villanellefloral.com/	https://www.instagram.com/villanellefloral/	2500	package
+BAHTOH	Florals	672 S Jackson St	Seattle	Washington		Editorial floral studio in Seattle's International District with a wedding floral line and bridal hair services alongside it.			https://www.bahtoh.com/	https://www.instagram.com/bahtoh/		
+Campanula Design Studio	Florals	4009 Gilman Ave West	Seattle	Washington	Seattle, north to Alderwood, east to Redmond and south to Renton	Seattle floral studio that makes custom arrangements and a la carte wedding pieces, plus wedding welcome and party gifts.		(206) 395-6526	https://www.campanuladesign.com/	https://www.instagram.com/campanuladesign/		
+Love Blooms Event Design	Florals	5510 396th Dr SE	Snoqualmie	Washington	Seattle, Snohomish, Tacoma and surrounding areas	Snoqualmie florist and planner offering wedding flowers, a bloom bar, rentals and Indian wedding design for Seattle-area couples.	info@lovebloomseventdesign.com	(425) 681-2249	https://www.lovebloomseventdesign.com/	https://www.instagram.com/lovebloomsweddings/		
+waSOUND	Music		Seattle	Washington	Seattle and venues across Washington State	Seattle wedding DJ service that plays customised sets and offers uplighting, a photobooth and an audio guestbook as add-ons.		(425) 281-9826	https://www.wasound.com/	https://www.instagram.com/wasound_weddingdj/	3399	package
+DJ iSizzle	Music		Seattle	Washington	Seattle and the Pacific Northwest	Seattle wedding DJ and MC who works with couples on the vibe of the night, with mixes and Google reviews on his site.	djisizzle@gmail.com	206-384-6199	https://djisizzle.com/	https://www.instagram.com/djisizzle/		
+LoveCraft Events	Music		Seattle	Washington	Seattle	Seattle wedding DJs and MCs with lighting, photo booths and day-of coordination, sold as tiered packages with prices on the site.	info@lovecraftevents.com	(206) 380-6259	https://lovecraftevents.com/	https://www.instagram.com/lovecraftevents/	2995	package
+The Afterparty	Music		Seattle	Washington	Seattle, Bellevue, Tacoma, Woodinville, Snohomish County and the wider Pacific Northwest	Live wedding and event band in Seattle that plays high-energy dance sets and offers a duo for ceremonies and cocktail hours.			https://afterpartyband.com/	https://www.instagram.com/the.afterparty.band/	5000	package
+Raquel Alba Beauty	Hair & Makeup		Seattle	Washington	Greater Seattle, Kitsap and Snohomish counties, the San Juan Islands and destinations	Seattle wedding makeup artist offering bridal packages with a preview appointment, wedding-day makeup and touch-ups.			https://raquelalbabeauty.com/	https://www.instagram.com/raquelalbabeauty/		
+LiSun Goh Beauty	Hair & Makeup		Seattle	Washington	Seattle, travelling to your location	West Seattle makeup artist who travels to weddings with a full kit, and also teaches DIY bridal makeup lessons.	artist@lisungoh.com	(206) 651-5521	https://www.lisungoh.com/	https://www.instagram.com/lisungohbeauty/		
+Vian K Makeup	Hair & Makeup		Seattle	Washington		Seattle wedding makeup and hair stylist who books bridal parties and special occasions through her own site.	kanwengb@gmail.com	206-354-6889	https://www.viankmakeup.com/	https://www.instagram.com/viankan_makeup/		
+K.Marina Beauty	Hair & Makeup		Kirkland	Washington		Kirkland bridal beauty team that comes to the venue for hair and makeup, with airbrush makeup available and a Kirkland studio for lessons.	kristel@kmarinabeauty.com		https://www.kmarinabeauty.com/	https://www.instagram.com/k.marina_beauty/		
+Honey Crumb Cake Studio	Cake	5230C California Ave SW	Seattle	Washington		West Seattle cake studio making fine art wedding cakes with handmade sugar flowers, with tastings by pre-order for pickup.	info@honeycrumb.com	(425) 577-9220	https://www.honeycrumb.com/	https://www.instagram.com/honeycrumbcakes/		
+The Sweetside	Cake	8310 5th Ave NE	Seattle	Washington	Seattle, with Eastside pickup in Kirkland	Seattle bakery with custom wedding cakes and sweet bites, taking orders online and offering pickup at Totem Lake in Kirkland.	orders@thesweetsideseattle.com	(206) 547-2253	https://www.thesweetsideseattle.com/	https://www.instagram.com/thesweetsideseattle/		
+Baked. Custom Cakes	Cake	2604 California Ave SW	Seattle	Washington		West Seattle custom cake studio that runs wedding consultations and sells tasting packs, working by appointment.		(206) 307-4847	https://www.custombakedcakes.com/	https://www.instagram.com/bakedseattle/		
+Sweet Themes Bakery	Cake	317 West Meeker Street	Kent	Washington		Kent bakery making wedding cakes from scratch without chemical stabilisers, with cake tastings by appointment.	info@sweetthemesbakery.com	(253) 981-4999	https://sweetthemesbakery.com/	https://www.instagram.com/sweetthemesbakery_kent/		
+Simply Caketastic!	Cake	1357 State Ave	Marysville	Washington		Marysville bakery making wedding cakes to taste, plus cupcakes, cookies and cake pops, with online ordering.	jessi@simplycaketastic.com	(360) 653-3113	https://simplycaketastic.com/	https://www.instagram.com/simplycaketastic/		
+Grain Artisan Bakery	Cake		Snohomish	Washington		Certified gluten-free bakery in Snohomish making custom wedding cakes suited to people with allergies.			https://grainartisanbakery.com/	https://www.instagram.com/grainartisanbakery/		
+Amour'nMotion Films	Videography		Seattle	Washington	Seattle, Portland, the Pacific Northwest and destinations	Seattle wedding filmmakers offering highlight films, feature-length edits and multi-camera coverage, with packages priced online.	surfnmotion@gmail.com		https://amournmotion.com/	https://www.instagram.com/amournmotion/	1650	package
+Loc Le Films	Videography		Seattle	Washington	Seattle, the Pacific Northwest and destinations	Seattle wedding videographer making highlight edits, ceremony and toast films and documentary-style features.			https://loclefilms.com/seattle-wedding-videography/	https://www.instagram.com/loclefilms/		
+`,
+  },
+  {
+    name: "Spokane: music, catering, hair and makeup, cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Audio Affiliated	Music		Spokane	Washington	Spokane, Eastern and Central Washington and North Idaho	Spokane wedding DJ and master of ceremonies offering ceremony sound, timeline management, live mixing and lighting design.	david@audioaffiliated.com	(509) 290-0933	https://www.audioaffiliated.com/			
+Spokane PhotoBooth	Music		Spokane	Washington	Spokane and North Idaho	Photo booth company that also runs a wedding DJ and MC package with custom mixes and event lighting for Spokane receptions.			https://spokanephotobooth.com/dj-services	https://www.instagram.com/spokanephotobooth/	2500	package
+Clever Yak Media	Music		Spokane	Washington	Eastern Washington and Northern Idaho	Mobile DJ and MC service in Spokane covering weddings, parties and corporate events across Eastern Washington and North Idaho.	contact@cleveryak.media	(425) 522-3589	https://cleveryak.media/			
+Inland Northwest Catering	Catering	7613 W Sunset Hwy	Spokane	Washington	Spokane and the Inland Northwest	Spokane catering company serving wedding receptions along with corporate and holiday events, with packages listed on its site.	office@inwcatering.com	(509) 924-0560	https://inwcatering.com/	https://www.instagram.com/inwcatering/		
+509 Dine	Catering		Spokane	Washington	Spokane	Family-run Spokane food truck and catering business that brings its smokehouse-style menu to wedding receptions and other events.	509dine@gmail.com	509-220-1681	https://509dine.com/	https://www.instagram.com/509dine/		
+Baddie Beauty	Hair & Makeup		Spokane Valley	Washington	Pacific Northwest	Spokane Valley bridal hair and makeup team known for soft glam looks, with an online date check and willingness to travel.			https://www.baddiebeautybridal.com/			
+Terri Reece Studios	Hair & Makeup		Spokane	Washington	Spokane and Coeur d'Alene	Licensed makeup artist and stylist offering wedding hair and makeup with trials and group packages, travelling to the venue for a fee.	terrireecestudios@gmail.com	(818) 568-7932	https://www.terrireecestudios.com/weddings	https://www.instagram.com/terrireecestudios/		
+Made With Love Bakery	Cake	2023 W Dean Ave	Spokane	Washington	Spokane	Neighbourhood Spokane bakery whose Simply Cheesecake Catering arm makes wedding and custom cakes and dessert catering.	tamar@mwlbakery.com	(509) 919-0041	https://www.mwlbakery.com/	https://www.instagram.com/made.with.love.bakery/		
+`,
+  },
+  {
+    name: "Tacoma: music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+DJ Spark Productions	Music		Tacoma	Washington	Tacoma, Seattle and Western Washington	Wedding DJ and MC service covering ceremony, cocktail hour and reception, with lighting, live musicians and generator-powered setups.	booking@djsparkproductions.com	(253) 408-1732	https://www.djsparkproductions.com/		2500	package
+Adam's DJ Service	Music		Tacoma	Washington	Seattle, Tacoma, Bellevue and the Greater Puget Sound	Mobile DJ business run by Adam Tiegs, providing wedding music along with sound, video and lighting for events around Puget Sound.	adam@adamsdjservice.com	(253) 952-2156	https://www.adamsdjservice.com/	https://www.instagram.com/adamtiegs/		
+`,
+  },
+  {
+    name: "Bellingham and the San Juan Islands: planning, music, hair and makeup, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Three Sisters Weddings	Planning		Bellingham	Washington	Washington state	Wedding and event production company handling planning, florals, rentals, ceiling drapery, dance floors and set-up for custom designs.	sarahjohnstad@gmail.com	360-255-8765	https://www.3sistersweddings.com/	https://www.instagram.com/3sistersweddings/		
+Magically Yours DJs	Music		Concrete	Washington	Upper Skagit Valley, Mount Vernon, Burlington and Bellingham	Wedding DJ based in Concrete with published three-to-six-hour packages that include planning tools, ceremony music and a photo booth.		360-830-8926	https://www.magicdjs.com/		1695	package
+Dyrland Productions	Videography		Bellingham	Washington	Seattle, Bellingham and Washington	Wedding photography and videography team that also films from the air, with day-of and engagement packages.	dyrlandproductions@gmail.com	360-927-6317	https://www.dyrlandproductions.com/wedding	https://www.instagram.com/dyrlandproductions/		
+`,
+  },
+  {
+    name: "Walla Walla: photography, florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Mark VanDonge Portraits	Photography	38 E Main, Suite 207B	Walla Walla	Washington	Walla Walla	Walla Walla portrait photographer from a downtown studio who also covers weddings, with engagement session and heirloom artwork options.		(509) 730-5775	https://www.markseye.com/wedding	https://www.instagram.com/markvandonge/	3950	package
+Walla Walla Flower Farm	Florals		Walla Walla	Washington	Walla Walla Valley	Local flower farm selling bulk blooms for DIY wedding flowers, plus a la carte bouquets and boutonnieres collected from the farm the day before.	anne@wallawallaflowerfarm.com		https://www.wallawallaflowerfarm.com/weddings	https://www.instagram.com/wallawallaflowerfarm/		
+`,
+  },
+  {
+    name: "Olympic Peninsula: photography, planning, music, catering, cake, florals, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Danielle Keith, Port Angeles Photography	Photography		Port Angeles	Washington	Sequim, Port Angeles and surrounding areas	Port Angeles photographer covering weddings and elopements around Sequim, who also shares a preferred vendor list for couples planning locally.	danielle@portangelesphotography.com	(360) 775-0528	https://www.portangelesphotography.com/	https://www.instagram.com/danikeithphoto/		
+Miranda Quade Photography	Photography		Bremerton	Washington		Bremerton photographer with over ten years in weddings, blending classic posing with a storytelling approach, with elopement and portrait sessions too.	mirandaquadephotography@gmail.com	(360) 621-5963	https://www.mirandaquadephotography.com/	https://www.instagram.com/mirandaquadephotography/		
+Nautical Moments Photography	Photography		Bremerton	Washington	Kitsap and the Pacific Northwest	Bremerton wedding photographer running fully guided sessions with engagement shoots and a private reveal where couples choose their finished artwork.	Nauticalmoments@gmail.com		https://nauticalmoments.com/bremerton-wedding-photographer	https://www.instagram.com/nautical_moments_photography/		
+CME Experience (Chloe Mosey Events)	Planning		Bremerton	Washington		Bremerton wedding and event coordinator with unlimited calls and consultations, plus in-house decor rentals, a classic car hire and photo booth.	chloe.mosey.events@gmail.com	(360) 340-4179	https://www.cme-experience.com/	https://www.instagram.com/cme_experience/		
+DJ Silace (Silace Amaro)	Music		Port Townsend	Washington		Port Townsend wedding DJ supplying speakers, wireless microphones and lighting, with music tailored to each couple in advance and guest requests welcome.	music@silaceamaro.com	(888) 723-7318	https://silaceamaro.com/weddings/			
+Essence of the Thymes Catering	Catering	817 Bay Street	Port Orchard	Washington		Port Orchard off-premises caterer with over twenty years of experience, offering wedding menus, hors d'oeuvres and a dessert menu, with a consultation first.	essenceofthethymes@hotmail.com	(360) 876-9200	https://www.essenceofthethymes.com/	https://www.instagram.com/essenceofthethymes/		
+Sweet Life Cakery	Cake		Kingston	Washington	North Kitsap and surrounding communities	Kingston boutique bakery making custom cakes and cupcakes since 2010, now taking online orders and booking micro weddings for 2027.	info@sweetlifecakery.com		https://www.sweetlifecakery.com/weddings-special-events	https://www.instagram.com/sweetlifecakery/		
+Vinnocki Flower Farm	Florals	16911 NW Stavis Bay Rd	Seabeck	Washington	Kitsap	Seabeck regenerative flower farm offering full-service wedding florals, a la carte packages and DIY buckets, with peonies as a speciality.	info@vinnockifarm.com	(360) 265-6900	https://www.vinnockifarm.com/weddings	https://www.instagram.com/vinnockifarm/		
+Willow and Mabel Garden Co.	Florals		Poulsbo	Washington	Kitsap County and the Seattle area	Farmer florist just outside Poulsbo growing dahlias and seasonal blooms for full-service wedding design, with published prices for bouquets and buttonholes.	info@willowandmabelgardenco.com		https://www.willowandmabelgardenco.com/weddings			
+Gariss Gardens	Florals	501 27th Street	Port Townsend	Washington	Greater Port Townsend	Port Townsend flower farm run by two farmer-florists, offering wedding design with local blooms or freshly cut DIY buckets, delivered to the venue.	info@garissgardens.com	(206) 718-8240	https://www.garissgardens.com/weddings	https://www.instagram.com/garissgardens/		
+TwinkleBug Flowers	Florals		Poulsbo	Washington	Kitsap	Poulsbo micro flower farm growing its own blooms for custom wedding florals, bouquets and arrangements, alongside a flower stand and workshops.		(206) 953-3604	https://www.twinklebugflowers.com/			
+`,
+  },
+  {
+    name: "Leavenworth and Chelan: videography, florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Feathers & Flowers	Florals		Wenatchee	Washington	Wenatchee	Family-run Wenatchee flower farm offering full-service and semi-DIY wedding flowers, plus buckets of in-season blooms for couples arranging their own.	info@feathersandflowers.net		https://www.feathersandflowers.net/wedding-events-1	https://www.instagram.com/feathersandflowerswenatchee/		
+`,
+  },
 ];
 
 export default batches;
