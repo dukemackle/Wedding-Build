@@ -52,7 +52,7 @@ export function DesignsHome({
                 ? "None of these is live yet. Open one and publish it when you're happy."
                 : liveUrl
                   ? <>Guests see the one marked Live at <span className="break-all">{liveUrl.replace(/^https?:\/\//, "")}</span></>
-                  : "Guests will see the one marked Live once you turn your site on."}
+                  : <>Your site is off, so guests can&rsquo;t see any of these. Turn it on and they&rsquo;ll see &ldquo;{live.name}&rdquo;.</>}
           </p>
         </div>
         <div className="flex shrink-0 gap-2.5">
@@ -96,6 +96,7 @@ export function DesignsHome({
             key={d.id}
             design={d}
             canAdd={!full}
+            siteOn={Boolean(liveUrl)}
             menuOpen={menuFor === d.id}
             onMenu={(open) => setMenuFor(open ? d.id : null)}
             onError={setError}
@@ -142,12 +143,14 @@ export function DesignsHome({
 function DesignCard({
   design: d,
   canAdd,
+  siteOn,
   menuOpen,
   onMenu,
   onError,
   ...shared
 }: Shared & {
   design: DesignSummary;
+  siteOn: boolean;
   canAdd: boolean;
   menuOpen: boolean;
   onMenu: (open: boolean) => void;
@@ -199,11 +202,18 @@ function DesignCard({
         <Link href={`/guests/site/edit/${d.id}`} className="truncate font-medium text-ink hover:underline">
           {d.name}
         </Link>
-        {d.live && (
-          <span className="shrink-0 rounded-full bg-[#FFD301] px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-[#14203d]">
-            Live
-          </span>
-        )}
+        {/* "Live" only while the site is actually on; with it off, the chosen
+            design says so rather than claiming guests can see it. */}
+        {d.live &&
+          (siteOn ? (
+            <span className="shrink-0 rounded-full bg-[#FFD301] px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-[#14203d]">
+              Live
+            </span>
+          ) : (
+            <span className="shrink-0 rounded-full border border-ink/20 px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-ink/55">
+              Site off
+            </span>
+          ))}
       </div>
       <span className="truncate text-[13px] text-ink/55" suppressHydrationWarning>
         Edited {ago(d.updatedAt)}

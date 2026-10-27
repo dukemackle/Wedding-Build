@@ -1028,8 +1028,18 @@ export function SiteEditor({
           <div className="flex min-w-0 flex-1 flex-col">
             <div className="flex items-center gap-2.5 border-b border-hairline px-6 pb-4 pt-5">
               <div className="min-w-0">
-                <Link href="/guests/site" className="text-[13px] text-ink/60 hover:text-ink">
-                  ← Your designs
+                <Link
+                  href="/guests/site"
+                  className="mb-2 inline-flex h-10 items-center gap-2 rounded-full bg-[#2243B6] px-4 text-[15px] font-semibold text-white hover:bg-[#2243B6]/90"
+                >
+                  <span aria-hidden="true">←</span>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                    <rect x="3" y="3" width="7" height="7" rx="1" />
+                    <rect x="14" y="3" width="7" height="7" rx="1" />
+                    <rect x="3" y="14" width="7" height="7" rx="1" />
+                    <rect x="14" y="14" width="7" height="7" rx="1" />
+                  </svg>
+                  Your designs
                 </Link>
                 <h1 className="truncate font-display text-3xl font-semibold text-forest">{designName}</h1>
               </div>
