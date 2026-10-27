@@ -1049,6 +1049,14 @@ function RsvpDemo() {
             ))}
           </ul>
         )}
+        {/* Personal RSVP links (0141): a household's answers skip the queue. */}
+        <div className="mt-3 rounded-md border border-forest/30 bg-forest/5 p-3">
+          <p className="text-sm font-medium text-ink">The Alvarez household</p>
+          <p className="text-xs text-ink/60">3 coming · 1 can&apos;t make it · via their invitation link</p>
+          <p className="mt-1 font-mono-numbers text-[10px] uppercase tracking-[0.15em] text-forest">
+            Already on your list
+          </p>
+        </div>
       </div>
     </div>
   );

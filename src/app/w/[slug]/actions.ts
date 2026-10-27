@@ -13,6 +13,7 @@ import { trackEvent } from "@/lib/events";
 import { GUEST_PHOTOS_BUCKET, removeGuestPhotos } from "@/lib/guest-photos";
 import { allowGuestWrite, RATE_LIMIT_ERROR } from "@/lib/guest-rate-limit";
 import { isHuman, NOT_HUMAN_ERROR } from "@/lib/turnstile";
+import { applyHouseholdAnswers, findHousehold, type MemberAnswer } from "@/lib/households";
 
 const VALID_STATUSES: RsvpStatus[] = ["confirmed", "declined"];
 const VALID_SIDES: GuestSide[] = ["a", "b", "both"];
@@ -64,6 +65,15 @@ function field(formData: FormData, key: string, max: number): string | null {
  * Best effort: the RSVP is already saved, so a failed email never fails it.
  */
 async function notifyCoupleOfRsvp(weddingId: string, guestName: string, status: RsvpStatus) {
+  const answer = status === "confirmed" ? "is coming" : "can't make it";
+  await notifyCouple(
+    weddingId,
+    `New RSVP: ${guestName} ${answer}`,
+    `${guestName} just RSVPed on your wedding website: ${answer}.\n\nIt's waiting for you to approve on your guest list, which also matches it to the right guest:\n${SITE_URL}/guests\n\nYou Do, I Do`,
+  );
+}
+
+async function notifyCouple(weddingId: string, subject: string, text: string) {
   try {
     if (!process.env.RESEND_API_KEY) return;
     // One every two minutes at most, 30 a day: a burst of fake RSVPs can't
@@ -79,13 +89,7 @@ async function notifyCoupleOfRsvp(weddingId: string, guestName: string, status: 
     const { data: owner } = await admin.auth.admin.getUserById(wedding.user_id);
     const to = owner?.user?.email;
     if (!to) return;
-    const answer = status === "confirmed" ? "is coming" : "can't make it";
-    await getResendClient().emails.send({
-      from: INQUIRY_FROM_ADDRESS,
-      to,
-      subject: `New RSVP: ${guestName} ${answer}`,
-      text: `${guestName} just RSVPed on your wedding website: ${answer}.\n\nIt's waiting for you to approve on your guest list, which also matches it to the right guest:\n${SITE_URL}/guests\n\nYou Do, I Do`,
-    });
+    await getResendClient().emails.send({ from: INQUIRY_FROM_ADDRESS, to, subject, text });
   } catch {
     // Never let a notification problem reach the guest.
   }
@@ -282,6 +286,69 @@ export async function submitGuestPost(formData: FormData): Promise<{ error?: str
     return { error: "Could not post that — please try again." };
   }
 
+  return {};
+}
+
+/**
+ * A household answering through its personal link (0141). The code proves the
+ * invitation, so the answers go straight onto the guest list -- no approval
+ * queue -- and the couple is told who changed what.
+ */
+export async function submitHouseholdRsvp(formData: FormData): Promise<{ error?: string }> {
+  const weddingId = formData.get("wedding_id") as string;
+  if (!weddingId) return { error: "Missing wedding." };
+
+  const { data: wedding } = await createAdminSupabaseClient()
+    .from("weddings")
+    .select("id, public_slug, rsvp_deadline")
+    .eq("id", weddingId)
+    .maybeSingle<{ id: string; public_slug: string | null; rsvp_deadline: string | null }>();
+  if (!wedding?.public_slug) return { error: "This wedding's site isn't up any more." };
+  if (rsvpClosed(wedding.rsvp_deadline)) {
+    return { error: "RSVPs for this wedding have closed. Please get in touch with the couple directly." };
+  }
+  if (!(await isHuman(formData))) return { error: NOT_HUMAN_ERROR };
+  if (!(await allowGuestWrite(weddingId, "rsvp"))) return { error: RATE_LIMIT_ERROR };
+
+  const household = await findHousehold(weddingId, formData.get("invite_code") as string);
+  if (!household) return { error: "That invitation link isn't working. Reload the page and try again." };
+
+  const answers: MemberAnswer[] = [];
+  for (const member of household.members) {
+    const status = formData.get(`status_${member.id}`);
+    if (status !== "confirmed" && status !== "declined") continue;
+    let events: EventAnswers | null = null;
+    if (member.eventIds.length > 0) {
+      events = {};
+      for (const id of member.eventIds) events[id] = formData.get(`event_${member.id}_${id}`) !== "no";
+    }
+    answers.push({
+      id: member.id,
+      status,
+      meal: field(formData, `meal_${member.id}`, 80),
+      bringingPlusOne: formData.get(`plus_one_${member.id}`) === "on",
+      plusOneName: field(formData, `plus_one_name_${member.id}`, 120),
+      events,
+    });
+  }
+  if (answers.length === 0) return { error: "Choose whether each person can come." };
+
+  const saved = await applyHouseholdAnswers(household, answers);
+  if (saved.error) {
+    await logError("rsvp", "submitHouseholdRsvp", saved.error);
+    return { error: "Could not save your RSVP — please try again." };
+  }
+
+  trackEvent("rsvp_received", { weddingId, props: { status: "household", count: answers.length } });
+  const lines = answers.map((a) => {
+    const name = household.members.find((m) => m.id === a.id)?.name ?? "Someone";
+    return `${name}: ${a.status === "confirmed" ? "coming" : "can't make it"}`;
+  });
+  await notifyCouple(
+    weddingId,
+    `RSVP: ${household.label}`,
+    `${household.label} answered through their invitation link:\n\n${lines.join("\n")}\n\nIt's already on your guest list:\n${SITE_URL}/guests\n\nYou Do, I Do`,
+  );
   return {};
 }
 

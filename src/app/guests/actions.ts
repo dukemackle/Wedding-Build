@@ -22,6 +22,7 @@ import { requireEditableWedding } from "@/lib/wedding-access";
 import { withNotes } from "@/lib/guest-notes";
 import { trackEvent } from "@/lib/events";
 import { removeGuestPhotos } from "@/lib/guest-photos";
+import { personalRsvpPath } from "@/lib/invite-codes";
 
 const VALID_STATUSES: GuestStatus[] = ["invited", "confirmed", "declined", "pending"];
 const VALID_PRIORITIES: GuestPriority[] = ["must_invite", "would_like", "if_room"];
@@ -57,6 +58,8 @@ function guestFieldsFromForm(formData: FormData) {
       household: ((formData.get("household") as string) || "").trim() || null,
       email: ((formData.get("email") as string) || "").trim() || null,
       plus_one: formData.get("plus_one") === "on",
+      // Bringing one means allowed one (the 0141 trigger keeps that true too).
+      plus_one_allowed: formData.get("plus_one") === "on" || formData.get("plus_one_allowed") === "on",
       plus_one_name: ((formData.get("plus_one_name") as string) || "").trim() || null,
       status: status as GuestStatus,
       priority: priority as GuestPriority,
@@ -789,7 +792,11 @@ export async function sendBulkRsvpInvites(
   }
 
   const coupleNames = [wedding.partner_a_name, wedding.partner_b_name].filter(Boolean).join(" & ");
-  const rsvpUrl = `${origin}/w/${wedding.public_slug}`;
+  const siteUrl = `${origin}/w/${wedding.public_slug}`;
+  // Each guest's own link opens their household's RSVP (0141); the site's
+  // address is the fallback before that migration has run.
+  const rsvpUrl = (guest: Guest) =>
+    guest.invite_code ? `${origin}${personalRsvpPath(wedding.public_slug!, guest.invite_code)}` : siteUrl;
   const resend = getResendClient();
 
   let sent = 0;
@@ -805,7 +812,7 @@ export async function sendBulkRsvpInvites(
         // nothing receives at the from address.
         replyTo: user.email,
         subject: `You're invited — RSVP for ${coupleNames || "our wedding"}`,
-        text: `Hi ${guest.name},\n\n${coupleNames || "We"} would love for you to join us! Please RSVP using the link below:\n\n${rsvpUrl}\n\nCan't wait to celebrate with you.`,
+        text: `Hi ${guest.name},\n\n${coupleNames || "We"} would love for you to join us! Please RSVP using your personal link below. It answers for your whole household:\n\n${rsvpUrl(guest)}\n\nCan't wait to celebrate with you.`,
       });
 
       if (sendError) {
@@ -873,7 +880,11 @@ export async function sendRsvpReminders(
   }
 
   const coupleNames = [wedding.partner_a_name, wedding.partner_b_name].filter(Boolean).join(" & ");
-  const rsvpUrl = `${origin}/w/${wedding.public_slug}`;
+  const siteUrl = `${origin}/w/${wedding.public_slug}`;
+  // Each guest's own link opens their household's RSVP (0141); the site's
+  // address is the fallback before that migration has run.
+  const rsvpUrl = (guest: Guest) =>
+    guest.invite_code ? `${origin}${personalRsvpPath(wedding.public_slug!, guest.invite_code)}` : siteUrl;
   const resend = getResendClient();
 
   let sent = 0;
@@ -887,7 +898,7 @@ export async function sendRsvpReminders(
         to: guest.email!,
         replyTo: user.email,
         subject: `Reminder: RSVP for ${coupleNames || "our wedding"}`,
-        text: `Hi ${guest.name},\n\nJust a friendly reminder to RSVP for ${coupleNames || "our wedding"} — we'd love to know if you can make it!\n\n${rsvpUrl}\n\nCan't wait to celebrate with you.`,
+        text: `Hi ${guest.name},\n\nJust a friendly reminder to RSVP for ${coupleNames || "our wedding"} — we'd love to know if you can make it! Your personal RSVP link:\n\n${rsvpUrl(guest)}\n\nCan't wait to celebrate with you.`,
       });
 
       if (sendError) {
