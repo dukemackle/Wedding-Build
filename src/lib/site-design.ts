@@ -621,11 +621,28 @@ export const HERO_LAYOUTS = [
   { id: "poster", label: "Poster", help: "Your names huge, poster-style, over your photo or on their own" },
   { id: "collage", label: "Collage", help: "Your banner and two gallery photos, layered, with your names beside them" },
   { id: "slideshow", label: "Slideshow", help: "Your photos slowly fading one into the next behind your names" },
-  { id: "invitation", label: "Invitation", help: "Your names and date worded like a printed invitation, on a paper card" },
+  { id: "invitation", label: "Invitation", help: "Your names and date worded like a printed invitation, on a paper card, under an arched photo" },
+  { id: "masthead", label: "Magazine cover", help: "Your photo wide, your names huge under it, the date and place in a row" },
+  { id: "postcard", label: "Postcard", help: "Your photo as a tilted postcard with a postmark, your names beside it" },
+  { id: "cover", label: "Photo cover", help: "Your photo across the whole screen, your names over its lower corner" },
+  { id: "initials", label: "Initials", help: "Your initials huge, your names and details beside them, a wide photo under" },
+  { id: "stamp", label: "Stamped", help: "Your photo in a white border with a round stamp of the year and place" },
 ] as const;
 
 /** The layouts that show the banner photo. */
-export const PHOTO_HEROES: readonly HeroLayoutId[] = ["full", "split", "framed", "collage", "slideshow"];
+export const PHOTO_HEROES: readonly HeroLayoutId[] = [
+  "full",
+  "split",
+  "framed",
+  "collage",
+  "slideshow",
+  "invitation",
+  "masthead",
+  "postcard",
+  "cover",
+  "initials",
+  "stamp",
+];
 
 /**
  * The mark above the couple's names: their initials, set in a frame drawn in
@@ -742,6 +759,13 @@ export function sceneById(id: string | null | undefined) {
  * line; "magazine" numbers the sections under heavy rules with big type and
  * the schedule as a table; "postcard" runs bold colour bands with wavy
  * edges, a ticket for each event and travel as postcards.
+ *
+ * The last four came with the template clean-up (approved 2026-10-27, seven
+ * templates in place of 29): "evening" is a dark, quiet centred page with
+ * fine accent rules and the days side by side; "photo" runs wide sections
+ * with the couple's photos full-bleed between them; "ledger" is minimal, each
+ * heading in a left column beside its section; "homestead" is rustic, with
+ * dashed rules and the schedule set like a dinner menu.
  */
 export const PAGE_STYLES = [
   { id: "cards", label: "Cards", help: "Each section in its own card" },
@@ -749,6 +773,10 @@ export const PAGE_STYLES = [
   { id: "invitation", label: "Invitation", help: "One centred column on paper, framed panels, the schedule down a centre line" },
   { id: "magazine", label: "Magazine", help: "Numbered sections under ruled lines, big type, the schedule as a table" },
   { id: "postcard", label: "Postcard", help: "Bold colour bands with wavy edges, a ticket for each event, postcards for travel" },
+  { id: "evening", label: "Evening", help: "A quiet centred page with fine rules, the days side by side" },
+  { id: "photo", label: "Photo-led", help: "Wide sections with your photos full-bleed between them" },
+  { id: "ledger", label: "Minimal", help: "Each heading in a column beside its section, lots of white space" },
+  { id: "homestead", label: "Homestead", help: "Dashed rules, framed cards, the schedule set like a dinner menu" },
 ] as const;
 
 export type PageStyleId = (typeof PAGE_STYLES)[number]["id"];
@@ -757,7 +785,19 @@ export const PAGE_STYLE_IDS = PAGE_STYLES.map((x) => x.id) as [PageStyleId, ...P
 
 /** The schedule's layout when the couple hasn't picked one: the page style's own. */
 export function defaultWeekendLayout(pageStyle: PageStyleId): WeekendLayoutId {
-  return { cards: "cards", storybook: "timeline", invitation: "centre", magazine: "list", postcard: "tickets" }[pageStyle] as WeekendLayoutId;
+  return (
+    {
+      cards: "cards",
+      storybook: "timeline",
+      invitation: "centre",
+      magazine: "list",
+      postcard: "tickets",
+      evening: "days",
+      photo: "days",
+      ledger: "list",
+      homestead: "menu",
+    } as const
+  )[pageStyle];
 }
 
 /** The photos' layout when the couple hasn't picked one: the page style's own. */
@@ -789,6 +829,8 @@ export const SECTION_LAYOUTS = {
     { id: "list", label: "List", help: "When, what and where in rows" },
     { id: "centre", label: "Centre line", help: "Events either side of a line down the middle" },
     { id: "tickets", label: "Tickets", help: "A ticket for each event, the time on its stub" },
+    { id: "days", label: "Day columns", help: "Each day a column with its name large, events under it" },
+    { id: "menu", label: "Menu", help: "Events and times joined by a dotted line, like a dinner menu" },
   ],
   photos: [
     { id: "spread", label: "Spread", help: "A grid with your first photo given double the room" },

@@ -651,6 +651,47 @@ function HeroThumb({
           <span className="mt-1.5 block h-1 w-8 rounded-full opacity-60" style={{ background: ink }} />
         </span>
       )}
+      {layout === "masthead" && (
+        <>
+          <span className="absolute inset-x-0 top-0 h-[34px]" style={{ background: photo }} />
+          <span className="absolute left-2 top-[40px] block h-3 w-[70%] rounded-sm" style={{ background: ink }} />
+          <span className="absolute inset-x-2 top-[58px] block h-px opacity-60" style={{ background: ink }} />
+          <span className="absolute left-2 top-[62px] block h-1 w-8 rounded-full opacity-60" style={{ background: ink }} />
+        </>
+      )}
+      {layout === "postcard" && (
+        <span className="absolute inset-0 flex items-center gap-2 px-2">
+          <span className="relative block h-[44px] w-[46%] -rotate-3 p-[3px] pb-[8px] shadow-sm" style={{ background: "#fff" }}>
+            <span className="block h-full w-full" style={{ background: photo }} />
+            <span className="absolute -right-1.5 -top-1.5 block h-3.5 w-3.5 rounded-full border border-dashed" style={{ borderColor: accent, background: bg }} />
+          </span>
+          <span className="flex flex-1 flex-col items-start">{lines}</span>
+        </span>
+      )}
+      {layout === "cover" && (
+        <span className="absolute inset-0" style={{ background: photo }}>
+          <span className="absolute bottom-2 left-2 block h-2 w-12 rounded-full bg-white" />
+          <span className="absolute bottom-5 left-2 block h-1 w-6 rounded-full bg-white/70" />
+          <span className="absolute bottom-2 right-2 block h-1 w-7 rounded-full bg-white/70" />
+        </span>
+      )}
+      {layout === "initials" && (
+        <>
+          <span className="absolute left-2 top-2 font-serif text-[26px] leading-none" style={{ color: accent }}>
+            A|B
+          </span>
+          <span className="absolute right-2 top-3 flex flex-col items-end">{lines}</span>
+          <span className="absolute inset-x-2 bottom-2 h-[22px]" style={{ background: photo }} />
+        </>
+      )}
+      {layout === "stamp" && (
+        <span className="absolute inset-0 flex items-center gap-2 px-2">
+          <span className="relative block h-[44px] w-[46%] border-[3px] border-white shadow-sm" style={{ background: photo }}>
+            <span className="absolute -bottom-2 -left-2 block h-4 w-4 rounded-full" style={{ background: accent }} />
+          </span>
+          <span className="flex flex-1 flex-col items-start">{lines}</span>
+        </span>
+      )}
     </span>
   );
 }

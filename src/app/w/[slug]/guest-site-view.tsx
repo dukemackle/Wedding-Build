@@ -417,7 +417,7 @@ export function GuestSiteView({
               <WeddingHero wedding={wedding} />
             </HeroPhotosProvider>
           </CeremonyProvider>
-          <SectionLayout sections={sections} />
+          <SectionLayout sections={sections} photos={galleryPhotos.map((p) => p.photo_url)} />
         </LiveDetailsProvider>
       </Replayable>
       <PhotoCredits credits={photoCredits} shown={galleryPhotos.map((p) => p.photo_url)} />

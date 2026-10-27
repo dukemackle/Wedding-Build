@@ -6,7 +6,6 @@ import { DEFAULT_SITE_DESIGN, type SiteDesign } from "@/lib/site-design";
 import { parseSiteDesign } from "@/lib/site-design-schema";
 import { parseWording, withWording } from "@/lib/site-designs";
 import type { SiteDesignRow, Wedding } from "@/lib/supabase/types";
-import { thumbDateLine } from "./site-thumb";
 
 export type DesignSummary = {
   id: string;
@@ -21,7 +20,7 @@ export type DesignSummary = {
 /**
  * What Your designs and the template gallery both show: the couple's designs
  * (live first, then most recently edited), the design templates are applied
- * over, and what the thumbnails print.
+ * over, and whether the couple has a photo yet.
  */
 export async function loadSiteDesigns() {
   const supabase = await createClient();
@@ -37,21 +36,12 @@ export async function loadSiteDesigns() {
     .maybeSingle<Wedding>();
   if (!wedding) return { user, wedding: null } as const;
 
-  const [{ data: rows }, { data: venue }] = await Promise.all([
-    supabase
-      .from("site_designs")
-      .select("*")
-      .eq("wedding_id", wedding.id)
-      .order("updated_at", { ascending: false })
-      .returns<SiteDesignRow[]>(),
-    wedding.venue_id
-      ? supabase
-          .from("venues")
-          .select("city, state")
-          .eq("id", wedding.venue_id)
-          .maybeSingle<{ city: string | null; state: string | null }>()
-      : Promise.resolve({ data: null }),
-  ]);
+  const { data: rows } = await supabase
+    .from("site_designs")
+    .select("*")
+    .eq("wedding_id", wedding.id)
+    .order("updated_at", { ascending: false })
+    .returns<SiteDesignRow[]>();
 
   const wording = parseWording(wedding.site_wording);
   const designs: DesignSummary[] = (rows ?? []).map((row) => {
@@ -70,7 +60,6 @@ export async function loadSiteDesigns() {
   const headersList = await headers();
   const host = headersList.get("host");
   const origin = host ? `${host.startsWith("localhost") ? "http" : "https"}://${host}` : "";
-  const place = [venue?.city, venue?.state].filter(Boolean).join(", ") || null;
 
   return {
     user,
@@ -78,8 +67,6 @@ export async function loadSiteDesigns() {
     designs,
     /** Templates go over this, so a new design keeps the couple's sections and words. */
     base: withWording(designs[0]?.design ?? DEFAULT_SITE_DESIGN, wording),
-    names: [wedding.partner_a_name ?? "", wedding.partner_b_name ?? ""] as [string, string],
-    dateLine: thumbDateLine(wedding.wedding_date, place),
     photoUrl: wedding.hero_photo_url?.startsWith("https://") ? wedding.hero_photo_url : null,
     liveUrl: wedding.public_slug ? `${origin}/w/${wedding.public_slug}` : null,
   } as const;
