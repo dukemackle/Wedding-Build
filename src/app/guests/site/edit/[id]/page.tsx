@@ -317,7 +317,7 @@ export default async function GuestSiteEditorPage({ params }: { params: Promise<
   return (
     <main className="flex flex-1 flex-col items-center px-6 pt-16 pb-16">
       <AppNav email={user.email ?? ""} />
-      <div className="-mx-6 -mt-8 w-[calc(100%+3rem)] border-t border-hairline px-6">
+      <div className="-mx-6 -mt-4 w-[calc(100%+3rem)] border-t border-hairline px-6">
         <SiteEditor
           key={row.id}
           designId={row.id}

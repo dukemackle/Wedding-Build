@@ -536,7 +536,11 @@ export function SiteEditor({
             ? "Guests see this version"
             : "Your site is off";
 
-  const liveHref = publicSlug ? `${origin}/w/${publicSlug}` : null;
+  // Guests' page when they'd see exactly this; otherwise the saved draft in
+  // its own tab, which works with the site off too.
+  const showsLive = Boolean(publicSlug) && !dirty;
+  const openHref = showsLive ? `${origin}/w/${publicSlug}` : `/guests/site/preview?design=${designId}&view=1`;
+  const openLabel = showsLive ? "Open live site" : "Open preview";
 
   // What the publish button does now. Published and on: it unpublishes
   // (turns the site off, after a confirm). Published but off: it turns it on.
@@ -947,11 +951,9 @@ export function SiteEditor({
                         >
                           Replay motion
                         </button>
-                        {liveHref && (
-                          <a href={liveHref} target="_blank" rel="noreferrer" className="text-sm font-medium text-forest underline">
-                            Open live site
-                          </a>
-                        )}
+                        <a href={openHref} target="_blank" rel="noreferrer" className="text-sm font-medium text-forest underline">
+                          {openLabel}
+                        </a>
                       </div>
                     ) : (
                       <div className="-mx-4 -mt-5">{panelBody}</div>
@@ -1108,16 +1110,14 @@ export function SiteEditor({
                 <span className={`text-[13px] ${error ? "text-red-700" : "text-ink/60"}`} role="status">
                   {status}
                 </span>
-                {liveHref && (
-                  <a
-                    href={liveHref}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-sm font-medium text-forest hover:underline"
-                  >
-                    Open live site
-                  </a>
-                )}
+                <a
+                  href={openHref}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-sm font-medium text-forest hover:underline"
+                >
+                  {openLabel}
+                </a>
               </>
             )}
             {publishButton}
