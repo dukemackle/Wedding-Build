@@ -917,6 +917,18 @@ Kirby Hill Farm	15 Kirby Hill Road	Pawling	New York			Barn & Farm	Indoor & Outdo
 Mirbeau Inn & Spa Rhinebeck	46 West Market Street	Rhinebeck	New York			Hotel & Resort	Indoor & Outdoor	40			Village inn and spa that holds small weddings of up to 40 guests in its library by the fireplace and on its outdoor deck and grounds.	reservations@mirbeau.com	1-877-647-2328	https://rhinebeck.mirbeau.com/weddings
 `,
   },
+  {
+    name: "Hudson Valley depth",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+The Barn at Black Walnut Farm	1032 Kings Hwy	Saugerties	New York			Barn & Farm	Indoor & Outdoor				Restored 1891 barn on 34 private acres with a 1747 farmhouse for lodging and three ceremony sites, booked for full-weekend weddings.	hello@thebarnatblackwalnutfarm.com		https://thebarnatblackwalnutfarm.com/weddings
+ElmRock Inn	4496 US Route 209	Stone Ridge	New York			Historic Mansion & Estate	Indoor & Outdoor	100	12500	Package	Restored historic estate and boutique inn on about 5 acres between Accord and Stone Ridge, hosting micro weddings with a bridal cottage and firepit lawn.	info@elmrockinn.com	(845) 687-4492	https://www.elmrockinn.com/weddings
+Kiernan Farm	1308 Bruynswick Rd	Gardiner	New York			Barn & Farm	Indoor & Outdoor	130			Working family farm at the foot of the Shawangunks with a 1780s post-and-beam barn, event lawn and picnic grove, open April through November.		(845) 745-0550	https://kiernanfarm.com/weddings
+Lippincott Manor	69 Lippincott Rd	Wallkill	New York			Historic Mansion & Estate	Indoor & Outdoor				Family-run catering venue on 15 acres with Wallkill River and Shawangunk views, offering all-inclusive wedding packages.	info@lippincottmanor.com	(845) 895-2474	https://lippincottmanor.com
+The Arbor Grove at Pennings Orchard	169 State Route 94 S	Warwick	New York			Barn & Farm	Outdoor				Orchard event space at Pennings Orchard with Hudson Valley views, used for weddings, rehearsal dinners and showers.	jackpenningsfamily@yahoo.com	(845) 986-7080	https://penningsorchard.com
+West Song Farm	720 Route 284	Westtown	New York			Barn & Farm	Indoor & Outdoor				18-acre working farm that hosts weddings and events, with seasonal produce and flowers and a historic farmhouse stay.	westsongfarm@gmail.com	(917) 620-2468	https://westsongfarm.com
+Kindred Creeks Farm	8 Pleasant Ridge Rd	Poughquag	New York			Barn & Farm	Outdoor				Newer outdoor event venue where two creeks meet, with farm, creek and rustic barn views for weddings.	events@kindredcreeks.com	(845) 878-3850	https://kindredcreeksfarm.com
+`,
+  },
 ];
 
 export default batches;
