@@ -4,8 +4,6 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { DESIGN_MESSAGE, READY_MESSAGE } from "@/components/guest-site-theme";
 import { MOTION_PRESETS, resolveDesign, type SiteDesign } from "@/lib/site-design";
 
-/** Below this width a card shows the phone layout; above it, the computer one. */
-const PHONE_BELOW = 260;
 const PHONE = { w: 390, h: 844 };
 const COMPUTER = { w: 1280, h: 800 };
 
@@ -13,8 +11,10 @@ const COMPUTER = { w: 1280, h: 800 };
  * A design as a thumbnail: the real guest site (the preview page, sent the
  * design by postMessage) laid out at phone or computer width and scaled down
  * to fill its parent, so a card looks exactly like the page it opens
- * (owner, 2026-10-27: the drawn thumbnails didn't match). Narrow cards get
- * the phone layout, which is a design of its own and stays readable small.
+ * (owner, 2026-10-27: the drawn thumbnails didn't match). Upright cards get
+ * the phone layout and wide ones the computer layout, so the card shows a
+ * whole first screen rather than a close-up of the photo (owner, 2026-10-27:
+ * phone pages in wide cards were too zoomed in).
  *
  * Each one is a page load, so a frame only starts once its card is near the
  * screen, and the page shows still (no opening motion) since nobody scrolls
@@ -74,7 +74,7 @@ export function SitePageThumb({ design }: { design: SiteDesign }) {
 
   // Laid out in a real screen's height at least, so the top of the page is
   // as tall as on a phone or laptop; the card shows what fits.
-  const screen = box.w < PHONE_BELOW ? PHONE : COMPUTER;
+  const screen = box.h > box.w ? PHONE : COMPUTER;
   const width = screen.w;
   const scale = box.w / width;
   const bg = resolveDesign(design).theme.bg;
