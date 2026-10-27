@@ -1828,18 +1828,36 @@ const MODES = [
 
 type Mode = (typeof MODES)[number]["id"];
 
-function ModeSwitcher({ mode, onChange }: { mode: Mode; onChange: (mode: Mode) => void }) {
+const VIEWS = [
+  { id: "plan", label: "Plan" },
+  { id: "3d", label: "3D" },
+] as const;
+
+// A pill of options with the current one filled in navy -- used for both the
+// mode (Seating / Whole Venue / Rooms) and the Plan / 3D view.
+function Segmented<T extends string>({
+  options,
+  value,
+  onChange,
+  label,
+}: {
+  options: readonly { id: T; label: string }[];
+  value: T;
+  onChange: (value: T) => void;
+  label: string;
+}) {
   return (
-    <div className="inline-flex rounded-full border border-hairline bg-parchment p-1">
-      {MODES.map((m) => (
+    <div role="group" aria-label={label} className="inline-flex rounded-full border border-hairline bg-parchment p-1">
+      {options.map((o) => (
         <button
-          key={m.id}
-          onClick={() => onChange(m.id)}
+          key={o.id}
+          onClick={() => onChange(o.id)}
+          aria-pressed={value === o.id}
           className={`rounded-full px-3 py-1 font-mono-numbers text-sm transition-colors ${
-            mode === m.id ? "bg-forest text-parchment" : "text-ink/60 hover:text-forest"
+            value === o.id ? "bg-forest text-parchment" : "text-ink/60 hover:text-forest"
           }`}
         >
-          {m.label}
+          {o.label}
         </button>
       ))}
     </div>
@@ -2077,30 +2095,22 @@ export function VenueLayoutManager({
 
   return (
     <div className="w-full rounded-lg border border-hairline bg-card p-5 sm:p-8 shadow-sm">
-      <div className="mb-6 flex flex-wrap items-center justify-between gap-4 border-b border-hairline pb-6">
-        <div>
-          <h2 className="font-display text-2xl font-semibold text-forest">Venue layout</h2>
-          <p className="mt-1 text-sm text-ink/70">
-            {mode === "seating"
-              ? guests.length === 0
-                ? "No guests yet — add guests on the Guests page, then come back to seat them."
-                : `${unassigned.length} of ${guests.length} guests still unassigned.`
-              : mode === "rooms"
-                ? "Plan each space separately — switch rooms below."
-                : "Everything in one shared space."}{" "}
-            Drag anything to move it; click it to rename, duplicate, rotate or delete.
-          </p>
-        </div>
-        <div className="flex flex-wrap items-center gap-3">
-          <ModeSwitcher mode={mode} onChange={setMode} />
-          {hasContent && (
-            <button
-              onClick={() => setView3D((v) => !v)}
-              className="btn-secondary"
-            >
-              {view3D ? "Back to editor" : "View in 3D"}
-            </button>
-          )}
+      <div className="mb-6 border-b border-hairline pb-6">
+        <h2 className="font-display text-2xl font-semibold text-forest">Venue layout</h2>
+        <p className="mt-1 text-sm text-ink/70">
+          {mode === "seating"
+            ? guests.length === 0
+              ? "No guests yet — add guests on the Guests page, then come back to seat them."
+              : `${unassigned.length} of ${guests.length} guests still unassigned.`
+            : mode === "rooms"
+              ? "Plan each space separately — switch rooms below."
+              : "Everything in one shared space."}{" "}
+          Drag anything to move it; click it to rename, duplicate, rotate or delete.
+        </p>
+        {/* One toolbar, left-aligned under the title, most-used first, so
+            adding a table or switching views is a short move from where the
+            eye already is. */}
+        <div className="mt-4 flex flex-wrap items-center gap-3">
           <button
             onClick={() => setAddFormType((v) => (v === "table" ? null : "table"))}
             disabled={!canAdd}
@@ -2116,6 +2126,16 @@ export function VenueLayoutManager({
             >
               {addFormType === "item" ? "Close" : <><PlusIcon /> Add item</>}
             </button>
+          )}
+          <span aria-hidden className="hidden h-6 w-px bg-hairline sm:block" />
+          <Segmented options={MODES} value={mode} onChange={setMode} label="Layout mode" />
+          {hasContent && (
+            <Segmented
+              options={VIEWS}
+              value={view3D ? "3d" : "plan"}
+              onChange={(v) => setView3D(v === "3d")}
+              label="View"
+            />
           )}
         </div>
       </div>
