@@ -1061,7 +1061,7 @@ export function SiteEditor({
         )}
         {launches > 0 && <BirdCheer key={launches} message="Your site is live!" />}
         {(
-          <div className="flex h-[60px] shrink-0 items-center gap-3 px-6">
+          <div className="flex h-[52px] shrink-0 items-center gap-3 px-6">
             {historyButtons}
             {deviceToggle}
             {/* Something picked: its bar takes the middle of this row, so the
