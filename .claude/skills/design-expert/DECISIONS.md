@@ -79,6 +79,12 @@ They're summarised here only by reference; CLAUDE.md is the source.
   with navy outlines for the rest, bolder headings, rows rise in, and Wren
   cheers small wins (paid in full, everyone seated, RSVP milestones).
   Mockup: https://claude.ai/artifact/LP1zF42bXSm1SKy9aF5KBE
+- **2026-10-27:** Planning-page headers slimmed (option A of three): the
+  page's name ("Budget", "Guests") is the big headline, the old phrase is a
+  smaller italic royal-blue line under it, the gold eyebrow is gone, the
+  photo is a 300px panel on desktop (a 96px square beside the words on a
+  phone) and actions share the headline's row. About 140px tall, was 220.
+  Rejected: photo fading behind the words. (`page-header.tsx`)
 - **2026-10-22:** Public nav's business link is a thin outlined "List your
   business" pill (was "For businesses"), and the hero carries "Venue or
   vendor? Claim or list your business free" under Start planning. Logged-out
