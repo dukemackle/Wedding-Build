@@ -1368,6 +1368,21 @@ Gowns of Grace	Bridal & Formalwear	4885 Alpha Road Suite 155	Farmers Branch	Texa
 G Texas Catering & Events	Catering	1137 Conveyor Ln. Suite #102	Dallas	Texas	Dallas–Fort Worth	Dallas catering and events company that lists weddings among its services, serving the wider Dallas–Fort Worth metroplex.		214.421.0774	https://gtexascatering.com/	https://www.instagram.com/gtexascatering/		
 Angel's Creation Catering	Catering		Dallas	Texas	Dallas	Dallas caterer offering wedding menus with food preparation, serving and cleanup handled by the team.		972-246-7766	https://www.angelscreationcatering.com/dfw/dallas-tx-catering	https://www.instagram.com/angels_creation_catering/		`,
   },
+  {
+    name: "Austin: depth in photography, videography, music, officiant, photo booth, florals, cake, catering, bar, hair & makeup, planning, rentals, decor & lighting, transportation, bridal",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Max Photography	Photography		Austin	Texas	Central Texas	South Austin photographer covering weddings, engagements and proposals, who also rents photo booths for receptions.	justin@maxphotography.com	(512) 964-8709	https://www.maxphotography.com/			
+John David Weddings	Photography		Austin	Texas	Austin and worldwide	Austin wedding photographer with an editorial eye, offering engagement and portrait sessions alongside full wedding coverage.	johndavidweddings@gmail.com	512-450-8051	https://www.johndavidweddings.com/	https://www.instagram.com/johndavidweddings/		
+Lucy Struve Photography	Photography		Austin	Texas	Texas and destination weddings	Fine-art wedding photographer producing vivid, true-to-life galleries for Texas and destination couples.	lucy@lucystruve.com		http://lucystruve.com/	https://www.instagram.com/lucystruve/		
+Tiffany Tsai Photography	Photography		Austin	Texas		Austin wedding and portrait photographer who travels for couples, with Austin church and venue weddings in her portfolio.			https://www.tiffanytsaiphotography.com/	https://www.instagram.com/tiffanytsaiphotography/		
+Texas Innerbloom Photography	Photography		Kyle	Texas	Austin, San Marcos, Dripping Springs, Buda, Wimberley and the Hill Country	Kyle photographer guiding couples through relaxed, natural-looking engagement and elopement sessions across the Hill Country.			https://www.texasinnerbloom.com/couple			
+Xceed Weddings	Videography		Austin	Texas	Central Texas	Austin videography and photography team making documentary-style wedding films, with drone footage and live streaming as add-ons.			https://www.xceedweddings.com/pricing	https://www.instagram.com/xceed.weddings/	2100	package
+Purely Films	Videography		Austin	Texas	Central Texas and destination elopements	Austin wedding videography and photography studio that builds films around the sounds and emotions of the day.	hello@purelyfilms.com		https://purelyfilms.com/	https://www.instagram.com/purelyfilms/		
+Castle Hill String Quartet	Music		Austin	Texas	Austin and the Hill Country	Austin string quartet playing wedding ceremonies, cocktail hours and receptions, with venues from Lakeway to Canyon Lake.	wesley@castlehillquartet.com	(512) 298-1446	https://www.castlehillquartet.com/weddings/			
+Valerie Miller Events	Planning	7606 Thomas Springs Rd	Austin	Texas		Austin event planning and production firm that coordinates venues, caterers, photographers and bands for weddings from a Thomas Springs Road base.	info@valeriemillerevents.com	(512) 745-5789	https://valeriemillerevents.com/			
+Red Star Luxury Transportation	Transportation		Austin	Texas	Austin and the Texas Hill Country	Luxury party buses for bridal parties, guest shuttles, venue transfers and rehearsal-dinner runs across the Hill Country, seating 14 to 24.	info@redstarpartybus.com	(512) 517-9609	https://redstarpartybus.com/wedding-transportation-austin	https://www.instagram.com/redstarluxurytransportation/	125	per hour
+SherpaLux	Transportation		Austin	Texas	Austin, Dallas and Houston	Party bus operator in Austin running wedding transfers alongside bachelorette outings, wine tours and concerts.	info@sherpalux.com	512-712-5620	https://sherpalux.com/	https://www.instagram.com/sherpalux/		`,
+  },
 ];
 
 export default batches;
