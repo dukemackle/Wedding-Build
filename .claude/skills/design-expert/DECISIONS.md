@@ -165,6 +165,11 @@ They're summarised here only by reference; CLAUDE.md is the source.
   stock-photo hero (B, looks like The Knot/Zola and needs licensing) and a
   typographic rings-first hero (C, says least about the product). Mockup:
   https://claude.ai/artifact/QyvNJE735cjYK7Rf8XDWzi
+- **2026-10-27:** The planning-path card becomes a slim strip: one row on
+  a computer (count, six milestone pills with the current one in gold, what's
+  still open), count over a six-part bar plus the open links on a phone. The
+  tall card with the stretched stepper "just looked bad". Rejected: removing
+  it altogether.
 - **2026-10-21:** Dashboard next-step card becomes a status, not an order:
   "Your planning path / 3 of 6 done", what's open as quiet links ("Still to
   book: Photographer · DJ or band", filtered Vendors), same six-step tracker.
