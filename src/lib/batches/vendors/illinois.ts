@@ -386,6 +386,23 @@ Basket Case Consulting	Planning		Galena	Illinois	Galena and the surrounding tri-
 Eager Beaver BBQ	Catering	1336 Hwy 20	Elizabeth	Illinois	Galena, Jo Daviess County, Freeport, Savanna and Dubuque	Elizabeth smokehouse catering oak-smoked barbecue for wedding receptions, rehearsal dinners and brunches around Galena and Jo Daviess County.		815-201-3855	https://eagerbeaverbbq.com/galena-wedding-catering/	https://www.instagram.com/eagerbeaverbbq/
 `,
   },
+  {
+    name: "Chicago: music, hair & makeup, cake, florals, planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Green Line Talent	Music	711 S Dearborn St	Chicago	Illinois	Chicago	Chicago DJ boutique that books wedding DJs and hybrid DJ-and-live-instrument sets, with a short quiz to match couples to a performer.		312-248-3505	https://www.greenlinetalent.com/	https://www.instagram.com/greenlinetalent/		
+An Enchanted Evening	Music	1300 Remington Rd, Suite B	Schaumburg	Illinois	Chicago and suburbs	Schaumburg production company supplying wedding DJs and MCs for receptions across the Chicago area.		847-490-1000	https://www.anenchantedevening.com/			
+Impulse DJs	Music	3463 Ayres Drive	Aurora	Illinois	Chicago and suburbs	Aurora wedding DJ and MC company covering receptions of up to six hours, including cocktail hour, dinner and dancing.	info@impulsedjs.com	708-381-0304	https://impulsedjs.com/	https://www.instagram.com/impulsedjs/		
+Momentz Productions	Music		Chicago	Illinois	Chicago and suburbs	Chicago wedding DJ and MC service offering ceremony audio, uplighting, dance-floor lighting and photo booth add-ons.	info@momentzproductions.com	312-574-0477	https://momentzproductions.com/	https://www.instagram.com/momentzpro/		
+Pin Me Up	Hair & Makeup		Chicago	Illinois	Chicago and suburbs	Chicago bridal hair and makeup agency working on location and from salon studios, with trials and a bridal party glam squad.	bookings@pinmeupchicago.com	224-633-9527	https://www.pinmeupchicago.com/	https://www.instagram.com/pinmeupchicago/		
+Chicago Bridal Artists	Hair & Makeup	111 S Morgan St	Chicago	Illinois	Chicago and suburbs	On-location bridal hair and makeup agency in Chicago, offering trials, bridal party services and touch-ups at homes, hotels and venues.		312-351-9707	https://chicagobridalartists.com/	https://www.instagram.com/chicagobridalartists/		
+Pierre's Bakery Chicago	Cake	1956 West Chicago Avenue	Chicago	Illinois	Chicago	West Town bakery in Chicago making custom celebration and wedding cakes, with free consultations booked through the shop.	pierreschicago@gmail.com	773-360-8878	https://www.pierreschicago.com/			
+Lutz Chicago Bakery	Cake	2458 West Montrose Avenue	Chicago	Illinois	Chicago	Long-running Montrose Avenue pastry shop in Chicago making made-to-order wedding cakes, with tastings by appointment.	info.lutzbakery@gmail.com	773-478-7785	https://www.chicago-bakery.com/	https://www.instagram.com/lutzbakery/		
+Miski Custom Cakes & Bakery	Cake	6115 W. Addison Ave.	Chicago	Illinois	Chicago	Chicago custom cake bakery on Addison Avenue that offers 45-minute wedding cake tastings alongside cookies and alfajores.	orders@miskichicago.com	773-270-1570	https://www.miskichicago.com/	https://www.instagram.com/miskichicago/		
+Fleur Inc	Florals	2651 N Milwaukee Ave	Chicago	Illinois	Chicago	Chicago boutique and custom wedding design studio on Milwaukee Avenue, designing weddings for nearly 25 years.		773-395-2770	https://www.fleurchicago.com/	https://www.instagram.com/fleurinc/		
+YJDecorating	Florals	3065 N. Rockwell St. Studio #203	Chicago	Illinois	Chicago and suburbs	Chicago floral and event design studio offering wedding flowers, custom drapery, venue lighting and vinyl dance floors.	yj@yjdecorating.com	800-598-3170	https://www.yjdecorating.com/	https://www.instagram.com/yjdecorating/		
+The Flower Hustler	Florals		Chicago	Illinois	Chicago and suburbs	Chicago florist offering modern arrangements, subscriptions, and floral design and styling for weddings and events.	chicagoflowerhustler@gmail.com	312-565-4015	https://www.theflowerhustler.com/	https://www.instagram.com/theflowerhustler/		
+Day-Of & Co.	Planning		Chicago	Illinois	Chicago and suburbs	Chicago wedding coordination firm offering day-of, partial planning and multicultural packages in English, Spanish, Arabic and French.			https://dayofandco.com/	https://www.instagram.com/dayofandco/		`,
+  },
 ];
 
 export default batches;

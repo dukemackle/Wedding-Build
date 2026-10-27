@@ -1291,6 +1291,21 @@ Smokin Brew-B-Q	Catering	6328 S. Hwy 183	Austin	Texas	Austin	South Austin barbec
 El Hombre Taco	Catering		Georgetown	Texas	Georgetown	Family-run Georgetown taco truck and caterer that books weddings, rehearsal dinners and other events with Texas-style tacos.	connect@elhombretaco.com	(512) 635-7186	https://elhombretaco.com/	https://www.instagram.com/elhombretaco/		
 DTR Bartending	Bar		Austin	Texas	Austin, Dripping Springs, Fredericksburg, Hill Country	TABC-certified mobile bar team that serves weddings with beer and wine, full bar and signature cocktail packages, priced per guest.	info@dtrbartending.com	(512) 484-5128	https://www.dtrbartending.com/	https://www.instagram.com/DTRbartending/	200	package`,
   },
+  {
+    name: "Austin: desserts, decor & lighting, stationery, planning, florals, photography, music, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Lady Quack's Bakery and Cake Shop	Desserts	1900 Simond Ave #300	Austin	Texas	Austin	Bakery and cake shop in east Austin making custom wedding cakes, with wedding enquiries handled by a dedicated email address.	weddings@quacksbakery.com	512-453-3399	https://ladyquacks.com	https://www.instagram.com/ladyquackscakery/		
+Bsquare Events	Decor & Lighting		Round Rock	Texas	Austin, Round Rock, Cedar Park, Leander, Georgetown, Dripping Springs, Hutto, Kyle	Full-service decor and rentals company from Round Rock, doing draping, florals and backdrops for barn and cultural weddings.	Bsquareevents.business@gmail.com	479-295-5525	https://www.bsquareevents.com	https://www.instagram.com/bsquareevents.tx/		
+Lavish Bloom Rentals	Decor & Lighting		Georgetown	Texas	Georgetown, Austin and Central Texas	Georgetown florist hiring out real-touch faux floral arches and installations for weddings in Austin and across Central Texas.			https://lavishbloomrentals.com	https://www.instagram.com/lavishbloomrentals/	1200	package
+26 Pressed	Stationery & Invitations		San Marcos	Texas	San Marcos, Austin and nationwide	Luxury invitation design studio in San Marcos making wedding invitations and day-of signage for couples across the country.	rebekah@26pressed.com		https://26pressed.com	https://www.instagram.com/theletteringbeeco/		
+MSJ Event	Planning		Austin	Texas	Greater Austin	Austin planner and decor team handling weddings, receptions and pre-wedding events, with backdrops, tablescapes and lighting.	msjevent@yahoo.com	732-513-7279	https://msjevent.com	https://www.instagram.com/msjevent/		
+Blue Sparrow Events	Planning		Austin	Texas	Austin	Full-service Austin wedding planner known for reception design and transformations, with phased planning for couples who want help in stages.			https://bluesparrowevents.com			
+WhereAbouts Wedding Co	Planning		Austin	Texas	Austin, Central Texas and the Hill Country	Austin wedding coordinator offering a 90-day takeover, venue sourcing from a network of over 250 venues and a la carte vendor management.	hello@whereaboutsweddingco.com		https://whereaboutsweddingco.com	https://www.instagram.com/whereabouts_weddingco/		
+Teoxochitl Design	Florals		Austin	Texas	Austin	Mexican-owned floral studio for weddings and events, offering full-service design with setup and teardown or a la carte arrangements without installation.	info@teoxochitldesigns.com		https://www.teoxochitldesigns.com		5000	per event
+Stephanie Rogers Photography	Photography		Austin	Texas	Austin and the Hill Country	Husband-and-wife team in Austin shooting candid wedding photography, with client testimonials and an inquiry form for consultations.	stephanierogersphoto@gmail.com		https://stephanierogersphotography.com	https://www.instagram.com/stephanierogersphotography/		
+Krystal Collective	Music		Austin	Texas	Austin area	Austin wedding DJ team with bilingual DJs, plus live sax and violin for ceremonies and receptions, and highlight films.			https://www.krystalcollective.com	https://www.instagram.com/krystal.collective/		
+Austin Wedding Videographers	Videography		Austin	Texas	Austin	Austin team offering wedding videography and photography, with sample films posted on the site.	lachelle@austinweddingvideographers.com	512-767-8180	https://www.austinweddingvideographers.com	https://www.instagram.com/austin_wedding_videographers/	1500	package`,
+  },
 ];
 
 export default batches;
