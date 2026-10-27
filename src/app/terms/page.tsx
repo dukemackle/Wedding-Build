@@ -11,11 +11,11 @@ export default function TermsPage() {
       <div className={`w-full ${READING_WIDTH}`}>
         <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Legal</p>
         <h1 className="mt-2 font-display text-3xl font-semibold text-forest">Terms of Service</h1>
-        <p className="mt-2 text-sm text-ink/60">Last updated: October 22, 2026</p>
+        <p className="mt-2 text-sm text-ink/60">Last updated: October 27, 2026</p>
 
         <div className="mt-8 flex flex-col gap-8 text-ink/80">
           <p>
-            You Do, I Do (&quot;You Do, I Do,&quot; &quot;we,&quot; &quot;us,&quot; or &quot;our&quot;) provides a
+            You Do, I Do LLC, a California limited liability company (&quot;You Do, I Do,&quot; &quot;we,&quot; &quot;us,&quot; or &quot;our&quot;) provides a
             wedding-planning platform, including guest list, budget, seating and venue layout,
             itinerary, checklist, and vendor/venue discovery tools (the &quot;Service&quot;).
             These Terms of Service (&quot;Terms&quot;) govern your access to and use of the

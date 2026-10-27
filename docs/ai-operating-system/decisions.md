@@ -106,6 +106,14 @@ rules, batch self-merge, 50-state coverage, page widths) and
 - Revisit: add events as new questions come up; nothing a couple types is
   ever logged.
 
+## 2026-10-27 — LLC approved
+- You Do, I Do LLC (California) went through. Entity name now in the Terms,
+  Privacy Policy, site footer and marketing-email footer.
+- EIN obtained 2026-10-27.
+- California $800 LLC tax (FTB 3522) due by 2027-02-15.
+- Next (owner): business bank account, Form 1583 for the mailbox, assign
+  domain/code/IP to the LLC in writing, DMCA agent ($6), insurance quotes.
+
 ## 2026-10-21 — Form a California LLC and get a public mailing address
 - Decided: "You Do, I Do LLC", California, member-managed, single member,
   filed through Northwest Registered Agent (agent included the first year,
