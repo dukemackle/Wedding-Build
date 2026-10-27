@@ -976,6 +976,21 @@ The Hay Bale Wedding & Event Venue	7401 Shady Lane	Scurry	Texas			Barn & Farm	In
 Texas Wedding Barn	1070 County Road 3318	Greenville	Texas			Ranch	Indoor & Outdoor				Cattle-ranch retreat near Greenville with a wedding chapel and barn, run by a Christian ministry that keeps wedding costs down.	OTR2OTR@gmail.com	214-773-9101	https://www.texasweddingbarn.com/
 Under the Wildwood	1297 County Road 3318	Greenville	Texas			Garden & Park	Indoor & Outdoor				Wooded Greenville wedding venue that books by appointment and frames itself around a natural setting.	UnderTheWildwoodEvents@gmail.com	903-456-0234	https://underthewildwood.com/`,
   },
+  {
+    name: "Dallas–Fort Worth: depth, Fort Worth, Lake Texoma and Ellis County",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+City Club of Fort Worth	301 Commerce Street	Fort Worth	Texas			Country Club & Golf	Indoor				A private downtown club in the Bank of America Tower that hosts weddings with an on-site catering team.		817-878-4000	https://www.cityclubfw.com
+Rough Creek Lodge	5165 County Road 2013	Glen Rose	Texas			Hotel & Resort	Indoor & Outdoor				A ranch resort on roughly 9,000 acres that offers ceremonies in a small white chapel or under an oak grove, with receptions in outdoor tents.	reservations@roughcreek.com	800-864-4705	https://www.roughcreek.com
+The White Buffalo Barn	1641 FM 2896	Gainesville	Texas			Barn & Farm	Indoor & Outdoor				Converted barn on 14 acres with an outdoor ceremony area, indoor reception room and bridal suite for full-day wedding rentals.		979-587-8183	https://www.thewhitebuffalobarn.com/
+Tanglewood Resort & Conference Center	290 Tanglewood Circle	Pottsboro	Texas			Hotel & Resort	Indoor & Outdoor	125			Lake Texoma resort with a standalone event building, bride and groom suites and a 2,250 sq ft patio for an outdoor ceremony followed by an indoor reception.			https://www.tanglewoodresort.com/the-venue
+The Grill & Venue at 84 West	5216 FM 84	Denison	Texas			Restaurant & Brewery	Indoor & Outdoor				Restaurant and ballroom event venue on 250 wooded acres with lake views that hosts weddings and caters on site.	info@84westdenison.com	903-462-0558	https://www.84westdenison.com/
+Canyon Creek Country Club	625 W Lookout Dr	Richardson	Texas			Country Club & Golf	Indoor & Outdoor				Golf club that markets indoor and outdoor event spaces with course views for weddings and private events in Richardson.		972-231-1466	https://www.invitedclubs.com/clubs/canyon-creek-country-club
+Edison's	1724 Cockrell Avenue	Dallas	Texas			Industrial Loft & Warehouse	Indoor				A 12,000-square-foot event venue just south of downtown Dallas that hosts weddings, receptions and rehearsal dinners for both intimate and large guest lists.	info@edisonsdallas.com	972-524-0741	https://edisonsdallas.com/
+Lone Star Park at Grand Prairie	1000 Lone Star Pkwy	Grand Prairie	Texas			Ballroom	Indoor	1200			A thoroughbred racetrack whose event rooms and luxury penthouse suites host weddings from intimate gatherings up to about 1,200 guests, with rehearsal dinner and send-off brunch options.	EventSales@LoneStarPark.com	(972) 263-7223	https://www.lonestarpark.com/group-events/weddings/
+The Joule Dallas	1530 Main Street	Dallas	Texas			Hotel & Resort	Indoor				An independent luxury hotel in downtown Dallas with a weddings page covering ceremonies, receptions and in-house catering.	reservations@TheJouleDallas.com	214-748-1300	https://www.thejouledallas.com/catering-events/weddings
+Ball-Eddleman-McFarland House	1110 Penn Street	Fort Worth	Texas			Historic Mansion & Estate	Indoor & Outdoor	120			An 1899 Queen Anne Victorian run by Historic Fort Worth, rented for weddings with a sandstone gazebo, love knot garden and brick terrace.	rentals@historicfortworth.org	817-332-5875	https://historicfortworth.org/weddings-rentals/
+Ellis County Museum	201 S. College St.	Waxahachie	Texas			Museum, Gallery & Rooftop	Indoor				A museum in Waxahachie's oldest building with a restored third-floor event space it markets for weddings, meetings and community events.	admin@elliscountymuseum.org	972-937-0681	https://www.elliscountymuseum.org/`,
+  },
 ];
 
 export default batches;
