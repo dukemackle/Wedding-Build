@@ -16,6 +16,7 @@ import {
   type ClaimSubmission,
 } from "@/lib/venue-claim";
 import { trackEvent } from "@/lib/events";
+import { deleteClaimDraft, storeClaimDraft } from "@/lib/claim-drafts";
 
 /**
  * Everything on the claim page runs through the service role, because the
@@ -117,6 +118,8 @@ export async function submitVenueClaim(
   });
   if (error) return { error: "Couldn't save your changes -- please try again." };
   trackEvent("listing_claim_submitted", { listing: { kind: "venue", id: venue.id } });
+  // Sent, so the half-finished copy has done its job.
+  await deleteClaimDraft("venue", venue.id);
 
   // Best effort: the review queue is the record, the email is only a nudge.
   const adminEmail = process.env.ADMIN_EMAIL?.split(",")[0]?.trim();
@@ -135,6 +138,13 @@ export async function submitVenueClaim(
   }
 
   return {};
+}
+
+/** Keeps the unsent form on our side as they type, so another device or a new link picks it up. */
+export async function saveVenueClaimDraft(token: string, draft: unknown): Promise<{ error?: string }> {
+  const venue = await venueForClaimToken(token);
+  if (!venue) return { error: "This link is no longer valid." };
+  return storeClaimDraft("venue", venue.id, draft);
 }
 
 /** A signed upload URL for a pricing guide or brochure PDF, for "Fill this in for me". */
