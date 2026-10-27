@@ -1,6 +1,9 @@
 "use server";
 
 import { createGuestSiteClient } from "@/lib/supabase/guest-site";
+import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
+import { allowGuestWrite, RATE_LIMIT_ERROR } from "@/lib/guest-rate-limit";
+import { isHuman, NOT_HUMAN_ERROR } from "@/lib/turnstile";
 
 const MAX_FIELD = 200;
 const MAX_NOTE = 500;
@@ -51,8 +54,11 @@ export async function submitContactDetails(
   const wedding = (Array.isArray(covers) ? covers[0] : covers) as { id: string } | undefined;
 
   if (!wedding) return { error: "This link isn't active — ask the couple for a new one." };
+  if (!(await isHuman(formData))) return { error: NOT_HUMAN_ERROR };
+  if (!(await allowGuestWrite(wedding.id, "contact"))) return { error: RATE_LIMIT_ERROR };
 
-  const { error } = await supabase.from("contact_submissions").insert({
+  // Written by the app, not the browser: the limits above are the only way in (0140).
+  const { error } = await createAdminSupabaseClient().from("contact_submissions").insert({
     wedding_id: wedding.id,
     name,
     email,

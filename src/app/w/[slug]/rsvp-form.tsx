@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, useTransition } from "react";
 import { RSVP_YES_EVENT } from "@/components/site-motion";
 import { getRsvpEvents, submitRsvp } from "./actions";
+import { TurnstileWidget } from "@/components/turnstile-widget";
 import type { RsvpEvent } from "@/lib/supabase/types";
 import { formatFullDate, formatTime } from "@/lib/itinerary";
 import { shrinkImage } from "@/lib/shrink-image";
@@ -22,6 +23,7 @@ export function RsvpForm({
   initialEvents = [],
   mealOptions = null,
   askDietary = true,
+  turnstileSiteKey,
 }: {
   /** The open RSVP events, known when the page renders; refined by name as they type. */
   initialEvents?: RsvpEvent[];
@@ -33,6 +35,8 @@ export function RsvpForm({
   /** The couple's menu; null is the preset list, fewer than two isn't asked. */
   mealOptions?: string[] | null;
   askDietary?: boolean;
+  /** Cloudflare's bot check, when it's switched on (src/lib/turnstile.ts). */
+  turnstileSiteKey?: string | null;
 }) {
   // "John's side" reads to a guest; "Side A" doesn't. With no names set up
   // yet the question is dropped rather than asked in the abstract.
@@ -50,6 +54,8 @@ export function RsvpForm({
   // rather than a form; the rest opens once they press Continue.
   const [step, setStep] = useState<1 | 2>(1);
   const [isPending, startTransition] = useTransition();
+  // Bumped after every send: a bot-check token works once.
+  const [attempt, setAttempt] = useState(0);
   const formRef = useRef<HTMLFormElement>(null);
   // Multi-day weddings ask about each event. Which events depends on who's
   // answering (invite-only ones are for named guests), so they're looked up
@@ -75,6 +81,7 @@ export function RsvpForm({
       const photo = formData.get("photo") as File | null;
       if (photo && photo.size > 0) formData.set("photo", await shrinkImage(photo));
       const result = await submitRsvp(formData);
+      setAttempt((n) => n + 1);
       if (result?.error) {
         setError(result.error);
       } else {
@@ -358,6 +365,7 @@ export function RsvpForm({
               </button>
             )}
           </div>
+          <TurnstileWidget key={attempt} siteKey={turnstileSiteKey} />
           {error && (
             <p role="alert" className="text-sm text-red-800">
               {error}

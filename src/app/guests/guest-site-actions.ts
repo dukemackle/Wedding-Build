@@ -4,6 +4,7 @@ import { randomUUID } from "node:crypto";
 import { revalidatePath } from "next/cache";
 import { MAX_GALLERY_PHOTOS, MAX_VENUE_PHOTOS } from "@/lib/guest-site";
 import { requireEditableWedding } from "@/lib/wedding-access";
+import { removeGuestPhotos } from "@/lib/guest-photos";
 
 function str(formData: FormData, key: string): string | null {
   const raw = (formData.get(key) as string)?.trim();
@@ -341,16 +342,20 @@ export async function deleteGuestPost(formData: FormData): Promise<{ error?: str
     return { error: noWedding };
   }
 
-  const { error } = await supabase
+  const { data: deleted, error } = await supabase
     .from("guest_posts")
     .delete()
     .eq("id", formData.get("id") as string)
-    .eq("wedding_id", wedding.id);
+    .eq("wedding_id", wedding.id)
+    .select("photo_url")
+    .returns<{ photo_url: string | null }[]>();
 
   if (error) {
     return { error: error.message };
   }
 
+  // A deleted post's photo goes too, or it stays reachable at its URL.
+  await removeGuestPhotos(wedding.id, (deleted ?? []).map((post) => post.photo_url));
   revalidateGuestSite(wedding.public_slug);
   return {};
 }
