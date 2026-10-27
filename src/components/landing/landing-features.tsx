@@ -43,7 +43,7 @@ const BLURBS: Record<string, string> = {
   "/attire": "Dresses, suits and rings — save favorites, then buy or rent.",
   "/itinerary": "A printable run sheet, hour by hour — and for multi-day weddings, separate RSVPs for each event, invite-only ones included.",
   "/venue-layout": "Drag tables into your room and seat everyone.",
-  "/guests/site": "A free wedding website in your names — 28 templates, your photos and story, and RSVPs built in.",
+  "/guests/site": "A free wedding website in your names — seven templates, your photos and story, and RSVPs built in.",
 };
 
 /**

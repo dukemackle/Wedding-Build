@@ -13,6 +13,13 @@ export function CeremonyProvider({ ceremony, children }: { ceremony: Ceremony; c
   return <CeremonyContext.Provider value={ceremony}>{children}</CeremonyContext.Provider>;
 }
 
+const JUSTIFY = {
+  center: "justify-center",
+  start: "justify-start",
+  responsive: "justify-center lg:justify-start",
+  end: "justify-start lg:justify-end",
+};
+
 /**
  * The three things a guest opens the link to do, right under the names:
  * answer, save the date, and find the place.
@@ -21,16 +28,19 @@ export function HeroActions({
   wedding,
   location,
   tone,
+  align = "center",
 }: {
   wedding: PublicWedding;
   location: string;
   tone: "light" | "dark";
+  /** Centred under centred names; the side-set layouts line them up with their words. */
+  align?: "center" | "start" | "responsive" | "end";
 }) {
   const names = [wedding.partner_a_name, wedding.partner_b_name].filter(Boolean).join(" & ");
   const ceremony = useContext(CeremonyContext);
   const primary =
     tone === "light"
-      ? "bg-white text-forest hover:bg-white/90"
+      ? "bg-white text-[#14203d] hover:bg-white/90"
       : "bg-forest text-parchment hover:bg-forest/90";
   const secondary =
     tone === "light"
@@ -39,7 +49,7 @@ export function HeroActions({
   const base = "btn-motion rounded-full px-4 py-2 text-sm sm:px-5 font-medium transition-colors";
 
   return (
-    <div className="mt-8 flex flex-wrap items-center justify-center gap-2 sm:gap-3">
+    <div className={`mt-8 flex flex-wrap items-center gap-2 sm:gap-3 ${JUSTIFY[align]}`}>
       <a href="#rsvp" className={`${base} ${primary}`}>
         RSVP
       </a>

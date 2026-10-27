@@ -7,15 +7,9 @@ import type { SiteDesign } from "@/lib/site-design";
 import { MAX_DESIGNS } from "@/lib/site-designs";
 import { createDesign, deleteDesign, makeDesignLive, renameDesign, setSharedWording } from "./actions";
 import type { DesignSummary } from "./load-designs";
-import { SiteThumb } from "./site-thumb";
+import { SitePageThumb } from "./site-page-thumb";
 
-type Starter = { id: string; name: string; tags: readonly string[]; design: SiteDesign };
-
-type Shared = {
-  names: [string, string];
-  dateLine: string | null;
-  photoUrl: string | null;
-};
+type Starter = { id: string; name: string; blurb: string; design: SiteDesign };
 
 /**
  * Your designs (the approved mockup): every design the couple has made, the
@@ -27,8 +21,7 @@ export function DesignsHome({
   starters,
   templateCount,
   liveUrl,
-  ...shared
-}: Shared & {
+}: {
   designs: DesignSummary[];
   starters: Starter[];
   templateCount: number;
@@ -100,7 +93,6 @@ export function DesignsHome({
             menuOpen={menuFor === d.id}
             onMenu={(open) => setMenuFor(open ? d.id : null)}
             onError={setError}
-            {...shared}
           />
         ))}
         {!full ? (
@@ -129,10 +121,10 @@ export function DesignsHome({
         {starters.map((t) => (
           <Link key={t.id} href={`/guests/site/templates?t=${t.id}`} className="group flex w-[42%] shrink-0 flex-col sm:w-auto">
             <span className="relative block aspect-[4/5] overflow-hidden rounded-[14px] border border-hairline group-hover:border-ink/30 sm:aspect-[4/3]">
-              <SiteThumb design={t.design} {...shared} />
+              <SitePageThumb design={t.design} />
             </span>
             <span className="mt-2.5 truncate font-medium text-ink">{t.name}</span>
-            <span className="truncate text-[13px] text-ink/55">{t.tags.join(" · ")}</span>
+            <span className="line-clamp-2 text-[13px] leading-snug text-ink/55">{t.blurb}</span>
           </Link>
         ))}
       </div>
@@ -147,8 +139,7 @@ function DesignCard({
   menuOpen,
   onMenu,
   onError,
-  ...shared
-}: Shared & {
+}: {
   design: DesignSummary;
   siteOn: boolean;
   canAdd: boolean;
@@ -182,7 +173,7 @@ function DesignCard({
     <div className={`relative flex flex-col ${pending ? "opacity-60" : ""}`}>
       <Link href={`/guests/site/edit/${d.id}`} className="group block">
         <span className="relative block aspect-[4/5] overflow-hidden rounded-[14px] border border-hairline group-hover:border-ink/30 sm:aspect-[4/3]">
-          <SiteThumb design={d.design} {...shared} />
+          <SitePageThumb design={d.design} />
         </span>
       </Link>
       <button

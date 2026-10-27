@@ -655,7 +655,7 @@ export function SiteEditor({
       ) : tab === "design" ? (
         <>
           {pickTarget?.colour && <TargetColourSection design={design} target={pickTarget} actions={targetActions} />}
-          <TemplatesTab design={design} names={names} onChange={change} />
+          <TemplatesTab design={design} onChange={change} />
           <ColoursSection design={design} onChange={change}>
             <PhotoColoursSection
               photos={photos}

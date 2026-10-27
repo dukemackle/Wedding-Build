@@ -1,6 +1,8 @@
 "use client";
 
+import Image from "next/image";
 import { Fragment, type ReactNode } from "react";
+import { isLibraryPhoto } from "@/lib/photo-credit";
 import { SiteReveal } from "@/components/site-motion";
 import { SiteSection } from "@/components/site-section";
 import { useSiteDesign } from "@/components/guest-site-theme";
@@ -20,7 +22,14 @@ import { SITE_SECTIONS, sectionColumn, type SectionKey } from "@/lib/site-design
  * `display: contents`, so their children join one flex column and `order`
  * puts them in sequence across both.
  */
-export function SectionLayout({ sections }: { sections: Partial<Record<SectionKey, ReactNode>> }) {
+export function SectionLayout({
+  sections,
+  photos = [],
+}: {
+  sections: Partial<Record<SectionKey, ReactNode>>;
+  /** The gallery's photos, for the photo-led page's full-bleed breaks. */
+  photos?: string[];
+}) {
   const design = useSiteDesign();
   const shown = design.sections
     .map((x, index) => ({ ...x, index }))
@@ -33,6 +42,10 @@ export function SectionLayout({ sections }: { sections: Partial<Record<SectionKe
   if (design.pageStyle === "postcard") return <Storybook shown={shown} sections={sections} postcard />;
   if (design.pageStyle === "invitation") return <Invitation shown={shown} sections={sections} />;
   if (design.pageStyle === "magazine") return <Magazine shown={shown} sections={sections} />;
+  if (design.pageStyle === "evening") return <Ruled shown={shown} sections={sections} look="evening" />;
+  if (design.pageStyle === "homestead") return <Ruled shown={shown} sections={sections} look="homestead" />;
+  if (design.pageStyle === "ledger") return <Ledger shown={shown} sections={sections} />;
+  if (design.pageStyle === "photo") return <PhotoLed shown={shown} sections={sections} photos={photos} />;
 
   const render = (list: typeof shown) =>
     list.map((x) => (
@@ -192,6 +205,99 @@ function Magazine({ shown, sections }: { shown: Shown; sections: Partial<Record<
           </SiteSection>
         </section>
       ))}
+    </div>
+  );
+}
+
+/**
+ * The evening and homestead page styles: one column in the couple's order,
+ * no cards, each section parted from the last by a rule -- a fine line in the
+ * accent for evening, a dashed one for homestead. A wide screen gets wide
+ * sections (the schedule's days side by side), not a second column; how each
+ * is dressed is in globals.css (.site-evening, .site-homestead).
+ */
+function Ruled({
+  shown,
+  sections,
+  look,
+}: {
+  shown: Shown;
+  sections: Partial<Record<SectionKey, ReactNode>>;
+  look: "evening" | "homestead";
+}) {
+  return (
+    <div className={`site-${look} mx-auto flex w-full ${WIDE_WIDTH} flex-col px-4 pb-20 sm:px-6 lg:px-10`}>
+      {shown.map((x, i) => (
+        <section key={x.id} className={`site-rule py-14 lg:py-20 ${i === 0 ? "pt-4 lg:pt-6" : ""}`}>
+          <SiteSection sectionKey={x.id}>
+            <SiteReveal>{sections[x.id]}</SiteReveal>
+          </SiteSection>
+        </section>
+      ))}
+    </div>
+  );
+}
+
+/**
+ * The minimal page style: each section under a hairline, its name small in a
+ * left column and the section beside it on a computer (above it on a phone).
+ * Like the magazine, without the numbers or the weight.
+ */
+function Ledger({ shown, sections }: { shown: Shown; sections: Partial<Record<SectionKey, ReactNode>> }) {
+  return (
+    <div className={`site-ledger mx-auto w-full ${CANVAS_WIDTH} px-5 pb-20 sm:px-8 lg:px-12`}>
+      {shown.map((x) => (
+        <section
+          key={x.id}
+          className="border-t border-hairline py-12 lg:grid lg:grid-cols-[15rem_minmax(0,1fr)] lg:gap-12 lg:py-16"
+        >
+          <p className="font-mono-numbers text-[11px] uppercase tracking-[0.2em] text-ink/60">{sectionName(x.id) ?? ""}</p>
+          <SiteSection sectionKey={x.id} className="mt-3 min-w-0 lg:mt-0">
+            <SiteReveal>{sections[x.id]}</SiteReveal>
+          </SiteSection>
+        </section>
+      ))}
+    </div>
+  );
+}
+
+/**
+ * The photo-led page style: wide sections with their headings set large and
+ * to the left, and after every second one a photo of the couple's across the
+ * full width, taken from the end of their gallery so it isn't the one the
+ * Photos section opens on. No photos, no breaks.
+ */
+function PhotoLed({
+  shown,
+  sections,
+  photos,
+}: {
+  shown: Shown;
+  sections: Partial<Record<SectionKey, ReactNode>>;
+  photos: string[];
+}) {
+  const breaks = [...photos].reverse();
+  return (
+    <div className="site-photo-led flex flex-col pb-16">
+      {shown.map((x, i) => {
+        const photo = i % 2 === 1 && i < shown.length - 1 ? breaks[(i - 1) / 2] : undefined;
+        return (
+          <Fragment key={x.id}>
+            <section className="px-5 py-14 sm:px-10 lg:px-14 lg:py-24">
+              <div className={`mx-auto w-full ${CANVAS_WIDTH}`}>
+                <SiteSection sectionKey={x.id}>
+                  <SiteReveal>{sections[x.id]}</SiteReveal>
+                </SiteSection>
+              </div>
+            </section>
+            {photo && (
+              <div className="site-hero-photo relative h-[calc(var(--site-vh,1vh)*46)] min-h-[280px] w-full overflow-hidden bg-[var(--site-photo)] lg:h-[calc(var(--site-vh,1vh)*70)]" aria-hidden="true">
+                <Image src={photo} unoptimized={isLibraryPhoto(photo)} alt="" fill sizes="100vw" className="object-cover" />
+              </div>
+            )}
+          </Fragment>
+        );
+      })}
     </div>
   );
 }

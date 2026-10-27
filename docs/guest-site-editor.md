@@ -259,3 +259,32 @@ The owner found the editor "too complicated" and struggled to find Sections.
   you add yours" in its address bar; guests never see them. Colours shows six
   palettes that suit the look (the template's own, then light or dark like
   the page, same family first) and "More colours" for the full list.
+
+## Seven templates (decided 2026-10-27)
+
+The owner saw no change from the signature work: 29 templates, most the same
+page of cards recoloured, four colours each, and thumbnails that didn't match
+the page they opened. Approved from the finalists mockup
+(https://claude.ai/artifact/1bTZGXTFkimWsw2q5G1Gvg, desktop 1440 and phone 390),
+all seven kept:
+
+- **Heirloom** (invitation hero with an arched photo, invitation page),
+  **Editorial** (masthead: photo, huge names, a facts row; magazine page),
+  **Riviera** (postcard hero with a postmark; postcard page), **Night Swim**
+  (poster hero; evening page), **Golden Hour** (cover: full-screen photo,
+  names on its corner; photo-led page), **Monogram** (initials hero; minimal
+  "ledger" page) and **Homestead** (stamped photo with a round year stamp;
+  homestead page, menu schedule). The other 22 are gone from
+  `site-templates.ts`; designs made from them keep their look.
+- Each template names its two other colourways (`colourways`), so the three
+  swatches are chosen for it instead of computed. Tags and the tag filter went;
+  each card has a one-line `blurb`.
+- New in `site-design.ts`: heroes `masthead`, `postcard`, `cover`, `initials`,
+  `stamp`; page styles `evening`, `photo`, `ledger`, `homestead`
+  (`section-layout.tsx`, dressed in `globals.css`); schedule layouts `days`
+  (day columns) and `menu` (dotted leaders).
+- **Thumbnails are the real page** (`site-page-thumb.tsx`): the preview page in
+  a frame, laid out at 1280px (or 390px in cards narrower than 260px, like the
+  editor's) and scaled to fit, loaded only near the screen and shown still.
+  Used by the gallery, the editor's Design tab and Your designs; the drawn
+  `site-thumb.tsx` is gone. Each thumbnail is one preview page load.

@@ -120,6 +120,13 @@ They're summarised here only by reference; CLAUDE.md is the source.
   The grey Positron was rejected as "depressing and untrustworthy". When the
   maps move to our own Cloudflare-hosted tiles, pick the closest full-colour
   style. Applied in `src/lib/map-tiles.ts`.
+- **2026-10-27:** Guest-site templates cut from 29 to seven, all kept from
+  the finalists mockup (https://claude.ai/artifact/1bTZGXTFkimWsw2q5G1Gvg):
+  Heirloom, Editorial, Riviera, Night Swim, Golden Hour, Monogram, Homestead,
+  each with its own hero and page style and three colourways picked for it.
+  Thumbnails must show the real page, never a drawing (owner: "they should
+  look exactly like what they're gonna look like"). Applied in
+  `site-templates.ts` and `site-page-thumb.tsx`; see docs/guest-site-editor.md.
 - **2026-10-21:** Guest-site editor simplified: one Design tab (templates +
   colours, no Theme grid), Wren removed from the builder, Sections second in
   the rail with Edit buttons, template flowers/extras optional (off by
