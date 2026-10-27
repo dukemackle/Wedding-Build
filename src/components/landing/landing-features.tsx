@@ -60,7 +60,7 @@ const PHOTOS: Record<string, { file: string; alt: string }> = {
   "/checklist": { file: "checklist", alt: "A pen ticking items off a handwritten checklist" },
   "/bookings": { file: "bookings", alt: "A bride smiling as she signs at a table" },
   "/attire": { file: "attire", alt: "A wedding dress on a hanger" },
-  "/itinerary": { file: "itinerary", alt: "A wooden “order of the day” sign at a wedding" },
+  "/itinerary": { file: "itinerary", alt: "A calendar open on a screen" },
   "/venue-layout": { file: "layout", alt: "Round reception tables set in a bright marquee" },
   "/guests/site": { file: "website", alt: "A laptop showing wedding photos beside peonies" },
 };
