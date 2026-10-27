@@ -58,6 +58,8 @@ function guestFieldsFromForm(formData: FormData) {
       household: ((formData.get("household") as string) || "").trim() || null,
       email: ((formData.get("email") as string) || "").trim() || null,
       plus_one: formData.get("plus_one") === "on",
+      // Bringing one means allowed one (the 0141 trigger keeps that true too).
+      plus_one_allowed: formData.get("plus_one") === "on" || formData.get("plus_one_allowed") === "on",
       plus_one_name: ((formData.get("plus_one_name") as string) || "").trim() || null,
       status: status as GuestStatus,
       priority: priority as GuestPriority,

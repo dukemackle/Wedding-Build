@@ -34,6 +34,13 @@ const MEMBER_COLUMNS =
 
 type MemberRow = Omit<HouseholdMember, "eventIds"> & { household: string | null; invite_code: string };
 
+/** "Alvarez" reads as "The Alvarez household"; "The Alvarez Family" stays as typed. */
+function householdLabel(household: string | null): string | null {
+  const h = household?.trim();
+  if (!h) return null;
+  return /\s/.test(h) ? h : `The ${h} household`;
+}
+
 function sameHousehold(a: string | null, b: string | null) {
   return !!a?.trim() && !!b?.trim() && normalizeGuestName(a) === normalizeGuestName(b);
 }
@@ -100,7 +107,7 @@ export async function findHousehold(weddingId: string, rawCode: string | null | 
   return {
     weddingId,
     code,
-    label: guest.household?.trim() ? `The ${guest.household.trim()} household` : guest.name,
+    label: householdLabel(guest.household) ?? guest.name,
     members,
     events: allEvents.filter((e) => asked.has(e.id)),
   };

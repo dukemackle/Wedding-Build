@@ -184,3 +184,21 @@ rules, batch self-merge, 50-state coverage, page widths) and
 - Next: cards show "From $X · basis · checked" in estimate wording; the
   budget filter; re-check the ~1,300 tier-only venues, launch metros first.
 - Revisit: when the launch metros' share of venues with a price is known.
+
+## 2026-10-27 — Guest-site launch blockers and household RSVPs
+- Decided: after the guest-site review (security, engineering, product, art
+  direction), the owner approved fixing the launch blockers first: guest
+  photos no longer listable and deleted with their rows (0139); rate limits,
+  Turnstile and server-side deadline on the public forms (0140); then
+  personal RSVP links (0141). For the links the owner chose: (1) households
+  are the existing `household` text, not a new table; (2) a personal link
+  opens a password-protected site; (3) answers through a link go straight
+  onto the guest list, typed-name RSVPs still wait for approval; (4) "allowed
+  a plus-one" is stored apart from "bringing one".
+- Why: the editor was ahead of the guest experience; typed names made
+  duplicates and leaked who's invited to what; households as text keeps
+  seating, sheets, import and Wren unchanged.
+- Alternatives: a households table with party sizes (more retrofit across
+  every guest feature); mandatory codes (locks out guests who lose them).
+- Next: confirmation email with the edit link; the three flagship templates
+  (Heirloom first). Wren writing help stays parked.

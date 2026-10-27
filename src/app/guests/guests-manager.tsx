@@ -39,6 +39,7 @@ import { GuestImportFileTab } from "./guest-import-panel";
 import { FilterDisclosure } from "@/components/filter-disclosure";
 import { SearchBox } from "@/components/search-box";
 import { mealChoices } from "@/lib/meal-options";
+import { personalRsvpPath } from "@/lib/invite-codes";
 import { BirdEmptyState } from "@/components/wren-moments";
 import { PlusIcon } from "@/components/page-header";
 import { CheckIcon, MailIcon, PhoneIcon } from "@/components/icons";
@@ -154,6 +155,8 @@ function downloadGuestsCsv(guests: Guest[]) {
 
 /** The couple's menu (set in the guest site's RSVP section), for the Meal picker. */
 const MealsContext = createContext<string[]>(mealChoices(null));
+/** The guest site's slug while it's on, for each guest's personal RSVP link (0141). */
+const SiteSlugContext = createContext<string | null>(null);
 
 function GuestFields({ guest, theme }: { guest?: Guest; theme: SideTheme }) {
   const meals = useContext(MealsContext);
@@ -260,6 +263,18 @@ function GuestFields({ guest, theme }: { guest?: Guest; theme: SideTheme }) {
         />
         Bringing a plus one
       </label>
+      {!bringingPlusOne && (
+        <label className="-mt-2 flex items-center gap-2 text-sm text-ink sm:col-span-2">
+          <input
+            type="checkbox"
+            name="plus_one_allowed"
+            defaultChecked={guest?.plus_one_allowed ?? false}
+            className="h-4 w-4 rounded border-hairline"
+          />
+          Can bring a plus one
+          <span className="text-xs text-ink/60">(their RSVP link will ask)</span>
+        </label>
+      )}
       {bringingPlusOne && (
         <label className={`${labelClass} sm:col-span-2`}>
           Plus one&apos;s name
@@ -632,6 +647,21 @@ function GuestRowMenu({
   const itemClass =
     "block w-full rounded px-2 py-1.5 text-left text-xs text-ink transition-colors hover:bg-parchment";
 
+  // Their own link opens their household's RSVP; the code is for a paper
+  // invitation ("RSVP at … with code K7M2QX").
+  const siteSlug = useContext(SiteSlugContext);
+  const [copied, setCopied] = useState(false);
+  function handleCopyLink() {
+    if (!siteSlug || !guest.invite_code) return;
+    navigator.clipboard
+      .writeText(`${window.location.origin}${personalRsvpPath(siteSlug, guest.invite_code)}`)
+      .then(() => {
+        setCopied(true);
+        setTimeout(() => setCopied(false), 1500);
+      })
+      .catch(() => {});
+  }
+
   return (
     <div className="relative">
       <button
@@ -716,6 +746,14 @@ function GuestRowMenu({
               >
                 Edit details
               </button>
+              {siteSlug && guest.invite_code && (
+                <button type="button" className={itemClass} onClick={handleCopyLink}>
+                  {copied ? "Link copied" : "Copy RSVP link"}
+                  <span className="ml-1 font-mono-numbers text-[10px] tracking-wider text-ink/50">
+                    {guest.invite_code}
+                  </span>
+                </button>
+              )}
               <button
                 type="button"
                 className={itemClass}
@@ -1489,6 +1527,7 @@ export function GuestsManager({
   sideBColor,
   sideBothColor,
   mealOptions = null,
+  publicSlug = null,
 }: {
   guests: Guest[];
   /** A Google Sheet they've imported from before, if there is one. */
@@ -1499,6 +1538,8 @@ export function GuestsManager({
   sideBColor: string | null;
   sideBothColor: string | null;
   mealOptions?: string[] | null;
+  /** Null while the guest site is off: there's no link to copy yet. */
+  publicSlug?: string | null;
 }) {
   const [filter, setFilter] = useState<GuestStatus | "all">("all");
   const [priorityFilter, setPriorityFilter] = useState<GuestPriority | "all">("all");
@@ -1717,6 +1758,7 @@ export function GuestsManager({
 
   return (
     <MealsContext.Provider value={mealChoices(mealOptions)}>
+      <SiteSlugContext.Provider value={publicSlug}>
     <div className="flex w-full min-w-0 flex-col rounded-lg border border-hairline bg-card p-4 shadow-sm sm:p-6">
       {/* The numbers, on one strip. Headcount, the invite ladder and the meal
           counts used to be three stacked blocks above the list; on a phone
@@ -2091,6 +2133,7 @@ export function GuestsManager({
         </>
       )}
     </div>
+      </SiteSlugContext.Provider>
     </MealsContext.Provider>
   );
 }
