@@ -587,7 +587,7 @@ Zilker Lodge	2225 Andrew Zilker Road	Austin	Texas			Garden / Outdoor	Indoor & Ou
 Wanderlust Wine Co.		Austin	Texas			Restaurant / Vineyard	Indoor					An East Austin wine bar that runs a dedicated weddings program across its Austin locations.	info@wanderlustwine.com	512-522-2551	https://wanderlustwine.com/weddings`,
   },
   {
-    name: "Austin and Hill Country depth",
+    name: "Austin and Hill Country depth 2",
     tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
 Assembly Hall	1121 E 7th St	Austin	Texas			Industrial Loft & Warehouse	Indoor & Outdoor	280			East Austin event space with a 5,500 sq ft main hall, a 1,000 sq ft meeting room and a 2,000 sq ft courtyard.		512-710-8832	https://www.assemblyhallaustin.com/
 SKYBOX on 6th	501 W 6th St	Austin	Texas			Museum, Gallery & Rooftop	Outdoor	300			Fourth-floor open-air rooftop on West 6th Street with skyline views, hosting weddings alongside corporate events.			https://www.skyboxon6th.com/
@@ -939,6 +939,18 @@ Feragne Villa	755 Mid Cities Blvd	Hurst	Texas			Ballroom	Indoor & Outdoor	220	44
 Westlake House	421 Gross Rd	Mesquite	Texas			Garden & Park	Indoor & Outdoor	80			A city-owned house in Mesquite with three event rooms, a kitchen, an outdoor gazebo and a yard, rented by the hour.		972-216-6260	https://www.cityofmesquite.com/3343/Westlake-House
 LAYD Spaces Bishop Arts	224 Sunset Ave	Dallas	Texas			Ballroom	Indoor	150			A 4,300-square-foot event space in the Bishop Arts District with bridal and groom's suites and first-floor load-in.	laydspaces@gmail.com		https://laydspaces.com/
 Deep Ellum Art Company	3200 Commerce St	Dallas	Texas			Museum, Gallery & Rooftop	Indoor & Outdoor	2000			An art gallery and music venue in Deep Ellum with about 5,000 square feet inside and 15,000 outside, with in-house sound and lighting.	info@deepellumart.co	(214) 697-8086	https://www.deepellumart.co/private-events`,
+  },
+  {
+    name: "Austin and Hill Country depth 2",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+Legacy Ranch Guest Houses & Wedding Chapel		Fredericksburg	Texas			Ranch	Indoor & Outdoor	100	9500	Package	Gated ranch with an open-air steel chapel, a newer reception hall and two relocated historic guest houses.			https://www.legacyranchguesthouses.com/weddings
+Bergheim Ranch	408 Fuller Drive	Bergheim	Texas			Barn & Farm	Indoor & Outdoor	250			Restored open-air gin barn with multiple ceremony sites and rustic lodging for up to 25 guests.	events@bergheimranch.com	210-393-6434	https://www.bergheimranch.com/
+King River Ranch	2054 Ranch Road 1320	Johnson City	Texas			Lake & River	Indoor & Outdoor	75	2750	Package	Twenty-five riverfront acres on the Pedernales with a river terrace, a reception barn and a cottage and suite for overnight stays.	welcome@thekingriverranch.com	(310) 505-1849	https://thekingriverranch.com/
+The Carrington	300 N Main St	Buda	Texas			Historic Mansion & Estate	Indoor & Outdoor		2350	Rental	Boutique venue in Buda's historic Main Street district with indoor and outdoor spaces for small and mid-sized weddings.	info@thecarrington.net	512-364-4926	https://www.thecarrington.net/
+The Mockingbird Room at Plum Creek	4301 Benner Rd	Kyle	Texas			Country Club & Golf	Indoor & Outdoor	285			Event hall at the Plum Creek golf course with a covered screened porch, Hill Country views and a renovated bridal suite.		(512) 262-5555	https://www.mockingbirdroom.com/
+The Adelphia	101 FM 580	Lampasas	Texas			Historic Mansion & Estate	Indoor & Outdoor	200			An 1881 house built by a German merchant for his wife, with a grand hall, century-old oak-shaded lawns and lodging for 14.	sales@theadelphia1875.com	512-540-6739	https://theadelphia1875.com/
+Historic Hostess House	1406 US Highway 281 South	Lampasas	Texas			Garden & Park	Indoor & Outdoor	180			City-run limestone event house set in front of the spring-fed Hancock Springs swimming pool, which can be reserved with the event.	parks-secretary@cityoflampasas.com	512-556-6831	https://www.lampasas.org/Facilities/Facility/Details/Historic-Hostess-House-16
+Lake Austin Riverboats	3825 Lake Austin Blvd	Austin	Texas			Lake & River	Indoor & Outdoor	250			Stern-wheel riverboats that host weddings on Lake Austin, the larger holding 250 guests across two dining rooms and the smaller 125.	info@austinriverboats.com	512.345.5220	https://www.austinriverboats.com`,
   },
 ];
 
