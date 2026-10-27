@@ -232,6 +232,12 @@ export type Guest = {
   updated_at: string;
   /** Per-event RSVP answers, event id -> coming (0109). */
   event_rsvps: EventAnswers | null;
+  /** Their personal RSVP link's code, /w/<slug>/i/<code> (0141). */
+  invite_code: string;
+  /** May bring a plus-one; plus_one is whether they are (0141). */
+  plus_one_allowed: boolean;
+  /** Last answered through their personal link (0141). */
+  rsvp_changed_at: string | null;
 };
 
 export type ContactSubmissionStatus = "pending" | "applied" | "dismissed";

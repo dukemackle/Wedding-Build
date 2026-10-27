@@ -3,7 +3,7 @@ import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import { visitorIp } from "@/lib/turnstile";
 
 /** One row per kind in allow_guest_write (0140), which holds the limits. */
-export type GuestWriteKind = "rsvp" | "post" | "contact" | "claim" | "unlock" | "rsvp_email";
+export type GuestWriteKind = "rsvp" | "post" | "contact" | "claim" | "unlock" | "invite" | "rsvp_email";
 
 export const RATE_LIMIT_ERROR = "Lots of replies are coming in right now. Please try again in a little while.";
 

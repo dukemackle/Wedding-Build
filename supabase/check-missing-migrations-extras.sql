@@ -212,7 +212,10 @@ with e(m,k,o,n,tok) as (values
 ('0128_ops_services','index','','ops_services_renewal_idx',''),
 ('0129_app_errors','index','','app_errors_last_idx',''),
 ('0130_events','index','','events_name_created_idx',''),
-('0130_events','index','','events_wedding_idx','')
+('0130_events','index','','events_wedding_idx',''),
+('0140_guest_write_limits','index','','guest_writes_ip_idx',''),
+('0141_invite_codes','index','','guests_wedding_invite_code_key',''),
+('0141_invite_codes','trigger','public.guests','guests_keep_plus_one_allowed','')
 ), extra(m,missing) as (values
   ('0045_layout_house_parking', case when not exists (select 1 from pg_constraint
      where conname='venue_layout_items_item_type_check'
