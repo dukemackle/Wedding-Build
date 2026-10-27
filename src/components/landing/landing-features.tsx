@@ -53,16 +53,16 @@ const BLURBS: Record<string, string> = {
  * 2026-10-22).
  */
 const PHOTOS: Record<string, { file: string; alt: string }> = {
-  "/budget": { file: "budget", alt: "Two gold wedding bands on a dictionary page open at “marriage”" },
-  "/guests": { file: "guests", alt: "A wedding invitation suite with ribbon and wax seal" },
+  "/budget": { file: "budget", alt: "A calculator and stationery among pink roses" },
+  "/guests": { file: "guests", alt: "Guests cheering the couple down the aisle outdoors" },
   "/venues": { file: "venues", alt: "A lawn set for an outdoor ceremony at sunset" },
-  "/vendors": { file: "vendors", alt: "A florist's table of cut flowers and ribbon" },
-  "/checklist": { file: "checklist", alt: "A planner notebook on a wooden table" },
-  "/bookings": { file: "bookings", alt: "A fountain pen resting on a handwritten letter" },
+  "/vendors": { file: "vendors", alt: "A tiered wedding cake on a table outdoors in autumn" },
+  "/checklist": { file: "checklist", alt: "A pen ticking items off a handwritten checklist" },
+  "/bookings": { file: "bookings", alt: "A bride smiling as she signs at a table" },
   "/attire": { file: "attire", alt: "A wedding dress on a hanger" },
-  "/itinerary": { file: "itinerary", alt: "A ring-shaped ceremony arch among the trees" },
+  "/itinerary": { file: "itinerary", alt: "A wooden “order of the day” sign at a wedding" },
   "/venue-layout": { file: "layout", alt: "Round reception tables set in a bright marquee" },
-  "/guests/site": { file: "website", alt: "Wedding invitations and rings laid out together" },
+  "/guests/site": { file: "website", alt: "A laptop showing wedding photos beside peonies" },
 };
 
 /**
