@@ -41,10 +41,20 @@ export function TemplatesGallery({
 
   return (
     <div className="flex flex-col">
-      <Link href="/guests/site" className="text-sm text-ink/60 hover:text-ink">
-        ← Your guest site
+      <Link
+        href="/guests/site"
+        className="inline-flex h-10 items-center gap-2 self-start rounded-full bg-[#2243B6] px-4 text-[15px] font-semibold text-white hover:bg-[#2243B6]/90"
+      >
+        <span aria-hidden="true">←</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+          <rect x="3" y="3" width="7" height="7" rx="1" />
+          <rect x="14" y="3" width="7" height="7" rx="1" />
+          <rect x="3" y="14" width="7" height="7" rx="1" />
+          <rect x="14" y="14" width="7" height="7" rx="1" />
+        </svg>
+        Your designs
       </Link>
-      <h1 className="mt-1.5 font-display text-3xl font-semibold text-forest sm:text-4xl">Templates</h1>
+      <h1 className="mt-3 font-display text-3xl font-semibold text-forest sm:text-4xl">Templates</h1>
       <p className="mt-1 text-ink/60">
         Shown with your names. Pick one to customize. Your live site doesn&apos;t change until you say so.
       </p>
