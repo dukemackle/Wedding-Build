@@ -389,7 +389,7 @@ function HeroLayout({ wedding }: { wedding: PublicWedding }) {
   // so they read) or straight on the page.
   if (hero === "poster") {
     return (
-      <header className="relative flex min-h-[64vh] items-center overflow-hidden py-16 lg:min-h-[80vh]">
+      <header className="relative flex min-h-[calc(var(--site-vh,1vh)*64)] items-center overflow-hidden py-16 lg:min-h-[calc(var(--site-vh,1vh)*80)]">
         {photo ? (
           <>
             <div className="site-hero-photo absolute inset-0 bg-[var(--site-photo)]">
@@ -438,8 +438,8 @@ function HeroLayout({ wedding }: { wedding: PublicWedding }) {
     // screen, the names the rest, with the couple's artwork in the
     // column's corners. On a phone, the photo first and the names under it.
     return (
-      <header className="grid lg:min-h-[92vh] lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
-        <div className="site-hero-photo relative h-[46vh] min-h-[300px] overflow-hidden bg-[var(--site-photo)] lg:h-auto">
+      <header className="grid lg:min-h-[calc(var(--site-vh,1vh)*92)] lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
+        <div className="site-hero-photo relative h-[calc(var(--site-vh,1vh)*46)] min-h-[300px] overflow-hidden bg-[var(--site-photo)] lg:h-auto">
           {photo ? (
             <Image src={photo} unoptimized={isLibraryPhoto(photo)} alt="" fill priority sizes="(min-width: 1024px) 60vw, 100vw" className="hero-kenburns object-cover" />
           ) : (
@@ -477,7 +477,7 @@ function HeroLayout({ wedding }: { wedding: PublicWedding }) {
   if (hero === "slideshow") {
     const photos = [photo, ...gallery].filter((x): x is string => Boolean(x)).slice(0, 6);
     return (
-      <header className="relative flex min-h-[70vh] items-center overflow-hidden py-16 lg:min-h-[82vh]">
+      <header className="relative flex min-h-[calc(var(--site-vh,1vh)*70)] items-center overflow-hidden py-16 lg:min-h-[calc(var(--site-vh,1vh)*82)]">
         <div className="site-hero-photo absolute inset-0 bg-[var(--site-photo)]">
           {photos.length ? <Slideshow photos={photos} /> : <SceneArtwork />}
         </div>
@@ -494,7 +494,7 @@ function HeroLayout({ wedding }: { wedding: PublicWedding }) {
     const [second, third] = gallery.filter((x) => x !== photo);
     const tile = "site-hero-photo absolute overflow-hidden bg-[var(--site-photo)] shadow-[0_14px_34px_rgb(0_0_0_/_0.18)] ring-4 ring-[var(--color-card)]";
     return (
-      <header className="grid items-center gap-10 px-4 pb-12 pt-10 sm:px-8 lg:min-h-[78vh] lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:gap-6 lg:px-12">
+      <header className="grid items-center gap-10 px-4 pb-12 pt-10 sm:px-8 lg:min-h-[calc(var(--site-vh,1vh)*78)] lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:gap-6 lg:px-12">
         <div className="relative mx-auto aspect-[5/4] w-full max-w-[640px]">
           <div className={`${tile} inset-y-[6%] left-[8%] right-[14%]`}>
             {photo ? <Image src={photo} unoptimized={isLibraryPhoto(photo)} alt="" fill priority sizes="(min-width: 1024px) 45vw, 90vw" className="object-cover" /> : <SceneArtwork />}
@@ -540,7 +540,7 @@ function HeroLayout({ wedding }: { wedding: PublicWedding }) {
   // overlaps its lower edge.
   return (
     <header className="flex flex-col items-center">
-      <div className="site-hero-photo relative h-[52vh] min-h-[320px] w-full overflow-hidden bg-[var(--site-photo)] lg:h-[62vh]">
+      <div className="site-hero-photo relative h-[calc(var(--site-vh,1vh)*52)] min-h-[320px] w-full overflow-hidden bg-[var(--site-photo)] lg:h-[calc(var(--site-vh,1vh)*62)]">
         {photo ? (
             <Image src={photo} unoptimized={isLibraryPhoto(photo)} alt="" fill priority sizes="100vw" className="hero-kenburns object-cover" />
           ) : (
