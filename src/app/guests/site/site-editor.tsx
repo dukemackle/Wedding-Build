@@ -1028,8 +1028,11 @@ export function SiteEditor({
           <div className="flex min-w-0 flex-1 flex-col">
             <div className="flex items-center gap-2.5 border-b border-hairline px-6 pb-4 pt-5">
               <div className="min-w-0">
-                <Link href="/guests/site" className="text-[13px] text-ink/60 hover:text-ink">
-                  ← Your designs
+                <Link
+                  href="/guests/site"
+                  className="mb-1.5 inline-flex h-8 items-center gap-1.5 rounded-full border border-hairline bg-card px-3 text-sm font-medium text-ink hover:border-ink/30 hover:bg-ink/[0.03]"
+                >
+                  <span aria-hidden="true">←</span> Your designs
                 </Link>
                 <h1 className="truncate font-display text-3xl font-semibold text-forest">{designName}</h1>
               </div>
