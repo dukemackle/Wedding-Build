@@ -45,12 +45,20 @@ export default async function Home() {
           <p className="mt-4 text-[17px] leading-relaxed text-white/90 sm:mt-6 sm:text-[21px]">
             Everything you need to plan your wedding. Free for couples.
           </p>
-          <Link
-            href="/signup"
-            className="btn-motion mt-6 flex h-14 items-center justify-center rounded-full bg-[#ffd301] px-10 text-[17px] font-medium text-forest transition-colors hover:bg-[#fff12f] sm:mt-9 sm:inline-flex sm:h-[60px] sm:text-lg"
-          >
-            Start planning
-          </Link>
+          <div className="mt-6 flex flex-col gap-3 sm:mt-9 sm:flex-row sm:gap-4">
+            <Link
+              href="/signup"
+              className="btn-motion flex h-14 items-center justify-center rounded-full bg-[#ffd301] px-10 text-[17px] font-medium text-forest transition-colors hover:bg-[#fff12f] sm:inline-flex sm:h-[60px] sm:text-lg"
+            >
+              Start planning
+            </Link>
+            <Link
+              href="/login"
+              className="btn-motion flex h-14 items-center justify-center rounded-full border-2 border-white/85 px-10 text-[17px] font-medium text-white transition-colors hover:bg-white/10 sm:inline-flex sm:h-[60px] sm:text-lg"
+            >
+              Log in
+            </Link>
+          </div>
           <p className="mt-5 text-center text-[15px] text-white/85 sm:text-left sm:text-base">
             Venue or vendor?{" "}
             <Link href="/list" className="font-medium text-[#ffd301] underline-offset-4 hover:underline">
