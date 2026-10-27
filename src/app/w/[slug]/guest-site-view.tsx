@@ -16,6 +16,7 @@ import type {
 } from "@/lib/supabase/types";
 import { ChevronDownIcon } from "@/components/icons";
 import { RsvpForm } from "./rsvp-form";
+import { turnstileSiteKey } from "@/lib/turnstile";
 import { RsvpSection } from "./rsvp-section";
 import { ItineraryView } from "./itinerary-view";
 import { GuestbookView } from "./guestbook-view";
@@ -249,6 +250,7 @@ export function GuestSiteView({
                 invite_only,
               }))}
             weddingId={wedding.id}
+            turnstileSiteKey={turnstileSiteKey()}
             partnerAName={wedding.partner_a_name}
             partnerBName={wedding.partner_b_name}
             mealOptions={wedding.meal_options}

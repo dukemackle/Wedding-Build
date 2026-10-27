@@ -469,7 +469,8 @@ Answer each question; any "yes" means update `docs/legal.md` and this register:
 | R12 | Guest health-adjacent data | Med | — | Partly fixed: notice on RSVP and address forms, Privacy line. MHMDA question still with attorney (A4) | Code + attorney |
 | R13 | "No credit card, ever" | Med | — | Fixed, live 2026-10-21 ("needed"). "50 states" is accurate: every state meets coverage pass 1 | Code |
 | R16 | Admin access | Med | — | Partly fixed: admin requires a confirmed email, and an authenticator code every sign-in (live 2026-10-21, `/login/mfa`); admin changes are logged (`/admin/audit-log`, in branch). Open: owner confirms "Confirm email" is on; admin list still in `wrangler.jsonc` | Code + owner |
-| R14, R15, R17–R20 | See section 4 | Med–Low | — | Open | Code |
+| R14, R15, R18–R20 | See section 4 | Med–Low | — | Open | Code |
+| R17 | No rate limits or CAPTCHA on anonymous forms | Med | Med | In progress (2026-10-27, 0140): RSVP, photo wall, contact, claim and password gate rate-limited per visitor and per wedding; browser inserts removed; RSVP emails throttled. Turnstile on RSVP, wall and contact once the owner adds keys. Listing reports not covered | Code + owner |
 
 Status values: Open, In progress, Fixed (date, PR), Accepted (reason, date).
 

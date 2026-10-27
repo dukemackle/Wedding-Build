@@ -11,6 +11,8 @@ import type { EventAnswers, GuestSide, RsvpEvent, RsvpStatus } from "@/lib/supab
 import { logError } from "@/lib/error-log";
 import { trackEvent } from "@/lib/events";
 import { GUEST_PHOTOS_BUCKET, removeGuestPhotos } from "@/lib/guest-photos";
+import { allowGuestWrite, RATE_LIMIT_ERROR } from "@/lib/guest-rate-limit";
+import { isHuman, NOT_HUMAN_ERROR } from "@/lib/turnstile";
 
 const VALID_STATUSES: RsvpStatus[] = ["confirmed", "declined"];
 const VALID_SIDES: GuestSide[] = ["a", "b", "both"];
@@ -64,6 +66,9 @@ function field(formData: FormData, key: string, max: number): string | null {
 async function notifyCoupleOfRsvp(weddingId: string, guestName: string, status: RsvpStatus) {
   try {
     if (!process.env.RESEND_API_KEY) return;
+    // One every two minutes at most, 30 a day: a burst of fake RSVPs can't
+    // turn into a burst of email. Every RSVP still waits on /guests.
+    if (!(await allowGuestWrite(weddingId, "rsvp_email", { perVisitor: false }))) return;
     const admin = createAdminSupabaseClient();
     const { data: wedding } = await admin
       .from("weddings")
@@ -117,6 +122,16 @@ async function eventAnswers(formData: FormData, weddingId: string, name: string,
   return answers;
 }
 
+/**
+ * Past the RSVP deadline. The deadline is a bare date, so it closes once that
+ * day has ended everywhere (UTC-12), never early for a guest out west.
+ */
+function rsvpClosed(deadline: string | null): boolean {
+  if (!deadline || !/^\d{4}-\d{2}-\d{2}$/.test(deadline)) return false;
+  const closesAt = Date.parse(`${deadline}T00:00:00Z`) + 36 * 60 * 60 * 1000;
+  return Date.now() >= closesAt;
+}
+
 export async function submitRsvp(formData: FormData): Promise<{ error?: string }> {
   // Hidden from people, filled in by bots: pretend it worked and store nothing.
   if (((formData.get("website") as string) || "").trim()) {
@@ -139,9 +154,22 @@ export async function submitRsvp(formData: FormData): Promise<{ error?: string }
 
   const supabase = await createGuestSiteClientFor(weddingId);
   // Past the password, if there is one, before anything is stored.
-  const { data: open } = await supabase.from("public_weddings").select("id").eq("id", weddingId).maybeSingle();
+  const { data: open } = await supabase
+    .from("public_weddings")
+    .select("id, rsvp_deadline")
+    .eq("id", weddingId)
+    .maybeSingle<{ id: string; rsvp_deadline: string | null }>();
   if (!open) {
     return { error: "This page has expired. Reload it and try again." };
+  }
+  if (rsvpClosed(open.rsvp_deadline)) {
+    return { error: "RSVPs for this wedding have closed. Please get in touch with the couple directly." };
+  }
+  if (!(await isHuman(formData))) {
+    return { error: NOT_HUMAN_ERROR };
+  }
+  if (!(await allowGuestWrite(weddingId, "rsvp"))) {
+    return { error: RATE_LIMIT_ERROR };
   }
 
   const upload = await uploadGuestPhoto(weddingId, formData.get("photo") as File | null);
@@ -154,7 +182,8 @@ export async function submitRsvp(formData: FormData): Promise<{ error?: string }
   const phone = field(formData, "phone", 30);
   const smsOptIn = formData.get("sms_opt_in") === "on" && !!phone;
 
-  const { error } = await supabase.from("rsvp_submissions").insert({
+  // Written by the app, not the browser: the limits above are the only way in (0140).
+  const { error } = await createAdminSupabaseClient().from("rsvp_submissions").insert({
     wedding_id: weddingId,
     guest_name: guestName,
     household: field(formData, "household", 120),
@@ -226,14 +255,21 @@ export async function submitGuestPost(formData: FormData): Promise<{ error?: str
   if (!site?.public_slug) {
     return { error: "This wedding's site isn't up any more." };
   }
-  const supabase = await createGuestSiteClientFor(weddingId);
+  if (!(await isHuman(formData))) {
+    return { error: NOT_HUMAN_ERROR };
+  }
+  if (!(await allowGuestWrite(weddingId, "post"))) {
+    return { error: RATE_LIMIT_ERROR };
+  }
 
   const upload = await uploadGuestPhoto(weddingId, photo);
   if ("error" in upload) {
     return { error: upload.error };
   }
 
-  const { error } = await supabase.from("guest_posts").insert({
+  // Written by the app, not the browser: the limits above are the only way in (0140).
+  const { error } = await createAdminSupabaseClient().from("guest_posts").insert({
+    status: "pending",
     wedding_id: weddingId,
     name: name.slice(0, 120),
     message,
@@ -286,6 +322,9 @@ export async function claimRegistryGift(
     .eq("id", giftId)
     .maybeSingle<{ wedding_id: string }>();
   if (!gift) return { error: CLAIM_ERRORS.gift_not_found };
+  if (!(await allowGuestWrite(gift.wedding_id, "claim"))) {
+    return { error: RATE_LIMIT_ERROR };
+  }
   const supabase = await createGuestSiteClientFor(gift.wedding_id);
   const { data, error } = await supabase.rpc("claim_registry_gift", {
     p_gift: giftId,

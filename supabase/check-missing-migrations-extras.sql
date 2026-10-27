@@ -18,7 +18,6 @@ with e(m,k,o,n,tok) as (values
 ('0015_attire','policy','public.attire_items','attire_items_read_all',''),
 ('0016_public_wedding_site','index','','rsvp_submissions_wedding_id_idx',''),
 ('0016_public_wedding_site','policy','public.registry_items','public can view registry for public weddings',''),
-('0016_public_wedding_site','policy','public.rsvp_submissions','anyone can submit an rsvp to a public wedding',''),
 ('0021_itinerary','index','','itinerary_events_date_idx',''),
 ('0021_itinerary','index','','itinerary_events_wedding_id_idx',''),
 ('0022_vendor_favorites','index','','vendor_favorites_wedding_id_idx',''),
@@ -58,7 +57,6 @@ with e(m,k,o,n,tok) as (values
 ('0065_budget_contracts','index','','budget_contracts_custom_item_idx',''),
 ('0065_budget_contracts','index','','budget_contracts_wedding_idx',''),
 ('0068_contact_collector','index','','contact_submissions_wedding_idx',''),
-('0068_contact_collector','policy','public.contact_submissions','anyone can submit contact details to a public wedding',''),
 ('0071_contract_summaries','constraint','','budget_contracts_one_target',''),
 ('0073_checklist_phase','index','','checklist_items_wedding_phase_idx',''),
 ('0075_listing_provenance','index','','vendors_last_verified_idx',''),
@@ -67,7 +65,6 @@ with e(m,k,o,n,tok) as (values
 ('0075_listing_provenance','index','','venues_source_unique',''),
 ('0079_guest_site_photos','index','','guest_posts_wedding_id_idx',''),
 ('0079_guest_site_photos','index','','wedding_gallery_photos_wedding_id_idx',''),
-('0079_guest_site_photos','policy','public.guest_posts','anyone can post to a public wedding',''),
 ('0079_guest_site_photos','policy','public.wedding_gallery_photos','public can view gallery for public weddings',''),
 ('0080_attire_catalog_and_party','index','','attire_items_vendor_id_idx',''),
 ('0080_attire_catalog_and_party','index','','attire_party_members_wedding_id_idx',''),
@@ -208,8 +205,6 @@ with e(m,k,o,n,tok) as (values
 ('0118_marketplace_chat','policy','public.market_messages','people read messages in their own conversations',''),
 ('0118_marketplace_chat','policy','public.market_blocks','people see who they''ve blocked',''),
 ('0121_guest_site_privacy','index','','guest_site_unlock_failures_wedding_idx',''),
-('0121_guest_site_privacy','policy','public.contact_submissions','anyone can submit contact details to a public wedding','guest_site_named'),
-('0121_guest_site_privacy','policy','public.guest_posts','anyone can post to a public wedding','guest_site_named'),
 ('0124_marketing_consent','index','','marketing_consents_user_id_idx',''),
 ('0125_ai_uses','index','','ai_uses_wedding_idx',''),
 ('0126_admin_audit_log','index','','admin_audit_log_created_idx',''),
@@ -240,6 +235,10 @@ with e(m,k,o,n,tok) as (values
        where id='guest-photos' and file_size_limit = 5242880) then 'guest-photos bucket limits' end),
   ('0139_guest_photos_private_list', case when exists (select 1 from pg_policies where schemaname='storage'
        and tablename='objects' and policyname='anyone can view guest photos') then 'guest photo list policy still there' end),
+  ('0140_guest_write_limits', case when to_regclass('public.guest_writes_wedding_idx') is null then 'guest_writes table' end),
+  ('0140_guest_write_limits', case when exists (select 1 from pg_policies where schemaname='public'
+       and policyname in ('anyone can submit an rsvp to a public wedding', 'anyone can post to a public wedding',
+                          'anyone can submit contact details to a public wedding')) then 'anon guest-site insert policies still there' end),
   ('0123_listing_removal_reason', case when not exists (select 1 from pg_constraint
      where conname='listing_reports_reason_check'
        and pg_get_constraintdef(oid) like '%remove%') then 'reason check without remove' end)
