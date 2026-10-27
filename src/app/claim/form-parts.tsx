@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState, useTransition } from "react";
+import { WrenChatBirdIcon } from "@/components/icons";
 import { MAX_CLAIM_PHOTOS, CLAIM_PHOTO_TYPES } from "@/lib/venue-claim";
 
 // The pieces the venue and vendor claim forms are both built from.
@@ -254,8 +255,9 @@ export function WriteHelper({
 
   if (!open) {
     return (
-      <button type="button" onClick={() => setOpen(true)} className="mt-1.5 text-sm font-medium text-brass hover:underline">
-        ✨ Help me write this
+      <button type="button" onClick={() => setOpen(true)} className="mt-1.5 inline-flex items-center gap-1.5 text-sm font-medium text-brass hover:underline">
+        <WrenChatBirdIcon className="h-5 w-5 shrink-0" />
+        Help me write this
       </button>
     );
   }

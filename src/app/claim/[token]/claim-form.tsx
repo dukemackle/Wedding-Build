@@ -657,7 +657,7 @@ export function ClaimForm({
           }}
           className={step === 3 ? "flex min-w-0 flex-col gap-6" : "hidden"}
         >
-          <Section title="Describe your venue" hint="Short on time? Tap ✨ and Wren drafts it from a few words.">
+          <Section title="Describe your venue" hint="Short on time? Tap the bird and Wren drafts it from a few words.">
             <div className="flex flex-col gap-4">
               <div>
                 <Field label="One-line description">
