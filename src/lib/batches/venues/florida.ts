@@ -965,6 +965,12 @@ Rock Reef Resort	97850 Overseas Hwy	Key Largo	Florida			Hotel & Resort	Indoor & 
 Beachside Resort & Residences	3841 N Roosevelt Blvd	Key West	Florida			Beach & Coast	Indoor & Outdoor				An oceanfront Key West resort with a private beach, a waterfront patio and the Flagler Ballroom for ceremonies and receptions.	beachside@brightwild.com	305 330-5681	https://www.beachsidekeywest.com/meetings-events
 Key West Museum of Art & History at the Custom House	281 Front Street	Key West	Florida			Museum, Gallery & Rooftop	Indoor & Outdoor				An 1891 customs house beside Mallory Square whose veranda and sculpture garden are offered for wedding ceremonies.		(305) 295-6616	https://www.kwahs.org/key-west-museum-of-art-history-at-the-custom-house/`,
   },
+  {
+    name: "Miami: Key Largo and Wynwood venues",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+Ocean Reef Club	35 Ocean Reef Dr	Key Largo	Florida			Hotel & Resort	Indoor & Outdoor				Private island club at the north end of Key Largo with tropical settings and an interdenominational chapel for weddings and receptions.		1-800-741-7333	https://www.oceanreef.com/weddings
+R House Wynwood	2727 NW 2nd Ave	Miami	Florida			Restaurant & Brewery	Indoor & Outdoor	500			Wynwood restaurant with a large patio that can be booked for weddings, with the whole restaurant available as a buyout.	info@rhousewynwood.com	(305) 576-0201	https://www.rhousewynwood.com/event-space-miami`,
+  },
 ];
 
 export default batches;
