@@ -21,6 +21,7 @@ import { findGuestByName, normalizeGuestName } from "@/lib/guest-match";
 import { requireEditableWedding } from "@/lib/wedding-access";
 import { withNotes } from "@/lib/guest-notes";
 import { trackEvent } from "@/lib/events";
+import { removeGuestPhotos } from "@/lib/guest-photos";
 
 const VALID_STATUSES: GuestStatus[] = ["invited", "confirmed", "declined", "pending"];
 const VALID_PRIORITIES: GuestPriority[] = ["must_invite", "would_like", "if_room"];
@@ -146,15 +147,19 @@ export async function deleteGuest(formData: FormData): Promise<{ error?: string 
 
   const guestId = formData.get("id") as string;
 
-  const { error } = await supabase
+  const { data: deleted, error } = await supabase
     .from("guests")
     .delete()
     .eq("id", guestId)
-    .eq("wedding_id", wedding.id);
+    .eq("wedding_id", wedding.id)
+    .select("photo_url")
+    .returns<{ photo_url: string | null }[]>();
 
   if (error) {
     return { error: error.message };
   }
+
+  await removeGuestPhotos(wedding.id, (deleted ?? []).map((guest) => guest.photo_url));
 
   revalidatePath("/guests");
   revalidatePath("/budget");
@@ -591,9 +596,9 @@ export async function approveRsvpSubmission(formData: FormData): Promise<{ error
   // than appearing on the list twice.
   const { data: existingGuests, error: guestsError } = await supabase
     .from("guests")
-    .select("id, name, household, side, guest_notes(notes)")
+    .select("id, name, household, side, photo_url, guest_notes(notes)")
     .eq("wedding_id", wedding.id)
-    .returns<(Pick<Guest, "id" | "name" | "household" | "side"> & { guest_notes: { notes: string | null } | null })[]>();
+    .returns<(Pick<Guest, "id" | "name" | "household" | "side" | "photo_url"> & { guest_notes: { notes: string | null } | null })[]>();
 
   if (guestsError) {
     return { error: guestsError.message };
@@ -606,7 +611,8 @@ export async function approveRsvpSubmission(formData: FormData): Promise<{ error
     plus_one_name: submission.plus_one_name,
     status: submission.status,
     meal: submission.meal,
-    photo_url: submission.photo_url,
+    // A repeat RSVP without a photo keeps the one the guest sent before.
+    photo_url: submission.photo_url ?? match?.photo_url ?? null,
     message: submission.message,
     song_request: submission.song_request,
     phone: submission.phone,
@@ -647,6 +653,11 @@ export async function approveRsvpSubmission(formData: FormData): Promise<{ error
     return { error: saveError.message };
   }
 
+  // A repeat RSVP with a new photo replaces the old one; its file goes too.
+  if (submission.photo_url && match?.photo_url && match.photo_url !== submission.photo_url) {
+    await removeGuestPhotos(wedding.id, [match.photo_url]);
+  }
+
   const { error: deleteError } = await supabase
     .from("rsvp_submissions")
     .delete()
@@ -671,16 +682,20 @@ export async function dismissRsvpSubmission(formData: FormData): Promise<{ error
 
   const submissionId = formData.get("submission_id") as string;
 
-  const { error } = await supabase
+  const { data: dismissed, error } = await supabase
     .from("rsvp_submissions")
     .delete()
     .eq("id", submissionId)
-    .eq("wedding_id", wedding.id);
+    .eq("wedding_id", wedding.id)
+    .select("photo_url")
+    .returns<{ photo_url: string | null }[]>();
 
   if (error) {
     return { error: error.message };
   }
 
+  // A dismissed RSVP's photo never reaches the guest list, so it goes too.
+  await removeGuestPhotos(wedding.id, (dismissed ?? []).map((row) => row.photo_url));
   revalidatePath("/guests");
   return {};
 }

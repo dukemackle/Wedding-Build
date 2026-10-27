@@ -10,6 +10,7 @@ import { SMS_CONSENT_DETAIL } from "@/lib/sms-consent";
 import type { EventAnswers, GuestSide, RsvpEvent, RsvpStatus } from "@/lib/supabase/types";
 import { logError } from "@/lib/error-log";
 import { trackEvent } from "@/lib/events";
+import { GUEST_PHOTOS_BUCKET, removeGuestPhotos } from "@/lib/guest-photos";
 
 const VALID_STATUSES: RsvpStatus[] = ["confirmed", "declined"];
 const VALID_SIDES: GuestSide[] = ["a", "b", "both"];
@@ -40,14 +41,14 @@ async function uploadGuestPhoto(
 
   const storage = createAdminSupabaseClient().storage;
   const { error: uploadError } = await storage
-    .from("guest-photos")
+    .from(GUEST_PHOTOS_BUCKET)
     .upload(path, photo, { contentType: photo.type });
 
   if (uploadError) {
     return { error: "Could not upload your photo — please try again." };
   }
 
-  return { photoUrl: storage.from("guest-photos").getPublicUrl(path).data.publicUrl };
+  return { photoUrl: storage.from(GUEST_PHOTOS_BUCKET).getPublicUrl(path).data.publicUrl };
 }
 
 /** Trimmed text field, capped so an anonymous form can't store a novel. */
@@ -178,6 +179,7 @@ export async function submitRsvp(formData: FormData): Promise<{ error?: string }
   });
 
   if (error) {
+    await removeGuestPhotos(weddingId, [photoUrl]);
     await logError("rsvp", "submitRsvp", error);
     return { error: "Could not submit your RSVP — please try again." };
   }
@@ -239,6 +241,7 @@ export async function submitGuestPost(formData: FormData): Promise<{ error?: str
   });
 
   if (error) {
+    await removeGuestPhotos(weddingId, [upload.photoUrl]);
     await logError("guest_site", "submitGuestPost", error);
     return { error: "Could not post that — please try again." };
   }

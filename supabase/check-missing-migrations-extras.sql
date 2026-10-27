@@ -24,7 +24,6 @@ with e(m,k,o,n,tok) as (values
 ('0022_vendor_favorites','index','','vendor_favorites_wedding_id_idx',''),
 ('0024_budget_custom_items','index','','budget_custom_items_wedding_id_idx',''),
 ('0026_guestbook','bucket','','guest-photos',''),
-('0026_guestbook','policy','storage.objects','anyone can view guest photos',''),
 ('0028_wedding_hero_photo','bucket','','wedding-photos',''),
 ('0028_wedding_hero_photo','policy','storage.objects','anyone can view wedding photos',''),
 ('0029_checklist','index','','checklist_items_wedding_id_idx',''),
@@ -239,6 +238,8 @@ with e(m,k,o,n,tok) as (values
        and pg_get_viewdef('public.public_weddings'::regclass) not like '%guest_site_open%' then 'public_weddings not gated on guest_site_open' end),
   ('0121_guest_site_privacy', case when not exists (select 1 from storage.buckets
        where id='guest-photos' and file_size_limit = 5242880) then 'guest-photos bucket limits' end),
+  ('0139_guest_photos_private_list', case when exists (select 1 from pg_policies where schemaname='storage'
+       and tablename='objects' and policyname='anyone can view guest photos') then 'guest photo list policy still there' end),
   ('0123_listing_removal_reason', case when not exists (select 1 from pg_constraint
      where conname='listing_reports_reason_check'
        and pg_get_constraintdef(oid) like '%remove%') then 'reason check without remove' end)

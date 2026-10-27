@@ -455,7 +455,7 @@ Answer each question; any "yes" means update `docs/legal.md` and this register:
 
 | ID | Risk | Sev. | Likelihood | Status | Owner |
 |---|---|---|---|---|---|
-| R1 | Guest-site data enumerable / password bypass | Critical | High | Fixed, live 2026-10-19 (migration 0121): one site per request, password enforced in the database, address gated, unlock rate-limited, guest uploads server-side only. Pending photos still public until approved | Code |
+| R1 | Guest-site data enumerable / password bypass | Critical | High | Fixed, live 2026-10-19 (migration 0121): one site per request, password enforced in the database, address gated, unlock rate-limited, guest uploads server-side only. Guest photos no longer listable (0139, 2026-10-27, once run); deleted posts, dismissed RSVPs and deleted guests remove their files. A pending photo's random URL still loads if someone already has it | Code |
 | R2 | Marketing in guest SMS; no STOP or consent record | High | Med | Fixed, live 2026-10-21 (0122): ad removed, sender + STOP in every text, consent wording and time stored, STOP replies (Twilio 21610) clear the opt-in. Twilio number not yet registered for A2P 10DLC (owner) | Code + owner |
 | R3 | Privacy Policy mismatches | High | High | Fixed, live 2026-10-21 (Oct 19 policy); attorney review still queued (A5) | Code + attorney |
 | R4 | No entity; Terms gaps | High | Med | In progress: California LLC filed via Northwest 2026-10-21 (approval ~Nov 2); mailing address via Anytime Mailbox. Open: EIN, Terms entity/address and redraft, attorney review | Owner + attorney |
