@@ -109,7 +109,9 @@ rules, batch self-merge, 50-state coverage, page widths) and
 ## 2026-10-27 — LLC approved
 - You Do, I Do LLC (California) went through. Entity name now in the Terms,
   Privacy Policy, site footer and marketing-email footer.
-- Next (owner): EIN, business bank account, Form 1583 for the mailbox, assign
+- EIN obtained 2026-10-27.
+- California $800 LLC tax (FTB 3522) due by 2027-02-15.
+- Next (owner): business bank account, Form 1583 for the mailbox, assign
   domain/code/IP to the LLC in writing, DMCA agent ($6), insurance quotes.
 
 ## 2026-10-21 — Form a California LLC and get a public mailing address
