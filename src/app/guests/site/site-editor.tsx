@@ -1436,6 +1436,23 @@ function PreviewStage({
     Math.min(1, Math.max(0, size.h - bottomInset - 8) / (PHONE_H + phoneBezel * 2), size.w / (PHONE_W + phoneBezel * 2)) || 1;
   // How far the iframe is scaled down (or up) to fit the stage.
   const scale = fill ? 1 : device === "desktop" ? (zoom ?? fitScale) : phoneScale;
+  // One percent of the desktop window at "Fit", for the site's --site-vh.
+  const siteVh =
+    !fill && device === "desktop" ? Math.max(0, size.h - bottomInset - 36 - 40) / fitScale / 100 : null;
+
+  useEffect(() => {
+    const frame = frameRef.current;
+    if (!frame) return;
+    const apply = () => {
+      const root = frame.contentDocument?.documentElement;
+      if (!root) return;
+      if (siteVh) root.style.setProperty("--site-vh", `${siteVh}px`);
+      else root.style.removeProperty("--site-vh");
+    };
+    apply();
+    frame.addEventListener("load", apply);
+    return () => frame.removeEventListener("load", apply);
+  }, [frameRef, siteVh]);
 
   // Wheel over the iframe scrolls the site natively, but the events never
   // reach this page. Wheel anywhere else on the stage (the margins, the
@@ -1473,15 +1490,15 @@ function PreviewStage({
     inner = { width: "100%", height: "100%" };
   } else if (device === "desktop") {
     chrome = "browser";
-    const bar = 36 + 40; // browser bar above, zoom bar below
+    const bar = 36 + 40; // browser bar above, zoom bar below (as in siteVh)
     const frameH = Math.max(0, size.h - bottomInset - bar);
     outer = { width: size.w, height: frameH };
-    // The site's window stays the size it is at "Fit" whatever the zoom, so
-    // zooming only makes the page bigger or smaller. Sizing it by the zoom
-    // made a 10% zoom a window ten screens tall, and full-height sections
-    // stretched to fill it. Zoomed out it sits centred; zoomed in it
-    // overflows and the frame scrolls.
-    const viewH = frameH / fitScale;
+    // Zoomed out, the site's window grows to fill the frame, so more of the
+    // page shows instead of white below it; zoomed in it stays the "Fit"
+    // size and the frame scrolls. The hero's screen-relative heights read
+    // --site-vh, pinned to the "Fit" window (siteVh), so a taller window
+    // shows more of the site rather than a stretched hero.
+    const viewH = Math.max(frameH / fitScale, frameH / scale);
     site = { width: DESKTOP_W * scale, height: viewH * scale, margin: "0 auto", overflow: "hidden" };
     inner = {
       width: DESKTOP_W,
