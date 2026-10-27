@@ -523,11 +523,14 @@ function SeatingDemo() {
 
   return (
     <Bleed>
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-hairline px-5 py-3 sm:px-8">
+      <div className="border-b border-hairline px-5 py-3 sm:px-8">
         <p className="text-sm text-ink/70">
           {unseated.length} of {SEAT_GUESTS.length} guests still unassigned.
         </p>
-        <div className="flex items-center gap-2">
+        <div className="mt-2 flex flex-wrap items-center gap-2">
+          <span className="hidden rounded-full bg-forest px-3 py-1.5 font-mono-numbers text-xs text-parchment sm:inline">
+            + Add table
+          </span>
           <div className="inline-flex rounded-full border border-hairline bg-parchment p-1">
             {["Seating", "Whole Venue", "Rooms"].map((m, i) => (
               <span
@@ -540,9 +543,6 @@ function SeatingDemo() {
               </span>
             ))}
           </div>
-          <span className="hidden rounded-full bg-forest px-3 py-1.5 font-mono-numbers text-xs text-parchment sm:inline">
-            + Add table
-          </span>
         </div>
       </div>
 
