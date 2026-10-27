@@ -1030,9 +1030,16 @@ export function SiteEditor({
               <div className="min-w-0">
                 <Link
                   href="/guests/site"
-                  className="mb-1.5 inline-flex h-8 items-center gap-1.5 rounded-full border border-hairline bg-card px-3 text-sm font-medium text-ink hover:border-ink/30 hover:bg-ink/[0.03]"
+                  className="mb-2 inline-flex h-10 items-center gap-2 rounded-full bg-[#2243B6] px-4 text-[15px] font-semibold text-white hover:bg-[#2243B6]/90"
                 >
-                  <span aria-hidden="true">←</span> Your designs
+                  <span aria-hidden="true">←</span>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                    <rect x="3" y="3" width="7" height="7" rx="1" />
+                    <rect x="14" y="3" width="7" height="7" rx="1" />
+                    <rect x="3" y="14" width="7" height="7" rx="1" />
+                    <rect x="14" y="14" width="7" height="7" rx="1" />
+                  </svg>
+                  Your designs
                 </Link>
                 <h1 className="truncate font-display text-3xl font-semibold text-forest">{designName}</h1>
               </div>
