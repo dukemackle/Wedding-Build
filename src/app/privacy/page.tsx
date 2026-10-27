@@ -11,11 +11,11 @@ export default function PrivacyPage() {
       <div className={`w-full ${READING_WIDTH}`}>
         <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Legal</p>
         <h1 className="mt-2 font-display text-3xl font-semibold text-forest">Privacy Policy</h1>
-        <p className="mt-2 text-sm text-ink/60">Last updated: October 22, 2026</p>
+        <p className="mt-2 text-sm text-ink/60">Last updated: October 27, 2026</p>
 
         <div className="mt-8 flex flex-col gap-8 text-ink/80">
           <p>
-            This Privacy Policy explains what information You Do, I Do collects, how we use it, and the
+            This Privacy Policy explains what information You Do, I Do LLC (&quot;You Do, I Do,&quot; &quot;we,&quot; or &quot;us&quot;) collects, how we use it, and the
             choices you have. It applies to the couple-facing app at youdoido.com and to any public
             wedding site created through it.
           </p>
