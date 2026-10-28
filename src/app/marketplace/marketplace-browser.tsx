@@ -22,6 +22,7 @@ import {
 } from "@/lib/marketplace";
 import type { MarketListing } from "@/lib/supabase/types";
 import { toggleSave } from "./actions";
+import { CategoryIcon, MarketplaceHome } from "./marketplace-home";
 
 const MarketplaceMap = dynamic(() => import("./marketplace-map").then((m) => m.MarketplaceMap), {
   ssr: false,
@@ -57,6 +58,7 @@ export function MarketplaceBrowser({
   origin: weddingOrigin,
   unread = 0,
   guestCount = 0,
+  startBrowsing = false,
   initial = {},
 }: {
   listings: MarketListing[];
@@ -70,9 +72,12 @@ export function MarketplaceBrowser({
   unread?: number;
   /** The viewer's guest count, for "fits my wedding". */
   guestCount?: number;
+  /** Skip the front page (categories and newest) and open the browse screen. */
+  startBrowsing?: boolean;
   /** Filters to open with, from a link (the budget page's suggestions). */
   initial?: Partial<Filters>;
 }) {
+  const [home, setHome] = useState(!startBrowsing);
   const [filters, setFilters] = useState<Filters>(() => ({
     ...NO_FILTERS,
     ...Object.fromEntries(Object.entries(initial).filter(([, v]) => v)),
@@ -156,6 +161,48 @@ export function MarketplaceBrowser({
 
   const savedListings = listings.filter((l) => saved.has(l.id));
 
+  // The front page hands over to the browse screen, which reads ?view= on
+  // mount to open Saved or Selling.
+  function browse({ view, mode: nextMode, ...picked }: { q?: string; category?: string; type?: string; mode: "map" | "grid"; view?: string }) {
+    const url = new URL(window.location.href);
+    if (view) url.searchParams.set("view", view);
+    else url.searchParams.delete("view");
+    window.history.replaceState(window.history.state, "", url);
+    setFilters({ ...NO_FILTERS, ...Object.fromEntries(Object.entries(picked).filter(([, v]) => v)) });
+    setMapView(null);
+    setMode(nextMode);
+    setHome(false);
+    window.scrollTo(0, 0);
+  }
+
+  function goHome() {
+    const url = new URL(window.location.href);
+    url.search = "";
+    window.history.replaceState(window.history.state, "", url);
+    setFilters(NO_FILTERS);
+    setHome(true);
+  }
+
+  if (home) {
+    return (
+      <MarketplaceHome
+        listings={listings}
+        signedIn={signedIn}
+        placeLabel={weddingOrigin?.label ?? null}
+        counts={{ saved: savedListings.length, selling: mine.length, unread }}
+        onBrowse={browse}
+        renderCard={(l) => (
+          <ListingCard
+            listing={l}
+            guestCount={guestCount}
+            saved={saved.has(l.id)}
+            onToggleSave={signedIn ? onToggleSave : undefined}
+          />
+        )}
+      />
+    );
+  }
+
   return (
     <SearchShell
       search={{ value: filters.q, onChange: (v) => set("q", v), placeholder: "Search the marketplace…" }}
@@ -222,6 +269,15 @@ export function MarketplaceBrowser({
       }
       filters={
         <>
+          <button
+            type="button"
+            onClick={goHome}
+            aria-label="Marketplace home"
+            className="shrink-0 whitespace-nowrap rounded-full border border-hairline bg-card px-3 py-1.5 text-sm text-forest shadow-md hover:border-forest lg:shadow-none"
+          >
+            <span aria-hidden>←</span>
+            <span aria-hidden className="lg:hidden 2xl:inline"> Home</span>
+          </button>
           <Link
             href={signedIn ? "/marketplace/new" : "/signup?next=/marketplace/new"}
             className="shrink-0 whitespace-nowrap rounded-full bg-forest px-3.5 py-1.5 text-sm font-medium text-parchment shadow-md hover:bg-forest/90 lg:order-last lg:ml-2 lg:shadow-none"
@@ -294,6 +350,14 @@ export function MarketplaceBrowser({
           <p className="text-sm text-ink/60">
             {listings.length === 0
               ? "Nothing listed yet. Be the first to pass something on."
+              : filters.category !== "all" && !listings.some((l) => l.category === filters.category)
+                ? <>
+                    No {categoryLabel(filters.category).toLowerCase()} listed yet. Have some left over?{" "}
+                    <Link href={signedIn ? "/marketplace/new" : "/signup?next=/marketplace/new"} className="text-brass underline">
+                      Be the first to list them
+                    </Link>
+                    .
+                  </>
               : filtered.length === 0
                 ? "Nothing matches these filters."
                 : "Nothing in this part of the map. Zoom out or move the map to see more."}
@@ -319,8 +383,8 @@ function Grid({ children }: { children: React.ReactNode }) {
 }
 
 /**
- * A square photo with the price under it, like Facebook Marketplace: the
- * photo sells the thing, so it gets the room, and the words are one line each.
+ * Photo first, price on the photo: the photo sells the thing, so it gets the
+ * room, and the words under it are one line each.
  */
 function ListingCard({
   listing,
@@ -338,45 +402,46 @@ function ListingCard({
   return (
     <div className="group relative">
       <Link href={`/marketplace/${listing.id}`} className="block">
-        <div className="relative aspect-square overflow-hidden rounded-lg border border-hairline bg-parchment">
-          {listing.photo_urls[0] && (
+        <div className="relative aspect-square overflow-hidden rounded-2xl border border-hairline bg-[#fbf8f1]">
+          {listing.photo_urls[0] ? (
             <Image
               src={listing.photo_urls[0]}
               alt={listing.title}
               fill
               sizes="(min-width: 1280px) 14vw, (min-width: 1024px) 20vw, 50vw"
-              className={`object-cover transition-transform duration-300 group-hover:scale-[1.03] ${badge === "Sold" ? "opacity-60" : ""}`}
+              className={`object-cover transition-transform duration-300 group-hover:scale-[1.03] motion-reduce:transition-none ${badge === "Sold" ? "opacity-60" : ""}`}
             />
-          )}
-          {fit && !badge && (
-            <span className="absolute bottom-2 left-2 rounded-full bg-white/95 px-2 py-0.5 text-[11px] font-medium text-[#2243B6] shadow">
-              {fit.replace("Enough for your ", "Fits ")}
+          ) : (
+            <span className="absolute inset-0 grid place-items-center text-forest/40">
+              <CategoryIcon category={listing.category} className="h-16 w-16" />
             </span>
           )}
-          {listing.listing_type === "rent" && !badge && (
-            <span className="absolute left-2 top-2 rounded-full bg-[#FFD301] px-2 py-0.5 text-xs font-semibold text-[#14203d]">
-              Rent
-            </span>
-          )}
-          {badge && (
-            <span className="absolute left-2 top-2 rounded-full bg-forest px-2 py-0.5 text-xs font-semibold text-parchment">
+          {badge ? (
+            <span className="absolute left-2.5 top-2.5 rounded-full bg-forest px-2.5 py-0.5 text-xs font-semibold text-parchment">
               {badge}
             </span>
+          ) : (
+            <span
+              className={`absolute left-2.5 top-2.5 rounded-full px-2.5 py-0.5 text-[11px] font-semibold shadow-sm ${
+                listing.listing_type === "rent" ? "bg-[#2243B6] text-white" : "bg-white/95 text-forest"
+              }`}
+            >
+              {listing.listing_type === "rent" ? "Rent" : "Buy"}
+            </span>
           )}
+          <span className="absolute bottom-2.5 left-2.5 rounded-lg bg-[#FFD301] px-2 py-0.5 text-sm font-bold text-forest shadow-sm">
+            {formatPrice(listing.price_cents, listing.listing_type)}
+            {listing.original_price_cents && (
+              <s className="ml-1.5 text-[11px] font-normal text-forest/60">was {formatPrice(listing.original_price_cents)}</s>
+            )}
+          </span>
         </div>
-        <p className="mt-1.5 font-semibold text-forest">
-          {formatPrice(listing.price_cents, listing.listing_type)}
-          {listing.original_price_cents && (
-            <s className="ml-1.5 text-xs font-normal text-ink/40">{formatPrice(listing.original_price_cents)}</s>
-          )}
-          {listing.quantity > 1 && (
-            <span className="ml-1 text-xs font-normal text-ink/50">· {listing.quantity} pieces</span>
-          )}
-        </p>
-        <p className="truncate text-sm text-ink">{listing.title}</p>
+        <p className="mt-2 truncate text-[15px] font-medium text-forest">{listing.title}</p>
         <p className="truncate text-xs text-ink/50">
-          {listing.city}, {listing.state} · {categoryLabel(listing.category)} · {listedAgo(listing.created_at)}
+          {listing.city}, {listing.state} · {categoryLabel(listing.category)}
+          {listing.quantity > 1 && ` · ${listing.quantity} pieces`} · {listedAgo(listing.created_at)}
         </p>
+        {fit && !badge && <p className="mt-0.5 truncate text-xs font-medium text-[#9a6b00]">{fit.replace("Enough for your ", "Fits your ")}</p>}
       </Link>
       {onToggleSave && (
         <button
@@ -384,8 +449,8 @@ function ListingCard({
           onClick={() => onToggleSave(listing.id)}
           aria-pressed={saved}
           aria-label={saved ? "Remove from saved" : "Save"}
-          className={`absolute right-2 top-2 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 shadow transition-colors ${
-            saved ? "text-brass" : "text-ink/50 hover:text-brass"
+          className={`absolute right-2.5 top-2.5 flex h-8 w-8 items-center justify-center rounded-full shadow transition-all active:scale-90 motion-reduce:transition-none ${
+            saved ? "bg-[#FFD301] text-forest" : "bg-white/90 text-ink/50 hover:text-brass"
           }`}
         >
           {saved ? "♥" : "♡"}
