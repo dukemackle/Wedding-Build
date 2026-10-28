@@ -3,6 +3,8 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import type { VendorTrackerRow } from "./dashboard-data";
 import { RsvpYesCount } from "./rsvp-count";
+import { SitePageThumb } from "@/app/guests/site/site-page-thumb";
+import type { SiteDesign } from "@/lib/site-design";
 
 export type Feature = {
   href: string;
@@ -37,7 +39,7 @@ export type FeatureData = {
   itinerary: { time: string | null; title: string }[];
   layoutItems: number;
   /** The guest site: the couple's names and date as it shows them, and whether it's published. */
-  site: { names: string; date: string | null; live: boolean; photo?: string | null };
+  site: { names: string; date: string | null; live: boolean; photo?: string | null; design?: SiteDesign | null };
 };
 
 const usd = (n: number) =>
@@ -503,9 +505,18 @@ export function buildFeatures(d: FeatureData): Feature[] {
         : next === "site"
           ? "Publish it"
           : "Design yours",
-      // Their banner photo once they've chosen one; until then the top of the
-      // site as text: names, date, and whether guests can see it.
-      media: d.site.photo ? (
+      // Their design as guests would see it, the same thumbnail as Your guest
+      // site; failing that their banner photo; until then the top of the site
+      // as text: names, date, and whether guests can see it.
+      media: d.site.design ? (
+        <>
+          <SitePageThumb design={d.site.design} />
+          <span className="absolute left-2 top-2 flex items-center gap-1.5 rounded-full bg-white/90 px-2 py-1 font-mono-numbers text-[9px] uppercase tracking-[0.15em] text-ink shadow-[0_1px_4px_rgba(0,0,0,0.12)] sm:left-3 sm:top-3 sm:text-[10px]">
+            <span className={`h-1.5 w-1.5 rounded-full ${d.site.live ? "bg-forest" : "border border-ink/40"}`} />
+            {d.site.live ? "Live" : "Not published"}
+          </span>
+        </>
+      ) : d.site.photo ? (
         <PhotoMedia src={d.site.photo} label={d.site.names} />
       ) : (
         <Panel>
