@@ -1,4 +1,5 @@
 import {
+  DEFAULT_SITE_DESIGN,
   EMPTY_TEXT_STYLE,
   MOTION_PRESETS,
   NO_BACKGROUND,
@@ -46,6 +47,8 @@ export type SiteTemplate = {
   falling?: FallingId;
   /** The RSVP's layout; none means the plain card. */
   rsvp?: SiteDesign["layouts"]["rsvp"];
+  /** A small tag on its gallery card ("Start here"). */
+  badge?: string;
 };
 
 /**
@@ -55,8 +58,25 @@ export type SiteTemplate = {
  * page style, so no two look alike, and three colourways chosen for it.
  * Designs made from a retired template keep their look; they just no longer
  * show one as picked.
+ *
+ * Ivory (owner, 2026-10-28) goes first with "Start here": a plain, classic
+ * page on warm white, and what a couple who hasn't picked one starts on
+ * (STARTER_DESIGN).
  */
 export const TEMPLATES: SiteTemplate[] = [
+  {
+    id: "ivory",
+    name: "Ivory",
+    blurb: "Simple and timeless, your photo and names on warm white",
+    theme: "garden",
+    palette: "ivory",
+    colourways: ["classic-white", "linen"],
+    fonts: "cj",
+    hero: "split",
+    ornament: "none",
+    pageStyle: "cards",
+    badge: "Start here",
+  },
   {
     id: "heirloom",
     name: "Heirloom",
@@ -202,3 +222,10 @@ export function withExtras(design: SiteDesign, t: SiteTemplate): Partial<SiteDes
     ...(t.falling ? { motion: { ...design.motion, falling: t.falling } } : {}),
   };
 }
+
+/**
+ * What a couple who hasn't picked a template starts on: their guest site
+ * before any design is published, and the base new designs go over.
+ */
+export const STARTER_DESIGN: SiteDesign = applyTemplate(DEFAULT_SITE_DESIGN, TEMPLATES[0]);
+

@@ -2,9 +2,10 @@ import "server-only";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { DEFAULT_SITE_DESIGN, type SiteDesign } from "@/lib/site-design";
+import type { SiteDesign } from "@/lib/site-design";
 import { parseSiteDesign } from "@/lib/site-design-schema";
 import { parseWording, withWording } from "@/lib/site-designs";
+import { STARTER_DESIGN } from "@/lib/site-templates";
 import type { SiteDesignRow, Wedding } from "@/lib/supabase/types";
 
 export type DesignSummary = {
@@ -66,7 +67,7 @@ export async function loadSiteDesigns() {
     wedding,
     designs,
     /** Templates go over this, so a new design keeps the couple's sections and words. */
-    base: withWording(designs[0]?.design ?? DEFAULT_SITE_DESIGN, wording),
+    base: withWording(designs[0]?.design ?? STARTER_DESIGN, wording),
     photoUrl: wedding.hero_photo_url?.startsWith("https://") ? wedding.hero_photo_url : null,
     liveUrl: wedding.public_slug ? `${origin}/w/${wedding.public_slug}` : null,
   } as const;
