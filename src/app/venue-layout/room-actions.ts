@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { requireEditableWedding } from "@/lib/wedding-access";
+import { roomStyle } from "@/lib/layout-styles";
 
 export async function addRoom(formData: FormData): Promise<{ error?: string }> {
   const { supabase, user, wedding, noWedding } = await requireEditableWedding();
@@ -70,6 +71,27 @@ export async function deleteRoom(formData: FormData): Promise<{ error?: string }
     .delete()
     .eq("id", roomId)
     .eq("wedding_id", wedding.id);
+
+  if (error) {
+    return { error: error.message };
+  }
+
+  revalidatePath("/venue-layout");
+  return {};
+}
+
+/** The floor and walls the plan is drawn in: plain, barn or ballroom. */
+export async function setRoomStyle(formData: FormData): Promise<{ error?: string }> {
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
+
+  if (!wedding) {
+    return { error: noWedding };
+  }
+
+  const { error } = await supabase
+    .from("weddings")
+    .update({ layout_room_style: roomStyle(formData.get("style") as string) })
+    .eq("id", wedding.id);
 
   if (error) {
     return { error: error.message };

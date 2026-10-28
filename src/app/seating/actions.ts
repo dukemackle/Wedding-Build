@@ -305,6 +305,38 @@ export async function renameSeatingTable(formData: FormData): Promise<{ error?: 
   return {};
 }
 
+/** A table's cloth and centrepiece. An empty value goes back to the room's default. */
+export async function setTableDecor(formData: FormData): Promise<{ error?: string }> {
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
+
+  if (!wedding) {
+    return { error: noWedding };
+  }
+
+  const tableId = formData.get("id") as string;
+  const update: { linen?: string | null; centerpiece?: string | null; updated_at: string } = {
+    updated_at: new Date().toISOString(),
+  };
+  for (const field of ["linen", "centerpiece"] as const) {
+    if (formData.has(field)) {
+      update[field] = ((formData.get(field) as string) || "").trim().slice(0, 40) || null;
+    }
+  }
+
+  const { error } = await supabase
+    .from("seating_tables")
+    .update(update)
+    .eq("id", tableId)
+    .eq("wedding_id", wedding.id);
+
+  if (error) {
+    return { error: error.message };
+  }
+
+  revalidatePath("/venue-layout");
+  return {};
+}
+
 /** A copy of the table just below-right of it -- without its guests. */
 export async function duplicateSeatingTable(formData: FormData): Promise<{ error?: string }> {
   const { supabase, user, wedding, noWedding } = await requireEditableWedding();
@@ -335,6 +367,8 @@ export async function duplicateSeatingTable(formData: FormData): Promise<{ error
     width: source.width,
     height: source.height,
     room_id: source.room_id,
+    linen: source.linen,
+    centerpiece: source.centerpiece,
     ...duplicatePosition(source.position_x, source.position_y, tableFootprint(source)),
   });
 
