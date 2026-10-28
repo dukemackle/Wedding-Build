@@ -22,6 +22,7 @@ export function VendorsMap({
   onViewChange,
   heightClassName,
   outline,
+  rememberAs,
 }: {
   vendors: VendorListing[];
   favoritedIds?: Set<string>;
@@ -30,6 +31,8 @@ export function VendorsMap({
   heightClassName?: string;
   /** The picked city, outlined on the map. */
   outline?: { city: string; state: string };
+  /** Keep the map where it was left for the session (the browse page). */
+  rememberAs?: string;
 }) {
   const pinned = useMemo(
     () =>
@@ -62,7 +65,7 @@ export function VendorsMap({
       >
         <BaseMapLayer />
         {outline && <CityOutline city={outline.city} state={outline.state} />}
-        <FitToPins points={points} />
+        <FitToPins points={points} rememberAs={rememberAs} />
         <ClusteredMarkers
           items={pinned}
           onViewChange={onViewChange}
