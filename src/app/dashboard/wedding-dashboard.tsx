@@ -192,7 +192,7 @@ function WeddingForm({
  * dashboard. Several files can be picked at once; each goes up on its own so
  * every one stays under the upload cap, and a failure stops the rest.
  */
-function PhotosButton({ wedding }: { wedding: Wedding }) {
+function PhotosButton({ wedding, toggle }: { wedding: Wedding; toggle?: ReactNode }) {
   const [open, setOpen] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
   const [isPending, startTransition] = useTransition();
@@ -263,7 +263,9 @@ function PhotosButton({ wedding }: { wedding: Wedding }) {
   }
 
   return (
-    <div ref={ref} className="relative">
+    // On a phone the popover hangs from the whole pill row (see WeddingHero),
+    // so it starts at the gutter instead of running off the right edge.
+    <div ref={ref} className="sm:relative">
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
@@ -344,9 +346,9 @@ function PhotosButton({ wedding }: { wedding: Wedding }) {
             )
           )}
 
-          <div className="mt-3 flex items-center gap-3">
+          <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-2">
             <label
-              className={`rounded-md bg-forest px-4 py-2 text-sm font-medium text-parchment transition-colors ${
+              className={`whitespace-nowrap rounded-md bg-forest px-4 py-2 text-sm font-medium text-parchment transition-colors ${
                 room > 0 && !isPending ? "cursor-pointer hover:bg-forest/90" : "opacity-60"
               }`}
             >
@@ -361,9 +363,10 @@ function PhotosButton({ wedding }: { wedding: Wedding }) {
                 className="sr-only"
               />
             </label>
-            <span className="text-xs text-ink/50">
+            <span className="whitespace-nowrap text-xs text-ink/50">
               {room > 0 ? `${room} more` : "That's the most it holds"}
             </span>
+            {toggle && <div className="ml-auto">{toggle}</div>}
           </div>
           {error && <p className="mt-2 text-sm text-red-800">{error}</p>}
         </div>
@@ -406,15 +409,22 @@ function usePhotosOff() {
   );
 }
 
-/** The small pill that turns the photos behind the dashboard off and on. */
-function PhotosToggle({ off }: { off: boolean }) {
+/**
+ * Turns the photos behind the dashboard off and on. A pill on the hero for
+ * view-only collaborators; for editors it sits in the Photos popover.
+ */
+function PhotosToggle({ off, inPopover = false }: { off: boolean; inPopover?: boolean }) {
   return (
     <button
       type="button"
       onClick={() => setPhotosOff(!off)}
       aria-pressed={off}
       title={off ? "Show your photos behind the dashboard" : "Hide the photos behind the dashboard"}
-      className="flex items-center gap-1.5 rounded-full border border-white/50 bg-white/15 px-3 py-1 text-xs font-medium text-white backdrop-blur-sm transition-colors hover:bg-white/25"
+      className={
+        inPopover
+          ? "flex items-center gap-1.5 whitespace-nowrap rounded-full border border-hairline px-3 py-1 text-xs font-medium text-ink/70 transition-colors hover:bg-ink/5 hover:text-ink"
+          : "flex items-center gap-1.5 rounded-full border border-white/50 bg-white/15 px-3 py-1 text-xs font-medium text-white backdrop-blur-sm transition-colors hover:bg-white/25"
+      }
     >
       <svg
         viewBox="0 0 24 24"
@@ -507,7 +517,7 @@ function WeddingHero({
             <p className="mt-2 text-lg text-white/90 lg:text-xl">
               {wedding.wedding_date ? formatDate(wedding.wedding_date) : "Date not set yet"}
             </p>
-            <div className="mt-4 flex flex-wrap items-center gap-2 [text-shadow:none]">
+            <div className="mt-4 flex flex-wrap items-center gap-2 max-sm:relative [text-shadow:none]">
               {canEdit && (
                 <button
                   type="button"
@@ -518,8 +528,14 @@ function WeddingHero({
                 </button>
               )}
               {actions}
-              {canEdit && <PhotosButton wedding={wedding} />}
-              {available.length > 0 && <PhotosToggle off={photosOff} />}
+              {canEdit ? (
+                <PhotosButton
+                  wedding={wedding}
+                  toggle={available.length > 0 && <PhotosToggle off={photosOff} inPopover />}
+                />
+              ) : (
+                available.length > 0 && <PhotosToggle off={photosOff} />
+              )}
             </div>
           </div>
 
