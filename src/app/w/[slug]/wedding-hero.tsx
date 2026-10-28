@@ -122,23 +122,24 @@ function HeroContent({
       )}
 
       {(wedding.wedding_date || location) && (
-        <p className={`mt-4 text-sm ${tone === "light" ? "text-white/85" : "text-ink/60"}`}>
+        <SiteText slot="hero.date" as="p" className={`mt-4 text-sm ${tone === "light" ? "text-white/85" : "text-ink/60"}`}>
           {[wedding.wedding_date ? formatDate(wedding.wedding_date) : null, location]
             .filter(Boolean)
             .join(" · ")}
-        </p>
+        </SiteText>
       )}
 
       {wedding.wedding_date && (
-        <CountdownTimer
-          targetDate={wedding.wedding_date}
-          fallbackLabel={daysUntilWedding(wedding.wedding_date)}
-          tone={tone}
-          size="lg"
-          className="mt-8"
-          live={motion.ticking}
-          flipboard={motion.flipboard}
-        />
+        <SiteText slot="hero.countdown" as="div" className="mt-8">
+          <CountdownTimer
+            targetDate={wedding.wedding_date}
+            fallbackLabel={daysUntilWedding(wedding.wedding_date)}
+            tone={tone}
+            size="lg"
+            live={motion.ticking}
+            flipboard={motion.flipboard}
+          />
+        </SiteText>
       )}
 
       <HeroActions wedding={wedding} location={location} tone={tone} />
@@ -215,9 +216,9 @@ function HeroDateLine({
   const parts = [wedding.wedding_date ? formatDate(wedding.wedding_date) : null, locationOf(wedding) || null].filter(Boolean);
   if (parts.length === 0) return null;
   return (
-    <p className={`text-sm ${tone === "light" ? "text-white/90" : "text-ink/70"} ${className}`}>
+    <SiteText slot="hero.date" as="p" className={`text-sm ${tone === "light" ? "text-white/90" : "text-ink/70"} ${className}`}>
       {stacked ? parts.map((p, i) => <span key={i} className="block">{p}</span>) : parts.join(" · ")}
-    </p>
+    </SiteText>
   );
 }
 
