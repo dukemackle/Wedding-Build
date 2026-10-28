@@ -53,7 +53,6 @@ import { AnimatePanel, BannerFocus, PhotoPanel } from "./photo-motion-panels";
 import { TemplatesTab } from "./templates-tab";
 import { templateById } from "@/lib/site-templates";
 import { BackgroundTab, FontsTab, PhotoColoursSection, TargetColourSection, type PickTarget } from "./look-panels";
-import { publishSiteDesign, saveSiteDraft } from "./actions";
 import { STALE_DESIGN } from "@/lib/site-designs";
 import { BirdCheer } from "@/components/bird-cheer";
 import { PublicSitePanel, SiteSwitch, useGuestSite } from "../public-site-panel";
@@ -90,6 +89,21 @@ const TABS: { key: Tab; label: string }[] = [
 // Desktop preview is laid out at a real laptop width and scaled down to fit,
 // so what the couple sees is the actual arrangement guests get on a computer,
 // not the page squeezed into whatever room the editor leaves.
+type StoreResult = { error?: string; stale?: boolean; version?: string };
+
+/**
+ * Saves (or publishes) through /api/site-design rather than a Server Action,
+ * whose build-specific ID 404s in any tab opened before the latest deploy.
+ */
+async function storeDesign(designId: string, design: SiteDesign, version: string | null, publish: boolean) {
+  const response = await fetch("/api/site-design", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ designId, design, version, publish }),
+  });
+  return (await response.json()) as StoreResult;
+}
+
 const DESKTOP_W = 1280;
 const PHONE_W = 390;
 /** Desktop preview zoom range, as in Canva's zoom bar. */
@@ -327,11 +341,9 @@ export function SiteEditor({
     }
     saveTimer.current = setTimeout(() => {
       saveChain.current = saveChain.current.then(async () => {
-        const result: { error?: string; stale?: boolean; version?: string } = await saveSiteDraft(
-          designId,
-          next,
-          versionRef.current,
-        ).catch(() => ({ error: "Couldn't save — check your connection." }));
+        const result = await storeDesign(designId, next, versionRef.current, false).catch(() => ({
+          error: "Couldn't save — check your connection.",
+        }) as StoreResult);
         if (result.version) versionRef.current = result.version;
         if (result.stale) setStale(true);
         if (result.error) {
@@ -503,11 +515,9 @@ export function SiteEditor({
     clearTimeout(saveTimer.current);
     startPublish(async () => {
       await saveChain.current;
-      const result: { error?: string; stale?: boolean; version?: string } = await publishSiteDesign(
-        designId,
-        design,
-        versionRef.current,
-      ).catch(() => ({ error: "Couldn't publish — check your connection." }));
+      const result = await storeDesign(designId, design, versionRef.current, true).catch(() => ({
+        error: "Couldn't publish — check your connection.",
+      }) as StoreResult);
       if (result.version) versionRef.current = result.version;
       if (result.stale) setStale(true);
       if (result.error) {

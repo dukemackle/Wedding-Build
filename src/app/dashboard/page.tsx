@@ -16,6 +16,7 @@ import type {
   AttireItem,
   ChecklistItem,
   ItineraryEvent,
+  SiteDesignRow,
   RegionalCostData,
   Venue,
   VendorInquiryStatus,
@@ -24,6 +25,8 @@ import type {
 import { BUDGET_CATEGORIES, effectiveGuestCount } from "@/lib/budget-categories";
 import { weddingCategoryEstimates } from "@/lib/estimator";
 import { trackEvent } from "@/lib/events";
+import { parseSiteDesign } from "@/lib/site-design-schema";
+import { parseWording, withWording } from "@/lib/site-designs";
 
 /**
  * The first screen after signing in: the couple's banner, and then one box
@@ -73,6 +76,7 @@ export default async function DashboardPage() {
     { data: itineraryEvents },
     { count: layoutItems },
     { data: regionalData },
+    { data: siteDesign },
   ] = await Promise.all([
     supabase.from("guests").select("status, plus_one").eq("wedding_id", wedding.id),
     supabase
@@ -118,6 +122,14 @@ export default async function DashboardPage() {
       .select("*")
       .eq("state", wedding.state ?? "")
       .returns<RegionalCostData[]>(),
+    // The design the Website box shows: the live one, else the latest edited.
+    supabase
+      .from("site_designs")
+      .select("*")
+      .eq("wedding_id", wedding.id)
+      .order("updated_at", { ascending: false })
+      .returns<SiteDesignRow[]>()
+      .then(({ data }) => ({ data: data?.find((r) => r.id === wedding.live_design_id) ?? data?.[0] ?? null })),
   ]);
 
   // A photo for the Venues and Attire boxes: the booked venue, else the most
@@ -241,6 +253,11 @@ export default async function DashboardPage() {
       date: wedding.wedding_date,
       live: Boolean(wedding.public_slug),
       photo: wedding.hero_photo_url,
+      design: siteDesign
+        ? siteDesign.shared_wording
+          ? withWording(parseSiteDesign(siteDesign.design), parseWording(wedding.site_wording))
+          : parseSiteDesign(siteDesign.design)
+        : null,
     },
   });
 

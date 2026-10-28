@@ -1,10 +1,10 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { DEFAULT_SITE_DESIGN, PALETTES, type SiteDesign } from "@/lib/site-design";
+import { PALETTES, type SiteDesign } from "@/lib/site-design";
 import { parseSiteDesign, siteDesignSchema } from "@/lib/site-design-schema";
 import { MAX_DESIGNS, STALE_DESIGN, parseWording, uniqueName, withWording, wordingOf } from "@/lib/site-designs";
-import { applyTemplate, templateById } from "@/lib/site-templates";
+import { STARTER_DESIGN, applyTemplate, templateById } from "@/lib/site-templates";
 import type { SiteDesignRow } from "@/lib/supabase/types";
 import { requireEditableWedding } from "@/lib/wedding-access";
 
@@ -160,7 +160,7 @@ export async function createDesign(from: {
     const template = templateById(from.template);
     if (!template) return { error: "Pick a template first." };
     const base = all.find((r) => r.id === wedding.live_design_id) ?? all[0];
-    const look = applyTemplate(base ? opened(base, wedding.site_wording) : DEFAULT_SITE_DESIGN, template);
+    const look = applyTemplate(base ? opened(base, wedding.site_wording) : STARTER_DESIGN, template);
     const palette = PALETTES.find((p) => p.id === from.palette);
     design = palette
       ? { ...look, accent: palette.accent, colors: { bg: palette.bg, ink: palette.ink, heading: palette.heading } }

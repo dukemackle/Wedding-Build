@@ -105,6 +105,11 @@ function TemplateTile({
       <button type="button" onClick={onOpen} className="flex min-w-0 flex-col text-left">
         <span className="relative block aspect-[4/5] w-full overflow-hidden rounded-[14px] border border-hairline group-hover:border-ink/30 sm:aspect-[4/3]">
           <SitePageThumb design={design} />
+          {template.badge && (
+            <span className="absolute right-2.5 top-2.5 rounded-full bg-[#FFD301] px-2.5 py-0.5 text-[12px] font-semibold text-[#14203d] shadow-sm">
+              {template.badge}
+            </span>
+          )}
         </span>
         <span className="mt-2.5 truncate font-medium text-ink">{template.name}</span>
         <span className="line-clamp-2 text-[13px] leading-snug text-ink/55">{template.blurb}</span>
