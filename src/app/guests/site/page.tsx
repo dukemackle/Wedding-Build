@@ -33,13 +33,12 @@ export default async function GuestSiteDesignsPage() {
     <PageShell email={site.user.email ?? ""} width="wide">
       <DesignsHome
         designs={site.designs}
-        starters={TEMPLATES.slice(0, 5).map((t) => ({
+        starters={TEMPLATES.map((t) => ({
           id: t.id,
           name: t.name,
           blurb: t.blurb,
           design: applyTemplate(site.base, t),
         }))}
-        templateCount={TEMPLATES.length}
         liveUrl={site.liveUrl}
       />
     </PageShell>

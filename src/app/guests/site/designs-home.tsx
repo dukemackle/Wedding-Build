@@ -11,25 +11,27 @@ import { SitePageThumb } from "./site-page-thumb";
 
 type Starter = { id: string; name: string; blurb: string; design: SiteDesign };
 
+/** Templates shown before "See more": three rows of four (owner, 2026-10-28). */
+const TEMPLATES_SHOWN = 12;
+
 /**
  * Your designs (the approved mockup): every design the couple has made, the
  * live one marked, each with a menu to open, make live, rename, duplicate,
- * share wording or delete. Below, a row of templates to start another from.
+ * share wording or delete. Below, every template to start another from.
  */
 export function DesignsHome({
   designs,
   starters,
-  templateCount,
   liveUrl,
 }: {
   designs: DesignSummary[];
   starters: Starter[];
-  templateCount: number;
   liveUrl: string | null;
 }) {
   const [menuFor, setMenuFor] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+  const [allTemplates, setAllTemplates] = useState(false);
   const full = designs.length >= MAX_DESIGNS;
   const live = designs.find((d) => d.live);
   // A first design opens on Classic, the starter template (owner, 2026-10-28).
@@ -113,15 +115,10 @@ export function DesignsHome({
         )}
       </div>
 
-      <div className="mt-12 flex items-end justify-between gap-4">
-        <h2 className="font-display text-2xl font-semibold text-forest sm:text-[28px]">Start from a template</h2>
-        <Link href="/guests/site/templates" className="shrink-0 text-sm font-medium text-[#2243B6] hover:underline">
-          See all {templateCount} →
-        </Link>
-      </div>
-      <div className="-mx-6 mt-4 flex gap-3 overflow-x-auto px-6 pb-2 sm:mx-0 sm:grid sm:grid-cols-5 sm:gap-5 sm:overflow-visible sm:px-0">
-        {starters.map((t) => (
-          <Link key={t.id} href={`/guests/site/templates?t=${t.id}`} className="group flex w-[42%] shrink-0 flex-col sm:w-auto">
+      <h2 className="mt-12 font-display text-2xl font-semibold text-forest sm:text-[28px]">Start from a template</h2>
+      <div className="mt-4 grid grid-cols-2 gap-x-3.5 gap-y-5 sm:gap-6 lg:grid-cols-4">
+        {(allTemplates ? starters : starters.slice(0, TEMPLATES_SHOWN)).map((t) => (
+          <Link key={t.id} href={`/guests/site/templates?t=${t.id}`} className="group flex min-w-0 flex-col">
             <span className="relative block aspect-[4/5] overflow-hidden rounded-[14px] border border-hairline group-hover:border-ink/30 sm:aspect-[4/3]">
               <SitePageThumb design={t.design} />
             </span>
@@ -130,6 +127,15 @@ export function DesignsHome({
           </Link>
         ))}
       </div>
+      {starters.length > TEMPLATES_SHOWN && (
+        <button
+          type="button"
+          onClick={() => setAllTemplates(!allTemplates)}
+          className="mx-auto mt-6 h-11 rounded-full border border-hairline bg-card px-5 text-sm font-medium text-ink hover:border-ink/30"
+        >
+          {allTemplates ? "Show fewer" : `See more templates (${starters.length - TEMPLATES_SHOWN})`}
+        </button>
+      )}
     </div>
   );
 }
