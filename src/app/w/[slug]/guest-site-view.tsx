@@ -32,9 +32,9 @@ import { HeroPhotosProvider, WeddingHero } from "./wedding-hero";
 import { CeremonyProvider } from "./hero-actions";
 import { SiteNotice } from "./site-notice";
 import type { ReactNode } from "react";
-import { bannerPhoto, blockKey, type SectionKey } from "@/lib/site-design";
+import { bannerPhoto, blockKey, type SectionId, type SectionKey } from "@/lib/site-design";
 import { SiteBlockView, blockHasContent } from "./site-block";
-import { SectionLayout } from "./section-layout";
+import { SitePages } from "./site-pages";
 import { PhotoCredits } from "./photo-credits";
 import { storyChapters } from "@/lib/site-story";
 import { Replayable, SiteMotion } from "@/components/site-motion";
@@ -48,6 +48,19 @@ import { liveDetailsOf } from "@/lib/site-live";
  * guest site editor, so what a couple previews is the page guests get, not a
  * lookalike that drifts.
  */
+
+const TAB_LABELS: Record<SectionId, string> = {
+  photos: "Photos",
+  party: "Wedding party",
+  venue: "Venue",
+  weekend: "Schedule",
+  rsvp: "RSVP",
+  wall: "Guestbook",
+  guests: "Who's coming",
+  travel: "Travel",
+  faq: "FAQ",
+  registry: "Registry",
+};
 
 const CARD = "site-card rounded-lg border border-hairline bg-card p-6 sm:p-10 shadow-sm";
 
@@ -402,6 +415,15 @@ export function GuestSiteView({
       ) : null,
   };
 
+  // With tabs, each section's name in the menu. A block without a heading
+  // (a quote, a photo) has none and joins the tab before it.
+  const tabLabels: Partial<Record<SectionKey, string | null>> = {
+    ...Object.fromEntries(
+      blocks.map((b) => [blockKey(b.id), b.heading?.trim() || (b.kind === "story" ? "Our story" : null)]),
+    ),
+    ...TAB_LABELS,
+  };
+
   return (
     <main className="flex flex-1 flex-col">
       <Replayable>
@@ -413,11 +435,18 @@ export function GuestSiteView({
               itineraryEvents.find((e) => e.event_date === wedding.wedding_date && /ceremony|vows|nikah|wedding/i.test(e.title) && e.start_time) ?? null
             }
           >
-            <HeroPhotosProvider photos={galleryPhotos.map((p) => p.photo_url)}>
-              <WeddingHero wedding={wedding} />
-            </HeroPhotosProvider>
+            <SitePages
+              hero={
+                <HeroPhotosProvider photos={galleryPhotos.map((p) => p.photo_url)}>
+                  <WeddingHero wedding={wedding} />
+                </HeroPhotosProvider>
+              }
+              sections={sections}
+              photos={galleryPhotos.map((p) => p.photo_url)}
+              labels={tabLabels}
+              title={coupleNames || "Our wedding"}
+            />
           </CeremonyProvider>
-          <SectionLayout sections={sections} photos={galleryPhotos.map((p) => p.photo_url)} />
         </LiveDetailsProvider>
       </Replayable>
       <PhotoCredits credits={photoCredits} shown={galleryPhotos.map((p) => p.photo_url)} />

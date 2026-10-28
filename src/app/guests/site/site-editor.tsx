@@ -7,6 +7,7 @@ import {
   DESIGN_MESSAGE,
   READY_MESSAGE,
   REPLAY_MESSAGE,
+  SHOW_SECTION_MESSAGE,
   TEXT_EDIT_MESSAGE,
   TEXT_SELECT_MESSAGE,
 } from "@/components/guest-site-theme";
@@ -211,9 +212,10 @@ export function SiteEditor({
   // The Sections row that's open, kept here so the preview can open one.
   const [openSection, setOpenSection] = useState<SectionKey | null>(null);
 
-  // Brings an opened row into view in the panel.
+  // Brings an opened row into view in the panel, and its tab into the preview.
   useEffect(() => {
     if (!openSection) return;
+    frameRef.current?.contentWindow?.postMessage({ type: SHOW_SECTION_MESSAGE, section: openSection }, window.location.origin);
     const frame = requestAnimationFrame(() =>
       document.getElementById(`section-row-${openSection}`)?.scrollIntoView({ block: "start", behavior: "smooth" }),
     );
@@ -394,6 +396,7 @@ export function SiteEditor({
     setCanvasSel(next);
     if (next) setPhoneSheet(null);
     if (next) setTextSlot(null);
+    if (next) frameRef.current?.contentWindow?.postMessage({ type: SHOW_SECTION_MESSAGE, section: next.section }, window.location.origin);
     frameRef.current?.contentWindow?.postMessage({ type: CANVAS_SELECT, selection: next }, window.location.origin);
   }
 

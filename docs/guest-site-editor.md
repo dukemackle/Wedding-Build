@@ -288,3 +288,23 @@ all seven kept:
   editor's) and scaled to fit, loaded only near the screen and shown still.
   Used by the gallery, the editor's Design tab and Your designs; the drawn
   `site-thumb.tsx` is gone. Each thumbnail is one preview page load.
+
+## Tabs or one long page (2026-10-28)
+
+- `design.navigation`: `"tabs"` (default, also for designs saved before it
+  existed) or `"scroll"`. Picked at the top of the Sections tab ("How guests
+  get around").
+- `src/app/w/[slug]/site-pages.tsx` builds the tabs from `design.sections`:
+  Home is the top of the page; each built-in section and each block with a
+  heading (or a story) is a tab; an untitled block (quote, photo) joins the
+  tab before it. The open tab is the address's #hash (`#rsvp`, `#travel`), so
+  the top of the page's RSVP button, invite links and Back/Forward work.
+  Each tab ends with "Next: …". The scroll cue under full-screen heroes is
+  hidden with tabs.
+- Computer: a sticky bar with the names, tabs (past seven, under "More") and
+  RSVP. Phone (below lg): names, RSVP and a Menu button with a full-screen
+  list.
+- Opening a section in the editor (or picking it in the preview) sends
+  `SHOW_SECTION_MESSAGE`, so the preview opens that tab.
+- A sidebar section alone on its tab takes the page's single column
+  (`section-layout.tsx`).

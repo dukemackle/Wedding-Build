@@ -190,6 +190,12 @@ They're summarised here only by reference; CLAUDE.md is the source.
   season only (no year column). The dashboard's existing form stays for
   editing. Rejected alternatives: a shorter single form (B), no setup at all
   (C). Mockup: https://claude.ai/artifact/MKwFy2KT4NiNuEYcZDVH9T
+- **2026-10-28:** Guest sites can be tabs or one long page (Sections ›
+  How guests get around); **tabs are the default**. Home is the top of the
+  page; each titled section is a tab (#link) in the couple's order; RSVP
+  stays in the bar. Computer: tabs across a bar, overflow under "More".
+  Phone: names, RSVP and a **Menu button** opening a full-screen list (owner
+  picked it over a sideways pill strip). `src/app/w/[slug]/site-pages.tsx`.
 - **2026-10-19:** Keyboard focus is a deep-gold ring (`#9a6b00`, bright Gold
   on navy fills, soft gold halo on fields); 404 and error pages are a
   centred card with Wren idling, a mono eyebrow, a display heading and two

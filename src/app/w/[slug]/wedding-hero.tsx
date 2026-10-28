@@ -408,6 +408,9 @@ function InvitationContent({ wedding }: { wedding: PublicWedding }) {
  */
 function ScrollCue({ tone, className = "" }: { tone: "light" | "dark"; className?: string }) {
   const reduced = useReducedMotion();
+  // With tabs the top of the page is the whole Home tab; there's nothing below to point at.
+  const tabs = useSiteDesign().navigation === "tabs";
+  if (tabs) return null;
   return (
     <button
       type="button"

@@ -25,17 +25,22 @@ import { SITE_SECTIONS, sectionColumn, type SectionKey } from "@/lib/site-design
 export function SectionLayout({
   sections,
   photos = [],
+  only,
 }: {
   sections: Partial<Record<SectionKey, ReactNode>>;
   /** The gallery's photos, for the photo-led page's full-bleed breaks. */
   photos?: string[];
+  /** With tabs, the sections on the open tab; the rest are left off. */
+  only?: readonly SectionKey[];
 }) {
   const design = useSiteDesign();
   const shown = design.sections
     .map((x, index) => ({ ...x, index }))
-    .filter((x) => !x.hidden && sections[x.id] != null);
-  const main = shown.filter((x) => sectionColumn(x.id) === "main");
-  const side = shown.filter((x) => sectionColumn(x.id) === "side");
+    .filter((x) => !x.hidden && sections[x.id] != null && (!only || only.includes(x.id)));
+  let main = shown.filter((x) => sectionColumn(x.id) === "main");
+  let side = shown.filter((x) => sectionColumn(x.id) === "side");
+  // Sidebar sections with nothing beside them (a tab of their own) take the page's one column.
+  if (main.length === 0) [main, side] = [side, []];
   const hasSidebar = side.length > 0;
 
   if (design.pageStyle === "storybook") return <Storybook shown={shown} sections={sections} />;

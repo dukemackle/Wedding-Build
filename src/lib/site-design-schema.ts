@@ -135,6 +135,8 @@ export const siteDesignSchema = z.object({
   scene: z.enum(SCENE_IDS).nullable().catch(null),
   sceneTime: z.enum(SCENE_TIME_IDS).catch("day"),
   pageStyle: z.enum(PAGE_STYLE_IDS).catch("cards"),
+  /** Tabs: a page per section, picked from a menu. Scroll: every section down one long page. */
+  navigation: z.enum(["tabs", "scroll"]).catch("tabs"),
   /** Per-section layouts (SECTION_LAYOUTS); the schedule's and photos' null follows the page style. */
   layouts: z
     .object({
