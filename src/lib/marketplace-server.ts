@@ -1,10 +1,13 @@
 import "server-only";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import type { createClient as createServerClient } from "@/lib/supabase/server";
-import type { MarketListing, MarketThread } from "@/lib/supabase/types";
+import type { MarketListing, MarketSet, MarketThread } from "@/lib/supabase/types";
+import { liveSetItems, MIN_SET_ITEMS, type MarketSetWithItems } from "@/lib/marketplace";
 import { getResendClient, INQUIRY_FROM_ADDRESS } from "@/lib/resend";
 import { SITE_URL } from "@/lib/public-listings";
 import { passItOnDrafts, type PassItOnDraft } from "@/lib/pass-it-on";
+import { PALETTES, themeById, type ColorFamily } from "@/lib/site-design";
+import { parseSiteDesign } from "@/lib/site-design-schema";
 
 export type InboxThread = MarketThread & {
   listing: Pick<MarketListing, "id" | "title" | "price_cents" | "photo_urls" | "status" | "seller_name"> | null;
@@ -91,6 +94,8 @@ export type MarketWedding = {
   origin: { latitude: number; longitude: number; label: string } | null;
   ownVenueCity: string | null;
   ownVenueState: string | null;
+  /** The colour family of their guest-site palette; null until they pick one. */
+  colorFamily: ColorFamily | null;
 };
 
 /**
@@ -106,7 +111,7 @@ export async function loadMarketWedding(
   const { data: wedding } = await supabase
     .from("weddings")
     .select(
-      "id, partner_a_name, guest_count_override, wedding_date, own_venue_city, own_venue_state, venue:venues(city, latitude, longitude)",
+      "id, partner_a_name, guest_count_override, wedding_date, own_venue_city, own_venue_state, site_design, site_design_draft, venue:venues(city, latitude, longitude)",
     )
     .or(`user_id.eq.${userId},member_ids.cs.{${userId}}`)
     .maybeSingle<{
@@ -116,6 +121,8 @@ export async function loadMarketWedding(
       wedding_date: string | null;
       own_venue_city: string | null;
       own_venue_state: string | null;
+      site_design: unknown;
+      site_design_draft: unknown;
       venue: { city: string | null; latitude: number | null; longitude: number | null } | null;
     }>();
   if (!wedding) return null;
@@ -145,7 +152,82 @@ export async function loadMarketWedding(
         : null,
     ownVenueCity: wedding.own_venue_city,
     ownVenueState: wedding.own_venue_state,
+    colorFamily: paletteFamily(wedding.site_design ?? wedding.site_design_draft),
   };
+}
+
+/**
+ * The colour family of a guest-site design's palette. Designs store the
+ * palette's colours rather than its id, so this finds the palette by its
+ * accent and background (the theme's own where the design has none), then by
+ * accent alone. Null for no design, or colours that aren't a palette's.
+ */
+export function paletteFamily(value: unknown): ColorFamily | null {
+  if (value == null) return null;
+  const design = parseSiteDesign(value);
+  const theme = themeById(design.theme);
+  const accent = (design.accent ?? theme.swatches[0]).toLowerCase();
+  const bg = (design.colors.bg ?? theme.bg).toLowerCase();
+  const palette =
+    PALETTES.find((p) => p.accent === accent && p.bg === bg) ?? PALETTES.find((p) => p.accent === accent);
+  return palette?.family ?? null;
+}
+
+/**
+ * The rentals already out on a date, for "Free on your date". By date rather
+ * than by listing, so the query stays short however many rentals there are.
+ * Read as the person; RLS shows bookings on live listings (0147).
+ */
+export async function loadBookedOn(
+  supabase: Awaited<ReturnType<typeof createServerClient>>,
+  date: string,
+): Promise<string[]> {
+  const { data } = await supabase
+    .from("market_rental_bookings")
+    .select("listing_id")
+    .lte("starts_on", date)
+    .gte("ends_on", date)
+    .returns<{ listing_id: string }[]>();
+  return [...new Set((data ?? []).map((b) => b.listing_id))];
+}
+
+/**
+ * Live whole-wedding sets, newest first, with their items. A set whose items
+ * have mostly sold one by one (fewer than two left) isn't shown.
+ */
+export async function loadLiveSets(
+  supabase: Awaited<ReturnType<typeof createServerClient>>,
+  limit = 12,
+): Promise<MarketSetWithItems[]> {
+  const { data } = await supabase
+    .from("market_sets")
+    .select("*, items:market_listings(*)")
+    .in("status", ["active", "pending"])
+    .order("created_at", { ascending: false })
+    .limit(limit * 2)
+    .returns<(MarketSet & { items: MarketListing[] })[]>();
+  return (data ?? [])
+    .map((set) => ({ ...set, items: sortItems(liveSetItems(set.items ?? [])) }))
+    .filter((set) => set.items.length >= MIN_SET_ITEMS)
+    .slice(0, limit);
+}
+
+/** One set and its items, for its own page; null when it isn't visible. */
+export async function loadSet(
+  supabase: Awaited<ReturnType<typeof createServerClient>>,
+  id: string,
+): Promise<MarketSetWithItems | null> {
+  if (!/^[0-9a-f-]{36}$/i.test(id)) return null;
+  const { data } = await supabase
+    .from("market_sets")
+    .select("*, items:market_listings(*)")
+    .eq("id", id)
+    .maybeSingle<MarketSet & { items: MarketListing[] }>();
+  return data ? { ...data, items: sortItems(data.items ?? []) } : null;
+}
+
+function sortItems(items: MarketListing[]) {
+  return [...items].sort((a, b) => a.created_at.localeCompare(b.created_at));
 }
 
 /**

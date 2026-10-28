@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { createContext, useContext, useRef, useState, useTransition, type CSSProperties, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useId, useRef, useState, useTransition, type CSSProperties, type ReactNode } from "react";
 import type {
   Guest,
   GuestPriority,
@@ -619,6 +619,35 @@ function GuestRowMenu({
 }) {
   const [open, setOpen] = useState(false);
   const [, startTransition] = useTransition();
+  // The menu is a native popover, so it sits in the browser's top layer:
+  // nothing on the page can paint over it or swallow its clicks, and a click
+  // anywhere outside it (or Escape) closes it.
+  const menuId = useId();
+  const menuRef = useRef<HTMLDivElement>(null);
+  const close = () => menuRef.current?.hidePopover();
+
+  // Runs before the button opens the popover: pin it under the button, or
+  // above it when there isn't room below.
+  function placeMenu(button: HTMLElement) {
+    const menu = menuRef.current;
+    if (!menu) return;
+    const rect = button.getBoundingClientRect();
+    const below = window.innerHeight - rect.bottom >= 360;
+    menu.style.right = `${window.innerWidth - rect.right}px`;
+    menu.style.top = below ? `${rect.bottom + 4}px` : "auto";
+    menu.style.bottom = below ? "auto" : `${window.innerHeight - rect.top + 4}px`;
+  }
+
+  useEffect(() => {
+    if (!open) return;
+    const hide = () => menuRef.current?.hidePopover();
+    window.addEventListener("scroll", hide, true);
+    window.addEventListener("resize", hide);
+    return () => {
+      window.removeEventListener("scroll", hide, true);
+      window.removeEventListener("resize", hide);
+    };
+  }, [open]);
 
   function setGrouping(field: "side" | "guest_type", value: string) {
     const formData = new FormData();
@@ -671,7 +700,8 @@ function GuestRowMenu({
         type="button"
         aria-label={`Actions for ${guest.name}`}
         aria-expanded={open}
-        onClick={() => setOpen((v) => !v)}
+        popoverTarget={menuId}
+        onClick={(e) => placeMenu(e.currentTarget)}
         className={`rounded-full border px-2 py-0.5 font-mono-numbers text-xs leading-5 transition-colors ${
           open
             ? "border-forest bg-forest text-parchment"
@@ -681,17 +711,15 @@ function GuestRowMenu({
         •••
       </button>
 
-      {open && (
-        <>
-          {/* Clicking anywhere else closes it -- no library, no listener. */}
-          <button
-            type="button"
-            aria-hidden
-            tabIndex={-1}
-            onClick={() => setOpen(false)}
-            className="fixed inset-0 z-20 cursor-default"
-          />
-          <div className="absolute right-0 z-30 mt-1 w-52 rounded-lg border border-hairline bg-card p-2 shadow-lg">
+      <div
+        id={menuId}
+        ref={menuRef}
+        popover="auto"
+        onToggle={(e) => setOpen(e.newState === "open")}
+        className="fixed inset-auto m-0 w-56 rounded-lg border border-hairline bg-card p-2 text-ink shadow-lg"
+      >
+        {open && (
+          <>
             <p className="px-2 pb-1 font-mono-numbers text-[10px] uppercase tracking-[0.15em] text-ink/40">
               Side
             </p>
@@ -744,7 +772,7 @@ function GuestRowMenu({
                 className={itemClass}
                 onClick={() => {
                   onEdit();
-                  setOpen(false);
+                  close();
                 }}
               >
                 Edit details
@@ -762,7 +790,7 @@ function GuestRowMenu({
                 className={itemClass}
                 onClick={() => {
                   onThankYou();
-                  setOpen(false);
+                  close();
                 }}
               >
                 {showingThankYou ? "Hide thank-you note" : "Thank-you note"}
@@ -772,7 +800,7 @@ function GuestRowMenu({
                 className={itemClass}
                 onClick={() => {
                   handleToggleThanked();
-                  setOpen(false);
+                  close();
                 }}
               >
                 {guest.thanked ? "Mark un-thanked" : "Mark thanked"}
@@ -782,15 +810,15 @@ function GuestRowMenu({
                 className={`${itemClass} text-red-800`}
                 onClick={() => {
                   handleDelete();
-                  setOpen(false);
+                  close();
                 }}
               >
                 Remove from list
               </button>
             </div>
-          </div>
-        </>
-      )}
+          </>
+        )}
+      </div>
     </div>
   );
 }

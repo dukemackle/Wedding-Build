@@ -309,3 +309,39 @@ async function removePhotos(
     .map((url) => decodeURIComponent(url.slice(url.indexOf(marker) + marker.length)));
   if (paths.length > 0) await supabase.storage.from("market-photos").remove(paths);
 }
+
+const DATE = /^\d{4}-\d{2}-\d{2}$/;
+
+/**
+ * Marks a rental as out from one day to another, both included. RLS keeps
+ * it to the seller's own rentals; the exclusion constraint (0147) refuses
+ * dates that overlap a booking already there.
+ */
+export async function addRentalBooking(listingId: string, startsOn: string, endsOn: string): Promise<{ error?: string }> {
+  if (!DATE.test(startsOn) || !DATE.test(endsOn)) return { error: "Pick the dates it's out." };
+  if (endsOn < startsOn) return { error: "The return date is before the pickup date." };
+  const { supabase } = await requireUser();
+  const { error } = await supabase
+    .from("market_rental_bookings")
+    .insert({ listing_id: listingId, starts_on: startsOn, ends_on: endsOn });
+  if (error?.code === "23P01") return { error: "Those dates overlap a booking you've already marked." };
+  if (error?.code === "23514") return { error: "A booking can be up to 60 days." };
+  if (error) return { error: "Couldn't save those dates — please try again." };
+  revalidatePath("/marketplace");
+  revalidatePath(`/marketplace/${listingId}`);
+  return {};
+}
+
+export async function removeRentalBooking(listingId: string, bookingId: string): Promise<{ error?: string }> {
+  const { supabase } = await requireUser();
+  const { data, error } = await supabase
+    .from("market_rental_bookings")
+    .delete()
+    .eq("id", bookingId)
+    .eq("listing_id", listingId)
+    .select("id");
+  if (error || !data?.length) return { error: "Couldn't free up those dates — please try again." };
+  revalidatePath("/marketplace");
+  revalidatePath(`/marketplace/${listingId}`);
+  return {};
+}

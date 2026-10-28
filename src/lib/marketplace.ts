@@ -1,5 +1,5 @@
 import { COLOR_FAMILIES } from "@/lib/site-design";
-import type { MarketListing } from "@/lib/supabase/types";
+import type { MarketListing, MarketSet } from "@/lib/supabase/types";
 
 /**
  * The marketplace's fixed vocabularies, shared by the browse screen, the
@@ -150,6 +150,44 @@ export function guestFit(quantity: number, guests: number): string | null {
   return null;
 }
 
+/** What "Shop your wedding" matches a listing against. */
+export type WeddingMatch = {
+  /** Colour families from their guest-site palette, or picked by hand. */
+  colors: string[];
+  guests: number;
+  /** yyyy-mm-dd, or null before they've set one. */
+  date: string | null;
+  /** Rentals already out on that date. */
+  bookedIds: ReadonlySet<string>;
+};
+
+/** A rental with nothing booked on their date. False with no date to check. */
+export function freeOnDate(listing: MarketListing, match: Pick<WeddingMatch, "date" | "bookedIds">) {
+  return listing.listing_type === "rent" && match.date !== null && !match.bookedIds.has(listing.id);
+}
+
+/**
+ * Whether a listing suits this wedding: one of its colours (when they have
+ * any), enough of it for their guests or tables (a single arch or dress fits
+ * any size), and, for a rental, not already out on their date.
+ */
+export function matchesWedding(listing: MarketListing, match: WeddingMatch) {
+  if (match.colors.length > 0 && !listing.color_families.some((c) => match.colors.includes(c))) return false;
+  if (match.guests > 0 && listing.quantity > 1 && guestFit(listing.quantity, match.guests) === null) return false;
+  if (listing.listing_type === "rent" && match.bookedIds.has(listing.id)) return false;
+  return true;
+}
+
+/** "Sat, Jun 12, 2027" style, for the date chip; the date is a calendar day. */
+export function formatWeddingDate(date: string) {
+  return new Date(`${date}T12:00:00Z`).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+    timeZone: "UTC",
+  });
+}
+
 /** "Listed 3 days ago", the way a marketplace dates things. */
 export function listedAgo(iso: string, now = Date.now()) {
   const minutes = Math.max(0, Math.round((now - new Date(iso).getTime()) / 60000));
@@ -197,4 +235,21 @@ export function pinListings(listings: MarketListing[]): PinnedMarketListing[] {
       const [dLat, dLng] = nudge(l.id);
       return { ...l, latitude: l.latitude! + dLat, longitude: l.longitude! + dLng };
     });
+}
+
+/** A set is at least two things, and no more than a seller would pick through. */
+export const MIN_SET_ITEMS = 2;
+export const MAX_SET_ITEMS = 24;
+
+/** A set with the items in it that are still for sale, oldest first. */
+export type MarketSetWithItems = MarketSet & { items: MarketListing[] };
+
+/** The items still up for grabs: a set shows only those, and needs two. */
+export function liveSetItems(items: MarketListing[]) {
+  return items.filter((l) => l.status === "active" || l.status === "pending");
+}
+
+/** What the items cost one by one, for "Save $95" on the set price. */
+export function separatePriceCents(items: MarketListing[]) {
+  return items.reduce((sum, l) => sum + l.price_cents, 0);
 }
