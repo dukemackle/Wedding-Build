@@ -135,3 +135,23 @@ export function duplicatePosition(x: number, y: number, size: Footprint) {
     position_y: Math.round(step(y, size.height, Math.max(CANVAS_HEIGHT, y + size.height))),
   };
 }
+
+/**
+ * A block of chairs is sized, not counted: its width sets the chairs in a
+ * row and its depth the number of rows, so the 2D plan, the 3D view and the
+ * ceremony layouts all agree on how many people a block seats. A chair is
+ * about 55 cm wide; rows sit about 90 cm apart, back to back.
+ */
+export const CHAIR_PITCH = Math.round(0.55 * WORLD_SCALE);
+export const ROW_PITCH = Math.round(0.9 * WORLD_SCALE);
+
+export function chairBlock(size: Footprint) {
+  const perRow = Math.max(1, Math.round(size.width / CHAIR_PITCH));
+  const rows = Math.max(1, Math.round(size.height / ROW_PITCH));
+  return { perRow, rows, seats: perRow * rows };
+}
+
+/** Canvas pixels as whole feet, for couples (the plan is drawn at 45 a metre). */
+export function toFeet(px: number) {
+  return Math.round((px / WORLD_SCALE) * 3.28084);
+}

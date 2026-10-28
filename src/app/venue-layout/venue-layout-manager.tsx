@@ -41,6 +41,8 @@ import {
   ITEM_TYPE_DIMENSIONS,
   MAX_ITEM_SIZE,
   MIN_ITEM_SIZE,
+  ROW_PITCH,
+  chairBlock,
   chairSize,
   clamp,
   planHeight,
@@ -146,7 +148,11 @@ function guestStatusHint(guest: Guest) {
 // (no separate size field to keep in sync) -- more seats draws a bigger
 // shape, a rectangle grows mostly in width like a real banquet table.
 function itemDisplayName(item: VenueLayoutItem) {
-  return item.label?.trim() || ITEM_TYPE_LABELS[item.item_type];
+  const label = item.label?.trim();
+  if (label) return label;
+  // A block of chairs says how many it seats, which follows its size.
+  if (item.item_type === "chairs") return `${chairBlock(itemDimensions(item)).seats} chairs`;
+  return ITEM_TYPE_LABELS[item.item_type];
 }
 
 function shapeClassName(shape: TableShape) {
@@ -1121,6 +1127,10 @@ function ItemNode({
   });
   const toolbarBelow = pos.y * scale < 60;
   const surface = itemSurface(roomStyle, item.item_type);
+  // Chairs draw on their own layer, cut into rows, so the label over them
+  // isn't cut up too.
+  const chairArt = surface && item.item_type === "chairs" ? surface : null;
+  const chairRows = chairArt ? chairBlock(size).rows : 0;
 
   return (
     <div
@@ -1143,18 +1153,30 @@ function ItemNode({
       <div
         style={{
           transform: `rotate(${rotation}deg)`,
-          ...(surface ? { ...surface.style, borderColor: surface.border } : {}),
+          ...(surface ? { ...(chairArt ? {} : surface.style), borderColor: surface.border } : {}),
         }}
         className={`relative h-full w-full select-none rounded-lg border-2 text-sm ${surface ? "shadow-md" : `shadow-sm ${ITEM_TYPE_COLORS[item.item_type]}`} ${isSelected ? "ring-4 ring-brass/60" : ""}`}
       >
+        {chairArt && (
+          <div
+            aria-hidden
+            className="absolute inset-0 rounded-md"
+            style={{
+              ...chairArt.style,
+              ...(chairRows > 1
+                ? { maskImage: `repeating-linear-gradient(180deg, #000 0 ${ROW_PITCH - 14}px, transparent ${ROW_PITCH - 14}px ${ROW_PITCH}px)` }
+                : {}),
+            }}
+          />
+        )}
         <div
           style={uprightLabelStyle(rotation)}
-          className="flex h-full w-full flex-col items-center justify-center overflow-hidden p-2 text-center"
+          className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden p-2 text-center"
         >
           {surface ? (
             <p
-              className="font-mono-numbers text-sm uppercase tracking-[0.2em]"
-              style={{ color: surface.ink }}
+              className={`font-mono-numbers text-sm uppercase tracking-[0.2em] ${chairArt ? "rounded-full bg-forest/85 px-2.5 py-0.5 text-parchment" : ""}`}
+              style={chairArt ? undefined : { color: surface.ink }}
             >
               {itemDisplayName(item)}
             </p>
@@ -2785,6 +2807,7 @@ export function VenueLayoutManager({
           guestSeats={totalPeople}
           roomId={formRoomId}
           phaseId={activePhaseId ?? undefined}
+          ceremony={activePhase?.kind === "ceremony"}
           hasContent
           seatedPeople={activePhaseId ? seatedInPhase : seatedPeople}
           onDone={() => setAddFormType(null)}
@@ -2802,6 +2825,7 @@ export function VenueLayoutManager({
           guestSeats={totalPeople}
           roomId={formRoomId}
           phaseId={activePhaseId ?? undefined}
+          ceremony={activePhase?.kind === "ceremony"}
           hasContent={false}
           seatedPeople={0}
         />

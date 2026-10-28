@@ -5,6 +5,7 @@ import { getOrCreateDefaultRoom } from "@/lib/venue-rooms";
 import { requireEditableWedding } from "@/lib/wedding-access";
 import { phaseIdFromForm } from "@/lib/layout-phase-access";
 import { LAYOUT_TEMPLATES, buildTemplate, type LayoutTemplateId } from "@/lib/layout-templates";
+import { CEREMONY_TEMPLATES, buildCeremony, type CeremonyTemplateId } from "@/lib/ceremony-templates";
 import { planSeating, type SeatGuest, type SeatTable } from "@/lib/auto-seat";
 
 /**
@@ -17,8 +18,9 @@ export async function applyLayoutTemplate(formData: FormData): Promise<{ error?:
   const { supabase, user, wedding, noWedding } = await requireEditableWedding();
   if (!wedding) return { error: noWedding };
 
-  const id = formData.get("template") as LayoutTemplateId;
-  if (!LAYOUT_TEMPLATES.some((t) => t.id === id)) return { error: "Pick a layout." };
+  const id = formData.get("template") as string;
+  const ceremony = CEREMONY_TEMPLATES.some((t) => t.id === id);
+  if (!ceremony && !LAYOUT_TEMPLATES.some((t) => t.id === id)) return { error: "Pick a layout." };
   const replace = formData.get("replace") === "1";
   const phase = await phaseIdFromForm(supabase, wedding.id, formData);
   if ("error" in phase) return { error: phase.error };
@@ -34,7 +36,9 @@ export async function applyLayoutTemplate(formData: FormData): Promise<{ error?:
     .neq("status", "declined")
     .returns<{ plus_one: boolean }[]>();
   const seats = (guests ?? []).reduce((s, g) => s + 1 + (g.plus_one ? 1 : 0), 0);
-  const layout = buildTemplate(id, seats);
+  const layout = ceremony
+    ? buildCeremony(id as CeremonyTemplateId, seats, { unity: formData.get("unity") === "1" })
+    : buildTemplate(id as LayoutTemplateId, seats);
 
   if (replace) {
     for (const table of ["seating_tables", "venue_layout_items"] as const) {
@@ -49,7 +53,8 @@ export async function applyLayoutTemplate(formData: FormData): Promise<{ error?:
   }
 
   const owner = { wedding_id: wedding.id, user_id: user.id, room_id, phase_id: phase.phaseId };
-  const { error: tableError } = await supabase.from("seating_tables").insert(
+  // A ceremony is chairs in rows, with no tables to seat anyone at.
+  const { error: tableError } = layout.tables.length === 0 ? { error: null } : await supabase.from("seating_tables").insert(
     layout.tables.map((t) => ({
       ...owner,
       name: t.name,
@@ -73,7 +78,7 @@ export async function applyLayoutTemplate(formData: FormData): Promise<{ error?:
       position_y: i.y,
       width: i.width,
       height: i.height,
-      rotation: 0,
+      rotation: i.rotation ?? 0,
     })),
   );
   if (itemError) return { error: itemError.message };

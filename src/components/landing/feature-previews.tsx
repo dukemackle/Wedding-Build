@@ -535,6 +535,7 @@ function SeatingDemo() {
     "Lena O.": "head",
   });
   const [picked, setPicked] = useState<string | null>(null);
+  const [ceremony, setCeremony] = useState(false);
 
   const seat = (name: string, table: string | null) => {
     if (!name) return;
@@ -625,19 +626,32 @@ function SeatingDemo() {
           <span className="mr-1 font-mono-numbers text-[10px] uppercase tracking-[0.2em] text-ink/50">
             Event
           </span>
-          {["Ceremony", "Cocktail hour", "Reception"].map((e, i) => (
-            <span
-              key={e}
-              className={`rounded-full border px-2.5 py-0.5 text-xs ${
-                i === 2 ? "border-forest bg-forest text-parchment" : "border-hairline text-ink/70"
-              }`}
-            >
-              {e}
-            </span>
-          ))}
+          {["Ceremony", "Cocktail hour", "Reception"].map((e, i) => {
+            const on = ceremony ? i === 0 : i === 2;
+            return i === 1 ? (
+              <span key={e} className="rounded-full border border-hairline px-2.5 py-0.5 text-xs text-ink/70">
+                {e}
+              </span>
+            ) : (
+              <button
+                key={e}
+                type="button"
+                onClick={() => setCeremony(i === 0)}
+                aria-pressed={on}
+                className={`rounded-full border px-2.5 py-0.5 text-xs ${
+                  on ? "border-forest bg-forest text-parchment" : "border-hairline text-ink/70 hover:border-forest/40"
+                }`}
+              >
+                {e}
+              </button>
+            );
+          })}
         </div>
       </div>
 
+      {ceremony ? (
+        <CeremonyDemo look={look} room={room} />
+      ) : (
       <div className="flex flex-col gap-4 p-4 sm:px-8 md:flex-row md:items-start">
         {/* The plan: tables where they stand in the room. */}
         <div
@@ -762,7 +776,61 @@ function SeatingDemo() {
           </p>
         </div>
       </div>
+      )}
     </Bleed>
+  );
+}
+
+/**
+ * The ceremony event: the "Classic aisle" ready-made layout, as it lands on
+ * the plan -- the arch, rows either side of the aisle, the front row kept
+ * for family.
+ */
+function CeremonyDemo({ look, room }: { look: (typeof DEMO_ROOMS)[keyof typeof DEMO_ROOMS]; room: keyof typeof DEMO_ROOMS }) {
+  const rows = 6;
+  const perSide = 6;
+  const side = (key: string) => (
+    <div key={key} className="flex flex-col gap-[6%]">
+      {Array.from({ length: rows }, (_, r) => (
+        <div key={r} className="relative flex gap-1">
+          {Array.from({ length: perSide }, (_, c) => (
+            <span key={c} aria-hidden className="h-3 w-3 rounded-sm sm:h-3.5 sm:w-3.5" style={{ background: r === 0 ? "#FFD301" : look.chair }} />
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+  return (
+    <div className="flex flex-col gap-4 p-4 sm:px-8 md:flex-row md:items-start">
+      <div
+        className="relative flex aspect-[4/3] min-w-0 flex-1 flex-col items-center rounded-lg border-[6px] pt-[5%]"
+        style={{ background: look.floor, borderColor: room === "barn" ? "#5b3a22" : "#e7ddc4" }}
+      >
+        <div className="flex w-full items-center justify-center">
+          <span className="rounded-full px-6 py-1.5 font-mono-numbers text-[10px] uppercase tracking-[0.15em] shadow-md" style={{ background: look.table, color: room === "barn" ? "#fff6d6" : "#14203d" }}>
+            Arch
+          </span>
+          <span className="absolute right-[5%] rounded-md bg-[#262626] sm:right-[14%] px-2 py-1 font-mono-numbers text-[9px] uppercase tracking-[0.15em] text-parchment">
+            Musicians
+          </span>
+        </div>
+        <span className="mt-[12%] rounded-full bg-forest/85 px-2 py-0.5 font-mono-numbers text-[9px] uppercase tracking-[0.15em] text-parchment">
+          Reserved for family
+        </span>
+        <div className="mt-2 flex h-[48%] gap-[9%]">
+          {side("left")}
+          {side("right")}
+        </div>
+      </div>
+      <div className="w-full shrink-0 rounded-lg border border-hairline bg-parchment p-4 md:w-60">
+        <p className="font-display text-lg font-semibold text-forest">Classic aisle</p>
+        <p className="mt-1 font-mono-numbers text-xs text-ink/70">6 rows of 12 · 72 chairs</p>
+        <p className="mt-0.5 text-xs text-ink/60">About 40 × 40 ft, 6 ft aisle</p>
+        <p className="mt-3 text-xs text-ink/60">
+          Pick a ready-made ceremony sized to your guest list: straight rows, angled rows or two aisles, with a unity table if you want one.
+        </p>
+      </div>
+    </div>
   );
 }
 

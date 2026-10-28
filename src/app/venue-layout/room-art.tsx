@@ -1,7 +1,7 @@
 import type { CSSProperties, ReactNode } from "react";
 import type { LayoutItemType } from "@/lib/supabase/types";
 import type { CenterpieceId, RoomStyle } from "@/lib/layout-styles";
-import { CANVAS_HEIGHT, CANVAS_WIDTH } from "@/lib/venue-layout-geometry";
+import { CANVAS_HEIGHT, CANVAS_WIDTH, CHAIR_PITCH } from "@/lib/venue-layout-geometry";
 
 /**
  * The artwork that turns the plan into a room: floor, walls and fixtures
@@ -300,7 +300,7 @@ export function itemSurface(style: RoomStyle, type: LayoutItemType): Surface | n
       };
     case "chairs":
       return {
-        style: { background: `repeating-linear-gradient(90deg, ${barn ? "#8a5d36" : "#d9b44a"} 0 18px, transparent 18px 26px)` },
+        style: { background: `repeating-linear-gradient(90deg, ${barn ? "#8a5d36" : "#d9b44a"} 0 18px, transparent 18px ${CHAIR_PITCH}px)` },
         ink: barn ? "#3a2717" : "#f6f3ec",
         border: "transparent",
       };
