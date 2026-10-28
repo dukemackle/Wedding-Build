@@ -260,6 +260,19 @@ The owner found the editor "too complicated" and struggled to find Sections.
   palettes that suit the look (the template's own, then light or dark like
   the page, same family first) and "More colours" for the full list.
 
+## Ivory, the starter template (decided 2026-10-28)
+
+The owner wanted templates to start clean and white. Approved from the mockup
+(https://claude.ai/artifact/1XpMHRqZf6SEBg2Noig6Ey): an eighth template,
+**Ivory** (side-by-side photo and names, Cormorant · Jost, cards page, the new
+`ivory` palette #faf7f0, colourways Classic white and Linen). It comes first in
+the gallery with a gold "Start here" tag (`badge`), and it's what a couple who
+hasn't picked a template starts on (`STARTER_DESIGN`): their guest site before
+anything is published (`parseSiteDesign(null)`), the base new designs go over,
+and the template preview "Pick a template" opens when they have no designs.
+Warm white rather than pure #fff, because stark white next to a warm photo
+reads like an app screen. Monogram keeps true white.
+
 ## Seven templates (decided 2026-10-27)
 
 The owner saw no change from the signature work: 29 templates, most the same

@@ -140,9 +140,9 @@ export default async function DashboardPage() {
     photoVenueId
       ? supabase
           .from("venues")
-          .select("name, image_url")
+          .select("name, image_url, photo_urls")
           .eq("id", photoVenueId)
-          .maybeSingle<Pick<Venue, "name" | "image_url">>()
+          .maybeSingle<Pick<Venue, "name" | "image_url" | "photo_urls">>()
       : Promise.resolve({ data: null }),
     attireItemId
       ? supabase
@@ -153,6 +153,18 @@ export default async function DashboardPage() {
       : Promise.resolve({ data: null }),
   ]);
   const venueForPhoto = bookedVenue ?? savedVenue;
+  // The venue's photos for the dashboard backdrop: the couple's own pictures
+  // of their venue when they've added some, else the listing's gallery.
+  const ownVenuePhotos = wedding.own_venue_photo_urls ?? [];
+  const listingPhotos = venueForPhoto
+    ? (venueForPhoto.photo_urls?.length ? venueForPhoto.photo_urls : [venueForPhoto.image_url]).filter(
+        (url): url is string => Boolean(url),
+      )
+    : [];
+  const venuePhotos = {
+    name: venueForPhoto?.name ?? wedding.own_venue_name ?? null,
+    photos: ownVenuePhotos.length > 0 ? ownVenuePhotos : listingPhotos,
+  };
 
   const checklistItems = checklist ?? [];
   const guestRows = guests ?? [];
@@ -283,6 +295,7 @@ export default async function DashboardPage() {
       <WeddingDashboard
         initialWedding={wedding}
         bookedVenue={bookedVenue}
+        venuePhotos={venuePhotos}
         canEdit={planners.myRole !== "view"}
         heroActions={<InviteToPlan data={planners} currentUserId={user.id} />}
       />

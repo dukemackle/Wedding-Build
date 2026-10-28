@@ -962,6 +962,7 @@ export const PALETTES = [
   { id: "classic-white", name: "Classic white", family: "neutral", bg: "#ffffff", ink: "#1a1a1a", heading: "#1a1a1a", accent: "#5e5e5e" },
   { id: "ivory-black", name: "Ivory & ink", family: "neutral", bg: "#fbf9f4", ink: "#111111", heading: "#111111", accent: "#111111" },
   { id: "linen", name: "Linen", family: "neutral", bg: "#f2eee6", ink: "#2e2a24", heading: "#4a4237", accent: "#6b5f4c" },
+  { id: "ivory", name: "Ivory", family: "neutral", bg: "#faf7f0", ink: "#2a2723", heading: "#2a2723", accent: "#6f6249" },
   // Dark
   { id: "midnight-navy", name: "Midnight navy", family: "blue", bg: "#14203d", ink: "#f3ead8", heading: "#f3ead8", accent: "#e0b65a" },
   { id: "royal", name: "Royal", family: "blue", bg: "#1c2a6b", ink: "#fff7d6", heading: "#fff7d6", accent: "#ffd301" },

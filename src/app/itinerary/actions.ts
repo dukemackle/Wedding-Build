@@ -2,9 +2,9 @@
 
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
-import type { Wedding } from "@/lib/supabase/types";
+import type { ItineraryEvent, Wedding } from "@/lib/supabase/types";
 import { sendSms } from "@/lib/sms";
-import { formatFullDate, formatTime } from "@/lib/itinerary";
+import { audienceOf, formatFullDate, formatTime, guessAudience, isAudience } from "@/lib/itinerary";
 import { requireEditableWedding } from "@/lib/wedding-access";
 
 function eventFieldsFromForm(formData: FormData) {
@@ -18,6 +18,14 @@ function eventFieldsFromForm(formData: FormData) {
     return { error: "Give the event a title." } as const;
   }
 
+  // Only the schedule's own form names an audience; an event saved from
+  // anywhere else (Wren) gets a guess from its title when it's new, and keeps
+  // its audience when it's being edited.
+  const audienceValue = formData.get("audience");
+  const audience = isAudience(audienceValue) ? audienceValue : undefined;
+  // Guests can only RSVP to what they can see (0143's check).
+  const guestFacing = (audience ?? "guests") === "guests";
+
   return {
     fields: {
       event_date: eventDate,
@@ -30,10 +38,11 @@ function eventFieldsFromForm(formData: FormData) {
       // that saves an event leaves them as they were.
       ...(formData.has("rsvp_fields")
         ? {
-            rsvp: formData.get("rsvp") === "on",
-            invite_only: formData.get("rsvp") === "on" && formData.get("invite_only") === "on",
+            rsvp: guestFacing && formData.get("rsvp") === "on",
+            invite_only: guestFacing && formData.get("rsvp") === "on" && formData.get("invite_only") === "on",
           }
         : {}),
+      ...(audience ? { audience } : {}),
     },
   } as const;
 }
@@ -53,6 +62,7 @@ export async function addItineraryEvent(formData: FormData): Promise<{ error?: s
   const { error } = await supabase.from("itinerary_events").insert({
     wedding_id: wedding.id,
     user_id: user.id,
+    audience: guessAudience(parsed.fields.title),
     ...parsed.fields,
   });
 
@@ -129,10 +139,12 @@ export async function updateItineraryEvent(formData: FormData): Promise<{ error?
 
   const { data: existing } = await supabase
     .from("itinerary_events")
-    .select("event_date, start_time, end_time, location")
+    .select("event_date, start_time, end_time, location, audience")
     .eq("id", id)
     .eq("wedding_id", wedding.id)
-    .maybeSingle<Pick<ScheduleFields, "event_date" | "start_time" | "end_time" | "location">>();
+    .maybeSingle<
+      Pick<ScheduleFields, "event_date" | "start_time" | "end_time" | "location"> & Pick<ItineraryEvent, "audience">
+    >();
 
   const { error } = await supabase
     .from("itinerary_events")
@@ -155,7 +167,11 @@ export async function updateItineraryEvent(formData: FormData): Promise<{ error?
   // unpublished it's still working notes -- times move, events get added and
   // dropped -- and a "Schedule update" text pointing at a page that shows
   // nothing is worse than no text at all.
-  if (scheduleChanged && wedding.itinerary_published) {
+  // Nor about events that aren't theirs: hair and makeup moving is the
+  // wedding party's news, not every guest's.
+  const guestEvent =
+    existing && audienceOf(existing) === "guests" && (parsed.fields.audience ?? "guests") === "guests";
+  if (scheduleChanged && guestEvent && wedding.itinerary_published) {
     await notifyGuestsOfScheduleChange(supabase, wedding, parsed.fields);
   }
 

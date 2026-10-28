@@ -22,6 +22,17 @@ They're summarised here only by reference; CLAUDE.md is the source.
   open. Shared pieces in `src/components/checklist-ui.tsx`, used by the page
   and the landing demo. Mockup: https://claude.ai/artifact/H58PysKBFYWt2whBERk5rH
 
+- **2026-10-28:** Guest-site templates default to warm white. A new eighth
+  template, **Ivory**, goes first in the gallery with a "Start here" tag, and
+  new couples start on it. Mockup: https://claude.ai/artifact/1XpMHRqZf6SEBg2Noig6Ey.
+  Applied in `site-templates.ts` (`STARTER_DESIGN`); see docs/guest-site-editor.md.
+- **2026-10-28:** Dashboard backdrop always has photos: the Photos popover
+  offers Your photos / Your venue (booked, else most recently saved) /
+  Inspiration (the landing page's eight credited photos, fixed set), chosen
+  per wedding (`dashboard_photo_source`, 0143), defaulting to the first with
+  photos in that order. Royal-blue radio rows; a bottom sheet on phones.
+  Mockup: https://claude.ai/artifact/PbHaMShSp3P6rNdP7acMNd
+
 - **2026-10-23:** Saved venues/vendors follow Zillow's favourites: a full
   page over the map (Back to search, "Saved" title, Venues/Vendors switch,
   summary bar with sort, the search's photo cards in three columns / one on a
@@ -252,6 +263,11 @@ _None recorded yet._
 
 - Cards separate from the page by shadow, with hairline borders, on a warm
   white base (globals.css header comment).
+
+- **2026-10-28:** Itinerary audiences approved: one schedule, each event
+  tagged Guests (gold), Wedding party & family (Royal blue tint) or Just us &
+  vendors (grey, lock); "Everything / What guests see" switch; publish banner
+  counts what goes public; Print run sheet is a menu of three sheets.
 
 ## Copy and voice
 

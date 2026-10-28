@@ -3,9 +3,24 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import type { ItineraryEvent, Wedding } from "@/lib/supabase/types";
 import { PrintButton } from "@/components/print-button";
+import { audienceOf } from "@/lib/itinerary";
 import { PrintSheet } from "./print-sheet";
 
-export default async function ItineraryPrintPage() {
+/** Which run sheet: everything, the wedding party's, or the guests'. */
+const SHEETS = {
+  all: { eyebrow: "Wedding weekend run sheet", shows: ["guests", "party", "private"] },
+  party: { eyebrow: "Wedding party & family schedule", shows: ["guests", "party"] },
+  guests: { eyebrow: "Wedding weekend schedule", shows: ["guests"] },
+} as const;
+
+export default async function ItineraryPrintPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ for?: string }>;
+}) {
+  const { for: forParam } = await searchParams;
+  const sheet = SHEETS[forParam === "party" || forParam === "guests" ? forParam : "all"];
+
   const supabase = await createClient();
   const {
     data: { user },
@@ -45,7 +60,12 @@ export default async function ItineraryPrintPage() {
           <PrintButton />
         </div>
 
-        <PrintSheet coupleNames={coupleNames} events={events ?? []} />
+        <PrintSheet
+          coupleNames={coupleNames}
+          eyebrow={sheet.eyebrow}
+          showAudience={sheet === SHEETS.all}
+          events={(events ?? []).filter((e) => (sheet.shows as readonly string[]).includes(audienceOf(e)))}
+        />
       </div>
     </main>
   );

@@ -42,6 +42,7 @@ import {
   type SectionKey,
   type TextSlotId,
 } from "./site-design";
+import { STARTER_DESIGN } from "./site-templates";
 
 /**
  * The guest site design's validation (see site-design.ts for what each
@@ -216,9 +217,13 @@ export const siteDesignSchema = z.object({
   template: z.string().regex(/^[a-z-]{1,40}$/).nullable().catch(null),
 });
 
-/** Whatever is in the column -- null, an old shape, junk -- as a usable design. */
+/**
+ * Whatever is in the column -- null, an old shape, junk -- as a usable design.
+ * Null means nothing was ever published, so guests see the starter (Ivory).
+ */
 export function parseSiteDesign(value: unknown): SiteDesign {
-  const result = siteDesignSchema.safeParse(value ?? {});
+  if (value == null) return STARTER_DESIGN;
+  const result = siteDesignSchema.safeParse(value);
   return result.success ? result.data : DEFAULT_SITE_DESIGN;
 }
 

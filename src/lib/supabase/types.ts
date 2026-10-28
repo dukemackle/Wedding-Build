@@ -26,6 +26,8 @@ export type Wedding = {
   dashboard_photo_urls: string[];
   /** Where to centre each dashboard photo: {url: [x%, y%]}. */
   dashboard_photo_focus: Record<string, [number, number]>;
+  /** Which photos play behind the dashboard (0143); null picks the best available. Absent until that migration runs. */
+  dashboard_photo_source?: "own" | "venue" | "inspiration" | null;
   rsvp_deadline: string | null;
   dress_code: string | null;
   travel_notes: string | null;
@@ -669,6 +671,8 @@ export type AttireShortlistEntry = {
   created_at: string;
 };
 
+export type EventAudience = "guests" | "party" | "private";
+
 export type ItineraryEvent = {
   id: string;
   wedding_id: string;
@@ -683,6 +687,8 @@ export type ItineraryEvent = {
   rsvp: boolean;
   /** Only the guests named in guest_event_invites see it (0109). */
   invite_only: boolean;
+  /** Who the event is for: only 'guests' reaches the guest site (0143). */
+  audience: EventAudience;
   created_at: string;
   updated_at: string;
 };

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
@@ -5,6 +6,9 @@ import { AppNav } from "@/components/app-nav";
 import { PageShell } from "@/components/page-shell";
 import { BUDGET_CATEGORIES, VENDOR_CATEGORY_TO_BUDGET_KEY } from "@/lib/budget-categories";
 import { isAddOn } from "@/lib/estimate-add-ons";
+import { vendorHref, venueHref } from "@/lib/public-listings";
+import { vendorCategoryImage } from "@/lib/vendor-category-icons";
+import { venueTypeImage } from "@/lib/wedding-options";
 import { CATEGORY_ICONS } from "@/app/budget/budget-table";
 import { ContractsPanel } from "@/app/budget/contracts-panel";
 import type {
@@ -35,8 +39,23 @@ type LineItemRow = {
   venue_id: string | null;
 };
 
-type VendorDetail = { id: string; name: string; category: string | null; contact_email: string | null };
-type VenueDetail = { id: string; name: string; city: string | null; state: string | null };
+type VendorDetail = {
+  id: string;
+  slug: string | null;
+  name: string;
+  category: string | null;
+  contact_email: string | null;
+  image_url: string | null;
+};
+type VenueDetail = {
+  id: string;
+  slug: string | null;
+  name: string;
+  city: string | null;
+  state: string | null;
+  venue_type: string | null;
+  image_url: string | null;
+};
 
 type Booking = {
   key: string;
@@ -48,6 +67,8 @@ type Booking = {
   email: string | null;
   phone: string | null;
   contracts: BudgetContract[];
+  /** The linked listing's cover (or its drawing), so the card shows what was booked. */
+  photo: { src: string; href: string } | null;
 };
 
 const sectionClass = "rounded-lg border border-hairline bg-card p-5 shadow-sm";
@@ -58,42 +79,60 @@ function BookingCard({ booking }: { booking: Booking }) {
   const Icon = CATEGORY_ICONS[booking.key];
   return (
     <div className="flex flex-col rounded-lg border border-forest/30 bg-card p-5 shadow-sm">
-      <p className="flex items-center gap-1.5 text-xs uppercase tracking-wide text-ink/50">
-        {Icon && <Icon className="h-3.5 w-3.5 text-brass" />}
-        {booking.label}
-      </p>
-      {booking.name ? (
-        <p className="mt-1 font-display text-xl font-semibold text-forest">{booking.name}</p>
-      ) : (
-        <p className="mt-1 text-sm text-ink/60">
-          Contract on file.{" "}
-          <Link href="/budget" className="text-brass hover:underline">
-            Add who you booked on the budget
-          </Link>
-          .
-        </p>
-      )}
-      {(booking.place || booking.price != null) && (
-        <p className="mt-0.5 text-sm text-ink/60">
-          {[booking.place, booking.price != null ? currency.format(booking.price) : null]
-            .filter(Boolean)
-            .join(" · ")}
-        </p>
-      )}
-      {(booking.email || booking.phone) && (
-        <div className="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-sm">
-          {booking.email && (
-            <a href={`mailto:${booking.email}`} className="text-brass hover:underline">
-              {booking.email}
-            </a>
+      <div className="flex items-start gap-4">
+        <div className="min-w-0 flex-1">
+          <p className="flex items-center gap-1.5 text-xs uppercase tracking-wide text-ink/50">
+            {Icon && <Icon className="h-3.5 w-3.5 text-brass" />}
+            {booking.label}
+          </p>
+          {booking.name ? (
+            <p className="mt-1 font-display text-xl font-semibold text-forest">{booking.name}</p>
+          ) : (
+            <p className="mt-1 text-sm text-ink/60">
+              Contract on file.{" "}
+              <Link href="/budget" className="text-brass hover:underline">
+                Add who you booked on the budget
+              </Link>
+              .
+            </p>
           )}
-          {booking.phone && (
-            <a href={`tel:${booking.phone}`} className="text-brass hover:underline">
-              {booking.phone}
-            </a>
+          {(booking.place || booking.price != null) && (
+            <p className="mt-0.5 text-sm text-ink/60">
+              {[booking.place, booking.price != null ? currency.format(booking.price) : null]
+                .filter(Boolean)
+                .join(" · ")}
+            </p>
+          )}
+          {(booking.email || booking.phone) && (
+            <div className="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-sm">
+              {booking.email && (
+                <a href={`mailto:${booking.email}`} className="text-brass hover:underline">
+                  {booking.email}
+                </a>
+              )}
+              {booking.phone && (
+                <a href={`tel:${booking.phone}`} className="text-brass hover:underline">
+                  {booking.phone}
+                </a>
+              )}
+            </div>
           )}
         </div>
-      )}
+        {booking.photo && (
+          <Link
+            href={booking.photo.href}
+            className="shrink-0 overflow-hidden rounded-md border border-hairline shadow-sm"
+          >
+            <Image
+              src={booking.photo.src}
+              alt={booking.name ?? booking.label}
+              width={160}
+              height={160}
+              className="h-16 w-16 object-cover sm:h-20 sm:w-20"
+            />
+          </Link>
+        )}
+      </div>
       <div className="mt-auto">
         <ContractsPanel rowKey={booking.key} isCustom={false} contracts={booking.contracts} />
       </div>
@@ -205,14 +244,14 @@ export default async function BookingsPage() {
     vendorIds.length
       ? supabase
           .from("vendors")
-          .select("id, name, category, contact_email")
+          .select("id, slug, name, category, contact_email, image_url")
           .in("id", vendorIds)
           .returns<VendorDetail[]>()
       : Promise.resolve({ data: [] as VendorDetail[] }),
     venueIds.length
       ? supabase
           .from("venues")
-          .select("id, name, city, state")
+          .select("id, slug, name, city, state, venue_type, image_url")
           .in("id", venueIds)
           .returns<VenueDetail[]>()
       : Promise.resolve({ data: [] as VenueDetail[] }),
@@ -290,6 +329,18 @@ export default async function BookingsPage() {
         venueFavorite?.contact_phone ??
         null,
       contracts,
+      // The couple's own photo of their venue beats the listing's.
+      photo: venue
+        ? {
+            src:
+              (venue.id === wedding.venue_id ? wedding.own_venue_photo_urls?.[0] : null) ||
+              venue.image_url ||
+              venueTypeImage(venue.venue_type),
+            href: venueHref(venue),
+          }
+        : vendor
+          ? { src: vendor.image_url || vendorCategoryImage(vendor.category), href: vendorHref(vendor) }
+          : null,
     });
   }
 
