@@ -50,7 +50,7 @@ const BLURBS: Record<string, string> = {
  * On the landing page each box opens with a real wedding photo rather than the
  * dashboard's drawing, so the grid reads as weddings, not app mock-ups; the
  * demo behind each box still shows the product. All Unsplash (approved
- * 2026-10-22).
+ * 2026-10-22; seven re-picked 2026-10-28, Venues, Attire and Layout kept).
  */
 const PHOTOS: Record<string, { file: string; alt: string }> = {
   "/budget": { file: "budget", alt: "A calculator and stationery among pink roses" },
