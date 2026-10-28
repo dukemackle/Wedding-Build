@@ -1,5 +1,5 @@
 import { COLOR_FAMILIES } from "@/lib/site-design";
-import type { MarketListing } from "@/lib/supabase/types";
+import type { MarketListing, MarketSet } from "@/lib/supabase/types";
 
 /**
  * The marketplace's fixed vocabularies, shared by the browse screen, the
@@ -197,4 +197,21 @@ export function pinListings(listings: MarketListing[]): PinnedMarketListing[] {
       const [dLat, dLng] = nudge(l.id);
       return { ...l, latitude: l.latitude! + dLat, longitude: l.longitude! + dLng };
     });
+}
+
+/** A set is at least two things, and no more than a seller would pick through. */
+export const MIN_SET_ITEMS = 2;
+export const MAX_SET_ITEMS = 24;
+
+/** A set with the items in it that are still for sale, oldest first. */
+export type MarketSetWithItems = MarketSet & { items: MarketListing[] };
+
+/** The items still up for grabs: a set shows only those, and needs two. */
+export function liveSetItems(items: MarketListing[]) {
+  return items.filter((l) => l.status === "active" || l.status === "pending");
+}
+
+/** What the items cost one by one, for "Save $95" on the set price. */
+export function separatePriceCents(items: MarketListing[]) {
+  return items.reduce((sum, l) => sum + l.price_cents, 0);
 }
