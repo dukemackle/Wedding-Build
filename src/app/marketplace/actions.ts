@@ -15,6 +15,7 @@ import {
   sellerBadgeFor,
 } from "@/lib/marketplace";
 import { announcePriceDrop, postListingEvent } from "@/lib/marketplace-server";
+import { requireEditableWedding } from "@/lib/wedding-access";
 import type { MarketListing, MarketListingStatus } from "@/lib/supabase/types";
 
 function str(formData: FormData, key: string): string {
@@ -343,5 +344,15 @@ export async function removeRentalBooking(listingId: string, bookingId: string):
   if (error || !data?.length) return { error: "Couldn't free up those dates — please try again." };
   revalidatePath("/marketplace");
   revalidatePath(`/marketplace/${listingId}`);
+  return {};
+}
+
+/** The colours "Shop your wedding" matches, picked by hand (0149). */
+export async function saveMarketColors(colors: string[]): Promise<{ error?: string }> {
+  const picked = [...new Set(colors)].filter((c) => MARKET_COLORS.some((m) => m.id === c)).slice(0, 3);
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
+  if (!wedding) return { error: noWedding };
+  const { error } = await supabase.from("weddings").update({ market_colors: picked }).eq("id", wedding.id);
+  if (error) return { error: "Couldn't save your colours — please try again." };
   return {};
 }
