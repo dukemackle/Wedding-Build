@@ -38,6 +38,7 @@ import {
   ITEM_TYPE_DIMENSIONS,
   MAX_ITEM_SIZE,
   MIN_ITEM_SIZE,
+  chairSize,
   clamp,
   itemDimensions,
   tableFootprint,
@@ -59,6 +60,7 @@ import {
   type RoomStyle,
 } from "@/lib/layout-styles";
 import { Centerpiece, RoomBackdrop, itemSurface } from "./room-art";
+import { LayoutTemplatePicker, SeatTheRest } from "./layout-helpers";
 
 const VenueLayout3DView = dynamic(() => import("./venue-layout-3d-view"), {
   ssr: false,
@@ -762,8 +764,7 @@ function tableSeats(
 }
 
 // The plan is drawn at ~0.6x on a laptop, so chairs and their initials are
-// sized to still read there.
-const CHAIR = 30;
+// sized to still read there (CHAIR, 30); a shrunk table's are smaller.
 
 /**
  * The chairs round a table. Each sits in the table's own (rotating) box, with
@@ -776,6 +777,7 @@ function TableChairs({
   seats,
   rotation,
   chairColor,
+  chair,
 }: {
   shape: TableShape;
   width: number;
@@ -783,8 +785,9 @@ function TableChairs({
   seats: Seat[];
   rotation: number;
   chairColor: string;
+  chair: number;
 }) {
-  const spots = chairPositions(shape, width, height, seats.length, CHAIR / 2 + 4);
+  const spots = chairPositions(shape, width, height, seats.length, chair / 2 + 4);
   return (
     <>
       {spots.map((spot, i) => {
@@ -793,7 +796,7 @@ function TableChairs({
           <div
             key={seat?.key ?? `empty-${i}`}
             className="pointer-events-none absolute"
-            style={{ left: spot.x - CHAIR / 2, top: spot.y - CHAIR / 2, width: CHAIR, height: CHAIR }}
+            style={{ left: spot.x - chair / 2, top: spot.y - chair / 2, width: chair, height: chair }}
           >
             <div
               className="absolute inset-0 rounded-[6px] shadow-sm"
@@ -806,8 +809,9 @@ function TableChairs({
             {seat ? (
               <span
                 title={seat.name}
-                className={`absolute -inset-0.5 grid place-items-center rounded-full border-2 border-white text-[12px] font-semibold leading-none ${seat.settle ? "wren-settle" : ""}`}
+                className={`absolute -inset-0.5 grid place-items-center rounded-full border-2 border-white font-semibold leading-none ${seat.settle ? "wren-settle" : ""}`}
                 style={{
+                  fontSize: Math.round(chair * 0.4),
                   background: seat.color,
                   color: inkOn(seat.color),
                   transform: `rotate(${-rotation}deg)`,
@@ -886,7 +890,8 @@ function TableNode({
 
   const linen = tableLinen(roomStyle, table.linen);
   const seats = tableSeats(assignedGuests, table.capacity, theme, justSeated);
-  const labelTop = height / 2 + rotatedHalfHeight(width, height, rotation) + CHAIR + 10;
+  const chair = chairSize(table);
+  const labelTop = height / 2 + rotatedHalfHeight(width, height, rotation) + chair + 10;
 
   // Selection and drop states take over the cloth's own edge colour.
   const ringClass = dropHover
@@ -955,6 +960,7 @@ function TableNode({
           seats={seats}
           rotation={rotation}
           chairColor={STYLE_DEFAULTS[roomStyle].chair}
+          chair={chair}
         />
         {/* A long table gets a run of centrepieces down its length. */}
         <div className="pointer-events-none relative flex items-center justify-center">
@@ -2164,7 +2170,7 @@ export function VenueLayoutManager({
 }) {
   const [mode, setMode] = useState<Mode>("whole-venue");
   const [selectedRoomId, setSelectedRoomId] = useState<string | null>(rooms[0]?.id ?? null);
-  const [addFormType, setAddFormType] = useState<"table" | "item" | null>(null);
+  const [addFormType, setAddFormType] = useState<"table" | "item" | "layouts" | null>(null);
   const [selectedTableId, setSelectedTableId] = useState<string | null>(null);
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
   const [pickedGuestIds, setPickedGuestIds] = useState<Set<string>>(() => new Set());
@@ -2428,6 +2434,15 @@ export function VenueLayoutManager({
               {addFormType === "item" ? "Close" : <><PlusIcon /> Add item</>}
             </button>
           )}
+          {hasContent && mode !== "seating" && (
+            <button
+              onClick={() => setAddFormType((v) => (v === "layouts" ? null : "layouts"))}
+              disabled={!canAdd}
+              className="btn-secondary disabled:opacity-40"
+            >
+              {addFormType === "layouts" ? "Close" : "Layouts"}
+            </button>
+          )}
           <span aria-hidden className="hidden h-6 w-px bg-hairline sm:block" />
           <Segmented options={MODES} value={mode} onChange={setMode} label="Layout mode" />
           {hasContent && (
@@ -2472,15 +2487,29 @@ export function VenueLayoutManager({
       {addFormType === "item" && (
         <AddItemForm onDone={() => setAddFormType(null)} roomId={formRoomId} />
       )}
+      {addFormType === "layouts" && hasContent && (
+        <LayoutTemplatePicker
+          guestSeats={totalPeople}
+          roomId={formRoomId}
+          hasContent
+          seatedPeople={seatedPeople}
+          onDone={() => setAddFormType(null)}
+        />
+      )}
 
       {mode === "rooms" && !activeRoomId ? (
         <p className="py-4 text-center text-sm text-ink/50">
           Create a room above to start adding tables and furniture to it.
         </p>
       ) : !hasContent ? (
-        <p className="py-4 text-center text-sm text-ink/50">
-          Nothing here yet — add a table{mode !== "seating" ? " or a layout item" : ""} above.
-        </p>
+        // An empty plan opens on the ready-made layouts: one click sets the
+        // whole room, where placing tables one by one took dozens of drags.
+        <LayoutTemplatePicker
+          guestSeats={totalPeople}
+          roomId={formRoomId}
+          hasContent={false}
+          seatedPeople={0}
+        />
       ) : view3D ? (
         <VenueLayout3DView tables={visibleTables} items={visibleItems} />
       ) : (
@@ -2549,6 +2578,7 @@ export function VenueLayoutManager({
                 send(updateTablePosition, { id: table.id, width: "", height: "" })
               }
             />
+            {showGuests && <SeatTheRest guests={guests} tables={tables} />}
             {showGuests && (
               <GuestPanel
                   unassigned={unassigned}

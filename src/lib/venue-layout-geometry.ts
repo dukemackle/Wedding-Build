@@ -66,6 +66,21 @@ export function tableDimensions(shape: TableShape, capacity: number | null): Foo
   return { width: diameter, height: diameter };
 }
 
+/** A chair on the plan at a table's usual size. */
+export const CHAIR = 30;
+
+/**
+ * How big a table's chairs are drawn: full size normally, smaller when the
+ * table has been shrunk below its usual size, so a tightly packed room (a
+ * ready-made layout for 300) doesn't have chairs from one table sitting on
+ * the next.
+ */
+export function chairSize(table: Pick<SeatingTable, "shape" | "capacity" | "width" | "height">): number {
+  const usual = tableDimensions(table.shape, table.capacity);
+  const ratio = Math.min((table.width ?? usual.width) / usual.width, (table.height ?? usual.height) / usual.height);
+  return clamp(Math.round(CHAIR * ratio), 20, CHAIR);
+}
+
 /** A table's footprint: its own size once resized on the plan, else derived. */
 export function tableFootprint(
   table: Pick<SeatingTable, "shape" | "capacity" | "width" | "height">,
