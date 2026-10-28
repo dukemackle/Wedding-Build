@@ -32,6 +32,8 @@ export function DesignsHome({
   const [copied, setCopied] = useState(false);
   const full = designs.length >= MAX_DESIGNS;
   const live = designs.find((d) => d.live);
+  // A first design opens on Ivory, the starter template (owner, 2026-10-28).
+  const templatesHref = designs.length ? "/guests/site/templates" : "/guests/site/templates?t=ivory";
 
   return (
     <div className="flex flex-col">
@@ -68,7 +70,7 @@ export function DesignsHome({
           )}
           {!full && (
             <Link
-              href="/guests/site/templates"
+              href={templatesHref}
               className="flex h-11 items-center rounded-full bg-[#2243B6] px-5 text-sm font-medium text-white hover:bg-[#2243B6]/90"
             >
               + New design
@@ -96,7 +98,7 @@ export function DesignsHome({
           />
         ))}
         {!full ? (
-          <Link href="/guests/site/templates" className="group flex flex-col">
+          <Link href={templatesHref} className="group flex flex-col">
             <span className="flex aspect-[4/5] flex-col items-center justify-center rounded-[14px] border-[1.5px] border-dashed border-ink/20 bg-card text-sm text-ink/60 group-hover:border-ink/40 sm:aspect-[4/3]">
               <span className="mb-2 flex h-11 w-11 items-center justify-center rounded-full bg-[#2243B6] text-2xl text-white">
                 +

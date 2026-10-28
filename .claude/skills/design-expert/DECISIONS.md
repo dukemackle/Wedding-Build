@@ -11,6 +11,11 @@ They're summarised here only by reference; CLAUDE.md is the source.
 
 ## Approved directions
 
+- **2026-10-28:** Guest-site templates default to warm white. A new eighth
+  template, **Ivory**, goes first in the gallery with a "Start here" tag, and
+  new couples start on it. Mockup: https://claude.ai/artifact/1XpMHRqZf6SEBg2Noig6Ey.
+  Applied in `site-templates.ts` (`STARTER_DESIGN`); see docs/guest-site-editor.md.
+
 - **2026-10-23:** Saved venues/vendors follow Zillow's favourites: a full
   page over the map (Back to search, "Saved" title, Venues/Vendors switch,
   summary bar with sort, the search's photo cards in three columns / one on a
