@@ -60,6 +60,8 @@ export type Wedding = {
   /** Names for the schedule's days, by date (0144). */
   itinerary_day_names: Record<string, string> | null;
   /** The published guest site design; parse with parseSiteDesign. */
+  /** Colours picked on the marketplace's "Shop your wedding" (0149). */
+  market_colors: string[];
   site_design: unknown;
   /** Before several designs (0111): what the editor worked on. No longer written. */
   site_design_draft: unknown;

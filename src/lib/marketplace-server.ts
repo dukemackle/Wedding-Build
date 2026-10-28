@@ -96,6 +96,8 @@ export type MarketWedding = {
   ownVenueState: string | null;
   /** The colour family of their guest-site palette; null until they pick one. */
   colorFamily: ColorFamily | null;
+  /** Colours picked on the marketplace, for a couple without a palette (0149). */
+  pickedColors: string[];
 };
 
 /**
@@ -111,7 +113,7 @@ export async function loadMarketWedding(
   const { data: wedding } = await supabase
     .from("weddings")
     .select(
-      "id, partner_a_name, guest_count_override, wedding_date, own_venue_city, own_venue_state, site_design, site_design_draft, venue:venues(city, latitude, longitude)",
+      "id, partner_a_name, guest_count_override, wedding_date, own_venue_city, own_venue_state, site_design, site_design_draft, market_colors, venue:venues(city, latitude, longitude)",
     )
     .or(`user_id.eq.${userId},member_ids.cs.{${userId}}`)
     .maybeSingle<{
@@ -123,6 +125,7 @@ export async function loadMarketWedding(
       own_venue_state: string | null;
       site_design: unknown;
       site_design_draft: unknown;
+      market_colors: string[] | null;
       venue: { city: string | null; latitude: number | null; longitude: number | null } | null;
     }>();
   if (!wedding) return null;
@@ -153,6 +156,7 @@ export async function loadMarketWedding(
     ownVenueCity: wedding.own_venue_city,
     ownVenueState: wedding.own_venue_state,
     colorFamily: paletteFamily(wedding.site_design ?? wedding.site_design_draft),
+    pickedColors: wedding.market_colors ?? [],
   };
 }
 
