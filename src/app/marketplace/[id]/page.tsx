@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { cache } from "react";
 import { createClient } from "@/lib/supabase/server";
 import { categoryLabel, formatPrice, milesBetween } from "@/lib/marketplace";
-import type { MarketListing, MarketSet } from "@/lib/supabase/types";
+import type { MarketListing, MarketRentalBooking, MarketSet } from "@/lib/supabase/types";
 import { joinedYear, loadMarketWedding, type MarketWedding } from "@/lib/marketplace-server";
 import { ListingView } from "./listing-view";
 
@@ -18,6 +18,7 @@ const load = cache(async (id: string) => {
       sellerListings: [],
       similar: [],
       set: null,
+      bookings: [],
     };
   const supabase = await createClient();
   const {
@@ -55,6 +56,19 @@ const load = cache(async (id: string) => {
   let sellerListings: MarketListing[] = [];
   let similar: MarketListing[] = [];
   let set: MarketSet | null = null;
+  // A rental's booked dates still ahead: the seller manages them, and a
+  // couple sees whether their own date is free.
+  let bookings: MarketRentalBooking[] = [];
+  if (listing?.listing_type === "rent") {
+    const { data } = await supabase
+      .from("market_rental_bookings")
+      .select("*")
+      .eq("listing_id", listing.id)
+      .gte("ends_on", new Date().toISOString().slice(0, 10))
+      .order("starts_on")
+      .returns<MarketRentalBooking[]>();
+    bookings = data ?? [];
+  }
   if (listing) {
     const [year, { data: fromSeller }, { data: sameCategory }, { data: inSet }] = await Promise.all([
       joinedYear(listing.seller_id),
@@ -86,7 +100,7 @@ const load = cache(async (id: string) => {
     sellerListings = fromSeller ?? [];
     similar = nearestFirst(sameCategory ?? [], listing).slice(0, 6);
   }
-  return { user, listing, saved, threadId, wedding, joined, sellerListings, similar, set };
+  return { user, listing, saved, threadId, wedding, joined, sellerListings, similar, set, bookings };
 });
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
@@ -104,7 +118,9 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 
 export default async function ListingPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const { user, listing, saved, threadId, wedding, joined, sellerListings, similar, set } = await load(id);
+  const { user, listing, saved, threadId, wedding, joined, sellerListings, similar, set, bookings } = await load(id);
+  const today = new Date().toISOString().slice(0, 10);
+  const date = wedding?.weddingDate && wedding.weddingDate >= today ? wedding.weddingDate : null;
   if (!listing) notFound();
 
   return (
@@ -119,6 +135,14 @@ export default async function ListingPage({ params }: { params: Promise<{ id: st
       sellerListings={sellerListings}
       similar={similar}
       set={set}
+      bookings={bookings}
+      dateStatus={
+        listing.listing_type === "rent" && date
+          ? bookings.some((b) => b.starts_on <= date && b.ends_on >= date)
+            ? "booked"
+            : "free"
+          : null
+      }
     />
   );
 }

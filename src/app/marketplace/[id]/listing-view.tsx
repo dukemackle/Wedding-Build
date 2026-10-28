@@ -10,9 +10,10 @@ import {
   guestFit,
   listedAgo,
 } from "@/lib/marketplace";
-import type { MarketListing, MarketSet } from "@/lib/supabase/types";
+import type { MarketListing, MarketRentalBooking, MarketSet } from "@/lib/supabase/types";
 import { BuyerActions, SellerControls } from "./listing-actions";
 import { ApproxLocation, ShareButton } from "./listing-extras";
+import { RentalBookings } from "./rental-bookings";
 
 /** One listing, for its own page. */
 export function ListingView({
@@ -26,6 +27,8 @@ export function ListingView({
   sellerListings = [],
   similar = [],
   set = null,
+  bookings = [],
+  dateStatus = null,
 }: {
   listing: MarketListing;
   /** Null when logged out. */
@@ -44,6 +47,10 @@ export function ListingView({
   similar?: MarketListing[];
   /** The whole-wedding set it's part of, when that set is live (or the viewer's own). */
   set?: MarketSet | null;
+  /** A rental's booked dates still ahead. */
+  bookings?: MarketRentalBooking[];
+  /** For a couple before their wedding: whether this rental is out on their date. */
+  dateStatus?: "free" | "booked" | null;
 }) {
   const fit = guestFit(listing.quantity, guestCount);
   const isSeller = viewer?.id === listing.seller_id;
@@ -110,6 +117,15 @@ export function ListingView({
               Agree the dates and any deposit with {listing.seller_name} in messages.
             </p>
           )}
+          {dateStatus && !isSeller && (
+            <p
+              className={`mt-2 mr-2 inline-block rounded-full px-2.5 py-0.5 text-xs font-semibold ${
+                dateStatus === "free" ? "bg-[#dff7ff] text-[#2243B6]" : "bg-parchment text-ink/60"
+              }`}
+            >
+              {dateStatus === "free" ? "✓ Free on your date" : "Already booked on your date"}
+            </p>
+          )}
           {fit && (
             <p className="mt-2 inline-block rounded-full bg-[#00BFFE]/15 px-2.5 py-0.5 text-xs font-medium text-[#2243B6]">
               {fit}
@@ -134,6 +150,9 @@ export function ListingView({
             {isSeller ? (
               <>
                 <SellerControls id={listing.id} status={listing.status} />
+                {listing.listing_type === "rent" && listing.status !== "removed" && (
+                  <RentalBookings listingId={listing.id} bookings={bookings} />
+                )}
                 {!listing.set_id && (listing.status === "active" || listing.status === "pending") && (
                   <Link href={`/marketplace/sets/new?with=${listing.id}`} className="mt-3 inline-block text-sm text-[#2243B6] hover:underline">
                     Bundle it into a whole-wedding set

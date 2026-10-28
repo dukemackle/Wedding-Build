@@ -1023,6 +1023,15 @@ export type MarketListing = {
   set_id: string | null;
 };
 
+/** Dates a rental is already out, both ends inclusive (0147). */
+export type MarketRentalBooking = {
+  id: string;
+  listing_id: string;
+  starts_on: string;
+  ends_on: string;
+  created_at: string;
+};
+
 /** Several of one seller's listings sold together for one price (0146). */
 export type MarketSet = {
   id: string;
