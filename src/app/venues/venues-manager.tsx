@@ -524,6 +524,7 @@ export function VenuesManager({
           hoveredVenueId={hoveredVenueId}
           onHoverVenue={setHoveredVenueId}
           onViewChange={setMapView}
+          rememberAs="youdoido:venues-map-view"
           heightClassName="h-full w-full"
           signedIn={signedIn}
           outline={{ city: cityFilter, state: stateFilter }}

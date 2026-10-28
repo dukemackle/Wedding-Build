@@ -29,6 +29,7 @@ export function VenuesMap({
   heightClassName,
   signedIn = true,
   outline,
+  rememberAs,
 }: {
   venues: VenueListing[];
   shortlistedIds: Set<string>;
@@ -40,6 +41,8 @@ export function VenuesMap({
   heightClassName?: string;
   /** The picked city, outlined on the map. */
   outline?: { city: string; state: string };
+  /** Keep the map where it was left for the session (the browse page). */
+  rememberAs?: string;
   /** False for a logged-out visitor: the popup has no save button. */
   signedIn?: boolean;
 }) {
@@ -74,7 +77,7 @@ export function VenuesMap({
       >
         <BaseMapLayer />
         {outline && <CityOutline city={outline.city} state={outline.state} />}
-        <FitToPins points={points} />
+        <FitToPins points={points} rememberAs={rememberAs} />
         <ClusteredMarkers
           items={pinned}
           onViewChange={onViewChange}
