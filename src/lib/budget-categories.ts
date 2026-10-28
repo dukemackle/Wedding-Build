@@ -63,40 +63,55 @@ export const VENDOR_CATEGORY_TO_BUDGET_KEY: Record<string, string> = {
   Desserts: "cake",
 };
 
-// National Classic-tier figures for every state without its own rows in
-// regional_cost_data. The 13 categories that have rows anywhere use the
-// same national figures those rows were built from (each row is national x
-// the state's cost index; sources are in each row's `source` column, mostly
-// The Knot 2026 Real Weddings Study at 117 average guests), so a state with
-// rows and its neighbour without them now land in the same place instead of
-// thousands apart. The six below with no rows anywhere carry their own
-// source beside them (read 2026-10-22). Editable per-wedding via overrides.
+// National Classic-tier figures, scaled per state by STATE_AVERAGE_COST and
+// per tier by STYLE_TIER_MULTIPLIERS. The Knot 2026 Real Weddings Study
+// (couples married in 2025, $34,200 average, 117 guests) is the one source
+// wherever it has a figure, as summarised by AOL, "12 Wedding Costs From The
+// Knot's 2026 Study" (read 2026-10-28). Lines it doesn't cover carry their own
+// source beside them. These used to be mostly Zola Wedding Cost Index numbers
+// labelled as The Knot and divided by The Knot's 117 guests, and eight states
+// had regional_cost_data rows that were the same figures times the same
+// index; migration 0148 removes those. Editable per-wedding via overrides.
 export const BUDGET_CATEGORIES: BudgetCategory[] = [
-  { key: "venue", label: "Venue Rental", flatBase: 8570, perGuestAmount: 0 },
+  // The Knot 2026: venue average $12,900, and by guest count $6,500 (1-50),
+  // $10,400 (51-100), $16,000 (101+), via myvenuehq.com/blog/how-wedding-venues-price
+  // (read 2026-10-28). A bigger list needs a bigger room, so this scales: it
+  // hits $12,900 at 117 guests and ~$15,300 at 150.
+  { key: "venue", label: "Venue Rental", flatBase: 4100, perGuestAmount: 75 },
   // Split from a combined "Catering & Bar" category -- couples often
   // book food and bar service as two separate vendors, and a budget
   // category can only ever hold one linked vendor at a time, so
   // combining them meant a second booking would silently overwrite the
-  // first. $6,927 and $2,800 nationally over 117 guests (The Knot 2026),
-  // the same figures behind the catering and bar rows in regional_cost_data.
-  { key: "catering", label: "Catering", flatBase: 0, perGuestAmount: 59 },
+  // first. The Knot 2026: catering $80 per person; alcohol $2,800, which is
+  // $24 a guest at 117.
+  { key: "catering", label: "Catering", flatBase: 0, perGuestAmount: 80 },
   { key: "bar", label: "Bar", flatBase: 0, perGuestAmount: 24 },
-  { key: "photography", label: "Photography", flatBase: 4400, perGuestAmount: 0 },
-  { optional: true, key: "videography", label: "Videography", flatBase: 4000, perGuestAmount: 0 },
-  { key: "florals", label: "Florals & Decor", flatBase: 6350, perGuestAmount: 0 },
-  { key: "music", label: "Music / Entertainment", flatBase: 1570, perGuestAmount: 0 },
-  { section: "attire", key: "attire", label: "Wedding Attire", flatBase: 2500, perGuestAmount: 0 },
+  // The Knot 2026: photographer $3,000, videographer $2,300.
+  { key: "photography", label: "Photography", flatBase: 3000, perGuestAmount: 0 },
+  { optional: true, key: "videography", label: "Videography", flatBase: 2300, perGuestAmount: 0 },
+  // The Knot 2026: flowers $2,800 plus lighting and decor $1,900.
+  { key: "florals", label: "Florals & Decor", flatBase: 4700, perGuestAmount: 0 },
+  // The Knot 2026: reception DJ $1,800 (a live band averages $4,500).
+  { key: "music", label: "Music / Entertainment", flatBase: 1800, perGuestAmount: 0 },
+  // The Knot 2026 dress $2,100, plus Zola's tux rental $225.
+  { section: "attire", key: "attire", label: "Wedding Attire", flatBase: 2300, perGuestAmount: 0 },
   // Hemming, bustle and fittings are almost never in the dress price, and
-  // usually land in the last month when there's least slack.
-  { section: "attire", key: "alterations", label: "Alterations", flatBase: 350, perGuestAmount: 0 },
+  // usually land in the last month when there's least slack. Zola Wedding
+  // Cost Index: $550 (The Knot has no figure).
+  { section: "attire", key: "alterations", label: "Alterations", flatBase: 550, perGuestAmount: 0 },
   // Often paid by the wedding party themselves, so no estimate of its own --
   // it's here for the couples who are covering suits or dresses.
   { optional: true, section: "attire", key: "wedding_party_attire", label: "Wedding Party Attire", flatBase: 0, perGuestAmount: 0 },
-  { optional: true, key: "planner", label: "Wedding Planner", flatBase: 3200, perGuestAmount: 0 },
+  // The Knot 2026: wedding/event planner $2,100.
+  { optional: true, key: "planner", label: "Wedding Planner", flatBase: 2100, perGuestAmount: 0 },
+  // No Knot figure; a full suite runs $400-$700 in 2026 cost guides (Zola:
+  // $500), ~$550 over 117 guests.
   { key: "stationery", label: "Invitations & Stationery", flatBase: 0, perGuestAmount: 4.7 },
   { optional: true, key: "favors", label: "Favors & Gifts", flatBase: 0, perGuestAmount: 3 },
-  { key: "cake", label: "Cake & Desserts", flatBase: 700, perGuestAmount: 0 },
-  { optional: true, key: "transportation", label: "Transportation", flatBase: 1000, perGuestAmount: 0 },
+  // The Knot 2026: wedding cake $540; desserts beyond the cake come on top.
+  { key: "cake", label: "Cake & Desserts", flatBase: 540, perGuestAmount: 0 },
+  // The Knot 2026: $1,100.
+  { optional: true, key: "transportation", label: "Transportation", flatBase: 1100, perGuestAmount: 0 },
   // Both scale a bit with guest count: bigger weddings invite more
   // out-of-town guests to these too. Rehearsal dinner: The Knot 2026 average
   // $2,800 at 117 wedding guests (as quoted by MoneyLion, Apr 2026), and The
