@@ -11,6 +11,11 @@ They're summarised here only by reference; CLAUDE.md is the source.
 
 ## Approved directions
 
+- **2026-10-28:** Venue layout gets dressed rooms: Plain / Barn / Ballroom
+  floors (natural wood, carpet, marble allowed as materials; state colours
+  stay on the palette), chairs with guests' initials in side colours, place
+  cards under tables, per-table cloth and centrepiece. Mockups approved in
+  chat; built in `src/app/venue-layout/room-art.tsx` + `src/lib/layout-styles.ts`.
 - **2026-10-28:** Guest list: a stage header (Building your list → Invites
   out → Final count) leads the page with the number that matters at each
   stage (tiers against the venue's capacity and the Budget's cost per guest,

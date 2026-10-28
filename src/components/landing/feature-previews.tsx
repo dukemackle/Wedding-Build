@@ -505,7 +505,29 @@ const SEAT_TABLES = [
   { id: "t4", name: "Table 4", round: true, cap: 8, x: 73, y: 68, w: 21, h: 0 },
 ];
 
+// The same rooms the real plan offers, reduced to a floor and a table look.
+const DEMO_ROOMS = {
+  barn: {
+    floor: "repeating-linear-gradient(0deg, #c99a68 0 10px, #b98a5a 10px 11px, #c4935f 11px 21px, #a97c4f 21px 22px)",
+    table: "#b98a5a",
+    edge: "#7a5232",
+    chair: "#8a5d36",
+    dance: "repeating-conic-gradient(#a06c40 0 25%, #8e5e36 0 50%) 0 0 / 14px 14px",
+    danceInk: "#fff6d6",
+  },
+  ballroom: {
+    floor: "radial-gradient(circle, #2243B6 0 1.5px, transparent 2px) 0 0 / 22px 22px, #1d2d63",
+    table: "#ffffff",
+    edge: "#d9b44a",
+    chair: "#d9b44a",
+    dance: "repeating-conic-gradient(#f6f3ec 0 25%, #e7e0cf 0 50%) 0 0 / 18px 18px",
+    danceInk: "#9a6b00",
+  },
+} as const;
+
 function SeatingDemo() {
+  const [room, setRoom] = useState<keyof typeof DEMO_ROOMS>("barn");
+  const look = DEMO_ROOMS[room];
   const [seats, setSeats] = useState<Record<string, string>>({
     "Priya S.": "t2",
     "Lena O.": "head",
@@ -556,13 +578,34 @@ function SeatingDemo() {
               </span>
             ))}
           </div>
+          <div className="inline-flex rounded-full border border-hairline bg-parchment p-1">
+            {(["barn", "ballroom"] as const).map((r) => (
+              <button
+                key={r}
+                type="button"
+                onClick={() => setRoom(r)}
+                aria-pressed={room === r}
+                className={`rounded-full px-3 py-1 text-xs capitalize ${
+                  room === r ? "bg-forest text-parchment" : "text-ink/60"
+                }`}
+              >
+                {r}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
       <div className="flex flex-col gap-4 p-4 sm:px-8 md:flex-row md:items-start">
         {/* The plan: tables where they stand in the room. */}
-        <div className="relative aspect-[4/3] min-w-0 flex-1 rounded-lg border border-hairline bg-parchment">
-          <div className="absolute left-[34%] top-[40%] flex h-[22%] w-[32%] items-center justify-center rounded-md border-2 border-dashed border-forest/25 font-mono-numbers text-[10px] uppercase tracking-[0.15em] text-ink/40">
+        <div
+          className="relative aspect-[4/3] min-w-0 flex-1 rounded-lg border-[6px]"
+          style={{ background: look.floor, borderColor: room === "barn" ? "#5b3a22" : "#e7ddc4" }}
+        >
+          <div
+            className="absolute left-[34%] top-[40%] flex h-[22%] w-[32%] items-center justify-center rounded-sm font-mono-numbers text-[10px] uppercase tracking-[0.15em] shadow-md"
+            style={{ background: look.dance, color: look.danceInk }}
+          >
             Dance floor
           </div>
           {SEAT_TABLES.map((t) => {
@@ -576,12 +619,33 @@ function SeatingDemo() {
                   top: `${t.y}%`,
                   width: `${t.w}%`,
                   ...(t.round ? { aspectRatio: "1" } : { height: `${t.h}%` }),
+                  background: look.table,
+                  borderColor: picked ? undefined : look.edge,
                 }}
-                className={`absolute flex flex-col items-center justify-center gap-0.5 overflow-hidden border-2 bg-card p-1 text-center shadow-sm transition-colors ${
+                className={`absolute flex flex-col items-center justify-center gap-0.5 border-2 p-1 text-center shadow-md transition-colors ${
                   t.round ? "rounded-full" : "rounded-lg"
-                } ${picked ? "cursor-copy border-brass" : "border-forest/30"}`}
+                } ${picked ? "cursor-copy border-brass" : ""}`}
               >
-                <p className="text-[11px] font-medium leading-tight text-ink md:text-xs">
+                {/* Chairs round the table; a seated guest's chair takes their side's colour. */}
+                {Array.from({ length: t.cap }, (_, i) => {
+                  const a = (i / t.cap) * Math.PI * 2 - Math.PI / 2;
+                  const guest = here[i];
+                  const pos = t.round
+                    ? { left: `${50 + Math.cos(a) * 64}%`, top: `${50 + Math.sin(a) * 64}%` }
+                    : {
+                        left: `${((i % (t.cap / 2)) + 0.5) * (100 / (t.cap / 2))}%`,
+                        top: i < t.cap / 2 ? "-22%" : "122%",
+                      };
+                  return (
+                    <span
+                      key={i}
+                      aria-hidden
+                      className="absolute h-3.5 w-3.5 -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/70"
+                      style={{ ...pos, background: guest ? SIDE_COLORS[guest.side] : look.chair }}
+                    />
+                  );
+                })}
+                <p className="rounded-full bg-white/85 px-1.5 text-[11px] font-medium leading-tight text-ink md:text-xs">
                   {t.name}
                 </p>
                 <p className="font-mono-numbers text-[9px] text-ink/50 md:text-[10px]">

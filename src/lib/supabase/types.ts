@@ -75,6 +75,8 @@ export type Wedding = {
   side_a_color: string | null;
   side_b_color: string | null;
   side_both_color: string | null;
+  /** How the venue plan is dressed: "blank", "barn" or "ballroom" (src/lib/layout-styles.ts). */
+  layout_room_style: string;
   /** When Wren's standard checklist was added; null until then. */
   plan_seeded_at: string | null;
   created_at: string;
@@ -746,6 +748,10 @@ export type SeatingTable = {
   width: number | null;
   height: number | null;
   room_id: string | null;
+  /** Tablecloth key from src/lib/layout-styles.ts; null uses the room's default. */
+  linen: string | null;
+  /** Centrepiece key from src/lib/layout-styles.ts; null uses the room's default. */
+  centerpiece: string | null;
   created_at: string;
   updated_at: string;
 };

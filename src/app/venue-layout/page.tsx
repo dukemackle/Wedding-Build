@@ -122,6 +122,7 @@ export default async function VenueLayoutPage() {
           items={items ?? []}
           rooms={rooms ?? []}
           declinedSeated={declinedSeated ?? []}
+          roomStyle={wedding.layout_room_style ?? "blank"}
           sides={{
             partnerAName: wedding.partner_a_name,
             partnerBName: wedding.partner_b_name,

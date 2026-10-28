@@ -20,8 +20,9 @@ import {
   renameSeatingTable,
   splitPlusOne,
   updateTablePosition,
+  setTableDecor,
 } from "@/app/seating/actions";
-import { addRoom, deleteRoom } from "./room-actions";
+import { addRoom, deleteRoom, setRoomStyle } from "./room-actions";
 import {
   addLayoutItem,
   updateLayoutItem,
@@ -44,6 +45,20 @@ import {
 import { PlusIcon } from "@/components/page-header";
 import { CheckIcon } from "@/components/icons";
 import { BirdCheer } from "@/components/bird-cheer";
+import {
+  CENTERPIECE_LABELS,
+  LINENS,
+  ROOM_STYLES,
+  STYLE_DEFAULTS,
+  chairPositions,
+  initials,
+  inkOn,
+  roomStyle as toRoomStyle,
+  tableCenterpiece,
+  tableLinen,
+  type RoomStyle,
+} from "@/lib/layout-styles";
+import { Centerpiece, RoomBackdrop, itemSurface } from "./room-art";
 
 const VenueLayout3DView = dynamic(() => import("./venue-layout-3d-view"), {
   ssr: false,
@@ -725,6 +740,97 @@ type NodeActions = {
   onDelete: () => void;
 };
 
+/** One chair's worth of a table: a guest, their +1, or an empty seat. */
+type Seat = { key: string; name: string; color: string; settle: boolean } | null;
+
+function tableSeats(
+  guests: Guest[],
+  capacity: number | null,
+  theme: SideTheme,
+  justSeated: Set<string>,
+): Seat[] {
+  const people: Seat[] = guests.flatMap((g) => {
+    const color = guestSideColor(g, theme);
+    const settle = justSeated.has(g.id);
+    const seat = { key: g.id, name: g.name, color, settle };
+    return g.plus_one
+      ? [seat, { key: `${g.id}+1`, name: g.plus_one_name || `${g.name}'s +1`, color, settle }]
+      : [seat];
+  });
+  const empty = Math.max(0, (capacity ?? 0) - people.length);
+  return [...people, ...Array.from({ length: empty }, () => null)];
+}
+
+// The plan is drawn at ~0.6x on a laptop, so chairs and their initials are
+// sized to still read there.
+const CHAIR = 30;
+
+/**
+ * The chairs round a table. Each sits in the table's own (rotating) box, with
+ * the guest's initials kept upright on top so they read at any angle.
+ */
+function TableChairs({
+  shape,
+  width,
+  height,
+  seats,
+  rotation,
+  chairColor,
+}: {
+  shape: TableShape;
+  width: number;
+  height: number;
+  seats: Seat[];
+  rotation: number;
+  chairColor: string;
+}) {
+  const spots = chairPositions(shape, width, height, seats.length, CHAIR / 2 + 4);
+  return (
+    <>
+      {spots.map((spot, i) => {
+        const seat = seats[i];
+        return (
+          <div
+            key={seat?.key ?? `empty-${i}`}
+            className="pointer-events-none absolute"
+            style={{ left: spot.x - CHAIR / 2, top: spot.y - CHAIR / 2, width: CHAIR, height: CHAIR }}
+          >
+            <div
+              className="absolute inset-0 rounded-[6px] shadow-sm"
+              style={{
+                transform: `rotate(${spot.angle}deg)`,
+                background: chairColor,
+                boxShadow: "inset 0 -5px 0 rgba(0,0,0,0.18)",
+              }}
+            />
+            {seat ? (
+              <span
+                title={seat.name}
+                className={`absolute -inset-0.5 grid place-items-center rounded-full border-2 border-white text-[12px] font-semibold leading-none ${seat.settle ? "wren-settle" : ""}`}
+                style={{
+                  background: seat.color,
+                  color: inkOn(seat.color),
+                  transform: `rotate(${-rotation}deg)`,
+                }}
+              >
+                {initials(seat.name)}
+              </span>
+            ) : (
+              <span className="absolute inset-[3px] rounded-full border-[1.5px] border-dashed border-white/80" />
+            )}
+          </div>
+        );
+      })}
+    </>
+  );
+}
+
+/** How far below its centre a rotated box reaches. */
+function rotatedHalfHeight(width: number, height: number, rotation: number) {
+  const a = (rotation * Math.PI) / 180;
+  return Math.abs((width / 2) * Math.sin(a)) + Math.abs((height / 2) * Math.cos(a));
+}
+
 function TableNode({
   table,
   assignedGuests,
@@ -733,15 +839,18 @@ function TableNode({
   seatingArmed,
   scale,
   viewportWidth,
+  roomStyle,
+  theme,
   onTap,
   onDragEnd,
-  onUnassign,
   onDropGuests,
   onResizeEnd,
   actions,
 }: {
   table: SeatingTable;
   assignedGuests: Guest[];
+  roomStyle: RoomStyle;
+  theme: SideTheme;
   /** Guests seated a moment ago, who bounce into place. */
   justSeated: Set<string>;
   isSelected: boolean;
@@ -751,7 +860,6 @@ function TableNode({
   viewportWidth: number;
   onTap: () => void;
   onDragEnd: (x: number, y: number) => void;
-  onUnassign: (guestId: string) => void;
   onDropGuests: (guestIds: string[]) => void;
   onResizeEnd: (width: number, height: number) => void;
   actions: NodeActions;
@@ -776,17 +884,20 @@ function TableNode({
   const full = table.capacity != null && occupied === table.capacity;
   const toolbarBelow = pos.y * scale < 60;
 
+  const linen = tableLinen(roomStyle, table.linen);
+  const seats = tableSeats(assignedGuests, table.capacity, theme, justSeated);
+  const labelTop = height / 2 + rotatedHalfHeight(width, height, rotation) + CHAIR + 10;
+
+  // Selection and drop states take over the cloth's own edge colour.
   const ringClass = dropHover
-    ? "border-forest bg-forest/10 ring-4 ring-forest/30"
+    ? "border-forest ring-4 ring-forest/30"
     : isSelected
-      ? "border-forest ring-2 ring-forest/30"
+      ? "border-forest ring-4 ring-brass/60"
       : seatingArmed
         ? "border-forest/60 border-dashed"
         : overCapacity
           ? "border-red-700/60"
-          : full
-            ? "border-forest/50"
-            : "border-hairline";
+          : "border-transparent";
 
   return (
     <div
@@ -824,8 +935,40 @@ function TableNode({
     >
       <div
         style={{ transform: `rotate(${rotation}deg)` }}
-        className={`relative flex h-full w-full select-none flex-col items-center justify-center gap-1 border-2 bg-card p-2 text-center shadow-sm ${shapeClassName(table.shape)} ${ringClass}`}
+        className={`relative flex h-full w-full select-none items-center justify-center border-2 shadow-md ${shapeClassName(table.shape)} ${ringClass}`}
       >
+        {/* A cloth is drawn as the fill plus a slightly darker hem. */}
+        <div
+          aria-hidden
+          className={`absolute inset-0 ${shapeClassName(table.shape)}`}
+          style={{
+            background: linen.color,
+            boxShadow: `inset 0 0 0 4px ${linen.edge}33`,
+            outline: ringClass === "border-transparent" ? `2px solid ${linen.edge}` : undefined,
+            outlineOffset: -2,
+          }}
+        />
+        <TableChairs
+          shape={table.shape}
+          width={width}
+          height={height}
+          seats={seats}
+          rotation={rotation}
+          chairColor={STYLE_DEFAULTS[roomStyle].chair}
+        />
+        {/* A long table gets a run of centrepieces down its length. */}
+        <div className="pointer-events-none relative flex items-center justify-center">
+          {Array.from(
+            { length: Math.max(1, Math.min(5, Math.floor(Math.max(width, height) / Math.min(width, height)))) },
+            (_, i) => (
+              <Centerpiece
+                key={i}
+                kind={tableCenterpiece(roomStyle, table.centerpiece)}
+                size={Math.round(Math.min(width, height) * (width === height ? 0.5 : 0.75))}
+              />
+            ),
+          )}
+        </div>
         {isSelected && (
           <>
             <RotateHandle
@@ -846,43 +989,21 @@ function TableNode({
             />
           </>
         )}
-        <div
-          style={uprightLabelStyle(rotation)}
-          className="flex max-h-full w-full flex-col items-center justify-center gap-1 overflow-hidden"
-        >
-        <p className="font-medium text-ink">{table.name}</p>
-        <p
-          className={`text-xs ${overCapacity ? "text-red-700" : full ? "text-forest" : "text-ink/50"}`}
+      </div>
+      {/* The place card hangs below the chairs and stays upright. */}
+      <div
+        className="pointer-events-none absolute left-1/2 flex -translate-x-1/2 flex-col items-center whitespace-nowrap rounded-full bg-white px-4 py-1 text-center shadow-md"
+        style={{ top: labelTop }}
+      >
+        <span className="max-w-[260px] truncate font-display text-[21px] font-semibold leading-tight text-forest">
+          {table.name}
+        </span>
+        <span
+          className={`font-mono-numbers text-[13px] leading-tight ${overCapacity ? "text-red-700" : full ? "text-[#9a6b00]" : "text-ink/50"}`}
         >
           {occupied}
-          {table.capacity != null ? ` / ${table.capacity}` : ""} {full ? "· full" : "seated"}
-        </p>
-        <div className="flex max-h-full flex-wrap items-center justify-center gap-1 overflow-y-auto px-1">
-          {assignedGuests.map((guest) => (
-            <span
-              key={guest.id}
-              className={`flex items-center gap-1 rounded-full border border-hairline bg-parchment px-1.5 py-0.5 text-[11px] text-ink ${
-                justSeated.has(guest.id) ? "wren-settle" : ""
-              }`}
-            >
-              {guest.name}
-              {guest.plus_one && <span className="text-ink/40">+1</span>}
-              <button
-                onPointerDown={(e) => e.stopPropagation()}
-                onPointerUp={(e) => e.stopPropagation()}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onUnassign(guest.id);
-                }}
-                className="text-ink/40 hover:text-red-700"
-                aria-label={`Unseat ${guest.name}`}
-              >
-                &times;
-              </button>
-            </span>
-          ))}
-        </div>
-        </div>
+          {table.capacity != null ? `/${table.capacity}` : ""} {full ? "· full" : "seated"}
+        </span>
       </div>
       {isSelected && (
         <NodeToolbar
@@ -910,6 +1031,7 @@ function ItemNode({
   isSelected,
   scale,
   viewportWidth,
+  roomStyle,
   onTap,
   onDragEnd,
   onResizeEnd,
@@ -919,6 +1041,7 @@ function ItemNode({
   isSelected: boolean;
   scale: number;
   viewportWidth: number;
+  roomStyle: RoomStyle;
   onTap: () => void;
   onDragEnd: (x: number, y: number) => void;
   onResizeEnd: (width: number, height: number) => void;
@@ -937,6 +1060,7 @@ function ItemNode({
     onDragEnd,
   });
   const toolbarBelow = pos.y * scale < 60;
+  const surface = itemSurface(roomStyle, item.item_type);
 
   return (
     <div
@@ -957,16 +1081,30 @@ function ItemNode({
           label inside does. Clipping the whole box is what used to hide the
           rotate/delete/resize handles on chairs and every other item. */}
       <div
-        style={{ transform: `rotate(${rotation}deg)` }}
-        className={`relative h-full w-full select-none rounded-lg border-2 text-sm shadow-sm ${ITEM_TYPE_COLORS[item.item_type]} ${isSelected ? "ring-2 ring-forest/40" : ""}`}
+        style={{
+          transform: `rotate(${rotation}deg)`,
+          ...(surface ? { ...surface.style, borderColor: surface.border } : {}),
+        }}
+        className={`relative h-full w-full select-none rounded-lg border-2 text-sm ${surface ? "shadow-md" : `shadow-sm ${ITEM_TYPE_COLORS[item.item_type]}`} ${isSelected ? "ring-4 ring-brass/60" : ""}`}
       >
         <div
           style={uprightLabelStyle(rotation)}
           className="flex h-full w-full flex-col items-center justify-center overflow-hidden p-2 text-center"
         >
-          <p className="font-medium text-ink">{itemDisplayName(item)}</p>
-          {item.label && (
-            <p className="text-xs text-ink/50">{ITEM_TYPE_LABELS[item.item_type]}</p>
+          {surface ? (
+            <p
+              className="font-mono-numbers text-sm uppercase tracking-[0.2em]"
+              style={{ color: surface.ink }}
+            >
+              {itemDisplayName(item)}
+            </p>
+          ) : (
+            <>
+              <p className="font-medium text-ink">{itemDisplayName(item)}</p>
+              {item.label && (
+                <p className="text-xs text-ink/50">{ITEM_TYPE_LABELS[item.item_type]}</p>
+              )}
+            </>
           )}
         </div>
         {isSelected && (
@@ -1039,6 +1177,8 @@ function VenueCanvas({
   selectedTableId,
   selectedItemId,
   seatingArmed,
+  roomStyle,
+  theme,
   onTapTable,
   onTapItem,
   onClearSelection,
@@ -1046,11 +1186,12 @@ function VenueCanvas({
   onItemDragEnd,
   onItemResizeEnd,
   onTableResizeEnd,
-  onUnassign,
   onDropGuests,
   tableActions,
   itemActions,
 }: {
+  roomStyle: RoomStyle;
+  theme: SideTheme;
   tables: SeatingTable[];
   items: VenueLayoutItem[];
   guestsByTable: Map<string, Guest[]>;
@@ -1065,7 +1206,6 @@ function VenueCanvas({
   onItemDragEnd: (id: string, x: number, y: number) => void;
   onItemResizeEnd: (id: string, width: number, height: number) => void;
   onTableResizeEnd: (id: string, width: number, height: number) => void;
-  onUnassign: (guestId: string) => void;
   onDropGuests: (tableId: string, guestIds: string[]) => void;
   tableActions: (table: SeatingTable) => NodeActions;
   itemActions: (item: VenueLayoutItem) => NodeActions;
@@ -1119,6 +1259,7 @@ function VenueCanvas({
           transformOrigin: "top left",
         }}
       >
+        <RoomBackdrop style={roomStyle} />
         {items.map((item) => (
           <ItemNode
             key={`${item.id}-${item.position_x}-${item.position_y}-${item.rotation}-${item.width}-${item.height}`}
@@ -1126,6 +1267,7 @@ function VenueCanvas({
             isSelected={item.id === selectedItemId}
             scale={scale}
             viewportWidth={viewportWidth}
+            roomStyle={roomStyle}
             onTap={() => onTapItem(item.id)}
             onDragEnd={(x, y) => onItemDragEnd(item.id, x, y)}
             onResizeEnd={(width, height) => onItemResizeEnd(item.id, width, height)}
@@ -1135,6 +1277,8 @@ function VenueCanvas({
         {tables.map((table) => (
           <TableNode
             key={`${table.id}-${table.position_x}-${table.position_y}-${table.rotation}-${table.width}-${table.height}-${table.shape}-${table.capacity}`}
+            roomStyle={roomStyle}
+            theme={theme}
             table={table}
             assignedGuests={guestsByTable.get(table.id) ?? []}
             justSeated={justSeated}
@@ -1144,7 +1288,6 @@ function VenueCanvas({
             viewportWidth={viewportWidth}
             onTap={() => onTapTable(table.id)}
             onDragEnd={(x, y) => onTableDragEnd(table.id, x, y)}
-            onUnassign={onUnassign}
             onDropGuests={(ids) => onDropGuests(table.id, ids)}
             onResizeEnd={(width, height) => onTableResizeEnd(table.id, width, height)}
             actions={tableActions(table)}
@@ -1163,9 +1306,70 @@ function VenueCanvas({
  * one per table and one per layout item. Those got long, and editing a thing
  * meant finding its card rather than clicking the thing itself.
  */
+/** Cloth colour and centrepiece for the selected table; each tap saves. */
+function TableDecor({
+  table,
+  roomStyle,
+  onChange,
+}: {
+  table: SeatingTable;
+  roomStyle: RoomStyle;
+  onChange: (field: "linen" | "centerpiece", value: string) => void;
+}) {
+  const linen = tableLinen(roomStyle, table.linen);
+  const piece = tableCenterpiece(roomStyle, table.centerpiece);
+  const offered = STYLE_DEFAULTS[roomStyle].centerpieces;
+  const pieces = offered.includes(piece) ? offered : [piece, ...offered];
+  return (
+    <div className="mb-5 flex flex-col gap-3 border-b border-hairline pb-5">
+      <div>
+        <p className="mb-2 text-xs text-ink/60">Table look</p>
+        <div className="flex flex-wrap gap-2" role="group" aria-label="Tablecloth">
+          {LINENS.map((l) => (
+            <button
+              key={l.id}
+              type="button"
+              onClick={() => onChange("linen", l.id)}
+              aria-pressed={l.id === linen.id}
+              aria-label={l.label}
+              title={l.label}
+              className={`h-7 w-7 rounded-full border transition-transform hover:scale-110 ${
+                l.id === linen.id ? "ring-2 ring-forest ring-offset-2" : ""
+              }`}
+              style={{ background: l.color, borderColor: l.edge }}
+            />
+          ))}
+        </div>
+      </div>
+      <div>
+        <p className="mb-2 text-xs text-ink/60">Centrepiece</p>
+        <div className="flex flex-wrap gap-1.5" role="group" aria-label="Centrepiece">
+          {pieces.map((id) => (
+            <button
+              key={id}
+              type="button"
+              onClick={() => onChange("centerpiece", id)}
+              aria-pressed={id === piece}
+              className={`rounded-full border px-3 py-1 text-xs transition-colors ${
+                id === piece
+                  ? "border-forest bg-forest text-parchment"
+                  : "border-hairline bg-card text-ink hover:border-forest"
+              }`}
+            >
+              {CENTERPIECE_LABELS[id]}
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function SelectionPanel({
   table,
   item,
+  roomStyle,
+  onDecor,
   assignedGuests,
   onUnassign,
   onSplitPlusOne,
@@ -1175,6 +1379,8 @@ function SelectionPanel({
 }: {
   table: SeatingTable | null;
   item: VenueLayoutItem | null;
+  roomStyle: RoomStyle;
+  onDecor: (table: SeatingTable, field: "linen" | "centerpiece", value: string) => void;
   assignedGuests: Guest[];
   onUnassign: (guestId: string) => void;
   onSplitPlusOne: (guestId: string) => void;
@@ -1227,6 +1433,14 @@ function SelectionPanel({
           Delete
         </button>
       </div>
+
+      {table && (
+        <TableDecor
+          table={table}
+          roomStyle={roomStyle}
+          onChange={(field, value) => onDecor(table, field, value)}
+        />
+      )}
 
       <form action={handleSave} className="flex flex-col gap-4">
         <input type="hidden" name="id" value={table?.id ?? item?.id ?? ""} />
@@ -1864,14 +2078,83 @@ function Segmented<T extends string>({
   );
 }
 
+/** Plain, barn or ballroom: the room the whole plan is drawn in. */
+function RoomStylePicker({
+  value,
+  onChange,
+}: {
+  value: RoomStyle;
+  onChange: (style: RoomStyle) => void;
+}) {
+  return (
+    <div
+      role="group"
+      aria-label="Room style"
+      className="inline-flex items-center gap-1 rounded-full border border-hairline bg-parchment p-1"
+    >
+      {ROOM_STYLES.map((r) => (
+        <button
+          key={r.id}
+          onClick={() => onChange(r.id)}
+          aria-pressed={value === r.id}
+          className={`flex items-center gap-1.5 rounded-full py-1 pl-1 pr-3 text-sm transition-colors ${
+            value === r.id ? "bg-forest text-parchment" : "text-ink/70 hover:text-forest"
+          }`}
+        >
+          <span
+            aria-hidden
+            className="h-5 w-5 rounded-full border border-hairline"
+            style={{ background: r.swatch }}
+          />
+          {r.label}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+/** A gold ring that fills as guests get seats. */
+function SeatedRing({ seated, total }: { seated: number; total: number }) {
+  const r = 15;
+  const length = 2 * Math.PI * r;
+  const done = total > 0 ? seated / total : 0;
+  return (
+    <div className="flex items-center gap-2 text-sm text-ink/70">
+      <svg width="34" height="34" viewBox="0 0 36 36" aria-hidden>
+        <circle cx="18" cy="18" r={r} fill="none" stroke="#eee8d8" strokeWidth="4" />
+        <circle
+          cx="18"
+          cy="18"
+          r={r}
+          fill="none"
+          stroke="#FFD301"
+          strokeWidth="4"
+          strokeLinecap="round"
+          strokeDasharray={`${done * length} ${length}`}
+          transform="rotate(-90 18 18)"
+          className="transition-[stroke-dasharray] duration-500"
+        />
+      </svg>
+      <span>
+        <span className="font-mono-numbers text-ink">
+          {seated} of {total}
+        </span>{" "}
+        seated
+      </span>
+    </div>
+  );
+}
+
 export function VenueLayoutManager({
-  tables,
+  tables: storedTables,
   confirmedGuests,
   items,
   rooms,
   sides,
   declinedSeated,
+  roomStyle: storedRoomStyle,
 }: {
+  roomStyle: string;
   tables: SeatingTable[];
   confirmedGuests: Guest[];
   items: VenueLayoutItem[];
@@ -1887,8 +2170,14 @@ export function VenueLayoutManager({
   const [pickedGuestIds, setPickedGuestIds] = useState<Set<string>>(() => new Set());
   const [justSeated, setJustSeated] = useState<Set<string>>(() => new Set());
   const [view3D, setView3D] = useState(false);
+  const [roomStyle, setRoomStyleState] = useState<RoomStyle>(() => toRoomStyle(storedRoomStyle));
+  // Cloth and centrepiece picks show at once; the save follows behind.
+  const [decor, setDecor] = useState<
+    Record<string, Partial<Pick<SeatingTable, "linen" | "centerpiece">>>
+  >({});
   const [, startTransition] = useTransition();
   const router = useRouter();
+  const tables = storedTables.map((t) => (decor[t.id] ? { ...t, ...decor[t.id] } : t));
 
   // Seating shows at once rather than after the server round trip, so
   // clearing a household into a table feels like moving cards, not saving a form.
@@ -1939,6 +2228,16 @@ export function VenueLayoutManager({
       setJustSeated(new Set(guestIds));
       setTimeout(() => setJustSeated(new Set()), 600);
     }
+  }
+
+  function handleRoomStyle(style: RoomStyle) {
+    setRoomStyleState(style);
+    send(setRoomStyle, { style });
+  }
+
+  function handleDecor(table: SeatingTable, field: "linen" | "centerpiece", value: string) {
+    setDecor((current) => ({ ...current, [table.id]: { ...current[table.id], [field]: value } }));
+    send(setTableDecor, { id: table.id, [field]: value });
   }
 
   function handleUnassign(guestId: string) {
@@ -2092,6 +2391,8 @@ export function VenueLayoutManager({
   const canAdd = mode !== "rooms" || activeRoomId != null;
   const formRoomId = mode === "rooms" ? (activeRoomId ?? undefined) : undefined;
   const showGuests = guests.length > 0 && tables.length > 0;
+  const totalPeople = guests.reduce((sum, g) => sum + personCount(g), 0);
+  const seatedPeople = guests.reduce((sum, g) => sum + (g.table_id ? personCount(g) : 0), 0);
 
   return (
     <div className="w-full rounded-lg border border-hairline bg-card p-5 sm:p-8 shadow-sm">
@@ -2136,6 +2437,12 @@ export function VenueLayoutManager({
               onChange={(v) => setView3D(v === "3d")}
               label="View"
             />
+          )}
+          {!view3D && <RoomStylePicker value={roomStyle} onChange={handleRoomStyle} />}
+          {totalPeople > 0 && tables.length > 0 && (
+            <div className="sm:ml-auto">
+              <SeatedRing seated={seatedPeople} total={totalPeople} />
+            </div>
           )}
         </div>
       </div>
@@ -2191,6 +2498,8 @@ export function VenueLayoutManager({
               selectedTableId={selectedTableId}
               selectedItemId={selectedItemId}
               seatingArmed={seatingArmed}
+              roomStyle={roomStyle}
+              theme={theme}
               onTapTable={handleTapTable}
               onTapItem={handleTapItem}
               onClearSelection={() => {
@@ -2201,17 +2510,36 @@ export function VenueLayoutManager({
               onItemDragEnd={handleItemDragEnd}
               onItemResizeEnd={handleItemResizeEnd}
               onTableResizeEnd={handleTableResizeEnd}
-              onUnassign={handleUnassign}
               onDropGuests={(tableId, ids) => seat(ids, tableId)}
               tableActions={tableActions}
               itemActions={itemActions}
             />
+            {tables.length > 0 && (
+              <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-ink/60">
+                {(["a", "b", "both"] as const).map((side) => (
+                  <span key={side} className="flex items-center gap-1.5">
+                    <span
+                      aria-hidden
+                      className="h-2.5 w-2.5 rounded-full"
+                      style={{ background: theme.colors[side] }}
+                    />
+                    {theme.labels[side]}
+                  </span>
+                ))}
+                <span className="flex items-center gap-1.5">
+                  <span aria-hidden className="h-2.5 w-2.5 rounded-full border border-dashed border-ink/40" />
+                  Empty seat
+                </span>
+              </div>
+            )}
           </div>
           <div className="flex w-full shrink-0 flex-col gap-4 xl:w-80">
             <SelectionPanel
               key={selectedTable?.id ?? selectedItem?.id ?? "none"}
               table={selectedTable}
               item={selectedItem}
+              roomStyle={roomStyle}
+              onDecor={handleDecor}
               assignedGuests={selectedTable ? (guestsByTable.get(selectedTable.id) ?? []) : []}
               onUnassign={handleUnassign}
               onSplitPlusOne={(guestId) => send(splitPlusOne, { guest_id: guestId })}
