@@ -1456,6 +1456,56 @@ body:has(.search-shell-root) .site-footer {
 @keyframes wren-draw { to { stroke-dashoffset: 0; } }
 @keyframes wren-strike { to { background-size: 100% 1.5px; } }
 
+/* Checklist journey (src/components/checklist-ui.tsx): the stage you're on
+   pulses, a ticked box pops and throws six sparks, the progress ring fills
+   in on load, and rows rise in. Off under reduced motion (below). */
+.cl-node-here::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 9999px;
+  border: 2px solid #2243b6;
+  opacity: 0.5;
+  animation: cl-pulse 2.4s ease-out infinite;
+}
+@keyframes cl-pulse {
+  0% { transform: scale(0.85); opacity: 0.6; }
+  100% { transform: scale(1.35); opacity: 0; }
+}
+.cl-tick-pop { animation: cl-pop 0.45s cubic-bezier(0.3, 1.6, 0.5, 1); }
+@keyframes cl-pop { 40% { transform: scale(1.25); } }
+.cl-spark {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  margin: -3px;
+  border-radius: 9999px;
+  pointer-events: none;
+  animation: cl-spark 0.7s ease-out forwards;
+}
+.cl-s1 { background: #ffd301; --dx: -22px; --dy: -18px; }
+.cl-s2 { background: #00bffe; --dx: 22px; --dy: -16px; }
+.cl-s3 { background: #2243b6; --dx: -20px; --dy: 18px; }
+.cl-s4 { background: #ffd301; --dx: 20px; --dy: 20px; }
+.cl-s5 { background: #5ae4ff; --dx: 0px; --dy: -28px; }
+.cl-s6 { background: #fff12f; --dx: 0px; --dy: 28px; }
+@keyframes cl-spark {
+  to { transform: translate(var(--dx), var(--dy)) scale(0.2); opacity: 0; }
+}
+.cl-ring-arc {
+  transition: stroke-dashoffset 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+  animation: cl-ring 1.2s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+@keyframes cl-ring { from { stroke-dashoffset: var(--cl-ring); } }
+@media (prefers-reduced-motion: reduce) {
+  .cl-node-here::after,
+  .cl-spark { display: none; }
+  .cl-tick-pop,
+  .cl-ring-arc { animation: none; transition: none; }
+}
+
 /* Budget: bars grow in from the left when the page opens, and the total
    bar shakes once after it fills if you're over. */
 .wren-grow { transform-origin: left; animation: wren-grow 1s cubic-bezier(0.2, 0.7, 0.3, 1); }

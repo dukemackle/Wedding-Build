@@ -11,6 +11,17 @@ They're summarised here only by reference; CLAUDE.md is the source.
 
 ## Approved directions
 
+- **2026-10-28:** Checklist is a "journey path" (option 1 of three; card deck
+  and light-touch rejected). Stages are nodes on a line that fills gold
+  behind you, the stage you're on pulses royal blue, own tasks get a dashed
+  aqua node; a gold progress ring replaces the thin bar; 18px task titles;
+  due chips coloured by urgency (red overdue, Sky within 30 days, Gold within
+  3 months, outlined later); Edit/Remove fold behind a "⋯" (hover-only on
+  desktop); a tick fills gold and throws sparks; finishing a stage adds
+  confetti to Wren's cheer. Phone: the same line as one column, current stage
+  open. Shared pieces in `src/components/checklist-ui.tsx`, used by the page
+  and the landing demo. Mockup: https://claude.ai/artifact/H58PysKBFYWt2whBERk5rH
+
 - **2026-10-23:** Saved venues/vendors follow Zillow's favourites: a full
   page over the map (Back to search, "Saved" title, Venues/Vendors switch,
   summary bar with sort, the search's photo cards in three columns / one on a
