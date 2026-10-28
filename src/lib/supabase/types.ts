@@ -26,6 +26,8 @@ export type Wedding = {
   dashboard_photo_urls: string[];
   /** Where to centre each dashboard photo: {url: [x%, y%]}. */
   dashboard_photo_focus: Record<string, [number, number]>;
+  /** Which photos play behind the dashboard (0143); null picks the best available. Absent until that migration runs. */
+  dashboard_photo_source?: "own" | "venue" | "inspiration" | null;
   rsvp_deadline: string | null;
   dress_code: string | null;
   travel_notes: string | null;
