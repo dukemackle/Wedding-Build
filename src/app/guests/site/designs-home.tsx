@@ -32,8 +32,8 @@ export function DesignsHome({
   const [copied, setCopied] = useState(false);
   const full = designs.length >= MAX_DESIGNS;
   const live = designs.find((d) => d.live);
-  // A first design opens on Ivory, the starter template (owner, 2026-10-28).
-  const templatesHref = designs.length ? "/guests/site/templates" : "/guests/site/templates?t=ivory";
+  // A first design opens on Classic, the starter template (owner, 2026-10-28).
+  const templatesHref = designs.length ? "/guests/site/templates" : "/guests/site/templates?t=classic";
 
   return (
     <div className="flex flex-col">
