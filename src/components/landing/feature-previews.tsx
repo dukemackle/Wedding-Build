@@ -1715,6 +1715,7 @@ const BOOKED = [
     meta: "Bend, OR · $9,500",
     contact: "events@juniperbarn.com",
     contract: "juniper-barn-agreement.pdf",
+    photo: "/venue-types/barn-rustic.svg",
   },
   {
     key: "photo",
@@ -1724,6 +1725,7 @@ const BOOKED = [
     meta: "$4,000",
     contact: "(541) 555-0142",
     contract: "ortiz-photo-contract.pdf",
+    photo: "/vendor-types/photography.svg",
   },
   {
     key: "catering",
@@ -1733,6 +1735,7 @@ const BOOKED = [
     meta: "$10,200",
     contact: "hello@figandsalt.com",
     contract: null,
+    photo: "/vendor-types/catering.svg",
   },
 ];
 
@@ -1762,13 +1765,24 @@ function BookingsDemo() {
                   key={b.key}
                   className="flex flex-col rounded-lg border border-forest/30 bg-card p-4 shadow-sm"
                 >
-                  <p className="flex items-center gap-1.5 text-xs uppercase tracking-wide text-ink/50">
-                    <b.Icon className="h-3.5 w-3.5 text-brass" />
-                    {b.label}
-                  </p>
-                  <p className="mt-1 font-display text-xl font-semibold text-forest">{b.name}</p>
-                  <p className="mt-0.5 text-sm text-ink/60">{b.meta}</p>
-                  <p className="mt-1.5 text-sm text-brass">{b.contact}</p>
+                  <div className="flex items-start gap-3">
+                    <div className="min-w-0 flex-1">
+                      <p className="flex items-center gap-1.5 text-xs uppercase tracking-wide text-ink/50">
+                        <b.Icon className="h-3.5 w-3.5 text-brass" />
+                        {b.label}
+                      </p>
+                      <p className="mt-1 font-display text-xl font-semibold text-forest">{b.name}</p>
+                      <p className="mt-0.5 text-sm text-ink/60">{b.meta}</p>
+                      <p className="mt-1.5 truncate text-sm text-brass">{b.contact}</p>
+                    </div>
+                    <Image
+                      src={b.photo}
+                      alt={b.name}
+                      width={128}
+                      height={128}
+                      className="h-14 w-14 shrink-0 rounded-md border border-hairline object-cover shadow-sm"
+                    />
+                  </div>
                   <div className="mt-3">
                     {file ? (
                       <div className="flex items-center gap-2 rounded-md border border-hairline px-3 py-2">
