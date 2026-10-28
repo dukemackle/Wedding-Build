@@ -174,6 +174,15 @@ export function DayTimeline<E extends TimelineEvent>(props: Props<E>) {
                   {event.location && height > 58 && (
                     <span className="block truncate text-xs text-ink/55">{event.location}</span>
                   )}
+                  {event.people?.length && height > 84 ? (
+                    <span className="mt-1 flex flex-wrap gap-1 overflow-hidden">
+                      {event.people.map((p) => (
+                        <span key={p} className="rounded-full bg-ink/[0.06] px-2 py-px text-[11px] text-ink/80">
+                          {p}
+                        </span>
+                      ))}
+                    </span>
+                  ) : null}
                 </>
               )}
             </button>
@@ -223,6 +232,9 @@ export function DayList<E extends TimelineEvent>({ events, selectedId, onSelect,
               )}
               <span className="block font-semibold text-ink">{e.title}</span>
               {e.location && <span className="block text-xs text-ink/55">{e.location}</span>}
+              {e.people?.length ? (
+                <span className="mt-0.5 block text-xs text-ink/70">With {e.people.join(", ")}</span>
+              ) : null}
             </button>
           </li>
         );

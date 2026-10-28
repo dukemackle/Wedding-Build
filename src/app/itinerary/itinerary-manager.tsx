@@ -9,6 +9,7 @@ import {
   dayLabel,
   eventsToShift,
   findFlags,
+  formatFullDate,
   formatLength,
   formatShortDate,
   formatTime,
@@ -26,6 +27,7 @@ import {
   deleteItineraryEvent,
   setEventInvites,
   shiftItineraryEvents,
+  setItineraryDayName,
 } from "./actions";
 import { BirdEmptyState } from "@/components/wren-moments";
 import { PlusIcon } from "@/components/page-header";
@@ -117,7 +119,93 @@ function RsvpSwitches({ event }: { event?: ItineraryEvent }) {
   );
 }
 
-function EventFields({ event, defaultDate }: { event?: ItineraryEvent; defaultDate?: string }) {
+/** A booked vendor, offered as someone involved in an event. */
+export type BookedVendor = { name: string; role: string | null };
+
+const GROUPS = ["Wedding party", "Both families", "Officiant", "Planner"];
+
+/**
+ * Who's involved: picked from booked vendors and the usual groups, or typed.
+ * Printed on the run sheets so everyone sees who they're working with.
+ */
+function PeoplePicker({ initial, booked }: { initial: string[]; booked: BookedVendor[] }) {
+  const [people, setPeople] = useState(initial);
+  const [draft, setDraft] = useState("");
+  const add = (name: string) => {
+    const n = name.trim();
+    if (n && !people.some((p) => p.toLowerCase() === n.toLowerCase())) setPeople([...people, n]);
+    setDraft("");
+  };
+  const offers = [
+    ...booked.map((v) => ({ name: v.name, hint: v.role })),
+    ...GROUPS.map((g) => ({ name: g, hint: null })),
+  ].filter((o) => !people.some((p) => p.toLowerCase() === o.name.toLowerCase()));
+
+  return (
+    <div className="sm:col-span-2">
+      <input type="hidden" name="people_fields" value="1" />
+      {people.map((p) => (
+        <input key={p} type="hidden" name="people" value={p} />
+      ))}
+      <p className="text-sm text-ink">Who&apos;s involved</p>
+      <div className="mt-1 flex flex-wrap items-center gap-1.5 rounded-md border border-hairline bg-parchment px-2 py-1.5">
+        {people.map((p) => (
+          <span key={p} className="inline-flex items-center gap-1 rounded-full bg-card px-2.5 py-0.5 text-xs text-ink shadow-[0_0_0_1px_var(--color-hairline)]">
+            {p}
+            <button
+              type="button"
+              onClick={() => setPeople(people.filter((x) => x !== p))}
+              aria-label={`Remove ${p}`}
+              className="text-ink/45 hover:text-ink"
+            >
+              ×
+            </button>
+          </span>
+        ))}
+        <input
+          value={draft}
+          onChange={(e) => setDraft(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === ",") {
+              e.preventDefault();
+              add(draft);
+            }
+          }}
+          onBlur={() => draft && add(draft)}
+          placeholder={people.length ? "Add someone" : "A vendor, a person, a group"}
+          aria-label="Add someone involved"
+          className="min-w-[8rem] flex-1 bg-transparent px-1 py-0.5 text-sm text-ink outline-none"
+        />
+      </div>
+      {offers.length > 0 && (
+        <div className="mt-1.5 flex flex-wrap gap-1.5">
+          {offers.slice(0, 8).map((o) => (
+            <button
+              key={o.name}
+              type="button"
+              onClick={() => add(o.name)}
+              className="rounded-full border border-dashed border-ink/25 px-2.5 py-0.5 text-xs text-ink/70 hover:border-forest hover:text-ink"
+            >
+              + {o.name}
+              {o.hint && <span className="text-ink/45"> · {o.hint}</span>}
+            </button>
+          ))}
+        </div>
+      )}
+      <p className="mt-1 text-xs text-ink/55">On your run sheets, so everyone knows who they&apos;re working with.</p>
+    </div>
+  );
+}
+
+function EventFields({
+  event,
+  defaultDate,
+  booked = [],
+}: {
+  event?: ItineraryEvent;
+  defaultDate?: string;
+  booked?: BookedVendor[];
+}) {
   const [audience, setAudience] = useState<EventAudience>(event ? audienceOf(event) : "guests");
   // A new event follows its title ("Hair & makeup" -> wedding party) until
   // the couple picks an audience themselves.
@@ -171,12 +259,13 @@ function EventFields({ event, defaultDate }: { event?: ItineraryEvent; defaultDa
           className={inputClass}
         />
       </label>
+      <PeoplePicker initial={event?.people ?? []} booked={booked} />
       <label className={`${labelClass} sm:col-span-2`}>
         Notes
         <textarea
           name="description"
           rows={2}
-          placeholder="Optional — dress code, who's involved, reminders..."
+          placeholder="Optional — dress code, reminders..."
           defaultValue={event?.description ?? ""}
           className={inputClass}
         />
@@ -386,12 +475,14 @@ type PanelMode = { kind: "add"; date: string } | { kind: "edit"; event: Itinerar
 function EventPanel({
   mode,
   dayEvents,
+  booked,
   guests,
   invites,
   onClose,
 }: {
   mode: PanelMode;
   dayEvents: ItineraryEvent[];
+  booked: BookedVendor[];
   guests: InviteGuest[];
   invites: Record<string, string[]>;
   onClose: () => void;
@@ -444,7 +535,7 @@ function EventPanel({
         </div>
         <form action={submit}>
           {event && <input type="hidden" name="id" value={event.id} />}
-          <EventFields event={event} defaultDate={mode.kind === "add" ? mode.date : undefined} />
+          <EventFields event={event} defaultDate={mode.kind === "add" ? mode.date : undefined} booked={booked} />
           {error && <p className="mt-3 text-sm text-red-800">{error}</p>}
           <div className="mt-4 flex flex-wrap items-center justify-end gap-2">
             {event && (
@@ -483,7 +574,7 @@ function EventPanel({
 }
 
 /** The day's shape in four numbers, beside the timeline. */
-function Glance({ date, weddingDate, events, flags }: { date: string; weddingDate: string | null; events: ItineraryEvent[]; flags: number }) {
+function Glance({ label, date, events, flags }: { label: string; date: string; events: ItineraryEvent[]; flags: number }) {
   const spans = events.map(spanOf).filter((s) => s !== null);
   const ceremony = events.find(isCeremony);
   const at = (m: number | undefined) => (m === undefined ? "—" : formatTime(fromMinutes(m % 1440)));
@@ -495,11 +586,11 @@ function Glance({ date, weddingDate, events, flags }: { date: string; weddingDat
     { label: "Wraps up", value: at(spans.length ? Math.max(...spans.map((s) => s.end)) : undefined) },
     { label: "Needs a look", value: flags ? `${flags} ${flags === 1 ? "thing" : "things"}` : "All clear", warn: flags > 0 },
   ];
-  const label = dayLabel(date, weddingDate);
   return (
     <div className="hidden rounded-[18px] border border-hairline bg-card px-5 py-4 shadow-[0_2px_10px_rgb(20_32_61/0.05)] lg:block">
       <h2 className="mb-3 font-display text-[22px] font-semibold text-forest">
-        {label === "Wedding day" ? "Your wedding day" : formatShortDate(date)} at a glance
+        {label === "Wedding day" ? "Your wedding day" : label} at a glance
+        <span className="sr-only"> ({formatShortDate(date)})</span>
       </h2>
       <dl className="grid grid-cols-2 gap-2.5">
         {tiles.map((t) => (
@@ -513,14 +604,76 @@ function Glance({ date, weddingDate, events, flags }: { date: string; weddingDat
   );
 }
 
+/** The day's name and full date over the timeline, with an inline rename. */
+function DayHeading({ date, weddingDate, names }: { date: string; weddingDate: string | null; names: Record<string, string> }) {
+  const label = dayLabel(date, weddingDate, names);
+  const [editing, setEditing] = useState(false);
+  const [draft, setDraft] = useState(names[date] ?? "");
+  const [error, setError] = useState<string>();
+  const [isPending, startTransition] = useTransition();
+
+  function save() {
+    startTransition(async () => {
+      const result = await setItineraryDayName(date, draft);
+      if (result.error) setError(result.error);
+      else setEditing(false);
+    });
+  }
+
+  return (
+    <div className="mb-4 flex flex-wrap items-baseline gap-x-3 gap-y-1 border-b border-hairline pb-3">
+      {editing ? (
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            save();
+          }}
+          className="flex flex-wrap items-center gap-2"
+        >
+          <input
+            autoFocus
+            value={draft}
+            onChange={(e) => setDraft(e.target.value)}
+            maxLength={40}
+            placeholder={dayLabel(date, weddingDate)}
+            aria-label="Name this day"
+            className={`${inputClass} py-1 text-sm`}
+          />
+          <button type="submit" disabled={isPending} className="text-sm font-medium text-[#2243B6] hover:underline">
+            {isPending ? "Saving…" : "Save"}
+          </button>
+          <button type="button" onClick={() => setEditing(false)} className="text-sm text-ink/60 hover:underline">
+            Cancel
+          </button>
+        </form>
+      ) : (
+        <h2 className="font-display text-2xl font-semibold text-forest">{label}</h2>
+      )}
+      <p className="text-sm text-ink/60">{formatFullDate(date)}</p>
+      {!editing && (
+        <button type="button" onClick={() => setEditing(true)} className="text-xs text-ink/55 hover:text-ink hover:underline sm:ml-auto">
+          Rename day
+        </button>
+      )}
+      {error && <p className="w-full text-sm text-red-800">{error}</p>}
+    </div>
+  );
+}
+
 export function ItineraryManager({
   events,
   weddingDate,
+  dayNames = {},
+  bookedVendors = [],
   guests = [],
   invites = {},
 }: {
   events: ItineraryEvent[];
   weddingDate: string | null;
+  /** The couple's names for days, by date. */
+  dayNames?: Record<string, string>;
+  /** Offered in "Who's involved". */
+  bookedVendors?: BookedVendor[];
   /** For choosing who's invited to invite-only events. */
   guests?: InviteGuest[];
   /** Event id -> the guest ids invited to it. */
@@ -580,7 +733,7 @@ export function ItineraryManager({
                   {formatShortDate(d.date)}
                 </span>
                 <span className="font-display text-[17px] font-semibold text-forest md:text-[19px]">
-                  {dayLabel(d.date, weddingDate)}
+                  {dayLabel(d.date, weddingDate, dayNames)}
                 </span>
                 <span className="hidden text-xs text-ink/55 md:inline">
                   {" "}· {d.events.length} {d.events.length === 1 ? "event" : "events"}
@@ -629,6 +782,7 @@ export function ItineraryManager({
 
       <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_380px]">
         <section className="rounded-[18px] border border-hairline bg-card p-4 shadow-[0_2px_10px_rgb(20_32_61/0.05)] sm:p-6">
+          {day && <DayHeading key={day.date} date={day.date} weddingDate={weddingDate} names={dayNames} />}
           {!day || day.events.length === 0 ? (
             <BirdEmptyState className="">
               <p className="text-sm text-ink/60">
@@ -685,13 +839,14 @@ export function ItineraryManager({
 
         <aside className="flex flex-col gap-4">
           {day && day.events.length > 0 && (
-            <Glance date={day.date} weddingDate={weddingDate} events={day.events} flags={flags.length} />
+            <Glance label={dayLabel(day.date, weddingDate, dayNames)} date={day.date} events={day.events} flags={flags.length} />
           )}
           {mode ? (
             <EventPanel
               key={mode.kind === "edit" ? `${mode.event.id}-${mode.event.updated_at}` : `add-${mode.date}`}
               mode={mode}
               dayEvents={day?.events ?? []}
+              booked={bookedVendors}
               guests={guests}
               invites={invites}
               onClose={() => setPanel(null)}

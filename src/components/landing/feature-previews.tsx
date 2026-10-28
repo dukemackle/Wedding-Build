@@ -1578,14 +1578,15 @@ function AttireDemo() {
 /* ---------- Itinerary ---------- */
 
 type DemoEvent = TimelineEvent & { audience: EventAudience };
-const ev = (id: string, start: string, end: string | null, title: string, location: string, audience: EventAudience): DemoEvent => ({
-  id,
-  title,
-  start_time: start,
-  end_time: end,
-  location,
-  audience,
-});
+const ev = (
+  id: string,
+  start: string,
+  end: string | null,
+  title: string,
+  location: string,
+  audience: EventAudience,
+  people: string[] = [],
+): DemoEvent => ({ id, title, start_time: start, end_time: end, location, audience, people });
 
 const DAYS: { date: string; short: string; label: string; events: DemoEvent[] }[] = [
   {
@@ -1602,13 +1603,13 @@ const DAYS: { date: string; short: string; label: string; events: DemoEvent[] }[
     short: "Sat · Jun 12",
     label: "Wedding day",
     events: [
-      ev("w1", "10:00", "13:00", "Hair & makeup", "Bridal suite", "party"),
+      ev("w1", "10:00", "13:00", "Hair & makeup", "Bridal suite", "party", ["Glow Studio", "Bridesmaids"]),
       ev("w2", "13:30", "14:30", "First look & photos", "The orchard", "private"),
-      ev("w3", "14:30", "16:10", "Family photos", "Barn lawn", "party"),
+      ev("w3", "14:30", "16:10", "Family photos", "Barn lawn", "party", ["Lena Ortiz Photo", "Both families"]),
       ev("w4", "15:30", "16:00", "Guests arrive", "Front terrace", "guests"),
       ev("w5", "16:00", "16:30", "Ceremony", "Juniper Barn lawn", "guests"),
       ev("w6", "16:30", "17:30", "Cocktail hour", "The terrace", "guests"),
-      ev("w7", "18:00", "19:30", "Dinner & toasts", "The barn", "guests"),
+      ev("w7", "18:00", "19:30", "Dinner & toasts", "The barn", "guests", ["Caterer", "DJ"]),
     ],
   },
   {

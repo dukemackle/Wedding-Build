@@ -67,6 +67,9 @@ export function PrintSheet({
                       {event.location && (
                         <p className="mt-1 text-xs text-ink/50">{event.location}</p>
                       )}
+                      {event.people?.length ? (
+                        <p className="mt-1 text-xs text-ink/70">With {event.people.join(", ")}</p>
+                      ) : null}
                       {event.description && (
                         <p className="mt-1 text-sm text-ink/70">{event.description}</p>
                       )}
