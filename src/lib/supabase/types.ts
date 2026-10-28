@@ -669,6 +669,8 @@ export type AttireShortlistEntry = {
   created_at: string;
 };
 
+export type EventAudience = "guests" | "party" | "private";
+
 export type ItineraryEvent = {
   id: string;
   wedding_id: string;
@@ -683,6 +685,8 @@ export type ItineraryEvent = {
   rsvp: boolean;
   /** Only the guests named in guest_event_invites see it (0109). */
   invite_only: boolean;
+  /** Who the event is for: only 'guests' reaches the guest site (0143). */
+  audience: EventAudience;
   created_at: string;
   updated_at: string;
 };

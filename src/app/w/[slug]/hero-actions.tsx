@@ -66,6 +66,7 @@ export function HeroActions({
               end_time: ceremony?.end_time ?? null,
               rsvp: false,
               invite_only: false,
+              audience: "guests",
               title: names ? `${names}'s wedding` : "Wedding",
               location: location || null,
               description: null,

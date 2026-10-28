@@ -1,12 +1,15 @@
 "use client";
 
 import { useMemo, useRef, useState, useTransition, type CSSProperties } from "react";
-import type { Guest, ItineraryEvent } from "@/lib/supabase/types";
+import type { EventAudience, Guest, ItineraryEvent } from "@/lib/supabase/types";
 import {
+  AUDIENCES,
+  audienceOf,
   dateKey,
   formatFullDate,
   formatTime,
   groupEventsByDate,
+  guessAudience,
   parseDateKey,
 } from "@/lib/itinerary";
 import { downloadIcs } from "@/lib/ics";
@@ -14,6 +17,7 @@ import { ItineraryCalendar } from "@/components/itinerary-calendar";
 import { addItineraryEvent, updateItineraryEvent, deleteItineraryEvent, setEventInvites } from "./actions";
 import { BirdEmptyState } from "@/components/wren-moments";
 import { PlusIcon } from "@/components/page-header";
+import { AUDIENCE_FILL, AudienceTag, LockIcon } from "@/components/audience-tag";
 
 const inputClass =
   "rounded-md border border-hairline bg-parchment px-3 py-2 text-ink outline-none focus:border-forest";
@@ -27,6 +31,44 @@ const labelClass = "flex flex-col gap-1 text-sm text-ink";
 
 /** The guest list, as far as choosing who's invited to an event needs it. */
 export type InviteGuest = Pick<Guest, "id" | "name" | "household">;
+
+function AudiencePicker({ value, onChange }: { value: EventAudience; onChange: (a: EventAudience) => void }) {
+  return (
+    <fieldset className="sm:col-span-2">
+      <legend className="text-sm font-medium text-ink">Who sees this</legend>
+      <div className="mt-1.5 grid gap-2">
+        {AUDIENCES.map((a) => (
+          <label
+            key={a.value}
+            className={`flex cursor-pointer items-start gap-2.5 rounded-lg border-[1.5px] bg-card px-3 py-2.5 transition-colors has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-forest/40 ${
+              value === a.value ? "border-forest bg-[#FFF12F]/10" : "border-hairline hover:border-forest/40"
+            }`}
+          >
+            <input
+              type="radio"
+              name="audience"
+              value={a.value}
+              checked={value === a.value}
+              onChange={() => onChange(a.value)}
+              className="mt-0.5 h-4 w-4 shrink-0 accent-forest"
+            />
+            <span className="min-w-0">
+              <span className="flex items-center gap-1.5 text-sm font-semibold text-ink">
+                {a.value === "private" ? (
+                  <LockIcon />
+                ) : (
+                  <span aria-hidden="true" className={`h-1.5 w-1.5 rounded-full ${AUDIENCE_FILL[a.value]}`} />
+                )}
+                {a.label}
+              </span>
+              <span className="mt-0.5 block text-xs text-ink/60">{a.help}</span>
+            </span>
+          </label>
+        ))}
+      </div>
+    </fieldset>
+  );
+}
 
 function RsvpSwitches({ event }: { event?: ItineraryEvent }) {
   const [asks, setAsks] = useState(event?.rsvp ?? false);
@@ -69,11 +111,21 @@ function RsvpSwitches({ event }: { event?: ItineraryEvent }) {
 }
 
 function EventFields({ event, defaultDate }: { event?: ItineraryEvent; defaultDate?: string }) {
+  const [audience, setAudience] = useState<EventAudience>(event ? audienceOf(event) : "guests");
+  // A new event follows its title ("Hair & makeup" -> wedding party) until
+  // the couple picks an audience themselves.
+  const [picked, setPicked] = useState(Boolean(event));
   return (
     <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
       <label className={`${labelClass} sm:col-span-2`}>
         Title
-        <input name="title" required defaultValue={event?.title ?? ""} className={inputClass} />
+        <input
+          name="title"
+          required
+          defaultValue={event?.title ?? ""}
+          onChange={(e) => !picked && setAudience(guessAudience(e.target.value))}
+          className={inputClass}
+        />
       </label>
       <label className={labelClass}>
         Date
@@ -122,7 +174,18 @@ function EventFields({ event, defaultDate }: { event?: ItineraryEvent; defaultDa
           className={inputClass}
         />
       </label>
-      <RsvpSwitches event={event} />
+      <AudiencePicker
+        value={audience}
+        onChange={(a) => {
+          setPicked(true);
+          setAudience(a);
+        }}
+      />
+      {audience === "guests" ? (
+        <RsvpSwitches event={event} />
+      ) : (
+        <input type="hidden" name="rsvp_fields" value="1" />
+      )}
     </div>
   );
 }
@@ -298,10 +361,13 @@ function EventRow({
   event,
   guests,
   invited,
+  guestView,
 }: {
   event: ItineraryEvent;
   guests: InviteGuest[];
   invited: string[];
+  /** "What guests see" is on: fade what they won't. */
+  guestView: boolean;
 }) {
   const [isEditing, setIsEditing] = useState(false);
   const [picking, setPicking] = useState(false);
@@ -364,10 +430,21 @@ function EventRow({
     .filter(Boolean)
     .join(" – ");
 
+  const audience = audienceOf(event);
+  const hidden = guestView && audience !== "guests";
+
   return (
-    <div className="border-b border-hairline py-3 last:border-b-0">
-      {timeRange && <p className="font-mono-numbers text-xs text-brass xl:text-[11px]">{timeRange}</p>}
-      <p className="mt-0.5 text-ink">{event.title}</p>
+    <div
+      className={`border-b border-hairline py-3 transition-opacity last:border-b-0 ${hidden ? "opacity-35" : ""}`}
+      aria-hidden={hidden || undefined}
+    >
+      <div className="flex items-start justify-between gap-2">
+        <div className="min-w-0">
+          {timeRange && <p className="font-mono-numbers text-xs text-brass xl:text-[11px]">{timeRange}</p>}
+          <p className="mt-0.5 text-ink">{event.title}</p>
+        </div>
+        <AudienceTag audience={audience} />
+      </div>
       {event.rsvp && (
         <p className="mt-1 flex flex-wrap gap-1.5">
           <span className="rounded-full border border-forest/40 bg-forest/10 px-2 py-0.5 text-[11px] text-forest">
@@ -416,6 +493,7 @@ function DayColumn({
   onAdd,
   guests,
   invites,
+  guestView,
 }: {
   date: string;
   events: ItineraryEvent[];
@@ -423,6 +501,7 @@ function DayColumn({
   onAdd: () => void;
   guests: InviteGuest[];
   invites: Record<string, string[]>;
+  guestView: boolean;
 }) {
   return (
     <div className="w-full min-w-[240px] flex-1 rounded-lg border border-hairline bg-card p-4 shadow-sm xl:min-w-0 xl:p-3">
@@ -450,7 +529,13 @@ function DayColumn({
         <p className="py-6 text-center text-sm text-ink/50">Nothing scheduled yet.</p>
       ) : (
         events.map((event) => (
-          <EventRow key={event.id} event={event} guests={guests} invited={invites[event.id] ?? []} />
+          <EventRow
+            key={event.id}
+            event={event}
+            guests={guests}
+            invited={invites[event.id] ?? []}
+            guestView={guestView}
+          />
         ))
       )}
     </div>
@@ -471,6 +556,7 @@ export function ItineraryManager({
   invites?: Record<string, string[]>;
 }) {
   const [showAddForm, setShowAddForm] = useState(false);
+  const [guestView, setGuestView] = useState(false);
   const [addFormDate, setAddFormDate] = useState(weddingDate ?? dateKey(new Date()));
 
   const days = useMemo(() => groupEventsByDate(events), [events]);
@@ -501,6 +587,30 @@ export function ItineraryManager({
               ? "No days scheduled yet."
               : `${days.length} day${days.length === 1 ? "" : "s"} scheduled, side by side below.`}
           </p>
+          {days.length > 0 && (
+            <div
+              role="group"
+              aria-label="Show"
+              className="inline-flex rounded-full border border-hairline bg-card p-0.5 text-xs sm:ml-auto"
+            >
+              {[
+                { on: false, label: "Everything" },
+                { on: true, label: "What guests see" },
+              ].map((o) => (
+                <button
+                  key={o.label}
+                  type="button"
+                  aria-pressed={guestView === o.on}
+                  onClick={() => setGuestView(o.on)}
+                  className={`rounded-full px-3 py-1.5 transition-colors ${
+                    guestView === o.on ? "bg-forest text-parchment" : "text-ink/60 hover:text-ink"
+                  }`}
+                >
+                  {o.label}
+                </button>
+              ))}
+            </div>
+          )}
           <button
             onClick={() => (showAddForm ? setShowAddForm(false) : openAddForm(addFormDate))}
             className={showAddForm ? "btn-secondary" : "btn-primary"}
@@ -540,6 +650,7 @@ export function ItineraryManager({
                 onAdd={() => openAddForm(day.date)}
                 guests={guests}
                 invites={invites}
+                guestView={guestView}
               />
             ))}
           </div>

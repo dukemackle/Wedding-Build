@@ -21,6 +21,7 @@ import type { Household } from "@/lib/households";
 import { turnstileSiteKey } from "@/lib/turnstile";
 import { RsvpSection } from "./rsvp-section";
 import { ItineraryView } from "./itinerary-view";
+import { audienceOf } from "@/lib/itinerary";
 import { GuestbookView } from "./guestbook-view";
 import { GuestWall } from "./guest-wall";
 import { GalleryView } from "./gallery-view";
@@ -182,9 +183,10 @@ export async function loadGuestSiteContent(
     blocks: blocks ?? [],
     registryItems: registryItems ?? [],
     registryGifts: registryGifts ?? [],
-    // Invite-only events never reach the public schedule (0109 hides them
-    // from guests; this keeps the couple's preview honest too).
-    itineraryEvents: (itineraryEvents ?? []).filter((e) => !e.invite_only),
+    // Invite-only, wedding-party and private events never reach the public
+    // schedule (0109 and 0143 hide them from guests; this keeps the couple's
+    // own preview honest too).
+    itineraryEvents: (itineraryEvents ?? []).filter((e) => !e.invite_only && audienceOf(e) === "guests"),
     weddingFaqs: weddingFaqs ?? [],
     accommodations: accommodations ?? [],
     guestbookEntries: guestbookEntries ?? [],

@@ -26,6 +26,8 @@ import {
 import { Falling, useReducedMotion } from "@/components/site-motion";
 import { SiteOrnament } from "@/components/site-ornament";
 import { ConfirmedChip } from "@/components/confirmed-badge";
+import { AudienceTag } from "@/components/audience-tag";
+import type { EventAudience } from "@/lib/supabase/types";
 import { SAMPLE_GALLERY } from "@/lib/sample-photos";
 import { CHECKLIST_PHASES, CHECKLIST_TEMPLATE } from "@/lib/checklist-template";
 import {
@@ -1589,13 +1591,18 @@ function AttireDemo() {
 
 /* ---------- Itinerary ---------- */
 
-const DAYS = [
+const DAYS: {
+  date: number;
+  label: string;
+  wedding?: boolean;
+  events: { time: string; title: string; where: string; who: EventAudience }[];
+}[] = [
   {
     date: 11,
     label: "Friday, June 11",
     events: [
-      { time: "5:00 – 6:00 PM", title: "Rehearsal", where: "Juniper Barn" },
-      { time: "6:30 PM", title: "Rehearsal dinner", where: "The Honey Pot" },
+      { time: "5:00 – 6:00 PM", title: "Rehearsal", where: "Juniper Barn", who: "party" },
+      { time: "6:30 PM", title: "Rehearsal dinner", where: "The Honey Pot", who: "guests" },
     ],
   },
   {
@@ -1603,21 +1610,22 @@ const DAYS = [
     label: "Saturday, June 12",
     wedding: true,
     events: [
-      { time: "10:00 AM", title: "Hair & makeup", where: "Bridal suite" },
-      { time: "2:00 PM", title: "First look & photos", where: "The orchard" },
-      { time: "4:00 – 4:30 PM", title: "Ceremony", where: "Juniper Barn lawn" },
-      { time: "6:00 PM", title: "Dinner & toasts", where: "The barn" },
+      { time: "10:00 AM", title: "Hair & makeup", where: "Bridal suite", who: "party" },
+      { time: "2:00 PM", title: "First look & photos", where: "The orchard", who: "private" },
+      { time: "4:00 – 4:30 PM", title: "Ceremony", where: "Juniper Barn lawn", who: "guests" },
+      { time: "6:00 PM", title: "Dinner & toasts", where: "The barn", who: "guests" },
     ],
   },
   {
     date: 13,
     label: "Sunday, June 13",
-    events: [{ time: "10:30 AM", title: "Farewell brunch", where: "Harbor House" }],
+    events: [{ time: "10:30 AM", title: "Farewell brunch", where: "Harbor House", who: "guests" }],
   },
 ];
 
 function ItineraryDemo() {
   const [picked, setPicked] = useState(12);
+  const [guestView, setGuestView] = useState(false);
   // June 2027 starts on a Tuesday.
   const cells = [
     ...Array.from({ length: 2 }, () => null),
@@ -1663,8 +1671,25 @@ function ItineraryDemo() {
 
       <div className="min-w-0">
         <div className="mb-3 flex items-center justify-between gap-3">
-          <p className="text-sm text-ink/60">3 days scheduled, side by side below.</p>
-          <span className="shrink-0 whitespace-nowrap rounded-full bg-forest px-4 py-1.5 font-mono-numbers text-sm text-parchment">
+          <div className="inline-flex rounded-full border border-hairline bg-card p-0.5 text-xs" role="group" aria-label="Show">
+            {[
+              { on: false, label: "Everything" },
+              { on: true, label: "What guests see" },
+            ].map((o) => (
+              <button
+                key={o.label}
+                type="button"
+                aria-pressed={guestView === o.on}
+                onClick={() => setGuestView(o.on)}
+                className={`rounded-full px-3 py-1.5 transition-colors ${
+                  guestView === o.on ? "bg-forest text-parchment" : "text-ink/60 hover:text-ink"
+                }`}
+              >
+                {o.label}
+              </button>
+            ))}
+          </div>
+          <span className="hidden shrink-0 sm:inline-flex whitespace-nowrap rounded-full bg-forest px-4 py-1.5 font-mono-numbers text-sm text-parchment">
             + Add event
           </span>
         </div>
@@ -1689,9 +1714,19 @@ function ItineraryDemo() {
                 )}
               </div>
               {day.events.map((e) => (
-                <div key={e.title} className="border-b border-hairline py-2.5 last:border-b-0">
-                  <p className="font-mono-numbers text-[11px] text-brass">{e.time}</p>
-                  <p className="mt-0.5 text-sm text-ink">{e.title}</p>
+                <div
+                  key={e.title}
+                  className={`border-b border-hairline py-2.5 transition-opacity last:border-b-0 ${
+                    guestView && e.who !== "guests" ? "opacity-35" : ""
+                  }`}
+                >
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="min-w-0">
+                      <p className="font-mono-numbers text-[11px] text-brass">{e.time}</p>
+                      <p className="mt-0.5 text-sm text-ink">{e.title}</p>
+                    </div>
+                    <AudienceTag audience={e.who} />
+                  </div>
                   <p className="mt-0.5 text-xs text-ink/50">{e.where}</p>
                   <p className="mt-1 text-xs text-brass">Add to calendar</p>
                 </div>

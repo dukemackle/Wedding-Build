@@ -7,6 +7,8 @@ import { PageHeader } from "@/components/page-header";
 import type { GuestEventInvite, ItineraryEvent, Wedding } from "@/lib/supabase/types";
 import { ItineraryManager, type InviteGuest } from "./itinerary-manager";
 import { PublishToggle } from "./publish-toggle";
+import { audienceOf } from "@/lib/itinerary";
+import { RunSheetMenu } from "./run-sheet-menu";
 
 export default async function ItineraryPage() {
   const supabase = await createClient();
@@ -76,6 +78,9 @@ export default async function ItineraryPage() {
   const invites: Record<string, string[]> = {};
   for (const row of inviteRows ?? []) invites[row.event_id] = [...(invites[row.event_id] ?? []), row.guest_id];
 
+  const counts = { guests: 0, party: 0, private: 0 };
+  for (const event of events ?? []) counts[audienceOf(event)] += 1;
+
   return (
     <PageShell email={user.email ?? ""} width="canvas">
         <PageHeader
@@ -83,18 +88,14 @@ export default async function ItineraryPage() {
           title="The day,"
           accent="hour by hour"
           photo="itinerary"
-          actions={
-            <Link href="/itinerary/print" className="btn-secondary">
-              Print run sheet
-            </Link>
-          }
+          actions={<RunSheetMenu />}
         >
-          Who needs to be where, and when. Every scheduled day sits side by side below.
+          Who needs to be where, and when. One schedule for everyone; each event says who sees it.
         </PageHeader>
 
         <PublishToggle
           published={wedding.itinerary_published}
-          hasEvents={(events ?? []).length > 0}
+          counts={counts}
           publicSlug={wedding.public_slug}
         />
 
