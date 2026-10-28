@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import type {
   Guest,
   LayoutItemType,
+  LayoutPhase,
   SeatingTable,
   TableShape,
   VenueLayoutItem,
@@ -23,6 +24,8 @@ import {
   setTableDecor,
 } from "@/app/seating/actions";
 import { addRoom, deleteRoom, setRoomStyle } from "./room-actions";
+import { addPhase, copyPhaseLayout, deletePhase, setNodePhase } from "./phase-actions";
+import { VENUE_FIXTURE_TYPES, defaultPhaseId, inPhase, sortPhases } from "@/lib/layout-phases";
 import {
   addLayoutItem,
   updateLayoutItem,
@@ -186,7 +189,15 @@ function TableFields({ table }: { table?: SeatingTable }) {
   );
 }
 
-function AddTableForm({ onDone, roomId }: { onDone: () => void; roomId?: string }) {
+function AddTableForm({
+  onDone,
+  roomId,
+  phaseId,
+}: {
+  onDone: () => void;
+  roomId?: string;
+  phaseId?: string;
+}) {
   const [error, setError] = useState<string | undefined>(undefined);
   const [isPending, startTransition] = useTransition();
   const formRef = useRef<HTMLFormElement>(null);
@@ -212,6 +223,7 @@ function AddTableForm({ onDone, roomId }: { onDone: () => void; roomId?: string 
     >
       <p className="mb-3 font-medium text-ink">Add a table</p>
       {roomId && <input type="hidden" name="room_id" value={roomId} />}
+      {phaseId && <input type="hidden" name="phase_id" value={phaseId} />}
       <TableFields />
       {error && <p className="mt-3 text-sm text-red-800">{error}</p>}
       <div className="mt-4 flex items-center gap-3">
@@ -260,12 +272,24 @@ function ItemFields({ item }: { item?: VenueLayoutItem }) {
   );
 }
 
-function AddItemForm({ onDone, roomId }: { onDone: () => void; roomId?: string }) {
+function AddItemForm({
+  onDone,
+  roomId,
+  phase,
+}: {
+  onDone: () => void;
+  roomId?: string;
+  phase?: LayoutPhase;
+}) {
   const [error, setError] = useState<string | undefined>(undefined);
   const [isPending, startTransition] = useTransition();
+  // The house or the parking is there whatever the event, so those start
+  // ticked; a bar or a dance floor starts as this event's only.
+  const [everyPhase, setEveryPhase] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
 
   function handleSubmit(formData: FormData) {
+    if (everyPhase) formData.delete("phase_id");
     startTransition(async () => {
       const result = await addLayoutItem(formData);
       if (result?.error) {
@@ -282,11 +306,34 @@ function AddItemForm({ onDone, roomId }: { onDone: () => void; roomId?: string }
     <form
       ref={formRef}
       action={handleSubmit}
+      onChange={(e) => {
+        const target = e.target as unknown as HTMLSelectElement;
+        if (target.name === "item_type") {
+          setEveryPhase(VENUE_FIXTURE_TYPES.includes(target.value as LayoutItemType));
+        }
+      }}
       className="mb-6 rounded-lg border border-hairline bg-parchment p-6"
     >
       <p className="mb-3 font-medium text-ink">Add a furniture / layout item</p>
       {roomId && <input type="hidden" name="room_id" value={roomId} />}
+      {phase && <input type="hidden" name="phase_id" value={phase.id} />}
       <ItemFields />
+      {phase && (
+        <label className="mt-3 flex items-start gap-2 text-sm text-ink">
+          <input
+            type="checkbox"
+            checked={everyPhase}
+            onChange={(e) => setEveryPhase(e.target.checked)}
+            className="mt-0.5 accent-forest"
+          />
+          <span>
+            Part of the venue
+            <span className="block text-xs text-ink/60">
+              Shows in every event. Leave unticked to add it to the {phase.name.toLowerCase()} only.
+            </span>
+          </span>
+        </label>
+      )}
       {error && <p className="mt-3 text-sm text-red-800">{error}</p>}
       <div className="mt-4 flex items-center gap-3">
         <button
@@ -1376,7 +1423,9 @@ function SelectionPanel({
   onDeleteTable,
   onDeleteItem,
   onResetTableSize,
+  phaseControl,
 }: {
+  phaseControl?: React.ReactNode;
   table: SeatingTable | null;
   item: VenueLayoutItem | null;
   roomStyle: RoomStyle;
@@ -1433,6 +1482,8 @@ function SelectionPanel({
           Delete
         </button>
       </div>
+
+      {phaseControl}
 
       {table && (
         <TableDecor
@@ -2034,6 +2085,174 @@ function RoomTabs({
   );
 }
 
+// The events of the day, in order: each is its own arrangement of the same
+// venue. Pills rather than the room tabs' style so the two rows don't read as
+// the same control.
+function PhaseTabs({
+  phases,
+  activeId,
+  onSelect,
+}: {
+  phases: LayoutPhase[];
+  activeId: string | null;
+  onSelect: (id: string) => void;
+}) {
+  const [adding, setAdding] = useState(false);
+  const [error, setError] = useState<string | undefined>(undefined);
+  const [isPending, startTransition] = useTransition();
+
+  function handleAdd(formData: FormData) {
+    startTransition(async () => {
+      const result = await addPhase(formData);
+      setError(result?.error);
+      if (!result?.error) setAdding(false);
+    });
+  }
+
+  function handleDelete(phase: LayoutPhase) {
+    if (!confirm(`Delete "${phase.name}"? Its tables and items go with it.`)) return;
+    const formData = new FormData();
+    formData.set("id", phase.id);
+    startTransition(async () => {
+      await deletePhase(formData);
+    });
+  }
+
+  return (
+    <div className="mb-4 flex flex-wrap items-center gap-2" role="tablist" aria-label="Event">
+      <span className="mr-1 font-mono-numbers text-xs uppercase tracking-[0.2em] text-ink/50">
+        Event
+      </span>
+      {phases.map((phase) => {
+        const active = phase.id === activeId;
+        return (
+          <div
+            key={phase.id}
+            className={`flex items-center rounded-full border text-sm transition-colors ${
+              active
+                ? "border-forest bg-forest text-parchment"
+                : "border-hairline bg-card text-ink hover:border-forest"
+            }`}
+          >
+            <button
+              role="tab"
+              aria-selected={active}
+              onClick={() => onSelect(phase.id)}
+              className={`py-1.5 ${phase.kind === "custom" ? "pl-3.5 pr-1.5" : "px-3.5"}`}
+            >
+              {phase.name}
+            </button>
+            {phase.kind === "custom" && (
+              <button
+                onClick={() => handleDelete(phase)}
+                disabled={isPending}
+                aria-label={`Delete ${phase.name}`}
+                className={`pr-2.5 text-xs ${active ? "text-parchment/70 hover:text-parchment" : "text-ink/40 hover:text-red-700"}`}
+              >
+                &times;
+              </button>
+            )}
+          </div>
+        );
+      })}
+      {adding ? (
+        <form action={handleAdd} className="flex items-center gap-2">
+          <input
+            name="name"
+            autoFocus
+            maxLength={60}
+            placeholder="e.g. Rehearsal dinner"
+            className="rounded-full border border-hairline bg-parchment px-3 py-1.5 text-sm text-ink outline-none focus:border-forest"
+          />
+          <button type="submit" disabled={isPending} className="text-sm font-medium text-forest hover:underline">
+            Add
+          </button>
+          <button type="button" onClick={() => setAdding(false)} className="text-sm text-ink/50 hover:underline">
+            Cancel
+          </button>
+          {error && <span className="text-sm text-red-800">{error}</span>}
+        </form>
+      ) : (
+        <button
+          onClick={() => setAdding(true)}
+          className="rounded-full border border-dashed border-hairline px-3 py-1.5 text-sm text-ink/60 transition-colors hover:border-forest hover:text-forest"
+        >
+          + Add event
+        </button>
+      )}
+    </div>
+  );
+}
+
+// Offered when an event is still empty: start it from another event's
+// arrangement rather than placing every table again.
+function CopyPhaseOffer({
+  target,
+  sources,
+}: {
+  target: LayoutPhase;
+  sources: LayoutPhase[];
+}) {
+  const [isPending, startTransition] = useTransition();
+
+  function copy(source: LayoutPhase) {
+    const formData = new FormData();
+    formData.set("from_id", source.id);
+    formData.set("to_id", target.id);
+    startTransition(async () => {
+      const result = await copyPhaseLayout(formData);
+      if (result?.error) window.alert(`That didn't copy. ${result.error}`);
+    });
+  }
+
+  return (
+    <div className="mb-4 flex flex-wrap items-center gap-x-3 gap-y-2 rounded-lg border border-hairline bg-parchment px-4 py-3 text-sm text-ink/80">
+      <span>Nothing set up for the {target.name.toLowerCase()} yet.</span>
+      {sources.map((source) => (
+        <button
+          key={source.id}
+          onClick={() => copy(source)}
+          disabled={isPending}
+          className="font-medium text-forest hover:underline disabled:opacity-50"
+        >
+          {isPending ? "Copying..." : `Start from the ${source.name.toLowerCase()}`}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+// Says which events a selected table or item belongs to, and moves it
+// between "this event only" and "part of the venue".
+function PhaseScope({
+  node,
+  kind,
+  phase,
+  onChange,
+}: {
+  node: { id: string; phase_id: string | null };
+  kind: "table" | "item";
+  phase: LayoutPhase;
+  onChange: (phaseId: string | null) => void;
+}) {
+  const everywhere = node.phase_id == null;
+  return (
+    <div className="mb-4 flex flex-wrap items-center gap-x-2 gap-y-1 rounded-md bg-card px-3 py-2 text-xs text-ink/70">
+      <span>{everywhere ? "In every event (part of the venue)" : `In the ${phase.name.toLowerCase()} only`}</span>
+      <button
+        type="button"
+        onClick={() => onChange(everywhere ? phase.id : null)}
+        className="font-medium text-brass hover:underline"
+      >
+        {everywhere ? `Make it ${phase.name.toLowerCase()} only` : "Show in every event"}
+      </button>
+      {kind === "table" && everywhere && (
+        <span className="basis-full text-ink/50">Guests seated here sit at it in every event.</span>
+      )}
+    </div>
+  );
+}
+
 const MODES = [
   { id: "seating", label: "Seating" },
   { id: "whole-venue", label: "Whole Venue" },
@@ -2150,11 +2369,13 @@ export function VenueLayoutManager({
   confirmedGuests,
   items,
   rooms,
+  phases: storedPhases,
   sides,
   declinedSeated,
   roomStyle: storedRoomStyle,
 }: {
   roomStyle: string;
+  phases: LayoutPhase[];
   tables: SeatingTable[];
   confirmedGuests: Guest[];
   items: VenueLayoutItem[];
@@ -2164,6 +2385,8 @@ export function VenueLayoutManager({
 }) {
   const [mode, setMode] = useState<Mode>("whole-venue");
   const [selectedRoomId, setSelectedRoomId] = useState<string | null>(rooms[0]?.id ?? null);
+  const phases = useMemo(() => sortPhases(storedPhases), [storedPhases]);
+  const [selectedPhaseId, setSelectedPhaseId] = useState<string | null>(() => defaultPhaseId(storedPhases));
   const [addFormType, setAddFormType] = useState<"table" | "item" | null>(null);
   const [selectedTableId, setSelectedTableId] = useState<string | null>(null);
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
@@ -2189,11 +2412,38 @@ export function VenueLayoutManager({
 
   const theme = useMemo(() => sideTheme(sides), [sides]);
   const activeRoomId = selectedRoomId ?? rooms[0]?.id ?? null;
+  // A deleted event falls back to the default one. With no events at all
+  // (a view-only planner on a wedding that predates them) nothing filters.
+  const activePhase =
+    phases.find((p) => p.id === selectedPhaseId) ??
+    phases.find((p) => p.id === defaultPhaseId(phases)) ??
+    null;
+  const activePhaseId = activePhase?.id ?? null;
+  const phaseTables = tables.filter((t) => inPhase(t, activePhaseId));
+  const phaseItems = items.filter((i) => inPhase(i, activePhaseId));
 
   const visibleTables =
-    mode === "rooms" ? tables.filter((t) => t.room_id === activeRoomId) : tables;
+    mode === "rooms" ? phaseTables.filter((t) => t.room_id === activeRoomId) : phaseTables;
   const visibleItems =
-    mode === "seating" ? [] : mode === "rooms" ? items.filter((i) => i.room_id === activeRoomId) : items;
+    mode === "seating"
+      ? []
+      : mode === "rooms"
+        ? phaseItems.filter((i) => i.room_id === activeRoomId)
+        : phaseItems;
+
+  // Events with their own furniture, offered as a starting point when the
+  // one on screen has none yet.
+  const activePhaseEmpty =
+    activePhase != null &&
+    !tables.some((t) => t.phase_id === activePhase.id) &&
+    !items.some((i) => i.phase_id === activePhase.id);
+  const copySources = activePhaseEmpty
+    ? phases.filter(
+        (p) =>
+          p.id !== activePhase.id &&
+          (tables.some((t) => t.phase_id === p.id) || items.some((i) => i.phase_id === p.id)),
+      )
+    : [];
 
   const guestsByTable = new Map<string, Guest[]>();
   const unassigned: Guest[] = [];
@@ -2207,8 +2457,8 @@ export function VenueLayoutManager({
     }
   }
 
-  const selectedTable = tables.find((t) => t.id === selectedTableId) ?? null;
-  const selectedItem = items.find((i) => i.id === selectedItemId) ?? null;
+  const selectedTable = phaseTables.find((t) => t.id === selectedTableId) ?? null;
+  const selectedItem = phaseItems.find((i) => i.id === selectedItemId) ?? null;
   const pickedGuests = unassigned.filter((g) => pickedGuestIds.has(g.id));
   const seatingArmed = pickedGuests.length > 0;
 
@@ -2390,7 +2640,7 @@ export function VenueLayoutManager({
   const hasContent = visibleTables.length > 0 || visibleItems.length > 0;
   const canAdd = mode !== "rooms" || activeRoomId != null;
   const formRoomId = mode === "rooms" ? (activeRoomId ?? undefined) : undefined;
-  const showGuests = guests.length > 0 && tables.length > 0;
+  const showGuests = guests.length > 0 && phaseTables.length > 0;
   const totalPeople = guests.reduce((sum, g) => sum + personCount(g), 0);
   const seatedPeople = guests.reduce((sum, g) => sum + (g.table_id ? personCount(g) : 0), 0);
 
@@ -2447,6 +2697,18 @@ export function VenueLayoutManager({
         </div>
       </div>
 
+      {phases.length > 0 && (
+        <PhaseTabs
+          phases={phases}
+          activeId={activePhaseId}
+          onSelect={(id) => {
+            setSelectedPhaseId(id);
+            setSelectedTableId(null);
+            setSelectedItemId(null);
+          }}
+        />
+      )}
+
       {mode === "rooms" && (
         <RoomTabs rooms={rooms} selectedRoomId={activeRoomId} onSelect={setSelectedRoomId} />
       )}
@@ -2467,10 +2729,22 @@ export function VenueLayoutManager({
       )}
 
       {addFormType === "table" && (
-        <AddTableForm onDone={() => setAddFormType(null)} roomId={formRoomId} />
+        <AddTableForm
+          onDone={() => setAddFormType(null)}
+          roomId={formRoomId}
+          phaseId={activePhaseId ?? undefined}
+        />
       )}
       {addFormType === "item" && (
-        <AddItemForm onDone={() => setAddFormType(null)} roomId={formRoomId} />
+        <AddItemForm
+          onDone={() => setAddFormType(null)}
+          roomId={formRoomId}
+          phase={activePhase ?? undefined}
+        />
+      )}
+
+      {activePhase && copySources.length > 0 && (
+        <CopyPhaseOffer key={activePhase.id} target={activePhase} sources={copySources} />
       )}
 
       {mode === "rooms" && !activeRoomId ? (
@@ -2547,6 +2821,22 @@ export function VenueLayoutManager({
               onDeleteItem={handleDeleteItem}
               onResetTableSize={(table) =>
                 send(updateTablePosition, { id: table.id, width: "", height: "" })
+              }
+              phaseControl={
+                activePhase && (selectedTable || selectedItem) ? (
+                  <PhaseScope
+                    node={(selectedTable ?? selectedItem)!}
+                    kind={selectedTable ? "table" : "item"}
+                    phase={activePhase}
+                    onChange={(phaseId) =>
+                      send(setNodePhase, {
+                        kind: selectedTable ? "table" : "item",
+                        id: (selectedTable ?? selectedItem)!.id,
+                        phase_id: phaseId ?? "",
+                      })
+                    }
+                  />
+                ) : undefined
               }
             />
             {showGuests && (
