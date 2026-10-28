@@ -1807,7 +1807,7 @@ Mix & Mingle Bartending	Bar		San Diego	California	San Diego	Mobile bartending se
 Sweet Love Designs	Planning		San Diego	California	San Diego and Los Angeles	Planning and design studio focused on Indian, fusion and cultural weddings, offering full, partial and day-of services.			https://www.sweetlovedesigns.com/	https://www.instagram.com/sweetlovedesignssd/
 Vows From The Heart	Officiant		San Diego	California	San Diego	Husband-and-wife chaplains offering civil, spiritual or religious ceremonies, including for LGBTQ, gender-fluid and non-binary couples.			https://vowsfromtheheart.com/	
 Vineyard Limousine and Wine Tours	Transportation		Temecula	California	Temecula, San Diego, Riverside, Orange County and Los Angeles	Temecula limousine and party bus operator offering bridal party cars, guest shuttles and a getaway car for weddings.	info@vinelimos.com	760-644-6515	https://vinelimos.com/	
-Stryder Transportation	Transportation		Temecula	California	Temecula Valley	Chartered coach and shuttle company based in Temecula, with wedding transportation and wine country group travel.		951.693.0242	https://www.gostryder.com/	
+Stryder Transportation	Transportation		Temecula	California	Temecula Valley	Chartered coach and shuttle company based in Temecula, with wedding transportation and wine country group travel.		951.693.0242	https://www.gostryder.com/	`,
   },
 ];
 
