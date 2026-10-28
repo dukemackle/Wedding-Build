@@ -11,6 +11,11 @@ They're summarised here only by reference; CLAUDE.md is the source.
 
 ## Approved directions
 
+- **2026-10-28:** Marketplace "Shop your wedding" approved from a preview:
+  a navy panel with Aqua highlights (not gold), chips for colours, guests and
+  date, four matching cards. Follow-ups approved: Saved/Selling/Messages fold
+  into one "Mine" menu on desktop, and hand-picked colours are saved on the
+  wedding rather than in the browser.
 - **2026-10-28:** Venue layout gets dressed rooms: Plain / Barn / Ballroom
   floors (natural wood, carpet, marble allowed as materials; state colours
   stay on the palette), chairs with guests' initials in side colours, place

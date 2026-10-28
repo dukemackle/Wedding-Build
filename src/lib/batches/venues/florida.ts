@@ -995,6 +995,17 @@ Oasis Private Venue with Outdoors	2600 Quantum Boulevard	Boynton Beach	Florida		
 Sun Dream Yacht Charters	852 NE 20th Avenue	Fort Lauderdale	Florida			Lake & River	Indoor & Outdoor	516	8500	Package	Family-run charter company hosting wedding ceremonies and receptions on three yachts along the Intracoastal Waterway.	brantmeyer@sundreamyachts.com	(954) 710-5993	https://www.sundreamyachts.com/weddings
 Eclectic Eats	1731 N Federal Hwy	Delray Beach	Florida			Restaurant & Brewery	Indoor & Outdoor		80	Per person	Vintage diner with an outdoor lounge and garden that offers wedding packages for ceremonies and receptions.	info@eclecticeats.us	(561) 216-4000	https://www.eclecticeats.com/`,
   },
+  {
+    name: "Miami depth 9: Miami-Dade and Broward/Palm Beach",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+Timpano Las Olas	450 E Las Olas Blvd	Fort Lauderdale	Florida			Restaurant & Brewery	Indoor & Outdoor	42	4500	Package	An Italian restaurant on Las Olas that hosts small weddings with a patio ceremony at Il Giardino and a private room for the reception.	sales@timpanolasolas.com	(954) 462-9119	https://www.timpanolasolas.com/weddingsandevents
+Changing Lives Event Center	15108 S Jog Rd	Delray Beach	Florida			Ballroom	Indoor				An event hall that lists wedding ceremonies and receptions among its rentals, with proceeds said to support local family programs.			https://www.changingliveseventcenter.com/
+Coral Ridge Yacht Club	2800 Yacht Club Blvd	Fort Lauderdale	Florida			Lake & River	Indoor & Outdoor	200			A private Intracoastal club whose Intracoastal Room and veranda, plus a landscaped courtyard, host weddings and other events.		(954) 566-7886	https://coralridgeyachtclub.com/web/pages/event-venues
+Miami Airport Marriott	1201 NW Le Jeune Road	Miami	Florida			Hotel & Resort	Indoor & Outdoor	340			Airport-area hotel with a Grand Ballroom, a Courtyard Ballroom and an outdoor Tropical Cabana for wedding ceremonies and receptions.		305-649-5000	https://www.marriott.com/en-us/hotels/miaap-miami-airport-marriott/events/
+Sheraton Miami Airport Hotel & Executive Meeting Center	3900 NW 21st Street	Miami	Florida			Hotel & Resort	Indoor & Outdoor	300			Airport-area hotel with a Pan Am Ballroom and outdoor space for vows, and it has Marriott-certified wedding planners on staff.		305-871-3800	https://www.marriott.com/en-us/hotels/miaes-sheraton-miami-airport-hotel-and-executive-meeting-center/events/
+Milander Center for Arts & Entertainment	4800 Palm Avenue	Hialeah	Florida			Ballroom	Indoor & Outdoor	600			City-run arts and events complex with event halls, a garden terrace and an amphitheater, available for weddings by appointment.		305-883-5800	https://www.hialeahfl.gov/milandercenter
+JW Marriott Marquis Miami	255 Biscayne Boulevard Way	Miami	Florida			Hotel & Resort	Indoor	2000			Downtown Miami high-rise hotel with a large wedding ballroom and certified wedding planning services.		305-421-8600	https://www.marriott.com/en-us/hotels/miamj-jw-marriott-marquis-miami/events/`,
+  },
 ];
 
 export default batches;

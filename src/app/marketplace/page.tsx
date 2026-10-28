@@ -94,6 +94,7 @@ export default async function MarketplacePage({
         // "Shop your wedding" is for planning: only before the day.
         weddingDate={wedding?.weddingDate && !weddingPassed(wedding.weddingDate) ? wedding.weddingDate : null}
         paletteColor={wedding?.colorFamily ?? null}
+        pickedColors={wedding?.pickedColors ?? []}
         bookedIds={bookedIds}
         planning={Boolean(wedding) && !(wedding?.weddingDate && weddingPassed(wedding.weddingDate))}
         passItOn={passItOn}

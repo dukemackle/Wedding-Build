@@ -3,7 +3,7 @@
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useMemo, useState, useTransition } from "react";
+import { useMemo, useState, useTransition } from "react";
 import { FilterDropdown } from "@/components/filter-dropdown";
 import { SearchShell } from "@/components/search-shell";
 import { BirdEmptyState } from "@/components/wren-moments";
@@ -26,7 +26,7 @@ import {
   type WeddingMatch,
 } from "@/lib/marketplace";
 import type { MarketListing } from "@/lib/supabase/types";
-import { toggleSave } from "./actions";
+import { saveMarketColors, toggleSave } from "./actions";
 import type { MarketSetWithItems } from "@/lib/marketplace";
 import type { PassItOnDraft } from "@/lib/pass-it-on";
 import { CategoryIcon, MarketplaceHome } from "./marketplace-home";
@@ -56,17 +56,6 @@ const NO_FILTERS: Filters = {
   wedding: "all",
 };
 
-/** Where colours picked by hand are kept, for a couple without a palette. */
-const PICKED_COLORS_KEY = "market-wedding-colors";
-
-function readPickedColors(): string[] {
-  try {
-    const raw = JSON.parse(localStorage.getItem(PICKED_COLORS_KEY) ?? "[]");
-    return Array.isArray(raw) ? raw.filter((c) => MARKET_COLORS.some((m) => m.id === c)).slice(0, 3) : [];
-  } catch {
-    return [];
-  }
-}
 
 export type MarketOrigin = { latitude: number; longitude: number; label: string };
 
@@ -80,6 +69,7 @@ export function MarketplaceBrowser({
   guestCount = 0,
   weddingDate = null,
   paletteColor = null,
+  pickedColors: savedColors = [],
   bookedIds = [],
   planning = false,
   passItOn = null,
@@ -102,6 +92,8 @@ export function MarketplaceBrowser({
   weddingDate?: string | null;
   /** The colour family of their guest-site palette. */
   paletteColor?: string | null;
+  /** Colours they picked here, saved on the wedding, for when there's no palette. */
+  pickedColors?: string[];
   /** Rentals already out on their date. */
   bookedIds?: string[];
   /** A signed-in couple before their wedding: shows "Shop your wedding". */
@@ -126,18 +118,15 @@ export function MarketplaceBrowser({
   const [mode, setMode] = useState<"map" | "grid">("map");
   const [saved, setSaved] = useState(() => new Set(savedIds));
   const [, startTransition] = useTransition();
-  // Without a palette, the couple picks their colours on the front page.
-  const [pickedColors, setPickedColors] = useState<string[]>([]);
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- localStorage is only readable after mount
-    if (!paletteColor) setPickedColors(readPickedColors());
-  }, [paletteColor]);
+  // Without a palette, the couple picks their colours on the front page;
+  // they're saved on the wedding, so they follow them to another device.
+  const [pickedColors, setPickedColors] = useState<string[]>(savedColors);
 
   function pickColors(next: string[]) {
     setPickedColors(next);
-    try {
-      localStorage.setItem(PICKED_COLORS_KEY, JSON.stringify(next));
-    } catch {}
+    startTransition(async () => {
+      await saveMarketColors(next);
+    });
   }
 
   const match: WeddingMatch = useMemo(
@@ -293,6 +282,13 @@ export function MarketplaceBrowser({
         setMapView(null);
         setMode(next);
       }}
+      // Saved, Selling and Messages as one menu on desktop: as pills they ran
+      // the filter bar off the screen.
+      viewsMenu={
+        signedIn
+          ? { label: "Mine", links: [{ href: "/marketplace/inbox", label: "Messages", badge: unread }] }
+          : undefined
+      }
       views={
         signedIn
           ? [
@@ -362,14 +358,10 @@ export function MarketplaceBrowser({
             <Link
               href="/marketplace/inbox"
               aria-label={unread > 0 ? `Messages, ${unread} unread` : "Messages"}
-              className="flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border border-hairline bg-card px-3 py-1.5 text-sm text-forest shadow-md hover:border-forest lg:order-last lg:shadow-none"
+              // On desktop it's in the "Mine" menu.
+              className="flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border border-hairline bg-card px-3 py-1.5 text-sm text-forest shadow-md hover:border-forest lg:hidden"
             >
-              {/* An envelope where the bar is tight (lg to 2xl), the word elsewhere. */}
-              <svg aria-hidden viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.6" className="hidden h-4 w-5 lg:block 2xl:hidden">
-                <rect x="2.5" y="4.5" width="15" height="11" rx="1.5" />
-                <path d="M3 5.5l7 5.5 7-5.5" />
-              </svg>
-              <span aria-hidden className="lg:hidden 2xl:inline">Messages</span>
+              <span aria-hidden>Messages</span>
               {unread > 0 && (
                 <span className="rounded-full bg-[#2243B6] px-1.5 text-[11px] font-semibold leading-4 text-white">{unread}</span>
               )}

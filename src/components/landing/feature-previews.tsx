@@ -8,6 +8,8 @@ import { createPortal } from "react-dom";
 import { VenueTypeIcon } from "@/components/venue-type-icon";
 import { VendorCategoryIcon } from "@/components/vendor-category-icon";
 import { WrenMotto } from "@/components/wren-motto";
+import { WrenBirdIcon } from "@/components/icons";
+import { planSeating } from "@/lib/auto-seat";
 import { AskWrenTile } from "@/app/dashboard/ask-wren-tile";
 import {
   DEFAULT_SITE_DESIGN,
@@ -487,9 +489,9 @@ const SIDE_COLORS: Record<SideKey, string> = {
   both: "#00BFFE",
 };
 
-const SEAT_GUESTS: { name: string; side: SideKey; plusOne?: boolean }[] = [
-  { name: "Aunt May", side: "a" },
-  { name: "Uncle Joe", side: "a", plusOne: true },
+const SEAT_GUESTS: { name: string; side: SideKey; plusOne?: boolean; household?: string }[] = [
+  { name: "Aunt May", side: "a", household: "May & Joe" },
+  { name: "Uncle Joe", side: "a", plusOne: true, household: "May & Joe" },
   { name: "Priya S.", side: "b" },
   { name: "Marcus T.", side: "b" },
   { name: "Grandma Rose", side: "a" },
@@ -556,6 +558,28 @@ function SeatingDemo() {
 
   const unseated = SEAT_GUESTS.filter((g) => !seats[g.name]);
 
+  // The real "Seat the rest" rules, run on the demo's guests and tables.
+  const seatTheRest = () => {
+    const plan = planSeating(
+      SEAT_GUESTS.map((g) => ({
+        id: g.name,
+        name: g.name,
+        household: g.household ?? null,
+        side: g.side,
+        guest_type: null,
+        plus_one: !!g.plusOne,
+        table_id: seats[g.name] ?? null,
+      })),
+      SEAT_TABLES.map((t) => ({ id: t.id, name: t.name, capacity: t.cap })),
+    );
+    setSeats((s) => {
+      const next = { ...s };
+      for (const a of plan.assignments) for (const name of a.guestIds) next[name] = a.tableId;
+      return next;
+    });
+    setPicked(null);
+  };
+
   return (
     <Bleed>
       <div className="border-b border-hairline px-5 py-3 sm:px-8">
@@ -565,6 +589,9 @@ function SeatingDemo() {
         <div className="mt-2 flex flex-wrap items-center gap-2">
           <span className="hidden rounded-full bg-forest px-3 py-1.5 font-mono-numbers text-xs text-parchment sm:inline">
             + Add table
+          </span>
+          <span className="hidden rounded-full border border-forest px-3 py-1.5 font-mono-numbers text-xs text-forest sm:inline">
+            Layouts
           </span>
           <div className="inline-flex rounded-full border border-hairline bg-parchment p-1">
             {["Seating", "Whole Venue", "Rooms"].map((m, i) => (
@@ -695,6 +722,18 @@ function SeatingDemo() {
               {unseated.length}
             </span>
           </div>
+          {unseated.length > 0 && (
+            <div className="border-b border-hairline p-3">
+              <button
+                type="button"
+                onClick={seatTheRest}
+                className="flex w-full items-center justify-center gap-2 rounded-lg bg-forest px-3 py-2 text-sm font-medium text-parchment hover:bg-forest/90"
+              >
+                <WrenBirdIcon className="h-4 w-4 text-wren" />
+                Seat the rest with Wren
+              </button>
+            </div>
+          )}
           {unseated.length === 0 ? (
             <p className="p-4 text-sm text-ink/60">Everyone has a seat.</p>
           ) : (
@@ -2450,7 +2489,7 @@ const PREVIEWS: Record<string, { heading: string; Demo: () => ReactNode }> = {
   attire: { heading: "Save what you love, then buy or rent", Demo: AttireDemo },
   itinerary: { heading: "The whole day, hour by hour", Demo: ItineraryDemo },
   "venue-layout": {
-    heading: "Seat your guests by dragging them to a table",
+    heading: "Set the room in a click, then seat everyone",
     Demo: SeatingDemo,
   },
   bookings: { heading: "Every booking, with its contract", Demo: BookingsDemo },

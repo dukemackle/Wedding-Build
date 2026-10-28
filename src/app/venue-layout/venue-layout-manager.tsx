@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useOptimistic, useRef, useState, useTransition } from "react";
+import { createContext, useContext, useEffect, useMemo, useOptimistic, useRef, useState, useTransition } from "react";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import type {
@@ -41,7 +41,9 @@ import {
   ITEM_TYPE_DIMENSIONS,
   MAX_ITEM_SIZE,
   MIN_ITEM_SIZE,
+  chairSize,
   clamp,
+  planHeight,
   itemDimensions,
   tableFootprint,
 } from "@/lib/venue-layout-geometry";
@@ -62,6 +64,7 @@ import {
   type RoomStyle,
 } from "@/lib/layout-styles";
 import { Centerpiece, RoomBackdrop, itemSurface } from "./room-art";
+import { LayoutTemplatePicker, SeatTheRest } from "./layout-helpers";
 
 const VenueLayout3DView = dynamic(() => import("./venue-layout-3d-view"), {
   ssr: false,
@@ -708,6 +711,11 @@ function NodeToolbar({
 // table only lights up for a guest drag and not for, say, a dragged image.
 const GUEST_DRAG_TYPE = "application/x-wren-guests";
 
+// The plan's current height, for clamping drags. Drags may go a little past
+// the bottom, which makes the room longer -- how a couple adds floor.
+const PlanHeightContext = createContext(CANVAS_HEIGHT);
+const GROW_ROOM = 150;
+
 /**
  * Moving, clicking and the selected-state chrome, shared by tables and items.
  *
@@ -731,6 +739,7 @@ function useDraggable({
   onTap: () => void;
   onDragEnd: (x: number, y: number) => void;
 }) {
+  const roomHeight = useContext(PlanHeightContext);
   const [pos, setPos] = useState({ x, y });
   const dragRef = useRef<{ startX: number; startY: number; origX: number; origY: number } | null>(
     null,
@@ -752,7 +761,7 @@ function useDraggable({
     if (Math.abs(dx) > 3 || Math.abs(dy) > 3) movedRef.current = true;
     setPos({
       x: clamp(dragRef.current.origX + dx, 0, CANVAS_WIDTH - width),
-      y: clamp(dragRef.current.origY + dy, 0, CANVAS_HEIGHT - height),
+      y: clamp(dragRef.current.origY + dy, 0, roomHeight + GROW_ROOM - height),
     });
   }
 
@@ -809,8 +818,7 @@ function tableSeats(
 }
 
 // The plan is drawn at ~0.6x on a laptop, so chairs and their initials are
-// sized to still read there.
-const CHAIR = 30;
+// sized to still read there (CHAIR, 30); a shrunk table's are smaller.
 
 /**
  * The chairs round a table. Each sits in the table's own (rotating) box, with
@@ -823,6 +831,7 @@ function TableChairs({
   seats,
   rotation,
   chairColor,
+  chair,
 }: {
   shape: TableShape;
   width: number;
@@ -830,8 +839,9 @@ function TableChairs({
   seats: Seat[];
   rotation: number;
   chairColor: string;
+  chair: number;
 }) {
-  const spots = chairPositions(shape, width, height, seats.length, CHAIR / 2 + 4);
+  const spots = chairPositions(shape, width, height, seats.length, chair / 2 + 4);
   return (
     <>
       {spots.map((spot, i) => {
@@ -840,7 +850,7 @@ function TableChairs({
           <div
             key={seat?.key ?? `empty-${i}`}
             className="pointer-events-none absolute"
-            style={{ left: spot.x - CHAIR / 2, top: spot.y - CHAIR / 2, width: CHAIR, height: CHAIR }}
+            style={{ left: spot.x - chair / 2, top: spot.y - chair / 2, width: chair, height: chair }}
           >
             <div
               className="absolute inset-0 rounded-[6px] shadow-sm"
@@ -853,8 +863,9 @@ function TableChairs({
             {seat ? (
               <span
                 title={seat.name}
-                className={`absolute -inset-0.5 grid place-items-center rounded-full border-2 border-white text-[12px] font-semibold leading-none ${seat.settle ? "wren-settle" : ""}`}
+                className={`absolute -inset-0.5 grid place-items-center rounded-full border-2 border-white font-semibold leading-none ${seat.settle ? "wren-settle" : ""}`}
                 style={{
+                  fontSize: Math.round(chair * 0.4),
                   background: seat.color,
                   color: inkOn(seat.color),
                   transform: `rotate(${-rotation}deg)`,
@@ -933,7 +944,8 @@ function TableNode({
 
   const linen = tableLinen(roomStyle, table.linen);
   const seats = tableSeats(assignedGuests, table.capacity, theme, justSeated);
-  const labelTop = height / 2 + rotatedHalfHeight(width, height, rotation) + CHAIR + 10;
+  const chair = chairSize(table);
+  const labelTop = height / 2 + rotatedHalfHeight(width, height, rotation) + chair + 10;
 
   // Selection and drop states take over the cloth's own edge colour.
   const ringClass = dropHover
@@ -1002,6 +1014,7 @@ function TableNode({
           seats={seats}
           rotation={rotation}
           chairColor={STYLE_DEFAULTS[roomStyle].chair}
+          chair={chair}
         />
         {/* A long table gets a run of centrepieces down its length. */}
         <div className="pointer-events-none relative flex items-center justify-center">
@@ -1198,7 +1211,8 @@ function ItemNode({
 /**
  * The plan, scaled to fit whatever width it is given.
  *
- * The coordinate space is a fixed CANVAS_WIDTH x CANVAS_HEIGHT field, and the
+ * The coordinate space is CANVAS_WIDTH wide and planHeight() long (900, more
+ * for a big wedding), and the
  * whole thing is scaled so that field fills the available width. A wide screen
  * therefore shows the entire venue at once with no scrollbars.
  *
@@ -1281,8 +1295,10 @@ function VenueCanvas({
   }, []);
 
   const pans = viewportWidth < CANVAS_WIDTH * MIN_CANVAS_SCALE;
+  const height = planHeight(tables, items);
 
   return (
+    <PlanHeightContext.Provider value={height}>
     <div
       ref={frameRef}
       className={`w-full rounded-lg border border-hairline bg-parchment ${pans ? "overflow-x-auto" : ""}`}
@@ -1291,7 +1307,7 @@ function VenueCanvas({
         style={{
           position: "relative",
           width: Math.floor(CANVAS_WIDTH * scale),
-          height: Math.floor(CANVAS_HEIGHT * scale),
+          height: Math.floor(height * scale),
         }}
       >
       <div
@@ -1301,12 +1317,12 @@ function VenueCanvas({
         style={{
           position: "relative",
           width: CANVAS_WIDTH,
-          height: CANVAS_HEIGHT,
+          height,
           transform: `scale(${scale})`,
           transformOrigin: "top left",
         }}
       >
-        <RoomBackdrop style={roomStyle} />
+        <RoomBackdrop style={roomStyle} height={height} />
         {items.map((item) => (
           <ItemNode
             key={`${item.id}-${item.position_x}-${item.position_y}-${item.rotation}-${item.width}-${item.height}`}
@@ -1343,6 +1359,7 @@ function VenueCanvas({
       </div>
       </div>
     </div>
+    </PlanHeightContext.Provider>
   );
 }
 
@@ -2387,7 +2404,7 @@ export function VenueLayoutManager({
   const [selectedRoomId, setSelectedRoomId] = useState<string | null>(rooms[0]?.id ?? null);
   const phases = useMemo(() => sortPhases(storedPhases), [storedPhases]);
   const [selectedPhaseId, setSelectedPhaseId] = useState<string | null>(() => defaultPhaseId(storedPhases));
-  const [addFormType, setAddFormType] = useState<"table" | "item" | null>(null);
+  const [addFormType, setAddFormType] = useState<"table" | "item" | "layouts" | null>(null);
   const [selectedTableId, setSelectedTableId] = useState<string | null>(null);
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
   const [pickedGuestIds, setPickedGuestIds] = useState<Set<string>>(() => new Set());
@@ -2641,6 +2658,14 @@ export function VenueLayoutManager({
   const canAdd = mode !== "rooms" || activeRoomId != null;
   const formRoomId = mode === "rooms" ? (activeRoomId ?? undefined) : undefined;
   const showGuests = guests.length > 0 && phaseTables.length > 0;
+  // Replacing an event's layout unseats only the guests at that event's own tables.
+  const phaseOwnTableIds = new Set(
+    phaseTables.filter((t) => t.phase_id != null).map((t) => t.id),
+  );
+  const seatedInPhase = guests.reduce(
+    (sum, g) => sum + (g.table_id && phaseOwnTableIds.has(g.table_id) ? personCount(g) : 0),
+    0,
+  );
   const totalPeople = guests.reduce((sum, g) => sum + personCount(g), 0);
   const seatedPeople = guests.reduce((sum, g) => sum + (g.table_id ? personCount(g) : 0), 0);
 
@@ -2676,6 +2701,15 @@ export function VenueLayoutManager({
               className="btn-secondary disabled:opacity-40"
             >
               {addFormType === "item" ? "Close" : <><PlusIcon /> Add item</>}
+            </button>
+          )}
+          {hasContent && mode !== "seating" && (
+            <button
+              onClick={() => setAddFormType((v) => (v === "layouts" ? null : "layouts"))}
+              disabled={!canAdd}
+              className="btn-secondary disabled:opacity-40"
+            >
+              {addFormType === "layouts" ? "Close" : "Layouts"}
             </button>
           )}
           <span aria-hidden className="hidden h-6 w-px bg-hairline sm:block" />
@@ -2746,15 +2780,31 @@ export function VenueLayoutManager({
       {activePhase && copySources.length > 0 && (
         <CopyPhaseOffer key={activePhase.id} target={activePhase} sources={copySources} />
       )}
+      {addFormType === "layouts" && hasContent && (
+        <LayoutTemplatePicker
+          guestSeats={totalPeople}
+          roomId={formRoomId}
+          phaseId={activePhaseId ?? undefined}
+          hasContent
+          seatedPeople={activePhaseId ? seatedInPhase : seatedPeople}
+          onDone={() => setAddFormType(null)}
+        />
+      )}
 
       {mode === "rooms" && !activeRoomId ? (
         <p className="py-4 text-center text-sm text-ink/50">
           Create a room above to start adding tables and furniture to it.
         </p>
       ) : !hasContent ? (
-        <p className="py-4 text-center text-sm text-ink/50">
-          Nothing here yet — add a table{mode !== "seating" ? " or a layout item" : ""} above.
-        </p>
+        // An empty plan opens on the ready-made layouts: one click sets the
+        // whole room, where placing tables one by one took dozens of drags.
+        <LayoutTemplatePicker
+          guestSeats={totalPeople}
+          roomId={formRoomId}
+          phaseId={activePhaseId ?? undefined}
+          hasContent={false}
+          seatedPeople={0}
+        />
       ) : view3D ? (
         <VenueLayout3DView tables={visibleTables} items={visibleItems} />
       ) : (
@@ -2839,6 +2889,7 @@ export function VenueLayoutManager({
                 ) : undefined
               }
             />
+            {showGuests && <SeatTheRest guests={guests} tables={phaseTables} phaseId={activePhaseId} />}
             {showGuests && (
               <GuestPanel
                   unassigned={unassigned}
