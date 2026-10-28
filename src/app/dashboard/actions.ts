@@ -7,7 +7,7 @@ import { STATE_TO_REGION } from "@/lib/budget-categories";
 import { seasonOf } from "@/lib/wedding-options";
 import { requireEditableWedding, VIEW_ONLY_ERROR } from "@/lib/wedding-access";
 import { seedStandardPlan } from "@/lib/seed-plan";
-import { MAX_DASHBOARD_PHOTOS } from "@/lib/dashboard-photos";
+import { MAX_DASHBOARD_PHOTOS, PHOTO_SOURCES, type PhotoSource } from "@/lib/dashboard-photos";
 import type { Wedding } from "@/lib/supabase/types";
 import { logError } from "@/lib/error-log";
 import { trackEvent } from "@/lib/events";
@@ -315,6 +315,31 @@ export async function setDashboardPhotoFocus(
 
   if (error) {
     return { error: error.message };
+  }
+
+  revalidatePath("/dashboard");
+  return {};
+}
+
+/** Chooses which photos play behind the dashboard; null goes back to the best available. */
+export async function setDashboardPhotoSource(source: PhotoSource | null): Promise<{ error?: string }> {
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
+
+  if (!wedding) {
+    return { error: noWedding };
+  }
+  if (source !== null && !PHOTO_SOURCES.includes(source)) {
+    return { error: "That isn't one of the choices." };
+  }
+
+  const { error } = await supabase
+    .from("weddings")
+    .update({ dashboard_photo_source: source })
+    .eq("id", wedding.id);
+
+  if (error) {
+    await logError("planning", "setDashboardPhotoSource", error);
+    return { error: "We couldn't save that. Please try again." };
   }
 
   revalidatePath("/dashboard");

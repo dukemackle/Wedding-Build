@@ -11,6 +11,12 @@ They're summarised here only by reference; CLAUDE.md is the source.
 
 ## Approved directions
 
+- **2026-10-28:** Dashboard backdrop always has photos: the Photos popover
+  offers Your photos / Your venue (booked, else most recently saved) /
+  Inspiration (the landing page's eight credited photos, fixed set), chosen
+  per wedding (`dashboard_photo_source`, 0143), defaulting to the first with
+  photos in that order. Royal-blue radio rows; a bottom sheet on phones.
+  Mockup: https://claude.ai/artifact/PbHaMShSp3P6rNdP7acMNd
 - **2026-10-23:** Saved venues/vendors follow Zillow's favourites: a full
   page over the map (Back to search, "Saved" title, Venues/Vendors switch,
   summary bar with sort, the search's photo cards in three columns / one on a
