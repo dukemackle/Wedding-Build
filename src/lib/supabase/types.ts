@@ -1009,6 +1009,10 @@ export type MarketListing = {
   pickup_options: string[];
   /** "Or best offer" (0120). */
   negotiable: boolean;
+  /** The budget line "Pass it on" started it from: a category key or a custom item id (0144). */
+  source_budget_item: string | null;
+  /** Up to three guest-site colour families, for "Shop your wedding" (0144). */
+  color_families: string[];
 };
 
 export type MarketThread = {

@@ -27,6 +27,8 @@ import { weddingCategoryEstimates } from "@/lib/estimator";
 import { trackEvent } from "@/lib/events";
 import { parseSiteDesign } from "@/lib/site-design-schema";
 import { parseWording, withWording } from "@/lib/site-designs";
+import { loadPassItOn } from "@/lib/marketplace-server";
+import { inPassItOnWindow } from "@/lib/pass-it-on";
 
 /**
  * The first screen after signing in: the couple's banner, and then one box
@@ -288,7 +290,10 @@ export default async function DashboardPage() {
           today,
         });
 
-  const planners = await loadPlanners(supabase, wedding, user.id);
+  const [planners, passItOn] = await Promise.all([
+    loadPlanners(supabase, wedding, user.id),
+    inPassItOnWindow(wedding.wedding_date) ? loadPassItOn(supabase, wedding.id) : Promise.resolve(null),
+  ]);
 
   return (
     <PageShell email={user.email ?? ""} width="canvas">
@@ -301,14 +306,7 @@ export default async function DashboardPage() {
       />
       <WelcomeBird userId={user.id} createdAt={user.created_at} />
 
-      <PassItOn
-        weddingDate={wedding.wedding_date}
-        spentCategories={(lineItems ?? [])
-          .filter((l) => (l.override_value ?? 0) > 0 || (l.paid_amount ?? 0) > 0)
-          .map((l) => l.category)}
-        customItems={(customItems ?? []).map((c) => c.label).filter(Boolean)}
-        today={new Date()}
-      />
+      {passItOn && <PassItOn drafts={passItOn} />}
 
       {step && <NextStepCard step={step} />}
 

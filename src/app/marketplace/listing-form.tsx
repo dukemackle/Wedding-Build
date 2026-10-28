@@ -7,7 +7,7 @@ import { LegalNotice } from "@/components/legal-notice";
 import { createClient } from "@/lib/supabase/client";
 import { shrinkImage } from "@/lib/shrink-image";
 import { STATES } from "@/lib/wedding-options";
-import { MARKET_CATEGORIES, MARKET_CONDITIONS, MAX_MARKET_PHOTOS, NOT_ALLOWED, PICKUP_OPTIONS } from "@/lib/marketplace";
+import { MARKET_CATEGORIES, MARKET_COLORS, MARKET_CONDITIONS, MAX_MARKET_PHOTOS, NOT_ALLOWED, PICKUP_OPTIONS } from "@/lib/marketplace";
 import type { MarketListing } from "@/lib/supabase/types";
 import { createListing, updateListing } from "./actions";
 
@@ -24,6 +24,7 @@ export function ListingForm({
   sellerId,
   listing,
   defaults,
+  pass,
   badgePreview = null,
 }: {
   sellerId: string;
@@ -32,7 +33,9 @@ export function ListingForm({
    * Prefilled values: for a new listing the seller's first name and wedding
    * town, and for an edit the state's full name (the row keeps its abbreviation).
    */
-  defaults?: { seller_name?: string; city?: string; state?: string; title?: string; category?: string };
+  defaults?: { seller_name?: string; city?: string; state?: string; title?: string; category?: string; price?: string };
+  /** A "Pass it on" draft: the budget line it came from, and Wren's price reasoning. */
+  pass?: { source: string; skip: string; hint: string | null };
   /** The badge the seller's wedding would earn ("Married Oct 2026"), or null without a date. */
   badgePreview?: string | null;
 }) {
@@ -40,6 +43,7 @@ export function ListingForm({
   const [uploading, setUploading] = useState(0);
   const [free, setFree] = useState(listing ? listing.price_cents === 0 : false);
   const [type, setType] = useState<"sale" | "rent">(listing?.listing_type ?? "sale");
+  const [colors, setColors] = useState<string[]>(listing?.color_families ?? []);
   const [error, setError] = useState<string>();
   const [isPending, startTransition] = useTransition();
   const fileInput = useRef<HTMLInputElement>(null);
@@ -92,6 +96,13 @@ export function ListingForm({
 
   return (
     <form action={submit} className="space-y-6">
+      {pass && (
+        <>
+          <input type="hidden" name="source_budget_item" value={pass.source} />
+          <input type="hidden" name="pass" value="1" />
+          <input type="hidden" name="pass_skip" value={pass.skip} />
+        </>
+      )}
       <section>
         <p className={label}>
           Photos <span className="font-normal text-ink/50">· {photos.length}/{MAX_MARKET_PHOTOS}, first one is the cover</span>
@@ -190,11 +201,12 @@ export function ListingForm({
               inputMode="decimal"
               disabled={free}
               required={!free}
-              defaultValue={listing && listing.price_cents > 0 ? String(listing.price_cents / 100) : ""}
+              defaultValue={listing ? (listing.price_cents > 0 ? String(listing.price_cents / 100) : "") : (defaults?.price ?? "")}
               placeholder={free ? "Free" : "40"}
               className={`${field} pl-7 disabled:bg-parchment disabled:text-ink/40`}
             />
           </div>
+          {pass?.hint && !free && <p className="mt-1 text-xs text-ink/55">{pass.hint}</p>}
           <label className="mt-2 flex items-center gap-2 text-sm text-ink/70">
             <input type="checkbox" name="free" checked={free} onChange={(e) => setFree(e.target.checked)} />
             {type === "rent" ? "Free to borrow" : "Free to a good home"}
@@ -231,6 +243,38 @@ export function ListingForm({
         <input id="quantity" name="quantity" type="number" min={1} max={10000} defaultValue={listing?.quantity ?? 1} className={`${field} sm:w-32`} />
         <p className="mt-1 text-xs text-ink/50">Selling a set? Put the number in the set and price it as one.</p>
       </div>
+
+      <fieldset>
+        <legend className={label}>
+          Colours <span className="font-normal text-ink/50">(optional, up to 3)</span>
+        </legend>
+        <div className="mt-1.5 flex flex-wrap gap-2">
+          {MARKET_COLORS.map((c) => {
+            const on = colors.includes(c.id);
+            return (
+              <label
+                key={c.id}
+                className={`flex cursor-pointer items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm transition-colors has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-forest/40 ${
+                  on ? "border-forest bg-forest text-parchment" : "border-hairline bg-card text-forest hover:border-forest/50"
+                } ${!on && colors.length >= 3 ? "opacity-40" : ""}`}
+              >
+                <input
+                  type="checkbox"
+                  name="color_families"
+                  value={c.id}
+                  checked={on}
+                  disabled={!on && colors.length >= 3}
+                  onChange={() => setColors((cur) => (on ? cur.filter((x) => x !== c.id) : [...cur, c.id]))}
+                  className="sr-only"
+                />
+                <span aria-hidden className="h-3 w-3 rounded-full border border-black/15" style={{ background: c.dot }} />
+                {c.label}
+              </label>
+            );
+          })}
+        </div>
+        <p className="mt-1 text-xs text-ink/50">Helps couples with the same colours find it.</p>
+      </fieldset>
 
       <fieldset>
         <legend className={label}>How can the buyer get it?</legend>
@@ -304,7 +348,7 @@ export function ListingForm({
           disabled={isPending || uploading > 0}
           className="rounded-md bg-forest px-5 py-2.5 font-medium text-parchment transition-colors hover:bg-forest/90 disabled:opacity-60"
         >
-          {isPending ? "Saving…" : listing ? "Save changes" : "Post listing"}
+          {isPending ? "Saving…" : listing ? "Save changes" : pass ? "List it" : "Post listing"}
         </button>
         <Link href={listing ? `/marketplace/${listing.id}` : "/marketplace"} className="text-sm text-ink/60 hover:text-forest">
           Cancel

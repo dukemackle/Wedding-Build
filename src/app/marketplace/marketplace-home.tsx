@@ -4,7 +4,8 @@ import Link from "next/link";
 import { useState, type ReactNode } from "react";
 import { BirdEmptyState } from "@/components/wren-moments";
 import { WIDE_WIDTH } from "@/lib/layout";
-import { MARKET_CATEGORIES } from "@/lib/marketplace";
+import { MARKET_CATEGORIES, formatPrice } from "@/lib/marketplace";
+import type { PassItOnDraft } from "@/lib/pass-it-on";
 import type { MarketListing } from "@/lib/supabase/types";
 
 /** Soft fills mixed from the palette (Lemon, Sky, Royal, Gold) with white. */
@@ -15,6 +16,9 @@ const SHORT_LABELS: Record<string, string> = { attire: "Dresses" };
 
 /** How many listings "Just listed" shows before "See all". */
 const JUST_LISTED = 8;
+
+/** Drafts the "Pass it on" card shows before "+N more". */
+const DRAFTS_SHOWN = 3;
 
 /**
  * The marketplace's front page: categories and the newest listings, with the
@@ -27,6 +31,7 @@ export function MarketplaceHome({
   signedIn,
   placeLabel,
   counts,
+  passItOn = null,
   onBrowse,
   renderCard,
 }: {
@@ -35,6 +40,8 @@ export function MarketplaceHome({
   /** "Encinitas", when we know where the couple's wedding is. */
   placeLabel: string | null;
   counts: { saved: number; selling: number; unread: number };
+  /** After the wedding, the couple's unlisted leftovers from their budget. */
+  passItOn?: PassItOnDraft[] | null;
   /** Opens the full browse screen, filtered, in map or grid. */
   onBrowse: (opts: { q?: string; category?: string; type?: string; mode: "map" | "grid"; view?: string }) => void;
   renderCard: (listing: MarketListing) => ReactNode;
@@ -108,18 +115,48 @@ export function MarketplaceHome({
 
         <div className="rounded-2xl border border-hairline bg-card p-5 shadow-[0_10px_30px_-18px_rgba(20,32,61,0.35)]">
           <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#9a6b00]">Pass it on</p>
-          <h3 className="mt-1.5 font-display text-2xl font-semibold leading-tight text-forest">
-            Wedding over? Your décor isn’t done.
-          </h3>
-          <p className="mt-1.5 text-sm text-ink/60">A few photos and a price, and the next couple can give it another day.</p>
-          <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2">
-            <Link
-              href={sellHref}
-              className="inline-flex items-center gap-1.5 rounded-full bg-[#FFD301] px-4 py-2.5 text-sm font-semibold text-forest transition-colors hover:bg-[#FFF12F]"
-            >
-              Sell something <span aria-hidden>→</span>
-            </Link>
-            {signedIn && (
+          {passItOn && passItOn.length > 0 ? (
+            <>
+              <h3 className="mt-1.5 font-display text-2xl font-semibold leading-tight text-forest">
+                Wren found {passItOn.length === 1 ? "one thing" : `${passItOn.length} things`} from your wedding
+              </h3>
+              <p className="mt-1 text-sm text-ink/60">From your budget. Add a photo and {passItOn.length === 1 ? "it’s" : "they’re"} listed.</p>
+              <ul className="mt-3">
+                {passItOn.slice(0, DRAFTS_SHOWN).map((d) => (
+                  <li key={d.source} className="border-t border-hairline">
+                    <Link
+                      href={`/marketplace/new?pass=1&from=${encodeURIComponent(d.source)}`}
+                      className="group flex items-center gap-3 py-2.5"
+                    >
+                      <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl border-[1.5px] border-dashed border-[#d8cdb3] text-forest/70 group-hover:border-forest/50">
+                        <CategoryIcon category={d.category} className="h-5 w-5" />
+                      </span>
+                      <span className="min-w-0 flex-1">
+                        <span className="block truncate text-sm font-medium text-forest group-hover:underline">{d.title}</span>
+                        <span className="block text-xs text-ink/50">
+                          {d.paidCents ? `You paid ${formatPrice(d.paidCents)}` : "Add a photo and a price"}
+                        </span>
+                      </span>
+                      <span className="shrink-0 text-sm font-semibold text-[#2243B6]">
+                        {d.suggestCents ? `suggest ${formatPrice(d.suggestCents)}` : "List it"}
+                      </span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+              <div className="mt-3 flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
+                <Link
+                  href="/marketplace/new?pass=1"
+                  className="inline-flex items-center gap-1.5 rounded-full bg-[#FFD301] px-4 py-2.5 text-sm font-semibold text-forest transition-colors hover:bg-[#FFF12F]"
+                >
+                  List my wedding <span aria-hidden>→</span>
+                </Link>
+                {passItOn.length > DRAFTS_SHOWN && (
+                  <span className="text-sm text-ink/55">+{passItOn.length - DRAFTS_SHOWN} more</span>
+                )}
+              </div>
+              <div className="mt-3 border-t border-hairline pt-3">
+                {signedIn && (
               <span className="flex gap-3 text-sm">
                 <button type="button" onClick={() => onBrowse({ mode: "grid", view: "selling" })} className="text-[#2243B6] hover:underline">
                   Selling · {counts.selling}
@@ -132,7 +169,37 @@ export function MarketplaceHome({
                 </Link>
               </span>
             )}
-          </div>
+              </div>
+            </>
+          ) : (
+            <>
+              <h3 className="mt-1.5 font-display text-2xl font-semibold leading-tight text-forest">
+                Wedding over? Your décor isn’t done.
+              </h3>
+              <p className="mt-1.5 text-sm text-ink/60">A few photos and a price, and the next couple can give it another day.</p>
+              <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2">
+                <Link
+                  href={sellHref}
+                  className="inline-flex items-center gap-1.5 rounded-full bg-[#FFD301] px-4 py-2.5 text-sm font-semibold text-forest transition-colors hover:bg-[#FFF12F]"
+                >
+                  Sell something <span aria-hidden>→</span>
+                </Link>
+                {signedIn && (
+              <span className="flex gap-3 text-sm">
+                <button type="button" onClick={() => onBrowse({ mode: "grid", view: "selling" })} className="text-[#2243B6] hover:underline">
+                  Selling · {counts.selling}
+                </button>
+                <button type="button" onClick={() => onBrowse({ mode: "grid", view: "saved" })} className="text-[#2243B6] hover:underline">
+                  Saved · {counts.saved}
+                </button>
+                <Link href="/marketplace/inbox" className="text-[#2243B6] hover:underline">
+                  Messages{counts.unread > 0 ? ` · ${counts.unread}` : ""}
+                </Link>
+              </span>
+            )}
+              </div>
+            </>
+          )}
         </div>
       </section>
 

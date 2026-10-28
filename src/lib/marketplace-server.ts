@@ -4,6 +4,7 @@ import type { createClient as createServerClient } from "@/lib/supabase/server";
 import type { MarketListing, MarketThread } from "@/lib/supabase/types";
 import { getResendClient, INQUIRY_FROM_ADDRESS } from "@/lib/resend";
 import { SITE_URL } from "@/lib/public-listings";
+import { passItOnDrafts, type PassItOnDraft } from "@/lib/pass-it-on";
 
 export type InboxThread = MarketThread & {
   listing: Pick<MarketListing, "id" | "title" | "price_cents" | "photo_urls" | "status" | "seller_name"> | null;
@@ -145,6 +146,49 @@ export async function loadMarketWedding(
     ownVenueCity: wedding.own_venue_city,
     ownVenueState: wedding.own_venue_state,
   };
+}
+
+/**
+ * "Pass it on": the things the couple's budget says they bought and haven't
+ * listed yet. Listings by either partner count as listed (RLS shows a
+ * partner's live ones, and all of the viewer's own).
+ */
+export async function loadPassItOn(
+  supabase: Awaited<ReturnType<typeof createServerClient>>,
+  weddingId: string,
+): Promise<PassItOnDraft[]> {
+  const [{ data: wedding }, { data: lineItems }, { data: customItems }] = await Promise.all([
+    supabase
+      .from("weddings")
+      .select("user_id, member_ids")
+      .eq("id", weddingId)
+      .maybeSingle<{ user_id: string; member_ids: string[] | null }>(),
+    supabase
+      .from("budget_line_items")
+      .select("category, override_value, paid_amount")
+      .eq("wedding_id", weddingId)
+      .returns<{ category: string; override_value: number | null; paid_amount: number | null }[]>(),
+    supabase
+      .from("budget_custom_items")
+      .select("id, label, amount, paid_amount")
+      .eq("wedding_id", weddingId)
+      .order("created_at", { ascending: true })
+      .returns<{ id: string; label: string; amount: number | null; paid_amount: number | null }[]>(),
+  ]);
+  if (!wedding) return [];
+
+  const { data: listed } = await supabase
+    .from("market_listings")
+    .select("source_budget_item")
+    .in("seller_id", [wedding.user_id, ...(wedding.member_ids ?? [])])
+    .not("source_budget_item", "is", null)
+    .returns<{ source_budget_item: string }[]>();
+
+  return passItOnDrafts({
+    lineItems: lineItems ?? [],
+    customItems: customItems ?? [],
+    listedSources: new Set((listed ?? []).map((l) => l.source_budget_item)),
+  });
 }
 
 /**
