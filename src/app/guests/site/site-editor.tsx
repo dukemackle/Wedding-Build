@@ -683,7 +683,7 @@ export function SiteEditor({
       ) : tab === "background" ? (
         <>
           <SceneSection design={design} onChange={change} />
-          <BackgroundTab design={design} onChange={change} />
+          <BackgroundTab design={design} onChange={change} startBg={resolveDesign(initialDraft).theme.bg} />
         </>
       ) : tab === "motion" ? (
         <MotionTab
