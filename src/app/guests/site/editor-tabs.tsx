@@ -6,7 +6,7 @@ import { createSiteBlock, deleteSiteBlock } from "./block-actions";
 import { ChevronDownIcon } from "@/components/icons";
 import type { SiteBlock } from "@/lib/supabase/types";
 import { SiteOrnament } from "@/components/site-ornament";
-import { Shape } from "@/components/site-motion";
+import { Shape, tinted } from "@/components/site-motion";
 import { MonogramFontError, downloadMonogram } from "@/lib/monogram-download";
 import { PHOTO_FRAMES } from "@/lib/site-canvas";
 import { FrameIcon } from "./photo-motion-panels";
@@ -51,6 +51,8 @@ import {
   type SectionKey,
   type SiteDesign,
   type SceneId,
+  FALLING_COLORS,
+  NATURAL_SWATCH,
 } from "@/lib/site-design";
 
 export type SectionInfo = {
@@ -1292,6 +1294,9 @@ export function MotionTab({
   const motion = design.motion;
   const preset = motionPreset(motion);
   const set = (patch: Partial<Motion>) => onChange({ motion: { ...motion, ...patch } });
+  const { accent } = resolveDesign(design);
+  // White would vanish on the white tiles, so they keep the editor's green for it.
+  const iconColor = motion.fallingColor === "white" ? "accent" : motion.fallingColor;
 
   return (
     <>
@@ -1310,7 +1315,7 @@ export function MotionTab({
             ["lively", "Lively"],
           ]}
           value={preset === "custom" ? null : preset}
-          onPick={(p) => onChange({ motion: { ...MOTION_PRESETS[p], speed: motion.speed } })}
+          onPick={(p) => onChange({ motion: { ...MOTION_PRESETS[p], speed: motion.speed, fallingColor: motion.fallingColor } })}
         />
       </div>
 
@@ -1377,8 +1382,13 @@ export function MotionTab({
                 className={`flex flex-col items-center gap-1.5 rounded-xl bg-card px-1 py-2.5 ${selected ? SELECTED : UNSELECTED}`}
               >
                 <span
-                  className="flex h-7 items-center justify-center gap-1 text-forest"
-                  style={{ "--site-accent": "var(--color-forest)" } as CSSProperties}
+                  className="flex h-7 items-center justify-center gap-1 text-[var(--site-accent)]"
+                  style={
+                    {
+                      "--site-accent": "var(--color-forest)",
+                      ...(f.id === "none" ? undefined : tinted(f.id, iconColor)),
+                    } as CSSProperties
+                  }
                   aria-hidden="true"
                 >
                   {f.id === "none" ? (
@@ -1395,6 +1405,33 @@ export function MotionTab({
             );
           })}
         </div>
+        {motion.falling !== "none" && (
+          <div className="mt-1 flex flex-col gap-2">
+            <span className="text-[13px] text-ink">
+              <span className="font-medium">Colour</span>
+              <span className="text-ink/60"> · {FALLING_COLORS.find((c) => c.id === motion.fallingColor)?.label}</span>
+            </span>
+            <div role="group" aria-label="Colour of what falls" className="flex flex-wrap gap-2">
+              {FALLING_COLORS.map((c) => (
+                <button
+                  key={c.id}
+                  type="button"
+                  title={c.label}
+                  aria-label={c.label}
+                  aria-pressed={motion.fallingColor === c.id}
+                  onClick={() => set({ fallingColor: c.id })}
+                  className={`h-8 w-8 rounded-full ${motion.fallingColor === c.id ? "ring-2 ring-forest ring-offset-2" : "border border-black/10"}`}
+                  style={{
+                    background:
+                      c.id === "natural"
+                        ? NATURAL_SWATCH
+                        : (c.hex ?? accent),
+                  }}
+                />
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="flex flex-col gap-2.5">

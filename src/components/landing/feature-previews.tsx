@@ -14,6 +14,8 @@ import { AskWrenTile } from "@/app/dashboard/ask-wren-tile";
 import {
   DEFAULT_SITE_DESIGN,
   FALLING,
+  FALLING_COLORS,
+  NATURAL_SWATCH,
   PALETTES,
   THEMES,
   fontById,
@@ -24,6 +26,7 @@ import {
   type FallingId,
   type OrnamentId,
   type ThemeId,
+  type FallingColorId,
 } from "@/lib/site-design";
 import { Falling, useReducedMotion } from "@/components/site-motion";
 import { SiteOrnament } from "@/components/site-ornament";
@@ -2117,8 +2120,9 @@ function DemoArt({ src, color, phone }: { src: string; color: string; phone: boo
   );
 }
 
-// A few of the Motion tab's falling choices; the site has nine.
+// A few of the Motion tab's falling choices and colours; the site has more of each.
 const DEMO_FALLING = FALLING.filter((f) => ["none", "petals", "hearts", "snow", "fireflies"].includes(f.id));
+const DEMO_FALLING_COLORS = FALLING_COLORS.filter((c) => ["accent", "natural", "blush", "gold", "sage"].includes(c.id));
 
 // Theme font first, then a few the names cycle through when clicked.
 const DEMO_NAME_FONTS = [null, "greatvibes", "saintdelafield", "playfair"] as const;
@@ -2132,6 +2136,7 @@ function SiteDemo() {
   const [namesFont, setNamesFont] = useState(0);
   const [art, setArt] = useState<string | null>(DEMO_ART[0].id);
   const [falling, setFalling] = useState<FallingId>("petals");
+  const [fallingColor, setFallingColor] = useState<FallingColorId>("accent");
   const reduced = useReducedMotion();
   const palette = DEMO_PALETTES.find((p) => p.id === paletteId);
   // The real resolver, so the demo mixes cards and muted text the way the site does.
@@ -2264,6 +2269,22 @@ function SiteDemo() {
             {f.label}
           </button>
         ))}
+        {falling !== "none" &&
+          DEMO_FALLING_COLORS.map((c) => (
+            <button
+              key={c.id}
+              type="button"
+              title={c.label}
+              aria-label={`${c.label} colour`}
+              aria-pressed={c.id === fallingColor}
+              onClick={() => setFallingColor(c.id)}
+              className={`h-8 w-8 rounded-full ${c.id === fallingColor ? "ring-2 ring-[#2243B6] ring-offset-1" : "ring-1 ring-hairline"}`}
+              style={{
+                background:
+                  c.id === "natural" ? NATURAL_SWATCH : (c.hex ?? accent),
+              }}
+            />
+          ))}
       </div>
       <p className={eyebrow}>Monogram</p>
       <div className="flex flex-wrap gap-1.5">
@@ -2388,7 +2409,7 @@ function SiteDemo() {
                   } as React.CSSProperties
                 }
               >
-                {falling !== "none" && !reduced && <Falling kind={falling} speed={1} contained />}
+                {falling !== "none" && !reduced && <Falling kind={falling} color={fallingColor} speed={1} contained />}
                 <SiteOrnament kind={ornament} first="Juniper" second="Sam" />
                 <p className="font-mono-numbers text-[10px] uppercase tracking-[0.25em]" style={{ color: t.muted }}>
                   June 12, 2027 · Bend, Oregon

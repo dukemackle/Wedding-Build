@@ -1061,7 +1061,7 @@ export const OPENINGS = [
   { id: "reveal", label: "Photo reveal", help: "Your photo opens out from the centre." },
 ] as const;
 
-/** What drifts over the page (Motion tab), all tinted with the theme's accent. */
+/** What drifts over the page (Motion tab), tinted with the theme's accent unless a colour is picked. */
 export const FALLING = [
   { id: "none", label: "Nothing" },
   { id: "petals", label: "Petals" },
@@ -1082,17 +1082,63 @@ export const FALLING = [
 export const FALLING_IDS = FALLING.map((f) => f.id) as [FallingId, ...FallingId[]];
 export type FallingId = (typeof FALLING)[number]["id"];
 
+/**
+ * The colour of what falls (Motion tab), separate from the site's accent so
+ * blush petals don't mean blush buttons. "natural" gives each kind its
+ * real-world colour; the rest are the wax seal's colours plus white, for
+ * dark pages.
+ */
+export const FALLING_COLORS = [
+  { id: "accent", label: "Match my colours", hex: null },
+  { id: "natural", label: "True to life", hex: null },
+  { id: "blush", label: "Blush", hex: "#c48a8e" },
+  { id: "gold", label: "Gold", hex: "#b8892b" },
+  { id: "sage", label: "Sage", hex: "#5f7356" },
+  { id: "navy", label: "Navy", hex: "#1f2c4f" },
+  { id: "white", label: "White", hex: "#ffffff" },
+] as const;
+
+export type FallingColorId = (typeof FALLING_COLORS)[number]["id"];
+export const FALLING_COLOR_IDS = FALLING_COLORS.map((c) => c.id) as [FallingColorId, ...FallingColorId[]];
+
+/** "True to life": what each kind is in the real world. Confetti is already multicoloured. */
+const NATURAL: Record<Exclude<FallingId, "none">, string | null> = {
+  petals: "#d9969c",
+  hearts: "#c4545f",
+  confetti: null,
+  rice: "#cdbf9c",
+  snow: "#9fc4dc",
+  leaves: "#b5562a",
+  rings: "#b8892b",
+  bubbles: "#00BFFE",
+  fireflies: "#FFD301",
+  lanterns: "#e0a100",
+  marigolds: "#e07a00",
+  sparklers: "#FFD301",
+  butterflies: "#d9731f",
+};
+
+/** The "True to life" swatch: a few of those colours at once. */
+export const NATURAL_SWATCH = "conic-gradient(#d9969c 0 25%, #e07a00 0 50%, #FFD301 0 75%, #00BFFE 0)";
+
+/** The colour to draw `kind` in, or null to keep the site's accent. */
+export function fallingTint(kind: FallingId, color: FallingColorId): string | null {
+  if (kind === "none" || color === "accent") return null;
+  if (color === "natural") return NATURAL[kind];
+  return FALLING_COLORS.find((c) => c.id === color)?.hex ?? null;
+}
+
 
 /**
  * The Motion tab's "Overall" choices. Each fills in every setting; changing
- * one afterwards makes it "Custom" -- worked out by comparing, not stored, so
+ * one afterwards makes it "Custom" (speed and the falling colour carry over) -- worked out by comparing, not stored, so
  * it can never disagree with the settings. Subtle is what the site did
  * before there was a Motion tab.
  */
 export const MOTION_PRESETS = {
-  none: { opening: "none", scroll: "none", photo: "still", falling: "none", ticking: false, flipboard: false, shimmer: false, confetti: false, speed: "normal" },
-  subtle: { opening: "none", scroll: "fade", photo: "zoom", falling: "none", ticking: true, flipboard: false, shimmer: false, confetti: false, speed: "normal" },
-  lively: { opening: "envelope", scroll: "zoom", photo: "zoom", falling: "petals", ticking: true, flipboard: false, shimmer: true, confetti: true, speed: "normal" },
+  none: { opening: "none", scroll: "none", photo: "still", falling: "none", ticking: false, flipboard: false, shimmer: false, confetti: false, speed: "normal", fallingColor: "accent" },
+  subtle: { opening: "none", scroll: "fade", photo: "zoom", falling: "none", ticking: true, flipboard: false, shimmer: false, confetti: false, speed: "normal", fallingColor: "accent" },
+  lively: { opening: "envelope", scroll: "zoom", photo: "zoom", falling: "petals", ticking: true, flipboard: false, shimmer: true, confetti: true, speed: "normal", fallingColor: "accent" },
 } as const satisfies Record<string, Motion>;
 
 export type MotionPreset = keyof typeof MOTION_PRESETS | "custom";
@@ -1100,7 +1146,7 @@ export type MotionPreset = keyof typeof MOTION_PRESETS | "custom";
 export function motionPreset(motion: Motion): MotionPreset {
   const match = (Object.keys(MOTION_PRESETS) as (keyof typeof MOTION_PRESETS)[]).find((key) =>
     (Object.keys(motion) as (keyof Motion)[]).every(
-      (k) => k === "speed" || motion[k] === MOTION_PRESETS[key][k],
+      (k) => k === "speed" || k === "fallingColor" || motion[k] === MOTION_PRESETS[key][k],
     ),
   );
   return match ?? "custom";
