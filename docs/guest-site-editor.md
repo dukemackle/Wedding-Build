@@ -306,5 +306,7 @@ all seven kept:
   list.
 - Opening a section in the editor (or picking it in the preview) sends
   `SHOW_SECTION_MESSAGE`, so the preview opens that tab.
-- A sidebar section alone on its tab takes the page's single column
+- A sidebar section alone on its tab takes the page's single column, and a
+  tab of text-led sections (not photos, schedule, registry, wall, party) sits at
+  the STANDARD width on the Cards page style
   (`section-layout.tsx`).
