@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { AppNav } from "@/components/app-nav";
 import type { ItineraryEvent,
+  RegionalCostData,
   ContactSubmission,
   Guest,
   GuestPost,
@@ -16,6 +17,7 @@ import { GUEST_WITH_NOTES, withNotes } from "@/lib/guest-notes";
 import { loadSheetLink, sheetLinkView, siteChangesSince } from "@/lib/sheet-link-server";
 import { guestSiteRows } from "@/lib/guest-sheet";
 import { canEditWedding } from "@/lib/wedding-access";
+import { weddingCategoryEstimates } from "@/lib/estimator";
 
 export default async function GuestsPage() {
   const supabase = await createClient();
@@ -123,6 +125,30 @@ export default async function GuestsPage() {
   ]);
   const sheetChanges = sheetLink ? siteChangesSince(sheetLink, guestSiteRows(guests ?? [])) : null;
 
+  // The stage header's two outside numbers: what the venue holds, and what
+  // one more guest adds by the Budget's own estimate (the difference across
+  // 100 extra guests, so flat lines cancel out and rounding doesn't).
+  const [{ data: venue }, { data: regionalData }] = await Promise.all([
+    wedding.venue_id
+      ? supabase.from("venues").select("capacity").eq("id", wedding.venue_id).maybeSingle<{ capacity: number | null }>()
+      : Promise.resolve({ data: null }),
+    supabase
+      .from("regional_cost_data")
+      .select("*")
+      .eq("state", wedding.state ?? "")
+      .returns<RegionalCostData[]>(),
+  ]);
+  const hidden = { hidden: wedding.hidden_budget_categories };
+  const sumVisible = (estimates: Map<string, number>) =>
+    [...estimates].reduce(
+      (sum, [key, amount]) => (wedding.hidden_budget_categories.includes(key) ? sum : sum + amount),
+      0,
+    );
+  const costPerGuest =
+    (sumVisible(weddingCategoryEstimates(regionalData ?? [], wedding, 200, hidden)) -
+      sumVisible(weddingCategoryEstimates(regionalData ?? [], wedding, 100, hidden))) /
+    100;
+
   return (
     <main className="flex flex-1 flex-col items-center px-4 py-10 sm:px-6 sm:py-16">
       <AppNav email={user.email ?? ""} />
@@ -140,6 +166,8 @@ export default async function GuestsPage() {
         sheetLink={sheetLinkView(sheetLink)}
         sheetChanges={sheetChanges}
         canEdit={canEdit}
+        venueCapacity={venue?.capacity ?? null}
+        costPerGuest={costPerGuest > 0 ? Math.round(costPerGuest) : null}
       />
     </main>
   );

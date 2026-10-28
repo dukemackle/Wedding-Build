@@ -11,6 +11,17 @@ They're summarised here only by reference; CLAUDE.md is the source.
 
 ## Approved directions
 
+- **2026-10-28:** Guest list: a stage header (Building your list → Invites
+  out → Final count) leads the page with the number that matters at each
+  stage (tiers against the venue's capacity and the Budget's cost per guest,
+  then replies), a "Tidy your list" card collects the loose ends (no
+  side/group, duplicates, missing addresses, unfinished names), and quick
+  sort sorts one guest at a time with number keys and Wren's guess. Quick
+  sort is the page's gold action while there's tidying; Add guest goes navy.
+  Excel/CSV fold into one Export menu. Mockup:
+  https://claude.ai/artifact/MXSwmfr8b2HfxymNyvcTAU. Applied in
+  `src/app/guests/stage-header.tsx`, `tidy-list.tsx`, `quick-sort.tsx`.
+
 - **2026-10-28 (later):** The default is pure white, not ivory: the starter
   template is now **Classic** on #ffffff, with Ivory and Linen as colourways.
 - **2026-10-28:** Checklist is a "journey path" (option 1 of three; card deck
