@@ -4,7 +4,17 @@ import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import type { ItineraryEvent, Wedding } from "@/lib/supabase/types";
 import { sendSms } from "@/lib/sms";
-import { audienceOf, formatFullDate, formatTime, guessAudience, isAudience } from "@/lib/itinerary";
+import {
+  audienceOf,
+  eventsToShift,
+  formatFullDate,
+  formatLength,
+  formatTime,
+  fromMinutes,
+  guessAudience,
+  isAudience,
+  spanOf,
+} from "@/lib/itinerary";
 import { requireEditableWedding } from "@/lib/wedding-access";
 
 function eventFieldsFromForm(formData: FormData) {
@@ -87,6 +97,8 @@ async function notifyGuestsOfScheduleChange(
   supabase: Awaited<ReturnType<typeof createClient>>,
   wedding: Wedding,
   event: ScheduleFields,
+  /** Appended when one change moved several guest events at once. */
+  more = "",
 ) {
   const { data: guests } = await supabase
     .from("guests")
@@ -107,7 +119,7 @@ async function notifyGuestsOfScheduleChange(
   // Schedule news only, never an ad: a text that promotes anything is
   // marketing under the TCPA and needs consent guests haven't given
   // (docs/legal-audit.md R2). Says who it's from and how to stop.
-  const body = `You Do, I Do: schedule update for ${coupleNames || "the wedding"}. "${event.title}" is now ${formatFullDate(event.event_date)}${details ? `, ${details}` : ""}.\n\nReply STOP to stop these texts.`;
+  const body = `You Do, I Do: schedule update for ${coupleNames || "the wedding"}. "${event.title}" is now ${formatFullDate(event.event_date)}${details ? `, ${details}` : ""}${more}.\n\nReply STOP to stop these texts.`;
 
   for (const guest of guests) {
     if (!guest.phone) continue;
@@ -202,6 +214,81 @@ export async function deleteItineraryEvent(formData: FormData): Promise<{ error?
   revalidatePath("/itinerary");
   revalidatePath("/w/[slug]", "page");
   return {};
+}
+
+/**
+ * "Move this and everything after by N minutes". Which events move is
+ * eventsToShift's call (it stops short of the ceremony when the move starts
+ * before it). Guests get one text for the lot, not one per event.
+ */
+export async function shiftItineraryEvents(eventId: string, minutes: number): Promise<{ error?: string; moved?: number }> {
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
+  if (!wedding) return { error: noWedding };
+  if (!Number.isInteger(minutes) || minutes === 0 || Math.abs(minutes) > 12 * 60) {
+    return { error: "Pick how far to move them." };
+  }
+
+  const { data: from } = await supabase
+    .from("itinerary_events")
+    .select("*")
+    .eq("id", eventId)
+    .eq("wedding_id", wedding.id)
+    .maybeSingle<ItineraryEvent>();
+  if (!from) return { error: "That event no longer exists." };
+  if (!from.start_time) return { error: "Give this event a start time first." };
+
+  const { data: day } = await supabase
+    .from("itinerary_events")
+    .select("*")
+    .eq("wedding_id", wedding.id)
+    .eq("event_date", from.event_date)
+    .returns<ItineraryEvent[]>();
+  const moving = eventsToShift(day ?? [], from);
+
+  const moved = moving.map((e) => {
+    const span = spanOf(e)!;
+    return {
+      e,
+      start_time: fromMinutes(span.start + minutes),
+      // An end past midnight wraps, as it was saved before the move.
+      end_time: e.end_time ? fromMinutes((span.end + minutes) % (24 * 60)) : null,
+      startsOnDay: span.start + minutes >= 0 && span.start + minutes < 24 * 60,
+    };
+  });
+  // Keep every event on its own day: a start moved across midnight would
+  // quietly belong to the wrong date.
+  if (moved.some((m) => !m.startsOnDay)) {
+    return { error: "That would push something past midnight. Try a smaller move." };
+  }
+
+  const now = new Date().toISOString();
+  const results = await Promise.all(
+    moved.map((m) =>
+      supabase
+        .from("itinerary_events")
+        .update({ start_time: m.start_time, end_time: m.end_time, updated_at: now })
+        .eq("id", m.e.id)
+        .eq("wedding_id", wedding.id),
+    ),
+  );
+  const failed = results.find((r) => r.error);
+  if (failed?.error) return { error: failed.error.message };
+
+  const forGuests = moved.filter((m) => audienceOf(m.e) === "guests");
+  if (forGuests.length && wedding.itinerary_published) {
+    const firstMoved = forGuests[0];
+    const others = forGuests.length - 1;
+    await notifyGuestsOfScheduleChange(
+      supabase,
+      wedding,
+      { ...firstMoved.e, start_time: firstMoved.start_time, end_time: firstMoved.end_time },
+      others ? `, and ${others} later ${others === 1 ? "event moves" : "events move"} ${formatLength(Math.abs(minutes))} ${minutes > 0 ? "later" : "earlier"} too` : "",
+    );
+  }
+
+  revalidatePath("/itinerary");
+  revalidatePath("/w/[slug]", "page");
+  return { moved: moved.length };
 }
 
 /**

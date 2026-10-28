@@ -1,32 +1,39 @@
 "use client";
 
-import { useMemo, useRef, useState, useTransition, type CSSProperties } from "react";
+import { useEffect, useMemo, useState, useTransition } from "react";
 import type { EventAudience, Guest, ItineraryEvent } from "@/lib/supabase/types";
 import {
   AUDIENCES,
   audienceOf,
   dateKey,
-  formatFullDate,
+  dayLabel,
+  eventsToShift,
+  findFlags,
+  formatLength,
+  formatShortDate,
   formatTime,
+  fromMinutes,
   groupEventsByDate,
   guessAudience,
+  isCeremony,
   parseDateKey,
+  spanOf,
 } from "@/lib/itinerary";
 import { downloadIcs } from "@/lib/ics";
-import { ItineraryCalendar } from "@/components/itinerary-calendar";
-import { addItineraryEvent, updateItineraryEvent, deleteItineraryEvent, setEventInvites } from "./actions";
+import {
+  addItineraryEvent,
+  updateItineraryEvent,
+  deleteItineraryEvent,
+  setEventInvites,
+  shiftItineraryEvents,
+} from "./actions";
 import { BirdEmptyState } from "@/components/wren-moments";
 import { PlusIcon } from "@/components/page-header";
-import { AUDIENCE_FILL, AudienceTag, LockIcon } from "@/components/audience-tag";
+import { AUDIENCE_FILL, LockIcon } from "@/components/audience-tag";
+import { DayList, DayTimeline, TimelineLegend } from "@/components/itinerary-timeline";
 
 const inputClass =
   "rounded-md border border-hairline bg-parchment px-3 py-2 text-ink outline-none focus:border-forest";
-// Wide-screen day strip: up to 7 columns side by side, each capped so a
-// two-day weekend doesn't stretch into two 640px cards.
-const MAX_COLUMNS = 7;
-const MAX_COLUMN_WIDTH = 340;
-const COLUMN_GAP = 12;
-
 const labelClass = "flex flex-col gap-1 text-sm text-ink";
 
 /** The guest list, as far as choosing who's invited to an event needs it. */
@@ -311,233 +318,197 @@ function InvitePicker({
   );
 }
 
-function AddEventForm({ defaultDate, onDone }: { defaultDate: string; onDone: () => void }) {
-  const [error, setError] = useState<string | undefined>(undefined);
-  const [isPending, startTransition] = useTransition();
-  const formRef = useRef<HTMLFormElement>(null);
+const SHIFTS = [-60, -45, -30, -15, 15, 30, 45, 60];
 
-  function handleSubmit(formData: FormData) {
+/**
+ * "Move this and everything after": the change couples make most, done in
+ * one go instead of editing every later event by hand.
+ */
+function ShiftControl({ event, dayEvents }: { event: ItineraryEvent; dayEvents: ItineraryEvent[] }) {
+  const [minutes, setMinutes] = useState(15);
+  const [error, setError] = useState<string>();
+  const [isPending, startTransition] = useTransition();
+  if (!event.start_time) return null;
+
+  const moving = eventsToShift(dayEvents, event);
+  const ceremony = dayEvents.find(isCeremony);
+  const ceremonyStays = ceremony && ceremony.id !== event.id && !moving.includes(ceremony) && spanOf(ceremony)!.start > spanOf(event)!.start;
+
+  function move() {
+    setError(undefined);
     startTransition(async () => {
-      const result = await addItineraryEvent(formData);
-      if (result?.error) {
-        setError(result.error);
-      } else {
-        setError(undefined);
-        formRef.current?.reset();
-        onDone();
-      }
+      const result = await shiftItineraryEvents(event.id, minutes);
+      if (result.error) setError(result.error);
     });
   }
 
   return (
-    <form
-      ref={formRef}
-      action={handleSubmit}
-      className="mb-6 rounded-lg border border-hairline bg-parchment p-4"
-    >
-      <EventFields defaultDate={defaultDate} />
-      {error && <p className="mt-3 text-sm text-red-800">{error}</p>}
-      <div className="mt-4 flex items-center gap-3">
-        <button
-          type="submit"
-          disabled={isPending}
-          className="rounded-md bg-forest px-4 py-2 text-sm font-medium text-parchment transition-colors hover:bg-forest/90 disabled:opacity-60"
+    <div className="mt-5 rounded-lg border border-hairline bg-parchment px-3 py-2.5 text-sm text-ink">
+      <div className="flex flex-wrap items-center gap-2">
+        <label htmlFor="shift-by">Move this{moving.length > 1 ? " and everything after" : ""} by</label>
+        <select
+          id="shift-by"
+          value={minutes}
+          onChange={(e) => setMinutes(Number(e.target.value))}
+          className="rounded-md border border-hairline bg-card px-2 py-1 text-sm"
         >
-          {isPending ? "Adding..." : "Add event"}
-        </button>
+          {SHIFTS.map((m) => (
+            <option key={m} value={m}>
+              {m > 0 ? "+" : "−"}
+              {formatLength(Math.abs(m))}
+            </option>
+          ))}
+        </select>
         <button
           type="button"
-          onClick={onDone}
-          className="rounded-md border border-hairline px-4 py-2 text-sm text-ink transition-colors hover:border-forest"
-        >
-          Cancel
-        </button>
-      </div>
-    </form>
-  );
-}
-
-function EventRow({
-  event,
-  guests,
-  invited,
-  guestView,
-}: {
-  event: ItineraryEvent;
-  guests: InviteGuest[];
-  invited: string[];
-  /** "What guests see" is on: fade what they won't. */
-  guestView: boolean;
-}) {
-  const [isEditing, setIsEditing] = useState(false);
-  const [picking, setPicking] = useState(false);
-  const [error, setError] = useState<string | undefined>(undefined);
-  const [isPending, startTransition] = useTransition();
-
-  function handleSave(formData: FormData) {
-    startTransition(async () => {
-      const result = await updateItineraryEvent(formData);
-      if (result?.error) {
-        setError(result.error);
-      } else {
-        setError(undefined);
-        setIsEditing(false);
-      }
-    });
-  }
-
-  function handleDelete() {
-    if (!confirm(`Remove "${event.title}" from the schedule?`)) return;
-    startTransition(async () => {
-      const formData = new FormData();
-      formData.set("id", event.id);
-      const result = await deleteItineraryEvent(formData);
-      if (result?.error) {
-        setError(result.error);
-      }
-    });
-  }
-
-  if (isEditing) {
-    return (
-      <div className="border-b border-hairline py-4 last:border-b-0">
-        <form action={handleSave}>
-          <input type="hidden" name="id" value={event.id} />
-          <EventFields event={event} />
-          {error && <p className="mt-3 text-sm text-red-800">{error}</p>}
-          <div className="mt-4 flex items-center gap-3">
-            <button
-              type="submit"
-              disabled={isPending}
-              className="rounded-md bg-forest px-4 py-2 text-sm font-medium text-parchment transition-colors hover:bg-forest/90 disabled:opacity-60"
-            >
-              {isPending ? "Saving..." : "Save"}
-            </button>
-            <button
-              type="button"
-              onClick={() => setIsEditing(false)}
-              className="rounded-md border border-hairline px-4 py-2 text-sm text-ink transition-colors hover:border-forest"
-            >
-              Cancel
-            </button>
-          </div>
-        </form>
-      </div>
-    );
-  }
-
-  const timeRange = [formatTime(event.start_time), event.end_time && formatTime(event.end_time)]
-    .filter(Boolean)
-    .join(" – ");
-
-  const audience = audienceOf(event);
-  const hidden = guestView && audience !== "guests";
-
-  return (
-    <div
-      className={`border-b border-hairline py-3 transition-opacity last:border-b-0 ${hidden ? "opacity-35" : ""}`}
-      aria-hidden={hidden || undefined}
-    >
-      <div className="flex items-start justify-between gap-2">
-        <div className="min-w-0">
-          {timeRange && <p className="font-mono-numbers text-xs text-brass xl:text-[11px]">{timeRange}</p>}
-          <p className="mt-0.5 text-ink">{event.title}</p>
-        </div>
-        <AudienceTag audience={audience} />
-      </div>
-      {event.rsvp && (
-        <p className="mt-1 flex flex-wrap gap-1.5">
-          <span className="rounded-full border border-forest/40 bg-forest/10 px-2 py-0.5 text-[11px] text-forest">
-            Guests RSVP
-          </span>
-          {event.invite_only && (
-            <button
-              type="button"
-              onClick={() => setPicking((p) => !p)}
-              className="rounded-full border border-brass/40 bg-brass/10 px-2 py-0.5 text-[11px] text-brass hover:border-brass"
-            >
-              Invite only · {invited.length} {invited.length === 1 ? "guest" : "guests"} — choose
-            </button>
-          )}
-        </p>
-      )}
-      {picking && event.invite_only && (
-        <InvitePicker event={event} guests={guests} invited={invited} onClose={() => setPicking(false)} />
-      )}
-      {event.location && <p className="mt-1 text-xs text-ink/50">{event.location}</p>}
-      {event.description && <p className="mt-1 text-sm text-ink/70">{event.description}</p>}
-      {error && <p className="mt-1 text-sm text-red-800">{error}</p>}
-      <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 xl:gap-x-2">
-        <button onClick={() => downloadIcs(event)} className="text-xs text-brass hover:underline">
-          Add to calendar
-        </button>
-        <button onClick={() => setIsEditing(true)} className="text-xs text-brass hover:underline">
-          Edit
-        </button>
-        <button
-          onClick={handleDelete}
+          onClick={move}
           disabled={isPending}
-          className="text-xs text-ink/50 hover:underline"
+          className="rounded-full border border-forest px-3 py-1 text-xs font-medium text-forest hover:bg-forest hover:text-parchment disabled:opacity-50"
         >
-          Remove
+          {isPending ? "Moving…" : "Move"}
         </button>
       </div>
+      <p className="mt-1.5 text-xs text-ink/60">
+        {moving.length === 1 ? "Moves just this event." : `Moves ${moving.length} events.`}
+        {ceremonyStays && ` The ceremony stays at ${formatTime(ceremony.start_time)}.`}
+      </p>
+      {error && <p className="mt-1 text-xs text-red-800">{error}</p>}
     </div>
   );
 }
 
-function DayColumn({
-  date,
-  events,
-  isWeddingDay,
-  onAdd,
+type PanelMode = { kind: "add"; date: string } | { kind: "edit"; event: ItineraryEvent };
+
+/**
+ * Adding or changing an event. Wide screens: a card beside the timeline.
+ * Phones: the same card as a sheet up from the bottom, over a scrim.
+ */
+function EventPanel({
+  mode,
+  dayEvents,
   guests,
   invites,
-  guestView,
+  onClose,
 }: {
-  date: string;
-  events: ItineraryEvent[];
-  isWeddingDay: boolean;
-  onAdd: () => void;
+  mode: PanelMode;
+  dayEvents: ItineraryEvent[];
   guests: InviteGuest[];
   invites: Record<string, string[]>;
-  guestView: boolean;
+  onClose: () => void;
 }) {
-  return (
-    <div className="w-full min-w-[240px] flex-1 rounded-lg border border-hairline bg-card p-4 shadow-sm xl:min-w-0 xl:p-3">
-      <div className="mb-3 flex items-start justify-between gap-2 border-b border-hairline pb-3">
-        <div>
-          <p className="font-display text-lg font-semibold text-forest xl:text-base">
-            {formatFullDate(date)}
-          </p>
-          {isWeddingDay && (
-            <span className="font-mono-numbers text-[11px] uppercase tracking-wide text-brass">
-              Wedding day
-            </span>
-          )}
-        </div>
-        <button
-          type="button"
-          onClick={onAdd}
-          className="shrink-0 rounded-full border border-hairline px-2.5 py-1 text-xs text-ink transition-colors hover:border-forest"
-        >
-          + Add
-        </button>
-      </div>
+  const [error, setError] = useState<string>();
+  const [picking, setPicking] = useState(false);
+  const [isPending, startTransition] = useTransition();
+  const event = mode.kind === "edit" ? mode.event : undefined;
 
-      {events.length === 0 ? (
-        <p className="py-6 text-center text-sm text-ink/50">Nothing scheduled yet.</p>
-      ) : (
-        events.map((event) => (
-          <EventRow
-            key={event.id}
-            event={event}
-            guests={guests}
-            invited={invites[event.id] ?? []}
-            guestView={guestView}
-          />
-        ))
-      )}
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [onClose]);
+
+  function submit(formData: FormData) {
+    startTransition(async () => {
+      const result = event ? await updateItineraryEvent(formData) : await addItineraryEvent(formData);
+      if (result?.error) setError(result.error);
+      else onClose();
+    });
+  }
+
+  function remove() {
+    if (!event || !confirm(`Remove "${event.title}" from the schedule?`)) return;
+    startTransition(async () => {
+      const formData = new FormData();
+      formData.set("id", event.id);
+      const result = await deleteItineraryEvent(formData);
+      if (result?.error) setError(result.error);
+      else onClose();
+    });
+  }
+
+  return (
+    <>
+      <div aria-hidden="true" onClick={onClose} className="fixed inset-0 z-40 bg-forest/35 lg:hidden" />
+      <section
+        aria-label={event ? `Edit ${event.title}` : "Add an event"}
+        className="fixed inset-x-0 bottom-0 z-50 max-h-[88vh] overflow-y-auto rounded-t-[20px] border border-hairline bg-card px-4 pb-6 pt-2.5 shadow-[0_-8px_30px_rgb(20_32_61/0.2)] lg:static lg:z-auto lg:max-h-none lg:overflow-visible lg:rounded-[18px] lg:px-5 lg:pb-5 lg:pt-4 lg:shadow-[0_2px_10px_rgb(20_32_61/0.05)]"
+      >
+        <span aria-hidden="true" className="mx-auto mb-3 block h-1 w-10 rounded-full bg-ink/15 lg:hidden" />
+        <div className="mb-3 flex items-start justify-between gap-3">
+          <h2 className="font-display text-2xl font-semibold leading-tight text-forest">
+            {event ? event.title : "Add an event"}
+          </h2>
+          <button type="button" onClick={onClose} className="shrink-0 pt-1 text-sm text-ink/60 hover:underline">
+            Close
+          </button>
+        </div>
+        <form action={submit}>
+          {event && <input type="hidden" name="id" value={event.id} />}
+          <EventFields event={event} defaultDate={mode.kind === "add" ? mode.date : undefined} />
+          {error && <p className="mt-3 text-sm text-red-800">{error}</p>}
+          <div className="mt-4 flex flex-wrap items-center justify-end gap-2">
+            {event && (
+              <button type="button" onClick={remove} disabled={isPending} className="mr-auto text-sm text-ink/60 hover:underline">
+                Remove
+              </button>
+            )}
+            {event && (
+              <button type="button" onClick={() => downloadIcs(event)} className="btn-secondary">
+                Add to calendar
+              </button>
+            )}
+            <button type="submit" disabled={isPending} className="btn-primary">
+              {isPending ? "Saving…" : event ? "Save" : "Add event"}
+            </button>
+          </div>
+        </form>
+        {event?.rsvp && event.invite_only && (
+          <div className="mt-4">
+            <button
+              type="button"
+              onClick={() => setPicking((p) => !p)}
+              className="rounded-full border border-brass/40 bg-brass/10 px-3 py-1 text-xs text-ink hover:border-brass"
+            >
+              Invite only · {(invites[event.id] ?? []).length} chosen — {picking ? "hide" : "choose guests"}
+            </button>
+            {picking && (
+              <InvitePicker event={event} guests={guests} invited={invites[event.id] ?? []} onClose={() => setPicking(false)} />
+            )}
+          </div>
+        )}
+        {event && <ShiftControl event={event} dayEvents={dayEvents} />}
+      </section>
+    </>
+  );
+}
+
+/** The day's shape in four numbers, beside the timeline. */
+function Glance({ date, weddingDate, events, flags }: { date: string; weddingDate: string | null; events: ItineraryEvent[]; flags: number }) {
+  const spans = events.map(spanOf).filter((s) => s !== null);
+  const ceremony = events.find(isCeremony);
+  const at = (m: number | undefined) => (m === undefined ? "—" : formatTime(fromMinutes(m % 1440)));
+  const tiles = [
+    { label: "Starts", value: at(spans.length ? Math.min(...spans.map((s) => s.start)) : undefined) },
+    ceremony?.start_time
+      ? { label: "Ceremony", value: formatTime(ceremony.start_time) }
+      : { label: "Events", value: String(events.length) },
+    { label: "Wraps up", value: at(spans.length ? Math.max(...spans.map((s) => s.end)) : undefined) },
+    { label: "Needs a look", value: flags ? `${flags} ${flags === 1 ? "thing" : "things"}` : "All clear", warn: flags > 0 },
+  ];
+  const label = dayLabel(date, weddingDate);
+  return (
+    <div className="hidden rounded-[18px] border border-hairline bg-card px-5 py-4 shadow-[0_2px_10px_rgb(20_32_61/0.05)] lg:block">
+      <h2 className="mb-3 font-display text-[22px] font-semibold text-forest">
+        {label === "Wedding day" ? "Your wedding day" : formatShortDate(date)} at a glance
+      </h2>
+      <dl className="grid grid-cols-2 gap-2.5">
+        {tiles.map((t) => (
+          <div key={t.label} className="rounded-[10px] border border-hairline bg-parchment px-3 py-2">
+            <dt className="text-[11px] uppercase tracking-wide text-ink/55">{t.label}</dt>
+            <dd className={`font-mono-numbers text-[15px] ${t.warn ? "text-[#9a6b00]" : "text-ink"}`}>{t.value}</dd>
+          </div>
+        ))}
+      </dl>
     </div>
   );
 }
@@ -555,44 +526,79 @@ export function ItineraryManager({
   /** Event id -> the guest ids invited to it. */
   invites?: Record<string, string[]>;
 }) {
-  const [showAddForm, setShowAddForm] = useState(false);
+  const days = useMemo(() => {
+    const grouped = groupEventsByDate(events);
+    if (weddingDate && !grouped.some((d) => d.date === weddingDate)) {
+      grouped.push({ date: weddingDate, events: [] });
+      grouped.sort((a, b) => a.date.localeCompare(b.date));
+    }
+    return grouped;
+  }, [events, weddingDate]);
+
   const [guestView, setGuestView] = useState(false);
-  const [addFormDate, setAddFormDate] = useState(weddingDate ?? dateKey(new Date()));
+  const [pickedDay, setPickedDay] = useState<string | null>(null);
+  const [panel, setPanel] = useState<{ kind: "add"; date: string } | { kind: "edit"; id: string } | null>(null);
 
-  const days = useMemo(() => groupEventsByDate(events), [events]);
-  const columnCount = Math.min(Math.max(days.length, 1), MAX_COLUMNS);
+  const day =
+    days.find((d) => d.date === pickedDay) ?? days.find((d) => d.date === weddingDate) ?? days[0] ?? null;
+  const flags = useMemo(() => (day ? findFlags(day.events) : []), [day]);
+  const flagged = useMemo(() => new Set(flags.map((f) => f.eventId)), [flags]);
+  // The event being edited comes from the latest props, so a save or a
+  // "move everything after" shows straight away in the open panel.
+  const editing = panel?.kind === "edit" ? events.find((e) => e.id === panel.id) : undefined;
+  const mode: PanelMode | null =
+    panel?.kind === "add" ? panel : editing ? { kind: "edit", event: editing } : null;
 
-  function openAddForm(date: string) {
-    setAddFormDate(date);
-    setShowAddForm(true);
-  }
+  const nextDay = () => {
+    const last = days.at(-1)?.date ?? weddingDate ?? dateKey(new Date());
+    const d = parseDateKey(last);
+    d.setDate(d.getDate() + 1);
+    return dateKey(d);
+  };
 
   return (
-    <div className="grid gap-6 md:grid-cols-[280px_1fr] xl:grid-cols-[240px_1fr]">
-      <div className="rounded-lg border border-hairline bg-card p-5 shadow-sm">
-        <ItineraryCalendar
-          events={events}
-          selectedDate={addFormDate}
-          onSelectDate={openAddForm}
-          initialDate={weddingDate ? parseDateKey(weddingDate) : new Date()}
-          weddingDate={weddingDate}
-        />
-        <p className="mt-3 text-xs text-ink/50">Pick a date to add an event to that day.</p>
-      </div>
-
-      <div className="min-w-0">
-        <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-          <p className="text-sm text-ink/60">
-            {days.length === 0
-              ? "No days scheduled yet."
-              : `${days.length} day${days.length === 1 ? "" : "s"} scheduled, side by side below.`}
-          </p>
-          {days.length > 0 && (
-            <div
-              role="group"
-              aria-label="Show"
-              className="inline-flex rounded-full border border-hairline bg-card p-0.5 text-xs sm:ml-auto"
-            >
+    <div>
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+        <div className="-mx-4 flex min-w-0 gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:px-0" role="tablist" aria-label="Days">
+          {days.map((d) => {
+            const on = d.date === day?.date;
+            return (
+              <button
+                key={d.date}
+                type="button"
+                role="tab"
+                aria-selected={on}
+                onClick={() => {
+                  setPickedDay(d.date);
+                  setPanel(null);
+                }}
+                className={`shrink-0 rounded-[14px] border bg-card px-3.5 py-2 text-left shadow-[0_1px_2px_rgb(20_32_61/0.04)] transition-colors md:min-w-[150px] ${
+                  on ? "border-forest ring-1 ring-forest" : "border-hairline hover:border-forest/40"
+                }`}
+              >
+                <span className="block text-[10px] uppercase tracking-[0.06em] text-ink/55 md:text-[11px]">
+                  {formatShortDate(d.date)}
+                </span>
+                <span className="font-display text-[17px] font-semibold text-forest md:text-[19px]">
+                  {dayLabel(d.date, weddingDate)}
+                </span>
+                <span className="hidden text-xs text-ink/55 md:inline">
+                  {" "}· {d.events.length} {d.events.length === 1 ? "event" : "events"}
+                </span>
+              </button>
+            );
+          })}
+          <button
+            type="button"
+            onClick={() => setPanel({ kind: "add", date: nextDay() })}
+            className="shrink-0 rounded-[14px] border border-dashed border-ink/25 px-3.5 py-2 text-sm text-ink/60 hover:border-forest hover:text-ink"
+          >
+            + Add a day
+          </button>
+        </div>
+        <div className="flex w-full items-center justify-between gap-3 sm:w-auto">
+          {events.length > 0 && (
+            <div role="group" aria-label="Show" className="inline-flex rounded-full border border-hairline bg-card p-0.5 text-xs">
               {[
                 { on: false, label: "Everything" },
                 { on: true, label: "What guests see" },
@@ -602,7 +608,7 @@ export function ItineraryManager({
                   type="button"
                   aria-pressed={guestView === o.on}
                   onClick={() => setGuestView(o.on)}
-                  className={`rounded-full px-3 py-1.5 transition-colors ${
+                  className={`whitespace-nowrap rounded-full px-3 py-1.5 transition-colors ${
                     guestView === o.on ? "bg-forest text-parchment" : "text-ink/60 hover:text-ink"
                   }`}
                 >
@@ -612,49 +618,90 @@ export function ItineraryManager({
             </div>
           )}
           <button
-            onClick={() => (showAddForm ? setShowAddForm(false) : openAddForm(addFormDate))}
-            className={showAddForm ? "btn-secondary" : "btn-primary"}
+            type="button"
+            onClick={() => setPanel({ kind: "add", date: day?.date ?? weddingDate ?? dateKey(new Date()) })}
+            className="btn-primary whitespace-nowrap"
           >
-            {showAddForm ? "Close" : <><PlusIcon /> Add event</>}
+            <PlusIcon /> Add event
           </button>
         </div>
+      </div>
 
-        {showAddForm && (
-          <AddEventForm defaultDate={addFormDate} onDone={() => setShowAddForm(false)} />
-        )}
-
-        {days.length === 0 ? (
-          <div className="rounded-lg border border-hairline bg-card p-8 shadow-sm">
+      <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_380px]">
+        <section className="rounded-[18px] border border-hairline bg-card p-4 shadow-[0_2px_10px_rgb(20_32_61/0.05)] sm:p-6">
+          {!day || day.events.length === 0 ? (
             <BirdEmptyState className="">
               <p className="text-sm text-ink/60">
-                Nothing on the schedule yet. Add your first event to start building the weekend.
+                {events.length === 0
+                  ? "Nothing on the schedule yet. Start with the ceremony time and build the day around it."
+                  : "Nothing on this day yet."}
               </p>
             </BirdEmptyState>
-          </div>
-        ) : (
-          <div
-            className="scroll-visible flex items-start gap-4 overflow-x-auto pb-2 xl:grid xl:gap-3 xl:overflow-visible xl:[grid-template-columns:var(--day-cols)] xl:[max-width:var(--day-max)]"
-            style={
-              {
-                "--day-cols": `repeat(${columnCount}, minmax(0, 1fr))`,
-                "--day-max": `${columnCount * MAX_COLUMN_WIDTH + (columnCount - 1) * COLUMN_GAP}px`,
-              } as CSSProperties
-            }
-          >
-            {days.map((day) => (
-              <DayColumn
-                key={day.date}
-                date={day.date}
-                events={day.events}
-                isWeddingDay={weddingDate === day.date}
-                onAdd={() => openAddForm(day.date)}
-                guests={guests}
-                invites={invites}
-                guestView={guestView}
-              />
-            ))}
-          </div>
-        )}
+          ) : (
+            <>
+              {flags.length > 0 && (
+                <ul className="mb-4 flex flex-col gap-2">
+                  {flags.map((f, i) => (
+                    <li
+                      key={i}
+                      className="flex flex-wrap items-center gap-x-3 gap-y-1 rounded-[10px] border border-[#f3dc7a] bg-[#fff8d6] px-3 py-2 text-[13px] text-ink"
+                    >
+                      <span className="font-medium">{f.message}</span>
+                      <button
+                        type="button"
+                        onClick={() => setPanel({ kind: "edit", id: f.eventId })}
+                        className="font-medium text-[#2243B6] hover:underline sm:ml-auto"
+                      >
+                        Open it
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+              <div className="mb-4 hidden lg:block">
+                <TimelineLegend />
+              </div>
+              <div className="hidden lg:block">
+                <DayTimeline
+                  events={day.events}
+                  selectedId={editing?.id}
+                  onSelect={(e) => setPanel({ kind: "edit", id: e.id })}
+                  guestView={guestView}
+                  flagged={flagged}
+                />
+              </div>
+              <div className="lg:hidden">
+                <DayList
+                  events={day.events}
+                  selectedId={editing?.id}
+                  onSelect={(e) => setPanel({ kind: "edit", id: e.id })}
+                  guestView={guestView}
+                  flagged={flagged}
+                />
+              </div>
+            </>
+          )}
+        </section>
+
+        <aside className="flex flex-col gap-4">
+          {day && day.events.length > 0 && (
+            <Glance date={day.date} weddingDate={weddingDate} events={day.events} flags={flags.length} />
+          )}
+          {mode ? (
+            <EventPanel
+              key={mode.kind === "edit" ? `${mode.event.id}-${mode.event.updated_at}` : `add-${mode.date}`}
+              mode={mode}
+              dayEvents={day?.events ?? []}
+              guests={guests}
+              invites={invites}
+              onClose={() => setPanel(null)}
+            />
+          ) : (
+            <p className="hidden rounded-[18px] border border-dashed border-hairline px-5 py-4 text-sm text-ink/60 lg:block">
+              Pick an event on the timeline to change it, or move it and everything after in one go.
+            </p>
+          )}
+        </aside>
       </div>
     </div>
   );
