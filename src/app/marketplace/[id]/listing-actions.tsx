@@ -19,6 +19,8 @@ export function BuyerActions({
   available,
   threadId,
   defaultName,
+  opening = OPENING_MESSAGE,
+  saveable = true,
 }: {
   id: string;
   signedIn: boolean;
@@ -28,10 +30,14 @@ export function BuyerActions({
   threadId: string | null;
   /** The first name to offer, from their wedding. */
   defaultName: string;
+  /** The message to start with: a set asks about the whole set. */
+  opening?: string;
+  /** Off for a set, whose page messages about it through one of its items. */
+  saveable?: boolean;
 }) {
   const [saved, setSaved] = useState(initiallySaved);
   const [panel, setPanel] = useState<"none" | "message" | "report">("none");
-  const [body, setBody] = useState(OPENING_MESSAGE);
+  const [body, setBody] = useState(opening);
   const [error, setError] = useState<string>();
   const [isPending, startTransition] = useTransition();
 
@@ -65,22 +71,24 @@ export function BuyerActions({
             {available ? "Message seller" : "No longer available"}
           </button>
         )}
-        <button
-          type="button"
-          disabled={isPending}
-          aria-pressed={saved}
-          onClick={() => {
-            const next = !saved;
-            setSaved(next);
-            startTransition(async () => {
-              const result = await toggleSave(id, next);
-              if (result.error) setSaved(!next);
-            });
-          }}
-          className={`${secondary} ${saved ? "text-brass" : ""}`}
-        >
-          {saved ? "♥ Saved" : "♡ Save"}
-        </button>
+        {saveable && (
+          <button
+            type="button"
+            disabled={isPending}
+            aria-pressed={saved}
+            onClick={() => {
+              const next = !saved;
+              setSaved(next);
+              startTransition(async () => {
+                const result = await toggleSave(id, next);
+                if (result.error) setSaved(!next);
+              });
+            }}
+            className={`${secondary} ${saved ? "text-brass" : ""}`}
+          >
+            {saved ? "♥ Saved" : "♡ Save"}
+          </button>
+        )}
       </div>
 
       {panel === "message" && (
@@ -95,7 +103,7 @@ export function BuyerActions({
           className="space-y-2 rounded-lg border border-hairline bg-card p-3"
         >
           <div className="flex flex-wrap gap-1.5">
-            {QUICK_QUESTIONS.map((q) => (
+            {[...(opening === OPENING_MESSAGE ? [] : [opening]), ...QUICK_QUESTIONS].map((q) => (
               <button
                 key={q}
                 type="button"
