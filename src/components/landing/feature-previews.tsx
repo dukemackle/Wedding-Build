@@ -26,7 +26,8 @@ import {
 import { Falling, useReducedMotion } from "@/components/site-motion";
 import { SiteOrnament } from "@/components/site-ornament";
 import { ConfirmedChip } from "@/components/confirmed-badge";
-import { AudienceTag } from "@/components/audience-tag";
+import { DayList, DayTimeline } from "@/components/itinerary-timeline";
+import { findFlags, type TimelineEvent } from "@/lib/itinerary";
 import type { EventAudience } from "@/lib/supabase/types";
 import { SAMPLE_GALLERY } from "@/lib/sample-photos";
 import { CHECKLIST_PHASES, CHECKLIST_TEMPLATE } from "@/lib/checklist-template";
@@ -1576,148 +1577,106 @@ function AttireDemo() {
 
 /* ---------- Itinerary ---------- */
 
-const DAYS: {
-  date: number;
-  label: string;
-  wedding?: boolean;
-  events: { time: string; title: string; where: string; who: EventAudience }[];
-}[] = [
+type DemoEvent = TimelineEvent & { audience: EventAudience };
+const ev = (id: string, start: string, end: string | null, title: string, location: string, audience: EventAudience): DemoEvent => ({
+  id,
+  title,
+  start_time: start,
+  end_time: end,
+  location,
+  audience,
+});
+
+const DAYS: { date: string; short: string; label: string; events: DemoEvent[] }[] = [
   {
-    date: 11,
-    label: "Friday, June 11",
+    date: "2027-06-11",
+    short: "Fri · Jun 11",
+    label: "Day before",
     events: [
-      { time: "5:00 – 6:00 PM", title: "Rehearsal", where: "Juniper Barn", who: "party" },
-      { time: "6:30 PM", title: "Rehearsal dinner", where: "The Honey Pot", who: "guests" },
+      ev("r1", "17:00", "18:00", "Rehearsal", "Juniper Barn", "party"),
+      ev("r2", "18:30", "21:00", "Rehearsal dinner", "The Honey Pot", "guests"),
     ],
   },
   {
-    date: 12,
-    label: "Saturday, June 12",
-    wedding: true,
+    date: "2027-06-12",
+    short: "Sat · Jun 12",
+    label: "Wedding day",
     events: [
-      { time: "10:00 AM", title: "Hair & makeup", where: "Bridal suite", who: "party" },
-      { time: "2:00 PM", title: "First look & photos", where: "The orchard", who: "private" },
-      { time: "4:00 – 4:30 PM", title: "Ceremony", where: "Juniper Barn lawn", who: "guests" },
-      { time: "6:00 PM", title: "Dinner & toasts", where: "The barn", who: "guests" },
+      ev("w1", "10:00", "13:00", "Hair & makeup", "Bridal suite", "party"),
+      ev("w2", "13:30", "14:30", "First look & photos", "The orchard", "private"),
+      ev("w3", "14:30", "16:10", "Family photos", "Barn lawn", "party"),
+      ev("w4", "15:30", "16:00", "Guests arrive", "Front terrace", "guests"),
+      ev("w5", "16:00", "16:30", "Ceremony", "Juniper Barn lawn", "guests"),
+      ev("w6", "16:30", "17:30", "Cocktail hour", "The terrace", "guests"),
+      ev("w7", "18:00", "19:30", "Dinner & toasts", "The barn", "guests"),
     ],
   },
   {
-    date: 13,
-    label: "Sunday, June 13",
-    events: [{ time: "10:30 AM", title: "Farewell brunch", where: "Harbor House", who: "guests" }],
+    date: "2027-06-13",
+    short: "Sun · Jun 13",
+    label: "Day after",
+    events: [ev("b1", "10:30", "12:30", "Farewell brunch", "Harbor House", "guests")],
   },
 ];
 
 function ItineraryDemo() {
-  const [picked, setPicked] = useState(12);
+  const [picked, setPicked] = useState("2027-06-12");
+  const [selected, setSelected] = useState<string | null>("w3");
   const [guestView, setGuestView] = useState(false);
-  // June 2027 starts on a Tuesday.
-  const cells = [
-    ...Array.from({ length: 2 }, () => null),
-    ...Array.from({ length: 30 }, (_, i) => i + 1),
-  ];
+  const day = DAYS.find((d) => d.date === picked)!;
+  const flags = findFlags(day.events);
+  const flagged = new Set(flags.map((f) => f.eventId));
+  const pick = (e: DemoEvent) => setSelected(e.id);
   return (
-    <div className="grid gap-5 md:grid-cols-[210px_1fr]">
-      <div className="hidden rounded-lg border border-hairline bg-card p-4 shadow-sm md:block">
-        <p className="font-display text-lg font-semibold text-forest">June 2027</p>
-        <div className="mt-2 grid grid-cols-7 gap-y-1 text-center font-mono-numbers text-[10px] text-ink/40">
-          {["S", "M", "T", "W", "T", "F", "S"].map((d, i) => (
-            <span key={i}>{d}</span>
-          ))}
-        </div>
-        <div className="mt-1 grid grid-cols-7 gap-y-1 text-center font-mono-numbers text-xs">
-          {cells.map((d, i) => {
-            const has = DAYS.some((x) => x.date === d);
-            return d == null ? (
-              <span key={i} />
-            ) : (
-              <button
-                key={i}
-                type="button"
-                onClick={() => has && setPicked(d)}
-                className={`relative mx-auto flex h-7 w-7 items-center justify-center rounded-full ${
-                  d === picked
-                    ? "bg-forest text-parchment"
-                    : d === 12
-                      ? "ring-1 ring-brass text-ink"
-                      : "text-ink/70"
-                }`}
-              >
-                {d}
-                {has && d !== picked && (
-                  <span className="absolute bottom-0.5 h-1 w-1 rounded-full bg-brass" />
-                )}
-              </button>
-            );
-          })}
-        </div>
-        <p className="mt-3 text-xs text-ink/50">Pick a date to add an event to that day.</p>
-      </div>
-
-      <div className="min-w-0">
-        <div className="mb-3 flex items-center justify-between gap-3">
-          <div className="inline-flex rounded-full border border-hairline bg-card p-0.5 text-xs" role="group" aria-label="Show">
-            {[
-              { on: false, label: "Everything" },
-              { on: true, label: "What guests see" },
-            ].map((o) => (
-              <button
-                key={o.label}
-                type="button"
-                aria-pressed={guestView === o.on}
-                onClick={() => setGuestView(o.on)}
-                className={`rounded-full px-3 py-1.5 transition-colors ${
-                  guestView === o.on ? "bg-forest text-parchment" : "text-ink/60 hover:text-ink"
-                }`}
-              >
-                {o.label}
-              </button>
-            ))}
-          </div>
-          <span className="hidden shrink-0 sm:inline-flex whitespace-nowrap rounded-full bg-forest px-4 py-1.5 font-mono-numbers text-sm text-parchment">
-            + Add event
-          </span>
-        </div>
-        {/* Wide: the days as columns. Phone: the same columns, swiped. */}
-        <div className="-mx-5 flex snap-x gap-3 overflow-x-auto px-5 pb-2 sm:-mx-8 sm:px-8 md:mx-0 md:grid md:grid-cols-3 md:overflow-visible md:px-0">
-          {DAYS.map((day) => (
-            <div
-              key={day.date}
-              onClick={() => setPicked(day.date)}
-              className={`w-[78%] shrink-0 snap-start rounded-lg border bg-card p-3 shadow-sm transition-colors md:w-auto ${
-                picked === day.date ? "border-forest/50" : "border-hairline"
+    <div>
+      <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
+        <div className="flex gap-2" role="tablist" aria-label="Days">
+          {DAYS.map((d) => (
+            <button
+              key={d.date}
+              type="button"
+              role="tab"
+              aria-selected={d.date === picked}
+              onClick={() => setPicked(d.date)}
+              className={`rounded-xl border bg-card px-3 py-1.5 text-left ${
+                d.date === picked ? "border-forest ring-1 ring-forest" : "border-hairline"
               }`}
             >
-              <div className="mb-2 border-b border-hairline pb-2">
-                <p className="font-display text-base font-semibold text-forest">
-                  {day.label}
-                </p>
-                {day.wedding && (
-                  <span className="font-mono-numbers text-[11px] uppercase tracking-wide text-brass">
-                    Wedding day
-                  </span>
-                )}
-              </div>
-              {day.events.map((e) => (
-                <div
-                  key={e.title}
-                  className={`border-b border-hairline py-2.5 transition-opacity last:border-b-0 ${
-                    guestView && e.who !== "guests" ? "opacity-35" : ""
-                  }`}
-                >
-                  <div className="flex items-start justify-between gap-2">
-                    <div className="min-w-0">
-                      <p className="font-mono-numbers text-[11px] text-brass">{e.time}</p>
-                      <p className="mt-0.5 text-sm text-ink">{e.title}</p>
-                    </div>
-                    <AudienceTag audience={e.who} />
-                  </div>
-                  <p className="mt-0.5 text-xs text-ink/50">{e.where}</p>
-                  <p className="mt-1 text-xs text-brass">Add to calendar</p>
-                </div>
-              ))}
-            </div>
+              <span className="block text-[10px] uppercase tracking-wide text-ink/55">{d.short}</span>
+              <span className="font-display text-base font-semibold text-forest">{d.label}</span>
+            </button>
           ))}
+        </div>
+        <div className="inline-flex rounded-full border border-hairline bg-card p-0.5 text-xs" role="group" aria-label="Show">
+          {[
+            { on: false, label: "Everything" },
+            { on: true, label: "What guests see" },
+          ].map((o) => (
+            <button
+              key={o.label}
+              type="button"
+              aria-pressed={guestView === o.on}
+              onClick={() => setGuestView(o.on)}
+              className={`rounded-full px-3 py-1.5 transition-colors ${
+                guestView === o.on ? "bg-forest text-parchment" : "text-ink/60 hover:text-ink"
+              }`}
+            >
+              {o.label}
+            </button>
+          ))}
+        </div>
+      </div>
+      <div className="rounded-lg border border-hairline bg-card p-3 shadow-sm sm:p-4">
+        {flags.map((f) => (
+          <p key={f.eventId} className="mb-3 rounded-[10px] border border-[#f3dc7a] bg-[#fff8d6] px-3 py-2 text-xs font-medium text-ink">
+            {f.message} <span className="text-[#2243B6]">Move it and everything after in one go.</span>
+          </p>
+        ))}
+        <div className="hidden md:block">
+          <DayTimeline events={day.events} selectedId={selected} onSelect={pick} guestView={guestView} flagged={flagged} />
+        </div>
+        <div className="md:hidden">
+          <DayList events={day.events} selectedId={selected} onSelect={pick} guestView={guestView} flagged={flagged} />
         </div>
       </div>
     </div>
