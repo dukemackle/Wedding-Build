@@ -46,12 +46,14 @@ function TemplateThumb({ layout }: { layout: TemplateLayout }) {
 export function LayoutTemplatePicker({
   guestSeats,
   roomId,
+  phaseId,
   hasContent,
   seatedPeople,
   onDone,
 }: {
   guestSeats: number;
   roomId?: string;
+  phaseId?: string;
   hasContent: boolean;
   seatedPeople: number;
   onDone?: () => void;
@@ -72,6 +74,7 @@ export function LayoutTemplatePicker({
     formData.set("template", picked);
     formData.set("replace", replace ? "1" : "0");
     if (roomId) formData.set("room_id", roomId);
+    if (phaseId) formData.set("phase_id", phaseId);
     startTransition(async () => {
       const result = await applyLayoutTemplate(formData);
       if (result?.error) setError(result.error);
@@ -151,7 +154,15 @@ function people(g: Pick<Guest, "plus_one">) {
  * Wren's "Seat the rest": shows the plan first (which households go where),
  * then seats them in one go, with Undo straight after.
  */
-export function SeatTheRest({ guests, tables }: { guests: Guest[]; tables: SeatingTable[] }) {
+export function SeatTheRest({
+  guests,
+  tables,
+  phaseId,
+}: {
+  guests: Guest[];
+  tables: SeatingTable[];
+  phaseId?: string | null;
+}) {
   const [open, setOpen] = useState(false);
   const [undoIds, setUndoIds] = useState<string[] | null>(null);
   const [isPending, startTransition] = useTransition();
@@ -164,7 +175,7 @@ export function SeatTheRest({ guests, tables }: { guests: Guest[]; tables: Seati
 
   function confirmSeat() {
     startTransition(async () => {
-      const result = await seatTheRest();
+      const result = await seatTheRest(phaseId);
       if (result.error) setError(result.error);
       setUndoIds(result.seatedIds ?? []);
       setOpen(false);

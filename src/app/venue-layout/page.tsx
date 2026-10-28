@@ -4,7 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { AppNav } from "@/components/app-nav";
 import { PageShell } from "@/components/page-shell";
 import { PageHeader } from "@/components/page-header";
-import type { Guest, SeatingTable, VenueLayoutItem, VenueRoom, Wedding } from "@/lib/supabase/types";
+import type { Guest, LayoutPhase, SeatingTable, VenueLayoutItem, VenueRoom, Wedding } from "@/lib/supabase/types";
 import { VenueLayoutClient } from "./venue-layout-client";
 import { GUEST_WITH_NOTES, withNotes } from "@/lib/guest-notes";
 
@@ -55,6 +55,7 @@ export default async function VenueLayoutPage() {
     { data: items },
     { data: rooms },
     { data: declinedSeated },
+    { data: phases },
   ] = await Promise.all([
     supabase
       .from("seating_tables")
@@ -95,6 +96,11 @@ export default async function VenueLayoutPage() {
       .not("table_id", "is", null)
       .order("name", { ascending: true })
       .returns<Pick<Guest, "id" | "name" | "table_id">[]>(),
+    supabase
+      .from("layout_phases")
+      .select("*")
+      .eq("wedding_id", wedding.id)
+      .returns<LayoutPhase[]>(),
   ]);
 
   return (
@@ -121,6 +127,7 @@ export default async function VenueLayoutPage() {
           confirmedGuests={guests?.map(withNotes) ?? []}
           items={items ?? []}
           rooms={rooms ?? []}
+          phases={phases ?? []}
           declinedSeated={declinedSeated ?? []}
           roomStyle={wedding.layout_room_style ?? "blank"}
           sides={{

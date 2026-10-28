@@ -750,12 +750,27 @@ export type SeatingTable = {
   width: number | null;
   height: number | null;
   room_id: string | null;
+  /** The event phase this table belongs to; null shows it in every phase. */
+  phase_id: string | null;
   /** Tablecloth key from src/lib/layout-styles.ts; null uses the room's default. */
   linen: string | null;
   /** Centrepiece key from src/lib/layout-styles.ts; null uses the room's default. */
   centerpiece: string | null;
   created_at: string;
   updated_at: string;
+};
+
+export type LayoutPhaseKind = "ceremony" | "cocktail" | "reception" | "custom";
+
+/** One arrangement of the venue: ceremony, cocktail hour, reception or a custom event. */
+export type LayoutPhase = {
+  id: string;
+  wedding_id: string;
+  user_id: string;
+  kind: LayoutPhaseKind;
+  name: string;
+  sort_order: number;
+  created_at: string;
 };
 
 export type VenueRoom = {
@@ -793,6 +808,8 @@ export type VenueLayoutItem = {
   height: number | null;
   rotation: number;
   room_id: string | null;
+  /** The event phase this item belongs to; null makes it part of the venue, shown in every phase. */
+  phase_id: string | null;
   created_at: string;
   updated_at: string;
 };

@@ -5,6 +5,7 @@ import { getOrCreateDefaultRoom } from "@/lib/venue-rooms";
 import { MAX_ITEM_SIZE, MIN_ITEM_SIZE, clamp, duplicatePosition, tableFootprint } from "@/lib/venue-layout-geometry";
 import type { Guest, SeatingTable, TableShape } from "@/lib/supabase/types";
 import { requireEditableWedding } from "@/lib/wedding-access";
+import { phaseIdFromForm } from "@/lib/layout-phase-access";
 
 const VALID_SHAPES: TableShape[] = ["round", "square", "rectangle"];
 
@@ -69,6 +70,11 @@ export async function addSeatingTable(formData: FormData): Promise<{ error?: str
   const position_x = GRID_ORIGIN + (index % CANVAS_COLUMNS) * COLUMN_SPACING;
   const position_y = GRID_ORIGIN + Math.floor(index / CANVAS_COLUMNS) * ROW_SPACING;
 
+  const phase = await phaseIdFromForm(supabase, wedding.id, formData);
+  if ("error" in phase) {
+    return { error: phase.error };
+  }
+
   const requestedRoomId = ((formData.get("room_id") as string) || "").trim() || null;
   const room_id = requestedRoomId ?? (await getOrCreateDefaultRoom(supabase, wedding.id, user.id));
 
@@ -79,6 +85,7 @@ export async function addSeatingTable(formData: FormData): Promise<{ error?: str
     position_x,
     position_y,
     room_id,
+    phase_id: phase.phaseId,
   });
 
   if (error) {
@@ -367,6 +374,7 @@ export async function duplicateSeatingTable(formData: FormData): Promise<{ error
     width: source.width,
     height: source.height,
     room_id: source.room_id,
+    phase_id: source.phase_id,
     linen: source.linen,
     centerpiece: source.centerpiece,
     ...duplicatePosition(source.position_x, source.position_y, tableFootprint(source)),
