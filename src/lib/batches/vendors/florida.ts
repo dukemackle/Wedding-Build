@@ -1972,6 +1972,22 @@ YML Portable Restrooms	Rentals	1150 NW 72nd Avenue, Suite 510	Miami	Florida	Flor
 Miami Portable Cooling	Rentals		Miami	Florida	Miami-Dade County and Fort Lauderdale	Rents portable indoor and outdoor air conditioners and cooling fans for weddings and outdoor parties in Miami's heat.		305-330-4809	https://miamiportablecooling.com/	https://www.instagram.com/miamiportablecooling/		
 `,
   },
+  {
+    name: "Miami: photography, planning, officiant, hair & makeup, photo booth, florals, cake, bar, catering, decor, music, rentals, transportation, stationery, bridal & formalwear and other",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Rolls-Royce Wedding Transportation	Transportation		Miami	Florida	Miami, Miami Beach, Coral Gables, Coconut Grove and Pinecrest	Chauffeured extended-wheelbase Rolls-Royce Phantom for ceremony arrivals, photo stops and reception transfers.	info@rollsroyceweddingtransportation.com	786-356-8475	https://rollsroyceweddingtransportation.com/miami-rolls-royce-wedding-car.html			
+Boat Miami	Transportation	12555 Biscayne Blvd, #490	Miami	Florida	Miami and Fort Lauderdale	Charter broker matching couples with yachts for Biscayne Bay wedding ceremonies and receptions, with free consultations.		305-758-2500	https://www.boatmiami.com/wedding-cruises/			
+Happy Party Rental	Rentals	10850 NW 21st St, Suite 150	Miami	Florida	Miami-Dade, Broward and Homestead	Tents, dance floors, tables, chairs and lounge furniture, with delivery, setup and teardown included on tent hire.	goldenmoments@gmevents.info	(305) 676-7726	https://www.happypartyrental.com/	https://www.instagram.com/gmeventrentals/		
+SON QBA	Music		Miami	Florida		Miami Cuban trio and band playing son cubano, boleros and Latin dance music for weddings and private parties.	sonqbamusic@gmail.com	+1 (786) 972-7886	https://www.sonqba.com/	https://www.instagram.com/son_qba/		
+Wynwood Tailors	Bridal & Formalwear	2751 N Miami Ave, Suite 9	Miami	Florida		Wynwood studio making custom wedding suits, tuxedos and linen or velvet options, with group fittings for the wedding party.	hello@wynwoodtailors.com	+1 786-305-5032	https://suits.wynwoodtailors.com/	https://www.instagram.com/wynwoodtailors/		
+Leslye's Boutique	Bridal & Formalwear	1951 W 60th St	Hialeah	Florida		Hialeah boutique with bridal gowns plus bridesmaid and mother-of-the-bride dresses, alongside quinceañera and formal wear.		(305) 556-4553	https://www.leslyeboutique.com/	https://www.instagram.com/leslyesboutique/		
+Ann Marie's	Bridal & Formalwear	606 Washington Ave	Homestead	Florida	Miami and South Florida	Homestead boutique for wedding gowns, bridesmaids, mother-of-the-wedding and guest dresses, with appointments for gowns.		305-614-9102	https://www.annmariesbridalpromandpageant.com/	https://www.instagram.com/annmariesboutique/		
+Bloom Flower Studio	Florals		Miami	Florida	Miami-Dade, Broward and the Palm Beaches	Woman-owned studio designing luxury wedding and event flowers from seasonal blooms across Miami-Dade, Broward and Palm Beach.	knieto@bloomflowerstudio.us	(305) 632-8488	https://bloomflowerstudio.us/	https://www.instagram.com/bloomflowerstudious/		
+Terra Flowers Miami	Florals	6912 NW 51st St	Miami	Florida		Miami flower boutique with more than twenty years in the trade, taking wedding and event enquiries as well as everyday orders.	info@terraflowersmiami.com	(305) 264-5999	https://terraflowersmiami.com/	https://www.instagram.com/terraflowersmiami/		
+Apocalypse BBQ	Catering	8695 SW 124th Ave	Miami	Florida	Miami-Dade, Broward, Palm Beach and Monroe	Kendall barbecue caterer serving weddings and rehearsal dinners with buffet or station service, delivered or staffed on site.			https://apocalypsebbq.com/catering/	https://www.instagram.com/apocalypsebbq/		
+Greenseid Catering	Catering	8819 Stirling Rd	Cooper City	Florida	Miami, Broward, Boca Raton and Palm Beach	Glatt kosher caterer under ORB supervision, in business since 1982, for weddings, bar and bat mitzvahs and other celebrations.	richard@greenseidcatering.com	(954) 346-7545	https://www.greenseidcatering.com/	https://www.instagram.com/greenseidcatering/		
+`,
+  },
 ];
 
 export default batches;
