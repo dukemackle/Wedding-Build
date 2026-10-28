@@ -594,6 +594,21 @@ function SeatingDemo() {
             ))}
           </div>
         </div>
+        <div className="mt-2 flex flex-wrap items-center gap-1.5">
+          <span className="mr-1 font-mono-numbers text-[10px] uppercase tracking-[0.2em] text-ink/50">
+            Event
+          </span>
+          {["Ceremony", "Cocktail hour", "Reception"].map((e, i) => (
+            <span
+              key={e}
+              className={`rounded-full border px-2.5 py-0.5 text-xs ${
+                i === 2 ? "border-forest bg-forest text-parchment" : "border-hairline text-ink/70"
+              }`}
+            >
+              {e}
+            </span>
+          ))}
+        </div>
       </div>
 
       <div className="flex flex-col gap-4 p-4 sm:px-8 md:flex-row md:items-start">
