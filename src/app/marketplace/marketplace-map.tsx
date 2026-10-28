@@ -9,7 +9,7 @@ import { MapContainer, Marker, Popup } from "react-leaflet";
 import { BaseMapLayer } from "@/components/base-map-layer";
 import { FitToPins } from "@/components/map-fit-bounds";
 import { ClusteredMarkers, dotIcon } from "@/components/clustered-markers";
-import { MAP_MIN_ZOOM, US_MAP_BOUNDS, type MapView } from "@/lib/map-view";
+import { MAP_MIN_ZOOM, MAP_ZOOM_FEEL, US_MAP_BOUNDS, type MapView } from "@/lib/map-view";
 import { formatPrice, type PinnedMarketListing } from "@/lib/marketplace";
 
 /**
@@ -57,6 +57,7 @@ export function MarketplaceMap({
         center={CONTINENTAL_US_CENTER}
         zoom={4}
         scrollWheelZoom
+        {...MAP_ZOOM_FEEL}
         minZoom={MAP_MIN_ZOOM}
         maxBounds={US_MAP_BOUNDS}
         maxBoundsViscosity={0.8}

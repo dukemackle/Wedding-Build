@@ -4,8 +4,9 @@ import Link from "next/link";
 import { useState, type ReactNode } from "react";
 import { BirdEmptyState } from "@/components/wren-moments";
 import { WIDE_WIDTH } from "@/lib/layout";
-import { MARKET_CATEGORIES, formatPrice } from "@/lib/marketplace";
+import { MARKET_CATEGORIES, formatPrice, type MarketSetWithItems } from "@/lib/marketplace";
 import type { PassItOnDraft } from "@/lib/pass-it-on";
+import { SetCard } from "./set-card";
 import type { MarketListing } from "@/lib/supabase/types";
 
 /** Soft fills mixed from the palette (Lemon, Sky, Royal, Gold) with white. */
@@ -32,6 +33,7 @@ export function MarketplaceHome({
   placeLabel,
   counts,
   passItOn = null,
+  sets = [],
   onBrowse,
   renderCard,
 }: {
@@ -42,6 +44,8 @@ export function MarketplaceHome({
   counts: { saved: number; selling: number; unread: number };
   /** After the wedding, the couple's unlisted leftovers from their budget. */
   passItOn?: PassItOnDraft[] | null;
+  /** Live whole-wedding sets, newest first. */
+  sets?: MarketSetWithItems[];
   /** Opens the full browse screen, filtered, in map or grid. */
   onBrowse: (opts: { q?: string; category?: string; type?: string; mode: "map" | "grid"; view?: string }) => void;
   renderCard: (listing: MarketListing) => ReactNode;
@@ -230,6 +234,34 @@ export function MarketplaceHome({
           })}
         </div>
       </section>
+
+      {(sets.length > 0 || signedIn) && (
+        <section className="mt-10">
+          <SectionHead title="Whole-wedding sets" />
+          {/* Phone: a row that scrolls sideways. Desktop: three across. */}
+          <div className="-mr-6 flex snap-x gap-4 overflow-x-auto pb-2 pr-6 sm:mr-0 sm:grid sm:grid-cols-2 sm:gap-5 sm:overflow-visible sm:pr-0 lg:grid-cols-3">
+            {sets.slice(0, 6).map((set) => (
+              <div key={set.id} className="w-[72vw] max-w-[300px] shrink-0 snap-start sm:w-auto sm:max-w-none">
+                <SetCard set={set} />
+              </div>
+            ))}
+            {signedIn && sets.length < 3 && (
+              <div className="flex w-[72vw] max-w-[300px] shrink-0 snap-start flex-col justify-center gap-2.5 rounded-2xl border-[1.5px] border-dashed border-[#d8cdb3] bg-[#fbf8f1] p-5 sm:w-auto sm:max-w-none">
+                <p className="font-display text-xl font-semibold leading-snug text-forest">Selling a few things from one wedding?</p>
+                <p className="text-sm text-ink/60">
+                  Bundle them into a set with one price. A couple with the same look can take the lot.
+                </p>
+                <Link
+                  href="/marketplace/sets/new"
+                  className="self-start rounded-full border border-forest px-3.5 py-1.5 text-sm font-medium text-forest hover:bg-forest hover:text-parchment"
+                >
+                  Make a set
+                </Link>
+              </div>
+            )}
+          </div>
+        </section>
+      )}
 
       <section className="mt-10">
         <SectionHead

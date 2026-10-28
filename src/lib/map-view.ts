@@ -33,3 +33,16 @@ export const US_MAP_BOUNDS: [[number, number], [number, number]] = [
   [80, -20],
 ];
 export const MAP_MIN_ZOOM = 2;
+
+/**
+ * How the browse maps zoom. Leaflet's defaults move a whole zoom level (twice
+ * as close) per mouse-wheel notch and snap to whole levels, which reads as a
+ * jump rather than a zoom; trackpads stutter between those steps too. Quarter
+ * steps and a slower wheel make it glide.
+ */
+export const MAP_ZOOM_FEEL = {
+  zoomSnap: 0.25,
+  zoomDelta: 0.5,
+  wheelPxPerZoomLevel: 120,
+  wheelDebounceTime: 20,
+} as const;
