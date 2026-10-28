@@ -1,7 +1,8 @@
 import "server-only";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import type { createClient as createServerClient } from "@/lib/supabase/server";
-import type { MarketListing, MarketThread } from "@/lib/supabase/types";
+import type { MarketListing, MarketSet, MarketThread } from "@/lib/supabase/types";
+import { liveSetItems, MIN_SET_ITEMS, type MarketSetWithItems } from "@/lib/marketplace";
 import { getResendClient, INQUIRY_FROM_ADDRESS } from "@/lib/resend";
 import { SITE_URL } from "@/lib/public-listings";
 import { passItOnDrafts, type PassItOnDraft } from "@/lib/pass-it-on";
@@ -146,6 +147,45 @@ export async function loadMarketWedding(
     ownVenueCity: wedding.own_venue_city,
     ownVenueState: wedding.own_venue_state,
   };
+}
+
+/**
+ * Live whole-wedding sets, newest first, with their items. A set whose items
+ * have mostly sold one by one (fewer than two left) isn't shown.
+ */
+export async function loadLiveSets(
+  supabase: Awaited<ReturnType<typeof createServerClient>>,
+  limit = 12,
+): Promise<MarketSetWithItems[]> {
+  const { data } = await supabase
+    .from("market_sets")
+    .select("*, items:market_listings(*)")
+    .in("status", ["active", "pending"])
+    .order("created_at", { ascending: false })
+    .limit(limit * 2)
+    .returns<(MarketSet & { items: MarketListing[] })[]>();
+  return (data ?? [])
+    .map((set) => ({ ...set, items: sortItems(liveSetItems(set.items ?? [])) }))
+    .filter((set) => set.items.length >= MIN_SET_ITEMS)
+    .slice(0, limit);
+}
+
+/** One set and its items, for its own page; null when it isn't visible. */
+export async function loadSet(
+  supabase: Awaited<ReturnType<typeof createServerClient>>,
+  id: string,
+): Promise<MarketSetWithItems | null> {
+  if (!/^[0-9a-f-]{36}$/i.test(id)) return null;
+  const { data } = await supabase
+    .from("market_sets")
+    .select("*, items:market_listings(*)")
+    .eq("id", id)
+    .maybeSingle<MarketSet & { items: MarketListing[] }>();
+  return data ? { ...data, items: sortItems(data.items ?? []) } : null;
+}
+
+function sortItems(items: MarketListing[]) {
+  return [...items].sort((a, b) => a.created_at.localeCompare(b.created_at));
 }
 
 /**

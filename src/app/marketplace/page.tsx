@@ -3,7 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import { AppNav } from "@/components/app-nav";
 import { PublicNav } from "@/components/public-nav";
 import { MARKET_CATEGORIES, MARKET_DISTANCES } from "@/lib/marketplace";
-import { loadMarketWedding, loadPassItOn, unreadThreadCount, type MarketWedding } from "@/lib/marketplace-server";
+import { loadLiveSets, loadMarketWedding, loadPassItOn, unreadThreadCount, type MarketWedding } from "@/lib/marketplace-server";
 import { inPassItOnWindow, type PassItOnDraft } from "@/lib/pass-it-on";
 import type { MarketListing } from "@/lib/supabase/types";
 import { MarketplaceBrowser } from "./marketplace-browser";
@@ -29,13 +29,16 @@ export default async function MarketplacePage({
     data: { user },
   } = await supabase.auth.getUser();
 
-  const { data: listings } = await supabase
-    .from("market_listings")
-    .select("*")
-    .in("status", ["active", "pending"])
-    .order("created_at", { ascending: false })
-    .limit(BROWSE_LIMIT)
-    .returns<MarketListing[]>();
+  const [{ data: listings }, sets] = await Promise.all([
+    supabase
+      .from("market_listings")
+      .select("*")
+      .in("status", ["active", "pending"])
+      .order("created_at", { ascending: false })
+      .limit(BROWSE_LIMIT)
+      .returns<MarketListing[]>(),
+    loadLiveSets(supabase),
+  ]);
 
   let mine: MarketListing[] = [];
   let savedIds: string[] = [];
@@ -79,6 +82,7 @@ export default async function MarketplacePage({
         unread={unread}
         guestCount={wedding?.guestCount ?? 0}
         passItOn={passItOn}
+        sets={sets}
         // A link with filters, or to Saved/Selling, goes straight to browsing.
         startBrowsing={Boolean(category || near || view)}
         initial={{

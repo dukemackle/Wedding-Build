@@ -10,7 +10,7 @@ import {
   guestFit,
   listedAgo,
 } from "@/lib/marketplace";
-import type { MarketListing } from "@/lib/supabase/types";
+import type { MarketListing, MarketSet } from "@/lib/supabase/types";
 import { BuyerActions, SellerControls } from "./listing-actions";
 import { ApproxLocation, ShareButton } from "./listing-extras";
 
@@ -25,6 +25,7 @@ export function ListingView({
   joined = null,
   sellerListings = [],
   similar = [],
+  set = null,
 }: {
   listing: MarketListing;
   /** Null when logged out. */
@@ -41,6 +42,8 @@ export function ListingView({
   sellerListings?: MarketListing[];
   /** "More like this": same category, nearby. */
   similar?: MarketListing[];
+  /** The whole-wedding set it's part of, when that set is live (or the viewer's own). */
+  set?: MarketSet | null;
 }) {
   const fit = guestFit(listing.quantity, guestCount);
   const isSeller = viewer?.id === listing.seller_id;
@@ -113,9 +116,30 @@ export function ListingView({
             </p>
           )}
 
+          {set && (
+            <Link
+              href={`/marketplace/sets/${set.id}`}
+              className="mt-3 flex items-center justify-between gap-3 rounded-lg border border-[#FFD301] bg-[#fffbe6] px-3.5 py-2.5 text-sm text-forest hover:border-[#e0a100]"
+            >
+              <span>
+                Part of <strong className="font-semibold">{set.title}</strong>
+              </span>
+              <span className="shrink-0 font-semibold">
+                {formatPrice(set.price_cents, set.listing_type)} for the set <span aria-hidden>→</span>
+              </span>
+            </Link>
+          )}
+
           <div className="mt-5">
             {isSeller ? (
-              <SellerControls id={listing.id} status={listing.status} />
+              <>
+                <SellerControls id={listing.id} status={listing.status} />
+                {!listing.set_id && (listing.status === "active" || listing.status === "pending") && (
+                  <Link href={`/marketplace/sets/new?with=${listing.id}`} className="mt-3 inline-block text-sm text-[#2243B6] hover:underline">
+                    Bundle it into a whole-wedding set
+                  </Link>
+                )}
+              </>
             ) : (
               <BuyerActions
                 id={listing.id}

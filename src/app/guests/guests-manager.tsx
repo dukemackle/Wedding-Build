@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { createContext, useContext, useRef, useState, useTransition, type CSSProperties, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useRef, useState, useTransition, type CSSProperties, type ReactNode } from "react";
+import { createPortal } from "react-dom";
 import type {
   Guest,
   GuestPriority,
@@ -619,6 +620,36 @@ function GuestRowMenu({
 }) {
   const [open, setOpen] = useState(false);
   const [, startTransition] = useTransition();
+  // The menu floats in a portal on <body>, pinned to the button, so the rows
+  // below it can't paint over it or swallow its clicks.
+  const [menuPos, setMenuPos] = useState<CSSProperties>({});
+
+  function toggleMenu(button: HTMLElement) {
+    if (open) {
+      setOpen(false);
+      return;
+    }
+    const rect = button.getBoundingClientRect();
+    const right = window.innerWidth - rect.right;
+    // Open upward when there isn't room below.
+    setMenuPos(
+      window.innerHeight - rect.bottom < 360
+        ? { right, bottom: window.innerHeight - rect.top + 4 }
+        : { right, top: rect.bottom + 4 },
+    );
+    setOpen(true);
+  }
+
+  useEffect(() => {
+    if (!open) return;
+    const close = () => setOpen(false);
+    window.addEventListener("scroll", close, true);
+    window.addEventListener("resize", close);
+    return () => {
+      window.removeEventListener("scroll", close, true);
+      window.removeEventListener("resize", close);
+    };
+  }, [open]);
 
   function setGrouping(field: "side" | "guest_type", value: string) {
     const formData = new FormData();
@@ -671,7 +702,7 @@ function GuestRowMenu({
         type="button"
         aria-label={`Actions for ${guest.name}`}
         aria-expanded={open}
-        onClick={() => setOpen((v) => !v)}
+        onClick={(e) => toggleMenu(e.currentTarget)}
         className={`rounded-full border px-2 py-0.5 font-mono-numbers text-xs leading-5 transition-colors ${
           open
             ? "border-forest bg-forest text-parchment"
@@ -681,17 +712,20 @@ function GuestRowMenu({
         •••
       </button>
 
-      {open && (
+      {open && createPortal(
         <>
-          {/* Clicking anywhere else closes it -- no library, no listener. */}
+          {/* Clicking anywhere else closes it. */}
           <button
             type="button"
             aria-hidden
             tabIndex={-1}
             onClick={() => setOpen(false)}
-            className="fixed inset-0 z-20 cursor-default"
+            className="fixed inset-0 z-40 cursor-default"
           />
-          <div className="absolute right-0 z-30 mt-1 w-52 rounded-lg border border-hairline bg-card p-2 shadow-lg">
+          <div
+            className="fixed z-50 w-56 rounded-lg border border-hairline bg-card p-2 shadow-lg"
+            style={menuPos}
+          >
             <p className="px-2 pb-1 font-mono-numbers text-[10px] uppercase tracking-[0.15em] text-ink/40">
               Side
             </p>
@@ -789,7 +823,8 @@ function GuestRowMenu({
               </button>
             </div>
           </div>
-        </>
+        </>,
+        document.body,
       )}
     </div>
   );

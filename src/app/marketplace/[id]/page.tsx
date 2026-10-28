@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { cache } from "react";
 import { createClient } from "@/lib/supabase/server";
 import { categoryLabel, formatPrice, milesBetween } from "@/lib/marketplace";
-import type { MarketListing } from "@/lib/supabase/types";
+import type { MarketListing, MarketSet } from "@/lib/supabase/types";
 import { joinedYear, loadMarketWedding, type MarketWedding } from "@/lib/marketplace-server";
 import { ListingView } from "./listing-view";
 
@@ -17,6 +17,7 @@ const load = cache(async (id: string) => {
       joined: null,
       sellerListings: [],
       similar: [],
+      set: null,
     };
   const supabase = await createClient();
   const {
@@ -53,8 +54,9 @@ const load = cache(async (id: string) => {
   let joined: number | null = null;
   let sellerListings: MarketListing[] = [];
   let similar: MarketListing[] = [];
+  let set: MarketSet | null = null;
   if (listing) {
-    const [year, { data: fromSeller }, { data: sameCategory }] = await Promise.all([
+    const [year, { data: fromSeller }, { data: sameCategory }, { data: inSet }] = await Promise.all([
       joinedYear(listing.seller_id),
       supabase
         .from("market_listings")
@@ -75,12 +77,16 @@ const load = cache(async (id: string) => {
         .order("created_at", { ascending: false })
         .limit(60)
         .returns<MarketListing[]>(),
+      listing.set_id
+        ? supabase.from("market_sets").select("*").eq("id", listing.set_id).maybeSingle<MarketSet>()
+        : Promise.resolve({ data: null }),
     ]);
+    set = inSet;
     joined = year;
     sellerListings = fromSeller ?? [];
     similar = nearestFirst(sameCategory ?? [], listing).slice(0, 6);
   }
-  return { user, listing, saved, threadId, wedding, joined, sellerListings, similar };
+  return { user, listing, saved, threadId, wedding, joined, sellerListings, similar, set };
 });
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
@@ -98,7 +104,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 
 export default async function ListingPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const { user, listing, saved, threadId, wedding, joined, sellerListings, similar } = await load(id);
+  const { user, listing, saved, threadId, wedding, joined, sellerListings, similar, set } = await load(id);
   if (!listing) notFound();
 
   return (
@@ -112,6 +118,7 @@ export default async function ListingPage({ params }: { params: Promise<{ id: st
       joined={joined}
       sellerListings={sellerListings}
       similar={similar}
+      set={set}
     />
   );
 }

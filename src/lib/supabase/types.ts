@@ -1019,6 +1019,21 @@ export type MarketListing = {
   source_budget_item: string | null;
   /** Up to three guest-site colour families, for "Shop your wedding" (0144). */
   color_families: string[];
+  /** The whole-wedding set it's part of, if any (0146). */
+  set_id: string | null;
+};
+
+/** Several of one seller's listings sold together for one price (0146). */
+export type MarketSet = {
+  id: string;
+  seller_id: string;
+  title: string;
+  description: string | null;
+  price_cents: number;
+  listing_type: "sale" | "rent";
+  status: MarketListingStatus;
+  created_at: string;
+  updated_at: string;
 };
 
 export type MarketThread = {
