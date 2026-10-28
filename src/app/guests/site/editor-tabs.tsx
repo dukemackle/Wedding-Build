@@ -763,6 +763,24 @@ export function SectionsTab({
 
   return (
     <>
+      <div className="flex flex-col gap-3">
+        <PanelLabel>How guests get around</PanelLabel>
+        <Pills
+          label="How guests get around"
+          options={[
+            ["tabs", "Tabs"],
+            ["scroll", "One long page"],
+          ]}
+          value={design.navigation}
+          onPick={(v) => onChange({ navigation: v })}
+        />
+        <p className="text-[13px] leading-normal text-ink/60">
+          {design.navigation === "tabs"
+            ? "Each section gets its own tab, so guests see one thing at a time. On a phone they open from a Menu button."
+            : "Every section down one page, in the order below."}
+        </p>
+      </div>
+
       <div className="flex flex-col gap-2">
         <PanelLabel>Your sections</PanelLabel>
         <p className="text-[13px] leading-normal text-ink/60">

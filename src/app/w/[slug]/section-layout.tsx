@@ -25,18 +25,26 @@ import { SITE_SECTIONS, sectionColumn, type SectionKey } from "@/lib/site-design
 export function SectionLayout({
   sections,
   photos = [],
+  only,
 }: {
   sections: Partial<Record<SectionKey, ReactNode>>;
   /** The gallery's photos, for the photo-led page's full-bleed breaks. */
   photos?: string[];
+  /** With tabs, the sections on the open tab; the rest are left off. */
+  only?: readonly SectionKey[];
 }) {
   const design = useSiteDesign();
   const shown = design.sections
     .map((x, index) => ({ ...x, index }))
-    .filter((x) => !x.hidden && sections[x.id] != null);
-  const main = shown.filter((x) => sectionColumn(x.id) === "main");
-  const side = shown.filter((x) => sectionColumn(x.id) === "side");
+    .filter((x) => !x.hidden && sections[x.id] != null && (!only || only.includes(x.id)));
+  let main = shown.filter((x) => sectionColumn(x.id) === "main");
+  let side = shown.filter((x) => sectionColumn(x.id) === "side");
+  // Sidebar sections with nothing beside them (a tab of their own) take the page's one column.
+  if (main.length === 0) [main, side] = [side, []];
   const hasSidebar = side.length > 0;
+  // A tab of text-led sections reads at the standard width; photos, the
+  // schedule and the registry keep the wide one their grids are laid out for.
+  const narrow = only && !hasSidebar && !shown.some((x) => WIDE_SECTIONS.includes(x.id));
 
   if (design.pageStyle === "storybook") return <Storybook shown={shown} sections={sections} />;
   if (design.pageStyle === "postcard") return <Storybook shown={shown} sections={sections} postcard />;
@@ -59,7 +67,9 @@ export function SectionLayout({
       className={`mx-auto flex w-full flex-col gap-8 px-4 pb-16 sm:px-6 lg:px-10 ${
         hasSidebar
           ? `${CANVAS_WIDTH} lg:grid lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] lg:items-start`
-          : WIDE_WIDTH
+          : narrow
+            ? STANDARD_WIDTH
+            : WIDE_WIDTH
       }`}
     >
       <div className="contents lg:flex lg:flex-col lg:gap-8">{render(main)}</div>
@@ -67,6 +77,8 @@ export function SectionLayout({
     </div>
   );
 }
+
+const WIDE_SECTIONS: readonly SectionKey[] = ["photos", "weekend", "registry", "wall", "party"];
 
 // Side sections sharing a band sit in columns on a computer; four make two
 // rows of two rather than three and an orphan.

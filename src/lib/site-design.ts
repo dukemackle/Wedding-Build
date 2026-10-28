@@ -1286,6 +1286,7 @@ export const DEFAULT_SITE_DESIGN: SiteDesign = {
   scene: null,
   sceneTime: "day",
   pageStyle: "cards",
+  navigation: "tabs",
   layouts: DEFAULT_LAYOUTS,
   occasion: { kind: "wedding", since: null },
   sections: DEFAULT_SECTIONS,
