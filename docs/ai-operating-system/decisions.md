@@ -202,3 +202,16 @@ rules, batch self-merge, 50-state coverage, page widths) and
   every guest feature); mandatory codes (locks out guests who lose them).
 - Next: confirmation email with the edit link; the three flagship templates
   (Heirloom first). Wren writing help stays parked.
+
+## 2026-10-28 — Batch pipeline runs on GitHub Actions, builders share one skill
+- Decision (owner): merging green batch PRs and running `import:batches` moves
+  from the hourly Claude routine to the free "Batches" GitHub Action; the
+  routine drops to every 6 hours and only unsticks failed builds and
+  conflicts. The four builder routines' shared rules live in
+  `.claude/skills/batch-builder/SKILL.md`; each prompt keeps only its region.
+  The vendor check now loads each state file, so a broken file can't pass.
+- Why: about 57 Claude runs a day, and the weekly backup failed on the usage
+  limit (2026-10-25). The San Diego batch sat broken for 5 days because the
+  vendor check read files as text.
+- Alternatives: fewer builder runs (slower coverage); keep the routine hourly
+  (no usage saved).
