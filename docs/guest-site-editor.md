@@ -260,7 +260,13 @@ The owner found the editor "too complicated" and struggled to find Sections.
   palettes that suit the look (the template's own, then light or dark like
   the page, same family first) and "More colours" for the full list.
 
-## Ivory, the starter template (decided 2026-10-28)
+## Classic, the starter template (decided 2026-10-28)
+
+Same day, after Ivory shipped: the owner wanted the default pure white. The
+template is now **Classic** (`classic`, palette `classic-white` #ffffff), with
+Ivory and Linen as its colourways. Everything below still holds otherwise.
+
+### First version: Ivory
 
 The owner wanted templates to start clean and white. Approved from the mockup
 (https://claude.ai/artifact/1XpMHRqZf6SEBg2Noig6Ey): an eighth template,

@@ -14,10 +14,6 @@ export function parseDateKey(key: string) {
   return new Date(`${key}T00:00:00`);
 }
 
-export function formatMonthYear(date: Date) {
-  return date.toLocaleDateString("en-US", { month: "long", year: "numeric" });
-}
-
 export function formatFullDate(key: string) {
   return parseDateKey(key).toLocaleDateString("en-US", {
     weekday: "long",
@@ -35,7 +31,7 @@ export function formatTime(time: string | null) {
   return `${hour12}:${minuteStr.padStart(2, "0")} ${period}`;
 }
 
-export function sortByTime(a: ItineraryEvent, b: ItineraryEvent) {
+export function sortByTime(a: Pick<ItineraryEvent, "start_time">, b: Pick<ItineraryEvent, "start_time">) {
   if (!a.start_time && !b.start_time) return 0;
   if (!a.start_time) return -1;
   if (!b.start_time) return 1;
@@ -99,23 +95,176 @@ export function guessAudience(title: string): EventAudience {
   return "guests";
 }
 
-export type CalendarDay = { date: Date; inMonth: boolean };
+/** The fields the timeline needs, so the landing demo can draw one too. */
+export type TimelineEvent = Pick<ItineraryEvent, "id" | "title" | "start_time" | "end_time" | "location" | "audience">;
 
-export function getCalendarDays(year: number, month: number): CalendarDay[] {
-  const firstOfMonth = new Date(year, month, 1);
-  const startDay = firstOfMonth.getDay();
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
+/** "15:30:00" -> 930. */
+export function toMinutes(time: string) {
+  const [h, m] = time.split(":").map(Number);
+  return h * 60 + (m || 0);
+}
 
-  const days: CalendarDay[] = [];
-  for (let i = startDay; i > 0; i--) {
-    days.push({ date: new Date(year, month, 1 - i), inMonth: false });
+/** 930 -> "15:30". */
+export function fromMinutes(minutes: number) {
+  return `${String(Math.floor(minutes / 60)).padStart(2, "0")}:${String(minutes % 60).padStart(2, "0")}`;
+}
+
+/** An event with no end is drawn as half an hour; one that ends past midnight runs on. */
+const DEFAULT_LENGTH = 30;
+
+export function spanOf(event: Pick<ItineraryEvent, "start_time" | "end_time">) {
+  if (!event.start_time) return null;
+  const start = toMinutes(event.start_time);
+  let end = event.end_time ? toMinutes(event.end_time) : start + DEFAULT_LENGTH;
+  if (end <= start) end = event.end_time && end < start ? end + 24 * 60 : start + DEFAULT_LENGTH;
+  return { start, end, open: !event.end_time };
+}
+
+export function formatLength(minutes: number) {
+  const h = Math.floor(minutes / 60);
+  const m = minutes % 60;
+  return [h && `${h}h`, m && `${m}m`].filter(Boolean).join(" ") || "0m";
+}
+
+/** The ceremony is the day's fixed point: everything else is planned around it. */
+export function isCeremony(event: Pick<ItineraryEvent, "title">) {
+  return /\bceremony\b/i.test(event.title) && !/rehearsal/i.test(event.title);
+}
+
+export type PlacedEvent<E extends TimelineEvent = TimelineEvent> = {
+  event: E;
+  start: number;
+  end: number;
+  lane: number;
+  lanes: number;
+  /** How many lanes it's drawn across: it widens into free lanes to its right. */
+  span: number;
+};
+
+/**
+ * Side-by-side lanes for overlapping events: each event takes the first lane
+ * free at its start, and every event in a run of overlaps shares that run's
+ * lane count, then widens into any lanes to its right that stay free while it
+ * runs.
+ */
+export function placeEvents<E extends TimelineEvent>(events: E[]): PlacedEvent<E>[] {
+  const timed = events
+    .map((event) => ({ event, span: spanOf(event) }))
+    .filter((x): x is { event: E; span: NonNullable<ReturnType<typeof spanOf>> } => x.span !== null)
+    .sort((a, b) => a.span.start - b.span.start || b.span.end - a.span.end);
+
+  const placed: PlacedEvent<E>[] = [];
+  let group: PlacedEvent<E>[] = [];
+  let laneEnds: number[] = [];
+  let groupEnd = -1;
+  const close = () => {
+    for (const p of group) {
+      p.lanes = laneEnds.length;
+      const blocked = (lane: number) =>
+        group.some((o) => o.lane === lane && o.start < p.end && p.start < o.end);
+      while (p.lane + p.span < p.lanes && !blocked(p.lane + p.span)) p.span += 1;
+    }
+    group = [];
+    laneEnds = [];
+  };
+  for (const { event, span } of timed) {
+    if (span.start >= groupEnd) close();
+    let lane = laneEnds.findIndex((end) => end <= span.start);
+    if (lane === -1) lane = laneEnds.length;
+    laneEnds[lane] = span.end;
+    const p = { event, start: span.start, end: span.end, lane, lanes: 1, span: 1 };
+    group.push(p);
+    placed.push(p);
+    groupEnd = Math.max(groupEnd, span.end);
   }
-  for (let day = 1; day <= daysInMonth; day++) {
-    days.push({ date: new Date(year, month, day), inMonth: true });
+  close();
+  return placed;
+}
+
+export type DayFlag = { eventId: string; message: string };
+
+/**
+ * What's worth a second look on a day. Overlaps alone are normal (portraits
+ * during cocktail hour, cake during dancing), so only three things count:
+ * something running into or out of the ceremony, two guest events that half
+ * overlap (guests can't be at both), and guests left with a long stretch of
+ * nothing between two of their events.
+ */
+export function findFlags(events: TimelineEvent[]): DayFlag[] {
+  const placed = placeEvents(events);
+  const flags: DayFlag[] = [];
+  const ceremony = placed.find((p) => isCeremony(p.event));
+  const partial = (a: PlacedEvent, b: PlacedEvent) =>
+    a.start < b.end && b.start < a.end && !(a.start <= b.start && a.end >= b.end) && !(b.start <= a.start && b.end >= a.end);
+
+  if (ceremony) {
+    for (const p of placed) {
+      if (p === ceremony || !partial(p, ceremony)) continue;
+      flags.push({
+        eventId: p.event.id,
+        message:
+          p.start < ceremony.start
+            ? `"${p.event.title}" runs ${formatLength(p.end - ceremony.start)} into the ceremony.`
+            : `"${p.event.title}" starts before the ceremony ends.`,
+      });
+    }
   }
-  while (days.length % 7 !== 0) {
-    const last = days[days.length - 1].date;
-    days.push({ date: new Date(last.getFullYear(), last.getMonth(), last.getDate() + 1), inMonth: false });
+
+  const forGuests = placed.filter((p) => audienceOf(p.event) === "guests");
+  for (let i = 0; i < forGuests.length; i++) {
+    for (let j = i + 1; j < forGuests.length; j++) {
+      const [a, b] = [forGuests[i], forGuests[j]];
+      if (a === ceremony || b === ceremony || !partial(a, b)) continue;
+      flags.push({
+        eventId: b.event.id,
+        message: `"${a.event.title}" and "${b.event.title}" overlap by ${formatLength(a.end - b.start)}, and guests can't be at both.`,
+      });
+    }
   }
-  return days;
+
+  let lastEnd: PlacedEvent | null = null;
+  for (const p of forGuests) {
+    if (lastEnd && p.start - lastEnd.end >= 90) {
+      flags.push({
+        eventId: p.event.id,
+        message: `Guests have ${formatLength(p.start - lastEnd.end)} with nothing on between "${lastEnd.event.title}" and "${p.event.title}".`,
+      });
+    }
+    if (!lastEnd || p.end > lastEnd.end) lastEnd = p;
+  }
+  return flags;
+}
+
+/**
+ * Which events "move this and everything after" moves. Before the ceremony it
+ * stops short of it, since the ceremony time is printed on the invitations;
+ * from the ceremony on, everything later moves too.
+ */
+export function eventsToShift<E extends TimelineEvent>(dayEvents: E[], from: E): E[] {
+  const start = spanOf(from)?.start;
+  if (start === undefined) return [from];
+  const ceremony = dayEvents.find(isCeremony);
+  const ceremonyStart = ceremony ? spanOf(ceremony)?.start : undefined;
+  const stopAtCeremony = ceremonyStart !== undefined && start < ceremonyStart;
+  return dayEvents.filter((e) => {
+    const s = spanOf(e)?.start;
+    if (s === undefined || s < start) return false;
+    if (e.id === from.id) return true;
+    return !(stopAtCeremony && (e === ceremony || s >= ceremonyStart!));
+  });
+}
+
+/** "Wedding day", "Day before", "Day after", or the weekday. */
+export function dayLabel(date: string, weddingDate: string | null) {
+  if (weddingDate) {
+    const diff = Math.round((parseDateKey(date).getTime() - parseDateKey(weddingDate).getTime()) / 86_400_000);
+    if (diff === 0) return "Wedding day";
+    if (diff === -1) return "Day before";
+    if (diff === 1) return "Day after";
+  }
+  return parseDateKey(date).toLocaleDateString("en-US", { weekday: "long" });
+}
+
+export function formatShortDate(key: string) {
+  return parseDateKey(key).toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
 }

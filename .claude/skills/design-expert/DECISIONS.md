@@ -11,6 +11,8 @@ They're summarised here only by reference; CLAUDE.md is the source.
 
 ## Approved directions
 
+- **2026-10-28 (later):** The default is pure white, not ivory: the starter
+  template is now **Classic** on #ffffff, with Ivory and Linen as colourways.
 - **2026-10-28:** Checklist is a "journey path" (option 1 of three; card deck
   and light-touch rejected). Stages are nodes on a line that fills gold
   behind you, the stage you're on pulses royal blue, own tasks get a dashed
@@ -268,6 +270,13 @@ _None recorded yet._
   tagged Guests (gold), Wedding party & family (Royal blue tint) or Just us &
   vendors (grey, lock); "Everything / What guests see" switch; publish banner
   counts what goes public; Print run sheet is a menu of three sheets.
+- **2026-10-28:** Itinerary timeline approved from a mockup: day chips
+  instead of the month calendar; on desktop a proportional hour timeline
+  (overlaps side by side) with an at-a-glance card and an edit panel beside
+  it; on phones a time-rail list with the editor as a bottom sheet. Only the
+  exceptions are tagged (party blue, private grey hatch); the ceremony is
+  the one gold block. Clash/gap flags and "move this and everything after"
+  ship first; who's-involved and day names follow.
 
 ## Copy and voice
 
