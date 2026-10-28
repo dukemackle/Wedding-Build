@@ -455,7 +455,7 @@ Answer each question; any "yes" means update `docs/legal.md` and this register:
 
 | ID | Risk | Sev. | Likelihood | Status | Owner |
 |---|---|---|---|---|---|
-| R1 | Guest-site data enumerable / password bypass | Critical | High | Fixed, live 2026-10-19 (migration 0121): one site per request, password enforced in the database, address gated, unlock rate-limited, guest uploads server-side only. Pending photos still public until approved | Code |
+| R1 | Guest-site data enumerable / password bypass | Critical | High | Fixed, live 2026-10-19 (migration 0121): one site per request, password enforced in the database, address gated, unlock rate-limited, guest uploads server-side only. Guest photos no longer listable (0139, 2026-10-27, once run); deleted posts, dismissed RSVPs and deleted guests remove their files. A pending photo's random URL still loads if someone already has it | Code |
 | R2 | Marketing in guest SMS; no STOP or consent record | High | Med | Fixed, live 2026-10-21 (0122): ad removed, sender + STOP in every text, consent wording and time stored, STOP replies (Twilio 21610) clear the opt-in. Twilio number not yet registered for A2P 10DLC (owner) | Code + owner |
 | R3 | Privacy Policy mismatches | High | High | Fixed, live 2026-10-21 (Oct 19 policy); attorney review still queued (A5) | Code + attorney |
 | R4 | No entity; Terms gaps | High | Med | In progress: California LLC filed via Northwest 2026-10-21 (approval ~Nov 2); mailing address via Anytime Mailbox. Open: EIN, Terms entity/address and redraft, attorney review | Owner + attorney |
@@ -469,7 +469,8 @@ Answer each question; any "yes" means update `docs/legal.md` and this register:
 | R12 | Guest health-adjacent data | Med | — | Partly fixed: notice on RSVP and address forms, Privacy line. MHMDA question still with attorney (A4) | Code + attorney |
 | R13 | "No credit card, ever" | Med | — | Fixed, live 2026-10-21 ("needed"). "50 states" is accurate: every state meets coverage pass 1 | Code |
 | R16 | Admin access | Med | — | Partly fixed: admin requires a confirmed email, and an authenticator code every sign-in (live 2026-10-21, `/login/mfa`); admin changes are logged (`/admin/audit-log`, in branch). Open: owner confirms "Confirm email" is on; admin list still in `wrangler.jsonc` | Code + owner |
-| R14, R15, R17–R20 | See section 4 | Med–Low | — | Open | Code |
+| R14, R15, R18–R20 | See section 4 | Med–Low | — | Open | Code |
+| R17 | No rate limits or CAPTCHA on anonymous forms | Med | Med | In progress (2026-10-27, 0140): RSVP, photo wall, contact, claim and password gate rate-limited per visitor and per wedding; browser inserts removed; RSVP emails throttled. Turnstile on RSVP, wall and contact once the owner adds keys. Listing reports not covered | Code + owner |
 
 Status values: Open, In progress, Fixed (date, PR), Accepted (reason, date).
 

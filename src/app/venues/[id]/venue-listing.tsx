@@ -12,6 +12,9 @@ import type {
 import { ALCOHOL_POLICIES, SERVICE_LEVELS, venueTypeImage } from "@/lib/wedding-options";
 import { ChevronDownIcon } from "@/components/icons";
 import { PhotoGallery } from "@/components/photo-gallery";
+import { ListingDesktopActions, ListingPhoneBar } from "@/components/listing-actions";
+import { ShortlistButton } from "../venue-card-shared";
+import { SignupHeart } from "@/components/public-nav";
 import { SignupPrompt } from "@/components/public-nav";
 import type { SignupIntent } from "@/lib/signup-intent";
 import { SetupFirst } from "@/components/setup-first";
@@ -157,9 +160,27 @@ export function VenueListing({ data }: { data: VenueListingData }) {
   const includedItems = venue.included_items ?? [];
   const hasIncluded = includedItems.length > 0 || Boolean(venue.included);
 
+  const photos = photosOf(venue);
+  const isShortlisted = Boolean(shortlistEntry);
+  const heart = (glass: boolean) =>
+    !signedIn ? (
+      <SignupHeart name={venue.name} next={venueHref(venue)} />
+    ) : wedding ? (
+      <ShortlistButton venueId={venue.id} isShortlisted={isShortlisted} glass={glass} />
+    ) : undefined;
+  const actions = {
+    name: venue.name,
+    href: venueHref(venue),
+    fallbackHref: "/venues",
+    directions: directionsHref(venue),
+    contactId: "listing-contact",
+    contactLabel: "Request info",
+  };
+
   return (
     <div>
-      <PhotoGallery photos={photosOf(venue)} alt={venue.name} />
+      <ListingPhoneBar {...actions} save={heart(true)} overPhoto={photos.length > 0} />
+      <PhotoGallery photos={photos} alt={venue.name} />
 
       {/* Header, then the action box, then the details. On a wide screen the
           box moves up beside the header and stays in view while the details
@@ -168,11 +189,14 @@ export function VenueListing({ data }: { data: VenueListingData }) {
         <div className="lg:col-start-1 lg:row-start-1">
           <div className="flex flex-wrap items-start justify-between gap-2">
             <h1 className="font-display text-3xl font-semibold text-forest">{venue.name}</h1>
-            {venue.price_tier && !price && (
-              <span className="shrink-0 rounded-full border border-hairline px-3 py-1 text-sm text-brass">
-                {venue.price_tier}
-              </span>
-            )}
+            <div className="flex shrink-0 items-center gap-2">
+              {venue.price_tier && !price && (
+                <span className="shrink-0 rounded-full border border-hairline px-3 py-1 text-sm text-brass">
+                  {venue.price_tier}
+                </span>
+              )}
+              <ListingDesktopActions {...actions} save={heart(false)} />
+            </div>
           </div>
           <p className="mt-1 text-sm uppercase tracking-wide text-ink/50">
             {[[venue.city, venue.state].filter(Boolean).join(", "), venue.setting, venue.venue_type]
@@ -200,7 +224,7 @@ export function VenueListing({ data }: { data: VenueListingData }) {
           </a>
         </div>
 
-        <aside className="lg:col-start-2 lg:row-span-2 lg:row-start-1">
+        <aside id="listing-contact" className="scroll-mt-16 lg:col-start-2 lg:row-span-2 lg:row-start-1">
           <div className="lg:sticky lg:top-16">
             {(price || venue.service_level) && (
               <div className="mb-3 rounded-lg border border-hairline bg-card px-5 py-4 shadow-sm">

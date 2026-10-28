@@ -43,26 +43,26 @@ const BLURBS: Record<string, string> = {
   "/attire": "Dresses, suits and rings — save favorites, then buy or rent.",
   "/itinerary": "A printable run sheet, hour by hour — and for multi-day weddings, separate RSVPs for each event, invite-only ones included.",
   "/venue-layout": "Drag tables into your room and seat everyone.",
-  "/guests/site": "A free wedding website in your names — 28 templates, your photos and story, and RSVPs built in.",
+  "/guests/site": "A free wedding website in your names — seven templates, your photos and story, and RSVPs built in.",
 };
 
 /**
  * On the landing page each box opens with a real wedding photo rather than the
  * dashboard's drawing, so the grid reads as weddings, not app mock-ups; the
  * demo behind each box still shows the product. All Unsplash (approved
- * 2026-10-22).
+ * 2026-10-22; seven re-picked 2026-10-28, Venues, Attire and Layout kept).
  */
 const PHOTOS: Record<string, { file: string; alt: string }> = {
-  "/budget": { file: "budget", alt: "Two gold wedding bands on a dictionary page open at “marriage”" },
-  "/guests": { file: "guests", alt: "A wedding invitation suite with ribbon and wax seal" },
+  "/budget": { file: "budget", alt: "A calculator and stationery among pink roses" },
+  "/guests": { file: "guests", alt: "Guests cheering the couple down the aisle outdoors" },
   "/venues": { file: "venues", alt: "A lawn set for an outdoor ceremony at sunset" },
-  "/vendors": { file: "vendors", alt: "A florist's table of cut flowers and ribbon" },
-  "/checklist": { file: "checklist", alt: "A planner notebook on a wooden table" },
-  "/bookings": { file: "bookings", alt: "A fountain pen resting on a handwritten letter" },
+  "/vendors": { file: "vendors", alt: "A tiered wedding cake on a table outdoors in autumn" },
+  "/checklist": { file: "checklist", alt: "A pen ticking items off a handwritten checklist" },
+  "/bookings": { file: "bookings", alt: "A fountain pen with a drop of ink" },
   "/attire": { file: "attire", alt: "A wedding dress on a hanger" },
-  "/itinerary": { file: "itinerary", alt: "A ring-shaped ceremony arch among the trees" },
+  "/itinerary": { file: "itinerary", alt: "A calendar open on a screen" },
   "/venue-layout": { file: "layout", alt: "Round reception tables set in a bright marquee" },
-  "/guests/site": { file: "website", alt: "Wedding invitations and rings laid out together" },
+  "/guests/site": { file: "website", alt: "A laptop showing wedding photos beside peonies" },
 };
 
 /**

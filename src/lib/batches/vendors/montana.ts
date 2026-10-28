@@ -270,6 +270,84 @@ FM Entertainment	Music		Billings	Montana		Billings DJ service for weddings and e
 Stacked, A Montana Grill	Catering	106 North Broadway	Billings	Montana	Billings	Billings restaurant building catering packages for weddings and engagement parties by group size and budget.		(406) 534-8702	https://stackedamontanagrill.com/catering	
 `,
   },
+  {
+    name: "Bozeman: Florals, Planning, Videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Amanda Jewel Floral Design	Florals		Bozeman	Montana	Montana and Wyoming, and the wider Mountain West	Bozeman floral and event design studio creating organic, nature-inspired wedding florals for ceremonies and receptions in Montana and Wyoming.	hello@amandajewel.com		https://www.amandajewel.com/	https://www.instagram.com/amandajeweleventdesign/		
+Poppy + Pine	Florals		Bozeman	Montana		Bozeman floral studio that lists weddings among its floral design services, with enquiries handled by email.	Clark@poppypinefloral.com		https://www.poppypinefloral.com/	https://www.instagram.com/poppypinefloral/		
+Sugar & Spice Florals	Florals	47 Town Center Avenue	Big Sky	Montana		Floral design studio and shop in Big Sky Town Center making wedding, event and everyday arrangements for resort and mountain venues.	hello@sugarandspiceflorals.com	(406) 602-0671	https://www.sugarandspiceflorals.com/	https://www.instagram.com/sugarandspiceflorals/		
+Golden Hour Events & Weddings	Planning		Bozeman	Montana	Bozeman, Whitefish, Big Sky, Flathead Valley and Paradise Valley, with worldwide travel	Bozeman planning and design company producing luxury weddings in Montana, with full-service planning, design and production.			https://goldenhour.events/	https://www.instagram.com/goldenhour.eventsbzn/		
+Bre + Dean Films	Videography		Bozeman	Montana	Worldwide, including destination weddings	Bozeman wedding filmmaking duo offering film-first coverage, alone or paired with photography, for local and destination weddings.			https://www.breanddeanfilms.com/	https://www.instagram.com/breanddeanfilms/		
+`,
+  },
+  {
+    name: "Whitefish: Videography, Cake, Rentals, Florals, Catering, Bar, Planning, Photography, Music, Photo Booth",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Lindsey J. Creative Co.	Videography		Somers	Montana	Northwest Montana, Glacier National Park and the Flathead Valley	Northwest Montana videographer and photographer filming weddings and Glacier National Park elopements, travelling around the Flathead Valley.			https://lindseyjcreativeco.com/	https://www.instagram.com/lindsey.jcreativeco/		
+Fleur Bake Shop	Cake	103 Central Avenue	Whitefish	Montana		Whitefish bakery making single-tier elopement cakes by special order, alongside French-style pastries and breads, with seven days' notice.	whitney@fleurbakeshop.com	+1 (406) 730-8486	https://www.fleurbakeshop.com/cakes	https://www.instagram.com/fleurbakeshop/		
+Celebrate Event Rentals	Rentals	2855 MT-82	Bigfork	Montana	Flathead Valley and Northwest Montana, including Whitefish, Kalispell, Columbia Falls, West Glacier, Lakeside and Polson	Bigfork rental company delivering and setting up wedding tents and party hire across the Flathead Valley and north-west Montana.		(406) 837-3040	https://www.celebraterentals.com/	https://www.instagram.com/celebraterentals/		
+Empress Tents & Events	Rentals	5613 US-2	Columbia Falls	Montana	Northwest Montana, Idaho and Washington	Columbia Falls tent and event rental company that also offers full and partial wedding planning, coordination and elopements.	contact@empresstentsevents.com	406.892.7600	https://www.empresstentsevents.com/	https://www.instagram.com/empress_tents_events/		
+Forage and Floral	Florals	310 Nucleus Ave	Columbia Falls	Montana	Columbia Falls, Creston, Evergreen, Polebridge, Olney, Kalispell and Whitefish	Columbia Falls florist with a weddings page, delivering to local venues across Columbia Falls, Kalispell and Whitefish.	forageandfloral@gmail.com	(406) 871-7738	https://forageandfloral.com/	https://www.instagram.com/forageandfloral/		
+Two Kays Flower Farm	Florals		Kalispell	Montana	Flathead Valley and Glacier National Park	Kalispell flower farm growing Flathead Valley blooms for bridal and bridesmaid bouquets, elopement flowers and wedding arrangements.	twokaysflowerfarm@outlook.com	406-360-4707	https://www.twokaysflowerfarm.com/	https://www.instagram.com/twokaysflowerfarm/		
+The House of S&M	Catering		Kalispell	Montana	Flathead Valley	Kalispell caterer serving weddings and events across the Flathead Valley, with online booking and published menus.	thehouseofsm@gmail.com	(406) 686-2202	https://www.thehouseofsm.com/	https://www.instagram.com/thehouseofsm/		
+Montana Luxe Events	Bar		Whitefish	Montana	Whitefish, Kalispell, Columbia Falls, Glacier National Park, Bigfork and Lakeside, plus select destinations	Whitefish company serving drinks and styling weddings with trained beverage burros and Friesian horses for Flathead Valley celebrations.	inquiry@montanaluxeevents.com	406-465-7337	https://montanaluxeevents.com/	https://www.instagram.com/fairytale.friesians/		
+Whitefish Concierge	Planning		Whitefish	Montana	Whitefish, Flathead Lake and Glacier National Park	Whitefish concierge service, also trading as Experience Montana, offering wedding planning assistance around Flathead Lake and Glacier.	sally@whitefish-concierge.com	(406) 314-0046	https://whitefish-concierge.com/	https://www.instagram.com/whitefish_concierge/		
+Christina Adele Photo	Photography		West Glacier	Montana	Glacier National Park and Northwest Montana	West Glacier photographer shooting intimate weddings of up to 15 guests and elopements in and around Glacier National Park.	christina@christinaadelephoto.com		https://www.christinaadelephoto.com/	https://www.instagram.com/christinaadelephoto/		
+Kimberly Taylor Photography	Photography		Kalispell	Montana	Glacier National Park and destinations	Kalispell photographer covering weddings, elopements and micro weddings in Glacier National Park, plus portrait sessions.			https://ktayphotos.com/	https://www.instagram.com/ktay_photography/		
+Treasure State Entertainment	Music		Kalispell	Montana		DJ, photography, video and photo booth company selling bundled wedding packages in three tiers, from three to six hours of DJ and MC.	TreasureStateEntertainment@gmail.com	406-270-3842	https://treasurestateentertainment.com/wedding-packages/	https://www.instagram.com/treasurestateentertainment/	4000	package
+`,
+  },
+  {
+    name: "Great Falls: Photography, Music, Rentals, Transportation, Bridal & Formalwear, Florals, Hair & Makeup, Catering, Photo Booth",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+David Rabenberg Photography	Photography		Great Falls	Montana	All of Montana	Great Falls photographer covering weddings across Montana, with packages that include two photographers and unrestricted print rights.			https://www.davidrabenbergphotography.com/		2300	package
+Really Montana Photography	Photography	413 Central Avenue	Great Falls	Montana	Great Falls, with a mileage fee further afield	Great Falls studio offering elopement and event photography, headshots and family sessions, with wedding photo booth hire as well.	info@reallymontana.com	(406) 215-1534	https://www.reallymontana.com/			
+Prop Arc Entertainment	Music		Great Falls	Montana	Great Falls, Helena, Butte, Bozeman, Missoula and surrounding areas	Great Falls wedding DJ company with over twenty years' experience, offering custom-quoted reception packages, uplighting and photo booth hire.		406-403-0103	http://www.proparcentertainment.com/			
+Necessity Sound LLC	Music		Great Falls	Montana		Great Falls DJ and sound business with over 16 years' experience, handling weddings, parties and corporate events and also offering videography.		406-899-9468	http://www.necessitysound.com/			
+Shindig Rental Co.	Rentals	4307 North Star Blvd Ste. 3	Great Falls	Montana	Great Falls area	Great Falls rental company hiring out handcrafted decor, tables, chairs and tents, with a dedicated weddings category.		(406) 788-7730	https://www.shindigrentalco.com/	https://www.instagram.com/shindigrentalcompany/		
+Big Sky Bus Lines	Transportation	2920 15th St	Black Eagle	Montana	Great Falls, Helena, Bozeman, Billings, Havre and Cascade, plus statewide	Black Eagle charter bus company that runs coaches for weddings and other events across north central Montana.		(406) 454-1283	http://bigskybuslines.com/			
+Kaufman's Menswear	Bridal & Formalwear	411 Central Ave	Great Falls	Montana		Great Falls menswear shop offering tuxedo and formalwear rentals for weddings, plus suit sales, in-house tailoring and alterations.		406-761-5010	https://www.kaufmansmenswear.com/	https://www.instagram.com/kaufmansmenswear/		
+The Bride's Shoppe	Bridal & Formalwear		Great Falls	Montana		Great Falls bridal salon stocking Maggie Sottero, Rebecca Ingram and Allure gowns by appointment, with veils, bridesmaid dresses and tuxedos.			https://www.thebridesshoppe.com/	https://www.instagram.com/bridesshoppe/		
+Chrysalis Flowers and Unique Gifts	Florals	2815 10th Ave. South, Suite 2	Great Falls	Montana		Great Falls florist with dedicated pages for wedding bouquets, wedding party flowers, and ceremony and reception arrangements.		(406) 205-4443	https://www.chrysalisflowers.net/			
+Dahl House Aesthetics	Hair & Makeup	1420 Marketplace Drive Suite 3	Great Falls	Montana		Great Falls aesthetics clinic that lists bridal beauty and special event makeup among its services, with online booking.		406-454-9450	https://dahlhouseaesthetics.com/	https://www.instagram.com/dahlhouseaestheticsgf/		
+Farmer Meets Foodie	Catering		Somers	Montana	Havre, Glacier and the Flathead Valley, plus broader Montana	Somers caterer building farm-to-table wedding and event menus from organic, seasonal ingredients, serving Havre, the Flathead Valley and wider Montana.			https://www.farmermeetsfoodiemt.com/	https://www.instagram.com/farmer_meets_foodie/		
+Shores Floral Havre	Florals	117 1st St	Havre	Montana	Havre and surrounding areas	Havre florist with wedding pages for bouquets, wedding party flowers, and ceremony and reception arrangements.		(406) 400-2740	https://shoresfloralhavre.com/			
+Really Montana Photo Booth	Photo Booth	413 Central Avenue	Great Falls	Montana	Great Falls, with a mileage fee beyond an hour's drive	Great Falls photo booth hire for weddings, in three, four or five hour packages, with delivery and set-up included within the Great Falls area.	info@reallymontana.com	(406) 215-1534	https://www.reallymontana.com/really-montana-photo-booth		1000	package
+`,
+  },
+  {
+    name: "Billings: Photography, Catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Zak Jokela Wedding Photography	Photography		Billings	Montana	Montana and beyond	Billings photographer covering weddings in a candid, photojournalistic style across Montana and further afield.	zakjokelaphotography@gmail.com	406-426-1155	https://rockymountainweddingphotography.com/	https://www.instagram.com/zakjokelaweddingphoto/		
+The Wild Table	Catering	113 N Broadway Ave	Red Lodge	Montana		Red Lodge bistro led by Chef Sheena Ernst that also provides catering, private chef service and curated events, with pricing on enquiry.		406-446-0226	https://www.thewildtable.com/	https://www.instagram.com/thewildtable/		
+`,
+  },
+  {
+    name: "Missoula: Florals, Rentals, Photography, Catering, Music, Bridal & Formalwear, Bar, Transportation",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Ruby and the Wild Floristry	Florals		Butte	Montana	Montana	Butte florist offering designer's-choice wedding flowers, with the owner working with each couple from first enquiry to the day.	jodi@rubyfloristry.com	406-490-7670	https://rubyfloristry.com	https://www.instagram.com/rubyandthewild/		
+Montana Party Time Rentals	Rentals	1345 Clark Fork Lane	Missoula	Montana	Missoula, Hamilton and western Montana	Family-run Missoula hire company supplying tables, chairs, canopies, china and lighting for weddings across the Bitterroot and beyond.	info@missoulaeventrental.com	406-542-0701	https://missoulaeventrental.com/			
+Rocky Ridge Photography	Photography		Butte	Montana	Butte, Helena, Bozeman, Glacier and across Montana	Butte photographer Misty McCoy shooting weddings and elopements in a relaxed, documentary style with true-to-colour editing.			https://www.rockyridgephoto.com/	https://www.instagram.com/rockyridgephoto/	2500	package
+Marissa Rosenbaum Photography	Photography		Butte	Montana	Butte, Bozeman, Missoula and across Montana	Butte wedding and elopement photographer who works with adventurous couples around Montana and the West Coast.			https://marissarosenbaumphotography.com/	https://www.instagram.com/marissarosenbaumphotography/		
+Salt & Stone Adventure Photography	Photography		Missoula	Montana	Western Montana, Glacier National Park and worldwide	Missoula photographer capturing documentary-style weddings and elopements outdoors, from Glacier National Park to western Montana.	bykathrynsimecek@gmail.com		https://saltandstoneadventurephoto.com/			
+THE Crave Catering & Events	Catering		Hamilton	Montana	All of Montana	Hamilton caterer open since 2015, producing custom wedding menus and event coordination for guest lists up to around 200.	thecravetogo@gmail.com	406-360-9942	https://www.thecravetogo.com/			
+Amaze N' Smokin' BBQ	Catering		Hamilton	Montana	Montana	Hamilton smokehouse and food truck catering weddings and events, serving brisket, tri-tip, ribs and chicken with classic sides.	amazensmokinbbq@gmail.com	406-361-1221	http://www.amazensmokinbbq.com			
+DJ Briggs	Music		Missoula	Montana		Missoula wedding DJ who mixes live to read the room, with stadium and nightclub experience and a local Best DJ award.			https://djbriggs.com/	https://www.instagram.com/_djbriggs/		
+This Is Soul	Music		Missoula	Montana	Montana, Idaho, Washington and Oregon	Missoula-branded wedding DJ offering reception-only and full-day packages with professional MC coverage across the Northwest.			https://thisissoulevents.com/		1800	package
+Kristine Paulsen Photography	Photography		Missoula	Montana	Missoula and western Montana	Missoula studio offering candid, photojournalistic wedding and engagement photography, travelling beyond Montana by arrangement.			https://www.kristinepaulsenphotography.com/	https://www.instagram.com/kristinep_photo/		
+Velvet Bride	Bridal & Formalwear	420 N Higgins Ave, Suite C	Missoula	Montana		Appointment-only downtown Missoula bridal boutique with a small, hand-picked gown collection plus steaming and alterations.		406-529-0061	https://www.velvetbride.com/	https://www.instagram.com/velvetbride/		
+The Badlander Catering	Bar		Missoula	Montana	Missoula and surrounding areas	Missoula beverage caterer with certified bartenders and bar packages from full bar to beer and wine only for wedding receptions.		406-493-1955	https://www.badlandercatering.com/			
+Casagranda's Steakhouse	Catering	801 S Utah Ave	Butte	Montana		Butte steakhouse that caters weddings, receptions and parties of any size from its set catering menu.		406-723-4141	https://casagrandassteakhouse.com/			
+The Local Transport	Transportation		Missoula	Montana	Missoula, Whitefish and across Montana	Private shuttle and van service running wedding guest transfers and group transport in Missoula, with airport pickups too.	golocal@thelocaltransport.com	406-200-8364	https://www.thelocaltransport.com/	https://www.instagram.com/thelocal_transport/		
+Full Bushel Farm	Florals	375 Sullivan Rd	Stevensville	Montana	Bitterroot Valley	Stevensville cut-flower farm supplying Montana-grown wedding flowers, with consultations by appointment from the farmstand.	aimee@fullbushelfarm.com	406-599-9496	https://www.fullbushelfarm.com/	https://www.instagram.com/fullbushelfarm/		
+`,
+  },
+  {
+    name: "Helena: Photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Jessica Powell Photo	Photography		Helena	Montana	Montana, specialising in Glacier National Park	Helena-based photographer covering elopements and small weddings across Montana, with a particular focus on Glacier National Park.			https://www.jessicapowellphoto.com/	https://www.instagram.com/jessicapowellphoto/		
+`,
+  },
 ];
 
 export default batches;

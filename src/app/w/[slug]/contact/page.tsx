@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { guestSiteCover } from "@/lib/supabase/guest-site";
 import { ContactForm } from "./contact-form";
+import { turnstileSiteKey } from "@/lib/turnstile";
 
 export const metadata = {
   title: "Share your address",
@@ -42,7 +43,7 @@ export default async function ContactCollectorPage({
         </p>
 
         <div className="mt-8">
-          <ContactForm slug={slug} coupleNames={coupleNames} />
+          <ContactForm slug={slug} coupleNames={coupleNames} turnstileSiteKey={turnstileSiteKey()} />
         </div>
       </div>
     </main>

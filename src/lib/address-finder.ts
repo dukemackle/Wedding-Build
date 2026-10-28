@@ -177,6 +177,46 @@ export function findIn(html: string, state: string): Found | null {
   return fromJsonLd(html, state) ?? fromText(html, state);
 }
 
+type Pin = { latitude: number; longitude: number };
+
+/**
+ * Where a site's own map puts it, best first: the Squarespace location block
+ * (its marker, else its map's centre), schema.org geo in JSON-LD, a Google
+ * Maps embed ("!3d<lat>!4d<lng>", "@<lat>,<lng>,", "q=<lat>,<lng>"), and
+ * data-lat/data-lng attributes. Usually set by the business itself with the
+ * pin dropped on the building, so it beats any geocode of the address; but a
+ * page can carry a head office's, a sister venue's, or a template's default,
+ * so callers check it against the address before trusting it.
+ */
+const COORD_PATTERNS: [RegExp, boolean][] = [
+  [/"markerLat"\s*:\s*(-?\d+\.\d{3,})\s*,\s*"markerLng"\s*:\s*(-?\d+\.\d{3,})/, false],
+  [/"mapLat"\s*:\s*(-?\d+\.\d{3,})\s*,\s*"mapLng"\s*:\s*(-?\d+\.\d{3,})/, false],
+  [/"latitude"\s*:\s*"?(-?\d{1,2}\.\d{3,})"?\s*,\s*"longitude"\s*:\s*"?(-?\d{1,3}\.\d{3,})/, false],
+  [/!3d(-?\d+\.\d{4,})!4d(-?\d+\.\d{4,})/, false],
+  [/!2d(-?\d+\.\d{4,})!3d(-?\d+\.\d{4,})/, true],
+  [/@(-?\d{1,2}\.\d{4,}),(-?\d{1,3}\.\d{4,}),\d/, false],
+  [/[?&;](?:q|ll|center|daddr|destination)=(-?\d{1,2}\.\d{4,})(?:,|%2C)\s*(-?\d{1,3}\.\d{4,})/, false],
+  [/data-lat(?:itude)?=["'](-?\d+\.\d{4,})["'][^>]*data-(?:lng|lon|longitude)=["'](-?\d+\.\d{4,})/, false],
+];
+
+/** Exported for the import script; see COORD_PATTERNS. */
+export function coordsIn(html: string): Pin | null {
+  for (const [pattern, lngFirst] of COORD_PATTERNS) {
+    const m = html.match(pattern);
+    if (!m) continue;
+    const [latitude, longitude] = lngFirst ? [Number(m[2]), Number(m[1])] : [Number(m[1]), Number(m[2])];
+    // US only: rules out a swapped pair and a 0,0 placeholder.
+    if (latitude > 17 && latitude < 72 && longitude < -64 && longitude > -180) return { latitude, longitude };
+  }
+  return null;
+}
+
+/** The pin on a listing's own home page, or null. One page, two requests at most. */
+export async function sitePin(website: string): Promise<Pin | null> {
+  const home = await fetchPage(website);
+  return home ? coordsIn(home) : null;
+}
+
 /** A same-site contact/visit/directions link, where an address sits when the home page has none. */
 function contactLink(html: string, base: string): string | null {
   for (const m of html.matchAll(/<a[^>]+href=["']([^"'#]+)["'][^>]*>([\s\S]*?)<\/a>/gi)) {

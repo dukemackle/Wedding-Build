@@ -1,0 +1,10 @@
+<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of a vase of flowers">
+  <rect width="400" height="300" fill="#FBF8F1"/>
+  <rect width="400" height="215" fill="#E4F9FF"/>
+  <line x1="0" y1="215" x2="400" y2="215" stroke="#C9BFA6" stroke-width="2"/>
+  <path d="M170 150 H230 L222 215 H178 Z" fill="#FFFFFF"/><circle cx="165" cy="95" r="22" fill="#FFFFFF"/><circle cx="235" cy="95" r="22" fill="#FFFFFF"/><circle cx="200" cy="70" r="22" fill="#FFFFFF"/><circle cx="150" cy="135" r="16" fill="#FFFFFF"/><circle cx="250" cy="135" r="16" fill="#FFFFFF"/>
+  <g fill="none" stroke="#14203D" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M170 150 H230 L222 215 H178 Z"/><circle cx="165" cy="95" r="22"/><circle cx="235" cy="95" r="22"/><circle cx="200" cy="70" r="22"/><circle cx="150" cy="135" r="16"/><circle cx="250" cy="135" r="16"/><path d="M200 92 V150 M170 115 L190 150 M230 115 L210 150 M160 150 L180 152 M240 150 L220 152"/>
+  </g>
+  <circle cx="200" cy="70" r="9" fill="#FFD301" stroke="#14203D" stroke-width="3"/>
+</svg>

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { LegalNotice } from "@/components/legal-notice";
 import { STATES, VENDOR_LISTING_CATEGORIES } from "@/lib/wedding-options";
+import { STARTED_LINKS_KEY } from "../claim/use-saved-draft";
 import { startListing, type NewListing } from "./actions";
 
 const inputClass =
@@ -50,7 +51,11 @@ export function ListForm() {
     e.preventDefault();
     setErrors([]);
     startTransition(async () => {
-      const result = await startListing(form);
+      let known: string[] = [];
+      try {
+        known = JSON.parse(window.localStorage.getItem(STARTED_LINKS_KEY) ?? "[]") as string[];
+      } catch {}
+      const result = await startListing(form, Array.isArray(known) ? known : []);
       if (result.next) router.push(result.next);
       else setErrors(result.errors ?? [result.error ?? "Something went wrong -- please try again."]);
     });

@@ -17,7 +17,8 @@
     "backup": "node scripts/backup.mjs",
     "restore": "node scripts/restore.mjs",
     "import:batches": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/import-batches.mjs",
-    "tiles:build": "node scripts/build-tiles.mjs"
+    "tiles:build": "node scripts/build-tiles.mjs",
+    "boundaries:build": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/build-boundaries.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.124.0",

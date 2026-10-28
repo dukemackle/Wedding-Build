@@ -10,6 +10,10 @@ import { SMS_CONSENT_DETAIL } from "@/lib/sms-consent";
 import type { EventAnswers, GuestSide, RsvpEvent, RsvpStatus } from "@/lib/supabase/types";
 import { logError } from "@/lib/error-log";
 import { trackEvent } from "@/lib/events";
+import { GUEST_PHOTOS_BUCKET, removeGuestPhotos } from "@/lib/guest-photos";
+import { allowGuestWrite, RATE_LIMIT_ERROR } from "@/lib/guest-rate-limit";
+import { isHuman, NOT_HUMAN_ERROR } from "@/lib/turnstile";
+import { applyHouseholdAnswers, findHousehold, type MemberAnswer } from "@/lib/households";
 
 const VALID_STATUSES: RsvpStatus[] = ["confirmed", "declined"];
 const VALID_SIDES: GuestSide[] = ["a", "b", "both"];
@@ -40,14 +44,14 @@ async function uploadGuestPhoto(
 
   const storage = createAdminSupabaseClient().storage;
   const { error: uploadError } = await storage
-    .from("guest-photos")
+    .from(GUEST_PHOTOS_BUCKET)
     .upload(path, photo, { contentType: photo.type });
 
   if (uploadError) {
     return { error: "Could not upload your photo — please try again." };
   }
 
-  return { photoUrl: storage.from("guest-photos").getPublicUrl(path).data.publicUrl };
+  return { photoUrl: storage.from(GUEST_PHOTOS_BUCKET).getPublicUrl(path).data.publicUrl };
 }
 
 /** Trimmed text field, capped so an anonymous form can't store a novel. */
@@ -61,8 +65,20 @@ function field(formData: FormData, key: string, max: number): string | null {
  * Best effort: the RSVP is already saved, so a failed email never fails it.
  */
 async function notifyCoupleOfRsvp(weddingId: string, guestName: string, status: RsvpStatus) {
+  const answer = status === "confirmed" ? "is coming" : "can't make it";
+  await notifyCouple(
+    weddingId,
+    `New RSVP: ${guestName} ${answer}`,
+    `${guestName} just RSVPed on your wedding website: ${answer}.\n\nIt's waiting for you to approve on your guest list, which also matches it to the right guest:\n${SITE_URL}/guests\n\nYou Do, I Do`,
+  );
+}
+
+async function notifyCouple(weddingId: string, subject: string, text: string) {
   try {
     if (!process.env.RESEND_API_KEY) return;
+    // One every two minutes at most, 30 a day: a burst of fake RSVPs can't
+    // turn into a burst of email. Every RSVP still waits on /guests.
+    if (!(await allowGuestWrite(weddingId, "rsvp_email", { perVisitor: false }))) return;
     const admin = createAdminSupabaseClient();
     const { data: wedding } = await admin
       .from("weddings")
@@ -73,13 +89,7 @@ async function notifyCoupleOfRsvp(weddingId: string, guestName: string, status: 
     const { data: owner } = await admin.auth.admin.getUserById(wedding.user_id);
     const to = owner?.user?.email;
     if (!to) return;
-    const answer = status === "confirmed" ? "is coming" : "can't make it";
-    await getResendClient().emails.send({
-      from: INQUIRY_FROM_ADDRESS,
-      to,
-      subject: `New RSVP: ${guestName} ${answer}`,
-      text: `${guestName} just RSVPed on your wedding website: ${answer}.\n\nIt's waiting for you to approve on your guest list, which also matches it to the right guest:\n${SITE_URL}/guests\n\nYou Do, I Do`,
-    });
+    await getResendClient().emails.send({ from: INQUIRY_FROM_ADDRESS, to, subject, text });
   } catch {
     // Never let a notification problem reach the guest.
   }
@@ -116,6 +126,16 @@ async function eventAnswers(formData: FormData, weddingId: string, name: string,
   return answers;
 }
 
+/**
+ * Past the RSVP deadline. The deadline is a bare date, so it closes once that
+ * day has ended everywhere (UTC-12), never early for a guest out west.
+ */
+function rsvpClosed(deadline: string | null): boolean {
+  if (!deadline || !/^\d{4}-\d{2}-\d{2}$/.test(deadline)) return false;
+  const closesAt = Date.parse(`${deadline}T00:00:00Z`) + 36 * 60 * 60 * 1000;
+  return Date.now() >= closesAt;
+}
+
 export async function submitRsvp(formData: FormData): Promise<{ error?: string }> {
   // Hidden from people, filled in by bots: pretend it worked and store nothing.
   if (((formData.get("website") as string) || "").trim()) {
@@ -138,9 +158,22 @@ export async function submitRsvp(formData: FormData): Promise<{ error?: string }
 
   const supabase = await createGuestSiteClientFor(weddingId);
   // Past the password, if there is one, before anything is stored.
-  const { data: open } = await supabase.from("public_weddings").select("id").eq("id", weddingId).maybeSingle();
+  const { data: open } = await supabase
+    .from("public_weddings")
+    .select("id, rsvp_deadline")
+    .eq("id", weddingId)
+    .maybeSingle<{ id: string; rsvp_deadline: string | null }>();
   if (!open) {
     return { error: "This page has expired. Reload it and try again." };
+  }
+  if (rsvpClosed(open.rsvp_deadline)) {
+    return { error: "RSVPs for this wedding have closed. Please get in touch with the couple directly." };
+  }
+  if (!(await isHuman(formData))) {
+    return { error: NOT_HUMAN_ERROR };
+  }
+  if (!(await allowGuestWrite(weddingId, "rsvp"))) {
+    return { error: RATE_LIMIT_ERROR };
   }
 
   const upload = await uploadGuestPhoto(weddingId, formData.get("photo") as File | null);
@@ -153,7 +186,8 @@ export async function submitRsvp(formData: FormData): Promise<{ error?: string }
   const phone = field(formData, "phone", 30);
   const smsOptIn = formData.get("sms_opt_in") === "on" && !!phone;
 
-  const { error } = await supabase.from("rsvp_submissions").insert({
+  // Written by the app, not the browser: the limits above are the only way in (0140).
+  const { error } = await createAdminSupabaseClient().from("rsvp_submissions").insert({
     wedding_id: weddingId,
     guest_name: guestName,
     household: field(formData, "household", 120),
@@ -178,6 +212,7 @@ export async function submitRsvp(formData: FormData): Promise<{ error?: string }
   });
 
   if (error) {
+    await removeGuestPhotos(weddingId, [photoUrl]);
     await logError("rsvp", "submitRsvp", error);
     return { error: "Could not submit your RSVP — please try again." };
   }
@@ -224,14 +259,21 @@ export async function submitGuestPost(formData: FormData): Promise<{ error?: str
   if (!site?.public_slug) {
     return { error: "This wedding's site isn't up any more." };
   }
-  const supabase = await createGuestSiteClientFor(weddingId);
+  if (!(await isHuman(formData))) {
+    return { error: NOT_HUMAN_ERROR };
+  }
+  if (!(await allowGuestWrite(weddingId, "post"))) {
+    return { error: RATE_LIMIT_ERROR };
+  }
 
   const upload = await uploadGuestPhoto(weddingId, photo);
   if ("error" in upload) {
     return { error: upload.error };
   }
 
-  const { error } = await supabase.from("guest_posts").insert({
+  // Written by the app, not the browser: the limits above are the only way in (0140).
+  const { error } = await createAdminSupabaseClient().from("guest_posts").insert({
+    status: "pending",
     wedding_id: weddingId,
     name: name.slice(0, 120),
     message,
@@ -239,10 +281,74 @@ export async function submitGuestPost(formData: FormData): Promise<{ error?: str
   });
 
   if (error) {
+    await removeGuestPhotos(weddingId, [upload.photoUrl]);
     await logError("guest_site", "submitGuestPost", error);
     return { error: "Could not post that — please try again." };
   }
 
+  return {};
+}
+
+/**
+ * A household answering through its personal link (0141). The code proves the
+ * invitation, so the answers go straight onto the guest list -- no approval
+ * queue -- and the couple is told who changed what.
+ */
+export async function submitHouseholdRsvp(formData: FormData): Promise<{ error?: string }> {
+  const weddingId = formData.get("wedding_id") as string;
+  if (!weddingId) return { error: "Missing wedding." };
+
+  const { data: wedding } = await createAdminSupabaseClient()
+    .from("weddings")
+    .select("id, public_slug, rsvp_deadline")
+    .eq("id", weddingId)
+    .maybeSingle<{ id: string; public_slug: string | null; rsvp_deadline: string | null }>();
+  if (!wedding?.public_slug) return { error: "This wedding's site isn't up any more." };
+  if (rsvpClosed(wedding.rsvp_deadline)) {
+    return { error: "RSVPs for this wedding have closed. Please get in touch with the couple directly." };
+  }
+  if (!(await isHuman(formData))) return { error: NOT_HUMAN_ERROR };
+  if (!(await allowGuestWrite(weddingId, "rsvp"))) return { error: RATE_LIMIT_ERROR };
+
+  const household = await findHousehold(weddingId, formData.get("invite_code") as string);
+  if (!household) return { error: "That invitation link isn't working. Reload the page and try again." };
+
+  const answers: MemberAnswer[] = [];
+  for (const member of household.members) {
+    const status = formData.get(`status_${member.id}`);
+    if (status !== "confirmed" && status !== "declined") continue;
+    let events: EventAnswers | null = null;
+    if (member.eventIds.length > 0) {
+      events = {};
+      for (const id of member.eventIds) events[id] = formData.get(`event_${member.id}_${id}`) !== "no";
+    }
+    answers.push({
+      id: member.id,
+      status,
+      meal: field(formData, `meal_${member.id}`, 80),
+      bringingPlusOne: formData.get(`plus_one_${member.id}`) === "on",
+      plusOneName: field(formData, `plus_one_name_${member.id}`, 120),
+      events,
+    });
+  }
+  if (answers.length === 0) return { error: "Choose whether each person can come." };
+
+  const saved = await applyHouseholdAnswers(household, answers);
+  if (saved.error) {
+    await logError("rsvp", "submitHouseholdRsvp", saved.error);
+    return { error: "Could not save your RSVP — please try again." };
+  }
+
+  trackEvent("rsvp_received", { weddingId, props: { status: "household", count: answers.length } });
+  const lines = answers.map((a) => {
+    const name = household.members.find((m) => m.id === a.id)?.name ?? "Someone";
+    return `${name}: ${a.status === "confirmed" ? "coming" : "can't make it"}`;
+  });
+  await notifyCouple(
+    weddingId,
+    `RSVP: ${household.label}`,
+    `${household.label} answered through their invitation link:\n\n${lines.join("\n")}\n\nIt's already on your guest list:\n${SITE_URL}/guests\n\nYou Do, I Do`,
+  );
   return {};
 }
 
@@ -283,6 +389,9 @@ export async function claimRegistryGift(
     .eq("id", giftId)
     .maybeSingle<{ wedding_id: string }>();
   if (!gift) return { error: CLAIM_ERRORS.gift_not_found };
+  if (!(await allowGuestWrite(gift.wedding_id, "claim"))) {
+    return { error: RATE_LIMIT_ERROR };
+  }
   const supabase = await createGuestSiteClientFor(gift.wedding_id);
   const { data, error } = await supabase.rpc("claim_registry_gift", {
     p_gift: giftId,

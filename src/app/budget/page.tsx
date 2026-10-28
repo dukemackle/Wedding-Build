@@ -177,10 +177,6 @@ export default async function BudgetPage() {
 
   const hiddenSet = new Set(wedding.hidden_budget_categories);
   const visibleCategories = BUDGET_CATEGORIES.filter((c) => !hiddenSet.has(c.key));
-  const hiddenCategories = BUDGET_CATEGORIES.filter((c) => hiddenSet.has(c.key)).map((c) => ({
-    key: c.key,
-    label: c.label,
-  }));
 
   const { data: regionalData } = await supabase
     .from("regional_cost_data")
@@ -195,6 +191,14 @@ export default async function BudgetPage() {
     hidden: hiddenSet,
     actuals,
   });
+  // What each line not on the budget would add, for its suggestion chip.
+  const unhiddenEstimates = weddingCategoryEstimates(regionalData ?? [], wedding, guestCount);
+  const hiddenCategories = BUDGET_CATEGORIES.filter((c) => hiddenSet.has(c.key)).map((c) => ({
+    key: c.key,
+    label: c.label,
+    section: c.section ?? "wedding_day",
+    estimate: unhiddenEstimates.get(c.key) ?? 0,
+  }));
 
   const rows: BudgetRow[] = visibleCategories.map((category) => {
     const lineItem = overrideByCategory.get(category.key);

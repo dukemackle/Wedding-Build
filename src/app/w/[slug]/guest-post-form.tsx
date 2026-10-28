@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, useTransition } from "react";
 import { submitGuestPost } from "./actions";
+import { TurnstileWidget } from "@/components/turnstile-widget";
 import { shrinkImage } from "@/lib/shrink-image";
 import { LegalNotice } from "@/components/legal-notice";
 
@@ -19,14 +20,19 @@ const labelClass = "flex flex-col gap-1 text-sm text-ink";
 export function GuestPostForm({
   weddingId,
   coupleNames,
+  turnstileSiteKey,
 }: {
   weddingId: string;
   coupleNames: string;
+  /** Cloudflare's bot check, when it's switched on (src/lib/turnstile.ts). */
+  turnstileSiteKey?: string | null;
 }) {
   const [error, setError] = useState<string | undefined>(undefined);
   const [sent, setSent] = useState(false);
   const [preview, setPreview] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
+  // Bumped after every send: a bot-check token works once.
+  const [attempt, setAttempt] = useState(0);
   const nameRef = useRef<HTMLInputElement>(null);
 
   // Filled after mount, not as a default value: the server can't see this
@@ -45,6 +51,7 @@ export function GuestPostForm({
       const photo = formData.get("photo") as File | null;
       if (photo && photo.size > 0) formData.set("photo", await shrinkImage(photo));
       const result = await submitGuestPost(formData);
+      setAttempt((n) => n + 1);
       if (result?.error) {
         setError(result.error);
         return;
@@ -137,6 +144,7 @@ export function GuestPostForm({
         />
       </label>
 
+      <TurnstileWidget key={attempt} siteKey={turnstileSiteKey} />
       {error && <p className="text-sm text-red-800">{error}</p>}
       <button
         type="submit"

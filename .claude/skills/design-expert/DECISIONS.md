@@ -11,7 +11,27 @@ They're summarised here only by reference; CLAUDE.md is the source.
 
 ## Approved directions
 
-- **2026-10-22 (latest):** Venues without photos show a category
+- **2026-10-23:** Saved venues/vendors follow Zillow's favourites: a full
+  page over the map (Back to search, "Saved" title, Venues/Vendors switch,
+  summary bar with sort, the search's photo cards in three columns / one on a
+  phone, each with the couple's note and saved date). Every card gets a •••
+  menu (results: See similar, Hide, Share; saved: Share, Copy link, Remove).
+  Phone listing pages get Back plus a frosted ♥/Share/••• pill over the photo;
+  desktop puts Save/Share/••• beside the name. Hide is device-only for now;
+  Compare is a later PR.
+- **2026-10-23:** Picking a city on Venues or Vendors outlines that city's
+  limits on the map (Royal blue line, faint tint, under the pins), like
+  Zillow's search boundary. City limits, not county lines: couples choose by
+  city, and the filter matches city names, so the line and results agree.
+  Census outlines in `public/boundaries/`, drawn by
+  `src/components/city-outline.tsx`; `npm run boundaries:build` refreshes them.
+
+- **2026-10-23:** Vendors without photos show a category drawing in the
+  venue drawings' style (navy line art on an Aqua wall, white object, one
+  Gold accent), one per category (17) plus a shop front for Other. Same
+  reasoning as venues: no stock photos. Files: `public/vendor-types/`,
+  mapped in `vendorCategoryImage` (`src/lib/vendor-category-icons.ts`).
+- **2026-10-22 :** Venues without photos show a category
   drawing, not a stock photo: one drawing per category (15), navy line art
   on an Aqua sky with white buildings and one Gold accent. Rejected: real
   stock photos per category (couples could mistake them for the venue, and
@@ -59,6 +79,12 @@ They're summarised here only by reference; CLAUDE.md is the source.
   with navy outlines for the rest, bolder headings, rows rise in, and Wren
   cheers small wins (paid in full, everyone seated, RSVP milestones).
   Mockup: https://claude.ai/artifact/LP1zF42bXSm1SKy9aF5KBE
+- **2026-10-27:** Planning-page headers slimmed (option A of three): the
+  page's name ("Budget", "Guests") is the big headline, the old phrase is a
+  smaller italic royal-blue line under it, the gold eyebrow is gone, the
+  photo is a 300px panel on desktop (a 96px square beside the words on a
+  phone) and actions share the headline's row. About 140px tall, was 220.
+  Rejected: photo fading behind the words. (`page-header.tsx`)
 - **2026-10-22:** Public nav's business link is a thin outlined "List your
   business" pill (was "For businesses"), and the hero carries "Venue or
   vendor? Claim or list your business free" under Start planning. Logged-out
@@ -94,6 +120,13 @@ They're summarised here only by reference; CLAUDE.md is the source.
   The grey Positron was rejected as "depressing and untrustworthy". When the
   maps move to our own Cloudflare-hosted tiles, pick the closest full-colour
   style. Applied in `src/lib/map-tiles.ts`.
+- **2026-10-27:** Guest-site templates cut from 29 to seven, all kept from
+  the finalists mockup (https://claude.ai/artifact/1bTZGXTFkimWsw2q5G1Gvg):
+  Heirloom, Editorial, Riviera, Night Swim, Golden Hour, Monogram, Homestead,
+  each with its own hero and page style and three colourways picked for it.
+  Thumbnails must show the real page, never a drawing (owner: "they should
+  look exactly like what they're gonna look like"). Applied in
+  `site-templates.ts` and `site-page-thumb.tsx`; see docs/guest-site-editor.md.
 - **2026-10-21:** Guest-site editor simplified: one Design tab (templates +
   colours, no Theme grid), Wren removed from the builder, Sections second in
   the rail with Edit buttons, template flowers/extras optional (off by
@@ -132,6 +165,11 @@ They're summarised here only by reference; CLAUDE.md is the source.
   stock-photo hero (B, looks like The Knot/Zola and needs licensing) and a
   typographic rings-first hero (C, says least about the product). Mockup:
   https://claude.ai/artifact/QyvNJE735cjYK7Rf8XDWzi
+- **2026-10-27:** The planning-path card becomes a slim strip: one row on
+  a computer (count, six milestone pills with the current one in gold, what's
+  still open), count over a six-part bar plus the open links on a phone. The
+  tall card with the stretched stepper "just looked bad". Rejected: removing
+  it altogether.
 - **2026-10-21:** Dashboard next-step card becomes a status, not an order:
   "Your planning path / 3 of 6 done", what's open as quiet links ("Still to
   book: Photographer · DJ or band", filtered Vendors), same six-step tracker.

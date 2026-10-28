@@ -110,6 +110,18 @@ html {
   animation: page-in 0.4s ease-out;
 }
 
+/* A listing's ••• menu opening (listing-menu.tsx). */
+@keyframes menu-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-page-in {
     animation: none;
@@ -505,6 +517,156 @@ body::before {
 }
 .site-band .site-ticket {
   background: var(--color-parchment);
+}
+
+/* The template clean-up's page styles (2026-10-27, section-layout.tsx). Like
+   the three above, each drops the cards' chrome and only restyles hooks the
+   sections already have. */
+.site-evening .site-card,
+.site-homestead .site-card,
+.site-ledger .site-card,
+.site-photo-led .site-card {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  border-radius: 0;
+  padding: 0;
+}
+
+/* Evening: quiet and centred, headings large and italic, a fine accent rule
+   between sections, travel as columns parted by the same rule. */
+.site-evening .site-rule + .site-rule {
+  border-top: 1px solid color-mix(in srgb, var(--site-accent) 38%, transparent);
+}
+.site-evening [data-canvas-section]:not([data-canvas-section="rsvp"]) h2,
+.site-evening #rsvp.site-card > h2 {
+  text-align: center;
+  font-size: clamp(2.25rem, 4.4vw, 3.4rem);
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.05;
+  margin-bottom: 2.25rem;
+}
+.site-evening .site-card > h2 + p,
+.site-evening #rsvp.site-card > p:first-of-type {
+  text-align: center;
+}
+.site-evening #rsvp.site-card {
+  max-width: 40rem;
+  margin-inline: auto;
+}
+.site-evening #rsvp.site-card > p:nth-of-type(2) {
+  display: table;
+  margin-inline: auto;
+}
+.site-evening .site-day,
+.site-evening .site-travel-item {
+  text-align: center;
+}
+.site-evening .site-day > p:first-child {
+  font-style: italic;
+  color: var(--site-accent);
+}
+.site-evening [data-canvas-section="faq"] .site-card > div {
+  max-width: 40rem;
+  margin-inline: auto;
+}
+@media (min-width: 768px) {
+  .site-evening .site-day + .site-day,
+  .site-evening .site-travel-item + .site-travel-item {
+    border-left: 1px solid color-mix(in srgb, var(--site-accent) 38%, transparent);
+  }
+  .site-evening .site-travel,
+  .site-photo-led .site-travel,
+  .site-homestead .site-travel,
+  .site-ledger .site-travel {
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+    gap: 0 2.5rem;
+  }
+  .site-homestead .site-travel {
+    gap: 1.5rem;
+  }
+}
+
+/* Homestead: rustic. Dashed rules between sections, bold centred headings,
+   travel as framed cards on lighter paper, the RSVP on a card of its own. */
+.site-homestead .site-rule + .site-rule {
+  border-top: 2px dashed var(--color-hairline);
+}
+.site-homestead [data-canvas-section]:not([data-canvas-section="rsvp"]) h2,
+.site-homestead #rsvp.site-card > h2 {
+  text-align: center;
+  font-size: clamp(2.25rem, 4.4vw, 3.25rem);
+  font-weight: 700;
+  font-style: normal;
+  line-height: 1.05;
+  margin-bottom: 2rem;
+}
+.site-homestead .site-card > h2 + p,
+.site-homestead #rsvp.site-card > p:first-of-type {
+  text-align: center;
+}
+.site-homestead .site-travel {
+  margin-top: 2rem;
+}
+.site-homestead .site-travel-item {
+  background: color-mix(in srgb, var(--color-card) 70%, transparent);
+  border: 1px solid var(--color-hairline);
+  padding: 1.75rem 1.5rem;
+  text-align: center;
+}
+.site-homestead #rsvp.site-card {
+  max-width: 40rem;
+  margin-inline: auto;
+  background: var(--color-card);
+  border: 1px solid var(--color-hairline);
+  padding: clamp(2rem, 5vw, 3rem) clamp(1.25rem, 5vw, 3rem);
+}
+.site-homestead #rsvp.site-card > p:nth-of-type(2) {
+  display: table;
+  margin-inline: auto;
+}
+.site-homestead [data-canvas-section="faq"] .site-card > div {
+  max-width: 40rem;
+  margin-inline: auto;
+}
+
+/* Minimal: headings plain and modest beside the section's name, everything
+   on hairlines, no fills. */
+.site-ledger [data-canvas-section]:not([data-canvas-section="rsvp"]) h2,
+.site-ledger #rsvp.site-card > h2 {
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  font-weight: 400;
+  font-style: normal;
+  line-height: 1.1;
+}
+.site-ledger .site-travel {
+  margin-top: 1.5rem;
+}
+.site-ledger .site-travel-item {
+  border-top: 1px solid var(--color-hairline);
+  padding-top: 0.9rem;
+}
+
+/* Photo-led: headings big and to the left, a small rule over each travel
+   note. The breaks between sections are the couple's photos. */
+.site-photo-led [data-canvas-section]:not([data-canvas-section="rsvp"]) h2,
+.site-photo-led #rsvp.site-card > h2 {
+  font-size: clamp(2.5rem, 5.4vw, 4.25rem);
+  font-weight: 400;
+  font-style: normal;
+  line-height: 1;
+  margin-bottom: 1.75rem;
+}
+.site-photo-led .site-travel {
+  margin-top: 2rem;
+}
+.site-photo-led .site-travel-item {
+  border-top: 1px solid var(--site-accent);
+  padding-top: 1rem;
+}
+.site-photo-led #rsvp.site-card {
+  max-width: 44rem;
 }
 
 /* Free elements in a section (src/components/site-section.tsx). Positions are

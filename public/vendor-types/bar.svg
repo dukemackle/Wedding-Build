@@ -1,0 +1,10 @@
+<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of a cocktail and a bottle">
+  <rect width="400" height="300" fill="#FBF8F1"/>
+  <rect width="400" height="215" fill="#E4F9FF"/>
+  <line x1="0" y1="215" x2="400" y2="215" stroke="#C9BFA6" stroke-width="2"/>
+  <path d="M140 80 H220 L180 130 Z" fill="#FFFFFF"/><path d="M250 50 H280 V100 Q296 112 296 130 V215 H234 V130 Q234 112 250 100 Z" fill="#FFFFFF"/>
+  <g fill="none" stroke="#14203D" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M140 80 H220 L180 130 Z"/><path d="M180 130 V200 M155 205 H205"/><path d="M250 50 H280 M250 50 V100 Q234 112 234 130 V215 M280 50 V100 Q296 112 296 130 V215"/><path d="M234 150 H296 M234 185 H296"/>
+  </g>
+  <circle cx="205" cy="78" r="14" fill="#FFD301" stroke="#14203D" stroke-width="3"/><path d="M205 64 V92 M191 78 H219" stroke="#14203D" stroke-width="2"/>
+</svg>

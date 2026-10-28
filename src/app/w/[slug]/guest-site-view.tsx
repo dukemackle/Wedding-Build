@@ -16,6 +16,9 @@ import type {
 } from "@/lib/supabase/types";
 import { ChevronDownIcon } from "@/components/icons";
 import { RsvpForm } from "./rsvp-form";
+import { HouseholdRsvpForm } from "./household-rsvp-form";
+import type { Household } from "@/lib/households";
+import { turnstileSiteKey } from "@/lib/turnstile";
 import { RsvpSection } from "./rsvp-section";
 import { ItineraryView } from "./itinerary-view";
 import { GuestbookView } from "./guestbook-view";
@@ -182,9 +185,12 @@ export async function loadGuestSiteContent(
 export function GuestSiteView({
   wedding,
   content,
+  household = null,
 }: {
   wedding: PublicWedding;
   content: GuestSiteContent;
+  /** The household this browser opened with its personal link, if any (0141). */
+  household?: Household | null;
 }) {
   const {
     registryItems,
@@ -237,25 +243,35 @@ export function GuestSiteView({
         deadline={wedding.rsvp_deadline ? formatDate(wedding.rsvp_deadline) : null}
         photo={galleryPhotos[nextPhoto]?.photo_url ?? bannerPhoto(wedding)}
         form={
-          <RsvpForm
-            initialEvents={itineraryEvents
-              .filter((e) => e.rsvp && !e.invite_only)
-              .map(({ id, title, event_date, start_time, location, invite_only }) => ({
-                id,
-                title,
-                event_date,
-                start_time,
-                location,
-                invite_only,
-              }))}
-            weddingId={wedding.id}
-            partnerAName={wedding.partner_a_name}
-            partnerBName={wedding.partner_b_name}
-            mealOptions={wedding.meal_options}
-            // Undefined until migration 0116 runs: ask, as the default does.
-            askDietary={wedding.ask_dietary !== false}
-            shareHref={shareHref}
-          />
+          household ? (
+            <HouseholdRsvpForm
+              household={household}
+              slug={wedding.public_slug}
+              mealOptions={wedding.meal_options}
+              turnstileSiteKey={turnstileSiteKey()}
+            />
+          ) : (
+            <RsvpForm
+              initialEvents={itineraryEvents
+                .filter((e) => e.rsvp && !e.invite_only)
+                .map(({ id, title, event_date, start_time, location, invite_only }) => ({
+                  id,
+                  title,
+                  event_date,
+                  start_time,
+                  location,
+                  invite_only,
+                }))}
+              weddingId={wedding.id}
+              turnstileSiteKey={turnstileSiteKey()}
+              partnerAName={wedding.partner_a_name}
+              partnerBName={wedding.partner_b_name}
+              mealOptions={wedding.meal_options}
+              // Undefined until migration 0116 runs: ask, as the default does.
+              askDietary={wedding.ask_dietary !== false}
+              shareHref={shareHref}
+            />
+          )
         }
       />
     ),
@@ -401,7 +417,7 @@ export function GuestSiteView({
               <WeddingHero wedding={wedding} />
             </HeroPhotosProvider>
           </CeremonyProvider>
-          <SectionLayout sections={sections} />
+          <SectionLayout sections={sections} photos={galleryPhotos.map((p) => p.photo_url)} />
         </LiveDetailsProvider>
       </Replayable>
       <PhotoCredits credits={photoCredits} shown={galleryPhotos.map((p) => p.photo_url)} />

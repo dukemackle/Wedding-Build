@@ -536,7 +536,11 @@ export function SiteEditor({
             ? "Guests see this version"
             : "Your site is off";
 
-  const liveHref = publicSlug ? `${origin}/w/${publicSlug}` : null;
+  // Guests' page when they'd see exactly this; otherwise the saved draft in
+  // its own tab, which works with the site off too.
+  const showsLive = Boolean(publicSlug) && !dirty;
+  const openHref = showsLive ? `${origin}/w/${publicSlug}` : `/guests/site/preview?design=${designId}&view=1`;
+  const openLabel = showsLive ? "Open live site" : "Open preview";
 
   // What the publish button does now. Published and on: it unpublishes
   // (turns the site off, after a confirm). Published but off: it turns it on.
@@ -651,7 +655,7 @@ export function SiteEditor({
       ) : tab === "design" ? (
         <>
           {pickTarget?.colour && <TargetColourSection design={design} target={pickTarget} actions={targetActions} />}
-          <TemplatesTab design={design} names={names} onChange={change} />
+          <TemplatesTab design={design} onChange={change} />
           <ColoursSection design={design} onChange={change}>
             <PhotoColoursSection
               photos={photos}
@@ -947,11 +951,9 @@ export function SiteEditor({
                         >
                           Replay motion
                         </button>
-                        {liveHref && (
-                          <a href={liveHref} target="_blank" rel="noreferrer" className="text-sm font-medium text-forest underline">
-                            Open live site
-                          </a>
-                        )}
+                        <a href={openHref} target="_blank" rel="noreferrer" className="text-sm font-medium text-forest underline">
+                          {openLabel}
+                        </a>
                       </div>
                     ) : (
                       <div className="-mx-4 -mt-5">{panelBody}</div>
@@ -1028,8 +1030,18 @@ export function SiteEditor({
           <div className="flex min-w-0 flex-1 flex-col">
             <div className="flex items-center gap-2.5 border-b border-hairline px-6 pb-4 pt-5">
               <div className="min-w-0">
-                <Link href="/guests/site" className="text-[13px] text-ink/60 hover:text-ink">
-                  ← Your designs
+                <Link
+                  href="/guests/site"
+                  className="mb-2 inline-flex h-10 items-center gap-2 rounded-full bg-[#2243B6] px-4 text-[15px] font-semibold text-white hover:bg-[#2243B6]/90"
+                >
+                  <span aria-hidden="true">←</span>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                    <rect x="3" y="3" width="7" height="7" rx="1" />
+                    <rect x="14" y="3" width="7" height="7" rx="1" />
+                    <rect x="3" y="14" width="7" height="7" rx="1" />
+                    <rect x="14" y="14" width="7" height="7" rx="1" />
+                  </svg>
+                  Your designs
                 </Link>
                 <h1 className="truncate font-display text-3xl font-semibold text-forest">{designName}</h1>
               </div>
@@ -1049,7 +1061,7 @@ export function SiteEditor({
         )}
         {launches > 0 && <BirdCheer key={launches} message="Your site is live!" />}
         {(
-          <div className="flex h-[60px] shrink-0 items-center gap-3 px-6">
+          <div className="flex h-[52px] shrink-0 items-center gap-3 px-6">
             {historyButtons}
             {deviceToggle}
             {/* Something picked: its bar takes the middle of this row, so the
@@ -1108,16 +1120,14 @@ export function SiteEditor({
                 <span className={`text-[13px] ${error ? "text-red-700" : "text-ink/60"}`} role="status">
                   {status}
                 </span>
-                {liveHref && (
-                  <a
-                    href={liveHref}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-sm font-medium text-forest hover:underline"
-                  >
-                    Open live site
-                  </a>
-                )}
+                <a
+                  href={openHref}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-sm font-medium text-forest hover:underline"
+                >
+                  {openLabel}
+                </a>
               </>
             )}
             {publishButton}
@@ -1426,6 +1436,23 @@ function PreviewStage({
     Math.min(1, Math.max(0, size.h - bottomInset - 8) / (PHONE_H + phoneBezel * 2), size.w / (PHONE_W + phoneBezel * 2)) || 1;
   // How far the iframe is scaled down (or up) to fit the stage.
   const scale = fill ? 1 : device === "desktop" ? (zoom ?? fitScale) : phoneScale;
+  // One percent of the desktop window at "Fit", for the site's --site-vh.
+  const siteVh =
+    !fill && device === "desktop" ? Math.max(0, size.h - bottomInset - 36 - 40) / fitScale / 100 : null;
+
+  useEffect(() => {
+    const frame = frameRef.current;
+    if (!frame) return;
+    const apply = () => {
+      const root = frame.contentDocument?.documentElement;
+      if (!root) return;
+      if (siteVh) root.style.setProperty("--site-vh", `${siteVh}px`);
+      else root.style.removeProperty("--site-vh");
+    };
+    apply();
+    frame.addEventListener("load", apply);
+    return () => frame.removeEventListener("load", apply);
+  }, [frameRef, siteVh]);
 
   // Wheel over the iframe scrolls the site natively, but the events never
   // reach this page. Wheel anywhere else on the stage (the margins, the
@@ -1463,15 +1490,15 @@ function PreviewStage({
     inner = { width: "100%", height: "100%" };
   } else if (device === "desktop") {
     chrome = "browser";
-    const bar = 36 + 40; // browser bar above, zoom bar below
+    const bar = 36 + 40; // browser bar above, zoom bar below (as in siteVh)
     const frameH = Math.max(0, size.h - bottomInset - bar);
     outer = { width: size.w, height: frameH };
-    // The site's window stays the size it is at "Fit" whatever the zoom, so
-    // zooming only makes the page bigger or smaller. Sizing it by the zoom
-    // made a 10% zoom a window ten screens tall, and full-height sections
-    // stretched to fill it. Zoomed out it sits centred; zoomed in it
-    // overflows and the frame scrolls.
-    const viewH = frameH / fitScale;
+    // Zoomed out, the site's window grows to fill the frame, so more of the
+    // page shows instead of white below it; zoomed in it stays the "Fit"
+    // size and the frame scrolls. The hero's screen-relative heights read
+    // --site-vh, pinned to the "Fit" window (siteVh), so a taller window
+    // shows more of the site rather than a stretched hero.
+    const viewH = Math.max(frameH / fitScale, frameH / scale);
     site = { width: DESKTOP_W * scale, height: viewH * scale, margin: "0 auto", overflow: "hidden" };
     inner = {
       width: DESKTOP_W,

@@ -35,15 +35,13 @@ function VenueLayoutSkeleton() {
       className="w-full rounded-lg border border-hairline bg-card p-5 shadow-sm sm:p-8"
       aria-busy="true"
     >
-      <div className="mb-6 flex flex-wrap items-center justify-between gap-4 border-b border-hairline pb-6">
-        <div>
-          <h2 className="font-display text-2xl font-semibold text-forest">Venue layout</h2>
-          <p className="mt-1 text-sm text-ink/50">Loading your floor plan…</p>
-        </div>
-        <div className="flex flex-wrap items-center gap-3" aria-hidden="true">
-          <span className="h-8 w-40 rounded-full bg-parchment" />
-          <span className="h-8 w-28 rounded-full bg-parchment" />
-          <span className="h-8 w-28 rounded-full bg-parchment" />
+      <div className="mb-6 border-b border-hairline pb-6">
+        <h2 className="font-display text-2xl font-semibold text-forest">Venue layout</h2>
+        <p className="mt-1 text-sm text-ink/50">Loading your floor plan…</p>
+        <div className="mt-4 flex flex-wrap items-center gap-3" aria-hidden="true">
+          <span className="h-10 w-32 rounded-full bg-parchment" />
+          <span className="h-10 w-64 rounded-full bg-parchment" />
+          <span className="h-10 w-28 rounded-full bg-parchment" />
         </div>
       </div>
       <div

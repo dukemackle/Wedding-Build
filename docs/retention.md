@@ -88,5 +88,8 @@ Open, in order:
 3. No scheduled email to couples at all: no payment due-date or checklist
    reminders (no cron in `wrangler.jsonc`).
 4. Guests get no RSVP confirmation and can't change an RSVP; a name typo on
-   approval creates a duplicate guest.
+   approval creates a duplicate guest. *Partly fixed 2026-10-27 (0141):* a
+   guest's personal link (`/w/<slug>/i/<code>`) answers for their household
+   straight onto the list and reopens to change answers. Typed-name RSVPs
+   still have both problems, and there's still no confirmation email.
 5. Guest deletes are permanent (no undo, no soft delete).

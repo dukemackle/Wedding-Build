@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import type { ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { VenueTypeIcon } from "@/components/venue-type-icon";
+import { VendorCategoryIcon } from "@/components/vendor-category-icon";
 import { WrenMotto } from "@/components/wren-motto";
 import { AskWrenTile } from "@/app/dashboard/ask-wren-tile";
 import {
@@ -82,6 +83,8 @@ const BUDGET_LINES: {
   /** Discounts and credits, like the real Saved column. */
   saved?: number;
   section: string;
+  /** Off the budget until tapped in, like the real "Couples often add" chips. */
+  suggested?: boolean;
 }[] = [
   { section: "Wedding day", key: "venue", label: "Venue", Icon: VenueIcon, flat: 9000, actual: 9500, paid: 3000, saved: 500 },
   { section: "Wedding day", key: "catering", label: "Catering", Icon: CateringIcon, perGuest: 85 },
@@ -91,6 +94,7 @@ const BUDGET_LINES: {
   { section: "Wedding day", key: "music", label: "Music", Icon: MusicIcon, flat: 2200, actual: 1800, paid: 900 },
   { section: "Wedding day", key: "cake", label: "Cake", Icon: CakeIcon, perGuest: 6 },
   { section: "Rehearsal & welcome", key: "rehearsal", label: "Rehearsal Dinner", Icon: ToastIcon, flat: 2400, actual: 2600, paid: 1300 },
+  { section: "Rehearsal & welcome", key: "welcome", label: "Welcome Party", Icon: ToastIcon, perGuest: 10, suggested: true },
   { section: "Attire & rings", key: "attire", label: "Wedding Attire", Icon: AttireIcon, flat: 2500, actual: 2200, paid: 2200, saved: 150 },
   { section: "Attire & rings", key: "rings", label: "Wedding Rings", Icon: RingsIcon, flat: 1500 },
 ];
@@ -197,11 +201,12 @@ function BudgetDemo() {
     Object.fromEntries(BUDGET_LINES.map((l) => [l.key, l.paid ?? 0])),
   );
   const [syncedAt, setSyncedAt] = useState({ actual, paid });
+  const [added, setAdded] = useState<Set<string>>(() => new Set());
   const sheetChanges = BUDGET_LINES.filter(
     (l) => actual[l.key] !== syncedAt.actual[l.key] || paid[l.key] !== syncedAt.paid[l.key],
   ).length;
 
-  const rows = BUDGET_LINES.map((l) => {
+  const rows = BUDGET_LINES.filter((l) => !l.suggested || added.has(l.key)).map((l) => {
     const estimate = l.perGuest ? l.perGuest * guests : (l.flat ?? 0);
     const a = actual[l.key];
     const amount = a ?? estimate;
@@ -354,6 +359,9 @@ function BudgetDemo() {
       <div className="px-5 sm:px-6">
         {BUDGET_SECTION_ORDER.map((section) => {
           const inSection = rows.filter((r) => r.section === section);
+          const suggestions = BUDGET_LINES.filter(
+            (l) => l.section === section && l.suggested && !added.has(l.key),
+          );
           return (
             <div key={section}>
               <div className="flex items-baseline justify-between border-b border-hairline pb-2 pt-4">
@@ -427,6 +435,24 @@ function BudgetDemo() {
                   </div>
                 </div>
               ))}
+              {suggestions.length > 0 && (
+                <div className="flex flex-wrap items-center gap-2 border-t border-hairline bg-[#fffbe0]/60 px-2 py-2.5">
+                  <span className="mr-1 text-xs font-medium text-ink/60">Couples often add</span>
+                  {suggestions.map((l) => (
+                    <button
+                      key={l.key}
+                      type="button"
+                      onClick={() => setAdded((s) => new Set(s).add(l.key))}
+                      className="inline-flex items-center gap-1.5 rounded-full border border-[#FFD301] bg-card px-3 py-1 text-xs font-medium text-forest transition-colors hover:bg-[#FFF12F]/40"
+                    >
+                      + {l.label}
+                      <span className="font-mono-numbers font-normal text-ink/55">
+                        ~{usd(l.perGuest ? l.perGuest * guests : (l.flat ?? 0))}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           );
         })}
@@ -497,11 +523,14 @@ function SeatingDemo() {
 
   return (
     <Bleed>
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-hairline px-5 py-3 sm:px-8">
+      <div className="border-b border-hairline px-5 py-3 sm:px-8">
         <p className="text-sm text-ink/70">
           {unseated.length} of {SEAT_GUESTS.length} guests still unassigned.
         </p>
-        <div className="flex items-center gap-2">
+        <div className="mt-2 flex flex-wrap items-center gap-2">
+          <span className="hidden rounded-full bg-forest px-3 py-1.5 font-mono-numbers text-xs text-parchment sm:inline">
+            + Add table
+          </span>
           <div className="inline-flex rounded-full border border-hairline bg-parchment p-1">
             {["Seating", "Whole Venue", "Rooms"].map((m, i) => (
               <span
@@ -514,9 +543,6 @@ function SeatingDemo() {
               </span>
             ))}
           </div>
-          <span className="hidden rounded-full bg-forest px-3 py-1.5 font-mono-numbers text-xs text-parchment sm:inline">
-            + Add table
-          </span>
         </div>
       </div>
 
@@ -1023,6 +1049,14 @@ function RsvpDemo() {
             ))}
           </ul>
         )}
+        {/* Personal RSVP links (0141): a household's answers skip the queue. */}
+        <div className="mt-3 rounded-md border border-forest/30 bg-forest/5 p-3">
+          <p className="text-sm font-medium text-ink">The Alvarez household</p>
+          <p className="text-xs text-ink/60">3 coming · 1 can&apos;t make it · via their invitation link</p>
+          <p className="mt-1 font-mono-numbers text-[10px] uppercase tracking-[0.15em] text-forest">
+            Already on your list
+          </p>
+        </div>
       </div>
     </div>
   );
@@ -1037,7 +1071,8 @@ function RsvpDemo() {
  * The map is drawn, not Leaflet, so opening a demo pulls no tiles.
  */
 
-type Pin = { id: string; x: number; y: number; label: string; icon?: ReactNode };
+/** `iconOnly` pins (vendors) show just the icon; the label stays as the aria-label. */
+type Pin = { id: string; x: number; y: number; label: string; icon?: ReactNode; iconOnly?: boolean };
 
 function MockMap({
   pins,
@@ -1084,7 +1119,7 @@ function MockMap({
           aria-label={p.label}
           style={{ left: `${p.x}%`, top: `${p.y}%` }}
           className={`absolute flex -translate-x-1/2 -translate-y-1/2 items-center gap-1 whitespace-nowrap rounded-full border-2 border-white text-[11px] font-bold shadow-md transition-transform ${
-            p.icon ? "py-0.5 pl-0.5 pr-2" : "px-2 py-0.5"
+            p.iconOnly ? "p-0.5" : p.icon ? "py-0.5 pl-0.5 pr-2" : "px-2 py-0.5"
           } ${
             active === p.id
               ? p.icon
@@ -1094,7 +1129,7 @@ function MockMap({
           }`}
         >
           {p.icon}
-          {p.label}
+          {!p.iconOnly && p.label}
         </button>
       ))}
     </div>
@@ -1196,10 +1231,14 @@ function VenuesDemo() {
   const [min, setMin] = useState(0);
   const [inBudget, setInBudget] = useState(false);
   const [active, setActive] = useState<string | null>(null);
+  // The ♥ pill opens the saved list, as the real Saved page does.
+  const [onlySaved, setOnlySaved] = useState(false);
   // The real Budget filter's sum for a room-only rental: the room plus about
   // $150 a guest for food and drink, here for 150 guests against $40,000.
   const withFood = (price: number) => price + BUDGET_GUESTS * 150;
-  const shown = VENUES.filter((v) => v.guests >= min && (!inBudget || withFood(v.price) <= BUDGET_LIMIT));
+  const shown = onlySaved
+    ? VENUES.filter((v) => saved.has(v.id))
+    : VENUES.filter((v) => v.guests >= min && (!inBudget || withFood(v.price) <= BUDGET_LIMIT));
   const toggle = (id: string) =>
     setSaved((s) => {
       const next = new Set(s);
@@ -1231,9 +1270,16 @@ function VenuesDemo() {
           <FilterPill on={inBudget} onClick={() => setInBudget((b) => !b)}>
             Under $40k · {BUDGET_GUESTS} guests
           </FilterPill>
-          <span className="shrink-0 self-center whitespace-nowrap rounded-full bg-brass/15 px-3 py-1 text-sm text-forest">
+          <button
+            type="button"
+            onClick={() => setOnlySaved((o) => !o)}
+            aria-pressed={onlySaved}
+            className={`shrink-0 self-center whitespace-nowrap rounded-full px-3 py-1 text-sm text-forest ${
+              onlySaved ? "bg-brass" : "bg-brass/15"
+            }`}
+          >
             ♥ {saved.size} saved
-          </span>
+          </button>
         </>
       }
     >
@@ -1296,10 +1342,18 @@ const VENDORS = [
 ];
 
 function VendorsDemo() {
-  const [kind, setKind] = useState<string | null>(null);
+  // Several categories at once, like the real Category filter.
+  const [kinds, setKinds] = useState<Set<string>>(new Set());
   const [sent, setSent] = useState<Set<string>>(new Set(["fern"]));
   const [active, setActive] = useState<string | null>(null);
-  const shown = VENDORS.filter((v) => !kind || v.kind === kind);
+  const shown = VENDORS.filter((v) => kinds.size === 0 || kinds.has(v.kind));
+  const toggleKind = (k: string) =>
+    setKinds((s) => {
+      const next = new Set(s);
+      if (next.has(k)) next.delete(k);
+      else next.add(k);
+      return next;
+    });
   return (
     <MockBrowser
       search="Austin, TX"
@@ -1307,14 +1361,21 @@ function VendorsDemo() {
       noun="vendor"
       active={active}
       onActive={setActive}
-      pins={shown.map((v) => ({ id: v.id, x: v.x, y: v.y, label: v.kind }))}
+      pins={shown.map((v) => ({
+        id: v.id,
+        x: v.x,
+        y: v.y,
+        label: v.kind,
+        icon: <VendorCategoryIcon category={v.kind} className="h-4 w-4" />,
+        iconOnly: true,
+      }))}
       filters={
         <>
-          <FilterPill on={kind === null} onClick={() => setKind(null)}>
+          <FilterPill on={kinds.size === 0} onClick={() => setKinds(new Set())}>
             All
           </FilterPill>
           {VENDOR_KINDS.map((k) => (
-            <FilterPill key={k} on={kind === k} onClick={() => setKind(k)}>
+            <FilterPill key={k} on={kinds.has(k)} onClick={() => toggleKind(k)}>
               {k}
             </FilterPill>
           ))}
@@ -1901,7 +1962,7 @@ function SiteDemo() {
       </div>
       {/* Your designs: a few looks side by side, one of them live. */}
       <div className="flex gap-1.5 overflow-x-auto text-xs">
-        {["Heirloom", "Garden Party", "Lemon Grove"].map((name, i) => (
+        {["Heirloom", "Golden Hour", "Riviera"].map((name, i) => (
           <span
             key={name}
             className={`flex h-7 shrink-0 items-center gap-1.5 rounded-full px-2.5 ${

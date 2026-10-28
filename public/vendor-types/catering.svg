@@ -1,0 +1,10 @@
+<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of a covered serving dish">
+  <rect width="400" height="300" fill="#FBF8F1"/>
+  <rect width="400" height="215" fill="#E4F9FF"/>
+  <line x1="0" y1="215" x2="400" y2="215" stroke="#C9BFA6" stroke-width="2"/>
+  <path d="M120 190 A80 80 0 0 1 280 190 Z" fill="#FFFFFF"/>
+  <g fill="none" stroke="#14203D" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M120 190 A80 80 0 0 1 280 190"/><path d="M100 190 H300"/><path d="M110 190 Q200 212 290 190"/><path d="M150 150 Q160 130 180 122"/>
+  </g>
+  <circle cx="200" cy="104" r="10" fill="#FFD301" stroke="#14203D" stroke-width="3"/>
+</svg>

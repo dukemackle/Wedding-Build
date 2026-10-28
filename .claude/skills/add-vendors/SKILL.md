@@ -82,8 +82,15 @@ businesses left out only because the metro was already full.
 Tab-separated, one vendor per line, header exactly:
 
 ```
-Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
 ```
+
+- **Price from / Price unit** (2026-10-23, optional, may be left off older
+  tables): the lowest wedding starting price the vendor's own site publishes,
+  whole dollars, and what it's per: `package`, `per event`, `per hour` or
+  `per person`. Both or neither; blank for "contact us" or a figure you'd
+  have to add up yourself. No tier is derived for vendors. The importer fills
+  a blank listing price from these. Say in the PR body which page each came from.
 
 - **Category:** must be one of `VENDOR_LISTING_CATEGORIES` in
   `src/lib/wedding-options.ts`. A DJ or band is `Music`, a coordinator is

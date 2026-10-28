@@ -1,5 +1,6 @@
 import { STATES, VENDOR_LISTING_CATEGORIES } from "@/lib/wedding-options";
 import { mapColumns, readTable } from "@/lib/spreadsheet";
+import type { VendorPriceUnit } from "@/lib/supabase/types";
 
 /**
  * Parses a tab-separated table of vendors into rows ready for insert -- the
@@ -23,6 +24,9 @@ export type VendorImportValues = {
   contact_phone: string | null;
   website: string | null;
   instagram_url: string | null;
+  /** The vendor's published starting price, whole dollars. */
+  price_from: number | null;
+  price_unit: VendorPriceUnit | null;
 };
 
 export type VendorImportRow = {
@@ -69,6 +73,24 @@ const FIELD_ALIASES: Record<string, keyof VendorImportValues> = {
   site: "website",
   instagram: "instagram_url",
   instagramurl: "instagram_url",
+  pricefrom: "price_from",
+  startingprice: "price_from",
+  price: "price_from",
+  priceunit: "price_unit",
+  priceper: "price_unit",
+};
+
+/** How a batch file writes a price unit, to the stored value. */
+const PRICE_UNIT_WORDS: Record<string, VendorPriceUnit> = {
+  package: "package",
+  "per package": "package",
+  event: "event",
+  "per event": "event",
+  hour: "hour",
+  "per hour": "hour",
+  guest: "guest",
+  "per guest": "guest",
+  "per person": "guest",
 };
 
 function withScheme(url: string) {
@@ -119,6 +141,22 @@ export function parseVendorTable(text: string): VendorImportParse {
       errors.push(`Email "${email}" doesn't look like an address`);
     }
 
+    const rawPrice = cell("price_from");
+    const price = rawPrice ? Number(rawPrice.replace(/[$,\s]/g, "")) : null;
+    if (price !== null && (!Number.isInteger(price) || price <= 0)) {
+      errors.push(`Price from "${rawPrice}" should be whole dollars above zero`);
+    }
+    const rawUnit = cell("price_unit");
+    const priceUnit = rawUnit ? (PRICE_UNIT_WORDS[rawUnit.toLowerCase()] ?? null) : null;
+    if (rawUnit && !priceUnit) {
+      errors.push(`Price unit "${rawUnit}" isn't one of: package, per event, per hour, per person`);
+    }
+    // A caterer's $65 and a photographer's $3,200 are both "from" prices;
+    // without the unit neither means anything.
+    if (rawPrice && !rawUnit) errors.push("Price from needs a Price unit");
+    if (rawUnit && !rawPrice) errors.push("Price unit needs a Price from");
+    const priced = price !== null && Number.isInteger(price) && price > 0 && priceUnit !== null;
+
     const values: VendorImportValues = {
       name,
       category: category ?? "",
@@ -133,6 +171,8 @@ export function parseVendorTable(text: string): VendorImportParse {
       contact_phone: cell("contact_phone") || null,
       website: withScheme(cell("website")) || null,
       instagram_url: withScheme(cell("instagram_url")) || null,
+      price_from: priced ? price : null,
+      price_unit: priced ? priceUnit : null,
     };
 
     return { line: index + 1, values, errors };
