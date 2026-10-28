@@ -20,9 +20,9 @@ const BROWSE_LIMIT = 1000;
 export default async function MarketplacePage({
   searchParams,
 }: {
-  searchParams: Promise<{ category?: string; near?: string }>;
+  searchParams: Promise<{ category?: string; near?: string; view?: string }>;
 }) {
-  const { category, near } = await searchParams;
+  const { category, near, view } = await searchParams;
   const supabase = await createClient();
   const {
     data: { user },
@@ -72,6 +72,8 @@ export default async function MarketplacePage({
         origin={wedding?.origin ?? null}
         unread={unread}
         guestCount={wedding?.guestCount ?? 0}
+        // A link with filters, or to Saved/Selling, goes straight to browsing.
+        startBrowsing={Boolean(category || near || view)}
         initial={{
           // From the budget page's "on the marketplace near you" links.
           category: MARKET_CATEGORIES.some((c) => c.value === category) ? category : undefined,

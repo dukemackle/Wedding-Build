@@ -281,6 +281,13 @@ _None recorded yet._
   tagged Guests (gold), Wedding party & family (Royal blue tint) or Just us &
   vendors (grey, lock); "Everything / What guests see" switch; publish banner
   counts what goes public; Print run sheet is a menu of three sheets.
+- **2026-10-28:** Itinerary timeline approved from a mockup: day chips
+  instead of the month calendar; on desktop a proportional hour timeline
+  (overlaps side by side) with an at-a-glance card and an edit panel beside
+  it; on phones a time-rail list with the editor as a bottom sheet. Only the
+  exceptions are tagged (party blue, private grey hatch); the ceremony is
+  the one gold block. Clash/gap flags and "move this and everything after"
+  ship first; who's-involved and day names follow.
 
 ## Copy and voice
 
