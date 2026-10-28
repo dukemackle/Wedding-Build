@@ -11,6 +11,8 @@ They're summarised here only by reference; CLAUDE.md is the source.
 
 ## Approved directions
 
+- **2026-10-28 (later):** The default is pure white, not ivory: the starter
+  template is now **Classic** on #ffffff, with Ivory and Linen as colourways.
 - **2026-10-28:** Checklist is a "journey path" (option 1 of three; card deck
   and light-touch rejected). Stages are nodes on a line that fills gold
   behind you, the stage you're on pulses royal blue, own tasks get a dashed
