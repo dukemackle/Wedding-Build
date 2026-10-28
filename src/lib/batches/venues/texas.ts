@@ -1043,6 +1043,15 @@ Honeysuckle Manor	5040 Honeysuckle Rd	Midlothian	Texas			Historic Mansion & Esta
 Fort Worth Zoo	1989 Colonial Parkway	Fort Worth	Texas			Garden & Park	Indoor & Outdoor				A city zoo that hosts weddings in five spaces, including a savanna-side pavilion, an art gallery room and a Texas-themed habitat reached by train.			https://info.fortworthzoo.org/weddings
 Inn on the River	205 SW Barnard Street	Glen Rose	Texas			Hotel & Resort	Indoor & Outdoor		699	Package	A historic riverside inn in Glen Rose with garden grounds and a veranda room, offering wedding packages from a two-night stay to a full overnight reception.	inn@innontheriver.com	254-897-2929	https://innontheriver.com/Gather/Weddings.html`,
   },
+  {
+    name: "Austin: venues in Georgetown, Round Rock and Austin",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+Casa Blanca on Brushy Creek	2211 Hairy Man Rd	Round Rock	Texas			Garden & Park	Indoor & Outdoor	200			A ballroom with floor-to-ceiling windows and covered patios, set in six manicured acres of gardens and hosting weddings since 2007.	kristin@casablancatexas.com		https://www.casablancatexas.com/
+University Christian Church	2007 University Avenue	Austin	Texas			Chapel & Church	Indoor	275	500	Rental	A Gothic-style church sanctuary across from the UT Tower and Littlefield Fountain, plus a smaller 40-seat chapel.	admin@ucc-austin.org	512-477-6104	https://www.ucc-austin.org/weddings
+The Celebration Hill	6700 Middle Fiskville Rd Suite 403	Austin	Texas			Ballroom	Indoor	120			A 4,100 sq ft event hall with a prep kitchen and bar area, booked in seven-hour weekend blocks with tables and chairs for 120.	info@thecelebrationhill.com	512-703-0712	https://www.thecelebrationhill.com/
+Central Christian Church	1110 Guadalupe Street	Austin	Texas			Chapel & Church	Indoor	450			A Romanesque-revival sanctuary built in 1928 that seats about 450 including the balcony.	WeddingCoordinator.ccc@gmail.com	512-476-6941	https://cccaustin.org/weddings/
+Cheatham Street Warehouse	119 Cheatham Street	San Marcos	Texas			Restaurant & Brewery	Indoor	300			Honky-tonk music hall that opened in 1974 near downtown San Marcos and Texas State, with a historic stage and a house sound and lighting system, taking weddings and rehearsal dinners.	cheathamstreet@gmail.com	512-353-3777	https://cheathamstreet.com/private-events`,
+  },
 ];
 
 export default batches;
