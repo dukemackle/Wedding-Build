@@ -57,6 +57,8 @@ export type Wedding = {
   member_ids: string[];
   hidden_budget_categories: string[];
   itinerary_published: boolean;
+  /** Names for the schedule's days, by date (0144). */
+  itinerary_day_names: Record<string, string> | null;
   /** The published guest site design; parse with parseSiteDesign. */
   site_design: unknown;
   /** Before several designs (0111): what the editor worked on. No longer written. */
@@ -691,6 +693,8 @@ export type ItineraryEvent = {
   invite_only: boolean;
   /** Who the event is for: only 'guests' reaches the guest site (0143). */
   audience: EventAudience;
+  /** Who's involved: booked vendors or anyone typed in (0144). */
+  people: string[] | null;
   created_at: string;
   updated_at: string;
 };

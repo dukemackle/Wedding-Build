@@ -101,6 +101,7 @@ layout switch in new code.
 | Card | `rounded-lg border border-hairline bg-card p-5 sm:p-8 shadow-sm` | |
 | Gold moment card | `CtaCard` (`gold-flow-border`, `gold-shine`, `gold-twinkle`) | One per page max |
 | Dialog | `listing-modal.tsx` (intercepted route) | No focus trap; only dialog |
+| Checklist journey | `checklist-ui.tsx`: `ProgressRing`, `StageNode`/`StageLine` timeline, `TaskTick` (gold + sparks), `DueChip` (urgency colours), `StageIcon`, `StageConfetti` | Checklist page and its landing demo |
 | Empty state | `BirdEmptyState` (`wren-moments.tsx`) | Good; pair with one action |
 | Loading | `PageSkeleton` + `loading.tsx` (11 routes) | Good |
 | Error page | none (`error.tsx`, `not-found.tsx` missing) | **Gap** |

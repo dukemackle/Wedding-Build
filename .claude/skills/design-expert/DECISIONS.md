@@ -16,6 +16,30 @@ They're summarised here only by reference; CLAUDE.md is the source.
   stay on the palette), chairs with guests' initials in side colours, place
   cards under tables, per-table cloth and centrepiece. Mockups approved in
   chat; built in `src/app/venue-layout/room-art.tsx` + `src/lib/layout-styles.ts`.
+- **2026-10-28:** Guest list: a stage header (Building your list → Invites
+  out → Final count) leads the page with the number that matters at each
+  stage (tiers against the venue's capacity and the Budget's cost per guest,
+  then replies), a "Tidy your list" card collects the loose ends (no
+  side/group, duplicates, missing addresses, unfinished names), and quick
+  sort sorts one guest at a time with number keys and Wren's guess. Quick
+  sort is the page's gold action while there's tidying; Add guest goes navy.
+  Excel/CSV fold into one Export menu. Mockup:
+  https://claude.ai/artifact/MXSwmfr8b2HfxymNyvcTAU. Applied in
+  `src/app/guests/stage-header.tsx`, `tidy-list.tsx`, `quick-sort.tsx`.
+
+- **2026-10-28 (later):** The default is pure white, not ivory: the starter
+  template is now **Classic** on #ffffff, with Ivory and Linen as colourways.
+- **2026-10-28:** Checklist is a "journey path" (option 1 of three; card deck
+  and light-touch rejected). Stages are nodes on a line that fills gold
+  behind you, the stage you're on pulses royal blue, own tasks get a dashed
+  aqua node; a gold progress ring replaces the thin bar; 18px task titles;
+  due chips coloured by urgency (red overdue, Sky within 30 days, Gold within
+  3 months, outlined later); Edit/Remove fold behind a "⋯" (hover-only on
+  desktop); a tick fills gold and throws sparks; finishing a stage adds
+  confetti to Wren's cheer. Phone: the same line as one column, current stage
+  open. Shared pieces in `src/components/checklist-ui.tsx`, used by the page
+  and the landing demo. Mockup: https://claude.ai/artifact/H58PysKBFYWt2whBERk5rH
+
 - **2026-10-28:** Guest-site templates default to warm white. A new eighth
   template, **Ivory**, goes first in the gallery with a "Start here" tag, and
   new couples start on it. Mockup: https://claude.ai/artifact/1XpMHRqZf6SEBg2Noig6Ey.
@@ -262,6 +286,13 @@ _None recorded yet._
   tagged Guests (gold), Wedding party & family (Royal blue tint) or Just us &
   vendors (grey, lock); "Everything / What guests see" switch; publish banner
   counts what goes public; Print run sheet is a menu of three sheets.
+- **2026-10-28:** Itinerary timeline approved from a mockup: day chips
+  instead of the month calendar; on desktop a proportional hour timeline
+  (overlaps side by side) with an at-a-glance card and an edit panel beside
+  it; on phones a time-rail list with the editor as a bottom sheet. Only the
+  exceptions are tagged (party blue, private grey hatch); the ceremony is
+  the one gold block. Clash/gap flags and "move this and everything after"
+  ship first; who's-involved and day names follow.
 
 ## Copy and voice
 

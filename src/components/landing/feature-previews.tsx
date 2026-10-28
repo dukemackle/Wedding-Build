@@ -26,10 +26,21 @@ import {
 import { Falling, useReducedMotion } from "@/components/site-motion";
 import { SiteOrnament } from "@/components/site-ornament";
 import { ConfirmedChip } from "@/components/confirmed-badge";
-import { AudienceTag } from "@/components/audience-tag";
+import { DayList, DayTimeline } from "@/components/itinerary-timeline";
+import { findFlags, type TimelineEvent } from "@/lib/itinerary";
 import type { EventAudience } from "@/lib/supabase/types";
 import { SAMPLE_GALLERY } from "@/lib/sample-photos";
 import { CHECKLIST_PHASES, CHECKLIST_TEMPLATE } from "@/lib/checklist-template";
+import {
+  DueChip,
+  HereBadge,
+  ProgressRing,
+  StageIcon,
+  StageLine,
+  StageNode,
+  TaskTick,
+  type StageState,
+} from "@/components/checklist-ui";
 import {
   AttireIcon,
   BarIcon,
@@ -704,17 +715,20 @@ function SeatingDemo() {
 /* ---------- Checklist ---------- */
 
 // The real stages and tasks, from the same template a new plan is built from,
-// dated back from a sample wedding.
-const DEMO_WEDDING = new Date("2027-06-12T00:00:00");
+// dated back from a sample wedding a year out, so the due chips show
+// their real colours (sky this month, gold within three, outlined later).
+function isoDate(d: Date) {
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+}
+const DEMO_WEDDING = new Date();
+DEMO_WEDDING.setMonth(DEMO_WEDDING.getMonth() + 12);
 const DEMO_STAGES = CHECKLIST_PHASES.slice(0, 4).map((phase) => ({
   ...phase,
   tasks: CHECKLIST_TEMPLATE.filter((t) => t.phase === phase.key)
     .slice(0, 4)
     .map((t) => ({
       title: t.title,
-      due: new Date(
-        DEMO_WEDDING.getTime() - t.weeksBefore * 7 * 86400000,
-      ).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }),
+      due: isoDate(new Date(DEMO_WEDDING.getTime() - t.weeksBefore * 7 * 86400000)),
     })),
 }));
 
@@ -726,6 +740,7 @@ function ChecklistDemo() {
         DEMO_STAGES[1].tasks[0].title,
       ]),
   );
+  const [justTicked, setJustTicked] = useState<string | null>(null);
   const [picked, setPicked] = useState<string | null>(null);
   const [openStages, setOpenStages] = useState<Set<string>>(new Set());
 
@@ -738,184 +753,155 @@ function ChecklistDemo() {
   const active = stages.find((s) => s.key === activeKey)!;
   const total = stages.reduce((n, s) => n + s.tasks.length, 0);
   const doneCount = stages.reduce((n, s) => n + s.done, 0);
+  const stateOf = (s: (typeof stages)[number]): StageState =>
+    s.isDone ? "done" : s.key === currentKey ? "here" : "todo";
 
-  const toggle = (title: string) =>
+  const toggle = (title: string) => {
+    setJustTicked(done.has(title) ? null : title);
     setDone((s) => {
       const next = new Set(s);
       if (next.has(title)) next.delete(title);
       else next.add(title);
       return next;
     });
+  };
 
   const row = (t: { title: string; due: string }) => {
     const on = done.has(t.title);
     return (
       <div
         key={t.title}
-        className="flex items-start gap-3 border-b border-hairline py-3 last:border-b-0"
+        className="flex items-start gap-3 border-b border-hairline py-3.5 last:border-b-0"
       >
-        <button
-          type="button"
-          onClick={() => toggle(t.title)}
-          aria-label={on ? "Mark as not done" : "Mark as done"}
-          className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border transition-colors ${
-            on ? "border-forest bg-forest text-parchment" : "border-hairline hover:border-forest"
-          }`}
-        >
-          {on && <Tick className="h-3 w-3" />}
-        </button>
-        <div className="flex min-w-0 flex-1 flex-wrap items-center gap-2">
-          <span className={on ? "text-ink/50 line-through" : "text-ink"}>
+        <TaskTick on={on} justTicked={justTicked === t.title} onClick={() => toggle(t.title)} />
+        <div className="flex min-w-0 flex-1 flex-wrap items-center gap-x-2.5 gap-y-1.5">
+          <span
+            className={`text-base font-medium sm:text-[17px] ${
+              on ? "text-ink/50 line-through decoration-[#FFD301] decoration-2" : "text-ink"
+            }`}
+          >
             {t.title}
           </span>
-          <span className="rounded-full border border-hairline px-2 py-0.5 text-xs text-ink/60">
-            Due {t.due}
-          </span>
+          <DueChip date={t.due} completed={on} />
         </div>
       </div>
     );
   };
 
-  const hereTag = (
-    <span className="font-mono-numbers text-[10px] uppercase tracking-[0.18em] text-brass">
-      You&apos;re here
-    </span>
-  );
-
   return (
     <div>
-      <div className="flex flex-wrap items-end justify-between gap-3 border-b border-hairline pb-4">
-        <div>
-          <p className="font-display text-2xl font-semibold text-forest">Your plan</p>
-          <p className="mt-1 text-sm text-ink/70">
-            {doneCount} of {total} tasks done
+      <div className="flex items-center gap-4 border-b border-hairline pb-4">
+        <ProgressRing done={doneCount} total={total} size={72} />
+        <div className="min-w-0 flex-1">
+          <p className="font-display text-[28px] font-semibold leading-tight text-forest">Your plan</p>
+          <p className="mt-0.5 text-[15px] text-ink/80">
+            <strong className="font-semibold text-ink">
+              {doneCount} of {total}
+            </strong>{" "}
+            tasks done
           </p>
-          <div className="mt-2 h-2 w-48 overflow-hidden rounded-full bg-forest/10">
-            <div
-              className="h-2 rounded-full bg-forest transition-[width]"
-              style={{ width: `${(doneCount / total) * 100}%` }}
-            />
-          </div>
         </div>
-        <span className="rounded-full bg-forest px-4 py-1.5 font-mono-numbers text-sm text-parchment">
-          + Add task
-        </span>
+        <span className="btn-primary pointer-events-none max-sm:hidden">+ Add task</span>
       </div>
 
-      {/* Phone: the stages as an accordion, the one you're on open. */}
-      <div className="mt-4 flex flex-col gap-3 md:hidden">
-        {stages.map((s) => {
-          const isCurrent = s.key === currentKey;
+      {/* Phone: the journey as one column, the stage you're on open. */}
+      <div className="mt-4 md:hidden">
+        {stages.map((s, i) => {
+          const state = stateOf(s);
+          const isCurrent = state === "here";
           const isOpen = isCurrent || openStages.has(s.key);
           return (
-            <section
-              key={s.key}
-              className={`rounded-md border p-4 ${
-                isCurrent
-                  ? "border-forest/30 bg-parchment"
-                  : s.isDone
-                    ? "border-hairline bg-parchment/40"
-                    : "border-hairline"
-              }`}
-            >
-              <button
-                type="button"
-                onClick={() =>
-                  !isCurrent &&
-                  setOpenStages((o) => {
-                    const next = new Set(o);
-                    if (next.has(s.key)) next.delete(s.key);
-                    else next.add(s.key);
-                    return next;
-                  })
-                }
-                className="flex w-full items-baseline justify-between gap-3 text-left"
-              >
-                <span className="min-w-0">
-                  {isCurrent && hereTag}
-                  <span
-                    className={`flex items-baseline gap-2 font-display text-xl font-semibold ${s.isDone ? "text-forest/60" : "text-forest"}`}
+            <section key={s.key} className="relative flex items-start gap-3.5 pb-4">
+              {i < stages.length - 1 && <StageLine done={s.isDone} left={13.5} top={34} />}
+              <StageNode state={state} num={String(i + 1)} size={30} />
+              <div className="min-w-0 flex-1">
+                {isCurrent ? (
+                  <>
+                    <HereBadge />
+                    <p className="mt-2 font-display text-2xl font-semibold leading-tight text-forest">
+                      {s.title}
+                    </p>
+                  </>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setOpenStages((o) => {
+                        const next = new Set(o);
+                        if (next.has(s.key)) next.delete(s.key);
+                        else next.add(s.key);
+                        return next;
+                      })
+                    }
+                    className="flex min-h-11 w-full items-center justify-between gap-2.5 text-left"
                   >
-                    {s.isDone && <Tick className="h-4 w-4 self-center" />}
-                    {s.title}
-                  </span>
-                </span>
-                <span className="shrink-0 font-mono-numbers text-xs text-ink/50">
-                  {isCurrent ? `${s.left} left` : s.isDone ? `${s.done} done` : s.left}
-                </span>
-              </button>
-              {isOpen && <div className="mt-2">{s.tasks.map(row)}</div>}
+                    <span
+                      className={`font-display text-xl font-semibold ${s.isDone ? "text-forest/60" : "text-forest"}`}
+                    >
+                      {s.title}
+                    </span>
+                    <span className="shrink-0 font-mono-numbers text-xs text-ink/70">
+                      {s.isDone ? `${s.done} done` : `${s.left} to do`}
+                    </span>
+                  </button>
+                )}
+                {isOpen && <div className="mt-1">{s.tasks.map(row)}</div>}
+              </div>
             </section>
           );
         })}
       </div>
 
-      {/* Wide: the whole arc down the side, the stage you're on beside it. */}
-      <div className="mt-5 hidden md:grid md:grid-cols-[220px_1fr] md:gap-8">
-        <nav className="flex flex-col gap-0.5 border-r border-hairline pr-5">
-          {stages.map((s) => (
+      {/* Wide: the whole journey down the side, the stage you're on beside it. */}
+      <div className="mt-5 hidden md:grid md:grid-cols-[240px_1fr] md:gap-7">
+        <nav className="border-r border-hairline pr-4">
+          {stages.map((s, i) => (
             <button
               key={s.key}
               type="button"
               onClick={() => setPicked(s.key)}
-              className={`rounded-md px-3 py-2 text-left transition-colors ${
-                s.key === activeKey ? "bg-forest/10" : "hover:bg-parchment"
+              className={`relative flex w-full items-start gap-3.5 rounded-xl pb-4 pl-1 pr-2 pt-2 text-left transition-colors ${
+                s.key === activeKey ? "bg-[#f3f5fc]" : "hover:bg-parchment"
               }`}
             >
-              <span
-                className={`flex items-center gap-1.5 font-display text-base ${
-                  s.key === activeKey
-                    ? "font-semibold text-forest"
-                    : s.isDone
-                      ? "text-forest/55"
-                      : "text-ink/75"
-                }`}
-              >
-                {s.isDone && <Tick className="h-4 w-4" />}
-                {s.title}
-              </span>
-              <span className="mt-0.5 block font-mono-numbers text-[11px] text-ink/45">
-                {s.isDone
-                  ? `${s.done} done`
-                  : s.key === currentKey
-                    ? `${s.left} left · you're here`
-                    : `${s.left} to do`}
+              {i < stages.length - 1 && <StageLine done={s.isDone} left={18.5} top={44} />}
+              <StageNode state={stateOf(s)} num={String(i + 1)} />
+              <span className="min-w-0 pt-0.5">
+                <span
+                  className={`block font-display text-lg font-semibold leading-tight ${
+                    s.isDone && s.key !== activeKey ? "text-forest/60" : "text-forest"
+                  }`}
+                >
+                  {s.title}
+                </span>
+                <span className="mt-0.5 block font-mono-numbers text-xs text-ink/70">
+                  {s.isDone
+                    ? `${s.done} done`
+                    : s.key === currentKey
+                      ? `${s.left} left · you're here`
+                      : `${s.left} to do`}
+                </span>
               </span>
             </button>
           ))}
         </nav>
         <div className="min-w-0">
-          {active.key === currentKey && hereTag}
-          <p
-            className={`flex items-center gap-2 font-display text-2xl font-semibold ${active.isDone ? "text-forest/60" : "text-forest"}`}
-          >
-            {active.isDone && <Tick className="h-5 w-5" />}
-            {active.title}
-          </p>
-          <p className="mt-1 text-sm text-ink/65">
+          <div className="flex items-start gap-4">
+            <StageIcon phase={active.key} size={52} />
+            <div className="min-w-0">
+              {active.key === currentKey && <HereBadge />}
+              <p className="mt-1.5 font-display text-[30px] font-semibold leading-tight text-forest">
+                {active.title}
+              </p>
+            </div>
+          </div>
+          <p className="mt-2 text-[15px] text-ink/75">
             {active.isDone ? active.doneBlurb : active.blurb}
           </p>
-          <div className="mt-3">{active.tasks.map(row)}</div>
+          <div className="mt-2">{active.tasks.map(row)}</div>
         </div>
       </div>
     </div>
-  );
-}
-
-function Tick({ className = "" }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      aria-hidden="true"
-      className={`shrink-0 ${className}`}
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2.6"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="m5 13 4 4L19 7" />
-    </svg>
   );
 }
 
@@ -1007,11 +993,21 @@ function RsvpDemo() {
       </div>
       <div className="min-w-0 rounded-lg border border-hairline bg-card p-4 shadow-sm">
         <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-hairline pb-3">
-          <p className="text-sm text-ink/70">
-            <span className="font-mono-numbers text-2xl text-forest">{confirmed}</span>{" "}
-            confirmed
-            <span className="hidden text-ink/45 sm:inline"> · feeds your Budget guest count</span>
-          </p>
+          {/* The real page's stage header, invites-out stage, in miniature. */}
+          <div className="flex min-w-0 flex-1 flex-col gap-2">
+            <p className="text-sm text-ink/70">
+              <span className="font-display text-3xl font-semibold leading-none text-forest">{confirmed}</span>{" "}
+              coming so far
+              <span className="hidden text-ink/45 sm:inline"> · feeds your Budget guest count</span>
+            </p>
+            <div className="flex h-2.5 max-w-xs overflow-hidden rounded-full bg-[#F3F1EC]" aria-hidden="true">
+              <div className="bg-[#2243B6]" style={{ width: `${(confirmed / DEMO_GUESTS.length) * 100}%` }} />
+              <div
+                className="bg-[#8A90A0]"
+                style={{ width: `${(DEMO_GUESTS.filter((g) => status[g.name] === "declined").length / DEMO_GUESTS.length) * 100}%` }}
+              />
+            </div>
+          </div>
           <div className="flex gap-2">
             <span className="rounded-full bg-forest px-3 py-1 font-mono-numbers text-xs text-parchment">
               + Add guest
@@ -1655,148 +1651,107 @@ function AttireDemo() {
 
 /* ---------- Itinerary ---------- */
 
-const DAYS: {
-  date: number;
-  label: string;
-  wedding?: boolean;
-  events: { time: string; title: string; where: string; who: EventAudience }[];
-}[] = [
+type DemoEvent = TimelineEvent & { audience: EventAudience };
+const ev = (
+  id: string,
+  start: string,
+  end: string | null,
+  title: string,
+  location: string,
+  audience: EventAudience,
+  people: string[] = [],
+): DemoEvent => ({ id, title, start_time: start, end_time: end, location, audience, people });
+
+const DAYS: { date: string; short: string; label: string; events: DemoEvent[] }[] = [
   {
-    date: 11,
-    label: "Friday, June 11",
+    date: "2027-06-11",
+    short: "Fri · Jun 11",
+    label: "Day before",
     events: [
-      { time: "5:00 – 6:00 PM", title: "Rehearsal", where: "Juniper Barn", who: "party" },
-      { time: "6:30 PM", title: "Rehearsal dinner", where: "The Honey Pot", who: "guests" },
+      ev("r1", "17:00", "18:00", "Rehearsal", "Juniper Barn", "party"),
+      ev("r2", "18:30", "21:00", "Rehearsal dinner", "The Honey Pot", "guests"),
     ],
   },
   {
-    date: 12,
-    label: "Saturday, June 12",
-    wedding: true,
+    date: "2027-06-12",
+    short: "Sat · Jun 12",
+    label: "Wedding day",
     events: [
-      { time: "10:00 AM", title: "Hair & makeup", where: "Bridal suite", who: "party" },
-      { time: "2:00 PM", title: "First look & photos", where: "The orchard", who: "private" },
-      { time: "4:00 – 4:30 PM", title: "Ceremony", where: "Juniper Barn lawn", who: "guests" },
-      { time: "6:00 PM", title: "Dinner & toasts", where: "The barn", who: "guests" },
+      ev("w1", "10:00", "13:00", "Hair & makeup", "Bridal suite", "party", ["Glow Studio", "Bridesmaids"]),
+      ev("w2", "13:30", "14:30", "First look & photos", "The orchard", "private"),
+      ev("w3", "14:30", "16:10", "Family photos", "Barn lawn", "party", ["Lena Ortiz Photo", "Both families"]),
+      ev("w4", "15:30", "16:00", "Guests arrive", "Front terrace", "guests"),
+      ev("w5", "16:00", "16:30", "Ceremony", "Juniper Barn lawn", "guests"),
+      ev("w6", "16:30", "17:30", "Cocktail hour", "The terrace", "guests"),
+      ev("w7", "18:00", "19:30", "Dinner & toasts", "The barn", "guests", ["Caterer", "DJ"]),
     ],
   },
   {
-    date: 13,
-    label: "Sunday, June 13",
-    events: [{ time: "10:30 AM", title: "Farewell brunch", where: "Harbor House", who: "guests" }],
+    date: "2027-06-13",
+    short: "Sun · Jun 13",
+    label: "Day after",
+    events: [ev("b1", "10:30", "12:30", "Farewell brunch", "Harbor House", "guests")],
   },
 ];
 
 function ItineraryDemo() {
-  const [picked, setPicked] = useState(12);
+  const [picked, setPicked] = useState("2027-06-12");
+  const [selected, setSelected] = useState<string | null>("w3");
   const [guestView, setGuestView] = useState(false);
-  // June 2027 starts on a Tuesday.
-  const cells = [
-    ...Array.from({ length: 2 }, () => null),
-    ...Array.from({ length: 30 }, (_, i) => i + 1),
-  ];
+  const day = DAYS.find((d) => d.date === picked)!;
+  const flags = findFlags(day.events);
+  const flagged = new Set(flags.map((f) => f.eventId));
+  const pick = (e: DemoEvent) => setSelected(e.id);
   return (
-    <div className="grid gap-5 md:grid-cols-[210px_1fr]">
-      <div className="hidden rounded-lg border border-hairline bg-card p-4 shadow-sm md:block">
-        <p className="font-display text-lg font-semibold text-forest">June 2027</p>
-        <div className="mt-2 grid grid-cols-7 gap-y-1 text-center font-mono-numbers text-[10px] text-ink/40">
-          {["S", "M", "T", "W", "T", "F", "S"].map((d, i) => (
-            <span key={i}>{d}</span>
-          ))}
-        </div>
-        <div className="mt-1 grid grid-cols-7 gap-y-1 text-center font-mono-numbers text-xs">
-          {cells.map((d, i) => {
-            const has = DAYS.some((x) => x.date === d);
-            return d == null ? (
-              <span key={i} />
-            ) : (
-              <button
-                key={i}
-                type="button"
-                onClick={() => has && setPicked(d)}
-                className={`relative mx-auto flex h-7 w-7 items-center justify-center rounded-full ${
-                  d === picked
-                    ? "bg-forest text-parchment"
-                    : d === 12
-                      ? "ring-1 ring-brass text-ink"
-                      : "text-ink/70"
-                }`}
-              >
-                {d}
-                {has && d !== picked && (
-                  <span className="absolute bottom-0.5 h-1 w-1 rounded-full bg-brass" />
-                )}
-              </button>
-            );
-          })}
-        </div>
-        <p className="mt-3 text-xs text-ink/50">Pick a date to add an event to that day.</p>
-      </div>
-
-      <div className="min-w-0">
-        <div className="mb-3 flex items-center justify-between gap-3">
-          <div className="inline-flex rounded-full border border-hairline bg-card p-0.5 text-xs" role="group" aria-label="Show">
-            {[
-              { on: false, label: "Everything" },
-              { on: true, label: "What guests see" },
-            ].map((o) => (
-              <button
-                key={o.label}
-                type="button"
-                aria-pressed={guestView === o.on}
-                onClick={() => setGuestView(o.on)}
-                className={`rounded-full px-3 py-1.5 transition-colors ${
-                  guestView === o.on ? "bg-forest text-parchment" : "text-ink/60 hover:text-ink"
-                }`}
-              >
-                {o.label}
-              </button>
-            ))}
-          </div>
-          <span className="hidden shrink-0 sm:inline-flex whitespace-nowrap rounded-full bg-forest px-4 py-1.5 font-mono-numbers text-sm text-parchment">
-            + Add event
-          </span>
-        </div>
-        {/* Wide: the days as columns. Phone: the same columns, swiped. */}
-        <div className="-mx-5 flex snap-x gap-3 overflow-x-auto px-5 pb-2 sm:-mx-8 sm:px-8 md:mx-0 md:grid md:grid-cols-3 md:overflow-visible md:px-0">
-          {DAYS.map((day) => (
-            <div
-              key={day.date}
-              onClick={() => setPicked(day.date)}
-              className={`w-[78%] shrink-0 snap-start rounded-lg border bg-card p-3 shadow-sm transition-colors md:w-auto ${
-                picked === day.date ? "border-forest/50" : "border-hairline"
+    <div>
+      <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
+        <div className="flex gap-2" role="tablist" aria-label="Days">
+          {DAYS.map((d) => (
+            <button
+              key={d.date}
+              type="button"
+              role="tab"
+              aria-selected={d.date === picked}
+              onClick={() => setPicked(d.date)}
+              className={`rounded-xl border bg-card px-3 py-1.5 text-left ${
+                d.date === picked ? "border-forest ring-1 ring-forest" : "border-hairline"
               }`}
             >
-              <div className="mb-2 border-b border-hairline pb-2">
-                <p className="font-display text-base font-semibold text-forest">
-                  {day.label}
-                </p>
-                {day.wedding && (
-                  <span className="font-mono-numbers text-[11px] uppercase tracking-wide text-brass">
-                    Wedding day
-                  </span>
-                )}
-              </div>
-              {day.events.map((e) => (
-                <div
-                  key={e.title}
-                  className={`border-b border-hairline py-2.5 transition-opacity last:border-b-0 ${
-                    guestView && e.who !== "guests" ? "opacity-35" : ""
-                  }`}
-                >
-                  <div className="flex items-start justify-between gap-2">
-                    <div className="min-w-0">
-                      <p className="font-mono-numbers text-[11px] text-brass">{e.time}</p>
-                      <p className="mt-0.5 text-sm text-ink">{e.title}</p>
-                    </div>
-                    <AudienceTag audience={e.who} />
-                  </div>
-                  <p className="mt-0.5 text-xs text-ink/50">{e.where}</p>
-                  <p className="mt-1 text-xs text-brass">Add to calendar</p>
-                </div>
-              ))}
-            </div>
+              <span className="block text-[10px] uppercase tracking-wide text-ink/55">{d.short}</span>
+              <span className="font-display text-base font-semibold text-forest">{d.label}</span>
+            </button>
           ))}
+        </div>
+        <div className="inline-flex rounded-full border border-hairline bg-card p-0.5 text-xs" role="group" aria-label="Show">
+          {[
+            { on: false, label: "Everything" },
+            { on: true, label: "What guests see" },
+          ].map((o) => (
+            <button
+              key={o.label}
+              type="button"
+              aria-pressed={guestView === o.on}
+              onClick={() => setGuestView(o.on)}
+              className={`rounded-full px-3 py-1.5 transition-colors ${
+                guestView === o.on ? "bg-forest text-parchment" : "text-ink/60 hover:text-ink"
+              }`}
+            >
+              {o.label}
+            </button>
+          ))}
+        </div>
+      </div>
+      <div className="rounded-lg border border-hairline bg-card p-3 shadow-sm sm:p-4">
+        {flags.map((f) => (
+          <p key={f.eventId} className="mb-3 rounded-[10px] border border-[#f3dc7a] bg-[#fff8d6] px-3 py-2 text-xs font-medium text-ink">
+            {f.message} <span className="text-[#2243B6]">Move it and everything after in one go.</span>
+          </p>
+        ))}
+        <div className="hidden md:block">
+          <DayTimeline events={day.events} selectedId={selected} onSelect={pick} guestView={guestView} flagged={flagged} />
+        </div>
+        <div className="md:hidden">
+          <DayList events={day.events} selectedId={selected} onSelect={pick} guestView={guestView} flagged={flagged} />
         </div>
       </div>
     </div>

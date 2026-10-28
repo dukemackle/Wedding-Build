@@ -59,18 +59,19 @@ export type SiteTemplate = {
  * Designs made from a retired template keep their look; they just no longer
  * show one as picked.
  *
- * Ivory (owner, 2026-10-28) goes first with "Start here": a plain, classic
- * page on warm white, and what a couple who hasn't picked one starts on
- * (STARTER_DESIGN).
+ * Classic (owner, 2026-10-28) goes first with "Start here": a plain page on
+ * white, and what a couple who hasn't picked one starts on (STARTER_DESIGN).
+ * It began as Ivory on warm white; the owner wanted the default pure white,
+ * so Ivory became one of its colourways.
  */
 export const TEMPLATES: SiteTemplate[] = [
   {
-    id: "ivory",
-    name: "Ivory",
-    blurb: "Simple and timeless, your photo and names on warm white",
+    id: "classic",
+    name: "Classic",
+    blurb: "Simple and timeless, your photo and names on white",
     theme: "garden",
-    palette: "ivory",
-    colourways: ["classic-white", "linen"],
+    palette: "classic-white",
+    colourways: ["ivory", "linen"],
     fonts: "cj",
     hero: "split",
     ornament: "none",
