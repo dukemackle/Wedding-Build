@@ -253,6 +253,11 @@ _None recorded yet._
 - Cards separate from the page by shadow, with hairline borders, on a warm
   white base (globals.css header comment).
 
+- **2026-10-28:** Itinerary audiences approved: one schedule, each event
+  tagged Guests (gold), Wedding party & family (Royal blue tint) or Just us &
+  vendors (grey, lock); "Everything / What guests see" switch; publish banner
+  counts what goes public; Print run sheet is a menu of three sheets.
+
 ## Copy and voice
 
 - See the `wren-voice` skill.

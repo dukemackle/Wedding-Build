@@ -1,4 +1,4 @@
-import type { ItineraryEvent } from "@/lib/supabase/types";
+import type { EventAudience, ItineraryEvent } from "@/lib/supabase/types";
 
 // All date math here works in local-time Date objects and formats them
 // manually (never through toISOString/UTC), so a day never shifts by one
@@ -54,6 +54,49 @@ export function groupEventsByDate(
   return Array.from(byDate.entries())
     .sort(([a], [b]) => a.localeCompare(b))
     .map(([date, dayEvents]) => ({ date, events: dayEvents.sort(sortByTime) }));
+}
+
+/** Who each audience is, as the editor, the tags and the run sheets name it. */
+export const AUDIENCES: { value: EventAudience; label: string; short: string; help: string }[] = [
+  { value: "guests", label: "Guests", short: "Guests", help: "On your guest site, and on every run sheet." },
+  {
+    value: "party",
+    label: "Wedding party & family",
+    short: "Party & family",
+    help: "On the wedding-party run sheet. Never on your guest site.",
+  },
+  {
+    value: "private",
+    label: "Just us & vendors",
+    short: "Just us & vendors",
+    help: "Only on your full run sheet, the one you hand vendors.",
+  },
+];
+
+export function isAudience(value: unknown): value is EventAudience {
+  return value === "guests" || value === "party" || value === "private";
+}
+
+/** Rows saved before 0143 have no audience; they were all public. */
+export function audienceOf(event: Pick<ItineraryEvent, "audience">): EventAudience {
+  return isAudience(event.audience) ? event.audience : "guests";
+}
+
+/**
+ * A first guess from the title, so "Hair & makeup" doesn't land on the guest
+ * site because nobody changed the default. The couple can always override it.
+ */
+export function guessAudience(title: string): EventAudience {
+  const t = title.toLowerCase();
+  if (/load[- ]?in|set ?up|tear ?down|breakdown|vendor|deliver|first look|portraits|sneak|planner|private vows/.test(t)) {
+    return "private";
+  }
+  if (
+    /hair|make ?up|getting ready|get ready|dressing|wedding party|bridal party|bridesmaid|groomsm|family photo|line ?up|rehearsal(?! dinner)/.test(t)
+  ) {
+    return "party";
+  }
+  return "guests";
 }
 
 export type CalendarDay = { date: Date; inMonth: boolean };
