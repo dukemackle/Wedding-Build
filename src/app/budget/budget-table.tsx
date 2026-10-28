@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import type { ComponentType } from "react";
 import {
   addBudgetCustomItem,
@@ -48,6 +48,7 @@ import {
 } from "@/components/icons";
 import {
   BUDGET_SECTIONS,
+  isBudgetSection,
   type BudgetSectionKey,
 } from "@/lib/budget-categories";
 import { SpreadsheetLink } from "@/components/spreadsheet-link";
@@ -207,6 +208,19 @@ function dueStatus(dateStr: string): { text: string; tone: "overdue" | "soon" | 
   if (days === 0) return { text: "Due today", tone: "soon" };
   if (days <= 7) return { text: `Due in ${days} day${days === 1 ? "" : "s"} · ${label}`, tone: "soon" };
   return { text: `Due ${label}`, tone: "set" };
+}
+
+const OPEN_SECTIONS_KEY = "budget-open-sections";
+
+/** A payment overdue or due within two weeks that isn't paid off yet. */
+function needsAttention(row: BudgetRow): boolean {
+  if (!row.dueDate) return false;
+  const cost = row.override ?? row.computed ?? 0;
+  if (cost > 0 && (row.paidAmount ?? 0) >= cost) return false;
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const days = (new Date(`${row.dueDate}T00:00:00`).getTime() - today.getTime()) / 86_400_000;
+  return days <= 14;
 }
 
 /**
@@ -900,14 +914,53 @@ export function BudgetTable({
 }) {
   /** The section whose "Add a line" form is open. */
   const [addingTo, setAddingTo] = useState<BudgetSectionKey | null>(null);
-  // Fees are worked out from everything else, so they start folded away.
-  const [collapsed, setCollapsed] = useState<Set<BudgetSectionKey>>(() => new Set(["fees"]));
+  /**
+   * Sections start folded, so the page opens on an overview -- each header
+   * already carries its total and how much is paid -- and you open the one
+   * you came to edit. Two exceptions: a section with a payment overdue or due
+   * within two weeks always starts open, and a budget with no real numbers
+   * yet opens on the first section so there's somewhere obvious to start.
+   * What's open is remembered per browser (applied after mount, below).
+   */
+  const [urgent] = useState<Set<BudgetSectionKey>>(
+    () => new Set([...rows, ...customItems].filter(needsAttention).map((r) => r.section)),
+  );
+  const [collapsed, setCollapsed] = useState<Set<BudgetSectionKey>>(() => {
+    const folded = new Set<BudgetSectionKey>(BUDGET_SECTIONS.map((s) => s.key));
+    for (const key of urgent) folded.delete(key);
+    if (quotedCount === 0) folded.delete(BUDGET_SECTIONS[0].key);
+    return folded;
+  });
+
+  useEffect(() => {
+    let saved: unknown;
+    try {
+      saved = JSON.parse(localStorage.getItem(OPEN_SECTIONS_KEY) ?? "null");
+    } catch {
+      return;
+    }
+    if (!Array.isArray(saved)) return;
+    const open = new Set(saved.filter(isBudgetSection));
+    // Applying what this browser remembers once, after hydration.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setCollapsed(
+      new Set(BUDGET_SECTIONS.map((s) => s.key).filter((k) => !open.has(k) && !urgent.has(k))),
+    );
+  }, [urgent]);
 
   function toggleSection(key: BudgetSectionKey) {
     setCollapsed((prev) => {
       const next = new Set(prev);
       if (next.has(key)) next.delete(key);
       else next.add(key);
+      try {
+        localStorage.setItem(
+          OPEN_SECTIONS_KEY,
+          JSON.stringify(BUDGET_SECTIONS.map((s) => s.key).filter((k) => !next.has(k))),
+        );
+      } catch {
+        // Private mode or storage blocked: it just won't be remembered.
+      }
       return next;
     });
   }
