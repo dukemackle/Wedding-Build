@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState, useTransition, type ReactNode } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore, useTransition, type ReactNode } from "react";
 import {
   addDashboardPhoto,
   removeDashboardPhoto,
@@ -372,6 +372,69 @@ function PhotosButton({ wedding }: { wedding: Wedding }) {
   );
 }
 
+// Whether this browser has the backdrop photos switched off. Kept per device
+// in localStorage: it's a viewing preference, not part of the wedding.
+const PHOTOS_OFF_KEY = "wren-dashboard-photos-off";
+const photosOffListeners = new Set<() => void>();
+
+function readPhotosOff() {
+  try {
+    return localStorage.getItem(PHOTOS_OFF_KEY) === "1";
+  } catch {
+    return false;
+  }
+}
+
+function setPhotosOff(off: boolean) {
+  try {
+    if (off) localStorage.setItem(PHOTOS_OFF_KEY, "1");
+    else localStorage.removeItem(PHOTOS_OFF_KEY);
+  } catch {
+    // Storage blocked: the toggle just won't outlast the visit.
+  }
+  photosOffListeners.forEach((fn) => fn());
+}
+
+function usePhotosOff() {
+  return useSyncExternalStore(
+    (fn) => {
+      photosOffListeners.add(fn);
+      return () => photosOffListeners.delete(fn);
+    },
+    readPhotosOff,
+    () => false,
+  );
+}
+
+/** The small pill that turns the photos behind the dashboard off and on. */
+function PhotosToggle({ off }: { off: boolean }) {
+  return (
+    <button
+      type="button"
+      onClick={() => setPhotosOff(!off)}
+      aria-pressed={off}
+      title={off ? "Show your photos behind the dashboard" : "Hide the photos behind the dashboard"}
+      className="flex items-center gap-1.5 rounded-full border border-white/50 bg-white/15 px-3 py-1 text-xs font-medium text-white backdrop-blur-sm transition-colors hover:bg-white/25"
+    >
+      <svg
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+        className="h-3.5 w-3.5"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z" />
+        <circle cx="12" cy="12" r="3" />
+        {!off && <path d="M4 4l16 16" />}
+      </svg>
+      {off ? "Show photos" : "Hide photos"}
+    </button>
+  );
+}
+
 /**
  * The top of the dashboard: who, when, and how long to go.
  *
@@ -396,7 +459,9 @@ function WeddingHero({
 }) {
   const own = wedding.dashboard_photo_urls ?? [];
   const fallback = wedding.hero_photo_url ?? bookedVenue?.image_url;
-  const photos = own.length > 0 ? own : fallback ? [fallback] : [];
+  const available = own.length > 0 ? own : fallback ? [fallback] : [];
+  const photosOff = usePhotosOff();
+  const photos = photosOff ? [] : available;
   const onPhoto = photos.length > 0;
   const venueLine = bookedVenue
     ? [bookedVenue.name, [bookedVenue.city, bookedVenue.state].filter(Boolean).join(", ")]
@@ -454,6 +519,7 @@ function WeddingHero({
               )}
               {actions}
               {canEdit && <PhotosButton wedding={wedding} />}
+              {available.length > 0 && <PhotosToggle off={photosOff} />}
             </div>
           </div>
 
