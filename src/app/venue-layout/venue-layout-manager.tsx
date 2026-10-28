@@ -49,6 +49,7 @@ import {
   itemDimensions,
   tableFootprint,
 } from "@/lib/venue-layout-geometry";
+import { planCanvas, planSizeLabel, roomPlan, type PlanShape } from "@/lib/venue-plans";
 import { PlusIcon } from "@/components/page-header";
 import { CheckIcon } from "@/components/icons";
 import { BirdCheer } from "@/components/bird-cheer";
@@ -717,9 +718,10 @@ function NodeToolbar({
 // table only lights up for a guest drag and not for, say, a dragged image.
 const GUEST_DRAG_TYPE = "application/x-wren-guests";
 
-// The plan's current height, for clamping drags. Drags may go a little past
-// the bottom, which makes the room longer -- how a couple adds floor.
-const PlanHeightContext = createContext(CANVAS_HEIGHT);
+// The plan's current size, for clamping drags. Drags may go a little past
+// the bottom, which makes the room longer -- how a couple adds floor. A room
+// copied from a venue's floor plan has real walls, so it doesn't grow.
+const PlanSizeContext = createContext({ width: CANVAS_WIDTH, height: CANVAS_HEIGHT, grows: true });
 const GROW_ROOM = 150;
 
 /**
@@ -745,7 +747,7 @@ function useDraggable({
   onTap: () => void;
   onDragEnd: (x: number, y: number) => void;
 }) {
-  const roomHeight = useContext(PlanHeightContext);
+  const room = useContext(PlanSizeContext);
   const [pos, setPos] = useState({ x, y });
   const dragRef = useRef<{ startX: number; startY: number; origX: number; origY: number } | null>(
     null,
@@ -766,8 +768,8 @@ function useDraggable({
     const dy = (e.clientY - dragRef.current.startY) / scale;
     if (Math.abs(dx) > 3 || Math.abs(dy) > 3) movedRef.current = true;
     setPos({
-      x: clamp(dragRef.current.origX + dx, 0, CANVAS_WIDTH - width),
-      y: clamp(dragRef.current.origY + dy, 0, roomHeight + GROW_ROOM - height),
+      x: clamp(dragRef.current.origX + dx, 0, room.width - width),
+      y: clamp(dragRef.current.origY + dy, 0, room.height + (room.grows ? GROW_ROOM : 0) - height),
     });
   }
 
@@ -1234,7 +1236,8 @@ function ItemNode({
  * The plan, scaled to fit whatever width it is given.
  *
  * The coordinate space is CANVAS_WIDTH wide and planHeight() long (900, more
- * for a big wedding), and the
+ * for a big wedding) -- or, for a room copied from a venue's floor plan, the
+ * room's real size at WORLD_SCALE a metre -- and the
  * whole thing is scaled so that field fills the available width. A wide screen
  * therefore shows the entire venue at once with no scrollbars.
  *
@@ -1262,6 +1265,7 @@ function VenueCanvas({
   seatingArmed,
   roomStyle,
   theme,
+  plan,
   onTapTable,
   onTapItem,
   onClearSelection,
@@ -1275,6 +1279,8 @@ function VenueCanvas({
 }: {
   roomStyle: RoomStyle;
   theme: SideTheme;
+  /** The room's floor plan, when it was copied from a venue. */
+  plan: PlanShape | null;
   tables: SeatingTable[];
   items: VenueLayoutItem[];
   guestsByTable: Map<string, Guest[]>;
@@ -1296,6 +1302,9 @@ function VenueCanvas({
   const frameRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(1);
   const [viewportWidth, setViewportWidth] = useState(CANVAS_WIDTH);
+  const floor = useMemo(() => (plan ? planCanvas(plan) : null), [plan]);
+  const planWidth = floor?.width ?? CANVAS_WIDTH;
+  const hasFloor = floor != null;
 
   useEffect(() => {
     const frame = frameRef.current;
@@ -1307,20 +1316,21 @@ function VenueCanvas({
       setViewportWidth(width);
       // Floored so a phone still gets something legible rather than a
       // postage stamp; below the floor the frame pans instead.
-      setScale(clamp(width / CANVAS_WIDTH, MIN_CANVAS_SCALE, 1.2));
+      // A small venue room may grow past life size to fill the width.
+      setScale(clamp(width / planWidth, MIN_CANVAS_SCALE, hasFloor ? 1.6 : 1.2));
     }
 
     measure();
     const observer = new ResizeObserver(measure);
     observer.observe(frame);
     return () => observer.disconnect();
-  }, []);
+  }, [planWidth, hasFloor]);
 
-  const pans = viewportWidth < CANVAS_WIDTH * MIN_CANVAS_SCALE;
-  const height = planHeight(tables, items);
+  const pans = viewportWidth < planWidth * MIN_CANVAS_SCALE;
+  const height = planHeight(tables, items, floor?.height);
 
   return (
-    <PlanHeightContext.Provider value={height}>
+    <PlanSizeContext.Provider value={{ width: planWidth, height, grows: !floor }}>
     <div
       ref={frameRef}
       className={`w-full rounded-lg border border-hairline bg-parchment ${pans ? "overflow-x-auto" : ""}`}
@@ -1328,7 +1338,7 @@ function VenueCanvas({
       <div
         style={{
           position: "relative",
-          width: Math.floor(CANVAS_WIDTH * scale),
+          width: Math.floor(planWidth * scale),
           height: Math.floor(height * scale),
         }}
       >
@@ -1338,13 +1348,13 @@ function VenueCanvas({
         }}
         style={{
           position: "relative",
-          width: CANVAS_WIDTH,
+          width: planWidth,
           height,
           transform: `scale(${scale})`,
           transformOrigin: "top left",
         }}
       >
-        <RoomBackdrop style={roomStyle} height={height} />
+        <RoomBackdrop style={roomStyle} width={planWidth} height={height} outline={floor?.corners ?? null} />
         {items.map((item) => (
           <ItemNode
             key={`${item.id}-${item.position_x}-${item.position_y}-${item.rotation}-${item.width}-${item.height}`}
@@ -1381,7 +1391,7 @@ function VenueCanvas({
       </div>
       </div>
     </div>
-    </PlanHeightContext.Provider>
+    </PlanSizeContext.Provider>
   );
 }
 
@@ -2412,8 +2422,11 @@ export function VenueLayoutManager({
   sides,
   declinedSeated,
   roomStyle: storedRoomStyle,
+  initialRoomId = null,
 }: {
   roomStyle: string;
+  /** Opens on this room in Rooms mode ("Design my wedding here" lands here). */
+  initialRoomId?: string | null;
   phases: LayoutPhase[];
   tables: SeatingTable[];
   confirmedGuests: Guest[];
@@ -2422,8 +2435,9 @@ export function VenueLayoutManager({
   sides: Parameters<typeof sideTheme>[0];
   declinedSeated: Pick<Guest, "id" | "name" | "table_id">[];
 }) {
-  const [mode, setMode] = useState<Mode>("whole-venue");
-  const [selectedRoomId, setSelectedRoomId] = useState<string | null>(rooms[0]?.id ?? null);
+  const openRoom = rooms.find((r) => r.id === initialRoomId) ?? null;
+  const [mode, setMode] = useState<Mode>(openRoom ? "rooms" : "whole-venue");
+  const [selectedRoomId, setSelectedRoomId] = useState<string | null>(openRoom?.id ?? rooms[0]?.id ?? null);
   const phases = useMemo(() => sortPhases(storedPhases), [storedPhases]);
   const [selectedPhaseId, setSelectedPhaseId] = useState<string | null>(() => defaultPhaseId(storedPhases));
   const [addFormType, setAddFormType] = useState<"table" | "item" | "layouts" | null>(null);
@@ -2451,6 +2465,10 @@ export function VenueLayoutManager({
 
   const theme = useMemo(() => sideTheme(sides), [sides]);
   const activeRoomId = selectedRoomId ?? rooms[0]?.id ?? null;
+  const activeRoom = rooms.find((r) => r.id === activeRoomId) ?? null;
+  // Only Rooms mode draws a venue's real walls; the other views lay every
+  // room's furniture on one shared floor.
+  const activePlan = useMemo(() => (mode === "rooms" ? roomPlan(activeRoom) : null), [mode, activeRoom]);
   // A deleted event falls back to the default one. With no events at all
   // (a view-only planner on a wedding that predates them) nothing filters.
   const activePhase =
@@ -2768,6 +2786,13 @@ export function VenueLayoutManager({
       {mode === "rooms" && (
         <RoomTabs rooms={rooms} selectedRoomId={activeRoomId} onSelect={setSelectedRoomId} />
       )}
+      {activePlan && activeRoom && (
+        <p className="-mt-2 mb-4 text-sm text-ink/70">
+          <span className="font-mono-numbers text-ink">{planSizeLabel(activePlan)}</span>
+          {" · "}
+          {activeRoom.source_venue_id ? "The venue's real floor plan, walls and all." : "This room's real size."}
+        </p>
+      )}
 
       {declinedSeated.length > 0 && (
         <DeclinedNotice
@@ -2808,6 +2833,7 @@ export function VenueLayoutManager({
           roomId={formRoomId}
           phaseId={activePhaseId ?? undefined}
           ceremony={activePhase?.kind === "ceremony"}
+          plan={activePlan}
           hasContent
           seatedPeople={activePhaseId ? seatedInPhase : seatedPeople}
           onDone={() => setAddFormType(null)}
@@ -2826,6 +2852,7 @@ export function VenueLayoutManager({
           roomId={formRoomId}
           phaseId={activePhaseId ?? undefined}
           ceremony={activePhase?.kind === "ceremony"}
+          plan={activePlan}
           hasContent={false}
           seatedPeople={0}
         />
@@ -2848,6 +2875,7 @@ export function VenueLayoutManager({
               seatingArmed={seatingArmed}
               roomStyle={roomStyle}
               theme={theme}
+              plan={activePlan}
               onTapTable={handleTapTable}
               onTapItem={handleTapItem}
               onClearSelection={() => {

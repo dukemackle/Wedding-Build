@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
 import type { Venue, VenueFaq } from "@/lib/supabase/types";
 import { VenueImportPanel } from "./venue-import-panel";
 import { ClaimLinkPanel } from "../claim-link-panel";
@@ -326,6 +327,7 @@ function VenueRow({
 }) {
   const [panel, setPanel] = useState<"edit" | "claim" | null>(null);
   const [isPending, startTransition] = useTransition();
+  const router = useRouter();
 
   function toggleActive() {
     const formData = new FormData();
@@ -348,6 +350,7 @@ function VenueRow({
     { label: "Still right", onSelect: markVerified, disabled: isPending },
     { label: venue.active ? "Hide" : "Make live", onSelect: toggleActive, disabled: isPending },
     ...(venue.is_sample ? [] : [{ label: "Claim link", onSelect: () => setPanel("claim") }]),
+    { label: "Floor plans", onSelect: () => router.push(`/admin/venues/${venue.id}/plans`) },
     { label: "View listing", onSelect: () => window.open(`https://youdoido.com/venues/${venue.id}`, "_blank") },
   ];
   const place = [venue.city, venue.state].filter(Boolean).join(", ") || "—";

@@ -228,3 +228,22 @@ rules, batch self-merge, 50-state coverage, page widths) and
   realism. Phases change the data model, so they go first.
 - Parked: photoreal 3D, walkthrough, style themes, plan import, Wren layout
   editing.
+
+## 2026-10-28 — Venue floor plans: one per space, outline only, copied as a snapshot
+- Decision (owner): a plan belongs to a venue *space* (the existing
+  `venue_spaces` rows: "The Barn", "Oak Lawn"), not to the whole venue. It
+  holds the space's size and outline only (a rectangle, or corners dragged
+  into an L or other shape); doors, pillars, fixed bars and per-space capacity
+  wait. Plans live in `venue_space_plans` (1:1 with a space, `published` flag,
+  public read only when published on an active venue, written by admin via the
+  service role). "Design my wedding here" copies every published space into the
+  couple's `venue_rooms` as a snapshot (size, outline, `source_space_id`), so
+  redrawing a venue never moves a couple's tables. Metres stored, feet shown.
+- Why: most venues have 2–3 spaces used for different events (ceremony on the
+  lawn, dinner in the barn), which lines up with event phases. A live link
+  would let a redraw strand tables inside a wall.
+- Alternatives: one plan per venue (lawn and ballroom on one canvas); live
+  link (always current, but can break couples' layouts); fixed features now
+  (more admin drawing before anyone has used plans).
+- Also: approving a claim used to delete and reinsert a venue's spaces, which
+  would have dropped their plans; it now updates spaces in place by name.
