@@ -446,13 +446,23 @@ function FontRow({
  * own colours so they change with the palette. "Use on every section" puts
  * them behind the whole page; off, only behind the top of it.
  */
-export function BackgroundTab({ design, onChange }: { design: SiteDesign; onChange: Change }) {
+export function BackgroundTab({
+  design,
+  onChange,
+  startBg,
+}: {
+  design: SiteDesign;
+  onChange: Change;
+  /** The page colour when the editor opened, kept as a swatch so it's easy to go back to. */
+  startBg: string;
+}) {
   const { theme, accent, accent2, band } = resolveDesign(design);
   const base = themeById(design.theme);
   const bg = design.background;
   const storybook = design.pageStyle === "storybook";
   const vars = { "--site-accent": accent, "--site-accent-2": accent2, "--color-ink": theme.ink } as Record<string, string>;
-  const colours = [...new Set([base.bg, base.surface, mix(base.bg, accent, 0.12), theme.bg].map((c) => c.toLowerCase()))];
+  const start = startBg.toLowerCase();
+  const colours = [...new Set([start, base.bg, base.surface, mix(base.bg, accent, 0.12), theme.bg].map((c) => c.toLowerCase()))];
   const set = (patch: Partial<SiteDesign["background"]>) => onChange({ background: { ...bg, ...patch } });
   // Each tile shows the choice over the page colour, as it will look.
   const tile = (choice: Partial<SiteDesign["background"]>) => {
@@ -469,7 +479,8 @@ export function BackgroundTab({ design, onChange }: { design: SiteDesign; onChan
             <button
               key={c}
               type="button"
-              aria-label={`Background ${c}`}
+              aria-label={c === start ? `Background ${c} (the colour you started with)` : `Background ${c}`}
+              title={c === start ? "The colour you started with" : undefined}
               aria-pressed={theme.bg.toLowerCase() === c}
               onClick={() => onChange({ colors: { ...design.colors, bg: c === base.bg.toLowerCase() ? null : c } })}
               className={`h-10 w-10 rounded-full border border-black/10 ${
