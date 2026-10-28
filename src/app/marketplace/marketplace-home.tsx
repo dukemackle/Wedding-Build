@@ -7,6 +7,7 @@ import { WIDE_WIDTH } from "@/lib/layout";
 import { MARKET_CATEGORIES, formatPrice, type MarketSetWithItems } from "@/lib/marketplace";
 import type { PassItOnDraft } from "@/lib/pass-it-on";
 import { SetCard } from "./set-card";
+import { ShopYourWeddingPanel, type ShopYourWedding } from "./shop-your-wedding";
 import type { MarketListing } from "@/lib/supabase/types";
 
 /** Soft fills mixed from the palette (Lemon, Sky, Royal, Gold) with white. */
@@ -34,6 +35,7 @@ export function MarketplaceHome({
   counts,
   passItOn = null,
   sets = [],
+  shop = null,
   onBrowse,
   renderCard,
 }: {
@@ -46,8 +48,10 @@ export function MarketplaceHome({
   passItOn?: PassItOnDraft[] | null;
   /** Live whole-wedding sets, newest first. */
   sets?: MarketSetWithItems[];
+  /** Before the wedding, what suits it: colours, guest count, date. */
+  shop?: ShopYourWedding | null;
   /** Opens the full browse screen, filtered, in map or grid. */
-  onBrowse: (opts: { q?: string; category?: string; type?: string; mode: "map" | "grid"; view?: string }) => void;
+  onBrowse: (opts: { q?: string; category?: string; type?: string; wedding?: string; mode: "map" | "grid"; view?: string }) => void;
   renderCard: (listing: MarketListing) => ReactNode;
 }) {
   const [q, setQ] = useState("");
@@ -206,6 +210,10 @@ export function MarketplaceHome({
           )}
         </div>
       </section>
+
+      {shop && (
+        <ShopYourWeddingPanel shop={shop} onSeeAll={() => onBrowse({ wedding: "match", mode: "grid" })} renderCard={renderCard} />
+      )}
 
       <section className="mt-10">
         <SectionHead title="Shop by category" />

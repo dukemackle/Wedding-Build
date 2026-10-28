@@ -3,7 +3,7 @@
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
-import { useMemo, useState, useTransition } from "react";
+import { useEffect, useMemo, useState, useTransition } from "react";
 import { FilterDropdown } from "@/components/filter-dropdown";
 import { SearchShell } from "@/components/search-shell";
 import { BirdEmptyState } from "@/components/wren-moments";
@@ -13,12 +13,17 @@ import {
   MARKET_CONDITIONS,
   MARKET_DISTANCES,
   MARKET_PRICE_BANDS,
+  MARKET_COLORS,
   categoryLabel,
   formatPrice,
+  formatWeddingDate,
+  freeOnDate,
   guestFit,
   listedAgo,
+  matchesWedding,
   milesBetween,
   pinListings,
+  type WeddingMatch,
 } from "@/lib/marketplace";
 import type { MarketListing } from "@/lib/supabase/types";
 import { toggleSave } from "./actions";
@@ -38,7 +43,8 @@ type Filters = {
   condition: string;
   distance: string;
   type: string;
-  fits: string;
+  /** "Shop your wedding": match (all of it), colors, fits or date. */
+  wedding: string;
 };
 const NO_FILTERS: Filters = {
   q: "",
@@ -47,8 +53,20 @@ const NO_FILTERS: Filters = {
   condition: "all",
   distance: "all",
   type: "all",
-  fits: "all",
+  wedding: "all",
 };
+
+/** Where colours picked by hand are kept, for a couple without a palette. */
+const PICKED_COLORS_KEY = "market-wedding-colors";
+
+function readPickedColors(): string[] {
+  try {
+    const raw = JSON.parse(localStorage.getItem(PICKED_COLORS_KEY) ?? "[]");
+    return Array.isArray(raw) ? raw.filter((c) => MARKET_COLORS.some((m) => m.id === c)).slice(0, 3) : [];
+  } catch {
+    return [];
+  }
+}
 
 export type MarketOrigin = { latitude: number; longitude: number; label: string };
 
@@ -60,6 +78,10 @@ export function MarketplaceBrowser({
   origin: weddingOrigin,
   unread = 0,
   guestCount = 0,
+  weddingDate = null,
+  paletteColor = null,
+  bookedIds = [],
+  planning = false,
   passItOn = null,
   sets = [],
   startBrowsing = false,
@@ -76,6 +98,14 @@ export function MarketplaceBrowser({
   unread?: number;
   /** The viewer's guest count, for "fits my wedding". */
   guestCount?: number;
+  /** Their wedding date, while it's still ahead. */
+  weddingDate?: string | null;
+  /** The colour family of their guest-site palette. */
+  paletteColor?: string | null;
+  /** Rentals already out on their date. */
+  bookedIds?: string[];
+  /** A signed-in couple before their wedding: shows "Shop your wedding". */
+  planning?: boolean;
   /** After the wedding, what the couple's budget says they could sell. */
   passItOn?: PassItOnDraft[] | null;
   /** Live whole-wedding sets, for the front page. */
@@ -96,6 +126,29 @@ export function MarketplaceBrowser({
   const [mode, setMode] = useState<"map" | "grid">("map");
   const [saved, setSaved] = useState(() => new Set(savedIds));
   const [, startTransition] = useTransition();
+  // Without a palette, the couple picks their colours on the front page.
+  const [pickedColors, setPickedColors] = useState<string[]>([]);
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- localStorage is only readable after mount
+    if (!paletteColor) setPickedColors(readPickedColors());
+  }, [paletteColor]);
+
+  function pickColors(next: string[]) {
+    setPickedColors(next);
+    try {
+      localStorage.setItem(PICKED_COLORS_KEY, JSON.stringify(next));
+    } catch {}
+  }
+
+  const match: WeddingMatch = useMemo(
+    () => ({
+      colors: paletteColor ? [paletteColor] : pickedColors,
+      guests: guestCount,
+      date: weddingDate,
+      bookedIds: new Set(bookedIds),
+    }),
+    [paletteColor, pickedColors, guestCount, weddingDate, bookedIds],
+  );
 
   function set<K extends keyof Filters>(key: K, value: Filters[K]) {
     setFilters((f) => ({ ...f, [key]: value }));
@@ -145,13 +198,13 @@ export function MarketplaceBrowser({
         (!band || (l.price_cents >= band.min && l.price_cents < band.max)) &&
         (!q || l.title.toLowerCase().includes(q) || (l.description ?? "").toLowerCase().includes(q)) &&
         (filters.type === "all" || l.listing_type === filters.type) &&
-        (filters.fits === "all" || guestFit(l.quantity, guestCount) !== null) &&
+        weddingFilter(l, filters.wedding, match) &&
         (maxMiles === null ||
           (l.latitude != null &&
             l.longitude != null &&
             milesBetween(origin!, { latitude: l.latitude, longitude: l.longitude }) <= maxMiles)),
     );
-  }, [listings, filters, origin, guestCount]);
+  }, [listings, filters, origin, match]);
 
   const pinned = useMemo(() => pinListings(filtered), [filtered]);
 
@@ -163,7 +216,7 @@ export function MarketplaceBrowser({
     return filtered.filter((l) => inView.has(l.id) || l.latitude == null);
   }, [filtered, pinned, mapView, mode]);
 
-  const activeFilterCount = (["category", "price", "condition", "distance", "type", "fits"] as const).filter(
+  const activeFilterCount = (["category", "price", "condition", "distance", "type", "wedding"] as const).filter(
     (k) => filters[k] !== "all",
   ).length;
 
@@ -171,7 +224,7 @@ export function MarketplaceBrowser({
 
   // The front page hands over to the browse screen, which reads ?view= on
   // mount to open Saved or Selling.
-  function browse({ view, mode: nextMode, ...picked }: { q?: string; category?: string; type?: string; mode: "map" | "grid"; view?: string }) {
+  function browse({ view, mode: nextMode, ...picked }: { q?: string; category?: string; type?: string; wedding?: string; mode: "map" | "grid"; view?: string }) {
     const url = new URL(window.location.href);
     if (view) url.searchParams.set("view", view);
     else url.searchParams.delete("view");
@@ -200,11 +253,22 @@ export function MarketplaceBrowser({
         counts={{ saved: savedListings.length, selling: mine.length, unread }}
         passItOn={passItOn}
         sets={sets}
+        shop={
+          planning
+            ? {
+                match,
+                matches: listings.filter((l) => l.status === "active" && matchesWedding(l, match)),
+                colorsFromPalette: Boolean(paletteColor),
+                onPickColors: pickColors,
+              }
+            : null
+        }
         onBrowse={browse}
         renderCard={(l) => (
           <ListingCard
             listing={l}
             guestCount={guestCount}
+            freeOnYourDate={freeOnDate(l, match)}
             saved={saved.has(l.id)}
             onToggleSave={signedIn ? onToggleSave : undefined}
           />
@@ -245,7 +309,7 @@ export function MarketplaceBrowser({
                   ) : (
                     <Grid>
                       {savedListings.map((l) => (
-                        <ListingCard key={l.id} listing={l} saved onToggleSave={onToggleSave} guestCount={guestCount} />
+                        <ListingCard key={l.id} listing={l} saved onToggleSave={onToggleSave} guestCount={guestCount} freeOnYourDate={freeOnDate(l, match)} />
                       ))}
                     </Grid>
                   ),
@@ -297,9 +361,15 @@ export function MarketplaceBrowser({
           {signedIn && (
             <Link
               href="/marketplace/inbox"
+              aria-label={unread > 0 ? `Messages, ${unread} unread` : "Messages"}
               className="flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border border-hairline bg-card px-3 py-1.5 text-sm text-forest shadow-md hover:border-forest lg:order-last lg:shadow-none"
             >
-              Messages
+              {/* An envelope where the bar is tight (lg to 2xl), the word elsewhere. */}
+              <svg aria-hidden viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.6" className="hidden h-4 w-5 lg:block 2xl:hidden">
+                <rect x="2.5" y="4.5" width="15" height="11" rx="1.5" />
+                <path d="M3 5.5l7 5.5 7-5.5" />
+              </svg>
+              <span aria-hidden className="lg:hidden 2xl:inline">Messages</span>
               {unread > 0 && (
                 <span className="rounded-full bg-[#2243B6] px-1.5 text-[11px] font-semibold leading-4 text-white">{unread}</span>
               )}
@@ -312,13 +382,20 @@ export function MarketplaceBrowser({
             onChange={chooseDistance}
             options={MARKET_DISTANCES.map((miles) => ({ value: String(miles), label: `Within ${miles} miles` }))}
           />
-          {guestCount > 0 && (
+          {planning && (
             <FilterDropdown
-              label="Fits my wedding"
-              allLabel="Any quantity"
-              value={filters.fits}
-              onChange={(v) => set("fits", v)}
-              options={[{ value: "yes", label: `Enough for ${guestCount} guests or their tables` }]}
+              label="My wedding"
+              // Short while on, too, so the bar doesn't grow when it's picked.
+              activeLabel="My wedding"
+              allLabel="Any wedding"
+              value={filters.wedding}
+              onChange={(v) => set("wedding", v)}
+              options={[
+                { value: "match", label: "Suits my wedding" },
+                ...(match.colors.length > 0 ? [{ value: "colors", label: `In my colours (${colorNames(match.colors)})` }] : []),
+                ...(guestCount > 0 ? [{ value: "fits", label: `Enough for ${guestCount} guests or their tables` }] : []),
+                ...(weddingDate ? [{ value: "date", label: `Rentals free on ${formatWeddingDate(weddingDate)}` }] : []),
+              ]}
             />
           )}
           <FilterDropdown
@@ -378,6 +455,7 @@ export function MarketplaceBrowser({
       {listed.map((l) => (
         <ListingCard
           guestCount={guestCount}
+          freeOnYourDate={freeOnDate(l, match)}
           key={l.id}
           listing={l}
           saved={saved.has(l.id)}
@@ -386,6 +464,26 @@ export function MarketplaceBrowser({
       ))}
     </SearchShell>
   );
+}
+
+/** The "My wedding" filter: everything that suits it, or one part of it. */
+function weddingFilter(l: MarketListing, value: string, match: WeddingMatch) {
+  switch (value) {
+    case "match":
+      return matchesWedding(l, match);
+    case "colors":
+      return l.color_families.some((c) => match.colors.includes(c));
+    case "fits":
+      return guestFit(l.quantity, match.guests) !== null;
+    case "date":
+      return freeOnDate(l, match);
+    default:
+      return true;
+  }
+}
+
+export function colorNames(ids: string[]) {
+  return ids.map((id) => MARKET_COLORS.find((c) => c.id === id)?.label ?? id).join(", ");
 }
 
 function Grid({ children }: { children: React.ReactNode }) {
@@ -401,9 +499,12 @@ function ListingCard({
   saved = false,
   onToggleSave,
   guestCount = 0,
+  freeOnYourDate = false,
 }: {
   listing: MarketListing;
   guestCount?: number;
+  /** A rental with nothing booked on the couple's date. */
+  freeOnYourDate?: boolean;
   saved?: boolean;
   onToggleSave?: (id: string) => void;
 }) {
@@ -451,6 +552,11 @@ function ListingCard({
           {listing.city}, {listing.state} · {categoryLabel(listing.category)}
           {listing.quantity > 1 && ` · ${listing.quantity} pieces`} · {listedAgo(listing.created_at)}
         </p>
+        {freeOnYourDate && !badge && (
+          <p className="mt-1 inline-flex items-center gap-1 rounded-full bg-[#dff7ff] px-2 py-0.5 text-[11px] font-semibold text-[#2243B6]">
+            <span aria-hidden>✓</span> Free on your date
+          </p>
+        )}
         {fit && !badge && <p className="mt-0.5 truncate text-xs font-medium text-[#9a6b00]">{fit.replace("Enough for your ", "Fits your ")}</p>}
       </Link>
       {onToggleSave && (

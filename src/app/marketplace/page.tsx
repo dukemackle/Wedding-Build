@@ -3,7 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import { AppNav } from "@/components/app-nav";
 import { PublicNav } from "@/components/public-nav";
 import { MARKET_CATEGORIES, MARKET_DISTANCES } from "@/lib/marketplace";
-import { loadLiveSets, loadMarketWedding, loadPassItOn, unreadThreadCount, type MarketWedding } from "@/lib/marketplace-server";
+import { loadBookedOn, loadLiveSets, loadMarketWedding, loadPassItOn, unreadThreadCount, type MarketWedding } from "@/lib/marketplace-server";
 import { inPassItOnWindow, type PassItOnDraft } from "@/lib/pass-it-on";
 import type { MarketListing } from "@/lib/supabase/types";
 import { MarketplaceBrowser } from "./marketplace-browser";
@@ -14,6 +14,11 @@ export const metadata: Metadata = {
   // Kept out of search until it opens, so it isn't found empty.
   robots: { index: false, follow: false },
 };
+
+/** Whether the day is behind them (today counts as not yet). */
+function weddingPassed(date: string) {
+  return date < new Date().toISOString().slice(0, 10);
+}
 
 /** Newest first; enough for a launch-sized marketplace before it needs paging server-side. */
 const BROWSE_LIMIT = 1000;
@@ -45,6 +50,7 @@ export default async function MarketplacePage({
   let wedding: MarketWedding | null = null;
   let unread = 0;
   let passItOn: PassItOnDraft[] | null = null;
+  let bookedIds: string[] = [];
   if (user) {
     const [{ data: own }, { data: saves }, ownWedding, unreadCount] = await Promise.all([
       supabase
@@ -66,6 +72,10 @@ export default async function MarketplacePage({
     if (wedding && inPassItOnWindow(wedding.weddingDate)) {
       passItOn = await loadPassItOn(supabase, wedding.weddingId);
     }
+    // Before the wedding, which rentals are already out on the day.
+    if (wedding?.weddingDate && !weddingPassed(wedding.weddingDate)) {
+      bookedIds = await loadBookedOn(supabase, wedding.weddingDate);
+    }
   }
 
   return (
@@ -81,6 +91,11 @@ export default async function MarketplacePage({
         origin={wedding?.origin ?? null}
         unread={unread}
         guestCount={wedding?.guestCount ?? 0}
+        // "Shop your wedding" is for planning: only before the day.
+        weddingDate={wedding?.weddingDate && !weddingPassed(wedding.weddingDate) ? wedding.weddingDate : null}
+        paletteColor={wedding?.colorFamily ?? null}
+        bookedIds={bookedIds}
+        planning={Boolean(wedding) && !(wedding?.weddingDate && weddingPassed(wedding.weddingDate))}
         passItOn={passItOn}
         sets={sets}
         // A link with filters, or to Saved/Selling, goes straight to browsing.
