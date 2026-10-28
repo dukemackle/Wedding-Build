@@ -1104,6 +1104,19 @@ Theresa's Place	17593 Texas Highway 242	Conroe	Texas			Ballroom		175			A country
 La Hacienda Banquet Hall	12503 Telge Rd	Cypress	Texas			Ballroom		400			A 10,000 sq ft Colonial Mexican-style banquet hall with Talavera tile and mosaic details, hosting weddings and quinceañeras since 2000.	Lheventscypress@gmail.com	713-397-9865	https://www.lahaciendabanquet.com
 Magnolia Rose Event Center	1263 Bowler Rd	Waller	Texas			Barn & Farm	Indoor & Outdoor				A 9,000 sq ft barn on 30 wooded acres with a 5,000 sq ft column-free hall, a patio and an iron gazebo by the water.	info@magnoliaroseevents.com	832-961-7673	https://www.magnoliaroseevents.com`,
   },
+  {
+    name: "Austin depth venues: north, south and Hill Country",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+Celebrations Event Center	11840 Hero Way W, Suite #204	Leander	Texas			Ballroom	Indoor	233			A 4,000 square foot indoor event centre in Leander that offers basic and premium wedding packages.			https://www.celebrationsatx.com
+Cedar Skies	380 Log Country Cove	Burnet	Texas			Barn & Farm	Indoor & Outdoor	250	3000	Rental	A Hill Country wedding destination outside Burnet, with indoor and outdoor ceremony spots, rustic bars and café-lit grounds.		512-756-9132	https://www.cedarskiesbarn.com
+Living Waters on Lake Travis		Spicewood	Texas			Lake & River	Indoor & Outdoor				A nature-inspired lakeside retreat in Spicewood that hosts small weddings and engagements and sleeps up to 30 overnight guests.	reservations@livingwatersonlaketravis.com	512-348-8889	https://livingwatersonlaketravis.com
+RoseBridge Estate	711 Old Antioch Rd.	Smithville	Texas			Historic Mansion & Estate	Indoor & Outdoor	300			A modern estate near Smithville with French-inspired gardens, an indoor ceremony space for 250 and a reception hall for 300.	hello@rosebridgeestate.com	361-865-4462	https://rosebridgeestate.com
+1102 East	1102 East Cesar Chavez Street	Austin	Texas			Garden & Park	Indoor & Outdoor		6500	Package	A landscaped garden and bungalow property in East Austin, a few minutes from downtown, that hosts weddings and private events.	1102events@bigredsun.com	310-433-0019	https://www.1102east.com
+Hummingbird House	12805 Arroyo Doble Dr	Manchaca	Texas			Garden & Park	Indoor & Outdoor		6500	Rental	A South Austin garden venue with tropical planting, palms and a reception pavilion.			https://hummingbirdhouseaustin.com
+The Addison Grove	11903 Fitzhugh Road	Austin	Texas			Barn & Farm	Indoor & Outdoor				A farm venue in southwest Austin where a barn reception pairs with a cocktail area and fire pit, offered as rentals or all-inclusive packages.	events@theaddisongrove.com	512-904-9656	https://www.theaddisongrove.com
+Windemere Farms	200 Windemere Rd	San Marcos	Texas			Barn & Farm	Outdoor				A stone barn and tented reception area on a 500-acre farm in San Marcos.			https://windemerefarmweddings.com
+Honeybee House	300 Anchor Hill Rd	San Marcos	Texas			Garden & Park	Indoor & Outdoor				A San Marcos events property with gardens and a koi pond that hosts weddings.		512-753-9809	https://www.honeybeehousetx.com`,
+  },
 ];
 
 export default batches;
