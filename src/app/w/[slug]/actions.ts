@@ -194,8 +194,10 @@ export async function submitRsvp(formData: FormData): Promise<{ error?: string }
     side: VALID_SIDES.includes(formData.get("side") as GuestSide)
       ? (formData.get("side") as GuestSide)
       : null,
-    plus_one: formData.get("plus_one") === "on",
-    plus_one_name: field(formData, "plus_one_name", 120),
+    // Plus-ones are the couple's to give (guests.plus_one_allowed), so only a
+    // guest found on the list -- the household form -- can bring one.
+    plus_one: false,
+    plus_one_name: null,
     status: status as RsvpStatus,
     meal: field(formData, "meal", 80),
     notes: field(formData, "notes", 1000),
@@ -332,6 +334,11 @@ export async function submitHouseholdRsvp(formData: FormData): Promise<{ error?:
     });
   }
   if (answers.length === 0) return { error: "Choose whether each person can come." };
+  const nameless = answers.find((a) => a.status === "confirmed" && a.bringingPlusOne && !a.plusOneName);
+  if (nameless) {
+    const who = household.members.find((m) => m.id === nameless.id)?.name.split(" ")[0] ?? "everyone";
+    return { error: `Add the name of ${who}'s guest, so the couple can seat them and write their place card.` };
+  }
 
   const saved = await applyHouseholdAnswers(household, answers);
   if (saved.error) {
