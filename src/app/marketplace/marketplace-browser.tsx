@@ -22,6 +22,7 @@ import {
 } from "@/lib/marketplace";
 import type { MarketListing } from "@/lib/supabase/types";
 import { toggleSave } from "./actions";
+import type { PassItOnDraft } from "@/lib/pass-it-on";
 import { CategoryIcon, MarketplaceHome } from "./marketplace-home";
 
 const MarketplaceMap = dynamic(() => import("./marketplace-map").then((m) => m.MarketplaceMap), {
@@ -58,6 +59,7 @@ export function MarketplaceBrowser({
   origin: weddingOrigin,
   unread = 0,
   guestCount = 0,
+  passItOn = null,
   startBrowsing = false,
   initial = {},
 }: {
@@ -72,6 +74,8 @@ export function MarketplaceBrowser({
   unread?: number;
   /** The viewer's guest count, for "fits my wedding". */
   guestCount?: number;
+  /** After the wedding, what the couple's budget says they could sell. */
+  passItOn?: PassItOnDraft[] | null;
   /** Skip the front page (categories and newest) and open the browse screen. */
   startBrowsing?: boolean;
   /** Filters to open with, from a link (the budget page's suggestions). */
@@ -190,6 +194,7 @@ export function MarketplaceBrowser({
         signedIn={signedIn}
         placeLabel={weddingOrigin?.label ?? null}
         counts={{ saved: savedListings.length, selling: mine.length, unread }}
+        passItOn={passItOn}
         onBrowse={browse}
         renderCard={(l) => (
           <ListingCard

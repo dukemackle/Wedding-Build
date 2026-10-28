@@ -1,3 +1,4 @@
+import { COLOR_FAMILIES } from "@/lib/site-design";
 import type { MarketListing } from "@/lib/supabase/types";
 
 /**
@@ -33,6 +34,12 @@ export const MARKET_PRICE_BANDS = [
 ] as const;
 
 export const MAX_MARKET_PHOTOS = 10;
+
+/**
+ * The colours a listing can be tagged with: the guest site's colour
+ * families, so "Shop your wedding" can match a couple's palette.
+ */
+export const MARKET_COLORS = COLOR_FAMILIES;
 
 export const PICKUP_OPTIONS = [
   { value: "meetup", label: "Public meetup" },

@@ -3,7 +3,8 @@ import { createClient } from "@/lib/supabase/server";
 import { AppNav } from "@/components/app-nav";
 import { PublicNav } from "@/components/public-nav";
 import { MARKET_CATEGORIES, MARKET_DISTANCES } from "@/lib/marketplace";
-import { loadMarketWedding, unreadThreadCount, type MarketWedding } from "@/lib/marketplace-server";
+import { loadMarketWedding, loadPassItOn, unreadThreadCount, type MarketWedding } from "@/lib/marketplace-server";
+import { inPassItOnWindow, type PassItOnDraft } from "@/lib/pass-it-on";
 import type { MarketListing } from "@/lib/supabase/types";
 import { MarketplaceBrowser } from "./marketplace-browser";
 
@@ -40,6 +41,7 @@ export default async function MarketplacePage({
   let savedIds: string[] = [];
   let wedding: MarketWedding | null = null;
   let unread = 0;
+  let passItOn: PassItOnDraft[] | null = null;
   if (user) {
     const [{ data: own }, { data: saves }, ownWedding, unreadCount] = await Promise.all([
       supabase
@@ -57,6 +59,10 @@ export default async function MarketplacePage({
     savedIds = (saves ?? []).map((s) => s.listing_id);
     wedding = ownWedding;
     unread = unreadCount;
+    // After the wedding, the sell card turns into the couple's own drafts.
+    if (wedding && inPassItOnWindow(wedding.weddingDate)) {
+      passItOn = await loadPassItOn(supabase, wedding.weddingId);
+    }
   }
 
   return (
@@ -72,6 +78,7 @@ export default async function MarketplacePage({
         origin={wedding?.origin ?? null}
         unread={unread}
         guestCount={wedding?.guestCount ?? 0}
+        passItOn={passItOn}
         // A link with filters, or to Saved/Selling, goes straight to browsing.
         startBrowsing={Boolean(category || near || view)}
         initial={{
