@@ -10,7 +10,7 @@ import { CityOutline } from "@/components/city-outline";
 import { ClusteredMarkers } from "@/components/clustered-markers";
 import { badgePin } from "@/components/badge-pin";
 import { vendorCategoryIconPaths, vendorCategoryImage } from "@/lib/vendor-category-icons";
-import { MAP_MIN_ZOOM, US_MAP_BOUNDS, type MapView } from "@/lib/map-view";
+import { MAP_MIN_ZOOM, MAP_ZOOM_FEEL, US_MAP_BOUNDS, type MapView } from "@/lib/map-view";
 import type { VendorListing } from "@/lib/public-listings";
 
 const CONTINENTAL_US_CENTER: [number, number] = [39.8, -98.6];
@@ -54,6 +54,7 @@ export function VendorsMap({
         center={CONTINENTAL_US_CENTER}
         zoom={4}
         scrollWheelZoom
+        {...MAP_ZOOM_FEEL}
         minZoom={MAP_MIN_ZOOM}
         maxBounds={US_MAP_BOUNDS}
         maxBoundsViscosity={0.8}
