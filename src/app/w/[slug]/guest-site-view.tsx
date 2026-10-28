@@ -263,6 +263,7 @@ export function GuestSiteView({
                   invite_only,
                 }))}
               weddingId={wedding.id}
+              slug={wedding.public_slug}
               turnstileSiteKey={turnstileSiteKey()}
               partnerAName={wedding.partner_a_name}
               partnerBName={wedding.partner_b_name}

@@ -1,8 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
 import { RSVP_YES_EVENT } from "@/components/site-motion";
 import { getRsvpEvents, submitRsvp } from "./actions";
+import { findInvitation } from "./invite-actions";
 import { TurnstileWidget } from "@/components/turnstile-widget";
 import type { RsvpEvent } from "@/lib/supabase/types";
 import { formatFullDate, formatTime } from "@/lib/itinerary";
@@ -17,6 +19,7 @@ const labelClass = "flex flex-col gap-1 text-sm text-ink";
 
 export function RsvpForm({
   weddingId,
+  slug,
   partnerAName,
   partnerBName,
   shareHref,
@@ -28,6 +31,8 @@ export function RsvpForm({
   /** The open RSVP events, known when the page renders; refined by name as they type. */
   initialEvents?: RsvpEvent[];
   weddingId: string;
+  /** For "Find your invitation", which opens the guest's household form by name. */
+  slug: string;
   partnerAName: string | null;
   partnerBName: string | null;
   /** The photo-wall posting page, offered once the RSVP is in. */
@@ -47,12 +52,15 @@ export function RsvpForm({
 
   const [error, setError] = useState<string | undefined>(undefined);
   const [submitted, setSubmitted] = useState(false);
-  const [bringingPlusOne, setBringingPlusOne] = useState(false);
   const [attending, setAttending] = useState(true);
   const [showExtras, setShowExtras] = useState(false);
-  // Two steps: just the name first, so the section reads as an invitation
-  // rather than a form; the rest opens once they press Continue.
-  const [step, setStep] = useState<1 | 2>(1);
+  // Just the name first, so the section reads as an invitation rather than a
+  // form. A name on the guest list opens that household's own form (plus-ones
+  // only where the couple allowed one); anyone else gets "we couldn't find
+  // you" before this general form, which goes to the couple to approve.
+  const router = useRouter();
+  const [step, setStep] = useState<1 | "missing" | 2>(1);
+  const [looking, startLooking] = useTransition();
   const [isPending, startTransition] = useTransition();
   // Bumped after every send: a bot-check token works once.
   const [attempt, setAttempt] = useState(0);
@@ -76,6 +84,23 @@ export function RsvpForm({
     return () => clearTimeout(timer);
   }, [name, weddingId]);
 
+  function lookUp() {
+    if (!name.trim() || looking) return;
+    startLooking(async () => {
+      const result = await findInvitation(slug, name.trim());
+      if ("error" in result) {
+        setError(result.error);
+      } else if (result.found) {
+        setError(undefined);
+        router.refresh();
+      } else {
+        setError(undefined);
+        // No guest list yet: everyone answers here, as before.
+        setStep(result.emptyList ? 2 : "missing");
+      }
+    });
+  }
+
   function handleSubmit(formData: FormData) {
     startTransition(async () => {
       const photo = formData.get("photo") as File | null;
@@ -89,7 +114,6 @@ export function RsvpForm({
         // Confetti, if the couple turned it on (Motion tab).
         if (attending) window.dispatchEvent(new Event(RSVP_YES_EVENT));
         setSubmitted(true);
-        setBringingPlusOne(false);
         setAttending(true);
         setShowExtras(false);
         setStep(1);
@@ -141,21 +165,48 @@ export function RsvpForm({
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
                   e.preventDefault();
-                  if (name.trim()) setStep(2);
+                  lookUp();
                 }
               }}
               className={`${inputClass} py-3`}
             />
             <span className="text-xs text-ink/60">Use the name on your invitation.</span>
           </label>
+          {error && (
+            <p role="alert" className="text-sm text-red-800">
+              {error}
+            </p>
+          )}
           <button
             type="button"
-            disabled={!name.trim()}
-            onClick={() => setStep(2)}
+            disabled={!name.trim() || looking}
+            onClick={lookUp}
             className="btn-motion self-start rounded-md bg-forest px-5 py-2.5 font-medium text-parchment transition-colors hover:bg-forest/90 disabled:opacity-60"
           >
-            Continue
+            {looking ? "Looking..." : "Continue"}
           </button>
+        </div>
+      ) : step === "missing" ? (
+        <div role="status" className="flex flex-col gap-3">
+          <p className="text-ink">
+            We couldn&apos;t find <span className="font-medium">{name.trim()}</span> on the guest list.
+          </p>
+          <p className="text-sm text-ink/70">
+            Try your first and last name exactly as they&apos;re written on your invitation, or open the
+            personal link from your invitation if you have one.
+          </p>
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+            <button
+              type="button"
+              onClick={() => setStep(1)}
+              className="btn-motion rounded-md bg-forest px-5 py-2.5 font-medium text-parchment transition-colors hover:bg-forest/90"
+            >
+              Try again
+            </button>
+            <button type="button" onClick={() => setStep(2)} className="text-sm text-brass hover:underline">
+              Send your RSVP to the couple anyway
+            </button>
+          </div>
         </div>
       ) : (
         <>
@@ -257,24 +308,6 @@ export function RsvpForm({
                   <label className={labelClass}>
                     Any allergies or dietary needs?
                     <input name="dietary" placeholder="Optional — e.g. nut allergy, vegan" className={inputClass} />
-                  </label>
-                )}
-                <div className="flex flex-col justify-end gap-2 sm:pb-2">
-                  <label className="flex items-center gap-2 text-sm text-ink">
-                    <input
-                      type="checkbox"
-                      name="plus_one"
-                      checked={bringingPlusOne}
-                      onChange={(e) => setBringingPlusOne(e.target.checked)}
-                      className="h-4 w-4 rounded border-hairline"
-                    />
-                    Bringing a plus one
-                  </label>
-                </div>
-                {bringingPlusOne && (
-                  <label className={`${labelClass} sm:col-span-2`}>
-                    Plus one&apos;s name
-                    <input name="plus_one_name" placeholder="Optional" className={inputClass} />
                   </label>
                 )}
               </>

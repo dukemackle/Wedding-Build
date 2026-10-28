@@ -113,6 +113,37 @@ export async function findHousehold(weddingId: string, rawCode: string | null | 
   };
 }
 
+/** "José O'Neil-Ruiz" and "jose oneil ruiz" are the same guest; anything looser could open a stranger's invitation. */
+function lookupKey(name: string) {
+  return normalizeGuestName(
+    name
+      .normalize("NFD")
+      .replace(/[̀-ͯ'’.]/g, "")
+      .replace(/[^\p{L}\p{N}\s]/gu, " "),
+  );
+}
+
+/**
+ * "Find your invitation": the invite code of the one guest whose full name
+ * matches, or why there isn't one. Names that two guests share match nobody,
+ * and nothing about the list is told back -- only whether it has anyone on it,
+ * so a couple who hasn't built a list yet still gets RSVPs.
+ */
+export async function findInviteByName(
+  weddingId: string,
+  name: string,
+): Promise<{ code: string } | { code: null; emptyList: boolean }> {
+  const { data } = await createAdminSupabaseClient()
+    .from("guests")
+    .select("name, invite_code")
+    .eq("wedding_id", weddingId)
+    .returns<{ name: string; invite_code: string }[]>();
+  const guests = data ?? [];
+  const target = lookupKey(name);
+  const matches = target.includes(" ") ? guests.filter((g) => lookupKey(g.name) === target) : [];
+  return matches.length === 1 ? { code: matches[0].invite_code } : { code: null, emptyList: guests.length === 0 };
+}
+
 export type MemberAnswer = {
   id: string;
   status: Extract<GuestStatus, "confirmed" | "declined">;

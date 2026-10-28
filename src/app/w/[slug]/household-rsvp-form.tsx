@@ -282,15 +282,23 @@ export function HouseholdRsvpForm({
                         {first} is bringing a guest
                       </label>
                       {a.bringing && (
-                        <input
-                          name={`plus_one_name_${m.id}`}
-                          value={a.plusOneName}
-                          onChange={(e) =>
-                            update(m.id, { plusOneName: e.target.value })
-                          }
-                          placeholder="Their name (optional)"
-                          className={inputClass}
-                        />
+                        <label className="flex flex-col gap-1 text-sm text-ink">
+                          Your guest&apos;s first and last name
+                          <input
+                            name={`plus_one_name_${m.id}`}
+                            value={a.plusOneName}
+                            onChange={(e) =>
+                              update(m.id, { plusOneName: e.target.value })
+                            }
+                            required
+                            autoComplete="off"
+                            className={inputClass}
+                          />
+                          <span className="text-xs text-ink/60">
+                            Not sure yet? Write TBD and update it from this
+                            page later.
+                          </span>
+                        </label>
                       )}
                     </div>
                   )}
