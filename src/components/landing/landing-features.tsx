@@ -58,11 +58,11 @@ const PHOTOS: Record<string, { file: string; alt: string }> = {
   "/venues": { file: "venues", alt: "A lawn set for an outdoor ceremony at sunset" },
   "/vendors": { file: "vendors", alt: "A tiered wedding cake on a table outdoors in autumn" },
   "/checklist": { file: "checklist", alt: "A pen ticking items off a handwritten checklist" },
-  "/bookings": { file: "bookings", alt: "A bride smiling as she signs at a table" },
+  "/bookings": { file: "bookings", alt: "A fountain pen with a drop of ink" },
   "/attire": { file: "attire", alt: "A wedding dress on a hanger" },
   "/itinerary": { file: "itinerary", alt: "A calendar open on a screen" },
   "/venue-layout": { file: "layout", alt: "Round reception tables set in a bright marquee" },
-  "/guests/site": { file: "website", alt: "A laptop showing wedding photos beside peonies" },
+  "/guests/site": { file: "website", alt: "A guest site from You Do, I Do: names, timings, wedding party and an RSVP button" },
 };
 
 /**
