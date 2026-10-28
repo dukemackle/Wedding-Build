@@ -32,8 +32,8 @@ export type TemplateLayout = {
   items: TemplateItem[];
   /** Seats at the guest tables (the couple's own table not counted). */
   seats: number;
-  /** Guest tables that wouldn't fit on one plan; 0 when everything fits. */
-  missingTables: number;
+  /** How long the room is: 900, or more when a big guest list needs it. */
+  height: number;
 };
 
 type Rect = { x: number; y: number; width: number; height: number };
@@ -60,7 +60,7 @@ export const LAYOUT_TEMPLATES: TemplateSpec[] = [
   {
     id: "head",
     name: "Head table & rounds",
-    blurb: "A long head table for you and the wedding party, smaller rounds of 8 for everyone else.",
+    blurb: "A long head table for you and the wedding party, rounds for everyone else.",
     shape: "round",
     capacities: [8, 10, 12],
     couple: { name: "Head table", shape: "rectangle", capacity: 10, width: 300, height: 80 },
@@ -78,6 +78,8 @@ export const LAYOUT_TEMPLATES: TemplateSpec[] = [
 /** Breathing room kept clear around fixed furniture. */
 const CLEARANCE = 24;
 const EDGE = 24;
+/** No room is drawn longer than this (about 1,500 guests in classic rounds). */
+const MAX_HEIGHT = 4000;
 /** Smallest a table body gets, so its name and centrepiece still fit. */
 const MIN_BODY = { round: 90, square: 90, rectangle: 50 } as const;
 /** A few spare seats, for the guest who appears on the day. */
@@ -113,14 +115,19 @@ function margins(shape: TableShape, capacity: number, size: { width: number; hei
 }
 
 /** Every slot a table of this size could take without touching the furniture. */
-function slots(size: { width: number; height: number }, chair: { x: number; top: number; bottom: number }, blocked: Rect[]): Rect[] {
+function slots(
+  size: { width: number; height: number },
+  chair: { x: number; top: number; bottom: number },
+  blocked: Rect[],
+  roomHeight: number,
+): Rect[] {
   const cellW = size.width + chair.x * 2 + 8;
   const cellH = size.height + chair.top + chair.bottom + 8;
   const cols = Math.floor((CANVAS_WIDTH - EDGE * 2) / cellW);
-  const rows = Math.floor((CANVAS_HEIGHT - EDGE * 2) / cellH);
+  const rows = Math.floor((roomHeight - EDGE * 2) / cellH);
   // Centre the grid so the spare floor is shared evenly at the edges.
   const offX = (CANVAS_WIDTH - cols * cellW) / 2;
-  const offY = (CANVAS_HEIGHT - rows * cellH) / 2;
+  const offY = (roomHeight - rows * cellH) / 2;
   const out: Rect[] = [];
   for (let r = 0; r < rows; r++) {
     for (let c = 0; c < cols; c++) {
@@ -137,22 +144,22 @@ function slots(size: { width: number; height: number }, chair: { x: number; top:
   return out;
 }
 
-export function buildTemplate(id: LayoutTemplateId, guestSeats: number): TemplateLayout {
-  const spec = LAYOUT_TEMPLATES.find((t) => t.id === id) ?? LAYOUT_TEMPLATES[0];
-  const seatsNeeded = Math.max(guestSeats, 40);
-
-  // The fixed pieces: the couple's table up front, the dance floor in the
-  // middle, the door at the back. The dance floor grows a little with the crowd.
+/**
+ * The fixed pieces for a room this long: the couple's table up front, the
+ * dance floor in the middle of the room, the door at the back. The floor
+ * grows with the crowd.
+ */
+function furniture(spec: TemplateSpec, seatsNeeded: number, roomHeight: number) {
   const couple: Rect = {
     x: (CANVAS_WIDTH - spec.couple.width) / 2,
     y: 40,
     width: spec.couple.width,
     height: spec.couple.height,
   };
-  const floorSide = Math.round(Math.min(300, Math.max(200, 140 + seatsNeeded * 0.5)));
+  const floorSide = Math.round(Math.min(420, Math.max(200, 140 + seatsNeeded * 0.5)));
   const dance: Rect = {
     x: (CANVAS_WIDTH - floorSide) / 2,
-    y: id === "long" ? CANVAS_HEIGHT - floorSide - 150 : (CANVAS_HEIGHT - floorSide) / 2 + 20,
+    y: spec.id === "long" ? roomHeight - floorSide - 150 : (roomHeight - floorSide) / 2 + 20,
     width: floorSide,
     height: floorSide,
   };
@@ -164,35 +171,56 @@ export function buildTemplate(id: LayoutTemplateId, guestSeats: number): Templat
     item("cake_table", dance.x + dance.width + 20, dance.y + dance.height - 70),
     item("bar", dance.x - 130 - 20, dance.y),
     item("gift_table", dance.x - 85 - 20, dance.y + dance.height - 70),
-    item("entrance", (CANVAS_WIDTH - 75) / 2, CANVAS_HEIGHT - 75 - EDGE / 2),
+    item("entrance", (CANVAS_WIDTH - 75) / 2, roomHeight - 75 - EDGE / 2),
   ];
   const blocked: Rect[] = [
     { x: couple.x - 8, y: couple.y - 34, width: couple.width + 16, height: couple.height + 34 * 2 + LABEL_HEIGHT },
     ...items.map((i) => ({ x: i.x, y: i.y, width: i.width, height: i.height })),
   ];
+  return { couple, dance, items, blocked };
+}
 
-  // Largest tables that fit: try each table size at full scale, then shrink
-  // a step at a time until there's a slot for every table.
-  let best: { capacity: number; size: { width: number; height: number }; picked: Rect[]; needed: number; scale: number } | null = null;
+export function buildTemplate(id: LayoutTemplateId, guestSeats: number): TemplateLayout {
+  const spec = LAYOUT_TEMPLATES.find((t) => t.id === id) ?? LAYOUT_TEMPLATES[0];
+  const seatsNeeded = Math.max(guestSeats, 40);
+
+  type Fit = { capacity: number; size: { width: number; height: number }; picked: Rect[]; needed: number; roomHeight: number };
+  const attempt = (capacity: number, scale: number, roomHeight: number): Fit => {
+    const needed = Math.ceil((seatsNeeded * SPARE) / capacity);
+    const base = tableDimensions(spec.shape, capacity);
+    const shrink = Math.max(scale, MIN_BODY[spec.shape] / Math.min(base.width, base.height));
+    const size = { width: Math.round(base.width * shrink), height: Math.round(base.height * shrink) };
+    const { blocked } = furniture(spec, seatsNeeded, roomHeight);
+    return { capacity, size, picked: slots(size, margins(spec.shape, capacity, size), blocked, roomHeight), needed, roomHeight };
+  };
+
+  // Largest tables that fit the standard room: each table size at full
+  // scale, then shrinking a step at a time.
+  let chosen: Fit | null = null;
   outer: for (let scale = 1; scale >= 0.3; scale -= 0.05) {
     for (const capacity of spec.capacities) {
-      const needed = Math.ceil((seatsNeeded * SPARE) / capacity);
-      const base = tableDimensions(spec.shape, capacity);
-      const min = MIN_BODY[spec.shape];
-      const shrink = Math.max(scale, min / Math.min(base.width, base.height));
-      const size = { width: Math.round(base.width * shrink), height: Math.round(base.height * shrink) };
-      const free = slots(size, margins(spec.shape, capacity, size), blocked);
-      if (!best || free.length * capacity > best.picked.length * best.capacity) {
-        best = { capacity, size, picked: free, needed, scale };
-      }
-      if (free.length >= needed) {
-        best = { capacity, size, picked: free, needed, scale };
+      const fit = attempt(capacity, scale, CANVAS_HEIGHT);
+      if (fit.picked.length >= fit.needed) {
+        chosen = fit;
         break outer;
       }
     }
   }
-  const chosen = best!;
+  // Still not enough at the smallest size: a big wedding. Keep the biggest
+  // tables at that size and make the room longer, a row at a time, until
+  // everyone has a seat.
+  if (!chosen) {
+    const capacity = spec.capacities[spec.capacities.length - 1];
+    let roomHeight = CANVAS_HEIGHT;
+    let fit = attempt(capacity, 0, roomHeight);
+    while (fit.picked.length < fit.needed && roomHeight < MAX_HEIGHT) {
+      roomHeight += 50;
+      fit = attempt(capacity, 0, roomHeight);
+    }
+    chosen = fit;
+  }
 
+  const { couple, dance, items } = furniture(spec, seatsNeeded, chosen.roomHeight);
   // Fill outwards from the dance floor, so the room gathers round it.
   const floorMid = center(dance);
   const dist = (r: Rect, p: { x: number; y: number }) => Math.hypot(center(r).x - p.x, center(r).y - p.y);
@@ -201,7 +229,8 @@ export function buildTemplate(id: LayoutTemplateId, guestSeats: number): Templat
   const coupleMid = center(couple);
   taken.sort((a, b) => dist(a, coupleMid) - dist(b, coupleMid) || a.x - b.x);
 
-  const shrunk = Math.abs(chosen.scale - 1) > 1e-9;
+  const usual = tableDimensions(spec.shape, chosen.capacity);
+  const shrunk = chosen.size.width !== usual.width || chosen.size.height !== usual.height;
   const tables: TemplateTable[] = [
     {
       name: spec.couple.name,
@@ -227,6 +256,6 @@ export function buildTemplate(id: LayoutTemplateId, guestSeats: number): Templat
     tables,
     items: items.map((i) => ({ ...i, x: Math.round(i.x), y: Math.round(i.y) })),
     seats: taken.length * chosen.capacity,
-    missingTables: Math.max(0, chosen.needed - taken.length),
+    height: chosen.roomHeight,
   };
 }

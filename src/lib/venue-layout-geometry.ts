@@ -109,6 +109,18 @@ export function nodeDimensions(node: SeatingTable | VenueLayoutItem): Footprint 
 }
 
 /**
+ * How tall the plan is: the standard 900, or longer when a big wedding's
+ * tables run further down the room. Counts each table's chairs and the name
+ * tag under it, and rounds up so the room doesn't twitch by a pixel or two.
+ */
+export function planHeight(tables: SeatingTable[], items: VenueLayoutItem[]): number {
+  let bottom = 0;
+  for (const t of tables) bottom = Math.max(bottom, t.position_y + tableFootprint(t).height + chairSize(t) + 60);
+  for (const i of items) bottom = Math.max(bottom, i.position_y + itemDimensions(i).height);
+  return Math.max(CANVAS_HEIGHT, Math.ceil((bottom + 24) / 50) * 50);
+}
+
+/**
  * Where a copy lands: just below-right of the original, but kept on the plan.
  * Near the right or bottom edge it steps the other way instead, so a copy of
  * something against the wall doesn't vanish off the canvas.
@@ -119,6 +131,7 @@ export function duplicatePosition(x: number, y: number, size: Footprint) {
     value + offset + extent <= limit ? value + offset : Math.max(0, value - offset);
   return {
     position_x: Math.round(step(x, size.width, CANVAS_WIDTH)),
-    position_y: Math.round(step(y, size.height, CANVAS_HEIGHT)),
+    // A plan taller than 900 (a big wedding) keeps its copies in that room.
+    position_y: Math.round(step(y, size.height, Math.max(CANVAS_HEIGHT, y + size.height))),
   };
 }

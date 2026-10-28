@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useOptimistic, useRef, useState, useTransition } from "react";
+import { createContext, useContext, useEffect, useMemo, useOptimistic, useRef, useState, useTransition } from "react";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import type {
@@ -40,6 +40,7 @@ import {
   MIN_ITEM_SIZE,
   chairSize,
   clamp,
+  planHeight,
   itemDimensions,
   tableFootprint,
 } from "@/lib/venue-layout-geometry";
@@ -663,6 +664,11 @@ function NodeToolbar({
 // table only lights up for a guest drag and not for, say, a dragged image.
 const GUEST_DRAG_TYPE = "application/x-wren-guests";
 
+// The plan's current height, for clamping drags. Drags may go a little past
+// the bottom, which makes the room longer -- how a couple adds floor.
+const PlanHeightContext = createContext(CANVAS_HEIGHT);
+const GROW_ROOM = 150;
+
 /**
  * Moving, clicking and the selected-state chrome, shared by tables and items.
  *
@@ -686,6 +692,7 @@ function useDraggable({
   onTap: () => void;
   onDragEnd: (x: number, y: number) => void;
 }) {
+  const roomHeight = useContext(PlanHeightContext);
   const [pos, setPos] = useState({ x, y });
   const dragRef = useRef<{ startX: number; startY: number; origX: number; origY: number } | null>(
     null,
@@ -707,7 +714,7 @@ function useDraggable({
     if (Math.abs(dx) > 3 || Math.abs(dy) > 3) movedRef.current = true;
     setPos({
       x: clamp(dragRef.current.origX + dx, 0, CANVAS_WIDTH - width),
-      y: clamp(dragRef.current.origY + dy, 0, CANVAS_HEIGHT - height),
+      y: clamp(dragRef.current.origY + dy, 0, roomHeight + GROW_ROOM - height),
     });
   }
 
@@ -1157,7 +1164,8 @@ function ItemNode({
 /**
  * The plan, scaled to fit whatever width it is given.
  *
- * The coordinate space is a fixed CANVAS_WIDTH x CANVAS_HEIGHT field, and the
+ * The coordinate space is CANVAS_WIDTH wide and planHeight() long (900, more
+ * for a big wedding), and the
  * whole thing is scaled so that field fills the available width. A wide screen
  * therefore shows the entire venue at once with no scrollbars.
  *
@@ -1240,8 +1248,10 @@ function VenueCanvas({
   }, []);
 
   const pans = viewportWidth < CANVAS_WIDTH * MIN_CANVAS_SCALE;
+  const height = planHeight(tables, items);
 
   return (
+    <PlanHeightContext.Provider value={height}>
     <div
       ref={frameRef}
       className={`w-full rounded-lg border border-hairline bg-parchment ${pans ? "overflow-x-auto" : ""}`}
@@ -1250,7 +1260,7 @@ function VenueCanvas({
         style={{
           position: "relative",
           width: Math.floor(CANVAS_WIDTH * scale),
-          height: Math.floor(CANVAS_HEIGHT * scale),
+          height: Math.floor(height * scale),
         }}
       >
       <div
@@ -1260,12 +1270,12 @@ function VenueCanvas({
         style={{
           position: "relative",
           width: CANVAS_WIDTH,
-          height: CANVAS_HEIGHT,
+          height,
           transform: `scale(${scale})`,
           transformOrigin: "top left",
         }}
       >
-        <RoomBackdrop style={roomStyle} />
+        <RoomBackdrop style={roomStyle} height={height} />
         {items.map((item) => (
           <ItemNode
             key={`${item.id}-${item.position_x}-${item.position_y}-${item.rotation}-${item.width}-${item.height}`}
@@ -1302,6 +1312,7 @@ function VenueCanvas({
       </div>
       </div>
     </div>
+    </PlanHeightContext.Provider>
   );
 }
 

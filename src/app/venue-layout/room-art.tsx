@@ -11,7 +11,6 @@ import { CANVAS_HEIGHT, CANVAS_WIDTH } from "@/lib/venue-layout-geometry";
  */
 
 const W = CANVAS_WIDTH;
-const H = CANVAS_HEIGHT;
 const WALL = 18;
 
 /** One string of fairy lights, sagging between two points. */
@@ -41,7 +40,7 @@ function lightString(x1: number, y1: number, x2: number, y2: number, key: string
   );
 }
 
-function Barn() {
+function Barn({ H }: { H: number }) {
   return (
     <>
       <defs>
@@ -61,7 +60,10 @@ function Barn() {
         <rect key={x} x={x - 14} y={0} width={28} height={H} fill="#2b1a0d" opacity={0.13} />
       ))}
       {[260, 540].map((y) => lightString(WALL, y - 140, W - WALL, y - 140, `h${y}`))}
-      {lightString(WALL, 700, W - WALL, 700, "h700")}
+      {/* A taller room (a big guest list) gets another string every 300. */}
+      {Array.from({ length: Math.max(1, Math.floor((H - 800) / 300) + 1) }, (_, i) => 700 + i * 300).map((y) =>
+        lightString(WALL, y, W - WALL, y, `h${y}`),
+      )}
       {[300, 1300].map((x) => lightString(x, WALL, x, H - WALL, `v${x}`))}
       <rect x={WALL / 2} y={WALL / 2} width={W - WALL} height={H - WALL} fill="none" stroke="#5b3a22" strokeWidth={WALL} />
       {/* Windows down both long walls. */}
@@ -85,7 +87,7 @@ function Barn() {
   );
 }
 
-function Ballroom() {
+function Ballroom({ H }: { H: number }) {
   return (
     <>
       <defs>
@@ -138,14 +140,14 @@ function Ballroom() {
   );
 }
 
-export function RoomBackdrop({ style }: { style: RoomStyle }) {
+export function RoomBackdrop({ style, height = CANVAS_HEIGHT }: { style: RoomStyle; height?: number }) {
   if (style === "blank") return null;
   return (
     <svg
       aria-hidden
-      viewBox={`0 0 ${W} ${H}`}
+      viewBox={`0 0 ${W} ${height}`}
       width={W}
-      height={H}
+      height={height}
       className="pointer-events-none absolute inset-0"
     >
       <defs>
@@ -155,7 +157,7 @@ export function RoomBackdrop({ style }: { style: RoomStyle }) {
           <stop offset="1" stopColor="#FFD301" stopOpacity="0" />
         </radialGradient>
       </defs>
-      {style === "barn" ? <Barn /> : <Ballroom />}
+      {style === "barn" ? <Barn H={height} /> : <Ballroom H={height} />}
     </svg>
   );
 }

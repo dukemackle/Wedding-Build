@@ -13,8 +13,8 @@ import { applyLayoutTemplate, seatTheRest } from "./template-actions";
 function TemplateThumb({ layout }: { layout: TemplateLayout }) {
   return (
     <svg
-      viewBox={`0 0 ${CANVAS_WIDTH} ${CANVAS_HEIGHT}`}
-      className="block h-auto w-full rounded-md border border-hairline bg-parchment"
+      viewBox={`0 0 ${CANVAS_WIDTH} ${layout.height}`}
+      className="block h-auto max-h-56 w-full rounded-md border border-hairline bg-parchment"
       aria-hidden
     >
       {layout.items.map((i, n) =>
@@ -108,9 +108,9 @@ export function LayoutTemplatePicker({
               <span className="mt-2 block font-mono-numbers text-xs text-ink/70">
                 {guestTables} tables of {layout.tables[1]?.capacity ?? 0} · {layout.seats} seats
               </span>
-              {layout.missingTables > 0 && (
+              {layout.height > CANVAS_HEIGHT && (
                 <span className="mt-1 block text-xs text-ink/70">
-                  Room for {layout.missingTables} more tables is needed — add a second room for them.
+                  A big one, so the room runs longer to fit every table.
                 </span>
               )}
             </button>
