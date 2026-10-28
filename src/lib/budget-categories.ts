@@ -64,7 +64,7 @@ export const VENDOR_CATEGORY_TO_BUDGET_KEY: Record<string, string> = {
 };
 
 // National Classic-tier figures for every state without its own rows in
-// regional_cost_data. The 13 categories that have rows anywhere use the
+// regional_cost_data. The 12 categories that have rows anywhere use the
 // same national figures those rows were built from (each row is national x
 // the state's cost index; sources are in each row's `source` column, mostly
 // The Knot 2026 Real Weddings Study at 117 average guests), so a state with
@@ -72,7 +72,13 @@ export const VENDOR_CATEGORY_TO_BUDGET_KEY: Record<string, string> = {
 // thousands apart. The six below with no rows anywhere carry their own
 // source beside them (read 2026-10-22). Editable per-wedding via overrides.
 export const BUDGET_CATEGORIES: BudgetCategory[] = [
-  { key: "venue", label: "Venue Rental", flatBase: 8570, perGuestAmount: 0 },
+  // The Knot 2026: venue average $12,900, and by guest count $6,500 (1-50),
+  // $10,400 (51-100), $16,000 (101+), via myvenuehq.com/blog/how-wedding-venues-price
+  // (read 2026-10-28). A bigger list needs a bigger room, so this scales: it
+  // hits $12,900 at 117 guests and ~$15,300 at 150. The earlier flat $8,573
+  // was labelled The Knot but isn't its figure, and left catering ahead of
+  // the venue past ~145 guests. No state rows: migration 0146.
+  { key: "venue", label: "Venue Rental", flatBase: 4100, perGuestAmount: 75 },
   // Split from a combined "Catering & Bar" category -- couples often
   // book food and bar service as two separate vendors, and a budget
   // category can only ever hold one linked vendor at a time, so
