@@ -13,6 +13,17 @@ They're summarised here only by reference; CLAUDE.md is the source.
 
 - **2026-10-28 (later):** The default is pure white, not ivory: the starter
   template is now **Classic** on #ffffff, with Ivory and Linen as colourways.
+- **2026-10-28:** Checklist is a "journey path" (option 1 of three; card deck
+  and light-touch rejected). Stages are nodes on a line that fills gold
+  behind you, the stage you're on pulses royal blue, own tasks get a dashed
+  aqua node; a gold progress ring replaces the thin bar; 18px task titles;
+  due chips coloured by urgency (red overdue, Sky within 30 days, Gold within
+  3 months, outlined later); Edit/Remove fold behind a "⋯" (hover-only on
+  desktop); a tick fills gold and throws sparks; finishing a stage adds
+  confetti to Wren's cheer. Phone: the same line as one column, current stage
+  open. Shared pieces in `src/components/checklist-ui.tsx`, used by the page
+  and the landing demo. Mockup: https://claude.ai/artifact/H58PysKBFYWt2whBERk5rH
+
 - **2026-10-28:** Guest-site templates default to warm white. A new eighth
   template, **Ivory**, goes first in the gallery with a "Start here" tag, and
   new couples start on it. Mockup: https://claude.ai/artifact/1XpMHRqZf6SEBg2Noig6Ey.
