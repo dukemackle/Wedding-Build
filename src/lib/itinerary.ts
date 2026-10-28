@@ -96,7 +96,9 @@ export function guessAudience(title: string): EventAudience {
 }
 
 /** The fields the timeline needs, so the landing demo can draw one too. */
-export type TimelineEvent = Pick<ItineraryEvent, "id" | "title" | "start_time" | "end_time" | "location" | "audience">;
+export type TimelineEvent = Pick<ItineraryEvent, "id" | "title" | "start_time" | "end_time" | "location" | "audience"> & {
+  people?: string[] | null;
+};
 
 /** "15:30:00" -> 930. */
 export function toMinutes(time: string) {
@@ -254,8 +256,9 @@ export function eventsToShift<E extends TimelineEvent>(dayEvents: E[], from: E):
   });
 }
 
-/** "Wedding day", "Day before", "Day after", or the weekday. */
-export function dayLabel(date: string, weddingDate: string | null) {
+/** The couple's name for the day, else "Wedding day", "Day before", "Day after", or the weekday. */
+export function dayLabel(date: string, weddingDate: string | null, names?: Record<string, string> | null) {
+  if (names?.[date]) return names[date];
   if (weddingDate) {
     const diff = Math.round((parseDateKey(date).getTime() - parseDateKey(weddingDate).getTime()) / 86_400_000);
     if (diff === 0) return "Wedding day";

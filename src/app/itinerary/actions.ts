@@ -53,6 +53,19 @@ function eventFieldsFromForm(formData: FormData) {
           }
         : {}),
       ...(audience ? { audience } : {}),
+      // Like the RSVP switches: only the schedule's own form names people.
+      ...(formData.has("people_fields")
+        ? {
+            people: [
+              ...new Set(
+                formData
+                  .getAll("people")
+                  .map((p) => String(p).trim().slice(0, 80))
+                  .filter(Boolean),
+              ),
+            ].slice(0, 20),
+          }
+        : {}),
     },
   } as const;
 }
@@ -289,6 +302,24 @@ export async function shiftItineraryEvents(eventId: string, minutes: number): Pr
   revalidatePath("/itinerary");
   revalidatePath("/w/[slug]", "page");
   return { moved: moved.length };
+}
+
+/** Names a day of the schedule ("Rehearsal"); an empty name goes back to the default. */
+export async function setItineraryDayName(date: string, name: string): Promise<{ error?: string }> {
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
+  if (!wedding) return { error: noWedding };
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) return { error: "Missing date." };
+
+  const names = { ...(wedding.itinerary_day_names ?? {}) };
+  const trimmed = name.trim().slice(0, 40);
+  if (trimmed) names[date] = trimmed;
+  else delete names[date];
+
+  const { error } = await supabase.from("weddings").update({ itinerary_day_names: names }).eq("id", wedding.id);
+  if (error) return { error: error.message };
+
+  revalidatePath("/itinerary");
+  return {};
 }
 
 /**
