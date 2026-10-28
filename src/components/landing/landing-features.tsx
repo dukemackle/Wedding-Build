@@ -62,7 +62,7 @@ const PHOTOS: Record<string, { file: string; alt: string }> = {
   "/attire": { file: "attire", alt: "A wedding dress on a hanger" },
   "/itinerary": { file: "itinerary", alt: "A calendar open on a screen" },
   "/venue-layout": { file: "layout", alt: "Round reception tables set in a bright marquee" },
-  "/guests/site": { file: "website", alt: "A guest site from You Do, I Do: names, timings, wedding party and an RSVP button" },
+  "/guests/site": { file: "website", alt: "A laptop showing wedding photos beside peonies" },
 };
 
 /**
