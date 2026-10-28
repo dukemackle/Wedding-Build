@@ -929,11 +929,21 @@ function RsvpDemo() {
       </div>
       <div className="min-w-0 rounded-lg border border-hairline bg-card p-4 shadow-sm">
         <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-hairline pb-3">
-          <p className="text-sm text-ink/70">
-            <span className="font-mono-numbers text-2xl text-forest">{confirmed}</span>{" "}
-            confirmed
-            <span className="hidden text-ink/45 sm:inline"> · feeds your Budget guest count</span>
-          </p>
+          {/* The real page's stage header, invites-out stage, in miniature. */}
+          <div className="flex min-w-0 flex-1 flex-col gap-2">
+            <p className="text-sm text-ink/70">
+              <span className="font-display text-3xl font-semibold leading-none text-forest">{confirmed}</span>{" "}
+              coming so far
+              <span className="hidden text-ink/45 sm:inline"> · feeds your Budget guest count</span>
+            </p>
+            <div className="flex h-2.5 max-w-xs overflow-hidden rounded-full bg-[#F3F1EC]" aria-hidden="true">
+              <div className="bg-[#2243B6]" style={{ width: `${(confirmed / DEMO_GUESTS.length) * 100}%` }} />
+              <div
+                className="bg-[#8A90A0]"
+                style={{ width: `${(DEMO_GUESTS.filter((g) => status[g.name] === "declined").length / DEMO_GUESTS.length) * 100}%` }}
+              />
+            </div>
+          </div>
           <div className="flex gap-2">
             <span className="rounded-full bg-forest px-3 py-1 font-mono-numbers text-xs text-parchment">
               + Add guest
