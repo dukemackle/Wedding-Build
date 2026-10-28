@@ -1160,6 +1160,15 @@ Hurst Ranch	1227 S Orange Ave	West Covina	California			Barn & Farm	Outdoor	400		
 Knollwood Country Club	12040 Balboa Blvd	Granada Hills	California			Country Club & Golf	Indoor & Outdoor	350			A Granada Hills golf club with three clubhouse event rooms and outdoor ceremonies on the course grounds.		(818) 360-2101	https://www.knollwoodgc.com/private-events-weddings/
 The Westin Pasadena	191 N Los Robles Ave	Pasadena	California			Hotel & Resort	Indoor & Outdoor	450			A downtown Pasadena hotel with a Fountain Ballroom, a courtyard and an outdoor terrace and patio for ceremonies and receptions.		626-792-2727	https://www.marriott.com/hotels/event-planning/wedding-planning/laxpw-the-westin-pasadena/`,
   },
+  {
+    name: "San Diego depth, Temecula and North County",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+The Hillside Estate	2278 Sunshine Mountain Rd	San Marcos	California			Garden & Park	Outdoor	200			A hilltop San Marcos estate where the ceremony, cocktail hour and reception each have their own space, with getting-ready suites and a day-of coordinator included.			https://lightandwell.com/the-hillside-estate/
+Del Mar Plaza	1555 Camino Del Mar	Del Mar	California			Museum, Gallery & Rooftop	Outdoor	150			An open-air ocean-view deck above Del Mar village that hosts ceremonies, with a smaller canyon-view deck for intimate gatherings.		858-847-2284	https://www.delmarplaza.com/private-events
+St. Peter's Episcopal Church	334 14th Street	Del Mar	California			Chapel & Church	Indoor	200	2300	Package	A parish church in Del Mar with a 200-seat sanctuary and a 120-seat parish hall that can be booked for a reception.		(858) 755-1616	https://www.stpetersdelmar.net/weddings
+Cocina del Charro (Escondido)	890 W Valley Pkwy	Escondido	California			Restaurant & Brewery	Indoor & Outdoor	200			A Mexican restaurant in Escondido with banquet rooms and an outdoor patio that host wedding receptions and ceremonies.	story@cocinadelcharro.com	(760) 745-1382	https://www.cocinadelcharro.com/banquets
+Motte Historical Museum, The Barn	28380 Highway 74	Menifee	California			Museum, Gallery & Rooftop	Indoor & Outdoor				Rentable museum barn with an included wedding arch, dance floor, tables, chairs, security and an in-house coordinator, usable indoors and outdoors.	info@mottemuseum.com	(951) 928-3210	https://www.mottemuseum.com/weddings-events
+  },
 ];
 
 export default batches;
