@@ -2,8 +2,9 @@
 
 import { useMemo, useState, useTransition } from "react";
 import type { Guest, SeatingTable } from "@/lib/supabase/types";
-import { CANVAS_HEIGHT, CANVAS_WIDTH, tableFootprint } from "@/lib/venue-layout-geometry";
-import { LAYOUT_TEMPLATES, buildTemplate, type LayoutTemplateId, type TemplateLayout } from "@/lib/layout-templates";
+import { CANVAS_HEIGHT, CANVAS_WIDTH, ROW_PITCH, tableFootprint, toFeet } from "@/lib/venue-layout-geometry";
+import { LAYOUT_TEMPLATES, buildTemplate, type TemplateItem, type TemplateLayout } from "@/lib/layout-templates";
+import { AISLE, CEREMONY_TEMPLATES, buildCeremony } from "@/lib/ceremony-templates";
 import { planSeating } from "@/lib/auto-seat";
 import { assignGuestsTable } from "@/app/seating/actions";
 import { WrenBirdIcon } from "@/components/icons";
@@ -17,13 +18,11 @@ function TemplateThumb({ layout }: { layout: TemplateLayout }) {
       className="block h-auto max-h-56 w-full rounded-md border border-hairline bg-parchment"
       aria-hidden
     >
-      {layout.items.map((i, n) =>
-        i.type === "dance_floor" ? (
-          <rect key={n} x={i.x} y={i.y} width={i.width} height={i.height} rx={8} fill="#2243B6" opacity={0.16} stroke="#2243B6" strokeOpacity={0.5} strokeWidth={4} />
-        ) : (
-          <rect key={n} x={i.x} y={i.y} width={i.width} height={i.height} rx={6} fill="#14203d" opacity={0.12} />
-        ),
-      )}
+      {layout.items.map((i, n) => (
+        <g key={n} transform={i.rotation ? `rotate(${i.rotation} ${i.x + i.width / 2} ${i.y + i.height / 2})` : undefined}>
+          <ThumbItem item={i} />
+        </g>
+      ))}
       {layout.tables.map((t, n) => {
         const { width, height } = tableFootprint({ shape: t.shape, capacity: t.capacity, width: t.width, height: t.height });
         const couple = n === 0;
@@ -38,6 +37,28 @@ function TemplateThumb({ layout }: { layout: TemplateLayout }) {
   );
 }
 
+function ThumbItem({ item: i }: { item: TemplateItem }) {
+  if (i.type === "dance_floor") {
+    return <rect x={i.x} y={i.y} width={i.width} height={i.height} rx={8} fill="#2243B6" opacity={0.16} stroke="#2243B6" strokeOpacity={0.5} strokeWidth={4} />;
+  }
+  if (i.type === "chairs") {
+    // One strip per row; the reserved front row in Royal blue.
+    const rows = Math.max(1, Math.round(i.height / ROW_PITCH));
+    const fill = i.label ? "#2243B6" : "#FFD301";
+    return (
+      <>
+        {Array.from({ length: rows }, (_, r) => (
+          <rect key={r} x={i.x} y={i.y + r * ROW_PITCH + 6} width={i.width} height={ROW_PITCH - 14} rx={6} fill={fill} stroke="#14203d" strokeOpacity={0.3} strokeWidth={3} />
+        ))}
+      </>
+    );
+  }
+  if (i.type === "stage") {
+    return <rect x={i.x} y={i.y} width={i.width} height={i.height} rx={i.height / 2} fill="#2243B6" />;
+  }
+  return <rect x={i.x} y={i.y} width={i.width} height={i.height} rx={6} fill="#14203d" opacity={0.12} />;
+}
+
 /**
  * "Start from a layout": three ready-made rooms sized to the guest list.
  * Inline on an empty plan, and behind the Layouts button once there's
@@ -49,20 +70,43 @@ export function LayoutTemplatePicker({
   phaseId,
   hasContent,
   seatedPeople,
+  ceremony = false,
   onDone,
 }: {
   guestSeats: number;
+  /** The ceremony gets rows of chairs and an aisle instead of dinner tables. */
+  ceremony?: boolean;
   roomId?: string;
   phaseId?: string;
   hasContent: boolean;
   seatedPeople: number;
   onDone?: () => void;
 }) {
+  const [unity, setUnity] = useState(false);
   const layouts = useMemo(
-    () => LAYOUT_TEMPLATES.map((spec) => ({ spec, layout: buildTemplate(spec.id, guestSeats) })),
-    [guestSeats],
+    () =>
+      ceremony
+        ? CEREMONY_TEMPLATES.map((spec) => {
+            const layout = buildCeremony(spec.id, guestSeats, { unity });
+            return {
+              spec,
+              layout,
+              summary: `${layout.rows} rows of ${layout.perRow} · ${layout.seats} chairs`,
+              size: `About ${toFeet(layout.extent.width)} × ${toFeet(layout.extent.height)} ft, ${toFeet(AISLE)} ft aisle${spec.id === "two_aisles" ? "s" : ""}`,
+            };
+          })
+        : LAYOUT_TEMPLATES.map((spec) => {
+            const layout = buildTemplate(spec.id, guestSeats);
+            return {
+              spec,
+              layout,
+              summary: `${layout.tables.length - 1} tables of ${layout.tables[1]?.capacity ?? 0} · ${layout.seats} seats`,
+              size: null,
+            };
+          }),
+    [guestSeats, ceremony, unity],
   );
-  const [picked, setPicked] = useState<LayoutTemplateId>("classic");
+  const [picked, setPicked] = useState<string>(layouts[0].spec.id);
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
 
@@ -73,6 +117,7 @@ export function LayoutTemplatePicker({
     const formData = new FormData();
     formData.set("template", picked);
     formData.set("replace", replace ? "1" : "0");
+    if (ceremony && unity) formData.set("unity", "1");
     if (roomId) formData.set("room_id", roomId);
     if (phaseId) formData.set("phase_id", phaseId);
     startTransition(async () => {
@@ -84,15 +129,17 @@ export function LayoutTemplatePicker({
 
   return (
     <section className="mb-6 rounded-lg border border-hairline bg-card p-5 sm:p-6">
-      <h3 className="font-display text-xl font-semibold text-forest">Start from a layout</h3>
+      <h3 className="font-display text-xl font-semibold text-forest">
+        {ceremony ? "Start from a ceremony layout" : "Start from a layout"}
+      </h3>
       <p className="mt-1 text-sm text-ink/70">
         {guestSeats > 0
           ? `Sized for your ${guestSeats} guests, with a few spare seats. Everything stays movable afterwards.`
           : "Sized for 40 guests until your guest list is in. Everything stays movable afterwards."}
+        {ceremony && " The front row each side is saved for family."}
       </p>
       <div role="radiogroup" aria-label="Layout" className="mt-4 grid gap-4 md:grid-cols-3">
-        {layouts.map(({ spec, layout }) => {
-          const guestTables = layout.tables.length - 1;
+        {layouts.map(({ spec, layout, summary, size }) => {
           const selected = picked === spec.id;
           return (
             <button
@@ -108,18 +155,23 @@ export function LayoutTemplatePicker({
               <TemplateThumb layout={layout} />
               <span className="mt-3 block font-medium text-forest">{spec.name}</span>
               <span className="mt-0.5 block text-xs text-ink/60">{spec.blurb}</span>
-              <span className="mt-2 block font-mono-numbers text-xs text-ink/70">
-                {guestTables} tables of {layout.tables[1]?.capacity ?? 0} · {layout.seats} seats
-              </span>
+              <span className="mt-2 block font-mono-numbers text-xs text-ink/70">{summary}</span>
+              {size && <span className="mt-0.5 block text-xs text-ink/60">{size}</span>}
               {layout.height > CANVAS_HEIGHT && (
                 <span className="mt-1 block text-xs text-ink/70">
-                  A big one, so the room runs longer to fit every table.
+                  {ceremony ? "A big one, so the rows run further back." : "A big one, so the room runs longer to fit every table."}
                 </span>
               )}
             </button>
           );
         })}
       </div>
+      {ceremony && (
+        <label className="mt-4 flex items-center gap-2 text-sm text-ink">
+          <input type="checkbox" checked={unity} onChange={(e) => setUnity(e.target.checked)} className="h-4 w-4 accent-brass" />
+          Add a unity table in front of the arch (for a candle, sand or wine ceremony)
+        </label>
+      )}
       {error && <p className="mt-3 text-sm text-red-700">{error}</p>}
       <div className="mt-4 flex flex-wrap items-center gap-3">
         {hasContent ? (

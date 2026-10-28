@@ -25,7 +25,16 @@ export type TemplateTable = {
   height: number | null;
 };
 
-export type TemplateItem = { type: LayoutItemType; label: string | null; x: number; y: number; width: number; height: number };
+export type TemplateItem = {
+  type: LayoutItemType;
+  label: string | null;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  /** Degrees, round the item's centre; 0 when left out. */
+  rotation?: number;
+};
 
 export type TemplateLayout = {
   tables: TemplateTable[];
