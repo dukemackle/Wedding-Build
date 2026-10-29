@@ -88,7 +88,8 @@ export async function applyLayoutTemplate(formData: FormData): Promise<{ error?:
       position_y: i.y,
       width: i.width,
       height: i.height,
-      rotation: i.rotation ?? 0,
+      // The column only takes 0-359, and an angled left block turns -12.
+      rotation: ((Math.round(i.rotation ?? 0) % 360) + 360) % 360,
     })),
   );
   if (itemError) return { error: itemError.message };
