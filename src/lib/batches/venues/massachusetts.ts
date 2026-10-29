@@ -285,6 +285,29 @@ The Newbury Boston	1 Newbury St	Boston	Massachusetts			Hotel & Resort	Indoor	400
 The Lenox Hotel	61 Exeter St	Boston	Massachusetts			Hotel & Resort	Indoor	150			Back Bay hotel whose domed ballroom holds weddings of up to 150 guests.		617-536-5300	https://www.lenoxhotel.com/boston-wedding-venue/
 `,
   },
+  {
+    name: "Massachusetts: Cape and Islands, MetroWest, Central and Western",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+Provincetown Inn	1 Commercial Street	Provincetown	Massachusetts			Beach & Coast					Waterfront inn on Commercial Street that offers wedding packages for both small celebrations and larger gatherings.	info@provincetowninn.com	508-487-9500	https://www.provincetowninn.com/weddings
+Nashawtuc Country Club	1861 Sudbury Road	Concord	Massachusetts			Country Club & Golf	Indoor	200			Country club with a renovated modern-farmhouse event space of vaulted ceilings and exposed beams, hosting weddings in a Grand Ballroom.		(978) 610-2700	https://www.nashawtuc.com/weddings-and-events
+Belmont Country Club	181 Winter Street	Belmont	Massachusetts			Country Club & Golf	Indoor & Outdoor				Club dating to 1918 with a 2013 clubhouse ballroom, and ceremonies held on the first tee, the clubhouse patio or poolside.		617-484-5360	https://www.belmontcc.org/weddings-events/weddings
+Griffin Museum of Photography	67 Shore Road	Winchester	Massachusetts			Museum, Gallery & Rooftop	Indoor & Outdoor	100	2000	Rental	Fieldstone gallery building on Judkins Pond with a beamed gallery, a terrace and a lawn that can take a tent.		781-729-1158	https://griffinmuseum.org/function-rentals/
+Devens Common Center	31 Andrews Parkway	Devens	Massachusetts			Ballroom	Indoor & Outdoor	350			Convention and banquet facility offering tiered wedding packages, with ceremonies indoors, on the patio or on the Commons.	lhume@truenorthhotels.com	(978) 772-0188	https://www.devenscommoncenter.com/devens-common-center-weddings
+Monoosnock Country Club	40 Monoosnock Avenue	Leominster	Massachusetts			Country Club & Golf	Indoor & Outdoor	200	1000	Rental	Golf club with a fireplace banquet room overlooking the course, a second room that can be combined for larger receptions, and an outdoor ceremony option.	monoosnockinquiries@gmail.com	978-534-4913	https://monoosnockcountryclub.com/functions/
+Fern Valley Farms	758 Main Street	Wilbraham	Massachusetts			Barn & Farm	Outdoor				Family-run apple orchard with rentable event space and orchard and valley views on all sides.	events@fernvalleyfarmsllc.com	413-367-4422	https://www.fernvalleyfarmsllc.com/weddings-events
+Springfield Country Club	1375 Elm Street	West Springfield	Massachusetts			Country Club & Golf	Indoor				Country club with a recently remodeled interior and views over the Pioneer Valley.		413-787-1560	https://www.springfieldccma.org/weddings-and-events/wedding-experience
+The White Room at Crompton Collective	138 Green Street	Worcester	Massachusetts			Industrial Loft & Warehouse	Indoor & Outdoor	150	3000	Package	A 6,000-square-foot indoor event hall with a red brick courtyard and a garden for ceremonies.	whiteroomworcester@gmail.com		https://www.thewhiteroomworcester.com/weddings-at-the-white-room
+The 1761 Old Mill	69 State Road East	Westminster	Massachusetts			Restaurant & Brewery	Indoor & Outdoor				Restaurant on Route 2A whose grounds have a waterfall and covered bridges, with ceremonies outside and receptions in the dining rooms.		978-874-5941	https://www.1761oldmill.com/wedding-venue-massachusetts
+Point Breeze	114 Point Breeze Road	Webster	Massachusetts			Restaurant & Brewery	Indoor & Outdoor	225			Lakeside restaurant founded in 1881 as a private sailing club, with the Lakeview and Pinnacle rooms and a courtyard ceremony spot on Webster Lake.	pointbreezerestaurant@gmail.com	508-943-0404	https://www.pointbreezeonwebsterlake.com/wedding
+The Point	701 Reservoir Road	Lunenburg	Massachusetts			Lake & River	Indoor & Outdoor	225			Peninsula on Lake Shirley with a willow-tree ceremony site, a lakefront tent for receptions and an indoor space for smaller events.	Events@ThePointLakeShirley.com	978-582-4976	https://www.thepointlakeshirley.com/weddings
+Centennial House Bed & Breakfast	94 Main Street	Northfield	Massachusetts			Hotel & Resort	Indoor & Outdoor	150			Bed and breakfast with a two-acre terraced lawn, gazebo and wedding arbor, plus a garden room and great room for smaller indoor gatherings.		413-498-5921	https://www.cennhousema.com/Events.html
+Holiday Brook Farm	100 Holiday Cottage Road	Dalton	Massachusetts			Barn & Farm	Outdoor		7500	Rental	Hilltop farm where couples bring their own tent and vendors, with a cottage that sleeps 13 included for the weekend.		413-441-4597	https://www.holidaybrookfarm.com/weddings
+Maironis Banquets	52 South Quinsigamond Avenue	Shrewsbury	Massachusetts			Ballroom	Indoor	250			Lake Quinsigamond banquet hall hosting events since 1974, with a grand ballroom, a lounge and a second hall.	maironis.manager@gmail.com	508-755-0040	https://www.maironisbanquets.com/
+Sterling National Country Club	33 Albright Road	Sterling	Massachusetts			Country Club & Golf	Indoor & Outdoor				Golf club with dining rooms that hosts receptions and outdoor ceremonies, about 20 minutes from downtown Worcester.		978-422-0275	https://sterlingcc.com/
+Dewey Hall	91 Main Street	Sheffield	Massachusetts			Ballroom	Indoor	120			Historic village hall of Taconic stone and southern pine with a vaulted ceiling, stage and dance floor.	deweymemorialhall@gmail.com	413-429-1322	https://www.deweyhall.org/rent
+Quaboag Country Club		Monson	Massachusetts			Country Club & Golf	Indoor				Nine-hole golf course founded in 1946 on Route 32 whose Valhalla clubhouse hosts weddings and social gatherings.		413-267-5294	https://quaboag-countryclub.com/
+`,
+  },
 ];
 
 export default batches;
