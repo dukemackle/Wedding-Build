@@ -125,6 +125,60 @@ Posh Manna Cake Art	Cake		Oak Hill	West Virginia	Southern West Virginia	Luxury c
 The Cat's Meow Entertainment	Music		Barboursville	West Virginia	All of West Virginia, plus parts of Kentucky and Ohio	All-female DJ trio playing weddings across West Virginia since 2016, with a photo booth and an online planning tool for couples.	thecmentertainment@gmail.com	904-763-6750	https://www.thecmentertainment.com/	https://www.instagram.com/djcatsmeow/
 `,
   },
+  {
+    name: "Huntington: photography, florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Hedgecock Studio	Photography	826 20th Street	Huntington	West Virginia	Huntington	Huntington portrait studio with a dedicated wedding gallery, which also photographs school and sports events.		(304) 525-4657	https://www.hedgecockphotography.com/			
+Archer's Flowers & Gallery	Florals	523 11th Street	Huntington	West Virginia	Huntington, Barboursville, Milton, Ona, Ceredo, Kenova, Proctorville, Chesapeake, South Point	Huntington flower shop and gallery creating wedding and event flowers, with consultations and delivery to nearby Tri-State towns.	archersflowers@hotmail.com	(304) 522-8272	https://archersflowers.com/	https://www.instagram.com/archersflowers/		
+Garrison Designs Florist & Interiors	Florals		Huntington	West Virginia	Greater Huntington area	Huntington florist offering ceremony and reception flowers, bridal bouquets, boutonnieres and centrepieces, with consultations and venue delivery.			https://garrisonsdesignsandflorist.com/			
+Designs By DJ Florist and Gifts	Florals	6285 East Pea Ridge Road	Huntington	West Virginia	Huntington, Barboursville, Milton, Ona, Ceredo, Culloden, Kenova, Lavalette, Proctorville, Salt Rock	Huntington florist taking wedding flower orders by phone or in person, with delivery to Barboursville, Milton, Ona and other nearby towns.		304-736-2550	https://designsbydjflorist.com/			
+Lori Pickens Photography	Photography		Parkersburg	West Virginia	Parkersburg, West Virginia and Ohio	Parkersburg wedding and portrait photographer covering elopements, intimate weddings and larger celebrations across West Virginia and Ohio.			https://loripickens.com/	https://www.instagram.com/loripickensphotography/		
+FSTimages	Photography	1704 Staunton Ave	Parkersburg	West Virginia	Parkersburg and West Virginia	Parkersburg photography studio covering weddings, engagements, senior portraits, sports and family sessions from its Staunton Avenue base.	BrittonWasmer@FSTimages.com	304-488-4623	https://www.weddingworldtraveller.com/			
+`,
+  },
+  {
+    name: "Eastern Panhandle: photography, music, catering, florals, cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Aaron May Photo	Photography		Shepherdstown	West Virginia	Martinsburg, Shepherdstown, Harpers Ferry and the wider Eastern Panhandle	Wedding and elopement photographer working from the Shepherdstown area, with most weddings in Berkeley County and no travel fee there.	aaron@aaronmayphoto.com		https://www.aaronmayphoto.com/		5000	package
+Frame & Vow	Photography		Martinsburg	West Virginia	Martinsburg, Shepherdstown, Charles Town, Berkeley Springs and the wider Eastern Panhandle	Martinsburg studio offering wedding photography and film from a single team, covering the Panhandle, Shenandoah Valley and further afield.	moises@scmarketingwv.com	304-314-2750	https://www.frameandvow.com/	https://www.instagram.com/frameandvoweddingstudio/		
+Love & Sol Photography	Photography	157 Aerie Lane	Harpers Ferry	West Virginia	Harpers Ferry, the DC area and available for travel	Harpers Ferry photography studio shooting weddings and elopements for couples in the Potomac and Shenandoah river area.	hello@loveandsolphoto.com	703-501-1840	https://loveandsolphoto.com/	https://www.instagram.com/love.and.sol/		
+Rachel Langerhans Photography	Photography		Kearneysville	West Virginia	Charles Town, Shepherdstown, Harpers Ferry and nearby parts of Virginia, Maryland and Pennsylvania	Kearneysville photographer who covers couples, engagements, elopements and weddings across the eastern Panhandle and neighbouring states.			https://rachellangerhans.zenfolio.com/	https://www.instagram.com/RachelLangerhansPhotography/		
+Let the Good Times Roll DJ Service	Music		Martinsburg	West Virginia	Martinsburg and the Eastern Panhandle	Martinsburg DJ service run by a husband and wife, playing weddings, dances and parties since 1996.		304-267-8453	https://djjeffbaker.com/	https://www.instagram.com/djjeffbaker/		
+Shenandoah Entertainment	Music		Charles Town	West Virginia	Eastern Panhandle, Northern Virginia, DC, Maryland and the Shenandoah Valley	Charles Town DJ and MC for weddings and events, travelling across the Panhandle and neighbouring regions.	djrayc62@gmail.com	(540) 546-4315	https://www.shenandoahentertainment.com/			
+MOJO's Catering	Catering		Charles Town	West Virginia	Charles Town and surrounding areas	Charles Town caterer offering buffet-style wedding menus and food tastings from its own commercial kitchen.	VikingChef@Mojos-Catering.com	301-512-9417	https://mojos-catering.com/			
+Gypsy Soul Catering	Catering		Kearneysville	West Virginia	Martinsburg, Ranson, Charles Town, Harpers Ferry, Shepherdstown, Berkeley Springs and Inwood	Kearneysville caterer working across the Panhandle, with full service at one chapel venue and drop-off catering elsewhere.	GypsySoulCatering@gmail.com	(301) 710-8823	https://www.gypsysoulcatering.com/	https://www.instagram.com/gypsysoulcatering/		
+Blue Ridge Peach Designs	Florals		Harpers Ferry	West Virginia	Harpers Ferry and surrounding areas within about 25 miles	Harpers Ferry florist creating custom arrangements for weddings and events, with local delivery.	blueridgepeachdesigns@gmail.com	681-260-9867	https://blueridgepeachdesigns.com/			
+West Virjeni	Florals		Shepherdstown	West Virginia	Shepherdstown and the surrounding Panhandle	Floral studio just outside Shepherdstown with a dedicated weddings and events page for couples planning flowers.			https://westvirjeni.com/	https://www.instagram.com/westvirjeni/		
+Shepherdstown Sweet Shop Bakery	Cake	100 W. German St.	Shepherdstown	West Virginia	Shepherdstown and nearby Panhandle towns	Long-running Shepherdstown bakery making custom wedding cakes, with flavour consultations at the shop.	wvbaker@wvbakery.com	304-876-2432	https://www.wvbakery.com/			
+`,
+  },
+  {
+    name: "Charleston: music, catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+DJ Nick Scott	Music		Charleston	West Virginia	Charleston and across the continental US	Charleston-based wedding and event DJ who plays receptions in the Kanawha Valley and travels for bookings across the wider region.	booking@djnickscott.com	304-807-6425	https://www.djnickscott.com/	https://www.instagram.com/djnickscott/		
+WV Corner Kitchen	Catering	1701 Bigley Avenue	Charleston	West Virginia	Charleston and nearby Dunbar, South Charleston and Kanawha City	Charleston kitchen providing catering for weddings and rehearsal dinners, with menus for groups from a few dozen up to 500 or more.	mike@wvcornerkitchen.com	304-400-4096	https://wvcornerkitchen.com/	https://www.instagram.com/wvcornerkitchen/		
+Olive Tree Cafe & Catering	Catering	333 2nd Avenue Southwest	South Charleston	West Virginia	South Charleston and surrounding Kanawha Valley	South Charleston café serving Mediterranean and continental menus for wedding receptions, corporate lunches and casual gatherings.		304-356-6068	https://olivetreecafeandcatering.com/	https://www.instagram.com/olivetreecafecatering/		
+`,
+  },
+  {
+    name: "Morgantown: photography, planning, music, catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Lowe Creative Co.	Photography		Morgantown	West Virginia	West Virginia, Pennsylvania, Maryland, Ohio, Virginia and DC	Morgantown wedding photographer covering full-day collections across WV and neighbouring states, with travel available when booked ahead.			https://lowecreative.co/weddings	https://www.instagram.com/lowecreativeco/	2000	package
+Laura Priestley Photography	Photography		Morgantown	West Virginia	Morgantown and surrounding area	Morgantown photographer for courthouse, elopement and intimate weddings, with all-inclusive coverage priced for local events.			https://www.laurapriestleyphotography.com/wedding-elopement-photography/		1600	package
+Sunflower & Sage Photography	Photography		Fairmont	West Virginia	Morgantown, Charleston and beyond	Fairmont photographer for weddings and elopements, taking bookings from couples across Morgantown, Charleston and further afield.	sunflower.sage.photography@gmail.com	681-443-5024	https://www.sunflowerandsagephotog.com/contact-for-wedding-photography/	https://www.instagram.com/sunflower.sage.photography/		
+Events By Jessica	Planning		Morgantown	West Virginia	Morgantown	Morgantown planner who designs and runs events from weddings to intimate gatherings, handling the details on the day.	eventsbyjessica97@gmail.com	304-288-9074	https://www.events-by-jessica.com/	https://www.instagram.com/eventsbyjessica97/		
+Alex O'Neal Entertainment	Music		Morgantown	West Virginia	Morgantown, Fairmont, Clarksburg and nearby MD and PA	Morgantown wedding DJ focused on receptions, serving north-central West Virginia plus Deep Creek and southwest Pennsylvania.			https://www.alexthedj.com/			
+Luxury Event Co	Music		Morgantown	West Virginia	Morgantown and Pennsylvania	Morgantown DJ and event service covering weddings, private parties and corporate events in West Virginia and Pennsylvania.	info@luxuryeventco.com		https://www.luxuryeventco.com/	https://www.instagram.com/luxury_event_co/		
+Village Butcher and Market	Catering	3345 University Ave Suite 4	Morgantown	West Virginia	Morgantown	Morgantown butcher shop whose catering covers weddings, private parties and holiday events, with delivery and two days' notice needed.		304-241-4961	https://villagebutcherandmarket.com/catering			
+`,
+  },
+  {
+    name: "New River Gorge: florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Flowers By Nancy	Florals	1215 S Eisenhower Dr	Beckley	West Virginia	Beckley	Beckley florist offering wedding flowers by bridal consultation, from bouquets to ceremony pieces and reception decor.		304-252-3569	https://www.rosefloralwv.com/wedding-flowers			
+Snow Thornton Florists	Florals		Beckley	West Virginia	Beckley, Fayetteville and surrounding southern WV towns	Beckley family florist with a weddings range of bridal bouquets and hair-piece arrangements, delivering across Fayette and Raleigh counties.		304-253-7371	https://www.snowthorntonflorist.com/			
+`,
+  },
 ];
 
 export default batches;
