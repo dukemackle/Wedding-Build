@@ -1,6 +1,6 @@
 "use client";
 
-import { useOptimistic, useRef, useState, useTransition } from "react";
+import { useOptimistic, useRef, useState, useTransition, type ReactNode } from "react";
 import { BirdCheer } from "@/components/bird-cheer";
 import { BirdEmptyState } from "@/components/wren-moments";
 import { CHECKLIST_PHASES } from "@/lib/checklist-template";
@@ -12,7 +12,7 @@ import {
   toggleChecklistItem,
   deleteChecklistItem,
 } from "./actions";
-import { PlusIcon } from "@/components/page-header";
+import { PageHeader, PlusIcon } from "@/components/page-header";
 import {
   DueChip,
   DueLegend,
@@ -229,7 +229,14 @@ function ChecklistRow({ item }: { item: ChecklistItem }) {
 
 const cardClass = "rounded-3xl border border-hairline bg-card shadow-sm";
 
-export function ChecklistManager({ items }: { items: ChecklistItem[] }) {
+export function ChecklistManager({
+  items,
+  aside,
+}: {
+  items: ChecklistItem[];
+  /** The contracts column, beside the plan from 1280px. */
+  aside?: ReactNode;
+}) {
   const [showAddForm, setShowAddForm] = useState(false);
 
   const incomplete = items.filter((item) => !item.completed);
@@ -240,83 +247,65 @@ export function ChecklistManager({ items }: { items: ChecklistItem[] }) {
   const stagesDone = stages.filter((stage) => stage.isDone).length;
 
   return (
-    <div className="flex w-full flex-col gap-4 lg:gap-6">
-      <div className={`${cardClass} flex items-center gap-4 p-4 sm:flex-wrap sm:gap-8 sm:px-9 sm:py-7`}>
-        {items.length > 0 && (
+    <>
+      {/* One header: the page's name, how far through they are, and Add
+          task -- not a page header followed by a second "Planning checklist"
+          card saying the same thing. */}
+      <PageHeader
+        eyebrow="Checklist"
+        title="One thing"
+        accent="at a time"
+        photo="checklist"
+        actions={
           <>
-            <span className="sm:hidden">
-              <ProgressRing done={completedCount} total={items.length} size={76} />
-            </span>
-            <span className="hidden sm:block">
-              <ProgressRing done={completedCount} total={items.length} />
-            </span>
+            {items.length > 0 && <ProgressRing done={completedCount} total={items.length} size={64} />}
+            <button
+              onClick={() => setShowAddForm((v) => !v)}
+              className={showAddForm ? "btn-secondary" : "btn-primary"}
+            >
+              {showAddForm ? "Close" : <><PlusIcon /> Add task</>}
+            </button>
           </>
+        }
+      >
+        {items.length > 0 ? (
+          <>
+            <strong className="font-semibold text-ink">
+              {completedCount} of {items.length}
+            </strong>{" "}
+            tasks done
+            {stages.length > 0 && ` · ${stagesDone} of ${stages.length} stages finished`}
+          </>
+        ) : (
+          "What to do now, built around your date, and what can wait."
         )}
-        <div className="min-w-0 flex-1 sm:basis-60">
-          <h2 className="font-display text-[26px] font-semibold leading-tight text-forest sm:text-[44px]">
-            <span className="sm:hidden">Your checklist</span>
-            <span className="max-sm:hidden">Planning checklist</span>
-          </h2>
-          <p className="mt-1.5 text-[15px] text-ink/80 sm:text-lg">
-            {items.length > 0 ? (
-              <>
-                <strong className="font-semibold text-ink">
-                  {completedCount} of {items.length}
-                </strong>{" "}
-                tasks done
-                {stages.length > 0 && (
-                  <span className="hidden sm:inline">
-                    {" "}
-                    · {stagesDone} of {stages.length} stages finished
-                  </span>
-                )}
-              </>
-            ) : (
-              "Track everything you need to do before the big day."
-            )}
-          </p>
-        </div>
-        <button
-          onClick={() => setShowAddForm((v) => !v)}
-          aria-label={showAddForm ? "Close" : "Add task"}
-          className={`${showAddForm ? "btn-secondary" : "btn-primary"} shrink-0 max-sm:h-12 max-sm:w-12 max-sm:rounded-full max-sm:px-0! sm:min-h-12! sm:px-6! sm:text-base!`}
-        >
-          {showAddForm ? (
-            <>
-              <span aria-hidden="true" className="text-xl leading-none sm:hidden">
-                ×
-              </span>
-              <span className="max-sm:hidden">Close</span>
-            </>
-          ) : (
-            <>
-              <PlusIcon />
-              <span className="max-sm:hidden">Add task</span>
-            </>
+      </PageHeader>
+
+      <div className="xl:grid xl:grid-cols-[minmax(0,1fr)_380px] xl:items-start xl:gap-8">
+        <div className="flex w-full min-w-0 flex-col gap-4 lg:gap-6">
+          {showAddForm && (
+            <div className={`${cardClass} p-5 sm:p-8`}>
+              <AddItemForm onDone={() => setShowAddForm(false)} />
+            </div>
           )}
-        </button>
+
+          {items.length === 0 ? (
+            <div className={`${cardClass} p-5 sm:p-8`}>
+              <BuildPlanPrompt />
+            </div>
+          ) : incomplete.length === 0 ? (
+            <div className={`${cardClass} p-5 sm:p-8`}>
+              <BirdEmptyState>
+                <p className="text-base text-ink/70">All done! Everything on your checklist is complete.</p>
+              </BirdEmptyState>
+            </div>
+          ) : (
+            <PhasedList items={items} />
+          )}
+        </div>
+        {aside && <div className="min-w-0 xl:[&>*]:mt-0">{aside}</div>}
       </div>
-
-      {showAddForm && (
-        <div className={`${cardClass} p-5 sm:p-8`}>
-          <AddItemForm onDone={() => setShowAddForm(false)} />
-        </div>
-      )}
-
-      {items.length === 0 ? (
-        <div className={`${cardClass} p-5 sm:p-8`}>
-          <BuildPlanPrompt />
-        </div>
-      ) : incomplete.length === 0 ? (
-        <div className={`${cardClass} p-5 sm:p-8`}>
-          <BirdEmptyState>
-            <p className="text-base text-ink/70">All done! Everything on your checklist is complete.</p>
-          </BirdEmptyState>
-        </div>
-      ) : (
-        <PhasedList items={items} />
-      )}
-    </div>
+    </>
   );
 }
 

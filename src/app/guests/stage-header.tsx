@@ -116,6 +116,7 @@ export function StageHeader({
   costPerGuest,
   rsvpDeadline,
   today,
+  bare = false,
 }: {
   guests: Guest[];
   /** What the booked venue holds; null with no venue or no listed capacity. */
@@ -125,6 +126,8 @@ export function StageHeader({
   rsvpDeadline: string | null;
   /** YYYY-MM-DD, passed in so server and tests agree on the day. */
   today: string;
+  /** Inside the page header's card, so no card of its own. */
+  bare?: boolean;
 }) {
   if (guests.length === 0) return null;
   const stage = guestListStage(guests, rsvpDeadline, today);
@@ -132,7 +135,9 @@ export function StageHeader({
   return (
     <section
       aria-label="Where your list stands"
-      className="flex flex-col gap-6 rounded-lg border border-hairline bg-card p-4 shadow-sm sm:p-6 lg:flex-row lg:gap-8"
+      className={`flex flex-col gap-6 lg:flex-row lg:gap-8 ${
+        bare ? "py-1 sm:py-2" : "rounded-lg border border-hairline bg-card p-4 shadow-sm sm:p-6"
+      }`}
     >
       {stage === "building" ? (
         <BuildingStage guests={guests} venueCapacity={venueCapacity} costPerGuest={costPerGuest} />

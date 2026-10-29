@@ -117,15 +117,17 @@ export default async function ItineraryPage() {
           accent="hour by hour"
           photo="itinerary"
           actions={<RunSheetMenu />}
+          toolbar={
+            <PublishToggle
+              published={wedding.itinerary_published}
+              counts={counts}
+              publicSlug={wedding.public_slug}
+              bare
+            />
+          }
         >
           Who needs to be where, and when. One schedule for everyone; each event says who sees it.
         </PageHeader>
-
-        <PublishToggle
-          published={wedding.itinerary_published}
-          counts={counts}
-          publicSlug={wedding.public_slug}
-        />
 
         <ItineraryManager
           events={events ?? []}

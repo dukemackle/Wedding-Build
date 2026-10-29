@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useEffect, useMemo, useOptimistic, useRef, useState, useTransition } from "react";
 import dynamic from "next/dynamic";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type {
   Guest,
@@ -50,7 +51,7 @@ import {
   tableFootprint,
 } from "@/lib/venue-layout-geometry";
 import { planCanvas, planSizeLabel, roomPlan, type PlanShape } from "@/lib/venue-plans";
-import { PlusIcon } from "@/components/page-header";
+import { PageHeader, PlusIcon } from "@/components/page-header";
 import { CheckIcon } from "@/components/icons";
 import { BirdCheer } from "@/components/bird-cheer";
 import {
@@ -2710,254 +2711,266 @@ export function VenueLayoutManager({
   const seatedPeople = guests.reduce((sum, g) => sum + (g.table_id ? personCount(g) : 0), 0);
 
   return (
-    <div className="w-full rounded-lg border border-hairline bg-card p-5 sm:p-8 shadow-sm">
-      <div className="mb-6 border-b border-hairline pb-6">
-        <h2 className="font-display text-2xl font-semibold text-forest">Venue layout</h2>
-        <p className="mt-1 text-sm text-ink/70">
-          {mode === "seating"
-            ? guests.length === 0
-              ? "No guests yet — add guests on the Guests page, then come back to seat them."
-              : `${unassigned.length} of ${guests.length} guests still unassigned.`
-            : mode === "rooms"
-              ? "Plan each space separately — switch rooms below."
-              : "Everything in one shared space."}{" "}
-          Drag anything to move it; click it to rename, duplicate, rotate or delete.
-        </p>
-        {/* One toolbar, left-aligned under the title, most-used first, so
-            adding a table or switching views is a short move from where the
-            eye already is. */}
-        <div className="mt-4 flex flex-wrap items-center gap-3">
-          <button
-            onClick={() => setAddFormType((v) => (v === "table" ? null : "table"))}
-            disabled={!canAdd}
-            className={addFormType === "table" ? "btn-secondary" : "btn-primary"}
-          >
-            {addFormType === "table" ? "Close" : <><PlusIcon /> Add table</>}
-          </button>
-          {mode !== "seating" && (
-            <button
-              onClick={() => setAddFormType((v) => (v === "item" ? null : "item"))}
-              disabled={!canAdd}
-              className="btn-secondary disabled:opacity-40"
-            >
-              {addFormType === "item" ? "Close" : <><PlusIcon /> Add item</>}
-            </button>
-          )}
-          {hasContent && mode !== "seating" && (
-            <button
-              onClick={() => setAddFormType((v) => (v === "layouts" ? null : "layouts"))}
-              disabled={!canAdd}
-              className="btn-secondary disabled:opacity-40"
-            >
-              {addFormType === "layouts" ? "Close" : "Layouts"}
-            </button>
-          )}
-          <span aria-hidden className="hidden h-6 w-px bg-hairline sm:block" />
-          <Segmented options={MODES} value={mode} onChange={setMode} label="Layout mode" />
-          {hasContent && (
-            <Segmented
-              options={VIEWS}
-              value={view3D ? "3d" : "plan"}
-              onChange={(v) => setView3D(v === "3d")}
-              label="View"
-            />
-          )}
-          {!view3D && <RoomStylePicker value={roomStyle} onChange={handleRoomStyle} />}
-          {totalPeople > 0 && tables.length > 0 && (
-            <div className="sm:ml-auto">
+    <>
+      {/* One header for the page: name, where the seating stands, and the
+          tools, in one card -- not a page header followed by a second titled
+          card repeating "Venue layout". Most-used tool first. */}
+      <PageHeader
+        eyebrow="Venue layout"
+        title="Set the"
+        accent="room"
+        photo="layout"
+        actions={
+          <>
+            {totalPeople > 0 && tables.length > 0 && (
               <SeatedRing seated={seatedPeople} total={totalPeople} />
-            </div>
-          )}
-        </div>
-      </div>
-
-      {phases.length > 0 && (
-        <PhaseTabs
-          phases={phases}
-          activeId={activePhaseId}
-          onSelect={(id) => {
-            setSelectedPhaseId(id);
-            setSelectedTableId(null);
-            setSelectedItemId(null);
-          }}
-        />
-      )}
-
-      {mode === "rooms" && (
-        <RoomTabs rooms={rooms} selectedRoomId={activeRoomId} onSelect={setSelectedRoomId} />
-      )}
-      {activePlan && activeRoom && (
-        <p className="-mt-2 mb-4 text-sm text-ink/70">
-          <span className="font-mono-numbers text-ink">{planSizeLabel(activePlan)}</span>
-          {" · "}
-          {activeRoom.source_venue_id ? "The venue's real floor plan, walls and all." : "This room's real size."}
-        </p>
-      )}
-
-      {declinedSeated.length > 0 && (
-        <DeclinedNotice
-          guests={declinedSeated}
-          tables={tables}
-          onClear={() => {
-            const formData = new FormData();
-            for (const g of declinedSeated) formData.append("guest_id", g.id);
-            formData.set("table_id", "");
-            startTransition(async () => {
-              await assignGuestsTable(formData);
-            });
-          }}
-        />
-      )}
-
-      {addFormType === "table" && (
-        <AddTableForm
-          onDone={() => setAddFormType(null)}
-          roomId={formRoomId}
-          phaseId={activePhaseId ?? undefined}
-        />
-      )}
-      {addFormType === "item" && (
-        <AddItemForm
-          onDone={() => setAddFormType(null)}
-          roomId={formRoomId}
-          phase={activePhase ?? undefined}
-        />
-      )}
-
-      {activePhase && copySources.length > 0 && (
-        <CopyPhaseOffer key={activePhase.id} target={activePhase} sources={copySources} />
-      )}
-      {addFormType === "layouts" && hasContent && (
-        <LayoutTemplatePicker
-          guestSeats={totalPeople}
-          roomId={formRoomId}
-          phaseId={activePhaseId ?? undefined}
-          ceremony={activePhase?.kind === "ceremony"}
-          plan={activePlan}
-          hasContent
-          seatedPeople={activePhaseId ? seatedInPhase : seatedPeople}
-          onDone={() => setAddFormType(null)}
-        />
-      )}
-
-      {mode === "rooms" && !activeRoomId ? (
-        <p className="py-4 text-center text-sm text-ink/50">
-          Create a room above to start adding tables and furniture to it.
-        </p>
-      ) : !hasContent ? (
-        // An empty plan opens on the ready-made layouts: one click sets the
-        // whole room, where placing tables one by one took dozens of drags.
-        <LayoutTemplatePicker
-          guestSeats={totalPeople}
-          roomId={formRoomId}
-          phaseId={activePhaseId ?? undefined}
-          ceremony={activePhase?.kind === "ceremony"}
-          plan={activePlan}
-          hasContent={false}
-          seatedPeople={0}
-        />
-      ) : view3D ? (
-        <VenueLayout3DView tables={visibleTables} items={visibleItems} />
-      ) : (
-        // Wide screen: the plan, with a side column holding what's selected
-        // above the guests still to seat, so dragging a guest onto a table is
-        // a short sideways move. Phone: plan, then selection, then guests,
-        // one column -- with the pinned bar standing in for the drag.
-        <div className="flex flex-col gap-4 xl:flex-row xl:items-start">
-          <div className="min-w-0 flex-1 xl:sticky xl:top-4">
-            <VenueCanvas
-              tables={visibleTables}
-              items={visibleItems}
-              guestsByTable={guestsByTable}
-              justSeated={justSeated}
-              selectedTableId={selectedTableId}
-              selectedItemId={selectedItemId}
-              seatingArmed={seatingArmed}
-              roomStyle={roomStyle}
-              theme={theme}
-              plan={activePlan}
-              onTapTable={handleTapTable}
-              onTapItem={handleTapItem}
-              onClearSelection={() => {
-                setSelectedTableId(null);
-                setSelectedItemId(null);
-              }}
-              onTableDragEnd={handleTableDragEnd}
-              onItemDragEnd={handleItemDragEnd}
-              onItemResizeEnd={handleItemResizeEnd}
-              onTableResizeEnd={handleTableResizeEnd}
-              onDropGuests={(tableId, ids) => seat(ids, tableId)}
-              tableActions={tableActions}
-              itemActions={itemActions}
-            />
-            {tables.length > 0 && (
-              <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-ink/60">
-                {(["a", "b", "both"] as const).map((side) => (
-                  <span key={side} className="flex items-center gap-1.5">
-                    <span
-                      aria-hidden
-                      className="h-2.5 w-2.5 rounded-full"
-                      style={{ background: theme.colors[side] }}
-                    />
-                    {theme.labels[side]}
-                  </span>
-                ))}
-                <span className="flex items-center gap-1.5">
-                  <span aria-hidden className="h-2.5 w-2.5 rounded-full border border-dashed border-ink/40" />
-                  Empty seat
-                </span>
-              </div>
             )}
-          </div>
-          <div className="flex w-full shrink-0 flex-col gap-4 xl:w-80">
-            <SelectionPanel
-              key={selectedTable?.id ?? selectedItem?.id ?? "none"}
-              table={selectedTable}
-              item={selectedItem}
-              roomStyle={roomStyle}
-              onDecor={handleDecor}
-              assignedGuests={selectedTable ? (guestsByTable.get(selectedTable.id) ?? []) : []}
-              onUnassign={handleUnassign}
-              onSplitPlusOne={(guestId) => send(splitPlusOne, { guest_id: guestId })}
-              onDeleteTable={handleDeleteTable}
-              onDeleteItem={handleDeleteItem}
-              onResetTableSize={(table) =>
-                send(updateTablePosition, { id: table.id, width: "", height: "" })
-              }
-              phaseControl={
-                activePhase && (selectedTable || selectedItem) ? (
-                  <PhaseScope
-                    node={(selectedTable ?? selectedItem)!}
-                    kind={selectedTable ? "table" : "item"}
-                    phase={activePhase}
-                    onChange={(phaseId) =>
-                      send(setNodePhase, {
-                        kind: selectedTable ? "table" : "item",
-                        id: (selectedTable ?? selectedItem)!.id,
-                        phase_id: phaseId ?? "",
-                      })
-                    }
-                  />
-                ) : undefined
-              }
-            />
-            {showGuests && <SeatTheRest guests={guests} tables={phaseTables} phaseId={activePhaseId} />}
-            {showGuests && (
-              <GuestPanel
-                  unassigned={unassigned}
-                  totalGuests={guests.length}
-                  theme={theme}
-                  selectedIds={pickedGuestIds}
-                onToggle={togglePicked}
+            <Link href="/venue-layout/print" className="btn-secondary">
+              Print seating chart
+            </Link>
+          </>
+        }
+        toolbar={
+          <div className="flex flex-wrap items-center gap-3">
+            <button
+              onClick={() => setAddFormType((v) => (v === "table" ? null : "table"))}
+              disabled={!canAdd}
+              className={addFormType === "table" ? "btn-secondary" : "btn-primary"}
+            >
+              {addFormType === "table" ? "Close" : <><PlusIcon /> Add table</>}
+            </button>
+            {mode !== "seating" && (
+              <button
+                onClick={() => setAddFormType((v) => (v === "item" ? null : "item"))}
+                disabled={!canAdd}
+                className="btn-secondary disabled:opacity-40"
+              >
+                {addFormType === "item" ? "Close" : <><PlusIcon /> Add item</>}
+              </button>
+            )}
+            {hasContent && mode !== "seating" && (
+              <button
+                onClick={() => setAddFormType((v) => (v === "layouts" ? null : "layouts"))}
+                disabled={!canAdd}
+                className="btn-secondary disabled:opacity-40"
+              >
+                {addFormType === "layouts" ? "Close" : "Layouts"}
+              </button>
+            )}
+            <span aria-hidden className="hidden h-6 w-px bg-hairline sm:block" />
+            <Segmented options={MODES} value={mode} onChange={setMode} label="Layout mode" />
+            {hasContent && (
+              <Segmented
+                options={VIEWS}
+                value={view3D ? "3d" : "plan"}
+                onChange={(v) => setView3D(v === "3d")}
+                label="View"
               />
             )}
+            {!view3D && <RoomStylePicker value={roomStyle} onChange={handleRoomStyle} />}
           </div>
-        </div>
-      )}
+        }
+      >
+        {mode === "seating"
+          ? guests.length === 0
+            ? "No guests yet — add guests on the Guests page, then come back to seat them."
+            : unassigned.length === 0
+              ? "Every guest has a seat."
+              : `${unassigned.length} of ${guests.length} guests still need a seat.`
+          : mode === "rooms"
+            ? "Plan each space separately — switch rooms below."
+            : "Everything in one shared space."}
+      </PageHeader>
 
-      {!view3D && (
-        <SeatingBar guests={pickedGuests} onClear={() => setPickedGuestIds(new Set())} />
-      )}
-    </div>
+      <div className="w-full rounded-lg border border-hairline bg-card p-5 sm:p-8 shadow-sm">
+        {phases.length > 0 && (
+          <PhaseTabs
+            phases={phases}
+            activeId={activePhaseId}
+            onSelect={(id) => {
+              setSelectedPhaseId(id);
+              setSelectedTableId(null);
+              setSelectedItemId(null);
+            }}
+          />
+        )}
+
+        {mode === "rooms" && (
+          <RoomTabs rooms={rooms} selectedRoomId={activeRoomId} onSelect={setSelectedRoomId} />
+        )}
+        {activePlan && activeRoom && (
+          <p className="-mt-2 mb-4 text-sm text-ink/70">
+            <span className="font-mono-numbers text-ink">{planSizeLabel(activePlan)}</span>
+            {" · "}
+            {activeRoom.source_venue_id ? "The venue's real floor plan, walls and all." : "This room's real size."}
+          </p>
+        )}
+
+        {declinedSeated.length > 0 && (
+          <DeclinedNotice
+            guests={declinedSeated}
+            tables={tables}
+            onClear={() => {
+              const formData = new FormData();
+              for (const g of declinedSeated) formData.append("guest_id", g.id);
+              formData.set("table_id", "");
+              startTransition(async () => {
+                await assignGuestsTable(formData);
+              });
+            }}
+          />
+        )}
+
+        {addFormType === "table" && (
+          <AddTableForm
+            onDone={() => setAddFormType(null)}
+            roomId={formRoomId}
+            phaseId={activePhaseId ?? undefined}
+          />
+        )}
+        {addFormType === "item" && (
+          <AddItemForm
+            onDone={() => setAddFormType(null)}
+            roomId={formRoomId}
+            phase={activePhase ?? undefined}
+          />
+        )}
+
+        {activePhase && copySources.length > 0 && (
+          <CopyPhaseOffer key={activePhase.id} target={activePhase} sources={copySources} />
+        )}
+        {addFormType === "layouts" && hasContent && (
+          <LayoutTemplatePicker
+            guestSeats={totalPeople}
+            roomId={formRoomId}
+            phaseId={activePhaseId ?? undefined}
+            ceremony={activePhase?.kind === "ceremony"}
+            plan={activePlan}
+            hasContent
+            seatedPeople={activePhaseId ? seatedInPhase : seatedPeople}
+            onDone={() => setAddFormType(null)}
+          />
+        )}
+
+        {mode === "rooms" && !activeRoomId ? (
+          <p className="py-4 text-center text-sm text-ink/50">
+            Create a room above to start adding tables and furniture to it.
+          </p>
+        ) : !hasContent ? (
+          // An empty plan opens on the ready-made layouts: one click sets the
+          // whole room, where placing tables one by one took dozens of drags.
+          <LayoutTemplatePicker
+            guestSeats={totalPeople}
+            roomId={formRoomId}
+            phaseId={activePhaseId ?? undefined}
+            ceremony={activePhase?.kind === "ceremony"}
+            plan={activePlan}
+            hasContent={false}
+            seatedPeople={0}
+          />
+        ) : view3D ? (
+          <VenueLayout3DView tables={visibleTables} items={visibleItems} />
+        ) : (
+          // Wide screen: the plan, with a side column holding what's selected
+          // above the guests still to seat, so dragging a guest onto a table is
+          // a short sideways move. Phone: plan, then selection, then guests,
+          // one column -- with the pinned bar standing in for the drag.
+          <div className="flex flex-col gap-4 xl:flex-row xl:items-start">
+            <div className="min-w-0 flex-1 xl:sticky xl:top-4">
+              <VenueCanvas
+                tables={visibleTables}
+                items={visibleItems}
+                guestsByTable={guestsByTable}
+                justSeated={justSeated}
+                selectedTableId={selectedTableId}
+                selectedItemId={selectedItemId}
+                seatingArmed={seatingArmed}
+                roomStyle={roomStyle}
+                theme={theme}
+                plan={activePlan}
+                onTapTable={handleTapTable}
+                onTapItem={handleTapItem}
+                onClearSelection={() => {
+                  setSelectedTableId(null);
+                  setSelectedItemId(null);
+                }}
+                onTableDragEnd={handleTableDragEnd}
+                onItemDragEnd={handleItemDragEnd}
+                onItemResizeEnd={handleItemResizeEnd}
+                onTableResizeEnd={handleTableResizeEnd}
+                onDropGuests={(tableId, ids) => seat(ids, tableId)}
+                tableActions={tableActions}
+                itemActions={itemActions}
+              />
+              {tables.length > 0 && (
+                <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-ink/60">
+                  {(["a", "b", "both"] as const).map((side) => (
+                    <span key={side} className="flex items-center gap-1.5">
+                      <span
+                        aria-hidden
+                        className="h-2.5 w-2.5 rounded-full"
+                        style={{ background: theme.colors[side] }}
+                      />
+                      {theme.labels[side]}
+                    </span>
+                  ))}
+                  <span className="flex items-center gap-1.5">
+                    <span aria-hidden className="h-2.5 w-2.5 rounded-full border border-dashed border-ink/40" />
+                    Empty seat
+                  </span>
+                </div>
+              )}
+            </div>
+            <div className="flex w-full shrink-0 flex-col gap-4 xl:w-80">
+              <SelectionPanel
+                key={selectedTable?.id ?? selectedItem?.id ?? "none"}
+                table={selectedTable}
+                item={selectedItem}
+                roomStyle={roomStyle}
+                onDecor={handleDecor}
+                assignedGuests={selectedTable ? (guestsByTable.get(selectedTable.id) ?? []) : []}
+                onUnassign={handleUnassign}
+                onSplitPlusOne={(guestId) => send(splitPlusOne, { guest_id: guestId })}
+                onDeleteTable={handleDeleteTable}
+                onDeleteItem={handleDeleteItem}
+                onResetTableSize={(table) =>
+                  send(updateTablePosition, { id: table.id, width: "", height: "" })
+                }
+                phaseControl={
+                  activePhase && (selectedTable || selectedItem) ? (
+                    <PhaseScope
+                      node={(selectedTable ?? selectedItem)!}
+                      kind={selectedTable ? "table" : "item"}
+                      phase={activePhase}
+                      onChange={(phaseId) =>
+                        send(setNodePhase, {
+                          kind: selectedTable ? "table" : "item",
+                          id: (selectedTable ?? selectedItem)!.id,
+                          phase_id: phaseId ?? "",
+                        })
+                      }
+                    />
+                  ) : undefined
+                }
+              />
+              {showGuests && <SeatTheRest guests={guests} tables={phaseTables} phaseId={activePhaseId} />}
+              {showGuests && (
+                <GuestPanel
+                    unassigned={unassigned}
+                    totalGuests={guests.length}
+                    theme={theme}
+                    selectedIds={pickedGuestIds}
+                  onToggle={togglePicked}
+                />
+              )}
+            </div>
+          </div>
+        )}
+
+        {!view3D && (
+          <SeatingBar guests={pickedGuests} onClear={() => setPickedGuestIds(new Set())} />
+        )}
+      </div>
+    </>
   );
 }
