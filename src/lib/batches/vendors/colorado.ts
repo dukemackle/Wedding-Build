@@ -708,7 +708,7 @@ Flute and Strings by Christen Stephens	Music		Denver	Colorado	Denver, Boulder, E
     name: "Boulder: music and catering",
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
 Stag Entertainment	Music	2726 West Park Place	Denver	Colorado	Boulder, the Front Range and Colorado mountain towns	A DJ team with backup equipment and spare DJs, planning sound for outdoor and foothills venues and adding uplighting or photo booths.		303-818-6416	https://partywithstag.com/boulder-dj	https://www.instagram.com/stag_entertainment/	1199	package
-Pasta Jay's	Catering		Boulder	Colorado	Boulder and the Denver metro area	A Boulder Italian restaurant that caters weddings and events with generous portions, from pasta to prime rib and breakfast spreads.		720-442-1107	https://www.pastajays.com/			`,
+Pasta Jay's	Catering		Boulder	Colorado	Boulder and the Denver metro area	A Boulder Italian restaurant that caters weddings and events with generous portions, from pasta to prime rib and breakfast spreads.			https://www.pastajays.com/			`,
   },
   {
     name: "Fort Collins: videography, catering, hair and makeup and photography",
@@ -716,8 +716,7 @@ Pasta Jay's	Catering		Boulder	Colorado	Boulder and the Denver metro area	A Bould
 Forest Picture Company	Videography		Fort Collins	Colorado	Fort Collins and Colorado mountain weddings	Fort Collins husband-and-wife team shooting photo and video together for intimate mountain weddings, with all-inclusive packages and full-day coverage.	amanda@forestpicture.co		https://forestpicture.co/	https://www.instagram.com/forestpictureco/	7800	package
 Northern Colorado Catering	Catering	1720 West Mulberry Street Suite B1	Fort Collins	Colorado	Fort Collins and surrounding areas	Fort Collins caterer with about thirty years of events behind it, offering full-service wedding catering built on word of mouth.	catering@all-occasions-catering.com	970-224-5643	https://northerncocatering.com/			
 The Wordy Bird Salon	Hair & Makeup	2261 E Drake Rd, Ste 130	Fort Collins	Colorado		Fort Collins salon team styling bridal hair and makeup, with a consultation and complimentary trial, plus per-person bridesmaid packages.		(970) 223-2121	https://thewordybirdsalon.com/	https://www.instagram.com/thewordybirdsalon/		
-KJean Photography	Photography		Fort Collins	Colorado	Fort Collins, Estes Park and Rocky Mountain National Park	Fort Collins photographer covering weddings, couples and boudoir, and specialising in relaxed elopements in Estes Park and Rocky Mountain National Park.			https://kjeanphoto.com/	https://www.instagram.com/kjeanphotographyco/		
-Chelsea Smith Imagery	Photography		Fort Collins	Colorado	Estes Park, Rocky Mountain National Park and Northern Colorado	Fort Collins photographer making relaxed, experience-led elopement photos in Estes Park, Rocky Mountain National Park and nearby mountain spots.	chelseasmithimagery@gmail.com		https://chelseasmithimagery.com/	https://www.instagram.com/chelsea.smith.imagery/		`,
+KJean Photography	Photography		Fort Collins	Colorado	Fort Collins, Estes Park and Rocky Mountain National Park	Fort Collins photographer covering weddings, couples and boudoir, and specialising in relaxed elopements in Estes Park and Rocky Mountain National Park.			https://kjeanphoto.com/	https://www.instagram.com/kjeanphotographyco/		`,
   },
   {
     name: "Estes Park: planning and music",
@@ -728,18 +727,13 @@ Vibe Driven DJ Productions	Music		Estes Park	Colorado		Estes Park DJ and emcee w
   {
     name: "Vail and Aspen: music, hair and makeup and videography",
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
-Vail Djs	Music		Vail	Colorado	Vail, Beaver Creek, Eagle and Summit County	Vail wedding DJ with sound, lighting and emcee work at mountain weddings, offering a free top-ten wedding songs list.	DjDAmico@vail-djs.com	970.390.1720	https://vail-djs.com/vail-wedding-dj/			
 Maroon Bells String Quartet	Music		Aspen	Colorado	Aspen and the Roaring Fork Valley	Aspen string quartet playing prelude, ceremony, cocktail hour and dinner sets, with a song library of 700-plus pop, classical and film pieces.	rebecca@maroonbellsquartet.com	(970) 807-0502	https://www.maroonbellsquartet.com/			
-GR Hair + Makeup	Hair & Makeup		Aspen	Colorado	Roaring Fork Valley, Aspen and Carbondale, with travel across Colorado	Mobile on-site bridal hair and makeup team led by two Roaring Fork Valley stylists, with trials and bridal party packages.	hello@grhairandmakeup.com		https://www.grhairandmakeup.com/	https://www.instagram.com/grhairandmakeup/		
-By The West	Videography		Denver	Colorado	Denver, Vail, Beaver Creek, Aspen, Telluride and destinations	Colorado studio making documentary-led wedding films alongside photography, with a focus on mountain and destination weddings.	hello@bythewest.co	786-537-9710	https://bythewest.co/	https://www.instagram.com/bythewestco/		
-Fabian Wedding Films	Videography		Denver	Colorado	Aspen, Vail, Colorado and destinations	Denver wedding filmmaker Zac Fabian shooting editorial, cinematic films for couples marrying in Aspen, Vail and further afield.	hello@fabianweddingfilms.com		https://fabianweddingfilms.com/			`,
+GR Hair + Makeup	Hair & Makeup		Aspen	Colorado	Roaring Fork Valley, Aspen and Carbondale, with travel across Colorado	Mobile on-site bridal hair and makeup team led by two Roaring Fork Valley stylists, with trials and bridal party packages.	hello@grhairandmakeup.com		https://www.grhairandmakeup.com/	https://www.instagram.com/grhairandmakeup/		`,
   },
   {
     name: "Durango and Telluride: florals, music, catering, cake and videography",
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
-Adela Flora	Florals	3235 Main Ave Suite B	Durango	Colorado	Durango, Southwest Colorado, Telluride and Northern New Mexico	Durango florist offering full-service and premium wedding design, plus pick-up packages for elopements and budgets under $5,000.	hello@adelaflora.com	970-828-8000	https://adelaflora.com/	https://www.instagram.com/adelafloradesignco/		
 Rob Webster Music	Music		Durango	Colorado	Durango and the Four Corners	Durango musician and DJ combining live sets from a 500-plus song catalogue with DJ music, sound and lighting for weddings.	robwebstermusic@gmail.com	815-861-3826	https://www.robwebstermusic.com/services	https://www.instagram.com/robwebstermusic/		
-Zia Taqueria	Catering		Durango	Colorado	Durango and surrounding area	Durango Mexican restaurant catering weddings and events for 15 to 1,000 guests with buffet bars and vegetarian, vegan and gluten-free options.	catering@ziataqueria.com	(970) 247-3355	https://ziataqueria.com/catering-mexican-food-in-durango/	https://www.instagram.com/ziataqueriadurango/		
 Telluride Catering by Chef Eliza	Catering		Telluride	Colorado	Telluride	Telluride caterer and Top Chef alum serving weddings from intimate dinners to hundreds of guests, with her historic-home restaurant open for receptions.	221southoak@gmail.com	970.708.1437	https://telluridecatering.net/	https://www.instagram.com/telluride.catering/		
 Graze Colorado	Catering		Durango	Colorado	Durango and the Four Corners	Durango caterer known for grazing tables and charcuterie, also running a bakery and bistro, for weddings and private events.	grazecolorado@gmail.com	970-403-1403	https://www.grazecolorado.com/			
 Kelly Gray Cakes	Cake		Telluride	Colorado	Telluride, with events across the US	Luxury wedding cake designer with a Telluride studio, known for hyper-realistic sculpted sugar flowers on tailored multi-tier cakes.			https://www.kellygraycakes.com/	https://www.instagram.com/kellygraycakes/		
