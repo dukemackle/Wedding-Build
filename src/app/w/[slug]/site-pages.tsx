@@ -116,44 +116,47 @@ export function SitePages({
 }
 
 /**
- * Every tab again at the foot of the page, so a guest who has read to the
- * bottom can go anywhere without scrolling back up. The open tab is marked;
- * RSVP keeps its filled look. A phone gets two even columns, a computer one
- * centred row.
+ * Every tab again at the foot of the page, styled like the bar at the top,
+ * so a guest who has read to the bottom can go anywhere without scrolling
+ * back up. All of them show here (no "More"); on a phone they wrap.
  */
 function PageLinks({ pages, active, go }: { pages: Page[]; active: string; go: (id: string) => void }) {
+  const rsvp = pages.find((p) => p.id === "rsvp");
+  const links = pages.filter((p) => p !== rsvp);
+  const pick = (id: string) => (e: MouseEvent) => {
+    e.preventDefault();
+    go(id);
+  };
   return (
-    <nav aria-label="All pages" className="mx-auto w-full max-w-3xl px-4 pb-16 pt-6 sm:px-6">
-      <div className="border-t border-hairline pt-8">
-        <ul className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:justify-center sm:gap-2.5">
-          {pages.map((p) => {
-            const current = p.id === active;
-            const rsvp = p.id === "rsvp";
-            return (
-              <li key={p.id}>
-                <a
-                  href={p.id === "home" ? "#" : `#${p.id}`}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    go(p.id);
-                  }}
-                  aria-current={current ? "page" : undefined}
-                  className={`btn-motion flex items-center justify-center gap-2 truncate rounded-full px-5 py-2.5 text-sm font-medium transition-colors ${
-                    rsvp
-                      ? "bg-forest text-parchment hover:bg-forest/90"
-                      : current
-                        ? "border border-forest bg-forest/5 text-forest"
-                        : "border border-forest/25 text-forest hover:bg-forest/5"
-                  }`}
-                >
-                  {current && <span aria-hidden="true" className="h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--site-accent)]" />}
-                  {p.label}
-                </a>
-              </li>
-            );
-          })}
-        </ul>
-      </div>
+    <nav aria-label="All pages" className="flex justify-center px-4 pb-16 pt-6">
+      <ul className="flex flex-wrap items-center justify-center gap-1">
+        {links.map((p) => (
+          <li key={p.id}>
+            <a
+              href={p.id === "home" ? "#" : `#${p.id}`}
+              onClick={pick(p.id)}
+              aria-current={active === p.id ? "page" : undefined}
+              className={`relative block whitespace-nowrap rounded-md px-3 py-2 text-[15px] transition-colors after:absolute after:inset-x-3 after:bottom-0.5 after:h-0.5 after:rounded-full after:bg-[var(--site-accent)] after:transition-transform after:duration-200 motion-reduce:after:transition-none ${
+                active === p.id ? "text-forest after:scale-x-100" : "text-ink/70 after:scale-x-0 hover:text-forest"
+              }`}
+            >
+              {p.label}
+            </a>
+          </li>
+        ))}
+        {rsvp && (
+          <li className="ml-3">
+            <a
+              href="#rsvp"
+              onClick={pick("rsvp")}
+              aria-current={active === "rsvp" ? "page" : undefined}
+              className="btn-motion block rounded-full bg-forest px-4 py-1.5 text-sm font-medium text-parchment transition-colors hover:bg-forest/90"
+            >
+              RSVP
+            </a>
+          </li>
+        )}
+      </ul>
     </nav>
   );
 }
