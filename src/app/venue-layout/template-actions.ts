@@ -7,6 +7,8 @@ import { phaseIdFromForm } from "@/lib/layout-phase-access";
 import { LAYOUT_TEMPLATES, buildTemplate, type LayoutTemplateId } from "@/lib/layout-templates";
 import { CEREMONY_TEMPLATES, buildCeremony, type CeremonyTemplateId } from "@/lib/ceremony-templates";
 import { planSeating, type SeatGuest, type SeatTable } from "@/lib/auto-seat";
+import { frameForPlan, roomPlan } from "@/lib/venue-plans";
+import type { VenueRoom } from "@/lib/supabase/types";
 
 /**
  * Lays down a ready-made layout sized to the guest list. With replace set,
@@ -36,9 +38,17 @@ export async function applyLayoutTemplate(formData: FormData): Promise<{ error?:
     .neq("status", "declined")
     .returns<{ plus_one: boolean }[]>();
   const seats = (guests ?? []).reduce((s, g) => s + 1 + (g.plus_one ? 1 : 0), 0);
+  // A room copied from a venue's floor plan gets a layout at its real size.
+  const { data: room } = await supabase
+    .from("venue_rooms")
+    .select("width_m, length_m, outline")
+    .eq("id", room_id)
+    .eq("wedding_id", wedding.id)
+    .maybeSingle<Pick<VenueRoom, "width_m" | "length_m" | "outline">>();
+  const frame = frameForPlan(roomPlan(room));
   const layout = ceremony
-    ? buildCeremony(id as CeremonyTemplateId, seats, { unity: formData.get("unity") === "1" })
-    : buildTemplate(id as LayoutTemplateId, seats);
+    ? buildCeremony(id as CeremonyTemplateId, seats, { unity: formData.get("unity") === "1" }, frame)
+    : buildTemplate(id as LayoutTemplateId, seats, frame);
 
   if (replace) {
     for (const table of ["seating_tables", "venue_layout_items"] as const) {

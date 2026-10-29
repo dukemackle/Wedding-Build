@@ -8,7 +8,12 @@ import type { Guest, LayoutPhase, SeatingTable, VenueLayoutItem, VenueRoom, Wedd
 import { VenueLayoutClient } from "./venue-layout-client";
 import { GUEST_WITH_NOTES, withNotes } from "@/lib/guest-notes";
 
-export default async function VenueLayoutPage() {
+export default async function VenueLayoutPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ room?: string }>;
+}) {
+  const { room: initialRoomId } = await searchParams;
   const supabase = await createClient();
   const {
     data: { user },
@@ -130,6 +135,7 @@ export default async function VenueLayoutPage() {
           phases={phases ?? []}
           declinedSeated={declinedSeated ?? []}
           roomStyle={wedding.layout_room_style ?? "blank"}
+          initialRoomId={initialRoomId ?? null}
           sides={{
             partnerAName: wedding.partner_a_name,
             partnerBName: wedding.partner_b_name,

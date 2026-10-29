@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { getOrCreateDefaultRoom } from "@/lib/venue-rooms";
+import { getOrCreateDefaultRoom, keepInRoom } from "@/lib/venue-rooms";
 import { MAX_ITEM_SIZE, MIN_ITEM_SIZE, clamp, duplicatePosition, tableFootprint } from "@/lib/venue-layout-geometry";
 import type { Guest, SeatingTable, TableShape } from "@/lib/supabase/types";
 import { requireEditableWedding } from "@/lib/wedding-access";
@@ -82,8 +82,12 @@ export async function addSeatingTable(formData: FormData): Promise<{ error?: str
     wedding_id: wedding.id,
     user_id: user.id,
     ...parsed.fields,
-    position_x,
-    position_y,
+    ...(await keepInRoom(
+      supabase,
+      room_id,
+      { position_x, position_y },
+      tableFootprint({ shape: parsed.fields.shape, capacity: parsed.fields.capacity, width: null, height: null }),
+    )),
     room_id,
     phase_id: phase.phaseId,
   });
@@ -377,7 +381,12 @@ export async function duplicateSeatingTable(formData: FormData): Promise<{ error
     phase_id: source.phase_id,
     linen: source.linen,
     centerpiece: source.centerpiece,
-    ...duplicatePosition(source.position_x, source.position_y, tableFootprint(source)),
+    ...(await keepInRoom(
+      supabase,
+      source.room_id,
+      duplicatePosition(source.position_x, source.position_y, tableFootprint(source)),
+      tableFootprint(source),
+    )),
   });
 
   if (error) {

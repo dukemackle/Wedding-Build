@@ -2,7 +2,8 @@
 
 import { useMemo, useState, useTransition } from "react";
 import type { Guest, SeatingTable } from "@/lib/supabase/types";
-import { CANVAS_HEIGHT, CANVAS_WIDTH, ROW_PITCH, tableFootprint, toFeet } from "@/lib/venue-layout-geometry";
+import { ROW_PITCH, tableFootprint, toFeet } from "@/lib/venue-layout-geometry";
+import { frameForPlan, planCanvas, type PlanShape } from "@/lib/venue-plans";
 import { LAYOUT_TEMPLATES, buildTemplate, type TemplateItem, type TemplateLayout } from "@/lib/layout-templates";
 import { AISLE, CEREMONY_TEMPLATES, buildCeremony } from "@/lib/ceremony-templates";
 import { planSeating } from "@/lib/auto-seat";
@@ -11,13 +12,16 @@ import { WrenBirdIcon } from "@/components/icons";
 import { applyLayoutTemplate, seatTheRest } from "./template-actions";
 
 /** A small drawing of a template, from the same geometry that gets saved. */
-function TemplateThumb({ layout }: { layout: TemplateLayout }) {
+function TemplateThumb({ layout, width, outline }: { layout: TemplateLayout; width: number; outline: [number, number][] | null }) {
   return (
     <svg
-      viewBox={`0 0 ${CANVAS_WIDTH} ${layout.height}`}
+      viewBox={`0 0 ${width} ${layout.height}`}
       className="block h-auto max-h-56 w-full rounded-md border border-hairline bg-parchment"
       aria-hidden
     >
+      {outline && (
+        <polygon points={outline.map((p) => p.join(",")).join(" ")} fill="#fff" stroke="#14203d" strokeOpacity={0.4} strokeWidth={8} />
+      )}
       {layout.items.map((i, n) => (
         <g key={n} transform={i.rotation ? `rotate(${i.rotation} ${i.x + i.width / 2} ${i.y + i.height / 2})` : undefined}>
           <ThumbItem item={i} />
@@ -71,9 +75,12 @@ export function LayoutTemplatePicker({
   hasContent,
   seatedPeople,
   ceremony = false,
+  plan = null,
   onDone,
 }: {
   guestSeats: number;
+  /** A room copied from a venue's floor plan: layouts fit its real size. */
+  plan?: PlanShape | null;
   /** The ceremony gets rows of chairs and an aisle instead of dinner tables. */
   ceremony?: boolean;
   roomId?: string;
@@ -83,11 +90,13 @@ export function LayoutTemplatePicker({
   onDone?: () => void;
 }) {
   const [unity, setUnity] = useState(false);
+  const frame = useMemo(() => frameForPlan(plan), [plan]);
+  const outline = plan ? planCanvas(plan).corners : null;
   const layouts = useMemo(
     () =>
       ceremony
         ? CEREMONY_TEMPLATES.map((spec) => {
-            const layout = buildCeremony(spec.id, guestSeats, { unity });
+            const layout = buildCeremony(spec.id, guestSeats, { unity }, frame);
             return {
               spec,
               layout,
@@ -96,7 +105,7 @@ export function LayoutTemplatePicker({
             };
           })
         : LAYOUT_TEMPLATES.map((spec) => {
-            const layout = buildTemplate(spec.id, guestSeats);
+            const layout = buildTemplate(spec.id, guestSeats, frame);
             return {
               spec,
               layout,
@@ -104,7 +113,7 @@ export function LayoutTemplatePicker({
               size: null,
             };
           }),
-    [guestSeats, ceremony, unity],
+    [guestSeats, ceremony, unity, frame],
   );
   const [picked, setPicked] = useState<string>(layouts[0].spec.id);
   const [isPending, startTransition] = useTransition();
@@ -152,14 +161,18 @@ export function LayoutTemplatePicker({
                 selected ? "border-brass shadow-md ring-2 ring-brass" : "border-hairline hover:shadow-sm"
               }`}
             >
-              <TemplateThumb layout={layout} />
+              <TemplateThumb layout={layout} width={frame.width} outline={outline} />
               <span className="mt-3 block font-medium text-forest">{spec.name}</span>
               <span className="mt-0.5 block text-xs text-ink/60">{spec.blurb}</span>
               <span className="mt-2 block font-mono-numbers text-xs text-ink/70">{summary}</span>
               {size && <span className="mt-0.5 block text-xs text-ink/60">{size}</span>}
-              {layout.height > CANVAS_HEIGHT && (
+              {layout.height > frame.height && (
                 <span className="mt-1 block text-xs text-ink/70">
-                  {ceremony ? "A big one, so the rows run further back." : "A big one, so the room runs longer to fit every table."}
+                  {plan
+                    ? "More guests than this room holds this way, so it runs past the back wall."
+                    : ceremony
+                      ? "A big one, so the rows run further back."
+                      : "A big one, so the room runs longer to fit every table."}
                 </span>
               )}
             </button>

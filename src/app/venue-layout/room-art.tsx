@@ -10,7 +10,6 @@ import { CANVAS_HEIGHT, CANVAS_WIDTH, CHAIR_PITCH } from "@/lib/venue-layout-geo
  * backdrop ignores the pointer so a click on the floor still deselects.
  */
 
-const W = CANVAS_WIDTH;
 const WALL = 18;
 
 /** One string of fairy lights, sagging between two points. */
@@ -40,7 +39,7 @@ function lightString(x1: number, y1: number, x2: number, y2: number, key: string
   );
 }
 
-function Barn({ H }: { H: number }) {
+function Barn({ W, H }: { W: number; H: number }) {
   return (
     <>
       <defs>
@@ -56,7 +55,7 @@ function Barn({ H }: { H: number }) {
       </defs>
       <rect width={W} height={H} fill="url(#room-planks)" />
       {/* Beams overhead, seen from above as soft bands of shadow. */}
-      {[400, 800, 1200].map((x) => (
+      {Array.from({ length: Math.max(0, Math.ceil(W / 400) - 1) }, (_, i) => (i + 1) * 400).map((x) => (
         <rect key={x} x={x - 14} y={0} width={28} height={H} fill="#2b1a0d" opacity={0.13} />
       ))}
       {[260, 540].map((y) => lightString(WALL, y - 140, W - WALL, y - 140, `h${y}`))}
@@ -87,7 +86,7 @@ function Barn({ H }: { H: number }) {
   );
 }
 
-function Ballroom({ H }: { H: number }) {
+function Ballroom({ W, H }: { W: number; H: number }) {
   return (
     <>
       <defs>
@@ -140,13 +139,29 @@ function Ballroom({ H }: { H: number }) {
   );
 }
 
-export function RoomBackdrop({ style, height = CANVAS_HEIGHT }: { style: RoomStyle; height?: number }) {
-  if (style === "blank") return null;
+/**
+ * The floor and walls behind the plan. A room copied from a venue's floor
+ * plan passes its outline: the floor outside it is greyed out and hatched,
+ * and the outline is drawn as the wall.
+ */
+export function RoomBackdrop({
+  style,
+  width = CANVAS_WIDTH,
+  height = CANVAS_HEIGHT,
+  outline = null,
+}: {
+  style: RoomStyle;
+  width?: number;
+  height?: number;
+  outline?: [number, number][] | null;
+}) {
+  if (style === "blank" && !outline) return null;
+  const points = outline?.map((p) => p.join(",")).join(" ");
   return (
     <svg
       aria-hidden
-      viewBox={`0 0 ${W} ${height}`}
-      width={W}
+      viewBox={`0 0 ${width} ${height}`}
+      width={width}
       height={height}
       className="pointer-events-none absolute inset-0"
     >
@@ -156,8 +171,22 @@ export function RoomBackdrop({ style, height = CANVAS_HEIGHT }: { style: RoomSty
           <stop offset="0.4" stopColor="#FFD301" stopOpacity="0.3" />
           <stop offset="1" stopColor="#FFD301" stopOpacity="0" />
         </radialGradient>
+        <pattern id="room-outside" width="16" height="16" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+          <rect width="16" height="16" fill="#e9e6df" />
+          <rect width="3" height="16" fill="#14203d" opacity="0.07" />
+        </pattern>
       </defs>
-      {style === "barn" ? <Barn H={height} /> : <Ballroom H={height} />}
+      {style === "barn" ? <Barn W={width} H={height} /> : style === "ballroom" ? <Ballroom W={width} H={height} /> : null}
+      {outline && (
+        <>
+          <path
+            d={`M0 0H${width}V${height}H0Z M${outline.map((p) => p.join(" ")).join(" L")}Z`}
+            fillRule="evenodd"
+            fill="url(#room-outside)"
+          />
+          <polygon points={points} fill="none" stroke="#14203d" strokeOpacity={0.75} strokeWidth={8} strokeLinejoin="round" />
+        </>
+      )}
     </svg>
   );
 }

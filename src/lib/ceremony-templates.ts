@@ -1,5 +1,5 @@
-import { CANVAS_HEIGHT, CANVAS_WIDTH, CHAIR_PITCH, ROW_PITCH, WORLD_SCALE } from "@/lib/venue-layout-geometry";
-import type { TemplateItem, TemplateLayout } from "@/lib/layout-templates";
+import { CHAIR_PITCH, ROW_PITCH, WORLD_SCALE } from "@/lib/venue-layout-geometry";
+import { STANDARD_FRAME, type RoomFrame, type TemplateItem, type TemplateLayout } from "@/lib/layout-templates";
 
 /**
  * Ready-made ceremony set-ups: rows of chairs either side of an aisle, the
@@ -99,6 +99,7 @@ export function buildCeremony(
   id: CeremonyTemplateId,
   guestSeats: number,
   options: { unity?: boolean } = {},
+  frame: RoomFrame = STANDARD_FRAME,
 ): CeremonyLayout {
   const spec = CEREMONY_TEMPLATES.find((t) => t.id === id) ?? CEREMONY_TEMPLATES[0];
   const needed = Math.ceil(Math.max(guestSeats, 40) * SPARE);
@@ -108,21 +109,36 @@ export function buildCeremony(
 
   // The narrowest rows that fit the standard room; past the widest, the room
   // runs longer instead, like the dinner layouts do for a big wedding.
-  let seats = SECTION_SEATS.find((s) => FRONT_ROW_Y + depthFor(s) <= CANVAS_HEIGHT - BACK);
-  let roomHeight = CANVAS_HEIGHT;
+  // Rows also have to fit across the room, aisles and all.
+  const fitsAcross = (s: number) => spec.sections * s * CHAIR_PITCH + (spec.sections - 1) * AISLE <= frame.width - 48;
+  let seats = SECTION_SEATS.find((s) => fitsAcross(s) && FRONT_ROW_Y + depthFor(s) <= frame.height - BACK);
+  let roomHeight = frame.height;
   if (seats == null) {
-    seats = SECTION_SEATS[SECTION_SEATS.length - 1];
+    seats = [...SECTION_SEATS].reverse().find(fitsAcross) ?? SECTION_SEATS[0];
     while (FRONT_ROW_Y + depthFor(seats) > roomHeight - BACK && roomHeight < MAX_HEIGHT) roomHeight += 50;
   }
   const rows = rowsFor(seats);
   const sectionWidth = seats * CHAIR_PITCH;
-  const mid = CANVAS_WIDTH / 2;
   // An angled row's outer end swings forward; start lower so it keeps clear
   // of the wedding party.
   const top = FRONT_ROW_Y + tilt(seats);
 
   // Each section's left edge, aisles between them, centred on the arch.
   const total = spec.sections * sectionWidth + (spec.sections - 1) * AISLE;
+  // Centred, or in an L-shaped room slid sideways until the rows and the arch
+  // are on the floor.
+  const block = (m: number) => ({ x: m - total / 2, y: ARCH.y, width: total, height: top + rows * ROW_PITCH - ARCH.y });
+  let mid = frame.width / 2;
+  if (frame.inside) {
+    search: for (let d = 0; d <= frame.width; d += 20) {
+      for (const m of [frame.width / 2 - d, frame.width / 2 + d]) {
+        if (frame.inside(block(m))) {
+          mid = m;
+          break search;
+        }
+      }
+    }
+  }
   const lefts = Array.from({ length: spec.sections }, (_, n) => mid - total / 2 + n * (sectionWidth + AISLE));
 
   const chairs: TemplateItem[] = [];
@@ -165,7 +181,12 @@ export function buildCeremony(
 
   return {
     tables: [],
-    items: items.map((i) => ({ ...i, x: Math.round(i.x), y: Math.round(i.y) })),
+    // Kept on the floor of a small room (the musicians beside the arch).
+    items: items.map((i) => ({
+      ...i,
+      x: Math.round(i.rotation ? i.x : Math.max(0, Math.min(i.x, frame.width - i.width))),
+      y: Math.round(i.y),
+    })),
     seats: rows * seats * spec.sections,
     height: roomHeight,
     rows,

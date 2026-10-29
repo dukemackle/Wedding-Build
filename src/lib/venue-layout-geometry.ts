@@ -109,15 +109,17 @@ export function nodeDimensions(node: SeatingTable | VenueLayoutItem): Footprint 
 }
 
 /**
- * How tall the plan is: the standard 900, or longer when a big wedding's
+ * How tall the plan is: the standard 900 (or a venue room's real length), or longer when a big wedding's
  * tables run further down the room. Counts each table's chairs and the name
  * tag under it, and rounds up so the room doesn't twitch by a pixel or two.
  */
-export function planHeight(tables: SeatingTable[], items: VenueLayoutItem[]): number {
+export function planHeight(tables: SeatingTable[], items: VenueLayoutItem[], roomLength = CANVAS_HEIGHT): number {
   let bottom = 0;
   for (const t of tables) bottom = Math.max(bottom, t.position_y + tableFootprint(t).height + chairSize(t) + 60);
   for (const i of items) bottom = Math.max(bottom, i.position_y + itemDimensions(i).height);
-  return Math.max(CANVAS_HEIGHT, Math.ceil((bottom + 24) / 50) * 50);
+  // A venue room keeps its real length until something actually sits past the back wall.
+  if (roomLength !== CANVAS_HEIGHT && bottom <= roomLength) return roomLength;
+  return Math.max(roomLength, Math.ceil((bottom + 24) / 50) * 50);
 }
 
 /**

@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { getOrCreateDefaultRoom } from "@/lib/venue-rooms";
+import { getOrCreateDefaultRoom, keepInRoom } from "@/lib/venue-rooms";
 import { duplicatePosition, itemDimensions } from "@/lib/venue-layout-geometry";
 import type { LayoutItemType, VenueLayoutItem } from "@/lib/supabase/types";
 import { requireEditableWedding } from "@/lib/wedding-access";
@@ -117,8 +117,12 @@ export async function addLayoutItem(formData: FormData): Promise<{ error?: strin
     wedding_id: wedding.id,
     user_id: user.id,
     ...parsed.fields,
-    position_x,
-    position_y,
+    ...(await keepInRoom(
+      supabase,
+      room_id,
+      { position_x, position_y },
+      itemDimensions({ item_type: parsed.fields.item_type, width: null, height: null }),
+    )),
     room_id,
     phase_id: phase.phaseId,
   });
@@ -303,7 +307,12 @@ export async function duplicateLayoutItem(formData: FormData): Promise<{ error?:
     height: source.height,
     room_id: source.room_id,
     phase_id: source.phase_id,
-    ...duplicatePosition(source.position_x, source.position_y, itemDimensions(source)),
+    ...(await keepInRoom(
+      supabase,
+      source.room_id,
+      duplicatePosition(source.position_x, source.position_y, itemDimensions(source)),
+      itemDimensions(source),
+    )),
   });
 
   if (error) {

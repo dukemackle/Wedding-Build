@@ -779,6 +779,27 @@ export type VenueRoom = {
   user_id: string;
   name: string;
   created_at: string;
+  /** Set when the room was copied from a venue's floor plan (0150). */
+  width_m: number | null;
+  length_m: number | null;
+  outline: PlanOutline | null;
+  source_space_id: string | null;
+  source_venue_id: string | null;
+};
+
+/** A floor plan's corners in metres from its top-left, clockwise. */
+export type PlanOutline = [number, number][];
+
+/** One venue space's floor plan, drawn in admin (0150). */
+export type VenueSpacePlan = {
+  space_id: string;
+  venue_id: string;
+  width_m: number;
+  length_m: number;
+  /** Null: the whole width x length rectangle. */
+  outline: PlanOutline | null;
+  published: boolean;
+  updated_at: string;
 };
 
 export type LayoutItemType =
