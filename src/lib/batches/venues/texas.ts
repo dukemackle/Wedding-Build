@@ -1255,6 +1255,25 @@ Imperial Reception Hall	6400 Southwest Freeway	Houston	Texas			Ballroom	Indoor		
 Rockefellers	3620 Washington Ave	Houston	Texas			Ballroom	Indoor	150	5000	Rental	A 1925 former bank building on Washington Avenue turned live-music room that rents for private events.	booking@rockefellershouston.com	713-862-4070	https://www.rockefellershouston.com/private-events--weddings.html
 The Whitehall Houston	1700 Smith St	Houston	Texas			Hotel & Resort	Indoor & Outdoor	450			A downtown hotel with a 4,233 sq ft ballroom for up to 450, a smaller ballroom and an open-air venue under string lights.		1-713-739-8800	https://www.thewhitehallhouston.com/weddings`,
   },
+  {
+    name: "Houston depth 5",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+Ronin Harrisburg	3501 Harrisburg Blvd	Houston	Texas			Museum, Gallery & Rooftop	Indoor	120			A gallery-style rental space in Houston's Second Ward that seats 120 or holds 150 standing.	rentals@roninarthouse.com	(832) 946-8651	https://www.rentalsatronin.com/locations/ronin-harrisburg
+The Grove	1611 Lamar St	Houston	Texas			Restaurant & Brewery	Indoor & Outdoor	1500			A two-level restaurant and event venue of about 12,000 square feet inside Discovery Green, with private rooms plus tented outdoor space or the park's Lake House.	catering@thegrovehouston.com	(713) 337-7321	https://www.groveevents.com/
+C. Baldwin Hotel	400 Dallas St	Houston	Texas			Hotel & Resort	Indoor	600			A downtown Houston hotel whose two ballrooms and smaller private rooms are backed by on-site wedding coordination and bridal suites.		(713) 759-0202	https://www.cbaldwinhotel.com/social-events-weddings
+Nouveau Antique Art Bar	2913 Main St	Houston	Texas			Restaurant & Brewery	Indoor				A Midtown art-filled bar and event space that advertises wedding ceremonies and receptions and has its own chapel area.			https://www.art-bar.net/
+Signature Manor	6968 Howell-Sugarland	Houston	Texas			Ballroom	Indoor				A southwest Houston reception venue that offers all-inclusive wedding planning with venue, catering, decor and entertainment under one roof.	info@houstoneventplanning.com	(713) 541-1000	https://www.signaturemanor.com/
+The Hall & Garden	1622 Federal Rd #29	Houston	Texas			Ballroom	Indoor & Outdoor	140			A reception hall near the Hobby and Pasadena edge with a garden for ceremonies, hosting up to 140 guests.	info@thehallandgarden.net	(832) 422-5820	https://www.thehallandgarden.com/
+SpindleTap Brewery	10622 Hirsch Rd	Houston	Texas			Restaurant & Brewery	Indoor & Outdoor	300			A brewery taproom with a roughly three-acre outdoor park, pavilion and beer garden where couples can hold ceremony and reception in one place.		(713) 325-1477	https://www.spindletap.com/private-events
+Bayou City Event Center	9401 Knight Rd	Houston	Texas			Ballroom	Indoor	1600			A multi-ballroom event center in central Houston with in-house catering, bridal suites with private entrances and room for large cultural weddings.	info@bayoucityeventcenter.com	(281) 501-6720	https://www.bayoucityeventcenter.com/weddings
+The Pearl Event Center	951 Tristar Dr	Webster	Texas			Ballroom	Indoor	350			Three modular halls that combine into one grand ballroom, set up for weddings and cultural celebrations.	info@thepearleventcenter.com	(281) 815-0923	https://www.thepearleventcenter.com
+Chapel by the Lake	2021 29th Street North	Texas City	Texas			Chapel & Church	Indoor & Outdoor	200			A nine-acre church campus with a stained-glass sanctuary, a covered pavilion, an indoor event hall and a gazebo set in front of water.		409-310-1768	https://www.chapelbythelaketexas.com
+Pearland Golf Club	3123 Flower Field Ln	Pearland	Texas			Country Club & Golf	Indoor & Outdoor				A golf club clubhouse that runs a wedding and events facility with wedding packages.		713-773-9603	https://pearlandgolfclub.com/weddings-banquets/
+FountainBlu Event Centers	6327 Spencer Hwy	Pasadena	Texas			Ballroom	Indoor & Outdoor	450			Four indoor rooms with dance floors plus an outdoor garden with a wooden gazebo and pergola, with on-site get-ready rooms.			https://www.fountainblueventcenterstx.com/
+Mamarita's Event Venue	7325 Spencer Hwy	Pasadena	Texas			Ballroom	Indoor				A full-service celebration hall on Spencer Highway that hosts weddings, receptions and quinceañeras.	brmamaritas@yahoo.com	(281) 476-0702	https://mamaritaseventvenue.com/
+The Nathaniel Center	804 Russell Palmer Rd	Kingwood	Texas			Ballroom	Indoor	400			A non-profit event campus open since 2001, with a Rose Ballroom that seats up to 400 and a smaller Magnolia Room for about 90.	darla@nathanielcenter.com	(281) 348-7800	https://thenathanielcenter.com/
+Honey Bee Ranch Event Center	800 East Highway 90	Dayton	Texas			Ranch	Indoor & Outdoor				A highway-side ranch property with a 3,000 sq ft ballroom and a 576 sq ft gazebo for ceremonies.		(713) 208-6222	https://honeybeerancheventcenter.com/`,
+  },
 ];
 
 export default batches;
