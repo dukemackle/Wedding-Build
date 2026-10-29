@@ -629,13 +629,9 @@ function SeatingDemo() {
           <span className="mr-1 font-mono-numbers text-[10px] uppercase tracking-[0.2em] text-ink/50">
             Event
           </span>
-          {["Ceremony", "Cocktail hour", "Reception"].map((e, i) => {
-            const on = ceremony ? i === 0 : i === 2;
-            return i === 1 ? (
-              <span key={e} className="rounded-full border border-hairline px-2.5 py-0.5 text-xs text-ink/70">
-                {e}
-              </span>
-            ) : (
+          {["Ceremony", "Reception"].map((e, i) => {
+            const on = ceremony ? i === 0 : i === 1;
+            return (
               <button
                 key={e}
                 type="button"
