@@ -329,3 +329,10 @@ all seven kept:
   tab of text-led sections (not photos, schedule, registry, wall, party) sits at
   the STANDARD width on the Cards page style
   (`section-layout.tsx`).
+
+**Falling colour (2026-10-28):** Motion › Falling over the page has a Colour
+row (shown unless Nothing is picked): Match my colours (default, the site's
+accent), True to life (each kind's real colour), Blush, Gold, Sage, Navy,
+White. It tints only what falls and the RSVP burst, never the accent, and
+carries over when an Overall preset is picked. `FALLING_COLORS` and
+`fallingTint` in `src/lib/site-design.ts`.
