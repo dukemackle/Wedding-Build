@@ -39,7 +39,7 @@ async function embeddedFont(face: string, letters: string) {
   }
 }
 
-async function fetchFont(google: string, letters: string) {
+export async function fetchFont(google: string, letters: string) {
   const css = await fetch(`https://fonts.googleapis.com/css2?family=${google}&text=${encodeURIComponent(letters)}`).then(
     (r) => (r.ok ? r.text() : Promise.reject(new MonogramFontError("font css"))),
   );

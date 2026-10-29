@@ -1860,3 +1860,31 @@ body:has(.search-shell-root) .site-footer {
 @media (prefers-reduced-motion: reduce) {
   .site-menu-item { animation: none; }
 }
+
+/* Save the date: the guest's envelope reveal (src/components/save-the-date/reveal.tsx).
+   Stages: closed -> opening (flap lifts) -> lifting (card slides out) -> open
+   (envelope falls away, card settles). Reduced motion jumps to open. */
+.std-reveal .std-env-back { z-index: 0; }
+.std-reveal .std-card { z-index: 1; transition: transform 900ms cubic-bezier(0.22, 1, 0.36, 1); }
+.std-reveal .std-env-front { z-index: 2; }
+.std-reveal .std-flap { z-index: 3; transform: perspective(1400px) rotateX(0deg); transition: transform 650ms cubic-bezier(0.45, 0, 0.2, 1); }
+.std-reveal .std-seal { transition: opacity 250ms ease, transform 250ms ease; }
+.std-reveal .std-env { transition-property: transform, opacity; }
+.std-reveal[data-stage="closed"] .std-env,
+.std-reveal[data-stage="closed"] .std-card { animation: std-arrive 700ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+.std-reveal[data-stage="closed"] .std-card:hover { transform: translateY(-2%); }
+.std-reveal:not([data-stage="closed"]) .std-seal { opacity: 0; transform: translate(-50%, -50%) scale(0.7); }
+.std-reveal:not([data-stage="closed"]) .std-flap { transform: perspective(1400px) rotateX(180deg); }
+.std-reveal[data-stage="lifting"] .std-flap,
+.std-reveal[data-stage="open"] .std-flap { z-index: 0; }
+.std-reveal[data-stage="lifting"] .std-card { transform: translateY(-52%); }
+.std-reveal[data-stage="open"] .std-card { z-index: 4; transform: translateY(0) scale(1.09); transition-duration: 800ms; }
+.std-reveal[data-stage="open"] .std-env { opacity: 0; transform: translateY(30%); transition: transform 600ms ease-in, opacity 500ms ease-in; }
+.std-reveal[data-stage="open"] .std-flap { opacity: 0; transform: perspective(1400px) rotateX(180deg); }
+.std-reveal[data-stage="open"] .std-actions { animation: std-arrive 500ms 500ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+@keyframes std-arrive {
+  from { opacity: 0; transform: translateY(16px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .std-reveal *, .std-reveal *::before { animation: none !important; transition: none !important; }
+}
