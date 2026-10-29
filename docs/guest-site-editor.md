@@ -120,7 +120,9 @@ Phases, one PR each:
    blocks. Guests get `SiteSection` (`src/components/site-section.tsx`), plain
    positioned HTML scaled with container units; the dragging lives in
    `preview/canvas-editing.tsx`, which only the editor's preview frame loads.
-   The hero's own names, date and buttons stay theme-laid-out for now.
+   The hero's own names, date and buttons stay theme-laid-out for now; the
+   names, date line and countdown resize by clicking them (text slots
+   `hero.names`, `hero.date`, `hero.countdown`; the countdown is size-only).
 3. Phone editor, in two PRs (decided 2026-10-08).
    **3a, separate phone layouts** (built 2026-10-08): each section's `phone`
    frame stays "stack" until the couple moves something in the Phone preview
@@ -259,3 +261,80 @@ The owner found the editor "too complicated" and struggled to find Sections.
   you add yours" in its address bar; guests never see them. Colours shows six
   palettes that suit the look (the template's own, then light or dark like
   the page, same family first) and "More colours" for the full list.
+
+## Classic, the starter template (decided 2026-10-28)
+
+Same day, after Ivory shipped: the owner wanted the default pure white. The
+template is now **Classic** (`classic`, palette `classic-white` #ffffff), with
+Ivory and Linen as its colourways. Everything below still holds otherwise.
+
+### First version: Ivory
+
+The owner wanted templates to start clean and white. Approved from the mockup
+(https://claude.ai/artifact/1XpMHRqZf6SEBg2Noig6Ey): an eighth template,
+**Ivory** (side-by-side photo and names, Cormorant · Jost, cards page, the new
+`ivory` palette #faf7f0, colourways Classic white and Linen). It comes first in
+the gallery with a gold "Start here" tag (`badge`), and it's what a couple who
+hasn't picked a template starts on (`STARTER_DESIGN`): their guest site before
+anything is published (`parseSiteDesign(null)`), the base new designs go over,
+and the template preview "Pick a template" opens when they have no designs.
+Warm white rather than pure #fff, because stark white next to a warm photo
+reads like an app screen. Monogram keeps true white.
+
+## Seven templates (decided 2026-10-27)
+
+The owner saw no change from the signature work: 29 templates, most the same
+page of cards recoloured, four colours each, and thumbnails that didn't match
+the page they opened. Approved from the finalists mockup
+(https://claude.ai/artifact/1bTZGXTFkimWsw2q5G1Gvg, desktop 1440 and phone 390),
+all seven kept:
+
+- **Heirloom** (invitation hero with an arched photo, invitation page),
+  **Editorial** (masthead: photo, huge names, a facts row; magazine page),
+  **Riviera** (postcard hero with a postmark; postcard page), **Night Swim**
+  (poster hero; evening page), **Golden Hour** (cover: full-screen photo,
+  names on its corner; photo-led page), **Monogram** (initials hero; minimal
+  "ledger" page) and **Homestead** (stamped photo with a round year stamp;
+  homestead page, menu schedule). The other 22 are gone from
+  `site-templates.ts`; designs made from them keep their look.
+- Each template names its two other colourways (`colourways`), so the three
+  swatches are chosen for it instead of computed. Tags and the tag filter went;
+  each card has a one-line `blurb`.
+- New in `site-design.ts`: heroes `masthead`, `postcard`, `cover`, `initials`,
+  `stamp`; page styles `evening`, `photo`, `ledger`, `homestead`
+  (`section-layout.tsx`, dressed in `globals.css`); schedule layouts `days`
+  (day columns) and `menu` (dotted leaders).
+- **Thumbnails are the real page** (`site-page-thumb.tsx`): the preview page in
+  a frame, laid out at 1280px (or 390px in cards narrower than 260px, like the
+  editor's) and scaled to fit, loaded only near the screen and shown still.
+  Used by the gallery, the editor's Design tab and Your designs; the drawn
+  `site-thumb.tsx` is gone. Each thumbnail is one preview page load.
+
+## Tabs or one long page (2026-10-28)
+
+- `design.navigation`: `"tabs"` (default, also for designs saved before it
+  existed) or `"scroll"`. Picked at the top of the Sections tab ("How guests
+  get around").
+- `src/app/w/[slug]/site-pages.tsx` builds the tabs from `design.sections`:
+  Home is the top of the page; each built-in section and each block with a
+  heading (or a story) is a tab; an untitled block (quote, photo) joins the
+  tab before it. The open tab is the address's #hash (`#rsvp`, `#travel`), so
+  the top of the page's RSVP button, invite links and Back/Forward work.
+  Each tab ends with "Next: …". The scroll cue under full-screen heroes is
+  hidden with tabs.
+- Computer: a sticky bar with the names, tabs (past seven, under "More") and
+  RSVP. Phone (below lg): names, RSVP and a Menu button with a full-screen
+  list.
+- Opening a section in the editor (or picking it in the preview) sends
+  `SHOW_SECTION_MESSAGE`, so the preview opens that tab.
+- A sidebar section alone on its tab takes the page's single column, and a
+  tab of text-led sections (not photos, schedule, registry, wall, party) sits at
+  the STANDARD width on the Cards page style
+  (`section-layout.tsx`).
+
+**Falling colour (2026-10-28):** Motion › Falling over the page has a Colour
+row (shown unless Nothing is picked): Match my colours (default, the site's
+accent), True to life (each kind's real colour), Blush, Gold, Sage, Navy,
+White. It tints only what falls and the RSVP burst, never the accent, and
+carries over when an Overall preset is picked. `FALLING_COLORS` and
+`fallingTint` in `src/lib/site-design.ts`.

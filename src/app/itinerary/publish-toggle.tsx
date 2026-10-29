@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import type { EventAudience } from "@/lib/supabase/types";
 import { setItineraryPublished } from "./actions";
 
 /**
@@ -12,13 +13,25 @@ import { setItineraryPublished } from "./actions";
  */
 export function PublishToggle({
   published,
-  hasEvents,
+  counts,
   publicSlug,
+  bare = false,
 }: {
   published: boolean;
-  hasEvents: boolean;
+  /** How many events each audience has. */
+  counts: Record<EventAudience, number>;
   publicSlug: string | null;
+  /** Inside the page header's card, so no box of its own. */
+  bare?: boolean;
 }) {
+  const total = counts.guests + counts.party + counts.private;
+  const hasEvents = total > 0;
+  // "5 of 9": everything is public unless some events are tagged otherwise,
+  // and then it's worth saying how much stays back.
+  const share =
+    counts.guests === total
+      ? `All ${total} ${total === 1 ? "event" : "events"}`
+      : `${counts.guests} of ${total} events`;
   const [error, setError] = useState<string | undefined>(undefined);
   const [isPending, startTransition] = useTransition();
 
@@ -40,33 +53,37 @@ export function PublishToggle({
 
   return (
     <div
-      className={`mb-6 rounded-lg border p-4 sm:p-5 ${
-        published ? "border-forest/25 bg-forest/5" : "border-hairline bg-parchment"
-      }`}
+      className={
+        bare
+          ? undefined
+          : `mb-5 rounded-[14px] border px-4 py-2.5 ${
+              published ? "border-forest/25 bg-forest/5" : "border-hairline bg-card"
+            }`
+      }
     >
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <p className="flex items-center gap-2 font-display text-lg font-semibold text-forest">
-            <span
-              aria-hidden="true"
-              className={`inline-block h-2 w-2 rounded-full ${
-                published ? "bg-forest" : "bg-ink/25"
-              }`}
-            />
-            {published ? "Guests can see this schedule" : "Only you can see this schedule"}
-          </p>
-          <p className="mt-1 max-w-xl text-sm text-ink/70">
-            {published
-              ? "It's live on your guest site. Any change you make here shows up for guests right away."
-              : "Plan freely — nothing here reaches your guest site until you publish it."}
-          </p>
-        </div>
+      <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
+        <p className="flex min-w-0 items-start gap-2 text-sm text-ink/70">
+          <span
+            aria-hidden="true"
+            className={`mt-1.5 inline-block h-2 w-2 shrink-0 rounded-full ${published ? "bg-forest" : "bg-ink/25"}`}
+          />
+          <span>
+            <span className="font-semibold text-forest">
+              {published ? "Guests can see this schedule." : "Only you can see this schedule."}
+            </span>{" "}
+            {!hasEvents
+              ? "Nothing reaches your guest site until you publish."
+              : published
+                ? `${share} ${counts.guests === 1 ? "is" : "are"} live; changes show up for guests right away.`
+                : `When you publish, ${share.charAt(0).toLowerCase() + share.slice(1)} go on your guest site; the rest stay on your run sheets.`}
+          </span>
+        </p>
 
         <button
           type="button"
           onClick={handleToggle}
-          disabled={isPending || (!published && !hasEvents)}
-          className={`shrink-0 rounded-full px-5 py-2 font-mono-numbers text-sm transition-colors disabled:opacity-40 ${
+          disabled={isPending || (!published && counts.guests === 0)}
+          className={`shrink-0 rounded-full px-4 py-1.5 text-sm font-medium transition-colors disabled:opacity-40 ${
             published
               ? "border border-hairline bg-card text-forest hover:border-forest"
               : "bg-forest text-parchment hover:bg-forest/90"
@@ -78,20 +95,24 @@ export function PublishToggle({
 
       {/* Publishing an empty schedule would put an empty section on the guest
           site, so the button stays disabled until there's something to show. */}
-      {!published && !hasEvents && (
-        <p className="mt-3 text-sm text-ink/60">Add at least one event before publishing.</p>
+      {!published && counts.guests === 0 && (
+        <p className="mt-1.5 pl-4 text-xs text-ink/60">
+          {hasEvents
+            ? "Nothing here is for guests yet. Set at least one event to Guests before publishing."
+            : "Add at least one event before publishing."}
+        </p>
       )}
 
       {/* Publishing does nothing visible while the guest site itself is off --
           worth saying here rather than letting it look broken. */}
       {published && !publicSlug && (
-        <p className="mt-3 text-sm text-ink/60">
+        <p className="mt-1.5 pl-4 text-xs text-ink/60">
           Your guest site isn&apos;t turned on yet, so there&apos;s nowhere for guests to see
           this. Turn it on from the Guests page.
         </p>
       )}
 
-      {error && <p className="mt-3 text-sm text-red-800">{error}</p>}
+      {error && <p className="mt-1.5 pl-4 text-sm text-red-800">{error}</p>}
     </div>
   );
 }

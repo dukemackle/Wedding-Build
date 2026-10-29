@@ -4,8 +4,7 @@ import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/admin";
 import { logAdminAction } from "@/lib/admin-audit";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
-
-const BUCKET = "guest-photos";
+import { removeGuestPhotos } from "@/lib/guest-photos";
 
 // The couple approves their own wall; this is the backstop for something they
 // missed or never looked at. Hiding is reversible from the couple's side,
@@ -59,13 +58,7 @@ export async function deleteGuestPostAsAdmin(formData: FormData): Promise<{ erro
   if (error) return { error: error.message };
   if (!post) return {};
 
-  // photo_url is the public URL; the storage path is whatever follows the
-  // bucket name in it (`<wedding_id>/<uuid>.<ext>`).
-  const marker = `/${BUCKET}/`;
-  const at = post.photo_url?.indexOf(marker) ?? -1;
-  if (post.photo_url && at !== -1) {
-    await admin.storage.from(BUCKET).remove([post.photo_url.slice(at + marker.length)]);
-  }
+  await removeGuestPhotos(post.wedding_id, [post.photo_url]);
 
   await revalidateWall(post.wedding_id);
   await logAdminAction("guest_post.delete", { type: "guest_post", ids: [postId] }, "Deleted a photo-wall post");

@@ -11,9 +11,11 @@ import {
   PICKUP_OPTIONS,
   formatPrice,
   isOwnMarketPhoto,
+  MARKET_COLORS,
   sellerBadgeFor,
 } from "@/lib/marketplace";
 import { announcePriceDrop, postListingEvent } from "@/lib/marketplace-server";
+import { requireEditableWedding } from "@/lib/wedding-access";
 import type { MarketListing, MarketListingStatus } from "@/lib/supabase/types";
 
 function str(formData: FormData, key: string): string {
@@ -43,6 +45,7 @@ type ListingFields = Pick<
   | "listing_type"
   | "pickup_options"
   | "negotiable"
+  | "color_families"
 >;
 
 function readListing(formData: FormData, sellerId: string): { fields?: ListingFields; error?: string } {
@@ -63,6 +66,9 @@ function readListing(formData: FormData, sellerId: string): { fields?: ListingFi
     .map(String)
     .filter((o) => PICKUP_OPTIONS.some((p) => p.value === o));
   const negotiable = formData.get("negotiable") === "on";
+  const color_families = [
+    ...new Set(formData.getAll("color_families").map(String).filter((c) => MARKET_COLORS.some((m) => m.id === c))),
+  ];
 
   if (!seller_name) return { error: "Add the first name buyers will see." };
   if (title.length < 3) return { error: "Give the listing a title." };
@@ -80,6 +86,7 @@ function readListing(formData: FormData, sellerId: string): { fields?: ListingFi
   if (!state) return { error: "Choose a state." };
   if (photo_urls.length === 0) return { error: "Add at least one photo." };
   if (pickup_options.length === 0) return { error: "Choose at least one way to get it to the buyer." };
+  if (color_families.length > 3) return { error: "Pick up to three colours." };
   if (photo_urls.length > MAX_MARKET_PHOTOS) return { error: `Up to ${MAX_MARKET_PHOTOS} photos.` };
   if (!photo_urls.every((url) => isOwnMarketPhoto(url, sellerId))) {
     return { error: "One of the photos didn't upload properly. Remove it and add it again." };
@@ -100,6 +107,7 @@ function readListing(formData: FormData, sellerId: string): { fields?: ListingFi
       listing_type,
       pickup_options,
       negotiable,
+      color_families,
     },
   };
 }
@@ -144,10 +152,15 @@ export async function createListing(formData: FormData): Promise<{ error?: strin
     sellerBadge(supabase, user.id, formData),
   ]);
 
+  // From "Pass it on": the budget line it came from, so it isn't offered again.
+  const source = str(formData, "source_budget_item");
+  const source_budget_item = /^([a-z_]{2,40}|[0-9a-f-]{36})$/.test(source) ? source : null;
+
   const { data, error: insertError } = await supabase
     .from("market_listings")
     .insert({
       ...fields,
+      source_budget_item,
       seller_badge,
       seller_id: user.id,
       latitude: pin?.latitude ?? null,
@@ -158,6 +171,11 @@ export async function createListing(formData: FormData): Promise<{ error?: strin
   if (insertError || !data) return { error: "Couldn't post your listing — please try again." };
 
   revalidatePath("/marketplace");
+  // "List my wedding" goes straight on to the next thing.
+  if (source_budget_item && formData.get("pass") === "1") {
+    const skip = str(formData, "pass_skip");
+    redirect(`/marketplace/new?pass=1${skip ? `&skip=${encodeURIComponent(skip)}` : ""}&listed=${data.id}`);
+  }
   redirect(`/marketplace/${data.id}`);
 }
 
@@ -291,4 +309,50 @@ async function removePhotos(
     .filter((url) => isOwnMarketPhoto(url, sellerId))
     .map((url) => decodeURIComponent(url.slice(url.indexOf(marker) + marker.length)));
   if (paths.length > 0) await supabase.storage.from("market-photos").remove(paths);
+}
+
+const DATE = /^\d{4}-\d{2}-\d{2}$/;
+
+/**
+ * Marks a rental as out from one day to another, both included. RLS keeps
+ * it to the seller's own rentals; the exclusion constraint (0147) refuses
+ * dates that overlap a booking already there.
+ */
+export async function addRentalBooking(listingId: string, startsOn: string, endsOn: string): Promise<{ error?: string }> {
+  if (!DATE.test(startsOn) || !DATE.test(endsOn)) return { error: "Pick the dates it's out." };
+  if (endsOn < startsOn) return { error: "The return date is before the pickup date." };
+  const { supabase } = await requireUser();
+  const { error } = await supabase
+    .from("market_rental_bookings")
+    .insert({ listing_id: listingId, starts_on: startsOn, ends_on: endsOn });
+  if (error?.code === "23P01") return { error: "Those dates overlap a booking you've already marked." };
+  if (error?.code === "23514") return { error: "A booking can be up to 60 days." };
+  if (error) return { error: "Couldn't save those dates — please try again." };
+  revalidatePath("/marketplace");
+  revalidatePath(`/marketplace/${listingId}`);
+  return {};
+}
+
+export async function removeRentalBooking(listingId: string, bookingId: string): Promise<{ error?: string }> {
+  const { supabase } = await requireUser();
+  const { data, error } = await supabase
+    .from("market_rental_bookings")
+    .delete()
+    .eq("id", bookingId)
+    .eq("listing_id", listingId)
+    .select("id");
+  if (error || !data?.length) return { error: "Couldn't free up those dates — please try again." };
+  revalidatePath("/marketplace");
+  revalidatePath(`/marketplace/${listingId}`);
+  return {};
+}
+
+/** The colours "Shop your wedding" matches, picked by hand (0149). */
+export async function saveMarketColors(colors: string[]): Promise<{ error?: string }> {
+  const picked = [...new Set(colors)].filter((c) => MARKET_COLORS.some((m) => m.id === c)).slice(0, 3);
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
+  if (!wedding) return { error: noWedding };
+  const { error } = await supabase.from("weddings").update({ market_colors: picked }).eq("id", wedding.id);
+  if (error) return { error: "Couldn't save your colours — please try again." };
+  return {};
 }

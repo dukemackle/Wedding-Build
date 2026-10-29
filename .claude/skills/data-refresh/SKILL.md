@@ -137,3 +137,4 @@ owner the line when the run had no PR). `due` reads it to decide what's up.
 
 | Date | Cadence | Result |
 |---|---|---|
+| 2026-10-28 | cost data (ad hoc) | Zola figures mislabelled as Knot replaced with The Knot 2026; duplicate regional_cost_data rows removed (0148); calibration to the $34.2k total left to owner |

@@ -126,8 +126,9 @@ export function BudgetSummary({
           their own section cards, so this grid only lays out the summary. */}
       <div className="sm:grid sm:grid-cols-[1fr_7rem_7.5rem_11rem] lg:grid-cols-[minmax(0,1fr)_7rem_7.5rem_9.5rem] lg:gap-5 2xl:grid-cols-[minmax(0,1fr)_9.5rem_9.5rem_12rem] 2xl:gap-8 sm:items-end sm:gap-4">
         <div>
-          <h2 className="font-display text-2xl font-semibold text-forest lg:text-3xl">Your budget</h2>
-          <p className="mt-0.5 text-sm text-ink/60">
+          {/* No "Your budget" title: the page header above already names the
+              page, so the totals open the card. */}
+          <p className="font-mono-numbers text-[10px] uppercase tracking-[0.16em] text-ink/50 lg:text-[11px]">
             {categoryCount} {categoryCount === 1 ? "category" : "categories"}
             {contractCount > 0 &&
               ` · ${contractCount} with ${contractCount === 1 ? "a contract" : "contracts"}`}

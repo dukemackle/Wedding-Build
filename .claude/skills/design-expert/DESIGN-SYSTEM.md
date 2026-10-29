@@ -90,7 +90,7 @@ layout switch in new code.
 | Need | Use | Status |
 | --- | --- | --- |
 | Page frame | `PageShell` | Good |
-| Planning-page header | `PageHeader` (`page-header.tsx`): eyebrow, headline with an italic royal-blue end, one line, actions, landing feature photo | Budget, guests, checklist, itinerary, layout, registry |
+| Planning-page header | `PageHeader` (`page-header.tsx`): eyebrow, headline with an italic royal-blue end, one line, actions, landing feature photo; optional full-width `toolbar` row (layout tools, guests' stage panel, itinerary publish bar); one header per page, never a second titled card under it | Budget, guests, checklist, itinerary, layout, registry |
 | Page's main action | `btn-primary` (gold pill, navy text, `PlusIcon` for "Add …") | One per page |
 | Its other actions | `btn-secondary` (navy 2px outline pill) | Planning pages |
 | Primary button | `rounded-md bg-forest px-4 py-2 text-sm font-medium text-parchment transition-colors hover:bg-forest/90 disabled:opacity-60` (+ `btn-motion` on marketing) | ~6 near-duplicate variants; no shared component |
@@ -101,6 +101,7 @@ layout switch in new code.
 | Card | `rounded-lg border border-hairline bg-card p-5 sm:p-8 shadow-sm` | |
 | Gold moment card | `CtaCard` (`gold-flow-border`, `gold-shine`, `gold-twinkle`) | One per page max |
 | Dialog | `listing-modal.tsx` (intercepted route) | No focus trap; only dialog |
+| Checklist journey | `checklist-ui.tsx`: `ProgressRing`, `StageNode`/`StageLine` timeline, `TaskTick` (gold + sparks), `DueChip` (urgency colours), `StageIcon`, `StageConfetti` | Checklist page and its landing demo |
 | Empty state | `BirdEmptyState` (`wren-moments.tsx`) | Good; pair with one action |
 | Loading | `PageSkeleton` + `loading.tsx` (11 routes) | Good |
 | Error page | none (`error.tsx`, `not-found.tsx` missing) | **Gap** |

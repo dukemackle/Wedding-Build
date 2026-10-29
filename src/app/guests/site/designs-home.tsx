@@ -7,38 +7,35 @@ import type { SiteDesign } from "@/lib/site-design";
 import { MAX_DESIGNS } from "@/lib/site-designs";
 import { createDesign, deleteDesign, makeDesignLive, renameDesign, setSharedWording } from "./actions";
 import type { DesignSummary } from "./load-designs";
-import { SiteThumb } from "./site-thumb";
+import { SitePageThumb } from "./site-page-thumb";
 
-type Starter = { id: string; name: string; tags: readonly string[]; design: SiteDesign };
+type Starter = { id: string; name: string; blurb: string; design: SiteDesign };
 
-type Shared = {
-  names: [string, string];
-  dateLine: string | null;
-  photoUrl: string | null;
-};
+/** Templates shown before "See more": three rows of four (owner, 2026-10-28). */
+const TEMPLATES_SHOWN = 12;
 
 /**
  * Your designs (the approved mockup): every design the couple has made, the
  * live one marked, each with a menu to open, make live, rename, duplicate,
- * share wording or delete. Below, a row of templates to start another from.
+ * share wording or delete. Below, every template to start another from.
  */
 export function DesignsHome({
   designs,
   starters,
-  templateCount,
   liveUrl,
-  ...shared
-}: Shared & {
+}: {
   designs: DesignSummary[];
   starters: Starter[];
-  templateCount: number;
   liveUrl: string | null;
 }) {
   const [menuFor, setMenuFor] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+  const [allTemplates, setAllTemplates] = useState(false);
   const full = designs.length >= MAX_DESIGNS;
   const live = designs.find((d) => d.live);
+  // A first design opens on Classic, the starter template (owner, 2026-10-28).
+  const templatesHref = designs.length ? "/guests/site/templates" : "/guests/site/templates?t=classic";
 
   return (
     <div className="flex flex-col">
@@ -52,7 +49,7 @@ export function DesignsHome({
                 ? "None of these is live yet. Open one and publish it when you're happy."
                 : liveUrl
                   ? <>Guests see the one marked Live at <span className="break-all">{liveUrl.replace(/^https?:\/\//, "")}</span></>
-                  : "Guests will see the one marked Live once you turn your site on."}
+                  : <>Your site is off, so guests can&rsquo;t see any of these. Turn it on and they&rsquo;ll see &ldquo;{live.name}&rdquo;.</>}
           </p>
         </div>
         <div className="flex shrink-0 gap-2.5">
@@ -75,7 +72,7 @@ export function DesignsHome({
           )}
           {!full && (
             <Link
-              href="/guests/site/templates"
+              href={templatesHref}
               className="flex h-11 items-center rounded-full bg-[#2243B6] px-5 text-sm font-medium text-white hover:bg-[#2243B6]/90"
             >
               + New design
@@ -96,14 +93,14 @@ export function DesignsHome({
             key={d.id}
             design={d}
             canAdd={!full}
+            siteOn={Boolean(liveUrl)}
             menuOpen={menuFor === d.id}
             onMenu={(open) => setMenuFor(open ? d.id : null)}
             onError={setError}
-            {...shared}
           />
         ))}
         {!full ? (
-          <Link href="/guests/site/templates" className="group flex flex-col">
+          <Link href={templatesHref} className="group flex flex-col">
             <span className="flex aspect-[4/5] flex-col items-center justify-center rounded-[14px] border-[1.5px] border-dashed border-ink/20 bg-card text-sm text-ink/60 group-hover:border-ink/40 sm:aspect-[4/3]">
               <span className="mb-2 flex h-11 w-11 items-center justify-center rounded-full bg-[#2243B6] text-2xl text-white">
                 +
@@ -118,23 +115,27 @@ export function DesignsHome({
         )}
       </div>
 
-      <div className="mt-12 flex items-end justify-between gap-4">
-        <h2 className="font-display text-2xl font-semibold text-forest sm:text-[28px]">Start from a template</h2>
-        <Link href="/guests/site/templates" className="shrink-0 text-sm font-medium text-[#2243B6] hover:underline">
-          See all {templateCount} →
-        </Link>
-      </div>
-      <div className="-mx-6 mt-4 flex gap-3 overflow-x-auto px-6 pb-2 sm:mx-0 sm:grid sm:grid-cols-5 sm:gap-5 sm:overflow-visible sm:px-0">
-        {starters.map((t) => (
-          <Link key={t.id} href={`/guests/site/templates?t=${t.id}`} className="group flex w-[42%] shrink-0 flex-col sm:w-auto">
+      <h2 className="mt-12 font-display text-2xl font-semibold text-forest sm:text-[28px]">Start from a template</h2>
+      <div className="mt-4 grid grid-cols-2 gap-x-3.5 gap-y-5 sm:gap-6 lg:grid-cols-4">
+        {(allTemplates ? starters : starters.slice(0, TEMPLATES_SHOWN)).map((t) => (
+          <Link key={t.id} href={`/guests/site/templates?t=${t.id}`} className="group flex min-w-0 flex-col">
             <span className="relative block aspect-[4/5] overflow-hidden rounded-[14px] border border-hairline group-hover:border-ink/30 sm:aspect-[4/3]">
-              <SiteThumb design={t.design} {...shared} />
+              <SitePageThumb design={t.design} />
             </span>
             <span className="mt-2.5 truncate font-medium text-ink">{t.name}</span>
-            <span className="truncate text-[13px] text-ink/55">{t.tags.join(" · ")}</span>
+            <span className="line-clamp-2 text-[13px] leading-snug text-ink/55">{t.blurb}</span>
           </Link>
         ))}
       </div>
+      {starters.length > TEMPLATES_SHOWN && (
+        <button
+          type="button"
+          onClick={() => setAllTemplates(!allTemplates)}
+          className="mx-auto mt-6 h-11 rounded-full border border-hairline bg-card px-5 text-sm font-medium text-ink hover:border-ink/30"
+        >
+          {allTemplates ? "Show fewer" : `See more templates (${starters.length - TEMPLATES_SHOWN})`}
+        </button>
+      )}
     </div>
   );
 }
@@ -142,12 +143,13 @@ export function DesignsHome({
 function DesignCard({
   design: d,
   canAdd,
+  siteOn,
   menuOpen,
   onMenu,
   onError,
-  ...shared
-}: Shared & {
+}: {
   design: DesignSummary;
+  siteOn: boolean;
   canAdd: boolean;
   menuOpen: boolean;
   onMenu: (open: boolean) => void;
@@ -179,7 +181,7 @@ function DesignCard({
     <div className={`relative flex flex-col ${pending ? "opacity-60" : ""}`}>
       <Link href={`/guests/site/edit/${d.id}`} className="group block">
         <span className="relative block aspect-[4/5] overflow-hidden rounded-[14px] border border-hairline group-hover:border-ink/30 sm:aspect-[4/3]">
-          <SiteThumb design={d.design} {...shared} />
+          <SitePageThumb design={d.design} />
         </span>
       </Link>
       <button
@@ -199,11 +201,18 @@ function DesignCard({
         <Link href={`/guests/site/edit/${d.id}`} className="truncate font-medium text-ink hover:underline">
           {d.name}
         </Link>
-        {d.live && (
-          <span className="shrink-0 rounded-full bg-[#FFD301] px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-[#14203d]">
-            Live
-          </span>
-        )}
+        {/* "Live" only while the site is actually on; with it off, the chosen
+            design says so rather than claiming guests can see it. */}
+        {d.live &&
+          (siteOn ? (
+            <span className="shrink-0 rounded-full bg-[#FFD301] px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-[#14203d]">
+              Live
+            </span>
+          ) : (
+            <span className="shrink-0 rounded-full border border-ink/20 px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-ink/55">
+              Site off
+            </span>
+          ))}
       </div>
       <span className="truncate text-[13px] text-ink/55" suppressHydrationWarning>
         Edited {ago(d.updatedAt)}

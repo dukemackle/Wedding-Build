@@ -1,6 +1,6 @@
 "use client";
 
-import { useOptimistic, useRef, useState, useTransition } from "react";
+import { useOptimistic, useRef, useState, useTransition, type ReactNode } from "react";
 import { BirdCheer } from "@/components/bird-cheer";
 import { BirdEmptyState } from "@/components/wren-moments";
 import { CHECKLIST_PHASES } from "@/lib/checklist-template";
@@ -12,25 +12,23 @@ import {
   toggleChecklistItem,
   deleteChecklistItem,
 } from "./actions";
-import { PlusIcon } from "@/components/page-header";
+import { PageHeader, PlusIcon } from "@/components/page-header";
+import {
+  DueChip,
+  DueLegend,
+  HereBadge,
+  ProgressRing,
+  StageConfetti,
+  StageIcon,
+  StageLine,
+  StageNode,
+  TaskTick,
+  type StageState,
+} from "@/components/checklist-ui";
 
 const inputClass =
   "rounded-md border border-hairline bg-parchment px-3 py-2 text-ink outline-none focus:border-forest";
 const labelClass = "flex flex-col gap-1 text-sm text-ink";
-
-function formatDueDate(dateStr: string) {
-  return new Date(`${dateStr}T00:00:00`).toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  });
-}
-
-function isOverdue(dateStr: string) {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  return new Date(`${dateStr}T00:00:00`) < today;
-}
 
 function ItemFields({ item }: { item?: ChecklistItem }) {
   return (
@@ -85,23 +83,14 @@ function AddItemForm({ onDone }: { onDone: () => void }) {
     <form
       ref={formRef}
       action={handleSubmit}
-      className="mb-4 rounded-lg border border-hairline bg-parchment p-4"
     >
       <ItemFields />
       {error && <p className="mt-3 text-sm text-red-800">{error}</p>}
       <div className="mt-4 flex items-center gap-3">
-        <button
-          type="submit"
-          disabled={isPending}
-          className="rounded-md bg-forest px-4 py-2 text-sm font-medium text-parchment transition-colors hover:bg-forest/90 disabled:opacity-60"
-        >
+        <button type="submit" disabled={isPending} className="btn-primary">
           {isPending ? "Adding..." : "Add task"}
         </button>
-        <button
-          type="button"
-          onClick={onDone}
-          className="rounded-md border border-hairline px-4 py-2 text-sm text-ink transition-colors hover:border-forest"
-        >
+        <button type="button" onClick={onDone} className="btn-secondary">
           Cancel
         </button>
       </div>
@@ -111,6 +100,7 @@ function AddItemForm({ onDone }: { onDone: () => void }) {
 
 function ChecklistRow({ item }: { item: ChecklistItem }) {
   const [isEditing, setIsEditing] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
   const [isPending, startTransition] = useTransition();
   // Ticks show the moment you click, not after the server round trip, and
@@ -153,27 +143,17 @@ function ChecklistRow({ item }: { item: ChecklistItem }) {
     });
   }
 
-  const overdue = !completed && item.due_date && isOverdue(item.due_date);
-
   if (isEditing) {
     return (
-      <div className="border-b border-hairline py-4 last:border-b-0">
+      <div className="border-b border-hairline py-5 last:border-b-0">
         <form action={handleSave}>
           <ItemFields item={item} />
           {error && <p className="mt-3 text-sm text-red-800">{error}</p>}
           <div className="mt-4 flex items-center gap-3">
-            <button
-              type="submit"
-              disabled={isPending}
-              className="rounded-md bg-forest px-4 py-2 text-sm font-medium text-parchment transition-colors hover:bg-forest/90 disabled:opacity-60"
-            >
+            <button type="submit" disabled={isPending} className="btn-primary">
               {isPending ? "Saving..." : "Save"}
             </button>
-            <button
-              type="button"
-              onClick={() => setIsEditing(false)}
-              className="rounded-md border border-hairline px-4 py-2 text-sm text-ink transition-colors hover:border-forest"
-            >
+            <button type="button" onClick={() => setIsEditing(false)} className="btn-secondary">
               Cancel
             </button>
           </div>
@@ -183,154 +163,149 @@ function ChecklistRow({ item }: { item: ChecklistItem }) {
   }
 
   return (
-    <div className="flex items-start gap-3 border-b border-hairline py-4 last:border-b-0">
-      <button
-        onClick={handleToggle}
-        disabled={isPending}
-        aria-label={completed ? "Mark as not done" : "Mark as done"}
-        className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border transition-colors ${
-          completed && justTicked ? "wren-check-pop " : ""
-        }${
-          completed
-            ? "border-forest bg-forest text-parchment"
-            : "border-hairline hover:border-forest"
-        }`}
-      >
-        {completed && (
-          <svg viewBox="0 0 24 24" className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth={3}>
-            <path
-              d="m5 13 4 4L19 7"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className={justTicked ? "wren-tick-draw" : undefined}
-            />
-          </svg>
-        )}
-      </button>
-      <div className="flex-1">
-        <div className="flex flex-wrap items-center gap-2">
+    <div
+      onMouseLeave={() => setMenuOpen(false)}
+      className="group -mx-2 flex items-start gap-3 rounded-[14px] border-b border-hairline px-2 py-4 transition-colors last:border-b-0 hover:bg-parchment sm:-mx-4 sm:gap-4 sm:px-4 sm:py-5"
+    >
+      <TaskTick on={completed} justTicked={justTicked} onClick={handleToggle} disabled={isPending} />
+      <div className="min-w-0 flex-1">
+        <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1.5">
           <span
-            className={
-              completed ? (justTicked ? "wren-strike text-ink/50" : "text-ink/50 line-through") : "text-ink"
-            }
+            className={`text-[17px] font-medium leading-snug sm:text-lg ${
+              completed
+                ? justTicked
+                  ? "wren-strike text-ink/50"
+                  : "text-ink/50 line-through decoration-[#FFD301] decoration-2"
+                : "text-ink"
+            }`}
           >
             {item.title}
           </span>
-          {item.due_date && (
-            <span
-              className={`rounded-full border px-2 py-0.5 text-xs ${
-                overdue
-                  ? "border-red-200 bg-red-50 text-red-700"
-                  : "border-hairline text-ink/60"
-              }`}
-            >
-              {overdue ? "Overdue: " : "Due "}
-              {formatDueDate(item.due_date)}
-            </span>
-          )}
+          {item.due_date && <DueChip date={item.due_date} completed={completed} />}
         </div>
-        {item.notes && <p className="mt-1 text-sm text-ink/70">{item.notes}</p>}
+        {item.notes && <p className="mt-1.5 text-[15px] leading-relaxed text-ink/70">{item.notes}</p>}
         {error && <p className="mt-1 text-sm text-red-800">{error}</p>}
       </div>
-      <div className="flex shrink-0 items-center gap-3">
-        <button onClick={() => setIsEditing(true)} className="text-xs text-brass hover:underline">
-          Edit
-        </button>
-        <button
-          onClick={handleDelete}
-          disabled={isPending}
-          className="text-xs text-ink/50 hover:underline"
-        >
-          Remove
-        </button>
+      {/* Edit and Remove fold behind one button so every row isn't shouting
+          them; on a wide screen it only shows on hover or keyboard focus. */}
+      <div
+        className={`flex shrink-0 items-center gap-1 transition-opacity ${
+          menuOpen ? "" : "lg:opacity-0 lg:group-hover:opacity-100 lg:group-focus-within:opacity-100"
+        }`}
+      >
+        {menuOpen ? (
+          <>
+            <button
+              onClick={() => setIsEditing(true)}
+              className="min-h-11 rounded-lg px-3 text-sm font-medium text-[#9a6b00] hover:bg-[#f3f1ea]"
+            >
+              Edit
+            </button>
+            <button
+              onClick={handleDelete}
+              disabled={isPending}
+              className="min-h-11 rounded-lg px-3 text-sm text-ink/70 hover:bg-[#f3f1ea]"
+            >
+              Remove
+            </button>
+          </>
+        ) : (
+          <button
+            onClick={() => setMenuOpen(true)}
+            aria-label={`Edit or remove "${item.title}"`}
+            className="-mr-2 -mt-1.5 flex h-11 w-11 items-center justify-center rounded-[10px] text-ink/70 hover:bg-[#f3f1ea] hover:text-ink"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <circle cx="5" cy="12" r="1.8" />
+              <circle cx="12" cy="12" r="1.8" />
+              <circle cx="19" cy="12" r="1.8" />
+            </svg>
+          </button>
+        )}
       </div>
     </div>
   );
 }
 
-export function ChecklistManager({ items }: { items: ChecklistItem[] }) {
-  const [showAddForm, setShowAddForm] = useState(false);
-  const [showCompleted, setShowCompleted] = useState(false);
+const cardClass = "rounded-3xl border border-hairline bg-card shadow-sm";
 
-  const incomplete = items
-    .filter((item) => !item.completed)
-    .sort((a, b) => {
-      if (a.due_date && b.due_date) return a.due_date.localeCompare(b.due_date);
-      if (a.due_date) return -1;
-      if (b.due_date) return 1;
-      return a.created_at.localeCompare(b.created_at);
-    });
-  // Completed plan tasks stay inside their stage, struck through, so ticking
-  // one doesn't make it disappear. Only a couple's own tasks end up in the
-  // drawer at the bottom.
-  const completedOwn = items
-    .filter((item) => item.completed && !item.phase)
-    .sort((a, b) => (b.completed_at ?? "").localeCompare(a.completed_at ?? ""));
+export function ChecklistManager({
+  items,
+  aside,
+}: {
+  items: ChecklistItem[];
+  /** The contracts column, beside the plan from 1280px. */
+  aside?: ReactNode;
+}) {
+  const [showAddForm, setShowAddForm] = useState(false);
+
+  const incomplete = items.filter((item) => !item.completed);
   // The header counts everything, plan and own alike -- it's the answer to
   // "how far through am I", which doesn't care where a task came from.
   const completedCount = items.length - incomplete.length;
-
-  const pct = items.length > 0 ? (completedCount / items.length) * 100 : 0;
+  const { stages } = buildStages(items);
+  const stagesDone = stages.filter((stage) => stage.isDone).length;
 
   return (
-    <div className="w-full rounded-lg border border-hairline bg-card p-5 sm:p-8 shadow-sm">
-      <div className="mb-6 flex flex-wrap items-center justify-between gap-4 border-b border-hairline pb-6">
-        <div>
-          <span className="font-display text-2xl font-semibold text-forest">
-            Planning checklist
-          </span>
-          <p className="mt-1 text-sm text-ink/70">
-            {items.length > 0
-              ? `${completedCount} of ${items.length} tasks done`
-              : "Track everything you need to do before the big day."}
-          </p>
-          {items.length > 0 && (
-            <div className="mt-2 h-2 w-48 overflow-hidden rounded-full bg-forest/10">
-              <div
-                className="h-2 rounded-full bg-forest transition-[width]"
-                style={{ width: `${pct}%` }}
-              />
+    <>
+      {/* One header: the page's name, how far through they are, and Add
+          task -- not a page header followed by a second "Planning checklist"
+          card saying the same thing. */}
+      <PageHeader
+        eyebrow="Checklist"
+        title="One thing"
+        accent="at a time"
+        photo="checklist"
+        actions={
+          <>
+            {items.length > 0 && <ProgressRing done={completedCount} total={items.length} size={64} />}
+            <button
+              onClick={() => setShowAddForm((v) => !v)}
+              className={showAddForm ? "btn-secondary" : "btn-primary"}
+            >
+              {showAddForm ? "Close" : <><PlusIcon /> Add task</>}
+            </button>
+          </>
+        }
+      >
+        {items.length > 0 ? (
+          <>
+            <strong className="font-semibold text-ink">
+              {completedCount} of {items.length}
+            </strong>{" "}
+            tasks done
+            {stages.length > 0 && ` · ${stagesDone} of ${stages.length} stages finished`}
+          </>
+        ) : (
+          "What to do now, built around your date, and what can wait."
+        )}
+      </PageHeader>
+
+      <div className="xl:grid xl:grid-cols-[minmax(0,1fr)_380px] xl:items-start xl:gap-8">
+        <div className="flex w-full min-w-0 flex-col gap-4 lg:gap-6">
+          {showAddForm && (
+            <div className={`${cardClass} p-5 sm:p-8`}>
+              <AddItemForm onDone={() => setShowAddForm(false)} />
             </div>
           )}
+
+          {items.length === 0 ? (
+            <div className={`${cardClass} p-5 sm:p-8`}>
+              <BuildPlanPrompt />
+            </div>
+          ) : incomplete.length === 0 ? (
+            <div className={`${cardClass} p-5 sm:p-8`}>
+              <BirdEmptyState>
+                <p className="text-base text-ink/70">All done! Everything on your checklist is complete.</p>
+              </BirdEmptyState>
+            </div>
+          ) : (
+            <PhasedList items={items} />
+          )}
         </div>
-        <button
-          onClick={() => setShowAddForm((v) => !v)}
-          className={showAddForm ? "btn-secondary" : "btn-primary"}
-        >
-          {showAddForm ? "Close" : <><PlusIcon /> Add task</>}
-        </button>
+        {aside && <div className="min-w-0 xl:[&>*]:mt-0">{aside}</div>}
       </div>
-
-      {showAddForm && <AddItemForm onDone={() => setShowAddForm(false)} />}
-
-      {items.length === 0 ? (
-        <BuildPlanPrompt />
-      ) : incomplete.length === 0 ? (
-        <BirdEmptyState>
-          <p className="text-sm text-ink/60">All done! Everything on your checklist is complete.</p>
-        </BirdEmptyState>
-      ) : (
-        <PhasedList items={items} />
-      )}
-
-      {completedOwn.length > 0 && (
-        <div className="mt-6 border-t border-hairline pt-4">
-          <button
-            onClick={() => setShowCompleted((v) => !v)}
-            className="text-sm text-brass hover:underline"
-          >
-            {showCompleted ? "Hide" : "Show"} completed ({completedOwn.length})
-          </button>
-          {showCompleted && (
-            <div className="mt-2">
-              {completedOwn.map((item) => (
-                <ChecklistRow key={item.id} item={item} />
-              ))}
-            </div>
-          )}
-        </div>
-      )}
-    </div>
+    </>
   );
 }
 
@@ -365,7 +340,7 @@ function BuildPlanPrompt() {
             if (result.error) setError(result.error);
           });
         }}
-        className="mt-5 rounded-full bg-forest px-6 py-2.5 font-medium text-parchment transition-colors hover:bg-forest/90 disabled:opacity-50"
+        className="btn-primary mt-5"
       >
         {isPending ? "Building your plan…" : "Build my plan"}
       </button>
@@ -394,7 +369,7 @@ type StageView = {
   isDone: boolean;
 };
 
-function buildStages(items: ChecklistItem[]): { stages: StageView[]; own: ChecklistItem[] } {
+function buildStages(items: ChecklistItem[]): { stages: StageView[]; own: ChecklistItem[]; ownDone: ChecklistItem[] } {
   const byPhase = new Map<string, ChecklistItem[]>();
   for (const item of items) {
     const key = item.phase ?? "own";
@@ -422,24 +397,90 @@ function buildStages(items: ChecklistItem[]): { stages: StageView[]; own: Checkl
     };
   });
 
-  return { stages, own: (byPhase.get("own") ?? []).filter((item) => !item.completed) };
+  // A couple's own tasks run in due-date order. Done ones go to a drawer at
+  // the bottom of their panel rather than sitting struck through in the list.
+  const ownAll = byPhase.get("own") ?? [];
+  const own = ownAll
+    .filter((item) => !item.completed)
+    .sort((a, b) => {
+      if (a.due_date && b.due_date) return a.due_date.localeCompare(b.due_date);
+      if (a.due_date) return -1;
+      if (b.due_date) return 1;
+      return a.created_at.localeCompare(b.created_at);
+    });
+  const ownDone = ownAll
+    .filter((item) => item.completed)
+    .sort((a, b) => (b.completed_at ?? "").localeCompare(a.completed_at ?? ""));
+
+  return { stages, own, ownDone };
+}
+
+/** "How it looks and feels" with the last word in italic royal blue. */
+function StageHeading({ title, className }: { title: string; className: string }) {
+  const cut = title.lastIndexOf(" ");
+  return (
+    <h3 className={`font-display font-semibold leading-[1.05] text-forest ${className}`}>
+      {cut > 0 ? (
+        <>
+          {title.slice(0, cut)} <em className="text-[#2243B6]">{title.slice(cut + 1)}</em>
+        </>
+      ) : (
+        title
+      )}
+    </h3>
+  );
+}
+
+function StageBar({ done, total }: { done: number; total: number }) {
+  return (
+    <div className="flex items-center gap-3">
+      <div className="h-2 w-full max-w-[180px] overflow-hidden rounded-full bg-[#f3f1ea]">
+        <div
+          className="h-2 rounded-full bg-[#2243B6] transition-[width] duration-500"
+          style={{ width: `${total > 0 ? (done / total) * 100 : 0}%` }}
+        />
+      </div>
+      <span className="shrink-0 font-mono-numbers text-[13px] text-ink/75">
+        {done} of {total} done
+      </span>
+    </div>
+  );
+}
+
+function OwnDoneDrawer({ items }: { items: ChecklistItem[] }) {
+  const [open, setOpen] = useState(false);
+  if (items.length === 0) return null;
+  return (
+    <div className="mt-4 border-t border-hairline pt-4">
+      <button onClick={() => setOpen((v) => !v)} className="min-h-11 text-[15px] font-medium text-[#9a6b00] hover:underline">
+        {open ? "Hide" : "Show"} completed ({items.length})
+      </button>
+      {open && (
+        <div className="mt-1">
+          {items.map((item) => (
+            <ChecklistRow key={item.id} item={item} />
+          ))}
+        </div>
+      )}
+    </div>
+  );
 }
 
 /**
- * The plan, arranged for the screen it's on.
+ * The plan, arranged for the screen it's on, as a journey: every stage is a
+ * node on a line that fills gold behind you, and the one you're on pulses.
  *
- * A phone gets an accordion: one column, one stage open, the rest folded away,
- * because that is all 375px can hold without becoming a scroll.
+ * A phone gets that line as one column: finished and future stages fold to a
+ * single line each and the stage you're on opens in place.
  *
- * A wide screen gets something a phone cannot have -- every stage of the
- * wedding listed down the side with its progress, and the stage you're on open
- * beside it. The whole arc and today's work visible at once. That's the
- * difference between a desktop layout and a mobile one stretched: not more
- * whitespace, a different shape.
+ * A wide screen gets the whole line down the side in its own card and the
+ * stage you're on open beside it, so the arc and today's work are visible at
+ * once -- a different shape, not the phone layout stretched.
  */
 function PhasedList({ items }: { items: ChecklistItem[] }) {
-  const { stages, own } = buildStages(items);
+  const { stages, own, ownDone } = buildStages(items);
   const currentKey = stages.find((stage) => stage.left > 0)?.key;
+  const hasOwn = own.length + ownDone.length > 0;
 
   // Null means "whichever stage they're on", so the detail panel follows them
   // forward as stages complete until they deliberately click elsewhere. No
@@ -447,8 +488,9 @@ function PhasedList({ items }: { items: ChecklistItem[] }) {
   const [picked, setPicked] = useState<string | null>(null);
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
 
-  // A stage that just went from "some left" to done gets the bird. Compared
-  // against the last render (not in an effect) so it fires exactly once.
+  // A stage that just went from "some left" to done gets the bird and a burst
+  // of confetti. Compared against the last render (not in an effect) so it
+  // fires exactly once.
   const doneKeys = stages.filter((stage) => stage.isDone).map((stage) => stage.key).join(",");
   const [prevDoneKeys, setPrevDoneKeys] = useState(doneKeys);
   const [cheer, setCheer] = useState<{ id: number; message: string } | null>(null);
@@ -461,6 +503,8 @@ function PhasedList({ items }: { items: ChecklistItem[] }) {
 
   const activeKey = picked ?? currentKey ?? stages[0]?.key;
   const active = stages.find((stage) => stage.key === activeKey);
+  const stateOf = (stage: StageView): StageState =>
+    stage.isDone ? "done" : stage.key === currentKey ? "here" : "todo";
 
   function toggle(key: string) {
     setExpanded((current) => {
@@ -471,194 +515,220 @@ function PhasedList({ items }: { items: ChecklistItem[] }) {
     });
   }
 
+  const rows = (list: ChecklistItem[]) => list.map((item) => <ChecklistRow key={item.id} item={item} />);
+
   return (
     <>
-      {cheer && <BirdCheer key={cheer.id} message={cheer.message} />}
+      {cheer && (
+        <>
+          <BirdCheer key={cheer.id} message={cheer.message} />
+          <StageConfetti key={`c${cheer.id}`} />
+        </>
+      )}
 
-      {/* --- phone and tablet: accordion ------------------------------- */}
-      <div className="flex flex-col gap-3 lg:hidden">
-        {stages.map((stage) => {
-          const isCurrent = stage.key === currentKey;
+      {/* --- phone and tablet: the journey as one column ----------------- */}
+      <div className={`${cardClass} px-4 pb-1 pt-5 lg:hidden`}>
+        <p className="mb-3.5 font-mono-numbers text-[11.5px] uppercase tracking-[0.16em] text-[#9a6b00]">
+          Your journey
+        </p>
+        {stages.map((stage, i) => {
+          const state = stateOf(stage);
+          const isCurrent = state === "here";
           const isOpen = isCurrent || expanded.has(stage.key);
+          const isLast = i === stages.length - 1 && !hasOwn;
           return (
-            <section
-              key={stage.key}
-              className={
-                isCurrent
-                  ? "rounded-md border border-forest/30 bg-parchment p-4"
-                  : stage.isDone
-                    ? "rounded-md border border-hairline bg-parchment/40 p-4"
-                    : "rounded-md border border-hairline p-4"
-              }
-            >
-              <button
-                type="button"
-                onClick={() => !isCurrent && toggle(stage.key)}
-                className="flex w-full items-baseline justify-between gap-3 text-left"
-              >
-                <span className="min-w-0">
-                  {isCurrent && (
-                    <span className="font-mono-numbers text-[10px] uppercase tracking-[0.18em] text-brass">
-                      You&apos;re here
-                    </span>
-                  )}
-                  <span
-                    className={`flex items-baseline gap-2 font-display text-xl font-semibold ${
-                      stage.isDone ? "text-forest/60" : "text-forest"
-                    }`}
+            <section key={stage.key} className="relative flex items-start gap-3.5 pb-4">
+              {!isLast && <StageLine done={stage.isDone} left={13.5} top={34} />}
+              <StageNode state={state} num={String(i + 1)} size={30} />
+              <div className="min-w-0 flex-1">
+                {isCurrent ? (
+                  <>
+                    <HereBadge />
+                    <StageHeading title={stage.title} className="mt-2 text-[28px]" />
+                    <p className="mt-2 text-[15px] leading-relaxed text-ink/75">{stage.blurb}</p>
+                    <div className="mt-3">
+                      <StageBar done={stage.done} total={stage.items.length} />
+                    </div>
+                  </>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => toggle(stage.key)}
+                    aria-expanded={isOpen}
+                    className="flex min-h-11 w-full items-center justify-between gap-2.5 pt-0.5 text-left"
                   >
-                    {stage.isDone && <Tick />}
-                    {stage.title}
-                  </span>
-                </span>
-                <span className="shrink-0 font-mono-numbers text-xs text-ink/50">
-                  {isCurrent
-                    ? `${stage.left} left`
-                    : stage.isDone
-                      ? `${stage.done} done`
-                      : isOpen
-                        ? "Hide"
-                        : `${stage.left}`}
-                </span>
-              </button>
-
-              {stage.isDone && <p className="mt-1 text-sm text-ink/60">{stage.doneBlurb}</p>}
-
-              {isOpen && (
-                <>
-                  {!stage.isDone && <p className="mt-1 text-sm text-ink/65">{stage.blurb}</p>}
-                  <div className="mt-2">
-                    {stage.ordered.map((item) => (
-                      <ChecklistRow key={item.id} item={item} />
-                    ))}
-                  </div>
-                </>
-              )}
+                    <span
+                      className={`font-display text-[21px] font-semibold leading-tight ${
+                        stage.isDone ? "text-forest/60" : "text-forest"
+                      }`}
+                    >
+                      {stage.title}
+                    </span>
+                    <span className="shrink-0 font-mono-numbers text-[12.5px] text-ink/70">
+                      {stage.isDone ? `${stage.done} done` : `${stage.left} to do`}
+                    </span>
+                  </button>
+                )}
+                {isOpen && (
+                  <>
+                    {!isCurrent && (
+                      <p className="mt-1 text-[15px] leading-relaxed text-ink/70">
+                        {stage.isDone ? stage.doneBlurb : stage.blurb}
+                      </p>
+                    )}
+                    <div className="rise-stagger mt-1.5">{rows(stage.ordered)}</div>
+                  </>
+                )}
+              </div>
             </section>
           );
         })}
 
-        {own.length > 0 && (
-          <section className="rounded-md border border-hairline p-4">
-            <span className="block font-display text-xl font-semibold text-forest">
-              Your own tasks
-            </span>
-            <div className="mt-2">
-              {own.map((item) => (
-                <ChecklistRow key={item.id} item={item} />
-              ))}
+        {hasOwn && (
+          <section className="relative flex items-start gap-3.5 pb-4">
+            <StageNode state="own" num="+" size={30} />
+            <div className="min-w-0 flex-1">
+              <button
+                type="button"
+                onClick={() => toggle("own")}
+                aria-expanded={expanded.has("own")}
+                className="flex min-h-11 w-full items-center justify-between gap-2.5 pt-0.5 text-left"
+              >
+                <span className="font-display text-[21px] font-semibold leading-tight text-forest">
+                  Your own tasks
+                </span>
+                <span className="shrink-0 font-mono-numbers text-[12.5px] text-ink/70">
+                  {own.length > 0 ? `${own.length} to do` : `${ownDone.length} done`}
+                </span>
+              </button>
+              {expanded.has("own") && (
+                <>
+                  <div className="rise-stagger mt-1.5">{rows(own)}</div>
+                  <OwnDoneDrawer items={ownDone} />
+                </>
+              )}
             </div>
           </section>
         )}
       </div>
 
-      {/* --- wide screens: the whole arc, plus the stage you're on ------ */}
-      <div className="hidden lg:grid lg:grid-cols-[250px_1fr] lg:gap-8">
-        <nav className="flex flex-col gap-0.5 border-r border-hairline pr-5">
-          {stages.map((stage) => {
+      {/* --- wide screens: the whole journey, plus the stage you're on --- */}
+      <div className="hidden lg:grid lg:grid-cols-[290px_minmax(0,1fr)] lg:items-start lg:gap-6">
+        <nav aria-label="Stages" className={`${cardClass} px-5 pb-4 pt-7`}>
+          <p className="mb-4 pl-1 font-mono-numbers text-xs uppercase tracking-[0.16em] text-[#9a6b00]">
+            Your journey
+          </p>
+          {stages.map((stage, i) => {
+            const state = stateOf(stage);
             const isActive = stage.key === activeKey;
+            const isLast = i === stages.length - 1 && !hasOwn;
             return (
               <button
                 key={stage.key}
                 type="button"
                 onClick={() => setPicked(stage.key)}
-                className={`rounded-md px-3 py-2 text-left transition-colors ${
-                  isActive ? "bg-forest/10" : "hover:bg-parchment"
+                aria-current={isActive ? "step" : undefined}
+                className={`group relative flex w-full items-start gap-4 rounded-xl pb-[18px] pl-1 pr-3 pt-2.5 text-left transition-colors ${
+                  isActive ? "bg-[#f3f5fc]" : "hover:bg-parchment"
                 }`}
               >
-                <span
-                  className={`flex items-center gap-1.5 font-display text-base ${
-                    isActive
-                      ? "font-semibold text-forest"
-                      : stage.isDone
-                        ? "text-forest/55"
-                        : "text-ink/75"
-                  }`}
-                >
-                  {stage.isDone && <Tick />}
-                  {stage.title}
-                </span>
-                <span className="mt-0.5 block font-mono-numbers text-[11px] text-ink/45">
-                  {stage.isDone
-                    ? `${stage.done} done`
-                    : stage.key === currentKey
-                      ? `${stage.left} left · you're here`
-                      : `${stage.left} to do`}
+                {!isLast && <StageLine done={stage.isDone} left={18.5} top={46} />}
+                <StageNode state={state} num={String(i + 1)} />
+                <span className="min-w-0 pt-[3px]">
+                  <span
+                    className={`block font-display text-[21px] font-semibold leading-[1.15] group-hover:text-[#2243B6] ${
+                      stage.isDone && !isActive ? "text-forest/60" : "text-forest"
+                    }`}
+                  >
+                    {stage.title}
+                  </span>
+                  <span className="mt-[3px] block font-mono-numbers text-[12.5px] text-ink/70">
+                    {stage.isDone
+                      ? `${stage.done} done`
+                      : state === "here"
+                        ? `${stage.left} left · you're here`
+                        : `${stage.left} to do`}
+                  </span>
                 </span>
               </button>
             );
           })}
 
-          {own.length > 0 && (
+          {hasOwn && (
             <button
               type="button"
               onClick={() => setPicked("own")}
-              className={`mt-2 rounded-md border-t border-hairline px-3 pb-2 pt-3 text-left ${
-                activeKey === "own" ? "bg-forest/10" : "hover:bg-parchment"
+              aria-current={activeKey === "own" ? "step" : undefined}
+              className={`group relative flex w-full items-start gap-4 rounded-xl pb-[18px] pl-1 pr-3 pt-2.5 text-left transition-colors ${
+                activeKey === "own" ? "bg-[#f3f5fc]" : "hover:bg-parchment"
               }`}
             >
-              <span className="font-display text-base text-ink/75">Your own tasks</span>
-              <span className="mt-0.5 block font-mono-numbers text-[11px] text-ink/45">
-                {own.length} to do
+              <StageNode state="own" num="+" />
+              <span className="min-w-0 pt-[3px]">
+                <span className="block font-display text-[21px] font-semibold leading-[1.15] text-forest group-hover:text-[#2243B6]">
+                  Your own tasks
+                </span>
+                <span className="mt-[3px] block font-mono-numbers text-[12.5px] text-ink/70">
+                  {own.length > 0 ? `${own.length} to do` : `${ownDone.length} done`}
+                </span>
               </span>
             </button>
           )}
         </nav>
 
-        <div className="min-w-0">
+        <section className={`${cardClass} min-w-0 px-10 pb-6 pt-8`}>
           {activeKey === "own" ? (
             <>
-              <h3 className="font-display text-2xl font-semibold text-forest">Your own tasks</h3>
-              <div className="mt-3">
-                {own.map((item) => (
-                  <ChecklistRow key={item.id} item={item} />
-                ))}
+              <div className="flex items-start gap-5">
+                <StageIcon phase="own" />
+                <div className="min-w-0 flex-1">
+                  <StageHeading title="Your own tasks" className="text-[40px]" />
+                  <p className="mt-2.5 max-w-2xl text-[16.5px] leading-relaxed text-ink/75">
+                    The things only your wedding has, in the order they&apos;re due.
+                  </p>
+                </div>
               </div>
+              <div key="own" className="rise-stagger mt-5">
+                {own.length > 0 ? (
+                  rows(own)
+                ) : (
+                  <p className="py-4 text-[15px] text-ink/70">Nothing left here.</p>
+                )}
+              </div>
+              <OwnDoneDrawer items={ownDone} />
             </>
           ) : active ? (
             <>
-              {active.key === currentKey && (
-                <span className="font-mono-numbers text-[10px] uppercase tracking-[0.18em] text-brass">
-                  You&apos;re here
-                </span>
-              )}
-              <h3
-                className={`flex items-center gap-2 font-display text-2xl font-semibold ${
-                  active.isDone ? "text-forest/60" : "text-forest"
-                }`}
-              >
-                {active.isDone && <Tick />}
-                {active.title}
-              </h3>
-              <p className="mt-1 max-w-2xl text-sm text-ink/65">
-                {active.isDone ? active.doneBlurb : active.blurb}
-              </p>
-              <div className="rise-stagger mt-3">
-                {active.ordered.map((item) => (
-                  <ChecklistRow key={item.id} item={item} />
-                ))}
+              <div className="flex items-start gap-5">
+                <StageIcon phase={active.key} />
+                <div className="min-w-0 flex-1">
+                  {active.key === currentKey && (
+                    <HereBadge>
+                      You&apos;re here · Stage {stages.indexOf(active) + 1} of {stages.length}
+                    </HereBadge>
+                  )}
+                  <StageHeading
+                    title={active.title}
+                    className={`text-[40px] ${active.key === currentKey ? "mt-2.5" : ""}`}
+                  />
+                  <p className="mt-2.5 max-w-2xl text-[16.5px] leading-relaxed text-ink/75">
+                    {active.isDone ? active.doneBlurb : active.blurb}
+                  </p>
+                  <div className="mt-4">
+                    <StageBar done={active.done} total={active.items.length} />
+                  </div>
+                </div>
+              </div>
+              <div key={active.key} className="rise-stagger mt-5">
+                {rows(active.ordered)}
               </div>
             </>
           ) : null}
-        </div>
+          <div className="mt-5 border-t border-hairline pt-4">
+            <DueLegend />
+          </div>
+        </section>
       </div>
     </>
-  );
-}
-
-function Tick() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      aria-hidden="true"
-      className="h-4 w-4 shrink-0 self-center text-forest"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2.4"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="m5 13 4 4L19 7" />
-    </svg>
   );
 }
