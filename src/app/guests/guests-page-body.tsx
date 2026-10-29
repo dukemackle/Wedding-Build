@@ -104,20 +104,31 @@ export function GuestsPageBody({
   // margins. See src/lib/layout.ts for the widths.
   return (
     <div className={`w-full ${FULL_WIDTH}`}>
-      <PageHeader eyebrow="Guests" title="Everyone you" accent="want there" photo="guests">
+      {/* Where the list stands sits inside the header card, so the page
+          opens on one card rather than a header and a second panel. */}
+      <PageHeader
+        eyebrow="Guests"
+        title="Everyone you"
+        accent="want there"
+        photo="guests"
+        toolbar={
+          guests.length > 0 ? (
+            <StageHeader
+              guests={guests}
+              venueCapacity={venueCapacity}
+              costPerGuest={costPerGuest}
+              rsvpDeadline={wedding.rsvp_deadline}
+              today={today}
+              bare
+            />
+          ) : undefined
+        }
+      >
         Addresses, RSVPs and meals in one list, with the counts kept for you.
       </PageHeader>
       <RsvpMilestone confirmed={guests.filter((g) => g.status === "confirmed").length} weddingId={wedding.id} />
 
       <div className="flex flex-col gap-6">
-        <StageHeader
-          guests={guests}
-          venueCapacity={venueCapacity}
-          costPerGuest={costPerGuest}
-          rsvpDeadline={wedding.rsvp_deadline}
-          today={today}
-        />
-
         <GuestSheetSync
           link={sheetLink}
           changes={sheetChanges}

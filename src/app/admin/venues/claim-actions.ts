@@ -126,11 +126,31 @@ export async function approveSubmission(submissionId: string): Promise<{ error?:
     if (error) return { error: error.message };
   }
 
-  await admin.from("venue_spaces").delete().eq("venue_id", submission.venue_id);
-  if ((submission.spaces ?? []).length > 0) {
-    const { error } = await admin.from("venue_spaces").insert(
-      submission.spaces.map((sp, i) => ({ venue_id: submission.venue_id, ...sp, sort_order: i })),
-    );
+  // Spaces are updated in place, matched by name, rather than replaced: a
+  // space can carry a floor plan (venue_space_plans), and couples' rooms
+  // point back at it, so deleting and reinserting would drop both.
+  const { data: existingSpaces } = await admin
+    .from("venue_spaces")
+    .select("id, name")
+    .eq("venue_id", submission.venue_id)
+    .returns<{ id: string; name: string }[]>();
+  const spaceIdByName = new Map((existingSpaces ?? []).map((sp) => [sp.name.trim().toLowerCase(), sp.id]));
+  const keptSpaceIds = new Set<string>();
+  for (const [i, sp] of (submission.spaces ?? []).entries()) {
+    const values = { venue_id: submission.venue_id, ...sp, sort_order: i };
+    const key = sp.name.trim().toLowerCase();
+    const id = spaceIdByName.get(key);
+    // Taken once, so two spaces sent with the same name don't both land on one row.
+    spaceIdByName.delete(key);
+    const { error } = id
+      ? await admin.from("venue_spaces").update(values).eq("id", id)
+      : await admin.from("venue_spaces").insert(values);
+    if (error) return { error: error.message };
+    if (id) keptSpaceIds.add(id);
+  }
+  const removed = (existingSpaces ?? []).filter((sp) => !keptSpaceIds.has(sp.id)).map((sp) => sp.id);
+  if (removed.length > 0) {
+    const { error } = await admin.from("venue_spaces").delete().in("id", removed);
     if (error) return { error: error.message };
   }
 

@@ -15,11 +15,14 @@ export function PublishToggle({
   published,
   counts,
   publicSlug,
+  bare = false,
 }: {
   published: boolean;
   /** How many events each audience has. */
   counts: Record<EventAudience, number>;
   publicSlug: string | null;
+  /** Inside the page header's card, so no box of its own. */
+  bare?: boolean;
 }) {
   const total = counts.guests + counts.party + counts.private;
   const hasEvents = total > 0;
@@ -50,9 +53,13 @@ export function PublishToggle({
 
   return (
     <div
-      className={`mb-5 rounded-[14px] border px-4 py-2.5 ${
-        published ? "border-forest/25 bg-forest/5" : "border-hairline bg-card"
-      }`}
+      className={
+        bare
+          ? undefined
+          : `mb-5 rounded-[14px] border px-4 py-2.5 ${
+              published ? "border-forest/25 bg-forest/5" : "border-hairline bg-card"
+            }`
+      }
     >
       <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
         <p className="flex min-w-0 items-start gap-2 text-sm text-ink/70">

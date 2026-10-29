@@ -1,7 +1,7 @@
 import type { CSSProperties, ReactNode } from "react";
 import type { LayoutItemType } from "@/lib/supabase/types";
 import type { CenterpieceId, RoomStyle } from "@/lib/layout-styles";
-import { CANVAS_HEIGHT, CANVAS_WIDTH } from "@/lib/venue-layout-geometry";
+import { CANVAS_HEIGHT, CANVAS_WIDTH, CHAIR_PITCH } from "@/lib/venue-layout-geometry";
 
 /**
  * The artwork that turns the plan into a room: floor, walls and fixtures
@@ -10,8 +10,6 @@ import { CANVAS_HEIGHT, CANVAS_WIDTH } from "@/lib/venue-layout-geometry";
  * backdrop ignores the pointer so a click on the floor still deselects.
  */
 
-const W = CANVAS_WIDTH;
-const H = CANVAS_HEIGHT;
 const WALL = 18;
 
 /** One string of fairy lights, sagging between two points. */
@@ -41,7 +39,7 @@ function lightString(x1: number, y1: number, x2: number, y2: number, key: string
   );
 }
 
-function Barn() {
+function Barn({ W, H }: { W: number; H: number }) {
   return (
     <>
       <defs>
@@ -57,11 +55,14 @@ function Barn() {
       </defs>
       <rect width={W} height={H} fill="url(#room-planks)" />
       {/* Beams overhead, seen from above as soft bands of shadow. */}
-      {[400, 800, 1200].map((x) => (
+      {Array.from({ length: Math.max(0, Math.ceil(W / 400) - 1) }, (_, i) => (i + 1) * 400).map((x) => (
         <rect key={x} x={x - 14} y={0} width={28} height={H} fill="#2b1a0d" opacity={0.13} />
       ))}
       {[260, 540].map((y) => lightString(WALL, y - 140, W - WALL, y - 140, `h${y}`))}
-      {lightString(WALL, 700, W - WALL, 700, "h700")}
+      {/* A taller room (a big guest list) gets another string every 300. */}
+      {Array.from({ length: Math.max(1, Math.floor((H - 800) / 300) + 1) }, (_, i) => 700 + i * 300).map((y) =>
+        lightString(WALL, y, W - WALL, y, `h${y}`),
+      )}
       {[300, 1300].map((x) => lightString(x, WALL, x, H - WALL, `v${x}`))}
       <rect x={WALL / 2} y={WALL / 2} width={W - WALL} height={H - WALL} fill="none" stroke="#5b3a22" strokeWidth={WALL} />
       {/* Windows down both long walls. */}
@@ -85,7 +86,7 @@ function Barn() {
   );
 }
 
-function Ballroom() {
+function Ballroom({ W, H }: { W: number; H: number }) {
   return (
     <>
       <defs>
@@ -138,14 +139,30 @@ function Ballroom() {
   );
 }
 
-export function RoomBackdrop({ style }: { style: RoomStyle }) {
-  if (style === "blank") return null;
+/**
+ * The floor and walls behind the plan. A room copied from a venue's floor
+ * plan passes its outline: the floor outside it is greyed out and hatched,
+ * and the outline is drawn as the wall.
+ */
+export function RoomBackdrop({
+  style,
+  width = CANVAS_WIDTH,
+  height = CANVAS_HEIGHT,
+  outline = null,
+}: {
+  style: RoomStyle;
+  width?: number;
+  height?: number;
+  outline?: [number, number][] | null;
+}) {
+  if (style === "blank" && !outline) return null;
+  const points = outline?.map((p) => p.join(",")).join(" ");
   return (
     <svg
       aria-hidden
-      viewBox={`0 0 ${W} ${H}`}
-      width={W}
-      height={H}
+      viewBox={`0 0 ${width} ${height}`}
+      width={width}
+      height={height}
       className="pointer-events-none absolute inset-0"
     >
       <defs>
@@ -154,8 +171,22 @@ export function RoomBackdrop({ style }: { style: RoomStyle }) {
           <stop offset="0.4" stopColor="#FFD301" stopOpacity="0.3" />
           <stop offset="1" stopColor="#FFD301" stopOpacity="0" />
         </radialGradient>
+        <pattern id="room-outside" width="16" height="16" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+          <rect width="16" height="16" fill="#e9e6df" />
+          <rect width="3" height="16" fill="#14203d" opacity="0.07" />
+        </pattern>
       </defs>
-      {style === "barn" ? <Barn /> : <Ballroom />}
+      {style === "barn" ? <Barn W={width} H={height} /> : style === "ballroom" ? <Ballroom W={width} H={height} /> : null}
+      {outline && (
+        <>
+          <path
+            d={`M0 0H${width}V${height}H0Z M${outline.map((p) => p.join(" ")).join(" L")}Z`}
+            fillRule="evenodd"
+            fill="url(#room-outside)"
+          />
+          <polygon points={points} fill="none" stroke="#14203d" strokeOpacity={0.75} strokeWidth={8} strokeLinejoin="round" />
+        </>
+      )}
     </svg>
   );
 }
@@ -298,7 +329,7 @@ export function itemSurface(style: RoomStyle, type: LayoutItemType): Surface | n
       };
     case "chairs":
       return {
-        style: { background: `repeating-linear-gradient(90deg, ${barn ? "#8a5d36" : "#d9b44a"} 0 18px, transparent 18px 26px)` },
+        style: { background: `repeating-linear-gradient(90deg, ${barn ? "#8a5d36" : "#d9b44a"} 0 18px, transparent 18px ${CHAIR_PITCH}px)` },
         ink: barn ? "#3a2717" : "#f6f3ec",
         border: "transparent",
       };

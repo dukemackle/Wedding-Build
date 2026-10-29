@@ -6,7 +6,7 @@ import { createSiteBlock, deleteSiteBlock } from "./block-actions";
 import { ChevronDownIcon } from "@/components/icons";
 import type { SiteBlock } from "@/lib/supabase/types";
 import { SiteOrnament } from "@/components/site-ornament";
-import { Shape } from "@/components/site-motion";
+import { Shape, tinted } from "@/components/site-motion";
 import { MonogramFontError, downloadMonogram } from "@/lib/monogram-download";
 import { PHOTO_FRAMES } from "@/lib/site-canvas";
 import { FrameIcon } from "./photo-motion-panels";
@@ -51,6 +51,8 @@ import {
   type SectionKey,
   type SiteDesign,
   type SceneId,
+  FALLING_COLORS,
+  NATURAL_SWATCH,
 } from "@/lib/site-design";
 
 export type SectionInfo = {
@@ -1071,6 +1073,10 @@ export function Switch({ on, label, onToggle }: { on: boolean; label: string; on
  * A list reordered by dragging a handle -- pointer events rather than HTML
  * drag-and-drop, which doesn't work with a finger. The handle also takes
  * arrow keys, so reordering doesn't need a mouse at all.
+ *
+ * The order only changes on drop: while dragging, the other rows slide out of
+ * the way. Reordering mid-drag moved the dragged row in the DOM, which dropped
+ * its pointer capture and left it stuck out of place.
  */
 function SortableList({
   ids,
@@ -1084,28 +1090,43 @@ function SortableList({
   /** Labels for the handles' screen-reader names. */
   names: Partial<Record<SectionKey, string>>;
 }) {
+  const listRef = useRef<HTMLUListElement>(null);
   const rowRefs = useRef(new Map<SectionKey, HTMLLIElement>());
-  const [dragging, setDragging] = useState<{ id: SectionKey; offset: number } | null>(null);
-  const start = useRef({ y: 0, index: 0 });
+  const [drag, setDrag] = useState<{ from: number; to: number; offset: number; step: number } | null>(null);
+  // Row positions measured at the start of a drag, relative to the list so scrolling doesn't skew them.
+  const start = useRef({ y: 0, rows: [] as { top: number; height: number }[] });
 
-  function targetIndex(clientY: number, from: number) {
-    // The slot whose midpoint the pointer has passed.
+  function listTop() {
+    return listRef.current?.getBoundingClientRect().top ?? 0;
+  }
+
+  function targetIndex(from: number, offset: number) {
+    // The slot whose midpoint the dragged row's middle has passed.
+    const rows = start.current.rows;
+    const mid = rows[from].top + offset + rows[from].height / 2;
     let to = from;
-    ids.forEach((id, i) => {
-      const el = rowRefs.current.get(id);
-      if (!el || i === from) return;
-      const r = el.getBoundingClientRect();
-      const mid = r.top + r.height / 2;
-      if (i < from && clientY < mid) to = Math.min(to, i);
-      if (i > from && clientY > mid) to = Math.max(to, i);
+    rows.forEach((r, i) => {
+      const m = r.top + r.height / 2;
+      if (i < from && mid < m) to = Math.min(to, i);
+      if (i > from && mid > m) to = Math.max(to, i);
     });
     return to;
   }
 
+  function finish() {
+    if (drag && drag.to !== drag.from) onMove(drag.from, drag.to);
+    setDrag(null);
+  }
+
   return (
-    <ul className="flex flex-col gap-2">
+    <ul ref={listRef} className="flex flex-col gap-2">
       {ids.map((id, index) => {
-        const isDragging = dragging?.id === id;
+        const isDragging = drag?.from === index;
+        let shift = 0;
+        if (drag && !isDragging) {
+          if (drag.to > drag.from && index > drag.from && index <= drag.to) shift = -drag.step;
+          if (drag.to < drag.from && index >= drag.to && index < drag.from) shift = drag.step;
+        }
         const handle = (
           <button
             type="button"
@@ -1121,24 +1142,26 @@ function SortableList({
               }
             }}
             onPointerDown={(e) => {
+              if (e.button !== 0) return;
               e.currentTarget.setPointerCapture(e.pointerId);
-              start.current = { y: e.clientY, index };
-              setDragging({ id, offset: 0 });
+              const top = listTop();
+              const rows = ids.map((x) => {
+                const r = rowRefs.current.get(x)?.getBoundingClientRect();
+                return { top: (r?.top ?? 0) - top, height: r?.height ?? 0 };
+              });
+              start.current = { y: e.clientY - top, rows };
+              const next = rows[index + 1] ?? rows[index - 1];
+              const gap = next ? Math.abs(next.top - rows[index].top) - (next.top > rows[index].top ? rows[index].height : next.height) : 8;
+              setDrag({ from: index, to: index, offset: 0, step: rows[index].height + gap });
             }}
             onPointerMove={(e) => {
-              if (!isDragging) return;
-              const to = targetIndex(e.clientY, index);
-              if (to !== index) {
-                // Move now, and re-base the offset so the row stays under the finger.
-                const el = rowRefs.current.get(ids[to]);
-                const shift = el ? el.getBoundingClientRect().top - rowRefs.current.get(id)!.getBoundingClientRect().top : 0;
-                start.current = { y: start.current.y + shift, index: to };
-                onMove(index, to);
-              }
-              setDragging({ id, offset: e.clientY - start.current.y });
+              if (!isDragging || !drag) return;
+              const offset = e.clientY - listTop() - start.current.y;
+              setDrag({ ...drag, offset, to: targetIndex(index, offset) });
             }}
-            onPointerUp={() => setDragging(null)}
-            onPointerCancel={() => setDragging(null)}
+            onPointerUp={finish}
+            onPointerCancel={() => setDrag(null)}
+            onLostPointerCapture={() => isDragging && finish()}
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
               <circle cx="9" cy="6" r="1.6" />
@@ -1157,8 +1180,20 @@ function SortableList({
               if (el) rowRefs.current.set(id, el);
               else rowRefs.current.delete(id);
             }}
-            className={isDragging ? "relative z-10 shadow-lg" : ""}
-            style={isDragging ? { transform: `translateY(${dragging.offset}px)` } : undefined}
+            className={
+              isDragging
+                ? "relative z-10 shadow-lg"
+                : drag
+                  ? "transition-transform duration-150 motion-reduce:transition-none"
+                  : ""
+            }
+            style={
+              isDragging
+                ? { transform: `translateY(${drag.offset}px)` }
+                : shift
+                  ? { transform: `translateY(${shift}px)` }
+                  : undefined
+            }
           >
             {renderRow(id, handle)}
           </li>
@@ -1259,6 +1294,9 @@ export function MotionTab({
   const motion = design.motion;
   const preset = motionPreset(motion);
   const set = (patch: Partial<Motion>) => onChange({ motion: { ...motion, ...patch } });
+  const { accent } = resolveDesign(design);
+  // White would vanish on the white tiles, so they keep the editor's green for it.
+  const iconColor = motion.fallingColor === "white" ? "accent" : motion.fallingColor;
 
   return (
     <>
@@ -1277,7 +1315,7 @@ export function MotionTab({
             ["lively", "Lively"],
           ]}
           value={preset === "custom" ? null : preset}
-          onPick={(p) => onChange({ motion: { ...MOTION_PRESETS[p], speed: motion.speed } })}
+          onPick={(p) => onChange({ motion: { ...MOTION_PRESETS[p], speed: motion.speed, fallingColor: motion.fallingColor } })}
         />
       </div>
 
@@ -1344,8 +1382,13 @@ export function MotionTab({
                 className={`flex flex-col items-center gap-1.5 rounded-xl bg-card px-1 py-2.5 ${selected ? SELECTED : UNSELECTED}`}
               >
                 <span
-                  className="flex h-7 items-center justify-center gap-1 text-forest"
-                  style={{ "--site-accent": "var(--color-forest)" } as CSSProperties}
+                  className="flex h-7 items-center justify-center gap-1 text-[var(--site-accent)]"
+                  style={
+                    {
+                      "--site-accent": "var(--color-forest)",
+                      ...(f.id === "none" ? undefined : tinted(f.id, iconColor)),
+                    } as CSSProperties
+                  }
                   aria-hidden="true"
                 >
                   {f.id === "none" ? (
@@ -1362,6 +1405,33 @@ export function MotionTab({
             );
           })}
         </div>
+        {motion.falling !== "none" && (
+          <div className="mt-1 flex flex-col gap-2">
+            <span className="text-[13px] text-ink">
+              <span className="font-medium">Colour</span>
+              <span className="text-ink/60"> · {FALLING_COLORS.find((c) => c.id === motion.fallingColor)?.label}</span>
+            </span>
+            <div role="group" aria-label="Colour of what falls" className="flex flex-wrap gap-2">
+              {FALLING_COLORS.map((c) => (
+                <button
+                  key={c.id}
+                  type="button"
+                  title={c.label}
+                  aria-label={c.label}
+                  aria-pressed={motion.fallingColor === c.id}
+                  onClick={() => set({ fallingColor: c.id })}
+                  className={`h-8 w-8 rounded-full ${motion.fallingColor === c.id ? "ring-2 ring-forest ring-offset-2" : "border border-black/10"}`}
+                  style={{
+                    background:
+                      c.id === "natural"
+                        ? NATURAL_SWATCH
+                        : (c.hex ?? accent),
+                  }}
+                />
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="flex flex-col gap-2.5">

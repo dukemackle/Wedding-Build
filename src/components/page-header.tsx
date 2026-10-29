@@ -12,6 +12,11 @@ import type { ReactNode } from "react";
  * Two arrangements: on a phone the photo is a small square beside the
  * words; from md up it is a slim panel on the right and the actions sit on
  * the headline's row.
+ *
+ * A page whose tools belong up top (the venue layout) passes them as
+ * `toolbar`: a full-width second row in the same card, under the words
+ * and the photo, so the page has one header rather than a header followed
+ * by a second titled card.
  */
 export function PageHeader({
   eyebrow,
@@ -20,6 +25,7 @@ export function PageHeader({
   photo,
   children,
   actions,
+  toolbar,
 }: {
   /** The page's name, shown as the headline. */
   eyebrow: string;
@@ -32,9 +38,11 @@ export function PageHeader({
   /** The sentence under the line. */
   children?: ReactNode;
   actions?: ReactNode;
+  /** A row of tools under the headline, inside the same card. */
+  toolbar?: ReactNode;
 }) {
   return (
-    <header className="rise-in mb-6 flex overflow-hidden rounded-[20px] border border-hairline bg-card shadow-[0_2px_10px_rgb(20_32_61/0.05)] md:grid md:grid-cols-[minmax(0,1fr)_300px]">
+    <header className="rise-in mb-6 flex flex-wrap overflow-hidden rounded-[20px] border border-hairline bg-card shadow-[0_2px_10px_rgb(20_32_61/0.05)] md:grid md:grid-cols-[minmax(0,1fr)_300px]">
       <div className="relative w-24 shrink-0 overflow-hidden md:order-2 md:w-auto md:min-h-[120px]">
         <Image
           src={`/landing/features/${photo}.webp`}
@@ -63,6 +71,11 @@ export function PageHeader({
           </div>
         ) : null}
       </div>
+      {toolbar ? (
+        <div className="basis-full border-t border-hairline px-4 py-3 md:order-3 md:col-span-2 md:px-8 md:py-4">
+          {toolbar}
+        </div>
+      ) : null}
     </header>
   );
 }

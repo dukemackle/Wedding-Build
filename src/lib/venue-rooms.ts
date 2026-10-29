@@ -1,5 +1,6 @@
 import "server-only";
 import type { createClient } from "@/lib/supabase/server";
+import { WORLD_SCALE } from "@/lib/venue-layout-geometry";
 
 const DEFAULT_ROOM_NAME = "Main Venue";
 
@@ -35,4 +36,30 @@ export async function getOrCreateDefaultRoom(
   }
 
   return created.id;
+}
+
+/**
+ * Keeps a new or copied table/item inside a room copied from a venue plan,
+ * whose floor can be narrower than the usual 1600-wide plan. Rooms without a
+ * plan are left alone.
+ */
+export async function keepInRoom(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  roomId: string | null,
+  position: { position_x: number; position_y: number },
+  size: { width: number; height: number },
+): Promise<{ position_x: number; position_y: number }> {
+  if (!roomId) return position;
+  const { data: room } = await supabase
+    .from("venue_rooms")
+    .select("width_m, length_m")
+    .eq("id", roomId)
+    .maybeSingle<{ width_m: number | null; length_m: number | null }>();
+  if (room?.width_m == null || room.length_m == null) return position;
+  const width = Number(room.width_m) * WORLD_SCALE;
+  const length = Number(room.length_m) * WORLD_SCALE;
+  return {
+    position_x: Math.round(Math.max(0, Math.min(position.position_x, width - size.width))),
+    position_y: Math.round(Math.max(0, Math.min(position.position_y, length - size.height))),
+  };
 }

@@ -750,6 +750,8 @@ export type SeatingTable = {
   width: number | null;
   height: number | null;
   room_id: string | null;
+  /** The event phase this table belongs to; null shows it in every phase. */
+  phase_id: string | null;
   /** Tablecloth key from src/lib/layout-styles.ts; null uses the room's default. */
   linen: string | null;
   /** Centrepiece key from src/lib/layout-styles.ts; null uses the room's default. */
@@ -758,12 +760,46 @@ export type SeatingTable = {
   updated_at: string;
 };
 
+export type LayoutPhaseKind = "ceremony" | "cocktail" | "reception" | "custom";
+
+/** One arrangement of the venue: ceremony, cocktail hour, reception or a custom event. */
+export type LayoutPhase = {
+  id: string;
+  wedding_id: string;
+  user_id: string;
+  kind: LayoutPhaseKind;
+  name: string;
+  sort_order: number;
+  created_at: string;
+};
+
 export type VenueRoom = {
   id: string;
   wedding_id: string;
   user_id: string;
   name: string;
   created_at: string;
+  /** Set when the room was copied from a venue's floor plan (0150). */
+  width_m: number | null;
+  length_m: number | null;
+  outline: PlanOutline | null;
+  source_space_id: string | null;
+  source_venue_id: string | null;
+};
+
+/** A floor plan's corners in metres from its top-left, clockwise. */
+export type PlanOutline = [number, number][];
+
+/** One venue space's floor plan, drawn in admin (0150). */
+export type VenueSpacePlan = {
+  space_id: string;
+  venue_id: string;
+  width_m: number;
+  length_m: number;
+  /** Null: the whole width x length rectangle. */
+  outline: PlanOutline | null;
+  published: boolean;
+  updated_at: string;
 };
 
 export type LayoutItemType =
@@ -793,6 +829,8 @@ export type VenueLayoutItem = {
   height: number | null;
   rotation: number;
   room_id: string | null;
+  /** The event phase this item belongs to; null makes it part of the venue, shown in every phase. */
+  phase_id: string | null;
   created_at: string;
   updated_at: string;
 };

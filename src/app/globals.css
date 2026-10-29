@@ -1319,6 +1319,17 @@ body:has(.search-shell-root) .site-footer {
     calc(0.4s * var(--motion-speed, 1)) both;
 }
 
+/* A size-only slot (the hero countdown) scaled whole. A phone has no room to
+   grow it -- the four units already fill 375px -- so there it only shrinks. */
+.site-zoom {
+  zoom: var(--site-zoom, 1);
+}
+@media (max-width: 639px) {
+  .site-zoom {
+    zoom: min(var(--site-zoom, 1), 1);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .guest-site[data-scroll] .site-reveal,
   .guest-site[data-scroll] .site-reveal:not([data-shown]) {

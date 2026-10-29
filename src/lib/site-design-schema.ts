@@ -10,6 +10,7 @@ import {
   DEFAULT_SECTIONS,
   DEFAULT_SITE_DESIGN,
   DEFAULT_THEME_ID,
+  FALLING_COLOR_IDS,
   FALLING_IDS,
   FONT_IDS,
   FONT_PAIRINGS,
@@ -75,6 +76,7 @@ const motionSchema = z
     falling: z.enum(FALLING_IDS).optional().catch(undefined),
     /** Designs saved before the Falling picker had only an on/off for petals. */
     petals: z.boolean().optional().catch(undefined),
+    fallingColor: z.enum(FALLING_COLOR_IDS).catch("accent"),
     ticking: z.boolean().catch(true),
     flipboard: z.boolean().catch(false),
     shimmer: z.boolean().catch(false),

@@ -3,12 +3,16 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { AppNav } from "@/components/app-nav";
 import { PageShell } from "@/components/page-shell";
-import { PageHeader } from "@/components/page-header";
-import type { Guest, SeatingTable, VenueLayoutItem, VenueRoom, Wedding } from "@/lib/supabase/types";
+import type { Guest, LayoutPhase, SeatingTable, VenueLayoutItem, VenueRoom, Wedding } from "@/lib/supabase/types";
 import { VenueLayoutClient } from "./venue-layout-client";
 import { GUEST_WITH_NOTES, withNotes } from "@/lib/guest-notes";
 
-export default async function VenueLayoutPage() {
+export default async function VenueLayoutPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ room?: string }>;
+}) {
+  const { room: initialRoomId } = await searchParams;
   const supabase = await createClient();
   const {
     data: { user },
@@ -55,6 +59,7 @@ export default async function VenueLayoutPage() {
     { data: items },
     { data: rooms },
     { data: declinedSeated },
+    { data: phases },
   ] = await Promise.all([
     supabase
       .from("seating_tables")
@@ -95,34 +100,28 @@ export default async function VenueLayoutPage() {
       .not("table_id", "is", null)
       .order("name", { ascending: true })
       .returns<Pick<Guest, "id" | "name" | "table_id">[]>(),
+    supabase
+      .from("layout_phases")
+      .select("*")
+      .eq("wedding_id", wedding.id)
+      .returns<LayoutPhase[]>(),
   ]);
 
   return (
     // The plan is the page and scales itself to whatever width it gets, so it
     // takes the whole screen rather than stopping at 1600px with empty
-    // margins either side on a wide monitor.
+    // margins either side on a wide monitor. The editor draws the page
+    // header itself, since its toolbar lives in it.
     <PageShell email={user.email ?? ""} width="full">
-        <PageHeader
-          eyebrow="Venue layout"
-          title="Set the"
-          accent="room"
-          photo="layout"
-          actions={
-            <Link href="/venue-layout/print" className="btn-secondary">
-              Print seating chart
-            </Link>
-          }
-        >
-          Tables, the dance floor and a seat for every guest.
-        </PageHeader>
-
         <VenueLayoutClient
           tables={tables ?? []}
           confirmedGuests={guests?.map(withNotes) ?? []}
           items={items ?? []}
           rooms={rooms ?? []}
+          phases={phases ?? []}
           declinedSeated={declinedSeated ?? []}
           roomStyle={wedding.layout_room_style ?? "blank"}
+          initialRoomId={initialRoomId ?? null}
           sides={{
             partnerAName: wedding.partner_a_name,
             partnerBName: wedding.partner_b_name,

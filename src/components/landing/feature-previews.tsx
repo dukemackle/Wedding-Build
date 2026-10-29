@@ -8,10 +8,14 @@ import { createPortal } from "react-dom";
 import { VenueTypeIcon } from "@/components/venue-type-icon";
 import { VendorCategoryIcon } from "@/components/vendor-category-icon";
 import { WrenMotto } from "@/components/wren-motto";
+import { WrenBirdIcon } from "@/components/icons";
+import { planSeating } from "@/lib/auto-seat";
 import { AskWrenTile } from "@/app/dashboard/ask-wren-tile";
 import {
   DEFAULT_SITE_DESIGN,
   FALLING,
+  FALLING_COLORS,
+  NATURAL_SWATCH,
   PALETTES,
   THEMES,
   fontById,
@@ -22,6 +26,7 @@ import {
   type FallingId,
   type OrnamentId,
   type ThemeId,
+  type FallingColorId,
 } from "@/lib/site-design";
 import { Falling, useReducedMotion } from "@/components/site-motion";
 import { SiteOrnament } from "@/components/site-ornament";
@@ -487,9 +492,9 @@ const SIDE_COLORS: Record<SideKey, string> = {
   both: "#00BFFE",
 };
 
-const SEAT_GUESTS: { name: string; side: SideKey; plusOne?: boolean }[] = [
-  { name: "Aunt May", side: "a" },
-  { name: "Uncle Joe", side: "a", plusOne: true },
+const SEAT_GUESTS: { name: string; side: SideKey; plusOne?: boolean; household?: string }[] = [
+  { name: "Aunt May", side: "a", household: "May & Joe" },
+  { name: "Uncle Joe", side: "a", plusOne: true, household: "May & Joe" },
   { name: "Priya S.", side: "b" },
   { name: "Marcus T.", side: "b" },
   { name: "Grandma Rose", side: "a" },
@@ -533,6 +538,7 @@ function SeatingDemo() {
     "Lena O.": "head",
   });
   const [picked, setPicked] = useState<string | null>(null);
+  const [ceremony, setCeremony] = useState(false);
 
   const seat = (name: string, table: string | null) => {
     if (!name) return;
@@ -556,6 +562,28 @@ function SeatingDemo() {
 
   const unseated = SEAT_GUESTS.filter((g) => !seats[g.name]);
 
+  // The real "Seat the rest" rules, run on the demo's guests and tables.
+  const seatTheRest = () => {
+    const plan = planSeating(
+      SEAT_GUESTS.map((g) => ({
+        id: g.name,
+        name: g.name,
+        household: g.household ?? null,
+        side: g.side,
+        guest_type: null,
+        plus_one: !!g.plusOne,
+        table_id: seats[g.name] ?? null,
+      })),
+      SEAT_TABLES.map((t) => ({ id: t.id, name: t.name, capacity: t.cap })),
+    );
+    setSeats((s) => {
+      const next = { ...s };
+      for (const a of plan.assignments) for (const name of a.guestIds) next[name] = a.tableId;
+      return next;
+    });
+    setPicked(null);
+  };
+
   return (
     <Bleed>
       <div className="border-b border-hairline px-5 py-3 sm:px-8">
@@ -565,6 +593,9 @@ function SeatingDemo() {
         <div className="mt-2 flex flex-wrap items-center gap-2">
           <span className="hidden rounded-full bg-forest px-3 py-1.5 font-mono-numbers text-xs text-parchment sm:inline">
             + Add table
+          </span>
+          <span className="hidden rounded-full border border-forest px-3 py-1.5 font-mono-numbers text-xs text-forest sm:inline">
+            Layouts
           </span>
           <div className="inline-flex rounded-full border border-hairline bg-parchment p-1">
             {["Seating", "Whole Venue", "Rooms"].map((m, i) => (
@@ -594,8 +625,36 @@ function SeatingDemo() {
             ))}
           </div>
         </div>
+        <div className="mt-2 flex flex-wrap items-center gap-1.5">
+          <span className="mr-1 font-mono-numbers text-[10px] uppercase tracking-[0.2em] text-ink/50">
+            Event
+          </span>
+          {["Ceremony", "Cocktail hour", "Reception"].map((e, i) => {
+            const on = ceremony ? i === 0 : i === 2;
+            return i === 1 ? (
+              <span key={e} className="rounded-full border border-hairline px-2.5 py-0.5 text-xs text-ink/70">
+                {e}
+              </span>
+            ) : (
+              <button
+                key={e}
+                type="button"
+                onClick={() => setCeremony(i === 0)}
+                aria-pressed={on}
+                className={`rounded-full border px-2.5 py-0.5 text-xs ${
+                  on ? "border-forest bg-forest text-parchment" : "border-hairline text-ink/70 hover:border-forest/40"
+                }`}
+              >
+                {e}
+              </button>
+            );
+          })}
+        </div>
       </div>
 
+      {ceremony ? (
+        <CeremonyDemo look={look} room={room} />
+      ) : (
       <div className="flex flex-col gap-4 p-4 sm:px-8 md:flex-row md:items-start">
         {/* The plan: tables where they stand in the room. */}
         <div
@@ -680,6 +739,18 @@ function SeatingDemo() {
               {unseated.length}
             </span>
           </div>
+          {unseated.length > 0 && (
+            <div className="border-b border-hairline p-3">
+              <button
+                type="button"
+                onClick={seatTheRest}
+                className="flex w-full items-center justify-center gap-2 rounded-lg bg-forest px-3 py-2 text-sm font-medium text-parchment hover:bg-forest/90"
+              >
+                <WrenBirdIcon className="h-4 w-4 text-wren" />
+                Seat the rest with Wren
+              </button>
+            </div>
+          )}
           {unseated.length === 0 ? (
             <p className="p-4 text-sm text-ink/60">Everyone has a seat.</p>
           ) : (
@@ -708,7 +779,61 @@ function SeatingDemo() {
           </p>
         </div>
       </div>
+      )}
     </Bleed>
+  );
+}
+
+/**
+ * The ceremony event: the "Classic aisle" ready-made layout, as it lands on
+ * the plan -- the arch, rows either side of the aisle, the front row kept
+ * for family.
+ */
+function CeremonyDemo({ look, room }: { look: (typeof DEMO_ROOMS)[keyof typeof DEMO_ROOMS]; room: keyof typeof DEMO_ROOMS }) {
+  const rows = 6;
+  const perSide = 6;
+  const side = (key: string) => (
+    <div key={key} className="flex flex-col gap-[6%]">
+      {Array.from({ length: rows }, (_, r) => (
+        <div key={r} className="relative flex gap-1">
+          {Array.from({ length: perSide }, (_, c) => (
+            <span key={c} aria-hidden className="h-3 w-3 rounded-sm sm:h-3.5 sm:w-3.5" style={{ background: r === 0 ? "#FFD301" : look.chair }} />
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+  return (
+    <div className="flex flex-col gap-4 p-4 sm:px-8 md:flex-row md:items-start">
+      <div
+        className="relative flex aspect-[4/3] min-w-0 flex-1 flex-col items-center rounded-lg border-[6px] pt-[5%]"
+        style={{ background: look.floor, borderColor: room === "barn" ? "#5b3a22" : "#e7ddc4" }}
+      >
+        <div className="flex w-full items-center justify-center">
+          <span className="rounded-full px-6 py-1.5 font-mono-numbers text-[10px] uppercase tracking-[0.15em] shadow-md" style={{ background: look.table, color: room === "barn" ? "#fff6d6" : "#14203d" }}>
+            Arch
+          </span>
+          <span className="absolute right-[5%] rounded-md bg-[#262626] sm:right-[14%] px-2 py-1 font-mono-numbers text-[9px] uppercase tracking-[0.15em] text-parchment">
+            Musicians
+          </span>
+        </div>
+        <span className="mt-[12%] rounded-full bg-forest/85 px-2 py-0.5 font-mono-numbers text-[9px] uppercase tracking-[0.15em] text-parchment">
+          Reserved for family
+        </span>
+        <div className="mt-2 flex h-[48%] gap-[9%]">
+          {side("left")}
+          {side("right")}
+        </div>
+      </div>
+      <div className="w-full shrink-0 rounded-lg border border-hairline bg-parchment p-4 md:w-60">
+        <p className="font-display text-lg font-semibold text-forest">Classic aisle</p>
+        <p className="mt-1 font-mono-numbers text-xs text-ink/70">6 rows of 12 · 72 chairs</p>
+        <p className="mt-0.5 text-xs text-ink/60">About 40 × 40 ft, 6 ft aisle</p>
+        <p className="mt-3 text-xs text-ink/60">
+          Pick a ready-made ceremony sized to your guest list: straight rows, angled rows or two aisles, with a unity table if you want one.
+        </p>
+      </div>
+    </div>
   );
 }
 
@@ -1995,8 +2120,9 @@ function DemoArt({ src, color, phone }: { src: string; color: string; phone: boo
   );
 }
 
-// A few of the Motion tab's falling choices; the site has nine.
+// A few of the Motion tab's falling choices and colours; the site has more of each.
 const DEMO_FALLING = FALLING.filter((f) => ["none", "petals", "hearts", "snow", "fireflies"].includes(f.id));
+const DEMO_FALLING_COLORS = FALLING_COLORS.filter((c) => ["accent", "natural", "blush", "gold", "sage"].includes(c.id));
 
 // Theme font first, then a few the names cycle through when clicked.
 const DEMO_NAME_FONTS = [null, "greatvibes", "saintdelafield", "playfair"] as const;
@@ -2010,6 +2136,7 @@ function SiteDemo() {
   const [namesFont, setNamesFont] = useState(0);
   const [art, setArt] = useState<string | null>(DEMO_ART[0].id);
   const [falling, setFalling] = useState<FallingId>("petals");
+  const [fallingColor, setFallingColor] = useState<FallingColorId>("accent");
   const reduced = useReducedMotion();
   const palette = DEMO_PALETTES.find((p) => p.id === paletteId);
   // The real resolver, so the demo mixes cards and muted text the way the site does.
@@ -2142,6 +2269,22 @@ function SiteDemo() {
             {f.label}
           </button>
         ))}
+        {falling !== "none" &&
+          DEMO_FALLING_COLORS.map((c) => (
+            <button
+              key={c.id}
+              type="button"
+              title={c.label}
+              aria-label={`${c.label} colour`}
+              aria-pressed={c.id === fallingColor}
+              onClick={() => setFallingColor(c.id)}
+              className={`h-8 w-8 rounded-full ${c.id === fallingColor ? "ring-2 ring-[#2243B6] ring-offset-1" : "ring-1 ring-hairline"}`}
+              style={{
+                background:
+                  c.id === "natural" ? NATURAL_SWATCH : (c.hex ?? accent),
+              }}
+            />
+          ))}
       </div>
       <p className={eyebrow}>Monogram</p>
       <div className="flex flex-wrap gap-1.5">
@@ -2266,7 +2409,7 @@ function SiteDemo() {
                   } as React.CSSProperties
                 }
               >
-                {falling !== "none" && !reduced && <Falling kind={falling} speed={1} contained />}
+                {falling !== "none" && !reduced && <Falling kind={falling} color={fallingColor} speed={1} contained />}
                 <SiteOrnament kind={ornament} first="Juniper" second="Sam" />
                 <p className="font-mono-numbers text-[10px] uppercase tracking-[0.25em]" style={{ color: t.muted }}>
                   June 12, 2027 · Bend, Oregon
@@ -2435,7 +2578,7 @@ const PREVIEWS: Record<string, { heading: string; Demo: () => ReactNode }> = {
   attire: { heading: "Save what you love, then buy or rent", Demo: AttireDemo },
   itinerary: { heading: "The whole day, hour by hour", Demo: ItineraryDemo },
   "venue-layout": {
-    heading: "Seat your guests by dragging them to a table",
+    heading: "Set the room in a click, then seat everyone",
     Demo: SeatingDemo,
   },
   bookings: { heading: "Every booking, with its contract", Demo: BookingsDemo },

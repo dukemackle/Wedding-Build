@@ -215,3 +215,35 @@ rules, batch self-merge, 50-state coverage, page widths) and
   vendor check read files as text.
 - Alternatives: fewer builder runs (slower coverage); keep the routine hourly
   (no usage saved).
+
+## 2026-10-28 — Venue designer: phases, templates, venue plans, in that order
+- Decision (owner): improve the existing layout editor in PRs: (1) event
+  phases (ceremony, cocktail hour, reception, custom), (2) starting templates
+  with real room sizes, three categories first (Barn & Farm, Ballroom,
+  Garden & Park) plus a "Gala 300+" size for Ballroom and Hotel & Resort,
+  (3) venue floor plans drawn by the owner in admin, with "Design my wedding
+  here" on the listing, (4) editor polish. Couples see feet; metres stored.
+  Existing tables become Reception; existing items become part of the venue.
+- Why: templates and real venue rooms help couples and venues more than 3D
+  realism. Phases change the data model, so they go first.
+- Parked: photoreal 3D, walkthrough, style themes, plan import, Wren layout
+  editing.
+
+## 2026-10-28 — Venue floor plans: one per space, outline only, copied as a snapshot
+- Decision (owner): a plan belongs to a venue *space* (the existing
+  `venue_spaces` rows: "The Barn", "Oak Lawn"), not to the whole venue. It
+  holds the space's size and outline only (a rectangle, or corners dragged
+  into an L or other shape); doors, pillars, fixed bars and per-space capacity
+  wait. Plans live in `venue_space_plans` (1:1 with a space, `published` flag,
+  public read only when published on an active venue, written by admin via the
+  service role). "Design my wedding here" copies every published space into the
+  couple's `venue_rooms` as a snapshot (size, outline, `source_space_id`), so
+  redrawing a venue never moves a couple's tables. Metres stored, feet shown.
+- Why: most venues have 2–3 spaces used for different events (ceremony on the
+  lawn, dinner in the barn), which lines up with event phases. A live link
+  would let a redraw strand tables inside a wall.
+- Alternatives: one plan per venue (lawn and ballroom on one canvas); live
+  link (always current, but can break couples' layouts); fixed features now
+  (more admin drawing before anyone has used plans).
+- Also: approving a claim used to delete and reinsert a venue's spaces, which
+  would have dropped their plans; it now updates spaces in place by name.
