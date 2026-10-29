@@ -1336,6 +1336,21 @@ Blue Box Boutique Events	7540 Firmament Avenue	Van Nuys	California			Garden & Pa
 Tierra Rejada Golf Club	15187 Tierra Rejada Rd	Moorpark	California			Country Club & Golf	Indoor & Outdoor	200			Golf club in the Moorpark hills with an outdoor ceremony lawn and receptions in its restaurant or on the patio.		805-531-9300	https://arcisgolf.com/clubs/tierra-rejada-golf-club/weddings
 Rancho La Cordillera		Northridge	California			Ranch	Outdoor	500			Gated multi-acre property in Northridge run by the Hello Banquet team, with nine event areas including outdoor courtyards and a ceremony site among stone ruins.		(818) 639-7310	https://hellobanquet.com/rancho-la-cordillera/`,
   },
+  {
+    name: "Los Angeles and Ventura County",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+La Casita del Arroyo	177 S Arroyo Blvd	Pasadena	California			Historic Mansion & Estate	Indoor	70			City-run 1933 landmark beside the Arroyo with a renovated meeting room rented for small weddings and celebrations.	rsvdesk@cityofpasadena.net	626-744-7500	https://www.cityofpasadena.net/parks-and-rec/parks/la-casita-del-arroyo/
+Petersen Automotive Museum	6060 Wilshire Blvd	Los Angeles	California			Museum, Gallery & Rooftop	Indoor & Outdoor	150			Car museum whose first-floor Artistry space and fourth-floor penthouse and terrace are offered for weddings and receptions.	gs@petersen.org	(323) 964-6348	https://www.petersen.org/private-events
+Country Meadow Ranch	6183 Old Balcom Canyon Road	Somis	California			Ranch	Outdoor		10000	Package	Oak-shaded ranch with a meadow chapel, a bridal cottage and a package that covers a reserved day.		(805) 558-1950	https://countrymeadowranch.com/
+The Westin Long Beach	333 East Ocean Boulevard	Long Beach	California			Hotel & Resort	Indoor & Outdoor	1540			Downtown Long Beach hotel with a large ballroom and several outdoor terraces for receptions.		(562) 436-3000	https://www.marriott.com/en-us/hotels/lgbwi-the-westin-long-beach/events/
+Ventura Beach Marriott	2055 Harbor Blvd.	Ventura	California			Hotel & Resort	Indoor & Outdoor	850			Beachside hotel in Ventura with ballrooms, a mezzanine and an outdoor courtyard for ceremonies and receptions.		(805) 643-6000	https://www.marriott.com/en-us/hotels/oxrvb-ventura-beach-marriott/events
+Four Points by Sheraton Ventura Harbor Resort	1050 Schooner Drive	Ventura	California			Hotel & Resort	Indoor & Outdoor	400			Harbor hotel with a banquet-style Grand Ballroom and an outdoor gazebo used for wedding ceremonies.		(805) 658-1212	https://www.marriott.com/hotels/event-planning/wedding-planning/oxrfp-four-points-ventura-harbor-resort/
+Sheraton Agoura Hills Hotel	30100 Agoura Road	Agoura Hills	California			Hotel & Resort	Indoor & Outdoor	350			Foothill hotel near the Santa Monica Mountains with a ballroom plus an upper terrace and grand patio.		(818) 707-1220	https://www.marriott.com/hotels/event-planning/wedding-planning/burah-sheraton-agoura-hills-hotel/
+Pacific Unitarian Church	5621 Montemalaga Dr.	Rancho Palos Verdes	California			Chapel & Church	Indoor & Outdoor	150			Church grounds overlooking the Pacific with an indoor hall, a gazebo garden for ceremonies and a covered patio.		(310) 378-9449	https://pacificunitarian.org/
+Commemorative Air Force Aviation Museum	455 Aviation Drive	Camarillo	California			Museum, Gallery & Rooftop	Indoor				Aviation museum hangar of about 15,000 square feet rented for weddings and galas among vintage aircraft.		(805) 482-0064	https://www.cafsocal.com/venue-rentals/
+Ventura Harbor Village Beach Weddings	1583 Spinnaker Drive	Ventura	California			Beach & Coast	Outdoor				Ceremonies on the harbor beaches, waterfront promenade or green lawn, with a wedding application handled by the harbor office.	cbrazerol@venturaharbor.com	(805) 477-0470	https://www.venturaharborvillage.com/onsite-rentals/
+Pacific Corinthian Yacht Club	2600 Harbor Blvd	Oxnard	California			Beach & Coast	Indoor & Outdoor	200			Private waterside club in Channel Islands Harbor with a main dining room, a boardroom and a glass-walled Crows Nest.	frontdesk@pcyc.org	(805) 985-7292	https://www.pcyc.org/web/pages/weddings-events`,
+  },
 ];
 
 export default batches;
