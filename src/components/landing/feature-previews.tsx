@@ -1042,6 +1042,8 @@ const STATUS_BADGE: Record<DemoStatus, string> = {
   pending: "border-brass/40 bg-brass/10 text-brass",
 };
 
+const DEMO_SIDE_LABEL: Record<SideKey, string> = { a: "Alex's side", b: "Sam's side", both: "Both" };
+
 const DEMO_GUESTS: {
   name: string;
   side: SideKey;
@@ -1082,6 +1084,9 @@ function RsvpDemo() {
   const confirmed = DEMO_GUESTS.filter((g) => status[g.name] === "confirmed").length;
   const pending = DEMO_GUESTS.filter((g) => status[g.name] === "pending").length;
   const noAddress = DEMO_GUESTS.filter((g) => !g.address).length;
+  // The real side key's headcounts, declined guests left out.
+  const sideCount = (side: SideKey) =>
+    DEMO_GUESTS.filter((g) => g.side === side && status[g.name] !== "declined").length;
 
   const chip = (key: typeof filter, label: string) => (
     <button
@@ -1137,6 +1142,18 @@ function RsvpDemo() {
               Import
             </span>
           </div>
+        </div>
+        <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-ink/80">
+          {(Object.keys(SIDE_COLORS) as SideKey[]).map((side) => (
+            <span
+              key={side}
+              className="flex items-center gap-1.5 rounded-md border-l-4 py-1 pl-2 pr-2.5"
+              style={{ borderLeftColor: SIDE_COLORS[side], backgroundColor: `${SIDE_COLORS[side]}1F` }}
+            >
+              {DEMO_SIDE_LABEL[side]}
+              <span className="font-mono-numbers text-ink">{sideCount(side)}</span>
+            </span>
+          ))}
         </div>
         <div className="mt-3 flex flex-wrap items-center gap-2">
           <span className={eyebrow}>Show</span>
