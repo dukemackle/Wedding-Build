@@ -169,7 +169,6 @@ Sunflower & Sage Photography	Photography		Fairmont	West Virginia	Morgantown, Cha
 Events By Jessica	Planning		Morgantown	West Virginia	Morgantown	Morgantown planner who designs and runs events from weddings to intimate gatherings, handling the details on the day.	eventsbyjessica97@gmail.com	304-288-9074	https://www.events-by-jessica.com/	https://www.instagram.com/eventsbyjessica97/		
 Alex O'Neal Entertainment	Music		Morgantown	West Virginia	Morgantown, Fairmont, Clarksburg and nearby MD and PA	Morgantown wedding DJ focused on receptions, serving north-central West Virginia plus Deep Creek and southwest Pennsylvania.			https://www.alexthedj.com/			
 Luxury Event Co	Music		Morgantown	West Virginia	Morgantown and Pennsylvania	Morgantown DJ and event service covering weddings, private parties and corporate events in West Virginia and Pennsylvania.	info@luxuryeventco.com		https://www.luxuryeventco.com/	https://www.instagram.com/luxury_event_co/		
-Village Butcher and Market	Catering	3345 University Ave Suite 4	Morgantown	West Virginia	Morgantown	Morgantown butcher shop whose catering covers weddings, private parties and holiday events, with delivery and two days' notice needed.		304-241-4961	https://villagebutcherandmarket.com/catering			
 `,
   },
   {
