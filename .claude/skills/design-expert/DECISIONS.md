@@ -11,6 +11,10 @@ They're summarised here only by reference; CLAUDE.md is the source.
 
 ## Approved directions
 
+- **2026-10-29:** Venue layout has one header, not a page header plus a
+  second titled card: name, status line, seated ring and Print in the top
+  row, the editor's toolbar as a full-width second row of the same card
+  (`PageHeader`'s `toolbar` slot). Approved from a preview.
 - **2026-10-29:** Guest-site hero: the date line and the countdown resize by
   clicking them in the preview, like the names (slots `hero.date`,
   `hero.countdown`). The countdown is size-only, scales whole, and only

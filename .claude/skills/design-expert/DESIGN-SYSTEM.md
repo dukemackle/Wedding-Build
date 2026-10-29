@@ -90,7 +90,7 @@ layout switch in new code.
 | Need | Use | Status |
 | --- | --- | --- |
 | Page frame | `PageShell` | Good |
-| Planning-page header | `PageHeader` (`page-header.tsx`): eyebrow, headline with an italic royal-blue end, one line, actions, landing feature photo | Budget, guests, checklist, itinerary, layout, registry |
+| Planning-page header | `PageHeader` (`page-header.tsx`): eyebrow, headline with an italic royal-blue end, one line, actions, landing feature photo; optional full-width `toolbar` row (venue layout) | Budget, guests, checklist, itinerary, layout, registry |
 | Page's main action | `btn-primary` (gold pill, navy text, `PlusIcon` for "Add …") | One per page |
 | Its other actions | `btn-secondary` (navy 2px outline pill) | Planning pages |
 | Primary button | `rounded-md bg-forest px-4 py-2 text-sm font-medium text-parchment transition-colors hover:bg-forest/90 disabled:opacity-60` (+ `btn-motion` on marketing) | ~6 near-duplicate variants; no shared component |
