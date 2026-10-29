@@ -118,7 +118,8 @@ export function SitePages({
 /**
  * Every tab again at the foot of the page, styled like the bar at the top,
  * so a guest who has read to the bottom can go anywhere without scrolling
- * back up. All of them show here (no "More"); on a phone they wrap.
+ * back up. All of them show here (no "More"). Computer only: a phone has
+ * the Menu button.
  */
 function PageLinks({ pages, active, go }: { pages: Page[]; active: string; go: (id: string) => void }) {
   const rsvp = pages.find((p) => p.id === "rsvp");
@@ -128,7 +129,7 @@ function PageLinks({ pages, active, go }: { pages: Page[]; active: string; go: (
     go(id);
   };
   return (
-    <nav aria-label="All pages" className="flex justify-center px-4 pb-16 pt-6">
+    <nav aria-label="All pages" className="hidden justify-center px-4 pb-16 pt-6 lg:flex">
       <ul className="flex flex-wrap items-center justify-center gap-1">
         {links.map((p) => (
           <li key={p.id}>
