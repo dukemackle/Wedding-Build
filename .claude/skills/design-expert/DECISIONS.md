@@ -11,6 +11,10 @@ They're summarised here only by reference; CLAUDE.md is the source.
 
 ## Approved directions
 
+- **2026-10-29:** Guest-site hero: the date line and the countdown resize by
+  clicking them in the preview, like the names (slots `hero.date`,
+  `hero.countdown`). The countdown is size-only, scales whole, and only
+  shrinks on a phone. Approved from a desktop/phone preview.
 - **2026-10-28:** Marketplace "Shop your wedding" approved from a preview:
   a navy panel with Aqua highlights (not gold), chips for colours, guests and
   date, four matching cards. Follow-ups approved: Saved/Selling/Messages fold

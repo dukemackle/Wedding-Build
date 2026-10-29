@@ -120,7 +120,9 @@ Phases, one PR each:
    blocks. Guests get `SiteSection` (`src/components/site-section.tsx`), plain
    positioned HTML scaled with container units; the dragging lives in
    `preview/canvas-editing.tsx`, which only the editor's preview frame loads.
-   The hero's own names, date and buttons stay theme-laid-out for now.
+   The hero's own names, date and buttons stay theme-laid-out for now; the
+   names, date line and countdown resize by clicking them (text slots
+   `hero.names`, `hero.date`, `hero.countdown`; the countdown is size-only).
 3. Phone editor, in two PRs (decided 2026-10-08).
    **3a, separate phone layouts** (built 2026-10-08): each section's `phone`
    frame stays "stack" until the couple moves something in the Phone preview

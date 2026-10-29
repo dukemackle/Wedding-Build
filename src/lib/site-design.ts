@@ -1163,6 +1163,8 @@ export const MOTION_SPEED = { slow: 1.5, normal: 1, fast: 0.6 } as const;
 export const TEXT_SLOTS = [
   { id: "hero.kicker", label: "Invitation line", words: true },
   { id: "hero.names", label: "Your names", words: false },
+  { id: "hero.date", label: "Date and place", words: false },
+  { id: "hero.countdown", label: "Countdown", words: false },
   { id: "rsvp.title", label: "RSVP heading", words: true },
   { id: "photos.title", label: "Photos heading", words: true },
   { id: "party.title", label: "Wedding party heading", words: true },
@@ -1187,6 +1189,17 @@ const LONG_TEXT_SLOTS = new Set<TextSlotId>(["venue.about"]);
 
 export function isLongTextSlot(slot: TextSlotId) {
   return LONG_TEXT_SLOTS.has(slot);
+}
+
+/**
+ * Slots that only resize, scaled whole (numbers, tiles and captions
+ * together) rather than by font size: the countdown sets its own faces and
+ * colours.
+ */
+const SIZE_ONLY_SLOTS = new Set<TextSlotId>(["hero.countdown"]);
+
+export function isSizeOnlySlot(slot: TextSlotId) {
+  return SIZE_ONLY_SLOTS.has(slot);
 }
 
 /** Most retyped words are a line; a paragraph slot gets room for a few. */

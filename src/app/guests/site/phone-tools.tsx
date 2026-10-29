@@ -6,6 +6,7 @@ import {
   FONTS,
   TEXT_SIZES,
   TEXT_SLOTS,
+  isSizeOnlySlot,
   fontById,
   hasTextStyle,
   resolveDesign,
@@ -105,17 +106,23 @@ export function PhoneTools({
     const size = own.size ?? 1;
     const step = TEXT_SIZES.findIndex((s) => s >= size - 0.001);
     const set = (patch: Partial<TextStyle> | null) => onText(textSlot, patch);
+    // The countdown keeps its own faces and colours: it only grows and shrinks.
+    const sizeOnly = isSizeOnlySlot(textSlot);
     label = info?.label ?? "Text";
     tools = (
       <>
-        <Tool label="Font" glyph="Ff" on={open === "font"} onClick={() => toggle("font")} face={fontById(own.font)?.css} />
+        {!sizeOnly && <Tool label="Font" glyph="Ff" on={open === "font"} onClick={() => toggle("font")} face={fontById(own.font)?.css} />}
         <Tool label="Size" glyph="aA" on={open === "size"} onClick={() => toggle("size")} />
-        <Tool label="Colour" on={open === "colour"} onClick={() => toggle("colour")}>
-          <span className="h-5 w-5 rounded-full border border-ink/20" style={{ background: own.color ?? heading }} />
-        </Tool>
-        <Tool label="Bold" glyph="B" on={own.bold === true} onClick={() => set({ bold: own.bold !== true })} bold />
-        <Tool label="Italic" glyph="I" on={own.italic === true} onClick={() => set({ italic: own.italic !== true })} italic />
-        <AlignTool value={own.align ?? "center"} onChange={(align) => set({ align })} />
+        {!sizeOnly && (
+          <>
+            <Tool label="Colour" on={open === "colour"} onClick={() => toggle("colour")}>
+              <span className="h-5 w-5 rounded-full border border-ink/20" style={{ background: own.color ?? heading }} />
+            </Tool>
+            <Tool label="Bold" glyph="B" on={own.bold === true} onClick={() => set({ bold: own.bold !== true })} bold />
+            <Tool label="Italic" glyph="I" on={own.italic === true} onClick={() => set({ italic: own.italic !== true })} italic />
+            <AlignTool value={own.align ?? "center"} onChange={(align) => set({ align })} />
+          </>
+        )}
         {hasTextStyle(own) && <Tool label="Reset" icon="reset" onClick={() => set(null)} />}
       </>
     );
