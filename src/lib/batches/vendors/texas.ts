@@ -1776,6 +1776,19 @@ Buddy Estrella	Bridal & Formalwear	3500 Jefferson St, Suite 110	Austin	Texas		Au
 Ember Elaine Calligraphy	Stationery & Invitations		Austin	Texas		Austin calligrapher and engraver for weddings and events, offering invitations, envelopes, signage and live on-site work.	hello@emberelaine.com		https://www.emberelaine.com/	https://www.instagram.com/embersherman/		
 Thunderbird Coffee	Bar		Austin	Texas	Austin	Mobile espresso and coffee catering for weddings, run by an Austin coffee brand that works as a travelling service.	info@thunderbirdcoffee.com	512-808-3627	https://www.thunderbirdcoffee.com/wedding	https://www.instagram.com/thunderbirdaustin/		`,
   },
+  {
+    name: "Austin: depth in photography, videography, music, photo booth, officiant, planning, florals, cake, desserts, catering, bar, hair & makeup, rentals, decor & lighting, transportation, bridal & formalwear, stationery & invitations",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Something To Celebrate	Planning		Austin	Texas	Austin, Houston, San Antonio, destinations	Planning firm running since 2005 that organises weddings, social events and corporate functions, with a team of planners based in Austin.	weddings@somethingtocelebrate.com	(512) 733-6130	https://www.somethingtocelebrate.com/	https://www.instagram.com/something_to_celebrate/		
+Hazel Lyn Events	Planning		Austin	Texas	Austin area, Dripping Springs	Austin-area planner and day-of coordinator, run by a former accountant who has been a bridesmaid in over 25 weddings.	info@hazellynevents.com	(512) 877-6814	https://hazellynevents.com/	https://www.instagram.com/hazel.lyn.events/		
+Dreamy Waters Designs	Stationery & Invitations		Austin	Texas	Austin, Texas	Austin watercolour artist producing custom wedding stationery and live wedding illustration.	dreamywatersdesigns@gmail.com		https://dreamywatersdesigns.com/	https://www.instagram.com/dreamywatersdesigns/		
+Julia Davis Co.	Photography		Austin	Texas	Texas and worldwide	Austin wedding and elopement photography business that travels for destination weddings and also offers brand work and mentoring.			https://juliadavisco.com/	https://www.instagram.com/juliadavis.co/		
+Nowadays Film	Photography		Austin	Texas	Austin and worldwide	Austin photographer who shoots weddings entirely on film, run by Gabie Hart and available for travel.	gabie@nowadaysfilm.com		https://www.nowadaysfilm.com/	https://www.instagram.com/nowadays.film/		
+Photos by Yaz	Photography		Austin	Texas	Texas, Chicago and destination weddings	Wedding and portrait studio in Austin blending classic and candid photography for couples in Texas and beyond.			https://photosbyyaz.com/	https://www.instagram.com/photosbyyazmin/		
+Raquel Davidowitz Photography	Photography		Austin	Texas	Austin, Cedar Park, Georgetown, Leander, Liberty Hill, Round Rock	Central Texas wedding photographer serving couples since 2017 with a documentary approach and natural-looking images.			https://raqueldphoto.com/	https://www.instagram.com/raqueld_photo/		
+Moments by Gabby	Photography		Austin	Texas	Austin and travel	Austin event and wedding photographer who also creates short-form wedding content, available to travel for couples.	hello@momentsbygabbyatx.com		https://www.momentsbygabbyatx.com/	https://www.instagram.com/momentsbygabby/		
+Austin Area Weddings (James Simmons)	Officiant	901 Double File Trail	Round Rock	Texas	Austin, Round Rock and Central Texas	Round Rock officiant James Simmons, who writes and performs personalised wedding ceremonies for couples across Central Texas.	james@austinareaweddings.com	1-512-710-5477	https://www.revsimmons.com/	https://www.instagram.com/austin_area_weddings/		`,
+  },
 ];
 
 export default batches;
