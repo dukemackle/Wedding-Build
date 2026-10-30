@@ -1650,6 +1650,41 @@ Vidhi Dattani Designs	Stationery & Invitations		New York	New York	NYC, destinati
 IndyFASO	Florals	893 Bergen St	Brooklyn	New York	New York City	Event floral design studio in Brooklyn creating arrangements for weddings, styled shoots and corporate events across the city.	studio@indyfaso.com		https://www.indyfaso.com			
 Extrafloral	Florals		Brooklyn	New York	New York City	Brooklyn floral studio designing bespoke wedding and event flowers tailored to each couple's personal style.	studio@extrafloral.com		https://www.extrafloral.com	https://www.instagram.com/extrafloral/		`,
   },
+  {
+    name: "Long Island: planning, videography, photography, hair & makeup, cake, florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Lovely Indeed Events	Planning		Long Island	New York	Long Island's East End, North Fork and the Hamptons	Boutique wedding planner on Long Island's East End, with real weddings shown from Montauk and the Hamptons.	rebecca@lovelyindeedevents.com	631 793 4062	https://www.lovelyindeedevents.com/	https://www.instagram.com/lovelyindeedevents/		
+Events by Shannon	Planning		Long Island	New York	Long Island's East End, the Hamptons and North Fork	Wedding planner offering full planning, management and month-of coordination for East End and North Fork weddings.			https://eventsbyshannon.com/	https://www.instagram.com/events_by_shannon/		
+One Love Media	Videography		Babylon	New York	Long Island	Babylon-based wedding videographer with highlight films of real couples and optional drone coverage.	info@onelovemediapro.com	(631) 219-2779	https://www.onelovemediapro.com/	https://www.instagram.com/onelovemediapro/		
+Matthew Sowa Photography	Photography		Long Island	New York	Long Island, Nassau and Suffolk, the Hamptons	Documentary-style wedding photographer covering Long Island from Garden City and Huntington out to Sag Harbor and the Hamptons.		+1 917-488-1989	https://www.matthewsowaphotography.com/	https://www.instagram.com/matthew_sowa_photography/		
+North Fork Face	Hair & Makeup		Greenport	New York	North Fork, Long Island and NYC	Greenport bridal makeup artist whose clients have married at Shamrock Tree Farm, Brecknock Hall and RGNY.	anastasia@facebyanastasia.com		https://www.facebyanastasia.com/northforkface			
+Beauty by Lauren	Hair & Makeup		Hamptons	New York	Hamptons, Long Island and NYC, with travel worldwide	Hamptons bridal hair and makeup artist who works at waterfront weddings and travels beyond the East End.			https://www.beautybylaurenny.com/	https://www.instagram.com/BeautybyLauren_85/		
+Elite Bridal Beauty	Hair & Makeup		Long Island	New York	Hamptons, North Fork, Shelter Island, Montauk and New York	Bridal hair and makeup team with a gallery of weddings from the North Fork, Shelter Island, Montauk and the Hamptons.			https://www.elitebeautyny.com/	https://www.instagram.com/elitebridalbeauty/		
+True Elizabeth	Florals		Greenport	New York	North Fork, Montauk and the Hamptons	Greenport wedding florist growing its own cutting-garden flowers and sourcing from North Fork farms.			https://trueelizabethflowers.com/	https://www.instagram.com/trueelizabethflowers/		
+Kim Jon Designs	Florals	266 Roses Grove Road	Water Mill	New York	East End of Long Island	Water Mill florists offering wedding bouquets, ceremony flowers and reception décor.	kim@kimjondesigns.com	(631) 283-8803	https://www.kimjondesigns.com/	https://www.instagram.com/kimjondesigns/		
+Flowers by Lauren Ashley	Florals		Hamptons	New York	Hamptons and North Fork	Wedding and event florist for the Hamptons and North Fork, with a wedding portfolio and ceremony work at Montauk.	flowersbylaurenashley@gmail.com		https://flowersbylaurenashley.com/	https://www.instagram.com/flowersbylaurenashley/		
+Bespoke Flowers	Florals	210 David Whites Lane, Suite B	Southampton	New York	Hamptons, Sag Harbor, Montauk, Shelter Island and North Fork	Southampton studio providing wedding floral design across the South Fork, Shelter Island and the North Fork.	info@bespokeflowers.co	631-268-4301	https://www.bespokeflowers.co/	https://www.instagram.com/bespokefloinc/		`,
+  },
+  {
+    name: "Albany and Saratoga: hair & makeup, music, planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Fawn MUA & Co.	Hair & Makeup		Saratoga Springs	New York	Capital Region, Vermont and the Adirondacks	A Saratoga Springs makeup artist covering bridal makeup, hair and trials for weddings across the Capital Region and Adirondacks.	Fawnmua@gmail.com	(518) 974-5596	https://www.fawn-mua.com/	https://www.instagram.com/fawnmua/		
+The Living Harp	Music		Saratoga Springs	New York	Albany, Saratoga Springs and the Adirondacks	A Saratoga Springs harpist playing ceremony and cocktail-hour music for weddings and special events in the Adirondacks and Capital Region.	kdcharp@hotmail.com		https://thelivingharp.com/			
+Vow to Do All	Planning		Albany	New York	Albany, the Capital Region and destination weddings	Albany planner offering wedding packages from day-of coordination to full design, plus vow renewals, with travel within fifty miles included.			https://www.vowtodoall.com/	https://www.instagram.com/vowtodoall/	1495	package`,
+  },
+  {
+    name: "Buffalo: planning, catering, florals, hair & makeup, cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Here & Now	Planning		Buffalo	New York	Western New York	Wedding and event planning studio in Buffalo that supports couples at every stage of organising their day.	info@hereandnowbuffalo.com	716-392-1329	https://www.hereandnowbuffalo.com/	https://www.instagram.com/hereandnowbuffalo/		
+Joseph's Catering Service	Catering	275 Columbia Ave	Depew	New York	Buffalo, Depew, Williamsville, Lancaster and Western New York	Family-run caterer in Depew providing food for weddings, rehearsal dinners and other celebrations across the Buffalo area.	josephs@josephscatering.com	716-681-4538	https://josephscatering.com/			
+Frontier Catering	Catering		West Seneca	New York	Western New York	West Seneca caterer with a dedicated weddings page, serving couples across the Buffalo area for over 25 years.		716-674-4455	https://www.frontiercatering.com/	https://www.instagram.com/frontier_catering/		
+Magnolia Beauty Salon	Hair & Makeup	57 Elmwood Avenue	Buffalo	New York	Buffalo and Western New York	Elmwood Avenue salon offering bridal hair and makeup with trials, bridal party looks and help building a calm morning timeline.	Hello@magnoliabuffalohairsalon.com	716-259-9898	https://www.magnoliabuffalohairsalon.com/weddings	https://www.instagram.com/magnoli_beauty_salon/		`,
+  },
+  {
+    name: "Hudson Valley: planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+The Wedding Unicorn	Planning	113 Temple Hill Road, Suite 500	New Windsor	New York	Hudson Valley, Newburgh, Beacon, Poughkeepsie, Kingston and Middletown	Hudson Valley event planner offering wedding planning and coordination for couples from riverside estates to Catskills venues.	farva@weddingunicorn.com	(914) 820-1324	https://www.weddingunicorn.com/locations/event-planner-hudson-valley	https://www.instagram.com/unico_rn_wedding/		`,
+  },
 ];
 
 export default batches;
