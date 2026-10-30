@@ -13,6 +13,7 @@ import { FrameIcon } from "./photo-motion-panels";
 import { SceneThumb } from "@/components/site-scene";
 import {
   ART_HEROES,
+  artSuite,
   ART_PLACEMENTS,
   ORNAMENT_GROUP,
   SITE_ART,
@@ -409,7 +410,7 @@ export function PageArtworkSection({
           );
         })}
       </div>
-      {design.art.id && (
+      {design.art.id && !artSuite(design.art.id) && (
         <div className="flex gap-1.5">
           {ART_PLACEMENTS.map((p) => (
             <button
