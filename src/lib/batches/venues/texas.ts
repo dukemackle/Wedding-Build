@@ -842,6 +842,54 @@ Centurion Palace		League City	Texas			Ballroom	Indoor & Outdoor				An all-inclus
 Fountain View Farm	24500 Drivers Rd	Splendora	Texas			Barn & Farm	Indoor & Outdoor	250			A farm venue with a reception hall, outdoor pavilion and stocked pond that hosts one wedding per day.	hello@fountainviewfarmtx.com	832-432-4274	https://www.fountainviewfarmtx.com/faqs
 Walden on Lake Houston Golf & Country Club	18100 Walden Forest Drive	Humble	Texas			Country Club & Golf	Indoor & Outdoor				A lakeside country club hosting wedding ceremonies and receptions with customizable menus.	info@waldencc.com	832-445-2100	https://www.waldencc.com/events`,
   },
+  {
+    name: "Houston: Magnolia, Montgomery, Katy, Wallis, League City and Brazos Valley depth",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+Brandt 1910	6503 Commerce St	Wallis	Texas			Ballroom	Indoor & Outdoor	200			A restored 1910 building with a 4,000 square foot ballroom, second-floor getting-ready suites and an outdoor garden.	info@brandt1910.com	979-217-1772	https://brandt1910.com/
+The Grand Parlor	315 Enclave Dr Ste 100	Conroe	Texas			Restaurant & Brewery	Indoor & Outdoor	200			A four-room event venue beside Citizens Grill with a Grand Room, private dining room and a semi-private patio.	info@thegrandparlortx.com	936-320-0022	https://thegrandparlortx.com/
+Rustic Rose Events	13629 Rose Rd	Willis	Texas			Barn & Farm	Indoor & Outdoor	225			A family-owned lakeside venue near the national forest with a rock fireplace, a dance floor and a ceremony site at 400-year-old gates.	info@rusticroseevents.com	936-856-8535	https://rusticroseevents.com/
+Watts Manor	4486 Watts Plantation Rd	Fresno	Texas			Historic Mansion & Estate					A special event venue in Fresno that hosts weddings, showers and corporate events.	info@wattsmanor.com	832-490-8248	https://www.watts-manor.com/
+The Battleground Golf Course	1600 Georgia Ave	Deer Park	Texas			Country Club & Golf	Indoor & Outdoor				A municipal golf course whose Sycamore Room looks over the fairways, with outdoor ceremony space on the grounds.		281-478-4653	https://www.battlegroundweddingsandevents.com/
+The Dow Academic Center at Brazosport College	500 College Dr	Lake Jackson	Texas			Ballroom	Indoor	800			A college conference hall that hosts wedding receptions with tables, chairs, setup and cleanup included in the rental.	dac@brazosport.edu	979-230-3100	https://www.brazosport.edu/dac/event-pictures--information/
+The Atrium Center	21575 US Hwy 59	New Caney	Texas			Ballroom	Indoor & Outdoor				A contemporary event hall among pines with balconies, patios, gardens, fountains and a lake.		281-354-4419	https://atriumcentertx.com/
+Still Waters Ranch	2352 County Road 165	Alvin	Texas			Barn & Farm	Indoor & Outdoor	300			A 16-acre property with a private one-acre lake, a farmhouse-style indoor hall and a rustic outdoor wedding chapel.	thestillwatersranch@gmail.com	409-370-3350	https://www.thestillwatersranch.com/
+The Barge 295	2613 1/2 E NASA Pkwy	Seabrook	Texas			Restaurant & Brewery	Outdoor				A waterfront restaurant and concert venue whose water's-edge Yard hosts weddings.			https://www.thebarge295.com/
+Five A Events Hall	6004 W Cedar Bayou Lynchburg Rd	Baytown	Texas			Ballroom	Indoor	140			A reception hall offering seven-hour wedding receptions with tables, chairs, linens and security included.		281-698-5455	https://www.fiveaeventsbaytown.com/
+The Historic Hill House & Farm	3603 FM 1725 Rd	Willis	Texas			Barn & Farm	Indoor & Outdoor				A 60-acre 1840s estate with a restored hand-hewn barn for receptions and overnight rooms for guests.		936-767-3020	https://www.historichillhouse.com/weddings`,
+  },
+  {
+    name: "San Antonio: city, Helotes, Converse, Seguin and Castroville",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+Granberry Hills	6390 Granberry	San Antonio	Texas			Ballroom	Indoor & Outdoor				Event facility on 13 acres with two venues, Gardenside and Hillside, each pairing a ballroom with covered or open-air pavilions and ceremony spots.	info@granberryhills.com	210-590-8067	https://granberryhills.com
+Oak Valley Vineyards	27315 Natural Bridge Caverns Rd	San Antonio	Texas			Vineyard & Winery	Indoor & Outdoor				Hill Country vineyard with a vine-lined path to a ceremony arbor and a barn-style indoor reception room.	oakvalleyvineyard@gmail.com	(830) 980-8033	https://www.oakvalleyvineyards.com
+Lunna Event Center	7142 San Pedro Ave	San Antonio	Texas			Ballroom	Indoor				Modern event hall with chandeliers, adjustable lighting, an LED dance floor and a gold arched stage for weddings and quinceañeras.			https://www.lunnaeventcenter.com
+Hollow Creek Ranch	14361 La Vernia Road	Saint Hedwig	Texas			Ranch					Ranch with flexible layouts and open grounds southeast of San Antonio, used for weddings and other celebrations.			https://www.hollowcreekranch.com/home-1
+The Venue at Devils River	401 E Houston St	San Antonio	Texas			Restaurant & Brewery	Indoor & Outdoor				Distillery event space in the downtown Burns Building (National Register of Historic Places) with a mezzanine, tasting room, basement speakeasy lounge and covered patio.	Venue@DevilsRiverWhiskey.com		https://devilsriverwhiskey.com/venue-at-devilsriver/
+Bella on the Vine	8607 FM 1976	Converse	Texas			Ballroom	Indoor & Outdoor	350			Family-run venue with a 4,500-square-foot timber-beamed banquet hall, a tavern, and a turf courtyard with firepit and stage.	info@bellaonthevine.com	(210) 658-5261	https://www.bellaonthevine.com`,
+  },
+  {
+    name: "New Braunfels, Boerne and the Hill Country: Kerrville, Bandera, Canyon Lake and Frio River",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+The Casa at Canyon Lake	3068 Lakeshore Drive	Canyon Lake	Texas			Lake & River	Indoor & Outdoor	100			Eight-acre lakeshore property with a hall, bridal suite and groom's quarters for smaller weddings.		830.237.1734	https://www.thecasaatcanyonlake.com/
+Park 31	1200 Park Road 31	Spring Branch	Texas			Ranch	Indoor & Outdoor				Private 31-acre estate at the edge of the Hill Country, bought in 2010 and built as a family gathering place.	events@park31.com		https://park31.com/
+Gruene River Guest House	1230 Sleepy Hollow Ln	New Braunfels	Texas			Lake & River	Outdoor	20			Small Guadalupe riverside guest house with a gazebo for ceremonies of up to 20 guests.		409-504-7641	https://grueneriverguesthouse.com/weddings/
+Medina River Ranch Resort	1515 Old Castroville Rd	Bandera	Texas			Ranch	Indoor & Outdoor				Bandera ranch resort with lodge and villa lodging that offers a dedicated weddings page.		(210) 683-1121	https://medinariverranchresort.com/
+Cave Without a Name	325 Kreutzberg Rd	Boerne	Texas			Garden & Park	Indoor				Living limestone cavern northeast of Boerne that lists weddings and receptions among its events.	cwan@cavewithoutaname.com	(830) 537-4212	https://www.cavewithoutaname.com/
+Utopia River Retreat	360 Private Road 3850	Utopia	Texas			Lake & River	Indoor & Outdoor				Twelve-acre Sabinal River property with cypress-lined banks, live-oak lawns and a rustic barn with deck and gazebo.	info@utopiariverretreat.com	830-966-2444	https://www.utopiariverretreat.com/
+West Prong Frio Events	4394 RR 336	Leakey	Texas			Ranch	Indoor & Outdoor				Frio River ranch property with a dedicated weddings page and event services in Leakey.	serenity@westprongfrioevents.com	830-387-8007	https://westprongfrioevents.com/
+Stoney Creek Venue	34660 Smithson Valley Rd	Bulverde	Texas			Barn & Farm	Indoor & Outdoor	150			Bulverde venue with an indoor hall, outdoor chapel, outdoor bar and bride and groom suites.		(210) 889-8901	https://stoneycreekvenue.com/
+Sophie's Gasthaus	487 W San Antonio Street	New Braunfels	Texas			Hotel & Resort	Indoor & Outdoor	75			Historic boutique hotel in downtown New Braunfels with indoor and outdoor spaces for smaller weddings.	info@sophiesgasthaus.com	(830) 627-9025	https://sophiesgasthaus.com/
+The Faust Hotel	240 S Seguin Ave	New Braunfels	Texas			Hotel & Resort	Indoor & Outdoor	100			Restored historic downtown hotel with a ballroom, a magnolia patio for vows and full-property buyouts.	stay@thefausthotel.com	830-214-0785	https://www.thefausthotel.com/weddings-and-celebrations
+Sovereignty Ranch	165 Wyatt Ranch Rd E	Bandera	Texas			Barn & Farm	Indoor & Outdoor				Working farm and ranch near Bandera with weddings, events and cabin lodging.	howdy@sovereigntyranch.com		https://sovereigntyranch.com/
+The Venue at Landmark	144 Landa Street	New Braunfels	Texas			Industrial Loft & Warehouse	Indoor & Outdoor	300			1926 former power plant on the Comal with two levels and an outdoor terrace.	venue@landmarklofts.com	(830) 626-8042	https://thevenueatlandmark.com/
+Events at Water Street	720 Water St	Kerrville	Texas			Ballroom	Indoor				Event hall in the historic Schreiner Building in downtown Kerrville with an on-site caterer.	info@eventsatwaterstreet.com	830 313 3413	https://eventsatwaterstreet.com/
+The Cibolo (Herff Farm)	33 Herff Rd	Boerne	Texas			Garden & Park	Indoor & Outdoor	200			Nature-center grounds with a historic barn and lawn, the Herff House, a gathering hall and an amphitheater.	nature@cibolo.org	(830) 249-4616	https://www.cibolo.org/event-rentals
+The Ingenhuett on High	731 High Street	Comfort	Texas			Historic Mansion & Estate	Indoor & Outdoor				Restored 19th-century general store in Comfort with exposed limestone, a bank vault and an oak-shaded back lawn.	info@ingenhuett.com	(512) 842-7623	https://www.ingenhuett.com/
+Moon Shadow Haven	118 Creekridge Trail West	Mountain Home	Texas			Ranch	Indoor & Outdoor	250			17-acre Hill Country property with a chapel, creekside ceremony areas, event space and on-site cabins.	hello@moonshadowhaven.com	830.745.4454	https://www.moonshadowhaven.com/
+Pearl Springs at Riding River Ranch	971 Kent Creek Road	Leakey	Texas			Lake & River	Indoor & Outdoor	200			4,000 sq ft event hall on a spring-fed lake with a 1,600 sq ft deck over the water and on-site cabins.	pearlspringsrrr@gmail.com	(361) 215-5939	https://ridingriverranch.com/pearl-springs/
+The Springs Retreat	692 S Evergreen St	Leakey	Texas			Lake & River	Indoor & Outdoor				Ten-acre retreat on Leakey Springs near the Frio with cabins and houses that sleep up to 80 guests.		830-232-4174	https://thespringsleakey.com/weddings/
+Waltonia on the River	120 Waltonia Dr	Ingram	Texas			Lake & River	Indoor & Outdoor				Guadalupe River lodge near Hunt with 600 feet of private waterfront and on-site guest lodging.	WaltoniaManager@gmail.com	737-262-4433	https://www.waltonialodges.com/events/`,
+  },
 ];
 
 export default batches;
