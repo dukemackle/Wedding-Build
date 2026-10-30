@@ -88,7 +88,7 @@ export const TEMPLATES: SiteTemplate[] = [
     fonts: "cj",
     hero: "invitation",
     ornament: "none",
-    art: { id: "rose", placement: "sides" },
+    art: { id: "heirloom-garden", placement: "sides" },
     pageStyle: "invitation",
   },
   {

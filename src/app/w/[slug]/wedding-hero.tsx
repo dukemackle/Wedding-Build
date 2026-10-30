@@ -9,9 +9,9 @@ import { CountdownTimer } from "@/components/countdown-timer";
 import { daysUntilWedding } from "@/lib/countdown";
 import { HeroActions } from "./hero-actions";
 import { useSiteDesign } from "@/components/guest-site-theme";
-import { bannerPhoto, monogramDate, motionPreset, PHOTO_HEROES, resolveDesign } from "@/lib/site-design";
+import { artSuite, bannerPhoto, monogramDate, motionPreset, PHOTO_HEROES, resolveDesign, type ArtSuite } from "@/lib/site-design";
 import { SiteOrnament } from "@/components/site-ornament";
-import { SiteArt } from "@/components/site-art";
+import { SiteArt, SuiteCorner } from "@/components/site-art";
 import { SiteText } from "@/components/site-text";
 import { SceneArtwork, SiteScene } from "@/components/site-scene";
 import { SiteSection } from "@/components/site-section";
@@ -404,6 +404,24 @@ function InvitationContent({ wedding }: { wedding: PublicWedding }) {
 }
 
 /**
+ * The invitation's photo inside a set's painted arch. The geometry is the
+ * arch painting's own: its opening sits at these fractions of the painting,
+ * so the photo is placed in it rather than the arch stretched round the
+ * photo. Taller than the plain arched photo (5:9) to fill the opening. On a
+ * phone the arch runs a little past the card's padding, as flowers would.
+ */
+function ArchedPhoto({ photo, arch }: { photo: string; arch: ArtSuite["arch"] }) {
+  return (
+    <div className="relative -mx-3 -mb-2 w-[calc(100%+1.5rem)] max-w-[400px] sm:mx-auto sm:w-full" style={{ aspectRatio: `${arch.w} / ${arch.h}` }}>
+      <div className="site-hero-photo absolute left-[21.5%] top-[12.5%] aspect-[5/9] w-[57%] overflow-hidden rounded-[999px_999px_3px_3px] bg-[var(--site-photo)]">
+        <Image src={photo} unoptimized={isLibraryPhoto(photo)} alt="" fill priority sizes="200px" className="hero-kenburns object-cover" />
+      </div>
+      <Image src={arch.src} alt="" fill priority sizes="400px" className="pointer-events-none object-contain" aria-hidden="true" />
+    </div>
+  );
+}
+
+/**
  * A small arrow at the foot of the screen-filling layouts, so guests know
  * there's more below. Takes them to the end of the top of the page.
  */
@@ -476,6 +494,7 @@ function Slideshow({ photos }: { photos: string[] }) {
 function HeroLayout({ wedding }: { wedding: PublicWedding }) {
   const design = useSiteDesign();
   const { hero, art } = design;
+  const suite = artSuite(art.id);
   const photo = bannerPhoto(wedding);
   const gallery = useContext(HeroPhotosContext);
 
@@ -584,19 +603,33 @@ function HeroLayout({ wedding }: { wedding: PublicWedding }) {
   // invitation, under an arched photo when there is one.
   if (hero === "invitation") {
     return (
-      <header className="relative overflow-hidden px-4 py-12 sm:px-8 lg:py-20">
-        <SiteArt art={art} />
+      <header className={`relative overflow-hidden px-4 py-12 sm:px-8 lg:py-20 ${suite ? "pb-24 sm:pb-32 lg:pb-36" : ""}`}>
+        {suite ? <SuiteCorner suite={suite} className={photo ? "max-sm:hidden" : ""} /> : <SiteArt art={art} />}
         <SiteScene where="surround" />
-        <div className="site-invitation relative z-10 mx-auto max-w-2xl bg-card px-6 py-12 shadow-[0_18px_44px_rgb(0_0_0_/_0.12)] sm:px-12 sm:py-16">
+        <div
+          className={`site-invitation relative z-10 mx-auto max-w-2xl bg-card px-6 shadow-[0_18px_44px_rgb(0_0_0_/_0.12)] sm:px-12 ${suite ? "pb-16 pt-12 sm:pb-28 sm:pt-16" : "py-12 sm:py-16"}`}
+        >
           <div className="pointer-events-none absolute inset-3 border border-[color-mix(in_srgb,var(--site-accent)_35%,transparent)]" aria-hidden="true" />
-          {photo && (
+          {photo && suite ? (
+            <ArchedPhoto photo={photo} arch={suite.arch} />
+          ) : photo ? (
             <div className="relative mx-auto mb-8 w-[min(230px,64%)] rounded-[200px_200px_4px_4px] border border-[var(--site-accent)] p-2">
               <div className="site-hero-photo relative aspect-[4/5] overflow-hidden rounded-[190px_190px_2px_2px] bg-[var(--site-photo)]">
                 <Image src={photo} unoptimized={isLibraryPhoto(photo)} alt="" fill priority sizes="230px" className="hero-kenburns object-cover" />
               </div>
             </div>
-          )}
+          ) : null}
           <InvitationContent wedding={wedding} />
+          {suite && (
+            // Flowers laid at the foot of the card, its painted top just over the card's edge.
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute -bottom-[clamp(4.5rem,15vw,7.5rem)] left-1/2 w-[112%] max-w-[760px] -translate-x-1/2"
+              style={{ aspectRatio: `${suite.ledge.w} / ${suite.ledge.h}` }}
+            >
+              <Image src={suite.ledge.src} alt="" fill sizes="(min-width: 768px) 760px, 112vw" className="object-contain" />
+            </div>
+          )}
         </div>
       </header>
     );

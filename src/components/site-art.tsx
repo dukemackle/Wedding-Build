@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { artById, type SiteDesign } from "@/lib/site-design";
+import { artById, artSuite, type ArtSuite, type SiteDesign } from "@/lib/site-design";
 
 /**
  * The couple's botanical artwork around the top of the page (Elements tab ›
@@ -14,6 +14,15 @@ import { artById, type SiteDesign } from "@/lib/site-design";
  * middle of a narrow screen.
  */
 export function SiteArt({ art }: { art: SiteDesign["art"] }) {
+  const suite = artSuite(art.id);
+  if (suite) {
+    return (
+      <>
+        <SuiteCorner suite={suite} />
+        <SuiteCorner suite={suite} mirror className="max-lg:hidden" />
+      </>
+    );
+  }
   const piece = artById(art.id);
   if (!piece) return null;
 
@@ -59,5 +68,22 @@ export function SiteArt({ art }: { art: SiteDesign["art"] }) {
       {one(false, "-left-10 top-2 h-[170px] max-w-[36%] -rotate-12 sm:-left-4 sm:h-[240px] lg:left-[5%] lg:top-1/2 lg:h-[72%] lg:max-w-[22%] lg:-translate-y-1/2 lg:rotate-0")}
       {one(true, "-right-10 top-2 h-[170px] max-w-[36%] rotate-12 sm:-right-4 sm:h-[240px] lg:right-[5%] lg:top-1/2 lg:h-[72%] lg:max-w-[22%] lg:-translate-y-1/2 lg:rotate-0")}
     </>
+  );
+}
+
+/**
+ * A set's corner piece, growing in from the top corner of the page and cut
+ * off by its edges, so it reads as part of the page rather than a sticker.
+ */
+export function SuiteCorner({ suite, mirror = false, className = "" }: { suite: ArtSuite; mirror?: boolean; className?: string }) {
+  const { corner } = suite;
+  return (
+    <div
+      aria-hidden="true"
+      className={`site-art pointer-events-none absolute -top-6 w-[150px] sm:w-[230px] lg:-top-10 lg:w-[340px] ${mirror ? "-right-6 -scale-x-100 lg:-right-10" : "-left-6 lg:-left-10"} ${className}`}
+      style={{ aspectRatio: `${corner.w} / ${corner.h}` }}
+    >
+      <Image src={corner.src} alt="" fill priority sizes="(min-width: 1024px) 340px, 230px" className="object-contain" />
+    </div>
   );
 }
