@@ -66,6 +66,23 @@ Pecos River Village Conference Center	711 Muscatel Ave	Carlsbad	New Mexico			Bal
     tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price tier	Description	Email	Phone	Website
 Mimbres Valley Special Events Center	2300 E. Pine Street	Deming	New Mexico			Ballroom	Indoor	700		County-run banquet hall in Deming with a 700-seat ballroom and three conference rooms, advertised for weddings and receptions.	planning_assistant@lunacountynm.us	(575) 543-6620	https://www.cityofdeming.org/residents/mimbres_valley_special_events_center.php`,
   },
+  {
+    name: "Albuquerque, Santa Fe and northern towns",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+Heritage House Inn	4036 Corrales Rd	Corrales	New Mexico			Historic Mansion & Estate	Indoor & Outdoor	180			Turn-of-the-century Victorian farmhouse in Corrales with grounds for ceremonies and receptions, a bridal suite and inn rooms.	inn@heritagehousenm.com	505-221-6141	https://heritagehousenm.com/weddings/
+La Grande Maison Lumiere Event Center	3741 NM-528 NW	Albuquerque	New Mexico			Ballroom	Indoor	150			Indoor event hall on Highway 528 that provides chairs, linens, tables and staff for weddings.	info@lagrandemaisonlumiereeventcenter.com	505-639-0048	https://lagrandemaisonlumiereeventcenter.com/
+Indian Pueblo Cultural Center	2401 12th St NW	Albuquerque	New Mexico			Museum, Gallery & Rooftop	Indoor & Outdoor	500			Pueblo-run cultural center that rents indoor and courtyard spaces for wedding receptions with on-site catering.		(505) 724-3509	https://indianpueblo.org/meetings-parties-events/
+National Hispanic Cultural Center	1701 4th St SW	Albuquerque	New Mexico			Museum, Gallery & Rooftop	Indoor & Outdoor	300	9500	Package	South Valley arts campus with a courtyard, hall and memorial park, offering a wedding package for ceremony and reception.	info.nhcc@state.nm.us	(505) 246-2261	https://nhccnm.org/
+Sid Cutter Pilots' Pavilion		Albuquerque	New Mexico			Garden & Park	Indoor & Outdoor	560	600	Rental	City-run pavilion at Balloon Fiesta Park, rentable by the day in three sizes, with an adjacent field panel usable for ceremonies.		505-768-6062	https://cabq.gov/parksandrecreation/parks/balloon-fiesta-park/sid-cutter-pilots-pavilion-facility-information
+Balloon Fiesta Park Event Center		Albuquerque	New Mexico			Garden & Park	Indoor & Outdoor	250	750	Rental	City-run banquet hall at Balloon Fiesta Park with an outdoor patio, gazebo, pergola and fire pit.		505-768-6062	https://www.cabq.gov/parksandrecreation/parks/balloon-fiesta-park/event-center-facility-information
+The Luna Mansion	119 SW Main St	Los Lunas	New Mexico			Historic Mansion & Estate	Indoor & Outdoor				Historic downtown Los Lunas building offering indoor and outdoor space for weddings and elopements.	lunamansion.events@gmail.com		https://www.thelunamansion.com/
+The Magnolia Event Center		Bernalillo	New Mexico			Ballroom	Indoor				Bernalillo event hall that lists weddings among its events and quotes by request.	carolynandlily@themagnoliaeventcenternm.com	719-963-8059	https://themagnoliaeventcenter.org/
+The View Event Center		Albuquerque	New Mexico			Ballroom	Indoor & Outdoor				Two-story event space with indoor and outdoor areas and city views, by appointment only.			https://thevieweventcenter.com
+Taos Country Club	54 Golf Course Drive	Ranchos de Taos	New Mexico			Country Club & Golf					A desert golf club near Taos with wedding planning offered on its site.		(575) 758-7300	https://www.taoscountryclub.com
+Angel Fire Resort		Angel Fire	New Mexico			Hotel & Resort	Indoor & Outdoor	150			A mountain resort in the Sangre de Cristo range with indoor ballroom space, a private wedding pavilion and dedicated wedding planners.	cwhetsell@AngelFireResort.com	575-377-4216	https://www.angelfireresort.com/weddings
+Red River Conference Center	101 W River St	Red River	New Mexico			Ballroom	Indoor & Outdoor	400			A town-run exhibit hall seating about 400, with a commercial kitchen, bar service, an outdoor pavilion and a covered bridge for ceremonies.		575-754-1708	http://redriver.org/weddings/
+Beck & Bulow Ranch		Lamy	New Mexico			Ranch	Indoor & Outdoor				A working ranch in Lamy hosting weddings in a barn with mountain views and tented setups, with a 100-guest minimum for its Matanza dinner package.			https://www.beckandbulow.com/pages/beck-bulow-ranch`,
+  },
 ];
 
 export default batches;
