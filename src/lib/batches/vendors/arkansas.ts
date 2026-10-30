@@ -175,6 +175,61 @@ Chelsea Duff Photography	Photography		Jonesboro	Arkansas	Available worldwide	Jon
 Highly Kreative Productions	Videography		Jonesboro	Arkansas	Northeast Arkansas and surrounding areas	Jonesboro production company offering wedding videography and photography, alongside graphic design, for Northeast Arkansas couples.	teamhkproductions@gmail.com	870-819-1119	https://www.teamhkp.com/	
 `,
   },
+  {
+    name: "Little Rock: planning, florals, music, catering, hair and makeup, cake and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Jae Danielle Party & Wedding Planner/Coordinator	Planning		Little Rock	Arkansas		Little Rock planner offering full planning, partial coordination and day-of coordination for weddings and parties, starting with a free consultation.		(501) 260-3648	https://jae-party.ueniweb.com/			
+Seema Salon	Hair & Makeup	400 N Bowman Rd, Ste 18	Little Rock	Arkansas		Little Rock salon offering bridal makeup and hair, saree draping and mehendi for South Asian and other brides, with online booking.	ssbeautylr@gmail.com	501-916-2207	https://www.seemasalon.com/	https://www.instagram.com/onlyseemasalon/		
+The Croissanterie LR	Catering	14502 Cantrell Rd	Little Rock	Arkansas		West Little Rock bakery cafe whose catering team makes custom menus for private events, weddings included, blending French pastry and Southern dishes.		501-412-4244	https://www.thecroissanterielr.com/	https://www.instagram.com/thecroissanterielr/		
+Luma Films	Videography		Little Rock	Arkansas	Central Arkansas, Conway and Northwest Arkansas	Little Rock videographer making story-driven, fly-on-the-wall wedding films, with a short Instagram reel delivered within 48 hours.	trav.mcmanus@gmail.com		https://lumaweddingfilms.co/	https://www.instagram.com/lumafilms_ar/	2400	package
+Julie's Sweet Shoppe & Bakery	Cake	201 Skyline Dr, Suite 39	Conway	Arkansas		Family-owned Conway bakery making custom and wedding cakes, with a free tasting where the design and price are agreed.	juliessweet23@gmail.com	(501) 205-4301	https://juliessweetshoppe.com/	https://www.instagram.com/juliessweetshoppe/		
+`,
+  },
+  {
+    name: "Hot Springs: planning, florals, music and officiant",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Get Hitched Hot Springs	Officiant		Hot Springs	Arkansas	Hot Springs and Garland County	Hot Springs minister offering scenic outdoor elopements, vow renewals and officiant-only services across Garland County, with a few digital photos included.		(501) 620-3531	https://gethitchedhotsprings.com/	https://www.instagram.com/gethitchedhotsprings/	100	package
+`,
+  },
+  {
+    name: "Northwest Arkansas: music, florals, hair and makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Smoothman Music Productions	Music	66 W Joyce Blvd, Ste C1	Fayetteville	Arkansas	Northwest Arkansas, Fort Smith, Little Rock, Tulsa and Memphis	Fayetteville live-music company supplying party bands, cocktail and classical acts and AV production for weddings and corporate events.	info@smoothmanmusic.com	479-595-9109	https://smoothmanmusic.com/	https://www.instagram.com/smoothmanmusic/		
+Timbo Promotions	Music		Huntsville	Arkansas	Northwest Arkansas and all of Arkansas	Huntsville mobile DJ bringing its own sound and lighting to Arkansas weddings, with micro-wedding packages for gatherings under 50 guests.	djtimbo@sbcglobal.net	(501) 993-6264	https://www.timbopromotions.com/			
+`,
+  },
+  {
+    name: "Fort Smith: photography, planning, florals, music, cake, videography and photo booth",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Reehl Events	Planning		Fort Smith	Arkansas	Fort Smith and the River Valley	Owner-led planner offering full wedding planning and day-of coordination in Fort Smith, with a no double-booking policy.	events@reehlevents.com	(479) 629-4038	https://www.reehlevents.com/		2600	package
+Confectionately Yours	Cake	5215 Rogers Ave	Fort Smith	Arkansas	Fort Smith	Fort Smith bakery making tiered wedding cakes, cupcakes and dessert trays, with sugar-free and gluten-free cupcake options.	contactus@cyfortsmith.com	(479) 478-7223	https://www.cyfortsmith.com/wedding			
+Johnston's Quality Flowers	Florals	1111 Garrison Ave	Fort Smith	Arkansas	Fort Smith and Van Buren	Fort Smith florist since 1916 with a dedicated wedding site for bouquets, ceremony and reception flowers, booked by consultation.		(479) 783-5146	https://www.qualityflowers.net/	https://www.instagram.com/johnstonsqualityflowers/		
+Impeccable Arrangements	Florals	5410 Phoenix	Fort Smith	Arkansas	Fort Smith	Family-owned Fort Smith florist offering wedding bouquets, wedding party flowers and ceremony and reception arrangements by consultation.		(479) 719-9020	https://www.impeccablearrangements.com/wedding-flowers			
+Fig & Fern Floral	Florals	9220 U.S. Hwy 71 S, Suite 1A	Fort Smith	Arkansas	Fort Smith	Fort Smith florist making bouquets, wedding party flowers and ceremony and reception arrangements, with pricing set at a consultation.		(479) 222-0592	https://www.figandfernfloral.com/wedding-flowers	https://www.instagram.com/figandfernfortsmith/		
+Plusgrand Media	Videography		Fort Smith	Arkansas		Fort Smith production studio making cinematic wedding films alongside brand, event and documentary video.	kane@plusgrandmedia.com		https://www.plusgrandmedia.com/	https://www.instagram.com/plusgrandmedia/		
+River Valley Photobooth	Photo Booth		Alma	Arkansas	Fort Smith and the River Valley	Locally owned photo booth company in Alma with props, custom overlays, instant prints and digital shares for River Valley weddings.			https://www.rivervalleyphotobooth.com/	https://www.instagram.com/river_valley_photobooth/		
+`,
+  },
+  {
+    name: "Jonesboro: photography, planning, florals, music, catering, cake and hair and makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Joey Glaub Portrait Art	Photography		Jonesboro	Arkansas		Jonesboro portrait studio that photographs weddings and engagements as well as seniors, families and babies, and also restores old photos.	joey@joeyglaubphoto.com	(870) 930-9309	https://www.joeyglaubphoto.com/	https://www.instagram.com/joey.glaub.photo/		
+Steiner Event Group	Planning	2500 Alexander Dr, Suite C	Jonesboro	Arkansas	Northeast Arkansas and the Mid-South	Jonesboro event company offering wedding planning and day-of coordination, which also runs local bridal shows.	steinereventgroup@gmail.com	(270) 293-6005	https://steinereventgroup.com/wedding-planning/	https://www.instagram.com/steinereventgroup/		
+Generations Floral Company	Florals	124 S Main St	Jonesboro	Arkansas	Northeast Arkansas	Downtown Jonesboro floral studio designing wedding florals at three service levels, from full install to studio pick-up with no minimum.		870.919.4562	https://generationsfloralcompany.com/weddings.html	https://www.instagram.com/generationsfloralcompany/		
+Bearded Bouquet	Florals	3410 E Johnson, Suite P	Jonesboro	Arkansas	Jonesboro, Brookland, Paragould and nearby towns	Jonesboro flower shop doing full-service and pick-up wedding florals, plus floral classes and private petal parties.		(870) 333-1661	https://beardedbouquet.com/weddings-events.html	https://www.instagram.com/bearded.bouquet/		
+Paragould Flowers & Gifts	Florals	106 Center Hill Plaza	Paragould	Arkansas	Paragould	Paragould florist with bridal bouquets, ceremony arches, centrepieces and cake flowers, and phone bridal consultations.	Paragould.flowers@yahoo.com	(870) 236-2853	https://www.paragouldflowers.com/wedding-flowers			
+Ballard's Flowers	Florals	604 W Kingshighway	Paragould	Arkansas	Paragould	Family-run Paragould florist since 1960, making wedding bouquets, wedding party flowers and ceremony and reception arrangements.	marlargreg@yahoo.com	(870) 236-7687	https://www.paragouldballardsflowers.com/			
+Signature Baskets Flowers & Gifts	Florals	384 S Broad St	Batesville	Arkansas	Batesville	Batesville florist offering wedding bouquets, wedding party flowers and ceremony and reception arrangements.	lisa@signaturebaskets.net	(870) 698-9373	https://www.signaturebaskets.net/			
+Artistic Florist & Gifts	Florals	1233 W Beebe Capps Expy	Searcy	Arkansas	Searcy	Searcy flower shop that designs wedding bouquets, wedding party flowers and ceremony and reception arrangements.	artisticflorist@yahoo.com	(501) 268-4333	https://www.artisticfloristandgifts.org/			
+Armstrong Entertainment	Music		Jonesboro	Arkansas	Northeast Arkansas	Jonesboro DJ company with set wedding packages, lighting design and optional bartending for the reception.	Dustin@ArmstrongEntertainmentNEA.com		https://www.armstrongentertainmentnea.com/	https://www.instagram.com/armstrong_entertainment/	350	package
+DJ Nightmare Productions	Music		Jonesboro	Arkansas		Jonesboro mobile DJ running separate sound setups for ceremony, cocktail hour and reception, with fog and spotlight first-dance add-ons.		(870) 273-4389	https://www.djnightmare.com/weddings		175	per hour
+Biscuits & Grace	Catering		Jonesboro	Arkansas	Jonesboro and Northeast Arkansas	Southern, from-scratch caterer with no set menu, catering weddings, showers and parties across Northeast Arkansas, and baking custom wedding cakes.	biscuitsandgrace@outlook.com	(870) 761-1779	https://www.biscuitsandgracellc.com/catering	https://www.instagram.com/Biscuitsngrace/		
+Bistro on the Ridge	Catering	925 E Parker Rd	Jonesboro	Arkansas	Northeast Arkansas	Licensed and insured caterer building custom menus for weddings and rehearsal dinners across Northeast Arkansas, by appointment.	info@bistroontheridge.com	(870) 268-6780	https://www.bistroontheridge.com/			
+CHOW at One Eighteen	Catering	118 N Pruett St	Paragould	Arkansas		Downtown Paragould restaurant that caters weddings, with occasion and appetizer menus and gourmet, restaurant-style plating.		(870) 573-8111	https://chow118.com/catering-services/	https://www.instagram.com/chow_118/		
+Sandy's Bakery and Catering	Cake	2223 S Caraway Rd	Jonesboro	Arkansas	Jonesboro area	Mexican bakery making custom wedding cakes, with wedding catering too, and daily pastries for a dessert table.		(870) 277-8654	https://sandysbakeryandcatering.com/	https://www.instagram.com/sandysbakeryjonesboroar/		
+MEGS	Hair & Makeup	415 Union St	Jonesboro	Arkansas		Jonesboro makeup artist with a Union Street studio, offering bridal makeup application tailored to the bride, plus makeup lessons.	megs.makeupandmore@gmail.com		https://meganlamb.glossgenius.com/	https://www.instagram.com/meg_lamb_/	175	per event
+`,
+  },
 ];
 
 export default batches;
