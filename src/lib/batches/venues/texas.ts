@@ -1294,6 +1294,19 @@ First Presbyterian Church of Galveston	1903 Church St	Galveston	Texas			Chapel &
 Lakewood Yacht Club	2322 Lakewood Yacht Club Dr	Seabrook	Texas			Lake & River	Indoor & Outdoor				A Clear Lake yacht club on an oak-lined campus beside its marina, hosting ceremonies under the trees and receptions in its indoor dining rooms.	membership@lakewoodyachtclub.com	281-474-2511	https://www.lakewoodyachtclub.com/weddings-events
 Magnolia Creek Golf Club	1501 W Bay Area Blvd	League City	Texas			Country Club & Golf	Indoor & Outdoor				A League City golf club with two clubhouses and an outdoor ceremony site beside the course, offering couples complimentary engagement and bridal portraits.		281-557-0555	https://int.invitedclubs.com/clubs/magnolia-creek-golf-club/host-an-event/weddings`,
   },
+  {
+    name: "Houston: Tomball, Magnolia, Montgomery, Brookshire and Round Top depth",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+Lux Vita Weddings & Events	18310 Tomball Pkwy	Houston	Texas			Ballroom	Indoor & Outdoor	400	8500	Rental	Former church campus in northwest Houston turned event venue, with a grand ballroom, a glass staircase and an outdoor ceremony garden.	info@luxvitaevents.com	281-849-9456	https://luxvitaevents.com/
+Bayou Music Center	520 Texas Ave	Houston	Texas			Ballroom	Indoor				Downtown live-music hall in the Bayou Place complex that rents its main hall and the underground 40 Below lounge for weddings and receptions.	bmcevents@livenation.com	713-230-1630	https://www.bayoumusiccenter.com/private-events
+Julia Ideson Building		Houston	Texas			Historic Mansion & Estate	Indoor				A 1926 Spanish Renaissance-style building that served as Houston's central library until 1976 and is now rented for weddings, galas and formal dinners.		832-393-1313	https://houstonlibrary.org/rentals
+The Springs in Lake Conroe	14135 Laramie Trail	Montgomery	Texas			Ranch	Indoor & Outdoor	320	3000	Rental	Two woodland reception halls, Stonebrook with limestone walls and Heritage Pine with oak floors and open trusses, on one wooded site north of Houston.	lakeconroe@thespringsevents.com	(281) 236-2634	https://springsvenue.com/lake-conroe/
+The Springs in Magnolia	33301 Old Hempstead Rd	Magnolia	Texas			Ranch	Indoor & Outdoor	320	3000	Rental	Two pine-and-magnolia-shaded venues, The Hidden Magnolia with limestone architecture and Pinehaven Terrace with timber trusses and stonework.	magnolia@thespringsevents.com	(281) 746-1765	https://springsvenue.com/magnolia/
+The Springs in Cypress	12612 Malcomson Road	Houston	Texas			Historic Mansion & Estate	Indoor & Outdoor	320	5000	Rental	A European-style chateau with a grand ballroom, a dramatic staircase entrance and two dressing suites.	cypress@thespringsevents.com	(281) 881-7175	https://springsvenue.com/cypress/
+White Oaks Events	7920 FM 1489	Simonton	Texas			Garden & Park	Indoor & Outdoor	500	14000	Rental	A 32-acre bayou-side property west of Houston with a ballroom, a chapel, garden paths and a lakeside ceremony spot, booked for one wedding per day.	info@whiteoaksevents.com	(346) 515-5636	https://www.whiteoaksevents.com/
+Round Top Ballroom	1132 W FM 1291	Round Top	Texas			Ballroom	Indoor & Outdoor				A 10,000 square foot hall on a six-acre knoll outside Round Top, filled with salvaged antiques, with a catering kitchen and optional on-site lodging.	info@flophouze.com	(979) 484-7288	https://roundtopballroom.com/
+The Oaks at Oak Plantation	19706 FM 521 Rd	Rosharon	Texas			Ranch	Indoor & Outdoor	500	2450	Package	A family-run venue on a 500-acre former trophy ranch, with ceremonies under a large old oak or in a chapel, a bridal suite and on-site guest rooms.	info@theoaksatoakplantation.com	(281) 595-0952	https://www.theoaksatoakplantation.com/`,
+  },
 ];
 
 export default batches;
