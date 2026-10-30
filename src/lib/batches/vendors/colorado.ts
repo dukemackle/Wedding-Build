@@ -683,6 +683,75 @@ The Baker's Boutique	Cake	449 Main Street	Grand Junction	Colorado	Grand Junction
 The Cowboy and the Rose Catering	Catering	104 Orchard Ave	Grand Junction	Colorado	Grand Junction and surrounding areas	Grand Junction caterer with 20-plus years behind it, handling everything from barbecue and backyard parties to formal weddings and black-tie events.		(970) 260-1464	https://cowboyandtherose.com/	
 `,
   },
+  {
+    name: "Denver: music, hair and makeup, catering, cake, photography, florals and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Scott Uhl	Music		Denver	Colorado	Denver metro and within 100 miles	A Denver DJ and MC who handles ceremony, cocktail hour and reception sound himself, with optional live ceremony guitar and a 90s cover band.	scottuhlmusic@gmail.com		https://www.scottuhlmusic.com/wedding-dj	https://www.instagram.com/scottuhlmusic/	1200	package
+Sound Master Entertainment	Music		Castle Rock	Colorado	Denver metro, the mountains and across Colorado	A DJ and MC company south of Denver, with trained MCs, an online timeline and song-request tool, and a money-back guarantee.	alan@smedenver.com	303-995-9903	https://soundmasterentertainment.com/			
+Moon Magnet Music	Music		Denver	Colorado	Denver and throughout Colorado	A Denver DJ and MC outfit running since 2013, with unlimited planning meetings, an online music planner and custom first-dance tracks.		720-772-7502	https://www.moonmagnetmusic.com/	https://www.instagram.com/moonmagnet/		
+Party Pro DJs	Music		Denver	Colorado	Denver metro, from Castle Rock to Arvada	A Denver DJ and MC service with an in-person consultation, a 60,000-song library and written confirmation of the agreed rate before you sign.	rick@partyprodjs.com		https://www.partyprodjs.com/		1100	package
+BelViso Beauty	Hair & Makeup		Denver	Colorado	On location across Colorado	Licensed, insured bridal hair and makeup artists who travel to your venue, using paraben-free products built to last through the day.	info@belvisobeauty.com	303-292-0997	https://www.belvisobeauty.com/wedding-hair-and-makeup	https://www.instagram.com/belviso_beauty/		
+Colorado Catering Company	Catering	10607 East Dartmouth Ave	Aurora	Colorado	Denver and the metro area	An Aurora kitchen with 30 years of Denver experience, supplying plates, silverware and full setup, service and cleanup for weddings.		303-750-0707	https://www.coloradocatering.net/	https://www.instagram.com/coloradocateringcompany/		
+Benoit Catering	Catering		Denver	Colorado	Denver and Colorado	Chef-led wedding catering with global menus served buffet, plated or cocktail-style, including a brunch wedding menu and tastings.			https://www.benoitcatering.com/denver-wedding-catering-services		45	per person
+Refined Catering Co	Catering		Denver	Colorado	Denver, Boulder, Castle Rock and Highlands Ranch	A chef-led private chef and catering company building seasonal, ingredient-driven wedding menus with planning from first consultation.	coloradochefandcatering@gmail.com	720-446-7676	https://www.refinedcateringco.com/	https://www.instagram.com/refinedcateringco/		
+Denver Mixers and Morsels	Catering	456 South Broadway, Suite 300	Denver	Colorado	Denver and the Front Range	A Denver caterer serving globally influenced menus made with locally sourced ingredients, with free custom quotes for weddings.			https://www.mixersandmorsels.com/	https://www.instagram.com/mixers.and.morsels/		
+Cakes Iconic	Cake	707 Federal Blvd, Unit 7	Denver	Colorado	Denver	A Denver designer cake bakery making multi-tiered custom cakes with buttercream flowers, plus vegan and gluten-free options.		720-646-4299	https://www.cakesiconic.com/	https://www.instagram.com/cakesiconicdenver/		
+Madeline J Studios	Photography		Denver	Colorado	Denver, Boulder, the mountains and destinations	A Denver photographer with nine years behind the lens, shooting inclusive, documentary-style weddings with an editorial polish.			https://www.madelinejstudios.com/	https://www.instagram.com/madelinejstudios/		
+Emily Elizabeth Photography	Photography		Denver	Colorado	Colorado	A Denver photographer blending documentary candids with editorial flair for laid-back couples, also helping plan elopements.	emilyelizabethphotographyCO@gmail.com		https://emilyelizabethphotography.me/	https://www.instagram.com/emilyelizabeth__photography/		
+Kalen Jesse Photography Co.	Photography		Denver	Colorado	Denver and destination weddings	A Denver team of photographers and videographers shooting documentary-style weddings and elopements on film and digital.			https://www.kalenjesse.com/	https://www.instagram.com/kalenjessephotography_co/		
+Fable House Floral	Florals		Denver	Colorado	Denver and throughout Colorado	A two-founder Denver studio designing itemised wedding florals, with delivery, setup and tear-down included in every package.	fablehousefloral@gmail.com		https://www.fablehousefloral.com/	https://www.instagram.com/fablehousefloral/	3000	per event
+Emma Lea Floral	Florals		Golden	Colorado	Denver, Boulder and the Front Range	A Golden studio working by appointment on lush, textural wedding florals, with composted green waste and elopement to full-service options.	hello@emmaleafloral.com		https://www.emmaleafloral.com/	https://www.instagram.com/emmaleafloral/		
+Lupher Arts Wedding Motion Pictures	Videography		Denver	Colorado	Colorado	A family-owned, Emmy-winning Denver videography team with 15 years of weddings, giving each couple a pre-wedding plan and a cinematic edit.	ContactUs@LupherArts.com	303-949-7452	https://www.lupherarts.com/			
+Flute and Strings by Christen Stephens	Music		Denver	Colorado	Denver, Boulder, Estes Park, Vail, Breckenridge and Beaver Creek	Denver flautist and string ensembles offering ceremony music from solo flute to quartets, with Estes Park among the mountain venues they cover.	music@christenstephens.com		https://christenstephens.com/	https://www.instagram.com/coloradoweddingmusic/		`,
+  },
+  {
+    name: "Boulder: music and catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Stag Entertainment	Music	2726 West Park Place	Denver	Colorado	Boulder, the Front Range and Colorado mountain towns	A DJ team with backup equipment and spare DJs, planning sound for outdoor and foothills venues and adding uplighting or photo booths.		303-818-6416	https://partywithstag.com/boulder-dj	https://www.instagram.com/stag_entertainment/	1199	package
+Pasta Jay's	Catering		Boulder	Colorado	Boulder and the Denver metro area	A Boulder Italian restaurant that caters weddings and events with generous portions, from pasta to prime rib and breakfast spreads.			https://www.pastajays.com/			`,
+  },
+  {
+    name: "Fort Collins: videography, catering, hair and makeup and photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Forest Picture Company	Videography		Fort Collins	Colorado	Fort Collins and Colorado mountain weddings	Fort Collins husband-and-wife team shooting photo and video together for intimate mountain weddings, with all-inclusive packages and full-day coverage.	amanda@forestpicture.co		https://forestpicture.co/	https://www.instagram.com/forestpictureco/	7800	package
+Northern Colorado Catering	Catering	1720 West Mulberry Street Suite B1	Fort Collins	Colorado	Fort Collins and surrounding areas	Fort Collins caterer with about thirty years of events behind it, offering full-service wedding catering built on word of mouth.	catering@all-occasions-catering.com	970-224-5643	https://northerncocatering.com/			
+The Wordy Bird Salon	Hair & Makeup	2261 E Drake Rd, Ste 130	Fort Collins	Colorado		Fort Collins salon team styling bridal hair and makeup, with a consultation and complimentary trial, plus per-person bridesmaid packages.		(970) 223-2121	https://thewordybirdsalon.com/	https://www.instagram.com/thewordybirdsalon/		
+KJean Photography	Photography		Fort Collins	Colorado	Fort Collins, Estes Park and Rocky Mountain National Park	Fort Collins photographer covering weddings, couples and boudoir, and specialising in relaxed elopements in Estes Park and Rocky Mountain National Park.			https://kjeanphoto.com/	https://www.instagram.com/kjeanphotographyco/		`,
+  },
+  {
+    name: "Estes Park: planning and music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Colorado Weddings & Events	Planning		Estes Park	Colorado	Estes Park	Estes Park planning team offering full planning, month-of and day-of coordination, drawing on years of local venue and vendor knowledge.	coloradoweddingsandevents@gmail.com		https://www.estesparkplanner.com/			
+Vibe Driven DJ Productions	Music		Estes Park	Colorado		Estes Park DJ and emcee who also officiates, with battery-powered, wind-resistant sound for ranch and mountain venues plus a 360 photo booth.	info@vibedrivendj.com	(970) 619-1587	https://www.vibedrivendj.com/			`,
+  },
+  {
+    name: "Vail and Aspen: music, hair and makeup and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Maroon Bells String Quartet	Music		Aspen	Colorado	Aspen and the Roaring Fork Valley	Aspen string quartet playing prelude, ceremony, cocktail hour and dinner sets, with a song library of 700-plus pop, classical and film pieces.	rebecca@maroonbellsquartet.com	(970) 807-0502	https://www.maroonbellsquartet.com/			
+GR Hair + Makeup	Hair & Makeup		Aspen	Colorado	Roaring Fork Valley, Aspen and Carbondale, with travel across Colorado	Mobile on-site bridal hair and makeup team led by two Roaring Fork Valley stylists, with trials and bridal party packages.	hello@grhairandmakeup.com		https://www.grhairandmakeup.com/	https://www.instagram.com/grhairandmakeup/		`,
+  },
+  {
+    name: "Durango and Telluride: florals, music, catering, cake and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Rob Webster Music	Music		Durango	Colorado	Durango and the Four Corners	Durango musician and DJ combining live sets from a 500-plus song catalogue with DJ music, sound and lighting for weddings.	robwebstermusic@gmail.com	815-861-3826	https://www.robwebstermusic.com/services	https://www.instagram.com/robwebstermusic/		
+Telluride Catering by Chef Eliza	Catering		Telluride	Colorado	Telluride	Telluride caterer and Top Chef alum serving weddings from intimate dinners to hundreds of guests, with her historic-home restaurant open for receptions.	221southoak@gmail.com	970.708.1437	https://telluridecatering.net/	https://www.instagram.com/telluride.catering/		
+Graze Colorado	Catering		Durango	Colorado	Durango and the Four Corners	Durango caterer known for grazing tables and charcuterie, also running a bakery and bistro, for weddings and private events.	grazecolorado@gmail.com	970-403-1403	https://www.grazecolorado.com/			
+Kelly Gray Cakes	Cake		Telluride	Colorado	Telluride, with events across the US	Luxury wedding cake designer with a Telluride studio, known for hyper-realistic sculpted sugar flowers on tailored multi-tier cakes.			https://www.kellygraycakes.com/	https://www.instagram.com/kellygraycakes/		
+Aelpha Collective	Videography		Durango	Colorado	Durango, Silverton, Telluride and Pagosa Springs	Durango photo, video and drone studio making cinematic wedding films with clean vow audio and 4K highlight edits of three to six minutes.	AelphaCollective@gmail.com	970-946-0342	https://www.aelphacollective.com/services/wedding-videography	https://www.instagram.com/aelphacollective/		
+Kelsey Kaplan Photo & Video	Videography		Durango	Colorado	Durango and Colorado	Durango photographer who also films candid weddings with four cameras, delivering a highlight reel, ceremony film and speeches film.	kelseykaplanphoto@gmail.com		https://kelseykaplanphoto.com/colorado-wedding-videography/	https://www.instagram.com/kelseykaplanphoto/	600	per hour`,
+  },
+  {
+    name: "Grand Junction: planning, florals, catering, cake and videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Weddings by Welborn	Planning		Grand Junction	Colorado	Grand Junction, Fruita, Palisade, Delta, Montrose and Ridgway	Day-of coordinator with a hybrid style, three planning meetings and venue walkthroughs, also officiating weddings across western Colorado.	weddingsbywelborn@gmail.com		https://www.weddingsbywelborn.com/	https://www.instagram.com/weddings_by_welborn/		
+Advent Wedding Planning	Planning		Grand Junction	Colorado	Grand Junction and western Colorado	Grand Junction company offering day-of wedding coordination and partial planning for couples marrying in the Grand Valley.	adventweddingplanning@gmail.com		https://adventweddingplanning.square.site/			
+Flower Extraordinaire	Florals	2981 Hwy 50	Grand Junction	Colorado	Mesa County, including Fruita, Palisade, Clifton and Delta	Grand Junction florist with 30-plus years' experience designing wedding bouquets, centrepieces and corsages, with consultations by appointment.		970-216-6764	https://flowerextraordinaire.com/			
+Kannah Creek Florist	Florals	5462 Kannah Creek Rd	Whitewater	Colorado	Whitewater, Grand Junction, Palisade, Delta and the Redlands	Newly opened designer-owned florist offering wedding flowers with no minimum for local events, studio pick-up and DIY packages.	jordan@kannahcreekflorist.com	970-549-9050	https://www.kannahcreekflorist.com/			
+Hillbilly Catering & Events	Catering	2591 Legacy Way	Grand Junction	Colorado	Grand Junction and western Colorado	Grand Junction caterer with hosted buffet service or drop-off wedding packages, using chef-made sauces and sides.	bookings@hillbillycatering.com	970-773-8897	https://www.hillbillycatering.com/weddings	https://www.instagram.com/hillbillycatering/	2995	package
+The Ribber Catering	Catering		Grand Junction	Colorado	Western Colorado	Chef-owned barbecue and comfort-food caterer for weddings, handling over 200 events a year with buffet menus.	John@TheRibberCatering.com	970-245-4248	https://theribbercatering.com/			
+Something Sweet	Cake		Grand Junction	Colorado	Grand Junction, Delta and Montrose	Grand Junction bakery making custom wedding cakes by quote, with delivery and setup and a discounted first-anniversary cake.	Getsomethingsweetbakery@gmail.com	970.712.9873	https://www.somethingsweetbakerygj.com/wedding			
+Grand Junction 3D	Videography		Grand Junction	Colorado	Grand Junction, with destination travel	Single-operator wedding videographer filming with multiple cameras, recording vows with microphones and delivering within 4 to 12 weeks.	hi@GrandJunction3D.com		https://grandjunction3d.com/wedding-videography/			`,
+  },
 ];
 
 export default batches;

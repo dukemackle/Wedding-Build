@@ -66,6 +66,21 @@ export function tableDimensions(shape: TableShape, capacity: number | null): Foo
   return { width: diameter, height: diameter };
 }
 
+/** A chair on the plan at a table's usual size. */
+export const CHAIR = 30;
+
+/**
+ * How big a table's chairs are drawn: full size normally, smaller when the
+ * table has been shrunk below its usual size, so a tightly packed room (a
+ * ready-made layout for 300) doesn't have chairs from one table sitting on
+ * the next.
+ */
+export function chairSize(table: Pick<SeatingTable, "shape" | "capacity" | "width" | "height">): number {
+  const usual = tableDimensions(table.shape, table.capacity);
+  const ratio = Math.min((table.width ?? usual.width) / usual.width, (table.height ?? usual.height) / usual.height);
+  return clamp(Math.round(CHAIR * ratio), 20, CHAIR);
+}
+
 /** A table's footprint: its own size once resized on the plan, else derived. */
 export function tableFootprint(
   table: Pick<SeatingTable, "shape" | "capacity" | "width" | "height">,
@@ -94,6 +109,20 @@ export function nodeDimensions(node: SeatingTable | VenueLayoutItem): Footprint 
 }
 
 /**
+ * How tall the plan is: the standard 900 (or a venue room's real length), or longer when a big wedding's
+ * tables run further down the room. Counts each table's chairs and the name
+ * tag under it, and rounds up so the room doesn't twitch by a pixel or two.
+ */
+export function planHeight(tables: SeatingTable[], items: VenueLayoutItem[], roomLength = CANVAS_HEIGHT): number {
+  let bottom = 0;
+  for (const t of tables) bottom = Math.max(bottom, t.position_y + tableFootprint(t).height + chairSize(t) + 60);
+  for (const i of items) bottom = Math.max(bottom, i.position_y + itemDimensions(i).height);
+  // A venue room keeps its real length until something actually sits past the back wall.
+  if (roomLength !== CANVAS_HEIGHT && bottom <= roomLength) return roomLength;
+  return Math.max(roomLength, Math.ceil((bottom + 24) / 50) * 50);
+}
+
+/**
  * Where a copy lands: just below-right of the original, but kept on the plan.
  * Near the right or bottom edge it steps the other way instead, so a copy of
  * something against the wall doesn't vanish off the canvas.
@@ -104,6 +133,27 @@ export function duplicatePosition(x: number, y: number, size: Footprint) {
     value + offset + extent <= limit ? value + offset : Math.max(0, value - offset);
   return {
     position_x: Math.round(step(x, size.width, CANVAS_WIDTH)),
-    position_y: Math.round(step(y, size.height, CANVAS_HEIGHT)),
+    // A plan taller than 900 (a big wedding) keeps its copies in that room.
+    position_y: Math.round(step(y, size.height, Math.max(CANVAS_HEIGHT, y + size.height))),
   };
+}
+
+/**
+ * A block of chairs is sized, not counted: its width sets the chairs in a
+ * row and its depth the number of rows, so the 2D plan, the 3D view and the
+ * ceremony layouts all agree on how many people a block seats. A chair is
+ * about 55 cm wide; rows sit about 90 cm apart, back to back.
+ */
+export const CHAIR_PITCH = Math.round(0.55 * WORLD_SCALE);
+export const ROW_PITCH = Math.round(0.9 * WORLD_SCALE);
+
+export function chairBlock(size: Footprint) {
+  const perRow = Math.max(1, Math.round(size.width / CHAIR_PITCH));
+  const rows = Math.max(1, Math.round(size.height / ROW_PITCH));
+  return { perRow, rows, seats: perRow * rows };
+}
+
+/** Canvas pixels as whole feet, for couples (the plan is drawn at 45 a metre). */
+export function toFeet(px: number) {
+  return Math.round((px / WORLD_SCALE) * 3.28084);
 }

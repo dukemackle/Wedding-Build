@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { createContext, useContext, useRef, useState, useTransition, type CSSProperties, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useId, useRef, useState, useTransition, type CSSProperties, type ReactNode } from "react";
 import type {
   Guest,
   GuestPriority,
@@ -39,9 +39,13 @@ import { GuestImportFileTab } from "./guest-import-panel";
 import { FilterDisclosure } from "@/components/filter-disclosure";
 import { SearchBox } from "@/components/search-box";
 import { mealChoices } from "@/lib/meal-options";
+import { personalRsvpPath } from "@/lib/invite-codes";
 import { BirdEmptyState } from "@/components/wren-moments";
 import { PlusIcon } from "@/components/page-header";
 import { CheckIcon, MailIcon, PhoneIcon } from "@/components/icons";
+import { isUnsorted, looksUnfinished } from "@/lib/guest-tidy";
+import { QuickSort, type SortPick } from "./quick-sort";
+import { TidyIcons, TidyList, useTidyHidden, type TidyItem } from "./tidy-list";
 
 const STATUSES: GuestStatus[] = ["invited", "confirmed", "declined", "pending"];
 
@@ -154,6 +158,8 @@ function downloadGuestsCsv(guests: Guest[]) {
 
 /** The couple's menu (set in the guest site's RSVP section), for the Meal picker. */
 const MealsContext = createContext<string[]>(mealChoices(null));
+/** The guest site's slug while it's on, for each guest's personal RSVP link (0141). */
+const SiteSlugContext = createContext<string | null>(null);
 
 function GuestFields({ guest, theme }: { guest?: Guest; theme: SideTheme }) {
   const meals = useContext(MealsContext);
@@ -260,6 +266,18 @@ function GuestFields({ guest, theme }: { guest?: Guest; theme: SideTheme }) {
         />
         Bringing a plus one
       </label>
+      {!bringingPlusOne && (
+        <label className="-mt-2 flex items-center gap-2 text-sm text-ink sm:col-span-2">
+          <input
+            type="checkbox"
+            name="plus_one_allowed"
+            defaultChecked={guest?.plus_one_allowed ?? false}
+            className="h-4 w-4 rounded border-hairline"
+          />
+          Can bring a plus one
+          <span className="text-xs text-ink/60">(their RSVP link will ask)</span>
+        </label>
+      )}
       {bringingPlusOne && (
         <label className={`${labelClass} sm:col-span-2`}>
           Plus one&apos;s name
@@ -601,6 +619,35 @@ function GuestRowMenu({
 }) {
   const [open, setOpen] = useState(false);
   const [, startTransition] = useTransition();
+  // The menu is a native popover, so it sits in the browser's top layer:
+  // nothing on the page can paint over it or swallow its clicks, and a click
+  // anywhere outside it (or Escape) closes it.
+  const menuId = useId();
+  const menuRef = useRef<HTMLDivElement>(null);
+  const close = () => menuRef.current?.hidePopover();
+
+  // Runs before the button opens the popover: pin it under the button, or
+  // above it when there isn't room below.
+  function placeMenu(button: HTMLElement) {
+    const menu = menuRef.current;
+    if (!menu) return;
+    const rect = button.getBoundingClientRect();
+    const below = window.innerHeight - rect.bottom >= 360;
+    menu.style.right = `${window.innerWidth - rect.right}px`;
+    menu.style.top = below ? `${rect.bottom + 4}px` : "auto";
+    menu.style.bottom = below ? "auto" : `${window.innerHeight - rect.top + 4}px`;
+  }
+
+  useEffect(() => {
+    if (!open) return;
+    const hide = () => menuRef.current?.hidePopover();
+    window.addEventListener("scroll", hide, true);
+    window.addEventListener("resize", hide);
+    return () => {
+      window.removeEventListener("scroll", hide, true);
+      window.removeEventListener("resize", hide);
+    };
+  }, [open]);
 
   function setGrouping(field: "side" | "guest_type", value: string) {
     const formData = new FormData();
@@ -632,13 +679,29 @@ function GuestRowMenu({
   const itemClass =
     "block w-full rounded px-2 py-1.5 text-left text-xs text-ink transition-colors hover:bg-parchment";
 
+  // Their own link opens their household's RSVP; the code is for a paper
+  // invitation ("RSVP at … with code K7M2QX").
+  const siteSlug = useContext(SiteSlugContext);
+  const [copied, setCopied] = useState(false);
+  function handleCopyLink() {
+    if (!siteSlug || !guest.invite_code) return;
+    navigator.clipboard
+      .writeText(`${window.location.origin}${personalRsvpPath(siteSlug, guest.invite_code)}`)
+      .then(() => {
+        setCopied(true);
+        setTimeout(() => setCopied(false), 1500);
+      })
+      .catch(() => {});
+  }
+
   return (
     <div className="relative">
       <button
         type="button"
         aria-label={`Actions for ${guest.name}`}
         aria-expanded={open}
-        onClick={() => setOpen((v) => !v)}
+        popoverTarget={menuId}
+        onClick={(e) => placeMenu(e.currentTarget)}
         className={`rounded-full border px-2 py-0.5 font-mono-numbers text-xs leading-5 transition-colors ${
           open
             ? "border-forest bg-forest text-parchment"
@@ -648,17 +711,15 @@ function GuestRowMenu({
         •••
       </button>
 
-      {open && (
-        <>
-          {/* Clicking anywhere else closes it -- no library, no listener. */}
-          <button
-            type="button"
-            aria-hidden
-            tabIndex={-1}
-            onClick={() => setOpen(false)}
-            className="fixed inset-0 z-20 cursor-default"
-          />
-          <div className="absolute right-0 z-30 mt-1 w-52 rounded-lg border border-hairline bg-card p-2 shadow-lg">
+      <div
+        id={menuId}
+        ref={menuRef}
+        popover="auto"
+        onToggle={(e) => setOpen(e.newState === "open")}
+        className="fixed inset-auto m-0 w-56 rounded-lg border border-hairline bg-card p-2 text-ink shadow-lg"
+      >
+        {open && (
+          <>
             <p className="px-2 pb-1 font-mono-numbers text-[10px] uppercase tracking-[0.15em] text-ink/40">
               Side
             </p>
@@ -711,17 +772,25 @@ function GuestRowMenu({
                 className={itemClass}
                 onClick={() => {
                   onEdit();
-                  setOpen(false);
+                  close();
                 }}
               >
                 Edit details
               </button>
+              {siteSlug && guest.invite_code && (
+                <button type="button" className={itemClass} onClick={handleCopyLink}>
+                  {copied ? "Link copied" : "Copy RSVP link"}
+                  <span className="ml-1 font-mono-numbers text-[10px] tracking-wider text-ink/50">
+                    {guest.invite_code}
+                  </span>
+                </button>
+              )}
               <button
                 type="button"
                 className={itemClass}
                 onClick={() => {
                   onThankYou();
-                  setOpen(false);
+                  close();
                 }}
               >
                 {showingThankYou ? "Hide thank-you note" : "Thank-you note"}
@@ -731,7 +800,7 @@ function GuestRowMenu({
                 className={itemClass}
                 onClick={() => {
                   handleToggleThanked();
-                  setOpen(false);
+                  close();
                 }}
               >
                 {guest.thanked ? "Mark un-thanked" : "Mark thanked"}
@@ -741,80 +810,15 @@ function GuestRowMenu({
                 className={`${itemClass} text-red-800`}
                 onClick={() => {
                   handleDelete();
-                  setOpen(false);
+                  close();
                 }}
               >
                 Remove from list
               </button>
             </div>
-          </div>
-        </>
-      )}
-    </div>
-  );
-}
-
-/**
- * The row's controls while a sorting pass is on: one click sets the value and
- * moves you down the list. Everything else is out of the way, because the job
- * in this mode is 270 clicks and nothing else.
- */
-function AssignStrip({
-  guest,
-  field,
-  theme,
-  onSet,
-}: {
-  guest: Guest;
-  field: "side" | "guest_type";
-  theme: SideTheme;
-  onSet: (field: "side" | "guest_type", value: string) => void;
-}) {
-  if (field === "side") {
-    return (
-      <div className="flex shrink-0 items-center gap-1">
-        {GUEST_SIDES.map((side) => (
-          <button
-            key={side}
-            type="button"
-            title={theme.labels[side]}
-            onClick={() => onSet("side", side)}
-            // Bigger on a phone: a 20px swatch is not a thumb-sized target,
-            // and this mode is 270 taps in a row.
-            className={`h-7 w-7 rounded-full border-2 transition-transform hover:scale-110 sm:h-5 sm:w-5 ${
-              guest.side === side ? "border-ink/50" : "border-transparent"
-            }`}
-            style={{ backgroundColor: theme.colors[side] }}
-          />
-        ))}
-        <button
-          type="button"
-          title="No side"
-          onClick={() => onSet("side", "")}
-          className={`h-7 w-7 rounded-full border-2 border-dashed transition-transform hover:scale-110 sm:h-5 sm:w-5 ${
-            guest.side ? "border-hairline" : "border-ink/50"
-          }`}
-        />
+          </>
+        )}
       </div>
-    );
-  }
-
-  return (
-    <div className="flex shrink-0 flex-wrap items-center justify-end gap-1">
-      {GUEST_TYPES.map((type) => (
-        <button
-          key={type}
-          type="button"
-          onClick={() => onSet("guest_type", guest.guest_type === type ? "" : type)}
-          className={`rounded-full border px-2 py-1 text-[11px] leading-4 transition-colors sm:px-1.5 sm:py-0 sm:leading-5 ${
-            guest.guest_type === type
-              ? "border-forest bg-forest text-parchment"
-              : "border-hairline text-ink/70 hover:border-forest"
-          }`}
-        >
-          {GUEST_TYPE_LABELS[type]}
-        </button>
-      ))}
     </div>
   );
 }
@@ -822,14 +826,9 @@ function AssignStrip({
 function GuestRow({
   guest,
   theme,
-  assigning,
-  onAssign,
 }: {
   guest: Guest;
   theme: SideTheme;
-  /** Which field the sorting pass is setting, if one is on. */
-  assigning: "side" | "guest_type" | null;
-  onAssign: (guestId: string, field: "side" | "guest_type", value: string) => void;
 }) {
   const [isEditing, setIsEditing] = useState(false);
   const [showThankYou, setShowThankYou] = useState(false);
@@ -937,18 +936,10 @@ function GuestRow({
           <div className="flex flex-wrap items-center gap-1.5 pt-0.5 sm:hidden">{badges}</div>
         </div>
 
-        {meta && !assigning && (
+        {meta && (
           <p className="hidden min-w-0 basis-[38%] truncate text-xs text-ink/45 lg:block">{meta}</p>
         )}
 
-        {assigning ? (
-          <AssignStrip
-            guest={guest}
-            field={assigning}
-            theme={theme}
-            onSet={(field, value) => onAssign(guest.id, field, value)}
-          />
-        ) : (
         <div className="flex shrink-0 items-center gap-1">
           <button
             type="button"
@@ -965,7 +956,6 @@ function GuestRow({
             showingThankYou={showThankYou}
           />
         </div>
-        )}
       </div>
 
       {error && <p className="pb-2 text-xs text-red-800">{error}</p>}
@@ -986,10 +976,6 @@ function sideRowStyle(guest: Guest, theme: SideTheme) {
   // Every side colour is a 6-digit hex, so a two-digit alpha suffix gives the
   // wash: ~12% is enough to read without fighting the badges on top of it.
   return { borderLeftColor: color, backgroundColor: `${color}1F` };
-}
-
-function personCount(guest: Guest) {
-  return 1 + (guest.plus_one ? 1 : 0);
 }
 
 /**
@@ -1489,6 +1475,8 @@ export function GuestsManager({
   sideBColor,
   sideBothColor,
   mealOptions = null,
+  publicSlug = null,
+  canEdit = true,
 }: {
   guests: Guest[];
   /** A Google Sheet they've imported from before, if there is one. */
@@ -1499,13 +1487,19 @@ export function GuestsManager({
   sideBColor: string | null;
   sideBothColor: string | null;
   mealOptions?: string[] | null;
+  /** Null while the guest site is off: there's no link to copy yet. */
+  publicSlug?: string | null;
+  /** Viewers see the list but not the tidy card or quick sort. */
+  canEdit?: boolean;
 }) {
   const [filter, setFilter] = useState<GuestStatus | "all">("all");
   const [priorityFilter, setPriorityFilter] = useState<GuestPriority | "all">("all");
   const [sideFilter, setSideFilter] = useState<GuestSide | "all" | "none">("all");
   const [typeFilter, setTypeFilter] = useState<GuestType | "all" | "none">("all");
   const [sort, setSort] = useState<GuestSort>("name");
-  const [assigning, setAssigning] = useState<"side" | "guest_type" | null>(null);
+  const [quickSortOpen, setQuickSortOpen] = useState(false);
+  const [unfinishedOnly, setUnfinishedOnly] = useState(false);
+  const listRef = useRef<HTMLDivElement>(null);
   // What this session has set but the server hasn't sent back yet. A sorting
   // pass is a click a second; waiting for a round trip before the dot changes
   // colour makes it feel broken.
@@ -1539,19 +1533,18 @@ export function GuestsManager({
     sideBothColor: pickedColors.both ?? sideBothColor,
   });
 
-  function handleAssign(guestId: string, field: "side" | "guest_type", value: string) {
-    setOverrides((current) => ({
-      ...current,
-      [guestId]: {
-        ...current[guestId],
-        [field]: (value || null) as GuestSide & GuestType & null,
-      },
-    }));
+  /** Quick sort: a guest's side, group and priority in one save. */
+  function handleSortSave(guestId: string, pick: SortPick) {
+    setOverrides((current) => ({ ...current, [guestId]: { ...current[guestId], ...pick } }));
     const formData = new FormData();
-    formData.set("guest_id", guestId);
-    formData.set(field, value);
+    formData.append("guest_id", guestId);
+    formData.set("side", pick.side ?? "");
+    formData.set("guest_type", pick.guest_type ?? "");
+    formData.set("priority", pick.priority);
+    setActionError(undefined);
     startAssigning(async () => {
-      await setGuestGrouping(formData);
+      const result = await updateGuestsFields(formData);
+      if (result?.error) setActionError(result.error);
     });
   }
 
@@ -1606,7 +1599,8 @@ export function GuestsManager({
   const missingAddressCount = guestList.filter((g) => !g.address_line1).length;
 
   const unassignedSideCount = guestList.filter((g) => !g.side).length;
-  const unassignedTypeCount = guestList.filter((g) => !g.guest_type).length;
+  const unsortedCount = guestList.filter(isUnsorted).length;
+  const unfinishedGuests = guestList.filter((g) => looksUnfinished(g.name));
 
   const counts: Record<GuestStatus | "all", number> = {
     all: guests.length,
@@ -1622,26 +1616,6 @@ export function GuestsManager({
     would_like: guests.filter((g) => g.priority === "would_like").length,
     if_room: guests.filter((g) => g.priority === "if_room").length,
   };
-
-  const tierPersonCounts: Record<GuestPriority, number> = {
-    must_invite: guests
-      .filter((g) => g.priority === "must_invite")
-      .reduce((sum, g) => sum + personCount(g), 0),
-    would_like: guests
-      .filter((g) => g.priority === "would_like")
-      .reduce((sum, g) => sum + personCount(g), 0),
-    if_room: guests
-      .filter((g) => g.priority === "if_room")
-      .reduce((sum, g) => sum + personCount(g), 0),
-  };
-
-  const cumulativeMustInvite = tierPersonCounts.must_invite;
-  const cumulativeWouldLike = cumulativeMustInvite + tierPersonCounts.would_like;
-  const cumulativeIfRoom = cumulativeWouldLike + tierPersonCounts.if_room;
-
-  const headcount = guests
-    .filter((g) => g.status === "confirmed")
-    .reduce((sum, g) => sum + 1 + (g.plus_one ? 1 : 0), 0);
 
   const thankedCount = guests.filter((g) => g.thanked).length;
 
@@ -1669,6 +1643,7 @@ export function GuestsManager({
         (typeFilter === "none" ? !g.guest_type : g.guest_type === typeFilter)) &&
       (!missingAddressOnly || !g.address_line1) &&
       (!duplicatesOnly || isDuplicate(g)) &&
+      (!unfinishedOnly || looksUnfinished(g.name)) &&
       g.name.toLowerCase().includes(search.trim().toLowerCase()),
   );
 
@@ -1708,6 +1683,64 @@ export function GuestsManager({
 
   const groups = groupGuests(filteredGuests, sort, theme);
 
+  /** A tidy-card button narrows the list to the guests it's about. */
+  function showOnly(apply: () => void) {
+    setFilter("all");
+    setPriorityFilter("all");
+    setSideFilter("all");
+    setTypeFilter("all");
+    setMissingAddressOnly(false);
+    setDuplicatesOnly(false);
+    setUnfinishedOnly(false);
+    setSearch("");
+    apply();
+    listRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  const duplicateNames = [...new Set(guestList.filter(isDuplicate).map((g) => g.name.trim()))];
+  const quoted = (names: string[], max: number) =>
+    names
+      .slice(0, max)
+      .map((n) => `\u201c${n}\u201d`)
+      .join(", ") + (names.length > max ? ` and ${names.length - max} more` : "");
+  const tidyItems: TidyItem[] = [
+    {
+      key: "unsorted",
+      count: unsortedCount,
+      title: `${unsortedCount} ${unsortedCount === 1 ? "guest has" : "guests have"} no side or group`,
+      detail: "One at a time, with number keys or big buttons. Wren guesses from households and shared last names.",
+      action: { kind: "button", label: "Start quick sort", onClick: () => setQuickSortOpen(true), primary: true },
+      icon: TidyIcons.sort,
+    },
+    {
+      key: "duplicates",
+      count: duplicateCount,
+      title: `${duplicateCount} possible duplicates`,
+      detail: `${quoted(duplicateNames, 2)} ${duplicateNames.length === 1 ? "appears" : "appear"} more than once. Keep the best entry and remove the rest.`,
+      action: { kind: "button", label: "Review them", onClick: () => showOnly(() => setDuplicatesOnly(true)) },
+      icon: TidyIcons.duplicate,
+    },
+    {
+      key: "address",
+      count: missingAddressCount,
+      title: `${missingAddressCount} missing an address`,
+      detail: "Send one link; guests fill in their own and you approve each one.",
+      action: { kind: "link", label: "Get the link", href: "#invitations" },
+      icon: TidyIcons.address,
+    },
+    {
+      key: "names",
+      count: unfinishedGuests.length,
+      title: `${unfinishedGuests.length} ${unfinishedGuests.length === 1 ? "name looks" : "names look"} unfinished`,
+      detail: `${quoted(unfinishedGuests.map((g) => g.name.trim()), 3)}. Give them a full name before invitations go out.`,
+      action: { kind: "button", label: "Fix names", onClick: () => showOnly(() => setUnfinishedOnly(true)) },
+      icon: TidyIcons.name,
+    },
+  ];
+  const tidyTotal = unsortedCount + duplicateCount + missingAddressCount + unfinishedGuests.length;
+  const { hidden: tidyHidden, hide: hideTidy } = useTidyHidden(tidyTotal);
+  const tidyShowing = canEdit && !tidyHidden && tidyTotal > 0;
+
   const pillClass = (active: boolean) =>
     `rounded-full border px-3 py-1 text-sm transition-colors ${
       active
@@ -1717,36 +1750,28 @@ export function GuestsManager({
 
   return (
     <MealsContext.Provider value={mealChoices(mealOptions)}>
-    <div className="flex w-full min-w-0 flex-col rounded-lg border border-hairline bg-card p-4 shadow-sm sm:p-6">
-      {/* The numbers, on one strip. Headcount, the invite ladder and the meal
-          counts used to be three stacked blocks above the list; on a phone
-          that was most of a screen before the first guest. */}
-      <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 border-b border-hairline pb-3">
-        <p className="text-sm text-ink/70">
-          <span className="font-mono-numbers text-2xl text-forest">{headcount}</span> confirmed
-          <span className="hidden text-ink/45 sm:inline"> · feeds your Budget guest count</span>
+      <SiteSlugContext.Provider value={publicSlug}>
+    <div className="flex w-full min-w-0 flex-col gap-6">
+    {tidyShowing && <TidyList items={tidyItems} onHide={hideTidy} />}
+    {quickSortOpen && (
+      <QuickSort
+        guests={guestList}
+        theme={theme}
+        onSave={handleSortSave}
+        onClose={() => setQuickSortOpen(false)}
+      />
+    )}
+    <div
+      ref={listRef}
+      className="flex w-full min-w-0 scroll-mt-4 flex-col rounded-lg border border-hairline bg-card p-4 shadow-sm sm:p-6"
+    >
+      {/* The headline numbers live in the stage header above the page;
+          thank-yous are the one count that only matters here. */}
+      {showThanked && (
+        <p className="border-b border-hairline pb-3 text-xs text-ink/60">
+          <span className="font-mono-numbers text-forest">{thankedCount}</span>/{guests.length} thanked
         </p>
-        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-ink/60">
-          <span>
-            <span className="font-mono-numbers text-forest">{cumulativeMustInvite}</span> must
-            invite
-          </span>
-          <span className="text-ink/30">&rarr;</span>
-          <span>
-            <span className="font-mono-numbers text-brass">{cumulativeWouldLike}</span> incl. would
-            like
-          </span>
-          <span className="text-ink/30">&rarr;</span>
-          <span>
-            <span className="font-mono-numbers text-ink">{cumulativeIfRoom}</span> incl. if room
-          </span>
-          {showThanked && (
-            <span className="text-ink/45">
-              · {thankedCount}/{guests.length} thanked
-            </span>
-          )}
-        </div>
-      </div>
+      )}
 
       <div className="flex flex-wrap items-center justify-between gap-2 py-3">
         <SideColorKey
@@ -1760,7 +1785,15 @@ export function GuestsManager({
               setShowAddForm((v) => !v);
               setShowImportForm(false);
             }}
-            className={showAddForm ? "btn-secondary" : "btn-primary"}
+            // Gold is the one action that matters most; while there's
+            // tidying to do that's quick sort, so Add guest goes navy.
+            className={
+              showAddForm
+                ? "btn-secondary"
+                : tidyShowing
+                  ? "inline-flex min-h-11 items-center gap-2 rounded-full bg-forest px-5 font-semibold text-parchment transition-colors hover:bg-forest/90"
+                  : "btn-primary"
+            }
           >
             {showAddForm ? "Close" : <><PlusIcon /> Add guest</>}
           </button>
@@ -1773,20 +1806,29 @@ export function GuestsManager({
           >
             {showImportForm ? "Close" : "Import"}
           </button>
-          <button
-            onClick={() => downloadGuestsXlsx(guests)}
-            disabled={guests.length === 0}
-            className="btn-secondary disabled:opacity-50"
-          >
-            Excel
-          </button>
-          <button
-            onClick={() => downloadGuestsCsv(guests)}
-            disabled={guests.length === 0}
-            className="btn-secondary disabled:opacity-50"
-          >
-            CSV
-          </button>
+          {guests.length > 0 && (
+            <details className="relative">
+              <summary className="btn-secondary cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+                Export <span aria-hidden="true">&#9662;</span>
+              </summary>
+              <div className="absolute right-0 z-20 mt-2 flex w-44 flex-col rounded-lg border border-hairline bg-card p-1 shadow-lg">
+                <button
+                  type="button"
+                  onClick={() => downloadGuestsXlsx(guests)}
+                  className="rounded-md px-3 py-2 text-left text-sm text-forest hover:bg-parchment"
+                >
+                  Excel (.xlsx)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => downloadGuestsCsv(guests)}
+                  className="rounded-md px-3 py-2 text-left text-sm text-forest hover:bg-parchment"
+                >
+                  CSV
+                </button>
+              </div>
+            </details>
+          )}
         </div>
       </div>
 
@@ -1810,53 +1852,6 @@ export function GuestsManager({
           ))}
         </div>
       )}
-
-      {/* A sorting pass, offered where the gap is: 270 guests arrive with no
-          side and no type, and setting them one menu at a time is the kind of
-          job nobody finishes. Here the row is a strip of buttons and nothing
-          else, and the filter beside it narrows to what's still unsorted. */}
-      {/* Only where there's no table: on a wide screen every row's Side and
-          Group cells are the sorting pass. */}
-      <div className="mb-3 flex flex-wrap items-center gap-2 rounded-md border border-hairline bg-parchment px-3 py-2 xl:hidden">
-        <span className="font-mono-numbers text-[11px] uppercase tracking-[0.15em] text-ink/40">
-          Sort into groups
-        </span>
-        <button
-          type="button"
-          onClick={() => setAssigning((mode) => (mode === "side" ? null : "side"))}
-          className={pillClass(assigning === "side")}
-        >
-          Sides{unassignedSideCount > 0 ? ` (${unassignedSideCount} left)` : ""}
-        </button>
-        <button
-          type="button"
-          onClick={() => setAssigning((mode) => (mode === "guest_type" ? null : "guest_type"))}
-          className={pillClass(assigning === "guest_type")}
-        >
-          Family / friends{unassignedTypeCount > 0 ? ` (${unassignedTypeCount} left)` : ""}
-        </button>
-        {assigning && (
-          <>
-            <button
-              type="button"
-              onClick={() => {
-                if (assigning === "side") setSideFilter("none");
-                else setTypeFilter("none");
-              }}
-              className="text-xs text-brass hover:underline"
-            >
-              Show only the ones left
-            </button>
-            <button
-              type="button"
-              onClick={() => setAssigning(null)}
-              className="ml-auto text-xs text-ink/50 hover:underline"
-            >
-              Done
-            </button>
-          </>
-        )}
-      </div>
 
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
         <div className="min-w-0 flex-1">
@@ -1910,6 +1905,15 @@ export function GuestsManager({
             className={`${quickChipClass(duplicatesOnly)} ${duplicatesOnly ? "" : "border-red-200 text-red-700"}`}
           >
             Possible duplicates ({duplicateCount})
+          </button>
+        )}
+        {unfinishedGuests.length > 0 && (
+          <button
+            type="button"
+            onClick={() => setUnfinishedOnly((v) => !v)}
+            className={quickChipClass(unfinishedOnly)}
+          >
+            Unfinished names ({unfinishedGuests.length})
           </button>
         )}
       </div>
@@ -2081,8 +2085,6 @@ export function GuestsManager({
                   key={guest.id}
                   guest={guest}
                   theme={theme}
-                  assigning={assigning}
-                  onAssign={handleAssign}
                 />
               ))}
             </div>
@@ -2091,6 +2093,8 @@ export function GuestsManager({
         </>
       )}
     </div>
+    </div>
+      </SiteSlugContext.Provider>
     </MealsContext.Provider>
   );
 }

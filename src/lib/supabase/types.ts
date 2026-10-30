@@ -26,6 +26,8 @@ export type Wedding = {
   dashboard_photo_urls: string[];
   /** Where to centre each dashboard photo: {url: [x%, y%]}. */
   dashboard_photo_focus: Record<string, [number, number]>;
+  /** Which photos play behind the dashboard (0143); null picks the best available. Absent until that migration runs. */
+  dashboard_photo_source?: "own" | "venue" | "inspiration" | null;
   rsvp_deadline: string | null;
   dress_code: string | null;
   travel_notes: string | null;
@@ -55,7 +57,11 @@ export type Wedding = {
   member_ids: string[];
   hidden_budget_categories: string[];
   itinerary_published: boolean;
+  /** Names for the schedule's days, by date (0144). */
+  itinerary_day_names: Record<string, string> | null;
   /** The published guest site design; parse with parseSiteDesign. */
+  /** Colours picked on the marketplace's "Shop your wedding" (0149). */
+  market_colors: string[];
   site_design: unknown;
   /** Before several designs (0111): what the editor worked on. No longer written. */
   site_design_draft: unknown;
@@ -71,6 +77,8 @@ export type Wedding = {
   side_a_color: string | null;
   side_b_color: string | null;
   side_both_color: string | null;
+  /** How the venue plan is dressed: "blank", "barn" or "ballroom" (src/lib/layout-styles.ts). */
+  layout_room_style: string;
   /** When Wren's standard checklist was added; null until then. */
   plan_seeded_at: string | null;
   created_at: string;
@@ -232,6 +240,12 @@ export type Guest = {
   updated_at: string;
   /** Per-event RSVP answers, event id -> coming (0109). */
   event_rsvps: EventAnswers | null;
+  /** Their personal RSVP link's code, /w/<slug>/i/<code> (0141). */
+  invite_code: string;
+  /** May bring a plus-one; plus_one is whether they are (0141). */
+  plus_one_allowed: boolean;
+  /** Last answered through their personal link (0141). */
+  rsvp_changed_at: string | null;
 };
 
 export type ContactSubmissionStatus = "pending" | "applied" | "dismissed";
@@ -663,6 +677,8 @@ export type AttireShortlistEntry = {
   created_at: string;
 };
 
+export type EventAudience = "guests" | "party" | "private";
+
 export type ItineraryEvent = {
   id: string;
   wedding_id: string;
@@ -677,6 +693,10 @@ export type ItineraryEvent = {
   rsvp: boolean;
   /** Only the guests named in guest_event_invites see it (0109). */
   invite_only: boolean;
+  /** Who the event is for: only 'guests' reaches the guest site (0143). */
+  audience: EventAudience;
+  /** Who's involved: booked vendors or anyone typed in (0144). */
+  people: string[] | null;
   created_at: string;
   updated_at: string;
 };
@@ -730,8 +750,27 @@ export type SeatingTable = {
   width: number | null;
   height: number | null;
   room_id: string | null;
+  /** The event phase this table belongs to; null shows it in every phase. */
+  phase_id: string | null;
+  /** Tablecloth key from src/lib/layout-styles.ts; null uses the room's default. */
+  linen: string | null;
+  /** Centrepiece key from src/lib/layout-styles.ts; null uses the room's default. */
+  centerpiece: string | null;
   created_at: string;
   updated_at: string;
+};
+
+export type LayoutPhaseKind = "ceremony" | "cocktail" | "reception" | "custom";
+
+/** One arrangement of the venue: ceremony, cocktail hour, reception or a custom event. */
+export type LayoutPhase = {
+  id: string;
+  wedding_id: string;
+  user_id: string;
+  kind: LayoutPhaseKind;
+  name: string;
+  sort_order: number;
+  created_at: string;
 };
 
 export type VenueRoom = {
@@ -740,6 +779,27 @@ export type VenueRoom = {
   user_id: string;
   name: string;
   created_at: string;
+  /** Set when the room was copied from a venue's floor plan (0150). */
+  width_m: number | null;
+  length_m: number | null;
+  outline: PlanOutline | null;
+  source_space_id: string | null;
+  source_venue_id: string | null;
+};
+
+/** A floor plan's corners in metres from its top-left, clockwise. */
+export type PlanOutline = [number, number][];
+
+/** One venue space's floor plan, drawn in admin (0150). */
+export type VenueSpacePlan = {
+  space_id: string;
+  venue_id: string;
+  width_m: number;
+  length_m: number;
+  /** Null: the whole width x length rectangle. */
+  outline: PlanOutline | null;
+  published: boolean;
+  updated_at: string;
 };
 
 export type LayoutItemType =
@@ -769,6 +829,8 @@ export type VenueLayoutItem = {
   height: number | null;
   rotation: number;
   room_id: string | null;
+  /** The event phase this item belongs to; null makes it part of the venue, shown in every phase. */
+  phase_id: string | null;
   created_at: string;
   updated_at: string;
 };
@@ -993,6 +1055,34 @@ export type MarketListing = {
   pickup_options: string[];
   /** "Or best offer" (0120). */
   negotiable: boolean;
+  /** The budget line "Pass it on" started it from: a category key or a custom item id (0144). */
+  source_budget_item: string | null;
+  /** Up to three guest-site colour families, for "Shop your wedding" (0144). */
+  color_families: string[];
+  /** The whole-wedding set it's part of, if any (0146). */
+  set_id: string | null;
+};
+
+/** Dates a rental is already out, both ends inclusive (0147). */
+export type MarketRentalBooking = {
+  id: string;
+  listing_id: string;
+  starts_on: string;
+  ends_on: string;
+  created_at: string;
+};
+
+/** Several of one seller's listings sold together for one price (0146). */
+export type MarketSet = {
+  id: string;
+  seller_id: string;
+  title: string;
+  description: string | null;
+  price_cents: number;
+  listing_type: "sale" | "rent";
+  status: MarketListingStatus;
+  created_at: string;
+  updated_at: string;
 };
 
 export type MarketThread = {

@@ -585,6 +585,7 @@ export function VendorsManager({
           favoritedIds={favoritedIds}
           onSelectVendor={handleSelectVendorFromMap}
           onViewChange={setMapView}
+          rememberAs="youdoido:vendors-map-view"
           heightClassName="h-full w-full"
           outline={{ city: cityFilter, state: stateFilter }}
         />

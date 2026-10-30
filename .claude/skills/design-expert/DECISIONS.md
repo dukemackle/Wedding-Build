@@ -11,6 +11,64 @@ They're summarised here only by reference; CLAUDE.md is the source.
 
 ## Approved directions
 
+- **2026-10-29:** Venue layout has one header, not a page header plus a
+  second titled card: name, status line, seated ring and Print in the top
+  row, the editor's toolbar as a full-width second row of the same card
+  (`PageHeader`'s `toolbar` slot). Approved from a preview.
+  Same day, same rule for the other planning pages (approved from
+  before/after previews): Checklist's progress ring, count and Add task
+  move into its header (no "Planning checklist" card); Guests' stage panel
+  and Itinerary's publish bar become the header's toolbar row; Budget's
+  totals card drops its "Your budget" title. Registry already had one.
+- **2026-10-29:** Guest-site hero: the date line and the countdown resize by
+  clicking them in the preview, like the names (slots `hero.date`,
+  `hero.countdown`). The countdown is size-only, scales whole, and only
+  shrinks on a phone. Approved from a desktop/phone preview.
+- **2026-10-28:** Marketplace "Shop your wedding" approved from a preview:
+  a navy panel with Aqua highlights (not gold), chips for colours, guests and
+  date, four matching cards. Follow-ups approved: Saved/Selling/Messages fold
+  into one "Mine" menu on desktop, and hand-picked colours are saved on the
+  wedding rather than in the browser.
+- **2026-10-28:** Venue layout gets dressed rooms: Plain / Barn / Ballroom
+  floors (natural wood, carpet, marble allowed as materials; state colours
+  stay on the palette), chairs with guests' initials in side colours, place
+  cards under tables, per-table cloth and centrepiece. Mockups approved in
+  chat; built in `src/app/venue-layout/room-art.tsx` + `src/lib/layout-styles.ts`.
+- **2026-10-28:** Guest list: a stage header (Building your list → Invites
+  out → Final count) leads the page with the number that matters at each
+  stage (tiers against the venue's capacity and the Budget's cost per guest,
+  then replies), a "Tidy your list" card collects the loose ends (no
+  side/group, duplicates, missing addresses, unfinished names), and quick
+  sort sorts one guest at a time with number keys and Wren's guess. Quick
+  sort is the page's gold action while there's tidying; Add guest goes navy.
+  Excel/CSV fold into one Export menu. Mockup:
+  https://claude.ai/artifact/MXSwmfr8b2HfxymNyvcTAU. Applied in
+  `src/app/guests/stage-header.tsx`, `tidy-list.tsx`, `quick-sort.tsx`.
+
+- **2026-10-28 (later):** The default is pure white, not ivory: the starter
+  template is now **Classic** on #ffffff, with Ivory and Linen as colourways.
+- **2026-10-28:** Checklist is a "journey path" (option 1 of three; card deck
+  and light-touch rejected). Stages are nodes on a line that fills gold
+  behind you, the stage you're on pulses royal blue, own tasks get a dashed
+  aqua node; a gold progress ring replaces the thin bar; 18px task titles;
+  due chips coloured by urgency (red overdue, Sky within 30 days, Gold within
+  3 months, outlined later); Edit/Remove fold behind a "⋯" (hover-only on
+  desktop); a tick fills gold and throws sparks; finishing a stage adds
+  confetti to Wren's cheer. Phone: the same line as one column, current stage
+  open. Shared pieces in `src/components/checklist-ui.tsx`, used by the page
+  and the landing demo. Mockup: https://claude.ai/artifact/H58PysKBFYWt2whBERk5rH
+
+- **2026-10-28:** Guest-site templates default to warm white. A new eighth
+  template, **Ivory**, goes first in the gallery with a "Start here" tag, and
+  new couples start on it. Mockup: https://claude.ai/artifact/1XpMHRqZf6SEBg2Noig6Ey.
+  Applied in `site-templates.ts` (`STARTER_DESIGN`); see docs/guest-site-editor.md.
+- **2026-10-28:** Dashboard backdrop always has photos: the Photos popover
+  offers Your photos / Your venue (booked, else most recently saved) /
+  Inspiration (the landing page's eight credited photos, fixed set), chosen
+  per wedding (`dashboard_photo_source`, 0143), defaulting to the first with
+  photos in that order. Royal-blue radio rows; a bottom sheet on phones.
+  Mockup: https://claude.ai/artifact/PbHaMShSp3P6rNdP7acMNd
+
 - **2026-10-23:** Saved venues/vendors follow Zillow's favourites: a full
   page over the map (Back to search, "Saved" title, Venues/Vendors switch,
   summary bar with sort, the search's photo cards in three columns / one on a
@@ -79,6 +137,12 @@ They're summarised here only by reference; CLAUDE.md is the source.
   with navy outlines for the rest, bolder headings, rows rise in, and Wren
   cheers small wins (paid in full, everyone seated, RSVP milestones).
   Mockup: https://claude.ai/artifact/LP1zF42bXSm1SKy9aF5KBE
+- **2026-10-27:** Planning-page headers slimmed (option A of three): the
+  page's name ("Budget", "Guests") is the big headline, the old phrase is a
+  smaller italic royal-blue line under it, the gold eyebrow is gone, the
+  photo is a 300px panel on desktop (a 96px square beside the words on a
+  phone) and actions share the headline's row. About 140px tall, was 220.
+  Rejected: photo fading behind the words. (`page-header.tsx`)
 - **2026-10-22:** Public nav's business link is a thin outlined "List your
   business" pill (was "For businesses"), and the hero carries "Venue or
   vendor? Claim or list your business free" under Start planning. Logged-out
@@ -114,6 +178,13 @@ They're summarised here only by reference; CLAUDE.md is the source.
   The grey Positron was rejected as "depressing and untrustworthy". When the
   maps move to our own Cloudflare-hosted tiles, pick the closest full-colour
   style. Applied in `src/lib/map-tiles.ts`.
+- **2026-10-27:** Guest-site templates cut from 29 to seven, all kept from
+  the finalists mockup (https://claude.ai/artifact/1bTZGXTFkimWsw2q5G1Gvg):
+  Heirloom, Editorial, Riviera, Night Swim, Golden Hour, Monogram, Homestead,
+  each with its own hero and page style and three colourways picked for it.
+  Thumbnails must show the real page, never a drawing (owner: "they should
+  look exactly like what they're gonna look like"). Applied in
+  `site-templates.ts` and `site-page-thumb.tsx`; see docs/guest-site-editor.md.
 - **2026-10-21:** Guest-site editor simplified: one Design tab (templates +
   colours, no Theme grid), Wren removed from the builder, Sections second in
   the rail with Edit buttons, template flowers/extras optional (off by
@@ -152,6 +223,11 @@ They're summarised here only by reference; CLAUDE.md is the source.
   stock-photo hero (B, looks like The Knot/Zola and needs licensing) and a
   typographic rings-first hero (C, says least about the product). Mockup:
   https://claude.ai/artifact/QyvNJE735cjYK7Rf8XDWzi
+- **2026-10-27:** The planning-path card becomes a slim strip: one row on
+  a computer (count, six milestone pills with the current one in gold, what's
+  still open), count over a six-part bar plus the open links on a phone. The
+  tall card with the stretched stepper "just looked bad". Rejected: removing
+  it altogether.
 - **2026-10-21:** Dashboard next-step card becomes a status, not an order:
   "Your planning path / 3 of 6 done", what's open as quiet links ("Still to
   book: Photographer · DJ or band", filtered Vendors), same six-step tracker.
@@ -172,6 +248,16 @@ They're summarised here only by reference; CLAUDE.md is the source.
   season only (no year column). The dashboard's existing form stays for
   editing. Rejected alternatives: a shorter single form (B), no setup at all
   (C). Mockup: https://claude.ai/artifact/MKwFy2KT4NiNuEYcZDVH9T
+- **2026-10-28:** Falling shapes get their own colour (Motion › Falling ›
+  Colour swatches): Match my colours (default), True to life, Blush, Gold,
+  Sage, Navy, White. Tints what falls only, never the site accent; no free
+  colour picker.
+- **2026-10-28:** Guest sites can be tabs or one long page (Sections ›
+  How guests get around); **tabs are the default**. Home is the top of the
+  page; each titled section is a tab (#link) in the couple's order; RSVP
+  stays in the bar. Computer: tabs across a bar, overflow under "More".
+  Phone: names, RSVP and a **Menu button** opening a full-screen list (owner
+  picked it over a sideways pill strip). `src/app/w/[slug]/site-pages.tsx`.
 - **2026-10-19:** Keyboard focus is a deep-gold ring (`#9a6b00`, bright Gold
   on navy fills, soft gold halo on fields); 404 and error pages are a
   centred card with Wren idling, a mono eyebrow, a display heading and two
@@ -217,6 +303,18 @@ _None recorded yet._
 
 - Cards separate from the page by shadow, with hairline borders, on a warm
   white base (globals.css header comment).
+
+- **2026-10-28:** Itinerary audiences approved: one schedule, each event
+  tagged Guests (gold), Wedding party & family (Royal blue tint) or Just us &
+  vendors (grey, lock); "Everything / What guests see" switch; publish banner
+  counts what goes public; Print run sheet is a menu of three sheets.
+- **2026-10-28:** Itinerary timeline approved from a mockup: day chips
+  instead of the month calendar; on desktop a proportional hour timeline
+  (overlaps side by side) with an at-a-glance card and an edit panel beside
+  it; on phones a time-rail list with the editor as a bottom sheet. Only the
+  exceptions are tagged (party blue, private grey hatch); the ceremony is
+  the one gold block. Clash/gap flags and "move this and everything after"
+  ship first; who's-involved and day names follow.
 
 ## Copy and voice
 

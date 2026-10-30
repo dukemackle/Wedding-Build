@@ -16,8 +16,12 @@ import type {
 } from "@/lib/supabase/types";
 import { ChevronDownIcon } from "@/components/icons";
 import { RsvpForm } from "./rsvp-form";
+import { HouseholdRsvpForm } from "./household-rsvp-form";
+import type { Household } from "@/lib/households";
+import { turnstileSiteKey } from "@/lib/turnstile";
 import { RsvpSection } from "./rsvp-section";
 import { ItineraryView } from "./itinerary-view";
+import { audienceOf } from "@/lib/itinerary";
 import { GuestbookView } from "./guestbook-view";
 import { GuestWall } from "./guest-wall";
 import { GalleryView } from "./gallery-view";
@@ -29,9 +33,9 @@ import { HeroPhotosProvider, WeddingHero } from "./wedding-hero";
 import { CeremonyProvider } from "./hero-actions";
 import { SiteNotice } from "./site-notice";
 import type { ReactNode } from "react";
-import { bannerPhoto, blockKey, type SectionKey } from "@/lib/site-design";
+import { bannerPhoto, blockKey, type SectionId, type SectionKey } from "@/lib/site-design";
 import { SiteBlockView, blockHasContent } from "./site-block";
-import { SectionLayout } from "./section-layout";
+import { SitePages } from "./site-pages";
 import { PhotoCredits } from "./photo-credits";
 import { storyChapters } from "@/lib/site-story";
 import { Replayable, SiteMotion } from "@/components/site-motion";
@@ -45,6 +49,19 @@ import { liveDetailsOf } from "@/lib/site-live";
  * guest site editor, so what a couple previews is the page guests get, not a
  * lookalike that drifts.
  */
+
+const TAB_LABELS: Record<SectionId, string> = {
+  photos: "Photos",
+  party: "Wedding party",
+  venue: "Venue",
+  weekend: "Schedule",
+  rsvp: "RSVP",
+  wall: "Guestbook",
+  guests: "Who's coming",
+  travel: "Travel",
+  faq: "FAQ",
+  registry: "Registry",
+};
 
 const CARD = "site-card rounded-lg border border-hairline bg-card p-6 sm:p-10 shadow-sm";
 
@@ -166,9 +183,10 @@ export async function loadGuestSiteContent(
     blocks: blocks ?? [],
     registryItems: registryItems ?? [],
     registryGifts: registryGifts ?? [],
-    // Invite-only events never reach the public schedule (0109 hides them
-    // from guests; this keeps the couple's preview honest too).
-    itineraryEvents: (itineraryEvents ?? []).filter((e) => !e.invite_only),
+    // Invite-only, wedding-party and private events never reach the public
+    // schedule (0109 and 0143 hide them from guests; this keeps the couple's
+    // own preview honest too).
+    itineraryEvents: (itineraryEvents ?? []).filter((e) => !e.invite_only && audienceOf(e) === "guests"),
     weddingFaqs: weddingFaqs ?? [],
     accommodations: accommodations ?? [],
     guestbookEntries: guestbookEntries ?? [],
@@ -182,9 +200,12 @@ export async function loadGuestSiteContent(
 export function GuestSiteView({
   wedding,
   content,
+  household = null,
 }: {
   wedding: PublicWedding;
   content: GuestSiteContent;
+  /** The household this browser opened with its personal link, if any (0141). */
+  household?: Household | null;
 }) {
   const {
     registryItems,
@@ -237,25 +258,36 @@ export function GuestSiteView({
         deadline={wedding.rsvp_deadline ? formatDate(wedding.rsvp_deadline) : null}
         photo={galleryPhotos[nextPhoto]?.photo_url ?? bannerPhoto(wedding)}
         form={
-          <RsvpForm
-            initialEvents={itineraryEvents
-              .filter((e) => e.rsvp && !e.invite_only)
-              .map(({ id, title, event_date, start_time, location, invite_only }) => ({
-                id,
-                title,
-                event_date,
-                start_time,
-                location,
-                invite_only,
-              }))}
-            weddingId={wedding.id}
-            partnerAName={wedding.partner_a_name}
-            partnerBName={wedding.partner_b_name}
-            mealOptions={wedding.meal_options}
-            // Undefined until migration 0116 runs: ask, as the default does.
-            askDietary={wedding.ask_dietary !== false}
-            shareHref={shareHref}
-          />
+          household ? (
+            <HouseholdRsvpForm
+              household={household}
+              slug={wedding.public_slug}
+              mealOptions={wedding.meal_options}
+              turnstileSiteKey={turnstileSiteKey()}
+            />
+          ) : (
+            <RsvpForm
+              initialEvents={itineraryEvents
+                .filter((e) => e.rsvp && !e.invite_only)
+                .map(({ id, title, event_date, start_time, location, invite_only }) => ({
+                  id,
+                  title,
+                  event_date,
+                  start_time,
+                  location,
+                  invite_only,
+                }))}
+              weddingId={wedding.id}
+              slug={wedding.public_slug}
+              turnstileSiteKey={turnstileSiteKey()}
+              partnerAName={wedding.partner_a_name}
+              partnerBName={wedding.partner_b_name}
+              mealOptions={wedding.meal_options}
+              // Undefined until migration 0116 runs: ask, as the default does.
+              askDietary={wedding.ask_dietary !== false}
+              shareHref={shareHref}
+            />
+          )
         }
       />
     ),
@@ -386,6 +418,15 @@ export function GuestSiteView({
       ) : null,
   };
 
+  // With tabs, each section's name in the menu. A block without a heading
+  // (a quote, a photo) has none and joins the tab before it.
+  const tabLabels: Partial<Record<SectionKey, string | null>> = {
+    ...Object.fromEntries(
+      blocks.map((b) => [blockKey(b.id), b.heading?.trim() || (b.kind === "story" ? "Our story" : null)]),
+    ),
+    ...TAB_LABELS,
+  };
+
   return (
     <main className="flex flex-1 flex-col">
       <Replayable>
@@ -397,11 +438,18 @@ export function GuestSiteView({
               itineraryEvents.find((e) => e.event_date === wedding.wedding_date && /ceremony|vows|nikah|wedding/i.test(e.title) && e.start_time) ?? null
             }
           >
-            <HeroPhotosProvider photos={galleryPhotos.map((p) => p.photo_url)}>
-              <WeddingHero wedding={wedding} />
-            </HeroPhotosProvider>
+            <SitePages
+              hero={
+                <HeroPhotosProvider photos={galleryPhotos.map((p) => p.photo_url)}>
+                  <WeddingHero wedding={wedding} />
+                </HeroPhotosProvider>
+              }
+              sections={sections}
+              photos={galleryPhotos.map((p) => p.photo_url)}
+              labels={tabLabels}
+              title={coupleNames || "Our wedding"}
+            />
           </CeremonyProvider>
-          <SectionLayout sections={sections} />
         </LiveDetailsProvider>
       </Replayable>
       <PhotoCredits credits={photoCredits} shown={galleryPhotos.map((p) => p.photo_url)} />

@@ -21,6 +21,7 @@ import { TabbedCard } from "./card";
 import { GuestPostsFeed } from "./guest-posts-feed";
 import { PhotoWallQr } from "./photo-wall-qr";
 import { GuestSheetSync } from "./guest-sheet-sync";
+import { StageHeader } from "./stage-header";
 import type { SheetLinkView, SiteChanges } from "@/lib/sheet-link-server";
 
 /**
@@ -44,6 +45,9 @@ export function GuestsPageBody({
   sheetLink = null,
   sheetChanges = null,
   canEdit = true,
+  venueCapacity = null,
+  costPerGuest = null,
+  today = new Date().toISOString().slice(0, 10),
 }: {
   wedding: Wedding;
   guests: Guest[];
@@ -61,6 +65,11 @@ export function GuestsPageBody({
   sheetLink?: SheetLinkView | null;
   sheetChanges?: SiteChanges | null;
   canEdit?: boolean;
+  /** What the booked venue holds, for the stage header's fit line. */
+  venueCapacity?: number | null;
+  /** The Budget's estimate of one more guest, for the tier costs. */
+  costPerGuest?: number | null;
+  today?: string;
 }) {
   // Street address is the field that matters for posting an invitation; a
   // guest with a city but no street still can't be mailed anything.
@@ -95,7 +104,26 @@ export function GuestsPageBody({
   // margins. See src/lib/layout.ts for the widths.
   return (
     <div className={`w-full ${FULL_WIDTH}`}>
-      <PageHeader eyebrow="Guests" title="Everyone you" accent="want there" photo="guests">
+      {/* Where the list stands sits inside the header card, so the page
+          opens on one card rather than a header and a second panel. */}
+      <PageHeader
+        eyebrow="Guests"
+        title="Everyone you"
+        accent="want there"
+        photo="guests"
+        toolbar={
+          guests.length > 0 ? (
+            <StageHeader
+              guests={guests}
+              venueCapacity={venueCapacity}
+              costPerGuest={costPerGuest}
+              rsvpDeadline={wedding.rsvp_deadline}
+              today={today}
+              bare
+            />
+          ) : undefined
+        }
+      >
         Addresses, RSVPs and meals in one list, with the counts kept for you.
       </PageHeader>
       <RsvpMilestone confirmed={guests.filter((g) => g.status === "confirmed").length} weddingId={wedding.id} />
@@ -127,12 +155,14 @@ export function GuestsPageBody({
               sideBColor={wedding.side_b_color}
               sideBothColor={wedding.side_both_color}
               mealOptions={wedding.meal_options}
+              publicSlug={wedding.public_slug}
+              canEdit={canEdit}
             />
           </div>
 
           {/* Sticky, so it stays beside the list as you scroll 270 rows
               rather than ending halfway down and leaving a column of nothing. */}
-          <div className="order-first min-w-0 lg:order-none lg:sticky lg:top-4 lg:col-span-4 lg:max-h-[calc(100vh-2rem)] lg:overflow-y-auto xl:col-span-3">
+          <div id="invitations" className="order-first min-w-0 scroll-mt-4 lg:order-none lg:sticky lg:top-4 lg:col-span-4 lg:max-h-[calc(100vh-2rem)] lg:overflow-y-auto xl:col-span-3">
             <TabbedCard
               title="Invitations & RSVPs"
               description="Three ways to reach your guests — collect their addresses, email them the link, or chase the ones who haven't replied."

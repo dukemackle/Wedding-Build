@@ -44,6 +44,15 @@ export type SearchShellView = {
   fullPage?: boolean;
 };
 
+/**
+ * Folds the view pills into one menu on desktop, with links of its own
+ * (Messages), for a bar with too many pills to fit. A phone keeps the pills.
+ */
+export type SearchShellViewsMenu = {
+  label: string;
+  links?: { href: string; label: string; badge?: number }[];
+};
+
 export type SearchShellProps = {
   search: { value: string; onChange: (value: string) => void; placeholder: string };
   /** The filter pills. */
@@ -56,6 +65,8 @@ export type SearchShellProps = {
    * above the browser reachable without spending screen on it.
    */
   views?: SearchShellView[];
+  /** On desktop, the views (and these links) in one menu instead of pills. */
+  viewsMenu?: SearchShellViewsMenu;
   resultCount: number;
   /**
    * Everything the filters match, when the list is narrowed further to what
@@ -92,6 +103,7 @@ export function SearchShell({
   activeFilterCount,
   onClearFilters,
   views = [],
+  viewsMenu,
   resultCount,
   totalCount,
   pageKey,
@@ -258,7 +270,7 @@ export function SearchShell({
       {/* Controls. A floating overlay on a phone, a solid bar on desktop --
           `lg:contents` drops these wrapper rows so their children become
           items of the bar itself. */}
-      <div ref={controlsRef} className={`pointer-events-none inset-x-0 top-0 z-[700] flex flex-col gap-2 p-3 lg:static ${gridOnly ? "static border-b border-hairline bg-card" : "absolute"} lg:z-auto lg:flex-row lg:items-center lg:gap-2 lg:border-b lg:border-hairline lg:bg-card lg:px-5 lg:py-2.5`}>
+      <div ref={controlsRef} className={`pointer-events-none inset-x-0 top-0 z-[700] flex flex-col gap-2 p-3 lg:static ${gridOnly ? "static border-b border-hairline bg-card" : "absolute"} lg:z-auto lg:flex-row lg:flex-wrap lg:items-center lg:gap-2 lg:border-b lg:border-hairline lg:bg-card lg:px-5 lg:py-2.5`}>
         <div className="pointer-events-auto flex items-center gap-2 lg:contents">
           <div className="relative min-w-0 flex-1 lg:w-60 lg:flex-none">
             <input
@@ -285,7 +297,16 @@ export function SearchShell({
               </button>
             )}
           </div>
-          <>{viewPills}</>
+          {viewsMenu && isDesktop ? (
+            <ViewsMenu
+              menu={viewsMenu}
+              views={views}
+              activeView={activeView}
+              onPick={(key) => setActiveView(key)}
+            />
+          ) : (
+            <>{viewPills}</>
+          )}
         </div>
         <div className="pointer-events-auto -mx-3 flex gap-2 overflow-x-auto px-3 pb-1 [scrollbar-width:none] lg:contents [&::-webkit-scrollbar]:hidden">
           {modeToggle}
@@ -384,6 +405,108 @@ function PagedGrid({
         </div>
       )}
     </>
+  );
+}
+
+/** The view pills as one menu, for a bar with no room for them all. */
+function ViewsMenu({
+  menu,
+  views,
+  activeView,
+  onPick,
+}: {
+  menu: SearchShellViewsMenu;
+  views: SearchShellView[];
+  activeView: string | null;
+  onPick: (key: string | null) => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  const active = views.find((v) => v.key === activeView) ?? null;
+  const badge = (menu.links ?? []).reduce((sum, l) => sum + (l.badge ?? 0), 0);
+
+  useEffect(() => {
+    if (!open) return;
+    function onDown(e: MouseEvent) {
+      if (!ref.current?.contains(e.target as Node)) setOpen(false);
+    }
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "Escape") setOpen(false);
+    }
+    document.addEventListener("mousedown", onDown);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onDown);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
+
+  const item = "flex w-full items-center justify-between gap-3 px-3.5 py-2 text-left text-sm text-forest hover:bg-parchment";
+
+  return (
+    <div ref={ref} className="relative shrink-0 lg:order-last">
+      <button
+        type="button"
+        aria-haspopup="menu"
+        aria-expanded={open}
+        onClick={() => setOpen((o) => !o)}
+        className={`flex items-center gap-1.5 whitespace-nowrap rounded-full border px-3 py-1.5 text-sm transition-colors ${
+          active ? "border-brass bg-brass text-ink" : "border-brass/50 bg-card text-brass hover:border-brass"
+        }`}
+      >
+        {active ? `${menu.label}: ${active.label}` : menu.label}
+        {badge > 0 && (
+          <span className="rounded-full bg-[#2243B6] px-1.5 text-[11px] font-semibold leading-4 text-white">{badge}</span>
+        )}
+        <svg aria-hidden viewBox="0 0 24 24" className={`h-3.5 w-3.5 transition-transform ${open ? "rotate-180" : ""}`} fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="m6 9 6 6 6-6" />
+        </svg>
+      </button>
+      {open && (
+        <div role="menu" className="absolute right-0 top-full z-[1000] mt-2 w-52 overflow-hidden rounded-xl border border-hairline bg-card py-1 shadow-lg">
+          {views.map((v) => (
+            <button
+              key={v.key}
+              type="button"
+              role="menuitemradio"
+              aria-checked={activeView === v.key}
+              onClick={() => {
+                onPick(activeView === v.key ? null : v.key);
+                setOpen(false);
+              }}
+              className={`${item} ${activeView === v.key ? "font-semibold" : ""}`}
+            >
+              <span>
+                <span aria-hidden className="mr-2">{v.icon}</span>
+                {v.label}
+              </span>
+              <span className="text-ink/50">{v.count}</span>
+            </button>
+          ))}
+          {menu.links?.map((l) => (
+            <a key={l.href} href={l.href} role="menuitem" className={item}>
+              <span>{l.label}</span>
+              {l.badge ? (
+                <span className="rounded-full bg-[#2243B6] px-1.5 text-[11px] font-semibold leading-4 text-white">{l.badge} new</span>
+              ) : null}
+            </a>
+          ))}
+          {active && (
+            <button
+              type="button"
+              role="menuitem"
+              onClick={() => {
+                onPick(null);
+                setOpen(false);
+              }}
+              className={`${item} border-t border-hairline text-brass`}
+            >
+              Back to all listings
+            </button>
+          )}
+        </div>
+      )}
+    </div>
   );
 }
 

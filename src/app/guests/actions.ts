@@ -21,6 +21,8 @@ import { findGuestByName, normalizeGuestName } from "@/lib/guest-match";
 import { requireEditableWedding } from "@/lib/wedding-access";
 import { withNotes } from "@/lib/guest-notes";
 import { trackEvent } from "@/lib/events";
+import { removeGuestPhotos } from "@/lib/guest-photos";
+import { personalRsvpPath } from "@/lib/invite-codes";
 
 const VALID_STATUSES: GuestStatus[] = ["invited", "confirmed", "declined", "pending"];
 const VALID_PRIORITIES: GuestPriority[] = ["must_invite", "would_like", "if_room"];
@@ -56,6 +58,8 @@ function guestFieldsFromForm(formData: FormData) {
       household: ((formData.get("household") as string) || "").trim() || null,
       email: ((formData.get("email") as string) || "").trim() || null,
       plus_one: formData.get("plus_one") === "on",
+      // Bringing one means allowed one (the 0141 trigger keeps that true too).
+      plus_one_allowed: formData.get("plus_one") === "on" || formData.get("plus_one_allowed") === "on",
       plus_one_name: ((formData.get("plus_one_name") as string) || "").trim() || null,
       status: status as GuestStatus,
       priority: priority as GuestPriority,
@@ -146,15 +150,19 @@ export async function deleteGuest(formData: FormData): Promise<{ error?: string 
 
   const guestId = formData.get("id") as string;
 
-  const { error } = await supabase
+  const { data: deleted, error } = await supabase
     .from("guests")
     .delete()
     .eq("id", guestId)
-    .eq("wedding_id", wedding.id);
+    .eq("wedding_id", wedding.id)
+    .select("photo_url")
+    .returns<{ photo_url: string | null }[]>();
 
   if (error) {
     return { error: error.message };
   }
+
+  await removeGuestPhotos(wedding.id, (deleted ?? []).map((guest) => guest.photo_url));
 
   revalidatePath("/guests");
   revalidatePath("/budget");
@@ -591,9 +599,9 @@ export async function approveRsvpSubmission(formData: FormData): Promise<{ error
   // than appearing on the list twice.
   const { data: existingGuests, error: guestsError } = await supabase
     .from("guests")
-    .select("id, name, household, side, guest_notes(notes)")
+    .select("id, name, household, side, photo_url, guest_notes(notes)")
     .eq("wedding_id", wedding.id)
-    .returns<(Pick<Guest, "id" | "name" | "household" | "side"> & { guest_notes: { notes: string | null } | null })[]>();
+    .returns<(Pick<Guest, "id" | "name" | "household" | "side" | "photo_url"> & { guest_notes: { notes: string | null } | null })[]>();
 
   if (guestsError) {
     return { error: guestsError.message };
@@ -606,7 +614,8 @@ export async function approveRsvpSubmission(formData: FormData): Promise<{ error
     plus_one_name: submission.plus_one_name,
     status: submission.status,
     meal: submission.meal,
-    photo_url: submission.photo_url,
+    // A repeat RSVP without a photo keeps the one the guest sent before.
+    photo_url: submission.photo_url ?? match?.photo_url ?? null,
     message: submission.message,
     song_request: submission.song_request,
     phone: submission.phone,
@@ -647,6 +656,11 @@ export async function approveRsvpSubmission(formData: FormData): Promise<{ error
     return { error: saveError.message };
   }
 
+  // A repeat RSVP with a new photo replaces the old one; its file goes too.
+  if (submission.photo_url && match?.photo_url && match.photo_url !== submission.photo_url) {
+    await removeGuestPhotos(wedding.id, [match.photo_url]);
+  }
+
   const { error: deleteError } = await supabase
     .from("rsvp_submissions")
     .delete()
@@ -671,16 +685,20 @@ export async function dismissRsvpSubmission(formData: FormData): Promise<{ error
 
   const submissionId = formData.get("submission_id") as string;
 
-  const { error } = await supabase
+  const { data: dismissed, error } = await supabase
     .from("rsvp_submissions")
     .delete()
     .eq("id", submissionId)
-    .eq("wedding_id", wedding.id);
+    .eq("wedding_id", wedding.id)
+    .select("photo_url")
+    .returns<{ photo_url: string | null }[]>();
 
   if (error) {
     return { error: error.message };
   }
 
+  // A dismissed RSVP's photo never reaches the guest list, so it goes too.
+  await removeGuestPhotos(wedding.id, (dismissed ?? []).map((row) => row.photo_url));
   revalidatePath("/guests");
   return {};
 }
@@ -774,7 +792,11 @@ export async function sendBulkRsvpInvites(
   }
 
   const coupleNames = [wedding.partner_a_name, wedding.partner_b_name].filter(Boolean).join(" & ");
-  const rsvpUrl = `${origin}/w/${wedding.public_slug}`;
+  const siteUrl = `${origin}/w/${wedding.public_slug}`;
+  // Each guest's own link opens their household's RSVP (0141); the site's
+  // address is the fallback before that migration has run.
+  const rsvpUrl = (guest: Guest) =>
+    guest.invite_code ? `${origin}${personalRsvpPath(wedding.public_slug!, guest.invite_code)}` : siteUrl;
   const resend = getResendClient();
 
   let sent = 0;
@@ -790,7 +812,7 @@ export async function sendBulkRsvpInvites(
         // nothing receives at the from address.
         replyTo: user.email,
         subject: `You're invited — RSVP for ${coupleNames || "our wedding"}`,
-        text: `Hi ${guest.name},\n\n${coupleNames || "We"} would love for you to join us! Please RSVP using the link below:\n\n${rsvpUrl}\n\nCan't wait to celebrate with you.`,
+        text: `Hi ${guest.name},\n\n${coupleNames || "We"} would love for you to join us! Please RSVP using your personal link below. It answers for your whole household:\n\n${rsvpUrl(guest)}\n\nCan't wait to celebrate with you.`,
       });
 
       if (sendError) {
@@ -858,7 +880,11 @@ export async function sendRsvpReminders(
   }
 
   const coupleNames = [wedding.partner_a_name, wedding.partner_b_name].filter(Boolean).join(" & ");
-  const rsvpUrl = `${origin}/w/${wedding.public_slug}`;
+  const siteUrl = `${origin}/w/${wedding.public_slug}`;
+  // Each guest's own link opens their household's RSVP (0141); the site's
+  // address is the fallback before that migration has run.
+  const rsvpUrl = (guest: Guest) =>
+    guest.invite_code ? `${origin}${personalRsvpPath(wedding.public_slug!, guest.invite_code)}` : siteUrl;
   const resend = getResendClient();
 
   let sent = 0;
@@ -872,7 +898,7 @@ export async function sendRsvpReminders(
         to: guest.email!,
         replyTo: user.email,
         subject: `Reminder: RSVP for ${coupleNames || "our wedding"}`,
-        text: `Hi ${guest.name},\n\nJust a friendly reminder to RSVP for ${coupleNames || "our wedding"} — we'd love to know if you can make it!\n\n${rsvpUrl}\n\nCan't wait to celebrate with you.`,
+        text: `Hi ${guest.name},\n\nJust a friendly reminder to RSVP for ${coupleNames || "our wedding"} — we'd love to know if you can make it! Your personal RSVP link:\n\n${rsvpUrl(guest)}\n\nCan't wait to celebrate with you.`,
       });
 
       if (sendError) {

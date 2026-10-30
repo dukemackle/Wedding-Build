@@ -1,12 +1,17 @@
 import type { ItineraryEvent } from "@/lib/supabase/types";
-import { formatFullDate, formatTime, sortByTime } from "@/lib/itinerary";
+import { AUDIENCES, audienceOf, formatFullDate, formatTime, sortByTime } from "@/lib/itinerary";
 
 export function PrintSheet({
   coupleNames,
+  eyebrow = "Wedding weekend schedule",
   events,
+  showAudience = false,
 }: {
   coupleNames: string;
+  eyebrow?: string;
   events: ItineraryEvent[];
+  /** The full sheet says who each event is for, so vendors know what's private. */
+  showAudience?: boolean;
 }) {
   const eventsByDate = new Map<string, ItineraryEvent[]>();
   for (const event of events) {
@@ -19,7 +24,7 @@ export function PrintSheet({
   return (
     <div className="rounded-lg border border-hairline bg-card p-6 shadow-sm sm:p-10 print:rounded-none print:border-0 print:p-0 print:shadow-none">
       <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">
-        Wedding weekend schedule
+        {eyebrow}
       </p>
       <h1 className="mt-2 font-display text-3xl font-semibold text-forest">
         {coupleNames || "Our Wedding"}
@@ -53,10 +58,18 @@ export function PrintSheet({
                           </span>
                         )}
                         <span className="text-ink">{event.title}</span>
+                        {showAudience && (
+                          <span className="font-mono-numbers text-[10px] uppercase tracking-wide text-ink/50">
+                            {AUDIENCES.find((a) => a.value === audienceOf(event))!.short}
+                          </span>
+                        )}
                       </div>
                       {event.location && (
                         <p className="mt-1 text-xs text-ink/50">{event.location}</p>
                       )}
+                      {event.people?.length ? (
+                        <p className="mt-1 text-xs text-ink/70">With {event.people.join(", ")}</p>
+                      ) : null}
                       {event.description && (
                         <p className="mt-1 text-sm text-ink/70">{event.description}</p>
                       )}

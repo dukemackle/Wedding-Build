@@ -621,11 +621,28 @@ export const HERO_LAYOUTS = [
   { id: "poster", label: "Poster", help: "Your names huge, poster-style, over your photo or on their own" },
   { id: "collage", label: "Collage", help: "Your banner and two gallery photos, layered, with your names beside them" },
   { id: "slideshow", label: "Slideshow", help: "Your photos slowly fading one into the next behind your names" },
-  { id: "invitation", label: "Invitation", help: "Your names and date worded like a printed invitation, on a paper card" },
+  { id: "invitation", label: "Invitation", help: "Your names and date worded like a printed invitation, on a paper card, under an arched photo" },
+  { id: "masthead", label: "Magazine cover", help: "Your photo wide, your names huge under it, the date and place in a row" },
+  { id: "postcard", label: "Postcard", help: "Your photo as a tilted postcard with a postmark, your names beside it" },
+  { id: "cover", label: "Photo cover", help: "Your photo across the whole screen, your names over its lower corner" },
+  { id: "initials", label: "Initials", help: "Your initials huge, your names and details beside them, a wide photo under" },
+  { id: "stamp", label: "Stamped", help: "Your photo in a white border with a round stamp of the year and place" },
 ] as const;
 
 /** The layouts that show the banner photo. */
-export const PHOTO_HEROES: readonly HeroLayoutId[] = ["full", "split", "framed", "collage", "slideshow"];
+export const PHOTO_HEROES: readonly HeroLayoutId[] = [
+  "full",
+  "split",
+  "framed",
+  "collage",
+  "slideshow",
+  "invitation",
+  "masthead",
+  "postcard",
+  "cover",
+  "initials",
+  "stamp",
+];
 
 /**
  * The mark above the couple's names: their initials, set in a frame drawn in
@@ -742,6 +759,13 @@ export function sceneById(id: string | null | undefined) {
  * line; "magazine" numbers the sections under heavy rules with big type and
  * the schedule as a table; "postcard" runs bold colour bands with wavy
  * edges, a ticket for each event and travel as postcards.
+ *
+ * The last four came with the template clean-up (approved 2026-10-27, seven
+ * templates in place of 29): "evening" is a dark, quiet centred page with
+ * fine accent rules and the days side by side; "photo" runs wide sections
+ * with the couple's photos full-bleed between them; "ledger" is minimal, each
+ * heading in a left column beside its section; "homestead" is rustic, with
+ * dashed rules and the schedule set like a dinner menu.
  */
 export const PAGE_STYLES = [
   { id: "cards", label: "Cards", help: "Each section in its own card" },
@@ -749,6 +773,10 @@ export const PAGE_STYLES = [
   { id: "invitation", label: "Invitation", help: "One centred column on paper, framed panels, the schedule down a centre line" },
   { id: "magazine", label: "Magazine", help: "Numbered sections under ruled lines, big type, the schedule as a table" },
   { id: "postcard", label: "Postcard", help: "Bold colour bands with wavy edges, a ticket for each event, postcards for travel" },
+  { id: "evening", label: "Evening", help: "A quiet centred page with fine rules, the days side by side" },
+  { id: "photo", label: "Photo-led", help: "Wide sections with your photos full-bleed between them" },
+  { id: "ledger", label: "Minimal", help: "Each heading in a column beside its section, lots of white space" },
+  { id: "homestead", label: "Homestead", help: "Dashed rules, framed cards, the schedule set like a dinner menu" },
 ] as const;
 
 export type PageStyleId = (typeof PAGE_STYLES)[number]["id"];
@@ -757,7 +785,19 @@ export const PAGE_STYLE_IDS = PAGE_STYLES.map((x) => x.id) as [PageStyleId, ...P
 
 /** The schedule's layout when the couple hasn't picked one: the page style's own. */
 export function defaultWeekendLayout(pageStyle: PageStyleId): WeekendLayoutId {
-  return { cards: "cards", storybook: "timeline", invitation: "centre", magazine: "list", postcard: "tickets" }[pageStyle] as WeekendLayoutId;
+  return (
+    {
+      cards: "cards",
+      storybook: "timeline",
+      invitation: "centre",
+      magazine: "list",
+      postcard: "tickets",
+      evening: "days",
+      photo: "days",
+      ledger: "list",
+      homestead: "menu",
+    } as const
+  )[pageStyle];
 }
 
 /** The photos' layout when the couple hasn't picked one: the page style's own. */
@@ -789,6 +829,8 @@ export const SECTION_LAYOUTS = {
     { id: "list", label: "List", help: "When, what and where in rows" },
     { id: "centre", label: "Centre line", help: "Events either side of a line down the middle" },
     { id: "tickets", label: "Tickets", help: "A ticket for each event, the time on its stub" },
+    { id: "days", label: "Day columns", help: "Each day a column with its name large, events under it" },
+    { id: "menu", label: "Menu", help: "Events and times joined by a dotted line, like a dinner menu" },
   ],
   photos: [
     { id: "spread", label: "Spread", help: "A grid with your first photo given double the room" },
@@ -920,6 +962,7 @@ export const PALETTES = [
   { id: "classic-white", name: "Classic white", family: "neutral", bg: "#ffffff", ink: "#1a1a1a", heading: "#1a1a1a", accent: "#5e5e5e" },
   { id: "ivory-black", name: "Ivory & ink", family: "neutral", bg: "#fbf9f4", ink: "#111111", heading: "#111111", accent: "#111111" },
   { id: "linen", name: "Linen", family: "neutral", bg: "#f2eee6", ink: "#2e2a24", heading: "#4a4237", accent: "#6b5f4c" },
+  { id: "ivory", name: "Ivory", family: "neutral", bg: "#faf7f0", ink: "#2a2723", heading: "#2a2723", accent: "#6f6249" },
   // Dark
   { id: "midnight-navy", name: "Midnight navy", family: "blue", bg: "#14203d", ink: "#f3ead8", heading: "#f3ead8", accent: "#e0b65a" },
   { id: "royal", name: "Royal", family: "blue", bg: "#1c2a6b", ink: "#fff7d6", heading: "#fff7d6", accent: "#ffd301" },
@@ -1018,7 +1061,7 @@ export const OPENINGS = [
   { id: "reveal", label: "Photo reveal", help: "Your photo opens out from the centre." },
 ] as const;
 
-/** What drifts over the page (Motion tab), all tinted with the theme's accent. */
+/** What drifts over the page (Motion tab), tinted with the theme's accent unless a colour is picked. */
 export const FALLING = [
   { id: "none", label: "Nothing" },
   { id: "petals", label: "Petals" },
@@ -1039,17 +1082,63 @@ export const FALLING = [
 export const FALLING_IDS = FALLING.map((f) => f.id) as [FallingId, ...FallingId[]];
 export type FallingId = (typeof FALLING)[number]["id"];
 
+/**
+ * The colour of what falls (Motion tab), separate from the site's accent so
+ * blush petals don't mean blush buttons. "natural" gives each kind its
+ * real-world colour; the rest are the wax seal's colours plus white, for
+ * dark pages.
+ */
+export const FALLING_COLORS = [
+  { id: "accent", label: "Match my colours", hex: null },
+  { id: "natural", label: "True to life", hex: null },
+  { id: "blush", label: "Blush", hex: "#c48a8e" },
+  { id: "gold", label: "Gold", hex: "#b8892b" },
+  { id: "sage", label: "Sage", hex: "#5f7356" },
+  { id: "navy", label: "Navy", hex: "#1f2c4f" },
+  { id: "white", label: "White", hex: "#ffffff" },
+] as const;
+
+export type FallingColorId = (typeof FALLING_COLORS)[number]["id"];
+export const FALLING_COLOR_IDS = FALLING_COLORS.map((c) => c.id) as [FallingColorId, ...FallingColorId[]];
+
+/** "True to life": what each kind is in the real world. Confetti is already multicoloured. */
+const NATURAL: Record<Exclude<FallingId, "none">, string | null> = {
+  petals: "#d9969c",
+  hearts: "#c4545f",
+  confetti: null,
+  rice: "#cdbf9c",
+  snow: "#9fc4dc",
+  leaves: "#b5562a",
+  rings: "#b8892b",
+  bubbles: "#00BFFE",
+  fireflies: "#FFD301",
+  lanterns: "#e0a100",
+  marigolds: "#e07a00",
+  sparklers: "#FFD301",
+  butterflies: "#d9731f",
+};
+
+/** The "True to life" swatch: a few of those colours at once. */
+export const NATURAL_SWATCH = "conic-gradient(#d9969c 0 25%, #e07a00 0 50%, #FFD301 0 75%, #00BFFE 0)";
+
+/** The colour to draw `kind` in, or null to keep the site's accent. */
+export function fallingTint(kind: FallingId, color: FallingColorId): string | null {
+  if (kind === "none" || color === "accent") return null;
+  if (color === "natural") return NATURAL[kind];
+  return FALLING_COLORS.find((c) => c.id === color)?.hex ?? null;
+}
+
 
 /**
  * The Motion tab's "Overall" choices. Each fills in every setting; changing
- * one afterwards makes it "Custom" -- worked out by comparing, not stored, so
+ * one afterwards makes it "Custom" (speed and the falling colour carry over) -- worked out by comparing, not stored, so
  * it can never disagree with the settings. Subtle is what the site did
  * before there was a Motion tab.
  */
 export const MOTION_PRESETS = {
-  none: { opening: "none", scroll: "none", photo: "still", falling: "none", ticking: false, flipboard: false, shimmer: false, confetti: false, speed: "normal" },
-  subtle: { opening: "none", scroll: "fade", photo: "zoom", falling: "none", ticking: true, flipboard: false, shimmer: false, confetti: false, speed: "normal" },
-  lively: { opening: "envelope", scroll: "zoom", photo: "zoom", falling: "petals", ticking: true, flipboard: false, shimmer: true, confetti: true, speed: "normal" },
+  none: { opening: "none", scroll: "none", photo: "still", falling: "none", ticking: false, flipboard: false, shimmer: false, confetti: false, speed: "normal", fallingColor: "accent" },
+  subtle: { opening: "none", scroll: "fade", photo: "zoom", falling: "none", ticking: true, flipboard: false, shimmer: false, confetti: false, speed: "normal", fallingColor: "accent" },
+  lively: { opening: "envelope", scroll: "zoom", photo: "zoom", falling: "petals", ticking: true, flipboard: false, shimmer: true, confetti: true, speed: "normal", fallingColor: "accent" },
 } as const satisfies Record<string, Motion>;
 
 export type MotionPreset = keyof typeof MOTION_PRESETS | "custom";
@@ -1057,7 +1146,7 @@ export type MotionPreset = keyof typeof MOTION_PRESETS | "custom";
 export function motionPreset(motion: Motion): MotionPreset {
   const match = (Object.keys(MOTION_PRESETS) as (keyof typeof MOTION_PRESETS)[]).find((key) =>
     (Object.keys(motion) as (keyof Motion)[]).every(
-      (k) => k === "speed" || motion[k] === MOTION_PRESETS[key][k],
+      (k) => k === "speed" || k === "fallingColor" || motion[k] === MOTION_PRESETS[key][k],
     ),
   );
   return match ?? "custom";
@@ -1074,6 +1163,8 @@ export const MOTION_SPEED = { slow: 1.5, normal: 1, fast: 0.6 } as const;
 export const TEXT_SLOTS = [
   { id: "hero.kicker", label: "Invitation line", words: true },
   { id: "hero.names", label: "Your names", words: false },
+  { id: "hero.date", label: "Date and place", words: false },
+  { id: "hero.countdown", label: "Countdown", words: false },
   { id: "rsvp.title", label: "RSVP heading", words: true },
   { id: "photos.title", label: "Photos heading", words: true },
   { id: "party.title", label: "Wedding party heading", words: true },
@@ -1098,6 +1189,17 @@ const LONG_TEXT_SLOTS = new Set<TextSlotId>(["venue.about"]);
 
 export function isLongTextSlot(slot: TextSlotId) {
   return LONG_TEXT_SLOTS.has(slot);
+}
+
+/**
+ * Slots that only resize, scaled whole (numbers, tiles and captions
+ * together) rather than by font size: the countdown sets its own faces and
+ * colours.
+ */
+const SIZE_ONLY_SLOTS = new Set<TextSlotId>(["hero.countdown"]);
+
+export function isSizeOnlySlot(slot: TextSlotId) {
+  return SIZE_ONLY_SLOTS.has(slot);
 }
 
 /** Most retyped words are a line; a paragraph slot gets room for a few. */
@@ -1244,6 +1346,7 @@ export const DEFAULT_SITE_DESIGN: SiteDesign = {
   scene: null,
   sceneTime: "day",
   pageStyle: "cards",
+  navigation: "tabs",
   layouts: DEFAULT_LAYOUTS,
   occasion: { kind: "wedding", since: null },
   sections: DEFAULT_SECTIONS,

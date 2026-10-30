@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { PageShell } from "@/components/page-shell";
-import { ALL_FONTS_HREF } from "@/lib/site-design";
 import { applyTemplate, TEMPLATES } from "@/lib/site-templates";
 import { DesignsHome } from "./designs-home";
 import { loadSiteDesigns } from "./load-designs";
@@ -32,20 +31,14 @@ export default async function GuestSiteDesignsPage() {
 
   return (
     <PageShell email={site.user.email ?? ""} width="wide">
-      {/* The thumbnails are drawn in each design's real faces. */}
-      <link rel="stylesheet" href={ALL_FONTS_HREF} precedence="default" />
       <DesignsHome
         designs={site.designs}
-        starters={TEMPLATES.slice(0, 5).map((t) => ({
+        starters={TEMPLATES.map((t) => ({
           id: t.id,
           name: t.name,
-          tags: t.tags,
+          blurb: t.blurb,
           design: applyTemplate(site.base, t),
         }))}
-        templateCount={TEMPLATES.length}
-        names={site.names}
-        dateLine={site.dateLine}
-        photoUrl={site.photoUrl}
         liveUrl={site.liveUrl}
       />
     </PageShell>

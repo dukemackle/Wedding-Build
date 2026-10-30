@@ -8,10 +8,14 @@ import { createPortal } from "react-dom";
 import { VenueTypeIcon } from "@/components/venue-type-icon";
 import { VendorCategoryIcon } from "@/components/vendor-category-icon";
 import { WrenMotto } from "@/components/wren-motto";
+import { WrenBirdIcon } from "@/components/icons";
+import { planSeating } from "@/lib/auto-seat";
 import { AskWrenTile } from "@/app/dashboard/ask-wren-tile";
 import {
   DEFAULT_SITE_DESIGN,
   FALLING,
+  FALLING_COLORS,
+  NATURAL_SWATCH,
   PALETTES,
   THEMES,
   fontById,
@@ -22,12 +26,26 @@ import {
   type FallingId,
   type OrnamentId,
   type ThemeId,
+  type FallingColorId,
 } from "@/lib/site-design";
 import { Falling, useReducedMotion } from "@/components/site-motion";
 import { SiteOrnament } from "@/components/site-ornament";
 import { ConfirmedChip } from "@/components/confirmed-badge";
+import { DayList, DayTimeline } from "@/components/itinerary-timeline";
+import { findFlags, type TimelineEvent } from "@/lib/itinerary";
+import type { EventAudience } from "@/lib/supabase/types";
 import { SAMPLE_GALLERY } from "@/lib/sample-photos";
 import { CHECKLIST_PHASES, CHECKLIST_TEMPLATE } from "@/lib/checklist-template";
+import {
+  DueChip,
+  HereBadge,
+  ProgressRing,
+  StageIcon,
+  StageLine,
+  StageNode,
+  TaskTick,
+  type StageState,
+} from "@/components/checklist-ui";
 import {
   AttireIcon,
   BarIcon,
@@ -474,9 +492,9 @@ const SIDE_COLORS: Record<SideKey, string> = {
   both: "#00BFFE",
 };
 
-const SEAT_GUESTS: { name: string; side: SideKey; plusOne?: boolean }[] = [
-  { name: "Aunt May", side: "a" },
-  { name: "Uncle Joe", side: "a", plusOne: true },
+const SEAT_GUESTS: { name: string; side: SideKey; plusOne?: boolean; household?: string }[] = [
+  { name: "Aunt May", side: "a", household: "May & Joe" },
+  { name: "Uncle Joe", side: "a", plusOne: true, household: "May & Joe" },
   { name: "Priya S.", side: "b" },
   { name: "Marcus T.", side: "b" },
   { name: "Grandma Rose", side: "a" },
@@ -492,12 +510,35 @@ const SEAT_TABLES = [
   { id: "t4", name: "Table 4", round: true, cap: 8, x: 73, y: 68, w: 21, h: 0 },
 ];
 
+// The same rooms the real plan offers, reduced to a floor and a table look.
+const DEMO_ROOMS = {
+  barn: {
+    floor: "repeating-linear-gradient(0deg, #c99a68 0 10px, #b98a5a 10px 11px, #c4935f 11px 21px, #a97c4f 21px 22px)",
+    table: "#b98a5a",
+    edge: "#7a5232",
+    chair: "#8a5d36",
+    dance: "repeating-conic-gradient(#a06c40 0 25%, #8e5e36 0 50%) 0 0 / 14px 14px",
+    danceInk: "#fff6d6",
+  },
+  ballroom: {
+    floor: "radial-gradient(circle, #2243B6 0 1.5px, transparent 2px) 0 0 / 22px 22px, #1d2d63",
+    table: "#ffffff",
+    edge: "#d9b44a",
+    chair: "#d9b44a",
+    dance: "repeating-conic-gradient(#f6f3ec 0 25%, #e7e0cf 0 50%) 0 0 / 18px 18px",
+    danceInk: "#9a6b00",
+  },
+} as const;
+
 function SeatingDemo() {
+  const [room, setRoom] = useState<keyof typeof DEMO_ROOMS>("barn");
+  const look = DEMO_ROOMS[room];
   const [seats, setSeats] = useState<Record<string, string>>({
     "Priya S.": "t2",
     "Lena O.": "head",
   });
   const [picked, setPicked] = useState<string | null>(null);
+  const [ceremony, setCeremony] = useState(false);
 
   const seat = (name: string, table: string | null) => {
     if (!name) return;
@@ -521,13 +562,41 @@ function SeatingDemo() {
 
   const unseated = SEAT_GUESTS.filter((g) => !seats[g.name]);
 
+  // The real "Seat the rest" rules, run on the demo's guests and tables.
+  const seatTheRest = () => {
+    const plan = planSeating(
+      SEAT_GUESTS.map((g) => ({
+        id: g.name,
+        name: g.name,
+        household: g.household ?? null,
+        side: g.side,
+        guest_type: null,
+        plus_one: !!g.plusOne,
+        table_id: seats[g.name] ?? null,
+      })),
+      SEAT_TABLES.map((t) => ({ id: t.id, name: t.name, capacity: t.cap })),
+    );
+    setSeats((s) => {
+      const next = { ...s };
+      for (const a of plan.assignments) for (const name of a.guestIds) next[name] = a.tableId;
+      return next;
+    });
+    setPicked(null);
+  };
+
   return (
     <Bleed>
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-hairline px-5 py-3 sm:px-8">
+      <div className="border-b border-hairline px-5 py-3 sm:px-8">
         <p className="text-sm text-ink/70">
           {unseated.length} of {SEAT_GUESTS.length} guests still unassigned.
         </p>
-        <div className="flex items-center gap-2">
+        <div className="mt-2 flex flex-wrap items-center gap-2">
+          <span className="hidden rounded-full bg-forest px-3 py-1.5 font-mono-numbers text-xs text-parchment sm:inline">
+            + Add table
+          </span>
+          <span className="hidden rounded-full border border-forest px-3 py-1.5 font-mono-numbers text-xs text-forest sm:inline">
+            Layouts
+          </span>
           <div className="inline-flex rounded-full border border-hairline bg-parchment p-1">
             {["Seating", "Whole Venue", "Rooms"].map((m, i) => (
               <span
@@ -540,16 +609,58 @@ function SeatingDemo() {
               </span>
             ))}
           </div>
-          <span className="hidden rounded-full bg-forest px-3 py-1.5 font-mono-numbers text-xs text-parchment sm:inline">
-            + Add table
+          <div className="inline-flex rounded-full border border-hairline bg-parchment p-1">
+            {(["barn", "ballroom"] as const).map((r) => (
+              <button
+                key={r}
+                type="button"
+                onClick={() => setRoom(r)}
+                aria-pressed={room === r}
+                className={`rounded-full px-3 py-1 text-xs capitalize ${
+                  room === r ? "bg-forest text-parchment" : "text-ink/60"
+                }`}
+              >
+                {r}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div className="mt-2 flex flex-wrap items-center gap-1.5">
+          <span className="mr-1 font-mono-numbers text-[10px] uppercase tracking-[0.2em] text-ink/50">
+            Event
           </span>
+          {["Ceremony", "Reception"].map((e, i) => {
+            const on = ceremony ? i === 0 : i === 1;
+            return (
+              <button
+                key={e}
+                type="button"
+                onClick={() => setCeremony(i === 0)}
+                aria-pressed={on}
+                className={`rounded-full border px-2.5 py-0.5 text-xs ${
+                  on ? "border-forest bg-forest text-parchment" : "border-hairline text-ink/70 hover:border-forest/40"
+                }`}
+              >
+                {e}
+              </button>
+            );
+          })}
         </div>
       </div>
 
+      {ceremony ? (
+        <CeremonyDemo look={look} room={room} />
+      ) : (
       <div className="flex flex-col gap-4 p-4 sm:px-8 md:flex-row md:items-start">
         {/* The plan: tables where they stand in the room. */}
-        <div className="relative aspect-[4/3] min-w-0 flex-1 rounded-lg border border-hairline bg-parchment">
-          <div className="absolute left-[34%] top-[40%] flex h-[22%] w-[32%] items-center justify-center rounded-md border-2 border-dashed border-forest/25 font-mono-numbers text-[10px] uppercase tracking-[0.15em] text-ink/40">
+        <div
+          className="relative aspect-[4/3] min-w-0 flex-1 rounded-lg border-[6px]"
+          style={{ background: look.floor, borderColor: room === "barn" ? "#5b3a22" : "#e7ddc4" }}
+        >
+          <div
+            className="absolute left-[34%] top-[40%] flex h-[22%] w-[32%] items-center justify-center rounded-sm font-mono-numbers text-[10px] uppercase tracking-[0.15em] shadow-md"
+            style={{ background: look.dance, color: look.danceInk }}
+          >
             Dance floor
           </div>
           {SEAT_TABLES.map((t) => {
@@ -563,12 +674,33 @@ function SeatingDemo() {
                   top: `${t.y}%`,
                   width: `${t.w}%`,
                   ...(t.round ? { aspectRatio: "1" } : { height: `${t.h}%` }),
+                  background: look.table,
+                  borderColor: picked ? undefined : look.edge,
                 }}
-                className={`absolute flex flex-col items-center justify-center gap-0.5 overflow-hidden border-2 bg-card p-1 text-center shadow-sm transition-colors ${
+                className={`absolute flex flex-col items-center justify-center gap-0.5 border-2 p-1 text-center shadow-md transition-colors ${
                   t.round ? "rounded-full" : "rounded-lg"
-                } ${picked ? "cursor-copy border-brass" : "border-forest/30"}`}
+                } ${picked ? "cursor-copy border-brass" : ""}`}
               >
-                <p className="text-[11px] font-medium leading-tight text-ink md:text-xs">
+                {/* Chairs round the table; a seated guest's chair takes their side's colour. */}
+                {Array.from({ length: t.cap }, (_, i) => {
+                  const a = (i / t.cap) * Math.PI * 2 - Math.PI / 2;
+                  const guest = here[i];
+                  const pos = t.round
+                    ? { left: `${50 + Math.cos(a) * 64}%`, top: `${50 + Math.sin(a) * 64}%` }
+                    : {
+                        left: `${((i % (t.cap / 2)) + 0.5) * (100 / (t.cap / 2))}%`,
+                        top: i < t.cap / 2 ? "-22%" : "122%",
+                      };
+                  return (
+                    <span
+                      key={i}
+                      aria-hidden
+                      className="absolute h-3.5 w-3.5 -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/70"
+                      style={{ ...pos, background: guest ? SIDE_COLORS[guest.side] : look.chair }}
+                    />
+                  );
+                })}
+                <p className="rounded-full bg-white/85 px-1.5 text-[11px] font-medium leading-tight text-ink md:text-xs">
                   {t.name}
                 </p>
                 <p className="font-mono-numbers text-[9px] text-ink/50 md:text-[10px]">
@@ -603,6 +735,18 @@ function SeatingDemo() {
               {unseated.length}
             </span>
           </div>
+          {unseated.length > 0 && (
+            <div className="border-b border-hairline p-3">
+              <button
+                type="button"
+                onClick={seatTheRest}
+                className="flex w-full items-center justify-center gap-2 rounded-lg bg-forest px-3 py-2 text-sm font-medium text-parchment hover:bg-forest/90"
+              >
+                <WrenBirdIcon className="h-4 w-4 text-wren" />
+                Seat the rest with Wren
+              </button>
+            </div>
+          )}
           {unseated.length === 0 ? (
             <p className="p-4 text-sm text-ink/60">Everyone has a seat.</p>
           ) : (
@@ -631,24 +775,81 @@ function SeatingDemo() {
           </p>
         </div>
       </div>
+      )}
     </Bleed>
+  );
+}
+
+/**
+ * The ceremony event: the "Classic aisle" ready-made layout, as it lands on
+ * the plan -- the arch, rows either side of the aisle, the front row kept
+ * for family.
+ */
+function CeremonyDemo({ look, room }: { look: (typeof DEMO_ROOMS)[keyof typeof DEMO_ROOMS]; room: keyof typeof DEMO_ROOMS }) {
+  const rows = 6;
+  const perSide = 6;
+  const side = (key: string) => (
+    <div key={key} className="flex flex-col gap-[6%]">
+      {Array.from({ length: rows }, (_, r) => (
+        <div key={r} className="relative flex gap-1">
+          {Array.from({ length: perSide }, (_, c) => (
+            <span key={c} aria-hidden className="h-3 w-3 rounded-sm sm:h-3.5 sm:w-3.5" style={{ background: r === 0 ? "#FFD301" : look.chair }} />
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+  return (
+    <div className="flex flex-col gap-4 p-4 sm:px-8 md:flex-row md:items-start">
+      <div
+        className="relative flex aspect-[4/3] min-w-0 flex-1 flex-col items-center rounded-lg border-[6px] pt-[5%]"
+        style={{ background: look.floor, borderColor: room === "barn" ? "#5b3a22" : "#e7ddc4" }}
+      >
+        <div className="flex w-full items-center justify-center">
+          <span className="rounded-full px-6 py-1.5 font-mono-numbers text-[10px] uppercase tracking-[0.15em] shadow-md" style={{ background: look.table, color: room === "barn" ? "#fff6d6" : "#14203d" }}>
+            Arch
+          </span>
+          <span className="absolute right-[5%] rounded-md bg-[#262626] sm:right-[14%] px-2 py-1 font-mono-numbers text-[9px] uppercase tracking-[0.15em] text-parchment">
+            Musicians
+          </span>
+        </div>
+        <span className="mt-[12%] rounded-full bg-forest/85 px-2 py-0.5 font-mono-numbers text-[9px] uppercase tracking-[0.15em] text-parchment">
+          Reserved for family
+        </span>
+        <div className="mt-2 flex h-[48%] gap-[9%]">
+          {side("left")}
+          {side("right")}
+        </div>
+      </div>
+      <div className="w-full shrink-0 rounded-lg border border-hairline bg-parchment p-4 md:w-60">
+        <p className="font-display text-lg font-semibold text-forest">Classic aisle</p>
+        <p className="mt-1 font-mono-numbers text-xs text-ink/70">6 rows of 12 · 72 chairs</p>
+        <p className="mt-0.5 text-xs text-ink/60">About 40 × 40 ft, 6 ft aisle</p>
+        <p className="mt-3 text-xs text-ink/60">
+          Pick a ready-made ceremony sized to your guest list: straight rows, angled rows or two aisles, with a unity table if you want one.
+        </p>
+      </div>
+    </div>
   );
 }
 
 /* ---------- Checklist ---------- */
 
 // The real stages and tasks, from the same template a new plan is built from,
-// dated back from a sample wedding.
-const DEMO_WEDDING = new Date("2027-06-12T00:00:00");
+// dated back from a sample wedding a year out, so the due chips show
+// their real colours (sky this month, gold within three, outlined later).
+function isoDate(d: Date) {
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+}
+const DEMO_WEDDING = new Date();
+DEMO_WEDDING.setMonth(DEMO_WEDDING.getMonth() + 12);
 const DEMO_STAGES = CHECKLIST_PHASES.slice(0, 4).map((phase) => ({
   ...phase,
   tasks: CHECKLIST_TEMPLATE.filter((t) => t.phase === phase.key)
     .slice(0, 4)
     .map((t) => ({
       title: t.title,
-      due: new Date(
-        DEMO_WEDDING.getTime() - t.weeksBefore * 7 * 86400000,
-      ).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }),
+      due: isoDate(new Date(DEMO_WEDDING.getTime() - t.weeksBefore * 7 * 86400000)),
     })),
 }));
 
@@ -660,6 +861,7 @@ function ChecklistDemo() {
         DEMO_STAGES[1].tasks[0].title,
       ]),
   );
+  const [justTicked, setJustTicked] = useState<string | null>(null);
   const [picked, setPicked] = useState<string | null>(null);
   const [openStages, setOpenStages] = useState<Set<string>>(new Set());
 
@@ -672,184 +874,155 @@ function ChecklistDemo() {
   const active = stages.find((s) => s.key === activeKey)!;
   const total = stages.reduce((n, s) => n + s.tasks.length, 0);
   const doneCount = stages.reduce((n, s) => n + s.done, 0);
+  const stateOf = (s: (typeof stages)[number]): StageState =>
+    s.isDone ? "done" : s.key === currentKey ? "here" : "todo";
 
-  const toggle = (title: string) =>
+  const toggle = (title: string) => {
+    setJustTicked(done.has(title) ? null : title);
     setDone((s) => {
       const next = new Set(s);
       if (next.has(title)) next.delete(title);
       else next.add(title);
       return next;
     });
+  };
 
   const row = (t: { title: string; due: string }) => {
     const on = done.has(t.title);
     return (
       <div
         key={t.title}
-        className="flex items-start gap-3 border-b border-hairline py-3 last:border-b-0"
+        className="flex items-start gap-3 border-b border-hairline py-3.5 last:border-b-0"
       >
-        <button
-          type="button"
-          onClick={() => toggle(t.title)}
-          aria-label={on ? "Mark as not done" : "Mark as done"}
-          className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border transition-colors ${
-            on ? "border-forest bg-forest text-parchment" : "border-hairline hover:border-forest"
-          }`}
-        >
-          {on && <Tick className="h-3 w-3" />}
-        </button>
-        <div className="flex min-w-0 flex-1 flex-wrap items-center gap-2">
-          <span className={on ? "text-ink/50 line-through" : "text-ink"}>
+        <TaskTick on={on} justTicked={justTicked === t.title} onClick={() => toggle(t.title)} />
+        <div className="flex min-w-0 flex-1 flex-wrap items-center gap-x-2.5 gap-y-1.5">
+          <span
+            className={`text-base font-medium sm:text-[17px] ${
+              on ? "text-ink/50 line-through decoration-[#FFD301] decoration-2" : "text-ink"
+            }`}
+          >
             {t.title}
           </span>
-          <span className="rounded-full border border-hairline px-2 py-0.5 text-xs text-ink/60">
-            Due {t.due}
-          </span>
+          <DueChip date={t.due} completed={on} />
         </div>
       </div>
     );
   };
 
-  const hereTag = (
-    <span className="font-mono-numbers text-[10px] uppercase tracking-[0.18em] text-brass">
-      You&apos;re here
-    </span>
-  );
-
   return (
     <div>
-      <div className="flex flex-wrap items-end justify-between gap-3 border-b border-hairline pb-4">
-        <div>
-          <p className="font-display text-2xl font-semibold text-forest">Your plan</p>
-          <p className="mt-1 text-sm text-ink/70">
-            {doneCount} of {total} tasks done
+      <div className="flex items-center gap-4 border-b border-hairline pb-4">
+        <ProgressRing done={doneCount} total={total} size={72} />
+        <div className="min-w-0 flex-1">
+          <p className="font-display text-[28px] font-semibold leading-tight text-forest">Your plan</p>
+          <p className="mt-0.5 text-[15px] text-ink/80">
+            <strong className="font-semibold text-ink">
+              {doneCount} of {total}
+            </strong>{" "}
+            tasks done
           </p>
-          <div className="mt-2 h-2 w-48 overflow-hidden rounded-full bg-forest/10">
-            <div
-              className="h-2 rounded-full bg-forest transition-[width]"
-              style={{ width: `${(doneCount / total) * 100}%` }}
-            />
-          </div>
         </div>
-        <span className="rounded-full bg-forest px-4 py-1.5 font-mono-numbers text-sm text-parchment">
-          + Add task
-        </span>
+        <span className="btn-primary pointer-events-none max-sm:hidden">+ Add task</span>
       </div>
 
-      {/* Phone: the stages as an accordion, the one you're on open. */}
-      <div className="mt-4 flex flex-col gap-3 md:hidden">
-        {stages.map((s) => {
-          const isCurrent = s.key === currentKey;
+      {/* Phone: the journey as one column, the stage you're on open. */}
+      <div className="mt-4 md:hidden">
+        {stages.map((s, i) => {
+          const state = stateOf(s);
+          const isCurrent = state === "here";
           const isOpen = isCurrent || openStages.has(s.key);
           return (
-            <section
-              key={s.key}
-              className={`rounded-md border p-4 ${
-                isCurrent
-                  ? "border-forest/30 bg-parchment"
-                  : s.isDone
-                    ? "border-hairline bg-parchment/40"
-                    : "border-hairline"
-              }`}
-            >
-              <button
-                type="button"
-                onClick={() =>
-                  !isCurrent &&
-                  setOpenStages((o) => {
-                    const next = new Set(o);
-                    if (next.has(s.key)) next.delete(s.key);
-                    else next.add(s.key);
-                    return next;
-                  })
-                }
-                className="flex w-full items-baseline justify-between gap-3 text-left"
-              >
-                <span className="min-w-0">
-                  {isCurrent && hereTag}
-                  <span
-                    className={`flex items-baseline gap-2 font-display text-xl font-semibold ${s.isDone ? "text-forest/60" : "text-forest"}`}
+            <section key={s.key} className="relative flex items-start gap-3.5 pb-4">
+              {i < stages.length - 1 && <StageLine done={s.isDone} left={13.5} top={34} />}
+              <StageNode state={state} num={String(i + 1)} size={30} />
+              <div className="min-w-0 flex-1">
+                {isCurrent ? (
+                  <>
+                    <HereBadge />
+                    <p className="mt-2 font-display text-2xl font-semibold leading-tight text-forest">
+                      {s.title}
+                    </p>
+                  </>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setOpenStages((o) => {
+                        const next = new Set(o);
+                        if (next.has(s.key)) next.delete(s.key);
+                        else next.add(s.key);
+                        return next;
+                      })
+                    }
+                    className="flex min-h-11 w-full items-center justify-between gap-2.5 text-left"
                   >
-                    {s.isDone && <Tick className="h-4 w-4 self-center" />}
-                    {s.title}
-                  </span>
-                </span>
-                <span className="shrink-0 font-mono-numbers text-xs text-ink/50">
-                  {isCurrent ? `${s.left} left` : s.isDone ? `${s.done} done` : s.left}
-                </span>
-              </button>
-              {isOpen && <div className="mt-2">{s.tasks.map(row)}</div>}
+                    <span
+                      className={`font-display text-xl font-semibold ${s.isDone ? "text-forest/60" : "text-forest"}`}
+                    >
+                      {s.title}
+                    </span>
+                    <span className="shrink-0 font-mono-numbers text-xs text-ink/70">
+                      {s.isDone ? `${s.done} done` : `${s.left} to do`}
+                    </span>
+                  </button>
+                )}
+                {isOpen && <div className="mt-1">{s.tasks.map(row)}</div>}
+              </div>
             </section>
           );
         })}
       </div>
 
-      {/* Wide: the whole arc down the side, the stage you're on beside it. */}
-      <div className="mt-5 hidden md:grid md:grid-cols-[220px_1fr] md:gap-8">
-        <nav className="flex flex-col gap-0.5 border-r border-hairline pr-5">
-          {stages.map((s) => (
+      {/* Wide: the whole journey down the side, the stage you're on beside it. */}
+      <div className="mt-5 hidden md:grid md:grid-cols-[240px_1fr] md:gap-7">
+        <nav className="border-r border-hairline pr-4">
+          {stages.map((s, i) => (
             <button
               key={s.key}
               type="button"
               onClick={() => setPicked(s.key)}
-              className={`rounded-md px-3 py-2 text-left transition-colors ${
-                s.key === activeKey ? "bg-forest/10" : "hover:bg-parchment"
+              className={`relative flex w-full items-start gap-3.5 rounded-xl pb-4 pl-1 pr-2 pt-2 text-left transition-colors ${
+                s.key === activeKey ? "bg-[#f3f5fc]" : "hover:bg-parchment"
               }`}
             >
-              <span
-                className={`flex items-center gap-1.5 font-display text-base ${
-                  s.key === activeKey
-                    ? "font-semibold text-forest"
-                    : s.isDone
-                      ? "text-forest/55"
-                      : "text-ink/75"
-                }`}
-              >
-                {s.isDone && <Tick className="h-4 w-4" />}
-                {s.title}
-              </span>
-              <span className="mt-0.5 block font-mono-numbers text-[11px] text-ink/45">
-                {s.isDone
-                  ? `${s.done} done`
-                  : s.key === currentKey
-                    ? `${s.left} left · you're here`
-                    : `${s.left} to do`}
+              {i < stages.length - 1 && <StageLine done={s.isDone} left={18.5} top={44} />}
+              <StageNode state={stateOf(s)} num={String(i + 1)} />
+              <span className="min-w-0 pt-0.5">
+                <span
+                  className={`block font-display text-lg font-semibold leading-tight ${
+                    s.isDone && s.key !== activeKey ? "text-forest/60" : "text-forest"
+                  }`}
+                >
+                  {s.title}
+                </span>
+                <span className="mt-0.5 block font-mono-numbers text-xs text-ink/70">
+                  {s.isDone
+                    ? `${s.done} done`
+                    : s.key === currentKey
+                      ? `${s.left} left · you're here`
+                      : `${s.left} to do`}
+                </span>
               </span>
             </button>
           ))}
         </nav>
         <div className="min-w-0">
-          {active.key === currentKey && hereTag}
-          <p
-            className={`flex items-center gap-2 font-display text-2xl font-semibold ${active.isDone ? "text-forest/60" : "text-forest"}`}
-          >
-            {active.isDone && <Tick className="h-5 w-5" />}
-            {active.title}
-          </p>
-          <p className="mt-1 text-sm text-ink/65">
+          <div className="flex items-start gap-4">
+            <StageIcon phase={active.key} size={52} />
+            <div className="min-w-0">
+              {active.key === currentKey && <HereBadge />}
+              <p className="mt-1.5 font-display text-[30px] font-semibold leading-tight text-forest">
+                {active.title}
+              </p>
+            </div>
+          </div>
+          <p className="mt-2 text-[15px] text-ink/75">
             {active.isDone ? active.doneBlurb : active.blurb}
           </p>
-          <div className="mt-3">{active.tasks.map(row)}</div>
+          <div className="mt-2">{active.tasks.map(row)}</div>
         </div>
       </div>
     </div>
-  );
-}
-
-function Tick({ className = "" }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      aria-hidden="true"
-      className={`shrink-0 ${className}`}
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2.6"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="m5 13 4 4L19 7" />
-    </svg>
   );
 }
 
@@ -941,11 +1114,21 @@ function RsvpDemo() {
       </div>
       <div className="min-w-0 rounded-lg border border-hairline bg-card p-4 shadow-sm">
         <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-hairline pb-3">
-          <p className="text-sm text-ink/70">
-            <span className="font-mono-numbers text-2xl text-forest">{confirmed}</span>{" "}
-            confirmed
-            <span className="hidden text-ink/45 sm:inline"> · feeds your Budget guest count</span>
-          </p>
+          {/* The real page's stage header, invites-out stage, in miniature. */}
+          <div className="flex min-w-0 flex-1 flex-col gap-2">
+            <p className="text-sm text-ink/70">
+              <span className="font-display text-3xl font-semibold leading-none text-forest">{confirmed}</span>{" "}
+              coming so far
+              <span className="hidden text-ink/45 sm:inline"> · feeds your Budget guest count</span>
+            </p>
+            <div className="flex h-2.5 max-w-xs overflow-hidden rounded-full bg-[#F3F1EC]" aria-hidden="true">
+              <div className="bg-[#2243B6]" style={{ width: `${(confirmed / DEMO_GUESTS.length) * 100}%` }} />
+              <div
+                className="bg-[#8A90A0]"
+                style={{ width: `${(DEMO_GUESTS.filter((g) => status[g.name] === "declined").length / DEMO_GUESTS.length) * 100}%` }}
+              />
+            </div>
+          </div>
           <div className="flex gap-2">
             <span className="rounded-full bg-forest px-3 py-1 font-mono-numbers text-xs text-parchment">
               + Add guest
@@ -1049,6 +1232,14 @@ function RsvpDemo() {
             ))}
           </ul>
         )}
+        {/* Personal RSVP links (0141): a household's answers skip the queue. */}
+        <div className="mt-3 rounded-md border border-forest/30 bg-forest/5 p-3">
+          <p className="text-sm font-medium text-ink">The Alvarez household</p>
+          <p className="text-xs text-ink/60">3 coming · 1 can&apos;t make it · via their invitation link</p>
+          <p className="mt-1 font-mono-numbers text-[10px] uppercase tracking-[0.15em] text-forest">
+            Already on your list
+          </p>
+        </div>
       </div>
     </div>
   );
@@ -1581,115 +1772,107 @@ function AttireDemo() {
 
 /* ---------- Itinerary ---------- */
 
-const DAYS = [
+type DemoEvent = TimelineEvent & { audience: EventAudience };
+const ev = (
+  id: string,
+  start: string,
+  end: string | null,
+  title: string,
+  location: string,
+  audience: EventAudience,
+  people: string[] = [],
+): DemoEvent => ({ id, title, start_time: start, end_time: end, location, audience, people });
+
+const DAYS: { date: string; short: string; label: string; events: DemoEvent[] }[] = [
   {
-    date: 11,
-    label: "Friday, June 11",
+    date: "2027-06-11",
+    short: "Fri · Jun 11",
+    label: "Day before",
     events: [
-      { time: "5:00 – 6:00 PM", title: "Rehearsal", where: "Juniper Barn" },
-      { time: "6:30 PM", title: "Rehearsal dinner", where: "The Honey Pot" },
+      ev("r1", "17:00", "18:00", "Rehearsal", "Juniper Barn", "party"),
+      ev("r2", "18:30", "21:00", "Rehearsal dinner", "The Honey Pot", "guests"),
     ],
   },
   {
-    date: 12,
-    label: "Saturday, June 12",
-    wedding: true,
+    date: "2027-06-12",
+    short: "Sat · Jun 12",
+    label: "Wedding day",
     events: [
-      { time: "10:00 AM", title: "Hair & makeup", where: "Bridal suite" },
-      { time: "2:00 PM", title: "First look & photos", where: "The orchard" },
-      { time: "4:00 – 4:30 PM", title: "Ceremony", where: "Juniper Barn lawn" },
-      { time: "6:00 PM", title: "Dinner & toasts", where: "The barn" },
+      ev("w1", "10:00", "13:00", "Hair & makeup", "Bridal suite", "party", ["Glow Studio", "Bridesmaids"]),
+      ev("w2", "13:30", "14:30", "First look & photos", "The orchard", "private"),
+      ev("w3", "14:30", "16:10", "Family photos", "Barn lawn", "party", ["Lena Ortiz Photo", "Both families"]),
+      ev("w4", "15:30", "16:00", "Guests arrive", "Front terrace", "guests"),
+      ev("w5", "16:00", "16:30", "Ceremony", "Juniper Barn lawn", "guests"),
+      ev("w6", "16:30", "17:30", "Cocktail hour", "The terrace", "guests"),
+      ev("w7", "18:00", "19:30", "Dinner & toasts", "The barn", "guests", ["Caterer", "DJ"]),
     ],
   },
   {
-    date: 13,
-    label: "Sunday, June 13",
-    events: [{ time: "10:30 AM", title: "Farewell brunch", where: "Harbor House" }],
+    date: "2027-06-13",
+    short: "Sun · Jun 13",
+    label: "Day after",
+    events: [ev("b1", "10:30", "12:30", "Farewell brunch", "Harbor House", "guests")],
   },
 ];
 
 function ItineraryDemo() {
-  const [picked, setPicked] = useState(12);
-  // June 2027 starts on a Tuesday.
-  const cells = [
-    ...Array.from({ length: 2 }, () => null),
-    ...Array.from({ length: 30 }, (_, i) => i + 1),
-  ];
+  const [picked, setPicked] = useState("2027-06-12");
+  const [selected, setSelected] = useState<string | null>("w3");
+  const [guestView, setGuestView] = useState(false);
+  const day = DAYS.find((d) => d.date === picked)!;
+  const flags = findFlags(day.events);
+  const flagged = new Set(flags.map((f) => f.eventId));
+  const pick = (e: DemoEvent) => setSelected(e.id);
   return (
-    <div className="grid gap-5 md:grid-cols-[210px_1fr]">
-      <div className="hidden rounded-lg border border-hairline bg-card p-4 shadow-sm md:block">
-        <p className="font-display text-lg font-semibold text-forest">June 2027</p>
-        <div className="mt-2 grid grid-cols-7 gap-y-1 text-center font-mono-numbers text-[10px] text-ink/40">
-          {["S", "M", "T", "W", "T", "F", "S"].map((d, i) => (
-            <span key={i}>{d}</span>
-          ))}
-        </div>
-        <div className="mt-1 grid grid-cols-7 gap-y-1 text-center font-mono-numbers text-xs">
-          {cells.map((d, i) => {
-            const has = DAYS.some((x) => x.date === d);
-            return d == null ? (
-              <span key={i} />
-            ) : (
-              <button
-                key={i}
-                type="button"
-                onClick={() => has && setPicked(d)}
-                className={`relative mx-auto flex h-7 w-7 items-center justify-center rounded-full ${
-                  d === picked
-                    ? "bg-forest text-parchment"
-                    : d === 12
-                      ? "ring-1 ring-brass text-ink"
-                      : "text-ink/70"
-                }`}
-              >
-                {d}
-                {has && d !== picked && (
-                  <span className="absolute bottom-0.5 h-1 w-1 rounded-full bg-brass" />
-                )}
-              </button>
-            );
-          })}
-        </div>
-        <p className="mt-3 text-xs text-ink/50">Pick a date to add an event to that day.</p>
-      </div>
-
-      <div className="min-w-0">
-        <div className="mb-3 flex items-center justify-between gap-3">
-          <p className="text-sm text-ink/60">3 days scheduled, side by side below.</p>
-          <span className="shrink-0 whitespace-nowrap rounded-full bg-forest px-4 py-1.5 font-mono-numbers text-sm text-parchment">
-            + Add event
-          </span>
-        </div>
-        {/* Wide: the days as columns. Phone: the same columns, swiped. */}
-        <div className="-mx-5 flex snap-x gap-3 overflow-x-auto px-5 pb-2 sm:-mx-8 sm:px-8 md:mx-0 md:grid md:grid-cols-3 md:overflow-visible md:px-0">
-          {DAYS.map((day) => (
-            <div
-              key={day.date}
-              onClick={() => setPicked(day.date)}
-              className={`w-[78%] shrink-0 snap-start rounded-lg border bg-card p-3 shadow-sm transition-colors md:w-auto ${
-                picked === day.date ? "border-forest/50" : "border-hairline"
+    <div>
+      <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
+        <div className="flex gap-2" role="tablist" aria-label="Days">
+          {DAYS.map((d) => (
+            <button
+              key={d.date}
+              type="button"
+              role="tab"
+              aria-selected={d.date === picked}
+              onClick={() => setPicked(d.date)}
+              className={`rounded-xl border bg-card px-3 py-1.5 text-left ${
+                d.date === picked ? "border-forest ring-1 ring-forest" : "border-hairline"
               }`}
             >
-              <div className="mb-2 border-b border-hairline pb-2">
-                <p className="font-display text-base font-semibold text-forest">
-                  {day.label}
-                </p>
-                {day.wedding && (
-                  <span className="font-mono-numbers text-[11px] uppercase tracking-wide text-brass">
-                    Wedding day
-                  </span>
-                )}
-              </div>
-              {day.events.map((e) => (
-                <div key={e.title} className="border-b border-hairline py-2.5 last:border-b-0">
-                  <p className="font-mono-numbers text-[11px] text-brass">{e.time}</p>
-                  <p className="mt-0.5 text-sm text-ink">{e.title}</p>
-                  <p className="mt-0.5 text-xs text-ink/50">{e.where}</p>
-                  <p className="mt-1 text-xs text-brass">Add to calendar</p>
-                </div>
-              ))}
-            </div>
+              <span className="block text-[10px] uppercase tracking-wide text-ink/55">{d.short}</span>
+              <span className="font-display text-base font-semibold text-forest">{d.label}</span>
+            </button>
           ))}
+        </div>
+        <div className="inline-flex rounded-full border border-hairline bg-card p-0.5 text-xs" role="group" aria-label="Show">
+          {[
+            { on: false, label: "Everything" },
+            { on: true, label: "What guests see" },
+          ].map((o) => (
+            <button
+              key={o.label}
+              type="button"
+              aria-pressed={guestView === o.on}
+              onClick={() => setGuestView(o.on)}
+              className={`rounded-full px-3 py-1.5 transition-colors ${
+                guestView === o.on ? "bg-forest text-parchment" : "text-ink/60 hover:text-ink"
+              }`}
+            >
+              {o.label}
+            </button>
+          ))}
+        </div>
+      </div>
+      <div className="rounded-lg border border-hairline bg-card p-3 shadow-sm sm:p-4">
+        {flags.map((f) => (
+          <p key={f.eventId} className="mb-3 rounded-[10px] border border-[#f3dc7a] bg-[#fff8d6] px-3 py-2 text-xs font-medium text-ink">
+            {f.message} <span className="text-[#2243B6]">Move it and everything after in one go.</span>
+          </p>
+        ))}
+        <div className="hidden md:block">
+          <DayTimeline events={day.events} selectedId={selected} onSelect={pick} guestView={guestView} flagged={flagged} />
+        </div>
+        <div className="md:hidden">
+          <DayList events={day.events} selectedId={selected} onSelect={pick} guestView={guestView} flagged={flagged} />
         </div>
       </div>
     </div>
@@ -1707,6 +1890,7 @@ const BOOKED = [
     meta: "Bend, OR · $9,500",
     contact: "events@juniperbarn.com",
     contract: "juniper-barn-agreement.pdf",
+    photo: "/venue-types/barn-rustic.svg",
   },
   {
     key: "photo",
@@ -1716,6 +1900,7 @@ const BOOKED = [
     meta: "$4,000",
     contact: "(541) 555-0142",
     contract: "ortiz-photo-contract.pdf",
+    photo: "/vendor-types/photography.svg",
   },
   {
     key: "catering",
@@ -1725,6 +1910,7 @@ const BOOKED = [
     meta: "$10,200",
     contact: "hello@figandsalt.com",
     contract: null,
+    photo: "/vendor-types/catering.svg",
   },
 ];
 
@@ -1754,13 +1940,24 @@ function BookingsDemo() {
                   key={b.key}
                   className="flex flex-col rounded-lg border border-forest/30 bg-card p-4 shadow-sm"
                 >
-                  <p className="flex items-center gap-1.5 text-xs uppercase tracking-wide text-ink/50">
-                    <b.Icon className="h-3.5 w-3.5 text-brass" />
-                    {b.label}
-                  </p>
-                  <p className="mt-1 font-display text-xl font-semibold text-forest">{b.name}</p>
-                  <p className="mt-0.5 text-sm text-ink/60">{b.meta}</p>
-                  <p className="mt-1.5 text-sm text-brass">{b.contact}</p>
+                  <div className="flex items-start gap-3">
+                    <div className="min-w-0 flex-1">
+                      <p className="flex items-center gap-1.5 text-xs uppercase tracking-wide text-ink/50">
+                        <b.Icon className="h-3.5 w-3.5 text-brass" />
+                        {b.label}
+                      </p>
+                      <p className="mt-1 font-display text-xl font-semibold text-forest">{b.name}</p>
+                      <p className="mt-0.5 text-sm text-ink/60">{b.meta}</p>
+                      <p className="mt-1.5 truncate text-sm text-brass">{b.contact}</p>
+                    </div>
+                    <Image
+                      src={b.photo}
+                      alt={b.name}
+                      width={128}
+                      height={128}
+                      className="h-14 w-14 shrink-0 rounded-md border border-hairline object-cover shadow-sm"
+                    />
+                  </div>
                   <div className="mt-3">
                     {file ? (
                       <div className="flex items-center gap-2 rounded-md border border-hairline px-3 py-2">
@@ -1919,8 +2116,9 @@ function DemoArt({ src, color, phone }: { src: string; color: string; phone: boo
   );
 }
 
-// A few of the Motion tab's falling choices; the site has nine.
+// A few of the Motion tab's falling choices and colours; the site has more of each.
 const DEMO_FALLING = FALLING.filter((f) => ["none", "petals", "hearts", "snow", "fireflies"].includes(f.id));
+const DEMO_FALLING_COLORS = FALLING_COLORS.filter((c) => ["accent", "natural", "blush", "gold", "sage"].includes(c.id));
 
 // Theme font first, then a few the names cycle through when clicked.
 const DEMO_NAME_FONTS = [null, "greatvibes", "saintdelafield", "playfair"] as const;
@@ -1934,6 +2132,7 @@ function SiteDemo() {
   const [namesFont, setNamesFont] = useState(0);
   const [art, setArt] = useState<string | null>(DEMO_ART[0].id);
   const [falling, setFalling] = useState<FallingId>("petals");
+  const [fallingColor, setFallingColor] = useState<FallingColorId>("accent");
   const reduced = useReducedMotion();
   const palette = DEMO_PALETTES.find((p) => p.id === paletteId);
   // The real resolver, so the demo mixes cards and muted text the way the site does.
@@ -1954,7 +2153,7 @@ function SiteDemo() {
       </div>
       {/* Your designs: a few looks side by side, one of them live. */}
       <div className="flex gap-1.5 overflow-x-auto text-xs">
-        {["Heirloom", "Garden Party", "Lemon Grove"].map((name, i) => (
+        {["Heirloom", "Golden Hour", "Riviera"].map((name, i) => (
           <span
             key={name}
             className={`flex h-7 shrink-0 items-center gap-1.5 rounded-full px-2.5 ${
@@ -2066,6 +2265,22 @@ function SiteDemo() {
             {f.label}
           </button>
         ))}
+        {falling !== "none" &&
+          DEMO_FALLING_COLORS.map((c) => (
+            <button
+              key={c.id}
+              type="button"
+              title={c.label}
+              aria-label={`${c.label} colour`}
+              aria-pressed={c.id === fallingColor}
+              onClick={() => setFallingColor(c.id)}
+              className={`h-8 w-8 rounded-full ${c.id === fallingColor ? "ring-2 ring-[#2243B6] ring-offset-1" : "ring-1 ring-hairline"}`}
+              style={{
+                background:
+                  c.id === "natural" ? NATURAL_SWATCH : (c.hex ?? accent),
+              }}
+            />
+          ))}
       </div>
       <p className={eyebrow}>Monogram</p>
       <div className="flex flex-wrap gap-1.5">
@@ -2149,6 +2364,34 @@ function SiteDemo() {
                 </svg>
                 youdoido.com/w/juniper-and-sam
               </div>
+              {/* Tabs: a page per section, behind a Menu button on a phone. */}
+              <div
+                className="flex items-center gap-3 border-b px-3 py-2 text-[11px] transition-colors duration-500"
+                style={{ background: t.bg, color: t.ink, borderColor: `color-mix(in srgb, ${t.ink} 14%, transparent)`, fontFamily: t.body }}
+              >
+                <span className="truncate text-[13px]" style={{ fontFamily: t.display, color: heading }}>
+                  Juniper &amp; Sam
+                </span>
+                <span className="flex-1" />
+                {!phone &&
+                  ["Home", "Our story", "Schedule", "Travel", "Registry"].map((label, i) => (
+                    <span
+                      key={label}
+                      className="border-b-2 pb-0.5"
+                      style={{ borderColor: i === 0 ? accent : "transparent", opacity: i === 0 ? 1 : 0.7 }}
+                    >
+                      {label}
+                    </span>
+                  ))}
+                <span className="rounded-full px-2.5 py-0.5 font-medium" style={{ background: heading, color: t.bg }}>
+                  RSVP
+                </span>
+                {phone && (
+                  <span className="rounded-full border px-2 py-0.5" style={{ borderColor: `color-mix(in srgb, ${t.ink} 20%, transparent)` }}>
+                    ☰ Menu
+                  </span>
+                )}
+              </div>
               <div
                 className={`relative flex flex-col items-center gap-2 text-center transition-colors duration-500 ${phone ? "px-4 py-8" : "px-6 py-10"}`}
                 style={
@@ -2162,7 +2405,7 @@ function SiteDemo() {
                   } as React.CSSProperties
                 }
               >
-                {falling !== "none" && !reduced && <Falling kind={falling} speed={1} contained />}
+                {falling !== "none" && !reduced && <Falling kind={falling} color={fallingColor} speed={1} contained />}
                 <SiteOrnament kind={ornament} first="Juniper" second="Sam" />
                 <p className="font-mono-numbers text-[10px] uppercase tracking-[0.25em]" style={{ color: t.muted }}>
                   June 12, 2027 · Bend, Oregon
@@ -2331,7 +2574,7 @@ const PREVIEWS: Record<string, { heading: string; Demo: () => ReactNode }> = {
   attire: { heading: "Save what you love, then buy or rent", Demo: AttireDemo },
   itinerary: { heading: "The whole day, hour by hour", Demo: ItineraryDemo },
   "venue-layout": {
-    heading: "Seat your guests by dragging them to a table",
+    heading: "Set the room in a click, then seat everyone",
     Demo: SeatingDemo,
   },
   bookings: { heading: "Every booking, with its contract", Demo: BookingsDemo },
