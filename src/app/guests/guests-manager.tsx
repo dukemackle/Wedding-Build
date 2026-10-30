@@ -985,10 +985,13 @@ function sideRowStyle(guest: Guest, theme: SideTheme) {
 function SideColorKey({
   theme,
   current,
+  headcounts,
   onPicked,
 }: {
   theme: SideTheme;
   current: Record<GuestSide, string>;
+  /** Guests plus their plus-ones on each side, declined left out. */
+  headcounts: Record<GuestSide | "none", number>;
   /** So every row in the list repaints with the key, not just the key. */
   onPicked: (colors: Record<GuestSide, string>) => void;
 }) {
@@ -1037,9 +1040,15 @@ function SideColorKey({
           style={{ borderLeftColor: shown[side], backgroundColor: `${shown[side]}1F` }}
         >
           {theme.labels[side]}
+          <span className="font-mono-numbers text-ink">{headcounts[side]}</span>
           <span className="text-[10px] text-ink/45">Change ▾</span>
         </button>
       ))}
+      {headcounts.none > 0 && (
+        <span className="py-1">
+          No side <span className="font-mono-numbers text-ink/80">{headcounts.none}</span>
+        </span>
+      )}
       {error && <span className="text-red-800">{error}</span>}
 
       {editing && (
@@ -1599,6 +1608,13 @@ export function GuestsManager({
   const missingAddressCount = guestList.filter((g) => !g.address_line1).length;
 
   const unassignedSideCount = guestList.filter((g) => !g.side).length;
+  // People, not rows: a plus-one is a seat on that side too. Declined guests
+  // drop out so the split matches who's actually coming.
+  const sideHeadcounts: Record<GuestSide | "none", number> = { a: 0, b: 0, both: 0, none: 0 };
+  for (const g of guestList) {
+    if (g.status === "declined") continue;
+    sideHeadcounts[g.side ?? "none"] += g.plus_one ? 2 : 1;
+  }
   const unsortedCount = guestList.filter(isUnsorted).length;
   const unfinishedGuests = guestList.filter((g) => looksUnfinished(g.name));
 
@@ -1777,6 +1793,7 @@ export function GuestsManager({
         <SideColorKey
           theme={theme}
           current={theme.colors}
+          headcounts={sideHeadcounts}
           onPicked={(colors) => setPickedColors(colors)}
         />
         <div className="flex flex-wrap gap-2">

@@ -262,6 +262,24 @@ Golf Club of Estrella	11800 S Golf Club Dr	Goodyear	Arizona			Country Club & Gol
 AZ Talio Ranch	20585 E Price Rd	Florence	Arizona			Ranch	Outdoor	300	5000	Rental	400-acre desert ranch near Florence with a 15,000-square-foot pavilion, a bar area and electrical access for weddings and receptions.	reservations@aztalioranch.com	(520) 517-2073	https://www.aztalioranch.com/events
 `,
   },
+  {
+    name: "Arizona venues: Sedona, Prescott, Phoenix metro and Southern Arizona",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+Cozy Cactus	80 Canyon Circle Dr.	Sedona	Arizona			Ranch	Outdoor	50	8000	Package	A full-property buyout for micro-weddings and elopements, backed by national forest land with red rock views and trail access.	infocozycactus@gmail.com	928-284-0082	https://www.cozycactus.com/weddings
+Highlands Center for Natural History	1375 S Walker Rd	Prescott	Arizona			Garden & Park	Indoor & Outdoor	120			A nature-center campus with an open-air ramada, an amphitheater and an indoor classroom, rented for wedding ceremonies and receptions.		928-776-9550	https://highlandscenter.org/event-venues/
+Wickenburg Golf Club	1420 N. Country Club Drive	Wickenburg	Arizona			Country Club & Golf					A golf club that takes wedding inquiries through an online request form, with rates given on request.		928-684-2011	https://wickenburggolfclub.com/weddings/
+The Barn at OW Ranch	5413 N OW Ranch Rd	Young	Arizona			Barn & Farm	Indoor & Outdoor				A 72-acre ranch in the White Mountains with a restored 1800s post-and-beam barn, ponds and a stream, plus on-site lodging.			https://www.thebarnatowranch.com/
+C.O.D. Ranch	37 S COD Ranch Rd	Oracle	Arizona			Ranch	Indoor & Outdoor	250			Historic Southern Arizona guest ranch with indoor and outdoor event spaces, on-site casitas and farm-to-table catering for weddings.		(520) 850-2452	https://www.codranch.com/weddings-celebrations/
+Kingan Gardens	325 W. Franklin Street	Tucson	Arizona			Garden & Park	Indoor & Outdoor				Landmarked 1902 property in downtown Tucson's El Presidio neighborhood with a 15,000 sq ft walled garden and a restored carriage house for the wedding party.	info@kingangardens.com	(702) 523-6978	https://www.kingangardens.com/
+Site 17	840 E 17th St	Tucson	Arizona			Industrial Loft & Warehouse	Indoor				Vintage Tucson warehouse with wood beams, 18-foot ceilings and up to 8,000 sq ft where couples can bring their own food and drink or caterer.	site17eventcenter@gmail.com	520-624-1415	https://site17eventcenter.com/
+Steam Pump Ranch	10901 N Oracle Road	Oro Valley	Arizona			Ranch	Indoor & Outdoor				Town-owned historic desert ranch with an outdoor lawn and a private bridal suite, pitched as a budget-friendly wedding site.	recreation@orovalleyaz.gov	520-229-5050	https://www.orovalleyaz.gov/Government/Departments/Parks-and-Recreation/Facilities/Steam-Pump-Ranch
+Katie's Cozy Cabins	16 W. Allen Street	Tombstone	Arizona			Mountain & Lodge	Outdoor				Cabin lodging just outside historic Tombstone that offers intimate Western wedding ceremonies in an outdoor setting.	Office@cabinsintombstone.com	(520) 559-0464	https://cabinsintombstone.com/events-booking/
+Spirit Tree Inn	3 Harshaw Creek Rd	Patagonia	Arizona			Barn & Farm	Indoor & Outdoor				Bed and breakfast on 52 acres near Patagonia with a historic Amish barn and outdoor sites for weddings.	spiritreeinn@aol.com	(520) 401-0541	https://spirittreeinn.com/sierra-vista/
+Mt. Lemmon Hotel	12925 N. Sabino Canyon Parkway	Mt Lemmon	Arizona			Mountain & Lodge	Indoor & Outdoor		800	Package	Private wedding venue in the pines of Summerhaven, about 45 minutes up the Catalina Highway from Tucson, where the wedding party stays in the hotel's cabins.	customerservice@mtlemmonhotel.com	(520) 277-2478	https://mtlemmonhotel.com/tucson-wedding-venues/
+The Oliver House	26 Sowles Ave	Bisbee	Arizona			Historic Mansion & Estate	Indoor & Outdoor	50	200	Package	Historic mining-era Bisbee boarding house that hosts small garden weddings and elopements.	oliverhousebisbee@gmail.com	(520) 227-7837	https://oliverhousebisbee.com/
+Sanctuary Cove	8001 N Scenic Dr	Tucson	Arizona			Chapel & Church	Indoor & Outdoor	180	300	Rental	Quiet desert prayer and meditation grounds near Saguaro National Park West with a stone chapel and outdoor amphitheater for ceremonies.	management@sanctuarycove.org	(520) 744-2375	https://www.sanctuarycove.org/weddings
+`,
+  },
 ];
 
 export default batches;

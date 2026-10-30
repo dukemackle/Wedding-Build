@@ -99,9 +99,6 @@ export function SitePages({
     );
   }
 
-  const index = pages.indexOf(active);
-  const next = pages[index + 1];
-
   return (
     <>
       <SiteBar pages={pages} active={active.id} go={go} title={title} />
@@ -112,28 +109,56 @@ export function SitePages({
             <SectionLayout key={active.id} sections={sections} photos={photos} only={active.keys} />
           </div>
         )}
-        {pages.length > 1 && (
-          <div className="flex justify-center px-4 pb-16 pt-2">
-            <a
-              href={next ? `#${next.id}` : "#"}
-              onClick={(e) => {
-                e.preventDefault();
-                go(next ? next.id : "home");
-              }}
-              className="btn-motion inline-flex items-center gap-2 rounded-full border border-forest/30 px-5 py-2.5 text-sm font-medium text-forest transition-colors hover:bg-forest/5"
-            >
-              {next ? (
-                <>
-                  Next: {next.label} <span aria-hidden="true">→</span>
-                </>
-              ) : (
-                "Back to home"
-              )}
-            </a>
-          </div>
-        )}
+        {pages.length > 1 && <PageLinks pages={pages} active={active.id} go={go} />}
       </div>
     </>
+  );
+}
+
+/**
+ * Every tab again at the foot of the page, styled like the bar at the top,
+ * so a guest who has read to the bottom can go anywhere without scrolling
+ * back up. All of them show here (no "More"). Computer only: a phone has
+ * the Menu button.
+ */
+function PageLinks({ pages, active, go }: { pages: Page[]; active: string; go: (id: string) => void }) {
+  const rsvp = pages.find((p) => p.id === "rsvp");
+  const links = pages.filter((p) => p !== rsvp);
+  const pick = (id: string) => (e: MouseEvent) => {
+    e.preventDefault();
+    go(id);
+  };
+  return (
+    <nav aria-label="All pages" className="hidden justify-center px-4 pb-16 pt-6 lg:flex">
+      <ul className="flex flex-wrap items-center justify-center gap-1">
+        {links.map((p) => (
+          <li key={p.id}>
+            <a
+              href={p.id === "home" ? "#" : `#${p.id}`}
+              onClick={pick(p.id)}
+              aria-current={active === p.id ? "page" : undefined}
+              className={`relative block whitespace-nowrap rounded-md px-3 py-2 text-[15px] transition-colors after:absolute after:inset-x-3 after:bottom-0.5 after:h-0.5 after:rounded-full after:bg-[var(--site-accent)] after:transition-transform after:duration-200 motion-reduce:after:transition-none ${
+                active === p.id ? "text-forest after:scale-x-100" : "text-ink/70 after:scale-x-0 hover:text-forest"
+              }`}
+            >
+              {p.label}
+            </a>
+          </li>
+        ))}
+        {rsvp && (
+          <li className="ml-3">
+            <a
+              href="#rsvp"
+              onClick={pick("rsvp")}
+              aria-current={active === "rsvp" ? "page" : undefined}
+              className="btn-motion block rounded-full bg-forest px-4 py-1.5 text-sm font-medium text-parchment transition-colors hover:bg-forest/90"
+            >
+              RSVP
+            </a>
+          </li>
+        )}
+      </ul>
+    </nav>
   );
 }
 
