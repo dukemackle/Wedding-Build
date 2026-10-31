@@ -93,6 +93,18 @@ Lambert's Winery	190 Vineyard Drive	Weston	West Virginia			Vineyard & Winery	Ind
 The Peak Pavilion		Buckhannon	West Virginia			Garden & Park	Outdoor		1295	Rental	Open-air covered pavilion beside the Bicentennial Inn that hosts ceremonies and receptions, with the inn's Green Room as the indoor backup.		304-472-5000	https://peakpavilionwv.com/
 Parkersburg Art Center	725 Market Street	Parkersburg	West Virginia			Museum, Gallery & Rooftop	Indoor	300			Downtown art center whose third-floor Wharton Grande Ballroom seats 300 at tables, with a prep kitchen, elevator access and gallery rooms for smaller parties.	info@parkersburgartcenter.org	304-485-3859	https://www.parkersburgartcenter.org/rentalsvenues`,
   },
+  {
+    name: "West Virginia venues, Wheeling, Morgantown, Martinsburg, Greenbrier Valley and Charleston resorts",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+Wheeling Park White Palace		Wheeling	West Virginia			Ballroom	Indoor				Large pavilion ballroom at Wheeling Park with a smaller second-floor Veranda for petite weddings.		304-243-4060	https://oglebay.com/wheeling-park/venues/
+Almost Heaven Barn Weddings & Events	63 Jadewood Drive	Shinnston	West Virginia			Barn & Farm	Indoor & Outdoor	220	3000	Package	Climate-controlled barn with a covered side patio, offering weekend, single-day and Sunday packages.	almostheavenbarn@gmail.com		https://almostheavenbarn.com/
+Morgantown Marriott at Waterfront Place	Two Waterfront Place	Morgantown	West Virginia			Hotel & Resort	Indoor & Outdoor				Riverfront hotel with a ballroom, smaller salons and an outdoor terrace overlooking the Monongahela.		304-296-1700	https://www.marriott.com/hotels/event-planning/wedding-planning/mgwmc-morgantown-marriott-at-waterfront-place/
+Brix 27	131 North Queen Street	Martinsburg	West Virginia			Restaurant & Brewery	Indoor	140			Downtown Martinsburg restaurant and wine bar that hosts wedding receptions.	dine@brix27.com	304-616-1628	https://www.brix27.com
+Berry Hills Country Club	1 Berry Hills Road	Charleston	West Virginia			Country Club & Golf	Indoor & Outdoor	250			Charleston country club with a ballroom, wedding garden and garden lounge for ceremonies and receptions.	info@berryhillscc.com	304-744-1393	https://berryhillscc.com
+Coonskin Park Clubhouse	375 Henry C Hoppy Shores Drive	Charleston	West Virginia			Garden & Park	Indoor	150	250	Rental	County park clubhouse with the Hearth and Oak rooms, rented by the four-hour block for weddings and banquets.	brad@kcprc.com	304-341-8013	https://kcprc.com/activity/clubhouse-rentals/
+McCreery Conference & Event Center	320 2nd Ave	Hinton	West Virginia			Ballroom	Indoor	120	499	Rental	Hinton event center with a ballroom, lounge and dining room, rented by the half or full day.		304-466-8100	https://guesthousewv.com/mccreery-conference-event-center
+Winterplace Ski Resort	425 Winterplace Drive	Ghent	West Virginia			Mountain & Lodge	Indoor & Outdoor	300	750	Rental	Ski resort that rents a mid-mountain lodge with a deck, a slope-view lounge and a base-area hall for summer weddings.		304-787-3221	https://www.winterplace.com/summer-event-rental`,
+  },
 ];
 
 export default batches;
