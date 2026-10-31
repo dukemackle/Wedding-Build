@@ -409,6 +409,18 @@ Bestow Events	201 Main St	Longmont	Colorado			Industrial Loft & Warehouse	Indoor
 Pine Cone Avenue Social		Firestone	Colorado			Garden & Park	Outdoor				An outdoor venue on a family-run flower farm that hosts full weddings, microweddings and elopements.	Jennifer@PineConeSocial.com	970-215-9801	https://pineconesocial.com
 Dreams and Dragonflies	5194 County Road 50	Johnstown	Colorado			Barn & Farm	Indoor	100	5500	Package	A farm venue in Johnstown with a climate-controlled barn for receptions and views of the Rocky Mountains.		970-451-3309	https://www.dreamsanddragonflieseventcenter.com`,
   },
+  {
+    name: "Colorado depth: Front Range north, Denver south, mountains and Western Slope",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+Sage View Ranch	40881 Highway 133	Paonia	Colorado			Ranch	Outdoor				A ranch in the North Fork valley near Paonia that hosts intimate outdoor weddings and can sleep guests on site.			https://sageviewranch.com/destination-wedding
+Ridgewood Event Center	16000 Highway 140	Hesperus	Colorado			Ranch	Indoor & Outdoor	200			A wedding and event center about 20 minutes from Durango with a two-story barn, a high-peak tent, patios, lawns and several ceremony sites.	info@ridgewoodevents.com	(970) 385-4595	https://ridgewoodevents.com/
+Sutcliffe Vineyards	12174 Road G	Cortez	Colorado			Vineyard & Winery	Outdoor				A Cortez vineyard that specializes in intimate weddings, with outdoor ceremony and cocktail spots, dinner among the vines and an on-site dressing tower.	info@sutcliffewines.com	(970) 565-0825	https://sutcliffewines.com/weddings
+Echo Basin	43747 Road M	Mancos	Colorado			Ranch	Indoor & Outdoor				A Mancos property with outdoor ceremony sites by a pond and in a garden gazebo, plus an indoor banquet facility for receptions.		970.533.7000	https://echobasin.com/wedding-venue/
+Upper Larimer	3034 Larimer St	Denver	Colorado			Ballroom	Indoor & Outdoor	300			A restored 1888 RiNo building turned into a single grand ballroom with a deck, courtyard, parlor for getting ready and wedding packages.	FindYourCenter@UpperLarimer.com	(833) 303-3034	https://www.upperlarimer.com/wedding
+Three Trees Chapel	13416 W. Arbor Place	Littleton	Colorado			Chapel & Church	Indoor & Outdoor	200			An all-inclusive chapel set among pines and mountain cascades, offering weddings, receptions and elopements, plus an outdoor garden tent.		303-932-2278	https://www.threetreeschapel.com/
+Infinity Park Event Center	4400 East Kentucky Ave	Glendale	Colorado			Ballroom	Indoor	1200			A city-run events center whose International Ballroom hosts receptions from intimate banquets to large celebrations.	events@infinityparkeventcenter.com	(303) 248-7106	https://www.infinityparkeventcenter.com/wedding-reception-venue/
+Black Forest Meadows	17104 E Goshawk Rd	Colorado Springs	Colorado			Barn & Farm	Indoor & Outdoor				A nature-focused event property in Colorado Springs that offers weddings, private events and alpaca experiences.	info@blackforestmeadows.com		https://www.blackforestmeadows.com/`,
+  },
 ];
 
 export default batches;
