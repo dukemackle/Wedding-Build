@@ -201,6 +201,67 @@ Simplicity Hair Studio & Spa	Hair & Makeup	27 South Main Street	Concord	New Hamp
 Infinity Salon	Hair & Makeup	39 South St.	Concord	New Hampshire	Concord	Concord salon that styles wedding parties with updos and offers hair and makeup for the bride on the day.		(603) 856-5100	https://www.infinitysalon603.com/	
 `,
   },
+  {
+    name: "Portsmouth: florals, catering, cake, music, hair & makeup, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Kvitka Farm	Florals		Dover	New Hampshire	Seacoast NH, southern Maine, Massachusetts and wider New England	Farm-grown wedding florist in Dover creating seasonal, garden-style bouquets, ceremony flowers, centrepieces and installations for Seacoast couples.			https://www.kvitkafarm.com/		5500	package
+F as in Flowers	Florals		Exeter	New Hampshire	New Hampshire, southern Maine and Massachusetts	Boutique Exeter floral studio specialising in wedding and event flowers, designed by Lynn Curcio, who has around three decades of experience.	lynn@fasinflowers.com	(603) 686-0034	https://www.fasinflowers.com/	https://www.instagram.com/fasinflowers/		
+The White Apron	Catering	1 Washington Place, Suite 1124	Dover	New Hampshire	Seacoast NH	Dover caterer offering wedding menus built around each couple's story, with venue catering and chef menu consultations for dietary needs.	info@thewhiteapron.com	603-617-3555	https://www.thewhiteapron.com/	https://www.instagram.com/thewhiteapron/		
+Three Sisters Cake Shop	Cake	One Washington St, Suite 3142	Dover	New Hampshire	Seacoast NH	Dover bakery making wedding cakes alongside cupcakes and desserts, with tastings and consultations by appointment.	info@threesisterscakeshop.com	603-834-9978	https://www.threesisterscakeshop.com/	https://www.instagram.com/threesisterscakeshop/		
+Popovers On The Square	Cake		Hampton	New Hampshire	Greater Seacoast NH, delivering to northern Massachusetts and southern Maine	Bakery group whose Hampton commissary makes custom wedding cakes for the Seacoast, with a paid to-go tasting credited towards the cake order.			https://www.popoversonthesquare.com/	https://www.instagram.com/popoversportsmouthnh/		
+Seacoast DJ	Music		Hampton	New Hampshire	Hampton, Exeter, Portsmouth, Durham, Manchester and beyond	Hampton wedding DJ and MC offering ceremony audio, reception music, lighting and photo booths for couples around the Seacoast.		(603) 608-8790	https://seacoastdj.com/	https://www.instagram.com/seacoastdj/		
+KW Glam	Hair & Makeup		Portsmouth	New Hampshire	Seacoast NH, southern Maine, NH Lakes Region and wider New England	Portsmouth-based team providing on-site bridal and special-event hair and makeup across the Seacoast, southern Maine and wider New England.			https://www.katiewalshglam.com/	https://www.instagram.com/kwglam_/		
+Joya Beauty	Hair & Makeup		Portsmouth	New Hampshire	New Hampshire, Maine and Massachusetts	Portsmouth makeup artist and esthetician who applies full wedding-day makeup on location for weddings in New Hampshire, Maine and Massachusetts.		603-534-3412	https://www.joyabeauty.com/	https://www.instagram.com/joyabeautyusa/		
+Blush	Hair & Makeup	404 The Hill	Portsmouth	New Hampshire	Portsmouth and offsite venues (travel fee applies)	Portsmouth skin and soul spa offering bridal makeup in the spa or on location, with trials and a private room for small bridal parties.	hello@blushportsmouth.com	603-783-5656	https://www.blushportsmouth.com/	https://www.instagram.com/blushskinandsoulspa/		
+Redhead Mobile Salon	Hair & Makeup		Portsmouth	New Hampshire	Portsmouth, coastal and out-of-town wedding venues	Mobile hair stylist in Portsmouth offering on-location bridal, mother-of-the-couple and flower girl styling, with trials, for coastal and out-of-town venues.		(603) 766-2460	https://redheadstudio.net/	https://www.instagram.com/redheadnh/		
+Vanity Hair Studio	Hair & Makeup	44 Dover Point Road, Unit H	Dover	New Hampshire	Seacoast NH including Portsmouth	Dover salon serving the Seacoast since 2008, with bridal hair and airbrush makeup for brides, bridesmaids and mothers of the couple.	Weddings.VanityHairStudio@gmail.com	603-430-8689	https://vanityhairstudionh.com/	https://www.instagram.com/vanity.hairstudio.nh/		
+LaBrie Media	Videography	1 Raynes Ave, Suite 202b	Portsmouth	New Hampshire	Seacoast NH, southern Maine, Lakes Region, White Mountains, Greater Portland ME	Portsmouth video production team that films weddings across New England, with aerial imaging and photography available alongside the films.	devin@labrie-media.com	(603) 833-3217	https://www.labrie-media.com/weddings	https://www.instagram.com/labriemedia/		
+`,
+  },
+  {
+    name: "White Mountains: hair & makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Benefits Salon	Hair & Makeup	2506 White Mountain Highway	North Conway	New Hampshire	North Conway and White Mountains, travel by consultation	Aveda salon in North Conway offering bridal upstyles, with travel to the wedding venue available by consultation.	benefits@benefitssalon.com	603.986.1107	https://benefitssalon.com/	https://www.instagram.com/benefitssalonaveda/		
+`,
+  },
+  {
+    name: "Manchester: planning, photography, florals, cake, catering, rentals, hair & makeup, photo booth",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Memorable Events, LLC	Planning		Keene	New Hampshire	New Hampshire, wider New England and upstate New York	Keene wedding planning firm, established 2004, offering full planning, coordination and multi-day cultural weddings.		603-762-4264	https://www.memorableeventsnh.com/	https://www.instagram.com/memevents/		
+Little Blooms Floral	Florals		Nashua	New Hampshire	New England, including Boston, Connecticut, Rhode Island and southern Maine	Nashua florist designing custom bouquets and arrangements for intimate weddings and events across New England.	Danielle@littlebloomsfloral.com	860-593-5485	https://www.littlebloomsfloral.com/	https://www.instagram.com/littlebloomsfloral/		
+Eat More Cake	Cake	35 Main St	Keene	New Hampshire	Keene and the Monadnock region	French-inspired boutique bakery in downtown Keene taking custom orders, with a wedding portfolio on its site.	eatmorecakenh@gmail.com	603-762-4285	https://eatmorecake.org/	https://www.instagram.com/eatmorecake_nh/		
+The Pub Restaurant and Caterers	Catering	131 Winchester Street	Keene	New Hampshire	Keene and surrounding Monadnock region	Keene restaurant and caterer offering on-site and off-site event catering plus bridal consultant services.		603-352-3135	https://thepubrestaurant.com/			
+Paris Miami Photography	Photography		Keene	New Hampshire	Keene, Swanzey, Peterborough, Jaffrey and Brattleboro, Vermont	Keene photographer Thomas Parisi, who takes a documentary-first approach to wedding coverage across the Monadnock region.	admin@parismiamiphotography.com		https://parismiamiphotography.com/			
+Shirley's Flowers & Sweets	Florals		Nashua	New Hampshire	Nashua, Amherst, Hudson, Merrimack, Bedford, Hollis, Litchfield, Londonderry, Manchester, Milford, Pelham	Nashua flower shop with ceremony and reception wedding flowers, collection sets and consultations.			https://shirleysflowersandsweets.com/	https://www.instagram.com/shirleysflowersnh/		
+Elegant Settings	Rentals	28 Park Ave, Suite 103	Keene	New Hampshire	New Hampshire, Vermont and Massachusetts	Keene rental showroom positioning itself as a one-stop shop for wedding, corporate and private events.	Info@Elegantsettingsltd.com	603-352-4089	https://www.elegantsettingsltd.com/			
+Aidan James Salon and Spa	Hair & Makeup	36 Northwest Blvd	Nashua	New Hampshire	Nashua and off-site locations (travel fee applies)	Nashua salon with a bridal menu covering wedding-day hair and updos, available off-premise for a travel fee.		603-598-0795	https://aidanjamessalon.com/	https://www.instagram.com/aidanjamessalon/		
+Cassandra Salon & Spa	Hair & Makeup	225 Daniel Webster Highway	Nashua	New Hampshire	Nashua	Nashua salon styling bridal updos and blowouts for the wedding party, with bridal makeup and optional lashes.		603-888-3300	https://www.cassandrasalon.com/services/weddings-events/	https://www.instagram.com/cassandrasalon/		
+Monadnock Photobooths	Photo Booth		Peterborough	New Hampshire	Southern New Hampshire, Lakes Region, Vermont, Maine and Massachusetts	Peterborough photo booth company that takes its booths to weddings and other events across northern New England.		603-562-6564	https://cdsphotobooths.com/	https://www.instagram.com/monadnockphotobooths/		
+`,
+  },
+  {
+    name: "Lakes Region: catering, florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Twelve 31 Events	Catering		Tilton	New Hampshire	Greater Concord and the Lakes Region, other NH areas on request	Caterer working from a Tilton commercial kitchen, offering wedding menus and planning for the Greater Concord and Lakes Region areas.		(603) 818-0012	https://twelve31.events/			
+Heimlich Flowers & Events	Florals		Belmont	New Hampshire	New Hampshire	Belmont florist and vintage rental business offering wedding florals alongside vintage decor for events.	Designsbyalexandralee@gmail.com	603-630-9972	https://www.heimlichflowersandevents.com/	https://www.instagram.com/heimlichflowersandevents/		
+`,
+  },
+  {
+    name: "Concord: florals, photography, planning, music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Allioops! Flowers & Gifts	Florals	292 Main Street	New London	New Hampshire	New London and the Lake Sunapee area	New London flower shop on Main Street with a weddings and events section on its site.	allioopsflowers@gmail.com	603-526-2398	https://www.allioops.com/	https://www.instagram.com/allioopsflowers/		
+Art of Nature	Florals		Sunapee	New Hampshire	Sunapee and the Lake Sunapee area	Sunapee floral designer, Mauli McDonald, who creates wedding and event flowers and wild wreaths.	tailfeather@gmail.com	603-477-9975	https://www.nurturen8ure.com/	https://www.instagram.com/mauliology/		
+Spring Ledge Farm	Florals	37 Main Street	New London	New Hampshire	New London and the Lake Sunapee area	New London farm that grows cut flowers and lists a weddings page among its floral offerings.		603-526-6253	https://www.springledgefarm.com/	https://www.instagram.com/springledgefarm/		
+Two Hearts Connect Wedding & Event Planner	Planning		Concord	New Hampshire	Concord, NH and surrounding area	Concord wedding and event planner offering vendor referrals, full-service planning and day-of coordination for couples in the area.		(603) 724-3729	https://twoheartsconnectnh.com/			
+Club Soda Band	Music		Concord	New Hampshire	New England	Four-piece Concord band playing Top 40, classic rock, dance and R&B for weddings, parties and dance events across New England.		603-225-3299	https://clubsodaband.com/			
+Nazzy Entertainment DJs	Music		Concord	New Hampshire	Concord, NH and beyond	Concord DJ and emcee team providing music and hosting for weddings, corporate events and other celebrations.	nazzydjs@gmail.com	603-965-6200	https://www.nazzydjs.com/			
+Fresh Start Floral Design	Florals		Henniker	New Hampshire	Henniker and surrounding areas	Henniker florist designing custom wedding flowers, with styling and day-of delivery included for events in the Henniker area.	hennikerflowers@gmail.com	(603) 493-0299	https://freshstartfloraldesign.com/			
+Lily Flower Floral Designs	Florals	147 Main St	Pembroke	New Hampshire	Pembroke, Concord, Bow, Hopkinton, Hooksett, Loudon, Epsom, Pittsfield and nearby towns	Pembroke florist providing wedding and event flowers, with a wedding gallery and delivery to towns around Concord.	lilyflowerfloral@gmail.com	(603) 419-0677	https://lilyflowerfloral.com/	https://www.instagram.com/lilyflowerfloral/		
+Nicole's Greenhouse & Florist	Florals	91 Sheep Davis Rd	Pembroke	New Hampshire	Pembroke, NH (delivery areas listed on site)	Pembroke greenhouse and florist offering bridal bouquets, ceremony and reception flowers, and centrepieces for weddings.		(603) 228-8294	https://www.nicolesgreenhouseandflorist.com/	https://www.instagram.com/nicolesgreenhouseflorist/		
+Lisa Smith Photography	Photography		Epsom	New Hampshire	New Hampshire and New England	Epsom photographer covering candid weddings, couples and family sessions across New Hampshire and wider New England.	lisa@lisasmith.photography	603-491-4916	https://lisasmith.photography/	https://www.instagram.com/lisasmith.photography/		
+Danica B. Photography	Photography		Concord	New Hampshire	Concord, NH	Concord photography studio offering wedding sessions alongside portrait, maternity, newborn and boudoir work.		(603) 630-1967	https://danicabphotography.com/	https://www.instagram.com/danicabphoto/		
+`,
+  },
 ];
 
 export default batches;
