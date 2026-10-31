@@ -64,6 +64,23 @@ Meier Lake	6059 Wasilla-Fishhook Rd	Wasilla	Alaska			Lake & River		100		Lakeside
 Mountain Field Farm	13150 E Scott Rd	Palmer	Alaska			Barn & Farm	Indoor & Outdoor	175	Classic	Working flower farm of about 22 acres with mountain-view ceremony sites and a barn, offering elopement, one-day and three-day packages with on-site lodging.			https://mountainfieldfarm.com/alaska-wedding-venue
 Chilkat Inlet Retreat		Haines	Alaska			Mountain & Lodge	Indoor & Outdoor			Year-round lodge on the Chilkat Peninsula with a private beach, forest and trails, which has hosted weddings for around two decades.			https://chilkatinletretreat.com/`,
   },
+  {
+    name: "Alaska depth: Mat-Su, Kenai, Southeast and Interior",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+Diamond M Ranch Resort	48500 Diamond M Ranch Rd	Kenai	Alaska			Ranch	Indoor & Outdoor	100	1000	Package	A Kenai River bluff ceremony lawn and a rustic red barn reception space, with on-site cabins, suites and RV spaces for the wedding party.		(907) 283-9424	https://diamondmranchresort.com/destination-weddings/
+Gate Creek Lodge	21800 Towns Pl.	Trapper Creek	Alaska			Mountain & Lodge	Outdoor				A Petersville Road lodge with six guest cabins and garden lawns facing the Alaska Range, which can be reserved in full for a wedding or other event.	gatecreeklodge@gmail.com	(907) 280-8140	https://www.gatecreeklodge.com/
+The Lodge at Black Rapids	Mile 227.4 Richardson Highway	Delta Junction	Alaska			Mountain & Lodge	Indoor & Outdoor				A year-round wilderness lodge in the eastern Alaska Range with eight guest rooms, hosting weddings and other gatherings.	thelodgeatblackrapids@gmail.com	907-388-8391	https://www.lodgeatblackrapids.com/
+Valdez Museum & Historical Archive	217 Egan Dr.	Valdez	Alaska			Museum, Gallery & Rooftop	Indoor	158			A historic Valdez museum whose Egan Commons and Old Town Pinzon Bar can be rented for weddings and receptions, with exhibits as a backdrop.		(907) 835-2764	https://www.valdezmuseum.org/
+Annie Mae Lodge		Gustavus	Alaska			Mountain & Lodge	Indoor & Outdoor				A country-style lodge on the Good River at the edge of Glacier Bay National Park that can be rented whole for a wedding or group retreat.	reservations@anniemae.com	(907) 697-2346	https://www.anniemae.com/
+Viking Cove		Haines	Alaska			Beach & Coast	Outdoor				A private waterfront guest-home property on a peninsula near Haines with a dedicated weddings page and orca views.		800-572-8006	https://www.vikingcove.com/
+Red Roof Barn Venue		Wasilla	Alaska			Barn & Farm	Indoor & Outdoor	100	2900	Package	Veteran-friendly rustic barn venue with a 100-person pavilion and bridal cabin, offering 6- to 12-hour and two-day wedding packages from May through August.	Redroofbarnvenue@gmail.com		https://www.redroofbarnvenue.com
+At The Barn MatSu		Wasilla	Alaska			Barn & Farm	Indoor & Outdoor	150			Heated 3,000 sq ft timber-frame barn on a 60-acre family homestead between Palmer and Wasilla, with a field for outdoor ceremonies facing Lazy Mountain.	atthebarnmatsu@gmail.com	907-232-7434	https://www.atthebarnmatsu.com
+Hamilton Farms	375 S. Inner Springer Road	Palmer	Alaska			Barn & Farm	Indoor & Outdoor				Third-generation working farm behind the Alaska State Fairgrounds that hosts weddings with a custom branding ceremony during the reception.	hamiltonfarmevents@gmail.com	(907) 350-8070	https://hamiltonfarmsinc.com
+Turnagain View Lodge	27301 Seward Highway	Indian	Alaska			Mountain & Lodge	Indoor & Outdoor	240			Log lodge and tented outdoor wedding venue on 11 acres overlooking Turnagain Arm, with overnight lodging for up to 12 guests.	indianvalleymine@gmail.com	(907) 444-6898	https://turnagainviewlodge.com
+Sunderland Ranch	10856 N Wolverine Rd	Palmer	Alaska			Ranch	Outdoor	200			Family guest ranch with 80 acres of hayfields and mountain views, offering a clear event tent, a log lodge and a barn for outdoor weddings.		907-982-7268	https://sunderlandranch.com
+At Two Birch Trees Wedding & Events Venue		Wasilla	Alaska			Garden & Park	Outdoor	80			Family-owned outdoor venue above Knik Arm with Cook Inlet and Chugach views, offering elopement through full wedding packages for up to 80 guests.	attwobirchtrees@gmail.com	(907) 373-1300	https://attwobirchtrees.com
+Bayshore Clubhouse	3131 Amber Bay Loop	Anchorage	Alaska			Mountain & Lodge	Indoor & Outdoor	150			Vaulted-ceiling Chalet Room with a fireplace, dance floor and deck, plus an outdoor ceremony spot by Bayshore Pond, in South Anchorage.	info@bayshore.club	(907) 344-0539	https://bayshore.club`,
+  },
 ];
 
 export default batches;
