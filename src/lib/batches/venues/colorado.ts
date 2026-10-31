@@ -418,7 +418,6 @@ Sutcliffe Vineyards	12174 Road G	Cortez	Colorado			Vineyard & Winery	Outdoor				
 Echo Basin	43747 Road M	Mancos	Colorado			Ranch	Indoor & Outdoor				A Mancos property with outdoor ceremony sites by a pond and in a garden gazebo, plus an indoor banquet facility for receptions.		970.533.7000	https://echobasin.com/wedding-venue/
 Upper Larimer	3034 Larimer St	Denver	Colorado			Ballroom	Indoor & Outdoor	300			A restored 1888 RiNo building turned into a single grand ballroom with a deck, courtyard, parlor for getting ready and wedding packages.	FindYourCenter@UpperLarimer.com	(833) 303-3034	https://www.upperlarimer.com/wedding
 Three Trees Chapel	13416 W. Arbor Place	Littleton	Colorado			Chapel & Church	Indoor & Outdoor	200			An all-inclusive chapel set among pines and mountain cascades, offering weddings, receptions and elopements, plus an outdoor garden tent.		303-932-2278	https://www.threetreeschapel.com/
-Infinity Park Event Center	4400 East Kentucky Ave	Glendale	Colorado			Ballroom	Indoor	1200			A city-run events center whose International Ballroom hosts receptions from intimate banquets to large celebrations.	events@infinityparkeventcenter.com	(303) 248-7106	https://www.infinityparkeventcenter.com/wedding-reception-venue/
 Black Forest Meadows	17104 E Goshawk Rd	Colorado Springs	Colorado			Barn & Farm	Indoor & Outdoor				A nature-focused event property in Colorado Springs that offers weddings, private events and alpaca experiences.	info@blackforestmeadows.com		https://www.blackforestmeadows.com/`,
   },
 ];
