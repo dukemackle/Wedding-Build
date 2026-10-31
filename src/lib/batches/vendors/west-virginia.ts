@@ -178,6 +178,50 @@ Flowers By Nancy	Florals	1215 S Eisenhower Dr	Beckley	West Virginia	Beckley	Beck
 Snow Thornton Florists	Florals		Beckley	West Virginia	Beckley, Fayetteville and surrounding southern WV towns	Beckley family florist with a weddings range of bridal bouquets and hair-piece arrangements, delivering across Fayette and Raleigh counties.		304-253-7371	https://www.snowthorntonflorist.com/			
 `,
   },
+  {
+    name: "Charleston: photography, music, catering, cake and florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Jessica Ellis Photography	Photography		Charleston	West Virginia		Charleston-based photographer for weddings and couples, offering relaxed, natural coverage and a free consultation before booking.	hello@jessicaellisphotography.com		https://jessicaellisphotography.com/	https://www.instagram.com/jessicaellisphoto/		
+Vinyl Village	Music		Charleston	West Virginia		Specialist vinyl DJ and emcee who meets couples beforehand and builds a custom playlist for weddings and other celebrations in Charleston.	vinylvillagewv@gmail.com		https://www.vinylvillagewv.com/	https://www.instagram.com/vinylvillagewv/		
+Lil' Bit of Heaven Cupcakes	Cake	95 Olde Main Street	St. Albans	West Virginia		St. Albans bakery making wedding cakes and wedding cupcake displays to order, with a classic vanilla cake and buttercream as its standard.	cupcakeladywv@hotmail.com	(304) 729-8038	https://www.lilbitofheaven.rocks/			
+Flowers On Olde Main	Florals	216 Main Street	St. Albans	West Virginia		Independent St. Albans florist offering bridal and bridesmaid bouquets, ceremony pieces and reception flowers, with consultations by phone.		(304) 721-9764	https://www.flowersonoldemain.com/wedding-party-flowers	https://www.instagram.com/flowersonoldemain/		
+`,
+  },
+  {
+    name: "Morgantown: music, videography, cake, catering and florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Crafted Events	Music		Westover	West Virginia	Morgantown and Monongalia County	Wedding DJ, MC and lighting team based in Westover, with three set packages and no travel fee anywhere in Monongalia County.	bookings@craftedeventspromo.com	(681) 331-8586	https://www.craftedeventspromo.com/weddings	https://www.instagram.com/craftedeventswv/	1200	package
+SIX8 Creative	Videography		Morgantown	West Virginia	North Central West Virginia and southwestern Pennsylvania	Morgantown media studio filming cinematic wedding films with optional drone footage, alongside documentary-style wedding photography.	info@six8creative.com		https://www.six8creative.com/weddings		599	package
+Linda Jack's Catering	Catering	1907 Morgantown Avenue	Fairmont	West Virginia		Fairmont caterer with a dedicated reception menu, taking date reservations by phone or message for weddings and other events.	lindajack@lindajackscatering.net	(304) 365-2186	https://www.lindajackscatering.net/reception-menu			
+Muriale's Italian Kitchen	Catering	1742 Fairmont Avenue	Fairmont	West Virginia		Family Italian restaurant in Fairmont offering wedding catering and receptions in its 2,500 sq ft riverside banquet room or at your venue.		(304) 363-3190	https://www.muriales.com/special-events	https://www.instagram.com/murialesrestaurant/		
+Say-Boy's Restaurant	Catering	1228 Country Club Road	Fairmont	West Virginia		Long-running Fairmont restaurant with catering packages for wedding festivities, parties and corporate events.	sayboyrestaurant44@gmail.com	(304) 366-7252	https://sayboysrestaurant.com/catering			
+Frame & Flask	Catering		Morgantown	West Virginia	West Virginia and Pittsburgh	Morgantown team offering wedding catering built around a free consultation and custom proposal, alongside private chef dinners and charcuterie.	frameandflask@gmail.com		https://www.frameandflask.com/catering	https://www.instagram.com/frameandflask/		
+Donna Flora	Florals		Clarksburg	West Virginia		Locally owned Clarksburg flower shop handling wedding work, with ceremony and reception flowers and a consultation page.		(304) 622-6541	https://shopdonnaflora.com/			
+Oliverios Florist	Florals		Bridgeport	West Virginia		Locally owned Bridgeport flower shop that takes on wedding flowers for ceremonies and receptions, with consultations available.		(304) 842-2516	https://oliveriosflorist.com/			
+`,
+  },
+  {
+    name: "Eastern Panhandle: planning, music, florals and photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Broad View Events	Planning		Shenandoah Junction	West Virginia	Virginia, Maryland, Washington D.C. and West Virginia	Wedding planning and design from month-of coordination to full planning, with à la carte design, based in Shenandoah Junction.	broadvieweventswv@gmail.com	304-266-9225	https://www.broadviewevents.com/			
+MC DJ Service	Music		Hedgesville	West Virginia	Eastern Panhandle, Western Maryland and Northern Virginia	Hedgesville DJ and MC service providing ceremony audio, reception music and announcements for weddings across the Eastern Panhandle.	mcdjservice25@gmail.com	304-270-0383	https://mcdjservice.com/			
+Ginger's Flowers & Gifts	Florals	317 West Race Street	Martinsburg	West Virginia		Martinsburg florist making custom wedding and event flowers, with free consultations by appointment.	sales@gingersflowersandgifts.com	(304) 267-8936	https://www.gingersflowersandgifts.com/weddings.htm			
+Katrina's Vision	Photography		Martinsburg	West Virginia	West Virginia, Maryland and Virginia	Martinsburg wedding and portrait photographer working across West Virginia, Maryland and Virginia.			https://www.katrinasvision.com/	https://www.instagram.com/katrinasvision/		
+`,
+  },
+  {
+    name: "Huntington: cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Nomada Bakery	Cake	210 11th Street	Huntington	West Virginia		Huntington bakery taking wedding and catering requests alongside its custom large cakes, from a shop at Heritage Station.	baked@nomadabakery.com		https://www.nomadabakery.com/	https://www.instagram.com/nomadabakery/		
+`,
+  },
+  {
+    name: "Bluefield and Wheeling: catering and photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+David's Downtown	Catering	500 Bland Street	Bluefield	West Virginia	Within 125 miles of Bluefield	Downtown Bluefield restaurant that caters weddings off site, with bespoke menus and decor, and offers all-inclusive event packages.		(304) 325-8145	https://www.davidsdowntown.com/catering			
+Miranda Nicole Photo + Video	Photography		Wheeling	West Virginia	Ohio Valley, Wheeling, Martins Ferry, Pittsburgh and across West Virginia, Ohio and Pennsylvania	Wheeling photographer and videographer covering elopements through full-day weddings, with packages for both photo and video coverage.			https://www.mirandanicolephoto.com/Weddings/			
+`,
+  },
 ];
 
 export default batches;
