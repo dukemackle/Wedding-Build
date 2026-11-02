@@ -2,8 +2,8 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState, useSyncExternalStore, useTransition, type ReactNode } from "react";
+import { useRouter } from "next/navigation";
 import {
-  addDashboardPhoto,
   removeDashboardPhoto,
   saveWedding,
   setDashboardPhotoFocus,
@@ -14,7 +14,7 @@ import { STATES, SEASONS, STYLE_TIERS, VENUE_TYPES, currentVenueType } from "@/l
 import { daysUntilWedding } from "@/lib/countdown";
 import { CountdownTimer } from "@/components/countdown-timer";
 import { MilestoneBird } from "./milestone-bird";
-import { shrinkImage } from "@/lib/shrink-image";
+import { usePhotoUploads, type PhotoUpload } from "./use-photo-uploads";
 import {
   INSPIRATION_PHOTOS,
   MAX_DASHBOARD_PHOTOS,
@@ -203,8 +203,9 @@ type VenuePhotos = { name: string | null; photos: string[] };
  * The "Photos" pill and its popover (a sheet from the bottom on a phone):
  * which photos play behind the dashboard -- the couple's own, their venue's,
  * or the inspiration set -- and, for their own, uploading and framing them.
- * Several files can be picked at once; each goes up on its own so every one
- * stays under the upload cap, and a failure stops the rest.
+ * Several files can be picked at once: each is shrunk in the browser and
+ * sent straight to Storage (see usePhotoUploads), with its own progress,
+ * and one that fails can be retried without losing the others.
  */
 function PhotosButton({
   wedding,
@@ -226,12 +227,19 @@ function PhotosButton({
   const [open, setOpen] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
   const [isPending, startTransition] = useTransition();
-  // "3 of 12" while a batch goes up, one at a time.
-  const [progress, setProgress] = useState<{ done: number; total: number } | null>(null);
+  const router = useRouter();
+  // Refreshes once a batch is in, so the new photos join the grid together.
+  const { uploads, busy, add, retry, dismiss } = usePhotoUploads(() => startTransition(() => router.refresh()));
   const ref = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const photos = wedding.dashboard_photo_urls ?? [];
-  const room = MAX_DASHBOARD_PHOTOS - photos.length;
+  // Photos still in the upload list hold their place under the cap.
+  const room = MAX_DASHBOARD_PHOTOS - photos.length - uploads.length;
+  // Once the page shows the photos just added, their upload rows go.
+  const shown = photos.join("\n");
+  useEffect(() => {
+    dismiss((u) => u.status === "done");
+  }, [shown, dismiss]);
   // The photo whose focus point is being set, and the points as tapped --
   // kept here so the dot moves at once rather than after the save.
   const [picked, setPicked] = useState<string | null>(null);
@@ -256,23 +264,16 @@ function PhotosButton({
   }, [open]);
 
   function handleFiles(files: FileList | null) {
-    const chosen = Array.from(files ?? []).slice(0, room);
+    const all = Array.from(files ?? []);
+    const chosen = all.slice(0, Math.max(0, room));
+    if (inputRef.current) inputRef.current.value = "";
     if (chosen.length === 0) return;
-    startTransition(async () => {
-      for (const [i, file] of chosen.entries()) {
-        setProgress({ done: i + 1, total: chosen.length });
-        const formData = new FormData();
-        formData.set("photo", await shrinkImage(file));
-        const result = await addDashboardPhoto(formData);
-        if (result?.error) {
-          setError(result.error);
-          break;
-        }
-        setError(undefined);
-      }
-      setProgress(null);
-      if (inputRef.current) inputRef.current.value = "";
-    });
+    setError(
+      all.length > chosen.length
+        ? `Added the first ${chosen.length} — the dashboard holds ${MAX_DASHBOARD_PHOTOS}.`
+        : undefined,
+    );
+    add(chosen);
   }
 
   function handleFocus(url: string, x: number, y: number) {
@@ -468,6 +469,10 @@ function PhotosButton({
                   </ul>
                 )}
 
+                {uploads.length > 0 && (
+                  <UploadList uploads={uploads} onRetry={retry} onDismiss={(id) => dismiss((u) => u.id === id)} />
+                )}
+
                 {editing ? (
                   <PhotoFocusPicker
                     url={editing}
@@ -483,16 +488,16 @@ function PhotosButton({
                 <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-2">
                   <label
                     className={`whitespace-nowrap rounded-md bg-forest px-4 py-2 text-sm font-medium text-parchment transition-colors ${
-                      room > 0 && !isPending ? "cursor-pointer hover:bg-forest/90" : "opacity-60"
+                      room > 0 ? "cursor-pointer hover:bg-forest/90" : "opacity-60"
                     }`}
                   >
-                    {progress ? `Uploading ${progress.done} of ${progress.total}…` : isPending ? "Saving…" : "Choose photos"}
+                    {busy ? "Add more" : "Choose photos"}
                     <input
                       ref={inputRef}
                       type="file"
-                      accept="image/*"
+                      accept="image/*,.heic,.heif"
                       multiple
-                      disabled={room <= 0 || isPending}
+                      disabled={room <= 0}
                       onChange={(e) => handleFiles(e.target.files)}
                       className="sr-only"
                     />
@@ -530,6 +535,97 @@ function PhotosButton({
           {error && <p className="mt-2 text-sm text-red-800">{error}</p>}
         </div>
       )}
+    </div>
+  );
+}
+
+/**
+ * The photos going up, one row each: a thumbnail, the file name and a
+ * progress bar, or the reason it failed with Retry and Remove.
+ */
+export function UploadList({
+  uploads,
+  onRetry,
+  onDismiss,
+}: {
+  uploads: PhotoUpload[];
+  onRetry: (id: string) => void;
+  onDismiss: (id: string) => void;
+}) {
+  const done = uploads.filter((u) => u.status === "done").length;
+  const failed = uploads.filter((u) => u.status === "failed").length;
+  // The ones that need a tap go first, so the list's scroll never hides them.
+  const ordered = [...uploads].sort((a, b) => Number(b.status === "failed") - Number(a.status === "failed"));
+  return (
+    <div className="mt-3">
+      <p className="text-xs font-medium text-ink/70" aria-live="polite">
+        {done === uploads.length
+          ? "All in — adding them now…"
+          : `${done} of ${uploads.length} uploaded${failed ? ` · ${failed} didn't make it` : ""}`}
+      </p>
+      <ul className="mt-1.5 flex max-h-[min(14rem,30vh)] flex-col gap-1.5 overflow-y-auto">
+        {ordered.map((u) => (
+          <li key={u.id} className="flex items-center gap-2.5">
+            <span className="relative h-9 w-9 shrink-0 overflow-hidden rounded bg-parchment">
+              {u.preview && (
+                // eslint-disable-next-line @next/next/no-img-element -- a local object URL
+                <img src={u.preview} alt="" className="h-full w-full object-cover" />
+              )}
+            </span>
+            <span className="flex min-w-0 grow flex-col gap-1">
+              <span className="truncate text-xs text-ink">{u.name}</span>
+              {u.status === "failed" ? (
+                <span className="text-xs text-red-800">{u.error}</span>
+              ) : (
+                <span
+                  className="h-1.5 overflow-hidden rounded-full bg-hairline"
+                  role="progressbar"
+                  aria-label={`Uploading ${u.name}`}
+                  aria-valuemin={0}
+                  aria-valuemax={100}
+                  aria-valuenow={Math.round((u.status === "done" || u.status === "saving" ? 1 : u.progress) * 100)}
+                >
+                  <span
+                    className={`block h-full rounded-full transition-[width] duration-200 ${
+                      u.status === "done" ? "bg-[#2243B6]" : "bg-[#00BFFE]"
+                    }`}
+                    style={{ width: `${Math.max(4, (u.status === "done" || u.status === "saving" ? 1 : u.progress) * 100)}%` }}
+                  />
+                </span>
+              )}
+            </span>
+            {u.status === "failed" ? (
+              <span className="flex shrink-0 items-center gap-1">
+                <button
+                  type="button"
+                  onClick={() => onRetry(u.id)}
+                  className="rounded-md border border-hairline px-2 py-1 text-xs font-medium text-ink hover:border-ink/30"
+                >
+                  Retry
+                </button>
+                <button
+                  type="button"
+                  onClick={() => onDismiss(u.id)}
+                  aria-label={`Remove ${u.name} from the uploads`}
+                  className="flex h-7 w-7 items-center justify-center rounded-md text-ink/50 hover:text-ink"
+                >
+                  ×
+                </button>
+              </span>
+            ) : (
+              <span className="w-12 shrink-0 text-right text-xs text-ink/50">
+                {u.status === "waiting"
+                  ? "Waiting"
+                  : u.status === "uploading"
+                    ? `${Math.round(u.progress * 100)}%`
+                    : u.status === "saving"
+                      ? "Saving"
+                      : "Done"}
+              </span>
+            )}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

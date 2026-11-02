@@ -6,15 +6,18 @@
  * wifi, a full-size upload is the difference between posting and giving up.
  * 2000px on the long edge is sharper than anything the site displays.
  *
- * Anything the browser can't decode (HEIC outside Safari, say) is returned
- * untouched, and the server's own checks decide.
+ * An iPhone HEIC the browser can't decode (anywhere but Safari) is converted
+ * to JPEG first, with a decoder loaded only when one turns up. Anything else
+ * the browser can't decode is returned untouched, and the server decides.
  */
 export async function shrinkImage(file: File, maxEdge = 2000, quality = 0.85): Promise<File> {
-  if (!file.type.startsWith("image/") || file.type === "image/gif") return file;
+  if (!isImage(file) || file.type === "image/gif") return file;
   try {
-    const bitmap = await createImageBitmap(file);
+    const bitmap = await decode(file);
+    // HEIC always becomes JPEG: only Safari can show it.
+    const heic = /hei[cf]/i.test(file.type) || HEIC.test(file.name);
     const scale = Math.min(1, maxEdge / Math.max(bitmap.width, bitmap.height));
-    if (scale === 1 && file.size < 2 * 1024 * 1024) {
+    if (scale === 1 && file.size < 2 * 1024 * 1024 && !heic) {
       bitmap.close();
       return file;
     }
@@ -26,10 +29,28 @@ export async function shrinkImage(file: File, maxEdge = 2000, quality = 0.85): P
     const blob = await new Promise<Blob | null>((resolve) =>
       canvas.toBlob(resolve, "image/jpeg", quality),
     );
-    if (!blob || blob.size >= file.size) return file;
+    if (!blob || (blob.size >= file.size && !heic)) return file;
     const name = file.name.replace(/\.[^.]+$/, "") + ".jpg";
     return new File([blob], name, { type: "image/jpeg" });
   } catch {
     return file;
+  }
+}
+
+const HEIC = /\.(heic|heif)$/i;
+
+// Some browsers hand over an iPhone photo with an empty type, so the name counts too.
+function isImage(file: File) {
+  return file.type.startsWith("image/") || HEIC.test(file.name);
+}
+
+async function decode(file: File): Promise<ImageBitmap> {
+  try {
+    return await createImageBitmap(file);
+  } catch (err) {
+    if (!/hei[cf]/i.test(file.type) && !HEIC.test(file.name)) throw err;
+    const { default: heic2any } = await import("heic2any");
+    const jpeg = await heic2any({ blob: file, toType: "image/jpeg", quality: 0.92 });
+    return createImageBitmap(Array.isArray(jpeg) ? jpeg[0] : jpeg);
   }
 }
