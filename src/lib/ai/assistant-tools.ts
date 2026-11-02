@@ -101,6 +101,7 @@ export const PROPOSAL_SCHEMAS = {
           end_time: time().optional(),
           location: text(200).optional(),
           description: text(1000).optional(),
+          audience: z.enum(["guests", "party", "private"]).optional(),
         }),
       )
       .min(1)
@@ -320,7 +321,8 @@ const PROPOSAL_DESCRIPTIONS: Record<ProposalKind, string> = {
   update_guest: "Propose changing one existing guest: RSVP status, plus-one, meal, notes. Needs a guest_id from find_guests.",
   update_budget: "Propose changing one budget line: either a category (key from list_budget) or a custom item (custom_item_id from list_budget). 'actual' is the real/contracted cost, 'paid' is the running total paid so far (not a single payment -- add to the existing paid amount yourself).",
   add_budget_item: "Propose adding a custom budget line that isn't one of the standard categories.",
-  add_itinerary_events: "Propose adding events to the wedding itinerary / day-of timeline. Times are 24-hour HH:MM.",
+  add_itinerary_events:
+    "Propose adding events to the wedding itinerary / day-of timeline. Times are 24-hour HH:MM. audience: 'guests' (shown on the guest site), 'party' (wedding party & family only, e.g. hair and makeup, family photos) or 'private' (couple & vendors, e.g. load-in, first look); left out, it's guessed from the title.",
   seat_guests: "Propose seating guests at tables. Needs table ids from list_tables and guest ids from find_guests. Moves a guest if they're already seated elsewhere. Respect table capacity.",
 };
 
@@ -401,20 +403,20 @@ export function buildAssistantTools(ctx: ToolContext, proposals: Proposal[]) {
     }),
     betaZodTool({
       name: "list_itinerary",
-      description: "List the itinerary events already planned: date | time | title | location.",
+      description: "List the itinerary events already planned: date | time | title | location | who sees it.",
       inputSchema: z.object({}),
       run: async () => {
         const { data } = await ctx.supabase
           .from("itinerary_events")
-          .select("event_date, start_time, end_time, title, location")
+          .select("event_date, start_time, end_time, title, location, audience")
           .eq("wedding_id", ctx.weddingId)
           .order("event_date")
           .order("start_time", { nullsFirst: true })
-          .returns<Pick<ItineraryEvent, "event_date" | "start_time" | "end_time" | "title" | "location">[]>();
+          .returns<Pick<ItineraryEvent, "event_date" | "start_time" | "end_time" | "title" | "location" | "audience">[]>();
         if (!data || data.length === 0) return "No itinerary events yet.";
         return data
           .map((e) =>
-            [e.event_date, e.start_time ? `${e.start_time.slice(0, 5)}${e.end_time ? `-${e.end_time.slice(0, 5)}` : ""}` : "no time", e.title, e.location]
+            [e.event_date, e.start_time ? `${e.start_time.slice(0, 5)}${e.end_time ? `-${e.end_time.slice(0, 5)}` : ""}` : "no time", e.title, e.location, e.audience]
               .filter(Boolean)
               .join(" | "),
           )

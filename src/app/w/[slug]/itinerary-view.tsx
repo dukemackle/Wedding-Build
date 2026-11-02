@@ -27,6 +27,8 @@ export function ItineraryView({
   if (layout === "list") return <List days={days} />;
   if (layout === "centre") return <CentreLine days={days} weddingDate={weddingDate} />;
   if (layout === "tickets") return <Tickets days={days} />;
+  if (layout === "days") return <DayColumns days={days} weddingDate={weddingDate} />;
+  if (layout === "menu") return <Menu days={days} weddingDate={weddingDate} />;
 
   return (
     // Phones stack the days; from md up they sit side by side as columns.
@@ -261,6 +263,84 @@ function Tickets({ days }: { days: ReturnType<typeof groupEventsByDate> }) {
         }),
       )}
     </ol>
+  );
+}
+
+/**
+ * Day columns: each day's name set large over its date, its events under it,
+ * the days side by side on a computer with a fine rule between them, one
+ * under another on a phone.
+ */
+function DayColumns({ days, weddingDate }: { days: ReturnType<typeof groupEventsByDate>; weddingDate: string | null }) {
+  return (
+    <div className="site-days grid gap-10 md:grid-flow-col md:auto-cols-fr md:gap-0">
+      {days.map((day) => {
+        const when = new Date(`${day.date}T00:00:00`);
+        return (
+          <div key={day.date} className="site-day min-w-0 md:px-8 md:first:pl-0 md:last:pr-0">
+            <p className="font-display text-5xl leading-none text-forest lg:text-6xl">
+              {when.toLocaleDateString("en-US", { weekday: "long" })}
+            </p>
+            <p className="mt-2 font-mono-numbers text-xs uppercase tracking-[0.22em] text-brass">
+              {when.toLocaleDateString("en-US", { month: "long", day: "numeric" })}
+              {weddingDate === day.date ? " \u00b7 Wedding day" : ""}
+            </p>
+            <ol className="mt-5 flex flex-col gap-4">
+              {day.events.map((event) => (
+                <li key={event.id}>
+                  <p className="font-semibold text-ink">{event.title}</p>
+                  <p className="text-sm text-ink/70">
+                    {[event.start_time ? formatTime(event.start_time) : null, event.location].filter(Boolean).join(" \u00b7 ")}
+                  </p>
+                  {event.description && <p className="mt-1 text-sm text-ink/70">{event.description}</p>}
+                  <button onClick={() => downloadIcs(event)} className="mt-1 text-xs text-brass hover:underline">
+                    Add to calendar
+                  </button>
+                </li>
+              ))}
+            </ol>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+/**
+ * The menu: each day's name small and centred, then its events with their
+ * times, joined by a dotted line the way a dinner menu sets dishes and prices.
+ */
+function Menu({ days, weddingDate }: { days: ReturnType<typeof groupEventsByDate>; weddingDate: string | null }) {
+  return (
+    <div className="mx-auto w-full max-w-3xl">
+      {days.map((day) => (
+        <div key={day.date} className="mt-8 first:mt-0">
+          <p className="text-center font-mono-numbers text-xs uppercase tracking-[0.24em] text-brass">
+            {new Date(`${day.date}T00:00:00`).toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })}
+            {weddingDate === day.date ? " \u00b7 Wedding day" : ""}
+          </p>
+          <ol className="mt-3 flex flex-col gap-2">
+            {day.events.map((event) => (
+              <li key={event.id}>
+                <div className="flex items-baseline gap-3">
+                  <span className="min-w-0 font-display text-xl text-forest sm:text-2xl">{event.title}</span>
+                  <span className="mb-1.5 min-w-4 flex-1 border-b-2 border-dotted border-hairline" aria-hidden="true" />
+                  <span className="shrink-0 font-mono-numbers text-sm text-ink sm:text-base">
+                    {event.start_time ? formatTime(event.start_time) : ""}
+                  </span>
+                </div>
+                {(event.location || event.description) && (
+                  <p className="text-sm text-ink/60">{[event.location, event.description].filter(Boolean).join(" \u00b7 ")}</p>
+                )}
+                <button onClick={() => downloadIcs(event)} className="text-xs text-brass hover:underline">
+                  Add to calendar
+                </button>
+              </li>
+            ))}
+          </ol>
+        </div>
+      ))}
+    </div>
   );
 }
 

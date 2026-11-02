@@ -6,6 +6,7 @@
 // Exits 1 on any problem that would make /admin/vendors skip or reject a row.
 
 import { readFileSync, readdirSync } from "node:fs";
+import { pathToFileURL } from "node:url";
 
 const STATE_DIR = "src/lib/batches/vendors";
 // [source text, the state its file is for (null for the older shared file)]
@@ -34,6 +35,17 @@ const siteKey = (w) =>
 
 const problems = [];
 const warnings = [];
+
+// Everything below reads the files as text, so a file that isn't valid
+// TypeScript (an unclosed tsv backtick, say) would pass and then fail the
+// Cloudflare build. Load each one for real first.
+for (const f of readdirSync(STATE_DIR).filter((f) => f.endsWith(".ts") && f !== "index.ts")) {
+  try {
+    await import(pathToFileURL(`${STATE_DIR}/${f}`).href);
+  } catch (e) {
+    problems.push(`${STATE_DIR}/${f} doesn't load: ${String(e.message).split("\n")[0]}`);
+  }
+}
 const seenSites = new Map();
 const seenNames = new Map();
 const coverage = new Map(); // area -> Map(category -> count)

@@ -32,6 +32,8 @@ export type NewListing = {
  */
 export async function startListing(
   input: NewListing,
+  /** Claim-link paths this browser has opened (use-saved-draft.tsx). */
+  known: string[] = [],
 ): Promise<{ error?: string; errors?: string[]; next?: string }> {
   if (clean(input.company)) return { error: "Something went wrong -- please try again." };
 
@@ -82,6 +84,33 @@ export async function startListing(
     };
   }
 
+  // Started before and not sent yet (the same business, state and email,
+  // still unpublished): back to that listing and everything already typed on
+  // it, not a second, empty one. Straight there only if this browser opened
+  // its link before; anyone else gets the link by email, since typing a
+  // business's name and address shouldn't open its draft.
+  const { data: started } = await admin
+    .from(table)
+    .select("id")
+    .ilike("name", name.replace(/[%_\\]/g, "\\$&"))
+    .eq("state", state)
+    .ilike("contact_email", email.replace(/[%_\\]/g, "\\$&"))
+    .eq("source", "self-listed")
+    .eq("active", false)
+    .eq("is_sample", false)
+    .order("created_at", { ascending: false })
+    .limit(1);
+  if (started?.[0]) {
+    const link = kind === "venue" ? await ensureClaimLink(started[0].id) : await ensureVendorClaimLink(started[0].id);
+    if (!link) return { error: "Couldn't find your listing -- please try again." };
+    const path = new URL(link).pathname;
+    if (Array.isArray(known) && known.includes(path)) return { next: path };
+    await sendListingLink(email, submitterName, name, link);
+    return {
+      error: `You've already started a listing for ${name}, so we've emailed your private link to ${email}. Open it to pick up where you left off.`,
+    };
+  }
+
   const row: Record<string, string | boolean | null> = {
     name,
     city,
@@ -102,20 +131,23 @@ export async function startListing(
 
   // Best effort: they're about to land on the link anyway. This is so they can
   // find it again if they close the tab halfway through.
-  if (process.env.RESEND_API_KEY) {
-    try {
-      await getResendClient().emails.send({
-        from: INQUIRY_FROM_ADDRESS,
-        to: email,
-        subject: `Your ${name} listing on You Do, I Do`,
-        text: `Hi ${submitterName},\n\nHere's the private link to finish your ${name} listing on You Do, I Do:\n\n${url}\n\nIt's the only way into your listing, so keep it to yourself. Once you send your details, we'll review them and email you when you're live. Use the same link any time you want to make changes.\n\nThanks,\nYou Do, I Do`,
-      });
-    } catch {
-      // Nothing to do.
-    }
-  }
+  await sendListingLink(email, submitterName, name, url);
 
   return { next: new URL(url).pathname };
+}
+
+async function sendListingLink(email: string, submitterName: string, name: string, url: string) {
+  if (!process.env.RESEND_API_KEY) return;
+  try {
+    await getResendClient().emails.send({
+      from: INQUIRY_FROM_ADDRESS,
+      to: email,
+      subject: `Your ${name} listing on You Do, I Do`,
+      text: `Hi ${submitterName},\n\nHere's the private link to finish your ${name} listing on You Do, I Do:\n\n${url}\n\nIt's the only way into your listing, so keep it to yourself. Everything you fill in is saved as you go, so you can stop and come back to it on any device. Once you send your details, we'll review them and email you when you're live. Use the same link any time you want to make changes.\n\nThanks,\nYou Do, I Do`,
+    });
+  } catch {
+    // Nothing to do.
+  }
 }
 
 /** Of these listings, the ones whose most recent approved change came from this email. */

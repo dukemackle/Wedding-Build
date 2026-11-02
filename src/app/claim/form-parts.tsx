@@ -1,6 +1,8 @@
 "use client";
 
 import { useRef, useState, useTransition } from "react";
+import { AnimatedWrenBird } from "@/components/animated-wren-bird";
+import { WrenChatBirdIcon } from "@/components/icons";
 import { MAX_CLAIM_PHOTOS, CLAIM_PHOTO_TYPES } from "@/lib/venue-claim";
 
 // The pieces the venue and vendor claim forms are both built from.
@@ -254,8 +256,9 @@ export function WriteHelper({
 
   if (!open) {
     return (
-      <button type="button" onClick={() => setOpen(true)} className="mt-1.5 text-sm font-medium text-brass hover:underline">
-        ✨ Help me write this
+      <button type="button" onClick={() => setOpen(true)} className="mt-1.5 inline-flex items-center gap-1.5 text-sm font-medium text-brass hover:underline">
+        <WrenChatBirdIcon className="h-5 w-5 shrink-0" />
+        Help me write this
       </button>
     );
   }
@@ -293,8 +296,10 @@ export function WriteHelper({
           type="button"
           onClick={run}
           disabled={isPending}
-          className={draft ? "text-brass hover:underline disabled:opacity-50" : "rounded-md bg-forest px-3 py-1.5 font-medium text-parchment hover:bg-forest/90 disabled:opacity-60"}
+          className={`inline-flex items-center gap-1.5 ${draft ? "text-brass hover:underline disabled:opacity-50" : "rounded-md bg-forest px-3 py-1.5 font-medium text-parchment hover:bg-forest/90 disabled:opacity-60"}`}
         >
+          {/* Wren bobs its head while it drafts, as it does in the chat. */}
+          {isPending && <AnimatedWrenBird thinking className="h-5 w-5" />}
           {isPending ? "Writing…" : draft ? "Try again" : "Write it for me"}
         </button>
         <button type="button" onClick={() => setOpen(false)} className="text-ink/50 hover:text-ink">

@@ -917,6 +917,34 @@ Kirby Hill Farm	15 Kirby Hill Road	Pawling	New York			Barn & Farm	Indoor & Outdo
 Mirbeau Inn & Spa Rhinebeck	46 West Market Street	Rhinebeck	New York			Hotel & Resort	Indoor & Outdoor	40			Village inn and spa that holds small weddings of up to 40 guests in its library by the fireplace and on its outdoor deck and grounds.	reservations@mirbeau.com	1-877-647-2328	https://rhinebeck.mirbeau.com/weddings
 `,
   },
+  {
+    name: "Hudson Valley depth",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+The Barn at Black Walnut Farm	1032 Kings Hwy	Saugerties	New York			Barn & Farm	Indoor & Outdoor				Restored 1891 barn on 34 private acres with a 1747 farmhouse for lodging and three ceremony sites, booked for full-weekend weddings.	hello@thebarnatblackwalnutfarm.com		https://thebarnatblackwalnutfarm.com/weddings
+ElmRock Inn	4496 US Route 209	Stone Ridge	New York			Historic Mansion & Estate	Indoor & Outdoor	100	12500	Package	Restored historic estate and boutique inn on about 5 acres between Accord and Stone Ridge, hosting micro weddings with a bridal cottage and firepit lawn.	info@elmrockinn.com	(845) 687-4492	https://www.elmrockinn.com/weddings
+Kiernan Farm	1308 Bruynswick Rd	Gardiner	New York			Barn & Farm	Indoor & Outdoor	130			Working family farm at the foot of the Shawangunks with a 1780s post-and-beam barn, event lawn and picnic grove, open April through November.		(845) 745-0550	https://kiernanfarm.com/weddings
+Lippincott Manor	69 Lippincott Rd	Wallkill	New York			Historic Mansion & Estate	Indoor & Outdoor				Family-run catering venue on 15 acres with Wallkill River and Shawangunk views, offering all-inclusive wedding packages.	info@lippincottmanor.com	(845) 895-2474	https://lippincottmanor.com
+The Arbor Grove at Pennings Orchard	169 State Route 94 S	Warwick	New York			Barn & Farm	Outdoor				Orchard event space at Pennings Orchard with Hudson Valley views, used for weddings, rehearsal dinners and showers.	jackpenningsfamily@yahoo.com	(845) 986-7080	https://penningsorchard.com
+West Song Farm	720 Route 284	Westtown	New York			Barn & Farm	Indoor & Outdoor				18-acre working farm that hosts weddings and events, with seasonal produce and flowers and a historic farmhouse stay.	westsongfarm@gmail.com	(917) 620-2468	https://westsongfarm.com
+Kindred Creeks Farm	8 Pleasant Ridge Rd	Poughquag	New York			Barn & Farm	Outdoor				Newer outdoor event venue where two creeks meet, with farm, creek and rustic barn views for weddings.	events@kindredcreeks.com	(845) 878-3850	https://kindredcreeksfarm.com
+`,
+  },
+  {
+    name: "New York City: Manhattan, boroughs, Westchester and Long Island depth",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+Scandinavia House	58 Park Avenue	New York	New York			Museum, Gallery & Rooftop	Indoor & Outdoor	220			Nordic cultural center on Park Avenue whose glass-walled second-floor Volvo Hall opens to a stone-and-wood garden terrace.	vmcgann@amscan.org	212-847-9719	https://www.scandinaviahouse.org/rentals/
+45 Downing	45 Downing Street	New York	New York			Ballroom	Indoor				Greenwich Village event space pairing a ballroom with a garden room that has a fireplace.	info@45downing.com	917-548-6700	https://www.45downing.com/
+The Astor House	130 East 80th Street	New York	New York			Historic Mansion & Estate	Indoor				Upper East Side townhouse event house run by the New York Junior League and marketed for weddings.	events@nyjl.org	212-606-0245	https://theastorhouse.org/
+Somewhere Nowhere NYC	112 W 25th Street	New York	New York			Museum, Gallery & Rooftop	Indoor & Outdoor	500			Chelsea-area rooftop and indoor lounge that offers wedding, engagement and proposal events.	events@elgruposn.com	212-404-7969	https://www.somewherenowherenyc.com/private-events
+Chelsea Hall	236 W 23rd Street	New York	New York			Ballroom	Indoor & Outdoor	250			Historic Chelsea hall with indoor and outdoor chuppah spaces for ceremonies.	info@chelseahall.nyc	917-444-5036	https://chelseahall.nyc/
+Hall des Lumieres	49 Chambers Street	New York	New York			Museum, Gallery & Rooftop	Indoor	330			Digital-art venue inside the restored Emigrant Industrial Savings Bank in Tribeca, with projection-mapped floors and a vault room.			https://www.halldeslumieres.com/
+St. Mark's Church in-the-Bowery	131 E 10th Street	New York	New York			Chapel & Church	Indoor	300	3500	Package	Historic East Village church whose sanctuary holds Episcopal ceremonies, with a parish hall for smaller gatherings.	office@stmarksbowery.org	212-674-6377	https://www.stmarksbowery.org/private-events
+Long Island Marriott	101 James Doolittle Boulevard	Uniondale	New York			Hotel & Resort	Indoor	700			A Nassau County hotel near the LIRR whose largest space is a 9,720-square-foot Grand Ballroom, with on-site catering, guest room blocks and Marriott-certified wedding planners.		516-794-3800	https://www.marriott.com/hotels/event-planning/wedding-planning/nycli-long-island-marriott
+Brooklyn Grange Navy Yard	63 Flushing Avenue	Brooklyn	New York			Museum, Gallery & Rooftop	Outdoor	100			One and a half acre rooftop farm in the Brooklyn Navy Yard with a paved patio, a rain-resistant awning and views of the ship docks and downtown Manhattan.	info@brooklyngrangefarm.com		https://www.brooklyngrangefarm.com/brooklyn-navy-yard
+LIC Weddings at LIC Bar	45-58 Vernon Boulevard	Long Island City	New York			Restaurant & Brewery	Indoor & Outdoor	175	135	Per person	Neighborhood bar and restaurant with brick walls, tin ceilings, a back room and a courtyard that can be closed off for a wedding.	briancorkee@yahoo.com	917-599-3471	https://www.licweddings.com
+Gottscheer Hall	657 Fairview Avenue	Ridgewood	New York			Ballroom	Indoor	300			German-American banquet hall and pub in Ridgewood, open since 1924, with a room that can be laid out for weddings and catered in house.		718-366-3030	https://www.gottscheerhall.com
+`,
+  },
 ];
 
 export default batches;

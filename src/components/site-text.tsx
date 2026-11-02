@@ -3,7 +3,7 @@
 import dynamic from "next/dynamic";
 import type { CSSProperties, ReactNode } from "react";
 import { useSiteDesign, useTextEditing } from "@/components/guest-site-theme";
-import { TEXT_SLOTS, textSlotCss, type TextSlotId } from "@/lib/site-design";
+import { TEXT_SLOTS, isSizeOnlySlot, textSlotCss, type TextSlotId } from "@/lib/site-design";
 
 // The editing version is a separate chunk, fetched only in the editor's preview.
 const EditableSiteText = dynamic(() => import("./site-text-edit").then((m) => m.EditableSiteText));
@@ -24,7 +24,7 @@ export function SiteText({
   children,
 }: {
   slot: TextSlotId;
-  as?: "h1" | "h2" | "p";
+  as?: "h1" | "h2" | "p" | "div";
   className?: string;
   style?: CSSProperties;
   children: ReactNode;
@@ -35,7 +35,10 @@ export function SiteText({
   const words = TEXT_SLOTS.find((s) => s.id === slot)?.words ?? false;
   const text = words && own?.text ? own.text : null;
   const css = { ...style, ...textSlotCss(own) } as CSSProperties;
-  const inner = own?.size ? { fontSize: `${own.size}em` } : undefined;
+  const zoom = isSizeOnlySlot(slot);
+  const inner = !own?.size ? undefined : zoom ? ({ "--site-zoom": own.size } as CSSProperties) : { fontSize: `${own.size}em` };
+  // A block inside (the countdown's units) needs a block around it.
+  const Inner = Tag === "div" ? "div" : "span";
 
   if (editable) {
     return (
@@ -47,7 +50,9 @@ export function SiteText({
 
   return (
     <Tag className={className} style={css}>
-      <span style={inner}>{text ?? children}</span>
+      <Inner className={zoom ? "site-zoom" : undefined} style={inner}>
+        {text ?? children}
+      </Inner>
     </Tag>
   );
 }

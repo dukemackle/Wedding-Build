@@ -9,12 +9,13 @@ import { CountdownTimer } from "@/components/countdown-timer";
 import { daysUntilWedding } from "@/lib/countdown";
 import { HeroActions } from "./hero-actions";
 import { useSiteDesign } from "@/components/guest-site-theme";
-import { bannerPhoto, monogramDate, motionPreset, PHOTO_HEROES, resolveDesign } from "@/lib/site-design";
+import { artSuite, bannerPhoto, monogramDate, motionPreset, PHOTO_HEROES, resolveDesign, type ArtSuite } from "@/lib/site-design";
 import { SiteOrnament } from "@/components/site-ornament";
-import { SiteArt } from "@/components/site-art";
+import { SiteArt, SuiteCorner } from "@/components/site-art";
 import { SiteText } from "@/components/site-text";
 import { SceneArtwork, SiteScene } from "@/components/site-scene";
 import { SiteSection } from "@/components/site-section";
+import { CANVAS_WIDTH } from "@/lib/layout";
 import { creditLinks, isLibraryPhoto, parseCredit } from "@/lib/photo-credit";
 
 function formatDate(dateStr: string) {
@@ -121,26 +122,144 @@ function HeroContent({
       )}
 
       {(wedding.wedding_date || location) && (
-        <p className={`mt-4 text-sm ${tone === "light" ? "text-white/85" : "text-ink/60"}`}>
+        <SiteText slot="hero.date" as="p" className={`mt-4 text-sm ${tone === "light" ? "text-white/85" : "text-ink/60"}`}>
           {[wedding.wedding_date ? formatDate(wedding.wedding_date) : null, location]
             .filter(Boolean)
             .join(" · ")}
-        </p>
+        </SiteText>
       )}
 
       {wedding.wedding_date && (
-        <CountdownTimer
-          targetDate={wedding.wedding_date}
-          fallbackLabel={daysUntilWedding(wedding.wedding_date)}
-          tone={tone}
-          size="lg"
-          className="mt-8"
-          live={motion.ticking}
-          flipboard={motion.flipboard}
-        />
+        <SiteText slot="hero.countdown" as="div" className="mt-8">
+          <CountdownTimer
+            targetDate={wedding.wedding_date}
+            fallbackLabel={daysUntilWedding(wedding.wedding_date)}
+            tone={tone}
+            size="lg"
+            live={motion.ticking}
+            flipboard={motion.flipboard}
+          />
+        </SiteText>
       )}
 
       <HeroActions wedding={wedding} location={location} tone={tone} />
+    </div>
+  );
+}
+
+/** "Aspen Lakes Lodge, Sisters, OR": where it is, for directions and the calendar. */
+function locationOf(wedding: PublicWedding) {
+  return [wedding.venue_name, wedding.venue_city, wedding.venue_state].filter(Boolean).join(", ");
+}
+
+/** "9.4.27", as a postmark has it. */
+function shortDate(date: string) {
+  const [y, m, d] = date.split("-").map(Number);
+  return `${m}.${d}.${String(y).slice(2)}`;
+}
+
+function initialsOf(wedding: PublicWedding, swap: boolean) {
+  const a = wedding.partner_a_name?.trim()?.[0]?.toUpperCase() ?? "";
+  const b = wedding.partner_b_name?.trim()?.[0]?.toUpperCase() ?? "";
+  return swap ? [b, a] : [a, b];
+}
+
+/*
+ * The pieces of the side-set layouts (masthead, postcard, cover, initials,
+ * stamp), which arrange the words their own way rather than centring
+ * HeroContent. Same slots, so retyped words carry over between layouts.
+ */
+
+function HeroKicker({ tone, className = "" }: { tone: "light" | "dark"; className?: string }) {
+  const { occasion } = useSiteDesign();
+  return (
+    <SiteText
+      slot="hero.kicker"
+      as="p"
+      className={`font-mono-numbers text-[11px] uppercase tracking-[0.24em] ${tone === "light" ? "text-white/85" : "text-brass"} ${className}`}
+    >
+      {occasion.kind === "renewal" ? "We're renewing our vows" : <>You&apos;re invited</>}
+    </SiteText>
+  );
+}
+
+function HeroNames({ wedding, tone, className }: { wedding: PublicWedding; tone: "light" | "dark"; className: string }) {
+  const design = useSiteDesign();
+  const script = resolveDesign(design).scriptNames;
+  const names = [wedding.partner_a_name, wedding.partner_b_name].filter(Boolean).join(` ${design.names.joiner} `);
+  return (
+    <SiteText
+      slot="hero.names"
+      as="h1"
+      className={`site-names font-display font-medium [font-style:var(--site-name-style,normal)] [font-weight:var(--site-name-weight,500)] [text-wrap:balance] ${
+        design.names.capitals && !script ? "uppercase" : ""
+      } ${tone === "light" ? "text-white [text-shadow:0_2px_24px_rgba(0,0,0,0.28)]" : "text-forest"} ${className}`}
+      style={{ fontFamily: "var(--font-names, var(--font-display))" }}
+    >
+      {names}
+    </SiteText>
+  );
+}
+
+function HeroDateLine({
+  wedding,
+  tone,
+  className = "",
+  stacked = false,
+}: {
+  wedding: PublicWedding;
+  tone: "light" | "dark";
+  className?: string;
+  /** The date over the place rather than beside it. */
+  stacked?: boolean;
+}) {
+  const parts = [wedding.wedding_date ? formatDate(wedding.wedding_date) : null, locationOf(wedding) || null].filter(Boolean);
+  if (parts.length === 0) return null;
+  return (
+    <SiteText slot="hero.date" as="p" className={`text-sm ${tone === "light" ? "text-white/90" : "text-ink/70"} ${className}`}>
+      {stacked ? parts.map((p, i) => <span key={i} className="block">{p}</span>) : parts.join(" · ")}
+    </SiteText>
+  );
+}
+
+/**
+ * The date, place and reply-by as labelled facts, then the buttons: in a row
+ * across the page (the masthead) or as a short list (initials).
+ */
+function HeroFacts({ wedding, className = "", list = false }: { wedding: PublicWedding; className?: string; list?: boolean }) {
+  const deadline = wedding.rsvp_deadline ? formatDate(wedding.rsvp_deadline).replace(/^\w+, /, "") : null;
+  const place = [wedding.venue_name, [wedding.venue_city, wedding.venue_state].filter(Boolean).join(", ")].filter(Boolean).join(", ");
+  const facts = [
+    wedding.wedding_date ? ["The date", formatDate(wedding.wedding_date)] : null,
+    place ? ["The place", place] : null,
+    deadline ? ["Reply by", deadline] : null,
+  ].filter((x): x is string[] => x !== null);
+  if (list) {
+    return (
+      <div className={className}>
+        <dl className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-6 gap-y-2.5 text-[15px]">
+          {facts.map(([k, v]) => (
+            <div key={k} className="contents">
+              <dt className="pt-0.5 font-mono-numbers text-[11px] uppercase tracking-[0.18em] text-ink/60">{k}</dt>
+              <dd className="text-ink">{v}</dd>
+            </div>
+          ))}
+        </dl>
+        <HeroActions wedding={wedding} location={locationOf(wedding)} tone="dark" align="start" />
+      </div>
+    );
+  }
+  return (
+    <div className={`grid gap-5 sm:grid-cols-2 lg:grid-cols-[repeat(3,minmax(0,1fr))_auto] lg:items-end ${className}`}>
+      {facts.map(([k, v]) => (
+        <div key={k} className="min-w-0">
+          <p className="font-mono-numbers text-[11px] uppercase tracking-[0.18em] text-ink/60">{k}</p>
+          <p className="mt-1 font-display text-xl text-forest lg:text-2xl">{v}</p>
+        </div>
+      ))}
+      <div className="sm:col-span-2 lg:col-span-1 lg:col-start-4 [&>div]:mt-0">
+        <HeroActions wedding={wedding} location={locationOf(wedding)} tone="dark" align="start" />
+      </div>
     </div>
   );
 }
@@ -285,11 +404,32 @@ function InvitationContent({ wedding }: { wedding: PublicWedding }) {
 }
 
 /**
+ * The invitation's photo inside a set's painted arch. The geometry is the
+ * arch painting's own: its opening sits at these fractions of the painting,
+ * so the photo is placed in it rather than the arch stretched round the
+ * photo. Taller than the plain arched photo (5:9) to fill the opening. On a
+ * phone the arch runs a little past the card's padding, as flowers would.
+ */
+function ArchedPhoto({ photo, arch }: { photo: string; arch: ArtSuite["arch"] }) {
+  return (
+    <div className="relative -mx-3 -mb-2 w-[calc(100%+1.5rem)] max-w-[400px] sm:mx-auto sm:w-full" style={{ aspectRatio: `${arch.w} / ${arch.h}` }}>
+      <div className="site-hero-photo absolute left-[21.5%] top-[12.5%] aspect-[5/9] w-[57%] overflow-hidden rounded-[999px_999px_3px_3px] bg-[var(--site-photo)]">
+        <Image src={photo} unoptimized={isLibraryPhoto(photo)} alt="" fill priority sizes="200px" className="hero-kenburns object-cover" />
+      </div>
+      <Image src={arch.src} alt="" fill priority sizes="400px" className="pointer-events-none object-contain" aria-hidden="true" />
+    </div>
+  );
+}
+
+/**
  * A small arrow at the foot of the screen-filling layouts, so guests know
  * there's more below. Takes them to the end of the top of the page.
  */
 function ScrollCue({ tone, className = "" }: { tone: "light" | "dark"; className?: string }) {
   const reduced = useReducedMotion();
+  // With tabs the top of the page is the whole Home tab; there's nothing below to point at.
+  const tabs = useSiteDesign().navigation === "tabs";
+  if (tabs) return null;
   return (
     <button
       type="button"
@@ -352,7 +492,9 @@ function Slideshow({ photos }: { photos: string[] }) {
  * photo layouts show the theme's scene as the picture (SceneArtwork).
  */
 function HeroLayout({ wedding }: { wedding: PublicWedding }) {
-  const { hero, art } = useSiteDesign();
+  const design = useSiteDesign();
+  const { hero, art } = design;
+  const suite = artSuite(art.id);
   const photo = bannerPhoto(wedding);
   const gallery = useContext(HeroPhotosContext);
 
@@ -389,7 +531,7 @@ function HeroLayout({ wedding }: { wedding: PublicWedding }) {
   // so they read) or straight on the page.
   if (hero === "poster") {
     return (
-      <header className="relative flex min-h-[64vh] items-center overflow-hidden py-16 lg:min-h-[80vh]">
+      <header className="relative flex min-h-[calc(var(--site-vh,1vh)*64)] items-center overflow-hidden py-16 lg:min-h-[calc(var(--site-vh,1vh)*80)]">
         {photo ? (
           <>
             <div className="site-hero-photo absolute inset-0 bg-[var(--site-photo)]">
@@ -438,8 +580,8 @@ function HeroLayout({ wedding }: { wedding: PublicWedding }) {
     // screen, the names the rest, with the couple's artwork in the
     // column's corners. On a phone, the photo first and the names under it.
     return (
-      <header className="grid lg:min-h-[92vh] lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
-        <div className="site-hero-photo relative h-[46vh] min-h-[300px] overflow-hidden bg-[var(--site-photo)] lg:h-auto">
+      <header className="grid lg:min-h-[calc(var(--site-vh,1vh)*92)] lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
+        <div className="site-hero-photo relative h-[calc(var(--site-vh,1vh)*46)] min-h-[300px] overflow-hidden bg-[var(--site-photo)] lg:h-auto">
           {photo ? (
             <Image src={photo} unoptimized={isLibraryPhoto(photo)} alt="" fill priority sizes="(min-width: 1024px) 60vw, 100vw" className="hero-kenburns object-cover" />
           ) : (
@@ -458,15 +600,36 @@ function HeroLayout({ wedding }: { wedding: PublicWedding }) {
   }
 
   // Invitation: a paper card with the names and date worded like the printed
-  // invitation, on the page (or over the photo, softened, when there is one).
+  // invitation, under an arched photo when there is one.
   if (hero === "invitation") {
     return (
-      <header className="relative overflow-hidden px-4 py-12 sm:px-8 lg:py-20">
-        <SiteArt art={art} />
+      <header className={`relative overflow-hidden px-4 py-12 sm:px-8 lg:py-20 ${suite ? "pb-24 sm:pb-32 lg:pb-36" : ""}`}>
+        {suite ? <SuiteCorner suite={suite} className={photo ? "max-sm:hidden" : ""} /> : <SiteArt art={art} />}
         <SiteScene where="surround" />
-        <div className="site-invitation relative z-10 mx-auto max-w-xl bg-card px-6 py-12 shadow-[0_18px_44px_rgb(0_0_0_/_0.12)] sm:px-12 sm:py-16">
+        <div
+          className={`site-invitation relative z-10 mx-auto max-w-2xl bg-card px-6 shadow-[0_18px_44px_rgb(0_0_0_/_0.12)] sm:px-12 ${suite ? "pb-16 pt-12 sm:pb-28 sm:pt-16" : "py-12 sm:py-16"}`}
+        >
           <div className="pointer-events-none absolute inset-3 border border-[color-mix(in_srgb,var(--site-accent)_35%,transparent)]" aria-hidden="true" />
+          {photo && suite ? (
+            <ArchedPhoto photo={photo} arch={suite.arch} />
+          ) : photo ? (
+            <div className="relative mx-auto mb-8 w-[min(230px,64%)] rounded-[200px_200px_4px_4px] border border-[var(--site-accent)] p-2">
+              <div className="site-hero-photo relative aspect-[4/5] overflow-hidden rounded-[190px_190px_2px_2px] bg-[var(--site-photo)]">
+                <Image src={photo} unoptimized={isLibraryPhoto(photo)} alt="" fill priority sizes="230px" className="hero-kenburns object-cover" />
+              </div>
+            </div>
+          ) : null}
           <InvitationContent wedding={wedding} />
+          {suite && (
+            // Flowers laid at the foot of the card, its painted top just over the card's edge.
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute -bottom-[clamp(4.5rem,15vw,7.5rem)] left-1/2 w-[112%] max-w-[760px] -translate-x-1/2"
+              style={{ aspectRatio: `${suite.ledge.w} / ${suite.ledge.h}` }}
+            >
+              <Image src={suite.ledge.src} alt="" fill sizes="(min-width: 768px) 760px, 112vw" className="object-contain" />
+            </div>
+          )}
         </div>
       </header>
     );
@@ -477,7 +640,7 @@ function HeroLayout({ wedding }: { wedding: PublicWedding }) {
   if (hero === "slideshow") {
     const photos = [photo, ...gallery].filter((x): x is string => Boolean(x)).slice(0, 6);
     return (
-      <header className="relative flex min-h-[70vh] items-center overflow-hidden py-16 lg:min-h-[82vh]">
+      <header className="relative flex min-h-[calc(var(--site-vh,1vh)*70)] items-center overflow-hidden py-16 lg:min-h-[calc(var(--site-vh,1vh)*82)]">
         <div className="site-hero-photo absolute inset-0 bg-[var(--site-photo)]">
           {photos.length ? <Slideshow photos={photos} /> : <SceneArtwork />}
         </div>
@@ -494,7 +657,7 @@ function HeroLayout({ wedding }: { wedding: PublicWedding }) {
     const [second, third] = gallery.filter((x) => x !== photo);
     const tile = "site-hero-photo absolute overflow-hidden bg-[var(--site-photo)] shadow-[0_14px_34px_rgb(0_0_0_/_0.18)] ring-4 ring-[var(--color-card)]";
     return (
-      <header className="grid items-center gap-10 px-4 pb-12 pt-10 sm:px-8 lg:min-h-[78vh] lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:gap-6 lg:px-12">
+      <header className="grid items-center gap-10 px-4 pb-12 pt-10 sm:px-8 lg:min-h-[calc(var(--site-vh,1vh)*78)] lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:gap-6 lg:px-12">
         <div className="relative mx-auto aspect-[5/4] w-full max-w-[640px]">
           <div className={`${tile} inset-y-[6%] left-[8%] right-[14%]`}>
             {photo ? <Image src={photo} unoptimized={isLibraryPhoto(photo)} alt="" fill priority sizes="(min-width: 1024px) 45vw, 90vw" className="object-cover" /> : <SceneArtwork />}
@@ -511,6 +674,166 @@ function HeroLayout({ wedding }: { wedding: PublicWedding }) {
           )}
         </div>
         <HeroContent wedding={wedding} tone="dark" />
+      </header>
+    );
+  }
+
+  // Magazine cover: the photo wide across the top, the names huge under it
+  // and set left, then the date, place and reply-by in a ruled row.
+  if (hero === "masthead") {
+    return (
+      <header>
+        <div className="site-hero-photo relative h-[calc(var(--site-vh,1vh)*46)] min-h-[300px] overflow-hidden bg-[var(--site-photo)] lg:h-[calc(var(--site-vh,1vh)*62)]">
+          {photo ? (
+            <Image src={photo} unoptimized={isLibraryPhoto(photo)} alt="" fill priority sizes="100vw" className="hero-kenburns object-cover" />
+          ) : (
+            <SceneArtwork />
+          )}
+        </div>
+        <div className={`mx-auto w-full ${CANVAS_WIDTH} px-4 sm:px-6 lg:px-16`}>
+          <HeroKicker className="mt-7" tone="dark" />
+          <HeroNames wedding={wedding} tone="dark" className="mt-2 text-[clamp(3.25rem,12.5vw,11.5rem)] leading-[0.9] tracking-[-0.02em]" />
+          <HeroFacts wedding={wedding} className="mt-8 border-t border-ink pt-5" />
+        </div>
+      </header>
+    );
+  }
+
+  // Postcard: the photo as a tilted postcard with a round postmark, the
+  // names beside it on a computer and under it on a phone.
+  if (hero === "postcard") {
+    const place = [wedding.venue_city, wedding.venue_state].filter(Boolean).join(", ");
+    return (
+      <header className="mx-auto grid w-full max-w-6xl items-center gap-12 px-6 pb-16 pt-10 sm:px-10 lg:grid-cols-[1.05fr_1fr] lg:gap-16 lg:pb-24 lg:pt-14">
+        <div className="relative mx-auto w-full max-w-[560px] -rotate-[2.5deg] bg-white p-3 pb-12 shadow-[0_18px_40px_rgb(0_0_0_/_0.18)] sm:p-3.5 sm:pb-14">
+          <div className="site-hero-photo relative aspect-[4/3] overflow-hidden bg-[var(--site-photo)]">
+            {photo ? (
+              <Image src={photo} unoptimized={isLibraryPhoto(photo)} alt="" fill priority sizes="(min-width: 1024px) 560px, 90vw" className="hero-kenburns object-cover" />
+            ) : (
+              <SceneArtwork />
+            )}
+          </div>
+          {/* The card is always white, so its caption is always dark. */}
+          <p className="absolute bottom-3 left-4 font-display text-lg italic text-[#1f2a44] sm:bottom-4">
+            {wedding.venue_city ? `Greetings from ${wedding.venue_city}` : "Wish you were here"}
+          </p>
+          {(place || wedding.wedding_date) && (
+            <span className="absolute -right-3 -top-6 flex h-24 w-24 rotate-12 items-center justify-center rounded-full border-2 border-dashed border-[var(--site-accent)] bg-parchment px-2 text-center font-mono-numbers text-[10px] uppercase leading-relaxed tracking-[0.14em] text-[var(--site-accent)] sm:-right-6 sm:h-28 sm:w-28" aria-hidden="true">
+              <span>
+                {place}
+                {wedding.wedding_date && <span className="block">{shortDate(wedding.wedding_date)}</span>}
+              </span>
+            </span>
+          )}
+        </div>
+        <div className="relative text-center lg:text-left">
+          <SiteArt art={{ ...art, placement: "corners" }} />
+          <HeroKicker tone="dark" />
+          <HeroNames wedding={wedding} tone="dark" className="mt-3 text-[clamp(3rem,7.4vw,6.5rem)] leading-[0.98]" />
+          <HeroDateLine wedding={wedding} tone="dark" className="mt-5" />
+          <HeroActions wedding={wedding} location={locationOf(wedding)} tone="dark" align="responsive" />
+        </div>
+      </header>
+    );
+  }
+
+  // Photo cover: the photo fills the screen and the names sit over its lower
+  // corner, the date, place and buttons across from them.
+  if (hero === "cover") {
+    const tone = photo ? "light" : "dark";
+    return (
+      <header className="relative flex min-h-[calc(var(--site-vh,1vh)*86)] flex-col justify-end overflow-hidden lg:min-h-[calc(var(--site-vh,1vh)*94)]">
+        <div className="site-hero-photo absolute inset-0 bg-[var(--site-photo)]">
+          {photo ? (
+            <Image src={photo} unoptimized={isLibraryPhoto(photo)} alt="" fill priority sizes="100vw" className="hero-kenburns object-cover" />
+          ) : (
+            <SceneArtwork />
+          )}
+        </div>
+        {photo && (
+          <span className="absolute inset-0 bg-[linear-gradient(180deg,rgb(0_0_0_/_0.28),transparent_28%,transparent_42%,rgb(0_0_0_/_0.68))]" aria-hidden="true" />
+        )}
+        <div className="relative z-10 flex w-full flex-col gap-2 px-6 pb-12 sm:px-10 lg:flex-row lg:items-end lg:justify-between lg:gap-10 lg:px-14 lg:pb-16">
+          <div className="min-w-0">
+            <HeroKicker tone={tone} />
+            <HeroNames wedding={wedding} tone={tone} className="mt-3 text-[clamp(3.25rem,10vw,9.5rem)] leading-[0.92]" />
+          </div>
+          <div className="shrink-0 lg:pb-2 lg:text-right">
+            <HeroDateLine wedding={wedding} tone={tone} className="mt-3 uppercase tracking-[0.2em] lg:mt-0" stacked />
+            <HeroActions wedding={wedding} location={locationOf(wedding)} tone={tone} align="end" />
+          </div>
+        </div>
+      </header>
+    );
+  }
+
+  // Initials: the couple's initials huge in the accent, the names and the
+  // details beside them, a wide photo under both (first on a phone).
+  if (hero === "initials") {
+    const [a, b] = initialsOf(wedding, design.monogram.swap);
+    return (
+      <header className={`mx-auto flex w-full ${CANVAS_WIDTH} flex-col px-5 pb-12 pt-6 sm:px-8 lg:px-12 lg:pb-16 lg:pt-12`}>
+        <div className="grid items-end gap-6 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:gap-12">
+          {a && b && (
+            <p
+              className="flex items-end leading-[0.78] tracking-[-0.04em] text-[var(--site-accent)] text-[clamp(8rem,24vw,24rem)] max-lg:hidden"
+              style={{ fontFamily: "var(--font-names, var(--font-display))" }}
+              aria-hidden="true"
+            >
+              {a}
+              <span className="mx-[0.12em] mb-[0.06em] inline-block h-[0.7em] w-[2px] bg-[var(--color-ink)] opacity-40" />
+              {b}
+            </p>
+          )}
+          <div className="min-w-0">
+            <HeroKicker tone="dark" />
+            <HeroNames wedding={wedding} tone="dark" className="mt-3 text-[clamp(2.6rem,4.8vw,4rem)] leading-[1.02]" />
+            <HeroFacts wedding={wedding} className="mt-7" list />
+          </div>
+        </div>
+        <div className="site-hero-photo relative -mx-5 mb-8 h-[280px] overflow-hidden bg-[var(--site-photo)] max-lg:order-first sm:mx-0 lg:mb-0 lg:mt-12 lg:h-[440px]">
+          {photo ? (
+            <Image src={photo} unoptimized={isLibraryPhoto(photo)} alt="" fill priority sizes="100vw" className="hero-kenburns object-cover" />
+          ) : (
+            <SceneArtwork />
+          )}
+        </div>
+      </header>
+    );
+  }
+
+  // Stamped: the photo in a thick white border with a round stamp of the
+  // year and place on its corner, the names beside it.
+  if (hero === "stamp") {
+    const year = wedding.wedding_date?.slice(0, 4);
+    const place = [wedding.venue_city, wedding.venue_state].filter(Boolean).join(", ");
+    return (
+      <header className="mx-auto grid w-full max-w-6xl items-center gap-14 px-6 pb-16 pt-10 sm:px-10 lg:grid-cols-2 lg:pb-24 lg:pt-16">
+        <div className="relative mx-auto w-full max-w-[560px]">
+          <div className="site-hero-photo relative aspect-[5/4] overflow-hidden border-[10px] border-white bg-[var(--site-photo)] shadow-[0_14px_30px_rgb(60_40_20_/_0.22)]">
+            {photo ? (
+              <Image src={photo} unoptimized={isLibraryPhoto(photo)} alt="" fill priority sizes="(min-width: 1024px) 560px, 90vw" className="hero-kenburns object-cover" />
+            ) : (
+              <SceneArtwork />
+            )}
+          </div>
+          {year && (
+            <span className="absolute -bottom-8 right-2 flex h-24 w-24 -rotate-[10deg] items-center justify-center rounded-full bg-[var(--site-accent)] px-2 text-center text-[var(--site-on-accent)] shadow-[0_0_0_5px_var(--color-parchment),0_0_0_7px_var(--site-accent)] sm:-left-8 sm:right-auto sm:h-32 sm:w-32" aria-hidden="true">
+              <span className="font-mono-numbers text-[9px] uppercase leading-relaxed tracking-[0.16em] sm:text-[11px]">
+                Est.
+                <span className="block font-display text-2xl normal-case leading-none tracking-normal sm:text-3xl">{year}</span>
+                {place}
+              </span>
+            </span>
+          )}
+        </div>
+        <div className="relative text-center lg:text-left">
+          <SiteArt art={{ ...art, placement: "corners" }} />
+          <HeroKicker tone="dark" />
+          <HeroNames wedding={wedding} tone="dark" className="mt-3 text-[clamp(3rem,7.6vw,6.75rem)] font-bold leading-[0.95]" />
+          <HeroDateLine wedding={wedding} tone="dark" className="mt-5 font-display text-xl text-ink" stacked />
+          <HeroActions wedding={wedding} location={locationOf(wedding)} tone="dark" align="responsive" />
+        </div>
       </header>
     );
   }
@@ -540,7 +863,7 @@ function HeroLayout({ wedding }: { wedding: PublicWedding }) {
   // overlaps its lower edge.
   return (
     <header className="flex flex-col items-center">
-      <div className="site-hero-photo relative h-[52vh] min-h-[320px] w-full overflow-hidden bg-[var(--site-photo)] lg:h-[62vh]">
+      <div className="site-hero-photo relative h-[calc(var(--site-vh,1vh)*52)] min-h-[320px] w-full overflow-hidden bg-[var(--site-photo)] lg:h-[calc(var(--site-vh,1vh)*62)]">
         {photo ? (
             <Image src={photo} unoptimized={isLibraryPhoto(photo)} alt="" fill priority sizes="100vw" className="hero-kenburns object-cover" />
           ) : (

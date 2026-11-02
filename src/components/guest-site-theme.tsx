@@ -19,6 +19,8 @@ export const REPLAY_MESSAGE = "wren:replay";
 export const CONFETTI_MESSAGE = "wren:confetti";
 /** Must match RSVP_YES_EVENT in site-motion.tsx (not imported: that file imports this one). */
 const RSVP_YES_EVENT = "wren:rsvp-yes";
+/** Editor to preview: bring this section into view (with tabs, open its tab). */
+export const SHOW_SECTION_MESSAGE = "wren:show-section";
 /** What the preview frame sends up once it can receive a design. */
 export const READY_MESSAGE = "wren:preview-ready";
 /** Both ways: the preview says which words were clicked; the editor clears it (slot null). */

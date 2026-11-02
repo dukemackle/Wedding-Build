@@ -7,6 +7,7 @@ import {
   DESIGN_MESSAGE,
   READY_MESSAGE,
   REPLAY_MESSAGE,
+  SHOW_SECTION_MESSAGE,
   TEXT_EDIT_MESSAGE,
   TEXT_SELECT_MESSAGE,
 } from "@/components/guest-site-theme";
@@ -52,7 +53,6 @@ import { AnimatePanel, BannerFocus, PhotoPanel } from "./photo-motion-panels";
 import { TemplatesTab } from "./templates-tab";
 import { templateById } from "@/lib/site-templates";
 import { BackgroundTab, FontsTab, PhotoColoursSection, TargetColourSection, type PickTarget } from "./look-panels";
-import { publishSiteDesign, saveSiteDraft } from "./actions";
 import { STALE_DESIGN } from "@/lib/site-designs";
 import { BirdCheer } from "@/components/bird-cheer";
 import { PublicSitePanel, SiteSwitch, useGuestSite } from "../public-site-panel";
@@ -89,6 +89,21 @@ const TABS: { key: Tab; label: string }[] = [
 // Desktop preview is laid out at a real laptop width and scaled down to fit,
 // so what the couple sees is the actual arrangement guests get on a computer,
 // not the page squeezed into whatever room the editor leaves.
+type StoreResult = { error?: string; stale?: boolean; version?: string };
+
+/**
+ * Saves (or publishes) through /api/site-design rather than a Server Action,
+ * whose build-specific ID 404s in any tab opened before the latest deploy.
+ */
+async function storeDesign(designId: string, design: SiteDesign, version: string | null, publish: boolean) {
+  const response = await fetch("/api/site-design", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ designId, design, version, publish }),
+  });
+  return (await response.json()) as StoreResult;
+}
+
 const DESKTOP_W = 1280;
 const PHONE_W = 390;
 /** Desktop preview zoom range, as in Canva's zoom bar. */
@@ -211,9 +226,10 @@ export function SiteEditor({
   // The Sections row that's open, kept here so the preview can open one.
   const [openSection, setOpenSection] = useState<SectionKey | null>(null);
 
-  // Brings an opened row into view in the panel.
+  // Brings an opened row into view in the panel, and its tab into the preview.
   useEffect(() => {
     if (!openSection) return;
+    frameRef.current?.contentWindow?.postMessage({ type: SHOW_SECTION_MESSAGE, section: openSection }, window.location.origin);
     const frame = requestAnimationFrame(() =>
       document.getElementById(`section-row-${openSection}`)?.scrollIntoView({ block: "start", behavior: "smooth" }),
     );
@@ -325,11 +341,9 @@ export function SiteEditor({
     }
     saveTimer.current = setTimeout(() => {
       saveChain.current = saveChain.current.then(async () => {
-        const result: { error?: string; stale?: boolean; version?: string } = await saveSiteDraft(
-          designId,
-          next,
-          versionRef.current,
-        ).catch(() => ({ error: "Couldn't save — check your connection." }));
+        const result = await storeDesign(designId, next, versionRef.current, false).catch(() => ({
+          error: "Couldn't save — check your connection.",
+        }) as StoreResult);
         if (result.version) versionRef.current = result.version;
         if (result.stale) setStale(true);
         if (result.error) {
@@ -394,6 +408,7 @@ export function SiteEditor({
     setCanvasSel(next);
     if (next) setPhoneSheet(null);
     if (next) setTextSlot(null);
+    if (next) frameRef.current?.contentWindow?.postMessage({ type: SHOW_SECTION_MESSAGE, section: next.section }, window.location.origin);
     frameRef.current?.contentWindow?.postMessage({ type: CANVAS_SELECT, selection: next }, window.location.origin);
   }
 
@@ -500,11 +515,9 @@ export function SiteEditor({
     clearTimeout(saveTimer.current);
     startPublish(async () => {
       await saveChain.current;
-      const result: { error?: string; stale?: boolean; version?: string } = await publishSiteDesign(
-        designId,
-        design,
-        versionRef.current,
-      ).catch(() => ({ error: "Couldn't publish — check your connection." }));
+      const result = await storeDesign(designId, design, versionRef.current, true).catch(() => ({
+        error: "Couldn't publish — check your connection.",
+      }) as StoreResult);
       if (result.version) versionRef.current = result.version;
       if (result.stale) setStale(true);
       if (result.error) {
@@ -536,7 +549,11 @@ export function SiteEditor({
             ? "Guests see this version"
             : "Your site is off";
 
-  const liveHref = publicSlug ? `${origin}/w/${publicSlug}` : null;
+  // Guests' page when they'd see exactly this; otherwise the saved draft in
+  // its own tab, which works with the site off too.
+  const showsLive = Boolean(publicSlug) && !dirty;
+  const openHref = showsLive ? `${origin}/w/${publicSlug}` : `/guests/site/preview?design=${designId}&view=1`;
+  const openLabel = showsLive ? "Open live site" : "Open preview";
 
   // What the publish button does now. Published and on: it unpublishes
   // (turns the site off, after a confirm). Published but off: it turns it on.
@@ -651,7 +668,7 @@ export function SiteEditor({
       ) : tab === "design" ? (
         <>
           {pickTarget?.colour && <TargetColourSection design={design} target={pickTarget} actions={targetActions} />}
-          <TemplatesTab design={design} names={names} onChange={change} />
+          <TemplatesTab design={design} onChange={change} />
           <ColoursSection design={design} onChange={change}>
             <PhotoColoursSection
               photos={photos}
@@ -666,7 +683,7 @@ export function SiteEditor({
       ) : tab === "background" ? (
         <>
           <SceneSection design={design} onChange={change} />
-          <BackgroundTab design={design} onChange={change} />
+          <BackgroundTab design={design} onChange={change} startBg={resolveDesign(initialDraft).theme.bg} />
         </>
       ) : tab === "motion" ? (
         <MotionTab
@@ -947,11 +964,9 @@ export function SiteEditor({
                         >
                           Replay motion
                         </button>
-                        {liveHref && (
-                          <a href={liveHref} target="_blank" rel="noreferrer" className="text-sm font-medium text-forest underline">
-                            Open live site
-                          </a>
-                        )}
+                        <a href={openHref} target="_blank" rel="noreferrer" className="text-sm font-medium text-forest underline">
+                          {openLabel}
+                        </a>
                       </div>
                     ) : (
                       <div className="-mx-4 -mt-5">{panelBody}</div>
@@ -1028,8 +1043,18 @@ export function SiteEditor({
           <div className="flex min-w-0 flex-1 flex-col">
             <div className="flex items-center gap-2.5 border-b border-hairline px-6 pb-4 pt-5">
               <div className="min-w-0">
-                <Link href="/guests/site" className="text-[13px] text-ink/60 hover:text-ink">
-                  ← Your designs
+                <Link
+                  href="/guests/site"
+                  className="mb-2 inline-flex h-10 items-center gap-2 rounded-full bg-[#2243B6] px-4 text-[15px] font-semibold text-white hover:bg-[#2243B6]/90"
+                >
+                  <span aria-hidden="true">←</span>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                    <rect x="3" y="3" width="7" height="7" rx="1" />
+                    <rect x="14" y="3" width="7" height="7" rx="1" />
+                    <rect x="3" y="14" width="7" height="7" rx="1" />
+                    <rect x="14" y="14" width="7" height="7" rx="1" />
+                  </svg>
+                  Your designs
                 </Link>
                 <h1 className="truncate font-display text-3xl font-semibold text-forest">{designName}</h1>
               </div>
@@ -1049,7 +1074,7 @@ export function SiteEditor({
         )}
         {launches > 0 && <BirdCheer key={launches} message="Your site is live!" />}
         {(
-          <div className="flex h-[60px] shrink-0 items-center gap-3 px-6">
+          <div className="flex h-[52px] shrink-0 items-center gap-3 px-6">
             {historyButtons}
             {deviceToggle}
             {/* Something picked: its bar takes the middle of this row, so the
@@ -1108,16 +1133,14 @@ export function SiteEditor({
                 <span className={`text-[13px] ${error ? "text-red-700" : "text-ink/60"}`} role="status">
                   {status}
                 </span>
-                {liveHref && (
-                  <a
-                    href={liveHref}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-sm font-medium text-forest hover:underline"
-                  >
-                    Open live site
-                  </a>
-                )}
+                <a
+                  href={openHref}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-sm font-medium text-forest hover:underline"
+                >
+                  {openLabel}
+                </a>
               </>
             )}
             {publishButton}
@@ -1426,6 +1449,23 @@ function PreviewStage({
     Math.min(1, Math.max(0, size.h - bottomInset - 8) / (PHONE_H + phoneBezel * 2), size.w / (PHONE_W + phoneBezel * 2)) || 1;
   // How far the iframe is scaled down (or up) to fit the stage.
   const scale = fill ? 1 : device === "desktop" ? (zoom ?? fitScale) : phoneScale;
+  // One percent of the desktop window at "Fit", for the site's --site-vh.
+  const siteVh =
+    !fill && device === "desktop" ? Math.max(0, size.h - bottomInset - 36 - 40) / fitScale / 100 : null;
+
+  useEffect(() => {
+    const frame = frameRef.current;
+    if (!frame) return;
+    const apply = () => {
+      const root = frame.contentDocument?.documentElement;
+      if (!root) return;
+      if (siteVh) root.style.setProperty("--site-vh", `${siteVh}px`);
+      else root.style.removeProperty("--site-vh");
+    };
+    apply();
+    frame.addEventListener("load", apply);
+    return () => frame.removeEventListener("load", apply);
+  }, [frameRef, siteVh]);
 
   // Wheel over the iframe scrolls the site natively, but the events never
   // reach this page. Wheel anywhere else on the stage (the margins, the
@@ -1463,15 +1503,15 @@ function PreviewStage({
     inner = { width: "100%", height: "100%" };
   } else if (device === "desktop") {
     chrome = "browser";
-    const bar = 36 + 40; // browser bar above, zoom bar below
+    const bar = 36 + 40; // browser bar above, zoom bar below (as in siteVh)
     const frameH = Math.max(0, size.h - bottomInset - bar);
     outer = { width: size.w, height: frameH };
-    // The site's window stays the size it is at "Fit" whatever the zoom, so
-    // zooming only makes the page bigger or smaller. Sizing it by the zoom
-    // made a 10% zoom a window ten screens tall, and full-height sections
-    // stretched to fill it. Zoomed out it sits centred; zoomed in it
-    // overflows and the frame scrolls.
-    const viewH = frameH / fitScale;
+    // Zoomed out, the site's window grows to fill the frame, so more of the
+    // page shows instead of white below it; zoomed in it stays the "Fit"
+    // size and the frame scrolls. The hero's screen-relative heights read
+    // --site-vh, pinned to the "Fit" window (siteVh), so a taller window
+    // shows more of the site rather than a stretched hero.
+    const viewH = Math.max(frameH / fitScale, frameH / scale);
     site = { width: DESKTOP_W * scale, height: viewH * scale, margin: "0 auto", overflow: "hidden" };
     inner = {
       width: DESKTOP_W,

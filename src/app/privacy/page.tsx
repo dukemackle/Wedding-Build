@@ -11,7 +11,7 @@ export default function PrivacyPage() {
       <div className={`w-full ${READING_WIDTH}`}>
         <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Legal</p>
         <h1 className="mt-2 font-display text-3xl font-semibold text-forest">Privacy Policy</h1>
-        <p className="mt-2 text-sm text-ink/60">Last updated: October 27, 2026</p>
+        <p className="mt-2 text-sm text-ink/60">Last updated: November 2, 2026</p>
 
         <div className="mt-8 flex flex-col gap-8 text-ink/80">
           <p>

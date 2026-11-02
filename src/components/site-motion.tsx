@@ -2,7 +2,16 @@
 
 import { useEffect, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
 import { useReplay, useSiteDesign } from "@/components/guest-site-theme";
-import { MOTION_SPEED, NO_BACKGROUND, SEALS, backgroundLayers, resolveDesign, type FallingId } from "@/lib/site-design";
+import {
+  MOTION_SPEED,
+  NO_BACKGROUND,
+  SEALS,
+  backgroundLayers,
+  fallingTint,
+  resolveDesign,
+  type FallingColorId,
+  type FallingId,
+} from "@/lib/site-design";
 
 /** Fired by the RSVP form when a guest says yes; confetti listens for it. */
 export const RSVP_YES_EVENT = "wren:rsvp-yes";
@@ -73,8 +82,8 @@ export function SiteMotion({ initials }: { initials: string }) {
     <>
       {/* Keyed so switching "wait for a tap" starts it afresh. */}
       {motion.opening === "envelope" && <Envelope key={String(envelope.tap)} initials={initials} />}
-      {motion.falling !== "none" && <Falling kind={motion.falling} speed={MOTION_SPEED[motion.speed]} />}
-      {motion.confetti && <Confetti kind={motion.falling} />}
+      {motion.falling !== "none" && <Falling kind={motion.falling} color={motion.fallingColor} speed={MOTION_SPEED[motion.speed]} />}
+      {motion.confetti && <Confetti kind={motion.falling} color={motion.fallingColor} />}
     </>
   );
 }
@@ -209,7 +218,7 @@ const WARM = "color-mix(in srgb, var(--site-accent) 35%, #FFD301)";
 /** Confetti mixes the theme's accent with its ink and the brand gold. */
 const CONFETTI_COLOURS = ["var(--site-accent)", "var(--color-ink)", "#FFD301"];
 
-/** One falling thing, drawn in the accent colour. `i` varies shape and colour. */
+/** One falling thing, drawn in the accent colour (or the picked one, via `tinted`). `i` varies shape and colour. */
 export function Shape({ kind, i, size }: { kind: Kind; i: number; size: number }) {
   const svg = (d: string, stroke = false) => (
     <svg width={size} height={size} viewBox="0 0 24 24" className="block" aria-hidden="true">
@@ -349,6 +358,12 @@ const KINDS: Record<
   butterflies: { count: 9, move: "drift", size: [14, 20], duration: [11, 16], sway: 70, spin: 30, flutter: true, opacity: 0.55 },
 };
 
+/** Swaps the accent for the Motion tab's falling colour, inside what falls only. */
+export function tinted(kind: FallingId, color: FallingColorId): React.CSSProperties | undefined {
+  const tint = fallingTint(kind, color);
+  return tint ? ({ "--site-accent": tint } as React.CSSProperties) : undefined;
+}
+
 /** Spread between two numbers by a fixed pattern, so server and client agree. */
 const spread = ([lo, hi]: [number, number], i: number, step: number) => lo + (((i * step) % 10) / 10) * (hi - lo);
 
@@ -357,11 +372,22 @@ const spread = ([lo, hi]: [number, number], i: number, step: number) => lo + (((
  * it. `contained` keeps it inside its parent instead of the screen, for the
  * landing page's demo.
  */
-export function Falling({ kind, speed, contained = false }: { kind: Kind; speed: number; contained?: boolean }) {
+export function Falling({
+  kind,
+  speed,
+  color = "accent",
+  contained = false,
+}: {
+  kind: Kind;
+  speed: number;
+  color?: FallingColorId;
+  contained?: boolean;
+}) {
   const k = KINDS[kind];
   return (
     <div
       className={`pointer-events-none inset-0 overflow-hidden text-[var(--site-accent)] ${contained ? "absolute" : "fixed z-40"}`}
+      style={tinted(kind, color)}
       aria-hidden="true"
     >
       {Array.from({ length: k.count }, (_, i) => {
@@ -404,7 +430,7 @@ const BURST_KINDS: Kind[] = ["petals", "hearts", "confetti", "leaves", "rings", 
  * A burst from the top of the screen when a guest RSVPs yes. Also fires on
  * the editor's "Try it", since the preview's RSVP form is switched off.
  */
-function Confetti({ kind }: { kind: FallingId }) {
+function Confetti({ kind, color }: { kind: FallingId; color: FallingColorId }) {
   const [bursts, setBursts] = useState<Burst[]>([]);
   const shape: Kind = kind !== "none" && BURST_KINDS.includes(kind) ? kind : "confetti";
 
@@ -429,7 +455,11 @@ function Confetti({ kind }: { kind: FallingId }) {
 
   if (bursts.length === 0) return null;
   return (
-    <div className="pointer-events-none fixed inset-0 z-50 overflow-hidden text-[var(--site-accent)]" aria-hidden="true">
+    <div
+      className="pointer-events-none fixed inset-0 z-50 overflow-hidden text-[var(--site-accent)]"
+      style={tinted(shape, color)}
+      aria-hidden="true"
+    >
       {bursts.flatMap((b) =>
         b.pieces.map((p, i) => (
           <span

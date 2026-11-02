@@ -85,9 +85,10 @@ export function ClusteredMarkers<T extends PinnedListing>({
       report(bounds);
     },
   });
-  // The first view, before anyone has moved the map.
+  // The first view, before anyone has moved the map. Read fresh: a remembered
+  // view may already have moved it since this component rendered.
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => report(view.bounds), []);
+  useEffect(() => report(map.getBounds()), []);
 
   const index = useMemo(() => {
     const cluster = new Supercluster<{ index: number }>({ radius: 60, maxZoom: CLUSTER_MAX_ZOOM });

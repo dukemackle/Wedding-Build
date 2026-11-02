@@ -1,4 +1,5 @@
 import { cache } from "react";
+import { cookies } from "next/headers";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { createGuestSiteClient, guestSiteCover } from "@/lib/supabase/guest-site";
@@ -8,6 +9,8 @@ import { bannerPhoto } from "@/lib/site-design";
 import { GuestSiteTheme } from "@/components/guest-site-theme";
 import { GuestSiteView, loadGuestSiteContent } from "./guest-site-view";
 import { SiteGate } from "./site-gate";
+import { findHousehold } from "@/lib/households";
+import { inviteCookie } from "@/lib/invite-codes";
 
 function formatDate(dateStr: string) {
   return new Date(`${dateStr}T00:00:00`).toLocaleDateString("en-US", {
@@ -94,11 +97,14 @@ export default async function PublicWeddingPage({
   }
 
   const design = parseSiteDesign(wedding.site_design);
-  const content = await loadGuestSiteContent(supabase, wedding);
+  const [content, household] = await Promise.all([
+    loadGuestSiteContent(supabase, wedding),
+    findHousehold(wedding.id, (await cookies()).get(inviteCookie(slug))?.value),
+  ]);
 
   return (
     <GuestSiteTheme design={design}>
-      <GuestSiteView wedding={wedding} content={content} />
+      <GuestSiteView wedding={wedding} content={content} household={household} />
     </GuestSiteTheme>
   );
 }

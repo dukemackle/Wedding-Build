@@ -2,9 +2,19 @@
 
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
-import type { Wedding } from "@/lib/supabase/types";
+import type { ItineraryEvent, Wedding } from "@/lib/supabase/types";
 import { sendSms } from "@/lib/sms";
-import { formatFullDate, formatTime } from "@/lib/itinerary";
+import {
+  audienceOf,
+  eventsToShift,
+  formatFullDate,
+  formatLength,
+  formatTime,
+  fromMinutes,
+  guessAudience,
+  isAudience,
+  spanOf,
+} from "@/lib/itinerary";
 import { requireEditableWedding } from "@/lib/wedding-access";
 
 function eventFieldsFromForm(formData: FormData) {
@@ -18,6 +28,14 @@ function eventFieldsFromForm(formData: FormData) {
     return { error: "Give the event a title." } as const;
   }
 
+  // Only the schedule's own form names an audience; an event saved from
+  // anywhere else (Wren) gets a guess from its title when it's new, and keeps
+  // its audience when it's being edited.
+  const audienceValue = formData.get("audience");
+  const audience = isAudience(audienceValue) ? audienceValue : undefined;
+  // Guests can only RSVP to what they can see (0143's check).
+  const guestFacing = (audience ?? "guests") === "guests";
+
   return {
     fields: {
       event_date: eventDate,
@@ -30,8 +48,22 @@ function eventFieldsFromForm(formData: FormData) {
       // that saves an event leaves them as they were.
       ...(formData.has("rsvp_fields")
         ? {
-            rsvp: formData.get("rsvp") === "on",
-            invite_only: formData.get("rsvp") === "on" && formData.get("invite_only") === "on",
+            rsvp: guestFacing && formData.get("rsvp") === "on",
+            invite_only: guestFacing && formData.get("rsvp") === "on" && formData.get("invite_only") === "on",
+          }
+        : {}),
+      ...(audience ? { audience } : {}),
+      // Like the RSVP switches: only the schedule's own form names people.
+      ...(formData.has("people_fields")
+        ? {
+            people: [
+              ...new Set(
+                formData
+                  .getAll("people")
+                  .map((p) => String(p).trim().slice(0, 80))
+                  .filter(Boolean),
+              ),
+            ].slice(0, 20),
           }
         : {}),
     },
@@ -53,6 +85,7 @@ export async function addItineraryEvent(formData: FormData): Promise<{ error?: s
   const { error } = await supabase.from("itinerary_events").insert({
     wedding_id: wedding.id,
     user_id: user.id,
+    audience: guessAudience(parsed.fields.title),
     ...parsed.fields,
   });
 
@@ -77,6 +110,8 @@ async function notifyGuestsOfScheduleChange(
   supabase: Awaited<ReturnType<typeof createClient>>,
   wedding: Wedding,
   event: ScheduleFields,
+  /** Appended when one change moved several guest events at once. */
+  more = "",
 ) {
   const { data: guests } = await supabase
     .from("guests")
@@ -97,7 +132,7 @@ async function notifyGuestsOfScheduleChange(
   // Schedule news only, never an ad: a text that promotes anything is
   // marketing under the TCPA and needs consent guests haven't given
   // (docs/legal-audit.md R2). Says who it's from and how to stop.
-  const body = `You Do, I Do: schedule update for ${coupleNames || "the wedding"}. "${event.title}" is now ${formatFullDate(event.event_date)}${details ? `, ${details}` : ""}.\n\nReply STOP to stop these texts.`;
+  const body = `You Do, I Do: schedule update for ${coupleNames || "the wedding"}. "${event.title}" is now ${formatFullDate(event.event_date)}${details ? `, ${details}` : ""}${more}.\n\nReply STOP to stop these texts.`;
 
   for (const guest of guests) {
     if (!guest.phone) continue;
@@ -129,10 +164,12 @@ export async function updateItineraryEvent(formData: FormData): Promise<{ error?
 
   const { data: existing } = await supabase
     .from("itinerary_events")
-    .select("event_date, start_time, end_time, location")
+    .select("event_date, start_time, end_time, location, audience")
     .eq("id", id)
     .eq("wedding_id", wedding.id)
-    .maybeSingle<Pick<ScheduleFields, "event_date" | "start_time" | "end_time" | "location">>();
+    .maybeSingle<
+      Pick<ScheduleFields, "event_date" | "start_time" | "end_time" | "location"> & Pick<ItineraryEvent, "audience">
+    >();
 
   const { error } = await supabase
     .from("itinerary_events")
@@ -155,7 +192,11 @@ export async function updateItineraryEvent(formData: FormData): Promise<{ error?
   // unpublished it's still working notes -- times move, events get added and
   // dropped -- and a "Schedule update" text pointing at a page that shows
   // nothing is worse than no text at all.
-  if (scheduleChanged && wedding.itinerary_published) {
+  // Nor about events that aren't theirs: hair and makeup moving is the
+  // wedding party's news, not every guest's.
+  const guestEvent =
+    existing && audienceOf(existing) === "guests" && (parsed.fields.audience ?? "guests") === "guests";
+  if (scheduleChanged && guestEvent && wedding.itinerary_published) {
     await notifyGuestsOfScheduleChange(supabase, wedding, parsed.fields);
   }
 
@@ -185,6 +226,99 @@ export async function deleteItineraryEvent(formData: FormData): Promise<{ error?
 
   revalidatePath("/itinerary");
   revalidatePath("/w/[slug]", "page");
+  return {};
+}
+
+/**
+ * "Move this and everything after by N minutes". Which events move is
+ * eventsToShift's call (it stops short of the ceremony when the move starts
+ * before it). Guests get one text for the lot, not one per event.
+ */
+export async function shiftItineraryEvents(eventId: string, minutes: number): Promise<{ error?: string; moved?: number }> {
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
+  if (!wedding) return { error: noWedding };
+  if (!Number.isInteger(minutes) || minutes === 0 || Math.abs(minutes) > 12 * 60) {
+    return { error: "Pick how far to move them." };
+  }
+
+  const { data: from } = await supabase
+    .from("itinerary_events")
+    .select("*")
+    .eq("id", eventId)
+    .eq("wedding_id", wedding.id)
+    .maybeSingle<ItineraryEvent>();
+  if (!from) return { error: "That event no longer exists." };
+  if (!from.start_time) return { error: "Give this event a start time first." };
+
+  const { data: day } = await supabase
+    .from("itinerary_events")
+    .select("*")
+    .eq("wedding_id", wedding.id)
+    .eq("event_date", from.event_date)
+    .returns<ItineraryEvent[]>();
+  const moving = eventsToShift(day ?? [], from);
+
+  const moved = moving.map((e) => {
+    const span = spanOf(e)!;
+    return {
+      e,
+      start_time: fromMinutes(span.start + minutes),
+      // An end past midnight wraps, as it was saved before the move.
+      end_time: e.end_time ? fromMinutes((span.end + minutes) % (24 * 60)) : null,
+      startsOnDay: span.start + minutes >= 0 && span.start + minutes < 24 * 60,
+    };
+  });
+  // Keep every event on its own day: a start moved across midnight would
+  // quietly belong to the wrong date.
+  if (moved.some((m) => !m.startsOnDay)) {
+    return { error: "That would push something past midnight. Try a smaller move." };
+  }
+
+  const now = new Date().toISOString();
+  const results = await Promise.all(
+    moved.map((m) =>
+      supabase
+        .from("itinerary_events")
+        .update({ start_time: m.start_time, end_time: m.end_time, updated_at: now })
+        .eq("id", m.e.id)
+        .eq("wedding_id", wedding.id),
+    ),
+  );
+  const failed = results.find((r) => r.error);
+  if (failed?.error) return { error: failed.error.message };
+
+  const forGuests = moved.filter((m) => audienceOf(m.e) === "guests");
+  if (forGuests.length && wedding.itinerary_published) {
+    const firstMoved = forGuests[0];
+    const others = forGuests.length - 1;
+    await notifyGuestsOfScheduleChange(
+      supabase,
+      wedding,
+      { ...firstMoved.e, start_time: firstMoved.start_time, end_time: firstMoved.end_time },
+      others ? `, and ${others} later ${others === 1 ? "event moves" : "events move"} ${formatLength(Math.abs(minutes))} ${minutes > 0 ? "later" : "earlier"} too` : "",
+    );
+  }
+
+  revalidatePath("/itinerary");
+  revalidatePath("/w/[slug]", "page");
+  return { moved: moved.length };
+}
+
+/** Names a day of the schedule ("Rehearsal"); an empty name goes back to the default. */
+export async function setItineraryDayName(date: string, name: string): Promise<{ error?: string }> {
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
+  if (!wedding) return { error: noWedding };
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) return { error: "Missing date." };
+
+  const names = { ...(wedding.itinerary_day_names ?? {}) };
+  const trimmed = name.trim().slice(0, 40);
+  if (trimmed) names[date] = trimmed;
+  else delete names[date];
+
+  const { error } = await supabase.from("weddings").update({ itinerary_day_names: names }).eq("id", wedding.id);
+  if (error) return { error: error.message };
+
+  revalidatePath("/itinerary");
   return {};
 }
 

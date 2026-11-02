@@ -13,7 +13,7 @@ import { CAPACITY_FILTER_STEPS, VENUE_SETTINGS, VENUE_TYPES, currentVenueType, v
 import { toggleShortlist, updateShortlistNotes } from "./actions";
 import { BookedVenueButton, ShortlistButton } from "./venue-card-shared";
 import { InquiryForm } from "./inquiry-form";
-import { FilterDropdown, MULTI_SEPARATOR, splitMulti } from "@/components/filter-dropdown";
+import { BarOnly, FilterDropdown, MULTI_SEPARATOR, splitMulti } from "@/components/filter-dropdown";
 import { VenueTypeIcon } from "@/components/venue-type-icon";
 import { SearchShell } from "@/components/search-shell";
 import { useSavedFilters } from "@/lib/use-saved-filters";
@@ -426,6 +426,7 @@ export function VenuesManager({
     <SearchShell
       search={{ value: search, onChange: (v) => setFilter("q", v), placeholder: "Search venues by name..." }}
       activeFilterCount={activeFilterCount}
+      filterSheet
       onClearFilters={clearFilters}
       resultCount={listedVenues.length}
       totalCount={filteredVenues.length}
@@ -506,6 +507,7 @@ export function VenuesManager({
             }))}
           />
           {hidden.size > 0 && (
+            <BarOnly>
             <button
               type="button"
               onClick={() => setShowHidden((v) => !v)}
@@ -514,6 +516,7 @@ export function VenuesManager({
             >
               {showHidden ? "Hide hidden" : `Show hidden (${hidden.size})`}
             </button>
+            </BarOnly>
           )}
         </>
       }
@@ -524,6 +527,7 @@ export function VenuesManager({
           hoveredVenueId={hoveredVenueId}
           onHoverVenue={setHoveredVenueId}
           onViewChange={setMapView}
+          rememberAs="youdoido:venues-map-view"
           heightClassName="h-full w-full"
           signedIn={signedIn}
           outline={{ city: cityFilter, state: stateFilter }}

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { guestSiteCover } from "@/lib/supabase/guest-site";
 import { GuestPostForm } from "../guest-post-form";
+import { turnstileSiteKey } from "@/lib/turnstile";
 
 /**
  * Where the table-card QR code lands: post a photo to the wall, nothing else.
@@ -41,7 +42,11 @@ export default async function SharePhotoPage({
           Share a photo or a few words — they&apos;ll go up on the wall for everyone to see.
         </p>
         <div className="mt-8 rounded-lg border border-hairline bg-card p-5 shadow-sm sm:p-6">
-          <GuestPostForm weddingId={wedding.id} coupleNames={coupleNames || "the couple"} />
+          <GuestPostForm
+            weddingId={wedding.id}
+            coupleNames={coupleNames || "the couple"}
+            turnstileSiteKey={turnstileSiteKey()}
+          />
         </div>
         <p className="mt-6 text-center">
           <Link href={`/w/${slug}#photo-wall`} className="text-sm text-brass hover:underline">

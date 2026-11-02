@@ -72,9 +72,11 @@ production deploys from `main`. The merge click stays the owner's.
 **Venue and vendor batches merge themselves (2026-09-27, vendors 2026-09-28):**
 a PR that only adds rows to the per-state batch files in `src/lib/batches/`
 (or the older `src/lib/venue-batches.ts` / `vendor-batches.ts`) doesn't wait for the owner — merge it once the
-Cloudflare build is green. The "Venue & vendor batches" routine then adds
-them itself with `npm run import:batches` (2026-10-04): the script parses,
-geocodes and reads websites on the routine's machine and only writes through
+Cloudflare build is green. The "Batches" GitHub Action
+(`.github/workflows/batches.yml`, 2026-10-28) merges them and runs
+`npm run import:batches`; the "Venue & vendor batches" routine now only
+unsticks failed builds and conflicts. The script parses,
+geocodes and reads websites on the runner and only writes through
 `/api/batch-sync` (`BATCH_IMPORT_SECRET`), because doing that work in the
 Worker ran Workers Free past 10 ms CPU per request (error 1102). "Add them" on
 /admin/venues or /admin/vendors does the same by hand, a few at a time. Anything else in the PR (code, UI) still goes through the

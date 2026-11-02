@@ -1,5 +1,7 @@
 import Image from "next/image";
-import type { Venue, VenueSpace } from "@/lib/supabase/types";
+import type { Venue, VenueSpace, VenueSpacePlan } from "@/lib/supabase/types";
+import { metresToFeet, planAreaSqFt, planCorners, planSizeLabel } from "@/lib/venue-plans";
+import { DesignHereButton, type DesignContext } from "./design-here";
 import { ConfirmedMark } from "@/components/confirmed-badge";
 import { confirmedByOwner } from "@/lib/public-listings";
 import { SERVICE_LEVEL_HINTS, SERVICE_LEVELS, VENDOR_POLICIES } from "@/lib/wedding-options";
@@ -61,34 +63,120 @@ export function VenueKeyFacts({ venue }: { venue: Venue }) {
   );
 }
 
-export function VenueSpaces({ spaces }: { spaces: VenueSpace[] }) {
+/** A space's floor plan, drawn to scale and labelled in feet. */
+function PlanDrawing({ plan, name }: { plan: VenueSpacePlan; name: string }) {
+  const pts = planCorners(plan);
+  const big = Math.max(plan.width_m, plan.length_m);
+  const pad = big * 0.14;
+  const text = big / 26;
+  // A light grid every 10 ft, so the size reads at a glance.
+  const step = 10 / 3.28084;
+  const lines: number[] = [];
+  for (let g = step; g < big; g += step) lines.push(g);
+  return (
+    <svg
+      viewBox={`${-pad} ${-pad} ${plan.width_m + pad * 2} ${plan.length_m + pad * 2}`}
+      role="img"
+      aria-label={`Floor plan of ${name}, ${planSizeLabel(plan)}`}
+      className="aspect-[16/10] w-full border-b border-hairline bg-parchment"
+    >
+      <defs>
+        <clipPath id={`plan-${plan.space_id}`}>
+          <polygon points={pts.map((p) => p.join(",")).join(" ")} />
+        </clipPath>
+      </defs>
+      <polygon points={pts.map((p) => p.join(",")).join(" ")} fill="#fff" />
+      <g clipPath={`url(#plan-${plan.space_id})`} stroke="#00BFFE" strokeOpacity={0.35} strokeWidth={big / 400}>
+        {lines.map((g) => (
+          <g key={g}>
+            {g < plan.width_m && <line x1={g} y1={0} x2={g} y2={plan.length_m} />}
+            {g < plan.length_m && <line x1={0} y1={g} x2={plan.width_m} y2={g} />}
+          </g>
+        ))}
+      </g>
+      <polygon
+        points={pts.map((p) => p.join(",")).join(" ")}
+        fill="none"
+        stroke="#14203d"
+        strokeWidth={big / 110}
+        strokeLinejoin="round"
+      />
+      <g fill="#14203d" fillOpacity={0.65} fontSize={text} style={{ fontFamily: "var(--font-mono-numbers)" }}>
+        <text x={plan.width_m / 2} y={-pad / 3} textAnchor="middle">
+          {metresToFeet(plan.width_m)} ft
+        </text>
+        <text
+          x={-pad / 3}
+          y={plan.length_m / 2}
+          textAnchor="middle"
+          transform={`rotate(-90 ${-pad / 3} ${plan.length_m / 2})`}
+        >
+          {metresToFeet(plan.length_m)} ft
+        </text>
+      </g>
+    </svg>
+  );
+}
+
+export function VenueSpaces({
+  spaces,
+  plans = [],
+  design,
+}: {
+  spaces: VenueSpace[];
+  plans?: VenueSpacePlan[];
+  design?: DesignContext;
+}) {
   if (spaces.length === 0) return null;
+  const planBySpace = new Map(plans.map((p) => [p.space_id, p]));
   return (
     <div className={card}>
       <h2 className="font-display text-xl font-semibold text-forest">Event spaces</h2>
+      {plans.length > 0 && (
+        <p className="mt-1 text-sm text-ink/60">
+          Floor plans at real size. Set out your tables and dance floor in the room itself.
+        </p>
+      )}
       <div className="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-2">
-        {spaces.map((sp) => (
-          <div key={sp.id} className="overflow-hidden rounded-md border border-hairline">
-            {sp.photo_url && (
-              <Image
-                src={sp.photo_url}
-                alt={sp.name}
-                width={480}
-                height={300}
-                className="aspect-[16/10] w-full border-b border-hairline object-cover"
-              />
-            )}
-            <div className="p-4">
-              <p className="font-display text-lg font-semibold text-forest">{sp.name}</p>
-              {(sp.setting || sp.capacity) && (
-                <p className="mt-0.5 text-xs uppercase tracking-wide text-ink/50">
-                  {[sp.setting, sp.capacity && `Up to ${sp.capacity} guests`].filter(Boolean).join(" · ")}
-                </p>
+        {spaces.map((sp) => {
+          const plan = planBySpace.get(sp.id);
+          return (
+            <div key={sp.id} className="flex flex-col overflow-hidden rounded-md border border-hairline">
+              {plan ? (
+                <PlanDrawing plan={plan} name={sp.name} />
+              ) : (
+                sp.photo_url && (
+                  <Image
+                    src={sp.photo_url}
+                    alt={sp.name}
+                    width={480}
+                    height={300}
+                    className="aspect-[16/10] w-full border-b border-hairline object-cover"
+                  />
+                )
               )}
-              {sp.description && <p className="mt-2 whitespace-pre-line text-sm text-ink/75">{sp.description}</p>}
+              <div className="flex flex-1 flex-col p-4">
+                <p className="font-display text-lg font-semibold text-forest">{sp.name}</p>
+                {(sp.setting || sp.capacity) && (
+                  <p className="mt-0.5 text-xs uppercase tracking-wide text-ink/50">
+                    {[sp.setting, sp.capacity && `Up to ${sp.capacity} guests`].filter(Boolean).join(" · ")}
+                  </p>
+                )}
+                {plan && (
+                  <p className="mt-1 font-mono-numbers text-xs text-ink/70">
+                    {planSizeLabel(plan)} · {planAreaSqFt(plan).toLocaleString()} sq ft
+                  </p>
+                )}
+                {sp.description && <p className="mt-2 whitespace-pre-line text-sm text-ink/75">{sp.description}</p>}
+                {plan && design && (
+                  <div className="mt-auto pt-4">
+                    <DesignHereButton spaceId={sp.id} context={design} />
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

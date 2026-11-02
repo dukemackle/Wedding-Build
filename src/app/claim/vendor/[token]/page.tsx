@@ -2,6 +2,7 @@ import Link from "next/link";
 import { LeadsCallout } from "@/components/leads-callout";
 import { leadCounts } from "@/lib/listing-leads";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
+import { loadClaimDraft } from "@/lib/claim-drafts";
 import type { VendorFaq, VendorSubmission } from "@/lib/supabase/types";
 import { vendorDetailsFrom } from "@/lib/vendor-claim";
 import { vendorForClaimToken } from "@/lib/vendor-claim-server";
@@ -75,7 +76,19 @@ export default async function VendorClaimPage({ params }: { params: Promise<{ to
       };
   const isNew = vendor.source === "self-listed";
 
-  const leads = await leadCounts("vendor", vendor.id);
+  const [leads, draft, { data: lastSent }] = await Promise.all([
+    leadCounts("vendor", vendor.id),
+    loadClaimDraft("vendor", vendor.id),
+    // Any draft older than their last send -- pending, approved or not -- is
+    // stale, even one still sitting in another browser.
+    admin
+      .from("vendor_submissions")
+      .select("created_at")
+      .eq("vendor_id", vendor.id)
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .maybeSingle<{ created_at: string }>(),
+  ]);
 
   return (
     <main className="flex flex-1 flex-col items-center px-4 py-10 sm:px-6 sm:py-14">
@@ -112,6 +125,8 @@ export default async function VendorClaimPage({ params }: { params: Promise<{ to
           token={token}
           category={vendor.category}
           initial={initial}
+          draft={draft}
+          submittedAt={lastSent ? new Date(lastSent.created_at).getTime() : 0}
           listing={publicFields(vendor, PUBLIC_VENDOR_COLUMNS)}
           liveHref={vendor.active ? vendorHref(vendor) : null}
         />

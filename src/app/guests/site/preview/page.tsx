@@ -19,14 +19,15 @@ export const metadata: Metadata = { title: "Guest site preview", robots: { index
  *
  * `?design=<id>` starts on that design. `?look=1` is the template gallery's
  * preview: the parent page sends the look to show, and nothing on it can be
- * dragged or retyped.
+ * dragged or retyped. `?view=1` is the editor's "Open preview" tab: the draft
+ * full size in its own tab, as guests would get it, before or after it's live.
  */
 export default async function GuestSitePreviewPage({
   searchParams,
 }: {
-  searchParams: Promise<{ design?: string; look?: string; samples?: string }>;
+  searchParams: Promise<{ design?: string; look?: string; samples?: string; view?: string }>;
 }) {
-  const { design: designId, look, samples: withSamples } = await searchParams;
+  const { design: designId, look, samples: withSamples, view } = await searchParams;
   const supabase = await createClient();
   const {
     data: { user },
@@ -123,7 +124,7 @@ export default async function GuestSitePreviewPage({
     <GuestSiteTheme design={draft} preview>
       <GuestSiteView wedding={asGuestsSeeIt} content={content} />
       {/* Dragging, resizing and the rest: here only, never on /w/[slug]. */}
-      {!look && <CanvasEditing />}
+      {!look && !view && <CanvasEditing />}
     </GuestSiteTheme>
   );
 }

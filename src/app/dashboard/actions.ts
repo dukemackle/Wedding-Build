@@ -7,7 +7,7 @@ import { STATE_TO_REGION } from "@/lib/budget-categories";
 import { seasonOf } from "@/lib/wedding-options";
 import { requireEditableWedding, VIEW_ONLY_ERROR } from "@/lib/wedding-access";
 import { seedStandardPlan } from "@/lib/seed-plan";
-import { MAX_DASHBOARD_PHOTOS } from "@/lib/dashboard-photos";
+import { MAX_DASHBOARD_PHOTOS, PHOTO_SOURCES, type PhotoSource } from "@/lib/dashboard-photos";
 import type { Wedding } from "@/lib/supabase/types";
 import { logError } from "@/lib/error-log";
 import { trackEvent } from "@/lib/events";
@@ -238,44 +238,63 @@ export async function removeWeddingPhoto(formData: FormData): Promise<{ error?: 
 }
 
 /**
- * Adds one photo to the set shown behind the dashboard. Called once per file
- * when several are picked at once, so each upload stays under the 5MB cap.
+ * Starts uploading one photo for behind the dashboard: hands back a signed
+ * upload URL so the browser sends the file straight to Storage. The bytes
+ * never pass through this Worker, so the request-size and CPU limits that
+ * broke picking ten photos at once no longer apply. The storage insert
+ * policy (can_edit_wedding) is checked here, when the URL is signed.
  */
-export async function addDashboardPhoto(formData: FormData): Promise<{ error?: string }> {
+export async function startDashboardPhotoUpload(
+  fileName: string,
+): Promise<{ error?: string; path?: string; signedUrl?: string }> {
   const { supabase, wedding, noWedding } = await requireEditableWedding();
 
   if (!wedding) {
     return { error: noWedding };
   }
+  if ((wedding.dashboard_photo_urls ?? []).length >= MAX_DASHBOARD_PHOTOS) {
+    return { error: `You can show up to ${MAX_DASHBOARD_PHOTOS} photos. Remove one to add another.` };
+  }
 
+  const extension = /\.([a-z0-9]{1,5})$/i.exec(fileName)?.[1]?.toLowerCase() ?? "jpg";
+  const path = `${wedding.id}/${randomUUID()}.${extension}`;
+  const { data, error } = await supabase.storage.from("wedding-photos").createSignedUploadUrl(path);
+
+  if (error || !data) {
+    await logError("planning", "startDashboardPhotoUpload", error ?? "no signed URL");
+    return { error: "Couldn't start the upload. Please try again." };
+  }
+  return { path: data.path, signedUrl: data.signedUrl };
+}
+
+/**
+ * Adds a photo the browser has just uploaded (see startDashboardPhotoUpload)
+ * to the set shown behind the dashboard. The page refreshes once a batch is
+ * done rather than after each photo.
+ */
+export async function saveDashboardPhoto(path: string): Promise<{ error?: string }> {
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
+
+  if (!wedding) {
+    return { error: noWedding };
+  }
+  const [folder, name, ...rest] = path.split("/");
+  if (folder !== wedding.id || !name || rest.length > 0) {
+    return { error: "That photo doesn't belong to this wedding." };
+  }
+
+  const photoUrl = supabase.storage.from("wedding-photos").getPublicUrl(path).data.publicUrl;
   const current = wedding.dashboard_photo_urls ?? [];
+  if (current.includes(photoUrl)) return {};
   if (current.length >= MAX_DASHBOARD_PHOTOS) {
     return { error: `You can show up to ${MAX_DASHBOARD_PHOTOS} photos. Remove one to add another.` };
   }
 
-  const photo = formData.get("photo") as File | null;
-  if (!photo || photo.size === 0) {
-    return { error: "Choose a photo to upload." };
+  // The bucket is public, so a HEAD on the public URL says whether the upload landed.
+  const landed = await fetch(photoUrl, { method: "HEAD", cache: "no-store" }).then((r) => r.ok, () => false);
+  if (!landed) {
+    return { error: "That photo didn't finish uploading. Please try again." };
   }
-  if (!photo.type.startsWith("image/")) {
-    return { error: "Photo must be an image file." };
-  }
-  if (photo.size > MAX_PHOTO_BYTES) {
-    return { error: "Photo is too large — please use one under 5MB." };
-  }
-
-  const extension = photo.name.includes(".") ? photo.name.split(".").pop() : undefined;
-  const path = `${wedding.id}/${randomUUID()}${extension ? `.${extension}` : ""}`;
-
-  const { error: uploadError } = await supabase.storage
-    .from("wedding-photos")
-    .upload(path, photo, { contentType: photo.type });
-
-  if (uploadError) {
-    return { error: "Could not upload your photo — please try again." };
-  }
-
-  const photoUrl = supabase.storage.from("wedding-photos").getPublicUrl(path).data.publicUrl;
 
   const { error } = await supabase
     .from("weddings")
@@ -285,8 +304,6 @@ export async function addDashboardPhoto(formData: FormData): Promise<{ error?: s
   if (error) {
     return { error: error.message };
   }
-
-  revalidatePath("/dashboard");
   return {};
 }
 
@@ -315,6 +332,31 @@ export async function setDashboardPhotoFocus(
 
   if (error) {
     return { error: error.message };
+  }
+
+  revalidatePath("/dashboard");
+  return {};
+}
+
+/** Chooses which photos play behind the dashboard; null goes back to the best available. */
+export async function setDashboardPhotoSource(source: PhotoSource | null): Promise<{ error?: string }> {
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
+
+  if (!wedding) {
+    return { error: noWedding };
+  }
+  if (source !== null && !PHOTO_SOURCES.includes(source)) {
+    return { error: "That isn't one of the choices." };
+  }
+
+  const { error } = await supabase
+    .from("weddings")
+    .update({ dashboard_photo_source: source })
+    .eq("id", wedding.id);
+
+  if (error) {
+    await logError("planning", "setDashboardPhotoSource", error);
+    return { error: "We couldn't save that. Please try again." };
   }
 
   revalidatePath("/dashboard");

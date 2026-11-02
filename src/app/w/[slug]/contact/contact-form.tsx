@@ -2,22 +2,35 @@
 
 import { useState, useTransition } from "react";
 import { submitContactDetails } from "./actions";
+import { TurnstileWidget } from "@/components/turnstile-widget";
 import { LegalNotice } from "@/components/legal-notice";
 
 const fieldClass =
   "w-full rounded-md border border-hairline bg-parchment px-3 py-2 text-ink outline-none transition-colors focus:border-forest";
 const labelClass = "flex flex-col gap-1.5 text-sm text-ink/70";
 
-export function ContactForm({ slug, coupleNames }: { slug: string; coupleNames: string }) {
+export function ContactForm({
+  slug,
+  coupleNames,
+  turnstileSiteKey,
+}: {
+  slug: string;
+  coupleNames: string;
+  /** Cloudflare's bot check, when it's switched on (src/lib/turnstile.ts). */
+  turnstileSiteKey?: string | null;
+}) {
   const [error, setError] = useState<string | undefined>(undefined);
   const [sent, setSent] = useState(false);
   const [isPending, startTransition] = useTransition();
+  // Bumped after every send: a bot-check token works once.
+  const [attempt, setAttempt] = useState(0);
 
   function handleSubmit(formData: FormData) {
     formData.set("slug", slug);
     setError(undefined);
     startTransition(async () => {
       const result = await submitContactDetails(formData);
+      setAttempt((n) => n + 1);
       if (result?.error) setError(result.error);
       else setSent(true);
     });
@@ -152,6 +165,8 @@ export function ContactForm({ slug, coupleNames }: { slug: string; coupleNames: 
           {error}
         </p>
       )}
+
+      <TurnstileWidget key={attempt} siteKey={turnstileSiteKey} />
 
       <button
         type="submit"

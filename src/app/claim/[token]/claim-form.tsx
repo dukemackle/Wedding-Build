@@ -34,9 +34,16 @@ import {
   type ClaimSpace,
   type ClaimSubmission,
 } from "@/lib/venue-claim";
-import { createClaimPhotoUploads, submitVenueClaim, createImportUpload, readListingSource, writeListingText } from "./actions";
+import {
+  createClaimPhotoUploads,
+  submitVenueClaim,
+  createImportUpload,
+  readListingSource,
+  saveVenueClaimDraft,
+  writeListingText,
+} from "./actions";
 import { ImportPanel, mergeDraft, mergeFaqs, mergeVendors } from "../import-panel";
-import { SavedNote, useSavedDraft } from "../use-saved-draft";
+import { SavedNote, useSavedDraft, type ServerDraft } from "../use-saved-draft";
 import { ChipPicker, Field, inputClass, labelClass, PhotoGridEditor, Section, Select, WriteHelper, YesNo } from "../form-parts";
 import { StepNav, StepRail, type Step } from "../steps";
 import { BookingFactsSection } from "../booking-fields";
@@ -69,11 +76,17 @@ const PRICE_COVERS_PLACEHOLDER: Record<PriceBasis, string> = {
 export function ClaimForm({
   token,
   initial,
+  draft,
+  submittedAt,
   listing,
   liveHref,
 }: {
   token: string;
   initial: ClaimSubmission;
+  /** Their unsent form as last saved on our side, from any device. */
+  draft: ServerDraft;
+  /** When they last sent the form (0 if never): drafts older than that are stale. */
+  submittedAt: number;
   /** The venue's public columns, under the form's details in the preview. */
   listing: Partial<Venue>;
   liveHref: string | null;
@@ -101,18 +114,21 @@ export function ClaimForm({
 
   const saved = useSavedDraft(
     token,
-    initial,
+    draft,
+    submittedAt,
     { details, writeNotes, photos, vendors, faqs, spaces, submitter, step },
+    // A draft saved before a field existed lacks it, so the page's value fills in.
     (d) => {
-      setDetails(d.details);
-      setWriteNotes(d.writeNotes);
-      setPhotos(d.photos);
-      setVendors(d.vendors);
-      setFaqs(d.faqs);
-      setSpaces(d.spaces);
-      setSubmitter(d.submitter);
-      setStep(d.step);
+      if (d.details) setDetails({ ...initial.details, ...d.details });
+      if (typeof d.writeNotes === "string") setWriteNotes(d.writeNotes);
+      if (Array.isArray(d.photos)) setPhotos(d.photos);
+      if (Array.isArray(d.vendors)) setVendors(d.vendors);
+      if (Array.isArray(d.faqs)) setFaqs(d.faqs);
+      if (Array.isArray(d.spaces)) setSpaces(d.spaces);
+      if (d.submitter) setSubmitter({ ...initial.submitter, ...d.submitter });
+      if (typeof d.step === "number") setStep(d.step);
     },
+    saveVenueClaimDraft,
   );
 
   const set = <K extends keyof ClaimDetails>(key: K, value: ClaimDetails[K]) =>
@@ -641,7 +657,7 @@ export function ClaimForm({
           }}
           className={step === 3 ? "flex min-w-0 flex-col gap-6" : "hidden"}
         >
-          <Section title="Describe your venue" hint="Short on time? Tap ✨ and Wren drafts it from a few words.">
+          <Section title="Describe your venue" hint="Short on time? Tap the bird and Wren drafts it from a few words.">
             <div className="flex flex-col gap-4">
               <div>
                 <Field label="One-line description">

@@ -20,7 +20,10 @@ import {
 import {
   CANVAS_HEIGHT,
   CANVAS_WIDTH,
+  CHAIR_PITCH,
+  ROW_PITCH,
   WORLD_SCALE as SCALE,
+  chairBlock,
   itemDimensions,
   tableFootprint,
 } from "@/lib/venue-layout-geometry";
@@ -151,9 +154,11 @@ function ItemScene({ item }: { item: VenueLayoutItem }) {
     case "chairs": {
       // The block's own size decides how many chairs are in it, so widening
       // the block in the editor adds chairs instead of stretching five.
-      const spacing = 0.55;
-      const perRow = Math.max(1, Math.min(40, Math.round(worldWidth / spacing)));
-      const rows = Math.max(1, Math.min(10, Math.round(worldDepth / spacing)));
+      const block = chairBlock({ width, height });
+      const perRow = Math.min(40, block.perRow);
+      const rows = Math.min(30, block.rows);
+      const spacing = CHAIR_PITCH / SCALE;
+      const rowSpacing = ROW_PITCH / SCALE;
       content = (
         <>
           {Array.from({ length: rows }).map((_, row) =>
@@ -163,7 +168,7 @@ function ItemScene({ item }: { item: VenueLayoutItem }) {
                 position={[
                   (col - (perRow - 1) / 2) * spacing,
                   0,
-                  (row - (rows - 1) / 2) * spacing,
+                  (row - (rows - 1) / 2) * rowSpacing,
                 ]}
                 rotation={[0, Math.PI, 0]}
               />

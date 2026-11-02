@@ -4,6 +4,7 @@ import { randomUUID } from "node:crypto";
 import { revalidatePath } from "next/cache";
 import { MAX_GALLERY_PHOTOS, MAX_VENUE_PHOTOS } from "@/lib/guest-site";
 import { requireEditableWedding } from "@/lib/wedding-access";
+import { removeGuestPhotos } from "@/lib/guest-photos";
 
 function str(formData: FormData, key: string): string | null {
   const raw = (formData.get(key) as string)?.trim();
@@ -197,6 +198,16 @@ export async function addGalleryPhotos(formData: FormData): Promise<{ error?: st
     .select("id", { count: "exact", head: true })
     .eq("wedding_id", wedding.id);
   const existing = count ?? 0;
+  // New photos go after the last one; removals leave gaps, so the count alone
+  // could tie with a photo already there.
+  const { data: last } = await supabase
+    .from("wedding_gallery_photos")
+    .select("sort_order")
+    .eq("wedding_id", wedding.id)
+    .order("sort_order", { ascending: false })
+    .limit(1)
+    .maybeSingle<{ sort_order: number }>();
+  const nextOrder = last ? last.sort_order + 1 : 0;
   if (existing + photos.length > MAX_GALLERY_PHOTOS) {
     const room = Math.max(0, MAX_GALLERY_PHOTOS - existing);
     return {
@@ -220,7 +231,7 @@ export async function addGalleryPhotos(formData: FormData): Promise<{ error?: st
     rows.push({
       wedding_id: wedding.id,
       photo_url: supabase.storage.from("wedding-photos").getPublicUrl(path).data.publicUrl,
-      sort_order: existing + i,
+      sort_order: nextOrder + i,
     });
   }
 
@@ -248,6 +259,28 @@ export async function removeGalleryPhoto(formData: FormData): Promise<{ error?: 
 
   if (error) {
     return { error: error.message };
+  }
+
+  revalidateGuestSite(wedding.public_slug);
+  return {};
+}
+
+/** Saves a new gallery order: `ids` is every photo's id, first to last. */
+export async function reorderGalleryPhotos(ids: string[]): Promise<{ error?: string }> {
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
+
+  if (!wedding) {
+    return { error: noWedding };
+  }
+
+  const results = await Promise.all(
+    ids.map((id, i) =>
+      supabase.from("wedding_gallery_photos").update({ sort_order: i }).eq("id", id).eq("wedding_id", wedding.id),
+    ),
+  );
+  const failed = results.find((r) => r.error);
+  if (failed?.error) {
+    return { error: "Could not save the new order — please try again." };
   }
 
   revalidateGuestSite(wedding.public_slug);
@@ -341,16 +374,20 @@ export async function deleteGuestPost(formData: FormData): Promise<{ error?: str
     return { error: noWedding };
   }
 
-  const { error } = await supabase
+  const { data: deleted, error } = await supabase
     .from("guest_posts")
     .delete()
     .eq("id", formData.get("id") as string)
-    .eq("wedding_id", wedding.id);
+    .eq("wedding_id", wedding.id)
+    .select("photo_url")
+    .returns<{ photo_url: string | null }[]>();
 
   if (error) {
     return { error: error.message };
   }
 
+  // A deleted post's photo goes too, or it stays reachable at its URL.
+  await removeGuestPhotos(wedding.id, (deleted ?? []).map((post) => post.photo_url));
   revalidateGuestSite(wedding.public_slug);
   return {};
 }

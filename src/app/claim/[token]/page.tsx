@@ -2,6 +2,7 @@ import Link from "next/link";
 import { LeadsCallout } from "@/components/leads-callout";
 import { leadCounts } from "@/lib/listing-leads";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
+import { loadClaimDraft } from "@/lib/claim-drafts";
 import type { VenueFaq, VenuePreferredVendor, VenueSpace, VenueSubmission } from "@/lib/supabase/types";
 import { SUGGESTED_VENUE_QUESTIONS } from "@/lib/wedding-options";
 import { detailsFromVenue } from "@/lib/venue-claim";
@@ -119,7 +120,19 @@ export default async function ClaimPage({ params }: { params: Promise<{ token: s
       };
   const isNew = venue.source === "self-listed";
 
-  const leads = await leadCounts("venue", venue.id);
+  const [leads, draft, { data: lastSent }] = await Promise.all([
+    leadCounts("venue", venue.id),
+    loadClaimDraft("venue", venue.id),
+    // Any draft older than their last send -- pending, approved or not -- is
+    // stale, even one still sitting in another browser.
+    admin
+      .from("venue_submissions")
+      .select("created_at")
+      .eq("venue_id", venue.id)
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .maybeSingle<{ created_at: string }>(),
+  ]);
 
   return (
     <main className="flex flex-1 flex-col items-center px-4 py-10 sm:px-6 sm:py-14">
@@ -156,6 +169,8 @@ export default async function ClaimPage({ params }: { params: Promise<{ token: s
         <ClaimForm
           token={token}
           initial={initial}
+          draft={draft}
+          submittedAt={lastSent ? new Date(lastSent.created_at).getTime() : 0}
           listing={publicFields(venue, PUBLIC_VENUE_COLUMNS)}
           liveHref={venue.active ? venueHref(venue) : null}
         />

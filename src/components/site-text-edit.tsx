@@ -2,7 +2,7 @@
 
 import { useRef, type CSSProperties, type KeyboardEvent, type ReactNode } from "react";
 import { TEXT_EDIT_MESSAGE, useSiteDesign, useTextEditing } from "@/components/guest-site-theme";
-import { TEXT_SLOTS, isLongTextSlot, textSlotCss, type TextSlotId } from "@/lib/site-design";
+import { TEXT_SLOTS, isSizeOnlySlot, isLongTextSlot, textSlotCss, type TextSlotId } from "@/lib/site-design";
 
 /**
  * SiteText in the editor's preview: click to pick, and type to retype
@@ -17,7 +17,7 @@ export function EditableSiteText({
   children,
 }: {
   slot: TextSlotId;
-  as?: "h1" | "h2" | "p";
+  as?: "h1" | "h2" | "p" | "div";
   className?: string;
   style?: CSSProperties;
   children: ReactNode;
@@ -30,11 +30,14 @@ export function EditableSiteText({
   const isSelected = selected === slot;
   const typing = isSelected && words;
   const long = isLongTextSlot(slot);
-  const ref = useRef<HTMLSpanElement>(null);
+  const ref = useRef<HTMLSpanElement & HTMLDivElement>(null);
   const before = useRef("");
 
   const css = { ...style, ...textSlotCss(own) } as CSSProperties;
-  const inner = own?.size ? { fontSize: `${own.size}em` } : undefined;
+  const zoom = isSizeOnlySlot(slot);
+  const inner = !own?.size ? undefined : zoom ? ({ "--site-zoom": own.size } as CSSProperties) : { fontSize: `${own.size}em` };
+  // A block inside (the countdown's units) needs a block around it.
+  const Inner = Tag === "div" ? "div" : "span";
 
   function save() {
     const raw = ref.current?.innerText ?? "";
@@ -73,7 +76,8 @@ export function EditableSiteText({
         if (!isSelected) select(slot);
       }}
     >
-      <span
+      <Inner
+        className={zoom ? "site-zoom" : undefined}
         // A new key when the saved words change, so React never fights the
         // browser over a text node the couple has just typed into.
         key={text ?? ""}
@@ -87,7 +91,7 @@ export function EditableSiteText({
         onKeyDown={typing ? onKeyDown : undefined}
       >
         {text ?? children}
-      </span>
+      </Inner>
     </Tag>
   );
 }

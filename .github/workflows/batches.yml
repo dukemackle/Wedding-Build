@@ -1,0 +1,51 @@
+# Merges batch-only PRs once their Cloudflare build is green and puts merged
+# batches live with `npm run import:batches`. Replaces the merge and import
+# steps of the hourly "Venue & vendor batches" Claude routine, which now only
+# handles failed builds and conflicts. Needs the BATCH_IMPORT_SECRET repo secret.
+name: Batches
+on:
+  check_run:
+    types: [completed]
+  schedule:
+    - cron: "37 * * * *" # hourly sweep, and the import's backlog
+  workflow_dispatch:
+concurrency:
+  group: batches
+  cancel-in-progress: false
+permissions:
+  contents: write
+  pull-requests: write
+  checks: read
+jobs:
+  merge-and-import:
+    # Only Cloudflare's build finishing green is worth waking for.
+    if: >-
+      github.event_name != 'check_run' ||
+      (startsWith(github.event.check_run.name, 'Workers Builds') && github.event.check_run.conclusion == 'success')
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Merge green batch PRs
+        id: merge
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node scripts/merge-batch-prs.mjs | tee merge.log && tail -1 merge.log >> "$GITHUB_OUTPUT"
+      - name: Import batches
+        # After a check_run event, only when something was merged.
+        if: github.event_name != 'check_run' || steps.merge.outputs.merged != '0'
+        env:
+          BATCH_IMPORT_SECRET: ${{ secrets.BATCH_IMPORT_SECRET }}
+        run: |
+          git pull --ff-only origin main
+          npm ci
+          extra=""
+          # Once a day, re-check every venue's pin against its address.
+          if [ "${{ github.event_name }}" = "schedule" ] && [ "$(date -u +%H)" = "10" ]; then extra="--repair-pins"; fi
+          npm run import:batches -- --minutes 35 $extra

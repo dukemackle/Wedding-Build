@@ -7,6 +7,9 @@ import { PageHeader } from "@/components/page-header";
 import type { GuestEventInvite, ItineraryEvent, Wedding } from "@/lib/supabase/types";
 import { ItineraryManager, type InviteGuest } from "./itinerary-manager";
 import { PublishToggle } from "./publish-toggle";
+import { audienceOf } from "@/lib/itinerary";
+import { RunSheetMenu } from "./run-sheet-menu";
+import { BUDGET_CATEGORIES, VENDOR_CATEGORY_TO_BUDGET_KEY } from "@/lib/budget-categories";
 
 export default async function ItineraryPage() {
   const supabase = await createClient();
@@ -59,7 +62,9 @@ export default async function ItineraryPage() {
 
   // For invite-only events: the guest list to choose from, and who's chosen.
   // Before migration 0109 the invites table is missing; that reads as none.
-  const [{ data: guests }, { data: inviteRows }] = await Promise.all([
+  // Who's-involved suggestions: whoever the couple has booked, from the budget
+  // ("purchased from") or a vendor inquiry marked booked.
+  const [{ data: guests }, { data: inviteRows }, { data: bookedLines }, { data: bookedInquiries }] = await Promise.all([
     supabase
       .from("guests")
       .select("id, name, household")
@@ -72,9 +77,37 @@ export default async function ItineraryPage() {
       .select("guest_id, event_id")
       .eq("wedding_id", wedding.id)
       .returns<Pick<GuestEventInvite, "guest_id" | "event_id">[]>(),
+    supabase
+      .from("budget_line_items")
+      .select("category, purchased_from")
+      .eq("wedding_id", wedding.id)
+      .not("purchased_from", "is", null)
+      .returns<{ category: string; purchased_from: string | null }[]>(),
+    supabase
+      .from("vendor_inquiries")
+      .select("vendor_name, category")
+      .eq("wedding_id", wedding.id)
+      .eq("status", "booked")
+      .returns<{ vendor_name: string; category: string | null }[]>(),
   ]);
+  const roleOf = (key: string | null | undefined) => BUDGET_CATEGORIES.find((c) => c.key === key)?.label ?? null;
+  const booked = new Map<string, string | null>();
+  for (const line of bookedLines ?? []) {
+    const name = line.purchased_from?.trim();
+    if (name) booked.set(name, roleOf(line.category));
+  }
+  for (const inquiry of bookedInquiries ?? []) {
+    const name = inquiry.vendor_name.trim();
+    if (name && !booked.has(name)) {
+      booked.set(name, roleOf(inquiry.category && VENDOR_CATEGORY_TO_BUDGET_KEY[inquiry.category]) ?? inquiry.category);
+    }
+  }
+  const bookedVendors = [...booked].map(([name, role]) => ({ name, role }));
   const invites: Record<string, string[]> = {};
   for (const row of inviteRows ?? []) invites[row.event_id] = [...(invites[row.event_id] ?? []), row.guest_id];
+
+  const counts = { guests: 0, party: 0, private: 0 };
+  for (const event of events ?? []) counts[audienceOf(event)] += 1;
 
   return (
     <PageShell email={user.email ?? ""} width="canvas">
@@ -83,24 +116,24 @@ export default async function ItineraryPage() {
           title="The day,"
           accent="hour by hour"
           photo="itinerary"
-          actions={
-            <Link href="/itinerary/print" className="btn-secondary">
-              Print run sheet
-            </Link>
+          actions={<RunSheetMenu />}
+          toolbar={
+            <PublishToggle
+              published={wedding.itinerary_published}
+              counts={counts}
+              publicSlug={wedding.public_slug}
+              bare
+            />
           }
         >
-          Who needs to be where, and when. Every scheduled day sits side by side below.
+          Who needs to be where, and when. One schedule for everyone; each event says who sees it.
         </PageHeader>
-
-        <PublishToggle
-          published={wedding.itinerary_published}
-          hasEvents={(events ?? []).length > 0}
-          publicSlug={wedding.public_slug}
-        />
 
         <ItineraryManager
           events={events ?? []}
           weddingDate={wedding.wedding_date}
+          dayNames={wedding.itinerary_day_names ?? {}}
+          bookedVendors={bookedVendors}
           guests={guests ?? []}
           invites={invites}
         />

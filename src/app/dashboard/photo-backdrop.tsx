@@ -21,8 +21,17 @@ const noSubscribe = () => () => {};
  * the next one are mounted, so a set of hundreds loads two images, and each
  * visit starts somewhere new so the later photos get their turn. Under
  * reduced motion the photos still change, just without the fade or drift.
+ * onShow hears which photo is up, so the hero can credit it.
  */
-export function PhotoBackdrop({ photos, focus }: { photos: string[]; focus?: PhotoFocus }) {
+export function PhotoBackdrop({
+  photos,
+  focus,
+  onShow,
+}: {
+  photos: string[];
+  focus?: PhotoFocus;
+  onShow?: (src: string | null) => void;
+}) {
   // False during server render, true on the client: there's no <body> to
   // portal into until then.
   const mounted = useSyncExternalStore(
@@ -42,8 +51,13 @@ export function PhotoBackdrop({ photos, focus }: { photos: string[]; focus?: Pho
     return () => clearInterval(timer);
   }, [photos.length]);
 
+  const shown = photos.length > 0 ? (start + step) % photos.length : 0;
+  const showing = photos[shown] ?? null;
+  useEffect(() => {
+    onShow?.(mounted ? showing : null);
+  }, [onShow, mounted, showing]);
+
   if (!mounted || photos.length === 0) return null;
-  const shown = (start + step) % photos.length;
   const next = (shown + 1) % photos.length;
   // The photo going out stays mounted through its fade.
   const previous = step > 0 ? (shown - 1 + photos.length) % photos.length : -1;
@@ -60,7 +74,8 @@ export function PhotoBackdrop({ photos, focus }: { photos: string[]; focus?: Pho
         >
           <Image
             src={src}
-            unoptimized={isLibraryPhoto(src)}
+            // The inspiration set is already sized for the screen.
+            unoptimized={isLibraryPhoto(src) || src.startsWith("/landing/")}
             alt=""
             fill
             priority={i === shown && step === 0}

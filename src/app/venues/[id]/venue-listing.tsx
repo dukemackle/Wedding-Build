@@ -7,6 +7,7 @@ import type {
   VenuePreferredVendor,
   VenueShortlistEntry,
   VenueSpace,
+  VenueSpacePlan,
   Wedding,
 } from "@/lib/supabase/types";
 import { ALCOHOL_POLICIES, SERVICE_LEVELS, venueTypeImage } from "@/lib/wedding-options";
@@ -50,6 +51,8 @@ export type VenueListingData = {
   shortlistEntry: VenueShortlistEntry | null;
   faqs: VenueFaq[];
   spaces: VenueSpace[];
+  /** Published floor plans, by space ("Design my wedding here"). */
+  plans?: VenueSpacePlan[];
   preferredVendors: VenuePreferredVendor[];
   similarVenues: Venue[];
   /** The claim form's preview: nothing that reports, tracks or links away, FAQs open. */
@@ -79,7 +82,7 @@ export async function loadVenueListing(
     venue.state ? `state.eq.${venue.state}` : null,
   ].filter((f): f is string => Boolean(f));
 
-  const [{ data: wedding }, { data: faqs }, { data: spaces }, { data: preferredVendors }, { data: similarVenues }] =
+  const [{ data: wedding }, { data: faqs }, { data: spaces }, { data: plans }, { data: preferredVendors }, { data: similarVenues }] =
     await Promise.all([
       userId
         ? supabase
@@ -90,6 +93,8 @@ export async function loadVenueListing(
         : Promise.resolve({ data: null }),
       supabase.from("venue_faqs").select("*").eq("venue_id", venue.id).order("sort_order").returns<VenueFaq[]>(),
       supabase.from("venue_spaces").select("*").eq("venue_id", venue.id).order("sort_order").returns<VenueSpace[]>(),
+      // RLS returns published plans only.
+      supabase.from("venue_space_plans").select("*").eq("venue_id", venue.id).returns<VenueSpacePlan[]>(),
       supabase
         .from("venue_preferred_vendors")
         .select("*")
@@ -125,6 +130,7 @@ export async function loadVenueListing(
     shortlistEntry: shortlistEntry ?? null,
     faqs: faqs ?? [],
     spaces: spaces ?? [],
+    plans: plans ?? [],
     preferredVendors: preferredVendors ?? [],
     similarVenues: similarVenues ?? [],
   };
@@ -148,7 +154,7 @@ function photosOf(venue: Venue): string[] {
 const card = "rounded-lg border border-hairline bg-card p-6 shadow-sm";
 
 export function VenueListing({ data }: { data: VenueListingData }) {
-  const { venue, signedIn, wedding, shortlistEntry, faqs, spaces, preferredVendors, similarVenues, preview, then } = data;
+  const { venue, signedIn, wedding, shortlistEntry, faqs, spaces, plans = [], preferredVendors, similarVenues, preview, then } = data;
 
   // "Must book from these" and "we recommend these" change a couple's budget
   // very differently, so they're shown apart, required first.
@@ -331,7 +337,11 @@ export function VenueListing({ data }: { data: VenueListingData }) {
             extraNotes={[["If it rains", venue.rain_plan]]}
           />
 
-          <VenueSpaces spaces={spaces} />
+          <VenueSpaces
+            spaces={spaces}
+            plans={preview ? [] : plans}
+            design={{ venueId: venue.id, signedIn, hasWedding: Boolean(wedding), href: venueHref(venue) }}
+          />
 
           {requiredVendors.length > 0 && (
             <div className={card}>

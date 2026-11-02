@@ -9,6 +9,7 @@ import { vendorForClaimToken } from "@/lib/vendor-claim-server";
 import { CLAIM_PHOTO_TYPES, MAX_CLAIM_PHOTO_BYTES, MAX_CLAIM_PHOTOS } from "@/lib/venue-claim";
 import { validateVendorClaim, type VendorClaimSubmission } from "@/lib/vendor-claim";
 import { trackEvent } from "@/lib/events";
+import { deleteClaimDraft, storeClaimDraft } from "@/lib/claim-drafts";
 
 // The vendor side of the claim flow; see ../../[token]/actions.ts for the
 // venue side and the reasoning. Every action resolves the token first and
@@ -70,6 +71,8 @@ export async function submitVendorClaim(
   });
   if (error) return { error: "Couldn't save your changes -- please try again." };
   trackEvent("listing_claim_submitted", { listing: { kind: "vendor", id: vendor.id } });
+  // Sent, so the half-finished copy has done its job.
+  await deleteClaimDraft("vendor", vendor.id);
 
   const adminEmail = process.env.ADMIN_EMAIL?.split(",")[0]?.trim();
   if (adminEmail && process.env.RESEND_API_KEY) {
@@ -87,6 +90,13 @@ export async function submitVendorClaim(
     }
   }
   return {};
+}
+
+/** Keeps the unsent form on our side as they type, so another device or a new link picks it up. */
+export async function saveVendorClaimDraft(token: string, draft: unknown): Promise<{ error?: string }> {
+  const vendor = await vendorForClaimToken(token);
+  if (!vendor) return { error: "This link is no longer valid." };
+  return storeClaimDraft("vendor", vendor.id, draft);
 }
 
 /** A signed upload URL for a pricing guide or brochure PDF, for "Fill this in for me". */

@@ -588,6 +588,104 @@ Gretchen Elaine Photography	Photography		Lancaster	Pennsylvania	Lancaster, York,
 Yoder's Catering	Catering	3421 Harvest Dr	Gordonville	Pennsylvania	Lancaster County	Family-run Lancaster County caterer since 1980 with two set wedding menus, based in Gordonville.	yoderther@aol.com	717-768-3109	https://yoderscatering.com/	
 `,
   },
+  {
+    name: "Philadelphia: photography, planning, florals, catering, hair and makeup, cake, music, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Sarah DiCicco Photography	Photography		Philadelphia	Pennsylvania	Philadelphia and the Main Line	Fine art wedding photographer serving Philadelphia and Palm Beach, with a base in Wayne on the Main Line.	sarah@sarahdicicco.com		https://www.sarahdicicco.com/	https://www.instagram.com/sarah.dicicco/		
+Josiah & Steph	Photography		Philadelphia	Pennsylvania	Main Line and Philadelphia	Main Line wedding photography and video team offering unposed coverage, with every collection including prints in a keepsake box.	hello@josiahandsteph.com		https://josiahandsteph.com/	https://www.instagram.com/josiahblizzard/		
+Kate Leigh Photographer	Photography		Philadelphia	Pennsylvania	Philadelphia, Bucks County, Pennsylvania, New Jersey and New York	Wedding photographer serving the Philadelphia wedding industry from Bucks County, available to travel across Pennsylvania, New Jersey and New York.	info@kateleigh.com		https://kateleigh.com/	https://www.instagram.com/kateleighphoto/		
+Brittany Breen Photography	Photography	5 Village Row	New Hope	Pennsylvania	Bucks County, Philadelphia and the East Coast	New Hope studio photographing weddings in Bucks County and Philadelphia, with travel along the East Coast.		917-715-1675	https://www.brittanybreen.com/	https://www.instagram.com/brittanybreenphotography/		
+Anton Drummond Photography	Photography		Philadelphia	Pennsylvania	Philadelphia, Main Line, Bucks County and South Jersey	Montgomery County photographer covering weddings across Philadelphia, the Main Line, Bucks County and South Jersey.	anton@antondrummondphoto.com		https://www.antondrummondphoto.com/	https://www.instagram.com/anton.drummond.photography/		
+Pine Hill Events	Planning		Wayne	Pennsylvania	Main Line and greater Philadelphia	Wayne wedding planning and coordination business serving the Main Line and the greater Philadelphia region.	jean@pinehillevents.com	484-832-8934	https://www.pinehillevents.com/	https://www.instagram.com/pinehillevents/		
+Matlack Florist	Florals	210 N Chester Rd	West Chester	Pennsylvania	West Chester, Malvern, Exton and Downingtown	West Chester florist with a dedicated wedding and event team, also delivering same day around Malvern, Exton and Downingtown.	hello@matlackflorist.com	610-431-3077	https://www.matlackflorist.com/	https://www.instagram.com/matlackflorist/		
+Make Your Day Design	Florals		Glenmoore	Pennsylvania	Glenmoore, Downingtown, West Chester and Chester County	Glenmoore flower shop making wedding bouquets and ceremony arrangements for Chester County couples, with consultations booked online.	sarah@makeyourdaydesign.com	610-207-5637	https://makeyourdaydesign.com/	https://www.instagram.com/makeyourdaydesign/		
+Valleygreen Flowers & Gifts	Florals	1013 N Bethlehem Pike	Lower Gwynedd	Pennsylvania	Philadelphia, Bucks County and Montgomery County reception venues	Lower Gwynedd florist serving reception venues across Philadelphia, Bucks and Montgomery counties, with wedding estimates requested online.	vgsales@verizon.net	215-628-3550	https://www.valleygreenweddings.com/	https://www.instagram.com/valleygreenflowers/		
+Feast Your Eyes Catering	Catering	1626 N American St	Philadelphia	Pennsylvania	Philadelphia	Philadelphia caterer that lists weddings among its events, working from a company address on North American Street.	info@feastyoureyescatering.com	215-634-3002	https://feastyoureyescatering.com/	https://www.instagram.com/feastyoureyescatering/		
+Michele Wilderman Bridal	Hair & Makeup		Philadelphia	Pennsylvania	Philadelphia	Bridal makeup artist whose process runs from a consultation call to a preview appointment and wedding morning application.	Michelewildermanbridal@gmail.com		https://www.michelewildermanbridal.com/	https://www.instagram.com/michelewildermanbridal/		
+Beautiful Brides Hair and Makeup	Hair & Makeup		Philadelphia	Pennsylvania	Philadelphia, Main Line, South Jersey and Delaware	On-location wedding hair and makeup for brides and their parties across Philadelphia, the Main Line, South Jersey and Delaware.			https://www.beautifulbrideshairandmakeup.com/	https://www.instagram.com/beautifulbrideshairandmakeup/		
+Jazmin Rae	Hair & Makeup		Philadelphia	Pennsylvania	Philadelphia, Main Line, Bucks County and South Jersey	Makeup-only artist for weddings across Philadelphia, the Main Line, Bucks County and South Jersey, also taking destination bookings.	info@jazminrae.com		https://www.jazminrae.com/	https://www.instagram.com/jazminraebridal/		
+Brooklyn Girl Bakery	Cake		Phoenixville	Pennsylvania	Phoenixville and the Philadelphia area	Phoenixville bakery with a wedding cake menu and a list of preferred wedding venues around the Philadelphia area.	peri@brooklyngirlbakery.com	610-757-8318	https://www.brooklyngirlbakery.com/	https://www.instagram.com/brooklyngirlbakery/		
+Creative Cake Co.	Cake		Collegeville	Pennsylvania	Collegeville, Royersford, Phoenixville and parts of Montgomery, Chester and Delaware counties	Custom cake and cookie bakery near Collegeville making wedding cakes for couples in Montgomery, Chester and Delaware counties.			https://www.creativecakeco.com/			
+The Farm Bakery and Events	Cake	2475 W Zion Hill Rd	Quakertown	Pennsylvania	Bucks County, within one hour of the farm	Quakertown bakery making custom wedding cakes with buttercream as standard, and delivery within an hour of the farm.	info@thefarmbakeryandevents.com	215-645-9343	https://www.meyersfarmbakery.com/	https://www.instagram.com/thefarmbakeryandevents/	6	per person
+Del's Groove	Music		Philadelphia	Pennsylvania	Philadelphia	Philadelphia live music company offering an eight-piece party band, smaller ensembles, ceremony musicians and DJs for weddings.	del@delsgroove.com	610-291-4500	https://www.delsgroove.com/	https://www.instagram.com/delsgroove/		
+Scott Rowland Video	Videography		Lansdale	Pennsylvania	Montgomery County, Bucks County and Philadelphia	Lansdale videographer covering weddings across Montgomery and Bucks counties and Philadelphia, with edited recap films shown online.	srvideo@comcast.net	215-368-2525	https://www.srvideo.com/			
+`,
+  },
+  {
+    name: "Lehigh Valley: photography, music, videography, catering, hair and makeup, florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Valley Videography	Videography		Allentown	Pennsylvania	Lehigh Valley, Bucks County and the Poconos	Allentown videographer producing wedding videos across the Lehigh Valley, Bucks County and the Poconos.	weddings@valleyvideography.com		https://www.valleyvideography.com/			
+ALEMedia	Videography		Lehigh Valley	Pennsylvania	Bethlehem, Allentown, Lehigh Valley, Philadelphia and the Poconos	Photo and video business filming weddings in Bethlehem, Allentown and the wider Lehigh Valley, with trips to Philadelphia and the Poconos.	alex@alemedia.co	484-649-5550	https://www.alemedia.co/	https://www.instagram.com/alemedia.co/		
+Dustin Weiss Photography	Photography		Lehigh Valley	Pennsylvania	Lehigh Valley and Philadelphia	Wedding and portrait photographer covering the Lehigh Valley and Philadelphia in a modern style.	dustin@dweissphoto.com	570-947-5631	https://www.dweissphoto.com/			
+Evening Sun Entertainment	Music		Bethlehem	Pennsylvania	Lehigh Valley and the tri-state area	Bethlehem entertainment company supplying wedding DJs, MCs, photo booths and event lighting across the Lehigh Valley.	info@eveningsunentertainment.com	484-403-0347	https://www.eveningsunentertainment.com/			
+Sonic Entertainment	Music		Lehigh Valley	Pennsylvania	Allentown, Bethlehem, Easton and the Lehigh Valley	Lehigh Valley wedding DJ company that also offers photo booths, serving couples in Allentown, Bethlehem and Easton.	info@sonicdjs.com	484-273-2568	https://www.sonicdjs.com/	https://www.instagram.com/sonicdjs/		
+Impossible Entertainment	Music		Allentown	Pennsylvania	Lehigh Valley, Bucks County, Stroudsburg and eastern Pennsylvania	DJ company with a New Jersey base and an Allentown office, covering weddings across the Lehigh Valley, Bucks County and the Poconos.	james@impossibleentertainment.com	610-442-3066	https://www.impossibleentertainment.com/	https://www.instagram.com/impossibleentertainment/		
+Caterers2u	Catering		Allentown	Pennsylvania	Lehigh, Northampton and Montgomery counties	Allentown caterer handling weddings and other parties across Lehigh, Northampton and Montgomery counties.			https://caterers-2u.com/			
+Dew Harbor	Hair & Makeup		Lehigh Valley	Pennsylvania	Lehigh Valley	Bridal hair and makeup service for the Lehigh Valley, with packages for the bride and the wedding party, plus trials.			https://www.dewharbor.com/	https://www.instagram.com/dewharbor/		
+Whispering Beauty	Hair & Makeup		Bethlehem	Pennsylvania	Bethlehem	Bethlehem hair salon that also does bridal hair, alongside colour and extensions.		610-849-2277	https://www.whisperingbeautyllc.com/			
+Indigo Blooms Co	Florals		Lehigh Valley	Pennsylvania	Lehigh Valley, Philadelphia, New Jersey, Delaware and New York	Floral design business offering wedding consultations and florals, from micro weddings to large galas, across the Lehigh Valley and beyond.	info@indigobloomsco.com	610-421-4160	https://indigobloomsco.com/			
+`,
+  },
+  {
+    name: "State College: photography, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Aaron Lee Photo + Film	Videography		State College	Pennsylvania	State College; travels across PA, NY, NJ, MD and DE with no travel fee	State College wedding photographer and filmmaker offering a cinematic, film-inspired look, with film-only, photo-only and combined packages.			https://www.aaronleephotofilm.com/	https://www.instagram.com/aaronleephotofilm/		
+KF Videography	Videography		State College	Pennsylvania	Central Pennsylvania including State College and Bellefonte	Wedding videographer covering central Pennsylvania, with drone footage available and client galleries shared by wedding year.	KFvideography@gmail.com	570-490-5327	https://www.kfvideography.com/	https://www.instagram.com/kfvideography/		
+`,
+  },
+  {
+    name: "Erie: videography, hair and makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+K West Video	Videography		Erie	Pennsylvania	Erie, Meadville and northwest Pennsylvania	Erie video and photo studio making wedding love-story films, with tiered packages that include drone coverage on the larger options.	kyle@kwestvideo.com	219-713-3100	https://www.kwestvideo.com/	https://www.instagram.com/kwest_video/	2400	package
+Ambridge Rose Spa & Salon	Hair & Makeup	3344 West 26th Street	Erie	Pennsylvania	Erie	West 26th Street salon offering bridal party hairstyles, make-up and spa treatments, and able to take most bridal parties in one booking.		814-836-9898	https://www.ambridgerosesalon.com/	https://www.instagram.com/ambridgerosespa/		
+Headcases Salon	Hair & Makeup	1508 West 38th Street	Erie	Pennsylvania	Erie and surrounding areas, with on-location bridal hair and make-up	Erie salon providing bridal hair, make-up, trials and groom styling, in the salon or on location for the wedding morning.	headcasessalon@ymail.com	814-866-0123	https://www.headcasessalon.com/	https://www.instagram.com/headcasessalon/		
+`,
+  },
+  {
+    name: "Pittsburgh: planning, catering, cake, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Foura Events	Planning		Pittsburgh	Pennsylvania	Pittsburgh and beyond	Pittsburgh planning company offering full-service planning through to day-of coordination for weddings and other events.	kelsey@fouraevents.com		https://www.fouraevents.com/	https://www.instagram.com/foura.events/		
+Bistro To Go	Catering		Pittsburgh	Pennsylvania	Pittsburgh	Northside caterer with dedicated wedding menus, currently taking couples for the 2027 and 2028 seasons, plus event rentals.	cater@bistro-togo.com	412-231-0218	https://www.bistroandcompany.com/	https://www.instagram.com/bistrotogo_/		
+Four Oaks Bakery	Cake		Pittsburgh	Pennsylvania	Pittsburgh area	Wedding cake boutique producing custom tiered cakes in buttercream or fondant, priced per serving after a consultation.	emily@fouroaksbakery.com	724-972-6197	https://fouroaksbakery.com/	https://www.instagram.com/fouroaksbakery/		
+Kaz Video Productions	Videography		Pittsburgh	Pennsylvania	Pittsburgh and the surrounding area	Solo Pittsburgh videographer making documentary-style wedding films built around real moments with family and friends.	jeremy@kazvideopro.com		https://www.kazvideopro.com/			
+`,
+  },
+  {
+    name: "Lancaster: photography, florals, music, catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Lauren Fisher Photography	Photography		Lancaster	Pennsylvania	Lancaster, with travel worldwide	Lancaster team of wedding and portrait photographers, with a lead photographer who has shot weddings since 2006.	studio@laurenfisher.photography	717-314-9556	https://www.laurenfisher.photography/	https://www.instagram.com/laurenfisherphotography/		
+Pam's Petals	Florals		Lancaster	Pennsylvania	Lancaster County	Full-service floral design studio in Lancaster County focused on wedding bouquets and event arrangements built from seasonal, local blooms.			https://www.pams-petals.com/	https://www.instagram.com/pams_petals_/		
+All Party Starz	Music		Lancaster	Pennsylvania	Lancaster, Reading, York, Harrisburg and Philadelphia	Wedding and party DJ company with lighting and photo booth add-ons, serving Lancaster and Reading from a Reading base.	info@allpartystarz.com	717-208-4299	https://allpartystarz.com/	https://www.instagram.com/allpartystarz/		
+Cracked Pepper Catering	Catering	227 Park Avenue	Lancaster	Pennsylvania	Lancaster	Lancaster caterer offering full-service wedding catering with locally sourced ingredients, customised dishes and displays.	info@crackedpepperlancaster.com	717-682-2504	https://crackedpepperlancaster.com/	https://www.instagram.com/crackedpepperlancaster/		
+`,
+  },
+  {
+    name: "Scranton and Wilkes-Barre: cake, florals, music, catering, planning, photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Lynn Sandy's Bakery	Cake	619 Pittston Avenue	Scranton	Pennsylvania	Scranton	Scranton bakery making wedding cakes and other celebration cakes, cookies and pastries, with orders taken by phone.		570-346-2440	https://lynnsandysbakery.com/	https://www.instagram.com/lynnsandysbakery/		
+Cadden Florists	Florals	1702 Oram Street	Scranton	Pennsylvania	Scranton and Northeastern Pennsylvania	Scranton florist established in 1984 that designs wedding and event flowers to each couple's vision, with appointments in person or by web conference.	bcaddenco11@gmail.com	570-347-2079	https://caddenflorists.com/			
+Culinary Creations by Metz	Catering	28 Concorde Drive	Dupont	Pennsylvania	Luzerne and Lackawanna counties, Northeast Pennsylvania	Caterer based at The Venue near Wilkes-Barre/Scranton International Airport, serving weddings, corporate and private events in north-east Pennsylvania.			https://www.culinarycreationsbymetz.com/	https://www.instagram.com/culinarycreationsbymetz/		
+Soul Catering by ShoovyQ	Catering	225 Center St	Benton	Pennsylvania	Wilkes-Barre, Scranton and surrounding counties including Lackawanna, Luzerne and Columbia	Barbecue and soul food caterer serving weddings across Wilkes-Barre, Scranton and nearby counties, with full-service catering from $30 per person.	smokehousecaterer@gmail.com	570-441-7719	https://www.shoovyq.com/wb-scranton-catering		30	per person
+Upscale Affairs	Music		Scranton	Pennsylvania	Northeast Pennsylvania and the Tri-State area	Scranton wedding DJ and entertainment company serving north-east Pennsylvania and the wider tri-state area, with set wedding packages.	info@upscaleaffairs.com	(570) 479-6629	https://www.upscaleaffairs.com/	https://www.instagram.com/upscaleaffairs/		
+The Borrowed Bridesmaid	Planning		Dallas	Pennsylvania	Scranton, Wilkes-Barre, the Poconos and Northeast Pennsylvania	Dallas-based wedding planner offering day-of coordination and full planning for couples in Scranton, Wilkes-Barre, the Poconos and north-east Pennsylvania.	theborrowedbridesmaid@gmail.com	508-982-1438	https://theborrowedbridesmaid.org/		2000	package
+`,
+  },
+  {
+    name: "Harrisburg and Hershey: hair and makeup, music, catering, cake, planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+RISE Hair Studio	Hair & Makeup	4907A Jonestown Road	Harrisburg	Pennsylvania	Harrisburg, Middletown, Dauphin and Camp Hill	Harrisburg hair salon with a wedding service offering bridal party hair in the studio or at a location of the couple's choice.	risehairstudiohbg@gmail.com	(717) 297-7621	https://www.risehairstudiohbg.com/weddings-special-events/	https://www.instagram.com/risehairstudio_hbg/		
+Soundwave DJs	Music		Harrisburg	Pennsylvania	Harrisburg, Pennsylvania and Maryland	Harrisburg DJ and MC company with over 25 years of experience, offering wedding entertainment and day-of coordinating.	soundwavedjs22@gmail.com	(717) 657-1363	https://www.soundwavedjs.net/			
+Two Gal's Catering	Catering		Harrisburg	Pennsylvania	Harrisburg	Harrisburg caterer offering wedding reception catering alongside corporate and family events, with menus and a gallery on its site.	janetsch1943@gmail.com	(717) 939-2858	https://www.twogalscatering.net/			
+Kyrsten's Sweet Designs	Cake		Mechanicsburg	Pennsylvania	Mechanicsburg	Home-based baker in Mechanicsburg making custom tiered wedding cakes, styled cupcake displays and decorated sugar cookies.	kyrstenssweetdesigns@gmail.com	(717) 745-8580	https://www.kyrstenssweetdesigns.com/	https://www.instagram.com/k_sweetdesigns/		
+Simply Celebrate	Planning		Mechanicsburg	Pennsylvania	Mechanicsburg, Harrisburg, Lancaster and Hershey	Mechanicsburg wedding and event coordinator offering day-of coordination and planning for couples around Harrisburg, Hershey and Lancaster.	simplycelebrate.co@gmail.com	717-321-3076	https://www.simplycelebrate.co/	https://www.instagram.com/simplycelebratellc/		
+`,
+  },
+  {
+    name: "Poconos: catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Angels Café & Catering	Catering	901 Main Street	Stroudsburg	Pennsylvania	Monroe and Northampton counties, Poconos and Lehigh Valley	Stroudsburg café and caterer offering full banquet wedding catering, with vegetarian, vegan and gluten-free menus.		570-424-8810	https://littleangelscafe.com/			
+`,
+  },
 ];
 
 export default batches;

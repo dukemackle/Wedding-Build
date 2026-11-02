@@ -7,6 +7,7 @@ import {
   TEXT_SLOTS,
   EMPTY_TEXT_STYLE,
   hasTextStyle,
+  isSizeOnlySlot,
   resolveDesign,
   type SiteDesign,
   type TextSlotId,
@@ -42,6 +43,8 @@ export function TextToolbar({
   const size = own.size ?? 1;
   const step = TEXT_SIZES.findIndex((s) => s >= size - 0.001);
   const kinds = [...new Set(FONTS.map((f) => f.kind))];
+  // The countdown keeps its own faces and colours: it only grows and shrinks.
+  const sizeOnly = isSizeOnlySlot(slot);
 
   return (
     <div
@@ -51,6 +54,7 @@ export function TextToolbar({
     >
       <span className="hidden whitespace-nowrap px-2 text-[13px] font-semibold text-ink xl:inline">{info?.label}</span>
 
+      {!sizeOnly && (
       <select
         aria-label="Font"
         value={own.font ?? ""}
@@ -68,6 +72,7 @@ export function TextToolbar({
           </optgroup>
         ))}
       </select>
+      )}
 
       <div className="flex h-9 shrink-0 items-center rounded-lg border border-hairline">
         <ToolButton
@@ -87,6 +92,8 @@ export function TextToolbar({
         </ToolButton>
       </div>
 
+      {!sizeOnly && (
+        <>
       <div className="flex shrink-0 items-center gap-1 px-1" role="group" aria-label="Colour">
         {colors.map((c) => (
           <button
@@ -126,6 +133,8 @@ export function TextToolbar({
           </ToolButton>
         ))}
       </div>
+        </>
+      )}
 
       {hasTextStyle(own) && (
         <button
@@ -138,7 +147,7 @@ export function TextToolbar({
       )}
 
       <span className="hidden whitespace-nowrap px-2 text-xs text-ink/60 2xl:inline">
-        {info?.words ? "Click the words to retype them" : "Change these in your wedding details"}
+        {info?.words ? "Click the words to retype them" : sizeOnly ? "It counts down to your wedding date" : "Change these in your wedding details"}
       </span>
 
       <button

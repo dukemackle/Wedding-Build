@@ -10,6 +10,7 @@ import {
   DEFAULT_SECTIONS,
   DEFAULT_SITE_DESIGN,
   DEFAULT_THEME_ID,
+  FALLING_COLOR_IDS,
   FALLING_IDS,
   FONT_IDS,
   FONT_PAIRINGS,
@@ -42,6 +43,7 @@ import {
   type SectionKey,
   type TextSlotId,
 } from "./site-design";
+import { STARTER_DESIGN } from "./site-templates";
 
 /**
  * The guest site design's validation (see site-design.ts for what each
@@ -74,6 +76,7 @@ const motionSchema = z
     falling: z.enum(FALLING_IDS).optional().catch(undefined),
     /** Designs saved before the Falling picker had only an on/off for petals. */
     petals: z.boolean().optional().catch(undefined),
+    fallingColor: z.enum(FALLING_COLOR_IDS).catch("accent"),
     ticking: z.boolean().catch(true),
     flipboard: z.boolean().catch(false),
     shimmer: z.boolean().catch(false),
@@ -135,6 +138,8 @@ export const siteDesignSchema = z.object({
   scene: z.enum(SCENE_IDS).nullable().catch(null),
   sceneTime: z.enum(SCENE_TIME_IDS).catch("day"),
   pageStyle: z.enum(PAGE_STYLE_IDS).catch("cards"),
+  /** Tabs: a page per section, picked from a menu. Scroll: every section down one long page. */
+  navigation: z.enum(["tabs", "scroll"]).catch("tabs"),
   /** Per-section layouts (SECTION_LAYOUTS); the schedule's and photos' null follows the page style. */
   layouts: z
     .object({
@@ -214,9 +219,13 @@ export const siteDesignSchema = z.object({
   template: z.string().regex(/^[a-z-]{1,40}$/).nullable().catch(null),
 });
 
-/** Whatever is in the column -- null, an old shape, junk -- as a usable design. */
+/**
+ * Whatever is in the column -- null, an old shape, junk -- as a usable design.
+ * Null means nothing was ever published, so guests see the starter (Ivory).
+ */
 export function parseSiteDesign(value: unknown): SiteDesign {
-  const result = siteDesignSchema.safeParse(value ?? {});
+  if (value == null) return STARTER_DESIGN;
+  const result = siteDesignSchema.safeParse(value);
   return result.success ? result.data : DEFAULT_SITE_DESIGN;
 }
 

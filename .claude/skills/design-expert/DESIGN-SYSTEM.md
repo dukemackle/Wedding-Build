@@ -90,17 +90,18 @@ layout switch in new code.
 | Need | Use | Status |
 | --- | --- | --- |
 | Page frame | `PageShell` | Good |
-| Planning-page header | `PageHeader` (`page-header.tsx`): eyebrow, headline with an italic royal-blue end, one line, actions, landing feature photo | Budget, guests, checklist, itinerary, layout, registry |
+| Planning-page header | `PageHeader` (`page-header.tsx`): eyebrow, headline with an italic royal-blue end, one line, actions, landing feature photo; optional full-width `toolbar` row (layout tools, guests' stage panel, itinerary publish bar); one header per page, never a second titled card under it | Budget, guests, checklist, itinerary, layout, registry |
 | Page's main action | `btn-primary` (gold pill, navy text, `PlusIcon` for "Add …") | One per page |
 | Its other actions | `btn-secondary` (navy 2px outline pill) | Planning pages |
 | Primary button | `rounded-md bg-forest px-4 py-2 text-sm font-medium text-parchment transition-colors hover:bg-forest/90 disabled:opacity-60` (+ `btn-motion` on marketing) | ~6 near-duplicate variants; no shared component |
 | Secondary | `rounded-md border border-hairline px-3 py-2 text-sm text-ink hover:border-forest disabled:opacity-60` | |
-| Chip / filter | `rounded-full border border-hairline bg-card px-3 py-1 text-sm` | |
+| Chip / filter | `rounded-full border border-hairline bg-card px-3 py-1 text-sm`; an applied filter is `ACTIVE_CHIP` from `filter-dropdown.tsx` (2px Royal-blue outline, pale tint, navy text, navy ✕ disc) | Venues, Vendors and Marketplace also have the all-filters sheet; wrap non-filter bar items in `BarOnly` (`filterSheet` on `search-shell`) |
 | Submit with pending | `PendingSubmit` | Use it |
 | Input | `rounded-md border border-hairline bg-card px-3 py-2 text-ink focus:border-forest` | bg split parchment vs card; use **card** |
 | Card | `rounded-lg border border-hairline bg-card p-5 sm:p-8 shadow-sm` | |
 | Gold moment card | `CtaCard` (`gold-flow-border`, `gold-shine`, `gold-twinkle`) | One per page max |
 | Dialog | `listing-modal.tsx` (intercepted route) | No focus trap; only dialog |
+| Checklist journey | `checklist-ui.tsx`: `ProgressRing`, `StageNode`/`StageLine` timeline, `TaskTick` (gold + sparks), `DueChip` (urgency colours), `StageIcon`, `StageConfetti` | Checklist page and its landing demo |
 | Empty state | `BirdEmptyState` (`wren-moments.tsx`) | Good; pair with one action |
 | Loading | `PageSkeleton` + `loading.tsx` (11 routes) | Good |
 | Error page | none (`error.tsx`, `not-found.tsx` missing) | **Gap** |

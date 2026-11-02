@@ -2,7 +2,11 @@ import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import type { VendorTrackerRow } from "./dashboard-data";
+import { vendorCategoryIconPaths } from "@/lib/vendor-category-icons";
+import { SAVED_ICON } from "@/lib/venue-type-icons";
 import { RsvpYesCount } from "./rsvp-count";
+import { SitePageThumb } from "@/app/guests/site/site-page-thumb";
+import type { SiteDesign } from "@/lib/site-design";
 
 export type Feature = {
   href: string;
@@ -37,7 +41,7 @@ export type FeatureData = {
   itinerary: { time: string | null; title: string }[];
   layoutItems: number;
   /** The guest site: the couple's names and date as it shows them, and whether it's published. */
-  site: { names: string; date: string | null; live: boolean; photo?: string | null };
+  site: { names: string; date: string | null; live: boolean; photo?: string | null; design?: SiteDesign | null };
 };
 
 const usd = (n: number) =>
@@ -215,40 +219,73 @@ function FloorPlanDrawing() {
 
 /**
  * A map with vendors pinned on it -- the Vendors page is a map beside a list,
- * so the box shows the map. Drawn rather than a screenshot so it needs no
- * tiles and stays crisp. Green pins are booked.
+ * so the box shows that map: the same base-map colours (Protomaps "light",
+ * src/lib/own-map-style.ts) and the same pins (badge-pin.ts and
+ * clustered-markers.tsx) -- category badges up close, a numbered cluster and
+ * gold dots further out. Drawn rather than a screenshot so it needs no tiles
+ * and stays crisp. Booked vendors wear the saved heart.
  */
+const MAP_BADGES: [number, number, string][] = [
+  [58, 70, "Photography"],
+  [128, 62, "Florals"],
+  [92, 112, "Catering"],
+  [160, 118, "Music"],
+  [40, 150, "Cake"],
+];
+const MAP_DOTS = [[176, 36], [18, 100], [118, 148], [188, 150]];
+
 function MapDrawing({ booked }: { booked: number }) {
-  const pins = [
-    [52, 74], [96, 62], [138, 80], [70, 118], [118, 124], [160, 110], [36, 146], [150, 154],
-  ];
   return (
     <svg
       viewBox="0 0 200 180"
       preserveAspectRatio="xMidYMid slice"
       aria-hidden="true"
-      className="absolute inset-0 h-full w-full bg-[#eef1ea] transition-transform duration-700 group-hover:scale-105"
+      className="absolute inset-0 h-full w-full bg-[#e2dfda] transition-transform duration-700 group-hover:scale-105"
     >
-      <path d="M0 128 C40 110 70 150 110 132 S170 96 200 110 V180 H0Z" className="fill-forest/10" />
-      <path d="M-5 30 C40 50 60 20 110 44 S170 60 205 40" fill="none" strokeWidth="7" className="stroke-sky-200" />
-      <g fill="none" strokeWidth="2.5" className="stroke-card">
-        <path d="M0 88 H200" />
-        <path d="M84 0 V180" />
-        <path d="M150 0 L120 180" />
-        <path d="M0 160 L200 146" />
+      <path d="M118 0 H200 V48 C180 56 160 40 140 44 S118 20 118 0Z" fill="#cfddd5" />
+      <path d="M0 160 C20 150 40 168 70 164 L76 180 H0Z" fill="#cfddd5" />
+      <path d="M-5 104 C30 92 50 128 90 132 S150 150 205 140" fill="none" stroke="#80deea" strokeWidth="9" />
+      <g fill="none" stroke="#ebebeb" strokeWidth="2">
+        <path d="M0 40 H200M0 124 H200M30 0 V180M110 0 V180M174 0 V180" />
       </g>
-      <g fill="none" strokeWidth="1" className="stroke-hairline">
-        <path d="M0 60 H200M40 0 V180M180 0 V180" />
+      <g fill="none" stroke="#e0e0e0" strokeWidth="6" strokeLinecap="round">
+        <path d="M0 86 H200M72 0 V180M150 0 L136 180" />
       </g>
-      {pins.map(([x, y], i) => (
-        <g key={`${x}-${y}`} transform={`translate(${x} ${y})`}>
-          <path
-            d="M0 0 C-7 -9 -8 -12 -8 -15 A8 8 0 0 1 8 -15 C8 -12 7 -9 0 0Z"
-            className={i < booked ? "fill-forest" : "fill-brass"}
-          />
-          <circle cx="0" cy="-15" r="3" className="fill-card" />
-        </g>
+      <g fill="none" stroke="#fff" strokeWidth="4" strokeLinecap="round">
+        <path d="M0 86 H200M72 0 V180M150 0 L136 180" />
+      </g>
+      {MAP_DOTS.map(([x, y]) => (
+        <circle key={`${x}-${y}`} cx={x} cy={y} r="4.5" fill="#FFD301" stroke="#14203D" strokeWidth="2.2" />
       ))}
+      <g transform="translate(28 40)">
+        <circle r="11" fill="#14203D" stroke="#fff" strokeWidth="2" />
+        <text y="4" textAnchor="middle" fill="#fff" fontSize="10" fontWeight="700" fontFamily="ui-sans-serif,system-ui,sans-serif">
+          12
+        </text>
+      </g>
+      {MAP_BADGES.map(([x, y, category], i) => {
+        const saved = i < booked;
+        return (
+          <g key={category} transform={`translate(${x} ${y})`}>
+            <path d="M-4 -3 L0 3 L4 -3Z" fill="#14203D" />
+            <circle cy="-14" r="12" fill="#14203D" stroke="#fff" strokeWidth="1.8" style={{ filter: "drop-shadow(0 1px 2px rgba(20,32,61,.35))" }} />
+            <circle cy="-14" r="9" fill={saved ? "#fff" : "#FFD301"} />
+            <svg
+              x="-6"
+              y="-20"
+              width="12"
+              height="12"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#14203D"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              dangerouslySetInnerHTML={{ __html: saved ? SAVED_ICON : vendorCategoryIconPaths(category) }}
+            />
+          </g>
+        );
+      })}
     </svg>
   );
 }
@@ -503,9 +540,18 @@ export function buildFeatures(d: FeatureData): Feature[] {
         : next === "site"
           ? "Publish it"
           : "Design yours",
-      // Their banner photo once they've chosen one; until then the top of the
-      // site as text: names, date, and whether guests can see it.
-      media: d.site.photo ? (
+      // Their design as guests would see it, the same thumbnail as Your guest
+      // site; failing that their banner photo; until then the top of the site
+      // as text: names, date, and whether guests can see it.
+      media: d.site.design ? (
+        <>
+          <SitePageThumb design={d.site.design} />
+          <span className="absolute left-2 top-2 flex items-center gap-1.5 rounded-full bg-white/90 px-2 py-1 font-mono-numbers text-[9px] uppercase tracking-[0.15em] text-ink shadow-[0_1px_4px_rgba(0,0,0,0.12)] sm:left-3 sm:top-3 sm:text-[10px]">
+            <span className={`h-1.5 w-1.5 rounded-full ${d.site.live ? "bg-forest" : "border border-ink/40"}`} />
+            {d.site.live ? "Live" : "Not published"}
+          </span>
+        </>
+      ) : d.site.photo ? (
         <PhotoMedia src={d.site.photo} label={d.site.names} />
       ) : (
         <Panel>

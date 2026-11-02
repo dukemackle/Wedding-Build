@@ -10,9 +10,15 @@ import { MAX_CLAIM_PHOTOS, type ClaimFaq } from "@/lib/venue-claim";
 import type { VendorClaimDetails, VendorClaimSubmission } from "@/lib/vendor-claim";
 import type { Vendor, VendorPriceUnit } from "@/lib/supabase/types";
 import { Field, inputClass, labelClass, PhotoGridEditor, Section, Select } from "../../form-parts";
-import { createVendorClaimPhotoUploads, submitVendorClaim, createImportUpload, readListingSource } from "./actions";
+import {
+  createVendorClaimPhotoUploads,
+  submitVendorClaim,
+  createImportUpload,
+  readListingSource,
+  saveVendorClaimDraft,
+} from "./actions";
 import { ImportPanel, mergeDraft, mergeFaqs } from "../../import-panel";
-import { SavedNote, useSavedDraft } from "../../use-saved-draft";
+import { SavedNote, useSavedDraft, type ServerDraft } from "../../use-saved-draft";
 import { StepNav, StepRail, type Step } from "../../steps";
 import { BookingFactsSection } from "../../booking-fields";
 import { ListingPreview, PreviewPrompt } from "../../listing-preview";
@@ -27,12 +33,18 @@ export function VendorClaimForm({
   token,
   category,
   initial,
+  draft,
+  submittedAt,
   listing,
   liveHref,
 }: {
   token: string;
   category: string | null;
   initial: VendorClaimSubmission;
+  /** Their unsent form as last saved on our side, from any device. */
+  draft: ServerDraft;
+  /** When they last sent the form (0 if never): drafts older than that are stale. */
+  submittedAt: number;
   /** The vendor's public columns, under the form's details in the preview. */
   listing: Partial<Vendor>;
   liveHref: string | null;
@@ -54,16 +66,19 @@ export function VendorClaimForm({
 
   const saved = useSavedDraft(
     token,
-    initial,
+    draft,
+    submittedAt,
     { details, amenitiesText, photos, faqs, submitter, step },
+    // A draft saved before a field existed lacks it, so the page's value fills in.
     (d) => {
-      setDetails(d.details);
-      setAmenitiesText(d.amenitiesText);
-      setPhotos(d.photos);
-      setFaqs(d.faqs);
-      setSubmitter(d.submitter);
-      setStep(d.step);
+      if (d.details) setDetails({ ...initial.details, ...d.details });
+      if (typeof d.amenitiesText === "string") setAmenitiesText(d.amenitiesText);
+      if (Array.isArray(d.photos)) setPhotos(d.photos);
+      if (Array.isArray(d.faqs)) setFaqs(d.faqs);
+      if (d.submitter) setSubmitter({ ...initial.submitter, ...d.submitter });
+      if (typeof d.step === "number") setStep(d.step);
     },
+    saveVendorClaimDraft,
   );
 
   const set = <K extends keyof VendorClaimDetails>(key: K, value: VendorClaimDetails[K]) =>

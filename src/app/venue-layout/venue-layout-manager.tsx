@@ -1,11 +1,13 @@
 "use client";
 
-import { useEffect, useMemo, useOptimistic, useRef, useState, useTransition } from "react";
+import { createContext, useContext, useEffect, useMemo, useOptimistic, useRef, useState, useTransition } from "react";
 import dynamic from "next/dynamic";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type {
   Guest,
   LayoutItemType,
+  LayoutPhase,
   SeatingTable,
   TableShape,
   VenueLayoutItem,
@@ -20,8 +22,11 @@ import {
   renameSeatingTable,
   splitPlusOne,
   updateTablePosition,
+  setTableDecor,
 } from "@/app/seating/actions";
-import { addRoom, deleteRoom } from "./room-actions";
+import { addRoom, deleteRoom, setRoomStyle } from "./room-actions";
+import { addPhase, copyPhaseLayout, deletePhase, setNodePhase } from "./phase-actions";
+import { VENUE_FIXTURE_TYPES, defaultPhaseId, inPhase, sortPhases } from "@/lib/layout-phases";
 import {
   addLayoutItem,
   updateLayoutItem,
@@ -37,13 +42,33 @@ import {
   ITEM_TYPE_DIMENSIONS,
   MAX_ITEM_SIZE,
   MIN_ITEM_SIZE,
+  ROW_PITCH,
+  chairBlock,
+  chairSize,
   clamp,
+  planHeight,
   itemDimensions,
   tableFootprint,
 } from "@/lib/venue-layout-geometry";
-import { PlusIcon } from "@/components/page-header";
+import { planCanvas, planSizeLabel, roomPlan, type PlanShape } from "@/lib/venue-plans";
+import { PageHeader, PlusIcon } from "@/components/page-header";
 import { CheckIcon } from "@/components/icons";
 import { BirdCheer } from "@/components/bird-cheer";
+import {
+  CENTERPIECE_LABELS,
+  LINENS,
+  ROOM_STYLES,
+  STYLE_DEFAULTS,
+  chairPositions,
+  initials,
+  inkOn,
+  roomStyle as toRoomStyle,
+  tableCenterpiece,
+  tableLinen,
+  type RoomStyle,
+} from "@/lib/layout-styles";
+import { Centerpiece, RoomBackdrop, itemSurface } from "./room-art";
+import { LayoutTemplatePicker, SeatTheRest } from "./layout-helpers";
 
 const VenueLayout3DView = dynamic(() => import("./venue-layout-3d-view"), {
   ssr: false,
@@ -125,7 +150,11 @@ function guestStatusHint(guest: Guest) {
 // (no separate size field to keep in sync) -- more seats draws a bigger
 // shape, a rectangle grows mostly in width like a real banquet table.
 function itemDisplayName(item: VenueLayoutItem) {
-  return item.label?.trim() || ITEM_TYPE_LABELS[item.item_type];
+  const label = item.label?.trim();
+  if (label) return label;
+  // A block of chairs says how many it seats, which follows its size.
+  if (item.item_type === "chairs") return `${chairBlock(itemDimensions(item)).seats} chairs`;
+  return ITEM_TYPE_LABELS[item.item_type];
 }
 
 function shapeClassName(shape: TableShape) {
@@ -171,7 +200,15 @@ function TableFields({ table }: { table?: SeatingTable }) {
   );
 }
 
-function AddTableForm({ onDone, roomId }: { onDone: () => void; roomId?: string }) {
+function AddTableForm({
+  onDone,
+  roomId,
+  phaseId,
+}: {
+  onDone: () => void;
+  roomId?: string;
+  phaseId?: string;
+}) {
   const [error, setError] = useState<string | undefined>(undefined);
   const [isPending, startTransition] = useTransition();
   const formRef = useRef<HTMLFormElement>(null);
@@ -197,6 +234,7 @@ function AddTableForm({ onDone, roomId }: { onDone: () => void; roomId?: string 
     >
       <p className="mb-3 font-medium text-ink">Add a table</p>
       {roomId && <input type="hidden" name="room_id" value={roomId} />}
+      {phaseId && <input type="hidden" name="phase_id" value={phaseId} />}
       <TableFields />
       {error && <p className="mt-3 text-sm text-red-800">{error}</p>}
       <div className="mt-4 flex items-center gap-3">
@@ -245,12 +283,24 @@ function ItemFields({ item }: { item?: VenueLayoutItem }) {
   );
 }
 
-function AddItemForm({ onDone, roomId }: { onDone: () => void; roomId?: string }) {
+function AddItemForm({
+  onDone,
+  roomId,
+  phase,
+}: {
+  onDone: () => void;
+  roomId?: string;
+  phase?: LayoutPhase;
+}) {
   const [error, setError] = useState<string | undefined>(undefined);
   const [isPending, startTransition] = useTransition();
+  // The house or the parking is there whatever the event, so those start
+  // ticked; a bar or a dance floor starts as this event's only.
+  const [everyPhase, setEveryPhase] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
 
   function handleSubmit(formData: FormData) {
+    if (everyPhase) formData.delete("phase_id");
     startTransition(async () => {
       const result = await addLayoutItem(formData);
       if (result?.error) {
@@ -267,11 +317,34 @@ function AddItemForm({ onDone, roomId }: { onDone: () => void; roomId?: string }
     <form
       ref={formRef}
       action={handleSubmit}
+      onChange={(e) => {
+        const target = e.target as unknown as HTMLSelectElement;
+        if (target.name === "item_type") {
+          setEveryPhase(VENUE_FIXTURE_TYPES.includes(target.value as LayoutItemType));
+        }
+      }}
       className="mb-6 rounded-lg border border-hairline bg-parchment p-6"
     >
       <p className="mb-3 font-medium text-ink">Add a furniture / layout item</p>
       {roomId && <input type="hidden" name="room_id" value={roomId} />}
+      {phase && <input type="hidden" name="phase_id" value={phase.id} />}
       <ItemFields />
+      {phase && (
+        <label className="mt-3 flex items-start gap-2 text-sm text-ink">
+          <input
+            type="checkbox"
+            checked={everyPhase}
+            onChange={(e) => setEveryPhase(e.target.checked)}
+            className="mt-0.5 accent-forest"
+          />
+          <span>
+            Part of the venue
+            <span className="block text-xs text-ink/60">
+              Shows in every event. Leave unticked to add it to the {phase.name.toLowerCase()} only.
+            </span>
+          </span>
+        </label>
+      )}
       {error && <p className="mt-3 text-sm text-red-800">{error}</p>}
       <div className="mt-4 flex items-center gap-3">
         <button
@@ -646,6 +719,12 @@ function NodeToolbar({
 // table only lights up for a guest drag and not for, say, a dragged image.
 const GUEST_DRAG_TYPE = "application/x-wren-guests";
 
+// The plan's current size, for clamping drags. Drags may go a little past
+// the bottom, which makes the room longer -- how a couple adds floor. A room
+// copied from a venue's floor plan has real walls, so it doesn't grow.
+const PlanSizeContext = createContext({ width: CANVAS_WIDTH, height: CANVAS_HEIGHT, grows: true });
+const GROW_ROOM = 150;
+
 /**
  * Moving, clicking and the selected-state chrome, shared by tables and items.
  *
@@ -669,6 +748,7 @@ function useDraggable({
   onTap: () => void;
   onDragEnd: (x: number, y: number) => void;
 }) {
+  const room = useContext(PlanSizeContext);
   const [pos, setPos] = useState({ x, y });
   const dragRef = useRef<{ startX: number; startY: number; origX: number; origY: number } | null>(
     null,
@@ -689,8 +769,8 @@ function useDraggable({
     const dy = (e.clientY - dragRef.current.startY) / scale;
     if (Math.abs(dx) > 3 || Math.abs(dy) > 3) movedRef.current = true;
     setPos({
-      x: clamp(dragRef.current.origX + dx, 0, CANVAS_WIDTH - width),
-      y: clamp(dragRef.current.origY + dy, 0, CANVAS_HEIGHT - height),
+      x: clamp(dragRef.current.origX + dx, 0, room.width - width),
+      y: clamp(dragRef.current.origY + dy, 0, room.height + (room.grows ? GROW_ROOM : 0) - height),
     });
   }
 
@@ -725,6 +805,99 @@ type NodeActions = {
   onDelete: () => void;
 };
 
+/** One chair's worth of a table: a guest, their +1, or an empty seat. */
+type Seat = { key: string; name: string; color: string; settle: boolean } | null;
+
+function tableSeats(
+  guests: Guest[],
+  capacity: number | null,
+  theme: SideTheme,
+  justSeated: Set<string>,
+): Seat[] {
+  const people: Seat[] = guests.flatMap((g) => {
+    const color = guestSideColor(g, theme);
+    const settle = justSeated.has(g.id);
+    const seat = { key: g.id, name: g.name, color, settle };
+    return g.plus_one
+      ? [seat, { key: `${g.id}+1`, name: g.plus_one_name || `${g.name}'s +1`, color, settle }]
+      : [seat];
+  });
+  const empty = Math.max(0, (capacity ?? 0) - people.length);
+  return [...people, ...Array.from({ length: empty }, () => null)];
+}
+
+// The plan is drawn at ~0.6x on a laptop, so chairs and their initials are
+// sized to still read there (CHAIR, 30); a shrunk table's are smaller.
+
+/**
+ * The chairs round a table. Each sits in the table's own (rotating) box, with
+ * the guest's initials kept upright on top so they read at any angle.
+ */
+function TableChairs({
+  shape,
+  width,
+  height,
+  seats,
+  rotation,
+  chairColor,
+  chair,
+}: {
+  shape: TableShape;
+  width: number;
+  height: number;
+  seats: Seat[];
+  rotation: number;
+  chairColor: string;
+  chair: number;
+}) {
+  const spots = chairPositions(shape, width, height, seats.length, chair / 2 + 4);
+  return (
+    <>
+      {spots.map((spot, i) => {
+        const seat = seats[i];
+        return (
+          <div
+            key={seat?.key ?? `empty-${i}`}
+            className="pointer-events-none absolute"
+            style={{ left: spot.x - chair / 2, top: spot.y - chair / 2, width: chair, height: chair }}
+          >
+            <div
+              className="absolute inset-0 rounded-[6px] shadow-sm"
+              style={{
+                transform: `rotate(${spot.angle}deg)`,
+                background: chairColor,
+                boxShadow: "inset 0 -5px 0 rgba(0,0,0,0.18)",
+              }}
+            />
+            {seat ? (
+              <span
+                title={seat.name}
+                className={`absolute -inset-0.5 grid place-items-center rounded-full border-2 border-white font-semibold leading-none ${seat.settle ? "wren-settle" : ""}`}
+                style={{
+                  fontSize: Math.round(chair * 0.4),
+                  background: seat.color,
+                  color: inkOn(seat.color),
+                  transform: `rotate(${-rotation}deg)`,
+                }}
+              >
+                {initials(seat.name)}
+              </span>
+            ) : (
+              <span className="absolute inset-[3px] rounded-full border-[1.5px] border-dashed border-white/80" />
+            )}
+          </div>
+        );
+      })}
+    </>
+  );
+}
+
+/** How far below its centre a rotated box reaches. */
+function rotatedHalfHeight(width: number, height: number, rotation: number) {
+  const a = (rotation * Math.PI) / 180;
+  return Math.abs((width / 2) * Math.sin(a)) + Math.abs((height / 2) * Math.cos(a));
+}
+
 function TableNode({
   table,
   assignedGuests,
@@ -733,15 +906,18 @@ function TableNode({
   seatingArmed,
   scale,
   viewportWidth,
+  roomStyle,
+  theme,
   onTap,
   onDragEnd,
-  onUnassign,
   onDropGuests,
   onResizeEnd,
   actions,
 }: {
   table: SeatingTable;
   assignedGuests: Guest[];
+  roomStyle: RoomStyle;
+  theme: SideTheme;
   /** Guests seated a moment ago, who bounce into place. */
   justSeated: Set<string>;
   isSelected: boolean;
@@ -751,7 +927,6 @@ function TableNode({
   viewportWidth: number;
   onTap: () => void;
   onDragEnd: (x: number, y: number) => void;
-  onUnassign: (guestId: string) => void;
   onDropGuests: (guestIds: string[]) => void;
   onResizeEnd: (width: number, height: number) => void;
   actions: NodeActions;
@@ -776,17 +951,21 @@ function TableNode({
   const full = table.capacity != null && occupied === table.capacity;
   const toolbarBelow = pos.y * scale < 60;
 
+  const linen = tableLinen(roomStyle, table.linen);
+  const seats = tableSeats(assignedGuests, table.capacity, theme, justSeated);
+  const chair = chairSize(table);
+  const labelTop = height / 2 + rotatedHalfHeight(width, height, rotation) + chair + 10;
+
+  // Selection and drop states take over the cloth's own edge colour.
   const ringClass = dropHover
-    ? "border-forest bg-forest/10 ring-4 ring-forest/30"
+    ? "border-forest ring-4 ring-forest/30"
     : isSelected
-      ? "border-forest ring-2 ring-forest/30"
+      ? "border-forest ring-4 ring-brass/60"
       : seatingArmed
         ? "border-forest/60 border-dashed"
         : overCapacity
           ? "border-red-700/60"
-          : full
-            ? "border-forest/50"
-            : "border-hairline";
+          : "border-transparent";
 
   return (
     <div
@@ -824,8 +1003,41 @@ function TableNode({
     >
       <div
         style={{ transform: `rotate(${rotation}deg)` }}
-        className={`relative flex h-full w-full select-none flex-col items-center justify-center gap-1 border-2 bg-card p-2 text-center shadow-sm ${shapeClassName(table.shape)} ${ringClass}`}
+        className={`relative flex h-full w-full select-none items-center justify-center border-2 shadow-md ${shapeClassName(table.shape)} ${ringClass}`}
       >
+        {/* A cloth is drawn as the fill plus a slightly darker hem. */}
+        <div
+          aria-hidden
+          className={`absolute inset-0 ${shapeClassName(table.shape)}`}
+          style={{
+            background: linen.color,
+            boxShadow: `inset 0 0 0 4px ${linen.edge}33`,
+            outline: ringClass === "border-transparent" ? `2px solid ${linen.edge}` : undefined,
+            outlineOffset: -2,
+          }}
+        />
+        <TableChairs
+          shape={table.shape}
+          width={width}
+          height={height}
+          seats={seats}
+          rotation={rotation}
+          chairColor={STYLE_DEFAULTS[roomStyle].chair}
+          chair={chair}
+        />
+        {/* A long table gets a run of centrepieces down its length. */}
+        <div className="pointer-events-none relative flex items-center justify-center">
+          {Array.from(
+            { length: Math.max(1, Math.min(5, Math.floor(Math.max(width, height) / Math.min(width, height)))) },
+            (_, i) => (
+              <Centerpiece
+                key={i}
+                kind={tableCenterpiece(roomStyle, table.centerpiece)}
+                size={Math.round(Math.min(width, height) * (width === height ? 0.5 : 0.75))}
+              />
+            ),
+          )}
+        </div>
         {isSelected && (
           <>
             <RotateHandle
@@ -846,43 +1058,21 @@ function TableNode({
             />
           </>
         )}
-        <div
-          style={uprightLabelStyle(rotation)}
-          className="flex max-h-full w-full flex-col items-center justify-center gap-1 overflow-hidden"
-        >
-        <p className="font-medium text-ink">{table.name}</p>
-        <p
-          className={`text-xs ${overCapacity ? "text-red-700" : full ? "text-forest" : "text-ink/50"}`}
+      </div>
+      {/* The place card hangs below the chairs and stays upright. */}
+      <div
+        className="pointer-events-none absolute left-1/2 flex -translate-x-1/2 flex-col items-center whitespace-nowrap rounded-full bg-white px-4 py-1 text-center shadow-md"
+        style={{ top: labelTop }}
+      >
+        <span className="max-w-[260px] truncate font-display text-[21px] font-semibold leading-tight text-forest">
+          {table.name}
+        </span>
+        <span
+          className={`font-mono-numbers text-[13px] leading-tight ${overCapacity ? "text-red-700" : full ? "text-[#9a6b00]" : "text-ink/50"}`}
         >
           {occupied}
-          {table.capacity != null ? ` / ${table.capacity}` : ""} {full ? "· full" : "seated"}
-        </p>
-        <div className="flex max-h-full flex-wrap items-center justify-center gap-1 overflow-y-auto px-1">
-          {assignedGuests.map((guest) => (
-            <span
-              key={guest.id}
-              className={`flex items-center gap-1 rounded-full border border-hairline bg-parchment px-1.5 py-0.5 text-[11px] text-ink ${
-                justSeated.has(guest.id) ? "wren-settle" : ""
-              }`}
-            >
-              {guest.name}
-              {guest.plus_one && <span className="text-ink/40">+1</span>}
-              <button
-                onPointerDown={(e) => e.stopPropagation()}
-                onPointerUp={(e) => e.stopPropagation()}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onUnassign(guest.id);
-                }}
-                className="text-ink/40 hover:text-red-700"
-                aria-label={`Unseat ${guest.name}`}
-              >
-                &times;
-              </button>
-            </span>
-          ))}
-        </div>
-        </div>
+          {table.capacity != null ? `/${table.capacity}` : ""} {full ? "· full" : "seated"}
+        </span>
       </div>
       {isSelected && (
         <NodeToolbar
@@ -910,6 +1100,7 @@ function ItemNode({
   isSelected,
   scale,
   viewportWidth,
+  roomStyle,
   onTap,
   onDragEnd,
   onResizeEnd,
@@ -919,6 +1110,7 @@ function ItemNode({
   isSelected: boolean;
   scale: number;
   viewportWidth: number;
+  roomStyle: RoomStyle;
   onTap: () => void;
   onDragEnd: (x: number, y: number) => void;
   onResizeEnd: (width: number, height: number) => void;
@@ -937,6 +1129,11 @@ function ItemNode({
     onDragEnd,
   });
   const toolbarBelow = pos.y * scale < 60;
+  const surface = itemSurface(roomStyle, item.item_type);
+  // Chairs draw on their own layer, cut into rows, so the label over them
+  // isn't cut up too.
+  const chairArt = surface && item.item_type === "chairs" ? surface : null;
+  const chairRows = chairArt ? chairBlock(size).rows : 0;
 
   return (
     <div
@@ -957,16 +1154,42 @@ function ItemNode({
           label inside does. Clipping the whole box is what used to hide the
           rotate/delete/resize handles on chairs and every other item. */}
       <div
-        style={{ transform: `rotate(${rotation}deg)` }}
-        className={`relative h-full w-full select-none rounded-lg border-2 text-sm shadow-sm ${ITEM_TYPE_COLORS[item.item_type]} ${isSelected ? "ring-2 ring-forest/40" : ""}`}
+        style={{
+          transform: `rotate(${rotation}deg)`,
+          ...(surface ? { ...(chairArt ? {} : surface.style), borderColor: surface.border } : {}),
+        }}
+        className={`relative h-full w-full select-none rounded-lg border-2 text-sm ${surface ? "shadow-md" : `shadow-sm ${ITEM_TYPE_COLORS[item.item_type]}`} ${isSelected ? "ring-4 ring-brass/60" : ""}`}
       >
+        {chairArt && (
+          <div
+            aria-hidden
+            className="absolute inset-0 rounded-md"
+            style={{
+              ...chairArt.style,
+              ...(chairRows > 1
+                ? { maskImage: `repeating-linear-gradient(180deg, #000 0 ${ROW_PITCH - 14}px, transparent ${ROW_PITCH - 14}px ${ROW_PITCH}px)` }
+                : {}),
+            }}
+          />
+        )}
         <div
           style={uprightLabelStyle(rotation)}
-          className="flex h-full w-full flex-col items-center justify-center overflow-hidden p-2 text-center"
+          className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden p-2 text-center"
         >
-          <p className="font-medium text-ink">{itemDisplayName(item)}</p>
-          {item.label && (
-            <p className="text-xs text-ink/50">{ITEM_TYPE_LABELS[item.item_type]}</p>
+          {surface ? (
+            <p
+              className={`font-mono-numbers text-sm uppercase tracking-[0.2em] ${chairArt ? "rounded-full bg-forest/85 px-2.5 py-0.5 text-parchment" : ""}`}
+              style={chairArt ? undefined : { color: surface.ink }}
+            >
+              {itemDisplayName(item)}
+            </p>
+          ) : (
+            <>
+              <p className="font-medium text-ink">{itemDisplayName(item)}</p>
+              {item.label && (
+                <p className="text-xs text-ink/50">{ITEM_TYPE_LABELS[item.item_type]}</p>
+              )}
+            </>
           )}
         </div>
         {isSelected && (
@@ -1013,7 +1236,9 @@ function ItemNode({
 /**
  * The plan, scaled to fit whatever width it is given.
  *
- * The coordinate space is a fixed CANVAS_WIDTH x CANVAS_HEIGHT field, and the
+ * The coordinate space is CANVAS_WIDTH wide and planHeight() long (900, more
+ * for a big wedding) -- or, for a room copied from a venue's floor plan, the
+ * room's real size at WORLD_SCALE a metre -- and the
  * whole thing is scaled so that field fills the available width. A wide screen
  * therefore shows the entire venue at once with no scrollbars.
  *
@@ -1039,6 +1264,9 @@ function VenueCanvas({
   selectedTableId,
   selectedItemId,
   seatingArmed,
+  roomStyle,
+  theme,
+  plan,
   onTapTable,
   onTapItem,
   onClearSelection,
@@ -1046,11 +1274,14 @@ function VenueCanvas({
   onItemDragEnd,
   onItemResizeEnd,
   onTableResizeEnd,
-  onUnassign,
   onDropGuests,
   tableActions,
   itemActions,
 }: {
+  roomStyle: RoomStyle;
+  theme: SideTheme;
+  /** The room's floor plan, when it was copied from a venue. */
+  plan: PlanShape | null;
   tables: SeatingTable[];
   items: VenueLayoutItem[];
   guestsByTable: Map<string, Guest[]>;
@@ -1065,7 +1296,6 @@ function VenueCanvas({
   onItemDragEnd: (id: string, x: number, y: number) => void;
   onItemResizeEnd: (id: string, width: number, height: number) => void;
   onTableResizeEnd: (id: string, width: number, height: number) => void;
-  onUnassign: (guestId: string) => void;
   onDropGuests: (tableId: string, guestIds: string[]) => void;
   tableActions: (table: SeatingTable) => NodeActions;
   itemActions: (item: VenueLayoutItem) => NodeActions;
@@ -1073,6 +1303,9 @@ function VenueCanvas({
   const frameRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(1);
   const [viewportWidth, setViewportWidth] = useState(CANVAS_WIDTH);
+  const floor = useMemo(() => (plan ? planCanvas(plan) : null), [plan]);
+  const planWidth = floor?.width ?? CANVAS_WIDTH;
+  const hasFloor = floor != null;
 
   useEffect(() => {
     const frame = frameRef.current;
@@ -1084,18 +1317,21 @@ function VenueCanvas({
       setViewportWidth(width);
       // Floored so a phone still gets something legible rather than a
       // postage stamp; below the floor the frame pans instead.
-      setScale(clamp(width / CANVAS_WIDTH, MIN_CANVAS_SCALE, 1.2));
+      // A small venue room may grow past life size to fill the width.
+      setScale(clamp(width / planWidth, MIN_CANVAS_SCALE, hasFloor ? 1.6 : 1.2));
     }
 
     measure();
     const observer = new ResizeObserver(measure);
     observer.observe(frame);
     return () => observer.disconnect();
-  }, []);
+  }, [planWidth, hasFloor]);
 
-  const pans = viewportWidth < CANVAS_WIDTH * MIN_CANVAS_SCALE;
+  const pans = viewportWidth < planWidth * MIN_CANVAS_SCALE;
+  const height = planHeight(tables, items, floor?.height);
 
   return (
+    <PlanSizeContext.Provider value={{ width: planWidth, height, grows: !floor }}>
     <div
       ref={frameRef}
       className={`w-full rounded-lg border border-hairline bg-parchment ${pans ? "overflow-x-auto" : ""}`}
@@ -1103,8 +1339,8 @@ function VenueCanvas({
       <div
         style={{
           position: "relative",
-          width: Math.floor(CANVAS_WIDTH * scale),
-          height: Math.floor(CANVAS_HEIGHT * scale),
+          width: Math.floor(planWidth * scale),
+          height: Math.floor(height * scale),
         }}
       >
       <div
@@ -1113,12 +1349,13 @@ function VenueCanvas({
         }}
         style={{
           position: "relative",
-          width: CANVAS_WIDTH,
-          height: CANVAS_HEIGHT,
+          width: planWidth,
+          height,
           transform: `scale(${scale})`,
           transformOrigin: "top left",
         }}
       >
+        <RoomBackdrop style={roomStyle} width={planWidth} height={height} outline={floor?.corners ?? null} />
         {items.map((item) => (
           <ItemNode
             key={`${item.id}-${item.position_x}-${item.position_y}-${item.rotation}-${item.width}-${item.height}`}
@@ -1126,6 +1363,7 @@ function VenueCanvas({
             isSelected={item.id === selectedItemId}
             scale={scale}
             viewportWidth={viewportWidth}
+            roomStyle={roomStyle}
             onTap={() => onTapItem(item.id)}
             onDragEnd={(x, y) => onItemDragEnd(item.id, x, y)}
             onResizeEnd={(width, height) => onItemResizeEnd(item.id, width, height)}
@@ -1135,6 +1373,8 @@ function VenueCanvas({
         {tables.map((table) => (
           <TableNode
             key={`${table.id}-${table.position_x}-${table.position_y}-${table.rotation}-${table.width}-${table.height}-${table.shape}-${table.capacity}`}
+            roomStyle={roomStyle}
+            theme={theme}
             table={table}
             assignedGuests={guestsByTable.get(table.id) ?? []}
             justSeated={justSeated}
@@ -1144,7 +1384,6 @@ function VenueCanvas({
             viewportWidth={viewportWidth}
             onTap={() => onTapTable(table.id)}
             onDragEnd={(x, y) => onTableDragEnd(table.id, x, y)}
-            onUnassign={onUnassign}
             onDropGuests={(ids) => onDropGuests(table.id, ids)}
             onResizeEnd={(width, height) => onTableResizeEnd(table.id, width, height)}
             actions={tableActions(table)}
@@ -1153,6 +1392,7 @@ function VenueCanvas({
       </div>
       </div>
     </div>
+    </PlanSizeContext.Provider>
   );
 }
 
@@ -1163,18 +1403,83 @@ function VenueCanvas({
  * one per table and one per layout item. Those got long, and editing a thing
  * meant finding its card rather than clicking the thing itself.
  */
+/** Cloth colour and centrepiece for the selected table; each tap saves. */
+function TableDecor({
+  table,
+  roomStyle,
+  onChange,
+}: {
+  table: SeatingTable;
+  roomStyle: RoomStyle;
+  onChange: (field: "linen" | "centerpiece", value: string) => void;
+}) {
+  const linen = tableLinen(roomStyle, table.linen);
+  const piece = tableCenterpiece(roomStyle, table.centerpiece);
+  const offered = STYLE_DEFAULTS[roomStyle].centerpieces;
+  const pieces = offered.includes(piece) ? offered : [piece, ...offered];
+  return (
+    <div className="mb-5 flex flex-col gap-3 border-b border-hairline pb-5">
+      <div>
+        <p className="mb-2 text-xs text-ink/60">Table look</p>
+        <div className="flex flex-wrap gap-2" role="group" aria-label="Tablecloth">
+          {LINENS.map((l) => (
+            <button
+              key={l.id}
+              type="button"
+              onClick={() => onChange("linen", l.id)}
+              aria-pressed={l.id === linen.id}
+              aria-label={l.label}
+              title={l.label}
+              className={`h-7 w-7 rounded-full border transition-transform hover:scale-110 ${
+                l.id === linen.id ? "ring-2 ring-forest ring-offset-2" : ""
+              }`}
+              style={{ background: l.color, borderColor: l.edge }}
+            />
+          ))}
+        </div>
+      </div>
+      <div>
+        <p className="mb-2 text-xs text-ink/60">Centrepiece</p>
+        <div className="flex flex-wrap gap-1.5" role="group" aria-label="Centrepiece">
+          {pieces.map((id) => (
+            <button
+              key={id}
+              type="button"
+              onClick={() => onChange("centerpiece", id)}
+              aria-pressed={id === piece}
+              className={`rounded-full border px-3 py-1 text-xs transition-colors ${
+                id === piece
+                  ? "border-forest bg-forest text-parchment"
+                  : "border-hairline bg-card text-ink hover:border-forest"
+              }`}
+            >
+              {CENTERPIECE_LABELS[id]}
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function SelectionPanel({
   table,
   item,
+  roomStyle,
+  onDecor,
   assignedGuests,
   onUnassign,
   onSplitPlusOne,
   onDeleteTable,
   onDeleteItem,
   onResetTableSize,
+  phaseControl,
 }: {
+  phaseControl?: React.ReactNode;
   table: SeatingTable | null;
   item: VenueLayoutItem | null;
+  roomStyle: RoomStyle;
+  onDecor: (table: SeatingTable, field: "linen" | "centerpiece", value: string) => void;
   assignedGuests: Guest[];
   onUnassign: (guestId: string) => void;
   onSplitPlusOne: (guestId: string) => void;
@@ -1227,6 +1532,16 @@ function SelectionPanel({
           Delete
         </button>
       </div>
+
+      {phaseControl}
+
+      {table && (
+        <TableDecor
+          table={table}
+          roomStyle={roomStyle}
+          onChange={(field, value) => onDecor(table, field, value)}
+        />
+      )}
 
       <form action={handleSave} className="flex flex-col gap-4">
         <input type="hidden" name="id" value={table?.id ?? item?.id ?? ""} />
@@ -1820,6 +2135,174 @@ function RoomTabs({
   );
 }
 
+// The events of the day, in order: each is its own arrangement of the same
+// venue. Pills rather than the room tabs' style so the two rows don't read as
+// the same control.
+function PhaseTabs({
+  phases,
+  activeId,
+  onSelect,
+}: {
+  phases: LayoutPhase[];
+  activeId: string | null;
+  onSelect: (id: string) => void;
+}) {
+  const [adding, setAdding] = useState(false);
+  const [error, setError] = useState<string | undefined>(undefined);
+  const [isPending, startTransition] = useTransition();
+
+  function handleAdd(formData: FormData) {
+    startTransition(async () => {
+      const result = await addPhase(formData);
+      setError(result?.error);
+      if (!result?.error) setAdding(false);
+    });
+  }
+
+  function handleDelete(phase: LayoutPhase) {
+    if (!confirm(`Delete "${phase.name}"? Its tables and items go with it.`)) return;
+    const formData = new FormData();
+    formData.set("id", phase.id);
+    startTransition(async () => {
+      await deletePhase(formData);
+    });
+  }
+
+  return (
+    <div className="mb-4 flex flex-wrap items-center gap-2" role="tablist" aria-label="Event">
+      <span className="mr-1 font-mono-numbers text-xs uppercase tracking-[0.2em] text-ink/50">
+        Event
+      </span>
+      {phases.map((phase) => {
+        const active = phase.id === activeId;
+        return (
+          <div
+            key={phase.id}
+            className={`flex items-center rounded-full border text-sm transition-colors ${
+              active
+                ? "border-forest bg-forest text-parchment"
+                : "border-hairline bg-card text-ink hover:border-forest"
+            }`}
+          >
+            <button
+              role="tab"
+              aria-selected={active}
+              onClick={() => onSelect(phase.id)}
+              className={`py-1.5 ${phase.kind === "custom" ? "pl-3.5 pr-1.5" : "px-3.5"}`}
+            >
+              {phase.name}
+            </button>
+            {phase.kind === "custom" && (
+              <button
+                onClick={() => handleDelete(phase)}
+                disabled={isPending}
+                aria-label={`Delete ${phase.name}`}
+                className={`pr-2.5 text-xs ${active ? "text-parchment/70 hover:text-parchment" : "text-ink/40 hover:text-red-700"}`}
+              >
+                &times;
+              </button>
+            )}
+          </div>
+        );
+      })}
+      {adding ? (
+        <form action={handleAdd} className="flex items-center gap-2">
+          <input
+            name="name"
+            autoFocus
+            maxLength={60}
+            placeholder="e.g. Rehearsal dinner"
+            className="rounded-full border border-hairline bg-parchment px-3 py-1.5 text-sm text-ink outline-none focus:border-forest"
+          />
+          <button type="submit" disabled={isPending} className="text-sm font-medium text-forest hover:underline">
+            Add
+          </button>
+          <button type="button" onClick={() => setAdding(false)} className="text-sm text-ink/50 hover:underline">
+            Cancel
+          </button>
+          {error && <span className="text-sm text-red-800">{error}</span>}
+        </form>
+      ) : (
+        <button
+          onClick={() => setAdding(true)}
+          className="rounded-full border border-dashed border-hairline px-3 py-1.5 text-sm text-ink/60 transition-colors hover:border-forest hover:text-forest"
+        >
+          + Add event
+        </button>
+      )}
+    </div>
+  );
+}
+
+// Offered when an event is still empty: start it from another event's
+// arrangement rather than placing every table again.
+function CopyPhaseOffer({
+  target,
+  sources,
+}: {
+  target: LayoutPhase;
+  sources: LayoutPhase[];
+}) {
+  const [isPending, startTransition] = useTransition();
+
+  function copy(source: LayoutPhase) {
+    const formData = new FormData();
+    formData.set("from_id", source.id);
+    formData.set("to_id", target.id);
+    startTransition(async () => {
+      const result = await copyPhaseLayout(formData);
+      if (result?.error) window.alert(`That didn't copy. ${result.error}`);
+    });
+  }
+
+  return (
+    <div className="mb-4 flex flex-wrap items-center gap-x-3 gap-y-2 rounded-lg border border-hairline bg-parchment px-4 py-3 text-sm text-ink/80">
+      <span>Nothing set up for the {target.name.toLowerCase()} yet.</span>
+      {sources.map((source) => (
+        <button
+          key={source.id}
+          onClick={() => copy(source)}
+          disabled={isPending}
+          className="font-medium text-forest hover:underline disabled:opacity-50"
+        >
+          {isPending ? "Copying..." : `Start from the ${source.name.toLowerCase()}`}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+// Says which events a selected table or item belongs to, and moves it
+// between "this event only" and "part of the venue".
+function PhaseScope({
+  node,
+  kind,
+  phase,
+  onChange,
+}: {
+  node: { id: string; phase_id: string | null };
+  kind: "table" | "item";
+  phase: LayoutPhase;
+  onChange: (phaseId: string | null) => void;
+}) {
+  const everywhere = node.phase_id == null;
+  return (
+    <div className="mb-4 flex flex-wrap items-center gap-x-2 gap-y-1 rounded-md bg-card px-3 py-2 text-xs text-ink/70">
+      <span>{everywhere ? "In every event (part of the venue)" : `In the ${phase.name.toLowerCase()} only`}</span>
+      <button
+        type="button"
+        onClick={() => onChange(everywhere ? phase.id : null)}
+        className="font-medium text-brass hover:underline"
+      >
+        {everywhere ? `Make it ${phase.name.toLowerCase()} only` : "Show in every event"}
+      </button>
+      {kind === "table" && everywhere && (
+        <span className="basis-full text-ink/50">Guests seated here sit at it in every event.</span>
+      )}
+    </div>
+  );
+}
+
 const MODES = [
   { id: "seating", label: "Seating" },
   { id: "whole-venue", label: "Whole Venue" },
@@ -1828,32 +2311,124 @@ const MODES = [
 
 type Mode = (typeof MODES)[number]["id"];
 
-function ModeSwitcher({ mode, onChange }: { mode: Mode; onChange: (mode: Mode) => void }) {
+const VIEWS = [
+  { id: "plan", label: "Plan" },
+  { id: "3d", label: "3D" },
+] as const;
+
+// A pill of options with the current one filled in navy -- used for both the
+// mode (Seating / Whole Venue / Rooms) and the Plan / 3D view.
+function Segmented<T extends string>({
+  options,
+  value,
+  onChange,
+  label,
+}: {
+  options: readonly { id: T; label: string }[];
+  value: T;
+  onChange: (value: T) => void;
+  label: string;
+}) {
   return (
-    <div className="inline-flex rounded-full border border-hairline bg-parchment p-1">
-      {MODES.map((m) => (
+    <div role="group" aria-label={label} className="inline-flex rounded-full border border-hairline bg-parchment p-1">
+      {options.map((o) => (
         <button
-          key={m.id}
-          onClick={() => onChange(m.id)}
+          key={o.id}
+          onClick={() => onChange(o.id)}
+          aria-pressed={value === o.id}
           className={`rounded-full px-3 py-1 font-mono-numbers text-sm transition-colors ${
-            mode === m.id ? "bg-forest text-parchment" : "text-ink/60 hover:text-forest"
+            value === o.id ? "bg-forest text-parchment" : "text-ink/60 hover:text-forest"
           }`}
         >
-          {m.label}
+          {o.label}
         </button>
       ))}
     </div>
   );
 }
 
+/** Plain, barn or ballroom: the room the whole plan is drawn in. */
+function RoomStylePicker({
+  value,
+  onChange,
+}: {
+  value: RoomStyle;
+  onChange: (style: RoomStyle) => void;
+}) {
+  return (
+    <div
+      role="group"
+      aria-label="Room style"
+      className="inline-flex items-center gap-1 rounded-full border border-hairline bg-parchment p-1"
+    >
+      {ROOM_STYLES.map((r) => (
+        <button
+          key={r.id}
+          onClick={() => onChange(r.id)}
+          aria-pressed={value === r.id}
+          className={`flex items-center gap-1.5 rounded-full py-1 pl-1 pr-3 text-sm transition-colors ${
+            value === r.id ? "bg-forest text-parchment" : "text-ink/70 hover:text-forest"
+          }`}
+        >
+          <span
+            aria-hidden
+            className="h-5 w-5 rounded-full border border-hairline"
+            style={{ background: r.swatch }}
+          />
+          {r.label}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+/** A gold ring that fills as guests get seats. */
+function SeatedRing({ seated, total }: { seated: number; total: number }) {
+  const r = 15;
+  const length = 2 * Math.PI * r;
+  const done = total > 0 ? seated / total : 0;
+  return (
+    <div className="flex items-center gap-2 text-sm text-ink/70">
+      <svg width="34" height="34" viewBox="0 0 36 36" aria-hidden>
+        <circle cx="18" cy="18" r={r} fill="none" stroke="#eee8d8" strokeWidth="4" />
+        <circle
+          cx="18"
+          cy="18"
+          r={r}
+          fill="none"
+          stroke="#FFD301"
+          strokeWidth="4"
+          strokeLinecap="round"
+          strokeDasharray={`${done * length} ${length}`}
+          transform="rotate(-90 18 18)"
+          className="transition-[stroke-dasharray] duration-500"
+        />
+      </svg>
+      <span>
+        <span className="font-mono-numbers text-ink">
+          {seated} of {total}
+        </span>{" "}
+        seated
+      </span>
+    </div>
+  );
+}
+
 export function VenueLayoutManager({
-  tables,
+  tables: storedTables,
   confirmedGuests,
   items,
   rooms,
+  phases: storedPhases,
   sides,
   declinedSeated,
+  roomStyle: storedRoomStyle,
+  initialRoomId = null,
 }: {
+  roomStyle: string;
+  /** Opens on this room in Rooms mode ("Design my wedding here" lands here). */
+  initialRoomId?: string | null;
+  phases: LayoutPhase[];
   tables: SeatingTable[];
   confirmedGuests: Guest[];
   items: VenueLayoutItem[];
@@ -1861,16 +2436,25 @@ export function VenueLayoutManager({
   sides: Parameters<typeof sideTheme>[0];
   declinedSeated: Pick<Guest, "id" | "name" | "table_id">[];
 }) {
-  const [mode, setMode] = useState<Mode>("whole-venue");
-  const [selectedRoomId, setSelectedRoomId] = useState<string | null>(rooms[0]?.id ?? null);
-  const [addFormType, setAddFormType] = useState<"table" | "item" | null>(null);
+  const openRoom = rooms.find((r) => r.id === initialRoomId) ?? null;
+  const [mode, setMode] = useState<Mode>(openRoom ? "rooms" : "whole-venue");
+  const [selectedRoomId, setSelectedRoomId] = useState<string | null>(openRoom?.id ?? rooms[0]?.id ?? null);
+  const phases = useMemo(() => sortPhases(storedPhases), [storedPhases]);
+  const [selectedPhaseId, setSelectedPhaseId] = useState<string | null>(() => defaultPhaseId(storedPhases));
+  const [addFormType, setAddFormType] = useState<"table" | "item" | "layouts" | null>(null);
   const [selectedTableId, setSelectedTableId] = useState<string | null>(null);
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
   const [pickedGuestIds, setPickedGuestIds] = useState<Set<string>>(() => new Set());
   const [justSeated, setJustSeated] = useState<Set<string>>(() => new Set());
   const [view3D, setView3D] = useState(false);
+  const [roomStyle, setRoomStyleState] = useState<RoomStyle>(() => toRoomStyle(storedRoomStyle));
+  // Cloth and centrepiece picks show at once; the save follows behind.
+  const [decor, setDecor] = useState<
+    Record<string, Partial<Pick<SeatingTable, "linen" | "centerpiece">>>
+  >({});
   const [, startTransition] = useTransition();
   const router = useRouter();
+  const tables = storedTables.map((t) => (decor[t.id] ? { ...t, ...decor[t.id] } : t));
 
   // Seating shows at once rather than after the server round trip, so
   // clearing a household into a table feels like moving cards, not saving a form.
@@ -1882,11 +2466,42 @@ export function VenueLayoutManager({
 
   const theme = useMemo(() => sideTheme(sides), [sides]);
   const activeRoomId = selectedRoomId ?? rooms[0]?.id ?? null;
+  const activeRoom = rooms.find((r) => r.id === activeRoomId) ?? null;
+  // Only Rooms mode draws a venue's real walls; the other views lay every
+  // room's furniture on one shared floor.
+  const activePlan = useMemo(() => (mode === "rooms" ? roomPlan(activeRoom) : null), [mode, activeRoom]);
+  // A deleted event falls back to the default one. With no events at all
+  // (a view-only planner on a wedding that predates them) nothing filters.
+  const activePhase =
+    phases.find((p) => p.id === selectedPhaseId) ??
+    phases.find((p) => p.id === defaultPhaseId(phases)) ??
+    null;
+  const activePhaseId = activePhase?.id ?? null;
+  const phaseTables = tables.filter((t) => inPhase(t, activePhaseId));
+  const phaseItems = items.filter((i) => inPhase(i, activePhaseId));
 
   const visibleTables =
-    mode === "rooms" ? tables.filter((t) => t.room_id === activeRoomId) : tables;
+    mode === "rooms" ? phaseTables.filter((t) => t.room_id === activeRoomId) : phaseTables;
   const visibleItems =
-    mode === "seating" ? [] : mode === "rooms" ? items.filter((i) => i.room_id === activeRoomId) : items;
+    mode === "seating"
+      ? []
+      : mode === "rooms"
+        ? phaseItems.filter((i) => i.room_id === activeRoomId)
+        : phaseItems;
+
+  // Events with their own furniture, offered as a starting point when the
+  // one on screen has none yet.
+  const activePhaseEmpty =
+    activePhase != null &&
+    !tables.some((t) => t.phase_id === activePhase.id) &&
+    !items.some((i) => i.phase_id === activePhase.id);
+  const copySources = activePhaseEmpty
+    ? phases.filter(
+        (p) =>
+          p.id !== activePhase.id &&
+          (tables.some((t) => t.phase_id === p.id) || items.some((i) => i.phase_id === p.id)),
+      )
+    : [];
 
   const guestsByTable = new Map<string, Guest[]>();
   const unassigned: Guest[] = [];
@@ -1900,8 +2515,8 @@ export function VenueLayoutManager({
     }
   }
 
-  const selectedTable = tables.find((t) => t.id === selectedTableId) ?? null;
-  const selectedItem = items.find((i) => i.id === selectedItemId) ?? null;
+  const selectedTable = phaseTables.find((t) => t.id === selectedTableId) ?? null;
+  const selectedItem = phaseItems.find((i) => i.id === selectedItemId) ?? null;
   const pickedGuests = unassigned.filter((g) => pickedGuestIds.has(g.id));
   const seatingArmed = pickedGuests.length > 0;
 
@@ -1921,6 +2536,16 @@ export function VenueLayoutManager({
       setJustSeated(new Set(guestIds));
       setTimeout(() => setJustSeated(new Set()), 600);
     }
+  }
+
+  function handleRoomStyle(style: RoomStyle) {
+    setRoomStyleState(style);
+    send(setRoomStyle, { style });
+  }
+
+  function handleDecor(table: SeatingTable, field: "linen" | "centerpiece", value: string) {
+    setDecor((current) => ({ ...current, [table.id]: { ...current[table.id], [field]: value } }));
+    send(setTableDecor, { id: table.id, [field]: value });
   }
 
   function handleUnassign(guestId: string) {
@@ -2073,150 +2698,279 @@ export function VenueLayoutManager({
   const hasContent = visibleTables.length > 0 || visibleItems.length > 0;
   const canAdd = mode !== "rooms" || activeRoomId != null;
   const formRoomId = mode === "rooms" ? (activeRoomId ?? undefined) : undefined;
-  const showGuests = guests.length > 0 && tables.length > 0;
+  const showGuests = guests.length > 0 && phaseTables.length > 0;
+  // Replacing an event's layout unseats only the guests at that event's own tables.
+  const phaseOwnTableIds = new Set(
+    phaseTables.filter((t) => t.phase_id != null).map((t) => t.id),
+  );
+  const seatedInPhase = guests.reduce(
+    (sum, g) => sum + (g.table_id && phaseOwnTableIds.has(g.table_id) ? personCount(g) : 0),
+    0,
+  );
+  const totalPeople = guests.reduce((sum, g) => sum + personCount(g), 0);
+  const seatedPeople = guests.reduce((sum, g) => sum + (g.table_id ? personCount(g) : 0), 0);
 
   return (
-    <div className="w-full rounded-lg border border-hairline bg-card p-5 sm:p-8 shadow-sm">
-      <div className="mb-6 flex flex-wrap items-center justify-between gap-4 border-b border-hairline pb-6">
-        <div>
-          <h2 className="font-display text-2xl font-semibold text-forest">Venue layout</h2>
-          <p className="mt-1 text-sm text-ink/70">
-            {mode === "seating"
-              ? guests.length === 0
-                ? "No guests yet — add guests on the Guests page, then come back to seat them."
-                : `${unassigned.length} of ${guests.length} guests still unassigned.`
-              : mode === "rooms"
-                ? "Plan each space separately — switch rooms below."
-                : "Everything in one shared space."}{" "}
-            Drag anything to move it; click it to rename, duplicate, rotate or delete.
-          </p>
-        </div>
-        <div className="flex flex-wrap items-center gap-3">
-          <ModeSwitcher mode={mode} onChange={setMode} />
-          {hasContent && (
+    <>
+      {/* One header for the page: name, where the seating stands, and the
+          tools, in one card -- not a page header followed by a second titled
+          card repeating "Venue layout". Most-used tool first. */}
+      <PageHeader
+        eyebrow="Venue layout"
+        title="Set the"
+        accent="room"
+        photo="layout"
+        actions={
+          <>
+            {totalPeople > 0 && tables.length > 0 && (
+              <SeatedRing seated={seatedPeople} total={totalPeople} />
+            )}
+            <Link href="/venue-layout/print" className="btn-secondary">
+              Print seating chart
+            </Link>
+          </>
+        }
+        toolbar={
+          <div className="flex flex-wrap items-center gap-3">
             <button
-              onClick={() => setView3D((v) => !v)}
-              className="btn-secondary"
-            >
-              {view3D ? "Back to editor" : "View in 3D"}
-            </button>
-          )}
-          <button
-            onClick={() => setAddFormType((v) => (v === "table" ? null : "table"))}
-            disabled={!canAdd}
-            className={addFormType === "table" ? "btn-secondary" : "btn-primary"}
-          >
-            {addFormType === "table" ? "Close" : <><PlusIcon /> Add table</>}
-          </button>
-          {mode !== "seating" && (
-            <button
-              onClick={() => setAddFormType((v) => (v === "item" ? null : "item"))}
+              onClick={() => setAddFormType((v) => (v === "table" ? null : "table"))}
               disabled={!canAdd}
-              className="btn-secondary disabled:opacity-40"
+              className={addFormType === "table" ? "btn-secondary" : "btn-primary"}
             >
-              {addFormType === "item" ? "Close" : <><PlusIcon /> Add item</>}
+              {addFormType === "table" ? "Close" : <><PlusIcon /> Add table</>}
             </button>
-          )}
-        </div>
-      </div>
-
-      {mode === "rooms" && (
-        <RoomTabs rooms={rooms} selectedRoomId={activeRoomId} onSelect={setSelectedRoomId} />
-      )}
-
-      {declinedSeated.length > 0 && (
-        <DeclinedNotice
-          guests={declinedSeated}
-          tables={tables}
-          onClear={() => {
-            const formData = new FormData();
-            for (const g of declinedSeated) formData.append("guest_id", g.id);
-            formData.set("table_id", "");
-            startTransition(async () => {
-              await assignGuestsTable(formData);
-            });
-          }}
-        />
-      )}
-
-      {addFormType === "table" && (
-        <AddTableForm onDone={() => setAddFormType(null)} roomId={formRoomId} />
-      )}
-      {addFormType === "item" && (
-        <AddItemForm onDone={() => setAddFormType(null)} roomId={formRoomId} />
-      )}
-
-      {mode === "rooms" && !activeRoomId ? (
-        <p className="py-4 text-center text-sm text-ink/50">
-          Create a room above to start adding tables and furniture to it.
-        </p>
-      ) : !hasContent ? (
-        <p className="py-4 text-center text-sm text-ink/50">
-          Nothing here yet — add a table{mode !== "seating" ? " or a layout item" : ""} above.
-        </p>
-      ) : view3D ? (
-        <VenueLayout3DView tables={visibleTables} items={visibleItems} />
-      ) : (
-        // Wide screen: the plan, with a side column holding what's selected
-        // above the guests still to seat, so dragging a guest onto a table is
-        // a short sideways move. Phone: plan, then selection, then guests,
-        // one column -- with the pinned bar standing in for the drag.
-        <div className="flex flex-col gap-4 xl:flex-row xl:items-start">
-          <div className="min-w-0 flex-1 xl:sticky xl:top-4">
-            <VenueCanvas
-              tables={visibleTables}
-              items={visibleItems}
-              guestsByTable={guestsByTable}
-              justSeated={justSeated}
-              selectedTableId={selectedTableId}
-              selectedItemId={selectedItemId}
-              seatingArmed={seatingArmed}
-              onTapTable={handleTapTable}
-              onTapItem={handleTapItem}
-              onClearSelection={() => {
-                setSelectedTableId(null);
-                setSelectedItemId(null);
-              }}
-              onTableDragEnd={handleTableDragEnd}
-              onItemDragEnd={handleItemDragEnd}
-              onItemResizeEnd={handleItemResizeEnd}
-              onTableResizeEnd={handleTableResizeEnd}
-              onUnassign={handleUnassign}
-              onDropGuests={(tableId, ids) => seat(ids, tableId)}
-              tableActions={tableActions}
-              itemActions={itemActions}
-            />
-          </div>
-          <div className="flex w-full shrink-0 flex-col gap-4 xl:w-80">
-            <SelectionPanel
-              key={selectedTable?.id ?? selectedItem?.id ?? "none"}
-              table={selectedTable}
-              item={selectedItem}
-              assignedGuests={selectedTable ? (guestsByTable.get(selectedTable.id) ?? []) : []}
-              onUnassign={handleUnassign}
-              onSplitPlusOne={(guestId) => send(splitPlusOne, { guest_id: guestId })}
-              onDeleteTable={handleDeleteTable}
-              onDeleteItem={handleDeleteItem}
-              onResetTableSize={(table) =>
-                send(updateTablePosition, { id: table.id, width: "", height: "" })
-              }
-            />
-            {showGuests && (
-              <GuestPanel
-                  unassigned={unassigned}
-                  totalGuests={guests.length}
-                  theme={theme}
-                  selectedIds={pickedGuestIds}
-                onToggle={togglePicked}
+            {mode !== "seating" && (
+              <button
+                onClick={() => setAddFormType((v) => (v === "item" ? null : "item"))}
+                disabled={!canAdd}
+                className="btn-secondary disabled:opacity-40"
+              >
+                {addFormType === "item" ? "Close" : <><PlusIcon /> Add item</>}
+              </button>
+            )}
+            {hasContent && mode !== "seating" && (
+              <button
+                onClick={() => setAddFormType((v) => (v === "layouts" ? null : "layouts"))}
+                disabled={!canAdd}
+                className="btn-secondary disabled:opacity-40"
+              >
+                {addFormType === "layouts" ? "Close" : "Layouts"}
+              </button>
+            )}
+            <span aria-hidden className="hidden h-6 w-px bg-hairline sm:block" />
+            <Segmented options={MODES} value={mode} onChange={setMode} label="Layout mode" />
+            {hasContent && (
+              <Segmented
+                options={VIEWS}
+                value={view3D ? "3d" : "plan"}
+                onChange={(v) => setView3D(v === "3d")}
+                label="View"
               />
             )}
+            {!view3D && <RoomStylePicker value={roomStyle} onChange={handleRoomStyle} />}
           </div>
-        </div>
-      )}
+        }
+      >
+        {mode === "seating"
+          ? guests.length === 0
+            ? "No guests yet — add guests on the Guests page, then come back to seat them."
+            : unassigned.length === 0
+              ? "Every guest has a seat."
+              : `${unassigned.length} of ${guests.length} guests still need a seat.`
+          : mode === "rooms"
+            ? "Plan each space separately — switch rooms below."
+            : "Everything in one shared space."}
+      </PageHeader>
 
-      {!view3D && (
-        <SeatingBar guests={pickedGuests} onClear={() => setPickedGuestIds(new Set())} />
-      )}
-    </div>
+      <div className="w-full rounded-lg border border-hairline bg-card p-5 sm:p-8 shadow-sm">
+        {phases.length > 0 && (
+          <PhaseTabs
+            phases={phases}
+            activeId={activePhaseId}
+            onSelect={(id) => {
+              setSelectedPhaseId(id);
+              setSelectedTableId(null);
+              setSelectedItemId(null);
+            }}
+          />
+        )}
+
+        {mode === "rooms" && (
+          <RoomTabs rooms={rooms} selectedRoomId={activeRoomId} onSelect={setSelectedRoomId} />
+        )}
+        {activePlan && activeRoom && (
+          <p className="-mt-2 mb-4 text-sm text-ink/70">
+            <span className="font-mono-numbers text-ink">{planSizeLabel(activePlan)}</span>
+            {" · "}
+            {activeRoom.source_venue_id ? "The venue's real floor plan, walls and all." : "This room's real size."}
+          </p>
+        )}
+
+        {declinedSeated.length > 0 && (
+          <DeclinedNotice
+            guests={declinedSeated}
+            tables={tables}
+            onClear={() => {
+              const formData = new FormData();
+              for (const g of declinedSeated) formData.append("guest_id", g.id);
+              formData.set("table_id", "");
+              startTransition(async () => {
+                await assignGuestsTable(formData);
+              });
+            }}
+          />
+        )}
+
+        {addFormType === "table" && (
+          <AddTableForm
+            onDone={() => setAddFormType(null)}
+            roomId={formRoomId}
+            phaseId={activePhaseId ?? undefined}
+          />
+        )}
+        {addFormType === "item" && (
+          <AddItemForm
+            onDone={() => setAddFormType(null)}
+            roomId={formRoomId}
+            phase={activePhase ?? undefined}
+          />
+        )}
+
+        {activePhase && copySources.length > 0 && (
+          <CopyPhaseOffer key={activePhase.id} target={activePhase} sources={copySources} />
+        )}
+        {addFormType === "layouts" && hasContent && (
+          <LayoutTemplatePicker
+            guestSeats={totalPeople}
+            roomId={formRoomId}
+            phaseId={activePhaseId ?? undefined}
+            ceremony={activePhase?.kind === "ceremony"}
+            plan={activePlan}
+            hasContent
+            seatedPeople={activePhaseId ? seatedInPhase : seatedPeople}
+            onDone={() => setAddFormType(null)}
+          />
+        )}
+
+        {mode === "rooms" && !activeRoomId ? (
+          <p className="py-4 text-center text-sm text-ink/50">
+            Create a room above to start adding tables and furniture to it.
+          </p>
+        ) : !hasContent ? (
+          // An empty plan opens on the ready-made layouts: one click sets the
+          // whole room, where placing tables one by one took dozens of drags.
+          <LayoutTemplatePicker
+            guestSeats={totalPeople}
+            roomId={formRoomId}
+            phaseId={activePhaseId ?? undefined}
+            ceremony={activePhase?.kind === "ceremony"}
+            plan={activePlan}
+            hasContent={false}
+            seatedPeople={0}
+          />
+        ) : view3D ? (
+          <VenueLayout3DView tables={visibleTables} items={visibleItems} />
+        ) : (
+          // Wide screen: the plan, with a side column holding what's selected
+          // above the guests still to seat, so dragging a guest onto a table is
+          // a short sideways move. Phone: plan, then selection, then guests,
+          // one column -- with the pinned bar standing in for the drag.
+          <div className="flex flex-col gap-4 xl:flex-row xl:items-start">
+            <div className="min-w-0 flex-1 xl:sticky xl:top-4">
+              <VenueCanvas
+                tables={visibleTables}
+                items={visibleItems}
+                guestsByTable={guestsByTable}
+                justSeated={justSeated}
+                selectedTableId={selectedTableId}
+                selectedItemId={selectedItemId}
+                seatingArmed={seatingArmed}
+                roomStyle={roomStyle}
+                theme={theme}
+                plan={activePlan}
+                onTapTable={handleTapTable}
+                onTapItem={handleTapItem}
+                onClearSelection={() => {
+                  setSelectedTableId(null);
+                  setSelectedItemId(null);
+                }}
+                onTableDragEnd={handleTableDragEnd}
+                onItemDragEnd={handleItemDragEnd}
+                onItemResizeEnd={handleItemResizeEnd}
+                onTableResizeEnd={handleTableResizeEnd}
+                onDropGuests={(tableId, ids) => seat(ids, tableId)}
+                tableActions={tableActions}
+                itemActions={itemActions}
+              />
+              {tables.length > 0 && (
+                <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-ink/60">
+                  {(["a", "b", "both"] as const).map((side) => (
+                    <span key={side} className="flex items-center gap-1.5">
+                      <span
+                        aria-hidden
+                        className="h-2.5 w-2.5 rounded-full"
+                        style={{ background: theme.colors[side] }}
+                      />
+                      {theme.labels[side]}
+                    </span>
+                  ))}
+                  <span className="flex items-center gap-1.5">
+                    <span aria-hidden className="h-2.5 w-2.5 rounded-full border border-dashed border-ink/40" />
+                    Empty seat
+                  </span>
+                </div>
+              )}
+            </div>
+            <div className="flex w-full shrink-0 flex-col gap-4 xl:w-80">
+              <SelectionPanel
+                key={selectedTable?.id ?? selectedItem?.id ?? "none"}
+                table={selectedTable}
+                item={selectedItem}
+                roomStyle={roomStyle}
+                onDecor={handleDecor}
+                assignedGuests={selectedTable ? (guestsByTable.get(selectedTable.id) ?? []) : []}
+                onUnassign={handleUnassign}
+                onSplitPlusOne={(guestId) => send(splitPlusOne, { guest_id: guestId })}
+                onDeleteTable={handleDeleteTable}
+                onDeleteItem={handleDeleteItem}
+                onResetTableSize={(table) =>
+                  send(updateTablePosition, { id: table.id, width: "", height: "" })
+                }
+                phaseControl={
+                  activePhase && (selectedTable || selectedItem) ? (
+                    <PhaseScope
+                      node={(selectedTable ?? selectedItem)!}
+                      kind={selectedTable ? "table" : "item"}
+                      phase={activePhase}
+                      onChange={(phaseId) =>
+                        send(setNodePhase, {
+                          kind: selectedTable ? "table" : "item",
+                          id: (selectedTable ?? selectedItem)!.id,
+                          phase_id: phaseId ?? "",
+                        })
+                      }
+                    />
+                  ) : undefined
+                }
+              />
+              {showGuests && <SeatTheRest guests={guests} tables={phaseTables} phaseId={activePhaseId} />}
+              {showGuests && (
+                <GuestPanel
+                    unassigned={unassigned}
+                    totalGuests={guests.length}
+                    theme={theme}
+                    selectedIds={pickedGuestIds}
+                  onToggle={togglePicked}
+                />
+              )}
+            </div>
+          </div>
+        )}
+
+        {!view3D && (
+          <SeatingBar guests={pickedGuests} onClear={() => setPickedGuestIds(new Set())} />
+        )}
+      </div>
+    </>
   );
 }

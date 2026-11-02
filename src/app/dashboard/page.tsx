@@ -16,6 +16,7 @@ import type {
   AttireItem,
   ChecklistItem,
   ItineraryEvent,
+  SiteDesignRow,
   RegionalCostData,
   Venue,
   VendorInquiryStatus,
@@ -24,6 +25,10 @@ import type {
 import { BUDGET_CATEGORIES, effectiveGuestCount } from "@/lib/budget-categories";
 import { weddingCategoryEstimates } from "@/lib/estimator";
 import { trackEvent } from "@/lib/events";
+import { parseSiteDesign } from "@/lib/site-design-schema";
+import { parseWording, withWording } from "@/lib/site-designs";
+import { loadPassItOn } from "@/lib/marketplace-server";
+import { inPassItOnWindow } from "@/lib/pass-it-on";
 
 /**
  * The first screen after signing in: the couple's banner, and then one box
@@ -73,6 +78,7 @@ export default async function DashboardPage() {
     { data: itineraryEvents },
     { count: layoutItems },
     { data: regionalData },
+    { data: siteDesign },
   ] = await Promise.all([
     supabase.from("guests").select("status, plus_one").eq("wedding_id", wedding.id),
     supabase
@@ -118,6 +124,14 @@ export default async function DashboardPage() {
       .select("*")
       .eq("state", wedding.state ?? "")
       .returns<RegionalCostData[]>(),
+    // The design the Website box shows: the live one, else the latest edited.
+    supabase
+      .from("site_designs")
+      .select("*")
+      .eq("wedding_id", wedding.id)
+      .order("updated_at", { ascending: false })
+      .returns<SiteDesignRow[]>()
+      .then(({ data }) => ({ data: data?.find((r) => r.id === wedding.live_design_id) ?? data?.[0] ?? null })),
   ]);
 
   // A photo for the Venues and Attire boxes: the booked venue, else the most
@@ -128,9 +142,9 @@ export default async function DashboardPage() {
     photoVenueId
       ? supabase
           .from("venues")
-          .select("name, image_url")
+          .select("name, image_url, photo_urls")
           .eq("id", photoVenueId)
-          .maybeSingle<Pick<Venue, "name" | "image_url">>()
+          .maybeSingle<Pick<Venue, "name" | "image_url" | "photo_urls">>()
       : Promise.resolve({ data: null }),
     attireItemId
       ? supabase
@@ -141,6 +155,18 @@ export default async function DashboardPage() {
       : Promise.resolve({ data: null }),
   ]);
   const venueForPhoto = bookedVenue ?? savedVenue;
+  // The venue's photos for the dashboard backdrop: the couple's own pictures
+  // of their venue when they've added some, else the listing's gallery.
+  const ownVenuePhotos = wedding.own_venue_photo_urls ?? [];
+  const listingPhotos = venueForPhoto
+    ? (venueForPhoto.photo_urls?.length ? venueForPhoto.photo_urls : [venueForPhoto.image_url]).filter(
+        (url): url is string => Boolean(url),
+      )
+    : [];
+  const venuePhotos = {
+    name: venueForPhoto?.name ?? wedding.own_venue_name ?? null,
+    photos: ownVenuePhotos.length > 0 ? ownVenuePhotos : listingPhotos,
+  };
 
   const checklistItems = checklist ?? [];
   const guestRows = guests ?? [];
@@ -229,6 +255,11 @@ export default async function DashboardPage() {
       date: wedding.wedding_date,
       live: Boolean(wedding.public_slug),
       photo: wedding.hero_photo_url,
+      design: siteDesign
+        ? siteDesign.shared_wording
+          ? withWording(parseSiteDesign(siteDesign.design), parseWording(wedding.site_wording))
+          : parseSiteDesign(siteDesign.design)
+        : null,
     },
   });
 
@@ -259,26 +290,23 @@ export default async function DashboardPage() {
           today,
         });
 
-  const planners = await loadPlanners(supabase, wedding, user.id);
+  const [planners, passItOn] = await Promise.all([
+    loadPlanners(supabase, wedding, user.id),
+    inPassItOnWindow(wedding.wedding_date) ? loadPassItOn(supabase, wedding.id) : Promise.resolve(null),
+  ]);
 
   return (
     <PageShell email={user.email ?? ""} width="canvas">
       <WeddingDashboard
         initialWedding={wedding}
         bookedVenue={bookedVenue}
+        venuePhotos={venuePhotos}
         canEdit={planners.myRole !== "view"}
         heroActions={<InviteToPlan data={planners} currentUserId={user.id} />}
       />
       <WelcomeBird userId={user.id} createdAt={user.created_at} />
 
-      <PassItOn
-        weddingDate={wedding.wedding_date}
-        spentCategories={(lineItems ?? [])
-          .filter((l) => (l.override_value ?? 0) > 0 || (l.paid_amount ?? 0) > 0)
-          .map((l) => l.category)}
-        customItems={(customItems ?? []).map((c) => c.label).filter(Boolean)}
-        today={new Date()}
-      />
+      {passItOn && <PassItOn drafts={passItOn} />}
 
       {step && <NextStepCard step={step} />}
 
