@@ -73,7 +73,7 @@ export async function sendMarketingEmail(input: {
     "",
     "--",
     `Don't want these emails? Unsubscribe: ${pageUrl}`,
-    `You Do, I Do · ${process.env.MARKETING_POSTAL_ADDRESS!.trim()}`,
+    `You Do, I Do LLC · ${process.env.MARKETING_POSTAL_ADDRESS!.trim()}`,
   ].join("\n");
 
   try {
