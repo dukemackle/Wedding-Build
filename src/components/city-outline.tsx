@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { Polygon } from "react-leaflet";
-import type { LatLngTuple } from "leaflet";
+import { useEffect, useMemo, useState } from "react";
+import { MapShape } from "@/components/map-shape";
 import { boundarySlug } from "@/lib/boundary-slug";
 import { STATE_ABBR } from "@/lib/us-states";
 
-type Outline = LatLngTuple[][][];
+/** Polygons of rings of [lat, lng] points. */
+type Outline = [number, number][][][];
 
 /**
  * The picked city's limits, drawn under the pins on the browse maps, so a
@@ -17,8 +17,14 @@ type Outline = LatLngTuple[][][];
  */
 export function CityOutline({ city, state }: { city: string; state: string }) {
   const abbr = STATE_ABBR[state];
-  const src = city !== "all" && abbr ? `/boundaries/${abbr}/${boundarySlug(city)}.json` : null;
-  const [loaded, setLoaded] = useState<{ src: string; outline: Outline } | null>(null);
+  const src =
+    city !== "all" && abbr
+      ? `/boundaries/${abbr}/${boundarySlug(city)}.json`
+      : null;
+  const [loaded, setLoaded] = useState<{
+    src: string;
+    outline: Outline;
+  } | null>(null);
 
   useEffect(() => {
     if (!src) return;
@@ -34,12 +40,30 @@ export function CityOutline({ city, state }: { city: string; state: string }) {
     };
   }, [src]);
 
-  if (!loaded || loaded.src !== src) return null;
+  const outline = loaded && loaded.src === src ? loaded.outline : null;
+  const data = useMemo<GeoJSON.Feature | null>(
+    () =>
+      outline && {
+        type: "Feature",
+        properties: {},
+        geometry: {
+          type: "MultiPolygon",
+          coordinates: outline.map((polygon) =>
+            polygon.map((ring) => ring.map(([lat, lng]) => [lng, lat])),
+          ),
+        },
+      },
+    [outline],
+  );
+
+  if (!data) return null;
   return (
-    <Polygon
-      positions={loaded.outline}
-      interactive={false}
-      pathOptions={{ color: "#2243B6", weight: 2.5, opacity: 0.85, fillColor: "#2243B6", fillOpacity: 0.05 }}
+    <MapShape
+      data={data}
+      color="#2243B6"
+      weight={2.5}
+      opacity={0.85}
+      fillOpacity={0.05}
     />
   );
 }

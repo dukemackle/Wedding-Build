@@ -1,16 +1,14 @@
 "use client";
 
-import "leaflet/dist/leaflet.css";
 import Image from "next/image";
 import Link from "next/link";
 import { useMemo } from "react";
-import { MapContainer, Marker, Popup } from "react-leaflet";
-import { BaseMapLayer } from "@/components/base-map-layer";
+import { GlMap } from "@/components/gl-map";
 import { FitToPins } from "@/components/map-fit-bounds";
 import { CityOutline } from "@/components/city-outline";
 import { ClusteredMarkers } from "@/components/clustered-markers";
 import { badgePin } from "@/components/badge-pin";
-import { MAP_MIN_ZOOM, MAP_ZOOM_FEEL, US_MAP_BOUNDS, type MapView } from "@/lib/map-view";
+import type { MapView } from "@/lib/map-view";
 import { ShortlistButton } from "./venue-card-shared";
 import { venueHref, type VenueListing } from "@/lib/public-listings";
 import { venueTypeImage } from "@/lib/wedding-options";
@@ -62,92 +60,85 @@ export function VenuesMap({
   return (
     <div
       className={
-        heightClassName ?? "h-[360px] w-full overflow-hidden rounded-md border border-hairline"
+        heightClassName ??
+        "h-[360px] w-full overflow-hidden rounded-md border border-hairline"
       }
     >
-      <MapContainer
-        center={center ?? CONTINENTAL_US_CENTER}
-        zoom={zoom ?? 4}
-        scrollWheelZoom
-        {...MAP_ZOOM_FEEL}
-        minZoom={MAP_MIN_ZOOM}
-        maxBounds={US_MAP_BOUNDS}
-        maxBoundsViscosity={0.8}
-        style={{ height: "100%", width: "100%" }}
-      >
-        <BaseMapLayer />
+      <GlMap center={center ?? CONTINENTAL_US_CENTER} zoom={zoom ?? 3}>
         {outline && <CityOutline city={outline.city} state={outline.state} />}
         <FitToPins points={points} rememberAs={rememberAs} />
         <ClusteredMarkers
           items={pinned}
           onViewChange={onViewChange}
-          renderPin={(venue, labelled) => (
-          <Marker
-            key={venue.id}
-            position={[venue.latitude, venue.longitude]}
-            icon={badgePin({
+          onHover={onHoverVenue}
+          pin={(venue, labelled) =>
+            badgePin({
               // Capacity, the number the card leads with, rides beside the icon.
               glyph: venueTypeIconPaths(venue.venue_type),
               label: venue.capacity == null ? "" : String(venue.capacity),
               active: hoveredVenueId === venue.id,
               saved: shortlistedIds.has(venue.id),
               labelled,
-            })}
-            eventHandlers={{
-              mouseover: () => onHoverVenue?.(venue.id),
-              mouseout: () => onHoverVenue?.(null),
-            }}
-          >
-            <Popup minWidth={200}>
-              <div className="w-[200px]">
-                <Link href={venueHref(venue)} className="block">
-                  <Image
-                    src={venue.image_url || venueTypeImage(venue.venue_type)}
-                    alt={venue.venue_type ? `${venue.venue_type} illustration` : "Venue illustration"}
-                    width={200}
-                    height={125}
-                    className="aspect-[8/5] w-full rounded-md border border-hairline object-cover"
+            })
+          }
+          popup={(venue) => (
+            <div className="w-[200px]">
+              <Link href={venueHref(venue)} className="block">
+                <Image
+                  src={venue.image_url || venueTypeImage(venue.venue_type)}
+                  alt={
+                    venue.venue_type
+                      ? `${venue.venue_type} illustration`
+                      : "Venue illustration"
+                  }
+                  width={200}
+                  height={125}
+                  className="aspect-[8/5] w-full rounded-md border border-hairline object-cover"
+                />
+                <div className="pt-2">
+                  <div className="flex items-start justify-between gap-2">
+                    <p className="font-semibold text-forest">{venue.name}</p>
+                    {venue.price_tier && (
+                      <span className="shrink-0 rounded-full border border-hairline px-2 py-0.5 text-[11px] text-brass">
+                        {venue.price_tier}
+                      </span>
+                    )}
+                  </div>
+                  <p className="mt-0.5 text-xs text-ink/60">
+                    {[venue.city, venue.state].filter(Boolean).join(", ")}
+                  </p>
+                  <p className="mt-1 text-xs text-ink/70">
+                    {[venue.setting, venue.venue_type]
+                      .filter(Boolean)
+                      .join(" · ")}
+                  </p>
+                  {venue.capacity && (
+                    <p className="text-xs text-ink/70">
+                      Up to {venue.capacity} guests
+                    </p>
+                  )}
+                  {venue.is_sample && (
+                    <p className="mt-1 text-[10px] uppercase tracking-wide text-ink/40">
+                      Sample listing
+                    </p>
+                  )}
+                  <p className="mt-1.5 text-xs font-medium text-brass">
+                    View details &rarr;
+                  </p>
+                </div>
+              </Link>
+              {signedIn && (
+                <div className="pb-1 pt-2">
+                  <ShortlistButton
+                    venueId={venue.id}
+                    isShortlisted={shortlistedIds.has(venue.id)}
                   />
-                  <div className="pt-2">
-                    <div className="flex items-start justify-between gap-2">
-                      <p className="font-semibold text-forest">{venue.name}</p>
-                      {venue.price_tier && (
-                        <span className="shrink-0 rounded-full border border-hairline px-2 py-0.5 text-[11px] text-brass">
-                          {venue.price_tier}
-                        </span>
-                      )}
-                    </div>
-                    <p className="mt-0.5 text-xs text-ink/60">
-                      {[venue.city, venue.state].filter(Boolean).join(", ")}
-                    </p>
-                    <p className="mt-1 text-xs text-ink/70">
-                      {[venue.setting, venue.venue_type].filter(Boolean).join(" · ")}
-                    </p>
-                    {venue.capacity && (
-                      <p className="text-xs text-ink/70">Up to {venue.capacity} guests</p>
-                    )}
-                    {venue.is_sample && (
-                      <p className="mt-1 text-[10px] uppercase tracking-wide text-ink/40">
-                        Sample listing
-                      </p>
-                    )}
-                    <p className="mt-1.5 text-xs font-medium text-brass">View details &rarr;</p>
-                  </div>
-                </Link>
-                {signedIn && (
-                  <div className="pb-1 pt-2">
-                    <ShortlistButton
-                      venueId={venue.id}
-                      isShortlisted={shortlistedIds.has(venue.id)}
-                    />
-                  </div>
-                )}
-              </div>
-            </Popup>
-          </Marker>
+                </div>
+              )}
+            </div>
           )}
         />
-      </MapContainer>
+      </GlMap>
     </div>
   );
 }

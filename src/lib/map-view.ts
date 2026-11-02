@@ -1,6 +1,6 @@
 /**
  * The visible part of a browse map, as plain numbers so the list beside it can
- * use it without loading Leaflet (which can't run on the server).
+ * use it without loading MapLibre (which needs a browser).
  */
 export type MapView = { south: number; west: number; north: number; east: number };
 
@@ -25,24 +25,18 @@ export function viewKey(view: MapView | null) {
 /**
  * How far the browse maps can pan and zoom out: North America with Alaska and
  * Hawaii and a generous margin of sea, so there's room to zoom out and drag a
- * little without losing the pins. Without a limit Leaflet lets a swipe carry
- * the pins off into an endless copy of the Pacific.
+ * little without losing the pins. As MapLibre wants it: [[west, south], [east, north]].
+ * West stops short of -180: at exactly the antimeridian MapLibre's clamp
+ * throws every view out into the Pacific.
  */
 export const US_MAP_BOUNDS: [[number, number], [number, number]] = [
-  [-10, -180],
-  [80, -20],
+  [-178, -10],
+  [-20, 80],
 ];
-export const MAP_MIN_ZOOM = 2;
 
 /**
- * How the browse maps zoom. Leaflet's defaults move a whole zoom level (twice
- * as close) per mouse-wheel notch and snap to whole levels, which reads as a
- * jump rather than a zoom; trackpads stutter between those steps too. Quarter
- * steps and a slower wheel make it glide.
+ * Zoom levels are MapLibre's (512px tiles), one less than the old Leaflet
+ * numbers for the same view: zoom 10 here is what Leaflet called 11.
  */
-export const MAP_ZOOM_FEEL = {
-  zoomSnap: 0.25,
-  zoomDelta: 0.5,
-  wheelPxPerZoomLevel: 120,
-  wheelDebounceTime: 20,
-} as const;
+export const MAP_MIN_ZOOM = 1;
+export const MAP_MAX_ZOOM = 17;

@@ -8,7 +8,7 @@ const ApproxMap = dynamic(() => import("./approx-map").then((m) => m.ApproxMap),
   loading: () => <div className="h-full w-full animate-pulse bg-parchment" />,
 });
 
-/** The approximate-location map, loaded only in the browser (Leaflet can't render on the server). */
+/** The approximate-location map, loaded only in the browser (MapLibre needs a browser). */
 export function ApproxLocation({ latitude, longitude }: { latitude: number; longitude: number }) {
   return (
     <div className="h-32 overflow-hidden rounded-lg border border-hairline">

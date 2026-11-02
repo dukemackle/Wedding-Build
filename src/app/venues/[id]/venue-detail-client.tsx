@@ -34,7 +34,7 @@ export function VenueMapEmbed({
       venues={[venue]}
       shortlistedIds={isShortlisted ? new Set([venue.id]) : new Set()}
       center={[venue.latitude, venue.longitude]}
-      zoom={12}
+      zoom={11}
       signedIn={signedIn}
       heightClassName="h-[280px] w-full overflow-hidden rounded-md border border-hairline"
     />
