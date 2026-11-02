@@ -14,7 +14,7 @@ import {
   updateInquiryStatus,
   updateVendorFavoriteNotes,
 } from "./actions";
-import { FilterDropdown, splitMulti } from "@/components/filter-dropdown";
+import { BarOnly, FilterDropdown, splitMulti } from "@/components/filter-dropdown";
 import { VendorCategoryIcon } from "@/components/vendor-category-icon";
 import { SearchShell } from "@/components/search-shell";
 import { VendorFavoriteButton } from "./vendor-card-shared";
@@ -569,6 +569,7 @@ export function VendorsManager({
             }))}
           />
           {hidden.size > 0 && (
+            <BarOnly>
             <button
               type="button"
               onClick={() => setShowHidden((v) => !v)}
@@ -577,6 +578,7 @@ export function VendorsManager({
             >
               {showHidden ? "Hide hidden" : `Show hidden (${hidden.size})`}
             </button>
+            </BarOnly>
           )}
         </>
       }

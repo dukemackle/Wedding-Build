@@ -21,6 +21,11 @@ export const FilterLayout = createContext<{ mode: "bar" | "sheet"; collapseInact
   collapseInactive: false,
 });
 
+/** Bar items that aren't filters (links, toggles): drawn in the bar, left out of the sheet. */
+export function BarOnly({ children }: { children: ReactNode }) {
+  return useContext(FilterLayout).mode === "sheet" ? null : <>{children}</>;
+}
+
 /** An applied filter: Royal-blue outline on a pale tint, navy text. */
 export const ACTIVE_CHIP = "border-2 border-[#2243B6] bg-[#EAF6FF] font-semibold text-forest";
 

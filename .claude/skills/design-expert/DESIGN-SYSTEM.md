@@ -95,7 +95,7 @@ layout switch in new code.
 | Its other actions | `btn-secondary` (navy 2px outline pill) | Planning pages |
 | Primary button | `rounded-md bg-forest px-4 py-2 text-sm font-medium text-parchment transition-colors hover:bg-forest/90 disabled:opacity-60` (+ `btn-motion` on marketing) | ~6 near-duplicate variants; no shared component |
 | Secondary | `rounded-md border border-hairline px-3 py-2 text-sm text-ink hover:border-forest disabled:opacity-60` | |
-| Chip / filter | `rounded-full border border-hairline bg-card px-3 py-1 text-sm`; an applied filter is `ACTIVE_CHIP` from `filter-dropdown.tsx` (2px Royal-blue outline, pale tint, navy text, navy ✕ disc) | Venues/Vendors also have the all-filters sheet (`filterSheet` on `search-shell`) |
+| Chip / filter | `rounded-full border border-hairline bg-card px-3 py-1 text-sm`; an applied filter is `ACTIVE_CHIP` from `filter-dropdown.tsx` (2px Royal-blue outline, pale tint, navy text, navy ✕ disc) | Venues, Vendors and Marketplace also have the all-filters sheet; wrap non-filter bar items in `BarOnly` (`filterSheet` on `search-shell`) |
 | Submit with pending | `PendingSubmit` | Use it |
 | Input | `rounded-md border border-hairline bg-card px-3 py-2 text-ink focus:border-forest` | bg split parchment vs card; use **card** |
 | Card | `rounded-lg border border-hairline bg-card p-5 sm:p-8 shadow-sm` | |
