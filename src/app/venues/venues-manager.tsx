@@ -426,6 +426,7 @@ export function VenuesManager({
     <SearchShell
       search={{ value: search, onChange: (v) => setFilter("q", v), placeholder: "Search venues by name..." }}
       activeFilterCount={activeFilterCount}
+      filterSheet
       onClearFilters={clearFilters}
       resultCount={listedVenues.length}
       totalCount={filteredVenues.length}

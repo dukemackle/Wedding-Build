@@ -503,6 +503,7 @@ export function VendorsManager({
     <SearchShell
       search={{ value: search, onChange: (v) => setFilter("q", v), placeholder: "Search vendors by name..." }}
       activeFilterCount={activeFilterCount}
+      filterSheet
       onClearFilters={clearFilters}
       resultCount={listedVendors.length}
       totalCount={filteredVendors.length}
