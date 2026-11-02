@@ -686,6 +686,70 @@ Simply Celebrate	Planning		Mechanicsburg	Pennsylvania	Mechanicsburg, Harrisburg,
 Angels Café & Catering	Catering	901 Main Street	Stroudsburg	Pennsylvania	Monroe and Northampton counties, Poconos and Lehigh Valley	Stroudsburg café and caterer offering full banquet wedding catering, with vegetarian, vegan and gluten-free menus.		570-424-8810	https://littleangelscafe.com/			
 `,
   },
+  {
+    name: "Scranton and Wilkes-Barre: photography, hair & makeup, planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Eric Boylan Photography	Photography		Scranton	Pennsylvania	Scranton, Wilkes-Barre, the Poconos, Philadelphia and Lehigh Valley	Scranton photographer shooting weddings in a documentary style, mixing candid moments with traditional family portraits.			https://ericboylanphotography.com/			
+Electric City Bridal Company	Hair & Makeup		Scranton	Pennsylvania	Scranton and Northeast Pennsylvania	Two licensed cosmetologists who style bridal hair and makeup on location for wedding parties across the Scranton area.	electriccitybridalcompany@gmail.com		https://electriccitybridal.com/			
+On The Fringe Hair Studio	Hair & Makeup	1 Highlands Boulevard, Suite 102	Archbald	Pennsylvania	Scranton area	Salon near Scranton offering bridal trials and wedding-day hair and makeup for brides and attendants, done in the salon.		570-521-4272	https://visitonthefringe.com/	https://www.instagram.com/visitonthefringe/	85	per person
+`,
+  },
+  {
+    name: "Harrisburg and Hershey: florals, catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+`,
+  },
+  {
+    name: "Philadelphia: planning, catering, cake, hair & makeup, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Courtney Space Events	Planning		Philadelphia	Pennsylvania	Philadelphia, the Poconos, New Hope, Princeton and the Jersey Shore	Philadelphia planning and design firm for weddings, from city venues such as Fairmount Horticulture Center to the Poconos and the shore.	courtney@courtneyspaceevents.com		https://courtneyspaceevents.com/	https://www.instagram.com/courtneyspaceevents/		
+Divas With The Details	Planning		Philadelphia	Pennsylvania	Philadelphia	Philadelphia planner offering full planning, partial planning and day-of coordination, plus travel booking for destination weddings.			https://divaswiththedetailsco.com/	https://www.instagram.com/divaswiththedetails/		
+Joshua's Catering	Catering	804 Oak Lane	Philadelphia	Pennsylvania		Philadelphia caterer with dedicated wedding sales staff, providing custom quotes for wedding menus and service.	Jenn.joshuascatering@gmail.com	215-224-1800	https://www.joshuasevents.com/	https://www.instagram.com/joshuas_catering/		
+P.S. & Co.	Cake	1706 Locust Street	Philadelphia	Pennsylvania	Philadelphia, with nationwide shipping	Philadelphia bakery making gluten-free and vegan wedding cakes, with a downloadable wedding cake brochure.	info@psandco.com	215-985-1706	https://psandco.com/	https://www.instagram.com/psandco/		
+Two17 Photo & Cinema	Videography		Philadelphia	Pennsylvania	Philadelphia, Montgomery and Bucks counties and the Jersey Shore	Philadelphia studio filming candid, documentary-style weddings, with a short feature film, optional Super-8 and drone coverage.			http://two17photo.com/		5300	package
+`,
+  },
+  {
+    name: "Poconos: photography, music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Samantha Derrick Photography	Photography		Honesdale	Pennsylvania	Honesdale, Woodloch and the wider Poconos	Honesdale photographer covering weddings, engagements and proposals, including sessions around Woodloch and Lake Wallenpaupack.	hello@samanthaderrickphotography.com	(570) 977-2346	https://samanthaderrickphotography.com/	https://www.instagram.com/samanthaderrickphotography/		
+`,
+  },
+  {
+    name: "Lehigh Valley: planning, videography, catering, photography, florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Art Video Productions	Videography		Easton	Pennsylvania	Lehigh Valley and surrounding PA, NJ and NY, up to 100 miles from Easton	Easton wedding videography studio making cinematic films with multi-channel audio since 2005, with full films and highlight reels.		(484) 546-4459	https://www.artvideoproductions.com/		1295	package
+29 Cooks Catering	Catering	5402 Chestnut Street	Emmaus	Pennsylvania	Emmaus and the Lehigh Valley	Emmaus caterer cooking from scratch, with an offsite wedding package and its own Gather venue for celebrations.	29cooks@gmail.com	484-951-0442	https://www.29cooks.com/	https://www.instagram.com/29cooks/		
+Valor & Vine Photography	Photography		Nazareth	Pennsylvania	Lehigh Valley and Philadelphia, travelling for weddings elsewhere	Nazareth studio photographing weddings and elopements in a mix of storytelling, editorial and documentary styles.	jessica@valorandvine.com		https://www.valorandvine.com/	https://www.instagram.com/valorandvine/		
+Fenimore & Rutland	Florals		Allentown	Pennsylvania	Allentown and Lehigh County	Allentown flower farm and floral designer growing its own blooms, with bouquets, subscriptions and wedding florals.			https://www.fenimorerutland.com/	https://www.instagram.com/fenimore_rutland/		
+`,
+  },
+  {
+    name: "Erie: videography, planning, florals, catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Katie Mihalak Photography	Videography		Erie	Pennsylvania	Erie	Erie wedding photographer who also films weddings, offering three feature-film collections of 3, 5 or 8 hours with add-on trailers.	ktmihalak@gmail.com		http://www.katiemihalak.com/videography-services	https://www.instagram.com/katiemihalak/	2000	package
+FlickzWithFitz	Videography		Erie	Pennsylvania	Erie, PA, Ohio and New York, with travel within 50 miles included	Single-shooter Erie studio offering wedding photography and video, with eight-hour coverage and a published hourly rate for extra time.	flickzwithfitz@outlook.com		https://www.flickzwithfitz.com/	https://www.instagram.com/flickzwithfitz/	1500	package
+True North Events	Planning		Erie	Pennsylvania	Erie	Woman-owned Erie planner offering event-day coordination and fuller planning, with three published packages for weddings and other events.			https://truenortherie.com/packages/		3500	package
+Larese Floral Design	Florals	3857 Peach St	Erie	Pennsylvania	Erie, Fairview, Girard, Harbor Creek, Edinboro, Waterford and North East	Erie flower shop that designs custom wedding flowers, with consultations by phone or in person at the shop.		(814) 461-0904	https://www.laresefloraldesign.com/			
+Gerlach's Garden & Floral	Florals		Erie	Pennsylvania	Erie	Erie florist with ceremony flowers, bouquets and corsages online, plus consultations by phone, in person or by email.		814-838-2363	https://gerlachsgardenandfloral.com/pages/wedding-ceremony			
+Three Sisters Catering	Catering		Erie	Pennsylvania	Up to 90 miles from Erie	Erie caterer led by Sue Kuebler, serving weddings and events and willing to travel up to ninety miles from the city.	suebkuebler@gmail.com	814.490.8263	https://www.threesiscatering.com/			
+Vintage Wood Fire Catering	Catering		Harborcreek	Pennsylvania	Erie County and beyond	Wood-fired pizza and barbecue caterer with mobile units for weddings, grad parties and company lunches around Erie County.	pizzatruck56@gmail.com	(814) 528-2125	https://www.vintagewoodfirecatering.com/partyinfo			
+`,
+  },
+  {
+    name: "State College: photography, florals, music, catering, hair & makeup, cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Canister Studio	Photography	139 S Front St, 2nd Floor	Milton	Pennsylvania	Lewisburg and central Pennsylvania	Studio near Lewisburg offering half-day and full-day wedding coverage with prices published, plus an engagement shoot in full-day packages.		570-661-1539	https://www.canister.photography/weddings	https://www.instagram.com/canister/	3050	package
+The Tipsy Tulip	Florals	700 Pleasant Valley Blvd	Altoona	Pennsylvania	Altoona	Altoona flower shop with a dedicated wedding flowers page, plus delivery in the city and a shopfront open six days a week.		(814) 944-4566	https://www.tipsytulip.net/wedding-flowers	https://www.instagram.com/tipsy_tulip_florals/		
+Weaver the Florist & Gifts	Florals	308 5th St	Huntingdon	Pennsylvania	Huntingdon, Mount Union, Alexandria, Williamsburg and nearby towns	Independent Huntingdon florist, open since 1938, with a wedding page listing bouquets, bridesmaid bouquets and centrepiece or arch swags.	wecare@thehuntingdonflorist.com	(814) 643-0530	https://www.thehuntingdonflorist.com/wedding			
+Erin Carey Florals	Florals	456 Hawthorne Drive	Lewisburg	Pennsylvania		Lewisburg florist whose site lists weddings and events alongside gifts and holiday arrangements.		(570) 898-0058	https://www.erincareyflorals.com/	https://www.instagram.com/erincareyflorals/		
+The Blooming Rooster	Florals	322 Market St	Lewisburg	Pennsylvania	Lewisburg, Mifflinburg, Danville, Bloomsburg and nearby towns	Market Street florist in Lewisburg with wedding consultation and gallery pages, delivering to local venues for weddings and events.	thebloomingrooster@gmail.com	(570) 492-9340	https://thebloomingrooster.com/	https://www.instagram.com/thebloomingrooster/		
+MixMaster Entertainment Services	Music		State College	Pennsylvania	Pennsylvania, New York, Maryland, Virginia, New Jersey and Ohio	State College wedding DJ company with a dedicated wedding page, travelling across Pennsylvania and neighbouring states.			https://mixmasterdjservices.com/state-college-wedding-dj/			
+Full House Productions	Music		Altoona	Pennsylvania	Altoona and central Pennsylvania	Altoona DJ company that is taking wedding bookings for the 2026 and 2027 seasons across central Pennsylvania.	info@fullhouseproductionspa.com	(814) 204-2277	https://fullhousedj.com/	https://www.instagram.com/full_house_productions_pa/		
+Making Waves	Hair & Makeup		Altoona	Pennsylvania	Altoona	Altoona salon with a wedding services page covering bridal consultations, practice runs and wedding-party styling.		814-201-2198	https://www.makingwavesaltoona.com/wedding-services/	https://www.instagram.com/making_waves_salon/		
+Lisa Becker Bakery	Cake		Altoona	Pennsylvania		Altoona bakery making wedding, birthday and specialty cakes to order, led by a baker with over 25 years in the trade.			http://www.lisabeckerbakery.com			
+`,
+  },
 ];
 
 export default batches;
