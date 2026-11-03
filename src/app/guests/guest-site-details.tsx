@@ -11,6 +11,7 @@ import {
   updateGuestSiteDetails,
   updateOwnVenue,
 } from "./guest-site-actions";
+import { actionFailed } from "@/lib/action-error";
 
 const inputClass =
   "rounded-md border border-hairline bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-forest";
@@ -97,7 +98,7 @@ export function Accommodations({ items }: { items: WeddingAccommodation[] }) {
     const formData = new FormData();
     formData.set("id", id);
     startTransition(async () => {
-      const result = await deleteAccommodation(formData).catch(() => ({ error: "Couldn't remove it — check your connection." }));
+      const result = await deleteAccommodation(formData).catch(() => ({ error: actionFailed("remove it") }));
       if (result?.error) setError(result.error);
     });
   }
@@ -197,7 +198,7 @@ export function Faqs({ faqs }: { faqs: WeddingFaq[] }) {
     const formData = new FormData();
     formData.set("id", id);
     startTransition(async () => {
-      const result = await deleteWeddingFaq(formData).catch(() => ({ error: "Couldn't remove it — check your connection." }));
+      const result = await deleteWeddingFaq(formData).catch(() => ({ error: actionFailed("remove it") }));
       if (result?.error) setError(result.error);
     });
   }

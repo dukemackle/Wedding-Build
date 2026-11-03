@@ -5,6 +5,7 @@ import { KeptNotice, SAVE_FAILED, useKeptWords } from "@/components/kept-words";
 import type { RegistryItem } from "@/lib/supabase/types";
 import { addRegistryItem, deleteRegistryItem } from "./actions";
 import { BirdEmptyState } from "@/components/wren-moments";
+import { actionFailed } from "@/lib/action-error";
 
 const inputClass =
   "rounded-md border border-hairline bg-parchment px-3 py-2 text-ink outline-none focus:border-forest";
@@ -96,7 +97,7 @@ function RegistryItemRow({ item }: { item: RegistryItem }) {
     startTransition(async () => {
       const formData = new FormData();
       formData.set("id", item.id);
-      const result = await deleteRegistryItem(formData).catch(() => ({ error: "Couldn't remove it — check your connection." }));
+      const result = await deleteRegistryItem(formData).catch(() => ({ error: actionFailed("remove it") }));
       if (result?.error) {
         setError(result.error);
       }

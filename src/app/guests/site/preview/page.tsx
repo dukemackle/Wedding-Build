@@ -55,10 +55,10 @@ export default async function GuestSitePreviewPage({
   const { data: venue } = wedding.venue_id
     ? await supabase
         .from("venues")
-        .select("name, city, state, photo_urls, about, description, address")
+        .select("name, city, state, photo_urls, about, description, address, latitude, longitude")
         .eq("id", wedding.venue_id)
         .maybeSingle<
-          Pick<Venue, "name" | "city" | "state" | "photo_urls" | "about" | "description" | "address">
+          Pick<Venue, "name" | "city" | "state" | "photo_urls" | "about" | "description" | "address" | "latitude" | "longitude">
         >()
     : { data: null };
 
@@ -87,6 +87,8 @@ export default async function GuestSitePreviewPage({
     venue_address: venue?.address ?? wedding.own_venue_address,
     site_locked: Boolean(wedding.site_password_hash),
     venue_photos_own: ownVenuePhotos.length > 0,
+    venue_latitude: venue?.latitude ?? null,
+    venue_longitude: venue?.longitude ?? null,
     gift_venmo: wedding.gift_venmo,
     gift_paypal: wedding.gift_paypal,
     gift_cashapp: wedding.gift_cashapp,

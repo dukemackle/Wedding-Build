@@ -59,6 +59,7 @@ import { BirdCheer } from "@/components/bird-cheer";
 import { PublicSitePanel, SiteSwitch, useGuestSite } from "../public-site-panel";
 import { DESIGNS_LIST_HREF, keepView, readView, rememberDesign } from "./resume";
 import { MotionTab, PageArtworkSection, PanelLabel, SceneSection, SectionsTab, StyleTab, type SectionInfo } from "./editor-tabs";
+import { actionFailed } from "@/lib/action-error";
 
 type Device = "desktop" | "phone";
 // Position opens from a picked element rather than the tab strip.
@@ -399,7 +400,7 @@ export function SiteEditor({
     saveTimer.current = setTimeout(() => {
       saveChain.current = saveChain.current.then(async () => {
         const result = await storeDesign(designId, next, versionRef.current, false).catch(() => ({
-          error: "Couldn't save — check your connection.",
+          error: actionFailed("save"),
         }) as StoreResult);
         if (result.version) versionRef.current = result.version;
         if (result.stale) setStale(true);
@@ -577,7 +578,7 @@ export function SiteEditor({
     startPublish(async () => {
       await saveChain.current;
       const result = await storeDesign(designId, design, versionRef.current, true).catch(() => ({
-        error: "Couldn't publish — check your connection.",
+        error: actionFailed("publish"),
       }) as StoreResult);
       if (result.version) versionRef.current = result.version;
       if (result.stale) setStale(true);

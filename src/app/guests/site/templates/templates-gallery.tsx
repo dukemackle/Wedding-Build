@@ -8,6 +8,7 @@ import { PALETTES, resolveDesign, type Palette, type SiteDesign } from "@/lib/si
 import { TEMPLATES, applyTemplate, type SiteTemplate } from "@/lib/site-templates";
 import { createDesign } from "../actions";
 import { SitePageThumb } from "../site-page-thumb";
+import { actionFailed } from "@/lib/action-error";
 
 /**
  * The template gallery (approved 2026-10-27): the seven templates, each card
@@ -181,7 +182,7 @@ function TemplatePreview({
     setError(null);
     start(async () => {
       const result = await createDesign({ template: template.id, palette }).catch(() => ({
-        error: "Couldn't reach the server — check your connection.",
+        error: actionFailed("reach the server"),
         id: undefined,
       }));
       if (result.error || !result.id) setError(result.error ?? "That didn't work. Try again.");
