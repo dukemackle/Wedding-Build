@@ -2562,6 +2562,12 @@ Lucky Photo Booth	Photo Booth	4040 Farmouth Drive	Los Angeles	California	Los Ang
 Ultra Lux Events LA	Planning	8450 Moorcroft Ave	West Hills	California	Beverly Hills, Malibu, Hollywood, Santa Monica, Bel Air, Pasadena and Orange County	Wedding planning with full-service, partial and day-of options, with dedicated pages for Beverly Hills and Malibu venues such as Greystone Mansion.	hello@ultraluxeventsla.com	+1 (323) 489-8450	https://ultraluxeventsla.com/	https://www.instagram.com/ultraluxeventsla/		
 `,
   },
+  {
+    name: "San Diego: Bar",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+The Watering Haul	Bar		San Diego	California	San Diego and surrounding areas	Family-run mobile bar since 2018 serving craft cocktails from restored vintage trailers or satellite bars, with certified mixologists.	info@thewateringhaul.com	(858) 774-9395	https://www.thewateringhaul.com	https://www.instagram.com/thewateringhaul/		
+`,
+  },
 ];
 
 export default batches;
