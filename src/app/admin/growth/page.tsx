@@ -1,6 +1,7 @@
 import { requireAdmin } from "@/lib/admin";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import { fetchAll, listAllUsers, selectAll } from "@/lib/supabase/fetch-all";
+import { FoundUs } from "./found-us";
 import { FirstCohort, MILESTONES, type CohortEventRow } from "./cohort";
 
 type FeatureRow = { label: string; adopted: number };
@@ -270,6 +271,8 @@ export default async function AdminGrowthPage() {
       </p>
 
       <FirstCohort couples={cohortCouples} events={cohortEvents} />
+
+      <FoundUs testUserIds={new Set((weddings ?? []).filter((w) => w.is_test).map((w) => w.user_id))} />
 
       <div className="mt-8 w-full rounded-lg border border-hairline bg-card p-6 shadow-sm">
         <p className="text-sm font-medium text-ink">Signups by month</p>

@@ -1,5 +1,6 @@
 "use server";
 
+import { withVia } from "@/lib/attribution";
 import { revalidatePath } from "next/cache";
 import { getResendClient, INQUIRY_FROM_ADDRESS, isUndeliverable, UNDELIVERABLE_MESSAGE } from "@/lib/resend";
 import { leadCounts } from "@/lib/listing-leads";
@@ -72,7 +73,7 @@ export async function sendVendorInquiry(formData: FormData): Promise<{ error?: s
   // address the couple typed could be anyone's, and the link would let them
   // take over the listing (docs/legal-audit.md R8).
   const claimUrl =
-    vendorId && listing && !listing.is_sample && listing.contact_email ? await ensureVendorClaimLink(vendorId) : null;
+    vendorId && listing && !listing.is_sample && listing.contact_email ? withVia(await ensureVendorClaimLink(vendorId), "inquiry") : null;
 
   // Log the inquiry before sending, so an email never goes out unrecorded:
   // the per-listing lead count is what we'll show vendors. If the send then
@@ -261,7 +262,7 @@ export async function sendVendorFollowUps(
       const claimUrl =
         inquiry.vendor_id &&
         listingEmails.get(inquiry.vendor_id) === inquiry.recipient_email?.toLowerCase()
-          ? await ensureVendorClaimLink(inquiry.vendor_id)
+          ? withVia(await ensureVendorClaimLink(inquiry.vendor_id), "follow_up")
           : null;
       const { error: sendError } = await resend.emails.send({
         from: INQUIRY_FROM_ADDRESS,

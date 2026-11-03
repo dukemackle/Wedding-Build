@@ -5,6 +5,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { AssistantProvider } from "@/components/assistant-context";
 import { RegisterServiceWorker } from "@/components/register-service-worker";
 import { SkipLink } from "@/components/skip-link";
+import { FirstTouch } from "@/components/first-touch";
 import "./globals.css";
 import { SITE_URL } from "@/lib/public-listings";
 
@@ -60,6 +61,7 @@ export default function RootLayout({
           <SiteFooter />
         </AssistantProvider>
         <RegisterServiceWorker />
+        <FirstTouch />
       </body>
     </html>
   );

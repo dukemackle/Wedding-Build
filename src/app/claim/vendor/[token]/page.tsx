@@ -16,8 +16,15 @@ export const metadata = {
   robots: { index: false, follow: false },
 };
 
-export default async function VendorClaimPage({ params }: { params: Promise<{ token: string }> }) {
+export default async function VendorClaimPage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ token: string }>;
+  searchParams: Promise<{ via?: string }>;
+}) {
   const { token } = await params;
+  const { via } = await searchParams;
   const vendor = await vendorForClaimToken(token);
 
   if (!vendor) {
@@ -123,6 +130,7 @@ export default async function VendorClaimPage({ params }: { params: Promise<{ to
         )}
         <VendorClaimForm
           token={token}
+          via={via ?? null}
           category={vendor.category}
           initial={initial}
           draft={draft}

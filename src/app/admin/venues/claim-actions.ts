@@ -1,5 +1,6 @@
 "use server";
 
+import { withVia } from "@/lib/attribution";
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/admin";
 import { logAdminAction } from "@/lib/admin-audit";
@@ -14,14 +15,14 @@ import { trackEvent } from "@/lib/events";
 /** The venue's claim link, creating one the first time it's asked for. */
 export async function getClaimLink(venueId: string): Promise<{ error?: string; url?: string }> {
   await requireAdmin();
-  const url = await ensureClaimLink(venueId);
+  const url = withVia(await ensureClaimLink(venueId), "admin");
   return url ? { url } : { error: "Couldn't create a link -- try again." };
 }
 
 /** Replaces the link, so the old one stops working -- for a link sent to the wrong person. */
 export async function regenerateClaimLink(venueId: string): Promise<{ error?: string; url?: string }> {
   await requireAdmin();
-  const url = await replaceClaimLink(venueId);
+  const url = withVia(await replaceClaimLink(venueId), "admin");
   if (url) await logAdminAction("venue.claim_link_replace", { type: "venue", ids: [venueId] }, "Replaced a venue's claim link");
   return url ? { url } : { error: "Couldn't create a link -- try again." };
 }
@@ -161,7 +162,7 @@ export async function approveSubmission(submissionId: string): Promise<{ error?:
 
   // The link that brought this claim in has been in inquiry emails anyone
   // could forward. From here on only the approved submitter holds one.
-  const link = await replaceClaimLink(submission.venue_id);
+  const link = withVia(await replaceClaimLink(submission.venue_id), "approved");
   const linkLine = link ? `Your private link for changes from now on (it lasts 90 days; ask for a new one any time at https://youdoido.com/list/edit):\n${link}` : "Ask for your link any time at https://youdoido.com/list/edit";
   await noticeOfContactChange(submission.details.name, live?.contact_email, submission.details.contact_email);
 
