@@ -25,8 +25,8 @@ export function RecentlyApproved({ claims }: { claims: ApprovedClaim[] }) {
   if (claims.length === 0) return null;
   return (
     <section className="mt-10">
-      <h2 className="font-display text-xl font-semibold text-forest">Recently approved</h2>
-      <p className="mt-1 mb-4 text-sm text-ink/60">{claims.length === 1 ? "The last claim you approved." : `The last ${claims.length} claims you approved, newest first.`}</p>
+      <h2 className="font-display text-xl font-semibold text-forest">Approved claims</h2>
+      <p className="mt-1 mb-4 text-sm text-ink/60">{claims.length === 1 ? "The one claim you've approved." : `All ${claims.length} claims you've approved, newest first.`}</p>
 
       {/* Desktop: a table. */}
       <div className="hidden overflow-hidden rounded-lg border border-hairline bg-card shadow-sm md:block">

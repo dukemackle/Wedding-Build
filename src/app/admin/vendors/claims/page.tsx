@@ -21,7 +21,6 @@ export default async function AdminVendorClaimsPage() {
     .select("id, vendor_id, submitter_name, submitter_email, submitter_role, reviewed_at, heard_from, arrived_via, first_touch")
     .eq("status", "approved")
     .order("reviewed_at", { ascending: false })
-    .limit(20)
     .returns<Pick<VendorSubmission, "id" | "vendor_id" | "submitter_name" | "submitter_email" | "submitter_role" | "reviewed_at" | "heard_from" | "arrived_via" | "first_touch">[]>();
 
   const ids = [...new Set([...(submissions ?? []), ...(approved ?? [])].map((s) => s.vendor_id))];
