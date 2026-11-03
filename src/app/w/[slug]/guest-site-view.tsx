@@ -77,7 +77,10 @@ const PARTY_COLUMNS = "id, wedding_id, name, role, photo_url, site_blurb, sort_o
 
 type Supabase = Awaited<ReturnType<typeof createClient>>;
 
-export type GuestSiteContent = Awaited<ReturnType<typeof loadGuestSiteContent>>;
+export type GuestSiteContent = Awaited<ReturnType<typeof loadGuestSiteContent>> & {
+  /** The editor preview's stand-in guests, before anyone has RSVP'd. Never live. */
+  sampleGuests?: boolean;
+};
 
 export async function loadGuestSiteContent(
   supabase: Supabase,
@@ -219,6 +222,7 @@ export function GuestSiteView({
     partyMembers,
     blocks,
     photoCredits,
+    sampleGuests,
   } = content;
   const coupleNames = [wedding.partner_a_name, wedding.partner_b_name].filter(Boolean).join(" & ");
   const shareHref = `/w/${wedding.public_slug}/share`;
@@ -342,7 +346,7 @@ export function GuestSiteView({
     ),
     guests:
       confirmedGuests.length > 0 ? (
-        <GuestWall guests={confirmedGuests ?? []} />
+        <GuestWall guests={confirmedGuests ?? []} sample={sampleGuests} />
       ) : null,
     travel:
       wedding.dress_code || wedding.travel_notes || accommodations.length > 0 ? (

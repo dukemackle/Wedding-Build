@@ -146,6 +146,7 @@ export function SiteEditor({
   contentKey,
   sectionInfo,
   hasPhoto,
+  hasGuests,
   names,
   weddingDate,
   photos,
@@ -168,6 +169,8 @@ export function SiteEditor({
   sectionInfo: Partial<Record<SectionKey, SectionInfo>>;
   /** Hero layouts only show with a banner photo; the Style tab says so. */
   hasPhoto: boolean;
+  /** Whether anyone has RSVP'd yes; until then the preview shows sample guests. */
+  hasGuests: boolean;
   names: [string, string];
   /** For the monogram's date line ("2027-06-12"). */
   weddingDate: string | null;
@@ -552,6 +555,11 @@ export function SiteEditor({
   // Guests' page when they'd see exactly this; otherwise the saved draft in
   // its own tab, which works with the site off too.
   const showsLive = Boolean(publicSlug) && !dirty;
+  // The preview fills empty sections with samples; the address bar says which.
+  const samplesNote = [!hasPhoto && "sample photos until you add yours", !hasGuests && "sample guests until people RSVP"]
+    .filter(Boolean)
+    .join(" · ");
+  const previewAddress = `${publicSlug ? `youdoido.com/w/${publicSlug}` : "Preview — your site is off"}${samplesNote ? ` · ${samplesNote}` : ""}`;
   const openHref = showsLive ? `${origin}/w/${publicSlug}` : `/guests/site/preview?design=${designId}&view=1`;
   const openLabel = showsLive ? "Open live site" : "Open preview";
 
@@ -918,7 +926,7 @@ export function SiteEditor({
             fill={device === "phone"}
             frameRef={frameRef}
             designId={designId}
-            address={`${publicSlug ? `youdoido.com/w/${publicSlug}` : "Preview — your site is off"}${hasPhoto ? "" : " · sample photos until you add yours"}`}
+            address={previewAddress}
             bottomInset={0}
           />
         </section>
@@ -1152,7 +1160,7 @@ export function SiteEditor({
           fill={false}
           frameRef={frameRef}
             designId={designId}
-          address={`${publicSlug ? `youdoido.com/w/${publicSlug}` : "Preview — your site is off"}${hasPhoto ? "" : " · sample photos until you add yours"}`}
+          address={previewAddress}
           bottomInset={0}
         />
       </section>

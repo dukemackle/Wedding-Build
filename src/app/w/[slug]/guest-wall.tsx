@@ -7,11 +7,17 @@ import { SiteText } from "@/components/site-text";
 // waiting seconds to appear -- delay grows per guest up to this ceiling.
 const MAX_STAGGER_MS = 400;
 
-export function GuestWall({ guests }: { guests: PublicConfirmedGuest[] }) {
+export function GuestWall({ guests, sample = false }: { guests: PublicConfirmedGuest[]; sample?: boolean }) {
   if (guests.length === 0) return null;
 
   return (
-    <div className="site-card rounded-lg border border-hairline bg-card p-6 sm:p-10 shadow-sm">
+    <div className="site-card relative rounded-lg border border-hairline bg-card p-6 sm:p-10 shadow-sm">
+      {sample && (
+        // Editor preview only: says these aren't real RSVPs. Guests never see it.
+        <span className="absolute right-4 top-4 rounded-full border border-hairline bg-parchment px-2.5 py-0.5 text-[11px] font-medium uppercase tracking-wide text-ink/60">
+          Sample
+        </span>
+      )}
       <SiteText slot="guests.title" className="font-display text-2xl font-semibold text-forest">
         {guests.length} {guests.length === 1 ? "person is" : "people are"} going
       </SiteText>
