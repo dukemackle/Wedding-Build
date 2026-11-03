@@ -2,6 +2,7 @@ import Link from "next/link";
 import { PendingSubmit } from "@/components/pending-submit";
 import { EmailField } from "@/components/email-field";
 import { signup } from "./actions";
+import { SourceFields } from "./source-fields";
 
 export default async function SignupPage({
   searchParams,
@@ -42,6 +43,7 @@ export default async function SignupPage({
               className="rounded-md border border-hairline bg-parchment px-3 py-2 text-ink outline-none focus:border-forest"
             />
           </label>
+          <SourceFields />
           {/* Marketing consent: separate from the terms notice and unticked
               by default (docs/legal.md). Leaving it empty changes nothing
               about the emails the app needs to send. */}

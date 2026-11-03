@@ -133,6 +133,13 @@ server-side, cookieless, hold no typed content and are disclosed in Privacy
 under "Automatically"; they need no banner. A new event that would carry
 personal data does.)
 
+**Attribution (2026-11-03):** "How did you hear about us?" (optional) on
+signup and claim forms, `?via=` on claim links, and a first-visit note in
+localStorage (referring host, utm tags, landing path, date; no cookie) sent
+only with a signup or claim. Disclosed in Privacy under "Automatically".
+Before EU marketing, the localStorage note needs consent (ePrivacy covers
+device storage, not just cookies) or must be dropped for EU visitors.
+
 **Payments/billing:** Terms need pricing, refunds, auto-renewal disclosure
 (state auto-renewal laws require clear terms and easy cancellation); the
 payment provider handles card data.
