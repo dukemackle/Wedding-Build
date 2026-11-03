@@ -244,6 +244,9 @@ export type Guest = {
   /** Per-event RSVP answers, event id -> coming (0109). */
   event_rsvps: EventAnswers | null;
   /** Their personal RSVP link's code, /w/<slug>/i/<code> (0141). */
+  /** Save-the-date last emailed / first opened from their link (0156). */
+  std_sent_at: string | null;
+  std_opened_at: string | null;
   invite_code: string;
   /** May bring a plus-one; plus_one is whether they are (0141). */
   plus_one_allowed: boolean;
@@ -967,6 +970,9 @@ export type SaveTheDateRow = {
   id: string;
   wedding_id: string;
   doc: unknown;
+  /** The card as a picture for email and link previews (0156), and the updated_at it shows. */
+  image_url: string | null;
+  image_version: string | null;
   created_at: string;
   updated_at: string;
 };
