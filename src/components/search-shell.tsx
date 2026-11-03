@@ -16,7 +16,7 @@ import { FilterLayout } from "@/components/filter-dropdown";
  *   from the bottom, so the two never fight for the same 375px.
  *
  * Both arrangements come out of one tree. Rendering a `hidden lg:flex` desktop
- * branch beside an `lg:hidden` phone one would mount two Leaflet maps and pull
+ * branch beside an `lg:hidden` phone one would mount two maps and pull
  * every tile twice.
  */
 
@@ -370,7 +370,7 @@ export function SearchShell({
           document.body,
         )}
 
-      {/* Over the map rather than instead of it: Leaflet hidden with
+      {/* Over the map rather than instead of it: a map hidden with
           display:none comes back grey, and this way it's where it was. */}
       {fullPage && <div className="absolute inset-0 z-[800] overflow-y-auto bg-parchment">{panel}</div>}
 

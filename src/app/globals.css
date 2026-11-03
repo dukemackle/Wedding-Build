@@ -305,12 +305,58 @@ body::before {
 }
 
 /* The browse screens float their search field and filter chips over the map on
-   a phone, which is exactly where Leaflet puts its zoom buttons. Push the
-   controls clear of that overlay rather than hiding them. */
+   a phone, which is exactly where the zoom buttons sit. Push the controls
+   clear of that overlay rather than hiding them. */
 @media (max-width: 1023px) {
-  .search-shell-map .leaflet-top.leaflet-left {
+  .search-shell-map .maplibregl-ctrl-top-left {
     margin-top: 7rem;
   }
+}
+
+/* Map pins (src/components/clustered-markers.tsx). The outer element is
+   positioned by MapLibre, so the fade and pop go on the inner one. Pins grow
+   in and shrink out as groups split and merge, instead of blinking. */
+.ydid-pin {
+  cursor: pointer;
+}
+.ydid-pin-in {
+  animation: ydid-pin-in 180ms cubic-bezier(0.2, 0.8, 0.3, 1.15) both;
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+.ydid-pin-in.ydid-pin-out {
+  opacity: 0;
+  transform: scale(0.8);
+  pointer-events: none;
+}
+@keyframes ydid-pin-in {
+  from {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ydid-pin-in {
+    animation: none;
+    transition: none;
+  }
+}
+
+/* Map popups: a white card with soft corners, the look the pins open into. */
+.ydid-popup .maplibregl-popup-content {
+  padding: 12px 12px 10px;
+  border-radius: 12px;
+  box-shadow: 0 6px 24px rgba(20, 32, 61, 0.22);
+}
+.ydid-popup .maplibregl-popup-close-button {
+  top: 2px;
+  right: 4px;
+  font-size: 18px;
+  color: rgba(20, 32, 61, 0.55);
+  background: transparent;
+}
+.ydid-map .maplibregl-ctrl-group {
+  border-radius: 10px;
+  box-shadow: 0 1px 6px rgba(20, 32, 61, 0.2);
 }
 
 /* The guest site, in the couple's theme (src/components/guest-site-theme.tsx

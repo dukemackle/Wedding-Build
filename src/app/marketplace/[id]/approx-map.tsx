@@ -1,8 +1,8 @@
 "use client";
 
-import "leaflet/dist/leaflet.css";
-import { Circle, MapContainer } from "react-leaflet";
-import { BaseMapLayer } from "@/components/base-map-layer";
+import { useMemo } from "react";
+import { GlMap } from "@/components/gl-map";
+import { MapShape, circleFeature } from "@/components/map-shape";
 
 /**
  * A circle around the pickup town, never a pin: the listing only knows the
@@ -10,24 +10,10 @@ import { BaseMapLayer } from "@/components/base-map-layer";
  * shows it.
  */
 export function ApproxMap({ latitude, longitude }: { latitude: number; longitude: number }) {
+  const circle = useMemo(() => circleFeature(latitude, longitude, 3000), [latitude, longitude]);
   return (
-    <MapContainer
-      center={[latitude, longitude]}
-      zoom={11}
-      zoomControl={false}
-      dragging={false}
-      scrollWheelZoom={false}
-      doubleClickZoom={false}
-      touchZoom={false}
-      keyboard={false}
-      style={{ height: "100%", width: "100%" }}
-    >
-      <BaseMapLayer />
-      <Circle
-        center={[latitude, longitude]}
-        radius={3000}
-        pathOptions={{ color: "#2243B6", weight: 2, fillColor: "#00BFFE", fillOpacity: 0.15 }}
-      />
-    </MapContainer>
+    <GlMap center={[latitude, longitude]} zoom={10} interactive={false} bounded={false}>
+      <MapShape data={circle} color="#2243B6" weight={2} fillColor="#00BFFE" fillOpacity={0.15} />
+    </GlMap>
   );
 }

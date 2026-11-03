@@ -1,5 +1,4 @@
-import L from "leaflet";
-import { dotIcon } from "@/components/clustered-markers";
+import { dotLook, type PinLook } from "@/components/clustered-markers";
 import { SAVED_ICON } from "@/lib/venue-type-icons";
 
 /**
@@ -9,8 +8,9 @@ import { SAVED_ICON } from "@/lib/venue-type-icons";
  * rather than as anonymous dots, and a couple can tell a barn from a ballroom,
  * or a florist from a DJ, at a glance. A saved listing swaps its icon for a
  * heart. Further out pins group and shrink to rings (see ClusteredMarkers).
+ * The html is drawn in a box `width` wide, anchored at its bottom middle.
  */
-const badgeIcons = new Map<string, L.DivIcon>();
+const badgeLooks = new Map<string, PinLook>();
 
 const PIN_HEIGHT = 30;
 const TAIL = 7;
@@ -28,11 +28,11 @@ export function badgePin({
   active?: boolean;
   saved?: boolean;
   labelled: boolean;
-}) {
-  if (!labelled) return dotIcon(active ? "#2243B6" : saved ? "#E0A100" : "#14203D", active);
+}): PinLook {
+  if (!labelled) return dotLook(active ? "#2243B6" : saved ? "#E0A100" : "#14203D", active);
 
   const key = `${glyph}:${label}:${active}:${saved}`;
-  const cached = badgeIcons.get(key);
+  const cached = badgeLooks.get(key);
   if (cached) return cached;
 
   const background = active ? "#2243B6" : "#14203D";
@@ -40,15 +40,15 @@ export function badgePin({
   // so the tail lands on the spot whatever the font's real digit width.
   const width = label ? 60 + label.length * 9 : 40;
   const height = PIN_HEIGHT + TAIL + 4;
-  const icon = L.divIcon({
-    className: "",
+  const look: PinLook = {
+    key,
     html: `<div style="display:flex;justify-content:center;align-items:flex-end;width:${width}px;height:${height}px;">
       <div style="
         position:relative;display:flex;align-items:center;gap:6px;
         height:${PIN_HEIGHT}px;padding:0 ${label ? 10 : 2}px 0 2px;box-sizing:border-box;margin-bottom:${TAIL}px;
         border-radius:${PIN_HEIGHT / 2}px;background:${background};border:2px solid #fff;
         box-shadow:0 2px 8px rgba(20,32,61,.35);
-        color:#fff;font:700 12.5px ui-sans-serif,system-ui,sans-serif;white-space:nowrap;
+        color:#fff;font:700 12.5px ui-sans-serif,system-ui,sans-serif;white-space:nowrap;cursor:pointer;
         ${active ? "transform:scale(1.12);transform-origin:50% 100%;" : ""}
       ">
         <span style="display:flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:${saved ? "#fff" : "#FFD301"};">
@@ -57,10 +57,9 @@ export function badgePin({
         <span style="position:absolute;left:50%;bottom:-${TAIL + 1}px;margin-left:-6px;border:6px solid transparent;border-bottom:0;border-top:${TAIL}px solid ${background};filter:drop-shadow(0 2px 0 #fff);"></span>
       </div>
     </div>`,
-    iconSize: [width, height],
-    iconAnchor: [width / 2, height],
-    popupAnchor: [0, -height],
-  });
-  badgeIcons.set(key, icon);
-  return icon;
+    anchor: "bottom",
+    popupOffset: height,
+  };
+  badgeLooks.set(key, look);
+  return look;
 }

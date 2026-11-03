@@ -1,7 +1,7 @@
 /**
  * One small line drawing per vendor category, as the inside of a 24x24 SVG
  * drawn with a stroke and no fill -- the vendor twin of venue-type-icons.ts.
- * Strings, because the map pins are Leaflet divIcons, which take HTML; the
+ * Strings, because the map pins are drawn from HTML; the
  * Category menu draws the same strings through <VendorCategoryIcon>, so the
  * menu teaches what the pin on the map means.
  */
