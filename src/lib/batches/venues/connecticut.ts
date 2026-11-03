@@ -218,6 +218,19 @@ Chippanee Country Club	6 Marsh Road	Bristol	Connecticut			Country Club & Golf	In
 LionRock Farm		Sharon	Connecticut			Barn & Farm	Indoor & Outdoor	200			An estate farm in Sharon with barns, gardens and patios for tents that hosts weddings of up to 200 people.	events@lionrockfarm.com		https://www.lionrockfarm.com/events
 Tunxis Country Club	87 Town Farm Road	Farmington	Connecticut			Country Club & Golf	Indoor & Outdoor	300			A golf club with a covered pavilion in a pine grove for spring-through-fall receptions and an indoor Fireside Dining Room.		860-677-1367	https://www.tunxisgolf.com/weddings`,
   },
+  {
+    name: "Connecticut venue depth: northwest hills, shoreline, Hartford suburbs",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+Lost Fox Inn	571 Torrington Road	Litchfield	Connecticut			Hotel & Resort	Indoor & Outdoor	140			Ten-acre inn near Litchfield's green rented as a full weekend buyout, with meals and lodging for up to 34 guests included.	hello@lostfoxinn.com	860-222-0855	https://www.lostfoxinn.com/lostfox-weddings
+The Farm at Carter Hill	86 East Hampton Road	Marlborough	Connecticut			Barn & Farm	Indoor & Outdoor				Sixteen-acre farm with two barns, one dating to 1887, and a renovated pavilion with a patio and bar.	farmatcarterhill@gmail.com	860-480-8052	https://thefarmatcarterhill.com/
+La Bella Vista	380 Farmwood Road	Waterbury	Connecticut			Ballroom	Indoor & Outdoor				Family-owned venue on the Ponte Club grounds with a grand ballroom, cocktail lounge, courtyard and outdoor pavilions.	info@labellavistaweddings.com	(203) 527-4006	https://labellavistaweddings.com/
+Aria Wedding & Banquet Facility	45 Murphy Road	Prospect	Connecticut			Ballroom	Indoor & Outdoor				Banquet facility with an on-site chapel, gazebo, patio and ballroom, so a ceremony and reception can share one property.		203-758-0096	https://ariaweddingsandevents.com/
+Tavern at the Meadows	76 Sadds Mill Road	Ellington	Connecticut			Restaurant & Brewery	Indoor & Outdoor				Restaurant overlooking an 18-hole golf course that sets up a wedding tent for outdoor ceremonies and receptions.	tavernatthemeadows@gmail.com	(860) 870-0158	https://tavernatthemeadows.com/
+The Reign	240 Naugatuck Avenue	Milford	Connecticut			Ballroom	Indoor & Outdoor	200			Event venue with a ballroom seating up to 200, a bridal suite, and an outdoor gazebo and patio for ceremonies and cocktails.		(203) 516-0552	https://www.thereignvenue.info/
+Whispering Oaks	32 Weed Avenue	Norwalk	Connecticut			Hotel & Resort	Indoor & Outdoor	200			Sixty-six-acre conference center and hotel that books one wedding per day, with a ballroom for 200 and lawn and pond-side ceremony spots.		203-852-7300	https://whisperingoaksnorwalk.com/weddings/
+Shuttle Meadow Country Club	51 Randecker Lane	Kensington	Connecticut			Country Club & Golf	Indoor & Outdoor	150			Golf club open to non-members for small and mid-sized weddings, with a fireplace reception room and a terrace over the course.	smccoffice@shuttlemeadowcc.com	860-229-6000	https://www.shuttlemeadowcc.com/intimate-wedding
+Tumble Brook Country Club	376 Simsbury Road	Bloomfield	Connecticut			Country Club & Golf	Indoor & Outdoor				Historic clubhouse with a dance floor, buffet stations, bride and groom suites and an outdoor patio.		860-242-4600	https://www.tumblebrookcc.com/Events/Weddings`,
+  },
 ];
 
 export default batches;
