@@ -319,6 +319,21 @@ Pink Palace Mansion (MoSH)	3050 Central Ave	Memphis	Tennessee			Museum, Gallery 
 Metal Museum on the Bluff		Memphis	Tennessee			Museum, Gallery & Rooftop	Outdoor	800			A museum's bluff-top grounds south of downtown with sweeping Mississippi River views and a paved terrace that can be tented for weddings and receptions.	info@metalmuseum.org	901-774-6380	https://www.metalmuseum.org/rentals
 `,
   },
+  {
+    name: "Tennessee venues: Middle, East and West depth",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+New Southern Hotel	605 S Royal St	Jackson	Tennessee			Ballroom	Indoor	400	3500	Rental	A downtown Jackson event venue in a hotel building with a classic staircase, dark wood accents and arched windows, rented whole with dressing rooms and a catering kitchen.		(731) 554-2079	https://www.hcbdevelopment.com/new-southern
+The Loyston at Copper Top Estates	357 Loyston Point Rd	Andersonville	Tennessee			Mountain & Lodge	Indoor & Outdoor	150			Event venue on 17 acres about two miles from Norris Lake, with Cumberland Mountain views, a climate-controlled indoor ceremony option and lodging through Copper Top Estates.	info@theloyston.com	(865) 500-3949	https://www.theloystonatcoppertop.com/
+White Oaks Weddings & Events	1520 Reagan Mill Road	Maryville	Tennessee			Barn & Farm	Indoor & Outdoor				Barn wedding and event venue in Maryville, a few minutes from Top of the World and the Smokies foothills.	newports@whiteoaksweddingeventcenter.com	865-309-0459	https://www.whiteoaksweddingeventcenter.com/
+The Barn at Havenwood	922 Sam Houston School Rd	Maryville	Tennessee			Barn & Farm	Indoor & Outdoor	75			Small wooded barn venue in the hills outside Maryville, with a bridal suite and packages built around intimate weddings.	TheBarnatHavenwood@gmail.com	865-466-5418	https://www.thebarnathavenwood.com/
+Macedonia Meadows	3960 Pistole Road	Sparta	Tennessee			Barn & Farm	Outdoor	400			Outdoor wedding venue on family property near Cookeville that can host large guest lists.	info@macedoniameadows.com		https://www.macedoniameadows.com/
+Maypop Fields	480 Bailey Drive	New Tazewell	Tennessee			Barn & Farm	Indoor & Outdoor	200			Wedding venue on 33 acres in New Tazewell with a white-washed barn and a front lawn for ceremonies.	maypopfields@gmail.com	423-364-6173	https://maypopfields.com/
+Ruby	2411 Blakemore Ave	Nashville	Tennessee			Chapel & Church	Indoor & Outdoor	175	5800	Rental	A renovated vintage hall near Vanderbilt with a main room, a smaller Ruby Room and two courtyards, priced as a single rental that includes audio, lighting and cleanup.	heythere@dragonpark.co	615-266-6603	https://www.rubynashville.com
+The Barn at Spring Lake Farms	395 N Happy Hollow Rd	Portland	Tennessee			Barn & Farm	Indoor & Outdoor				A family-owned farm venue with a newly built, climate-controlled 14,000-square-foot barn, bride and groom suites, and two outdoor event areas overlooking pasture.		615-625-1355	https://www.thebarnatspringlakefarms.com
+Cactus Creek Barn	1956 Yellow Creek Rd	Dickson	Tennessee			Barn & Farm	Indoor & Outdoor	120			A creekside barn less than an hour from Nashville, with ceremony spots by the creek, under a grove of trees, in front of the barn and on covered pavilions.	info@cactuscreekbarn.com	615-326-0393	https://www.cactuscreekbarn.com
+Ashland City Farms	1686 Carney Winters Road	Ashland City	Tennessee			Barn & Farm	Indoor & Outdoor				A working barn and farm venue where couples pick wedding services a la carte, with farm-grown ingredients in the on-site catering.	ashlandcityfarms@gmail.com	615-299-7997	https://www.ashlandcityfarms.com
+Belle Meade Historic Site	110 Leake Avenue	Nashville	Tennessee			Historic Mansion & Estate	Indoor & Outdoor	200			A 30-acre historic estate with an 1853 Greek Revival mansion, a boxwood garden for ceremonies, a floored tent, and a climate-controlled Carriage House for receptions.	info@visitbellemeade.com	615-356-0501	https://visitbellemeade.com/weddings/`,
+  },
 ];
 
 export default batches;
