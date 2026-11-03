@@ -1,5 +1,6 @@
 "use server";
 
+import { withVia } from "@/lib/attribution";
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/admin";
 import { logAdminAction } from "@/lib/admin-audit";
@@ -16,13 +17,13 @@ import { trackEvent } from "@/lib/events";
 
 export async function getVendorClaimLink(vendorId: string): Promise<{ error?: string; url?: string }> {
   await requireAdmin();
-  const url = await ensureVendorClaimLink(vendorId);
+  const url = withVia(await ensureVendorClaimLink(vendorId), "admin");
   return url ? { url } : { error: "Couldn't create a link -- try again." };
 }
 
 export async function regenerateVendorClaimLink(vendorId: string): Promise<{ error?: string; url?: string }> {
   await requireAdmin();
-  const url = await replaceVendorClaimLink(vendorId);
+  const url = withVia(await replaceVendorClaimLink(vendorId), "admin");
   if (url) await logAdminAction("vendor.claim_link_replace", { type: "vendor", ids: [vendorId] }, "Replaced a vendor's claim link");
   return url ? { url } : { error: "Couldn't create a link -- try again." };
 }
@@ -89,7 +90,7 @@ export async function approveVendorSubmission(submissionId: string): Promise<{ e
 
   // As for venues: the old link has been in forwarded inquiry emails, so the
   // approved submitter gets a fresh one and the old one stops working.
-  const link = await replaceVendorClaimLink(submission.vendor_id);
+  const link = withVia(await replaceVendorClaimLink(submission.vendor_id), "approved");
   const linkLine = link ? `Your private link for changes from now on (it lasts 90 days; ask for a new one any time at https://youdoido.com/list/edit):\n${link}` : "Ask for your link any time at https://youdoido.com/list/edit";
   await noticeOfContactChange(d.name, live?.contact_email, d.contact_email);
 

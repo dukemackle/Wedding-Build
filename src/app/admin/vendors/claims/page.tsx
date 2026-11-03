@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { requireAdmin } from "@/lib/admin";
 import { SITE_URL, vendorHref } from "@/lib/public-listings";
+import { foundUsLines } from "@/lib/attribution";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import { RecentlyApproved, type ApprovedClaim } from "../../_listing/recently-approved";
 import type { Vendor, VendorSubmission } from "@/lib/supabase/types";
@@ -17,11 +18,11 @@ export default async function AdminVendorClaimsPage() {
     .returns<VendorSubmission[]>();
   const { data: approved } = await admin
     .from("vendor_submissions")
-    .select("id, vendor_id, submitter_name, submitter_email, submitter_role, reviewed_at")
+    .select("id, vendor_id, submitter_name, submitter_email, submitter_role, reviewed_at, heard_from, arrived_via, first_touch")
     .eq("status", "approved")
     .order("reviewed_at", { ascending: false })
     .limit(20)
-    .returns<Pick<VendorSubmission, "id" | "vendor_id" | "submitter_name" | "submitter_email" | "submitter_role" | "reviewed_at">[]>();
+    .returns<Pick<VendorSubmission, "id" | "vendor_id" | "submitter_name" | "submitter_email" | "submitter_role" | "reviewed_at" | "heard_from" | "arrived_via" | "first_touch">[]>();
 
   const ids = [...new Set([...(submissions ?? []), ...(approved ?? [])].map((s) => s.vendor_id))];
   const { data: vendors } = ids.length
@@ -40,6 +41,7 @@ export default async function AdminVendorClaimsPage() {
       submitterRole: s.submitter_role,
       submitterEmail: s.submitter_email,
       reviewedAt: s.reviewed_at,
+      foundUs: foundUsLines(s),
     }];
   });
 

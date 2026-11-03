@@ -8,6 +8,8 @@ export type ApprovedClaim = {
   submitterRole: string | null;
   submitterEmail: string;
   reviewedAt: string | null;
+  /** How they found us, already in words (src/lib/attribution.ts). */
+  foundUs: string[];
 };
 
 function shortDate(value: string | null) {
@@ -33,6 +35,7 @@ export function RecentlyApproved({ claims }: { claims: ApprovedClaim[] }) {
             <tr>
               <th className="px-4 py-3 font-medium">Listing</th>
               <th className="px-4 py-3 font-medium">Claimed by</th>
+              <th className="px-4 py-3 font-medium">Found us</th>
               <th className="px-4 py-3 font-medium">Approved</th>
               <th className="px-4 py-3" />
             </tr>
@@ -50,6 +53,9 @@ export function RecentlyApproved({ claims }: { claims: ApprovedClaim[] }) {
                     {c.submitterRole ? <span className="text-ink/60"> · {c.submitterRole}</span> : null}
                   </p>
                   <p className="text-xs text-ink/60">{c.submitterEmail}</p>
+                </td>
+                <td className="px-4 py-3 text-xs text-ink/70">
+                  {c.foundUs.length > 0 ? c.foundUs.map((line) => <p key={line}>{line}</p>) : <span className="text-ink/40">Not recorded</span>}
                 </td>
                 <td className="px-4 py-3 whitespace-nowrap text-ink/70">{shortDate(c.reviewedAt)}</td>
                 <td className="px-4 py-3 text-right whitespace-nowrap">
@@ -80,6 +86,7 @@ export function RecentlyApproved({ claims }: { claims: ApprovedClaim[] }) {
               {c.submitterRole ? <span className="text-ink/60"> · {c.submitterRole}</span> : null}
             </p>
             <p className="break-all text-xs text-ink/60">{c.submitterEmail}</p>
+            {c.foundUs.length > 0 && <p className="mt-2 text-xs text-ink/70">Found us: {c.foundUs.join(" · ")}</p>}
             <div className="mt-3 flex gap-4">
               <a href={c.listingUrl} target="_blank" rel="noopener noreferrer" className="text-[#9a6b00] hover:underline">
                 View listing

@@ -400,6 +400,10 @@ export type VenueSubmission = {
   photo_urls: string[];
   created_at: string;
   reviewed_at: string | null;
+  /** How they found us (0153, src/lib/attribution.ts). */
+  heard_from: string | null;
+  arrived_via: string | null;
+  first_touch: import("@/lib/attribution").FirstTouch | null;
 };
 
 export type VenueFaq = {
@@ -452,6 +456,10 @@ export type VendorSubmission = {
   photo_urls: string[];
   created_at: string;
   reviewed_at: string | null;
+  /** How they found us (0153, src/lib/attribution.ts). */
+  heard_from: string | null;
+  arrived_via: string | null;
+  first_touch: import("@/lib/attribution").FirstTouch | null;
 };
 
 export type Vendor = BusinessFacts & {

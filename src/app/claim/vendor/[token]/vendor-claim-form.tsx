@@ -2,6 +2,7 @@
 
 import type { ListingRead } from "@/lib/ai/listing-reader";
 import { useRef, useState, useTransition } from "react";
+import { BUSINESS_HEARD_FROM, readFirstTouch } from "@/lib/attribution";
 import { LegalNotice } from "@/components/legal-notice";
 import { ClaimDone } from "../../claim-done";
 import { createClient } from "@/lib/supabase/client";
@@ -37,6 +38,7 @@ export function VendorClaimForm({
   submittedAt,
   listing,
   liveHref,
+  via,
 }: {
   token: string;
   category: string | null;
@@ -48,12 +50,15 @@ export function VendorClaimForm({
   /** The vendor's public columns, under the form's details in the preview. */
   listing: Partial<Vendor>;
   liveHref: string | null;
+  /** Which of our links brought them here (`?via=`), saved with the submission. */
+  via: string | null;
 }) {
   const [details, setDetails] = useState<VendorClaimDetails>(initial.details);
   const [amenitiesText, setAmenitiesText] = useState(initial.details.amenities.join(", "));
   const [photos, setPhotos] = useState<string[]>(initial.photoUrls);
   const [faqs, setFaqs] = useState<ClaimFaq[]>(initial.faqs);
   const [submitter, setSubmitter] = useState(initial.submitter);
+  const [heardFrom, setHeardFrom] = useState("");
   const [uploading, setUploading] = useState(0);
   const [photoError, setPhotoError] = useState<string | null>(null);
   const [errors, setErrors] = useState<string[]>([]);
@@ -161,7 +166,7 @@ export function VendorClaimForm({
         faqs,
         photoUrls: photos,
         submitter,
-      }).catch(() => ({ error: "Couldn't reach us just now -- your answers are still here, so try again in a minute." }) as { error?: string; errors?: string[] });
+      }, { heardFrom, via, firstTouch: readFirstTouch() }).catch(() => ({ error: "Couldn't reach us just now -- your answers are still here, so try again in a minute." }) as { error?: string; errors?: string[] });
       if (result.error) setErrors([result.error]);
       else if (result.errors?.length) setErrors(result.errors);
       else {
@@ -461,13 +466,23 @@ export function VendorClaimForm({
               <Field label="Your email">
                 <input type="email" value={submitter.email} onChange={(e) => setSubmitter((s) => ({ ...s, email: e.target.value }))} className={inputClass} required />
               </Field>
-              <Field label="Your role" className="sm:col-span-2">
+              <Field label="Your role">
                 <input
                   value={submitter.role ?? ""}
                   onChange={(e) => setSubmitter((s) => ({ ...s, role: e.target.value || null }))}
                   className={inputClass}
                   placeholder="Owner, lead photographer…"
                 />
+              </Field>
+              <Field label="How did you hear about us? (optional)">
+                <select value={heardFrom} onChange={(e) => setHeardFrom(e.target.value)} className={inputClass}>
+                  <option value="">Choose one</option>
+                  {BUSINESS_HEARD_FROM.map(([value, label]) => (
+                    <option key={value} value={value}>
+                      {label}
+                    </option>
+                  ))}
+                </select>
               </Field>
             </div>
             <label className="mt-4 flex items-start gap-3 text-sm text-ink/80">
