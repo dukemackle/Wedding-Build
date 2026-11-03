@@ -43,6 +43,18 @@ Kinney Azalea Gardens	2391 Kingstown Rd	Kingston	Rhode Island			Garden & Park	Ou
 North Beach Clubhouse	170 Clarke Rd	Narragansett	Rhode Island			Beach & Coast	Indoor & Outdoor			Town-run clubhouse right on Narragansett Beach with panoramic Atlantic views and a wide deck over the sand.	eventscoordinator@narragansettri.gov	401.788.2573	https://www.northbeachclubhouse.com/
 Newport Art Museum	76 Bellevue Ave	Newport	Rhode Island			Museum, Gallery & Rooftop	Indoor & Outdoor	400		Bellevue Avenue art museum offering galleries for dinners and a porch and grounds, which can be tented, for up to 400.	hello@newportartmuseum.org	(401) 848-8200	https://www.newportartmuseum.org/rentals`,
   },
+  {
+    name: "Rhode Island venue depth: Newport, Bristol, Providence, South County",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+Blithewold Mansion, Gardens & Arboretum	101 Ferry Road	Bristol	Rhode Island			Historic Mansion & Estate	Indoor & Outdoor				Waterfront estate with gardens and an arboretum on Narragansett Bay, where ceremonies take place in the North Garden and receptions in a tent on the Great Lawn.	info@blithewold.org	(401) 253-2707	https://www.blithewold.org/weddings
+Bristol Harbor Inn	259 Thames Street	Bristol	Rhode Island			Hotel & Resort	Indoor & Outdoor				Waterfront inn on Thames Street whose wedding spaces include the Waterfront Pavilion, the Bristol Harbor Room and the Diman Room.	info@bristolharborinn.com	401-254-1444	https://www.bristolharborinn.com/weddings
+The Preserve Sporting Club & Resort	1 Preserve Boulevard	Richmond	Rhode Island			Hotel & Resort	Indoor & Outdoor	300			Woodland resort offering a hilltop event barn, a veranda for ceremonies, a main hall and a patio for cocktail hour.		(401) 539-4653	https://www.thepreserveri.com/weddings
+Alpine Country Club	251 Pippin Orchard Road	Cranston	Rhode Island			Country Club & Golf	Indoor & Outdoor	250			Hosts weddings in a chandeliered Grand Ballroom, with indoor ceremonies, seasonal outdoor ceremonies and grounds for photographs.	lbeaupre@alpinecc.com	(401) 943-2670	https://www.alpinecc.com/weddings-events
+Hotel Providence	139 Mathewson Street	Providence	Rhode Island			Hotel & Resort	Indoor & Outdoor	150			Downtown hotel with a ballroom plus an outdoor terrace and courtyard for weddings.		(401) 861-8000	https://www.hotelprovidence.com/weddings-events
+Crystal Lake Golf Club	100 Broncos Highway	Mapleville	Rhode Island			Country Club & Golf	Indoor & Outdoor	225			Golf club offering lakeside gazebo ceremonies and receptions in a renovated waterfront ballroom and adjoining rooms.	events@crystallakegolfclub.com	401-567-4500	https://crystallakegolfclub.com/wedding/
+Wright's Farm Restaurant	84 Inman Road	Harrisville	Rhode Island			Restaurant & Brewery	Indoor & Outdoor				Farm restaurant in Burrillville offering wedding packages with indoor and outdoor ceremony options.		(401) 769-2856	https://www.wrightsfarm.com/weddings-banquets/
+Potowomut Golf Club	439 Ives Road	Warwick	Rhode Island			Country Club & Golf	Indoor & Outdoor				Public golf club whose clubhouse hosts ceremonies and receptions in a private dining room and on a patio overlooking the 18th green.	info@potowomut.com	(401) 885-8700	https://potowomut.com/private-events/`,
+  },
 ];
 
 export default batches;
