@@ -140,6 +140,37 @@ Weezy's Farm & Flower	Florals		Bangor	Maine	Bangor, Brewer, Hampden, Orono and V
 High Tech Events	Music	199 Lakeside Landing Rd	Glenburn	Maine	Bangor, Brewer, Orono, Old Town, Hampden and Central Maine	Glenburn-based wedding DJ and MC service offering lighting and photo booths across Bangor, Brewer, Orono, Old Town and Hampden.		207-949-4727	https://www.hightechmaine.com/dj-service/weddings	
 Fiddleheads & Finery	Planning		Orono	Maine	Orono, Bangor and throughout Maine	Orono planning and coordination business for weddings and events, available throughout Maine and further afield.	gwen@fiddleheadsandfinery.com	(207) 944-9400	https://www.fiddleheadsandfinery.com/	https://www.instagram.com/fiddleheadsandfineryevents/`,
   },
+  {
+    name: "Southern Maine Coast: cake, florals, photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Kristie's Creations	Cake	44 Hennessey Ave	Brunswick	Maine	Brunswick and nearby midcoast and southern Maine	Brunswick bakery making scratch-made custom wedding cakes and wedding cupcakes, with a choice of buttercream frostings and fillings.	MaineCakeCreations@gmail.com	207-274-7699	https://www.kristiescreations.com/	https://www.instagram.com/kristiescreations/		
+Abby Garden Floral Design	Florals	15 Holly St Ste 107-108	Scarborough	Maine	Southern and mid coast Maine, Portland, Boston, Cape Cod and wider New England	Scarborough floral studio creating wedding bouquets, installations and event styling for couples across Maine and New England.	team@abbygarden.com	(207) 613-7066	https://www.abbygarden.com/	https://www.instagram.com/abbygardenfloral/		
+Maine Tinker Photography	Photography		Freeport	Maine	Cumberland, Freeport, Yarmouth, Falmouth, Portland and Cape Elizabeth	Freeport photographer covering weddings, elopements and family sessions along the southern Maine coast, from Cumberland to Cape Elizabeth.	themainetinker@gmail.com	207-400-0603	https://themainetinker.com/		3800	package
+Skillins	Florals		Falmouth	Maine	Southern Maine, from Falmouth, Brunswick and Cumberland	Family florist and garden centre in Falmouth offering full-service wedding flowers, designed to suit each couple's vision and budget.			https://www.skillins.com/			`,
+  },
+  {
+    name: "Portland: photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Amy Wilton Photography	Photography		Portland	Maine	Maine, the US East Coast and destination weddings	Portland photographer shooting fine art, photojournalistic weddings across Maine and the East Coast, with destination work abroad.			https://www.amywiltonphotography.com/			`,
+  },
+  {
+    name: "Midcoast and Bar Harbor: photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Meg Heriot Photography	Photography		Camden	Maine	Midcoast Maine incl. Rockport, Belfast, Bar Harbor; New England	Camden wedding and elopement photographer covering Midcoast Maine, including Rockport, Belfast and Bar Harbor, with travel across New England.			https://www.megheriot.com/	https://www.instagram.com/megheriot/		
+Aquadro Photography	Photography		Bar Harbor	Maine	Bar Harbor, Mount Desert Island and Acadia National Park	Bar Harbor photographers who live on Mount Desert Island year-round and shoot weddings and elopements in and around Acadia National Park.			https://www.aquadrophotography.com/			
+Catherine Hellman Photography	Photography		Camden	Maine	Mid-Coast Maine and Rhode Island	Camden husband-and-wife photography team shooting weddings, engagements, events and portraits in Mid-Coast Maine and Rhode Island.	hcchphoto@aol.com	401-822-4184	https://www.catherinehellman.com/	https://www.instagram.com/catherine_hellman_photography/		`,
+  },
+  {
+    name: "Bangor: central Maine florals, photography, music, catering, cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Honeysuckle Way Flowers	Florals		Gardiner	Maine	Maine and beyond	Gardiner floral studio designing seasonal, locally grown wedding and event flowers across Maine, with a focus on sustainable practice.	andrea@honeysucklewayflowers.com	207-458-9275	https://www.honeysucklewayflowers.com/	https://www.instagram.com/honeysuckleway/		
+Eastern River Farm	Florals	766 Kelley Road	Pittston	Maine		Family-run cut-flower farm in Pittston growing its own blooms for full-service and a la carte wedding floral design.		(978) 766-9570	https://easternriverfarm.com/	https://www.instagram.com/easternriverfarm/		
+LAD Photography	Photography		Farmingdale	Maine	Maine, New Hampshire, Massachusetts and wider New England	Farmingdale wedding photographer shooting vibrant, honest weddings across Maine and New England, with engagement and proposal sessions too.	Lauren@LADPhotography.com	(207) 582-3744	https://www.ladphotography.com/	https://www.instagram.com/ladphotography/		
+Noreast Entertainment	Music		Bradley	Maine	Maine and New England	Bradley-based wedding DJ service with over fifteen years of experience, playing ceremonies and receptions across Maine and New England.		207-745-8011	https://www.noreastentertainment.com/	https://www.instagram.com/noreastentertainment/		
+KnightVision Photography	Photography		Skowhegan	Maine	Central Maine and throughout Maine, no travel fee within 75 miles of Skowhegan	Skowhegan photographer offering hourly wedding coverage across Maine, with no travel fee inside a 75-mile radius of town.		207-431-1668	https://www.knightvisionphoto.com/		250	per hour
+Maine Pine Catering	Catering	22 Town Farm Rd.	Hallowell	Maine	Central and Coastal Maine	Hallowell and Waterville caterer offering full-service wedding packages with customisable menus, bar service and an on-site venue.	events@mainepinecatering.com	(207) 620-1189	https://www.mainepinecatering.com/	https://www.instagram.com/207mainepinecatering/	5000	package
+The Bankery	Cake	87 Water Street	Skowhegan	Maine		Skowhegan bakery on Water Street making wedding cakes, with a wedding cake gallery on its website alongside its sister flower shop.		(207) 474-2253	https://thebankery.com/	https://www.instagram.com/skowheganfleuriste.bankery/		`,
+  },
 ];
 
 export default batches;
