@@ -53,6 +53,7 @@ export const NAV_ITEMS: NavItem[] = [
     links: [
       { href: "/guests", label: "Guest list" },
       { href: "/guests/site", label: "Guest site" },
+      { href: "/guests/save-the-date", label: "Save the date" },
       { href: "/registry", label: "Registry" },
     ],
   },

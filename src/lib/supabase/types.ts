@@ -962,6 +962,15 @@ export type SiteDesignRow = {
   updated_at: string;
 };
 
+/** The couple's save-the-date card (0155); `doc` is a CardDoc, see src/lib/save-the-date. */
+export type SaveTheDateRow = {
+  id: string;
+  wedding_id: string;
+  doc: unknown;
+  created_at: string;
+  updated_at: string;
+};
+
 export type SiteBlock = {
   id: string;
   wedding_id: string;
