@@ -54,6 +54,7 @@ import { TemplatesTab } from "./templates-tab";
 import { templateById } from "@/lib/site-templates";
 import { BackgroundTab, FontsTab, PhotoColoursSection, TargetColourSection, type PickTarget } from "./look-panels";
 import { STALE_DESIGN } from "@/lib/site-designs";
+import { siteDesignSchema } from "@/lib/site-design-schema";
 import { BirdCheer } from "@/components/bird-cheer";
 import { PublicSitePanel, SiteSwitch, useGuestSite } from "../public-site-panel";
 import { MotionTab, PageArtworkSection, PanelLabel, SceneSection, SectionsTab, StyleTab, type SectionInfo } from "./editor-tabs";
@@ -188,6 +189,8 @@ export function SiteEditor({
   const [previewing, setPreviewing] = useState(false);
   const [saveState, setSaveState] = useState<"idle" | "saving" | "error">("idle");
   const [error, setError] = useState<string | null>(null);
+  // Changes brought back from this device after a save that didn't land.
+  const [restored, setRestored] = useState(false);
   const [isPublishing, startPublish] = useTransition();
   // Counts publishes, to key the reveal sweep and the bird so each replays.
   const [launches, setLaunches] = useState(0);
@@ -314,6 +317,28 @@ export function SiteEditor({
     return () => window.removeEventListener("message", onMessage);
   }, [sendDesign]);
 
+  // A change whose save never landed (offline, a crash, a reload mid-save) is
+  // kept on this device and brought back here, unless the design has been
+  // saved from elsewhere since, when the newer one wins.
+  const restoreBackup = useEffectEvent(() => {
+    const backup = readBackup(designId);
+    if (!backup) return;
+    if (backup.version !== version || sameDesign(backup.design, initialDraft)) return dropBackup(designId);
+    apply(backup.design);
+    setRestored(true);
+  });
+  useEffect(() => {
+    const t = setTimeout(restoreBackup, 0);
+    return () => clearTimeout(t);
+  }, []);
+
+  useEffect(() => {
+    if (saveState === "idle") return;
+    const warn = (e: BeforeUnloadEvent) => e.preventDefault();
+    window.addEventListener("beforeunload", warn);
+    return () => window.removeEventListener("beforeunload", warn);
+  }, [saveState]);
+
   const firstContentKey = useRef(contentKey);
   useEffect(() => {
     if (contentKey === firstContentKey.current) return;
@@ -332,6 +357,7 @@ export function SiteEditor({
     sendDesign(next);
     setError(null);
     setSaveState("saving");
+    keepBackup(designId, versionRef.current, next);
     clearTimeout(saveTimer.current);
     // The colour picker fires on every drag step; one save per pause is plenty.
     if (stale) {
@@ -351,12 +377,16 @@ export function SiteEditor({
           setError(result.error);
         } else {
           setSaveState("idle");
+          // A newer change still on its way keeps its copy, now from this version.
+          if (designRef.current === next) dropBackup(designId);
+          else keepBackup(designId, versionRef.current, designRef.current);
         }
       });
     }, 500);
   }
 
   function change(patch: Partial<SiteDesign>) {
+    setRestored(false);
     const now = Date.now();
     // A colour drag or a run of clicks within a moment is one step to undo.
     if (now - lastRecorded.current > 700) {
@@ -525,6 +555,7 @@ export function SiteEditor({
       } else {
         setError(null);
         setSaveState("idle");
+        if (designRef.current === design) dropBackup(designId);
         setPublished(design);
         setIsLive(true);
         // Publishing means guests can see it: a site that's off comes on too.
@@ -537,7 +568,9 @@ export function SiteEditor({
 
   const status = error
     ? error
-    : saveState === "saving"
+    : restored
+      ? "Brought back changes that hadn't saved"
+      : saveState === "saving"
       ? "Saving draft…"
       : !isLive
         ? "Guests see another design"
@@ -1638,4 +1671,31 @@ function PhoneIcon() {
       <path d="M11 18h2" />
     </svg>
   );
+}
+
+/** The last unsaved design on this device, with the version it was edited from. */
+function keepBackup(designId: string, version: string | null, design: SiteDesign) {
+  try {
+    localStorage.setItem(`kept-design:${designId}`, JSON.stringify({ version, design }));
+  } catch {
+    // No storage: saving still works, there's just no copy if it fails.
+  }
+}
+
+function readBackup(designId: string): { version: string | null; design: SiteDesign } | null {
+  try {
+    const raw = JSON.parse(localStorage.getItem(`kept-design:${designId}`) ?? "null");
+    const design = siteDesignSchema.safeParse(raw?.design);
+    return design.success ? { version: raw.version ?? null, design: design.data } : null;
+  } catch {
+    return null;
+  }
+}
+
+function dropBackup(designId: string) {
+  try {
+    localStorage.removeItem(`kept-design:${designId}`);
+  } catch {
+    // Nothing to clear without storage.
+  }
 }

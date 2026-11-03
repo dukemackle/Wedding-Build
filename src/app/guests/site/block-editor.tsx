@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState, useTransition } from "react";
+import { KeptNotice, SAVE_FAILED, useKeptWords } from "@/components/kept-words";
 import type { SiteBlock } from "@/lib/supabase/types";
 import { shrinkImage } from "@/lib/shrink-image";
 import { updateSiteBlock } from "./block-actions";
@@ -14,18 +15,34 @@ const LABEL = "mb-1 block text-sm text-ink";
 export function BlockEditor({ block }: { block: SiteBlock }) {
   const [isPending, startTransition] = useTransition();
   const [message, setMessage] = useState<{ error?: string; saved?: boolean }>({});
+  const { ref: keptRef, keep, done: keptDone, restored: keptRestored } = useKeptWords(`block:${block.id}`);
 
   function save(formData: FormData) {
+    keep();
     startTransition(async () => {
-      const photo = formData.get("photo") as File | null;
-      if (photo && photo.size > 0) formData.set("photo", await shrinkImage(photo));
-      const result = await updateSiteBlock(formData);
-      setMessage(result.error ? { error: result.error } : { saved: true });
+      try {
+        const photo = formData.get("photo") as File | null;
+        if (photo && photo.size > 0) formData.set("photo", await shrinkImage(photo));
+        const result = await updateSiteBlock(formData);
+        if (result.error) return setMessage({ error: result.error });
+        keptDone();
+        setMessage({ saved: true });
+      } catch {
+        // Caught here so the page stays put with the words still in the box,
+        // rather than falling through to the error page.
+        setMessage({ error: SAVE_FAILED });
+      }
     });
   }
 
   return (
-    <form action={save} className="flex flex-col gap-4" onChange={() => setMessage({})}>
+    <form
+      ref={keptRef}
+      action={save}
+      className="flex flex-col gap-4"
+      onChange={() => setMessage({})}
+      onInput={keep}
+    >
       <input type="hidden" name="id" value={block.id} />
       <input type="hidden" name="kind" value={block.kind} />
 
@@ -100,6 +117,7 @@ export function BlockEditor({ block }: { block: SiteBlock }) {
           <textarea
             id={`body-${block.id}`}
             name="body"
+            maxLength={5000}
             defaultValue={block.body ?? ""}
             rows={block.kind === "quote" || block.kind === "link" ? 3 : 7}
             placeholder={
@@ -129,7 +147,9 @@ export function BlockEditor({ block }: { block: SiteBlock }) {
         </div>
       )}
 
-      <div className="flex items-center gap-3">
+      {keptRestored && <KeptNotice />}
+
+      <div className="flex flex-wrap items-center gap-3">
         <button
           type="submit"
           disabled={isPending}
@@ -143,3 +163,4 @@ export function BlockEditor({ block }: { block: SiteBlock }) {
     </form>
   );
 }
+
