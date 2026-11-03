@@ -354,6 +354,85 @@ Crystal Weddings	Cake	221 Jones Road	Duson	Louisiana	Lafayette area	Family-run b
 337 DJ Menace	Music		Lafayette	Louisiana	Lafayette	Lafayette wedding DJ and MC with published packages that include dance floor lights and venue uplighting, plus a band and photo booth option.	337djmenace@gmail.com	337-349-2444	https://www.337djmenace.com	https://www.instagram.com/337djmenace/
 `,
   },
+  {
+    name: "Lake Charles: photography, videography, catering, bar, florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+The Faded Lens	Photography		Lake Charles	Louisiana	Lake Charles and Southwest Louisiana	Documentary-style wedding photography by Dalton Barron, covering Lake Charles weddings and the wider Southwest Louisiana area.	creative@daltonbarron.com		https://thefadedlens.com	https://www.instagram.com/thefadedlens_swla/		
+Alana Mae Photography	Photography		Lake Charles	Louisiana	Lake Charles and Southwest Louisiana	Lake Charles photographer for weddings, newborns and families, with a wedding portfolio that includes outdoor Louisiana ceremonies.			https://www.alanamaephotography.com			
+Blanco Ln Media	Videography		Lake Charles	Louisiana	Southwest Louisiana, Lafayette, New Orleans and Houston	Lake Charles videographer making cinematic wedding highlight films and longer love-story documentaries for couples across Louisiana.			https://www.blancolnmedia.com		2500	package
+BrickHouse Catering & Events	Catering	110 W Pine St	Lake Charles	Louisiana	Lake Charles	Lake Charles caterer that names weddings and receptions as its speciality, with buffet displays and carved fruit on show.		(337) 433-3108	https://brickhousecateringandevents.com			
+Pop & Pour Mobile Bar	Bar		Lake Charles	Louisiana	South Lake Charles area	Mobile bar service based in Lake Charles, taking bookings for weddings and other celebrations around the South Lake Charles area.	info@popandpourla.com		https://www.popandpourla.com	https://www.instagram.com/popandpourla/		
+Wendi's Flower Cart	Florals	3617 Common St	Lake Charles	Louisiana	Lake Charles	Lake Charles florist offering custom wedding flowers, from à la carte pieces to full floral design, with free consultations.		(337) 474-5236	https://www.wendisflowercart.com			
+`,
+  },
+  {
+    name: "Monroe: photography, music, hair & makeup, rentals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Fox Photography	Photography		West Monroe	Louisiana	West Monroe	West Monroe photographer Elaine Fox, whose site has dedicated wedding and bridal galleries alongside her portrait work.			https://efoxphoto.com	https://www.instagram.com/foxer498/		
+Rigmaiden Music Group	Music	108 River Styx Dr	Monroe	Louisiana	Monroe and events across Louisiana	Monroe DJ service playing weddings, birthdays and other parties since 2013, and travelling to events anywhere in Louisiana.	cliftonrigmaiden@yahoo.com	(318) 614-7466	https://www.rigmaidenmusicgroup.com			
+DJ Bosco in the Mix	Music		Monroe	Louisiana	Monroe	Monroe mobile DJ offering wedding entertainment, with sound provided for events across Monroe.	brownshamir17@gmail.com	318-570-8962	https://www.dj-bosco-in-the-mix.com	https://www.instagram.com/Djbosco16/		
+The Mane Suite	Hair & Makeup	101 Parkwest Drive, Suite 3	West Monroe	Louisiana	West Monroe, with on-site wedding styling for a travel fee	West Monroe salon offering bridal hair and makeup, trials and bridal-party styling, with on-site wedding-day visits for a travel fee.		318-884-0424	https://themanesuite.com	https://www.instagram.com/the_mane_suite/		
+Terzia's Rentals	Rentals	1700 E Kentucky Ave	Ruston	Louisiana	North Central Louisiana	Ruston rental company hiring out wedding equipment across North Central Louisiana, with free same-day estimates.		(877) 794-3766	https://www.terzias.com			
+`,
+  },
+  {
+    name: "New Orleans: planning, florals, catering, hair & makeup, cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Mise En Place Events	Planning		Lacombe	Louisiana	Greater New Orleans and the Gulf Coast	Planning studio on the Northshore that organises weddings across the New Orleans area and shows a gallery of featured local celebrations.	christie@southernapproach.com	504-475-3990	https://www.mepweddings.com/	https://www.instagram.com/mepeventsnola/		
+Terry Cambise Wedding & Event Consulting	Planning		New Orleans	Louisiana	New Orleans, Metairie and Covington	Consultancy offering full wedding planning and one-off consultations for couples marrying in New Orleans, Metairie and Covington.	letsplan@terrycambise.com	(504) 259-6815	https://www.terrycambise.com/	https://www.instagram.com/terrycambise/		
+New Orleans Wedding Planners	Planning	2014 Clearview Pkwy	Metairie	Louisiana	Greater New Orleans	Metairie planning company whose packages run from month-of coordination to complete event planning, tailored to each couple.	bethsflorist@gmail.com	(504) 455-2353	https://www.neworleansweddingplannersllc.com/	https://www.instagram.com/neworleansweddingplanners/		
+IRIS floral + event design studio	Florals	3514 Canal Street	New Orleans	Louisiana	New Orleans	Canal Street studio creating signature wedding florals, with couples choosing shape, colour and upgrades from curated collections or going fully custom.	info@irisfloral.com	504.304.4966	https://irisnola.com	https://www.instagram.com/irisnola/		
+Kim Starr Wise Floral Events	Florals	437 Philip St.	New Orleans	Louisiana	New Orleans	New Orleans floral events studio designing wedding flowers alongside social and corporate events from its Philip Street base.	info@kimstarrwise.com	(504) 315-5607	https://kimstarrwise.com	https://www.instagram.com/kimstarrwise/		
+Weathers Flower Market	Florals	550 Old Spanish Trail	Slidell	Louisiana	Slidell, Mandeville, Covington, Lacombe, Pearl River and New Orleans	Slidell florist with a dedicated weddings section covering bridal bouquets and event flowers, delivering across the Northshore and into New Orleans.	info@weathersflowers.com	(985) 646-0444	https://weathersflowers.com/	https://www.instagram.com/weathersflowers/		
+Comfort and Joy Florals	Florals	1952 First Street	Slidell	Louisiana	Slidell, Pearl River, Mandeville and Covington	Old Towne Slidell florist that has designed wedding flowers, including at short notice, for couples across the east Northshore.	comfortandjoyflorals@hotmail.com	985-224-7860	https://comfortandjoyflorals.com/			
+Aroma Catering	Catering	400 E. William David Pkwy.	Metairie	Louisiana	Metairie and New Orleans	Metairie caterer with set Magnolia and Orchid wedding packages and a gallery of past events, also able to arrange venue options.	liz@aromanola.com	504-833-2120	https://www.aromacateringnola.com/			
+Tee's Catering	Catering	280 East Howze Beach Road	Slidell	Louisiana	Greater New Orleans	Slidell caterer and food truck serving Louisiana-style menus with a dedicated wedding service and staff for the celebration.			https://teescatering.com			
+First Class Presentation Catering	Catering		New Orleans	Louisiana	New Orleans	New Orleans caterer with Grand Elegance and Royal Marquis wedding packages, plus raw oyster bars, chocolate fountains and styled buffet presentation.	1stclass1@cox.net	504-872-9398	https://1stclasscateringnola.com			
+Bonanno's Fine Catering	Catering	959 Girod St	Mandeville	Louisiana	Mandeville, Northshore and Baton Rouge	Family caterer with kitchens in Mandeville and Baton Rouge, building customised wedding menus and dessert tables to suit each couple's tastes.	bonannoscatering@gmail.com	985-624-8008	https://bonannos.com	https://www.instagram.com/bonannoscatering/		
+Face By Trace	Hair & Makeup	4300 South I-10 Service Rd West, Suite 207	Metairie	Louisiana	New Orleans and destination weddings	Metairie makeup artist who styles bridal parties of any size, with local and destination weddings and a Southern Bride magazine feature on her site.	tracie@facebytrace.com	504.300.9344	https://www.facebytrace.com/	https://www.instagram.com/facebytrace/		
+Nonna Randazzo's Bakery	Cake	2033 N. Hwy 190, Ste 5	Covington	Louisiana	Covington and Mandeville	Northshore bakery making custom wedding and groom's cakes, with a dessert bar and favours option for receptions.		985-893-1488	https://nonnaskingcakes.com/	https://www.instagram.com/randazzosbakery/		
+Sugar Love Bakery	Cake	1329 Englewood Dr	Slidell	Louisiana	Slidell and the Northshore	Slidell bakery with a dedicated wedding cakes category and a weddings section for ordering tiered cakes.		(985) 265-4146	https://sugarloveslidell.com/	https://www.instagram.com/sugarlove_bakery/		
+`,
+  },
+  {
+    name: "Baton Rouge: planning, catering, hair & makeup, music, photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Melanie Ferguson Events	Planning		Baton Rouge	Louisiana	Baton Rouge, New Orleans and South Louisiana	Coordination specialist for Baton Rouge weddings, offering day-of and partial planning with a lead and assistant coordinator; travel fees apply further out.	melanietamarferguson@gmail.com		https://www.melaniefergusonevents.com/	https://www.instagram.com/melaniefergusonevents/	1400	package
+Complete Weddings + Events	Planning		Baton Rouge	Louisiana	Baton Rouge and New Orleans	Baton Rouge firm that provides wedding day-of coordination alongside DJs and other event services for couples in both cities.		225.769.2229	https://completewedo.com/baton-rouge/day-of-coordination/	https://www.instagram.com/completelouisiana/		
+Catering Cajun	Catering	1625 N Airway Dr	Baton Rouge	Louisiana	Baton Rouge	Baton Rouge caterer offering Cajun and Southern menus with a dedicated weddings and receptions category.	fritz@cateringcajun.com	(225) 761-8404	https://www.cateringcajun.com/			
+Creative Cajun Cooking	Catering	14485 LA-431	St. Amant	Louisiana	Baton Rouge area, Gonzales and Ascension Parish	Cajun caterer near Gonzales with per-person wedding buffet packages (150-guest minimum) and an on-site riverside pavilion for hire.	Jimmy@CreativeCajunCooking.com	(225) 445-1555	https://shop.creativecajuncooking.com/our-venue-menu/	https://www.instagram.com/creativecajuncooking/	39	per person
+Drusilla Place Catering	Catering	3482 Drusilla Ln. Suite D	Baton Rouge	Louisiana	Greater Baton Rouge	Seafood restaurant's catering arm that supplies food and staff for wedding receptions and is approved at the Governor's Mansions and Shaw Center.		(225) 923-0896	https://drusillaplace.com/catering/	https://www.instagram.com/drusillaseafoodbatonrouge/		
+Mai Beauty Bar	Hair & Makeup	12722 Perkins Rd	Baton Rouge	Louisiana	Baton Rouge	Baton Rouge salon offering in-salon and on-site wedding hair and makeup packages, including updos, with free consultations.		(225) 933-6307	https://maibeautybar.com/			
+Rewind Band	Music		Baton Rouge	Louisiana	Baton Rouge, New Orleans and across the South	Nine-piece funk and soul wedding band with a horn section that also offers ceremony music, cocktail sets and second-line brass.		(225) 978-4683	https://rewindbandla.com/welcome	https://www.instagram.com/rewindbandla/		
+The Original Magnolia String Quartet	Music		Baton Rouge	Louisiana	Baton Rouge and surrounding area	String quartet providing ceremony and reception music for Baton Rouge weddings and other celebrations.			https://www.originalmagnoliaquartet.com/	https://www.instagram.com/origmagquartet/		
+South Louisiana Virtuosi	Music		Baton Rouge	Louisiana	Baton Rouge, New Orleans, St. Francisville, Hammond and Mandeville	Electric string quartet playing classical, jazz and pop arrangements for wedding ceremonies and receptions across south Louisiana.	dorelaberthelot@gmail.com		https://weddmusic.com/listen			
+Royal Rouge Photography	Photography	3751 Government St.	Baton Rouge	Louisiana	Baton Rouge	Husband-and-wife studio on Government Street with a Royal Weddings page, also offering videography and 360 booth hire.	contact@royalrougephotography.com		https://www.royalrougephotography.com/	https://www.instagram.com/royalrougephotography/		
+Bayou Rose Photography	Photography		Gonzales	Louisiana	Ascension Parish, Baton Rouge and New Orleans	Gonzales photographer shooting documentary-style weddings and wedding stories across Ascension Parish, Baton Rouge and New Orleans.	bayourosephoto@gmail.com		https://bayourosephoto.com/	https://www.instagram.com/cydley/		
+`,
+  },
+  {
+    name: "Lafayette: videography, planning, hair & makeup, photography, florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Hazey Daze Media	Videography		Lafayette	Louisiana	Lafayette and Louisiana weddings	Lafayette wedding film studio offering highlight films, full ceremony edits and drone footage across eight and ten hour coverage packages.	info@hazeydazemedia.com	(337) 366-1601	https://www.hazeydazemedia.com	https://www.instagram.com/hazeydazemedia/	1750	package
+Tim Hebert Productions	Videography		Lafayette	Louisiana	South Louisiana	Lafayette videographer producing wedding films and wedding trailers for couples across South Louisiana, with a decade or more of experience.			https://www.timhebertproductions.com	https://www.instagram.com/timhebertproductions/		
+Allons Weddings	Planning		Lafayette	Louisiana	Lafayette	Lafayette wedding planning team offering packaged planning and coordination, with a client gallery and couple testimonials on its site.	planner@allonsweddings.com		https://www.allonsweddings.com	https://www.instagram.com/allonsweddings/		
+Perfectly Meched Weddings	Planning		Lafayette	Louisiana	Louisiana	Lafayette wedding planner serving couples across Louisiana, with a journal of local weddings including one at Le Pavillon.			https://www.perfectlymeched.com	https://www.instagram.com/perfectlymechedweddings/		
+The Cut House Salon	Hair & Makeup		Lafayette	Louisiana	Lafayette	Lafayette salon styling brides and bridal parties with hair, makeup and lash application, plus grooming for groomsmen.		(337) 889-3843	https://www.thecuthousesalon.com	https://www.instagram.com/thecuthousesalon/		
+Jayme and Brandon Photography	Photography		Lafayette	Louisiana	Lafayette, Louisiana and worldwide	Lafayette photography duo shooting adventure-style weddings and elopements, with reviews from couples at City Club River Ranch and The Oaks on 22.	jayme@jaymeandbrandon.com	(225) 773-7058	https://jaymeandbrandon.com	https://www.instagram.com/jaymeandbrandon/	5100	package
+Wanda's & Durio's Flowers & Gifts	Florals	2014 S Union Street	Opelousas	Louisiana	Opelousas, Lafayette, Scott, Carencro, Arnaudville, Port Barre, Sunset, Grand Coteau and nearby	Opelousas florist combining two long-running shops, with a weddings and events gallery and wedding packages for St. Landry Parish couples.		(337) 948-3810	https://www.wandasflorist.com			
+WhimsyClo Photo	Photography		Houma	Louisiana	South Louisiana and New Orleans	Houma wedding photographer who travels widely for weddings across South Louisiana, with a dedicated weddings section on its site.	stacie@whimsyclo.com		https://www.whimsyclo.com	https://www.instagram.com/whimsyclo/		
+`,
+  },
+  {
+    name: "Shreveport: hair & makeup, videography, cake, music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Chemistry Hair Salon	Hair & Makeup	220 Carroll St., Suite E	Shreveport	Louisiana	Shreveport and Bossier City	Shreveport and Bossier City salon offering in-salon and on-site bridal hair and makeup, with a wedding portfolio and trial sessions.		(318) 868-1012	https://chemistryhairsalon.com	https://www.instagram.com/chemistryhairsalon/		
+Beauty Foundations by Dana	Hair & Makeup		Bossier City	Louisiana	Shreveport-Bossier, available to travel	Bossier City bridal makeup artist known for natural soft glam, covering the consultation through final touch-ups, including mother of the couple looks.			https://beautyfoundationsbydana.com	https://www.instagram.com/beautyfoundationsbydana/		
+Anointed Media	Videography		Shreveport	Louisiana	Shreveport, Bossier City, Benton and Stonewall	Shreveport videographer who enjoys filming weddings, serving Bossier City, Benton and Stonewall as well as the city itself.		(501) 247-7804	https://www.anointed.media	https://www.instagram.com/anointed.media/		
+Sugar House Desserts	Cake		Shreveport	Louisiana	Shreveport, Bossier City and East Texas	Home bakery in Shreveport specialising in wedding cakes, with delivery and set-up available within 20 miles.	sugarhousedesserts@gmail.com	(318) 268-3607	https://www.shreveportcakes.com	https://www.instagram.com/sugarhousedesserts/		
+The Caravan Band	Music		Shreveport	Louisiana	North Louisiana and the Ark-La-Tex	Event band from Shreveport-Bossier playing weddings and parties across North Louisiana and the Ark-La-Tex.			https://thecaravanband.com			
+`,
+  },
 ];
 
 export default batches;

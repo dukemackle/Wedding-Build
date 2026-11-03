@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore, type MouseEvent, type ReactNode } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore, type MouseEvent, type ReactNode, type RefObject } from "react";
 import { SHOW_SECTION_MESSAGE, useSiteDesign, useTextEditing } from "@/components/guest-site-theme";
 import { blockIdOf, type SectionKey } from "@/lib/site-design";
 import { SectionLayout } from "./section-layout";
@@ -65,7 +65,9 @@ export function SitePages({
     return pages.find((p) => p.id === id) ?? pages.find((p) => p.keys.includes(id as SectionKey)) ?? pages[0];
   }, [hash, pages]);
   const contentRef = useRef<HTMLDivElement>(null);
+  const bodyRef = useRef<HTMLDivElement>(null);
   const moved = useRef(false);
+  const long = useRunsPastScreen(bodyRef, tabs);
 
   // Opening a section in the editor opens its tab in the preview.
   useEffect(() => {
@@ -99,41 +101,92 @@ export function SitePages({
     );
   }
 
-  const index = pages.indexOf(active);
-  const next = pages[index + 1];
-
   return (
     <>
       <SiteBar pages={pages} active={active.id} go={go} title={title} />
       <div ref={contentRef} tabIndex={-1} className="flex flex-1 flex-col outline-none">
-        {active.id === "home" && hero}
-        {active.keys.length > 0 && (
-          <div className={active.id === "home" ? "pt-8" : "pt-8 sm:pt-12"}>
-            <SectionLayout key={active.id} sections={sections} photos={photos} only={active.keys} />
-          </div>
-        )}
-        {pages.length > 1 && (
-          <div className="flex justify-center px-4 pb-16 pt-2">
-            <a
-              href={next ? `#${next.id}` : "#"}
-              onClick={(e) => {
-                e.preventDefault();
-                go(next ? next.id : "home");
-              }}
-              className="btn-motion inline-flex items-center gap-2 rounded-full border border-forest/30 px-5 py-2.5 text-sm font-medium text-forest transition-colors hover:bg-forest/5"
-            >
-              {next ? (
-                <>
-                  Next: {next.label} <span aria-hidden="true">→</span>
-                </>
-              ) : (
-                "Back to home"
-              )}
-            </a>
-          </div>
-        )}
+        <div ref={bodyRef}>
+          {active.id === "home" && hero}
+          {active.keys.length > 0 && (
+            <div className={active.id === "home" ? "pt-8" : "pt-8 sm:pt-12"}>
+              <SectionLayout key={active.id} sections={sections} photos={photos} only={active.keys} />
+            </div>
+          )}
+        </div>
+        {pages.length > 1 && long && <PageLinks pages={pages} active={active.id} go={go} />}
       </div>
     </>
+  );
+}
+
+/**
+ * Whether the page's content ends below the first screen, i.e. the top bar
+ * has scrolled away by the time a guest reaches the end. On a short page
+ * (a venue with no photos, say) the bar is still in view, and the links
+ * repeated under it read as the menu shown twice.
+ */
+function useRunsPastScreen(ref: RefObject<HTMLElement | null>, on: boolean) {
+  const [long, setLong] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!on || !el) return;
+    const check = () => setLong(el.getBoundingClientRect().bottom + window.scrollY > window.innerHeight);
+    check();
+    const observer = new ResizeObserver(check);
+    observer.observe(el);
+    window.addEventListener("resize", check);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", check);
+    };
+  }, [ref, on]);
+  return long;
+}
+
+/**
+ * Every tab again at the foot of a long page, styled like the bar at the top,
+ * so a guest who has read to the bottom can go anywhere without scrolling
+ * back up. All of them show here (no "More"). Computer only: a phone has
+ * the Menu button.
+ */
+function PageLinks({ pages, active, go }: { pages: Page[]; active: string; go: (id: string) => void }) {
+  const rsvp = pages.find((p) => p.id === "rsvp");
+  const links = pages.filter((p) => p !== rsvp);
+  const pick = (id: string) => (e: MouseEvent) => {
+    e.preventDefault();
+    go(id);
+  };
+  return (
+    <nav aria-label="All pages" className="hidden justify-center px-4 pb-16 pt-6 lg:flex">
+      <ul className="flex flex-wrap items-center justify-center gap-1">
+        {links.map((p) => (
+          <li key={p.id}>
+            <a
+              href={p.id === "home" ? "#" : `#${p.id}`}
+              onClick={pick(p.id)}
+              aria-current={active === p.id ? "page" : undefined}
+              className={`relative block whitespace-nowrap rounded-md px-3 py-2 text-[15px] transition-colors after:absolute after:inset-x-3 after:bottom-0.5 after:h-0.5 after:rounded-full after:bg-[var(--site-accent)] after:transition-transform after:duration-200 motion-reduce:after:transition-none ${
+                active === p.id ? "text-forest after:scale-x-100" : "text-ink/70 after:scale-x-0 hover:text-forest"
+              }`}
+            >
+              {p.label}
+            </a>
+          </li>
+        ))}
+        {rsvp && (
+          <li className="ml-3">
+            <a
+              href="#rsvp"
+              onClick={pick("rsvp")}
+              aria-current={active === "rsvp" ? "page" : undefined}
+              className="btn-motion block rounded-full bg-forest px-4 py-1.5 text-sm font-medium text-parchment transition-colors hover:bg-forest/90"
+            >
+              RSVP
+            </a>
+          </li>
+        )}
+      </ul>
+    </nav>
   );
 }
 

@@ -143,7 +143,6 @@ Venue	Hollins House		Santa Cruz	California	Site dead	https://www.hollinshouse.co
 Venue	Camp Campbell		Boulder Creek	California	Site dead	https://www.campcampbell.com	2026-10-10
 Venue	Long Branch Saloon and Farms		Half Moon Bay	California	Site dead	https://www.longbranchsaloon.com	2026-10-10
 Venue	Kientz Hall		San Anselmo	California	Site dead	https://www.kientzhall.com	2026-10-10
-Venue	Leo Carrillo Ranch		Carlsbad	California	Inactive	https://www.leocarrilloranch.org	2026-10-10
 Venue	Colony 29		Palm Springs	California	Site dead	https://colony29.com	2026-10-10
 Venue	The Hacienda Ranch			California	Site dead	https://www.thehaciendaranch.com	2026-10-10
 Venue	Circle Oak Ranch		Fallbrook	California	Site dead	https://circleoakranch.com	2026-10-10
@@ -1311,3 +1310,268 @@ Vendor	The Phở Shop	Catering	San Diego	California	Site blocks automated visits
 Vendor	Thomas Bui Lifestyle	Planning	San Diego	California	Site blocks automated visits, unconfirmed	https://thomasbuilifestyle.com/	2026-10-28
 Vendor	Paper Doll Invitations	Stationery & Invitations	Carlsbad	California	Site blocks automated visits, unconfirmed	https://paperdollinvitations.com/	2026-10-28
 Vendor	Woodland Party Rentals	Rentals	Temecula	California	Site blocks automated visits, unconfirmed	https://woodlandpartyrental.com/	2026-10-28
+Vendor	Hartworks Floral	Florals	San Diego	California	Inactive	https://www.hartworksfloral.com/	2026-10-29
+Vendor	BLOOMS Design House	Florals	Oceanside	California	Inactive	https://bloomsoceansideflorist.com/	2026-10-29
+Vendor	Oceanside Florist Inc.	Florals	Oceanside	California	Site dead	https://www.oceansidefloristinc.com/wedding-flowers	2026-10-29
+Vendor	Ohana Creations Floral Designs & Events	Florals	Oceanside	California	Site dead	https://ohanacreations.com/florist-oceanside-ca	2026-10-29
+Vendor	Petalscape Floral Design	Florals	Escondido	California	Site dead	https://petalscape.com	2026-10-29
+Vendor	Taylor Grace Designs	Florals	Coronado	California	No website	https://taylorgracedesigns.com	2026-10-29
+Vendor	Studio Fiore	Florals	Oceanside	California	No website	https://www.theknot.com/marketplace/studio-fiore-oceanside-ca-538177	2026-10-29
+Vendor	Baked Babe Cakes & Bakes	Cake	San Diego	California	Site dead	https://bakedbabesandiego.com/	2026-10-29
+Vendor	Dulce Bakery	Cake	San Marcos	California	Inactive	https://www.bakerysanmarcos.com/	2026-10-29
+Vendor	San Diego Cakes	Cake	Chula Vista	California	Social only	https://www.facebook.com/sandiegocakesbyolivia/	2026-10-29
+Vendor	Flour Child Baking Company	Desserts	San Diego	California	Social only	https://zola.com/wedding-vendors/wedding-cakes-desserts/flour-child-baking-company	2026-10-29
+Vendor	SusieCakes Carlsbad	Cake	Carlsbad	California	Franchise	https://susiecakes.com/locations/carlsbad	2026-10-29
+Vendor	Silvercloud Trailer Events	Bar	San Diego	California	Franchise	https://www.silvercloudtrailerevents.com/	2026-10-29
+Vendor	Native Tap	Bar	San Diego	California	Site dead	https://nativetap.com	2026-10-29
+Vendor	Events 365 Rentals	Decor & Lighting	San Diego	California	Franchise	https://events365rentals.com/event-rentals-san-diego/	2026-10-29
+Vendor	Vallentyne Photography	Photography	Oceanside	California	Site dead	https://vallentynephotography.com/	2026-10-29
+Vendor	Paige Hill Photography	Photography	San Diego	California	Site dead	https://paigehillphotography.com/	2026-10-29
+Vendor	Alyssa DeGraff Photography	Photography	Escondido	California	Site dead	https://www.alyssadegraff.com/	2026-10-29
+Vendor	Fireside Sparrow Photography	Photography	Escondido	California	Site dead	https://firesidesparrow.com/	2026-10-29
+Vendor	Mr. & Mrs. Wedding Photo & Video	Photography	Escondido	California	Site dead	https://mrandmrsweddingphotoandvideo.com/	2026-10-29
+Vendor	Cook Captures	Videography	Carlsbad	California	No website	https://www.cookcaptures.com/	2026-10-29
+Vendor	Epiphany Events by Melissa	Planning	Chula Vista	California	No website	https://www.theknot.com/marketplace/epiphany-events-chula-vista-ca-280116	2026-10-29
+Vendor	Simply Heavenly Photo Booth	Photo Booth	San Diego	California	Site dead	https://www.simplyheavenlyevents.com/	2026-10-29
+Vendor	Magic Moment Photo Booth	Photo Booth	San Diego	California	Franchise	https://magicmomentphotobooth.com/photo-booth-rental-san-diego/	2026-10-29
+Vendor	Fonteco	Photo Booth	San Diego	California	Franchise	https://fonteco.com/san-diego-photo-booth-rental/	2026-10-29
+Vendor	Hit It Music Productions	Music	San Diego	California	Inactive	https://www.hititmusic.com/	2026-10-29
+Vendor	Mariachi Nueva Tradicion	Music	San Diego	California	Inactive	https://mariachinuevatradicion.com/	2026-10-29
+Vendor	Mariachi Serenata San Diego	Music	San Diego	California	Social only	https://www.mariachiserenatasandiego.com/	2026-10-29
+Vendor	Wheels of Steel Entertainment	Music	Chula Vista	California	No website	https://www.yellowpages.com/downtown-chula-vista-ca/wedding-music-entertainment	2026-10-29
+Vendor	Eugeniya Lomeyko Artistry	Hair & Makeup	San Diego	California	Inactive	https://eugeniyalomeyko.com/	2026-10-29
+Vendor	Kylee Hudson Studio	Hair & Makeup	San Diego	California	Inactive	https://www.kyleehudsonstudio.com/	2026-10-29
+Vendor	Four Things Paper	Stationery & Invitations	San Diego	California	Inactive	https://www.fourthingspaper.com/	2026-10-29
+Vendor	Unveiled Bridal San Diego	Bridal & Formalwear	La Jolla	California	Inactive	https://unveiledbridalsd.com/	2026-10-29
+Vendor	Unveiled Bridal	Bridal & Formalwear	Escondido	California	Closed	https://www.mapquest.com/us/california/unveiled-bridal-374790125	2026-10-29
+Vendor	Oceanside Minibus Company	Transportation	Oceanside	California	Franchise	https://oceansideminibuscompany.com/	2026-10-29
+Vendor	Party Bus Encinitas	Transportation	Encinitas	California	Franchise	https://www.partybusencinitas.com/	2026-10-29
+Vendor	San Diego Events Photography	Photography	San Diego	California	Site blocks automated visits, unconfirmed	https://www.sandiegoeventsphoto.com/	2026-10-29
+Vendor	Liquid Blue	Music	San Diego	California	Site blocks automated visits, unconfirmed	https://liquidblueband.com/	2026-10-29
+Vendor	The Mighty Untouchables	Music	San Diego	California	Site blocks automated visits, unconfirmed	https://themightyuntouchables.com/	2026-10-29
+Vendor	Create-A-Design	Stationery & Invitations	San Diego	California	Site blocks automated visits, unconfirmed	https://createadesign.net/	2026-10-29
+Venue	W Hollywood		West Hollywood	California	Franchise	https://www.marriott.com/en-us/hotels/laxwh-w-hollywood/events/	2026-10-29
+Venue	Hyatt Regency Westlake		Westlake Village	California	Franchise	https://www.hyatt.com/hyatt-regency/en-US/westl-hyatt-regency-westlake/weddings	2026-10-29
+Venue	Cambria Hotel Calabasas		Calabasas	California	Franchise	https://www.cambriacalabasas.com	2026-10-29
+Venue	Hotel Dena		Pasadena	California	Franchise	https://www.hoteldena.com/weddings	2026-10-29
+Venue	Hilton Pasadena		Pasadena	California	Franchise	https://www.hiltonpasadena.com	2026-10-29
+Venue	Hyatt Regency Valencia		Santa Clarita	California	Franchise	https://www.hyatt.com/hyatt-regency/en-US/valen-hyatt-regency-valencia/meetings	2026-10-29
+Venue	Oak Canyon Ranch		Agoura Hills	California	Inactive	https://www.oakcanyonranch.com	2026-10-29
+Venue	57 Windward		Venice	California	Inactive	https://www.57windward.com	2026-10-29
+Venue	The Victorian		Santa Monica	California	Inactive	https://www.thevictorian.com	2026-10-29
+Venue	Gondola Getaway		Long Beach	California	Inactive	https://www.gondolagetawayinc.com	2026-10-29
+Venue	Lake Lindero Country Club		Agoura Hills	California	Site dead		2026-10-29
+Venue	Aztec Hotel		Monrovia	California	Closed	https://www.yelp.com/biz/aztec-hotel-monrovia	2026-10-29
+Venue	Walker House		San Dimas	California	Closed	https://thewalkerhouse.org/wedding/	2026-10-29
+Venue	TAJ-ART Garden		Los Angeles	California	Inactive	https://www.tajartinc.com/gardens	2026-10-29
+Venue	Mack Sennett Studios		Los Angeles	California	Inactive	https://macksennettstudios.net/	2026-10-29
+Venue	Checker Hall		Los Angeles	California	Inactive	https://www.checkerhall.com/	2026-10-29
+Venue	Hudson Loft		Los Angeles	California	Inactive	http://www.hudsonloft.com	2026-10-29
+Venue	Pasadena Convention Center		Pasadena	California	Inactive	https://www.pasadenacenter.com	2026-10-29
+Venue	Phillips Mansion		Pomona	California	Inactive	https://www.pomonahistorical.org/phillips-mansion	2026-10-29
+Venue	The Unique Space		Los Angeles	California	Site dead	https://www.theuniquespace.com	2026-10-29
+Venue	Newhall Refinery		Santa Clarita	California	Closed	https://newhallrefinery.com/	2026-10-29
+Venue	Brand Library & Art Center		Glendale	California	Inactive	https://www.brandlibrary.org/facilities	2026-10-29
+Venue	Rimrock Ranch Estate		Thousand Oaks	California	Inactive	https://www.rimrockranchestate.com/	2026-10-29
+Venue	Malibu Solstice Vineyards		Malibu	California	Inactive	https://www.malibusolsticevineyards.com/	2026-10-29
+Venue	Casa Barranca		Ojai	California	Inactive	https://www.casabarranca.com/	2026-10-29
+Venue	Lakeside Golf Club		Burbank	California	Inactive	https://www.lakesidegolfclub.com/	2026-10-29
+Venue	El Caballero Country Club		Tarzana	California	Inactive	https://www.elcaballerocc.com/	2026-10-29
+Venue	Lanterman House		La Cañada Flintridge	California	Inactive	https://www.lantermanhouse.org/	2026-10-29
+Venue	Gardens of the World		Thousand Oaks	California	Site dead	https://conejovalleyguide.com/dosomethingblog/gardens-of-the-world-thousand-oaks.html	2026-10-29
+Venue	Agua Dulce Winery		Agua Dulce	California	Inactive	https://www.aguadulcewinery.com/	2026-10-29
+Venue	409 Woodbury		Altadena	California	Site dead	https://409woodburyevents.com/weddings	2026-10-29
+Vendor	Maya Gray Photography	Photography	San Diego	California	Site blocks automated visits, unconfirmed	https://www.mayagrayphotography.com	2026-10-29
+Vendor	Jessica Paige Photo Co	Photography	San Diego	California	Site blocks automated visits, unconfirmed	https://www.jessicapaigephoto.com	2026-10-29
+Vendor	Dayanni Kihara Photography	Photography	San Diego	California	Site blocks automated visits, unconfirmed	https://www.dayannikihara.com	2026-10-29
+Vendor	Evelina Lodi Photography	Photography	Carlsbad	California	Site blocks automated visits, unconfirmed	https://evelinaphotography.com	2026-10-29
+Vendor	Pastor My Wedding	Officiant	Temecula	California	Inactive	https://www.pastormywedding.com/	2026-10-29
+Vendor	Mariachi Fuego San Diego	Music	San Diego	California	Site dead	https://mariachifuegosandiego.com/	2026-10-29
+Vendor	Old Town Trolley Tours San Diego	Transportation	San Diego	California	Franchise	https://www.trolleytours.com/san-diego/wedding-transportation	2026-10-29
+Vendor	Rock Me Up Bridal Services	Hair & Makeup	Temecula	California	Inactive	https://rockmeup.com/temecula-wedding-hair-and-makeup/	2026-10-29
+Vendor	WeddingLivestreams	Videography	San Diego	California	Site blocks automated visits, unconfirmed	https://weddinglivestreams.com	2026-10-29
+Vendor	Tom's Smokin' Hot BBQ Pitstop	Catering	Temecula	California	Site blocks automated visits, unconfirmed	https://tomsbbqpitstop.com/temecula-bbq-catering/	2026-10-29
+Vendor	Bevvy Bike	Bar	San Diego	California	Site blocks automated visits, unconfirmed	https://www.bevvybikesd.com/carlsbad-mobile-bar/	2026-10-29
+Venue	Pickwick Gardens		Burbank	California	Site dead	https://www.pickwickgardens.com	2026-10-29
+Venue	Hollywood Athletic Club		Los Angeles	California	Site dead	https://www.hollywoodathleticclub.com	2026-10-29
+Venue	Wattles Mansion and Gardens		Los Angeles	California	Inactive	https://www.bitecatering.net/venues/wattles-mansion	2026-10-29
+Venue	Bella Vista Groves		Fillmore	California	Site dead	https://www.bellavistagroves.com/	2026-10-29
+Venue	Grass Room		Studio City	California	No website	https://www.zola.com/wedding-vendors/search/studio-city-ca--wedding-venues--parks-gardens	2026-10-29
+Venue	The Palmery on Sunset Blvd		Beverly Hills	California	No website	https://zola.com/wedding-vendors/wedding-venues/the-palmery-on-sunset-blvd	2026-10-29
+Venue	Kollab LA		Los Angeles	California	Site dead	https://www.kollabla.com	2026-10-29
+Venue	Olivia Event Venue		Burbank	California	Site dead	https://www.olivia-venue.com	2026-10-29
+Venue	Outset Events		West Hollywood	California	Site dead	https://www.outsetevents.com	2026-10-29
+Venue	Via Verde Country Club		San Dimas	California	Site dead	https://www.viaverdecc.com	2026-10-29
+Venue	Crystal Cove Beach Venue		Redondo Beach	California	No website		2026-10-29
+Venue	Neptunian Woman's Club		Manhattan Beach	California	Site dead		2026-10-29
+Vendor	MKEshoots Photography	Photography	Los Angeles	California	Site dead	https://mkeshoots.com/	2026-10-29
+Vendor	Stephanie Ip Photography	Photography	Torrance	California	Site dead	https://photography.stephanieip.com/	2026-10-29
+Vendor	Opus Event Rentals	Rentals	South El Monte	California	Site dead	https://opusrentals.com/	2026-10-29
+Vendor	Bake Shop by Nikoleta	Cake	Santa Clarita	California	Site dead	https://bakeshopbynikoleta.com/	2026-10-29
+Vendor	A Piece of Cake by Pavani	Cake	Santa Clarita	California	Site dead	https://apieceofcakebypavani.com/	2026-10-29
+Venue	Palm Sophia		Culver City	California	Inactive	https://palmsophia.com/	2026-10-29
+Venue	Gaucho Beach		Long Beach	California	Inactive	https://www.gauchobeach.com/banquets	2026-10-29
+Venue	Hotel Shangri-La		Santa Monica	California	Site dead	https://hotelshangrila.com/	2026-10-29
+Venue	Warner Grand Theatre		San Pedro	California	Site dead	https://www.warnergrandtheatre.org/	2026-10-29
+Venue	Celebrity Hall		Inglewood	California	No website	https://www.weddingwire.com/biz/celebrity-hall-inglewood/80e316ff067f9246.html	2026-10-29
+Venue	Pacific View Tower by Wedgewood		Oxnard	California	Site dead	https://www.herecomestheguide.com/wedding-venues/southern-california/pacific-view-tower-by-wedgewood-weddings	2026-10-29
+Venue	Palomino		Ventura	California	No website	https://www.theknot.com/marketplace/palomino-ventura-ca-2100955	2026-10-29
+Venue	Front Street Banquet Venue		Norwalk	California	No website	https://www.eventective.com/norwalk-ca/	2026-10-29
+Venue	The Villa Sophia		Los Feliz	California	Site dead	https://www.thevillasophia.com	2026-10-29
+Venue	The Hollywood Museum		Hollywood	California	Site dead	https://www.hollywoodmuseum.com	2026-10-29
+Venue	Nineteen27		Pasadena	California	No website	https://www.nineteen27.com	2026-10-29
+Venue	Peace Cottage		Duarte	California	No website	https://zola.com/wedding-vendors/wedding-venues/peace-cottage	2026-10-29
+Venue	Jasmina Tea Garden		Simi Valley	California	No website	https://www.weddingwire.com/biz/jasmina-tea-garden/62bfa3be9c326d5e.html	2026-10-29
+Venue	AJ Venue		Encino	California	No website	https://www.tagvenue.com/us/venues/los-angeles/59868/aj-venue	2026-10-29
+Venue	The Enchanted Manor		Valley Village	California	Site dead	https://zola.com/wedding-vendors/wedding-venues/the-enchanted-manor	2026-10-29
+Venue	La Bella Vita Event Space		Canoga Park	California	No website	https://www.eventective.com/canoga-park-ca/la-bella-vita-event-space-802201.html	2026-10-29
+Venue	Bee Green Garden		Porter Ranch	California	No website	https://eventective.com/porter-ranch-ca/bee-green-garden-770772.html	2026-10-29
+Venue	Rancho Camulos		Piru	California	Inactive	https://www.ranchocamulos.org	2026-10-29
+Venue	Little Light Venue		Studio City	California	No website	https://www.littlelightvenue.com	2026-10-29
+Vendor	The Taco Guy Catering	Catering	Pasadena	California	Site blocks automated visits, unconfirmed	https://www.thetacoguycatering.com	2026-10-29
+Vendor	DJ Sevag	Music	Glendale	California	Site blocks automated visits, unconfirmed	https://djsevag.com	2026-10-29
+Vendor	Rose City Beauty On Call	Hair & Makeup	Pasadena	California	Site blocks automated visits, unconfirmed	https://pasadenabeautyoncall.com	2026-10-29
+Vendor	MBS Makeup	Hair & Makeup	Sherman Oaks	California	Site blocks automated visits, unconfirmed	https://mbsmakeup.com	2026-10-29
+Vendor	Sip Social South Bay	Bar	Torrance	California	Franchise	https://www.sipsocialco.com/south-bay/	2026-10-30
+Vendor	Castle Catering	Catering	Pasadena	California	Site dead	https://castlecatering.net/	2026-10-30
+Vendor	Michael Anthony Photography	Photography	Valencia	California	Inactive	https://www.michaelanthonyphotography.com/santa-clarita-weddings	2026-10-30
+Vendor	Name	Category	City	State	Reason	Link	2026-10-30
+LUV Bridal Los Angeles	LUV Bridal Los Angeles	Bridal & Formalwear	Los Angeles	California	Franchise	https://la.luvbridal.com/	2026-10-30
+Luxe Booth	Luxe Booth	Photo Booth	Los Angeles	California	Franchise	https://www.luxebooth.com/	2026-10-30
+Petite Pix	Petite Pix	Photo Booth	Los Angeles	California	Inactive	https://petitepix.com/	2026-10-30
+Color And Creation	Color And Creation	Stationery & Invitations	Los Angeles	California	Site dead	https://colorandcreation.com/	2026-10-30
+Vendor	MTB Event Rentals	Rentals	Los Angeles	California	Site dead	https://mtbeventrentals.com	2026-10-30
+Vendor	Bloomies Florist	Florals	Santa Clarita	California	Site blocks automated visits, unconfirmed	https://bloomiesflorist.net	2026-10-30
+Vendor	J. David's Custom Clothiers	Bridal & Formalwear	Santa Clarita	California	Site blocks automated visits, unconfirmed	https://www.jdavids.com	2026-10-30
+Vendor	Riz Transportation	Transportation	Woodland Hills	California	Site blocks automated visits, unconfirmed	https://riztransportation.com	2026-10-30
+Vendor	The Park's Finest	Catering	Los Angeles	California	Site blocks automated visits, unconfirmed	https://theparksfinest.com	2026-10-30
+Vendor	Parlani Party Rentals	Rentals	Los Angeles	California	Site blocks automated visits, unconfirmed	https://parlanipartyrentals.com	2026-10-30
+Vendor	Gogo's Tacos	Catering	Los Angeles	California	Site blocks automated visits, unconfirmed	https://www.theknot.com/marketplace/gogos-tacos-los-angeles-ca-2067820	2026-10-30
+Vendor	Joselito's	Catering	Los Angeles	California	Site blocks automated visits, unconfirmed	https://www.joselitos.com/catering-and-parties	2026-10-30
+Vendor	Traction Press	Stationery & Invitations	Los Angeles	California	Site blocks automated visits, unconfirmed	https://tractionpress.com	2026-10-30
+Vendor	Alex Hernandez Photography	Photography	Los Angeles	California	Site blocks automated visits, unconfirmed	https://www.alexhernandezphotography.com	2026-10-30
+Vendor	Jacobo Ventura Photography	Photography	Los Angeles	California	Site blocks automated visits, unconfirmed	https://www.jacoboventuraphotography.com	2026-10-30
+Vendor	My Taco Guy	Catering	South Gate	California	Site dead	https://www.weddingwire.com/biz/my-taco-guy-los-angeles/92bf2df6605d29cf.html	2026-10-30
+Vendor	Making the Brides	Hair & Makeup	Studio City	California	Site dead	https://www.theknot.com/marketplace/making-the-brides-studio-city-ca-2035610	2026-10-30
+Vendor	Officiant Eric	Officiant	Malibu	California	Inactive	https://officianteric.com	2026-10-30
+Vendor	Messob Ethiopian Restaurant	Catering	Los Angeles	California	Inactive	https://messobla.com/catering	2026-10-30
+Vendor	Illusion Bridal	Bridal & Formalwear	Whittier	California	Social only	https://www.facebook.com/illusionbridal/	2026-10-30
+Vendor	Island Blooms Floral	Florals	Avalon	California	No website	https://lovecatalina.com/weddings/services/florists/	2026-10-30
+Vendor	Weddings By The Sea	Planning	Avalon	California	No website	https://lovecatalina.com/listing/weddings-by-the-sea/85/	2026-10-30
+Vendor	Rep Photography	Photography	Lancaster	California	Social only	https://facebook.com/repphotography	2026-10-30
+Vendor	Bang Bang Noodles	Catering	Los Angeles	California	Site blocks automated visits, unconfirmed	https://bangbangnoodlesla.com/catering	2026-10-30
+Vendor	Corazón Photography	Photography	Los Angeles	California	Site blocks automated visits, unconfirmed	https://www.corazonphotography.net/	2026-10-30
+Vendor	Flower Duet	Florals	Torrance	California	Site blocks automated visits, unconfirmed	https://flowerduet.com/	2026-10-30
+Vendor	Lights Up Today	Decor & Lighting	Manhattan Beach	California	Site blocks automated visits, unconfirmed	https://lightsuptoday.com/	2026-10-30
+Vendor	Rev. Peter Otto	Officiant	Los Angeles	California	Site blocks automated visits, unconfirmed	https://www.officiantpeter.com/	2026-10-30
+Vendor	Taqueria Los Anaya	Catering	Los Angeles	California	Site blocks automated visits, unconfirmed	https://taquerialosanaya.com/catering	2026-10-30
+Vendor	Kept Record	Photography	Los Angeles	California	Inactive	https://www.keptrecord.com/los-angeles-wedding-photographer	2026-10-30
+Vendor	Jessica Lynn Weddings	Planning	Los Angeles	California	Closed	https://www.jessicalynnweddings.com/	2026-10-30
+Vendor	Hanamate Floral Studio	Florals	Alhambra	California	No website	https://www.theknot.com/marketplace/hanamate-florist-alhambra-ca-2084124	2026-10-30
+Vendor	Fanny's Flowers	Florals	Temple City	California	No website	https://www.theknot.com/marketplace/fannys-flowers-temple-city-ca-432343	2026-10-30
+Vendor	Beauty Studio Inc.	Hair & Makeup	Los Angeles	California	Franchise	https://www.beautystudioinc.com/weddings-los-angeles	2026-10-30
+Vendor	Waves Orchestra	Music	Los Angeles	California	Site dead	http://www.wavesorchestra.com/	2026-10-30
+Vendor	Hollywood Classic Cars	Transportation	Los Angeles	California	Site dead	https://www.hollywoodclassiccars.com/	2026-10-30
+Vendor	Dragon Catering	Catering	Los Angeles	California	Site blocks automated visits, unconfirmed	https://www.dragoncatering.com/	2026-10-30
+Vendor	DJ Shahar & Co	Music	Los Angeles	California	Site blocks automated visits, unconfirmed	https://www.djshahar.com/	2026-10-30
+Vendor	Takes the Cake	Cake	Pasadena	California	Inactive	https://takesthecake.com/	2026-10-31
+Vendor	Malibu Catering	Catering	Malibu	California	Inactive	https://malibucatering.com	2026-10-31
+Vendor	Rock Me Up Bridal	Hair & Makeup	Pasadena	California	Inactive	https://rockmeup.com/pasadena-wedding-hair-makeup/	2026-10-31
+Vendor	Tuxedo Junction & Suit Warehouse	Bridal & Formalwear	Burbank	California	Franchise	https://tuxedojunctionla.com/	2026-10-31
+Vendor	Sugar Paper	Stationery & Invitations	Santa Monica	California	Franchise	https://www.sugarpaper.com	2026-10-31
+Vendor	Wedded Details	Planning	Los Angeles	California	Franchise	https://www.weddedetails.com	2026-10-31
+Vendor	Bella Rosa Gardens	Florals	Altadena	California	Site dead	https://bellarosagardens.com	2026-10-31
+Vendor	Sippin Oasis	Bar	Gardena	California	Site dead	https://sippinoasis.com	2026-10-31
+Vendor	Taquito Y Mas	Catering	North Hills	California	Site dead	https://taquitoymas.com	2026-10-31
+Vendor	Archive Rentals	Rentals	Los Angeles	California	Site blocks automated visits, unconfirmed	https://archiverentals.com	2026-10-31
+Vendor	Found Rentals	Rentals	Los Angeles	California	Site blocks automated visits, unconfirmed	https://foundrentals.com	2026-10-31
+Vendor	Jason Sulkin Music	Music	Los Angeles	California	Site blocks automated visits, unconfirmed	https://www.jasonsulkinmusic.com/	2026-10-31
+Vendor	Opus Event Rentals	Decor & Lighting	South El Monte	California	Site blocks automated visits, unconfirmed	https://www.opusrentals.com/lighting-and-decor-rental/	2026-10-31
+Vendor	Cake Queen LA	Cake	Los Angeles	California	No wedding page	https://cakequeenla.com	2026-10-31
+Vendor	LA Event Lights	Decor & Lighting	Los Angeles	California	No wedding page	https://www.laeventlights.com/	2026-10-31
+Vendor	Lighting Rentals Los Angeles	Decor & Lighting	Los Angeles	California	No wedding page	https://lightingrentalslosangeles.com/	2026-10-31
+Vendor	Cynthia Angelina	Hair & Makeup	Los Angeles	California	No wedding page	https://cynthiaangelina.com/	2026-10-31
+Vendor	Coté and Camera	Photography	Altadena	California	Social only	https://coteandcamera.com	2026-10-31
+Vendor	JPR Weddings	Officiant	Los Angeles	California	Site blocks automated visits, unconfirmed	https://jprweddings.com/	2026-10-31
+Vendor	Leo Perez Media	Photography	Los Angeles	California	Site blocks automated visits, unconfirmed	https://leoperezmedia.com/	2026-10-31
+Vendor	Riz Transportation	Transportation	Woodland Hills	California	Site blocks automated visits, unconfirmed	https://riztransportation.com/	2026-10-31
+Vendor	Lin & Jirsa	Photography	Los Angeles	California	Site dead	https://www.linandjirsa.com/	2026-10-31
+Vendor	Francis Cinema	Photography	Pasadena	California	Site dead	https://www.franciscinema.com/	2026-10-31
+Vendor	D. Smith Images	Photography	Pasadena	California	Site dead	https://dsmithimages.com/pasadena-wedding-photographer/	2026-10-31
+Vendor	I Do Drive Thru USA	Officiant	Los Angeles	California	Franchise	https://www.idodrivethru.us/los-angeles	2026-10-31
+Vendor	Events by Hana	Planning	Los Angeles	California	Site dead	https://www.eventsbyhana.com/	2026-10-31
+Vendor	Rabbi Michael Mayersohn	Officiant	Los Angeles	California	Inactive	http://www.losangelesweddingrabbi.com/	2026-10-31
+Vendor	Long Beach Trolley	Transportation	Long Beach	California	Site dead	https://www.longbeachtrolley.com	2026-10-31
+Vendor	Creative Letterpress	Stationery & Invitations	Burbank	California	Site dead	https://creativeletterpress.com	2026-10-31
+Vendor	Emily Devitt Designs	Stationery & Invitations	Pasadena	California	Site dead	https://www.emilydevittdesigns.com	2026-10-31
+Vendor	Provenance Rentals	Rentals	Gardena	California	Site dead	https://provenancerentals.com	2026-10-31
+Vendor	South Bay Beach Beauty	Hair & Makeup	Hermosa Beach	California	Site dead	https://southbaybeachbeauty.com	2026-10-31
+Vendor	Groom Studio	Bridal & Formalwear	Los Angeles	California	Site dead	https://www.groomstudio.com	2026-10-31
+Vendor	Twist Bartending Service	Bar	Malibu	California	Franchise	https://twistbartendingservice.com/mobile-bartenders-in-malibu-california/	2026-10-31
+Vendor	Twigzz Design Studio	Florals	Pasadena	California	Site dead	http://www.twigzzdesignstudio.com/	2026-10-31
+Vendor	Sebas Flowers	Florals	Los Angeles	California	Site dead	https://sebasflowers.com/	2026-10-31
+Vendor	Some Crust Bakery	Cake	Claremont	California	Site dead	https://somecrustbakery.com/	2026-10-31
+Vendor	Cake Girl	Cake	Los Angeles	California	Site dead	https://cakegirl.la	2026-10-31
+Vendor	Honey & Poppies	Florals	Long Beach	California	Site dead	https://www.honeyandpoppies.com	2026-10-31
+Vendor	Tasteofchelo	Catering	Los Angeles	California	Site dead	https://www.tasteofchelo.com/catering	2026-10-31
+Vendor	Lukas Piatek Photography	Photography	Malibu	California	Site dead	https://lukaspiatek.com/	2026-10-31
+Vendor	Corazon Photography	Photography	Los Angeles	California	Site dead	https://www.corazonphotography.net/	2026-10-31
+Vendor	Primo Prints	Photo Booth	Long Beach	California	Site dead	https://www.primoprints.photos/	2026-10-31
+Vendor	HILO Productions	Music	Torrance	California	Site dead	https://www.hiloproductions.com	2026-10-31
+Vendor	Angeluck Flowers	Florals	Torrance	California	Site dead	http://angeluck.com/	2026-10-31
+Vendor	Domi	Cake	Temple City	California	Site dead	https://www.eatdomi.com/	2026-10-31
+Vendor	Mike Yoon Photo	Photography	Torrance	California	Site dead	https://www.mikeyoonphoto.com/	2026-10-31
+Vendor	Stems Floral Design	Florals	Palos Verdes Estates	California	Site dead	http://stemsbykate.com/	2026-10-31
+Vendor	Rolling Hills Flower Mart	Florals	Redondo Beach	California	Site dead	https://rollinghillsflowermart.com/	2026-10-31
+Vendor	Cotton Love Studios	Videography	Pasadena	California	Inactive	http://www.cottonlovestudios.com/	2026-10-31
+Vendor	Mitsuko Floral	Florals	Torrance	California	No website	https://www.yelp.com/biz/mitsuko-floral-torrance	2026-10-31
+Vendor	Beauty By Euni	Hair & Makeup	Los Angeles	California	No website	https://www.theknot.com/marketplace/beauty-by-euni-los-angeles-ca-2041295	2026-10-31
+Vendor	Christy Yoo Artistry	Hair & Makeup	Glendale	California	No website	https://www.weddingwire.com/biz/christy-yoo-artistry/5151bf4528300d1b.html	2026-10-31
+Vendor	Organic String Quartet	Music	Los Angeles	California	No website	https://www.theknot.com/marketplace/organic-string-quartet-los-angeles-ca-375575	2026-10-31
+Vendor	Hello Photobooth LA	Photo Booth	Inglewood	California	No website	https://www.theknot.com/marketplace/hello-photobooth-la-inglewood-ca-2074954	2026-10-31
+Vendor	Glow by Mayra	Hair & Makeup	Los Angeles	California	Site dead	https://www.glowinbeautyla.com/	2026-10-31
+Vendor	Cakery Bakery	Cake	La Cañada Flintridge	California	Site dead	https://www.cakerybakery.com/	2026-10-31
+Vendor	Faulks Floral Co	Florals	Topanga	California	No website	https://www.zola.com/wedding-vendors/wedding-florists/faulks-floral-co	2026-10-31
+Vendor	The Wild Rose	Florals	Lancaster	California	No website	https://weddingwire.com/biz/the-wild-rose-lancaster/ddb7860da773f06e.html	2026-10-31
+Vendor	Renee Bowen Photography	Photography	Newhall	California	No wedding page	https://reneebowen.com/	2026-10-31
+Vendor	Hairclub20	Hair & Makeup	San Gabriel	California	Inactive	https://www.hairclub20.com/makeup-services	2026-11-02
+Vendor	Mitch Darnell	Officiant	Pasadena	California	Inactive	https://www.foreverinspired.net/wedding-officiant-pasadena-californ	2026-11-02
+Vendor	MCM Entertainment	Music	Los Angeles	California	Inactive	https://www.marcysk.com/	2026-11-02
+Vendor	Mariachi Espectacular	Music	Pomona	California	Social only	https://www.facebook.com/espectacularmariachi/	2026-11-02
+Vendor	Aleksandra Ivanova Makeup & Hair	Hair & Makeup	Pasadena	California	No website	https://www.theknot.com/marketplace/aleksandra-ivanova-makeup-and-hair-pasadena-ca-2099057	2026-11-02
+Vendor	Barry Lamster Entertainment	Music	Santa Clarita	California	Inactive	https://www.barrylamster.com/musical-services/wedding-event-dj/	2026-11-02
+Vendor	Dean Merrill Weddings	Officiant	Westlake Village	California	Inactive	https://dmerrillweddings.com/wedding-officiant-westlake-village-ca/	2026-11-02
+Vendor	Aunt Joy's Cakes	Cake	Burbank	California	Closed	https://www.auntjoyscakes.com/	2026-11-02
+Vendor	Chain of Events	Planning	Los Angeles	California	Inactive	https://www.achainofevents.com/	2026-11-02
+Vendor	Brenna's Blushing Events	Planning	Agoura Hills	California	No website	https://www.weddingwire.com/biz/brennas-blushing-events-agoura-hills/adcd0d86a6c809ee.html	2026-11-02
+Vendor	Pavan Floral	Florals	Agoura Hills	California	No website	https://www.theknot.com/marketplace/pavan-floral-agoura-hills-ca-865456	2026-11-02
+Vendor	Hun Events	Planning	Studio City	California	No website	https://www.zola.com/wedding-vendors/wedding-planners/hun-events	2026-11-02
+Vendor	Oh Snap Entertainment	Photo Booth	Malibu	California	No website	https://zola.com/wedding-vendors/search/malibu-ca--wedding-extras	2026-11-02
+Vendor	Pablito the bARTender	Bar	Los Angeles	California	No website	https://www.borrowedandblue.com/wedding-vendors/wedding-bar-services/pablito-the-bartender	2026-11-02
+Vendor	Lucky Frog Photo Booth	Photo Booth	Torrance	California	Social only	https://sites.google.com/view/360videoboothrentalsantamonica/home	2026-11-02
+Vendor	Angela Monique Events	Planning	Westlake Village	California	Site blocks automated visits, unconfirmed	https://angelamevents.com/	2026-11-02
+Venue	Feast & Fareway		Coronado	California	Site dead	https://www.feastandfareway.com	2026-11-03
+Venue	Steakhouse at Azul		La Jolla	California	Site dead	https://www.azul-lajolla.com	2026-11-03
+Venue	Dragon Point Villa		Fallbrook	California	Inactive	https://www.dragonpointvilla.com/	2026-11-03
+Venue	Native Oaks Golf Club		Valley Center	California	Inactive	https://www.nativeoaksgolfclub.com/celebrate-with-flavor/	2026-11-03
+Venue	Estate D'Iacobelli		Fallbrook	California	Inactive	https://estatediacobelli.com/events-at-iacobelli-vineyard-estates/	2026-11-03
+Venue	Myrtle Creek Botanical Gardens		Fallbrook	California	Closed	https://www.myrtlecreek.com/	2026-11-03
+Venue	Keys Creek Lavender Farm		Valley Center	California	Site dead	https://www.keyscreeklavenderfarm.com/	2026-11-03
+Venue	Bluebird Canyon Ranch		Vista	California	Site dead	https://www.bluebirdcanyonranch.com/	2026-11-03
+Venue	Highlands Farm & Orchard		Julian	California	Site dead	https://highlandsorchard.com/	2026-11-03
+Venue	Big Stone Lodge		Poway	California	Site dead	https://www.bigstonelodge.com/	2026-11-03
+Venue	Fallbrook Golf Club		Fallbrook	California	Site dead	https://www.fallbrookgolfclub.com/	2026-11-03
+Venue	San Luis Rey Downs		Bonsall	California	Site dead	https://www.sanluisreydowns.com/	2026-11-03
+Venue	Farm Mtn Weddings		Valley Center	California	Site dead	http://farmmtnweddings.com/	2026-11-03
+Venue	Sol Sacred Ranch		Valley Center	California	Site dead	https://solsacredranch.com/	2026-11-03
+Venue	Rancho Magdalena		Valley Center	California	No website		2026-11-03
+Vendor	Buttrcream Cakes	Cake	Westlake Village	California	Site shows no street number or wedding details	https://www.buttrcreamcakes.com/	2026-11-03
+Vendor	Married To Food Catering	Catering	Los Angeles	California	Weddings not shown on site	https://www.marriedtofoodcatering.com/	2026-11-03
+Vendor	The Booze Babes	Bar	Los Angeles	California	Site shows no street number or wedding details	https://www.theboozebabes.com/	2026-11-03
+Vendor	Jassy's Sweets & Eats	Desserts	Long Beach	California	Site unreadable	https://www.jassyssweets.com/wedding-dessert-catering	2026-11-03
+Vendor	Golden Bell Music	Music	San Francisco	California	No website	https://goldenbellmusic.com	2026-11-03
+Vendor	Nick Lie Photography	Photography	Los Angeles	California	Inactive	https://weddingsbynicklie.com/	2026-11-03
+Vendor	String Poets	Music	Santa Monica	California	Inactive	https://www.stringpoets.com/	2026-11-03
+Vendor	Safeena Noah	Photography	Malibu	California	Inactive	https://www.safeenanoah.com/	2026-11-03
+Vendor	Subito Strings	Music	Los Angeles	California	Site dead	https://www.subitostrings.com/	2026-11-03
+Vendor	La Catrina Cart	Bar	Los Angeles	California	Site dead	https://lacatrinacart.com/	2026-11-03

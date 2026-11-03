@@ -677,6 +677,103 @@ T.H.E. Portrait Studio369	Photography		Augusta	Georgia	Evans, Grovetown, Hephzib
 Grace 4 Taste Catering	Catering		Augusta	Georgia	Augusta and the CSRA	Augusta caterer for weddings, from multi-course banquets to cocktail receptions, with a free consultation on menus and budget.	orders@grace4taste.com	706-951-4392	https://grace4taste.com/wedding-events/	https://www.instagram.com/grace4taste/
 `,
   },
+  {
+    name: "Golden Isles: photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Rhonda Rowell Photography	Photography		St. Simons Island	Georgia	Jekyll Island, Sea Island, St. Simons Island	Hybrid film and digital wedding photographer serving couples marrying on Jekyll Island, Sea Island and St. Simons Island.	hello@rhondarowell.com		https://rhondarowell.com	https://www.instagram.com/rhonda_rowell_photography		
+`,
+  },
+  {
+    name: "Valdosta: photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Shain Petty Photography	Photography		Valdosta	Georgia	Valdosta, Thomasville, Moultrie, St. Simons, Sea Island	Valdosta-based wedding and portrait photographer working across south Georgia and north Florida, including plantation venues.			https://www.shainpettyphotography.com			
+Wes Sewell Photography	Photography		Valdosta	Georgia	Valdosta and South Georgia	Valdosta photography studio that shoots weddings, families and newborns, with wedding packages published on its site.			https://www.wessewellphotography.com			
+`,
+  },
+  {
+    name: "Columbus: photography, photo booth",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Kevin Doan Photography	Photography		Columbus	Georgia	Columbus, Atlanta and destination weddings	Documentary-style wedding photographer who says he is based in Columbus, with engagement sessions, albums and no travel fees within the US.		(706) 223-3389	https://kevindoanphotography.com	https://www.instagram.com/kevindnmk	2200	package
+360 Booth Columbus	Photo Booth	2300 Whittlesey Rd	Columbus	Georgia	Columbus, up to 60 miles	Photo booth hire for weddings and events, with 360, selfie and digital mirror booths, an attendant and custom overlays included.			https://360boothcolumbus.com		175	per hour
+`,
+  },
+  {
+    name: "Macon: music, catering, photography, florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Pin Point Productions	Music		Macon	Georgia	Macon and Middle Georgia	DJ and photo booth company based in Macon, booking weddings, receptions and corporate events across Middle Georgia.	info@pinpointproductions.com		https://www.bookyourdjtoday.com			
+Grow Fresh Local Food	Catering	1019 Riverside Drive	Macon	Georgia	Macon	Macon restaurant offering full-service catering for weddings and other celebrations, with proposals requested through its contact form.	growfreshlocalfood@gmail.com	(478) 743-4663	https://www.growfreshlocalfood.com			
+Talk To Me Nice Studios	Photography		Byron	Georgia	Byron, Warner Robins, Perry and Macon	Wedding photography and cinematic recap films from a Byron studio, with engagement sessions available as an add-on.	TTMN478@yahoo.com		https://www.ttmn478.com		250	per hour
+The Flower Truck	Florals		Warner Robins	Georgia	Warner Robins and Houston County	Warner Robins florist making bridal bouquets, ceremony and reception flowers, arches and centrepieces, with consultations by phone.		(478) 227-6177	https://www.theflowertruck.com	https://www.instagram.com/theflowertruck/		
+`,
+  },
+  {
+    name: "Savannah: videography, music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Two Arrow Films	Videography		Savannah	Georgia	Savannah, Hilton Head and destination weddings	Cinematic wedding videographer filming in Savannah and Hilton Head, and travelling for destination weddings.	weddings@twoarrowfilms.com		https://twoarrowfilms.com	https://www.instagram.com/twoarrowfilms/		
+I Thee Film	Videography		Savannah	Georgia	Savannah and destination weddings	Savannah-based wedding videography business offering a range of film packages, from Savannah to destinations nationwide.		912-308-0224	https://itheefilm.com	https://www.instagram.com/itheefilm/		
+EYN Entertainment	Music		Savannah	Georgia	Savannah and surrounding areas	Savannah DJ and lighting company that also hires out dance floors, photo booths and cold spark machines for weddings.	eynentertainment@outlook.com	912-278-1883	https://eynentertainment.com	https://www.instagram.com/eynentertainment/		
+`,
+  },
+  {
+    name: "Athens: videography, music, planning, hair & makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+The Agncy Media	Videography		Athens	Georgia	Athens and Northeast Georgia	Athens video studio filming weddings across Northeast Georgia, from ceremony-only to full-day packages.	colton@theagncymedia.com	706-224-2935	https://theagncymedia.com	https://www.instagram.com/agncymedia/	1000	package
+Nightbird Entertainment	Music		Athens	Georgia	Athens, Atlanta and North Georgia	Wedding DJs, photo booths and lighting for couples in Athens, Atlanta and north Georgia, with published prices.	info@nightbirdent.com	706-715-3371	https://athensdjservice.com	https://www.instagram.com/nightbirdent/	1650	package
+Taylor Dawn	Planning		Athens	Georgia	Athens, Atlanta and the Southeast	Boutique wedding planning studio run from Athens, designing and planning weddings around the Southeast.	hello@taylor-dawn.com	404-391-1401	https://taylor-dawn.com	https://www.instagram.com/taydoehrman/		
+Tribe Hair Company	Hair & Makeup	1238 Prince Ave	Athens	Georgia	Athens	Prince Avenue salon in Athens with a bridal page covering wedding-day hair and makeup.	tribehaircompany@gmail.com	706-850-8711	https://tribehaircompany.com	https://www.instagram.com/tribehaircompany/		
+`,
+  },
+  {
+    name: "North Georgia Mountains: florals, planning, catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Ivy's Gifts From The Vine	Florals	995 Morrison Moore Parkway West	Dahlonega	Georgia	Dahlonega, Cleveland, Dawsonville and Gainesville	Dahlonega flower shop with wedding consultations, delivering to Cleveland, Dawsonville, Gainesville and nearby towns.	ivysgiftsga@gmail.com	678-935-6725	https://ivysgiftsfromthevine.net	https://www.instagram.com/ivysgiftsfromthevine/		
+Planning Forever	Planning		Blue Ridge	Georgia	Blue Ridge and North Georgia	Wedding planner serving Blue Ridge and North Georgia couples, from first ideas to the wedding day.	info@planningforeverllc.com	706-994-0865	https://planningforeverllc.com	https://www.instagram.com/planningforeverllc/		
+Harvest Catering	Catering		Gainesville	Georgia	Gainesville and Lake Lanier	Gainesville caterer building custom menus to a couple's budget, with wedding testimonials on its site.	info@harvestcateringco.com		https://harvestcateringco.com	https://www.instagram.com/harvest_catering_ga/		
+`,
+  },
+  {
+    name: "Augusta: florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Naaiya's Flowers	Florals	108 Macartan Street	Augusta	Georgia		Augusta florist offering ceremony flowers, personal flowers, corsages, boutonnieres and reception arrangements for weddings.		(706) 823-5954	https://www.naaiyas.com/			
+`,
+  },
+  {
+    name: "Macon: cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Amanda's Cakery	Cake		Macon	Georgia	Middle Georgia	Home-based Macon bakery making gluten-free cakes by appointment, with wedding cakes and delivery available.		(478) 227-4541	https://www.amandas-cakery.com/			
+`,
+  },
+  {
+    name: "Golden Isles: photography, planning, florals, catering, cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Alexa Smith Photography	Photography		St. Simons Island	Georgia	St. Simons Island, Sea Island, Jekyll Island	Wedding and engagement photographer covering St. Simons, Sea Island and Jekyll Island, with customisable collections and heirloom prints.			https://alexasmithphotography.com/			
+Purple Sage Catering	Catering	1188 Chapel Crossing Rd	Brunswick	Georgia	Saint Simons Island, Brunswick and the Golden Isles	Caterer in Brunswick serving wedding receptions and other events across St. Simons Island and the wider Golden Isles.		912-574-7003	https://www.purplesagecatering.com/			
+Cathy Huber Cakes	Cake		St. Simons Island	Georgia	Saint Simons Island	Wedding cake business on Saint Simons Island offering cake tastings and a client questionnaire for couples planning island weddings.	cathyhubercakes@yahoo.com	(912) 580-1025	https://www.cathyhubercakes.com/	https://www.instagram.com/cathyhubercakes/		
+`,
+  },
+  {
+    name: "Athens: planning, music, catering, cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Rever	Planning		Athens	Georgia	Athens, Atlanta, Highlands NC, Charleston, Savannah and destinations	Athens wedding planning studio offering coordination, design and full-service packages for couples across the Southeast.	reverweds@gmail.com		https://reverweds.com/	https://www.instagram.com/reverweds/		
+`,
+  },
+  {
+    name: "Atlanta: planning, florals, catering, hair & makeup, cake, officiant",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Pearl's Catering	Catering		Atlanta	Georgia	Atlanta	Full-service Atlanta caterer working one-to-one with couples on wedding menus and events, in business since 2001.	brenda@pearlscatering.com	770-709-2666	https://www.pearlscatering.com/			
+Three Sisters Catering	Catering	7878 Roswell Road	Sandy Springs	Georgia	North metro Atlanta	Sandy Springs caterer serving weddings and private celebrations with station and table-served service in the north Atlanta suburbs.			https://www.threesisterscatering.com/	https://www.instagram.com/cater_with_three_sisters/		
+Kosher Gourmet	Catering	2153 Briarcliff Road NE	Atlanta	Georgia	Atlanta	Kosher shop and caterer in Atlanta providing event catering for weddings, bar and bat mitzvahs and community gatherings.	sgilmer@kgatl.com	404-636-1114	https://kgatl.com/	https://www.instagram.com/thekoshergourmet/		
+Gabby Arriaza	Officiant		Atlanta	Georgia	Atlanta	Licensed Georgia minister officiating wedding ceremonies in Spanish, English or both languages for couples in Atlanta.	gabbyarriaza@gmail.com	678-462-5437	https://www.gabbyarriaza.com/	https://www.instagram.com/gabbyarriazaweddings/		
+`,
+  },
+  {
+    name: "Savannah: planning, catering, hair & makeup, cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Van Artsdalen Events	Planning		Savannah	Georgia	Savannah and surrounding area	Local Savannah wedding planner who takes on timelines, vendor coordination and logistics for couples marrying in the area.	vanartsdalenevents@gmail.com		https://vanartsdalenevents.com/	https://www.instagram.com/vanartsdalen_events_/		
+Savory Spoonful Catering	Catering		Guyton	Georgia	Savannah area	Guyton-based caterer serving the Savannah area with wedding buffets, stations and plated service, plus Lowcountry boils and raw bars.	info@savory-spoonful.com	912-513-5559	https://savory-spoonful.com/	https://www.instagram.com/savoryspoonfulcatering/		
+Lauren Norton Beauty	Hair & Makeup		Savannah	Georgia	Savannah, Bluffton, Hilton Head and Tybee Island	Savannah-based artist offering on-location hair and makeup for weddings and events, with bridal trials available.			https://www.laurennortonbeauty.com/	https://www.instagram.com/laurennortonbeauty/		
+`,
+  },
 ];
 
 export default batches;

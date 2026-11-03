@@ -512,6 +512,50 @@ Rodeo Catering	Catering	1715 Allied Ln	Charlottesville	Virginia	Charlottesville 
 Beloved and Radiant Makeup Artistry	Hair & Makeup		Charlottesville	Virginia	Charlottesville and Central Virginia	On-location bridal hair and makeup artist offering natural and soft-glam looks and romantic hairstyles.	belovedandradiantmua@gmail.com		https://www.belovedandradiantmua.com/	https://www.instagram.com/belovedandradiantmua/		
 Passionflower Cakes	Cake		Charlottesville	Virginia	Charlottesville and central Virginia	Wedding and party cakes designed in Charlottesville by one cake artist, available by appointment only.	paris@passionflowercakes.com		https://www.passionflowercakes.com/	https://www.instagram.com/passionflowercakes/		`,
   },
+  {
+    name: "Northern Virginia: music, hair & makeup, cake, photography, videography, florals and catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+DJ THEO Events	Music		Fairfax	Virginia	Northern Virginia, Washington DC and Maryland	Wedding DJ and MC covering ceremony music, reception sets and custom playlists, based in Fairfax and working across Northern Virginia.	info@djtheo703.com	(703) 928-7168	https://djtheo703.com/	https://www.instagram.com/djtheoevents/		
+Sweets by E	Cake	43671 Trade Center Place, Ste. 166	Sterling	Virginia	Northern Virginia and Washington DC	Sterling studio making custom cakes and cupcakes, with a weddings section, for couples in Northern Virginia and the DC area.			https://www.sweetsbye.com/	https://www.instagram.com/sweetsby_e/		
+Daniela Zapata Photography	Photography	950 North Washington Street	Alexandria	Virginia	Northern Virginia, DC and Maryland	Alexandria photographer whose recent blog posts cover Old Town weddings, working across Virginia, DC and Maryland.	info@danielazapata.com		https://danielazapata.com/			
+Fleurs-de-Lea	Florals		Fairfax	Virginia	Fairfax City, Alexandria, Arlington, Vienna, Reston, Manassas and surrounding areas	Fairfax City florist designing wedding bouquets plus ceremony and reception flowers, with delivery across Northern Virginia.		(703) 828-5518	https://fleurs-de-lea.com/	https://www.instagram.com/fleurs.de.lea/		
+Fleurelity	Florals		Vienna	Virginia	Selected areas of Northern Virginia, DC and Maryland	Floral design studio in Vienna and Oakton styling weddings, elopements and showers for selected Northern Virginia neighbourhoods.	info@fleurelity.com	(571) 331-5136	https://fleurelity.com/	https://www.instagram.com/fleurelity/		
+Everyone Eats Catering	Catering	9861 Discovery Blvd. Suite 131	Manassas	Virginia	Northern Virginia and the I-95 corridor to Richmond	Manassas caterer for weddings of all sizes and styles, delivering across Northern Virginia and the wider DC area.		(703) 479-4927	https://everyoneeats.com/	https://www.instagram.com/everyoneeatscatering/		`,
+  },
+  {
+    name: "Fredericksburg: photography, videography, florals, cake, catering, planning, music, hair & makeup",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Zaida Gonzalez Photography	Photography		Fredericksburg	Virginia	Fredericksburg, Washington DC, Northern Virginia and Maryland	Fredericksburg-based wedding and elopement photographer covering vineyards, waterfront venues and courthouse ceremonies across the region.	zaidagonzalezphotography@gmail.com		https://www.zaidagonzalezphotography.com	https://www.instagram.com/zaidagonzalezphotography/		
+Jane Guerin, flowers	Florals		Fredericksburg	Virginia	Central and northern Virginia, including the Washington DC area	Floral design studio in Fredericksburg creating bespoke wedding flowers, with a weddings gallery that includes the Inn at the Olde Silk Mill.	Jane@janeguerinflowers.com		http://www.janeguerinflowers.com/	https://www.instagram.com/janeguerinflowers/		
+Good Earth Flowers and Events	Florals	417 Meadowbrook Shopping Center	Culpeper	Virginia		Culpeper florist providing bouquets, centerpieces and ceremony arches, with galleries from Rixey Manor and local vineyard weddings.		540-825-8531	https://www.weddingfloristculpeper.com/			
+J & D Catering	Catering		Fredericksburg	Virginia		Fredericksburg caterer with set wedding packages combining cocktail hour, buffet or plated dinner and optional venue hire.	JandDcatering653@gmail.com	540-446-7453	https://www.janddcateringservice.com/			
+Elevate Designs & Events	Planning		Stafford	Virginia	Stafford and Fredericksburg	Event planning and decor team for weddings in Stafford and Fredericksburg, from ceremony arches and florals to tablescapes and rentals.	elevatedesignsva@gmail.com	540-845-8007	https://www.weelevatedesigns.com/	https://www.instagram.com/elev8_eventsva/		
+Savvy Hair Gallery	Hair & Makeup	50 Foreston Woods Drive #102	Stafford	Virginia		Stafford salon and day spa with a bridal menu covering bridal hair, airbrush makeup and a bridal party breakfast.		540-657-7288	https://savvyhairgallery.com/			
+Twins Color by Beyond	Hair & Makeup		Woodbridge	Virginia	Woodbridge, Stafford and Alexandria	Woodbridge studio offering bridal updos, makeup and trials, travelling to venues with group discounts for larger bridal parties.			https://beyondhaircolorstudio.com/	https://www.instagram.com/twins.color.beyond.studio/		`,
+  },
+  {
+    name: "Shenandoah Valley: florals, cake, planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Brin's Posy Floral	Florals	110 Baldwin Street	Staunton	Virginia	Shenandoah Valley	Wedding florist in Staunton making bridal bouquets, ceremony installations and reception centrepieces to each couple's palette and style.	brinsposyfloral@gmail.com	540-292-6108	https://www.brinsposyfloral.com/	https://www.instagram.com/brins_posy/		
+Honey Bee's Florist	Florals	2010 North Augusta Street	Staunton	Virginia		Staunton flower shop that supplies wedding flowers, from ceremony and reception arrangements to boutonnieres and corsages.		540.887.1221	https://honeybeesflorist.com/			
+Bittersweet Bakery	Cake	120 W. Wolfe Street, #103	Harrisonburg	Virginia		Harrisonburg bakery making custom wedding cakes, with tastings and a limited number of weddings booked each weekend.		301.616.5609	https://bittersweetbakeryva.com/weddings/	https://www.instagram.com/bittersweetbakeryva/		
+Crumbs & Crumbles	Cake		Winchester	Virginia		Winchester custom bakery making wedding cakes and French macarons, with paid cake tastings credited towards the booking deposit.	allthecrumbles@gmail.com		https://www.crumbsandcrumbles.com/weddings			
+Michelle's Main Event	Planning		Winchester	Virginia		Winchester wedding coordinator offering packages from help with specific details through to full coordination.	Michelle@Michellesmainevent.com		https://www.michellesmainevent.com/	https://www.instagram.com/michellesmainevent/		`,
+  },
+  {
+    name: "Roanoke: florals, hair & makeup, music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Touch of Elegance Floral Designs	Florals	3625 Williamson Rd, Suite B	Roanoke	Virginia	Roanoke, Blacksburg, Christiansburg, Salem, Radford, Vinton and Wytheville	Roanoke floral studio offering wedding flowers with a gallery and consultations, serving the city and surrounding towns including Blacksburg and Salem.	stefloraldesigns@gmail.com	(540) 345-2006	https://touchofelegancedesigns.com/	https://www.instagram.com/touchofelegance_rva/		
+Kristen Ferrell Artistry	Hair & Makeup		Roanoke	Virginia		Roanoke makeup artist focused on bridal and special-occasion looks, applied on site at the venue or getting-ready space.			https://www.kristenferrellartistry.com/			
+Adorn Salon	Hair & Makeup	3405 Brambleton Avenue	Roanoke	Virginia	Roanoke	Roanoke salon offering bridal hair and makeup, either in the salon or travelling to the wedding venue.	Adornsalonroa@gmail.com	540-274-1983	https://www.adornsalonroa.com/			
+Kenzie Layne Hair & Makeup	Hair & Makeup		Roanoke	Virginia		Roanoke makeup artist offering bridal hair and makeup, with a dedicated bridal section on her website.	mredifermakeupartistry@gmail.com	540-480-7530	https://www.kenzielaynemua.com/	https://www.instagram.com/kenzielaynemua/		
+Blue Ridge Entertainment	Music		Roanoke	Virginia	Southwest Virginia	Roanoke wedding DJ company with experience at venues across Southwest Virginia and weddings in neighbouring states.	info@blueridgeentertainment.net	(540) 598-5433	https://www.blueridgeentertainment.net/			`,
+  },
+  {
+    name: "Williamsburg: hair & makeup, videography, catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Evergreen Beauty	Hair & Makeup		Williamsburg	Virginia	Williamsburg	Williamsburg bridal hair and makeup artist who travels to the couple's chosen location, with services and pricing listed on the site.			https://www.beautyevergreen.com/	https://www.instagram.com/evergreenbeautydmv/		`,
+  },
 ];
 
 export default batches;

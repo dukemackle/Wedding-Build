@@ -1,6 +1,6 @@
 import type { StyleSpecification } from "maplibre-gl";
 
-// Which base map every Leaflet map draws under its pins. One setting, so
+// Which base map every map draws under its pins. One setting, so
 // moving between tile hosts is a one-line change (data plan Q5).
 //
 // - "openfreemap": OpenFreeMap's hosted vector tiles. Free, commercial use
@@ -11,7 +11,7 @@ import type { StyleSpecification } from "maplibre-gl";
 //   Our own copy, so no third party can rate-limit or retire it (owner,
 //   2026-10-21).
 // - "osm": OpenStreetMap's raster tiles, the old default. Its tile policy is
-//   for light use, so it's only the fallback when a browser can't run WebGL.
+//   for light use, so don't make it the default again.
 export type TileHost = "openfreemap" | "youdoido" | "osm";
 
 export const TILE_HOST: TileHost = "youdoido";
@@ -37,7 +37,23 @@ export const VECTOR_STYLES: Record<Exclude<TileHost, "osm">, { style: StyleSourc
   },
 };
 
-export const RASTER_FALLBACK = {
-  url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-  attribution: OSM_CREDIT,
+const RASTER_STYLE: StyleSpecification = {
+  version: 8,
+  sources: {
+    osm: {
+      type: "raster",
+      tiles: ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],
+      tileSize: 256,
+      maxzoom: 19,
+      attribution: OSM_CREDIT,
+    },
+  },
+  layers: [{ id: "osm", type: "raster", source: "osm" }],
 };
+
+/** The MapLibre style for TILE_HOST, resolved. */
+export async function loadMapStyle(): Promise<StyleSpecification | string> {
+  if (TILE_HOST === "osm") return RASTER_STYLE;
+  const { style } = VECTOR_STYLES[TILE_HOST];
+  return typeof style === "string" ? style : style();
+}

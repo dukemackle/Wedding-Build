@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState, useTransition } from "react";
-import { FilterDropdown } from "@/components/filter-dropdown";
+import { BarOnly, FilterDropdown } from "@/components/filter-dropdown";
 import { SearchShell } from "@/components/search-shell";
 import { BirdEmptyState } from "@/components/wren-moments";
 import { isInView, viewKey, type MapView } from "@/lib/map-view";
@@ -337,8 +337,10 @@ export function MarketplaceBrowser({
             ]
           : []
       }
+      filterSheet
       filters={
         <>
+          <BarOnly>
           <button
             type="button"
             onClick={goHome}
@@ -367,6 +369,7 @@ export function MarketplaceBrowser({
               )}
             </Link>
           )}
+          </BarOnly>
           <FilterDropdown
             label={locating ? "Finding you…" : origin && origin.label !== "you" ? `Near ${origin.label}` : "Distance"}
             allLabel="Any distance"

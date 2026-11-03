@@ -8,7 +8,8 @@ import { GuestSiteTheme } from "@/components/guest-site-theme";
 import { GuestSiteView, loadGuestSiteContent } from "@/app/w/[slug]/guest-site-view";
 import { CanvasEditing } from "./canvas-editing";
 import { bannerPhoto } from "@/lib/site-design";
-import { SAMPLE_GALLERY, SAMPLE_HERO } from "@/lib/sample-photos";
+import { PhotoEditing } from "./photo-editing";
+import { SAMPLE_GALLERY, SAMPLE_GUEST_NAMES, SAMPLE_HERO } from "@/lib/sample-photos";
 
 export const metadata: Metadata = { title: "Guest site preview", robots: { index: false } };
 
@@ -55,10 +56,10 @@ export default async function GuestSitePreviewPage({
   const { data: venue } = wedding.venue_id
     ? await supabase
         .from("venues")
-        .select("name, city, state, photo_urls, about, description, address")
+        .select("name, city, state, photo_urls, about, description, address, latitude, longitude")
         .eq("id", wedding.venue_id)
         .maybeSingle<
-          Pick<Venue, "name" | "city" | "state" | "photo_urls" | "about" | "description" | "address">
+          Pick<Venue, "name" | "city" | "state" | "photo_urls" | "about" | "description" | "address" | "latitude" | "longitude">
         >()
     : { data: null };
 
@@ -87,6 +88,8 @@ export default async function GuestSitePreviewPage({
     venue_address: venue?.address ?? wedding.own_venue_address,
     site_locked: Boolean(wedding.site_password_hash),
     venue_photos_own: ownVenuePhotos.length > 0,
+    venue_latitude: venue?.latitude ?? null,
+    venue_longitude: venue?.longitude ?? null,
     gift_venmo: wedding.gift_venmo,
     gift_paypal: wedding.gift_paypal,
     gift_cashapp: wedding.gift_cashapp,
@@ -103,20 +106,34 @@ export default async function GuestSitePreviewPage({
   // with a photo in it: in the template gallery, and in the editor (owner,
   // 2026-10-21), whose address bar says so. Never on the live site.
   const samples = Boolean(look) || withSamples === "1";
+  // Before a sample stands in: whether the banner is the couple's own upload, which can be removed.
+  const ownBanner = Boolean(asGuestsSeeIt.hero_photo_url);
   if (samples && !bannerPhoto(asGuestsSeeIt)) asGuestsSeeIt.hero_photo_url = SAMPLE_HERO;
-  const content =
-    samples && loaded.galleryPhotos.length === 0
-      ? {
-          ...loaded,
-          galleryPhotos: SAMPLE_GALLERY.map((photo_url, i) => ({
-            id: `sample-${i}`,
-            wedding_id: wedding.id,
-            photo_url,
-            sort_order: i,
-            created_at: "",
-          })),
-        }
-      : loaded;
+  // Same for "Who's coming": empty until someone RSVPs, so the editor shows
+  // stand-ins tagged "Sample" (owner, 2026-11-03). Never on the live site.
+  const sampleGuests = samples && loaded.confirmedGuests.length === 0;
+  const content = {
+    ...loaded,
+    ...(samples && loaded.galleryPhotos.length === 0 && {
+      galleryPhotos: SAMPLE_GALLERY.map((photo_url, i) => ({
+        id: `sample-${i}`,
+        wedding_id: wedding.id,
+        photo_url,
+        sort_order: i,
+        created_at: "",
+      })),
+    }),
+    ...(sampleGuests && {
+      confirmedGuests: SAMPLE_GUEST_NAMES.map((name, i) => ({
+        id: `sample-guest-${i}`,
+        wedding_id: wedding.id,
+        name,
+        photo_url: null,
+        created_at: "",
+      })),
+    }),
+    sampleGuests,
+  };
   const stored = parseSiteDesign(row ? row.design : wedding.site_design);
   const draft = row?.shared_wording ? withWording(stored, parseWording(wedding.site_wording)) : stored;
 
@@ -125,6 +142,8 @@ export default async function GuestSitePreviewPage({
       <GuestSiteView wedding={asGuestsSeeIt} content={content} />
       {/* Dragging, resizing and the rest: here only, never on /w/[slug]. */}
       {!look && !view && <CanvasEditing />}
+      {/* Click a photo to replace or remove it, right where it sits. */}
+      {!look && !view && <PhotoEditing ownBanner={ownBanner} galleryCount={loaded.galleryPhotos.length} />}
     </GuestSiteTheme>
   );
 }

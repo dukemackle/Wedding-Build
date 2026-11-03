@@ -11,11 +11,11 @@ export default function PrivacyPage() {
       <div className={`w-full ${READING_WIDTH}`}>
         <p className="font-mono-numbers text-xs uppercase tracking-[0.2em] text-brass">Legal</p>
         <h1 className="mt-2 font-display text-3xl font-semibold text-forest">Privacy Policy</h1>
-        <p className="mt-2 text-sm text-ink/60">Last updated: October 22, 2026</p>
+        <p className="mt-2 text-sm text-ink/60">Last updated: November 3, 2026</p>
 
         <div className="mt-8 flex flex-col gap-8 text-ink/80">
           <p>
-            This Privacy Policy explains what information You Do, I Do collects, how we use it, and the
+            This Privacy Policy explains what information You Do, I Do LLC (&quot;You Do, I Do,&quot; &quot;we,&quot; or &quot;us&quot;) collects, how we use it, and the
             choices you have. It applies to the couple-facing app at youdoido.com and to any public
             wedding site created through it.
           </p>
@@ -189,6 +189,15 @@ export default function PrivacyPage() {
               listing, sending an inquiry or turning on your guest site. The note records which step
               and when, linked to your wedding, never what you typed, and helps us see which parts of
               You Do, I Do help and where couples get stuck. It&apos;s deleted with your wedding.
+            </p>
+            <p className="mt-2">
+              On your first visit, your browser keeps a small note (in its own storage, not a cookie)
+              of where you came from: the name of the referring site, any campaign tags on the link
+              you followed, the page you landed on and the date. It stays on your device and is only
+              sent to us if you create an account or submit a listing, alongside your answer to
+              &ldquo;How did you hear about us?&rdquo; if you give one. Links we email to venues and
+              vendors also say which email they came from. We use this only to learn which ways of
+              finding You Do, I Do work. It&apos;s deleted with your account or listing submission.
             </p>
             <p className="mt-2">
               Because we don&apos;t track you across other websites, there&apos;s nothing for a

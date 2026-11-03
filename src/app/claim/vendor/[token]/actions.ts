@@ -7,8 +7,10 @@ import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import { getResendClient, INQUIRY_FROM_ADDRESS } from "@/lib/resend";
 import { vendorForClaimToken } from "@/lib/vendor-claim-server";
 import { CLAIM_PHOTO_TYPES, MAX_CLAIM_PHOTO_BYTES, MAX_CLAIM_PHOTOS } from "@/lib/venue-claim";
-import { validateVendorClaim, type VendorClaimSubmission } from "@/lib/vendor-claim";
+import { VENDOR_CLAIM_FIELD_LABELS, validateVendorClaim, type VendorClaimSubmission } from "@/lib/vendor-claim";
+import { claimNotification } from "@/lib/claim-notify";
 import { trackEvent } from "@/lib/events";
+import { cleanFirstTouch, cleanHeardFrom, cleanVia } from "@/lib/attribution";
 import { deleteClaimDraft, storeClaimDraft } from "@/lib/claim-drafts";
 
 // The vendor side of the claim flow; see ../../[token]/actions.ts for the
@@ -46,6 +48,8 @@ export async function createVendorClaimPhotoUploads(
 export async function submitVendorClaim(
   token: string,
   submission: VendorClaimSubmission,
+  /** How they found us (src/lib/attribution.ts); every part optional and checked here. */
+  source?: { heardFrom?: unknown; via?: unknown; firstTouch?: unknown },
 ): Promise<{ error?: string; errors?: string[] }> {
   const vendor = await vendorForClaimToken(token);
   if (!vendor) return { error: "This link is no longer valid." };
@@ -65,6 +69,9 @@ export async function submitVendorClaim(
     submitter_name: value.submitter.name,
     submitter_email: value.submitter.email,
     submitter_role: value.submitter.role,
+    heard_from: cleanHeardFrom(source?.heardFrom),
+    arrived_via: cleanVia(source?.via),
+    first_touch: cleanFirstTouch(source?.firstTouch),
     details: value.details,
     faqs: value.faqs,
     photo_urls: value.photoUrls,
@@ -77,13 +84,13 @@ export async function submitVendorClaim(
   const adminEmail = process.env.ADMIN_EMAIL?.split(",")[0]?.trim();
   if (adminEmail && process.env.RESEND_API_KEY) {
     try {
-      const isNew = vendor.source === "self-listed";
+      const { subject, text } = await claimNotification("vendor", vendor, value, VENDOR_CLAIM_FIELD_LABELS);
       await getResendClient().emails.send({
         from: INQUIRY_FROM_ADDRESS,
         to: adminEmail,
         replyTo: value.submitter.email,
-        subject: isNew ? `New vendor listing: ${value.details.name}` : `${value.details.name} updated its listing`,
-        text: `${value.submitter.name} (${value.submitter.email}) submitted ${isNew ? "a new listing" : "changes"} for ${value.details.name}.\n\nReview them at https://admin.youdoido.com/admin/vendors/claims`,
+        subject,
+        text,
       });
     } catch {
       // It's in the queue either way.

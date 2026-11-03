@@ -28,7 +28,7 @@ changes.
   admin Ask Wren.
 - **Google:** Sheets sync for budget/guests (`src/lib/google-sheets.ts`),
   Drive picker, Drive as the backup mirror (`scripts/backup.mjs`).
-- **Maps:** Leaflet + react-leaflet + supercluster; Three.js for the 3D
+- **Maps:** MapLibre GL (own Protomaps tiles) + supercluster; Three.js for the 3D
   venue layout.
 
 ## Server endpoints (`src/app/api`)

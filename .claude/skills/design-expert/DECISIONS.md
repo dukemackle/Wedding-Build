@@ -326,3 +326,4 @@ _None recorded yet._
 ## Copy and voice
 
 - See the `wren-voice` skill.
+- **2026-11-02:** Applied filters on browse screens are Royal-blue outline chips (pale tint, navy text, navy ✕). Venues and Vendors get an all-filters page: a sliders button with a count badge beside the search on phones (whose bar then shows only filters that are on), "All filters" at the end of the desktop bar opening it as a right drawer, with a "See N venues" button. Approved from a mockup.

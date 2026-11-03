@@ -1,9 +1,11 @@
 "use client";
 
-import { useRef, useState, useTransition } from "react";
+import { useState, useTransition } from "react";
+import { KeptNotice, SAVE_FAILED, useKeptWords } from "@/components/kept-words";
 import type { RegistryItem } from "@/lib/supabase/types";
 import { addRegistryItem, deleteRegistryItem } from "./actions";
 import { BirdEmptyState } from "@/components/wren-moments";
+import { actionFailed } from "@/lib/action-error";
 
 const inputClass =
   "rounded-md border border-hairline bg-parchment px-3 py-2 text-ink outline-none focus:border-forest";
@@ -12,16 +14,17 @@ const labelClass = "flex flex-col gap-1 text-sm text-ink";
 function AddRegistryItemForm({ onDone }: { onDone: () => void }) {
   const [error, setError] = useState<string | undefined>(undefined);
   const [isPending, startTransition] = useTransition();
-  const formRef = useRef<HTMLFormElement>(null);
+  const { ref: keptRef, keep, done: keptDone, restored: keptRestored } = useKeptWords("new-registry");
 
   function handleSubmit(formData: FormData) {
     startTransition(async () => {
-      const result = await addRegistryItem(formData);
+      const result = await addRegistryItem(formData).catch(() => ({ error: SAVE_FAILED }));
       if (result?.error) {
         setError(result.error);
       } else {
         setError(undefined);
-        formRef.current?.reset();
+        keptRef.current?.reset();
+        keptDone();
         onDone();
       }
     });
@@ -29,7 +32,8 @@ function AddRegistryItemForm({ onDone }: { onDone: () => void }) {
 
   return (
     <form
-      ref={formRef}
+      ref={keptRef}
+      onInput={keep}
       action={handleSubmit}
       className="mb-6 rounded-lg border border-hairline bg-parchment p-6"
     >
@@ -62,6 +66,7 @@ function AddRegistryItemForm({ onDone }: { onDone: () => void }) {
           />
         </label>
       </div>
+      {keptRestored && <div className="mt-3"><KeptNotice /></div>}
       {error && <p className="mt-3 text-sm text-red-800">{error}</p>}
       <div className="mt-4 flex items-center gap-3">
         <button
@@ -92,7 +97,7 @@ function RegistryItemRow({ item }: { item: RegistryItem }) {
     startTransition(async () => {
       const formData = new FormData();
       formData.set("id", item.id);
-      const result = await deleteRegistryItem(formData);
+      const result = await deleteRegistryItem(formData).catch(() => ({ error: actionFailed("remove it") }));
       if (result?.error) {
         setError(result.error);
       }

@@ -265,6 +265,58 @@ export async function removeGalleryPhoto(formData: FormData): Promise<{ error?: 
   return {};
 }
 
+/**
+ * Swaps one gallery photo for a new one in the same spot: same row, same
+ * place in the order. For a photo clicked on the page in the editor's preview.
+ */
+export async function replaceGalleryPhoto(formData: FormData): Promise<{ error?: string }> {
+  const { supabase, wedding, noWedding } = await requireEditableWedding();
+
+  if (!wedding) {
+    return { error: noWedding };
+  }
+
+  const id = formData.get("id");
+  const photo = formData.get("photo") as File | null;
+  if (typeof id !== "string" || !id) {
+    return { error: "That photo couldn't be found — reload and try again." };
+  }
+  if (!photo || photo.size === 0) {
+    return { error: "Choose a photo." };
+  }
+  if (!photo.type.startsWith("image/")) {
+    return { error: "Photos must be image files." };
+  }
+  if (photo.size > MAX_PHOTO_BYTES) {
+    return { error: "That photo is too large — please use one under 5MB." };
+  }
+
+  const extension = photo.name.includes(".") ? photo.name.split(".").pop() : undefined;
+  const path = `${wedding.id}/gallery/${randomUUID()}${extension ? `.${extension}` : ""}`;
+  const { error: uploadError } = await supabase.storage
+    .from("wedding-photos")
+    .upload(path, photo, { contentType: photo.type });
+  if (uploadError) {
+    return { error: "Could not upload your photo — please try again." };
+  }
+
+  const { data: updated, error } = await supabase
+    .from("wedding_gallery_photos")
+    .update({ photo_url: supabase.storage.from("wedding-photos").getPublicUrl(path).data.publicUrl })
+    .eq("id", id)
+    .eq("wedding_id", wedding.id)
+    .select("id");
+  if (error) {
+    return { error: error.message };
+  }
+  if (!updated?.length) {
+    return { error: "That photo couldn't be found — reload and try again." };
+  }
+
+  revalidateGuestSite(wedding.public_slug);
+  return {};
+}
+
 /** Saves a new gallery order: `ids` is every photo's id, first to last. */
 export async function reorderGalleryPhotos(ids: string[]): Promise<{ error?: string }> {
   const { supabase, wedding, noWedding } = await requireEditableWedding();

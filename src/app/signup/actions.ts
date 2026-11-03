@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase/server";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import { normalizeEmail } from "@/lib/unsubscribe";
 import { trackEvent } from "@/lib/events";
+import { cleanFirstTouch, cleanHeardFrom } from "@/lib/attribution";
 
 export async function signup(formData: FormData) {
   const supabase = await createClient();
@@ -40,7 +41,18 @@ export async function signup(formData: FormData) {
 
   // Supabase answers a repeat signup with a stand-in user with no
   // identities; only a real new account counts.
-  if (data.user?.identities?.length) trackEvent("account_created", { userId: data.user.id });
+  if (data.user?.identities?.length) {
+    trackEvent("account_created", { userId: data.user.id });
+    // How they found us (src/lib/attribution.ts). Best effort: never blocks signup.
+    const heardFrom = cleanHeardFrom(formData.get("heard_from"));
+    const firstTouch = cleanFirstTouch(formData.get("first_touch"));
+    if (heardFrom || firstTouch) {
+      await createAdminSupabaseClient()
+        .from("signup_sources")
+        .upsert({ user_id: data.user.id, heard_from: heardFrom, first_touch: firstTouch })
+        .then(() => undefined, () => undefined);
+    }
+  }
 
   // Record the tick, not its absence: an unticked box writes nothing, so a
   // returning user who once opted in isn't silently opted out by signing up

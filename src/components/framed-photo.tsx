@@ -24,6 +24,7 @@ export function FramedPhoto({
   className = "",
   priority,
   circleMax,
+  galleryId,
 }: {
   /** No photo: `initial` sits in the frame instead. */
   src: string | null;
@@ -36,11 +37,14 @@ export function FramedPhoto({
   priority?: boolean;
   /** How wide a circle may grow, for a photo that otherwise fills a wide section. */
   circleMax?: string;
+  /** A gallery photo's id, so the editor's preview can tell which photo was clicked. */
+  galleryId?: string;
 }) {
   const frame = useSiteDesign().photoFrame ?? fallback;
   const { outer, radius } = FRAME_STYLE[frame];
   return (
     <div
+      data-gallery-photo={galleryId}
       className={className}
       style={frame === "circle" && circleMax ? { ...outer, maxWidth: circleMax, marginInline: "auto" } : outer}
     >

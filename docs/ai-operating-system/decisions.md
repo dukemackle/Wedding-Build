@@ -20,6 +20,21 @@ rules, batch self-merge, 50-state coverage, page widths) and
 ## Pending owner decisions
 - None open.
 
+## 2026-11-03 — Restaurant booking for rehearsal dinners and welcome parties: parked
+- Decided: parked for now, not ruled out. Stay out of restaurant booking and restaurant-specific features
+  (reservations, private-dining listings, restaurant search from the
+  itinerary). Couples keep the existing budget lines, checklist item and
+  per-event itinerary/RSVPs; restaurants already in the venue catalog stay
+  as ordinary venues.
+- Why: another moving part to keep working and current, in an area we won't
+  be expert in. Large-party restaurant bookings run through events
+  coordinators, not reservation APIs, so there's little to automate anyway.
+- Alternatives: link itinerary events to nearby Restaurant & Brewery venues,
+  plus a private-dining inquiry template; a separate restaurant directory.
+- Revisit: after launch, if couples ask for it or the core product is
+  stable enough to take on another area. Start with the itinerary-link
+  alternative above, not a directory.
+
 ## 2026-10-22 — When a launch metro is "done"
 - Decided: every core vendor category at its target; at least 90% of the
   metro's venues show capacity and price tier; every listing's website
@@ -105,6 +120,14 @@ rules, batch self-merge, 50-state coverage, page widths) and
   surface); no measurement until launch.
 - Revisit: add events as new questions come up; nothing a couple types is
   ever logged.
+
+## 2026-10-27 — LLC approved
+- You Do, I Do LLC (California) went through. Entity name now in the Terms,
+  Privacy Policy, site footer and marketing-email footer.
+- EIN obtained 2026-10-27.
+- California $800 LLC tax (FTB 3522) due by 2027-02-15.
+- Next (owner): business bank account, Form 1583 for the mailbox, assign
+  domain/code/IP to the LLC in writing, DMCA agent ($6), insurance quotes.
 
 ## 2026-10-21 — Form a California LLC and get a public mailing address
 - Decided: "You Do, I Do LLC", California, member-managed, single member,

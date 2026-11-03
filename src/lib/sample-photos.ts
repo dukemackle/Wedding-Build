@@ -26,3 +26,23 @@ export const SAMPLE_GALLERY = [
   "1544078751-58fee2d8a03b",
   "1515934751635-c81c6bc9a2d8",
 ].map((id) => unsplash(id, 1200));
+
+/**
+ * Stand-in guests for "Who's coming" in the editor preview, so a couple can
+ * see and style the section before anyone RSVPs. Initials only, no faces.
+ * Never on the live site: the section stays hidden there until a real yes.
+ */
+export const SAMPLE_GUEST_NAMES = [
+  "Avery Brooks",
+  "Jordan Lee",
+  "Priya Shah",
+  "Marcus Hill",
+  "Sofia Reyes",
+  "Ethan Cole",
+  "Grace Kim",
+  "Noah Turner",
+  "Maya Patel",
+  "Liam Walsh",
+  "Chloe Martin",
+  "Diego Alvarez",
+];

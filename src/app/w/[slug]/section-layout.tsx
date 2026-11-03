@@ -7,7 +7,7 @@ import { SiteReveal } from "@/components/site-motion";
 import { SiteSection } from "@/components/site-section";
 import { useSiteDesign } from "@/components/guest-site-theme";
 import { CANVAS_WIDTH, READING_WIDTH, STANDARD_WIDTH, WIDE_WIDTH } from "@/lib/layout";
-import { SITE_SECTIONS, sectionColumn, type SectionKey } from "@/lib/site-design";
+import { artSuite, SITE_SECTIONS, sectionColumn, type SectionKey } from "@/lib/site-design";
 
 /**
  * The guest site's sections, in the couple's order.
@@ -163,11 +163,17 @@ function sectionName(id: SectionKey) {
  * the point of this look is that it reads top to bottom like a card.
  */
 function Invitation({ shown, sections }: { shown: Shown; sections: Partial<Record<SectionKey, ReactNode>> }) {
+  const suite = artSuite(useSiteDesign().art.id);
   return (
     <div className={`site-invitation mx-auto flex w-full ${STANDARD_WIDTH} flex-col px-4 pb-20 sm:px-6`}>
       {shown.map((x, i) => (
         <Fragment key={x.id}>
-          {i > 0 && (
+          {/* A set's painted divider every third break, the plain rule between: flowers at every break would be too much. */}
+          {i > 0 && suite && i % 3 === 1 ? (
+            <div className="flex justify-center py-12 sm:py-16" aria-hidden="true">
+              <Image src={suite.divider.src} alt="" width={suite.divider.w} height={suite.divider.h} loading="lazy" className="h-auto w-[220px] sm:w-[280px]" />
+            </div>
+          ) : i > 0 && (
             <div className="flex items-center justify-center gap-3 py-10 text-[var(--site-accent)] sm:py-14" aria-hidden="true">
               <span className="h-px w-16 bg-current opacity-40" />
               <span className="h-2 w-2 rotate-45 border border-current" />

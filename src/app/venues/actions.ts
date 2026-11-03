@@ -1,5 +1,6 @@
 "use server";
 
+import { withVia } from "@/lib/attribution";
 import { revalidatePath } from "next/cache";
 import { getResendClient, INQUIRY_FROM_ADDRESS, isUndeliverable, UNDELIVERABLE_MESSAGE } from "@/lib/resend";
 import { leadCounts } from "@/lib/listing-leads";
@@ -148,7 +149,7 @@ export async function sendVenueInquiry(formData: FormData): Promise<{ error?: st
   // address the couple typed could be anyone's, and the link would let them
   // take over the listing (docs/legal-audit.md R8).
   const claimUrl =
-    venueId && listing && !listing.is_sample && listing.contact_email ? await ensureClaimLink(venueId) : null;
+    venueId && listing && !listing.is_sample && listing.contact_email ? withVia(await ensureClaimLink(venueId), "inquiry") : null;
 
   // Log first so an email never goes out unrecorded (see vendors/actions.ts).
   const { data: logged, error: dbError } = await supabase

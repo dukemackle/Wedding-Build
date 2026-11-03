@@ -113,6 +113,24 @@ Jackson Lake Lodge	101 Jackson Lake Lodge Road	Moran	Wyoming			Mountain & Lodge	
 The Virginian Lodge	750 W Broadway	Jackson	Wyoming			Mountain & Lodge	Indoor & Outdoor	185		A retro Western-style lodge of about 165 rooms in Jackson with a 4,185-square-foot hall, a courtyard with fire pits and a saloon for smaller gatherings.	info@virginianlodge.com	307-733-2792	https://outboundhotels.com/the-virginian/weddings/
 `,
   },
+  {
+    name: "Wyoming: Jackson, Cheyenne, Casper depth",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+Teton Mountain Lodge & Spa	3385 Cody Lane	Teton Village	Wyoming			Hotel & Resort	Indoor	162			A slope-side Teton Village lodge hosting weddings in the Teton Room, the Four Pines room and a Spur Restaurant buyout, with group rates for wedding guests.	TMLSales@TetonResorts.com	307-739-4180	https://tetonlodge.com/gather/weddings/
+Arcady Ridge Ranch	199 Uphill Road	Dubois	Wyoming			Ranch					A private ranch lodge near Dubois offering its grounds for weddings and elopements, with personalized catering on request.	info@arcadyridgeranch.com	307-231-2574	https://www.arcadyridgeranch.com
+ART 321	321 W. Midwest Ave	Casper	Wyoming			Museum, Gallery & Rooftop	Indoor	125	3000	Rental	A downtown Casper artists' guild gallery with brick walls that rents full-day exclusive access for weddings, with tables, chairs and black linens included.	admin@art321.org	307-265-2655	https://art321.org/rentals
+`,
+  },
+  {
+    name: "Wyoming: Jackson, Cheyenne and Bighorn",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+Antelope Butte Ski Area	28 USFS Road 244	Shell	Wyoming			Mountain & Lodge	Indoor & Outdoor				Nonprofit-run ski area in the Bighorn Mountains whose festival grounds at the base of the hill, yurt and 11,400 sq ft lodge host small, largely do-it-yourself weddings.	contact@antelopebuttefoundation.org	(307) 529-1052	https://www.skiantelopebutte.com/facility-rentals
+Caldera House	3275 W. Village Dr.	Teton Village	Wyoming			Hotel & Resort	Indoor	85	5000	Rental	Small private lodge at the base of the ski area with suites that sleep wedding parties, a restaurant and a members' lounge that host receptions and rehearsal dinners.	kallydziezyc@calderahouse.com	(307) 200-4220	https://calderahouse.com/weddings-in-jackson-hole/
+Snake River Sporting Club	14885 Sporting Club Road	Jackson	Wyoming			Country Club & Golf	Indoor & Outdoor	500			Private golf and sporting club offering a small lodge barn plus tented lawn sites at the first tee and beside the pool for ceremonies and receptions.		307.733.3444	https://www.snakeriversportingclub.com/gather/weddings/
+The Cloudveil	112 Center St.	Jackson	Wyoming			Hotel & Resort	Indoor & Outdoor				Downtown hotel with a 5,000 sq ft rooftop terrace overlooking Town Square and Snow King and a split-able indoor room with two fireplaces for receptions.	info@thecloudveil.com	307.699.6100	https://thecloudveil.com/events
+Preston Ranch Cabins	100 Preston Ranch Lane	Bedford	Wyoming			Ranch	Outdoor				Exclusive-use Star Valley cabin property with a covered pavilion, outdoor kitchen and dance floor that hosts weddings, reunions and retreats.	PrestonRanchCabins@gmail.com	415-454-7595	https://www.prestonranchcabins.com/
+Woods Landing Resort	#9 State Highway 10	Jelm	Wyoming			Hotel & Resort	Indoor & Outdoor				Historic dancehall and restaurant along the Laramie River, a few miles southwest of Laramie, with on-site cabins and a guest house that host wedding receptions.		307-745-9638	https://www.woodslanding.com`,
+  },
 ];
 
 export default batches;

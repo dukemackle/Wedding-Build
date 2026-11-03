@@ -292,6 +292,78 @@ Debra Garlo Photography & Videography	Videography		Fairhope	Alabama	South Alabam
 Celebration Catering	Catering	5160 Alabama 180	Gulf Shores	Alabama	Gulf Shores, Orange Beach and Fort Morgan	Gulf Shores catering company from a local restaurant group, serving weddings at six exclusive venues or any Gulf Coast location.	c@celebrationcatering.co	251-500-1788	http://www.celebrationcatering.co/			
 `,
   },
+  {
+    name: "Birmingham: photography, florals, photo booth, officiant and decor",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Danny Austin Photography	Photography		Birmingham	Alabama	Birmingham	Birmingham photographer working from a downtown studio, covering weddings and wedding films alongside lifestyle and commercial work.	dannyaustinphotography@gmail.com	(205) 451-6362	https://www.dannyaustinphotography.com/	https://www.instagram.com/dannyaustinphotography/		
+Lindsey Ann Photography	Photography		Birmingham	Alabama		Birmingham-based wedding and portrait photographer who is available to travel for couples who want her further afield.	lindsey@lindseyannphoto.com	(205) 383-6421	https://lindseyannphoto.com/	https://www.instagram.com/liindsey/		
+Be Light Photography	Photography		Birmingham	Alabama	Alabama, Georgia and Florida, plus worldwide travel	Birmingham photography studio telling couples' wedding and engagement stories across Alabama, Georgia and Florida, and further afield.	hello@belightphotography.com		https://belightphotography.com/	https://www.instagram.com/belightphotography/		
+Olivia B. Photography	Videography		Birmingham	Alabama		Birmingham photographer offering wedding films with her videographer, from highlight reels to ceremony coverage with drone footage.	olivia@oliviabphotography.com		https://oliviabphotography.com/	https://www.instagram.com/olivia.b.photography/		
+Moonlighter Events	Photo Booth		Birmingham	Alabama	Birmingham and neighbouring areas	Photo booth hire for weddings and other events around Birmingham, a business established in 2024.	mitch@moonlighterevents.com		https://www.moonlighterevents.com/	https://www.instagram.com/moonlighterevents/		
+D4 Events	Decor & Lighting	2308 2nd Ave South	Birmingham	Alabama		Birmingham event company supplying draping, decor and lighting, including ceiling drapes, backdrops and uplighting, for weddings.	info@d4events.net	(205) 960-5292	https://www.d4events.net/	https://www.instagram.com/d4_events/		
+Agape Weddings	Officiant		Birmingham	Alabama	Across Alabama, plus the Florida Panhandle	Chaplain-led wedding officiant based in Birmingham, writing and conducting ceremonies and notarising certificates across Alabama.	psalm40.123@gmail.com	205.381.6767	https://www.agapeweddings.org/			
+Bella Blooms	Florals	3105 Pelham Parkway	Pelham	Alabama		Pelham floral and gift boutique offering wedding and event floral design alongside seasonal installations.	office@bellabloomsanddesigns.com	205-624-2217	https://www.bellabloomsanddesigns.com/	https://www.instagram.com/bellabloomsanddesigns/		
+Norton's Florist	Florals	401 22nd Street South	Birmingham	Alabama	Birmingham, Homewood, Hoover, Mountain Brook, Trussville, Vestavia Hills, Bessemer and Pelham	Birmingham florist with a Southside shop, designing ceremony flowers, personal flowers and reception arrangements for weddings.		(205) 226-6701	https://www.nortonsflorist.com/	https://www.instagram.com/nortonsflorist/		
+Rococo Floral Studio	Florals	422 Broad Street	Gadsden	Alabama		Gadsden floral studio inside Gadsden Variety, offering wedding flowers alongside local delivery.	shop@gadsdenvariety.com	(256) 515-4994	https://gadsdenflowers.com/	https://www.instagram.com/rococofloralgadsden/		
+Heather Florals	Florals		Jacksonville	Alabama	Northeast Alabama, Birmingham, Gadsden, Talladega and Guntersville	Jacksonville florist creating full-service wedding florals, bridal bouquets and bloom bars for Northeast Alabama couples.	heather@heatherflorals.com		https://www.heatherflorals.com/	https://www.instagram.com/heatherfloralsal/	2500	per event
+`,
+  },
+  {
+    name: "Gulf Shores and Mobile: photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Scottie Mae Photography	Photography		Orange Beach	Alabama	Orange Beach, Gulf Shores, Fort Morgan and Perdido Key	Orange Beach photographer with a photo and video team for beach weddings along the Alabama Gulf Coast.			https://scottiemaephotography.com/	https://www.instagram.com/scottiemaephotos/		
+BP Photography	Photography		Mobile	Alabama	Gulf Coast including Mobile, Fairhope, Gulf Shores, Orange Beach, Fort Morgan, Pensacola and Biloxi	Mobile photographer covering Gulf Coast weddings and renting photo booths for receptions.	brad@bradpuckettphotography.com	251.802.9990	https://bradpuckettphotography.com/	https://www.instagram.com/bradpuckettphotography/	1599	package
+`,
+  },
+  {
+    name: "Montgomery: photography, cake, florals, catering and music",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Allison and Co.	Photography		Dothan	Alabama	Dothan, with travel worldwide	Dothan photographer who also offers hair and makeup, with weddings as a specialty and travel available.			https://allisonandcophoto.com/	https://www.instagram.com/allisonandco_/		
+K Gilley Photography	Photography		Dothan	Alabama	Southeastern United States	Dothan fine art wedding and family photographer working across the south-eastern United States.			https://www.kgilleyphotography.com/	https://www.instagram.com/kgilleyphotography/	3000	package
+Fleurish Fancy	Florals	4828 Woods Crossing, Suite 5	Montgomery	Alabama		Montgomery floral studio designing wedding flowers and event florals from a studio at Woods Crossing.	hello@fleurishfancy.com	334-421-1855	https://www.fleurishfancy.com/	https://www.instagram.com/fleurishfancy/		
+Pam's Incredible Edibles	Catering		Pike Road	Alabama	Montgomery	Pike Road caterer and wedding setup service for Montgomery-area receptions, with consultations on catering, decor and florals.	flojoflojo1@gmail.com	(334) 301-4522	https://www.pamsincredibleedibles.com/			
+Vintage Year	Catering	405 Cloverdale Road	Montgomery	Alabama		Montgomery restaurant hosting wedding receptions and rehearsal dinners in its dining room, and catering larger weddings.		334-819-7215	https://www.vymgm.com/	https://www.instagram.com/vintageyearmgm/		
+Dexter String Quartet	Music		Montgomery	Alabama		Montgomery string quartet playing ceremonies and receptions since 2015, with a song library spanning classical, pop and film scores.	wesley@dexterquartet.com	(334) 309-9934	https://www.dexterquartet.com/			
+Dee Sanders Photography	Photography		Eufaula	Alabama	Eufaula and Barbour County	Eufaula photographer covering weddings, engagements and events across Barbour County and the wider region.		334-414-3462	https://www.deesandersphotography.com/eufaula	https://www.instagram.com/deesandersphotography/	1800	package
+`,
+  },
+  {
+    name: "Huntsville: videography, planning, florals, catering, hair and makeup, music and cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Lumpstick Productions	Videography	26201 Hwy 72 E Ste. C	Athens	Alabama		Athens-based video team producing wedding highlight films and social previews, with ceremony, interview and reception coverage options.	info@lpdigitalmediagroup.com		https://www.lumpstickproductions.com/	https://www.instagram.com/lumpstickproductions/		
+EJ Events	Planning		Scottsboro	Alabama	Scottsboro, Huntsville, Guntersville, Section and Northeast Alabama	Scottsboro wedding planner coordinating ceremonies and receptions for couples in Huntsville, Guntersville and across Northeast Alabama.	elizabeth@ej-events.com	256-203-6879	https://www.ej-events.com/	https://www.instagram.com/elizabethjonesevents/		
+Faith & Co Events	Planning		Huntsville	Alabama	Huntsville, Atlanta and Nashville	Huntsville-based wedding planning company for couples marrying in North Alabama, Atlanta and Nashville.	faith@faithandcoevents.com		https://www.faithandcoevents.com/	https://www.instagram.com/faithandcoevents/		
+Bubba's Silver Spoon Catering	Catering	2620 A Clinton Avenue	Huntsville	Alabama	Huntsville and North Alabama	Family caterer serving Huntsville weddings, showers and corporate events with full-service catering across North Alabama.	caterpros@aol.com	(256) 551-0072	https://www.bubbassilverspooncatering.com/	https://www.instagram.com/bubbassilverspooncatering/		
+256 Weddings & Events	Florals		Huntsville	Alabama	North Alabama	Huntsville florist designing bridal bouquets, ceremony arrangements and reception flowers for North Alabama weddings.		(256) 715-8340	https://256weddingsandevents.com/			
+Red Jay Video	Videography		Huntsville	Alabama	Huntsville, Madison, North Alabama and Birmingham	Huntsville wedding videographer making cinematic films, full ceremony and speech edits, and single-camera livestreams.			https://www.redjayvideo.com/		995	package
+Lacelight Studios	Videography		Huntsville	Alabama	Huntsville and destination weddings	Huntsville photo and video studio covering weddings in North Alabama and further afield.	lacey@lacelightstudios.com		https://lacelightstudios.com/	https://www.instagram.com/lacelightstudios/		
+Frank Films & Photography	Videography		Huntsville	Alabama	Huntsville, North Alabama, Tennessee and Georgia	Huntsville wedding photography and cinematic film studio covering weddings across North Alabama and the wider Southeast.			https://www.frankfilmsandphotography.com/		2500	package
+Huntsville Florist	Florals	2010 Franklin Street	Huntsville	Alabama		Huntsville flower shop designing bridal bouquets, ceremony flowers and reception centrepieces, with bridal consultations.		(256) 536-4449	https://www.huntsvillealflorist.com/			
+Terra Bacio Salon	Hair & Makeup	4800 Whitesburg Dr. Ste. 3	Huntsville	Alabama	Huntsville and Madison	Huntsville and Madison salon styling hair for weddings and special events, with bridal packages arranged by consultation.		256-881-4966	https://terrabacio.com/	https://www.instagram.com/terrabaciohuntsville/		
+Brian Anderson Entertainment	Music		Huntsville	Alabama	Huntsville, Scottsboro, Fort Payne, Guntersville, Albertville and Northeast Alabama	Huntsville wedding DJ playing receptions at local venues across North Alabama, from Huntsville to Scottsboro and Fort Payne.		256-638-3535	https://www.djbriananderson.com/			
+Have Harp Will Travel	Music		Huntsville	Alabama	Huntsville, Madison and North Alabama	Huntsville harpist playing wedding preludes, processionals, ceremonies, cocktail hours and receptions across North Alabama.	victoria@haveharp.com	(931) 227-6968	https://haveharp.com/	https://www.instagram.com/haveharpwilltravel/		
+Simpson's Florist	Florals	902 6th Ave SE	Decatur	Alabama		Decatur florist offering bridal bouquets, ceremony arches and reception centrepieces, with delivery and venue setup.	wecare@simpsonsflorist.org	(256) 353-7654	https://www.simpsonsflorist.org/	https://www.instagram.com/simpsons_florist/		
+Maggie's Florist and Gifts	Florals		Decatur	Alabama		Decatur florist creating reception centrepieces, cake flowers and ceremony arrangements, with wedding consultations available.		256-686-3958	https://maggiesflowersdecatur.net/			
+Iris & Ivy Floral & Gifts	Florals	2526 Danville Rd Suite C	Decatur	Alabama		Decatur florist designing wedding bouquets, ceremony flowers and reception arrangements, with bridal consultations by phone.		(256) 686-1119	https://www.irisivyfloral.com/			
+The Wired Whisk	Cake		Decatur	Alabama	North, Central and South Alabama, Southern Tennessee and Central Georgia-Pine Mountain area	Home-based Decatur baker making wedding cakes for couples across North, Central and South Alabama by pickup or delivery.	thewiredwhisk6@gmail.com	256-466-4551	https://www.thewiredwhisk.net/	https://www.instagram.com/the.wired.whisk/		
+`,
+  },
+  {
+    name: "Auburn–Opelika: photography, florals, planning and catering",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Hannah Miller Photography	Photography		Auburn	Alabama	Southeast	Auburn-based wedding photographer making clean, editorial-leaning images for couples across the Southeast.	hannahmillerphotog@gmail.com		https://hannahmillerphoto.com/	https://www.instagram.com/hannahbmiller__/		
+A & E Event Florals	Florals		Auburn	Alabama		Auburn florists creating custom wedding flowers, from bouquets and centrepieces to ceremony arches, for couples in and around Auburn.	aeeventflorals24@gmail.com	(850) 814-4700	https://www.aeflorals.com/			
+The Flower Store	Florals	2290 Moores Mill Road, Suite 100	Auburn	Alabama		Established Auburn flower shop designing wedding bouquets and arrangements alongside everyday and occasion flowers.		334-887-9303	https://theflowerstoreauburn.com/	https://www.instagram.com/theflowerstore/		
+CWK Catering	Catering		Phenix City	Alabama	Alabama, Georgia and Florida	Phenix City caterer offering custom menus and tastings for weddings and receptions across Alabama, Georgia and Florida.	events@cwkcateringal.com	347 653 2129	https://cwkcateringal.com/			
+`,
+  },
+  {
+    name: "Tuscaloosa: florals, hair and makeup and rentals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Kelly Wilkin Floral Creative	Florals		Tuscaloosa	Alabama		Tuscaloosa florist creating custom floral arrangements for weddings, formals and private events.	info@kellywilkinfloralcreative.com		https://www.kellywilkinfloralcreative.com	https://www.instagram.com/kellywilkin/		
+The Grand Event Design and Decor	Rentals	1017 MLK Jr Blvd	Northport	Alabama	Tuscaloosa and Birmingham	Northport event rental and design company supplying furniture, linens, lighting, backdrops and decor for weddings in Tuscaloosa and Birmingham.		(205) 535-9592	https://www.grandeventdesign.com/	https://www.instagram.com/grandeventdesign/		
+`,
+  },
 ];
 
 export default batches;

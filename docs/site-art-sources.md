@@ -41,3 +41,9 @@ and the icon patterns (`src/lib/scene-icons.ts`) are drawn in code the same way.
 The owner's art review of 2026-10-21 cut 38 pieces, mostly the simple icon-style
 drawings and the watercolours that didn't match the old painted set; what's
 listed here is what remains.
+
+## Commissioned sets
+
+| Files | Source | Licence | Notes |
+|---|---|---|---|
+| `heirloom/arch.webp`, `corner.webp`, `ledge.webp`, `divider.webp` | AI-generated (ChatGPT), owner-commissioned, 2026-10-29, from the prompts in `docs/site-art-prompts.md` | Owner's under OpenAI's terms (US copyright unlikely for AI output, so others could copy it) | The "Heirloom garden" set (`ART_SUITES` in `src/lib/site-design.ts`). Converted from the transparent PNGs to WebP with alpha; the arch's trailing ends are cut at 1360px and faded; the others trimmed to their painted area. PNG originals are kept by the owner, not in the repo. |

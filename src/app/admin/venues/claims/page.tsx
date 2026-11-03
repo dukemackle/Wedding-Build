@@ -1,6 +1,9 @@
 import Link from "next/link";
 import { requireAdmin } from "@/lib/admin";
+import { SITE_URL, venueHref } from "@/lib/public-listings";
+import { foundUsLines } from "@/lib/attribution";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
+import { RecentlyApproved, type ApprovedClaim } from "../../_listing/recently-approved";
 import type { Venue, VenueSubmission } from "@/lib/supabase/types";
 import { SubmissionReview } from "./submission-review";
 
@@ -13,12 +16,33 @@ export default async function AdminVenueClaimsPage() {
     .eq("status", "pending")
     .order("created_at")
     .returns<VenueSubmission[]>();
+  const { data: approved } = await admin
+    .from("venue_submissions")
+    .select("id, venue_id, submitter_name, submitter_email, submitter_role, reviewed_at, heard_from, arrived_via, first_touch")
+    .eq("status", "approved")
+    .order("reviewed_at", { ascending: false })
+    .returns<Pick<VenueSubmission, "id" | "venue_id" | "submitter_name" | "submitter_email" | "submitter_role" | "reviewed_at" | "heard_from" | "arrived_via" | "first_touch">[]>();
 
-  const venueIds = [...new Set((submissions ?? []).map((s) => s.venue_id))];
+  const venueIds = [...new Set([...(submissions ?? []), ...(approved ?? [])].map((s) => s.venue_id))];
   const { data: venues } = venueIds.length
     ? await admin.from("venues").select("*").in("id", venueIds).returns<Venue[]>()
     : { data: [] as Venue[] };
   const venueById = new Map((venues ?? []).map((v) => [v.id, v]));
+  const recent: ApprovedClaim[] = (approved ?? []).flatMap((s) => {
+    const v = venueById.get(s.venue_id);
+    if (!v) return [];
+    return [{
+      id: s.id,
+      name: v.name,
+      listingUrl: `${SITE_URL}${venueHref(v)}`,
+      where: [v.city, v.state].filter(Boolean).join(", "),
+      submitterName: s.submitter_name,
+      submitterRole: s.submitter_role,
+      submitterEmail: s.submitter_email,
+      reviewedAt: s.reviewed_at,
+      foundUs: foundUsLines(s),
+    }];
+  });
 
   return (
     <div>
@@ -42,6 +66,7 @@ export default async function AdminVenueClaimsPage() {
           })}
         </div>
       )}
+      <RecentlyApproved claims={recent} />
     </div>
   );
 }

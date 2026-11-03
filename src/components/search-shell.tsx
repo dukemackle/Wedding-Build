@@ -1,6 +1,9 @@
 "use client";
 
 import { Children, useEffect, useRef, useState, type ReactNode } from "react";
+import { createPortal } from "react-dom";
+import { CloseIcon } from "@/components/icons";
+import { FilterLayout } from "@/components/filter-dropdown";
 
 /**
  * The browse-and-map layout shared by Venues and Vendors.
@@ -13,7 +16,7 @@ import { Children, useEffect, useRef, useState, type ReactNode } from "react";
  *   from the bottom, so the two never fight for the same 375px.
  *
  * Both arrangements come out of one tree. Rendering a `hidden lg:flex` desktop
- * branch beside an `lg:hidden` phone one would mount two Leaflet maps and pull
+ * branch beside an `lg:hidden` phone one would mount two maps and pull
  * every tile twice.
  */
 
@@ -60,6 +63,12 @@ export type SearchShellProps = {
   activeFilterCount: number;
   onClearFilters: () => void;
   /**
+   * Every filter on one page: a sliders button beside the search on a phone
+   * (whose bar then shows only the filters that are on) and "All filters" at
+   * the end of the desktop bar. Venues and Vendors use it.
+   */
+  filterSheet?: boolean;
+  /**
    * Pills that swap the results pane for a panel of their own -- saved
    * listings, sent inquiries. Keeps work that used to sit in stacked cards
    * above the browser reachable without spending screen on it.
@@ -102,6 +111,7 @@ export function SearchShell({
   filters,
   activeFilterCount,
   onClearFilters,
+  filterSheet = false,
   views = [],
   viewsMenu,
   resultCount,
@@ -123,6 +133,7 @@ export function SearchShell({
   const [availableHeight, setAvailableHeight] = useState<number | null>(null);
   const [isDesktop, setIsDesktop] = useState(true);
   const [activeView, setActiveView] = useState<string | null>(null);
+  const [sheetOpen, setSheetOpen] = useState(false);
 
   // `?view=saved` opens a view directly -- the Saved page's Venues/Vendors
   // switch links between the two screens this way.
@@ -272,6 +283,17 @@ export function SearchShell({
           items of the bar itself. */}
       <div ref={controlsRef} className={`pointer-events-none inset-x-0 top-0 z-[700] flex flex-col gap-2 p-3 lg:static ${gridOnly ? "static border-b border-hairline bg-card" : "absolute"} lg:z-auto lg:flex-row lg:flex-wrap lg:items-center lg:gap-2 lg:border-b lg:border-hairline lg:bg-card lg:px-5 lg:py-2.5`}>
         <div className="pointer-events-auto flex items-center gap-2 lg:contents">
+          {filterSheet && (
+            <button
+              type="button"
+              onClick={() => setSheetOpen(true)}
+              aria-label={activeFilterCount ? `Filters, ${activeFilterCount} on` : "Filters"}
+              className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-hairline bg-card text-forest shadow-md lg:hidden"
+            >
+              <SlidersIcon className="h-5 w-5" />
+              {activeFilterCount > 0 && <CountBadge count={activeFilterCount} className="absolute -right-1 -top-1 border-2 border-card" />}
+            </button>
+          )}
           <div className="relative min-w-0 flex-1 lg:w-60 lg:flex-none">
             <input
               type="search"
@@ -310,12 +332,23 @@ export function SearchShell({
         </div>
         <div className="pointer-events-auto -mx-3 flex gap-2 overflow-x-auto px-3 pb-1 [scrollbar-width:none] lg:contents [&::-webkit-scrollbar]:hidden">
           {modeToggle}
-          {filters}
+          <FilterLayout.Provider value={{ mode: "bar", collapseInactive: filterSheet }}>{filters}</FilterLayout.Provider>
+          {filterSheet && (
+            <button
+              type="button"
+              onClick={() => setSheetOpen(true)}
+              className="hidden shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border border-forest bg-card px-3 py-1.5 text-sm font-semibold text-forest hover:bg-parchment lg:flex"
+            >
+              <SlidersIcon className="h-4 w-4" />
+              All filters
+              {activeFilterCount > 0 && <CountBadge count={activeFilterCount} />}
+            </button>
+          )}
           {activeFilterCount > 0 && (
             <button
               type="button"
               onClick={onClearFilters}
-              className="shrink-0 whitespace-nowrap rounded-full border border-hairline bg-card px-3 py-1.5 text-sm text-brass shadow-md lg:border-none lg:bg-transparent lg:px-0 lg:shadow-none lg:hover:underline"
+              className={`${filterSheet ? "max-lg:hidden " : ""}shrink-0 whitespace-nowrap rounded-full border border-hairline bg-card px-3 py-1.5 text-sm text-brass shadow-md lg:border-none lg:bg-transparent lg:px-0 lg:shadow-none lg:hover:underline`}
             >
               Clear ({activeFilterCount})
             </button>
@@ -324,7 +357,20 @@ export function SearchShell({
         <div className="hidden lg:block lg:flex-1" />
       </div>
 
-      {/* Over the map rather than instead of it: Leaflet hidden with
+      {sheetOpen &&
+        createPortal(
+          <FilterSheet
+            onClose={() => setSheetOpen(false)}
+            onReset={onClearFilters}
+            activeFilterCount={activeFilterCount}
+            seeLabel={`See ${(totalCount ?? resultCount).toLocaleString()} ${resultNoun}${(totalCount ?? resultCount) === 1 ? "" : "s"}`}
+          >
+            {filters}
+          </FilterSheet>,
+          document.body,
+        )}
+
+      {/* Over the map rather than instead of it: a map hidden with
           display:none comes back grey, and this way it's where it was. */}
       {fullPage && <div className="absolute inset-0 z-[800] overflow-y-auto bg-parchment">{panel}</div>}
 
@@ -666,6 +712,117 @@ function ResultsPane({
         </div>
       </div>
       <div className="min-h-0 flex-1 overflow-y-auto p-3">{children}</div>
+    </div>
+  );
+}
+
+function SlidersIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" className={className} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+      <path d="M6 3v18M12 3v18M18 3v18M3 15h6M9 8h6M15 13h6" />
+    </svg>
+  );
+}
+
+function CountBadge({ count, className = "" }: { count: number; className?: string }) {
+  return (
+    <span className={`flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-[#2243B6] px-1 text-[11px] font-bold leading-none text-white ${className}`}>
+      {count}
+    </span>
+  );
+}
+
+/**
+ * Every filter on one page: full screen on a phone, a drawer from the right
+ * on desktop. Filters apply as they're tapped, so the button at the bottom
+ * shows the live count and just closes.
+ */
+function FilterSheet({
+  onClose,
+  onReset,
+  activeFilterCount,
+  seeLabel,
+  children,
+}: {
+  onClose: () => void;
+  onReset: () => void;
+  activeFilterCount: number;
+  seeLabel: string;
+  children: ReactNode;
+}) {
+  const panelRef = useRef<HTMLDivElement>(null);
+  // Held in a ref: the shell passes a new function every render, and the
+  // effect below must run once, not refocus the sheet on every tap.
+  const closeRef = useRef(onClose);
+  useEffect(() => {
+    closeRef.current = onClose;
+  });
+
+  useEffect(() => {
+    const previous = document.activeElement as HTMLElement | null;
+    panelRef.current?.focus();
+    const overflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    function onKey(e: KeyboardEvent) {
+      // A dropdown menu open inside the sheet takes the first Escape.
+      if (e.key === "Escape" && !document.querySelector("[aria-expanded='true']")) closeRef.current();
+    }
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = overflow;
+      document.removeEventListener("keydown", onKey);
+      previous?.focus();
+    };
+  }, []);
+
+  return (
+    <div className="fixed inset-0 z-[1200] flex lg:justify-end">
+      <button type="button" aria-label="Close filters" onClick={onClose} className="absolute inset-0 hidden cursor-default bg-forest/40 lg:block" />
+      <div
+        ref={panelRef}
+        tabIndex={-1}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="filter-sheet-title"
+        className="relative flex h-full w-full flex-col bg-card outline-none animate-page-in lg:w-[420px] lg:shadow-2xl"
+      >
+        <div className="flex shrink-0 items-center justify-between border-b border-hairline px-3 py-2.5">
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Back to results"
+            className="flex h-9 w-9 items-center justify-center rounded-full text-forest hover:bg-parchment"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true" className="h-5 w-5 lg:hidden" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="m15 6-6 6 6 6" />
+            </svg>
+            <CloseIcon className="hidden h-4 w-4 lg:block" />
+          </button>
+          <h2 id="filter-sheet-title" className="text-base font-semibold text-forest">
+            Filters
+          </h2>
+          <button
+            type="button"
+            onClick={onReset}
+            disabled={activeFilterCount === 0}
+            className="rounded-full px-3 py-1.5 text-sm font-semibold text-[#2243B6] hover:bg-parchment disabled:text-ink/30 disabled:hover:bg-transparent"
+          >
+            Reset
+          </button>
+        </div>
+        <div className="min-h-0 flex-1 overflow-y-auto px-4 pb-28">
+          <FilterLayout.Provider value={{ mode: "sheet", collapseInactive: false }}>{children}</FilterLayout.Provider>
+        </div>
+        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-card from-60% to-transparent px-3 pb-[max(0.875rem,env(safe-area-inset-bottom))] pt-6">
+          <button
+            type="button"
+            onClick={onClose}
+            className="h-12 w-full rounded-full bg-[#2243B6] text-base font-semibold text-white shadow-lg transition-opacity hover:opacity-90"
+          >
+            {seeLabel}
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

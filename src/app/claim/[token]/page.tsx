@@ -17,8 +17,15 @@ export const metadata = {
   robots: { index: false, follow: false },
 };
 
-export default async function ClaimPage({ params }: { params: Promise<{ token: string }> }) {
+export default async function ClaimPage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ token: string }>;
+  searchParams: Promise<{ via?: string }>;
+}) {
   const { token } = await params;
+  const { via } = await searchParams;
   const venue = await venueForClaimToken(token);
 
   if (!venue) {
@@ -168,6 +175,7 @@ export default async function ClaimPage({ params }: { params: Promise<{ token: s
         )}
         <ClaimForm
           token={token}
+          via={via ?? null}
           initial={initial}
           draft={draft}
           submittedAt={lastSent ? new Date(lastSent.created_at).getTime() : 0}

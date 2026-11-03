@@ -864,6 +864,7 @@ export const ORNAMENT_IDS = ORNAMENTS.map((o) => o.id) as [OrnamentId, ...Orname
 export const ORNAMENT_GROUP = "Dividers & ornaments";
 
 export const SITE_ART = [
+  { id: "heirloom-garden", name: "Heirloom garden", group: "Roses & peonies", kind: "colour", src: "/site-art/heirloom/corner.webp", w: 640, h: 648 },
   { id: "eucalyptus-line", name: "Eucalyptus sketch", group: "Greenery", kind: "line", src: "/site-art/eucalyptus-line.webp", w: 653, h: 900 },
   { id: "rose", name: "Garden rose", group: "Roses & peonies", kind: "colour", src: "/site-art/rose-pink.webp", w: 659, h: 900 },
   { id: "roses-white", name: "White roses", group: "Roses & peonies", kind: "colour", src: "/site-art/roses-white-pink.webp", w: 824, h: 900 },
@@ -904,13 +905,35 @@ export function artById(id: string | null | undefined) {
   return SITE_ART.find((a) => a.id === id) ?? null;
 }
 
+/**
+ * Sets painted for one template (docs/site-art-prompts.md), each piece for
+ * its own spot: the arch around the invitation's arched photo, the corner at
+ * the top of the page, the ledge under the invitation card, the divider
+ * between some sections. Placement is the set's own, so the placement chips
+ * don't apply. Elsewhere on the page, the corner stands in for the set.
+ */
+export const ART_SUITES = {
+  "heirloom-garden": {
+    arch: { src: "/site-art/heirloom/arch.webp", w: 760, h: 1009 },
+    corner: { src: "/site-art/heirloom/corner.webp", w: 640, h: 648 },
+    ledge: { src: "/site-art/heirloom/ledge.webp", w: 1200, h: 341 },
+    divider: { src: "/site-art/heirloom/divider.webp", w: 560, h: 137 },
+  },
+} as const;
+
+export type ArtSuite = (typeof ART_SUITES)[keyof typeof ART_SUITES];
+
+export function artSuite(id: string | null | undefined): ArtSuite | null {
+  return id && id in ART_SUITES ? ART_SUITES[id as keyof typeof ART_SUITES] : null;
+}
+
 export const ART_PLACEMENTS = [
   { id: "sides", label: "Either side" },
   { id: "corners", label: "Corners" },
 ] as const;
 
 /** The heroes artwork sits in: the photo is the picture in the others. */
-export const ART_HEROES: readonly HeroLayoutId[] = ["text", "monogram", "framed", "poster"];
+export const ART_HEROES: readonly HeroLayoutId[] = ["text", "monogram", "framed", "poster", "invitation"];
 
 /** Colour families for the palette filter, in the order the chips show. */
 export const COLOR_FAMILIES = [

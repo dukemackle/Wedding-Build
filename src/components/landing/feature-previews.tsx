@@ -629,13 +629,9 @@ function SeatingDemo() {
           <span className="mr-1 font-mono-numbers text-[10px] uppercase tracking-[0.2em] text-ink/50">
             Event
           </span>
-          {["Ceremony", "Cocktail hour", "Reception"].map((e, i) => {
-            const on = ceremony ? i === 0 : i === 2;
-            return i === 1 ? (
-              <span key={e} className="rounded-full border border-hairline px-2.5 py-0.5 text-xs text-ink/70">
-                {e}
-              </span>
-            ) : (
+          {["Ceremony", "Reception"].map((e, i) => {
+            const on = ceremony ? i === 0 : i === 1;
+            return (
               <button
                 key={e}
                 type="button"
@@ -1046,6 +1042,8 @@ const STATUS_BADGE: Record<DemoStatus, string> = {
   pending: "border-brass/40 bg-brass/10 text-brass",
 };
 
+const DEMO_SIDE_LABEL: Record<SideKey, string> = { a: "Alex's side", b: "Sam's side", both: "Both" };
+
 const DEMO_GUESTS: {
   name: string;
   side: SideKey;
@@ -1086,6 +1084,9 @@ function RsvpDemo() {
   const confirmed = DEMO_GUESTS.filter((g) => status[g.name] === "confirmed").length;
   const pending = DEMO_GUESTS.filter((g) => status[g.name] === "pending").length;
   const noAddress = DEMO_GUESTS.filter((g) => !g.address).length;
+  // The real side key's headcounts, declined guests left out.
+  const sideCount = (side: SideKey) =>
+    DEMO_GUESTS.filter((g) => g.side === side && status[g.name] !== "declined").length;
 
   const chip = (key: typeof filter, label: string) => (
     <button
@@ -1141,6 +1142,18 @@ function RsvpDemo() {
               Import
             </span>
           </div>
+        </div>
+        <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-ink/80">
+          {(Object.keys(SIDE_COLORS) as SideKey[]).map((side) => (
+            <span
+              key={side}
+              className="flex items-center gap-1.5 rounded-md border-l-4 py-1 pl-2 pr-2.5"
+              style={{ borderLeftColor: SIDE_COLORS[side], backgroundColor: `${SIDE_COLORS[side]}1F` }}
+            >
+              {DEMO_SIDE_LABEL[side]}
+              <span className="font-mono-numbers text-ink">{sideCount(side)}</span>
+            </span>
+          ))}
         </div>
         <div className="mt-3 flex flex-wrap items-center gap-2">
           <span className={eyebrow}>Show</span>
@@ -2484,20 +2497,16 @@ function SiteDemo() {
 
 const QUESTIONS = [
   {
-    q: "What should we book next?",
-    a: "Your florist — good ones book up about 9 months out, and you're at 11.",
+    q: "Who hasn't RSVP'd?",
+    a: "46 guests are still waiting — mostly Sam's side. Want a reminder list?",
   },
   {
     q: "Are we over budget?",
     a: "You're $8,800 under your $40,000 target on real numbers — $1,600 under once catering and the other open lines come in at their estimates.",
   },
   {
-    q: "Who hasn't RSVP'd?",
-    a: "46 guests are still waiting — mostly Sam's side. Want a reminder list?",
-  },
-  {
-    q: "Add a florist task to our checklist",
-    a: "I'll add \u201cBook your florist\u201d, due November 1. Go ahead?",
+    q: "Remind us to send save-the-dates",
+    a: "I'll add \u201cSend save-the-dates\u201d to your checklist, due December 1. Go ahead?",
     action: "Added to your checklist ✓",
   },
 ];

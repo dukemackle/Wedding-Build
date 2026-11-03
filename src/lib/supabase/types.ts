@@ -109,6 +109,9 @@ export type PublicWedding = {
   site_locked: boolean;
   /** venue_photo_urls are the couple's own, not the venue's, so they aren't credited to it. */
   venue_photos_own: boolean;
+  /** Where a listed venue is, for the Venue section's map (null for an unlisted one). */
+  venue_latitude: number | null;
+  venue_longitude: number | null;
   gift_venmo: string | null;
   gift_paypal: string | null;
   gift_cashapp: string | null;
@@ -400,6 +403,10 @@ export type VenueSubmission = {
   photo_urls: string[];
   created_at: string;
   reviewed_at: string | null;
+  /** How they found us (0153, src/lib/attribution.ts). */
+  heard_from: string | null;
+  arrived_via: string | null;
+  first_touch: import("@/lib/attribution").FirstTouch | null;
 };
 
 export type VenueFaq = {
@@ -452,6 +459,10 @@ export type VendorSubmission = {
   photo_urls: string[];
   created_at: string;
   reviewed_at: string | null;
+  /** How they found us (0153, src/lib/attribution.ts). */
+  heard_from: string | null;
+  arrived_via: string | null;
+  first_touch: import("@/lib/attribution").FirstTouch | null;
 };
 
 export type Vendor = BusinessFacts & {

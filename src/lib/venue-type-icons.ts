@@ -3,7 +3,7 @@ import { currentVenueType, type VenueCategory } from "@/lib/wedding-options";
 /**
  * One small line drawing per venue category, as the inside of a 24x24 SVG
  * drawn with a stroke and no fill. They are strings rather than components
- * because the map pins are Leaflet divIcons, which take HTML; the filter menu
+ * because the map pins are drawn from HTML; the filter menu
  * draws the same strings through <VenueTypeIcon>, so a couple learns on the
  * menu what the pin on the map means.
  */

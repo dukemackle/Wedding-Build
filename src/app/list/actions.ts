@@ -1,5 +1,6 @@
 "use server";
 
+import { withVia } from "@/lib/attribution";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import { getResendClient, INQUIRY_FROM_ADDRESS } from "@/lib/resend";
 import { STATES, VENDOR_LISTING_CATEGORIES } from "@/lib/wedding-options";
@@ -101,10 +102,10 @@ export async function startListing(
     .order("created_at", { ascending: false })
     .limit(1);
   if (started?.[0]) {
-    const link = kind === "venue" ? await ensureClaimLink(started[0].id) : await ensureVendorClaimLink(started[0].id);
+    const link = withVia(kind === "venue" ? await ensureClaimLink(started[0].id) : await ensureVendorClaimLink(started[0].id), "new_listing");
     if (!link) return { error: "Couldn't find your listing -- please try again." };
     const path = new URL(link).pathname;
-    if (Array.isArray(known) && known.includes(path)) return { next: path };
+    if (Array.isArray(known) && known.includes(path)) return { next: `${path}?via=new_listing` };
     await sendListingLink(email, submitterName, name, link);
     return {
       error: `You've already started a listing for ${name}, so we've emailed your private link to ${email}. Open it to pick up where you left off.`,
@@ -126,14 +127,14 @@ export async function startListing(
   const { data: created, error } = await admin.from(table).insert(row).select("id").single<{ id: string }>();
   if (error || !created) return { error: "Couldn't start your listing -- please try again." };
 
-  const url = kind === "venue" ? await ensureClaimLink(created.id) : await ensureVendorClaimLink(created.id);
+  const url = withVia(kind === "venue" ? await ensureClaimLink(created.id) : await ensureVendorClaimLink(created.id), "new_listing");
   if (!url) return { error: "Couldn't start your listing -- please try again." };
 
   // Best effort: they're about to land on the link anyway. This is so they can
   // find it again if they close the tab halfway through.
   await sendListingLink(email, submitterName, name, url);
 
-  return { next: new URL(url).pathname };
+  return { next: `${new URL(url).pathname}?via=new_listing` };
 }
 
 async function sendListingLink(email: string, submitterName: string, name: string, url: string) {
@@ -225,11 +226,11 @@ export async function requestEditLinks(rawEmail: string): Promise<{ error?: stri
 
   const links: string[] = [];
   for (const [id, name] of venueIds) {
-    const url = await ensureClaimLink(id);
+    const url = withVia(await ensureClaimLink(id), "self_serve");
     if (url) links.push(`${name}\n${url}`);
   }
   for (const [id, name] of vendorIds) {
-    const url = await ensureVendorClaimLink(id);
+    const url = withVia(await ensureVendorClaimLink(id), "self_serve");
     if (url) links.push(`${name}\n${url}`);
   }
 

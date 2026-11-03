@@ -13,6 +13,7 @@ import { FrameIcon } from "./photo-motion-panels";
 import { SceneThumb } from "@/components/site-scene";
 import {
   ART_HEROES,
+  artSuite,
   ART_PLACEMENTS,
   ORNAMENT_GROUP,
   SITE_ART,
@@ -54,6 +55,7 @@ import {
   FALLING_COLORS,
   NATURAL_SWATCH,
 } from "@/lib/site-design";
+import { actionFailed } from "@/lib/action-error";
 
 export type SectionInfo = {
   /** For custom blocks; built-in sections use their fixed name. */
@@ -409,7 +411,7 @@ export function PageArtworkSection({
           );
         })}
       </div>
-      {design.art.id && (
+      {design.art.id && !artSuite(design.art.id) && (
         <div className="flex gap-1.5">
           {ART_PLACEMENTS.map((p) => (
             <button
@@ -723,7 +725,7 @@ export function SectionsTab({
   function add(kind: SiteBlock["kind"]) {
     setBlockError(null);
     startAdding(async () => {
-      const result = await createSiteBlock(kind).catch(() => ({ error: "Couldn't add it — check your connection.", block: undefined }));
+      const result = await createSiteBlock(kind).catch(() => ({ error: actionFailed("add it"), block: undefined }));
       if (result.error || !result.block) {
         setBlockError(result.error ?? "Couldn't add it.");
         return;
@@ -739,7 +741,7 @@ export function SectionsTab({
     const id = blockIdOf(key);
     if (!id || !confirm("Delete this section? Its words and photo will be gone.")) return;
     startAdding(async () => {
-      const result = await deleteSiteBlock(id).catch(() => ({ error: "Couldn't delete it — check your connection." }));
+      const result = await deleteSiteBlock(id).catch(() => ({ error: actionFailed("delete it") }));
       if (result.error) {
         setBlockError(result.error);
         return;

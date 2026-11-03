@@ -12,10 +12,13 @@ import {
   CLAIM_PHOTO_TYPES,
   MAX_CLAIM_PHOTO_BYTES,
   MAX_CLAIM_PHOTOS,
+  CLAIM_FIELD_LABELS,
   validateClaim,
   type ClaimSubmission,
 } from "@/lib/venue-claim";
 import { trackEvent } from "@/lib/events";
+import { claimNotification } from "@/lib/claim-notify";
+import { cleanFirstTouch, cleanHeardFrom, cleanVia } from "@/lib/attribution";
 import { deleteClaimDraft, storeClaimDraft } from "@/lib/claim-drafts";
 
 /**
@@ -73,6 +76,8 @@ export async function createClaimPhotoUploads(
 export async function submitVenueClaim(
   token: string,
   submission: ClaimSubmission,
+  /** How they found us (src/lib/attribution.ts); every part optional and checked here. */
+  source?: { heardFrom?: unknown; via?: unknown; firstTouch?: unknown },
 ): Promise<{ error?: string; errors?: string[] }> {
   const venue = await venueForClaimToken(token);
   if (!venue) return { error: "This link is no longer valid." };
@@ -110,6 +115,9 @@ export async function submitVenueClaim(
     submitter_name: value.submitter.name,
     submitter_email: value.submitter.email,
     submitter_role: value.submitter.role,
+    heard_from: cleanHeardFrom(source?.heardFrom),
+    arrived_via: cleanVia(source?.via),
+    first_touch: cleanFirstTouch(source?.firstTouch),
     details: value.details,
     faqs: value.faqs,
     preferred_vendors: value.preferredVendors,
@@ -125,12 +133,13 @@ export async function submitVenueClaim(
   const adminEmail = process.env.ADMIN_EMAIL?.split(",")[0]?.trim();
   if (adminEmail && process.env.RESEND_API_KEY) {
     try {
+      const { subject, text } = await claimNotification("venue", venue, value, CLAIM_FIELD_LABELS);
       await getResendClient().emails.send({
         from: INQUIRY_FROM_ADDRESS,
         to: adminEmail,
         replyTo: value.submitter.email,
-        subject: `${value.details.name} updated its listing`,
-        text: `${value.submitter.name} (${value.submitter.email}) submitted changes for ${value.details.name}.\n\nReview them at https://admin.youdoido.com/admin/venues/claims`,
+        subject,
+        text,
       });
     } catch {
       // Nothing to do -- it's in the queue either way.
