@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useEffectEvent, useRef, useState, useTransition, type ReactNode } from "react";
 import {
   CONFETTI_MESSAGE,
@@ -41,6 +42,7 @@ import {
   CANVAS_COMMIT,
   CANVAS_FRAMES,
   CANVAS_KEY,
+  PHOTOS_CHANGED,
   CANVAS_MODE,
   CANVAS_PANEL,
   CANVAS_SELECT,
@@ -180,6 +182,7 @@ export function SiteEditor({
   photos: string[];
 }) {
   const site = useGuestSite(initialSlug);
+  const router = useRouter();
   const publicSlug = site.slug;
   const [design, setDesign] = useState(initialDraft);
   const [published, setPublished] = useState(initialPublished);
@@ -493,6 +496,8 @@ export function SiteEditor({
     if (parsed.success) changeCanvas(parsed.data);
   });
   const onCanvasPanel = useEffectEvent(() => openTab("position"));
+  // A photo changed on the page itself: the panel's photo lists catch up.
+  const onPhotosChanged = useEffectEvent(() => router.refresh());
 
   // A whole section clicked in the computer preview opens its row in
   // Sections, so what's on the page is where it's edited.
@@ -531,6 +536,7 @@ export function SiteEditor({
         else setFrames(event.data.frames as CanvasFrames);
       }
       if (event.data?.type === CANVAS_PANEL) onCanvasPanel();
+      if (event.data?.type === PHOTOS_CHANGED) onPhotosChanged();
       if (event.data?.type === CANVAS_KEY) {
         if (event.data.action === "undo") onUndo();
         else if (event.data.action === "redo") onRedo();

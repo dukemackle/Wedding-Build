@@ -8,6 +8,7 @@ import { GuestSiteTheme } from "@/components/guest-site-theme";
 import { GuestSiteView, loadGuestSiteContent } from "@/app/w/[slug]/guest-site-view";
 import { CanvasEditing } from "./canvas-editing";
 import { bannerPhoto } from "@/lib/site-design";
+import { PhotoEditing } from "./photo-editing";
 import { SAMPLE_GALLERY, SAMPLE_GUEST_NAMES, SAMPLE_HERO } from "@/lib/sample-photos";
 
 export const metadata: Metadata = { title: "Guest site preview", robots: { index: false } };
@@ -103,6 +104,8 @@ export default async function GuestSitePreviewPage({
   // with a photo in it: in the template gallery, and in the editor (owner,
   // 2026-10-21), whose address bar says so. Never on the live site.
   const samples = Boolean(look) || withSamples === "1";
+  // Before a sample stands in: whether the banner is the couple's own upload, which can be removed.
+  const ownBanner = Boolean(asGuestsSeeIt.hero_photo_url);
   if (samples && !bannerPhoto(asGuestsSeeIt)) asGuestsSeeIt.hero_photo_url = SAMPLE_HERO;
   // Same for "Who's coming": empty until someone RSVPs, so the editor shows
   // stand-ins tagged "Sample" (owner, 2026-11-03). Never on the live site.
@@ -137,6 +140,8 @@ export default async function GuestSitePreviewPage({
       <GuestSiteView wedding={asGuestsSeeIt} content={content} />
       {/* Dragging, resizing and the rest: here only, never on /w/[slug]. */}
       {!look && !view && <CanvasEditing />}
+      {/* Click a photo to replace or remove it, right where it sits. */}
+      {!look && !view && <PhotoEditing ownBanner={ownBanner} galleryCount={loaded.galleryPhotos.length} />}
     </GuestSiteTheme>
   );
 }
