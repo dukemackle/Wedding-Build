@@ -1,6 +1,7 @@
 "use client";
 
-import { useRef, useState, useTransition } from "react";
+import { useState, useTransition } from "react";
+import { KeptNotice, SAVE_FAILED, useKeptWords } from "@/components/kept-words";
 import type { Wedding, WeddingAccommodation, WeddingFaq } from "@/lib/supabase/types";
 import {
   addAccommodation,
@@ -19,14 +20,16 @@ export function DressAndTravel({ wedding }: { wedding: Wedding }) {
   const [error, setError] = useState<string | undefined>(undefined);
   const [saved, setSaved] = useState(false);
   const [isPending, startTransition] = useTransition();
+  const { ref: keptRef, keep, done: keptDone, restored: keptRestored } = useKeptWords("dress-travel");
 
   function handleSave(formData: FormData) {
     startTransition(async () => {
-      const result = await updateGuestSiteDetails(formData);
+      const result = await updateGuestSiteDetails(formData).catch(() => ({ error: SAVE_FAILED }));
       if (result?.error) {
         setError(result.error);
         setSaved(false);
       } else {
+        keptDone();
         setError(undefined);
         setSaved(true);
         setTimeout(() => setSaved(false), 2500);
@@ -35,7 +38,8 @@ export function DressAndTravel({ wedding }: { wedding: Wedding }) {
   }
 
   return (
-    <form action={handleSave} className="flex flex-col gap-3">
+    <form ref={keptRef} onInput={keep} action={handleSave} className="flex flex-col gap-3">
+      {keptRestored && <KeptNotice />}
       <label className={labelClass}>
         Dress code
         <input
@@ -73,17 +77,18 @@ export function DressAndTravel({ wedding }: { wedding: Wedding }) {
 export function Accommodations({ items }: { items: WeddingAccommodation[] }) {
   const [error, setError] = useState<string | undefined>(undefined);
   const [isPending, startTransition] = useTransition();
-  const formRef = useRef<HTMLFormElement>(null);
+  const { ref: keptRef, keep, done: keptDone, restored: keptRestored } = useKeptWords("new-stay");
 
   function handleAdd(formData: FormData) {
     formData.set("sort_order", String(items.length));
     startTransition(async () => {
-      const result = await addAccommodation(formData);
+      const result = await addAccommodation(formData).catch(() => ({ error: SAVE_FAILED }));
       if (result?.error) {
         setError(result.error);
       } else {
         setError(undefined);
-        formRef.current?.reset();
+        keptRef.current?.reset();
+        keptDone();
       }
     });
   }
@@ -92,7 +97,7 @@ export function Accommodations({ items }: { items: WeddingAccommodation[] }) {
     const formData = new FormData();
     formData.set("id", id);
     startTransition(async () => {
-      const result = await deleteAccommodation(formData);
+      const result = await deleteAccommodation(formData).catch(() => ({ error: "Couldn't remove it — check your connection." }));
       if (result?.error) setError(result.error);
     });
   }
@@ -124,7 +129,8 @@ export function Accommodations({ items }: { items: WeddingAccommodation[] }) {
       ))}
 
       <form
-        ref={formRef}
+        ref={keptRef}
+        onInput={keep}
         action={handleAdd}
         className="mt-4 grid grid-cols-1 gap-3 rounded-md border border-hairline bg-parchment p-4 sm:grid-cols-2"
       >
@@ -162,6 +168,7 @@ export function Accommodations({ items }: { items: WeddingAccommodation[] }) {
         </button>
       </form>
 
+      {keptRestored && <div className="mt-2"><KeptNotice /></div>}
       {error && <p className="mt-2 text-sm text-red-800">{error}</p>}
     </div>
   );
@@ -170,17 +177,18 @@ export function Accommodations({ items }: { items: WeddingAccommodation[] }) {
 export function Faqs({ faqs }: { faqs: WeddingFaq[] }) {
   const [error, setError] = useState<string | undefined>(undefined);
   const [isPending, startTransition] = useTransition();
-  const formRef = useRef<HTMLFormElement>(null);
+  const { ref: keptRef, keep, done: keptDone, restored: keptRestored } = useKeptWords("new-faq");
 
   function handleAdd(formData: FormData) {
     formData.set("sort_order", String(faqs.length));
     startTransition(async () => {
-      const result = await addWeddingFaq(formData);
+      const result = await addWeddingFaq(formData).catch(() => ({ error: SAVE_FAILED }));
       if (result?.error) {
         setError(result.error);
       } else {
         setError(undefined);
-        formRef.current?.reset();
+        keptRef.current?.reset();
+        keptDone();
       }
     });
   }
@@ -189,7 +197,7 @@ export function Faqs({ faqs }: { faqs: WeddingFaq[] }) {
     const formData = new FormData();
     formData.set("id", id);
     startTransition(async () => {
-      const result = await deleteWeddingFaq(formData);
+      const result = await deleteWeddingFaq(formData).catch(() => ({ error: "Couldn't remove it — check your connection." }));
       if (result?.error) setError(result.error);
     });
   }
@@ -217,7 +225,8 @@ export function Faqs({ faqs }: { faqs: WeddingFaq[] }) {
       ))}
 
       <form
-        ref={formRef}
+        ref={keptRef}
+        onInput={keep}
         action={handleAdd}
         className="mt-4 flex flex-col gap-3 rounded-md border border-hairline bg-parchment p-4"
       >
@@ -243,6 +252,7 @@ export function Faqs({ faqs }: { faqs: WeddingFaq[] }) {
         </button>
       </form>
 
+      {keptRestored && <div className="mt-2"><KeptNotice /></div>}
       {error && <p className="mt-2 text-sm text-red-800">{error}</p>}
     </div>
   );
@@ -257,17 +267,23 @@ export function OwnVenue({ wedding }: { wedding: Wedding }) {
   const [saved, setSaved] = useState(false);
   const [isPending, startTransition] = useTransition();
 
+  const { ref: keptRef, keep, done: keptDone, restored: keptRestored } = useKeptWords("own-venue");
+
   function handleSave(formData: FormData) {
     startTransition(async () => {
-      const result = await updateOwnVenue(formData);
+      const result = await updateOwnVenue(formData).catch(() => ({ error: SAVE_FAILED }));
       setError(result?.error);
       setSaved(!result?.error);
-      if (!result?.error) setTimeout(() => setSaved(false), 2500);
+      if (!result?.error) {
+        keptDone();
+        setTimeout(() => setSaved(false), 2500);
+      }
     });
   }
 
   return (
-    <form action={handleSave} className="flex flex-col gap-3">
+    <form ref={keptRef} onInput={keep} action={handleSave} className="flex flex-col gap-3">
+      {keptRestored && <KeptNotice />}
       <p className="text-[13px] leading-normal text-ink/60">
         Booked somewhere we don&apos;t list, like a family farm or a backyard? Add it here and your site shows it, with
         directions.

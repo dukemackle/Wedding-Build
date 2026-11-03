@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useState, useTransition } from "react";
 import type { AttirePartyMember } from "@/lib/supabase/types";
 import { shrinkImage } from "@/lib/shrink-image";
+import { KeptNotice, SAVE_FAILED, useKeptWords } from "@/components/kept-words";
 import { setPartyPhoto, updatePartySiteDetails } from "./guest-site-actions";
 
 /**
@@ -47,14 +48,16 @@ function PartyRow({ member }: { member: AttirePartyMember }) {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string>();
   const [shown, setShown] = useState(member.on_site);
+  const { ref: keptRef, keep, done: keptDone, restored: keptRestored } = useKeptWords<HTMLLIElement>(`party:${member.id}`);
 
   function save(fields: Record<string, string>) {
     const fd = new FormData();
     fd.set("id", member.id);
     for (const [k, v] of Object.entries(fields)) fd.set(k, v);
     startTransition(async () => {
-      const result = await updatePartySiteDetails(fd);
+      const result = await updatePartySiteDetails(fd).catch(() => ({ error: SAVE_FAILED }));
       setError(result?.error);
+      if (!result?.error && "site_blurb" in fields) keptDone();
     });
   }
 
@@ -62,15 +65,19 @@ function PartyRow({ member }: { member: AttirePartyMember }) {
     const fd = new FormData();
     fd.set("id", member.id);
     startTransition(async () => {
-      if (file) fd.set("photo", await shrinkImage(file, 1200));
-      const result = await setPartyPhoto(fd);
-      setError(result?.error);
+      try {
+        if (file) fd.set("photo", await shrinkImage(file, 1200));
+        const result = await setPartyPhoto(fd);
+        setError(result?.error);
+      } catch {
+        setError("Couldn't save the photo — reload the page and try again.");
+      }
     });
   }
 
   const inputId = `party-photo-${member.id}`;
   return (
-    <li className={`flex gap-3 py-4 first:pt-0 ${isPending ? "opacity-70" : ""} ${shown ? "" : "opacity-60"}`}>
+    <li ref={keptRef} onInput={keep} className={`flex gap-3 py-4 first:pt-0 ${isPending ? "opacity-70" : ""} ${shown ? "" : "opacity-60"}`}>
       <div className="flex shrink-0 flex-col items-center gap-1">
         <label
           htmlFor={inputId}
@@ -114,7 +121,9 @@ function PartyRow({ member }: { member: AttirePartyMember }) {
             Show
           </label>
         </div>
+        {keptRestored && <KeptNotice />}
         <textarea
+          name="site_blurb"
           defaultValue={member.site_blurb ?? ""}
           maxLength={280}
           rows={2}
