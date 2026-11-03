@@ -945,6 +945,23 @@ LIC Weddings at LIC Bar	45-58 Vernon Boulevard	Long Island City	New York			Resta
 Gottscheer Hall	657 Fairview Avenue	Ridgewood	New York			Ballroom	Indoor	300			German-American banquet hall and pub in Ridgewood, open since 1924, with a room that can be laid out for weddings and catered in house.		718-366-3030	https://www.gottscheerhall.com
 `,
   },
+  {
+    name: "New York City gaps",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+The Elegant Loft	111 East Sandford Blvd	Mount Vernon	New York			Ballroom	Indoor	249			A blank-canvas banquet hall of more than 5,000 square feet in lower Westchester with in-house catering, sound and uplighting included in its packages.	sales@theelegantloft.com	914-863-0185	https://theelegantloft.com/wedding-venue/
+King Manor Museum	150-03 Jamaica Avenue	Jamaica	New York			Historic Mansion & Estate	Indoor & Outdoor	200			A house built by the King family in 1810 inside a Queens park, with a Federal-period dining room indoors and a 3,300 square foot back lawn for tented ceremonies and cocktail hours.	contact@kingmanor.org	(718) 206-0545	https://kingmanor.org/site-rentals
+The Comet Club	990 Corporate Dr	Westbury	New York			Restaurant & Brewery	Indoor & Outdoor	250			A chophouse in the Vanderbilt building whose library lounge, garden room and patio open up to a full restaurant buyout for larger receptions.		(516) 820-1200	https://www.thecometclub.com/private-events/
+White Hall	74-10 Broadway	Elmhurst	New York			Ballroom	Indoor		45	Per person	A private second-floor banquet room on Broadway with in-house catering, kept to one event at a time for the booking window.		(347) 656-5326	https://whitehallnyc.com
+New York LaGuardia Airport Marriott	102-05 Ditmars Boulevard	East Elmhurst	New York			Hotel & Resort	Indoor	400			A Queens airport hotel with 17 event rooms, including a Grand Ballroom of almost 5,000 square feet, and Marriott-certified wedding planners on staff.		(718) 565-8900	https://www.marriott.com/en-us/hotels/lgaap-new-york-laguardia-airport-marriott/events/
+Courtyard by Marriott Westbury Long Island	1800 Privado Road	Westbury	New York			Hotel & Resort	Indoor	100			A suburban hotel whose Long Island Ballroom seats up to 100, pitched for micro weddings and guest room blocks near Westbury Manor.		(516) 542-1001	https://www.marriott.com/en-us/hotels/nycbl-courtyard-westbury-long-island/events/
+Nine Orchard	9 Orchard Street	New York	New York			Hotel & Resort	Indoor	70			A hotel in the restored 1912 Jarmulowsky Bank on the Lower East Side, with a rooftop greenhouse, a ballroom-style event room and a small mural-painted dining room.	events@nineorchard.com	212-804-9900	https://nineorchard.com/book-an-event
+First Presbyterian Church of Brooklyn	124 Henry Street	Brooklyn	New York			Chapel & Church	Indoor	100			A Brooklyn Heights congregation founded in 1822 that offers its historic sanctuary for ceremonies and the Elliott Room for a seated reception.		718-624-3770	https://www.firstchurchbrooklyn.org/weddings/
+Loft on Fifth	20 West 23rd Street	New York	New York			Industrial Loft & Warehouse	Indoor & Outdoor	100			A 2,500-square-foot Flatiron loft with three private lounge rooms and a furnished rooftop over 23rd Street that holds 60 more guests.	info@lofton5th.com		https://lofton5th.com/
+LOFT39	38 West 39th Street	New York	New York			Industrial Loft & Warehouse	Indoor & Outdoor				A multi-floor Midtown event building with a kitchen suite, a brick speakeasy floor, a warehouse gallery floor and a penthouse with rooftop terrace.	host@loft39.nyc		https://loft39.nyc/
+New Museum	235 Bowery	New York	New York			Museum, Gallery & Rooftop	Indoor & Outdoor				A contemporary art museum on the Bowery that rents its lobby and the expanded seventh-floor Sky Room, which has new outdoor terraces and skyline views.			https://www.newmuseum.org/space-rental/
+BAM Brooklyn Academy of Music	30 Lafayette Avenue	Brooklyn	New York			Museum, Gallery & Rooftop	Indoor	325			A Fort Greene performing arts center whose open-plan Adam E. Max Gathering Space (BAMcafe) is offered for weddings and receptions.	info@BAM.org	718-636-4100	https://www.bam.org/rentals
+Church of the Ascension Greenpoint	127 Kent Street	Brooklyn	New York			Chapel & Church	Indoor				A restored Gothic Revival church in Greenpoint with a 3,000-square-foot sanctuary, original stone walls, a catering kitchen and space for both ceremony and reception.	events@ascensionbrooklyn.org	718-389-3831	https://www.ascensionbrooklyn.org/weddings`,
+  }
 ];
 
 export default batches;
