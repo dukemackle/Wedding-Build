@@ -84,6 +84,7 @@ export default async function SaveTheDatePage() {
           persist={canEdit}
           photos={photos}
           backHref="/guests"
+          sendHref="/guests/save-the-date/send"
           note="View only · ask the owner for edit access to change the card"
         />
       </div>

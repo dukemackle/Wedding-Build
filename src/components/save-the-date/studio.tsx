@@ -518,6 +518,8 @@ type StudioProps = {
   view?: string;
   /** Shown in place of the save status when nothing is saved (the prototype, a view-only partner). */
   note?: string;
+  /** Where Send goes (the couple's real card only). */
+  sendHref?: string;
 };
 
 /**
@@ -525,7 +527,7 @@ type StudioProps = {
  * settings on the right (a tool bar and sheets on a phone). See
  * docs/save-the-date-studio.md.
  */
-export function SaveTheDateStudio({ initial, version: savedVersion = null, persist = false, photos = [], backHref = "/guests", view = "", note = "Prototype · nothing is saved" }: StudioProps) {
+export function SaveTheDateStudio({ initial, version: savedVersion = null, persist = false, photos = [], backHref = "/guests", view = "", note = "Prototype · nothing is saved", sendHref }: StudioProps) {
   const [h, dispatch] = useReducer(reducer, null, () => ({
     past: [],
     present: initial,
@@ -726,9 +728,12 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
           <IconButton label="Undo" onClick={() => commit({ type: "undo" })} disabled={!h.past.length}>
             <UndoIcon />
           </IconButton>
-          <IconButton label="Redo" onClick={() => commit({ type: "redo" })} disabled={!h.future.length}>
-            <RedoIcon />
-          </IconButton>
+          {/* Phones keep Undo only, to leave room for Preview and Send. */}
+          <span className={sendHref ? "hidden sm:contents" : "contents"}>
+            <IconButton label="Redo" onClick={() => commit({ type: "redo" })} disabled={!h.future.length}>
+              <RedoIcon />
+            </IconButton>
+          </span>
           <div className="relative hidden lg:block">
             <button type="button" onClick={() => setMenu((m) => !m)} className="h-10 rounded-full px-4 text-sm text-ink hover:bg-ink/5" aria-expanded={menu}>
               Download
@@ -744,9 +749,24 @@ export function SaveTheDateStudio({ initial, version: savedVersion = null, persi
               </div>
             )}
           </div>
-          <button type="button" onClick={() => setPreview("phone")} className="ml-1 h-10 rounded-full bg-ink px-4 text-sm font-medium text-white lg:px-5">
-            Preview
-          </button>
+          {sendHref ? (
+            <>
+              <button
+                type="button"
+                onClick={() => setPreview("phone")}
+                className="ml-1 h-10 rounded-full border border-hairline px-3.5 text-sm font-medium text-ink hover:border-ink/30 lg:px-4"
+              >
+                Preview
+              </button>
+              <a href={sendHref} className="ml-1 flex h-10 items-center rounded-full bg-ink px-4 text-sm font-medium text-white lg:px-5">
+                Send
+              </a>
+            </>
+          ) : (
+            <button type="button" onClick={() => setPreview("phone")} className="ml-1 h-10 rounded-full bg-ink px-4 text-sm font-medium text-white lg:px-5">
+              Preview
+            </button>
+          )}
         </div>
       </header>
 

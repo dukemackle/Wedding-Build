@@ -31,7 +31,20 @@ type Stage = "closed" | "opening" | "lifting" | "open";
  * the card settles, with Add to calendar and the website under it. Reduced
  * motion skips straight to the open card.
  */
-export function Reveal({ doc, guest, siteHref, compact }: { doc: CardDoc; guest: string; siteHref: string; compact?: boolean }) {
+export function Reveal({
+  doc,
+  guest,
+  siteHref,
+  compact,
+  onOpen,
+}: {
+  doc: CardDoc;
+  guest: string;
+  siteHref: string;
+  compact?: boolean;
+  /** Called once, when the guest opens the envelope. */
+  onOpen?: () => void;
+}) {
   const t = templateById(doc.template);
   const palette = t.palettes.find((p) => p.id === doc.palette) ?? t.palettes[0];
   const pairing = t.pairings.find((p) => p.id === doc.fonts) ?? t.pairings[0];
@@ -48,6 +61,7 @@ export function Reveal({ doc, guest, siteHref, compact }: { doc: CardDoc; guest:
 
   const open = () => {
     if (stage !== "closed") return;
+    onOpen?.();
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return setStage("open");
     setStage("opening");
     setTimeout(() => setStage("lifting"), 650);

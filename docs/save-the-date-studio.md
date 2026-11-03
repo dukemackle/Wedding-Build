@@ -101,20 +101,36 @@ Names shared with a guest-site template let one choice style both the card and t
    - a "Save the date" link under Guests; the dashboard box and landing demo wait for sending,
      so the landing page doesn't advertise a card guests can't receive yet;
    - style filter chips on the design list.
-4. **Delivery:**
-   - guest page `/w/[slug]/s/[code]`, which shows only the card;
-   - the website button goes through the existing `/i/[code]` gate;
-   - per-guest copy link / share sheet (free);
-   - email through Resend with the card image and personal link;
-   - an explicit review-and-confirm step, plus resend.
-   - Statuses are only what we can know honestly: *sent* and *opened the card* (the guest loaded
-     their link). There's no tracking pixel.
+4. **Delivery:** ✅ built 2026-11-03 (needs migration `0156_save_the_date_sending.sql`):
+   - **Guest page** `/w/[slug]/s/[code]`: the envelope addressed to the household, which opens
+     to the card. It shows only what's on the card. "See our wedding website" goes through
+     `/i/[code]?to=site`, so a password-protected site opens too, without jumping to RSVP.
+   - **Group link** `/w/[slug]/s`: addressed "For you", for group chats. It's off when the site
+     has a password (it goes to the gate instead).
+   - **Send page** `/guests/save-the-date/send`:
+     - every guest with their status;
+     - per-guest Copy link, and Share on phones (free);
+     - email to the chosen guests after a confirm step that shows the count, subject, reply-to
+       address, and how many get it again;
+     - the Send button in the studio header leads here.
+   - **Email:** Resend's batch API sends up to 100 in one request (`MAX_PER_SEND`), from
+     "<names> via You Do, I Do", with replies going to the couple. It has the card picture and a
+     button, plus a text part. Bounced addresses are skipped in one query.
+   - **Card picture:** made in the couple's browser from the same drawing (1200×1680 JPEG) and
+     stored on `save_the_dates.image_url`. It's remade once per card version. The email and
+     link previews (`og:image`) use it.
+   - **Statuses:** *Emailed* (`guests.std_sent_at`) and *Opened* (`std_opened_at`, stamped the
+     first time the guest taps Open on the envelope). Page loads don't count, because chat
+     apps load links to draw previews, and nor do the couple's own taps. There's no tracking
+     pixel.
 5. **Polish:** per-template envelope liners, a social preview image, and save-the-date → invitation
    suite matching.
 
 ## Owner decisions needed
 
 - Approve (or redirect) the three directions and the SVG engine.
-- **Email volume:** sending to 150 guests at once may exceed Resend's free daily limit. Options:
-  send in daily batches, or move to the paid plan when sending launches.
+- **Email volume:** Resend's free plan is 100 emails a day for the *whole account*, shared by
+  every couple plus logins and RSVPs. One couple's send of 100 would use the day. This needs the
+  paid plan (about $20/month, per docs/email-playbook.md) before outside couples send; until then, sends are capped
+  at 100 per click.
 - Should "Made with You Do, I Do" appear under the guest's card?
