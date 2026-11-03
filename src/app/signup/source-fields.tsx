@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { COUPLE_HEARD_FROM, readFirstTouch } from "@/lib/attribution";
 
-/** "How did you hear about us?" plus the remembered first visit, for the signup form. */
+/** "How did you hear about us?" (optional, though not labelled so) plus the remembered first visit, for the signup form. */
 export function SourceFields() {
   const [firstTouch, setFirstTouch] = useState("");
   useEffect(() => {
@@ -15,9 +15,7 @@ export function SourceFields() {
     <>
       <input type="hidden" name="first_touch" value={firstTouch} />
       <label className="flex flex-col gap-1 text-sm text-ink">
-        <span>
-          How did you hear about us? <span className="text-ink/50">(optional)</span>
-        </span>
+        How did you hear about us?
         <select
           name="heard_from"
           defaultValue=""

@@ -925,7 +925,7 @@ export function ClaimForm({
                   placeholder="Owner, events manager…"
                 />
               </Field>
-              <Field label="How did you hear about us? (optional)">
+              <Field label="How did you hear about us?">
                 <select value={heardFrom} onChange={(e) => setHeardFrom(e.target.value)} className={inputClass}>
                   <option value="">Choose one</option>
                   {BUSINESS_HEARD_FROM.map(([value, label]) => (
