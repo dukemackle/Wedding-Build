@@ -69,7 +69,10 @@ export type CardDoc = {
 
 type Base = { id: string; label: string; rotate?: number };
 
-export type TextBind = "headline" | "names" | "nameA" | "nameB" | "date" | "place" | "note" | "monogram" | "custom";
+export type TextBind = "headline" | "names" | "nameA" | "nameB" | "date" | "datePart" | "place" | "note" | "monogram" | "custom";
+
+/** One piece of the date, for layouts that set it as numerals or stack it. */
+export type DatePart = "day" | "month" | "monthName" | "year" | "year2" | "weekday";
 
 export type TextLayer = Base & {
   kind: "text";
@@ -92,6 +95,23 @@ export type TextLayer = Base & {
   maxWidth: number;
   /** How the date reads on this template. */
   dateStyle?: DateStyle;
+  /** For bind "datePart". */
+  part?: DatePart;
+  /**
+   * Shown only with a calendar date ("numericDate") or only when the couple
+   * wrote the date their way or has none yet ("textDate"), so a layout built
+   * on numerals still has something to show.
+   */
+  when?: "numericDate" | "textDate";
+  /**
+   * Soft-wrap at about this many characters a line (long places). On
+   * "names", both names longer than this go on two lines, split at the joiner.
+   */
+  wrap?: number;
+  /** Which way extra lines grow: down from y (default), up from it, or both ways. */
+  valign?: "top" | "middle" | "bottom";
+  /** Set along an arch of this radius; y is the top of the arch. */
+  arc?: number;
   /** "names" joins with this (default " & "). */
   joiner?: string;
   /** A soft shadow for type over photos. */
@@ -125,7 +145,7 @@ export type ArtLayer = Base & {
 
 export type Layer = TextLayer | PhotoLayer | ArtLayer;
 
-export type DateStyle = "long" | "dots" | "weekday" | "words";
+export type DateStyle = "long" | "dots" | "weekday" | "words" | "formal";
 
 export type Template = {
   id: string;

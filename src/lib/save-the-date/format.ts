@@ -1,4 +1,4 @@
-import type { CardContent, DateStyle, TextLayer } from "./types";
+import type { CardContent, DatePart, DateStyle, TextLayer } from "./types";
 
 const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -32,18 +32,69 @@ export function formatDate(iso: string, style: DateStyle): string {
       return `${weekday}, ${MONTHS[m - 1]} ${d}, ${y}`;
     case "words":
       return `the ${ordinalWords(d)} of ${MONTHS[m - 1]}\n${words(y)}`;
+    case "formal":
+      return `${weekday}, the ${ordinalWords(d)} of ${MONTHS[m - 1]}\n${words(y)}`;
     default:
       return `${MONTHS[m - 1]} ${d}, ${y}`;
   }
 }
 
+/** One piece of a calendar date; "" when there's no date yet. */
+export function datePart(iso: string | null, part: DatePart): string {
+  const [y, m, d] = (iso ?? "").split("-").map(Number);
+  if (!y || !m || !d) return "";
+  switch (part) {
+    case "day":
+      return String(d).padStart(2, "0");
+    case "month":
+      return String(m).padStart(2, "0");
+    case "monthName":
+      return MONTHS[m - 1];
+    case "year":
+      return String(y);
+    case "year2":
+      return String(y % 100).padStart(2, "0");
+    case "weekday":
+      return DAYS[new Date(Date.UTC(y, m - 1, d)).getUTCDay()];
+  }
+}
+
+/** Whether the card shows its date as a calendar date (numerals work). */
+export const hasNumericDate = (c: CardContent) => Boolean(c.date) && !c.dateText.trim();
+
+/** Greedy word wrap at about `chars` a line, keeping existing breaks. */
+export function wrapText(text: string, chars: number): string {
+  return text
+    .split("\n")
+    .map((line) => {
+      const out: string[] = [];
+      let cur = "";
+      for (const word of line.split(" ")) {
+        if (cur && (cur + " " + word).length > chars) {
+          out.push(cur);
+          cur = word;
+        } else cur = cur ? `${cur} ${word}` : word;
+      }
+      out.push(cur);
+      return out.join("\n");
+    })
+    .join("\n");
+}
+
 /** The text a layer shows for this card's content. */
 export function layerText(layer: TextLayer, c: CardContent): string {
+  if (layer.when === "numericDate" && !hasNumericDate(c)) return "";
+  if (layer.when === "textDate" && hasNumericDate(c)) return "";
   switch (layer.bind) {
     case "headline":
       return c.headline || layer.text || "";
-    case "names":
-      return [c.nameA, c.nameB].filter(Boolean).join(layer.joiner ?? " & ");
+    case "names": {
+      const names = [c.nameA, c.nameB].filter(Boolean);
+      const joiner = layer.joiner ?? " & ";
+      const one = names.join(joiner);
+      // Long pairs go on two lines rather than shrinking to nothing.
+      return layer.wrap && one.length > layer.wrap ? names.join(`\n${joiner.trim()} `) : one;
+    }
     case "nameA":
       return c.nameA;
     case "nameB":
@@ -51,6 +102,8 @@ export function layerText(layer: TextLayer, c: CardContent): string {
     case "date":
       if (c.dateText.trim()) return c.dateText.trim();
       return c.date ? formatDate(c.date, layer.dateStyle ?? "long") : "Date to come";
+    case "datePart":
+      return hasNumericDate(c) ? datePart(c.date, layer.part ?? "day") : "";
     case "place":
       return c.place;
     case "note":

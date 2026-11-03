@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import type { Palette } from "@/lib/save-the-date/types";
 
 /**
  * Decorations a card template can place. Two kinds:
@@ -9,7 +10,8 @@ import type { ReactNode } from "react";
  *   docs/site-art-sources.md), kept in its own watercolours.
  */
 
-type VectorArt = { kind: "vector"; label: string; aspect: number; draw: (w: number) => ReactNode };
+/** Most drawings use currentColor; a few multi-colour ones read the palette. */
+type VectorArt = { kind: "vector"; label: string; aspect: number; draw: (w: number, palette: Palette) => ReactNode };
 type ImageArt = { kind: "image"; label: string; aspect: number; src: string };
 export type ArtDef = VectorArt | ImageArt;
 
@@ -57,6 +59,46 @@ const DOTS: [number, number][] = [
   [200, 110], [560, 160], [90, 320], [690, 300], [330, 210], [430, 60], [20, 520], [740, 470],
   [610, 420], [160, 450], [480, 480], [270, 520],
 ];
+
+/** A five-point star centred on (x, y). */
+function star5(x: number, y: number, r: number, key?: string | number) {
+  const pts = Array.from({ length: 10 }, (_, i) => {
+    const a = (Math.PI / 5) * i - Math.PI / 2;
+    const rr = i % 2 ? r * 0.42 : r;
+    return `${(x + rr * Math.cos(a)).toFixed(2)},${(y + rr * Math.sin(a)).toFixed(2)}`;
+  });
+  return <polygon key={key} points={pts.join(" ")} fill="currentColor" />;
+}
+
+/** One majolica tile, 100 x 100: a round-petalled flower, leaves, and quarter-discs that become circles where tiles meet. */
+function tile(x: number, y: number, key: string, paper: string) {
+  return (
+    <g key={key} transform={`translate(${x} ${y})`}>
+      <rect width={100} height={100} fill="currentColor" opacity={0.1} />
+      {[0, 90, 180, 270].map((a) => (
+        <g key={a} transform={`rotate(${a} 50 50)`}>
+          <circle cx={50} cy={31} r={13} fill="currentColor" opacity={0.9} />
+          <path d="M50 50C60 46 70 38 74 26C62 28 54 38 50 50Z" fill="currentColor" opacity={0.45} />
+          <path d="M0 30A30 30 0 0 0 30 0H0Z" fill="currentColor" opacity={0.75} />
+          <path d="M0 18A18 18 0 0 0 18 0" fill="none" stroke={paper} strokeWidth={2.5} />
+        </g>
+      ))}
+      <circle cx={50} cy={50} r={10} fill={paper} />
+      <circle cx={50} cy={50} r={5} fill="currentColor" />
+      <rect width={100} height={100} fill="none" stroke={paper} strokeWidth={1.5} opacity={0.8} />
+    </g>
+  );
+}
+
+/** A hand-drawn wave line across `w`, wobbling a little so it doesn't look ruled. */
+function wave(w: number, y: number, amp: number, len: number, phase: number) {
+  let d = `M${-len} ${y}`;
+  for (let x = -len + phase; x < w + len; x += len) {
+    const wobble = Math.sin(x * 0.013) * amp * 0.25;
+    d += `Q${x + len / 4} ${y - amp - wobble} ${x + len / 2} ${y}T${x + len} ${y}`;
+  }
+  return d;
+}
 
 export const ART: Record<string, ArtDef> = {
   rule: {
@@ -162,6 +204,196 @@ export const ART: Record<string, ArtDef> = {
           <line x1={0} x2={760} y1={118} y2={118} strokeWidth={1.4} />
           {glint}
           <path d="M40 160C120 154 200 166 280 160M480 162C560 156 640 168 720 160M90 200C170 194 230 206 300 200M470 204C540 198 610 210 680 202" strokeWidth={1} opacity={0.7} />
+        </g>
+      );
+    },
+  },
+  vline: {
+    kind: "vector",
+    label: "Vertical rule",
+    aspect: 314,
+    draw: (w) => <line x1={w / 2} x2={w / 2} y1={0} y2={w * 314} stroke="currentColor" strokeWidth={2} />,
+  },
+  square: {
+    kind: "vector",
+    label: "Square",
+    aspect: 1,
+    draw: (w) => <rect width={w} height={w} fill="currentColor" />,
+  },
+  sunDisc: {
+    kind: "vector",
+    label: "Setting sun",
+    aspect: 1,
+    draw: (w) => <circle cx={w / 2} cy={w / 2} r={w / 2} fill="currentColor" />,
+  },
+  sunRing: {
+    kind: "vector",
+    label: "Sun",
+    aspect: 1,
+    draw: (w) => (
+      <g fill="none" stroke="currentColor">
+        <circle cx={w / 2} cy={w / 2} r={w / 2 - 2} strokeWidth={2} />
+        <circle cx={w / 2} cy={w / 2} r={w / 2 - 16} strokeWidth={1} opacity={0.6} />
+      </g>
+    ),
+  },
+  sunsetBands: {
+    kind: "vector",
+    label: "Retro sunset",
+    aspect: 0.58,
+    draw: (w, pal) => {
+      const h = w * 0.58;
+      const cx = w / 2;
+      const half = (r: number, fill: string, key: string) => (
+        <path key={key} d={`M${cx - r} ${h}A${r} ${r} 0 0 1 ${cx + r} ${h}Z`} fill={fill} />
+      );
+      const sun = h * 0.4;
+      // Paper-coloured slats across the sun's lower half.
+      const slats = [0.12, 0.3, 0.5, 0.72].map((t, i) => (
+        <rect key={i} x={cx - sun} y={h - sun * (0.62 - t * 0.6)} width={sun * 2} height={6 + i * 4} fill={pal.paper} />
+      ));
+      return (
+        <g>
+          {half(h, pal.muted, "a")}
+          {half(h * 0.84, pal.ink, "b")}
+          {half(h * 0.68, pal.accent, "c")}
+          {half(h * 0.54, pal.paper, "d")}
+          {half(sun, pal.accent, "e")}
+          {slats}
+        </g>
+      );
+    },
+  },
+  tileBorder: {
+    kind: "vector",
+    label: "Tile border",
+    aspect: 1.4,
+    draw: (w, pal) => {
+      const s = w / 1000;
+      const tiles: ReactNode[] = [];
+      for (let i = 0; i < 10; i++) {
+        tiles.push(tile(i * 100, 0, `t${i}`, pal.paper), tile(i * 100, 1300, `b${i}`, pal.paper));
+      }
+      for (let j = 1; j < 13; j++) tiles.push(tile(0, j * 100, `l${j}`, pal.paper), tile(900, j * 100, `r${j}`, pal.paper));
+      return (
+        <g transform={`scale(${s})`}>
+          {tiles}
+          <rect x={112} y={112} width={776} height={1176} fill="none" stroke="currentColor" strokeWidth={2} />
+          <rect x={120} y={120} width={760} height={1160} fill="none" stroke="currentColor" strokeWidth={0.8} />
+        </g>
+      );
+    },
+  },
+  doubleRule: {
+    kind: "vector",
+    label: "Double rule",
+    aspect: 0.03,
+    draw: (w) => (
+      <g stroke="currentColor">
+        <line x1={0} x2={w} y1={2} y2={2} strokeWidth={4} />
+        <line x1={0} x2={w} y1={w * 0.03 - 2} y2={w * 0.03 - 2} strokeWidth={1.4} />
+      </g>
+    ),
+  },
+  westernFrame: {
+    kind: "vector",
+    label: "Starred frame",
+    aspect: 1320 / 920,
+    draw: (w) => {
+      const h = w * (1320 / 920);
+      return (
+        <g>
+          <rect x={2} y={2} width={w - 4} height={h - 4} fill="none" stroke="currentColor" strokeWidth={4} />
+          <rect x={18} y={18} width={w - 36} height={h - 36} fill="none" stroke="currentColor" strokeWidth={1.4} />
+          {[
+            [44, 44],
+            [w - 44, 44],
+            [44, h - 44],
+            [w - 44, h - 44],
+          ].map(([x, y], i) => star5(x, y, 13, i))}
+          {star5(w / 2, 18, 9, "top")}
+          {star5(w / 2, h - 18, 9, "bottom")}
+        </g>
+      );
+    },
+  },
+  waves: {
+    kind: "vector",
+    label: "Waves",
+    aspect: 0.44,
+    draw: (w, pal) => {
+      const lines: [number, number, number, number, string, number][] = [
+        [60, 10, 180, 0, "currentColor", 2.4],
+        [120, 14, 240, 70, pal.ink, 1.6],
+        [190, 12, 200, 40, "currentColor", 2],
+        [260, 18, 280, 120, pal.ink, 1.2],
+        [330, 10, 220, 10, "currentColor", 1.6],
+        [395, 14, 260, 90, pal.ink, 1],
+      ];
+      const first = wave(w, 60, 10, 180, 0);
+      return (
+        <g fill="none" strokeLinecap="round">
+          {/* The sea itself, so a sun drawn behind it sinks into the water. */}
+          <path d={`${first}V${w * 0.44 + 20}H-200Z`} fill={pal.paper} stroke="none" />
+          <path d={`${wave(w, 250, 18, 280, 120)}V${w * 0.44 + 20}H-200Z`} fill="currentColor" opacity={0.07} stroke="none" />
+          {lines.map(([y, amp, len, phase, color, sw], i) => (
+            <path key={i} d={wave(w, y, amp, len, phase)} stroke={color} strokeWidth={sw} opacity={i % 2 ? 0.55 : 0.9} />
+          ))}
+        </g>
+      );
+    },
+  },
+  engravedFrame: {
+    kind: "vector",
+    label: "Engraved frame",
+    aspect: 1300 / 900,
+    draw: (w) => {
+      const h = w * (1300 / 900);
+      const i = 22;
+      const r = 34;
+      // Inner frame with notched (concave) corners.
+      const notched = `M${i + r} ${i}H${w - i - r}A${r} ${r} 0 0 0 ${w - i} ${i + r}V${h - i - r}A${r} ${r} 0 0 0 ${w - i - r} ${h - i}H${i + r}A${r} ${r} 0 0 0 ${i} ${h - i - r}V${i + r}A${r} ${r} 0 0 0 ${i + r} ${i}Z`;
+      const corners = [
+        [i, i],
+        [w - i, i],
+        [i, h - i],
+        [w - i, h - i],
+      ];
+      return (
+        <g fill="none" stroke="currentColor">
+          <rect x={1} y={1} width={w - 2} height={h - 2} strokeWidth={1.6} />
+          <path d={notched} strokeWidth={0.9} />
+          {corners.map(([x, y], k) => (
+            <path key={k} d={`M${x} ${y - 7}L${x + 7} ${y}L${x} ${y + 7}L${x - 7} ${y}Z`} fill="currentColor" stroke="none" />
+          ))}
+        </g>
+      );
+    },
+  },
+  laurelCrest: {
+    kind: "vector",
+    label: "Laurel crest",
+    aspect: 1,
+    draw: (w) => {
+      const c = w / 2;
+      const r = w * 0.4;
+      // Leaves along each lower arc, pointing up toward the top.
+      const leaves: ReactNode[] = [];
+      for (const side of [-1, 1]) {
+        for (let k = 0; k < 9; k++) {
+          const a = Math.PI / 2 + side * (0.25 + k * 0.17);
+          // Rounded: server and browser trig can differ in the last digit.
+          const x = Math.round((c + r * 1.12 * Math.cos(a)) * 100) / 100;
+          const y = Math.round((c + r * 1.12 * Math.sin(a)) * 100) / 100;
+          const turn = Math.round(((a * 180) / Math.PI + (side > 0 ? 90 : -90) + side * 25) * 100) / 100;
+          leaves.push(<ellipse key={`${side}${k}`} cx={x} cy={y} rx={w * 0.018} ry={w * 0.05} transform={`rotate(${turn} ${x} ${y})`} fill="currentColor" />);
+        }
+      }
+      return (
+        <g>
+          <circle cx={c} cy={c} r={r} fill="none" stroke="currentColor" strokeWidth={1.4} />
+          <circle cx={c} cy={c} r={r - 8} fill="none" stroke="currentColor" strokeWidth={0.7} />
+          {leaves}
         </g>
       );
     },

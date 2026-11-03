@@ -2,7 +2,7 @@
 
 import { useEffect, useId, useLayoutEffect, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
 import { fontById } from "@/lib/site-design";
-import { layerText } from "@/lib/save-the-date/format";
+import { layerText, wrapText } from "@/lib/save-the-date/format";
 import { templateById } from "@/lib/save-the-date/templates";
 import { ARTBOARD, type CardDoc, type ColorRole, type Layer, type LayerOverride, type Palette, type TextLayer } from "@/lib/save-the-date/types";
 import { ART } from "./art";
@@ -69,7 +69,8 @@ export function CardSvg({ doc, className, editable, selected, onSelect, onMove, 
       const id = el.dataset.fit!;
       const max = Number(el.dataset.max);
       const current = fit[id] ?? 1;
-      const natural = el.getBBox().width / current;
+      // Arched text's box is the arch's chord, so measure its run instead.
+      const natural = (el.dataset.arc ? el.getComputedTextLength() : el.getBBox().width) / current;
       const want = natural > max ? Math.max(0.3, max / natural) : 1;
       next[id] = want;
       if (Math.abs(want - current) > 0.005) changed = true;
@@ -236,7 +237,7 @@ export function CardSvg({ doc, className, editable, selected, onSelect, onMove, 
         );
       }
       const color = o?.color ?? palette[layer.color ?? "accent"];
-      const drawn = <g transform={`translate(${layer.x} ${layer.y})`}>{def.draw(layer.w)}</g>;
+      const drawn = <g transform={`translate(${layer.x} ${layer.y})`}>{def.draw(layer.w, palette)}</g>;
       if (metal && !o?.color && (layer.color ?? "accent") === "accent") {
         // Foil can't be a currentColor, so the drawing masks a foil-filled card.
         const id = `m-${uid}-${layer.id}`;
@@ -262,24 +263,44 @@ export function CardSvg({ doc, className, editable, selected, onSelect, onMove, 
     let text = layerText(layer, doc.content);
     if (!text.trim()) return null;
     if (layer.upper) text = text.toUpperCase();
+    if (layer.wrap && layer.bind !== "names") text = wrapText(text, layer.wrap);
     const lines = text.split("\n");
     const size = layer.size * (fit[layer.id] ?? 1);
     const lh = (layer.lineHeight ?? 1.2) * size;
+    const lift = (lines.length - 1) * lh * (layer.valign === "bottom" ? 1 : layer.valign === "middle" ? 0.5 : 0);
+    const common = {
+      "data-fit": layer.id,
+      "data-max": layer.maxWidth,
+      fontFamily: family(layer, o),
+      fontSize: size,
+      fontStyle: layer.italic ? "italic" : undefined,
+      fontWeight: layer.weight,
+      letterSpacing: layer.tracking ? layer.tracking * size : undefined,
+      fill: paint(layer.color, o),
+      opacity: layer.opacity,
+      filter: layer.shadow ? `url(#lift-${uid})` : undefined,
+    };
+    if (layer.arc) {
+      // Along the top of a circle whose highest point is (x, y).
+      const r = layer.arc;
+      const id = `arc-${uid}-${layer.id}`;
+      return (
+        <g>
+          <path id={id} d={`M${layer.x - r} ${layer.y + r}A${r} ${r} 0 0 1 ${layer.x + r} ${layer.y + r}`} fill="none" />
+          <text {...common} data-arc="1" textAnchor="middle">
+            <textPath href={`#${id}`} startOffset="50%">
+              {lines.join(" ")}
+            </textPath>
+          </text>
+        </g>
+      );
+    }
     return (
       <text
-        data-fit={layer.id}
-        data-max={layer.maxWidth}
+        {...common}
         x={layer.x}
-        y={layer.y}
-        fontFamily={family(layer, o)}
-        fontSize={size}
-        fontStyle={layer.italic ? "italic" : undefined}
-        fontWeight={layer.weight}
-        letterSpacing={layer.tracking ? layer.tracking * size : undefined}
+        y={layer.y - lift}
         textAnchor={layer.anchor ?? "start"}
-        fill={paint(layer.color, o)}
-        opacity={layer.opacity}
-        filter={layer.shadow ? `url(#lift-${uid})` : undefined}
         transform={layer.rotate ? `rotate(${layer.rotate} ${layer.x} ${layer.y})` : undefined}
       >
         {lines.map((line, i) => (
