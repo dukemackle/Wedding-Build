@@ -54,7 +54,7 @@ export function AskWrenTile({ onClick }: { onClick?: () => void }) {
           <span className="font-semibold not-italic text-wren">E</span>asy{" "}
           <span className="font-semibold not-italic text-wren">N</span>ow
         </span>
-        <span className="mt-2 flex items-center gap-1.5 font-mono-numbers text-[11px] tracking-wide text-wren sm:text-xs">
+        <span className="mt-2 hidden items-center gap-1.5 font-mono-numbers sm:flex text-xs tracking-wide text-wren">
           <span className="h-1.5 w-1.5 rounded-full bg-wren shadow-[0_0_6px_#00bffe] motion-safe:animate-pulse" />
           Your AI planning assistant
         </span>
@@ -66,7 +66,7 @@ export function AskWrenTile({ onClick }: { onClick?: () => void }) {
           Who still hasn&rsquo;t RSVP&rsquo;d?
         </span>
         <span className="ml-auto w-fit max-w-[80%] rounded-2xl rounded-br-sm bg-wren px-3.5 py-1.5 text-sm text-forest shadow-[0_0_18px_-4px_rgba(0,191,254,0.8)]">
-          46 guests, mostly Sam&rsquo;s side. Want me to draft a nudge?
+          46 guests, mostly Sam&rsquo;s side. Want a reminder list?
         </span>
       </span>
 
