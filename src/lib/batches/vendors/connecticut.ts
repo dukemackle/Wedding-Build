@@ -360,6 +360,46 @@ Grounded Baking	Cake		Middletown	Connecticut		Middletown cottage bakery making c
     tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
 Ashley Jones Violin	Music		North Stonington	Connecticut	Weddings and special events across New England	Violinist based in North Stonington who performs solo and in groups at weddings and special events across New England.	info@ashleyjonesviolin.com	(860) 235-1478	https://www.ashleyjonesviolin.com	https://www.instagram.com/ashleyjonesviolin/		`,
   },
+  {
+    name: "Hartford: florals, photography, planning, cake, catering, videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Goldbud Studio	Florals		New Hartford	Connecticut	Hartford, Litchfield and Middlesex counties	One-person studio making seasonal, garden-style wedding flowers from local Connecticut growers, with full-service and à la carte options.	goldbudstudio@gmail.com	(203) 823-8006	https://www.goldbudstudio.com/	https://www.instagram.com/goldbudstudio/		
+Kate Lauren Studios	Photography		Avon	Connecticut		Avon-based photographer covering weddings and engagements, with galleries from Hartford, Glastonbury and West Hartford venues.	hello@katelauren.com		https://katelauren.com/	https://www.instagram.com/katelaurenstudios/		
+The Go Event Group	Planning	767 New Britain Avenue, Second Floor	Farmington	Connecticut	New England and the Tri-State area	Family-run Farmington team offering wedding planning and coordination alongside DJ, MC, photography and video services.	info@thegoeventgroup.com	(413) 391-4635	https://thegoeventgroup.com/	https://www.instagram.com/goeventgroup/		
+Whisk This Cakes	Cake		West Hartford	Connecticut		West Hartford pastry chef designing custom cakes, cupcakes and cookies, with a gallery of wedding cakes.			https://whiskthis.com/	https://www.instagram.com/whisk_this_cakes/		
+Wildflour	Cake		Avon	Connecticut		Avon home-studio cake maker whose services include wedding and custom cakes, who also teaches decorating classes.		973-590-0378	https://www.cakesbywildflour.com/			
+Bloom Bake Shop	Florals	80 Pratt St	Hartford	Connecticut		Hartford bakery and coffee shop on Pratt Street that also arranges flowers for weddings and other events.	alex@bloombakeshopct.com	(860) 216-5969	https://bloombakeshopct.com/	https://www.instagram.com/bloombakeshopct/		
+Fitzgerald's Fine Catering	Catering		Simsbury	Connecticut	Farmington Valley and nearby towns	Simsbury caterer offering plated, buffet, family-style and station menus for weddings, with tastings and full event staffing.	fineweddings@gmail.com	(800) 368-1823	https://www.fitzcater.com/			
+Fitzner Productions	Videography		West Hartford	Connecticut	New England and New York	West Hartford videographer filming wedding highlight and documentary films across New England, alongside commercial work.	carson@fitznerproductions.com	(860) 759-9239	https://www.fitznerproductions.com/	https://www.instagram.com/fitznerproductions/		`,
+  },
+  {
+    name: "New Haven: music, planning",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+NYCT DJs	Music	470 James Street	New Haven	Connecticut	Connecticut, New York, Massachusetts and Rhode Island	New Haven DJ and MC company that also books musicians and DJ-band hybrids, with wedding packages built around a five-hour reception.	nyctdjs@gmail.com	866-692-8357	https://nyctdjs.com/	https://www.instagram.com/nyctdjs/	2950	package
+Modern Strings	Music		Madison	Connecticut		Madison string ensemble for weddings and events, from a solo violinist to a full quartet, playing pop, classical and film arrangements.			https://modernstrings-ct.com/			
+Irene + Co Events	Planning		Bethany	Connecticut	Connecticut, New York City and Park City, Utah	Bethany-based planner and designer producing weddings, including tented celebrations and wedding weekends, in Connecticut, New York City and Utah.	irene@irenecoevents.com	407-927-4778	https://www.irenecoevents.com/	https://www.instagram.com/irenecoevents/		
+Creative Concepts by Lisa	Planning		Wallingford	Connecticut	New England	Wallingford wedding and event planning and design company, running since 2008, which also offers ceremony officiant services.		475-441-7123	https://creativeconceptsbylisact.com/	https://www.instagram.com/ccblct/		`,
+  },
+  {
+    name: "Litchfield Hills: florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Enza Events	Florals	143 West Street, Suite P	New Milford	Connecticut	Connecticut, the Hudson Valley and New York City	New Milford floral and event design studio making custom wedding florals, sculptural centrepieces, chuppahs and ceiling installations by appointment.	Events@EnzaEvents.com	860-799-6140	https://enzaevents.com	https://www.instagram.com/enza.events/		`,
+  },
+  {
+    name: "Fairfield County: videography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Spetrino Pictures	Videography		Milford	Connecticut	Fairfield County and New Haven County	Milford filmmaker making documentary-style wedding films for Fairfield County couples, with a discreet approach and a limited number of dates each year.	louis@spetrinopictures.com	203-895-6767	https://www.spetrinopictures.com/			`,
+  },
+  {
+    name: "Connecticut River Valley: hair & makeup, music, florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Blush Beauty Collective	Hair & Makeup		Portland	Connecticut		Portland team of wedding makeup artists and hair stylists, working in the salon or on location for brides and their bridal parties.	info@blushbeautycollective.com	860-328-5642	https://blushbeautycollective.com/	https://www.instagram.com/blush_beautycollective/		
+Parisian Salon & Day Spa	Hair & Makeup	9 Berlin Rd	Cromwell	Connecticut		Cromwell day spa and salon offering bridal hair, updos and makeup, with trials for the bride and Sunday weddings available.		860-632-2144	https://parisiandayspa.net/bridal-services/	https://www.instagram.com/parisiandayspa/		
+Blissful Beauty Co.	Hair & Makeup	35 Saybrook Road	Essex	Connecticut		Essex beauty studio with a bridal suite where brides and their parties can have professional hair and makeup before the ceremony.	blissfulbeautyco@gmail.com	860-575-1086	https://www.blissfulbeautyco.com/blissfulbride	https://www.instagram.com/blissful_beautyco/		
+Lindsay J. Makeup & Hair	Hair & Makeup		Madison	Connecticut		Madison hair and makeup artist working on location and from a downtown studio, styling brides and bridal parties since 2009.	lindsay@lindsayj.com		http://www.lindsayj.com/	https://www.instagram.com/lindsayjmakeup/		
+Jock In The Box Entertainment	Music		Durham	Connecticut		Family-run Durham DJ and entertainment team playing Connecticut weddings since 1992, with ceremony sound, lighting and a couple planning portal.	todd@jockinthebox.com	203-235-0000	https://www.jockinthebox.com/	https://www.instagram.com/jockintheboxentertainment/	2900	package
+Tulips Floral Design at Water's Edge	Florals	1520 Boston Post Rd	Westbrook	Connecticut		Westbrook boutique floral studio designing wedding bouquets and ceremony and reception flowers, with consultations booked through its site.	tulipsatwatersedge@gmail.com	860-391-6070	https://www.tulipsfloraldesignstudio.com/	https://www.instagram.com/tulipsfloraldesign/		`,
+  },
 ];
 
 export default batches;

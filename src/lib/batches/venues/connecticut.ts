@@ -231,6 +231,18 @@ Whispering Oaks	32 Weed Avenue	Norwalk	Connecticut			Hotel & Resort	Indoor & Out
 Shuttle Meadow Country Club	51 Randecker Lane	Kensington	Connecticut			Country Club & Golf	Indoor & Outdoor	150			Golf club open to non-members for small and mid-sized weddings, with a fireplace reception room and a terrace over the course.	smccoffice@shuttlemeadowcc.com	860-229-6000	https://www.shuttlemeadowcc.com/intimate-wedding
 Tumble Brook Country Club	376 Simsbury Road	Bloomfield	Connecticut			Country Club & Golf	Indoor & Outdoor				Historic clubhouse with a dance floor, buffet stations, bride and groom suites and an outdoor patio.		860-242-4600	https://www.tumblebrookcc.com/Events/Weddings`,
   },
+  {
+    name: "Connecticut venue depth: Mystic, River Valley, Quiet Corner, Fairfield County and New Haven, 2026-11-03",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+The Barn at Fox Hall	80 Windham Center Road	Windham	Connecticut			Barn & Farm	Indoor & Outdoor	200			A post-and-beam barn built in 1859 in Guilford and moved in 1998 to 32 acres in the Windham Center historic district, with a pergola, a pond house and the 1790 Ripley-Taintor House beside it.	events@thebarnatfoxhall.net	(860) 898-1762	https://thebarnatfoxhall.net/
+The Raymond Family Farm	18 Ramstein Road	New Hartford	Connecticut	41.819768	-73.053140	Barn & Farm	Indoor & Outdoor	200			Family-run working farm of 50+ acres with a barn for weddings, one event per day, and no on-site kitchen so couples bring in outside caterers.	tracey@raymondfamilyfarm.com	(860) 323-3276	https://raymondfamilyfarm.com/
+The Elm City Club	155 Elm Street	New Haven	Connecticut			Historic Mansion & Estate	Indoor	175			Private downtown club, more than 130 years old, that opens its Great Hall, Library and bride and groom suites to wedding couples.		(203) 624-3197	https://elmcityclub.com/Weddings_Events/Weddings
+The Meadowlands at the DCA	274 Middlesex Road	Darien	Connecticut			Historic Mansion & Estate	Indoor & Outdoor				Regency-style estate on nearly eight acres run by the Darien Community Association, listed on the National Register of Historic Places, with garden and fountain settings.	events@dariendca.org	203-655-9050	https://www.dariendca.org/meadowlands
+Greenwich Historical Society	47 Strickland Road	Cos Cob	Connecticut			Museum, Gallery & Rooftop	Indoor & Outdoor	100			National Historic Landmark campus around the Bush-Holley House, with a tentable great lawn and a restored 19th-century barn.	dsuozzo@greenwichhistory.org	203-869-6899	https://greenwichhistory.org/site-rental/
+Rose Vineyards & Winery	2 Valley Road	North Branford	Connecticut			Vineyard & Winery	Indoor & Outdoor	60	500	Package	Family winery in North Branford with small indoor rooms and an open-sided pavilion for micro-weddings and elopements.	events@rosevineyards.com	(475) 221-8636	https://www.rosevineyards.com/private-events
+Connecticut's Beardsley Zoo	1875 Noble Avenue	Bridgeport	Connecticut			Museum, Gallery & Rooftop	Indoor				Zoo that rents out a Victorian greenhouse, a rustic Hanson Building and a carousel building for weddings and receptions.	info@beardsleyzoo.org	(203) 394-6565	https://beardsleyzoo.org/special-events/weddings/
+The Grand Oak Villa	550 Sylvan Lake Road	Watertown	Connecticut			Ballroom	Indoor & Outdoor				Catering hall with a large ballroom plus an outdoor tented ceremony area, with in-house catering.		(860) 945-0548	https://thegrandoakvilla.com/weddings/`,
+  },
 ];
 
 export default batches;
