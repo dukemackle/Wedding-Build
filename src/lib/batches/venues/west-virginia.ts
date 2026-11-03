@@ -105,6 +105,15 @@ Coonskin Park Clubhouse	375 Henry C Hoppy Shores Drive	Charleston	West Virginia	
 McCreery Conference & Event Center	320 2nd Ave	Hinton	West Virginia			Ballroom	Indoor	120	499	Rental	Hinton event center with a ballroom, lounge and dining room, rented by the half or full day.		304-466-8100	https://guesthousewv.com/mccreery-conference-event-center
 Winterplace Ski Resort	425 Winterplace Drive	Ghent	West Virginia			Mountain & Lodge	Indoor & Outdoor	300	750	Rental	Ski resort that rents a mid-mountain lodge with a deck, a slope-view lounge and a base-area hall for summer weddings.		304-787-3221	https://www.winterplace.com/summer-event-rental`,
   },
+  {
+    name: "West Virginia venues: Panhandle, northern, Greenbrier depth",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+Rock Spring Farm	6433 Martinsburg Pike	Shepherdstown	West Virginia			Barn & Farm	Indoor & Outdoor		5500	Package	A restored historic farm where ceremonies are held at several outdoor sites and receptions take place in the barn.	rockspringfarmwv@gmail.com	304-886-5786	https://www.rockspringfarmwv.com/
+Wild Goose Farm (WGF Events)	2935 Shepherd Grade Rd	Shepherdstown	West Virginia			Barn & Farm	Indoor & Outdoor				A historic 173-acre farm near Shepherdstown with a temperature-controlled Gala Barn, trails and a pond, used for weddings and other events.	wildgoosefarmevents@gmail.com		https://wgfevents.com/
+Springvale Farm	664 Goldmiller Rd	Gerrardstown	West Virginia			Barn & Farm	Indoor & Outdoor	175			A rustic countryside farm just off I-81 with a barn, a cottage area, a pond and getting-ready suites for the wedding party.	springvalefarmwv@gmail.com	(304) 596-7001	https://www.springvalefarmwv.com/
+The Enchanted Swan	1203 Hinkle Lake Rd	Bridgeport	West Virginia			Barn & Farm	Indoor & Outdoor				A country wedding venue two miles south of Bridgeport with a celebration center and horse barn for receptions, a three-story farmhouse with gazebo, and fields and pastures on 50 acres backed by forest.		(304) 669-5876	https://www.theenchantedswan.com
+The Links at Woodridge	301 Woodridge Dr	Mineral Wells	West Virginia			Country Club & Golf	Indoor & Outdoor	200			Public 18-hole golf course with a renovated banquet hall and balcony over the course, a willow-and-pond ceremony spot, bridal and groomsmen suites, and in-house catering.	info@thelinksatwoodridge.com	304-489-1800	https://www.thelinksatwoodridge.com/weddings-events`,
+  },
 ];
 
 export default batches;
