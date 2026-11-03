@@ -363,6 +363,24 @@ The Venue at Russell Farms	7015 Jot-em Down Road	Gainesville	Georgia			Barn & Fa
 LL Farm Events	5586 Ransom Free Road	Clermont	Georgia			Barn & Farm	Indoor & Outdoor				A large rustic barn with an upstairs bridal suite, a groom's room and friendly farm animals on the grounds.	llfarmevents@gmail.com	678-451-8793	https://www.llfarmevents.com/
 `,
   },
+  {
+    name: "Georgia: Atlanta exurbs, north Georgia, Augusta, coast and middle Georgia depth",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+Riesen Ranch	956 Al Roberts Road	Senoia	Georgia			Ranch	Indoor & Outdoor				A family-run 200-acre farm in Senoia with pastures, equestrian facilities and 10,000 square feet of event space.	fivespavilion@riesenranch.com	(678) 876-1985	https://riesenranch.com/
+Bullock Springs Manor		Dallas	Georgia			Barn & Farm	Indoor & Outdoor				A rural eight-acre property near Dallas with a white-washed barn, a ballroom and a bridal suite, plus indoor and outdoor ceremony spots.			https://bullockspringsevents.com/
+The Cotton Gin at Mill Creek	1817 Hiram Douglasville Hwy	Hiram	Georgia			Historic Mansion & Estate	Indoor & Outdoor				A historic venue in Hiram set against a natural backdrop with water features, run as an all-inclusive wedding site.	info@cottonginweddings.com	678-202-4880	https://www.cottonginweddings.com/
+The McGarity House		Temple	Georgia			Historic Mansion & Estate	Indoor & Outdoor	130			An early-1900s historic house in Temple with a wraparound porch, a 2,800-square-foot ballroom, a covered barn and small gardens.	themcgarityhouse@gmail.com		https://themcgarityhouse.com/
+Loblolly Rise Weddings & Events	2962 US Highway 319 South	Thomasville	Georgia			Garden & Park	Indoor & Outdoor				A private wedding property between Tallahassee and Thomasville with a reception space, a bridal cottage, groom's quarters and ceremony sites among pine trees.	loblollyrisebarn@gmail.com	850-567-3310	https://www.loblollyrise.com
+Lockerly Arboretum	1534 Irwinton Rd	Milledgeville	Georgia			Garden & Park	Indoor & Outdoor				A botanical garden and arboretum outside Milledgeville whose Rose Hill house and gardens are rented for weddings and rehearsal dinners.		(478) 452-2112	https://lockerly.org
+Christ Church Frederica	6329 Frederica Rd	St. Simons Island	Georgia			Chapel & Church	Indoor				A Gothic Revival Episcopal church consecrated in 1884, with stained glass windows, standing under old oaks beside a historic churchyard.		(912) 638-8683	https://ccfssi.org
+Valley View Farm	640 Joiner Road	Fort Valley	Georgia			Barn & Farm	Indoor & Outdoor				A farm wedding venue with a barn in Fort Valley, south-west of Macon.	valleyviewbarn640@gmail.com	478-258-8168	https://www.valleyview-barn.com
+Hummingbird Hill Farms	2000 Houston Lake Road	Perry	Georgia			Barn & Farm	Indoor & Outdoor				A farm wedding venue on Houston Lake Road in Perry, south of Warner Robins.	hummingbirdhillfarms@hotmail.com		https://www.hummingbirdhillfarmsga.com
+Variety Works		Madison	Georgia			Industrial Loft & Warehouse	Indoor & Outdoor	350			A former manufacturing building from the 1870s with exposed-beam ceilings, heart pine walls, a patio with lake views and a gazebo at Round Bowl Spring.		706-342-7040	https://www.jamesmadisoninn.com/variety-works
+Price Mountain Farm	604 Price Mountain Road	Pendergrass	Georgia			Barn & Farm	Indoor & Outdoor				A 100-acre farm whose barn has a 2,400 square foot covered reception area and looks over a 7-acre pond at the foot of Price Mountain.		706-870-5421	https://www.pricemountainfarm.com
+Song Rock	300 Ball Field Road	Waleska	Georgia			Barn & Farm	Indoor & Outdoor				A seven-acre property with a cottage for getting ready, a rustic wood barn and an outdoor courtyard with patios and fields.	hello@songrockwaleska.com		https://www.songrockwaleska.com/
+Lewallen Farms		Waleska	Georgia			Barn & Farm	Indoor & Outdoor	200			A 380-acre farm with a farmhouse, a barn and a honeymoon suite, with lodging on the property for overnight guests.			https://weddingsatlewallenfarms.com
+`,
+  },
 ];
 
 export default batches;
