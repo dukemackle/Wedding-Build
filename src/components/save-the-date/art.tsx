@@ -398,6 +398,235 @@ export const ART: Record<string, ArtDef> = {
       );
     },
   },
+  ovalFrame: {
+    kind: "vector",
+    label: "Oval frame",
+    aspect: 600 / 480,
+    draw: (w) => {
+      const h = w * (600 / 480);
+      return (
+        <g fill="none" stroke="currentColor">
+          <ellipse cx={w / 2} cy={h / 2} rx={w / 2 - 2} ry={h / 2 - 2} strokeWidth={2} />
+          <ellipse cx={w / 2} cy={h / 2} rx={w / 2 - 12} ry={h / 2 - 12} strokeWidth={0.8} />
+        </g>
+      );
+    },
+  },
+  airmailBorder: {
+    kind: "vector",
+    label: "Airmail border",
+    aspect: 1.4,
+    draw: (w, pal) => {
+      const s = w / 1000;
+      const band = 30;
+      // Diagonal stripes, red and blue by turns, clipped to a band round the edge.
+      const stripes: ReactNode[] = [];
+      for (let i = -1400; i < 1000 + 1400; i += 44) {
+        stripes.push(<path key={i} d={`M${i} 0L${i + 22} 0L${i + 22 + 1400} 1400L${i + 1400} 1400Z`} fill={(i / 44) % 2 ? pal.ink : pal.accent} />);
+      }
+      const id = `airmail-${pal.id}`;
+      return (
+        <g transform={`scale(${s})`}>
+          <clipPath id={id}>
+            <path d={`M0 0H1000V1400H0Z M${band} ${band}V${1400 - band}H${1000 - band}V${band}Z`} clipRule="evenodd" />
+          </clipPath>
+          <g clipPath={`url(#${id})`}>{stripes}</g>
+        </g>
+      );
+    },
+  },
+  stamp: {
+    kind: "vector",
+    label: "Stamp",
+    aspect: 1.2,
+    draw: (w, pal) => {
+      const h = w * 1.2;
+      const r = w * 0.028;
+      const holes: ReactNode[] = [];
+      for (let x = r * 2; x < w; x += r * 3) holes.push(<circle key={`t${x}`} cx={x} cy={0} r={r} />, <circle key={`b${x}`} cx={x} cy={h} r={r} />);
+      for (let y = r * 2; y < h; y += r * 3) holes.push(<circle key={`l${y}`} cx={0} cy={y} r={r} />, <circle key={`r${y}`} cx={w} cy={y} r={r} />);
+      const m = w * 0.1;
+      const iw = w - m * 2;
+      const ih = h - m * 2.6;
+      return (
+        <g>
+          <mask id={`perf-${pal.id}`}>
+            <rect width={w} height={h} fill="#fff" />
+            <g fill="#000">{holes}</g>
+          </mask>
+          <g mask={`url(#perf-${pal.id})`}>
+            <rect width={w} height={h} fill="#fffdf8" />
+            <rect x={m} y={m} width={iw} height={ih} fill={pal.accent} opacity={0.18} />
+            {/* A little coast at sunset: sun, sea, a headland. */}
+            <circle cx={m + iw * 0.62} cy={m + ih * 0.5} r={iw * 0.17} fill={pal.accent} />
+            <path d={`M${m} ${m + ih * 0.62}H${m + iw}V${m + ih}H${m}Z`} fill={pal.ink} opacity={0.85} />
+            <path d={`M${m} ${m + ih * 0.64}C${m + iw * 0.2} ${m + ih * 0.4} ${m + iw * 0.32} ${m + ih * 0.42} ${m + iw * 0.46} ${m + ih * 0.64}Z`} fill={pal.ink} />
+            {[0.72, 0.8, 0.88].map((t) => (
+              <line key={t} x1={m + iw * 0.5} x2={m + iw * 0.76} y1={m + ih * t} y2={m + ih * t} stroke="#fffdf8" strokeWidth={2} opacity={0.6} />
+            ))}
+            <rect x={m} y={m} width={iw} height={ih} fill="none" stroke={pal.ink} strokeWidth={1.5} />
+            <text x={w / 2} y={h - m * 0.75} textAnchor="middle" fontSize={w * 0.09} fill={pal.ink} fontFamily="Georgia, serif" letterSpacing={2}>
+              LOVE
+            </text>
+          </g>
+        </g>
+      );
+    },
+  },
+  postmark: {
+    kind: "vector",
+    label: "Postmark",
+    aspect: 0.5,
+    draw: (w) => {
+      const r = w * 0.22;
+      const cx = r + 4;
+      const cy = w * 0.25;
+      return (
+        <g fill="none" stroke="currentColor" strokeLinecap="round">
+          <circle cx={cx} cy={cy} r={r} strokeWidth={2.4} />
+          <circle cx={cx} cy={cy} r={r * 0.68} strokeWidth={1.2} />
+          {/* Cancellation waves running off to the right. */}
+          {[-0.36, -0.12, 0.12, 0.36].map((t, i) => {
+            const y = cy + t * r * 2;
+            let d = `M${cx + r + 10} ${y}`;
+            for (let x = cx + r + 10; x < w; x += 40) d += `q10 -6 20 0t20 0`;
+            return <path key={i} d={d} strokeWidth={2.2} />;
+          })}
+        </g>
+      );
+    },
+  },
+  addressLines: {
+    kind: "vector",
+    label: "Address lines",
+    aspect: 0.33,
+    draw: (w) => (
+      <g stroke="currentColor" strokeWidth={1.2}>
+        {[0, 1, 2].map((i) => (
+          <line key={i} x1={0} x2={w} y1={20 + i * 110} y2={20 + i * 110} />
+        ))}
+      </g>
+    ),
+  },
+  decoFrame: {
+    kind: "vector",
+    label: "Deco frame",
+    aspect: 1.4,
+    draw: (w) => {
+      const s = w / 1000;
+      const cx = 500;
+      const fanY = 400;
+      const rays: ReactNode[] = [];
+      for (let a = 0; a <= 180; a += 7.5) {
+        const t = (a * Math.PI) / 180;
+        const x1 = Math.round((cx - 120 * Math.cos(t)) * 100) / 100;
+        const y1 = Math.round((fanY - 120 * Math.sin(t)) * 100) / 100;
+        const x2 = Math.round((cx - 230 * Math.cos(t)) * 100) / 100;
+        const y2 = Math.round((fanY - 230 * Math.sin(t)) * 100) / 100;
+        rays.push(<line key={a} x1={x1} y1={y1} x2={x2} y2={y2} strokeWidth={1.2} />);
+      }
+      // Stepped corners.
+      const step = (x: number, y: number, dx: number, dy: number, k: string) => (
+        <path key={k} d={`M${x} ${y + dy * 90}V${y + dy * 30}H${x + dx * 30}V${y}H${x + dx * 90}`} strokeWidth={2} />
+      );
+      return (
+        <g transform={`scale(${s})`} fill="none" stroke="currentColor">
+          <rect x={40} y={40} width={920} height={1320} strokeWidth={2.4} />
+          <rect x={56} y={56} width={888} height={1288} strokeWidth={0.8} />
+          {step(76, 76, 1, 1, "a")}
+          {step(924, 76, -1, 1, "b")}
+          {step(76, 1324, 1, -1, "c")}
+          {step(924, 1324, -1, -1, "d")}
+          {rays}
+          <path d={`M${cx - 120} ${fanY}A120 120 0 0 1 ${cx + 120} ${fanY}`} strokeWidth={2} />
+          <path d={`M${cx - 230} ${fanY}A230 230 0 0 1 ${cx + 230} ${fanY}`} strokeWidth={2.4} />
+          <path d={`M${cx - 244} ${fanY}A244 244 0 0 1 ${cx + 244} ${fanY}`} strokeWidth={0.8} />
+          <path d={`M${cx - 60} ${fanY}A60 60 0 0 1 ${cx + 60} ${fanY}`} fill="currentColor" stroke="none" />
+          <line x1={cx - 300} x2={cx + 300} y1={fanY} y2={fanY} strokeWidth={1.2} />
+          {/* Side pilasters. */}
+          {[110, 124, 876, 890].map((x) => (
+            <line key={x} x1={x} x2={x} y1={520} y2={1150} strokeWidth={x % 2 ? 0.8 : 1.6} />
+          ))}
+          {/* Chevron at the foot. */}
+          {[0, 18, 36].map((d) => (
+            <path key={d} d={`M${cx - 90 + d} ${1210 - d * 0.5}L${cx} ${1170 - d * 0.5 + d * 0.9}L${cx + 90 - d} ${1210 - d * 0.5}`} strokeWidth={1.4} />
+          ))}
+        </g>
+      );
+    },
+  },
+  bow: {
+    kind: "vector",
+    label: "Ribbon bow",
+    aspect: 0.62,
+    draw: (w, pal) => {
+      const s = w / 340;
+      const edge = pal.ink;
+      return (
+        <g transform={`scale(${s})`} stroke={edge} strokeWidth={1.6} strokeLinejoin="round" strokeOpacity={0.55}>
+          {/* Tails first, loops over them, the knot on top. */}
+          <path d="M160 100C140 140 110 175 70 205L92 212L84 230C130 196 160 160 172 108Z" fill="currentColor" />
+          <path d="M180 100C200 140 230 175 270 205L248 212L256 230C210 196 180 160 168 108Z" fill="currentColor" />
+          <path d="M170 92C130 40 60 20 30 50C8 74 30 120 80 122C120 124 150 110 170 96Z" fill="currentColor" />
+          <path d="M170 92C210 40 280 20 310 50C332 74 310 120 260 122C220 124 190 110 170 96Z" fill="currentColor" />
+          <path d="M60 72C90 66 130 78 160 92M280 72C250 66 210 78 180 92" fill="none" strokeOpacity={0.35} />
+          <ellipse cx={170} cy={96} rx={18} ry={22} fill="currentColor" />
+        </g>
+      );
+    },
+  },
+  laurelArch: {
+    kind: "vector",
+    label: "Laurel arch",
+    aspect: 1.35,
+    draw: (w) => {
+      const h = w * 1.35;
+      const r = w / 2 - 20;
+      const cx = w / 2;
+      const top = r + 20;
+      // Points along the arch from the bottom-left, up and over, to the bottom-right,
+      // each with the outward direction there (degrees).
+      const pts: [number, number, number][] = [];
+      const legSteps = 16;
+      for (let i = 0; i < legSteps; i++) {
+        const y = h - 10 - ((h - 10 - top) * i) / legSteps;
+        pts.push([cx - r, y, 180]);
+      }
+      for (let i = 0; i <= 44; i++) {
+        const a = Math.PI + (Math.PI * i) / 44;
+        pts.push([cx + r * Math.cos(a), top + r * Math.sin(a), (a * 180) / Math.PI]);
+      }
+      for (let i = legSteps - 1; i >= 0; i--) {
+        const y = h - 10 - ((h - 10 - top) * i) / legSteps;
+        pts.push([cx + r, y, 0]);
+      }
+      const leaves: ReactNode[] = [];
+      const half = pts.length / 2;
+      pts.forEach(([x, y, dir], i) => {
+        // Two branches grow from the feet and meet at the top: each leaf
+        // leans forward along its branch, alternating sides.
+        const forward = i < half ? dir + 90 : dir - 90;
+        const side = i % 2 ? 1 : -1;
+        const turn = Math.round((forward + side * 34) * 100) / 100;
+        const rad = (turn * Math.PI) / 180;
+        const len = 19 + (i % 3) * 2;
+        const lx = Math.round((x + Math.cos(rad) * len) * 100) / 100;
+        const ly = Math.round((y + Math.sin(rad) * len) * 100) / 100;
+        leaves.push(<ellipse key={i} cx={lx} cy={ly} rx={len} ry={len * 0.36} transform={`rotate(${turn} ${lx} ${ly})`} fill="currentColor" />);
+        if (i % 9 === 4) {
+          const bx = Math.round((x - Math.cos(rad) * 10) * 100) / 100;
+          const by = Math.round((y - Math.sin(rad) * 10) * 100) / 100;
+          leaves.push(<circle key={`b${i}`} cx={bx} cy={by} r={5.5} fill="currentColor" />);
+        }
+      });
+      return (
+        <g>
+          <path d={`M${cx - r} ${h - 10}V${top}A${r} ${r} 0 0 1 ${cx + r} ${top}V${h - 10}`} fill="none" stroke="currentColor" strokeWidth={1.6} />
+          {leaves}
+        </g>
+      );
+    },
+  },
   peony: img("Peony", "peony-pink", 675),
   roses: img("White & pink roses", "roses-white-pink", 824),
   wildRoses: img("Wild roses", "wild-roses", 600),
@@ -405,4 +634,10 @@ export const ART: Record<string, ArtDef> = {
   myrtle: img("Myrtle", "myrtle", 548),
   jasmine: img("Jasmine", "jasmine", 621),
   lemon: img("Lemons", "lemon", 703),
+  iris: img("Iris", "iris-blue", 432),
+  poppy: img("Poppy", "poppy", 629),
+  anemone: img("Anemone", "anemone-red", 740),
+  mallow: img("Mallow", "mallow", 787),
+  lilyValley: img("Lily of the valley", "lily-of-the-valley", 654),
+  tulip: img("Tulip", "tulip-striped", 528),
 };

@@ -126,6 +126,8 @@ export type PhotoLayer = Base & {
   w: number;
   h: number;
   shape: "rect" | "arch" | "oval";
+  /** With no photo, fill the frame and set the couple's initials in it (framed photos only). */
+  emptyMonogram?: boolean;
   /** Darkening for type to sit on: which edges, 0-1. */
   scrim?: { top?: number; bottom?: number; left?: number };
 };
@@ -141,6 +143,8 @@ export type ArtLayer = Base & {
   color?: ColorRole;
   flip?: boolean;
   opacity?: number;
+  /** As on text: drawn only with a calendar date, or only without one. */
+  when?: "numericDate" | "textDate";
 };
 
 export type Layer = TextLayer | PhotoLayer | ArtLayer;

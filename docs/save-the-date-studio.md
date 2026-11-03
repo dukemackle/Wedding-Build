@@ -1,6 +1,6 @@
 # Save the Date Studio — plan and prototype (2026-10-29)
 
-Status: **approved 2026-11-03; 10 of 24 templates built (batches 1–2).** Nothing is live: the only
+Status: **approved 2026-11-03; 17 of 24 templates built (batches 1–3).** Nothing is live: the only
 route is `/save-the-date/prototype`, which returns 404 in production.
 
 ## What exists and is reused
@@ -30,7 +30,9 @@ route is `/save-the-date/prototype`, which returns 404 in production.
 4. **Long text never runs off the card.** Places wrap at about a set number of characters; a
    long pair of names breaks at the "&" onto two lines (growing up, down or both ways, per
    layer); anything still too wide shrinks to its layer's width. Numeral layouts (Swiss) fall back
-   to the written date when the couple has none. QA sheets: `?view=gallery`, `gallery-long`,
+   to the written date when the couple has none (decorations tied to the numerals hide with
+   them). Framed photo templates (Gallery, Peony Cameo) show the couple's initials until a photo
+   is added. QA sheets: `?view=gallery`, `gallery-long`,
    `gallery-nophoto` on the prototype route.
 5. **No new dependencies.** Export draws to a canvas in the browser, and the PDF is written by hand
    (one image on one page). Nothing runs on the Worker, so the 10 ms CPU limit isn't touched.
@@ -53,15 +55,15 @@ Names shared with a guest-site template let one choice style both the card and t
 
 | Family | Template 1 | Template 2 |
 | --- | --- | --- |
-| Editorial luxury | **Editorial** ✅ full-bleed photo, oversized didone | Gallery: photo in a white mat with a museum-label caption |
-| Romantic florals | **Heirloom Garden** ✅ antique botanicals, scalloped frame | Peony Cameo: oval photo window crowned with flowers |
+| Editorial luxury | **Editorial** ✅ full-bleed photo, oversized didone | **Gallery** ✅ photo in a wide mat, museum-label caption |
+| Romantic florals | **Heirloom Garden** ✅ antique botanicals, scalloped frame | **Peony Cameo** ✅ oval photo window crowned with flowers |
 | Full-bleed photo | **Golden Hour** ✅ script names across the photo | Contact Sheet: three photos in a strip, typed caption |
-| Modern minimalist | **Swiss** ✅ asymmetric grid, huge date numerals | Whitespace: one centred line, tiny type, lots of air |
-| Rustic botanical | Laurel Arch: laurel line-art arch on kraft | Pressed: a single sprig "taped" like a pressed flower |
-| Mediterranean | **Riviera Tile** ✅ painted majolica border with lemons | Postcard: stamp, postmark carrying the date, airmail edge |
+| Modern minimalist | **Swiss** ✅ asymmetric grid, huge date numerals | **Whitespace** ✅ one centred line, tiny type, lots of air |
+| Rustic botanical | **Laurel Arch** ✅ laurel garland arch on kraft, date set like a sign | Pressed: a single sprig "taped" like a pressed flower |
+| Mediterranean | **Riviera Tile** ✅ painted majolica border with lemons | **Postcard** ✅ stamp, postmark carrying the date, airmail edge |
 | Vintage & retro | **Seventies** ✅ arched lettering, striped sun in rainbow bands | Hotel Label: deco luggage-label badge |
-| Celestial & black tie | **Midnight Arch** ✅ gold line art, moonlit sea | Deco Gala: Art Deco fan frame, champagne foil |
-| Whimsical garden | Wildflower Bow: meadow border tied with a ribbon | Garden Party: gingham with scattered cherries and lemons |
+| Celestial & black tie | **Midnight Arch** ✅ gold line art, moonlit sea | **Deco Gala** ✅ Art Deco fan frame, gold foil |
+| Whimsical garden | **Wildflower Bow** ✅ corner meadow posies tied with a ribbon | Garden Party: gingham with scattered cherries and lemons |
 | Coastal & beach | **Tide** ✅ staggered script names, sun setting into hand-drawn waves | Shoreline: photo above a tide-line band, type below |
 | Western & ranch | **Homestead** ✅ wood-type poster | Brand: cattle-brand monogram, rope border, suede tones |
 | Classic traditional | **Engraved** ✅ formal wording, laurel crest monogram, notched frame | Calligraphy: formal script, deckled edge |

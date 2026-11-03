@@ -2,7 +2,7 @@
 
 import { useEffect, useId, useLayoutEffect, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
 import { fontById } from "@/lib/site-design";
-import { layerText, wrapText } from "@/lib/save-the-date/format";
+import { hasNumericDate, layerText, wrapText } from "@/lib/save-the-date/format";
 import { templateById } from "@/lib/save-the-date/templates";
 import { ARTBOARD, type CardDoc, type ColorRole, type Layer, type LayerOverride, type Palette, type TextLayer } from "@/lib/save-the-date/types";
 import { ART } from "./art";
@@ -180,6 +180,7 @@ export function CardSvg({ doc, className, editable, selected, onSelect, onMove, 
       {layers.map((layer) => {
         const o = doc.overrides[layer.id];
         if (o?.hidden) return null;
+        if (layer.kind === "art" && layer.when && (layer.when === "numericDate") !== hasNumericDate(doc.content)) return null;
         const live = drag?.id === layer.id ? ([drag.dx, drag.dy] as [number, number]) : null;
         return (
           <g
@@ -323,6 +324,28 @@ export function CardSvg({ doc, className, editable, selected, onSelect, onMove, 
         <rect x={layer.x} y={layer.y} width={layer.w} height={layer.h} />
       );
     const p = doc.photo;
+    if (!p && layer.emptyMonogram) {
+      const c = doc.content;
+      const initials = `${c.nameA.trim()[0] ?? ""}${c.nameB.trim()[0] ?? ""}`;
+      return (
+        <g>
+          <clipPath id={clip}>{shape}</clipPath>
+          <rect x={layer.x} y={layer.y} width={layer.w} height={layer.h} fill={palette.muted} opacity={0.14} clipPath={`url(#${clip})`} />
+          <text
+            x={layer.x + layer.w / 2}
+            y={layer.y + layer.h / 2 + Math.min(layer.w, layer.h) * 0.11}
+            textAnchor="middle"
+            fontFamily={fontById(pairing.display)?.css ?? "serif"}
+            fontStyle="italic"
+            fontSize={Math.min(layer.w, layer.h) * 0.32}
+            fill={palette.muted}
+            opacity={0.8}
+          >
+            {initials}
+          </text>
+        </g>
+      );
+    }
     if (!p) {
       return editable ? (
         <g data-editor-only>
