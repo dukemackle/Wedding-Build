@@ -104,29 +104,22 @@ export function StoryView({ heading, body, photos }: { heading: string | null; b
           heading || photos[0] ? "mt-8" : ""
         }`}
       >
-        {chapters.map((c, i) => {
-          const body = c.title ? c.text : [c.when, c.text].filter(Boolean).join(" ");
-          // A drop cap spans three lines, so it only works on a paragraph that
-          // fills them. On a one-liner the letter towers over the sentence and
-          // the text hangs off its top edge; there, just centre the line.
-          const short = body.trim().length < 200;
-          return (
-            <div key={i} className={short && chapters.length === 1 ? "text-center" : undefined}>
-              {c.title && (
-                <p className="mb-1 font-display text-xl text-forest">{[c.when, c.title].filter(Boolean).join(" · ")}</p>
-              )}
-              <p
-                className={`whitespace-pre-line ${
-                  i === 0 && !short
-                    ? "first-letter:float-left first-letter:pr-2 first-letter:pt-1 first-letter:font-display first-letter:text-[3.6em] first-letter:leading-[0.8] first-letter:text-[var(--site-accent)]"
-                    : ""
-                }`}
-              >
-                {body}
-              </p>
-            </div>
-          );
-        })}
+        {chapters.map((c, i) => (
+          <div key={i}>
+            {c.title && (
+              <p className="mb-1 font-display text-xl text-forest">{[c.when, c.title].filter(Boolean).join(" · ")}</p>
+            )}
+            <p
+              className={`whitespace-pre-line ${
+                i === 0
+                  ? "first-letter:float-left first-letter:pr-2 first-letter:pt-1 first-letter:font-display first-letter:text-[3.6em] first-letter:leading-[0.8] first-letter:text-[var(--site-accent)]"
+                  : ""
+              }`}
+            >
+              {c.title ? c.text : [c.when, c.text].filter(Boolean).join(" ")}
+            </p>
+          </div>
+        ))}
       </div>
     </div>
   );
