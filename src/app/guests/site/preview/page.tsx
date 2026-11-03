@@ -8,7 +8,7 @@ import { GuestSiteTheme } from "@/components/guest-site-theme";
 import { GuestSiteView, loadGuestSiteContent } from "@/app/w/[slug]/guest-site-view";
 import { CanvasEditing } from "./canvas-editing";
 import { bannerPhoto } from "@/lib/site-design";
-import { SAMPLE_GALLERY, SAMPLE_HERO } from "@/lib/sample-photos";
+import { SAMPLE_GALLERY, SAMPLE_GUEST_NAMES, SAMPLE_HERO } from "@/lib/sample-photos";
 
 export const metadata: Metadata = { title: "Guest site preview", robots: { index: false } };
 
@@ -104,19 +104,31 @@ export default async function GuestSitePreviewPage({
   // 2026-10-21), whose address bar says so. Never on the live site.
   const samples = Boolean(look) || withSamples === "1";
   if (samples && !bannerPhoto(asGuestsSeeIt)) asGuestsSeeIt.hero_photo_url = SAMPLE_HERO;
-  const content =
-    samples && loaded.galleryPhotos.length === 0
-      ? {
-          ...loaded,
-          galleryPhotos: SAMPLE_GALLERY.map((photo_url, i) => ({
-            id: `sample-${i}`,
-            wedding_id: wedding.id,
-            photo_url,
-            sort_order: i,
-            created_at: "",
-          })),
-        }
-      : loaded;
+  // Same for "Who's coming": empty until someone RSVPs, so the editor shows
+  // stand-ins tagged "Sample" (owner, 2026-11-03). Never on the live site.
+  const sampleGuests = samples && loaded.confirmedGuests.length === 0;
+  const content = {
+    ...loaded,
+    ...(samples && loaded.galleryPhotos.length === 0 && {
+      galleryPhotos: SAMPLE_GALLERY.map((photo_url, i) => ({
+        id: `sample-${i}`,
+        wedding_id: wedding.id,
+        photo_url,
+        sort_order: i,
+        created_at: "",
+      })),
+    }),
+    ...(sampleGuests && {
+      confirmedGuests: SAMPLE_GUEST_NAMES.map((name, i) => ({
+        id: `sample-guest-${i}`,
+        wedding_id: wedding.id,
+        name,
+        photo_url: null,
+        created_at: "",
+      })),
+    }),
+    sampleGuests,
+  };
   const stored = parseSiteDesign(row ? row.design : wedding.site_design);
   const draft = row?.shared_wording ? withWording(stored, parseWording(wedding.site_wording)) : stored;
 

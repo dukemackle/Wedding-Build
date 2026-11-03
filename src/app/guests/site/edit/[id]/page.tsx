@@ -263,7 +263,7 @@ export default async function GuestSiteEditorPage({ params }: { params: Promise<
     guests: {
       status: confirmedCount
         ? `${confirmedCount} confirmed guest${confirmedCount === 1 ? "" : "s"}`
-        : "Appears once guests say yes",
+        : "Sample guests in the preview until people RSVP",
     },
     travel: {
       status: stayCount
@@ -332,6 +332,7 @@ export default async function GuestSiteEditorPage({ params }: { params: Promise<
           contentKey={contentKey}
           sectionInfo={{ ...sectionInfo, ...blockInfo }}
           hasPhoto={Boolean(wedding.hero_photo_url)}
+          hasGuests={Boolean(confirmedCount)}
           names={[wedding.partner_a_name ?? "", wedding.partner_b_name ?? ""]}
           weddingDate={wedding.wedding_date ?? null}
           photos={[wedding.hero_photo_url, ...(galleryPhotos ?? []).map((p) => p.photo_url)].filter(
