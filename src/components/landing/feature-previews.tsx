@@ -2497,20 +2497,16 @@ function SiteDemo() {
 
 const QUESTIONS = [
   {
-    q: "What should we book next?",
-    a: "Your florist — good ones book up about 9 months out, and you're at 11.",
+    q: "Who hasn't RSVP'd?",
+    a: "46 guests are still waiting — mostly Sam's side. Want a reminder list?",
   },
   {
     q: "Are we over budget?",
     a: "You're $8,800 under your $40,000 target on real numbers — $1,600 under once catering and the other open lines come in at their estimates.",
   },
   {
-    q: "Who hasn't RSVP'd?",
-    a: "46 guests are still waiting — mostly Sam's side. Want a reminder list?",
-  },
-  {
-    q: "Add a florist task to our checklist",
-    a: "I'll add \u201cBook your florist\u201d, due November 1. Go ahead?",
+    q: "Remind us to send save-the-dates",
+    a: "I'll add \u201cSend save-the-dates\u201d to your checklist, due December 1. Go ahead?",
     action: "Added to your checklist ✓",
   },
 ];
