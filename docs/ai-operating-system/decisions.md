@@ -20,8 +20,8 @@ rules, batch self-merge, 50-state coverage, page widths) and
 ## Pending owner decisions
 - None open.
 
-## 2026-11-03 — No restaurant booking for rehearsal dinners or welcome parties
-- Decided: stay out of restaurant booking and restaurant-specific features
+## 2026-11-03 — Restaurant booking for rehearsal dinners and welcome parties: parked
+- Decided: parked for now, not ruled out. Stay out of restaurant booking and restaurant-specific features
   (reservations, private-dining listings, restaurant search from the
   itinerary). Couples keep the existing budget lines, checklist item and
   per-event itinerary/RSVPs; restaurants already in the venue catalog stay
@@ -31,7 +31,9 @@ rules, batch self-merge, 50-state coverage, page widths) and
   coordinators, not reservation APIs, so there's little to automate anyway.
 - Alternatives: link itinerary events to nearby Restaurant & Brewery venues,
   plus a private-dining inquiry template; a separate restaurant directory.
-- Revisit: only if real couples ask for it after launch.
+- Revisit: after launch, if couples ask for it or the core product is
+  stable enough to take on another area. Start with the itinerary-link
+  alternative above, not a directory.
 
 ## 2026-10-22 — When a launch metro is "done"
 - Decided: every core vendor category at its target; at least 90% of the
