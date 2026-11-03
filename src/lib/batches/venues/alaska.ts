@@ -81,6 +81,15 @@ Sunderland Ranch	10856 N Wolverine Rd	Palmer	Alaska			Ranch	Outdoor	200			Family
 At Two Birch Trees Wedding & Events Venue		Wasilla	Alaska			Garden & Park	Outdoor	80			Family-owned outdoor venue above Knik Arm with Cook Inlet and Chugach views, offering elopement through full wedding packages for up to 80 guests.	attwobirchtrees@gmail.com	(907) 373-1300	https://attwobirchtrees.com
 Bayshore Clubhouse	3131 Amber Bay Loop	Anchorage	Alaska			Mountain & Lodge	Indoor & Outdoor	150			Vaulted-ceiling Chalet Room with a fireplace, dance floor and deck, plus an outdoor ceremony spot by Bayshore Pond, in South Anchorage.	info@bayshore.club	(907) 344-0539	https://bayshore.club`,
   },
+  {
+    name: "Alaska: Kenai, Mat-Su, Southeast depth",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+Bear Paw Adventure	72450 Camai Road	Anchor Point	Alaska			Ranch	Indoor & Outdoor	120	8800	Package	A private 14-acre spruce homestead above Cook Inlet where a light-filled pavilion hosts ceremonies and receptions, with log chalets on site for the wedding party.	alaska@bearpawadventure.com	866-286-0576	https://bearpawadventure.com/alaska-weddings
+Bison Hall at the Alaska Wildlife Conservation Center	Mile 79 Seward Highway	Portage	Alaska			Barn & Farm	Indoor & Outdoor				A barn-style hall with a high vaulted ceiling and large windows, plus an outdoor gazebo and boardwalk overlooking Turnagain Arm.	events@alaskawildlife.org	907-783-0058	https://bisonhall.org/
+Jorgenson House	635 Alder Street	Juneau	Alaska			Historic Mansion & Estate	Indoor & Outdoor	40			Historic downtown Juneau estate with restored indoor rooms and gardens, offered for small weddings with exclusive use of the house, catering and bar service.	events@jorgensonhouse.com	(907) 723-4202	https://www.jorgensonhouse.com/weddings
+Ted Ferry Civic Center	888 Venetia Avenue	Ketchikan	Alaska			Ballroom	Indoor	550			City-run civic center with a ballroom and several smaller rooms, usable for small ceremonies up to full-facility receptions.	tfcc@ketchikan.gov	(907) 228-5655	https://ketchikanciviccenter.com/plan/weddings/
+`,
+  },
 ];
 
 export default batches;
