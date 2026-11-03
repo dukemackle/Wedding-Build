@@ -228,6 +228,27 @@ Powder River Party Rentals	Rentals	2727 Coffeen Ave	Sheridan	Wyoming	Wyoming, Mo
 Event Tents by The Canopy Company	Rentals		Sheridan	Wyoming	Sheridan, Casper and Buffalo, with statewide travel	Sheridan tent company renting wedding and party tents, with set travel rates to Casper and Buffalo and further afield for a fee.		307.660.6174	https://eventtentswyo.com/	
 `,
   },
+  {
+    name: "Wyoming statewide: photography, florals, catering, hair & makeup, music, cake, photo booth",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram
+Dani Jerry Photography	Photography		Buffalo	Wyoming		Buffalo photographer with an unposed, documentary-leaning style, covering weddings alongside couples, seniors and family sessions.	danijphotographer@gmail.com	307-217-1139	https://www.danijerryphotography.com/	https://www.instagram.com/danijerry_photography/
+Buffalo Gardens	Florals	262 N Main St	Buffalo	Wyoming		Main Street florist making bridal, bridesmaid and flower girl bouquets plus ceremony and reception flowers for Buffalo weddings.		(307) 684-2006	https://www.buffalogardenswy.com/wedding-bouquets	https://www.instagram.com/buffalogardens21/
+Brad Christensen Photography	Photography		Lander	Wyoming		Lander photographer who shoots weddings and events in an honest, documentary style, alongside portraits and commercial work.	bradleyjchristensen@gmail.com	307.332.0426	https://www.bradchristensen.com/	
+Mr. D's Floral	Florals		Lander	Wyoming		Lander florist offering ceremony and reception designs, coordinated bouquet and centrepiece sets, and wedding consultations.		307-332-2964	https://mrdsfloral.com/pages/wedding-page	
+Fringe	Hair & Makeup	42 Grand Ridge Rd	Douglas	Wyoming		Douglas hair salon whose owner specialises in wedding up-dos and bridal makeup, alongside everyday cuts and colour.		253-579-4747	https://www.fringesalonwy.com/	
+Luna Salon & Spa	Hair & Makeup	306 S 2nd St	Laramie	Wyoming	Laramie, on location for weddings	Laramie salon and spa with stylists in bridal hair and formal styling, some available on location for weddings and events.	lunasalonandspa@outlook.com		https://www.lunawyo.com/meet-the-staff	https://www.instagram.com/Luna_salonandspa/
+Crazy Daisy Floral	Florals	502 E Lakeway	Gillette	Wyoming		Gillette flower shop that does wedding flowers and offers free wedding consultations to couples planning their day.	crazydaisyfloralwy@gmail.com	(307) 686-5641	https://crazydaisyfloralwy.com/	https://www.instagram.com/crazydaisyfloralwy/
+Wild Times 360 Photo Booth	Photo Booth		Gillette	Wyoming		Gillette 360 photo booth hire for weddings, birthdays, proms and corporate events, with open-air and overhead options.	wildtimes.360photobooth@gmail.com	1(307)696-5964	https://wild360photobooth.com/	https://www.instagram.com/wildtimes360photobooth/
+Sand's Catering	Catering	1549 9th Street	Rock Springs	Wyoming	Travels to your venue	Rock Springs caterer for weddings and receptions, providing food, bar service and bartenders, at your venue or their event room.	wingsands@yahoo.com	(307) 389-1309	https://www.hungrybuddhasands.com/sands-catering	
+Whiskey Mornin'	Music		Jackson	Wyoming	Jackson Hole	Jackson Hole wedding band, formed in 2012, playing high-energy dance sets of Motown, pop, classic rock and hip-hop for receptions.	whiskeymornin@gmail.com		https://www.whiskeymornin.com/	https://www.instagram.com/whiskeymornin/
+Buffalo Bills Food Truck and Catering	Catering	10885 US-89	Jackson	Wyoming	Jackson Hole area	Food truck and caterer serving locally sourced Wyoming and Idaho comfort food, including elk and buffalo dishes, at weddings and receptions.		307-699-8693	https://wyobuffalobills.com/catering/	https://www.instagram.com/wyo_buffalobills/
+Sagebrush Grille	Catering		Jackson	Wyoming	Jackson Hole and beyond	Travelling food truck and catering company, running since 2016, that takes wedding bookings across Jackson Hole and further afield.	sagebrushgrille@gmail.com	307-200-1981	https://www.sagebrushgrille.com/	https://www.instagram.com/sagebrushgrille/
+JACZ	Catering	107157 HWY 89	Etna	Wyoming	Star Valley	Star Valley burger joint whose food truck and Scoopz ice cream truck cater weddings and other celebrations around the valley.	hey@jaczwyoming.com	(307) 883-5229	https://www.jaczwyoming.com/	https://www.instagram.com/jaczdrivein/
+Contessa Catering	Catering		Jackson	Wyoming	Jackson Hole	Full-service caterer offering plated, family-style and station dinners, bar packages and custom wedding cakes for Jackson Hole weddings.			https://contessacatering.com/catering-jackson-hole/	https://www.instagram.com/contessacatering/
+The Flower Shoppe Weddings & Events	Florals	1840 Main St, Suite C	Torrington	Wyoming		Torrington flower shop supplying fresh bouquets, ceremony and reception flowers and event florals, with consultations by request.		(307) 532-2813	https://wagnersflowershop.flowerlookbook.com/	
+Lady in the Wild West	Cake		Jackson	Wyoming		Jackson Hole cake artist making nature-inspired buttercream wedding cakes with painted landscapes and detailed sugar flowers.			https://www.ladyinthewildwest.com/	https://www.instagram.com/ladyinthewildwest/
+`,
+  },
 ];
 
 export default batches;
