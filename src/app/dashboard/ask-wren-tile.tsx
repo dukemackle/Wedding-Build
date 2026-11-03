@@ -44,6 +44,16 @@ export function AskWrenTile({ onClick }: { onClick?: () => void }) {
         <span className="block font-display text-[1.6rem] font-bold leading-none text-white sm:text-[2.35rem]">
           Ask Wren
         </span>
+        {/* Wren's name as an acronym: the four capitals light up in her blue. */}
+        <span
+          aria-label="Weddings are easy now"
+          className="mt-1.5 block font-display text-sm italic text-white/60 sm:text-base"
+        >
+          <span className="font-semibold not-italic text-wren">W</span>eddings a
+          <span className="font-semibold not-italic text-wren">R</span>e{" "}
+          <span className="font-semibold not-italic text-wren">E</span>asy{" "}
+          <span className="font-semibold not-italic text-wren">N</span>ow
+        </span>
         <span className="mt-2 flex items-center gap-1.5 font-mono-numbers text-[11px] tracking-wide text-wren sm:text-xs">
           <span className="h-1.5 w-1.5 rounded-full bg-wren shadow-[0_0_6px_#00bffe] motion-safe:animate-pulse" />
           Your AI planning assistant
@@ -53,10 +63,10 @@ export function AskWrenTile({ onClick }: { onClick?: () => void }) {
       {/* The sample exchange: wide screens only, where there's room for it. */}
       <span className="relative hidden flex-1 flex-col gap-2 px-6 lg:flex">
         <span className="w-fit max-w-[80%] rounded-2xl rounded-bl-sm border border-white/10 bg-white/10 px-3.5 py-1.5 text-sm text-white/85">
-          What should we book next?
+          Who still hasn&rsquo;t RSVP&rsquo;d?
         </span>
         <span className="ml-auto w-fit max-w-[80%] rounded-2xl rounded-br-sm bg-wren px-3.5 py-1.5 text-sm text-forest shadow-[0_0_18px_-4px_rgba(0,191,254,0.8)]">
-          Your florist. The good ones book up 9 months out.
+          46 guests, mostly Sam&rsquo;s side. Want me to draft a nudge?
         </span>
       </span>
 
