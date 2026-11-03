@@ -92,9 +92,10 @@ Ted Ferry Civic Center	888 Venetia Avenue	Ketchikan	Alaska			Ballroom	Indoor	550
   },
   {
     name: "Alaska: Anchorage, Mat-Su, Kenai and rural towns",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
 Cordova Center Atrium		Cordova	Alaska			Ballroom	Indoor				Window-lined atrium with views of Prince William Sound, run by the City of Cordova and offered for wedding receptions and showers.		(907) 424-6200	https://www.cityofcordova.net/atrium/
 Anchorage Golf Course	3651 O'Malley Road	Anchorage	Alaska			Country Club & Golf	Indoor	300			Municipal golf course clubhouse that hosts wedding and banquet receptions, with separate rooms for ceremonies and rehearsal dinners.		(907) 522-3363	https://www.anchoragegolfcourse.com/
-The Government Peak Chalet	10690 North Mountain Trails Drive	Palmer	Alaska			Mountain & Lodge	Indoor & Outdoor	200	1000	Rental	Gable-roofed 45 by 51 foot banquet hall with a warming kitchen and two lawns at the base of Hatcher Pass.	info@governmentpeakchalet.com	(907) 354-5016	https://www.governmentpeakchalet.com/
+The Government Peak Chalet	10690 North Mountain Trails Drive	Palmer	Alaska			Mountain & Lodge	Indoor & Outdoor	200	1000	Rental	Gable-roofed 45 by 51 foot banquet hall with a warming kitchen and two lawns at the base of Hatcher Pass.	info@governmentpeakchalet.com	(907) 354-5016	https://www.governmentpeakchalet.com/`,
   },
 ];
 
