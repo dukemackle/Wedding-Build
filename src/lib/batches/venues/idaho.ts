@@ -179,6 +179,17 @@ H&H Lodgings and Events	185 Cougar Rd	Kamiah	Idaho			Garden & Park	Outdoor				A 
 Reflections Inn	6873 Highway 12	Kooskia	Idaho			Hotel & Resort	Outdoor				A ten-acre inn on the Clearwater River that rents the whole property for outdoor weddings and other events.	innkeepers.reflectionsinn@gmail.com	(208) 926-0855	https://www.reflectionsinn.com/WEDDINGS--EVENTS.html
 `,
   },
+  {
+    name: "Idaho: Boise, Twin Falls, Eastern Idaho depth",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+Blue Lakes Country Club	1940 Blue Lakes Grade	Twin Falls	Idaho			Country Club & Golf	Indoor & Outdoor				A golf club in the Snake River Canyon that hosts weddings in its clubhouse and lodge and at outdoor park and lawn sites with views of the Perrine Bridge.		(208) 733-2330	https://www.bluelakescc.com
+The Tin Roof Venue	120 Ward Dr.	Chubbuck	Idaho			Barn & Farm	Indoor & Outdoor	200	1200	Rental	A rustic tin-roofed barn with landscaped grounds, a water feature and a ceremony arch near Pocatello.	candeekim@thetinroofvenue.com	(208) 221-8253	https://thetinroofvenue.com/
+Red Barn Events	222 South 550 West	Blackfoot	Idaho			Barn & Farm	Indoor & Outdoor				A rustic barn with landscaped grounds just outside Blackfoot, within reach of Pocatello and Idaho Falls.	redbarneventsidaho@gmail.com	208-817-0910	https://www.redbarneventsidaho.com/
+Edelweiss Ranch		Driggs	Idaho			Ranch	Outdoor	200			A 160-acre working farm west of Driggs with aspen groves, Teton views and a restored century-old granary for smaller gatherings.	info@edelweissranchllc.com	307.699.8101	https://www.edelweiss-ranch.com/tetonvalleyweddings-events
+Rose River Receptions		Blackfoot	Idaho			Lake & River	Indoor & Outdoor				A family-run event center on the Snake River just north of Blackfoot, with a base package that includes tables, chairs and a sound system.	railrae_18@msn.com	208-844-0075	https://www.roseriverreceptions.com/
+RR Weddings and Events		Picabo	Idaho			Ranch	Outdoor				A wedding and event spot on a family ranch along Silver Creek, a short drive from Hailey and Sun Valley.	RRWeddings@purdyent.com		https://rrweddingsevents.com
+`,
+  },
 ];
 
 export default batches;

@@ -113,6 +113,14 @@ Jackson Lake Lodge	101 Jackson Lake Lodge Road	Moran	Wyoming			Mountain & Lodge	
 The Virginian Lodge	750 W Broadway	Jackson	Wyoming			Mountain & Lodge	Indoor & Outdoor	185		A retro Western-style lodge of about 165 rooms in Jackson with a 4,185-square-foot hall, a courtyard with fire pits and a saloon for smaller gatherings.	info@virginianlodge.com	307-733-2792	https://outboundhotels.com/the-virginian/weddings/
 `,
   },
+  {
+    name: "Wyoming: Jackson, Cheyenne, Casper depth",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+Teton Mountain Lodge & Spa	3385 Cody Lane	Teton Village	Wyoming			Hotel & Resort	Indoor	162			A slope-side Teton Village lodge hosting weddings in the Teton Room, the Four Pines room and a Spur Restaurant buyout, with group rates for wedding guests.	TMLSales@TetonResorts.com	307-739-4180	https://tetonlodge.com/gather/weddings/
+Arcady Ridge Ranch	199 Uphill Road	Dubois	Wyoming			Ranch					A private ranch lodge near Dubois offering its grounds for weddings and elopements, with personalized catering on request.	info@arcadyridgeranch.com	307-231-2574	https://www.arcadyridgeranch.com
+ART 321	321 W. Midwest Ave	Casper	Wyoming			Museum, Gallery & Rooftop	Indoor	125	3000	Rental	A downtown Casper artists' guild gallery with brick walls that rents full-day exclusive access for weddings, with tables, chairs and black linens included.	admin@art321.org	307-265-2655	https://art321.org/rentals
+`,
+  },
 ];
 
 export default batches;
