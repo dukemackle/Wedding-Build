@@ -739,15 +739,20 @@ export const SAMPLE_CONTENT: CardContent = {
   headline: "",
 };
 
-/** A fresh card on a template, keeping whatever the couple already typed. */
-export function newCard(templateId: string, content = SAMPLE_CONTENT, photo: CardDoc["photo"] = null): CardDoc {
+/**
+ * A fresh card on a template, keeping whatever the couple already typed.
+ * With no photo of theirs, a photo template borrows its sample, but only in
+ * the prototype and QA sheets (`sample`): a couple's real card never carries
+ * a stranger's picture.
+ */
+export function newCard(templateId: string, content = SAMPLE_CONTENT, photo: CardDoc["photo"] = null, sample = true): CardDoc {
   const t = templateById(templateId);
   return {
     template: t.id,
     palette: t.palettes[0].id,
     fonts: t.pairings[0].id,
     content,
-    photo: photo ?? t.samplePhoto ?? null,
+    photo: photo ?? (sample ? (t.samplePhoto ?? null) : null),
     overrides: {},
   };
 }

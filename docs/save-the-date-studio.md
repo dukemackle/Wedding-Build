@@ -1,7 +1,9 @@
 # Save the Date Studio — plan and prototype (2026-10-29)
 
-Status: **approved 2026-11-03; all 24 templates built (batches 1–4).** Nothing is live: the only
-route is `/save-the-date/prototype`, which returns 404 in production.
+Status: **approved 2026-11-03; all 24 templates built; the couple's own card saves (phase 3).**
+The studio is at Guests › Save the date (`/guests/save-the-date`); it needs migration
+`0155_save_the_dates.sql`. `/save-the-date/prototype` (404 in production) keeps the sample
+couple and the QA sheets. Sending is not built yet.
 
 ## What exists and is reused
 
@@ -91,11 +93,14 @@ Names shared with a guest-site template let one choice style both the card and t
    needed.
 2. **Library:** ✅ all 24 built and previewed in four batches, each checked with the sample
    couple, long names / a written date / a long place, and no photo (`?view=gallery*`).
-3. **Real data:**
+3. **Real data:** ✅ built 2026-11-03, awaiting migration 0155 and the owner's review:
    - a `save_the_dates` table plus RLS, with autosave drafts;
    - names, date and place prefilled from `weddings`;
-   - photo library and upload, with crop;
-   - nav, dashboard box and landing demo.
+   - photo library (banner, dashboard and gallery photos) and upload straight to Storage, with
+     focal point / zoom (no free crop yet);
+   - a "Save the date" link under Guests; the dashboard box and landing demo wait for sending,
+     so the landing page doesn't advertise a card guests can't receive yet;
+   - style filter chips on the design list.
 4. **Delivery:**
    - guest page `/w/[slug]/s/[code]`, which shows only the card;
    - the website button goes through the existing `/i/[code]` gate;
