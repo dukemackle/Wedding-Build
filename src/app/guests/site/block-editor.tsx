@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useTransition } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import type { SiteBlock } from "@/lib/supabase/types";
 import { shrinkImage } from "@/lib/shrink-image";
 import { updateSiteBlock } from "./block-actions";
@@ -13,19 +13,84 @@ const LABEL = "mb-1 block text-sm text-ink";
 /** The words (and photo) of one custom block, in the Sections tab. */
 export function BlockEditor({ block }: { block: SiteBlock }) {
   const [isPending, startTransition] = useTransition();
-  const [message, setMessage] = useState<{ error?: string; saved?: boolean }>({});
+  const [message, setMessage] = useState<{ error?: string; saved?: boolean; restored?: boolean }>({});
+  const formRef = useRef<HTMLFormElement>(null);
+  const dirty = useRef(false);
+  const key = draftKey(block.id);
+
+  // Words typed but not saved are kept on this device, so a failed save, a
+  // reload or a crashed page never takes a couple's story with it.
+  useEffect(() => {
+    const draft = readDraft(key);
+    const form = formRef.current;
+    if (!draft || !form) return;
+    let changed = false;
+    for (const name of DRAFT_FIELDS) {
+      const el = form.elements.namedItem(name) as HTMLInputElement | HTMLTextAreaElement | null;
+      const value = draft[name];
+      if (el && typeof value === "string" && value !== el.value) {
+        el.value = value;
+        changed = true;
+      }
+    }
+    if (changed) {
+      dirty.current = true;
+      setMessage({ restored: true });
+    } else clearDraft(key);
+  }, [key]);
+
+  useEffect(() => {
+    const warn = (e: BeforeUnloadEvent) => {
+      if (dirty.current) e.preventDefault();
+    };
+    window.addEventListener("beforeunload", warn);
+    return () => window.removeEventListener("beforeunload", warn);
+  }, []);
+
+  function keep() {
+    const form = formRef.current;
+    if (!form) return;
+    dirty.current = true;
+    const draft: Record<string, string> = {};
+    for (const name of DRAFT_FIELDS) {
+      const el = form.elements.namedItem(name) as HTMLInputElement | HTMLTextAreaElement | null;
+      if (el) draft[name] = el.value;
+    }
+    writeDraft(key, draft);
+  }
 
   function save(formData: FormData) {
+    keep();
     startTransition(async () => {
-      const photo = formData.get("photo") as File | null;
-      if (photo && photo.size > 0) formData.set("photo", await shrinkImage(photo));
-      const result = await updateSiteBlock(formData);
-      setMessage(result.error ? { error: result.error } : { saved: true });
+      try {
+        const photo = formData.get("photo") as File | null;
+        if (photo && photo.size > 0) formData.set("photo", await shrinkImage(photo));
+        const result = await updateSiteBlock(formData);
+        if (result.error) {
+          setMessage({ error: result.error });
+          return;
+        }
+        dirty.current = false;
+        clearDraft(key);
+        setMessage({ saved: true });
+      } catch {
+        // Caught here so the page stays put with the words still in the box,
+        // rather than falling through to the error page.
+        setMessage({
+          error: "Couldn't save just now. Your words are still here and kept on this device — reload the page and press Save again.",
+        });
+      }
     });
   }
 
   return (
-    <form action={save} className="flex flex-col gap-4" onChange={() => setMessage({})}>
+    <form
+      ref={formRef}
+      action={save}
+      className="flex flex-col gap-4"
+      onChange={() => setMessage({})}
+      onInput={keep}
+    >
       <input type="hidden" name="id" value={block.id} />
       <input type="hidden" name="kind" value={block.kind} />
 
@@ -100,6 +165,7 @@ export function BlockEditor({ block }: { block: SiteBlock }) {
           <textarea
             id={`body-${block.id}`}
             name="body"
+            maxLength={5000}
             defaultValue={block.body ?? ""}
             rows={block.kind === "quote" || block.kind === "link" ? 3 : 7}
             placeholder={
@@ -129,7 +195,13 @@ export function BlockEditor({ block }: { block: SiteBlock }) {
         </div>
       )}
 
-      <div className="flex items-center gap-3">
+      {message.restored && (
+        <p className="rounded-md bg-[#FFF12F]/40 px-3 py-2 text-sm text-ink">
+          We kept the words you hadn&apos;t saved yet. Press Save to put them on your site.
+        </p>
+      )}
+
+      <div className="flex flex-wrap items-center gap-3">
         <button
           type="submit"
           disabled={isPending}
@@ -142,4 +214,35 @@ export function BlockEditor({ block }: { block: SiteBlock }) {
       </div>
     </form>
   );
+}
+
+const DRAFT_FIELDS = ["heading", "body", "attribution", "url"] as const;
+
+function draftKey(id: string) {
+  return `site-block-draft:${id}`;
+}
+
+function readDraft(key: string): Record<string, unknown> | null {
+  try {
+    const raw = localStorage.getItem(key);
+    return raw ? (JSON.parse(raw) as Record<string, unknown>) : null;
+  } catch {
+    return null;
+  }
+}
+
+function writeDraft(key: string, draft: Record<string, string>) {
+  try {
+    localStorage.setItem(key, JSON.stringify(draft));
+  } catch {
+    // Private window or full storage: the box still works, just unprotected.
+  }
+}
+
+function clearDraft(key: string) {
+  try {
+    localStorage.removeItem(key);
+  } catch {
+    // Nothing to clear without storage.
+  }
 }
