@@ -90,6 +90,12 @@ Jorgenson House	635 Alder Street	Juneau	Alaska			Historic Mansion & Estate	Indoo
 Ted Ferry Civic Center	888 Venetia Avenue	Ketchikan	Alaska			Ballroom	Indoor	550			City-run civic center with a ballroom and several smaller rooms, usable for small ceremonies up to full-facility receptions.	tfcc@ketchikan.gov	(907) 228-5655	https://ketchikanciviccenter.com/plan/weddings/
 `,
   },
+  {
+    name: "Alaska: Anchorage, Mat-Su, Kenai and rural towns",
+Cordova Center Atrium		Cordova	Alaska			Ballroom	Indoor				Window-lined atrium with views of Prince William Sound, run by the City of Cordova and offered for wedding receptions and showers.		(907) 424-6200	https://www.cityofcordova.net/atrium/
+Anchorage Golf Course	3651 O'Malley Road	Anchorage	Alaska			Country Club & Golf	Indoor	300			Municipal golf course clubhouse that hosts wedding and banquet receptions, with separate rooms for ceremonies and rehearsal dinners.		(907) 522-3363	https://www.anchoragegolfcourse.com/
+The Government Peak Chalet	10690 North Mountain Trails Drive	Palmer	Alaska			Mountain & Lodge	Indoor & Outdoor	200	1000	Rental	Gable-roofed 45 by 51 foot banquet hall with a warming kitchen and two lawns at the base of Hatcher Pass.	info@governmentpeakchalet.com	(907) 354-5016	https://www.governmentpeakchalet.com/
+  },
 ];
 
 export default batches;
