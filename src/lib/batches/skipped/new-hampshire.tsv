@@ -1,20 +1,20 @@
 Kind	Name	Category	City	State	Reason	Link	Date
-Venue	Sunset Hill House		Sugar Hill	New Hampshire	Site dead	https://www.sunsethillhouse.com/	2026-10-06
-Venue	The Hancock Inn		Hancock	New Hampshire	Site dead	https://www.hancockinn.com/	2026-10-06
+Venue	Sunset Hill House		Sugar Hill	New Hampshire	Site back up	https://www.sunsethillhouse.com/	2026-10-06
+Venue	The Hancock Inn		Hancock	New Hampshire	Site blocks automated visits, unconfirmed	https://www.hancockinn.com/	2026-10-06
 Venue	Fitzwilliam Inn		Fitzwilliam	New Hampshire	Site dead	https://www.fitzwilliaminn.com/	2026-10-06
-Venue	Whitney's Inn		Jackson	New Hampshire	Site dead	https://www.whitneysinn.com/	2026-10-06
-Venue	The Wolfeboro Inn		Wolfeboro	New Hampshire	Site dead	https://www.wolfeboroinn.com/	2026-10-06
-Venue	Omni Mount Washington Resort		Bretton Woods	New Hampshire	Site dead	https://www.omnihotels.com/hotels/bretton-woods-mount-washington/weddings	2026-10-06
-Venue	Pats Peak		Henniker	New Hampshire	Site dead	https://www.patspeak.com/weddings	2026-10-06
+Venue	Whitney's Inn		Jackson	New Hampshire	Site back up	https://www.whitneysinn.com/	2026-10-06
+Venue	The Wolfeboro Inn		Wolfeboro	New Hampshire	Site back up	https://www.wolfeboroinn.com/	2026-10-06
+Venue	Omni Mount Washington Resort		Bretton Woods	New Hampshire	Site blocks automated visits, unconfirmed	https://www.omnihotels.com/hotels/bretton-woods-mount-washington/weddings	2026-10-06
+Venue	Pats Peak		Henniker	New Hampshire	Site back up	https://www.patspeak.com/weddings	2026-10-06
 Venue	Executive Court Banquet Facility		Manchester	New Hampshire	Site dead	https://www.executivecourt.com/	2026-10-06
 Venue	Strawbery Banke Museum		Portsmouth	New Hampshire	Closed	https://www.strawberybanke.org/private-events	2026-10-06
-Vendor	Chalifour's Flowers	Florals	Manchester	New Hampshire	Site dead	https://www.chalifours.com/weddings-and-events	2026-10-06
-Vendor	Frederick's Pastries	Cake	Bedford	New Hampshire	Site dead	https://www.pastry.net/wedding-cakes	2026-10-06
-Vendor	Leigh & Co. Events	Planning	Manchester	New Hampshire	Site dead	https://leighandcoevents.com/new-hampshire/	2026-10-06
-Vendor	The Red Blazer	Catering	Concord	New Hampshire	Site dead	https://www.theredblazer.com/catering	2026-10-06
+Vendor	Chalifour's Flowers	Florals	Manchester	New Hampshire	Site blocks automated visits, unconfirmed	https://www.chalifours.com/weddings-and-events	2026-10-06
+Vendor	Frederick's Pastries	Cake	Bedford	New Hampshire	Site blocks automated visits, unconfirmed	https://www.pastry.net/wedding-cakes	2026-10-06
+Vendor	Leigh & Co. Events	Planning	Manchester	New Hampshire	Site blocks automated visits, unconfirmed	https://leighandcoevents.com/new-hampshire/	2026-10-06
+Vendor	The Red Blazer	Catering	Concord	New Hampshire	Site blocks automated visits, unconfirmed	https://www.theredblazer.com/catering	2026-10-06
 Venue	Chesterfield Inn		West Chesterfield	New Hampshire	Site dead	https://www.chesterfieldinn.com/	2026-10-06
-Vendor	Angel Touch Beauty	Hair & Makeup	Bedford	New Hampshire	Site dead	https://angeltouchbeautyteam.com/	2026-10-06
-Vendor	Dutch Epicure Bakery	Cake	Amherst	New Hampshire	Site dead	https://www.dutchepicurebakery.com/	2026-10-06
+Vendor	Angel Touch Beauty	Hair & Makeup	Bedford	New Hampshire	Site back up	https://angeltouchbeautyteam.com/	2026-10-06
+Vendor	Dutch Epicure Bakery	Cake	Amherst	New Hampshire	Site blocks automated visits, unconfirmed	https://www.dutchepicurebakery.com/	2026-10-06
 Vendor	By Emma B	Planning	Littleton	New Hampshire	Social only	https://byemmab.com	2026-10-11
 Vendor	White Mountains Wedding Photography	Photography	Lancaster	New Hampshire	Social only	https://whitemountainsweddingphotography.com	2026-10-11
 Vendor	Wedding Assist	Planning	North Conway	New Hampshire	No website	https://www.weddingwire.com/biz/wedding-assist/52030a1693136bd0.html	2026-10-11
@@ -23,7 +23,7 @@ Vendor	Copper Leaf Floral Design	Florals	Wolfeboro	New Hampshire	Site dead		2026
 Vendor	Blathanna Shoppe	Florals	Wolfeboro	New Hampshire	No website		2026-10-11
 Vendor	Fireside Sparrow Photography	Photography	Littleton	New Hampshire	Site dead		2026-10-11
 Vendor	DG Flower Studio	Florals	North Conway	New Hampshire	Social only	https://www.dgflowerstudio.com/	2026-10-11
-Vendor	Designed Gardens Flower Studio	Florals	North Conway	New Hampshire	Site dead	https://designedgardens.com	2026-10-13
+Vendor	Designed Gardens Flower Studio	Florals	North Conway	New Hampshire	Site blocks automated visits, unconfirmed	https://designedgardens.com	2026-10-13
 Vendor	Courtney Reid Design	Florals		New Hampshire	No website	https://www.instagram.com/courtneyreiddesign	2026-10-13
 Vendor	Restless Spirit Floral	Florals	North Conway	New Hampshire	No website	https://zola.com/wedding-vendors/search/north-conway-nh--wedding-florists?page=2	2026-10-13
 Vendor	Effortless Events	Planning	Conway	New Hampshire	No website	https://zola.com/wedding-vendors/search/conway-nh--wedding-planners	2026-10-13
@@ -37,9 +37,9 @@ Vendor	True Entertainment	Music	Plymouth	New Hampshire	No website	https://www.th
 Vendor	White Mountain Celebrations	Planning	West Ossipee	New Hampshire	No wedding page	https://whitemountaincelebrations.com/	2026-10-15
 Vendor	Through The Pines Photography	Photography	Moultonborough	New Hampshire	Inactive	https://throughthepinesphotography.com	2026-10-21
 Vendor	Ooo La La Creative Cakes	Cake	Laconia	New Hampshire	Inactive	https://ooolalacreativecakes.com/	2026-10-21
-Vendor	QHegarty Photography	Photography	Meredith	New Hampshire	Site dead	https://www.qhegartyphotography.com/	2026-10-21
+Vendor	QHegarty Photography	Photography	Meredith	New Hampshire	Site back up	https://www.qhegartyphotography.com/	2026-10-21
 Vendor	Zofia Floral & Design Co.	Florals	North Hampton	New Hampshire	Site dead	https://zola.com/wedding-vendors/wedding-florists/zofia-floral-and-design-co	2026-10-21
-Vendor	Mayflower Events	Planning	Concord	New Hampshire	Site dead	https://mayflowerevents.com	2026-10-21
+Vendor	Mayflower Events	Planning	Concord	New Hampshire	Site back up	https://mayflowerevents.com	2026-10-21
 Vendor	Weddings by Lauren	Planning	Concord	New Hampshire	Site dead	https://weddingwire.com/biz/weddings-by-lauren/e6d3d787eecc774d.html	2026-10-21
 Vendor	The Rose Thief Floral Studio	Florals	Concord	New Hampshire	Site dead	https://therosethief.com	2026-10-21
 Vendor	Hair to Slay Weddings	Hair & Makeup	Concord	New Hampshire	Site dead	https://hairtoslay.com	2026-10-21
@@ -63,7 +63,7 @@ Vendor	Hairdresser Haleigh	Hair & Makeup	Moultonborough	New Hampshire	Social onl
 Vendor	The Music Masters	Music	Laconia	New Hampshire	Social only	https://wedj.com/djs/themusicmasters01/	2026-10-21
 Vendor	DJ Ghoulay	Music	Laconia	New Hampshire	Social only	https://www.facebook.com/DJGhoulay/	2026-10-21
 Vendor	RDC Films	Videography	North Hampton	New Hampshire	No wedding page	https://rdcfilms.com/	2026-10-21
-Vendor	Brickoven Catering	Catering	Hudson	New Hampshire	Site dead	https://brickovencatering.com/	2026-10-21
+Vendor	Brickoven Catering	Catering	Hudson	New Hampshire	Site back up	https://brickovencatering.com/	2026-10-21
 Venue	Mount Washington Cruises		Laconia	New Hampshire	Weddings not shown on site	https://cruisenh.com/pages/private-events	2026-10-29
 Venue	The Lodge at Camp Robindel		Moultonborough	New Hampshire	No wedding page	https://robindel.com/the-lodge	2026-10-29
 Venue	The Inn on Main		Wolfeboro	New Hampshire	No website	https://www.weddingwire.com/biz/the-inn-on-main-wolfeboro/a09e27f5fda293ea.html	2026-10-29
@@ -74,7 +74,7 @@ Venue	Horse & Hound		Franconia	New Hampshire	No wedding page	https://www.horsean
 Venue	Jefferson Inn		Jefferson	New Hampshire	No wedding page	https://www.jeffersoninn.com/	2026-10-29
 Venue	Thayers Inn		Littleton	New Hampshire	No wedding page	https://thayersinn.com/	2026-10-29
 Venue	Eastern Slope Inn		North Conway	New Hampshire	No wedding page	https://easternslopeinn.com/	2026-10-29
-Venue	Mountain Club on Loon		Lincoln	New Hampshire	Site dead	https://www.loonmtn.com/	2026-10-29
+Venue	Mountain Club on Loon		Lincoln	New Hampshire	Site back up	https://www.loonmtn.com/	2026-10-29
 Venue	Tilton Mansion		Tilton	New Hampshire	No website	https://www.lakesregion.org/the-current/wedding-venues-for-every-couple-lakes-region/	2026-10-29
 Venue	Langdon House & Gardens		Portsmouth	New Hampshire	No wedding page	https://langdonhouse.com	2026-10-29
 Venue	The Exeter Inn		Exeter	New Hampshire	No wedding page	https://www.theexeterinn.com	2026-10-29
@@ -115,7 +115,7 @@ Vendor	Weddings with Jan (Keene)	Photography	Keene	New Hampshire	Site dead	https
 Vendor	Leigh & Co. Events	Planning	Manchester	New Hampshire	Site blocks automated visits, unconfirmed	https://leighandcoevents.com/new-hampshire/	2026-10-30
 Vendor	Merrimack Flower Shop & Greenhouse	Florals	Merrimack	New Hampshire	Site blocks automated visits, unconfirmed	https://merrimackflowershop.com/	2026-10-30
 Vendor	Through The Pines Photography	Photography	Moultonborough	New Hampshire	Closed	https://www.throughthepinesphotography.com/	2026-10-30
-Vendor	Heaven Scent Design	Florals	Laconia	New Hampshire	Site dead	https://heavenscentdesign.com/	2026-10-30
+Vendor	Heaven Scent Design	Florals	Laconia	New Hampshire	Site back up	https://heavenscentdesign.com/	2026-10-30
 Vendor	Laconia Village Bakery	Cake	Laconia	New Hampshire	Inactive	https://laconiavillagebakery.com/cakes	2026-10-30
 Vendor	Mystic Sugar Bakery	Cake	North Conway	New Hampshire	No wedding page	https://www.mysticsugarbakery.com/	2026-10-30
 Vendor	Golden Swan Sweets	Cake	Newmarket	New Hampshire	No wedding page	https://goldenswansweets.com/	2026-10-30
@@ -130,8 +130,8 @@ Venue	Portsmouth Country Club		Greenland	New Hampshire	No wedding page	https://w
 Venue	Bellows Walpole Inn		Walpole	New Hampshire	No wedding page	https://www.bellowswalpoleinn.com/events	2026-10-31
 Venue	Harris Center for Conservation Education		Hancock	New Hampshire	No wedding page	https://harriscenter.org	2026-10-31
 Venue	The Barn at Union Lake Orchard		Barrington	New Hampshire	Social only	https://www.facebook.com/p/The-Barn-at-Union-Lake-Orchard-100090045675358/	2026-10-31
-Venue	Martingale Wharf Restaurant		Portsmouth	New Hampshire	Site dead	http://www.martingalewharf.com/	2026-10-31
-Venue	The Grand View Estate		Jaffrey	New Hampshire	Site dead	https://thegrandviewestate.com/	2026-10-31
+Venue	Martingale Wharf Restaurant		Portsmouth	New Hampshire	Site back up	http://www.martingalewharf.com/	2026-10-31
+Venue	The Grand View Estate		Jaffrey	New Hampshire	Site blocks automated visits, unconfirmed	https://thegrandviewestate.com/	2026-10-31
 Venue	The Shattuck Golf Club		Jaffrey	New Hampshire	Site dead	http://shattuckweddings.com/	2026-10-31
 Venue	Rockingham Ballroom		Newmarket	New Hampshire	No wedding page	https://www.rockinballroom.club/	2026-10-31
 Venue	Fratello's Events in the Millyard		Manchester	New Hampshire	No website		2026-10-31

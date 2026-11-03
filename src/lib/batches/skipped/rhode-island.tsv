@@ -1,6 +1,6 @@
 Kind	Name	Category	City	State	Reason	Link	Date
 Vendor	Hitch Studios	Photography	Warwick	Rhode Island	Site dead	https://www.hitchstudios.com	2026-10-11
-Vendor	Katie Lovaas Photography	Photography	Westerly	Rhode Island	Site dead	https://www.katielovaas.com	2026-10-11
+Vendor	Katie Lovaas Photography	Photography	Westerly	Rhode Island	Site back up	https://www.katielovaas.com	2026-10-11
 Vendor	ProVizion Video Productions	Videography	Pawtucket	Rhode Island	Inactive	https://www.provizionvideo.com	2026-10-11
 Vendor	Diane's Delectables	Cake	Warwick	Rhode Island	Social only	https://www.zola.com/wedding-vendors/wedding-cakes-desserts/dianes-delectables	2026-10-11
 Vendor	Blush Bakeshop	Cake	Providence	Rhode Island	Social only	https://www.instagram.com/blushbakeshoppvd/	2026-10-11
@@ -26,9 +26,9 @@ Vendor	Hayes & Baker Photography	Photography	Providence	Rhode Island	Inactive	ht
 Vendor	Third Space Floral Studio	Florals	Providence	Rhode Island	No website	https://www.theknot.com/marketplace/third-space-floral-studio-providence-ri-2098028	2026-10-29
 Vendor	Petallion Floral	Florals	North Scituate	Rhode Island	No website	https://blulist.com/vendor/petallion-floral-rhode-island-ri-caterer	2026-10-29
 Vendor	The Waters Edge Flowers	Florals	Newport	Rhode Island	Site dead	https://www.theknot.com/marketplace/the-waters-edge-flowers-newport-ri-445636	2026-10-29
-Vendor	Rosanna's Flowers	Florals	Westerly	Rhode Island	Site dead	https://www.westerlyflorist.com/about-us	2026-10-29
+Vendor	Rosanna's Flowers	Florals	Westerly	Rhode Island	Site blocks automated visits, unconfirmed	https://www.westerlyflorist.com/about-us	2026-10-29
 Vendor	Dick Lupino Band	Music	Newport	Rhode Island	Site dead	http://www.dicklupinomusic.com/weddings.htm	2026-10-29
-Vendor	Jam Session Entertainment	Music	Westerly	Rhode Island	Site dead	https://www.jamprodj.com/	2026-10-29
+Vendor	Jam Session Entertainment	Music	Westerly	Rhode Island	Site blocks automated visits, unconfirmed	https://www.jamprodj.com/	2026-10-29
 Vendor	Sweet Time Entertainment	Music	Westerly	Rhode Island	Inactive	https://sweettimeent.com/	2026-10-29
 Vendor	With A Twist Bartending Services	Catering	Newport	Rhode Island	Franchise	https://twistbartendingservice.com/rhode-island-bartending-services/bartending-services-newport/	2026-10-29
 Vendor	Block Island Clambake Company	Catering	Block Island	Rhode Island	No website	https://www.blockislandchamber.com/caterers	2026-10-29
@@ -42,14 +42,14 @@ Vendor	Lauren C Beauty	Hair & Makeup	Providence	Rhode Island	No website	https://
 Vendor	Kauri & Co.	Hair & Makeup	Newport	Rhode Island	No website	https://www.zola.com/wedding-vendors/wedding-hair-makeup/kauri-co	2026-10-29
 Vendor	Fine Line Artistry	Hair & Makeup	Wakefield	Rhode Island	No website	https://www.zola.com/wedding-vendors/wedding-hair-makeup/fine-line-artistry	2026-10-29
 Vendor	Natural Creations	Hair & Makeup	Newport	Rhode Island	No website	https://caratsandcake.com/vendor/natural-creations	2026-10-29
-Vendor	Allison Barbera Beauty	Hair & Makeup	Newport	Rhode Island	Site dead	https://allisonbarbera.com	2026-10-29
-Vendor	Mary King Harpist	Music	Smithfield	Rhode Island	Site dead	https://marykingharpist.com/	2026-10-29
-Vendor	Uptown Salon & Spa	Hair & Makeup	Westerly	Rhode Island	Site dead	https://uptownsalonspa.com	2026-10-29
+Vendor	Allison Barbera Beauty	Hair & Makeup	Newport	Rhode Island	Site blocks automated visits, unconfirmed	https://allisonbarbera.com	2026-10-29
+Vendor	Mary King Harpist	Music	Smithfield	Rhode Island	Site blocks automated visits, unconfirmed	https://marykingharpist.com/	2026-10-29
+Vendor	Uptown Salon & Spa	Hair & Makeup	Westerly	Rhode Island	Site blocks automated visits, unconfirmed	https://uptownsalonspa.com	2026-10-29
 Vendor	Dylan Elizabeth Beauty	Hair & Makeup	East Greenwich	Rhode Island	No wedding page	https://dylanelizabethbeauty.com	2026-10-29
 Venue	Coast Guard House		Narragansett	Rhode Island	No wedding page	https://thecoastguardhouse.com/narragansett-the-coast-guard-house-private-parties	2026-11-03
 Venue	Tilted Barn Brewery		Exeter	Rhode Island	No wedding page	https://www.tiltedbarnbrewery.com/private-events	2026-11-03
 Venue	Hotel Manisses		Block Island	Rhode Island	No wedding page	https://www.hotelmanisses.com	2026-11-03
-Venue	Wetherledge		Jamestown	Rhode Island	Site dead	https://wetherledge.com	2026-11-03
+Venue	Wetherledge		Jamestown	Rhode Island	Site blocks automated visits, unconfirmed	https://wetherledge.com	2026-11-03
 Venue	Pawtucket Country Club		Pawtucket	Rhode Island	No wedding page	https://www.pawtucketcountryclub.com/	2026-11-03
 Venue	Providence Marriott Downtown		Providence	Rhode Island	Franchise	https://www.marriott.com/en-us/hotels/pvdri-providence-marriott-downtown/events/	2026-11-03
 Venue	Diamond Hill Vineyards		Cumberland	Rhode Island	Inactive		2026-11-03
@@ -65,7 +65,7 @@ Venue	Coggeshall Farm Museum		Bristol	Rhode Island	No wedding page	https://cogge
 Venue	Graduate Providence		Providence	Rhode Island	Franchise	https://www.cvent.com/venues/providence/hotel/graduate-providence/venue-478393d6-50b8-4281-bc9a-937747d13813	2026-11-03
 Venue	Omni Providence		Providence	Rhode Island	Franchise	https://www.omnihotels.com/hotels/providence/weddings	2026-11-03
 Venue	Renaissance Providence Downtown		Providence	Rhode Island	Franchise	https://www.marriott.com/en-us/hotels/pvdbr-renaissance-providence-downtown-hotel/events/weddings/	2026-11-03
-Venue	Westmoreland Farm		North Kingstown	Rhode Island	Site dead	https://www.southcountyri.com/listing/westmoreland-farms/2356/	2026-11-03
+Venue	Westmoreland Farm		North Kingstown	Rhode Island	Site back up	https://www.southcountyri.com/listing/westmoreland-farms/2356/	2026-11-03
 Venue	The Haversham		Westerly	Rhode Island	Site dead	https://www.weddingwire.com/biz/the-haversham-westerly/4e2c37ef96931121.html	2026-11-03
 Venue	Windjammer (Mariner Room)		Westerly	Rhode Island	Site dead	https://www.weddingwire.com/c/ri-rhode-island/westerly/wedding-venues/11-vendors.html	2026-11-03
 Venue	Winnapaug Country Club		Westerly	Rhode Island	No wedding page	https://www.winnapaug.com/events/special	2026-11-03
@@ -75,7 +75,7 @@ Venue	Holiday Inn of South Kingstown		Saunderstown	Rhode Island	Franchise	https:
 Venue	Charlestown Rathskeller		Charlestown	Rhode Island	Site dead	https://www.zola.com/wedding-vendors/search/charlestown-ri--wedding-venues	2026-11-03
 Venue	Boat House Tiverton		Tiverton	Rhode Island	Inactive	https://www.boathousetiverton.com/	2026-11-03
 Venue	Carnegie Abbey Club		Portsmouth	Rhode Island	Site dead	https://www.carnegieabbeyclub.com/	2026-11-03
-Venue	Stone House Club		Little Compton	Rhode Island	Site dead	https://www.stonehouseclub.com/	2026-11-03
+Venue	Stone House Club		Little Compton	Rhode Island	Site back up	https://www.stonehouseclub.com/	2026-11-03
 Venue	Belcourt		Newport	Rhode Island	No wedding page	https://www.belcourt.com/	2026-11-03
 Venue	Squantum Association		East Providence	Rhode Island	Site blocks automated visits, unconfirmed	https://www.squantumassociation.com/weddings	2026-11-03
 Venue	The Imperial Room at One Rhodes Place		Cranston	Rhode Island	Site blocks automated visits, unconfirmed	https://www.shrinersri.com/imperial-room.html	2026-11-03

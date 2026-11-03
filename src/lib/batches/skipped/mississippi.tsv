@@ -1,8 +1,8 @@
 Kind	Name	Category	City	State	Reason	Link	Date
 Vendor	Take Two Video Pro	Videography	Biloxi	Mississippi	Inactive	https://www.taketwovideopro.com/	2026-10-06
 Vendor	Scarletfish Studios	Photography	Ocean Springs	Mississippi	Inactive	http://weddings.scarletfishstudios.com/	2026-10-06
-Vendor	Harvest Bay Artisan Bakery	Cake	Bay St. Louis	Mississippi	Site dead	https://harvestbaybsl.com/	2026-10-06
-Vendor	P&I Productions	Videography	Gulfport	Mississippi	Site dead	https://pi-productions.net/	2026-10-06
+Vendor	Harvest Bay Artisan Bakery	Cake	Bay St. Louis	Mississippi	Site blocks automated visits, unconfirmed	https://harvestbaybsl.com/	2026-10-06
+Vendor	P&I Productions	Videography	Gulfport	Mississippi	Site back up	https://pi-productions.net/	2026-10-06
 Vendor	Bluewaters Photography	Photography	Pascagoula	Mississippi	Site dead	https://bluewatersphotography.net/	2026-10-06
 Vendor	Lighthouse Wedding Videos	Videography	Ocean Springs	Mississippi	No website	https://www.thebash.com/search/wedding-videographer-mississippi	2026-10-06
 Vendor	Le Bakery	Cake	Biloxi	Mississippi	Social only	https://www.facebook.com/LeBakeryBiloxi	2026-10-06
@@ -20,11 +20,11 @@ Vendor	Sweet T's Bakery	Cake	Oxford	Mississippi	Site dead	https://sweetts.com/	2
 Vendor	Nothing Bundt Cakes	Cake	Oxford	Mississippi	Franchise	https://www.nothingbundtcakes.com/find-a-bakery/ms/oxford/wedding-cakes-634.html	2026-10-06
 Vendor	Emily Sanders Taylor Weddings & Events	Planning	Oxford	Mississippi	Inactive	https://emilysanderstaylor.com/	2026-10-06
 Vendor	Ferriday Events	Planning	Oxford	Mississippi	Site dead	https://www.ferridayevents.com/	2026-10-06
-Vendor	Bent Creek Bouquets	Florals	Oxford	Mississippi	Site dead	https://www.bentcreekbouquets.com/	2026-10-06
+Vendor	Bent Creek Bouquets	Florals	Oxford	Mississippi	Site back up	https://www.bentcreekbouquets.com/	2026-10-06
 Vendor	Bill Dabney Photography	Photography	Oxford	Mississippi	Inactive	https://www.dabneyphotography.com/	2026-10-06
-Vendor	Sonum May Photography	Photography	Oxford	Mississippi	Site dead	https://sonummayphotography.com/	2026-10-06
-Vendor	Taylor Square Photography	Photography	Oxford	Mississippi	Site dead	https://taylorsquarephotography.com/	2026-10-06
-Venue	Levee Street Warehouse		Vicksburg	Mississippi	Site dead	https://leveestreetwarehouse.com/	2026-10-07
+Vendor	Sonum May Photography	Photography	Oxford	Mississippi	Site back up	https://sonummayphotography.com/	2026-10-06
+Vendor	Taylor Square Photography	Photography	Oxford	Mississippi	Site back up	https://taylorsquarephotography.com/	2026-10-06
+Venue	Levee Street Warehouse		Vicksburg	Mississippi	Site back up	https://leveestreetwarehouse.com/	2026-10-07
 Vendor	Finch & Kelly	Bridal & Formalwear	Oxford	Mississippi	Franchise	https://finchandkelly.com/	2026-10-13
 Vendor	Oxford Bus Charter Company	Transportation	Oxford	Mississippi	No website	https://www.eventective.com/oxford-ms/limos/	2026-10-13
 Vendor	505 Media Company	Videography	Oxford	Mississippi	No website	https://zola.com/wedding-vendors/search/oxford-ms?page=2	2026-10-13
@@ -33,8 +33,8 @@ Vendor	Epic Events (Brandi)	Planning	Oxford	Mississippi	No website	https://zola.
 Vendor	A Wedding Cake of Oxford	Cake	Oxford	Mississippi	No website	https://www.mapquest.com/us/mississippi/a-wedding-cake-of-oxford-346256445	2026-10-13
 Vendor	Louis Pettinelli Entertainment	Music	Oxford	Mississippi	No website	https://zola.com/wedding-vendors/search/oxford-ms--wedding-bands-djs	2026-10-13
 Vendor	Oh Shoot Oxford Photobooths	Photo Booth	Oxford	Mississippi	Social only	https://www.facebook.com/ohshootoxfordphotobooths/	2026-10-13
-Vendor	Mississippi Mobile Bar	Bar	Oxford	Mississippi	Site dead	https://mississippimobilebar.com/	2026-10-13
-Vendor	DC Events and Design	Videography	Oxford	Mississippi	Site dead	https://www.dceventsanddesign.com/oxford-wedding-videographer	2026-10-13
+Vendor	Mississippi Mobile Bar	Bar	Oxford	Mississippi	Site blocks automated visits, unconfirmed	https://mississippimobilebar.com/	2026-10-13
+Vendor	DC Events and Design	Videography	Oxford	Mississippi	Site blocks automated visits, unconfirmed	https://www.dceventsanddesign.com/oxford-wedding-videographer	2026-10-13
 Vendor	Twist Bartending Service	Bar	Oxford	Mississippi	Franchise	https://twistbartendingservice.com/mobile-bartenders-in-oxford-mississippi/	2026-10-13
 Vendor	Rocket Entertainment	Music	Tupelo	Mississippi	Franchise	https://www.rocket-entertainment.com/wedding-dj-tupelo-ms/	2026-10-13
 Vendor	The Desi DJ Company	Music	Oxford	Mississippi	Franchise	https://www.thedesidjcompany.com/mississippi/indian-wedding-dj-oxford-mississippi/	2026-10-13
@@ -56,15 +56,15 @@ Vendor	Witness to Love Weddings	Officiant	Jackson	Mississippi	No website	https:/
 Vendor	Zevents LLC	Decor & Lighting	Flowood	Mississippi	No website	https://www.weddingwire.com/biz/zevents-llc/9197bae933c73bd5.html	2026-10-13
 Vendor	Direct Entertainment	Music	Biloxi	Mississippi	No website	https://www.eventective.com/695218/Direct-Entertainment.html	2026-10-13
 Vendor	Dan the Camera Man	Videography	Gulfport	Mississippi	No website	https://zola.com/wedding-vendors/search/gulfport-ms--wedding-videographers--classic	2026-10-13
-Vendor	Eisley + Oak Photography	Photography	Gulfport	Mississippi	Site dead	https://www.eisleyoakphoto.com/	2026-10-13
-Vendor	All Terrain Productions	Videography	Biloxi	Mississippi	Site dead	https://allterrainproductions.com/	2026-10-13
-Vendor	Golden Gulf Limousine	Transportation	Biloxi	Mississippi	Site dead	http://goldengulflimo.com/	2026-10-13
-Vendor	Southern Event Productions	Decor & Lighting	Biloxi	Mississippi	Site dead	http://southerneventproductions.com/	2026-10-13
-Vendor	Gearbox Entertainment	Music	Biloxi	Mississippi	Site dead	https://www.gearboxentertainment.com/	2026-10-13
-Vendor	Party Sips Mobile Drink Bar	Bar	Biloxi	Mississippi	Site dead	http://partysips.com/	2026-10-13
+Vendor	Eisley + Oak Photography	Photography	Gulfport	Mississippi	Site blocks automated visits, unconfirmed	https://www.eisleyoakphoto.com/	2026-10-13
+Vendor	All Terrain Productions	Videography	Biloxi	Mississippi	Site blocks automated visits, unconfirmed	https://allterrainproductions.com/	2026-10-13
+Vendor	Golden Gulf Limousine	Transportation	Biloxi	Mississippi	Site blocks automated visits, unconfirmed	http://goldengulflimo.com/	2026-10-13
+Vendor	Southern Event Productions	Decor & Lighting	Biloxi	Mississippi	Site back up	http://southerneventproductions.com/	2026-10-13
+Vendor	Gearbox Entertainment	Music	Biloxi	Mississippi	Site blocks automated visits, unconfirmed	https://www.gearboxentertainment.com/	2026-10-13
+Vendor	Party Sips Mobile Drink Bar	Bar	Biloxi	Mississippi	Site back up	http://partysips.com/	2026-10-13
 Vendor	Naomi's Catering	Catering	Gulfport	Mississippi	Site dead	https://www.naomis.com/	2026-10-13
-Vendor	Broome's Buffet & Catering	Catering	Ocean Springs	Mississippi	Site dead	https://www.shopatbroomes.com/	2026-10-13
-Vendor	Rose's Florist	Florals	Biloxi	Mississippi	Site dead	https://rosesfloristshop.com/	2026-10-13
+Vendor	Broome's Buffet & Catering	Catering	Ocean Springs	Mississippi	Site blocks automated visits, unconfirmed	https://www.shopatbroomes.com/	2026-10-13
+Vendor	Rose's Florist	Florals	Biloxi	Mississippi	Site back up	https://rosesfloristshop.com/	2026-10-13
 Vendor	Antonian Salon	Hair & Makeup	Gulfport	Mississippi	Site dead	http://antonianonline.com/	2026-10-13
 Vendor	Brick & Spoon	Catering	Gulfport	Mississippi	Franchise	https://www.brickandspoon.com/	2026-10-13
 Vendor	Alpha-Lit Letters MS Gulf Coast	Decor & Lighting	Gulfport	Mississippi	Franchise	https://alphalitletters.com/	2026-10-13
@@ -72,7 +72,7 @@ Vendor	Haus of Locks	Hair & Makeup	Ocean Springs	Mississippi	Inactive	https://ww
 Vendor	Todd Boswell Salon	Hair & Makeup	Ocean Springs	Mississippi	Inactive	https://www.toddboswellsalon.com/	2026-10-13
 Vendor	Timeless Designs	Florals	Lucedale	Mississippi	Inactive	https://www.timelessdesignsms.com/	2026-10-13
 Venue	The Roof at 1311		Vicksburg	Mississippi	Inactive	https://www.theroofat1311.com	2026-10-13
-Venue	Oak Hill Chapel		Oxford	Mississippi	Site dead	https://oakhilloxford.com	2026-10-13
+Venue	Oak Hill Chapel		Oxford	Mississippi	Site back up	https://oakhilloxford.com	2026-10-13
 Venue	Hitching Post Manor		Como	Mississippi	Site dead	https://hitchingpostmanor.com	2026-10-13
 Venue	Baer House Inn		Vicksburg	Mississippi	Inactive	https://baerhouseinn.com	2026-10-13
 Venue	Cedar Creek Ridge Farms		Tishomingo	Mississippi	No website	https://zola.com/wedding-vendors/wedding-venues/cedar-creek-ridge-farms	2026-10-13
@@ -82,14 +82,14 @@ Venue	White Pillars Restaurant		Biloxi	Mississippi	No website	https://www.zola.c
 Venue	Linden Bed and Breakfast		Natchez	Mississippi	No website	https://wedding-spot.com/venue/10502/linden-bed-breakfast	2026-10-13
 Venue	Hewlett Barn / The Stables		Starkville	Mississippi	No website	https://www.herecomestheguide.com/wedding-venues/mississippi/the-stables	2026-10-13
 Venue	White Oak Falls Events		Corinth	Mississippi	No website	https://www.zola.com/wedding-vendors/search/rienzi-ms--wedding-venues--musuems-galleries	2026-10-13
-Vendor	Clarity Film Co.	Videography	Ocean Springs	Mississippi	Site dead	https://www.clarityfilmco.com/	2026-10-13
-Vendor	Kim Wilhite Photography	Photography	Brandon	Mississippi	Site dead	https://kimwilhite.com/	2026-10-13
+Vendor	Clarity Film Co.	Videography	Ocean Springs	Mississippi	Site blocks automated visits, unconfirmed	https://www.clarityfilmco.com/	2026-10-13
+Vendor	Kim Wilhite Photography	Photography	Brandon	Mississippi	Site back up	https://kimwilhite.com/	2026-10-13
 Vendor	Victory Event Group	Music	Oxford	Mississippi	Site dead	https://www.facebook.com/djmaxx662/	2026-10-13
 Vendor	King Kova Entertainment	Music	Oxford	Mississippi	No website	https://www.theknot.com/marketplace/king-kova-entertainment-oxford-ms-2053461	2026-10-13
 Vendor	One Fine Day Events	Planning	Oxford	Mississippi	Site dead	https://www.facebook.com/onefine.dayevents.1/	2026-10-13
 Vendor	Vienna Desserts	Cake	Oxford	Mississippi	No website	https://www.manta.com/c/mmfctj4/vienna-desserts-llc	2026-10-13
 Vendor	Michael Terrell Videography	Videography	Pass Christian	Mississippi	No website	https://www.weddingwire.com/biz/michael-terrell-videography/9d0fde44c68de2a3.html	2026-10-13
-Vendor	Foxtrot Film Co.	Videography	Picayune	Mississippi	Site dead	https://www.foxtrotfilmco.com/	2026-10-14
+Vendor	Foxtrot Film Co.	Videography	Picayune	Mississippi	Site blocks automated visits, unconfirmed	https://www.foxtrotfilmco.com/	2026-10-14
 Vendor	Casey Clingan Cinematography	Videography	Hattiesburg	Mississippi	Site dead	https://www.caseyclingan.com/	2026-10-14
 Vendor	Honey Bee Bakery	Cake	Oxford	Mississippi	Site dead	http://thehoneybeebakery.com	2026-10-14
 Vendor	Ya Heard Me Productions	Music	Oxford	Mississippi	No website	https://wedj.com/djs/oxford/mississippi/	2026-10-14
@@ -110,7 +110,7 @@ Vendor	AuRe's Cakes	Cake	Greenville	Mississippi	No website	https://zola.com/wedd
 Vendor	Lagniappe Wedding Design	Planning	Greenville	Mississippi	No website	https://www.weddingwire.com/biz/lagniappe-wedding-design-greenville/0cb7c24e8706ea77.html	2026-10-17
 Vendor	9.15 Floral Designs & Gifts	Florals	Greenville	Mississippi	No website	https://prod.bbb.org/us/ms/pace/category/florist	2026-10-17
 Vendor	Charlie Lum Photography	Photography	Greenville	Mississippi	No website	https://wedj.com/photographers/greenville/mississippi/	2026-10-17
-Venue	Washington County Convention Center		Greenville	Mississippi	Site dead	https://washingtoncounty.usnx.com/?p=155	2026-10-17
+Venue	Washington County Convention Center		Greenville	Mississippi	Site blocks automated visits, unconfirmed	https://washingtoncounty.usnx.com/?p=155	2026-10-17
 Venue	Delta Sportsplex		Greenville	Mississippi	Site dead	http://www.deltasportsplex.com/	2026-10-17
 Venue	Greenville Golf and Country Club		Greenville	Mississippi	No website	https://www.golfn.com/courses/united-states-of-america/mississippi/greenville-country-club	2026-10-17
 Venue	Castle Grove Plantation		Meridian	Mississippi	Social only	https://www.facebook.com/castlegroveplantation/	2026-10-17
@@ -122,7 +122,7 @@ Vendor	Dream Cakes	Cake	Grenada	Mississippi	Social only	https://www.facebook.com
 Vendor	Stewart Photography (Kaitlyn Stewart)	Photography	Grenada	Mississippi	No website	https://unscriptedphotographers.com/stewartphotography	2026-10-17
 Vendor	Rory Doyle Photography	Photography	Cleveland	Mississippi	No website	https://blink.la/u/rorydoylephoto	2026-10-17
 Vendor	Delta Love Photography	Photography	Cleveland	Mississippi	Social only	https://www.facebook.com/deltalovephotogpraphy/	2026-10-17
-Venue	The Main Event		Grenada	Mississippi	Site dead	https://themaineventgrenada.com	2026-10-17
+Venue	The Main Event		Grenada	Mississippi	Site back up	https://themaineventgrenada.com	2026-10-17
 Venue	Hopson Commissary		Clarksdale	Mississippi	Site dead	https://www.hopsonhospitality.com/private-events	2026-10-17
 Venue	Shack Up Inn		Clarksdale	Mississippi	No wedding page	https://shackupinn.com/	2026-10-17
 Venue	Bolivar County Expo Building		Cleveland	Mississippi	No wedding page	https://www.visitclevelandms.com/meetings-and-conventions	2026-10-17
@@ -136,9 +136,9 @@ Vendor	Kreative Dream Events	Planning	Hattiesburg	Mississippi	No website	https:/
 Vendor	Emerald's Bartending Services	Bar	Laurel	Mississippi	No website	https://www.facebook.com/p/Emeralds-Bartending-Services-100063538961589/	2026-10-29
 Vendor	Karalott Beauty	Hair & Makeup	Hattiesburg	Mississippi	Social only	https://www.instagram.com/karalottbeauty/	2026-10-29
 Vendor	Miyah the MUA	Hair & Makeup	Hattiesburg	Mississippi	Social only	https://miyahthemua.square.site/	2026-10-29
-Vendor	Arender Films	Videography	Hattiesburg	Mississippi	Site dead	https://wedj.com/videographers/johnaustin1995/	2026-10-29
-Vendor	Church Street Cakery	Cake	Hattiesburg	Mississippi	Site dead	https://www.churchstreetcakery.com/	2026-10-29
-Vendor	ForkLift Restaurant	Catering	Tupelo	Mississippi	Site dead	https://forkliftrestaurant.com/catering	2026-10-29
+Vendor	Arender Films	Videography	Hattiesburg	Mississippi	Site back up	https://wedj.com/videographers/johnaustin1995/	2026-10-29
+Vendor	Church Street Cakery	Cake	Hattiesburg	Mississippi	Site back up	https://www.churchstreetcakery.com/	2026-10-29
+Vendor	ForkLift Restaurant	Catering	Tupelo	Mississippi	Site blocks automated visits, unconfirmed	https://forkliftrestaurant.com/catering	2026-10-29
 Vendor	Creative Cakes	Cake	Tupelo	Mississippi	No website	https://www.instagram.com/creativecakestupelo/	2026-10-29
 Vendor	Taylor Made Cake	Cake	Columbus	Mississippi	No website	https://www.theknot.com/marketplace/taylor-made-cake-columbus-ms-439121	2026-10-29
 Vendor	Cakes by Rita	Cake	Tupelo	Mississippi	No website	https://www.yellowpages.com/tupelo-ms/wedding-supplies-services	2026-10-29
@@ -161,16 +161,16 @@ Vendor	For Heaven's Cakes and Catering	Cake	Jackson	Mississippi	No website	https
 Vendor	Fleur De Lis Gourmet Bakery	Cake	Gulfport	Mississippi	No website	https://www.weddingwire.com/biz/fleur-de-lis-gulfport/c8d645fbbb398f97.html	2026-10-29
 Vendor	Salt & Sand BBQ Company	Catering	Ocean Springs	Mississippi	No website	https://www.ezcater.com/catering/salt-and-sand-bbq-3	2026-10-29
 Vendor	Taylor Henderson Events	Planning	Madison	Mississippi	No website	https://www.theknot.com/marketplace/taylor-henderson-events-madison-ms-2048582	2026-10-29
-Venue	The Bottling Company		Hattiesburg	Mississippi	Site dead	https://www.thebottlingcompanyhattiesburg.com/	2026-10-30
-Venue	The Cottage Venue		Laurel	Mississippi	Site dead	https://www.thecottagevenue.co/	2026-10-30
+Venue	The Bottling Company		Hattiesburg	Mississippi	Site back up	https://www.thebottlingcompanyhattiesburg.com/	2026-10-30
+Venue	The Cottage Venue		Laurel	Mississippi	Site back up	https://www.thecottagevenue.co/	2026-10-30
 Venue	The 7L Farms Venue		Wiggins	Mississippi	Site dead	https://7lfarms.com/weddings-and-events	2026-10-30
 Venue	The Venue at Pine Burr		Wiggins	Mississippi	Social only	https://www.facebook.com/p/The-Venue-at-Pine-Burr-100064170157206/	2026-10-30
 Venue	Studio5Fifty		Laurel	Mississippi	No wedding page	https://studio5fifty.com/gatherings	2026-10-30
 Venue	The Delisseline		Bay St. Louis	Mississippi	Social only	https://www.facebook.com/thedelisselinebytwc	2026-10-30
-Venue	Opera House 1853		Canton	Mississippi	Site dead	https://www.worldclassweddingvenues.com/venue-display/vid/16205	2026-10-30
+Venue	Opera House 1853		Canton	Mississippi	Site back up	https://www.worldclassweddingvenues.com/venue-display/vid/16205	2026-10-30
 Venue	Pearls Event Center		Pearl	Mississippi	Site dead	https://www.pearlseventcenter.com/	2026-10-30
-Venue	Stanton Hall		Natchez	Mississippi	Site dead	https://visitnatchez.org/listing/stanton-hall-wedding-venue/	2026-10-30
-Venue	The Mill Venue		McComb	Mississippi	Site dead	https://visitmississippi.org/things-to-do/event-spaces/the-mill-venue-event-space/	2026-10-30
+Venue	Stanton Hall		Natchez	Mississippi	Site back up	https://visitnatchez.org/listing/stanton-hall-wedding-venue/	2026-10-30
+Venue	The Mill Venue		McComb	Mississippi	Site blocks automated visits, unconfirmed	https://visitmississippi.org/things-to-do/event-spaces/the-mill-venue-event-space/	2026-10-30
 Venue	Rosalie Mansion		Natchez	Mississippi	No wedding page	https://www.rosaliemansion.com/events/	2026-10-30
 Venue	Natchez Convention Center		Natchez	Mississippi	No wedding page	https://www.natchezconventioncenter.org/plan/event-services	2026-10-30
 Venue	The Antler Tupelo		Tupelo	Mississippi	No wedding page	https://www.theantlertupelo.com	2026-10-30
@@ -184,12 +184,12 @@ Venue	The Orchard of Raymond		Raymond	Mississippi	Inactive	https://theorchardofr
 Venue	AC Hotel Jackson Ridgeland		Ridgeland	Mississippi	Franchise	https://www.marriott.com/en-us/hotels/janac-ac-hotel-jackson-ridgeland/events/	2026-10-30
 Venue	Hilton Garden Inn Pascagoula		Pascagoula	Mississippi	Franchise	https://www.zola.com/wedding-vendors/wedding-venues/hilton-garden-inn-pascagoula-ms	2026-10-30
 Venue	Red Barn Reception Hall		Hernando	Mississippi	Inactive	https://redbarnreceptionhall.com	2026-10-30
-Venue	Anchuca Historic Mansion & Inn		Vicksburg	Mississippi	Site dead	https://www.anchuca.com/events	2026-10-30
-Venue	Biloxi Yacht Club		Biloxi	Mississippi	Site dead	https://biloxiyachtclub.org/Private-Events	2026-10-30
-Venue	Union Station		Meridian	Mississippi	Site dead	https://meridianms.org/rentals/	2026-10-30
+Venue	Anchuca Historic Mansion & Inn		Vicksburg	Mississippi	Site blocks automated visits, unconfirmed	https://www.anchuca.com/events	2026-10-30
+Venue	Biloxi Yacht Club		Biloxi	Mississippi	Site blocks automated visits, unconfirmed	https://biloxiyachtclub.org/Private-Events	2026-10-30
+Venue	Union Station		Meridian	Mississippi	Site blocks automated visits, unconfirmed	https://meridianms.org/rentals/	2026-10-30
 Venue	The Parlour on Lorraine		Gulfport	Mississippi	No wedding page	https://parlouronlorraine.com	2026-11-02
 Venue	Pass Christian Yacht Club		Pass Christian	Mississippi	No wedding page	https://passchristian.clubhouseonline-e3.com/Facilities	2026-11-02
-Venue	Amelie House Event Venue		Hattiesburg	Mississippi	Site dead	https://www.visithburg.org/directory/amelie-event-venue/	2026-11-02
+Venue	Amelie House Event Venue		Hattiesburg	Mississippi	Site back up	https://www.visithburg.org/directory/amelie-event-venue/	2026-11-02
 Venue	The Social		Hattiesburg	Mississippi	Site dead	https://thesocialhattiesburg.com	2026-11-02
 Venue	Ocean Springs Civic Center		Ocean Springs	Mississippi	No wedding page	https://oceansprings-ms.gov/facilities/facility/details/oceanspringsciviccenter-15	2026-11-02
 Venue	Blue Heron Lake Weddings		Nettleton	Mississippi	Site dead	https://www.zola.com/wedding-vendors/wedding-venues/blue-heron-lake-weddings	2026-11-02
@@ -208,7 +208,7 @@ Venue	Hilton Garden Inn Starkville		Starkville	Mississippi	Franchise	https://eve
 Venue	Hilton Garden Inn Tupelo		Tupelo	Mississippi	Franchise	https://wedding-spot.com/venue/12861/hilton-garden-inn-tupelo	2026-11-02
 Venue	Cotton Market		Richland	Mississippi	Social only	https://www.facebook.com/cottonmarket	2026-11-02
 Venue	Castle Hill Pavilion		Florence	Mississippi	No website	https://www.wedding-spot.com/venue/14888/castle-hill-pavilion-llc/	2026-11-02
-Venue	Providence Hill Farm		Jackson	Mississippi	Site dead	https://providencehillfarm.com	2026-11-02
+Venue	Providence Hill Farm		Jackson	Mississippi	Site blocks automated visits, unconfirmed	https://providencehillfarm.com	2026-11-02
 Venue	The Plant		Jackson	Mississippi	Inactive	https://theplantjxn.com/	2026-11-02
 Venue	The Place at Harbour Crossing		Ridgeland	Mississippi	No website	https://www.exploreridgeland.com/event-venue-spotlight-the-place-at-harbour-crossing-in-ridgeland/	2026-11-02
 Venue	The Pavilion at Rehoboth Farms		Pelahatchie	Mississippi	Closed	https://www.weddingwire.com/biz/the-pavilion-at-rehoboth-farms-pelahatchie/86df9ebd09b06feb.html	2026-11-02
@@ -217,4 +217,4 @@ Venue	Ameristar Casino Hotel Vicksburg		Vicksburg	Mississippi	Franchise	https://
 Venue	Magnolia Hall (Natchez Garden Club)		Natchez	Mississippi	No wedding page	https://natchezgardenclub.org/venue/	2026-11-02
 Venue	Rising Event Venues		Jackson	Mississippi	Site dead	https://www.wearerising.co/	2026-11-02
 Venue	Shadowlawn (A Bride Idea)		Columbus	Mississippi	No wedding page	https://abrideidea.com/	2026-11-02
-Venue	The Inn at Ole Miss		University	Mississippi	Site dead	https://www.theinnatolemiss.com/weddings/	2026-11-02
+Venue	The Inn at Ole Miss		University	Mississippi	Site blocks automated visits, unconfirmed	https://www.theinnatolemiss.com/weddings/	2026-11-02

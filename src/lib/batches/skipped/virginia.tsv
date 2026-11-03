@@ -2,10 +2,10 @@ Kind	Name	Category	City	State	Reason	Link	Date
 Vendor	Barrister's Bakery	Cake	Roanoke	Virginia	Site dead	https://zola.com/wedding-vendors/wedding-cakes-desserts/barristers-bakery-llc	2026-10-10
 Vendor	Enchanted Garden Florals	Florals	Roanoke	Virginia	Site dead	https://www.instagram.com/enchantedgardenva	2026-10-10
 Vendor	Kellycakes	Cake	Roanoke	Virginia	Site dead	https://www.theknot.com/marketplace/wedding-cake-bakeries-roanoke-va	2026-10-10
-Vendor	WeddingsInRoanoke.com	Videography	Roanoke	Virginia	Site dead	https://www.visitroanokeva.com/listings/weddingsinroanoke-com/7468/	2026-10-10
+Vendor	WeddingsInRoanoke.com	Videography	Roanoke	Virginia	Site back up	https://www.visitroanokeva.com/listings/weddingsinroanoke-com/7468/	2026-10-10
 Vendor	Guia Events	Music	Roanoke	Virginia	Site dead	https://www.instagram.com/GuiaSalsaNoke	2026-10-10
 Vendor	Sassy Cakes by Stephie	Cake	Christiansburg	Virginia	Inactive	https://sassycakesbystephie.wixsite.com/sassycakes	2026-10-10
-Vendor	Frazier Films	Videography	Lexington	Virginia	Site dead	https://www.frazierfilms.com/	2026-10-10
+Vendor	Frazier Films	Videography	Lexington	Virginia	Site blocks automated visits, unconfirmed	https://www.frazierfilms.com/	2026-10-10
 Vendor	Country Cupboard Catering	Catering		Virginia	Inactive	https://www.countrycupboardcatering.com/	2026-10-10
 Vendor	Enso Media Firm	Videography	Richmond	Virginia	Site dead	https://www.weddingwire.com/biz/enso-media-firm/f94231f98a947189.html	2026-10-10
 Vendor	Precious Pics	Videography	Fairfax	Virginia	Franchise	https://www.preciouspicspro.com/fairfax	2026-10-10
@@ -13,19 +13,19 @@ Vendor	Yellow Door Floral Design	Florals	Falls Church	Virginia	Site dead	http://
 Vendor	Amphora Bakery	Cake	Herndon	Virginia	Franchise	https://amphorabakery.com/bake-treats/weddings/	2026-10-10
 Vendor	Beyond Studio	Hair & Makeup	Woodbridge	Virginia	Franchise	https://bestsalonva.com/services/bridal-special-events-hair-makeup/	2026-10-10
 Vendor	Mirch Dhamaka	Catering	Northern Virginia	Virginia	Site dead		2026-10-10
-Vendor	Gray Area Photography and Video	Videography	Loudoun County	Virginia	Site dead	https://grayareaphotographyandvideo.com/	2026-10-10
+Vendor	Gray Area Photography and Video	Videography	Loudoun County	Virginia	Site blocks automated visits, unconfirmed	https://grayareaphotographyandvideo.com/	2026-10-10
 Venue	The Inn at Vint Hill		Warrenton	Virginia	Site dead	https://zola.com/wedding-vendors/wedding-venues/the-inn-at-vint-hill	2026-10-12
-Venue	Sunshine Ridge Farm		Gainesville	Virginia	Site dead	https://www.sunshineridgefarm.com	2026-10-12
-Venue	Country Club of Fairfax		Fairfax	Virginia	Site dead	https://www.ccfairfax.com	2026-10-12
-Venue	Augustine Golf Club		Stafford	Virginia	Site dead	https://www.augustinegolf.com	2026-10-12
+Venue	Sunshine Ridge Farm		Gainesville	Virginia	Site back up	https://www.sunshineridgefarm.com	2026-10-12
+Venue	Country Club of Fairfax		Fairfax	Virginia	Site blocks automated visits, unconfirmed	https://www.ccfairfax.com	2026-10-12
+Venue	Augustine Golf Club		Stafford	Virginia	Site blocks automated visits, unconfirmed	https://www.augustinegolf.com	2026-10-12
 Venue	Historic Tuckahoe		Richmond	Virginia	Site dead	https://visithistorictuckahoe.com	2026-10-12
-Venue	Poe Museum		Richmond	Virginia	Site dead	https://www.poemuseum.org	2026-10-12
-Venue	Bella Rose		Lynchburg	Virginia	Site dead	https://www.bellarose.com	2026-10-12
+Venue	Poe Museum		Richmond	Virginia	Site blocks automated visits, unconfirmed	https://www.poemuseum.org	2026-10-12
+Venue	Bella Rose		Lynchburg	Virginia	Site blocks automated visits, unconfirmed	https://www.bellarose.com	2026-10-12
 Venue	Corinthian Ballroom		Roanoke	Virginia	Inactive	https://www.corinthianballroom.com/	2026-10-12
 Venue	Vinton War Memorial		Vinton	Virginia	Closed	https://www.vintonwarmemorial.org/weddings	2026-10-12
-Venue	Gracely Hill		Bedford	Virginia	Site dead	https://gracelyhill.com/	2026-10-12
-Venue	Cedar Oaks Farm		Roanoke	Virginia	Site dead	https://cedaroaksfarm.com	2026-10-12
-Venue	Sundara		Radford	Virginia	Site dead	https://mysundara.com/	2026-10-12
+Venue	Gracely Hill		Bedford	Virginia	Site back up	https://gracelyhill.com/	2026-10-12
+Venue	Cedar Oaks Farm		Roanoke	Virginia	Site back up	https://cedaroaksfarm.com	2026-10-12
+Venue	Sundara		Radford	Virginia	Site blocks automated visits, unconfirmed	https://mysundara.com/	2026-10-12
 Venue	The 84 Events		Floyd	Virginia	Site dead	http://www.the84events.com/weddings/	2026-10-12
 Venue	Monaco Manor		Chesapeake	Virginia	Site dead	https://www.monacomanor.com/	2026-10-12
 Venue	Cambridge Hall		Portsmouth	Virginia	Site dead	https://cambridgehallevents.com/	2026-10-12
@@ -42,32 +42,32 @@ Venue	Windsor Place Wedding & Event Venue		Austinville	Virginia	No website	https
 Venue	Historic Bristol Virginia Post Office		Bristol	Virginia	No website	https://zola.com/wedding-vendors/wedding-venues/the-historic-bristol-virginia-post-office	2026-10-12
 Venue	Hampton Inn Winchester North		Winchester	Virginia	Franchise	http://hamptoninn3.hilton.com/en/hotels/virginia/hampton-inn-winchester-n-conference-center-WNCHHHX/event/index.html	2026-10-12
 Venue	Holiday Inn Staunton		Staunton	Virginia	Franchise	https://www.wedding-spot.com/venue/10460/Holiday-Inn-Staunton	2026-10-12
-Venue	Shenandoah Valley Golf Club		Front Royal	Virginia	Site dead	https://www.svgcgolf.com/weddings	2026-10-12
-Venue	Tides Inn		Irvington	Virginia	Site dead	https://www.tidesinn.com/weddings/	2026-10-12
+Venue	Shenandoah Valley Golf Club		Front Royal	Virginia	Site blocks automated visits, unconfirmed	https://www.svgcgolf.com/weddings	2026-10-12
+Venue	Tides Inn		Irvington	Virginia	Site back up	https://www.tidesinn.com/weddings/	2026-10-12
 Venue	Rocky Knoll Barns		Axton	Virginia	Site dead	https://rockyknollbarns.com/	2026-10-13
-Venue	The Pavilion at Black Water Junction		Union Hall	Virginia	Site dead	https://blackwaterjunction.com/	2026-10-13
-Venue	Oakencroft Vineyard		Charlottesville	Virginia	Site dead	https://www.oakencroft.com/	2026-10-13
+Venue	The Pavilion at Black Water Junction		Union Hall	Virginia	Site blocks automated visits, unconfirmed	https://blackwaterjunction.com/	2026-10-13
+Venue	Oakencroft Vineyard		Charlottesville	Virginia	Site blocks automated visits, unconfirmed	https://www.oakencroft.com/	2026-10-13
 Venue	Montfair Resort Farm		Crozet	Virginia	Site dead	https://www.montfair.com/	2026-10-13
-Venue	Dwellings Farms		Chesapeake	Virginia	Site dead	https://www.visitchesapeake.com/listing/dwellings-farms/2981/	2026-10-13
+Venue	Dwellings Farms		Chesapeake	Virginia	Site back up	https://www.visitchesapeake.com/listing/dwellings-farms/2981/	2026-10-13
 Venue	Island Manor House		Chincoteague	Virginia	Site dead	https://islandmanorhouse.com/	2026-10-13
 Venue	Sunset Beach Hotel		Cape Charles	Virginia	Site dead	https://www.sunsetbeachhotel.com/	2026-10-13
-Venue	Historic Whitehall Manor		Upperville	Virginia	Site dead	https://www.historicwhitehall.com/	2026-10-13
-Venue	The Atrium at Meadowlark		Vienna	Virginia	Site dead	https://www.atriumatmeadowlark.com/	2026-10-13
-Venue	George Washington's River Farm		Alexandria	Virginia	Site dead	https://www.ahs.org/about-river-farm/facility-rentals	2026-10-13
-Venue	Silverbrook Farm B&B		Lorton	Virginia	Site dead	https://silverbrookfarmbandb.com/	2026-10-13
-Venue	Coles Point Marina		Coles Point	Virginia	Site dead	https://colespointmarina.com/book-an-event	2026-10-13
+Venue	Historic Whitehall Manor		Upperville	Virginia	Site blocks automated visits, unconfirmed	https://www.historicwhitehall.com/	2026-10-13
+Venue	The Atrium at Meadowlark		Vienna	Virginia	Site blocks automated visits, unconfirmed	https://www.atriumatmeadowlark.com/	2026-10-13
+Venue	George Washington's River Farm		Alexandria	Virginia	Site blocks automated visits, unconfirmed	https://www.ahs.org/about-river-farm/facility-rentals	2026-10-13
+Venue	Silverbrook Farm B&B		Lorton	Virginia	Site back up	https://silverbrookfarmbandb.com/	2026-10-13
+Venue	Coles Point Marina		Coles Point	Virginia	Site back up	https://colespointmarina.com/book-an-event	2026-10-13
 Venue	Piedmont Club		Haymarket	Virginia	Franchise	https://www.invitedclubs.com/clubs/piedmont-club-haymarket	2026-10-13
 Venue	Tarara Winery		Leesburg	Virginia	Closed	https://www.tarara.com	2026-10-13
-Venue	Court Manor		New Market	Virginia	Site dead	https://www.courtmanor.com/	2026-10-13
-Venue	Barboursville Vineyards		Barboursville	Virginia	Site dead	https://www.barboursvillewine.com/	2026-10-13
-Venue	Blenheim Vineyards		Charlottesville	Virginia	Site dead	https://blenheimvineyards.com/	2026-10-13
-Venue	The Homestead		Hot Springs	Virginia	Site dead	https://www.thehomestead.com/	2026-10-13
-Venue	Red Fox Inn & Tavern		Middleburg	Virginia	Site dead	https://www.redfox.com/weddings	2026-10-13
+Venue	Court Manor		New Market	Virginia	Site blocks automated visits, unconfirmed	https://www.courtmanor.com/	2026-10-13
+Venue	Barboursville Vineyards		Barboursville	Virginia	Site blocks automated visits, unconfirmed	https://www.barboursvillewine.com/	2026-10-13
+Venue	Blenheim Vineyards		Charlottesville	Virginia	Site blocks automated visits, unconfirmed	https://blenheimvineyards.com/	2026-10-13
+Venue	The Homestead		Hot Springs	Virginia	Site blocks automated visits, unconfirmed	https://www.thehomestead.com/	2026-10-13
+Venue	Red Fox Inn & Tavern		Middleburg	Virginia	Site blocks automated visits, unconfirmed	https://www.redfox.com/weddings	2026-10-13
 Venue	Ingleside Vineyards		Oak Grove	Virginia	Site dead	https://inglesidevineyards.com/weddings-private-parties/	2026-10-13
 Venue	Norfolk Botanical Garden		Norfolk	Virginia	Site dead	https://norfolkbotanicalgarden.org/explore/weddings-rentals/	2026-10-13
 Venue	Atkinson Farms		Danville	Virginia	No wedding page	https://www.atkinsonfarms.com/	2026-10-18
 Venue	Cotton at Riverside Mill		Danville	Virginia	No wedding page	https://cottonatriversidemill.com/	2026-10-18
-Venue	Mt Hermon Stratford Courtyard		Mount Hermon	Virginia	Site dead	http://www.mounthermon.qpg.com/	2026-10-18
+Venue	Mt Hermon Stratford Courtyard		Mount Hermon	Virginia	Site back up	http://www.mounthermon.qpg.com/	2026-10-18
 Venue	The Farmstead at Gentleman's Ridge Farm		Blairs	Virginia	No website	https://m.weddingwire.com/c/va-virginia/blairs/barn-farm-weddings/501-vendors.html	2026-10-18
 Venue	Owen Farm Loft		Danville	Virginia	Social only	https://www.facebook.com/owenfarmloft/	2026-10-18
 Vendor	Williamson Studios	Photography	Danville	Virginia	Inactive	https://www.williamsonstudios.biz/	2026-10-18
@@ -86,11 +86,11 @@ Vendor	Hound + Sparrow Films	Videography	Williamsburg	Virginia	Site dead	https:/
 Vendor	Samantha Lynn Photography	Photography	Williamsburg	Virginia	Site dead	https://zola.com/wedding-vendors/wedding-photographers/samantha-lynn-photography	2026-10-19
 Vendor	Coleman Brothers Flowers	Florals	Richmond	Virginia	Social only	https://www.instagram.com/colemanbrothersflowers/	2026-10-19
 Vendor	Sweet Life Cupcakery	Cake	Virginia Beach	Virginia	Social only	https://www.instagram.com/sweetlifecupcakeryva/	2026-10-19
-Vendor	Frosted Ridge Confections	Cake	Lynchburg	Virginia	Site dead	https://frostedridgeconfections.com	2026-10-19
+Vendor	Frosted Ridge Confections	Cake	Lynchburg	Virginia	Site back up	https://frostedridgeconfections.com	2026-10-19
 Venue	Delaplane Cellars		Delaplane	Virginia	No wedding page	https://delaplanecellars.com/private-events	2026-10-20
 Venue	Lost Creek Winery		Leesburg	Virginia	No wedding page	https://lostcreekwinery.com/events	2026-10-20
 Venue	The Mariners' Museum		Newport News	Virginia	Inactive	https://www.marinersmuseum.org/venue-rentals/	2026-10-20
-Venue	Main Street Station		Richmond	Virginia	Site dead	https://mainstreetstation.com	2026-10-20
+Venue	Main Street Station		Richmond	Virginia	Site blocks automated visits, unconfirmed	https://mainstreetstation.com	2026-10-20
 Venue	Riddick's Folly		Suffolk	Virginia	No wedding page	https://riddicksfolly.org	2026-10-20
 Venue	Hotel Cape Charles		Cape Charles	Virginia	No wedding page	https://hotelcapecharles.com	2026-10-20
 Venue	The Boathouse at Sunday Park		Midlothian	Virginia	Franchise	https://www.theboathouse.com/locations/sunday-park	2026-10-20
@@ -99,10 +99,10 @@ Venue	Agecroft Hall		Richmond	Virginia	No wedding page	http://agecrofthall.org/	
 Venue	Hunt Club Farm		Virginia Beach	Virginia	No wedding page	https://huntclubfarm.com	2026-10-20
 Venue	The Len		Richmond	Virginia	No wedding page	http://thelenrva.com	2026-10-20
 Venue	New Kent Winery Vineyard Estate		New Kent	Virginia	No wedding page	https://newkentwinery.com	2026-10-20
-Venue	Historic Greenbrier Farms		Chesapeake	Virginia	Site dead	https://www.historicgreenbrierfarms.com/weddings-landing	2026-10-20
+Venue	Historic Greenbrier Farms		Chesapeake	Virginia	Site blocks automated visits, unconfirmed	https://www.historicgreenbrierfarms.com/weddings-landing	2026-10-20
 Venue	Canal Club		Richmond	Virginia	No wedding page	https://thecanalclub.com	2026-10-20
 Venue	Fort Monroe (Continental Park, Commanding General's Residence)		Fort Monroe	Virginia	No wedding page	https://fortmonroe.org/weddings	2026-10-20
-Venue	Blackburn Inn		Staunton	Virginia	Site dead	https://visitshenandoah.org/poi/blackburn-inn-weddings/	2026-10-20
+Venue	Blackburn Inn		Staunton	Virginia	Site back up	https://visitshenandoah.org/poi/blackburn-inn-weddings/	2026-10-20
 Venue	Glendale Manor		Campbell County	Virginia	Site dead	https://glendalemanor.com/	2026-10-20
 Venue	Massanutten Creek		Page County	Virginia	No wedding page	https://massanuttencreek.com/	2026-10-20
 Venue	Inn at Narrow Passage		Edinburg	Virginia	No wedding page	https://www.innatnarrowpassage.com/	2026-10-20
@@ -115,8 +115,8 @@ Venue	Waverly Estate		Lunenburg	Virginia	No wedding page	https://waverlyestate.c
 Venue	Grace Estate Winery		Crozet	Virginia	No wedding page	https://www.graceestatewinery.com/	2026-10-20
 Venue	King Family Vineyards		Crozet	Virginia	No wedding page	https://kingfamilyvineyards.com/	2026-10-20
 Venue	Sylvanside Farm		Purcellville	Virginia	Site dead	https://www.sylvansidefarm.com/venue	2026-10-20
-Venue	CrossKeys Vineyards		Mt. Crawford	Virginia	Site dead	https://crosskeysvineyards.com/weddings/	2026-10-20
-Venue	Earlyhouse		Louisa	Virginia	Site dead	https://earlyhouse.com/	2026-10-20
+Venue	CrossKeys Vineyards		Mt. Crawford	Virginia	Site blocks automated visits, unconfirmed	https://crosskeysvineyards.com/weddings/	2026-10-20
+Venue	Earlyhouse		Louisa	Virginia	Site blocks automated visits, unconfirmed	https://earlyhouse.com/	2026-10-20
 Venue	Mimslyn Inn		Luray	Virginia	Site dead	https://mimslyninn.com/luray-hotel-weddings/	2026-10-20
 Vendor	Garnish Catering	Catering	Henrico	Virginia	Site blocks automated visits, unconfirmed	https://garnishrva.com/	2026-10-21
 Vendor	Stephanie Leigh Photography + Design	Photography	Leesburg	Virginia	Site blocks automated visits, unconfirmed	https://www.stephanieleighphotodesign.com/	2026-10-21
@@ -133,12 +133,12 @@ Vendor	All A's Cakes	Cake	Fredericksburg	Virginia	Site dead	https://allascakes.c
 Vendor	Quinton Gray Films	Videography	Fredericksburg	Virginia	No website	https://www.weddingwire.com/biz/quinton-gray-films/3caaab4c602a62f9.html	2026-10-21
 Vendor	Phantomland Media	Videography	Fredericksburg	Virginia	Site dead	https://phantomland.media	2026-10-21
 Vendor	Rocklands Barbeque	Catering	Alexandria	Virginia	Franchise	https://rocklands.com/	2026-10-21
-Vendor	Jamison Media LLC	Videography	Newport News	Virginia	Site dead	https://www.alignable.com/newport-news-va/jamison-media-llc	2026-10-21
-Vendor	Love Always Wedding Planning	Planning	Williamsburg	Virginia	Site dead	https://www.lovealwayswp.com/	2026-10-21
+Vendor	Jamison Media LLC	Videography	Newport News	Virginia	Site back up	https://www.alignable.com/newport-news-va/jamison-media-llc	2026-10-21
+Vendor	Love Always Wedding Planning	Planning	Williamsburg	Virginia	Site back up	https://www.lovealwayswp.com/	2026-10-21
 Vendor	Envision Event Co.	Planning	Williamsburg	Virginia	Closed	https://envisioneventco.com/	2026-10-21
 Vendor	Kelly J. Mihalcoe Photographer	Photography	Williamsburg	Virginia	Inactive	https://www.kellymihalcoe.com/	2026-10-21
 Vendor	Autumn Hefner Photography	Photography	Williamsburg	Virginia	Site dead	https://autumnhefnerphotography.com/williamsburg-wedding-photographer/	2026-10-21
-Vendor	CakeAlicious Design Studio	Cake	Williamsburg	Virginia	Site dead	https://www.localscoopmagazine.com/locations/cakealicious/	2026-10-21
+Vendor	CakeAlicious Design Studio	Cake	Williamsburg	Virginia	Site back up	https://www.localscoopmagazine.com/locations/cakealicious/	2026-10-21
 Vendor	Smallcakes Williamsburg	Cake	Williamsburg	Virginia	Franchise	https://smallcakeswilliamsburg.com/	2026-10-21
 Vendor	Nothing Bundt Cakes Williamsburg	Cake	Williamsburg	Virginia	Franchise	https://www.nothingbundtcakes.com/find-a-bakery/va/williamsburg/wedding-cakes-1401.html	2026-10-21
 Vendor	Nix Films	Videography	Williamsburg	Virginia	No website	https://www.alignable.com/williamsburg-va/nix-films	2026-10-21
@@ -151,10 +151,10 @@ Vendor	In Full band	Music	Charlottesville	Virginia	Site dead	https://infullband.
 Vendor	Updos For I Dos	Hair & Makeup	Charlottesville	Virginia	Franchise	https://www.updosforidos.com/locations/wedding-hair-makeup-charlottesville-va	2026-10-21
 Vendor	String Poets	Music	Williamsburg	Virginia	Site blocks automated visits, unconfirmed	https://stringpoets.com/williamsburg-VA-string-quartet.html	2026-10-21
 Venue	Evergreen Country Club		Haymarket	Virginia	Site blocks automated visits, unconfirmed	https://www.evergreencc.org/special-events	2026-10-26
-Venue	Gari Melchers Home and Studio at Belmont		Falmouth	Virginia	Site dead	https://www.garimelchers.org/rentals/53857-2/	2026-10-26
+Venue	Gari Melchers Home and Studio at Belmont		Falmouth	Virginia	Site back up	https://www.garimelchers.org/rentals/53857-2/	2026-10-26
 Venue	Massanutten Resort		Massanutten	Virginia	Site blocks automated visits, unconfirmed	https://www.massresort.com/groups/weddings/	2026-10-26
-Venue	Wyndham Virginia Beach Oceanfront		Virginia Beach	Virginia	Site dead	https://www.wyndhamhotels.com/wyndham/virginia-beach-virginia/wyndham-virginia-beach-oceanfront/meetings-events/weddings	2026-10-26
-Venue	Cedar Hall Farms		Virginia Beach	Virginia	Site dead	https://www.herecomestheguide.com/wedding-venues/virginia/cedar-hall-farms	2026-10-26
+Venue	Wyndham Virginia Beach Oceanfront		Virginia Beach	Virginia	Site back up	https://www.wyndhamhotels.com/wyndham/virginia-beach-virginia/wyndham-virginia-beach-oceanfront/meetings-events/weddings	2026-10-26
+Venue	Cedar Hall Farms		Virginia Beach	Virginia	Site back up	https://www.herecomestheguide.com/wedding-venues/virginia/cedar-hall-farms	2026-10-26
 Venue	Norfolk Yacht & Country Club		Norfolk	Virginia	No wedding page	https://www.norfolkyacht.com/Events/Private_Events	2026-10-26
 Venue	Smithfield Station		Smithfield	Virginia	No wedding page	https://www.smithfieldstation.com/	2026-10-26
 Venue	The Inn at Onancock		Onancock	Virginia	No wedding page	https://innatonancock.com/	2026-10-26
@@ -163,7 +163,7 @@ Venue	Elkington Events		Eastville	Virginia	No wedding page	http://www.elkingtone
 Venue	Eastern Shore Yacht & Country Club		Melfa	Virginia	Site dead	http://www.esycc.com/home.html	2026-10-26
 Venue	The Spot 757		Poquoson	Virginia	No wedding page	https://www.thespot757.com/	2026-10-26
 Venue	Mattaponi Springs		Ruther Glen	Virginia	No wedding page	https://mattaponisprings.com/the-venue/	2026-10-26
-Venue	Virginia Museum of Contemporary Art		Virginia Beach	Virginia	Site dead	https://www.virginiamoca.org/event-spaces	2026-10-26
+Venue	Virginia Museum of Contemporary Art		Virginia Beach	Virginia	Site blocks automated visits, unconfirmed	https://www.virginiamoca.org/event-spaces	2026-10-26
 Venue	Harley's Haven		Windsor	Virginia	Social only	https://weddingmaps.com/venue/harleys-haven/	2026-10-26
 Venue	The John Marshall Ballrooms		Richmond	Virginia	No website	https://richmondweddings.com/vendors/john-marshall-ballrooms-richmond/	2026-10-26
 Venue	Wiseacre Estate		Norfolk	Virginia	Closed	https://www.herecomestheguide.com/wedding-venues/virginia/region/hampton-roads-norfolk-virginia-beach	2026-10-26
@@ -175,7 +175,7 @@ Venue	Inn at MeadowCroft		Swoope	Virginia	No website	https://www.theknot.com/mar
 Venue	The Granary at Valley Pike		Weyers Cave	Virginia	No website	https://www.theknot.com/marketplace/the-granary-weyers-cave-va-996875	2026-10-26
 Venue	Barn at Edgewood		Stanardsville	Virginia	No website	https://guide.rusticweddingchic.com/barn-edgewood	2026-10-26
 Venue	Mountain Lake Lodge		Pembroke	Virginia	No wedding page	https://www.mtnlakelodge.com/	2026-10-26
-Venue	Virginia Mountain Vineyards		Fincastle	Virginia	Site dead	https://www.visitroanokeva.com/listings/virginia-mountain-vineyards/7289/	2026-10-26
+Venue	Virginia Mountain Vineyards		Fincastle	Virginia	Site back up	https://www.visitroanokeva.com/listings/virginia-mountain-vineyards/7289/	2026-10-26
 Venue	Nesselrod on the New		Radford	Virginia	Site dead	https://www.nesselrodonthenew.com/	2026-10-26
 Venue	Apple Ridge Farm		Copper Hill	Virginia	Site dead	https://www.appleridgefarm.com/	2026-10-26
 Venue	Floyd Event Center and EcoVillage		Floyd	Virginia	No wedding page	https://floydeventcenter.com	2026-10-26
@@ -191,17 +191,17 @@ Venue	Carlyle House		Alexandria	Virginia	Inactive	https://www.novaparks.com/park
 Venue	Old Bust Head Brewing		Warrenton	Virginia	No wedding page	https://www.oldbusthead.com/brewery-events	2026-10-26
 Venue	Cedar Mountain Farm		Rapidan	Virginia	Inactive	https://cedarmountain.farm/weddings	2026-10-26
 Venue	The Refinery at 120		Culpeper	Virginia	No wedding page	https://therefineryva.com	2026-10-26
-Venue	Elk Run Vineyards		Mitchells	Virginia	Site dead	https://www.elkrunvineyards.com	2026-10-26
+Venue	Elk Run Vineyards		Mitchells	Virginia	Site blocks automated visits, unconfirmed	https://www.elkrunvineyards.com	2026-10-26
 Vendor	Paul Hairston Films	Videography		Virginia	No wedding page	https://paulhairstonfilms.com/	2026-10-28
 Vendor	JP Wedding Flowers	Florals	Haymarket	Virginia	No wedding page	https://jpweddingflowers.com/	2026-10-28
 Vendor	Rita's Roses	Florals	Bristow	Virginia	No wedding page	https://ritasroses.com/	2026-10-28
 Vendor	Willow Creek Event Planning	Planning		Virginia	No wedding page	https://willowcreekeventplanning.com/	2026-10-28
 Vendor	Joie Blake Beauty	Hair & Makeup	Ashburn	Virginia	No wedding page	https://www.joieblakebeauty.com/	2026-10-28
 Vendor	Emily Nicole Artistry	Hair & Makeup	Fairfax	Virginia	No wedding page	https://emilynicoleartistry.com/	2026-10-28
-Vendor	Fleur Beauty Studio	Hair & Makeup	Vienna	Virginia	Site dead	https://fleurbeautystudio.com/	2026-10-28
+Vendor	Fleur Beauty Studio	Hair & Makeup	Vienna	Virginia	Site back up	https://fleurbeautystudio.com/	2026-10-28
 Vendor	The Floral Godmother	Florals	Haymarket	Virginia	Site dead	https://thefloralgodmother.com/	2026-10-28
-Vendor	MGC Catering and Events	Catering	Manassas	Virginia	Site dead	https://mgccatering.com/	2026-10-28
-Vendor	Executive Chefs Catering	Catering	Chantilly	Virginia	Site dead	https://executivechefscatering.com/	2026-10-28
+Vendor	MGC Catering and Events	Catering	Manassas	Virginia	Site blocks automated visits, unconfirmed	https://mgccatering.com/	2026-10-28
+Vendor	Executive Chefs Catering	Catering	Chantilly	Virginia	Site blocks automated visits, unconfirmed	https://executivechefscatering.com/	2026-10-28
 Vendor	Santa Ana Photography	Photography	Aldie	Virginia	Site dead	https://santaanaphotography.com/	2026-10-28
 Vendor	Amp Studios	Hair & Makeup	Leesburg	Virginia	Inactive	https://ampstudios.us/services/bridal-services/	2026-10-28
 Vendor	Courtney Leigh Events	Planning	Virginia Beach	Virginia	Inactive	https://www.courtneyleighevents.com/	2026-10-28
@@ -209,7 +209,7 @@ Vendor	E.A.T Events	Planning	Virginia Beach	Virginia	Inactive	https://eateventsb
 Vendor	Events By Beckie	Planning	Virginia Beach	Virginia	Inactive	https://www.eventsbybeckie.com/	2026-10-28
 Vendor	Kara Leigh Creative	Photography	Roanoke	Virginia	Inactive	https://karaleighcreative.com/wedding-films/	2026-10-28
 Vendor	Michelle's Main Event	Planning	Winchester	Virginia	Inactive	https://www.michellesmainevent.com/	2026-10-28
-Vendor	Flowers & Things Roanoke	Florals	Roanoke	Virginia	Site dead	https://www.flowersthingsroanoke.com/	2026-10-28
+Vendor	Flowers & Things Roanoke	Florals	Roanoke	Virginia	Site back up	https://www.flowersthingsroanoke.com/	2026-10-28
 Vendor	It's Your Day	Planning	Harrisonburg	Virginia	Site dead	https://www.itsyourdayva.com/	2026-10-28
 Vendor	Cakes By Annette	Cake	Fredericksburg	Virginia	Inactive	https://cakesbyannette3276.wixsite.com/cakesbyannette	2026-10-28
 Vendor	The Day Coordinator	Planning	Richmond	Virginia	Inactive	https://www.thedaycoordinator.com/	2026-10-28
@@ -219,13 +219,13 @@ Vendor	Beauty Studio Inc	Hair & Makeup	Richmond	Virginia	Franchise	https://www.b
 Vendor	Charlottesville Strings (United Strings)	Music	Charlottesville	Virginia	Franchise	https://www.unitedstrings.us/charlottesvillestrings	2026-10-28
 Vendor	Richmond Strings (United Strings)	Music	Richmond	Virginia	Franchise	https://www.unitedstrings.us/richmondstrings	2026-10-28
 Vendor	Altamira Weddings	Photography	Richmond	Virginia	Site dead	https://altamiraweddings.co/	2026-10-28
-Vendor	Blue Ridge Entertainment	Music	Roanoke	Virginia	Site dead	http://www.blueridgeentertainment.net/	2026-10-28
-Vendor	Castle Drive Flowers	Florals	Haymarket	Virginia	Site dead	https://castledriveflowers.com/wedding-flowers/	2026-10-28
-Vendor	Colonial DJs	Music	Yorktown	Virginia	Site dead	https://colonialdjs.com/	2026-10-28
+Vendor	Blue Ridge Entertainment	Music	Roanoke	Virginia	Site back up	http://www.blueridgeentertainment.net/	2026-10-28
+Vendor	Castle Drive Flowers	Florals	Haymarket	Virginia	Site blocks automated visits, unconfirmed	https://castledriveflowers.com/wedding-flowers/	2026-10-28
+Vendor	Colonial DJs	Music	Yorktown	Virginia	Site back up	https://colonialdjs.com/	2026-10-28
 Vendor	Harvest Moon Catering	Catering	Charlottesville	Virginia	Site dead	https://www.hmcatering.com/weddings/	2026-10-28
 Vendor	Sweet-Treats Bakery	Cake	Fincastle	Virginia	Site dead	https://sweet-treatsbakery.com/	2026-10-28
-Venue	Colonial Williamsburg Weddings		Williamsburg	Virginia	Site dead	https://www.colonialwilliamsburg.org/gather/weddings/	2026-10-30
-Venue	Airlie		Warrenton	Virginia	Site dead	https://www.airlie.com/weddings	2026-10-30
+Venue	Colonial Williamsburg Weddings		Williamsburg	Virginia	Site blocks automated visits, unconfirmed	https://www.colonialwilliamsburg.org/gather/weddings/	2026-10-30
+Venue	Airlie		Warrenton	Virginia	Site blocks automated visits, unconfirmed	https://www.airlie.com/weddings	2026-10-30
 Venue	Virginia Horse Center		Lexington	Virginia	Site dead	https://www.virginiahorsecenter.com/	2026-10-30
 Venue	The Frenchmen		Staunton	Virginia	Site dead	https://thefrenchmen.com/	2026-10-30
 Venue	Nesselrod on the New		Radford	Virginia	Site dead	https://nesselrodonthenew.com/	2026-10-30
@@ -240,7 +240,7 @@ Venue	The Vault at Pickwick		Colonial Heights	Virginia	Site dead	https://wedding
 Venue	Chester Estates Inn & Events		Disputanta	Virginia	Site dead	https://www.theknot.com/marketplace/chester-estates-inn-and-events-disputanta-va-2079393	2026-10-30
 Venue	Hilton Norfolk The Main		Norfolk	Virginia	Franchise	https://www.themainnorfolk.com/	2026-10-30
 Venue	Chantilly National Golf & Country Club		Centreville	Virginia	Franchise	https://www.invitedclubs.com/clubs/chantilly-national-golf-and-country-club	2026-10-30
-Venue	Country Villa Weddings & Events		Virginia Beach	Virginia	Site dead	https://countryvilla.com/	2026-10-30
-Venue	Pete Dye River Course of Virginia Tech		Radford	Virginia	Site dead	https://petedyerivercourse.com/events	2026-10-30
-Venue	The Royal Courtyard at West Neck		Virginia Beach	Virginia	Site dead	https://royalcourtyard.com/	2026-10-30
-Venue	Virginia Beach National on the Green		Virginia Beach	Virginia	Site dead	https://vbnationalonthegreen.com/	2026-10-30
+Venue	Country Villa Weddings & Events		Virginia Beach	Virginia	Site back up	https://countryvilla.com/	2026-10-30
+Venue	Pete Dye River Course of Virginia Tech		Radford	Virginia	Site blocks automated visits, unconfirmed	https://petedyerivercourse.com/events	2026-10-30
+Venue	The Royal Courtyard at West Neck		Virginia Beach	Virginia	Site blocks automated visits, unconfirmed	https://royalcourtyard.com/	2026-10-30
+Venue	Virginia Beach National on the Green		Virginia Beach	Virginia	Site blocks automated visits, unconfirmed	https://vbnationalonthegreen.com/	2026-10-30

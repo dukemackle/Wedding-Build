@@ -1,21 +1,21 @@
 Kind	Name	Category	City	State	Reason	Link	Date
-Venue	Sky Lake Events		Grand Junction	Colorado	Site dead	https://skylake.wedding/	2026-10-08
-Venue	Colorado Wine Country Inn		Palisade	Colorado	Site dead	https://www.coloradowinecountryinn.com/	2026-10-08
-Venue	Mountain Lodge at Telluride		Telluride	Colorado	Site dead	https://mountainlodgeweddings.com/	2026-10-08
-Venue	Adobe Creek National Golf Course		Fruita	Colorado	Site dead	https://adobecreekgolf.com/	2026-10-08
-Vendor	Abby Shepard Photography	Photography	Boulder	Colorado	Site dead	https://abbyshepardphotography.com/	2026-10-09
-Vendor	Sharee Davenport	Videography	Louisville	Colorado	Site dead	https://shareedavenport.com/	2026-10-09
-Vendor	Sierra Sturt Photo & Video	Videography	Vail	Colorado	Site dead	https://www.sierrasturt.com/	2026-10-09
-Vendor	Stephanie Messick Photography	Photography	Colorado Springs	Colorado	Site dead	https://stephaniemessick.com/	2026-10-09
+Venue	Sky Lake Events		Grand Junction	Colorado	Site blocks automated visits, unconfirmed	https://skylake.wedding/	2026-10-08
+Venue	Colorado Wine Country Inn		Palisade	Colorado	Site back up	https://www.coloradowinecountryinn.com/	2026-10-08
+Venue	Mountain Lodge at Telluride		Telluride	Colorado	Site blocks automated visits, unconfirmed	https://mountainlodgeweddings.com/	2026-10-08
+Venue	Adobe Creek National Golf Course		Fruita	Colorado	Site back up	https://adobecreekgolf.com/	2026-10-08
+Vendor	Abby Shepard Photography	Photography	Boulder	Colorado	Site back up	https://abbyshepardphotography.com/	2026-10-09
+Vendor	Sharee Davenport	Videography	Louisville	Colorado	Site back up	https://shareedavenport.com/	2026-10-09
+Vendor	Sierra Sturt Photo & Video	Videography	Vail	Colorado	Site blocks automated visits, unconfirmed	https://www.sierrasturt.com/	2026-10-09
+Vendor	Stephanie Messick Photography	Photography	Colorado Springs	Colorado	Site back up	https://stephaniemessick.com/	2026-10-09
 Vendor	Kelly Leigh Cakes	Cake	Boulder	Colorado	Closed	https://www.kellyleighcakes.com/	2026-10-09
-Vendor	Wedding Videos Colorado	Videography	Estes Park	Colorado	Site dead	http://www.weddingvideoscolorado.com/	2026-10-09
+Vendor	Wedding Videos Colorado	Videography	Estes Park	Colorado	Site blocks automated visits, unconfirmed	http://www.weddingvideoscolorado.com/	2026-10-09
 Vendor	Redwood Weddings	Planning	Boulder	Colorado	Site dead	https://redwoodweddings.com/	2026-10-09
-Vendor	Memorable Moment Co	Planning	Boulder	Colorado	Site dead	https://memorablemomentco.com/	2026-10-09
+Vendor	Memorable Moment Co	Planning	Boulder	Colorado	Site blocks automated visits, unconfirmed	https://memorablemomentco.com/	2026-10-09
 Vendor	Azucar Bakery	Cake	Denver	Colorado	Closed	https://azucarbakery.com/	2026-10-09
 Vendor	Iced and Dazzle	Cake	Denver	Colorado	Closed	http://www.icedanddazzle.com/	2026-10-09
 Vendor	Whipped Bakery	Cake	Roxborough	Colorado	Closed	https://www.whippedbakerycolorado.com/	2026-10-09
-Vendor	KAE | Weddings	Planning	Denver	Colorado	Site dead	https://kaeweddings.com/	2026-10-09
-Vendor	Peak Wedding Films	Videography	Denver	Colorado	Site dead	https://www.peakweddingfilms.com/	2026-10-09
+Vendor	KAE | Weddings	Planning	Denver	Colorado	Site back up	https://kaeweddings.com/	2026-10-09
+Vendor	Peak Wedding Films	Videography	Denver	Colorado	Site blocks automated visits, unconfirmed	https://www.peakweddingfilms.com/	2026-10-09
 Vendor	Sky Pond Photography and Video Productions	Photography	Estes Park	Colorado	No website	https://www.visitestespark.com/listings/sky-pond-photography-and-video-productions-inc/4647/	2026-10-09
 Vendor	Gotta Dance DJs	Music	Estes Park	Colorado	No website	https://gottadancedjs.com/	2026-10-09
 Vendor	Dates by Desarae	Planning	Aurora	Colorado	No website	https://www.weddingwire.com/biz/dates-by-desarae/6c5fe557d77fb7a6.html	2026-10-10
@@ -23,23 +23,23 @@ Vendor	The Cocktail Collective	Music	Denver	Colorado	No website	https://www.theb
 Vendor	Candid Studios	Videography	Denver	Colorado	Franchise	https://candidstudios.net	2026-10-10
 Vendor	Beauty Studio Inc	Hair & Makeup	Denver	Colorado	Franchise	https://www.beautystudioinc.com	2026-10-10
 Vendor	REFeyeANCE Makeup & Hair	Hair & Makeup	Denver	Colorado	Franchise	https://www.bestweddinghairandmakeup.com	2026-10-10
-Vendor	MileHighCook	Catering	Denver	Colorado	Site dead	https://milehighcook.com	2026-10-10
-Vendor	Heirloom Catering	Catering	Denver	Colorado	Site dead	https://heirloomcatering.com	2026-10-10
+Vendor	MileHighCook	Catering	Denver	Colorado	Site blocks automated visits, unconfirmed	https://milehighcook.com	2026-10-10
+Vendor	Heirloom Catering	Catering	Denver	Colorado	Site blocks automated visits, unconfirmed	https://heirloomcatering.com	2026-10-10
 Vendor	The Event Troupe	Planning	Estes Park	Colorado	Inactive	https://www.theeventtroupe.com/	2026-10-10
 Vendor	Alpenglo Media	Videography	Vail	Colorado	Inactive	https://www.alpenglomedia.com/	2026-10-10
-Vendor	Aspen & Ivy Events and Travel	Planning	Fort Collins	Colorado	Site dead	http://aspenivy.com/	2026-10-10
-Vendor	Kari Joy Photography	Photography	Colorado Springs	Colorado	Site dead	https://karijoyphotography.com/	2026-10-10
-Vendor	Kasitimbay Photography	Photography	Denver	Colorado	Site dead	https://www.kasitimbayphotography.com/	2026-10-10
-Vendor	Megan Joy Cakes	Cake	Vail	Colorado	Site dead	https://www.meganjoycakes.com/	2026-10-10
+Vendor	Aspen & Ivy Events and Travel	Planning	Fort Collins	Colorado	Site back up	http://aspenivy.com/	2026-10-10
+Vendor	Kari Joy Photography	Photography	Colorado Springs	Colorado	Site back up	https://karijoyphotography.com/	2026-10-10
+Vendor	Kasitimbay Photography	Photography	Denver	Colorado	Site back up	https://www.kasitimbayphotography.com/	2026-10-10
+Vendor	Megan Joy Cakes	Cake	Vail	Colorado	Site blocks automated visits, unconfirmed	https://www.meganjoycakes.com/	2026-10-10
 Vendor	The Makery Cake Co	Cake	Centennial	Colorado	Site dead	https://www.themakery.com	2026-10-10
 Vendor	Venture Peak Films	Videography	Denver	Colorado	Site dead	https://venturepeakfilms.com	2026-10-10
-Vendor	Francis Sylvest	Videography	Boulder	Colorado	Site dead	https://francissylvest.com/	2026-10-10
-Venue	Church Ranch Event Center		Westminster	Colorado	Site dead	https://churchrancheventcenter.com/events/weddings/	2026-10-10
-Venue	Hearth House Venue		Monument	Colorado	Site dead	https://hearthhousevenue.com/	2026-10-10
-Venue	The Pinery at the Hill		Colorado Springs	Colorado	Site dead	https://thepinery.com/	2026-10-10
-Venue	Wild Basin Lodge		Allenspark	Colorado	Site dead	https://www.wildbasinlodge.com	2026-10-10
+Vendor	Francis Sylvest	Videography	Boulder	Colorado	Site blocks automated visits, unconfirmed	https://francissylvest.com/	2026-10-10
+Venue	Church Ranch Event Center		Westminster	Colorado	Site blocks automated visits, unconfirmed	https://churchrancheventcenter.com/events/weddings/	2026-10-10
+Venue	Hearth House Venue		Monument	Colorado	Site blocks automated visits, unconfirmed	https://hearthhousevenue.com/	2026-10-10
+Venue	The Pinery at the Hill		Colorado Springs	Colorado	Site blocks automated visits, unconfirmed	https://thepinery.com/	2026-10-10
+Venue	Wild Basin Lodge		Allenspark	Colorado	Site blocks automated visits, unconfirmed	https://www.wildbasinlodge.com	2026-10-10
 Venue	Seven Keys Lodge		Estes Park	Colorado	Inactive	https://sevenkeyslodge.com	2026-10-10
-Venue	Cross Orchards Historic Site		Grand Junction	Colorado	Site dead	https://museumofwesternco.com/marryme	2026-10-10
+Venue	Cross Orchards Historic Site		Grand Junction	Colorado	Site blocks automated visits, unconfirmed	https://museumofwesternco.com/marryme	2026-10-10
 Venue	Black Diamond Lodge		Durango	Colorado	Site dead	https://www.blackdiamondlodge.com	2026-10-10
 Venue	Crestview Lodge		Granby	Colorado	Site dead	https://crestviewlodge.com	2026-10-10
 Venue	The Wedding House at Palisade		Palisade	Colorado	No website	https://wedding-spot.com/venue/5106/the-wedding-house-at-palisade	2026-10-10
@@ -48,31 +48,31 @@ Venue	Viceroy Snowmass		Snowmass Village	Colorado	Franchise	https://www.viceroyh
 Venue	Yellow Barn Farm		Longmont	Colorado	Site dead	https://www.weddingwire.com/biz/yellow-barn-farm/2c19d18640f905c7.html	2026-10-10
 Venue	The Boulder Farmhouse		Longmont	Colorado	Site dead	https://theboulderfarmhouse.com	2026-10-10
 Venue	Ellis Ranch Event Center		Loveland	Colorado	Site dead	https://www.facebook.com/EllisRanchWeddingPark/	2026-10-10
-Venue	Pastures of Plenty		Longmont	Colorado	Site dead	https://pasturesofplentyfarm.com	2026-10-10
+Venue	Pastures of Plenty		Longmont	Colorado	Site back up	https://pasturesofplentyfarm.com	2026-10-10
 Venue	Rockin' S Ranch		Johnstown	Colorado	Site dead	https://rockinsranch.com	2026-10-10
 Venue	The Covey		Fort Collins	Colorado	Site dead	https://thecoveybarn.com	2026-10-10
 Venue	Mount Vernon Canyon Club		Golden	Colorado	Site dead	https://www.mountvernoncanyonclub.com	2026-10-10
 Venue	Tex Ranch		Peyton	Colorado	No website	https://shareedavenport.com/wedding-tex-ranch-peyton-colorado-springs-photographer/	2026-10-10
 Vendor	Colorado Rose Cake Company	Cake	Loveland	Colorado	Closed	https://www.bbb.org/us/co/loveland/profile/wedding-cakes/colorado-rose-cake-company-0805-46107791	2026-10-10
-Vendor	You Need Pie!	Cake	Estes Park	Colorado	Site dead	https://youneedpie.com/wedding-catering-menu/	2026-10-10
-Vendor	Colorado Sound DJ	Music	Estes Park	Colorado	Site dead	https://www.coloradosounddj.com/	2026-10-10
-Vendor	David Wohl Music	Music	Boulder	Colorado	Site dead	https://www.davidwohlmusic.com/	2026-10-10
-Vendor	Colorado Event Collective	Planning	Estes Park	Colorado	Site dead	https://www.coloradoeventcollective.com	2026-10-10
-Vendor	Stage 1 Events	Music	Fort Collins	Colorado	Site dead	https://stageoneevents.com/	2026-10-10
+Vendor	You Need Pie!	Cake	Estes Park	Colorado	Site blocks automated visits, unconfirmed	https://youneedpie.com/wedding-catering-menu/	2026-10-10
+Vendor	Colorado Sound DJ	Music	Estes Park	Colorado	Site back up	https://www.coloradosounddj.com/	2026-10-10
+Vendor	David Wohl Music	Music	Boulder	Colorado	Site back up	https://www.davidwohlmusic.com/	2026-10-10
+Vendor	Colorado Event Collective	Planning	Estes Park	Colorado	Site blocks automated visits, unconfirmed	https://www.coloradoeventcollective.com	2026-10-10
+Vendor	Stage 1 Events	Music	Fort Collins	Colorado	Site back up	https://stageoneevents.com/	2026-10-10
 Vendor	Buffalo Film Co.	Videography	Denver	Colorado	Site dead	https://www.theknot.com/marketplace/buffalo-film-co-boulder-co-2030545	2026-10-10
 Vendor	Baker's Table	Cake	Aspen	Colorado	Inactive	https://www.bakerstable-aspen.com/	2026-10-10
 Vendor	Sweet Dream Cakery	Cake	Fort Collins	Colorado	Social only	https://sweetdreamcakery.com/	2026-10-10
-Venue	Heritage Lakewood			Colorado	Site dead	https://www.weddingsatlakewood.com/Venues/Heritage-Lakewood	2026-10-11
-Venue	Stone House (Lakewood)			Colorado	Site dead	https://www.weddingsatlakewood.com/Venues/Stone-House	2026-10-11
-Venue	Dickens Opera House			Colorado	Site dead	https://www.dickensoperahouse.com	2026-10-11
+Venue	Heritage Lakewood			Colorado	Site back up	https://www.weddingsatlakewood.com/Venues/Heritage-Lakewood	2026-10-11
+Venue	Stone House (Lakewood)			Colorado	Site back up	https://www.weddingsatlakewood.com/Venues/Stone-House	2026-10-11
+Venue	Dickens Opera House			Colorado	Site blocks automated visits, unconfirmed	https://www.dickensoperahouse.com	2026-10-11
 Venue	St Julien Hotel & Spa			Colorado	Site dead	https://www.stjulien.com/weddings	2026-10-11
-Venue	The Eddy Taproom & Hotel			Colorado	Site dead	https://www.theeddygolden.com/event-venue/weddings/	2026-10-11
+Venue	The Eddy Taproom & Hotel			Colorado	Site back up	https://www.theeddygolden.com/event-venue/weddings/	2026-10-11
 Venue	Evergreen Red Barn			Colorado	No website	https://wedding-spot.com/venue/3526/evergreen-red-barn	2026-10-11
 Venue	Roots (formerly Copper Leaf Gardens)			Colorado	No website	https://www.weddingwire.com/biz/roots/0cb21808756ded4f.html	2026-10-11
 Venue	Lionsgate Event Center			Colorado	No website	https://www.theknot.com/content/boulder-wedding-venues	2026-10-11
 Venue	Cliff House Lodge			Colorado	Site dead	https://www.cliffhouselodge.com	2026-10-11
-Venue	Juniper Lodge & Treehouses			Colorado	Site dead	https://stayatjuniper.com/gatherings/	2026-10-11
-Venue	Douglas County Events Center			Colorado	Site dead	https://eventscenter.douglas.co.us	2026-10-11
+Venue	Juniper Lodge & Treehouses			Colorado	Site back up	https://stayatjuniper.com/gatherings/	2026-10-11
+Venue	Douglas County Events Center			Colorado	Site back up	https://eventscenter.douglas.co.us	2026-10-11
 Venue	Brookside Weddings & Events			Colorado	Site dead	https://brooksideweddingsandevents.com/wedding-venue-near-golden-co	2026-10-11
 Venue	Stanley Marketplace			Colorado	Inactive	https://www.stanleymarketplace.com/	2026-10-11
 Venue	Columbine Country Club			Colorado	Inactive	https://www.columbinecc.com/	2026-10-11
@@ -84,15 +84,15 @@ Venue	Greeley Country Club			Colorado	No website	https://wedding-spot.com/venue/
 Venue	Prairie Star Event Center			Colorado	No website	https://www.prismnews.com/local/logan-co/prairie-star-event-center-spotlighted-as-chamber-member-of	2026-10-11
 Venue	The Lodge at Cathedral Pines			Colorado	No website	https://zola.com/wedding-vendors/wedding-venues/the-lodge-at-cathedral-pines	2026-10-11
 Venue	Colorado Springs Pioneers Museum			Colorado	No website	https://wedding-spot.com/venue/5967/colorado-springs-pioneers-museum	2026-10-11
-Venue	The Abbey Event Complex			Colorado	Site dead	https://theabbeyevents.com	2026-10-11
+Venue	The Abbey Event Complex			Colorado	Site blocks automated visits, unconfirmed	https://theabbeyevents.com	2026-10-11
 Vendor	Standing Room Only DJ	Music		Colorado	Inactive	https://srodj.com/	2026-10-11
 Venue	Balistreri Vineyards Event Center		Denver	Colorado	Site dead	https://balistreriwine.com/weddings/	2026-10-11
 Venue	Zenzen Gardens		Paonia	Colorado	Site dead	https://zenzengardens.com/weddings-bookings/	2026-10-11
-Venue	Gold Hill Inn		Boulder	Colorado	Site dead	https://www.goldhillinn.com/weddings-parties/	2026-10-11
+Venue	Gold Hill Inn		Boulder	Colorado	Site blocks automated visits, unconfirmed	https://www.goldhillinn.com/weddings-parties/	2026-10-11
 Venue	Wild Bear Tavern		Grand Lake	Colorado	Site dead	https://wildbeartavern.com/plan-an-event/	2026-10-11
 Venue	Garden of the Gods Resort and Club		Colorado Springs	Colorado	Site dead	https://www.gardenofthegodsresort.com/weddings/	2026-10-11
-Venue	Cave of the Winds Mountain Park		Manitou Springs	Colorado	Site dead	https://caveofthewinds.com/host-an-event/	2026-10-11
-Venue	Secret Window		Monument	Colorado	Site dead	https://secretwindowevents.com/	2026-10-14
+Venue	Cave of the Winds Mountain Park		Manitou Springs	Colorado	Site blocks automated visits, unconfirmed	https://caveofthewinds.com/host-an-event/	2026-10-11
+Venue	Secret Window		Monument	Colorado	Site blocks automated visits, unconfirmed	https://secretwindowevents.com/	2026-10-14
 Venue	Brookside Weddings and Events		Berthoud	Colorado	Site dead	https://www.brooksideweddingsandevents.com	2026-10-14
 Venue	Ellis Ranch		Windsor	Colorado	Site dead	https://www.ellisranch.com	2026-10-14
 Venue	Planet Bluegrass Ranch		Lyons	Colorado	No wedding page	https://planetbluegrass.com	2026-10-14
@@ -110,7 +110,7 @@ Venue	Omni Interlocken		Broomfield	Colorado	Franchise	https://www.omnihotels.com
 Venue	Cheyenne Mountain Resort		Colorado Springs	Colorado	Franchise	https://www.hyatt.com/destination-by-hyatt/en-US/cosdh-cheyenne-mountain-resort	2026-10-14
 Vendor	Colorado Rose Cake Company	Cake	Berthoud	Colorado	Closed	https://www.coloradorosecakeco.com	2026-10-14
 Vendor	Cinnamon's Bakery	Cake	Estes Park	Colorado	No wedding page	https://www.cinnamonsestespark.com	2026-10-14
-Venue	Riverview Golf Course		Sterling	Colorado	Site dead	http://golfsterling.com/index.htm	2026-10-17
+Venue	Riverview Golf Course		Sterling	Colorado	Site blocks automated visits, unconfirmed	http://golfsterling.com/index.htm	2026-10-17
 Venue	Knights of Columbus Hall		Sterling	Colorado	No website	https://www.exploresterling.com/activity/knights-of-columbus-hall/	2026-10-17
 Venue	Ramada Sterling		Sterling	Colorado	Franchise	https://www.ivvy.com/venue/sterling--colorado/ramada-sterling.html	2026-10-17
 Venue	Riverview Event Center		Brush	Colorado	No website	https://weddingwire.com/biz/riverview-event-center/1a25606953941be1.html	2026-10-17
@@ -120,7 +120,7 @@ Vendor	Fort Morgan Beach Sweets	Cake	Fort Morgan	Colorado	Social only	https://ww
 Vendor	Sugar Beet Treats	Cake	Fort Morgan	Colorado	Social only	https://www.facebook.com/p/Sugar-Beet-Treats-100063664743559/	2026-10-17
 Vendor	Lacee J Photography	Photography	Fort Morgan	Colorado	Social only	https://www.facebook.com/laceejphotography/	2026-10-17
 Vendor	Safeway Bakery	Cake	Estes Park	Colorado	Franchise	https://local.safeway.com/safeway/co/estes-park/451-e-wonderview-ave/bakery.html	2026-10-17
-Vendor	Adela Floral	Florals	Durango	Colorado	Site dead	https://adelafloral.com	2026-10-19
+Vendor	Adela Floral	Florals	Durango	Colorado	Site blocks automated visits, unconfirmed	https://adelafloral.com	2026-10-19
 Vendor	April's Garden	Florals	Durango	Colorado	Site dead	https://aprilsgarden.com	2026-10-19
 Vendor	Eivan's Photo & Video	Photography	Durango	Colorado	Franchise	https://www.eivans.com	2026-10-19
 Vendor	Matt Hughes Photo	Photography	Ouray	Colorado	Inactive	https://matthughesphoto.com	2026-10-19
@@ -139,19 +139,19 @@ Vendor	Wild & Whimsy Beauty Co	Hair & Makeup	Fort Collins	Colorado	No wedding pa
 Vendor	Flower Tribe	Florals	Fort Collins	Colorado	No wedding page	https://flowertribeco.com/	2026-10-19
 Vendor	Pyle Photography	Photography	Estes Park	Colorado	Site dead	https://www.pylephotography.com	2026-10-19
 Vendor	Ivory Events	Planning	Boulder	Colorado	Site dead	https://www.ivoryevents.com	2026-10-19
-Vendor	Wise Artistry	Hair & Makeup	Boulder	Colorado	Site dead	https://wiseartistry.com	2026-10-19
+Vendor	Wise Artistry	Hair & Makeup	Boulder	Colorado	Site back up	https://wiseartistry.com	2026-10-19
 Vendor	Golden Estate Entertainment	Music	Vail	Colorado	Site dead	https://goldenestateentertainment.com	2026-10-19
-Vendor	Front Range Catering Co.	Catering	Estes Park	Colorado	Site dead	https://frontrangecatering.com	2026-10-19
+Vendor	Front Range Catering Co.	Catering	Estes Park	Colorado	Site back up	https://frontrangecatering.com	2026-10-19
 Vendor	Shamane's Bakery + Cafe	Cake	Boulder	Colorado	No wedding page	https://shamanesbakery.com/	2026-10-19
-Vendor	Gelato & aMore	Catering	Fort Collins	Colorado	Site dead	https://gelatoandamore.com/	2026-10-19
-Vendor	Gretchen Troop Photography	Photography	Boulder	Colorado	Site dead	https://boulderweddingphoto.com/	2026-10-19
-Vendor	EllenCara Boulder	Florals	Boulder	Colorado	Site dead	https://ellencaraboulder.com/	2026-10-19
-Vendor	Ember Hairstream	Hair & Makeup	Boulder	Colorado	Site dead	https://emberhairstream.com/	2026-10-19
-Vendor	Glitter & Bliss Weddings	Planning	Vail	Colorado	Site dead	https://glitterandblissweddings.com/	2026-10-19
-Vendor	Ginger Moose Photography	Photography	Durango	Colorado	Site dead	https://gingermoosephotography.com/	2026-10-19
-Vendor	Aiko Aiko Sound	Music	Durango	Colorado	Site dead	https://www.aikoaikosound.com/	2026-10-19
-Vendor	Claire Codling Photography	Photography	Grand Junction	Colorado	Site dead	https://clairecodlingphotography.com/	2026-10-19
-Vendor	Wise Artistry	Hair & Makeup	Boulder	Colorado	Site dead	https://wiseartistry.com/	2026-10-20
+Vendor	Gelato & aMore	Catering	Fort Collins	Colorado	Site blocks automated visits, unconfirmed	https://gelatoandamore.com/	2026-10-19
+Vendor	Gretchen Troop Photography	Photography	Boulder	Colorado	Site blocks automated visits, unconfirmed	https://boulderweddingphoto.com/	2026-10-19
+Vendor	EllenCara Boulder	Florals	Boulder	Colorado	Site blocks automated visits, unconfirmed	https://ellencaraboulder.com/	2026-10-19
+Vendor	Ember Hairstream	Hair & Makeup	Boulder	Colorado	Site back up	https://emberhairstream.com/	2026-10-19
+Vendor	Glitter & Bliss Weddings	Planning	Vail	Colorado	Site blocks automated visits, unconfirmed	https://glitterandblissweddings.com/	2026-10-19
+Vendor	Ginger Moose Photography	Photography	Durango	Colorado	Site blocks automated visits, unconfirmed	https://gingermoosephotography.com/	2026-10-19
+Vendor	Aiko Aiko Sound	Music	Durango	Colorado	Site blocks automated visits, unconfirmed	https://www.aikoaikosound.com/	2026-10-19
+Vendor	Claire Codling Photography	Photography	Grand Junction	Colorado	Site blocks automated visits, unconfirmed	https://clairecodlingphotography.com/	2026-10-19
+Vendor	Wise Artistry	Hair & Makeup	Boulder	Colorado	Site back up	https://wiseartistry.com/	2026-10-20
 Vendor	Westrock	Music	Colorado Springs	Colorado	No website	https://gigsalad.com/westrock_colorado_springs	2026-10-20
 Vendor	Colorado Springs Wedding Videography	Videography	Colorado Springs	Colorado	Franchise	https://cosweddingvideography.com/	2026-10-20
 Vendor	Beauty Studio	Hair & Makeup	Colorado Springs	Colorado	Franchise	https://www.beautystudioinc.com/weddings-colorado-springs	2026-10-20
@@ -165,10 +165,10 @@ Vendor	Haley Skye Makeup	Hair & Makeup	Durango	Colorado	Social only	https://www.
 Vendor	Sierra Howard Mountain Vision Photography	Photography	Grand Junction	Colorado	Social only	https://www.instagram.com/mountainvisionphotography/	2026-10-20
 Vendor	Ace Premier Events	Music	Fort Collins	Colorado	Site dead	https://acepremierevents.com/	2026-10-20
 Vendor	Get Plattered	Catering	Fort Collins	Colorado	Site dead	https://getplattered.com/	2026-10-20
-Vendor	Serendipity Catering	Catering	Lakewood	Colorado	Site dead	https://serendipityfood.com/	2026-10-20
-Vendor	The Makery Cake Co.	Cake	Centennial	Colorado	Site dead	https://www.themakery.com/	2026-10-20
+Vendor	Serendipity Catering	Catering	Lakewood	Colorado	Site blocks automated visits, unconfirmed	https://serendipityfood.com/	2026-10-20
+Vendor	The Makery Cake Co.	Cake	Centennial	Colorado	Site blocks automated visits, unconfirmed	https://www.themakery.com/	2026-10-20
 Venue	Arvada Center		Arvada	Colorado	Inactive	https://arvadacenter.org/private-events-and-rentals	2026-10-20
-Venue	Crawford Hotel		Denver	Colorado	Site dead	https://www.crawfordhotel.com	2026-10-20
+Venue	Crawford Hotel		Denver	Colorado	Site blocks automated visits, unconfirmed	https://www.crawfordhotel.com	2026-10-20
 Venue	Stanley Marketplace		Aurora	Colorado	No wedding page	https://www.stanleymarketplace.com/book-an-event	2026-10-20
 Venue	Colorado Railroad Museum		Golden	Colorado	No wedding page	https://www.coloradorailroadmuseum.org/rentals/	2026-10-20
 Venue	Lionsgate Event Center		Lafayette	Colorado	No website	https://www.rockymountainbride.com/?p=286323	2026-10-20
@@ -185,63 +185,63 @@ Venue	The Orpheum (BV)		Buena Vista	Colorado	No website	https://www.weddingwire.
 Venue	The Loft Theater at BV		Buena Vista	Colorado	No website	https://wedding-spot.com/venue/10596/the-loft-theater-at-bv	2026-10-20
 Venue	Ute Pass Cultural Center		Woodland Park	Colorado	No website	https://woodlandpark.gov/518/History-of-the-UPCC	2026-10-20
 Venue	Glacier Club		Durango	Colorado	Site dead		2026-10-20
-Venue	Rhize Retreats		Colorado Springs	Colorado	Site dead	https://rhizeweddings.com	2026-10-20
-Venue	The Barn at Howard Creek Farm		Howard	Colorado	Site dead	https://howardcreekfarm.com/	2026-10-20
-Venue	Venetucci Farm		Colorado Springs	Colorado	Site dead	https://venetuccifarm.org	2026-10-20
+Venue	Rhize Retreats		Colorado Springs	Colorado	Site blocks automated visits, unconfirmed	https://rhizeweddings.com	2026-10-20
+Venue	The Barn at Howard Creek Farm		Howard	Colorado	Site blocks automated visits, unconfirmed	https://howardcreekfarm.com/	2026-10-20
+Venue	Venetucci Farm		Colorado Springs	Colorado	Site back up	https://venetuccifarm.org	2026-10-20
 Venue	Gorrono Ranch		Telluride	Colorado	No website	https://tellurideskiresort.com/weddings/	2026-10-20
 Venue	El Pueblo History Museum		Pueblo	Colorado	No website	https://www.historycolorado.org/plan-your-event-el-pueblo-history-museum	2026-10-20
 Venue	Monument Lake Resort		Weston	Colorado	No wedding page	https://themonumentlakeresort.com/	2026-10-20
 Venue	Main Street LIVE		Trinidad	Colorado	No wedding page	https://www.mainstreetlive.org/venue-rental	2026-10-20
 Venue	Tri Peak Theaters Event Center		Trinidad	Colorado	No wedding page	https://www.tripeaktheaters.com/eventcenter	2026-10-20
-Venue	Meadow Creek		Buena Vista	Colorado	Site dead	https://www.meadowcreekco.com	2026-10-20
+Venue	Meadow Creek		Buena Vista	Colorado	Site blocks automated visits, unconfirmed	https://www.meadowcreekco.com	2026-10-20
 Venue	100 Elk		Buena Vista	Colorado	No wedding page	https://100elk.org/events/	2026-10-20
 Venue	Coyote Hill Lodge		Pagosa Springs	Colorado	No wedding page	https://www.coyotehilllodge.com	2026-10-20
 Venue	Madeline Hotel		Telluride	Colorado	Site dead	https://www.madelinehotel.com/weddings	2026-10-20
 Venue	The Lariat		Buena Vista	Colorado	No wedding page	https://www.thelariatbv.com/private-events	2026-10-20
 Venue	Mountain Wedding Garden		Mt. Crested Butte	Colorado	Inactive	https://mountainweddinggarden.com/	2026-10-20
 Venue	Timber Ridge (Keystone Resort)		Keystone	Colorado	No wedding page	https://www.keystoneresort.com/explore-the-resort/during-your-stay/dining/timber-ridge-lodge.aspx	2026-10-20
-Venue	Silverthorne Pavilion		Silverthorne	Colorado	Site dead	https://www.silverthornepavilion.com/	2026-10-20
-Venue	The Lodge at Breckenridge		Breckenridge	Colorado	Site dead	https://www.thelodgeatbreckenridge.com	2026-10-20
-Venue	Vue Rooftop		Dillon	Colorado	Site dead	https://www.vuerooftop.com	2026-10-20
+Venue	Silverthorne Pavilion		Silverthorne	Colorado	Site blocks automated visits, unconfirmed	https://www.silverthornepavilion.com/	2026-10-20
+Venue	The Lodge at Breckenridge		Breckenridge	Colorado	Site back up	https://www.thelodgeatbreckenridge.com	2026-10-20
+Venue	Vue Rooftop		Dillon	Colorado	Site blocks automated visits, unconfirmed	https://www.vuerooftop.com	2026-10-20
 Venue	Frisco Historic Park		Frisco	Colorado	No wedding page	https://www.townoffrisco.com/things-to-do/frisco-historic-park-museum/historic-park-rentals/	2026-10-20
 Venue	Elk Mountain Lodge		Crested Butte	Colorado	No wedding page	https://www.elkmountainlodge.com	2026-10-20
 Venue	The Armstrong Hotel		Fort Collins	Colorado	No wedding page	https://www.thearmstronghotel.com	2026-10-20
 Venue	The Ranch at Steamboat		Steamboat Springs	Colorado	No wedding page	https://ranch-steamboat.com/	2026-10-20
-Venue	Silver Fox Lodge		Steamboat Springs	Colorado	Site dead	https://silverfoxlodgesteamboat.com/weddings/	2026-10-20
+Venue	Silver Fox Lodge		Steamboat Springs	Colorado	Site back up	https://silverfoxlodgesteamboat.com/weddings/	2026-10-20
 Venue	Chapungu Sculpture Park		Loveland	Colorado	Site shows no street number or wedding details	https://chapunguatcenterra.com/	2026-10-20
 Venue	Scarp Ridge Lodge and Sopris House		Crested Butte	Colorado	Site shows no street number or wedding details	https://elevenexperience.com/scarp-ridge-lodge-weddings/	2026-10-20
 Venue	Keystone Ranch		Keystone	Colorado	No wedding page	https://www.keystoneresort.com/explore-the-resort/during-your-stay/dining/keystone-ranch.aspx	2026-10-20
 Venue	Ski Tip Lodge		Keystone	Colorado	No wedding page	https://www.keystoneresort.com/explore-the-resort/during-your-stay/dining/ski-tip-lodge.aspx	2026-10-20
-Venue	The Mishawaka		Bellvue	Colorado	Site dead	https://www.themishawaka.com	2026-10-20
+Venue	The Mishawaka		Bellvue	Colorado	Site blocks automated visits, unconfirmed	https://www.themishawaka.com	2026-10-20
 Venue	Outside Inn Nature Hotel		Salida	Colorado	No website	https://www.outsideinn.co/weddings	2026-10-21
 Venue	Lionsgate Event Center		Lafayette	Colorado	No website	https://www.lionsgatecenter.com/	2026-10-21
 Venue	Sanctuary Golf Course		Sedalia	Colorado	No website	https://sanctuarygolfcourse.com/weddings-and-events-at-sanctuary/	2026-10-21
 Venue	Gallery 1874		Arvada	Colorado	Closed	https://www.yelp.com/biz/gallery-1874-arvada	2026-10-21
 Venue	Mason's Event Center		Greeley	Colorado	Site dead	https://masonseventcenter.com	2026-10-21
-Venue	Ellis Ranch Event Center		Loveland	Colorado	Site dead	https://lovelandweddingsite.com/event-center/	2026-10-21
+Venue	Ellis Ranch Event Center		Loveland	Colorado	Site blocks automated visits, unconfirmed	https://lovelandweddingsite.com/event-center/	2026-10-21
 Venue	Happy Heart Farm		Fort Collins	Colorado	Site dead	https://happyheartfarmcsa.com/venue/	2026-10-21
 Venue	Copper Leaf Gardens		Broomfield	Colorado	Social only	https://www.facebook.com/copperleafeventcenter/	2026-10-21
 Venue	Whisky Gulch Wedding and Event Center		Elizabeth	Colorado	No website		2026-10-21
 Venue	Almagre Venue		Colorado Springs	Colorado	Site dead		2026-10-21
-Venue	Beaver Run Resort		Breckenridge	Colorado	Site dead	https://beaverrun.com/meetings-events/weddings/	2026-10-21
+Venue	Beaver Run Resort		Breckenridge	Colorado	Site blocks automated visits, unconfirmed	https://beaverrun.com/meetings-events/weddings/	2026-10-21
 Venue	Garden of the Gods Resort and Club		Colorado Springs	Colorado	Site dead	https://www.gardenofthegodsresort.com/meetings/weddings/	2026-10-21
-Venue	The Fox Hill Club		Longmont	Colorado	Site dead	https://thefoxhillclub.com/weddings	2026-10-21
+Venue	The Fox Hill Club		Longmont	Colorado	Site blocks automated visits, unconfirmed	https://thefoxhillclub.com/weddings	2026-10-21
 Vendor	Italic Catering	Catering	Broomfield	Colorado	Site dead	https://www.zola.com/wedding-vendors/search/denver-co--wedding-catering	2026-10-23
 Vendor	The Cake Boutique	Cake	Eastlake	Colorado	Site dead	https://www.theknot.com/marketplace/the-cake-boutique-eastlake-co-2103360	2026-10-23
 Vendor	The Denver DJs	Music	Englewood	Colorado	Site dead	https://www.theknot.com/marketplace/the-denver-djs-denver-co-2049822	2026-10-23
-Vendor	Prisma Events	Planning	Denver	Colorado	Site dead	https://sarahroshan.com/meet-our-preferred-vendors-prisma-events/	2026-10-23
-Vendor	InVogue Events	Planning	Denver	Colorado	Site dead	http://invogueevents.com/	2026-10-23
+Vendor	Prisma Events	Planning	Denver	Colorado	Site back up	https://sarahroshan.com/meet-our-preferred-vendors-prisma-events/	2026-10-23
+Vendor	InVogue Events	Planning	Denver	Colorado	Site blocks automated visits, unconfirmed	http://invogueevents.com/	2026-10-23
 Vendor	Azucar Bakery	Cake	Denver	Colorado	Closed	https://azucarbakery.com/	2026-10-23
 Vendor	Born2Bake	Cake	Littleton	Colorado	Site dead	https://www.born2bakebakery.com/	2026-10-23
-Vendor	Designer Cakes & Confections	Cake	Denver	Colorado	Site dead	https://www.designercakesco.com/	2026-10-23
+Vendor	Designer Cakes & Confections	Cake	Denver	Colorado	Site blocks automated visits, unconfirmed	https://www.designercakesco.com/	2026-10-23
 Vendor	Cakeheads Bakery	Cake	Centennial	Colorado	Inactive	https://cakeheadsbakery.com/	2026-10-23
 Vendor	Made by Hand Cakes	Cake	Littleton	Colorado	Inactive	https://madebyhandcakes.com/	2026-10-23
-Vendor	Palmer Flowers	Florals	Fort Collins	Colorado	Site dead	https://www.palmerflowers.com/weddings-and-events	2026-10-23
-Vendor	Audra Rose Floral	Florals	Fort Collins	Colorado	Site dead	https://www.audrarosefloral.com	2026-10-23
-Vendor	Newberry Brothers	Florals	Denver	Colorado	Site dead	https://www.newberrybrothers.com/	2026-10-23
-Vendor	Calla Lane Florals	Florals	Denver	Colorado	Site dead	https://callalaneflorals.com/studio/wedding-flowers/	2026-10-23
+Vendor	Palmer Flowers	Florals	Fort Collins	Colorado	Site blocks automated visits, unconfirmed	https://www.palmerflowers.com/weddings-and-events	2026-10-23
+Vendor	Audra Rose Floral	Florals	Fort Collins	Colorado	Site blocks automated visits, unconfirmed	https://www.audrarosefloral.com	2026-10-23
+Vendor	Newberry Brothers	Florals	Denver	Colorado	Site blocks automated visits, unconfirmed	https://www.newberrybrothers.com/	2026-10-23
+Vendor	Calla Lane Florals	Florals	Denver	Colorado	Site blocks automated visits, unconfirmed	https://callalaneflorals.com/studio/wedding-flowers/	2026-10-23
 Vendor	Sounds Entertainment	Music	Denver	Colorado	Inactive	https://soundsentertainment.com/	2026-10-23
-Vendor	Too Much Fun DJ	Music	Fort Collins	Colorado	Site dead	https://toomuchfundj.com/	2026-10-23
+Vendor	Too Much Fun DJ	Music	Fort Collins	Colorado	Site blocks automated visits, unconfirmed	https://toomuchfundj.com/	2026-10-23
 Vendor	Embr Films	Videography	Denver	Colorado	Site dead	https://embrfilms.com/	2026-10-23
 Vendor	Premier Events	Planning	Fort Collins	Colorado	Site dead	http://www.apremierevent.com/	2026-10-23
 Vendor	Magic Emerald Entertainment	Music	Fort Collins	Colorado	Inactive	https://djammplified.wixsite.com/magic-emerald-entert	2026-10-23
@@ -251,68 +251,68 @@ Vendor	Cakes By Tiffanie	Cake	Fort Collins	Colorado	No website	https://m.wedding
 Vendor	Daddy Cakes Bakery	Cake	Fort Collins	Colorado	No website	https://square.site/book/NEEEAK4PHXSS6/daddy-cakes-bakery-fort-collins-co	2026-10-23
 Vendor	Cori's Cakes	Cake	Grand Junction	Colorado	Social only	https://www.facebook.com/coriscakesgj/	2026-10-23
 Vendor	Brewster's Blooms	Florals	Estes Park	Colorado	Site dead	https://brewstersblooms.com/	2026-10-23
-Vendor	High Desert Floral Design	Florals	Grand Junction	Colorado	Site dead	https://hd-floraldesign.com/	2026-10-23
+Vendor	High Desert Floral Design	Florals	Grand Junction	Colorado	Site back up	https://hd-floraldesign.com/	2026-10-23
 Vendor	Photonic Media	Videography	Grand Junction	Colorado	Site dead		2026-10-23
-Venue	The Ranch Country Club Clubhouse		Westminster	Colorado	Site dead	https://theranchcountryclubevents.com/weddings/	2026-10-27
-Venue	Parker Arts, Culture & Events Center		Parker	Colorado	Site dead	https://parkerarts.org/weddings/pace-wedding-venue/	2026-10-27
-Venue	Vermillion Hill		Longmont	Colorado	Site dead	https://www.vermillionhill.com	2026-10-27
-Venue	The Venue at Crooked Willow Farms		Larkspur	Colorado	Site dead	https://www.crookedwillowfarms.com	2026-10-27
+Venue	The Ranch Country Club Clubhouse		Westminster	Colorado	Site blocks automated visits, unconfirmed	https://theranchcountryclubevents.com/weddings/	2026-10-27
+Venue	Parker Arts, Culture & Events Center		Parker	Colorado	Site back up	https://parkerarts.org/weddings/pace-wedding-venue/	2026-10-27
+Venue	Vermillion Hill		Longmont	Colorado	Site blocks automated visits, unconfirmed	https://www.vermillionhill.com	2026-10-27
+Venue	The Venue at Crooked Willow Farms		Larkspur	Colorado	Site blocks automated visits, unconfirmed	https://www.crookedwillowfarms.com	2026-10-27
 Venue	Driftwind		Boulder	Colorado	Site dead	https://www.driftwindboulder.com	2026-10-27
 Venue	Historic Bromley Farm		Brighton	Colorado	Site dead	https://bromleyfarmevents.com/	2026-10-27
 Venue	Old Elm Farm		Boulder	Colorado	Inactive	https://www.oldelmfarm.com	2026-10-27
-Venue	Running Creek Manor		Elizabeth	Colorado	Site dead	https://www.runningcreekmanor.com	2026-10-27
+Venue	Running Creek Manor		Elizabeth	Colorado	Site blocks automated visits, unconfirmed	https://www.runningcreekmanor.com	2026-10-27
 Venue	Meadow Creek Lodge & Event Center		Pine	Colorado	No website		2026-10-27
-Venue	Twin Ponds		Grand Junction	Colorado	Site dead	https://www.twinpondsweddingvenue.com/	2026-10-27
+Venue	Twin Ponds		Grand Junction	Colorado	Site back up	https://www.twinpondsweddingvenue.com/	2026-10-27
 Venue	Wedding Canyon Venue		Fruita	Colorado	Site dead	https://weddingcanyonvenue.com/	2026-10-27
-Venue	The Oasis luxury event venue		Mack	Colorado	Site dead	https://theoasisluxuryeventvenue.com/	2026-10-27
-Venue	Waunita Hot Springs Ranch		Gunnison	Colorado	Site dead	http://www.waunita.com/weddings/	2026-10-27
+Venue	The Oasis luxury event venue		Mack	Colorado	Site blocks automated visits, unconfirmed	https://theoasisluxuryeventvenue.com/	2026-10-27
+Venue	Waunita Hot Springs Ranch		Gunnison	Colorado	Site back up	http://www.waunita.com/weddings/	2026-10-27
 Venue	Vega Lodge		Grand Mesa	Colorado	Site dead	https://vegalodge.com/weddings.html	2026-10-27
 Venue	Grand Mesa Lodge		Grand Mesa	Colorado	Site dead	https://thegrandmesalodge.com/weddings/	2026-10-27
-Venue	Double R Ranch		Mancos	Colorado	Site dead	https://www.doublerranch.info/	2026-10-27
-Venue	Donovan Pavilion		Vail	Colorado	Site dead	https://www.vail.gov/donovanpavilion/	2026-10-27
+Venue	Double R Ranch		Mancos	Colorado	Site blocks automated visits, unconfirmed	https://www.doublerranch.info/	2026-10-27
+Venue	Donovan Pavilion		Vail	Colorado	Site blocks automated visits, unconfirmed	https://www.vail.gov/donovanpavilion/	2026-10-27
 Venue	Vail Interfaith Chapel		Vail	Colorado	Site dead	https://vailchapel.com/wedding-events/	2026-10-27
 Venue	Sage View Ranch		Paonia	Colorado	No website	https://www.herecomestheguide.com/wedding-venues/colorado/sage-view-ranch	2026-10-27
 Venue	Lazy J Ranch		Wolcott	Colorado	No website	https://www.rockymountainbride.com/blog/host-a-grand-gathering-at-lazy-j-ranch/	2026-10-27
 Venue	Midnight Ranch		Clark	Colorado	Inactive	https://www.midnightranch.com	2026-10-27
-Venue	Wellington Manor		Wellington	Colorado	Site dead	https://www.wellingtonmanorevents.com/	2026-10-27
+Venue	Wellington Manor		Wellington	Colorado	Site back up	https://www.wellingtonmanorevents.com/	2026-10-27
 Venue	Glen Eyrie		Colorado Springs	Colorado	Closed	https://gleneyrie.org/meetings-and-events/	2026-10-27
-Venue	ViewHouse Colorado Springs		Colorado Springs	Colorado	Site dead	https://www.viewhouse.com/colorado-springs	2026-10-27
+Venue	ViewHouse Colorado Springs		Colorado Springs	Colorado	Site blocks automated visits, unconfirmed	https://www.viewhouse.com/colorado-springs	2026-10-27
 Venue	The Dixie at Hustle Workshop		Loveland	Colorado	No website	https://zola.com/wedding-vendors/wedding-venues/the-dixie-at-hustle-workshop	2026-10-27
 Venue	Malachite Ranch		Gardner	Colorado	No website	https://zola.com/wedding-vendors/wedding-venues/malachite-ranch	2026-10-27
 Venue	Just Us Sisters Event Center		Greeley	Colorado	Closed	https://www.juseventcenter.com/	2026-10-27
-Venue	Wheel Bar		Estes Park	Colorado	Site dead	https://www.thewheelbar.com	2026-10-27
-Venue	Venue 719		Colorado Springs	Colorado	Site dead	https://venue719.com/	2026-10-27
+Venue	Wheel Bar		Estes Park	Colorado	Site blocks automated visits, unconfirmed	https://www.thewheelbar.com	2026-10-27
+Venue	Venue 719		Colorado Springs	Colorado	Site blocks automated visits, unconfirmed	https://venue719.com/	2026-10-27
 Vendor	By The West	Videography	Denver	Colorado	Site dead	https://bythewest.co/	2026-10-29
 Vendor	Fabian Wedding Films	Videography	Denver	Colorado	Site dead	https://fabianweddingfilms.com/	2026-10-29
-Vendor	Adela Flora	Florals	Durango	Colorado	Site dead	https://adelaflora.com/	2026-10-29
-Vendor	Vail Djs	Music	Vail	Colorado	Site dead	https://vail-djs.com/vail-wedding-dj/	2026-10-29
+Vendor	Adela Flora	Florals	Durango	Colorado	Site blocks automated visits, unconfirmed	https://adelaflora.com/	2026-10-29
+Vendor	Vail Djs	Music	Vail	Colorado	Site blocks automated visits, unconfirmed	https://vail-djs.com/vail-wedding-dj/	2026-10-29
 Vendor	Zia Taqueria	Catering	Durango	Colorado	Site dead	https://ziataqueria.com/	2026-10-29
-Vendor	Chelsea Smith Imagery	Photography	Fort Collins	Colorado	Site dead	https://chelseasmithimagery.com/	2026-10-29
-Venue	Denver Athletic Club		Denver	Colorado	Site dead	https://www.denverathleticclub.cc/weddings	2026-10-29
-Venue	The Landing at Estes Park		Estes Park	Colorado	Site dead	https://www.thelandingatestespark.com	2026-10-29
+Vendor	Chelsea Smith Imagery	Photography	Fort Collins	Colorado	Site blocks automated visits, unconfirmed	https://chelseasmithimagery.com/	2026-10-29
+Venue	Denver Athletic Club		Denver	Colorado	Site blocks automated visits, unconfirmed	https://www.denverathleticclub.cc/weddings	2026-10-29
+Venue	The Landing at Estes Park		Estes Park	Colorado	Site blocks automated visits, unconfirmed	https://www.thelandingatestespark.com	2026-10-29
 Venue	The Elizabeth Hotel		Fort Collins	Colorado	Site dead	https://www.theelizabethhotel.com	2026-10-29
 Venue	Hummingbird Hill		Idaho Springs	Colorado	No website		2026-10-29
 Venue	Blackstone Rivers Ranch		Idaho Springs	Colorado	No website		2026-10-29
-Venue	Redstone Castle		Redstone	Colorado	Site dead	https://en.wikipedia.org/wiki/Redstone_Castle	2026-10-29
-Venue	Once Upon a Time Events		Kiowa	Colorado	Site dead	https://www.onceuponatimeevents.com	2026-10-29
+Venue	Redstone Castle		Redstone	Colorado	Site back up	https://en.wikipedia.org/wiki/Redstone_Castle	2026-10-29
+Venue	Once Upon a Time Events		Kiowa	Colorado	Site blocks automated visits, unconfirmed	https://www.onceuponatimeevents.com	2026-10-29
 Venue	Terrace on Main		Buena Vista	Colorado	No website	https://www.theknot.com/marketplace/terrace-on-main-buena-vista-co-2060249	2026-10-29
 Venue	Monument Vista Place		Grand Junction	Colorado	Site dead		2026-10-29
 Venue	White Willow Barn		Elbert	Colorado	Site dead	https://www.whitewillowbarnco.com/	2026-10-29
-Vendor	Sarah B's Bakery	Cake	Fort Collins	Colorado	Site dead	https://sarahbbakery.com/	2026-10-29
-Vendor	Summit Catering Co	Catering	Colorado Springs	Colorado	Site dead	https://www.summitcateringco.com	2026-10-29
-Vendor	Something Cute Co.	Cake	Cortez	Colorado	Site dead	https://somethingcuteco.com	2026-10-29
+Vendor	Sarah B's Bakery	Cake	Fort Collins	Colorado	Site blocks automated visits, unconfirmed	https://sarahbbakery.com/	2026-10-29
+Vendor	Summit Catering Co	Catering	Colorado Springs	Colorado	Site back up	https://www.summitcateringco.com	2026-10-29
+Vendor	Something Cute Co.	Cake	Cortez	Colorado	Site blocks automated visits, unconfirmed	https://somethingcuteco.com	2026-10-29
 Vendor	Odd Bird Baking Co.	Cake	Durango	Colorado	Inactive	https://www.oddbirdbaking.co/	2026-10-29
 Vendor	Backcountry Catering	Catering	Telluride	Colorado	Site dead	https://www.backcountrycatering.com/	2026-10-29
 Vendor	Mountain High Catering	Catering	Durango	Colorado	Inactive	https://www.mountainhighcatering.com/	2026-10-29
 Vendor	Blossom Design	Planning	Grand Junction	Colorado	Inactive	https://www.blossomdesigngj.com/	2026-10-29
 Vendor	Allure Beauty Bar	Hair & Makeup	Grand Junction	Colorado	Site dead	https://www.beautybarallure.com/weddings/	2026-10-29
-Vendor	La Bella Vita Spa and Salon	Hair & Makeup	Grand Junction	Colorado	Site dead	https://labellavitaspa.com/	2026-10-29
+Vendor	La Bella Vita Spa and Salon	Hair & Makeup	Grand Junction	Colorado	Site back up	https://labellavitaspa.com/	2026-10-29
 Vendor	Blue Linden Weddings & Events	Planning	Littleton	Colorado	Inactive	https://www.bluelindenweddings.com/	2026-10-29
-Vendor	Sweet Mustache	Cake	Eagle	Colorado	Site dead	https://dessertshopeagle.com/custom-cakes	2026-10-29
+Vendor	Sweet Mustache	Cake	Eagle	Colorado	Site blocks automated visits, unconfirmed	https://dessertshopeagle.com/custom-cakes	2026-10-29
 Venue	Old Firehouse		Ridgway	Colorado	No wedding page	https://www.theoldfirehouse.com	2026-10-31
 Venue	Wright Opera House		Ouray	Colorado	No website	https://www.ouraycolorado.com/directory/arts-culture/liveentertainment/375-the-wright-opera-house-inc	2026-10-31
 Venue	Dunton Hot Springs		Dolores	Colorado	Site dead	https://www.duntonhotsprings.com/weddings	2026-10-31
-Venue	Monument Vista Place		Fruita	Colorado	Site dead	https://www.monumentvistaplace.com	2026-10-31
+Venue	Monument Vista Place		Fruita	Colorado	Site blocks automated visits, unconfirmed	https://www.monumentvistaplace.com	2026-10-31
 Venue	Inn at SilverCreek		Granby	Colorado	No wedding page	https://www.innatsilvercreek.com	2026-10-31
 Venue	Hiwan Golf Club		Evergreen	Colorado	Site dead	https://www.hiwangolfclub.com	2026-10-31
 Venue	The Chateaux		Broomfield	Colorado	Site dead	https://chateauxweddings.com	2026-10-31
@@ -321,7 +321,7 @@ Venue	Taharaa Mountain Lodge		Estes Park	Colorado	No wedding page	https://tahara
 Venue	The Historic Crags Lodge		Estes Park	Colorado	No wedding page	https://cragslodge.com/	2026-10-31
 Venue	Flagstaff House		Boulder	Colorado	No wedding page	https://flagstaffhouse.com/	2026-10-31
 Venue	The Pinery Country Club		Parker	Colorado	No wedding page	https://arcisgolf.com/clubs/the_pinery_country_club/home	2026-10-31
-Venue	3 Cord Meadows		Colorado Springs	Colorado	Site dead	https://www.herecomestheguide.com/wedding-venues/colorado/3-cord-meadows	2026-10-31
+Venue	3 Cord Meadows		Colorado Springs	Colorado	Site back up	https://www.herecomestheguide.com/wedding-venues/colorado/3-cord-meadows	2026-10-31
 Venue	Pueblo Country Club		Pueblo	Colorado	No wedding page	https://www.pueblocountryclub.com/	2026-10-31
 Venue	Seven Falls		Colorado Springs	Colorado	No wedding page	https://www.sevenfalls.com/	2026-10-31
 Venue	Lone Tree Arts Center		Lone Tree	Colorado	No wedding page	https://www.lonetreeartscenter.org/rentals	2026-10-31
