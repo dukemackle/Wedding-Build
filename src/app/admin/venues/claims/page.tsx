@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ClaimedList, loadClaimed } from "@/app/admin/_listing/claimed-list";
 import { requireAdmin } from "@/lib/admin";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin-client";
 import type { Venue, VenueSubmission } from "@/lib/supabase/types";
@@ -19,6 +20,8 @@ export default async function AdminVenueClaimsPage() {
     ? await admin.from("venues").select("*").in("id", venueIds).returns<Venue[]>()
     : { data: [] as Venue[] };
   const venueById = new Map((venues ?? []).map((v) => [v.id, v]));
+
+  const claimed = await loadClaimed(admin, "venue");
 
   return (
     <div>
@@ -42,6 +45,7 @@ export default async function AdminVenueClaimsPage() {
           })}
         </div>
       )}
+      <ClaimedList kind="venue" rows={claimed} />
     </div>
   );
 }
