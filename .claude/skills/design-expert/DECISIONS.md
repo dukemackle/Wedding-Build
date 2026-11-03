@@ -11,6 +11,13 @@ They're summarised here only by reference; CLAUDE.md is the source.
 
 ## Approved directions
 
+- **2026-11-03:** Save the Date Studio approved as prototyped: one SVG card
+  renderer for editor, thumbnails, guest reveal and PNG/PDF export; templates
+  as layer data with colour and font roles; Simple/Advanced editor; envelope
+  reveal. Three directions approved (Editorial, Heirloom Garden, Midnight
+  Arch); owner said build the next batch. Plan and 24-template lineup:
+  `docs/save-the-date-studio.md`.
+
 - **2026-10-29:** Venue layout has one header, not a page header plus a
   second titled card: name, status line, seated ring and Print in the top
   row, the editor's toolbar as a full-width second row of the same card

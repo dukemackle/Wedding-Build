@@ -230,6 +230,72 @@ Sandy's Bakery and Catering	Cake	2223 S Caraway Rd	Jonesboro	Arkansas	Jonesboro 
 MEGS	Hair & Makeup	415 Union St	Jonesboro	Arkansas		Jonesboro makeup artist with a Union Street studio, offering bridal makeup application tailored to the bride, plus makeup lessons.	megs.makeupandmore@gmail.com		https://meganlamb.glossgenius.com/	https://www.instagram.com/meg_lamb_/	175	per event
 `,
   },
+  {
+    name: "Jonesboro: florals, catering, photography, rentals, bridal and formalwear, cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Cooksey's Flower Shop	Florals	1006 Flowerland Dr	Jonesboro	Arkansas	Jonesboro and surrounding delivery area	Jonesboro florist that designs wedding bouquets and ceremony and reception flowers, with bridal consultations arranged by phone.		(870) 932-6973	https://www.jonesboroarflowershop.com/			
+Blossom Events & Florist (Jonesboro)	Florals	4701 Southwest Drive Suite C	Jonesboro	Arkansas	Jonesboro	Jonesboro florist making wedding party flowers such as bouquets, boutonnieres and hair accessories styled to each couple's theme.		(870) 227-1284	https://www.blossomfloristjonesboro.com/			
+Faught's Flowers and Gifts	Florals	2008 B Wilkins Avenue	Jonesboro	Arkansas	Jonesboro and nearby	Jonesboro flower shop designing bridal bouquets and reception flowers, with wedding consultations booked by phone.		870-935-3261	https://www.faughtsflowers.com/			
+Kaylan Crenshaw Photography	Photography		Batesville	Arkansas	Batesville, across Arkansas and beyond	Batesville photographer with over ten years of experience covering weddings, engagements and portraits, and travelling around Arkansas.	kaylan.crenshaw@gmail.com	870-219-7770	https://www.kaylancrenshawphotography.com/	https://www.instagram.com/kaylanalayawilson/		
+Kious Event Rentals	Rentals		Jonesboro	Arkansas	Northeast Arkansas and Southeast Missouri	Jonesboro hire company supplying tents, tables, chairs and linens for weddings, with delivery, setup and teardown included.	info@jonesboroparty.com		https://www.jonesboroparty.com/			
+Emma & Kait's	Bridal & Formalwear	2003 E Nettleton Ave	Jonesboro	Arkansas	Jonesboro	Family-run Jonesboro bridal and formal shop selling wedding dresses by appointment, with a separate prom and pageant store.		(870) 206-7648	https://emmaandkaits.com/	https://www.instagram.com/emmaandkaits/		
+Twisted Heifer Creations	Cake		Paragould	Arkansas	Paragould and Northeast Arkansas	Paragould home bakery making tiered wedding cakes and custom cookies, with two weeks notice needed for cakes.	twistedheifercreations@gmail.com	(870) 565-6690	https://www.twistedheifer.com/			
+Royal Design Flowers	Florals	1985 Kroger Drive Suite 5C	West Memphis	Arkansas	West Memphis, Marion, Proctor and nearby towns	West Memphis florist that designs wedding flowers alongside sympathy and everyday work, open since 2006 and in a shop since 2010.	docann06@gmail.com	(870) 735-2000	https://royalfloral.net/	https://www.instagram.com/royaldesignflowers/		
+Shady Grove Florist	Florals		West Memphis	Arkansas	West Memphis and surrounding area	Family-owned West Memphis florist, over 22 years in business, offering wedding, ceremony and reception flowers plus bouquets.		(870) 735-2676	https://www.westmemphisflowers.com/			
+`,
+  },
+  {
+    name: "Hot Springs: planning, catering, officiant",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Capturing My Event (CTM Images)	Planning		Hot Springs	Arkansas	Hot Springs and Central Arkansas	Hot Springs team offering full-service wedding planning, day-of coordination, and wedding photography and video across Central Arkansas.	kelly@ctmimages.com	501-625-3260	https://www.capturingmyevent.com/	https://www.instagram.com/capturingmyevent/		
+Hot Springs Catering Co	Catering		Hot Springs	Arkansas	Central Arkansas	Full-service caterer serving weddings and events from Hot Springs, with menu tastings available for a fee that is credited once booked.	dltalley1@live.com	501-519-5506	https://hotspringscatering.com/	https://www.instagram.com/hscateringco/		
+Get Hitched Hot Springs	Officiant		Hot Springs	Arkansas	Hot Springs and any venue in Garland County	Hot Springs officiant offering outdoor and chapel ceremonies and vow renewals at any venue in Garland County, including the courthouse.		501-620-3531	https://gethitchedhotsprings.com/	https://www.instagram.com/gethitchedhotsprings/	100	per event
+Stubby's BBQ	Catering	3024 Central Ave	Hot Springs	Arkansas	Hot Springs	Hot Springs barbecue restaurant with a dedicated wedding catering service and menu tastings for couples planning a reception.		501-624-1552	https://stubbys.com/			
+`,
+  },
+  {
+    name: "Fort Smith: florals, rentals, bridal and formalwear, photography",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Veronica's House of Flowers & Gifts	Florals	1722 Midland Blvd	Fort Smith	Arkansas	Fort Smith	Fort Smith florist offering bridal and attendant bouquets, ceremony and reception flowers, with consultations by appointment.		479-763-1232	https://www.vshouseofflowers.com/			
+Brandy's Flowers	Florals	1217 S Waldron Rd STE G	Fort Smith	Arkansas	Fort Smith, Van Buren, Fort Chaffee, Cedarville and nearby ZIP codes	Fort Smith florist providing wedding flowers and delivery across Fort Smith, Van Buren and nearby communities.	brandythat@cox.net	479-484-9500	https://brandysblossoms.com/			
+Tom's Florist	Florals	807 N 9th St	Van Buren	Arkansas	Van Buren	Van Buren florist offering wedding bouquets, ceremony and reception flowers, and custom designs arranged through a consultation.		479-262-2266	https://www.tomsflorist.net/			
+K.C. Treasures Event Rentals	Rentals		Fort Smith	Arkansas	Fort Smith and surrounding area	Fort Smith rental company supplying tents, tables, chairs and photo booths for weddings and private events in the area.	info@fortsmitheventrentals.com	479-469-0060	https://fortsmitheventrentals.com/			
+Tables Matter	Rentals	19 Daggett Rd	Greenwood	Arkansas	Fort Smith area, western Arkansas, eastern Oklahoma, Arkansas River Valley	Greenwood-based rental company hiring out tables, chairs and linens for weddings and events around Fort Smith since 2007.		479-597-0669	https://tablesmatter.com/			
+Always & Forever	Bridal & Formalwear	1200 S Waldron Rd Ste 133	Fort Smith	Arkansas	Fort Smith	Single-location Fort Smith bridal boutique selling wedding gowns from several designers, seen by appointment only.		479-646-1997	https://www.alwaysforeverbridal.com/	https://www.instagram.com/alwaysforeverbride/		
+Michelle Lynn Photography	Photography		Van Buren	Arkansas	Van Buren	Van Buren photographer covering weddings alongside family, senior and newborn sessions from a local studio.			https://michellelynnphotography.online/	https://www.instagram.com/michelle.lynn.photography/		
+`,
+  },
+  {
+    name: "Little Rock: catering, videography, florals, cake, rentals, stationery and invitations, bridal and formalwear",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Tasty Chef Catering	Catering		Little Rock	Arkansas	Little Rock, North Little Rock, Central Arkansas	Chef-led caterer serving weddings across Central Arkansas with four tiered menus, from drop-off buffets to high-end plated Southern dishes.	tastycheflr@gmail.com	(501) 352-4892	https://tastychefcatering.com/		20	per person
+Tony Baker Photography & Video	Videography		Little Rock	Arkansas	Little Rock and Central Arkansas	Little Rock photographer who also films weddings, offering ceremony-only coverage up to full-day films with a highlights edit.	tony@tonybakerphotography.com	501-804-4031	https://www.tonybakerphotography.com/video	https://www.instagram.com/tonybakerphotography/	500	package
+In The Moment Photography and Videography	Videography		Little Rock	Arkansas	Central Arkansas, Conway, Benton, Bryant	One-man Little Rock videographer and photographer filming weddings for couples in Central Arkansas, Conway, Benton and Bryant.	inthemomentvp@gmail.com	501.203.9997	https://www.inthemomentvp.com/home			
+Hodge Podge Etc Flowers & Gift Baskets	Florals	2101 Main Street	North Little Rock	Arkansas	North Little Rock and Little Rock	North Little Rock flower shop making custom-sized bridal bouquets and wedding arches, with ordering by phone or through its website.	hodgepodgerocks@gmail.com	(501) 372-6501	https://www.northlittlerockflowershop.com/wedding-flowers	https://www.instagram.com/hodgepodgerocks/		
+Fairy Tale Floral	Florals	3321 John F Kennedy Blvd Ste D	North Little Rock	Arkansas	North Little Rock and Little Rock	Neighbourhood florist offering custom-designed wedding packages with bouquets, ceremony decor, arches and entryways after a bridal consultation.	fairytalefloral@sbcglobal.net	(501) 753-8393	https://www.fairytaleflorals.net/wedding-flowers			
+Blue Cake Company	Cake		Little Rock	Arkansas	Little Rock	Family-run Little Rock bakery taking custom wedding and celebration cake requests through an online form, with three weeks' notice advised.	thebluecakecompany@gmail.com	501-868-7771	https://www.thebluecakecompany.com/			
+Chic Party Rentals	Rentals		Little Rock	Arkansas	Little Rock and Central Arkansas	Little Rock rental company hiring out tables, chairs, linens, backdrops and photo booths for weddings and parties across Central Arkansas.	contact@chicpartyrentalslr.com	(501) 485-0158	https://www.chicpartyrentalslr.com/	https://www.instagram.com/chic_party/		
+Party Time Rental and Events	Rentals	10720 N Rodney Parham Road, Suite 11D	Little Rock	Arkansas	Little Rock and Central Arkansas	Little Rock rental showroom supplying tents, tables, chairs, linens, dance floors and lighting for weddings, with a warehouse on West 12th Street.		(501) 224-3133	https://www.partytimerentalandevents.com/weddings/	https://www.instagram.com/partytimelittlerock/		
+The Social Type	Stationery & Invitations	5819 Kavanaugh Blvd	Little Rock	Arkansas	Little Rock and Arkansas	Paper shop in the Heights making custom wedding invitation suites, programmes and stationery since 2012.		(501) 661-9929	https://www.thesocialtypelr.com/	https://www.instagram.com/thesocialtypelr/		
+Pen & Ink Paperie	Stationery & Invitations		Little Rock	Arkansas	Central Arkansas	Little Rock design studio and print shop producing custom wedding invitations and stationery in-house.	info@penandinkpaperie.com	(501) 749-3079	https://penandinkpaperie.com/	https://www.instagram.com/penandinkpaperie_/		
+Unveiled Bridal Collection	Bridal & Formalwear	8201 Cantrell Road, Suite 130	Little Rock	Arkansas	Little Rock	Appointment-only bridal boutique in West Little Rock carrying designer gowns and formalwear.	unveiled@unveiledlittlerock.com		https://unveiledlittlerock.com/	https://www.instagram.com/unveiledlittlerock/		
+The Bridal Cottage	Bridal & Formalwear	3305 J.F.K. Blvd	North Little Rock	Arkansas	Central Arkansas	Female-led bridal boutique in North Little Rock's Park Hill district selling designer wedding dresses and offering wedding party tuxedos.		(501) 753-4138	https://www.bridalcottageonline.com/	https://www.instagram.com/the.bridal.cottage/		
+`,
+  },
+  {
+    name: "Northwest Arkansas: florals, planning, catering, rentals, bridal and formalwear, transportation, photo booth",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+The Flowerslinger	Florals	240 E Joyce Blvd, Suite 1	Fayetteville	Arkansas	Northwest Arkansas and beyond	Fayetteville floral design studio working by appointment on weddings and events, with an avant-garde style and national press recognition.	hello@theflowerslinger.com		https://theflowerslinger.com/	https://www.instagram.com/theflowerslinger/		
+Stardust Weddings & Events	Planning		Fayetteville	Arkansas	Northwest Arkansas	Queer-owned planner offering wedding planning, coordination and elopement help for couples across Northwest Arkansas.	jasmine@stardustweddingsnwa.com	(479) 601-6325	https://www.stardustweddingsnwa.com/	https://www.instagram.com/stardustweddingsnwa/		
+Event Group Catering	Catering	2418 N. Gregg Street, Suite 5	Fayetteville	Arkansas	Fayetteville, Springdale, Rogers, Bentonville, Bella Vista	Full-service Fayetteville caterer with sample wedding menus, customised options and experience with large receptions.		479.444.8626	https://eventgroupcatering.com/	https://www.instagram.com/eventgroupcatering/		
+Knife & Fork Caterers	Catering		Fayetteville	Arkansas	Northwest Arkansas and the River Valley	Private chef and catering team, founded 2012, serving weddings, wine dinners and heavy-appetiser receptions across Northwest Arkansas.	mark@knifeandforkcaterers.com	(479) 790-9463	https://knifeandforkcaterers.com/			
+Alchemy Event Rentals	Rentals	954 N. Second St	Rogers	Arkansas	Northwest Arkansas	Rogers rental studio hiring out lounge furniture, bars, backdrops, linens and tableware for weddings; showroom visits by appointment.	info@alchemy-event-rentals.com	479-877-7575	https://alchemy-event-rentals.com/	https://www.instagram.com/alchemy_event_rentals/		
+Somthin' Borrowed Event Rentals	Rentals		Rogers	Arkansas	Northwest Arkansas	Rogers rental company with an event stylist and decorator service, plus flowers, decor and wedding planning support.	Lisa@somthinborrowed.com		https://www.somthinborrowed.com/	https://www.instagram.com/somthinborrowedevents/		
+The Perfect Date NWA	Rentals		Fayetteville	Arkansas	Northwest Arkansas	Small Fayetteville rental business offering tables, chairs, ceremony pieces and event design for weddings and parties.		479-335-3051	https://www.theperfectdatenwa.com/			
+She Said Yes Bridal	Bridal & Formalwear	3301 S Market Street, Suite 100	Rogers	Arkansas	Northwest Arkansas	Appointment-based designer bridal boutique in Rogers offering wedding dresses and gown preservation.	info@shesaidyesbridal.com	479-631-2006	https://www.shesaidyesbridal.com/	https://www.instagram.com/shesaidyesbridal/		
+Tesori Bridal	Bridal & Formalwear	577 E. Millsap Road, Suite 3	Fayetteville	Arkansas	Northwest Arkansas	Designer bridal salon open since 2010, with a Fayetteville showroom and an off-the-rack store in Bentonville.	ciao@tesoribridal.com	(479) 966-4622	https://www.tesoribridal.com/	https://www.instagram.com/tesori_bridal/		
+`,
+  },
 ];
 
 export default batches;

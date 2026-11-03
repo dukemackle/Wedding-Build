@@ -37,9 +37,10 @@ export function ownMapStyle(attribution: string): StyleSpecification {
     glyphs: `${BASE}/assets/fonts/{fontstack}/{range}.pbf`,
     sprite: `${BASE}/assets/sprites/v4/light`,
     sources: {
-      // MapLibre shows the sources' credits; one source carries it so it isn't listed twice.
+      // MapLibre credits only the sources on screen, and past SPLIT_ZOOM that's
+      // just "us", so both carry it (identical credits are listed once).
       world: { type: "vector", url: `pmtiles://${BASE}/world.pmtiles`, attribution },
-      us: { type: "vector", url: `pmtiles://${BASE}/us.pmtiles` },
+      us: { type: "vector", url: `pmtiles://${BASE}/us.pmtiles`, attribution },
     },
     layers: [...from("world", 0, SPLIT_ZOOM), ...from("us", SPLIT_ZOOM, 24)],
   };

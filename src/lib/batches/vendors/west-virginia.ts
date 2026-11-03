@@ -222,6 +222,25 @@ David's Downtown	Catering	500 Bland Street	Bluefield	West Virginia	Within 125 mi
 Miranda Nicole Photo + Video	Photography		Wheeling	West Virginia	Ohio Valley, Wheeling, Martins Ferry, Pittsburgh and across West Virginia, Ohio and Pennsylvania	Wheeling photographer and videographer covering elopements through full-day weddings, with packages for both photo and video coverage.			https://www.mirandanicolephoto.com/Weddings/			
 `,
   },
+  {
+    name: "Morgantown: Photography, Videography, Florals, Transportation, Officiant, Photo Booth",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Kailee Kroll Photography	Photography		Clarksburg	West Virginia	North Central West Virginia, with travel	Journalist-trained photographer shooting weddings, elopements and micro-weddings from Clarksburg, with 35mm film available.			https://kaileekrollphotography.com/	https://www.instagram.com/kaileekrollphotography/		
+Brittany Anderson Photography	Photography		Clarksburg	West Virginia	Clarksburg, Morgantown, Parkersburg, Pittsburgh and beyond	Clarksburg photographer with a photojournalistic eye, covering full weddings and intimate ceremonies across West Virginia and Pittsburgh.	brittanyandersonphotography@gmail.com		https://brittanyandersonphotography.com/	https://www.instagram.com/brittanyandersonphoto/		
+The Celebration Experience	Photo Booth		Morgantown	West Virginia	North Central West Virginia, about 45 minutes included	Photo booth hire for weddings with a wedding-specific brand, instant sharing, custom overlays and online galleries all included in the price.	cheers@thecelebrationexperience.com	304-596-5995	http://thecelebrationexperience.com/	https://www.instagram.com/thecelebrationexperience/	245	package
+Classy Creations Florist and Crafts	Florals	217 Fairmont Ave	Fairmont	West Virginia	Fairmont	Fairmont flower shop making wedding bouquets, bridal party flowers and ceremony and reception arrangements.		304-534-8971	https://www.classycreationswv.com/wedding-flowers			
+Hitched WV	Officiant		Clarksburg	West Virginia	Clarksburg, Bridgeport, Fairmont, Morgantown and across West Virginia	Officiant and elopement planner in Clarksburg for courthouse, micro and intimate weddings, with simple fixed-price ceremony packages.	hello@hitchedwv.com	681-238-2535	https://hitchedwv.com/wedding-packages/	https://www.instagram.com/HitchedWV/	150	package
+`,
+  },
+  {
+    name: "Charleston: Photography, Music, Officiant, Transportation",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Erin Hurst Photography	Photography		Charleston	West Virginia	Charleston, Lewisburg and across West Virginia, with travel	Documentary-minded wedding and elopement photographer split between Charleston and Lewisburg, offering all-day packages or hourly cover for small days.	erinhurstphotography@gmail.com	304-417-3746	https://www.erinhurstphotography.com/	https://www.instagram.com/erinhurstphotography/	350	per hour
+Michael C. Sheridan, Wedding Officiant	Officiant		Lewisburg	West Virginia	Statewide across West Virginia	Registered officiant offering religious, secular, same-sex and elopement ceremonies, plus a quick sign-and-go option, welcoming every couple.	cessnamike@gmail.com	304-249-8485	https://wvweddingman.com/			
+Greenbrier Limo	Transportation	584 Airport Rd, Hangar 1	Lewisburg	West Virginia	Greenbrier Valley, regional airports and resorts	Chauffeured limo service from Lewisburg for weddings, airport transfers and group travel, with quotes given on request.	greenbrierlimo@gmail.com	304-647-4888	https://greenbrierlimo.com/	https://www.instagram.com/greenbrier.limo/		
+Wonderwall Events	Music		Spencer	West Virginia	West Virginia statewide, with pages for Huntington and Lewisburg	DJ duo with 360 and mirror photo booths, audio guestbooks and day-of coordination, run as one team for weddings across West Virginia.	info@wonderwallevents.com		https://www.wonderwallevents.com/	https://www.instagram.com/wonderwall.events.wv/		
+`,
+  },
 ];
 
 export default batches;

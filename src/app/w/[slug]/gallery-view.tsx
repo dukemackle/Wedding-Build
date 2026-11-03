@@ -46,6 +46,7 @@ function Spread({ photos, alt }: Props) {
         {photos.map((photo, i) => (
           <FramedPhoto
             key={photo.id}
+            galleryId={photo.id}
             src={photo.photo_url}
             alt={alt(i)}
             sizes="80vw"
@@ -68,6 +69,7 @@ function Spread({ photos, alt }: Props) {
           return (
             <FramedPhoto
               key={photo.id}
+              galleryId={photo.id}
               src={photo.photo_url}
               alt={alt(i)}
               sizes={lead ? "(min-width: 1024px) 40vw, 60vw" : "(min-width: 1024px) 20vw, 30vw"}
@@ -95,6 +97,7 @@ function Scrapbook({ photos, alt }: Props) {
       {photos.map((photo, i) => (
         <figure
           key={photo.id}
+          data-gallery-photo={photo.id}
           className={`relative bg-white p-2 pb-8 shadow-[0_6px_18px_rgba(40,40,30,0.18)] sm:p-3 sm:pb-12 ${TILTS[i % TILTS.length]} ${
             i === 0 ? "col-span-2 mx-auto w-4/5 sm:w-[340px]" : "sm:w-[240px]"
           }`}
@@ -129,6 +132,7 @@ function Masonry({ photos, alt }: Props) {
       {photos.map((photo, i) => (
         <Image
           key={photo.id}
+          data-gallery-photo={photo.id}
           src={photo.photo_url}
           unoptimized={isLibraryPhoto(photo.photo_url)}
           alt={alt(i)}
@@ -166,6 +170,7 @@ function Filmstrip({ photos, alt }: Props) {
         {photos.map((photo, i) => (
           <Image
             key={photo.id}
+            data-gallery-photo={photo.id}
             src={photo.photo_url}
             unoptimized={isLibraryPhoto(photo.photo_url)}
             alt={alt(i)}
@@ -209,6 +214,7 @@ function WashingLine({ photos, alt }: Props) {
           return (
             <figure
               key={photo.id}
+              data-gallery-photo={photo.id}
               style={{ marginTop: sag, width: `${86 / per}%`, marginInline: `${7 / per}%` }}
               className={`relative origin-top bg-white p-1.5 pb-7 shadow-[0_6px_16px_rgba(40,40,30,0.18)] sm:p-2 sm:pb-9 ${SWAY[(offset + i) % SWAY.length]}`}
             >

@@ -16,6 +16,8 @@ export const CANVAS_MODE = "wren:canvas-mode";
 export const CANVAS_PANEL = "wren:canvas-panel";
 /** Editor to frame: one of the floating bar's actions, from the phone editor's tool row. */
 export const CANVAS_ACTION = "wren:canvas-action";
+/** Frame to editor: a photo was added, replaced or removed on the page, so refresh what lists them. */
+export const PHOTOS_CHANGED = "wren:photos-changed";
 /** Frame to editor: undo or redo pressed while the frame had focus. */
 export const CANVAS_KEY = "wren:canvas-key";
 

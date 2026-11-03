@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useEffectEvent, useRef, useState, useTransition, type ReactNode } from "react";
 import {
   CONFETTI_MESSAGE,
@@ -41,6 +42,7 @@ import {
   CANVAS_COMMIT,
   CANVAS_FRAMES,
   CANVAS_KEY,
+  PHOTOS_CHANGED,
   CANVAS_MODE,
   CANVAS_PANEL,
   CANVAS_SELECT,
@@ -54,9 +56,12 @@ import { TemplatesTab } from "./templates-tab";
 import { templateById } from "@/lib/site-templates";
 import { BackgroundTab, FontsTab, PhotoColoursSection, TargetColourSection, type PickTarget } from "./look-panels";
 import { STALE_DESIGN } from "@/lib/site-designs";
+import { siteDesignSchema } from "@/lib/site-design-schema";
 import { BirdCheer } from "@/components/bird-cheer";
 import { PublicSitePanel, SiteSwitch, useGuestSite } from "../public-site-panel";
+import { DESIGNS_LIST_HREF, keepView, readView, rememberDesign } from "./resume";
 import { MotionTab, PageArtworkSection, PanelLabel, SceneSection, SectionsTab, StyleTab, type SectionInfo } from "./editor-tabs";
+import { actionFailed } from "@/lib/action-error";
 
 type Device = "desktop" | "phone";
 // Position opens from a picked element rather than the tab strip.
@@ -146,6 +151,7 @@ export function SiteEditor({
   contentKey,
   sectionInfo,
   hasPhoto,
+  hasGuests,
   names,
   weddingDate,
   photos,
@@ -168,6 +174,8 @@ export function SiteEditor({
   sectionInfo: Partial<Record<SectionKey, SectionInfo>>;
   /** Hero layouts only show with a banner photo; the Style tab says so. */
   hasPhoto: boolean;
+  /** Whether anyone has RSVP'd yes; until then the preview shows sample guests. */
+  hasGuests: boolean;
   names: [string, string];
   /** For the monogram's date line ("2027-06-12"). */
   weddingDate: string | null;
@@ -175,6 +183,7 @@ export function SiteEditor({
   photos: string[];
 }) {
   const site = useGuestSite(initialSlug);
+  const router = useRouter();
   const publicSlug = site.slug;
   const [design, setDesign] = useState(initialDraft);
   const [published, setPublished] = useState(initialPublished);
@@ -188,6 +197,8 @@ export function SiteEditor({
   const [previewing, setPreviewing] = useState(false);
   const [saveState, setSaveState] = useState<"idle" | "saving" | "error">("idle");
   const [error, setError] = useState<string | null>(null);
+  // Changes brought back from this device after a save that didn't land.
+  const [restored, setRestored] = useState(false);
   const [isPublishing, startPublish] = useTransition();
   // Counts publishes, to key the reveal sweep and the bird so each replays.
   const [launches, setLaunches] = useState(0);
@@ -248,6 +259,29 @@ export function SiteEditor({
     return () => query.removeEventListener("change", sync);
   }, []);
 
+  // Picks up where the couple left off: this design reopens from Guests ›
+  // Guest site, on the panel, section and preview they last had open.
+  const [viewRestored, setViewRestored] = useState(false);
+  const restoreView = useEffectEvent(() => {
+    rememberDesign(designId);
+    const view = readView<Tab, SectionKey>(designId);
+    setViewRestored(true);
+    if (!view) return;
+    const known = (t: unknown): t is Tab => TABS.some((x) => x.key === t);
+    // Position, Photo and Animate need something picked, so they reopen on the tab they came from.
+    const nextTab = known(view.tab) ? view.tab : known(view.lastTab) ? view.lastTab : null;
+    if (nextTab) setTab(nextTab);
+    if (view.section && sectionInfo[view.section]) setOpenSection(view.section);
+    if (view.device === "phone") setDevice("phone");
+  });
+  useEffect(() => {
+    const t = setTimeout(restoreView, 0);
+    return () => clearTimeout(t);
+  }, []);
+  useEffect(() => {
+    if (viewRestored) keepView<Tab, SectionKey>(designId, { tab, lastTab, section: openSection, device });
+  }, [viewRestored, designId, tab, lastTab, openSection, device]);
+
   // Fills what's left of the screen under the nav, like the Venues map:
   // the panel and the preview scroll, the page doesn't.
   useEffect(() => {
@@ -279,7 +313,11 @@ export function SiteEditor({
   const sendMode = useCallback((on: boolean) => {
     frameRef.current?.contentWindow?.postMessage({ type: CANVAS_MODE, on }, window.location.origin);
   }, []);
-  const onFrameReady = useEffectEvent(() => sendMode(editingOn));
+  const onFrameReady = useEffectEvent(() => {
+    sendMode(editingOn);
+    // A section reopened from last time shows in the preview once it has loaded.
+    if (openSection) frameRef.current?.contentWindow?.postMessage({ type: SHOW_SECTION_MESSAGE, section: openSection }, window.location.origin);
+  });
   useEffect(() => sendMode(editingOn), [editingOn, sendMode]);
 
   // Full screen shows the site as guests get it: editing off until Esc.
@@ -314,6 +352,28 @@ export function SiteEditor({
     return () => window.removeEventListener("message", onMessage);
   }, [sendDesign]);
 
+  // A change whose save never landed (offline, a crash, a reload mid-save) is
+  // kept on this device and brought back here, unless the design has been
+  // saved from elsewhere since, when the newer one wins.
+  const restoreBackup = useEffectEvent(() => {
+    const backup = readBackup(designId);
+    if (!backup) return;
+    if (backup.version !== version || sameDesign(backup.design, initialDraft)) return dropBackup(designId);
+    apply(backup.design);
+    setRestored(true);
+  });
+  useEffect(() => {
+    const t = setTimeout(restoreBackup, 0);
+    return () => clearTimeout(t);
+  }, []);
+
+  useEffect(() => {
+    if (saveState === "idle") return;
+    const warn = (e: BeforeUnloadEvent) => e.preventDefault();
+    window.addEventListener("beforeunload", warn);
+    return () => window.removeEventListener("beforeunload", warn);
+  }, [saveState]);
+
   const firstContentKey = useRef(contentKey);
   useEffect(() => {
     if (contentKey === firstContentKey.current) return;
@@ -332,6 +392,7 @@ export function SiteEditor({
     sendDesign(next);
     setError(null);
     setSaveState("saving");
+    keepBackup(designId, versionRef.current, next);
     clearTimeout(saveTimer.current);
     // The colour picker fires on every drag step; one save per pause is plenty.
     if (stale) {
@@ -342,7 +403,7 @@ export function SiteEditor({
     saveTimer.current = setTimeout(() => {
       saveChain.current = saveChain.current.then(async () => {
         const result = await storeDesign(designId, next, versionRef.current, false).catch(() => ({
-          error: "Couldn't save — check your connection.",
+          error: actionFailed("save"),
         }) as StoreResult);
         if (result.version) versionRef.current = result.version;
         if (result.stale) setStale(true);
@@ -351,12 +412,16 @@ export function SiteEditor({
           setError(result.error);
         } else {
           setSaveState("idle");
+          // A newer change still on its way keeps its copy, now from this version.
+          if (designRef.current === next) dropBackup(designId);
+          else keepBackup(designId, versionRef.current, designRef.current);
         }
       });
     }, 500);
   }
 
   function change(patch: Partial<SiteDesign>) {
+    setRestored(false);
     const now = Date.now();
     // A colour drag or a run of clicks within a moment is one step to undo.
     if (now - lastRecorded.current > 700) {
@@ -432,6 +497,8 @@ export function SiteEditor({
     if (parsed.success) changeCanvas(parsed.data);
   });
   const onCanvasPanel = useEffectEvent(() => openTab("position"));
+  // A photo changed on the page itself: the panel's photo lists catch up.
+  const onPhotosChanged = useEffectEvent(() => router.refresh());
 
   // A whole section clicked in the computer preview opens its row in
   // Sections, so what's on the page is where it's edited.
@@ -470,6 +537,7 @@ export function SiteEditor({
         else setFrames(event.data.frames as CanvasFrames);
       }
       if (event.data?.type === CANVAS_PANEL) onCanvasPanel();
+      if (event.data?.type === PHOTOS_CHANGED) onPhotosChanged();
       if (event.data?.type === CANVAS_KEY) {
         if (event.data.action === "undo") onUndo();
         else if (event.data.action === "redo") onRedo();
@@ -516,7 +584,7 @@ export function SiteEditor({
     startPublish(async () => {
       await saveChain.current;
       const result = await storeDesign(designId, design, versionRef.current, true).catch(() => ({
-        error: "Couldn't publish — check your connection.",
+        error: actionFailed("publish"),
       }) as StoreResult);
       if (result.version) versionRef.current = result.version;
       if (result.stale) setStale(true);
@@ -525,6 +593,7 @@ export function SiteEditor({
       } else {
         setError(null);
         setSaveState("idle");
+        if (designRef.current === design) dropBackup(designId);
         setPublished(design);
         setIsLive(true);
         // Publishing means guests can see it: a site that's off comes on too.
@@ -537,7 +606,9 @@ export function SiteEditor({
 
   const status = error
     ? error
-    : saveState === "saving"
+    : restored
+      ? "Brought back changes that hadn't saved"
+      : saveState === "saving"
       ? "Saving draft…"
       : !isLive
         ? "Guests see another design"
@@ -552,6 +623,11 @@ export function SiteEditor({
   // Guests' page when they'd see exactly this; otherwise the saved draft in
   // its own tab, which works with the site off too.
   const showsLive = Boolean(publicSlug) && !dirty;
+  // The preview fills empty sections with samples; the address bar says which.
+  const samplesNote = [!hasPhoto && "sample photos until you add yours", !hasGuests && "sample guests until people RSVP"]
+    .filter(Boolean)
+    .join(" · ");
+  const previewAddress = `${publicSlug ? `youdoido.com/w/${publicSlug}` : "Preview — your site is off"}${samplesNote ? ` · ${samplesNote}` : ""}`;
   const openHref = showsLive ? `${origin}/w/${publicSlug}` : `/guests/site/preview?design=${designId}&view=1`;
   const openLabel = showsLive ? "Open live site" : "Open preview";
 
@@ -806,7 +882,7 @@ export function SiteEditor({
         style={{ height: `max(480px, calc(100dvh - ${offset ?? 128}px))` }}
       >
         <header className="flex h-14 shrink-0 items-center gap-0.5 border-b border-hairline bg-card px-2">
-          <Link href="/guests/site" aria-label="Back to your designs" className={iconButton}>
+          <Link href={DESIGNS_LIST_HREF} aria-label="Back to your designs" className={iconButton}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
               <path d="M15 18l-6-6 6-6" />
             </svg>
@@ -918,7 +994,7 @@ export function SiteEditor({
             fill={device === "phone"}
             frameRef={frameRef}
             designId={designId}
-            address={`${publicSlug ? `youdoido.com/w/${publicSlug}` : "Preview — your site is off"}${hasPhoto ? "" : " · sample photos until you add yours"}`}
+            address={previewAddress}
             bottomInset={0}
           />
         </section>
@@ -1044,7 +1120,7 @@ export function SiteEditor({
             <div className="flex items-center gap-2.5 border-b border-hairline px-6 pb-4 pt-5">
               <div className="min-w-0">
                 <Link
-                  href="/guests/site"
+                  href={DESIGNS_LIST_HREF}
                   className="mb-2 inline-flex h-10 items-center gap-2 rounded-full bg-[#2243B6] px-4 text-[15px] font-semibold text-white hover:bg-[#2243B6]/90"
                 >
                   <span aria-hidden="true">←</span>
@@ -1152,7 +1228,7 @@ export function SiteEditor({
           fill={false}
           frameRef={frameRef}
             designId={designId}
-          address={`${publicSlug ? `youdoido.com/w/${publicSlug}` : "Preview — your site is off"}${hasPhoto ? "" : " · sample photos until you add yours"}`}
+          address={previewAddress}
           bottomInset={0}
         />
       </section>
@@ -1638,4 +1714,31 @@ function PhoneIcon() {
       <path d="M11 18h2" />
     </svg>
   );
+}
+
+/** The last unsaved design on this device, with the version it was edited from. */
+function keepBackup(designId: string, version: string | null, design: SiteDesign) {
+  try {
+    localStorage.setItem(`kept-design:${designId}`, JSON.stringify({ version, design }));
+  } catch {
+    // No storage: saving still works, there's just no copy if it fails.
+  }
+}
+
+function readBackup(designId: string): { version: string | null; design: SiteDesign } | null {
+  try {
+    const raw = JSON.parse(localStorage.getItem(`kept-design:${designId}`) ?? "null");
+    const design = siteDesignSchema.safeParse(raw?.design);
+    return design.success ? { version: raw.version ?? null, design: design.data } : null;
+  } catch {
+    return null;
+  }
+}
+
+function dropBackup(designId: string) {
+  try {
+    localStorage.removeItem(`kept-design:${designId}`);
+  } catch {
+    // Nothing to clear without storage.
+  }
 }

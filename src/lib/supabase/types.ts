@@ -109,6 +109,9 @@ export type PublicWedding = {
   site_locked: boolean;
   /** venue_photo_urls are the couple's own, not the venue's, so they aren't credited to it. */
   venue_photos_own: boolean;
+  /** Where a listed venue is, for the Venue section's map (null for an unlisted one). */
+  venue_latitude: number | null;
+  venue_longitude: number | null;
   gift_venmo: string | null;
   gift_paypal: string | null;
   gift_cashapp: string | null;
@@ -955,6 +958,15 @@ export type SiteDesignRow = {
   name: string;
   design: unknown;
   shared_wording: boolean;
+  created_at: string;
+  updated_at: string;
+};
+
+/** The couple's save-the-date card (0155); `doc` is a CardDoc, see src/lib/save-the-date. */
+export type SaveTheDateRow = {
+  id: string;
+  wedding_id: string;
+  doc: unknown;
   created_at: string;
   updated_at: string;
 };
