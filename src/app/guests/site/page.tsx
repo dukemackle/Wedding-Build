@@ -1,16 +1,28 @@
 import Link from "next/link";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import { PageShell } from "@/components/page-shell";
 import { applyTemplate, TEMPLATES } from "@/lib/site-templates";
 import { DesignsHome } from "./designs-home";
 import { loadSiteDesigns } from "./load-designs";
+import { LAST_DESIGN_COOKIE } from "./resume";
 
 /**
  * Guests › Guest site: the couple's designs, the live one marked, and
  * templates to start another from. Each design opens in the editor at
- * /guests/site/edit/[id].
+ * /guests/site/edit/[id]. Coming back here reopens the design last being
+ * edited on this device, unless "Your designs" (?designs) asked for the list.
  */
-export default async function GuestSiteDesignsPage() {
-  const site = await loadSiteDesigns();
+export default async function GuestSiteDesignsPage({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}) {
+  const [site, query, jar] = await Promise.all([loadSiteDesigns(), searchParams, cookies()]);
+  const last = jar.get(LAST_DESIGN_COOKIE)?.value;
+  if (!("designs" in query) && last && site.designs?.some((d) => d.id === last)) {
+    redirect(`/guests/site/edit/${encodeURIComponent(last)}`);
+  }
 
   if (!site.wedding) {
     return (

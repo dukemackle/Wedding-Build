@@ -57,6 +57,7 @@ import { STALE_DESIGN } from "@/lib/site-designs";
 import { siteDesignSchema } from "@/lib/site-design-schema";
 import { BirdCheer } from "@/components/bird-cheer";
 import { PublicSitePanel, SiteSwitch, useGuestSite } from "../public-site-panel";
+import { DESIGNS_LIST_HREF, keepView, readView, rememberDesign } from "./resume";
 import { MotionTab, PageArtworkSection, PanelLabel, SceneSection, SectionsTab, StyleTab, type SectionInfo } from "./editor-tabs";
 
 type Device = "desktop" | "phone";
@@ -254,6 +255,29 @@ export function SiteEditor({
     return () => query.removeEventListener("change", sync);
   }, []);
 
+  // Picks up where the couple left off: this design reopens from Guests ›
+  // Guest site, on the panel, section and preview they last had open.
+  const [viewRestored, setViewRestored] = useState(false);
+  const restoreView = useEffectEvent(() => {
+    rememberDesign(designId);
+    const view = readView<Tab, SectionKey>(designId);
+    setViewRestored(true);
+    if (!view) return;
+    const known = (t: unknown): t is Tab => TABS.some((x) => x.key === t);
+    // Position, Photo and Animate need something picked, so they reopen on the tab they came from.
+    const nextTab = known(view.tab) ? view.tab : known(view.lastTab) ? view.lastTab : null;
+    if (nextTab) setTab(nextTab);
+    if (view.section && sectionInfo[view.section]) setOpenSection(view.section);
+    if (view.device === "phone") setDevice("phone");
+  });
+  useEffect(() => {
+    const t = setTimeout(restoreView, 0);
+    return () => clearTimeout(t);
+  }, []);
+  useEffect(() => {
+    if (viewRestored) keepView<Tab, SectionKey>(designId, { tab, lastTab, section: openSection, device });
+  }, [viewRestored, designId, tab, lastTab, openSection, device]);
+
   // Fills what's left of the screen under the nav, like the Venues map:
   // the panel and the preview scroll, the page doesn't.
   useEffect(() => {
@@ -285,7 +309,11 @@ export function SiteEditor({
   const sendMode = useCallback((on: boolean) => {
     frameRef.current?.contentWindow?.postMessage({ type: CANVAS_MODE, on }, window.location.origin);
   }, []);
-  const onFrameReady = useEffectEvent(() => sendMode(editingOn));
+  const onFrameReady = useEffectEvent(() => {
+    sendMode(editingOn);
+    // A section reopened from last time shows in the preview once it has loaded.
+    if (openSection) frameRef.current?.contentWindow?.postMessage({ type: SHOW_SECTION_MESSAGE, section: openSection }, window.location.origin);
+  });
   useEffect(() => sendMode(editingOn), [editingOn, sendMode]);
 
   // Full screen shows the site as guests get it: editing off until Esc.
@@ -847,7 +875,7 @@ export function SiteEditor({
         style={{ height: `max(480px, calc(100dvh - ${offset ?? 128}px))` }}
       >
         <header className="flex h-14 shrink-0 items-center gap-0.5 border-b border-hairline bg-card px-2">
-          <Link href="/guests/site" aria-label="Back to your designs" className={iconButton}>
+          <Link href={DESIGNS_LIST_HREF} aria-label="Back to your designs" className={iconButton}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
               <path d="M15 18l-6-6 6-6" />
             </svg>
@@ -1085,7 +1113,7 @@ export function SiteEditor({
             <div className="flex items-center gap-2.5 border-b border-hairline px-6 pb-4 pt-5">
               <div className="min-w-0">
                 <Link
-                  href="/guests/site"
+                  href={DESIGNS_LIST_HREF}
                   className="mb-2 inline-flex h-10 items-center gap-2 rounded-full bg-[#2243B6] px-4 text-[15px] font-semibold text-white hover:bg-[#2243B6]/90"
                 >
                   <span aria-hidden="true">←</span>
