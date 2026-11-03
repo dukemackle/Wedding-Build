@@ -282,12 +282,16 @@ export function CardSvg({ doc, className, editable, selected, onSelect, onMove, 
       filter: layer.shadow ? `url(#lift-${uid})` : undefined,
     };
     if (layer.arc) {
-      // Along the top of a circle whose highest point is (x, y).
+      // Along the top of a circle whose highest point is (x, y), or, flipped,
+      // along the bottom of one whose lowest point is (x, y), still upright.
       const r = layer.arc;
       const id = `arc-${uid}-${layer.id}`;
+      const d = layer.arcFlip
+        ? `M${layer.x - r} ${layer.y - r}A${r} ${r} 0 0 0 ${layer.x + r} ${layer.y - r}`
+        : `M${layer.x - r} ${layer.y + r}A${r} ${r} 0 0 1 ${layer.x + r} ${layer.y + r}`;
       return (
         <g>
-          <path id={id} d={`M${layer.x - r} ${layer.y + r}A${r} ${r} 0 0 1 ${layer.x + r} ${layer.y + r}`} fill="none" />
+          <path id={id} d={d} fill="none" />
           <text {...common} data-arc="1" textAnchor="middle">
             <textPath href={`#${id}`} startOffset="50%">
               {lines.join(" ")}
@@ -318,6 +322,8 @@ export function CardSvg({ doc, className, editable, selected, onSelect, onMove, 
     const shape =
       layer.shape === "oval" ? (
         <ellipse cx={layer.x + layer.w / 2} cy={layer.y + layer.h / 2} rx={layer.w / 2} ry={layer.h / 2} />
+      ) : layer.shape === "waveBottom" ? (
+        <path d={waveEdge(layer.x, layer.y, layer.w, layer.h)} />
       ) : layer.shape === "arch" ? (
         <path d={`M${layer.x} ${layer.y + layer.h}V${layer.y + layer.w / 2}A${layer.w / 2} ${layer.w / 2} 0 0 1 ${layer.x + layer.w} ${layer.y + layer.w / 2}V${layer.y + layer.h}Z`} />
       ) : (
@@ -354,11 +360,14 @@ export function CardSvg({ doc, className, editable, selected, onSelect, onMove, 
       ) : null;
     }
     // Cover the frame, then slide so the focal point stays in view.
-    const scale = Math.max(layer.w / p.aspect, layer.h) * p.zoom;
+    const f = layer.focus;
+    const fx = Math.min(100, Math.max(0, p.fx + (f?.dx ?? 0)));
+    const fy = Math.min(100, Math.max(0, p.fy + (f?.dy ?? 0)));
+    const scale = Math.max(layer.w / p.aspect, layer.h) * p.zoom * (f?.zoom ?? 1);
     const iw = scale * p.aspect;
     const ih = scale;
-    const ix = layer.x - (iw - layer.w) * (p.fx / 100);
-    const iy = layer.y - (ih - layer.h) * (p.fy / 100);
+    const ix = layer.x - (iw - layer.w) * (fx / 100);
+    const iy = layer.y - (ih - layer.h) * (fy / 100);
     const s = layer.scrim;
     return (
       <g>
@@ -392,3 +401,18 @@ export function CardSvg({ doc, className, editable, selected, onSelect, onMove, 
 }
 
 export type { Palette };
+
+/** A frame whose bottom edge is a gentle wave, like the tide line. */
+export function waveEdge(x: number, y: number, w: number, h: number) {
+  const amp = h * 0.028;
+  const base = y + h - amp;
+  let d = `M${x} ${y}H${x + w}V${base}`;
+  const n = 3;
+  const seg = w / n;
+  for (let i = n; i > 0; i--) {
+    const x0 = x + i * seg;
+    d += `C${x0 - seg * 0.25} ${base + amp} ${x0 - seg * 0.25} ${base + amp} ${x0 - seg * 0.5} ${base}`;
+    d += `C${x0 - seg * 0.75} ${base - amp} ${x0 - seg * 0.75} ${base - amp} ${x0 - seg} ${base}`;
+  }
+  return d + "Z";
+}

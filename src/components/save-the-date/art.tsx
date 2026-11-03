@@ -70,6 +70,16 @@ function star5(x: number, y: number, r: number, key?: string | number) {
   return <polygon key={key} points={pts.join(" ")} fill="currentColor" />;
 }
 
+/** A five-point star in a given colour (for multi-colour drawings). */
+function star5Path(x: number, y: number, r: number, fill: string) {
+  const pts = Array.from({ length: 10 }, (_, i) => {
+    const a = (Math.PI / 5) * i - Math.PI / 2;
+    const rr = i % 2 ? r * 0.42 : r;
+    return `${Math.round((x + rr * Math.cos(a)) * 100) / 100},${Math.round((y + rr * Math.sin(a)) * 100) / 100}`;
+  });
+  return <polygon points={pts.join(" ")} fill={fill} />;
+}
+
 /** One majolica tile, 100 x 100: a round-petalled flower, leaves, and quarter-discs that become circles where tiles meet. */
 function tile(x: number, y: number, key: string, paper: string) {
   return (
@@ -627,6 +637,203 @@ export const ART: Record<string, ArtDef> = {
       );
     },
   },
+  filmStrip: {
+    kind: "vector",
+    label: "Film strip",
+    aspect: 1240 / 380,
+    draw: (w) => {
+      const s = w / 380;
+      const holes: ReactNode[] = [];
+      for (let y = 18; y < 1230; y += 38) {
+        holes.push(<rect key={`l${y}`} x={10} y={y} width={14} height={20} rx={3} />, <rect key={`r${y}`} x={356} y={y} width={14} height={20} rx={3} />);
+      }
+      return (
+        <g transform={`scale(${s})`}>
+          <rect width={380} height={1240} fill="currentColor" />
+          <g fill="#f4f1ea" opacity={0.92}>{holes}</g>
+        </g>
+      );
+    },
+  },
+  greaseCircle: {
+    kind: "vector",
+    label: "Grease-pencil circle",
+    aspect: 1.15,
+    draw: (w) => {
+      const h = w * 1.15;
+      // Drawn in one loose stroke that overshoots where it meets itself.
+      return (
+        <path
+          d={`M${w * 0.12} ${h * 0.3}C${w * 0.28} ${h * 0.02} ${w * 0.82} ${h * -0.02} ${w * 0.95} ${h * 0.38}C${w * 1.04} ${h * 0.72} ${w * 0.66} ${h * 1.02} ${w * 0.36} ${h * 0.96}C${w * 0.06} ${h * 0.9} ${w * -0.02} ${h * 0.52} ${w * 0.1} ${h * 0.26}C${w * 0.16} ${h * 0.14} ${w * 0.26} ${h * 0.08} ${w * 0.36} ${h * 0.05}`}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={w * 0.022}
+          strokeLinecap="round"
+          opacity={0.85}
+        />
+      );
+    },
+  },
+  tape: {
+    kind: "vector",
+    label: "Paper tape",
+    aspect: 0.3,
+    draw: (w) => {
+      const h = w * 0.3;
+      // Torn ends: a little zig-zag down each side.
+      const right = Array.from({ length: 7 }, (_, i) => `L${i % 2 ? w - 5 : w} ${Math.round((h * (i + 1)) / 7)}`).join("");
+      const left = Array.from({ length: 7 }, (_, i) => `L${i % 2 ? 5 : 0} ${Math.round(h - (h * (i + 1)) / 7)}`).join("");
+      return <path d={`M0 0H${w}${right}H0${left}Z`} fill="currentColor" opacity={0.72} />;
+    },
+  },
+  sunburstBadge: {
+    kind: "vector",
+    label: "Label badge",
+    aspect: 1,
+    draw: (w, pal) => {
+      const c = w / 2;
+      const pts = Array.from({ length: 96 }, (_, i) => {
+        const a = (Math.PI * 2 * i) / 96;
+        const r = i % 2 ? c * 0.93 : c;
+        return `${Math.round((c + r * Math.cos(a)) * 100) / 100},${Math.round((c + r * Math.sin(a)) * 100) / 100}`;
+      });
+      return (
+        <g>
+          <polygon points={pts.join(" ")} fill={pal.accent} />
+          <circle cx={c} cy={c} r={c * 0.89} fill={pal.onPhoto} />
+          <circle cx={c} cy={c} r={c * 0.84} fill="none" stroke={pal.ink} strokeWidth={3} />
+          <circle cx={c} cy={c} r={c * 0.66} fill="none" stroke={pal.ink} strokeWidth={1.2} opacity={0.6} />
+          {[-1, 1].map((side) => (
+            <g key={side}>{star5Path(c + side * c * 0.75, c, c * 0.035, pal.accent)}</g>
+          ))}
+        </g>
+      );
+    },
+  },
+  ribbonBanner: {
+    kind: "vector",
+    label: "Ribbon",
+    aspect: 0.11,
+    draw: (w, pal) => {
+      const h = w * 0.11;
+      const t = h * 0.18;
+      return (
+        <g>
+          {/* Tails behind, then the band. */}
+          <path d={`M0 ${t}H${w * 0.12}V${h}H0L${w * 0.04} ${(t + h) / 2}Z`} fill={pal.accent} />
+          <path d={`M${w} ${t}H${w * 0.88}V${h}H${w}L${w * 0.96} ${(t + h) / 2}Z`} fill={pal.accent} />
+          <path d={`M${w * 0.1} ${h}L${w * 0.12} ${h - t}H${w * 0.12}Z M${w * 0.9} ${h}L${w * 0.88} ${h - t}Z`} fill={pal.ink} opacity={0.5} />
+          <rect x={w * 0.1} y={0} width={w * 0.8} height={h - t} fill={pal.accent} />
+          <rect x={w * 0.1} y={h * 0.08} width={w * 0.8} height={1.5} fill={pal.onPhoto} opacity={0.6} />
+          <rect x={w * 0.1} y={h - t - h * 0.1} width={w * 0.8} height={1.5} fill={pal.onPhoto} opacity={0.6} />
+        </g>
+      );
+    },
+  },
+  gingham: {
+    kind: "vector",
+    label: "Gingham",
+    aspect: 1.4,
+    draw: (w) => {
+      const s = w / 1000;
+      const bands: ReactNode[] = [];
+      for (let i = 0; i < 1000; i += 70) bands.push(<rect key={`v${i}`} x={i} y={0} width={35} height={1400} />);
+      for (let j = 0; j < 1400; j += 70) bands.push(<rect key={`h${j}`} x={0} y={j} width={1000} height={35} />);
+      return (
+        <g transform={`scale(${s})`} fill="currentColor" opacity={0.2}>
+          {bands}
+        </g>
+      );
+    },
+  },
+  plaque: {
+    kind: "vector",
+    label: "Card",
+    aspect: 860 / 640,
+    draw: (w, pal) => {
+      const h = w * (860 / 640);
+      return (
+        <g>
+          <rect x={6} y={10} width={w} height={h} rx={10} fill="#000" opacity={0.08} />
+          <rect width={w} height={h} rx={10} fill={pal.onPhoto} />
+          <rect x={16} y={16} width={w - 32} height={h - 32} rx={6} fill="none" stroke={pal.accent} strokeWidth={1.6} strokeDasharray="2 7" strokeLinecap="round" />
+        </g>
+      );
+    },
+  },
+  ropeFrame: {
+    kind: "vector",
+    label: "Rope border",
+    aspect: 1300 / 900,
+    draw: (w) => {
+      const h = w * (1300 / 900);
+      const twists: ReactNode[] = [];
+      const step = 13;
+      // Short slanted strands, close together, read as twisted rope.
+      const side = (x0: number, y0: number, x1: number, y1: number, k: string) => {
+        const len = Math.hypot(x1 - x0, y1 - y0);
+        const angle = (Math.atan2(y1 - y0, x1 - x0) * 180) / Math.PI;
+        for (let d = 0; d <= len; d += step) {
+          const x = Math.round((x0 + ((x1 - x0) * d) / len) * 100) / 100;
+          const y = Math.round((y0 + ((y1 - y0) * d) / len) * 100) / 100;
+          twists.push(<ellipse key={`${k}${d}`} cx={x} cy={y} rx={9} ry={5} transform={`rotate(${Math.round(angle + 50)} ${x} ${y})`} />);
+        }
+      };
+      side(10, 10, w - 10, 10, "t");
+      side(w - 10, 10, w - 10, h - 10, "r");
+      side(w - 10, h - 10, 10, h - 10, "b");
+      side(10, h - 10, 10, 10, "l");
+      return (
+        <g fill="none" stroke="currentColor" strokeWidth={2.4}>
+          {twists}
+        </g>
+      );
+    },
+  },
+  brandBar: {
+    kind: "vector",
+    label: "Brand bar",
+    aspect: 0.08,
+    draw: (w) => <line x1={10} x2={w - 10} y1={w * 0.04} y2={w * 0.04} stroke="currentColor" strokeWidth={16} strokeLinecap="round" />,
+  },
+  deckle: {
+    kind: "vector",
+    label: "Deckled edge",
+    aspect: 1.4,
+    draw: (w) => {
+      const s = w / 1000;
+      // A fixed wobble (not random, so server and browser draw the same edge).
+      const jag = (i: number) => Math.round((Math.sin(i * 12.9898) * 43758.5453) % 1 * 7 * 100) / 100;
+      let edge = "M30 30";
+      let i = 0;
+      for (let x = 30; x <= 970; x += 14) edge += `L${x} ${30 + jag(i++)}`;
+      for (let y = 30; y <= 1370; y += 14) edge += `L${970 - jag(i++)} ${y}`;
+      for (let x = 970; x >= 30; x -= 14) edge += `L${x} ${1370 - jag(i++)}`;
+      for (let y = 1370; y >= 30; y -= 14) edge += `L${30 + jag(i++)} ${y}`;
+      edge += "Z";
+      return (
+        <g transform={`scale(${s})`}>
+          <path d={`M0 0H1000V1400H0Z${edge}`} fillRule="evenodd" fill="currentColor" opacity={0.09} />
+          <path d={edge} fill="none" stroke="currentColor" strokeWidth={1} opacity={0.18} />
+        </g>
+      );
+    },
+  },
+  flourish: {
+    kind: "vector",
+    label: "Flourish",
+    aspect: 0.16,
+    draw: (w) => {
+      const h = w * 0.16;
+      const c = w / 2;
+      return (
+        <g fill="none" stroke="currentColor" strokeLinecap="round">
+          <path d={`M10 ${h * 0.6}C${w * 0.2} ${h * 0.1} ${w * 0.32} ${h * 0.95} ${c} ${h * 0.5}C${w * 0.68} ${h * 0.05} ${w * 0.8} ${h * 0.9} ${w - 10} ${h * 0.4}`} strokeWidth={1.8} />
+          <path d={`M${c - 16} ${h * 0.5}C${c - 6} ${h * 0.1} ${c + 6} ${h * 0.1} ${c + 16} ${h * 0.5}C${c + 6} ${h * 0.9} ${c - 6} ${h * 0.9} ${c - 16} ${h * 0.5}Z`} strokeWidth={1.2} />
+        </g>
+      );
+    },
+  },
   peony: img("Peony", "peony-pink", 675),
   roses: img("White & pink roses", "roses-white-pink", 824),
   wildRoses: img("Wild roses", "wild-roses", 600),
@@ -640,4 +847,6 @@ export const ART: Record<string, ArtDef> = {
   mallow: img("Mallow", "mallow", 787),
   lilyValley: img("Lily of the valley", "lily-of-the-valley", 654),
   tulip: img("Tulip", "tulip-striped", 528),
+  cherries: img("Wild cherries", "wild-cherries", 773),
+  bayLaurel: img("Bay laurel", "bay-laurel", 668),
 };

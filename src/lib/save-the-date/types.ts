@@ -112,6 +112,8 @@ export type TextLayer = Base & {
   valign?: "top" | "middle" | "bottom";
   /** Set along an arch of this radius; y is the top of the arch. */
   arc?: number;
+  /** With arc: run along the bottom of the circle instead, upright; y is the bottom point. */
+  arcFlip?: boolean;
   /** "names" joins with this (default " & "). */
   joiner?: string;
   /** A soft shadow for type over photos. */
@@ -125,7 +127,12 @@ export type PhotoLayer = Base & {
   y: number;
   w: number;
   h: number;
-  shape: "rect" | "arch" | "oval";
+  shape: "rect" | "arch" | "oval" | "waveBottom";
+  /**
+   * This frame's own crop of the couple's photo, relative to theirs: shift the
+   * focal point (in %) and zoom further in. Lets one photo fill several frames.
+   */
+  focus?: { dx?: number; dy?: number; zoom?: number };
   /** With no photo, fill the frame and set the couple's initials in it (framed photos only). */
   emptyMonogram?: boolean;
   /** Darkening for type to sit on: which edges, 0-1. */

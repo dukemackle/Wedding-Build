@@ -1,6 +1,6 @@
 # Save the Date Studio — plan and prototype (2026-10-29)
 
-Status: **approved 2026-11-03; 17 of 24 templates built (batches 1–3).** Nothing is live: the only
+Status: **approved 2026-11-03; all 24 templates built (batches 1–4).** Nothing is live: the only
 route is `/save-the-date/prototype`, which returns 404 in production.
 
 ## What exists and is reused
@@ -32,7 +32,8 @@ route is `/save-the-date/prototype`, which returns 404 in production.
    layer); anything still too wide shrinks to its layer's width. Numeral layouts (Swiss) fall back
    to the written date when the couple has none (decorations tied to the numerals hide with
    them). Framed photo templates (Gallery, Peony Cameo) show the couple's initials until a photo
-   is added. QA sheets: `?view=gallery`, `gallery-long`,
+   is added. A photo frame can take its own crop of the couple's one photo (Contact Sheet uses
+   three). QA sheets: `?view=gallery`, `gallery-long`,
    `gallery-nophoto` on the prototype route.
 5. **No new dependencies.** Export draws to a canvas in the browser, and the PDF is written by hand
    (one image on one page). Nothing runs on the Worker, so the 10 ms CPU limit isn't touched.
@@ -57,16 +58,16 @@ Names shared with a guest-site template let one choice style both the card and t
 | --- | --- | --- |
 | Editorial luxury | **Editorial** ✅ full-bleed photo, oversized didone | **Gallery** ✅ photo in a wide mat, museum-label caption |
 | Romantic florals | **Heirloom Garden** ✅ antique botanicals, scalloped frame | **Peony Cameo** ✅ oval photo window crowned with flowers |
-| Full-bleed photo | **Golden Hour** ✅ script names across the photo | Contact Sheet: three photos in a strip, typed caption |
+| Full-bleed photo | **Golden Hour** ✅ script names across the photo | **Contact Sheet** ✅ three crops of one photo on a film strip, best one circled |
 | Modern minimalist | **Swiss** ✅ asymmetric grid, huge date numerals | **Whitespace** ✅ one centred line, tiny type, lots of air |
-| Rustic botanical | **Laurel Arch** ✅ laurel garland arch on kraft, date set like a sign | Pressed: a single sprig "taped" like a pressed flower |
+| Rustic botanical | **Laurel Arch** ✅ laurel garland arch on kraft, date set like a sign | **Pressed** ✅ a single bay-laurel sprig taped on, herbarium label |
 | Mediterranean | **Riviera Tile** ✅ painted majolica border with lemons | **Postcard** ✅ stamp, postmark carrying the date, airmail edge |
-| Vintage & retro | **Seventies** ✅ arched lettering, striped sun in rainbow bands | Hotel Label: deco luggage-label badge |
+| Vintage & retro | **Seventies** ✅ arched lettering, striped sun in rainbow bands | **Hotel Label** ✅ sunburst luggage-label badge, curved type, date on a ribbon |
 | Celestial & black tie | **Midnight Arch** ✅ gold line art, moonlit sea | **Deco Gala** ✅ Art Deco fan frame, gold foil |
-| Whimsical garden | **Wildflower Bow** ✅ corner meadow posies tied with a ribbon | Garden Party: gingham with scattered cherries and lemons |
-| Coastal & beach | **Tide** ✅ staggered script names, sun setting into hand-drawn waves | Shoreline: photo above a tide-line band, type below |
-| Western & ranch | **Homestead** ✅ wood-type poster | Brand: cattle-brand monogram, rope border, suede tones |
-| Classic traditional | **Engraved** ✅ formal wording, laurel crest monogram, notched frame | Calligraphy: formal script, deckled edge |
+| Whimsical garden | **Wildflower Bow** ✅ corner meadow posies tied with a ribbon | **Garden Party** ✅ gingham, lemons and cherries round a little card |
+| Coastal & beach | **Tide** ✅ staggered script names, sun setting into hand-drawn waves | **Shoreline** ✅ photo cut along a wave, details on sand below |
+| Western & ranch | **Homestead** ✅ wood-type poster | **Brand** ✅ initials as a bar brand, rope border, suede tones |
+| Classic traditional | **Engraved** ✅ formal wording, laurel crest monogram, notched frame | **Calligraphy** ✅ large formal script names, deckle-edged paper |
 
 ## UX
 
@@ -88,8 +89,8 @@ Names shared with a guest-site template let one choice style both the card and t
 
 1. **Prototypes (this branch):** three templates, the editor, export, the reveal. ← approval
    needed.
-2. **Library:** the remaining 21 templates in batches of 6–7, each batch previewed. A screenshot
-   QA script covers every template × long names × no photo × 375 px / 1440 px / export.
+2. **Library:** ✅ all 24 built and previewed in four batches, each checked with the sample
+   couple, long names / a written date / a long place, and no photo (`?view=gallery*`).
 3. **Real data:**
    - a `save_the_dates` table plus RLS, with autosave drafts;
    - names, date and place prefilled from `weddings`;
