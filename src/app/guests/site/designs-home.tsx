@@ -2,12 +2,13 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import type { SiteDesign } from "@/lib/site-design";
 import { MAX_DESIGNS } from "@/lib/site-designs";
 import { createDesign, deleteDesign, makeDesignLive, renameDesign, setSharedWording } from "./actions";
 import type { DesignSummary } from "./load-designs";
 import { SitePageThumb } from "./site-page-thumb";
+import { forgetDesign } from "./resume";
 
 type Starter = { id: string; name: string; blurb: string; design: SiteDesign };
 
@@ -32,6 +33,8 @@ export function DesignsHome({
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
   const [allTemplates, setAllTemplates] = useState(false);
+  // Back on the list, the list is where they left off.
+  useEffect(() => forgetDesign(), []);
   const full = designs.length >= MAX_DESIGNS;
   const live = designs.find((d) => d.live);
   // A first design opens on Classic, the starter template (owner, 2026-10-28).
