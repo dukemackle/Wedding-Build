@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import { MAX_MEAL_OPTIONS, asksMeal, mealChoices } from "@/lib/meal-options";
 import { Switch } from "./editor-tabs";
 import { saveRsvpQuestions } from "./rsvp-actions";
+import { actionFailed } from "@/lib/action-error";
 
 const FIELD =
   "min-w-0 flex-1 rounded-md border border-hairline bg-parchment px-3 py-2 text-sm text-ink outline-none focus:border-forest";
@@ -30,7 +31,7 @@ export function RsvpQuestions({ mealOptions, askDietary }: { mealOptions: string
   function save() {
     startTransition(async () => {
       const result = await saveRsvpQuestions({ askMeal, meals, askDietary: dietary }).catch(() => ({
-        error: "Couldn't save that — check your connection.",
+        error: actionFailed("save that"),
       }));
       setMessage(result.error ? { error: result.error } : { saved: true });
     });

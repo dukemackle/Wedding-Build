@@ -9,6 +9,7 @@ import { createDesign, deleteDesign, makeDesignLive, renameDesign, setSharedWord
 import type { DesignSummary } from "./load-designs";
 import { SitePageThumb } from "./site-page-thumb";
 import { forgetDesign } from "./resume";
+import { actionFailed } from "@/lib/action-error";
 
 type Starter = { id: string; name: string; blurb: string; design: SiteDesign };
 
@@ -166,7 +167,7 @@ function DesignCard({
   function run(action: () => Promise<{ error?: string; id?: string }>, after?: (id?: string) => void) {
     onError(null);
     start(async () => {
-      const result = await action().catch(() => ({ error: "Couldn't reach the server — check your connection." }) as { error?: string; id?: string });
+      const result = await action().catch(() => ({ error: actionFailed("reach the server") }) as { error?: string; id?: string });
       if (result.error) {
         onError(result.error);
         return;

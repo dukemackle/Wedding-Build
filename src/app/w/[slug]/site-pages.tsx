@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore, type MouseEvent, type ReactNode } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore, type MouseEvent, type ReactNode, type RefObject } from "react";
 import { SHOW_SECTION_MESSAGE, useSiteDesign, useTextEditing } from "@/components/guest-site-theme";
 import { blockIdOf, type SectionKey } from "@/lib/site-design";
 import { SectionLayout } from "./section-layout";
@@ -65,7 +65,9 @@ export function SitePages({
     return pages.find((p) => p.id === id) ?? pages.find((p) => p.keys.includes(id as SectionKey)) ?? pages[0];
   }, [hash, pages]);
   const contentRef = useRef<HTMLDivElement>(null);
+  const bodyRef = useRef<HTMLDivElement>(null);
   const moved = useRef(false);
+  const long = useRunsPastScreen(bodyRef, tabs);
 
   // Opening a section in the editor opens its tab in the preview.
   useEffect(() => {
@@ -103,20 +105,46 @@ export function SitePages({
     <>
       <SiteBar pages={pages} active={active.id} go={go} title={title} />
       <div ref={contentRef} tabIndex={-1} className="flex flex-1 flex-col outline-none">
-        {active.id === "home" && hero}
-        {active.keys.length > 0 && (
-          <div className={active.id === "home" ? "pt-8" : "pt-8 sm:pt-12"}>
-            <SectionLayout key={active.id} sections={sections} photos={photos} only={active.keys} />
-          </div>
-        )}
-        {pages.length > 1 && <PageLinks pages={pages} active={active.id} go={go} />}
+        <div ref={bodyRef}>
+          {active.id === "home" && hero}
+          {active.keys.length > 0 && (
+            <div className={active.id === "home" ? "pt-8" : "pt-8 sm:pt-12"}>
+              <SectionLayout key={active.id} sections={sections} photos={photos} only={active.keys} />
+            </div>
+          )}
+        </div>
+        {pages.length > 1 && long && <PageLinks pages={pages} active={active.id} go={go} />}
       </div>
     </>
   );
 }
 
 /**
- * Every tab again at the foot of the page, styled like the bar at the top,
+ * Whether the page's content ends below the first screen, i.e. the top bar
+ * has scrolled away by the time a guest reaches the end. On a short page
+ * (a venue with no photos, say) the bar is still in view, and the links
+ * repeated under it read as the menu shown twice.
+ */
+function useRunsPastScreen(ref: RefObject<HTMLElement | null>, on: boolean) {
+  const [long, setLong] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!on || !el) return;
+    const check = () => setLong(el.getBoundingClientRect().bottom + window.scrollY > window.innerHeight);
+    check();
+    const observer = new ResizeObserver(check);
+    observer.observe(el);
+    window.addEventListener("resize", check);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", check);
+    };
+  }, [ref, on]);
+  return long;
+}
+
+/**
+ * Every tab again at the foot of a long page, styled like the bar at the top,
  * so a guest who has read to the bottom can go anywhere without scrolling
  * back up. All of them show here (no "More"). Computer only: a phone has
  * the Menu button.
