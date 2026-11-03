@@ -731,6 +731,49 @@ Planning Forever	Planning		Blue Ridge	Georgia	Blue Ridge and North Georgia	Weddi
 Harvest Catering	Catering		Gainesville	Georgia	Gainesville and Lake Lanier	Gainesville caterer building custom menus to a couple's budget, with wedding testimonials on its site.	info@harvestcateringco.com		https://harvestcateringco.com	https://www.instagram.com/harvest_catering_ga/		
 `,
   },
+  {
+    name: "Augusta: florals",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Naaiya's Flowers	Florals	108 Macartan Street	Augusta	Georgia		Augusta florist offering ceremony flowers, personal flowers, corsages, boutonnieres and reception arrangements for weddings.		(706) 823-5954	https://www.naaiyas.com/			
+`,
+  },
+  {
+    name: "Macon: cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Amanda's Cakery	Cake		Macon	Georgia	Middle Georgia	Home-based Macon bakery making gluten-free cakes by appointment, with wedding cakes and delivery available.		(478) 227-4541	https://www.amandas-cakery.com/			
+`,
+  },
+  {
+    name: "Golden Isles: photography, planning, florals, catering, cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Alexa Smith Photography	Photography		St. Simons Island	Georgia	St. Simons Island, Sea Island, Jekyll Island	Wedding and engagement photographer covering St. Simons, Sea Island and Jekyll Island, with customisable collections and heirloom prints.			https://alexasmithphotography.com/			
+Purple Sage Catering	Catering	1188 Chapel Crossing Rd	Brunswick	Georgia	Saint Simons Island, Brunswick and the Golden Isles	Caterer in Brunswick serving wedding receptions and other events across St. Simons Island and the wider Golden Isles.		912-574-7003	https://www.purplesagecatering.com/			
+Cathy Huber Cakes	Cake		St. Simons Island	Georgia	Saint Simons Island	Wedding cake business on Saint Simons Island offering cake tastings and a client questionnaire for couples planning island weddings.	cathyhubercakes@yahoo.com	(912) 580-1025	https://www.cathyhubercakes.com/	https://www.instagram.com/cathyhubercakes/		
+`,
+  },
+  {
+    name: "Athens: planning, music, catering, cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Rever	Planning		Athens	Georgia	Athens, Atlanta, Highlands NC, Charleston, Savannah and destinations	Athens wedding planning studio offering coordination, design and full-service packages for couples across the Southeast.	reverweds@gmail.com		https://reverweds.com/	https://www.instagram.com/reverweds/		
+`,
+  },
+  {
+    name: "Atlanta: planning, florals, catering, hair & makeup, cake, officiant",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Pearl's Catering	Catering		Atlanta	Georgia	Atlanta	Full-service Atlanta caterer working one-to-one with couples on wedding menus and events, in business since 2001.	brenda@pearlscatering.com	770-709-2666	https://www.pearlscatering.com/			
+Three Sisters Catering	Catering	7878 Roswell Road	Sandy Springs	Georgia	North metro Atlanta	Sandy Springs caterer serving weddings and private celebrations with station and table-served service in the north Atlanta suburbs.			https://www.threesisterscatering.com/	https://www.instagram.com/cater_with_three_sisters/		
+Kosher Gourmet	Catering	2153 Briarcliff Road NE	Atlanta	Georgia	Atlanta	Kosher shop and caterer in Atlanta providing event catering for weddings, bar and bat mitzvahs and community gatherings.	sgilmer@kgatl.com	404-636-1114	https://kgatl.com/	https://www.instagram.com/thekoshergourmet/		
+Gabby Arriaza	Officiant		Atlanta	Georgia	Atlanta	Licensed Georgia minister officiating wedding ceremonies in Spanish, English or both languages for couples in Atlanta.	gabbyarriaza@gmail.com	678-462-5437	https://www.gabbyarriaza.com/	https://www.instagram.com/gabbyarriazaweddings/		
+`,
+  },
+  {
+    name: "Savannah: planning, catering, hair & makeup, cake",
+    tsv: `Name	Category	Address	City	State	Service area	Description	Email	Phone	Website	Instagram	Price from	Price unit
+Van Artsdalen Events	Planning		Savannah	Georgia	Savannah and surrounding area	Local Savannah wedding planner who takes on timelines, vendor coordination and logistics for couples marrying in the area.	vanartsdalenevents@gmail.com		https://vanartsdalenevents.com/	https://www.instagram.com/vanartsdalen_events_/		
+Savory Spoonful Catering	Catering		Guyton	Georgia	Savannah area	Guyton-based caterer serving the Savannah area with wedding buffets, stations and plated service, plus Lowcountry boils and raw bars.	info@savory-spoonful.com	912-513-5559	https://savory-spoonful.com/	https://www.instagram.com/savoryspoonfulcatering/		
+Lauren Norton Beauty	Hair & Makeup		Savannah	Georgia	Savannah, Bluffton, Hilton Head and Tybee Island	Savannah-based artist offering on-location hair and makeup for weddings and events, with bridal trials available.			https://www.laurennortonbeauty.com/	https://www.instagram.com/laurennortonbeauty/		
+`,
+  },
 ];
 
 export default batches;
