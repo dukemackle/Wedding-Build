@@ -106,6 +106,21 @@ Camp DeForest	12 Whitney Road	Lincolnville	Maine			Mountain & Lodge	Indoor & Out
 Sennebec Farm	323 Sennebec Road	Union	Maine			Barn & Farm	Indoor & Outdoor	150			Farm of about 90 acres with an event barn, stone terrace and 1849 farmhouse that hosts barn and tented weddings.	Sennebecfarm@gmail.com	207-671-0488	https://www.sennebecfarm.com/weddingsevents
 Bar Harbor Club (Harborside Hotel, Spa & Marina)	55 West Street	Bar Harbor	Maine			Hotel & Resort	Indoor & Outdoor	300			Oceanside club building at the Harborside Hotel with a ceremony lawn and the Stotesbury Ballroom.		207.288.5033	https://www.opalcollection.com/harborside/gather/weddings/`,
   },
+  {
+    name: "Maine venue depth: Portland, coast, lakes and mountains",
+    tsv: `Name	Address	City	State	Latitude	Longitude	Venue type	Setting	Capacity	Price from	Price basis	Description	Email	Phone	Website
+Beech Hill Barn	501 Beech Hill Road	Pittston	Maine			Barn & Farm	Indoor & Outdoor	150	13995	Package	A private barn and farm property with a main barn, a carriage barn, an oak grove and a weekend wedding package, with views toward the Camden Hills.	info@beechhillbarn.com		https://beechhillbarn.com/weddings/
+Beachmere Inn	62 Beachmere Place	Ogunquit	Maine			Hotel & Resort	Indoor & Outdoor	90			An oceanfront inn on the Marginal Way with a ceremony lawn, a rotunda for cocktails, a side lawn for tented receptions and an indoor salon.		207-646-2021	https://beachmereinn.com/get-married-in-ogunquit/
+Purpoodock Club	300 Spurwink Ave	Cape Elizabeth	Maine			Country Club & Golf	Indoor	140			A private golf clubhouse near Portland that hosts weddings in rooms overlooking the first tee and ninth green.		207-799-2273	https://www.purpoodock.com/weddings-events
+Greenwood Manor Inn	52 Tolman Rd	Harrison	Maine			Hotel & Resort	Indoor & Outdoor				A country inn in the Lakes Region that offers wedding packages for intimate celebrations.	info@greenwoodmanorinn.com	207-632-0049	https://www.greenwoodmanorinn.com/
+Grey Havens Inn	96 Seguinland Rd	Georgetown	Maine			Hotel & Resort	Indoor & Outdoor	120			A harborside inn on Georgetown Island with an oceanfront lawn for up to 120 guests and an indoor room for up to 60.		207-371-2616	https://greyhavens.com/weddings/
+Penobscot Bay Estate	157 Holmes St	Winterport	Maine			Lake & River	Outdoor				A seven-acre waterfront property with a reception tent, clear-top ceremony tent and on-site lodging, sold in dated packages.	weddings@penobscotbayestate.com	1-207-669-2296	https://www.penobscotbayestate.com/
+Dunegrass Golf Club	65 Wild Dunes Way	Old Orchard Beach	Maine			Country Club & Golf	Indoor & Outdoor				A golf club in Old Orchard Beach that offers year-round wedding options and a pricing brochure.	Danny@dunegrass.com	207-934-4513	https://www.dunegrass.com
+Maine Irish Heritage Center	34 Gray Street	Portland	Maine			Chapel & Church	Indoor	250			A former church in Portland with a ceremony hall and a 4,725-square-foot reception hall that seats up to 250.		207-780-0118	https://maineirish.com/rentals/
+Black Mountain of Maine	39 Glover Road	Rumford	Maine			Mountain & Lodge	Indoor	150			A ski-area lodge in Rumford that holds weddings and events with seating for 150 and room for up to 200.	bmomevents@gmail.com		https://skiblackmountain.org/events
+Saddleback Mountain	976 Saddleback Mountain Rd	Rangeley	Maine			Mountain & Lodge	Indoor & Outdoor	250			A mountainside lodge with a fieldstone fireplace and a smaller room called The Nest, plus outdoor ceremony spots with mountain views.	weddings@saddlebackmaine.com	207-864-5671	https://www.saddlebackmaine.com/activity/weddings/
+Wandby Landing	46 Western Avenue	Kennebunk	Maine			Garden & Park	Indoor & Outdoor				A Kennebunk venue overlooking a marsh and mature gardens that hosts weddings, rehearsal dinners and receptions.		207-849-8849	https://www.wandbylanding.com/events`,
+  },
 ];
 
 export default batches;
